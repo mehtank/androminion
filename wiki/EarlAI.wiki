@@ -1,0 +1,13 @@
+== Gameplay ==
+
+...
+
+== Upcoming ==
+Handle Alchemy, Prosperity and Cornecopia expansions.
+
+== Discussions ==
+
+== Change log == 
+
+1.9.b2
+Removed desire to buy Saboteur
