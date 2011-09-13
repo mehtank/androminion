@@ -1,0 +1,9 @@
+== Gameplay ==
+
+Focuses on a few cards, depending on the game type.  Will buy coin more often than actions.  Will usually attempt to buy Duchys at a certain point in the game, with logic to understand when that point is, depending on the game.
+
+== Upcoming ==
+
+== Discussions ==
+
+== Change log ==
