@@ -1,0 +1,38 @@
+1.9.b5
+ * Changed "Played:" header to current player name when other players turns are being played
+
+1.9.b4
+ * Show players name in the "Played" card section when its their turn
+ * Preference to always include plat/colony
+ * Added mean Mary AI
+ * Added "Quick Play" preferences, where most card interactions will be played automatically
+ * Minor text fixes
+
+
+1.9.b3
+ * Started to add Alchemy card interactions
+ * Changed UI for some of the Prosperity card interactions to be easier to play
+ * AI now handles some of the expansion cards better
+ * Fixed Fortune Teller getting in infinite loop
+ * Don't ask for action from hand when player only has Throne Rooms or King's Courts
+ * Show game type in event status text area at the bottom at the end of the game
+ * Show large action/buy/coin status at the top of the screen for current hand during other player's turns
+ * Added status event which shows actions/buys/gold before playing actions or buying cards
+ * Randomly add platinum/colony based on the number of Prosperity cards in play
+ * Cleared up Jester options
+
+
+1.9.b2
+ * Changed AI players classes and packages to be more clear (does not affect gameplay or UI)
+ * Added "Chuck" AI that plays simply (buys actions somewhat randomly, doesn't do anything particularly stupid, but no real strategy either)
+ * Added expansions (several known bugs and some cards still need to be implemented)
+
+
+1.9.b1
+ * Cleaned up about dialog
+ * Reworded instructions such as "Pick up to 4 cards from your hand to trash with Chapel", removing "with" and putting Chapel in brackets.
+ * Added ability to select game type and players on startup
+ * Added Sarah AI
+ * Select and pass button UI size tweaks
+ * Change the text of the select button based on context
+ * Added "X actions, Y buys, (Z) coins" text to the top of the UI (will make this a preference if it stays)
