@@ -1,3 +1,4 @@
+#labels Featured
 1.9.b5
  * Changed "Played:" header to current player name when other players turns are being played
 
