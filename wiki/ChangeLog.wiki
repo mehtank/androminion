@@ -1,5 +1,8 @@
 #labels Featured
 1.9.b6
+ * Fixed Issue 3:  Kings Court can't replicate itself
+ * Fixed Issue 4:  University is Bane, but no Potion available
+ * Fixed Issue 5:  Cards in deck change?
  * Fixed Issue 6:  Remodel and Quick Play don't mix
 
 1.9.b5
