@@ -1,4 +1,9 @@
 #labels Featured
+1.9.b7
+ * Issue 13:  Bane card cannot have potion cost  
+ * Issue 15:  Quick play not appropriate for Expand  
+ * Issue 16:  Mint/Quarry and Quick Play  
+
 1.9.b6
  * Fixed Issue 3:  Kings Court can't replicate itself
  * Fixed Issue 4:  University is Bane, but no Potion available
