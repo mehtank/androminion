@@ -1,15 +1,15 @@
 #labels Featured
 1.9.b7
- * Issue 13:  Bane card cannot have potion cost  
- * Issue 15:  Quick play not appropriate for Expand  
- * Issue 16:  Mint/Quarry and Quick Play  
- * Issue 36:  Transmute does not work properly on cards with multiple types
+ * Issue 13: Bane card cannot have potion cost  
+ * Issue 15: Quick play not appropriate for Expand  
+ * Issue 16: Mint/Quarry and Quick Play  
+ * Issue 36: Transmute does not work properly on cards with multiple types
 
 1.9.b6
- * Fixed Issue 3:  Kings Court can't replicate itself
- * Fixed Issue 4:  University is Bane, but no Potion available
- * Fixed Issue 5:  Cards in deck change?
- * Fixed Issue 6:  Remodel and Quick Play don't mix
+ * Issue 3: Kings Court can't replicate itself
+ * Issue 4: University is Bane, but no Potion available
+ * Issue 5: Cards in deck change?
+ * Issue 6: Remodel and Quick Play don't mix
 
 1.9.b5
  * Changed "Played:" header to current player name when other players turns are being played
