@@ -3,6 +3,7 @@
  * Issue 13:  Bane card cannot have potion cost  
  * Issue 15:  Quick play not appropriate for Expand  
  * Issue 16:  Mint/Quarry and Quick Play  
+ * Issue 36:  Transmute does not work properly on cards with multiple types
 
 1.9.b6
  * Fixed Issue 3:  Kings Court can't replicate itself
