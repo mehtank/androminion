@@ -7,6 +7,7 @@
  * Issue 45: Wishing well message shows named card instead of revealed card
  * Issue 30: Can't use optional text on Mining Village
  * Issue 50: Trade route treats Curses as a VP pile
+ * Issue 18: Cannot start the game of "Path to Victory"  
  * Issue 33: Cannot start "Chemistry Lessons"  
 
 1.9.b6
