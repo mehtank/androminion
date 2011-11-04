@@ -11,7 +11,7 @@ From notes:
   * When the button says "Buy" and you hit "End turn", then "No", the button goes to "Select", not back to what it was
 
 From market comments:
-  * Issues: Secret Chamber only works once per hand, Lighthouse doesnt defend. No blacklisting cards. Cant start new game without restart.
+  * Issues: Secret Chamber only works once per hand. No blacklisting cards. Cant start new game without restart.
   * They should at least have a restart option, but they should also have the option to choose the decks.
   * Needs: "replay last setup", "select expansions to use". Could have: "select cards", "save/load named card set". Bonus: multi-player.
   * AI is good at big money but almost never curses.
