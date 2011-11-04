@@ -22,7 +22,7 @@ From market comments:
   * Also would be nice to have a notification when a province is bought.
   * Would be better if game has start menu option at the first page, instead of relying on menu bttn
   * Please include other expansion decks and allow for more than 1 human player. Please allow to save game or come back to it. 30 min. In game gets reset!
-  * Lighthouse bug makes me angry. My lighthouse doesn't block attacks but AI's blocks mine.
+  * <del>Lighthouse bug makes me angry. My lighthouse doesn't block attacks but AI's blocks mine.</del>
   * It would be nice if the choices for militia, ghost ship, & torturer were all the same choose cards to keep.
   * Bug with steward though. Can't draw 2 cards. Only get 2 coins instead.
   * Confused by some cards saying +2 gold when they mean coins, not +2 gold cards
@@ -37,4 +37,3 @@ From e-mails:
   * When playing a pirate ship, you should be asked which treasure to trash 
   * When playing a thief, you should be asked which treasures to take only after all the cards have been trashed 
   * Arrows on selected cards disappear after scrolling 
-
