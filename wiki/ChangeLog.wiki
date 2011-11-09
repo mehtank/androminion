@@ -1,6 +1,5 @@
 #labels Featured
 1.9.b8
- * Turned quick play off by default
  * Issue 55: Horse Traders can lock game
  * Issue 56: King's Court does not interact properly with Conspirator
  * Issue 59: Playing farming village with one victory card left in the deck causes an infinite loop
