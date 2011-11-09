@@ -1,4 +1,11 @@
 #labels Featured
+1.9.b8
+ * Turned QuickPlay off by default
+ * Issue 55: Horse Traders can lock game
+ * Issue 56: King's Court does not interact properly with Conspirator
+ * Issue 59: Playing farming village with one victory card left in the deck causes an infinite loop
+ * Issue 60: Random Cornucopia game sometimes fails to start (Young Witch issue?)
+
 1.9.b7
  * Issue 13: Bane card cannot have potion cost  
  * Issue 15: Quick play not appropriate for Expand  
