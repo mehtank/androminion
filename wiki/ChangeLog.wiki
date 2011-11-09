@@ -2,6 +2,7 @@
 1.9.b8
  * Issue 17: Harem cannot be played
  * Issue 29: Deadlock
+ * Issue 32: Add Button to Play All Money
  * Issue 55: Horse Traders can lock game
  * Issue 56: King's Court does not interact properly with Conspirator
  * Issue 59: Playing farming village with one victory card left in the deck causes an infinite loop
