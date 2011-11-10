@@ -1,4 +1,9 @@
 #labels Featured
+1.9.b9
+ * Limit amount of potions most AIs will buy.
+ * Limit number of Estates and Duchys most AIs will buy.
+ * Issue 19: You need at least 8 coins to buy Peddler regardless the number of actions played.
+
 1.9.b8
  * Issue 17: Harem cannot be played
  * Issue 29: Deadlock
