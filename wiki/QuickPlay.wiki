@@ -1,4 +1,4 @@
-Discussions and decisions around the QuickPlay feature
+Discussions and decisions around the 'Quick Play' feature
 
 ==High level granular ideas==
   # Auto Pick Treasure
