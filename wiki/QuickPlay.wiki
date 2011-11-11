@@ -23,25 +23,44 @@ Discussions and decisions around the QuickPlay feature
     * As stated in issue 48, reactions should be optional.  For the most part, though, an option to autoplay reactions would be fine.
 
 ==Cards Ideas==
-Forge/Remake/Apprentice/Etc -- Remodel and Expand have already been set not to autoplay ( issue 6 ,  issue 15 ), so it makes sense that these wouldn't either, since they all give a variable benefit based on the cost of the trashed card(s).
+*_Forge/Remake/Apprentice/Etc_*
 
-Minion -- I have no idea how QP decides which thing to do.  It has discarded my amazing hand which contained, among other things, more Minions.  It has also given me +2 coin when the rest of my hand was more or less garbage.
+Remodel and Expand have already been set not to autoplay ( issue 6 ,  issue 15 ), so it makes sense that these wouldn't either, since they all give a variable benefit based on the cost of the trashed card(s).
 
-Native Village -- Give me back my cards!  Pretty please?  (The only time this is a mostly obvious decision is when there are no cards on the Native Village mat.  In my testing game, it was maddening to watch more and more good cards pile where I couldn't get to them.)
+*_Minion_*
 
-Pawn -- I don't know how QP decides what to do with this card either, and the choices often don't make sense.  For example, sometimes QP chooses +1 Action when I have no other action cards.  It also does not seem possible to choose +1 Buy.
+I have no idea how QP decides which thing to do.  It has discarded my amazing hand which contained, among other things, more Minions.  It has also given me +2 coin when the rest of my hand was more or less garbage.
 
-Discarding in general -- It seems like QP will always choose to discard Curse/Copper/victory point cards before discarding anything else such as extra actions or potions.  This is often not the best decision.
+*_Native Village_*
 
-Chapel --  The QP version of this card seems to be "trash all curses, coppers, and estates from your hand".  Sometimes I don't want to trash all the copper in my hand.  Sometimes I want to trash other cards (e.g. Potion, Sea Hag, cards someone gave me with Swindler/Ambassador/Masquerade, etc).
+Give me back my cards!  Pretty please?  (The only time this is a mostly obvious decision is when there are no cards on the Native Village mat.  In my testing game, it was maddening to watch more and more good cards pile where I couldn't get to them.)
 
-Torturer -- This card features all of the problems involved with discarding in general.  In addition, QP makes a lot of questionable decisions about when to discard and when to take the curse.
+*_Pawn_*
 
-Mining Village -- This has already been reported in  issue 30 , but I have also seen QP trash a Mining Village when I didn't really want to do so.
+I don't know how QP decides what to do with this card either, and the choices often don't make sense.  For example, sometimes QP chooses +1 Action when I have no other action cards.  It also does not seem possible to choose +1 Buy.
 
-Grand Market -- QP will always play all the copper from your hand, which can be unwanted when Grand Market is available.
+*_(Discarding in general)_*
 
-===Hamlet===
+It seems like QP will always choose to discard Curse/Copper/victory point cards before discarding anything else such as extra actions or potions.  This is often not the best decision.
+
+*_Chapel_*
+
+The QP version of this card seems to be "trash all curses, coppers, and estates from your hand".  Sometimes I don't want to trash all the copper in my hand.  Sometimes I want to trash other cards (e.g. Potion, Sea Hag, cards someone gave me with Swindler/Ambassador/Masquerade, etc).
+
+*_Torturer_*
+
+This card features all of the problems involved with discarding in general.  In addition, QP makes a lot of questionable decisions about when to discard and when to take the curse.
+
+*_Mining Village_*
+
+This has already been reported in  issue 30 , but I have also seen QP trash a Mining Village when I didn't really want to do so.
+
+*_Grand Market_*
+
+QP will always play all the copper from your hand, which can be unwanted when Grand Market is available.
+
+*_Hamlet_*
+
 There are a couple of reasons why current Hamlet logic should change.
   # Sometimes I want to discard a card for +1 Buy.  The current logic does not appear to allow this.
   # Sometimes I want to discard a non-trash card for +1 Action.  For example, if my hand after playing Hamlet is [Library, Library, Copper, Copper, Copper] I might want to ditch the extra Library instead of a Copper.
