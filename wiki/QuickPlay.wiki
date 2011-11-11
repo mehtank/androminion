@@ -40,3 +40,18 @@ Torturer -- This card features all of the problems involved with discarding in g
 Mining Village -- This has already been reported in  issue 30 , but I have also seen QP trash a Mining Village when I didn't really want to do so.
 
 Grand Market -- QP will always play all the copper from your hand, which can be unwanted when Grand Market is available.
+
+===Hamlet===
+There are a couple of reasons why current Hamlet logic should change.
+  # Sometimes I want to discard a card for +1 Buy.  The current logic does not appear to allow this.
+  # Sometimes I want to discard a non-trash card for +1 Action.  For example, if my hand after playing Hamlet is [Library, Library, Copper, Copper, Copper] I might want to ditch the extra Library instead of a Copper.
+  # Sometimes trash cards aren't trash.  If I had the hand [Lighthouse, Lighthouse, Baron, Estate, Silver], I definitely wouldn't want to trash the Estate.
+  # Sometimes I want to get rid of specific cards.  With the hand [Menagerie, Menagerie, Explorer, Explorer, Gold] I might want to trash an Explorer to power up my Menageries.
+
+Just about the only automatic logic that I think would work would be something like this.
+
+For the first choice:  
+  # If the player has no Action cards, do not discard a card for +1 Action.  Otherwise, ask what to do.
+
+Then, for the second choice:
+  # If the player has no Action cards and at least 1 trashCard, discard the trashCard for +1 Buy.  Otherwise, ask what to do.
