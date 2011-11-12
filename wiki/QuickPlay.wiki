@@ -59,6 +59,10 @@ This has already been reported in  issue 30 , but I have also seen QP trash a Mi
 
 QP will always play all the copper from your hand, which can be unwanted when Grand Market is available.
 
+*_Swindler_*
+
+QP makes inconsistent decisions about what cards to give to opponents.
+
 *_Hamlet_*
 
 There are a couple of reasons why current Hamlet logic should change.
