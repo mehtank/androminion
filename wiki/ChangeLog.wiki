@@ -6,6 +6,7 @@
  * Issue 19: You need at least 8 coins to buy Peddler regardless the number of actions played.
  * Issue 21: Warehouse does not log discarded cards
  * Issue 27: Wrong total of victory points displayed on final screen
+ * Issue 43: Can't see what card is named for Contraband
  * Issue 72: Minion should always trigger reactions
 
 1.9.b8
