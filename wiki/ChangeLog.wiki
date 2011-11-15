@@ -2,6 +2,7 @@
 1.9.b9
  * Limit amount of potions most AIs will buy.
  * Limit number of Estates and Duchys most AIs will buy.
+ * Cancelling None/Pass etc. will set the correct "Select" button text and enable it properly
  * Issue 12: Masquerade doesn't trash cards?
  * Issue 19: You need at least 8 coins to buy Peddler regardless the number of actions played.
  * Issue 21: Warehouse does not log discarded cards
