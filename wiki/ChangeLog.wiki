@@ -3,6 +3,8 @@
  * Limit amount of potions most AIs will buy.
  * Limit number of Estates and Duchys most AIs will buy.
  * Cancelling None/Pass etc. will set the correct "Select" button text and enable it properly
+ * Issue 8: Potions don't get spent on multiple buys
+ * Issue 10: Potion cost with Remodel / Upgrade / Forge / etc.
  * Issue 12: Masquerade doesn't trash cards?
  * Issue 19: You need at least 8 coins to buy Peddler regardless the number of actions played.
  * Issue 21: Warehouse does not log discarded cards
@@ -18,6 +20,7 @@
  * Issue 56: King's Court does not interact properly with Conspirator
  * Issue 59: Playing farming village with one victory card left in the deck causes an infinite loop
  * Issue 60: Random Cornucopia game sometimes fails to start (Young Witch issue?)
+ * Issue 76: University can take copies of itself
 
 1.9.b7
  * Issue 13: Bane card cannot have potion cost  
