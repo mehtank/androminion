@@ -11,6 +11,7 @@
  * Issue 26: Minor issues with Alchemy - Herbalist, Golem, Apothecary
  * Issue 27: Wrong total of victory points displayed on final screen
  * Issue 43: Can't see what card is named for Contraband
+ * Issue 49: Apprentice does not count potion symbol
  * Issue 68: Support cards from the Hinterlands expansion
  * Issue 72: Minion should always trigger reactions
 
