@@ -14,6 +14,8 @@
  * Issue 49: Apprentice does not count potion symbol
  * Issue 68: Support cards from the Hinterlands expansion
  * Issue 72: Minion should always trigger reactions
+ * Issue 80: Drew forges copper into curse?
+ * Issue 86: AIs can get prizes from Saboteur
 
 1.9.b8
  * Issue 17: Harem cannot be played
