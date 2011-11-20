@@ -7,15 +7,15 @@ Discussions and decisions around the 'Quick Play' feature
   # Auto Buy
 
 ==Specific granular ideas==
-  # Trash one or more cards (Chapel, Trade Route, Trading Post).
+  # Trash one or more cards (Chapel, Trade Route, Trading Post). -- done
     * The way this is implemented now seems fine.
-  # Discard one or more cards (Militia, Warehouse, Young Witch).
+  # Discard one or more cards (Militia, Warehouse, Young Witch). -- done
     * The way this is implemented now seems fine.
-  # Trash or discard one or more cards for an effect based on the cards trashed (Apprentice, Cellar, Forge, Remodel)
+  # Trash or discard one or more cards for an effect based on the cards trashed (Apprentice, Cellar, Forge, Remodel) -- done
     * I don't think Autoplay should handle this case.
-  # Gain/Buy a card (Workshop)
+  # Gain/Buy a card (Workshop) -- done
     * I don't think Autoplay should ever handle this case.  Once you start automatically deciding which cards to gain, you might as well be writing a bot.
-  # Cards with multiple modes (Pawn, Steward, Trusted Steed)
+  # Cards with multiple modes (Pawn, Steward, Trusted Steed) -- done
     * I don't think Autoplay should ever handle this case.
   # Deciding whether to play an Action card
     * Action cards that do not have multiple modes and do not cause the player to trash or discard any cards can be autoplayed.  If the player has any Action cards that give +1 action (or +2), autoplay them first.  Next, if the player has a number of Action cards less than or equal to their available number of actions, play those Action cards.  When playing Action cards, first play any cards that cause the player to draw more cards. 
@@ -23,7 +23,7 @@ Discussions and decisions around the 'Quick Play' feature
     * As stated in issue 48, reactions should be optional.  For the most part, though, an option to autoplay reactions would be fine.
 
 ==Cards Ideas==
-*_Forge/Remake/Apprentice/Etc_*
+*_Forge/Remake/Apprentice/Etc_* -- done
 
 Remodel and Expand have already been set not to autoplay ( issue 6 ,  issue 15 ), so it makes sense that these wouldn't either, since they all give a variable benefit based on the cost of the trashed card(s).
 
@@ -31,11 +31,27 @@ Remodel and Expand have already been set not to autoplay ( issue 6 ,  issue 15 )
 
 I have no idea how QP decides which thing to do.  It has discarded my amazing hand which contained, among other things, more Minions.  It has also given me +2 coin when the rest of my hand was more or less garbage.
 
-*_Native Village_*
+----
+Here is the code, should we fix this, or just turn off QP for minion?
+{{{
+    public MinionOption minion_chooseOption(MoveContext context) {
+        if (context.getCoinAvailableForBuy() >= 5) {
+            return Player.MinionOption.AddGold;
+        }
+
+        if (getHand().size() <= 3) {
+            return Player.MinionOption.RolloverCards;
+        }
+        return Player.MinionOption.AddGold;
+    }
+}}}
+----
+
+*_Native Village_* -- done (QP only when the mat is empty)
 
 Give me back my cards!  Pretty please?  (The only time this is a mostly obvious decision is when there are no cards on the Native Village mat.  In my testing game, it was maddening to watch more and more good cards pile where I couldn't get to them.)
 
-*_Pawn_*
+*_Pawn_* -- done (turned off)
 
 I don't know how QP decides what to do with this card either, and the choices often don't make sense.  For example, sometimes QP chooses +1 Action when I have no other action cards.  It also does not seem possible to choose +1 Buy.
 
@@ -43,7 +59,7 @@ I don't know how QP decides what to do with this card either, and the choices of
 
 It seems like QP will always choose to discard Curse/Copper/victory point cards before discarding anything else such as extra actions or potions.  This is often not the best decision.
 
-*_Chapel_*
+*_Chapel_* -- done (turned off)
 
 The QP version of this card seems to be "trash all curses, coppers, and estates from your hand".  Sometimes I don't want to trash all the copper in my hand.  Sometimes I want to trash other cards (e.g. Potion, Sea Hag, cards someone gave me with Swindler/Ambassador/Masquerade, etc).
 
