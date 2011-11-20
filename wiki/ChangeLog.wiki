@@ -13,6 +13,7 @@
  * Issue 43: Can't see what card is named for Contraband
  * Issue 49: Apprentice does not count potion symbol
  * Issue 68: Support cards from the Hinterlands expansion
+ * Issue 71: Performance enhancements
  * Issue 72: Minion should always trigger reactions
  * Issue 80: Drew forges copper into curse?
  * Issue 86: AIs can get prizes from Saboteur
