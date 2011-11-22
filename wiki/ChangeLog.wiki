@@ -1,6 +1,7 @@
 #labels Featured
 1.9.b10
  * Quick Play changes from wiki suggestions here: QuickPlay
+ * Issue 20: NullPointerException in starting game sometimes causes fc
 
 1.9.b9
  * Limit amount of potions most AIs will buy.
