@@ -7,6 +7,7 @@
  * Issue 92: Tunnel gains gold in every case
  * Issue 93: Jack of all Trades does not trash
  * Issue 95: Cannot start Hinterlands Intro
+ * Issue 96: Develop does not trash cards
 
 1.9.b9
  * Limit amount of potions most AIs will buy.
