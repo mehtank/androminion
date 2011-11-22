@@ -3,6 +3,7 @@
  * Quick Play changes from wiki suggestions here: QuickPlay
  * Issue 20: NullPointerException in starting game sometimes causes fc
  * Issue 91: Inn asks for too many discards
+ * Issue 92: Tunnel gains gold in every case
  * Issue 93: Jack of all Trades does not trash
 
 1.9.b9
