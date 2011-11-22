@@ -2,6 +2,8 @@
 1.9.b10
  * Quick Play changes from wiki suggestions here: QuickPlay
  * Issue 20: NullPointerException in starting game sometimes causes fc
+ * Issue 91: Inn asks for too many discards
+ * Issue 93: Jack of all Trades does not trash
 
 1.9.b9
  * Limit amount of potions most AIs will buy.
