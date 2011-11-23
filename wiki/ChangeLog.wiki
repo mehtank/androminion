@@ -1,4 +1,7 @@
 #labels Featured
+1.9.b11
+ * Fixed "VerifyError" causing the app to not start on certain sdk versions.
+
 1.9.b10
  * Quick Play changes from wiki suggestions here: QuickPlay
  * Started moving strings to resources to enable translation
