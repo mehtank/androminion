@@ -3,6 +3,7 @@
  * Quick Play changes from wiki suggestions here: QuickPlay
  * Started moving strings to resources to enable translation
  * Issue 20: NullPointerException in starting game sometimes causes fc
+ * Issue 74: Herbalist is trashed when played
  * Issue 91: Inn asks for too many discards
  * Issue 92: Tunnel gains gold in every case
  * Issue 93: Jack of all Trades does not trash
