@@ -8,6 +8,7 @@
  * Issue 93: Jack of all Trades does not trash
  * Issue 95: Cannot start Hinterlands Intro
  * Issue 96: Develop does not trash cards
+ * Issue 97: crash when obtaining silver with Haggler
 
 1.9.b9
  * Limit amount of potions most AIs will buy.
