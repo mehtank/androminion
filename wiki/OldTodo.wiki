@@ -8,7 +8,7 @@ From notes:
   * Native village first card doesn't have the right width
   * Don't confirm end turn if buys left but 0 coin (an option?)
   * Replay current cards
-  * When the button says "Buy" and you hit "End turn", then "No", the button goes to "Select", not back to what it was
+
 
 From market comments:
   * Issues: Secret Chamber only works once per hand. No blacklisting cards. Cant start new game without restart.
@@ -26,8 +26,8 @@ From market comments:
   * Confused by some cards saying +2 gold when they mean coins, not +2 gold cards
   * It would be nice to have access to our logs and game records.
 
+
 From e-mails:
-  * Reactions should be optional 
   * Outpost turns should not count for tiebreaker 
   * Empty piles should not be selectable for "gain a card" actions 
   * TR'ing a Tactitian duplicates the card 
