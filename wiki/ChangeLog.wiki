@@ -1,7 +1,7 @@
 #labels Featured
 1.9.b12
  * Issue 99: You can smuggle tournament prizes
-
+ * Issue 101: Estate Card name is displayed "Estate/Anwesen" on german Android
 1.9.b11
  * Fixed "VerifyError" causing the app to not start on certain sdk versions.
 
