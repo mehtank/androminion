@@ -1,5 +1,6 @@
 #labels Featured
 1.9.b12
+ * More strings in German resources
  * Issue 99: You can smuggle tournament prizes
  * Issue 101: Estate Card name is displayed "Estate/Anwesen" on german Android
 1.9.b11
