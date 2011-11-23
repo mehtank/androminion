@@ -1,7 +1,7 @@
 #labels Featured
 1.9.b10
  * Quick Play changes from wiki suggestions here: QuickPlay
- * Moved strings to resources to enable translation
+ * Started moving strings to resources to enable translation
  * Issue 20: NullPointerException in starting game sometimes causes fc
  * Issue 91: Inn asks for too many discards
  * Issue 92: Tunnel gains gold in every case
