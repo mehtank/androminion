@@ -1,5 +1,6 @@
 #labels Featured
 1.9.b13
+ * More strings in German resources
  * Issue 103: Upgrade changed to "at most" in b11 
  * Issue 104: Jack of All Trades only gains silver
  * Issue 105: Oracle Not an Attack, Description Incomplete
