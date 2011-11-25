@@ -3,6 +3,7 @@
  * Issue 103: Upgrade changed to "at most" in b11 
  * Issue 104: Jack of All Trades only gains silver
  * Issue 105: Oracle Not an Attack, Description Incomplete
+ * Issue 106: Noble Brigand Does Not Log
  * Issue 107: Torturer no longer gains Curses in b11
  * Issue 108: Using ambassador increases the cards in supply
  * Issue 111: Chancellor has wrong ability description when used
