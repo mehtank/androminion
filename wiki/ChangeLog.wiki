@@ -10,6 +10,7 @@
  * Issue 108: Using ambassador increases the cards in supply
  * Issue 109: Crossroads +1 card for each curse
  * Issue 111: Chancellor has wrong ability description when used
+ * Issue 112: Tunnel still broken
 
 1.9.b12
  * More strings in German resources
