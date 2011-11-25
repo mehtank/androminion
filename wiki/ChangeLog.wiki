@@ -1,4 +1,10 @@
 #labels Featured
+1.9.b13
+ * Issue 103: Upgrade changed to "at most" in b11 
+ * Issue 107: Torturer no longer gains Curses in b11
+ * Issue 108: Using ambassador increases the cards in supply
+ * Issue 111: Chancellor has wrong ability description when used
+
 1.9.b12
  * More strings in German resources
  * Issue 99: You can smuggle tournament prizes
