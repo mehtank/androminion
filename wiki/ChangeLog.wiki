@@ -7,6 +7,7 @@
  * Issue 106: Noble Brigand Does Not Log
  * Issue 107: Torturer no longer gains Curses in b11
  * Issue 108: Using ambassador increases the cards in supply
+ * Issue 109: Crossroads +1 card for each curse
  * Issue 111: Chancellor has wrong ability description when used
 
 1.9.b12
