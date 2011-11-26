@@ -1,4 +1,9 @@
 #labels Featured
+1.9.b14
+ * Issue 63: Enhancement suggestion - Win/Loss Tracker
+ * Issue 69: Add achievements
+ * Issue 114: Monument Card description is incorrect
+
 1.9.b13
  * More strings in German resources
  * Issue 40: Venture sometimes trashes treasures from my hand
