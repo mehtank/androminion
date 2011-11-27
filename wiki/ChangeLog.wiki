@@ -4,6 +4,7 @@
  * Issue 69: Add achievements
  * Issue 73: Points Probelm with Bishop
  * Issue 114: Monument Card description is incorrect
+ * Issue 115: Request: Option to turn off turn view summary and possibly logging data
 
 1.9.b13
  * More strings in German resources
