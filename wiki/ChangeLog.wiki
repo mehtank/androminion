@@ -1,4 +1,7 @@
 #labels Featured
+1.9.b15
+ * Issue 116: Noble Brigand
+
 1.9.b14
  * Issue 63: Enhancement suggestion - Win/Loss Tracker
  * Issue 69: Add achievements
