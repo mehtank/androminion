@@ -8,4 +8,4 @@
 
  * Mary - A mean version of the Sarah AI.
 
- * Drew - Same as Sarah, but likes a different set of cards. Also buys treasure cards more often.
+ * Drew - Same as Sarah, but likes a different set of cards. Also buys treasure cards more often than other cards.
