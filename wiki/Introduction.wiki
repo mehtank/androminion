@@ -3,3 +3,7 @@
   * Need a better to way to select AI difficulty, either with better names or a level that changes how all AIs play.
 
   * Chuck - Simple AI that will buy actions somewhat randomly, try to buy a balance of coin and actions and although it will not to make big mistakes with its gameplay, does not have a guiding strategy.
+
+ * Mary - A mean version of the Sarah AI.
+
+ * Drew - 
