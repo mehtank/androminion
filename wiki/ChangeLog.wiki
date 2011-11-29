@@ -1,5 +1,6 @@
 #labels Featured
 1.9.b15
+ * Syncing code and builds before checking code into Source here on the Google code project and releasing as open source
  * Issue 116: Noble Brigand
  * Issue 118: Hinterlands Intro
  * Issue 126: Winning while buying only one unique kingdom card achievement broken
