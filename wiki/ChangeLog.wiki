@@ -1,5 +1,6 @@
 #labels Featured
 1.9.b16
+ * Issue 137: Develop does not put gained cards on top of the deck
  * Issue 139: Potion is displayed in wrong color when playing in German
 
 1.9.b15
