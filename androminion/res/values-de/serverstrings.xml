@@ -1,598 +1,598 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	
+<!-- Interaction -->
+      <string name="pass">Passen</string>
+      <string name="card_revealed">%1$s aufgedeckt %2$s</string>
+      <string name="select_treasure">Wähle eine Geldkarte die maximal (%1$s) bis %2$s kostet</string>
+      <string name="pawn_option_one">Handlanger (Option 1 von 2):</string>
+      <string name="pawn_option_two">Handlanger (Option 2 von 2):</string>
+      <string name="torturer_option_one">Nimm einen Fluch</string>
+      <string name="torturer_option_two">2 Karten abwerfen</string>
+      <string name="chancellor_query">Alle Karten abwerfen</string>
+      <string name="inn_option_one">In den Nachziehstapel mischen</string>
+      <string name="inn_option_two">Auf Ablagestapel belassen</string>
+      <string name="tunnel_query">Tunnel ablegen</string>
+      <string name="tunnel_option_one">Aufdecken für Gold</string>
 
-       <!-- Interaction -->
-       <string name="pass">Passen</string>
-       <string name="card_revealed">%1$s aufgedeckt %2$s</string>
-       <string name="select_treasure">Wähle eine Geldkarte die maximal (%1$s) bis %2$s kostet</string>
-       <string name="pawn_option_one">Handlanger (Option 1 von 2):</string>
-       <string name="pawn_option_two">Handlanger (Option 2 von 2):</string>
-       <string name="torturer_option_one">Nimm einen Fluch</string>
-       <string name="torturer_option_two">2 Karten abwerfen</string>
-       <string name="chancellor_query">Alle Karten abwerfen</string>
-       <string name="inn_option_one">In den Nachziehstapel mischen</string>
-       <string name="inn_option_two">Auf Ablagestapel belassen</string>
-       <string name="tunnel_query">Tunnel ablegen</string>
-       <string name="tunnel_option_one">Aufdecken für Gold</string>
-
-	<string name="join_timed_out">Time out während des Wartens auf andere Mitspieler.</string>
-	<string name="response_timed_out">Time out während des Wartens auf eine Anfrage nach Mitspieler.</string>
-	
-	<string name="vp_single">Wert %1$s Siegpunkt</string>
-	<string name="vp_multiple">Wert %1$s Siegpunkte</string>
-	<string name="coin_next_turn">+(%1$s) Geld im nächsten Zug</string>
-	<string name="buy_next_turn_single">+%1$s Kauf im nächsten Zug</string>
-	<string name="buys_next_turn_multiple">+%1$s Käufe im nächsten Zug</string>
-	<string name="card_next_turn_single">+%1$s Karte im nächsten Zug</string>
-	<string name="cards_next_turn_multiple">+%1$s Karten im nächsten Zug</string>
-	<string name="action_next_turn_single">+%1$s Aktion im nächsten Zug</string>
-	<string name="actions_next_turn_multiple">+%1$s Aktionen im nächsten Zug</string>
-	<string name="card_coin">+(%1$s) Geld</string>
-	<string name="card_buy_single">+%1$s Kauf</string>
-	<string name="card_buys_multiple">+%1$s Käufe</string>
-	<string name="card_action_single">+%1$s Aktion</string>
-	<string name="card_actions_multiple">+%1$s Aktionen</string>
-	<string name="card_card_single">+%1$s Karte</string>
-	<string name="card_cards_multiple">+%1$s Karten</string>
-	<string name="card_victory_token_single">+%1$s Punktemarker</string>
-	<string name="card_victory_tokens_multiple">+%1$s Punktemarker</string>
-	
-	<string name="card_options_header">%1$s Option</string>
-	<string name="part_play">zum Ausspielen</string>
-	<string name="part_buy">zum Kaufen</string>
-	
-	<string name="select_from_table">Wähle eine Karte vom Tisch %1$s</string>
-	<string name="select_from_table_exact_quarries">Wähle eine Karte vom Tisch %3$s, die genau (%1$s, %2$s wenn Aktionskarte) kostet</string>
-	<string name="select_from_table_exact">Wähle eine Karte vom Tisch %2$s, die genau (%1$s) kostet</string>
-	<string name="select_from_table_max_quarries">Wähle eine Karte vom Tisch %3$s, die höchstens (%1$s, %2$s wenn Aktionskarte) kostet</string>
-	<string name="select_from_table_max">Wähle eine Karte vom Tisch %2$s, die höchstens (%1$s) kostet</string>
-	<string name="select_from_table_between_quarries">Wähle eine Karte vom Tisch %4$s, die zwischen (%1$s) und (%2$s, %3$s wenn Aktionskarte) kostet.</string>
-	<string name="select_from_table_between">Wähle eine Karte vom Tisch %3$s, die zwischen (%1$s) und (%2$s) kostet</string>
-	<string name="select_from_table_min">Wähle eine Karte vom Tisch %2$s, die mindestens (%1$s) kostet</string>
-	
-	<string name="select_one_card_from_hand">Wähle eine Karte aus deiner Hand %1$s</string>
-	<string name="select_up_to_x_cards_from_hand">Wähle bis zu %1$s Karten aus deiner Hand %2$s</string>
-	<string name="select_exactly_x_cards_from_hand">Wähle genau %1$s Karten aus deiner Hand %2$s</string>
-	
-	<string name="select_one_action_from_hand">Wähle eine Aktionskarte aus deiner Hand %1$s</string>
-	<string name="select_up_to_x_actions_from_hand">Wähle bis zu %1$s Aktionskarten aus deiner Hand %2$s</string>
-	<string name="select_exactly_x_actions_from_hand">Wähle genau %1$s Aktionskarten aus deiner Hand %2$s</string>
-	
-	<string name="select_one_treasure_from_hand">Wähle eine Geldkarte von der Hand zum %1$s</string>
-	<string name="select_up_to_x_treasures_from_hand">Wähle bis zu %1$s Geldkarten von der Hand zum %2$s</string>
-	<string name="select_exactly_x_treasures_from_hand">Wähle exakt %1$s Geldkarten von der Hand zum %2$s</string>
-	
-	<string name="select_one_victory_from_hand">Wähle eine Siegpunkarte von der Hand zum %1$s</string>
-	<string name="select_up_to_x_victorys_from_hand">Wähle bis zu %1$s Siegpunktkarten von der Hand zum %2$s</string>
-	<string name="select_exactly_x_victorys_from_hand">Wähle exakt %1$s Siegpunktkarten von der Hand zum %2$s</string>
-
-	<string name="select_one_nontreasure_from_hand">Wähle eine Karte (nicht Geld) von der Hand zum %1$s</string>
-	<string name="select_up_to_x_nontreasures_from_hand">Wähle bis zu %1$s Karten (nicht Geld) von der Hand zum %2$s</string>
-	<string name="select_exactly_x_nontreasures_from_hand">Wähle exakt %1$s Karte(n) (nicht Geld) von der Hand zum %2$s</string>
-	
-	<string name="card_to_reveal">ziehe [%1$s]</string>
-	<string name="card_to_gain">erhalte [%1$s]</string>
-	<string name="card_to_trash">entsorge [%1$s]</string>
-	<string name="card_to_discard">werfe ab [%1$s]</string>
-	<string name="discard">Abwerfen</string>
-	<string name="trash">Entsorgen</string>
-	<string name="keep">Behalten</string>
-	<string name="none">Keine</string>
-	<string name="card_revealed_from_player">Von %1$s\n%2$s gezogen %3$s</string>
-	<string name="GameStarting"></string>
-	<string name="GameOver">Spielende</string>
-	<string name="Embargo">Embargo</string>
-	<string name="Status">Status</string>
-	<string name="CantBuy">Kann nicht %1$s kaufen</string>
-	<string name="VictoryPoints">Siegpunkte</string>
-	<string name="NewHand">Neue Kartenhand</string>
-	<string name="TurnBegin">Zuganfang</string>
-	<string name="TurnEnd">Ende des Zuges</string>
-	<string name="PlayingAction">Spielt</string>
-	<string name="PlayedAction">Gespielt</string>
-	<string name="PlayingDurationAction">Spieldauer</string>
-	<string name="PlayingCoin">Spielt</string>
-	<string name="BuyingCard">Kauft</string>
-	<string name="NoBuy">(Kein Kauf)</string>
-	<string name="DeckReplenished">Nachziehstapel aufgefüllt</string>
-	<string name="PlayerAttacking">Greift an</string>
-	<string name="PlayerDefended">Verteidigt</string>
-	<string name="CardOnTopOfDeck">Lege Karte auf den Stapel</string>
-	<string name="CardObtained">Erhalten</string>
-	<string name="CardTrashed">Entsorgt</string>
-	<string name="CardRevealed">Aufgedeckt</string>
-	<string name="CardDiscarded">Abgelegt</string>
-	<string name="CardAddedToHand">Karte der Hand hinzugefügt</string>
-	<string name="CardRemovedFromHand">Karte aus der Hand gezogen</string>
-
-	<string name="use_for_money">als Geld</string>
-	
-	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
-	<string name="game_over_status">Spiel -- </string>
-	<string name="game_length_status">Spieldauer: </string>
-	<string name="end_turn">Zugende</string>
-	<string name="replace">Ersetze</string>
-	
-	<string name="secretchamber_part">Lege zurück auf den Stapel [Geheimkammer]</string>
-	
-	<string name="ghostship_part">Lege zurück auf den Stapel [Geisterschiff]</string>
-	
-	<string name="ambassador_query">Anzahl %1$s zurück auf den Ablagestapel [Botschafter]:</string>
-	
-	<string name="goons_part">behalten [Goons]</string>
-	
-	<string name="watch_tower_query">Wachturm (%1$s erhalten):</string>
-	
-	<string name="followers_part">behalten [Followers]</string>
-	
-	<string name="treasure_to_trash">Wähle eine Geldkarte zum Entsorgen</string>
-	
-	<string name="scheme_query">Wähle Karte, die auf Nachziehstapel zurückgelegt werden soll.</string>
-	
-	<string name="herbalist_query">Wähle Karte, die auf den Nachziehstapel zurückgelegt werden soll.</string>
-	
-	<string name="thief_query">Wähle zu stehlende Karte</string>
-	
-	<string name="smuggle_query">Wähle zu schmuggelnde Karte</string>
-	
-	<string name="courtyard_part_top_of_deck">Lege zurück auf den Stapel [%1$s]</string>
-	
-	<string name="hamlet_part_discard_for_action">ablegen für +1 Aktion</string>
-	<string name="hamlet_part_discard_for_buy">ablegen für +1 Kauf</string>
-	
-	<string name="vault_part_discard_for_gold">ablegen für Geld</string>
-	<string name="vault_part_discard_for_card">ablegen für +1 Karte</string>
-	
-	<string name="lookout_query_trash">Wähle eine Karte zum Entsorgen</string>
-	<string name="lookout_query_discard">Wähle eine Karte zum Ablegen</string>
-	
-	<string name="mountebank_query">Quacksalber aufgedeckt</string>
-	<string name="mountebank_option_one">Lege Fluch ab</string>
-	<string name="mountebank_option_two">Nimm Fluch und Kupfer</string>
-	
-	<string name="pearldiver_option_one">Nach oben</string>
-	<string name="pearldiver_option_two">Unten lassen</string>
-	
-	<string name="alchemist_option_one">Zurück auf Nachziehstapel</string>
-	<string name="alchemist_option_two">Ablegen</string>
-	
-	<string name="navigator_header">Der Navigator deckt auf: %1$s</string>
-	<string name="navigator_option_two">Auf den Nachziehstapel zurücklegen</string>
-	
-	<string name="tournament_option_one">Keine Provinz aufdecken</string>
-	<string name="tournament_option_two">Nimm einen Preis</string>
-	<string name="tournament_option_three">Nimm ein Herzogtum</string>
-	<string name="select_prize">Wähle einen Preis</string>
-	
-	<string name="trusty_steed_option_one">+2 Aktionen</string>
-	<string name="trusty_steed_option_two">+2 Karten</string>
-	<string name="trusty_steed_option_three">+(2) Geld</string>
-	<string name="trusty_steed_option_four">Nimm 4 Silber und lege Nachziehstapel ab</string>
-	
-	<string name="mining_village_option_one">Entsorge für +(2) Geld</string>
-	
-	<string name="golem_first_action">Erste Aktion, die ausgeführt wird</string>
-	
-	<string name="duchess_query">Herzogtum erhalten</string>
-	<string name="duchess_option_one">Ebenfall herzogin erhalten</string>
-	
-	<string name="jack_of_all_trades_option_one">Zurück auf Nachziehstapel</string>
-	
-	<string name="duchess_play_option_one">Zurück auf Nachziehstapel</string>
-	
-	<string name="noble_brigand_query">Card to gain from %1$s [Noble Brigand]</string>
-	
-	<string name="steward_option_one">+2 Karten</string>
-	<string name="steward_option_two">+(2) Geld</string>
-	<string name="steward_option_three">Entsorge zwei Karten aus deiner Hand</string>
-
-	<string name="pawn_one">+1 Karte</string>
-	<string name="pawn_two">+1 Aktion</string>
-	<string name="pawn_three">+1 Kauf</string>
-	<string name="pawn_four">+(1) Geld</string>
-	
-	<string name="nobles_option_one">+3 Karten</string>
-	<string name="nobles_option_two">+2 Aktionen</string>
-
-	<string name="minion_option_one">+(2) Geld</string>
-	<string name="minion_option_two">Hand abwerfen, +4 Karten</string>
-
-	<string name="spice_merchant_option_one">+2 Karten und +1 Aktion</string>
-	<string name="spice_merchant_option_two">+(2) Geld und +1 Kauf</string>
-
-	<string name="watch_tower_option_one">Auf Ablagestapel</string>
-	<string name="watch_tower_option_three">Zurück auf Nachziehstapel</string>
-
-	<string name="jester_option_one">Karte mit gleichem Namen für dich</string>
-	<string name="jester_option_two">Gib Karte mit gleichem Namen an %1$s</string>
-	
-	<string name="trader_gain">Nimm %1$s</string>
-
-	<string name="fools_gold_option_one">Entsorge für ein Gold</string>
-	
-	<string name="baron_option_one">Lege ein Anwesen für +(4) Geld ab</string>
-	<string name="baron_option_two">Nimm Anwesen</string>
-	
-	<string name="native_village_option_one">Nimm die Karten aus dem Eingeborenedorf auf die Hand</string>
-	<string name="native_village_option_two">Lege oberste Karte des Nachziehstapels auf das Eingeborenendorf</string>
-
-	<string name="ill_gotten_gains_option_one">Kupfer nehmen</string>
-	
-	<string name="card_order_on_deck">Kartenreihenfolge im Nachziehstapel:</string>
-	
-	<string name="treasury_number">Anzahl der Geldkarten, die auf den Nachziehstapel gelegt werden soll:</string>
-	
-	<string name="pirate_ship_option_one">Nimm +(%1$s) Geld</string>
-	<string name="pirate_ship_option_two">Greife an</string>
-
-	<string name="top_of_deck">Top of deck</string>
-	
-	<string name="saboteur_part">Ersetze die sabotierte Karte</string>
-	
-	<string name="mandarin_part">Lege oben auf den Stapel</string>
-	
-	<string name="bureaucrat_part">Lege oben auf den Stapel</string>
-	
-	<string name="masquerade_part">Gib nach links</string>
-	
-	<string name="mine_part">mine to</string>
-	
-	<string name="militia_part">halten von Miliz</string>
-	
-	<string name="bishop_part">Entsorge für Siegpunkte</string>
-	
-	<string name="swindler_part">ersetze erschwindelte Karte im Wert zu (%1$s)</string>
-	
-	<string name="margrave_part">keep from Margrave</string>
-	
-	<string name="wishing_well_part">Errate die obere Karte</string>
-	
-<string name="university_part">erhalte [Universität]</string>
-
-
-   <!-- Expansions -->
-       <string name="Base">Basis</string>    
-       <string name="Intrigue">Die Intrige</string>    
-       <string name="Seaside">Seaside</string>    
-       <string name="Alchemy">Die Alchemisten</string>    
-       <string name="Prosperity">Blütezeit</string>    
-       <string name="Cornucopia">Reiche Ernte</string>    
-       <string name="Hinterlands">Hinterland</string>    
+    <string name="join_timed_out">Time out während des Wartens auf andere Mitspieler.</string>
+    <string name="response_timed_out">Time out während des Wartens auf eine Anfrage nach Mitspieler.</string>
    
-   <!-- Cards -->
-   <string name="Copper_name">Kupfer</string>
-   <string name="Copper_desc"></string>
-   <string name="Silver_name">Silber</string>
-   <string name="Silver_desc"></string>
-   <string name="Gold_name">Gold</string>
-   <string name="Gold_desc"></string>
-   <string name="Platinum_name">Platin</string>
-   <string name="Platinum_desc"></string>
-   <string name="Potion_name">Trank</string>
-   <string name="Potion_desc"></string>
-   <string name="Curse_name">Fluch</string>
-   <string name="Curse_desc"></string>
-   <string name="Estate_name">Anwesen</string>
-   <string name="Estate_desc"></string>
-   <string name="Duchy_name">Herzogtum</string>
-   <string name="Duchy_desc"></string>
-   <string name="Province_name">Provinz</string>
-   <string name="Province_desc"></string>
-   <string name="Colony_name">Kolonie</string>
-   <string name="Colony_desc"></string>
-   <string name="Moat_name">Burggraben</string>
-   <string name="Moat_desc">Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand aufdecken. Der Angriff hat dann keine Wirkung auf dich.</string>
-   <string name="Adventurer_name">Abenteurer</string>
-   <string name="Adventurer_desc">Decke solange Karten von deinem Nachziehstapel auf, bis 2 Geldkarten offen liegen. Nimm die Geldkarten auf die Hand, lege die übrigen aufgedeckten Karten ab.</string>
-   <string name="Bureaucrat_name">Bürokrat</string>
-   <string name="Bureaucrat_desc">Nimm dir ein Silber und lege es verdeckt auf deinen Nachziehstapel. Jeder Mitspieler muss eine Punktekarte aus seiner Hand aufdecken und sie verdeckt auf seinen Nachziehstapel legen. Hat ein Spieler keine Punktekarte auf der Hand, muss er seine Kartenhand vorzeigen.</string>
-   <string name="Cellar_name">Keller</string>
-   <string name="Cellar_desc">Lege eine beliebige Anzahl Karten aus deiner Hand ab. Ziehe für jede abgelegte Karte eine Karte nach.</string>
-   <string name="Chancellor_name">Kanzler</string>
-   <string name="Chancellor_desc">Du darfst sofort deinen kompletten Nachziehstapel ablegen.</string>
-   <string name="Chapel_name">Kapelle</string>
-   <string name="Chapel_desc">Entsorge bis zu 4 Karten aus deiner Hand.</string>
-   <string name="CouncilRoom_name">Ratsversammlung</string>
-   <string name="CouncilRoom_desc">Jeder Mitspieler zieht sofort eine Karte nach.</string>
-   <string name="Feast_name">Festmahl</string>
-   <string name="Feast_desc">Entsorge diese Karte. Nimm dir eine Karte, die bis zu 5 kostet.</string>
-   <string name="Festival_name">Jahrmarkt</string>
-   <string name="Festival_desc"></string>
-   <string name="Laboratory_name">Laboratorium</string>
-   <string name="Laboratory_desc"></string>
-   <string name="Library_name">Bibliothek</string>
-   <string name="Library_desc">Ziehe solange Karten nach, bis du 7 Karten auf der Hand hast. Aktionskarten darfst du zur Seite legen, sobald du sie ziehst. Die zur Seite gelegten Karten legst du ab, sobald du 7 Karten auf der Hand hast.</string>
-   <string name="Market_name">Markt</string>
-   <string name="Market_desc"></string>
-   <string name="Militia_name">Miliz</string>
-   <string name="Militia_desc">Jeder Mitspieler muss Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
-   <string name="Mine_name">Mine</string>
-   <string name="Mine_desc">Entsorge eine Geldkarte aus deiner Hand. Nimm dir eine Geldkarte, die bis zu 3 mehr kostet. Nimm diese Geldkarte sofort auf die Hand.</string>
-   <string name="MoneyLender_name">Geldverleiher</string>
-   <string name="MoneyLender_desc">Entsorge ein Kupfer aus deiner Hand. Wenn du das machst, + 3 Geld.</string>
-   <string name="Remodel_name">Umbau</string>
-   <string name="Remodel_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte die bis zu 2 mehr kostet als die entsorgte Karte.</string>
-   <string name="Smithy_name">Schmiede</string>
-   <string name="Smithy_desc"></string>
-   <string name="Spy_name">Spion</string>
-   <string name="Spy_desc">Jeder Spieler (auch du selbst) muss die oberste Karte von seinem Nachziehstapel aufdecken. Du entscheidest, ob er sie ablegen oder zurück auf seinen Nachziehstapel legen muss.</string>
-   <string name="Thief_name">Dieb</string>
-   <string name="Thief_desc">Jeder Mitspieler muss die obersten beiden Karten von seinem Nachziehstapel aufdecken. Haben die Mitspieler einer oder mehrere Geldkarten aufgedeckt, muss jeder eine davon (nach deiner Wahl) entsorgen. Du darfst eine beliebige Zahl der entsorgten Karten bei dir ablegen. Die übrigen aufgedeckten Karten legen die Spieler bei sich ab.</string>
-   <string name="ThroneRoom_name">Thronsaal</string>
-   <string name="ThroneRoom_desc">Wähle eine Aktionskarte aus deiner Hand. Spiele diese Aktionskarte zweimal aus.</string>
-   <string name="Village_name">Dorf</string>
-   <string name="Village_desc"></string>
-   <string name="Witch_name">Hexe</string>
-   <string name="Witch_desc">Jeder Mitspieler muss sich eine Fluchkarte nehmen.</string>
-   <string name="Woodcutter_name">Holzfäller</string>
-   <string name="Woodcutter_desc"></string>
-   <string name="Workshop_name">Werkstatt</string>
-   <string name="Workshop_desc">Nimm dir eine Karte, die bis zu 4 kostet.</string>
-   <string name="Gardens_name">Gärten</string>
-   <string name="Gardens_desc">Wert 1 Siegpunkt für je 10 Karten im eigenen Kartensatz (abgerundet).</string>
-   <string name="Torturer_name">Kerkermeister</string>
-   <string name="Torturer_desc">Jeder Spieler muss eins wählen: 2 Karten ablegen oder eine Fluchkarte auf die Hand nehmen.</string>
-   <string name="SecretChamber_name">Geheimkammmer</string>
-   <string name="SecretChamber_desc">Lege eine beliebige Anzahl Karten aus deiner Hand ab: + 1 Geld für jede abgelegte Karte. (Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand aufdecken. Wenn du das machst: +2 Karten; dann lege 2 Karten aus deiner Hand verdeckt auf den Nachziehstapel.)</string>
-   <string name="Nobles_name">Adelige</string>
-   <string name="Nobles_desc">Wähle eins: +3 Karten oder +2 Aktionen.</string>
-   <string name="Coppersmith_name">Kupferschmied</string>
-   <string name="Coppersmith_desc">Kupfer produziert in diesem Zug 1 mehr.</string>
-   <string name="Courtyard_name">Burghof</string>
-   <string name="Courtyard_desc">Lege eine Karte aus deiner Hand verdeckt auf deinen Nachziehstapel.</string>
-   <string name="Harem_name">Harem</string>
-   <string name="Harem_desc"></string>
-   <string name="Baron_name">Baron</string>
-   <string name="Baron_desc">Du darfst ein Anwesen ablegen. Wenn du das machst: +4 Geld. Ansonsten: Nimm dir ein Anwesen.</string>
-   <string name="Bridge_name">Brücke</string>
-   <string name="Bridge_desc">Alle Karten (auch die Karten die die Spieler auf der Hand halten) kosten in diesem Zug 1 Geld weniger, niemals jedoch weniger als 0.</string>
-   <string name="Conspirator_name">Verschwörer</string>
-   <string name="Conspirator_desc">Wenn du in diesem Zug 3 oder mehr Aktionskarten ausgespielt hast (diese eingeschlossen): +1 Karte, +1 Aktion</string>
-   <string name="Ironworks_name">Eisenhütte</string>
-   <string name="Ironworks_desc">Nimm dir eine Karte, die bis zu 4 kostet. Ist es eine... Aktionskarte : +1 Aktion. Geldkarte: +1 Geld. Punktekarte: +1 Karte.</string>
-   <string name="Masquerade_name">Maskerade</string>
-   <string name="Masquerade_desc">Alle Spieler (auch du selbst) müssen gleichzeitig eine Karte aus ihrer Hand an ihren linken Nachbarn weiter geben. Danach darfst du eine Karte aus deiner Hand entsorgen.</string>
-   <string name="MiningVillage_name">Bergwerk</string>
-   <string name="MiningVillage_desc">Du darfst diese Karte sofort entsorgen. Wenn du das machst: + 2 Geld.</string>
-   <string name="Minion_name">Lakai</string>
-   <string name="Minion_desc">Wähle eins: +2 Geld ; Oder lege alle deine Handkarten ab: +4 Karten. Jeder Mitspieler, der mindestens 5 Karten auf der Hand hat, muss alle seine Handkarten ablegen und 4 Karten nachziehen.</string>
-   <string name="Pawn_name">Handlanger</string>
-   <string name="Pawn_desc">Wähle zwei verschiedene: +1 Aktion, +1 Karte, +1 Kauf, +1 Geld</string>
-   <string name="Saboteur_name">Saboteur</string>
-   <string name="Saboteur_desc">Jeder Mitspieler muss solange Karten von seinem Nachziehstapel aufdecken, bis er eine Karte aufdeckt, die 3 oder mehr kostet. Er muss diese Karte entsorgen und darf sich eine Karte nehmen, die mindestens 2 weniger kostet. Die übrigen aufgedeckten Karten legt er ab.</string>
-   <string name="ShantyTown_name">Armenviertel</string>
-   <string name="ShantyTown_desc">Decke deine Kartenhand auf. Wenn du keine Aktionskarte auf der Hand hast: +2 Karten.</string>
-   <string name="Scout_name">Späher</string>
-   <string name="Scout_desc">Decke die obersten 4 Karten von deinem Nachziehstapel auf. Nimm alle aufgedeckten Punktekarten auf die Hand. Lege die übrigen Karten in beliebiger Reihenfolge verdeckt zurück auf deinen Nachziehstapel.</string>
-   <string name="Steward_name">Verwalter</string>
-   <string name="Steward_desc">Wähle eins: +2 Karten oder +2 Geld oder entsorge genau 2 Karten aus deiner Hand.</string>
-   <string name="Swindler_name">Trickser</string>
-   <string name="Swindler_desc">Jeder Spieler muss die oberste Karte seines Nachziehstapels entsorgen. Du wählst eine Karte, die das gleiche kostet, wie die entsorgte Karte. Diese Karte muss sich der Spieler nehmen.</string>
-   <string name="TradingPost_name">Handelsposten</string>
-   <string name="TradingPost_desc">Entsorge 2 Karten aus deiner Hand. Wenn du das machst: Nimm dir ein Silber auf die Hand.</string>
-   <string name="WishingWell_name">Wunschbrunnen</string>
-   <string name="WishingWell_desc">Benenne eine Karte. Decke die oberste Karte von deinem Nachziehstapel auf. Wenn es die benannte Karte ist, nimm sie auf die Hand.</string>
-   <string name="Upgrade_name">Anbau</string>
-   <string name="Upgrade_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die genau 1 Geld mehr kostet als die entsorgte Karte.</string>
-   <string name="Tribute_name">Tribut</string>
-   <string name="Tribute_desc">Dein linker Nachbar muss die beiden obersten Karten von seinem Nachziehstapel aufdecken und diese ablegen. Für jede Karte mit unterschiedlichem Namen erhältst du etwas. Bei einer... Aktionskarte: +2 Aktionen. Geldkarte: +2 Geld. Punktekarte: +2 Karten.</string>
-   <string name="GreatHall_name">Große Halle</string>
-   <string name="GreatHall_desc"></string>
-   <string name="Duke_name">Herzog</string>
-   <string name="Duke_desc">Wert 1 Siegpunkt pro Herzogtum im eigenen Kartensatz.</string>
-   <string name="Haven_name">Hafen</string>
-   <string name="Haven_desc">Lege eine Karte aus deiner Hand verdeckt zur Seite. Bei Beginn deines nächsten Zuges, nimm die zur Seite gelegte Karte auf die Hand.</string>
-   <string name="SeaHag_name">Seehexe</string>
-   <string name="SeaHag_desc">Jeder Mitspieler muss die oberste Karte seines Nachziehstapels ablegen und sich dann einen Fluch nehmen, den er verdeckt auf seinen Nachziehstapel legt.</string>
-   <string name="Tactician_name">Taktiker</string>
-   <string name="Tactician_desc">Lege deine übrigen Handkarten ab. Wenn du auf diese Weise mindestens eine Karte abgelegt hast: Bei Beginn deines nächsten Zuges: +5 Karten, +1 Kauf und +1 Aktion.</string>
-   <string name="Caravan_name">Karawane</string>
-   <string name="Caravan_desc"></string>
-   <string name="Lighthouse_name">Leuchtturm</string>
-   <string name="Lighthouse_desc">Solange diese Karte im Spiel ist, bist du von Angriffen deiner Mitspieler nicht betroffen.</string>
-   <string name="FishingVillage_name">Fischerdorf</string>
-   <string name="FishingVillage_desc"></string>
-   <string name="Wharf_name">Werft</string>
-   <string name="Wharf_desc"></string>
-   <string name="MerchantShip_name">Handelsschiff</string>
-   <string name="MerchantShip_desc"></string>
-   <string name="Outpost_name">Aussenposten</string>
-   <string name="Outpost_desc">Ziehe in der folgenden Aufräumphase nur 3 Karten nach. Führe danach sofort einen weiteren Zug aus. Du kannst auf diese Weise nur einen weiteren zug ausführen.</string>
-   <string name="GhostShip_name">Geisterschiff</string>
-   <string name="GhostShip_desc">Jeder Mitspieler, der mindestens 4 Karten auf der Hand hat, muss solange Karten aus seiner Hand verdeckt auf seinen Nachziehstapel legen, bis er nur noch 3 Karten auf der Hand hat.</string>
-   <string name="Salvager_name">Müllverwerter</string>
-   <string name="Salvager_desc">Entsorge eine Karte aus deiner Hand. +X Geld entsprechend den Kosten der entsorgten Karte.</string>
-   <string name="PirateShip_name">Piratenschiff</string>
-   <string name="PirateShip_desc">Wähle eins: Jeder Spieler muss die obersten beiden Karten von seinem Nachziehstapel aufdecken. Haben die Mitspieler eine oder mehrere Geldkarten aufgedeckt, muss jeder eine davon (nach deiner Wahl) entsorgen. Wenn auf diese Weise mindestens 1 Geldkarte entsorgt wird, erhälst du 1 Geldmarker auf dein Tableau piratenschiff. Die übrigen aufgedeckten Karten legen die Spieler bei sich ab. Oder: +1 Geld für jeden deiner Geldmarker auf deinem Tableau Piratenschiff.</string>
-   <string name="NativeVillage_name">Eingeborenendorf</string>
-   <string name="NativeVillage_desc">Wähle eins: Lege die oberste Karte von deinem Nachziehstapel verdeckt zur Seite auf dein Tableau Eingeborenendorf. Oder: Nimm alle Karten von deinem Tableau Eingeborenendorf auf die Hand.</string>
-   <string name="Island_name">Insel</string>
-   <string name="Island_desc">Lege diese Karte und eine andere aus deiner Hand offen zur Seite auf dein Tableau Insel. Nimm diese Karten am Ende des Spiels zurück in deinen Kartenstapel. 2 Siegpunkte am Ende des Spiels.</string>
-   <string name="Cutpurse_name">Beutelschneider</string>
-   <string name="Cutpurse_desc">Jeder Spieler muss ein Kupfer aus seiner Hand ablegen. Hat ein Spieler kein Kupfer auf der Hand, muss er seine Kartenhand vorzeigen.</string>
-   <string name="Bazaar_name">Bazar</string>
-   <string name="Bazaar_desc"></string>
-   <string name="Smugglers_name">Schmuggler</string>
-   <string name="Smugglers_desc">Nimm dir eine Karte, die der Spieler rechts von dir in seinem letzten Zug genommen oder gekauft hat und die bis zu 6 Geld kostet.</string>
-   <string name="Explorer_name">Entdecker</string>
-   <string name="Explorer_desc">Du darfst eine Provinz aus deiner Hand aufdecken. Wenn du das machst: Nimm dir ein Gold auf die Hand. Ansonsten: Nimm dir ein Silber auf die Hand.</string>
-   <string name="PearlDiver_name">Perlentaucher</string>
-   <string name="PearlDiver_desc">Sieh dir die unterste Karte deines Nachziehstapels an. Du darfst diese Karte verdeckt auf deinen Nachziehstapel legen.</string>
-   <string name="TreasureMap_name">Schatzkarte</string>
-   <string name="TreasureMap_desc">Entsorge diese und eine weitere Schatzkarte aus deiner Hand. Wenn du das machst: Nimm dir 4 Gold und lege diese verdeckt auf deinen Nachziehstapel.</string>
-   <string name="Navigator_name">Navigator</string>
-   <string name="Navigator_desc">Sieh die obersten 5 Karten von deinem Nachziehstapel an. Lege entweder alle diese Karten ab oder lege sie in beliebiger Reihenfolge verdeckt zurück auf deinen Nachziehstapel.</string>
-   <string name="Treasury_name">Schatzkammer</string>
-   <string name="Treasury_desc">Wenn du in diesem Zug keine Punktekarte gekauft hast und diese Karte im Spiel ist, darfst du diese Karte verdeckt auf deinen Nachziehstapel legen, anstatt sie abzulegen.</string>
-   <string name="Lookout_name">Ausguck</string>
-   <string name="Lookout_desc">Sieh dir die obersten 3 Karten von deinem Nachziehstapel an. Entsorge eine davon. Lege eine davon ab. Lege eine davon verdeckt zurück auf deinen Nachziehstapel.</string>
-   <string name="Ambassador_name">Botschafter</string>
-   <string name="Ambassador_desc">Decke eine Karte aus deiner Hand auf. Lege bis zu 2 Karten aus deiner Hand zurück in den Vorrat. Jeder Mitspieler muss sich eine solche Karte vom Vorrat nehmen.</string>
-   <string name="Warehouse_name">Lagerhaus</string>
-   <string name="Warehouse_desc">Lege 3 Karten aus Deiner Hand ab.</string>
-   <string name="Embargo_name">Embargo</string>
-   <string name="Embargo_desc">Entsorge diese Karte. Lege einen Embargomarker auf einen Stapel im Vorrat. Wenn ein Spiele eine Karte von diesem Stapel kauft, muss er sich für jeden Embargomarker einen Fluch nehmen.</string>
-   <string name="Alchemist_name">Alchemist</string>
-   <string name="Alchemist_desc">Wenn diese Karte und ein Trank im Spiel sind und du den Alchemisten ablegst, darfst du diesen verdeckt auf deinen Nachziehstapel legen.</string>
-   <string name="Apothecary_name">Apotheker</string>
-   <string name="Apothecary_desc">Decke die 4 obersten Karten von deinem Nachziehstapel auf. Nimm alle aufgedeckten Kupfer und Tränke auf die Hand. Lege die übrigen Karten in beliebiger Reihenfolge verdeckt zurück auf deinen Nachziehstapel.</string>
-   <string name="Apprentice_name">Lehrling</string>
-   <string name="Apprentice_desc">Entsorge eine Karte aus deiner Hand. +1 Karte pro Geld, das die Karte kostet und zusätzlich +2 Karten wenn sie einen Trank kostet.</string>
-   <string name="Familiar_name">Vertrauter</string>
-   <string name="Familiar_desc">Jeder Mitspieler muss sich eine Fluchkarte nehmen.</string>
-   <string name="Golem_name">Golem</string>
-   <string name="Golem_desc">Decke so lange Karten von deinem Nachziehstapel auf, bis 2 Aktionskarten (ausser Golem-Karten) offen liegen. Lege sofort alle übrigen aufgedeckten Karten ab und spiele die beiden Aktionskarten in beliebiger Reihenfolge.</string>
-   <string name="Herbalist_name">Kräuterkundiger</string>
-   <string name="Herbalist_desc">Wenn diese Karte im Spiel ist und du sie ablegst, darfst du eine deiner Geldkarten im Spiel verdeckt oben auf deinen Nachziehstapel legen.</string>
-   <string name="PhilosophersStone_name">Stein der Weisen</string>
-   <string name="PhilosophersStone_desc">Zähle die Karten in deinem Nachziehstapel und die Karten in deinem Ablagestapel. Wert 1 GE für je 5 Karten der Summe beider Stapel (abgerundet).</string>
-   <string name="Possession_name">Besessenheit</string>
-   <string name="Possession_desc">Der Spieler links von dir führt einen Extra-Zug direkt nach diesem aus. Dabei siehst du alle Karten, die auch er sieht und du fällst alle Entscheidungen für ihn. Alle Karten, die er nimmt oder kauft, legst du auf deinen Ablagestapel. Alle Karten, die er in diesem Zug entsorgt, werden zur Seite gelegt und am Ende des Zuges auf seinen Ablagestapel gelegt.</string>
-   <string name="ScryingPool_name">Vision</string>
-   <string name="ScryingPool_desc">Jeder Spieler (auch du selbst) muss die oberste Karte von seinem Nachziehstapel aufdecken. Du entscheidest, ob er sie ablegen, oder auf seinen Nachziehstapel zurücklegen muss. Dann deckst du solange Karten von deinem Nachziehstapel auf, bis du eine Karte aufdeckst, die keine Aktionskarte ist. Nimm alle aufgedeckten Karten auf die Hand.</string>
-   <string name="Transmute_name">Verwandlung</string>
-   <string name="Transmute_desc">Entsorge eine Karte aus deiner Hand. Ist es eine... Aktionskarte: nimm dir ein Herzogtum; eine Geldkarte: nimm dir eine Verwandlung; eine Punktekarte: nimm dir ein Gold.</string>
-   <string name="University_name">Universität</string>
-   <string name="University_desc">Du darfst dir eine Aktionskarte nehmen, die bis zu 5 Geld kostet.</string>
-   <string name="Vineyard_name">Weinberg</string>
-   <string name="Vineyard_desc">Wert 1 Siegpunkt für je 3 Aktionskarten im eigenen Kartensatz (abgerundet).</string>
-   <string name="Bank_name">Bank</string>
-   <string name="Bank_desc">Wert 1 Geld für jede Geldkarte, die im Spiel ist (diese eingeschlossen).</string>
-   <string name="Bishop_name">Bischof</string>
-   <string name="Bishop_desc">Entsorge eine Karte aus deiner Hand. Wenn du das machst: Punktemarker entsprechend der Hälfte der Geld-Kosten der entsorgten Karte (abgerundet). Jeder Mitspieler darf sofort eine Karte aus seiner Hand entsorgen.</string>
-   <string name="City_name">Stadt</string>
-   <string name="City_desc">Wenn im Vorrat genau ein Stapel leer ist: +1 Karte. Oder, wenn 2 oder mehr Stapel leer sind: +1 Karte, +1 Geld, +1 Kauf.</string>
-   <string name="Contraband_name">Schmuggelware</string>
-   <string name="Contraband_desc">Wenn du diese Karte auslegst, benennt der Spieler links von dir eine Karte. Du darfst diese Karte nicht kaufen.</string>
-   <string name="CountingHouse_name">Leihhaus</string>
-   <string name="CountingHouse_desc">Sieh deinen Ablagestapel durch, decke eine beliebige Anzahl Kupfer daraus auf und nimm diese auf die Hand.</string>
-   <string name="Expand_name">Ausbau</string>
-   <string name="Expand_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die bis zu 3 Geld mehr kostet als die entsorgte Karte.</string>
-   <string name="Forge_name">Kunstschmiede</string>
-   <string name="Forge_desc">Entsorge eine beliebige Anzahl Karten aus deiner Hand. Nimm dir eine Karte mit genau den gleichen Geld-Kosten wie die entsorgten Karten zusammen gekostet haben.</string>
-   <string name="Goons_name">Halsabschneider</string>
-   <string name="Goons_desc">Jeder Mitspieler muss so lange Karten ablegen, bis er nur noch 3 Karten auf der Hand hat. Wenn diese Karte im Spiel ist und du eine Karte kaufst: +1 Punktemarker.</string>
-   <string name="GrandMarket_name">Großer Markt</string>
-   <string name="GrandMarket_desc">Du darfst diese Karte nicht kaufen, wenn du Kupfer im Spiel hast.</string>
-   <string name="Hoard_name">Hort</string>
-   <string name="Hoard_desc">Wenn diese Karte im Spiel ist und du eine Punktekarte kaufst: Nimm dir ein Gold.</string>
-   <string name="KingsCourt_name">Königshof</string>
-   <string name="KingsCourt_desc">Wähle eine Aktionskarte aus deiner Hand. Spiele diese Aktionskarte dreimal aus.</string>
-   <string name="Loan_name">Lohn</string>
-   <string name="Loan_desc">Wenn du diese Karte ausspielst, decke solange Karten von deinem Nachziehstapel auf, bis eine Geldkarte offen liegt. entsorge die Geldkarte oder lege sie ab. Lege die übrigen aufgedeckten Karten ab.</string>
-   <string name="Mint_name">Münzer</string>
-   <string name="Mint_desc">Du darfst eine Geldkarte aus deiner Hand aufdecken. Nimm die eine Geldkarte mit dem gleichen Namen. Wenn du den Münzer kaufst, entsorge alle Geldkarten, die du im Spiel hast.</string>
-   <string name="Monument_name">Denkmal</string>
-   <string name="Monument_desc"></string>
-   <string name="Mountebank_name">Quacksalber</string>
-   <string name="Mountebank_desc">Jeder Mitspieler darf eine Fluchkarte aus seiner Hand ablegen. Wenn er das nicht macht, muss er sich einen Fluch und ein Kupfer nehmen.</string>
-   <string name="Peddler_name">Hausierer</string>
-   <string name="Peddler_desc">Diese Karte kostet in der Kaufphase 2 Geld weniger für jede Aktionskarte die du im Spiel hast, niemals jedoch weniger als 0 Geld.</string>
-   <string name="Quarry_name">Steinbruch</string>
-   <string name="Quarry_desc">Wenn diese Karte im Spiel ist, kostet jede Aktionskarte 2 Geld weniger, niemals jedoch weniger als 0 Geld.</string>
-   <string name="Rabble_name">Gesindel</string>
-   <string name="Rabble_desc">Jeder Mitspieler deckt die obersten 3 Karten von seinem Nachziehstapel auf. Er muss alle aufgedeckten Aktions- und Geldkarten ablegen. Die übrigen aufgedeckten Karten legt er in beliebiger Reihenfolge zurück auf seinen Nachziehstapel.</string>
-   <string name="RoyalSeal_name">Königliches Siegel</string>
-   <string name="RoyalSeal_desc">Wenn diese Karte im Spiel ist und du eine Karte nimmst oder kaufst, darfst du die neue Karte sofort auf deinen Nachziehstapel legen.</string>
-   <string name="Talisman_name">Talismann</string>
-   <string name="Talisman_desc">Wenn diese Karte im Spiel ist und du eine Karte kaufst, die 4 Geld oder weniger kostet und keine Punktekarte ist, nimm dir eine weitere Karte mit gleichem Namen.</string>
-   <string name="TradeRoute_name">Handelsroute</string>
-   <string name="TradeRoute_desc">+1 Geld pro Marker auf dem Tableau Handelsroute. Entsorge eine Karte aus deiner Hand. Aufbau: Lege einen Marker auf jeden Punktekartenstapel. Wenn eine Karte von einem Punktekartenstapel gekauft oder genommen wird, lege den Marker auf das Tableau Handelsroute.</string>
-   <string name="Vault_name">Gewölbe</string>
-   <string name="Vault_desc">Lege eine beliebige Anzahl Karten aus deiner Hand ab: +1 Geld für jede abgelegte Karte. Jeder Mitspieler darf 2 Karten aus seine Hand ablegen. Wenn er genau 2 Karten ablegt, zieht er eine Karte nach.</string>
-   <string name="Venture_name">Abenteuer</string>
-   <string name="Venture_desc">Wenn du diese Karte ausspielst, decke solange Karten von deinem Nachziehstapel auf, bis eine Geldkarte offen liegt. Lege diese Geldkarte aus. Lege die übrigen aufgedeckten Karten ab.</string>
-   <string name="WatchTower_name">Wachturm</string>
-   <string name="WatchTower_desc">Ziehe solange Karten nach, bis du 6 Karten auf der Hand hast. Wenn du eine Karte nimmst oder kaufst darfst du den Wachturm aus deiner Handaufdecken. Wenn du das machst: Entsorge die neue Karte oder lege sie sofort auf deinen Nachziehstapel.</string>
-   <string name="WorkersVillage_name">Arbeiterdorf</string>
-   <string name="WorkersVillage_desc"></string>
-   <string name="Fairgrounds_name">Festplatz</string>
-   <string name="Fairgrounds_desc">Wert 2 Siegpunkte für je 5 unterschiedliche Karten im eigenen Kartensatz (abgerundet).</string>
-   <string name="FarmingVillage_name">Bauerndorf</string>
-   <string name="FarmingVillage_desc">Decke solange Karten vom Nachziehstapel auf, bis entweder eine Aktionskarte oder eine Geldkarte offen liegen. Nimm diese Karte auf die Hand, lege die übrigen aufgedeckten Karten ab.</string>
-   <string name="FortuneTeller_name">Wahrsagerin</string>
-   <string name="FortuneTeller_desc">Jeder Mitspieler muss solange Karten von seinem Nachziehstapel aufdecken, bis entweder eine Punktekarte oder eine Fluchkarte offen liegt. Diese aufgedeckte Karte muss er auf seinen Nachziehstapel legen. Die übrigen aufgedeckten Karten legt er ab.</string>
-   <string name="Hamlet_name">Weiler</string>
-   <string name="Hamlet_desc">Du darfst eine Karte aus deiner Hand ablegen. Wenn du das machst: +1 Aktion. Du darfst eine Karte aus deiner Hand ablegen. Wenn du das machst: +1 Kauf.</string>
-   <string name="Harvest_name">Ernte</string>
-   <string name="Harvest_desc">Decke die 4 obersten Karten von deinem Nachziehstapel auf. Lege die aufgedeckten Karten ab. +1 Geld pro aufgedeckter Karte mit unterschiedlichem Namen.</string>
-   <string name="HornofPlenty_name">Füllhorn</string>
-   <string name="HornofPlenty_desc">Nimm dir eine Karte, die 1 Geld pro Karte mit unterschiedlichem Namen im Spiel (diese eingeschlossen) kostet. Nimmst du dir eine Punktekarte, entsorge das Füllhorn.</string>
-   <string name="HorseTraders_name">Pferdehändler</string>
-   <string name="HorseTraders_desc">Lege 2 Karten aus deiner Hand ab. Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand zur Seite legen. Wenn du das machst: Bei Beginn deines nächsten Zuges +1 Karte und nimm diese Karte wieder auf die Hand.</string>
-   <string name="HuntingParty_name">Jagdgesellschaft</string>
-   <string name="HuntingParty_desc">Decke deine Kartenhand auf. Decke solange Karten von deinem Nachziehstapel auf, bis eine Karte mit anderem Namen als deine Handkarten offen liegt. Nimm diese aufgedeckte Karte auf die Hand. Lege die übrigen aufgedeckten Karten ab.</string>
-   <string name="Jester_name">Harlekin</string>
-   <string name="Jester_desc">Jeder Mitspieler muss die oberste Karte seines Nachziehstapels ablegen. Ist es eine Punktekarte, muss er sich einen Fluch nehmen. Ansonsten muss sich entweder er oder du eine Karte mit gleichem Namen nehmen. Du entscheidest.</string>
-   <string name="Menagerie_name">Menagerie</string>
-   <string name="Menagerie_desc">Decke deine Handkarten auf. Hast du keine Karte mit gleichem Namen auf der Hand: +3 Karten. Ansonsten: +1 Karte.</string>
-   <string name="Remake_name">Nachbau</string>
-   <string name="Remake_desc">Mache dies zweimal: Entsorge eine Karte aus deiner Hand. Dann nimm dir eine Karte, die genau 1 Geld mehr kostet als die entsorgte Karte.</string>
-   <string name="Tournament_name">Turnier</string>
-   <string name="Tournament_desc">Jeder Spieler darf eine Provinz aus der Hand aufdecken. Wenn du das machst, lege die Provinz ab und nimm dir einen Preis (vom Preisstapel) oder ein Herzogtum. Lege die neue Karte auf deinen Nachziehstapel. Wenn es kein Mitspieler macht: +1 Karte und +1 Geld.</string>
-   <string name="YoungWitch_name">Junge Hexe</string>
-   <string name="YoungWitch_desc">Lege 2 Karten aus deiner Hand ab. Jeder Mitspieler darf eine Verderbniskarte aus seiner hand aufdecken. Wenn er das nicht macht, muss er sich einen Fluch nehmen. Aufbau: Vor dem Spiel wird ein zusätzlicher Königreichkartenstapel der entwerder 2 oder 3 Geld kostet gebildet. Die Karten dieses Stapels sind Verderbniskarten.</string>
-   <string name="BorderVillage_name">Grenzdorf</string>
-   <string name="BorderVillage_desc">Wenn du das Grenzdorf nimmst, nimm dir eine Karte, die weniger kostet als das Grenzdorf.</string>
-   <string name="Cache_name">Schatztruhe</string>
-   <string name="Cache_desc">Wenn du die Schatztruhe nimmst, nimm dir 2 Kupfer.</string>
-   <string name="Cartographer_name">Kartograph</string>
-   <string name="Cartographer_desc">Sieh dir die obersten 4 Karten von deinem Nachziehstapel an. lege beliebig viele davon ab. Lege den Rest davon in beliebiger Reihenfolge zurück auf deinen Nachziehstapel.</string>
-   <string name="Crossroads_name">Wegkreuzung</string>
-   <string name="Crossroads_desc">Decke deine Kartenhand auf. +1 Karte pro aufgedeckter Punktekarte. Wenn du zum ersten Mal in diesem Zug eine Wegkreuzung ausspielst: +3 Aktionen.</string>
-   <string name="Develop_name">Aufbau</string>
-   <string name="Develop_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die genau 1 Geld mehr kostet als die entsorgte Karte und numm dir eine Karte, die genau 1 Geld weniger kostet als die entsorgte Karte. Du entscheidest, in welcher Reihenfolge du diese beiden Karten nimmst. Lege beide Karten sofort auf deinen Nachziehstapel.</string>
-   <string name="Duchess_name">Herzogin</string>
-   <string name="Duchess_desc">Jeder Spieler (auch du selber) sieht sich die oberste Karte von seinem Nachziehstapel an und entscheidet, ob er die Karte ablegt oder zurück auf den Nachziehstapel legt. Wird die Herzogin im Spiel verwendet, darfst du dir immer, wenn du ein Herzogtum nimmst, eine Herzogin nehmen.</string>
-   <string name="Embassy_name">Botschaft</string>
-   <string name="Embassy_desc">Lege 3 Karten aus deiner Hand ab. Wenn du die Botschaft nimmst, muss sich jeder Mitspieler ein Silber nehmen.</string>
-   <string name="Farmland_name">Fruchtbares Land</string>
-   <string name="Farmland_desc">Wenn du das Fruchtbare Land kaufst, entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die genau 2 Geld mehr kostet als die entsorgte Karte.</string>
-   <string name="FoolsGold_name">Katzengold</string>
-   <string name="FoolsGold_desc">Wenn du das Katzengold zum ersten Mal in diesem Zug ausspielst, ist es 1 Geld wert, ansonsten ist es 4 geld wert. - Wenn ein Mitspieler eine Provinz nimmt, darfst du diese Karte aus deiner Hand entsorgen. Wenn du das machst: Nimm dir ein Gold und lege es auf deinen Nachziehstapel.</string>
-   <string name="Haggler_name">Feilscher</string>
-   <string name="Haggler_desc">Wenn du eine Karte kaufst und der Feilscher im Spiel ist: Nimm dir eine Karte, die weniger kostet als die gerade gekaufte und die keine Punktekarte ist.</string>
-   <string name="Highway_name">Fernstrasse</string>
-   <string name="Highway_desc">Wenn diese Karte im Spiel ist, kosten alle Karten 1 Geld weniger, niemals jedoch weniger als 0.</string>
-   <string name="IllGottenGains_name">Blutzoll</string>
-   <string name="IllGottenGains_desc">Wenn du den Blutzoll ausspielst, darfst du dir ein Kupfer nehmen. Nimm dieses sofort auf die Hand. - Wenn du den Blutzoll nimmst, muss sich jeder Mitspieler einen Fluch nehmen.</string>
-   <string name="Inn_name">Gasthaus</string>
-   <string name="Inn_desc">Lege 2 Karten aus deiner Hand ab. - Wenn du das Gasthaus nimmst, sieh dir deinen Ablagestapel durch, decke beliebig viele Aktionskarten (auch dieses Gasthaus) daraus auf und mische die aufgedeckten Karten in den Nachziehstapel.</string>
-   <string name="JackofallTrades_name">Lebenskünstler</string>
-   <string name="JackofallTrades_desc">Nimm dir ein Silber. Sieh dir die oberste Karte von deinem Nachziehstapel an und entscheide, ob du die Karte ablegst oder zurück auf deinen Nachziehstapel legst. Ziehe so lange Karten nach, bis du 5 Karten auf der Hand hast. Du darfst eine Karte aus deiner Hand entsorgen, die keine Geldkarte ist.</string>
-   <string name="Mandarin_name">Mandarin</string>
-   <string name="Mandarin_desc">Lege eine Karte aus deiner Hand zurück auf den Nachziehstapel. - Wenn du den Mandarin nimmst, lege alle Geldkarten, die du im Spiel hast, in beliebiger Reihenfolge zurück auf deinen Nachziehstapel.</string>
-   <string name="Margrave_name">Markgraf</string>
-   <string name="Margrave_desc">Jeder Mitspieler muss 1 Karte nachziehen und dann Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
-   <string name="NobleBrigand_name">Edler Räuber</string>
-   <string name="NobleBrigand_desc">Wenn du diese Karte kaufst oder ausspielst, muss jeder Mitspieler die obersten 2 Karten von seinem bNachziehstapel aufdecken. Hat er ein Gold oder ein Silber aufgedeckt, muss er dieses entsorgen. Hat der Spieler beides aufgedeckt, entscheidest Du, welche er entsorgen muss. Hat der Spieler keine Geldkarte aufgedeckt, muss er sich ein Kupfer nehmen. Die übrigen aufgedeckten Karten muss der Spieler ablegen. Du musst alle entsorgten Karten nehmen.</string>
-   <string name="NomadCamp_name">Nomadencamp</string>
-   <string name="NomadCamp_desc">Wenn du das Nomadencamp nimmst, lege es sofort auf deinen Nachziehstapel.</string>
-   <string name="Oasis_name">Oase</string>
-   <string name="Oasis_desc">Lege eine Karte aus deiner Hand ab.</string>
-   <string name="Oracle_name">Orakel</string>
-   <string name="Oracle_desc">Jeder Spieler (auch du selbst) muss die obersten 2 Karten von seinem Nachziehstapel aufdecken. Du entscheidest, ob er beide Karten ablegen oder (in der von ihm bestimmten Reihenfolge) zurück auf seinen Nachziehstapel legen muss. +2 Karten.</string>
-   <string name="Scheme_name">Komplott</string>
-   <string name="Scheme_desc">Zu Beginn deiner Aufräumphase darfst du eine deiner ausgespielten Aktionskarten wählen. Wenn du die gewählte Karte in dieser Aufräumphase ablegen würdest, darfst du sie stattdessen auf deinen Nachziehstapel legen.</string>
-   <string name="SilkRoad_name">Seidenstrasse</string>
-   <string name="SilkRoad_desc">Wert 1 Siegpunkt für je 4 Punktekarten im eigenen Kartensatz (abgerundet).</string>
-   <string name="SpiceMerchant_name">Gewürzhändler</string>
-   <string name="SpiceMerchant_desc">Du darfst eine Geldkarte aus deiner Hand entsorgen. Wenn du das machst, wähle eins: +2 Karten und +1 Aktion oder +2 Geld und +1 Kauf.</string>
-   <string name="Stables_name">Stallungen</string>
-   <string name="Stables_desc">Du darfst eine Geldkarte aus deiner Hand ablegen. Wenn du das machst: +3 Karten und +1 Aktion.</string>
-   <string name="Trader_name">Fahrender Händler</string>
-   <string name="Trader_desc">Entsorge eine Karte aus deiner Hand. Nimm dir so viele Silber, wie die Geld-Kosten der entsorgten Karte. - Wenn du eine Karte nehmen würdest, darfst du den Fahrenden Händler aus deiner Hand aufdecken. Wenn du das machst: Nimm dir statt der anderen Karte ein Silber.</string>
-   <string name="Tunnel_name">Tunnel</string>
-   <string name="Tunnel_desc">Wenn du diese Karte außerhalb der Aufräumphase ablegst, darfst du sie aufdecken. Wenn du das machst: Nimm dir ein Gold.</string>
-   <string name="Princess_name">Prinzessin</string>
-   <string name="Princess_desc">Wenn die Prinzessin im Spiel ist, kostet jede Karte 2 Geld weniger, jedoch nie weniger als 0 Geld.</string>
-   <string name="BagofGold_name">Ein Sack voll Gold</string>
-   <string name="BagofGold_desc">Nimm ein Gold und lege es verdeckt auf deinen Nachziehstapel.</string>
-   <string name="Diadem_name">Diadem</string>
-   <string name="Diadem_desc">Wenn das Diadem im Spiel ist, +1 Geld für jede nicht verbrauchte Aktion (Aktion, nicht Aktionskarte)</string>
-   <string name="Followers_name">Gefolge</string>
-   <string name="Followers_desc">Nimm ein Anwesen. Jeder Mitspieler muss einen Fluch nehmen und Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
-   <string name="TrustySteed_name">Streitroß</string>
-   <string name="TrustySteed_desc">Wähle zwei verschiedene: +2 Karten; +2 Aktionen; +2 Geld; Nimm 4 Silber und lege sofort deinen kompletten Nachziehstapel auf deinen Ablagestapel.</string>
+    <string name="vp_single">Wert %1$s Siegpunkt</string>
+    <string name="vp_multiple">Wert %1$s Siegpunkte</string>
+    <string name="coin_next_turn">+(%1$s) Geld im nächsten Zug</string>
+    <string name="buy_next_turn_single">+%1$s Kauf im nächsten Zug</string>
+    <string name="buys_next_turn_multiple">+%1$s Käufe im nächsten Zug</string>
+    <string name="card_next_turn_single">+%1$s Karte im nächsten Zug</string>
+    <string name="cards_next_turn_multiple">+%1$s Karten im nächsten Zug</string>
+    <string name="action_next_turn_single">+%1$s Aktion im nächsten Zug</string>
+    <string name="actions_next_turn_multiple">+%1$s Aktionen im nächsten Zug</string>
+    <string name="card_coin">+(%1$s) Geld</string>
+    <string name="card_buy_single">+%1$s Kauf</string>
+    <string name="card_buys_multiple">+%1$s Käufe</string>
+    <string name="card_action_single">+%1$s Aktion</string>
+    <string name="card_actions_multiple">+%1$s Aktionen</string>
+    <string name="card_card_single">+%1$s Karte</string>
+    <string name="card_cards_multiple">+%1$s Karten</string>
+    <string name="card_victory_token_single">+%1$s Punktemarker</string>
+    <string name="card_victory_tokens_multiple">+%1$s Punktemarker</string>
+   
+    <string name="card_options_header">%1$s Option</string>
+    <string name="part_play">Spiele</string>
+    <string name="part_buy">Kaufe</string>
+   
+    <string name="select_from_table">%1$s eine Karte vom Tisch</string>
+    <string name="select_from_table_exact_quarries">%3$s eine Karte vom Tisch, die genau (%1$s, %2$s wenn Aktionskarte) kostet</string>
+    <string name="select_from_table_exact">%2$s eine Karte vom Tisch, die genau (%1$s) kostet</string>
+    <string name="select_from_table_max_quarries">%3$s eine Karte vom Tisch, die höchstens (%1$s, %2$s wenn Aktionskarte) kostet</string>
+    <string name="select_from_table_max">%2$s eine Karte vom Tisch, die höchstens (%1$s) kostet</string>
+    <string name="select_from_table_between_quarries">%4$s eine Karte vom Tisch, die zwischen (%1$s) und (%2$s, %3$s wenn Aktionskarte) kostet.</string>
+    <string name="select_from_table_between">%3$s eine Karte vom Tisch, die zwischen (%1$s) und (%2$s) kostet</string>
+    <string name="select_from_table_min">%2$s eine Karte vom Tisch, die mindestens (%1$s) kostet</string>
+   
+    <string name="select_one_card_from_hand">%1$s eine Karte aus deiner Hand</string>
+    <string name="select_up_to_x_cards_from_hand">%2$s bis zu %1$s Karten aus deiner Hand</string>
+    <string name="select_exactly_x_cards_from_hand">%2$s genau %1$s Karten aus deiner Hand</string>
+   
+    <string name="select_one_action_from_hand">%1$s eine Aktionskarte aus deiner Hand</string>
+    <string name="select_up_to_x_actions_from_hand">%2$s bis zu %1$s Aktionskarten aus deiner Hand</string>
+    <string name="select_exactly_x_actions_from_hand">%2$s genau %1$s Aktionskarten aus deiner Hand</string>
+   
+    <string name="select_one_treasure_from_hand">%1$s eine Geldkarte von der Hand</string>
+    <string name="select_up_to_x_treasures_from_hand">%2$s bis zu %1$s Geldkarten von der Hand</string>
+    <string name="select_exactly_x_treasures_from_hand">%2$s exakt %1$s Geldkarten von der Hand</string>
+   
+    <string name="select_one_victory_from_hand">%1$s eine Siegpunkarte von der Hand</string>
+    <string name="select_up_to_x_victorys_from_hand">%2$s bis zu %1$s Siegpunktkarten von der Hand</string>
+    <string name="select_exactly_x_victorys_from_hand">%2$s exakt %1$s Siegpunktkarten von der Hand</string>
+
+    <string name="select_one_nontreasure_from_hand">%1$s eine Karte (nicht Geld) von der Hand</string>
+    <string name="select_up_to_x_nontreasures_from_hand">%2$s bis zu %1$s Karten (nicht Geld) von der Hand</string>
+    <string name="select_exactly_x_nontreasures_from_hand">%2$s exakt %1$s Karte(n) (nicht Geld) von der Hand</string>
+   
+    <string name="card_to_reveal">[%1$s]: Zeige</string>
+    <string name="card_to_gain">[%1$s]: Nimm</string>
+    <string name="card_to_trash">[%1$s]: Entsorge</string>
+    <string name="card_to_discard">[%1$s]: Lege ab</string>
+    <string name="discard">Abwerfen</string>
+    <string name="trash">Entsorgen</string>
+    <string name="keep">Behalten</string>
+    <string name="none">Keine</string>
+    <string name="card_revealed_from_player">Von %1$s\n%2$s wurde gezogen: %3$s</string>
+    <string name="GameStarting">Spielstart</string>
+    <string name="GameOver">Spielende</string>
+    <string name="Embargo">Embargo</string>
+    <string name="Status">Status</string>
+    <string name="CantBuy">Kann nicht %1$s kaufen</string>
+    <string name="VictoryPoints">Siegpunkte</string>
+    <string name="NewHand">Neue Kartenhand</string>
+    <string name="TurnBegin">Zuganfang</string>
+    <string name="TurnEnd">Ende des Zuges</string>
+    <string name="PlayingAction">Spielt</string>
+    <string name="PlayedAction">Gespielt</string>
+    <string name="PlayingDurationAction">Spieldauer</string>
+    <string name="PlayingCoin">Spielt</string>
+    <string name="BuyingCard">Kauft</string>
+    <string name="NoBuy">(Kein Kauf)</string>
+    <string name="DeckReplenished">Nachziehstapel aufgefüllt</string>
+    <string name="PlayerAttacking">Greift an</string>
+    <string name="PlayerDefended">Verteidigt</string>
+    <string name="CardOnTopOfDeck">Lege Karte auf den Stapel</string>
+    <string name="CardObtained">Erhalten</string>
+    <string name="CardTrashed">Entsorgt</string>
+    <string name="CardRevealed">Aufgedeckt</string>
+    <string name="CardDiscarded">Abgelegt</string>
+    <string name="CardAddedToHand">Karte der Hand hinzugefügt</string>
+    <string name="CardRemovedFromHand">Karte aus der Hand gezogen</string>
+
+    <string name="use_for_money">Geld: Wähle</string>
+   
+    <string name="action_buys_coin">%1$s/%2$s/%3$s</string>
+    <string name="game_over_status">Spiel -- </string>
+    <string name="game_length_status">Spieldauer: </string>
+    <string name="end_turn">Zugende</string>
+    <string name="replace">Ersetze</string>
+   
+    <string name="secretchamber_part">[Geheimkammer]: Lege oben auf den Nachziehstapel: Wähle</string>
+   
+    <string name="ghostship_part">[Geisterschiff]: Lege oben auf den Nachziehstapel: Wähle</string>
+   
+    <string name="ambassador_query">Anzahl %1$s zurück auf den Ablagestapel [Botschafter]:</string>
+   
+    <string name="goons_part">[Halsabschneider]: Behalte</string>
+   
+    <string name="watch_tower_query">Wachturm (%1$s erhalten):</string>
+   
+    <string name="followers_part">[Gefolge]: Behalte</string>
+   
+    <string name="treasure_to_trash">Wähle eine Geldkarte zum Entsorgen</string>
+   
+    <string name="scheme_query">Wähle Karte, die auf Nachziehstapel zurückgelegt werden soll.</string>
+   
+    <string name="herbalist_query">Wähle Karte, die auf den Nachziehstapel zurückgelegt werden soll.</string>
+   
+    <string name="thief_query">Wähle zu stehlende Karte</string>
+   
+    <string name="smuggle_query">Wähle zu schmuggelnde Karte</string>
+   
+    <string name="courtyard_part_top_of_deck"> [%1$s]: Lege oben auf den Nachziehstapel: Wähle</string>
+   
+    <string name="hamlet_part_discard_for_action">Abwerfen für +1 Aktion: Wähle</string>
+    <string name="hamlet_part_discard_for_buy">Abwerfen für +1 Kauf: Wähle</string>
+   
+    <string name="vault_part_discard_for_gold">Abwerfen für Geld: Wähle</string>
+    <string name="vault_part_discard_for_card">Ablegen für +1 Karte: Wähle</string>
+   
+    <string name="lookout_query_trash">Wähle eine Karte zum Entsorgen</string>
+    <string name="lookout_query_discard">Wähle eine Karte zum Ablegen</string>
+   
+    <string name="mountebank_query">Quacksalber aufgedeckt</string>
+    <string name="mountebank_option_one">Lege Fluch ab</string>
+    <string name="mountebank_option_two">Nimm Fluch und Kupfer</string>
+   
+    <string name="pearldiver_option_one">Nach oben</string>
+    <string name="pearldiver_option_two">Unten lassen</string>
+   
+    <string name="alchemist_option_one">Zurück auf Nachziehstapel</string>
+    <string name="alchemist_option_two">Ablegen</string>
+   
+    <string name="navigator_header">Der Navigator deckt auf: %1$s</string>
+    <string name="navigator_option_two">Auf den Nachziehstapel zurücklegen</string>
+   
+    <string name="tournament_option_one">Keine Provinz aufdecken</string>
+    <string name="tournament_option_two">Nimm einen Preis</string>
+    <string name="tournament_option_three">Nimm ein Herzogtum</string>
+    <string name="select_prize">Wähle einen Preis</string>
+   
+    <string name="trusty_steed_option_one">+2 Aktionen</string>
+    <string name="trusty_steed_option_two">+2 Karten</string>
+    <string name="trusty_steed_option_three">+(2) Geld</string>
+    <string name="trusty_steed_option_four">Nimm 4 Silber und lege Nachziehstapel ab</string>
+   
+    <string name="mining_village_option_one">Entsorge für +(2) Geld</string>
+   
+    <string name="golem_first_action">Erste Aktion, die ausgeführt wird</string>
+   
+    <string name="duchess_query">Herzogtum erhalten</string>
+    <string name="duchess_option_one">Ebenfalls Herzogin erhalten</string>
+   
+    <string name="jack_of_all_trades_option_one">Zurück auf Nachziehstapel</string>
+   
+    <string name="duchess_play_option_one">Zurück auf Nachziehstapel</string>
+   
+    <string name="noble_brigand_query">Card to gain from %1$s [Noble Brigand]</string>
+   
+    <string name="steward_option_one">+2 Karten</string>
+    <string name="steward_option_two">+(2) Geld</string>
+    <string name="steward_option_three">Entsorge zwei Karten aus deiner Hand</string>
+
+    <string name="pawn_one">+1 Karte</string>
+    <string name="pawn_two">+1 Aktion</string>
+    <string name="pawn_three">+1 Kauf</string>
+    <string name="pawn_four">+(1) Geld</string>
+   
+    <string name="nobles_option_one">+3 Karten</string>
+    <string name="nobles_option_two">+2 Aktionen</string>
+
+    <string name="minion_option_one">+(2) Geld</string>
+    <string name="minion_option_two">Hand abwerfen, +4 Karten</string>
+
+    <string name="spice_merchant_option_one">+2 Karten und +1 Aktion</string>
+    <string name="spice_merchant_option_two">+(2) Geld und +1 Kauf</string>
+
+    <string name="watch_tower_option_one">Auf Ablagestapel</string>
+    <string name="watch_tower_option_three">Zurück auf Nachziehstapel</string>
+
+    <string name="jester_option_one">Karte mit gleichem Namen für dich</string>
+    <string name="jester_option_two">Gib Karte mit gleichem Namen an %1$s</string>
+   
+    <string name="trader_gain">Nimm %1$s</string>
+
+    <string name="fools_gold_option_one">Entsorge für ein Gold</string>
+   
+    <string name="baron_option_one">Lege ein Anwesen für +(4) Geld ab</string>
+    <string name="baron_option_two">Nimm Anwesen</string>
+   
+    <string name="native_village_option_one">Nimm die Karten aus dem Eingeborenedorf auf die Hand</string>
+    <string name="native_village_option_two">Lege oberste Karte des Nachziehstapels auf das Eingeborenendorf</string>
+
+    <string name="ill_gotten_gains_option_one">Kupfer nehmen</string>
+   
+    <string name="card_order_on_deck">Kartenreihenfolge im Nachziehstapel:</string>
+   
+    <string name="treasury_number">Anzahl der Geldkarten, die auf den Nachziehstapel gelegt werden soll:</string>
+   
+    <string name="pirate_ship_option_one">Nimm +(%1$s) Geld</string>
+    <string name="pirate_ship_option_two">Greife an</string>
+
+    <string name="top_of_deck">Top of deck</string>
+   
+    <string name="saboteur_part">Ersetze die sabotierte Karte: Wähle</string>
+   
+    <string name="mandarin_part">Lege oben auf den Nachziehstapel: Wähle</string>
+   
+    <string name="bureaucrat_part">Lege oben auf den Nachziehstapel: Wähle</string>
+   
+    <string name="masquerade_part">Gib Karte nach links: Wähle</string>
+   
+    <string name="mine_part">[Mine]: Wähle </string>
+   
+    <string name="militia_part">Miliz: Behalte</string>
+   
+    <string name="bishop_part">[Bischhof]: Entsorge</string>
+   
+    <string name="swindler_part">Ersetze erschwindelte Karte im Wert zu (%1$s): Wähle</string>
+   
+    <string name="margrave_part">[Markgraf]: Behalte</string>
+   
+    <string name="wishing_well_part">Errate die obere Karte: Wähle</string>
+   
+
+<string name="university_part">[Universität]: Nimm </string>
+
+
+  <!-- Expansions -->
+      <string name="Base">Basis</string>    
+      <string name="Intrigue">Die Intrige</string>    
+      <string name="Seaside">Seaside</string>    
+      <string name="Alchemy">Die Alchemisten</string>    
+      <string name="Prosperity">Blütezeit</string>    
+      <string name="Cornucopia">Reiche Ernte</string>    
+      <string name="Hinterlands">Hinterland</string>    
+  
+  <!-- Cards -->
+  <string name="Copper_name">Kupfer</string>
+  <string name="Copper_desc"></string>
+  <string name="Silver_name">Silber</string>
+  <string name="Silver_desc"></string>
+  <string name="Gold_name">Gold</string>
+  <string name="Gold_desc"></string>
+  <string name="Platinum_name">Platin</string>
+  <string name="Platinum_desc"></string>
+  <string name="Potion_name">Trank</string>
+  <string name="Potion_desc"></string>
+  <string name="Curse_name">Fluch</string>
+  <string name="Curse_desc"></string>
+  <string name="Estate_name">Anwesen</string>
+  <string name="Estate_desc"></string>
+  <string name="Duchy_name">Herzogtum</string>
+  <string name="Duchy_desc"></string>
+  <string name="Province_name">Provinz</string>
+  <string name="Province_desc"></string>
+  <string name="Colony_name">Kolonie</string>
+  <string name="Colony_desc"></string>
+  <string name="Moat_name">Burggraben</string>
+  <string name="Moat_desc">Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand aufdecken. Der Angriff hat dann keine Wirkung auf dich.</string>
+  <string name="Adventurer_name">Abenteurer</string>
+  <string name="Adventurer_desc">Decke solange Karten von deinem Nachziehstapel auf, bis 2 Geldkarten offen liegen. Nimm die Geldkarten auf die Hand, lege die übrigen aufgedeckten Karten ab.</string>
+  <string name="Bureaucrat_name">Bürokrat</string>
+  <string name="Bureaucrat_desc">Nimm dir ein Silber und lege es verdeckt auf deinen Nachziehstapel. Jeder Mitspieler muss eine Punktekarte aus seiner Hand aufdecken und sie verdeckt auf seinen Nachziehstapel legen. Hat ein Spieler keine Punktekarte auf der Hand, muss er seine Kartenhand vorzeigen.</string>
+  <string name="Cellar_name">Keller</string>
+  <string name="Cellar_desc">Lege eine beliebige Anzahl Karten aus deiner Hand ab. Ziehe für jede abgelegte Karte eine Karte nach.</string>
+  <string name="Chancellor_name">Kanzler</string>
+  <string name="Chancellor_desc">Du darfst sofort deinen kompletten Nachziehstapel ablegen.</string>
+  <string name="Chapel_name">Kapelle</string>
+  <string name="Chapel_desc">Entsorge bis zu 4 Karten aus deiner Hand.</string>
+  <string name="CouncilRoom_name">Ratsversammlung</string>
+  <string name="CouncilRoom_desc">Jeder Mitspieler zieht sofort eine Karte nach.</string>
+  <string name="Feast_name">Festmahl</string>
+  <string name="Feast_desc">Entsorge diese Karte. Nimm dir eine Karte, die bis zu 5 kostet.</string>
+  <string name="Festival_name">Jahrmarkt</string>
+  <string name="Festival_desc"></string>
+  <string name="Laboratory_name">Laboratorium</string>
+  <string name="Laboratory_desc"></string>
+  <string name="Library_name">Bibliothek</string>
+  <string name="Library_desc">Ziehe solange Karten nach, bis du 7 Karten auf der Hand hast. Aktionskarten darfst du zur Seite legen, sobald du sie ziehst. Die zur Seite gelegten Karten legst du ab, sobald du 7 Karten auf der Hand hast.</string>
+  <string name="Market_name">Markt</string>
+  <string name="Market_desc"></string>
+  <string name="Militia_name">Miliz</string>
+  <string name="Militia_desc">Jeder Mitspieler muss Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
+  <string name="Mine_name">Mine</string>
+  <string name="Mine_desc">Entsorge eine Geldkarte aus deiner Hand. Nimm dir eine Geldkarte, die bis zu 3 mehr kostet. Nimm diese Geldkarte sofort auf die Hand.</string>
+  <string name="MoneyLender_name">Geldverleiher</string>
+  <string name="MoneyLender_desc">Entsorge ein Kupfer aus deiner Hand. Wenn du das machst, + 3 Geld.</string>
+  <string name="Remodel_name">Umbau</string>
+  <string name="Remodel_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte die bis zu 2 mehr kostet als die entsorgte Karte.</string>
+  <string name="Smithy_name">Schmiede</string>
+  <string name="Smithy_desc"></string>
+  <string name="Spy_name">Spion</string>
+  <string name="Spy_desc">Jeder Spieler (auch du selbst) muss die oberste Karte von seinem Nachziehstapel aufdecken. Du entscheidest, ob er sie ablegen oder zurück auf seinen Nachziehstapel legen muss.</string>
+  <string name="Thief_name">Dieb</string>
+  <string name="Thief_desc">Jeder Mitspieler muss die obersten beiden Karten von seinem Nachziehstapel aufdecken. Haben die Mitspieler einer oder mehrere Geldkarten aufgedeckt, muss jeder eine davon (nach deiner Wahl) entsorgen. Du darfst eine beliebige Zahl der entsorgten Karten bei dir ablegen. Die übrigen aufgedeckten Karten legen die Spieler bei sich ab.</string>
+  <string name="ThroneRoom_name">Thronsaal</string>
+  <string name="ThroneRoom_desc">Wähle eine Aktionskarte aus deiner Hand. Spiele diese Aktionskarte zweimal aus.</string>
+  <string name="Village_name">Dorf</string>
+  <string name="Village_desc"></string>
+  <string name="Witch_name">Hexe</string>
+  <string name="Witch_desc">Jeder Mitspieler muss sich eine Fluchkarte nehmen.</string>
+  <string name="Woodcutter_name">Holzfäller</string>
+  <string name="Woodcutter_desc"></string>
+  <string name="Workshop_name">Werkstatt</string>
+  <string name="Workshop_desc">Nimm dir eine Karte, die bis zu 4 kostet.</string>
+  <string name="Gardens_name">Gärten</string>
+  <string name="Gardens_desc">Wert 1 Siegpunkt für je 10 Karten im eigenen Kartensatz (abgerundet).</string>
+  <string name="Torturer_name">Kerkermeister</string>
+  <string name="Torturer_desc">Jeder Spieler muss eins wählen: 2 Karten ablegen oder eine Fluchkarte auf die Hand nehmen.</string>
+  <string name="SecretChamber_name">Geheimkammmer</string>
+  <string name="SecretChamber_desc">Lege eine beliebige Anzahl Karten aus deiner Hand ab: + 1 Geld für jede abgelegte Karte. (Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand aufdecken. Wenn du das machst: +2 Karten; dann lege 2 Karten aus deiner Hand verdeckt auf den Nachziehstapel.)</string>
+  <string name="Nobles_name">Adelige</string>
+  <string name="Nobles_desc">Wähle eins: +3 Karten oder +2 Aktionen.</string>
+  <string name="Coppersmith_name">Kupferschmied</string>
+  <string name="Coppersmith_desc">Kupfer produziert in diesem Zug 1 mehr.</string>
+  <string name="Courtyard_name">Burghof</string>
+  <string name="Courtyard_desc">Lege eine Karte aus deiner Hand verdeckt auf deinen Nachziehstapel.</string>
+  <string name="Harem_name">Harem</string>
+  <string name="Harem_desc"></string>
+  <string name="Baron_name">Baron</string>
+  <string name="Baron_desc">Du darfst ein Anwesen ablegen. Wenn du das machst: +4 Geld. Ansonsten: Nimm dir ein Anwesen.</string>
+  <string name="Bridge_name">Brücke</string>
+  <string name="Bridge_desc">Alle Karten (auch die Karten die die Spieler auf der Hand halten) kosten in diesem Zug 1 Geld weniger, niemals jedoch weniger als 0.</string>
+  <string name="Conspirator_name">Verschwörer</string>
+  <string name="Conspirator_desc">Wenn du in diesem Zug 3 oder mehr Aktionskarten ausgespielt hast (diese eingeschlossen): +1 Karte, +1 Aktion</string>
+  <string name="Ironworks_name">Eisenhütte</string>
+  <string name="Ironworks_desc">Nimm dir eine Karte, die bis zu 4 kostet. Ist es eine... Aktionskarte : +1 Aktion. Geldkarte: +1 Geld. Punktekarte: +1 Karte.</string>
+  <string name="Masquerade_name">Maskerade</string>
+  <string name="Masquerade_desc">Alle Spieler (auch du selbst) müssen gleichzeitig eine Karte aus ihrer Hand an ihren linken Nachbarn weiter geben. Danach darfst du eine Karte aus deiner Hand entsorgen.</string>
+  <string name="MiningVillage_name">Bergwerk</string>
+  <string name="MiningVillage_desc">Du darfst diese Karte sofort entsorgen. Wenn du das machst: + 2 Geld.</string>
+  <string name="Minion_name">Lakai</string>
+  <string name="Minion_desc">Wähle eins: +2 Geld ; Oder lege alle deine Handkarten ab: +4 Karten. Jeder Mitspieler, der mindestens 5 Karten auf der Hand hat, muss alle seine Handkarten ablegen und 4 Karten nachziehen.</string>
+  <string name="Pawn_name">Handlanger</string>
+  <string name="Pawn_desc">Wähle zwei verschiedene: +1 Aktion, +1 Karte, +1 Kauf, +1 Geld</string>
+  <string name="Saboteur_name">Saboteur</string>
+  <string name="Saboteur_desc">Jeder Mitspieler muss solange Karten von seinem Nachziehstapel aufdecken, bis er eine Karte aufdeckt, die 3 oder mehr kostet. Er muss diese Karte entsorgen und darf sich eine Karte nehmen, die mindestens 2 weniger kostet. Die übrigen aufgedeckten Karten legt er ab.</string>
+  <string name="ShantyTown_name">Armenviertel</string>
+  <string name="ShantyTown_desc">Decke deine Kartenhand auf. Wenn du keine Aktionskarte auf der Hand hast: +2 Karten.</string>
+  <string name="Scout_name">Späher</string>
+  <string name="Scout_desc">Decke die obersten 4 Karten von deinem Nachziehstapel auf. Nimm alle aufgedeckten Punktekarten auf die Hand. Lege die übrigen Karten in beliebiger Reihenfolge verdeckt zurück auf deinen Nachziehstapel.</string>
+  <string name="Steward_name">Verwalter</string>
+  <string name="Steward_desc">Wähle eins: +2 Karten oder +2 Geld oder entsorge genau 2 Karten aus deiner Hand.</string>
+  <string name="Swindler_name">Trickser</string>
+  <string name="Swindler_desc">Jeder Spieler muss die oberste Karte seines Nachziehstapels entsorgen. Du wählst eine Karte, die das gleiche kostet, wie die entsorgte Karte. Diese Karte muss sich der Spieler nehmen.</string>
+  <string name="TradingPost_name">Handelsposten</string>
+  <string name="TradingPost_desc">Entsorge 2 Karten aus deiner Hand. Wenn du das machst: Nimm dir ein Silber auf die Hand.</string>
+  <string name="WishingWell_name">Wunschbrunnen</string>
+  <string name="WishingWell_desc">Benenne eine Karte. Decke die oberste Karte von deinem Nachziehstapel auf. Wenn es die benannte Karte ist, nimm sie auf die Hand.</string>
+  <string name="Upgrade_name">Anbau</string>
+  <string name="Upgrade_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die genau 1 Geld mehr kostet als die entsorgte Karte.</string>
+  <string name="Tribute_name">Tribut</string>
+  <string name="Tribute_desc">Dein linker Nachbar muss die beiden obersten Karten von seinem Nachziehstapel aufdecken und diese ablegen. Für jede Karte mit unterschiedlichem Namen erhältst du etwas. Bei einer... Aktionskarte: +2 Aktionen. Geldkarte: +2 Geld. Punktekarte: +2 Karten.</string>
+  <string name="GreatHall_name">Große Halle</string>
+  <string name="GreatHall_desc"></string>
+  <string name="Duke_name">Herzog</string>
+  <string name="Duke_desc">Wert 1 Siegpunkt pro Herzogtum im eigenen Kartensatz.</string>
+  <string name="Haven_name">Hafen</string>
+  <string name="Haven_desc">Lege eine Karte aus deiner Hand verdeckt zur Seite. Bei Beginn deines nächsten Zuges, nimm die zur Seite gelegte Karte auf die Hand.</string>
+  <string name="SeaHag_name">Seehexe</string>
+  <string name="SeaHag_desc">Jeder Mitspieler muss die oberste Karte seines Nachziehstapels ablegen und sich dann einen Fluch nehmen, den er verdeckt auf seinen Nachziehstapel legt.</string>
+  <string name="Tactician_name">Taktiker</string>
+  <string name="Tactician_desc">Lege deine übrigen Handkarten ab. Wenn du auf diese Weise mindestens eine Karte abgelegt hast: Bei Beginn deines nächsten Zuges: +5 Karten, +1 Kauf und +1 Aktion.</string>
+  <string name="Caravan_name">Karawane</string>
+  <string name="Caravan_desc"></string>
+  <string name="Lighthouse_name">Leuchtturm</string>
+  <string name="Lighthouse_desc">Solange diese Karte im Spiel ist, bist du von Angriffen deiner Mitspieler nicht betroffen.</string>
+  <string name="FishingVillage_name">Fischerdorf</string>
+  <string name="FishingVillage_desc"></string>
+  <string name="Wharf_name">Werft</string>
+  <string name="Wharf_desc"></string>
+  <string name="MerchantShip_name">Handelsschiff</string>
+  <string name="MerchantShip_desc"></string>
+  <string name="Outpost_name">Aussenposten</string>
+  <string name="Outpost_desc">Ziehe in der folgenden Aufräumphase nur 3 Karten nach. Führe danach sofort einen weiteren Zug aus. Du kannst auf diese Weise nur einen weiteren zug ausführen.</string>
+  <string name="GhostShip_name">Geisterschiff</string>
+  <string name="GhostShip_desc">Jeder Mitspieler, der mindestens 4 Karten auf der Hand hat, muss solange Karten aus seiner Hand verdeckt auf seinen Nachziehstapel legen, bis er nur noch 3 Karten auf der Hand hat.</string>
+  <string name="Salvager_name">Müllverwerter</string>
+  <string name="Salvager_desc">Entsorge eine Karte aus deiner Hand. +X Geld entsprechend den Kosten der entsorgten Karte.</string>
+  <string name="PirateShip_name">Piratenschiff</string>
+  <string name="PirateShip_desc">Wähle eins: Jeder Spieler muss die obersten beiden Karten von seinem Nachziehstapel aufdecken. Haben die Mitspieler eine oder mehrere Geldkarten aufgedeckt, muss jeder eine davon (nach deiner Wahl) entsorgen. Wenn auf diese Weise mindestens 1 Geldkarte entsorgt wird, erhälst du 1 Geldmarker auf dein Tableau piratenschiff. Die übrigen aufgedeckten Karten legen die Spieler bei sich ab. Oder: +1 Geld für jeden deiner Geldmarker auf deinem Tableau Piratenschiff.</string>
+  <string name="NativeVillage_name">Eingeborenendorf</string>
+  <string name="NativeVillage_desc">Wähle eins: Lege die oberste Karte von deinem Nachziehstapel verdeckt zur Seite auf dein Tableau Eingeborenendorf. Oder: Nimm alle Karten von deinem Tableau Eingeborenendorf auf die Hand.</string>
+  <string name="Island_name">Insel</string>
+  <string name="Island_desc">Lege diese Karte und eine andere aus deiner Hand offen zur Seite auf dein Tableau Insel. Nimm diese Karten am Ende des Spiels zurück in deinen Kartenstapel. 2 Siegpunkte am Ende des Spiels.</string>
+  <string name="Cutpurse_name">Beutelschneider</string>
+  <string name="Cutpurse_desc">Jeder Spieler muss ein Kupfer aus seiner Hand ablegen. Hat ein Spieler kein Kupfer auf der Hand, muss er seine Kartenhand vorzeigen.</string>
+  <string name="Bazaar_name">Bazar</string>
+  <string name="Bazaar_desc"></string>
+  <string name="Smugglers_name">Schmuggler</string>
+  <string name="Smugglers_desc">Nimm dir eine Karte, die der Spieler rechts von dir in seinem letzten Zug genommen oder gekauft hat und die bis zu 6 Geld kostet.</string>
+  <string name="Explorer_name">Entdecker</string>
+  <string name="Explorer_desc">Du darfst eine Provinz aus deiner Hand aufdecken. Wenn du das machst: Nimm dir ein Gold auf die Hand. Ansonsten: Nimm dir ein Silber auf die Hand.</string>
+  <string name="PearlDiver_name">Perlentaucher</string>
+  <string name="PearlDiver_desc">Sieh dir die unterste Karte deines Nachziehstapels an. Du darfst diese Karte verdeckt auf deinen Nachziehstapel legen.</string>
+  <string name="TreasureMap_name">Schatzkarte</string>
+  <string name="TreasureMap_desc">Entsorge diese und eine weitere Schatzkarte aus deiner Hand. Wenn du das machst: Nimm dir 4 Gold und lege diese verdeckt auf deinen Nachziehstapel.</string>
+  <string name="Navigator_name">Navigator</string>
+  <string name="Navigator_desc">Sieh die obersten 5 Karten von deinem Nachziehstapel an. Lege entweder alle diese Karten ab oder lege sie in beliebiger Reihenfolge verdeckt zurück auf deinen Nachziehstapel.</string>
+  <string name="Treasury_name">Schatzkammer</string>
+  <string name="Treasury_desc">Wenn du in diesem Zug keine Punktekarte gekauft hast und diese Karte im Spiel ist, darfst du diese Karte verdeckt auf deinen Nachziehstapel legen, anstatt sie abzulegen.</string>
+  <string name="Lookout_name">Ausguck</string>
+  <string name="Lookout_desc">Sieh dir die obersten 3 Karten von deinem Nachziehstapel an. Entsorge eine davon. Lege eine davon ab. Lege eine davon verdeckt zurück auf deinen Nachziehstapel.</string>
+  <string name="Ambassador_name">Botschafter</string>
+  <string name="Ambassador_desc">Decke eine Karte aus deiner Hand auf. Lege bis zu 2 Karten aus deiner Hand zurück in den Vorrat. Jeder Mitspieler muss sich eine solche Karte vom Vorrat nehmen.</string>
+  <string name="Warehouse_name">Lagerhaus</string>
+  <string name="Warehouse_desc">Lege 3 Karten aus Deiner Hand ab.</string>
+  <string name="Embargo_name">Embargo</string>
+  <string name="Embargo_desc">Entsorge diese Karte. Lege einen Embargomarker auf einen Stapel im Vorrat. Wenn ein Spiele eine Karte von diesem Stapel kauft, muss er sich für jeden Embargomarker einen Fluch nehmen.</string>
+  <string name="Alchemist_name">Alchemist</string>
+  <string name="Alchemist_desc">Wenn diese Karte und ein Trank im Spiel sind und du den Alchemisten ablegst, darfst du diesen verdeckt auf deinen Nachziehstapel legen.</string>
+  <string name="Apothecary_name">Apotheker</string>
+  <string name="Apothecary_desc">Decke die 4 obersten Karten von deinem Nachziehstapel auf. Nimm alle aufgedeckten Kupfer und Tränke auf die Hand. Lege die übrigen Karten in beliebiger Reihenfolge verdeckt zurück auf deinen Nachziehstapel.</string>
+  <string name="Apprentice_name">Lehrling</string>
+  <string name="Apprentice_desc">Entsorge eine Karte aus deiner Hand. +1 Karte pro Geld, das die Karte kostet und zusätzlich +2 Karten wenn sie einen Trank kostet.</string>
+  <string name="Familiar_name">Vertrauter</string>
+  <string name="Familiar_desc">Jeder Mitspieler muss sich eine Fluchkarte nehmen.</string>
+  <string name="Golem_name">Golem</string>
+  <string name="Golem_desc">Decke so lange Karten von deinem Nachziehstapel auf, bis 2 Aktionskarten (ausser Golem-Karten) offen liegen. Lege sofort alle übrigen aufgedeckten Karten ab und spiele die beiden Aktionskarten in beliebiger Reihenfolge.</string>
+  <string name="Herbalist_name">Kräuterkundiger</string>
+  <string name="Herbalist_desc">Wenn diese Karte im Spiel ist und du sie ablegst, darfst du eine deiner Geldkarten im Spiel verdeckt oben auf deinen Nachziehstapel legen.</string>
+  <string name="PhilosophersStone_name">Stein der Weisen</string>
+  <string name="PhilosophersStone_desc">Zähle die Karten in deinem Nachziehstapel und die Karten in deinem Ablagestapel. Wert 1 GE für je 5 Karten der Summe beider Stapel (abgerundet).</string>
+  <string name="Possession_name">Besessenheit</string>
+  <string name="Possession_desc">Der Spieler links von dir führt einen Extra-Zug direkt nach diesem aus. Dabei siehst du alle Karten, die auch er sieht und du fällst alle Entscheidungen für ihn. Alle Karten, die er nimmt oder kauft, legst du auf deinen Ablagestapel. Alle Karten, die er in diesem Zug entsorgt, werden zur Seite gelegt und am Ende des Zuges auf seinen Ablagestapel gelegt.</string>
+  <string name="ScryingPool_name">Vision</string>
+  <string name="ScryingPool_desc">Jeder Spieler (auch du selbst) muss die oberste Karte von seinem Nachziehstapel aufdecken. Du entscheidest, ob er sie ablegen, oder auf seinen Nachziehstapel zurücklegen muss. Dann deckst du solange Karten von deinem Nachziehstapel auf, bis du eine Karte aufdeckst, die keine Aktionskarte ist. Nimm alle aufgedeckten Karten auf die Hand.</string>
+  <string name="Transmute_name">Verwandlung</string>
+  <string name="Transmute_desc">Entsorge eine Karte aus deiner Hand. Ist es eine... Aktionskarte: nimm dir ein Herzogtum; eine Geldkarte: nimm dir eine Verwandlung; eine Punktekarte: nimm dir ein Gold.</string>
+  <string name="University_name">Universität</string>
+  <string name="University_desc">Du darfst dir eine Aktionskarte nehmen, die bis zu 5 Geld kostet.</string>
+  <string name="Vineyard_name">Weinberg</string>
+  <string name="Vineyard_desc">Wert 1 Siegpunkt für je 3 Aktionskarten im eigenen Kartensatz (abgerundet).</string>
+  <string name="Bank_name">Bank</string>
+  <string name="Bank_desc">Wert 1 Geld für jede Geldkarte, die im Spiel ist (diese eingeschlossen).</string>
+  <string name="Bishop_name">Bischof</string>
+  <string name="Bishop_desc">Entsorge eine Karte aus deiner Hand. Wenn du das machst: Punktemarker entsprechend der Hälfte der Geld-Kosten der entsorgten Karte (abgerundet). Jeder Mitspieler darf sofort eine Karte aus seiner Hand entsorgen.</string>
+  <string name="City_name">Stadt</string>
+  <string name="City_desc">Wenn im Vorrat genau ein Stapel leer ist: +1 Karte. Oder, wenn 2 oder mehr Stapel leer sind: +1 Karte, +1 Geld, +1 Kauf.</string>
+  <string name="Contraband_name">Schmuggelware</string>
+  <string name="Contraband_desc">Wenn du diese Karte auslegst, benennt der Spieler links von dir eine Karte. Du darfst diese Karte nicht kaufen.</string>
+  <string name="CountingHouse_name">Leihhaus</string>
+  <string name="CountingHouse_desc">Sieh deinen Ablagestapel durch, decke eine beliebige Anzahl Kupfer daraus auf und nimm diese auf die Hand.</string>
+  <string name="Expand_name">Ausbau</string>
+  <string name="Expand_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die bis zu 3 Geld mehr kostet als die entsorgte Karte.</string>
+  <string name="Forge_name">Kunstschmiede</string>
+  <string name="Forge_desc">Entsorge eine beliebige Anzahl Karten aus deiner Hand. Nimm dir eine Karte mit genau den gleichen Geld-Kosten wie die entsorgten Karten zusammen gekostet haben.</string>
+  <string name="Goons_name">Halsabschneider</string>
+  <string name="Goons_desc">Jeder Mitspieler muss so lange Karten ablegen, bis er nur noch 3 Karten auf der Hand hat. Wenn diese Karte im Spiel ist und du eine Karte kaufst: +1 Punktemarker.</string>
+  <string name="GrandMarket_name">Großer Markt</string>
+  <string name="GrandMarket_desc">Du darfst diese Karte nicht kaufen, wenn du Kupfer im Spiel hast.</string>
+  <string name="Hoard_name">Hort</string>
+  <string name="Hoard_desc">Wenn diese Karte im Spiel ist und du eine Punktekarte kaufst: Nimm dir ein Gold.</string>
+  <string name="KingsCourt_name">Königshof</string>
+  <string name="KingsCourt_desc">Wähle eine Aktionskarte aus deiner Hand. Spiele diese Aktionskarte dreimal aus.</string>
+  <string name="Loan_name">Lohn</string>
+  <string name="Loan_desc">Wenn du diese Karte ausspielst, decke solange Karten von deinem Nachziehstapel auf, bis eine Geldkarte offen liegt. entsorge die Geldkarte oder lege sie ab. Lege die übrigen aufgedeckten Karten ab.</string>
+  <string name="Mint_name">Münzer</string>
+  <string name="Mint_desc">Du darfst eine Geldkarte aus deiner Hand aufdecken. Nimm die eine Geldkarte mit dem gleichen Namen. Wenn du den Münzer kaufst, entsorge alle Geldkarten, die du im Spiel hast.</string>
+  <string name="Monument_name">Denkmal</string>
+  <string name="Monument_desc"></string>
+  <string name="Mountebank_name">Quacksalber</string>
+  <string name="Mountebank_desc">Jeder Mitspieler darf eine Fluchkarte aus seiner Hand ablegen. Wenn er das nicht macht, muss er sich einen Fluch und ein Kupfer nehmen.</string>
+  <string name="Peddler_name">Hausierer</string>
+  <string name="Peddler_desc">Diese Karte kostet in der Kaufphase 2 Geld weniger für jede Aktionskarte die du im Spiel hast, niemals jedoch weniger als 0 Geld.</string>
+  <string name="Quarry_name">Steinbruch</string>
+  <string name="Quarry_desc">Wenn diese Karte im Spiel ist, kostet jede Aktionskarte 2 Geld weniger, niemals jedoch weniger als 0 Geld.</string>
+  <string name="Rabble_name">Gesindel</string>
+  <string name="Rabble_desc">Jeder Mitspieler deckt die obersten 3 Karten von seinem Nachziehstapel auf. Er muss alle aufgedeckten Aktions- und Geldkarten ablegen. Die übrigen aufgedeckten Karten legt er in beliebiger Reihenfolge zurück auf seinen Nachziehstapel.</string>
+  <string name="RoyalSeal_name">Königliches Siegel</string>
+  <string name="RoyalSeal_desc">Wenn diese Karte im Spiel ist und du eine Karte nimmst oder kaufst, darfst du die neue Karte sofort auf deinen Nachziehstapel legen.</string>
+  <string name="Talisman_name">Talismann</string>
+  <string name="Talisman_desc">Wenn diese Karte im Spiel ist und du eine Karte kaufst, die 4 Geld oder weniger kostet und keine Punktekarte ist, nimm dir eine weitere Karte mit gleichem Namen.</string>
+  <string name="TradeRoute_name">Handelsroute</string>
+  <string name="TradeRoute_desc">+1 Geld pro Marker auf dem Tableau Handelsroute. Entsorge eine Karte aus deiner Hand. Aufbau: Lege einen Marker auf jeden Punktekartenstapel. Wenn eine Karte von einem Punktekartenstapel gekauft oder genommen wird, lege den Marker auf das Tableau Handelsroute.</string>
+  <string name="Vault_name">Gewölbe</string>
+  <string name="Vault_desc">Lege eine beliebige Anzahl Karten aus deiner Hand ab: +1 Geld für jede abgelegte Karte. Jeder Mitspieler darf 2 Karten aus seine Hand ablegen. Wenn er genau 2 Karten ablegt, zieht er eine Karte nach.</string>
+  <string name="Venture_name">Abenteuer</string>
+  <string name="Venture_desc">Wenn du diese Karte ausspielst, decke solange Karten von deinem Nachziehstapel auf, bis eine Geldkarte offen liegt. Lege diese Geldkarte aus. Lege die übrigen aufgedeckten Karten ab.</string>
+  <string name="WatchTower_name">Wachturm</string>
+  <string name="WatchTower_desc">Ziehe solange Karten nach, bis du 6 Karten auf der Hand hast. Wenn du eine Karte nimmst oder kaufst darfst du den Wachturm aus deiner Handaufdecken. Wenn du das machst: Entsorge die neue Karte oder lege sie sofort auf deinen Nachziehstapel.</string>
+  <string name="WorkersVillage_name">Arbeiterdorf</string>
+  <string name="WorkersVillage_desc"></string>
+  <string name="Fairgrounds_name">Festplatz</string>
+  <string name="Fairgrounds_desc">Wert 2 Siegpunkte für je 5 unterschiedliche Karten im eigenen Kartensatz (abgerundet).</string>
+  <string name="FarmingVillage_name">Bauerndorf</string>
+  <string name="FarmingVillage_desc">Decke solange Karten vom Nachziehstapel auf, bis entweder eine Aktionskarte oder eine Geldkarte offen liegen. Nimm diese Karte auf die Hand, lege die übrigen aufgedeckten Karten ab.</string>
+  <string name="FortuneTeller_name">Wahrsagerin</string>
+  <string name="FortuneTeller_desc">Jeder Mitspieler muss solange Karten von seinem Nachziehstapel aufdecken, bis entweder eine Punktekarte oder eine Fluchkarte offen liegt. Diese aufgedeckte Karte muss er auf seinen Nachziehstapel legen. Die übrigen aufgedeckten Karten legt er ab.</string>
+  <string name="Hamlet_name">Weiler</string>
+  <string name="Hamlet_desc">Du darfst eine Karte aus deiner Hand ablegen. Wenn du das machst: +1 Aktion. Du darfst eine Karte aus deiner Hand ablegen. Wenn du das machst: +1 Kauf.</string>
+  <string name="Harvest_name">Ernte</string>
+  <string name="Harvest_desc">Decke die 4 obersten Karten von deinem Nachziehstapel auf. Lege die aufgedeckten Karten ab. +1 Geld pro aufgedeckter Karte mit unterschiedlichem Namen.</string>
+  <string name="HornofPlenty_name">Füllhorn</string>
+  <string name="HornofPlenty_desc">Nimm dir eine Karte, die 1 Geld pro Karte mit unterschiedlichem Namen im Spiel (diese eingeschlossen) kostet. Nimmst du dir eine Punktekarte, entsorge das Füllhorn.</string>
+  <string name="HorseTraders_name">Pferdehändler</string>
+  <string name="HorseTraders_desc">Lege 2 Karten aus deiner Hand ab. Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand zur Seite legen. Wenn du das machst: Bei Beginn deines nächsten Zuges +1 Karte und nimm diese Karte wieder auf die Hand.</string>
+  <string name="HuntingParty_name">Jagdgesellschaft</string>
+  <string name="HuntingParty_desc">Decke deine Kartenhand auf. Decke solange Karten von deinem Nachziehstapel auf, bis eine Karte mit anderem Namen als deine Handkarten offen liegt. Nimm diese aufgedeckte Karte auf die Hand. Lege die übrigen aufgedeckten Karten ab.</string>
+  <string name="Jester_name">Harlekin</string>
+  <string name="Jester_desc">Jeder Mitspieler muss die oberste Karte seines Nachziehstapels ablegen. Ist es eine Punktekarte, muss er sich einen Fluch nehmen. Ansonsten muss sich entweder er oder du eine Karte mit gleichem Namen nehmen. Du entscheidest.</string>
+  <string name="Menagerie_name">Menagerie</string>
+  <string name="Menagerie_desc">Decke deine Handkarten auf. Hast du keine Karte mit gleichem Namen auf der Hand: +3 Karten. Ansonsten: +1 Karte.</string>
+  <string name="Remake_name">Nachbau</string>
+  <string name="Remake_desc">Mache dies zweimal: Entsorge eine Karte aus deiner Hand. Dann nimm dir eine Karte, die genau 1 Geld mehr kostet als die entsorgte Karte.</string>
+  <string name="Tournament_name">Turnier</string>
+  <string name="Tournament_desc">Jeder Spieler darf eine Provinz aus der Hand aufdecken. Wenn du das machst, lege die Provinz ab und nimm dir einen Preis (vom Preisstapel) oder ein Herzogtum. Lege die neue Karte auf deinen Nachziehstapel. Wenn es kein Mitspieler macht: +1 Karte und +1 Geld.</string>
+  <string name="YoungWitch_name">Junge Hexe</string>
+  <string name="YoungWitch_desc">Lege 2 Karten aus deiner Hand ab. Jeder Mitspieler darf eine Verderbniskarte aus seiner hand aufdecken. Wenn er das nicht macht, muss er sich einen Fluch nehmen. Aufbau: Vor dem Spiel wird ein zusätzlicher Königreichkartenstapel der entwerder 2 oder 3 Geld kostet gebildet. Die Karten dieses Stapels sind Verderbniskarten.</string>
+  <string name="BorderVillage_name">Grenzdorf</string>
+  <string name="BorderVillage_desc">Wenn du das Grenzdorf nimmst, nimm dir eine Karte, die weniger kostet als das Grenzdorf.</string>
+  <string name="Cache_name">Schatztruhe</string>
+  <string name="Cache_desc">Wenn du die Schatztruhe nimmst, nimm dir 2 Kupfer.</string>
+  <string name="Cartographer_name">Kartograph</string>
+  <string name="Cartographer_desc">Sieh dir die obersten 4 Karten von deinem Nachziehstapel an. lege beliebig viele davon ab. Lege den Rest davon in beliebiger Reihenfolge zurück auf deinen Nachziehstapel.</string>
+  <string name="Crossroads_name">Wegkreuzung</string>
+  <string name="Crossroads_desc">Decke deine Kartenhand auf. +1 Karte pro aufgedeckter Punktekarte. Wenn du zum ersten Mal in diesem Zug eine Wegkreuzung ausspielst: +3 Aktionen.</string>
+  <string name="Develop_name">Aufbau</string>
+  <string name="Develop_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die genau 1 Geld mehr kostet als die entsorgte Karte und numm dir eine Karte, die genau 1 Geld weniger kostet als die entsorgte Karte. Du entscheidest, in welcher Reihenfolge du diese beiden Karten nimmst. Lege beide Karten sofort auf deinen Nachziehstapel.</string>
+  <string name="Duchess_name">Herzogin</string>
+  <string name="Duchess_desc">Jeder Spieler (auch du selber) sieht sich die oberste Karte von seinem Nachziehstapel an und entscheidet, ob er die Karte ablegt oder zurück auf den Nachziehstapel legt. Wird die Herzogin im Spiel verwendet, darfst du dir immer, wenn du ein Herzogtum nimmst, eine Herzogin nehmen.</string>
+  <string name="Embassy_name">Botschaft</string>
+  <string name="Embassy_desc">Lege 3 Karten aus deiner Hand ab. Wenn du die Botschaft nimmst, muss sich jeder Mitspieler ein Silber nehmen.</string>
+  <string name="Farmland_name">Fruchtbares Land</string>
+  <string name="Farmland_desc">Wenn du das Fruchtbare Land kaufst, entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die genau 2 Geld mehr kostet als die entsorgte Karte.</string>
+  <string name="FoolsGold_name">Katzengold</string>
+  <string name="FoolsGold_desc">Wenn du das Katzengold zum ersten Mal in diesem Zug ausspielst, ist es 1 Geld wert, ansonsten ist es 4 geld wert. - Wenn ein Mitspieler eine Provinz nimmt, darfst du diese Karte aus deiner Hand entsorgen. Wenn du das machst: Nimm dir ein Gold und lege es auf deinen Nachziehstapel.</string>
+  <string name="Haggler_name">Feilscher</string>
+  <string name="Haggler_desc">Wenn du eine Karte kaufst und der Feilscher im Spiel ist: Nimm dir eine Karte, die weniger kostet als die gerade gekaufte und die keine Punktekarte ist.</string>
+  <string name="Highway_name">Fernstrasse</string>
+  <string name="Highway_desc">Wenn diese Karte im Spiel ist, kosten alle Karten 1 Geld weniger, niemals jedoch weniger als 0.</string>
+  <string name="IllGottenGains_name">Blutzoll</string>
+  <string name="IllGottenGains_desc">Wenn du den Blutzoll ausspielst, darfst du dir ein Kupfer nehmen. Nimm dieses sofort auf die Hand. - Wenn du den Blutzoll nimmst, muss sich jeder Mitspieler einen Fluch nehmen.</string>
+  <string name="Inn_name">Gasthaus</string>
+  <string name="Inn_desc">Lege 2 Karten aus deiner Hand ab. - Wenn du das Gasthaus nimmst, sieh dir deinen Ablagestapel durch, decke beliebig viele Aktionskarten (auch dieses Gasthaus) daraus auf und mische die aufgedeckten Karten in den Nachziehstapel.</string>
+  <string name="JackofallTrades_name">Lebenskünstler</string>
+  <string name="JackofallTrades_desc">Nimm dir ein Silber. Sieh dir die oberste Karte von deinem Nachziehstapel an und entscheide, ob du die Karte ablegst oder zurück auf deinen Nachziehstapel legst. Ziehe so lange Karten nach, bis du 5 Karten auf der Hand hast. Du darfst eine Karte aus deiner Hand entsorgen, die keine Geldkarte ist.</string>
+  <string name="Mandarin_name">Mandarin</string>
+  <string name="Mandarin_desc">Lege eine Karte aus deiner Hand zurück auf den Nachziehstapel. - Wenn du den Mandarin nimmst, lege alle Geldkarten, die du im Spiel hast, in beliebiger Reihenfolge zurück auf deinen Nachziehstapel.</string>
+  <string name="Margrave_name">Markgraf</string>
+  <string name="Margrave_desc">Jeder Mitspieler muss 1 Karte nachziehen und dann Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
+  <string name="NobleBrigand_name">Edler Räuber</string>
+  <string name="NobleBrigand_desc">Wenn du diese Karte kaufst oder ausspielst, muss jeder Mitspieler die obersten 2 Karten von seinem bNachziehstapel aufdecken. Hat er ein Gold oder ein Silber aufgedeckt, muss er dieses entsorgen. Hat der Spieler beides aufgedeckt, entscheidest Du, welche er entsorgen muss. Hat der Spieler keine Geldkarte aufgedeckt, muss er sich ein Kupfer nehmen. Die übrigen aufgedeckten Karten muss der Spieler ablegen. Du musst alle entsorgten Karten nehmen.</string>
+  <string name="NomadCamp_name">Nomadencamp</string>
+  <string name="NomadCamp_desc">Wenn du das Nomadencamp nimmst, lege es sofort auf deinen Nachziehstapel.</string>
+  <string name="Oasis_name">Oase</string>
+  <string name="Oasis_desc">Lege eine Karte aus deiner Hand ab.</string>
+  <string name="Oracle_name">Orakel</string>
+  <string name="Oracle_desc">Jeder Spieler (auch du selbst) muss die obersten 2 Karten von seinem Nachziehstapel aufdecken. Du entscheidest, ob er beide Karten ablegen oder (in der von ihm bestimmten Reihenfolge) zurück auf seinen Nachziehstapel legen muss. +2 Karten.</string>
+  <string name="Scheme_name">Komplott</string>
+  <string name="Scheme_desc">Zu Beginn deiner Aufräumphase darfst du eine deiner ausgespielten Aktionskarten wählen. Wenn du die gewählte Karte in dieser Aufräumphase ablegen würdest, darfst du sie stattdessen auf deinen Nachziehstapel legen.</string>
+  <string name="SilkRoad_name">Seidenstrasse</string>
+  <string name="SilkRoad_desc">Wert 1 Siegpunkt für je 4 Punktekarten im eigenen Kartensatz (abgerundet).</string>
+  <string name="SpiceMerchant_name">Gewürzhändler</string>
+  <string name="SpiceMerchant_desc">Du darfst eine Geldkarte aus deiner Hand entsorgen. Wenn du das machst, wähle eins: +2 Karten und +1 Aktion oder +2 Geld und +1 Kauf.</string>
+  <string name="Stables_name">Stallungen</string>
+  <string name="Stables_desc">Du darfst eine Geldkarte aus deiner Hand ablegen. Wenn du das machst: +3 Karten und +1 Aktion.</string>
+  <string name="Trader_name">Fahrender Händler</string>
+  <string name="Trader_desc">Entsorge eine Karte aus deiner Hand. Nimm dir so viele Silber, wie die Geld-Kosten der entsorgten Karte. - Wenn du eine Karte nehmen würdest, darfst du den Fahrenden Händler aus deiner Hand aufdecken. Wenn du das machst: Nimm dir statt der anderen Karte ein Silber.</string>
+  <string name="Tunnel_name">Tunnel</string>
+  <string name="Tunnel_desc">Wenn du diese Karte außerhalb der Aufräumphase ablegst, darfst du sie aufdecken. Wenn du das machst: Nimm dir ein Gold.</string>
+  <string name="Princess_name">Prinzessin</string>
+  <string name="Princess_desc">Wenn die Prinzessin im Spiel ist, kostet jede Karte 2 Geld weniger, jedoch nie weniger als 0 Geld.</string>
+  <string name="BagofGold_name">Ein Sack voll Gold</string>
+  <string name="BagofGold_desc">Nimm ein Gold und lege es verdeckt auf deinen Nachziehstapel.</string>
+  <string name="Diadem_name">Diadem</string>
+  <string name="Diadem_desc">Wenn das Diadem im Spiel ist, +1 Geld für jede nicht verbrauchte Aktion (Aktion, nicht Aktionskarte)</string>
+  <string name="Followers_name">Gefolge</string>
+  <string name="Followers_desc">Nimm ein Anwesen. Jeder Mitspieler muss einen Fluch nehmen und Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
+  <string name="TrustySteed_name">Streitroß</string>
+  <string name="TrustySteed_desc">Wähle zwei verschiedene: +2 Karten; +2 Aktionen; +2 Geld; Nimm 4 Silber und lege sofort deinen kompletten Nachziehstapel auf deinen Ablagestapel.</string>
 </resources>
