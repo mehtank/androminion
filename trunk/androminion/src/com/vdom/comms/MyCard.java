@@ -23,6 +23,7 @@ public class MyCard implements Serializable {
 	public boolean isAttack = false;
 	public boolean isDuration = false;
 	public boolean isPrize = false;
+	public boolean isPotion = false;
 	
 	public static final int SUPPLYPILE = 1;
 	public static final int MONEYPILE = 2;
