@@ -129,6 +129,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
            (c.equals(Cards.curse))) card.pile = MyCard.VPPILE;
     	
     	if (c.equals(Cards.curse)) card.isCurse = true; 
+        if (c.equals(Cards.potion)) card.isPotion = true; 
     	if (c instanceof VictoryCard) {
     		if (((VictoryCard) c).getVictoryPoints() > 1)
     			card.desc = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;

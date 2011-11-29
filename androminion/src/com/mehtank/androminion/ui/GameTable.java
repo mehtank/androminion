@@ -366,7 +366,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
         
         boolean potionInPlay = false;
         for (MyCard c : cards)
-            if(c.name.equals("Potion")) {
+            if(c.isPotion) {
                 potionInPlay = true;
                 break;
             }

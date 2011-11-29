@@ -185,7 +185,7 @@ public class CardView extends FrameLayout {
 		else if (c.isTreasure) {
 			fgColor = (Color.BLACK);
 			countColor = Color.BLACK;
-			if ("Potion".equals(c.name))
+			if (c.isPotion)
 				bgColor = (Color.rgb(0x33, 0xcc, 0xff));				
 			else if (c.gold == 1) 
 				bgColor = (Color.rgb(0xcf, 0xb5, 0x3b));
