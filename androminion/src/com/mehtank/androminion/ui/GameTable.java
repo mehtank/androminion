@@ -26,11 +26,11 @@ import android.widget.TextView;
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.Androminion.AlertType;
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.comms.Event;
-import com.mehtank.androminion.comms.GameStatus;
-import com.mehtank.androminion.comms.MyCard;
-import com.mehtank.androminion.comms.SelectCardOptions;
-import com.mehtank.androminion.comms.Event.EventObject;
+import com.vdom.comms.Event;
+import com.vdom.comms.GameStatus;
+import com.vdom.comms.MyCard;
+import com.vdom.comms.SelectCardOptions;
+import com.vdom.comms.Event.EventObject;
 
 public class GameTable extends LinearLayout implements OnClickListener, OnLongClickListener, OnSharedPreferenceChangeListener {
 	Androminion top;

@@ -5,6 +5,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -25,7 +26,7 @@ public class DominionServer extends Service {
 		if (!test().equals(stopped))
 			return;
 		
-        VDomServer.top = this;
+        Strings.context = this;
 		VDomServer.main(new String[] {
 				"Drew (AI)", "com.vdom.players.VDomPlayerDrew",
 				"Earl (AI)", "com.vdom.players.VDomPlayerEarl",

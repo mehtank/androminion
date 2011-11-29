@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.comms.Event;
+import com.vdom.comms.Event;
 
 public class SelectStringView extends BottomInputView implements AdapterView.OnItemClickListener {
 	ListView lv;

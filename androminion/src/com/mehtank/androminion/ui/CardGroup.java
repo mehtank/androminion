@@ -2,7 +2,7 @@ package com.mehtank.androminion.ui;
 
 import java.util.ArrayList;
 
-import com.mehtank.androminion.comms.MyCard;
+import com.vdom.comms.MyCard;
 
 import android.content.Context;
 import android.view.View;

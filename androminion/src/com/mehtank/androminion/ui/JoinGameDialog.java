@@ -1,8 +1,8 @@
 package com.mehtank.androminion.ui;
 
 import com.mehtank.androminion.Androminion;
-import com.mehtank.androminion.comms.Event;
-import com.mehtank.androminion.comms.Event.EType;
+import com.vdom.comms.Event;
+import com.vdom.comms.Event.EType;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

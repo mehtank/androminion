@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.mehtank.androminion.Androminion;
-import com.mehtank.androminion.comms.Event;
-import com.mehtank.androminion.comms.Event.EventObject;
+import com.vdom.comms.Event;
+import com.vdom.comms.Event.EventObject;
 
 import android.app.AlertDialog;
 import android.content.Context;

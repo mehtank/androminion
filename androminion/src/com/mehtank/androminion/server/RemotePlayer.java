@@ -6,15 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.comms.Comms;
-import com.mehtank.androminion.comms.Event;
-import com.mehtank.androminion.comms.GameStatus;
-import com.mehtank.androminion.comms.MyCard;
-import com.mehtank.androminion.comms.NewGame;
-import com.mehtank.androminion.comms.SelectCardOptions;
-import com.mehtank.androminion.comms.EventHandler;
-import com.mehtank.androminion.comms.Event.EType;
-import com.mehtank.androminion.comms.Event.EventObject;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.Cards;
@@ -24,6 +15,15 @@ import com.vdom.api.GameEvent.Type;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.comms.Comms;
+import com.vdom.comms.Event;
+import com.vdom.comms.EventHandler;
+import com.vdom.comms.GameStatus;
+import com.vdom.comms.MyCard;
+import com.vdom.comms.NewGame;
+import com.vdom.comms.SelectCardOptions;
+import com.vdom.comms.Event.EType;
+import com.vdom.comms.Event.EventObject;
 import com.vdom.core.CardList;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
@@ -98,9 +98,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 	public static MyCard makeMyCard(Card c, int index){
 //    	MyCard card = new MyCard(index, c.getName());
 	    
-        MyCard card = new MyCard(index, Strings.getCardName(top, c));
-    	card.desc = Strings.getCardDescription(top, c);
-    	card.expansion = Strings.getCardExpansion(top, c);
+        MyCard card = new MyCard(index, Strings.getCardName(c));
+    	card.desc = Strings.getCardDescription(c);
+    	card.expansion = Strings.getCardExpansion(c);
     	card.cost = c.getCost();
     	card.costPotion = c.costPotion();
 
@@ -131,13 +131,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	if (c.equals(Cards.curse)) card.isCurse = true; 
     	if (c instanceof VictoryCard) {
     		if (((VictoryCard) c).getVictoryPoints() > 1)
-    			card.desc = Strings.format(top, R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
+    			card.desc = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
     		else if (((VictoryCard) c).getVictoryPoints() > 0)
-                card.desc = Strings.format(top, R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
+                card.desc = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
             else if (((VictoryCard) c).getVictoryPoints() < -1)
-                card.desc = Strings.format(top, R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
+                card.desc = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
             else if (((VictoryCard) c).getVictoryPoints() < 0)
-                card.desc = Strings.format(top, R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
+                card.desc = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
     		card.isVictory = true;
     		card.vp = ((VictoryCard) c).getVictoryPoints();
     	}
@@ -152,27 +152,27 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	
     		if (c instanceof DurationCard) {
     			DurationCard dc = (DurationCard) c;
-        		if (dc.getAddGoldNextTurn() > 0) card.desc = Strings.format(top, R.string.coin_next_turn, "" + dc.getAddGoldNextTurn()) + "\n" + card.desc;
-        		if (dc.getAddBuysNextTurn() > 1) card.desc = Strings.format(top, R.string.buys_next_turn_multiple, "" + dc.getAddBuysNextTurn()) + "\n" + card.desc;
-        		else if (dc.getAddBuysNextTurn() > 0) card.desc = Strings.format(top, R.string.buy_next_turn_single, "" + dc.getAddBuysNextTurn()) + "\n" + card.desc;
-        		if (dc.getAddActionsNextTurn() > 1) card.desc =  Strings.format(top, R.string.actions_next_turn_multiple, "" + dc.getAddActionsNextTurn()) + "\n" + card.desc;
-        		else if (dc.getAddActionsNextTurn() > 0) card.desc =  Strings.format(top, R.string.action_next_turn_single, "" + dc.getAddActionsNextTurn()) + "\n" + card.desc;
-        		if (dc.getAddCardsNextTurn() > 1) card.desc = Strings.format(top, R.string.cards_next_turn_multiple, "" + dc.getAddCardsNextTurn()) + "\n" + card.desc;
-        		else if (dc.getAddCardsNextTurn() > 0) card.desc = Strings.format(top, R.string.card_next_turn_single, "" + dc.getAddCardsNextTurn()) + "\n" + card.desc;
+        		if (dc.getAddGoldNextTurn() > 0) card.desc = Strings.format(R.string.coin_next_turn, "" + dc.getAddGoldNextTurn()) + "\n" + card.desc;
+        		if (dc.getAddBuysNextTurn() > 1) card.desc = Strings.format(R.string.buys_next_turn_multiple, "" + dc.getAddBuysNextTurn()) + "\n" + card.desc;
+        		else if (dc.getAddBuysNextTurn() > 0) card.desc = Strings.format(R.string.buy_next_turn_single, "" + dc.getAddBuysNextTurn()) + "\n" + card.desc;
+        		if (dc.getAddActionsNextTurn() > 1) card.desc =  Strings.format(R.string.actions_next_turn_multiple, "" + dc.getAddActionsNextTurn()) + "\n" + card.desc;
+        		else if (dc.getAddActionsNextTurn() > 0) card.desc =  Strings.format(R.string.action_next_turn_single, "" + dc.getAddActionsNextTurn()) + "\n" + card.desc;
+        		if (dc.getAddCardsNextTurn() > 1) card.desc = Strings.format(R.string.cards_next_turn_multiple, "" + dc.getAddCardsNextTurn()) + "\n" + card.desc;
+        		else if (dc.getAddCardsNextTurn() > 0) card.desc = Strings.format(R.string.card_next_turn_single, "" + dc.getAddCardsNextTurn()) + "\n" + card.desc;
 
     			card.isDuration = true;
     		} else if (((ActionCard) c).isAttack()) card.isAttack = true;
         	else if ((c.equals(Cards.moat)) || (c.equals(Cards.secretChamber)) || (c.equals(Cards.watchTower)) || (c.equals(Cards.horseTraders))) card.isReaction = true;
 
-    		if (ac.getAddGold() > 0) card.desc = Strings.format(top, R.string.card_coin, "" + ac.getAddGold()) + "\n" + card.desc;
-    		if (ac.getAddBuys() > 1) card.desc = Strings.format(top, R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + card.desc;
-    		else if (ac.getAddBuys() > 0) card.desc = Strings.format(top, R.string.card_buy_single, "" + ac.getAddBuys()) + "\n" + card.desc;
-    		if (ac.getAddActions() > 1) card.desc = Strings.format(top, R.string.card_actions_multiple, "" + ac.getAddActions()) + "\n" + card.desc;
-    		else if (ac.getAddActions() > 0) card.desc = Strings.format(top, R.string.card_action_single, "" + ac.getAddActions()) + "\n" + card.desc;
-    		if (ac.getAddCards() > 1) card.desc = Strings.format(top, R.string.card_cards_multiple, "" + ac.getAddCards()) + "\n" + card.desc;
-    		else if (ac.getAddCards() > 0) card.desc = Strings.format(top, R.string.card_card_single, "" + ac.getAddCards()) + "\n" + card.desc;
-            if (ac.getAddVictoryTokens() > 1) card.desc = Strings.format(top, R.string.card_victory_tokens_multiple, "" + ac.getAddVictoryTokens()) + "\n" + card.desc;
-            else if (ac.getAddVictoryTokens() > 0) card.desc = Strings.format(top, R.string.card_victory_token_single, "" + ac.getAddVictoryTokens()) + "\n" + card.desc;
+    		if (ac.getAddGold() > 0) card.desc = Strings.format(R.string.card_coin, "" + ac.getAddGold()) + "\n" + card.desc;
+    		if (ac.getAddBuys() > 1) card.desc = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + card.desc;
+    		else if (ac.getAddBuys() > 0) card.desc = Strings.format(R.string.card_buy_single, "" + ac.getAddBuys()) + "\n" + card.desc;
+    		if (ac.getAddActions() > 1) card.desc = Strings.format(R.string.card_actions_multiple, "" + ac.getAddActions()) + "\n" + card.desc;
+    		else if (ac.getAddActions() > 0) card.desc = Strings.format(R.string.card_action_single, "" + ac.getAddActions()) + "\n" + card.desc;
+    		if (ac.getAddCards() > 1) card.desc = Strings.format(R.string.card_cards_multiple, "" + ac.getAddCards()) + "\n" + card.desc;
+    		else if (ac.getAddCards() > 0) card.desc = Strings.format(R.string.card_card_single, "" + ac.getAddCards()) + "\n" + card.desc;
+            if (ac.getAddVictoryTokens() > 1) card.desc = Strings.format(R.string.card_victory_tokens_multiple, "" + ac.getAddVictoryTokens()) + "\n" + card.desc;
+            else if (ac.getAddVictoryTokens() > 0) card.desc = Strings.format(R.string.card_victory_token_single, "" + ac.getAddVictoryTokens()) + "\n" + card.desc;
     	}
 
     	return card;
@@ -345,8 +345,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     @Override
     public void newGame(MoveContext context) {
     	context.addGameListener(this);
-    	// TODO: Do a cleaner reference to context for string resources.
-    	this.top = vdomServer.top;
     	myCardsInPlay = setupCardsInPlay(context);
 
     	if (vdomServer != null)
@@ -396,7 +394,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	reconnect("Could not complete query.");
         	waitForJoin();
         	if (!hasJoined)
-        		quit(Strings.getString(top, R.string.response_timed_out));
+        		quit(Strings.getString(R.string.response_timed_out));
     	}
     	quit("Could not complete query.");
     	return null;
@@ -419,12 +417,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	}
     	
     	if(event.getType() == GameEvent.Type.Status) {
-            strEvent += Strings.format(top, R.string.action_buys_coin, context.getActionsLeft(), context.getBuysLeft(), context.getCoinAvailableForBuy()); 
+            strEvent += Strings.format(R.string.action_buys_coin, context.getActionsLeft(), context.getBuysLeft(), context.getCoinAvailableForBuy()); 
     	}
     	else {
     	    switch(event.getType()) {
     	    case GameStarting:
-                strEvent += Strings.getString(top, R.string.GameStarting);
+                strEvent += Strings.getString(R.string.GameStarting);
                 break;
     	    case GameOver:
     	        // Check for achievements
@@ -481,13 +479,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     achievement(context, "singlecard");
                 }
                 
-                strEvent += Strings.getString(top, R.string.GameOver);
+                strEvent += Strings.getString(R.string.GameOver);
                 break;
     	    case Embargo:
-                strEvent += Strings.getString(top, R.string.Embargo);
+                strEvent += Strings.getString(R.string.Embargo);
                 break;
     	    case Status:
-                strEvent += Strings.getString(top, R.string.Status);
+                strEvent += Strings.getString(R.string.Status);
                 break;
     	    case CantBuy:
                 String cards = "";
@@ -501,73 +499,73 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     }
                     cards += card.getName();
                 }
-                strEvent += Strings.format(top, R.string.CantBuy, cards);
+                strEvent += Strings.format(R.string.CantBuy, cards);
                 break;
     	    case VictoryPoints:
-                strEvent += Strings.getString(top, R.string.VictoryPoints);
+                strEvent += Strings.getString(R.string.VictoryPoints);
                 break;
     	    case NewHand:
-                strEvent += Strings.getString(top, R.string.NewHand);
+                strEvent += Strings.getString(R.string.NewHand);
                 break;
     	    case TurnBegin:
-                strEvent += Strings.getString(top, R.string.TurnBegin);
+                strEvent += Strings.getString(R.string.TurnBegin);
                 break;
     	    case TurnEnd:
                 if(context != null && context.vpsGainedThisTurn > 30) {
                     achievement(context, "gainmorethan30inaturn");
                 }
-                strEvent += Strings.getString(top, R.string.TurnEnd);
+                strEvent += Strings.getString(R.string.TurnEnd);
                 break;
     	    case PlayingAction:
-                strEvent += Strings.getString(top, R.string.PlayingAction);
+                strEvent += Strings.getString(R.string.PlayingAction);
                 break;
     	    case PlayedAction:
-                strEvent += Strings.getString(top, R.string.PlayedAction);
+                strEvent += Strings.getString(R.string.PlayedAction);
                 break;
     	    case PlayingDurationAction:
-                strEvent += Strings.getString(top, R.string.PlayingDurationAction);
+                strEvent += Strings.getString(R.string.PlayingDurationAction);
                 break;
     	    case PlayingCoin:
-                strEvent += Strings.getString(top, R.string.PlayingCoin);
+                strEvent += Strings.getString(R.string.PlayingCoin);
                 break;
     	    case BuyingCard:
-                strEvent += Strings.getString(top, R.string.BuyingCard);
+                strEvent += Strings.getString(R.string.BuyingCard);
                 break;
     	    case NoBuy:
-                strEvent += Strings.getString(top, R.string.NoBuy);
+                strEvent += Strings.getString(R.string.NoBuy);
                 break;
     	    case DeckReplenished:
-                strEvent += Strings.getString(top, R.string.DeckReplenished);
+                strEvent += Strings.getString(R.string.DeckReplenished);
                 break;
     	    case PlayerAttacking:
-                strEvent += Strings.getString(top, R.string.PlayerAttacking);
+                strEvent += Strings.getString(R.string.PlayerAttacking);
                 break;
     	    case PlayerDefended:
-                strEvent += Strings.getString(top, R.string.PlayerDefended);
+                strEvent += Strings.getString(R.string.PlayerDefended);
                 break;
     	    case CardOnTopOfDeck:
-                strEvent += Strings.getString(top, R.string.CardOnTopOfDeck);
+                strEvent += Strings.getString(R.string.CardOnTopOfDeck);
                 break;
     	    case CardObtained:
-                strEvent += Strings.getString(top, R.string.CardObtained);
+                strEvent += Strings.getString(R.string.CardObtained);
                 break;
     	    case CardTrashed:
                 if(context != null && context.cardsTrashedThisTurn > 5) {
                     achievement(context, "trash5inaturn");
                 }
-                strEvent += Strings.getString(top, R.string.CardTrashed);
+                strEvent += Strings.getString(R.string.CardTrashed);
                 break;
     	    case CardRevealed:
-                strEvent += Strings.getString(top, R.string.CardRevealed);
+                strEvent += Strings.getString(R.string.CardRevealed);
                 break;
     	    case CardDiscarded:
-                strEvent += Strings.getString(top, R.string.CardDiscarded);
+                strEvent += Strings.getString(R.string.CardDiscarded);
                 break;
     	    case CardAddedToHand:
-                strEvent += Strings.getString(top, R.string.CardAddedToHand);
+                strEvent += Strings.getString(R.string.CardAddedToHand);
                 break;
     	    case CardRemovedFromHand:
-                strEvent += Strings.getString(top, R.string.CardRemovedFromHand);
+                strEvent += Strings.getString(R.string.CardRemovedFromHand);
                 break;
     	    default:
                 strEvent += event.getType().toString();
@@ -596,7 +594,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		if (event.getPlayer() == this) {
     			waitForJoin();
     			if (!hasJoined)
-    				quit(Strings.getString(top, R.string.join_timed_out));
+    				quit(Strings.getString(R.string.join_timed_out));
     		}
     		whenStarted = System.currentTimeMillis();
     		playedCards.clear();
@@ -639,7 +637,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		
     		strEvent = curPlayer.getPlayerName() + ": " + getVPs(curPlayer) + " VPs";
     		if (!gameOver) {
-        		String time = Strings.getString(top, R.string.game_over_status);
+        		String time = Strings.getString(R.string.game_over_status);
         		time += " ";
             	long duration = System.currentTimeMillis() - whenStarted;
             	if (duration > 1000 * 60 * 60)
@@ -830,7 +828,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
 	public void sendQuit(String s) {
 		String time = "\n\n";
-		time += Strings.getString(top, R.string.game_length_status);
+		time += Strings.getString(R.string.game_length_status);
 		time += " ";
     	long duration = System.currentTimeMillis() - whenStarted;
     	if (duration > 1000 * 60 * 60)

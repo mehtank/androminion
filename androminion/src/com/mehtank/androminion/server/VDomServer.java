@@ -5,19 +5,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import android.content.Context;
-
-import com.mehtank.androminion.comms.Comms;
-import com.mehtank.androminion.comms.Event;
-import com.mehtank.androminion.comms.EventHandler;
-import com.mehtank.androminion.comms.Event.EType;
-import com.mehtank.androminion.comms.Event.EventObject;
 import com.vdom.api.GameType;
+import com.vdom.comms.Comms;
+import com.vdom.comms.Event;
+import com.vdom.comms.EventHandler;
+import com.vdom.comms.Event.EType;
+import com.vdom.comms.Event.EventObject;
 import com.vdom.core.Game;
 
 public class VDomServer implements EventHandler {
 
-    static Context top;
 	private class GameStarter implements Runnable {
 	    
 		private String[] args;
@@ -49,7 +46,7 @@ public class VDomServer implements EventHandler {
 		// allPlayers.put("Best yet (AI)", "net.spack.vdom.BestYet@http://earlcahill.com/myVdom.jar");
 	};
 
-	static VDomServer me;
+	public static VDomServer me;
 	public static int maxPause = 300000; // 5 minutes in ms
 	static int numGameTypes = 0;
 	static String[] gameStrings;
