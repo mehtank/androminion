@@ -2,6 +2,7 @@
 1.9.b15
  * Issue 116: Noble Brigand
  * Issue 118: Hinterlands Intro
+ * Issue 126: Winning while buying only one unique kingdom card achievement broken
 
 1.9.b14
  * Issue 63: Enhancement suggestion - Win/Loss Tracker
