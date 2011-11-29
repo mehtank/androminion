@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	
-<!-- Interaction -->
+
+      <!-- Interaction -->
       <string name="pass">Passen</string>
       <string name="card_revealed">%1$s aufgedeckt %2$s</string>
       <string name="select_treasure">Wähle eine Geldkarte die maximal (%1$s) bis %2$s kostet</string>
@@ -235,11 +235,11 @@
    
     <string name="masquerade_part">Gib Karte nach links: Wähle</string>
    
-    <string name="mine_part">[Mine]: Wähle </string>
+    <string name="mine_part">[Mine]: Wähle</string>
    
     <string name="militia_part">Miliz: Behalte</string>
    
-    <string name="bishop_part">[Bischhof]: Entsorge</string>
+    <string name="bishop_part">[Bischof]: Entsorge</string>
    
     <string name="swindler_part">Ersetze erschwindelte Karte im Wert zu (%1$s): Wähle</string>
    
