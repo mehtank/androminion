@@ -11,8 +11,9 @@ public class Strings {
     static HashMap<Card, String> nameCache = new HashMap<Card, String>();
     static HashMap<Card, String> descriptionCache = new HashMap<Card, String>();
     static HashMap<String, String> expansionCache = new HashMap<String, String>();
+	public static Context context;
     
-    public static String getCardName(Context context, Card c) {
+    public static String getCardName(Card c) {
         String name = nameCache.get(c);
         if(name == null) {
            try {
@@ -32,7 +33,7 @@ public class Strings {
         return name;
     }
     
-    public static String getCardDescription(Context context, Card c) {
+    public static String getCardDescription(Card c) {
         String description = descriptionCache.get(c);
         if(description == null) {
             try {
@@ -52,7 +53,7 @@ public class Strings {
         return description;
     }
     
-    public static String getCardExpansion(Context context, Card c) {
+    public static String getCardExpansion(Card c) {
         String expansion = expansionCache.get(c.getExpansion());
         if(expansion == null) {
             try {
@@ -76,11 +77,11 @@ public class Strings {
         return String.format(str, args);
     }
 
-    public static String format(Context context, int resId, Object... args) {
+    public static String format(int resId, Object... args) {
         return String.format(context.getString(resId), args);
     }
     
-    public static String getString(Context context, int resId) {
+    public static String getString(int resId) {
         return context.getString(resId);
     }
 }

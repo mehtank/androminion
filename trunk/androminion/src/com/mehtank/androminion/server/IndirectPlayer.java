@@ -6,12 +6,12 @@ import java.util.HashMap;
 import android.content.Context;
 
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.comms.SelectCardOptions;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.Cards;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.comms.SelectCardOptions;
 import com.vdom.core.CardList;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
@@ -71,31 +71,31 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public String getString(int id) {
-        return Strings.getString(top, id);
+        return Strings.getString(id);
     }
     
     public String getCardName(Card card) {
-        return card.getName(); //Strings.getCardName(top, card);
+        return card.getName(); //Strings.getCardName(card);
     }
 
     public String getRevealString(Card cardResponsible) {
-        return Strings.format(top, R.string.card_to_reveal, getCardName(cardResponsible));
+        return Strings.format(R.string.card_to_reveal, getCardName(cardResponsible));
     }
     
     public String getGainString(Card cardResponsible) {
-        return Strings.format(top, R.string.card_to_gain, getCardName(cardResponsible));
+        return Strings.format(R.string.card_to_gain, getCardName(cardResponsible));
     }
     
     public String getTrashString(Card cardResponsible) {
-        return Strings.format(top, R.string.card_to_trash, getCardName(cardResponsible));
+        return Strings.format(R.string.card_to_trash, getCardName(cardResponsible));
     }
     
     public String getDiscardString(Card cardResponsible) {
-        return Strings.format(top, R.string.card_to_discard, getCardName(cardResponsible));
+        return Strings.format(R.string.card_to_discard, getCardName(cardResponsible));
     }
     
     public String selectString(MoveContext context, Card cardResponsible, String[] s) {
-        return selectString(context, Strings.format(top, R.string.card_options_header, getCardName(cardResponsible)), s);
+        return selectString(context, Strings.format(R.string.card_options_header, getCardName(cardResponsible)), s);
     }
     
     public String selectString(MoveContext context, int resId, Card cardResponsible, String[] s) {
@@ -168,43 +168,43 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         switch (type) {
             case ACTIONFROMHAND:
                if(count == 1)
-                   str = Strings.format(top, R.string.select_one_action_from_hand, header);
+                   str = Strings.format(R.string.select_one_action_from_hand, header);
                else if(exact) 
-                   str = Strings.format(top, R.string.select_exactly_x_actions_from_hand, "" + count, header);
+                   str = Strings.format(R.string.select_exactly_x_actions_from_hand, "" + count, header);
                else
-                   str = Strings.format(top, R.string.select_up_to_x_actions_from_hand, "" + count, header);
+                   str = Strings.format(R.string.select_up_to_x_actions_from_hand, "" + count, header);
                break;
             case TREASUREFROMHAND:
                 if(count == 1)
-                    str = Strings.format(top, R.string.select_one_treasure_from_hand, header);
+                    str = Strings.format(R.string.select_one_treasure_from_hand, header);
                 else if(exact) 
-                    str = Strings.format(top, R.string.select_exactly_x_treasures_from_hand, "" + count, header);
+                    str = Strings.format(R.string.select_exactly_x_treasures_from_hand, "" + count, header);
                 else
-                    str = Strings.format(top, R.string.select_up_to_x_treasures_from_hand, "" + count, header);
+                    str = Strings.format(R.string.select_up_to_x_treasures_from_hand, "" + count, header);
                 break;
             case VICTORYFROMHAND:
                 if(count == 1)
-                    str = Strings.format(top, R.string.select_one_victory_from_hand, header);
+                    str = Strings.format(R.string.select_one_victory_from_hand, header);
                 else if(exact) 
-                    str = Strings.format(top, R.string.select_exactly_x_victorys_from_hand, "" + count, header);
+                    str = Strings.format(R.string.select_exactly_x_victorys_from_hand, "" + count, header);
                 else
-                    str = Strings.format(top, R.string.select_up_to_x_victorys_from_hand, "" + count, header);
+                    str = Strings.format(R.string.select_up_to_x_victorys_from_hand, "" + count, header);
                 break;
             case NONTREASUREFROMHAND:
                 if(count == 1)
-                    str = Strings.format(top, R.string.select_one_nontreasure_from_hand, header);
+                    str = Strings.format(R.string.select_one_nontreasure_from_hand, header);
                 else if(exact) 
-                    str = Strings.format(top, R.string.select_exactly_x_nontreasures_from_hand, "" + count, header);
+                    str = Strings.format(R.string.select_exactly_x_nontreasures_from_hand, "" + count, header);
                 else
-                    str = Strings.format(top, R.string.select_up_to_x_nontreasures_from_hand, "" + count, header);
+                    str = Strings.format(R.string.select_up_to_x_nontreasures_from_hand, "" + count, header);
                 break;
             default:
                 if(count == 1)
-                    str = Strings.format(top, R.string.select_one_card_from_hand, header);
+                    str = Strings.format(R.string.select_one_card_from_hand, header);
                 else if(exact) 
-                    str = Strings.format(top, R.string.select_exactly_x_cards_from_hand, "" + count, header);
+                    str = Strings.format(R.string.select_exactly_x_cards_from_hand, "" + count, header);
                 else
-                    str = Strings.format(top, R.string.select_up_to_x_cards_from_hand, "" + count, header);
+                    str = Strings.format(R.string.select_up_to_x_cards_from_hand, "" + count, header);
         }
 
         Card[] tempCards = pickCards(context, str, sco, count, exact);
@@ -307,7 +307,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         sco.maxCost(maxCost);
         
-        return pickACard(context, Strings.format(top, R.string.select_treasure, "" + maxCost, header), sco);
+        return pickACard(context, Strings.format(R.string.select_treasure, "" + maxCost, header), sco);
     }
     
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString) {
@@ -397,23 +397,23 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         String selectString;
         if (minCost == maxCost)
             if(quarries)
-                selectString = Strings.format(top, R.string.select_from_table_exact_quarries, "" + maxCost, "" + (maxCost + (2 * context.getQuarriesPlayed())), header);
+                selectString = Strings.format(R.string.select_from_table_exact_quarries, "" + maxCost, "" + (maxCost + (2 * context.getQuarriesPlayed())), header);
             else
-                selectString = Strings.format(top, R.string.select_from_table_exact, "" + maxCost, header);
+                selectString = Strings.format(R.string.select_from_table_exact, "" + maxCost, header);
         else if ((minCost <= 0) && (maxCost < Integer.MAX_VALUE))
             if(quarries)
-                selectString = Strings.format(top, R.string.select_from_table_max_quarries, "" + maxCost, "" + (maxCost + (2 * context.getQuarriesPlayed())), header);
+                selectString = Strings.format(R.string.select_from_table_max_quarries, "" + maxCost, "" + (maxCost + (2 * context.getQuarriesPlayed())), header);
             else
-                selectString = Strings.format(top, R.string.select_from_table_max, "" + maxCost, header);
+                selectString = Strings.format(R.string.select_from_table_max, "" + maxCost, header);
         else if (maxCost < Integer.MAX_VALUE)
             if(quarries)
-                selectString = Strings.format(top, R.string.select_from_table_between_quarries, "" + minCost, "" + maxCost, "" + (maxCost + (2 * context.getQuarriesPlayed())), header);
+                selectString = Strings.format(R.string.select_from_table_between_quarries, "" + minCost, "" + maxCost, "" + (maxCost + (2 * context.getQuarriesPlayed())), header);
             else
-                selectString = Strings.format(top, R.string.select_from_table_between, "" + minCost, "" + maxCost, header);
+                selectString = Strings.format(R.string.select_from_table_between, "" + minCost, "" + maxCost, header);
         else if (minCost > 0)
-            selectString = Strings.format(top, R.string.select_from_table_min, "" + minCost, header);
+            selectString = Strings.format(R.string.select_from_table_min, "" + minCost, header);
         else
-            selectString = Strings.format(top, R.string.select_from_table, header);
+            selectString = Strings.format(R.string.select_from_table, header);
 
         return pickACard(context, selectString, sco);
     }
@@ -464,14 +464,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public boolean selectBooleanCardRevealed(MoveContext context, Card cardResponsible, Card cardRevealed, String strTrue, String strFalse) {
         String c1 = getCardName(cardResponsible);
         String c2 = getCardName(cardRevealed);
-        String query = Strings.format(top, R.string.card_revealed, c1, c2);
+        String query = Strings.format(R.string.card_revealed, c1, c2);
         return selectBoolean(context, query, strTrue, strFalse);
     }
     
     public boolean selectBooleanCardRevealedAndPlayer(MoveContext context, Card cardResponsible, Card cardRevealed, Player p, String strTrue, String strFalse) {
         String c1 = getCardName(cardResponsible);
         String c2 = getCardName(cardRevealed);
-        String query = Strings.format(top, R.string.card_revealed_from_player, p.getPlayerName(), c1, c2);
+        String query = Strings.format(R.string.card_revealed_from_player, p.getPlayerName(), c1, c2);
         return selectBoolean(context, query, strTrue, strFalse);
     }
     
@@ -634,7 +634,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_swindler_cardToSwitch(context, cost)) {
             return super.swindler_cardToSwitch(context, cost);
         }
-		return getFromTable(context, Strings.format(top, R.string.swindler_part, "" + cost), cost, cost, NOTPASSABLE, SelectCardOptions.SWINDLE);
+		return getFromTable(context, Strings.format(R.string.swindler_part, "" + cost), cost, cost, NOTPASSABLE, SelectCardOptions.SWINDLE);
 	}
 
     public Card[] steward_cardsToTrash(MoveContext context) {
@@ -655,7 +655,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_courtyard_cardToPutBackOnDeck(context)) {
             return super.courtyard_cardToPutBackOnDeck(context);
         }
-		return getAnyFromHand(context, Strings.format(top, R.string.courtyard_part_top_of_deck, getCardName(Cards.courtyard)), NOTPASSABLE);
+		return getAnyFromHand(context, Strings.format(R.string.courtyard_part_top_of_deck, getCardName(Cards.courtyard)), NOTPASSABLE);
 	}
 
     public boolean baron_shouldDiscardEstate(MoveContext context) {
@@ -816,7 +816,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.pirateShip_takeTreasure(context);
         }
     	int t = this.getPirateShipTreasure();
-		return selectBoolean(context, getCardName(Cards.pirateShip), Strings.format(top, R.string.pirate_ship_option_one, "" + t), getString(R.string.pirate_ship_option_two));
+		return selectBoolean(context, getCardName(Cards.pirateShip), Strings.format(R.string.pirate_ship_option_one, "" + t), getString(R.string.pirate_ship_option_two));
 	}
 
     public boolean nativeVillage_takeCards(MoveContext context) {
@@ -866,7 +866,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 			header += c.getName() + ", ";
 		header += "--";
 		header = header.replace(", --", "");
-		header = Strings.format(top, R.string.navigator_header, header);
+		header = Strings.format(R.string.navigator_header, header);
 
         String option1 = getString(R.string.discard);
         String option2 = getString(R.string.navigator_option_two);
@@ -935,7 +935,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     		if (c.equals(card))
     			numCards++;
     	    
-    	return selectInt(context, Strings.format(top, R.string.ambassador_query, getCardName(card)), Math.min(2, numCards), 0);
+    	return selectInt(context, Strings.format(R.string.ambassador_query, getCardName(card)), Math.min(2, numCards), 0);
 	}
 
     public boolean pearlDiver_shouldMoveToTop(MoveContext context, Card card) {
@@ -1173,7 +1173,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         h.put(getString(R.string.trash), WatchTowerOption.Trash);
         h.put(getString(R.string.watch_tower_option_three), WatchTowerOption.TopOfDeck);
 
-        return h.get(selectString(context, Strings.format(top, R.string.watch_tower_query, getCardName(card)), h.keySet().toArray(new String[0])));
+        return h.get(selectString(context, Strings.format(R.string.watch_tower_query, getCardName(card)), h.keySet().toArray(new String[0])));
     }
     
     public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context) {
@@ -1247,9 +1247,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         HashMap<String, JesterOption> h = new HashMap<String, JesterOption> ();
         
         h.put(getString(R.string.jester_option_one), JesterOption.GainCopy);
-        h.put(Strings.format(top, R.string.jester_option_two, targetPlayer.getPlayerName()), JesterOption.GiveCopy);
+        h.put(Strings.format(R.string.jester_option_two, targetPlayer.getPlayerName()), JesterOption.GiveCopy);
 
-        String header = Strings.format(top, R.string.card_revealed, getCardName(Cards.jester), getCardName(card));
+        String header = Strings.format(R.string.card_revealed, getCardName(Cards.jester), getCardName(card));
         return h.get(selectString(context, header, h.keySet().toArray(new String[0])));
     }
     
@@ -1423,7 +1423,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_trader_shouldGainSilverInstead(context, card)) {
             return super.trader_shouldGainSilverInstead(context, card);
         }
-        return !selectBoolean(context, Cards.trader, Strings.format(top, R.string.trader_gain, getCardName(card)), Strings.format(top, R.string.trader_gain, getCardName(Cards.silver)));
+        return !selectBoolean(context, Cards.trader, Strings.format(R.string.trader_gain, getCardName(card)), Strings.format(R.string.trader_gain, getCardName(Cards.silver)));
     }
     
     @Override
@@ -1496,7 +1496,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             lowIndex = 0;
         }
         
-        if(selectBoolean(context, Strings.format(top, R.string.noble_brigand_query, context.getAttackedPlayer()), silverOrGoldCards[lowIndex].getName(), silverOrGoldCards[highIndex].getName())) {
+        if(selectBoolean(context, Strings.format(R.string.noble_brigand_query, context.getAttackedPlayer()), silverOrGoldCards[lowIndex].getName(), silverOrGoldCards[highIndex].getName())) {
             return silverOrGoldCards[lowIndex];
         }
         else {
@@ -1613,7 +1613,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 cardNames += ", ";
             cardNames += c.getName();
         }
-        String s = Strings.format(top, R.string.card_revealed, player.getPlayerName(), cardNames);
+        String s = Strings.format(R.string.card_revealed, player.getPlayerName(), cardNames);
         return !selectBoolean(context, s, getString(R.string.top_of_deck), getString(R.string.discard));
     }
     

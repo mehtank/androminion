@@ -1,7 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import com.mehtank.androminion.Androminion;
-import com.mehtank.androminion.comms.Event;
+import com.vdom.comms.Event;
 
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;

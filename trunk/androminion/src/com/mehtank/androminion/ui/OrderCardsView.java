@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
-import com.mehtank.androminion.comms.Event;
-import com.mehtank.androminion.comms.Event.EventObject;
+import com.vdom.comms.Event;
+import com.vdom.comms.Event.EventObject;
 
 public class OrderCardsView extends BottomInputView implements OnClickListener {
 	LinearLayout ll;

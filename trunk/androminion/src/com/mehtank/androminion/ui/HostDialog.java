@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.comms.Event;
+import com.vdom.comms.Event;
 
 public class HostDialog implements DialogInterface.OnClickListener {
 	LinearLayout vg;

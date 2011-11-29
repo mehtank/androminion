@@ -30,12 +30,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.mehtank.androminion.comms.Comms;
-import com.mehtank.androminion.comms.Event;
-import com.mehtank.androminion.comms.GameStatus;
-import com.mehtank.androminion.comms.NewGame;
-import com.mehtank.androminion.comms.EventHandler;
-import com.mehtank.androminion.comms.Event.EType;
 import com.mehtank.androminion.ui.AboutDialog;
 import com.mehtank.androminion.ui.AchievementsDialog;
 import com.mehtank.androminion.ui.GameTable;
@@ -44,6 +38,12 @@ import com.mehtank.androminion.ui.JoinGameDialog;
 import com.mehtank.androminion.ui.SplashView;
 import com.mehtank.androminion.ui.StartGameDialog;
 import com.mehtank.androminion.ui.StatsDialog;
+import com.vdom.comms.Comms;
+import com.vdom.comms.Event;
+import com.vdom.comms.EventHandler;
+import com.vdom.comms.GameStatus;
+import com.vdom.comms.NewGame;
+import com.vdom.comms.Event.EType;
 
 public class Androminion extends Activity implements EventHandler {
 	protected static final int MENU_LOCAL_START = 31;

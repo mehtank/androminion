@@ -2,7 +2,7 @@ package com.mehtank.androminion.ui;
 
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.comms.MyCard;
+import com.vdom.comms.MyCard;
 
 import android.content.Context;
 import android.graphics.Color;
