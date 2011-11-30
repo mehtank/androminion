@@ -476,7 +476,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     achievement(context, "score1more");
                 }
 
-                if(!achievementSingleCardFailed) {
+                if(mostVp && !achievementSingleCardFailed) {
                     achievement(context, "singlecard");
                 }
                 
