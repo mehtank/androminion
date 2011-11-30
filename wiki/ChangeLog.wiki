@@ -4,6 +4,7 @@
  * Issue 139: Potion is displayed in wrong color when playing in German
  * Issue 145: Buy one unique kingdom achievement triggers on a loss
  * Issue 144: Achievements popup spelling error
+ * Issue 143: Peddler Description spelling error.
 
 1.9.b15
  * Syncing code and builds before checking code into Source here and releasing as open source
