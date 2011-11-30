@@ -238,7 +238,7 @@ public class Game {
         ((CardImpl) Cards.mint).description = "You may reveal a Treasure card from your hand.  Gain a copy of it.  When you buy this, trash all Treasures you have in play.";
         ((CardImpl) Cards.monument).description = "";
         ((CardImpl) Cards.mountebank).description = "Each other player may discard a Curse.  If he doesn't, he gains a Curse and a Copper.";
-        ((CardImpl) Cards.peddler).description = "During your Buy phase, this costs 2 coins less per Action card you have in play, but not less that 0 coins.";
+        ((CardImpl) Cards.peddler).description = "During your Buy phase, this costs 2 coins less per Action card you have in play, but not less than 0 coins.";
         ((CardImpl) Cards.quarry).description = "While this is in play, Action cards cost 2 coins less, but not less than 0 coins.";
         ((CardImpl) Cards.rabble).description = "Each other player reveals the top 3 cards of his deck, discards the revealed Actions and Treasures, and puts the rest back on top in any order he chooses.";
         ((CardImpl) Cards.royalSeal).description = "While this is in play, when you gain a card, you may put that card on top of your deck.";
