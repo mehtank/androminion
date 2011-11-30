@@ -796,7 +796,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (playerCards == null) {
                 playerCards = residue;
             }
-            for (Card card : playerCards) {
+            for (int i = playerCards.size() - 1; i >= 0; i--) {
+                Card card = playerCards.get(i);
                 currentPlayer.putOnTopOfDeck(card);
             }
         }
@@ -3074,7 +3075,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 Util.playerError(currentPlayer, "Returned invalid cards to gain with Develop, doing nothing.");
             } 
             else {
-                for(Card c : cardsToGain) {
+                for (int i = cardsToGain.length - 1; i >= 0; i--) {
+                    Card c = cardsToGain[i];
                     currentPlayer.gainNewCard(c, this, context);
                 }
             }
