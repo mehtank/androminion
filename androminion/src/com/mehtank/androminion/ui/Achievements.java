@@ -34,7 +34,7 @@ public class Achievements {
         "Win a game buying no more than one unique Kingdom Card",
         "Win a game by more than 50 VP",
         "Win a game with at least one opponent having 0 or less VP",
-        "Trash more then 5 cards in a single turn",
+        "Trash more than 5 cards in a single turn",
         "Gain more than 30 VP in a single turn",
         "Win 10 games in a row",
      };
