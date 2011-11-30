@@ -489,7 +489,7 @@
     <string name="Mountebank_name">Mountebank</string>
     <string name="Mountebank_desc">Each other player may discard a Curse. If he doesn\'t, he gains a Curse and a Copper.</string>
     <string name="Peddler_name">Peddler</string>
-    <string name="Peddler_desc">During your Buy phase, this costs 2 coins less per Action card you have in play, but not less that 0 coins.</string>
+    <string name="Peddler_desc">During your Buy phase, this costs 2 coins less per Action card you have in play, but not less than 0 coins.</string>
     <string name="Quarry_name">Quarry</string>
     <string name="Quarry_desc">While this is in play, Action cards cost 2 coins less, but not less than 0 coins.</string>
     <string name="Rabble_name">Rabble</string>
