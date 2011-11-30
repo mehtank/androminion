@@ -2,6 +2,7 @@
 1.9.b16
  * Issue 137: Develop does not put gained cards on top of the deck
  * Issue 139: Potion is displayed in wrong color when playing in German
+ * Issue 145: Buy one unique kingdom achievement triggers on a loss
 
 1.9.b15
  * Syncing code and builds before checking code into Source here and releasing as open source
