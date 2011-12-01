@@ -163,7 +163,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     			card.isDuration = true;
     		} else if (((ActionCard) c).isAttack()) card.isAttack = true;
-        	else if ((c.equals(Cards.moat)) || (c.equals(Cards.secretChamber)) || (c.equals(Cards.watchTower)) || (c.equals(Cards.horseTraders)) || (c.equals(Cards.foolsGold)) || (c.equals(Cards.trader)) || (c.equals(Cards.tunnel))) card.isReaction = true;
 
     		if (ac.getAddGold() > 0) card.desc = Strings.format(R.string.card_coin, "" + ac.getAddGold()) + "\n" + card.desc;
     		if (ac.getAddBuys() > 1) card.desc = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + card.desc;
@@ -175,6 +174,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             if (ac.getAddVictoryTokens() > 1) card.desc = Strings.format(R.string.card_victory_tokens_multiple, "" + ac.getAddVictoryTokens()) + "\n" + card.desc;
             else if (ac.getAddVictoryTokens() > 0) card.desc = Strings.format(R.string.card_victory_token_single, "" + ac.getAddVictoryTokens()) + "\n" + card.desc;
     	}
+        if ((c.equals(Cards.moat)) || (c.equals(Cards.secretChamber)) || (c.equals(Cards.watchTower)) || (c.equals(Cards.horseTraders)) || (c.equals(Cards.foolsGold)) || (c.equals(Cards.trader)) || (c.equals(Cards.tunnel))) 
+            card.isReaction = true;
 
     	return card;
     }    
