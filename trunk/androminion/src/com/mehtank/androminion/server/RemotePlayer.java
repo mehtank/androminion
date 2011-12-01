@@ -163,7 +163,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     			card.isDuration = true;
     		} else if (((ActionCard) c).isAttack()) card.isAttack = true;
-        	else if ((c.equals(Cards.moat)) || (c.equals(Cards.secretChamber)) || (c.equals(Cards.watchTower)) || (c.equals(Cards.horseTraders))) card.isReaction = true;
+        	else if ((c.equals(Cards.moat)) || (c.equals(Cards.secretChamber)) || (c.equals(Cards.watchTower)) || (c.equals(Cards.horseTraders)) || (c.equals(Cards.foolsGold)) || (c.equals(Cards.trader)) || (c.equals(Cards.tunnel))) card.isReaction = true;
 
     		if (ac.getAddGold() > 0) card.desc = Strings.format(R.string.card_coin, "" + ac.getAddGold()) + "\n" + card.desc;
     		if (ac.getAddBuys() > 1) card.desc = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + card.desc;
