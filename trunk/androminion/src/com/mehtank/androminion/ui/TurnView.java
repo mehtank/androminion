@@ -115,7 +115,7 @@ public class TurnView extends LinearLayout {
 			addIcons(buyURI, is[1], 5);
 			coins.setText(" " + is[2] + " ");
 			addView(coins);
-			addIcons(bridgeURI, -cardCostModifier, 2);
+//			addIcons(bridgeURI, -cardCostModifier, 2);
 			
 			int d = coins.getHeight();
 	    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams((int) (d*1.5), d);
@@ -144,8 +144,8 @@ public class TurnView extends LinearLayout {
 //		    
 //		    str += baseStr + ".";
 //						 
-			if (cardCostModifier != 0)
-				str += "\nCost modifier: " + cardCostModifier;
+//			if (cardCostModifier != 0)
+//				str += "\nCost modifier: " + cardCostModifier;
 
 			tv.setText(str);
 			tv.setLayoutParams(lp);
