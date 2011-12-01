@@ -106,16 +106,18 @@ Joerg V. und Sascha H. </string>
     <string name="coins">(%1$s) Geld</string>
 
 
-    <!-- *** -->
     <string name="final_view_card_counts">Kartenanzahl</string>       
     <string name="final_view_text">%1$s: %2$s SP.\n%3$s Züge, %4$s Karten.</string>       
     <string name="hide_card_counts_pref_title">Verberge Kartenanzahl</string>
 
-<string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
+	<string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
       <string name="one_turn_logs_pref_title">Details eines Zuges</string>
       <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug in im Spielelog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
       <string name="reset">Reset</string>
-    <!-- *** -->
+
+	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+	<string name="potion_single">%1$s potion</string>
+	<string name="potion_multiple">%1$s potionss</string>
 
 </resources>
 
