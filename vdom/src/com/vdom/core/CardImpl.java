@@ -60,8 +60,10 @@ public class CardImpl implements Card {
         return name;
     }
 
-    public int getCost() {
-        return Math.max(0, cost - Game.bridgesInEffect);
+    public int getCost(MoveContext context) {
+        if(context == null)
+            return cost;
+        return Math.max(0, cost + context.cardCostModifier);
     }
 
     String name;

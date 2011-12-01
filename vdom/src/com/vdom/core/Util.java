@@ -8,7 +8,6 @@ import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.Cards;
 import com.vdom.api.GameEvent;
-import com.vdom.api.InteractivePlayer;
 
 public class Util {
     public static String cardArrayToString(Card[] cards) {
@@ -127,7 +126,7 @@ public class Util {
      * is not always a "debug" message, but it still seems to make sense to use the term.
      */
     public static void debug(String msg, boolean interactiveAsWell) {
-        if (Game.debug || (interactiveAsWell && Game.interactive)) {
+        if (Game.debug) {
             log(msg);
         }
     }
@@ -138,9 +137,9 @@ public class Util {
      * but shouldn't know about other players.
      */
     public static void sensitiveDebug(Player player, String msg, boolean interactiveAsWell) {
-        if (!Game.interactive || (player == Game.players[Game.playersTurn] && player instanceof InteractivePlayer)) {
+//        if (!Game.interactive || (player == Game.players[Game.playersTurn]) {
             debug(player, msg, interactiveAsWell);
-        }
+//        }
     }
 
     /**
@@ -172,56 +171,6 @@ public class Util {
                 dumpGameState(context);
             }
         }
-    }
-
-    public static String getInput(MoveContext context, Player player) {
-
-        String choice = "";
-
-        if(context != null && player != null) {
-            System.out.println();
-            if(!player.getPlayerName().equals("You")) {
-                System.out.println("<" + player.getPlayerName() + "> ");
-            }
-            if(player instanceof InteractivePlayer && ((InteractivePlayer) player).quickPlay) {
-                System.out.print("(Quick Play) ");
-            }
-            System.out.println("Hand:" + cardArrayToString(player.getHand()));
-    
-            int gold = context.getCoinAvailableForBuy();
-            int tr = context.getThroneRoomsInEffect();
-            System.out.print("Actions:" + context.getActionsLeft() + " Buys:" + context.getBuysLeft() + " Gold:" + gold + ((tr > 0) ? " Throne rooms:" + tr : "")
-                + " >");
-        }
-        else {
-            System.out.print(">");
-        }
-
-        choice = readString();
-        if (choice.startsWith(".") && context != null && player != null) {
-            dumpGameState(context);
-            hitEnter(context);
-            return null;
-        }
-
-        if (choice.startsWith("/") && context != null && player != null) {
-            InteractivePlayer ip = (InteractivePlayer) player;
-            ip.quickPlay = !ip.quickPlay;
-            System.out.println();
-            if(ip.quickPlay) {
-                System.out.println("Quick Play is on (takes effect next turn)");
-            }
-            else {
-                System.out.println("Quick Play is off");
-            }
-            return null;
-        }
-        
-        if (choice.startsWith("`")) {
-            System.exit(0);
-        }
-
-        return choice;
     }
 
     protected static String readString() {
@@ -267,7 +216,7 @@ public class Util {
         int cost = 0;
         while (cost < 10) {
             for (Card card : cards) {
-                if (card.getCost() == cost) {
+                if (card.getCost(context) == cost) {
                     log("" + context.getCardsLeft(card) + ":" + getLongText(card));
                     log("");
                 }

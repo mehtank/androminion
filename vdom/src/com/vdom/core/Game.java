@@ -21,7 +21,6 @@ import com.vdom.api.FrameworkEventHelper;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
-import com.vdom.api.InteractivePlayer;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.WatchTowerOption;
@@ -65,19 +64,13 @@ public class Game {
      */
     public static GameType gameType = GameType.Random;
 
-    // TODO: better way to do...
-    public static int bridgesInEffect = 0;
-
     public static boolean alwaysIncludePlatColony = false; 
     public static boolean platColonyPassedIn = false; 
     public static boolean quickPlay = false;
     
-    public static boolean showUI = false;
-
     public static boolean debug = false;
     public static final HashSet<GameEvent.Type> showEvents = new HashSet<GameEvent.Type>();
     public static final HashSet<String> showPlayers = new HashSet<String>();
-    static boolean interactive = false;
     static boolean test = false;
     static boolean ignoreAllPlayerErrors = false;
     static boolean ignoreSomePlayerErrors = false;
@@ -525,7 +518,6 @@ public class Game {
             String gameTypeArg = "-type";
             String gameTypeStatsArg = "-test";
             String ignorePlayerErrorsArg = "-ignore";
-            String showUIArg = "-ui";
             String siteArg = "-site=";
             String platColonyArg = "-platcolony";
             String quickPlayArg = "-quickplay";
@@ -583,8 +575,6 @@ public class Game {
                             Util.log(e);
                             throw new ExitException();
                         }
-                    } else if (arg.toLowerCase().startsWith(showUIArg)) {
-                        showUI = true;
                     } else if (arg.toLowerCase().startsWith(cardArg)) {
                         try {
                             cardsSpecifiedAtLaunch = arg.substring(cardArg.length()).split("-");
@@ -657,15 +647,13 @@ public class Game {
             checkForInteractive();
 
             if (gameTypeStr == null) {
-                if (interactive) {
-                    gameTypeStr = "Random";
-                } else if (debug) {
+                if (debug) {
                     gameTypeStr = "FirstGame";
                 }
             }
 
             if (numGames == -1) {
-                if (debug || interactive || showUI) {
+                if (debug) {
                     numGames = 1;
                 } else {
                     numGames = 20;
@@ -676,10 +664,6 @@ public class Game {
 
             if (gameTypeStr != null) {
                 gameType = GameType.fromName(gameTypeStr);
-                new Game().start();
-            } else if (showUI) {
-                GameType[] gameTypes = GameType.values();
-                gameType = gameTypes[rand.nextInt(gameTypes.length)];
                 new Game().start();
             } else {
                 for (String[] className : playerClassesAndJars) {
@@ -709,7 +693,7 @@ public class Game {
                         new Game().start();
                     }
                 }
-                if (!debug && !interactive && !test) {
+                if (!debug && !test) {
                     Util.log("----------------------------------------------------");
                 }
                 printStats(overallWins, numGames * GameType.values().length, "Total");
@@ -1137,8 +1121,6 @@ public class Game {
                 event = new GameEvent(GameEvent.Type.TurnEnd, context);
                 broadcastEvent(event);
 
-                bridgesInEffect = 0;
-
                 gameOver = checkGameOver();
                 
                 if (!gameOver) {
@@ -1160,16 +1142,13 @@ public class Game {
                         consecutiveTurns = 0;
                         if (playersTurn >= numPlayers) {
                             playersTurn = 0;
-                            if (interactive) {
-                                Util.debug("---", true);
-                            }
                             Util.debug("Turn " + ++turnCount, true);
                         }
                     }
                 }
             }
 
-            if (debug || interactive) {
+            if (debug) {
                 for (Player player : players) {
                     Util.debug("", true);
                     ArrayList<Card> allCards = player.getAllCards();
@@ -1287,7 +1266,7 @@ public class Game {
             }
         }
 
-        if (!debug && !interactive) {
+        if (!debug) {
             markWinner(gameTypeSpecificWins);
             printStats(gameTypeSpecificWins, numGames, gameType.toString());
 
@@ -1338,7 +1317,7 @@ public class Game {
             s = start + (gameType.equals("Types") ? " types " : " games ") + s;
         }
 
-        if (!debug && !interactive) {
+        if (!debug) {
             while (s.length() < 30) { // (24 + start.length())) {
                 s += " ";
             }
@@ -1595,7 +1574,7 @@ public class Game {
             return false;
         }
 
-        int cost = card.getCost();
+        int cost = card.getCost(context);
         
         // Adjust cost based on any cards played or card being bought
         if (context.quarriesPlayed > 0 && card instanceof ActionCard) {
@@ -1608,10 +1587,6 @@ public class Game {
                 }
             }
         } 
-        if (context.princessPlayed) {
-            cost -= 2;
-        } 
-        cost -= context.highwaysPlayed;
 
         cost = (cost < 0 ? 0 : cost);
         int potions = 0;
@@ -1635,7 +1610,7 @@ public class Game {
         event.newCard = true;
         broadcastEvent(event);
 
-        int cost = card.getCost();
+        int cost = card.getCost(context);
         
         // Adjust cost based on any cards played or card being bought
         if (context.quarriesPlayed > 0 && card instanceof ActionCard) {
@@ -1648,10 +1623,6 @@ public class Game {
                 }
             }
         } 
-        if (context.princessPlayed) {
-            cost -= 2;
-        } 
-        cost -= context.highwaysPlayed;
         
         cost = (cost < 0 ? 0 : cost);
         context.gold -= cost;
@@ -1986,7 +1957,7 @@ public class Game {
                         boolean validCard = false;
                         
                         for(Card c : event.context.getCardsInPlay()) {
-                            if(c.getCost() < 6 && !c.costPotion() && event.context.getCardsLeft(c) > 0) {
+                            if(c.getCost(context) < Cards.borderVillage.getCost(context) && !c.costPotion() && event.context.getCardsLeft(c) > 0) {
                                 validCard = true;
                                 break;
                             }
@@ -1995,7 +1966,7 @@ public class Game {
                         if(validCard) {
                             Card card = context.player.borderVillage_cardToObtain((MoveContext) context);
                             if (card != null) {
-                                if(card.getCost() < 6 && !card.costPotion()) {                            
+                                if(card.getCost(context) < Cards.borderVillage.getCost(context) && !card.costPotion()) {                            
                                     player.gainNewCard(card, event.card, (MoveContext) context);
                                 }
                                 else {
@@ -2033,7 +2004,7 @@ public class Game {
                             for (int i = 0; i < player.hand.size(); i++) {
                                 Card playersCard = player.hand.get(i);
                                 if (playersCard.equals(cardToTrash)) {
-                                    cost = playersCard.getCost();
+                                    cost = playersCard.getCost(context);
                                     potion = playersCard.costPotion();
                                     playersCard = player.hand.remove(i);
                 
@@ -2051,7 +2022,7 @@ public class Game {
                                 boolean validCard = false;
                                 
                                 for(Card c : event.context.getCardsInPlay()) {
-                                    if(c.getCost() == cost && c.costPotion() == potion && event.context.getCardsLeft(c) > 0) {
+                                    if(c.getCost(context) == cost && c.costPotion() == potion && event.context.getCardsLeft(c) > 0) {
                                         validCard = true;
                                         break;
                                     }
@@ -2061,7 +2032,7 @@ public class Game {
                                     Card card = event.player.farmland_cardToObtain((MoveContext) context, cost, potion);
                                     if (card != null) {
                                         // check cost
-                                        if (card.getCost() != cost || card.costPotion() != potion) {
+                                        if (card.getCost(context) != cost || card.costPotion() != potion) {
                                             Util.playerError(event.player, "Farmland card to obtain returned an invalid card, ignoring.");
                                         }
                                         else
@@ -2108,11 +2079,11 @@ public class Game {
                     
                     for(Card c : event.getContext().getPlayedCards()) {
                         if(c.equals(Cards.haggler)) {
-                            int cost = event.getCard().getCost();
+                            int cost = event.getCard().getCost(context);
                             boolean potion = event.getCard().costPotion();
                             boolean found = false;
                             for(Card cardInPlay : event.getContext().getCardsInPlay()) {
-                                if(cardInPlay.getCost() < cost && (potion || !cardInPlay.costPotion()) && event.getContext().getCardsLeft(cardInPlay) > 0 && !(cardInPlay instanceof VictoryCard)) {
+                                if(cardInPlay.getCost(context) < cost && (potion || !cardInPlay.costPotion()) && event.getContext().getCardsLeft(cardInPlay) > 0 && !(cardInPlay instanceof VictoryCard)) {
                                     found = true;
                                     break;
                                 }
@@ -2121,7 +2092,7 @@ public class Game {
                             if(found) {
                                 Card toGain = player.haggler_cardToObtain(event.getContext(), cost - 1, potion);
                                 if(toGain != null) {
-                                    if(toGain.getCost() >= cost || (!potion && toGain.costPotion()) || event.getContext().getCardsLeft(toGain) == 0 || (toGain instanceof VictoryCard)) { 
+                                    if(toGain.getCost(context) >= cost || (!potion && toGain.costPotion()) || event.getContext().getCardsLeft(toGain) == 0 || (toGain instanceof VictoryCard)) { 
                                         Util.playerError(event.getPlayer(), "Invalid card returned from Haggler, ignoring.");
                                     }
                                     else {
@@ -2136,7 +2107,7 @@ public class Game {
                 }
 
                 boolean shouldShow = debug;
-                if (!shouldShow && interactive) {
+                if (!shouldShow) {
                     if (event.getType() != GameEvent.Type.TurnBegin && event.getType() != GameEvent.Type.TurnEnd
                         && event.getType() != GameEvent.Type.DeckReplenished && event.getType() != GameEvent.Type.GameStarting) {
                         shouldShow = true;
@@ -2157,15 +2128,6 @@ public class Game {
                         msg.append(" (with gold: " + event.getContext().getCoinAvailableForBuy() + ", buys remaining: " + event.getContext().getBuysLeft());
                     }
                     Util.debug(msg.toString(), true);
-                }
-
-                if (interactive) {
-                    if (event.getType() == GameEvent.Type.TurnEnd && !(event.getPlayer() instanceof InteractivePlayer)) {
-                        Util.hitEnter(event.getContext());
-                    }
-                    if (event.getType() == GameEvent.Type.TurnBegin) {
-                        Util.log("---");
-                    }
                 }
             }
 
@@ -2256,7 +2218,7 @@ public class Game {
                 if(replacementCost != -1) {
                     ArrayList<Card> cardsWithSameCost = new ArrayList<Card>();
                     for(Card card : actionCards) {
-                        if(card.getCost() == replacementCost && !cardInPlay(card)) {
+                        if(card.getCost(null) == replacementCost && !cardInPlay(card)) {
                             cardsWithSameCost.add(card);
                         }
                     }
@@ -3043,7 +3005,7 @@ public class Game {
             if(gameType == GameType.RandomCornucopia) {
                 avail = false;
                 for(Card c : cardList) {
-                    if (piles.get(c.getName()) == null && c.getCost() <= 3 && c.getCost() >= 2 && !c.costPotion()) {
+                    if (piles.get(c.getName()) == null && c.getCost(null) <= 3 && c.getCost(null) >= 2 && !c.costPotion()) {
                         avail = true;
                         break;
                     }
@@ -3052,7 +3014,7 @@ public class Game {
                     do {
                         card = cardList.get(rand.nextInt(cardList.size()));
                         // find a bane card that has already been added
-                        if (piles.get(card.getName()) == null || card.getCost() > 3 || card.getCost() < 2 || card.costPotion()) {
+                        if (piles.get(card.getName()) == null || card.getCost(null) > 3 || card.getCost(null) < 2 || card.costPotion()) {
                             card = null;
                         }
                     } while (card == null);
@@ -3072,7 +3034,7 @@ public class Game {
             if(avail) {
                 do {
                     card = cardList.get(rand.nextInt(cardList.size()));
-                    if (piles.get(card.getName()) != null || card.getCost() > 3 || card.getCost() < 2 || card.costPotion()) {
+                    if (piles.get(card.getName()) != null || card.getCost(null) > 3 || card.getCost(null) < 2 || card.costPotion()) {
                         card = null;
                     }
                 } while (card == null);
@@ -3119,7 +3081,7 @@ public class Game {
         while (cost < 10) {
             for (Pile pile : piles.values()) {
                 if (!nonKingdomCards.contains(pile.card)) {
-                    if (pile.card.getCost() == cost) {
+                    if (pile.card.getCost(null) == cost) {
                         Util.debug(Util.getShortText(pile.card), true);
                     }
                 }
@@ -3177,9 +3139,6 @@ public class Game {
                     players[i].setName(playerStartupInfo[2]);
                 }
                 String options = playerStartupInfo[3];
-                if(options.contains("q") && players[i] instanceof InteractivePlayer) {
-                    ((InteractivePlayer) players[i]).quickPlay = true;
-                }
                 playerCache.put(playerStartupInfo[0], players[i]);
             } catch (Exception e) {
                 Util.log(e);
@@ -3252,12 +3211,6 @@ public class Game {
 //        broadcastEvent(new GameEvent(GameEvent.Type.PlatAndColonyChance, context));
 
         gameOver = false;
-
-        if (showUI) {
-//            ui = new UI();
-//            ui.init(this);
-//            listeners.add(ui);
-        }
     }
 
     boolean hasMoat(Player player) {
@@ -3480,20 +3433,8 @@ public class Game {
                 Util.log(e);
                 throw new ExitException();
             }
-
-            if (player instanceof InteractivePlayer) {
-                interactive = true;
-            }
         }
-
-        if (interactive) {
-            Util.log("");
-            Util.log("Enter \"`\" at anytime when prompted for keyboard input during the game to exit.");
-            Util.log("Enter \"/\" to turn Quick Play on and off");
-            Util.log("Enter \".\" to see additional game details (card texts, number of cards left, etc.)");
-        }
-
-        return interactive;
+        return false;
     }
 
     public static class Pile {

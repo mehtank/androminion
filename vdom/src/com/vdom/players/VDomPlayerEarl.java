@@ -745,7 +745,7 @@ public class VDomPlayerEarl extends BasePlayer
  
    public Card remodel_cardToTrash(MoveContext context) {
      for (Card card : getHand()) {
-       if (card.getCost() == 6) {
+       if (card.getCost(context) == 6) {
          return card;
        }
      }
@@ -923,8 +923,8 @@ public class VDomPlayerEarl extends BasePlayer
  
      if (cards.size() < 2) {
        for (Card card : getHand()) {
-         if (card.getCost() < lowCost) {
-           lowCost = card.getCost();
+         if (card.getCost(context) < lowCost) {
+           lowCost = card.getCost(context);
            lowCard = card;
          }
        }
@@ -945,7 +945,7 @@ public Card masquerade_cardToPass(MoveContext context)
 	
 	Card c = getHand().get(0);
 	for (Card card : getHand()) {
-		if (card.getCost() < c.getCost())
+		if (card.getCost(context) < c.getCost(context))
 			c = card;
 	}
 	return c;
@@ -1011,7 +1011,7 @@ public Card masquerade_cardToPass(MoveContext context)
      Card[] cards = context.getCardsInPlay();
      ArrayList<Card> randList = new ArrayList<Card>();
      for (Card card : cards) {
-       if ((card.getCost() == cost) && (context.getCardsLeft(card) > 0)) {
+       if ((card.getCost(context) == cost) && (context.getCardsLeft(card) > 0)) {
          randList.add(card);
        }
      }

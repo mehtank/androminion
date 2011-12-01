@@ -404,11 +404,11 @@ public class VDomPlayerSarah extends BasePlayer {
                 if (
                         !context.canPlay(card) || 
                         card.equals(Cards.treasureMap) ||
-                        card.getCost() != cost
+                        card.getCost(context) != cost
                    )
                       continue;
                 
-                if(card.getCost() == cost) {
+                if(card.getCost(context) == cost) {
                     randList.add(card);
                 }
             }
@@ -555,7 +555,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 }
             }
             
-            if(coinWithoutCopper > Cards.grandMarket.getCost()) {
+            if(coinWithoutCopper >= Cards.grandMarket.getCost(context)) {
                 return cards;
             }
         }
@@ -582,7 +582,7 @@ public class VDomPlayerSarah extends BasePlayer {
         while (cost >= 0) {
             ArrayList<Card> randList = new ArrayList<Card>();
             for (Card card : cards) {
-                if (card.getCost() != cost)
+                if (card.getCost(context) != cost)
                     continue;
                 
                 if(shouldPassOnBuy(context, card))

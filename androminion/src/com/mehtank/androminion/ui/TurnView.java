@@ -107,7 +107,7 @@ public class TurnView extends LinearLayout {
 			addView(im);
 		}		
 	}
-	public void setStatus(int[] is, int bridges, boolean myTurn) {
+	public void setStatus(int[] is, int cardCostModifier, boolean myTurn) {
 		removeAllViews();
 		if (graphical) {
 			addIcons(trURI, is[3], 3);
@@ -115,7 +115,7 @@ public class TurnView extends LinearLayout {
 			addIcons(buyURI, is[1], 5);
 			coins.setText(" " + is[2] + " ");
 			addView(coins);
-			addIcons(bridgeURI, bridges, 2);
+			addIcons(bridgeURI, -cardCostModifier, 2);
 			
 			int d = coins.getHeight();
 	    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams((int) (d*1.5), d);
@@ -144,10 +144,8 @@ public class TurnView extends LinearLayout {
 //		    
 //		    str += baseStr + ".";
 //						 
-//			if (bridges == 1)
-//				str += "\nBridge in effect.";
-//			if (bridges > 1)
-//				str += "\n" + bridges + " Bridges in effect";
+			if (cardCostModifier != 0)
+				str += "\nCost modifier: " + cardCostModifier;
 
 			tv.setText(str);
 			tv.setLayoutParams(lp);

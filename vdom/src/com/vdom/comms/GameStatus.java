@@ -20,7 +20,7 @@ public class GameStatus implements Serializable {
 	public int[] numCards;
 	public int[] pirates;
 	public int[] victoryTokens;
-	public int bridges;
+	public int cardCostModifier;
 
 	public GameStatus setFinal(boolean b) {isFinal = b; return this;}
 	public GameStatus setCurPlayer(int i) {whoseTurn = i; return this;}
@@ -37,7 +37,7 @@ public class GameStatus implements Serializable {
 	public GameStatus setNumCards(int[] is) {numCards = is; return this;}
 	public GameStatus setPirates(int[] is) {pirates = is; return this;}
     public GameStatus setVictoryTokens(int[] is) {victoryTokens = is; return this;}
-	public GameStatus setBridges(int i) {bridges = i; return this;}
+	public GameStatus setCardCostModifier(int i) {cardCostModifier = i; return this;}
 	public String toString() {
 		String str = name + "(" + whoseTurn + ")";
 		return str;
