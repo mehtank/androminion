@@ -53,6 +53,12 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 	
 	@SuppressWarnings("unchecked")
 	public void showDialog(Androminion top, Event e, boolean multiplayer) {
+	    if(e == null || e.o == null)
+	    {
+	        System.out.println("Start game called with proper data in event.");
+	        return;
+	    }
+	    
 		this.top = top;
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
