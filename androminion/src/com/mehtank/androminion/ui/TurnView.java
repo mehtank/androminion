@@ -107,7 +107,7 @@ public class TurnView extends LinearLayout {
 			addView(im);
 		}		
 	}
-	public void setStatus(int[] is, int cardCostModifier, boolean myTurn) {
+	public void setStatus(int[] is, int cardCostModifier, int potions, boolean myTurn) {
 		removeAllViews();
 		if (graphical) {
 			addIcons(trURI, is[3], 3);
@@ -135,8 +135,19 @@ public class TurnView extends LinearLayout {
             else
                 buys = Strings.format(top, R.string.buy_multiple, "" + is[1]);
             String coins = Strings.format(top, R.string.coins, "" + is[2]);
-		    
-		    String baseStr = Strings.format(top, R.string.actions_buys_coins, actions, buys, coins);
+            String baseStr;
+            if(potions > 0) {
+                String potionString; 
+                if(potions == 1)
+                    potionString = Strings.format(top, R.string.potion_single, "" + potions);
+                else
+                    potionString = Strings.format(top, R.string.potion_multiple, "" + potions);
+                
+                baseStr = Strings.format(top, R.string.actions_buys_coins_potions, actions, buys, coins, potionString);
+            }
+            else {
+                baseStr = Strings.format(top, R.string.actions_buys_coins, actions, buys, coins);
+            }
 
 		    String str = baseStr;
 //			String str = ((is[3] <= 0) ? "" :
