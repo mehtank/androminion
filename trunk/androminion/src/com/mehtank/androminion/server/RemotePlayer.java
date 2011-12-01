@@ -748,6 +748,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     @Override
     protected int[] orderCards(MoveContext context, int[] cards, String header) {
+        if(cards != null && cards.length == 1) {
+            return cards;
+        }
+        
         Event p = new Event(EType.ORDERCARDS)
             .setString(header)
             .setObject(new EventObject(cards));

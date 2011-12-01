@@ -1696,33 +1696,40 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
             }
             if (topOfTheDeck.size() > 0) {
-                Card[] order = currentPlayer.cartographer_cardOrder(context, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]));
-                // Check that they returned the right cards
-                boolean bad = false;
-   
-                if (order == null) {
-                    bad = true;
-                } else {
-                    ArrayList<Card> copy = new ArrayList<Card>();
-                    for (Card card : topOfTheDeck) {
-                        copy.add(card);
-                    }
-   
-                    for (Card card : order) {
-                        if (!copy.remove(card)) {
+                Card[] order;
+                
+                if(topOfTheDeck.size() == 1) {
+                    order = topOfTheDeck.toArray(new Card[topOfTheDeck.size()]);
+                }
+                else {
+                    order = currentPlayer.cartographer_cardOrder(context, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]));
+                    // Check that they returned the right cards
+                    boolean bad = false;
+       
+                    if (order == null) {
+                        bad = true;
+                    } else {
+                        ArrayList<Card> copy = new ArrayList<Card>();
+                        for (Card card : topOfTheDeck) {
+                            copy.add(card);
+                        }
+       
+                        for (Card card : order) {
+                            if (!copy.remove(card)) {
+                                bad = true;
+                                break;
+                            }
+                        }
+       
+                        if (!copy.isEmpty()) {
                             bad = true;
-                            break;
                         }
                     }
-   
-                    if (!copy.isEmpty()) {
-                        bad = true;
+       
+                    if (bad) {
+                        Util.playerError(currentPlayer, "Cartographer order cards error, ignoring.");
+                        order = topOfTheDeck.toArray(new Card[topOfTheDeck.size()]);
                     }
-                }
-   
-                if (bad) {
-                    Util.playerError(currentPlayer, "Cartographer order cards error, ignoring.");
-                    order = topOfTheDeck.toArray(new Card[topOfTheDeck.size()]);
                 }
    
                 // Put the cards back on the deck
