@@ -21,6 +21,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DeckView extends FrameLayout {
@@ -55,27 +56,41 @@ public class DeckView extends FrameLayout {
 		name.setLayoutParams(p);
 		name.setTextSize(name.getTextSize() * textScale);
 		addView(name);		
+		
+		LinearLayout ll = new LinearLayout(top);
+        ll.setLayoutParams(new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            Gravity.TOP + Gravity.RIGHT));
+		addView(ll);
 
-		p = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.WRAP_CONTENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT,
-				Gravity.TOP + Gravity.RIGHT);
+        LinearLayout.LayoutParams lp;
+        
+		lp = new LinearLayout.LayoutParams(
+		    LinearLayout.LayoutParams.WRAP_CONTENT,
+		    LinearLayout.LayoutParams.WRAP_CONTENT,
+			Gravity.TOP + Gravity.RIGHT);
 		
 		pirates = new TextView(top);
 		pirates.setTextSize((float) (pirates.getTextSize() * 0.75));
 		pirates.setTextColor(Color.YELLOW);
 		pirates.setBackgroundResource(R.drawable.pirates);
-		pirates.setLayoutParams(p);
+		pirates.setLayoutParams(lp);
 		pirates.setVisibility(INVISIBLE);
-		addView(pirates);
+		ll.addView(pirates);
 		
+        lp = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            Gravity.TOP + Gravity.LEFT);
+        
 		victoryTokens = new TextView(top);
 		victoryTokens.setTextSize((float) (victoryTokens.getTextSize() * 0.75));
 		victoryTokens.setTextColor(Color.BLACK);
 		victoryTokens.setBackgroundResource(R.drawable.victorytokens);
-		victoryTokens.setLayoutParams(p);
+		victoryTokens.setLayoutParams(lp);
 		victoryTokens.setVisibility(INVISIBLE);
-        addView(victoryTokens);
+        ll.addView(victoryTokens);
 
         if(showCardCounts) {
     		p = new FrameLayout.LayoutParams(
