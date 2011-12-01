@@ -6,6 +6,13 @@
  * Issue 144: Achievements popup spelling error
  * Issue 143: Peddler Description spelling error.
  * Issue 140: Apothecary + top of the deck
+ * Issue 146: University + Highway
+ * Issue 142: Farmland + Highway
+ * Issue 133: Highway and Workshop don't work together
+ * Issue 122: remake allows no selection, have to quit.
+ * Issue 98: When no card is available, user is forced to close the game
+ * Issue 83: Expand does not work correctly with Princess
+
 
 1.9.b15
  * Syncing code and builds before checking code into Source here and releasing as open source
