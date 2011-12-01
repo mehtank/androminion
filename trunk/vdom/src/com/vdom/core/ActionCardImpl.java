@@ -255,7 +255,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.wishingWell)) {
             wishingWell(game, context, currentPlayer);
         } else if (equals(Cards.bridge)) {
-            bridge();
+            context.cardCostModifier -= 1;
         } else if (equals(Cards.tradingPost)) {
             tradingPost(context, currentPlayer);
         } else if (equals(Cards.torturer)) {
@@ -357,7 +357,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.followers)) {
             followers(game, context, currentPlayer);
         } else if (equals(Cards.princess)) {
-            context.princessPlayed = true;
+            context.cardCostModifier -= 2;
         } else if (equals(Cards.trustySteed)) {
             trustySteed(game, context, currentPlayer);
         } else if (equals(Cards.crossroads)) {
@@ -385,7 +385,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.embassy)) {
             embassy(context, currentPlayer);
         } else if (equals(Cards.highway)) {
-            highway(context);
+            context.cardCostModifier -= 1;
         } else if (equals(Cards.inn)) {
             inn(context, currentPlayer);
         } else if (equals(Cards.mandarin)) {
@@ -717,9 +717,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     Card thisCard = removeFromHand(currentPlayer, i);
                     currentPlayer.trash(thisCard, this, context);
 
-                    TreasureCard newCard = currentPlayer.mine_treasureToObtain(context, card.getCost() + 3);
+                    TreasureCard newCard = currentPlayer.mine_treasureToObtain(context, card.getCost(context) + 3);
                     if (newCard != null) {
-                        if (newCard.getCost() <= card.getCost() + 3) {
+                        if (newCard.getCost(context) <= card.getCost(context) + 3) {
                             currentPlayer.gainNewCard(newCard, this, context);
                         }
                     }
@@ -731,7 +731,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void university(MoveContext context, Player currentPlayer) {
         ActionCard cardToObtain = currentPlayer.university_actionCardToObtain(context);
-        if (cardToObtain != null && cardToObtain instanceof ActionCard && cardToObtain.getCost() <= 5 && !cardToObtain.costPotion()) {
+        if (cardToObtain != null && cardToObtain instanceof ActionCard && cardToObtain.getCost(context) <= 5 && !cardToObtain.costPotion()) {
             currentPlayer.gainNewCard(cardToObtain, this, context);
         }
     }
@@ -746,7 +746,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             currentPlayer.hand.remove(cardToTrash);
             currentPlayer.trash(cardToTrash, this, context);
 
-            for (int i = 1; i <= (cardToTrash.getCost() + (cardToTrash.costPotion() ? 2 : 0)); i++) {
+            for (int i = 1; i <= (cardToTrash.getCost(context) + (cardToTrash.costPotion() ? 2 : 0)); i++) {
                 game.drawToHand(currentPlayer, this);
             }
         }
@@ -1034,7 +1034,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             card = currentPlayer.hand.get(0);
         }
 
-        context.addGold += card.getCost();
+        context.addGold += card.getCost(context);
         currentPlayer.hand.remove(card);
         currentPlayer.trash(card, this, context);
     }
@@ -1050,7 +1050,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             currentPlayer.hand.remove(card);
             currentPlayer.trash(card, this, context);
-            currentPlayer.addVictoryTokens(context, card.getCost() / 2);
+            currentPlayer.addVictoryTokens(context, card.getCost(context) / 2);
         }
 
         for (Player player : game.getPlayersInTurnOrder()) {
@@ -1100,14 +1100,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             card = Util.randomCard(currentPlayer.hand);
         }
 
-        int maxCost = card.getCost() + 3;
+        int maxCost = card.getCost(context) + 3;
         boolean potion = card.costPotion();
         currentPlayer.hand.remove(card);
         currentPlayer.trash(card, this, context);
 
         card = currentPlayer.expand_cardToObtain(context, maxCost, potion);
         if (card != null) {
-            if (card.getCost() > maxCost) {
+            if (card.getCost(context) > maxCost) {
                 Util.playerError(currentPlayer, "Expand error, new card costs too much.");
             } else if(card.costPotion() && !potion) {
                 Util.playerError(currentPlayer, "Expand error, new card costs potion and trashed card does not.");
@@ -1126,7 +1126,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (cards != null) {
             for (Card card : cards) {
                 if (card != null && currentPlayer.hand.contains(card)) {
-                    totalCost += card.getCost();
+                    totalCost += card.getCost(context);
                     currentPlayer.hand.remove(card);
                     currentPlayer.trash(card, this, context);
                 }
@@ -1135,7 +1135,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         Card card = currentPlayer.forge_cardToObtain(context, totalCost);
         if (card != null) {
-            if (card.getCost() != totalCost || card.costPotion() || card.isPrize() || card.equals(Cards.curse)) {
+            if (card.getCost(context) != totalCost || card.costPotion() || card.isPrize() || card.equals(Cards.curse)) {
                 Util.playerError(currentPlayer, "Forge returned invalid card, ignoring.");
             } else {
                 if(!currentPlayer.gainNewCard(card, this, context)) {
@@ -1663,7 +1663,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 card = currentPlayer.hand.get(0);
             }
             
-            int cost = card.getCost();
+            int cost = card.getCost(context);
             currentPlayer.hand.remove(card);
             currentPlayer.trash(card, this, context);
             for(int i=0; i < cost; i++) {
@@ -1811,10 +1811,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             currentPlayer.reveal(cards[i], this, context);
             currentPlayer.discard(cards[i], this, null);
         }
-    }
-
-    private void highway(MoveContext context) {
-        context.highwaysPlayed++;
     }
 
     private void mandarin(MoveContext context, Player currentPlayer) {
@@ -2020,7 +2016,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             for (int i = 0; i < currentPlayer.hand.size(); i++) {
                 Card playersCard = currentPlayer.hand.get(i);
                 if (playersCard.equals(cardToTrash)) {
-                    cost = playersCard.getCost();
+                    cost = playersCard.getCost(context);
                     potion = playersCard.costPotion();
                     playersCard = currentPlayer.hand.remove(i);
    
@@ -2039,7 +2035,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             Card card = currentPlayer.remodel_cardToObtain(context, cost, potion);
             if (card != null) {
                 // check cost
-                if (card.getCost() > cost) {
+                if (card.getCost(context) > cost) {
                     Util.playerError(currentPlayer, "Remodel new card costs too much, ignoring.");
                 }
                 else if (card.costPotion() && !potion) {
@@ -2067,14 +2063,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 card = Util.randomCard(currentPlayer.hand);
             }
 
-            int value = card.getCost() + 1;
+            int value = card.getCost(context) + 1;
             boolean potion = card.costPotion();
             currentPlayer.hand.remove(card);
             currentPlayer.trash(card, this, context);
 
             card = currentPlayer.remake_cardToObtain(context, value, potion);
             if (card != null) {
-                if (card.getCost() != value || card.costPotion() != potion) {
+                if (card.getCost(context) != value || card.costPotion() != potion) {
                     Util.playerError(currentPlayer, "Remake error, new card must cost exactly " + value + ".");
                 } else {
                     if(!currentPlayer.gainNewCard(card, this, context)) {
@@ -2189,10 +2185,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 Util.playerError(currentPlayer, "Trading Post error, ignoring.");
             }
         }
-    }
-
-    private void bridge() {
-        Game.bridgesInEffect++;
     }
 
     private void masquerade(Game game, MoveContext context, Player currentPlayer) {
@@ -2325,8 +2317,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 Card draw;
 
                 while ((draw = game.draw(player)) != null) {
-                    if (draw.getCost() >= 3) {
-                        int value = draw.getCost();
+                    if (draw.getCost(context) >= 3) {
+                        int value = draw.getCost(context);
                         value -= 2;
                         if (value < 0) {
                             value = 0;
@@ -2338,7 +2330,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                         Card card = (player).saboteur_cardToObtain(playerContext, value, potion);
                         if (card != null) {
-                            if(card.getCost() > value || (card.costPotion() && !potion) || card.isPrize() || card.equals(Cards.curse)) {
+                            if(card.getCost(context) > value || (card.costPotion() && !potion) || card.isPrize() || card.equals(Cards.curse)) {
                                 Util.playerError(currentPlayer, "Saboteur obtain error, ignoring.");
                             }
                             else {
@@ -2493,14 +2485,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 card = Util.randomCard(currentPlayer.hand);
             }
    
-            int value = card.getCost() + 1;
+            int value = card.getCost(context) + 1;
             boolean potion = card.costPotion();
             currentPlayer.hand.remove(card);
             currentPlayer.trash(card, this, context);
    
             card = currentPlayer.upgrade_cardToObtain(context, value, potion);
             if (card != null) {
-                if (card.getCost() != value || card.costPotion() != potion) {
+                if (card.getCost(context) != value || card.costPotion() != potion) {
                     Util.playerError(currentPlayer, "Upgrade error, new card does not cost value of the old card +1.");
                 } else {
                     if(!currentPlayer.gainNewCard(card, this, context)) {
@@ -2513,7 +2505,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void ironworks(Game game, MoveContext context, Player currentPlayer) {
         Card card = currentPlayer.ironworks_cardToObtain(context);
-        if (card != null && card.getCost() <= 4 && !card.costPotion()) {
+        if (card != null && card.getCost(context) <= 4 && !card.costPotion()) {
             if (currentPlayer.gainNewCard(card, this, context)) {
                 if (card instanceof ActionCard) {
                     context.actions++;
@@ -2594,20 +2586,20 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 if (draw != null) {
                     player.trash(draw, this, playerContext);
 
-                    Card card = currentPlayer.swindler_cardToSwitch(context, draw.getCost());
+                    Card card = currentPlayer.swindler_cardToSwitch(context, draw.getCost(context));
 
                     boolean bad = false;
                     if (card == null) {
                         // Check that there are no cards that are possible to trade for...
                         for (Card thisCard : context.getCardsInPlay()) {
-                            if (game.pileSize(thisCard) > 0 && thisCard.getCost() == draw.getCost()) {
+                            if (game.pileSize(thisCard) > 0 && thisCard.getCost(context) == draw.getCost(context)) {
                                 bad = true;
                                 break;
                             }
                         }
                     } else if (context.getCardsLeft(card) == 0) {
                         bad = true;
-                    } else if (card.getCost() != draw.getCost()) {
+                    } else if (card.getCost(context) != draw.getCost(context)) {
                         bad = true;
                     }
 
@@ -2616,7 +2608,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                         ArrayList<Card> possible = new ArrayList<Card>();
                         for (Card thisCard : context.getCardsInPlay()) {
-                            if (game.pileSize(thisCard) > 0 && thisCard.getCost() == draw.getCost()) {
+                            if (game.pileSize(thisCard) > 0 && thisCard.getCost(context) == draw.getCost(context)) {
                                 possible.add(thisCard);
                             }
                         }
@@ -2988,7 +2980,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 cardToTrash = currentPlayer.hand.get(0);
             }
             
-            int trashedCardCost = cardToTrash.getCost();
+            int trashedCardCost = cardToTrash.getCost(context);
             
             Card lowCardToGain = null;
             Card highCardToGain = null;
@@ -3028,18 +3020,18 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             
             if(cardsToGain.length == 0) {
                 for(Card c : context.getCardsInPlay()) {
-                    if((c.getCost() == trashedCardCost - 1 || c.getCost() == trashedCardCost + 1) && context.getCardsLeft(c) > 0) {
+                    if((c.getCost(context) == trashedCardCost - 1 || c.getCost(context) == trashedCardCost + 1) && context.getCardsLeft(c) > 0) {
                         bad = true;
                     }
                 }
             }
             else if(cardsToGain.length == 1) {
-                if(cardsToGain[0].getCost() != trashedCardCost -1 && cardsToGain[0].getCost() != trashedCardCost + 1) {
+                if(cardsToGain[0].getCost(context) != trashedCardCost -1 && cardsToGain[0].getCost(context) != trashedCardCost + 1) {
                     bad = true;
                 }
                 else {
                     int costToCheck;
-                    if(cardsToGain[0].getCost() == trashedCardCost - 1) {
+                    if(cardsToGain[0].getCost(context) == trashedCardCost - 1) {
                         costToCheck = trashedCardCost + 1;
                     }
                     else {
@@ -3047,16 +3039,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     }
                     
                     for(Card c : context.getCardsInPlay()) {
-                        if(c.getCost() == costToCheck && context.getCardsLeft(c) > 0) {
+                        if(c.getCost(context) == costToCheck && context.getCardsLeft(c) > 0) {
                             bad = true;
                         }
                     }
                 }
             }
             else if(cardsToGain.length == 2) {
-                Card lowCard = (cardsToGain[0].getCost() <= cardsToGain[1].getCost())?cardsToGain[0]:cardsToGain[1];
-                Card highCard = (cardsToGain[0].getCost() > cardsToGain[1].getCost())?cardsToGain[0]:cardsToGain[1];
-                if(lowCard.getCost() != trashedCardCost -1 && highCard.getCost() != trashedCardCost + 1) {
+                Card lowCard = (cardsToGain[0].getCost(context) <= cardsToGain[1].getCost(context))?cardsToGain[0]:cardsToGain[1];
+                Card highCard = (cardsToGain[0].getCost(context) > cardsToGain[1].getCost(context))?cardsToGain[0]:cardsToGain[1];
+                if(lowCard.getCost(context) != trashedCardCost -1 && highCard.getCost(context) != trashedCardCost + 1) {
                     bad = true;
                 }
             }
@@ -3383,7 +3375,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void smugglers(MoveContext context, Player currentPlayer) {
         Card card = currentPlayer.smugglers_cardToObtain(context);
         if (card != null) {
-            if (card.getCost() > 6 || card.isPrize()) {
+            if (card.getCost(context) > 6 || card.isPrize()) {
                 Util.playerError(currentPlayer, "Smugglers card error, ignoring.");
                 card = null;
             } else {
@@ -3417,7 +3409,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Card card = currentPlayer.feast_cardToObtain(context);
         if (card != null) {
             // check cost
-            if (card.getCost() <= 5) {
+            if (card.getCost(context) <= 5) {
                 currentPlayer.gainNewCard(card, this, context);
             }
         }
@@ -3567,7 +3559,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     
     protected boolean isNewCardAvailable(MoveContext context, int cost) {
         for(Card c : context.getCardsInPlay()) {
-            if(c.getCost() == cost && context.getCardsLeft(c) > 0) {
+            if(c.getCost(context) == cost && context.getCardsLeft(c) > 0) {
                 return true;
             }
         }
@@ -3579,7 +3571,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Card card = currentPlayer.workshop_cardToObtain(context);
         if (card != null) {
             // check cost
-            if (card.getCost() <= 4) {
+            if (card.getCost(context) <= 4) {
                 currentPlayer.gainNewCard(card, this, context);
             }
         }

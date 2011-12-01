@@ -42,10 +42,8 @@ public class SelectCardOptions implements Serializable {
 	public String passString = null;
 	public boolean ordered = false;
 	public int quarriesPlayed = 0;
-	public int highwaysPlayed = 0;
 	public boolean buyPhase = false;
 	public int actionsPlayed = 0;
-	public boolean princessInPlay;
 	public ArrayList<Integer> allowedCards = new ArrayList<Integer>();
 
 //	public SelectCardOptions setType(SelectType s) {selectType = s; return this;}
@@ -63,7 +61,6 @@ public class SelectCardOptions implements Serializable {
 	public SelectCardOptions minCost(int c) {minCost = c; return this;}
 	public SelectCardOptions potionCost(int c) {potionCost = c; return this;}
 	public SelectCardOptions quarriesPlayed(int i) {quarriesPlayed = i; return this;}
-    public SelectCardOptions highwaysPlayed(int i) {highwaysPlayed = i; return this;}
 	public SelectCardOptions allowedCards(int[] is) {
 		for (int i : is)
 			addValidCard(i);
@@ -86,8 +83,6 @@ public class SelectCardOptions implements Serializable {
 	public boolean checkValid(MyCard c) {
 	    int costModifier = 0;
 	    costModifier += (c.isAction ? (2 * quarriesPlayed) : 0);
-        costModifier += (princessInPlay ? 2 : 0);
-        costModifier += highwaysPlayed;
         
 	    if(buyPhase && c.name.equals("Peddler")) {
 	        costModifier += actionsPlayed * 2;

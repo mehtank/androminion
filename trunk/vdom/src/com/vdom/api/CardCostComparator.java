@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 public class CardCostComparator implements Comparator<Card> {
     public int compare(Card cardOne, Card cardTwo) {
-        if (cardOne.getCost() == cardTwo.getCost()) {
+        if (cardOne.getCost(null) == cardTwo.getCost(null)) {
             if (cardOne.costPotion() || cardTwo.costPotion()) {
                 if (cardOne.costPotion() && cardTwo.costPotion()) {
                     return 0;
@@ -22,7 +22,7 @@ public class CardCostComparator implements Comparator<Card> {
                     return 0;
                 }
             }
-        } else if (cardOne.getCost() > cardTwo.getCost()) {
+        } else if (cardOne.getCost(null) > cardTwo.getCost(null)) {
             return -1;
         } else {
             return 1;

@@ -101,7 +101,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         MyCard card = new MyCard(index, Strings.getCardName(c));
     	card.desc = Strings.getCardDescription(c);
     	card.expansion = Strings.getCardExpansion(c);
-    	card.cost = c.getCost();
+    	card.cost = c.getCost(null);
     	card.costPotion = c.costPotion();
 
     	card.pile = MyCard.SUPPLYPILE;
@@ -333,7 +333,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setNumCards(numCards)
     	  .setPirates(pirates)
     	  .setVictoryTokens(victoryTokens)
-    	  .setBridges(Game.bridgesInEffect)
+    	  .setCardCostModifier(context.cardCostModifier)
     	  .setIsland(cardArrToIntArr(getIsland().toArray()))
     	  .setVillage(cardArrToIntArr(getNativeVillage().toArray()));
     	

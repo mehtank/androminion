@@ -91,7 +91,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         while (cost >= 0) {
             for (Card card : cards) {
-                if (card.getCost() == cost && context.getCardsLeft(card) > 0) {
+                if (card.getCost(context) == cost && context.getCardsLeft(card) > 0) {
                     if(card.equals(Cards.potion)) {
                         if(!shouldBuyPotion()) {
                             continue;
@@ -112,7 +112,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                     
                     if (!isBuy || context.canBuy(card)) {
                         if(highestCost == 0) {
-                            highestCost = card.getCost();
+                            highestCost = card.getCost(context);
                         }
                         
                         if((card.costPotion() && potion) || (!card.costPotion() && !potion) || (!exactCost && potion))
@@ -138,8 +138,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return null;
     }
     
-    public Card lowestCard(CardList cards, boolean anyVictory) {
-        Card[] ret = lowestCards(cards, 1, anyVictory);
+    public Card lowestCard(MoveContext context, CardList cards, boolean anyVictory) {
+        Card[] ret = lowestCards(context, cards, 1, anyVictory);
         if(ret == null) {
             return null;
         }
@@ -147,7 +147,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return ret[0];
     }
     
-    public Card[] lowestCards(CardList cards, int num, boolean anyVictory) {
+    public Card[] lowestCards(MoveContext context, CardList cards, int num, boolean anyVictory) {
         if (cards == null) {
             return null;
         }
@@ -218,7 +218,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         while(cost <= COST_MAX) {
             for (int i = cardArray.size() - 1; i >= 0; i--) {
                 Card card = cardArray.get(i);
-                if (card.getCost() == cost) {
+                if (card.getCost(context) == cost) {
                     ret.add(card);
                     cardArray.remove(i);
                     
@@ -354,7 +354,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                     if (bestAction == -1) {
                         bestAction = i;
                     } else {
-                        if(cards.get(i).getCost() > cards.get(bestAction).getCost()) {
+                        if(cards.get(i).getCost(context) > cards.get(bestAction).getCost(context)) {
                             cards.remove(bestAction);
                             bestAction = i;
                         }
@@ -590,7 +590,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         Card[] cards = context.getCardsInPlay();
         ArrayList<Card> randList = new ArrayList<Card>();
         for (Card card : cards) {
-            if (card.getCost() == cost && context.getCardsLeft(card) > 0) {
+            if (card.getCost(context) == cost && context.getCardsLeft(card) > 0) {
                 randList.add(card);
             }
         }
@@ -604,7 +604,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card[] torturer_attack_cardsToDiscard(MoveContext context) {
-        return lowestCards(getHand(), 2, true);
+        return lowestCards(context, getHand(), 2, true);
     }
 
     public Card courtyard_cardToPutBackOnDeck(MoveContext context) {
@@ -623,7 +623,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card masquerade_cardToPass(MoveContext context) {
-        return lowestCard(getHand(), false);
+        return lowestCard(context, getHand(), false);
     }
 
     @Override
@@ -700,7 +700,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
             
             for(Card avail : context.getCardsInPlay()) {
-                if(avail.getCost() == c.getCost() + 1 && context.getCardsLeft(avail) > 0 && context.getEmbargos(avail) == 0 && !avail.costPotion()) {
+                if(avail.getCost(context) == c.getCost(context) + 1 && context.getCardsLeft(avail) > 0 && context.getEmbargos(avail) == 0 && !avail.costPotion()) {
                     return avail;
                 }
             }
@@ -783,7 +783,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return null;
         }
         
-        return lowestCard(getHand(), false);
+        return lowestCard(context, getHand(), false);
     }
 
     @Override
@@ -818,8 +818,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         Card[] last = context.getCardsObtainedByLastPlayer();
         Card bestCard = null;
         for (int i = 0; i < last.length; i++) {
-            if (last[i].getCost() <= 6 && context.getCardsLeft(last[i]) > 0) {
-                if (bestCard == null || last[i].getCost() > bestCard.getCost()) {
+            if (last[i].getCost(context) <= 6 && context.getCardsLeft(last[i]) > 0) {
+                if (bestCard == null || last[i].getCost(context) > bestCard.getCost(context)) {
                     bestCard = last[i];
                 }
             }
@@ -877,14 +877,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
         for(Card c : cards)
             cl.add(c);
-        return lowestCard(cl, false);
+        return lowestCard(context, cl, false);
     }
 
     public Card lookout_cardToDiscard(MoveContext context, Card[] cards) {
         CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
         for(Card c : cards)
             cl.add(c);
-        return lowestCard(cl, false);
+        return lowestCard(context, cl, false);
     }
 
     @Override
@@ -955,12 +955,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         
         int index = 0;
-        int cost = cards[0].getCost();
+        int cost = cards[0].getCost(context);
         
         for(int i=1; i < cards.length; i++) {
-            if(cards[i].getCost() > cost) {
+            if(cards[i].getCost(context) > cost) {
                 index = i;
-                cost = cards[i].getCost();
+                cost = cards[i].getCost(context);
             }
         }
         
@@ -1017,9 +1017,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         for(Card c : getHand()) {
             if(c instanceof TreasureCard) {
-                if(c.getCost() > cost) {
+                if(c.getCost(context) > cost) {
                     cardToMint = c;
-                    cost = c.getCost();
+                    cost = c.getCost(context);
                 }
             }
         }
@@ -1206,12 +1206,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card[] horseTraders_cardsToDiscard(MoveContext context) {
-        return lowestCards(getHand(), 2, true);
+        return lowestCards(context, getHand(), 2, true);
     }
 
     @Override
     public JesterOption jester_chooseOption(MoveContext context, Player targetPlayer, Card card) {
-        if(card.getCost() > 2) {
+        if(card.getCost(context) > 2) {
             return JesterOption.GainCopy;
         }
         
@@ -1224,7 +1224,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         if(c == null) {
             for(Card check : getHand()) {
-                if(check.getCost() == 7 && context.canBuy(Cards.province)) {
+                if(check.getCost(context) == 7 && context.canBuy(Cards.province)) {
                     c = check;
                     break;
                 }
@@ -1238,7 +1238,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                     if(isOnlyVictory(check))
                         continue;
                     
-                    Card best = bestCardInPlay(context,  check.getCost() + 1);
+                    Card best = bestCardInPlay(context,  check.getCost(context) + 1);
                     
                     if(best != null) {
                         c = check;
@@ -1279,7 +1279,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card[] youngWitch_cardsToDiscard(MoveContext context) {
-        return lowestCards(getHand(), 2, true);
+        return lowestCards(context, getHand(), 2, true);
     }
 
     @Override
@@ -1305,7 +1305,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public TreasureCard mine_treasureToObtain(MoveContext context, int cost) {
         while(cost > 0) {
             for(Card card : context.getCardsInPlay()) {
-                if(card instanceof TreasureCard && card.getCost() == cost && context.getCardsLeft(card) > 0) {
+                if(card instanceof TreasureCard && card.getCost(context) == cost && context.getCardsLeft(card) > 0) {
                     return (TreasureCard) card;
                 }
             }
@@ -1379,11 +1379,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return treasures[0];
         }
         int index = 0;
-        int cost = treasures[0].getCost();
+        int cost = treasures[0].getCost(context);
         for(int i=1; i < treasures.length; i++) {
-            if(treasures[i].getCost() > cost) {
+            if(treasures[i].getCost(context) > cost) {
                 index = i;
-                cost = treasures[i].getCost();
+                cost = treasures[i].getCost(context);
             }
         }
         return treasures[index];
@@ -1449,13 +1449,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card oasis_cardToDiscard(MoveContext context) {
-        return lowestCard(getHand(), true);
+        return lowestCard(context, getHand(), true);
     }
 
     @Override
     public Card develop_cardToTrash(MoveContext context) {
         // TODO: Finish hinterlands
-        return lowestCard(getHand(), false);
+        return lowestCard(context, getHand(), false);
     }
 
     @Override
@@ -1485,7 +1485,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public TreasureCard nobleBrigand_silverOrGoldToTrash(MoveContext context, TreasureCard[] silverOrGoldCards) {
-        if(silverOrGoldCards[0].getCost() >= silverOrGoldCards[1].getCost()) {
+        if(silverOrGoldCards[0].getCost(context) >= silverOrGoldCards[1].getCost(context)) {
             return silverOrGoldCards[0];
         }
         
@@ -1567,10 +1567,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         
         int i = 0;
-        int cost = actions[0].getCost();
+        int cost = actions[0].getCost(context);
         for(int index = 1; index < actions.length; index++) {
-            if(actions[index].getCost() >= cost) {
-                cost = actions[index].getCost();
+            if(actions[index].getCost(context) >= cost) {
+                cost = actions[index].getCost(context);
                 i = index;
             }
         }

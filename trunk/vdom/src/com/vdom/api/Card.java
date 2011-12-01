@@ -1,5 +1,7 @@
 package com.vdom.api;
 
+import com.vdom.core.MoveContext;
+
 
 public interface Card {
     public String getName();
@@ -12,7 +14,7 @@ public interface Card {
 
     public String getDescription();
 
-    public int getCost();
+    public int getCost(MoveContext context);
 
     public boolean costPotion();
     

@@ -296,14 +296,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 //			sco.isPassable();
         
         for (Card card : cards)
-        	if (card.getCost() <= maxCost)
+        	if (card.getCost(context) <= maxCost)
         		sco.addValidCard(cardToInt(card));
 
         if (sco.allowedCards.size() == 0)
         	return null;
         
         if (maxCost < Integer.MAX_VALUE)
-        	maxCost += Game.bridgesInEffect;
+        	maxCost -= context.cardCostModifier;
 
         sco.maxCost(maxCost);
         
@@ -346,11 +346,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 }
             }
             sco.actionsPlayed = actionsPlayed;
-            for(Card c : context.getActionsInPlay()) {
-                if(c.equals(Cards.princess)) {
-                    sco.princessInPlay = true;
-                }
-            }
         }
         sco.setPassable(passString);
         
@@ -367,9 +362,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         
 		for (Card card : cards) {
-        	if ((!isBuy && card.getCost() <= maxCost) || 
+        	if ((!isBuy && card.getCost(context) <= maxCost) || 
         		(isBuy && context.canBuy(card, maxCost))) {
-        		if (card.getCost() >= minCost) {
+        		if (card.getCost(context) >= minCost) {
         		    if(victoryAllowed || !(card instanceof VictoryCard)) {
         		        if(potionCost == -1 || (potionCost == 0 && !card.costPotion()) || (potionCost > 0 && card.costPotion()) || (potionCost > 0 && !card.costPotion() && maxCost != minCost)) {
         		            sco.addValidCard(cardToInt(card));
@@ -383,15 +378,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         	return null;
 
         if (maxCost < Integer.MAX_VALUE)
-        	maxCost += Game.bridgesInEffect + (context.wasPrincessPlayed() ? 2 : 0) + context.getHighwaysPlayed();
+        	maxCost -= context.cardCostModifier;
         if (minCost > 0)
-        	minCost += Game.bridgesInEffect + (context.wasPrincessPlayed() ? 2 : 0) + context.getHighwaysPlayed();
+        	minCost -= context.cardCostModifier;
 
         sco.maxCost(maxCost)
            .minCost(minCost)
            .potionCost(potionCost)
-           .quarriesPlayed(context.getQuarriesPlayed())
-           .highwaysPlayed(context.getHighwaysPlayed());
+           .quarriesPlayed(context.getQuarriesPlayed());
 
         boolean quarries = (context.getQuarriesPlayed() > 0);
         String selectString;
@@ -833,7 +827,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	ArrayList<String> options = new ArrayList<String>();
     	Card[] cards = context.getCardsObtainedByLastPlayer();
     	for (Card c : cards)
-    		if (c.getCost() <= 6 && !c.isPrize())
+    		if (c.getCost(context) <= 6 && !c.isPrize())
     			options.add(c.getName());
     	
     	if (options.size() > 0) {
@@ -1487,7 +1481,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         int highIndex;
         int lowIndex;
-        if(silverOrGoldCards[0].getCost() >= silverOrGoldCards[1].getCost()) {
+        if(silverOrGoldCards[0].getCost(context) >= silverOrGoldCards[1].getCost(context)) {
             highIndex = 0;
             lowIndex = 1;
         }

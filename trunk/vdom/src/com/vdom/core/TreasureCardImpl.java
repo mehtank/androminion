@@ -182,7 +182,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             Card toObtain = player.hornOfPlenty_cardToObtain(context, maxCost);
             if (toObtain != null) {
                 // check cost
-                if (toObtain.getCost() <= maxCost) {
+                if (toObtain.getCost(context) <= maxCost) {
                     toObtain = game.takeFromPile(toObtain);
                     // could still be null here if the pile is empty.
                     if (toObtain != null) {

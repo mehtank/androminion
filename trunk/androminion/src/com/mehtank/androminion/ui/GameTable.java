@@ -797,7 +797,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 				top.alert(AlertType.TURNBEGIN);
 		}
 		
-		turnStatus.setStatus(gs.turnStatus, gs.bridges, myTurn);
+		turnStatus.setStatus(gs.turnStatus, gs.cardCostModifier, myTurn);
 		deckStatus.removeAllViews();
 		for (int i=0; i<allPlayers.size(); i++) {
 	        dvs.get(i).set(allPlayers.get(i), gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.whoseTurn == i);

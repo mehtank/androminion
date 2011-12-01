@@ -71,7 +71,7 @@ public class VDomPlayerChuck extends BasePlayer  {
                     continue;
                 }
                 
-                if(card.getCost() == cost)
+                if(card.getCost(context) == cost)
                     randList.add(card);
             }
 
@@ -127,7 +127,7 @@ public class VDomPlayerChuck extends BasePlayer  {
         while (cost >= 0) {
             for (Card card : context.getCardsInPlay()) {
                 if (
-                        card.getCost() != cost || 
+                        card.getCost(context) != cost || 
                         !context.canBuy(card) || 
                         card.equals(Cards.curse) || 
                         card.equals(Cards.copper) || 
@@ -147,7 +147,7 @@ public class VDomPlayerChuck extends BasePlayer  {
                 }
                             
                 if(highestCost == 0) {
-                    highestCost = card.getCost();
+                    highestCost = card.getCost(context);
                 }
                 randList.add(card);
             }

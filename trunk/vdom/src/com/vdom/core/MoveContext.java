@@ -28,13 +28,12 @@ public class MoveContext {
     public int hoardsPlayed = 0;
     public int kingsCourtInEffect = 0;
     public int quarriesPlayed = 0;
-    public int highwaysPlayed = 0;
     public boolean royalSealPlayed = false;
     public int possessionsToProcess = 0;
     public int talismansPlayed = 0;
     public int foolsGoldPlayed = 0;
     public int schemesPlayed = 0;
-    public boolean princessPlayed = false;
+    public int cardCostModifier = 0;
     public ArrayList<Card> throneRoomsInEffect = new ArrayList<Card>();
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public Player getPossessedBy() { return game.possessingPlayer; };
@@ -97,14 +96,6 @@ public class MoveContext {
         return quarriesPlayed;
     }
     
-    public int getHighwaysPlayed() {
-        return highwaysPlayed;
-    }
-    
-    public boolean wasPrincessPlayed() {
-        return princessPlayed;
-    }
-
     public ArrayList<Card> getPlayedCards() {
         return playedCards;
     }
