@@ -1,5 +1,6 @@
 #labels Featured
 1.9.b16
+ * Issue 147: Receive 10 in a row Achievements award but haven't won ten games total
  * Issue 141: Bishop & Pirate Ship counters
  * Issue 137: Develop does not put gained cards on top of the deck
  * Issue 139: Potion is displayed in wrong color when playing in German
