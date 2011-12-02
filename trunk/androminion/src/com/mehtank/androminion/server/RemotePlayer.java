@@ -335,7 +335,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setPirates(pirates)
     	  .setVictoryTokens(victoryTokens)
     	  .setCardCostModifier(context.cardCostModifier)
-    	  .setPotions(context.getPotions())
+    	  .setPotions(context.getPotionsForStatus(curPlayer))
     	  .setIsland(cardArrToIntArr(getIsland().toArray()))
     	  .setVillage(cardArrToIntArr(getNativeVillage().toArray()));
     	
@@ -421,9 +421,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	
     	if(event.getType() == GameEvent.Type.Status) {
     	    String coin = "" + context.getCoinAvailableForBuy();
-    	    if(context.potions > 0) {
-    	        coin += "(" + context.potions + ")";
-    	    }
+    	    if(context.potions > 0)
+    	        coin += "p";
+//    	    for(int i=0; i < context.potions; i++) {
+//    	        coin += "p";
+//    	    }
+    	    coin = "(" + coin + ")";
             strEvent += Strings.format(R.string.action_buys_coin, context.getActionsLeft(), context.getBuysLeft(), coin); 
     	}
     	else {

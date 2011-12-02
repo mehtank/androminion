@@ -8,6 +8,7 @@ import java.util.HashMap;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
+import com.vdom.api.Cards;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
@@ -220,6 +221,21 @@ public class MoveContext {
         return coin;
     }
 
+    public int getPotionsForStatus(Player p) {
+        if(playedCards.size() > 0) {
+            return potions;
+        }
+
+        int count = 0;
+        for (Card card : player.getHand()) {
+            if (card.equals(Cards.potion)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+    
     public Card[] getActionsInPlay() {
         ArrayList<Card> actions = new ArrayList<Card>();
 
