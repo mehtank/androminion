@@ -116,8 +116,8 @@ Joerg V. und Sascha H. </string>
       <string name="reset">Reset</string>
 
 	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-	<string name="potion_single">%1$s potion</string>
-	<string name="potion_multiple">%1$s potionss</string>
+	<string name="potion_single">%1$s Trank</string>
+	<string name="potion_multiple">%1$s Tränke</string>
 
 </resources>
 
