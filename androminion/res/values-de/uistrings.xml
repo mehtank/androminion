@@ -96,7 +96,7 @@ Joerg V. und Sascha H. </string>
        <string name="island_header">Insel:</string>
        <string name="village_header">Dorf:</string>
 
-    <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/b/c angezeigt</string>
+    <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/b/(c) angezeigt</string>
 
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
     <string name="action_single">%1$s Aktion</string>

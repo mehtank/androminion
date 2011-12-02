@@ -134,21 +134,13 @@ public class TurnView extends LinearLayout {
                 buys = Strings.format(top, R.string.buy_single, "" + is[1]);
             else
                 buys = Strings.format(top, R.string.buy_multiple, "" + is[1]);
-            String coins = Strings.format(top, R.string.coins, "" + is[2]);
-            String baseStr;
-            if(potions > 0) {
-                String potionString; 
-                if(potions == 1)
-                    potionString = Strings.format(top, R.string.potion_single, "" + potions);
-                else
-                    potionString = Strings.format(top, R.string.potion_multiple, "" + potions);
-                
-                baseStr = Strings.format(top, R.string.actions_buys_coins_potions, actions, buys, coins, potionString);
-            }
-            else {
-                baseStr = Strings.format(top, R.string.actions_buys_coins, actions, buys, coins);
-            }
-
+            
+            String coinStr = "" + is[2] + ((potions > 0)?"p":"");
+//            for(int i=0; i < potions; i++) {
+//                coinStr += "p";
+//            }
+            String coins = Strings.format(top, R.string.coins, "" + coinStr);
+            String baseStr = Strings.format(top, R.string.actions_buys_coins, actions, buys, coins);
 		    String str = baseStr;
 //			String str = ((is[3] <= 0) ? "" :
 //							"" + is[3] + " TR: ");
