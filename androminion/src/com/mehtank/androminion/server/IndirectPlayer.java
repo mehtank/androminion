@@ -13,7 +13,6 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.core.CardList;
-import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
 import com.vdom.core.QuickPlayPlayer;
@@ -75,7 +74,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public String getCardName(Card card) {
-        return card.getName(); //Strings.getCardName(card);
+        return Strings.getCardName(card);
     }
 
     public String getRevealString(Card cardResponsible) {
