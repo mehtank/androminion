@@ -584,7 +584,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	}
     	
     	if (event.getCard() != null && event.getType() != Type.CardAddedToHand && event.getType() != Type.PlayerAttacking)
-    		strEvent += " " + event.getCard().getName() + " ";
+    		strEvent += " " + Strings.getCardName(event.getCard()) + " ";
     	if (event.getAttackedPlayer() != null)
     		strEvent += " (" + event.getAttackedPlayer().getPlayerName() + ") ";
     	if (context != null && context.getMessage() != null) {
