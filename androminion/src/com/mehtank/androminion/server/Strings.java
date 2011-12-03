@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.vdom.api.Card;
+import com.vdom.api.GameType;
 
 public class Strings {
     static HashMap<Card, String> nameCache = new HashMap<Card, String>();
     static HashMap<Card, String> descriptionCache = new HashMap<Card, String>();
     static HashMap<String, String> expansionCache = new HashMap<String, String>();
+    static HashMap<GameType, String> gametypeCache = new HashMap<GameType, String>();
 	public static Context context;
     
     public static String getCardName(Card c) {
@@ -72,6 +74,39 @@ public class Strings {
         }
         return expansion;
     }
+    
+    public static String getGameTypeName(GameType g) {
+    	
+    	String gametype = gametypeCache.get(g);
+    	if (gametype==null){
+    		try {
+    			Resources r = context.getResources();
+    			String str = g.name() + "_gametype";
+    			int id = r.getIdentifier(g.name() + "_gametype", "string", context.getPackageName());
+    			gametype = r.getString(id);
+    		}      
+    		catch(Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	if (gametype == null){
+//          Fallback is the name in the enumeration    		
+    		gametype = g.getName();
+    	}
+    	
+    	gametypeCache.put(g, gametype);
+    	return gametype;
+    }
+    
+    public static GameType getGameTypefromName(String s){
+    	
+    	for (GameType g : GameType.values()) {
+    	  if (getGameTypeName(g).equals(s))
+    	  { return g; }
+    	}
+    	return null;
+    	}
+
     
     public static String format(String str, Object... args) {
         return String.format(str, args);
