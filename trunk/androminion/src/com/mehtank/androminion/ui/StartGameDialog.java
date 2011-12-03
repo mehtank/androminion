@@ -6,6 +6,8 @@ import java.util.Arrays;
 import com.mehtank.androminion.Androminion;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
+import com.vdom.api.GameType;
+
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -170,8 +172,17 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 				}
 				else {
     				edit.putString("gamePref" + (i++), str);
-    				if (!str.equals("None"))
-    					strs.add((String) s.getSelectedItem());
+    				if (!str.equals("None"))  {
+//					    Check if option is a GameType
+//						They are translated on the UI, but the server expects the English name
+    					GameType g = com.mehtank.androminion.server.Strings.getGameTypefromName((String) s.getSelectedItem());
+    					if (g==null)
+//    						Obviously no Game Type, just pass string
+    						strs.add((String) s.getSelectedItem());
+    					else
+    						strs.add((String) g.getName());
+    				}
+    					
 				}
 			}
 			

@@ -257,7 +257,7 @@
       <string name="Seaside">Seaside</string>    
       <string name="Alchemy">Die Alchemisten</string>    
       <string name="Prosperity">Blütezeit</string>    
-      <string name="Cornucopia">Reiche Ernte</string>    
+      <string name="Ernteucopia">Reiche Ernte</string>    
       <string name="Hinterlands">Hinterland</string>    
   
   <!-- Cards -->
@@ -595,4 +595,91 @@
   <string name="Followers_desc">Nimm ein Anwesen. Jeder Mitspieler muss einen Fluch nehmen und Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
   <string name="TrustySteed_name">Streitroß</string>
   <string name="TrustySteed_desc">Wähle zwei verschiedene: +2 Karten; +2 Aktionen; +2 Geld; Nimm 4 Silber und lege sofort deinen kompletten Nachziehstapel auf deinen Ablagestapel.</string>
+  
+  <!-- GameTypes -->
+  <string name="FirstGame_gametype">Erstes Spiel (Basis)</string>
+  <string name="BigMoney_gametype">Grosses Geld (Basis)</string> 
+  <string name="Interaction_gametype">Interaktion (Basis)</string> 
+  <string name="SizeDistortion_gametype">Im Wandel (Basis)</string> 
+  <string name="VillageSquare_gametype">Dorfplatz (Basis)</string>
+  <string name="RandomBaseGame_gametype">Zufälliges Basis Spiel</string>
+  
+  <string name="VictoryDance_gametype">Siegestanz (Intr)</string> 
+  <string name="SecretSchemes_gametype">Geheime Pläne (Intr)</string> 
+  <string name="BestWishes_gametype">Beste Wünsche (Intr)</string> 
+  <string name="RandomIntrigue_gametype">Random Intrigue</string>
+  
+  <string name="Deconstruction_gametype">Demontage (Base, Intr)</string> 
+  <string name="HandMadness_gametype">Eine Hand voll (Base, Intr)</string> 
+  <string name="Underlings_gametype">Untergebene (Base, Intr)</string>
+  
+  <string name="HighSeas_gametype">Auf Hoher See (Sea)</string> 
+  <string name="BuriedTreasure_gametype">Vergrabene Schätze (Sea)</string> 
+  <string name="Shipwrecks_gametype">Schiffswracks (Sea)</string> 
+  <string name="RandomSeaside_gametype">Zufälliges Seaside</string>
+  
+  <string name="RandomAlchemy_gametype">Zufälliges Die Alchemisten</string>
+  
+  <string name="ForbiddenArts_gametype">Verbotene Künste (Base, Alch)</string> 
+  <string name="PotionMixers_gametype">Quacksalber (Base, Alch)</string> 
+  <string name="ChemistryLesson_gametype">Chemiestunde (Base, Alch)</string>
+  
+  <string name="Servants_gametype">Diener (Intr, Alch)</string> 
+  <string name="SecretResearch_gametype">Geheime Forschungen (Intr, Alch)</string> 
+  <string name="PoolsToolsAndFools_gametype">Töpfe, Tränke, Trottel (Intr, Alch)</string>
+  
+  <string name="ReachForTomorrow_gametype">Griff nach den Sternen (Base, Sea)</string> 
+  <string name="Repetition_gametype">Wiederholungen (Base, Sea)</string> 
+  <string name="GiveAndTake_gametype">Geben und Nehmen (Base, Sea)</string>
+
+  <string name="Beginners_gametype">Anfänger (Blüte)</string> 
+  <string name="FriendlyInteractive_gametype">Freundliche Interaktion (Blüte)</string> 
+  <string name="BigActions_gametype">Grosse Aktionen (Blüte)</string> 
+  <string name="RandomProsperity_gametype">Zufälliges Blütezeit</string>
+
+  <string name="BiggestMoney_gametype">Haufenweise Geld (Base, Blüte)</string> 
+  <string name="TheKingsArmy_gametype">Die Armee des Königs (Base, Blüte)</string> 
+  <string name="TheGoodLife_gametype">Ein gutes Leben (Base, Blüte)</string>
+
+  <string name="PathToVictory_gametype">Pfade zum Sieg (Intr, Blüte)</string> 
+  <string name="AllAlongTheWatchtower_gametype">All along the watchtower (Intr, Blüte)</string> 
+  <string name="LuckySeven_gametype">Glücksritter (Intr, Blüte)</string>
+
+  <string name="RandomErnteucopia_gametype">Zufälliges Reiche Ernte</string>
+
+  <string name="BountyOfTheHunt_gametype">Kopfgeld (Base, Ernte)</string> 
+  <string name="BadOmens_gametype">Böses Omen (Base, Ernte)</string> 
+  <string name="TheJestersWorkshop_gametype">Wanderzirkus (Base, Ernte)</string>
+
+  <string name="LastLaughs_gametype">Wer zuletzt lacht (Intr, Ernte)</string> 
+  <string name="TheSpiceOfLife_gametype">Würze des Lebens (Intr, Ernte)</string> 
+  <string name="SmallVictories_gametype">Kleine Siege (Intr, Ernte)</string>
+
+  <string name="HinterlandsIntro_gametype">Hinterland Einführung (Hntr)</string> 
+  <string name="FairTrades_gametype">Lauterer Wettbewerb (Hntr)</string> 
+  <string name="Bargains_gametype">Gelegenheiten (Hntr)</string> 
+  <string name="Gambits_gametype">Eröffnungen (Hntr)</string> 
+  <string name="RandomHinterlands_gametype">Zufälliges Hinterland</string>
+    
+  <string name="HighwayRobbery_gametype">Strassenräuber (Base, Hntr)</string> 
+  <string name="AdventuresAbroad_gametype">Abenteuerfahrt (Base, Hntr)</string>
+    
+  <string name="MoneyForNothing_gametype">Geld aus Nichts (Hntr, Intr)</string> 
+  <string name="TheDukesBall_gametype">Am Hof des Herzogs (Hntr, Intr)</string>
+    
+  <string name="Travelers_gametype">Reisende (Hntr, Sea)</string> 
+  <string name="Diplomacy_gametype">Diplomatie (Hntr, Sea)</string>
+    
+  <string name="SchemesAndDreams_gametype">Träume sind Schäume (Hntr, Alch)</string> 
+  <string name="WineCountry_gametype">Weinviertel (Hntr, Alch)</string>
+
+  <string name="InstantGratification_gametype">Karriereleiter (Hntr, Blüte)</string> 
+  <string name="TreasureTrove_gametype">Schatzfund (Hntr, Blüte)</string>
+   
+  <string name="BlueHarvest_gametype">Schmalhans (Hntr, Ernte)</string> 
+  <string name="TravelingCircus_gametype">Wanderzirkus (Hntr, Ernte)</string>
+    
+  <string name="Random_gametype">Zufällig</string>
+  
+  
 </resources>

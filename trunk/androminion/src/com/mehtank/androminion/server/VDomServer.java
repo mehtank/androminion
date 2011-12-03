@@ -91,7 +91,7 @@ public class VDomServer implements EventHandler {
 			debugOutput = true;
 		
 		for (GameType g : GameType.values())
-			gameArray.add(g.getName());
+			gameArray.add(Strings.getGameTypeName(g));
 		numGameTypes = gameArray.size();
 		Collections.sort(gameArray);
 		
