@@ -607,7 +607,7 @@
   <string name="VictoryDance_gametype">Siegestanz (Intr)</string> 
   <string name="SecretSchemes_gametype">Geheime Pläne (Intr)</string> 
   <string name="BestWishes_gametype">Beste Wünsche (Intr)</string> 
-  <string name="RandomIntrigue_gametype">Random Intrigue</string>
+  <string name="RandomIntrigue_gametype">Zufälliges Die Intrige</string>
   
   <string name="Deconstruction_gametype">Demontage (Base, Intr)</string> 
   <string name="HandMadness_gametype">Eine Hand voll (Base, Intr)</string> 
@@ -645,7 +645,7 @@
   <string name="AllAlongTheWatchtower_gametype">All along the watchtower (Intr, Blüte)</string> 
   <string name="LuckySeven_gametype">Glücksritter (Intr, Blüte)</string>
 
-  <string name="RandomErnteucopia_gametype">Zufälliges Reiche Ernte</string>
+  <string name="RandomCornucopia_gametype">Zufälliges Reiche Ernte</string>
 
   <string name="BountyOfTheHunt_gametype">Kopfgeld (Base, Ernte)</string> 
   <string name="BadOmens_gametype">Böses Omen (Base, Ernte)</string> 
