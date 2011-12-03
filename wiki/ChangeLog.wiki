@@ -1,5 +1,6 @@
 #labels Featured
 1.9.b16
+ * Issue 154: Develop card gain cost should be exact
  * Issue 149: Cartographer and one card to put back on deck
  * Issue 148: Fools gold, Trader, Tunnel
  * Issue 147: Receive 10 in a row Achievements award but haven't won ten games total
