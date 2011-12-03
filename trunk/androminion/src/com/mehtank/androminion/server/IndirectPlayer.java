@@ -1458,7 +1458,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_develop_lowCardToGain(context, cost)) {
             return super.develop_lowCardToGain(context, cost);
         }
-        return getFromTable(context, getGainString(Cards.develop), cost, NOTPASSABLE);
+        return getFromTable(context, getGainString(Cards.develop), cost, cost, NOTPASSABLE);
     }
     
     @Override
@@ -1466,7 +1466,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_develop_highCardToGain(context, cost)) {
             return super.develop_highCardToGain(context, cost);
         }
-        return getFromTable(context, getGainString(Cards.develop), cost, NOTPASSABLE);
+        return getFromTable(context, getGainString(Cards.develop), cost, cost, NOTPASSABLE);
     }
     
     @Override
