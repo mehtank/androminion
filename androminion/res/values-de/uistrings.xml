@@ -118,6 +118,20 @@ Joerg V. und Sascha H. </string>
 	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
 	<string name="potion_single">%1$s Trank</string>
 	<string name="potion_multiple">%1$s Tränke</string>
+    <string name="start_new_game_on_server">Neues Spiel starten</string>
+    <string name="select_a_game_type_">Kartensatz wählen:</string>
+    <string name="select_players">Spieler wählen:</string>
+	<string name="player">Spieler </string>
+	<string name="none_game_start">Keiner</string>
+	<string name="start_game">Spiel starten!</string>
+	<string name="you">Du</string>
 
+	<string name="help_menu">Hilfe</string>
+	<string name="start_game_menu">Spiel starten</string>
+	<string name="settings_menu">Einstellungen</string>
+	<string name="about_menu">Über</string>
+	<string name="achievements_menu">Erfolge</string>
+	<string name="win_loss_menu">Siege/Verluste</string>
+	<string name="quit_menu">Beenden</string>
 </resources>
 

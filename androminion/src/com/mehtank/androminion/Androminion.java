@@ -196,26 +196,26 @@ public class Androminion extends Activity implements EventHandler {
 
     public void createMenu(Menu menu) {
         if (gameRunning) {
-            MenuItem helpMenu = menu.add(Menu.NONE, MENU_HELP, Menu.NONE, "Help");
+            MenuItem helpMenu = menu.add(Menu.NONE, MENU_HELP, Menu.NONE, R.string.help_menu);
             helpMenu.setIcon(android.R.drawable.ic_menu_help);
         } else {
-            MenuItem localMenu = menu.add(Menu.NONE, MENU_LOCAL_START, Menu.NONE, "Start Game");
+            MenuItem localMenu = menu.add(Menu.NONE, MENU_LOCAL_START, Menu.NONE, R.string.start_game_menu);
             localMenu.setIcon(android.R.drawable.ic_menu_slideshow);
         }
         
-        MenuItem settingsMenu = menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, "Settings");
+        MenuItem settingsMenu = menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.settings_menu);
         settingsMenu.setIcon(android.R.drawable.ic_menu_preferences);
 
         MenuItem aboutMenu = menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE,
-            "About"); 
+            R.string.about_menu); 
         aboutMenu.setIcon(android.R.drawable.ic_menu_info_details);
 
         MenuItem achievmentsMenu = menu.add(Menu.NONE, MENU_ACHIEVEMENTS, Menu.NONE,
-            "Achievements"); 
+            R.string.achievements_menu); 
         achievmentsMenu.setIcon(android.R.drawable.ic_menu_myplaces);
         
         MenuItem statsMenu = menu.add(Menu.NONE, MENU_STATS, Menu.NONE,
-            "Win/Loss"); 
+            R.string.win_loss_menu); 
         statsMenu.setIcon(android.R.drawable.ic_menu_view);
         
         if (gameRunning) {
@@ -229,7 +229,7 @@ public class Androminion extends Activity implements EventHandler {
         }
         
         MenuItem quitMenu = menu.add(Menu.NONE, MENU_QUIT, Menu.NONE,
-                "Quit");
+                R.string.quit_menu);
         quitMenu.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
     } 
 

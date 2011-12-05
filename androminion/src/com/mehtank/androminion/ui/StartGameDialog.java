@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.mehtank.androminion.Androminion;
+import com.mehtank.androminion.R;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.api.GameType;
@@ -89,7 +90,7 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 			playerTypes[at - e.i] = strs[at];
 		
 		TextView tv = new TextView(top);
-		tv.setText("Select a game type:");
+		tv.setText(R.string.select_a_game_type_);
 		tv.setTextSize(tv.getTextSize() * 1.5f);
 		vg.addView(tv);
 		
@@ -105,7 +106,7 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 		vg.addView(s);
 
 		tv = new TextView(top);
-		tv.setText("Select players:");
+		tv.setText(R.string.select_players);
 		tv.setTextSize(tv.getTextSize() * 1.5f);
 		vg.addView(tv);
 	    
@@ -113,7 +114,7 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 			LinearLayout hv = new LinearLayout(top);
 			hv.setOrientation(LinearLayout.HORIZONTAL);
 			tv = new TextView(top);
-			String player = "Player " + (i + 1);
+			String player = top.getString(R.string.player) + (i + 1);
 			tv.setText(" - " + player + ":  ");
 			tv.setTextSize(tv.getTextSize() * 1.5f);
 			hv.addView(tv);
@@ -121,15 +122,15 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 		    s = slist(top, playerTypes);
 		    s.setPrompt(player);
 	    	if (i > 1)
-			    ((ArrayAdapter<String>) s.getAdapter()).add("None");
+			    ((ArrayAdapter<String>) s.getAdapter()).add(top.getString(R.string.none_game_start));
 	    	
-			s.setSelection(((ArrayAdapter<String>) s.getAdapter()).getPosition(prefs.getString("gamePref" + prefNum++, "None")));
+			s.setSelection(((ArrayAdapter<String>) s.getAdapter()).getPosition(prefs.getString("gamePref" + prefNum++, top.getString(R.string.none_game_start))));
 	    	values.add(s);
 	    	
 	    	if (i == 0) {
 				s.setSelection(((ArrayAdapter<String>) s.getAdapter()).getPosition("Human Player"));
 				Button b = new Button(top);
-				b.setText("You");
+				b.setText(R.string.you);
 				b.setClickable(false);
 				b.setEnabled(false);
 				b.setFocusable(false);
@@ -147,9 +148,9 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 	    }
 
 		a = new AlertDialog.Builder(top)
-			.setTitle("Start new game on server")
+			.setTitle(R.string.start_new_game_on_server)
 			.setView(vg)
-			.setPositiveButton("Start game!", this)
+			.setPositiveButton(R.string.start_game, this)
 			.setNegativeButton(android.R.string.cancel, this)
 			.show();		
 	}
@@ -172,7 +173,7 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 				}
 				else {
     				edit.putString("gamePref" + (i++), str);
-    				if (!str.equals("None"))  {
+    				if (!str.equals(R.string.none_game_start))  {
 //					    Check if option is a GameType
 //						They are translated on the UI, but the server expects the English name
     					GameType g = com.mehtank.androminion.server.Strings.getGameTypefromName((String) s.getSelectedItem());
