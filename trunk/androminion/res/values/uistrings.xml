@@ -107,4 +107,18 @@
 	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
 	<string name="potion_single">%1$s potion</string>
 	<string name="potion_multiple">%1$s potionss</string>
+	<string name="start_new_game_on_server">Start new game on server</string>
+	<string name="select_a_game_type_">Select a game type:</string>
+	<string name="select_players">Select players:</string>
+	<string name="player">Player </string>
+	<string name="none_game_start">None</string>
+	<string name="start_game">Start game!</string>
+	<string name="you">You</string>
+	<string name="help_menu">Help</string>
+	<string name="start_game_menu">Start Game</string>
+	<string name="settings_menu">Settings</string>
+	<string name="about_menu">About</string>
+	<string name="achievements_menu">Achievements</string>
+	<string name="win_loss_menu">Win/Loss</string>
+	<string name="quit_menu">Quit</string>
 </resources>
