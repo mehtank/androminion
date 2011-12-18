@@ -132,6 +132,6 @@ Joerg V. und Sascha H. </string>
 	<string name="about_menu">Über</string>
 	<string name="achievements_menu">Erfolge</string>
 	<string name="win_loss_menu">Siege/Verluste</string>
-	<string name="quit_menu">Beenden</string>
+	<string name="quit_menu">Beenden</string><string name="toast_starting">Starte Spiel...</string><string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
 </resources>
 

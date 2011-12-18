@@ -1,6 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import com.mehtank.androminion.Androminion;
+import com.mehtank.androminion.R;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
 
@@ -101,7 +102,7 @@ public class JoinGameDialog implements DialogInterface.OnClickListener {
 			.setInteger(port)
 			.setString(name));
 		
-		if (!Androminion.NOTOASTS) Toast.makeText(top, "Loading game...", Toast.LENGTH_SHORT).show();
+		if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.toast_loading), Toast.LENGTH_SHORT).show();
 	}
 
 	private void joinGame(int port) {

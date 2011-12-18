@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.mehtank.androminion.Androminion;
+import com.mehtank.androminion.R;
 
 public class Achievements {
     public static String[] keys = new String[]{ 
@@ -119,7 +120,7 @@ public class Achievements {
             Editor editor = prefs.edit();
             editor.putBoolean(keys[index], true);              
             editor.commit();
-            if (!Androminion.NOTOASTS) Toast.makeText(top, "Achievement!!!\n" + text[index], Toast.LENGTH_SHORT).show();
+            if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.achievements_menu)+ "!!!\n" + text[index], Toast.LENGTH_SHORT).show();
         }
     }
     

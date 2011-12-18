@@ -211,7 +211,7 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
             
 			top.handle(new Event(Event.EType.STARTGAME)
 				.setObject(new EventObject(strs.toArray(new String[0]))));
-			if (!Androminion.NOTOASTS) Toast.makeText(top, "Starting game...", Toast.LENGTH_SHORT).show();
+			if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.toast_starting), Toast.LENGTH_SHORT).show();
     		
 			edit.commit();
 		}
