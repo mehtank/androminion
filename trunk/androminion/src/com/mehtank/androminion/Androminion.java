@@ -294,7 +294,7 @@ public class Androminion extends Activity implements EventHandler {
 				onDestroy();
 			else {
 				lastBackClick = now;
-				if (!NOTOASTS) Toast.makeText(top, "Click again to quit.", Toast.LENGTH_SHORT)
+				if (!NOTOASTS) Toast.makeText(top, getString(R.string.toast_quitconfirm), Toast.LENGTH_SHORT)
 						.show();
 			}
 			return true;
