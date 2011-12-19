@@ -1442,7 +1442,7 @@ public class Game {
             if (card instanceof ActionCard) {
                 actionCards++;
             }
-            if (card instanceof VictoryCard) {
+            if (card instanceof VictoryCard && !card.equals(Cards.curse)) {
                 victoryCards++;
                 vp += ((VictoryCard) card).getVictoryPoints();
                 if (card.equals(Cards.duchy)) {
