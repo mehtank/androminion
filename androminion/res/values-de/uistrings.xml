@@ -45,7 +45,7 @@ Joerg V. und Sascha H. </string>
    <string name="toastsoff_pref_title">Toasts ausschalten</string>
    <string name="exitonback_pref_summary">Beendet das Spiel wenn der zurück Knopf erneut gedrückt wird</string>
    <string name="exitonback_pref_title">Ende mit Zurück Knopf</string>
-   <string name="vibescreen_pref_title">Vibration einstellen ...</string>
+   <string name="vibescreen_pref_title">Vibration einstellen &#8230;</string>
    <string name="gamevibeon_pref_summary">Vibrieren wenn das Spiel endet</string>
    <string name="gamevibeon_pref_title">Spielende</string>
 
@@ -132,6 +132,19 @@ Joerg V. und Sascha H. </string>
 	<string name="about_menu">Über</string>
 	<string name="achievements_menu">Erfolge</string>
 	<string name="win_loss_menu">Siege/Verluste</string>
-	<string name="quit_menu">Beenden</string><string name="toast_starting">Starte Spiel...</string><string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
+	<string name="quit_menu">Beenden</string>
+	<string name="toast_starting">Starte Spiel&#8230;</string>
+	<string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
+	<string name="toast_loading">Lade Spiel&#8230;</string>
+	<string name="achievements_2players8provinces">Habe alle 8 Provinzen am Ende eines 2er-Spiels</string>
+	<string name="achievements_3or4players10provinces">Habe 10 oder mehr Provinzen am Ende eines 3er oder 4er-Spiels</string>
+	<string name="achievements_score100">Gewinne ein Spiel mit mindestens 100 Siegpunkten</string>
+	<string name="achievements_score1more">Gewinne ein Spiel mit genau einem Siegpunkt</string>
+	<string name="achievements_singlecard">Gewinne ein Spiel mit höchstens einer Sorte Königreichkarten</string>
+	<string name="achievements_score50more">Gewinne ein Spiel mit mindestens 50 Siegpunkten</string>
+	<string name="achievements_skunk">Gewinne ein Spiel, bei dem ein Gegner 0 oder weniger Punkte hat</string>
+	<string name="achievements_trash5inaturn">Entsorgen mindestens 5 Karten in einem Zug</string>
+	<string name="achievements_gainmorethan30inaturn">Erreiche mehr als 30 Siegpunkte in einem Zug</string>
+	<string name="achievements_win10inarow">Gewinnen 10 Spiele direkt nach einander</string>
 </resources>
 
