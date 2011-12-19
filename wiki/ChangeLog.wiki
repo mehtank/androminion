@@ -1,4 +1,8 @@
 #labels Featured
+1.9.b17
+ * Issue 176: Force Close on Galaxy Nexus
+ * More German translation and hardcoded strings moved into resources
+
 1.9.b16
  * Issue 154: Develop card gain cost should be exact
  * Issue 149: Cartographer and one card to put back on deck
