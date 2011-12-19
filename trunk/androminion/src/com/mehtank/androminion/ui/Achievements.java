@@ -8,6 +8,7 @@ import java.util.Map;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
@@ -51,7 +52,11 @@ public class Achievements {
         this.top = top;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(top);
 
+        Resources r = top.getResources();
+        int id;
         for(int i=0; i < Achievements.keys.length; i++) {
+        	id = r.getIdentifier("achievements_" + keys[i], "string", top.getPackageName());
+        	text[i] = r.getString(id);
             achievementsDone[i] = hasAchieved(Achievements.keys[i]);
         }
     }

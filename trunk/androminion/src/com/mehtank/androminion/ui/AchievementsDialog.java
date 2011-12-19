@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.mehtank.androminion.Androminion;
+import com.mehtank.androminion.R;
 
 public class AchievementsDialog {
 
@@ -42,8 +43,8 @@ public class AchievementsDialog {
         
         new AlertDialog.Builder(top)
 //            .setIcon(R.drawable.logo)
-            .setTitle("Achievements")
-            .setView(fv)  
+            .setTitle(R.string.achievements_menu)
+            .setView(fv)
             .setPositiveButton(android.R.string.ok, null)
             .show();        
 
