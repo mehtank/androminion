@@ -198,7 +198,7 @@ public class Cards {
         silver = new TreasureCardImpl("Silver", 3, 2, false, false);
         copper = new TreasureCardImpl("Copper", 0, 1, false, false);
         potion = new TreasureCardImpl("Potion", 4, 0, false, true);
-        philosophersStone = new TreasureCardImpl("Philosopher's Stone", 3, 0, true, true);
+        philosophersStone = new TreasureCardImpl("Philosopher's Stone", 3, 0, true, false);
 
         colony = new VictoryCardImpl("Colony", 11, 10, false);
         province = new VictoryCardImpl("Province", 8, 6, false);
