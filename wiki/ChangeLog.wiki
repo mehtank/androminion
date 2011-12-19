@@ -1,5 +1,6 @@
 #labels Featured
 1.9.b18
+ * Issue 167: AI satsfied an achievement for me
  * Issue 166: Trusty steed "gain 4 silvers" option does not work
  * Issue 171: Apprentice does not require AI players to trash a card
  * Issue 178: Silk Road + Curse
