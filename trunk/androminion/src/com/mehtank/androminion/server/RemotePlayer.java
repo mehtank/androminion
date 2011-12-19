@@ -521,7 +521,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 strEvent += Strings.getString(R.string.TurnBegin);
                 break;
     	    case TurnEnd:
-                if(context != null && context.vpsGainedThisTurn > 30) {
+                if(context != null && context.getPlayer() == this && context.vpsGainedThisTurn > 30) {
                     achievement(context, "gainmorethan30inaturn");
                 }
                 strEvent += Strings.getString(R.string.TurnEnd);
@@ -560,7 +560,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 strEvent += Strings.getString(R.string.CardObtained);
                 break;
     	    case CardTrashed:
-                if(context != null && context.cardsTrashedThisTurn > 5) {
+                if(context != null && context.getPlayer() == this && context.cardsTrashedThisTurn > 5) {
                     achievement(context, "trash5inaturn");
                 }
                 strEvent += Strings.getString(R.string.CardTrashed);
