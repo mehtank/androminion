@@ -1599,7 +1599,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     }
 
                     while (currentPlayer.getDeckSize() > 0) {
-                        currentPlayer.discard(game.draw(currentPlayer), this, null);
+                    	currentPlayer.discard(currentPlayer.deck.remove(0), this, null);
                     }
                 }
             }
