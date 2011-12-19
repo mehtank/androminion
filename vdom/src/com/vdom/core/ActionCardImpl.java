@@ -737,19 +737,19 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void apprentice(Game game, MoveContext context, Player currentPlayer) {
-        Card cardToTrash = currentPlayer.apprentice_cardToTrash(context);
-        if (cardToTrash == null) {
-            Util.playerError(currentPlayer, "Apprentice card to trash was null, not trashing anything.");
-        } else if (!currentPlayer.hand.contains(cardToTrash)) {
-            Util.playerError(currentPlayer, "Apprentice card to trash is not in your hand, not trashing anything.");
-        } else {
+    	if(currentPlayer.hand.size() > 0) {
+	        Card cardToTrash = currentPlayer.apprentice_cardToTrash(context);
+	        if (cardToTrash == null || !currentPlayer.hand.contains(cardToTrash)) {
+	            Util.playerError(currentPlayer, "Apprentice card to trash was invalid, trashing random card.");
+	            cardToTrash = Util.randomCard(currentPlayer.hand);
+	        }
             currentPlayer.hand.remove(cardToTrash);
             currentPlayer.trash(cardToTrash, this, context);
 
             for (int i = 1; i <= (cardToTrash.getCost(context) + (cardToTrash.costPotion() ? 2 : 0)); i++) {
                 game.drawToHand(currentPlayer, this);
             }
-        }
+    	}
     }
 
     private void transmute(MoveContext context, Player currentPlayer) {
