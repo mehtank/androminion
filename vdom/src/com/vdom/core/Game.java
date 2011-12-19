@@ -1605,34 +1605,36 @@ public class Game {
     void playBuy(MoveContext context, Card buy) {
         Card card = takeFromPileCheckTrader(buy, context);
 
-        GameEvent event = new GameEvent(GameEvent.Type.BuyingCard, (MoveContext) context);
-        event.card = card;
-        event.newCard = true;
-        broadcastEvent(event);
-
-        int cost = card.getCost(context);
-        
-        // Adjust cost based on any cards played or card being bought
-        if (context.quarriesPlayed > 0 && card instanceof ActionCard) {
-            cost -= (context.quarriesPlayed * 2);
-        } 
-        if (card.equals(Cards.peddler)) {
-            for(Card c : ((MoveContext) context).getPlayedCards()) {
-                if(c instanceof ActionCard) {
-                    cost -= 2;
-                }
-            }
-        } 
-        
-        cost = (cost < 0 ? 0 : cost);
-        context.gold -= cost;
-        
-        if (card.costPotion()) {
-            context.potions--;
-        } else if (!(card instanceof VictoryCard) && context.talismansPlayed > 0 && cost < 5) {
-            for (int i = 0; i < context.talismansPlayed; i++) {
-                context.getPlayer().gainNewCard(card, Cards.talisman, context);
-            }
+        if(card != null) {
+	        GameEvent event = new GameEvent(GameEvent.Type.BuyingCard, (MoveContext) context);
+	        event.card = card;
+	        event.newCard = true;
+	        broadcastEvent(event);
+	
+	        int cost = card.getCost(context);
+	        
+	        // Adjust cost based on any cards played or card being bought
+	        if (context.quarriesPlayed > 0 && card instanceof ActionCard) {
+	            cost -= (context.quarriesPlayed * 2);
+	        } 
+	        if (card.equals(Cards.peddler)) {
+	            for(Card c : ((MoveContext) context).getPlayedCards()) {
+	                if(c instanceof ActionCard) {
+	                    cost -= 2;
+	                }
+	            }
+	        } 
+	        
+	        cost = (cost < 0 ? 0 : cost);
+	        context.gold -= cost;
+	        
+	        if (card.costPotion()) {
+	            context.potions--;
+	        } else if (!(card instanceof VictoryCard) && context.talismansPlayed > 0 && cost < 5) {
+	            for (int i = 0; i < context.talismansPlayed; i++) {
+	                context.getPlayer().gainNewCard(card, Cards.talisman, context);
+	            }
+	        }
         }
     }
 
