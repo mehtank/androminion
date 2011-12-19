@@ -241,7 +241,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         for (Card card : allCards) {
             totalCards++;
             distinctCards.add(card.getName());
-            if (card instanceof VictoryCard) {
+            if (card instanceof VictoryCard && !card.equals(Cards.curse)) {
                 victoryCards++;
                 vp += ((VictoryCard) card).getVictoryPoints();
                 if (card.equals(Cards.gardens)) {
