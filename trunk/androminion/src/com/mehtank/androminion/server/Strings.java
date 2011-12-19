@@ -56,6 +56,11 @@ public class Strings {
     }
     
     public static String getCardExpansion(Card c) {
+        if (c.getExpansion() == null) {
+            // Victory cards (e.g. "Duchy") don't have a single expansion;
+            // they're both in Base and Intrigue.
+            return "";
+        }
         String expansion = expansionCache.get(c.getExpansion());
         if(expansion == null) {
             try {
