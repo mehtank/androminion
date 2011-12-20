@@ -143,8 +143,8 @@ Joerg V. und Sascha H. </string>
 	<string name="achievements_singlecard">Gewinne ein Spiel mit höchstens einer Sorte Königreichkarten</string>
 	<string name="achievements_score50more">Gewinne ein Spiel mit mindestens 50 Siegpunkten</string>
 	<string name="achievements_skunk">Gewinne ein Spiel, bei dem ein Gegner 0 oder weniger Punkte hat</string>
-	<string name="achievements_trash5inaturn">Entsorgen mindestens 5 Karten in einem Zug</string>
+	<string name="achievements_trash5inaturn">Entsorge mindestens 5 Karten in einem Zug</string>
 	<string name="achievements_gainmorethan30inaturn">Erreiche mehr als 30 Siegpunkte in einem Zug</string>
-	<string name="achievements_win10inarow">Gewinnen 10 Spiele direkt nach einander</string>
+	<string name="achievements_win10inarow">Gewinne 10 Spiele direkt nacheinander</string>
 </resources>
 

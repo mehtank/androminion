@@ -681,5 +681,11 @@
   <string name="TravelingCircus_gametype">Traveling Circus (Hntr, Corn)</string>
     
   <string name="Random_gametype">Random</string>
+    
+  <string name="game_over_vps"> VPs</string>
+    
+  <string name="coin_worth">Worth (</string>
+    
+  <string name="coin_coin">) Coin</string>
   
 </resources>
