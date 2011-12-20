@@ -2143,8 +2143,11 @@ public class Game {
         addPile(Cards.silver, 40);
         addPile(Cards.copper, 60);
 
-        if (numPlayers == 2) {
+       if (numPlayers == 2) {
             victoryCardPileSize = 8;
+        }
+        else {
+        	victoryCardPileSize = 12;
         }
 //        addPile(Cards.colony);
         addPile(Cards.province);
