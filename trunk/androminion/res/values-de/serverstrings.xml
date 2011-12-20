@@ -398,7 +398,7 @@
   <string name="MerchantShip_name">Handelsschiff</string>
   <string name="MerchantShip_desc"></string>
   <string name="Outpost_name">Aussenposten</string>
-  <string name="Outpost_desc">Ziehe in der folgenden Aufräumphase nur 3 Karten nach. Führe danach sofort einen weiteren Zug aus. Du kannst auf diese Weise nur einen weiteren zug ausführen.</string>
+  <string name="Outpost_desc">Ziehe in der folgenden Aufräumphase nur 3 Karten nach. Führe danach sofort einen weiteren Zug aus. Du kannst auf diese Weise nur einen weiteren Zug ausführen.</string>
   <string name="GhostShip_name">Geisterschiff</string>
   <string name="GhostShip_desc">Jeder Mitspieler, der mindestens 4 Karten auf der Hand hat, muss solange Karten aus seiner Hand verdeckt auf seinen Nachziehstapel legen, bis er nur noch 3 Karten auf der Hand hat.</string>
   <string name="Salvager_name">Müllverwerter</string>
@@ -542,7 +542,7 @@
   <string name="Crossroads_name">Wegkreuzung</string>
   <string name="Crossroads_desc">Decke deine Kartenhand auf. +1 Karte pro aufgedeckter Punktekarte. Wenn du zum ersten Mal in diesem Zug eine Wegkreuzung ausspielst: +3 Aktionen.</string>
   <string name="Develop_name">Aufbau</string>
-  <string name="Develop_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die genau 1 Geld mehr kostet als die entsorgte Karte und numm dir eine Karte, die genau 1 Geld weniger kostet als die entsorgte Karte. Du entscheidest, in welcher Reihenfolge du diese beiden Karten nimmst. Lege beide Karten sofort auf deinen Nachziehstapel.</string>
+  <string name="Develop_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die genau 1 Geld mehr kostet als die entsorgte Karte und nimm dir eine Karte, die genau 1 Geld weniger kostet als die entsorgte Karte. Du entscheidest, in welcher Reihenfolge du diese beiden Karten nimmst. Lege beide Karten sofort auf deinen Nachziehstapel.</string>
   <string name="Duchess_name">Herzogin</string>
   <string name="Duchess_desc">Jeder Spieler (auch du selber) sieht sich die oberste Karte von seinem Nachziehstapel an und entscheidet, ob er die Karte ablegt oder zurück auf den Nachziehstapel legt. Wird die Herzogin im Spiel verwendet, darfst du dir immer, wenn du ein Herzogtum nimmst, eine Herzogin nehmen.</string>
   <string name="Embassy_name">Botschaft</string>
@@ -681,5 +681,8 @@
     
   <string name="Random_gametype">Zufällig</string>
   
+  <string name="game_over_vps"> SP</string>
   
+  <string name="coin_worth">Wert: (</string>
+  <string name="coin_coin">) Geld</string>
 </resources>

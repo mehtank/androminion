@@ -11,6 +11,7 @@ import com.vdom.api.Card;
 import com.vdom.api.Cards;
 import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
+import com.vdom.api.GameType;
 import com.vdom.api.GameEvent.Type;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
@@ -143,7 +144,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		card.vp = ((VictoryCard) c).getVictoryPoints();
     	}
     	if (c instanceof TreasureCard) {
-    		card.desc = "Worth (" + ((TreasureCard) c).getValue() + ") Coin\n" + card.desc;
+    		card.desc = Strings.getString(R.string.coin_worth) + ((TreasureCard) c).getValue() + Strings.getString(R.string.coin_coin)+ "\n" + card.desc;
     		card.isTreasure = true;   
     		card.gold = ((TreasureCard) c).getValue();
     	}
@@ -645,7 +646,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		curContext = context;
     		isFinal = true;
     		
-    		strEvent = curPlayer.getPlayerName() + ": " + getVPs(curPlayer) + " VPs";
+    		strEvent = curPlayer.getPlayerName() + ": " + getVPs(curPlayer) + Strings.getString(R.string.game_over_vps);
     		if (!gameOver) {
         		String time = Strings.getString(R.string.game_over_status);
         		time += " ";
@@ -658,7 +659,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             	duration = duration % (1000 * 60);
             	time += (duration / (1000)) + "s.\n";
             	if(!event.getContext().cardsSpecifiedOnStartup()) {
-            	    time += event.getContext().getGameType().getName();
+            		GameType g = event.getContext().getGameType();           		
+            	    time += Strings.getGameTypeName(g);
             	}
             	
             	time += "\n\n";
