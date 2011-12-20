@@ -1,4 +1,6 @@
 #labels Featured
+ * Issue 164: Wrong number of Estate/Duchy/Province/Colony cards in the 3 and 4-players game
+
 1.9.b18
  * Issue 167: AI satsfied an achievement for me
  * Issue 166: Trusty steed "gain 4 silvers" option does not work
