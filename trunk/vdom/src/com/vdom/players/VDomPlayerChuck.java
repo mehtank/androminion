@@ -15,32 +15,37 @@ public class VDomPlayerChuck extends BasePlayer  {
     
     protected static final int ACTION_CARDS_MAX = 5;
 
+    @Override
     public void newGame(MoveContext context) {
         super.newGame(context);
         midGame = 11;
     }
 
+    @Override
     public String getPlayerName() {
         return "Chuck";
     }
     
+    @Override
     public boolean isAi() {
         return true;
     }
 
+    @Override
     public Card doAction(MoveContext context) {
         int treasureMapCount = 0;
 
-        for (Card card : getHand()) {
+        for (final Card card : getHand()) {
             if (card.equals(Cards.treasureMap)) {
                 treasureMapCount++;
             }
         }
 
-        if (treasureMapCount >= 2)
+        if (treasureMapCount >= 2) {
             return fromHand(Cards.treasureMap);
+        }
         ActionCard action;
-        for (Card card : getHand()) {
+        for (final Card card : getHand()) {
             if (context.canPlay(card)) {
                 action = (ActionCard) card;
                 if (action.getAddActions() > 0) {
@@ -50,33 +55,34 @@ public class VDomPlayerChuck extends BasePlayer  {
         }
 
         if(inHand(Cards.throneRoom) && context.canPlay(Cards.throneRoom)) {
-            return Cards.throneRoom;
+            return fromHand(Cards.throneRoom);
         }
         
         //TODO: ...
         //if(context.getKingsCourtsInEffect() == 0) {
             if(inHand(Cards.kingsCourt) && context.canPlay(Cards.kingsCourt)) {
-                return Cards.kingsCourt;
+                return fromHand(Cards.kingsCourt);
             }
         //}
         
         int cost = COST_MAX;
         while (cost >= 0) {
-            ArrayList<Card> randList = new ArrayList<Card>();
+            final ArrayList<Card> randList = new ArrayList<Card>();
             Card[] arrayOfCard2;
-            int actions = (arrayOfCard2 = getHand().toArray()).length;
+            final int actions = (arrayOfCard2 = getHand().toArray()).length;
             for (int localActionCard1 = 0; localActionCard1 < actions; localActionCard1++) {
-                Card card = arrayOfCard2[localActionCard1];
-                if ((!context.canPlay(card)) || (card.equals(Cards.treasureMap))) {
+                final Card card = arrayOfCard2[localActionCard1];
+                if (!context.canPlay(card) || card.equals(Cards.treasureMap)) {
                     continue;
                 }
                 
-                if(card.getCost(context) == cost)
+                if(card.getCost(context) == cost) {
                     randList.add(card);
+                }
             }
 
             if (randList.size() > 0) {
-                return (Card) randList.get(this.rand.nextInt(randList.size()));
+                return randList.get(rand.nextInt(randList.size()));
             }
 
             cost--;
@@ -85,8 +91,9 @@ public class VDomPlayerChuck extends BasePlayer  {
         return null;
     }
 
+    @Override
     public Card doBuy(MoveContext context) {
-        int coinAvailableForBuy = context.getCoinAvailableForBuy();
+        final int coinAvailableForBuy = context.getCoinAvailableForBuy();
 
         if (coinAvailableForBuy == 0) {
             return null;
@@ -96,7 +103,7 @@ public class VDomPlayerChuck extends BasePlayer  {
             return Cards.colony;
         }
         
-        if(context.canBuy(Cards.platinum) && this.turnCount < midGame) {
+        if(context.canBuy(Cards.platinum) && turnCount < midGame) {
             return Cards.platinum;
         }
         
@@ -104,7 +111,7 @@ public class VDomPlayerChuck extends BasePlayer  {
             return Cards.province;
         }
         
-        if ((this.turnCount > midGame) && context.canBuy(Cards.duchy)) {
+        if (turnCount > midGame && context.canBuy(Cards.duchy)) {
             if(context.getEmbargos(Cards.duchy) == 0) {
                 return Cards.duchy;
             }
@@ -122,23 +129,24 @@ public class VDomPlayerChuck extends BasePlayer  {
 
         int cost = coinAvailableForBuy;
         int highestCost = 0;
-        ArrayList<Card> randList = new ArrayList<Card>();
+        final ArrayList<Card> randList = new ArrayList<Card>();
 
         while (cost >= 0) {
-            for (Card card : context.getCardsInPlay()) {
+            for (final Card card : context.getCardsInPlay()) {
                 if (
                         card.getCost(context) != cost || 
                         !context.canBuy(card) || 
                         card.equals(Cards.curse) || 
                         card.equals(Cards.copper) || 
-                        (card.equals(Cards.potion) && !shouldBuyPotion()) ||
-                        (card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= 2) ||
-                        (card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= 2) ||
-                        (!(card instanceof ActionCard) && !(card instanceof TreasureCard))
-                   )
-                     continue;
+                        card.equals(Cards.potion) && !shouldBuyPotion() ||
+                        card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= 2 ||
+                        card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= 2 ||
+                        !(card instanceof ActionCard) && !(card instanceof TreasureCard)
+                   ) {
+                    continue;
+                }
                 
-                if ((card instanceof ActionCard) && actionCardCount >= ACTION_CARDS_MAX) {
+                if (card instanceof ActionCard && actionCardCount >= ACTION_CARDS_MAX) {
                     continue;
                 }
                 
@@ -158,7 +166,7 @@ public class VDomPlayerChuck extends BasePlayer  {
         }
         
         if (randList.size() > 0) {
-            return randList.get(this.rand.nextInt(randList.size()));
+            return randList.get(rand.nextInt(randList.size()));
         }
 
         if(context.canBuy(Cards.gold)) {

@@ -32,6 +32,7 @@ public class VDomPlayerSarah extends BasePlayer {
     protected boolean improvise = false;
     protected Card[] trashCards;
     
+    @Override
     public boolean isAi() {
         return true;
     }
@@ -77,7 +78,7 @@ public class VDomPlayerSarah extends BasePlayer {
         }
 
         int numCornucopia = 0;
-        for (Card card : cardsInPlay) {
+        for (final Card card : cardsInPlay) {
             if (card.getExpansion() != null && card.getExpansion().equals("Cornucopia")) {
                 numCornucopia++;
             }
@@ -90,41 +91,41 @@ public class VDomPlayerSarah extends BasePlayer {
         if (gameType == GameType.FirstGame) {
             midGame = 12;
 
-            this.valuedCards = new Card[] { Cards.cellar, Cards.militia, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.cellar, Cards.militia, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.BigMoney) {
             midGame = 20;
             earlyCardBuyMax = 2;
-            this.valuedCards = new Card[] { Cards.feast, Cards.laboratory, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.feast, Cards.laboratory, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.Interaction) {
             midGame = 12;
             earlyCardBuyMax = 2;
         } else if (gameType == GameType.SizeDistortion) {
             midGame = 14;
-            this.valuedCards = new Card[] { Cards.feast, Cards.chapel, Cards.laboratory, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.feast, Cards.chapel, Cards.laboratory, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.VillageSquare) {
             midGame = 12;
             actionCardMax = 7;
-            this.valuedCards = new Card[] { Cards.smithy, Cards.festival, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.smithy, Cards.festival, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.Repetition) {
             earlyCardBuyMax = 2;
         } else if (gameType == GameType.GiveAndTake) {
             actionCardMax = 10;
-            this.valuedCards = new Card[] { Cards.fishingVillage, Cards.library, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.fishingVillage, Cards.library, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.Shipwrecks) {
             midGame = 18;
-            this.valuedCards = new Card[] { Cards.treasury, Cards.pearlDiver, Cards.ghostShip, Cards.seaHag, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.treasury, Cards.pearlDiver, Cards.ghostShip, Cards.seaHag, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.RandomSeaside) {
             midGame = 16;
             earlyCardBuyMax = 1;
             actionCardMax = 16;
-            this.valuedCards = new Card[] { Cards.warehouse, Cards.wharf, Cards.bazaar, Cards.pearlDiver, Cards.ghostShip, Cards.platinum, Cards.gold,
+            valuedCards = new Card[] { Cards.warehouse, Cards.wharf, Cards.bazaar, Cards.pearlDiver, Cards.ghostShip, Cards.platinum, Cards.gold,
                     Cards.silver };
         } else if (gameType == GameType.ReachForTomorrow) {
             earlyCardBuys = new Card[] { Cards.seaHag };
             earlyCardBuyMax = 1;
             midGame = 14;
             actionCardMax = 8;
-            this.valuedCards = new Card[] { Cards.treasureMap, Cards.ghostShip, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.treasureMap, Cards.ghostShip, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.BuriedTreasure) {
             midGame = 14;
             earlyCardBuys = new Card[] { Cards.treasureMap };
@@ -132,7 +133,7 @@ public class VDomPlayerSarah extends BasePlayer {
             earlyCardBuyMax = 2;
             actionCardMax = 12;
 
-            this.valuedCards = new Card[] { Cards.warehouse, Cards.treasureMap, Cards.wharf, Cards.pearlDiver, Cards.fishingVillage, Cards.platinum,
+            valuedCards = new Card[] { Cards.warehouse, Cards.treasureMap, Cards.wharf, Cards.pearlDiver, Cards.fishingVillage, Cards.platinum,
                     Cards.gold, Cards.silver };
         } else if (gameType == GameType.Beginners) {
             // bank
@@ -185,7 +186,7 @@ public class VDomPlayerSarah extends BasePlayer {
             earlyCardBuyMax = 1;
             midGame = 14;
             actionCardMax = 5;
-            this.valuedCards = new Card[] { Cards.laboratory, Cards.adventurer, Cards.venture, Cards.royalSeal, Cards.mint, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.laboratory, Cards.adventurer, Cards.venture, Cards.royalSeal, Cards.mint, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.TheKingsArmy) {
             // expand
             // goons
@@ -213,7 +214,7 @@ public class VDomPlayerSarah extends BasePlayer {
             earlyCardBuyMax = 1;
             midGame = 15;
             actionCardMax = 6;
-            this.valuedCards = new Card[] { Cards.countingHouse, Cards.contraband, Cards.bureaucrat, Cards.chancellor, Cards.mountebank, Cards.platinum, Cards.gold, Cards.silver, Cards.copper };
+            valuedCards = new Card[] { Cards.countingHouse, Cards.contraband, Cards.bureaucrat, Cards.chancellor, Cards.mountebank, Cards.platinum, Cards.gold, Cards.silver, Cards.copper };
             trashCards = new Card[] { Cards.curse, Cards.estate };
         } else if (gameType == GameType.PathToVictory) {
             // bishop
@@ -242,7 +243,7 @@ public class VDomPlayerSarah extends BasePlayer {
             earlyCardBuyMax = 1;
             midGame = 14;
             actionCardMax = 7;
-            this.valuedCards = new Card[] { Cards.watchTower, Cards.miningVillage, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.watchTower, Cards.miningVillage, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.LuckySeven) {
             // bank
             // expand
@@ -270,7 +271,7 @@ public class VDomPlayerSarah extends BasePlayer {
             earlyCardBuyMax = 1;
             midGame = 14;
             actionCardMax = 5;
-            this.valuedCards = new Card[] { Cards.festival, Cards.moneyLender, Cards.menagerie, Cards.harvest, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.festival, Cards.moneyLender, Cards.menagerie, Cards.harvest, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.BadOmens) {
             // fortuneTeller
             // hamlet
@@ -284,7 +285,7 @@ public class VDomPlayerSarah extends BasePlayer {
             // throneRoom
             midGame = 15;
             actionCardMax = 7;
-            this.valuedCards = new Card[] { Cards.jester, Cards.throneRoom, Cards.fortuneTeller, Cards.laboratory, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.jester, Cards.throneRoom, Cards.fortuneTeller, Cards.laboratory, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.TheJestersWorkshop) {
             // fairgrounds
             // farmingVillage
@@ -302,7 +303,7 @@ public class VDomPlayerSarah extends BasePlayer {
             earlyCardBuyMax = 1;
             midGame = 14;
             actionCardMax = 5;
-            this.valuedCards = new Card[] { Cards.jester, Cards.chancellor, Cards.farmingVillage, Cards.market, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.jester, Cards.chancellor, Cards.farmingVillage, Cards.market, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.LastLaughs) {
             // farmingVillage
             // harvest
@@ -332,7 +333,7 @@ public class VDomPlayerSarah extends BasePlayer {
             earlyCardBuyMax = 2;
             midGame = 15;
             actionCardMax = 5;
-            this.valuedCards = new Card[] { Cards.jester, Cards.wishingWell, Cards.miningVillage, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.jester, Cards.wishingWell, Cards.miningVillage, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.SmallVictories) {
             // fortuneTeller
             // hamlet
@@ -346,11 +347,11 @@ public class VDomPlayerSarah extends BasePlayer {
             // pawn
             midGame = 15;
             actionCardMax = 10;
-            this.valuedCards = new Card[] { Cards.fortuneTeller, Cards.greatHall, Cards.harem, Cards.duke, Cards.pawn, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.fortuneTeller, Cards.greatHall, Cards.harem, Cards.duke, Cards.pawn, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.RandomCornucopia) {
             midGame = 15;
             actionCardMax = 6;
-            this.valuedCards = new Card[] { Cards.tournament, Cards.jester, Cards.youngWitch, Cards.hamlet, Cards.fortuneTeller, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.tournament, Cards.jester, Cards.youngWitch, Cards.hamlet, Cards.fortuneTeller, Cards.platinum, Cards.gold, Cards.silver };
         } else {
             improvise = true;
             actionCardMax = 5;
@@ -366,17 +367,18 @@ public class VDomPlayerSarah extends BasePlayer {
     public Card doAction(MoveContext context) {
         int treasureMapCount = 0;
 
-        for (Card card : getHand()) {
+        for (final Card card : getHand()) {
             if (card.equals(Cards.treasureMap)) {
                 treasureMapCount++;
             }
         }
 
-        if (treasureMapCount >= 2)
+        if (treasureMapCount >= 2) {
             return fromHand(Cards.treasureMap);
+        }
         
         ActionCard action;
-        for (Card card : getHand()) {
+        for (final Card card : getHand()) {
             if (context.canPlay(card)) {
                 action = (ActionCard) card;
                 if (action.getAddActions() > 0) {
@@ -386,27 +388,28 @@ public class VDomPlayerSarah extends BasePlayer {
         }
 
         if(inHand(Cards.throneRoom) && context.canPlay(Cards.throneRoom)) {
-            return Cards.throneRoom;
+            return fromHand(Cards.throneRoom);
         }
         
         //TODO: ...
         //if(context.getKingsCourtsInEffect() == 0) {
             if(inHand(Cards.kingsCourt) && context.canPlay(Cards.kingsCourt)) {
-                return Cards.kingsCourt;
+                return fromHand(Cards.kingsCourt);
             }
         //}
         
         //TODO: simple action play order list instead of just picking the most expensive card
         int cost = COST_MAX;
-        ArrayList<Card> randList = new ArrayList<Card>();
+        final ArrayList<Card> randList = new ArrayList<Card>();
         while (cost >= 0) {
-            for (Card card : getHand()) {
+            for (final Card card : getHand()) {
                 if (
                         !context.canPlay(card) || 
                         card.equals(Cards.treasureMap) ||
                         card.getCost(context) != cost
-                   )
-                      continue;
+                   ) {
+                    continue;
+                }
                 
                 if(card.getCost(context) == cost) {
                     randList.add(card);
@@ -414,7 +417,7 @@ public class VDomPlayerSarah extends BasePlayer {
             }
 
             if (randList.size() > 0) {
-                return (Card) randList.get(this.rand.nextInt(randList.size()));
+                return randList.get(rand.nextInt(randList.size()));
             }
 
             cost--;
@@ -426,24 +429,24 @@ public class VDomPlayerSarah extends BasePlayer {
     public boolean shouldPassOnBuy(MoveContext context, Card card) {
         return 
                 !context.canBuy(card) || 
-                ((card instanceof ActionCard) && actionCardCount >= actionCardMax) || 
-                (!favorSilverGoldPlat && (card.equals(Cards.silver) || card.equals(Cards.gold) || card.equals(Cards.platinum))) ||
+                card instanceof ActionCard && actionCardCount >= actionCardMax || 
+                !favorSilverGoldPlat && (card.equals(Cards.silver) || card.equals(Cards.gold) || card.equals(Cards.platinum)) ||
                 card.equals(Cards.curse) || 
                 card.equals(Cards.copper) || 
-                (card.equals(Cards.potion) && !shouldBuyPotion()) ||
-                (card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax) ||
-                (card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax) ||
+                card.equals(Cards.potion) && !shouldBuyPotion() ||
+                card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
+                card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 context.getEmbargos(card) > 0 ||
-                (!(card instanceof ActionCard) && !(card instanceof TreasureCard));
+                !(card instanceof ActionCard) && !(card instanceof TreasureCard);
     }
 
     @Override
     public Card doBuy(MoveContext context) {
-        int coinAvailableForBuy = context.getCoinAvailableForBuy();
+        final int coinAvailableForBuy = context.getCoinAvailableForBuy();
 
         if (earlyCardBuyCount < earlyCardBuyMax) {
-            ArrayList<Card> randList = new ArrayList<Card>();
-            for (Card card : earlyCardBuys) {
+            final ArrayList<Card> randList = new ArrayList<Card>();
+            for (final Card card : earlyCardBuys) {
                 if (context.canBuy(card)) { // && (coinAvailableForBuy == card.getCost()) {
                     randList.add(card);
                 }
@@ -451,7 +454,7 @@ public class VDomPlayerSarah extends BasePlayer {
 
             if (randList.size() > 0) {
                 earlyCardBuyCount++;
-                return randList.get(this.rand.nextInt(randList.size()));
+                return randList.get(rand.nextInt(randList.size()));
             }
         }
 
@@ -467,7 +470,7 @@ public class VDomPlayerSarah extends BasePlayer {
             return Cards.colony;
         }
         
-        if (favorSilverGoldPlat && coinAvailableForBuy >= 9 && (context.canBuy(Cards.platinum)) && turnCount < midGame) {
+        if (favorSilverGoldPlat && coinAvailableForBuy >= 9 && context.canBuy(Cards.platinum) && turnCount < midGame) {
             return Cards.platinum;
         }
 
@@ -475,14 +478,14 @@ public class VDomPlayerSarah extends BasePlayer {
             return Cards.province;
         }
         
-        if ((this.turnCount > midGame) && (coinAvailableForBuy <= 7) && (context.canBuy(Cards.duchy) && rand.nextInt(3) == 0)) {
+        if (turnCount > midGame && coinAvailableForBuy <= 7 && context.canBuy(Cards.duchy) && rand.nextInt(3) == 0) {
             if(context.getEmbargos(Cards.duchy) == 0) {
                 return Cards.duchy;
             }
         }
 
         if (buyEstates) {
-            if ((this.turnCount > midGame) && (coinAvailableForBuy <= 2) && (context.canBuy(Cards.estate))) {
+            if (turnCount > midGame && coinAvailableForBuy <= 2 && context.canBuy(Cards.estate)) {
                 if(context.getEmbargos(Cards.estate) == 0) {
                     return Cards.estate;
                 }
@@ -493,16 +496,16 @@ public class VDomPlayerSarah extends BasePlayer {
             return Cards.grandMarket;
         }
 
-        double silverLine = .5d;
+        final double silverLine = .5d;
 
         if (favorSilverGoldPlat) {
-            if ((coinAvailableForBuy >= 3) && (coinAvailableForBuy <= silverMax) && (this.rand.nextFloat() > silverLine)) {
+            if (coinAvailableForBuy >= 3 && coinAvailableForBuy <= silverMax && rand.nextFloat() > silverLine) {
                 if(context.getEmbargos(Cards.silver) == 0) {
                     return Cards.silver;
                 }
             }
 
-            if ((coinAvailableForBuy >= 6) && (coinAvailableForBuy <= 6) && (this.rand.nextFloat() > silverLine)) {
+            if (coinAvailableForBuy >= 6 && coinAvailableForBuy <= 6 && rand.nextFloat() > silverLine) {
                 if(context.getEmbargos(Cards.gold) == 0) {
                     return Cards.gold;
                 }
@@ -545,11 +548,11 @@ public class VDomPlayerSarah extends BasePlayer {
     @Override
     public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context) {
         if(context.cardInPlay(Cards.grandMarket)) {
-            ArrayList<TreasureCard> cards = new ArrayList<TreasureCard>();
+            final ArrayList<TreasureCard> cards = new ArrayList<TreasureCard>();
             int coinWithoutCopper = 0;
-            for(Card c : getHand()) {
+            for(final Card c : getHand()) {
                 if(c instanceof TreasureCard && !c.equals(Cards.copper)) {
-                    TreasureCard tc = (TreasureCard) c;
+                    final TreasureCard tc = (TreasureCard) c;
                     cards.add(tc);
                     coinWithoutCopper += tc.getValue();
                 }
@@ -580,22 +583,24 @@ public class VDomPlayerSarah extends BasePlayer {
         // Try to buy valued cards...
         int cost = coinAvailableForBuy;
         while (cost >= 0) {
-            ArrayList<Card> randList = new ArrayList<Card>();
-            for (Card card : cards) {
-                if (card.getCost(context) != cost)
+            final ArrayList<Card> randList = new ArrayList<Card>();
+            for (final Card card : cards) {
+                if (card.getCost(context) != cost) {
                     continue;
+                }
                 
-                if(shouldPassOnBuy(context, card))
-                     continue;
+                if(shouldPassOnBuy(context, card)) {
+                    continue;
+                }
                 
-                int currentCount = inHandCount(card);
+                final int currentCount = inHandCount(card);
                 if(isOnlyTreasure(card) || card instanceof VictoryCard || currentCount == 0 || rand.nextInt(MAX_OF_ONE_ACTION_CARD) < currentCount) {
                     randList.add(card);
                 }
             }
 
             if (randList.size() > 0) {
-                return randList.get(this.rand.nextInt(randList.size()));
+                return randList.get(rand.nextInt(randList.size()));
             }
             
             cost--;
