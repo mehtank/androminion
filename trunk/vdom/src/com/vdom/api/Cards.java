@@ -3,6 +3,7 @@ package com.vdom.api;
 import com.vdom.core.ActionCardImpl;
 import com.vdom.core.ActionDurationCardImpl;
 import com.vdom.core.ActionVictoryCardImpl;
+import com.vdom.core.CurseCardImpl;
 import com.vdom.core.TreasureCardImpl;
 import com.vdom.core.VictoryCardImpl;
 import com.vdom.core.VictoryTreasureCardImpl;
@@ -200,13 +201,14 @@ public class Cards {
         potion = new TreasureCardImpl("Potion", 4, 0, false, true);
         philosophersStone = new TreasureCardImpl("Philosopher's Stone", 3, 0, true, false);
 
+        curse = new CurseCardImpl("Curse", 0, -1, false);
+
         colony = new VictoryCardImpl("Colony", 11, 10, false);
         province = new VictoryCardImpl("Province", 8, 6, false);
         duchy = new VictoryCardImpl("Duchy", 5, 3, false);
         estate = new VictoryCardImpl("Estate", 2, 1, false);
 
         gardens = new VictoryCardImpl("Gardens", 4, 0, false);
-        curse = new VictoryCardImpl("Curse", 0, -1, false);
 
         workshop = new ActionCardImpl.Builder("Workshop", 3).build();
         woodcutter = new ActionCardImpl.Builder("Woodcutter", 3).addBuys(1).addGold(2).build();

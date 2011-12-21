@@ -759,23 +759,15 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (!currentPlayer.hand.contains(cardToTrash)) {
             Util.playerError(currentPlayer, "Transmute card to trash is not in your hand, not trashing anything.");
         } else {
+            currentPlayer.hand.remove(cardToTrash);
+            currentPlayer.trash(cardToTrash, this, context);
             if (cardToTrash instanceof ActionCard) {
-                currentPlayer.hand.remove(cardToTrash);
-                currentPlayer.trash(cardToTrash, this, context);
                 currentPlayer.gainNewCard(Cards.duchy, this, context);
-            }
-            
-            if (cardToTrash instanceof TreasureCard) {
-                currentPlayer.hand.remove(cardToTrash);
-                currentPlayer.trash(cardToTrash, this, context);
+            } else if (cardToTrash instanceof TreasureCard) {
                 currentPlayer.gainNewCard(Cards.transmute, this, context);
-            }
-            
-            if (cardToTrash instanceof VictoryCard) {
-                currentPlayer.hand.remove(cardToTrash);
-                currentPlayer.trash(cardToTrash, this, context);
+            } else if (cardToTrash instanceof VictoryCard) {
                 currentPlayer.gainNewCard(Cards.gold, this, context);
-            }                
+            } 
         }
     }
 
@@ -893,7 +885,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (card == null) {
                 break;
             }
-            if (card instanceof VictoryCard && !(card.equals(Cards.curse))) {
+            if (card instanceof VictoryCard ) {
                 currentPlayer.hand.add(card);
             } else {
                 cards.add(card);
@@ -1312,7 +1304,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         for (Pile pile : game.piles.values()) {
-            if (pile.card instanceof VictoryCard && !pile.card.equals(Cards.curse)) {
+            if (pile.card instanceof VictoryCard) {
                 if (pile.getCount() < victoryCardPileSize) {
                     context.addGold++;
                 }
@@ -1555,7 +1547,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void crossroads(Game game, MoveContext context, Player currentPlayer) {
         int victoryCards = 0;
         for(Card c : currentPlayer.getHand()) {
-            if(c instanceof VictoryCard && !(c.equals(Cards.curse))) {
+            if(c instanceof VictoryCard) {
                 victoryCards++;
             }
         }
@@ -3138,7 +3130,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 ArrayList<VictoryCard> victoryCards = new ArrayList<VictoryCard>();
 
                 for (Card card : player.hand) {
-                    if (card instanceof VictoryCard && !(card.equals(Cards.curse))) {
+                    if (card instanceof VictoryCard) {
                         victoryCards.add((VictoryCard) card);
                     }
                 }

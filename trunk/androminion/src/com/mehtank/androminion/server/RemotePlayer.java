@@ -9,9 +9,9 @@ import com.mehtank.androminion.R;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.Cards;
+import com.vdom.api.CurseCard;
 import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
-import com.vdom.api.GameType;
 import com.vdom.api.GameEvent.Type;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
@@ -129,8 +129,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	   (c.equals(Cards.colony)) ||
            (c.equals(Cards.curse))) card.pile = MyCard.VPPILE;
     	
-    	if (c.equals(Cards.curse)) card.isCurse = true; 
         if (c.equals(Cards.potion)) card.isPotion = true; 
+    	if (c.equals(Cards.curse)) {
+    		card.isCurse = true; 
+    		card.vp = ((CurseCard) c).getVictoryPoints();
+            card.desc = Strings.format(R.string.vp_single, "" + card.vp) + "\n" + card.desc;
+    	}
     	if (c instanceof VictoryCard) {
     		if (((VictoryCard) c).getVictoryPoints() > 1)
     			card.desc = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
@@ -144,7 +148,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		card.vp = ((VictoryCard) c).getVictoryPoints();
     	}
     	if (c instanceof TreasureCard) {
-    		card.desc = Strings.getString(R.string.coin_worth) + ((TreasureCard) c).getValue() + Strings.getString(R.string.coin_coin)+ "\n" + card.desc;
+    		card.desc = "Worth (" + ((TreasureCard) c).getValue() + ") Coin\n" + card.desc;
     		card.isTreasure = true;   
     		card.gold = ((TreasureCard) c).getValue();
     	}
@@ -242,7 +246,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         for (Card card : allCards) {
             totalCards++;
             distinctCards.add(card.getName());
-            if (card instanceof VictoryCard && !card.equals(Cards.curse)) {
+            if (card.equals(Cards.curse)) {
+                vp += ((CurseCard) card).getVictoryPoints();
+            }
+            if (card instanceof VictoryCard) {
                 victoryCards++;
                 vp += ((VictoryCard) card).getVictoryPoints();
                 if (card.equals(Cards.gardens)) {
@@ -646,7 +653,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		curContext = context;
     		isFinal = true;
     		
-    		strEvent = curPlayer.getPlayerName() + ": " + getVPs(curPlayer) + Strings.getString(R.string.game_over_vps);
+    		strEvent = curPlayer.getPlayerName() + ": " + getVPs(curPlayer) + " VPs";
     		if (!gameOver) {
         		String time = Strings.getString(R.string.game_over_status);
         		time += " ";
@@ -659,8 +666,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             	duration = duration % (1000 * 60);
             	time += (duration / (1000)) + "s.\n";
             	if(!event.getContext().cardsSpecifiedOnStartup()) {
-            		GameType g = event.getContext().getGameType();           		
-            	    time += Strings.getGameTypeName(g);
+            	    time += event.getContext().getGameType().getName();
             	}
             	
             	time += "\n\n";
