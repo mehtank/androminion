@@ -1328,20 +1328,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         if(actions > 1) {
             for (Card card : getHand()) {
-                if (card instanceof VictoryCard && !(card.equals(Cards.curse)) && !isOnlyVictory(card)) {
+                if (card instanceof VictoryCard && !isOnlyVictory(card)) {
                     return (VictoryCard) card;
                 }
             }
         }
         
         for (Card card : getHand()) {
-            if (card instanceof VictoryCard && !(card.equals(Cards.curse)) && isOnlyVictory(card)) {
+            if (card instanceof VictoryCard && isOnlyVictory(card)) {
                 return (VictoryCard) card;
             }
         }
         
         for (Card card : getHand()) {
-            if (card instanceof VictoryCard && !(card.equals(Cards.curse))) {
+            if (card instanceof VictoryCard) {
                 return (VictoryCard) card;
             }
         }

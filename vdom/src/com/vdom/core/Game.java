@@ -15,6 +15,7 @@ import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.Cards;
+import com.vdom.api.CurseCard;
 import com.vdom.api.DurationCard;
 import com.vdom.api.FrameworkEvent;
 import com.vdom.api.FrameworkEventHelper;
@@ -907,7 +908,6 @@ public class Game {
 
                             if (buy instanceof VictoryCard) {
                                 victoryCardBought = true;
-
                                 for (int i = 0; i < context.hoardsPlayed; i++) {
                                     player.gainNewCard(Cards.gold, Cards.hoard, context);
                                 }
@@ -1442,7 +1442,10 @@ public class Game {
             if (card instanceof ActionCard) {
                 actionCards++;
             }
-            if (card instanceof VictoryCard && !card.equals(Cards.curse)) {
+            if (card instanceof CurseCard) {
+                vp += ((CurseCard) card).getVictoryPoints();
+            }
+            if (card instanceof VictoryCard) {
                 victoryCards++;
                 vp += ((VictoryCard) card).getVictoryPoints();
                 if (card.equals(Cards.duchy)) {
@@ -1558,7 +1561,7 @@ public class Game {
             return false;
         }
 
-        if (card.equals(Cards.curse) || card.isPrize()) {
+        if (card.isPrize()) {
             return false;
         }
 
