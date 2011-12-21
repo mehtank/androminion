@@ -1,4 +1,7 @@
 #labels Featured
+ * Issue 52: Curse is categorized as a Victory Card
+ * Issue 35: curse cannot be purchased
+ * Issue 156: Transmute + Curse
  * Issue 164: Wrong number of Estate/Duchy/Province/Colony cards in the 3 and 4-players game
 
 1.9.b18
