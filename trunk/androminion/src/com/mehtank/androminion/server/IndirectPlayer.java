@@ -1007,7 +1007,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_university_actionCardToObtain(context)) {
             return super.university_actionCardToObtain(context);
         }
-        return (ActionCard) getFromTable(context, getString(R.string.university_part), 5, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, true, true, 0);
+        return getActionFromTable(context, getString(R.string.university_part), 5, getString(R.string.none));
     }
     
     public boolean scryingPool_shouldDiscard(MoveContext context, Player targetPlayer, Card card) {
