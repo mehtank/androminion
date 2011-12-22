@@ -2585,20 +2585,20 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 if (draw != null) {
                     player.trash(draw, this, playerContext);
 
-                    Card card = currentPlayer.swindler_cardToSwitch(context, draw.getCost(context));
+                    Card card = currentPlayer.swindler_cardToSwitch(context, draw.getCost(context), draw.costPotion());
 
                     boolean bad = false;
                     if (card == null) {
                         // Check that there are no cards that are possible to trade for...
                         for (Card thisCard : context.getCardsInPlay()) {
-                            if (game.pileSize(thisCard) > 0 && thisCard.getCost(context) == draw.getCost(context)) {
+                            if (!thisCard.isPrize() && game.pileSize(thisCard) > 0 && thisCard.getCost(context) == draw.getCost(context) && thisCard.costPotion() == draw.costPotion()) {
                                 bad = true;
                                 break;
                             }
                         }
                     } else if (context.getCardsLeft(card) == 0) {
                         bad = true;
-                    } else if (card.getCost(context) != draw.getCost(context)) {
+                    } else if (card.isPrize() || card.getCost(context) != draw.getCost(context) || card.costPotion() != draw.costPotion()) {
                         bad = true;
                     }
 
@@ -2607,7 +2607,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                         ArrayList<Card> possible = new ArrayList<Card>();
                         for (Card thisCard : context.getCardsInPlay()) {
-                            if (game.pileSize(thisCard) > 0 && thisCard.getCost(context) == draw.getCost(context)) {
+                            if (!thisCard.isPrize() && game.pileSize(thisCard) > 0 && thisCard.getCost(context) == draw.getCost(context) && thisCard.costPotion() == draw.costPotion()) {
                                 possible.add(thisCard);
                             }
                         }
