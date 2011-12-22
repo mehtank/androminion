@@ -144,7 +144,7 @@ public class Game {
         ((CardImpl) Cards.smithy).description = "";
         ((CardImpl) Cards.spy).description = "Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.";
         ((CardImpl) Cards.thief).description = "Each other player reveals the top 2 cards of his deck. If they revelaed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.";
-        ((CardImpl) Cards.throneRoom).description = "Choose an Action card in you hand. Play it twice.";
+        ((CardImpl) Cards.throneRoom).description = "Choose an Action card in your hand. Play it twice.";
         ((CardImpl) Cards.village).description = "";
         ((CardImpl) Cards.witch).description = "Each other player gains a Curse card.";
         ((CardImpl) Cards.woodcutter).description = "";
