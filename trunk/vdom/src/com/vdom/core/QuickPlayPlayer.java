@@ -150,7 +150,7 @@ public class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_swindler_cardToSwitch(MoveContext context, int cost) {
+    public boolean shouldAutoPlay_swindler_cardToSwitch(MoveContext context, int cost, boolean potion) {
         return true;
     }
 

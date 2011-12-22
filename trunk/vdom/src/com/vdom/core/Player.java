@@ -487,7 +487,7 @@ public abstract class Player {
 
     public abstract StewardOption steward_chooseOption(MoveContext context);
 
-    public abstract Card swindler_cardToSwitch(MoveContext context, int cost);
+    public abstract Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion);
 
     public abstract Card[] steward_cardsToTrash(MoveContext context);
 

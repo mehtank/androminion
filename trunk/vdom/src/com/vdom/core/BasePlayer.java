@@ -586,11 +586,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card swindler_cardToSwitch(MoveContext context, int cost) {
+    public Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion) {
         Card[] cards = context.getCardsInPlay();
         ArrayList<Card> randList = new ArrayList<Card>();
         for (Card card : cards) {
-            if (card.getCost(context) == cost && context.getCardsLeft(card) > 0) {
+            if (!card.isPrize() && card.getCost(context) == cost && context.getCardsLeft(card) > 0 && card.costPotion() == potion) {
                 randList.add(card);
             }
         }
