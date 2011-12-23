@@ -634,7 +634,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     public Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion) {
         if(context.isQuickPlay() && shouldAutoPlay_swindler_cardToSwitch(context, cost, potion)) {
-            return super.swindler_cardToSwitch(context, cost, boolean potion);
+            return super.swindler_cardToSwitch(context, cost, potion);
         }
 		return getFromTable(context, Strings.format(R.string.swindler_part, "" + cost), cost, cost, false, NOTPASSABLE, SelectCardOptions.SWINDLE, false, true, potion? 1: 0);
 	}
