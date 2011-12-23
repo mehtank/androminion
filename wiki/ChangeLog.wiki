@@ -1,4 +1,5 @@
 #labels Featured
+ * Issue 132:	Throne Room / King's Court cannot be played if I have no other actions
  * Issue 131: University card gain should be optional
  * Issue 52: Curse is categorized as a Victory Card
  * Issue 35: curse cannot be purchased
