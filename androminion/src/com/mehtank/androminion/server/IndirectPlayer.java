@@ -156,9 +156,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         	}
         }
         
-        if(selectingActionToPlay && onlyThroneRoomsOrKingsCourts) {
-            return null;
-        }
+//        if(selectingActionToPlay && onlyThroneRoomsOrKingsCourts) {
+//            return null;
+//        }
         
         if (sco.allowedCards.size() == 0)
         	return null;
@@ -632,11 +632,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 		return h.get(selectString(context, Cards.steward, h.keySet().toArray(new String[0])));
 	}
 
-    public Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_swindler_cardToSwitch(context, cost, potion)) {
-            return super.swindler_cardToSwitch(context, cost, potion);
+    public Card swindler_cardToSwitch(MoveContext context, int cost) {
+        if(context.isQuickPlay() && shouldAutoPlay_swindler_cardToSwitch(context, cost)) {
+            return super.swindler_cardToSwitch(context, cost);
         }
-		return getFromTable(context, Strings.format(R.string.swindler_part, "" + cost), cost, cost, false, NOTPASSABLE, SelectCardOptions.SWINDLE, false, true, potion? 1: 0);
+		return getFromTable(context, Strings.format(R.string.swindler_part, "" + cost), cost, cost, NOTPASSABLE, SelectCardOptions.SWINDLE);
 	}
 
     public Card[] steward_cardsToTrash(MoveContext context) {
@@ -1007,7 +1007,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_university_actionCardToObtain(context)) {
             return super.university_actionCardToObtain(context);
         }
-        return getActionFromTable(context, getString(R.string.university_part), 5, getString(R.string.none));
+        return (ActionCard) getFromTable(context, getString(R.string.university_part), 5, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, true, true, 0);
     }
     
     public boolean scryingPool_shouldDiscard(MoveContext context, Player targetPlayer, Card card) {
