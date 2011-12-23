@@ -1,4 +1,7 @@
 #labels Featured
+1.9.b19
+
+1.9.b18
  * Issue 161: Swindler is able to choose Prizes and Potion cards as swindle replacements
  * Issue 132:	Throne Room / King's Court cannot be played if I have no other actions
  * Issue 131: University card gain should be optional
@@ -6,8 +9,6 @@
  * Issue 35: curse cannot be purchased
  * Issue 156: Transmute + Curse
  * Issue 164: Wrong number of Estate/Duchy/Province/Colony cards in the 3 and 4-players game
-
-1.9.b18
  * Issue 167: AI satsfied an achievement for me
  * Issue 166: Trusty steed "gain 4 silvers" option does not work
  * Issue 171: Apprentice does not require AI players to trash a card
