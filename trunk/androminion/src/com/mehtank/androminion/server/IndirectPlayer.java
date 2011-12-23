@@ -707,7 +707,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_saboteur_cardToObtain(context, maxCost, potion)) {
             return super.saboteur_cardToObtain(context, maxCost, potion);
         }
-    	return getFromTable(context, getString(R.string.saboteur_part), maxCost, getString(R.string.none));
+    	return getFromTable(context, getString(R.string.saboteur_part), maxCost, Integer.MIN_VALUE, false, getString(R.string.none), SelectCardOptions.SELECT, false, true, potion? 1:0);
 	}
 
     public Card[] scout_orderCards(MoveContext context, Card[] cards) {
