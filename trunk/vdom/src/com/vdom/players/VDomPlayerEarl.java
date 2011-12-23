@@ -991,27 +991,28 @@ public Card masquerade_cardToPass(MoveContext context)
      return cards.toArray(new Card[0]);
    }
  
-   public Card swindler_cardToSwitch(MoveContext context, int cost)
+   @Override
+   public Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion)
    {
-     if (cost == 0) {
+     if (cost == 0 && !potion) {
        return Cards.curse;
      }
  
-     if (cost == 2) {
+     if (cost == 2 && !potion) {
        return Cards.estate;
      }
  
-     if (cost == 3) {
+     if (cost == 3 && !potion) {
        return Cards.silver;
      }
-     if (cost == 5) {
+     if (cost == 5 && !potion) {
        return Cards.duchy;
      }
  
      Card[] cards = context.getCardsInPlay();
      ArrayList<Card> randList = new ArrayList<Card>();
      for (Card card : cards) {
-       if ((card.getCost(context) == cost) && (context.getCardsLeft(card) > 0)) {
+       if (!card.isPrize() && (card.getCost(context) == cost) && (context.getCardsLeft(card) > 0) && card.costPotion() == potion) {
          randList.add(card);
        }
      }
