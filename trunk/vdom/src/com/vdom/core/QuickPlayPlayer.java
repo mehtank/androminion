@@ -540,7 +540,7 @@ public class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_mine_treasureToObtain(MoveContext context, int maxCost) {
+    public boolean shouldAutoPlay_mine_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
         return true;
     }
 

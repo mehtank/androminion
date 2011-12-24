@@ -717,7 +717,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     Card thisCard = removeFromHand(currentPlayer, i);
                     currentPlayer.trash(thisCard, this, context);
 
-                    TreasureCard newCard = currentPlayer.mine_treasureToObtain(context, card.getCost(context) + 3);
+                    TreasureCard newCard = currentPlayer.mine_treasureToObtain(context, card.getCost(context) + 3, card.costPotion());
                     if (newCard != null) {
                         if (newCard.getCost(context) <= card.getCost(context) + 3) {
                             currentPlayer.gainNewCard(newCard, this, context);

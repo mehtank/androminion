@@ -285,6 +285,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     public Card getTreasureFromTable(MoveContext context, String header, int maxCost, String passString) {
+    	return getTreasureFromTable(context, header, maxCost, passString, false);
+    }
+    
+    public Card getTreasureFromTable(MoveContext context, String header, int maxCost, String passString, boolean potion) {
         Card[] cards = context.getCardsInPlay();
         SelectCardOptions sco = new SelectCardOptions()
         	.fromTable()
@@ -296,7 +300,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         
         for (Card card : cards)
         	if (card.getCost(context) <= maxCost)
-        		sco.addValidCard(cardToInt(card));
+        		if (potion || (!potion && !card.costPotion()))
+        		  sco.addValidCard(cardToInt(card));
 
         if (sco.allowedCards.size() == 0)
         	return null;
@@ -306,7 +311,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         sco.maxCost(maxCost);
         
-        return pickACard(context, Strings.format(R.string.select_treasure, "" + maxCost, header), sco);
+        return pickACard(context, Strings.format(R.string.select_treasure, "" + maxCost + (potion? "p":""), header), sco);
     }
     
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString) {
@@ -495,14 +500,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
             return super.workshop_cardToObtain(context);
         }
-    	return getFromTable(context, getGainString(Cards.workshop), 4, NOTPASSABLE);
+    	return getFromTable(context, getGainString(Cards.workshop), 4, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, false, true, 0);
     }
 
     public Card feast_cardToObtain(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
             return super.feast_cardToObtain(context);
         }
-    	return getFromTable(context, getGainString(Cards.feast), 5, NOTPASSABLE);
+    	return getFromTable(context, getGainString(Cards.feast), 5, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, false ,true, 0);
     }
 
     public Card remodel_cardToTrash(MoveContext context) {
@@ -521,11 +526,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getFromTable(context, getGainString(Cards.remodel), maxCost, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, false, true, potion?1:0);
     }
 
-    public TreasureCard mine_treasureToObtain(MoveContext context, int maxCost) {
-        if(context.isQuickPlay() && shouldAutoPlay_mine_treasureToObtain(context, maxCost)) {
-            return super.mine_treasureToObtain(context, maxCost);
+    public TreasureCard mine_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_mine_treasureToObtain(context, maxCost, potion)) {
+            return super.mine_treasureToObtain(context, maxCost, potion);
         }
-    	return (TreasureCard) getTreasureFromTable(context, getString(R.string.mine_part), maxCost, NOTPASSABLE);
+    	return (TreasureCard) getTreasureFromTable(context, getString(R.string.mine_part), maxCost, NOTPASSABLE, potion);
     }
 
     public Card[] militia_attack_cardsToKeep(MoveContext context) {
@@ -671,7 +676,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_ironworks_cardToObtain(context)) {
             return super.ironworks_cardToObtain(context);
         }
-    	return getFromTable(context, getCardName(Cards.ironworks), 4, NOTPASSABLE);
+    	return getFromTable(context, getCardName(Cards.ironworks), 4, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, false, true, 0);
 	}
 
     public Card masquerade_cardToPass(MoveContext context) {
@@ -1007,7 +1012,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_university_actionCardToObtain(context)) {
             return super.university_actionCardToObtain(context);
         }
-        return getActionFromTable(context, getString(R.string.university_part), 5, getString(R.string.none));
+        return (ActionCard) getFromTable(context, getString(R.string.university_part), 5, Integer.MIN_VALUE, false, getString(R.string.none), SelectCardOptions.SELECT, true, true, 0);
     }
     
     public boolean scryingPool_shouldDiscard(MoveContext context, Player targetPlayer, Card card) {
@@ -1225,7 +1230,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_hornOfPlenty_cardToObtain(context, maxCost)) {
             return super.hornOfPlenty_cardToObtain(context, maxCost);
         }
-        return getFromTable(context, getGainString(Cards.hornOfPlenty), maxCost, getString(R.string.none));
+        return getFromTable(context, getGainString(Cards.hornOfPlenty), maxCost, Integer.MIN_VALUE, false, getString(R.string.none), SelectCardOptions.SELECT, false, true, 0);
     }
     
     public Card[] horseTraders_cardsToDiscard(MoveContext context) {
@@ -1673,7 +1678,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.borderVillage_cardToObtain(context);
         }
         
-        return getFromTable(context, getGainString(Cards.borderVillage), 5, Integer.MIN_VALUE, false, NOTPASSABLE);
+        return getFromTable(context, getGainString(Cards.borderVillage), 5, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, false, true, 0);
     }
     
     @Override
