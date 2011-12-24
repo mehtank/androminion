@@ -1,5 +1,6 @@
 #labels Featured
 1.9.b19
+ * Issue 162: Border Village allows me to select a card with potion in its cost to gain 
 
 1.9.b18
  * Issue 161: Swindler is able to choose Prizes and Potion cards as swindle replacements
