@@ -583,7 +583,7 @@ public class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_foolsGold_shouldTrash(MoveContext context) {
-        return true;
+        return false;
     }
     
     public boolean shouldAutoPlay_trader_shouldGainSilverInstead(MoveContext context, Card card) {
