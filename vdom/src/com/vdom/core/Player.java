@@ -464,7 +464,7 @@ public abstract class Player {
 
     public abstract TreasureCard mine_treasureFromHandToUpgrade(MoveContext context);
 
-    public abstract TreasureCard mine_treasureToObtain(MoveContext context, int maxCost);
+    public abstract TreasureCard mine_treasureToObtain(MoveContext context, int maxCost, boolean potion);
 
     public abstract Card[] chapel_cardsToTrash(MoveContext context);
 

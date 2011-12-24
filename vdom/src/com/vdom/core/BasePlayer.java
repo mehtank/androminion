@@ -1302,11 +1302,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public TreasureCard mine_treasureToObtain(MoveContext context, int cost) {
+    public TreasureCard mine_treasureToObtain(MoveContext context, int cost, boolean potion) {
         while(cost > 0) {
             for(Card card : context.getCardsInPlay()) {
                 if(card instanceof TreasureCard && card.getCost(context) == cost && context.getCardsLeft(card) > 0) {
+                	if (potion || (!potion && !card.costPotion())) {
                     return (TreasureCard) card;
+                	}
                 }
             }
             
