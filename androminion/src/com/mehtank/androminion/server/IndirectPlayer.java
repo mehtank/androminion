@@ -1678,7 +1678,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.borderVillage_cardToObtain(context);
         }
         
-        return getFromTable(context, getGainString(Cards.borderVillage), 5, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, false, true, 0);
+        return getFromTable(context, getGainString(Cards.borderVillage), Cards.borderVillage.getCost(context) - 1, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, false, true, 0);
     }
     
     @Override
