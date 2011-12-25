@@ -1,5 +1,8 @@
 #labels Featured
 1.9.b19
+ * Issue 186: Border Village on-gain ability isn't always triggered
+ * Issue 160: Gain Gold after buy Border Village with Highway played
+ * Issue 187: When I attacked and other player reactions by secret chamber, my played area displays secret chamber as if I have played it.
  * Issue 162: Border Village allows me to select a card with potion in its cost to gain 
 
 1.9.b18
