@@ -1668,8 +1668,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card borderVillage_cardToObtain(MoveContext context) {
-        // TODO Auto-generated method stub
-        return null;
+    	return bestCardInPlay(context, Cards.borderVillage.getCost(context) - 1);
     }
 
     @Override
