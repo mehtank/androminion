@@ -6,6 +6,7 @@ import java.util.Random;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.Cards;
+import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
@@ -77,8 +78,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost) {
         return bestCardInPlay(context, maxCost, exactCost, false);
     }
-    
+
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion) {
+        return bestCardInPlay(context, maxCost, exactCost, potion, false);
+    }
+    
+    protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion, boolean actionOnly) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
             maxCost = COST_MAX;
@@ -115,8 +120,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                             highestCost = card.getCost(context);
                         }
                         
-                        if((card.costPotion() && potion) || (!card.costPotion() && !potion) || (!exactCost && potion))
-                            randList.add(card);
+                        if((card.costPotion() && potion) || (!card.costPotion() && !potion) || (!exactCost && potion)) {
+                        	if (!actionOnly || actionOnly && card instanceof ActionCard) {
+                        		randList.add(card);
+                        	}
+                        }
                     }
                 }
             }
@@ -340,7 +348,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         // Just add in the non-victory cards...
         for (Card card : hand) {
-            if (!isOnlyVictory(card)) {
+            if (!shouldDiscard(card)) {
                 cards.add(card);
             }
         }
@@ -505,7 +513,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         // Discard all victory cards
         ArrayList<Card> cards = new ArrayList<Card>();
         for (Card card : getHand()) {
-            if (isOnlyVictory(card)) {
+            if (shouldDiscard(card)) {
                 cards.add(card);
             }
         }
@@ -542,7 +550,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         if (getHand().size() < 5) {
             int count = 0;
             for (Card c : getHand()) {
-                if (isOnlyVictory(c) || c.equals(Cards.copper)) {
+                if (shouldDiscard(c) || c.equals(Cards.copper)) {
                     count++;
                 }
             }
@@ -556,7 +564,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         else {
             int count = 0;
             for (Card c : getHand()) {
-                if (isOnlyVictory(c)) {
+                if (shouldDiscard(c)) {
                     count++;
                 }
             }
@@ -744,7 +752,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
 
         for (Card card : getHand()) {
-            if (isOnlyVictory(card)) {
+            if (shouldDiscard(card)) {
                 cardsToDiscard.add(card);
             }
 
@@ -854,7 +862,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         // Discard them if there is more than 2 victory cards
         int victoryCount = 0;
         for (Card card : cards) {
-            if (isOnlyVictory(card)) {
+            if (shouldDiscard(card)) {
                 victoryCount++;
             }
         }
@@ -921,16 +929,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public ActionCard university_actionCardToObtain(MoveContext context) {
         //TODO: better logic
-        Card card = null;
-        int cost = 5;
-        while(card == null) {
-            card = bestCardInPlay(context, cost);
-            if(!(card instanceof ActionCard)) {
-                card = null;
-            }
-        }
-        
-        return (ActionCard) card;
+        return (ActionCard) bestCardInPlay(context, 5, false, false, true);
     }
 
     @Override
@@ -1006,8 +1005,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card[] goons_attack_cardsToKeep(MoveContext context) {
-        // TODO:: Finish prosperity
-        return null;
+    	return militia_attack_cardsToKeep(context);
     }
 
     @Override
@@ -1284,8 +1282,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card[] followers_attack_cardsToKeep(MoveContext context) {
-        // TODO:: Finish cornucopia
-        return null;
+    	return militia_attack_cardsToKeep(context);
     }
 
     @Override
@@ -1423,6 +1420,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         
         return true;
+    }
+    
+    public boolean isCurse(Card card) {
+    	return card instanceof CurseCard;
+    }
+    
+    public boolean shouldDiscard(Card card) {
+    	return isCurse(card) || isOnlyVictory(card);
     }
     
     public boolean shouldBuyPotion() {
@@ -1634,7 +1639,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
 
         for (Card card : getHand()) {
-            if (isOnlyVictory(card)) {
+            if (shouldDiscard(card)) {
                 cardsToDiscard.add(card);
             }
 
