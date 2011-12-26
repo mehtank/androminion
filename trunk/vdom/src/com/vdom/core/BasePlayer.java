@@ -1697,7 +1697,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         
         if(Game.rand.nextBoolean() && hand.contains(Cards.silver)) {
-            return (TreasureCard) Cards.silver;
+            return (TreasureCard) fromHand(Cards.silver);
         }
 
         return null;
