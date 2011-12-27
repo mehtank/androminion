@@ -763,9 +763,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             currentPlayer.trash(cardToTrash, this, context);
             if (cardToTrash instanceof ActionCard) {
                 currentPlayer.gainNewCard(Cards.duchy, this, context);
-            } else if (cardToTrash instanceof TreasureCard) {
+            }
+            if (cardToTrash instanceof TreasureCard) {
                 currentPlayer.gainNewCard(Cards.transmute, this, context);
-            } else if (cardToTrash instanceof VictoryCard) {
+            }
+            if (cardToTrash instanceof VictoryCard) {
                 currentPlayer.gainNewCard(Cards.gold, this, context);
             } 
         }
