@@ -426,6 +426,8 @@ public class VDomPlayerSarah extends BasePlayer {
         return null;
     }
     
+  
+    
     public boolean shouldPassOnBuy(MoveContext context, Card card) {
         return 
                 !context.canBuy(card) || 
@@ -607,5 +609,29 @@ public class VDomPlayerSarah extends BasePlayer {
         }
 
         return null;
+    }
+    
+    public Card[] chapel_cardsToTrash(MoveContext context) {
+        ArrayList<Card> cards = new ArrayList<Card>();
+    
+        for (Card card : getHand()) {
+          if (card.equals(Cards.estate)) {
+            cards.add(card);
+          }
+        }
+    
+        if (getCurrencyTotal(context) >= 3) {
+          for (Card card : getHand()) {
+            if (card.equals(Cards.copper)) {
+              cards.add(card);
+            }
+    
+            if (cards.size() == 4) {
+              break;
+            }
+          }
+        }
+    
+        return cards.toArray(new Card[0]);
     }
 }
