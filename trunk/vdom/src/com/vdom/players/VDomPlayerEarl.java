@@ -825,11 +825,11 @@ public class VDomPlayerEarl extends BasePlayer
      ArrayList<Card> cards = new ArrayList<Card>();
  
      for (Card card : getHand()) {
-       if (card.equals(Cards.estate)) {
-         cards.add(card);
-       }
+         if (card.equals(Cards.estate) || card.equals(Cards.curse)) {
+             cards.add(card);
+         }
      }
- 
+  
      if (getCurrencyTotal(context) >= 3) {
        for (Card card : getHand()) {
          if (card.equals(Cards.copper)) {
