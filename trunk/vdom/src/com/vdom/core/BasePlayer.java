@@ -689,6 +689,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return null;
         }
         
+        if (getHand().size() == 1) {
+            return getHand().get(0);
+        }
+
         for(Card c : getHand()) {
             if(c.equals(Cards.curse)) {
                 return c;

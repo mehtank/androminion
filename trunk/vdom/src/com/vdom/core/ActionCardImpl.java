@@ -134,8 +134,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     protected ActionCardImpl() {
     }
 
-    private boolean miningVillageTrashed = false;
-    
     public void play(Game game, MoveContext context) {
         super.play(game, context);
 
@@ -3398,8 +3396,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void feast(MoveContext context, Player currentPlayer) {
-        currentPlayer.trash(this, null, context);
-
         Card card = currentPlayer.feast_cardToObtain(context);
         if (card != null) {
             // check cost
