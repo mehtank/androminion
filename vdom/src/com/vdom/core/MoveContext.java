@@ -26,7 +26,8 @@ public class MoveContext {
     public int coppersmithsPlayed = 0;
     public int goonsPlayed = 0;
     public int hoardsPlayed = 0;
-    public int kingsCourtInEffect = 0;
+    public int throneRoomsInEffect = 0;
+    public int numberTimesToPlay = 0;
     public int quarriesPlayed = 0;
     public boolean royalSealPlayed = false;
     public int possessionsToProcess = 0;
@@ -34,7 +35,6 @@ public class MoveContext {
     public int foolsGoldPlayed = 0;
     public int schemesPlayed = 0;
     public int cardCostModifier = 0;
-    public ArrayList<Card> throneRoomsInEffect = new ArrayList<Card>();
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public Player getPossessedBy() { return game.possessingPlayer; };
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
@@ -89,7 +89,7 @@ public class MoveContext {
     }
 
     public int getThroneRoomsInEffect() {
-        return throneRoomsInEffect.size();
+        return throneRoomsInEffect;
     }
 
     public int getQuarriesPlayed() {
