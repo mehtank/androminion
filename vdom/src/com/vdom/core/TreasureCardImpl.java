@@ -4,25 +4,49 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import com.vdom.api.Card;
-import com.vdom.api.Cards;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public class TreasureCardImpl extends CardImpl implements TreasureCard {
-    public TreasureCardImpl(String name, int cost, int value, boolean costPotion, boolean providesPotion) {
+    int value;
+    boolean providePotion;
+    
+    public TreasureCardImpl(String name, int cost, int value) {
         super(name, cost);
         this.value = value;
-        this.costPotion = costPotion;
-        this.providesPotion = providesPotion;
+    }
+
+    public TreasureCardImpl(Builder builder) {
+        super(builder);
+        value = builder.value;
+        providePotion = builder.providePotion;
+    }
+
+    public static class Builder extends CardImpl.Builder {
+        protected int value;
+        protected boolean providePotion = false;
+
+        public Builder(String name, int cost, int value) {
+            super(name, cost);
+            this.value = value;
+        }
+
+        public Builder providePotion() {
+            providePotion = true;
+            return this;
+        }
+
+        public TreasureCardImpl build() {
+            return new TreasureCardImpl(this);
+        }
+
     }
 
     protected TreasureCardImpl() {
     }
     
-    public TreasureCardImpl setIsPrize() {
-        isPrize = true;
-        return this;
+    public TreasureCardImpl(String name, int cost, int value2, boolean costPotion, boolean b) {
     }
 
     public int getValue() {
@@ -37,19 +61,16 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         return c;
     }
 
-    public boolean providesPotion() {
-        return providesPotion;
+    public boolean providePotion() {
+        return providePotion;
     }
 
     protected void copyValues(TreasureCardImpl c) {
         super.copyValues(c);
         c.value = value;
-        c.providesPotion = providesPotion;
+        c.providePotion = providePotion;
     }
 
-    int value;
-    boolean providesPotion;
-    
     @Override
     public void playTreasure(MoveContext context) {
         Player player = context.player;
@@ -116,7 +137,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             context.gold += context.getActionsLeft();
         }
 
-        if (providesPotion()) {
+        if (providePotion()) {
             context.potions++;
         }
 

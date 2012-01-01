@@ -1,8 +1,8 @@
 package com.vdom.players;
 
 import com.vdom.api.Card;
-import com.vdom.api.Cards;
 import com.vdom.api.GameType;
+import com.vdom.core.Cards;
 
 public class VDomPlayerDrew extends VDomPlayerSarah {
 

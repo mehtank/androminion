@@ -3,18 +3,91 @@ package com.vdom.core;
 import com.vdom.api.Card;
 
 public class CardImpl implements Card {
+    String name;
+    int cost;
+    boolean trashed = false;
+    boolean costPotion = false;
+
+    String description = "";
+    String expansion = "";
+    protected int vp;
+    protected int cloneCount = 1;
+
+    boolean isPrize = false;
+
+    private Integer id;
+
     static int maxNameLen;
     public boolean templateCard = true;
     String safeName;
 
-    CardImpl(String name, int cost) {
+    protected CardImpl(String name, int cost) {
         this.name = name;
-        this.cost = cost;
         if (maxNameLen < name.length()) {
             maxNameLen = name.length();
         }
+        this.cost = cost;
     }
     
+    public CardImpl(Builder builder) {
+        this(builder.name, builder.cost);
+		    vp = builder.vp;
+        description = builder.description;
+        expansion = builder.expansion;
+        isPrize = builder.isPrize;
+        costPotion = builder.costPotion;
+    }
+
+    public static class Builder {
+        protected String name;
+        protected int cost;
+
+        protected boolean costPotion = false;
+        protected String description = "";
+        protected String expansion = "";
+
+	    protected boolean isPrize = false;
+
+        protected int vp = 0;
+
+        public Builder(String name, int cost) {
+            this.name = name;
+            this.cost = cost;
+        }
+
+        public Builder description(String val) {
+            description = val;
+            return this;
+        }
+
+        public Builder expansion(String val) {
+            expansion = val;
+            return this;
+        }
+
+        public Builder costPotion() {
+            costPotion = true;
+            return this;
+        }
+
+        public Builder vp(int val) {
+            vp = val;
+            return this;
+        }
+
+        public Builder isPrize() {
+            isPrize = true;
+            return this;
+        }
+
+        public CardImpl build() {
+            return new CardImpl(this);
+        }
+
+    }
+    protected CardImpl() {
+    }
+
     public String getSafeName() {
         if(safeName == null) {
             StringBuilder sb = new StringBuilder();
@@ -49,11 +122,11 @@ public class CardImpl implements Card {
 
         c.name = name;
         c.cost = cost;
+        c.costPotion = costPotion;
         c.description = description;
         c.expansion = expansion;
-        c.dontAutoRecycleOnUse = dontAutoRecycleOnUse;
-        c.costPotion = costPotion;
         c.isPrize = isPrize;
+        c.vp = vp;
     }
 
     public String getName() {
@@ -66,18 +139,6 @@ public class CardImpl implements Card {
         return Math.max(0, cost + context.cardCostModifier);
     }
 
-    String name;
-    int cost;
-    String expansion;
-    boolean costPotion;
-    boolean isPrize;
-    String description = "";
-    boolean dontAutoRecycleOnUse = false;
-    private Integer id;
-
-    protected CardImpl() {
-    }
-
     /**
      * @return the id
      */
@@ -85,15 +146,21 @@ public class CardImpl implements Card {
         return id;
     }
 
-    void play(Game game, MoveContext context) {
+    public void play(Game game, MoveContext context) {
     }
 
     public String getStats() {
-        // return ("" + cost + " Cost");
-        return ("(" + cost + (costPotion ? "p)" : ") "));
+        StringBuilder sb = new StringBuilder();
+		    sb.append ("(" + cost + (costPotion ? "p)" : ") "));
+        if (vp > 0) {
+            sb.append(", " + vp + " victory points");
+            if (vp > 1) {
+                sb.append("s");
+            }
+        }
+        return sb.toString();
     }
-    
-    @Override
+
     public String getExpansion() {
         return expansion;
     }
@@ -102,17 +169,14 @@ public class CardImpl implements Card {
         return description;
     }
 
-    @Override
     public String toString() {
         return name + " (id=" + id + ")";
     }
 
-    @Override
     public boolean equals(Object object) {
         return (object != null && (object instanceof Card) && name.equals(((Card) object).getName()));
     }
     
-    @Override
     public int hashCode() {
         return name.hashCode();
     }

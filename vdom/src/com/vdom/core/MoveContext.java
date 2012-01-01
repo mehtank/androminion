@@ -8,7 +8,6 @@ import java.util.HashMap;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
-import com.vdom.api.Cards;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
@@ -239,7 +238,7 @@ public class MoveContext {
     public Card[] getActionsInPlay() {
         ArrayList<Card> actions = new ArrayList<Card>();
 
-        for (Game.Pile pile : game.piles.values()) {
+        for (CardPile pile : game.piles.values()) {
             if (pile.card instanceof ActionCard) {
                 actions.add(pile.card);
             }
@@ -262,7 +261,7 @@ public class MoveContext {
     public Card[] getCardsInPlay() {
         ArrayList<Card> cards = new ArrayList<Card>();
 
-        for (Game.Pile pile : game.piles.values()) {
+        for (CardPile pile : game.piles.values()) {
             cards.add(pile.card);
         }
 
@@ -279,7 +278,7 @@ public class MoveContext {
     }
 
     public int getCardsLeft(Card card) {
-        Game.Pile pile = game.piles.get(card.getName());
+        CardPile pile = game.piles.get(card.getName());
         if (pile == null || pile.getCount() < 0) {
             return 0;
         }

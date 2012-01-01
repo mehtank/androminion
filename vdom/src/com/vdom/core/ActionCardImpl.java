@@ -6,59 +6,46 @@ import java.util.Iterator;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.Cards;
 import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
-import com.vdom.core.Game.Pile;
 import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.SpiceMerchantOption;
 import com.vdom.core.Player.TournamentOption;
 import com.vdom.core.Player.TrustySteedOption;
 
 public class ActionCardImpl extends CardImpl implements ActionCard {
+    protected int addActions;
+    protected int addBuys;
+    protected int addCards;
+    protected int addGold;
+    protected int addVictoryTokens;
+    protected boolean attack;
+    boolean trashOnUse;
+
     public ActionCardImpl(Builder builder) {
-        super(builder.name, builder.cost);
+        super(builder);
         addActions = builder.addActions;
         addBuys = builder.addBuys;
         addCards = builder.addCards;
         addGold = builder.addGold;
         addVictoryTokens = builder.addVictoryTokens;
         attack = builder.attack;
-        costPotion = builder.costsPotion;
-        isPrize = builder.isPrize;
-        dontAutoRecycleOnUse = builder.dontAutoRecycleOnUse;
+        trashOnUse = builder.trashOnUse;
     }
 
-    public static class Builder {
-
-        protected String name;
-        protected int cost;
-        protected boolean costsPotion;
-        protected boolean isPrize;
-
-        protected int addActions;
-        protected int addBuys;
-        protected int addCards;
-        protected int addGold;
-        protected int addVictoryTokens;
-        protected boolean dontAutoRecycleOnUse;
-        protected boolean attack;
+    public static class Builder extends CardImpl.Builder{
+	    protected int addActions;
+	    protected int addBuys;
+	    protected int addCards;
+	    protected int addGold;
+	    protected int addVictoryTokens;
+	    protected boolean attack;
+	    protected boolean trashOnUse;
 
         public Builder(String name, int cost) {
-            this.name = name;
-            this.cost = cost;
-        }
-
-        public Builder costsPotion() {
-            costsPotion = true;
-            return this;
-        }
-        
-        public Builder isPrize() {
-            isPrize = true;
-            return this;
+            super(name, cost);
         }
 
         public Builder addActions(int val) {
@@ -86,19 +73,20 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             return this;
         }
 
-        public Builder attack(boolean val) {
-            attack = val;
+        public Builder attack() {
+            attack = true;
             return this;
         }
 
-        public Builder dontAutoRecycleOnUse(boolean val) {
-            dontAutoRecycleOnUse = val;
+        public Builder trashOnUse() {
+            trashOnUse = true;
             return this;
         }
 
         public ActionCardImpl build() {
             return new ActionCardImpl(this);
         }
+
     }
 
     public int getAddActions() {
@@ -125,13 +113,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         return attack;
     }
 
-    protected int addActions;
-    protected int addBuys;
-    protected int addCards;
-    protected int addGold;
-    protected int addVictoryTokens;
-    protected boolean attack;
-
     @Override
     public CardImpl instantiate() {
         checkInstantiateOK();
@@ -148,6 +129,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         c.addGold = addGold;
         c.addVictoryTokens = addVictoryTokens;
         c.attack = attack;
+        c.trashOnUse = trashOnUse;
     }
 
     protected ActionCardImpl() {
@@ -155,7 +137,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private boolean miningVillageTrashed = false;
     
-    protected void play(Game game, MoveContext context) {
+    public void play(Game game, MoveContext context) {
         super.play(game, context);
 
         Player currentPlayer = context.player;
@@ -960,7 +942,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (int i = 0; i < returnCount; i++) {
             if (currentPlayer.hand.contains(card)) {
                 currentPlayer.hand.remove(card);
-                Pile pile = game.piles.get(card.getName());
+                CardPile pile = game.piles.get(card.getName());
                 // Card thisCard = pile.removeCard();
                 pile.addCard(card);
             } else {
@@ -1168,10 +1150,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                         ((ActionCardImpl) cardToPlay).play(game, context);
                     }
    
-                    if (!((ActionCardImpl) cardToPlay).dontAutoRecycleOnUse && !(cardToPlay instanceof DurationCard)) {
+                    if (!((ActionCardImpl) cardToPlay).trashOnUse && !(cardToPlay instanceof DurationCard)) {
                         context.playedCards.add(cardToPlay);
                     } else if (cardToPlay instanceof DurationCard) {
-                        if (!(cardToPlay instanceof ActionDurationCardImpl) || !((ActionDurationCardImpl) cardToPlay).dontAutoRecycleOnUse) {
+                        if (!(cardToPlay instanceof ActionDurationCardImpl) || !((ActionDurationCardImpl) cardToPlay).trashOnUse) {
                             currentPlayer.nextTurnCards.add(this);
                             currentPlayer.nextTurnCards.add((DurationCard) cardToPlay);
                         }
@@ -1237,6 +1219,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 for (int i = 0; i < 3; i++) {
                     Card card = game.draw(player);
+                    if (card != null) {
                     player.reveal(card, this, playerContext);
 
                     if (card instanceof TreasureCard || card instanceof ActionCard) {
@@ -1244,6 +1227,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     } else {
                         topOfTheDeck.add(card);
                     }
+                }
                 }
 
                 if (!topOfTheDeck.isEmpty()) {
@@ -1305,7 +1289,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             victoryCardPileSize = 8;
         }
 
-        for (Pile pile : game.piles.values()) {
+        for (CardPile pile : game.piles.values()) {
             if (pile.card instanceof VictoryCard) {
                 if (pile.getCount() < victoryCardPileSize) {
                     context.addGold++;

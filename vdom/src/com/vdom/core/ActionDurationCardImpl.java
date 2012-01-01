@@ -10,26 +10,6 @@ public class ActionDurationCardImpl extends ActionCardImpl implements DurationCa
     protected int addGoldNextTurn;
     protected boolean takeAnotherTurn;
 
-    @Override
-    public CardImpl instantiate() {
-        checkInstantiateOK();
-        ActionDurationCardImpl c = new ActionDurationCardImpl();
-        copyValues(c);
-        return c;
-    }
-
-    protected void copyValues(ActionDurationCardImpl c) {
-        super.copyValues(c);
-        c.addActionsNextTurn = addActionsNextTurn;
-        c.addBuysNextTurn = addBuysNextTurn;
-        c.addCardsNextTurn = addCardsNextTurn;
-        c.addGoldNextTurn = addGoldNextTurn;
-        c.takeAnotherTurn = takeAnotherTurn;
-    }
-
-    protected ActionDurationCardImpl() {
-    }
-
     protected ActionDurationCardImpl(Builder builder) {
         super(builder);
         addActionsNextTurn = builder.addActionsNextTurn;
@@ -98,6 +78,26 @@ public class ActionDurationCardImpl extends ActionCardImpl implements DurationCa
         public ActionCardImpl build() {
             return new ActionDurationCardImpl(this);
         }
+    }
+
+    @Override
+    public CardImpl instantiate() {
+        checkInstantiateOK();
+        ActionDurationCardImpl c = new ActionDurationCardImpl();
+        copyValues(c);
+        return c;
+    }
+
+    protected void copyValues(ActionDurationCardImpl c) {
+        super.copyValues(c);
+        c.addActionsNextTurn = addActionsNextTurn;
+        c.addBuysNextTurn = addBuysNextTurn;
+        c.addCardsNextTurn = addCardsNextTurn;
+        c.addGoldNextTurn = addGoldNextTurn;
+        c.takeAnotherTurn = takeAnotherTurn;
+    }
+
+    protected ActionDurationCardImpl() {
     }
 
     @Override

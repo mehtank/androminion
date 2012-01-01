@@ -2,15 +2,22 @@ package com.vdom.core;
 
 import com.vdom.api.VictoryCard;
 
-public class VictoryTreasureCardImpl extends TreasureCardImpl implements VictoryCard {
-    int vp;
-    
-    public VictoryTreasureCardImpl(String name, int cost, int vp, int value, boolean costPotion) {
-        super(name, cost, value, costPotion, false);
-        this.vp = vp;
+public class TreasureVictoryCardImpl extends TreasureCardImpl implements VictoryCard {
+    protected TreasureVictoryCardImpl(Builder builder) {
+        super(builder);
     }
 
-    @Override
+    public static class Builder extends TreasureCardImpl.Builder {
+        public Builder(String name, int cost, int value, int vp) {
+            super(name, cost, value);
+            this.vp = vp;
+        }
+
+        public TreasureCardImpl build() {
+            return new TreasureVictoryCardImpl(this);
+        }
+    }
+
     public int getVictoryPoints() {
         return vp;
     }
@@ -18,17 +25,17 @@ public class VictoryTreasureCardImpl extends TreasureCardImpl implements Victory
     @Override
     public CardImpl instantiate() {
         checkInstantiateOK();
-        VictoryTreasureCardImpl c = new VictoryTreasureCardImpl();
+        TreasureVictoryCardImpl c = new TreasureVictoryCardImpl();
         copyValues(c);
         return c;
     }
 
-    protected void copyValues(VictoryTreasureCardImpl c) {
+    protected void copyValues(TreasureVictoryCardImpl c) {
         super.copyValues(c);
         c.vp = vp;
     }
 
-    protected VictoryTreasureCardImpl() {
+    protected TreasureVictoryCardImpl() {
     }
 
     @Override

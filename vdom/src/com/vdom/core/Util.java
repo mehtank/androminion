@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
-import com.vdom.api.Cards;
 import com.vdom.api.GameEvent;
 
 public class Util {

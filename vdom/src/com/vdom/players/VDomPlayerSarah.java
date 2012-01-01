@@ -5,11 +5,11 @@ import java.util.Random;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.Cards;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
+import com.vdom.core.Cards;
 import com.vdom.core.MoveContext;
 
 public class VDomPlayerSarah extends BasePlayer {

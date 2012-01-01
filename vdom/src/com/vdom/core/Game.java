@@ -14,7 +14,6 @@ import java.util.Random;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
-import com.vdom.api.Cards;
 import com.vdom.api.CurseCard;
 import com.vdom.api.DurationCard;
 import com.vdom.api.FrameworkEvent;
@@ -24,6 +23,7 @@ import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.core.Cards;
 import com.vdom.core.Player.WatchTowerOption;
 
 public class Game {
@@ -36,20 +36,7 @@ public class Game {
     
     public static String[] cardsSpecifiedAtLaunch;
     public static ArrayList<String> unfoundCards = new ArrayList<String>();
-    public static HashSet<Card> nonKingdomCards = new HashSet<Card>();
 
-    static {
-        nonKingdomCards.add(Cards.copper);
-        nonKingdomCards.add(Cards.silver);
-        nonKingdomCards.add(Cards.gold);
-        nonKingdomCards.add(Cards.platinum);
-        nonKingdomCards.add(Cards.potion);
-        nonKingdomCards.add(Cards.estate);
-        nonKingdomCards.add(Cards.duchy);
-        nonKingdomCards.add(Cards.province);
-        nonKingdomCards.add(Cards.colony);
-        nonKingdomCards.add(Cards.curse);
-    }
     
     /**
      * Player classes and optionally the url to the jar on the web that the class is located in. Player class
@@ -64,6 +51,8 @@ public class Game {
      * @see com.vdom.api.GameType
      */
     public static GameType gameType = GameType.Random;
+    public static String gameTypeStr = null;
+    public static boolean showUsage = false;
 
     public static boolean alwaysIncludePlatColony = false; 
     public static boolean platColonyPassedIn = false; 
@@ -86,18 +75,10 @@ public class Game {
     static HashMap<String, Double> overallWins = new HashMap<String, Double>();
 
     public static Random rand = new Random(System.currentTimeMillis());
-    public HashMap<String, Pile> piles = new HashMap<String, Pile>();
+    public HashMap<String, CardPile> piles = new HashMap<String, CardPile>();
     public HashMap<String, Integer> embargos = new HashMap<String, Integer>();
     public Card baneCard = null;
 
-    public static ArrayList<Card> actionCardsBaseGame = new ArrayList<Card>();
-    public static ArrayList<Card> actionCardsIntrigue = new ArrayList<Card>();
-    public static ArrayList<Card> actionCardsSeaside = new ArrayList<Card>();
-    public static ArrayList<Card> actionCardsAlchemy = new ArrayList<Card>();
-    public static ArrayList<Card> actionCardsProsperity = new ArrayList<Card>();
-    public static ArrayList<Card> actionCardsCornucopia = new ArrayList<Card>();
-    public static ArrayList<Card> actionCardsHinterlands = new ArrayList<Card>();
-    public static ArrayList<Card> actionCards = new ArrayList<Card>();
 
     private static final int kingdomCardPileSize = 10;
     private static int victoryCardPileSize = 12;
@@ -123,392 +104,89 @@ public class Game {
 
     private static HashMap<String, Player> playerCache = new HashMap<String, Player>();
 
-    static {
-
-        ((CardImpl) Cards.moat).description = "When another player plays an Attack card, you may reveal this from your hand. If you do, you are unaffected by that Attack.";
-        ((CardImpl) Cards.adventurer).description = "Reveal cards from your deck until you reveal 2 Treasure cards. Put those Treasure cards into your hand and discard the other revealed cards.";
-        ((CardImpl) Cards.bureaucrat).description = "Gain a Silver card; put it on top of your deck. Each other player reveals a Victory card from his hand and puts it on his deck (or reveals a hand with no Victory cards).";
-        ((CardImpl) Cards.cellar).description = "Discard any number of cards. +1 Card per card discarded.";
-        ((CardImpl) Cards.chancellor).description = "You may immediately put your deck into your discard pile.";
-        ((CardImpl) Cards.chapel).description = "Trash up to 4 cards from your hand.";
-        ((CardImpl) Cards.councilRoom).description = "Each other player draws a card.";
-        ((CardImpl) Cards.feast).description = "Trash this card. Gain a card costing up to 5 coin.";
-        ((CardImpl) Cards.festival).description = "";
-        ((CardImpl) Cards.laboratory).description = "";
-        ((CardImpl) Cards.library).description = "Draw until you have 7 cards in hand. You may set aside any Action cards drawn this way, as you draw them; discard the set aside cards after you finish drawing.";
-        ((CardImpl) Cards.market).description = "";
-        ((CardImpl) Cards.militia).description = "Each other player discards down to 3 cards in his hand.";
-        ((CardImpl) Cards.mine).description = "Trash a Treasure card from your hand. Gain a Treasure card costing up to 3 Coins more; put it into your hand.";
-        ((CardImpl) Cards.moneyLender).description = "Trash a Copper card from your hand. If you do, +3 Coins.";
-        ((CardImpl) Cards.remodel).description = "Trash a card from your hand. Gain a card costing up to 2 Coins more than the trashed card.";
-        ((CardImpl) Cards.smithy).description = "";
-        ((CardImpl) Cards.spy).description = "Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.";
-        ((CardImpl) Cards.thief).description = "Each other player reveals the top 2 cards of his deck. If they revelaed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.";
-        ((CardImpl) Cards.throneRoom).description = "Choose an Action card in your hand. Play it twice.";
-        ((CardImpl) Cards.village).description = "";
-        ((CardImpl) Cards.witch).description = "Each other player gains a Curse card.";
-        ((CardImpl) Cards.woodcutter).description = "";
-        ((CardImpl) Cards.workshop).description = "Gain a card costing up to 4 Coins.";
-        ((CardImpl) Cards.gardens).description = "Worth 1 Victory Point for every 10 cards in your deck (rounded down).";
-
-        ((CardImpl) Cards.torturer).description = "Each other player chooses one: he discards 2 cards; or he gains a Curse card, putting it in his hand.";
-        ((CardImpl) Cards.secretChamber).description = "Discard any number of cards. +1 Coin per card discarded. When another player plays an Attack card, you may reveal this from your hand. If you do, +2 Cards, then put 2 cards from your hand on top of your deck.";
-        ((CardImpl) Cards.nobles).description = "Choose one: +3 Cards; or +2 Actions.";
-        ((CardImpl) Cards.coppersmith).description = "Copper produces an extra 1 coin this turn.";
-        ((CardImpl) Cards.courtyard).description = "Put a card from your hand on top of your deck.";
-        ((CardImpl) Cards.harem).description = "";
-        ((CardImpl) Cards.baron).description = "You may discard an Estate card. If you do, +4 Coins. Otherwise, gain an Estate card.";
-        ((CardImpl) Cards.bridge).description = "All cards (including cards in players' hands) cost 1 Coin less this turn, but not less than 0.";
-        ((CardImpl) Cards.conspirator).description = "If you've played 3 or more Actions this turn (counting this): +1 Card, +1 Action.";
-        ((CardImpl) Cards.ironworks).description = "Gain a card costing up to 4 Coins. If it is an... Action card, +1 Action. Treasure card, +1 Coin. Victory card, +1 Card.";
-        ((CardImpl) Cards.masquerade).description = "Each player passes a card from his hand to the left at once. Then you may trash a card from your hand.";
-        ((CardImpl) Cards.miningVillage).description = "You may trash this card immediately. If you do, +2 Coins.";
-        ((CardImpl) Cards.minion).description = "Choose one: +2 Coins; or discard your hand, +4 Cards, and each other player with at least 5 cards in hand discards his hand and draws 4 cards.";
-        ((CardImpl) Cards.pawn).description = "Choose two: +1 Card; +1 Action; +1 Buy; +1 Coin. (The choices must be different.)";
-        ((CardImpl) Cards.saboteur).description = "Each other player reveals cards from the top of his deck until revealing one costing 3 Coins or more. He trashes that card and may gain a card costing at most 2 Coins less than it. He discards the other revealed cards.";
-        ((CardImpl) Cards.shantyTown).description = "Reveal you hand. If you have no Action cards in hand, +2 Cards.";
-        ((CardImpl) Cards.scout).description = "Reveal the top 4 cards of your deck. Put the revealed Victory cards into your hand. Put the other cards on top of your deck in any order.";
-        ((CardImpl) Cards.steward).description = "Choose one: +2 Cards; or +2 Coins; or trash 2 cards from your hand.";
-        ((CardImpl) Cards.swindler).description = "Each other player trashes the top card of his deck and gains a card with the same cost that you choose.";
-        ((CardImpl) Cards.tradingPost).description = "Trash 2 cards from your hand. If you do, gain a Silver card; put it into your hand.";
-        ((CardImpl) Cards.wishingWell).description = "Name a card. Reveal the top card of your deck. If it's the named card, put it into your hand.";
-        ((CardImpl) Cards.upgrade).description = "Trash a card from your hand. Gain a card costing exactly 1 Coin more than it.";
-        ((CardImpl) Cards.tribute).description = "The player to your left reveals then discards the top 2 cards of his deck. For each differently named card revealed, if it is an... Action Card, +2 Actions. Treasure Card, +2 Coins. Victory Card, +2 Cards.";
-        ((CardImpl) Cards.greatHall).description = "";
-        ((CardImpl) Cards.duke).description = "Worth 1 Victory Point per Duchy you have.";
-
-        ((CardImpl) Cards.haven).description = "Set aside a card from your hand face down. At the start of your next turn, put it into your hand.";
-        ((CardImpl) Cards.seaHag).description = "Each other player discards the top card of his deck, then gains a Curse card, putting it on top of his deck.";
-        ((CardImpl) Cards.tactician).description = "Discard your hand. If you discarded any cards this way, then at the start of your next turn, +5 Cards, +1 Buy, and +1 Action.";
-        ((CardImpl) Cards.caravan).description = "";
-        ((CardImpl) Cards.lighthouse).description = "While this is in play, when another player plays an Attack card, it doesn't affect you.";
-        ((CardImpl) Cards.fishingVillage).description = "";
-        ((CardImpl) Cards.wharf).description = "";
-        ((CardImpl) Cards.merchantShip).description = "";
-        ((CardImpl) Cards.outpost).description = "You only draw 3 cards (instead of 5) in this turn's Clean-up phase. Take an extra turn after this one. This can't cause you to take more than two consecutive turns.";
-        ((CardImpl) Cards.ghostShip).description = "Each other player with 4 or more cards in hand puts cards from his hand on top of his deck until he has 3 cards in his hand.";
-        ((CardImpl) Cards.salvager).description = "Trash a card from your hand. + Coins equal to its cost.";
-        ((CardImpl) Cards.pirateShip).description = "Choose one: Each other player reveals the top 2 cards of his deck, trashes a revealed Treasure that you choose, discards the rest, and if anyone trashed a Treasure you take a Coin token; or, +1 Coin per Coin token you've taken with Pirate Ships this game.";
-        ((CardImpl) Cards.nativeVillage).description = "Choose one: Set aside the top card of your deck face down on your Native Village mat; or put all the cards from your mat into your hand.";
-        ((CardImpl) Cards.island).description = "Set aside this and another card from your hand. Return them to your deck at the end of the game.";
-        ((CardImpl) Cards.cutpurse).description = "Each other player discards a Copper card (or reveals a hand with no Copper).";
-        ((CardImpl) Cards.bazaar).description = "";
-        ((CardImpl) Cards.smugglers).description = "Gain a copy of a card costing up to 6 Coins that the player to your right gained on his last turn.";
-        ((CardImpl) Cards.explorer).description = "You may reveal a Province card from your hand. If you do, gain a Gold card, putting it into your hand. Otherwise, gain a Silver card, putting it into your hand.";
-        ((CardImpl) Cards.pearlDiver).description = "Look at the bottom card of your deck. You may put it on top.";
-        ((CardImpl) Cards.treasureMap).description = "Trash this and another copy of Treasure Map from your hand. If you do trash two Treasure Maps, gain 4 Gold cards putting them on top of your deck.";
-        ((CardImpl) Cards.navigator).description = "Look at the top 5 cards of your deck. Either discard all of them, or put them back on top of your deck in any order.";
-        ((CardImpl) Cards.treasury).description = "When you discard this from play, if you didn't buy a Victory card this turn, you may put this on top of your deck.";
-        ((CardImpl) Cards.lookout).description = "Look at the top 3 cards of your deck. Trash one of them. Discard one of them. Put the other one on top of your deck.";
-        ((CardImpl) Cards.ambassador).description = "Reveal a card from your hand. Return up to 2 copies of it from your hand to the Supply. Then each other player gains a copy of it.";
-        ((CardImpl) Cards.warehouse).description = "Discard 3 cards.";
-        ((CardImpl) Cards.embargo).description = "Trash this card. Put an Embargo token on top of a Supply pile. When a player buys a card, he gains a Curse card per Embargo token on that pile.";
-
-        ((CardImpl) Cards.alchemist).description = "When you discard this from play, you may put this on top of your deck if you have a Potion in play.";
-        ((CardImpl) Cards.apothecary).description = "Reveal the top 4 cards of your deck.  Put the revealed Coppers and Potions into your hand.  Put the other cards back on top of your deck in any order.";
-        ((CardImpl) Cards.apprentice).description = "Trash a card from your hand.  +1 Card per Coin it costs.  +2 Cards if it has a Potion in its cost.";
-        ((CardImpl) Cards.familiar).description = "Each other player gains a Curse.";
-        ((CardImpl) Cards.golem).description = "Reveal cards from your deck until you reveal 2 Action cards other than Golem cards.  Discard the other cards, then play the Action cards in either order.";
-        ((CardImpl) Cards.herbalist).description = "When you discard this from play, you may put one of your Treasures from play on top of your deck.";
-        ((CardImpl) Cards.philosophersStone).description = "When you play this, count your deck and discard pile.  Worth (1) coin per 5 cards total between them (rounded down).";
-        ((CardImpl) Cards.possession).description = "The player to your left takes an extra turn after this one, in which you can see all cards he can and make all decisions for him. Any cards he would gain on that turn, you gain instead; any cards of his that are trashed are set aside and returned to his discard pile at end of turn.";
-        ((CardImpl) Cards.scryingPool).description = "Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.  Then reveal cards from the top of your deck until you reveal one that is not an Action.  Put all of your revealed cards into your hand.";
-        ((CardImpl) Cards.transmute).description = "Trash a card from your hand.  If it is an . . . Action card, gain a Duchy; Treasure card, gain a Transmute; Victory card gain a Gold.";
-        ((CardImpl) Cards.university).description = "You may gain an Action card costing up to 5.";
-        ((CardImpl) Cards.vineyard).description = "Worth 1 Victory Point for every 3 Action cards in your deck (rounded down).";
-
-        ((CardImpl) Cards.bank).description = "When you play this, it's worth 1 coin per Treasure card you have in play (counting this).";
-        ((CardImpl) Cards.bishop).description = "Trash a card from your hand.  Gain Victory tokens equal to half its cost in coins, rounded down.  Each other player may trash a card from his hand.";
-        ((CardImpl) Cards.city).description = "If there are one or more empty Supply piles, +1 Card.  If there are two or more, +1 Coin and +1 Buy.";
-        ((CardImpl) Cards.contraband).description = "When you play his, the player to your left names a card.  You can't buy that card this turn.";
-        ((CardImpl) Cards.countingHouse).description = "Look through your discard pile, reveal any number of Copper cards from it, and put them into your hand.";
-        ((CardImpl) Cards.expand).description = "Trash a card from your hand.  Gain a card costing up to 3 coins more than the trashed card.";
-        ((CardImpl) Cards.forge).description = "Trash any number of cards from your hand.  Gain a card with cost exactly equal to the total cost in coins of the trashed cards.";
-        ((CardImpl) Cards.goons).description = "Eash other player discards down to 3 cards in hand.  While this is in play, when you buy a card, +1 Victory token.";
-        ((CardImpl) Cards.grandMarket).description = "You can't buy this if you have any Copper in play.";
-        ((CardImpl) Cards.hoard).description = "While this is in play, when you buy a Victory card, gain a Gold.";
-        ((CardImpl) Cards.kingsCourt).description = "You may choose an Action card in your hand.  Play it three times.";
-        ((CardImpl) Cards.loan).description = "When you play this, reveal cards from your deck until you reveal a Treasure.  Discard it or trash it.  Discard the other cards.";
-        ((CardImpl) Cards.mint).description = "You may reveal a Treasure card from your hand.  Gain a copy of it.  When you buy this, trash all Treasures you have in play.";
-        ((CardImpl) Cards.monument).description = "";
-        ((CardImpl) Cards.mountebank).description = "Each other player may discard a Curse.  If he doesn't, he gains a Curse and a Copper.";
-        ((CardImpl) Cards.peddler).description = "During your Buy phase, this costs 2 coins less per Action card you have in play, but not less than 0 coins.";
-        ((CardImpl) Cards.quarry).description = "While this is in play, Action cards cost 2 coins less, but not less than 0 coins.";
-        ((CardImpl) Cards.rabble).description = "Each other player reveals the top 3 cards of his deck, discards the revealed Actions and Treasures, and puts the rest back on top in any order he chooses.";
-        ((CardImpl) Cards.royalSeal).description = "While this is in play, when you gain a card, you may put that card on top of your deck.";
-        ((CardImpl) Cards.talisman).description = "While this is in play, when you buy a card costing 4 coins or less that is not a Victory card, gain a copy of it.";
-        ((CardImpl) Cards.tradeRoute).description = "+1 Coin per token on the Trade Route mat.  Trash a card from your hand.  Setup: Put a token on each Victory card Supply pile.  When a card is gained from that pile, move the token to the Trade Route mat.";
-        ((CardImpl) Cards.vault).description = "Discard any number of cards.  +1 coin per card discarded.  Each other player may discard 2 cards.  If he does, he draws a card.";
-        ((CardImpl) Cards.venture).description = "When you play this, reveal cards from your deck until you reveal a Treasure.  Discard the other cards.  Play that Treasure.";
-        ((CardImpl) Cards.watchTower).description = "Draw until you have 6 cards in hand.  When you gain a card, you may reveal this from your hand.  If you do, either trash that card, or put it on top of your deck.";
-
-        ((CardImpl) Cards.fairgrounds).description = "Worth 2 points for every 5 differently named cards in your deck (round down).";
-        ((CardImpl) Cards.farmingVillage).description = "Reveal cards from the top of your deck until you reveal an Action or Treasure card.  Put that card into your hand and discard the other cards.";
-        ((CardImpl) Cards.fortuneTeller).description = "Each other player reveals cards from the top of his deck until he reveals a Victory or Curse card.  He puts it on top and discards the other revealed cards.";
-        ((CardImpl) Cards.hamlet).description = "You may discard a card; if you do +1 Action.  You may discard a card; if you do +1 Buy.";
-        ((CardImpl) Cards.harvest).description = "Reveal the top 4 cards of your deck, then discard them.  +1 coin per differently named card revealed.";
-        ((CardImpl) Cards.hornOfPlenty).description = "When you play this, gain a card costing up to 1 coin per differently named card you have in play, counting this.  If it's a Victory card, trash this.";
-        ((CardImpl) Cards.horseTraders).description = "Discard 2 cards.  When another player plays an Attack card, you may set this aside from your hand.  If you do, then at the start of your next turn, +1 Card and return this to your hand.";
-        ((CardImpl) Cards.huntingParty).description = "Reveal your hand.  Reveal cards from your deck until you reveal a card that isn't a duplicate of one in your hand.  Put it into your hand and discard the rest.";
-        ((CardImpl) Cards.jester).description = "Each other player discards the top card of his deck.  If it's a Victory card, he gains a Curse.  Otherwise either he gains a copy of the discarded card or you do, your choice.";
-        ((CardImpl) Cards.menagerie).description = "Reveal your hand.  If there are no duplicate cards in it, +3 Cards.  Otherwise, +1 Card.";
-        ((CardImpl) Cards.remake).description = "Do this twice.  Trash a card from your hand, then gain a card costing exactly 1 coin more than the trashed card.";
-        ((CardImpl) Cards.tournament).description = "Each player may reveal a Province from his hand.  If you do, discard it and gain a Prize (from the Prize pile) or a Duchy, putting it on top of your deck.  If no one else does, +1 Card, +1 coin.";
-        ((CardImpl) Cards.youngWitch).description = "Discard 2 cards.  Each other player may reveal a Bane card from his hand.  If he doesn't, he gains a Curse.  Setup:  Add an extra Kingdom card pile costing 2 or 3 coins to the Supply.  Cards from that pile are Bane cards.";
-
-        ((CardImpl) Cards.bagOfGold).description = "Gain a Gold, putting it on top of your deck.  (This is not in the Supply.)";
-        ((CardImpl) Cards.diadem).description = "When you play this, +1 coin per unused Action you have (Action, not Action card).  (This is not in the Supply.)";
-        ((CardImpl) Cards.followers).description = "Gain an Estate.  Each other player gains a Curse and discards down to 3 cards in hand.  (This is not in the Supply.)";
-        ((CardImpl) Cards.princess).description = "While this is in play, cards cost 2 coins less, but not less than 0.  (This is not in the Supply.)";
-        ((CardImpl) Cards.trustySteed).description = "Choose two:  +2 Cards; +2 Actions; +2 coins; gain 4 silvers and put your deck into your discard pile.  (The choices must be different.)  (This is not in the Supply.)";
-        
-        ((CardImpl) Cards.borderVillage).description = "When you gain this, gain a card costing less than this.";
-        ((CardImpl) Cards.cache).description = "When you gain this, gain two Coppers.";
-        ((CardImpl) Cards.cartographer).description = "Look at the top 4 cards of your deck. Discard any number of them. Put the rest back on top in any order.";
-        ((CardImpl) Cards.crossroads).description = "Reveal your hand. +1 Card per Victory card revealed. If this is the first time you played a Crossroads this turn, +3 Actions.";
-        ((CardImpl) Cards.develop).description = "Trash a card from your hand. Gain a card costing exactly 1 coin more than it and a card costing exactly 1 less than it, in either order, putting them on top of your deck.";
-        ((CardImpl) Cards.duchess).description = "Each player (including you) looks at the top card of his deck, and discards it or puts it back - In games using this, when you gain a Duchy, you may gain a Duchess.";
-        ((CardImpl) Cards.embassy).description = "Discard 3 cards - When you gain this, each other player gains a Silver.";
-        ((CardImpl) Cards.farmland).description = "When you buy this, trash a card from your hand. Gain a card costing exactly 2 coins more than the trashed card.";
-        ((CardImpl) Cards.foolsGold).description = "If this is the first time you played a Fool's Gold this turn, this is worth 1 coin, otherwise it's worth 4 coins - When another player gains a Province, you may trash this from your hand. If you do, gain a Gold, putting it on your deck.";
-        ((CardImpl) Cards.haggler).description = "While this is in play, when you buy a card, gain a card costing less than it that is not a Victory card.";
-        ((CardImpl) Cards.highway).description = "While this is in play, cards cost 1 coin less, but not less than 0 coin.";
-        ((CardImpl) Cards.illGottenGains).description = "When you play this, you may gain a Copper, putting it into your hand - When you gain this, each other player gains a Curse.";
-        ((CardImpl) Cards.inn).description = "Discard 2 cards - When you gain this, look through your discard pile (including this), reveal any number of Action cards from it, and shuffle them into your deck.";
-        ((CardImpl) Cards.jackOfAllTrades).description = "Gain a Silver. Look at the top card of your deck; discard it or put it back. Draw until you have 5 cards in hand. You may trash a card from your hand that is not a Treasure.";
-        ((CardImpl) Cards.mandarin).description = "Put a card from your hand on top of your deck - When you gain this, put all Treasures you have in play on top of your deck in any order.";
-        ((CardImpl) Cards.margrave).description = "Each other player draws a card, then discards down to 3 cards in hand.";
-        ((CardImpl) Cards.nobleBrigand).description = "When you buy this or play it, each other player reveals the top 2 cards of his deck, trashes a revealed Silver or Gold you choose, and discards the rest. If he didn't reveal a Treasure, he gains a Copper. You gain the trashed cards.";
-        ((CardImpl) Cards.nomadCamp).description = "When you gain this, put it on top of your deck.";
-        ((CardImpl) Cards.oasis).description = "Discard a card.";
-        ((CardImpl) Cards.oracle).description = "Each player (including you) reveals the top 2 cards of his deck, and you choose one: either he discards them, or he puts them back on top in an order he chooses.\n+2 Cards";
-        ((CardImpl) Cards.scheme).description = "At the start of Clean-up this turn, you may choose an Action card you have in play. If you discard it from play this turn, put it on your deck.";
-        ((CardImpl) Cards.silkRoad).description = "Worth 1 VP for every 4 Victory cards in your deck (round down).";
-        ((CardImpl) Cards.spiceMerchant).description = "You may trash a Treasure from your hand. If you do, choose one: +2 Cards and +1 Action; or +2 Coin and +1 Buy.";
-        ((CardImpl) Cards.stables).description = "You may discard a Treasure. If you do, +3 Cards and +1 Action.";
-        ((CardImpl) Cards.trader).description = "Trash a card from your hand. Gain a number of Silvers equal to its cost in coins - When you would gain a card, you may reveal this from your hand. If you do, instead, gain a silver.";
-        ((CardImpl) Cards.tunnel).description = "When you discard this other than during a Clean-up phase, you may reveal it. If you do, gain a Gold.";
-        
-        actionCardsBaseGame.add(Cards.moat);
-        actionCardsBaseGame.add(Cards.adventurer);
-        actionCardsBaseGame.add(Cards.bureaucrat);
-        actionCardsBaseGame.add(Cards.cellar);
-        actionCardsBaseGame.add(Cards.chancellor);
-        actionCardsBaseGame.add(Cards.chapel);
-        actionCardsBaseGame.add(Cards.councilRoom);
-        actionCardsBaseGame.add(Cards.feast);
-        actionCardsBaseGame.add(Cards.festival);
-        actionCardsBaseGame.add(Cards.laboratory);
-        actionCardsBaseGame.add(Cards.library);
-        actionCardsBaseGame.add(Cards.market);
-        actionCardsBaseGame.add(Cards.militia);
-        actionCardsBaseGame.add(Cards.mine);
-        actionCardsBaseGame.add(Cards.moneyLender);
-        actionCardsBaseGame.add(Cards.remodel);
-        actionCardsBaseGame.add(Cards.smithy);
-        actionCardsBaseGame.add(Cards.spy);
-        actionCardsBaseGame.add(Cards.thief);
-        actionCardsBaseGame.add(Cards.throneRoom);
-        actionCardsBaseGame.add(Cards.village);
-        actionCardsBaseGame.add(Cards.witch);
-        actionCardsBaseGame.add(Cards.woodcutter);
-        actionCardsBaseGame.add(Cards.workshop);
-        actionCardsBaseGame.add(Cards.gardens);
-        for(Card c : actionCardsBaseGame) {
-            ((CardImpl) c).expansion = "Base";
-        }
-
-        actionCardsIntrigue.add(Cards.torturer);
-        actionCardsIntrigue.add(Cards.secretChamber);
-        actionCardsIntrigue.add(Cards.nobles);
-        actionCardsIntrigue.add(Cards.coppersmith);
-        actionCardsIntrigue.add(Cards.courtyard);
-        actionCardsIntrigue.add(Cards.harem);
-        actionCardsIntrigue.add(Cards.baron);
-        actionCardsIntrigue.add(Cards.bridge);
-        actionCardsIntrigue.add(Cards.conspirator);
-        actionCardsIntrigue.add(Cards.ironworks);
-        actionCardsIntrigue.add(Cards.masquerade);
-        actionCardsIntrigue.add(Cards.miningVillage);
-        actionCardsIntrigue.add(Cards.minion);
-        actionCardsIntrigue.add(Cards.pawn);
-        actionCardsIntrigue.add(Cards.saboteur);
-        actionCardsIntrigue.add(Cards.shantyTown);
-        actionCardsIntrigue.add(Cards.scout);
-        actionCardsIntrigue.add(Cards.steward);
-        actionCardsIntrigue.add(Cards.swindler);
-        actionCardsIntrigue.add(Cards.tradingPost);
-        actionCardsIntrigue.add(Cards.wishingWell);
-        actionCardsIntrigue.add(Cards.upgrade);
-        actionCardsIntrigue.add(Cards.tribute);
-        actionCardsIntrigue.add(Cards.greatHall);
-        actionCardsIntrigue.add(Cards.duke);
-        
-        for(Card c : actionCardsIntrigue) {
-            ((CardImpl) c).expansion = "Intrigue";
-        }
-        
-        actionCardsSeaside.add(Cards.haven);
-        actionCardsSeaside.add(Cards.seaHag);
-        actionCardsSeaside.add(Cards.tactician);
-        actionCardsSeaside.add(Cards.caravan);
-        actionCardsSeaside.add(Cards.lighthouse);
-        actionCardsSeaside.add(Cards.fishingVillage);
-        actionCardsSeaside.add(Cards.wharf);
-        actionCardsSeaside.add(Cards.merchantShip);
-        actionCardsSeaside.add(Cards.outpost);
-        actionCardsSeaside.add(Cards.ghostShip);
-        actionCardsSeaside.add(Cards.salvager);
-        actionCardsSeaside.add(Cards.pirateShip);
-        actionCardsSeaside.add(Cards.nativeVillage);
-        actionCardsSeaside.add(Cards.island);
-        actionCardsSeaside.add(Cards.cutpurse);
-        actionCardsSeaside.add(Cards.bazaar);
-        actionCardsSeaside.add(Cards.smugglers);
-        actionCardsSeaside.add(Cards.explorer);
-        actionCardsSeaside.add(Cards.pearlDiver);
-        actionCardsSeaside.add(Cards.treasureMap);
-        actionCardsSeaside.add(Cards.navigator);
-        actionCardsSeaside.add(Cards.treasury);
-        actionCardsSeaside.add(Cards.lookout);
-        actionCardsSeaside.add(Cards.ambassador);
-        actionCardsSeaside.add(Cards.warehouse);
-        actionCardsSeaside.add(Cards.embargo);
-
-        for(Card c : actionCardsSeaside) {
-            ((CardImpl) c).expansion = "Seaside";
-        }
-        
-        actionCardsProsperity.add(Cards.bank);
-        actionCardsProsperity.add(Cards.bishop);
-        actionCardsProsperity.add(Cards.city);
-        actionCardsProsperity.add(Cards.contraband);
-        actionCardsProsperity.add(Cards.countingHouse);
-        actionCardsProsperity.add(Cards.expand);
-        actionCardsProsperity.add(Cards.forge);
-        actionCardsProsperity.add(Cards.goons);
-        actionCardsProsperity.add(Cards.grandMarket);
-        actionCardsProsperity.add(Cards.hoard);
-        actionCardsProsperity.add(Cards.kingsCourt);
-        actionCardsProsperity.add(Cards.loan);
-        actionCardsProsperity.add(Cards.mint);
-        actionCardsProsperity.add(Cards.monument);
-        actionCardsProsperity.add(Cards.mountebank);
-        actionCardsProsperity.add(Cards.peddler);
-        actionCardsProsperity.add(Cards.quarry);
-        actionCardsProsperity.add(Cards.rabble);
-        actionCardsProsperity.add(Cards.royalSeal);
-        actionCardsProsperity.add(Cards.talisman);
-        actionCardsProsperity.add(Cards.tradeRoute);
-        actionCardsProsperity.add(Cards.vault);
-        actionCardsProsperity.add(Cards.venture);
-        actionCardsProsperity.add(Cards.watchTower);
-        actionCardsProsperity.add(Cards.workersVillage);
-
-        for(Card c : actionCardsProsperity) {
-            ((CardImpl) c).expansion = "Prosperity";
-        }
-        
-        actionCardsAlchemy.add(Cards.alchemist);
-        actionCardsAlchemy.add(Cards.apothecary);
-        actionCardsAlchemy.add(Cards.apprentice);
-        actionCardsAlchemy.add(Cards.familiar);
-        actionCardsAlchemy.add(Cards.golem);
-        actionCardsAlchemy.add(Cards.herbalist);
-        actionCardsAlchemy.add(Cards.philosophersStone);
-        actionCardsAlchemy.add(Cards.possession);
-        actionCardsAlchemy.add(Cards.scryingPool);
-        actionCardsAlchemy.add(Cards.transmute);
-        actionCardsAlchemy.add(Cards.university);
-        actionCardsAlchemy.add(Cards.vineyard);
-
-        for(Card c : actionCardsAlchemy) {
-            ((CardImpl) c).expansion = "Alchemy";
-        }
-
-        actionCardsCornucopia.add(Cards.fairgrounds);
-        actionCardsCornucopia.add(Cards.farmingVillage);
-        actionCardsCornucopia.add(Cards.fortuneTeller);
-        actionCardsCornucopia.add(Cards.hamlet);
-        actionCardsCornucopia.add(Cards.harvest);
-        actionCardsCornucopia.add(Cards.hornOfPlenty);
-        actionCardsCornucopia.add(Cards.horseTraders);
-        actionCardsCornucopia.add(Cards.huntingParty);
-        actionCardsCornucopia.add(Cards.jester);
-        actionCardsCornucopia.add(Cards.menagerie);
-        actionCardsCornucopia.add(Cards.remake);
-        actionCardsCornucopia.add(Cards.tournament);
-        actionCardsCornucopia.add(Cards.youngWitch);
-
-        for(Card c : actionCardsCornucopia) {
-            ((CardImpl) c).expansion = "Cornucopia";
-        }
-        
-        actionCardsHinterlands.add(Cards.borderVillage);
-        actionCardsHinterlands.add(Cards.cache);
-        actionCardsHinterlands.add(Cards.cartographer);
-        actionCardsHinterlands.add(Cards.crossroads);
-        actionCardsHinterlands.add(Cards.develop);
-        actionCardsHinterlands.add(Cards.duchess);
-        actionCardsHinterlands.add(Cards.embassy);
-        actionCardsHinterlands.add(Cards.farmland);
-        actionCardsHinterlands.add(Cards.foolsGold);
-        actionCardsHinterlands.add(Cards.haggler);
-        actionCardsHinterlands.add(Cards.highway);
-        actionCardsHinterlands.add(Cards.illGottenGains);
-        actionCardsHinterlands.add(Cards.inn);
-        actionCardsHinterlands.add(Cards.jackOfAllTrades);
-        actionCardsHinterlands.add(Cards.mandarin);
-        actionCardsHinterlands.add(Cards.margrave);
-        actionCardsHinterlands.add(Cards.nobleBrigand);
-        actionCardsHinterlands.add(Cards.nomadCamp);
-        actionCardsHinterlands.add(Cards.oasis);
-        actionCardsHinterlands.add(Cards.oracle);
-        actionCardsHinterlands.add(Cards.scheme);
-        actionCardsHinterlands.add(Cards.silkRoad);
-        actionCardsHinterlands.add(Cards.spiceMerchant);
-        actionCardsHinterlands.add(Cards.stables);
-        actionCardsHinterlands.add(Cards.trader);
-        actionCardsHinterlands.add(Cards.tunnel);
-
-        for(Card c : actionCardsHinterlands) {
-            ((CardImpl) c).expansion = "Hinterlands";
-        }
-        
-        for (Card card : actionCardsBaseGame) {
-            actionCards.add(card);
-        }
-        for (Card card : actionCardsIntrigue) {
-            actionCards.add(card);
-        }
-        for (Card card : actionCardsSeaside) {
-            actionCards.add(card);
-        }
-        for (Card card : actionCardsAlchemy) {
-            actionCards.add(card);
-        }
-        for (Card card : actionCardsProsperity) {
-            actionCards.add(card);
-        }
-        for (Card card : actionCardsCornucopia) {
-            actionCards.add(card);
-        }
-        for (Card card : actionCardsHinterlands) {
-            actionCards.add(card);
-        }
-    }
 
     public static void main(String[] args) {
         go(args, false);
     }
 
     public static void go(String[] args, boolean html) {
+
+        try {
+            processArgs(args);
+
+            checkForInteractive();
+
+            Util.log("");
+
+            // Start game(s)
+            if (gameTypeStr == null) {
+                if (debug) {
+                    gameTypeStr = "FirstGame";
+                }
+            }
+
+            if (numGames == -1) {
+                if (debug) {
+                    numGames = 1;
+                } else {
+                    numGames = 20;
+                }
+            }
+
+            if (gameTypeStr != null) {
+                gameType = GameType.fromName(gameTypeStr);
+                new Game().start();
+            } else {
+                for (String[] className : playerClassesAndJars) {
+                    overallWins.put(className[0], 0.0);
+                }
+
+                for (GameType p : GameType.values()) {
+                    gameType = p;
+                    new Game().start();
+                }
+
+                if (test) {
+                    for (int i = 0; i < 5; i++) {
+                        gameType = GameType.Random;
+                        new Game().start();
+                    }
+                    for (int i = 0; i < 5; i++) {
+                        gameType = GameType.RandomBaseGame;
+                        new Game().start();
+                    }
+                    for (int i = 0; i < 5; i++) {
+                        gameType = GameType.RandomIntrigue;
+                        new Game().start();
+                    }
+                    for (int i = 0; i < 5; i++) {
+                        gameType = GameType.RandomSeaside;
+                        new Game().start();
+                    }
+                }
+                if (!debug && !test) {
+                    Util.log("----------------------------------------------------");
+                }
+                printStats(overallWins, numGames * GameType.values().length, "Total");
+                printStats(GAME_TYPE_WINS, GameType.values().length, "Types");
+            }
+            if (test) {
+                printGameTypeStats();
+            }
+        } catch (ExitException e) {
+            // Ignore...
+        }
+
+        FrameworkEvent frameworkEvent = new FrameworkEvent(FrameworkEvent.Type.AllDone);
+        FrameworkEventHelper.broadcastEvent(frameworkEvent);
+    }
+
+    protected static void processArgs(String[] args) {
         cardsSpecifiedAtLaunch = null;
         overallWins.clear();
-        cardSequence = 1;
         GAME_TYPE_WINS.clear();
-        playerClassesAndJars.clear();
         gameTypeStats.clear();
+        playerClassesAndJars.clear();
         playerCache.clear();
 
         try {
@@ -523,14 +201,12 @@ public class Game {
             String platColonyArg = "-platcolony";
             String quickPlayArg = "-quickplay";
             String cardArg = "-cards=";
-            String gameTypeStr = null;
 
-            boolean showUsage = false;
             for (String arg : args) {
-                if(arg == null) {
+                if (arg == null) {
                     continue;
                 }
-                
+
                 if (arg.startsWith("#")) {
                     continue;
                 }
@@ -585,7 +261,8 @@ public class Game {
                         }
                     } else if (arg.toLowerCase().startsWith(siteArg)) {
                         try {
-//                            UI.downloadSite = arg.substring(siteArg.length());
+                            // UI.downloadSite =
+                            // arg.substring(siteArg.length());
                         } catch (Exception e) {
                             Util.log(e);
                             throw new ExitException();
@@ -609,11 +286,11 @@ public class Game {
                     String options = "";
                     String name = null;
                     int starIndex = arg.indexOf("*");
-                    if(starIndex != -1) {
+                    if (starIndex != -1) {
                         name = arg.substring(starIndex + 1);
                         arg = arg.substring(0, starIndex);
                     }
-                    if(arg.endsWith(QUICK_PLAY)) {
+                    if (arg.endsWith(QUICK_PLAY)) {
                         arg = arg.substring(0, arg.length() - QUICK_PLAY.length());
                         options += "q";
                     }
@@ -628,87 +305,16 @@ public class Game {
                 }
             }
 
-//            if (test) {
-//                while (playerClassesAndJars.size() == 0) {
-//                    playerClassesAndJars.add(new String[] { "com.vdom.core.RegularPlayer1", null });
-//                    playerClassesAndJars.add(new String[] { "com.vdom.core.RegularPlayer2", null });
-//                    if (numGames == -1) {
-//                        numGames = 100;
-//                    }
-//                }
-//            }
+            numPlayers = playerClassesAndJars.size();
 
-            if (playerClassesAndJars.size() < 2 || playerClassesAndJars.size() > 4 || showUsage) {
+            if (numPlayers < 2 || numPlayers > 4 || showUsage) {
                 Util.log("Usage: [-debug][-ignore(playername)][-count(# of Games)][-type(Game type)] class1 class2 [class3] [class4]");
                 throw new ExitException();
             }
 
-            numPlayers = playerClassesAndJars.size();
-
-            checkForInteractive();
-
-            if (gameTypeStr == null) {
-                if (debug) {
-                    gameTypeStr = "FirstGame";
-                }
-            }
-
-            if (numGames == -1) {
-                if (debug) {
-                    numGames = 1;
-                } else {
-                    numGames = 20;
-                }
-            }
-
-            Util.log("");
-
-            if (gameTypeStr != null) {
-                gameType = GameType.fromName(gameTypeStr);
-                new Game().start();
-            } else {
-                for (String[] className : playerClassesAndJars) {
-                    overallWins.put(className[0], 0.0);
-                }
-
-                for (GameType p : GameType.values()) {
-                    gameType = p;
-                    new Game().start();
-                }
-
-                if (test) {
-                    for (int i = 0; i < 5; i++) {
-                        gameType = GameType.Random;
-                        new Game().start();
-                    }
-                    for (int i = 0; i < 5; i++) {
-                        gameType = GameType.RandomBaseGame;
-                        new Game().start();
-                    }
-                    for (int i = 0; i < 5; i++) {
-                        gameType = GameType.RandomIntrigue;
-                        new Game().start();
-                    }
-                    for (int i = 0; i < 5; i++) {
-                        gameType = GameType.RandomSeaside;
-                        new Game().start();
-                    }
-                }
-                if (!debug && !test) {
-                    Util.log("----------------------------------------------------");
-                }
-                printStats(overallWins, numGames * GameType.values().length, "Total");
-                printStats(GAME_TYPE_WINS, GameType.values().length, "Types");
-            }
-            if (test) {
-                printGameTypeStats();
-            }
         } catch (ExitException e) {
             // Ignore...
         }
-
-        FrameworkEvent frameworkEvent = new FrameworkEvent(FrameworkEvent.Type.AllDone);
-        FrameworkEventHelper.broadcastEvent(frameworkEvent);
     }
 
     private void markWinner(HashMap<String, Double> gameTypeSpecificWins) {
@@ -768,8 +374,9 @@ public class Game {
             Util.debug("---------------------", false);
 
             Util.debug("New Game:" + gameType);
-            init();
+            initGameBoard();
 
+            gameOver = false;
             playersTurn = 0;
             turnCount = 1;
             Util.debug("Turn " + turnCount);
@@ -1277,7 +884,7 @@ public class Game {
             // System.out.println();
 
             ArrayList<Card> gameCards = new ArrayList<Card>();
-            for (Pile pile : piles.values()) {
+            for (CardPile pile : piles.values()) {
                 Card card = pile.card;
                 if (!card.equals(Cards.copper) && !card.equals(Cards.silver) && !card.equals(Cards.gold) && !card.equals(Cards.platinum)
                     && !card.equals(Cards.estate) && !card.equals(Cards.duchy) && !card.equals(Cards.province) && !card.equals(Cards.colony)
@@ -1514,11 +1121,11 @@ public class Game {
 
             ((ActionCardImpl) card).play(this, (MoveContext) context);
 
-            if (!((ActionCardImpl) card).dontAutoRecycleOnUse && !(card instanceof DurationCard)) {
+            if (!((ActionCardImpl) card).trashOnUse && !(card instanceof DurationCard)) {
                 context.playedCards.add(throneRoom);
                 context.playedCards.add(card);
             } else if (card instanceof DurationCard) {
-                if (!(card instanceof ActionDurationCardImpl) || !((ActionDurationCardImpl) card).dontAutoRecycleOnUse) {
+                if (!(card instanceof ActionDurationCardImpl) || !((ActionDurationCardImpl) card).trashOnUse) {
                     player.nextTurnCards.add(throneRoom);
                     player.nextTurnCards.add((DurationCard) card);
                 }
@@ -1528,12 +1135,12 @@ public class Game {
             return;
         }
 
-        if (!((ActionCardImpl) card).dontAutoRecycleOnUse && !(card instanceof DurationCard)) {
+        if (!((ActionCardImpl) card).trashOnUse && !(card instanceof DurationCard)) {
             context.playedCards.add(card);
         }
 
         if (card instanceof DurationCard) {
-            if (!(card instanceof ActionDurationCardImpl) || !((ActionDurationCardImpl) card).dontAutoRecycleOnUse) {
+            if (!(card instanceof ActionDurationCardImpl) || !((ActionDurationCardImpl) card).trashOnUse) {
                 // TODO pretty sure throne room should move up to here as well and effect
                 // card...
                 player.nextTurnCards.add((DurationCard) card);
@@ -1594,7 +1201,7 @@ public class Game {
         cost = (cost < 0 ? 0 : cost);
         int potions = 0;
         for (Card thisCard : context.getPlayedCards()) {
-            if (thisCard instanceof TreasureCard && ((TreasureCard) thisCard).providesPotion()) {
+            if (thisCard instanceof TreasureCard && ((TreasureCard) thisCard).providePotion()) {
                 potions++;
             }
         }
@@ -1679,7 +1286,7 @@ public class Game {
 
     public int emptyPiles() {
         int emptyPiles = 0;
-        for (Pile pile : piles.values()) {
+        for (CardPile pile : piles.values()) {
             if (pile.getCount() <= 0 && !pile.card.isPrize()) {
                 emptyPiles++;
             }
@@ -1726,7 +1333,7 @@ public class Game {
     }
     
     private boolean cardInPlay(Card c) {
-        for (Game.Pile pile : piles.values()) {
+        for (CardPile pile : piles.values()) {
             if(pile.card.equals(c)) {
                 return true;
             }
@@ -1775,7 +1382,7 @@ public class Game {
     }
 
     @SuppressWarnings("unchecked")
-    void init() throws ExitException {
+    void initGameBoard() throws ExitException {
         cardSequence = 1;
         baneCard = null;
 
@@ -2057,7 +1664,7 @@ public class Game {
                     
                     // Achievement check...
                     if(event.getType() == GameEvent.Type.BuyingCard && !player.achievementSingleCardFailed) {
-                        if(isKingdomCard(event.getCard())) {
+                        if (Cards.isKingdomCard(event.getCard())) {
                             if(player.achievementSingleCardFirstKingdomCardBought == null) {
                                 player.achievementSingleCardFirstKingdomCardBought = event.getCard();
                             }
@@ -2177,7 +1784,7 @@ public class Game {
                     bane = true;
                     s = s.substring(BANE.length());
                 }
-                for(Card c : actionCards) {
+                for (Card c : Cards.actionCards) {
                     if(c.getSafeName().equalsIgnoreCase(s)) {
                         card = c;
                         break;
@@ -2225,7 +1832,7 @@ public class Game {
                 
                 if(replacementCost != -1) {
                     ArrayList<Card> cardsWithSameCost = new ArrayList<Card>();
-                    for(Card card : actionCards) {
+                    for (Card card : Cards.actionCards) {
                         if(card.getCost(null) == replacementCost && !cardInPlay(card)) {
                             cardsWithSameCost.add(card);
                         }
@@ -2237,7 +1844,7 @@ public class Game {
                 }
             
                 while(c == null) {
-                    c = actionCards.get(rand.nextInt(actionCards.size()));
+                    c = Cards.actionCards.get(rand.nextInt(Cards.actionCards.size()));
                     if(cardInPlay(c)) {
                         c = null;
                     }
@@ -2268,7 +1875,7 @@ public class Game {
                 while (added < 10) {
                     Card card;
                     do {
-                        card = actionCards.get(rand.nextInt(actionCards.size()));
+                    card = Cards.actionCards.get(rand.nextInt(Cards.actionCards.size()));
                         if (piles.get(card.getName()) != null) {
                             card = null;
                         }
@@ -2281,7 +1888,7 @@ public class Game {
                 for (int i = 0; i < 10; i++) {
                     Card card;
                     do {
-                        card = actionCardsBaseGame.get(rand.nextInt(actionCardsBaseGame.size()));
+                    card = Cards.actionCardsBaseGame.get(rand.nextInt(Cards.actionCardsBaseGame.size()));
                         if (piles.get(card.getName()) != null) {
                             card = null;
                         }
@@ -2293,7 +1900,7 @@ public class Game {
                 for (int i = 0; i < 10; i++) {
                     Card card;
                     do {
-                        card = actionCardsIntrigue.get(rand.nextInt(actionCardsIntrigue.size()));
+                    card = Cards.actionCardsIntrigue.get(rand.nextInt(Cards.actionCardsIntrigue.size()));
                         if (piles.get(card.getName()) != null) {
                             card = null;
                         }
@@ -2305,7 +1912,7 @@ public class Game {
                 for (int i = 0; i < 10; i++) {
                     Card card;
                     do {
-                        card = actionCardsSeaside.get(rand.nextInt(actionCardsSeaside.size()));
+                    card = Cards.actionCardsSeaside.get(rand.nextInt(Cards.actionCardsSeaside.size()));
                         if (piles.get(card.getName()) != null) {
                             card = null;
                         }
@@ -2317,7 +1924,7 @@ public class Game {
                 for (int i = 0; i < 10; i++) {
                     Card card;
                     do {
-                        card = actionCardsAlchemy.get(rand.nextInt(actionCardsAlchemy.size()));
+                    card = Cards.actionCardsAlchemy.get(rand.nextInt(Cards.actionCardsAlchemy.size()));
                         if (piles.get(card.getName()) != null) {
                             card = null;
                         }
@@ -2329,7 +1936,7 @@ public class Game {
                 for (int i = 0; i < 10; i++) {
                     Card card;
                     do {
-                        card = actionCardsProsperity.get(rand.nextInt(actionCardsProsperity.size()));
+                    card = Cards.actionCardsProsperity.get(rand.nextInt(Cards.actionCardsProsperity.size()));
                         if (piles.get(card.getName()) != null) {
                             card = null;
                         }
@@ -2341,7 +1948,7 @@ public class Game {
                 for (int i = 0; i < 10; i++) {
                     Card card;
                     do {
-                        card = actionCardsCornucopia.get(rand.nextInt(actionCardsCornucopia.size()));
+                    card = Cards.actionCardsCornucopia.get(rand.nextInt(Cards.actionCardsCornucopia.size()));
                         if (piles.get(card.getName()) != null) {
                             card = null;
                         }
@@ -2353,7 +1960,7 @@ public class Game {
                 for (int i = 0; i < 10; i++) {
                     Card card;
                     do {
-                        card = actionCardsHinterlands.get(rand.nextInt(actionCardsHinterlands.size()));
+                    card = Cards.actionCardsHinterlands.get(rand.nextInt(Cards.actionCardsHinterlands.size()));
                         if (piles.get(card.getName()) != null) {
                             card = null;
                         }
@@ -2968,7 +2575,7 @@ public class Game {
             platInPlay = false;
             colonyInPlay = false;
             
-            for(Pile pile : piles.values()) {
+            for (CardPile pile : piles.values()) {
                 if(pile != null && pile.card != null && pile.card.getExpansion() != null && pile.card.getExpansion().equals("Prosperity")) {
                     chanceForPlatColony += 0.1;
                 }
@@ -3007,7 +2614,7 @@ public class Game {
 
         if (piles.containsKey(Cards.youngWitch.getName()) && baneCard == null) {
             Card card = null;
-            ArrayList<Card> cardList = gameType == GameType.RandomCornucopia ? actionCardsCornucopia : actionCards;
+            ArrayList<Card> cardList = gameType == GameType.RandomCornucopia ? Cards.actionCardsCornucopia : Cards.actionCards;
             boolean avail = true;
             
             if(gameType == GameType.RandomCornucopia) {
@@ -3053,7 +2660,7 @@ public class Game {
         }
         
         // Add the potion if there are any cards that need them.
-        for (Pile pile : piles.values()) {
+        for (CardPile pile : piles.values()) {
             if (pile.card.costPotion()) {
                 addPile(Cards.potion, 30);
                 break;
@@ -3087,8 +2694,8 @@ public class Game {
 
         int cost = 0;
         while (cost < 10) {
-            for (Pile pile : piles.values()) {
-                if (!nonKingdomCards.contains(pile.card)) {
+            for (CardPile pile : piles.values()) {
+                if (!Cards.nonKingdomCards.contains(pile.card)) {
                     if (pile.card.getCost(null) == cost) {
                         Util.debug(Util.getShortText(pile.card), true);
                     }
@@ -3252,7 +2859,7 @@ public class Game {
     }
 
     void addEmbargo(String name) {
-        Pile pile = piles.get(name);
+        CardPile pile = piles.get(name);
         // Don't embargo cards not in the game
         if (pile == null) {
             return;
@@ -3269,7 +2876,7 @@ public class Game {
 
     // Only is valid for cards in play...
     Card readCard(String name) {
-        Pile pile = piles.get(name);
+        CardPile pile = piles.get(name);
         if (pile == null || pile.getCount() <= 0) {
             return null;
         }
@@ -3277,7 +2884,7 @@ public class Game {
     }
 
     public Card takeFromPile(Card card) {
-        Pile pile = piles.get(card.getName());
+        CardPile pile = piles.get(card.getName());
         if (pile == null || pile.getCount() <= 0) {
             return null;
         }
@@ -3298,7 +2905,7 @@ public class Game {
     }
 
     public int pileSize(Card card) {
-        Pile pile = piles.get(card.getName());
+        CardPile pile = piles.get(card.getName());
         if (pile == null) {
             return -1;
         }
@@ -3311,7 +2918,7 @@ public class Game {
     }
 
     boolean isCardInGame(Card card) {
-        Pile pile = piles.get(card.getName());
+        CardPile pile = piles.get(card.getName());
         if (pile == null) {
             return false;
         }
@@ -3327,11 +2934,11 @@ public class Game {
     }
 
     void addPile(Card card, int count) {
-        Pile pile = new Pile(card, count);
+        CardPile pile = new CardPile(card, count);
         piles.put(card.getName(), pile);
     }
     
-    void addPile(Pile pile) {
+    void addPile(CardPile pile) {
         piles.put(pile.card.getName(), pile);
     }
 
@@ -3445,40 +3052,6 @@ public class Game {
         return false;
     }
 
-    public static class Pile {
-        public Card card;
-        private ArrayList<Card> cards = new ArrayList<Card>();
-
-        public Pile(Card card, int count) {
-            this.card = card;
-
-            for (int i = 1; i <= count; i++) {
-                // TODO: put in checks to make sure template card is never "put into play".
-                CardImpl thisCard = ((CardImpl) card).instantiate();
-                cards.add(thisCard);
-            }
-        }
-
-        /**
-         * @return the count
-         */
-        public int getCount() {
-            return cards.size();
-        }
-
-        public void addCard(Card card) {
-            cards.add(card);
-        }
-
-        public Card removeCard() {
-            return cards.remove(cards.size() - 1);
-        }
-    }
-    
-    public boolean isKingdomCard(Card c) {
-        return !nonKingdomCards.contains(c);
-    }
-    
     public void nobleBrigandAttack(MoveContext moveContext, Card nobleBrigandCard, boolean defensible) {
         MoveContext context = moveContext;
         Player player = context.getPlayer();
