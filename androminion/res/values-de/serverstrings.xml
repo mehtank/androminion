@@ -566,7 +566,7 @@
   <string name="Margrave_name">Markgraf</string>
   <string name="Margrave_desc">Jeder Mitspieler muss 1 Karte nachziehen und dann Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
   <string name="NobleBrigand_name">Edler Räuber</string>
-  <string name="NobleBrigand_desc">Wenn du diese Karte kaufst oder ausspielst, muss jeder Mitspieler die obersten 2 Karten von seinem bNachziehstapel aufdecken. Hat er ein Gold oder ein Silber aufgedeckt, muss er dieses entsorgen. Hat der Spieler beides aufgedeckt, entscheidest Du, welche er entsorgen muss. Hat der Spieler keine Geldkarte aufgedeckt, muss er sich ein Kupfer nehmen. Die übrigen aufgedeckten Karten muss der Spieler ablegen. Du musst alle entsorgten Karten nehmen.</string>
+  <string name="NobleBrigand_desc">Wenn du diese Karte kaufst oder ausspielst, muss jeder Mitspieler die obersten 2 Karten von seinem Nachziehstapel aufdecken. Hat er ein Gold oder ein Silber aufgedeckt, muss er dieses entsorgen. Hat der Spieler beides aufgedeckt, entscheidest Du, welche er entsorgen muss. Hat der Spieler keine Geldkarte aufgedeckt, muss er sich ein Kupfer nehmen. Die übrigen aufgedeckten Karten muss der Spieler ablegen. Du musst alle entsorgten Karten nehmen.</string>
   <string name="NomadCamp_name">Nomadencamp</string>
   <string name="NomadCamp_desc">Wenn du das Nomadencamp nimmst, lege es sofort auf deinen Nachziehstapel.</string>
   <string name="Oasis_name">Oase</string>
