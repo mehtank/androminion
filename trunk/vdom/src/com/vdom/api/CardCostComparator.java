@@ -2,6 +2,8 @@ package com.vdom.api;
 
 import java.util.Comparator;
 
+import com.vdom.core.Cards;
+
 public class CardCostComparator implements Comparator<Card> {
     public int compare(Card cardOne, Card cardTwo) {
         if (cardOne.getCost(null) == cardTwo.getCost(null)) {

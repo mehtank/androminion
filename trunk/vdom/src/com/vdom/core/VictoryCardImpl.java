@@ -3,10 +3,25 @@ package com.vdom.core;
 import com.vdom.api.VictoryCard;
 
 public class VictoryCardImpl extends CardImpl implements VictoryCard {
-    public VictoryCardImpl(String name, int cost, int vp, boolean costPotion) {
+    public VictoryCardImpl(String name, int cost, int vp) {
         super(name, cost);
         this.vp = vp;
-        this.costPotion = costPotion;
+    }
+
+    protected VictoryCardImpl(Builder builder) {
+        super(builder);
+    }
+
+    public static class Builder extends CardImpl.Builder {
+        public Builder(String name, int cost, int vp) {
+            super(name, cost);
+            this.vp = vp;
+        }
+
+        public VictoryCardImpl build() {
+            return new VictoryCardImpl(this);
+        }
+
     }
 
     public int getVictoryPoints() {
@@ -23,11 +38,9 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 
     protected void copyValues(VictoryCardImpl c) {
         super.copyValues(c);
-        c.vp = vp;
     }
 
     protected VictoryCardImpl() {
     }
 
-    int vp;
 }

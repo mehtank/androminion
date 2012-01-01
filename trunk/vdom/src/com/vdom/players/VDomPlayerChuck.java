@@ -5,9 +5,9 @@ import java.util.Random;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.Cards;
 import com.vdom.api.TreasureCard;
 import com.vdom.core.BasePlayer;
+import com.vdom.core.Cards;
 import com.vdom.core.MoveContext;
 
 public class VDomPlayerChuck extends BasePlayer  {

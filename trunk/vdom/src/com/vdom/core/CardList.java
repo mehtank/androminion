@@ -121,4 +121,7 @@ public class CardList implements Iterable<Card> {
     public Iterator<Card> iterator() {
         return a.iterator();
     }
+    public int indexof(CardImpl card) {
+        return a.indexOf(card);
+    }
 }

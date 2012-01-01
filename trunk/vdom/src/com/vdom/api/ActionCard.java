@@ -1,5 +1,8 @@
 package com.vdom.api;
 
+import com.vdom.core.Game;
+import com.vdom.core.MoveContext;
+
 public interface ActionCard extends Card {
     public int getAddActions();
 
@@ -12,4 +15,7 @@ public interface ActionCard extends Card {
     public int getAddVictoryTokens();
 
     public boolean isAttack();
+
+    public void play(Game game, MoveContext context);
+
 }

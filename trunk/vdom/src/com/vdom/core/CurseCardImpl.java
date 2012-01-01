@@ -3,14 +3,9 @@ package com.vdom.core;
 import com.vdom.api.CurseCard;
 
 public class CurseCardImpl extends CardImpl implements CurseCard {
-    public CurseCardImpl(String name, int cost, int vp, boolean costPotion) {
+    public CurseCardImpl(String name, int cost, int vp) {
         super(name, cost);
         this.vp = vp;
-        this.costPotion = costPotion;
-    }
-
-    public int getVictoryPoints() {
-        return vp;
     }
 
     @Override
@@ -23,11 +18,13 @@ public class CurseCardImpl extends CardImpl implements CurseCard {
 
     protected void copyValues(CurseCardImpl c) {
         super.copyValues(c);
-        c.vp = vp;
     }
 
     protected CurseCardImpl() {
     }
 
-    int vp;
+    public int getVictoryPoints() {
+        return vp;
+    }
+
 }

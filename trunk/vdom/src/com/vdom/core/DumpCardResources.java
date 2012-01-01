@@ -3,12 +3,11 @@ package com.vdom.core;
 import java.util.ArrayList;
 
 import com.vdom.api.Card;
-import com.vdom.api.Cards;
 
 public class DumpCardResources {
     public static void main(String[] args) throws Exception {
         Game game = new Game();
-        game.init();
+        game.initGameBoard();
         
         ArrayList<Card> cards = new ArrayList<Card>();
         cards.add(Cards.copper);
@@ -21,13 +20,13 @@ public class DumpCardResources {
         cards.add(Cards.duchy);
         cards.add(Cards.province);
         cards.add(Cards.colony);
-        cards.addAll(Game.actionCardsBaseGame);
-        cards.addAll(Game.actionCardsIntrigue);
-        cards.addAll(Game.actionCardsSeaside);
-        cards.addAll(Game.actionCardsAlchemy);
-        cards.addAll(Game.actionCardsProsperity);
-        cards.addAll(Game.actionCardsCornucopia);
-        cards.addAll(Game.actionCardsHinterlands);
+        cards.addAll(Cards.actionCardsBaseGame);
+        cards.addAll(Cards.actionCardsIntrigue);
+        cards.addAll(Cards.actionCardsSeaside);
+        cards.addAll(Cards.actionCardsAlchemy);
+        cards.addAll(Cards.actionCardsProsperity);
+        cards.addAll(Cards.actionCardsCornucopia);
+        cards.addAll(Cards.actionCardsHinterlands);
         
         cards.add(Cards.princess);
         cards.add(Cards.bagOfGold);
