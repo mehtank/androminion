@@ -1,4 +1,10 @@
 #labels Featured
+ * Issue 57: Cards that modify Duration cards should also remain in play
+ * Issue 61: King's Court does not work properly with Duration cards
+ * Issue 81: King's Courting Goons
+ * Issue 82: Throne Room duplicates cards (just Mining Village?) permanently
+ * Issue 165: Throne Room duplicates "while this is in play" cards instead of playing them twice
+
 1.9.b19
  * Issue 172: Game froze when AI played University
  * Issue 186: Border Village on-gain ability isn't always triggered
