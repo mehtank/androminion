@@ -148,8 +148,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		card.vp = ((VictoryCard) c).getVictoryPoints();
     	}
     	if (c instanceof TreasureCard) {
-    		card.desc = "Worth (" + ((TreasureCard) c).getValue() + ") Coin\n" + card.desc;
-    		card.isTreasure = true;   
+    		card.desc = Strings.format(R.string.coin_worth, "" + ((TreasureCard) c).getValue()) + "\n" + card.desc;
+    		card.isTreasure = true;
     		card.gold = ((TreasureCard) c).getValue();
     	}
     	if (c instanceof ActionCard) {
@@ -653,7 +653,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		curContext = context;
     		isFinal = true;
     		
-    		strEvent = curPlayer.getPlayerName() + ": " + getVPs(curPlayer) + " VPs";
+    		strEvent = curPlayer.getPlayerName() + ": " + getVPs(curPlayer) + Strings.getString(R.string.game_over_vps);
     		if (!gameOver) {
         		String time = Strings.getString(R.string.game_over_status);
         		time += " ";
@@ -666,7 +666,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             	duration = duration % (1000 * 60);
             	time += (duration / (1000)) + "s.\n";
             	if(!event.getContext().cardsSpecifiedOnStartup()) {
-            	    time += event.getContext().getGameType().getName();
+            		time += Strings.getGameTypeName(event.getContext().getGameType());
             	}
             	
             	time += "\n\n";
