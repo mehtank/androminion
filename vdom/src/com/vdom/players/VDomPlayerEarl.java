@@ -835,11 +835,11 @@ public class VDomPlayerEarl extends BasePlayer
          if (card.equals(Cards.copper)) {
            cards.add(card);
          }
- 
-         if (cards.size() == 4) {
-           break;
-         }
        }
+     }
+
+     while (cards.size() > 4) {
+       cards.remove(cards.size() - 1);
      }
  
      return cards.toArray(new Card[0]);
