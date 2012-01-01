@@ -1072,6 +1072,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public boolean loan_shouldTrashTreasure(MoveContext context, TreasureCard treasure) {
         // TODO:: Finish prosperity
+        for (Card trash : getTrashCards()) {
+            if (trash.equals(treasure)) {
+                return true;
+            }
+        }
+
         return false;
     }
 

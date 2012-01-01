@@ -5,15 +5,15 @@ import com.vdom.api.Card;
 public class CardImpl implements Card {
     String name;
     int cost;
-    boolean trashed = false;
     boolean costPotion = false;
 
     String description = "";
     String expansion = "";
     protected int vp;
-    protected int cloneCount = 1;
-
+    boolean trashOnUse = false;
+    boolean trashed = false;
     boolean isPrize = false;
+    int cloneCount = 1;
 
     private Integer id;
 
@@ -31,24 +31,26 @@ public class CardImpl implements Card {
     
     public CardImpl(Builder builder) {
         this(builder.name, builder.cost);
-		    vp = builder.vp;
+        costPotion = builder.costPotion;
+        vp = builder.vp;
         description = builder.description;
         expansion = builder.expansion;
         isPrize = builder.isPrize;
-        costPotion = builder.costPotion;
+        trashOnUse = builder.trashOnUse;
     }
 
     public static class Builder {
         protected String name;
         protected int cost;
+        protected int vp = 0;
 
         protected boolean costPotion = false;
         protected String description = "";
         protected String expansion = "";
 
 	    protected boolean isPrize = false;
+        protected boolean trashOnUse = false;
 
-        protected int vp = 0;
 
         public Builder(String name, int cost) {
             this.name = name;
@@ -77,6 +79,11 @@ public class CardImpl implements Card {
 
         public Builder isPrize() {
             isPrize = true;
+            return this;
+        }
+
+        public Builder trashOnUse() {
+            trashOnUse = true;
             return this;
         }
 

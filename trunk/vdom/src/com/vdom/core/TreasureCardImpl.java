@@ -112,11 +112,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
 
             if (treasureCardFound != null) {
                 if (player.loan_shouldTrashTreasure(context, treasureCardFound)) {
-                    context.cardsTrashedThisTurn++;
-                    GameEvent event = new GameEvent(GameEvent.Type.CardTrashed, context);
-                    event.card = treasureCardFound;
-                    event.responsible = this;
-                    game.broadcastEvent(event);
+                    player.trash(treasureCardFound, this, context);
                 } else {
                     player.discard(treasureCardFound, this, null);
                 }

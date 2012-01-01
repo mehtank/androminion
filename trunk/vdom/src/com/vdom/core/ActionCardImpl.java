@@ -22,7 +22,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     protected int addGold;
     protected int addVictoryTokens;
     protected boolean attack;
-    boolean trashOnUse;
 
     public ActionCardImpl(Builder builder) {
         super(builder);
@@ -140,38 +139,57 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     public void play(Game game, MoveContext context) {
         super.play(game, context);
 
-        Player currentPlayer = context.player;
-        
-//        if(context.getPossessedBy() != null) {
-//            currentPlayer = context.getPossessedBy();
-//            currentPlayer = currentPlayer;
-//        }
+        GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
+        event.card = this;
+        game.broadcastEvent(event);
 
-//        if (context.kingsCourtInEffect < 1) {
-            context.actionsPlayedSoFar++;
-//        }
+        Player currentPlayer = context.getPlayer();
+
+        // playing an action
+        context.actionsPlayedSoFar++;
+        if (context.throneRoomsInEffect == 0) {
+            context.actions--;
+        }
+        if (context.numberTimesToPlay == 0) {
+            currentPlayer.hand.remove(this);
+            if (trashOnUse) {
+                currentPlayer.trash(this, null, context);
+            } else if (this instanceof DurationCard) {
+                currentPlayer.nextTurnCards.add((DurationCard) this);
+            } else {
+                context.playedCards.add(this);
+            }
+        }
+
         context.actions += addActions;
         context.buys += addBuys;
         context.addGold += addGold;
         currentPlayer.addVictoryTokens(context, addVictoryTokens);
 
         int cardsToDraw = addCards;
-
         while (cardsToDraw > 0) {
             cardsToDraw--;
             game.drawToHand(currentPlayer, this);
         }
 
+        additionalCardActions(game, context, currentPlayer);
+
+        event = new GameEvent(GameEvent.Type.PlayedAction, (MoveContext) context);
+        event.card = this;
+        game.broadcastEvent(event);
+    }
+
+    protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
         if (this.equals(Cards.workshop)) {
             workshop(currentPlayer, context);
-        } else if (this.equals(Cards.throneRoom)) {
-            throneRoom(context);
         } else if (this.equals(Cards.moneyLender)) {
             moneyLender(context, currentPlayer);
         } else if (this.equals(Cards.chancellor)) {
             chancellor(game, context, currentPlayer);
         } else if (this.equals(Cards.feast)) {
             feast(context, currentPlayer);
+        } else if (equals(Cards.kingsCourt) || equals(Cards.throneRoom)) {
+            throneRoomKingsCourt(game, context, currentPlayer);
         } else if (equals(Cards.smugglers)) {
             smugglers(context, currentPlayer);
         } else if (equals(Cards.pirateShip)) {
@@ -245,7 +263,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.tactician)) {
             tactician(context, currentPlayer);
         } else if (equals(Cards.familiar) || equals(Cards.witch)) {
-            familiar(game, context, currentPlayer);
+            witchFamiliar(game, context, currentPlayer);
         } else if (equals(Cards.apothecary)) {
             apothecary(game, context, currentPlayer);
         } else if (equals(Cards.transmute)) {
@@ -298,8 +316,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             forge(context, currentPlayer);
         } else if (equals(Cards.goons)) {
             goons(game, context, currentPlayer);
-        } else if (equals(Cards.kingsCourt)) {
-            kingsCourt(game, context, currentPlayer);
         } else if (equals(Cards.mint)) {
             mint(context, currentPlayer);
         } else if (equals(Cards.mountebank)) {
@@ -367,7 +383,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.embassy)) {
             embassy(context, currentPlayer);
         } else if (equals(Cards.highway)) {
-            context.cardCostModifier -= 1;
+            if (context.numberTimesToPlay == 1) {
+                context.cardCostModifier -= 1;
+            }
         } else if (equals(Cards.inn)) {
             inn(context, currentPlayer);
         } else if (equals(Cards.mandarin)) {
@@ -779,7 +797,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
 
-    private void familiar(Game game, MoveContext context, Player currentPlayer) {
+    private void witchFamiliar(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
                 player.attacked(this, context);
@@ -1121,9 +1139,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
 
-    private void kingsCourt(Game game, MoveContext context, Player currentPlayer) {
+    private void throneRoomKingsCourt(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> actionCards = new ArrayList<Card>();
-
         for (Card card : currentPlayer.hand) {
             if (card instanceof ActionCard) {
                 actionCards.add(card);
@@ -1131,35 +1148,33 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         if (!actionCards.isEmpty()) {
-            Card cardToPlay = currentPlayer.kingsCourt_cardToPlay(context);
+            ActionCardImpl cardToPlay = (ActionCardImpl) currentPlayer.kingsCourt_cardToPlay(context);
 
             if (cardToPlay != null) {
                 if(!actionCards.contains(cardToPlay)) {
-                    Util.playerError(currentPlayer, "King's Court card selection error, ignoring");
-                }
-                else {
-                    context.kingsCourtInEffect++;
-                    
-                    GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
-                    event.card = cardToPlay;
-                    game.broadcastEvent(event);
-//                        context.actionsPlayedSoFar++;
-                    currentPlayer.hand.remove(cardToPlay);
+                    Util.playerError(currentPlayer, this.name.toString() + " card selection error, ignoring");
+                } else {
+                    context.throneRoomsInEffect++;
    
-                    for (int i = 0; i < 3; i++) {
-                        ((ActionCardImpl) cardToPlay).play(game, context);
+                    cardToPlay.cloneCount = (equals(Cards.kingsCourt) ? 3 : 2);
+                    for (int i = 0; i < cardToPlay.cloneCount;) {
+                        context.numberTimesToPlay = i++;
+                        cardToPlay.play(game, context);
                     }
-   
-                    if (!((ActionCardImpl) cardToPlay).trashOnUse && !(cardToPlay instanceof DurationCard)) {
-                        context.playedCards.add(cardToPlay);
-                    } else if (cardToPlay instanceof DurationCard) {
-                        if (!(cardToPlay instanceof ActionDurationCardImpl) || !((ActionDurationCardImpl) cardToPlay).trashOnUse) {
-                            currentPlayer.nextTurnCards.add(this);
-                            currentPlayer.nextTurnCards.add((DurationCard) cardToPlay);
+
+                    if (cardToPlay instanceof DurationCard) {
+                        // Need to move throning card to NextTurnCards first
+                        int idx = context.playedCards.lastIndexOf(this);
+                        int ntidx = currentPlayer.nextTurnCards.size() - 1;
+                        if (idx >= 0 && ntidx >= 0) {
+                            context.playedCards.remove(idx);
+                            currentPlayer.nextTurnCards.add(ntidx, this);
                         }
                     }
+
+                    context.throneRoomsInEffect--;
+                    context.numberTimesToPlay = 0;
                     
-                    context.kingsCourtInEffect--;
                 }
             }
         }
@@ -1542,15 +1557,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             game.drawToHand(currentPlayer, this);
         }
         
-        boolean crossroadPlayedBefore = false;
-        for(Card c : context.getPlayedCards()) {
-            if(c.equals(Cards.crossroads)) {
-                crossroadPlayedBefore = true;
-                break;
+        int crossroadsPlayed = 0;
+        for (Card c : context.getPlayedCards()) {
+            if (c.equals(Cards.crossroads)) {
+                crossroadsPlayed++;
             }
         }
-        
-        if(!crossroadPlayedBefore) {
+
+        if (crossroadsPlayed <= 1) {
             context.actions += 3;
         }
     }
@@ -2220,18 +2234,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void miningVillage(MoveContext context, Player currentPlayer) {
-        if (!miningVillageTrashed) {
+        if (!this.trashed) {
             if (currentPlayer.miningVillage_shouldTrashMiningVillage(context)) {
                 context.addGold += 2;
-   
-                currentPlayer.trash(Cards.miningVillage, null, context);
-                
-                miningVillageTrashed = true;
-                for (Card c: context.playedCards)
-                    if (c == this)
-                        context.playedCards.remove(this);
-            } else {
-                context.playedCards.add(this);
+                context.playedCards.remove(this);
+                currentPlayer.trash(this, null, context);
             }
         }
     }
@@ -2610,7 +2617,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void goons(Game game, MoveContext context, Player currentPlayer) {
-        context.goonsPlayed++;
+        if (context.numberTimesToPlay == 1) {
+            context.goonsPlayed++;
+        }
 
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
@@ -3419,11 +3428,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 break;
             }
         }
-    }
-
-    private void throneRoom(MoveContext context) {
-        context.throneRoomsInEffect.add(this);
-        context.actions++;
     }
 
     Player getNextPlayer(Player player) {
