@@ -684,8 +684,6 @@
     
   <string name="game_over_vps"> VPs</string>
     
-  <string name="coin_worth">Worth (</string>
-    
-  <string name="coin_coin">) Coin</string>
+  <string name="coin_worth">Worth (%1$s) Coin</string>
   
 </resources>
