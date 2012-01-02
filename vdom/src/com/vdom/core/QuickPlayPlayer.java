@@ -197,7 +197,10 @@ public class QuickPlayPlayer extends BasePlayer {
         return true;
     }
 
-    
+    public boolean shouldAutoPlay_mandarin_orderCards(MoveContext context, Card[] cards) {
+        return true;
+    }
+
     public boolean shouldAutoPlay_nobles_chooseOptions(MoveContext context) {
         return true;
     }
@@ -723,5 +726,6 @@ public class QuickPlayPlayer extends BasePlayer {
     
     public boolean shouldAutoPlay_margrave_attack_cardsToKeep(MoveContext context) {
         return shouldAutoPlay_militia_attack_cardsToKeep(context);
-    }    
+    }
+
 }

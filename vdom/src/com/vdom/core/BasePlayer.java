@@ -658,6 +658,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
+    public Card[] mandarin_orderCards(MoveContext context, Card[] cards) {
+        return cards;
+    }
+
+    @Override
     public NoblesOption nobles_chooseOptions(MoveContext context) {
         int actionCards = 0;
 
@@ -1057,12 +1062,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card contraband_cardPlayerCantBuy(MoveContext context) {
-        if (turnCount > midGame && game.colonyInPlay) {
+        ArrayList<Card> cantBuy = context.getCantBuy();
+
+        if (game.colonyInPlay && turnCount > midGame && !cantBuy.contains(Cards.colony)) {
             return Cards.colony;
-        } else if (turnCount < midGame && game.colonyInPlay) {
+        } else if (game.colonyInPlay && turnCount < midGame && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
             return Cards.platinum;
-        } else {
+        } else if (turnCount > midGame && !cantBuy.contains(Cards.province)) {
             return Cards.province;
+        } else if (!cantBuy.contains(Cards.gold)) {
+            return Cards.gold;
+        } else if (turnCount > midGame && !cantBuy.contains(Cards.duchy)) {
+            return Cards.duchy;
+        } else {
+            return Cards.silver;
         }
     }
 
@@ -1126,40 +1139,49 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
             if(card.equals(Cards.contraband)) {
-                ret.add(card);
-                cardArray.remove(i);
+                ret.add(cardArray.remove(i));
             }
         }
-        
+
+        for (int i = cardArray.size() - 1; i >= 0; i--) {
+            TreasureCard card = cardArray.get(i);
+            if (card.equals(Cards.royalSeal)) {
+                ret.add(cardArray.remove(i));
+            }
+        }
+
+        for (int i = cardArray.size() - 1; i >= 0; i--) {
+            TreasureCard card = cardArray.get(i);
+            if (card.equals(Cards.illGottenGains)) {
+                ret.add(cardArray.remove(i));
+            }
+        }
+
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
             if(!card.equals(Cards.bank) && !card.equals(Cards.venture) && !card.equals(Cards.hornOfPlenty)) {
-                ret.add(card);
-                cardArray.remove(i);
+                ret.add(cardArray.remove(i));
             }
         }
 
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
             if(card.equals(Cards.venture)) {
-                ret.add(card);
-                cardArray.remove(i);
+                ret.add(cardArray.remove(i));
             }
         }
 
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
             if(card.equals(Cards.hornOfPlenty)) {
-                ret.add(card);
-                cardArray.remove(i);
+                ret.add(cardArray.remove(i));
             }
         }
         
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
             if(card.equals(Cards.bank)) {
-                ret.add(card);
-                cardArray.remove(i);
+                ret.add(cardArray.remove(i));
             }
         }
         

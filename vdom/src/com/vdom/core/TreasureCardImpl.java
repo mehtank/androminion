@@ -72,54 +72,31 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     }
 
     @Override
-    public void playTreasure(MoveContext context) {
+    // return true if Treasure cards should be re-evaluated since might affect
+    // coin play order
+    public boolean playTreasure(MoveContext context) {
+        boolean reevaluateTreasures = false;
         Player player = context.player;
-        context.treasuresPlayedSoFar++;
         Game game = context.game;
 
-        
-        if (equals(Cards.copper)) {
-            context.copperPlayed = true;
-            context.gold += context.coppersmithsPlayed;
-        } else if (equals(Cards.foolsGold)) {
+        GameEvent event = new GameEvent(GameEvent.Type.PlayingCoin, (MoveContext) context);
+        event.card = this;
+        game.broadcastEvent(event);
+
+        player.hand.remove(this);
+        context.playedCards.add(this);
+
+        context.treasuresPlayedSoFar++;
+        context.gold += getValue();
+        if (providePotion()) {
+            context.potions++;
+        }
+
+        // Special cards
+        if (equals(Cards.foolsGold)) {
             context.foolsGoldPlayed++;
-        } else if (equals(Cards.philosophersStone)) {
-            context.gold += (player.getDeckSize() + player.getDiscardSize()) / 5;
-        } else if (equals(Cards.bank)) {
-            context.gold += context.treasuresPlayedSoFar;
-        } else if (equals(Cards.hoard)) {
-            context.hoardsPlayed++;
-        } else if (equals(Cards.loan)) {
-            ArrayList<Card> toDiscard = new ArrayList<Card>();
-            TreasureCard treasureCardFound = null;
-
-            while (treasureCardFound == null) {
-                Card draw = game.draw(player);
-                if (draw == null) {
-                    break;
-                }
-
-                GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
-                event.card = draw;
-                game.broadcastEvent(event);
-
-                if (draw instanceof TreasureCard) {
-                    treasureCardFound = (TreasureCard) draw;
-                } else {
-                    toDiscard.add(draw);
-                }
-            }
-
-            if (treasureCardFound != null) {
-                if (player.loan_shouldTrashTreasure(context, treasureCardFound)) {
-                    player.trash(treasureCardFound, this, context);
-                } else {
-                    player.discard(treasureCardFound, this, null);
-                }
-            }
-
-            while (!toDiscard.isEmpty()) {
-                player.discard(toDiscard.remove(0), this, null);
+            if (context.foolsGoldPlayed > 1) {
+                context.gold += 3;
             }
         } else if (equals(Cards.quarry)) {
             context.quarriesPlayed++;
@@ -131,26 +108,14 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             context.talismansPlayed++;
         } else if (equals(Cards.diadem)) {
             context.gold += context.getActionsLeft();
-        }
-
-        if (providePotion()) {
-            context.potions++;
-        }
-
-        context.gold += getValue();
-
-        if (equals(Cards.foolsGold) && context.foolsGoldPlayed > 1) {
-            context.gold += 3;
-        }
-        
-        player.hand.remove(this);
-        context.playedCards.add(this);
-
-        GameEvent event = new GameEvent(GameEvent.Type.PlayingCoin, (MoveContext) context);
-        event.card = this;
-        game.broadcastEvent(event);
-
-        if (equals(Cards.contraband)) {
+        } else if (equals(Cards.copper)) {
+            context.copperPlayed = true;
+            context.gold += context.coppersmithsPlayed;
+        } else if (equals(Cards.bank)) {
+            context.gold += context.treasuresPlayedSoFar;
+        } else if (equals(Cards.hoard)) {
+            context.hoardsPlayed++;
+        } else if (equals(Cards.contraband)) {
             context.buys++;
             Card cantBuyCard = game.getNextPlayer().contraband_cardPlayerCantBuy(context);
 
@@ -159,7 +124,8 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
                 GameEvent e = new GameEvent(GameEvent.Type.CantBuy, (MoveContext) context);
                 game.broadcastEvent(e);
             }
-        } else if (equals(Cards.venture)) {
+            reevaluateTreasures = true;
+        } else if (equals(Cards.loan) || equals(Cards.venture)) {
             ArrayList<Card> toDiscard = new ArrayList<Card>();
             TreasureCard treasureCardFound = null;
 
@@ -169,6 +135,10 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
                     break;
                 }
 
+                event = new GameEvent(GameEvent.Type.CardRevealed, context);
+                event.card = draw;
+                game.broadcastEvent(event);
+
                 if (draw instanceof TreasureCard) {
                     treasureCardFound = (TreasureCard) draw;
                 } else {
@@ -177,16 +147,23 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             }
 
             if (treasureCardFound != null) {
-                player.hand.add(treasureCardFound);
-                event = new GameEvent(GameEvent.Type.CardRevealed, context);
-                event.card = treasureCardFound;
-                game.broadcastEvent(event);
-                treasureCardFound.playTreasure(context);
+                if (equals(Cards.loan)) {
+                    if (player.loan_shouldTrashTreasure(context, treasureCardFound)) {
+                        player.trash(treasureCardFound, this, context);
+                    } else {
+                        player.discard(treasureCardFound, this, null);
+                    }
+                } else if (equals(Cards.venture)) {
+                    player.hand.add(treasureCardFound);
+                    treasureCardFound.playTreasure(context);
+                    reevaluateTreasures = true;
+                }
             }
 
             while (!toDiscard.isEmpty()) {
                 player.discard(toDiscard.remove(0), this, null);
             }
+
         } else if (equals(Cards.hornOfPlenty)) {
             HashSet<String> distinctCardsInPlay = new HashSet<String>();
             distinctCardsInPlay.add(getName());
@@ -219,11 +196,14 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
                 }
             }
         } else if (equals(Cards.illGottenGains)) {
-            if(context.getCardsLeft(Cards.copper) > 0) {
-                if(player.illGottenGains_gainCopper(context)) {
+            if (context.getCardsLeft(Cards.copper) > 0) {
+                if (player.illGottenGains_gainCopper(context)) {
                     player.gainNewCard(Cards.copper, this, context);
+                    reevaluateTreasures = true;
                 }
             }
         }
+
+        return reevaluateTreasures;
     }
 }

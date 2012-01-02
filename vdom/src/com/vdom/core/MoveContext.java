@@ -82,8 +82,8 @@ public class MoveContext {
         return potions;
     }
     
-    public Card[] getCantBuy() {
-        return cantBuy.toArray(new Card[0]);
+    public ArrayList<Card> getCantBuy() {
+        return cantBuy;
     }
 
     public int getVictoryCardsBoughtThisTurn() {

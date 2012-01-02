@@ -321,7 +321,7 @@ public class Game {
     }
 
     protected void playTreasures(Player player, MoveContext context) {
-        // Set the turn gold to the correct amt
+        // Set the turn gold to the correct amount
         context.gold = context.addGold;
         context.addGold = 0;
         context.potions = 0;
@@ -331,16 +331,14 @@ public class Game {
         boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
 
         treasures = player.getTreasuresInHand();
-        if (selectingCoins && treasures.size() > 0)
+        if (selectingCoins && !treasures.isEmpty())
             treasures = player.treasureCardsToPlayInOrder(context);
 
-        while (treasures != null && treasures.size() > 0) {
-            for (TreasureCard card : treasures)
-                card.playTreasure(context);
-
-            treasures = player.getTreasuresInHand();
-            if (selectingCoins && treasures.size() > 0)
-                treasures = player.treasureCardsToPlayInOrder(context);
+        while (treasures != null && !treasures.isEmpty()) {
+            TreasureCard card = treasures.remove(0);
+            if (card.playTreasure(context)) {
+                //treasures = player.treasureCardsToPlayInOrder(context);
+            }
         }
     }
 
@@ -2525,9 +2523,7 @@ public class Game {
                                 }
                             }
                         }
-                    } else if(event.card.equals(Cards.mandarin)) {
-                        //TODO: ask for order
-                        
+                    } else if (event.card.equals(Cards.mandarin) && event.getType() == GameEvent.Type.BuyingCard) {
                         ArrayList<Card> playedCards = ((MoveContext) context).getPlayedCards();
                         ArrayList<Card> treasureCardsInPlay = new ArrayList<Card>();
                         
@@ -2537,7 +2533,8 @@ public class Game {
                             }
                         }
                         
-                        for(Card c : treasureCardsInPlay) {
+                        Card[] order = player.mandarin_orderCards(context, treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]));
+                        for (Card c : order) {
                             player.putOnTopOfDeck(c);
                             playedCards.remove(c);
                         }
@@ -2874,7 +2871,8 @@ public class Game {
         if(cards == null) {
             return false;
         }
-        
+
+        CardPile grandMarket = piles.get(Cards.grandMarket.getName());
         for(Card card : cards) {
             if (
                 card.equals(Cards.philosophersStone) ||
@@ -2884,7 +2882,8 @@ public class Game {
                 card.equals(Cards.quarry) ||
                 card.equals(Cards.talisman) ||
                 card.equals(Cards.hornOfPlenty) ||
-                card.equals(Cards.diadem)
+                card.equals(Cards.diadem) || 
+                (card.equals(Cards.copper) && grandMarket != null && grandMarket.getCount() > 0)
                 ) 
             {
                 return true;
