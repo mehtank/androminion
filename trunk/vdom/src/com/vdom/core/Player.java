@@ -654,6 +654,8 @@ public abstract class Player {
 
     public abstract Card[] scout_orderCards(MoveContext context, Card[] cards);
 
+    public abstract Card[] mandarin_orderCards(MoveContext context, Card[] cards);
+
     public abstract NoblesOption nobles_chooseOptions(MoveContext context);
 
     // Either return two cards, or null if you do not want to trash any cards.
@@ -868,4 +870,5 @@ public abstract class Player {
     public int getMyCardCount(Card card) {
         return Util.getCardCount(getAllCards(), card);
     }
+
 }

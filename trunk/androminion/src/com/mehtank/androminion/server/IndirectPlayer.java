@@ -1733,6 +1733,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getAnyFromHand(context, getString(R.string.mandarin_part), NOTPASSABLE);
     }
     
+    @Override
+    public Card[] mandarin_orderCards(MoveContext context, Card[] cards) {
+        if (context.isQuickPlay() && shouldAutoPlay_mandarin_orderCards(context, cards)) {
+            return super.mandarin_orderCards(context, cards);
+        }
+    	ArrayList<Card> orderedCards = new ArrayList<Card>();
+    	int[] order = orderCards(context, cardArrToIntArr(cards));
+    	for (int i : order) 
+    		orderedCards.add(cards[i]);
+    	return orderedCards.toArray(new Card[0]);
+	}
+
     public Card[] margrave_attack_cardsToKeep(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_margrave_attack_cardsToKeep(context)) {
             return super.margrave_attack_cardsToKeep(context);

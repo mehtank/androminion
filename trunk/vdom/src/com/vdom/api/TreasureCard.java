@@ -9,5 +9,5 @@ public interface TreasureCard extends Card {
 
     public boolean providePotion();
     
-    public void playTreasure(MoveContext context);
+    public boolean playTreasure(MoveContext context);
 }
