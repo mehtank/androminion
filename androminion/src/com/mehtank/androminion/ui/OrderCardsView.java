@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
+import com.mehtank.androminion.R;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
 
@@ -64,11 +65,11 @@ public class OrderCardsView extends BottomInputView implements OnClickListener {
 		
 		orig = new CardGroup(top, this, lc, false);
     	origGV = GameTableViews.makeGV(top, orig, 1);
-    	origCS = (GameTableViews.myCardSet(top, "Cards", origGV, null));
+    	origCS = (GameTableViews.myCardSet(top, top.getString(R.string.cards), origGV, null));
     	
 		ordered = new CardGroup(top, this, lc, false);
     	orderedGV = GameTableViews.makeGV(top, ordered, 1);
-    	orderedCS = (GameTableViews.myCardSet(top, "Top of deck", orderedGV, null));
+    	orderedCS = (GameTableViews.myCardSet(top, top.getString(R.string.top_of_deck), orderedGV, null));
     	
         touch = new DragNDropListView (top);
         touch.setLayoutParams(new LinearLayout.LayoutParams(CardView.WIDTH, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -83,22 +84,22 @@ public class OrderCardsView extends BottomInputView implements OnClickListener {
 			}
 		});
         touch.setAdapter(orig);
-    	touchCS = (GameTableViews.myCardSet(top, "Top of deck", touch, null));
+    	touchCS = (GameTableViews.myCardSet(top, top.getString(R.string.top_of_deck), touch, null));
 		
     	select = new Button(top);
-    	select.setText("Accept");
+    	select.setText(R.string.accept);
         select.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { go(); }
         });
 
     	reset = new Button(top);
-    	reset.setText("Reset");
+    	reset.setText(R.string.reset);
         reset.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { reset(); }
         });
         
         TextView inst = new TextView(top);
-        inst.setText("Drag/drop\nthe cards to\nrearrange\ntheir order.");
+        inst.setText(R.string.order_cards_summary);
         
 		ll.setOrientation(LinearLayout.HORIZONTAL);
 		ll.addView(select);
