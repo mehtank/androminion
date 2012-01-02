@@ -1,8 +1,7 @@
 #labels Featured
-Added more AI contraband decisions
-Added Mandarin sort Treasures back on deck
-Added User should select treasures if copper in hand and grand market available
-Added option to re-evaluate treasures if card gained
+ * Added more AI contraband decisions
+ * Added Mandarin sort Treasures back on deck
+ * Added User should select treasures if copper in hand and grand market available
 
 1.9.b19
 
