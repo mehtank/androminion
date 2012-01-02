@@ -464,7 +464,7 @@
   <string name="City_name">Stadt</string>
   <string name="City_desc">Wenn im Vorrat genau ein Stapel leer ist: +1 Karte. Oder, wenn 2 oder mehr Stapel leer sind: +1 Karte, +1 Geld, +1 Kauf.</string>
   <string name="Contraband_name">Schmuggelware</string>
-  <string name="Contraband_desc">Wenn du diese Karte auslegst, benennt der Spieler links von dir eine Karte. Du darfst diese Karte nicht kaufen.</string>
+  <string name="Contraband_desc">+1 Kauf\n Wenn du diese Karte auslegst, benennt der Spieler links von dir eine Karte. Du darfst diese Karte nicht kaufen.</string>
   <string name="CountingHouse_name">Leihhaus</string>
   <string name="CountingHouse_desc">Sieh deinen Ablagestapel durch, decke eine beliebige Anzahl Kupfer daraus auf und nimm diese auf die Hand.</string>
   <string name="Expand_name">Ausbau</string>
