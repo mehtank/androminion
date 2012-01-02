@@ -1569,11 +1569,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
 
         ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
-        for(Card c : cards) {
-            if(!selectBooleanCardRevealed(context, Cards.cartographer, c, getString(R.string.top_of_deck), getString(R.string.discard))) {
-                cardsToDiscard.add(c);
+
+        ArrayList<String> options = new ArrayList<String>();
+        for (Card c : cards)
+            options.add(c.getName());
+        String none = getString(R.string.none);
+        options.add(none);
+
+		do {
+	        String o = selectString(context, R.string.Cartographer_query, Cards.cartographer, options.toArray(new String[0]));
+            if (o.equals(none)) {
+                break;
             }
-        }
+            cardsToDiscard.add((Card) nameToCard(o, cards));
+            options.remove(o);
+        } while (options.size() > 1);
+
         return cardsToDiscard.toArray(new Card[0]);
     }
     
