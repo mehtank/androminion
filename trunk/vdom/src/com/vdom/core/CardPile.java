@@ -30,7 +30,12 @@ public class CardPile {
     }
 
     public Card removeCard() {
-        return cards.remove(cards.size() - 1);
+        if (cards.size() > 0) {
+            return cards.remove(cards.size() - 1);
+        } else {
+            return null;
         }
     }
+
+}
 
