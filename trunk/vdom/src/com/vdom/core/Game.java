@@ -244,10 +244,8 @@ public class Game {
                 // /////////////////////////////////
                 // Buy Phase
                 // /////////////////////////////////
-                boolean victoryCardBought = false;
-
-                boolean boughtACard = playerBuy(player, context, victoryCardBought);
-                if (!boughtACard) {
+                playerBuy(player, context);
+                if (context.totalCardsBoughtThisTurn == 0) {
                     GameEvent event = new GameEvent(GameEvent.Type.NoBuy, context);
                     broadcastEvent(event);
                     Util.debug(player.getPlayerName() + " did not buy a card with coins:" + context.getCoinAvailableForBuy());
@@ -256,7 +254,7 @@ public class Game {
                 // /////////////////////////////////
                 // Discard phase
                 // /////////////////////////////////
-                player.cleanup(context, victoryCardBought);
+                player.cleanup(context);
 
                 // /////////////////////////////////
                 // Draw new hand
@@ -548,8 +546,7 @@ public class Game {
         } while (context.actions > 0 && action != null);
     }
 
-    protected boolean playerBuy(Player player, MoveContext context, boolean victoryCardBought) {
-        boolean boughtACard = false;
+    protected void playerBuy(Player player, MoveContext context) {
         Card buy = null;
         do {
             try {
@@ -563,44 +560,15 @@ public class Game {
                     GameEvent statusEvent = new GameEvent(GameEvent.Type.Status, (MoveContext) context);
                     broadcastEvent(statusEvent);
 
-                    context.buys--;
                     playBuy(context, buy);
-                    player.addVictoryTokens(context, context.goonsPlayed);
 
-                    boughtACard = true;
-
-                    if (buy instanceof VictoryCard) {
-                        victoryCardBought = true;
-                        for (int i = 0; i < context.hoardsPlayed; i++) {
-                            player.gainNewCard(Cards.gold, Cards.hoard, context);
-                        }
-                    } else if (buy.equals(Cards.mint)) {
-                        ArrayList<Card> toTrash = new ArrayList<Card>();
-                        for (Card card : context.playedCards)
-                            if (card instanceof TreasureCard)
-                                toTrash.add(card);
-
-                        for (Card card : toTrash) {
-                            context.playedCards.remove(card);
-                            context.cardsTrashedThisTurn++;
-                            GameEvent event = new GameEvent(GameEvent.Type.CardTrashed, context);
-                            event.card = card;
-                            broadcastEvent(event);
-                        }
-                    }
-
-                    int embargos = getEmbargos(buy.getName());
-
-                    for (int i = 0; i < embargos; i++) {
-                        player.gainNewCard(Cards.curse, Cards.embargo, context);
-                    }
                 } else {
                     // TODO report?
                     buy = null;
                 }
             }
         } while (context.buys > 0 && buy != null);
-        return boughtACard;
+
     }
 
     protected void turnBegin(Player player, MoveContext context) {
@@ -1045,8 +1013,10 @@ public class Game {
     }
 
     void playBuy(MoveContext context, Card buy) {
-        Card card = takeFromPileCheckTrader(buy, context);
+        Player player = context.getPlayer();
+        context.buys--;
 
+        Card card = takeFromPileCheckTrader(buy, context);
         if(card != null) {
 	        GameEvent event = new GameEvent(GameEvent.Type.BuyingCard, (MoveContext) context);
 	        event.card = card;
@@ -1077,6 +1047,34 @@ public class Game {
 	                context.getPlayer().gainNewCard(card, Cards.talisman, context);
 	            }
 	        }
+
+            player.addVictoryTokens(context, context.goonsPlayed);
+
+            if (buy instanceof VictoryCard) {
+                context.victoryCardsBoughtThisTurn++;
+                for (int i = 0; i < context.hoardsPlayed; i++) {
+                    player.gainNewCard(Cards.gold, Cards.hoard, context);
+                }
+            } else if (buy.equals(Cards.mint)) {
+                ArrayList<Card> toTrash = new ArrayList<Card>();
+                for (Card playedCard : context.playedCards)
+                    if (playedCard instanceof TreasureCard)
+                        toTrash.add(playedCard);
+
+                for (Card trashCard : toTrash) {
+                    context.playedCards.remove(trashCard);
+                    context.cardsTrashedThisTurn++;
+                    event = new GameEvent(GameEvent.Type.CardTrashed, context);
+                    event.card = trashCard;
+                    broadcastEvent(event);
+                }
+            }
+
+            int embargos = getEmbargos(buy.getName());
+
+            for (int i = 0; i < embargos; i++) {
+                player.gainNewCard(Cards.curse, Cards.embargo, context);
+            }
         }
     }
 
@@ -2796,13 +2794,20 @@ public class Game {
         piles.put(pile.card.getName(), pile);
     }
 
-    public Card[] getCardsObtainedByLastPlayer() {
+    private ArrayList<Card> getCardsObtainedByPlayer(int PlayerNumber) {
+        return cardsObtainedLastTurn[PlayerNumber];
+    }
+
+    public ArrayList<Card> getCardsObtainedByPlayer() {
+        return getCardsObtainedByPlayer(playersTurn);
+    }
+
+    public ArrayList<Card> getCardsObtainedByLastPlayer() {
         int playerOnRight = playersTurn - 1;
         if (playerOnRight < 0) {
             playerOnRight = numPlayers - 1;
         }
-
-        return cardsObtainedLastTurn[playerOnRight].toArray(new Card[0]);
+        return getCardsObtainedByPlayer(playerOnRight);
     }
 
     public Player getNextPlayer() {

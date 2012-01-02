@@ -27,7 +27,7 @@ public class MoveContext {
     public int goonsPlayed = 0;
     public int hoardsPlayed = 0;
     public int throneRoomsInEffect = 0;
-    public int numberTimesToPlay = 0;
+    public int numberTimesAlreadyPlayed = 0;
     public int quarriesPlayed = 0;
     public boolean royalSealPlayed = false;
     public int possessionsToProcess = 0;
@@ -35,6 +35,8 @@ public class MoveContext {
     public int foolsGoldPlayed = 0;
     public int schemesPlayed = 0;
     public int cardCostModifier = 0;
+    public int victoryCardsBoughtThisTurn = 0;
+    public int totalCardsBoughtThisTurn = 0;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public Player getPossessedBy() { return game.possessingPlayer; };
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
@@ -83,7 +85,15 @@ public class MoveContext {
     public Card[] getCantBuy() {
         return cantBuy.toArray(new Card[0]);
     }
-    
+
+    public int getVictoryCardsBoughtThisTurn() {
+        return victoryCardsBoughtThisTurn;
+    }
+
+    public int getTotalCardsBoughtThisTurn() {
+        return totalCardsBoughtThisTurn;
+    }
+
     public boolean buyWouldEndGame(Card card) {
         return game.buyWouldEndGame(card);
     }
@@ -112,7 +122,7 @@ public class MoveContext {
         return game.getEmbargos(card.getName());
     }
 
-    public Card[] getCardsObtainedByLastPlayer() {
+    public ArrayList<Card> getCardsObtainedByLastPlayer() {
         return game.getCardsObtainedByLastPlayer();
     }
 
