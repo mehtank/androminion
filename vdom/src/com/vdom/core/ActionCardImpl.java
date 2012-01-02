@@ -148,7 +148,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (context.throneRoomsInEffect == 0) {
             context.actions--;
         }
-        if (context.numberTimesToPlay == 0) {
+        if (context.numberTimesAlreadyPlayed == 0) {
             currentPlayer.hand.remove(this);
             if (trashOnUse) {
                 currentPlayer.trash(this, null, context);
@@ -381,7 +381,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.embassy)) {
             embassy(context, currentPlayer);
         } else if (equals(Cards.highway)) {
-            if (context.numberTimesToPlay == 1) {
+            if (context.numberTimesAlreadyPlayed == 0) {
                 context.cardCostModifier -= 1;
             }
         } else if (equals(Cards.inn)) {
@@ -1156,7 +1156,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
    
                     cardToPlay.cloneCount = (equals(Cards.kingsCourt) ? 3 : 2);
                     for (int i = 0; i < cardToPlay.cloneCount;) {
-                        context.numberTimesToPlay = i++;
+                        context.numberTimesAlreadyPlayed = i++;
                         cardToPlay.play(game, context);
                     }
 
@@ -1171,7 +1171,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     }
 
                     context.throneRoomsInEffect--;
-                    context.numberTimesToPlay = 0;
+                    context.numberTimesAlreadyPlayed = 0;
                     
                 }
             }
@@ -2615,7 +2615,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void goons(Game game, MoveContext context, Player currentPlayer) {
-        if (context.numberTimesToPlay == 1) {
+        if (context.numberTimesAlreadyPlayed == 1) {
             context.goonsPlayed++;
         }
 

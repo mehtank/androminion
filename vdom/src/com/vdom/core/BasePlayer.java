@@ -826,12 +826,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card smugglers_cardToObtain(MoveContext context) {
         // Find the most expensive card that is still 6 or less
-        Card[] last = context.getCardsObtainedByLastPlayer();
         Card bestCard = null;
-        for (int i = 0; i < last.length; i++) {
-            if (last[i].getCost(context) <= 6 && context.getCardsLeft(last[i]) > 0) {
-                if (bestCard == null || last[i].getCost(context) > bestCard.getCost(context)) {
-                    bestCard = last[i];
+        for (Card card : context.getCardsObtainedByLastPlayer()) {
+            if (card.getCost(context) <= 6 && context.getCardsLeft(card) > 0) {
+                if (bestCard == null || card.getCost(context) > bestCard.getCost(context)) {
+                    bestCard = card;
                 }
             }
         }

@@ -838,14 +838,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.smugglers_cardToObtain(context);
         }
     	ArrayList<String> options = new ArrayList<String>();
-    	Card[] cards = context.getCardsObtainedByLastPlayer();
+        Card[] cards = context.getCardsObtainedByLastPlayer().toArray(new Card[0]);
     	for (Card c : cards)
     		if (c.getCost(context) <= 6 && !c.isPrize())
     			options.add(c.getName());
     	
     	if (options.size() > 0) {
     		String o = selectString(context, getString(R.string.smuggle_query), options.toArray(new String[0]));	
-    		return nameToCard(o, cards);
+            return nameToCard(o, cards);
     	} else
     		return null;
 	}

@@ -37,6 +37,14 @@ public abstract class Player {
         context.vpsGainedThisTurn += vt;
     }
     
+    public int getVictoryCardsBoughtThisTurn(MoveContext context) {
+        return context.getVictoryCardsBoughtThisTurn();
+    }
+
+    public int getTotalCardsBoughtThisTurn(MoveContext context) {
+        return context.getTotalCardsBoughtThisTurn();
+    }
+
     public boolean isAi() {
         return true;
     }
@@ -173,7 +181,7 @@ public abstract class Player {
         horseTraders = new CardList(this, "Horse Traders");
     }
 
-    protected void cleanup(MoveContext context, boolean victoryCardBought) {
+    protected void cleanup(MoveContext context) {
         // /////////////////////////////////
         // Discard hand
         // /////////////////////////////////
@@ -194,7 +202,7 @@ public abstract class Player {
             }
         }
 
-        if (!victoryCardBought && treasuryCardsInPlay > 0) {
+        if (getVictoryCardsBoughtThisTurn(context) == 0 && treasuryCardsInPlay > 0) {
             treasuryCardsToSave = treasury_putBackOnDeck(context, treasuryCardsInPlay);
         }
 
