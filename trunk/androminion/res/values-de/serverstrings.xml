@@ -225,7 +225,7 @@
     <string name="pirate_ship_option_one">Nimm +(%1$s) Geld</string>
     <string name="pirate_ship_option_two">Greife an</string>
 
-    <string name="top_of_deck">Top of deck</string>
+    <string name="top_of_deck">Auf den Nachziehstapel</string>
    
     <string name="saboteur_part">Ersetze die sabotierte Karte: Wähle</string>
    
@@ -685,4 +685,5 @@
   
   <string name="coin_worth">Wert: (%1$s) Geld</string>
   <string name="Cartographer_query">Wähle Karte zum Abwerfen</string>
+  <string name="cards">Karten</string>
 </resources>
