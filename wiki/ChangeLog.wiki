@@ -1,4 +1,5 @@
 #labels Featured
+ * Issue 117: Mint vs empty Silver deck
  * Issue 100: Border Village doesn't complete second card gain
  * Issue 57: Cards that modify Duration cards should also remain in play
  * Issue 61: King's Court does not work properly with Duration cards
