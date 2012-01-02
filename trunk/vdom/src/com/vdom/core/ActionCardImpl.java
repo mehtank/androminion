@@ -2615,7 +2615,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void goons(Game game, MoveContext context, Player currentPlayer) {
-        if (context.numberTimesAlreadyPlayed == 1) {
+        if (context.numberTimesAlreadyPlayed == 0) {
             context.goonsPlayed++;
         }
 
