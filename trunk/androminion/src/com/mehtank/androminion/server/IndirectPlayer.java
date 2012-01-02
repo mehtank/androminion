@@ -333,11 +333,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, String buttonText, boolean actionOnly, boolean victoryAllowed) {
         return getFromTable(context, header, maxCost, minCost, isBuy, passString, buttonText, actionOnly, victoryAllowed, -1);
     }
-    
+
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, String buttonText, boolean actionOnly, boolean victoryAllowed, int potionCost) {
+        return getFromTable(context, header, maxCost, minCost, isBuy, passString, buttonText, actionOnly, victoryAllowed, -1, false);
+    }
+    
+    public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, String buttonText, boolean actionOnly, boolean victoryAllowed, int potionCost, boolean includePrizes) {
         Card[] cards = context.getCardsInPlay();
         SelectCardOptions sco = new SelectCardOptions()
         	.fromTable();
+        if (includePrizes) {
+        	sco.fromPrizes();
+        }
         
         if(isBuy) {
             sco.buyPhase = true;
@@ -750,7 +757,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
             return super.wishingWell_cardGuess(context);
         }
-    	return getFromTable(context, getString(R.string.wishing_well_part), Integer.MAX_VALUE, NOTPASSABLE);
+    	return getFromTable(context, getString(R.string.wishing_well_part), Integer.MAX_VALUE, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.SELECT, false, true, -1, true);
 	}
 
     public Card upgrade_cardToTrash(MoveContext context) {
