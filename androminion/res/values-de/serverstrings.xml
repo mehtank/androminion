@@ -3,7 +3,7 @@
 
       <!-- Interaction -->
       <string name="pass">Passen</string>
-      <string name="card_revealed">%1$s aufgedeckt %2$s</string>
+      <string name="card_revealed">%1$s deckt %2$s auf</string>
       <string name="select_treasure">%2$s eine Geldkarte die maximal (%1$s) kostet</string>
       <string name="pawn_option_one">Handlanger (Option 1 von 2):</string>
       <string name="pawn_option_two">Handlanger (Option 2 von 2):</string>
@@ -686,4 +686,5 @@
   <string name="coin_worth">Wert: (%1$s) Geld</string>
   <string name="Cartographer_query">Wähle Karte zum Abwerfen</string>
   <string name="cards">Karten</string>
+  <string name="return_cards">Auf den Nachziehstapel zurücklegen:</string>
 </resources>

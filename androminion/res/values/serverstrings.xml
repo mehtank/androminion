@@ -687,5 +687,6 @@
   <string name="coin_worth">Worth (%1$s) Coin</string>
   <string name="Cartographer_query">Select card to discard</string>
   <string name="cards">Cards</string>
+  <string name="return_cards">Return cards to deck:</string>
   
 </resources>
