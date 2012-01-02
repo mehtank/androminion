@@ -95,7 +95,7 @@ public class SelectCardOptions implements Serializable {
 		if (isNonTreasure && c.isTreasure) return false;
 		if (isVictory && !c.isVictory) return false;
 		if (isReaction && !c.isReaction) return false;
-		if (fromPrizes && !c.isPrize) return false; 
+		if (fromPrizes && !c.isPrize && !fromTable) return false; 
 		if (potionCost == 0 && c.costPotion) return false;
 		if (potionCost > 0 && maxCost == minCost && !c.costPotion) return false;
 		if (!cardInList(c.id)) return false;

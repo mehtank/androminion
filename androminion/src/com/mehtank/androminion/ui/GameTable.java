@@ -463,11 +463,21 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	boolean isAcceptable(SelectCardOptions sco, CardView cv) {
 		MyCard c = cv.c;
 		if (sco.fromHand && (cv.parent != hand)) return false;
-		if (sco.fromTable && (cv.parent != vpPile)
-					  && (cv.parent != moneyPile) 
-					  && (cv.parent != supplyPile)) return false;
-		if (sco.fromPrizes && cv.parent != prizePile) return false;
-
+		else if (sco.fromTable) {
+			if (sco.fromPrizes) {
+				if ((cv.parent != vpPile)
+				&&  (cv.parent != moneyPile)
+				&&  (cv.parent != supplyPile)
+				&&  (cv.parent != prizePile)) return false;
+			} else {
+				if ((cv.parent != vpPile)
+				&&  (cv.parent != moneyPile)
+				&&  (cv.parent != supplyPile)) return false;
+			}
+		} else if (sco.fromPrizes) {
+			if (cv.parent != prizePile) return false;
+		}
+		
 		return sco.checkValid(c);
 	}
 	
