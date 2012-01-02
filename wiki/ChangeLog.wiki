@@ -1,4 +1,6 @@
 #labels Featured
+1.9.b19
+
  * Issue 46: Wishing well cannot name prizes
  * Issue 163: Mine does not appear to work correctly with cost reducers
  * Issue 174: Cartographer does not display all four cards
@@ -13,8 +15,6 @@
  * Issue 186: Border Village on-gain ability isn't always triggered
  * Issue 160: Gain Gold after buy Border Village with Highway played
  * Issue 162: Border Village allows me to select a card with potion in its cost to gain 
-
-1.9.b19
 
 1.9.b18
  * Issue 161: Swindler is able to choose Prizes and Potion cards as swindle replacements
