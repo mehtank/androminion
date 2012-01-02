@@ -1057,7 +1057,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card contraband_cardPlayerCantBuy(MoveContext context) {
-        return Cards.province;
+        if (turnCount > midGame && game.colonyInPlay) {
+            return Cards.colony;
+        } else if (turnCount < midGame && game.colonyInPlay) {
+            return Cards.platinum;
+        } else {
+            return Cards.province;
+        }
     }
 
     @Override

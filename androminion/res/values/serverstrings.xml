@@ -465,7 +465,7 @@
     <string name="City_name">City</string>
     <string name="City_desc">If there are one or more empty Supply piles, +1 Card. If there are two or more, +1 Coin and +1 Buy.</string>
     <string name="Contraband_name">Contraband</string>
-    <string name="Contraband_desc">When you play his, the player to your left names a card. You can\'t buy that card this turn.</string>
+    <string name="Contraband_desc">+1 Buy  When you play this, the player to your left names a card. You can\'t buy that card this turn.</string>
     <string name="CountingHouse_name">Counting House</string>
     <string name="CountingHouse_desc">Look through your discard pile, reveal any number of Copper cards from it, and put them into your hand.</string>
     <string name="Expand_name">Expand</string>
