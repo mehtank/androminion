@@ -684,4 +684,5 @@
   <string name="game_over_vps"> SP</string>
   
   <string name="coin_worth">Wert: (%1$s) Geld</string>
+  <string name="Cartographer_query">Wähle Karte zum Abwerfen</string>
 </resources>
