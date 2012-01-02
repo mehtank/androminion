@@ -877,7 +877,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
 		String header = "";
 		for (Card c : cards) 
-			header += c.getName() + ", ";
+			header += getCardName(c) + ", ";
 		header += "--";
 		header = header.replace(", --", "");
 		header = Strings.format(R.string.navigator_header, header);

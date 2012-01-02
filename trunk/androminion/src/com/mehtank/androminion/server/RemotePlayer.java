@@ -760,7 +760,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     }
 	@Override
 	protected int[] orderCards(MoveContext context, int[] cards) {
-	    return orderCards(context, cards, "Return cards to deck:");
+	    return orderCards(context, cards, Strings.getString(R.string.return_cards));
 	}
 
     @Override
