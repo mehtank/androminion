@@ -353,7 +353,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.followers)) {
             followers(game, context, currentPlayer);
         } else if (equals(Cards.princess)) {
-            context.cardCostModifier -= 2;
+            if (context.numberTimesAlreadyPlayed == 0) {
+            	context.cardCostModifier -= 2;
+            }
         } else if (equals(Cards.trustySteed)) {
             trustySteed(game, context, currentPlayer);
         } else if (equals(Cards.crossroads)) {
