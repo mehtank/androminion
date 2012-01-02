@@ -219,27 +219,11 @@ public class Game {
                 // /////////////////////////////////
                 playerAction(player, context);
 
-                // Set the turn gold to the correct amt
-                context.gold = context.addGold;
-                context.addGold = 0;
-                context.potions = 0;
-
-                ArrayList<TreasureCard> treasures = null;
                 
-                boolean selectingCoins = playerShouldSelectCoinsToPlay(context, context.getPlayer().getHand());
-
-                treasures = context.getPlayer().getTreasuresInHand();
-                if(selectingCoins && treasures.size() > 0)
-                    treasures = player.treasureCardsToPlayInOrder(context);
-
-                while (treasures != null && treasures.size() > 0) {
-                    for (TreasureCard card : treasures)
-                        card.playTreasure(context);
-
-                    treasures = context.getPlayer().getTreasuresInHand();
-                    if(selectingCoins && treasures.size() > 0)
-                        treasures = player.treasureCardsToPlayInOrder(context);
-                }
+                // /////////////////////////////////
+                // Select Treasure for Buy
+                // /////////////////////////////////
+                playTreasures(player, context);
 
                 // /////////////////////////////////
                 // Buy Phase
@@ -334,6 +318,30 @@ public class Game {
         frameworkEvent.setGameType(gameType);
         frameworkEvent.setGameTypeWins(gameTypeSpecificWins);
         FrameworkEventHelper.broadcastEvent(frameworkEvent);
+    }
+
+    protected void playTreasures(Player player, MoveContext context) {
+        // Set the turn gold to the correct amt
+        context.gold = context.addGold;
+        context.addGold = 0;
+        context.potions = 0;
+
+        ArrayList<TreasureCard> treasures = null;
+
+        boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
+
+        treasures = player.getTreasuresInHand();
+        if (selectingCoins && treasures.size() > 0)
+            treasures = player.treasureCardsToPlayInOrder(context);
+
+        while (treasures != null && treasures.size() > 0) {
+            for (TreasureCard card : treasures)
+                card.playTreasure(context);
+
+            treasures = player.getTreasuresInHand();
+            if (selectingCoins && treasures.size() > 0)
+                treasures = player.treasureCardsToPlayInOrder(context);
+        }
     }
 
     private void markWinner(HashMap<String, Double> gameTypeSpecificWins) {
@@ -1063,10 +1071,7 @@ public class Game {
 
                 for (Card trashCard : toTrash) {
                     context.playedCards.remove(trashCard);
-                    context.cardsTrashedThisTurn++;
-                    event = new GameEvent(GameEvent.Type.CardTrashed, context);
-                    event.card = trashCard;
-                    broadcastEvent(event);
+                    player.trash(trashCard, card, context);
                 }
             }
 

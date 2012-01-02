@@ -1016,7 +1016,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         int cost = -1;
         
         for(Card c : getHand()) {
-            if(c instanceof TreasureCard) {
+            if (c instanceof TreasureCard && context.game.pileSize(c) > 0) {
                 if(c.getCost(context) > cost) {
                     cardToMint = c;
                     cost = c.getCost(context);
