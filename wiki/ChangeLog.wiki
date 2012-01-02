@@ -1,5 +1,6 @@
 #labels Featured
- * Issue 46: Wishing well cannot name prizes * Issue 163: Mine does not appear to work correctly with cost reducers
+ * Issue 46: Wishing well cannot name prizes
+ * Issue 163: Mine does not appear to work correctly with cost reducers
  * Issue 174: Cartographer does not display all four cards
  * Issue 117: Mint vs empty Silver deck
  * Issue 100: Border Village doesn't complete second card gain
