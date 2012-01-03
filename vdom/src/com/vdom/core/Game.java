@@ -563,6 +563,7 @@ public class Game {
 
             if (buy != null) {
                 if (isValidBuy(context, buy)) {
+                	context.totalCardsBoughtThisTurn++;
                     GameEvent statusEvent = new GameEvent(GameEvent.Type.Status, (MoveContext) context);
                     broadcastEvent(statusEvent);
 
