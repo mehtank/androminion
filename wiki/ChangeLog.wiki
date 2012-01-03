@@ -1,4 +1,5 @@
 #labels Featured
+ * Issue 190: Playing King's Court on Princess should only reduce cost by $2, not $6
  * Added more AI contraband decisions
  * Added Mandarin sort Treasures back on deck
  * Added User should select treasures if copper in hand and grand market available
