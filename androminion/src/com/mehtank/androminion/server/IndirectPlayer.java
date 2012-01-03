@@ -1,7 +1,7 @@
 package com.mehtank.androminion.server;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import android.content.Context;
 
@@ -605,7 +605,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
     	PawnOption[] os = new PawnOption[2];
 
-    	HashMap<String, PawnOption> h = new HashMap<String, PawnOption> ();
+        LinkedHashMap<String, PawnOption> h = new LinkedHashMap<String, PawnOption>();
     	
     	h.put(getString(R.string.pawn_one), PawnOption.AddCard);
     	h.put(getString(R.string.pawn_two), PawnOption.AddAction);
@@ -624,7 +624,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_torturer_attack_chooseOption(context)) {
             return super.torturer_attack_chooseOption(context);
         }
-    	HashMap<String, TorturerOption> h = new HashMap<String, TorturerOption> ();
+        LinkedHashMap<String, TorturerOption> h = new LinkedHashMap<String, TorturerOption>();
     	h.put(getString(R.string.torturer_option_one), TorturerOption.TakeCurse);
     	h.put(getString(R.string.torturer_option_two), TorturerOption.DiscardTwoCards);
 
@@ -635,7 +635,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_steward_chooseOption(context)) {
             return super.steward_chooseOption(context);
         }
-    	HashMap<String, StewardOption> h = new HashMap<String, StewardOption> ();
+        LinkedHashMap<String, StewardOption> h = new LinkedHashMap<String, StewardOption>();
     	
     	h.put(getString(R.string.steward_option_one), StewardOption.AddCards);
     	h.put(getString(R.string.steward_option_two), StewardOption.AddGold);
@@ -737,7 +737,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_nobles_chooseOptions(context)) {
             return super.nobles_chooseOptions(context);
         }
-    	HashMap<String, NoblesOption> h = new HashMap<String, NoblesOption> ();
+        LinkedHashMap<String, NoblesOption> h = new LinkedHashMap<String, NoblesOption>();
     	
     	h.put(getString(R.string.nobles_option_one), NoblesOption.AddCards);
     	h.put(getString(R.string.nobles_option_two), NoblesOption.AddActions);
@@ -779,7 +779,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_minion_chooseOption(context)) {
             return super.minion_chooseOption(context);
         }
-    	HashMap<String, MinionOption> h = new HashMap<String, MinionOption> ();
+        LinkedHashMap<String, MinionOption> h = new LinkedHashMap<String, MinionOption>();
     	
     	h.put(getString(R.string.minion_option_one), MinionOption.AddGold);
     	h.put(getString(R.string.minion_option_two), MinionOption.RolloverCards);
@@ -1181,7 +1181,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_watchTower_chooseOption(context, card)) {
             return super.watchTower_chooseOption(context, card);
         }
-        HashMap<String, WatchTowerOption> h = new HashMap<String, WatchTowerOption> ();
+        LinkedHashMap<String, WatchTowerOption> h = new LinkedHashMap<String, WatchTowerOption>();
         
         h.put(getString(R.string.watch_tower_option_one), WatchTowerOption.Normal);
         h.put(getString(R.string.trash), WatchTowerOption.Trash);
@@ -1258,7 +1258,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.jester_chooseOption(context, targetPlayer, card);
         }
         
-        HashMap<String, JesterOption> h = new HashMap<String, JesterOption> ();
+        LinkedHashMap<String, JesterOption> h = new LinkedHashMap<String, JesterOption>();
         
         h.put(getString(R.string.jester_option_one), JesterOption.GainCopy);
         h.put(Strings.format(R.string.jester_option_two, targetPlayer.getPlayerName()), JesterOption.GiveCopy);
@@ -1285,7 +1285,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_tournament_chooseOption(context)) {
             return super.tournament_chooseOption(context);
         }
-        HashMap<String, TournamentOption> h = new HashMap<String, TournamentOption> ();
+        LinkedHashMap<String, TournamentOption> h = new LinkedHashMap<String, TournamentOption>();
         
         h.put(getString(R.string.tournament_option_one), TournamentOption.DontRevealProvince);
         h.put(getString(R.string.tournament_option_two), TournamentOption.GainPrize);
@@ -1331,7 +1331,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_trustySteed_chooseOptions(context)) {
             return super.trustySteed_chooseOptions(context);
         }
-        HashMap<String, TrustySteedOption> h = new HashMap<String, TrustySteedOption> ();
+        LinkedHashMap<String, TrustySteedOption> h = new LinkedHashMap<String, TrustySteedOption>();
 
         h.put(getString(R.string.trusty_steed_option_one), TrustySteedOption.AddActions);
         h.put(getString(R.string.trusty_steed_option_two), TrustySteedOption.AddCards);
@@ -1548,7 +1548,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_spiceMerchant_chooseOption(context)) {
             return super.spiceMerchant_chooseOption(context);
         }
-        HashMap<String, SpiceMerchantOption> h = new HashMap<String, SpiceMerchantOption> ();
+        LinkedHashMap<String, SpiceMerchantOption> h = new LinkedHashMap<String, SpiceMerchantOption>();
         
         h.put(getString(R.string.spice_merchant_option_one), SpiceMerchantOption.AddCardsAndAction);
         h.put(getString(R.string.spice_merchant_option_two), SpiceMerchantOption.AddGoldAndBuy);
