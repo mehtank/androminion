@@ -3,6 +3,8 @@ package com.vdom.comms;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.vdom.core.Cards;
+
 public class SelectCardOptions implements Serializable {
 	private static final long serialVersionUID = -1473106875075390348L;
 
@@ -84,7 +86,7 @@ public class SelectCardOptions implements Serializable {
 	    int costModifier = 0;
 	    costModifier += (c.isAction ? (2 * quarriesPlayed) : 0);
         
-	    if(buyPhase && c.name.equals("Peddler")) {
+	    if(buyPhase && c.originalName.equals(Cards.peddler.getName())) {
 	        costModifier += actionsPlayed * 2;
 	    }
 		if ((maxCost >= 0) && (c.cost > maxCost + costModifier)) return false;

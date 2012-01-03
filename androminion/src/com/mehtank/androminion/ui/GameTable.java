@@ -134,7 +134,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		playedAdded = true;
 
     	for (int i=0; i<8; i++) 
-    		hand.addCard(new MyCard(0, "default"));
+    		hand.addCard(new MyCard(0, "default", "default"));
     	    	
     	HorizontalScrollView sv = new HorizontalScrollView(top) {
     		boolean f = false;

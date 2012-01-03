@@ -3,12 +3,14 @@ package com.vdom.comms;
 import java.io.Serializable;
 
 public class MyCard implements Serializable {
-	private static final long serialVersionUID = -1367468781663470598L;
+	private static final long serialVersionUID = -1367468781663470597L;
 
 	public int id;
 	public String name;
 	public String expansion;
 	public String desc;
+	
+	public String originalName;
 
 	public int cost = 0;
 	public boolean costPotion = false;
@@ -32,9 +34,10 @@ public class MyCard implements Serializable {
 
 	public int pile;
 	 
-	public MyCard(int id, String name) {
+	public MyCard(int id, String name, String originalName) {
 		this.id = id;
 		this.name = name;
+		this.originalName = originalName;
 	}
 	
 	public String toString() {
