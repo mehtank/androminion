@@ -871,4 +871,6 @@ public abstract class Player {
         return Util.getCardCount(getAllCards(), card);
     }
 
+	public abstract Card getAttackReaction(MoveContext context, Card responsible);
+
 }

@@ -23,6 +23,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected int throneRoomAndKingsCourtCount = 0;
     protected int potionCount = 0;
     protected int midGame;
+    
+    protected boolean reactedMote = false;
+    protected boolean reactedSecretChamber = false;
 
     @Override
     public void newGame(MoveContext context) {
@@ -46,6 +49,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             turnCount++;
         }
         
+        if (event.getType() == GameEvent.Type.PlayingAction) {
+        	reactedMote = false;
+        	reactedSecretChamber = false;
+        }
         if(event.getPlayer() == this && (event.getType() == GameEvent.Type.CardObtained || event.getType() == GameEvent.Type.BuyingCard)) {
             if(event.getCard() instanceof ActionCard) {
                 actionCardCount++;
@@ -300,6 +307,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
     }
     
+	protected Card[] getReactionCards() {
+		ArrayList<Card> reactionCards = new ArrayList<Card>();
+    	for (Card c: hand) {
+    		if (c.equals(Cards.moat) || 
+    				c.equals(Cards.secretChamber) || 
+    				c.equals(Cards.horseTraders))
+    			reactionCards.add(c);
+    	}
+		return reactionCards.toArray(new Card[0]);
+	}
+
     // //////////////////
     // Card interactions
     // //////////////////

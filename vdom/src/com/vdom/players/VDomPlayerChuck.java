@@ -188,4 +188,22 @@ public class VDomPlayerChuck extends BasePlayer  {
     public Card[] getTrashCards() {
         return new Card[]{ Cards.curse, Cards.estate, Cards.copper };
     }
+
+	@Override
+	public Card getAttackReaction(MoveContext context, Card responsible) {
+		Card[] reactionCards = getReactionCards();
+		for (Card c : reactionCards) {
+			if (c.equals(Cards.moat) && !reactedMote) {
+				reactedMote = true;
+				return c;
+			}
+			if (c.equals(Cards.secretChamber) && !reactedSecretChamber) {
+				reactedSecretChamber = true;
+				return c;
+			}
+			if (c.equals(Cards.horseTraders))
+				return c;
+		}
+		return null;
+	}
 }

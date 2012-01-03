@@ -70,6 +70,8 @@
 	<string name="select_up_to_x_nontreasures_from_hand">Pick up to %1$s non-treasure cards from your hand to %2$s</string>
 	<string name="select_exactly_x_nontreasures_from_hand">Pick exactly %1$s non-treasure cards from your hand to %2$s</string>
 	
+	<string name="reaction_query">Select reaction card to reveal</string>
+	
 	<string name="card_to_reveal">reveal [%1$s]</string>
 	<string name="card_to_gain">gain [%1$s]</string>
 	<string name="card_to_trash">trash [%1$s]</string>
