@@ -6,7 +6,7 @@
  * Added User should select treasures if copper in hand and grand market available
 
 1.9.b19
-
+ * Issue 191: Playing King's Court on Merchant Ship gives incorrect number of coins in the following hand
  * Issue 46: Wishing well cannot name prizes
  * Issue 163: Mine does not appear to work correctly with cost reducers
  * Issue 174: Cartographer does not display all four cards
