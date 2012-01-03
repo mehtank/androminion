@@ -652,13 +652,15 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		
 		View v;
 
-		int resID = getResources().getIdentifier("com.mehtank.androminion:drawable/" + filename, null, null);
-		if (resID != 0) {
-			ImageView im = new ImageView(top);
-            im.setBackgroundResource(resID);
-            im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            v = im;
-		} else {		
+        // int resID =
+        // getResources().getIdentifier("com.mehtank.androminion:drawable/" +
+        // filename, null, null);
+        // if (resID != 0) {
+        // ImageView im = new ImageView(top);
+        // im.setBackgroundResource(resID);
+        // im.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        // v = im;
+        // } else {
 			str = "/sdcard/Dominion/images/full/" + filename + ".jpg";
 			File f = new File(str);
 			if (f.exists()) {
@@ -678,7 +680,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 				tv.setText( text );
 				v = tv;
 			}
-		}
+        // }
 		new AlertDialog.Builder(top)
 			.setTitle(cardView.c.name)
 			.setView(v)
