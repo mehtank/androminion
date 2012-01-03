@@ -1501,16 +1501,18 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     continue;
                 }
                 
-                targetPlayer.discard(draw, this, null);
+                MoveContext targetContext = new MoveContext(game, targetPlayer);
+                targetPlayer.reveal(draw, this, targetContext);
+                targetPlayer.discard(draw, this, targetContext);
 
                 MoveContext toGainContext = null;
 
                 if (draw instanceof VictoryCard) {
-                    targetPlayer.gainNewCard(Cards.curse, this, new MoveContext(game, targetPlayer));
+                    targetPlayer.gainNewCard(Cards.curse, this, targetContext);
                 } else {
                     if (!game.isPileEmpty(draw)) {
                         JesterOption option = currentPlayer.jester_chooseOption(context, targetPlayer, draw);
-                        toGainContext = JesterOption.GainCopy.equals(option) ? context : new MoveContext(game, targetPlayer);
+                        toGainContext = JesterOption.GainCopy.equals(option) ? context : targetContext;
                         toGainContext.getPlayer().gainNewCard(draw, this, toGainContext);
                     }
                 }
