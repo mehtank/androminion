@@ -1751,4 +1751,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         return getAnyFromHand(context, getString(R.string.margrave_part), NOTPASSABLE, 3, true, SelectCardOptions.KEEP);
     }
+    
+    @Override 
+    public Card getAttackReaction(MoveContext context, Card responsible) {
+    	Card[] reactionCards = getReactionCards();
+    	if (reactionCards.length > 0) {
+            ArrayList<String> options = new ArrayList<String>();
+            for (Card c : reactionCards)
+                options.add(c.getName());
+            String none = getString(R.string.none);
+            options.add(none);
+            String o = selectString(context, R.string.reaction_query, responsible, options.toArray(new String[0]));
+            if(o.equals(none)) {
+                return null;
+            }
+            return nameToCard(o, reactionCards);
+    	}
+    	return null;
+    }
 }

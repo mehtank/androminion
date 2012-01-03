@@ -258,30 +258,42 @@ public class Util {
     }
 
     static boolean isDefendedFromAttack(Game game, Player player, Card responsible) {
-        Card card = null;
         boolean defended = false;
 
-        doSecretChamber(game, player, responsible);
-        doHorseTraders(game, player, responsible);
+        // TODO - pass some context about attack?
+        MoveContext context = new MoveContext(game, player);
 
         if (game.hasLighthouse(player)) {
-            card = Cards.lighthouse;
             defended = true;
-        } else if (game.hasMoat(player)) {
-            card = Cards.moat;
-            defended = true;
-        }
-
-        if (defended) {
-            GameEvent event = new GameEvent(GameEvent.Type.PlayerDefended, new MoveContext(game, player));
-            event.card = card;
+            
+            GameEvent event = new GameEvent(GameEvent.Type.PlayerDefended, context);
+            event.card = Cards.lighthouse;
             game.broadcastEvent(event);
+        }
+        
+        Card reactionCard = null;
+        while ((reactionCard = player.getAttackReaction(context, responsible)) != null) {
+            GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
+            event.card = reactionCard;
+            game.broadcastEvent(event);
+
+        	if (reactionCard.equals(Cards.secretChamber))
+                doSecretChamber(context, game, player, responsible);
+        	else if (reactionCard.equals(Cards.horseTraders))
+                doHorseTraders(context, game, player, responsible);
+        	else if (reactionCard.equals(Cards.moat)) {
+                defended = true;
+                
+                event = new GameEvent(GameEvent.Type.PlayerDefended, context);
+                event.card = reactionCard;
+                game.broadcastEvent(event);
+        	}
         }
 
         return defended;
     }
 
-    static boolean doSecretChamber(Game game, Player player, Card responsible) {
+    static boolean doSecretChamber(MoveContext context, Game game, Player player, Card responsible) {
 
         boolean found = false;
         for (Card card : player.hand) {
@@ -291,14 +303,13 @@ public class Util {
         }
 
         if (found) {
-            MoveContext context = new MoveContext(game, player);
-            GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, context);
-            event.card = Cards.secretChamber;
-            game.broadcastEvent(event);
-
-            event = new GameEvent(GameEvent.Type.CardRevealed, context);
-            event.card = Cards.secretChamber;
-            game.broadcastEvent(event);
+//            GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, context);
+//            event.card = Cards.secretChamber;
+//            game.broadcastEvent(event);
+//
+//            event = new GameEvent(GameEvent.Type.CardRevealed, context);
+//            event.card = Cards.secretChamber;
+//            game.broadcastEvent(event);
 
             game.drawToHand(player, responsible);
             game.drawToHand(player, responsible);
@@ -340,7 +351,7 @@ public class Util {
         return found;
     }
 
-    static boolean doHorseTraders(Game game, Player player, Card responsible) {
+    static boolean doHorseTraders(MoveContext context, Game game, Player player, Card responsible) {
 
         Card horseTraders = null;
         for (Card card : player.hand) {
@@ -350,14 +361,13 @@ public class Util {
         }
 
         if (horseTraders != null) {
-            MoveContext context = new MoveContext(game, player);
-            GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, context);
-            event.card = Cards.horseTraders;
-            game.broadcastEvent(event);
-
-            event = new GameEvent(GameEvent.Type.CardRevealed, context);
-            event.card = Cards.horseTraders;
-            game.broadcastEvent(event);
+//            GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, context);
+//            event.card = Cards.horseTraders;
+//            game.broadcastEvent(event);
+//
+//            event = new GameEvent(GameEvent.Type.CardRevealed, context);
+//            event.card = Cards.horseTraders;
+//            game.broadcastEvent(event);
 
             player.hand.remove(horseTraders);
             player.horseTraders.add(horseTraders);

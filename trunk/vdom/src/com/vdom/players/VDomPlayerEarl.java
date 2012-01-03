@@ -1063,4 +1063,22 @@ public Card masquerade_cardToPass(MoveContext context)
            BOUGHT, PLAYED, IN_HAND, VICTORY_HELPER;
        }
    }
+
+	@Override
+	public Card getAttackReaction(MoveContext context, Card responsible) {
+		Card[] reactionCards = getReactionCards();
+		for (Card c : reactionCards) {
+			if (c.equals(Cards.moat) && !reactedMote) {
+				reactedMote = true;
+				return c;
+			}
+			if (c.equals(Cards.secretChamber) && !reactedSecretChamber) {
+				reactedSecretChamber = true;
+				return c;
+			}
+			if (c.equals(Cards.horseTraders))
+				return c;
+		}
+		return null;
+	}
 }

@@ -7,10 +7,10 @@ import com.vdom.api.Card;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
-public class QuickPlayPlayer extends BasePlayer {
+public abstract class QuickPlayPlayer extends BasePlayer {
     protected static final Card[] TRASH_CARDS = new Card[] { Cards.curse, Cards.estate, Cards.copper };
 
-    public static QuickPlayPlayer instance = new QuickPlayPlayer();
+//    public static QuickPlayPlayer instance = new QuickPlayPlayer();
     
     public QuickPlayPlayer() {
         // Set mid game to 0, because usually the late game logic is better.
