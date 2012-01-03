@@ -1110,6 +1110,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
+    public ActionCard throneRoom_cardToPlay(MoveContext context) {
+    	return kingsCourt_cardToPlay(context);
+    }
+    
+    @Override
     public boolean loan_shouldTrashTreasure(MoveContext context, TreasureCard treasure) {
         // TODO:: Finish prosperity
         for (Card trash : getTrashCards()) {

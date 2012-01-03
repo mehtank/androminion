@@ -1116,6 +1116,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return (ActionCard) getActionFromHand(context, getCardName(Cards.kingsCourt), getString(R.string.none), SelectCardOptions.PLAY);
     }
     
+    public ActionCard throneRoom_cardToPlay(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_throneRoom_cardToPlay(context)) {
+            return super.throneRoom_cardToPlay(context);
+        }
+        return (ActionCard) getActionFromHand(context, getCardName(Cards.throneRoom), getString(R.string.none), SelectCardOptions.PLAY);
+    }
+    
+    
     public boolean loan_shouldTrashTreasure(MoveContext context, TreasureCard treasure) {
         if(context.isQuickPlay() && shouldAutoPlay_loan_shouldTrashTreasure(context, treasure)) {
             return super.loan_shouldTrashTreasure(context, treasure);

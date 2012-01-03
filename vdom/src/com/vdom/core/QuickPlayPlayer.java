@@ -435,6 +435,9 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
 
+    public boolean shouldAutoPlay_throneRoom_cardToPlay(MoveContext context) {
+        return false;
+    }
     
     public boolean shouldAutoPlay_loan_shouldTrashTreasure(MoveContext context, Card treasure) {
         return false;
