@@ -1148,7 +1148,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         if (!actionCards.isEmpty()) {
-            ActionCardImpl cardToPlay = (ActionCardImpl) currentPlayer.kingsCourt_cardToPlay(context);
+            ActionCardImpl cardToPlay = (ActionCardImpl) (this.equals(Cards.throneRoom)?
+            		currentPlayer.throneRoom_cardToPlay(context):
+            		currentPlayer.kingsCourt_cardToPlay(context));
 
             if (cardToPlay != null) {
                 if(!actionCards.contains(cardToPlay)) {

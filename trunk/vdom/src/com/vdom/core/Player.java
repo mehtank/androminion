@@ -752,6 +752,8 @@ public abstract class Player {
     public abstract Card[] goons_attack_cardsToKeep(MoveContext context);
 
     public abstract ActionCard kingsCourt_cardToPlay(MoveContext context);
+    
+    public abstract ActionCard throneRoom_cardToPlay(MoveContext context);   
 
     public abstract boolean loan_shouldTrashTreasure(MoveContext context, TreasureCard treasure);
 
