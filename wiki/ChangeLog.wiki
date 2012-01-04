@@ -1,4 +1,5 @@
 #labels Featured
+ * Issue 193: Golem irregularities
  * Issue 48: reactions should be optional
  * Issue 189: Trade Route description is missing on screen
  * Issue 190: Playing King's Court on Princess should only reduce cost by $2, not $6
