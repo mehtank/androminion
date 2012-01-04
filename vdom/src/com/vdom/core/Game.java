@@ -491,7 +491,7 @@ public class Game {
         // Can only have at most two consecutive turns
         for (Card card : player.nextTurnCards) {
             if ((card instanceof DurationCard) && ((DurationCard) card).takeAnotherTurn()) {
-                handCount = 3;
+                handCount = ((DurationCard) card).takeAnotherTurnCardCount();
                 if (consecutiveTurns == 1) {
                     takeAnotherTurn = true;
                     break;

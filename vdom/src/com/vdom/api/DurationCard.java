@@ -12,4 +12,6 @@ public interface DurationCard extends ActionCard {
 
     public boolean takeAnotherTurn();
 
+    public int takeAnotherTurnCardCount();
+
 }
