@@ -9,6 +9,7 @@ public class ActionDurationCardImpl extends ActionCardImpl implements DurationCa
     protected int addCardsNextTurn;
     protected int addGoldNextTurn;
     protected boolean takeAnotherTurn;
+    protected int takeAnotherTurnCardCount;
 
     protected ActionDurationCardImpl(Builder builder) {
         super(builder);
@@ -17,6 +18,7 @@ public class ActionDurationCardImpl extends ActionCardImpl implements DurationCa
         addCardsNextTurn = builder.addCardsNextTurn;
         addGoldNextTurn = builder.addGoldNextTurn;
         takeAnotherTurn = builder.takeAnotherTurn;
+        takeAnotherTurnCardCount = builder.takeAnotherTurnCardCount;
     }
 
     public int getAddActionsNextTurn() {
@@ -39,12 +41,17 @@ public class ActionDurationCardImpl extends ActionCardImpl implements DurationCa
         return takeAnotherTurn;
     }
 
+    public int takeAnotherTurnCardCount() {
+        return takeAnotherTurnCardCount;
+    }
+
     public static class Builder extends ActionCardImpl.Builder {
         protected int addActionsNextTurn;
         protected int addBuysNextTurn;
         protected int addCardsNextTurn;
         protected int addGoldNextTurn;
         protected boolean takeAnotherTurn;
+        protected int takeAnotherTurnCardCount;
 
         public Builder(String name, int cost) {
             super(name, cost);
@@ -70,8 +77,9 @@ public class ActionDurationCardImpl extends ActionCardImpl implements DurationCa
             return this;
         }
 
-        public Builder takeAnotherTurn(boolean val) {
-            takeAnotherTurn = val;
+        public Builder takeAnotherTurn(int val) {
+            takeAnotherTurn = true;
+            takeAnotherTurnCardCount = val;
             return this;
         }
 
@@ -95,6 +103,7 @@ public class ActionDurationCardImpl extends ActionCardImpl implements DurationCa
         c.addCardsNextTurn = addCardsNextTurn;
         c.addGoldNextTurn = addGoldNextTurn;
         c.takeAnotherTurn = takeAnotherTurn;
+        c.takeAnotherTurnCardCount = takeAnotherTurnCardCount;
     }
 
     protected ActionDurationCardImpl() {
@@ -155,4 +164,5 @@ public class ActionDurationCardImpl extends ActionCardImpl implements DurationCa
 
         return sb.toString();
     }
+
 }
