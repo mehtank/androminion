@@ -326,19 +326,16 @@ public class Game {
         context.addGold = 0;
         context.potions = 0;
 
-        ArrayList<TreasureCard> treasures = null;
-
         boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
-
-        treasures = player.getTreasuresInHand();
-        if (selectingCoins && !treasures.isEmpty())
-            treasures = player.treasureCardsToPlayInOrder(context);
+        ArrayList<TreasureCard> treasures = null;
+        treasures = (selectingCoins) ? player.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
 
         while (treasures != null && !treasures.isEmpty()) {
-            TreasureCard card = treasures.remove(0);
-            if (card.playTreasure(context)) {
-                //treasures = player.treasureCardsToPlayInOrder(context);
-            }
+            while (!treasures.isEmpty()) {
+                TreasureCard card = treasures.remove(0);
+                card.playTreasure(context);
+                }
+            treasures = (selectingCoins) ? player.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
         }
     }
 
