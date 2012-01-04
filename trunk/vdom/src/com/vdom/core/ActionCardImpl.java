@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -1579,6 +1580,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (options == null || options.length != 2 || options[0] == options[1]) {
             Util.playerError(currentPlayer, "Trusty Steed options error, ignoring.");
         } else {
+        	// Trusty Steed must do options in the order listed.
+        	Arrays.sort(options);
             for (TrustySteedOption option : options) {
                 if (option == TrustySteedOption.AddActions) {
                     context.actions += 2;
@@ -1590,7 +1593,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     context.addGold += 2;
                 } else if (option == TrustySteedOption.GainSilvers) {
                     for (int i = 0; i < 4; i++) {
-                        if(!currentPlayer.gainNewCard(Cards.silver, null, context)) {
+                        if(!currentPlayer.gainNewCard(Cards.silver, this, context)) {
                             break;
                         }
                     }

@@ -556,8 +556,8 @@ public abstract class Player {
     }
 
     public static enum TrustySteedOption {
-        AddActions,
         AddCards,
+        AddActions,
         AddGold,
         GainSilvers
     }
