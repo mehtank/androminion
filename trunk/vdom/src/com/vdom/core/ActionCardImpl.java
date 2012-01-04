@@ -137,17 +137,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     public void play(Game game, MoveContext context) {
         super.play(game, context);
 
-        GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
-        event.card = this;
-        game.broadcastEvent(event);
-
         Player currentPlayer = context.getPlayer();
 
-        // playing an action
-        context.actionsPlayedSoFar++;
-        if (context.throneRoomsInEffect == 0) {
-            context.actions--;
-        }
         if (context.numberTimesAlreadyPlayed == 0) {
             currentPlayer.hand.remove(this);
             if (trashOnUse) {
@@ -157,6 +148,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             } else {
                 context.playedCards.add(this);
             }
+        }
+
+        GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
+        event.card = this;
+        game.broadcastEvent(event);
+
+        // playing an action
+        context.actionsPlayedSoFar++;
+        if (context.freeActionInEffect == 0) {
+            context.actions--;
         }
 
         context.actions += addActions;
@@ -1156,7 +1157,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 if(!actionCards.contains(cardToPlay)) {
                     Util.playerError(currentPlayer, this.name.toString() + " card selection error, ignoring");
                 } else {
-                    context.throneRoomsInEffect++;
+                    context.freeActionInEffect++;
    
                     cardToPlay.cloneCount = (equals(Cards.kingsCourt) ? 3 : 2);
                     for (int i = 0; i < cardToPlay.cloneCount;) {
@@ -1174,7 +1175,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                         }
                     }
 
-                    context.throneRoomsInEffect--;
+                    context.freeActionInEffect--;
                     context.numberTimesAlreadyPlayed = 0;
                     
                 }
@@ -3214,14 +3215,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
             }
 
+            context.freeActionInEffect++;
             for (Card card : toPlay) {
-                GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
-                event.card = card;
-                game.broadcastEvent(event);
-
+                currentPlayer.hand.add(card, false);
                 ((ActionCardImpl) card).play(game, context);
-                context.playedCards.add(card);
             }
+            context.freeActionInEffect--;
         }
     }
 
