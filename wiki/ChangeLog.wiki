@@ -1,4 +1,5 @@
 #labels Featured
+ * Issue 25: Outpost played by Golem doesn't work
  * Issue 193: Golem irregularities
  * Issue 48: reactions should be optional
  * Issue 189: Trade Route description is missing on screen
