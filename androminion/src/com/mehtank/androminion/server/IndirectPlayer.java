@@ -1341,8 +1341,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         LinkedHashMap<String, TrustySteedOption> h = new LinkedHashMap<String, TrustySteedOption>();
 
-        h.put(getString(R.string.trusty_steed_option_one), TrustySteedOption.AddActions);
         h.put(getString(R.string.trusty_steed_option_two), TrustySteedOption.AddCards);
+        h.put(getString(R.string.trusty_steed_option_one), TrustySteedOption.AddActions);
         h.put(getString(R.string.trusty_steed_option_three), TrustySteedOption.AddGold);
         h.put(getString(R.string.trusty_steed_option_four), TrustySteedOption.GainSilvers);
 
