@@ -26,7 +26,7 @@ public class MoveContext {
     public int coppersmithsPlayed = 0;
     public int goonsPlayed = 0;
     public int hoardsPlayed = 0;
-    public int throneRoomsInEffect = 0;
+    public int freeActionInEffect = 0;
     public int numberTimesAlreadyPlayed = 0;
     public int quarriesPlayed = 0;
     public boolean royalSealPlayed = false;
@@ -99,7 +99,7 @@ public class MoveContext {
     }
 
     public int getThroneRoomsInEffect() {
-        return throneRoomsInEffect;
+        return freeActionInEffect;
     }
 
     public int getQuarriesPlayed() {
