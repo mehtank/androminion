@@ -2,10 +2,7 @@ package com.mehtank.androminion.ui;
 
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -13,22 +10,22 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
-import com.mehtank.androminion.R;
 
-public class StatsDialog {
+public class WinLossView extends FrameLayout {
 
+	public boolean statsEmpty = false;
+	
     //TODO: Keep win streak as a stat
-    public StatsDialog(Context top) {
-        FrameLayout fv = new FrameLayout (top);
+    public WinLossView(Context top, Achievements achievements) {
+    	super(top);
+    	
         ScrollView sv = new ScrollView(top);
         sv.setVerticalScrollBarEnabled(true);
         LinearLayout ll = new LinearLayout(top);
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.setBackgroundColor(0x66000000);
         
-        boolean statsEmpty = false;
-        
-        final Achievements achievements = new Achievements((Androminion) top);
+        achievements = new Achievements((Androminion) top);
         ArrayList<String> players = achievements.getAllPlayers();
 
         ArrayList<String> humansFirst = new ArrayList<String>();
@@ -114,24 +111,8 @@ public class StatsDialog {
 //
 //        fv.addView(im, p);
         sv.addView(ll);
-        fv.addView(sv);
+        addView(sv);
         
-        AlertDialog.Builder builder = new AlertDialog.Builder(top)
-//            .setIcon(R.drawable.logo)
-//            .setTitle(" ")
-            .setView(fv)  
-            .setPositiveButton(android.R.string.ok, null);
-        
-        if(!statsEmpty) {
-            builder = builder.setNegativeButton(Strings.getString(top, R.string.reset), new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int i) {
-                    achievements.resetStats();
-                }
-            });
-        }
-        
-        builder.show();        
     }
 
 }

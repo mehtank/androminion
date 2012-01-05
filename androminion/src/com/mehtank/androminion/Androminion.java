@@ -31,13 +31,14 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.mehtank.androminion.ui.AboutDialog;
-import com.mehtank.androminion.ui.AchievementsDialog;
+import com.mehtank.androminion.ui.AchievementsView;
+import com.mehtank.androminion.ui.CombinedStatsDialog;
 import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
 import com.mehtank.androminion.ui.SplashView;
 import com.mehtank.androminion.ui.StartGameDialog;
-import com.mehtank.androminion.ui.StatsDialog;
+import com.mehtank.androminion.ui.WinLossView;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
 import com.vdom.comms.EventHandler;
@@ -210,13 +211,13 @@ public class Androminion extends Activity implements EventHandler {
             R.string.about_menu); 
         aboutMenu.setIcon(android.R.drawable.ic_menu_info_details);
 
-        MenuItem achievmentsMenu = menu.add(Menu.NONE, MENU_ACHIEVEMENTS, Menu.NONE,
-            R.string.achievements_menu); 
-        achievmentsMenu.setIcon(android.R.drawable.ic_menu_myplaces);
+//        MenuItem achievmentsMenu = menu.add(Menu.NONE, MENU_ACHIEVEMENTS, Menu.NONE,
+//            R.string.achievements_menu); 
+//        achievmentsMenu.setIcon(android.R.drawable.ic_menu_myplaces);
         
         MenuItem statsMenu = menu.add(Menu.NONE, MENU_STATS, Menu.NONE,
-            R.string.win_loss_menu); 
-        statsMenu.setIcon(android.R.drawable.ic_menu_view);
+            R.string.stats_menu); 
+        statsMenu.setIcon(android.R.drawable.ic_menu_myplaces);
         
         if (gameRunning) {
 //            MenuItem restartMenu = menu.add(Menu.NONE, MENU_RESTART, Menu.NONE,
@@ -252,11 +253,11 @@ public class Androminion extends Activity implements EventHandler {
 			// alert("About Androminion:", "It's awesome.");
 			new AboutDialog(this);
 			break;
-        case MENU_ACHIEVEMENTS:
-            new AchievementsDialog(this);
-            break;
+//        case MENU_ACHIEVEMENTS:
+//            new AchievementsView(this);
+//            break;
         case MENU_STATS:
-            new StatsDialog(this);
+            new CombinedStatsDialog(this);
             break;
 		case MENU_HELP:
 			 // Uri uri = Uri.parse("http://android.mehtank.com/help.html");
