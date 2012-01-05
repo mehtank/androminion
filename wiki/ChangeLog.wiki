@@ -1,4 +1,7 @@
 #labels Featured
+ * Issue 53: No indication for the Young Witch Bane
+ * Fixed minor issues with loading cards from DominionShuffle
+ * Issue 62: Replay same kingdom
  * fixed Fortune Teller skipping Curse cards
  * Issue 25: Outpost played by Golem doesn't work
  * Issue 193: Golem irregularities
