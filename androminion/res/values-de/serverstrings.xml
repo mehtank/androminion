@@ -69,7 +69,9 @@
     <string name="select_one_nontreasure_from_hand">%1$s eine Karte (nicht Geld) von der Hand</string>
     <string name="select_up_to_x_nontreasures_from_hand">%2$s bis zu %1$s Karten (nicht Geld) von der Hand</string>
     <string name="select_exactly_x_nontreasures_from_hand">%2$s exakt %1$s Karte(n) (nicht Geld) von der Hand</string>
-   
+
+	<string name="reaction_query">Wähle Reaktionskarte zum Zeigen</string>
+    
     <string name="card_to_reveal">[%1$s]: Zeige</string>
     <string name="card_to_gain">[%1$s]: Nimm</string>
     <string name="card_to_trash">[%1$s]: Entsorge</string>
