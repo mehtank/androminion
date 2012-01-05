@@ -71,6 +71,7 @@
 	<string name="select_exactly_x_nontreasures_from_hand">Pick exactly %1$s non-treasure cards from your hand to %2$s</string>
 	
 	<string name="reaction_query">Select reaction card to reveal</string>
+	<string name="bane_option_one">Reveal Bane card (%1$s)</string>
 	
 	<string name="card_to_reveal">reveal [%1$s]</string>
 	<string name="card_to_gain">gain [%1$s]</string>

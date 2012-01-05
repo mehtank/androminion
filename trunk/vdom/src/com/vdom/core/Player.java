@@ -874,5 +874,7 @@ public abstract class Player {
     }
 
 	public abstract Card getAttackReaction(MoveContext context, Card responsible);
+	
+	public abstract boolean revealBane(MoveContext context);
 
 }

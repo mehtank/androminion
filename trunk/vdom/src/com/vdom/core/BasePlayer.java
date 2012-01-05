@@ -1772,4 +1772,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card[] margrave_attack_cardsToKeep(MoveContext context) {
         return militia_attack_cardsToKeep(context);
     }    
+    
+    @Override
+    public boolean revealBane(MoveContext context) {
+    	return true;
+    }
 }

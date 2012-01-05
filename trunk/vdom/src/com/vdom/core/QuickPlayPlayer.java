@@ -731,4 +731,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return shouldAutoPlay_militia_attack_cardsToKeep(context);
     }
 
+    public boolean shouldAutoPlay_revealBane(MoveContext context) {
+    	return true;
+    }
 }
