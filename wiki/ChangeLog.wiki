@@ -1,5 +1,5 @@
 #labels Featured
- * fixed FortuneTeller skipping Curse cards
+ * fixed Fortune Teller skipping Curse cards
  * Issue 25: Outpost played by Golem doesn't work
  * Issue 193: Golem irregularities
  * Issue 48: reactions should be optional
