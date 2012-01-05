@@ -106,7 +106,7 @@
     
 	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
 	<string name="potion_single">%1$s potion</string>
-	<string name="potion_multiple">%1$s potionss</string>
+	<string name="potion_multiple">%1$s potions</string>
 	<string name="start_new_game_on_server">Start new game on server</string>
 	<string name="select_a_game_type_">Select a game type:</string>
 	<string name="select_players">Select players:</string>
@@ -137,4 +137,24 @@
 	<string name="accept">Accept</string>
 	<string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>
 	<string name="stats_menu">Statistics</string>
+	<string name="whatsnew_menu">What\'s new </string>
+	<string name="whatsnew_title">What\'s new: </string>
+	<string name="whatsnew"> <![CDATA[
+		It has been a long while in coming, but we hope this update will have been worth the wait!  There are so many changes that we can\'t list them all here, but below are some highlights:<br/><br/>
+		<b><font color="lime">* More expansions!</font></b>  Most of the cards from Alchemy, Prosperity, Cornucopia, and Hinterlands are now available.<br/>
+		<b><font color="lime">* More game options!</font></b>  Chose from various random or preset decks, with 2-4 players.<br/>
+		<b><font color="lime">* More AI options!</font></b>  Introducing new AIs Chuck, Mary, and Sarah.<br/>
+		<b><font color="lime">* More bugfixes!</font></b>  Also more bugs, probably.<br/>
+		* Same great taste!<br/>
+		<br/><font color="lime">Androminion is now open source!</font>  This update would not have been possible without the help of a number of contributors; please view the credits tab.  You too can help!  Submit bug reports, feature requests, translations, and more on <br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
+	]]>	</string>
+	<string name="contrib_menu">Credits </string>
+	<string name="contrib_title">Contributors: </string>
+	<string name="contributors">
+		Ankur Mehta
+		\nDrew
+		\nEarl
+		\nSarah
+	</string>
+
 </resources>

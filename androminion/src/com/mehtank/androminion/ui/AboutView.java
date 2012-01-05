@@ -14,15 +14,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AboutView extends FrameLayout {
+public class AboutView extends LinearLayout {
 	public AboutView(Context top) {
 		super(top);
+
+		setOrientation(VERTICAL);
+		
+		ImageView im = new ImageView (top);
+		im.setImageResource(R.drawable.logo);
+		addView(im);
+
+		FrameLayout fv = new FrameLayout(top);
 		
 		LinearLayout ll = new LinearLayout(top);
 		ll.setOrientation(LinearLayout.VERTICAL);
-		ll.setBackgroundColor(0x66000000);
+		ll.setBackgroundColor(0x99000000);		
 		
-		ImageView im = new ImageView (top);
+		im = new ImageView(top);
         im.setImageResource(R.drawable.bigicon);
         
         TextView tv = new TextView(top);
@@ -55,8 +63,10 @@ public class AboutView extends FrameLayout {
 				FrameLayout.LayoutParams.WRAP_CONTENT,
 				Gravity.CENTER);
 
-		addView(im, p);
-        addView(ll);
+		fv.addView(im, p);
+        fv.addView(ll);
+        
+        addView(fv);
 	}
 
 }
