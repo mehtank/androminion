@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
+import com.vdom.api.CurseCard;
 import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
@@ -1410,7 +1411,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
                 
                 Card draw = null;
-                while ((draw = game.draw(player)) != null && !(draw instanceof VictoryCard)) {
+                while ((draw = game.draw(player)) != null && !(draw instanceof VictoryCard) && !(draw instanceof CurseCard)) {
                     player.reveal(draw, this, playerContext);
                     cardsToDiscard.add(draw);
                 }
