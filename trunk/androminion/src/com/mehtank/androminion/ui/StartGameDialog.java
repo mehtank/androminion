@@ -6,6 +6,7 @@ import java.util.Arrays;
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 import com.vdom.comms.Event;
+import com.vdom.comms.MyCard;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.api.GameType;
 
@@ -27,10 +28,12 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 	Androminion top;
 	AlertDialog a;
 	String[] cardsPassOnStartup;
+	String[] lastCards;
 	int port;
 	ArrayList<Spinner> values = new ArrayList<Spinner>();
 	SharedPreferences prefs;
 	public static final String CARDS_PASSED = "<Specified cards>";
+	public static final String CARDS_LAST = "<Last played>";
 	
 	private Spinner slist(Context top, String[] strs) {
 	    Spinner s = new Spinner(top);
@@ -54,6 +57,16 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 		showDialog(top, e, multiplayer);
 	}
 	
+	private void getLastCards() {
+		int count = prefs.getInt("LastCardCount", 0);
+		
+		if (count > 0) {
+			lastCards = new String[count];
+			for (int i = 0; i < count; i++) 
+				lastCards[i] = prefs.getString("LastCard" + i, null);
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public void showDialog(Androminion top, Event e, boolean multiplayer) {
 	    if(e == null || e.o == null)
@@ -65,6 +78,7 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 		this.top = top;
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
+		getLastCards();
 		
 		vg = new LinearLayout(top);
 		vg.setOrientation(LinearLayout.VERTICAL);
@@ -73,15 +87,19 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 		String[] gameTypes;
 		String[] playerTypes = new String[strs.length - e.i];
 
+		int numGameTypes = e.i;
+		if (cardsPassOnStartup != null)
+			numGameTypes++;
+		if (lastCards != null)
+			numGameTypes++;
+		
+        gameTypes = new String[numGameTypes];
+		
 		int i = 0;
-        if(cardsPassOnStartup == null) {
-            gameTypes = new String[e.i];
-        }
-        else {
-            gameTypes = new String[e.i + 1];
-            gameTypes[0] = CARDS_PASSED;
-            i++;
-        }
+        if(cardsPassOnStartup != null)
+            gameTypes[i++] = CARDS_PASSED;        
+        if(lastCards != null)
+            gameTypes[i++] = CARDS_LAST;
         
         int at = 0;
 		for (; at < e.i; at++)
@@ -161,17 +179,20 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 		if (whichButton == DialogInterface.BUTTON_POSITIVE) {
 			SharedPreferences.Editor edit = prefs.edit();
 
-			boolean cardsPassedGameType = false;
+			String[] cardsSpecified = null;
 			
 			int i = 0;
 			for (Spinner s : values) {
 				String str = (String) s.getSelectedItem();
 				if(str.equals(CARDS_PASSED)) {
 				    i++;
-				    cardsPassedGameType = true;
+				    cardsSpecified = cardsPassOnStartup;
 				    strs.add("Random");
-				}
-				else {
+				} else if (str.equals(CARDS_LAST)) {
+				    i++;
+				    cardsSpecified = lastCards;
+				    strs.add("Random");					
+				} else {
     				edit.putString("gamePref" + (i++), str);
     				if (!str.equals(R.string.none_game_start))  {
 //					    Check if option is a GameType
@@ -195,11 +216,11 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
                 strs.add("-quickplay");
             }
             
-            if(cardsPassOnStartup != null && cardsPassedGameType) {
+            if(cardsSpecified != null) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("-cards=");
                 boolean first = true;
-                for(String card : cardsPassOnStartup) {
+                for(String card : cardsSpecified) {
                     if(first)
                         first = false;
                     else

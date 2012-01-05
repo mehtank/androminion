@@ -129,7 +129,10 @@ public class CardView extends FrameLayout {
 			nomore.getBackground().setAlpha(156);
 			addView(nomore);
 
-	    	setBackgroundResource(R.drawable.roundborder);
+			if (c.isBane)
+				setBackgroundResource(R.drawable.baneborder);
+			else
+				setBackgroundResource(R.drawable.roundborder);
 
 	    	setOnLongClickListener( new OnLongClickListener (){
 				@Override

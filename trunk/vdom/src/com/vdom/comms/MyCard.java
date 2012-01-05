@@ -26,6 +26,7 @@ public class MyCard implements Serializable {
 	public boolean isDuration = false;
 	public boolean isPrize = false;
 	public boolean isPotion = false;
+	public boolean isBane = false;
 	
 	public static final int SUPPLYPILE = 1;
 	public static final int MONEYPILE = 2;

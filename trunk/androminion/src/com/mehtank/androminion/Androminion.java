@@ -31,20 +31,20 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.mehtank.androminion.ui.AboutDialog;
-import com.mehtank.androminion.ui.AchievementsView;
 import com.mehtank.androminion.ui.CombinedStatsDialog;
 import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
 import com.mehtank.androminion.ui.SplashView;
 import com.mehtank.androminion.ui.StartGameDialog;
-import com.mehtank.androminion.ui.WinLossView;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
 import com.vdom.comms.EventHandler;
 import com.vdom.comms.GameStatus;
+import com.vdom.comms.MyCard;
 import com.vdom.comms.NewGame;
 import com.vdom.comms.Event.EType;
+import com.vdom.core.Game;
 
 public class Androminion extends Activity implements EventHandler {
 	protected static final int MENU_LOCAL_START = 31;
@@ -425,6 +425,7 @@ public class Androminion extends Activity implements EventHandler {
 				topView.addView(splash, p);
 				splash();
 				
+				saveLastCards(ng.cards);
 				gt.newGame(ng.cards, ng.players);
 				gameRunning = true;
 				
@@ -528,6 +529,19 @@ public class Androminion extends Activity implements EventHandler {
 			gt.setStatus(gs, e.s, e.b);
 		}
 	};
+	
+	private void saveLastCards(MyCard[] cards) {
+		SharedPreferences prefs;
+		prefs = PreferenceManager.getDefaultSharedPreferences(top);
+		SharedPreferences.Editor edit = prefs.edit();
+		edit.putInt("LastCardCount", cards.length);
+		
+		int i=0;
+		for (MyCard c : cards)
+			edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + c.originalName);
+			
+		edit.commit();
+	}
 
 	private void disconnect() {
 		if (comm != null)
