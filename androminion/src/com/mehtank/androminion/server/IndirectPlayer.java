@@ -1777,4 +1777,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	}
     	return null;
     }
+    
+    @Override
+    public boolean revealBane(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_revealBane(context)) {
+            return super.revealBane(context);
+        }
+    	return selectBoolean(context, Cards.youngWitch, Strings.format(R.string.bane_option_one, game.baneCard.getName()), getString(R.string.pass));
+    }
 }

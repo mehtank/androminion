@@ -2718,7 +2718,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !isDefendedFromAttack(game, targetPlayer, this)) {
-                if (targetPlayer.hand.contains(game.baneCard)) {
+                if (targetPlayer.hand.contains(game.baneCard) && targetPlayer.revealBane(context)) {
                     Card bane = null;
                     for (Card card : targetPlayer.hand) {
                         if (card.equals(game.baneCard)) {
