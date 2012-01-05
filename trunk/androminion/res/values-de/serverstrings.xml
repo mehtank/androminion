@@ -71,6 +71,7 @@
     <string name="select_exactly_x_nontreasures_from_hand">%2$s exakt %1$s Karte(n) (nicht Geld) von der Hand</string>
 
 	<string name="reaction_query">Wähle Reaktionskarte zum Zeigen</string>
+	<string name="bane_option_one">Zeige Verderbniskarte (%1$s)</string>
     
     <string name="card_to_reveal">[%1$s]: Zeige</string>
     <string name="card_to_gain">[%1$s]: Nimm</string>
