@@ -96,15 +96,16 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 		return hasJoined;
 	}
 	
-	public static MyCard makeMyCard(Card c, int index){
+	public static MyCard makeMyCard(Card c, int index, boolean isBane){
 //    	MyCard card = new MyCard(index, c.getName());
 	    
-        MyCard card = new MyCard(index, Strings.getCardName(c), c.getName());
+        MyCard card = new MyCard(index, Strings.getCardName(c), c.getSafeName());
     	card.desc = Strings.getCardDescription(c);
     	card.expansion = Strings.getCardExpansion(c);
     	card.cost = c.getCost(null);
     	card.costPotion = c.costPotion();
-
+    	card.isBane = isBane;
+    	
     	card.pile = MyCard.SUPPLYPILE;
         
         if ((c.equals(Cards.bagOfGold)) ||
@@ -218,7 +219,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 		int index = 0;
 
     	for (Card c : context.getCardsInPlay()) {
-    		MyCard mc = makeMyCard(c, index);
+    		MyCard mc = makeMyCard(c, index, c.getSafeName().equals(context.game.baneCard.getSafeName()));
     		myCardsInPlay.add(mc);
 
     		cardNamesInPlay.put(c.getName(), index);

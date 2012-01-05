@@ -57,6 +57,8 @@ public class Game {
 
     public static boolean alwaysIncludePlatColony = false; 
     public static boolean platColonyPassedIn = false; 
+    public static boolean platColonyNotPassedIn = false;
+    
     public static boolean quickPlay = false;
     
     public static boolean debug = false;
@@ -1297,7 +1299,7 @@ public class Game {
 
             context = new MoveContext(this, players[i]);
             String s = "";
-            if (!alwaysIncludePlatColony && !platColonyPassedIn) {
+            if (!alwaysIncludePlatColony && !platColonyPassedIn && !platColonyNotPassedIn) {
                 s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (platInPlay ? "included" : "not included" + "\n");
             }
             if (baneCard != null) {
@@ -1366,13 +1368,24 @@ public class Game {
         int added = 0;
 
         if(cardsSpecifiedAtLaunch != null) {
-            for(String s : cardsSpecifiedAtLaunch) {
+        	platColonyNotPassedIn = true;
+            for(String cardName : cardsSpecifiedAtLaunch) {
                 Card card = null;
                 boolean bane = false;
-                if(s.startsWith(BANE)) {
+
+            	if(cardName.startsWith(BANE)) {
                     bane = true;
-                    s = s.substring(BANE.length());
+                    cardName = cardName.substring(BANE.length());
+                }            	
+            	
+                StringBuilder sb = new StringBuilder();
+                for(char c : cardName.toCharArray()) {
+                    if(Character.isLetterOrDigit(c)) {
+                        sb.append(c);
+                    }
                 }
+                String s = sb.toString();
+                
                 for (Card c : Cards.actionCards) {
                     if(c.getSafeName().equalsIgnoreCase(s)) {
                         card = c;
@@ -1389,14 +1402,27 @@ public class Game {
                     ) {
                     addPile(card);
                     added += 1;
-                }
-                else {
+                } else if ( s.equalsIgnoreCase(Cards.curse.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.estate.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.duchy.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.province.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.copper.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.silver.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.potion.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.gold.getSafeName()) ) {
+                	// do nothing
+                } else if ( s.equalsIgnoreCase(Cards.platinum.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.colony.getSafeName()) ) {
+                    platColonyPassedIn = true;
+                } else {
                     unfoundCards.add(s);
                     Util.log("ERROR::Could not find card:" + s);
                 }
             }
             
             for(String s : unfoundCards) {
+            	if (added >= 10) 
+            		break;
                 Card c = null;
                 int replacementCost = -1;
                 if(s.equalsIgnoreCase("blackmarket")) {
@@ -2156,9 +2182,12 @@ public class Game {
         }
 
         chanceForPlatColony = 0;
-        if (alwaysIncludePlatColony) {
+        if (alwaysIncludePlatColony || platColonyPassedIn) {
             platInPlay = true;
             colonyInPlay = true;
+        } else if (platColonyNotPassedIn) {
+            platInPlay = false;
+            colonyInPlay = false;
         } else {
             platInPlay = false;
             colonyInPlay = false;
@@ -2175,27 +2204,8 @@ public class Game {
             }
         }
 
-        for (String s : unfoundCards) {
-            if (s.equalsIgnoreCase("platinum")) {
-                platInPlay = true;
-                platColonyPassedIn = true;
-            } else if (s.equalsIgnoreCase("colony")) {
-                colonyInPlay = true;
-                platColonyPassedIn = true;
-            }
-        }
-
-        // MoveContext context = new MoveContext(this, null);
-        // context.message = "" + ((int) chance * 100) + "% - " +
-        // (platInPlay?"Yes":"No");
-        // broadcastEvent(new GameEvent(GameEvent.Type.PlatAndColonyChance,
-        // context));
-
-        MoveContext context = null;
-
-        if (platInPlay) {
+        if (platInPlay)
             addPile(Cards.platinum, 12);
-        }
         if (colonyInPlay)
             addPile(Cards.colony);
 
