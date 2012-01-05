@@ -219,7 +219,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 		int index = 0;
 
     	for (Card c : context.getCardsInPlay()) {
-    		MyCard mc = makeMyCard(c, index, c.getSafeName().equals(context.game.baneCard.getSafeName()));
+    		
+    		MyCard mc;
+    		if (context.game.baneCard == null) {
+    			mc = makeMyCard(c, index, false);
+    		} else {
+    			mc = makeMyCard(c, index, c.getSafeName().equals(context.game.baneCard.getSafeName()));
+    		}
     		myCardsInPlay.add(mc);
 
     		cardNamesInPlay.put(c.getName(), index);
