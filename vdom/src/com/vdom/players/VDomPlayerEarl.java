@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
+import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
@@ -67,6 +68,10 @@ public class VDomPlayerEarl extends BasePlayer
          VictoryCard victoryCard = (VictoryCard)card;
          for (Card thisCard : HAND)
            this.historyItems.add(new HistoryItem(this.turnCount, thisCard, victoryCard.getVictoryPoints(), HistoryItem.Action.VICTORY_HELPER));
+       } else if (card instanceof CurseCard) {
+           CurseCard curseCard = (CurseCard)card;
+           for (Card thisCard : HAND)
+             this.historyItems.add(new HistoryItem(this.turnCount, thisCard, curseCard.getVictoryPoints(), HistoryItem.Action.VICTORY_HELPER));    	   
        }
      }
      else if (event.getType() == GameEvent.Type.PlayingAction) {
@@ -95,6 +100,8 @@ public class VDomPlayerEarl extends BasePlayer
        }
        if (card instanceof VictoryCard)
          stat.put(id, Integer.valueOf(count.intValue() + ((VictoryCard)card).getVictoryPoints()));
+       else if (card instanceof CurseCard)
+           stat.put(id, Integer.valueOf(count.intValue() + ((CurseCard)card).getVictoryPoints()));
        else {
          stat.put(id, count = Integer.valueOf(count.intValue() + 1));
        }
@@ -116,6 +123,8 @@ public class VDomPlayerEarl extends BasePlayer
        }
        if (card instanceof VictoryCard)
          stat.put(id, Integer.valueOf(count.intValue() + ((VictoryCard)card).getVictoryPoints()));
+       else if (card instanceof CurseCard)
+           stat.put(id, Integer.valueOf(count.intValue() + ((CurseCard)card).getVictoryPoints()));    	   
        else {
          stat.put(id, count = Integer.valueOf(count.intValue() + 1));
        }
@@ -774,7 +783,7 @@ public class VDomPlayerEarl extends BasePlayer
    public Card[] militia_attack_cardsToKeep(MoveContext context) {
      ArrayList<Card> cards = new ArrayList<Card>();
      for (Card card : getHand()) {
-       if (!(card instanceof VictoryCard)) {
+       if (!(card instanceof VictoryCard) && !(card instanceof CurseCard)) {
          cards.add(card);
        }
      }
@@ -850,7 +859,7 @@ public class VDomPlayerEarl extends BasePlayer
  
      Card[] hand = getHand().toArray();
      for (Card card : hand) {
-       if (card instanceof VictoryCard) {
+       if (card instanceof VictoryCard || card instanceof CurseCard) {
          cards.add(card);
        }
      }
@@ -864,7 +873,7 @@ public class VDomPlayerEarl extends BasePlayer
  
    public boolean spy_shouldDiscard(MoveContext context, Card card)
    {
-     return ((!(card instanceof VictoryCard)) && (!(card.equals(Cards.copper))));
+     return ((!(card instanceof VictoryCard)) && (!(card.equals(Cards.copper)) && !(card instanceof CurseCard)));
    }
  
    public Card courtyard_cardToPutBackOnDeck(MoveContext context)
@@ -899,7 +908,7 @@ public class VDomPlayerEarl extends BasePlayer
      }
  
      for (Card card : getHand()) {
-       if (card instanceof VictoryCard) {
+       if (card instanceof VictoryCard || card instanceof CurseCard) {
          cards.add(card);
        }
        if (cards.size() == 2) {
@@ -984,7 +993,7 @@ public Card masquerade_cardToPass(MoveContext context)
    {
      ArrayList<Card> cards = new ArrayList<Card>();
      for (Card card : getHand()) {
-       if (card instanceof VictoryCard) {
+       if (card instanceof VictoryCard || card instanceof CurseCard) {
          cards.add(card);
        }
      }
