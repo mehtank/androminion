@@ -162,5 +162,14 @@ Joerg V. und Sascha H. </string>
 	]]>	</string>
 	<string name="contrib_menu">Credits </string>
 	<string name="contrib_title">Mitwirkende: </string>
+	<string name="logging_pref_title">Spielaufzeichnung</string>
+	<string name="logging_enable_pref_title">Aktiviere Spielaufzeichnung</string>
+	<string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
+	<string name="logging_dir_pref_title">Aufzeichnungsordner</string>
+	<string name="logging_dir_pref_summary">Ordnern zum speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
+	<string name="game_type_random">Zufällig</string>
+	<string name="game_type_preset">Vorgefertigte</string>
+	<string name="game_type_last">Zuletzt gespielt</string>
+	<string name="game_type_specified">Ausgewählte Karten</string>
 </resources>
 
