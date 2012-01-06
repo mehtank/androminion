@@ -160,7 +160,7 @@ public class CardImpl implements Card {
         StringBuilder sb = new StringBuilder();
 		    sb.append ("(" + cost + (costPotion ? "p)" : ") "));
         if (vp > 0) {
-            sb.append(", " + vp + " victory points");
+            sb.append(", " + vp + " victory point");
             if (vp > 1) {
                 sb.append("s");
             }
