@@ -328,6 +328,7 @@ public class Game {
         context.gold = context.addGold;
         context.addGold = 0;
         context.potions = 0;
+        context.buyPhase = true;
 
         boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
         ArrayList<TreasureCard> treasures = null;
@@ -509,6 +510,7 @@ public class Game {
         // /////////////////////////////////
         // Reset context for status update
         // /////////////////////////////////
+        context.actionsPlayedSoFar = 0;
         context.actions = 1;
         context.buys = 1;
         context.addGold = 0;
@@ -575,7 +577,7 @@ public class Game {
                 }
             }
         } while (context.buys > 0 && buy != null);
-
+        context.buyPhase = false;
     }
 
     protected void turnBegin(Player player, MoveContext context) {
@@ -588,6 +590,7 @@ public class Game {
                     event.card = thisCard;
                     broadcastEvent(event);
 
+                    context.actionsPlayedSoFar++;
                     context.actions += thisCard.getAddActionsNextTurn();
                     context.addGold += thisCard.getAddGoldNextTurn();
                     context.buys += thisCard.getAddBuysNextTurn();
@@ -991,21 +994,8 @@ public class Game {
             return false;
         }
 
-        int cost = card.getCost(context);
+        int cost = card.getCost(context, true);
         
-        // Adjust cost based on any cards played or card being bought
-        if (context.quarriesPlayed > 0 && card instanceof ActionCard) {
-            cost -= (context.quarriesPlayed * 2);
-        } 
-        if (card.equals(Cards.peddler)) {
-            for(Card c : context.getPlayedCards()) {
-                if(c instanceof ActionCard) {
-                    cost -= 2;
-                }
-            }
-        } 
-
-        cost = (cost < 0 ? 0 : cost);
         int potions = 0;
         for (Card thisCard : context.getPlayedCards()) {
             if (thisCard instanceof TreasureCard && ((TreasureCard) thisCard).providePotion()) {
@@ -1030,22 +1020,10 @@ public class Game {
 	        event.newCard = true;
 	        broadcastEvent(event);
 	
+            // cost adjusted based on any cards played or card being bought
 	        int cost = card.getCost(context);
-	        
-	        // Adjust cost based on any cards played or card being bought
-	        if (context.quarriesPlayed > 0 && card instanceof ActionCard) {
-	            cost -= (context.quarriesPlayed * 2);
-	        } 
-	        if (card.equals(Cards.peddler)) {
-	            for(Card c : ((MoveContext) context).getPlayedCards()) {
-	                if(c instanceof ActionCard) {
-	                    cost -= 2;
-	                }
-	            }
-	        } 
-	        
-	        cost = (cost < 0 ? 0 : cost);
-	        context.gold -= cost;
+
+            context.gold -= card.getCost(context);
 	        
 	        if (card.costPotion()) {
 	            context.potions--;

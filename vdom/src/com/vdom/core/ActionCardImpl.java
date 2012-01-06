@@ -3570,4 +3570,5 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
         }
     }
+
 }

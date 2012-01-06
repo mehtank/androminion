@@ -373,7 +373,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         
 		for (Card card : cards) {
-        	if ((!isBuy && card.getCost(context) <= maxCost) || 
+            if ((!isBuy && card.getCost(context, false) <= maxCost) ||
         		(isBuy && context.canBuy(card, maxCost))) {
         		if (card.getCost(context) >= minCost) {
         		    if(victoryAllowed || !(card instanceof VictoryCard)) {
