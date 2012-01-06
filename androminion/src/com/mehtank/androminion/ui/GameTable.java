@@ -661,7 +661,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
         // im.setScaleType(ImageView.ScaleType.FIT_CENTER);
         // v = im;
         // } else {
-			str = "/sdcard/Dominion/images/full/" + filename + ".jpg";
+			str = Androminion.BASEDIR + "/images/full/" + filename + ".jpg";
 			File f = new File(str);
 			if (f.exists()) {
 				Uri u = Uri.parse(str);

@@ -36,6 +36,7 @@ public class Game {
     
     public static String[] cardsSpecifiedAtLaunch;
     public static ArrayList<String> unfoundCards = new ArrayList<String>();
+    String cardListText = "";
     String unfoundCardText = "";
 
     
@@ -1298,7 +1299,7 @@ public class Game {
             players[i].initCards();
 
             context = new MoveContext(this, players[i]);
-            String s = "";
+            String s = cardListText + "\n---------------\n\n";
             if (!alwaysIncludePlatColony && !platColonyPassedIn && !platColonyNotPassedIn) {
                 s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (platInPlay ? "included" : "not included" + "\n");
             }
@@ -2277,8 +2278,9 @@ public class Game {
             debug = true;
         }
         Util.debug("");
-        Util.debug("Actions in Play", true);
+        Util.debug("Cards in Play", true);
         Util.debug("---------------", true);
+        cardListText += "Cards in play\n---------------\n";
         // Util.debug(Cards.copper.getName());
         // Util.debug(Cards.silver.getName());
         // Util.debug(Cards.gold.getName());
@@ -2295,6 +2297,7 @@ public class Game {
                 if (!Cards.nonKingdomCards.contains(pile.card)) {
                     if (pile.card.getCost(null) == cost) {
                         Util.debug(Util.getShortText(pile.card), true);
+                        cardListText += Util.getShortText(pile.card) + "\n";
                     }
                 }
             }

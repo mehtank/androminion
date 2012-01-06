@@ -376,6 +376,7 @@ public class Androminion extends Activity implements EventHandler {
 	}
 
 	static final int MESSAGE_EVENT = 0;
+	public static final String BASEDIR = "/sdcard/Androminion";
 
 	@Override
 	public void debug(String s) {

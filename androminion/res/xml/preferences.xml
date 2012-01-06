@@ -56,4 +56,7 @@
 
 
 	</PreferenceCategory>
-</PreferenceScreen>
+	<PreferenceCategory android:title="@string/logging_pref_title">
+		<CheckBoxPreference android:title="@string/logging_enable_pref_title" android:summary="@string/logging_enable_pref_summary" android:defaultValue="false" android:key="enable_logging"></CheckBoxPreference>
+		<EditTextPreference android:dialogMessage="@string/logging_dir_pref_summary" android:dialogTitle="@string/logging_dir_pref_title" android:key="logdir" android:title="@string/logging_dir_pref_title" android:defaultValue="/logs"></EditTextPreference>
+	</PreferenceCategory></PreferenceScreen>
