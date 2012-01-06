@@ -141,9 +141,17 @@ public class CardImpl implements Card {
     }
 
     public int getCost(MoveContext context) {
-        if(context == null)
+        if (context == null)
             return cost;
-        return Math.max(0, cost + context.cardCostModifier);
+        return getCost(context, context.buyPhase);
+    }
+
+    public int getCost(MoveContext context, boolean buyPhase) {
+        int costModifier = 0;
+        costModifier -= (this instanceof ActionCardImpl) ? (2 * context.quarriesPlayed) : 0;
+        costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.actionsPlayedSoFar) : 0;
+
+        return Math.max(0, cost + costModifier + context.cardCostModifier);
     }
 
     /**
