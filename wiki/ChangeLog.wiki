@@ -1,4 +1,5 @@
 #labels Featured
+ * Issue 41: Export game log
  * Issue 134: Peddler does not count duration cards from previous turns
  * Issue 53: No indication for the Young Witch Bane
  * Fixed minor issues with loading cards from DominionShuffle
