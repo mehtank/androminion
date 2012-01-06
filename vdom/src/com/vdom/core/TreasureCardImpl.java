@@ -171,6 +171,9 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             for (Card cardInPlay : context.playedCards) {
                 distinctCardsInPlay.add(cardInPlay.getName());
             }
+            for (Card cardInPlay : player.nextTurnCards) {
+                distinctCardsInPlay.add(cardInPlay.getName());
+            }
 
             int maxCost = distinctCardsInPlay.size();
             Card toObtain = player.hornOfPlenty_cardToObtain(context, maxCost);
