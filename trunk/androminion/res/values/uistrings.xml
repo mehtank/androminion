@@ -164,5 +164,8 @@
 	<string name="logging_dir_pref_title">Log directory</string>
 	<string name="logging_dir_pref_summary">Directory to store game logs (will be created if necessary)</string>
 	<string name="log_turn_separator">~~~\n</string>
-
+	<string name="game_type_random">Random</string>
+	<string name="game_type_preset">Preset</string>
+	<string name="game_type_last">Last played</string>
+	<string name="game_type_specified">Specified cards</string>
 </resources>
