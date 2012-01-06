@@ -1410,7 +1410,12 @@ public class Game {
                 			s.equalsIgnoreCase(Cards.copper.getSafeName()) ||
                 			s.equalsIgnoreCase(Cards.silver.getSafeName()) ||
                 			s.equalsIgnoreCase(Cards.potion.getSafeName()) ||
-                			s.equalsIgnoreCase(Cards.gold.getSafeName()) ) {
+                			s.equalsIgnoreCase(Cards.gold.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.diadem.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.followers.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.princess.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.trustySteed.getSafeName()) ||
+                			s.equalsIgnoreCase(Cards.bagOfGold.getSafeName()) ) {
                 	// do nothing
                 } else if ( s.equalsIgnoreCase(Cards.platinum.getSafeName()) ||
                 			s.equalsIgnoreCase(Cards.colony.getSafeName()) ) {
