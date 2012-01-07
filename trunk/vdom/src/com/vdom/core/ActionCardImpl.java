@@ -2252,8 +2252,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (!this.trashed) {
             if (currentPlayer.miningVillage_shouldTrashMiningVillage(context)) {
                 context.addGold += 2;
-                context.playedCards.remove(this);
                 currentPlayer.trash(this, null, context);
+                context.playedCards.remove(context.playedCards.lastIndexOf(this));
             }
         }
     }
