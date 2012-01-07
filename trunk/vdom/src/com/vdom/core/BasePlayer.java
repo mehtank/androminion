@@ -86,10 +86,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion) {
-        return bestCardInPlay(context, maxCost, exactCost, potion, false);
+        return bestCardInPlay(context, maxCost, exactCost, potion, false, true);
     }
     
-    protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion, boolean actionOnly) {
+    protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
             maxCost = COST_MAX;
@@ -121,15 +121,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                         continue;
                     }
                     
-                    if (!isBuy || context.canBuy(card)) {
-                        if(highestCost == 0) {
-                            highestCost = card.getCost(context);
-                        }
-                        
-                        if((card.costPotion() && potion) || (!card.costPotion() && !potion) || (!exactCost && potion)) {
-                        	if (!actionOnly || actionOnly && card instanceof ActionCard) {
-                        		randList.add(card);
-                        	}
+                    if ((card.costPotion() && potion) || (!card.costPotion() && !potion) || (!exactCost && potion)) {
+                        if (!actionOnly || card instanceof ActionCard) {
+                            if (victoryCardAllowed || !(card instanceof VictoryCard)) {
+                                if (!isBuy || context.canBuy(card)) {
+                                    if (highestCost == 0) {
+                                        highestCost = card.getCost(context);
+                                    }
+                                }
+                                randList.add(card);
+                            }
                         }
                     }
                 }
@@ -954,7 +955,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public ActionCard university_actionCardToObtain(MoveContext context) {
         //TODO: better logic
-        return (ActionCard) bestCardInPlay(context, 5, false, false, true);
+        return (ActionCard) bestCardInPlay(context, 5, false, false, true, false);
     }
 
     @Override
@@ -1696,7 +1697,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card haggler_cardToObtain(MoveContext context, int maxCost, boolean potion) {
-        return bestCardInPlay(context, maxCost, false, potion);
+        return bestCardInPlay(context, maxCost, false, potion, false, false);
     }
     
     @Override
