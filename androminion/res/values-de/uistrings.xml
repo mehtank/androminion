@@ -171,5 +171,6 @@ Joerg V. und Sascha H. </string>
 	<string name="game_type_preset">Vorgefertigte</string>
 	<string name="game_type_last">Zuletzt gespielt</string>
 	<string name="game_type_specified">Ausgewählte Karten</string>
+	<string name="tournament_reveal">Provinz aufdecken</string>
 </resources>
 
