@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- Interaction -->
+	<string name="pass">パス</string>
+	<string name="card_revealed">%1$s は %2$s を公開した</string>
+	<string name="select_treasure">%2$s のためにテーブルから最大 (%1$s) コストの財宝カードを選択</string>
+	<string name="pawn_option_one">手先 (選択 2回のうち1回目):</string>
+	<string name="pawn_option_two">手先 (選択 2回のうち2回目):</string>
+	<string name="torturer_option_one">呪いを獲得</string>
+	<string name="torturer_option_two">2枚捨てる</string>
+	<string name="chancellor_query">山札を全て捨てる</string>
+	<string name="inn_option_one">山札に入れてシャッフル</string>
+	<string name="inn_option_two">捨て札のままにする</string>
+	<string name="tunnel_query">坑道を捨てる</string>
+	<string name="tunnel_option_one">金貨のために公開する</string>
+	
+	<string name="join_timed_out">Timed out waiting for player to join and start game.</string>
+	<string name="response_timed_out">Timed out waiting for player to join and respond to query.</string>
+	
+	<string name="vp_single">%1$s 勝利点</string>
+	<string name="vp_multiple">%1$s 勝利点</string>
+	<string name="coin_next_turn">次のターンに +(%1$s) コイン</string>
+	<string name="buy_next_turn_single">次のターンに +%1$s 購入</string>
+	<string name="buys_next_turn_multiple">次のターンに +%1$s 購入</string>
+	<string name="card_next_turn_single">次のターンに +%1$s カードを引く</string>
+	<string name="cards_next_turn_multiple">次のターンに +%1$s カードを引く</string>
+	<string name="action_next_turn_single">次のターンに +%1$s アクション</string>
+	<string name="actions_next_turn_multiple">次のターンに +%1$s アクション</string>
+	<string name="card_coin">+(%1$s) コイン</string>
+	<string name="card_buy_single">+%1$s 購入</string>
+	<string name="card_buys_multiple">+%1$s 購入</string>
+	<string name="card_action_single">+%1$s アクション</string>
+	<string name="card_actions_multiple">+%1$s アクション</string>
+	<string name="card_card_single">+%1$s カードを引く</string>
+	<string name="card_cards_multiple">+%1$s カードを引く</string>
+	<string name="card_victory_token_single">+%1$s 勝利点トークン</string>
+	<string name="card_victory_tokens_multiple">+%1$s 勝利点トークン</string>
+	
+	<string name="card_options_header">%1$s 選択</string>
+	<string name="part_play">プレイ</string>
+	<string name="part_buy">購入</string>
+	
+	<string name="select_from_table">%1$s のためにテーブルからカードを選択</string>
+	<string name="select_from_table_exact_quarries">%3$s のためにテーブルからちょうど (%1$s, アクションカードなら %2$s) コストのカードを選択</string>
+	<string name="select_from_table_exact">%2$s のためにテーブルからちょうど (%1$s) コストのカードを選択</string>
+	<string name="select_from_table_max_quarries">%3$s のためにテーブルから最大 (%1$s, アクションカードなら %2$s) コストのカードを選択</string>
+	<string name="select_from_table_max">%2$s のためにテーブルから最大 (%1$s) コストのカードを選択</string>
+	<string name="select_from_table_between_quarries">%4$s のためにテーブルから (%1$s) から (%2$s, アクションカードなら %3$s) コストのカードを選択</string>
+	<string name="select_from_table_between">%3$s のためにテーブルから (%1$s) から (%2$s) コストのカードを選択</string>
+	<string name="select_from_table_min">%2$s のためにテーブルから最小 (%1$s) コストのカードを選択</string>
+	
+	<string name="select_one_card_from_hand">%1$s のために手札からカードを選択</string>
+	<string name="select_up_to_x_cards_from_hand">%2$s のために手札から %1$s 枚までのカードを選択</string>
+	<string name="select_exactly_x_cards_from_hand">%2$s のために手札からちょうど %1$s 枚カードを選択</string>
+	
+	<string name="select_one_action_from_hand">%1$s のために手札からアクションカードを選択</string>
+	<string name="select_up_to_x_actions_from_hand">%2$s のために手札から %1$s 枚までのアクションカードを選択</string>
+	<string name="select_exactly_x_actions_from_hand">%2$s のために手札からちょうど %1$s 枚アクションカードを選択</string>
+	
+	<string name="select_one_treasure_from_hand">%1$s のために手札から財宝カードを選択</string>
+	<string name="select_up_to_x_treasures_from_hand">%2$s のために手札から %1$s 枚までの財宝カードを選択</string>
+	<string name="select_exactly_x_treasures_from_hand">%2$s のために手札からちょうど %1$s 枚財宝カードを選択</string>
+	
+	<string name="select_one_victory_from_hand">%1$s のために手札から勝利点カードを選択</string>
+	<string name="select_up_to_x_victorys_from_hand">%2$s のために手札から %1$s 枚までの勝利点カードを選択</string>
+	<string name="select_exactly_x_victorys_from_hand">%2$s のために手札からちょうど %1$s 枚勝利点カードを選択</string>
+
+	<string name="select_one_nontreasure_from_hand">%1$s のために手札から非財宝カードを選択</string>
+	<string name="select_up_to_x_nontreasures_from_hand">%2$s のために手札から %1$s 枚までの非財宝カードを選択</string>
+	<string name="select_exactly_x_nontreasures_from_hand">%2$s のために手札からちょうど %1$s 枚非財宝カードを選択</string>
+	
+	<string name="reaction_query">公開するリアクションカードを選択</string>
+	<string name="bane_option_one">災いカード (%1$s) を公開する</string>
+ 
+	<string name="card_to_reveal">公開 [%1$s]</string>
+	<string name="card_to_gain">獲得 [%1$s]</string>
+	<string name="card_to_trash">廃棄 [%1$s]</string>
+	<string name="card_to_discard">捨て札 [%1$s]</string>
+	<string name="discard">捨て札</string>
+	<string name="trash">廃棄</string>
+	<string name="keep">キープ</string>
+	<string name="none">もういい</string>
+	<string name="card_revealed_from_player">%1$s より\n%2$s が %3$s を公開した</string>
+	<string name="GameStarting"></string>
+	<string name="GameOver">ゲームオーバー</string>
+	<string name="Embargo">抑留</string>
+	<string name="Status">ステータス</string>
+	<string name="CantBuy">%1$s を購入できない</string>
+	<string name="VictoryPoints">勝利点</string>
+	<string name="NewHand">新しい手札</string>
+	<string name="TurnBegin">ターン開始</string>
+	<string name="TurnEnd">ターン終了</string>
+	<string name="PlayingAction">プレイ中</string>
+	<string name="PlayedAction">プレイ完了</string>
+	<string name="PlayingDurationAction">持続プレイ中</string>
+	<string name="PlayingCoin">プレイ中</string>
+	<string name="BuyingCard">購入中</string>
+	<string name="NoBuy">(購入しない)</string>
+	<string name="DeckReplenished">山札が補充された</string>
+	<string name="PlayerAttacking">アタック中</string>
+	<string name="PlayerDefended">防御した</string>
+	<string name="CardOnTopOfDeck">カードを山札の上に置く</string>
+	<string name="CardObtained">獲得</string>
+	<string name="CardTrashed">廃棄</string>
+	<string name="CardRevealed">公開</string>
+	<string name="CardDiscarded">捨て札</string>
+	<string name="CardAddedToHand">カードが手札に加えられた</string>
+	<string name="CardRemovedFromHand">カードが手札から取り除かれた</string>
+
+	<string name="use_for_money">金の使用</string>
+	
+	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
+	<string name="game_over_status">ゲームオーバー -- </string>
+	<string name="game_length_status">ゲーム時間: </string>
+	<string name="end_turn">ターン終了</string>
+	<string name="replace">置換</string>
+	
+	<string name="secretchamber_part">山札に戻す [秘密の部屋]</string>
+	
+	<string name="ghostship_part">山札に戻す [幽霊船]</string>
+	
+	<string name="ambassador_query">サプライに戻す %1$s の数 [大使]:</string>
+	
+	<string name="goons_part">キープ [ならず者]</string>
+	
+	<string name="watch_tower_query">望楼 (%1$s 獲得):</string>
+	
+	<string name="followers_part">キープ [郎党]</string>
+	
+	<string name="treasure_to_trash">廃棄する財宝を選択</string>
+	
+	<string name="scheme_query">山札に戻すカードを選択</string>
+	
+	<string name="herbalist_query">山札に戻すカードを選択</string>
+	
+	<string name="thief_query">盗む財宝を選択</string>
+	
+	<string name="smuggle_query">密輸するカードを選択</string>
+	
+	<string name="courtyard_part_top_of_deck">山札の上に戻す [%1$s]</string>
+	
+	<string name="hamlet_part_discard_for_action">+1 アクションのための捨て札</string>
+	<string name="hamlet_part_discard_for_buy">+1 購入のための捨て札</string>
+	
+	<string name="vault_part_discard_for_gold">コインのための捨て札</string>
+	<string name="vault_part_discard_for_card">+1 カードのための捨て札</string>
+	
+	<string name="lookout_query_trash">廃棄するカードを選択</string>
+	<string name="lookout_query_discard">捨て札にするカードを選択</string>
+	
+	<string name="mountebank_query">香具師公開</string>
+	<string name="mountebank_option_one">呪いを捨て札にする</string>
+	<string name="mountebank_option_two">呪いと銅貨を獲得</string>
+	
+	<string name="pearldiver_option_one">山札の上に移動</string>
+	<string name="pearldiver_option_two">山札の底のままにする</string>
+	
+	<string name="alchemist_option_one">山札の上に戻す</string>
+	<string name="alchemist_option_two">捨て札</string>
+	
+	<string name="navigator_header">航海士は公開した: %1$s</string>
+	<string name="navigator_option_two">山札と交換</string>
+	
+	<string name="tournament_option_one">属州を公開しない</string>
+	<string name="tournament_option_two">褒賞を獲得</string>
+	<string name="tournament_option_three">公領を獲得</string>
+	<string name="select_prize">褒賞を選択</string>
+	
+	<string name="trusty_steed_option_one">+2 アクション</string>
+	<string name="trusty_steed_option_two">+2 カードを引く</string>
+	<string name="trusty_steed_option_three">+(2) コイン</string>
+	<string name="trusty_steed_option_four">銀貨を4枚獲得し、山札を捨て札にする</string>
+	
+	<string name="mining_village_option_one">+(2) コインのために廃棄</string>
+	
+	<string name="golem_first_action">最初のプレイするアクション</string>
+	
+	<string name="duchess_query">公領の獲得</string>
+	<string name="duchess_option_one">公爵夫人も獲得</string>
+	
+	<string name="jack_of_all_trades_option_one">山札に戻す</string>
+	
+	<string name="duchess_play_option_one">山札に戻す</string>
+	
+	<string name="noble_brigand_query">%1$s から獲得したカード [義賊]</string>
+	
+	<string name="steward_option_one">+2 カードを引く</string>
+	<string name="steward_option_two">+(2) コイン</string>
+	<string name="steward_option_three">手札からカード2枚を廃棄</string>
+
+	<string name="pawn_one">+1 カードを引く</string>
+	<string name="pawn_two">+1 アクション</string>
+	<string name="pawn_three">+1 購入</string>
+	<string name="pawn_four">+(1) コイン</string>
+	
+	<string name="nobles_option_one">+3 カードを引く</string>
+	<string name="nobles_option_two">+2 アクション</string>
+
+	<string name="minion_option_one">+(2) コイン</string>
+	<string name="minion_option_two">手札を捨てて、+4 カードを引く</string>
+
+	<string name="spice_merchant_option_one">+2 カードを引く,および +1 アクション</string>
+	<string name="spice_merchant_option_two">+(2) コイン, および +1 購入</string>
+
+	<string name="watch_tower_option_one">通常通り獲得</string>
+	<string name="watch_tower_option_three">山札の上</string>
+
+	<string name="jester_option_one">あなたがコピーを獲得</string>
+	<string name="jester_option_two">%1$s がコピーを獲得</string>
+	
+	<string name="trader_gain">%1$s を獲得</string>
+
+	<string name="fools_gold_option_one">金貨のために廃棄</string>
+	
+	<string name="baron_option_one">+(4) コインのために屋敷を捨て札にする</string>
+	<string name="baron_option_two">屋敷を獲得</string>
+	
+	<string name="native_village_option_one">原住民の村からカードを手札に加える</string>
+	<string name="native_village_option_two">山札の上のカードを原住民の村に移動する</string>
+
+	<string name="ill_gotten_gains_option_one">銅貨を獲得</string>
+	
+	<string name="card_order_on_deck">山札のカードの順番:</string>
+	
+	<string name="treasury_number">山札に戻す宝物庫カードの数:</string>
+	
+	<string name="pirate_ship_option_one">+(%1$s) コイン</string>
+	<string name="pirate_ship_option_two">アタック</string>
+
+	<string name="top_of_deck">山札の一番上</string>
+	
+	<string name="saboteur_part">破壊されたカードと置換</string>
+	
+	<string name="mandarin_part">山札の上に置く</string>
+	
+	<string name="bureaucrat_part">山札の上に置く</string>
+	
+	<string name="masquerade_part">左に渡す</string>
+	
+	<string name="mine_part">鉱山</string>
+	
+	<string name="militia_part">民兵からキープ</string>
+	
+	<string name="bishop_part">勝利点トークンのための廃棄</string>
+	
+	<string name="swindler_part">コスト (%1$s) の詐欺師にあったカードの置換</string>
+	
+	<string name="margrave_part">辺境伯からキープ</string>
+	
+	<string name="wishing_well_part">山札の一番上のカードの推測</string>
+	
+	<!-- *** -->
+	<string name="university_part">獲得 [大学]</string>
+	<!-- *** -->
+	
+
+    <!-- Expansions -->
+	<string name="Base"></string>    
+	<string name="Intrigue">陰謀</string>    
+	<string name="Seaside">海辺</string>    
+	<string name="Alchemy">錬金術</string>    
+	<string name="Prosperity">繁栄</string>    
+	<string name="Cornucopia">収穫祭</string>    
+	<string name="Hinterlands">異郷</string>    
+    
+    <!-- Cards -->
+    <string name="Copper_name">銅貨</string>
+    <string name="Copper_desc"></string>
+    <string name="Silver_name">銀貨</string>
+    <string name="Silver_desc"></string>
+    <string name="Gold_name">金貨</string>
+    <string name="Gold_desc"></string>
+    <string name="Platinum_name">白金貨</string>
+    <string name="Platinum_desc"></string>
+    <string name="Potion_name">ポーション</string>
+    <string name="Potion_desc"></string>
+    <string name="Curse_name">呪い</string>
+    <string name="Curse_desc"></string>
+    <string name="Estate_name">屋敷</string>
+    <string name="Estate_desc"></string>
+    <string name="Duchy_name">公領</string>
+    <string name="Duchy_desc"></string>
+    <string name="Province_name">属州</string>
+    <string name="Province_desc"></string>
+    <string name="Colony_name">植民地</string>
+    <string name="Colony_desc"></string>
+    <string name="Moat_name">堀</string>
+    <string name="Moat_desc">When another player plays an Attack card, you may reveal this from your hand. If you do, you are unaffected by that Attack.</string>
+    <string name="Adventurer_name">冒険者</string>
+    <string name="Adventurer_desc">Reveal cards from your deck until you reveal 2 Treasure cards. Put those Treasure cards into your hand and discard the other revealed cards.</string>
+    <string name="Bureaucrat_name">役人</string>
+    <string name="Bureaucrat_desc">Gain a Silver card; put it on top of your deck. Each other player reveals a Victory card from his hand and puts it on his deck (or reveals a hand with no Victory cards).</string>
+    <string name="Cellar_name">地下貯蔵庫</string>
+    <string name="Cellar_desc">Discard any number of cards. +1 Card per card discarded.</string>
+    <string name="Chancellor_name">宰相</string>
+    <string name="Chancellor_desc">You may immediately put your deck into your discard pile.</string>
+    <string name="Chapel_name">礼拝堂</string>
+    <string name="Chapel_desc">Trash up to 4 cards from your hand.</string>
+    <string name="CouncilRoom_name">議事堂</string>
+    <string name="CouncilRoom_desc">Each other player draws a card.</string>
+    <string name="Feast_name">祝宴</string>
+    <string name="Feast_desc">Trash this card. Gain a card costing up to 5 coin.</string>
+    <string name="Festival_name">祝祭</string>
+    <string name="Festival_desc"></string>
+    <string name="Laboratory_name">研究所</string>
+    <string name="Laboratory_desc"></string>
+    <string name="Library_name">書庫</string>
+    <string name="Library_desc">Draw until you have 7 cards in hand. You may set aside any Action cards drawn this way, as you draw them; discard the set aside cards after you finish drawing.</string>
+    <string name="Market_name">市場</string>
+    <string name="Market_desc"></string>
+    <string name="Militia_name">民兵</string>
+    <string name="Militia_desc">Each other player discards down to 3 cards in his hand.</string>
+    <string name="Mine_name">鉱山</string>
+    <string name="Mine_desc">Trash a Treasure card from your hand. Gain a Treasure card costing up to 3 Coins more; put it into your hand.</string>
+    <string name="MoneyLender_name">金貸し</string>
+    <string name="MoneyLender_desc">Trash a Copper card from your hand. If you do, +3 Coins.</string>
+    <string name="Remodel_name">改築</string>
+    <string name="Remodel_desc">Trash a card from your hand. Gain a card costing up to 2 Coins more than the trashed card.</string>
+    <string name="Smithy_name">鍛冶屋</string>
+    <string name="Smithy_desc"></string>
+    <string name="Spy_name">密偵</string>
+    <string name="Spy_desc">Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.</string>
+    <string name="Thief_name">泥棒</string>
+    <string name="Thief_desc">Each other player reveals the top 2 cards of his deck. If they revelaed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.</string>
+    <string name="ThroneRoom_name">玉座の間</string>
+    <string name="ThroneRoom_desc">Choose an Action card in you hand. Play it twice.</string>
+    <string name="Village_name">村</string>
+    <string name="Village_desc"></string>
+    <string name="Witch_name">魔女</string>
+    <string name="Witch_desc">Each other player gains a Curse card.</string>
+    <string name="Woodcutter_name">木こり</string>
+    <string name="Woodcutter_desc"></string>
+    <string name="Workshop_name">工房</string>
+    <string name="Workshop_desc">Gain a card costing up to 4 Coins.</string>
+    <string name="Gardens_name">庭園</string>
+    <string name="Gardens_desc">Worth 1 Victory Point for every 10 cards in your deck (rounded down).</string>
+    <string name="Torturer_name">拷問人</string>
+    <string name="Torturer_desc">Each other player chooses one: he discards 2 cards; or he gains a Curse card, putting it in his hand.</string>
+    <string name="SecretChamber_name">秘密の部屋</string>
+    <string name="SecretChamber_desc">Discard any number of cards. +1 Coin per card discarded. When another player plays an Attack card, you may reveal this from your hand. If you do, +2 Cards, then put 2 cards from your hand on top of your deck.</string>
+    <string name="Nobles_name">貴族</string>
+    <string name="Nobles_desc">Choose one: +3 Cards; or +2 Actions.</string>
+    <string name="Coppersmith_name">銅細工師</string>
+    <string name="Coppersmith_desc">Copper produces an extra 1 coin this turn.</string>
+    <string name="Courtyard_name">中庭</string>
+    <string name="Courtyard_desc">Put a card from your hand on top of your deck.</string>
+    <string name="Harem_name">ハーレム</string>
+    <string name="Harem_desc"></string>
+    <string name="Baron_name">男爵</string>
+    <string name="Baron_desc">You may discard an Estate card. If you do, +4 Coins. Otherwise, gain an Estate card.</string>
+    <string name="Bridge_name">橋</string>
+    <string name="Bridge_desc">All cards (including cards in players\' hands) cost 1 Coin less this turn, but not less than 0.</string>
+    <string name="Conspirator_name">共謀者</string>
+    <string name="Conspirator_desc">If you\'ve played 3 or more Actions this turn (counting this): +1 Card, +1 Action.</string>
+    <string name="Ironworks_name">鉄工所</string>
+    <string name="Ironworks_desc">Gain a card costing up to 4 Coins. If it is an... Action card, +1 Action. Treasure card, +1 Coin. Victory card, +1 Card.</string>
+    <string name="Masquerade_name">仮面舞踏会</string>
+    <string name="Masquerade_desc">Each player passes a card from his hand to the left at once. Then you may trash a card from your hand.</string>
+    <string name="MiningVillage_name">鉱山の村</string>
+    <string name="MiningVillage_desc">You may trash this card immediately. If you do, +2 Coins.</string>
+    <string name="Minion_name">寵臣</string>
+    <string name="Minion_desc">Choose one: +2 Coins; or discard your hand, +4 Cards, and each other player with at least 5 cards in hand discards his hand and draws 4 cards.</string>
+    <string name="Pawn_name">手先</string>
+    <string name="Pawn_desc">Choose two: +1 Card; +1 Action; +1 Buy; +1 Coin. (The choices must be different.)</string>
+    <string name="Saboteur_name">破壊工作員</string>
+    <string name="Saboteur_desc">Each other player reveals cards from the top of his deck until revealing one costing 3 Coins or more. He trashes that card and may gain a card costing at most 2 Coins less than it. He discards the other revealed cards.</string>
+    <string name="ShantyTown_name">貧民街</string>
+    <string name="ShantyTown_desc">Reveal you hand. If you have no Action cards in hand, +2 Cards.</string>
+    <string name="Scout_name">偵察員</string>
+    <string name="Scout_desc">Reveal the top 4 cards of your deck. Put the revealed Victory cards into your hand. Put the other cards on top of your deck in any order.</string>
+    <string name="Steward_name">執事</string>
+    <string name="Steward_desc">Choose one: +2 Cards; or +2 Coins; or trash 2 cards from your hand.</string>
+    <string name="Swindler_name">詐欺師</string>
+    <string name="Swindler_desc">Each other player trashes the top card of his deck and gains a card with the same cost that you choose.</string>
+    <string name="TradingPost_name">交易場</string>
+    <string name="TradingPost_desc">Trash 2 cards from your hand. If you do, gain a Silver card; put it into your hand.</string>
+    <string name="WishingWell_name">願いの井戸</string>
+    <string name="WishingWell_desc">Name a card. Reveal the top card of your deck. If it\'s the named card, put it into your hand.</string>
+    <string name="Upgrade_name">改良</string>
+    <string name="Upgrade_desc">Trash a card from your hand. Gain a card costing exactly 1 Coin more than it.</string>
+    <string name="Tribute_name">貢物</string>
+    <string name="Tribute_desc">The player to your left reveals then discards the top 2 cards of his deck. For each differently named card revealed, if it is an... Action Card, +2 Actions. Treasure Card, +2 Coins. Victory Card, +2 Cards.</string>
+    <string name="GreatHall_name">大広間</string>
+    <string name="GreatHall_desc"></string>
+    <string name="Duke_name">公爵</string>
+    <string name="Duke_desc">Worth 1 Victory Point per Duchy you have.</string>
+    <string name="Haven_name">停泊所</string>
+    <string name="Haven_desc">Set aside a card from your hand face down. At the start of your next turn, put it into your hand.</string>
+    <string name="SeaHag_name">海の妖婆</string>
+    <string name="SeaHag_desc">Each other player discards the top card of his deck, then gains a Curse card, putting it on top of his deck.</string>
+    <string name="Tactician_name">策士</string>
+    <string name="Tactician_desc">Discard your hand. If you discarded any cards this way, then at the start of your next turn, +5 Cards, +1 Buy, and +1 Action.</string>
+    <string name="Caravan_name">隊商</string>
+    <string name="Caravan_desc"></string>
+    <string name="Lighthouse_name">灯台</string>
+    <string name="Lighthouse_desc">While this is in play, when another player plays an Attack card, it doesn\'t affect you.</string>
+    <string name="FishingVillage_name">漁村</string>
+    <string name="FishingVillage_desc"></string>
+    <string name="Wharf_name">船着場</string>
+    <string name="Wharf_desc"></string>
+    <string name="MerchantShip_name">商船</string>
+    <string name="MerchantShip_desc"></string>
+    <string name="Outpost_name">前哨地</string>
+    <string name="Outpost_desc">You only draw 3 cards (instead of 5) in this turn\'s Clean-up phase. Take an extra turn after this one. This can\'t cause you to take more than two consecutive turns.</string>
+    <string name="GhostShip_name">幽霊船</string>
+    <string name="GhostShip_desc">Each other player with 4 or more cards in hand puts cards from his hand on top of his deck until he has 3 cards in his hand.</string>
+    <string name="Salvager_name">引揚水夫</string>
+    <string name="Salvager_desc">Trash a card from your hand. + Coins equal to its cost.</string>
+    <string name="PirateShip_name">海賊船</string>
+    <string name="PirateShip_desc">Choose one: Each other player reveals the top 2 cards of his deck, trashes a revealed Treasure that you choose, discards the rest, and if anyone trashed a Treasure you take a Coin token; or, +1 Coin per Coin token you\'ve taken with Pirate Ships this game.</string>
+    <string name="NativeVillage_name">原住民の村</string>
+    <string name="NativeVillage_desc">Choose one: Set aside the top card of your deck face down on your Native Village mat; or put all the cards from your mat into your hand.</string>
+    <string name="Island_name">島</string>
+    <string name="Island_desc">Set aside this and another card from your hand. Return them to your deck at the end of the game.</string>
+    <string name="Cutpurse_name">巾着切り</string>
+    <string name="Cutpurse_desc">Each other player discards a Copper card (or reveals a hand with no Copper).</string>
+    <string name="Bazaar_name">バザー</string>
+    <string name="Bazaar_desc"></string>
+    <string name="Smugglers_name">密輸人</string>
+    <string name="Smugglers_desc">Gain a copy of a card costing up to 6 Coins that the player to your right gained on his last turn.</string>
+    <string name="Explorer_name">探検家</string>
+    <string name="Explorer_desc">You may reveal a Province card from your hand. If you do, gain a Gold card, putting it into your hand. Otherwise, gain a Silver card, putting it into your hand.</string>
+    <string name="PearlDiver_name">真珠採り</string>
+    <string name="PearlDiver_desc">Look at the bottom card of your deck. You may put it on top.</string>
+    <string name="TreasureMap_name">宝の地図</string>
+    <string name="TreasureMap_desc">Trash this and another copy of Treasure Map from your hand. If you do trash two Treasure Maps, gain 4 Gold cards putting them on top of your deck.</string>
+    <string name="Navigator_name">航海士</string>
+    <string name="Navigator_desc">Look at the top 5 cards of your deck. Either discard all of them, or put them back on top of your deck in any order.</string>
+    <string name="Treasury_name">宝物庫</string>
+    <string name="Treasury_desc">When you discard this from play, if you didn\'t buy a Victory card this turn, you may put this on top of your deck.</string>
+    <string name="Lookout_name">見張り</string>
+    <string name="Lookout_desc">Look at the top 3 cards of your deck. Trash one of them. Discard one of them. Put the other one on top of your deck.</string>
+    <string name="Ambassador_name">大使</string>
+    <string name="Ambassador_desc">Reveal a card from your hand. Return up to 2 copies of it from your hand to the Supply. Then each other player gains a copy of it.</string>
+    <string name="Warehouse_name">倉庫</string>
+    <string name="Warehouse_desc">Discard 3 cards.</string>
+    <string name="Embargo_name">抑留</string>
+    <string name="Embargo_desc">Trash this card. Put an Embargo token on top of a Supply pile. When a player buys a card, he gains a Curse card per Embargo token on that pile.</string>
+    <string name="Alchemist_name">錬金術師</string>
+    <string name="Alchemist_desc">When you discard this from play, you may put this on top of your deck if you have a Potion in play.</string>
+    <string name="Apothecary_name">薬師</string>
+    <string name="Apothecary_desc">Reveal the top 4 cards of your deck. Put the revealed Coppers and Potions into your hand. Put the other cards back on top of your deck in any order.</string>
+    <string name="Apprentice_name">弟子</string>
+    <string name="Apprentice_desc">Trash a card from your hand. +1 Card per Coin it costs. +2 Cards if it has a Potion in its cost.</string>
+    <string name="Familiar_name">使い魔</string>
+    <string name="Familiar_desc">Each other player gains a Curse.</string>
+    <string name="Golem_name">ゴーレム</string>
+    <string name="Golem_desc">Reveal cards from your deck until you reveal 2 Action cards other than Golem cards. Discard the other cards, then play the Action cards in either order.</string>
+    <string name="Herbalist_name">薬草商</string>
+    <string name="Herbalist_desc">When you discard this from play, you may put one of your Treasures from play on top of your deck.</string>
+    <string name="PhilosophersStone_name">賢者の石</string>
+    <string name="PhilosophersStone_desc">When you play this, count your deck and discard pile. Worth (1) coin per 5 cards total between them (rounded down).</string>
+    <string name="Possession_name">支配</string>
+    <string name="Possession_desc">The player to your left takes an extra turn after this one, in which you can see all cards he can and make all decisions for him. Any cards he would gain on that turn, you gain instead; any cards of his that are trashed are set aside and returned to his discard pile at end of turn.</string>
+    <string name="ScryingPool_name">念視の泉</string>
+    <string name="ScryingPool_desc">Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice. Then reveal cards from the top of your deck until you reveal one that is not an Action. Put all of your revealed cards into your hand.</string>
+    <string name="Transmute_name">変成</string>
+    <string name="Transmute_desc">Trash a card from your hand. If it is an . . . Action card, gain a Duchy; Treasure card, gain a Transmute; Victory card gain a Gold.</string>
+    <string name="University_name">大学</string>
+    <string name="University_desc">You may gain an Action card costing up to 5.</string>
+    <string name="Vineyard_name">ブドウ園</string>
+    <string name="Vineyard_desc">Worth 1 Victory Point for every 3 Action cards in your deck (rounded down).</string>
+    <string name="Bank_name">銀行</string>
+    <string name="Bank_desc">When you play this, it\'s worth 1 coin per Treasure card you have in play (counting this).</string>
+    <string name="Bishop_name">司教</string>
+    <string name="Bishop_desc">Trash a card from your hand. Gain Victory tokens equal to half its cost in coins, rounded down. Each other player may trash a card from his hand.</string>
+    <string name="City_name">都市</string>
+    <string name="City_desc">If there are one or more empty Supply piles, +1 Card. If there are two or more, +1 Coin and +1 Buy.</string>
+    <string name="Contraband_name">禁制品</string>
+    <string name="Contraband_desc">+1 Buy  When you play this, the player to your left names a card. You can\'t buy that card this turn.</string>
+    <string name="CountingHouse_name">会計所</string>
+    <string name="CountingHouse_desc">Look through your discard pile, reveal any number of Copper cards from it, and put them into your hand.</string>
+    <string name="Expand_name">拡張</string>
+    <string name="Expand_desc">Trash a card from your hand. Gain a card costing up to 3 coins more than the trashed card.</string>
+    <string name="Forge_name">鍛造</string>
+    <string name="Forge_desc">Trash any number of cards from your hand. Gain a card with cost exactly equal to the total cost in coins of the trashed cards.</string>
+    <string name="Goons_name">ならず者</string>
+    <string name="Goons_desc">Eash other player discards down to 3 cards in hand. While this is in play, when you buy a card, +1 Victory token.</string>
+    <string name="GrandMarket_name">大市場</string>
+    <string name="GrandMarket_desc">You can\'t buy this if you have any Copper in play.</string>
+    <string name="Hoard_name">隠し財産</string>
+    <string name="Hoard_desc">While this is in play, when you buy a Victory card, gain a Gold.</string>
+    <string name="KingsCourt_name">宮廷</string>
+    <string name="KingsCourt_desc">You may choose an Action card in your hand. Play it three times.</string>
+    <string name="Loan_name">借金</string>
+    <string name="Loan_desc">When you play this, reveal cards from your deck until you reveal a Treasure. Discard it or trash it. Discard the other cards.</string>
+    <string name="Mint_name">造幣所</string>
+    <string name="Mint_desc">You may reveal a Treasure card from your hand. Gain a copy of it. When you buy this, trash all Treasures you have in play.</string>
+    <string name="Monument_name">記念碑</string>
+    <string name="Monument_desc"></string>
+    <string name="Mountebank_name">香具師</string>
+    <string name="Mountebank_desc">Each other player may discard a Curse. If he doesn\'t, he gains a Curse and a Copper.</string>
+    <string name="Peddler_name">行商人</string>
+    <string name="Peddler_desc">During your Buy phase, this costs 2 coins less per Action card you have in play, but not less than 0 coins.</string>
+    <string name="Quarry_name">石切場</string>
+    <string name="Quarry_desc">While this is in play, Action cards cost 2 coins less, but not less than 0 coins.</string>
+    <string name="Rabble_name">大衆</string>
+    <string name="Rabble_desc">Each other player reveals the top 3 cards of his deck, discards the revealed Actions and Treasures, and puts the rest back on top in any order he chooses.</string>
+    <string name="RoyalSeal_name">玉璽</string>
+    <string name="RoyalSeal_desc">While this is in play, when you gain a card, you may put that card on top of your deck.</string>
+    <string name="Talisman_name">護符</string>
+    <string name="Talisman_desc">While this is in play, when you buy a card costing 4 coins or less that is not a Victory card, gain a copy of it.</string>
+    <string name="TradeRoute_name">交易路</string>
+    <string name="TradeRoute_desc">+1 Coin per token on the Trade Route mat. Trash a card from your hand. Setup: Put a token on each Victory card Supply pile. When a card is gained from that pile, move the token to the Trade Route mat.</string>
+    <string name="Vault_name">保管庫</string>
+    <string name="Vault_desc">Discard any number of cards. +1 coin per card discarded. Each other player may discard 2 cards. If he does, he draws a card.</string>
+    <string name="Venture_name">投機</string>
+    <string name="Venture_desc">When you play this, reveal cards from your deck until you reveal a Treasure. Discard the other cards. Play that Treasure.</string>
+    <string name="WatchTower_name">望楼</string>
+    <string name="WatchTower_desc">Draw until you have 6 cards in hand. When you gain a card, you may reveal this from your hand. If you do, either trash that card, or put it on top of your deck.</string>
+    <string name="WorkersVillage_name">労働者の村</string>
+    <string name="WorkersVillage_desc"></string>
+    <string name="Fairgrounds_name">品評会</string>
+    <string name="Fairgrounds_desc">Worth 2 points for every 5 differently named cards in your deck (round down).</string>
+    <string name="FarmingVillage_name">農村</string>
+    <string name="FarmingVillage_desc">Reveal cards from the top of your deck until you reveal an Action or Treasure card. Put that card into your hand and discard the other cards.</string>
+    <string name="FortuneTeller_name">占い師</string>
+    <string name="FortuneTeller_desc">Each other player reveals cards from the top of his deck until he reveals a Victory or Curse card. He puts it on top and discards the other revealed cards.</string>
+    <string name="Hamlet_name">村落</string>
+    <string name="Hamlet_desc">You may discard a card; if you do +1 Action. You may discard a card; if you do +1 Buy.</string>
+    <string name="Harvest_name">収穫</string>
+    <string name="Harvest_desc">Reveal the top 4 cards of your deck, then discard them. +1 coin per differently named card revealed.</string>
+    <string name="HornofPlenty_name">豊穣の角笛</string>
+    <string name="HornofPlenty_desc">When you play this, gain a card costing up to 1 coin per differently named card you have in play, counting this. If it\'s a Victory card, trash this.</string>
+    <string name="HorseTraders_name">馬商人</string>
+    <string name="HorseTraders_desc">Discard 2 cards. When another player plays an Attack card, you may set this aside from your hand. If you do, then at the start of your next turn, +1 Card and return this to your hand.</string>
+    <string name="HuntingParty_name">狩猟団</string>
+    <string name="HuntingParty_desc">Reveal your hand. Reveal cards from your deck until you reveal a card that isn\'t a duplicate of one in your hand. Put it into your hand and discard the rest.</string>
+    <string name="Jester_name">道化師</string>
+    <string name="Jester_desc">Each other player discards the top card of his deck. If it\'s a Victory card, he gains a Curse. Otherwise either he gains a copy of the discarded card or you do, your choice.</string>
+    <string name="Menagerie_name">移動動物園</string>
+    <string name="Menagerie_desc">Reveal your hand. If there are no duplicate cards in it, +3 Cards. Otherwise, +1 Card.</string>
+    <string name="Remake_name">再建</string>
+    <string name="Remake_desc">Do this twice. Trash a card from your hand, then gain a card costing exactly 1 coin more than the trashed card.</string>
+    <string name="Tournament_name">馬上槍試合</string>
+    <string name="Tournament_desc">Each player may reveal a Province from his hand. If you do, discard it and gain a Prize (from the Prize pile) or a Duchy, putting it on top of your deck. If no one else does, +1 Card, +1 coin.</string>
+    <string name="YoungWitch_name">魔女娘</string>
+    <string name="YoungWitch_desc">Discard 2 cards. Each other player may reveal a Bane card from his hand. If he doesn\'t, he gains a Curse. Setup: Add an extra Kingdom card pile costing 2 or 3 coins to the Supply. Cards from that pile are Bane cards.</string>
+    <string name="BorderVillage_name">国境の村</string>
+    <string name="BorderVillage_desc">When you gain this, gain a card costing less than this.</string>
+    <string name="Cache_name">埋蔵金</string>
+    <string name="Cache_desc">When you gain this, gain two Coppers.</string>
+    <string name="Cartographer_name">地図職人</string>
+    <string name="Cartographer_desc">Look at the top 4 cards of your deck. Discard any number of them. Put the rest back on top in any order.</string>
+    <string name="Crossroads_name">岐路</string>
+    <string name="Crossroads_desc">Reveal your hand. +1 Card per Victory card revealed. If this is the first time you played a Crossroads this turn, +3 Actions.</string>
+    <string name="Develop_name">開発</string>
+    <string name="Develop_desc">Trash a card from your hand. Gain a card costing exactly 1 coin more than it and a card costing exactly 1 less than it, in either order, putting them on top of your deck.</string>
+    <string name="Duchess_name">公爵夫人</string>
+    <string name="Duchess_desc">Each player (including you) looks at the top card of his deck, and discards it or puts it back - In games using this, when you gain a Duchy, you may gain a Duchess.</string>
+    <string name="Embassy_name">大使館</string>
+    <string name="Embassy_desc">Discard 3 cards - When you gain this, each other player gains a Silver.</string>
+    <string name="Farmland_name">農地</string>
+    <string name="Farmland_desc">When you buy this, trash a card from your hand. Gain a card costing exactly 2 coins more than the trashed card.</string>
+    <string name="FoolsGold_name">愚者の黄金</string>
+    <string name="FoolsGold_desc">If this is the first time you played a Fool\'s Gold this turn, this is worth 1 coin, otherwise it\'s worth 4 coins - When another player gains a Province, you may trash this from your hand. If you do, gain a Gold, putting it on your deck.</string>
+    <string name="Haggler_name">値切り屋</string>
+    <string name="Haggler_desc">While this is in play, when you buy a card, gain a card costing less than it that is not a Victory card.</string>
+    <string name="Highway_name">街道</string>
+    <string name="Highway_desc">While this is in play, cards cost 1 coin less, but not less than 0 coin.</string>
+    <string name="IllGottenGains_name">不正利得</string>
+    <string name="IllGottenGains_desc">When you play this, you may gain a Copper, putting it into your hand - When you gain this, each other player gains a Curse.</string>
+    <string name="Inn_name">宿屋</string>
+    <string name="Inn_desc">Discard 2 cards - When you gain this, look through your discard pile (including this), reveal any number of Action cards from it, and shuffle them into your deck.</string>
+    <string name="JackofallTrades_name">よろずや</string>
+    <string name="JackofallTrades_desc">Gain a Silver. Look at the top card of your deck; discard it or put it back. Draw until you have 5 cards in hand. You may trash a card from your hand that is not a Treasure.</string>
+    <string name="Mandarin_name">官吏</string>
+    <string name="Mandarin_desc">Put a card from your hand on top of your deck - When you gain this, put all Treasures you have in play on top of your deck in any order.</string>
+    <string name="Margrave_name">辺境伯</string>
+    <string name="Margrave_desc">Each other player draws a card, then discards down to 3 cards in hand.</string>
+    <string name="NobleBrigand_name">義賊</string>
+    <string name="NobleBrigand_desc">When you buy this or play it, each other player reveals the top 2 cards of his deck, trashes a revealed Silver or Gold you choose, and discards the rest. If he didn\'t reveal a Treasure, he gains a Copper. You gain the trashed cards.</string>
+    <string name="NomadCamp_name">遊牧民の野営地</string>
+    <string name="NomadCamp_desc">When you gain this, put it on top of your deck.</string>
+    <string name="Oasis_name">オアシス</string>
+    <string name="Oasis_desc">Discard a card.</string>
+    <string name="Oracle_name">神託</string>
+    <string name="Oracle_desc">Each player (including you) reveals the top 2 cards of his deck, and you choose one: either he discards them, or he puts them back on top in an order he chooses.\n+2 Cards</string>
+    <string name="Scheme_name">画策</string>
+    <string name="Scheme_desc">At the start of Clean-up this turn, you may choose an Action card you have in play. If you discard it from play this turn, put it on your deck.</string>
+    <string name="SilkRoad_name">シルクロード</string>
+    <string name="SilkRoad_desc">Worth 1 VP for every 4 Victory cards in your deck (round down).</string>
+    <string name="SpiceMerchant_name">香辛料商人</string>
+    <string name="SpiceMerchant_desc">You may trash a Treasure from your hand. If you do, choose one: +2 Cards and +1 Action; or +2 Coin and +1 Buy.</string>
+    <string name="Stables_name">厩舎</string>
+    <string name="Stables_desc">You may discard a Treasure. If you do, +3 Cards and +1 Action.</string>
+    <string name="Trader_name">交易人</string>
+    <string name="Trader_desc">Trash a card from your hand. Gain a number of Silvers equal to its cost in coins - When you would gain a card, you may reveal this from your hand. If you do, instead, gain a silver.</string>
+    <string name="Tunnel_name">坑道</string>
+    <string name="Tunnel_desc">When you discard this other than during a Clean-up phase, you may reveal it. If you do, gain a Gold.</string>
+    <string name="Princess_name">王女</string>
+    <string name="Princess_desc">While this is in play, cards cost 2 coins less, but not less than 0. (This is not in the Supply.)</string>
+    <string name="BagofGold_name">金貨袋</string>
+    <string name="BagofGold_desc">Gain a Gold, putting it on top of your deck. (This is not in the Supply.)</string>
+    <string name="Diadem_name">王冠</string>
+    <string name="Diadem_desc">When you play this, +1 coin per unused Action you have (Action, not Action card). (This is not in the Supply.)</string>
+    <string name="Followers_name">郎党</string>
+    <string name="Followers_desc">Gain an Estate. Each other player gains a Curse and discards down to 3 cards in hand. (This is not in the Supply.)</string>
+    <string name="TrustySteed_name">名馬</string>
+    <string name="TrustySteed_desc">Choose two: +2 Cards; +2 Actions; +2 coins; gain 4 silvers and put your deck into your discard pile. (The choices must be different.) (This is not in the Supply.)</string>
+
+  <!-- GameTypes -->
+  <string name="FirstGame_gametype">最初のゲーム (基本)</string>
+  <string name="BigMoney_gametype">ビッグ・マネー (基本)</string> 
+  <string name="Interaction_gametype">相互作用 (基本)</string> 
+  <string name="SizeDistortion_gametype">サイズ変形 (基本)</string> 
+  <string name="VillageSquare_gametype">村の広場 (基本)</string>
+  <string name="RandomBaseGame_gametype">ランダム基本</string>
+  
+  <string name="VictoryDance_gametype">勝利の舞 (陰謀)</string> 
+  <string name="SecretSchemes_gametype">秘密計画 (陰謀)</string> 
+  <string name="BestWishes_gametype">願い (陰謀)</string> 
+  <string name="RandomIntrigue_gametype">ランダム陰謀</string>
+  
+  <string name="Deconstruction_gametype">脱構築 (基本, 陰謀)</string> 
+  <string name="HandMadness_gametype">手札熱狂 (基本, 陰謀)</string> 
+  <string name="Underlings_gametype">下役たち (基本, 陰謀)</string>
+  
+  <string name="HighSeas_gametype">外洋 (海辺)</string> 
+  <string name="BuriedTreasure_gametype">埋蔵金 (海辺)</string> 
+  <string name="Shipwrecks_gametype">難破船 (海辺)</string> 
+  <string name="RandomSeaside_gametype">ランダム海辺</string>
+  
+  <string name="RandomAlchemy_gametype">ランダム錬金術</string>
+  
+  <string name="ForbiddenArts_gametype">禁断の芸術 (基本, 錬金術)</string> 
+  <string name="PotionMixers_gametype">薬剤調合師たち (基本, 錬金術)</string> 
+  <string name="ChemistryLesson_gametype">化学実験 (基本, 錬金術)</string>
+  
+  <string name="Servants_gametype">神のしもべ (陰謀, 錬金術)</string> 
+  <string name="SecretResearch_gametype">秘密調査 (陰謀, 錬金術)</string> 
+  <string name="PoolsToolsAndFools_gametype">プールとツールとフール (陰謀, 錬金術)</string>
+  
+  <string name="ReachForTomorrow_gametype">明日への架け橋 (基本, 海辺)</string> 
+  <string name="Repetition_gametype">反復 (基本, 海辺)</string> 
+  <string name="GiveAndTake_gametype">ギブ＆テイク (基本, 海辺)</string>
+
+  <string name="Beginners_gametype">初心者 (繁栄)</string> 
+  <string name="FriendlyInteractive_gametype">好意的な相互作用 (繁栄)</string> 
+  <string name="BigActions_gametype">ビッグ・アクション (繁栄)</string> 
+  <string name="RandomProsperity_gametype">ランダム繁栄</string>
+
+  <string name="BiggestMoney_gametype">巨費 (基本, 繁栄)</string> 
+  <string name="TheKingsArmy_gametype">王の軍隊 (基本, 繁栄)</string> 
+  <string name="TheGoodLife_gametype">良き人生 (基本, 繁栄)</string>
+
+  <string name="PathToVictory_gametype">勝利への道 (陰謀, 繁栄)</string> 
+  <string name="AllAlongTheWatchtower_gametype">見張りの塔からずっと (陰謀, 繁栄)</string> 
+  <string name="LuckySeven_gametype">ラッキーセブン (陰謀, 繁栄)</string>
+
+  <string name="RandomCornucopia_gametype">ランダム収穫祭</string>
+
+  <string name="BountyOfTheHunt_gametype">賞金稼ぎ (基本, 収穫祭)</string> 
+  <string name="BadOmens_gametype">凶兆 (基本, 収穫祭)</string> 
+  <string name="TheJestersWorkshop_gametype">道化師の仕事場 (基本, 収穫祭)</string>
+
+  <string name="LastLaughs_gametype">最後に笑う者 (陰謀, 収穫祭)</string> 
+  <string name="TheSpiceOfLife_gametype">刺激的人生 (陰謀, 収穫祭)</string> 
+  <string name="SmallVictories_gametype">小さな勝利 (陰謀, 収穫祭)</string>
+
+  <string name="HinterlandsIntro_gametype">入門 (異郷)</string> 
+  <string name="FairTrades_gametype">公平な取引 (異郷)</string> 
+  <string name="Bargains_gametype">バーゲン (異郷)</string> 
+  <string name="Gambits_gametype">初めの一手 (異郷)</string> 
+  <string name="RandomHinterlands_gametype">ランダム異郷</string>
+    
+  <string name="HighwayRobbery_gametype">辻強盗 (基本, 異郷)</string> 
+  <string name="AdventuresAbroad_gametype">異国への冒険 (基本, 異郷)</string>
+    
+  <string name="MoneyForNothing_gametype">無駄金 (異郷, 陰謀)</string> 
+  <string name="TheDukesBall_gametype">公爵の舞踏会 (異郷, 陰謀)</string>
+    
+  <string name="Travelers_gametype">旅行者たち (異郷, 海辺)</string> 
+  <string name="Diplomacy_gametype">外交 (異郷, 海辺)</string>
+    
+  <string name="SchemesAndDreams_gametype">画策と夢 (異郷, 錬金術)</string> 
+  <string name="WineCountry_gametype">ワインカントリー (異郷, 錬金術)</string>
+
+  <string name="InstantGratification_gametype">その場の満足 (異郷, 繁栄)</string> 
+  <string name="TreasureTrove_gametype">貴重な発見 (異郷, 繁栄)</string>
+   
+  <string name="BlueHarvest_gametype">青田刈り (異郷, 収穫祭)</string> 
+  <string name="TravelingCircus_gametype">旅一座 (異郷, 収穫祭)</string>
+    
+  <string name="Random_gametype">ランダム</string>
+    
+  <string name="game_over_vps"> 勝利点</string>
+    
+  <string name="coin_worth">コイン (%1$s)</string>
+  <string name="Cartographer_query">捨て札にするカードを選択</string>
+  <string name="cards">カード</string>
+  <string name="return_cards">山札にカードを戻す:</string>
+
+ 
+  
+</resources>
