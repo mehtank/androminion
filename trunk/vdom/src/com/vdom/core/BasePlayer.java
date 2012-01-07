@@ -1697,6 +1697,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card haggler_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+        if (maxCost < 0)
+            return null;
         return bestCardInPlay(context, maxCost, false, potion, false, false);
     }
     
