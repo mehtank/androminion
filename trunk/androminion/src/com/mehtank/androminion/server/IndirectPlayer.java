@@ -1289,13 +1289,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getFromTable(context, getGainString(Cards.remake), exactCost, exactCost, false, NOTPASSABLE, SelectCardOptions.SELECT, false, true, potion?1:0);
     }
     
+
+    public boolean tournament_shouldRevealProvince(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_tournament_shouldRevealProvince(context)) {
+            return super.tournament_shouldRevealProvince(context);
+        }
+        return selectBoolean(context, Cards.tournament, Strings.getString(R.string.tournament_reveal), Strings.getString(R.string.tournament_option_one));
+    	
+    }
+
+
     public TournamentOption tournament_chooseOption(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_tournament_chooseOption(context)) {
             return super.tournament_chooseOption(context);
         }
         LinkedHashMap<String, TournamentOption> h = new LinkedHashMap<String, TournamentOption>();
         
-        h.put(getString(R.string.tournament_option_one), TournamentOption.DontRevealProvince);
         h.put(getString(R.string.tournament_option_two), TournamentOption.GainPrize);
         h.put(getString(R.string.tournament_option_three), TournamentOption.GainDuchy);
 

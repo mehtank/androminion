@@ -1315,6 +1315,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
+    public boolean tournament_shouldRevealProvince(MoveContext context) {
+    	return true;
+    }
+
+    
+    @Override
     public TournamentOption tournament_chooseOption(MoveContext context) {
         for(Card c : context.getCardsInPlay()) {
             if(c.isPrize() && context.getPileSize(c) > 0) {

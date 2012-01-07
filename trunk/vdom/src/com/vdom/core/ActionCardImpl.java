@@ -2109,53 +2109,59 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void tournament(Game game, MoveContext context, Player currentPlayer) {
-        boolean opponentsRevealedProvince = false;
+    	boolean opponentsRevealedProvince = false;
+    	boolean currentPlayerRevealed = false;
 
-        for (Player player : game.getPlayersInTurnOrder()) {
-            Card province = null;
-            for (Card card : player.hand) {
-                if (card.equals(Cards.province)) {
-                    province = card;
-                    break;
-                }
-            }
+    	for (Player player : game.getPlayersInTurnOrder()) {
+    		Card province = null;
+    		for (Card card : player.hand) {
+    			if (card.equals(Cards.province)) {
+    				province = card;
+    				break;
+    			}
+    		}
 
-            if (province != null) {
-                if (player == currentPlayer) {
-                    TournamentOption option = currentPlayer.tournament_chooseOption(context);
+    		if (province != null) {
 
-                    if (option != TournamentOption.DontRevealProvince) {
-                        currentPlayer.reveal(province, this, context);
-                        player.hand.remove(province);
-                        currentPlayer.discard(province, this, context);
+    			if (player == currentPlayer) {
+    				currentPlayerRevealed = currentPlayer.tournament_shouldRevealProvince(context);
+    				if (currentPlayerRevealed) {
+    					currentPlayer.reveal(province, this, context);
+    					player.hand.remove(province);
+    					currentPlayer.discard(province, this, context);                		
+    				}
+    			} else {
+    				if (player.tournament_shouldRevealProvince(context)) {
+    					player.reveal(province, this, new MoveContext(game, player));
+    					opponentsRevealedProvince = true;
+    				}
+    			}
+    		}
+    	}
 
-                        if (option == TournamentOption.GainPrize) {
-                            Card prize = currentPlayer.tournament_choosePrize(context);
+    	if (currentPlayerRevealed) {
+    		TournamentOption option = currentPlayer.tournament_chooseOption(context);
 
-                            if (prize != null && prize.isPrize()) {
-                                player.gainNewCard(prize, this, context);
-                            } else {
-                                Util.playerError(player, "Tournament error, invalid prize");
-                            }
-                        } else if (option == TournamentOption.GainDuchy) {
-                            player.gainNewCard(Cards.duchy, this, context);
-                        }
-                    }
-                } else {
-                    player.reveal(province, this, new MoveContext(game, player));
-                    opponentsRevealedProvince = true;
-                }
-            }
-        }
+    		if (option == TournamentOption.GainPrize) {
+    			Card prize = currentPlayer.tournament_choosePrize(context);
+    			if (prize != null && prize.isPrize()) {
+    				currentPlayer.gainNewCard(prize, this, context);
+    			} else {
+    				Util.playerError(currentPlayer, "Tournament error, invalid prize");
+    			}
+    		} else if (option == TournamentOption.GainDuchy) {
+    			currentPlayer.gainNewCard(Cards.duchy, this, context);
+    		}
+    	}
 
-        if (!opponentsRevealedProvince) {
-            Card draw = game.draw(currentPlayer);
-            if (draw != null) {
-                currentPlayer.hand.add(draw);
-            }
+    	if (!opponentsRevealedProvince) {
+    		Card draw = game.draw(currentPlayer);
+    		if (draw != null) {
+    			currentPlayer.hand.add(draw);
+    		}
 
-            context.addGold++;
-        }
+    		context.addGold++;
+    	}
     }
 
     private void tradingPost(MoveContext context, Player currentPlayer) {

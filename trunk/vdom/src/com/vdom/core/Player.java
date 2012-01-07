@@ -550,7 +550,6 @@ public abstract class Player {
     }
 
     public static enum TournamentOption {
-        DontRevealProvince,
         GainPrize,
         GainDuchy
     }
@@ -792,6 +791,8 @@ public abstract class Player {
 
     public abstract Card remake_cardToObtain(MoveContext context, int exactCost, boolean potion);
 
+    public abstract boolean tournament_shouldRevealProvince(MoveContext context);
+    
     public abstract TournamentOption tournament_chooseOption(MoveContext context);
 
     public abstract Card tournament_choosePrize(MoveContext context);

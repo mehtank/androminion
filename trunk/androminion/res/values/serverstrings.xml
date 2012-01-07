@@ -162,6 +162,7 @@
 	<string name="navigator_header">Navigator revealed: %1$s</string>
 	<string name="navigator_option_two">Replace on deck</string>
 	
+	<string name="tournament_reveal">Reveal Province</string>
 	<string name="tournament_option_one">Don\'t reveal Province</string>
 	<string name="tournament_option_two">Gain Prize</string>
 	<string name="tournament_option_three">Gain Duchy</string>

@@ -520,6 +520,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
+    public boolean shouldAutoPlay_tournament_shouldRevealProvince(MoveContext context) {
+    	return true;
+    }
+    
     public boolean shouldAutoPlay_tournament_chooseOption(MoveContext context) {
         return true;
     }
