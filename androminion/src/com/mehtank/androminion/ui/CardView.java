@@ -184,7 +184,7 @@ public class CardView extends FrameLayout {
 			fgColor = (Color.rgb(0xff, 0x80, 0x60));
 			countColor = (Color.rgb(0xff, 0x80, 0x60));
 		} else if (c.isTreasure && c.isVictory) {
-			bgColor = (Color.rgb(0xdb, 0xdb, 0x70));
+			bgColor = (Color.rgb(0xc0, 0xc0, 0xc0));
 			fgColor = (Color.BLACK);
 			countColor = Color.BLACK;
 			tv.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
