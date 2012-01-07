@@ -313,6 +313,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         
         int numCards[] = new int[numPlayers];
         int deckSizes[] = new int[numPlayers];
+        int discardSizes[] = new int[numPlayers];
         int handSizes[] = new int[numPlayers];
         int pirates[] = new int[numPlayers];
         int victoryTokens[] = new int[numPlayers];
@@ -324,6 +325,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	else
         		handSizes[i] = getVPs(p);
         	deckSizes[i] = p.getDeckSize();
+            discardSizes[i] = p.getDiscardSize();
         	numCards[i] = p.getAllCards().size();
         	pirates[i] = p.getPirateShipTreasure();
         	victoryTokens[i] = p.getVictoryTokens();
@@ -438,10 +440,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	    String coin = "" + context.getCoinAvailableForBuy();
     	    if(context.potions > 0)
     	        coin += "p";
-//    	    for(int i=0; i < context.potions; i++) {
-//    	        coin += "p";
-//    	    }
-    	    coin = "(" + coin + ")";
+            coin = "(" + coin + ")"; // <" + String.valueOf(event.player.discard.size()) + ">";
             strEvent += Strings.format(R.string.action_buys_coin, context.getActionsLeft(), context.getBuysLeft(), coin); 
     	}
     	else {

@@ -2344,6 +2344,7 @@ public class Game {
                     if(context.getPossessedBy() != null) {
                         player = context.getPossessedBy();
                     }
+                    Util.debug((String.format("discard pile: %d", player.discard.size())), true);
                     
                     // See rules explanation of Tunnel for what commandedDiscard means.
                     boolean commandedDiscard = true;
@@ -2480,16 +2481,19 @@ public class Game {
                         }
                     } else if(event.card.equals(Cards.inn)) {
                         ArrayList<Card> cards = new ArrayList<Card>();
+                        int actionCardsFound = 0;
                         for(int i=player.discard.size() - 1; i >= 0; i--) {
                             Card c = player.discard.get(i);
                             if(c instanceof ActionCard) {
+                                actionCardsFound++;
                                 if((player).inn_shuffleCardBackIntoDeck(event.getContext(), (ActionCard) c)) {
                                     cards.add(c);
                                 }
                             }
                         }
-                        
-                        if(cards.size() > 0) {
+
+                        Util.debug((String.format("Inn: %d action(s) found in %d-card discard pile", actionCardsFound, player.discard.size())), true);
+                        if (cards.size() > 0) {
                             for(Card c : cards) {
                                 player.discard.remove(c);
                                 player.deck.add(c);
