@@ -335,7 +335,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, String buttonText, boolean actionOnly, boolean victoryAllowed, int potionCost) {
-        return getFromTable(context, header, maxCost, minCost, isBuy, passString, buttonText, actionOnly, victoryAllowed, -1, false);
+        return getFromTable(context, header, maxCost, minCost, isBuy, passString, buttonText, actionOnly, victoryAllowed, potionCost, false);
     }
     
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, String buttonText, boolean actionOnly, boolean victoryAllowed, int potionCost, boolean includePrizes) {
