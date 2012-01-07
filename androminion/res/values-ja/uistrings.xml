@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>  
 	<!-- Help -->
-	<string name="help_supply1">Welcome to Androminion, an Android implementation of the award winning strategy card game Dominion, by Donald X. Vaccarino and published by Rio Grande Games. </string>
-	<string name="help_supply2">If you are unfamiliar with how to play Dominion, it is highly recommended to read the official rules or the Wikipedia entry first.  Links can be found at \n\t http://android.mehtank.com. </string>
-	<string name="help_supply3">This is the card supply.  Here you can see all of the cards available for purchase in this game.
-		\n\nTo find out more information about a card, simply long-press on the card to bring up a dialog with its details.</string>
-	<string name="help_supply4">Each card lists its cost in the yellow circle on the left of the card and the remaining quantity under the card name.
-		\n\nIf Embargo is in play, the number of embargo tokens on a supply pile will be displayed in a black circle on the right of the card. </string>
+	<string name="help_supply1">Androminionへようこそ。Androminionは、Donald X. Vaccarino作、Rio Grande Games出版の、多くの賞を受賞した戦略カードゲーム、「ドミニオン」のアンドロイド実装です。 </string>
+	<string name="help_supply2">もしあなたがドミニオンの遊び方を知らないならば、最初に公式のルールかWikipediaの項目を読むことをお勧めします。リンクは次から見つけられます。 \n\t http://android.mehtank.com</string>
+	<string name="help_supply3">これはカードサプライです。 ここからはあなたが今回のゲームで購入できる全てのカードを見ることができます。
+		\n\nあるカードについて、もっと情報が必要なら、単純にカードを長押しすることによって詳細ダイアログを出すことができます。</string>
+	<string name="help_supply4">それぞれのカードのコストはカードの左側の黄色い丸の中に書いてあります。そしてカードの残り枚数はカード名の下に表示されます。
+		\n\nもし「抑留」が存在するなら、抑留トークンの数がカードの右側の黒い丸の中に書いてあります。 </string>
 
-	<string name="help_turn1">This is the turn view.  Here you can see the stats about each player along with information about the current turn. </string>
-	<string name="help_turn2">The current turn\'s player is highlighted, and the players are listed in turn order.</string>
-	<string name="help_turn3">The numbers under the players\' names indicate the number of cards in their draw pile, hand, and deck (including any mats), respectively. </string>
-	<string name="help_turn4">If Pirate Ships are in play, the number of pirate ship tokens is displayed in a red circle to the right of the player\'s name. </string>
-	<string name="help_turn5">The current number of actions, buys, and money is listed at the bottom, along with a message about what input is being requested. </string>
+	<string name="help_turn1">これはターンビューです。ここであなたはそれぞれのプレイヤーの現在のターンについての情報を見られます。</string>
+	<string name="help_turn2">現在のターンを実行しているプレイヤーは強調表示されます。そしてそれぞれのプレイヤーはターンの順番に並んでいます。</string>
+	<string name="help_turn3">プレイヤー名の下の数字は順番に山札、手札、デッキ全体(マット含む)のカード数を示しています。</string>
+	<string name="help_turn4">もし「海賊船」が存在するなら、海賊船トークンの数がプレイヤー名の右側の赤い丸の中に書いてあります。 </string>
+	<string name="help_turn5">現在のアクション数、購入数、そしてお金はもっとも下に表示されます。一緒に、今何をするべきかについての情報も表示されます。</string>
 
-	<string name="help_hand1">The first column shows the cards that are currently in your hand.  This is only visible to you. </string>
-	<string name="help_hand2">The second column shows the cards that have been played in the current turn.  This is visible to everyone. </string>
-	<string name="help_hand3">If you have cards in your Native Village or Island, swipe the view to the left to view the contents of those mats. </string>
-	<string name="help_hand4">If any of these columns gets too big, you may need to drag the view up or down to see all the cards. </string>
-	<string name="help_hand5">Again, you can long-press any card to bring up further details. </string>
+	<string name="help_hand1">1番目の列はあなたの手札のカードを示しています。これはあなたにしか見えません。 </string>
+	<string name="help_hand2">2番目の列は現在のターンにプレイされたカードを示しています。これは全員見ることができます。 </string>
+	<string name="help_hand3">もしあなたが「原住民の村」か「島」を持っているなら、ビューを左にスワイプしてください。それらのマットを見ることができます。 </string>
+	<string name="help_hand4">もしこれらの列が非常に長くなったなら、ビューを上下にドラッグして全てのカードを見ることができます。</string>
+	<string name="help_hand5">あなたはカードを長押しして詳細情報を見ることができます。大事なことなので2回言いました。 </string>
 	
-	<string name="help_log1">Finally, a history of the game is displayed in the scrollable game log at the bottom of your screen.
-		\n\nYou can always bring up this help again through the menu while a game is running.</string>
+	<string name="help_log1">最後に、ゲームの履歴はあなたの画面下部にスクロールできるゲームログとして表示されます。
+		\n\nゲームプレイ中はメニューを使用することによって、いつでも再びこのヘルプを見ることができます。</string>
 
-	<string name="help_end">Good luck, and enjoy the game! \n\n\n\t\t\t-:ankur</string>
+	<string name="help_end">グッドラック、そしてゲームを楽しんでください! \n\n\n\t\t\t-:ankur</string>
 
 	<string name="help_next">次ページ</string>
 	<string name="help_quit">ヘルプ終了</string>
@@ -142,7 +142,7 @@
 	<string name="whatsnew"> <![CDATA[
 		 長い時間が掛かりましたが、我々は今回のアップデートが待った価値があるものであることを願います! 多くの変更全てをここに書くことはできませんが、主要なものは以下になります。:<br/><br/>
 		<b><font color="lime">* もっと多くの拡張!</font></b>  錬金術、繁栄、収穫祭、異郷のカードの大部分が使用可能です。<br/>
-		<b><font color="lime">* もっと多くのゲームオプション!</font></b>  多くのランダムあるいはプリセットのカードセットから選択できます。プレイヤー数も2~4人の間で選択できます。。<br/>
+		<b><font color="lime">* もっと多くのゲームオプション!</font></b>  多くのランダムあるいはプリセットのカードセットから選択できます。プレイヤー数も2~4人の間で選択できます。<br/>
 		<b><font color="lime">* もっと多くのAIオプション!</font></b>  新しいAI、Chuck、Mary、Sarahが登場します。<br/>
 		<b><font color="lime">* もっと多くのバグ修正!</font></b>  多分もっと多くのバグも。<br/>
 		* 同じおいしさ!<br/>
