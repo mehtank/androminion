@@ -1376,7 +1376,6 @@ public class Game {
                 }
                 
                 if(card != null
-                    && !card.equals(Cards.possession)
                     ) {
                     addPile(card);
                     added += 1;
@@ -1404,7 +1403,7 @@ public class Game {
             }
             
             for(String s : unfoundCards) {
-            	if (added >= 10) 
+                if (added >= (cardInPlay(Cards.youngWitch) ? 11 : 10))
             		break;
                 Card c = null;
                 int replacementCost = -1;
@@ -1418,13 +1417,6 @@ public class Game {
                     replacementCost = 5;
                 }
                 else if(s.equalsIgnoreCase("walledvillage")) {
-                    replacementCost = 4;
-                }
-                else if(s.equalsIgnoreCase("possession")) {
-                    // Not exact, since it requires potion as well, but good enough...
-                    replacementCost = 6;
-                }
-                else if(s.equalsIgnoreCase("golem")) {
                     replacementCost = 4;
                 }
                 
@@ -1450,6 +1442,8 @@ public class Game {
                 
                 addPile(c);
                 added += 1;
+                if (cardInPlay(Cards.youngWitch) && baneCard == null)
+                    baneCard = c;
             }
 
             gameType = GameType.Random;
