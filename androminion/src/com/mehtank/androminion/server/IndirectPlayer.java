@@ -318,8 +318,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getFromTable(context, header, maxCost, minCost, isBuy, passString, SelectCardOptions.SELECT);
     }
     
-    public Card getNonVictoryFromTable(MoveContext context, String header, int maxCost, String passString, int potionCost) {
-        return getFromTable(context, header, maxCost, Integer.MIN_VALUE, false, passString, SelectCardOptions.SELECT, false, false, potionCost);
+    public Card getNonVictoryFromTable(MoveContext context, String header, int maxCost, boolean isBuy, String passString, int potionCost) {
+        return getFromTable(context, header, maxCost, Integer.MIN_VALUE, isBuy, passString, SelectCardOptions.SELECT, false, false, potionCost);
     }
     
     public ActionCard getActionFromTable(MoveContext context, String header, int maxCost, String passString) {
@@ -346,24 +346,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         	sco.fromPrizes();
         }
         
-        if(isBuy) {
+        if(isBuy)
             sco.buyPhase = true;
-        }
-        if(context != null && context.getPlayedCards() != null) {
-            int actionsInPlay = 0;
-            for(Card c : context.getPlayedCards()) {
-                if(c instanceof ActionCard) {
-                    actionsInPlay++;
-                }
-            }
-            for(Card c : context.player.nextTurnCards) {
-                if(c instanceof ActionCard) {
-                    actionsInPlay++;
-                }
-            }
 
-            sco.actionsInPlay = actionsInPlay;
-        }
+        if(context != null && context.getPlayedCards() != null)
+            sco.actionsInPlay = context.getActionCardsInPlayThisTurn();
+
         sco.setPassable(passString);
         
 //		if (passString != null && !passString.trim().equals(""))
@@ -1251,7 +1239,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_hornOfPlenty_cardToObtain(context, maxCost)) {
             return super.hornOfPlenty_cardToObtain(context, maxCost);
         }
-        return getFromTable(context, getGainString(Cards.hornOfPlenty), maxCost, Integer.MIN_VALUE, false, getString(R.string.none), SelectCardOptions.SELECT, false, true, 0);
+        return getFromTable(context, getGainString(Cards.hornOfPlenty), maxCost, Integer.MIN_VALUE, true, getString(R.string.none), SelectCardOptions.SELECT, false, true, 0);
     }
     
     public Card[] horseTraders_cardsToDiscard(MoveContext context) {
@@ -1691,7 +1679,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_haggler_cardToObtain(context, maxCost, potion)) {
             return super.haggler_cardToObtain(context, maxCost, potion);
         }
-        return getNonVictoryFromTable(context, getGainString(Cards.haggler), maxCost, NOTPASSABLE, potion?1:0);
+        return getNonVictoryFromTable(context, getGainString(Cards.haggler), maxCost, true, NOTPASSABLE, potion?1:0);
     }
     
     @Override

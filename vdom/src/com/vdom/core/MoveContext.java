@@ -87,6 +87,22 @@ public class MoveContext {
         return cantBuy;
     }
 
+    public int getActionCardsInPlayThisTurn() {
+        int actionsInPlay = 0;
+        for(Card c : getPlayedCards()) {
+            if(c instanceof ActionCard) {
+                actionsInPlay++;
+            }
+        }
+        for(Card c : player.nextTurnCards) {
+            if(c instanceof ActionCard) {
+                actionsInPlay++;
+            }
+        }
+
+        return actionsInPlay;
+    }
+    
     public int getVictoryCardsBoughtThisTurn() {
         return victoryCardsBoughtThisTurn;
     }
