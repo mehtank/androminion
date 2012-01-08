@@ -936,11 +936,7 @@ public class Game {
         }
 
         if (numGames == -1) {
-            if (debug) {
-                numGames = 1;
-            } else {
-                numGames = 20;
-            }
+        	numGames = 1;
         }
 
     }
