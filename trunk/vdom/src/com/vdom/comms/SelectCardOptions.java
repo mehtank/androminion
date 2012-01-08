@@ -45,7 +45,7 @@ public class SelectCardOptions implements Serializable {
 	public boolean ordered = false;
 	public int quarriesPlayed = 0;
 	public boolean buyPhase = false;
-	public int actionsPlayed = 0;
+	public int actionsInPlay = 0;
 	public ArrayList<Integer> allowedCards = new ArrayList<Integer>();
 
 //	public SelectCardOptions setType(SelectType s) {selectType = s; return this;}
@@ -87,7 +87,7 @@ public class SelectCardOptions implements Serializable {
 	    costModifier += (c.isAction ? (2 * quarriesPlayed) : 0);
         
 	    if(buyPhase && c.originalName.equals(Cards.peddler.getSafeName())) {
-	        costModifier += actionsPlayed * 2;
+	        costModifier += actionsInPlay * 2;
 	    }
 		if ((maxCost >= 0) && (c.cost > maxCost + costModifier)) return false;
 		if ((minCost >= 0) && (c.cost < minCost + costModifier)) return false;

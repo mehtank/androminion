@@ -1377,7 +1377,6 @@ public class Game {
                 
                 if(card != null
                     && !card.equals(Cards.possession)
-                    && !card.equals(Cards.golem)
                     ) {
                     addPile(card);
                     added += 1;
