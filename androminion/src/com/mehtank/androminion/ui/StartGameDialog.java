@@ -22,6 +22,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -239,6 +240,9 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 		tv.setTextSize(tv.getTextSize() * 1.5f);
 		vg.addView(tv);
 	    
+		ScrollView sv = new ScrollView(top);
+		LinearLayout ll = new LinearLayout(top);
+		ll.setOrientation(LinearLayout.VERTICAL);
 		for (int i=0; i<4; i++) {
 			LinearLayout hv = new LinearLayout(top);
 			hv.setOrientation(LinearLayout.HORIZONTAL);
@@ -273,8 +277,10 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 				}
 	    	} else
 	    		hv.addView(playerSpinner, LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-	    	vg.addView(hv);
+	    	ll.addView(hv);
 	    }
+		sv.addView(ll);
+		vg.addView(sv);
 
 		a = new AlertDialog.Builder(top)
 			.setTitle(R.string.start_new_game_on_server)
