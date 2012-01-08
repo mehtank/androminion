@@ -112,7 +112,7 @@ public class CardImpl implements Card {
     protected void checkInstantiateOK() {
         if (!templateCard) {
             Thread.dumpStack();
-            System.out.println("Trying to create a real card from a real card instead of a template");
+            Util.debug("Trying to create a real card from a real card instead of a template");
         }
     }
 

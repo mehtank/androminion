@@ -83,7 +83,7 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 	public void showDialog(Androminion top, Event e, boolean multiplayer) {
 	    if(e == null || e.o == null)
 	    {
-	        System.out.println("Start game called without proper data in event.");
+	        top.debug("Start game called without proper data in event.");
 	        return;
 	    }
 	    

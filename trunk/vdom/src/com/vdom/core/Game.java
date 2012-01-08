@@ -120,7 +120,7 @@ public class Game {
 
             checkForInteractive();
 
-            Util.log("");
+            Util.debug("");
 
             // Start game(s)
             if (gameTypeStr != null) {
@@ -548,7 +548,7 @@ public class Game {
                     }
                 }
             } else {
-                Util.log("Error:");
+                Util.debug("Error:Invalid action selected");
                 action = null;
             }
         } while (context.actions > 0 && action != null);
@@ -601,7 +601,7 @@ public class Game {
 
                 }
             } else if (!card.equals(Cards.throneRoom) && !card.equals(Cards.kingsCourt)) {
-                System.out.println("Bad duration card: " + card);
+                Util.debug(player, "Bad duration card: " + card);
             }
             ((CardImpl) card).cloneCount = 1;
         }
@@ -1162,7 +1162,7 @@ public class Game {
             }
 
             if (event.getType() == GameEvent.Type.TurnEnd) {
-                System.out.println();
+                Util.debug("");
                 return;
             }
 
@@ -1189,7 +1189,7 @@ public class Game {
                 msg.append(event.getComment());
             }
 
-            System.out.println(msg.toString());
+            Util.debug(msg.toString());
         }
     }
 
@@ -1398,7 +1398,7 @@ public class Game {
                     platColonyPassedIn = true;
                 } else {
                     unfoundCards.add(s);
-                    Util.log("ERROR::Could not find card:" + s);
+                    Util.debug("ERROR::Could not find card:" + s);
                 }
             }
             

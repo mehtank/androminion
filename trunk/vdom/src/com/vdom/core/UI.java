@@ -229,7 +229,7 @@ public class UI extends JFrame implements GameEventListener {
                 ImageIcon cardImage = loadCardImage(card.getName());
 
                 if (cardImage == null) {
-                    System.out.println("ERROR::::::::::::::::::::::::::::::::::::: Could not load image for:" + card.getName());
+                    Util.debug("ERROR::::::::::::::::::::::::::::::::::::: Could not load image for:" + card.getName());
                     cardImages.put(card.getName(), defaultImage);
                 } else {
                     cardImages.put(card.getName(), cardImage);
@@ -394,7 +394,7 @@ public class UI extends JFrame implements GameEventListener {
 
                         File imageFile = new File(imagesDir, image);
 
-                        System.out.println("downloading:" + url + image);
+                        Util.debug("downloading:" + url + image);
                         downloadUrlToFile(url + image, imageFile);
 
                         at = end;

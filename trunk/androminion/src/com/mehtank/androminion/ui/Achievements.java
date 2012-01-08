@@ -107,7 +107,7 @@ public class Achievements {
     public boolean hasAchieved(String achievement) {
         int index = achievementIndex(achievement);
         if(index == -1) {
-            System.out.println("ERROR: Requested Achievement not found:" + achievement);
+            top.debug("ERROR: Requested Achievement not found:" + achievement);
             return false;
         }
         
@@ -117,7 +117,7 @@ public class Achievements {
     public void achieved(String achievement) {
         int index = achievementIndex(achievement);
         if(index == -1) {
-            System.out.println("ERROR: Acquired Achievement not found:" + achievement);
+            top.debug("ERROR: Acquired Achievement not found:" + achievement);
             return;
         }
         if(!achievementsDone[index]) {
