@@ -48,7 +48,7 @@ public class Util {
     }
     
     public static void log(String s) {
-        System.out.println(s);
+        System.out.println("<VDOM CORE> " + s);
     }
 
     public static void log(Throwable t) {

@@ -142,7 +142,7 @@ public class Androminion extends Activity implements EventHandler {
 			port = extras.getInt("port");
 			if (host != null && port != 0) {
 				// handle(new Event(Event.EType.SETHOST).setString(host).setInteger(port));
-				System.out.println("Wants to connect to dom://" + host + ":" + port);
+				debug("Wants to connect to dom://" + host + ":" + port);
 				new HostDialog(this, host, port);
 				return;
 			}

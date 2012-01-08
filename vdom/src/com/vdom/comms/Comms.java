@@ -13,6 +13,8 @@ import java.net.UnknownHostException;
 
 public class Comms implements Runnable {
 	final static int TIMEOUT = 15000; // 15 seconds in ms
+	final static boolean DEBUGGING = false;
+	
 	String host;
 	int port;
 	EventHandler parent;
@@ -81,7 +83,8 @@ public class Comms implements Runnable {
 	private void debug(String s) {
 		s = host + ":" + port + " -- " + s;
 		// System.err.println (":: Androminion :: " + s);
-		parent.debug(s);
+		if (DEBUGGING)
+			parent.debug(s);
 	}
 	public boolean isConnected() {
 		return (pclient == null ? false : pclient.isConnected());
