@@ -13,6 +13,13 @@ import com.mehtank.androminion.R;
 public class AboutDialog {
 
 	public AboutDialog(Context top) {
+		showDialog(top, false);
+	}
+	public AboutDialog(Context top, boolean showNew) {
+		showDialog(top, showNew);
+	}
+	
+	private void showDialog(Context top, boolean showNew) {
     	TabHost th = new TabHost(top);
     	LinearLayout ll = new LinearLayout(top);
     	ll.setOrientation(LinearLayout.VERTICAL);
@@ -56,6 +63,9 @@ public class AboutDialog {
         spec3.setIndicator(top.getResources().getString(R.string.contrib_menu), top.getResources().getDrawable(android.R.drawable.ic_menu_my_calendar));
         spec3.setContent(credits.getId());
         th.addTab(spec3);
+
+        if (showNew) 
+        	th.setCurrentTab(1);
         
 		AlertDialog d = new AlertDialog.Builder(top)
 			.setView(th)
