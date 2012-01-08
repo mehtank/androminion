@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>    
+       <!-- Help -->
+  <string name="hello">Hallo Welt!</string>
+   <string name="help_supply1">Willkommen zu Androminion, der Android Umsetzung des preisgekrönten Strategie Kartenspiels Dominion, von Donald X. Vaccarino erschienen im Verlag Rio Grande Games.</string>
+   <string name="help_supply2">Wenn Du die Spielregeln von Dominion nicht kennst, ist es ratsam, zuerst die offiziellen Regeln zu lesen. Link dazu findest Du auf der WIKI Seite \n http://android.mehtank.com.</string>
+   <string name="help_supply3">Dies ist der Kartenvorrat. Hier siehst du alle in diesem Spiel verfüg- und kaufbaren Karten.
+       \n\nUm Details zu den einzelnen Karten zu sehen, reicht ein ein langes Klicken auf die jeweilige Karte. .</string>
+   <string name="help_supply4">Die Kosten einer Karte wird in dem gelben Kreis angezeigt, die verbleibende Anzahl steht unter dem Kartennamen.
+       \n\nWenn die Karte Embargo im Spiel ist, wird die Anzahl der Embargopunkte auf dem jeweiligen Vorratsstapel in einem schwarzen Kreis rechts oben gezeigt.</string>
+
+   <string name="help_turn1">Ansicht dieser Runde. Hier siehst Du die Aktionen der einzelnen Spieler der aktuellen Runde.</string>
+   <string name="help_turn2">Der aktuelle Spieler wird hervorgehoben angezeigt, die Spieler werden in der Zugreihenfolge aufgelistet.</string>
+   <string name="help_turn3">Die Ziffern unter den Spielernamen zeigen die Anzahl der Karten in ihrem Nachziehstapel, den Karten auf den Hand sowie dem Ablagestapel inkl. aller sonstigen Karten z.b. dem Eingeborenemdorf, auf Inseln usw. .</string>
+   <string name="help_turn4">Wird mit der Karte Piratenschiff gespielt, wird die Anzahl der Piratenschiff Münzen in einem roten Kreis negben dem Namen des Spieles angezeigt.</string>
+   <string name="help_turn5">Es wird die aktuelle Anzahl an Aktionen, Käufen und Geld am Ende zusammen mit eine Nachricht der erwarteten Eingaben gezeigt.</string>
+
+   <string name="help_hand1">Die erste Spalte zeigt die Karten auf deiner Hand. Diese Spalte ist nur für dich sichtbar.</string>
+   <string name="help_hand2">Die zweite Spalte zeigt die in dieser Runde von dir ausgespielten Karten. Diese Spalte ist für alle sichtbar</string>
+   <string name="help_hand3">Um den Inhalt eines Eingeborenendorfes oder einer Insel sehen zu können, wische diesen Bereich nach links.</string>
+   <string name="help_hand4">Sollte eine diese Spalten zu lang werden, kannst du den kompletten Inhalt sehen indem Du die Spalte nach oben bzw. wieder nach unten wischt.</string>
+   <string name="help_hand5">Zur Wiederholung: langes Drücken zeigt Infos zu der Karte</string>
+       
+      <string name="help_log1">Zu guter Letzt: im unteren Bereich wird die komplette Spielhistorie dises Spiels gezeigt.
+          \n\nDiese Hilfe kannst du auch während eines Spiels über das Menü aufrufen.</string>
+   <string name="help_end">Viel Glück und viel Spaß beim Spielen!
+       \n\n\n -:ankur
+
+\n\n Deutsche Übersetzung:\n
+
+Joerg V. und Sascha H. </string>
+   <string name="help_next">Nächste Seite</string>
+   <string name="help_quit">Hilfe beenden</string>
+   <string name="host_menu">Spiel starten</string>
+       
+       <!-- About -->
+   <string name="app_name">Androminion</string>
+    <string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
+   <string name="version">Version %1$s</string>
+   <string name="copyright">\n\n©2010-2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
+   <string name="dom_copyright">\nDominion card game ©2008-2012 by Rio Grande Games.\n</string>
+       
+       <!-- Prefs -->
+   <string name="toastsoff_pref_summary">Die Option Toast ausschalten nur wählen wenn das Spiel VOR dem Start abstürzt</string>
+   <string name="toastsoff_pref_title">Toasts ausschalten</string>
+   <string name="exitonback_pref_summary">Beendet das Spiel wenn der zurück Knopf erneut gedrückt wird</string>
+   <string name="exitonback_pref_title">Ende mit Zurück Knopf</string>
+   <string name="vibescreen_pref_title">Vibration einstellen &#8230;</string>
+   <string name="gamevibeon_pref_summary">Vibrieren wenn das Spiel endet</string>
+   <string name="gamevibeon_pref_title">Spielende</string>
+
+   <string name="actionvibeon_pref_summary">Vibrieren, wenn Du am Zug bist</string>
+   <string name="actionvibeon_pref_title">Aktionsanzeige</string>
+   <string name="turnvibeon_pref_summary">Vibireren, wenn Dein Zug beginnt</string>
+   <string name="turnvibeon_pref_title">Zug Benachrichtigungen</string>
+   <string name="clickvibeon_pref_summary">Vibrieren wenn Karten gespielt werden</string>
+   <string name="clickvibeon_pref_title">Haptisches Feedback</string>
+   <string name="allvibes_pref_title">Vibration aktivieren</string>
+   <string name="notif_pref_title">Benachrichtigungen</string>
+   
+   <string name="statusbar_pref_title">Statusanzeige aktiv</string>
+   <string name="abc_header_pref_title">Zeige schnelle Infos</string>
+   <string name="abc_header_pref_summary">Zeige Anzahl der Aktionen, Käufe und Münzen oben an</string>
+   <string name="game_play_pref_title">Spieleinstellungen</string>
+   <string name="quick_play_pref_title">Schnelles Spiel</string>
+   <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt. (benötigt einen Neustart des Spiels)</string>
+   <string name="plat_colony_pref_title">Platin und Kolonien</string>
+   <string name="plat_colony_pref_summary">Immer mit den Karten Platin und Kolonien spielen, egal welche Art von Erweiterung gewählt ist.</string>
+   <string name="ui_pref_title">Oberfläche</string>
+   <string name="name_pref_summary">Spitznamen wählen</string>
+   <string name="name_pref_title">Name</string>
+   <string name="personalization_pref_title">Anpassungen</string>
+
+       
+       
+       <!-- Game table -->
+       <string name="title">Androminion by Ankur Mehta</string>
+       <string name="obtained">%1$s gekauft</string>
+       <string name="trashed">%1$s entsorgt</string>
+       <string name="revealed">%1$s aufgedeckt</string>
+       <string name="confirmation">Bist du sicher?</string>
+       <string name="confirm_no">Nein</string>
+       <string name="select_button">Wähle</string>
+       <string name="buy_button">\ \ Kaufen\ \ </string>
+       <string name="play_button">\ Spielen\ </string>
+       <string name="discard_button">Abwerfen</string>
+       <string name="keep_button">Behalten</string>
+       <string name="give_button">Geben</string>
+       <string name="trash_button">Entsorgen</string>
+       <string name="upgrade_button">Upgrade</string>
+       <string name="mint_button">Münzen</string>
+       <string name="swindle_button">Tricksen</string>
+       <string name="all_button">Alle</string>
+       <string name="hand_header">Hand:</string>
+       <string name="played_header">Gespielt:</string>
+       <string name="island_header">Insel:</string>
+       <string name="village_header">Dorf:</string>
+
+    <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/b/(c) angezeigt</string>
+
+    <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+    <string name="action_single">%1$s Aktion</string>
+    <string name="action_multiple">%1$s Aktionen</string>
+    <string name="buy_single">%1$s Kauf</string>
+    <string name="buy_multiple">%1$s Käufe</string>
+    <string name="coins">(%1$s) Geld</string>
+
+
+    <string name="final_view_card_counts">Kartenanzahl</string>       
+    <string name="final_view_text">%1$s: %2$s SP.\n%3$s Züge, %4$s Karten.</string>       
+    <string name="hide_card_counts_pref_title">Verberge Kartenanzahl</string>
+
+	<string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
+      <string name="one_turn_logs_pref_title">Details eines Zuges</string>
+      <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug in im Spielelog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
+      <string name="reset">Reset</string>
+
+	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+	<string name="potion_single">%1$s Trank</string>
+	<string name="potion_multiple">%1$s Tränke</string>
+    <string name="start_new_game_on_server">Neues Spiel starten</string>
+    <string name="select_a_game_type_">Kartensatz wählen:</string>
+    <string name="select_players">Spieler wählen:</string>
+	<string name="player">Spieler </string>
+	<string name="none_game_start">Keiner</string>
+	<string name="start_game">Spiel starten!</string>
+	<string name="you">Du</string>
+
+	<string name="help_menu">Hilfe</string>
+	<string name="start_game_menu">Spiel starten</string>
+	<string name="settings_menu">Einstellungen</string>
+	<string name="about_menu">Über</string>
+	<string name="achievements_menu">Erfolge</string>
+	<string name="win_loss_menu">Siege/Verluste</string>
+	<string name="quit_menu">Beenden</string>
+	<string name="toast_starting">Starte Spiel&#8230;</string>
+	<string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
+	<string name="toast_loading">Lade Spiel&#8230;</string>
+	<string name="achievements_2players8provinces">Habe alle 8 Provinzen am Ende eines 2er-Spiels</string>
+	<string name="achievements_3or4players10provinces">Habe 10 oder mehr Provinzen am Ende eines 3er oder 4er-Spiels</string>
+	<string name="achievements_score100">Gewinne ein Spiel mit mindestens 100 Siegpunkten</string>
+	<string name="achievements_score1more">Gewinne ein Spiel mit genau einem Siegpunkt</string>
+	<string name="achievements_singlecard">Gewinne ein Spiel mit höchstens einer Sorte Königreichkarten</string>
+	<string name="achievements_score50more">Gewinne ein Spiel mit mindestens 50 Siegpunkten</string>
+	<string name="achievements_skunk">Gewinne ein Spiel, bei dem ein Gegner 0 oder weniger Punkte hat</string>
+	<string name="achievements_trash5inaturn">Entsorge mindestens 5 Karten in einem Zug</string>
+	<string name="achievements_gainmorethan30inaturn">Erreiche mehr als 30 Siegpunkte in einem Zug</string>
+	<string name="achievements_win10inarow">Gewinne 10 Spiele direkt nacheinander</string>
+	<string name="accept">Akzeptieren</string>
+	<string name="order_cards_summary">Ziehen/Ablegen\n um Karten \n anzuordnen</string>
+	<string name="stats_menu">Statistiken</string>
+	<string name="whatsnew_menu">Was ist neu </string>
+	<string name="whatsnew_title">Was ist neu: </string>
+	<string name="whatsnew"> <![CDATA[
+	    Es hat eine längere Weile gedauert aber wir hoffen diese Aktualiserung war das Warten wert!  Es gab so viele Änderungen, dass wir sie hier nicht alle auflisten können. Trotzdem sind hier die bedeutendsten:<br/><br/>
+		<b><font color="lime">* Mehr Erweiterungen!</font></b>  Fast alle Karte aus Alchemie, Blütezeit, Reiche Ernte und Hinterland sind jetzt verfügbar.<br/>
+		<b><font color="lime">* Mehr Spieleoptionen!</font></b>  Wähle verschiedenste Variante zufälliger oder fertiger Decks, mit 2-4 Spielern.<br/>
+		<b><font color="lime">* Mehr KI-Optionen!</font></b>  Neue KIs Chuck, Mary, und Sarah.<br/>
+		<b><font color="lime">* Mehr Bugfixes!</font></b>  Und neue Fehler - eventuell.<br/>
+		* Same great taste!<br/>
+		<br/><font color="lime">Androminion ist nun Open Source!</font>  Diese Update wäre ohne die Hilfe einiger Mitwirkender nicht möglich gewesen; siehe Credits-Tab. Auch du kannst helfen! Schreibe Bugreports, Featurerequests, Übersetzungen und mehr unter<br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
+	]]>	</string>
+	<string name="contrib_menu">Credits </string>
+	<string name="contrib_title">Mitwirkende: </string>
+	<string name="logging_pref_title">Spielaufzeichnung</string>
+	<string name="logging_enable_pref_title">Aktiviere Spielaufzeichnung</string>
+	<string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
+	<string name="logging_dir_pref_title">Aufzeichnungsordner</string>
+	<string name="logging_dir_pref_summary">Ordnern zum speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
+	<string name="game_type_random">Zufällig</string>
+	<string name="game_type_preset">Vorgefertigte</string>
+	<string name="game_type_last">Zuletzt gespielt</string>
+	<string name="game_type_specified">Ausgewählte Karten</string>
+	<string name="tournament_reveal">Provinz aufdecken</string>
+</resources>
+
