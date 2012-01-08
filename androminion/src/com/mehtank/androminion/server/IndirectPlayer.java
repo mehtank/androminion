@@ -350,13 +350,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             sco.buyPhase = true;
         }
         if(context != null && context.getPlayedCards() != null) {
-            int actionsPlayed = 0;
+            int actionsInPlay = 0;
             for(Card c : context.getPlayedCards()) {
                 if(c instanceof ActionCard) {
-                    actionsPlayed++;
+                    actionsInPlay++;
                 }
             }
-            sco.actionsPlayed = actionsPlayed;
+            for(Card c : context.player.nextTurnCards) {
+                if(c instanceof ActionCard) {
+                    actionsInPlay++;
+                }
+            }
+
+            sco.actionsInPlay = actionsInPlay;
         }
         sco.setPassable(passString);
         
