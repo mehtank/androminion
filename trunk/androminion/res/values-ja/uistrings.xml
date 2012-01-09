@@ -128,7 +128,7 @@
 	<string name="achievements_3or4players10provinces">2または3プレイヤーゲームの最後に属州を10枚以上持っている。</string>
 	<string name="achievements_score100">100勝利点以上で勝つ</string>
 	<string name="achievements_score1more">ちょうど1勝利点差で勝つ</string>
-	<string name="achievements_singlecard">1種類以下の勝利点カードを購入して勝つ</string>
+	<string name="achievements_singlecard">1種類以下の王国カードを購入して勝つ</string>
 	<string name="achievements_score50more">50勝利点以上差を付けて勝つ</string>
 	<string name="achievements_skunk">対戦相手の1人以上が0勝利点以下で勝つ</string>
 	<string name="achievements_trash5inaturn">1ターンに5枚以上廃棄する</string>
