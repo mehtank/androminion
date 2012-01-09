@@ -2235,7 +2235,7 @@ public class Game {
         // Add the potion if there are any cards that need them.
         for (CardPile pile : piles.values()) {
             if (pile.card.costPotion()) {
-                addPile(Cards.potion, 30);
+                addPile(Cards.potion, 16);
                 break;
             }
         }
