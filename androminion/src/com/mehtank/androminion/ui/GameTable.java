@@ -352,14 +352,14 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 
 	    boolean platInPlay = false;
         for (MyCard c : cards)
-            if(c.name.equals("Platinum")) {
+            if(c.originalName.equals("Platinum")) {
                 platInPlay = true;
                 break;
             }
 		    
         boolean colonyInPlay = false;
         for (MyCard c : cards)
-            if(c.name.equals("Colony")) {
+            if(c.originalName.equals("Colony")) {
                 colonyInPlay = true;
                 break;
             }
