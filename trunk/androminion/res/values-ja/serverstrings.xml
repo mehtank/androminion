@@ -81,7 +81,7 @@
 	<string name="trash">廃棄</string>
 	<string name="keep">キープ</string>
 	<string name="none">もういい</string>
-	<string name="card_revealed_from_player">%1$s より\n%2$s が %3$s を公開した</string>
+	<string name="card_revealed_from_player">%1$s の山札から\n%2$s が %3$s を公開した</string>
 	<string name="GameStarting"></string>
 	<string name="GameOver">ゲームオーバー</string>
 	<string name="Embargo">抑留</string>
@@ -114,7 +114,7 @@
 	<string name="game_over_status">ゲームオーバー -- </string>
 	<string name="game_length_status">ゲーム時間: </string>
 	<string name="end_turn">ターン終了</string>
-	<string name="replace">置換</string>
+	<string name="replace">そのまま戻す</string>
 	
 	<string name="secretchamber_part">山札に戻す [秘密の部屋]</string>
 	
