@@ -99,7 +99,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 	public static MyCard makeMyCard(Card c, int index, boolean isBane){
 //    	MyCard card = new MyCard(index, c.getName());
 	    
-        MyCard card = new MyCard(index, Strings.getCardName(c), c.getSafeName());
+        MyCard card = new MyCard(index, Strings.getCardName(c), c.getSafeName(), c.getName());
     	card.desc = Strings.getCardDescription(c);
     	card.expansion = Strings.getCardExpansion(c);
     	card.cost = c.getCost(null);

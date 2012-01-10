@@ -547,7 +547,7 @@ public class Androminion extends Activity implements EventHandler {
 		
 		int i=0;
 		for (MyCard c : cards)
-			edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + c.originalName);
+			edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + c.originalSafeName);
 			
 		edit.commit();
 	}

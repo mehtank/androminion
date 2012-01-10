@@ -10,6 +10,7 @@ public class MyCard implements Serializable {
 	public String expansion;
 	public String desc;
 	
+	public String originalSafeName;
 	public String originalName;
 
 	public int cost = 0;
@@ -35,9 +36,10 @@ public class MyCard implements Serializable {
 
 	public int pile;
 	 
-	public MyCard(int id, String name, String originalName) {
+	public MyCard(int id, String name, String originalSafeName, String originalName) {
 		this.id = id;
 		this.name = name;
+		this.originalSafeName = originalSafeName;
 		this.originalName = originalName;
 	}
 	
