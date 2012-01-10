@@ -2,6 +2,7 @@ package com.mehtank.androminion.ui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import android.app.AlertDialog;
@@ -134,7 +135,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		playedAdded = true;
 
     	for (int i=0; i<8; i++) 
-    		hand.addCard(new MyCard(0, "default", "default"));
+    		hand.addCard(new MyCard(0, "default", "default", "default"));
     	    	
     	HorizontalScrollView sv = new HorizontalScrollView(top) {
     		boolean f = false;
@@ -352,14 +353,14 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 
 	    boolean platInPlay = false;
         for (MyCard c : cards)
-            if(c.originalName.equals("Platinum")) {
+            if(c.originalSafeName.equals("Platinum")) {
                 platInPlay = true;
                 break;
             }
 		    
         boolean colonyInPlay = false;
         for (MyCard c : cards)
-            if(c.originalName.equals("Colony")) {
+            if(c.originalSafeName.equals("Colony")) {
                 colonyInPlay = true;
                 break;
             }
@@ -681,8 +682,11 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 				v = tv;
 			}
         // }
+			String title = cardView.c.name.equals(cardView.c.originalName)
+					?cardView.c.name:
+						cardView.c.name + "(" + cardView.c.originalName + ")";
 		new AlertDialog.Builder(top)
-			.setTitle(cardView.c.name)
+			.setTitle(title)
 			.setView(v)
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {} })

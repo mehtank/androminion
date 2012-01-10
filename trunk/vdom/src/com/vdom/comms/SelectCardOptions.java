@@ -86,7 +86,7 @@ public class SelectCardOptions implements Serializable {
 	    int costModifier = 0;
 	    costModifier += (c.isAction ? (2 * quarriesPlayed) : 0);
         
-	    if(buyPhase && c.originalName.equals(Cards.peddler.getSafeName())) {
+	    if(buyPhase && c.originalSafeName.equals(Cards.peddler.getSafeName())) {
 	        costModifier += actionsInPlay * 2;
 	    }
 		if ((maxCost >= 0) && (c.cost > maxCost + costModifier)) return false;

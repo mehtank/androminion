@@ -33,6 +33,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 		return null;
 	}
 
+	public Card localNameToCard(String o, Card[] cards) {
+		for (Card c : cards)
+			if (Strings.getCardName(c).equals(o))
+				return c;
+		return null;
+	}
+	
 	abstract protected Card[] pickCards(MoveContext context, String header, SelectCardOptions sco, int count, boolean exact);
     abstract protected String selectString(MoveContext context, String header, String[] s); 
     abstract protected int[] orderCards(MoveContext context, int[] cards); 
@@ -467,7 +474,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	return false;
     }
     public boolean selectBooleanWithCard(MoveContext context, String header, Card c, String strTrue, String strFalse) {
-    	return selectBoolean(context, header + c.getName(), strTrue, strFalse);
+    	return selectBoolean(context, header + Strings.getCardName(c), strTrue, strFalse);
     }
     public boolean selectBooleanCardRevealed(MoveContext context, Card cardResponsible, Card cardRevealed, String strTrue, String strFalse) {
         String c1 = getCardName(cardResponsible);
@@ -842,11 +849,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         Card[] cards = context.getCardsObtainedByLastPlayer().toArray(new Card[0]);
     	for (Card c : cards)
     		if (c.getCost(context) <= 6 && !c.isPrize())
-    			options.add(c.getName());
+    			options.add(Strings.getCardName(c));
     	
     	if (options.size() > 0) {
     		String o = selectString(context, getString(R.string.smuggle_query), options.toArray(new String[0]));	
-            return nameToCard(o, cards);
+            return localNameToCard(o, cards);
     	} else
     		return null;
 	}
@@ -908,10 +915,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
     	ArrayList<String> options = new ArrayList<String>();
     	for (Card c : cards)
-    		options.add(c.getName());
+    		options.add(Strings.getCardName(c));
     	
     	String o = selectString(context, R.string.lookout_query_trash, Cards.lookout, options.toArray(new String[0]));	
-    	return nameToCard(o, cards);
+    	return localNameToCard(o, cards);
     }
 
     // Will be passed the two cards leftover after trashing one
@@ -921,10 +928,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
     	ArrayList<String> options = new ArrayList<String>();
     	for (Card c : cards)
-    		options.add(c.getName());
+    		options.add(Strings.getCardName(c));
     	
     	String o = selectString(context, R.string.lookout_query_discard, Cards.lookout, options.toArray(new String[0]));	
-    	return nameToCard(o, cards);
+    	return localNameToCard(o, cards);
 	}
 
     public Card ambassador_revealedCard(MoveContext context) {
@@ -990,7 +997,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         ArrayList<String> options = new ArrayList<String>();
         for (Card c : cards)
-            options.add(c.getName());
+            options.add(Strings.getCardName(c));
             
         String none = getString(R.string.none);
         options.add(none);
@@ -999,7 +1006,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return null;
         }
         
-        return (TreasureCard) nameToCard(o, cards);
+        return (TreasureCard) localNameToCard(o, cards);
     }
     
     public Card apprentice_cardToTrash(MoveContext context) {
@@ -1034,10 +1041,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         
         ArrayList<String> options = new ArrayList<String>();
         for (Card c : cards)
-            options.add(c.getName());
+            options.add(Strings.getCardName(c));
         
         String o = selectString(context, R.string.golem_first_action, Cards.golem, options.toArray(new String[0]));   
-        Card c = nameToCard(o, cards);
+        Card c = localNameToCard(o, cards);
         if(c.equals(cards[0])) {
             return cards;
         }
@@ -1361,11 +1368,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         ArrayList<String> options = new ArrayList<String>();
         for (TreasureCard c : treasures)
-            options.add(c.getName());
+            options.add(Strings.getCardName(c));
 
         if (options.size() > 0) {
             String o = selectString(context, R.string.treasure_to_trash, Cards.thief, options.toArray(new String[0])); 
-            return (TreasureCard) nameToCard(o, treasures);
+            return (TreasureCard) localNameToCard(o, treasures);
         } else {
             return null;
         }
@@ -1378,14 +1385,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         ArrayList<String> options = new ArrayList<String>();
         options.add(getString(R.string.none));
         for (TreasureCard c : treasures)
-            options.add(c.getName());
+            options.add(Strings.getCardName(c));
 
         if (options.size() > 0) {
             ArrayList<TreasureCard> toGain = new ArrayList<TreasureCard>();
             String o = null;
 
             while (options.size() > 1 && !getString(R.string.none).equals(o = selectString(context, R.string.thief_query, Cards.thief, options.toArray(new String[0])))) {
-                toGain.add((TreasureCard) nameToCard(o, treasures));
+                toGain.add((TreasureCard) localNameToCard(o, treasures));
                 options.remove(o);
             }
 
@@ -1401,11 +1408,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         ArrayList<String> options = new ArrayList<String>();
         for (TreasureCard c : treasures)
-            options.add(c.getName());
+            options.add(Strings.getCardName(c));
 
         if (options.size() > 0) {
             String o = selectString(context, R.string.treasure_to_trash, Cards.pirateShip, options.toArray(new String[0])); 
-            return (TreasureCard) nameToCard(o, treasures);
+            return (TreasureCard) localNameToCard(o, treasures);
         } else {
             return null;
         }
@@ -1521,7 +1528,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             lowIndex = 0;
         }
         
-        if(selectBoolean(context, Strings.format(R.string.noble_brigand_query, context.getAttackedPlayer()), silverOrGoldCards[lowIndex].getName(), silverOrGoldCards[highIndex].getName())) {
+        if(selectBoolean(context, Strings.format(R.string.noble_brigand_query, context.getAttackedPlayer()), Strings.getCardName(silverOrGoldCards[lowIndex]), Strings.getCardName(silverOrGoldCards[highIndex]))) {
             return silverOrGoldCards[lowIndex];
         }
         else {
@@ -1590,7 +1597,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         ArrayList<String> options = new ArrayList<String>();
         for (Card c : cards)
-            options.add(c.getName());
+            options.add(Strings.getCardName(c));
         String none = getString(R.string.none);
         options.add(none);
 
@@ -1599,7 +1606,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             if (o.equals(none)) {
                 break;
             }
-            cardsToDiscard.add((Card) nameToCard(o, cards));
+            cardsToDiscard.add((Card) localNameToCard(o, cards));
             options.remove(o);
         } while (options.size() > 1);
 
@@ -1625,14 +1632,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         ArrayList<String> options = new ArrayList<String>();
         for (ActionCard c : actions)
-            options.add(c.getName());
+            options.add(Strings.getCardName(c));
         String none = getString(R.string.none);
         options.add(none);
         String o = selectString(context, R.string.scheme_query, Cards.scheme, options.toArray(new String[0]));
         if(o.equals(none)) {
             return null;
         }
-        return (ActionCard) nameToCard(o, actions);
+        return (ActionCard) localNameToCard(o, actions);
     }
     
     @Override
@@ -1647,7 +1654,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 first = false;
             else
                 cardNames += ", ";
-            cardNames += c.getName();
+            cardNames += Strings.getCardName(c);
         }
         String s = Strings.format(R.string.card_revealed, player.getPlayerName(), cardNames);
         return !selectBoolean(context, s, getString(R.string.top_of_deck), getString(R.string.discard));
@@ -1769,14 +1776,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if (reactionCards.length > 0) {
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)
-                options.add(c.getName());
+                options.add(Strings.getCardName(c));
             String none = getString(R.string.none);
             options.add(none);
             String o = selectString(context, R.string.reaction_query, responsible, options.toArray(new String[0]));
             if(o.equals(none)) {
                 return null;
             }
-            return nameToCard(o, reactionCards);
+            return localNameToCard(o, reactionCards);
     	}
     	return null;
     }
@@ -1786,6 +1793,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_revealBane(context)) {
             return super.revealBane(context);
         }
-    	return selectBoolean(context, Cards.youngWitch, Strings.format(R.string.bane_option_one, game.baneCard.getName()), getString(R.string.pass));
+    	return selectBoolean(context, Cards.youngWitch, Strings.format(R.string.bane_option_one, Strings.getCardName(game.baneCard)), getString(R.string.pass));
     }
 }
