@@ -39,11 +39,11 @@ import com.mehtank.androminion.ui.SplashView;
 import com.mehtank.androminion.ui.StartGameDialog;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
+import com.vdom.comms.Event.EType;
 import com.vdom.comms.EventHandler;
 import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.NewGame;
-import com.vdom.comms.Event.EType;
 import com.vdom.core.Game;
 
 public class Androminion extends Activity implements EventHandler {
@@ -643,22 +643,25 @@ public class Androminion extends Activity implements EventHandler {
 			serverHost = getLocalIpAddress();
 			serverPort = DEFAULT_PORT;
 			
-			put(new Event(EType.HELLO).setString(name));
-			Event e = comm.get();
-			if (e == null)
-				throw (new IOException());
+			put( new Event( EType.HELLO ).setString( name ) );
+            final Event e = comm.get();
+            if (e == null) {
+                throw new IOException( "No response received. Expected " + EType.GAMESTATS + " or " + EType.NEWGAME );
+            }
 
-			if ((e.t == EType.GAMESTATS) || (e.t == EType.NEWGAME))
-				handle(e);
-			else
-				throw (new IOException());
+            if (e.t == EType.GAMESTATS || e.t == EType.NEWGAME) {
+                handle( e );
+            }
+            else {
+                throw new IOException( "Unknown response received. Event was " + e );
+            }
 
-			commThread = new Thread(comm);
-			commThread.start();
-		} catch (IOException e) {
-			alert("Connection failed!", "Invalid Data.");
-			e.printStackTrace();
-		}
+            commThread = new Thread( comm );
+            commThread.start();
+        }
+        catch (final IOException e) {
+            alert( "Connection failed!", "Reported error was: " +e.getLocalizedMessage() );
+        }
 	}
 
 	public String getLocalIpAddress() {
