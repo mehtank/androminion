@@ -160,7 +160,7 @@
 	<string name="alchemist_option_two">捨て札</string>
 	
 	<string name="navigator_header">航海士は公開した: %1$s</string>
-	<string name="navigator_option_two">山札と交換</string>
+	<string name="navigator_option_two">山札に戻す</string>
 	
 	<string name="tournament_reveal">属州を公開する</string>
 	<string name="tournament_option_one">属州を公開しない</string>
