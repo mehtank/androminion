@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import com.vdom.api.ActionCard;
@@ -2513,7 +2514,7 @@ public class Game {
                                 }
                             }
                         }
-                    } else if (event.card.equals(Cards.mandarin) && event.getType() == GameEvent.Type.BuyingCard) {
+                    } else if (event.card.equals(Cards.mandarin)) {
                         ArrayList<Card> playedCards = ((MoveContext) context).getPlayedCards();
                         ArrayList<Card> treasureCardsInPlay = new ArrayList<Card>();
                         
@@ -2615,30 +2616,35 @@ public class Game {
                         player = context.getPossessedBy();
                     }
                     
+                    List<Card> hagglers = new ArrayList<Card>();
                     for(Card c : event.getContext().getPlayedCards()) {
                         if(c.equals(Cards.haggler)) {
-                            int cost = event.getCard().getCost(context);
-                            boolean potion = event.getCard().costPotion();
-                            boolean found = false;
-                            for(Card cardInPlay : event.getContext().getCardsInPlay()) {
-                                if(cardInPlay.getCost(context) < cost && (potion || !cardInPlay.costPotion()) && event.getContext().getCardsLeft(cardInPlay) > 0 && !(cardInPlay instanceof VictoryCard)) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                                
-                            if(found) {
-                                Card toGain = player.haggler_cardToObtain(event.getContext(), cost - 1, potion);
-                                if(toGain != null) {
-                                    if(toGain.getCost(context) >= cost || (!potion && toGain.costPotion()) || event.getContext().getCardsLeft(toGain) == 0 || (toGain instanceof VictoryCard)) { 
-                                        Util.playerError(event.getPlayer(), "Invalid card returned from Haggler, ignoring.");
-                                    }
-                                    else {
-                                        player.gainNewCard(toGain, Cards.haggler, event.getContext());
-                                    }
-                                }
-                            }
+                        	hagglers.add(c);
                         }
+                    }                    
+                    
+                    for(Card haggler : hagglers) {
+                    	int cost = event.getCard().getCost(context);
+                    	boolean potion = event.getCard().costPotion();
+                    	boolean found = false;
+                    	for(Card cardInPlay : event.getContext().getCardsInPlay()) {
+                    		if(cardInPlay.getCost(context) < cost && (potion || !cardInPlay.costPotion()) && event.getContext().getCardsLeft(cardInPlay) > 0 && !(cardInPlay instanceof VictoryCard)) {
+                    			found = true;
+                    			break;
+                    		}
+                    	}
+
+                    	if(found) {
+                    		Card toGain = player.haggler_cardToObtain(event.getContext(), cost - 1, potion);
+                    		if(toGain != null) {
+                    			if(toGain.getCost(context) >= cost || (!potion && toGain.costPotion()) || event.getContext().getCardsLeft(toGain) == 0 || (toGain instanceof VictoryCard)) { 
+                    				Util.playerError(event.getPlayer(), "Invalid card returned from Haggler, ignoring.");
+                    			}
+                    			else {
+                    				player.gainNewCard(toGain, Cards.haggler, event.getContext());
+                    			}
+                    		}
+                    	}
                     }
                     
                     
