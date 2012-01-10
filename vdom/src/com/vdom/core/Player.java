@@ -217,29 +217,6 @@ public abstract class Player {
             }
         }
         
-        int herbalistCount = 0;
-        for (Card card : context.playedCards) {
-            if (card.equals(Cards.herbalist)) {
-                herbalistCount++;
-            }
-        }
-        while(herbalistCount-- > 0) {
-            ArrayList<TreasureCard> treasureCards = new ArrayList<TreasureCard>();
-            for(Card card : context.playedCards) {
-                if(card instanceof TreasureCard) {
-                    treasureCards.add((TreasureCard) card);
-                }
-            }
-            
-            if(treasureCards.size() > 0) {
-                TreasureCard treasureCard = herbalist_backOnDeck(context, treasureCards.toArray(new TreasureCard[0]));
-                if(treasureCard != null && context.playedCards.contains(treasureCard)) {
-                    context.playedCards.remove(treasureCard);
-                    putOnTopOfDeck(treasureCard);
-                }
-            }
-        }
-        
         boolean alchemistPlayed = true;
         boolean potionPlayed = true;
         Card thisAlchemist = null;
@@ -265,6 +242,29 @@ public abstract class Player {
                 else
                     discard(thisAlchemist, null, null, false);
                 thisAlchemist = null;
+            }
+        }
+        
+        int herbalistCount = 0;
+        for (Card card : context.playedCards) {
+            if (card.equals(Cards.herbalist)) {
+                herbalistCount++;
+            }
+        }
+        while(herbalistCount-- > 0) {
+            ArrayList<TreasureCard> treasureCards = new ArrayList<TreasureCard>();
+            for(Card card : context.playedCards) {
+                if(card instanceof TreasureCard) {
+                    treasureCards.add((TreasureCard) card);
+                }
+            }
+            
+            if(treasureCards.size() > 0) {
+                TreasureCard treasureCard = herbalist_backOnDeck(context, treasureCards.toArray(new TreasureCard[0]));
+                if(treasureCard != null && context.playedCards.contains(treasureCard)) {
+                    context.playedCards.remove(treasureCard);
+                    putOnTopOfDeck(treasureCard);
+                }
             }
         }
         
