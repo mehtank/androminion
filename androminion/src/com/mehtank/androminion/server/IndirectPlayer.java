@@ -1771,8 +1771,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override 
-    public Card getAttackReaction(MoveContext context, Card responsible) {
-    	Card[] reactionCards = getReactionCards();
+    public Card getAttackReaction(MoveContext context, Card responsible, boolean defended) {
+    	Card[] reactionCards = getReactionCards(defended);
     	if (reactionCards.length > 0) {
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)

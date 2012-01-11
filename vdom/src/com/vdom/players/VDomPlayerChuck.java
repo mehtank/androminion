@@ -190,8 +190,8 @@ public class VDomPlayerChuck extends BasePlayer  {
     }
 
 	@Override
-	public Card getAttackReaction(MoveContext context, Card responsible) {
-		Card[] reactionCards = getReactionCards();
+	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended) {
+		Card[] reactionCards = getReactionCards(defended);
 		for (Card c : reactionCards) {
 			if (c.equals(Cards.moat) && !reactedMote) {
 				reactedMote = true;
