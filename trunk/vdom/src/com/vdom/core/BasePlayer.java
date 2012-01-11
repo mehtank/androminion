@@ -308,13 +308,21 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
     }
     
-	protected Card[] getReactionCards() {
+	protected Card[] getReactionCards(boolean defended) {
 		ArrayList<Card> reactionCards = new ArrayList<Card>();
+		boolean moatSelected = false;
+		boolean secretChamberSelected = false;
+			
     	for (Card c: hand) {
-    		if (c.equals(Cards.moat) || 
-    				c.equals(Cards.secretChamber) || 
-    				c.equals(Cards.horseTraders))
+    		if (c.equals(Cards.moat) && !defended && !moatSelected) {
+    			reactionCards.add(c);    			
+    			moatSelected = true;
+    		} else if (c.equals(Cards.secretChamber) && !secretChamberSelected) {
     			reactionCards.add(c);
+    			secretChamberSelected = true;
+    		} else if (c.equals(Cards.horseTraders)) {
+    			reactionCards.add(c);
+    		}
     	}
 		return reactionCards.toArray(new Card[0]);
 	}

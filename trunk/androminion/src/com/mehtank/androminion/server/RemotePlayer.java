@@ -521,7 +521,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     else {
                         cards += ", ";
                     }
-                    cards += card.getName();
+                    cards += Strings.getCardName(card);
                 }
                 strEvent += Strings.format(R.string.CantBuy, cards);
                 break;
