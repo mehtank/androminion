@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
@@ -1236,6 +1237,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 MoveContext playerContext = new MoveContext(game, player);
 
                 ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
+                List<Card> cardToDiscard = new ArrayList<Card>();
 
                 for (int i = 0; i < 3; i++) {
                     Card card = game.draw(player);
@@ -1243,12 +1245,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     player.reveal(card, this, playerContext);
 
                     if (card instanceof TreasureCard || card instanceof ActionCard) {
-                        player.discard(card, this, playerContext);
+                    	cardToDiscard.add(card);
                     } else {
                         topOfTheDeck.add(card);
                     }
                 }
                 }
+                for (Card c: cardToDiscard) {
+                	player.discard(c, this, playerContext);
+                }
+
 
                 if (!topOfTheDeck.isEmpty()) {
                     Card[] order = (player).rabble_attack_cardOrder(playerContext, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]));
@@ -1446,6 +1452,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void harvest(Game game, MoveContext context, Player currentPlayer) {
         HashSet<String> cardNames = new HashSet<String>();
+        List<Card> cardToDiscard = new ArrayList<Card>();
         for (int i = 0; i < 4; i++) {
             Card draw = game.draw(currentPlayer);
             if (draw == null) {
@@ -1454,7 +1461,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             cardNames.add(draw.getName());
             currentPlayer.reveal(draw, this, context);
-            currentPlayer.discard(draw, this, context);
+            cardToDiscard.add(draw);
+        }
+        for (Card c: cardToDiscard) {
+            currentPlayer.discard(c, this, context);
         }
 
         context.addGold += cardNames.size();
@@ -1908,6 +1918,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 ArrayList<TreasureCard> treasures = new ArrayList<TreasureCard>();
 
+                List<Card> cardsToDiscard = new ArrayList<Card>();
                 for (int i = 0; i < 2; i++) {
                     Card card = game.draw(targetPlayer);
 
@@ -1917,9 +1928,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                         if (card instanceof TreasureCard) {
                             treasures.add((TreasureCard) card);
                         } else {
-                            targetPlayer.discard(card, this, targetContext);
+                        	cardsToDiscard.add(card);
                         }
                     }
+                }
+                
+                for (Card c: cardsToDiscard) {
+                    targetPlayer.discard(c, this, targetContext);
                 }
 
                 TreasureCard cardToTrash = null;
@@ -3334,6 +3349,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
 
                 ArrayList<TreasureCard> treasures = new ArrayList<TreasureCard>();
+                List<Card> cardToDiscard = new ArrayList<Card>();
 
                 for (int i = 0; i < 2; i++) {
                     Card card = game.draw(targetPlayer);
@@ -3344,9 +3360,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                         if (card instanceof TreasureCard) {
                             treasures.add((TreasureCard) card);
                         } else {
-                            targetPlayer.discard(card, this, targetContext);
+                        	cardToDiscard.add(card);
                         }
                     }
+                }
+                for (Card c: cardToDiscard) {
+                	targetPlayer.discard(c, this, targetContext);
                 }
 
                 TreasureCard cardToTrash = null;

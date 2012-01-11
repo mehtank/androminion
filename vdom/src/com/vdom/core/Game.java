@@ -2926,6 +2926,7 @@ public class Game {
                 boolean treasureRevealed = false;
                 ArrayList<TreasureCard> silverOrGold = new ArrayList<TreasureCard>();
 
+                List<Card> cardToDiscard = new ArrayList<Card>();
                 for (int j = 0; j < 2; j++) {
                     Card card = draw(targetPlayer);
                     if(card == null) {
@@ -2940,8 +2941,12 @@ public class Game {
                     if(card.equals(Cards.silver) || card.equals(Cards.gold)) {
                         silverOrGold.add((TreasureCard) card);
                     } else {
-                        targetPlayer.discard(card, nobleBrigandCard, targetContext);
+                    	cardToDiscard.add(card);
                     }
+                }
+
+                for (Card c: cardToDiscard) {
+                	targetPlayer.discard(c, nobleBrigandCard, targetContext);
                 }
                 
                 if(!treasureRevealed) {
@@ -2955,15 +2960,15 @@ public class Game {
                 } else if (silverOrGold.size() == 2) {
                     if (silverOrGold.get(0).equals(silverOrGold.get(1))) {
                         cardToTrash = silverOrGold.get(0);
+                        targetPlayer.discard(silverOrGold.get(1), nobleBrigandCard, targetContext);
                     } else {
                         moveContext.attackedPlayer = targetPlayer;
                         cardToTrash = (player).nobleBrigand_silverOrGoldToTrash(moveContext, silverOrGold.toArray(new TreasureCard[]{}));
                         moveContext.attackedPlayer = null;
-                    }
-
-                    for (TreasureCard c : silverOrGold) {
-                        if (!c.equals(cardToTrash)) {
-                            targetPlayer.discard(c, nobleBrigandCard, targetContext);
+                        for (TreasureCard c : silverOrGold) {
+                            if (!c.equals(cardToTrash)) {
+                                targetPlayer.discard(c, nobleBrigandCard, targetContext);
+                            }
                         }
                     }
                 }
