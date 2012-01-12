@@ -66,12 +66,12 @@ public class CombinedStatsDialog {
         }
         
         AlertDialog d = builder.create();
+	    d.show();
         
 	    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 	    lp.copyFrom(d.getWindow().getAttributes());
 	    lp.width = WindowManager.LayoutParams.FILL_PARENT;
 	    lp.height = WindowManager.LayoutParams.FILL_PARENT;
-	    d.show();
 	    d.getWindow().setAttributes(lp);
     }
 }
