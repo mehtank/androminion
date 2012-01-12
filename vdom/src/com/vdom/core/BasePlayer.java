@@ -1540,13 +1540,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card develop_lowCardToGain(MoveContext context, int cost) {
-        return bestCardInPlay(context, cost, true);
+    public Card develop_lowCardToGain(MoveContext context, int cost, boolean potion) {
+        return bestCardInPlay(context, cost, true, potion);
     }
     
     @Override
-    public Card develop_highCardToGain(MoveContext context, int cost) {
-        return bestCardInPlay(context, cost, true);
+    public Card develop_highCardToGain(MoveContext context, int cost, boolean potion) {
+        return bestCardInPlay(context, cost, true, potion);
     }
     
     @Override

@@ -3005,16 +3005,17 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
             
             int trashedCardCost = cardToTrash.getCost(context);
+            boolean trashedCardPotion = cardToTrash.costPotion();
             
             Card lowCardToGain = null;
             Card highCardToGain = null;
             
-            if(isNewCardAvailable(context, trashedCardCost - 1)) {
-                lowCardToGain = currentPlayer.develop_lowCardToGain(context, trashedCardCost - 1);
+            if(isNewCardAvailable(context, trashedCardCost - 1, trashedCardPotion)) {
+                lowCardToGain = currentPlayer.develop_lowCardToGain(context, trashedCardCost - 1, trashedCardPotion);
             }
             
-            if(isNewCardAvailable(context, trashedCardCost + 1)) {
-                highCardToGain = currentPlayer.develop_highCardToGain(context, trashedCardCost + 1);
+            if(isNewCardAvailable(context, trashedCardCost + 1, trashedCardPotion)) {
+                highCardToGain = currentPlayer.develop_highCardToGain(context, trashedCardCost + 1, trashedCardPotion);
             }
             
             ArrayList<Card> cards = new ArrayList<Card>();
@@ -3576,9 +3577,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         return player.hand.remove(i);
     }
     
-    protected boolean isNewCardAvailable(MoveContext context, int cost) {
+    protected boolean isNewCardAvailable(MoveContext context, int cost, boolean potion) {
         for(Card c : context.getCardsInPlay()) {
-            if(c.getCost(context) == cost && context.getCardsLeft(c) > 0) {
+            if(c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeft(c) > 0) {
                 return true;
             }
         }

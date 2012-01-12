@@ -820,9 +820,9 @@ public abstract class Player {
     
     public abstract Card develop_cardToTrash(MoveContext context);
     
-    public abstract Card develop_lowCardToGain(MoveContext context, int cost);
+    public abstract Card develop_lowCardToGain(MoveContext context, int cost, boolean potion);
     
-    public abstract Card develop_highCardToGain(MoveContext context, int cost);
+    public abstract Card develop_highCardToGain(MoveContext context, int cost, boolean potion);
     
     public abstract Card[] develop_orderCards(MoveContext context, Card[] cards);
     
