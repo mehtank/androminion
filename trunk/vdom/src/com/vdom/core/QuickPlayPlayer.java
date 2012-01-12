@@ -651,11 +651,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_develop_lowCardToGain(MoveContext context, int cost) {
+    public boolean shouldAutoPlay_develop_lowCardToGain(MoveContext context, int cost, boolean potion) {
         return false;
     }
     
-    public boolean shouldAutoPlay_develop_highCardToGain(MoveContext context, int cost) {
+    public boolean shouldAutoPlay_develop_highCardToGain(MoveContext context, int cost, boolean potion) {
         return false;
     }
     
