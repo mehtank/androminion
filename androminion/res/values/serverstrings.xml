@@ -250,7 +250,9 @@
 	<string name="margrave_part">keep from Margrave</string>
 	
 	<string name="wishing_well_part">guess is your top card</string>
-	
+
+	<string name="explorer_reveal">Reveal Province</string>
+		
 	<!-- *** -->
 	<string name="university_part">gain [University]</string>
 	<!-- *** -->

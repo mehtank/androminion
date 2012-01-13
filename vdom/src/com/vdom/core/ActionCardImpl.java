@@ -465,16 +465,17 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void explorer(MoveContext context, Player currentPlayer) {
-        boolean province = false;
+        Card province = null;
         for (Card card : currentPlayer.hand) {
             if (card.equals(Cards.province)) {
-                province = true;
+                province = card;
                 break;
             }
         }
 
         Card treasure;
-        if (province) {
+        if (province != null && currentPlayer.explorer_shouldRevealProvince(context)) {
+        	currentPlayer.reveal(province, this, context);
             treasure = Cards.gold;
         } else {
             treasure = Cards.silver;
