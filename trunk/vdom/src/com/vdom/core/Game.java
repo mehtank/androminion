@@ -2373,8 +2373,8 @@ public class Game {
                     
                     //Not sure if this is exactly right for the Trader, but it seems to be based on detailed card explanation in the rules
                     //The handling for new cards is done before taking the card from the pile in a different method below.
-                    if(!event.newCard) {
-                        if(player.hand.contains(Cards.trader) && !event.card.equals(Cards.silver)) {
+                    if(!event.newCard && !Cards.masquerade.equals(event.responsible)) {
+                        if(player.hand.contains(Cards.trader)) {
                             if((player).trader_shouldGainSilverInstead((MoveContext) context, event.card)) {
                                 player.trash(event.card, Cards.trader, (MoveContext) context);
                                 event.card = Cards.silver;
@@ -2388,7 +2388,7 @@ public class Game {
                         cardsObtainedLastTurn[playersTurn].add(event.card);
                     }
 
-                    if (player.hand.contains(Cards.watchTower)) {
+                    if (player.hand.contains(Cards.watchTower) && !Cards.masquerade.equals(event.responsible)) {
                         WatchTowerOption choice = context.player.watchTower_chooseOption((MoveContext) context, event.card);
     
                         if (choice == WatchTowerOption.TopOfDeck) {
@@ -2745,7 +2745,7 @@ public class Game {
     }
     
     public Card takeFromPileCheckTrader(Card cardToGain, MoveContext context) {
-        if(context.getPlayer().hand.contains(Cards.trader) && !cardToGain.equals(Cards.silver)) {
+        if(!isPileEmpty(cardToGain) && context.getPlayer().hand.contains(Cards.trader) && !cardToGain.equals(Cards.silver)) {
             if(context.player.trader_shouldGainSilverInstead((MoveContext) context, cardToGain)) {
                 cardToGain = Cards.silver;
             }

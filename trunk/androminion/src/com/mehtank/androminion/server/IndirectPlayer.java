@@ -1463,7 +1463,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_trader_shouldGainSilverInstead(context, card)) {
             return super.trader_shouldGainSilverInstead(context, card);
         }
-        return !selectBoolean(context, Cards.trader, Strings.format(R.string.trader_gain, getCardName(card)), Strings.format(R.string.trader_gain, getCardName(Cards.silver)));
+        return !selectBoolean(context, Cards.trader, Strings.format(R.string.trader_gain, getCardName(card)), Strings.format(R.string.trader_gain_instead_of, getCardName(Cards.silver), getCardName(card)));
     }
     
     @Override
