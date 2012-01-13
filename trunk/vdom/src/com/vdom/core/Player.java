@@ -711,6 +711,8 @@ public abstract class Player {
 
     public abstract boolean pearlDiver_shouldMoveToTop(MoveContext context, Card card);
 
+    public abstract boolean explorer_shouldRevealProvince(MoveContext context);
+
     // ////////////////////////////////////////////
     // Card interactions - cards from Alchemy
     // ////////////////////////////////////////////
@@ -773,7 +775,7 @@ public abstract class Player {
     public abstract WatchTowerOption watchTower_chooseOption(MoveContext context, Card card);
 
     public abstract ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context);
-
+    
     // ////////////////////////////////////////////
     // Card interactions - cards from Cornucopia
     // ////////////////////////////////////////////
@@ -877,5 +879,7 @@ public abstract class Player {
 	public abstract Card getAttackReaction(MoveContext context, Card responsible, boolean defended);
 	
 	public abstract boolean revealBane(MoveContext context);
+	
+	
 
 }

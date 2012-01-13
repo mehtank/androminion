@@ -963,6 +963,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 		return selectBooleanCardRevealed(context, Cards.pearlDiver, card, option1, option2);
 	}
     
+    @Override
+    public boolean explorer_shouldRevealProvince(MoveContext context) {
+        if (context.isQuickPlay() && shouldAutoPlay_explorer_shouldRevealProvince(context)) {
+        	super.explorer_shouldRevealProvince(context);
+        }
+    	return selectBoolean(context, Cards.explorer, Strings.getString(R.string.explorer_reveal), Strings.getString(R.string.pass));
+    }
+    
     public Card transmute_cardToTrash(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_transmute_cardToTrash(context)) {
             return super.transmute_cardToTrash(context);

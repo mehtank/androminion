@@ -961,6 +961,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
+    public boolean explorer_shouldRevealProvince(MoveContext context) {
+    	return true;
+    }
+
+    @Override
     public ActionCard university_actionCardToObtain(MoveContext context) {
         //TODO: better logic
         return (ActionCard) bestCardInPlay(context, 5, false, false, true, false);
@@ -1074,7 +1079,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         // TODO:: Finish prosperity
         return null;
     }
-
+    
     @Override
     public Card[] vault_cardsToDiscardForGold(MoveContext context) {
         // TODO:: Finish prosperity

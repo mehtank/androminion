@@ -251,6 +251,8 @@
 	
 	<string name="wishing_well_part">山札の一番上のカードの推測</string>
 	
+	<string name="explorer_reveal">属州を公開する</string>
+	
 	<!-- *** -->
 	<string name="university_part">獲得 [大学]</string>
 	<!-- *** -->

@@ -313,6 +313,9 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
 
+    public boolean shouldAutoPlay_explorer_shouldRevealProvince(MoveContext context) {
+    	return true;
+    }
     
     public boolean shouldAutoPlay_university_actionCardToObtain(MoveContext context) {
         return false;
