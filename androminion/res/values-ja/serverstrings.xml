@@ -211,6 +211,7 @@
 	<string name="jester_option_two">%1$s がコピーを獲得</string>
 	
 	<string name="trader_gain">%1$s を獲得</string>
+	<string name="trader_gain_instead_of">%2$s の代わりに %1$s を獲得</string>
 
 	<string name="fools_gold_option_one">金貨のために廃棄</string>
 	

@@ -211,6 +211,7 @@
 	<string name="jester_option_two">Give copy to %1$s</string>
 	
 	<string name="trader_gain">Gain %1$s</string>
+	<string name="trader_gain_instead_of">Gain %1$s, instead of %2$s</string>
 
 	<string name="fools_gold_option_one">Trash for Gold</string>
 	
