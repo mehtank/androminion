@@ -1018,15 +1018,15 @@ public class Game {
 	        broadcastEvent(event);
 	
             // cost adjusted based on any cards played or card being bought
-	        int cost = card.getCost(context);
+	        int cost = buy.getCost(context);
 
-            context.gold -= card.getCost(context);
+            context.gold -= buy.getCost(context);
 	        
-	        if (card.costPotion()) {
+	        if (buy.costPotion()) {
 	            context.potions--;
-	        } else if (!(card instanceof VictoryCard) && context.talismansPlayed > 0 && cost < 5) {
+	        } else if (!(buy instanceof VictoryCard) && context.talismansPlayed > 0 && cost < 5) {
 	            for (int i = 0; i < context.talismansPlayed; i++) {
-	                context.getPlayer().gainNewCard(card, Cards.talisman, context);
+	                context.getPlayer().gainNewCard(buy, Cards.talisman, context);
 	            }
 	        }
 
@@ -1037,26 +1037,51 @@ public class Game {
                 for (int i = 0; i < context.hoardsPlayed; i++) {
                     player.gainNewCard(Cards.gold, Cards.hoard, context);
                 }
-            } else if (buy.equals(Cards.mint)) {
-                ArrayList<Card> toTrash = new ArrayList<Card>();
-                for (Card playedCard : context.playedCards)
-                    if (playedCard instanceof TreasureCard)
-                        toTrash.add(playedCard);
-
-                for (Card trashCard : toTrash) {
-                    context.playedCards.remove(trashCard);
-                    player.trash(trashCard, card, context);
-                }
             }
-
             int embargos = getEmbargos(buy.getName());
 
             for (int i = 0; i < embargos; i++) {
                 player.gainNewCard(Cards.curse, Cards.embargo, context);
             }
+            buy.isBought(context);
+            haggler(context, buy);
         }
     }
+    
+    private void haggler(MoveContext context, Card card) {
+        List<Card> hagglers = new ArrayList<Card>();
+        for(Card c : context.getPlayedCards()) {
+            if(c.equals(Cards.haggler)) {
+            	hagglers.add(c);
+            }
+        }                    
+        
+        for (int i = 0, hagglerSize = hagglers.size(); i < hagglerSize; i++) {
+        	int cost = card.getCost(context);
+        	boolean potion = card.costPotion();
+        	boolean found = false;
+        	for(Card cardInPlay : context.getCardsInPlay()) {
+        		if(cardInPlay.getCost(context) < cost && (potion || !cardInPlay.costPotion()) && context.getCardsLeft(cardInPlay) > 0 && !(cardInPlay instanceof VictoryCard)) {
+        			found = true;
+        			break;
+        		}
+        	}
 
+        	if(found) {
+        		Card toGain = context.getPlayer().haggler_cardToObtain(context, cost - 1, potion);
+        		if(toGain != null) {
+        			if(toGain.getCost(context) >= cost || (!potion && toGain.costPotion()) || context.getCardsLeft(toGain) == 0 || (toGain instanceof VictoryCard)) { 
+        				Util.playerError(context.getPlayer(), "Invalid card returned from Haggler, ignoring.");
+        			}
+        			else {
+        				context.getPlayer().gainNewCard(toGain, Cards.haggler, context);
+        			}
+        		}
+        	}
+        }
+
+    }
+    
     public boolean buyWouldEndGame(Card card) {
         if (colonyInPlay && card.equals(Cards.colony)) {
             if (pileSize(card) <= 1) {
@@ -2529,66 +2554,7 @@ public class Game {
                             player.putOnTopOfDeck(c);
                             playedCards.remove(c);
                         }
-                    } else if (event.card.equals(Cards.farmland) && event.getType() == GameEvent.Type.BuyingCard) {
-                        if(event.player.getHand().size() > 0) {
-                            Card cardToTrash = event.player.farmland_cardToTrash((MoveContext) context);
-    
-                            if (cardToTrash == null) {
-                                Util.playerError(player, "Farmland did not return a card to trash, trashing random card.");
-                                cardToTrash = Util.randomCard(player.hand);
-                            }
-                
-                            int cost = -1;
-                            boolean potion = false;
-                            for (int i = 0; i < player.hand.size(); i++) {
-                                Card playersCard = player.hand.get(i);
-                                if (playersCard.equals(cardToTrash)) {
-                                    cost = playersCard.getCost(context);
-                                    potion = playersCard.costPotion();
-                                    playersCard = player.hand.remove(i);
-                
-                                   player.trash(playersCard, event.card, (MoveContext) context);
-                                    break;
-                                }
-                            }
-                
-                            if (cost == -1) {
-                                Util.playerError(player, "Farmland returned invalid card, ignoring.");
-                            }
-                            else {
-                                cost += 2;
-        
-                                boolean validCard = false;
-                                
-                                for(Card c : event.context.getCardsInPlay()) {
-                                    if(c.getCost(context) == cost && c.costPotion() == potion && event.context.getCardsLeft(c) > 0) {
-                                        validCard = true;
-                                        break;
-                                    }
-                                }
-
-                                if(validCard) {
-                                    Card card = event.player.farmland_cardToObtain((MoveContext) context, cost, potion);
-                                    if (card != null) {
-                                        // check cost
-                                        if (card.getCost(context) != cost || card.costPotion() != potion) {
-                                            Util.playerError(event.player, "Farmland card to obtain returned an invalid card, ignoring.");
-                                        }
-                                        else
-                                        {
-                                            if(!player.gainNewCard(card, event.card, (MoveContext) context)) {
-                                                Util.playerError(event.player, "Farmland new card is invalid, ignoring.");
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        //TODO: handle...
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
+                    }                    
                     // Achievement check...
                     if(event.getType() == GameEvent.Type.BuyingCard && !player.achievementSingleCardFailed) {
                         if (Cards.isKingdomCard(event.getCard())) {
@@ -2605,49 +2571,12 @@ public class Game {
                     }
                 }
                 
-                if(event.getType() == GameEvent.Type.BuyingCard && event.card.equals(Cards.nobleBrigand)) {
-                    nobleBrigandAttack(event.getContext(), event.getCard(), false);
-                }
-
                 if(event.getType() == GameEvent.Type.BuyingCard && event.getContext() != null) {
                     MoveContext context = event.getContext();
                     Player player = context.getPlayer();
                     if(context.getPossessedBy() != null) {
                         player = context.getPossessedBy();
                     }
-                    
-                    List<Card> hagglers = new ArrayList<Card>();
-                    for(Card c : event.getContext().getPlayedCards()) {
-                        if(c.equals(Cards.haggler)) {
-                        	hagglers.add(c);
-                        }
-                    }                    
-                    
-                    for(Card haggler : hagglers) {
-                    	int cost = event.getCard().getCost(context);
-                    	boolean potion = event.getCard().costPotion();
-                    	boolean found = false;
-                    	for(Card cardInPlay : event.getContext().getCardsInPlay()) {
-                    		if(cardInPlay.getCost(context) < cost && (potion || !cardInPlay.costPotion()) && event.getContext().getCardsLeft(cardInPlay) > 0 && !(cardInPlay instanceof VictoryCard)) {
-                    			found = true;
-                    			break;
-                    		}
-                    	}
-
-                    	if(found) {
-                    		Card toGain = player.haggler_cardToObtain(event.getContext(), cost - 1, potion);
-                    		if(toGain != null) {
-                    			if(toGain.getCost(context) >= cost || (!potion && toGain.costPotion()) || event.getContext().getCardsLeft(toGain) == 0 || (toGain instanceof VictoryCard)) { 
-                    				Util.playerError(event.getPlayer(), "Invalid card returned from Haggler, ignoring.");
-                    			}
-                    			else {
-                    				player.gainNewCard(toGain, Cards.haggler, event.getContext());
-                    			}
-                    		}
-                    	}
-                    }
-                    
-                    
                 }
 
                 boolean shouldShow = debug;
@@ -2909,91 +2838,5 @@ public class Game {
             }
         }
         return false;
-    }
-
-    public void nobleBrigandAttack(MoveContext moveContext, Card nobleBrigandCard, boolean defensible) {
-        MoveContext context = moveContext;
-        Player player = context.getPlayer();
-        ArrayList<TreasureCard> trashed = new ArrayList<TreasureCard>();
-        boolean[] gainCopper = new boolean[getPlayersInTurnOrder().length];
-
-        int i = 0;
-        for (Player targetPlayer : getPlayersInTurnOrder()) {
-            // Hinterlands card details in the rules states that noble brigand is not defensible when triggered from a buy
-            if (targetPlayer != player && (!defensible || !Util.isDefendedFromAttack(this, targetPlayer, nobleBrigandCard))) {
-                targetPlayer.attacked(nobleBrigandCard, moveContext);
-                MoveContext targetContext = new MoveContext(this, targetPlayer);
-                boolean treasureRevealed = false;
-                ArrayList<TreasureCard> silverOrGold = new ArrayList<TreasureCard>();
-
-                List<Card> cardToDiscard = new ArrayList<Card>();
-                for (int j = 0; j < 2; j++) {
-                    Card card = draw(targetPlayer);
-                    if(card == null) {
-                        break;
-                    }
-                    targetPlayer.reveal(card, nobleBrigandCard, targetContext);
-
-                    if (card instanceof TreasureCard) {
-                        treasureRevealed = true;
-                    }
-                    
-                    if(card.equals(Cards.silver) || card.equals(Cards.gold)) {
-                        silverOrGold.add((TreasureCard) card);
-                    } else {
-                    	cardToDiscard.add(card);
-                    }
-                }
-
-                for (Card c: cardToDiscard) {
-                	targetPlayer.discard(c, nobleBrigandCard, targetContext);
-                }
-                
-                if(!treasureRevealed) {
-                    gainCopper[i] = true;
-                }
-
-                TreasureCard cardToTrash = null;
-
-                if (silverOrGold.size() == 1) {
-                    cardToTrash = silverOrGold.get(0);
-                } else if (silverOrGold.size() == 2) {
-                    if (silverOrGold.get(0).equals(silverOrGold.get(1))) {
-                        cardToTrash = silverOrGold.get(0);
-                        targetPlayer.discard(silverOrGold.get(1), nobleBrigandCard, targetContext);
-                    } else {
-                        moveContext.attackedPlayer = targetPlayer;
-                        cardToTrash = (player).nobleBrigand_silverOrGoldToTrash(moveContext, silverOrGold.toArray(new TreasureCard[]{}));
-                        moveContext.attackedPlayer = null;
-                        for (TreasureCard c : silverOrGold) {
-                            if (!c.equals(cardToTrash)) {
-                                targetPlayer.discard(c, nobleBrigandCard, targetContext);
-                            }
-                        }
-                    }
-                }
-
-                if (cardToTrash != null) {
-                    targetPlayer.trash(cardToTrash, nobleBrigandCard, targetContext);
-                    trashed.add(cardToTrash);
-                }
-            }
-            i++;
-        }
-
-        i = 0;
-        for(Player targetPlayer : getPlayersInTurnOrder()) {
-            if(gainCopper[i]) {
-                MoveContext targetContext = new MoveContext(this, targetPlayer);
-                targetPlayer.gainNewCard(Cards.copper, nobleBrigandCard, targetContext);
-            }
-            i++;
-        }
-        
-        if (trashed.size() > 0) {
-            for (Card c : trashed) {
-                player.gainCardAlreadyInPlay(c, nobleBrigandCard, moveContext);
-            }
-        }
     }
 }
