@@ -373,7 +373,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.jackOfAllTrades)) {
             jackOfAllTrades(game, context, currentPlayer);
         } else if (equals(Cards.nobleBrigand)) {
-            game.nobleBrigandAttack(context, this, true);
+            nobleBrigandAttack(context, true);
         } else if (equals(Cards.spiceMerchant)) {
             spiceMerchant(game, context, currentPlayer);
         } else if (equals(Cards.oracle)) {
@@ -3598,4 +3598,107 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
 
+    @Override
+    public void isBought(MoveContext context) {
+    	if (this.equals(Cards.nobleBrigand)) {
+        	nobleBrigandAttack(context, false);
+    	} else if (this.equals(Cards.mint)) {
+            ArrayList<Card> toTrash = new ArrayList<Card>();
+            for (Card playedCard : context.playedCards)
+                if (playedCard instanceof TreasureCard) {
+                    toTrash.add(playedCard);
+                }
+
+            for (Card trashCard : toTrash) {
+                context.playedCards.remove(trashCard);
+                context.player.trash(trashCard, this, context);
+            }
+    	}
+    }
+    
+    public void nobleBrigandAttack(MoveContext moveContext, boolean defensible) {
+        MoveContext context = moveContext;
+        Player player = context.getPlayer();
+        ArrayList<TreasureCard> trashed = new ArrayList<TreasureCard>();
+        boolean[] gainCopper = new boolean[context.game.getPlayersInTurnOrder().length];
+
+        int i = 0;
+        for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
+            // Hinterlands card details in the rules states that noble brigand is not defensible when triggered from a buy
+            if (targetPlayer != player && (!defensible || !Util.isDefendedFromAttack(context.game, targetPlayer, this))) {
+                targetPlayer.attacked(this, moveContext);
+                MoveContext targetContext = new MoveContext(context.game, targetPlayer);
+                boolean treasureRevealed = false;
+                ArrayList<TreasureCard> silverOrGold = new ArrayList<TreasureCard>();
+
+                List<Card> cardsToDiscard = new ArrayList<Card>();
+                for (int j = 0; j < 2; j++) {
+                    Card card = context.game.draw(targetPlayer);
+                    if(card == null) {
+                        break;
+                    }
+                    targetPlayer.reveal(card, this, targetContext);
+
+                    if (card instanceof TreasureCard) {
+                        treasureRevealed = true;
+                    }
+                    
+                    if(card.equals(Cards.silver) || card.equals(Cards.gold)) {
+                        silverOrGold.add((TreasureCard) card);
+                    } else {
+                    	cardsToDiscard.add(card);
+                    }
+                }
+
+                for (Card c: cardsToDiscard) {
+                	targetPlayer.discard(c, this, targetContext);
+                }
+                
+                if(!treasureRevealed) {
+                    gainCopper[i] = true;
+                }
+
+                TreasureCard cardToTrash = null;
+
+                if (silverOrGold.size() == 1) {
+                    cardToTrash = silverOrGold.get(0);
+                } else if (silverOrGold.size() == 2) {
+                    if (silverOrGold.get(0).equals(silverOrGold.get(1))) {
+                        cardToTrash = silverOrGold.get(0);
+                        targetPlayer.discard(silverOrGold.get(1), this, targetContext);
+                    } else {
+                        moveContext.attackedPlayer = targetPlayer;
+                        cardToTrash = (player).nobleBrigand_silverOrGoldToTrash(moveContext, silverOrGold.toArray(new TreasureCard[]{}));
+                        moveContext.attackedPlayer = null;
+                        for (TreasureCard c : silverOrGold) {
+                            if (!c.equals(cardToTrash)) {
+                                targetPlayer.discard(c, this, targetContext);
+                            }
+                        }
+                    }
+                }
+
+                if (cardToTrash != null) {
+                    targetPlayer.trash(cardToTrash, this, targetContext);
+                    trashed.add(cardToTrash);
+                }
+            }
+            i++;
+        }
+
+        i = 0;
+        for(Player targetPlayer : context.game.getPlayersInTurnOrder()) {
+            if(gainCopper[i]) {
+                MoveContext targetContext = new MoveContext(context.game, targetPlayer);
+                targetPlayer.gainNewCard(Cards.copper, this, targetContext);
+            }
+            i++;
+        }
+        
+        if (trashed.size() > 0) {
+            for (Card c : trashed) {
+                player.gainCardAlreadyInPlay(c, this, moveContext);
+            }
+        }
+    }
 }

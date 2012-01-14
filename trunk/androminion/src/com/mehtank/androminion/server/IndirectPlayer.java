@@ -1694,7 +1694,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_haggler_cardToObtain(context, maxCost, potion)) {
             return super.haggler_cardToObtain(context, maxCost, potion);
         }
-        return getNonVictoryFromTable(context, getGainString(Cards.haggler), maxCost, true, NOTPASSABLE, potion?1:0);
+        return getNonVictoryFromTable(context, getGainString(Cards.haggler), maxCost, false, NOTPASSABLE, potion?1:0);
     }
     
     @Override

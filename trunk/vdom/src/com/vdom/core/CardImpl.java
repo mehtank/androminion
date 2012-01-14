@@ -203,4 +203,8 @@ public class CardImpl implements Card {
     public boolean isPrize() {
         return isPrize;
     }
+    
+    @Override
+    public void isBought(MoveContext context) {
+    }
 }
