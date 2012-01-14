@@ -125,7 +125,7 @@
 	<string name="toast_quitconfirm">もう一度クリックすると終了.</string>
 	<string name="toast_loading">ゲームロード中..</string>
 	<string name="achievements_2players8provinces">2プレイヤーゲームの最後に属州を8枚持っている。</string>
-	<string name="achievements_3or4players10provinces">2または3プレイヤーゲームの最後に属州を10枚以上持っている。</string>
+	<string name="achievements_3or4players10provinces">3または4プレイヤーゲームの最後に属州を10枚以上持っている。</string>
 	<string name="achievements_score100">100勝利点以上で勝つ</string>
 	<string name="achievements_score1more">ちょうど1勝利点差で勝つ</string>
 	<string name="achievements_singlecard">1種類以下の王国カードを購入して勝つ</string>
