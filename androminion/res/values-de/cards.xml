@@ -271,7 +271,7 @@
 	<string name="Tournament_name">Turnier</string>
 	<string name="Tournament_desc">Jeder Spieler darf eine Provinz aus der Hand aufdecken. Wenn du das machst, lege die Provinz ab und nimm dir einen Preis (vom Preisstapel) oder ein Herzogtum. Lege die neue Karte auf deinen Nachziehstapel. Wenn es kein Mitspieler macht: +1 Karte und +1 Geld.</string>
 	<string name="YoungWitch_name">Junge Hexe</string>
-	<string name="YoungWitch_desc">Lege 2 Karten aus deiner Hand ab. Jeder Mitspieler darf eine Verderbniskarte aus seiner hand aufdecken. Wenn er das nicht macht, muss er sich einen Fluch nehmen. Aufbau: Vor dem Spiel wird ein zusätzlicher Königreichkartenstapel der entwerder 2 oder 3 Geld kostet gebildet. Die Karten dieses Stapels sind Verderbniskarten.</string>
+	<string name="YoungWitch_desc">Lege 2 Karten aus deiner Hand ab. Jeder Mitspieler darf eine Verderbniskarte aus seiner Hand aufdecken. Wenn er das nicht macht, muss er sich einen Fluch nehmen. Aufbau: Vor dem Spiel wird ein zusätzlicher Königreichkartenstapel der entweder 2 oder 3 Geld kostet gebildet. Die Karten dieses Stapels sind Verderbniskarten.</string>
 	<string name="BorderVillage_name">Grenzdorf</string>
 	<string name="BorderVillage_desc">Wenn du das Grenzdorf nimmst, nimm dir eine Karte, die weniger kostet als das Grenzdorf.</string>
 	<string name="Cache_name">Schatztruhe</string>
