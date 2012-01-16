@@ -130,9 +130,9 @@
 	
 	<string name="treasure_to_trash">Select treasure to trash</string>
 	
-	<string name="scheme_query">Select card to put back on deck</string>
+	<string name="scheme_query">Select action card to put back on deck</string>
 	
-	<string name="herbalist_query">Select card to put back on deck</string>
+	<string name="herbalist_query">Select treasure card to put back on deck</string>
 	
 	<string name="thief_query">Select treasure to steal</string>
 	
@@ -257,7 +257,10 @@
 	<!-- *** -->
 	<string name="university_part">gain [University]</string>
 	<!-- *** -->
-	
+
+	<string name="putback_query">Select card to put back on deck</string>
+	<string name="putback_option_one">Treasure card (Herbalist)</string>
+	<string name="putback_option_two">Action card (Scheme)</string>
 
     <!-- Expansions -->
 	<string name="Base"></string>    

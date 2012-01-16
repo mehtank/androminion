@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.vdom.api.ActionCard;
@@ -181,6 +182,51 @@ public abstract class Player {
         horseTraders = new CardList(this, "Horse Traders");
     }
 
+    private List<PutBackOption> getPutBackOptions(MoveContext context, boolean victoryBought) {
+    	List<PutBackOption> options = new ArrayList<PutBackOption>();
+    	boolean potionPlayed = false;
+    	boolean treasurePlayed = false;
+    	boolean actionPlayed = false;
+    	for (Card c: context.playedCards) {
+    		if (c.equals(Cards.potion)) {
+    			potionPlayed = true;
+    			treasurePlayed = true;
+    		} else if (c instanceof TreasureCard) {
+    			treasurePlayed = true;
+    		}
+    		if (c instanceof ActionCard) {
+    			actionPlayed = true;
+    		}
+    		if (potionPlayed && treasurePlayed && actionPlayed) {
+    			break;
+    		}
+    	}
+    	for (Card c: context.playedCards) {
+    		if (c.equals(Cards.treasury) && !victoryBought) {
+    			options.add(PutBackOption.Treasury);
+    		} else if (c.equals(Cards.alchemist) && potionPlayed) {
+    			options.add(PutBackOption.Alchemist);
+    		} else if (c.equals(Cards.herbalist) && treasurePlayed) {
+    			options.add(PutBackOption.Coin);
+    		}
+    	}
+    	if (actionPlayed) {
+    		for (int i = 0; i < context.schemesPlayed; i++) {
+    			options.add(PutBackOption.Action);
+    		}
+    	}
+    	return options;
+    }
+    
+    private Card findCard(MoveContext context, Card template) {
+		for (Card c: context.playedCards) {
+			if (c.equals(template)) {
+				return c;
+			}
+		}
+		return null;
+    }
+    
     protected void cleanup(MoveContext context) {
         // /////////////////////////////////
         // Discard hand
@@ -193,6 +239,70 @@ public abstract class Player {
         // /////////////////////////////////
         // Discard played cards
         // /////////////////////////////////
+        boolean victoryBought = getVictoryCardsBoughtThisTurn(context) > 0;
+        
+        List<PutBackOption> putBackOptions;
+        
+        while (!(putBackOptions = getPutBackOptions(context, victoryBought)).isEmpty()) {
+        	PutBackOption putBackOption = selectPutBackOption(context, putBackOptions);
+        	if (putBackOption == PutBackOption.None) {
+        		break;
+        	} else {
+        		if (putBackOption == PutBackOption.Treasury) {
+        			Card treasury = findCard(context, Cards.treasury);
+        			context.playedCards.remove(treasury);
+        			putOnTopOfDeck(treasury);
+        		} else if (putBackOption == PutBackOption.Alchemist) {
+        			Card alchemist = findCard(context, Cards.alchemist);
+        			context.playedCards.remove(alchemist);
+        			putOnTopOfDeck(alchemist);
+        		} else if (putBackOption == PutBackOption.Coin) {
+        			Card herbalist = findCard(context, Cards.herbalist);
+        			context.playedCards.remove(herbalist);
+            		discard(herbalist, null, null, false);
+                    ArrayList<TreasureCard> treasureCards = new ArrayList<TreasureCard>();
+                    for(Card card : context.playedCards) {
+                        if(card instanceof TreasureCard) {
+                            treasureCards.add((TreasureCard) card);
+                        }
+                    }
+                    
+                    if(treasureCards.size() > 0) {
+                        TreasureCard treasureCard = herbalist_backOnDeck(context, treasureCards.toArray(new TreasureCard[0]));
+                        if(treasureCard != null && context.playedCards.contains(treasureCard)) {
+                            context.playedCards.remove(treasureCard);
+                            putOnTopOfDeck(treasureCard);
+                        }
+                    }        			
+        		} else if (putBackOption == PutBackOption.Action) {
+        			context.schemesPlayed --;
+                    ArrayList<Card> actions = new ArrayList<Card>();
+                    for(Card c : context.playedCards) {
+                        if(c instanceof ActionCard) {
+                            actions.add(c);
+                        }
+                    }
+                    if(actions.size() == 0) {
+                        break;
+                    }
+                    
+                    ActionCard actionToPutBack = scheme_actionToPutOnTopOfDeck(((MoveContext) context), actions.toArray(new ActionCard[0]));
+                    if(actionToPutBack == null) {
+                        break;
+                    }
+                    int index = context.playedCards.indexOf(actionToPutBack);
+                    if(index == -1) {
+                        Util.playerError(this, "Scheme returned invalid card to put back on top of deck, ignoring");
+                        break;
+                    }
+                    Card card = context.playedCards.remove(index);
+                    putOnTopOfDeck(card);
+        			
+        		}
+
+        	}
+        }
+        /*
         int treasuryCardsToSave = 0;
         int treasuryCardsInPlay = 0;
         
@@ -301,6 +411,7 @@ public abstract class Player {
             putOnTopOfDeck(card);
             
         }
+        */
 
         while (!context.playedCards.isEmpty()) {
             discard(context.playedCards.remove(0), null, null, false);
@@ -564,6 +675,14 @@ public abstract class Player {
     public static enum SpiceMerchantOption {
         AddCardsAndAction,
         AddGoldAndBuy
+    }
+    
+    public static enum PutBackOption {
+    	Treasury,
+    	Alchemist,
+    	Coin,
+    	Action,
+    	None
     }
 
     // Context is passed for the player to add a GameEventListener
@@ -880,6 +999,6 @@ public abstract class Player {
 	
 	public abstract boolean revealBane(MoveContext context);
 	
-	
+	public abstract PutBackOption selectPutBackOption(MoveContext context, List<PutBackOption> options);
 
 }

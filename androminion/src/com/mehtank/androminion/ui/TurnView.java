@@ -135,7 +135,13 @@ public class TurnView extends LinearLayout {
             else
                 buys = Strings.format(top, R.string.buy_multiple, "" + is[1]);
             
-            String coinStr = "" + is[2] + ((potions > 0)?"p":"");
+//            String coinStr = "" + is[2] + ((potions > 0)?"p":"");
+            String coinStr = "" + is[2];
+            if (potions == 1) {
+            	coinStr += "p";
+            } else if (potions > 1) {
+            	coinStr += "p" + potions;
+            }
 //            for(int i=0; i < potions; i++) {
 //                coinStr += "p";
 //            }

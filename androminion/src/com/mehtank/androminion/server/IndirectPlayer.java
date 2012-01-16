@@ -1,7 +1,9 @@
 package com.mehtank.androminion.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import android.content.Context;
 
@@ -403,26 +405,31 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         String selectString;
         
         String potions = "";
-        if(potionCost > 0) {
-            potions = "p";
+        if (potionCost == 1) {
+        	potions = "p";
+        } else if (potionCost > 1) {
+        	potions = "p" + potionCost;
         }
+//        if(potionCost > 0) {
+//            potions = "p";
+//        }
 //        for(int i = 0; i < potionCost; i++) {
 //            potions += "p";
 //        }
         
         if (minCost == maxCost)
             if(quarries)
-                selectString = Strings.format(R.string.select_from_table_exact_quarries, "" + maxCost + potions, "" + (maxCost + (2 * context.getQuarriesPlayed())), header);
+                selectString = Strings.format(R.string.select_from_table_exact_quarries, "" + maxCost + potions, "" + (maxCost + (2 * context.getQuarriesPlayed())) + potions, header);
             else
                 selectString = Strings.format(R.string.select_from_table_exact, "" + maxCost + potions, header);
         else if ((minCost <= 0) && (maxCost < Integer.MAX_VALUE))
             if(quarries)
-                selectString = Strings.format(R.string.select_from_table_max_quarries, "" + maxCost + potions, "" + (maxCost + (2 * context.getQuarriesPlayed())), header);
+                selectString = Strings.format(R.string.select_from_table_max_quarries, "" + maxCost + potions, "" + (maxCost + (2 * context.getQuarriesPlayed())) + potions, header);
             else
                 selectString = Strings.format(R.string.select_from_table_max, "" + maxCost + potions, header);
         else if (maxCost < Integer.MAX_VALUE)
             if(quarries)
-                selectString = Strings.format(R.string.select_from_table_between_quarries, "" + minCost + potions, "" + maxCost + potions, "" + (maxCost + (2 * context.getQuarriesPlayed())), header);
+                selectString = Strings.format(R.string.select_from_table_between_quarries, "" + minCost + potions, "" + maxCost + potions, "" + (maxCost + (2 * context.getQuarriesPlayed())) + potions, header);
             else
                 selectString = Strings.format(R.string.select_from_table_between, "" + minCost + potions, "" + maxCost + potions, header);
         else if (minCost > 0)
@@ -1007,12 +1014,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (Card c : cards)
             options.add(Strings.getCardName(c));
             
-        String none = getString(R.string.none);
-        options.add(none);
+//        String none = getString(R.string.none);
+//        options.add(none);
         String o = selectString(context, R.string.herbalist_query, Cards.herbalist, options.toArray(new String[0]));   
-        if(o.equals(none)) {
-            return null;
-        }
+//        if(o.equals(none)) {
+//            return null;
+//        }
         
         return (TreasureCard) localNameToCard(o, cards);
     }
@@ -1802,5 +1809,39 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.revealBane(context);
         }
     	return selectBoolean(context, Cards.youngWitch, Strings.format(R.string.bane_option_one, Strings.getCardName(game.baneCard)), getString(R.string.pass));
+    }
+    
+    @Override
+    public PutBackOption selectPutBackOption(MoveContext context, List<PutBackOption> putBacks) {
+        if(context.isQuickPlay() && shouldAutoPlay_selectPutBackOption(context, putBacks)) {
+        	return super.selectPutBackOption(context, putBacks);
+        }
+        Collections.sort(putBacks);
+        LinkedHashMap<String, PutBackOption> h = new LinkedHashMap<String, PutBackOption>();
+		h.put(getCardName(Cards.treasury), PutBackOption.Treasury);
+		h.put(getCardName(Cards.alchemist), PutBackOption.Alchemist);
+		h.put(getString(R.string.putback_option_one), PutBackOption.Coin);
+		h.put(getString(R.string.putback_option_two), PutBackOption.Action);
+        h.put(getString(R.string.none), PutBackOption.None);
+        List<String> options = new ArrayList<String>();
+        for (PutBackOption putBack : putBacks) {
+        	switch (putBack) {
+        	case Treasury:
+        		options.add(getCardName(Cards.treasury));
+        		break;
+        	case Alchemist:
+        		options.add(getCardName(Cards.alchemist));
+        		break;
+        	case Coin:
+        		options.add(getString(R.string.putback_option_one));
+        		break;
+        	case Action:
+        		options.add(getString(R.string.putback_option_two));
+        		break;
+        	}
+        }
+        options.add(getString(R.string.none));
+    	
+		return h.get(selectString(context, getString(R.string.putback_query), options.toArray(new String[0])));
     }
 }

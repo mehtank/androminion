@@ -1,6 +1,8 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import com.vdom.api.ActionCard;
@@ -1798,5 +1800,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public boolean revealBane(MoveContext context) {
     	return true;
+    }
+    
+    @Override
+    public PutBackOption selectPutBackOption(MoveContext context, List<PutBackOption> options) {
+    	Collections.sort(options);
+    	return options.get(0);
     }
 }
