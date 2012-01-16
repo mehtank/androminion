@@ -7,6 +7,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -15,9 +16,17 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class WhatsNewView extends FrameLayout {
-	public WhatsNewView(Context top) {
-		super(top);
-		
+	public WhatsNewView(Context context) {
+		super(context);
+		init(context);
+	}
+	
+	public WhatsNewView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init(context);
+	}
+
+	private void init(Context top) {		
 		ScrollView sv = new ScrollView(top);
         sv.setVerticalScrollBarEnabled(true);
 

@@ -4,6 +4,7 @@ import com.mehtank.androminion.R;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -12,9 +13,17 @@ import android.widget.TextView;
 
 public class CreditsView extends FrameLayout {
 
-	public CreditsView(Context top) {
-		super(top);
-		
+	public CreditsView(Context context) {
+		super(context);
+		init(context);
+	}
+	
+	public CreditsView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init(context);
+	}
+
+	private void init(Context top) {
 		LinearLayout ll = new LinearLayout(top);
 		ll.setOrientation(LinearLayout.VERTICAL);
 		ll.setBackgroundColor(0x66000000);

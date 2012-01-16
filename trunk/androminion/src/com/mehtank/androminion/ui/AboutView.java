@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,9 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class AboutView extends LinearLayout {
-	public AboutView(Context top) {
-		super(top);
-
+	public AboutView(Context context) {
+		super(context);
+		init(context);
+	}
+	
+	public AboutView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init(context);
+	}
+	
+	private void init(Context top) {
 		setOrientation(VERTICAL);
 		
 		ImageView im = new ImageView (top);
