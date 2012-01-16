@@ -130,9 +130,9 @@
 	
 	<string name="treasure_to_trash">廃棄する財宝を選択</string>
 	
-	<string name="scheme_query">山札に戻すカードを選択</string>
+	<string name="scheme_query">山札に戻すアクションカードを選択</string>
 	
-	<string name="herbalist_query">山札に戻すカードを選択</string>
+	<string name="herbalist_query">山札に戻す財宝カードを選択</string>
 	
 	<string name="thief_query">盗む財宝を選択</string>
 	
@@ -257,6 +257,10 @@
 	<!-- *** -->
 	<string name="university_part">獲得 [大学]</string>
 	<!-- *** -->
+	
+	<string name="putback_query">山札に戻すカードを選択</string>
+	<string name="putback_option_one">財宝カード (薬草商)</string>
+	<string name="putback_option_two">アクションカード (画策)</string>
 	
 
     <!-- Expansions -->

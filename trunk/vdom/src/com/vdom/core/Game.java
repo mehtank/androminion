@@ -2396,9 +2396,11 @@ public class Game {
                     }
                     boolean handled = false;
                     
+                    boolean masqueradePass = Cards.masquerade.equals(event.responsible); 
+                    
                     //Not sure if this is exactly right for the Trader, but it seems to be based on detailed card explanation in the rules
                     //The handling for new cards is done before taking the card from the pile in a different method below.
-                    if(!event.newCard && !Cards.masquerade.equals(event.responsible)) {
+                    if(!event.newCard && !masqueradePass) {
                         if(player.hand.contains(Cards.trader)) {
                             if((player).trader_shouldGainSilverInstead((MoveContext) context, event.card)) {
                                 player.trash(event.card, Cards.trader, (MoveContext) context);
@@ -2413,7 +2415,7 @@ public class Game {
                         cardsObtainedLastTurn[playersTurn].add(event.card);
                     }
 
-                    if (player.hand.contains(Cards.watchTower) && !Cards.masquerade.equals(event.responsible)) {
+                    if (player.hand.contains(Cards.watchTower) && !masqueradePass) {
                         WatchTowerOption choice = context.player.watchTower_chooseOption((MoveContext) context, event.card);
     
                         if (choice == WatchTowerOption.TopOfDeck) {
@@ -2430,9 +2432,9 @@ public class Game {
                     }
 
                     if(!handled) {
-                        if (context.royalSealPlayed && context.player.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
+                        if (!masqueradePass && context.royalSealPlayed && context.player.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
                             player.putOnTopOfDeck(event.card);
-                        } else if (event.card.equals(Cards.nomadCamp)) {
+                        } else if (event.card.equals(Cards.nomadCamp) && !masqueradePass) {
                             player.putOnTopOfDeck(event.card);
                         } else if (event.responsible != null) {
                             Card r = event.responsible;
@@ -2450,7 +2452,8 @@ public class Game {
                         }
                     } 
                     
-                    if(event.card.equals(Cards.illGottenGains)) {
+                    if (masqueradePass) {
+                    } else if (event.card.equals(Cards.illGottenGains)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
                                 MoveContext targetContext = new MoveContext(Game.this, targetPlayer);

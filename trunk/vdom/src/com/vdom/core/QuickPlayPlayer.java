@@ -1,11 +1,13 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.core.Player.PutBackOption;
 
 public abstract class QuickPlayPlayer extends BasePlayer {
     protected static final Card[] TRASH_CARDS = new Card[] { Cards.curse, Cards.estate, Cards.copper };
@@ -739,6 +741,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     public boolean shouldAutoPlay_revealBane(MoveContext context) {
+    	return true;
+    }
+    
+    public boolean shouldAutoPlay_selectPutBackOption(MoveContext context, List<PutBackOption> putBacks) {
     	return true;
     }
 }
