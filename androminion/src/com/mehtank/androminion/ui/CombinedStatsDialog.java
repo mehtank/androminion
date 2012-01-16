@@ -66,6 +66,7 @@ public class CombinedStatsDialog {
         }
         
         AlertDialog d = builder.create();
+        d.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    d.show();
         
 	    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();

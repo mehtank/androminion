@@ -71,6 +71,7 @@ public class AboutDialog {
 			.setView(th)
 			.setPositiveButton(android.R.string.ok, null)
 			.create();
+		d.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    d.show();
 		
 	    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
