@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -15,9 +16,18 @@ public class WinLossView extends FrameLayout {
 
 	public boolean statsEmpty = false;
 	
+    public WinLossView(Context context) {
+    	super(context);
+    	init(context);
+    }
+    
+	public WinLossView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+    	init(context);
+	}
+	
     //TODO: Keep win streak as a stat
-    public WinLossView(Context top, Achievements achievements) {
-    	super(top);
+    private void init(Context top) {
     	
         ScrollView sv = new ScrollView(top);
         sv.setVerticalScrollBarEnabled(true);
@@ -25,7 +35,7 @@ public class WinLossView extends FrameLayout {
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.setBackgroundColor(0x66000000);
         
-        achievements = new Achievements((Androminion) top);
+        Achievements achievements = new Achievements((Androminion) top);
         ArrayList<String> players = achievements.getAllPlayers();
 
         ArrayList<String> humansFirst = new ArrayList<String>();
