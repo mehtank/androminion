@@ -586,7 +586,7 @@
     <string name="Oracle_name">神託</string>
     <string name="Oracle_desc">各プレイヤー(あなたを含む)は、自分のデッキの上から2枚を公開し、次のうち1つをあなたが選ぶ:「公開した2枚とも捨て札にする。」:「自分の好きな順番で自分のデッキの上に戻す」\n+2 カードを引く</string>
     <string name="Scheme_name">画策</string>
-    <string name="Scheme_desc">このターンのクリーンアップフェイズの開始時に、あなたは場に出ているカード1枚を選んでもよい。このターンあなたがそのカードをプレイエリアから捨て札に置く場合、そのカードをあなたのデッキの一番上に置く。</string>
+    <string name="Scheme_desc">このターンのクリーンアップフェイズの開始時に、あなたは場に出ているアクションカード1枚を選んでもよい。このターンあなたがそのカードをプレイエリアから捨て札に置く場合、そのカードをあなたのデッキの一番上に置く。</string>
     <string name="SilkRoad_name">シルクロード</string>
     <string name="SilkRoad_desc">あなたのデッキにある勝利点カード4枚(端数切り捨て)につき勝利点 1を得る。</string>
     <string name="SpiceMerchant_name">香辛料商人</string>
