@@ -355,8 +355,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         	sco.fromPrizes();
         }
         
-        if(isBuy)
-            sco.buyPhase = true;
+        sco.buyPhase = context.buyPhase;
 
         if(context != null && context.getPlayedCards() != null)
             sco.actionsInPlay = context.getActionCardsInPlayThisTurn();
@@ -376,7 +375,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         
 		for (Card card : cards) {
-            if ((!isBuy && card.getCost(context, false) <= maxCost) ||
+            if ((!isBuy && card.getCost(context, context.buyPhase) <= maxCost) ||
         		(isBuy && context.canBuy(card, maxCost))) {
         		if (card.getCost(context) >= minCost) {
         		    if(victoryAllowed || !(card instanceof VictoryCard)) {
@@ -1261,7 +1260,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_hornOfPlenty_cardToObtain(context, maxCost)) {
             return super.hornOfPlenty_cardToObtain(context, maxCost);
         }
-        return getFromTable(context, getGainString(Cards.hornOfPlenty), maxCost, Integer.MIN_VALUE, true, getString(R.string.none), SelectCardOptions.SELECT, false, true, 0);
+        return getFromTable(context, getGainString(Cards.hornOfPlenty), maxCost, Integer.MIN_VALUE, false, getString(R.string.none), SelectCardOptions.SELECT, false, true, 0);
     }
     
     public Card[] horseTraders_cardsToDiscard(MoveContext context) {
