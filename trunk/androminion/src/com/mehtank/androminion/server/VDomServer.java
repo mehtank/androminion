@@ -1,9 +1,7 @@
 package com.mehtank.androminion.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 import com.vdom.api.GameType;
 import com.vdom.comms.Comms;
@@ -12,6 +10,7 @@ import com.vdom.comms.EventHandler;
 import com.vdom.comms.Event.EType;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.core.Game;
+import com.vdom.core.Player;
 
 public class VDomServer implements EventHandler {
 
@@ -192,7 +191,12 @@ public class VDomServer implements EventHandler {
 		
 		for (int i=1; i < args.length; i++) {
 		    if(!args[i].startsWith("-")) {
-    			gamePlayers.add(args[i]);
+				if(args[i].equalsIgnoreCase(Player.RANDOM_AI)) {
+					args[i] = this.getRandomAI(args);
+				}
+
+				gamePlayers.add(args[i]);
+
     			gameArgs.add(allPlayers.get(args[i]));
 		    } else {
 	              gameArgs.add(args[i]);
@@ -272,6 +276,27 @@ public class VDomServer implements EventHandler {
 				// whatever
 			}
 		}		
+	}
+	
+	public String getRandomAI(final String[] args) {
+		final List<String> playersInGame = new ArrayList<String>();
+		final List<String> randomPlayers = new ArrayList<String>();
+		
+		for(String arg : args) {
+			if(arg.contains(" (AI)")) {
+				playersInGame.add(arg);
+			}
+		}
+		
+		for(String player : allPlayers.keySet()) {
+			if(player.contains(" (AI)") && !playersInGame.contains(player)) {
+				randomPlayers.add(player);
+			}
+		}
+		
+		final Random rand = new Random(System.currentTimeMillis());
+
+		return randomPlayers.get(rand.nextInt(randomPlayers.size()));
 	}
 
 }

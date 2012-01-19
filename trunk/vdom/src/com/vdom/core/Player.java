@@ -13,6 +13,8 @@ import com.vdom.api.VictoryCard;
 public abstract class Player {
     Random rand = new Random(System.currentTimeMillis());
 
+	public static final String RANDOM_AI = "Random AI";
+	
     // Only used by InteractivePlayer currently
     public String name;
     public int playerNumber;
