@@ -496,6 +496,26 @@ public abstract class Player {
         return allCards;
     }
 
+	public int getCardCount(final Class cardClass) {
+		int cardCount = 0;
+
+		for(Card card : this.getAllCards()) {
+			if(cardClass.isInstance(card)) {
+				cardCount++;
+			}
+		}
+
+		return cardCount;
+	}
+
+	public int getActionCardCount() {
+		return this.getCardCount(ActionCard.class);
+	}
+
+	public int getVictoryCardCount() {
+		return this.getCardCount(VictoryCard.class);
+	}
+
     public Card peekAtDeckBottom() {
         return deck.get(deck.size() - 1);
     }

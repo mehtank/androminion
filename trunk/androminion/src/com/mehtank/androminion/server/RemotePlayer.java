@@ -1,9 +1,7 @@
 package com.mehtank.androminion.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 import com.mehtank.androminion.R;
 import com.vdom.api.ActionCard;
@@ -24,11 +22,8 @@ import com.vdom.comms.NewGame;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.Event.EType;
 import com.vdom.comms.Event.EventObject;
-import com.vdom.core.CardList;
-import com.vdom.core.Cards;
-import com.vdom.core.Game;
-import com.vdom.core.MoveContext;
-import com.vdom.core.Player;
+import com.vdom.core.*;
+
 /**
  * Class that you can use to play remotely.
  */
@@ -38,6 +33,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 	static final int NUM_RETRIES = 3; // times to try anything before giving up.
 	static int maxPause = 300000; // Maximum time to wait for new player to connect = 5 minutes in ms; 
 	private static VDomServer vdomServer = null;
+	
+	private static final String DISTINCT_CARDS = "Distinct Cards";
 	
 	Comms comm;
 	Thread commThread;
@@ -238,55 +235,140 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     public int getVPs(Player player) {
         ArrayList<Card> allCards = player.getAllCards();
 
-        int vp = player.getVictoryTokens();
-        int gardens = 0;
-        int dukes = 0;
-        int duchys = 0;
-        int fairgrounds = 0;
-        int vineyards = 0;
-        int silkRoads = 0;
-        int totalCards = 0;
-        int victoryCards = 0;
-        int actionCards = 0;
-        HashSet<String> distinctCards = new HashSet<String>();
-
-        for (Card card : allCards) {
-            totalCards++;
-            distinctCards.add(card.getName());
-            if (card.equals(Cards.curse)) {
-                vp += ((CurseCard) card).getVictoryPoints();
-            }
-            if (card instanceof VictoryCard) {
-                victoryCards++;
-                vp += ((VictoryCard) card).getVictoryPoints();
-                if (card.equals(Cards.gardens)) {
-                    gardens++;
-                } else if (card.equals(Cards.duke)) {
-                    dukes++;
-                } else if (card.equals(Cards.duchy)) {
-                    duchys++;
-                } else if (card.equals(Cards.fairgrounds)) {
-                    fairgrounds++;
-                } else if (card.equals(Cards.vineyard)) {
-                    vineyards++;
-                } else if (card.equals(Cards.silkRoad)) {
-                    silkRoads++;
-                }
-            }
-            if (card instanceof ActionCard) {
-                actionCards++;
-            }
-        }
-
-        vp += gardens * (totalCards / 10);
-        vp += dukes * duchys;
-        vp += fairgrounds * (distinctCards.size() / 5) * 2;
-        vp += vineyards * (actionCards / 3);
-        vp += silkRoads * (victoryCards / 4);
-
-        return vp;
+		Map<Card, Integer> totals = this.getVictoryPointTotals(player, this.getVictoryCardCounts(player));
+		
+        return this.getVPs(player, totals);
     }
-    public Event fullStatusPacket(MoveContext context, Player curPlayer, boolean isFinal) {
+
+	private int getVPs(Player player, Map<Card, Integer> totals) {
+		int vp = player.getVictoryTokens();
+
+		for(Integer total : totals.values()) {
+			vp += total;
+		}
+		return vp;
+	}
+
+	private Map<Object, Integer> getVictoryCardCounts(Player player) {
+		final ArrayList<Card> allCards = player.getAllCards();
+		
+		final HashSet<String> distinctCards = new HashSet<String>();
+		final Map<Object, Integer> cardCounts = new HashMap<Object, Integer>();
+
+		for (CardPile pile : player.game.piles.values()) {
+			Card card = pile.card;
+			
+			if(card instanceof VictoryCard || card instanceof CurseCard) {
+				cardCounts.put(card, 0);
+			}
+		}
+
+		for(Card card : player.getAllCards()) {
+			distinctCards.add(card.getName());
+			if (card instanceof VictoryCard || card instanceof CurseCard) {
+				if(cardCounts.containsKey(card)) {
+					cardCounts.put(card, cardCounts.get(card) + 1);
+				} else {
+					cardCounts.put(card, 1);
+				}
+			}
+		}
+		
+		cardCounts.put(RemotePlayer.DISTINCT_CARDS, distinctCards.size());
+		
+		return cardCounts;
+	}
+	
+	private Map<Card, Integer> getVictoryPointTotals(
+		final Player player,
+		final Map<Object, Integer> counts) {
+
+		Map<Card, Integer> totals = new HashMap<Card, Integer>();
+
+		for(Map.Entry<Object, Integer> entry : counts.entrySet()) {
+			if(entry.getKey() instanceof VictoryCard) {
+				VictoryCard victoryCard = (VictoryCard) entry.getKey();
+				totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
+			} else if(entry.getKey() instanceof CurseCard) {
+				CurseCard curseCard = (CurseCard) entry.getKey();
+				totals.put(curseCard, curseCard.getVictoryPoints() * entry.getValue());
+			}
+		}
+		
+		if(counts.containsKey(Cards.gardens))
+			totals.put(Cards.gardens, counts.get(Cards.gardens) * (player.getAllCards().size() / 10));
+		if(counts.containsKey(Cards.duke))
+			totals.put(Cards.duke, counts.get(Cards.duke) * counts.get(Cards.duchy));
+		if(counts.containsKey(Cards.fairgrounds))
+			totals.put(Cards.fairgrounds, counts.get(Cards.fairgrounds) * ((counts.get(DISTINCT_CARDS) / 5) * 2));
+		if(counts.containsKey(Cards.vineyard))
+			totals.put(Cards.vineyard, counts.get(Cards.vineyard) * (player.getActionCardCount() / 3));
+		if(counts.containsKey(Cards.silkRoad))
+			totals.put(Cards.silkRoad, counts.get(Cards.silkRoad) * (player.getVictoryCardCount() / 4));
+		
+		return totals;
+	}
+	
+	private String getVPOutput(Player player) {
+		
+		final Map<Object, Integer> counts = this.getVictoryCardCounts(player);
+		final Map<Card, Integer> totals = this.getVictoryPointTotals(player, counts);
+
+		final StringBuilder sb
+			= new StringBuilder()
+				.append(player.getPlayerName())
+				.append(": ")
+				.append(this.getVPs(player, totals))
+				.append(" ")
+				.append(Strings.getString(R.string.game_over_vps))
+				.append('\n');
+		
+		sb.append(this.getCardText(counts, totals, Cards.estate));
+		sb.append(this.getCardText(counts, totals, Cards.duchy));
+		sb.append(this.getCardText(counts, totals, Cards.province));
+		if(counts.containsKey(Cards.colony)) {
+			sb.append(this.getCardText(counts, totals, Cards.colony));
+		}
+		
+		List<Card> standardCards = new ArrayList<Card>();
+		standardCards.add(Cards.estate);
+		standardCards.add(Cards.duchy);
+		standardCards.add(Cards.province);
+		standardCards.add(Cards.colony);
+		standardCards.add(Cards.curse);
+		
+		for(Card card : totals.keySet()) {
+			if(!standardCards.contains(card)) {
+				sb.append(this.getCardText(counts, totals, card));
+			}
+		}
+		
+		sb.append(this.getCardText(counts, totals, Cards.curse));
+		
+		sb
+			.append("\tVictory Tokens: ")
+			.append(player.getVictoryTokens())
+			.append('\n');
+
+		return sb.toString();
+	}
+
+	private String getCardText(final Map<Object, Integer> counts, final Map<Card, Integer> totals, final Card card) {
+		final StringBuilder sb = new StringBuilder()
+			.append('\t')
+			.append(card.getName())
+			.append(" x")
+			.append(counts.get(card))
+			.append(": ")
+			.append(totals.get(card))
+			.append(" ")
+			.append(Strings.getString(R.string.game_over_vps))
+			.append('\n');
+		
+		return sb.toString();
+	}
+
+	public Event fullStatusPacket(MoveContext context, Player curPlayer, boolean isFinal) {
     	if (curPlayer == null)
     		curPlayer = context.getPlayer();
 
@@ -659,7 +741,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		curContext = context;
     		isFinal = true;
     		
-    		strEvent = curPlayer.getPlayerName() + ": " + getVPs(curPlayer) + Strings.getString(R.string.game_over_vps);
+    		strEvent = getVPOutput(curPlayer);
     		if (!gameOver) {
         		String time = Strings.getString(R.string.game_over_status);
         		time += " ";
