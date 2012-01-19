@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.vdom.core.Player;
 
 public class StartGameDialog implements DialogInterface.OnClickListener {
 	LinearLayout vg;
@@ -270,11 +271,12 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
 				// tv.setTextSize(tv.getTextSize() * 1.2f);
 				hv.addView(b, LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 				
+				ArrayList<String> pts = new ArrayList<String>(Arrays.asList(playerTypes));
 				if (!multiplayer) { // disable additional human players
-					ArrayList<String> pts = new ArrayList<String>(Arrays.asList(playerTypes));
 					pts.remove("Human Player");
-					playerTypes = pts.toArray(new String[0]);
 				}
+				pts.add(Player.RANDOM_AI);
+				playerTypes = pts.toArray(new String[0]);
 	    	} else
 	    		hv.addView(playerSpinner, LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 	    	ll.addView(hv);
