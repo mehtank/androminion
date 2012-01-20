@@ -171,7 +171,7 @@ public class VDomPlayerEarl extends BasePlayer
  
    public Card doAction(MoveContext context) {
      Card card = fromHand(calculateAction(this.turnCount, getHand().toArray(), context.getThroneRoomsInEffect(), context));
-     debug("myAction: " + getHand().toArray().toString() + " -> " + card);
+        debug("myAction: " + Arrays.toString(getHand().toArray()) + " -> " + card);
  
      return card;
    }
