@@ -1016,36 +1016,35 @@ public class Game {
 	        event.card = card;
 	        event.newCard = true;
 	        broadcastEvent(event);
-	
-            // cost adjusted based on any cards played or card being bought
-	        int cost = buy.getCost(context);
-
-            context.gold -= buy.getCost(context);
-	        
-	        if (buy.costPotion()) {
-	            context.potions--;
-	        } else if (!(buy instanceof VictoryCard) && context.talismansPlayed > 0 && cost < 5) {
-	            for (int i = 0; i < context.talismansPlayed; i++) {
-	                context.getPlayer().gainNewCard(buy, Cards.talisman, context);
-	            }
-	        }
-
-            player.addVictoryTokens(context, context.goonsPlayed);
-
-            if (buy instanceof VictoryCard) {
-                context.victoryCardsBoughtThisTurn++;
-                for (int i = 0; i < context.hoardsPlayed; i++) {
-                    player.gainNewCard(Cards.gold, Cards.hoard, context);
-                }
-            }
-            int embargos = getEmbargos(buy.getName());
-
-            for (int i = 0; i < embargos; i++) {
-                player.gainNewCard(Cards.curse, Cards.embargo, context);
-            }
-            buy.isBought(context);
-            haggler(context, buy);
         }
+        // cost adjusted based on any cards played or card being bought
+        int cost = buy.getCost(context);
+
+        context.gold -= buy.getCost(context);
+
+        if (buy.costPotion()) {
+        	context.potions--;
+        } else if (!(buy instanceof VictoryCard) && context.talismansPlayed > 0 && cost < 5) {
+        	for (int i = 0; i < context.talismansPlayed; i++) {
+        		context.getPlayer().gainNewCard(buy, Cards.talisman, context);
+        	}
+        }
+
+        player.addVictoryTokens(context, context.goonsPlayed);
+
+        if (buy instanceof VictoryCard) {
+        	context.victoryCardsBoughtThisTurn++;
+        	for (int i = 0; i < context.hoardsPlayed; i++) {
+        		player.gainNewCard(Cards.gold, Cards.hoard, context);
+        	}
+        }
+        int embargos = getEmbargos(buy.getName());
+
+        for (int i = 0; i < embargos; i++) {
+        	player.gainNewCard(Cards.curse, Cards.embargo, context);
+        }
+        buy.isBought(context);
+        haggler(context, buy);
     }
     
     private void haggler(MoveContext context, Card card) {
