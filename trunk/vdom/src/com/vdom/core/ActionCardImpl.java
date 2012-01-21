@@ -1,5 +1,6 @@
 package com.vdom.core;
 
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -655,15 +656,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             card = null;
         }
 
-        // Check to see if the island has already been set aside (in case island was throne roomed)
-        boolean alreadySetAside = false;
-        for (Card islandCard : currentPlayer.island) {
-            if (islandCard == this) {
-                alreadySetAside = true;
-                break;
-            }
-        }
-        if (!alreadySetAside) {
+        // Move to island mat if not already played
+        if (context.numberTimesAlreadyPlayed == 0) {
+            context.playedCards.remove(context.playedCards.lastIndexOf(this));
             currentPlayer.island.add(this);
         }
 
