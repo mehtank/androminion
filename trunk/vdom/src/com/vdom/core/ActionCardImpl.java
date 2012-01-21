@@ -1945,6 +1945,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 } else if (treasures.size() == 2) {
                     if (treasures.get(0).equals(treasures.get(1))) {
                         cardToTrash = treasures.get(0);
+                        targetPlayer.discard(treasures.remove(1), this, targetContext);
                     } else {
                         cardToTrash = currentPlayer.thief_treasureToTrash(context, treasures.toArray(new TreasureCard[]{}));
                     }
