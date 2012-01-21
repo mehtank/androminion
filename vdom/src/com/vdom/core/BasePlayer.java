@@ -879,8 +879,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 return card;
             }
         }
-
-        return null;
+        return lowestCard(context, getHand(), true);
     }
 
     @Override
