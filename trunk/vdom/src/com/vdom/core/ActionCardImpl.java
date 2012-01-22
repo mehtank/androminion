@@ -816,16 +816,20 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void tactician(MoveContext context, Player currentPlayer) {
-        // This card handles putting it where it needs to go after this turn since
-        // it depends on your hand. The Game class knows about this card
-        // specifically and knows not to treat it like other cards in this respect.
-        if (currentPlayer.hand.size() > 0) {
-            while (!currentPlayer.hand.isEmpty()) {
-                currentPlayer.discard(currentPlayer.hand.remove(0), this, null);
+        // throneroom has no effect since hand is already empty
+        if (context.numberTimesAlreadyPlayed == 0) {
+            // Only works if at least one card discarded
+            if (currentPlayer.hand.size() > 0) {
+                while (!currentPlayer.hand.isEmpty()) {
+                    currentPlayer.discard(currentPlayer.hand.remove(0), this, null);
+                }
+            } else {
+                currentPlayer.nextTurnCards.remove(this);
+                context.playedCards.add(this);
             }
-            currentPlayer.nextTurnCards.add((DurationCard) this);
         } else {
-            context.playedCards.add(this);
+            // reset clone count
+            this.cloneCount = 1;
         }
     }
 
@@ -1173,7 +1177,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                         cardToPlay.play(game, context);
                     }
 
-                    if (cardToPlay instanceof DurationCard) {
+                    if (cardToPlay instanceof DurationCard && !cardToPlay.equals(Cards.tactician)) {
                         // Need to move throning card to NextTurnCards first
                         int idx = context.playedCards.lastIndexOf(this);
                         int ntidx = currentPlayer.nextTurnCards.size() - 1;
