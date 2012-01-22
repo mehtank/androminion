@@ -486,6 +486,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void treasureMap(MoveContext context, Player currentPlayer) {
+        // Check for Treasure Map in hand
         boolean anotherMap = false;
         for (Card card : currentPlayer.hand) {
             if (card.equals(Cards.treasureMap)) {
@@ -494,23 +495,31 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
         }
 
-        if (anotherMap) {
-            // This card will already be trashed, so just trash one more
-            currentPlayer.hand.remove(Cards.treasureMap);
+        // Treasure Map still trashes extra Treasure Maps in hand on throneRoom
+        if (context.numberTimesAlreadyPlayed == 0) {
+            if (anotherMap) {
+                // going to get the gold so trash two maps
+                context.playedCards.remove(Cards.treasureMap);
+                currentPlayer.trash(Cards.treasureMap, null, context);
+                currentPlayer.hand.remove(Cards.treasureMap);
+                currentPlayer.trash(Cards.treasureMap, null, context);
 
-            // Send notifications for both the map played and the other one.
-            for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 4; i++) {
+                    currentPlayer.gainNewCard(Cards.gold, this, context);
+                }
+                
+            } else {
+                // Send notification that the map played was trashed (as per rules
+                // when a single map is played)
+                context.playedCards.remove(Cards.treasureMap);
                 currentPlayer.trash(Cards.treasureMap, null, context);
             }
-
-            for (int i = 0; i < 4; i++) {
-                currentPlayer.gainNewCard(Cards.gold, this, context);
-            }
         } else {
-            // Send notification that the map played was trashed (as per rules
-            // when a single map is played)
-            currentPlayer.hand.remove(Cards.treasureMap);
-            currentPlayer.trash(Cards.treasureMap, null, context);
+            if (anotherMap) {
+                // trash it, but no gold
+                currentPlayer.hand.remove(Cards.treasureMap);
+                currentPlayer.trash(Cards.treasureMap, null, context);
+            }
         }
     }
 
