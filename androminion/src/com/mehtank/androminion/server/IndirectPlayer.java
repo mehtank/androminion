@@ -1349,7 +1349,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_youngWitch_cardsToDiscard(context)) {
             return super.youngWitch_cardsToDiscard(context);
         }
-        return getAnyFromHand(context, getDiscardString(Cards.youngWitch), NOTPASSABLE, 2, true, SelectCardOptions.DISCARD);
+        return getAnyFromHand(context, getDiscardString(Cards.youngWitch), NOTPASSABLE, Math.min(2, getHand().size()), true, SelectCardOptions.DISCARD);
     }
     
     public Card[] followers_attack_cardsToKeep(MoveContext context) {
