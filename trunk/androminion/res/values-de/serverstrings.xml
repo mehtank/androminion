@@ -260,4 +260,8 @@
   <string name="Cartographer_query">Wähle Karte zum Abwerfen</string>
   <string name="cards">Karten</string>
   <string name="return_cards">Auf den Nachziehstapel zurücklegen:</string>
+  
+	<string name="putback_query">Wähle Karte zum Zurücklegen</string>
+	<string name="putback_option_one">Geldkarte (Kräuterkundiger)</string>
+	<string name="putback_option_two">Aktionskarte (Komplott)</string>
 </resources>
