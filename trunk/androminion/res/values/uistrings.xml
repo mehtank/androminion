@@ -1,32 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>  
-	<!-- Help -->
-	<string name="help_supply1">Welcome to Androminion, an Android implementation of the award winning strategy card game Dominion, by Donald X. Vaccarino and published by Rio Grande Games. </string>
-	<string name="help_supply2">If you are unfamiliar with how to play Dominion, it is highly recommended to read the official rules or the Wikipedia entry first.  Links can be found at \n\t http://android.mehtank.com. </string>
-	<string name="help_supply3">This is the card supply.  Here you can see all of the cards available for purchase in this game.
-		\n\nTo find out more information about a card, simply long-press on the card to bring up a dialog with its details.</string>
-	<string name="help_supply4">Each card lists its cost in the yellow circle on the left of the card and the remaining quantity under the card name.
-		\n\nIf Embargo is in play, the number of embargo tokens on a supply pile will be displayed in a black circle on the right of the card. </string>
 
-	<string name="help_turn1">This is the turn view.  Here you can see the stats about each player along with information about the current turn. </string>
-	<string name="help_turn2">The current turn\'s player is highlighted, and the players are listed in turn order.</string>
-	<string name="help_turn3">The numbers under the players\' names indicate the number of cards in their draw pile, hand, and deck (including any mats), respectively. </string>
-	<string name="help_turn4">If Pirate Ships are in play, the number of pirate ship tokens is displayed in a red circle to the right of the player\'s name. </string>
-	<string name="help_turn5">The current number of actions, buys, and money is listed at the bottom, along with a message about what input is being requested. </string>
-
-	<string name="help_hand1">The first column shows the cards that are currently in your hand.  This is only visible to you. </string>
-	<string name="help_hand2">The second column shows the cards that have been played in the current turn.  This is visible to everyone. </string>
-	<string name="help_hand3">If you have cards in your Native Village or Island, swipe the view to the left to view the contents of those mats. </string>
-	<string name="help_hand4">If any of these columns gets too big, you may need to drag the view up or down to see all the cards. </string>
-	<string name="help_hand5">Again, you can long-press any card to bring up further details. </string>
-	
-	<string name="help_log1">Finally, a history of the game is displayed in the scrollable game log at the bottom of your screen.
-		\n\nYou can always bring up this help again through the menu while a game is running.</string>
-
-	<string name="help_end">Good luck, and enjoy the game! \n\n\n\t\t\t-:ankur</string>
-
-	<string name="help_next">Next page</string>
-	<string name="help_quit">Exit help</string>
 	
 	<!-- About -->
     <string name="app_name">Androminion</string>
@@ -34,35 +8,6 @@
 	<string name="version">Version %1$s</string>
 	<string name="copyright">\n\n©2010-2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
 	<string name="dom_copyright">\nDominion card game ©2008-2012 by Rio Grande Games.\n</string>
-	
-	<!-- Prefs -->
-	<string name="toastsoff_pref_summary">Only select this option if the app crashes almost always before a game begins</string>
-    <string name="toastsoff_pref_title">Disable Toasts</string>
-    <string name="exitonback_pref_summary">Quit the game when the back button is pressed</string>
-    <string name="exitonback_pref_title">Exit on back button</string>
-    <string name="vibescreen_pref_title">Configure vibrations...</string>
-    <string name="gamevibeon_pref_summary">Vibrate when the game is over</string>
-    <string name="gamevibeon_pref_title">Game over</string>
-    <string name="actionvibeon_pref_summary">Vibrate when your input is needed</string>
-    <string name="actionvibeon_pref_title">Action indicator</string>
-    <string name="turnvibeon_pref_summary">Vibrate when your turn begins</string>
-    <string name="turnvibeon_pref_title">Turn notification</string>
-    <string name="clickvibeon_pref_summary">Vibrate when cards are selected</string>
-    <string name="clickvibeon_pref_title">Haptic feedback</string>
-    <string name="allvibes_pref_title">Enable vibrations</string>
-    <string name="notif_pref_title">Notifications</string>
-    <string name="statusbar_pref_title">Show status bar</string>
-    <string name="abc_header_pref_title">Show quick ref header</string>
-    <string name="abc_header_pref_summary">Displays your actions, buys and coin at the top (will take effect next game)</string>
-    <string name="game_play_pref_title">Game Play</string>
-    <string name="quick_play_pref_title">Quick play</string>
-    <string name="quick_play_pref_summary">Most card interactions will be played automatically (will take effect next game)</string>
-    <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
-    <string name="plat_colony_pref_summary">Always include platinum and colony cards, regardless of game type (will take effect next game)</string>
-    <string name="ui_pref_title">User Interface</string>
-    <string name="name_pref_summary">Enter your nickname</string>
-    <string name="name_pref_title">Name</string>
-    <string name="personalization_pref_title">Personalization</string>    
 	
 	<!-- Game table -->
 	<string name="title">Androminion by Ankur Mehta</string>
@@ -98,10 +43,7 @@
 
 	<string name="final_view_card_counts">Card counts</string>		
 	<string name="final_view_text">%1$s: %2$s VPs.\n%3$s turns, %4$s cards.</string>		
-    <string name="hide_card_counts_pref_title">Hide card counts</string>
-    <string name="hide_card_counts_pref_summary">(will take effect next game)</string>
-    <string name="one_turn_logs_pref_title">Single turn details</string>
-    <string name="one_turn_logs_pref_summary">Only show the current turn in the game logs at the bottom of the screen (will take effect next game)</string>
+
     <string name="reset">Reset</string>
     
 	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
@@ -124,16 +66,7 @@
 	<string name="toast_starting">Starting game...</string>
 	<string name="toast_quitconfirm">Click again to quit.</string>
 	<string name="toast_loading">Loading game...</string>
-	<string name="achievements_2players8provinces">Have all 8 Provinces at the end of a 2 player game</string>
-	<string name="achievements_3or4players10provinces">Have 10 or more Provinces at the end of a 3 or 4 player game</string>
-	<string name="achievements_score100">Win a game with 100 or more VP</string>
-	<string name="achievements_score1more">Win a game by exactly 1 VP</string>
-	<string name="achievements_singlecard">Win a game buying no more than one unique Kingdom Card</string>
-	<string name="achievements_score50more">Win a game by more than 50 VP</string>
-	<string name="achievements_skunk">Win a game with at least one opponent having 0 or less VP</string>
-	<string name="achievements_trash5inaturn">Trash more than 5 cards in a single turn</string>
-	<string name="achievements_gainmorethan30inaturn">Gain more than 30 VP in a single turn</string>
-	<string name="achievements_win10inarow">Win 10 games in a row</string>
+
 	<string name="accept">Accept</string>
 	<string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>
 	<string name="stats_menu">Statistics</string>
