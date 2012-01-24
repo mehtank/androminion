@@ -16,23 +16,18 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
             
-            <com.mehtank.androminion.ui.AboutView
+   			<include
                 android:id="@+id/abouttab1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            </com.mehtank.androminion.ui.AboutView>
-
-            <com.mehtank.androminion.ui.WhatsNewView
+                layout="@layout/aboutview" />
+            
+            <include
                 android:id="@+id/abouttab2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            </com.mehtank.androminion.ui.WhatsNewView>
+                layout="@layout/whatsnewview" />
 
-            <com.mehtank.androminion.ui.CreditsView
+            <include
                 android:id="@+id/abouttab3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            </com.mehtank.androminion.ui.CreditsView>
+                layout="@layout/creditsview" />
+
         </FrameLayout>
     </LinearLayout>
 </TabHost>

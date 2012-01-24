@@ -2,10 +2,14 @@ package com.mehtank.androminion.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.Androminion;
@@ -25,8 +29,13 @@ public class AboutDialog {
 
         TabHost th=(TabHost)view;
         th.setup();
+        
+        //set background
+        View content = th.findViewById(android.R.id.tabcontent);
+        content.setBackgroundResource(R.drawable.bigicon_background);
+        content.getBackground().setAlpha(48);
 
-        // create tab 1
+        // create tab1
         TabHost.TabSpec spec1 = th.newTabSpec("tab1");
         spec1.setIndicator(top.getResources().getString(R.string.about_menu), top.getResources().getDrawable(android.R.drawable.ic_menu_info_details));
         spec1.setContent(R.id.abouttab1);
@@ -41,6 +50,19 @@ public class AboutDialog {
         spec3.setIndicator(top.getResources().getString(R.string.contrib_menu), top.getResources().getDrawable(android.R.drawable.ic_menu_my_calendar));
         spec3.setContent(R.id.abouttab3);
         th.addTab(spec3);
+        
+        // "render" HTML
+        TextView tv = (TextView) view.findViewById(R.id.whatsnew);
+        tv.setText( Html.fromHtml(Strings.getString(top, R.string.whatsnew) ));
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
+        
+        // insert version name
+        String vname = "";
+        try {
+        	vname = Strings.format(top, R.string.version, top.getPackageManager().getPackageInfo(top.getPackageName(), 0).versionName);
+        } catch (NameNotFoundException e) {};
+        tv = (TextView) view.findViewById(R.id.version);
+        tv.setText(vname);
 
         if (showNew) 
         	th.setCurrentTab(1);
