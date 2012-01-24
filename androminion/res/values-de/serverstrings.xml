@@ -210,6 +210,7 @@
     <string name="jester_option_two">Gib Karte mit gleichem Namen an %1$s</string>
    
     <string name="trader_gain">Nimm %1$s</string>
+    <string name="trader_gain_instead_of">Nimm %1$s anstatt %2$s</string>
 
     <string name="fools_gold_option_one">Entsorge für ein Gold</string>
    
@@ -249,7 +250,7 @@
     <string name="margrave_part">[Markgraf]: Behalte</string>
    
     <string name="wishing_well_part">Errate die obere Karte: Wähle</string>
-   
+   	<string name="explorer_reveal">Zeige Provinz</string>
 
 <string name="university_part">[Universität]: Nimm </string>
 
