@@ -399,8 +399,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             margrave(game, context, currentPlayer);
         } else if (equals(Cards.stables)) {
             stables(game, context, currentPlayer);
-        } else if (equals(Cards.possession)) {
-            possession(context);
+//        } else if (equals(Cards.possession)) {
+//            possession(context);
         }
     }
 
