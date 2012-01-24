@@ -38,6 +38,8 @@
 	<!-- Prefs -->
 	<string name="toastsoff_pref_summary">ゲーム開始時にアプリケーションがクラッシュする場合のみ選択してください</string>
     <string name="toastsoff_pref_title">トーストを無効にする</string>
+    <string name="showenglishnames_pref_title">英語名の表示</string>
+	<string name="showenglishnames_pref_summary">カッコ内に英語名を表示する</string>
     <string name="exitonback_pref_summary">戻るボタンを押したときにゲームを終了する</string>
     <string name="exitonback_pref_title">戻るボタンで終了</string>
     <string name="vibescreen_pref_title">バイブレーション設定...</string>
@@ -134,6 +136,8 @@
 	<string name="achievements_trash5inaturn">1ターンに5枚以上廃棄する</string>
 	<string name="achievements_gainmorethan30inaturn">1ターンに30勝利点以上得る</string>
 	<string name="achievements_win10inarow">10連勝する</string>
+	<string name="currentWinStreak">現在の連勝数: </string>
+	
 	<string name="accept">了承</string>
 	<string name="order_cards_summary">ドラッグアンドドロップで\nカードを並び替え</string>
 		<string name="stats_menu">統計</string>
