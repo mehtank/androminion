@@ -682,9 +682,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 				v = tv;
 			}
         // }
-			String title = cardView.c.name.equals(cardView.c.originalName)
-					?cardView.c.name:
-						cardView.c.name + "(" + cardView.c.originalName + ")";
+			String title = cardView.c.name;
+			if(PreferenceManager.getDefaultSharedPreferences(top).getBoolean("showenglishnames", false)) {
+				title += " (" + cardView.c.originalName + ")";
+			}
 		new AlertDialog.Builder(top)
 			.setTitle(title)
 			.setView(v)

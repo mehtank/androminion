@@ -296,10 +296,9 @@ public class Androminion extends Activity implements EventHandler {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if (getPref("exitonback") && keyCode == KeyEvent.KEYCODE_BACK) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			long now = System.currentTimeMillis();
-			if (now - lastBackClick < 3000) // 3 seconds
+			if (now - lastBackClick < 3000 || !getPref("exitonback")) // 3 seconds
 				onDestroy();
 			else {
 				lastBackClick = now;

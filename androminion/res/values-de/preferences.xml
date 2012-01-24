@@ -13,9 +13,12 @@
 	<string name="one_turn_logs_pref_summary">Nur den aktuellen Zug in im Spiellog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
 	<string name="hide_card_counts_pref_title">Verberge Kartenanzahl</string>
 	<string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
+	<string name="exitonback_pref_title">Ende mit Zurückknopf</string>
+	<string name="exitonback_pref_summary">Beendet das Spiel erst, wenn der Zurückknopf erneut gedrückt wird</string>
 	<string name="toastsoff_pref_title">Toasts ausschalten</string>
 	<string name="toastsoff_pref_summary">Die Option Toast ausschalten nur wählen wenn das Spiel VOR dem Start abstürzt</string>
-
+	<string name="showenglishnames_pref_title">Englische Namen</string>
+	<string name="showenglishnames_pref_summary">Zeige die Englischen Namen der Karten in Klammern an</string>
 
 	<string name="game_play_pref_title">Spieleinstellungen</string>
 	<string name="quick_play_pref_title">Schnelles Spiel</string>
@@ -42,8 +45,4 @@
 	<string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
 	<string name="logging_dir_pref_title">Aufzeichnungsordner</string>
 	<string name="logging_dir_pref_summary">Ordnern zum speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
-
-	<!-- not active ? -->
-	<string name="exitonback_pref_title">Ende mit Zurück Knopf</string>
-	<string name="exitonback_pref_summary">Beendet das Spiel wenn der zurück Knopf erneut gedrückt wird</string>
 </resources>

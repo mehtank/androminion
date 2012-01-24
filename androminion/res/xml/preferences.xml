@@ -3,7 +3,7 @@
 
 	<PreferenceCategory android:title="@string/personalization_pref_title">
 		<EditTextPreference android:title="@string/name_pref_title"
-			android:key="name" android:defaultValue="You" android:dialogTitle="@string/name_pref_title"
+			android:key="name" android:defaultValue="@string/you" android:dialogTitle="@string/name_pref_title"
 			android:dialogMessage="@string/name_pref_summary"></EditTextPreference>
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/ui_pref_title">
@@ -23,7 +23,12 @@
 			android:defaultValue="true" android:title="@string/exitonback_pref_title"
 			android:summary="@string/exitonback_pref_summary"></CheckBoxPreference>
 		-->
-	<CheckBoxPreference android:key="toastsoff" android:defaultValue="false" android:summary="@string/toastsoff_pref_summary" android:title="@string/toastsoff_pref_title"></CheckBoxPreference>
+		<CheckBoxPreference android:key="toastsoff" android:defaultValue="false" android:summary="@string/toastsoff_pref_summary" android:title="@string/toastsoff_pref_title"></CheckBoxPreference>
+		<CheckBoxPreference
+		    android:key="showenglishnames"
+			android:defaultValue="false"
+			android:title="@string/showenglishnames_pref_title"
+			android:summary="@string/showenglishnames_pref_summary"/>
 </PreferenceCategory>
 	<PreferenceCategory android:title="@string/game_play_pref_title">
 		<CheckBoxPreference android:title="@string/quick_play_pref_title"
