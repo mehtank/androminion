@@ -140,6 +140,12 @@
 	<string name="whatsnew_menu">What\'s new </string>
 	<string name="whatsnew_title">What\'s new: </string>
 	<string name="whatsnew"> <![CDATA[
+	    <h3>Version 2.02</h3>	
+	    * Android 4.xでのクラッシュを修正しました。 <br>
+	    * 堀の挙動をより直感的にしました。 <br>
+		* ほかにも多くのバグ修正および強化。 <br> <br>
+		自由に王国カードを選びたい? <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a> から直接 Androminon を起動できます!
+	    <h3>Version 2.0</h3>
 		 長い時間が掛かりましたが、我々は今回のアップデートが待った価値があるものであることを願います! 多くの変更全てをここに書くことはできませんが、主要なものは以下になります。:<br/><br/>
 		<b><font color="lime">* もっと多くの拡張!</font></b>  錬金術、繁栄、収穫祭、異郷のカードの大部分が使用可能です。<br/>
 		<b><font color="lime">* もっと多くのゲームオプション!</font></b>  多くのランダムあるいはプリセットのカードセットから選択できます。プレイヤー数も2~4人の間で選択できます。<br/>
