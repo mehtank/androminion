@@ -10,4 +10,6 @@
 	<string name="achievements_trash5inaturn">Trash more than 5 cards in a single turn</string>
 	<string name="achievements_gainmorethan30inaturn">Gain more than 30 VP in a single turn</string>
 	<string name="achievements_win10inarow">Win 10 games in a row</string>
+	
+	<string name="currentWinStreak">Current win streak: </string>
 </resources>

@@ -11,6 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
+import com.mehtank.androminion.R;
 
 public class WinLossView extends FrameLayout {
 
@@ -91,6 +92,12 @@ public class WinLossView extends FrameLayout {
             tv = new TextView(top);        
             tv.setTextColor(Color.WHITE);
             tv.setTextSize(tv.getTextSize() * 1.3f);
+            int streak = achievements.getWinStreak(player);
+            if (streak > 0) {
+            	text = "  * " + top.getString(R.string.currentWinStreak) + " " + streak;
+                tv.setText( text );
+                ll.addView(tv);
+            }
             
 //            text = "   Total wins " + wins + "/" + (wins + losses);
 //            tv.setText( text );

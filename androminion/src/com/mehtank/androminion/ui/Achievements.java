@@ -153,6 +153,10 @@ public class Achievements {
                 if(allPlayers.get(i).equals(winStreakPlayer)) {
                     winStreakPlayer = "";
                     winStreakCount = 0;
+                    Editor editor = prefs.edit();
+                    editor.putString(WIN_STREAK_PLAYER_KEY, winStreakPlayer);              
+                    editor.putInt(WIN_STREAK_COUNT_KEY, winStreakCount);              
+                    editor.commit();
                 }
                 totalLosses++;
                 numPlayersLosses++;
@@ -230,7 +234,14 @@ public class Achievements {
         String numPlayersPrefix = "p" + numPlayers; 
         return prefs.getInt(numPlayersPrefix + "losses_" + player, 0);
     }
+
+    public int getWinStreak(String player) {
+    	if (prefs.getString(WIN_STREAK_PLAYER_KEY, "").equals(player))
+    		return prefs.getInt(WIN_STREAK_COUNT_KEY, 0);
+    	return 0;
+    }
     
+
     public static String getSafeName(String name) {
         if(name == null) 
             name = "";
