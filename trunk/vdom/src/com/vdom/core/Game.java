@@ -971,9 +971,9 @@ public class Game {
         
         // TODO: Temp hack to prevent AI from buying possession, even though human player can, since it only half works 
         //       (AI will make decisions while possessed, but will try to make "good" ones)
-        if(card.equals(Cards.possession) && context != null && context.getPlayer() != null && context.getPlayer().isAi()) {
-            return false;
-        }
+//        if(card.equals(Cards.possession) && context != null && context.getPlayer() != null && context.getPlayer().isAi()) {
+//            return false;
+//        }
 
         if (card.isPrize()) {
             return false;
@@ -1397,7 +1397,7 @@ public class Game {
                 }
                 
                 if(card != null
-                    && !card.equals(Cards.possession)
+//                    && !card.equals(Cards.possession)
                     ) {
                     addPile(card);
                     added += 1;
@@ -1587,7 +1587,7 @@ public class Game {
         } else if (gameType == GameType.ForbiddenArts) {
             addPile(Cards.apprentice);
             addPile(Cards.familiar);
-            addPile(Cards.possession);
+//            addPile(Cards.possession);
             addPile(Cards.university);
             addPile(Cards.cellar);
             addPile(Cards.councilRoom);
@@ -1619,7 +1619,7 @@ public class Game {
             addPile(Cards.woodcutter);
         } else if (gameType == GameType.Servants) {
             addPile(Cards.golem);
-            addPile(Cards.possession);
+//            addPile(Cards.possession);
             addPile(Cards.scryingPool);
             addPile(Cards.transmute);
             addPile(Cards.vineyard);
@@ -2379,7 +2379,7 @@ public class Game {
                            r.equals(Cards.upgrade) ||
                            r.equals(Cards.ambassador) ||
                            r.equals(Cards.smugglers) ||
-                           r.equals(Cards.possession) ||
+//                           r.equals(Cards.possession) ||
                            r.equals(Cards.talisman) ||
                            r.equals(Cards.expand) ||
                            r.equals(Cards.forge) ||
