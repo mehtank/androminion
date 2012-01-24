@@ -76,6 +76,10 @@
 	<string name="whatsnew_menu">Was ist neu </string>
 	<string name="whatsnew_title">Was ist neu: </string>
 	<string name="whatsnew"> <![CDATA[
+	    * Crash auf Android 4.x behoben <br>
+        * Intuitiveres Verhalten des Burggrabens <br>
+        * Viele weitere Korrekturen und Erweiterung <br>
+        <h3>2.0</h3>
 	    Es hat eine längere Weile gedauert aber wir hoffen diese Aktualiserung war das Warten wert!  Es gab so viele Änderungen, dass wir sie hier nicht alle auflisten können. Trotzdem sind hier die bedeutendsten:<br/><br/>
 		<b><font color="lime">* Mehr Erweiterungen!</font></b>  Fast alle Karte aus Alchemie, Blütezeit, Reiche Ernte und Hinterland sind jetzt verfügbar.<br/>
 		<b><font color="lime">* Mehr Spieleoptionen!</font></b>  Wähle verschiedenste Variante zufälliger oder fertiger Decks, mit 2-4 Spielern.<br/>
