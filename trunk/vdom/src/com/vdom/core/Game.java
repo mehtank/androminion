@@ -207,14 +207,8 @@ public class Game {
             int consecutiveTurns = 0;
             while (!gameOver) {
                 consecutiveTurns++;
-                cardsObtainedLastTurn[playersTurn].clear();
-
                 Player player = players[playersTurn];
-
                 MoveContext context = new MoveContext(this, player);
-
-                GameEvent gevent = new GameEvent(GameEvent.Type.TurnBegin, context);
-                broadcastEvent(gevent);
 
                 turnBegin(player, context);
 
@@ -582,6 +576,11 @@ public class Game {
     }
 
     protected void turnBegin(Player player, MoveContext context) {
+        cardsObtainedLastTurn[playersTurn].clear();
+
+        GameEvent gevent = new GameEvent(GameEvent.Type.TurnBegin, context);
+        broadcastEvent(gevent);
+
         for (Card card : player.nextTurnCards) {
             if (card instanceof DurationCard) {
                 DurationCard thisCard = (DurationCard) card;
@@ -591,7 +590,7 @@ public class Game {
                     event.card = thisCard;
                     broadcastEvent(event);
 
-                    context.actionsPlayedSoFar++;
+                    // context.actionsPlayedSoFar++;
                     context.actions += thisCard.getAddActionsNextTurn();
                     context.addGold += thisCard.getAddGoldNextTurn();
                     context.buys += thisCard.getAddBuysNextTurn();
@@ -2361,7 +2360,8 @@ public class Game {
                     if(context.getPossessedBy() != null) {
                         player = context.getPossessedBy();
                     }
-                    Util.debug((String.format("discard pile: %d", player.discard.size())), true);
+                    if (Cards.inn.equals(event.responsible))
+                        Util.debug((String.format("discard pile: %d", player.discard.size())), true);
                     
                     // See rules explanation of Tunnel for what commandedDiscard means.
                     boolean commandedDiscard = true;
