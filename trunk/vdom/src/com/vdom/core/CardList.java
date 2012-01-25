@@ -82,7 +82,7 @@ public class CardList implements Iterable<Card> {
     }
 
     public void add(Card card) {
-        add(card, true);
+        add(card, false);
     }
 
     public void add(Card card, boolean showUI) {

@@ -3253,7 +3253,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             context.freeActionInEffect++;
             for (Card card : toPlay) {
-                currentPlayer.hand.add(card, false);
+                currentPlayer.hand.add(0, card);
                 ((ActionCardImpl) card).play(game, context);
             }
             context.freeActionInEffect--;
