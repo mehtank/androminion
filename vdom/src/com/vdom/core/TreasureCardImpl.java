@@ -223,7 +223,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
                     
                     if (toObtain instanceof VictoryCard) {
                         context.playedCards.remove(this);
-                        context.cardsTrashedThisTurn++;
+                        player.trash(this, toObtain, context);
                         event = new GameEvent(GameEvent.Type.CardTrashed, context);
                         event.card = this;
                         game.broadcastEvent(event);

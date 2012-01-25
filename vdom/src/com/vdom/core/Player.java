@@ -495,6 +495,9 @@ public abstract class Player {
         for (Card card : island) {
             allCards.add(card);
         }
+        for (Card card : horseTraders) {
+            allCards.add(card);
+        }
         return allCards;
     }
 
@@ -624,6 +627,7 @@ public abstract class Player {
             // TODO: Track in main game event listener instead
             context.cardsTrashedThisTurn++;
         }
+        context.game.trashPile.add(card);
         GameEvent event = new GameEvent(GameEvent.Type.CardTrashed, context);
         event.card = card;
         event.responsible = responsible;

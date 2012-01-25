@@ -1978,6 +1978,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (treasuresToGain != null) {
                 for (TreasureCard treasure : treasuresToGain) {
                     currentPlayer.gainCardAlreadyInPlay(treasure, this, context);
+                    game.trashPile.remove(treasure);
                 }
             }
         }
@@ -3708,6 +3709,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (trashed.size() > 0) {
             for (Card c : trashed) {
                 player.gainCardAlreadyInPlay(c, this, moveContext);
+                context.game.trashPile.remove(c);
             }
         }
     }
