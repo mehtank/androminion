@@ -39,7 +39,8 @@ public class Game {
     public static ArrayList<String> unfoundCards = new ArrayList<String>();
     String cardListText = "";
     String unfoundCardText = "";
-
+    int totalCardCountGameBegin = 0;
+    int totalCardCountGameEnd = 0;
     
     /**
      * Player classes and optionally the url to the jar on the web that the class is located in. Player class
@@ -82,6 +83,7 @@ public class Game {
     public static Random rand = new Random(System.currentTimeMillis());
     public HashMap<String, CardPile> piles = new HashMap<String, CardPile>();
     public HashMap<String, Integer> embargos = new HashMap<String, Integer>();
+    public ArrayList<Card> trashPile = new ArrayList<Card>();
     public Card baneCard = null;
     double chanceForPlatColony = 0;
 
@@ -198,6 +200,10 @@ public class Game {
 
             Util.debug("New Game:" + gameType);
             initGameBoard();
+            if (test) {
+                Util.log(gameType.toString());
+                totalCardCountGameBegin = totalCardCount();
+            }
 
             gameOver = false;
             playersTurn = 0;
@@ -278,6 +284,8 @@ public class Game {
                     vpTotal += vps[i];
                     numCardsTotal += players[i].getAllCards().size();
                 }
+                totalCardCountGameEnd = totalCardCount();
+                // assert (totalCardCountGameBegin == totalCardCountGameEnd);
             }
 
         }
@@ -1213,6 +1221,29 @@ public class Game {
         }
     }
 
+    int totalCardCount() {
+        HashMap<String, Integer> cardCounts = new HashMap<String, Integer>();
+        for (String cardName : piles.keySet()) {
+            cardCounts.put(cardName, piles.get(cardName).getCount());
+            }
+        for (Card card : trashPile) {
+            cardCounts.put(card.getName(), cardCounts.get(card.getName()) + 1);
+        }
+        for (int i = 0; i < numPlayers; i++) {
+            for (Card card : players[i].getAllCards()) {
+                cardCounts.put(card.getName(), cardCounts.get(card.getName()) + 1);
+            }            
+        }
+        Util.log(cardCounts.toString());
+
+        int totalCardCount = 0;
+        for (Integer v : cardCounts.values()) {
+            totalCardCount += v;
+        }
+
+        return totalCardCount;
+    }
+
     @SuppressWarnings("unchecked")
     void initGameBoard() throws ExitException {
         cardSequence = 1;
@@ -1337,6 +1368,7 @@ public class Game {
     protected void initCards() {
         piles.clear();
         embargos.clear();
+        trashPile.clear();
 
 //        addPile(Cards.platinum, 12);
         addPile(Cards.gold, 30);
@@ -2422,6 +2454,7 @@ public class Game {
                             player.putOnTopOfDeck(event.card);
                         } else if (choice == WatchTowerOption.Trash) {
                             handled = true;
+                            trashPile.add(event.card);
                             context.cardsTrashedThisTurn++;
                             GameEvent gameEvent = new GameEvent(GameEvent.Type.CardTrashed, context);
                             event.card = event.card;
