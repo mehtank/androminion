@@ -571,12 +571,13 @@ public abstract class Player {
         }
         discard.add(card);
 
-        if(context != null) {
-            GameEvent event = new GameEvent(GameEvent.Type.CardDiscarded, context);
-            event.card = card;
-            event.responsible = responsible;
-            context.game.broadcastEvent(event);
-        }
+        // XXX making game slow; is this necessary?  For that matter, are discarded cards public?
+//        if(context != null) {
+//            GameEvent event = new GameEvent(GameEvent.Type.CardDiscarded, context);
+//            event.card = card;
+//            event.responsible = responsible;
+//            context.game.broadcastEvent(event);
+//        }
     }
     
     public boolean gainNewCard(Card cardToGain, Card responsible, MoveContext context) {
