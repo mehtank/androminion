@@ -22,6 +22,7 @@ import com.mehtank.androminion.R;
 public class GameScrollerView extends HorizontalScrollView {
 	Context top;
 	LinearLayout gameEventsRow;
+	private ScrollView latestTurnSV;
 	private TextView latestTurn;
 	private double textScale;
 	private boolean onlyShowOneTurn = false;
@@ -72,18 +73,18 @@ public class GameScrollerView extends HorizontalScrollView {
 			latestTurn = new TextView(top);
 			latestTurn.setTextSize((float) (latestTurn.getTextSize() * textScale));
 
-			ScrollView sv = new ScrollView(top);
-			sv.setBackgroundResource(R.drawable.roundborder);
-			sv.addView(latestTurn);
+			latestTurnSV = new ScrollView(top);
+			latestTurnSV.setBackgroundResource(R.drawable.roundborder);
+			latestTurnSV.addView(latestTurn);
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.FILL_PARENT);
-			sv.setLayoutParams(lp);
-			gameEventsRow.addView(sv);
+			latestTurnSV.setLayoutParams(lp);
+			gameEventsRow.addView(latestTurnSV);
 			latestTurn.setText(s);
 			
 	        if(onlyShowOneTurn) {
-	            views.add(sv);
+	            views.add(latestTurnSV);
 	            while(views.size() > numPlayers + 1) {
 	                View view = views.remove(0);
 	                gameEventsRow.removeView(view);
@@ -91,6 +92,8 @@ public class GameScrollerView extends HorizontalScrollView {
 	        }
 		} else
 			latestTurn.setText(latestTurn.getText() + "\n" + s);
+		
+		latestTurnSV.fullScroll(FOCUS_DOWN);
 		fullScroll(FOCUS_RIGHT);
 		
 		if (logfile != null && logfile.canWrite()) {
