@@ -26,7 +26,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected int potionCount = 0;
     protected int midGame;
     
-    protected boolean reactedMote = false;
+    protected boolean reactedMoat = false;
     protected boolean reactedSecretChamber = false;
 
     @Override
@@ -52,7 +52,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         
         if (event.getType() == GameEvent.Type.PlayingAction) {
-        	reactedMote = false;
+        	reactedMoat = false;
         	reactedSecretChamber = false;
         }
         if(event.getPlayer() == this && (event.getType() == GameEvent.Type.CardObtained || event.getType() == GameEvent.Type.BuyingCard)) {

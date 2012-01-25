@@ -149,7 +149,7 @@ public class CardImpl implements Card {
     public int getCost(MoveContext context, boolean buyPhase) {
         int costModifier = 0;
         costModifier -= (this instanceof ActionCardImpl) ? (2 * context.quarriesPlayed) : 0;
-        costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.actionsPlayedSoFar) : 0;
+        costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.getActionCardsInPlayThisTurn()) : 0;
 
         return Math.max(0, cost + costModifier + context.cardCostModifier);
     }
@@ -185,7 +185,7 @@ public class CardImpl implements Card {
     }
 
     public String toString() {
-        return name + " (id=" + id + ")";
+        return name; // + " (id=" + id + ")";
     }
 
     public boolean equals(Object object) {

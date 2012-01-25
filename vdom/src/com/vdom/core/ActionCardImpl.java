@@ -220,7 +220,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.thief)) {
             thief(game, context, currentPlayer);
         } else if (equals(Cards.conspirator)) {
-            consiprator(game, context, currentPlayer);
+            conspirator(game, context, currentPlayer);
         } else if (equals(Cards.spy) || equals(Cards.scryingPool)) {
             spyAndScryingPool(game, context, currentPlayer);
         } else if (equals(Cards.courtyard)) {
@@ -2488,7 +2488,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
 
-    private void consiprator(Game game, MoveContext context, Player currentPlayer) {
+    private void conspirator(Game game, MoveContext context, Player currentPlayer) {
         if (context.actionsPlayedSoFar >= 3) {
             context.actions++;
             game.drawToHand(currentPlayer, this);
