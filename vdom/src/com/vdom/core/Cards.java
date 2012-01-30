@@ -15,6 +15,7 @@ public class Cards {
     public static ArrayList<Card> actionCardsCornucopia = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsHinterlands = new ArrayList<Card>();
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
+	public static ArrayList<Card> prizeCards = new ArrayList<Card>();
 
     public static final Card platinum;
     public static final Card gold;
@@ -355,11 +356,11 @@ public class Cards {
         actionCardsCornucopia.add(youngWitch = new ActionCardImpl.Builder("Young Witch", 4).addCards(2).attack().description("Discard 2 cards.  Each other player may reveal a Bane card from his hand.  If he doesn't, he gains a Curse.  Setup:  Add an extra Kingdom card pile costing 2 or 3 coins to the Supply.  Cards from that pile are Bane cards.").expansion("Cornucopia").build());
 
         // Prizes
-        bagOfGold = new ActionCardImpl.Builder("Bag of Gold", 0).addActions(1).isPrize().description("Gain a Gold, putting it on top of your deck.  (This is not in the Supply.)").expansion("Cornucopia").build();
-        diadem = new TreasureCardImpl.Builder("Diadem", 0, 2).isPrize().description("When you play this, +1 coin per unused Action you have (Action, not Action card).  (This is not in the Supply.)").expansion("Cornucopia").build();
-        followers = new ActionCardImpl.Builder("Followers", 0).addCards(2).attack().isPrize().description("Gain an Estate.  Each other player gains a Curse and discards down to 3 cards in hand.  (This is not in the Supply.)").expansion("Cornucopia").build();
-        princess = new ActionCardImpl.Builder("Princess", 0).addBuys(1).isPrize().description("While this is in play, cards cost 2 coins less, but not less than 0.  (This is not in the Supply.)").expansion("Cornucopia").build();
-        trustySteed = new ActionCardImpl.Builder("Trusty Steed", 0).isPrize().description("Choose two:  +2 Cards; +2 Actions; +2 coins; gain 4 silvers and put your deck into your discard pile.  (The choices must be different.)  (This is not in the Supply.)").expansion("Cornucopia").build();
+        prizeCards.add(bagOfGold = new ActionCardImpl.Builder("Bag of Gold", 0).addActions(1).isPrize().description("Gain a Gold, putting it on top of your deck.  (This is not in the Supply.)").expansion("Cornucopia").build());
+		prizeCards.add(diadem = new TreasureCardImpl.Builder("Diadem", 0, 2).isPrize().description("When you play this, +1 coin per unused Action you have (Action, not Action card).  (This is not in the Supply.)").expansion("Cornucopia").build());
+		prizeCards.add(followers = new ActionCardImpl.Builder("Followers", 0).addCards(2).attack().isPrize().description("Gain an Estate.  Each other player gains a Curse and discards down to 3 cards in hand.  (This is not in the Supply.)").expansion("Cornucopia").build());
+		prizeCards.add(princess = new ActionCardImpl.Builder("Princess", 0).addBuys(1).isPrize().description("While this is in play, cards cost 2 coins less, but not less than 0.  (This is not in the Supply.)").expansion("Cornucopia").build());
+		prizeCards.add(trustySteed = new ActionCardImpl.Builder("Trusty Steed", 0).isPrize().description("Choose two:  +2 Cards; +2 Actions; +2 coins; gain 4 silvers and put your deck into your discard pile.  (The choices must be different.)  (This is not in the Supply.)").expansion("Cornucopia").build());
         
 		// Hinterlands
         actionCardsHinterlands.add(borderVillage = new ActionCardImpl.Builder("Border Village", 6).addCards(1).addActions(2).description("When you gain this, gain a card costing less than this.").expansion("Hinterlands").build());

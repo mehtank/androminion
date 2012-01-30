@@ -2672,21 +2672,41 @@ public class Game {
         return count;
     }
 
+	/*
+	Note that any cards in the supply can have Embargo coins added.
+	This includes the basic seven cards (Victory, Curse, Treasure),
+	any of the 10 game piles, and Colony/Platinum when included.
+	However, this does NOT include any Prizes from Cornucopia.
+	 */
     void addEmbargo(String name) {
         CardPile pile = piles.get(name);
         // Don't embargo cards not in the game
-        if (pile == null) {
-            return;
-        }
+        if (this.isValidEmbargoPile(pile)) {
 
-        // TODO ok to embargo any card (gold, victory, etc.)?
-        Integer count = embargos.get(name);
-        if (count == null) {
-            embargos.put(name, 1);
-        } else {
-            embargos.put(name, count + 1);
-        }
+			Integer count = embargos.get(name);
+			if (count == null) {
+				embargos.put(name, 1);
+			} else {
+				embargos.put(name, count + 1);
+			}
+		}
     }
+	
+	private boolean isValidEmbargoPile(final CardPile pile) {
+		boolean valid = true;
+		
+		if(pile == null) {
+			valid = false;
+		} else {
+			final Card card = pile.card;
+
+			if(card == null || Cards.prizeCards.contains(card)) {
+				valid = false;
+			}
+		}
+
+		return valid;
+	}
 
     // Only is valid for cards in play...
     Card readCard(String name) {
