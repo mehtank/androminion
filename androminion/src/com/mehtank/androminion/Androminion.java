@@ -297,15 +297,19 @@ public class Androminion extends Activity implements EventHandler {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			long now = System.currentTimeMillis();
-			if (now - lastBackClick < 3000 /*|| !getPref("exitonback")*/) // 3 seconds
-				onDestroy();
-			else {
-				lastBackClick = now;
-				if (!NOTOASTS) Toast.makeText(top, getString(R.string.toast_quitconfirm), Toast.LENGTH_SHORT)
-						.show();
-			}
-			return true;
+		    if (getPref("exitonback")) {
+    		    long now = System.currentTimeMillis();
+    			if (now - lastBackClick < 3000) // 3 seconds
+    				onDestroy();
+    			else {
+    				lastBackClick = now;
+    				if (!NOTOASTS) Toast.makeText(top, getString(R.string.toast_quitconfirm), Toast.LENGTH_SHORT)
+    						.show();
+    			}
+    			return true;
+		    } else {
+		        return false;
+		    }
 		} else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
 			gt.logToggle();
 		}
