@@ -622,7 +622,6 @@ public abstract class Player {
     }
     
     public void trash(Card card, Card responsible, MoveContext context) {
-        ((CardImpl) card).trashed = true;
         if(context != null) {
             // TODO: Track in main game event listener instead
             context.cardsTrashedThisTurn++;
