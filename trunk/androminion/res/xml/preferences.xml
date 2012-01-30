@@ -18,11 +18,9 @@
 		<CheckBoxPreference android:title="@string/hide_card_counts_pref_title"
 			android:summary="@string/hide_card_counts_pref_summary"
 			android:defaultValue="false" android:key="hide_card_counts"></CheckBoxPreference>
-		<!-- 
 		<CheckBoxPreference android:key="exitonback"
 			android:defaultValue="true" android:title="@string/exitonback_pref_title"
 			android:summary="@string/exitonback_pref_summary"></CheckBoxPreference>
-		-->
 		<CheckBoxPreference android:key="toastsoff" android:defaultValue="false" android:summary="@string/toastsoff_pref_summary" android:title="@string/toastsoff_pref_title"></CheckBoxPreference>
 		<CheckBoxPreference
 		    android:key="showenglishnames"
