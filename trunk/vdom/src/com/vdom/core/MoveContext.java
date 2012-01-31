@@ -27,7 +27,6 @@ public class MoveContext {
     public int goonsPlayed = 0;
     public int hoardsPlayed = 0;
     public int freeActionInEffect = 0;
-    public int numberTimesAlreadyPlayed = 0;
     public int quarriesPlayed = 0;
     public boolean royalSealPlayed = false;
     public int possessionsToProcess = 0;

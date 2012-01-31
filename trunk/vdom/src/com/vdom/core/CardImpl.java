@@ -12,6 +12,7 @@ public class CardImpl implements Card {
     protected int vp;
     boolean trashOnUse = false;
     boolean trashed = false;
+    int numberTimesAlreadyPlayed = 0;
     boolean isPrize = false;
     int cloneCount = 1;
 
