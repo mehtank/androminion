@@ -20,7 +20,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     protected Random rand = new Random(System.currentTimeMillis());
     protected static final int COST_MAX = 11;
-    protected int turnCount = 0;
     protected int actionCardCount = 0;
     protected int throneRoomAndKingsCourtCount = 0;
     protected int potionCount = 0;
@@ -48,7 +47,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         // There are quite a few event types, found in the GameEvent.Type enum, that
         // are broadcast.
         if (event.getType() == GameEvent.Type.TurnBegin && event.getPlayer() == this) {
-            turnCount++;
+            if (game.consecutiveTurns == 1)
+                turnCount++;
         }
         
         if (event.getType() == GameEvent.Type.PlayingAction) {

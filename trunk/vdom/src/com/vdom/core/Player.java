@@ -21,6 +21,7 @@ public abstract class Player {
     public CardList hand;
     public CardList deck;
     public CardList discard;
+    protected int turnCount = 0;
     public int vps;
     public boolean win = false;
     public int pirateShipTreasure;
