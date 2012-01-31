@@ -94,7 +94,8 @@ public class Game {
     static int playersTurn;
 
 //    public UI ui;
-    int turnCount;
+    int turnCount = 0;
+    int consecutiveTurns = 0;
 
     public static HashMap<String, Player> cachedPlayers = new HashMap<String, Player>();
     public static HashMap<String, Class<?>> cachedPlayerClasses = new HashMap<String, Class<?>>();
@@ -210,9 +211,8 @@ public class Game {
             turnCount = 1;
             Util.debug("Turn " + turnCount);
 
-            int consecutiveTurns = 0;
+            consecutiveTurns = 0;
             while (!gameOver) {
-                consecutiveTurns++;
                 Player player = players[playersTurn];
                 MoveContext context = new MoveContext(this, player);
 
@@ -247,7 +247,7 @@ public class Game {
                 // /////////////////////////////////
                 // Draw new hand
                 // /////////////////////////////////
-                boolean takeAnotherTurn = playerEndTurn(consecutiveTurns, player, context);
+                boolean takeAnotherTurn = playerEndTurn(player, context);
 
                 gameOver = checkGameOver();
                 
@@ -491,7 +491,7 @@ public class Game {
             Util.debug("", true);
         }
 
-    protected boolean playerEndTurn(int consecutiveTurns, Player player, MoveContext context) {
+    protected boolean playerEndTurn(Player player, MoveContext context) {
         int handCount = 5;
 
         boolean takeAnotherTurn = false;
@@ -584,6 +584,7 @@ public class Game {
     }
 
     protected void turnBegin(Player player, MoveContext context) {
+        consecutiveTurns++;
         cardsObtainedLastTurn[playersTurn].clear();
 
         GameEvent gevent = new GameEvent(GameEvent.Type.TurnBegin, context);
