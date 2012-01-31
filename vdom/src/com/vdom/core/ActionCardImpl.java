@@ -139,13 +139,18 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     public void play(Game game, MoveContext context) {
+        play(game, context, true);
+    }
+    
+    public void play(Game game, MoveContext context, boolean fromHand) {
         super.play(game, context);
 
         Player currentPlayer = context.getPlayer();
 
-        if (context.numberTimesAlreadyPlayed == 0) {
+        if (this.numberTimesAlreadyPlayed == 0) {
             this.trashed = false;
-            currentPlayer.hand.remove(this);
+            if (fromHand)
+                currentPlayer.hand.remove(this);
             if (trashOnUse) {
                 currentPlayer.trash(this, null, context);
             } else if (this instanceof DurationCard) {
@@ -359,7 +364,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.followers)) {
             followers(game, context, currentPlayer);
         } else if (equals(Cards.princess)) {
-            if (context.numberTimesAlreadyPlayed == 0) {
+            if (this.numberTimesAlreadyPlayed == 0) {
             	context.cardCostModifier -= 2;
             }
         } else if (equals(Cards.trustySteed)) {
@@ -389,7 +394,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else if (equals(Cards.embassy)) {
             embassy(context, currentPlayer);
         } else if (equals(Cards.highway)) {
-            if (context.numberTimesAlreadyPlayed == 0) {
+            if (this.numberTimesAlreadyPlayed == 0) {
                 context.cardCostModifier -= 1;
             }
         } else if (equals(Cards.inn)) {
@@ -497,7 +502,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         // Treasure Map still trashes extra Treasure Maps in hand on throneRoom
-        if (context.numberTimesAlreadyPlayed == 0) {
+        if (this.numberTimesAlreadyPlayed == 0) {
             if (anotherMap) {
                 // going to get the gold so trash two maps
                 context.playedCards.remove(Cards.treasureMap);
@@ -667,7 +672,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         // Move to island mat if not already played
-        if (context.numberTimesAlreadyPlayed == 0) {
+        if (this.numberTimesAlreadyPlayed == 0) {
             context.playedCards.remove(context.playedCards.lastIndexOf(this));
             currentPlayer.island.add(this);
         }
@@ -818,7 +823,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void tactician(MoveContext context, Player currentPlayer) {
         // throneroom has no effect since hand is already empty
-        if (context.numberTimesAlreadyPlayed == 0) {
+        if (this.numberTimesAlreadyPlayed == 0) {
             // Only works if at least one card discarded
             if (currentPlayer.hand.size() > 0) {
                 while (!currentPlayer.hand.isEmpty()) {
@@ -1174,23 +1179,26 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
    
                     cardToPlay.cloneCount = (equals(Cards.kingsCourt) ? 3 : 2);
                     for (int i = 0; i < cardToPlay.cloneCount;) {
-                        context.numberTimesAlreadyPlayed = i++;
-                        cardToPlay.play(game, context);
+                        cardToPlay.numberTimesAlreadyPlayed = i++;
+                        cardToPlay.play(game, context, cardToPlay.numberTimesAlreadyPlayed == 0 ? true : false);
                     }
+
+                    cardToPlay.numberTimesAlreadyPlayed = 0;
+                    context.freeActionInEffect--;
 
                     if (cardToPlay instanceof DurationCard && !cardToPlay.equals(Cards.tactician)) {
                         // Need to move throning card to NextTurnCards first
-                        int idx = context.playedCards.lastIndexOf(this);
-                        int ntidx = currentPlayer.nextTurnCards.size() - 1;
-                        if (idx >= 0 && ntidx >= 0) {
-                            context.playedCards.remove(idx);
-                            currentPlayer.nextTurnCards.add(ntidx, this);
+                        // (but does not play)
+                        if (!this.trashed) {
+                            this.trashed = true;
+                            int idx = context.playedCards.lastIndexOf(this);
+                            int ntidx = currentPlayer.nextTurnCards.size() - 1;
+                            if (idx >= 0 && ntidx >= 0) {
+                                context.playedCards.remove(idx);
+                                currentPlayer.nextTurnCards.add(ntidx, this);
+                            }
                         }
                     }
-
-                    context.freeActionInEffect--;
-                    context.numberTimesAlreadyPlayed = 0;
-                    
                 }
             }
         }
@@ -2660,7 +2668,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void goons(Game game, MoveContext context, Player currentPlayer) {
-        if (context.numberTimesAlreadyPlayed == 0) {
+        if (this.numberTimesAlreadyPlayed == 0) {
             context.goonsPlayed++;
         }
 
@@ -3256,8 +3264,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             context.freeActionInEffect++;
             for (Card card : toPlay) {
-                currentPlayer.hand.add(0, card);
-                ((ActionCardImpl) card).play(game, context);
+                ((ActionCardImpl) card).play(game, context, false);
             }
             context.freeActionInEffect--;
         }

@@ -545,7 +545,7 @@ public class Game {
                     broadcastEvent(event);
                     
                     try {
-                        ((ActionCardImpl) action).play(this, (MoveContext) context);
+                        ((ActionCardImpl) action).play(this, (MoveContext) context, true);
                     } catch (RuntimeException e) {
                         e.printStackTrace();
                     }
