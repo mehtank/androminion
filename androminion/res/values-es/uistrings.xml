@@ -4,29 +4,29 @@
 	
 	<!-- About -->
     <string name="app_name">Androminion</string>
-	<string name="splash">Use the menu to start a new game, or, while a game is running, to display help on how to play.</string>
-	<string name="version">Version %1$s</string>
+	<string name="splash">Usa el menu para iniciar una nueva partida o, durante el juego, para ver como jugar.</string>
+	<string name="version">Versi&oacute;n %1$s</string>
 	<string name="copyright">\n©2010-2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
 	<string name="dom_copyright">\nDominion card game ©2008-2012 by Rio Grande Games.</string>
 	
 	<!-- Game table -->
-	<string name="title">Androminion by Ankur Mehta</string>
-	<string name="obtained">%1$s gained</string>
-	<string name="trashed">%1$s trashed</string>
-	<string name="revealed">%1$s revealed</string>
-	<string name="confirmation">Are you sure?</string>
+	<string name="title">Androminion por Ankur Mehta</string>
+	<string name="obtained">%1$s Obtenidas</string>
+	<string name="trashed">%1$s Eliminadas</string>
+	<string name="revealed">%1$s Reveladas</string>
+	<string name="confirmation">¿Estas seguro?</string>
 	<string name="confirm_no">No</string>
-	<string name="select_button">Select</string>
-	<string name="buy_button">\ \ Buy\ \ </string>
-	<string name="play_button">\ Play\ </string>
-	<string name="discard_button">Discard</string>
-	<string name="keep_button">Keep</string>
+	<string name="select_button">Selecciona</string>
+	<string name="buy_button">\ \ Comprar\ \ </string>
+	<string name="play_button">\ Jugar\ </string>
+	<string name="discard_button">Descartar</string>
+	<string name="keep_button">Mantener</string>
 	<string name="give_button">Give</string>
-	<string name="trash_button">Trash</string>
+	<string name="trash_button">Eliminar</string>
 	<string name="upgrade_button">Upgrade</string>
 	<string name="mint_button">Mint</string>
 	<string name="swindle_button">Swindle</string>
-	<string name="all_button">All</string>
+	<string name="all_button">Todo</string>
 	<string name="hand_header">Hand:</string>
 	<string name="played_header">Played:</string>
 	<string name="island_header">Island:</string>
