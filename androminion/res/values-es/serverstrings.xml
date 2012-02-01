@@ -2,15 +2,15 @@
 <resources>
 
 	<!-- Interaction -->
-	<string name="pass">Pass</string>
+	<string name="pass">Pasar</string>
 	<string name="card_revealed">%1$s revealed %2$s</string>
-	<string name="select_treasure">Select a treasure card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_treasure">Selecciona una carta de la mesa que cueste al menos (%1$s) a %2$s</string>
 	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
 	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
-	<string name="torturer_option_one">Take a curse</string>
-	<string name="torturer_option_two">Discard two cards</string>
-	<string name="chancellor_query">Discard entire deck</string>
-	<string name="inn_option_one">Shuffle into deck</string>
+	<string name="torturer_option_one">Coge una maldici&oacute;</string>
+	<string name="torturer_option_two">Descarta dos cartas</string>
+	<string name="chancellor_query">Descarta todo el mazo</string>
+	<string name="inn_option_one">Mezcla en el mazo</string>
 	<string name="inn_option_two">Leave in discard</string>
 	<string name="tunnel_query">Discarding Tunnel</string>
 	<string name="tunnel_option_one">Reveal for Gold</string>
@@ -27,19 +27,19 @@
 	<string name="cards_next_turn_multiple">+%1$s Cards next turn</string>
 	<string name="action_next_turn_single">+%1$s Action next turn</string>
 	<string name="actions_next_turn_multiple">+%1$s Actions next turn</string>
-	<string name="card_coin">+(%1$s) Coin</string>
-	<string name="card_buy_single">+%1$s Buy</string>
-	<string name="card_buys_multiple">+%1$s Buys</string>
-	<string name="card_action_single">+%1$s Action</string>
-	<string name="card_actions_multiple">+%1$s Actions</string>
-	<string name="card_card_single">+%1$s Card</string>
-	<string name="card_cards_multiple">+%1$s Cards</string>
-	<string name="card_victory_token_single">+%1$s Victory token</string>
-	<string name="card_victory_tokens_multiple">+%1$s Victory tokens</string>
+	<string name="card_coin">+(%1$s) Monedas</string>
+	<string name="card_buy_single">+%1$s Compra</string>
+	<string name="card_buys_multiple">+%1$s Compras</string>
+	<string name="card_action_single">+%1$s Accion</string>
+	<string name="card_actions_multiple">+%1$s Acciones</string>
+	<string name="card_card_single">+%1$s Carta</string>
+	<string name="card_cards_multiple">+%1$s Cartas</string>
+	<string name="card_victory_token_single">+%1$s Punto de victoria</string>
+	<string name="card_victory_tokens_multiple">+%1$s Puntos de victoria</string>
 	
-	<string name="card_options_header">%1$s option</string>
+	<string name="card_options_header">%1$s opcion</string>
 	<string name="part_play">play</string>
-	<string name="part_buy">buy</string>
+	<string name="part_buy">Compra</string>
 	
 	<string name="select_from_table">Select a card from the table to %1$s</string>
 	<string name="select_from_table_exact_quarries">Select a card from the table that costs exactly (%1$s, %2$s if Action card) to %3$s</string>
@@ -77,10 +77,10 @@
 	<string name="card_to_gain">gain [%1$s]</string>
 	<string name="card_to_trash">trash [%1$s]</string>
 	<string name="card_to_discard">discard [%1$s]</string>
-	<string name="discard">Discard</string>
-	<string name="trash">Trash</string>
-	<string name="keep">Keep</string>
-	<string name="none">None</string>
+	<string name="discard">Descartar</string>
+	<string name="trash">Pila de descartes</string>
+	<string name="keep">Mantener</string>
+	<string name="none">Ninguna</string>
 	<string name="card_revealed_from_player">From %1$s\n%2$s revealed %3$s</string>
 	<string name="GameStarting"></string>
 	<string name="GameOver">Game over</string>
@@ -150,14 +150,14 @@
 	<string name="lookout_query_discard">Select card to discard</string>
 	
 	<string name="mountebank_query">Mountebank revealed</string>
-	<string name="mountebank_option_one">Discard Curse</string>
+	<string name="mountebank_option_one">Descartar una maldic&oacute;</string>
 	<string name="mountebank_option_two">Gain Curse and Copper</string>
 	
 	<string name="pearldiver_option_one">Move to top</string>
 	<string name="pearldiver_option_two">Leave on bottom</string>
 	
 	<string name="alchemist_option_one">Put back on deck</string>
-	<string name="alchemist_option_two">Discard</string>
+	<string name="alchemist_option_two">Descartar</string>
 	
 	<string name="navigator_header">Navigator revealed: %1$s</string>
 	<string name="navigator_option_two">Replace on deck</string>
@@ -168,8 +168,8 @@
 	<string name="tournament_option_three">Gain Duchy</string>
 	<string name="select_prize">Select a prize</string>
 	
-	<string name="trusty_steed_option_one">+2 Actions</string>
-	<string name="trusty_steed_option_two">+2 Cards</string>
+	<string name="trusty_steed_option_one">+2 Acciones</string>
+	<string name="trusty_steed_option_two">+2 Cartas</string>
 	<string name="trusty_steed_option_three">+(2) Coins</string>
 	<string name="trusty_steed_option_four">Gain 4 Silvers and discard deck</string>
 	
@@ -195,8 +195,8 @@
 	<string name="pawn_three">+1 Buy</string>
 	<string name="pawn_four">+(1) Coin</string>
 	
-	<string name="nobles_option_one">+3 Cards</string>
-	<string name="nobles_option_two">+2 Actions</string>
+	<string name="nobles_option_one">+3 Cartas</string>
+	<string name="nobles_option_two">+2 Acciones</string>
 
 	<string name="minion_option_one">+(2) Coins</string>
 	<string name="minion_option_two">Discard hand, +4 Cards</string>
