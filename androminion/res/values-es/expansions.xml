@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="Base"></string>    
-	<string name="Intrigue">Intrigue</string>    
-	<string name="Seaside">Seaside</string>    
-	<string name="Alchemy">Alchemy</string>    
-	<string name="Prosperity">Prosperity</string>    
+	<string name="Intrigue">Intriga</string>    
+	<string name="Seaside">Terramar</string>    
+	<string name="Alchemy">Alquimia</string>    
+	<string name="Prosperity">Prosperidad</string>    
 	<string name="Cornucopia">Cornucopia</string>    
 	<string name="Hinterlands">Hinterlands</string>     
 </resources>
