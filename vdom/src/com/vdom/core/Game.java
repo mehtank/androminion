@@ -1692,6 +1692,7 @@ public class Game {
                     if(!event.newCard && !masqueradePass) {
                         if(player.hand.contains(Cards.trader)) {
                             if((player).trader_shouldGainSilverInstead((MoveContext) context, event.card)) {
+                            	player.reveal(Cards.trader, null, context);
                                 player.trash(event.card, Cards.trader, (MoveContext) context);
                                 event.card = Cards.silver;
                                 player.gainNewCard(Cards.silver, Cards.trader, context);
@@ -1990,6 +1991,7 @@ public class Game {
         if(!isPileEmpty(cardToGain) && context.getPlayer().hand.contains(Cards.trader) && !cardToGain.equals(Cards.silver)) {
             if(context.player.trader_shouldGainSilverInstead((MoveContext) context, cardToGain)) {
                 cardToGain = Cards.silver;
+                context.player.reveal(Cards.trader, null, context);
             }
         }
         
