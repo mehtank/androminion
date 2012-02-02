@@ -1500,22 +1500,22 @@ public class Game {
                 added += 1;
             }
 
-            gameType = GameType.Random;
-        }
+            gameType = GameType.Specified;
+        } else {
+			CardSet cardSet = CardSet.getCardSet(gameType);
+			if(cardSet == null) {
+				cardSet = CardSet.getCardSet(CardSet.defaultGameType);
+			}
 
-		CardSet cardSet = CardSet.getCardSet(gameType);
-		if(cardSet == null) {
-			cardSet = CardSet.getCardSet(CardSet.defaultGameType);
-		}
-		
-        for(Card card : cardSet.getCards()) {
-			this.addPile(card);
-		}
+			for(Card card : cardSet.getCards()) {
+				this.addPile(card);
+			}
 
-		if(cardSet.getBaneCard() != null) {
-			this.baneCard = cardSet.getBaneCard();
-			//Adding the bane card could probably be done in the CardSet class, but it seems better to call it out explicitly.
-			this.addPile(this.baneCard);
+			if(cardSet.getBaneCard() != null) {
+				this.baneCard = cardSet.getBaneCard();
+				//Adding the bane card could probably be done in the CardSet class, but it seems better to call it out explicitly.
+				this.addPile(this.baneCard);
+			}
 		}
 
         chanceForPlatColony = 0;

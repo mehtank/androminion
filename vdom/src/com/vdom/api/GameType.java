@@ -67,7 +67,10 @@ public enum GameType {
 
     
     // All Cards
-    Random("Random");
+    Random("Random"),
+
+	// Card set is specified from Dominion Shuffle
+	Specified("Specified");
 
 
     private final String name;
