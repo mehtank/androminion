@@ -120,7 +120,7 @@ public class Cards {
     public static final Card golem;
     public static final Card herbalist;
     public static final Card philosophersStone;
-//    public static final Card possession;
+    public static final Card possession;
     public static final Card scryingPool;
     public static final Card transmute;
     public static final Card university;
@@ -306,7 +306,7 @@ public class Cards {
         actionCardsAlchemy.add(golem = new ActionCardImpl.Builder("Golem", 4).costPotion().description("Reveal cards from your deck until you reveal 2 Action cards other than Golem cards.  Discard the other cards, then play the Action cards in either order.").expansion("Alchemy").build());
         actionCardsAlchemy.add(herbalist = new ActionCardImpl.Builder("Herbalist", 2).addBuys(1).addGold(1).description("When you discard this from play, you may put one of your Treasures from play on top of your deck.").expansion("Alchemy").build());
         actionCardsAlchemy.add(philosophersStone = new TreasureCardImpl.Builder("Philosopher's Stone", 3, 0).costPotion().description("When you play this, count your deck and discard pile.  Worth (1) coin per 5 cards total between them (rounded down).").expansion("Alchemy").build());
-//        actionCardsAlchemy.add(possession = new ActionCardImpl.Builder("Possession", 6).costPotion().description("The player to your left takes an extra turn after this one, in which you can see all cards he can and make all decisions for him. Any cards he would gain on that turn, you gain instead; any cards of his that are trashed are set aside and returned to his discard pile at end of turn.").expansion("Alchemy").build());
+        actionCardsAlchemy.add(possession = new ActionCardImpl.Builder("Possession", 6).costPotion().description("The player to your left takes an extra turn after this one, in which you can see all cards he can and make all decisions for him. Any cards he would gain on that turn, you gain instead; any cards of his that are trashed are set aside and returned to his discard pile at end of turn.").expansion("Alchemy").build());
         actionCardsAlchemy.add(scryingPool = new ActionCardImpl.Builder("Scrying Pool", 2).addActions(1).costPotion().description("Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.  Then reveal cards from the top of your deck until you reveal one that is not an Action.  Put all of your revealed cards into your hand.").expansion("Alchemy").build());
         actionCardsAlchemy.add(transmute = new ActionCardImpl.Builder("Transmute", 0).costPotion().description("Trash a card from your hand.  If it is an . . . Action card, gain a Duchy; Treasure card, gain a Transmute; Victory card gain a Gold.").expansion("Alchemy").build());
         actionCardsAlchemy.add(university = new ActionCardImpl.Builder("University", 2).addActions(2).costPotion().description("You may gain an Action card costing up to 5.").expansion("Alchemy").build());

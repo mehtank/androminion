@@ -383,7 +383,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             embargos[i] = context.getEmbargos(intToCard(i));
     	}
 
-        CardList hand = getHand();
+        // show opponent hand if possessed
+        CardList hand = (curPlayer.isPossessed()) ? curPlayer.getHand() : getHand();
 
         // ArrayList<Card> playedCards = context.getPlayedCards();
 
@@ -422,6 +423,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 						  context.getThroneRoomsInEffect()
     					 })
     	  .setFinal(isFinal)
+          .setPossessed(curPlayer.isPossessed())
     	  .setSupplySizes(supplySizes)
     	  .setEmbargos(embargos)
     	  .setHand(cardArrToIntArr(hand.toArray()))
@@ -435,8 +437,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setVictoryTokens(victoryTokens)
     	  .setCardCostModifier(context.cardCostModifier)
     	  .setPotions(context.getPotionsForStatus(curPlayer))
-    	  .setIsland(cardArrToIntArr(getIsland().toArray()))
-    	  .setVillage(cardArrToIntArr(getNativeVillage().toArray()));
+.setIsland(cardArrToIntArr(curPlayer.getIsland().toArray())).setVillage(cardArrToIntArr(curPlayer.getNativeVillage().toArray()));
     	
     	Event p = new Event(EType.STATUS)
     				.setObject(new EventObject(gs));
@@ -681,6 +682,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	
     	if (event.getCard() != null && event.getType() != Type.CardAddedToHand && event.getType() != Type.PlayerAttacking)
     		strEvent += " " + Strings.getCardName(event.getCard()) + " ";
+        if (event.getType() == Type.TurnBegin && event.getPlayer().isPossessed())
+            strEvent += " possessed by " + event.getPlayer().controlPlayer.getPlayerName() + "!";
     	if (event.getAttackedPlayer() != null)
     		strEvent += " (" + event.getAttackedPlayer().getPlayerName() + ") ";
     	if (context != null && context.getMessage() != null) {
@@ -772,8 +775,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	String playerInt = "" + allPlayers.indexOf(event.getPlayer());
     	
         if(event.getType() == Type.CardObtained || event.getType() == Type.BuyingCard) {
-            if(event.context != null && event.context.getPossessedBy() != null) {
-    	        playerInt = "" + allPlayers.indexOf(event.context.getPossessedBy());
+            if (event.getPlayer().isPossessed()) {
+                playerInt = "" + allPlayers.indexOf(event.getPlayer().controlPlayer);
     	    }
     	}
 

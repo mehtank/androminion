@@ -367,18 +367,18 @@ public class VDomPlayerSarah extends BasePlayer {
     public Card doAction(MoveContext context) {
         int treasureMapCount = 0;
 
-        for (final Card card : getHand()) {
+        for (final Card card : context.player.getHand()) {
             if (card.equals(Cards.treasureMap)) {
                 treasureMapCount++;
             }
         }
 
         if (treasureMapCount >= 2) {
-            return fromHand(Cards.treasureMap);
+            return context.player.fromHand(Cards.treasureMap);
         }
         
         ActionCard action;
-        for (final Card card : getHand()) {
+        for (final Card card : context.player.getHand()) {
             if (context.canPlay(card)) {
                 action = (ActionCard) card;
                 if (action.getAddActions() > 0) {
@@ -387,14 +387,14 @@ public class VDomPlayerSarah extends BasePlayer {
             }
         }
 
-        if(inHand(Cards.throneRoom) && context.canPlay(Cards.throneRoom)) {
-            return fromHand(Cards.throneRoom);
+        if (context.player.inHand(Cards.throneRoom) && context.canPlay(Cards.throneRoom)) {
+            return context.player.fromHand(Cards.throneRoom);
         }
         
         //TODO: ...
         //if(context.getKingsCourtsInEffect() == 0) {
-            if(inHand(Cards.kingsCourt) && context.canPlay(Cards.kingsCourt)) {
-                return fromHand(Cards.kingsCourt);
+        if (context.player.inHand(Cards.kingsCourt) && context.canPlay(Cards.kingsCourt)) {
+            return context.player.fromHand(Cards.kingsCourt);
             }
         //}
         
@@ -402,7 +402,7 @@ public class VDomPlayerSarah extends BasePlayer {
         int cost = COST_MAX;
         final ArrayList<Card> randList = new ArrayList<Card>();
         while (cost >= 0) {
-            for (final Card card : getHand()) {
+            for (final Card card : context.player.getHand()) {
                 if (
                         !context.canPlay(card) || 
                         card.equals(Cards.treasureMap) ||
@@ -552,7 +552,7 @@ public class VDomPlayerSarah extends BasePlayer {
         if(context.cardInPlay(Cards.grandMarket)) {
             final ArrayList<TreasureCard> cards = new ArrayList<TreasureCard>();
             int coinWithoutCopper = 0;
-            for(final Card c : getHand()) {
+            for(final Card c : context.getPlayer().getHand()) {
                 if(c instanceof TreasureCard && !c.equals(Cards.copper)) {
                     final TreasureCard tc = (TreasureCard) c;
                     cards.add(tc);
@@ -614,14 +614,14 @@ public class VDomPlayerSarah extends BasePlayer {
     public Card[] chapel_cardsToTrash(MoveContext context) {
         ArrayList<Card> cards = new ArrayList<Card>();
     
-        for (Card card : getHand()) {
+        for (Card card : context.player.getHand()) {
             if (card.equals(Cards.estate) || card.equals(Cards.curse)) {
                 cards.add(card);
             }
         }
      
         if (getCurrencyTotal(context) >= 3) {
-          for (Card card : getHand()) {
+            for (Card card : context.player.getHand()) {
             if (card.equals(Cards.copper)) {
               cards.add(card);
             }
@@ -637,7 +637,7 @@ public class VDomPlayerSarah extends BasePlayer {
 
 	@Override
 	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended) {
-    	Card[] reactionCards = getReactionCards(defended);
+        Card[] reactionCards = getReactionCards(defended);
     	for (Card c : reactionCards) {
     		if (c.equals(Cards.moat) && !reactedMoat) {
     			reactedMoat = true;
