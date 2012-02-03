@@ -345,24 +345,24 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card remodel_cardToTrash(MoveContext context) {
         //TODO: better logic
-        if (hand.size() == 0) {
+        if (context.player.hand.size() == 0) {
             return null;
         }
         
-        for(Card c : hand) {
+        for (Card c : context.player.hand) {
             if(isTrashCard(c)) {
                 return c;
             }
         }
         
         for(int i=0; i < 3; i++) {
-            Card c = Util.randomCard(hand);
+            Card c = Util.randomCard(context.player.hand);
             if(!(c instanceof VictoryCard)) {
                 return c;
             }
         }
         
-        return Util.randomCard(hand);
+        return Util.randomCard(context.player.hand);
     }
 
     @Override
@@ -458,7 +458,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public TreasureCard mine_treasureFromHandToUpgrade(MoveContext context) {
-        for (Card card : hand) {
+        for (Card card : context.player.hand) {
             if (card.equals(Cards.gold) && context.getCardsLeft(Cards.platinum) > 0) {
                 return (TreasureCard) card;
             }
@@ -659,12 +659,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card masquerade_cardToPass(MoveContext context) {
-        return lowestCard(context, getHand(), false);
+        return lowestCard(context, context.player.getHand(), false);
     }
 
     @Override
     public Card masquerade_cardToTrash(MoveContext context) {
-        return pickOutCard(hand, getTrashCards());
+        return pickOutCard(context.player.hand, getTrashCards());
     }
 
     @Override
@@ -1168,7 +1168,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         ArrayList<TreasureCard> ret = new ArrayList<TreasureCard>();
         
         ArrayList<TreasureCard> cardArray = new ArrayList<TreasureCard>();
-        for(Card c : getHand()) {
+        for(Card c : context.getPlayer().getHand()) {
             if(c instanceof TreasureCard) {
                 cardArray.add((TreasureCard) c);
             }
@@ -1770,7 +1770,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public TreasureCard stables_treasureToDiscard(MoveContext context) {
-        for(Card card : hand) {
+        for (Card card : context.player.hand) {
             for(Card trash : getTrashCards()) {
                 if(trash.equals(card) && (card instanceof TreasureCard)) {
                     return (TreasureCard) card;

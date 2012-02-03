@@ -119,7 +119,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public Card[] getFromHand(MoveContext context, String header, String passString, int type, int count, boolean exact, boolean ordered, String buttonText, boolean selectingActionToPlay) {
-    	CardList hand = getHand();
+        CardList hand = context.player.getHand();
         if (hand.size() == 0)
             return null;
 

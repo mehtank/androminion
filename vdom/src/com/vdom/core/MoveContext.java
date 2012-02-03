@@ -29,7 +29,6 @@ public class MoveContext {
     public int freeActionInEffect = 0;
     public int quarriesPlayed = 0;
     public boolean royalSealPlayed = false;
-    public int possessionsToProcess = 0;
     public int talismansPlayed = 0;
     public int foolsGoldPlayed = 0;
     public int schemesPlayed = 0;
@@ -38,8 +37,9 @@ public class MoveContext {
     public int totalCardsBoughtThisTurn = 0;
     public boolean buyPhase = false;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
-    public Player getPossessedBy() { return game.possessingPlayer; };
+
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
+    public ArrayList<Card> possessedBoughtPile = new ArrayList<Card>();
     
     // For checking Achievements
     public int vpsGainedThisTurn = 0;
@@ -72,6 +72,10 @@ public class MoveContext {
     
     public void addToPossessedTrashPile(Card c) {
         possessedTrashPile.add(c);
+    }
+
+    public void addToPossessedBoughtPile(Card c) {
+        possessedBoughtPile.add(c);
     }
 
     public boolean isQuickPlay() {

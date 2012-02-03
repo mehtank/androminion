@@ -216,7 +216,7 @@ public class Game {
                 Player player = players[playersTurn];
                 MoveContext context = new MoveContext(this, player);
 
-                turnBegin(player, context);
+                playerBeginTurn(player, context);
 
                 // /////////////////////////////////
                 // Actions
@@ -252,23 +252,10 @@ public class Game {
                 gameOver = checkGameOver();
                 
                 if (!gameOver) {
-                    if (!takeAnotherTurn) {
-
-                        if(possessionsToProcess > 0) {
-                            if(--possessionsToProcess == 0) {
-                                possessingPlayer = null;
-                            }
-                        }
-                        else if(possessionsToProcess == 0) {
-                            playersTurn++;
-                            possessionsToProcess = context.possessionsToProcess;
-                            if(possessionsToProcess > 0) {
-                                possessingPlayer = player;
-                            }
-                        }
-                        
+                    if (!takeAnotherTurn && consecutiveTurns > 0) {
+                        // next player
                         consecutiveTurns = 0;
-                        if (playersTurn >= numPlayers) {
+                        if (++playersTurn >= numPlayers) {
                             playersTurn = 0;
                             Util.debug("Turn " + ++turnCount, true);
                         }
@@ -335,14 +322,14 @@ public class Game {
 
         boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
         ArrayList<TreasureCard> treasures = null;
-        treasures = (selectingCoins) ? player.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
+        treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
 
         while (treasures != null && !treasures.isEmpty()) {
             while (!treasures.isEmpty()) {
                 TreasureCard card = treasures.remove(0);
                 card.playTreasure(context);
                 }
-            treasures = (selectingCoins) ? player.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
+            treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
         }
     }
 
@@ -499,7 +486,7 @@ public class Game {
         for (Card card : player.nextTurnCards) {
             if ((card instanceof DurationCard) && ((DurationCard) card).takeAnotherTurn()) {
                 handCount = ((DurationCard) card).takeAnotherTurnCardCount();
-                if (consecutiveTurns == 1) {
+                if (consecutiveTurns <= 1) {
                     takeAnotherTurn = true;
                     break;
                 }
@@ -527,6 +514,10 @@ public class Game {
         // /////////////////////////////////
         // Turn End
         // /////////////////////////////////
+        if (player.isPossessed())
+            if (--possessionsToProcess == 0)
+                player.controlPlayer = player;
+
         event = new GameEvent(GameEvent.Type.TurnEnd, context);
         broadcastEvent(event);
         return takeAnotherTurn;
@@ -537,7 +528,7 @@ public class Game {
         // if(player.hand.size() > 0)
         Card action = null;
         do {
-            action = player.doAction(context);
+            action = player.controlPlayer.doAction(context);
 
             if (isValidAction(context, action)) {
                 if (action != null) {
@@ -561,7 +552,7 @@ public class Game {
         Card buy = null;
         do {
             try {
-                buy = player.doBuy(context);
+                buy = player.controlPlayer.doBuy(context);
             } catch (Throwable t) {
                 Util.playerError(player, t);
             }
@@ -583,10 +574,15 @@ public class Game {
         context.buyPhase = false;
     }
 
-    protected void turnBegin(Player player, MoveContext context) {
-        consecutiveTurns++;
-        cardsObtainedLastTurn[playersTurn].clear();
+    protected void playerBeginTurn(Player player, MoveContext context) {
+        if (context.game.possessionsToProcess > 0) {
+            player.controlPlayer = context.game.possessingPlayer;
+        } else {
+            player.controlPlayer = player;
+            consecutiveTurns++;
+        }
 
+        cardsObtainedLastTurn[playersTurn].clear();
         GameEvent gevent = new GameEvent(GameEvent.Type.TurnBegin, context);
         broadcastEvent(gevent);
 
@@ -1471,10 +1467,6 @@ public class Game {
                 else if(s.equalsIgnoreCase("walledvillage")) {
                     replacementCost = 4;
                 }
-                else if(s.equalsIgnoreCase("possession")) {
-                    // Not exact, since it requires potion as well, but good enough...
-                    replacementCost = 6;
-                }
                 
                 if(replacementCost != -1) {
                     ArrayList<Card> cardsWithSameCost = new ArrayList<Card>();
@@ -1634,22 +1626,20 @@ public class Game {
                     return;
                 }
                 
-                if (event.getType() == GameEvent.Type.CardTrashed && event.context.getPossessedBy() != null) {
-                    event.context.addToPossessedTrashPile(event.getCard());
-                }
-
                 if (event.getType() == GameEvent.Type.CardObtained || event.getType() == GameEvent.Type.BuyingCard) {
                     
                     MoveContext context = event.getContext();
-                    
-                    if(context != null && event.card instanceof VictoryCard) {
+                    Player player = context.getPlayer();
+
+                    if (context != null && event.card instanceof VictoryCard) {
                         context.vpsGainedThisTurn += ((VictoryCard) event.card).getVictoryPoints();
                     }
-                    
-                    Player player = context.getPlayer();
-                    if(context.getPossessedBy() != null) {
-                        player = context.getPossessedBy();
+
+                    if (player.isPossessed() && !Cards.masquerade.equals(event.responsible)) {
+                        context.possessedBoughtPile.add(event.card);
+                        return;
                     }
+
                     if (Cards.inn.equals(event.responsible))
                         Util.debug((String.format("discard pile: %d", player.discard.size())), true);
                     
@@ -1669,7 +1659,6 @@ public class Game {
                            r.equals(Cards.upgrade) ||
                            r.equals(Cards.ambassador) ||
                            r.equals(Cards.smugglers) ||
-//                           r.equals(Cards.possession) ||
                            r.equals(Cards.talisman) ||
                            r.equals(Cards.expand) ||
                            r.equals(Cards.forge) ||
@@ -1701,7 +1690,7 @@ public class Game {
                         }
                     }
                     
-                    if (event.getPlayer() == players[playersTurn]) { // || (context.possessedBy != null && context.possessedBy == event.getPlayer())) {
+                    if (event.getPlayer() == players[playersTurn]) {
                         cardsObtainedLastTurn[playersTurn].add(event.card);
                     }
 
@@ -1713,12 +1702,7 @@ public class Game {
                             player.putOnTopOfDeck(event.card);
                         } else if (choice == WatchTowerOption.Trash) {
                             handled = true;
-                            trashPile.add(event.card);
-                            context.cardsTrashedThisTurn++;
-                            GameEvent gameEvent = new GameEvent(GameEvent.Type.CardTrashed, context);
-                            event.card = event.card;
-                            event.responsible = Cards.watchTower;
-                            broadcastEvent(gameEvent);
+                            player.trash(event.card, Cards.watchTower, (MoveContext) context);
                         } 
                     }
 
@@ -1865,14 +1849,6 @@ public class Game {
                     }
                 }
                 
-                if(event.getType() == GameEvent.Type.BuyingCard && event.getContext() != null) {
-                    MoveContext context = event.getContext();
-                    Player player = context.getPlayer();
-                    if(context.getPossessedBy() != null) {
-                        player = context.getPossessedBy();
-                    }
-                }
-
                 boolean shouldShow = debug;
                 if (!shouldShow) {
                     if (event.getType() != GameEvent.Type.TurnBegin && event.getType() != GameEvent.Type.TurnEnd
@@ -1886,6 +1862,9 @@ public class Game {
                     msg.append(event.getPlayer().getPlayerName() + ":" + event.getType());
                     if (event.card != null) {
                         msg.append(":" + event.card.getName());
+                    }
+                    if (event.getType() == GameEvent.Type.TurnBegin && event.getPlayer().isPossessed()) {
+                        msg.append(" possessed by " + event.getPlayer().controlPlayer.name + "!");
                     }
                     if (event.attackedPlayer != null) {
                         msg.append(", attacking:" + event.attackedPlayer.getPlayerName());
@@ -1989,7 +1968,7 @@ public class Game {
     
     public Card takeFromPileCheckTrader(Card cardToGain, MoveContext context) {
         if(!isPileEmpty(cardToGain) && context.getPlayer().hand.contains(Cards.trader) && !cardToGain.equals(Cards.silver)) {
-            if(context.player.trader_shouldGainSilverInstead((MoveContext) context, cardToGain)) {
+            if (context.player.controlPlayer.trader_shouldGainSilverInstead((MoveContext) context, cardToGain)) {
                 cardToGain = Cards.silver;
                 context.player.reveal(Cards.trader, null, context);
             }

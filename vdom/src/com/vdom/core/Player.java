@@ -32,6 +32,11 @@ public abstract class Player {
     public CardList haven;
     public CardList horseTraders;
     public Game game;
+    public Player controlPlayer = this;
+
+    public boolean isPossessed() {
+        return !this.equals(controlPlayer);
+    }
     
     public boolean achievementSingleCardFailed;
     public Card achievementSingleCardFirstKingdomCardBought;
@@ -246,9 +251,9 @@ public abstract class Player {
         
         List<PutBackOption> putBackOptions;
         
-        while (!(putBackOptions = getPutBackOptions(context, victoryBought)).isEmpty()) {
-        	PutBackOption putBackOption = selectPutBackOption(context, putBackOptions);
-        	if (putBackOption == PutBackOption.None) {
+        while (!(putBackOptions = controlPlayer.getPutBackOptions(context, victoryBought)).isEmpty()) {
+            PutBackOption putBackOption = controlPlayer.selectPutBackOption(context, putBackOptions);
+            if (putBackOption == PutBackOption.None || (isPossessed() && controlPlayer.isAi())) {
         		break;
         	} else {
         		if (putBackOption == PutBackOption.Treasury) {
@@ -271,7 +276,7 @@ public abstract class Player {
                     }
                     
                     if(treasureCards.size() > 0) {
-                        TreasureCard treasureCard = herbalist_backOnDeck(context, treasureCards.toArray(new TreasureCard[0]));
+                        TreasureCard treasureCard = controlPlayer.herbalist_backOnDeck(context, treasureCards.toArray(new TreasureCard[0]));
                         if(treasureCard != null && context.playedCards.contains(treasureCard)) {
                             context.playedCards.remove(treasureCard);
                             putOnTopOfDeck(treasureCard);
@@ -289,7 +294,7 @@ public abstract class Player {
                         break;
                     }
                     
-                    ActionCard actionToPutBack = scheme_actionToPutOnTopOfDeck(((MoveContext) context), actions.toArray(new ActionCard[0]));
+                    ActionCard actionToPutBack = controlPlayer.scheme_actionToPutOnTopOfDeck(((MoveContext) context), actions.toArray(new ActionCard[0]));
                     if(actionToPutBack == null) {
                         break;
                     }
@@ -420,9 +425,12 @@ public abstract class Player {
             discard(context.playedCards.remove(0), null, null, false);
         }
         
-        if(context.getPossessedBy() != null) {
+        if (isPossessed()) {
             while (!context.possessedTrashPile.isEmpty()) {
                 discard(context.possessedTrashPile.remove(0), null, null, false);
+            }
+            while (!context.possessedBoughtPile.isEmpty()) {
+                controlPlayer.discard(context.possessedBoughtPile.remove(0), null, null, false);
             }
         }
         // /////////////////////////////////
@@ -627,7 +635,11 @@ public abstract class Player {
             // TODO: Track in main game event listener instead
             context.cardsTrashedThisTurn++;
         }
-        context.game.trashPile.add(card);
+        if (isPossessed()) {
+            context.possessedTrashPile.add(card);
+        } else {
+            context.game.trashPile.add(card);
+        }
         GameEvent event = new GameEvent(GameEvent.Type.CardTrashed, context);
         event.card = card;
         event.responsible = responsible;
