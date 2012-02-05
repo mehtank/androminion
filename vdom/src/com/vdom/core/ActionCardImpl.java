@@ -2354,6 +2354,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this, context);
                 MoveContext playerContext = new MoveContext(game, player);
+                playerContext.cardCostModifier = context.cardCostModifier;
 
                 ArrayList<Card> toDiscard = new ArrayList<Card>();
                 Card draw;
