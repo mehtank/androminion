@@ -2,7 +2,7 @@
 <resources>
   <string name="FirstGame_gametype">Primera partida (Base)</string>
   <string name="BigMoney_gametype">Riqueza (Base)</string> 
-  <string name="Interaction_gametype">Interacci&oacute;n (Base)</string> 
+  <string name="Interaction_gametype">Interacción (Base)</string> 
   <string name="SizeDistortion_gametype">Size Distortion (Base)</string> 
   <string name="VillageSquare_gametype">Village Square (Base)</string>
   <string name="RandomBaseGame_gametype">Aleatorio juego basico</string>

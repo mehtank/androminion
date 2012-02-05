@@ -10,7 +10,7 @@
     <string name="gamevibeon_pref_summary">Vibrar cuando el juego termina</string>
     <string name="gamevibeon_pref_title">Se acabo el juego</string>
     <string name="actionvibeon_pref_summary">Vibrar cuando se requiere una acción</string>
-    <string name="actionvibeon_pref_title">Indicador de acci&oacute;n</string>
+    <string name="actionvibeon_pref_title">Indicador de acción</string>
     <string name="turnvibeon_pref_summary">Vibrar cuando empieza tu turno</string>
     <string name="turnvibeon_pref_title">Notificar turno</string>
     <string name="clickvibeon_pref_summary">Vibrar cuando se seleccionan las cartas</string>
@@ -28,7 +28,7 @@
     <string name="ui_pref_title">Interfaz de usuario</string>
     <string name="name_pref_summary">Introduzca su nombre</string>
     <string name="name_pref_title">Nombre</string>
-    <string name="personalization_pref_title">Personalizaci&oacute;n</string>
+    <string name="personalization_pref_title">Personalización</string>
 
     <string name="hide_card_counts_pref_title">Hide card counts</string>
     <string name="hide_card_counts_pref_summary">(Tendra efecto en la proxima partida)</string>

@@ -7,7 +7,7 @@
 	<string name="select_treasure">Selecciona una carta de la mesa que cueste al menos (%1$s) a %2$s</string>
 	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
 	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
-	<string name="torturer_option_one">Coge una maldici&oacute;</string>
+	<string name="torturer_option_one">Coge una maldició</string>
 	<string name="torturer_option_two">Descarta dos cartas</string>
 	<string name="chancellor_query">Descarta todo el mazo</string>
 	<string name="inn_option_one">Mezcla en el mazo</string>
@@ -150,7 +150,7 @@
 	<string name="lookout_query_discard">Select card to discard</string>
 	
 	<string name="mountebank_query">Mountebank revealed</string>
-	<string name="mountebank_option_one">Descartar una maldic&oacute;</string>
+	<string name="mountebank_option_one">Descartar una maldicó</string>
 	<string name="mountebank_option_two">Gain Curse and Copper</string>
 	
 	<string name="pearldiver_option_one">Move to top</string>
