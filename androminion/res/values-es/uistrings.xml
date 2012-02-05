@@ -5,7 +5,7 @@
 	<!-- About -->
     <string name="app_name">Androminion</string>
 	<string name="splash">Usa el menu para iniciar una nueva partida o, durante el juego, para ver como jugar.</string>
-	<string name="version">Versi&oacute;n %1$s</string>
+	<string name="version">Versión %1$s</string>
 	<string name="copyright">\n©2010-2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
 	<string name="dom_copyright">\nDominion card game ©2008-2012 by Rio Grande Games.</string>
 	
@@ -89,19 +89,6 @@
 	]]>	</string>
 	<string name="contrib_menu">Credits </string>
 	<string name="contrib_title">Contributors: </string>
-	<string name="contributors">
-		\nTodd Barlow
-		\nDrew Chamberlain
-		\nTraci Dennis
-		\nAugust Dwight
-        \nMichael Fazio
-		\nSascha Hafner
-		\nKeisuke Ka
-		\nTobias Mahlmann
-		\nAnkur Mehta
-		\nAurel Rothärmel
-		\nJörg Velletti
-	</string>
 	<string name="logging_pref_title">Game Logs</string>
 	<string name="logging_enable_pref_title">Enable game logs</string>
 	<string name="logging_enable_pref_summary">Logs will be stored on your SD card as text files</string>
