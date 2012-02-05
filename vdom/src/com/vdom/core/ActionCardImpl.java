@@ -2373,7 +2373,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                         Card card = (player).controlPlayer.saboteur_cardToObtain(playerContext, value, potion);
                         if (card != null) {
-                            if(card.getCost(context) > value || (card.costPotion() && !potion) || card.isPrize() || card.equals(Cards.curse)) {
+                            if (card.getCost(context) > value || (card.costPotion() && !potion) || card.isPrize()) {
                                 Util.playerError(currentPlayer, "Saboteur obtain error, ignoring.");
                             }
                             else {
