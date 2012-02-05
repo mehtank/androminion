@@ -1591,7 +1591,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             game.drawToHand(currentPlayer, this);
         }
         
-        int crossroadsPlayed = 0;
+        int crossroadsPlayed = this.numberTimesAlreadyPlayed;
         for (Card c : context.getPlayedCards()) {
             if (c.equals(Cards.crossroads)) {
                 crossroadsPlayed++;
