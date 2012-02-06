@@ -35,7 +35,6 @@ import com.mehtank.androminion.ui.CombinedStatsDialog;
 import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
-import com.mehtank.androminion.ui.SplashView;
 import com.mehtank.androminion.ui.StartGameDialog;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
@@ -73,7 +72,7 @@ public class Androminion extends Activity implements EventHandler {
 	Vibrator v;
 
 	GameTable gt;
-	SplashView splash;
+	View splash;
 
 	boolean gameRunning = false;
 
@@ -124,8 +123,8 @@ public class Androminion extends Activity implements EventHandler {
 				FrameLayout.LayoutParams.FILL_PARENT);
 		topView.addView(gt, p);
 
-		splash = new SplashView(top);
-		topView.addView(splash, p);
+		splash = getLayoutInflater().inflate(R.layout.splashview, null);
+		topView.addView(splash);
 
 		setContentView(topView);
 
@@ -423,18 +422,15 @@ public class Androminion extends Activity implements EventHandler {
 			case NEWGAME:
 				NewGame ng = e.o.ng;
 
+				int index = topView.indexOfChild(gt);
 				topView.removeView(gt);
 				gt = new GameTable(top);
-				
-				topView.removeView(splash);
-				splash = new SplashView(top);
 				
 				FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
 						FrameLayout.LayoutParams.FILL_PARENT,
 						FrameLayout.LayoutParams.FILL_PARENT);
 
-				topView.addView(gt, p);
-				topView.addView(splash, p);
+				topView.addView(gt, index, p);
 				splash();
 				
 				saveLastCards(ng.cards);
