@@ -32,6 +32,9 @@
 		<CheckBoxPreference android:title="@string/quick_play_pref_title"
 		android:summary="@string/quick_play_pref_summary"
 			android:defaultValue="false" android:key="quick_play"></CheckBoxPreference>
+        <CheckBoxPreference android:title="@string/action_chains_pref_title"
+        android:summary="@string/action_chains_pref_summary"
+            android:defaultValue="false" android:key="action_chains"></CheckBoxPreference>
 		<CheckBoxPreference android:title="@string/plat_colony_pref_title"
 		android:summary="@string/plat_colony_pref_summary"
 			android:defaultValue="false" android:key="plat_colony"></CheckBoxPreference>

@@ -503,6 +503,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return cs[0];
     }
     
+    public Card[] actionCardsToPlayInOrder(MoveContext context) {
+        int actionCount = 0;
+        for (Card card : getHand()) {
+            if (card instanceof ActionCard) {
+                actionCount++;
+            }
+        }
+        if (actionCount > 0) {
+            return getFromHand(context, getString(R.string.part_play), getString(R.string.none), ACTIONFROMHAND, actionCount, false, true, SelectCardOptions.PLAY, true);
+        }
+        return null;
+    }
+
     public Card doBuy(MoveContext context) {
     	return getFromTable(context, getString(R.string.part_buy), context.getCoinAvailableForBuy(), true, getString(R.string.end_turn));
     }

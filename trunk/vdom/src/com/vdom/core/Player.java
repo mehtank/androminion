@@ -743,6 +743,8 @@ public abstract class Player {
 
     public abstract Card doAction(MoveContext context);
 
+    public abstract Card[] actionCardsToPlayInOrder(MoveContext context);
+
     public abstract Card doBuy(MoveContext context);
 
     // ////////////////////////////////////////////

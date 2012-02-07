@@ -349,7 +349,11 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
             if(prefs.getBoolean("quick_play", false)) {
                 strs.add("-quickplay");
             }
-            
+
+            if (prefs.getBoolean("action_chains", false)) {
+                strs.add("-actionchains");
+            }
+
             if(cardsSpecified != null) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("-cards=");

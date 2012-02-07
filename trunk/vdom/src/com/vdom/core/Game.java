@@ -63,6 +63,7 @@ public class Game {
     public static boolean platColonyNotPassedIn = false;
     
     public static boolean quickPlay = false;
+    public static boolean actionChains = false;
     
     public static boolean debug = false;
     public static final HashSet<GameEvent.Type> showEvents = new HashSet<GameEvent.Type>();
@@ -528,22 +529,41 @@ public class Game {
         // if(player.hand.size() > 0)
         Card action = null;
         do {
-            action = player.controlPlayer.doAction(context);
-
-            if (isValidAction(context, action)) {
+            action = null;
+            ArrayList<ActionCard> actionCards = null;
+            if (!actionChains || player.controlPlayer.isAi()) {
+                action = (ActionCard) player.controlPlayer.doAction(context);
                 if (action != null) {
-                    GameEvent event = new GameEvent(GameEvent.Type.Status, (MoveContext) context);
-                    broadcastEvent(event);
-                    
-                    try {
-                        ((ActionCardImpl) action).play(this, (MoveContext) context, true);
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
-                    }
+                    actionCards = new ArrayList<ActionCard>();
+                    actionCards.add((ActionCard) action);
                 }
             } else {
-                Util.debug("Error:Invalid action selected");
-                action = null;
+                Card[] cs = player.controlPlayer.actionCardsToPlayInOrder(context);
+                if (cs != null && cs.length != 0) {
+                    actionCards = new ArrayList<ActionCard>();
+                    for (int i = 0; i < cs.length; i++) {
+                        actionCards.add((ActionCard) cs[i]);
+                    }
+                }
+            }
+
+            while (context.actions > 0 && actionCards != null && !actionCards.isEmpty()) {
+                action = actionCards.remove(0);
+                if (action != null) {
+                    if (isValidAction(context, action)) {
+                        GameEvent event = new GameEvent(GameEvent.Type.Status, (MoveContext) context);
+                        broadcastEvent(event);
+
+                        try {
+                            ((ActionCardImpl) action).play(this, (MoveContext) context, true);
+                        } catch (RuntimeException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Util.debug("Error:Invalid action selected");
+                        // action = null;
+                    }
+                }
             }
         } while (context.actions > 0 && action != null);
     }
@@ -818,6 +838,7 @@ public class Game {
             String siteArg = "-site=";
             String platColonyArg = "-platcolony";
             String quickPlayArg = "-quickplay";
+            String actionChainsArg = "-actionchains";
             String cardArg = "-cards=";
 
             for (String arg : args) {
@@ -896,6 +917,8 @@ public class Game {
                         alwaysIncludePlatColony = true;
                     } else if (arg.toLowerCase().equals(quickPlayArg)) {
                         quickPlay = true;
+                    } else if (arg.toLowerCase().equals(actionChainsArg)) {
+                        actionChains = true;
                     } else {
                         Util.log("Invalid arg:" + arg);
                         showUsage = true;
@@ -948,7 +971,7 @@ public class Game {
 
     public boolean isValidAction(MoveContext context, Card action) {
         if (action == null) {
-            return true;
+            return false;
         }
 
         if (!(action instanceof ActionCard)) {
