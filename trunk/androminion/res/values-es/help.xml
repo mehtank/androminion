@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="help_supply1">Welcome to Androminion, an Android implementation of the award winning strategy card game Dominion, by Donald X. Vaccarino and published by Rio Grande Games. </string>
-	<string name="help_supply2">If you are unfamiliar with how to play Dominion, it is highly recommended to read the official rules or the Wikipedia entry first.  Links can be found at \n\t http://android.mehtank.com. </string>
-	<string name="help_supply3">This is the card supply.  Here you can see all of the cards available for purchase in this game.
-		\n\nTo find out more information about a card, simply long-press on the card to bring up a dialog with its details.</string>
-	<string name="help_supply4">Each card lists its cost in the yellow circle on the left of the card and the remaining quantity under the card name.
-		\n\nIf Embargo is in play, the number of embargo tokens on a supply pile will be displayed in a black circle on the right of the card. </string>
+	<string name="help_supply1">Bienvenido a Androminion, un app de Android basado en el juego de creación de mazos Dominion, por Donald X. Vaccarino y publicado por Rio Grande Games. </string>
+	<string name="help_supply2">Si no sabes como jugar al Dominion es muy recomendable que leas las reglas oficiales en la wikipedia. Puedes encontrar enlaces en \n\t http://android.mehtank.com. </string>
+	<string name="help_supply3">Esta es la reserva de cartas.  Aquí puedes ver todas las cartas disponiles para comprar en el juego.
+		\n\nPara saber mas sobre una carta presiona unos momentos sobre la carta hasta que aparezca un cuadro de dialogo con información sobre la misma.</string>
+	<string name="help_supply4">Cada carta indica su coste en el circulo amarillo a la izquierda de la carta y la cantidad de cartas restantes bajo el nombre.
+		\n\nSi una carta de embargo esta activa el numero de fichas de embargo se indicara en un circulo negro a la derecha de la carta. </string>
 
-	<string name="help_turn1">This is the turn view.  Here you can see the stats about each player along with information about the current turn. </string>
-	<string name="help_turn2">The current turn\'s player is highlighted, and the players are listed in turn order.</string>
-	<string name="help_turn3">The numbers under the players\' names indicate the number of cards in their draw pile, hand, and deck (including any mats), respectively. </string>
-	<string name="help_turn4">If Pirate Ships are in play, the number of pirate ship tokens is displayed in a red circle to the right of the player\'s name. </string>
-	<string name="help_turn5">The current number of actions, buys, and money is listed at the bottom, along with a message about what input is being requested. </string>
+	<string name="help_turn1">Esta es la vista del turno actual. Se puede ver la puntuación de cada jugador asi como información acerca del turno actual. </string>
+	<string name="help_turn2">El jugador activo esta resaltado y los jugadores estan ordenados por orden de turno.</string>
+	<string name="help_turn3">El numero bajo el nombre de los jugadores indica el numero de cartas en su pila de descartes, mano y mazo(incluyendo cualquier tablero) respectivamente. </string>
+	<string name="help_turn4">Si el barco pirata esta en juego, la cantidad de fichas pirata se indicara en un circulo rojo a la derecha del nombre del jugador. </string>
+	<string name="help_turn5">La cantidad de acciones, compras y monedas se indican en la parte inferior junto a un mensaje pidiendo la siguiente acción a realizar. </string>
 
-	<string name="help_hand1">The first column shows the cards that are currently in your hand.  This is only visible to you. </string>
-	<string name="help_hand2">The second column shows the cards that have been played in the current turn.  This is visible to everyone. </string>
-	<string name="help_hand3">If you have cards in your Native Village or Island, swipe the view to the left to view the contents of those mats. </string>
-	<string name="help_hand4">If any of these columns gets too big, you may need to drag the view up or down to see all the cards. </string>
-	<string name="help_hand5">Again, you can long-press any card to bring up further details. </string>
+	<string name="help_hand1">La primera columna indica las cartas que se encuentran en tu mano, solo tú puedes verlo. </string>
+	<string name="help_hand2">La segunda columna muestra las cartas que han sido jugadas en este turno, todos pueden verlo. </string>
+	<string name="help_hand3">Si tienes cartas en tu Aldea Natal o isla, cambia la vista a la izquierda para ver el contenido de dichos tableros. </string>
+	<string name="help_hand4">Si alguna de las columnas se vuelve demasiado grande necesitaras desplazar la vista abajo o arriba para poder ver todas las cartas. </string>
+	<string name="help_hand5">De nuevo puedes pulsar unos momentos sobre una carta oara ver mas detalles sobre la misma. </string>
 	
-	<string name="help_log1">Finally, a history of the game is displayed in the scrollable game log at the bottom of your screen.
-		\n\nYou can always bring up this help again through the menu while a game is running.</string>
+	<string name="help_log1">Por ultimo, un seguimiento del juego se muestra en la parte inferior de la pantalla, pudiendo desplazarlo para verlo al completo.
+		\n\nSiempre puedes volver a ver esta ayuda en cualquier momento a traves del menu.</string>
 
-	<string name="help_end">Good luck, and enjoy the game! \n\n\n\t\t\t-:ankur</string>
+	<string name="help_end">Buena suerte y ¡Disfruta del juego! \n\n\n\t\t\t-:ankur</string>
 
-	<string name="help_next">Next page</string>
-	<string name="help_quit">Exit help</string>
+	<string name="help_next">Siguiente página</string>
+	<string name="help_quit">Salir de la ayuda</string>
 </resources>
