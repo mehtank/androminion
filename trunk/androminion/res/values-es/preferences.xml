@@ -3,10 +3,10 @@
 	<string name="toastsoff_pref_summary">Selecciona esta opción solo si el programa se bloquea casi siempre antes de empezar una partida</string>
     <string name="toastsoff_pref_title">Disable Toasts</string>
 	<string name="showenglishnames_pref_title">Mostrar nombres en ingles</string>
-	<string name="showenglishnames_pref_summary">Show English card names in brackets (senseless in English locale)</string>
+	<string name="showenglishnames_pref_summary">Mostrar los nombres en ingles en una ramificación(sin efecto si el idioma seleccionado es ingles)</string>
     <string name="exitonback_pref_summary">Salir del juego pulsando el boton de atras</string>
     <string name="exitonback_pref_title">Salir con el boton atras</string>
-    <string name="vibescreen_pref_title">Configurar vibracion...</string>
+    <string name="vibescreen_pref_title">Configurar vibración...</string>
     <string name="gamevibeon_pref_summary">Vibrar cuando el juego termina</string>
     <string name="gamevibeon_pref_title">Se acabo el juego</string>
     <string name="actionvibeon_pref_summary">Vibrar cuando se requiere una acción</string>
@@ -18,20 +18,20 @@
     <string name="allvibes_pref_title">Habilitar vibración</string>
     <string name="notif_pref_title">Notificationes</string>
     <string name="statusbar_pref_title">Mostrar barra de estado</string>
-    <string name="abc_header_pref_title">Show quick ref header</string>
+    <string name="abc_header_pref_title">Mostrar cabecera de referencia rápida</string>
     <string name="abc_header_pref_summary">Mostrar tus acciones, compras y dinero en la parte superior (Tendra efecto en la proxima partida)</string>
-    <string name="game_play_pref_title">Game Play</string>
+    <string name="game_play_pref_title">Jugar</string>
     <string name="quick_play_pref_title">Partida rapida</string>
-    <string name="quick_play_pref_summary">Most card interactions will be played automatically (Tendra efecto en la proxima partida)</string>
-    <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
-    <string name="plat_colony_pref_summary">Always include platinum and colony cards, regardless of game type (will take effect next game)</string>
+    <string name="quick_play_pref_summary">Muchas acciones se haran automaticamente (Tendra efecto en la proxima partida)</string>
+    <string name="plat_colony_pref_title">Incluir Platino y Colonias</string>
+    <string name="plat_colony_pref_summary">Incluir siempre Cartas de Platino y Colonia(tendra efecto en la siguiente partida)</string>
     <string name="ui_pref_title">Interfaz de usuario</string>
     <string name="name_pref_summary">Introduzca su nombre</string>
     <string name="name_pref_title">Nombre</string>
     <string name="personalization_pref_title">Personalización</string>
 
-    <string name="hide_card_counts_pref_title">Hide card counts</string>
+    <string name="hide_card_counts_pref_title">Ocultar numero de cartas</string>
     <string name="hide_card_counts_pref_summary">(Tendra efecto en la proxima partida)</string>
-    <string name="one_turn_logs_pref_title">Single turn details</string>
+    <string name="one_turn_logs_pref_title">Detalles del turno sencillo</string>
     <string name="one_turn_logs_pref_summary">Solo mostrar el turno actual en el log del juego en la parte inferior de la pantalla (Tendra efecto en la proxima partida)</string>
 </resources>
