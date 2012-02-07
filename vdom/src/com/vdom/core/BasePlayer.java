@@ -69,6 +69,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
     }
 
+    public Card[] actionCardsToPlayInOrder(MoveContext context) {
+        // Should never be called
+        return null;
+    }
+
     @Override
     public abstract Card doAction(MoveContext context);
     
