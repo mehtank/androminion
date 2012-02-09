@@ -54,8 +54,8 @@
     <string name="Remodel_desc">Elimina una carta de tu mano. Gana una carta que cueste hasta 2 monedas mas que la carta eliminada.</string>
     <string name="Smithy_name">Herreria</string>
     <string name="Smithy_desc"></string>
-    <string name="Spy_name">Spia</string>
-    <string name="Spy_desc">Cada jugador (incluso tó) revela la carta superior y tú decides si la descarta o la devuelve a su sitio.</string>
+    <string name="Spy_name">Espia</string>
+    <string name="Spy_desc">Cada jugador (incluso tú) revela la carta superior y tú decides si la descarta o la devuelve a su sitio.</string>
     <string name="Thief_name">Ladrón</string>
     <string name="Thief_desc">Cada jugador (menos tú) revela las dos cartas superiores de su mazo y elimina 1 carta de Tesoro entre las reveladas (a elección tuya). Puedes ganar los Tesoros eliminados que quieras. Las demás cartas reveladas se descartan.</string>
     <string name="ThroneRoom_name">Salón del trono</string>
@@ -72,10 +72,10 @@
     <string name="Gardens_desc">Consigue 1 Punto de Victoria por cada 10 cartas que tengas en tu mazo (redondeando hacia abajo).</string>
     <string name="Torturer_name">Torturer</string>
     <string name="Torturer_desc">Each other player chooses one: he discards 2 cards; or he gains a Curse card, putting it in his hand.</string>
-    <string name="SecretChamber_name">Secret Chamber</string>
-    <string name="SecretChamber_desc">Discard any number of cards. +1 Coin per card discarded. When another player plays an Attack card, you may reveal this from your hand. If you do, +2 Cards, then put 2 cards from your hand on top of your deck.</string>
-    <string name="Nobles_name">Nobles</string>
-    <string name="Nobles_desc">Choose one: +3 Cards; or +2 Actions.</string>
+    <string name="SecretChamber_name">Camara Secreta</string>
+    <string name="SecretChamber_desc">Descarta cualquier numero de cartas. +1 Moneda por Carta descartada. Cuando otro jugador juegue una Carta de Ataque, muestra esta carta, si lo haces, +2 Cartas, entonces, pon dos cartas de tu mano en la parte superior de tu mazo.</string>
+    <string name="Nobles_name">Nobleza</string>
+  <string name="Nobles_desc">Elije uno: /n+3 cartas/no /n+2Acciones.</string>
     <string name="Coppersmith_name">Coppersmith</string>
     <string name="Coppersmith_desc">Copper produces an extra 1 coin this turn.</string>
     <string name="Courtyard_name">Courtyard</string>
