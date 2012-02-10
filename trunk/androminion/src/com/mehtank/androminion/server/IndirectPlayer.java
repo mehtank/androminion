@@ -497,23 +497,54 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public Card doAction(MoveContext context) {
-        Card[] cs = getFromHand(context, getString(R.string.part_play), getString(R.string.none), ACTIONFROMHAND, 1, true, false, SelectCardOptions.PLAY, true);
-        if (cs == null)
+        int actionCount = 0;
+        Card actionCard = null;
+        for (Card card : getHand()) {
+            if (card instanceof ActionCard) {
+                actionCount++;
+                actionCard = card;
+            }
+        }
+        if (actionCount == 0)
             return null;
-        return cs[0];
+
+        Card[] cards = getFromHand(context, getString(R.string.part_play), getString(R.string.none), ACTIONFROMHAND, 1, true, false, (actionCount == 1) ? SelectCardOptions.PLAY_WITH_ALL : SelectCardOptions.PLAY, true);
+        if (cards == null)
+            return null;
+
+        // Hack that tells us that "Play the only one card" was selected
+        if (actionCount == 1 && cards.length == 0) {
+            cards = new Card[1];
+            cards[0] = actionCard;
+        }
+
+        return cards[0];
     }
     
     public Card[] actionCardsToPlayInOrder(MoveContext context) {
         int actionCount = 0;
+        Card actionCard = null;
         for (Card card : getHand()) {
             if (card instanceof ActionCard) {
                 actionCount++;
+                actionCard = card;
             }
         }
-        if (actionCount > 0) {
-            return getFromHand(context, getString(R.string.part_play), getString(R.string.none), ACTIONFROMHAND, actionCount, false, true, SelectCardOptions.PLAY, true);
+        if (actionCount == 0) 
+            return null;
+        
+        Card[] cards = getFromHand(context, getString(R.string.part_play), getString(R.string.none), ACTIONFROMHAND, actionCount, false, true, (actionCount == 1) ? SelectCardOptions.PLAY_WITH_ALL : SelectCardOptions.PLAY, true);
+        if (cards == null) {
+            return null;
         }
-        return null;
+        
+        // Hack that tells us that "Play the only one card" was selected
+        if (actionCount == 1 && cards.length == 0) {
+            cards = new Card[1];
+            cards[0] = actionCard;
+        }
+
+        return cards;
     }
 
     public Card doBuy(MoveContext context) {

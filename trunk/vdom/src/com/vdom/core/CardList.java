@@ -110,6 +110,14 @@ public class CardList implements Iterable<Card> {
         return a.toArray(new Card[0]);
     }
 
+    public ArrayList<Card> toArrayList() {
+        ArrayList<Card> allCards = new ArrayList<Card>();
+        for (Card card : a) {
+            allCards.add(card);
+        }
+        return allCards;
+    }
+
     public boolean isEmpty() {
         return size() == 0;
     }
@@ -121,7 +129,8 @@ public class CardList implements Iterable<Card> {
     public Iterator<Card> iterator() {
         return a.iterator();
     }
-    public int indexof(CardImpl card) {
+
+    public int indexof(Card card) {
         return a.indexOf(card);
     }
 }

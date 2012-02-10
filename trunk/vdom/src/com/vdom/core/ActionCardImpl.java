@@ -1570,7 +1570,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         if (draw != null) {
-            currentPlayer. reveal(draw, this, context);
+            currentPlayer.reveal(draw, this, context);
             currentPlayer.hand.add(draw);
         }
         
