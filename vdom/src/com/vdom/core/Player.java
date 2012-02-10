@@ -510,21 +510,29 @@ public abstract class Player {
         return allCards;
     }
 
-	public int getCardCount(final Class cardClass) {
-		int cardCount = 0;
-
-		for(Card card : this.getAllCards()) {
-			if(cardClass.isInstance(card)) {
-				cardCount++;
-			}
-		}
-
-		return cardCount;
+    public int getCardCount(final Class cardClass) {
+        return this.getCardCount(cardClass, getAllCards());
 	}
+
+    public int getCardCount(final Class cardClass, ArrayList<Card> cards) {
+        int cardCount = 0;
+
+        for (Card card : cards) {
+            if (cardClass.isInstance(card)) {
+                cardCount++;
+            }
+        }
+
+        return cardCount;
+    }
 
 	public int getActionCardCount() {
-		return this.getCardCount(ActionCard.class);
+        return this.getCardCount(ActionCard.class);
 	}
+
+    public int getActionCardCount(ArrayList<Card> cards) {
+        return this.getCardCount(ActionCard.class, cards);
+    }
 
 	public int getVictoryCardCount() {
 		return this.getCardCount(VictoryCard.class);
@@ -739,6 +747,16 @@ public abstract class Player {
     	return treasures;
     }
     
+    public ArrayList<ActionCard> getActionsInHand() {
+        ArrayList<ActionCard> actions = new ArrayList<ActionCard>();
+
+        for (Card c : getHand())
+            if (c instanceof ActionCard)
+                actions.add((ActionCard) c);
+
+        return actions;
+    }
+
     public abstract String getPlayerName();
 
     public abstract Card doAction(MoveContext context);

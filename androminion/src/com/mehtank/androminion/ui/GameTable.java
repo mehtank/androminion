@@ -430,8 +430,9 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			if (openedCards.size() == 0) {
 			    if(sco != null && sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL)) {
 			        select.setText(SelectCardOptions.SELECT_WITH_ALL);
-			    }
-			    else {
+                } else if (sco != null && sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL)) {
+                    select.setText(SelectCardOptions.PLAY_WITH_ALL);
+                } else {
 			        cannotSelect();
 			    }
 			}
@@ -453,6 +454,8 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 				
                 if(sco != null && sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL)) {
                     select.setText(SelectCardOptions.SELECT);
+                } else if (sco != null && sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL)) {
+                    select.setText(SelectCardOptions.PLAY);
                 }
 			}
 		}
@@ -499,6 +502,8 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 
 		if(sco != null && sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL)) 
             canSelect();
+        else if (sco != null && sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL))
+            canSelect();
 		else
 		    cannotSelect();
 		
@@ -539,7 +544,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	                top.handle(new Event(Event.EType.CARD)
 	                            .setInteger(1)
 	                            .setObject(new EventObject(new int[] { -1 })));
-				} else {
+                } else if (sco != null && sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL) && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
+                    // Hack to notify that "All" was selected
+                    top.handle(new Event(Event.EType.CARD).setInteger(1).setObject(new EventObject(new int[] { -1 })));
+                } else {
 				    top.handle(new Event(Event.EType.CARD)
 								.setInteger(openedCards.size())
 								.setObject(new EventObject(cards)));
@@ -599,7 +607,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		} else
 			pass.setVisibility(INVISIBLE);
 		
-		if(sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL)) {
+        if (sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL) || sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL)) {
 		    canSelect();
 		}
 	}
@@ -629,6 +637,8 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
             text = Strings.getString(top, R.string.swindle_button);
         } else if(key.equals(SelectCardOptions.SELECT_WITH_ALL)) {
             text = Strings.getString(top, R.string.all_button);
+        } else if (key.equals(SelectCardOptions.PLAY_WITH_ALL)) {
+            text = Strings.getString(top, R.string.play_button);
         } else {
             text = key;
         }

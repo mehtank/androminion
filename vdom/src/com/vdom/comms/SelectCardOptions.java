@@ -27,6 +27,7 @@ public class SelectCardOptions implements Serializable {
     public static final String SWINDLE = "Swindle"; 
 
     public static final String SELECT_WITH_ALL = "All";
+    public static final String PLAY_WITH_ALL = "Play";
     
     public String buttonText = SELECT;
 
