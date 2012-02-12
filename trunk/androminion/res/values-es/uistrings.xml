@@ -63,9 +63,9 @@
 	<string name="achievements_menu">Logros</string>
 	<string name="win_loss_menu">Victorias/Derrotas Record</string>
 	<string name="quit_menu">Salir</string>
-	<string name="toast_starting">Inicializando el Juego...</string>
+	<string name="toast_starting">Inicializando el Juego…</string>
 	<string name="toast_quitconfirm">Pulsa de nuevo para salir.</string>
-	<string name="toast_loading">Cargando Juego...</string>
+	<string name="toast_loading">Cargando Juego…</string>
 
 	<string name="accept">Aceptar</string>
 	<string name="order_cards_summary">arrastra y suelta \nlas cartas para \nrecolocarlas.</string>

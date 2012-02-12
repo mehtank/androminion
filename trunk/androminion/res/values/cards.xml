@@ -89,7 +89,7 @@
     <string name="Conspirator_name">Conspirator</string>
     <string name="Conspirator_desc">If you\'ve played 3 or more Actions this turn (counting this): +1 Card, +1 Action.</string>
     <string name="Ironworks_name">Ironworks</string>
-    <string name="Ironworks_desc">Gain a card costing up to 4 Coins. If it is an... Action card, +1 Action. Treasure card, +1 Coin. Victory card, +1 Card.</string>
+    <string name="Ironworks_desc">Gain a card costing up to 4 Coins. If it is an… Action card, +1 Action. Treasure card, +1 Coin. Victory card, +1 Card.</string>
     <string name="Masquerade_name">Masquerade</string>
     <string name="Masquerade_desc">Each player passes a card from his hand to the left at once. Then you may trash a card from your hand.</string>
     <string name="MiningVillage_name">Mining Village</string>
@@ -115,7 +115,7 @@
     <string name="Upgrade_name">Upgrade</string>
     <string name="Upgrade_desc">Trash a card from your hand. Gain a card costing exactly 1 Coin more than it.</string>
     <string name="Tribute_name">Tribute</string>
-    <string name="Tribute_desc">The player to your left reveals then discards the top 2 cards of his deck. For each differently named card revealed, if it is an... Action Card, +2 Actions. Treasure Card, +2 Coins. Victory Card, +2 Cards.</string>
+    <string name="Tribute_desc">The player to your left reveals then discards the top 2 cards of his deck. For each differently named card revealed, if it is an… Action Card, +2 Actions. Treasure Card, +2 Coins. Victory Card, +2 Cards.</string>
     <string name="GreatHall_name">Great Hall</string>
     <string name="GreatHall_desc"></string>
     <string name="Duke_name">Duke</string>
