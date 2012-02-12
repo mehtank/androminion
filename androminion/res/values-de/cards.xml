@@ -89,7 +89,7 @@
 	<string name="Conspirator_name">Verschwörer</string>
 	<string name="Conspirator_desc">Wenn du in diesem Zug 3 oder mehr Aktionskarten ausgespielt hast (diese eingeschlossen): +1 Karte, +1 Aktion</string>
 	<string name="Ironworks_name">Eisenhütte</string>
-	<string name="Ironworks_desc">Nimm dir eine Karte, die bis zu 4 kostet. Ist es eine... Aktionskarte : +1 Aktion. Geldkarte: +1 Geld. Punktekarte: +1 Karte.</string>
+	<string name="Ironworks_desc">Nimm dir eine Karte, die bis zu 4 kostet. Ist es eine… Aktionskarte : +1 Aktion. Geldkarte: +1 Geld. Punktekarte: +1 Karte.</string>
 	<string name="Masquerade_name">Maskerade</string>
 	<string name="Masquerade_desc">Alle Spieler (auch du selbst) müssen gleichzeitig eine Karte aus ihrer Hand an ihren linken Nachbarn weiter geben. Danach darfst du eine Karte aus deiner Hand entsorgen.</string>
 	<string name="MiningVillage_name">Bergwerk</string>
@@ -115,7 +115,7 @@
 	<string name="Upgrade_name">Anbau</string>
 	<string name="Upgrade_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte, die genau 1 Geld mehr kostet als die entsorgte Karte.</string>
 	<string name="Tribute_name">Tribut</string>
-	<string name="Tribute_desc">Dein linker Nachbar muss die beiden obersten Karten von seinem Nachziehstapel aufdecken und diese ablegen. Für jede Karte mit unterschiedlichem Namen erhältst du etwas. Bei einer... Aktionskarte: +2 Aktionen. Geldkarte: +2 Geld. Punktekarte: +2 Karten.</string>
+	<string name="Tribute_desc">Dein linker Nachbar muss die beiden obersten Karten von seinem Nachziehstapel aufdecken und diese ablegen. Für jede Karte mit unterschiedlichem Namen erhältst du etwas. Bei einer… Aktionskarte: +2 Aktionen. Geldkarte: +2 Geld. Punktekarte: +2 Karten.</string>
 	<string name="GreatHall_name">Große Halle</string>
 	<string name="GreatHall_desc"></string>
 	<string name="Duke_name">Herzog</string>
@@ -191,7 +191,7 @@
 	<string name="ScryingPool_name">Vision</string>
 	<string name="ScryingPool_desc">Jeder Spieler (auch du selbst) muss die oberste Karte von seinem Nachziehstapel aufdecken. Du entscheidest, ob er sie ablegen, oder auf seinen Nachziehstapel zurücklegen muss. Dann deckst du solange Karten von deinem Nachziehstapel auf, bis du eine Karte aufdeckst, die keine Aktionskarte ist. Nimm alle aufgedeckten Karten auf die Hand.</string>
 	<string name="Transmute_name">Verwandlung</string>
-	<string name="Transmute_desc">Entsorge eine Karte aus deiner Hand. Ist es eine... Aktionskarte: nimm dir ein Herzogtum; eine Geldkarte: nimm dir eine Verwandlung; eine Punktekarte: nimm dir ein Gold.</string>
+	<string name="Transmute_desc">Entsorge eine Karte aus deiner Hand. Ist es eine… Aktionskarte: nimm dir ein Herzogtum; eine Geldkarte: nimm dir eine Verwandlung; eine Punktekarte: nimm dir ein Gold.</string>
 	<string name="University_name">Universität</string>
 	<string name="University_desc">Du darfst dir eine Aktionskarte nehmen, die bis zu 5 Geld kostet.</string>
 	<string name="Vineyard_name">Weinberg</string>

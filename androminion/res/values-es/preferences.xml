@@ -6,7 +6,7 @@
 	<string name="showenglishnames_pref_summary">Mostrar los nombres en ingles en una ramificación(sin efecto si el idioma seleccionado es ingles)</string>
     <string name="exitonback_pref_summary">Salir del juego pulsando el boton de atras</string>
     <string name="exitonback_pref_title">Salir con el boton atras</string>
-    <string name="vibescreen_pref_title">Configurar vibración...</string>
+    <string name="vibescreen_pref_title">Configurar vibración…</string>
     <string name="gamevibeon_pref_summary">Vibrar cuando el juego termina</string>
     <string name="gamevibeon_pref_title">Se acabo el juego</string>
     <string name="actionvibeon_pref_summary">Vibrar cuando se requiere una acción</string>
