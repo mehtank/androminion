@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="toastsoff_pref_summary">ゲーム開始時にアプリケーションがクラッシュする場合のみ選択してください</string>
+    <string name="toastsoff_pref_title">トーストを無効にする</string>
+    <string name="showenglishnames_pref_title">英語名の表示</string>
+	<string name="showenglishnames_pref_summary">カッコ内に英語名を表示する</string>
+    <string name="exitonback_pref_summary">戻るボタンを押したときにゲームを終了する</string>
+    <string name="exitonback_pref_title">戻るボタンで終了</string>
+    <string name="vibescreen_pref_title">バイブレーション設定…</string>
+    <string name="gamevibeon_pref_summary">ゲームが終了するときバイブレーション</string>
+    <string name="gamevibeon_pref_title">ゲームオーバー</string>
+    <string name="actionvibeon_pref_summary">あなたの入力が必要なときにバイブレーション</string>
+    <string name="actionvibeon_pref_title">アクション通知</string>
+    <string name="turnvibeon_pref_summary">あなたのターンが始まったときバイブレーション</string>
+    <string name="turnvibeon_pref_title">ターン通知</string>
+    <string name="clickvibeon_pref_summary">カードを選択したときバイブレーション</string>
+    <string name="clickvibeon_pref_title">触覚のフィードバック</string>
+    <string name="allvibes_pref_title">バイブレーションの有効</string>
+    <string name="notif_pref_title">通知</string>
+    <string name="statusbar_pref_title">ステータスバー表示</string>
+    <string name="abc_header_pref_title">クイック参照ヘッダ表示</string>
+    <string name="abc_header_pref_summary">画面上部にアクション数、購入数、コイン数を表示 (次のゲームから有効)</string>
+    <string name="game_play_pref_title">ゲームプレイ</string>
+    <string name="quick_play_pref_title">クイックプレイ</string>
+    <string name="quick_play_pref_summary">多くのカードのインタラクションを自動で行う (次のゲームから有効)</string>
+    <string name="plat_colony_pref_title">白金貨と植民地の使用</string>
+    <string name="plat_colony_pref_summary">ゲームタイプにかかわらず、いつも白金貨と植民地を加える (次のゲームから有効)</string>
+    <string name="ui_pref_title">ユーザ・インタフェース</string>
+    <string name="name_pref_summary">ニックネームを入力</string>
+    <string name="name_pref_title">名前</string>
+    <string name="personalization_pref_title">パーソナライゼーション</string>    
+    
+    <string name="hide_card_counts_pref_title">カードの数を隠す</string>
+    <string name="hide_card_counts_pref_summary">(次のゲームから有効)</string>
+    <string name="one_turn_logs_pref_title">1ターンのみの詳細</string>
+    <string name="one_turn_logs_pref_summary">現在のターンについてのみ画面下部にログを出力する (次のゲームから有効)</string>
+</resources>
