@@ -71,7 +71,7 @@ public class VDomPlayerEarl extends BasePlayer
        } else if (card instanceof CurseCard) {
            CurseCard curseCard = (CurseCard)card;
            for (Card thisCard : HAND)
-             this.historyItems.add(new HistoryItem(this.turnCount, thisCard, curseCard.getVictoryPoints(), HistoryItem.Action.VICTORY_HELPER));    	   
+                    this.historyItems.add(new HistoryItem(this.turnCount, thisCard, curseCard.getVictoryPoints(), HistoryItem.Action.VICTORY_HELPER));
        }
      }
      else if (event.getType() == GameEvent.Type.PlayingAction) {
@@ -124,7 +124,7 @@ public class VDomPlayerEarl extends BasePlayer
        if (card instanceof VictoryCard)
          stat.put(id, Integer.valueOf(count.intValue() + ((VictoryCard)card).getVictoryPoints()));
        else if (card instanceof CurseCard)
-           stat.put(id, Integer.valueOf(count.intValue() + ((CurseCard)card).getVictoryPoints()));    	   
+                stat.put(id, Integer.valueOf(count.intValue() + ((CurseCard) card).getVictoryPoints()));
        else {
          stat.put(id, count = Integer.valueOf(count.intValue() + 1));
        }
@@ -373,6 +373,14 @@ public class VDomPlayerEarl extends BasePlayer
        return cardToBuy;
      }
  
+        if (context.canBuy(Cards.colony)) {
+            return Cards.colony;
+        }
+
+        if (context.canBuy(Cards.platinum) && turnCount < 15) {
+            return Cards.platinum;
+        }
+
      if (context.canBuy(Cards.province)) {
        return Cards.province;
      }
@@ -397,13 +405,14 @@ public class VDomPlayerEarl extends BasePlayer
        return Cards.adventurer;
      }
  
-     context.canBuy(Cards.nobles);
+        if (context.canBuy(Cards.nobles) && getMyCardCount(Cards.gold) >= 3)
+            return Cards.nobles;
  
      if (context.canBuy(Cards.gold)) {
        return Cards.gold;
      }
- 
-     return null;
+
+        return null;
    }
  
    private Card handleFiveGold(MoveContext context, Card cardToBuy) {
@@ -949,15 +958,15 @@ public class VDomPlayerEarl extends BasePlayer
  
 public Card masquerade_cardToPass(MoveContext context)
 {
-	if (getHand().size() == 0)
-		return null;
-	
-	Card c = getHand().get(0);
-	for (Card card : getHand()) {
-		if (card.getCost(context) < c.getCost(context))
-			c = card;
-	}
-	return c;
+        if (getHand().size() == 0)
+            return null;
+
+        Card c = getHand().get(0);
+        for (Card card : getHand()) {
+            if (card.getCost(context) < c.getCost(context))
+                c = card;
+        }
+        return c;
 }
  
    private int nonNobleActionCardCount() {
@@ -1073,21 +1082,21 @@ public Card masquerade_cardToPass(MoveContext context)
        }
    }
 
-	@Override
-	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended) {
-		Card[] reactionCards = getReactionCards(defended);
-		for (Card c : reactionCards) {
-			if (c.equals(Cards.moat) && !reactedMoat) {
-				reactedMoat = true;
-				return c;
-			}
-			if (c.equals(Cards.secretChamber) && !reactedSecretChamber) {
-				reactedSecretChamber = true;
-				return c;
-			}
-			if (c.equals(Cards.horseTraders))
-				return c;
-		}
-		return null;
-	}
+    @Override
+    public Card getAttackReaction(MoveContext context, Card responsible, boolean defended) {
+        Card[] reactionCards = getReactionCards(defended);
+        for (Card c : reactionCards) {
+            if (c.equals(Cards.moat) && !reactedMoat) {
+                reactedMoat = true;
+                return c;
+            }
+            if (c.equals(Cards.secretChamber) && !reactedSecretChamber) {
+                reactedSecretChamber = true;
+                return c;
+            }
+            if (c.equals(Cards.horseTraders))
+                return c;
+        }
+        return null;
+    }
 }
