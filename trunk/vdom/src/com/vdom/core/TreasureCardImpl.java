@@ -12,8 +12,8 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     int value;
     boolean providePotion;
     
-    public TreasureCardImpl(String name, int cost, int value) {
-        super(name, cost);
+    public TreasureCardImpl(Cards.Type type, int cost, int value) {
+        super(type, cost);
         this.value = value;
     }
 
@@ -27,8 +27,8 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         protected int value;
         protected boolean providePotion = false;
 
-        public Builder(String name, int cost, int value) {
-            super(name, cost);
+        public Builder(Cards.Type type, int cost, int value) {
+            super(type, cost);
             this.value = value;
         }
 

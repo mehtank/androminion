@@ -1161,24 +1161,25 @@ public class Game {
 
     boolean drawToHand(Player player, Card responsible, boolean showUI) {
         Card card = draw(player);
-        if (card != null) {
-            player.hand.add(card, showUI);
-        }
+        if (card == null)
+            return false;
 
-        if (card != null && responsible != null) {
+        player.hand.add(card, showUI);
+
+        if (responsible != null) {
             Util.debug(player, responsible.getName() + " draw:" + card.getName(), true);
         }
         
-        return (card != null);
+        return true;
     }
 
     Card draw(Player player) {
-        if (player.discard.size() > 0 && player.getDeckSize() == 0) {
-            replenishDeck(player);
-        }
-
-        if (player.getDeckSize() == 0) {
-            return null;
+        if (player.deck.isEmpty()) {
+            if (player.discard.isEmpty()) {
+                return null;
+            } else {
+                replenishDeck(player);
+            }
         }
 
         return player.deck.remove(0);

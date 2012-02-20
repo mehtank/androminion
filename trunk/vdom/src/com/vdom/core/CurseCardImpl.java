@@ -3,8 +3,8 @@ package com.vdom.core;
 import com.vdom.api.CurseCard;
 
 public class CurseCardImpl extends CardImpl implements CurseCard {
-    public CurseCardImpl(String name, int cost, int vp) {
-        super(name, cost);
+    public CurseCardImpl(Cards.Type type, int cost, int vp) {
+        super(type, cost);
         this.vp = vp;
     }
 

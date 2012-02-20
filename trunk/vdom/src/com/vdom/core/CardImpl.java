@@ -3,6 +3,7 @@ package com.vdom.core;
 import com.vdom.api.Card;
 
 public class CardImpl implements Card {
+    Cards.Type type;
     String name;
     int cost;
     boolean costPotion = false;
@@ -22,8 +23,9 @@ public class CardImpl implements Card {
     public boolean templateCard = true;
     String safeName;
 
-    protected CardImpl(String name, int cost) {
-        this.name = name;
+    protected CardImpl(Cards.Type type, int cost) {
+        this.type = type;
+        this.name = type.toString();
         if (maxNameLen < name.length()) {
             maxNameLen = name.length();
         }
@@ -31,7 +33,7 @@ public class CardImpl implements Card {
     }
     
     public CardImpl(Builder builder) {
-        this(builder.name, builder.cost);
+        this(builder.type, builder.cost);
         costPotion = builder.costPotion;
         vp = builder.vp;
         description = builder.description;
@@ -41,6 +43,7 @@ public class CardImpl implements Card {
     }
 
     public static class Builder {
+        protected Cards.Type type;
         protected String name;
         protected int cost;
         protected int vp = 0;
@@ -53,8 +56,9 @@ public class CardImpl implements Card {
         protected boolean trashOnUse = false;
 
 
-        public Builder(String name, int cost) {
-            this.name = name;
+        public Builder(Cards.Type type, int cost) {
+            this.type = type;
+            this.name = type.toString();
             this.cost = cost;
         }
 
@@ -128,6 +132,7 @@ public class CardImpl implements Card {
         c.templateCard = false;
         c.id = Game.cardSequence++;
 
+        c.type = type;
         c.name = name;
         c.cost = cost;
         c.costPotion = costPotion;
@@ -135,6 +140,10 @@ public class CardImpl implements Card {
         c.expansion = expansion;
         c.isPrize = isPrize;
         c.vp = vp;
+    }
+
+    public Cards.Type getType() {
+        return type;
     }
 
     public String getName() {

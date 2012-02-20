@@ -7,8 +7,8 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public class VictoryCardImpl extends CardImpl implements VictoryCard {
-    public VictoryCardImpl(String name, int cost, int vp) {
-        super(name, cost);
+    public VictoryCardImpl(Cards.Type type, int cost, int vp) {
+        super(type, cost);
         this.vp = vp;
     }
 
@@ -17,8 +17,8 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     }
 
     public static class Builder extends CardImpl.Builder {
-        public Builder(String name, int cost, int vp) {
-            super(name, cost);
+        public Builder(Cards.Type type, int cost, int vp) {
+            super(type, cost);
             this.vp = vp;
         }
 
