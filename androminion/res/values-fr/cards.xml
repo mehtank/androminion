@@ -103,7 +103,7 @@
     <string name="ShantyTown_name">Taudis</string>
     <string name="ShantyTown_desc">Dévoilez votre main. Si vous n\'avez aucune carte Action en main, +2 Cartes.</string>
     <string name="Scout_name">Éclaireur</string>
-    <string name="Scout_desc">Dévoilez les 4 premières cartes de votre deck. Placez les cartes Victoire dévoilées dans votre main. Placez les autres cartes sur le dessus de votre deck dans l'ordre de votre choix.</string>
+    <string name="Scout_desc">Dévoilez les 4 premières cartes de votre deck. Placez les cartes Victoire dévoilées dans votre main. Placez les autres cartes sur le dessus de votre deck dans l\'ordre de votre choix.</string>
     <string name="Steward_name">Intendant</string>
     <string name="Steward_desc">Choisissez: +2 Cartes OU +2 Pièces OU écartez 2 cartes de votre main.</string>
     <string name="Swindler_name">Escroc</string>

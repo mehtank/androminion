@@ -1232,7 +1232,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_royalSeal_shouldPutCardOnDeck(context, card)) {
             return super.royalSeal_shouldPutCardOnDeck(context, card);
         }
-        return selectBooleanCardRevealed(context, Cards.royalSeal, card, getString(R.string.top_of_deck), getString(R.string.discard));
+        return selectBooleanCardRevealed(context, Cards.royalSeal, card, getString(R.string.top_of_deck), getString(R.string.take_normal));
     }
     
     public Card tradeRoute_cardToTrash(MoveContext context) {
