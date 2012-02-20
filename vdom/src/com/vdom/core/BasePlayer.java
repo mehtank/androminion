@@ -334,6 +334,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		return reactionCards.toArray(new Card[0]);
 	}
 
+    @Override
+    public Card[] topOfDeck_orderCards(MoveContext context, Card[] cards) {
+        return cards;
+    }
+
     // //////////////////
     // Card interactions
     // //////////////////

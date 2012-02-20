@@ -496,6 +496,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return selectBoolean(context, query, strTrue, strFalse);
     }
     
+    @Override
+    public Card[] topOfDeck_orderCards(MoveContext context, Card[] cards) {
+        if (context.isQuickPlay() && shouldAutoPlay_topOfDeck_orderCards(context, cards)) {
+            return super.topOfDeck_orderCards(context, cards);
+        }
+        ArrayList<Card> orderedCards = new ArrayList<Card>();
+        int[] order = orderCards(context, cardArrToIntArr(cards));
+        for (int i : order)
+            orderedCards.add(cards[i]);
+        return orderedCards.toArray(new Card[0]);
+    }
+
     public Card doAction(MoveContext context) {
         int actionCount = 0;
         Card actionCard = null;

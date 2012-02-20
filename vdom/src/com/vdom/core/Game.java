@@ -1852,7 +1852,8 @@ public class Game {
                         }
                         
                         Card[] order = player.mandarin_orderCards(context, treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]));
-                        for (Card c : order) {
+                        for (int i = order.length - 1; i >= 0; i--) {
+                            Card c = order[i];
                             player.putOnTopOfDeck(c);
                             playedCards.remove(c);
                         }

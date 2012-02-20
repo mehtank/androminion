@@ -250,6 +250,7 @@ public abstract class Player {
         boolean victoryBought = getVictoryCardsBoughtThisTurn(context) > 0;
         
         List<PutBackOption> putBackOptions;
+        ArrayList<Card> putBackCards = new ArrayList<Card>();
         
         while (!(putBackOptions = controlPlayer.getPutBackOptions(context, victoryBought)).isEmpty()) {
             PutBackOption putBackOption = controlPlayer.selectPutBackOption(context, putBackOptions);
@@ -259,11 +260,11 @@ public abstract class Player {
         		if (putBackOption == PutBackOption.Treasury) {
         			Card treasury = findCard(context, Cards.treasury);
         			context.playedCards.remove(treasury);
-        			putOnTopOfDeck(treasury);
+                    putBackCards.add(treasury);
         		} else if (putBackOption == PutBackOption.Alchemist) {
         			Card alchemist = findCard(context, Cards.alchemist);
         			context.playedCards.remove(alchemist);
-        			putOnTopOfDeck(alchemist);
+                    putBackCards.add(alchemist);
         		} else if (putBackOption == PutBackOption.Coin) {
         			Card herbalist = findCard(context, Cards.herbalist);
         			context.playedCards.remove(herbalist);
@@ -279,7 +280,7 @@ public abstract class Player {
                         TreasureCard treasureCard = controlPlayer.herbalist_backOnDeck(context, treasureCards.toArray(new TreasureCard[0]));
                         if(treasureCard != null && context.playedCards.contains(treasureCard)) {
                             context.playedCards.remove(treasureCard);
-                            putOnTopOfDeck(treasureCard);
+                            putBackCards.add(treasureCard);
                         }
                     }        			
         		} else if (putBackOption == PutBackOption.Action) {
@@ -304,122 +305,25 @@ public abstract class Player {
                         break;
                     }
                     Card card = context.playedCards.remove(index);
-                    putOnTopOfDeck(card);
-        			
+                    putBackCards.add(card);
         		}
-
         	}
         }
-        /*
-        int treasuryCardsToSave = 0;
-        int treasuryCardsInPlay = 0;
-        
-        for (Card card : context.playedCards) {
-            if (card.equals(Cards.treasury)) {
-                treasuryCardsInPlay++;
-            }
-        }
 
-        if (getVictoryCardsBoughtThisTurn(context) == 0 && treasuryCardsInPlay > 0) {
-            treasuryCardsToSave = treasury_putBackOnDeck(context, treasuryCardsInPlay);
-        }
+        switch (putBackCards.size()) {
+        case 1:
+            putOnTopOfDeck(putBackCards.get(0), context, true);
+            break;
+        case 0:
+            break;
+        default:
+            Card[] orderedCards = topOfDeck_orderCards(context, putBackCards.toArray(new Card[0]));
 
-        if (treasuryCardsToSave < 0 || treasuryCardsToSave > treasuryCardsInPlay) {
-            Util.playerError(this, "Treasury put back cards error, ignoring.");
-            treasuryCardsToSave = 0;
-        }
-        
-        for (Card card : context.playedCards) {
-            if (card.equals(Cards.treasury)) {
-                treasuryCardsInPlay++;
+            for (int i = orderedCards.length - 1; i >= 0; i--) {
+                Card card = orderedCards[i];
+                putOnTopOfDeck(card, context, true);
             }
         }
-        
-        boolean alchemistPlayed = true;
-        boolean potionPlayed = true;
-        Card thisAlchemist = null;
-        while(alchemistPlayed && potionPlayed) {
-            potionPlayed = false;
-            alchemistPlayed = false;
-            
-            for (Card card : context.playedCards) {
-                if (card.equals(Cards.alchemist)) {
-                    alchemistPlayed = true;
-                    thisAlchemist = card;
-                }
-                if (card.equals(Cards.potion)) {
-                    potionPlayed = true;
-                }
-            }
-            
-            if(alchemistPlayed && potionPlayed && thisAlchemist != null) {
-                context.playedCards.remove(thisAlchemist);
-                boolean putBackAlchemist = alchemist_backOnDeck(context);
-                if (putBackAlchemist)
-                    putOnTopOfDeck(thisAlchemist);
-                else
-                    discard(thisAlchemist, null, null, false);
-                thisAlchemist = null;
-            }
-        }
-        
-        int herbalistCount = 0;
-        for (Card card : context.playedCards) {
-            if (card.equals(Cards.herbalist)) {
-                herbalistCount++;
-            }
-        }
-        while(herbalistCount-- > 0) {
-            ArrayList<TreasureCard> treasureCards = new ArrayList<TreasureCard>();
-            for(Card card : context.playedCards) {
-                if(card instanceof TreasureCard) {
-                    treasureCards.add((TreasureCard) card);
-                }
-            }
-            
-            if(treasureCards.size() > 0) {
-                TreasureCard treasureCard = herbalist_backOnDeck(context, treasureCards.toArray(new TreasureCard[0]));
-                if(treasureCard != null && context.playedCards.contains(treasureCard)) {
-                    context.playedCards.remove(treasureCard);
-                    putOnTopOfDeck(treasureCard);
-                }
-            }
-        }
-        
-        while (treasuryCardsToSave-- > 0) {
-            int index = context.playedCards.indexOf(Cards.treasury);
-            if(index == -1) {
-                break;
-            }
-            Card card = context.playedCards.remove(index);
-            putOnTopOfDeck(card);
-        }
-        
-        while(context.schemesPlayed-- > 0) {
-            ArrayList<Card> actions = new ArrayList<Card>();
-            for(Card c : context.playedCards) {
-                if(c instanceof ActionCard) {
-                    actions.add(c);
-                }
-            }
-            if(actions.size() == 0) {
-                break;
-            }
-            
-            ActionCard actionToPutBack = scheme_actionToPutOnTopOfDeck(((MoveContext) context), actions.toArray(new ActionCard[0]));
-            if(actionToPutBack == null) {
-                break;
-            }
-            int index = context.playedCards.indexOf(actionToPutBack);
-            if(index == -1) {
-                Util.playerError(this, "Scheme returned invalid card to put back on top of deck, ignoring");
-                break;
-            }
-            Card card = context.playedCards.remove(index);
-            putOnTopOfDeck(card);
-            
-        }
-        */
 
         while (!context.playedCards.isEmpty()) {
             discard(context.playedCards.remove(0), null, null, false);
@@ -544,6 +448,15 @@ public abstract class Player {
 
     public void removeFromDeckBottom() {
         deck.remove(deck.size() - 1);
+    }
+
+    public void putOnTopOfDeck(Card card, MoveContext context, boolean UI) {
+        putOnTopOfDeck(card);
+        if (UI) {
+            GameEvent event = new GameEvent(GameEvent.Type.CardOnTopOfDeck, context);
+            event.card = card;
+            game.broadcastEvent(event);
+        }
     }
 
     public void putOnTopOfDeck(Card card) {
@@ -764,6 +677,8 @@ public abstract class Player {
     public abstract Card[] actionCardsToPlayInOrder(MoveContext context);
 
     public abstract Card doBuy(MoveContext context);
+
+    public abstract Card[] topOfDeck_orderCards(MoveContext context, Card[] cards);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from the base game

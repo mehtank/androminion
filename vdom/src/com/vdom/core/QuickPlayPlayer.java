@@ -195,6 +195,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
+    public boolean shouldAutoPlay_topOfDeck_orderCards(MoveContext context, Card[] cards) {
+        return true;
+    }
+
     public boolean shouldAutoPlay_scout_orderCards(MoveContext context, Card[] cards) {
         return true;
     }
