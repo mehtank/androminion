@@ -213,37 +213,26 @@ public class MoveContext {
         return buys;
     }
 
-    public int getTemporaryGoldForThisTurn() {
-        return addGold;
-    }
-
     public int getCoinAvailableForBuy() {
-//        if (!goldComputed) {
-//            int gold = getTemporaryGoldForThisTurn();
-//            for (Card card : player.getHand()) {
-//                if (card instanceof TreasureCard) {
-//                    gold += ((TreasureCard) card).getValue();
-//                    if (card.equals(Cards.copper)) {
-//                        gold += coppersmithsPlayed;
-//                    }
-//                }
-//            }
-//
-//            // goldComputed = true;
-//            return gold;
-//        }
         return gold + addGold;
     }
 
-    public int getCoinForStatus(Player p) {
+    public int getCoinForStatus() {
         if(playedCards.size() > 0) {
             return getCoinAvailableForBuy();
         }
 
         int coin = 0;
+        int foolsgoldcount = 0;
         for (Card card : player.getHand()) {
             if (card instanceof TreasureCard) {
                 coin += ((TreasureCard) card).getValue();
+                 if (card.getType() == Cards.Type.FoolsGold) {
+                 foolsgoldcount++;
+                 if (foolsgoldcount > 1) {
+                 coin += 3;
+                 }
+                 }
             }
         }
 

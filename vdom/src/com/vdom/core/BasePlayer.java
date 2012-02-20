@@ -1572,7 +1572,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public boolean foolsGold_shouldTrash(MoveContext context) {
-        return true;
+        return (game.pileSize(Cards.gold) > 0);
     }
 
     @Override
