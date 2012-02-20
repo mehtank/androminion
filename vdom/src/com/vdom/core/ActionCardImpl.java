@@ -3462,7 +3462,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (card != null) {
             hand(currentPlayer).remove(card);
             haven(currentPlayer).add(card);
-        } else {
+        } else if (this.cloneCount == 1) {
             currentPlayer.nextTurnCards.remove(this);
             context.playedCards.add(this);
         }
