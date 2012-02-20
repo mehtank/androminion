@@ -615,12 +615,19 @@ public class Game {
                     event.card = thisCard;
                     broadcastEvent(event);
 
-                    // context.actionsPlayedSoFar++;
                     context.actions += thisCard.getAddActionsNextTurn();
                     context.addGold += thisCard.getAddGoldNextTurn();
                     context.buys += thisCard.getAddBuysNextTurn();
+                    int AddCardsNextTurn = thisCard.getAddCardsNextTurn();
 
-                    for (int i = 0; i < thisCard.getAddCardsNextTurn(); i++) {
+                    if (thisCard.getType() == Cards.Type.Tactician) {
+                        context.actions += 1;
+                        context.addGold += 0;
+                        context.buys += 1;
+                        AddCardsNextTurn = 5;
+                    }
+
+                    for (int i = 0; i < AddCardsNextTurn; i++) {
                         drawToHand(player, thisCard, true);
                     }
 
