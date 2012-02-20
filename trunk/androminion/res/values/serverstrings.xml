@@ -204,7 +204,7 @@
 	<string name="spice_merchant_option_one">+2 Cards and +1 Action</string>
 	<string name="spice_merchant_option_two">+(2) Coin and +1 Buy</string>
 
-	<string name="watch_tower_option_one">Take normally</string>
+	<string name="watch_tower_option_one">Do Not Reveal</string>
 	<string name="watch_tower_option_three">Top of Deck</string>
 
 	<string name="jester_option_one">Gain copy for you</string>
