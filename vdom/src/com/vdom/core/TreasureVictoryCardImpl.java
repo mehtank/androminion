@@ -8,8 +8,8 @@ public class TreasureVictoryCardImpl extends TreasureCardImpl implements Victory
     }
 
     public static class Builder extends TreasureCardImpl.Builder {
-        public Builder(String name, int cost, int value, int vp) {
-            super(name, cost, value);
+        public Builder(Cards.Type type, int cost, int value, int vp) {
+            super(type, cost, value);
             this.vp = vp;
         }
 

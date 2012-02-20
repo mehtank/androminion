@@ -25,7 +25,7 @@ public class VDomPlayerEarl extends BasePlayer
     }
     
    Random rand = new Random(System.currentTimeMillis());
-   int turnCount = 0;
+    // int turnCount = 0;
    private int treasureMapsBought = 0;
  
    private int silverTurnCount = 0;
@@ -52,6 +52,7 @@ public class VDomPlayerEarl extends BasePlayer
    public void gameEvent(GameEvent event)
    {
        super.gameEvent(event);
+        if (game.debug) {
      if ((event.getPlayer() != this) || 
        (event.getType() == GameEvent.Type.GameStarting)) return;
      if (event.getType() == GameEvent.Type.TurnBegin) {
@@ -81,6 +82,7 @@ public class VDomPlayerEarl extends BasePlayer
        if (!(player.getWin()))
          calculateStats(this.historyItems);
      }
+        }
    }
  
    private HashMap<Integer, Integer> getStat(ArrayList<HistoryItem> historyItems, HistoryItem.Action action)
@@ -377,11 +379,11 @@ public class VDomPlayerEarl extends BasePlayer
             return Cards.colony;
         }
 
-        if (context.canBuy(Cards.platinum) && turnCount < 15) {
+        if (context.canBuy(Cards.platinum) && turnCount < 15 && game.pileSize(Cards.province) > 4) {
             return Cards.platinum;
         }
 
-     if (context.canBuy(Cards.province)) {
+        if (context.canBuy(Cards.province) && (!game.buyWouldEndGame(Cards.province) || context.calculateLead(Cards.province) >= 0)) {
        return Cards.province;
      }
  
@@ -397,7 +399,7 @@ public class VDomPlayerEarl extends BasePlayer
        return cardToBuy;
      }
  
-     if ((this.turnCount > 15) && (context.canBuy(Cards.duchy))) {
+        if ((this.turnCount > 15 || game.pileSize(Cards.province) < 4) && (context.canBuy(Cards.duchy))) {
        return Cards.duchy;
      }
  

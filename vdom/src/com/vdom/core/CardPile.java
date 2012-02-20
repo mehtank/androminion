@@ -21,6 +21,10 @@ public class CardPile {
     /**
      * @return the count
      */
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
+
     public int getCount() {
         return cards.size();
     }
@@ -30,7 +34,7 @@ public class CardPile {
     }
 
     public Card removeCard() {
-        if (cards.size() > 0) {
+        if (!cards.isEmpty()) {
             return cards.remove(cards.size() - 1);
         } else {
             return null;

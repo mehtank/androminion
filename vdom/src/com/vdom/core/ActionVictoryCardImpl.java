@@ -8,8 +8,8 @@ public class ActionVictoryCardImpl extends ActionCardImpl implements VictoryCard
     }
 
     public static class Builder extends ActionCardImpl.Builder {
-        public Builder(String name, int cost) {
-            super(name, cost);
+        public Builder(Cards.Type type, int cost) {
+            super(type, cost);
         }
 
         public ActionCardImpl build() {

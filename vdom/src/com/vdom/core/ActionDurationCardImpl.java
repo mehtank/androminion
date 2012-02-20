@@ -53,8 +53,8 @@ public class ActionDurationCardImpl extends ActionCardImpl implements DurationCa
         protected boolean takeAnotherTurn;
         protected int takeAnotherTurnCardCount;
 
-        public Builder(String name, int cost) {
-            super(name, cost);
+        public Builder(Cards.Type type, int cost) {
+            super(type, cost);
         }
 
         public Builder addActionsNextTurn(int val) {

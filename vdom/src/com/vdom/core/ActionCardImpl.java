@@ -1,6 +1,5 @@
 package com.vdom.core;
 
-import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -47,8 +46,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    protected boolean attack;
 	    protected boolean trashOnUse;
 
-        public Builder(String name, int cost) {
-            super(name, cost);
+        public Builder(Cards.Type type, int cost) {
+            super(type, cost);
         }
 
         public Builder addActions(int val) {
@@ -189,224 +188,337 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
-        if (this.equals(Cards.workshop)) {
-            workshop(currentPlayer, context);
-        } else if (this.equals(Cards.moneyLender)) {
+        switch (this.getType()) {
+        case MoneyLender:
             moneyLender(context, currentPlayer);
-        } else if (this.equals(Cards.chancellor)) {
+            break;
+        case Chancellor:
             chancellor(game, context, currentPlayer);
-        } else if (this.equals(Cards.feast)) {
+            break;
+        case Workshop:
+            workshop(currentPlayer, context);
+            break;
+        case Feast:
             feast(context, currentPlayer);
-        } else if (equals(Cards.kingsCourt) || equals(Cards.throneRoom)) {
+            break;
+        case KingsCourt:
+        case ThroneRoom:
             throneRoomKingsCourt(game, context, currentPlayer);
-        } else if (equals(Cards.smugglers)) {
+            break;
+        case Smugglers:
             smugglers(context, currentPlayer);
-        } else if (equals(Cards.pirateShip)) {
+            break;
+        case PirateShip:
             pirateShip(game, context, currentPlayer); 
-        } else if (equals(Cards.haven)) {
+            break;
+        case Haven:
             haven(context, currentPlayer);
-        } else if (equals(Cards.chapel)) {
+            break;
+        case Chapel:
             chapel(context, currentPlayer);
-        } else if (equals(Cards.library)) {
+            break;
+        case Library:
             library(game, context, currentPlayer);
-        } else if (equals(Cards.adventurer)) {
+            break;
+        case Adventurer:
             adventurer(game, context, currentPlayer);
-        } else if (equals(Cards.golem)) {
+            break;
+        case Golem:
             golem(game, context, currentPlayer);
-        } else if (equals(Cards.bureaucrat)) {
+            break;
+        case Bureaucrat:
             bureaucrat(game, context, currentPlayer);
-        } else if (equals(Cards.secretChamber)) {
+            break;
+        case SecretChamber:
             secretChamber(context, currentPlayer);
-        } else if (equals(Cards.cellar)) {
+            break;
+        case Cellar:
             cellar(game, context, currentPlayer);
-        } else if (equals(Cards.remodel)) {
+            break;
+        case Remodel:
             remodel(context, currentPlayer);
-        } else if (equals(Cards.militia)) {
+            break;
+        case Militia:
             militia(game, context, currentPlayer);
-        } else if (equals(Cards.thief)) {
+            break;
+        case Thief:
             thief(game, context, currentPlayer);
-        } else if (equals(Cards.conspirator)) {
+            break;
+        case Conspirator:
             conspirator(game, context, currentPlayer);
-        } else if (equals(Cards.spy) || equals(Cards.scryingPool)) {
+            break;
+        case Spy:
+        case ScryingPool:
             spyAndScryingPool(game, context, currentPlayer);
-        } else if (equals(Cards.courtyard)) {
+            break;
+        case Courtyard:
             courtyard(context, currentPlayer);
-        } else if (equals(Cards.baron)) {
+            break;
+        case Baron:
             baron(context, currentPlayer);
-        } else if (equals(Cards.swindler)) {
+            break;
+        case Swindler:
             swindler(game, context, currentPlayer);
-        } else if (equals(Cards.steward)) {
+            break;
+        case Steward:
             steward(game, context, currentPlayer);
-        } else if (equals(Cards.scout)) {
+            break;
+        case Scout:
             scout(game, context, currentPlayer);
-        } else if (equals(Cards.shantyTown)) {
+            break;
+        case ShantyTown:
             shantyTown(game, context, currentPlayer);
-        } else if (equals(Cards.saboteur)) {
+            break;
+        case Saboteur:
             saboteur(game, context, currentPlayer);
-        } else if (equals(Cards.pawn)) {
+            break;
+        case Pawn:
             pawn(game, context, currentPlayer);
-        } else if (equals(Cards.minion)) {
+            break;
+        case Minion:
             minion(game, context, currentPlayer);
-        } else if (equals(Cards.miningVillage)) {
+            break;
+        case MiningVillage:
             miningVillage(context, currentPlayer);
-        } else if (equals(Cards.masquerade)) {
+            break;
+        case Masquerade:
             masquerade(game, context, currentPlayer);
-        } else if (equals(Cards.ironworks)) {
+            break;
+        case Ironworks:
             ironworks(game, context, currentPlayer);
-        } else if (equals(Cards.nobles)) {
+            break;
+        case Nobles:
             nobles(game, context, currentPlayer);
-        } else if (equals(Cards.coppersmith)) {
+            break;
+        case Coppersmith:
             copperSmith(context);
-        } else if (equals(Cards.tribute)) {
+            break;
+        case Tribute:
             tribute(game, context, currentPlayer);
-        } else if (equals(Cards.upgrade)) {
+            break;
+        case Upgrade:
             upgrade(context, currentPlayer);
-        } else if (equals(Cards.wishingWell)) {
+            break;
+        case WishingWell:
             wishingWell(game, context, currentPlayer);
-        } else if (equals(Cards.bridge)) {
+            break;
+        case Bridge:
             context.cardCostModifier -= 1;
-        } else if (equals(Cards.tradingPost)) {
+            break;
+        case TradingPost:
             tradingPost(context, currentPlayer);
-        } else if (equals(Cards.torturer)) {
+            break;
+        case Torturer:
             torturer(game, context, currentPlayer);
-        } else if (equals(Cards.tactician)) {
+            break;
+        case Tactician:
             tactician(context, currentPlayer);
-        } else if (equals(Cards.familiar) || equals(Cards.witch)) {
+            break;
+        case Familiar:
+        case Witch:
             witchFamiliar(game, context, currentPlayer);
-        } else if (equals(Cards.apothecary)) {
+            break;
+        case Apothecary:
             apothecary(game, context, currentPlayer);
-        } else if (equals(Cards.transmute)) {
+            break;
+        case Transmute:
             transmute(context, currentPlayer);
-        } else if (equals(Cards.apprentice)) {
+            break;
+        case Apprentice:
             apprentice(game, context, currentPlayer);
-        } else if (equals(Cards.university)) {
+            break;
+        case University:
             university(context, currentPlayer);
-        } else if (equals(Cards.mine)) {
+            break;
+        case Mine:
             mine(context, currentPlayer);
-        } else if (equals(Cards.councilRoom)) {
+            break;
+        case CouncilRoom:
             councilRoom(game, context);
-        } else if (equals(Cards.seaHag)) {
+            break;
+        case SeaHag:
             seaHag(game, context, currentPlayer);
-        } else if (equals(Cards.nativeVillage)) {
+            break;
+        case NativeVillage:
             nativeVillage(game, context, currentPlayer);
-        } else if (equals(Cards.island)) {
+            break;
+        case Island:
             island(context, currentPlayer);
-        } else if (equals(Cards.pearlDiver)) {
+            break;
+        case PearlDiver:
             pearlDiver(context, currentPlayer);
-        } else if (equals(Cards.lookout)) {
+            break;
+        case Lookout:
             lookout(game, context, currentPlayer);
-        } else if (equals(Cards.navigator)) {
+            break;
+        case Navigator:
             navigator(game, context, currentPlayer);
-        } else if (equals(Cards.embargo)) {
+            break;
+        case Embargo:
             embargo(game, context, currentPlayer);
-        } else if (equals(Cards.treasureMap)) {
+            break;
+        case TreasureMap:
             treasureMap(context, currentPlayer);
-        } else if (equals(Cards.explorer)) {
+            break;
+        case Explorer:
             explorer(context, currentPlayer);
-        } else if (equals(Cards.cutpurse)) {
+            break;
+        case Cutpurse:
             cutpurse(game, context, currentPlayer);
-        } else if (equals(Cards.warehouse)) {
+            break;
+        case Warehouse:
             warehouse(context, currentPlayer);
-        } else if (equals(Cards.ambassador)) {
+            break;
+        case Ambassador:
             ambassador(game, context, currentPlayer);
-        } else if (equals(Cards.salvager)) {
+            break;
+        case Salvager:
             salvager(context, currentPlayer);
-        } else if (equals(Cards.ghostShip)) {
+            break;
+        case GhostShip:
             ghostShip(game, context, currentPlayer);
-        } else if (equals(Cards.bishop)) {
+            break;
+        case Bishop:
             bishop(game, context, currentPlayer);
-        } else if (equals(Cards.city)) {
+            break;
+        case City:
             city(game, context, currentPlayer);
-        } else if (equals(Cards.countingHouse)) {
+            break;
+        case CountingHouse:
             countingHouse(context, currentPlayer);
-        } else if (equals(Cards.expand)) {
+            break;
+        case Expand:
             expand(context, currentPlayer);
-        } else if (equals(Cards.forge)) {
+            break;
+        case Forge:
             forge(context, currentPlayer);
-        } else if (equals(Cards.goons)) {
+            break;
+        case Goons:
             goons(game, context, currentPlayer);
-        } else if (equals(Cards.mint)) {
+            break;
+        case Mint:
             mint(context, currentPlayer);
-        } else if (equals(Cards.mountebank)) {
+            break;
+        case Mountebank:
             mountebank(game, context, currentPlayer);
-        } else if (equals(Cards.rabble)) {
+            break;
+        case Rabble:
             rabble(game, context, currentPlayer);
-        } else if (equals(Cards.tradeRoute)) {
+            break;
+        case TradeRoute:
             tradeRoute(game, context, currentPlayer);
-        } else if (equals(Cards.vault)) {
+            break;
+        case Vault:
             vault(game, context, currentPlayer);
-        } else if (equals(Cards.watchTower)) {
+            break;
+        case WatchTower:
             watchTower(game, currentPlayer);
-        } else if (equals(Cards.farmingVillage)) {
+            break;
+        case FarmingVillage:
             farmingVillage(game, context, currentPlayer);
-        } else if (equals(Cards.fortuneTeller)) {
+            break;
+        case FortuneTeller:
             fortuneTeller(game, context, currentPlayer);
-        } else if (equals(Cards.hamlet)) {
+            break;
+        case Hamlet:
             hamlet(context, currentPlayer);
-        } else if (equals(Cards.harvest)) {
+            break;
+        case Harvest:
             harvest(game, context, currentPlayer);
-        } else if (equals(Cards.horseTraders)) {
+            break;
+        case HorseTraders:
             horseTraders(context, currentPlayer);
-        } else if (equals(Cards.huntingParty)) {
+            break;
+        case HuntingParty:
             huntingParty(game, context, currentPlayer);
-        } else if (equals(Cards.jester)) {
+            break;
+        case Jester:
             jester(game, context, currentPlayer);
-        } else if (equals(Cards.menagerie)) {
+            break;
+        case Menagerie:
             menagerie(game, context, currentPlayer);
-        } else if (equals(Cards.remake)) {
+            break;
+        case Remake:
             remake(context, currentPlayer);
-        } else if (equals(Cards.tournament)) {
+            break;
+        case Tournament:
             tournament(game, context, currentPlayer);
-        } else if (equals(Cards.youngWitch)) {
+            break;
+        case YoungWitch:
             youngwitch(game, context, currentPlayer);
-        } else if (equals(Cards.bagOfGold)) {
+            break;
+        case BagOfGold:
             currentPlayer.gainNewCard(Cards.gold, this, context);
-        } else if (equals(Cards.followers)) {
+            break;
+        case Followers:
             followers(game, context, currentPlayer);
-        } else if (equals(Cards.princess)) {
+            break;
+        case Princess:
             if (this.numberTimesAlreadyPlayed == 0) {
-            	context.cardCostModifier -= 2;
+                context.cardCostModifier -= 2;
             }
-        } else if (equals(Cards.trustySteed)) {
+            break;
+        case TrustySteed:
             trustySteed(game, context, currentPlayer);
-        } else if (equals(Cards.crossroads)) {
+            break;
+        case Crossroads:
             crossroads(game, context, currentPlayer);
-        } else if (equals(Cards.duchess)) {
+            break;
+        case Duchess:
             duchess(game);
-        } else if (equals(Cards.develop)) {
+            break;
+        case Develop:
             develop(context, currentPlayer);            
-        } else if (equals(Cards.oasis)) {
+            break;
+        case Oasis:
             oasis(context, currentPlayer);
-        } else if (equals(Cards.jackOfAllTrades)) {
+            break;
+        case JackOfAllTrades:
             jackOfAllTrades(game, context, currentPlayer);
-        } else if (equals(Cards.nobleBrigand)) {
+            break;
+        case NobleBrigand:
             nobleBrigandAttack(context, true);
-        } else if (equals(Cards.spiceMerchant)) {
+            break;
+        case SpiceMerchant:
             spiceMerchant(game, context, currentPlayer);
-        } else if (equals(Cards.oracle)) {
+            break;
+        case Oracle:
             oracle(game, context, currentPlayer);
-        } else if (equals(Cards.scheme)) {
+            break;
+        case Scheme:
             context.schemesPlayed++;
-        } else if (equals(Cards.trader)) {
+            break;
+        case Trader:
             trader(context, currentPlayer);
-        } else if (equals(Cards.cartographer)) {
+            break;
+        case Cartographer:
             cartographer(game, context, currentPlayer);
-        } else if (equals(Cards.embassy)) {
+            break;
+        case Embassy:
             embassy(context, currentPlayer);
-        } else if (equals(Cards.highway)) {
+            break;
+        case Highway:
             if (this.numberTimesAlreadyPlayed == 0) {
                 context.cardCostModifier -= 1;
             }
-        } else if (equals(Cards.inn)) {
+            break;
+        case Inn:
             inn(context, currentPlayer);
-        } else if (equals(Cards.mandarin)) {
+            break;
+        case Mandarin:
             mandarin(context, currentPlayer);
-        } else if (equals(Cards.margrave)) {
+            break;
+        case Margrave:
             margrave(game, context, currentPlayer);
-        } else if (equals(Cards.stables)) {
+            break;
+        case Stables:
             stables(game, context, currentPlayer);
-        } else if (equals(Cards.possession)) {
+            break;
+        case Possession:
             possession(context);
+            break;
+        default:
+            break;
         }
     }
 
