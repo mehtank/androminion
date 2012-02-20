@@ -3462,6 +3462,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (card != null) {
             hand(currentPlayer).remove(card);
             haven(currentPlayer).add(card);
+        } else {
+            currentPlayer.nextTurnCards.remove(this);
+            context.playedCards.add(this);
         }
     }
 
