@@ -580,7 +580,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public TorturerOption torturer_attack_chooseOption(MoveContext context) {
         for(Card c : getHand()) {
-            if(c.equals(Cards.watchTower)) {
+            if(c.equals(Cards.watchTower) || c.equals(Cards.trader)) {
                 return Player.TorturerOption.TakeCurse;
             }
         }
@@ -634,15 +634,31 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion) {
         Card[] cards = context.getCardsInPlay();
-        ArrayList<Card> randList = new ArrayList<Card>();
+        ArrayList<Card> changeList = new ArrayList<Card>();
         for (Card card : cards) {
             if (!card.isPrize() && card.getCost(context) == cost && context.getCardsLeft(card) > 0 && card.costPotion() == potion) {
-                randList.add(card);
+                changeList.add(card);
             }
         }
 
-        if (randList.size() > 0) {
-            return randList.get(rand.nextInt(randList.size()));
+        boolean latest = game.colonyInPlay? 
+        		context.getCardsLeft(Cards.province) < Game.numPlayers || context.getCardsLeft(Cards.colony) < Game.numPlayers:
+        			context.getCardsLeft(Cards.province) < Game.numPlayers;
+
+        if (changeList.contains(Cards.curse)) {
+        	return Cards.curse;
+        } else if (changeList.contains(Cards.estate) && !latest) {
+        	return Cards.estate;
+        } else if (changeList.contains(Cards.duchy) && !latest) {
+        	return Cards.duchy;
+        } else if (changeList.contains(Cards.peddler)) {
+        	return Cards.peddler;
+        } else if (changeList.contains(Cards.potion)) {
+        	return Cards.potion;
+        }
+
+        if (changeList.size() > 0) {
+            return changeList.get(rand.nextInt(changeList.size()));
         }
 
         return null;
@@ -1691,6 +1707,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return null;
         }
         
+        for (Card card: getHand()) {
+        	if (isTrashCard(card)) {
+        		return card;
+        	}
+        }
+        
         return getHand().get(0);
     }
 
@@ -1797,6 +1819,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card mandarin_cardToReplace(MoveContext context) {
+    	if (context.getActionsLeft() == 0) {
+    		for (Card card: getHand()) {
+    			if (card instanceof ActionCard) {
+    				return card;
+    			}
+    		}
+    	}
         //TODO: better logic
         return Util.randomCard(hand);
     }
@@ -1816,4 +1845,5 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	Collections.sort(options);
     	return options.get(0);
     }
+    
 }
