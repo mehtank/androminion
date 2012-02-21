@@ -204,8 +204,8 @@
 	<string name="spice_merchant_option_one">+2  カードを引く,および +1  アクション</string>
 	<string name="spice_merchant_option_two">+(2) コイン, および +1  カードを購入</string>
 
-	<string name="watch_tower_option_one">通常通り獲得</string>
-	<string name="watch_tower_option_three">山札の上</string>
+	<string name="watch_tower_option_one">公開しない</string>
+	<string name="watch_tower_option_three">山札の上に置く</string>
 
 	<string name="jester_option_one">あなたがコピーを獲得</string>
 	<string name="jester_option_two">%1$s がコピーを獲得</string>
@@ -271,7 +271,7 @@
   <string name="Cartographer_query">捨て札にするカードを選択</string>
   <string name="cards">カード</string>
   <string name="return_cards">山札にカードを戻す:</string>
-
+  <string name="take_normal">通常通り獲得</string>
  
   
 </resources>
