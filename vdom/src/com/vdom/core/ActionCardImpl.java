@@ -473,7 +473,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case Oasis:
             oasis(context, currentPlayer);
             break;
-        case JackOfAllTrades:
+        case JackofallTrades:
             jackOfAllTrades(game, context, currentPlayer);
             break;
         case NobleBrigand:
