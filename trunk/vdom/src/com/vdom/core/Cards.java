@@ -33,7 +33,7 @@ public class Cards {
         // Cornucopia Expansion
         HornofPlenty, Fairgrounds, FarmingVillage, FortuneTeller, Hamlet, Harvest, HorseTraders, HuntingParty, Jester, Menagerie, Remake, Tournament, YoungWitch, BagofGold, Diadem, Followers, Princess, TrustySteed,
         // Hinterlands Expansion
-        BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackOfAllTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel
+        BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel
 
     }
 
@@ -396,7 +396,7 @@ public class Cards {
         actionCardsHinterlands.add(highway = new ActionCardImpl.Builder(Cards.Type.Highway, 5).addCards(1).addActions(1).description("While this is in play, cards cost 1 coin less, but not less than 0 coin.").expansion("Hinterlands").build());
         actionCardsHinterlands.add(illGottenGains = new TreasureCardImpl.Builder(Cards.Type.IllGottenGains, 5, 1).description("When you play this, you may gain a Copper, putting it into your hand - When you gain this, each other player gains a Curse.").expansion("Hinterlands").build());
         actionCardsHinterlands.add(inn = new ActionCardImpl.Builder(Cards.Type.Inn, 5).addCards(2).addActions(2).description("Discard 2 cards - When you gain this, look through your discard pile (including this), reveal any number of Action cards from it, and shuffle them into your deck.").expansion("Hinterlands").build());
-        actionCardsHinterlands.add(jackOfAllTrades = new ActionCardImpl.Builder(Cards.Type.JackOfAllTrades, 4).description("Gain a Silver. Look at the top card of your deck; discard it or put it back. Draw until you have 5 cards in hand. You may trash a card from your hand that is not a Treasure.").expansion("Hinterlands").build());
+        actionCardsHinterlands.add(jackOfAllTrades = new ActionCardImpl.Builder(Cards.Type.JackofallTrades, 4).description("Gain a Silver. Look at the top card of your deck; discard it or put it back. Draw until you have 5 cards in hand. You may trash a card from your hand that is not a Treasure.").expansion("Hinterlands").build());
         actionCardsHinterlands.add(mandarin = new ActionCardImpl.Builder(Cards.Type.Mandarin, 5).addGold(3).description("Put a card from your hand on top of your deck - When you gain this, put all Treasures you have in play on top of your deck in any order.").expansion("Hinterlands").build());
         actionCardsHinterlands.add(margrave = new ActionCardImpl.Builder(Cards.Type.Margrave, 5).addCards(3).addBuys(1).attack().description("Each other player draws a card, then discards down to 3 cards in hand.").expansion("Hinterlands").build());
         actionCardsHinterlands.add(nobleBrigand = new ActionCardImpl.Builder(Cards.Type.NobleBrigand, 4).addGold(1).attack().description("When you buy this or play it, each other player reveals the top 2 cards of his deck, trashes a revealed Silver or Gold you choose, and discards the rest. If he didn't reveal a Treasure, he gains a Copper. You gain the trashed cards.").expansion("Hinterlands").build());
