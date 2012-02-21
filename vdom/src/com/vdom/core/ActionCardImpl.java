@@ -447,7 +447,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case YoungWitch:
             youngwitch(game, context, currentPlayer);
             break;
-        case BagOfGold:
+        case BagofGold:
             currentPlayer.gainNewCard(Cards.gold, this, context);
             break;
         case Followers:

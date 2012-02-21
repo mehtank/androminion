@@ -31,7 +31,7 @@ public class Cards {
         // Prosperity Expansion
         Bank, Bishop, City, Contraband, CountingHouse, Expand, Forge, Goons, GrandMarket, Hoard, KingsCourt, Loan, Mint, Monument, Mountebank, Peddler, Quarry, Rabble, RoyalSeal, Talisman, TradeRoute, Vault, Venture, WatchTower, WorkersVillage,
         // Cornucopia Expansion
-        HornOfPlenty, Fairgrounds, FarmingVillage, FortuneTeller, Hamlet, Harvest, HorseTraders, HuntingParty, Jester, Menagerie, Remake, Tournament, YoungWitch, BagOfGold, Diadem, Followers, Princess, TrustySteed,
+        HornofPlenty, Fairgrounds, FarmingVillage, FortuneTeller, Hamlet, Harvest, HorseTraders, HuntingParty, Jester, Menagerie, Remake, Tournament, YoungWitch, BagofGold, Diadem, Followers, Princess, TrustySteed,
         // Hinterlands Expansion
         BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackOfAllTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel
 
@@ -366,7 +366,7 @@ public class Cards {
         actionCardsCornucopia.add(fortuneTeller = new ActionCardImpl.Builder(Cards.Type.FortuneTeller, 3).addGold(2).attack().description("Each other player reveals cards from the top of his deck until he reveals a Victory or Curse card.  He puts it on top and discards the other revealed cards.").expansion("Cornucopia").build());
         actionCardsCornucopia.add(hamlet = new ActionCardImpl.Builder(Cards.Type.Hamlet, 2).addActions(1).addCards(1).description("You may discard a card; if you do +1 Action.  You may discard a card; if you do +1 Buy.").expansion("Cornucopia").build());
         actionCardsCornucopia.add(harvest = new ActionCardImpl.Builder(Cards.Type.Harvest, 5).description("Reveal the top 4 cards of your deck, then discard them.  +1 coin per differently named card revealed.").expansion("Cornucopia").build());
-        actionCardsCornucopia.add(hornOfPlenty = new TreasureCardImpl.Builder(Cards.Type.HornOfPlenty, 5, 0).description("When you play this, gain a card costing up to 1 coin per differently named card you have in play, counting this.  If it's a Victory card, trash this.").expansion("Cornucopia").build());
+        actionCardsCornucopia.add(hornOfPlenty = new TreasureCardImpl.Builder(Cards.Type.HornofPlenty, 5, 0).description("When you play this, gain a card costing up to 1 coin per differently named card you have in play, counting this.  If it's a Victory card, trash this.").expansion("Cornucopia").build());
         actionCardsCornucopia.add(horseTraders = new ActionCardImpl.Builder(Cards.Type.HorseTraders, 4).addBuys(1).addGold(3).description("Discard 2 cards.  When another player plays an Attack card, you may set this aside from your hand.  If you do, then at the start of your next turn, +1 Card and return this to your hand.").expansion("Cornucopia").build());
         actionCardsCornucopia.add(huntingParty = new ActionCardImpl.Builder(Cards.Type.HuntingParty, 5).addActions(1).addCards(1).description("Reveal your hand.  Reveal cards from your deck until you reveal a card that isn't a duplicate of one in your hand.  Put it into your hand and discard the rest.").expansion("Cornucopia").build());
         actionCardsCornucopia.add(jester = new ActionCardImpl.Builder(Cards.Type.Jester, 5).addGold(2).attack().description("Each other player discards the top card of his deck.  If it's a Victory card, he gains a Curse.  Otherwise either he gains a copy of the discarded card or you do, your choice.").expansion("Cornucopia").build());
@@ -376,7 +376,7 @@ public class Cards {
         actionCardsCornucopia.add(youngWitch = new ActionCardImpl.Builder(Cards.Type.YoungWitch, 4).addCards(2).attack().description("Discard 2 cards.  Each other player may reveal a Bane card from his hand.  If he doesn't, he gains a Curse.  Setup:  Add an extra Kingdom card pile costing 2 or 3 coins to the Supply.  Cards from that pile are Bane cards.").expansion("Cornucopia").build());
 
         // Prizes
-        prizeCards.add(bagOfGold = new ActionCardImpl.Builder(Cards.Type.BagOfGold, 0).addActions(1).isPrize().description("Gain a Gold, putting it on top of your deck.  (This is not in the Supply.)").expansion("Cornucopia").build());
+        prizeCards.add(bagOfGold = new ActionCardImpl.Builder(Cards.Type.BagofGold, 0).addActions(1).isPrize().description("Gain a Gold, putting it on top of your deck.  (This is not in the Supply.)").expansion("Cornucopia").build());
         prizeCards.add(diadem = new TreasureCardImpl.Builder(Cards.Type.Diadem, 0, 2).isPrize().description("When you play this, +1 coin per unused Action you have (Action, not Action card).  (This is not in the Supply.)").expansion("Cornucopia").build());
         prizeCards.add(followers = new ActionCardImpl.Builder(Cards.Type.Followers, 0).addCards(2).attack().isPrize().description("Gain an Estate.  Each other player gains a Curse and discards down to 3 cards in hand.  (This is not in the Supply.)").expansion("Cornucopia").build());
         prizeCards.add(princess = new ActionCardImpl.Builder(Cards.Type.Princess, 0).addBuys(1).isPrize().description("While this is in play, cards cost 2 coins less, but not less than 0.  (This is not in the Supply.)").expansion("Cornucopia").build());
