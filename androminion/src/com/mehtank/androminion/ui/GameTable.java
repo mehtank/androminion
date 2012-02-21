@@ -31,6 +31,7 @@ import com.vdom.comms.Event;
 import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
+import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.comms.Event.EventObject;
 
 public class GameTable extends LinearLayout implements OnClickListener, OnLongClickListener, OnSharedPreferenceChangeListener {
@@ -61,6 +62,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	LinearLayout deckStatus;
 	TurnView turnStatus;
 	Button select, pass;
+    String indicator;
 	GameScrollerView gameScroller;
 	TextView latestTurn;
 	SelectStringView sv;
@@ -157,7 +159,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	private LinearLayout makeTurnPanel(Context top) {
     	select = new Button(top);
     	select.setVisibility(INVISIBLE);
-    	select.setText(SelectCardOptions.SELECT);
+        setSelectText(SelectCardOptions.PickType.SELECT);
         select.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { cardSelected((Button) v); }
         });
@@ -426,12 +428,12 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			top.alert(AlertType.CLICK);
 			if (openedCards.contains(clickedCard))
 				openedCards.remove(clickedCard);
-			clickedCard.setOpened(false, -1);
+            clickedCard.setOpened(false, sco.getPickType().indicator());
 			if (openedCards.size() == 0) {
-			    if(sco != null && sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL)) {
-			        select.setText(SelectCardOptions.SELECT_WITH_ALL);
-                } else if (sco != null && sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL)) {
-                    select.setText(SelectCardOptions.PLAY_WITH_ALL);
+                if (sco.getPickType() == SelectCardOptions.PickType.SELECT_WITH_ALL) {
+                    setSelectText(SelectCardOptions.PickType.SELECT_WITH_ALL);
+                } else if (sco.getPickType() == SelectCardOptions.PickType.PLAY_WITH_ALL) {
+                    setSelectText(SelectCardOptions.PickType.PLAY_WITH_ALL);
                 } else {
 			        cannotSelect();
 			    }
@@ -442,26 +444,26 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			if (isAcceptable(sco, clickedCard)) {
 				top.alert(AlertType.CLICK);
 				if (openedCards.size() >= maxOpened) {
-					openedCards.get(0).setOpened(false, -1);
+                    openedCards.get(0).setOpened(false, sco.getPickType().indicator());
 					openedCards.remove(0);
 				}
-				clickedCard.setOpened(true, -1);
+                clickedCard.setOpened(true, sco.getPickType().indicator());
 				openedCards.add(clickedCard);
 				if (!exactOpened && (openedCards.size() > 0))
 					canSelect();
 				else if (exactOpened && (openedCards.size() == maxOpened))
 					canSelect();
 				
-                if(sco != null && sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL)) {
-                    select.setText(SelectCardOptions.SELECT);
-                } else if (sco != null && sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL)) {
-                    select.setText(SelectCardOptions.PLAY);
+                if (sco.getPickType() == SelectCardOptions.PickType.SELECT_WITH_ALL) {
+                    setSelectText(SelectCardOptions.PickType.SELECT);
+                } else if (sco.getPickType() == SelectCardOptions.PickType.PLAY_WITH_ALL) {
+                    setSelectText(SelectCardOptions.PickType.PLAY);
                 }
 			}
 		}
 		if (sco.ordered)
 			for (CardView c : openedCards)
-				c.setOpened(true, openedCards.indexOf(c));
+                c.setOpened(true, openedCards.indexOf(c), sco.getPickType().indicator());
 	}
 
 	boolean isAcceptable(SelectCardOptions sco, CardView cv) {
@@ -495,28 +497,27 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		CharSequence selectText = select.getText();
 		pass.setText(selectText.subSequence(0, selectText.length()-1));
 
-		if (sco != null && sco.getButtonText() != null) 
-            setSelectText(sco.getButtonText());
-		else 
-            setSelectText(SelectCardOptions.SELECT);
-
-		if(sco != null && sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL)) 
-            canSelect();
-        else if (sco != null && sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL))
-            canSelect();
-		else
-		    cannotSelect();
-		
+        if (sco == null || sco.pickType == null) {
+            setSelectText(PickType.SELECT);
+        } else if (sco.pickType != null) {
+            setSelectText(sco.pickType);
+            if (sco.pickType == PickType.SELECT_WITH_ALL || sco.pickType == PickType.PLAY_WITH_ALL) {
+                canSelect();
+            } else {
+                cannotSelect();
+            }
+        }
 		actionText.setText(prompt);
 		canClick = true;
 	}
+
 	void passButtons() {
-		select.setText(pass.getText() + "!");	
+        select.setText(pass.getText() + "!");
 		pass.setText(Strings.getString(top, R.string.confirm_no));
 		actionText.setText(Strings.getString(top, R.string.confirmation));
 
 		for (CardView cv : openedCards)
-			cv.setOpened(false, -1);
+            cv.setOpened(false, sco.getPickType().indicator());
 		openedCards.clear();
 
 		canClick = false;
@@ -539,12 +540,12 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 					cards[i] = cv.c.id;
 				}
 				
-				if(sco != null && sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL) && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
+                if (sco.getPickType() == PickType.SELECT_WITH_ALL && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
 				    // Hack to notify that "All" was selected
 	                top.handle(new Event(Event.EType.CARD)
 	                            .setInteger(1)
 	                            .setObject(new EventObject(new int[] { -1 })));
-                } else if (sco != null && sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL) && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
+                } else if (sco.getPickType() == PickType.PLAY_WITH_ALL && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
                     // Hack to notify that "All" was selected
                     top.handle(new Event(Event.EType.CARD).setInteger(1).setObject(new EventObject(new int[] { -1 })));
                 } else {
@@ -568,7 +569,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			return;
 
 		for (CardView cv : openedCards)
-			cv.setOpened(false, -1);
+            cv.setOpened(false, sco.getPickType().indicator());
 		openedCards.clear();
 		sco = null;
 		pass.setVisibility(INVISIBLE);
@@ -593,10 +594,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		firstPass = false;
 		resetButtons();
 		
-        if (sco != null) {
-            if(sco.getButtonText() != null) {
-                setSelectText(sco.getButtonText());
-            }
+        if (sco != null && sco.getPickType() != null) {
+            setSelectText(sco.getPickType());
+        } else {
+            setSelectText(PickType.SELECT);
         }
         
 		top.alert(AlertType.SELECT);
@@ -607,40 +608,55 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		} else
 			pass.setVisibility(INVISIBLE);
 		
-        if (sco.getButtonText().equals(SelectCardOptions.SELECT_WITH_ALL) || sco.getButtonText().equals(SelectCardOptions.PLAY_WITH_ALL)) {
+        if (sco.getPickType() == SelectCardOptions.PickType.SELECT_WITH_ALL || sco.getPickType() == SelectCardOptions.PickType.PLAY_WITH_ALL) {
 		    canSelect();
 		}
 	}
 	
-	public void setSelectText(String key) {
-	    // TODO: Change key from string to enum
-	    String text;
-	    if(key.equals(SelectCardOptions.SELECT)) {
-	        text = Strings.getString(top, R.string.select_button);
-	    } else if(key.equals(SelectCardOptions.BUY)) {
+    public void setSelectText(SelectCardOptions.PickType key) {
+        indicator = key.indicator();
+        String text;
+
+        switch (key) {
+        case SELECT:
+            text = Strings.getString(top, R.string.select_button);
+            break;
+        case BUY:
             text = Strings.getString(top, R.string.buy_button);
-        } else if(key.equals(SelectCardOptions.PLAY)) {
+            break;
+        case PLAY:
             text = Strings.getString(top, R.string.play_button);
-        } else if(key.equals(SelectCardOptions.DISCARD)) {
+            break;
+        case DISCARD:
             text = Strings.getString(top, R.string.discard_button);
-        } else if(key.equals(SelectCardOptions.KEEP)) {
+            break;
+        case KEEP:
             text = Strings.getString(top, R.string.keep_button);
-        } else if(key.equals(SelectCardOptions.GIVE)) {
+            break;
+        case GIVE:
             text = Strings.getString(top, R.string.give_button);
-        } else if(key.equals(SelectCardOptions.TRASH)) {
+            break;
+        case TRASH:
             text = Strings.getString(top, R.string.trash_button);
-        } else if(key.equals(SelectCardOptions.UPGRADE)) {
+            break;
+        case UPGRADE:
             text = Strings.getString(top, R.string.upgrade_button);
-        } else if(key.equals(SelectCardOptions.MINT)) {
+            break;
+        case MINT:
             text = Strings.getString(top, R.string.mint_button);
-        } else if(key.equals(SelectCardOptions.SWINDLE)) {
+            break;
+        case SWINDLE:
             text = Strings.getString(top, R.string.swindle_button);
-        } else if(key.equals(SelectCardOptions.SELECT_WITH_ALL)) {
+            break;
+        case SELECT_WITH_ALL:
             text = Strings.getString(top, R.string.all_button);
-        } else if (key.equals(SelectCardOptions.PLAY_WITH_ALL)) {
+            break;
+        case PLAY_WITH_ALL:
             text = Strings.getString(top, R.string.play_button);
-        } else {
-            text = key;
+            break;
+        default:
+            text = "";
+            break;
         }
         select.setText(text);
 	}

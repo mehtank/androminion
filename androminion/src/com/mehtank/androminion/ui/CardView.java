@@ -253,14 +253,16 @@ public class CardView extends FrameLayout {
 		return lc.onLongClick(this);
 	}
 
-	public void setOpened(boolean o, int order) {
+    public void setOpened(boolean o, String indicator) {
+        setOpened(o, -1, indicator);
+    }
+
+    public void setOpened(boolean o, int order, String indicator) {
 		opened = o;
 		if (order > 0)
 			checked.setText(" " + (order+1));
-		else if (order == 0)
-			checked.setText(" T");
 		else
-			checked.setText("");
+            checked.setText(indicator);
 		
 		setChecked();
 	}
