@@ -103,11 +103,11 @@ public class CardView extends FrameLayout {
 			checked = new TextView(top);
 			checked.setTextColor(Color.RED);
 			checked.setTypeface(Typeface.DEFAULT_BOLD);
+            checked.setBackgroundResource(android.R.drawable.arrow_down_float);
 			if (opened)
 				checked.setVisibility(VISIBLE);
 			else
 				checked.setVisibility(INVISIBLE);
-			checked.setBackgroundResource(android.R.drawable.arrow_down_float);
 			
 			p = new FrameLayout.LayoutParams(
 					FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -238,13 +238,6 @@ public class CardView extends FrameLayout {
 			colorBox.setBackgroundColor(bgColor);
 	}
 
-	private void setChecked() {
-		if (opened) 
-			checked.setVisibility(VISIBLE);
-		else 
-			checked.setVisibility(INVISIBLE);
-	}
-
 	protected void click(View arg0) {
 		gt.onClick(this);
 	}
@@ -264,7 +257,10 @@ public class CardView extends FrameLayout {
 		else
             checked.setText(indicator);
 		
-		setChecked();
+        if (opened)
+            checked.setVisibility(VISIBLE);
+        else
+            checked.setVisibility(INVISIBLE);
 	}
 	
 	public void setSize(int s) {

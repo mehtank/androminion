@@ -49,10 +49,7 @@ public class OrderCardsView extends BottomInputView implements OnClickListener {
 			cs[i] = cards[orderedCards.get(i)];
     	GameTableViews.newCardGroup(ordered, cs);
     	
-//		if (orderedCards.size() == cards.length)
-			canSelect();
-//		else
-//			cannotSelect();
+        canSelect();
 	}
 	
 	public OrderCardsView (Androminion top, OnLongClickListener lc, String header, int[] cards) {
