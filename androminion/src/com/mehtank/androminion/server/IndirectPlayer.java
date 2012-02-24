@@ -229,7 +229,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	return getFromHand(context, header, passString, ANYFROMHAND, count, exact, false);
     }
     public Card[] getOrderedFromHand(MoveContext context, String header, String passString, int count, boolean exact) {
-    	return getFromHand(context, header, passString, ANYFROMHAND, count, exact, true);
+        return getFromHand(context, header, passString, ANYFROMHAND, count, exact, true, PickType.SELECT_IN_ORDER);
     }
     public Card getAnyFromHand(MoveContext context, String header, String passString) {
         return getAnyFromHand(context, header, passString, SelectCardOptions.PickType.SELECT);
@@ -512,7 +512,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if (actionCount == 0)
             return null;
 
-        Card[] cards = getFromHand(context, getString(R.string.part_play), getString(R.string.none), ACTIONFROMHAND, 1, true, false, (actionCount == 1) ? SelectCardOptions.PickType.PLAY_WITH_ALL : SelectCardOptions.PickType.PLAY, true);
+        Card[] cards = getFromHand(context, getString(R.string.part_play), getString(R.string.none), ACTIONFROMHAND, 1, false, false, SelectCardOptions.PickType.PLAY, true);
         if (cards == null)
             return null;
 
@@ -537,7 +537,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if (actionCount == 0) 
             return null;
         
-        Card[] cards = getFromHand(context, getString(R.string.part_play), getString(R.string.none), ACTIONFROMHAND, actionCount, false, true, SelectCardOptions.PickType.PLAY_WITH_ALL, true);
+        Card[] cards = getFromHand(context, getString(R.string.part_play), getString(R.string.none), ACTIONFROMHAND, actionCount, false, true, SelectCardOptions.PickType.PLAY_IN_ORDER, true);
         if (cards == null) {
             return null;
         }

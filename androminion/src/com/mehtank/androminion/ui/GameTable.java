@@ -413,7 +413,6 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	}
 	public void onClick(View v) {
 		CardView clickedCard = (CardView) v;
-		boolean opened = clickedCard.opened;
 		
 		if (clickedCard.c == null)
 			return;
@@ -424,22 +423,12 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		if (!canClick) 
 			return;
 		
-		if (opened) {
+        if (clickedCard.opened) {
 			top.alert(AlertType.CLICK);
 			if (openedCards.contains(clickedCard))
 				openedCards.remove(clickedCard);
             clickedCard.setOpened(false, sco.getPickType().indicator());
-			if (openedCards.size() == 0) {
-                if (sco.getPickType() == SelectCardOptions.PickType.SELECT_WITH_ALL) {
-                    setSelectText(SelectCardOptions.PickType.SELECT_WITH_ALL);
-                } else if (sco.getPickType() == SelectCardOptions.PickType.PLAY_WITH_ALL) {
-                    setSelectText(SelectCardOptions.PickType.PLAY_WITH_ALL);
-                } else {
-			        cannotSelect();
-			    }
-			}
-			else if (exactOpened && (openedCards.size() != maxOpened))
-				cannotSelect();
+            selectButtonState();
 		} else {
 			if (isAcceptable(sco, clickedCard)) {
 				top.alert(AlertType.CLICK);
@@ -449,16 +438,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 				}
                 clickedCard.setOpened(true, sco.getPickType().indicator());
 				openedCards.add(clickedCard);
-				if (!exactOpened && (openedCards.size() > 0))
-					canSelect();
-				else if (exactOpened && (openedCards.size() == maxOpened))
-					canSelect();
-				
-                if (sco.getPickType() == SelectCardOptions.PickType.SELECT_WITH_ALL) {
-                    setSelectText(SelectCardOptions.PickType.SELECT);
-                } else if (sco.getPickType() == SelectCardOptions.PickType.PLAY_WITH_ALL) {
-                    setSelectText(SelectCardOptions.PickType.PLAY);
-                }
+                selectButtonState();
 			}
 		}
 		if (sco.ordered)
@@ -496,17 +476,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	void resetButtons() {
 		CharSequence selectText = select.getText();
 		pass.setText(selectText.subSequence(0, selectText.length()-1));
-
-        if (sco == null || sco.pickType == null) {
-            setSelectText(PickType.SELECT);
-        } else if (sco.pickType != null) {
-            setSelectText(sco.pickType);
-            if (sco.pickType == PickType.SELECT_WITH_ALL || sco.pickType == PickType.PLAY_WITH_ALL) {
-                canSelect();
-            } else {
-                cannotSelect();
-            }
-        }
+        selectButtonState();
 		actionText.setText(prompt);
 		canClick = true;
 	}
@@ -545,7 +515,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	                top.handle(new Event(Event.EType.CARD)
 	                            .setInteger(1)
 	                            .setObject(new EventObject(new int[] { -1 })));
-                } else if (sco.getPickType() == PickType.PLAY_WITH_ALL && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
+                } else if ((sco.getPickType() == PickType.PLAY_IN_ORDER || sco.getPickType() == PickType.PLAY) && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
                     // Hack to notify that "All" was selected
                     top.handle(new Event(Event.EType.CARD).setInteger(1).setObject(new EventObject(new int[] { -1 })));
                 } else {
@@ -594,12 +564,6 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		firstPass = false;
 		resetButtons();
 		
-        if (sco != null && sco.getPickType() != null) {
-            setSelectText(sco.getPickType());
-        } else {
-            setSelectText(PickType.SELECT);
-        }
-        
 		top.alert(AlertType.SELECT);
 		select.setVisibility(VISIBLE);
 		if (sco.isPassable()) {
@@ -608,10 +572,46 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		} else
 			pass.setVisibility(INVISIBLE);
 		
-        if (sco.getPickType() == SelectCardOptions.PickType.SELECT_WITH_ALL || sco.getPickType() == SelectCardOptions.PickType.PLAY_WITH_ALL) {
-		    canSelect();
-		}
+        selectButtonState();
 	}
+
+    protected void selectButtonState() {
+        if (sco == null || sco.pickType == null) {
+            setSelectText(PickType.SELECT);
+            canSelect();
+            return;
+        }
+
+        // nothing picked yet
+        if (openedCards.size() == 0) {
+            setSelectText(sco.pickType);
+            if (sco.pickType == SelectCardOptions.PickType.SELECT_WITH_ALL) {
+                canSelect();
+            } else if (sco.pickType == SelectCardOptions.PickType.PLAY && maxOpened == 1 && sco.allowedCards.size() == 1) {
+                canSelect();
+            } else if (sco.pickType == SelectCardOptions.PickType.PLAY_IN_ORDER && maxOpened == 1) {
+                canSelect();
+            } else {
+                cannotSelect();
+            }
+            return;
+        }
+
+        // something picked
+        if (sco.pickType == SelectCardOptions.PickType.SELECT_WITH_ALL) {
+            setSelectText(PickType.SELECT);
+        } else if (sco.getPickType() == SelectCardOptions.PickType.PLAY_IN_ORDER) {
+            setSelectText(SelectCardOptions.PickType.PLAY);
+        } else {
+            setSelectText(sco.pickType);
+        }
+
+        if (exactOpened && (openedCards.size() != maxOpened)) {
+            cannotSelect();
+        } else {
+            canSelect();
+		}
+    }
 	
     public void setSelectText(SelectCardOptions.PickType key) {
         indicator = key.indicator();
@@ -619,13 +619,18 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 
         switch (key) {
         case SELECT:
+        case SELECT_IN_ORDER:
             text = Strings.getString(top, R.string.select_button);
+            break;
+        case SELECT_WITH_ALL:
+            text = Strings.getString(top, R.string.all_button);
+            break;
+        case PLAY:
+        case PLAY_IN_ORDER:
+            text = Strings.getString(top, R.string.play_button);
             break;
         case BUY:
             text = Strings.getString(top, R.string.buy_button);
-            break;
-        case PLAY:
-            text = Strings.getString(top, R.string.play_button);
             break;
         case DISCARD:
             text = Strings.getString(top, R.string.discard_button);
@@ -647,12 +652,6 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
             break;
         case SWINDLE:
             text = Strings.getString(top, R.string.swindle_button);
-            break;
-        case SELECT_WITH_ALL:
-            text = Strings.getString(top, R.string.all_button);
-            break;
-        case PLAY_WITH_ALL:
-            text = Strings.getString(top, R.string.play_button);
             break;
         default:
             text = "";

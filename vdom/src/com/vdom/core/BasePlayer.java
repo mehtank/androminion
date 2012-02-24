@@ -1129,7 +1129,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return Cards.platinum;
         } else if (turnCount > midGame && !cantBuy.contains(Cards.province)) {
             return Cards.province;
-        } else if (!cantBuy.contains(Cards.gold)) {
+        } else if (game.colonyInPlay && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
+            return Cards.platinum;
+        } else if (turnCount > midGame && game.pileSize(Cards.duchy) > 0 && !cantBuy.contains(Cards.duchy)) {
+            return Cards.duchy;
+        } else if (game.pileSize(Cards.gold) > 0 && !cantBuy.contains(Cards.gold)) {
             return Cards.gold;
         } else if (turnCount > midGame && !cantBuy.contains(Cards.duchy)) {
             return Cards.duchy;

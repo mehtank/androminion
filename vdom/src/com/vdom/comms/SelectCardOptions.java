@@ -9,44 +9,27 @@ public class SelectCardOptions implements Serializable {
 	private static final long serialVersionUID = -1473106875075390348L;
 
     public enum PickType {
-        SELECT("Select", ""),
-		BUY ("  Buy  ", ""),
-		PLAY (" Play ", ""),
-		DISCARD ("Discard", " D"),
-		KEEP ("Keep", " K"),
-		GIVE ("Give", " P"),
-		TRASH ("Trash", " X"),
-		UPGRADE ("Upgrade", ""),
-		MINT ("Mint", ""),
-		SWINDLE ("Swindle", ""),
+        SELECT(""),
+        SELECT_WITH_ALL(" T"), 
+        SELECT_IN_ORDER(" T"),
+        PLAY (""),
+        PLAY_IN_ORDER(" 1"),
+		BUY (""),
+		DISCARD (" D"),
+		KEEP (" K"),
+		GIVE (" P"),
+		TRASH (" X"),
+		UPGRADE ("X"),
+		MINT ("M"),
+		SWINDLE ("");
 
-        SELECT_WITH_ALL("All", " T"), PLAY_WITH_ALL("Play", " T");
-
-	    private final String buttonText;
 	    private final String indicator;
-	    PickType(String buttonText, String indicator) {
-	        this.buttonText = buttonText;
+	    PickType(String indicator) {
 	        this.indicator= indicator;
 	    }
-	    public String buttonText()   { return buttonText; }
 	    public String indicator() { return indicator; }
 	}
 	
-    // Select button text constants
-    // public static final String SELECT = "Select";
-    // public static final String BUY = "  Buy  ";
-    // public static final String PLAY = " Play ";
-    // public static final String DISCARD = "Discard";
-    // public static final String KEEP = "Keep";
-    // public static final String GIVE = "Give";
-    // public static final String TRASH = "Trash";
-    // public static final String UPGRADE = "Upgrade";
-    // public static final String MINT = "Mint";
-    // public static final String SWINDLE = "Swindle";
-    //
-    // public static final String SELECT_WITH_ALL = "All";
-    // public static final String PLAY_WITH_ALL = "Play";
-    
     public PickType pickType = PickType.SELECT;
 
 	public boolean fromHand = false;
@@ -62,7 +45,6 @@ public class SelectCardOptions implements Serializable {
 	public boolean isVictory = false;
 	public String passString = null;
 	public boolean ordered = false;
-    public String letterString = "T";
 	public int quarriesPlayed = 0;
 	public boolean buyPhase = false;
 	public int actionsInPlay = 0;
@@ -79,7 +61,6 @@ public class SelectCardOptions implements Serializable {
 	public SelectCardOptions isVictory() {isVictory = true; return this;}
 	public SelectCardOptions setPassable(String s) {passString = s; return this;}
 	public SelectCardOptions ordered() {ordered = true; return this;}
-    public SelectCardOptions setLetter(String s) {letterString = s;return this;}
 	public SelectCardOptions maxCost(int c) {maxCost = c; return this;}
 	public SelectCardOptions minCost(int c) {minCost = c; return this;}
 	public SelectCardOptions potionCost(int c) {potionCost = c; return this;}
@@ -98,9 +79,6 @@ public class SelectCardOptions implements Serializable {
     public PickType getPickType() {
         return pickType;
     }
-    // public SelectCardOptions buttonText(String buttonText) { this.buttonText
-    // = pickType.buttonText; return this; };
-    // public String getButtonText() { return pickType.buttonText; };
 	
 	public boolean cardInList(int card) {
 		if (allowedCards.size() == 0)
