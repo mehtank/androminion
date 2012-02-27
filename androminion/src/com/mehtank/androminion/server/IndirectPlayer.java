@@ -503,7 +503,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card doAction(MoveContext context) {
         int actionCount = 0;
         Card actionCard = null;
-        for (Card card : getHand()) {
+        for (Card card : context.player.getHand()) {
             if (card instanceof ActionCard) {
                 actionCount++;
                 actionCard = card;
@@ -528,7 +528,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card[] actionCardsToPlayInOrder(MoveContext context) {
         int actionCount = 0;
         Card actionCard = null;
-        for (Card card : getHand()) {
+        for (Card card : context.player.getHand()) {
             if (card instanceof ActionCard) {
                 actionCount++;
                 actionCard = card;
