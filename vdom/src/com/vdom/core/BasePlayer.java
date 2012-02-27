@@ -97,47 +97,39 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed) {
+        return bestCardInPlay(context, maxCost, exactCost, potion, actionOnly, victoryCardAllowed, maxCost);
+    }
+
+    protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, int maxCostWithoutPotion) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
-            maxCost = COST_MAX;
+            maxCost = maxCostWithoutPotion = COST_MAX;
         }
-
         Card[] cards = context.getCardsInPlay();
-        int cost = maxCost;
+        int cost = maxCostWithoutPotion;
         int highestCost = 0;
         ArrayList<Card> randList = new ArrayList<Card>();
         
         while (cost >= 0) {
             for (Card card : cards) {
-                if (card.getCost(context) == cost && context.getCardsLeft(card) > 0) {
-                    if(card.equals(Cards.potion)) {
-                        if(!shouldBuyPotion()) {
-                            continue;
-                        }
-                    }
-                    
-                    if(card.equals(Cards.curse)) {
+                int cardCost = card.getCost(context);
+                if (cardCost == cost && context.getCardsLeft(card) > 0) {
+                    if (card.equals(Cards.curse) || card.isPrize() || isTrashCard(card) || (card.equals(Cards.potion) && !shouldBuyPotion())) {
                         continue;
                     }
-                    
-                    if(card.isPrize()) {
+
+                    if ((actionOnly && !(card instanceof ActionCard)) || (!victoryCardAllowed && (card instanceof VictoryCard))) {
                         continue;
                     }
-                    
-                    if(isTrashCard(card)) {
-                        continue;
-                    }
-                    
-                    if ((card.costPotion() && potion) || (!card.costPotion() && !potion) || (!exactCost && potion)) {
-                        if (!actionOnly || card instanceof ActionCard) {
-                            if (victoryCardAllowed || !(card instanceof VictoryCard)) {
-                                if (!isBuy || context.canBuy(card)) {
-                                    if (highestCost == 0) {
-                                        highestCost = card.getCost(context);
-                                    }
+
+                    if ((!exactCost && potion) || (card.costPotion() && potion) || (!card.costPotion() && !potion)) {
+                        if ((cardCost <= maxCostWithoutPotion && !card.costPotion()) || (cardCost <= maxCost)) {
+                            if (!isBuy || context.canBuy(card)) {
+                                if (highestCost == 0) {
+                                    highestCost = cardCost;
                                 }
-                                randList.add(card);
                             }
+                            randList.add(card);
                         }
                     }
                 }
@@ -1749,7 +1741,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card haggler_cardToObtain(MoveContext context, int maxCost, boolean potion) {
         if (maxCost < 0)
             return null;
-        return bestCardInPlay(context, maxCost, false, potion, false, false);
+        return bestCardInPlay(context, maxCost, false, potion, false, false, potion ? maxCost + 1 : maxCost);
     }
     
     @Override

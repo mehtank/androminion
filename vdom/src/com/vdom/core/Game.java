@@ -1081,29 +1081,35 @@ public class Game {
         haggler(context, buy);
     }
     
-    private void haggler(MoveContext context, Card card) {
-        List<Card> hagglers = new ArrayList<Card>();
+    private void haggler(MoveContext context, Card cardBought) {
+        int hagglers = 0;
         for(Card c : context.getPlayedCards()) {
             if(c.equals(Cards.haggler)) {
-            	hagglers.add(c);
+                hagglers++;
             }
         }                    
         
-        for (int i = 0, hagglerSize = hagglers.size(); i < hagglerSize; i++) {
-        	int cost = card.getCost(context);
-        	boolean potion = card.costPotion();
-        	boolean found = false;
-        	for(Card cardInPlay : context.getCardsInPlay()) {
-        		if(cardInPlay.getCost(context) < cost && (potion || !cardInPlay.costPotion()) && context.getCardsLeft(cardInPlay) > 0 && !(cardInPlay instanceof VictoryCard)) {
-        			found = true;
-        			break;
+        int cost = cardBought.getCost(context);
+        boolean potion = cardBought.costPotion();
+        List<Card> validCards = new ArrayList<Card>();
+
+        for (int i = 0; i < hagglers; i++) {
+            validCards.clear();
+            for (Card card : context.getCardsInPlay()) {
+                if (!(card instanceof VictoryCard) && !card.isPrize() && context.getCardsLeft(card) > 0) {
+                    int gainCardCost = card.getCost(context);
+                    boolean gainCardPotion = card.costPotion();
+
+                    if (gainCardCost < cost || (gainCardCost == cost && !gainCardPotion && potion)) {
+                        validCards.add(card);
+                    }
         		}
         	}
 
-        	if(found) {
-        		Card toGain = context.getPlayer().haggler_cardToObtain(context, cost - 1, potion);
+            if (validCards.size() > 0) {
+                Card toGain = context.getPlayer().haggler_cardToObtain(context, cost - 1, potion);
         		if(toGain != null) {
-        			if(toGain.getCost(context) >= cost || (!potion && toGain.costPotion()) || context.getCardsLeft(toGain) == 0 || (toGain instanceof VictoryCard)) { 
+                    if (!validCards.contains(toGain)) {
         				Util.playerError(context.getPlayer(), "Invalid card returned from Haggler, ignoring.");
         			}
         			else {
