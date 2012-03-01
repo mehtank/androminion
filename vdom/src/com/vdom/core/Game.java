@@ -85,6 +85,9 @@ public class Game {
     public HashMap<String, CardPile> piles = new HashMap<String, CardPile>();
     public HashMap<String, Integer> embargos = new HashMap<String, Integer>();
     public ArrayList<Card> trashPile = new ArrayList<Card>();
+    public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
+    public ArrayList<Card> possessedBoughtPile = new ArrayList<Card>();
+
     public Card baneCard = null;
     double chanceForPlatColony = 0;
 
@@ -273,7 +276,7 @@ public class Game {
                     numCardsTotal += players[i].getAllCards().size();
                 }
                 totalCardCountGameEnd = totalCardCount();
-                // assert (totalCardCountGameBegin == totalCardCountGameEnd);
+                assert (totalCardCountGameBegin == totalCardCountGameEnd);
             }
 
         }
@@ -655,7 +658,7 @@ public class Game {
     }
 
     private static void printStats(HashMap<String, Double> wins, int gameCount, String gameType) {
-        if (test) {
+        if (!test || gameCount == 1) {
             return;
         }
 
@@ -1673,7 +1676,7 @@ public class Game {
                     }
 
                     if (player.isPossessed() && !Cards.masquerade.equals(event.responsible)) {
-                        context.possessedBoughtPile.add(event.card);
+                        possessedBoughtPile.add(event.card);
                         return;
                     }
 
