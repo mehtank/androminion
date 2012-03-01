@@ -101,7 +101,7 @@ public class CardSet {
 		do {
 			card = possibleCards.get(rand.nextInt(possibleCards.size()));
 			final int cost = card.getCost(null);
-			if(cost == 2 || cost == 3) {
+            if (!card.costPotion() && (cost == 2 || cost == 3)) {
 				baneCard = card;
 			}
 		} while(baneCard == null);
