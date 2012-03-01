@@ -38,9 +38,6 @@ public class MoveContext {
     public boolean buyPhase = false;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
 
-    public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
-    public ArrayList<Card> possessedBoughtPile = new ArrayList<Card>();
-    
     // For checking Achievements
     public int vpsGainedThisTurn = 0;
     public int cardsTrashedThisTurn = 0;
@@ -70,14 +67,6 @@ public class MoveContext {
         return lead;
     }
     
-    public void addToPossessedTrashPile(Card c) {
-        possessedTrashPile.add(c);
-    }
-
-    public void addToPossessedBoughtPile(Card c) {
-        possessedBoughtPile.add(c);
-    }
-
     public boolean isQuickPlay() {
         return Game.quickPlay;
     }

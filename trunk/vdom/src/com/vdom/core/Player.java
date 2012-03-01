@@ -330,11 +330,12 @@ public abstract class Player {
         }
         
         if (isPossessed()) {
-            while (!context.possessedTrashPile.isEmpty()) {
-                discard(context.possessedTrashPile.remove(0), null, null, false);
+            while (!game.possessedTrashPile.isEmpty()) {
+                discard(game.possessedTrashPile.remove(0), null, null, false);
             }
-            while (!context.possessedBoughtPile.isEmpty()) {
-                controlPlayer.discard(context.possessedBoughtPile.remove(0), null, null, false);
+            MoveContext controlContext = new MoveContext(game, controlPlayer);
+            while (!game.possessedBoughtPile.isEmpty()) {
+                controlPlayer.gainCardAlreadyInPlay(game.possessedBoughtPile.remove(0), Cards.possession, controlContext);
             }
         }
         // /////////////////////////////////
@@ -557,7 +558,7 @@ public abstract class Player {
             context.cardsTrashedThisTurn++;
         }
         if (isPossessed()) {
-            context.possessedTrashPile.add(card);
+            context.game.possessedTrashPile.add(card);
         } else {
             context.game.trashPile.add(card);
         }

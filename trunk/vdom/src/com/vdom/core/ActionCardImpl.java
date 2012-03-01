@@ -3832,7 +3832,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         
         if (trashed.size() > 0) {
             for (Card c : trashed) {
-                player.gainCardAlreadyInPlay(c, this, moveContext);
+                player.controlPlayer.gainCardAlreadyInPlay(c, this, moveContext);
                 context.game.trashPile.remove(c);
             }
         }
