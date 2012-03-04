@@ -395,6 +395,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int curPlayerIndex = allPlayers.indexOf(curPlayer);
         
         int numCards[] = new int[numPlayers];
+        int turnCounts[] = new int[numPlayers];
         int deckSizes[] = new int[numPlayers];
         int discardSizes[] = new int[numPlayers];
         int handSizes[] = new int[numPlayers];
@@ -407,6 +408,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         		handSizes[i] = p.getHand().size();
         	else
         		handSizes[i] = getVPs(p);
+            turnCounts[i] = p.getTurnCount();
         	deckSizes[i] = p.getDeckSize();
             discardSizes[i] = p.getDiscardSize();
         	numCards[i] = p.getAllCards().size();
@@ -424,6 +426,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     					 })
     	  .setFinal(isFinal)
           .setPossessed(curPlayer.isPossessed())
+          .setTurnCounts(turnCounts)
     	  .setSupplySizes(supplySizes)
     	  .setEmbargos(embargos)
     	  .setHand(cardArrToIntArr(hand.toArray()))
@@ -437,7 +440,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setVictoryTokens(victoryTokens)
     	  .setCardCostModifier(context.cardCostModifier)
     	  .setPotions(context.getPotionsForStatus(curPlayer))
-.setIsland(cardArrToIntArr(curPlayer.getIsland().toArray())).setVillage(cardArrToIntArr(curPlayer.getNativeVillage().toArray()));
+    	  .setIsland(cardArrToIntArr(curPlayer.getIsland().toArray())).setVillage(cardArrToIntArr(curPlayer.getNativeVillage().toArray()));
     	
     	Event p = new Event(EType.STATUS)
     				.setObject(new EventObject(gs));
@@ -508,6 +511,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     boolean gameOver = false;
     @Override
     public void gameEvent(GameEvent event) {
+        super.gameEvent(event);
+
     	MoveContext context = event.getContext();
 
     	boolean sendEvent = true;

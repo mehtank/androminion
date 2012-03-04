@@ -38,7 +38,6 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	Androminion top;
 
 	ArrayList<String> allPlayers = new ArrayList<String>();
-	ArrayList<Integer> turns = new ArrayList<Integer>();
 	
 	GridView handGV, playedGV, islandGV, villageGV;
 	CardGroup hand, played, island, village;
@@ -336,7 +335,6 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		island.clear();
 		village.clear();
 		allPlayers.clear();
-		turns.clear();
 		
 		actionText.setText("");
 		deckStatus.removeAllViews();
@@ -766,12 +764,12 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			if (gs.handSizes[i] > maxVP) {
 				winners.clear(); winners.add(i);
 				maxVP = gs.handSizes[i];
-				minTurns = turns.get(i);
+                minTurns = gs.turnCounts[i];
 			} else if (gs.handSizes[i] == maxVP) {
-				if (turns.get(i) < minTurns) {
+                if (gs.turnCounts[i] < minTurns) {
 					winners.clear(); winners.add(i);
-					minTurns = turns.get(i);
-				} else if (turns.get(i) == minTurns) 
+                    minTurns = gs.turnCounts[i];
+                } else if (gs.turnCounts[i] == minTurns)
 					winners.add(i);
 			}
 		}
@@ -796,7 +794,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 
-		FinalView fv = new FinalView(top, this, allPlayers.get(gs.whoseTurn), turns.get(gs.whoseTurn),
+        FinalView fv = new FinalView(top, this, allPlayers.get(gs.whoseTurn), gs.turnCounts[gs.whoseTurn],
 				gs.embargos,
 				gs.numCards[gs.whoseTurn], gs.supplySizes, 
 				gs.handSizes[gs.whoseTurn], won);
@@ -834,7 +832,6 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		
 		if (newTurn) {
 			myTurn = gs.whoseTurn == 0;
-			turns.set(gs.whoseTurn, turns.get(gs.whoseTurn) + 1);
 			if (myTurn)
 				top.alert(AlertType.TURNBEGIN);
 		}
@@ -876,7 +873,6 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	}
 	private void addPlayer(String name) {
 		allPlayers.add(name);
-		turns.add(0);
 		dvs.add(new DeckView(top));
 		
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
