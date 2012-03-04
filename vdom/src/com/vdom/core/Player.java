@@ -66,6 +66,10 @@ public abstract class Player {
         return getMyCardCount(Cards.copper) + getMyCardCount(Cards.silver) * 2 + getMyCardCount(Cards.gold) * 3 + getMyCardCount(Cards.platinum) * 5;
     }
 
+    public int getTurnCount() {
+        return turnCount;
+    }
+
     public ArrayList<Card> getActionCards(Card[] cards) {
         ArrayList<Card> actionCards = new ArrayList<Card>();
         for (Card card : cards) {
