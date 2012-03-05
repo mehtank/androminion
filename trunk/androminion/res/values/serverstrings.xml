@@ -143,7 +143,7 @@
 	<string name="hamlet_part_discard_for_action">discard for +1 Action</string>
 	<string name="hamlet_part_discard_for_buy">discard for +1 Buy</string>
 	
-	<string name="vault_part_discard_for_gold">discard for Gold</string>
+	<string name="vault_part_discard_for_gold">discard for coins</string>
 	<string name="vault_part_discard_for_card">discard for +1 Card</string>
 	
 	<string name="lookout_query_trash">Select card to trash</string>
