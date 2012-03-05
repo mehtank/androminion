@@ -1071,10 +1071,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Card card = currentPlayer.controlPlayer.ambassador_revealedCard(context);
 
         if (card == null) {
-            return;
-        }
-
-        if (!currentPlayer.hand.contains(card)) {
+            card = Util.randomCard(currentPlayer.hand);
+        } else if (!currentPlayer.hand.contains(card)) {
             Util.playerError(currentPlayer, "Ambassador revealed card error, picking random card.");
             card = Util.randomCard(currentPlayer.hand);
         }
