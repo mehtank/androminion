@@ -22,6 +22,7 @@ public class MoveContext {
     public int potions;
     public int actionsPlayedSoFar = 0;
     public int treasuresPlayedSoFar = 0;
+    public int goldAvailable;
     public boolean copperPlayed = false;
     public int coppersmithsPlayed = 0;
     public int goonsPlayed = 0;
@@ -243,16 +244,21 @@ public class MoveContext {
         return count;
     }
     
-    public Card[] getActionsInPlay() {
-        ArrayList<Card> actions = new ArrayList<Card>();
+    public Card[] getCardsInPlay() {
+        return getCardsInPlay(null);
+    }
 
+    public Card[] getCardsInPlay(Class<?> c) {
+        ArrayList<Card> cards = new ArrayList<Card>();
         for (CardPile pile : game.piles.values()) {
-            if (pile.card instanceof ActionCard) {
-                actions.add(pile.card);
-            }
+            if (c == null || c.isInstance(pile.card))
+                cards.add(pile.card);
         }
+        return cards.toArray(new Card[0]);
+    }
 
-        return actions.toArray(new Card[0]);
+    public Card[] getActionsInPlay() {
+        return getCardsInPlay(ActionCard.class);
     }
 
     public boolean cardInPlay(Card card) {
@@ -266,17 +272,8 @@ public class MoveContext {
         return cardInPlay;
     }
 
-    public Card[] getCardsInPlay() {
-        ArrayList<Card> cards = new ArrayList<Card>();
-
-        for (CardPile pile : game.piles.values()) {
-            cards.add(pile.card);
-        }
-
-//        if (game.banePile != null) {
-//            cards.add(game.banePile.card);
-//        }
-        return cards.toArray(new Card[0]);
+    public Card[] getTreasureCardsInPlay() {
+        return getCardsInPlay(TreasureCard.class);
     }
 
     public Card[] getCardsInPlayOrderByCost() {

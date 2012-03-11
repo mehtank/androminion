@@ -21,6 +21,7 @@ public abstract class Player {
     public CardList hand;
     public CardList deck;
     public CardList discard;
+    public int shuffleCount = 0;
     protected int turnCount = 0;
     public int vps;
     public boolean win = false;
@@ -157,7 +158,7 @@ public abstract class Player {
     public int mineableCards(Card[] hand) {
         int mineableCards = 0;
         for (Card card : hand) {
-            if (card.equals(Cards.copper) || card.equals(Cards.silver) || card.equals(Cards.gold)) {
+            if (card.equals(Cards.potion) || card.equals(Cards.loan) || card.equals(Cards.copper) || card.equals(Cards.silver) || card.equals(Cards.gold)) {
                 mineableCards++;
             }
         }
@@ -469,6 +470,7 @@ public abstract class Player {
     }
 
     public void replenishDeck() {
+        shuffleCount++;
         while (discard.size() > 0) {
             deck.add(discard.remove(Game.rand.nextInt(discard.size())));
         }

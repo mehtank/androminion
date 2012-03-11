@@ -779,11 +779,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     						.setBoolean(newTurn);
     	String playerInt = "" + allPlayers.indexOf(event.getPlayer());
     	
-        if(event.getType() == Type.CardObtained || event.getType() == Type.BuyingCard) {
-            if (event.getPlayer().isPossessed()) {
-                playerInt = "" + allPlayers.indexOf(event.getPlayer().controlPlayer);
-    	    }
-    	}
 
     	if (event.getPlayer() != null) {
     		try {

@@ -1,6 +1,7 @@
 package com.vdom.players;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import com.vdom.api.ActionCard;
@@ -365,25 +366,35 @@ public class VDomPlayerSarah extends BasePlayer {
 
     @Override
     public Card doAction(MoveContext context) {
-        int treasureMapCount = 0;
+        ArrayList<ActionCard> actionCards = context.getPlayer().getActionsInHand();
 
-        for (final Card card : context.player.getHand()) {
-            if (card.equals(Cards.treasureMap)) {
+        // Pair of Treasure Maps goes first
+        int treasureMapCount = 0;
+        for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+            if (Cards.treasureMap.equals(it.next())) {
                 treasureMapCount++;
+                it.remove();
             }
         }
-
         if (treasureMapCount >= 2) {
-            return context.player.fromHand(Cards.treasureMap);
+            return Cards.treasureMap;
         }
-        
-        ActionCard action;
-        for (final Card card : context.player.getHand()) {
+
+        // don't play trashForced cards if no trash cards available (Apprentice, Ambassador, etc)
+        Card[] trashableCards = pickOutCards(context.getPlayer().getHand(), 1, getTrashCards());
+        if (trashableCards == null) { 
+            for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+                if (it.next().trashForced())
+                    it.remove();
+            }
+        }        
+
+        // play Action Cards that add more actions
+        for (final Card card : actionCards) {
             if (context.canPlay(card)) {
-                action = (ActionCard) card;
-                if (action.getAddActions() > 0) {
+                ActionCard action = (ActionCard) card;
+                if (action.getAddActions() > 0) 
                     return action;
-                }
             }
         }
 
@@ -393,16 +404,15 @@ public class VDomPlayerSarah extends BasePlayer {
         
         //TODO: ...
         //if(context.getKingsCourtsInEffect() == 0) {
-        if (context.player.inHand(Cards.kingsCourt) && context.canPlay(Cards.kingsCourt)) {
+        if (context.player.inHand(Cards.kingsCourt) && context.canPlay(Cards.kingsCourt))
             return context.player.fromHand(Cards.kingsCourt);
-            }
         //}
         
         //TODO: simple action play order list instead of just picking the most expensive card
         int cost = COST_MAX;
         final ArrayList<Card> randList = new ArrayList<Card>();
         while (cost >= 0) {
-            for (final Card card : context.player.getHand()) {
+            for (final Card card : actionCards) {
                 if (
                         !context.canPlay(card) || 
                         card.equals(Cards.treasureMap) ||

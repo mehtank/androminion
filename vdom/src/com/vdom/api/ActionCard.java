@@ -16,6 +16,8 @@ public interface ActionCard extends Card {
 
     public boolean isAttack();
 
+    public boolean trashForced();
+
     public void play(Game game, MoveContext context);
 
 }

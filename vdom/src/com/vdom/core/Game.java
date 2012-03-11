@@ -1,5 +1,6 @@
 package com.vdom.core;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeSet;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
@@ -76,6 +78,7 @@ public class Game {
     static ArrayList<GameStats> gameTypeStats = new ArrayList<GameStats>();
 
     static int numGames = -1;
+    static int gameCounter = 0;
     public ArrayList<GameEventListener> listeners = new ArrayList<GameEventListener>();
     public GameEventListener gameListener;
     static boolean forceDownload = false;
@@ -99,7 +102,7 @@ public class Game {
 
 //    public UI ui;
     int turnCount = 0;
-    int consecutiveTurns = 0;
+    int consecutiveTurnCounter = 0;
 
     public static HashMap<String, Player> cachedPlayers = new HashMap<String, Player>();
     public static HashMap<String, Class<?>> cachedPlayerClasses = new HashMap<String, Class<?>>();
@@ -110,7 +113,9 @@ public class Game {
 
     public int possessionsToProcess = 0;
     public Player possessingPlayer = null;
-    
+    public int nextPossessionsToProcess = 0;
+    public Player nextPossessingPlayer = null;
+
     static int numPlayers;
     boolean gameOver = false;
 
@@ -211,11 +216,11 @@ public class Game {
             }
 
             gameOver = false;
+            gameCounter++;
             playersTurn = 0;
             turnCount = 1;
             Util.debug("Turn " + turnCount);
 
-            consecutiveTurns = 0;
             while (!gameOver) {
                 Player player = players[playersTurn];
                 MoveContext context = new MoveContext(this, player);
@@ -244,26 +249,14 @@ public class Game {
                 }
 
                 // /////////////////////////////////
-                // Discard phase
+                // Discard, draw new hand
                 // /////////////////////////////////
                 player.cleanup(context);
-
-                // /////////////////////////////////
-                // Draw new hand
-                // /////////////////////////////////
                 boolean takeAnotherTurn = playerEndTurn(player, context);
-
                 gameOver = checkGameOver();
                 
                 if (!gameOver) {
-                    if (!takeAnotherTurn && consecutiveTurns > 0) {
-                        // next player
-                        consecutiveTurns = 0;
-                        if (++playersTurn >= numPlayers) {
-                            playersTurn = 0;
-                            Util.debug("Turn " + ++turnCount, true);
-                        }
-                    }
+                    setPlayersTurn(takeAnotherTurn);
                 }
             }
 
@@ -315,6 +308,32 @@ public class Game {
         frameworkEvent.setGameType(gameType);
         frameworkEvent.setGameTypeWins(gameTypeSpecificWins);
         FrameworkEventHelper.broadcastEvent(frameworkEvent);
+    }
+
+    protected void setPlayersTurn(boolean takeAnotherTurn) {
+        if (!takeAnotherTurn && consecutiveTurnCounter > 0) {
+            // next player
+            consecutiveTurnCounter = 0;
+            if (++playersTurn >= numPlayers) {
+                playersTurn = 0;
+                Util.debug("Turn " + ++turnCount, true);
+            }
+        }
+    }
+
+    public int cardsInLowestPiles (int numPiles) {
+        int[] ips = new int[piles.size()];
+        int count = 0;
+        for (CardPile pile : piles.values()) {
+            if (pile.card != Cards.province && pile.card != Cards.colony)
+                ips[count++] = pile.getCount();
+            }
+        Arrays.sort(ips);
+        count = 0;
+        for (int i = 0; i < numPiles; i++) {
+            count += ips[i];
+        }
+        return count;
     }
 
     protected void playTreasures(Player player, MoveContext context) {
@@ -490,7 +509,7 @@ public class Game {
         for (Card card : player.nextTurnCards) {
             if ((card instanceof DurationCard) && ((DurationCard) card).takeAnotherTurn()) {
                 handCount = ((DurationCard) card).takeAnotherTurnCardCount();
-                if (consecutiveTurns <= 1) {
+                if (consecutiveTurnCounter <= 1) {
                     takeAnotherTurn = true;
                     break;
                 }
@@ -518,10 +537,15 @@ public class Game {
         // /////////////////////////////////
         // Turn End
         // /////////////////////////////////
-        if (player.isPossessed())
+        if (player.isPossessed()) {
             if (--possessionsToProcess == 0)
                 player.controlPlayer = player;
-
+        } else if (nextPossessionsToProcess > 0) {
+            possessionsToProcess = nextPossessionsToProcess;
+            possessingPlayer = nextPossessingPlayer;
+            nextPossessionsToProcess = 0;
+            nextPossessingPlayer = null;
+        }
         event = new GameEvent(GameEvent.Type.TurnEnd, context);
         broadcastEvent(event);
         return takeAnotherTurn;
@@ -573,6 +597,7 @@ public class Game {
 
     protected void playerBuy(Player player, MoveContext context) {
         Card buy = null;
+        context.goldAvailable = context.getCoinAvailableForBuy();
         do {
             try {
                 buy = player.controlPlayer.doBuy(context);
@@ -602,7 +627,7 @@ public class Game {
             player.controlPlayer = context.game.possessingPlayer;
         } else {
             player.controlPlayer = player;
-            consecutiveTurns++;
+            consecutiveTurnCounter++;
         }
 
         cardsObtainedLastTurn[playersTurn].clear();
