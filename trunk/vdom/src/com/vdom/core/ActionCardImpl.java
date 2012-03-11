@@ -25,6 +25,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     protected int addGold;
     protected int addVictoryTokens;
     protected boolean attack;
+    boolean trashForced = false;
 
     public ActionCardImpl(Builder builder) {
         super(builder);
@@ -35,6 +36,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         addVictoryTokens = builder.addVictoryTokens;
         attack = builder.attack;
         trashOnUse = builder.trashOnUse;
+        trashForced = builder.trashForced;
     }
 
     public static class Builder extends CardImpl.Builder{
@@ -45,6 +47,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    protected int addVictoryTokens;
 	    protected boolean attack;
 	    protected boolean trashOnUse;
+        protected boolean trashForced = false;
 
         public Builder(Cards.Type type, int cost) {
             super(type, cost);
@@ -85,6 +88,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             return this;
         }
 
+        public Builder trashForced() {
+            trashForced = true;
+            return this;
+        }
         public ActionCardImpl build() {
             return new ActionCardImpl(this);
         }
@@ -113,6 +120,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     public boolean isAttack() {
         return attack;
+    }
+
+    public boolean trashForced() {
+        return trashForced;
     }
 
     @Override
@@ -1976,8 +1987,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void possession(MoveContext context) {
         // TODO: Temp hack to prevent AI from playing possession, even though human player can, since it only half works 
         //       (AI will make decisions while possessed, but will try to make "good" ones)
-        context.game.possessionsToProcess++;
-        context.game.possessingPlayer = context.player;
+        if (context.player.isPossessed()) {
+            context.game.nextPossessionsToProcess++;
+            context.game.nextPossessingPlayer = context.player;
+        } else {
+            context.game.possessionsToProcess++;
+            context.game.possessingPlayer = context.player;
+        }
     }
 
     private void steward(Game game, MoveContext context, Player currentPlayer) {

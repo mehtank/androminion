@@ -503,7 +503,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card doAction(MoveContext context) {
         int actionCount = 0;
         Card actionCard = null;
-        for (Card card : context.player.getHand()) {
+        for (Card card : (context.player.isPossessed()) ? context.player.getHand() : getHand()) {
             if (card instanceof ActionCard) {
                 actionCount++;
                 actionCard = card;
@@ -1000,7 +1000,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.ambassador_returnToSupplyFromHand(context, card);
         }
     	int numCards = 0;
-    	for (Card c : getHand()) 
+        for (Card c : (context.player.isPossessed()) ? context.player.getHand() : getHand())
     		if (c.equals(card))
     			numCards++;
     	    
@@ -1266,7 +1266,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.treasureCardsToPlayInOrder(context);
         }
         int treasureCount = 0;
-        for (Card card : getHand()) {
+        for (Card card : (context.player.isPossessed()) ? context.player.getHand() : getHand()) {
             if (card instanceof TreasureCard) {
                 treasureCount++;
             }
@@ -1316,7 +1316,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.horseTraders_cardsToDiscard(context);
         }
         
-        int count = Math.min(2, getHand().size());
+        int count = Math.min(2, ((context.player.isPossessed()) ? context.player.getHand() : getHand()).size());
         if(count == 0) {
             return null;
         }
