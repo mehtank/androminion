@@ -3752,20 +3752,23 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     @Override
     public void isBought(MoveContext context) {
-    	if (this.equals(Cards.nobleBrigand)) {
+        switch (this.getType()) {
+        case NobleBrigand:
         	nobleBrigandAttack(context, false);
-    	} else if (this.equals(Cards.mint)) {
-            ArrayList<Card> toTrash = new ArrayList<Card>();
-            for (Card playedCard : context.playedCards)
+        	break;
+        case Mint:
+            for (Iterator it = context.playedCards.iterator(); it.hasNext();) {
+                Card playedCard = (Card) it.next();
                 if (playedCard instanceof TreasureCard) {
-                    toTrash.add(playedCard);
+                    context.player.trash(playedCard, this, context);
+                    it.remove();
                 }
-
-            for (Card trashCard : toTrash) {
-                context.playedCards.remove(trashCard);
-                context.player.trash(trashCard, this, context);
             }
-    	}
+            context.copperPlayed = false;
+            break;
+        default:
+            break;
+        }
     }
     
     public void nobleBrigandAttack(MoveContext moveContext, boolean defensible) {
