@@ -1090,7 +1090,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         currentPlayer.reveal(card, this, context);
         context.debug("Ambassador revealed card:" + card.getName());
-        int returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, card);
+        int returnCount = -1;
+        if (!card.isPrize()) {
+            returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, card);
+        }
 
         if (returnCount < 0 || returnCount > 2) {
             Util.playerError(currentPlayer, "Ambassador return to supply error, ignoring.");
