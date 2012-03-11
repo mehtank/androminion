@@ -1055,12 +1055,7 @@ public class Game {
 
         int cost = card.getCost(context, true);
         
-        int potions = 0;
-        for (Card thisCard : context.getPlayedCards()) {
-            if (thisCard instanceof TreasureCard && ((TreasureCard) thisCard).providePotion()) {
-                potions++;
-            }
-        }
+        int potions = context.getPotions();
         if (cost <= gold && (!card.costPotion() || potions > 0)) {
             return true;
         }
@@ -1343,6 +1338,7 @@ public class Game {
 
         playerClassesAndJars = randomize;
         playerCache.clear();
+        playersTurn = 0;
 
         for (int i = 0; i < numPlayers; i++) {
             try {

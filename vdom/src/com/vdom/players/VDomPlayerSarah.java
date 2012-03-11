@@ -474,10 +474,6 @@ public class VDomPlayerSarah extends BasePlayer {
             return null;
         }
 
-        if (coinAvailableForBuy == 0) {
-            return null;
-        }
-
         if (context.canBuy(Cards.colony)) {
             return Cards.colony;
         }
