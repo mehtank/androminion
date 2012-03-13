@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="Base"></string>    
+        <string name="Intrigue">Интриги</string>    
+        <string name="Seaside">Побережье</string>    
+        <string name="Alchemy">Алхимия</string>    
+        <string name="Prosperity">Процветание</string>    
+        <string name="Cornucopia">Рог изобилия</string>    
+        <string name="Hinterlands">Внутренние земли</string>    
+</resources>
+
+
