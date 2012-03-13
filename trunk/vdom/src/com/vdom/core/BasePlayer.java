@@ -1,17 +1,13 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.CardValueComparator;
 import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
@@ -466,22 +462,35 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public TreasureCard mine_treasureFromHandToUpgrade(MoveContext context) {
-        ArrayList<TreasureCard> handCards = context.getPlayer().getTreasuresInHand();
-        Collections.sort(handCards, new CardValueComparator());
+       for (Card card : context.player.hand) {
+          if (card.equals(Cards.gold) && context.getCardsLeft(Cards.platinum) > 0) {
+              return (TreasureCard) card;
+          }
+          if (card.equals(Cards.silver) && context.getCardsLeft(Cards.gold) > 0) {
+              return (TreasureCard) card;
+          }
+          if (card.equals(Cards.copper) && context.getCardsLeft(Cards.silver) > 0) {
+              return (TreasureCard) card;
+          }
+      }
 
-        HashSet<Integer> treasureCardValues = new HashSet<Integer>();
-        for (Card card : context.getTreasureCardsInPlay()) {
-            if (context.getCardsLeft(card) > 0)
-                treasureCardValues.add(card.getCost(context));
-        }
-
-        for (int i = 0; i < handCards.size(); i++) {
-            TreasureCard card = handCards.get(i);
-            if (treasureCardValues.contains(card.getCost(context) + 3))
-                return card;
-        }
-
-        return null;
+      return null;
+//        ArrayList<TreasureCard> handCards = context.getPlayer().getTreasuresInHand();
+//        Collections.sort(handCards, new CardValueComparator());
+//
+//        HashSet<Integer> treasureCardValues = new HashSet<Integer>();
+//        for (Card card : context.getTreasureCardsInPlay()) {
+//            if (context.getCardsLeft(card) > 0)
+//                treasureCardValues.add(card.getCost(context));
+//        }
+//
+//        for (int i = 0; i < handCards.size(); i++) {
+//            TreasureCard card = handCards.get(i);
+//            if (treasureCardValues.contains(card.getCost(context) + 3))
+//                return card;
+//        }
+//
+//        return null;
     }
 
     @Override
