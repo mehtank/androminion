@@ -36,10 +36,10 @@
 	<string name="game_loaded">Игра загружена!\nДоступные действия, покупки\n и монеты показаны\n в логах как а/б/(в)</string>
 	
         <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
-        <string name="action_single">%1$s действие</string>
-        <string name="action_multiple">%1$s действия(-й)</string>
-        <string name="buy_single">%1$s покупка</string>
-        <string name="buy_multiple">%1$s покупка(-ок)</string>
+        <string name="action_single">%1$s дейст.</string>
+        <string name="action_multiple">%1$s дейст.</string>
+        <string name="buy_single">%1$s покуп.</string>
+        <string name="buy_multiple">%1$s покуп.</string>
         <string name="coins">(%1$s) монет</string>
 
         <string name="final_view_card_counts">Счетчики карт</string>              
@@ -50,8 +50,8 @@
         <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
         <string name="potion_single">%1$s зелье</string>
         <string name="potion_multiple">%1$s зелий</string>
-        <string name="start_new_game_on_server">Начать новую игру на сервере</string>
-        <string name="select_a_game_type_">Выберите типа игры:</string>
+        <string name="start_new_game_on_server">Начать игру на сервере</string>
+        <string name="select_a_game_type_">Выберите тип игры:</string>
         <string name="select_players">Выберите игроков:</string>
         <string name="player">Игрок </string>
         <string name="none_game_start">Нет</string>
