@@ -1382,7 +1382,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions()
             .fromPrizes()
             .setPickType(SelectCardOptions.PickType.SELECT)
-            .setPassable(getString(R.string.none));
+            .setPassable(NOTPASSABLE);
 
         for (Card card : context.getCardsInPlay()) {
             if (card.isPrize() && context.getPileSize(card) > 0) {
