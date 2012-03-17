@@ -1308,7 +1308,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_hornOfPlenty_cardToObtain(context, maxCost)) {
             return super.hornOfPlenty_cardToObtain(context, maxCost);
         }
-        return getFromTable(context, getGainString(Cards.hornOfPlenty), maxCost, Integer.MIN_VALUE, false, getString(R.string.none), SelectCardOptions.PickType.SELECT, false, true, 0);
+        return getFromTable(context, getGainString(Cards.hornOfPlenty), maxCost, Integer.MIN_VALUE, false, NOTPASSABLE, SelectCardOptions.PickType.SELECT, false, true, 0);
     }
     
     public Card[] horseTraders_cardsToDiscard(MoveContext context) {
