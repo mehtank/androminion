@@ -30,7 +30,7 @@
        <string name="island_header">Insel:</string>
        <string name="village_header">Dorf:</string>
 
-    <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/b/(c) angezeigt</string>
+    <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/k/(g) angezeigt</string>
 
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
     <string name="action_single">%1$s Aktion</string>
@@ -73,6 +73,10 @@
 	<string name="whatsnew_menu">Neuerungen</string>
 	<string name="whatsnew_title">Was ist neu: </string>
 	<string name="whatsnew"> <![CDATA[
+	    <h3>Version 2.03</h3>	
+	    * Besessenheit! <br>
+	    * Weitere Übersetzungen: Spanisch, Französisch, Russisch <br>
+		* Sehr viele Fehlerkorrekturen und Verbesserungen
 	    <h3>Version 2.02</h3>
 	    * Crash auf Android 4.x behoben <br>
         * Intuitiveres Verhalten des Burggrabens <br>

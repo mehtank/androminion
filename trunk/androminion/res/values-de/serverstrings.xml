@@ -111,7 +111,7 @@
     <string name="use_for_money">Geld: Wähle</string>
    
     <string name="action_buys_coin">%1$s/%2$s/%3$s</string>
-    <string name="game_over_status">Spiel -- </string>
+    <string name="game_over_status">Spiel — </string>
     <string name="game_length_status">Spieldauer: </string>
     <string name="end_turn">Zugende</string>
     <string name="replace">Ersetze</string>
