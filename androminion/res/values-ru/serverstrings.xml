@@ -113,7 +113,7 @@
         <string name="action_buys_coin">%1$s/%2$s/%3$s</string>
         <string name="game_over_status">Конец игры -- </string>
         <string name="game_length_status">Длина игры: </string>
-        <string name="end_turn">Последний ход</string>
+        <string name="end_turn">Конец хода</string>
         <string name="replace">Заменить</string>
        
         <string name="secretchamber_part">положить назад на колоду [Тайная комната]</string>

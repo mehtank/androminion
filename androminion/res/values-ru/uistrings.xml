@@ -51,8 +51,8 @@
         <string name="potion_single">%1$s зелье</string>
         <string name="potion_multiple">%1$s зелий</string>
         <string name="start_new_game_on_server">Начать игру на сервере</string>
-        <string name="select_a_game_type_">Выберите тип игры:</string>
-        <string name="select_players">Выберите игроков:</string>
+        <string name="select_a_game_type_">Выбор типа игры:</string>
+        <string name="select_players">Выбор игроков:</string>
         <string name="player">Игрок </string>
         <string name="none_game_start">Нет</string>
         <string name="start_game">Начать игру!</string>
@@ -76,6 +76,10 @@
         <string name="whatsnew_menu">Что нового </string>
         <string name="whatsnew_title">Что нового: </string>
         <string name="whatsnew"> <![CDATA[
+	      <h3>Версия 2.03</h3>
+	    * Одержимость! <br>
+	    * Новые переводы <br>
+	    * Очень много багфиксов и улучшений <br> <br>
             <h3>Версия 2.02</h3>      
             * Исправлены падения на Android 4.x <br>
             * Более интуитивное поведение карты Ровt <br>
@@ -98,7 +102,7 @@
                 \nAnkur Mehta
                 \nAurel Rothärmel
                 \nJörg Velletti
-		\nМаксим Ткаченко
+		\nMaxim Tkachenko
         </string>
         <string name="logging_pref_title">Логи игры</string>
         <string name="logging_enable_pref_title">Включить логи игры</string>
