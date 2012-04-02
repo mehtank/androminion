@@ -72,6 +72,10 @@
 	<string name="whatsnew_menu">What\'s new </string>
 	<string name="whatsnew_title">What\'s new: </string>
 	<string name="whatsnew"> <![CDATA[
+	    <h3>Version 2.03</h3>	
+	    * 支配! <br>
+	    * 翻訳を追加しました。 <br>
+		* さらに多くのバグ修正および強化。 <br> <br>
 	    <h3>Version 2.02</h3>	
 	    * Android 4.xでのクラッシュを修正しました。 <br>
 	    * 堀の挙動をより直感的にしました。 <br>
