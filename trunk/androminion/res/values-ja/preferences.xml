@@ -23,6 +23,8 @@
     <string name="game_play_pref_title">ゲームプレイ</string>
     <string name="quick_play_pref_title">クイックプレイ</string>
     <string name="quick_play_pref_summary">多くのカードのインタラクションを自動で行う (次のゲームから有効)</string>
+    <string name="action_chains_pref_title">アクションの連鎖</string>
+    <string name="action_chains_pref_summary">複数のアクションカードを選び、選んだ順番で使用できる (次のゲームから有効)</string>
     <string name="plat_colony_pref_title">白金貨と植民地の使用</string>
     <string name="plat_colony_pref_summary">ゲームタイプにかかわらず、いつも白金貨と植民地を加える (次のゲームから有効)</string>
     <string name="ui_pref_title">ユーザ・インタフェース</string>
