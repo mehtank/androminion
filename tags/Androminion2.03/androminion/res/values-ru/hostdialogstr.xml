@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="host_menu">Начать игру</string>
+<string name="host_title">Присоединиться к серверу Dominion</string>
+<string name="host_message">Выберите тип игрового сервера.</string>
+<string name="host_prompt">Введите имя или IP сервера, к которому хотите присоединиться.</string>
+
+<string name="host_local">Локальная игра</string>
+<string name="host_remote">Удаленная игра</string>
+</resources>

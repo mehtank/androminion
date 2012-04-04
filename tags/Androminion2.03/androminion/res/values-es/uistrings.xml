@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>  
+
+	
+	<!-- About -->
+    <string name="app_name">Androminion</string>
+	<string name="splash">Usa el menu para iniciar una nueva partida o, durante el juego, para ver como jugar.</string>
+	<string name="version">Versión %1$s</string>
+	<string name="copyright">\n©2010-2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
+	<string name="dom_copyright">\nDominion card game ©2008-2012 by Rio Grande Games.</string>
+	
+	<!-- Game table -->
+	<string name="title">Androminion por Ankur Mehta</string>
+	<string name="obtained">%1$s Obtenidas</string>
+	<string name="trashed">%1$s Eliminadas</string>
+	<string name="revealed">%1$s Reveladas</string>
+	<string name="confirmation">¿Estas seguro?</string>
+	<string name="confirm_no">No</string>
+	<string name="select_button">Selecciona</string>
+	<string name="buy_button">\ \ Comprar\ \ </string>
+	<string name="play_button">\ Jugar\ </string>
+	<string name="discard_button">Descartar</string>
+	<string name="keep_button">Mantener</string>
+	<string name="give_button">Give</string>
+	<string name="trash_button">Eliminar</string>
+	<string name="upgrade_button">Mejorar</string>
+	<string name="mint_button">Mint</string>
+	<string name="swindle_button">Swindle</string>
+	<string name="all_button">Todo</string>
+	<string name="hand_header">Mano:</string>
+	<string name="played_header">Jugadas:</string>
+	<string name="island_header">Isla:</string>
+	<string name="village_header">Aldea:</string>
+
+	<string name="game_loaded">Juego cargado!\nLas acciones, compras y monedas\ndisponibles se muestran en el \ntregistro como a/b/(c)</string>
+
+	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+	<string name="action_single">%1$s action</string>
+	<string name="action_multiple">%1$s acciones</string>
+	<string name="buy_single">%1$s compra</string>
+	<string name="buy_multiple">%1$s compras</string>
+	<string name="coins">(%1$s) monedas</string>
+
+	<string name="final_view_card_counts">Numero de cartas</string>		
+	<string name="final_view_text">%1$s: %2$s PVs.\n%3$s turnos, %4$s cartas.</string>		
+
+    <string name="reset">Resetear</string>
+    
+	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+	<string name="potion_single">%1$s pocion</string>
+	<string name="potion_multiple">%1$s pociones</string>
+	<string name="start_new_game_on_server">Iniciar un nuevo juego en el servidor</string>
+	<string name="select_a_game_type_">Seleccionar tipo de juego:</string>
+	<string name="select_players">Seleccionar jugadores:</string>
+	<string name="player">Jugador</string>
+	<string name="none_game_start">Ninguno</string>
+	<string name="start_game">Iniciar Juego!</string>
+	<string name="you">Tú</string>
+	<string name="help_menu">Ayuda</string>
+	<string name="start_game_menu">Iniciar Juego</string>
+	<string name="settings_menu">Ajustes</string>
+	<string name="about_menu">Acerca de</string>
+	<string name="achievements_menu">Logros</string>
+	<string name="win_loss_menu">Victorias/Derrotas Record</string>
+	<string name="quit_menu">Salir</string>
+	<string name="toast_starting">Inicializando el Juego…</string>
+	<string name="toast_quitconfirm">Pulsa de nuevo para salir.</string>
+	<string name="toast_loading">Cargando Juego…</string>
+
+	<string name="accept">Aceptar</string>
+	<string name="order_cards_summary">arrastra y suelta \nlas cartas para \nrecolocarlas.</string>
+	<string name="stats_menu">Estadisticas</string>
+	<string name="whatsnew_menu">Novedades</string>
+	<string name="whatsnew_title">Novedades: </string>
+
+	<string name="contrib_menu">Creditos </string>
+	<string name="contrib_title">Colaboradores: </string>
+	<string name="logging_pref_title">Registros del juego</string>
+	<string name="logging_enable_pref_title">Activar registros</string>
+	<string name="logging_enable_pref_summary">Los registros se guardaran en la tarjeta SD como archivos de texto.</string>
+	<string name="logging_dir_pref_title">Directorio de registro</string>
+	<string name="logging_dir_pref_summary">Directorio para  guardar los registros (se creara si es necesario)</string>
+	<string name="log_turn_separator">~~~\n</string>
+	<string name="game_type_random">Aleatorio</string>
+	<string name="game_type_preset">Por defecto</string>
+	<string name="game_type_last">Ultimo jugado</string>
+	<string name="game_type_specified">Seleccionar cartas</string>
+</resources>
