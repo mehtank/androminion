@@ -192,6 +192,11 @@ public class Androminion extends Activity implements EventHandler {
 	public void quickstart() {	
 		// startServer();
 		host = "localhost";
+		try {
+			host = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+			alert("Unknown Host!", "Trying with localhost instead.");
+		}
 		startGame(port);
 	}
 
