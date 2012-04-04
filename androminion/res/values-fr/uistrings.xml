@@ -72,21 +72,7 @@
 	<string name="stats_menu">Statistics</string>
 	<string name="whatsnew_menu">What\'s new </string>
 	<string name="whatsnew_title">What\'s new: </string>
-	<string name="whatsnew"> <![CDATA[
-	    <h3>Version 2.02</h3>	
-	    * Fix crashes on Android 4.x <br>
-	    * More intuitive Moat behavior <br>
-		* Many other bugfixes and enhancements <br> <br>
-		Want greater ability to choose your own kingdom cards?  You can now launch Androminion directly from <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a>!
-	    <h3>Version 2.0</h3>
-		It has been a long while in coming, but we hope this update will have been worth the wait!  There are so many changes that we can\'t list them all here, but below are some highlights:<br/><br/>
-		<b><font color="lime">* More expansions!</font></b>  Most of the cards from Alchemy, Prosperity, Cornucopia, and Hinterlands are now available.<br/>
-		<b><font color="lime">* More game options!</font></b>  Chose from various random or preset decks, with 2-4 players.<br/>
-		<b><font color="lime">* More AI options!</font></b>  Introducing new AIs Chuck, Mary, and Sarah.<br/>
-		<b><font color="lime">* More bugfixes!</font></b>  Also more bugs, probably.<br/>
-		* Same great taste!<br/>
-		<br/><font color="lime">Androminion is now open source!</font>  This update would not have been possible without the help of a number of contributors; please view the credits tab.  You too can help!  Submit bug reports, feature requests, translations, and more on <br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
-	]]>	</string>
+
 	<string name="contrib_menu">Credits </string>
 	<string name="contrib_title">Contributors: </string>
 	<string name="contributors">
