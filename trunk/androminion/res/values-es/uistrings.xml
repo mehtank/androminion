@@ -21,7 +21,7 @@
 	<string name="play_button">\ Jugar\ </string>
 	<string name="discard_button">Descartar</string>
 	<string name="keep_button">Mantener</string>
-	<string name="give_button">Give</string>
+	<string name="give_button">Dar</string>
 	<string name="trash_button">Eliminar</string>
 	<string name="upgrade_button">Mejorar</string>
 	<string name="mint_button">Mint</string>
@@ -35,7 +35,7 @@
 	<string name="game_loaded">Juego cargado!\nLas acciones, compras y monedas\ndisponibles se muestran en el \ntregistro como a/b/(c)</string>
 
 	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
-	<string name="action_single">%1$s action</string>
+	<string name="action_single">%1$s acción</string>
 	<string name="action_multiple">%1$s acciones</string>
 	<string name="buy_single">%1$s compra</string>
 	<string name="buy_multiple">%1$s compras</string>
