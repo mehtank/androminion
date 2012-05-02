@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="toastsoff_pref_summary">Selecciona esta opción solo si el programa se bloquea casi siempre antes de empezar una partida</string>
-    <string name="toastsoff_pref_title">Disable Toasts</string>
+    <string name="toastsoff_pref_title">Desactivar burlas</string>
 	<string name="showenglishnames_pref_title">Mostrar nombres en ingles</string>
 	<string name="showenglishnames_pref_summary">Mostrar los nombres en ingles en una ramificación(sin efecto si el idioma seleccionado es ingles)</string>
     <string name="exitonback_pref_summary">Salir del juego pulsando el boton de atras</string>
@@ -14,7 +14,7 @@
     <string name="turnvibeon_pref_summary">Vibrar cuando empieza tu turno</string>
     <string name="turnvibeon_pref_title">Notificar turno</string>
     <string name="clickvibeon_pref_summary">Vibrar cuando se seleccionan las cartas</string>
-    <string name="clickvibeon_pref_title">Haptic feedback</string>
+    <string name="clickvibeon_pref_title">Respuesta tactil</string>
     <string name="allvibes_pref_title">Habilitar vibración</string>
     <string name="notif_pref_title">Notificationes</string>
     <string name="statusbar_pref_title">Mostrar barra de estado</string>
