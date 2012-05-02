@@ -3,16 +3,16 @@
   <string name="FirstGame_gametype">Primera partida (Base)</string>
   <string name="BigMoney_gametype">Riqueza (Base)</string> 
   <string name="Interaction_gametype">Interacción (Base)</string> 
-  <string name="SizeDistortion_gametype">Size Distortion (Base)</string> 
+  <string name="SizeDistortion_gametype">Distorsion de Tamaño (Base)</string> 
   <string name="VillageSquare_gametype">Village Square (Base)</string>
   <string name="RandomBaseGame_gametype">Aleatorio juego basico</string>
   
-  <string name="VictoryDance_gametype">Victory Dance (Intr)</string> 
+  <string name="VictoryDance_gametype">Danza de Victoria (Intr)</string> 
   <string name="SecretSchemes_gametype">Secret Schemes (Intr)</string> 
-  <string name="BestWishes_gametype">Best Wishes (Intr)</string> 
+  <string name="BestWishes_gametype">Los mejores deseos (Intr)</string> 
   <string name="RandomIntrigue_gametype">Aleatorio intriga</string>
   
-  <string name="Deconstruction_gametype">Deconstruction (Base, Intr)</string> 
+  <string name="Deconstruction_gametype">Deconstruir (Base, Intr)</string> 
   <string name="HandMadness_gametype">Hand Madness (Base, Intr)</string> 
   <string name="Underlings_gametype">Underlings (Base, Intr)</string>
   
@@ -21,65 +21,65 @@
   <string name="Shipwrecks_gametype">Shipwrecks (Terra)</string> 
   <string name="RandomSeaside_gametype">Aleatorio Terramar</string>
   
-  <string name="ForbiddenArts_gametype">Forbidden Arts (Base, Alq)</string> 
-  <string name="PotionMixers_gametype">Potion Mixers (Base, Alq)</string> 
-  <string name="ChemistryLesson_gametype">Chemistry Lesson (Base, Alq)</string>
+  <string name="ForbiddenArts_gametype">Artes prohibidas (Base, Alq)</string> 
+  <string name="PotionMixers_gametype">Combinación de pociones (Base, Alq)</string> 
+  <string name="ChemistryLesson_gametype">Lección de quimica (Base, Alq)</string>
   <string name="RandomAlchemy_gametype">Aleatorio Alquimia</string>
   
-  <string name="Servants_gametype">Servants (Intr, Alq)</string> 
-  <string name="SecretResearch_gametype">Secret Research (Intr, Alq)</string> 
+  <string name="Servants_gametype">Sirvientes (Intr, Alq)</string> 
+  <string name="SecretResearch_gametype">Busqueda secreta (Intr, Alq)</string> 
   <string name="PoolsToolsAndFools_gametype">Pools, Tools, and Fools (Intr, Alq)</string>
   
   <string name="ReachForTomorrow_gametype">Reach for Tomorrow (Base, Terra)</string> 
-  <string name="Repetition_gametype">Repetition (Base, Terra)</string> 
-  <string name="GiveAndTake_gametype">Give and Take (Base, Terra)</string>
+  <string name="Repetition_gametype">Repetiticion (Base, Terra)</string> 
+  <string name="GiveAndTake_gametype">Da y toma (Base, Terra)</string>
 
-  <string name="Beginners_gametype">Beginners (Prosp)</string> 
-  <string name="FriendlyInteractive_gametype">Friendly Interactive (Prosp)</string> 
-  <string name="BigActions_gametype">Big Actions (Prosp)</string> 
+  <string name="Beginners_gametype">Princioiantes (Prosp)</string> 
+  <string name="FriendlyInteractive_gametype">Interacción amistosa (Prosp)</string> 
+  <string name="BigActions_gametype">Grandes acciones (Prosp)</string> 
   <string name="RandomProsperity_gametype">Aleatorio Prosperidad</string>
 
   <string name="BiggestMoney_gametype">Biggest Money (Base, Prosp)</string> 
-  <string name="TheKingsArmy_gametype">The King\'s Army (Base, Prosp)</string> 
-  <string name="TheGoodLife_gametype">The Good Life (Base, Prosp)</string>
+  <string name="TheKingsArmy_gametype">El ejercito del rey (Base, Prosp)</string> 
+  <string name="TheGoodLife_gametype">La buena vida (Base, Prosp)</string>
 
-  <string name="PathToVictory_gametype">Path to Victory (Intr, Prsp)</string> 
-  <string name="AllAlongTheWatchtower_gametype">All Along the Watchtower (Intr, Prosp)</string> 
+  <string name="PathToVictory_gametype">Camino a la victoria (Intr, Prsp)</string> 
+  <string name="AllAlongTheWatchtower_gametype">Todo sobre la torre de guardia (Intr, Prosp)</string> 
   <string name="LuckySeven_gametype">Lucky Seven (Intr, Prosp)</string>
 
-  <string name="RandomCornucopia_gametype">Random Cornucopia</string>
+  <string name="RandomCornucopia_gametype">Aleatorio Cornucopia</string>
 
   <string name="BountyOfTheHunt_gametype">Bounty of the Hunt (Base, Corn)</string> 
   <string name="BadOmens_gametype">Bad Omens (Base, Corn)</string> 
   <string name="TheJestersWorkshop_gametype">The Jester\'s Workshop (Base, Corn)</string>
 
-  <string name="LastLaughs_gametype">Last Laughs (Intr, Corn)</string> 
+  <string name="LastLaughs_gametype">Quien rie el ultimo... (Intr, Corn)</string> 
   <string name="TheSpiceOfLife_gametype">The Spice of Life (Intr, Corn)</string> 
-  <string name="SmallVictories_gametype">Small Victories (Intr, Corn)</string>
+  <string name="SmallVictories_gametype">Pequeñas victorias (Intr, Corn)</string>
 
-  <string name="HinterlandsIntro_gametype">Hinterlands Intro (Hntr)</string> 
+  <string name="HinterlandsIntro_gametype">Introducción Hinterlands (Hntr)</string> 
   <string name="FairTrades_gametype">Fair Trades (Hntr)</string> 
-  <string name="Bargains_gametype">Bargains (Hntr)</string> 
-  <string name="Gambits_gametype">Gambits (Hntr)</string> 
+  <string name="Bargains_gametype">Gangas (Hntr)</string> 
+  <string name="Gambits_gametype">Estrategias (Hntr)</string> 
   <string name="RandomHinterlands_gametype">Aleatorio Hinterlands</string>
     
   <string name="HighwayRobbery_gametype">Highway Robbery (Base, Hntr)</string> 
   <string name="AdventuresAbroad_gametype">Adventures Abroad (Base, Hntr)</string>
     
-  <string name="MoneyForNothing_gametype">Money for Nothing (Hntr, Intr)</string> 
-  <string name="TheDukesBall_gametype">The Duke\'s Ball (Hntr, Intr)</string>
+  <string name="MoneyForNothing_gametype">Dinero para nada (Hntr, Intr)</string> 
+  <string name="TheDukesBall_gametype">La bola del duque (Hntr, Intr)</string>
     
-  <string name="Travelers_gametype">Travelers (Hntr, Terra)</string> 
-  <string name="Diplomacy_gametype">Diplomacy (Hntr, Terra)</string>
+  <string name="Travelers_gametype">Viajeros (Hntr, Terra)</string> 
+  <string name="Diplomacy_gametype">Diplomacia (Hntr, Terra)</string>
     
   <string name="SchemesAndDreams_gametype">Schemes and Dreams (Hntr, Alq)</string> 
-  <string name="WineCountry_gametype">Wine Country (Hntr, Alq)</string>
+  <string name="WineCountry_gametype">Tierra de vino (Hntr, Alq)</string>
 
-  <string name="InstantGratification_gametype">Instant Gratification (Hntr, Prosp)</string> 
+  <string name="InstantGratification_gametype">Gratificación inmediata (Hntr, Prosp)</string> 
   <string name="TreasureTrove_gametype">Treasure Trove (Hntr, Prosp)</string>
    
-  <string name="BlueHarvest_gametype">Blue Harvest (Hntr, Corn)</string> 
-  <string name="TravelingCircus_gametype">Traveling Circus (Hntr, Corn)</string>
+  <string name="BlueHarvest_gametype">Cosecha azul (Hntr, Corn)</string> 
+  <string name="TravelingCircus_gametype">Circo viajero (Hntr, Corn)</string>
     
   <string name="Random_gametype">Aleatorio</string>    
 </resources>
