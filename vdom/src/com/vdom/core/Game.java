@@ -1435,6 +1435,8 @@ public class Game {
 
        if (numPlayers == 2) {
             victoryCardPileSize = 8;
+       } else {
+    	   victoryCardPileSize = 12;
        }
 
 //        addPile(Cards.colony);
