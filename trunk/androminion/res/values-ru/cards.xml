@@ -273,7 +273,7 @@
     <string name="YoungWitch_name">Юная ведьма</string>
     <string name="YoungWitch_desc">Сбросьте 2 карты. Остальные могут открыть карту Несчастья в руке, иначе получают проклятье. Подготовка: Добавьте дополнительную колоду карт Королевства в игру, стоящую 2 или 3. Карты с этой колоды - карты Несчастья.</string>
     <string name="BorderVillage_name">Пограничье</string>
-    <string name="BorderVillage_desc">Когда играете эту карту, наберите карту стоимостью меньше нее.</string>
+    <string name="BorderVillage_desc">Когда получаете эту карту, наберите карту стоимостью меньше нее.</string>
     <string name="Cache_name">Тайник</string>
     <string name="Cache_desc">Получая эту карту, наберите 2 Меди.</string>
     <string name="Cartographer_name">Картограф</string>
