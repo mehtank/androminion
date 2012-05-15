@@ -268,5 +268,6 @@
   <string name="Cartographer_query">Select card to discard</string>
   <string name="cards">Cards</string>
   <string name="return_cards">Return cards to deck:</string>
+  <string name="take_normal">Take normally</string>
   
 </resources>

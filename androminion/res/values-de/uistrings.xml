@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="host_menu">Spiel starten</string>
-       
-       <!-- About -->
-   <string name="app_name">Androminion</string>
-    <string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
-   <string name="version">Version %1$s</string>
+	<!-- About -->
+	<string name="app_name">Androminion</string>
+	<string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
+	<string name="version">Version %1$s</string>
        
        <!-- Game table -->
        <string name="title">Androminion by Ankur Mehta</string>
