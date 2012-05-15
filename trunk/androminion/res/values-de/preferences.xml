@@ -22,7 +22,9 @@
 
 	<string name="game_play_pref_title">Spieleinstellungen</string>
 	<string name="quick_play_pref_title">Schnelles Spiel</string>
-	<string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt. (benötigt einen Neustart des Spiels)</string>
+    <string name="action_chains_pref_title">Aktionsketten</string>
+	<string name="action_chains_pref_summary">Aktiviere Auswahl von mehreren Aktionskarten in Ausspielreihenfolge. (Neustart des Spiels erforderlich)</string>
+	<string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt. (Neustart des Spiels erforderlich)</string>
 	<string name="plat_colony_pref_title">Platin und Kolonien</string>
 	<string name="plat_colony_pref_summary">Immer mit den Karten Platin und Kolonien spielen, egal welche Art von Erweiterung gewählt ist.</string>
 

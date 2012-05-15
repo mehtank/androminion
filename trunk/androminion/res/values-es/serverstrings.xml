@@ -268,5 +268,6 @@
   <string name="Cartographer_query">Elije una carta para descartar</string>
   <string name="cards">Cartas</string>
   <string name="return_cards">Devolver las cartas al mazo:</string>
+  <string name="take_normal">Take normally</string>
   
 </resources>
