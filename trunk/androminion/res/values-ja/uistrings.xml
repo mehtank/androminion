@@ -4,8 +4,6 @@
     <string name="app_name">Androminion</string>
 	<string name="splash">メニューを使用してゲーム開始。または、ゲーム中にメニューを使用してヘルプを表示。</string>
 	<string name="version">Version %1$s</string>
-	<string name="copyright">\n\n©2010-2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
-	<string name="dom_copyright">\nDominion card game ©2008-2012 by Rio Grande Games.\n</string>
 	
 	<!-- Prefs -->
 	
@@ -97,7 +95,6 @@
 	<string name="logging_enable_pref_summary">ログをSDカードにテキストファイルとして保存する</string>
 	<string name="logging_dir_pref_title">ログディレクトリ</string>
 	<string name="logging_dir_pref_summary">ゲームログを保存するディレクトリ(ない場合は作成)</string>
-	<string name="log_turn_separator">~~~\n</string>
 	<string name="game_type_random">ランダム</string>
 	<string name="game_type_preset">プリセット</string>
 	<string name="game_type_last">前のプレイ</string>
