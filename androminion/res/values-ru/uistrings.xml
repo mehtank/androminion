@@ -6,8 +6,6 @@
     <string name="app_name">Андроминион</string>
         <string name="splash">Используйте меню, чтоб начать игру или, если игра уже запущена, чтоб получить помощь по игре.</string>
         <string name="version">Версия %1$s</string>
-        <string name="copyright">\n©2010-2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
-        <string name="dom_copyright">\nDominion card game ©2008-2012 by Rio Grande Games.</string>
        
         <!-- Game table -->
         <string name="title">Андроминион от Ankur Mehta</string>
@@ -90,26 +88,11 @@
         ]]>     </string>
         <string name="contrib_menu">Создатели </string>
         <string name="contrib_title">Вкладчики: </string>
-        <string name="contributors">
-                \nTodd Barlow
-                \nDrew Chamberlain
-                \nTraci Dennis
-                \nAugust Dwight
-		\nMichael Fazio
-                \nSascha Hafner
-                \nKeisuke Ka
-                \nTobias Mahlmann
-                \nAnkur Mehta
-                \nAurel Rothärmel
-                \nJörg Velletti
-		\nMaxim Tkachenko
-        </string>
         <string name="logging_pref_title">Логи игры</string>
         <string name="logging_enable_pref_title">Включить логи игры</string>
         <string name="logging_enable_pref_summary">Логи будут храниться на Вашей SD карте в виде текстовых файлов</string>
         <string name="logging_dir_pref_title">Папка логов</string>
         <string name="logging_dir_pref_summary">Папка для хранения логов игры (при необходимости будет создана)</string>
-        <string name="log_turn_separator">~~~\n</string>
         <string name="game_type_random">Случайно</string>
         <string name="game_type_preset">Настройка</string>
         <string name="game_type_last">Последняя сыгранная</string>

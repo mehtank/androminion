@@ -6,8 +6,6 @@
     <string name="app_name">Androminion</string>
 	<string name="splash">Gebruik het menu om een nieuw spel te starten of om speelhulp te krijgen tijdens eens spel.</string>
 	<string name="version">Versie %1$s</string>
-	<string name="copyright">\n©2010-2012 door Ankur Mehta\nhttp://android.mehtank.com</string>
-	<string name="dom_copyright">\nDominion kaartspel ©2008-2012 door Rio Grande Games.</string>
 	
 	<!-- Game table -->
 	<string name="title">Androminion door Ankur Mehta</string>
@@ -97,7 +95,6 @@
 	<string name="logging_enable_pref_summary">Logs worden opgeslagen op je SD kaart als tekstbestanden.</string>
 	<string name="logging_dir_pref_title">Log folder</string>
 	<string name="logging_dir_pref_summary">Folder waar spel logs worden opgeslagen (zal worden aangemaakt wanneer nodig)</string>
-	<string name="log_turn_separator">~~~\n</string>
 	<string name="game_type_random">Willekeurig</string>
 	<string name="game_type_preset">Voorgedefinieerd</string>
 	<string name="game_type_last">Laatst gespeeld</string>

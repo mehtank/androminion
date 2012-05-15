@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- International strings, no translation needed -->
-	<string name="copyright">\n©2010-2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
-	<string name="dom_copyright">\nDominion card game ©2008-2012 by Rio Grande Games.</string>
+	<string name="copyright">\n©2010–2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
+	<string name="dom_copyright">\nDominion card game ©2008–2012 by Rio Grande Games.</string>
 	
 	<string name="contributors">
 		\nTodd Barlow
@@ -16,6 +16,7 @@
 		\nAnkur Mehta
 		\nAurel Rothärmel
 		\nMartijn Schuurmans
+		\nMaxim Tkachenko
 		\nJörg Velletti
 	</string>
 	
