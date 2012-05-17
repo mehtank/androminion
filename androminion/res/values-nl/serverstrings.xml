@@ -111,7 +111,7 @@
 	<string name="use_for_money">gebruik als geld</string>
 	
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
-	<string name="game_over_status">Einde spel -- </string>
+	<string name="game_over_status">Einde spel — </string>
 	<string name="game_length_status">Spelduur: </string>
 	<string name="end_turn">Einde beurt</string>
 	<string name="replace">Vervang</string>

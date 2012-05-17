@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
@@ -386,7 +387,10 @@ public class Androminion extends Activity implements EventHandler {
 	}
 
 	static final int MESSAGE_EVENT = 0;
-	public static final String BASEDIR = "/sdcard/Androminion";
+	public static final String BASEDIR;
+	static {
+		BASEDIR = Environment.getExternalStorageDirectory().getPath() + "/Androminion";
+	}
 
 	@Override
 	public void debug(String s) {

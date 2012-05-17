@@ -6,7 +6,7 @@
         <string name="showenglishnames_pref_summary">Показывать английские названия карт с скобках (бессмысленно в английской локали)</string>
     <string name="exitonback_pref_summary">Выходить из игры когда нажата кнопка Назад</string>
     <string name="exitonback_pref_title">Выход по нажатию Назад</string>
-    <string name="vibescreen_pref_title">Настроить вибрации...</string>
+    <string name="vibescreen_pref_title">Настроить вибрации…</string>
     <string name="gamevibeon_pref_summary">Вибрировать когда игра завершена</string>
     <string name="gamevibeon_pref_title">Конец игры</string>
     <string name="actionvibeon_pref_summary">Вибрировать когда требуется Ваше действие</string>

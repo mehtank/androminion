@@ -191,7 +191,7 @@
     <string name="ScryingPool_name">Toekomstkijkers plas</string>
     <string name="ScryingPool_desc">Iedere speler (inclusief jij) toont de bovenste kaart van zijn trekstapel en legt deze af of legt deze terug, jouw keuze. Daarna toon jij kaarten van je trekstapel tot je er een toont die geen Actie is. Neem alle getoonde kaarten in je hand.</string>
     <string name="Transmute_name">Transmuteren</string>
-    <string name="Transmute_desc">Vernietig een kaart uit je hand. Is het een... Actiekaart, pak een Hertogdom; Geldkaart, pak een Transmuteren; Overwinningskaart, pak een Goud.</string>
+    <string name="Transmute_desc">Vernietig een kaart uit je hand. Is het een… Actiekaart, pak een Hertogdom; Geldkaart, pak een Transmuteren; Overwinningskaart, pak een Goud.</string>
     <string name="University_name">Universiteit</string>
     <string name="University_desc">Je mag een Actiekaart pakken die ten hoogste 5 kost.</string>
     <string name="Vineyard_name">Wijngaard</string>

@@ -233,8 +233,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     }
 
     public int getVPs(Player player) {
-        ArrayList<Card> allCards = player.getAllCards();
-
 		Map<Card, Integer> totals = this.getVictoryPointTotals(player, this.getVictoryCardCounts(player));
 		
         return this.getVPs(player, totals);
@@ -250,8 +248,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 	}
 
 	private Map<Object, Integer> getVictoryCardCounts(Player player) {
-		final ArrayList<Card> allCards = player.getAllCards();
-		
 		final HashSet<String> distinctCards = new HashSet<String>();
 		final Map<Object, Integer> cardCounts = new HashMap<Object, Integer>();
 

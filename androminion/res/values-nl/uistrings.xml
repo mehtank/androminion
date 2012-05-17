@@ -29,7 +29,7 @@
 	<string name="played_header">Gespeeld:</string>
 	<string name="island_header">Eiland:</string>
 	<string name="village_header">Dorp:</string>
-	<string name="game_loaded">Spel geladen!\nBeschikbare acties, aanschaffen en geld\nworden in de log getoond als a/b/(c)</string>
+	<string name="game_loaded">Spel geladen!\nBeschikbare acties, aanschaffen en geld\nworden in de log getoond als a/a/(g)</string>
 
 	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
 	<string name="action_single">%1$s actie</string>
@@ -60,9 +60,9 @@
 	<string name="achievements_menu">Prestaties</string>
 	<string name="win_loss_menu">Winst/verlies historie</string>
 	<string name="quit_menu">Stop</string>
-	<string name="toast_starting">Spel starten...</string>
+	<string name="toast_starting">Spel starten…</string>
 	<string name="toast_quitconfirm">Tik nogmaals om af te sluiten.</string>
-	<string name="toast_loading">Spel aan het laden...</string>
+	<string name="toast_loading">Spel aan het laden…</string>
 
 	<string name="accept">Accepteer</string>
 	<string name="order_cards_summary">Sleep/\nde kaarten om hun volgorde \nte veranderen.</string>
