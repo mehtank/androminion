@@ -111,7 +111,7 @@
 	<string name="use_for_money">金の使用</string>
 	
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
-	<string name="game_over_status">ゲームオーバー -- </string>
+	<string name="game_over_status">ゲームオーバー — </string>
 	<string name="game_length_status">ゲーム時間: </string>
 	<string name="end_turn">ターン終了</string>
 	<string name="replace">そのまま戻す</string>

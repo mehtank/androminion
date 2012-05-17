@@ -89,7 +89,7 @@
     <string name="Conspirator_name">Conspirador</string>
     <string name="Conspirator_desc">Si has jugado 3 o mas acciones este turno (incluyendo esta): +1 Carta, +1 Accion.</string>
     <string name="Ironworks_name">Ironworks</string>
-    <string name="Ironworks_desc">Gana una carta que valga hasta 4 monedas. Si es... Una carta de acción +1 acción. Carta de tesoro +1 moneda. Carta de Victoria +1 carta.</string>
+    <string name="Ironworks_desc">Gana una carta que valga hasta 4 monedas. Si es… Una carta de acción +1 acción. Carta de tesoro +1 moneda. Carta de Victoria +1 carta.</string>
     <string name="Masquerade_name">Mascarada</string>
     <string name="Masquerade_desc">Cada jugador pasa una carta de su mano a la izquierda al mismo tiempo. Entonces, tú debes eliminar una carta de tu mano.</string>
     <string name="MiningVillage_name">Aldea Minera</string>

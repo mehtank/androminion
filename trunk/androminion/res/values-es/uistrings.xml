@@ -30,7 +30,7 @@
 	<string name="island_header">Isla:</string>
 	<string name="village_header">Aldea:</string>
 
-	<string name="game_loaded">Juego cargado!\nLas acciones, compras y monedas\ndisponibles se muestran en el \ntregistro como a/b/(c)</string>
+	<string name="game_loaded">Juego cargado!\nLas acciones, compras y monedas\ndisponibles se muestran en el \ntregistro como a/c/(m)</string>
 
 	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
 	<string name="action_single">%1$s acción</string>

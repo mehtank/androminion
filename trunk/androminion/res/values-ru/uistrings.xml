@@ -62,9 +62,9 @@
         <string name="achievements_menu">Достижения</string>
 	<string name="win_loss_menu">Рекорды Побед/Пораж.</string>
         <string name="quit_menu">Выход</string>
-        <string name="toast_starting">Начинаем игру...</string>
+        <string name="toast_starting">Начинаем игру…</string>
         <string name="toast_quitconfirm">Нажмите еще раз, чтобы выйти.</string>
-        <string name="toast_loading">Загружаю игру...</string>
+        <string name="toast_loading">Загружаю игру…</string>
 
         <string name="accept">Принять</string>
 <!--         <string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string> -->

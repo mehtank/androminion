@@ -86,7 +86,6 @@ public class Strings {
     	if (gametype==null){
     		try {
     			Resources r = context.getResources();
-    			String str = g.name() + "_gametype";
     			int id = r.getIdentifier(g.name() + "_gametype", "string", context.getPackageName());
     			gametype = r.getString(id);
     		}      

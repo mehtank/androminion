@@ -61,9 +61,9 @@
 	<string name="achievements_menu">Achievements</string>
 	<string name="win_loss_menu">Win/Loss Record</string>
 	<string name="quit_menu">Quit</string>
-	<string name="toast_starting">Starting game...</string>
+	<string name="toast_starting">Starting game…</string>
 	<string name="toast_quitconfirm">Click again to quit.</string>
-	<string name="toast_loading">Loading game...</string>
+	<string name="toast_loading">Loading game…</string>
 
 	<string name="accept">Accept</string>
 	<string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>

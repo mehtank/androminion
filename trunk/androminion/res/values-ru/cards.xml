@@ -115,7 +115,7 @@
     <string name="Upgrade_name">Улучшение</string>
     <string name="Upgrade_desc">Выбросьте на свалку карту с руки. Наберите карту стоимостью на 1 больше.</string>
     <string name="Tribute_name">Дань</string>
-    <string name="Tribute_desc">Игрок слева от вас открывает а затем бросает в сброс 2 верхние карты его колоды. За каждую карту (если они разные)... Действия, +2 действия; Казны, +2 монеты. ПО, +2 карты.</string>
+    <string name="Tribute_desc">Игрок слева от вас открывает а затем бросает в сброс 2 верхние карты его колоды. За каждую карту (если они разные)… Действия, +2 действия; Казны, +2 монеты. ПО, +2 карты.</string>
     <string name="GreatHall_name">Великая зала</string>
     <string name="GreatHall_desc"></string>
     <string name="Duke_name">Граф</string>
