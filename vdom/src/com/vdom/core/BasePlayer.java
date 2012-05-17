@@ -29,7 +29,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     protected boolean reactedMoat = false;
     protected boolean reactedSecretChamber = false;
-    private boolean Card;
+    //private boolean Card;
 
     @Override
     public void newGame(MoveContext context) {

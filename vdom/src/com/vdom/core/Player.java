@@ -420,11 +420,11 @@ public abstract class Player {
         return allCards;
     }
 
-    public int getCardCount(final Class cardClass) {
+    public int getCardCount(final Class<?> cardClass) {
         return this.getCardCount(cardClass, getAllCards());
 	}
 
-    public int getCardCount(final Class cardClass, ArrayList<Card> cards) {
+    public int getCardCount(final Class<?> cardClass, ArrayList<Card> cards) {
         int cardCount = 0;
 
         for (Card card : cards) {

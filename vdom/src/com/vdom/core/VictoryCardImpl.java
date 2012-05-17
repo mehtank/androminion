@@ -1,9 +1,6 @@
 package com.vdom.core;
 
-import java.util.ArrayList;
-
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public class VictoryCardImpl extends CardImpl implements VictoryCard {

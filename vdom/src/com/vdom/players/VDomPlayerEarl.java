@@ -15,6 +15,7 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
+import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
  
@@ -52,7 +53,7 @@ public class VDomPlayerEarl extends BasePlayer
    public void gameEvent(GameEvent event)
    {
        super.gameEvent(event);
-        if (game.debug) {
+        if (Game.debug) {
      if ((event.getPlayer() != this) || 
        (event.getType() == GameEvent.Type.GameStarting)) return;
      if (event.getType() == GameEvent.Type.TurnBegin) {
