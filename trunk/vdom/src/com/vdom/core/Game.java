@@ -1,6 +1,5 @@
 package com.vdom.core;
 
-import java.io.Serializable;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.TreeSet;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
@@ -1301,7 +1299,6 @@ public class Game {
         return totalCardCount;
     }
 
-    @SuppressWarnings("unchecked")
     void initGameBoard() throws ExitException {
         cardSequence = 1;
         baneCard = null;
@@ -1320,7 +1317,8 @@ public class Game {
         initPlayers(numPlayers, true);
     }
 
-    protected void initPlayers(int numPlayers, boolean isRandom) throws ExitException {
+    @SuppressWarnings("unchecked")
+	protected void initPlayers(int numPlayers, boolean isRandom) throws ExitException {
         players = new Player[numPlayers];
         cardsObtainedLastTurn = new ArrayList[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
@@ -1368,7 +1366,7 @@ public class Game {
                 if(playerStartupInfo[2] != null) {
                     players[i].setName(playerStartupInfo[2]);
                 }
-                String options = playerStartupInfo[3];
+                //String options = playerStartupInfo[3];
                 playerCache.put(playerStartupInfo[0], players[i]);
             } catch (Exception e) {
                 Util.log(e);

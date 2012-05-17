@@ -7,7 +7,6 @@ import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
-import com.vdom.core.Player.PutBackOption;
 
 public abstract class QuickPlayPlayer extends BasePlayer {
     protected static final Card[] TRASH_CARDS = new Card[] { Cards.curse, Cards.estate, Cards.copper };

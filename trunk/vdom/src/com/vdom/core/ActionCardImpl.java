@@ -3757,8 +3757,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	nobleBrigandAttack(context, false);
         	break;
         case Mint:
-            for (Iterator it = context.playedCards.iterator(); it.hasNext();) {
-                Card playedCard = (Card) it.next();
+            for (Iterator<Card> it = context.playedCards.iterator(); it.hasNext();) {
+                Card playedCard = it.next();
                 if (playedCard instanceof TreasureCard) {
                     context.player.trash(playedCard, this, context);
                     it.remove();
