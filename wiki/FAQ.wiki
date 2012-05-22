@@ -13,3 +13,11 @@ You are permitted to reveal a reaction card like Moat or Secret Chamber multiple
 ==I played a Goons with a King's Court.  Why don't I get 3 VP per buy?==
 
 Actions "in play" is different from actions "played". See the entry for Goons in the Prosperity rulebook -- you only get 1 VP per buy per actual Goons card played, regardless of KC / TR.  (Cf. Princess, Haggler, Highway)
+
+==I found another bug!==
+
+Check the open issues at http://code.google.com/p/androminion/issues/list -- if it hasn't yet been reported, fill out a new request.  
+
+==Can I help?==
+
+Absolutely!  We could definitely use help fixing the outstanding issues, especially with updating the UI to work on tablets.  Just leave us a message.
