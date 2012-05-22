@@ -1,0 +1,11 @@
+#summary Frequently asked questions about the Androminion app and gameplay.
+
+(Thanks to http://dominion.isotropic.org/faq/ for some responses)
+
+==I played a Goons with a King's Court.  Why don't I get 3 VP per buy?==
+
+Actions "in play" is different from actions "played". See the entry for Goons in the Prosperity rulebook -- you only get 1 VP per buy per actual Goons card played, regardless of KC / TR.  (Cf. Princess, Haggler, Highway)
+
+==Secret chamber enters an infinite loop.==
+
+You are permitted to reveal a reaction card like Moat or Secret Chamber multiple times per attack.  Usually it does not benefit you to do so, but occasionally it can, so such an ability is allowed.  Note that Secret Chamber never blocks an attack -- revealing it only allows the draw / replace ability.  Once you select "None" to move on, the attack will take effect.
