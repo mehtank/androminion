@@ -71,6 +71,10 @@
 	<string name="whatsnew_menu">What\'s new </string>
 	<string name="whatsnew_title">What\'s new: </string>
 	<string name="whatsnew"> <![CDATA[
+	    <h3>Version 2.04</h3>
+	    * Translation to Dutch <br>
+	    * Bugfixes <br>
+	    * Last version for Android 1.5 and 1.6
 	    <h3>Version 2.03</h3>	
 	    * Possession! <br>
 	    * Additional translations <br>
