@@ -71,9 +71,9 @@
 	<string name="whatsnew_title">What\'s new: </string>
 	<string name="whatsnew"> <![CDATA[
 	    <h3>Version 2.04</h3>
-	    * Translation to Dutch <br>
-	    * Bugfixes <br>
-	    * Last version for Android 1.5 and 1.6
+	    * オランダ語への翻訳 <br>
+	    * バグ修正 <br>
+	    * Android 1.5 および 1.6対応最後のバージョン
 	    <h3>Version 2.03</h3>	
 	    * 支配! <br>
 	    * 翻訳を追加しました。 <br>
