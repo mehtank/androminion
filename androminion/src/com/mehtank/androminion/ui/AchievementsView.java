@@ -1,7 +1,5 @@
 package com.mehtank.androminion.ui;
 
-import com.mehtank.androminion.Androminion;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -29,12 +27,12 @@ public class AchievementsView extends FrameLayout {
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.setBackgroundColor(0x66000000);
         
-        Achievements achievements = new Achievements((Androminion) top);
+        Achievements achievements = new Achievements(top);
         for(int i=0; i < Achievements.keys.length; i++) {
             final boolean b = achievements.hasAchieved(Achievements.keys[i]);
             final CheckBox cb = new CheckBox(top);
             cb.setTextSize(cb.getTextSize() * .75f);
-            cb.setText(Achievements.text[i]);
+            cb.setText(achievements.text[i]);
             cb.setChecked(b);
             cb.setOnClickListener(new OnClickListener() {
                 @Override

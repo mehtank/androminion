@@ -6,17 +6,18 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 
 public class Achievements {
-    public static String[] keys = new String[]{ 
+    public static final String[] keys = { 
         "2players8provinces", 
         "3or4players10provinces", 
         "score100", 
@@ -28,35 +29,33 @@ public class Achievements {
         "gainmorethan30inaturn",
         "win10inarow",
         };
-    public static String[] text = new String[]{ 
-        "Have all 8 Provinces at the end of a 2 player game", 
-        "Have 10 or more Provinces at the end of a 3 or 4 player game", 
-        "Win a game with 100 or more VP", 
-        "Win a game by exactly 1 VP", 
-        "Win a game buying no more than one unique Kingdom Card",
-        "Win a game by more than 50 VP",
-        "Win a game with at least one opponent having 0 or less VP",
-        "Trash more than 5 cards in a single turn",
-        "Gain more than 30 VP in a single turn",
-        "Win 10 games in a row",
-     };
+    private static final int[] ids = {
+    	R.string.achievements_2players8provinces,
+    	R.string.achievements_3or4players10provinces,
+    	R.string.achievements_score100,
+    	R.string.achievements_score1more,
+    	R.string.achievements_singlecard,
+    	R.string.achievements_score50more,
+    	R.string.achievements_skunk,
+    	R.string.achievements_trash5inaturn,
+    	R.string.achievements_gainmorethan30inaturn,
+    	R.string.achievements_win10inarow
+    };
+    public String[] text = new String[keys.length];
     boolean[] achievementsDone = new boolean[keys.length];
     
     public static final String WIN_STREAK_PLAYER_KEY = "win_streak_player";
     public static final String WIN_STREAK_COUNT_KEY = "win_streak_count";
     
     SharedPreferences prefs;
-    Androminion top;
+    Context context;
     
-    public Achievements(Androminion top) {
-        this.top = top;
-        this.prefs = PreferenceManager.getDefaultSharedPreferences(top);
+    public Achievements(Context context) {
+        this.context = context;
+        this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        Resources r = top.getResources();
-        int id;
         for(int i=0; i < Achievements.keys.length; i++) {
-        	id = r.getIdentifier("achievements_" + keys[i], "string", top.getPackageName());
-        	text[i] = r.getString(id);
+        	text[i] = context.getString(ids[i]);
             achievementsDone[i] = hasAchieved(Achievements.keys[i]);
         }
     }
@@ -107,7 +106,7 @@ public class Achievements {
     public boolean hasAchieved(String achievement) {
         int index = achievementIndex(achievement);
         if(index == -1) {
-            top.debug("ERROR: Requested Achievement not found:" + achievement);
+            Log.d("Androminion","ERROR: Requested Achievement not found:" + achievement);
             return false;
         }
         
@@ -117,7 +116,7 @@ public class Achievements {
     public void achieved(String achievement) {
         int index = achievementIndex(achievement);
         if(index == -1) {
-            top.debug("ERROR: Acquired Achievement not found:" + achievement);
+            Log.d("Androminion","ERROR: Acquired Achievement not found:" + achievement);
             return;
         }
         if(!achievementsDone[index]) {
@@ -125,7 +124,7 @@ public class Achievements {
             Editor editor = prefs.edit();
             editor.putBoolean(keys[index], true);              
             editor.commit();
-            if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.achievements_menu)+ "!!!\n" + text[index], Toast.LENGTH_SHORT).show();
+            if (!Androminion.NOTOASTS) Toast.makeText(context, context.getString(R.string.achievements_menu)+ "!!!\n" + text[index], Toast.LENGTH_SHORT).show();
         }
     }
     
