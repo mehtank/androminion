@@ -11,6 +11,12 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.Toast;
 
 import com.mehtank.androminion.Androminion;
@@ -112,6 +118,8 @@ public class Achievements {
         
         return prefs.getBoolean(keys[index], false);
     }
+    
+    
     
     public void achieved(String achievement) {
         int index = achievementIndex(achievement);
@@ -260,4 +268,31 @@ public class Achievements {
         }
         return false;
     }
+    
+    public AchievementsAdapter getNewAchievementsAdapter() {
+    	return new AchievementsAdapter();
+    }
+    
+    public class AchievementsAdapter extends ArrayAdapter<String> {
+    	private final static int ROWLAYOUT = android.R.layout.simple_list_item_checked;
+    	public AchievementsAdapter() {
+    		super(context, ROWLAYOUT, text);
+    	}
+
+    	@Override
+    	public View getView(int position, View convertView, ViewGroup parent) {
+    		View rowView = convertView;
+    		if (rowView == null) {
+    			LayoutInflater inflater = LayoutInflater.from(context);
+    			rowView = inflater.inflate(ROWLAYOUT, null);
+    			CheckedTextView cbx = (CheckedTextView) rowView.findViewById(android.R.id.text1);
+    			rowView.setTag(cbx);
+    		}
+
+    		CheckedTextView cbx = (CheckedTextView) rowView.getTag();
+    		cbx.setText(text[position]);
+    		cbx.setChecked(achievementsDone[position]);
+    		return rowView;
+    	}
+    } 
 }
