@@ -10,6 +10,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ListView;
 import android.widget.TabHost;
 
 public class CombinedStatsDialog {
@@ -32,6 +33,10 @@ public class CombinedStatsDialog {
         spec2.setIndicator(top.getResources().getString(R.string.achievements_menu), top.getResources().getDrawable(android.R.drawable.ic_menu_agenda));
         spec2.setContent(R.id.statstab2);
         th.addTab(spec2);
+        
+        ListView list = (ListView) view.findViewById(R.id.statstab2);
+        list.setAdapter(achievements.getNewAchievementsAdapter());
+        list.setBackgroundColor(0x66000000);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(top)
         	.setView(th)

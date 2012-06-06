@@ -22,12 +22,10 @@
                 android:layout_height="wrap_content">
             </com.mehtank.androminion.ui.WinLossView>
 
-            <com.mehtank.androminion.ui.AchievementsView
+			<ListView
                 android:id="@+id/statstab2"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            </com.mehtank.androminion.ui.AchievementsView>
-
+                android:layout_height="wrap_content"/>
         </FrameLayout>
     </LinearLayout>
 </TabHost>
