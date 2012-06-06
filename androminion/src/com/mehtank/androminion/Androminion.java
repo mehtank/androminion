@@ -528,7 +528,6 @@ public class Androminion extends Activity implements EventHandler {
 				break;
 
 			case QUIT:
-				nag(e.s);
 				gotQuit = true;
 				disconnect();
 			}
@@ -561,11 +560,6 @@ public class Androminion extends Activity implements EventHandler {
 		comm = null;
 		commThread = null;
 		gameRunning = false;
-	}
-
-	protected void nag(String s) {
-		alert("", s);
-		// new BuyDialog(this, s);
 	}
 
 	private boolean connect(int p) {

@@ -5,23 +5,22 @@ import java.io.File;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Environment;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 
 public class TurnView extends LinearLayout {
 
 	static final int MAXICONS = 5;
 	
-	Androminion top;
+	Context top;
 	static boolean graphical = false;
 
 	LinearLayout.LayoutParams lp;
 	TextView tv;
-	
 	Uri trURI, actionURI, buyURI, bridgeURI;
 	TextView coins;
 	
@@ -31,24 +30,25 @@ public class TurnView extends LinearLayout {
 		super(context);
 		
 		this.largeRefText = largeRefText;
-		this.top = (Androminion) context;
+		this.top = context;
 		
-		String str = "/sdcard/Dominion/images/icons/throneroom.png";
+		final String BASEDIR = Environment.getExternalStorageDirectory().getAbsolutePath();
+		String str = BASEDIR + "/Dominion/images/icons/throneroom.png";
 		File f = new File(str);
 		if (f.exists())
 			trURI = Uri.parse(str);
 
-		str = "/sdcard/Dominion/images/icons/action.png";
+		str = BASEDIR + "/Dominion/images/icons/action.png";
 		f = new File(str);
 		if (f.exists())
 			actionURI = Uri.parse(str);
 		
-		str = "/sdcard/Dominion/images/icons/buy.png";
+		str = BASEDIR + "/Dominion/images/icons/buy.png";
 		f = new File(str);
 		if (f.exists())
 			buyURI = Uri.parse(str);
 		
-		str = "/sdcard/Dominion/images/icons/bridge.png";
+		str = BASEDIR + "/Dominion/images/icons/bridge.png";
 		f = new File(str);
 		if (f.exists())
 			bridgeURI = Uri.parse(str);
