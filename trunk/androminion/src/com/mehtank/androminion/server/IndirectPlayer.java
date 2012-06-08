@@ -1133,7 +1133,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_contraband_cardPlayerCantBuy(context)) {
             return super.contraband_cardPlayerCantBuy(context);
         }
-        return getFromTable(context, getCardName(Cards.contraband), Integer.MAX_VALUE, getString(R.string.none));
+        return getFromTable(context, getCardName(Cards.contraband), Integer.MAX_VALUE, NOTPASSABLE);
     }
     
     public Card expand_cardToTrash(MoveContext context) {
