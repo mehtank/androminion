@@ -1198,7 +1198,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_mint_treasureToMint(context)) {
             return super.mint_treasureToMint(context);
         }
-        return (TreasureCard) getTreasureFromHand(context, getCardName(Cards.mint), NOTPASSABLE, SelectCardOptions.PickType.MINT);
+        return (TreasureCard) getTreasureFromHand(context, getCardName(Cards.mint), getString(R.string.pass), SelectCardOptions.PickType.MINT);
     }
     
     public boolean mountebank_attack_shouldDiscardCurse(MoveContext context) {
