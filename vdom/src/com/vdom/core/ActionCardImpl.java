@@ -1330,14 +1330,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void mint(MoveContext context, Player currentPlayer) {
         TreasureCard cardToMint = currentPlayer.controlPlayer.mint_treasureToMint(context);
 
-        if (cardToMint == null || !currentPlayer.hand.contains(cardToMint)) {
-            Util.playerError(currentPlayer, "Mint treasure selection error, picking first treasure card to mint.");
-            for (Card card : currentPlayer.hand) {
-                if (card instanceof TreasureCard) {
-                    cardToMint = (TreasureCard) card;
-                    break;
-                }
-            }
+        if (cardToMint != null && !currentPlayer.hand.contains(cardToMint)) {
+            Util.playerError(currentPlayer, "Mint treasure selection error, not minting anything.");
         }
 
         if (cardToMint != null) {
