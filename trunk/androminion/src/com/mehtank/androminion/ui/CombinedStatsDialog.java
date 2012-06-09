@@ -18,7 +18,7 @@ public class CombinedStatsDialog {
     	final Achievements achievements = new Achievements((Androminion) top);
 
         LayoutInflater inflator = ((Androminion)top).getLayoutInflater();
-        View view = inflator.inflate(R.layout.combinedstatsdialog, null);
+        View view = inflator.inflate(R.layout.combinedstatsfragment, null);
 
         TabHost th=(TabHost)view;
         th.setup();
