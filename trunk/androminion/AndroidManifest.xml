@@ -26,13 +26,15 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="Preferences" >
         </activity>
+        <activity android:name=".ui.AboutActivity"></activity>
+        <activity android:name=".ui.CombinedStatsActivity"></activity>
 
         <service
             android:name=".server.DominionServer"
@@ -41,6 +43,7 @@
                 <action android:name="com.mehtank.androminion.SERVER" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>

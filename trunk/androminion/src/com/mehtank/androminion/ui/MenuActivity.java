@@ -14,6 +14,7 @@ public class MenuActivity extends FragmentActivity {
 	boolean mTwoColums = false;
 	int mState = R.id.but_about;
 	
+	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menuactivity);
@@ -53,6 +54,8 @@ public class MenuActivity extends FragmentActivity {
 					mState = R.id.but_stats;
 					changeFragment(new CombinedStatsFragment());
 				}
+			} else {
+				startActivity(new Intent(this, CombinedStatsActivity.class));
 			}
 			break;
 		case R.id.but_settings:
@@ -64,6 +67,8 @@ public class MenuActivity extends FragmentActivity {
 					mState = R.id.but_about;
 					changeFragment(new AboutFragment());
 				}
+			} else {
+				startActivity(new Intent(this, AboutActivity.class));
 			}
 			break;
 		}
