@@ -8,11 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 public class MenuActivity extends FragmentActivity {
-	Fragment mRight;
+	boolean mTwoColums = false;
 	int mState = R.id.but_about;
 	
 	protected void onCreate (Bundle savedInstanceState) {
@@ -20,10 +19,23 @@ public class MenuActivity extends FragmentActivity {
 		setContentView(R.layout.menuactivity);
 		
 		if(findViewById(R.id.contentfragment) != null)	{
-			mRight = new AboutFragment();
-			getSupportFragmentManager().beginTransaction()
-			.add(R.id.contentfragment, mRight).commit();
-		}
+			mTwoColums = true;
+			if (savedInstanceState == null || getSupportFragmentManager().findFragmentById(R.id.contentfragment) == null) {
+				getSupportFragmentManager()
+					.beginTransaction()
+					.add(R.id.contentfragment, new AboutFragment())
+					.commit();
+			}
+			if(savedInstanceState != null) {
+				mState = savedInstanceState.getInt("mState");
+			}
+		}	
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle savedInstanceState) {
+		savedInstanceState.putInt("mState", mState);
+		super.onSaveInstanceState(savedInstanceState);
 	}
 
 	public void buttonClick(View view) {
@@ -36,7 +48,7 @@ public class MenuActivity extends FragmentActivity {
 			startActivity(new Intent(this, Androminion.class));
 			break;
 		case R.id.but_stats:
-			if(mRight != null){
+			if(mTwoColums){
 				if(mState != R.id.but_stats) {
 					mState = R.id.but_stats;
 					changeFragment(new CombinedStatsFragment());
@@ -47,7 +59,7 @@ public class MenuActivity extends FragmentActivity {
 				startActivity(new Intent(this, SettingsActivity.class));
 			break;
 		case R.id.but_about:
-			if(mRight != null){
+			if(mTwoColums){
 				if(mState != R.id.but_about) {
 					mState = R.id.but_about;
 					changeFragment(new AboutFragment());
@@ -58,8 +70,9 @@ public class MenuActivity extends FragmentActivity {
 	}
 	
 	private void changeFragment(Fragment newFragment) {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.replace(R.id.contentfragment, newFragment);
-		ft.commit();
+		getSupportFragmentManager()
+			.beginTransaction()
+			.replace(R.id.contentfragment, newFragment)
+			.commit();
 	}
 }
