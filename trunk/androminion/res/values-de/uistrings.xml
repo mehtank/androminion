@@ -101,5 +101,9 @@
 	<string name="game_type_last">Zuletzt gespielt</string>
 	<string name="game_type_specified">Ausgewählte Karten</string>
 	<string name="tournament_reveal">Provinz aufdecken</string>
+	<string-array name="reset_choices">
+		<item >Statistik zurücksetzten</item>
+		<item >Erfolge zurücksetzten</item>
+	</string-array>
 </resources>
 

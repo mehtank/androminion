@@ -105,4 +105,8 @@
 	<string name="game_type_preset">Preset</string>
 	<string name="game_type_last">Last played</string>
 	<string name="game_type_specified">Specified cards</string>
+	<string-array name="reset_choices">
+		<item >Reset statistic</item>
+		<item >Reset achievements</item>
+	</string-array>
 </resources>

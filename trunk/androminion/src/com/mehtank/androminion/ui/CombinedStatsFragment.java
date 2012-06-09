@@ -2,11 +2,16 @@ package com.mehtank.androminion.ui;
 
 import com.mehtank.androminion.R;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 
@@ -32,12 +37,48 @@ public class CombinedStatsFragment extends Fragment {
         
         ListView list = (ListView) mView.findViewById(R.id.statstab2);
         list.setAdapter(achievements.getNewAchievementsAdapter());
-        list.setBackgroundColor(0x66000000);
 
-        WinLossView winloss = (WinLossView) th.findViewById(R.id.statstab1);
-        if(!winloss.statsEmpty) {
-        	//achievements.resetStats();
-        }
+        Button butReset = (Button)mView.findViewById(R.id.but_reset);
+        butReset.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				buildResetDialog(getActivity()).show();
+			}});
         return mView;
 	}
+	
+    private AlertDialog buildResetDialog(final Context context) {
+    	final boolean[] choices = {true, true};
+    	class choiceListenerClass implements DialogInterface.OnMultiChoiceClickListener, OnClickListener{
+    	   	public boolean resetStats = false;
+        	public boolean resetAchievements = false;
+        	
+			@Override
+			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+				if(which == 0){
+					resetStats = isChecked;
+				} else if(which == 1){
+					resetAchievements = isChecked;
+				}
+			}
+			
+    		@Override
+    		public void onClick(DialogInterface dialog, int i) {
+    	    	final Achievements achievements = new Achievements(context);
+    			if(resetStats) {
+    				achievements.resetStats();
+    			}
+    			if(resetAchievements) {
+    				//achievements.resetAchievements();
+    			}
+    		}
+		};
+		final choiceListenerClass choiceListener = new choiceListenerClass();
+    	AlertDialog.Builder builder = new AlertDialog.Builder(context)
+		.setTitle(R.string.reset)
+		.setNegativeButton(android.R.string.cancel, null)
+		.setMultiChoiceItems(R.array.reset_choices, choices, choiceListener)
+		.setPositiveButton(R.string.reset, choiceListener);
+    	return builder.create();
+    }
 }
