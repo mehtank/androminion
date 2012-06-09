@@ -25,7 +25,7 @@ public class AboutDialog {
 	
 	private void showDialog(Context top, boolean showNew) {
         LayoutInflater inflator = ((Androminion)top).getLayoutInflater();
-        View view = inflator.inflate(R.layout.aboutdialog, null);
+        View view = inflator.inflate(R.layout.aboutfragment, null);
 
         TabHost th=(TabHost)view;
         th.setup();
