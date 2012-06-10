@@ -14,7 +14,7 @@ import android.view.WindowManager;
 
 public class MenuActivity extends FragmentActivity {
 	boolean mTwoColums = false;
-	int mState = R.id.but_about;
+	int mState = 0;
 	
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class MenuActivity extends FragmentActivity {
 					.beginTransaction()
 					.add(R.id.contentfragment, new AboutFragment())
 					.commit();
+				mState = R.id.but_about;
 			}
 			if(savedInstanceState != null) {
 				mState = savedInstanceState.getInt("mState");
@@ -51,7 +52,14 @@ public class MenuActivity extends FragmentActivity {
 	public void doAction(int id) {
 		switch(id){
 		case R.id.but_start:
-			startActivity(new Intent(this, Androminion.class));
+			if(mTwoColums){
+				if(mState != R.id.but_start) {
+					mState = R.id.but_start;
+					changeFragment(new StartGameFragment());
+				}
+			} else {
+				startActivity(new Intent(this, Androminion.class));
+			}
 			break;
 		case R.id.but_stats:
 			if(mTwoColums){
