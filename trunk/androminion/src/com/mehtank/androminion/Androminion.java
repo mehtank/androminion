@@ -31,8 +31,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.mehtank.androminion.ui.AboutDialog;
-import com.mehtank.androminion.ui.CombinedStatsDialog;
+import com.mehtank.androminion.ui.AboutActivity;
+import com.mehtank.androminion.ui.CombinedStatsActivity;
 import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
@@ -156,7 +156,7 @@ public class Androminion extends Activity implements EventHandler {
 			edit.putString("LastVersion", getString(R.string.version));
 			edit.commit();
 
-			new AboutDialog(this, true);
+			//new AboutDialog(this, true);
 		}
 		
 		// ds = new DominionServer(top);
@@ -258,14 +258,10 @@ public class Androminion extends Activity implements EventHandler {
 			invite();
 			break;
 		case MENU_ABOUT:
-			// alert("About Androminion:", "It's awesome.");
-			new AboutDialog(this);
+			startActivity(new Intent(this, AboutActivity.class));
 			break;
-//        case MENU_ACHIEVEMENTS:
-//            new AchievementsView(this);
-//            break;
         case MENU_STATS:
-            new CombinedStatsDialog(this);
+        	startActivity(new Intent(this, CombinedStatsActivity.class));
             break;
 		case MENU_HELP:
 			 // Uri uri = Uri.parse("http://android.mehtank.com/help.html");
