@@ -29,9 +29,9 @@ public class MenuActivity extends FragmentActivity {
 			if (savedInstanceState == null || getSupportFragmentManager().findFragmentById(R.id.contentfragment) == null) {
 				getSupportFragmentManager()
 					.beginTransaction()
-					.add(R.id.contentfragment, new AboutFragment())
+					.add(R.id.contentfragment, new StartGameFragment())
 					.commit();
-				mState = R.id.but_about;
+				mState = R.id.but_start;
 			}
 			if(savedInstanceState != null) {
 				mState = savedInstanceState.getInt("mState");

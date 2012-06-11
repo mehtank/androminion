@@ -19,13 +19,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class StartGameFragment extends Fragment implements OnCheckedChangeListener, OnClickListener {
-	int port;
-
-	public static final String CARDS_PASSED = "<Specified cards>";
-	public static final String CARDS_LAST = "<Last played>";
-
 	
 	//Views
 	View mView;
@@ -38,8 +34,9 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 	
 	Spinner mRandomSpinner;
 	Spinner mPresetSpinner;
-	Spinner mHumanPlayer;
-	ArrayList<Spinner> mPlayers = new ArrayList<Spinner>(3);
+	Spinner mPlayer2;
+	Spinner mPlayer3;
+	Spinner mPlayer4;
 	
 	Button mStartGame;
 	
@@ -47,6 +44,17 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 	SharedPreferences mPrefs;
 	String[] mLastCards;
 	String[] mCardsPassOnStartup;
+	
+	//TODO: find a better solution for these
+	static final String HUMANPLAYER = "Human Player";
+	static final String[] PLAYERTYPES =  {
+			"Drew (AI)",
+			"Earl (AI)",
+            "Mary (AI)",
+            "Chuck (AI)",
+            "Sarah (AI)",
+            "Random AI",
+	};
 	
 	enum TypeOptions {RANDOM, PRESET, LAST, SPECIFIED};
 	TypeOptions mGameType;
@@ -70,9 +78,9 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
         mSpecified.setOnCheckedChangeListener(this);
         mRandomSpinner = (Spinner) mView.findViewById(R.id.spinnerRandom);
         mPresetSpinner = (Spinner) mView.findViewById(R.id.spinnerPreset);
-        mPlayers.add((Spinner) mView.findViewById(R.id.spPlayer2));
-        mPlayers.add((Spinner) mView.findViewById(R.id.spPlayer3));
-        mPlayers.add((Spinner) mView.findViewById(R.id.spPlayer4));
+        mPlayer2 = (Spinner) mView.findViewById(R.id.spPlayer2);
+        mPlayer3 = (Spinner) mView.findViewById(R.id.spPlayer3);
+        mPlayer4 = (Spinner) mView.findViewById(R.id.spPlayer4);
         mStartGame = (Button) mView.findViewById(R.id.butStart);
         mStartGame.setOnClickListener(this);
 
@@ -117,11 +125,48 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 				presets.add(type);
 			}
 		}
-		mRandomSpinner.setAdapter(createArrayAdapter(randoms));
-		mPresetSpinner.setAdapter(createArrayAdapter(presets));
+		
+		ArrayAdapter<String> adapter = createArrayAdapter(randoms);
+		mRandomSpinner.setAdapter(adapter);
+		mRandomSpinner.setSelection(adapter.getPosition(mPrefs.getString("randomPref", "Random")));
+
+		adapter = createArrayAdapter(presets);
+		mPresetSpinner.setAdapter(adapter);
+		mPresetSpinner.setSelection(adapter.getPosition(mPrefs.getString("presetPref", "First Game (Base)")));
 		
 		//Fill player spinners
+		ArrayList<String> players = new ArrayList<String>(PLAYERTYPES.length + 1);
+		for(String s: PLAYERTYPES) {
+			players.add(s);
+		}
+		String player = getString(R.string.player);
+		adapter = createArrayAdapter(players);
 		
+		((TextView) mView.findViewById(R.id.txtPlayer1))
+			.setText(" - " + player + "1:  ");
+		
+		((TextView) mView.findViewById(R.id.txtPlayer2))
+		.setText(" - " + player + "2:  ");
+		mPlayer2.setPrompt(player+"2");
+		mPlayer2.setAdapter(adapter);
+		mPlayer2.setSelection(adapter.getPosition(mPrefs.getString("gamePref2", getString(R.string.none_game_start))));
+
+		players = new ArrayList<String>(players);
+		players.add(getString(R.string.none_game_start));
+		adapter = createArrayAdapter(players);
+		
+		((TextView) mView.findViewById(R.id.txtPlayer3))
+		.setText(" - " + player + "3:  ");
+		mPlayer3.setPrompt(player+"3");
+		mPlayer3.setAdapter(adapter);
+		mPlayer3.setSelection(adapter.getPosition(mPrefs.getString("gamePref3", getString(R.string.none_game_start))));
+
+		((TextView) mView.findViewById(R.id.txtPlayer4))
+		.setText(" - " + player + "4:  ");
+		mPlayer4.setPrompt(player+2);
+		mPlayer4.setAdapter(adapter);
+		mPlayer4.setSelection(adapter.getPosition(mPrefs.getString("gamePref4", getString(R.string.none_game_start))));
+
         return mView;
 	}
 	
@@ -133,6 +178,13 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 				mLastCards[i] = mPrefs.getString("LastCard" + i, null);
 			}
 		}
+	}
+	
+	private ArrayAdapter<String> createArrayAdapter(ArrayList<String> list) {
+	    ArrayAdapter<String> adapter = new ArrayAdapter<String>
+	    	(getActivity(), android.R.layout.simple_spinner_item, list);
+	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    return adapter;
 	}
 	
 	@Override
@@ -202,13 +254,21 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 			break;
 		}
 		
+		String str = HUMANPLAYER;
+		strs.add(str);
 
-		int i = 0;
-		for (Spinner s : mPlayers) {
-            String str = (String) s.getSelectedItem();
-            strs.add(str);
-            edit.putString("gamePref" + (i++), str);
-		}
+        str = (String) mPlayer2.getSelectedItem();
+        strs.add(str);
+        edit.putString("gamePref2", str);
+        
+        str = (String) mPlayer3.getSelectedItem();
+        strs.add(str);
+        edit.putString("gamePref3", str);
+        
+        str = (String) mPlayer4.getSelectedItem();
+        strs.add(str);
+        edit.putString("gamePref4", str);
+
 		
 		if(mPrefs.getBoolean("plat_colony", false)) {
 		    strs.add("-platcolony");
@@ -235,66 +295,11 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
             }
             strs.add(sb.toString());
         }
-        
+  		edit.commit();
+  		//TODO: return values
 		//top.handle(new Event(Event.EType.STARTGAME)
 		//	.setObject(new EventObject(strs.toArray(new String[0]))));
 		//if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.toast_starting), Toast.LENGTH_SHORT).show();
-		edit.commit();
-	}
-	
-	
-	
-	private ArrayAdapter<String> createArrayAdapter(ArrayList<String> list) {
-	    ArrayAdapter<String> adapter = new ArrayAdapter<String>
-	    	(getActivity(), android.R.layout.simple_spinner_item, list);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    return adapter;
-	}
 
-/*
-	@SuppressWarnings("unchecked")
-	public void showDialog(Androminion top, Event e, boolean multiplayer) {
-	    if(e == null || e.o == null)
-	    {
-	        top.debug("Start game called without proper data in event.");
-	        return;
-	    }
-		String[] playerTypes = new String[strs.length - e.i];
-        
-		for (; at < strs.length; at++)
-			playerTypes[at - e.i] = strs[at];
-
-	for (int i=0; i<4; i++) {
-			LinearLayout hv = new LinearLayout(top);
-			hv.setOrientation(LinearLayout.HORIZONTAL);
-			tv = new TextView(top);
-			String player = top.getString(R.string.player) + (i + 1);
-			tv.setText(" - " + player + ":  ");
-			tv.setTextSize(tv.getTextSize() * 1.5f);
-			hv.addView(tv);
-			
-		    Spinner playerSpinner = slist(top, playerTypes);
-		    playerSpinner.setPrompt(player);
-	    	if (i > 1)
-			    ((ArrayAdapter<String>) playerSpinner.getAdapter()).add(top.getString(R.string.none_game_start));
-	    	
-			playerSpinner.setSelection(((ArrayAdapter<String>) playerSpinner.getAdapter()).getPosition(prefs.getString("gamePref" + i, top.getString(R.string.none_game_start))));
-	    	values.add(playerSpinner);
-	    	
-	    	if (i == 0) {
-				playerSpinner.setSelection(((ArrayAdapter<String>) playerSpinner.getAdapter()).getPosition("Human Player"));
-				
-				ArrayList<String> pts = new ArrayList<String>(Arrays.asList(playerTypes));
-				if (!multiplayer) { // disable additional human players
-					pts.remove("Human Player");
-				}
-				pts.add(Player.RANDOM_AI);
-				playerTypes = pts.toArray(new String[0]);
-	    	} else
-	    		hv.addView(playerSpinner, LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-	    	ll.addView(hv);
-	    }
-	
 	}
-*/
 }

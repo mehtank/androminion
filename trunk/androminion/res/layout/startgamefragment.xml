@@ -82,6 +82,7 @@
                     android:id="@+id/txtPlayer1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/player" />
 
                 <Button
@@ -101,6 +102,7 @@
                     android:id="@+id/txtPlayer2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/player" />
 
                 <Spinner
@@ -118,6 +120,7 @@
                     android:id="@+id/txtPlayer3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/player" />
 
                 <Spinner
@@ -135,6 +138,7 @@
                     android:id="@+id/txtPlayer4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/player" />
 
                 <Spinner
