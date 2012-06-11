@@ -42,12 +42,14 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 	
 	//Options & Co
 	SharedPreferences mPrefs;
+	boolean mMultiplayer = false;
 	String[] mLastCards;
 	String[] mCardsPassOnStartup;
 	
 	//TODO: find a better solution for these
 	static final String HUMANPLAYER = "Human Player";
 	static final String[] PLAYERTYPES =  {
+			"Human Player",
 			"Drew (AI)",
 			"Earl (AI)",
             "Mary (AI)",
@@ -94,10 +96,11 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 		}
 		if(getArguments() == null || !getArguments().containsKey("cards")) {
 			mSpecified.setVisibility(RadioButton.GONE);
+			mGameType = TypeOptions.valueOf(mPrefs.getString("gameType", TypeOptions.PRESET.name()));
 		} else {
 			mCardsPassOnStartup = getArguments().getStringArray("cards");
+			mGameType = TypeOptions.SPECIFIED;
 		}
-        mGameType = TypeOptions.valueOf(mPrefs.getString("gameType", TypeOptions.PRESET.name()));
         switch(mGameType) {
         case RANDOM:
         	mRandom.setChecked(true); break;
@@ -138,6 +141,9 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 		ArrayList<String> players = new ArrayList<String>(PLAYERTYPES.length + 1);
 		for(String s: PLAYERTYPES) {
 			players.add(s);
+		}
+		if(!mMultiplayer){
+			players.remove("Human Player");
 		}
 		String player = getString(R.string.player);
 		adapter = createArrayAdapter(players);
@@ -296,10 +302,16 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
             strs.add(sb.toString());
         }
   		edit.commit();
-  		//TODO: return values
-		//top.handle(new Event(Event.EType.STARTGAME)
-		//	.setObject(new EventObject(strs.toArray(new String[0]))));
-		//if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.toast_starting), Toast.LENGTH_SHORT).show();
-
+  		
+  		try {
+  			((OnStartGameListener) getActivity()).onStartGameClick(strs);
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString() + " must implement OnStartGameListener");
+        }
+	}
+	
+	// Container Activity must implement this interface
+	public interface OnStartGameListener {
+		public void onStartGameClick(ArrayList<String> values);
 	}
 }

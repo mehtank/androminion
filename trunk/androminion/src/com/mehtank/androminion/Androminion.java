@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import android.app.Activity;
@@ -36,10 +37,11 @@ import com.mehtank.androminion.ui.CombinedStatsActivity;
 import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
-import com.mehtank.androminion.ui.StartGameDialog;
+import com.mehtank.androminion.ui.StartGameActivity;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
+import com.vdom.comms.Event.EventObject;
 import com.vdom.comms.EventHandler;
 import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
@@ -161,6 +163,12 @@ public class Androminion extends Activity implements EventHandler {
 		
 		// ds = new DominionServer(top);
 		// quickstart();
+		
+		if(getIntent().hasExtra("command")) {
+			ArrayList<String> strs = getIntent().getStringArrayListExtra("command");
+			handle(new Event(Event.EType.STARTGAME)
+			.setObject(new EventObject(strs.toArray(new String[0]))));
+		}
 	}
 	
 	@Override 
@@ -275,7 +283,7 @@ public class Androminion extends Activity implements EventHandler {
             break;
 		case MENU_QUIT:
 			// TODO: alert("Disconnected! (Hopefully)", ds.test());
-			onDestroy();
+			finish();
 			break;
 			
 		case MENU_SETTINGS:
@@ -296,7 +304,7 @@ public class Androminion extends Activity implements EventHandler {
 		    if (getPref("exitonback")) {
     		    long now = System.currentTimeMillis();
     			if (now - lastBackClick < 3000) // 3 seconds
-    				onDestroy();
+    				finish();
     			else {
     				lastBackClick = now;
     				if (!NOTOASTS) Toast.makeText(top, getString(R.string.toast_quitconfirm), Toast.LENGTH_SHORT)
@@ -317,7 +325,7 @@ public class Androminion extends Activity implements EventHandler {
 		disconnect();
 		stopServer();
 		super.onDestroy();
-		System.exit(0);
+		//System.exit(0);
 	}
 
 	public void addView(View v) {
@@ -383,10 +391,7 @@ public class Androminion extends Activity implements EventHandler {
 	}
 
 	static final int MESSAGE_EVENT = 0;
-	public static final String BASEDIR;
-	static {
-		BASEDIR = Environment.getExternalStorageDirectory().getPath() + "/Androminion";
-	}
+	public static final String BASEDIR = Environment.getExternalStorageDirectory().getPath() + "/Androminion";
 
 	@Override
 	public void debug(String s) {
@@ -689,7 +694,21 @@ public class Androminion extends Activity implements EventHandler {
 //			.setObject(new String[] { "Random", "Human Player",
 //					"Drew (AI)", "Earl (AI)" }));
 
-	    
-	       new StartGameDialog(top, e, MULTIPLAYER, cardsPassedInExtras);
+		Intent i = new Intent(this,StartGameActivity.class);
+		if(getIntent().hasExtra("cards")) {
+			i.putExtras(getIntent());
+		}
+		startActivityForResult(i, 0);
+	       //new StartGameDialog(top, e, MULTIPLAYER, cardsPassedInExtras);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == 0 && resultCode == RESULT_OK && data.hasExtra("command")) {
+			ArrayList<String> strs = data.getStringArrayListExtra("command");
+			handle(new Event(Event.EType.STARTGAME)
+			.setObject(new EventObject(strs.toArray(new String[0]))));
+			if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.toast_starting), Toast.LENGTH_SHORT).show();
+		}
 	}
 }
