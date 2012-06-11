@@ -29,12 +29,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="Preferences" >
-        </activity>
-        <activity android:name=".ui.AboutActivity"></activity>
+        <activity android:name=".ui.StartGameActivity"></activity>
         <activity android:name=".ui.CombinedStatsActivity"></activity>
+        <activity android:name=".SettingsActivity" ></activity>
+        <activity android:name=".ui.AboutActivity"></activity>
+
 
         <service
             android:name=".server.DominionServer"

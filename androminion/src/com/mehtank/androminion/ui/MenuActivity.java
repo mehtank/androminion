@@ -1,8 +1,11 @@
 package com.mehtank.androminion.ui;
 
+import java.util.ArrayList;
+
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.SettingsActivity;
+import com.mehtank.androminion.ui.StartGameFragment.OnStartGameListener;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class MenuActivity extends FragmentActivity {
+public class MenuActivity extends FragmentActivity implements OnStartGameListener{
 	boolean mTwoColums = false;
 	int mState = 0;
 	
@@ -29,7 +32,7 @@ public class MenuActivity extends FragmentActivity {
 			if (savedInstanceState == null || getSupportFragmentManager().findFragmentById(R.id.contentfragment) == null) {
 				getSupportFragmentManager()
 					.beginTransaction()
-					.add(R.id.contentfragment, new StartGameFragment())
+					.add(R.id.contentfragment, createStartGameFragment())
 					.commit();
 				mState = R.id.but_start;
 			}
@@ -39,6 +42,14 @@ public class MenuActivity extends FragmentActivity {
 		}	
 	}
 	
+	private Fragment createStartGameFragment() {
+		Fragment f = new StartGameFragment();
+		if(getIntent().hasExtra("cards")) {
+			f.setArguments(getIntent().getExtras());	
+		}
+		return f;
+	}
+
 	@Override
 	protected void onSaveInstanceState(Bundle savedInstanceState) {
 		savedInstanceState.putInt("mState", mState);
@@ -55,10 +66,14 @@ public class MenuActivity extends FragmentActivity {
 			if(mTwoColums){
 				if(mState != R.id.but_start) {
 					mState = R.id.but_start;
-					changeFragment(new StartGameFragment());
+					changeFragment(createStartGameFragment());
 				}
 			} else {
-				startActivity(new Intent(this, Androminion.class));
+				Intent i = new Intent(this, StartGameActivity.class);
+				if(getIntent().hasExtra("cards")) {
+					i.putExtras(getIntent());	
+				}
+				startActivityForResult(i, 0);
 			}
 			break;
 		case R.id.but_stats:
@@ -92,5 +107,21 @@ public class MenuActivity extends FragmentActivity {
 			.beginTransaction()
 			.replace(R.id.contentfragment, newFragment)
 			.commit();
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == 0 && resultCode == RESULT_OK) {
+			Intent i = new Intent(this, Androminion.class);
+			i.putExtras(data);
+			startActivity(i);
+		}
+	}
+
+	@Override
+	public void onStartGameClick(ArrayList<String> values) {
+		Intent i = new Intent(this, Androminion.class);
+		i.putStringArrayListExtra("command", values);
+		startActivity(i);
 	}
 }

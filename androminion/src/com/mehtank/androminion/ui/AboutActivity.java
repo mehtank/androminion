@@ -8,7 +8,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class AboutActivity extends FragmentActivity {
-	
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
