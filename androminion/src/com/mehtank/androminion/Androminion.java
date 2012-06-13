@@ -164,10 +164,16 @@ public class Androminion extends Activity implements EventHandler {
 		// ds = new DominionServer(top);
 		// quickstart();
 		
-		if(getIntent().hasExtra("command")) {
-			ArrayList<String> strs = getIntent().getStringArrayListExtra("command");
-			handle(new Event(Event.EType.STARTGAME)
-			.setObject(new EventObject(strs.toArray(new String[0]))));
+		if(savedInstanceState == null) {
+			if(getIntent().hasExtra("command")) {
+				ArrayList<String> strs = getIntent().getStringArrayListExtra("command");
+				handle(new Event(Event.EType.STARTGAME)
+				.setObject(new EventObject(strs.toArray(new String[0]))));
+			} else if (getIntent().hasExtra("cards")) {
+				Intent i = new Intent(this,StartGameActivity.class);
+				i.putExtras(getIntent());
+				startActivityForResult(i, 0);
+			}
 		}
 	}
 	
