@@ -23,28 +23,28 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/start_game_menu"
-            android:onClick="buttonClick" />
+            android:onClick="onClickStartGame" />
 
         <Button
             android:id="@+id/but_stats"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/stats_menu"
-            android:onClick="buttonClick" />
+            android:onClick="onClickStats" />
 
         <Button
             android:id="@+id/but_settings"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/settings_menu"
-            android:onClick="buttonClick" />
+            android:onClick="onClickSettings" />
 
         <Button
             android:id="@+id/but_about"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/about_menu"
-            android:onClick="buttonClick" />
+            android:onClick="onClickAbout" />
 
     </LinearLayout>
 
