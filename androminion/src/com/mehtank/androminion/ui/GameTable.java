@@ -24,8 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
-import com.mehtank.androminion.Androminion.AlertType;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.util.HapticFeedback;
+import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.Event;
 import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
@@ -421,14 +422,14 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			return;
 		
         if (clickedCard.opened) {
-			top.alert(AlertType.CLICK);
+			HapticFeedback.vibrate(getContext(), AlertType.CLICK);
 			if (openedCards.contains(clickedCard))
 				openedCards.remove(clickedCard);
             clickedCard.setOpened(false, sco.getPickType().indicator());
             selectButtonState();
 		} else {
 			if (isAcceptable(sco, clickedCard)) {
-				top.alert(AlertType.CLICK);
+				HapticFeedback.vibrate(getContext(), AlertType.CLICK);
 				if (openedCards.size() >= maxOpened) {
                     openedCards.get(0).setOpened(false, sco.getPickType().indicator());
 					openedCards.remove(0);
@@ -546,7 +547,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	}
 
 	public void selectString(String title, String[] options) {
-		top.alert(AlertType.SELECT);
+		HapticFeedback.vibrate(getContext(),AlertType.SELECT);
 		new SelectStringView(top, title, options);
 	}
 
@@ -561,7 +562,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		firstPass = false;
 		resetButtons();
 		
-		top.alert(AlertType.SELECT);
+		HapticFeedback.vibrate(getContext(),AlertType.SELECT);
 		select.setVisibility(VISIBLE);
 		if (sco.isPassable()) {
 			pass.setVisibility(VISIBLE);
@@ -658,14 +659,14 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	}
 
 	public void orderCards(String header, int[] cards) {
-		top.alert(AlertType.SELECT);
+		HapticFeedback.vibrate(getContext(),AlertType.SELECT);
 		new OrderCardsView(top, this, header, cards);
 	}
 
 	public boolean onLongClick(View vin) {
 		CardView cardView = (CardView) vin;
 		
-		top.alert(AlertType.LONGCLICK);
+		HapticFeedback.vibrate(getContext(),AlertType.LONGCLICK);
 		String str = cardView.c.name;
 		str = str.toLowerCase();
 		
@@ -818,7 +819,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			gameScroller.setGameEvent(s, newTurn);
 		
 		if (gs.isFinal) {
-			top.alert(AlertType.FINAL);
+			HapticFeedback.vibrate(getContext(),AlertType.FINAL);
 			finalStatus(gs);
 			return;
 		}
@@ -832,7 +833,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 		if (newTurn) {
 			myTurn = gs.whoseTurn == 0;
 			if (myTurn)
-				top.alert(AlertType.TURNBEGIN);
+				HapticFeedback.vibrate(getContext(),AlertType.TURNBEGIN);
 		}
 		
 		turnStatus.setStatus(gs.turnStatus, gs.cardCostModifier, gs.potions, myTurn);
