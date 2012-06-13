@@ -56,49 +56,44 @@ public class MenuActivity extends FragmentActivity implements OnStartGameListene
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
-	public void buttonClick(View view) {
-		doAction(view.getId());
+	public void onClickStartGame(View view) {
+		if(mTwoColums){
+			if(mState != R.id.but_start) {
+				mState = R.id.but_start;
+				changeFragment(createStartGameFragment());
+			}
+		} else {
+			Intent i = new Intent(this, StartGameActivity.class);
+			if(getIntent().hasExtra("cards")) {
+				i.putExtras(getIntent());	
+			}
+			startActivityForResult(i, 0);
+		}
 	}
-		
-	public void doAction(int id) {
-		switch(id){
-		case R.id.but_start:
-			if(mTwoColums){
-				if(mState != R.id.but_start) {
-					mState = R.id.but_start;
-					changeFragment(createStartGameFragment());
-				}
-			} else {
-				Intent i = new Intent(this, StartGameActivity.class);
-				if(getIntent().hasExtra("cards")) {
-					i.putExtras(getIntent());	
-				}
-				startActivityForResult(i, 0);
+	
+	public void onClickStats(View view) {
+		if(mTwoColums){
+			if(mState != R.id.but_stats) {
+				mState = R.id.but_stats;
+				changeFragment(new CombinedStatsFragment());
 			}
-			break;
-		case R.id.but_stats:
-			if(mTwoColums){
-				if(mState != R.id.but_stats) {
-					mState = R.id.but_stats;
-					changeFragment(new CombinedStatsFragment());
-				}
-			} else {
-				startActivity(new Intent(this, CombinedStatsActivity.class));
+		} else {
+			startActivity(new Intent(this, CombinedStatsActivity.class));
+		}
+	}
+	
+	public void onClickSettings(View view) {
+		startActivity(new Intent(this, SettingsActivity.class));
+	}
+	
+	public void onClickAbout(View view) {
+		if(mTwoColums){
+			if(mState != R.id.but_about) {
+				mState = R.id.but_about;
+				changeFragment(new AboutFragment());
 			}
-			break;
-		case R.id.but_settings:
-				startActivity(new Intent(this, SettingsActivity.class));
-			break;
-		case R.id.but_about:
-			if(mTwoColums){
-				if(mState != R.id.but_about) {
-					mState = R.id.but_about;
-					changeFragment(new AboutFragment());
-				}
-			} else {
-				startActivity(new Intent(this, AboutActivity.class));
-			}
-			break;
+		} else {
+			startActivity(new Intent(this, AboutActivity.class));
 		}
 	}
 	
