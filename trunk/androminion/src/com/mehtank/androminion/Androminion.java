@@ -38,6 +38,8 @@ import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
 import com.mehtank.androminion.ui.StartGameActivity;
+import com.mehtank.androminion.util.HapticFeedback;
+import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
@@ -348,41 +350,7 @@ public class Androminion extends Activity implements EventHandler {
 			splash.setVisibility(LinearLayout.VISIBLE);
 	}
 
-	public static enum AlertType {
-		CHAT, TURNBEGIN, SELECT, CLICK, LONGCLICK, FINAL,
-	};
 
-	public void alert(AlertType t) {
-		if (!getPref("allvibeson"))
-			return;
-		
-		switch (t) {
-		case CHAT:
-			if (getPref("chatvibeon"))
-				v.vibrate(new long[] { 0, 40, 100, 40 }, -1);
-			break;
-		case TURNBEGIN:
-			if (getPref("turnvibeon"))
-				v.vibrate(new long[] { 0, 50, 20, 40, 20, 30 }, -1);
-			break;
-		case SELECT:
-			if (getPref("actionvibeon"))
-				v.vibrate(75);
-			break;
-		case CLICK:
-			if (getPref("clickvibeon"))
-				v.vibrate(20);
-			break;
-		case LONGCLICK:
-			if (getPref("clickvibeon"))
-				v.vibrate(40);
-			break;
-		case FINAL:
-			if (getPref("gamevibeon"))
-				v.vibrate(250);
-			break;
-		}
-	}
 
 	protected void alert(String title, String message) {
 		new AlertDialog.Builder(this)
@@ -453,7 +421,7 @@ public class Androminion extends Activity implements EventHandler {
 
 			// during game
 			case CHAT:
-				alert(AlertType.CHAT);
+				HapticFeedback.vibrate(top, AlertType.CHAT);
 				if (!NOTOASTS) Toast.makeText(top, e.s, Toast.LENGTH_LONG).show();
 				break;
 
