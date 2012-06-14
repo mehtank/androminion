@@ -34,7 +34,7 @@ import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.comms.Event.EventObject;
 
-public class GameTable extends LinearLayout implements OnClickListener, OnLongClickListener, OnSharedPreferenceChangeListener {
+public class GameTable extends LinearLayout implements OnClickListener, OnSharedPreferenceChangeListener {
 	Androminion top;
 
 	ArrayList<String> allPlayers = new ArrayList<String>();
@@ -80,10 +80,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	private HelpView helpView;
 	
 	private LinearLayout makeTable(Context top) {
-    	moneyPile = new CardGroup(top, this, this, true);
-    	vpPile = new CardGroup(top, this, this, true);
-    	supplyPile = new CardGroup(top, this, this, true, 8);
-    	prizePile = new CardGroup(top, this, this, true);
+    	moneyPile = new CardGroup(top, this, true);
+    	vpPile = new CardGroup(top, this, true);
+    	supplyPile = new CardGroup(top, this, true, 8);
+    	prizePile = new CardGroup(top, this, true);
 
     	moneyPileGV = GameTableViews.makeGV(top, moneyPile, 5);
     	vpPileGV = GameTableViews.makeGV(top, vpPile, 5);
@@ -103,10 +103,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	}
 	
 	private View makeMyCards(Context top) {
-		hand = new CardGroup(top, this, this, false);
-    	played = new CardGroup(top, this, this, false);
-		island = new CardGroup(top, this, this, false);
-		village = new CardGroup(top, this, this, false);
+		hand = new CardGroup(top, this, false);
+    	played = new CardGroup(top, this, false);
+		island = new CardGroup(top, this, false);
+		village = new CardGroup(top, this, false);
 
     	handGV = GameTableViews.makeGV(top, hand, 1);
     	playedGV = GameTableViews.makeGV(top, played, 1);
@@ -660,63 +660,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 
 	public void orderCards(String header, int[] cards) {
 		HapticFeedback.vibrate(getContext(),AlertType.SELECT);
-		new OrderCardsView(top, this, header, cards);
-	}
-
-	public boolean onLongClick(View vin) {
-		CardView cardView = (CardView) vin;
-		
-		HapticFeedback.vibrate(getContext(),AlertType.LONGCLICK);
-		String str = cardView.c.name;
-		str = str.toLowerCase();
-		
-		StringTokenizer st = new StringTokenizer(str," ",false);
-		String filename = "";
-		while (st.hasMoreElements()) filename += st.nextElement();
-		
-		View v;
-
-        // int resID =
-        // getResources().getIdentifier("com.mehtank.androminion:drawable/" +
-        // filename, null, null);
-        // if (resID != 0) {
-        // ImageView im = new ImageView(top);
-        // im.setBackgroundResource(resID);
-        // im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        // v = im;
-        // } else {
-			str = Androminion.BASEDIR + "/images/full/" + filename + ".jpg";
-			File f = new File(str);
-			if (f.exists()) {
-				Uri u = Uri.parse(str);
-				ImageView im = new ImageView(top);
-	            im.setImageURI(u);  
-	            im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-	            v = im;
-			} else {
-				TextView tv = new TextView(top);
-				tv.setPadding(15, 0, 15, 5);
-				String text = ""; //cardView.c.name;
-				if(cardView.c.expansion != null && cardView.c.expansion.length() != 0) {
-				    text += "(" + cardView.c.expansion + ")\n";
-				}
-				text += cardView.c.desc;
-				tv.setText( text );
-				v = tv;
-			}
-        // }
-			String title = cardView.c.name;
-			if(PreferenceManager.getDefaultSharedPreferences(top).getBoolean("showenglishnames", false)) {
-				title += " (" + cardView.c.originalName + ")";
-			}
-		new AlertDialog.Builder(top)
-			.setTitle(title)
-			.setView(v)
-			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {} })
-			.show();
-
-		return true;
+		new OrderCardsView(top, header, cards);
 	}
 
 	private void updateSizes(GridView g, int[] supplySizes, int[] embargos) {

@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -73,8 +72,6 @@ public class Androminion extends Activity implements EventHandler {
 	protected Androminion top = this;
 	
 	FrameLayout topView;
-
-	Vibrator v;
 
 	GameTable gt;
 	View splash;
@@ -132,8 +129,6 @@ public class Androminion extends Activity implements EventHandler {
 		topView.addView(splash);
 
 		setContentView(topView);
-
-		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
 		name = prefs.getString("name", DEFAULT_NAME);
