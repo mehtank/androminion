@@ -55,6 +55,6 @@ public class GameTableViews {
 	}
 	
 	public static CardView getCardView(Context context, GameTable gt, int card) {
-		return new CardView(context, gt, gt, null, cardsInPlay.get(card));
+		return new CardView(context, gt, null, cardsInPlay.get(card));
 	}
 }

@@ -1,18 +1,28 @@
 package com.mehtank.androminion.ui;
 
+import java.io.File;
+import java.util.StringTokenizer;
+
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.util.HapticFeedback;
+import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.MyCard;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CardView extends FrameLayout {
+public class CardView extends FrameLayout implements OnLongClickListener {
 
 	public static final int SHOWTOGGLE = 0;
 	public static final int SHOWCOUNT = 1;
@@ -26,20 +36,16 @@ public class CardView extends FrameLayout {
 	
 	MyCard c;
 	OnClickListener gt;
-	OnLongClickListener lc;
 	CardGroup parent;
 	boolean opened = false;
-	Androminion top;
 
-	public CardView(Context context, OnClickListener gt, OnLongClickListener lc, CardGroup parent, MyCard c) {
+	public CardView(Context context, OnClickListener gt, CardGroup parent, MyCard c) {
 		super(context);
-
-		this.top = (Androminion) context;
+		
 		this.gt = gt;
-		this.lc = lc;
 		this.parent = parent;
 
-		colorBox = new TextView(top);
+		colorBox = new TextView(context);
 		FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.FILL_PARENT,
 				FrameLayout.LayoutParams.FILL_PARENT,
@@ -47,7 +53,7 @@ public class CardView extends FrameLayout {
 		colorBox.setLayoutParams(p);
 		addView(colorBox);
 
-		tv = new TextView(top);
+		tv = new TextView(context);
 		tv.setSingleLine();
 		tv.setTextSize(8.0f);
 		p = new FrameLayout.LayoutParams(
@@ -63,7 +69,7 @@ public class CardView extends FrameLayout {
 					FrameLayout.LayoutParams.WRAP_CONTENT,
 					Gravity.LEFT + Gravity.CENTER_VERTICAL);
 			if(!c.isPrize) {
-    			cost = new TextView(top);
+    			cost = new TextView(context);
     			cost.setText("0");
     			cost.setTextSize(12.0f);
     			cost.setTextColor(Color.BLACK);
@@ -76,7 +82,7 @@ public class CardView extends FrameLayout {
 					FrameLayout.LayoutParams.WRAP_CONTENT,
 					FrameLayout.LayoutParams.WRAP_CONTENT,
 					Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL);
-			countLeft = new TextView(top);
+			countLeft = new TextView(context);
 			countLeft.setText("0");
 			countLeft.setTextSize(8.0f);
 			// countLeft.setTextColor(Color.BLACK);
@@ -89,7 +95,7 @@ public class CardView extends FrameLayout {
 					FrameLayout.LayoutParams.WRAP_CONTENT,
 					FrameLayout.LayoutParams.WRAP_CONTENT,
 					Gravity.RIGHT + Gravity.CENTER_VERTICAL);
-			embargos = new TextView(top);
+			embargos = new TextView(context);
 			embargos.setText("0");
 			embargos.setTextSize(12.0f);
 			embargos.setTextColor(Color.WHITE);
@@ -100,7 +106,7 @@ public class CardView extends FrameLayout {
 			
 			setCard(c);
 	
-			checked = new TextView(top);
+			checked = new TextView(context);
 			checked.setTextColor(Color.RED);
 			checked.setTypeface(Typeface.DEFAULT_BOLD);
             checked.setBackgroundResource(android.R.drawable.arrow_down_float);
@@ -118,7 +124,7 @@ public class CardView extends FrameLayout {
 	
 			addView(checked);
 			
-			nomore = new TextView(top);
+			nomore = new TextView(context);
 			p = new FrameLayout.LayoutParams(
 					FrameLayout.LayoutParams.FILL_PARENT,
 					FrameLayout.LayoutParams.FILL_PARENT,
@@ -134,12 +140,7 @@ public class CardView extends FrameLayout {
 			else
 				setBackgroundResource(R.drawable.roundborder);
 
-	    	setOnLongClickListener( new OnLongClickListener (){
-				@Override
-				public boolean onLongClick(View v) {
-					return longClick(v);
-				} 
-			}); 
+	    	setOnLongClickListener(this);
 		}
 		
 		setOnClickListener( new OnClickListener (){
@@ -242,10 +243,6 @@ public class CardView extends FrameLayout {
 		gt.onClick(this);
 	}
 
-	protected boolean longClick(View arg0) {	
-		return lc.onLongClick(this);
-	}
-
     public void setOpened(boolean o, String indicator) {
         setOpened(o, -1, indicator);
     }
@@ -303,6 +300,61 @@ public class CardView extends FrameLayout {
 				swapNum(SHOWCOUNT);
 			}
 		}
+	}
+	
+	public boolean onLongClick(View view) {
+		CardView cardView = (CardView) view;
+		
+		HapticFeedback.vibrate(getContext(),AlertType.LONGCLICK);
+		String str = cardView.c.name;
+		str = str.toLowerCase();
+		
+		StringTokenizer st = new StringTokenizer(str," ",false);
+		String filename = "";
+		while (st.hasMoreElements()) filename += st.nextElement();
+		
+		View v;
+
+        // int resID =
+        // getResources().getIdentifier("com.mehtank.androminion:drawable/" +
+        // filename, null, null);
+        // if (resID != 0) {
+        // ImageView im = new ImageView(top);
+        // im.setBackgroundResource(resID);
+        // im.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        // v = im;
+        // } else {
+			str = Androminion.BASEDIR + "/images/full/" + filename + ".jpg";
+			File f = new File(str);
+			if (f.exists()) {
+				Uri u = Uri.parse(str);
+				ImageView im = new ImageView(view.getContext());
+	            im.setImageURI(u);  
+	            im.setScaleType(ImageView.ScaleType.FIT_CENTER);
+	            v = im;
+			} else {
+				TextView tv = new TextView(view.getContext());
+				tv.setPadding(15, 0, 15, 5);
+				String text = ""; //cardView.c.name;
+				if(cardView.c.expansion != null && cardView.c.expansion.length() != 0) {
+				    text += "(" + cardView.c.expansion + ")\n";
+				}
+				text += cardView.c.desc;
+				tv.setText( text );
+				v = tv;
+			}
+        // }
+			String title = cardView.c.name;
+			if(PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
+				title += " (" + cardView.c.originalName + ")";
+			}
+		new AlertDialog.Builder(view.getContext())
+			.setTitle(title)
+			.setView(v)
+			.setPositiveButton(android.R.string.ok, null)
+			.show();
+
+		return true;
 	}
 
 }

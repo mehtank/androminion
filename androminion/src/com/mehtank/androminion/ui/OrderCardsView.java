@@ -52,7 +52,7 @@ public class OrderCardsView extends BottomInputView implements OnClickListener {
         canSelect();
 	}
 	
-	public OrderCardsView (Androminion top, OnLongClickListener lc, String header, int[] cards) {
+	public OrderCardsView (Androminion top, String header, int[] cards) {
 		super(top, header);
 		this.top = top;
 		
@@ -60,11 +60,11 @@ public class OrderCardsView extends BottomInputView implements OnClickListener {
 		for (int i=0; i<cards.length; i++)
 			origCards.add(i);
 		
-		orig = new CardGroup(top, this, lc, false);
+		orig = new CardGroup(top, this, false);
     	origGV = GameTableViews.makeGV(top, orig, 1);
     	origCS = (GameTableViews.myCardSet(top, top.getString(R.string.cards), origGV, null));
     	
-		ordered = new CardGroup(top, this, lc, false);
+		ordered = new CardGroup(top, this, false);
     	orderedGV = GameTableViews.makeGV(top, ordered, 1);
     	orderedCS = (GameTableViews.myCardSet(top, top.getString(R.string.top_of_deck), orderedGV, null));
     	

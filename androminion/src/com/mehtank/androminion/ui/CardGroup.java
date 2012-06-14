@@ -8,13 +8,11 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.BaseAdapter;
 
 public class CardGroup extends BaseAdapter {
 	Context top;
 	OnClickListener gt;
-	OnLongClickListener lc;
 	boolean onTable = false;
 	boolean suppressNewCardViews = false;
 	ArrayList<MyCard> cards = new ArrayList<MyCard>();
@@ -22,20 +20,18 @@ public class CardGroup extends BaseAdapter {
 	CardView nullCV;
 	int nullPos = Integer.MAX_VALUE;
 	
-	public CardGroup(Context top, OnClickListener gt, OnLongClickListener lc, boolean onTable) {
+	public CardGroup(Context top, OnClickListener gt, boolean onTable) {
 		this.top = top;
 		this.onTable = onTable;
 		this.gt = gt;		
-		this.lc = lc;
 	}
 	
-	public CardGroup(Context top, OnClickListener gt, OnLongClickListener lc, boolean onTable, int nullPos) {
+	public CardGroup(Context top, OnClickListener gt, boolean onTable, int nullPos) {
 		this.top = top;
 		this.onTable = onTable;
 		this.gt = gt;
-		this.lc = lc;
 
-		nullCV = new CardView(top, gt, lc, this, null);
+		nullCV = new CardView(top, gt, this, null);
 		this.nullPos = nullPos;
 	}
 	
@@ -95,11 +91,11 @@ public class CardGroup extends BaseAdapter {
 		}
 		
 		if (pos < nullPos)
-			cv = new CardView(top, gt, lc, this, cards.get(pos));
+			cv = new CardView(top, gt, this, cards.get(pos));
 		else if (pos == nullPos)
 			cv = nullCV;
 		else
-			cv = new CardView(top, gt, lc, this, cards.get(pos-1));
+			cv = new CardView(top, gt, this, cards.get(pos-1));
         return cv;
 	}
 
