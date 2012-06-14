@@ -49,7 +49,7 @@ public class CardView extends FrameLayout {
 
 		tv = new TextView(top);
 		tv.setSingleLine();
-		tv.setTextSize((float) (tv.getTextSize() * 0.6));
+		tv.setTextSize(8.0f);
 		p = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.WRAP_CONTENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -65,7 +65,7 @@ public class CardView extends FrameLayout {
 			if(!c.isPrize) {
     			cost = new TextView(top);
     			cost.setText("0");
-    			cost.setTextSize((float) (cost.getTextSize() * 0.75));
+    			cost.setTextSize(12.0f);
     			cost.setTextColor(Color.BLACK);
     			cost.setBackgroundResource(R.drawable.coin);
     			cost.setLayoutParams(p);
@@ -78,7 +78,7 @@ public class CardView extends FrameLayout {
 					Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL);
 			countLeft = new TextView(top);
 			countLeft.setText("0");
-			countLeft.setTextSize((float) (countLeft.getTextSize() * 0.5));
+			countLeft.setTextSize(8.0f);
 			// countLeft.setTextColor(Color.BLACK);
 			// countLeft.setBackgroundColor(Color.WHITE);
 			countLeft.setLayoutParams(p);
@@ -91,7 +91,7 @@ public class CardView extends FrameLayout {
 					Gravity.RIGHT + Gravity.CENTER_VERTICAL);
 			embargos = new TextView(top);
 			embargos.setText("0");
-			embargos.setTextSize((float) (embargos.getTextSize() * 0.75));
+			embargos.setTextSize(12.0f);
 			embargos.setTextColor(Color.WHITE);
 			embargos.setBackgroundResource(R.drawable.embargos);
 			embargos.setLayoutParams(p);

@@ -226,12 +226,12 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
     	return ll;
 	}
 
-    private LinearLayout makeLargeRef(Context top) {
-        largeRefText = new TextView(top);
-        largeRefText.setTextSize((float) (largeRefText.getTextSize() * 1.6f));
+    private LinearLayout makeLargeRef(Context context) {
+        largeRefText = new TextView(context);
+        largeRefText.setTextSize(22.0f);
         largeRefText.setText("  ");
-        LinearLayout ll = new LinearLayout(top);
-        ll.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_HORIZONTAL);
+        LinearLayout ll = new LinearLayout(context);
+        ll.setGravity(Gravity.CENTER_HORIZONTAL);
         ll.setOrientation(HORIZONTAL);
         ll.addView(largeRefText);
         
@@ -240,7 +240,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         ll.setLayoutParams(lp);
 
-        if(!PreferenceManager.getDefaultSharedPreferences(top).getBoolean("abc_header", true)) {
+        if(!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("abc_header", true)) {
             ll.setVisibility(GONE);
         }
         
