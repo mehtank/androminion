@@ -205,10 +205,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
         DeckView.setTextScale(textScale);
 
     	turnStatus = new TurnView(top, largeRefText);
-    	turnStatus.setTextSize((float) (turnStatus.getTextSize() * textScale));
+    	turnStatus.setTextSize(12.0f);
 
     	actionText = new TextView(top);
-		actionText.setTextSize((float) (actionText.getTextSize() * textScale));
+		actionText.setTextSize(12.0f);
     	
     	LinearLayout ll = new LinearLayout(top);
     	ll.setOrientation(VERTICAL);

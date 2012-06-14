@@ -38,7 +38,7 @@ public class GameTableViews {
     	
     	if(title == null) 
     	    title = new TextView(top);
-    	title.setTextSize((float) (title.getTextSize() * textScale));
+    	title.setTextSize(10.0f);
     	title.setText(header);
     	
     	ll.addView(title);

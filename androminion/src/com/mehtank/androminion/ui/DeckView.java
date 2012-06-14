@@ -27,6 +27,7 @@ import android.widget.TextView;
 public class DeckView extends FrameLayout {
 
 	private static float textScale;
+	private static float textSize=12.0f;
 	
 	Androminion top;
 
@@ -54,7 +55,7 @@ public class DeckView extends FrameLayout {
 
 		name = new TextView(top);
 		name.setLayoutParams(p);
-		name.setTextSize(name.getTextSize() * textScale);
+		name.setTextSize(textSize);
 		addView(name);		
 		
 		LinearLayout ll = new LinearLayout(top);
@@ -72,7 +73,7 @@ public class DeckView extends FrameLayout {
 			Gravity.TOP + Gravity.RIGHT);
 		
 		pirates = new TextView(top);
-		pirates.setTextSize((float) (pirates.getTextSize() * 0.75));
+		pirates.setTextSize(textSize);
 		pirates.setTextColor(Color.YELLOW);
 		pirates.setBackgroundResource(R.drawable.pirates);
 		pirates.setLayoutParams(lp);
@@ -85,7 +86,7 @@ public class DeckView extends FrameLayout {
             Gravity.TOP + Gravity.LEFT);
         
 		victoryTokens = new TextView(top);
-		victoryTokens.setTextSize((float) (victoryTokens.getTextSize() * 0.75));
+		victoryTokens.setTextSize(textSize);
 		victoryTokens.setTextColor(Color.BLACK);
 		victoryTokens.setBackgroundResource(R.drawable.victorytokens);
 		victoryTokens.setLayoutParams(lp);
@@ -99,7 +100,7 @@ public class DeckView extends FrameLayout {
     				Gravity.LEFT + Gravity.BOTTOM);
     		
     		tv = new TextView(top);
-    		tv.setTextSize(tv.getTextSize() * textScale);
+    		tv.setTextSize(textSize);
     		tv.setLayoutParams(p);
     		addView(tv);
         }

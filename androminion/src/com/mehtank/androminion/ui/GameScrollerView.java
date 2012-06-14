@@ -71,7 +71,7 @@ public class GameScrollerView extends HorizontalScrollView {
 	public void setGameEvent(String s, boolean b) {
 		if (b) {
 			latestTurn = new TextView(top);
-			latestTurn.setTextSize((float) (latestTurn.getTextSize() * textScale));
+			latestTurn.setTextSize(10.0f);
 
 			latestTurnSV = new ScrollView(top);
 			latestTurnSV.setBackgroundResource(R.drawable.roundborder);
