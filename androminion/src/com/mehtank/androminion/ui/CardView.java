@@ -12,10 +12,10 @@ import com.vdom.comms.MyCard;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.FrameLayout;
@@ -29,10 +29,11 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 	public static final int SHOWCOIN = 2;
 	
 	public static final int WIDTH = 110;
-	TextView tv, colorBox;
+	TextView tv;
+	View colorBox;
 	TextView cost, countLeft, embargos;
 	TextView checked;
-	TextView nomore;
+	View nomore;
 	
 	MyCard c;
 	OnClickListener gt;
@@ -44,103 +45,19 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 		
 		this.gt = gt;
 		this.parent = parent;
-
-		colorBox = new TextView(context);
-		FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.FILL_PARENT,
-				FrameLayout.LayoutParams.FILL_PARENT,
-				Gravity.CENTER);
-		colorBox.setLayoutParams(p);
-		addView(colorBox);
-
-		tv = new TextView(context);
-		tv.setSingleLine();
-		tv.setTextSize(8.0f);
-		p = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.WRAP_CONTENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT,
-				Gravity.CENTER);
-		tv.setLayoutParams(p);
-		addView(tv);
 		
+		LayoutInflater.from(context).inflate(R.layout.cardview, this, true);
+		tv = (TextView) findViewById(R.id.name);
+		colorBox = findViewById(R.id.colorBox);
+		cost = (TextView) findViewById(R.id.cost);
+		countLeft = (TextView) findViewById(R.id.countLeft);
+		embargos = (TextView) findViewById(R.id.embargos);
+		checked = (TextView) findViewById(R.id.checked);
+		nomore = findViewById(R.id.nomore);
+
 		if (c != null) {
-			p = new FrameLayout.LayoutParams(
-					FrameLayout.LayoutParams.WRAP_CONTENT,
-					FrameLayout.LayoutParams.WRAP_CONTENT,
-					Gravity.LEFT + Gravity.CENTER_VERTICAL);
-			if(!c.isPrize) {
-    			cost = new TextView(context);
-    			cost.setText("0");
-    			cost.setTextSize(12.0f);
-    			cost.setTextColor(Color.BLACK);
-    			cost.setBackgroundResource(R.drawable.coin);
-    			cost.setLayoutParams(p);
-    			addView(cost);
-			}
-	
-			p = new FrameLayout.LayoutParams(
-					FrameLayout.LayoutParams.WRAP_CONTENT,
-					FrameLayout.LayoutParams.WRAP_CONTENT,
-					Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL);
-			countLeft = new TextView(context);
-			countLeft.setText("0");
-			countLeft.setTextSize(8.0f);
-			// countLeft.setTextColor(Color.BLACK);
-			// countLeft.setBackgroundColor(Color.WHITE);
-			countLeft.setLayoutParams(p);
-			countLeft.setVisibility(INVISIBLE);
-			addView(countLeft);
-
-			p = new FrameLayout.LayoutParams(
-					FrameLayout.LayoutParams.WRAP_CONTENT,
-					FrameLayout.LayoutParams.WRAP_CONTENT,
-					Gravity.RIGHT + Gravity.CENTER_VERTICAL);
-			embargos = new TextView(context);
-			embargos.setText("0");
-			embargos.setTextSize(12.0f);
-			embargos.setTextColor(Color.WHITE);
-			embargos.setBackgroundResource(R.drawable.embargos);
-			embargos.setLayoutParams(p);
-			embargos.setVisibility(INVISIBLE);
-			addView(embargos);
-			
 			setCard(c);
-	
-			checked = new TextView(context);
-			checked.setTextColor(Color.RED);
-			checked.setTypeface(Typeface.DEFAULT_BOLD);
-            checked.setBackgroundResource(android.R.drawable.arrow_down_float);
-			if (opened)
-				checked.setVisibility(VISIBLE);
-			else
-				checked.setVisibility(INVISIBLE);
-			
-			p = new FrameLayout.LayoutParams(
-					FrameLayout.LayoutParams.WRAP_CONTENT,
-					FrameLayout.LayoutParams.WRAP_CONTENT,
-					Gravity.TOP + Gravity.RIGHT);
-			
-			checked.setLayoutParams (p);
-	
-			addView(checked);
-			
-			nomore = new TextView(context);
-			p = new FrameLayout.LayoutParams(
-					FrameLayout.LayoutParams.FILL_PARENT,
-					FrameLayout.LayoutParams.FILL_PARENT,
-					Gravity.CENTER);
-			nomore.setLayoutParams(p);
-			nomore.setBackgroundColor(Color.BLACK);
-			nomore.setVisibility(INVISIBLE);
-			nomore.getBackground().setAlpha(156);
-			addView(nomore);
-
-			if (c.isBane)
-				setBackgroundResource(R.drawable.baneborder);
-			else
-				setBackgroundResource(R.drawable.roundborder);
-
-	    	setOnLongClickListener(this);
+			setOnLongClickListener(this);
 		}
 		
 		setOnClickListener( new OnClickListener (){
@@ -153,6 +70,24 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 	
 	public void setCard(MyCard c) {
 		this.c = c;
+		
+		if (opened) {
+			checked.setVisibility(VISIBLE);
+		} else {
+			checked.setVisibility(INVISIBLE);
+		}
+		
+		if(c.isPrize) {
+			cost.setVisibility(INVISIBLE);
+		} else {
+			cost.setVisibility(VISIBLE);
+		}
+		
+		if (c.isBane) {
+			setBackgroundResource(R.drawable.baneborder);
+		} else {
+			setBackgroundResource(R.drawable.roundborder);
+		}
 
 		tv.setText(c.name, TextView.BufferType.SPANNABLE);
 		if(cost != null) {
