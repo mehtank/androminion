@@ -18,7 +18,7 @@ public class CardView extends FrameLayout {
 	public static final int SHOWCOUNT = 1;
 	public static final int SHOWCOIN = 2;
 	
-	public static final int WIDTH = 75;
+	public static final int WIDTH = 110;
 	TextView tv, colorBox;
 	TextView cost, countLeft, embargos;
 	TextView checked;
