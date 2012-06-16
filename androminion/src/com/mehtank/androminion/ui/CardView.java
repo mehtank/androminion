@@ -91,9 +91,7 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 
 		tv.setText(c.name, TextView.BufferType.SPANNABLE);
 		if(cost != null) {
-    		cost.setText(" " + c.cost + " ");
-    		if (c.costPotion)
-    			cost.setBackgroundResource(R.drawable.coinpotion);
+			setCost(GameTable.getCardCost(c));
 		}
 		
 		int fgColor = Color.WHITE;
@@ -209,6 +207,12 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 			embargos.setVisibility(VISIBLE);
 	}
 
+	public void setCost(int newCost) {
+		cost.setText(" " + newCost + " ");
+		if (c != null && c.costPotion)
+			cost.setBackgroundResource(R.drawable.coinpotion);
+	}
+	
 	public void swapNum(int mode) {
 		if (mode == SHOWCOIN) {
 			// cost.setVisibility(VISIBLE);

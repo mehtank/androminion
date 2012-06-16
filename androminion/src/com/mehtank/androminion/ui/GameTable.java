@@ -1,25 +1,18 @@
 package com.mehtank.androminion.ui;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
-
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,7 +48,8 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	View supply;
 	View turnView;
 	View myCardView;
-	
+	private static int[] costs = {};
+
 	TextView actionText;
 	TextView largeRefText;
 	LinearLayout deckStatus;
@@ -462,7 +456,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 			if (cv.parent != prizePile) return false;
 		}
 		
-		return sco.checkValid(c);
+		return sco.checkValid(c, getCardCost(c));
 	}
 	
 	SelectCardOptions sco = null;
@@ -796,7 +790,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
             }
             playedHeader.setText(header);
         }
-		
+		        
 		GameTableViews.newCardGroup(hand, gs.myHand);
 		GameTableViews.newCardGroup(played, gs.playedCards);
 		if (!playedAdded && (gs.playedCards.length > 0)) {
@@ -814,7 +808,27 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 			villageAdded = true;
 		}
 		setSupplySizes(gs.supplySizes, gs.embargos);
+		costs = gs.costs;
+        setCardCosts(top.findViewById(android.R.id.content));
 	}
+	
+	static int getCardCost(MyCard c) {
+		if (c == null) 
+			return 0;
+		if (costs != null && c.id < costs.length)
+			return costs[c.id];
+		return c.cost;
+	}
+	
+	private void setCardCosts(View v) {
+		if (v instanceof CardView) {
+			((CardView) v).setCost(getCardCost(((CardView) v).c));
+		} else if (v instanceof ViewGroup) {
+			for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++)
+				setCardCosts(((ViewGroup) v).getChildAt(i));
+		}
+	}
+
 	private void addPlayer(String name) {
 		allPlayers.add(name);
 		dvs.add(new DeckView(top));

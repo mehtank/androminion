@@ -42,11 +42,8 @@
 	<string name="part_buy">buy</string>
 	
 	<string name="select_from_table">Select a card from the table to %1$s</string>
-	<string name="select_from_table_exact_quarries">Select a card from the table that costs exactly (%1$s, %2$s if Action card) to %3$s</string>
 	<string name="select_from_table_exact">Select a card from the table that costs exactly (%1$s) to %2$s</string>
-	<string name="select_from_table_max_quarries">Select a card from the table that costs at most (%1$s, %2$s if Action card) to %3$s</string>
 	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
-	<string name="select_from_table_between_quarries">Select a card from the table that costs between (%1$s) and (%2$s, %3$s if Action card) to %4$s</string>
 	<string name="select_from_table_between">Select a card from the table that costs between (%1$s) and (%2$s) to %3$s</string>
 	<string name="select_from_table_min">Select a card from the table that costs at least (%1$s) to %2$s</string>
 	

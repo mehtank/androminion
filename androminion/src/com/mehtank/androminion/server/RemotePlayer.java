@@ -370,6 +370,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     	int[] supplySizes = new int[cardsInPlay.size()];
     	int[] embargos = new int[cardsInPlay.size()];
+    	int[] costs = new int[cardsInPlay.size()];
         
     	for (int i = 0; i < cardsInPlay.size(); i++) {
             if (!isFinal)
@@ -377,6 +378,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             else
             	supplySizes[i] = curPlayer.getMyCardCount(cardsInPlay.get(i));
             embargos[i] = context.getEmbargos(intToCard(i));
+            costs[i] = intToCard(i).getCost(context);
     	}
 
         // show opponent hand if possessed
@@ -425,6 +427,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
           .setTurnCounts(turnCounts)
     	  .setSupplySizes(supplySizes)
     	  .setEmbargos(embargos)
+    	  .setCosts(costs)
     	  .setHand(cardArrToIntArr(hand.toArray()))
     	  .setPlayedCards(cardArrToIntArr(playedCards.toArray(new Card[0])))
     	  .setCurPlayer(curPlayerIndex)

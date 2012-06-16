@@ -45,9 +45,6 @@ public class SelectCardOptions implements Serializable {
 	public boolean isVictory = false;
 	public String passString = null;
 	public boolean ordered = false;
-	public int quarriesPlayed = 0;
-	public boolean buyPhase = false;
-	public int actionsInPlay = 0;
 	public ArrayList<Integer> allowedCards = new ArrayList<Integer>();
 
 //	public SelectCardOptions setType(SelectType s) {selectType = s; return this;}
@@ -64,7 +61,6 @@ public class SelectCardOptions implements Serializable {
 	public SelectCardOptions maxCost(int c) {maxCost = c; return this;}
 	public SelectCardOptions minCost(int c) {minCost = c; return this;}
 	public SelectCardOptions potionCost(int c) {potionCost = c; return this;}
-	public SelectCardOptions quarriesPlayed(int i) {quarriesPlayed = i; return this;}
 	public SelectCardOptions allowedCards(int[] is) {
 		for (int i : is)
 			addValidCard(i);
@@ -90,15 +86,9 @@ public class SelectCardOptions implements Serializable {
 		allowedCards.add(new Integer(card));
 	}
 	
-	public boolean checkValid(MyCard c) {
-	    int costModifier = 0;
-	    costModifier += (c.isAction ? (2 * quarriesPlayed) : 0);
-        
-	    if(buyPhase && c.originalSafeName.equals(Cards.peddler.getSafeName())) {
-	        costModifier += actionsInPlay * 2;
-	    }
-		if ((maxCost >= 0) && (c.cost > maxCost + costModifier)) return false;
-		if ((minCost >= 0) && (c.cost < minCost + costModifier)) return false;
+	public boolean checkValid(MyCard c, int cost) {
+		if ((maxCost >= 0) && (cost > maxCost)) return false;
+		if ((minCost >= 0) && (cost < minCost)) return false;
 		if (isAction && !c.isAction) return false;
 		if (isReaction && !c.isReaction) return false;
 		if (isTreasure && !c.isTreasure) return false;
