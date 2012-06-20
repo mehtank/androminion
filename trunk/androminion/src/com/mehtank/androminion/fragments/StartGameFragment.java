@@ -1,4 +1,4 @@
-package com.mehtank.androminion.ui;
+package com.mehtank.androminion.fragments;
 
 import java.util.ArrayList;
 import com.mehtank.androminion.R;

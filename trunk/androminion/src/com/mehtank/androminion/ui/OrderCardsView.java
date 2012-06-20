@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.util.CardGroup;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
 

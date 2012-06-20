@@ -1,11 +1,13 @@
-package com.mehtank.androminion.ui;
+package com.mehtank.androminion.activities;
 
 import java.util.ArrayList;
 
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.SettingsActivity;
-import com.mehtank.androminion.ui.StartGameFragment.OnStartGameListener;
+import com.mehtank.androminion.fragments.AboutFragment;
+import com.mehtank.androminion.fragments.CombinedStatsFragment;
+import com.mehtank.androminion.fragments.StartGameFragment;
+import com.mehtank.androminion.fragments.StartGameFragment.OnStartGameListener;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +18,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class MenuActivity extends FragmentActivity implements OnStartGameListener{
-	boolean mTwoColums = false;
-	int mState = 0;
+	private boolean mTwoColums = false;
+	private int mState = 0;
 	
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {

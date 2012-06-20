@@ -14,7 +14,7 @@
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
-        <activity android:name=".ui.MenuActivity" >
+        <activity android:name=".activities.MenuActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,10 +29,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.StartGameActivity"></activity>
-        <activity android:name=".ui.CombinedStatsActivity"></activity>
-        <activity android:name=".SettingsActivity" ></activity>
-        <activity android:name=".ui.AboutActivity"></activity>
+        <activity android:name=".activities.StartGameActivity"></activity>
+        <activity android:name=".activities.CombinedStatsActivity"></activity>
+        <activity android:name=".activities.SettingsActivity" ></activity>
+        <activity android:name=".activities.AboutActivity"></activity>
 
 
         <service

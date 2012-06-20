@@ -1,8 +1,9 @@
-package com.mehtank.androminion.ui;
+package com.mehtank.androminion.activities;
 
 import java.util.ArrayList;
 
-import com.mehtank.androminion.ui.StartGameFragment.OnStartGameListener;
+import com.mehtank.androminion.fragments.StartGameFragment;
+import com.mehtank.androminion.fragments.StartGameFragment.OnStartGameListener;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class StartGameActivity extends FragmentActivity implements OnStartGameListener{
-	Fragment mStartGameFragment;
+	private Fragment mStartGameFragment;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
