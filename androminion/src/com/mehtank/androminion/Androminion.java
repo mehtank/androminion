@@ -31,12 +31,13 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.mehtank.androminion.ui.AboutActivity;
-import com.mehtank.androminion.ui.CombinedStatsActivity;
+import com.mehtank.androminion.activities.AboutActivity;
+import com.mehtank.androminion.activities.CombinedStatsActivity;
+import com.mehtank.androminion.activities.SettingsActivity;
+import com.mehtank.androminion.activities.StartGameActivity;
 import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
-import com.mehtank.androminion.ui.StartGameActivity;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.Comms;

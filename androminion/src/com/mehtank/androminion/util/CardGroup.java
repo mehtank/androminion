@@ -1,7 +1,8 @@
-package com.mehtank.androminion.ui;
+package com.mehtank.androminion.util;
 
 import java.util.ArrayList;
 
+import com.mehtank.androminion.ui.CardView;
 import com.vdom.comms.MyCard;
 
 import android.content.Context;
@@ -86,7 +87,7 @@ public class CardGroup extends BaseAdapter {
 			cv = (CardView) origView;
 			if (pos == nullPos) 
 				return nullCV;
-			if (cv.c == cards.get((pos > nullPos) ? pos-1 : pos))
+			if (cv.getCard() == cards.get((pos > nullPos) ? pos-1 : pos))
 				return cv;
 		}
 		

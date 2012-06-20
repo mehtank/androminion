@@ -3,7 +3,7 @@
     android:id="@+id/menufragment"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    class="com.mehtank.androminion.ui.MenuFragment" >
+    class="com.mehtank.androminion.fragments.MenuFragment" >
 
     <!-- Preview: layout=@layout/menufragment -->
 </fragment>
