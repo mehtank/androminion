@@ -1,7 +1,6 @@
 package com.mehtank.androminion.activities;
 
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.R.xml;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
