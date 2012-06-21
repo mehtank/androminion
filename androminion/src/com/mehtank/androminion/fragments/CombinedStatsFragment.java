@@ -51,8 +51,9 @@ public class CombinedStatsFragment extends Fragment {
     private AlertDialog buildResetDialog(final Context context) {
     	final boolean[] choices = {true, true};
     	class choiceListenerClass implements DialogInterface.OnMultiChoiceClickListener, OnClickListener{
-    	   	public boolean resetStats = false;
-        	public boolean resetAchievements = false;
+    	   	private boolean resetStats = choices[0];
+        	private boolean resetAchievements = choices[1];
+        	private AlertDialog mDialog;
         	
 			@Override
 			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -60,6 +61,12 @@ public class CombinedStatsFragment extends Fragment {
 					resetStats = isChecked;
 				} else if(which == 1){
 					resetAchievements = isChecked;
+				}
+				Button ResetButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				if(resetStats || resetAchievements) {
+					ResetButton.setEnabled(true);
+				} else {
+					ResetButton.setEnabled(false);
 				}
 			}
 			
@@ -70,8 +77,12 @@ public class CombinedStatsFragment extends Fragment {
     				achievements.resetStats();
     			}
     			if(resetAchievements) {
-    				//achievements.resetAchievements();
+    				achievements.resetAchievements();
     			}
+    		}
+    		
+    		public void setDialog(AlertDialog dialog) {
+    			mDialog = dialog;
     		}
 		};
 		final choiceListenerClass choiceListener = new choiceListenerClass();
@@ -80,6 +91,8 @@ public class CombinedStatsFragment extends Fragment {
 		.setNegativeButton(android.R.string.cancel, null)
 		.setMultiChoiceItems(R.array.reset_choices, choices, choiceListener)
 		.setPositiveButton(R.string.reset, choiceListener);
-    	return builder.create();
+    	AlertDialog dialog = builder.create();
+    	choiceListener.setDialog(dialog); 
+    	return dialog;
     }
 }
