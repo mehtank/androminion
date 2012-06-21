@@ -11,7 +11,6 @@ import java.util.Enumeration;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -51,18 +51,6 @@ import com.vdom.comms.NewGame;
 import com.vdom.core.Game;
 
 public class Androminion extends Activity implements EventHandler {
-	protected static final int MENU_LOCAL_START = 31;
-	protected static final int MENU_REMOTE_START = 32;
-	protected static final int MENU_INVITE = 33;
-	protected static final int MENU_SETTINGS = 40;
-	protected static final int MENU_HELP = 50;
-	protected static final int MENU_ABOUT = 60;
-    protected static final int MENU_RESTART = 70;
-    protected static final int MENU_MAIN = 80;
-	protected static final int MENU_QUIT = 90;
-	protected static final int MENU_ACHIEVEMENTS = 100;
-    protected static final int MENU_STATS = 110;
-	
 	private static final boolean DEBUGGING = false;
 	public static boolean NOTOASTS = false;
 
@@ -78,6 +66,7 @@ public class Androminion extends Activity implements EventHandler {
 	View splash;
 
 	boolean gameRunning = false;
+	long lastBackClick = 0;
 
 	Comms comm;
 	Thread commThread;
@@ -207,100 +196,64 @@ public class Androminion extends Activity implements EventHandler {
 		host = "localhost";
 		startGame(port);
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.game_menu, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
-		createMenu(menu);
-		return super.onCreateOptionsMenu(menu);
+		if(gameRunning) {
+			menu.findItem(R.id.startgame_menu).setVisible(false);
+			menu.findItem(R.id.help_menu).setVisible(true);
+		} else {
+			menu.findItem(R.id.startgame_menu).setVisible(true);
+			menu.findItem(R.id.help_menu).setVisible(false);
+		}
+		return super.onPrepareOptionsMenu(menu);
 	}
 
-    public void createMenu(Menu menu) {
-        if (gameRunning) {
-            MenuItem helpMenu = menu.add(Menu.NONE, MENU_HELP, Menu.NONE, R.string.help_menu);
-            helpMenu.setIcon(android.R.drawable.ic_menu_help);
-        } else {
-            MenuItem localMenu = menu.add(Menu.NONE, MENU_LOCAL_START, Menu.NONE, R.string.start_game_menu);
-            localMenu.setIcon(android.R.drawable.ic_menu_slideshow);
-        }
-        
-        MenuItem settingsMenu = menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, R.string.settings_menu);
-        settingsMenu.setIcon(android.R.drawable.ic_menu_preferences);
-
-        MenuItem aboutMenu = menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE,
-            R.string.about_menu); 
-        aboutMenu.setIcon(android.R.drawable.ic_menu_info_details);
-
-//        MenuItem achievmentsMenu = menu.add(Menu.NONE, MENU_ACHIEVEMENTS, Menu.NONE,
-//            R.string.achievements_menu); 
-//        achievmentsMenu.setIcon(android.R.drawable.ic_menu_myplaces);
-        
-        MenuItem statsMenu = menu.add(Menu.NONE, MENU_STATS, Menu.NONE,
-            R.string.stats_menu); 
-        statsMenu.setIcon(android.R.drawable.ic_menu_myplaces);
-        
-        if (gameRunning) {
-//            MenuItem restartMenu = menu.add(Menu.NONE, MENU_RESTART, Menu.NONE,
-//                    "Restart"); 
-//            restartMenu.setIcon(android.R.drawable.ic_menu_rotate);
-//    
-//            MenuItem mainMenuMenu = menu.add(Menu.NONE, MENU_MAIN, Menu.NONE,
-//                    "Main Menu");
-//            mainMenuMenu.setIcon(android.R.drawable.ic_menu_revert);
-        }
-        
-        MenuItem quitMenu = menu.add(Menu.NONE, MENU_QUIT, Menu.NONE,
-                R.string.quit_menu);
-        quitMenu.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-    } 
-
-    protected void invite() {};
-
 	@Override
-	public boolean onMenuItemSelected(int panelId, MenuItem item) {
+	public boolean onOptionsItemSelected (MenuItem item) {
+		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
-		case MENU_LOCAL_START:
+		case R.id.startgame_menu:
 			quickstart();
+			return true;
+		case R.id.help_menu:
+			gt.showHelp(1);
 			break;
+		case R.id.settings_menu:
+			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		case R.id.about_menu:
+			startActivity(new Intent(this, AboutActivity.class));
+			return true;
+        case R.id.stats_menu:
+        	startActivity(new Intent(this, CombinedStatsActivity.class));
+        	return true;
+		case R.id.quit_menu:
+			finish();
+			return true;
+/*        case MENU_MAIN:
+            break;
+        case MENU_RESTART:
+            break;
 		case MENU_REMOTE_START:
 			new HostDialog(this, "", DEFAULT_PORT);
 			break;
 		case MENU_INVITE:
 			// TODO: alert("Server status:", ds.test());
 			invite();
-			break;
-		case MENU_ABOUT:
-			startActivity(new Intent(this, AboutActivity.class));
-			break;
-        case MENU_STATS:
-        	startActivity(new Intent(this, CombinedStatsActivity.class));
-            break;
-		case MENU_HELP:
-			 // Uri uri = Uri.parse("http://android.mehtank.com/help.html");
-			 // Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-			 // startActivity(intent);				
-			gt.showHelp(1);
-			break;
-        case MENU_MAIN:
-            break;
-        case MENU_RESTART:
-            break;
-		case MENU_QUIT:
-			// TODO: alert("Disconnected! (Hopefully)", ds.test());
-			finish();
-			break;
-			
-		case MENU_SETTINGS:
-			// Launch Prefs activity
-			Intent i = new Intent(this, SettingsActivity.class);
-			startActivity(i);
-			debug("Settings called");
-			break;
+			break;*/
 		}
-		return true;
+		return false;
 	}
-
-	long lastBackClick = 0;
+	
+    protected void invite() {};
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -674,6 +627,7 @@ public class Androminion extends Activity implements EventHandler {
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//Result of StartGameActivity
 		if(requestCode == 0 && resultCode == RESULT_OK && data.hasExtra("command")) {
 			ArrayList<String> strs = data.getStringArrayListExtra("command");
 			handle(new Event(Event.EType.STARTGAME)
