@@ -36,7 +36,7 @@ public class FinalView extends FrameLayout implements OnClickListener {
 				Gravity.LEFT);
 
 		name = new TextView(top);
-		name.setText(Strings.format(top, R.string.final_view_text, nameStr, "" + vp, "" + numTurns, "" + numCards));
+		name.setText(top.getString(R.string.final_view_text, nameStr, "" + vp, "" + numTurns, "" + numCards));
 		name.setLayoutParams(p);
 		if (winner) {
 			name.setTextColor(Color.BLACK);
@@ -51,7 +51,7 @@ public class FinalView extends FrameLayout implements OnClickListener {
 		
 		showCards = new Button(top);
 		showCards.setLayoutParams(p);		
-		showCards.setText(Strings.getString(top, R.string.final_view_card_counts));
+		showCards.setText(top.getString(R.string.final_view_card_counts));
 
         showCards.setOnClickListener(this);
 		addView(showCards);
