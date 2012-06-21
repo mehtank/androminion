@@ -198,7 +198,6 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
         deckStatus = new LinearLayout(top);
         deckStatus.setOrientation(VERTICAL);
         deckStatus.setLayoutParams(lp);
-        DeckView.setTextScale(textScale);
 
     	turnStatus = new TurnView(top, largeRefText);
     	turnStatus.setTextSize(12.0f);
