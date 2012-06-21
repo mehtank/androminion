@@ -61,7 +61,7 @@ public class Achievements {
 
         for(int i=0; i < Achievements.keys.length; i++) {
         	text[i] = context.getString(ids[i]);
-            achievementsDone[i] = hasAchieved(Achievements.keys[i]);
+            achievementsDone[i] = hasAchieved(i);
         }
     }
     
@@ -95,6 +95,15 @@ public class Achievements {
             editor.commit();
         }
     }
+    
+    public void resetAchievements() {
+    	Editor editor = prefs.edit();
+        for(int i=0; i < Achievements.keys.length; i++) {
+        	editor.remove(Achievements.keys[i]);
+            achievementsDone[i] = false;
+        }
+        editor.commit();
+    }
 
     private int achievementIndex(String achievement) {
         int index = -1;
@@ -109,17 +118,22 @@ public class Achievements {
     }
     
     public boolean hasAchieved(String achievement) {
-        int index = achievementIndex(achievement);
+    	int index = achievementIndex(achievement);
         if(index == -1) {
             Log.d("Androminion","ERROR: Requested Achievement not found:" + achievement);
             return false;
         }
-        
+    	return hasAchieved(index);
+    }
+    public boolean hasAchieved(int index) {
+        if(index < 0 || index >= keys.length) {
+            Log.d("Androminion","ERROR: Requested Achievement not found:" + index);
+            return false;
+        }
         return prefs.getBoolean(keys[index], false);
     }
     
-    
-    
+
     public void achieved(String achievement) {
         int index = achievementIndex(achievement);
         if(index == -1) {
