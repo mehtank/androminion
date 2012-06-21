@@ -1,7 +1,7 @@
 package com.mehtank.androminion.fragments;
 
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.ui.Achievements;
+import com.mehtank.androminion.util.Achievements;
 
 import android.app.AlertDialog;
 import android.content.Context;

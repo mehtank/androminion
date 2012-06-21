@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.util.Achievements;
 import com.mehtank.androminion.util.CardGroup;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
@@ -287,7 +288,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
     	
     	addView(tr);
     	// addView(new TalkView(top));
-    	gameScroller = new GameScrollerView(top, textScale);
+    	gameScroller = new GameScrollerView(top);
     	/*
     	FrameLayout.LayoutParams fp = new FrameLayout.LayoutParams(
     			FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, 

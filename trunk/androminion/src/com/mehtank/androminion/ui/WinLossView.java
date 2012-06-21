@@ -11,18 +11,23 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.util.Achievements;
 
 public class WinLossView extends FrameLayout {
 
 	public boolean statsEmpty = false;
 	
     public WinLossView(Context context) {
-    	super(context);
-    	init(context);
+    	this(context, null);
     }
     
 	public WinLossView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+    	init(context);
+	}
+	
+	public WinLossView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
     	init(context);
 	}
 	
