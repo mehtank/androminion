@@ -115,10 +115,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 
     	playedHeader = new TextView(top);
     	
-    	handCS = (GameTableViews.myCardSet(top, Strings.getString(top, R.string.hand_header), handGV, null));
-    	playedCS = (GameTableViews.myCardSet(top, Strings.getString(top, R.string.played_header), playedGV, playedHeader));
-    	islandCS = (GameTableViews.myCardSet(top, Strings.getString(top, R.string.island_header), islandGV, null));
-    	villageCS = (GameTableViews.myCardSet(top, Strings.getString(top, R.string.village_header), villageGV, null));
+    	handCS = (GameTableViews.myCardSet(top, top.getString(R.string.hand_header), handGV, null));
+    	playedCS = (GameTableViews.myCardSet(top, top.getString(R.string.played_header), playedGV, playedHeader));
+    	islandCS = (GameTableViews.myCardSet(top, top.getString(R.string.island_header), islandGV, null));
+    	villageCS = (GameTableViews.myCardSet(top, top.getString(R.string.village_header), villageGV, null));
 
     	islandCS.setBackgroundResource(R.drawable.roundborder);
     	villageCS.setBackgroundResource(R.drawable.roundborder);
@@ -271,7 +271,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
         }
 		
     	TextView titleText = new TextView(top);
-    	titleText.setText(Strings.getString(top, R.string.title));
+    	titleText.setText(R.string.title);
     	makeGameOver(top);
 
     	LinearLayout largeRef = makeLargeRef(top);
@@ -378,7 +378,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
             vpPileGV.setNumColumns(5);
         
 		top.nosplash();
-		gameScroller.setGameEvent(Strings.getString(top, R.string.game_loaded), true);
+		gameScroller.setGameEvent(top.getString(R.string.game_loaded), true);
 
 		showSupplySizes(); // TODO doesn't do anything
 	}
@@ -476,8 +476,8 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 
 	void passButtons() {
         select.setText(pass.getText() + "!");
-		pass.setText(Strings.getString(top, R.string.confirm_no));
-		actionText.setText(Strings.getString(top, R.string.confirmation));
+		pass.setText(R.string.confirm_no);
+		actionText.setText(R.string.confirmation);
 
 		for (CardView cv : openedCards)
             cv.setOpened(false, sco.getPickType().indicator());
@@ -613,38 +613,38 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
         switch (key) {
         case SELECT:
         case SELECT_IN_ORDER:
-            text = Strings.getString(top, R.string.select_button);
+            text = top.getString(R.string.select_button);
             break;
         case SELECT_WITH_ALL:
-            text = Strings.getString(top, R.string.all_button);
+            text = top.getString(R.string.all_button);
             break;
         case PLAY:
         case PLAY_IN_ORDER:
-            text = Strings.getString(top, R.string.play_button);
+            text = top.getString(R.string.play_button);
             break;
         case BUY:
-            text = Strings.getString(top, R.string.buy_button);
+            text = top.getString(R.string.buy_button);
             break;
         case DISCARD:
-            text = Strings.getString(top, R.string.discard_button);
+            text = top.getString(R.string.discard_button);
             break;
         case KEEP:
-            text = Strings.getString(top, R.string.keep_button);
+            text = top.getString(R.string.keep_button);
             break;
         case GIVE:
-            text = Strings.getString(top, R.string.give_button);
+            text = top.getString(R.string.give_button);
             break;
         case TRASH:
-            text = Strings.getString(top, R.string.trash_button);
+            text = top.getString(R.string.trash_button);
             break;
         case UPGRADE:
-            text = Strings.getString(top, R.string.upgrade_button);
+            text = top.getString(R.string.upgrade_button);
             break;
         case MINT:
-            text = Strings.getString(top, R.string.mint_button);
+            text = top.getString(R.string.mint_button);
             break;
         case SWINDLE:
-            text = Strings.getString(top, R.string.swindle_button);
+            text = top.getString(R.string.swindle_button);
             break;
         default:
             text = "";
@@ -785,7 +785,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		actionText.setText("");
  
         if(newTurn) {
-            String header = Strings.getString(top, R.string.played_header);
+            String header = top.getString(R.string.played_header);
             if(!myTurn) {
                 header = allPlayers.get(gs.whoseTurn) + ":";
             }
@@ -840,13 +840,13 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		dvs.get(dvs.size()-1).setLayoutParams(lp);
 	}
 	public String cardObtained(int i, String s) {
-	    return Strings.format(top, R.string.obtained, showCard(i, s, DeckView.ShowCardType.OBTAINED));
+	    return top.getString(R.string.obtained, showCard(i, s, DeckView.ShowCardType.OBTAINED));
 	}
 	public String cardTrashed(int i, String s) {
-        return Strings.format(top, R.string.trashed, showCard(i, s, DeckView.ShowCardType.TRASHED));
+        return top.getString(R.string.trashed, showCard(i, s, DeckView.ShowCardType.TRASHED));
 	}
 	public String cardRevealed(int i, String s) {
-        return Strings.format(top, R.string.revealed, showCard(i, s, DeckView.ShowCardType.REVEALED));
+        return top.getString(R.string.revealed, showCard(i, s, DeckView.ShowCardType.REVEALED));
 	}
 	public String showCard (int card, String playerInt, DeckView.ShowCardType type) {
 		int player = 0;
