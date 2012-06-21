@@ -2,13 +2,13 @@ package com.mehtank.androminion.ui;
 
 import java.util.ArrayList;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.view.Gravity;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -21,88 +21,35 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class DeckView extends FrameLayout {
-
-	private static float textScale;
-	private static float textSize=12.0f;
-	
-	Androminion top;
-
-	TextView tv;
+public class DeckView extends RelativeLayout {
 	TextView name;
 	TextView pirates;
 	TextView victoryTokens;
+	TextView counts;
 	
 	boolean showCardCounts = true;
 	
 	public static enum ShowCardType {OBTAINED, TRASHED, REVEALED};
 
 	public DeckView(Context context) {
-		super(context);
-		this.top = (Androminion) context;
+		this(context, null);
+	}
+	
+	public DeckView(Context context, AttributeSet attrs) {
+		super(context, attrs);
 		
-        if(PreferenceManager.getDefaultSharedPreferences(top).getBoolean("hide_card_counts", false)) {
+        LayoutInflater.from(context).inflate(R.layout.deckview, this, true);
+		name = (TextView) findViewById(R.id.name);
+		pirates = (TextView) findViewById(R.id.pirates);
+		victoryTokens = (TextView) findViewById(R.id.victoryTokens);
+		counts = (TextView) findViewById(R.id.counts);
+		
+        if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("hide_card_counts", false)) {
             showCardCounts = false;
-        }
-		
-		FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.WRAP_CONTENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT,
-				Gravity.LEFT + Gravity.TOP);
-
-		name = new TextView(top);
-		name.setLayoutParams(p);
-		name.setTextSize(textSize);
-		addView(name);		
-		
-		LinearLayout ll = new LinearLayout(top);
-        ll.setLayoutParams(new FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            Gravity.TOP + Gravity.RIGHT));
-		addView(ll);
-
-        LinearLayout.LayoutParams lp;
-        
-		lp = new LinearLayout.LayoutParams(
-		    LinearLayout.LayoutParams.WRAP_CONTENT,
-		    LinearLayout.LayoutParams.WRAP_CONTENT,
-			Gravity.TOP + Gravity.RIGHT);
-		
-		pirates = new TextView(top);
-		pirates.setTextSize(textSize);
-		pirates.setTextColor(Color.YELLOW);
-		pirates.setBackgroundResource(R.drawable.pirates);
-		pirates.setLayoutParams(lp);
-		pirates.setVisibility(INVISIBLE);
-		ll.addView(pirates);
-		
-        lp = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            Gravity.TOP + Gravity.LEFT);
-        
-		victoryTokens = new TextView(top);
-		victoryTokens.setTextSize(textSize);
-		victoryTokens.setTextColor(Color.BLACK);
-		victoryTokens.setBackgroundResource(R.drawable.victorytokens);
-		victoryTokens.setLayoutParams(lp);
-		victoryTokens.setVisibility(INVISIBLE);
-        ll.addView(victoryTokens);
-
-        if(showCardCounts) {
-    		p = new FrameLayout.LayoutParams(
-    				FrameLayout.LayoutParams.WRAP_CONTENT,
-    				FrameLayout.LayoutParams.WRAP_CONTENT,
-    				Gravity.LEFT + Gravity.BOTTOM);
-    		
-    		tv = new TextView(top);
-    		tv.setTextSize(textSize);
-    		tv.setLayoutParams(p);
-    		addView(tv);
+            counts.setVisibility(INVISIBLE);
         }
 	}
 
@@ -129,15 +76,11 @@ public class DeckView extends FrameLayout {
             victoryTokens.setVisibility(INVISIBLE);
 
         if(showCardCounts) {
-    		String str = "\n{ \u2261 " + deckSize + 
+    		String str = "{ \u2261 " + deckSize + 
     					 "    \u261e " + handSize + 
     					 "    \u03a3 " + numCards + " }";
-    		tv.setText(str);
+    		counts.setText(str);
         }
-	}
-
-	public static void setTextScale(double textScale) {
-		DeckView.textScale = (float) textScale;
 	}
 
 	public void showCard(CardView c, ShowCardType type) {
