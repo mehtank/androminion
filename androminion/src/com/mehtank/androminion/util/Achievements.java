@@ -1,4 +1,4 @@
-package com.mehtank.androminion.ui;
+package com.mehtank.androminion.util;
 
 import java.text.Collator;
 import java.util.ArrayList;

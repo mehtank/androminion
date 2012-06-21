@@ -9,6 +9,7 @@ import java.util.Date;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -24,21 +25,24 @@ public class GameScrollerView extends HorizontalScrollView {
 	LinearLayout gameEventsRow;
 	private ScrollView latestTurnSV;
 	private TextView latestTurn;
-	private double textScale;
 	private boolean onlyShowOneTurn = false;
 	private int numPlayers;
 	private ArrayList<View> views = new ArrayList<View>();
 	private File logfile;
 	
-	public GameScrollerView(Context context, double textScale) {
-		super(context);
-		this.top = context;
-		this.textScale = textScale;
-		
-    	gameEventsRow = new LinearLayout(top);
-    	gameEventsRow.setOrientation(LinearLayout.HORIZONTAL);
-    	addView(gameEventsRow);
+	public GameScrollerView(Context context) {
+		this(context, null);
 	}
+	
+	public GameScrollerView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		this.top = context;
+		
+		gameEventsRow = new LinearLayout(top);
+		gameEventsRow.setOrientation(LinearLayout.HORIZONTAL);
+		addView(gameEventsRow);
+	}	
+
 
 	public void clear() {
 		gameEventsRow.removeAllViews();
