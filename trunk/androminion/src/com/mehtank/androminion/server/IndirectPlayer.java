@@ -330,7 +330,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString) {
-        return getFromTable(context, header, maxCost, minCost, isBuy, passString, true, true, -1);
+        return getFromTable(context, header, maxCost, minCost, isBuy, passString, false, true, -1);
     }
 
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, boolean actionOnly, boolean victoryAllowed) {
