@@ -27,6 +27,7 @@
        <string name="played_header">Gespielt:</string>
        <string name="island_header">Insel:</string>
        <string name="village_header">Dorf:</string>
+       <string name="turn_header">: Zug\u0020</string>
 
     <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/k/(g) angezeigt</string>
 
