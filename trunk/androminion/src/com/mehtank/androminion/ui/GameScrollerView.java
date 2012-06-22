@@ -72,7 +72,7 @@ public class GameScrollerView extends HorizontalScrollView {
         }
 	}
 	
-	public void setGameEvent(String s, boolean b) {
+	public void setGameEvent(String s, boolean b, int turnCount) {
 		if (b) {
 			latestTurn = new TextView(top);
 			latestTurn.setTextSize(10.0f);
@@ -85,7 +85,7 @@ public class GameScrollerView extends HorizontalScrollView {
 					LinearLayout.LayoutParams.FILL_PARENT);
 			latestTurnSV.setLayoutParams(lp);
 			gameEventsRow.addView(latestTurnSV);
-			latestTurn.setText(s);
+			latestTurn.setText(s + (turnCount > 0 ? (top.getString(R.string.turn_header) + turnCount) : ""));
 			
 	        if(onlyShowOneTurn) {
 	            views.add(latestTurnSV);

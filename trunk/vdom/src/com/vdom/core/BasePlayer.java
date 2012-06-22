@@ -49,11 +49,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public void gameEvent(GameEvent event) {
         // There are quite a few event types, found in the GameEvent.Type enum, that
         // are broadcast.
-        if (event.getType() == GameEvent.Type.TurnBegin && event.getPlayer() == this) {
-            if (game.consecutiveTurnCounter == 1)
-                turnCount++;
-        }
-        
+
         if (event.getType() == GameEvent.Type.PlayingAction) {
             reactedMoat = false;
             reactedSecretChamber = false;

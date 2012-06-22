@@ -298,7 +298,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
     	*/
     	
     	addView(gameScroller);
-    	gameScroller.setGameEvent("Dominion app loaded!", true);
+    	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
     	
     	helpView = new HelpView(this.top, new View[] {supply, turnView, myCardView, gameScroller}, new View[] {tr, supply, supply, tr});
     	// helpView = new HelpView(this.top, new View[] {supply, tr, tr, gameScroller}, new View[] {tr, supply, supply, tr});
@@ -378,7 +378,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
             vpPileGV.setNumColumns(5);
         
 		top.nosplash();
-		gameScroller.setGameEvent(top.getString(R.string.game_loaded), true);
+		gameScroller.setGameEvent(top.getString(R.string.game_loaded), true, 0);
 
 		showSupplySizes(); // TODO doesn't do anything
 	}
@@ -755,7 +755,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 
 	public void setStatus(GameStatus gs, String s, boolean newTurn) {
 		if (s != null)
-			gameScroller.setGameEvent(s, newTurn);
+			gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
 		
 		if (gs.isFinal) {
 			HapticFeedback.vibrate(getContext(),AlertType.FINAL);
@@ -778,7 +778,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		turnStatus.setStatus(gs.turnStatus, gs.cardCostModifier, gs.potions, myTurn);
 		deckStatus.removeAllViews();
 		for (int i=0; i<allPlayers.size(); i++) {
-	        dvs.get(i).set(allPlayers.get(i), gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.whoseTurn == i);
+	        dvs.get(i).set(allPlayers.get(i) + top.getString(R.string.turn_header) + gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.whoseTurn == i);
 			deckStatus.addView(dvs.get(i));
 		}
 		

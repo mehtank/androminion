@@ -629,6 +629,8 @@ public class Game {
         }
 
         cardsObtainedLastTurn[playersTurn].clear();
+        if (consecutiveTurnCounter == 1)
+        	player.newTurn();
         GameEvent gevent = new GameEvent(GameEvent.Type.TurnBegin, context);
         broadcastEvent(gevent);
 
