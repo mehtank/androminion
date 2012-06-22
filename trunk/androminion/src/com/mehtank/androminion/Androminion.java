@@ -25,10 +25,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.mehtank.androminion.activities.AboutActivity;
@@ -57,9 +57,9 @@ public class Androminion extends Activity implements EventHandler {
 	static final boolean MULTIPLAYER = false;
 
 	String[] cardsPassedInExtras;
-	
+
 	protected Androminion top = this;
-	
+
 	FrameLayout topView;
 
 	GameTable gt;
@@ -78,12 +78,12 @@ public class Androminion extends Activity implements EventHandler {
 	String name;
 	String host;
 	int port;
-	
+
 	// for invites
 	protected String serverName;
 	protected String serverHost;
 	protected int serverPort;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class Androminion extends Activity implements EventHandler {
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
 		super.onCreate(savedInstanceState);
-		
+
 		Intent intent = getIntent();
 		if(intent != null) {
 		    Bundle extras = intent.getExtras();
@@ -103,7 +103,7 @@ public class Androminion extends Activity implements EventHandler {
 		debug("Dominion onCreate called!");
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -111,8 +111,8 @@ public class Androminion extends Activity implements EventHandler {
 
 		gt = new GameTable(this);
 		FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.FILL_PARENT,
-				FrameLayout.LayoutParams.FILL_PARENT);
+				LayoutParams.FILL_PARENT,
+				LayoutParams.FILL_PARENT);
 		topView.addView(gt, p);
 
 		splash = getLayoutInflater().inflate(R.layout.splashview, null);
@@ -122,10 +122,10 @@ public class Androminion extends Activity implements EventHandler {
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
 		name = prefs.getString("name", DEFAULT_NAME);
-		
+
 		startServer();
 
-		Bundle extras = getIntent().getExtras(); 
+		Bundle extras = getIntent().getExtras();
 		if(extras !=null) {
 			host = extras.getString("host");
 			port = extras.getInt("port");
@@ -136,7 +136,7 @@ public class Androminion extends Activity implements EventHandler {
 				return;
 			}
 		}
-		
+
 		host = prefs.getString("host", DEFAULT_HOST);
 		port = prefs.getInt("port", DEFAULT_PORT);
 
@@ -147,10 +147,10 @@ public class Androminion extends Activity implements EventHandler {
 
 			//new AboutDialog(this, true);
 		}
-		
+
 		// ds = new DominionServer(top);
 		// quickstart();
-		
+
 		if(savedInstanceState == null) {
 			if(getIntent().hasExtra("command")) {
 				ArrayList<String> strs = getIntent().getStringArrayListExtra("command");
@@ -163,25 +163,25 @@ public class Androminion extends Activity implements EventHandler {
 			}
 		}
 	}
-	
-	@Override 
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		debug("onResume called");
-		
+
 		NOTOASTS = getPref("toastsoff");
-		
+
 		if (!getPref("statusbar"))
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		else
 			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
-	
-	boolean getPref(String name) {
+
+	boolean getPref(String prefName) {
 		SharedPreferences prefs;
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
-		return prefs.getBoolean(name, false);
+		return prefs.getBoolean(prefName, false);
 	}
 
 	void startServer() {
@@ -190,13 +190,13 @@ public class Androminion extends Activity implements EventHandler {
 	void stopServer() {
 		stopService(new Intent("com.mehtank.androminion.SERVER"));
 	}
-	
-	public void quickstart() {	
+
+	public void quickstart() {
 		// startServer();
 		host = "localhost";
 		startGame(port);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
@@ -252,7 +252,7 @@ public class Androminion extends Activity implements EventHandler {
 		}
 		return false;
 	}
-	
+
     protected void invite() {};
 
 	@Override
@@ -291,12 +291,12 @@ public class Androminion extends Activity implements EventHandler {
 
 	public void nosplash() {
 		if (splash != null)
-			splash.setVisibility(LinearLayout.INVISIBLE);
+			splash.setVisibility(View.INVISIBLE);
 	}
 
 	public void splash() {
 		if (splash != null)
-			splash.setVisibility(LinearLayout.VISIBLE);
+			splash.setVisibility(View.VISIBLE);
 	}
 
 
@@ -307,8 +307,10 @@ public class Androminion extends Activity implements EventHandler {
 				.setMessage(message)
 				.setPositiveButton(android.R.string.ok,
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
+								dialog.dismiss();
 							}
 						}).show();
 	}
@@ -353,18 +355,18 @@ public class Androminion extends Activity implements EventHandler {
 				int index = topView.indexOfChild(gt);
 				topView.removeView(gt);
 				gt = new GameTable(top);
-				
+
 				FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-						FrameLayout.LayoutParams.FILL_PARENT,
-						FrameLayout.LayoutParams.FILL_PARENT);
+						LayoutParams.FILL_PARENT,
+						LayoutParams.FILL_PARENT);
 
 				topView.addView(gt, index, p);
 				splash();
-				
+
 				saveLastCards(ng.cards);
 				gt.newGame(ng.cards, ng.players);
 				gameRunning = true;
-				
+
 		        PreferenceManager.getDefaultSharedPreferences(top).registerOnSharedPreferenceChangeListener(gt);
 				break;
 
@@ -441,7 +443,7 @@ public class Androminion extends Activity implements EventHandler {
 			    gt.achieved(e.s);
 			    ack = true;
 			    break;
-			    
+
 			case DEBUG:
 				debug(e.s);
 				break;
@@ -464,17 +466,17 @@ public class Androminion extends Activity implements EventHandler {
 			gt.setStatus(gs, e.s, e.b);
 		}
 	};
-	
+
 	private void saveLastCards(MyCard[] cards) {
 		SharedPreferences prefs;
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
 		SharedPreferences.Editor edit = prefs.edit();
 		edit.putInt("LastCardCount", cards.length);
-		
+
 		int i=0;
 		for (MyCard c : cards)
 			edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + c.originalSafeName);
-			
+
 		edit.commit();
 	}
 
@@ -534,15 +536,15 @@ public class Androminion extends Activity implements EventHandler {
 	private void saveHostPort() {
 		SharedPreferences prefs;
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
-		
+
 		SharedPreferences.Editor edit = prefs.edit();
 		edit.putString("host", host);
 		edit.putInt("port", port);
 		edit.commit();
 	}
-	
+
 	private void startGame(int p) {
-		
+
 		try {
 			if (!connect(p))
 				return;
@@ -563,7 +565,7 @@ public class Androminion extends Activity implements EventHandler {
 			serverName = name;
 			serverHost = getLocalIpAddress();
 			serverPort = DEFAULT_PORT;
-			
+
 			put( new Event( EType.HELLO ).setString( name ) );
             final Event e = comm.get();
             if (e == null) {
@@ -587,10 +589,10 @@ public class Androminion extends Activity implements EventHandler {
 
 	public String getLocalIpAddress() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); 
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
 					en.hasMoreElements();) {
 				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); 
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses();
 						enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress()) {
@@ -624,7 +626,7 @@ public class Androminion extends Activity implements EventHandler {
 		startActivityForResult(i, 0);
 	       //new StartGameDialog(top, e, MULTIPLAYER, cardsPassedInExtras);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//Result of StartGameActivity

@@ -15,12 +15,12 @@ import com.vdom.core.Player;
 public class VDomServer implements EventHandler {
 
 	private class GameStarter implements Runnable {
-	    
+
 		private String[] args;
 		public GameStarter(String[] args) {
 			this.args = args;
 		}
-		@Override 
+		@Override
 		public void run() {
 			String clean = "Game over!";
 			isRunning = true;
@@ -50,17 +50,18 @@ public class VDomServer implements EventHandler {
 	static int numGameTypes = 0;
 	static String[] gameStrings;
 	static boolean debugOutput = false;
-		
+
 	String gameType;
 	ArrayList<String> gamePlayers = new ArrayList<String>();
 	ArrayList<RemotePlayer> remotePlayers = new ArrayList<RemotePlayer>();
-	
+
 	Thread gt;
 	boolean isStarted = false;
 	boolean isRunning = false;
 	Comms comm;
 	Thread commThread;
-	
+
+	@Override
 	public void debug(String str) {
 		// System.out.println(str);
 	}
@@ -81,19 +82,19 @@ public class VDomServer implements EventHandler {
 
 	public static void main(String[] args) {
 		ArrayList<String> gameArray = new ArrayList<String>();
-		
+
 		if (args != null)
 			for (int i=0; i<args.length-1; i += 2)
 				allPlayers.put(args[i], args[i+1]);
-		
+
 		if (args[args.length-1].endsWith("debug"))
 			debugOutput = true;
-		
+
 		for (GameType g : GameType.values())
 			gameArray.add(Strings.getGameTypeName(g));
 		numGameTypes = gameArray.size();
 		Collections.sort(gameArray);
-		
+
 		gameArray.addAll(allPlayers.keySet());
 		gameStrings = gameArray.toArray(new String[0]);
 
@@ -104,7 +105,7 @@ public class VDomServer implements EventHandler {
 	private void start() {
 		RemotePlayer.setVdomserver(this);
 		connect();
-	}	
+	}
 	private void connect() {
 		try {
 			comm = new Comms(this, 1251);
@@ -121,7 +122,7 @@ public class VDomServer implements EventHandler {
 			start();
 			return;
 		}
-		
+
 		comm.stop();
 		comm = null;
 		commThread = null;
@@ -134,12 +135,12 @@ public class VDomServer implements EventHandler {
 	private Event gameStats() {
 		Event e = new Event(EType.GAMESTATS)
 			.setBoolean(isStarted);
-		
+
 		if (isStarted) {
 			while (!isRunning);
 			int currentHuman = 0;
 			ArrayList<String> runningStrings = new ArrayList<String>();
-			
+
 			for (String s : gamePlayers) {
 				if (s.equals(remotePlayerString)) {
 					while (remotePlayers.size() <= currentHuman);
@@ -147,11 +148,11 @@ public class VDomServer implements EventHandler {
 					String name = "Human player";
 					if (rp.getPlayerName() != "")
 						name += ": " + rp.getPlayerName();
-					if (rp.hasJoined()) 
+					if (rp.hasJoined())
 						runningStrings.add(name + " (playing)");
-					else if (rp.getPort() > 0) 
+					else if (rp.getPort() > 0)
 						runningStrings.add(name + " (seat open)||" + rp.getPort());
-					else 
+					else
 						runningStrings.add(name + " (not connected)");
 
 				} else
@@ -181,14 +182,14 @@ public class VDomServer implements EventHandler {
 		*/
 		gamePlayers.clear();
 		remotePlayers.clear();
-		
+
 		ArrayList<String> gameArgs = new ArrayList<String>();
-		
+
 		gameType = args[0];
 		gameArgs.add("-type" + args[0]);
 		if (debugOutput)
 			gameArgs.add("-debug");
-		
+
 		for (int i=1; i < args.length; i++) {
 		    if(!args[i].startsWith("-")) {
 				if(args[i].equalsIgnoreCase(Player.RANDOM_AI)) {
@@ -202,7 +203,7 @@ public class VDomServer implements EventHandler {
 	              gameArgs.add(args[i]);
 		    }
 		}
-		
+
 		isStarted = true;
 		gt = new Thread(new GameStarter(gameArgs.toArray(new String[0])));
 		gt.start();
@@ -210,7 +211,7 @@ public class VDomServer implements EventHandler {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 	}
-	
+
 	public void registerRemotePlayer(RemotePlayer rp) {
 		remotePlayers.add(rp);
 	}
@@ -220,7 +221,8 @@ public class VDomServer implements EventHandler {
 		switch (e.t) {
         case STARTGAME:
             startGame(e.o.ss);
-            
+			//$FALL-THROUGH$
+
         case HELLO:
 			try {
 				comm.put(gameStats());
@@ -229,21 +231,21 @@ public class VDomServer implements EventHandler {
 				debug("Error sending game stats, restarting server.");
 			}
 			break;
-			
+
         case DISCONNECT:
         	reconnect = true;
         	break;
-        	
+
         default:
         	reconnect = false;
 		}
-		if (!reconnect) 
+		if (!reconnect)
 			return true;
-		
+
 		reconnect();
 		return true;
 	}
-	
+
 	public void endGame(String s) {
 		if (isStarted) {
 			for (RemotePlayer rp : remotePlayers) {
@@ -253,17 +255,17 @@ public class VDomServer implements EventHandler {
 					// whatever
 				}
 			}
-			
+
 			if (isRunning)
 				remotePlayers.get(0).die();
 			gamePlayers.clear();
 			remotePlayers.clear();
 			gt = null;
-			
+
 			isStarted = false;
 		}
 	}
-	
+
 	public void quit() {
 		endGame("Server killed game.");
 		disconnect();
@@ -275,25 +277,25 @@ public class VDomServer implements EventHandler {
 			} catch (Exception e) {
 				// whatever
 			}
-		}		
+		}
 	}
-	
+
 	public String getRandomAI(final String[] args) {
 		final List<String> playersInGame = new ArrayList<String>();
 		final List<String> randomPlayers = new ArrayList<String>();
-		
+
 		for(String arg : args) {
 			if(arg.contains(" (AI)")) {
 				playersInGame.add(arg);
 			}
 		}
-		
+
 		for(String player : allPlayers.keySet()) {
 			if(player.contains(" (AI)") && !playersInGame.contains(player)) {
 				randomPlayers.add(player);
 			}
 		}
-		
+
 		final Random rand = new Random(System.currentTimeMillis());
 
 		return randomPlayers.get(rand.nextInt(randomPlayers.size()));

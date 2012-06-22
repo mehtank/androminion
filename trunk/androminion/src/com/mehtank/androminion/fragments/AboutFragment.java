@@ -15,13 +15,14 @@ import android.widget.TextView;
 
 public class AboutFragment extends Fragment {
 	View mView;
+
+	@Override
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
         mView = inflater.inflate(R.layout.aboutfragment, null);
 
         TabHost th=(TabHost)mView;
         th.setup();
-        
+
         //set background
         View content = th.findViewById(android.R.id.tabcontent);
         content.setBackgroundResource(R.drawable.bigicon_background);
@@ -42,12 +43,12 @@ public class AboutFragment extends Fragment {
         spec3.setIndicator(getString(R.string.contrib_menu), getResources().getDrawable(android.R.drawable.ic_menu_my_calendar));
         spec3.setContent(R.id.abouttab3);
         th.addTab(spec3);
-        
+
         // "render" HTML
         TextView tv = (TextView) mView.findViewById(R.id.whatsnew);
         tv.setText( Html.fromHtml(getString(R.string.whatsnew)));
         tv.setMovementMethod(LinkMovementMethod.getInstance());
-        
+
         // insert version name
         String vname = "";
         try {

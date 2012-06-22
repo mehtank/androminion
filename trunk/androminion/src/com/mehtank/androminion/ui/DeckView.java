@@ -29,24 +29,24 @@ public class DeckView extends RelativeLayout {
 	TextView pirates;
 	TextView victoryTokens;
 	TextView counts;
-	
+
 	boolean showCardCounts = true;
-	
+
 	public static enum ShowCardType {OBTAINED, TRASHED, REVEALED};
 
 	public DeckView(Context context) {
 		this(context, null);
 	}
-	
+
 	public DeckView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
+
         LayoutInflater.from(context).inflate(R.layout.deckview, this, true);
 		name = (TextView) findViewById(R.id.name);
 		pirates = (TextView) findViewById(R.id.pirates);
 		victoryTokens = (TextView) findViewById(R.id.victoryTokens);
 		counts = (TextView) findViewById(R.id.counts);
-		
+
         if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("hide_card_counts", false)) {
             showCardCounts = false;
             counts.setVisibility(INVISIBLE);
@@ -60,24 +60,24 @@ public class DeckView extends RelativeLayout {
 			name.setBackgroundColor(Color.GRAY);
 		} else {
 			name.setTextColor(Color.WHITE);
-			name.setBackgroundColor(Color.BLACK);			
+			name.setBackgroundColor(Color.BLACK);
 		}
 
 		pirates.setText(" " + pt + " ");
-		if (pt != 0) 
+		if (pt != 0)
 			pirates.setVisibility(VISIBLE);
 		else
 			pirates.setVisibility(INVISIBLE);
 
         victoryTokens.setText(" " + vt + " ");
-        if (vt != 0) 
+        if (vt != 0)
             victoryTokens.setVisibility(VISIBLE);
         else
             victoryTokens.setVisibility(INVISIBLE);
 
         if(showCardCounts) {
-    		String str = "{ \u2261 " + deckSize + 
-    					 "    \u261e " + handSize + 
+    		String str = "{ \u2261 " + deckSize +
+    					 "    \u261e " + handSize +
     					 "    \u03a3 " + numCards + " }";
     		counts.setText(str);
         }
@@ -97,41 +97,41 @@ public class DeckView extends RelativeLayout {
 			top += ((View)vp).getTop();
 			vp = vp.getParent();
 		}
-		
+
 		switch (type) {
 		case OBTAINED:
 			alpha = new AlphaAnimation(0, 1);
 			trans = new TranslateAnimation(
-					TranslateAnimation.ABSOLUTE, left, 
-					TranslateAnimation.ABSOLUTE, left, 
-					TranslateAnimation.ABSOLUTE, top - getHeight()*2, 
-					TranslateAnimation.ABSOLUTE, top);
+					Animation.ABSOLUTE, left,
+					Animation.ABSOLUTE, left,
+					Animation.ABSOLUTE, top - getHeight()*2,
+					Animation.ABSOLUTE, top);
 			anims.setInterpolator(new DecelerateInterpolator());
-			break;			
+			break;
 		case TRASHED:
 			alpha = new AlphaAnimation(1, 0);
 			trans = new TranslateAnimation(
-					TranslateAnimation.ABSOLUTE, left, 
-					TranslateAnimation.ABSOLUTE, left, 
-					TranslateAnimation.ABSOLUTE, top, 
-					TranslateAnimation.ABSOLUTE, top + getHeight()*2);
+					Animation.ABSOLUTE, left,
+					Animation.ABSOLUTE, left,
+					Animation.ABSOLUTE, top,
+					Animation.ABSOLUTE, top + getHeight()*2);
 			anims.setInterpolator(new AccelerateInterpolator());
 			break;
 		default: //  REVEALED
 			alpha = new AlphaAnimation(1, 0.5f);
 			trans = new TranslateAnimation(
-					TranslateAnimation.ABSOLUTE, left,
-					TranslateAnimation.ABSOLUTE, left, 
-					TranslateAnimation.ABSOLUTE, top, 
-					TranslateAnimation.ABSOLUTE, top - getHeight()*0.5f);
+					Animation.ABSOLUTE, left,
+					Animation.ABSOLUTE, left,
+					Animation.ABSOLUTE, top,
+					Animation.ABSOLUTE, top - getHeight()*0.5f);
 		}
 		anims.addAnimation(alpha);
 		anims.addAnimation(trans);
 		anims.setDuration(2500L);
-		
+
 		anims.setAnimationListener(new CVAnimListener(c));
-		
-		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(CardView.WIDTH, FrameLayout.LayoutParams.WRAP_CONTENT);
+
+		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(CardView.WIDTH, ViewGroup.LayoutParams.WRAP_CONTENT);
 		c.setLayoutParams(lp);
 		((ViewGroup) getRootView()).addView(c);
 		c.startAnimation(anims);
@@ -142,12 +142,13 @@ public class DeckView extends RelativeLayout {
 
 	static ArrayList<AnimationSet> runningAnims = new ArrayList<AnimationSet>();
 	static ArrayList<CardView> cvs = new ArrayList<CardView>();
-	
+
 	private class CVAnimListener implements AnimationListener {
 		CardView v;
 		public CVAnimListener(CardView v) {
 			this.v = v;
 		}
+		@Override
 		public void onAnimationEnd(Animation animation) {
 			v.setVisibility(GONE);
 			runningAnims.remove(animation);

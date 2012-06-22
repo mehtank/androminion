@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -16,8 +17,8 @@ import android.widget.TextView;
 import com.mehtank.androminion.R;
 
 public class HelpView extends FrameLayout {
-	Context top;
-	
+	private final Context ctx;
+
 	TextView helpText;
 	FrameLayout callout;
 	Button helpNext;
@@ -27,35 +28,35 @@ public class HelpView extends FrameLayout {
 	public void setShowViews(View[] showViews) {
 		this.showViews = showViews;
 	}
-	
+
 	public HelpView(Context context, View[] showViews, View[] parentViews) {
 		super(context);
-		top = context;
+		ctx = context;
 		this.showViews = showViews;
 		this.parentViews = parentViews;
-		
-		callout = new FrameLayout(this.top);
-		helpText = new TextView(this.top);
+
+		callout = new FrameLayout(this.ctx);
+		helpText = new TextView(this.ctx);
 		// helpText.setTextSize(helpText.getTextSize()*1.2f);
 		helpText.setTextColor(Color.BLACK);
 		callout.addView(helpText);
-		
-		helpNext = new Button(this.top);
+
+		helpNext = new Button(this.ctx);
 		helpNext.setText(R.string.help_next);
 
-		Button helpQuit = new Button(this.top);
+		Button helpQuit = new Button(this.ctx);
 		helpQuit.setText(R.string.help_quit);
 		helpQuit.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) { showHelp(0); }
+			@Override public void onClick(View v) { showHelp(0); }
 		});
 
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, 
+				ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
 				Gravity.BOTTOM + Gravity.LEFT);
 		callout.addView(helpNext, lp);
-		
+
 		lp = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, 
+				ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
 				Gravity.BOTTOM + Gravity.RIGHT);
 		callout.addView(helpQuit, lp);
 		addView(callout);
@@ -64,7 +65,7 @@ public class HelpView extends FrameLayout {
 
 	int helpText(int stringID, View parent, final int page, int bgID) {
 		helpNext.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) { showHelp(page+1); }
+			@Override public void onClick(View v) { showHelp(page+1); }
 		});
 
 		int left = parent.getLeft();
@@ -75,15 +76,15 @@ public class HelpView extends FrameLayout {
 			top += ((View)vp).getTop();
 			vp = vp.getParent();
 		}
-		
+
 		if (bgID != 0)
 			callout.setBackgroundResource(bgID);
-				
+
 		helpText.setText(stringID);
-		
+
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(parent.getWidth() + left, parent.getHeight() + top);
 		setLayoutParams(lp);
-		
+
 		setPadding(left, top, 0, 0);
 		return 0;
 	}
@@ -95,9 +96,9 @@ public class HelpView extends FrameLayout {
 		int bgID = 0;
 		boolean fadein = false;
 		boolean fadeout = false;
-		
+
 		hide();
-				
+
 		if (page == curpage++) {
 			stringID = R.string.help_supply1;
 			chapter = 0;
@@ -131,7 +132,7 @@ public class HelpView extends FrameLayout {
 		} else if (page == curpage++) {
 			stringID = R.string.help_turn5;
 			chapter = 1;
-			
+
 		} else if (page == curpage++) {
 			stringID = R.string.help_hand1;
 			chapter = 2;
@@ -150,7 +151,7 @@ public class HelpView extends FrameLayout {
 		} else if (page == curpage++) {
 			stringID = R.string.help_hand5;
 			chapter = 2;
-			
+
 		} else if (page == curpage++) {
 			stringID = R.string.help_log1;
 			chapter = 3;
@@ -160,7 +161,7 @@ public class HelpView extends FrameLayout {
 		} else if (page == curpage++) {
 			stringID = R.string.help_end;
 			chapter = 3;
-			
+
 		} else if (page == curpage++) {
 			chapter = 4;
 			fadein = true;
@@ -170,18 +171,18 @@ public class HelpView extends FrameLayout {
 			final View v = showViews[i];
 			AnimationSet fullfade = new AnimationSet(true);
 
-			Animation fade = AnimationUtils.loadAnimation(top, android.R.anim.fade_in);
-			if (page == 0) { 
+			Animation fade = AnimationUtils.loadAnimation(ctx, android.R.anim.fade_in);
+			if (page == 0) {
 				v.setVisibility(VISIBLE);
 				fade.setDuration(50L);
 				fullfade.addAnimation(fade);
 			} else if (fadein && (i != chapter-1)) {
 				v.setVisibility(VISIBLE);
 				fade.setDuration(700L);
-				fullfade.addAnimation(fade);				
+				fullfade.addAnimation(fade);
 			}
-			
-			fade = AnimationUtils.loadAnimation(top, android.R.anim.fade_out);
+
+			fade = AnimationUtils.loadAnimation(ctx, android.R.anim.fade_out);
 			if (fadeout && (i != chapter)) {
 				fade.setDuration(700L);
 				if (fadein) fade.setStartOffset(700L);
@@ -200,16 +201,16 @@ public class HelpView extends FrameLayout {
 			if (fullfade.getAnimations().size() > 0)
 				v.startAnimation(fullfade);
 		}
-		
+
 
 		if (stringID != 0) {
 			if (!fadeout)
 				setVisibility(VISIBLE);
 			helpText(stringID, parentViews[chapter], page, bgID);
 		}
-		
+
 		return 0;
-	}	
+	}
 
 	public void hide() {
 		setVisibility(INVISIBLE);

@@ -22,7 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class StartGameFragment extends Fragment implements OnCheckedChangeListener, OnClickListener {
-	
+
 	//Views
 	View mView;
 	RadioGroup mRandomPreset;
@@ -31,21 +31,21 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 	RadioButton mPreset;
 	RadioButton mLast;
 	RadioButton mSpecified;
-	
+
 	Spinner mRandomSpinner;
 	Spinner mPresetSpinner;
 	Spinner mPlayer2;
 	Spinner mPlayer3;
 	Spinner mPlayer4;
-	
+
 	Button mStartGame;
-	
+
 	//Options & Co
 	SharedPreferences mPrefs;
 	boolean mMultiplayer = false;
 	String[] mLastCards;
 	String[] mCardsPassOnStartup;
-	
+
 	//TODO: find a better solution for these
 	static final String HUMANPLAYER = "Human Player";
 	static final String[] PLAYERTYPES =  {
@@ -57,16 +57,16 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
             "Sarah (AI)",
             "Random AI",
 	};
-	
+
 	enum TypeOptions {RANDOM, PRESET, LAST, SPECIFIED};
 	TypeOptions mGameType;
-	
+
 	@Override
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		com.mehtank.androminion.server.Strings.context = getActivity().getApplicationContext();
-		
+
         mView = inflater.inflate(R.layout.startgamefragment, null);
-        
+
         //Init all views
         mRandomPreset = (RadioGroup) mView.findViewById(R.id.rgRandomPreset);
         mLastSpecified = (RadioGroup) mView.findViewById(R.id.rgLastSpecified);
@@ -89,13 +89,13 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
         //Init prefs
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		getLastCards();
-        
+
 		//Set radio button state
 		if(mLastCards == null){
-			mLast.setVisibility(RadioButton.GONE);
+			mLast.setVisibility(View.GONE);
 		}
 		if(getArguments() == null || !getArguments().containsKey("cards")) {
-			mSpecified.setVisibility(RadioButton.GONE);
+			mSpecified.setVisibility(View.GONE);
 			mGameType = TypeOptions.valueOf(mPrefs.getString("gameType", TypeOptions.PRESET.name()));
 		} else {
 			mCardsPassOnStartup = getArguments().getStringArray("cards");
@@ -111,7 +111,7 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
         case SPECIFIED:
         	mSpecified.setChecked(true); break;
         }
-        
+
         //Fill card set spinners
         ArrayList<String> presets = new ArrayList<String>();
         ArrayList<String> randoms = new ArrayList<String>();
@@ -128,7 +128,7 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 				presets.add(type);
 			}
 		}
-		
+
 		ArrayAdapter<String> adapter = createArrayAdapter(randoms);
 		mRandomSpinner.setAdapter(adapter);
 		mRandomSpinner.setSelection(adapter.getPosition(mPrefs.getString("randomPref", "Random")));
@@ -136,7 +136,7 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 		adapter = createArrayAdapter(presets);
 		mPresetSpinner.setAdapter(adapter);
 		mPresetSpinner.setSelection(adapter.getPosition(mPrefs.getString("presetPref", "First Game (Base)")));
-		
+
 		//Fill player spinners
 		ArrayList<String> players = new ArrayList<String>(PLAYERTYPES.length + 1);
 		for(String s: PLAYERTYPES) {
@@ -147,10 +147,10 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 		}
 		String player = getString(R.string.player);
 		adapter = createArrayAdapter(players);
-		
+
 		((TextView) mView.findViewById(R.id.txtPlayer1))
 			.setText(" - " + player + "1:  ");
-		
+
 		((TextView) mView.findViewById(R.id.txtPlayer2))
 		.setText(" - " + player + "2:  ");
 		mPlayer2.setPrompt(player+"2");
@@ -160,7 +160,7 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 		players = new ArrayList<String>(players);
 		players.add(getString(R.string.none_game_start));
 		adapter = createArrayAdapter(players);
-		
+
 		((TextView) mView.findViewById(R.id.txtPlayer3))
 		.setText(" - " + player + "3:  ");
 		mPlayer3.setPrompt(player+"3");
@@ -175,7 +175,7 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 
         return mView;
 	}
-	
+
 	private void getLastCards() {
 		int count = mPrefs.getInt("LastCardCount", 0);
 		if (count > 0) {
@@ -185,41 +185,41 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 			}
 		}
 	}
-	
+
 	private ArrayAdapter<String> createArrayAdapter(ArrayList<String> list) {
 	    ArrayAdapter<String> adapter = new ArrayAdapter<String>
 	    	(getActivity(), android.R.layout.simple_spinner_item, list);
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    return adapter;
 	}
-	
+
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if(isChecked) {
 		if(buttonView == mRandom) {
 			mGameType = TypeOptions.RANDOM;
 			mLastSpecified.clearCheck();
-			mRandomSpinner.setVisibility(Spinner.VISIBLE);
-			mPresetSpinner.setVisibility(Spinner.GONE);
+			mRandomSpinner.setVisibility(View.VISIBLE);
+			mPresetSpinner.setVisibility(View.GONE);
 		} else if (buttonView == mPreset) {
 			mGameType = TypeOptions.PRESET;
 			mLastSpecified.clearCheck();
-			mRandomSpinner.setVisibility(Spinner.GONE);
-			mPresetSpinner.setVisibility(Spinner.VISIBLE);
+			mRandomSpinner.setVisibility(View.GONE);
+			mPresetSpinner.setVisibility(View.VISIBLE);
 		} else if (buttonView == mLast) {
 			mGameType = TypeOptions.LAST;
 			mRandomPreset.clearCheck();
-			mPresetSpinner.setVisibility(Spinner.GONE);
-			mRandomSpinner.setVisibility(Spinner.GONE);
+			mPresetSpinner.setVisibility(View.GONE);
+			mRandomSpinner.setVisibility(View.GONE);
 		} else if (buttonView == mSpecified) {
 			mGameType = TypeOptions.SPECIFIED;
 			mRandomPreset.clearCheck();
-			mPresetSpinner.setVisibility(Spinner.GONE);
-			mRandomSpinner.setVisibility(Spinner.GONE);
+			mPresetSpinner.setVisibility(View.GONE);
+			mRandomSpinner.setVisibility(View.GONE);
 		}
 		}
 	}
-	
+
 	@Override
 	public void onClick(View arg0) {
 		SharedPreferences.Editor edit = mPrefs.edit();
@@ -228,7 +228,7 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
 		ArrayList<String> strs = new ArrayList<String>();
 		String spinnerStr;
 		GameType g;
-		
+
 		switch (mGameType) {
 		case RANDOM:
 			edit.putString("gameType", TypeOptions.RANDOM.name());
@@ -236,7 +236,7 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
             spinnerStr = (String) mRandomSpinner.getSelectedItem();
 			g = com.mehtank.androminion.server.Strings.getGameTypefromName(spinnerStr);
 			if (g != null)
-				strs.add((String) g.getName());
+				strs.add(g.getName());
 			edit.putString("randomPref", spinnerStr);
 			break;
 		case PRESET:
@@ -245,41 +245,41 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
             spinnerStr = (String) mPresetSpinner.getSelectedItem();
 			g = com.mehtank.androminion.server.Strings.getGameTypefromName(spinnerStr);
 			if (g != null)
-				strs.add((String) g.getName());
+				strs.add(g.getName());
 			edit.putString("presetPref", spinnerStr);
 			break;
 		case LAST:
 			edit.putString("gameType", TypeOptions.LAST.name());
 
 		    cardsSpecified = mLastCards;
-		    strs.add("Random");					
+		    strs.add("Random");
 			break;
 		case SPECIFIED:
 		    cardsSpecified = mCardsPassOnStartup;
 		    strs.add("Random");
 			break;
 		}
-		
+
 		String str = HUMANPLAYER;
 		strs.add(str);
 
         str = (String) mPlayer2.getSelectedItem();
         strs.add(str);
         edit.putString("gamePref2", str);
-        
+
         str = (String) mPlayer3.getSelectedItem();
         strs.add(str);
         edit.putString("gamePref3", str);
-        
+
         str = (String) mPlayer4.getSelectedItem();
         strs.add(str);
         edit.putString("gamePref4", str);
 
-		
+
 		if(mPrefs.getBoolean("plat_colony", false)) {
 		    strs.add("-platcolony");
 		}
-		
+
         if(mPrefs.getBoolean("quick_play", false)) {
             strs.add("-quickplay");
         }
@@ -302,14 +302,14 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
             strs.add(sb.toString());
         }
   		edit.commit();
-  		
+
   		try {
   			((OnStartGameListener) getActivity()).onStartGameClick(strs);
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + " must implement OnStartGameListener");
         }
 	}
-	
+
 	// Container Activity must implement this interface
 	public interface OnStartGameListener {
 		public void onStartGameClick(ArrayList<String> values);

@@ -30,23 +30,23 @@ import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.comms.Event.EventObject;
 
 public class GameTable extends LinearLayout implements OnClickListener, OnSharedPreferenceChangeListener {
-	Androminion top;
+	private final Androminion top;
 
 	ArrayList<String> allPlayers = new ArrayList<String>();
-	
+
 	GridView handGV, playedGV, islandGV, villageGV;
 	CardGroup hand, played, island, village;
 	LinearLayout handCS, playedCS, islandCS, villageCS;
 	TextView playedHeader;
 	LinearLayout myCards;
 	boolean playedAdded = false, islandAdded = false, villageAdded = false;
-	
+
 	GridView moneyPileGV, vpPileGV, supplyPileGV, prizePileGV;
 	CardGroup moneyPile, vpPile, supplyPile, prizePile;
-	
+
 	LinearLayout tr;
 	LinearLayout gameOver;
-	
+
 	View supply;
 	View turnView;
 	View myCardView;
@@ -63,19 +63,19 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	SelectStringView sv;
 
 	Achievements achievements;
-	
+
 	ArrayList<CardView> openedCards = new ArrayList<CardView>();
 	int maxOpened = 0;
 	boolean exactOpened = true;
 	boolean myTurn;
-	
+
 	boolean finalStatsReported = false;
-		
+
 	double textScale = GameTableViews.textScale;
 
 	private HelpView helpView;
-	
-	private LinearLayout makeTable(Context top) {
+
+	private LinearLayout makeTable() {
     	moneyPile = new CardGroup(top, this, true);
     	vpPile = new CardGroup(top, this, true);
     	supplyPile = new CardGroup(top, this, true, 8);
@@ -88,17 +88,17 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 
     	LinearLayout table = new LinearLayout(top);
     	table.setOrientation(VERTICAL);
-    	
+
     	table.addView(moneyPileGV);
     	table.addView(vpPileGV);
     	table.addView(supplyPileGV);
     	table.addView(prizePileGV);
     	table.setBackgroundResource(R.drawable.roundborder);
-    	
+
     	return table;
 	}
-	
-	private View makeMyCards(Context top) {
+
+	private View makeMyCards() {
 		hand = new CardGroup(top, this, false);
     	played = new CardGroup(top, this, false);
 		island = new CardGroup(top, this, false);
@@ -115,7 +115,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 //    	villageGV.setBackgroundResource(R.drawable.roundborder);
 
     	playedHeader = new TextView(top);
-    	
+
     	handCS = (GameTableViews.myCardSet(top, top.getString(R.string.hand_header), handGV, null));
     	playedCS = (GameTableViews.myCardSet(top, top.getString(R.string.played_header), playedGV, playedHeader));
     	islandCS = (GameTableViews.myCardSet(top, top.getString(R.string.island_header), islandGV, null));
@@ -123,23 +123,23 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 
     	islandCS.setBackgroundResource(R.drawable.roundborder);
     	villageCS.setBackgroundResource(R.drawable.roundborder);
-    	
+
     	myCards = new LinearLayout(top);
     	myCards.setOrientation(HORIZONTAL);
-    	
+
     	myCards.addView(handCS);
     	myCards.addView(playedCS);
 		playedAdded = true;
 
-    	for (int i=0; i<8; i++) 
+    	for (int i=0; i<8; i++)
     		hand.addCard(new MyCard(0, "default", "default", "default"));
-    	    	
-    	HorizontalScrollView sv = new HorizontalScrollView(top) {
+
+    	HorizontalScrollView scrollView = new HorizontalScrollView(top) {
     		boolean f = false;
-    		@Override 
+    		@Override
     		public void onSizeChanged (int w, int h, int oldw, int oldh) {
     			// System.err.println(" ******   onSizeChanged " + w + " " + h + " " + oldw + " " + oldh);
-    			if ((w != 0) && (h != 0) && (oldw == 0) && (oldh == 0)) 
+    			if ((w != 0) && (h != 0) && (oldw == 0) && (oldh == 0))
     				f = true;
     			else if ((w != 0) && (h != 0) && f) {
     		    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(w, Math.max(h, oldh));
@@ -147,20 +147,21 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
     			}
     		}
     	};
-    	sv.addView(myCards);    	
-    	myCardView = sv;
-    	return sv;
+    	scrollView.addView(myCards);
+    	myCardView = scrollView;
+    	return scrollView;
 	}
-	private LinearLayout makeTurnPanel(Context top) {
+
+	private LinearLayout makeTurnPanel() {
     	select = new Button(top);
     	select.setVisibility(INVISIBLE);
         setSelectText(SelectCardOptions.PickType.SELECT);
         select.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) { cardSelected((Button) v); }
+            @Override public void onClick(View v) { cardSelected((Button) v); }
         });
         LayoutParams p = new LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.FILL_PARENT, 
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.FILL_PARENT,
                 1.0f
                 );
         p.leftMargin = 0;
@@ -172,11 +173,11 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
     	pass.setVisibility(INVISIBLE);
     	pass.setText("Pass");
         pass.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) { cardSelected((Button) v); }
+            @Override public void onClick(View v) { cardSelected((Button) v); }
         });
         p = new LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.FILL_PARENT,
+        		ViewGroup.LayoutParams.WRAP_CONTENT,
+        		ViewGroup.LayoutParams.FILL_PARENT,
                 1.0f
 				);
         p.leftMargin = 0;
@@ -187,14 +188,14 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
         LinearLayout buttons = new LinearLayout(top);
         buttons.addView(select);
         buttons.addView(pass);
-    	
+
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-        		LinearLayout.LayoutParams.FILL_PARENT,
-        		LinearLayout.LayoutParams.WRAP_CONTENT);
+        		ViewGroup.LayoutParams.FILL_PARENT,
+        		ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.leftMargin = 0;
         lp.rightMargin = 0;
         buttons.setLayoutParams(lp);
-        
+
         deckStatus = new LinearLayout(top);
         deckStatus.setOrientation(VERTICAL);
         deckStatus.setLayoutParams(lp);
@@ -204,19 +205,19 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 
     	actionText = new TextView(top);
 		actionText.setTextSize(12.0f);
-    	
+
     	LinearLayout ll = new LinearLayout(top);
     	ll.setOrientation(VERTICAL);
     	ll.addView(buttons);
     	ll.addView(deckStatus);
     	ll.addView(turnStatus);
     	ll.addView(actionText);
-    	
+
         lp = new LinearLayout.LayoutParams(
-        		LinearLayout.LayoutParams.FILL_PARENT,
-        		LinearLayout.LayoutParams.WRAP_CONTENT);
+        		ViewGroup.LayoutParams.FILL_PARENT,
+        		ViewGroup.LayoutParams.WRAP_CONTENT);
         ll.setLayoutParams(lp);
-    	
+
         turnView = ll;
     	return ll;
 	}
@@ -229,29 +230,29 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
         ll.setGravity(Gravity.CENTER_HORIZONTAL);
         ll.setOrientation(HORIZONTAL);
         ll.addView(largeRefText);
-        
+
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        		ViewGroup.LayoutParams.FILL_PARENT,
+        		ViewGroup.LayoutParams.WRAP_CONTENT);
         ll.setLayoutParams(lp);
 
         if(!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("abc_header", true)) {
             ll.setVisibility(GONE);
         }
-        
+
         return ll;
     }
-    
-	private void makeGameOver(Context top) {
+
+	private void makeGameOver() {
 		gameOver = new LinearLayout(top);
 		gameOver.setOrientation(LinearLayout.VERTICAL);
-		
+
 		TextView tv = new TextView(top);
 		tv.setText("Game over!\n");
-		
+
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-        		LinearLayout.LayoutParams.FILL_PARENT,
-        		LinearLayout.LayoutParams.WRAP_CONTENT);
+        		ViewGroup.LayoutParams.FILL_PARENT,
+        		ViewGroup.LayoutParams.WRAP_CONTENT);
         tv.setLayoutParams(lp);
 
 		gameOver.addView(tv);
@@ -260,58 +261,58 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	public GameTable(Androminion top) {
 		super(top);
 		this.top = top;
-		    	
+
 		setOrientation(VERTICAL);
-		
+
         try {
             achievements = new Achievements(top);
         }
         catch(Exception e) {
             e.printStackTrace();
         }
-		
+
     	TextView titleText = new TextView(top);
     	titleText.setText(R.string.title);
-    	makeGameOver(top);
+    	makeGameOver();
 
     	LinearLayout largeRef = makeLargeRef(top);
     	tr = new LinearLayout(top);
-    	tr.addView(makeMyCards(top));
-    	tr.addView(makeTurnPanel(top));
-    	
+    	tr.addView(makeMyCards());
+    	tr.addView(makeTurnPanel());
+
     	addView(titleText);
-    	
+
         addView(largeRef);
-        
-    	addView(supply = makeTable(top));
-    	
+
+    	addView(supply = makeTable());
+
     	addView(tr);
     	// addView(new TalkView(top));
     	gameScroller = new GameScrollerView(top);
     	/*
     	FrameLayout.LayoutParams fp = new FrameLayout.LayoutParams(
-    			FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, 
-    			Gravity.BOTTOM); 
+    			FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+    			Gravity.BOTTOM);
     	gameScroller.setLayoutParams(fp);
     	top.addView(gameScroller);
     	gameScroller.setVisibility(INVISIBLE);
     	*/
-    	
+
     	addView(gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
-    	
+
     	helpView = new HelpView(this.top, new View[] {supply, turnView, myCardView, gameScroller}, new View[] {tr, supply, supply, tr});
     	// helpView = new HelpView(this.top, new View[] {supply, tr, tr, gameScroller}, new View[] {tr, supply, supply, tr});
     }
-	
+
 	public void showHelp(int page) {
 		try {
 			top.addView(helpView);
 		} catch (IllegalStateException e) {}
 		helpView.showHelp(page);
 	}
-	
-	
+
+
 	public void logToggle() {
 		if (gameScroller.getVisibility() == INVISIBLE)
 	    	gameScroller.setVisibility(VISIBLE);
@@ -330,17 +331,17 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		island.clear();
 		village.clear();
 		allPlayers.clear();
-		
+
 		actionText.setText("");
 		deckStatus.removeAllViews();
 		gameScroller.clear();
 		gameScroller.setNumPlayers(players.length);
 		gameOver.removeAllViews();
 		tr.removeAllViews();
-    	tr.addView(makeMyCards(top));
-    	tr.addView(makeTurnPanel(top));
+    	tr.addView(makeMyCards());
+    	tr.addView(makeTurnPanel());
     	helpView.setShowViews(new View[] {supply, turnView, myCardView, gameScroller});
-		
+
 		for (MyCard c : cards)
 			addCardToTable(c);
 		for (String s : players)
@@ -352,37 +353,37 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
                 platInPlay = true;
                 break;
             }
-		    
+
         boolean colonyInPlay = false;
         for (MyCard c : cards)
             if(c.originalSafeName.equals("Colony")) {
                 colonyInPlay = true;
                 break;
             }
-        
+
         boolean potionInPlay = false;
         for (MyCard c : cards)
             if(c.isPotion) {
                 potionInPlay = true;
                 break;
             }
-        
+
         if(potionInPlay && platInPlay)
             moneyPileGV.setNumColumns(5);
         else
             moneyPileGV.setNumColumns(4);
-		
+
         if(!colonyInPlay)
             vpPileGV.setNumColumns(4);
         else
             vpPileGV.setNumColumns(5);
-        
+
 		top.nosplash();
 		gameScroller.setGameEvent(top.getString(R.string.game_loaded), true, 0);
 
 		showSupplySizes(); // TODO doesn't do anything
 	}
-	
+
 	public void addCardToTable(MyCard c) {
 		GameTableViews.addCard(c.id, c);
 
@@ -404,18 +405,19 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		select.setClickable(false);
 		select.setTextColor(Color.GRAY);
 	}
+	@Override
 	public void onClick(View v) {
 		CardView clickedCard = (CardView) v;
-		
+
 		if (clickedCard.c == null)
 			return;
-		
-		if (sco == null) 
+
+		if (sco == null)
 			return;
 
-		if (!canClick) 
+		if (!canClick)
 			return;
-		
+
         if (clickedCard.opened) {
 			HapticFeedback.vibrate(getContext(), AlertType.CLICK);
 			if (openedCards.contains(clickedCard))
@@ -423,7 +425,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
             clickedCard.setOpened(false, sco.getPickType().indicator());
             selectButtonState();
 		} else {
-			if (isAcceptable(sco, clickedCard)) {
+			if (isAcceptable(clickedCard)) {
 				HapticFeedback.vibrate(getContext(), AlertType.CLICK);
 				if (openedCards.size() >= maxOpened) {
                     openedCards.get(0).setOpened(false, sco.getPickType().indicator());
@@ -439,7 +441,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
                 c.setOpened(true, openedCards.indexOf(c), sco.getPickType().indicator());
 	}
 
-	boolean isAcceptable(SelectCardOptions sco, CardView cv) {
+	boolean isAcceptable(CardView cv) {
 		MyCard c = cv.c;
 		if (sco.fromHand && (cv.parent != hand)) return false;
 		else if (sco.fromTable) {
@@ -456,16 +458,16 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		} else if (sco.fromPrizes) {
 			if (cv.parent != prizePile) return false;
 		}
-		
+
 		return sco.checkValid(c, getCardCost(c));
 	}
-	
+
 	SelectCardOptions sco = null;
-	
+
 	boolean firstPass = false;
 	boolean canClick = true;
 	String prompt = "";
-	
+
 	void resetButtons() {
 		CharSequence selectText = select.getText();
 		pass.setText(selectText.subSequence(0, selectText.length()-1));
@@ -489,20 +491,20 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	public void cardSelected(Button b) {
 		if (sco == null)
 			return;
-		
+
 		if (b == select) {
 			if (firstPass) {
 				top.handle(new Event(Event.EType.CARD)
-								.setInteger(0));				
+								.setInteger(0));
 			} else {
 				int[] cards = new int[openedCards.size()];
 				for (int i = 0; i < openedCards.size(); i++) {
 					CardView cv = openedCards.get(i);
-					if (!isAcceptable(sco, cv))
+					if (!isAcceptable(cv))
 						return;
 					cards[i] = cv.c.id;
 				}
-				
+
                 if (sco.getPickType() == PickType.SELECT_WITH_ALL && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
 				    // Hack to notify that "All" was selected
 	                top.handle(new Event(Event.EType.CARD)
@@ -518,7 +520,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 				}
 			}
 		} else if (b == pass) {
-			if (!sco.isPassable()) 
+			if (!sco.isPassable())
 				return;
 			if (firstPass) {
 				firstPass = false;
@@ -546,9 +548,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		new SelectStringView(top, title, options);
 	}
 
+	@SuppressWarnings("hiding")
 	public void selectCard(SelectCardOptions sco, String s, int maxOpened, boolean exactOpened) {
 		this.sco = sco;
-		
+
 		this.maxOpened = maxOpened;
 		this.exactOpened = exactOpened;
 
@@ -556,7 +559,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 
 		firstPass = false;
 		resetButtons();
-		
+
 		HapticFeedback.vibrate(getContext(),AlertType.SELECT);
 		select.setVisibility(VISIBLE);
 		if (sco.isPassable()) {
@@ -564,7 +567,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 			pass.setText(sco.passString);
 		} else
 			pass.setVisibility(INVISIBLE);
-		
+
         selectButtonState();
 	}
 
@@ -605,7 +608,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
             canSelect();
 		}
     }
-	
+
     public void setSelectText(SelectCardOptions.PickType key) {
         indicator = key.indicator();
         String text;
@@ -675,7 +678,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		updateSizes(prizePileGV, supplySizes, embargos);
 		showSupplySizes();  // TODO only needs to happen once
 	}
-	
+
 	private void toggleView(GridView g, int mode) {
 		for (int i = 0; i < g.getChildCount(); i++) {
 			CardView cv = (CardView) g.getChildAt(i);
@@ -683,7 +686,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 				cv.swapNum(mode);
 		}
 	}
-	
+
 	public void showSupplySizes() {
 		toggleView(moneyPileGV, CardView.SHOWCOUNT);
 		toggleView(vpPileGV, CardView.SHOWCOUNT);
@@ -692,13 +695,13 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	}
 
 	public void finalStatus(GameStatus gs) {
-		if (!gs.isFinal) 
+		if (!gs.isFinal)
 			return;
-			
+
 		int maxVP = 0;
 		int minTurns = 10000;
 		ArrayList<Integer> winners = new ArrayList<Integer>();
-		
+
 		for (int i=0; i<allPlayers.size(); i++) {
 			if (gs.handSizes[i] > maxVP) {
 				winners.clear(); winners.add(i);
@@ -712,7 +715,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 					winners.add(i);
 			}
 		}
-		
+
 		try {
 		    if(!finalStatsReported) {
 		        finalStatsReported = true;
@@ -722,26 +725,26 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		catch(Exception e) {
 		    e.printStackTrace();
 		}
-        
+
 		boolean won = false;
 		for (int i : winners)
 			if (i == gs.whoseTurn)
 				won = true;
-		
+
 		tr.removeAllViews();
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+				ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
 
         FinalView fv = new FinalView(top, this, allPlayers.get(gs.whoseTurn), gs.turnCounts[gs.whoseTurn],
 				gs.embargos,
-				gs.numCards[gs.whoseTurn], gs.supplySizes, 
+				gs.numCards[gs.whoseTurn], gs.supplySizes,
 				gs.handSizes[gs.whoseTurn], won);
 		fv.setLayoutParams(lp);
 		gameOver.addView(fv);
 		tr.addView(gameOver);
 	}
-	
+
 	public void achieved(String achievement) {
 	    try {
 	        achievements.achieved(achievement);
@@ -750,13 +753,13 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	        e.printStackTrace();
 	    }
 	}
-	
+
 	ArrayList<DeckView> dvs = new ArrayList<DeckView>();
 
 	public void setStatus(GameStatus gs, String s, boolean newTurn) {
 		if (s != null)
 			gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
-		
+
 		if (gs.isFinal) {
 			HapticFeedback.vibrate(getContext(),AlertType.FINAL);
 			finalStatus(gs);
@@ -768,22 +771,22 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 			addPlayer(gs.name);
 		} else
 			allPlayers.set(gs.whoseTurn, gs.name);
-		
+
 		if (newTurn) {
 			myTurn = gs.whoseTurn == 0;
 			if (myTurn)
 				HapticFeedback.vibrate(getContext(),AlertType.TURNBEGIN);
 		}
-		
-		turnStatus.setStatus(gs.turnStatus, gs.cardCostModifier, gs.potions, myTurn);
+
+		turnStatus.setStatus(gs.turnStatus, gs.potions, myTurn);
 		deckStatus.removeAllViews();
 		for (int i=0; i<allPlayers.size(); i++) {
 	        dvs.get(i).set(allPlayers.get(i) + top.getString(R.string.turn_header) + gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.whoseTurn == i);
 			deckStatus.addView(dvs.get(i));
 		}
-		
+
 		actionText.setText("");
- 
+
         if(newTurn) {
             String header = top.getString(R.string.played_header);
             if(!myTurn) {
@@ -791,7 +794,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
             }
             playedHeader.setText(header);
         }
-		        
+
 		GameTableViews.newCardGroup(hand, gs.myHand);
 		GameTableViews.newCardGroup(played, gs.playedCards);
 		if (!playedAdded && (gs.playedCards.length > 0)) {
@@ -812,15 +815,15 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		costs = gs.costs;
         setCardCosts(top.findViewById(android.R.id.content));
 	}
-	
+
 	static int getCardCost(MyCard c) {
-		if (c == null) 
+		if (c == null)
 			return 0;
 		if (costs != null && c.id < costs.length)
 			return costs[c.id];
 		return c.cost;
 	}
-	
+
 	private void setCardCosts(View v) {
 		if (v instanceof CardView) {
 			((CardView) v).setCost(getCardCost(((CardView) v).c));
@@ -833,10 +836,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	private void addPlayer(String name) {
 		allPlayers.add(name);
 		dvs.add(new DeckView(top));
-		
+
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+				ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
 		dvs.get(dvs.size()-1).setLayoutParams(lp);
 	}
 	public String cardObtained(int i, String s) {
@@ -857,10 +860,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 			return "";
 		}
 		dvs.get(player).showCard(c, type);
-		
+
 		return allPlayers.get(player)+ ": " + c.c.name;
 	}
-	
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equals("abc_header")) {

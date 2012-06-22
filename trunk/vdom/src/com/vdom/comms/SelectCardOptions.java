@@ -3,14 +3,12 @@ package com.vdom.comms;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.vdom.core.Cards;
-
 public class SelectCardOptions implements Serializable {
 	private static final long serialVersionUID = -1473106875075390348L;
 
     public enum PickType {
         SELECT(""),
-        SELECT_WITH_ALL(" T"), 
+        SELECT_WITH_ALL(" T"),
         SELECT_IN_ORDER(" T"),
         PLAY (""),
         PLAY_IN_ORDER(" 1"),
@@ -29,7 +27,7 @@ public class SelectCardOptions implements Serializable {
 	    }
 	    public String indicator() { return indicator; }
 	}
-	
+
     public PickType pickType = PickType.SELECT;
 
 	public boolean fromHand = false;
@@ -66,7 +64,7 @@ public class SelectCardOptions implements Serializable {
 			addValidCard(i);
 		return this;
 	}
-	
+
     public SelectCardOptions setPickType(PickType pickType) {
         this.pickType = pickType;
         return this;
@@ -75,17 +73,17 @@ public class SelectCardOptions implements Serializable {
     public PickType getPickType() {
         return pickType;
     }
-	
+
 	public boolean cardInList(int card) {
 		if (allowedCards.size() == 0)
 			return true;
 		return allowedCards.contains(new Integer(card));
 	}
-	
+
 	public void addValidCard(int card) {
 		allowedCards.add(new Integer(card));
 	}
-	
+
 	public boolean checkValid(MyCard c, int cost) {
 		if ((maxCost >= 0) && (cost > maxCost)) return false;
 		if ((minCost >= 0) && (cost < minCost)) return false;
@@ -95,7 +93,7 @@ public class SelectCardOptions implements Serializable {
 		if (isNonTreasure && c.isTreasure) return false;
 		if (isVictory && !c.isVictory) return false;
 		if (isReaction && !c.isReaction) return false;
-		if (fromPrizes && !c.isPrize && !fromTable) return false; 
+		if (fromPrizes && !c.isPrize && !fromTable) return false;
 		if (potionCost == 0 && c.costPotion) return false;
 		if (potionCost > 0 && maxCost == minCost && !c.costPotion) return false;
 		if (!cardInList(c.id)) return false;
