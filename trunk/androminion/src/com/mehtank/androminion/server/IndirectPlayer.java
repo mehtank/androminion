@@ -309,16 +309,28 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return pickACard(context, Strings.format(R.string.select_treasure, "" + maxCost + (potion? "p":""), header), sco);
     }
 
-    public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString) {
-        return getFromTable(context, header, maxCost, minCost, isBuy, passString);
-    }
-
     public Card getNonVictoryFromTable(MoveContext context, String header, int maxCost, boolean isBuy, String passString, int potionCost) {
         return getFromTable(context, header, maxCost, Integer.MIN_VALUE, isBuy, passString, false, false, potionCost);
     }
 
     public ActionCard getActionFromTable(MoveContext context, String header, int maxCost, String passString) {
         return (ActionCard) getFromTable(context, header, maxCost, Integer.MIN_VALUE, false, passString, true, true);
+    }
+
+
+    public Card getFromTable(MoveContext context, String header, int maxCost, String passString) {
+    	return getFromTable(context, header, maxCost, Integer.MIN_VALUE, false, passString);
+    }
+    
+    public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, String passString) {
+        return getFromTable(context, header, maxCost, minCost, false, passString);
+    }
+    public Card getFromTable(MoveContext context, String header, int maxCost, boolean isBuy, String passString) {
+        return getFromTable(context, header, maxCost, Integer.MIN_VALUE, isBuy, passString);
+    }
+    
+    public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString) {
+        return getFromTable(context, header, maxCost, minCost, isBuy, passString, true, true, -1);
     }
 
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, boolean actionOnly, boolean victoryAllowed) {
@@ -392,17 +404,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             selectString = Strings.format(R.string.select_from_table, header);
 
         return pickACard(context, selectString, sco);
-    }
-
-    public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, String passString) {
-        return getFromTable(context, header, maxCost, minCost, false, passString);
-    }
-    public Card getFromTable(MoveContext context, String header, int maxCost, boolean isBuy, String passString) {
-        return getFromTable(context, header, maxCost, Integer.MIN_VALUE, isBuy, passString);
-    }
-
-    public Card getFromTable(MoveContext context, String header, int maxCost, String passString) {
-    	return getFromTable(context, header, maxCost, Integer.MIN_VALUE, false, passString);
     }
 
     public int selectInt(MoveContext context, String header, int maxInt, int errVal) {
