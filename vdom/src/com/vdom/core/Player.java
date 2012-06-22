@@ -71,6 +71,10 @@ public abstract class Player {
         return turnCount;
     }
 
+    public void newTurn() {
+    	turnCount++;
+    }
+    
     public ArrayList<Card> getActionCards(Card[] cards) {
         ArrayList<Card> actionCards = new ArrayList<Card>();
         for (Card card : cards) {
