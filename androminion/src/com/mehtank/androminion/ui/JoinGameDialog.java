@@ -22,15 +22,15 @@ public class JoinGameDialog implements DialogInterface.OnClickListener {
 	Androminion top;
 	AlertDialog a;
 	SharedPreferences prefs;
-	
+
 	public JoinGameDialog(Androminion top, Event e) {
 		this.top = top;
-		
+
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
-		
+
 		vg = new LinearLayout(top);
 		vg.setOrientation(LinearLayout.VERTICAL);
-		
+
 		String[] strs = e.o.ss;
 		boolean canConnect = false;
 		for (String s : strs)
@@ -47,11 +47,11 @@ public class JoinGameDialog implements DialogInterface.OnClickListener {
 			tv.setTextSize((float) (tv.getTextSize() * 1.5));
 			vg.addView(tv);
 			vg.addView(name);
-		} 
+		}
 
 		int numOptions = 0;
 		int port = 0;
-		
+
 		for (String s : strs) {
 			String[] parts = s.split("\\|\\|");
 			if (parts.length == 1) {
@@ -85,8 +85,8 @@ public class JoinGameDialog implements DialogInterface.OnClickListener {
 				}
 			}
 		}
-		
-		if (numOptions == 1 && port != 0) 
+
+		if (numOptions == 1 && port != 0)
 			joinGame(port, prefs.getString("name", Androminion.DEFAULT_NAME));
 		else
 			a = new AlertDialog.Builder(top)
@@ -94,14 +94,14 @@ public class JoinGameDialog implements DialogInterface.OnClickListener {
 				.setView(vg)
 				.setPositiveButton("Refresh", this)
 				.setNegativeButton(android.R.string.cancel, this)
-				.show();		
+				.show();
 	}
 
-	private void joinGame(int port, String name) {
+	private void joinGame(int port, String gameName) {
 		top.handle(new Event(Event.EType.JOINGAME)
 			.setInteger(port)
-			.setString(name));
-		
+			.setString(gameName));
+
 		if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.toast_loading), Toast.LENGTH_SHORT).show();
 	}
 
@@ -110,11 +110,12 @@ public class JoinGameDialog implements DialogInterface.OnClickListener {
 
 		edit.putString("name", name.getText().toString());
 		edit.commit();
-		
+
 		joinGame(port, name.getText().toString());
 		a.dismiss();
 	}
-	
+
+	@Override
 	public void onClick(DialogInterface dialog, int whichButton) {
 		if (whichButton == DialogInterface.BUTTON_POSITIVE)
 			top.handle(new Event(EType.HELLO));

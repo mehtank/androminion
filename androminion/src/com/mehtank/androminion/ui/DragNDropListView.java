@@ -4,11 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,11 +23,11 @@ public class DragNDropListView extends ListView {
 	int mDragPointYOffset;		//Used to adjust drag view location
 	int mDragPointXOffset;		//Used to adjust drag view location
 	int mOrigX;
-	
+
 	ImageView mDragView;
 	View mHiddenView;
 	GestureDetector mGestureDetector;
-	
+
 	DragListener mDragListener;
 
 	public DragNDropListView(Context context) {
@@ -37,28 +37,24 @@ public class DragNDropListView extends ListView {
 	public DragNDropListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
-	
+
 	public void setDropListener(DragListener l) {
 		mDragListener = l;
-	}
-
-	private void debug(String s) {
-		Log.e("DragNDrop", s);
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		final int action = ev.getAction();
 		final int x = (int) ev.getX();
-		final int y = (int) ev.getY();	
-		
+		final int y = (int) ev.getY();
+
 
 		if (action == MotionEvent.ACTION_DOWN ||
 			action == MotionEvent.ACTION_MOVE) {
 			mDragMode = true;
 		}
 
-		if (!mDragMode) 
+		if (!mDragMode)
 			return super.onTouchEvent(ev);
 
 		switch (action) {
@@ -79,7 +75,7 @@ public class DragNDropListView extends ListView {
 					startDrag(mItemPosition,y);
 					mCurrentPosition = mItemPosition;
 					drag(x,y);
-				}	
+				}
 				break;
 			case MotionEvent.ACTION_CANCEL:
 			case MotionEvent.ACTION_UP:
@@ -92,35 +88,35 @@ public class DragNDropListView extends ListView {
 		return true;
 	}
 
-	private void notifyDrag(int x, int y) {
+	private void notifyDrag(@SuppressWarnings("unused") int x, int y) {
 		mEndPosition = pointToPosition(mOrigX, y);
 
-		if (mHiddenView != null) 
+		if (mHiddenView != null)
 			mHiddenView.setVisibility(VISIBLE);
 		mHiddenView = getChildAt(mCurrentPosition);
-		if (mHiddenView != null) 
+		if (mHiddenView != null)
 			mHiddenView.setVisibility(INVISIBLE);
 
-		if (mCurrentPosition == mEndPosition) 
+		if (mCurrentPosition == mEndPosition)
 			return;
 		if (mDragListener != null && mCurrentPosition != INVALID_POSITION && mEndPosition != INVALID_POSITION) {
-			if (mHiddenView != null) 
+			if (mHiddenView != null)
 				mHiddenView.setVisibility(VISIBLE);
 
 			mDragListener.onDrag(mCurrentPosition, mEndPosition);
 			mCurrentPosition = mEndPosition;
 
 		}
-	}	
-	
+	}
+
 	// move the drag view
 	private void drag(int x, int y) {
 		WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams)mDragView.getLayoutParams();
-		layoutParams.x = x - mDragPointXOffset;   
+		layoutParams.x = x - mDragPointXOffset;
 		layoutParams.y = y - mDragPointYOffset;
         WindowManager mWindowManager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
         mWindowManager.updateViewLayout(mDragView, layoutParams);
-        
+
 		notifyDrag(x, y);
 	}
 
@@ -131,18 +127,18 @@ public class DragNDropListView extends ListView {
 		View item = getChildAt(itemIndex);
 		if (item == null) return;
 		item.setDrawingCacheEnabled(true);
-		
+
         // Create a copy of the drawing cache so that it does not get recycled
         // by the framework when the list tries to clean up memory
         Bitmap bitmap = Bitmap.createBitmap(item.getDrawingCache());
-        
+
         WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();
         mWindowParams.gravity = Gravity.TOP;
         mWindowParams.x = 0 - mDragPointXOffset;
         mWindowParams.y = y - mDragPointYOffset;
 
-        mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        mWindowParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        mWindowParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
         mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
@@ -150,10 +146,10 @@ public class DragNDropListView extends ListView {
                 | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
         mWindowParams.format = PixelFormat.TRANSLUCENT;
         mWindowParams.windowAnimations = 0;
-        
+
         Context context = getContext();
         ImageView v = new ImageView(context);
-        v.setImageBitmap(bitmap);      
+        v.setImageBitmap(bitmap);
 
         WindowManager mWindowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         mWindowManager.addView(v, mWindowParams);

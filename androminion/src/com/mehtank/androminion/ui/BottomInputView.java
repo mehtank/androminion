@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,16 +19,16 @@ public abstract class BottomInputView extends LinearLayout {
 	TextView down;
 	TextView up;
 	boolean hidden = false;
-		
+
 	public BottomInputView (Androminion top, String header) {
 		super(top);
-		
+
 		this.top = top;
-		
+
 		FrameLayout fl = new FrameLayout(top);
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.FILL_PARENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
 				Gravity.CENTER);
 
 		title = new TextView(top);
@@ -40,22 +41,22 @@ public abstract class BottomInputView extends LinearLayout {
 			@Override
 			public void onClick(View v) {
 				toggle();
-			} 
-		}); 
+			}
+		});
 		title.setLayoutParams(lp);
-		
+
 		down = new TextView(top);
 		down.setVisibility(VISIBLE);
 		down.setBackgroundResource(android.R.drawable.arrow_down_float);
 		up = new TextView(top);
 		up.setVisibility(INVISIBLE);
 		up.setBackgroundResource(android.R.drawable.arrow_up_float);
-		
+
 		lp = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.WRAP_CONTENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
 				Gravity.CENTER_VERTICAL + Gravity.RIGHT);
-		
+
 		down.setLayoutParams (lp);
 		up.setLayoutParams(lp);
 
@@ -64,10 +65,10 @@ public abstract class BottomInputView extends LinearLayout {
 		fl.addView(down);
 
 		content = makeContentView(top);
-		
+
 		lp = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.FILL_PARENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
 				Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL);
 
 		setOrientation(VERTICAL);
@@ -79,8 +80,8 @@ public abstract class BottomInputView extends LinearLayout {
 		top.addView(this);
 	}
 
-	abstract protected View makeContentView(Androminion top);
-	
+	abstract protected View makeContentView(Androminion activity);
+
 	public void toggle() {
 		if (hidden) {
 			addView(content);

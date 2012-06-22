@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 
 public class FinalView extends FrameLayout implements OnClickListener {
-	
+
 	Androminion top;
 	GameTable gt;
 
@@ -21,7 +22,7 @@ public class FinalView extends FrameLayout implements OnClickListener {
 	TextView name;
 	int[] cardCounts, embargos;
 	Button showCards;
-		
+
 	public FinalView(Context context, GameTable gt, String nameStr, int numTurns, int[] embargos, int numCards, int[] cardCounts, int vp, boolean winner) {
 		super(context);
 
@@ -31,8 +32,8 @@ public class FinalView extends FrameLayout implements OnClickListener {
 		this.cardCounts = cardCounts;
 
 		FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.WRAP_CONTENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
 				Gravity.LEFT);
 
 		name = new TextView(top);
@@ -42,15 +43,15 @@ public class FinalView extends FrameLayout implements OnClickListener {
 			name.setTextColor(Color.BLACK);
 			name.setBackgroundColor(Color.YELLOW);
 		}
-		addView(name);		
+		addView(name);
 
 		p = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.WRAP_CONTENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
 				Gravity.RIGHT);
-		
+
 		showCards = new Button(top);
-		showCards.setLayoutParams(p);		
+		showCards.setLayoutParams(p);
 		showCards.setText(top.getString(R.string.final_view_card_counts));
 
         showCards.setOnClickListener(this);
@@ -59,7 +60,7 @@ public class FinalView extends FrameLayout implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		gt.setSupplySizes(cardCounts, embargos);	
+		gt.setSupplySizes(cardCounts, embargos);
 		gt.showSupplySizes();
 	}
 }

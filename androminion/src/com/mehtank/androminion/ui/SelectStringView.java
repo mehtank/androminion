@@ -14,12 +14,12 @@ import com.vdom.comms.Event;
 
 public class SelectStringView extends BottomInputView implements AdapterView.OnItemClickListener {
 	ListView lv;
-	
+
 	public SelectStringView (Androminion top, String header, String[] options) {
 		super(top, header);
 		lv.setAdapter(new ArrayAdapter<String>(top, R.layout.selectstring, options));
 	}
-	
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View v, int pos, long id) {
 		if (v instanceof TextView) {
@@ -30,11 +30,11 @@ public class SelectStringView extends BottomInputView implements AdapterView.OnI
 	}
 
 	@Override
-	protected View makeContentView(Androminion top) {
+	protected View makeContentView(Androminion activity) {
 		lv = new ListView(top);
 		lv.setOnItemClickListener(this);
 		lv.setBackgroundColor(Color.LTGRAY);
-		
+
 		return lv;
 	}
 }

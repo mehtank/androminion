@@ -22,11 +22,11 @@ import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 
 public class Achievements {
-    public static final String[] keys = { 
-        "2players8provinces", 
-        "3or4players10provinces", 
-        "score100", 
-        "score1more", 
+    public static final String[] KEYS = {
+        "2players8provinces",
+        "3or4players10provinces",
+        "score100",
+        "score1more",
         "singlecard",
         "score50more",
         "skunk",
@@ -46,28 +46,28 @@ public class Achievements {
     	R.string.achievements_gainmorethan30inaturn,
     	R.string.achievements_win10inarow
     };
-    public String[] text = new String[keys.length];
-    boolean[] achievementsDone = new boolean[keys.length];
-    
+    public String[] text = new String[KEYS.length];
+    boolean[] achievementsDone = new boolean[KEYS.length];
+
     public static final String WIN_STREAK_PLAYER_KEY = "win_streak_player";
     public static final String WIN_STREAK_COUNT_KEY = "win_streak_count";
-    
+
     SharedPreferences prefs;
     Context context;
-    
+
     public Achievements(Context context) {
         this.context = context;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        for(int i=0; i < Achievements.keys.length; i++) {
+        for(int i=0; i < Achievements.KEYS.length; i++) {
         	text[i] = context.getString(ids[i]);
             achievementsDone[i] = hasAchieved(i);
         }
     }
-    
+
     public void resetStats() {
         ArrayList<String> prefsToClear = new ArrayList<String>();
-        
+
         Map<String, ?> all = prefs.getAll();
         Iterator<String> keys = all.keySet().iterator();
         while(keys.hasNext()) {
@@ -85,21 +85,21 @@ public class Achievements {
                 prefsToClear.add(key);
             }
         }
-        
+
         if(prefsToClear.size() > 0) {
             Editor editor = prefs.edit();
             editor.remove(WIN_STREAK_COUNT_KEY);
             editor.remove(WIN_STREAK_PLAYER_KEY);
             for(String pref : prefsToClear)
-                editor.remove(pref);              
+                editor.remove(pref);
             editor.commit();
         }
     }
-    
+
     public void resetAchievements() {
     	Editor editor = prefs.edit();
-        for(int i=0; i < Achievements.keys.length; i++) {
-        	editor.remove(Achievements.keys[i]);
+        for(int i=0; i < Achievements.KEYS.length; i++) {
+        	editor.remove(Achievements.KEYS[i]);
             achievementsDone[i] = false;
         }
         editor.commit();
@@ -107,8 +107,8 @@ public class Achievements {
 
     private int achievementIndex(String achievement) {
         int index = -1;
-        for(int i=0; i < keys.length; i++) {
-            if(keys[i].equals(achievement)) {
+        for(int i=0; i < KEYS.length; i++) {
+            if(KEYS[i].equals(achievement)) {
                 index = i;
                 break;
             }
@@ -116,7 +116,7 @@ public class Achievements {
 
         return index;
     }
-    
+
     public boolean hasAchieved(String achievement) {
     	int index = achievementIndex(achievement);
         if(index == -1) {
@@ -126,13 +126,13 @@ public class Achievements {
     	return hasAchieved(index);
     }
     public boolean hasAchieved(int index) {
-        if(index < 0 || index >= keys.length) {
+        if(index < 0 || index >= KEYS.length) {
             Log.d("Androminion","ERROR: Requested Achievement not found:" + index);
             return false;
         }
-        return prefs.getBoolean(keys[index], false);
+        return prefs.getBoolean(KEYS[index], false);
     }
-    
+
 
     public void achieved(String achievement) {
         int index = achievementIndex(achievement);
@@ -143,17 +143,17 @@ public class Achievements {
         if(!achievementsDone[index]) {
             achievementsDone[index] = true;
             Editor editor = prefs.edit();
-            editor.putBoolean(keys[index], true);              
+            editor.putBoolean(KEYS[index], true);
             editor.commit();
             if (!Androminion.NOTOASTS) Toast.makeText(context, context.getString(R.string.achievements_menu)+ "!!!\n" + text[index], Toast.LENGTH_SHORT).show();
         }
     }
-    
+
     public void gameOver(ArrayList<String> allPlayers, ArrayList<Integer> winners) {
         String winStreakPlayer = prefs.getString(WIN_STREAK_PLAYER_KEY, "");
         int winStreakCount = prefs.getInt(WIN_STREAK_COUNT_KEY, 0);
-        
-        String numPlayersPrefix = "p" + allPlayers.size(); 
+
+        String numPlayersPrefix = "p" + allPlayers.size();
         for(int i=0; i < allPlayers.size(); i++) {
             String name = getSafeName(allPlayers.get(i));
             int totalWins = prefs.getInt("wins_" + name, 0);
@@ -174,22 +174,22 @@ public class Achievements {
                     winStreakPlayer = "";
                     winStreakCount = 0;
                     Editor editor = prefs.edit();
-                    editor.putString(WIN_STREAK_PLAYER_KEY, winStreakPlayer);              
-                    editor.putInt(WIN_STREAK_COUNT_KEY, winStreakCount);              
+                    editor.putString(WIN_STREAK_PLAYER_KEY, winStreakPlayer);
+                    editor.putInt(WIN_STREAK_COUNT_KEY, winStreakCount);
                     editor.commit();
                 }
                 totalLosses++;
                 numPlayersLosses++;
             }
-            
+
             Editor editor = prefs.edit();
-            editor.putInt("wins_" + name, totalWins);              
-            editor.putInt("losses_" + name, totalLosses);              
-            editor.putInt(numPlayersPrefix + "wins_" + name, numPlayersWins);              
-            editor.putInt(numPlayersPrefix + "losses_" + name, numPlayersLosses);              
-            editor.commit();            
+            editor.putInt("wins_" + name, totalWins);
+            editor.putInt("losses_" + name, totalLosses);
+            editor.putInt(numPlayersPrefix + "wins_" + name, numPlayersWins);
+            editor.putInt(numPlayersPrefix + "losses_" + name, numPlayersLosses);
+            editor.commit();
         }
-        
+
         for(int j=0; j < winners.size(); j++) {
             String player = allPlayers.get(winners.get(j).intValue());
             if(isHumanPlayer(player)) {
@@ -198,23 +198,23 @@ public class Achievements {
                     winStreakCount = 0;
                 }
                 winStreakCount++;
-                
+
                 Editor editor = prefs.edit();
-                editor.putString(WIN_STREAK_PLAYER_KEY, winStreakPlayer);              
-                editor.putInt(WIN_STREAK_COUNT_KEY, winStreakCount);              
+                editor.putString(WIN_STREAK_PLAYER_KEY, winStreakPlayer);
+                editor.putInt(WIN_STREAK_COUNT_KEY, winStreakCount);
                 editor.commit();
                 break;
             }
         }
-        
+
         if(winStreakCount >= 10) {
             achieved("win10inarow");
         }
     }
-    
+
     public ArrayList<String> getAllPlayers() {
         ArrayList<String> players = new ArrayList<String>();
-        
+
         Map<String, ?> all = prefs.getAll();
         Iterator<String> keys = all.keySet().iterator();
         while(keys.hasNext()) {
@@ -232,26 +232,26 @@ public class Achievements {
                 }
             }
         }
-        
+
         Collections.sort(players, Collator.getInstance());
         return players;
     }
-    
+
     public int getTotalWins(String player) {
         return prefs.getInt("wins_" + player, 0);
     }
-    
+
     public int getPlayerWins(String player, int numPlayers) {
-        String numPlayersPrefix = "p" + numPlayers; 
+        String numPlayersPrefix = "p" + numPlayers;
         return prefs.getInt(numPlayersPrefix + "wins_" + player, 0);
     }
-    
+
     public int getTotalLosses(String player) {
         return prefs.getInt("losses_" + player, 0);
     }
-    
+
     public int getPlayerLosses(String player, int numPlayers) {
-        String numPlayersPrefix = "p" + numPlayers; 
+        String numPlayersPrefix = "p" + numPlayers;
         return prefs.getInt(numPlayersPrefix + "losses_" + player, 0);
     }
 
@@ -260,12 +260,12 @@ public class Achievements {
     		return prefs.getInt(WIN_STREAK_COUNT_KEY, 0);
     	return 0;
     }
-    
+
 
     public static String getSafeName(String name) {
-        if(name == null) 
+        if(name == null)
             name = "";
-        
+
         StringBuilder sb = new StringBuilder();
         for(char c : name.toCharArray()) {
             if(Character.isLetterOrDigit(c)) {
@@ -274,18 +274,18 @@ public class Achievements {
         }
         return sb.toString();
     }
-    
+
     public static boolean isHumanPlayer(String s) {
         if(!s.equals("Mary") && !s.equals("Sarah") && !s.equals("Earl") && !s.equals("Drew") && !s.equals("Chuck")) {
             return true;
         }
         return false;
     }
-    
+
     public AchievementsAdapter getNewAchievementsAdapter() {
     	return new AchievementsAdapter();
     }
-    
+
     public class AchievementsAdapter extends ArrayAdapter<String> {
     	private final static int ROWLAYOUT = android.R.layout.simple_list_item_checked;
     	public AchievementsAdapter() {
@@ -307,5 +307,5 @@ public class Achievements {
     		cbx.setChecked(achievementsDone[position]);
     		return rowView;
     	}
-    } 
+    }
 }
