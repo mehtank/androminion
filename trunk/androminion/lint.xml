@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="BackButton" severity="warning" />
+    <issue id="IconExpectedSize" severity="warning" />
+    <issue id="MissingTranslation" severity="warning" />
+    <issue id="TypographyOther" severity="informational" />
+    <issue id="TypographyQuotes" severity="informational" />
+    <issue id="UnusedIds" severity="informational" />
 </lint>
