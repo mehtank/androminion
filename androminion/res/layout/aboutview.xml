@@ -13,7 +13,8 @@
        		android:layout_height="wrap_content"
        		android:layout_gravity="center_horizontal"
        		android:adjustViewBounds="true"
-            android:src="@drawable/logo"/>
+            android:src="@drawable/logo"
+            android:contentDescription="@string/app_name"/>
 
         <TextView
             android:layout_width="fill_parent"
@@ -21,7 +22,7 @@
        		android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/version"
             android:id="@+id/version"/>
-        
+
         <TextView
             android:layout_width="fill_parent"
        		android:layout_height="wrap_content"
@@ -35,6 +36,6 @@
        		android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/dom_copyright"/>
     </LinearLayout>
-    
+
 
 </ScrollView>

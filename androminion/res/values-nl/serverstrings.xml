@@ -14,10 +14,10 @@
 	<string name="inn_option_two">Laat afgelegd liggen</string>
 	<string name="tunnel_query">Tunnel afleggen</string>
 	<string name="tunnel_option_one">Toon voor Goud</string>
-	
+
 	<string name="join_timed_out">Time-out bij het wachten op spelers om het spel te starten.</string>
 	<string name="response_timed_out">Time-out bij het wachten op spelers die reageerden op de wachtrij.</string>
-	
+
 	<string name="vp_single">%1$s Overwinningspunt waard</string>
 	<string name="vp_multiple">%1$s Overwinningspunten waard</string>
 	<string name="coin_next_turn">+(%1$s) Geld in de volgende beurt</string>
@@ -36,32 +36,29 @@
 	<string name="card_cards_multiple">+%1$s Kaarten</string>
 	<string name="card_victory_token_single">+%1$s Overwinningsfiche</string>
 	<string name="card_victory_tokens_multiple">+%1$s Overwinningsfiches</string>
-	
+
 	<string name="card_options_header">%1$s optie</string>
 	<string name="part_play">spelen</string>
 	<string name="part_buy">kopen</string>
-	
+
 	<string name="select_from_table">Kies een kaart van de tafel om te %1$s</string>
-	<string name="select_from_table_exact_quarries">Kies een kaart van de tafel die precies (%1$s, %2$s als het een Actiekaart is) kost om te %3$s</string>
 	<string name="select_from_table_exact">Kies een kaart van de tafel die precies (%1$s) kost om te %2$s</string>
-	<string name="select_from_table_max_quarries">Kies een kaart van de tafel die ten hoogste (%1$s, %2$s als het een Actiekaart is) kost om te %3$s</string>
 	<string name="select_from_table_max">Kies een kaart van de tafel die ten hoogste (%1$s) kost om te %2$s</string>
-	<string name="select_from_table_between_quarries">Kies een kaart van de tafel die tussen (%1$s) en (%2$s, %3$s als het een Actiekaart is) kost om te %4$s</string>
 	<string name="select_from_table_between">Kies een kaart van de tafel die tussen (%1$s) en (%2$s) kost om te %3$s</string>
 	<string name="select_from_table_min">Kies een kaart van de tafel die ten minste (%1$s) kost om te %2$s</string>
-	
+
 	<string name="select_one_card_from_hand">Kies een kaart uit je hand om te %1$s</string>
 	<string name="select_up_to_x_cards_from_hand">Kies %1$s kaarten uit je hand om te %2$s</string>
 	<string name="select_exactly_x_cards_from_hand">Kies precies %1$s kaarten uit je hand om te %2$s</string>
-	
+
 	<string name="select_one_action_from_hand">Kies een Actiekaart uit je hand om te %1$s</string>
 	<string name="select_up_to_x_actions_from_hand">Kies tot %1$s Actiekaarten uit je hand om te %2$s</string>
 	<string name="select_exactly_x_actions_from_hand">Kies precies %1$s Actiekaarten uit je hand om te %2$s</string>
-	
+
 	<string name="select_one_treasure_from_hand">Kies een Geldkaart uit je hand om te %1$s</string>
 	<string name="select_up_to_x_treasures_from_hand">Kies tot %1$s Geldkaarten uit je hand om te %2$s</string>
 	<string name="select_exactly_x_treasures_from_hand">Kies precies %1$s Geldkaarten uit je hand om te %2$s</string>
-	
+
 	<string name="select_one_victory_from_hand">Kies een Overwinningskaart uit je hand om te %1$s</string>
 	<string name="select_up_to_x_victorys_from_hand">Kies tot %1$s Overwinningskaarten uit je hand om te %2$s</string>
 	<string name="select_exactly_x_victorys_from_hand">Kies precies %1$s Overwinningskaarten uit je hand om te %2$s</string>
@@ -69,10 +66,10 @@
 	<string name="select_one_nontreasure_from_hand">Kies een kaart uit je hand die geen Geldkaart is om te %1$s</string>
 	<string name="select_up_to_x_nontreasures_from_hand">Kies tot %1$s kaarten uit je hand die geen Geldkaart zijn om te %2$s</string>
 	<string name="select_exactly_x_nontreasures_from_hand">Kies precies %1$s kaarten uit je hand die geen Geldkaart zijn om te %2$s</string>
-	
+
 	<string name="reaction_query">Kies te tonen reactiekaart</string>
 	<string name="bane_option_one">Toon een verderfkaart (%1$s)</string>
-	
+
 	<string name="card_to_reveal">toon [%1$s]</string>
 	<string name="card_to_gain">pak [%1$s]</string>
 	<string name="card_to_trash">vernietig [%1$s]</string>
@@ -109,83 +106,83 @@
 	<string name="CardRemovedFromHand">Kaart uit hand gehaald</string>
 
 	<string name="use_for_money">gebruik als geld</string>
-	
+
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
 	<string name="game_over_status">Einde spel — </string>
 	<string name="game_length_status">Spelduur: </string>
 	<string name="end_turn">Einde beurt</string>
 	<string name="replace">Vervang</string>
-	
+
 	<string name="secretchamber_part">leg terug op je trekstapel [Geheime Kamer]</string>
-	
+
 	<string name="ghostship_part">leg terug op je trekstapel[Spookschip]</string>
-	
+
 	<string name="ambassador_query">Aantal %1$s terug te leggen op de voorraad [Ambassadeur]:</string>
-	
+
 	<string name="goons_part">houd [Zotten]</string>
-	
+
 	<string name="watch_tower_query">Wachttoren (%1$s gepakt):</string>
-	
+
 	<string name="followers_part">houd [Volgelingen]</string>
-	
+
 	<string name="treasure_to_trash">Kies te vernietigen Geldkaart</string>
-	
+
 	<string name="scheme_query">Kies terug op je trekstapel te leggen Actiekaart</string>
-	
+
 	<string name="herbalist_query">Kies terug op je trekstapel te leggen Geldkaart</string>
-	
+
 	<string name="thief_query">Kies te stelen Geldkaart</string>
-	
+
 	<string name="smuggle_query">Kies te smokkelen kaart</string>
-	
+
 	<string name="courtyard_part_top_of_deck">leg bovenop je trekstapel [%1$s]</string>
-	
+
 	<string name="hamlet_part_discard_for_action">leg af voor +1 Actie</string>
 	<string name="hamlet_part_discard_for_buy">leg af voor +1 Aanschaf</string>
-	
+
 	<string name="vault_part_discard_for_gold">leg af voor Geld</string>
 	<string name="vault_part_discard_for_card">leg af voor +1 Kaart</string>
-	
+
 	<string name="lookout_query_trash">Kies te vernietigen kaart</string>
 	<string name="lookout_query_discard">Kies af te leggen kaart</string>
-	
+
 	<string name="mountebank_query">Kwakzalver getoond</string>
 	<string name="mountebank_option_one">Leg een Vloek af</string>
 	<string name="mountebank_option_two">Pak een Vloek en een Koper</string>
-	
+
 	<string name="pearldiver_option_one">Leg bovenop</string>
 	<string name="pearldiver_option_two">Laat onderaan liggen</string>
-	
+
 	<string name="alchemist_option_one">Leg terug op je trekstapel</string>
 	<string name="alchemist_option_two">Leg af</string>
-	
+
 	<string name="navigator_header">Navigator getoond: %1$s</string>
 	<string name="navigator_option_two">Leg terug op je trekstapel</string>
-	
+
 	<string name="tournament_reveal">Toon Provincie</string>
 	<string name="tournament_option_one">Toon geen Provincie</string>
 	<string name="tournament_option_two">Pak prijs</string>
 	<string name="tournament_option_three">Pak Hertogdom</string>
 	<string name="select_prize">Kies een prijs</string>
-	
+
 	<string name="trusty_steed_option_one">+2 Acties</string>
 	<string name="trusty_steed_option_two">+2 Kaarten</string>
 	<string name="trusty_steed_option_three">+(2) Geld</string>
 	<string name="trusty_steed_option_four">Pak 4 Zilver en leg trekstapel af</string>
-	
+
 	<string name="mining_village_option_one">Vernietig voor +(2)</string>
-	
+
 	<string name="golem_first_action">Actie om als eerst te spelen</string>
-	
+
 	<string name="duchess_query">Pak Hertogdom</string>
 	<string name="duchess_option_one">Pak ook Hertogin</string>
-	
+
 	<string name="jack_of_all_trades_option_one">Leg terug op je trekstapel</string>
-	
+
 	<string name="duchess_play_option_one">Leg terug op je trekstapel</string>
-	
+
 	<string name="noble_brigand_query">Kaart om te pakken van %1$s [Nobele bandiet]</string>
-	
+
 	<string name="steward_option_one">+2 Kaarten</string>
 	<string name="steward_option_two">+(2) Geld</string>
 	<string name="steward_option_three">Vernietig 2 kaarten uit je hand</string>
@@ -194,7 +191,7 @@
 	<string name="pawn_two">+1 Actie</string>
 	<string name="pawn_three">+1 Aanschaf</string>
 	<string name="pawn_four">+(1) Geld</string>
-	
+
 	<string name="nobles_option_one">+3 Kaarten</string>
 	<string name="nobles_option_two">+2 Acties</string>
 
@@ -209,51 +206,51 @@
 
 	<string name="jester_option_one">Pak kopie voor jou</string>
 	<string name="jester_option_two">Geef kopie aan %1$s</string>
-	
+
 	<string name="trader_gain">Pak %1$s</string>
 	<string name="trader_gain_instead_of">Pak %1$s, in plaats van %2$s</string>
 
 	<string name="fools_gold_option_one">Vernietig voor Goud</string>
-	
+
 	<string name="baron_option_one">Leg Landgoed af voor +(4) Geld</string>
 	<string name="baron_option_two">Pak Landgoed</string>
-	
+
 	<string name="native_village_option_one">Pak kaarten van Binnenlands Dorp op je hand</string>
 	<string name="native_village_option_two">Leg kaart van trekstapel op Binnenlands Dorp</string>
 
 	<string name="ill_gotten_gains_option_one">Pak Koper</string>
-	
+
 	<string name="card_order_on_deck">Kaartvolgorde op trekstapel:</string>
-	
+
 	<string name="treasury_number">Aantal Geldkaarten om terug te leggen op je trekstapel:</string>
-	
+
 	<string name="pirate_ship_option_one">Pak +(%1$s) Geld</string>
 	<string name="pirate_ship_option_two">Val aan</string>
 
 	<string name="top_of_deck">Bovenop je trekstapel</string>
-	
+
 	<string name="saboteur_part">vervang je gesaboteerde kaart</string>
-	
+
 	<string name="mandarin_part">leg bovenop je trekstapel</string>
-	
+
 	<string name="bureaucrat_part">leg bovenop je trekstapel</string>
-	
+
 	<string name="masquerade_part">geef door naar links</string>
-	
+
 	<string name="mine_part">mijn naar</string>
-	
+
 	<string name="militia_part">houd van Militie</string>
-	
+
 	<string name="bishop_part">vernietig voor Overwinningsfiches</string>
-	
+
 	<string name="swindler_part">vervang opgelichte kaart voor een met de waarde (%1$s)</string>
-	
+
 	<string name="margrave_part">houd van Markgraaf</string>
-	
+
 	<string name="wishing_well_part">raad je bovenste kaart</string>
 
 	<string name="explorer_reveal">Toon provincie</string>
-		
+
 	<!-- *** -->
 	<string name="university_part">pak [Universiteit]</string>
 	<!-- *** -->
@@ -263,11 +260,11 @@
 	<string name="putback_option_two">Actiekaart (Plannen)</string>
 
   <string name="game_over_vps"> Punten</string>
-    
+
   <string name="coin_worth">(%1$s) Geld waard</string>
   <string name="Cartographer_query">Kies af te leggen kaart</string>
   <string name="cards">Kaarten</string>
   <string name="return_cards">Leg kaarten op je trekstapel:</string>
   <string name="take_normal">Pak normaal</string>
-  
+
 </resources>
