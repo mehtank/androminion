@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="host_menu">Start game</string>
-<string name="host_title">Connect to a Dominion Server</string>
-<string name="host_message">Choose the type of game server.</string>
-<string name="host_prompt">Enter the hostname or IP address of the server to which you want to connect.</string>
+<string name="host_menu">Iniciar Juego</string>
+<string name="host_title">Conectar a un Servidor de Dominion</string>
+<string name="host_message">Elegir el tipo de servidor.</string>
+<string name="host_prompt">Introduce el host o la ip del servidor al que se quiere conectar.</string>
 
-<string name="host_local">Local game</string>
-<string name="host_remote">Remote game</string>
+<string name="host_local">Juego local</string>
+<string name="host_remote">Juego online</string>
 </resources>
