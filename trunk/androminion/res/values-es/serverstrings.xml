@@ -3,7 +3,7 @@
 
 	<!-- Interaction -->
 	<string name="pass">Pasar</string>
-	<string name="card_revealed">%1$s revealed %2$s</string>
+	<string name="card_revealed">%1$s descubierto %2$s</string>
 	<string name="select_treasure">Selecciona una carta de la mesa que cueste al menos (%1$s) a %2$s</string>
 	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
 	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
@@ -43,29 +43,29 @@
 
 	<string name="select_from_table">Elije una carta de la mesa para %1$s</string>
 	<string name="select_from_table_exact">Elije una carta de la mesa que cueste exactamente (%1$s) para %2$s</string>
-	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
-	<string name="select_from_table_between">Select a card from the table that costs between (%1$s) and (%2$s) to %3$s</string>
-	<string name="select_from_table_min">Select a card from the table that costs at least (%1$s) to %2$s</string>
+	<string name="select_from_table_max">Elije una carta de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_between">Elije una carta de la mesa que cueste entre (%1$s) y (%2$s) para %3$s</string>
+	<string name="select_from_table_min">Elije una carta de la mesa que cueste como minimo (%1$s) para %2$s</string>
 
-	<string name="select_one_card_from_hand">Pick a card from your hand to %1$s</string>
-	<string name="select_up_to_x_cards_from_hand">Pick up to %1$s cards from your hand to %2$s</string>
-	<string name="select_exactly_x_cards_from_hand">Pick exactly %1$s cards from your hand to %2$s</string>
+	<string name="select_one_card_from_hand">Elije una carta de tu mano para %1$s</string>
+	<string name="select_up_to_x_cards_from_hand">Elije hasta %1$s cartas de tu mano para %2$s</string>
+	<string name="select_exactly_x_cards_from_hand">Elije %1$s cartas de tu mano para %2$s</string>
 
-	<string name="select_one_action_from_hand">Pick an action card from your hand to %1$s</string>
-	<string name="select_up_to_x_actions_from_hand">Pick up to %1$s action cards from your hand to %2$s</string>
-	<string name="select_exactly_x_actions_from_hand">Pick exactly %1$s action cards from your hand to %2$s</string>
+	<string name="select_one_action_from_hand">Elije una carta de acción de tu mano para %1$s</string>
+	<string name="select_up_to_x_actions_from_hand">Elije hasta %1$s cartas de acción de tu mano para %2$s</string>
+	<string name="select_exactly_x_actions_from_hand">Elije %1$s cartas de acción de tu mano para %2$s</string>
 
-	<string name="select_one_treasure_from_hand">Pick a treasure card from your hand to %1$s</string>
-	<string name="select_up_to_x_treasures_from_hand">Pick up to %1$s treasure cards from your hand to %2$s</string>
-	<string name="select_exactly_x_treasures_from_hand">Pick exactly %1$s treasure cards from your hand to %2$s</string>
+	<string name="select_one_treasure_from_hand">Elije una carta de Tesoro de tu mano para %1$s</string>
+	<string name="select_up_to_x_treasures_from_hand">Elije hasta %1$s cartas de Tesoro de tu mano para %2$s</string>
+	<string name="select_exactly_x_treasures_from_hand">Elije %1$s cartas de Tesoro de tu mano para %2$s</string>
 
-	<string name="select_one_victory_from_hand">Pick a victory card from your hand to %1$s</string>
-	<string name="select_up_to_x_victorys_from_hand">Pick up to %1$s victory cards from your hand to %2$s</string>
-	<string name="select_exactly_x_victorys_from_hand">Pick exactly %1$s victory cards from your hand to %2$s</string>
+	<string name="select_one_victory_from_hand">Elije una carta de Victoria de tu mano para %1$s</string>
+	<string name="select_up_to_x_victorys_from_hand">Elije hasta %1$s cartas de Victoria de tu mano para %2$s</string>
+	<string name="select_exactly_x_victorys_from_hand">Elije %1$s cartas de Victoria de tu mano para %2$s</string>
 
-	<string name="select_one_nontreasure_from_hand">Pick a non-treasure card from your hand to %1$s</string>
-	<string name="select_up_to_x_nontreasures_from_hand">Pick up to %1$s non-treasure cards from your hand to %2$s</string>
-	<string name="select_exactly_x_nontreasures_from_hand">Pick exactly %1$s non-treasure cards from your hand to %2$s</string>
+	<string name="select_one_nontreasure_from_hand">Elije una carta que no sea de Tesoro de tu mano para %1$s</string>
+	<string name="select_up_to_x_nontreasures_from_hand">Elije hasta %1$s cartas que no sean de Tesoro de tu mano para %2$s</string>
+	<string name="select_exactly_x_nontreasures_from_hand">Elije %1$s cartas que no sean de Tesoro de tu mano para %2$s</string>
 
 	<string name="reaction_query">Select reaction card to reveal</string>
 	<string name="bane_option_one">Reveal Bane card (%1$s)</string>
@@ -188,7 +188,7 @@
 	<string name="steward_option_three">Elimina dos cartas de tu mano</string>
 
 	<string name="pawn_one">Roba una carta</string>
-	<string name="pawn_two">+1 Acciónn</string>
+	<string name="pawn_two">+1 Acción</string>
 	<string name="pawn_three">+1 Compra</string>
 	<string name="pawn_four">+(1) Moneda</string>
 
@@ -196,10 +196,10 @@
 	<string name="nobles_option_two">+2 Acciones</string>
 
 	<string name="minion_option_one">+(2) Coins</string>
-	<string name="minion_option_two">Discard hand, +4 Cards</string>
+	<string name="minion_option_two">Descartar la mano, +4 Cartas</string>
 
-	<string name="spice_merchant_option_one">+2 Cards and +1 Action</string>
-	<string name="spice_merchant_option_two">+(2) Coin and +1 Buy</string>
+	<string name="spice_merchant_option_one">+2 Cartas y +1 Acción</string>
+	<string name="spice_merchant_option_two">+(2) Coins y +1 Compra</string>
 
 	<string name="watch_tower_option_one">Take normally</string>
 	<string name="watch_tower_option_three">Top of Deck</string>
