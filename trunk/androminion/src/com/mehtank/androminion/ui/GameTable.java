@@ -422,23 +422,23 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 			HapticFeedback.vibrate(getContext(), AlertType.CLICK);
 			if (openedCards.contains(clickedCard))
 				openedCards.remove(clickedCard);
-            clickedCard.setOpened(false, sco.getPickType().indicator());
+            clickedCard.setChecked(false, sco.getPickType().indicator());
             selectButtonState();
 		} else {
 			if (isAcceptable(clickedCard)) {
 				HapticFeedback.vibrate(getContext(), AlertType.CLICK);
 				if (openedCards.size() >= maxOpened) {
-                    openedCards.get(0).setOpened(false, sco.getPickType().indicator());
+                    openedCards.get(0).setChecked(false, sco.getPickType().indicator());
 					openedCards.remove(0);
 				}
-                clickedCard.setOpened(true, sco.getPickType().indicator());
+                clickedCard.setChecked(true, sco.getPickType().indicator());
 				openedCards.add(clickedCard);
                 selectButtonState();
 			}
 		}
 		if (sco.ordered)
 			for (CardView c : openedCards)
-                c.setOpened(true, openedCards.indexOf(c), sco.getPickType().indicator());
+                c.setChecked(true, openedCards.indexOf(c), sco.getPickType().indicator());
 	}
 
 	boolean isAcceptable(CardView cv) {
@@ -482,7 +482,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		actionText.setText(R.string.confirmation);
 
 		for (CardView cv : openedCards)
-            cv.setOpened(false, sco.getPickType().indicator());
+            cv.setChecked(false, sco.getPickType().indicator());
 		openedCards.clear();
 
 		canClick = false;
@@ -534,7 +534,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 			return;
 
 		for (CardView cv : openedCards)
-            cv.setOpened(false, sco.getPickType().indicator());
+            cv.setChecked(false, sco.getPickType().indicator());
 		openedCards.clear();
 		sco = null;
 		pass.setVisibility(INVISIBLE);

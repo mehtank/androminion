@@ -20,11 +20,12 @@ import android.widget.TextView;
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.util.CardGroup;
+import com.mehtank.androminion.util.CheckableEx;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.MyCard;
 
-public class CardView extends FrameLayout implements OnLongClickListener {
+public class CardView extends FrameLayout implements OnLongClickListener, CheckableEx {
 
 	public static final int SHOWTOGGLE = 0;
 	public static final int SHOWCOUNT = 1;
@@ -181,13 +182,30 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 	protected void click(@SuppressWarnings("unused") View v) {
 		gt.onClick(this);
 	}
+	
+	@Override
+	public boolean isChecked() {
+		return opened;
+	}
 
-    public void setOpened(boolean o, String indicator) {
-        setOpened(o, -1, indicator);
-    }
+	@Override
+	public void toggle() {
+		setChecked(!opened);
+	}
+	
+	@Override
+	public void setChecked(boolean arg0) {
+		setChecked(arg0,-1, "");
+	}
+	
+	@Override
+	public void setChecked(boolean arg0, String indicator) {
+		setChecked(arg0, -1, indicator);
+	}
 
-    public void setOpened(boolean o, int order, String indicator) {
-		opened = o;
+	@Override
+	public void setChecked(boolean arg0, int order, String indicator) {
+		opened = arg0;
 		if (order > 0)
 			checked.setText(" " + (order+1));
 		else
@@ -302,5 +320,4 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 
 		return true;
 	}
-
 }
