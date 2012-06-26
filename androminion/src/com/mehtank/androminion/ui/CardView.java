@@ -31,14 +31,14 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 	public static final int SHOWCOIN = 2;
 
 	public static final int WIDTH = 110;
-	TextView tv;
-	View colorBox;
-	TextView cost, countLeft, embargos;
-	TextView checked;
-	View nomore;
+	private TextView name;
+	private View colorBox;
+	private TextView cost, countLeft, embargos;
+	private TextView checked;
+	private View nomore;
 
 	MyCard c;
-	OnClickListener gt;
+	private OnClickListener gt;
 	CardGroup parent;
 	boolean opened = false;
 
@@ -49,7 +49,7 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 		this.parent = parent;
 
 		LayoutInflater.from(context).inflate(R.layout.cardview, this, true);
-		tv = (TextView) findViewById(R.id.name);
+		name = (TextView) findViewById(R.id.name);
 		colorBox = findViewById(R.id.colorBox);
 		cost = (TextView) findViewById(R.id.cost);
 		countLeft = (TextView) findViewById(R.id.countLeft);
@@ -95,7 +95,7 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 			setBackgroundResource(R.drawable.roundborder);
 		}
 
-		tv.setText(c.name, TextView.BufferType.SPANNABLE);
+		name.setText(c.name, TextView.BufferType.SPANNABLE);
 		if(cost != null) {
 			setCost(GameTable.getCardCost(c));
 		}
@@ -108,13 +108,13 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 			bgColor = Color.rgb(0x00, 0x70, 0xcc);
 		    if (c.isVictory) {
 	            fgColor = (Color.BLACK);
-		        tv.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
+		        name.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
 		    }
 		    else if (c.isTreasure) {
 				bgColor = Color.rgb(0xdb, 0xdb, 0x70);
 	            fgColor = Color.WHITE;
 				countColor = Color.BLACK;
-                tv.setBackgroundColor(Color.rgb(0x00, 0x70, 0xcc));
+                name.setBackgroundColor(Color.rgb(0x00, 0x70, 0xcc));
             }
 		}
 		else if (c.isDuration) {
@@ -129,12 +129,12 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 			bgColor = (Color.rgb(0xc0, 0xc0, 0xc0));
 			fgColor = (Color.BLACK);
 			countColor = Color.BLACK;
-			tv.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
+			name.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
 		}
 		else if (c.isAction && c.isVictory) {
 			bgColor = (Color.BLACK);
 			fgColor = (Color.BLACK);
-			tv.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
+			name.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
 		}
 		else if (c.isTreasure) {
 			fgColor = (Color.BLACK);
@@ -172,7 +172,7 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 			bgColor = (Color.rgb(0x32, 0xcd, 0x32));
 		}
 
-		tv.setTextColor(fgColor);
+		name.setTextColor(fgColor);
 		countLeft.setTextColor(countColor);
 		if (bgColor != 0)
 			colorBox.setBackgroundColor(bgColor);
@@ -227,7 +227,7 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 					ViewGroup.LayoutParams.WRAP_CONTENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT,
 					Gravity.CENTER);
-			tv.setLayoutParams(p);
+			name.setLayoutParams(p);
 			return;
 		} else if (mode == SHOWCOUNT) {
 			// cost.setVisibility(INVISIBLE);
@@ -236,7 +236,7 @@ public class CardView extends FrameLayout implements OnLongClickListener {
 					ViewGroup.LayoutParams.WRAP_CONTENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT,
 					Gravity.TOP + Gravity.CENTER_HORIZONTAL);
-			tv.setLayoutParams(p);
+			name.setLayoutParams(p);
 			return;
 		} else {
 			if (countLeft.getVisibility() == View.VISIBLE) {
