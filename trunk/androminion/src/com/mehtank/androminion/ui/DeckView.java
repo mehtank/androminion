@@ -25,12 +25,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DeckView extends RelativeLayout {
-	TextView name;
-	TextView pirates;
-	TextView victoryTokens;
-	TextView counts;
+	private TextView name;
+	private TextView pirates;
+	private TextView victoryTokens;
+	private TextView counts;
 
-	boolean showCardCounts = true;
+	private boolean showCardCounts = true;
 
 	public static enum ShowCardType {OBTAINED, TRASHED, REVEALED};
 
