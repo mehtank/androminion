@@ -11,6 +11,7 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -22,8 +23,8 @@ import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 
 public class GameScrollerView extends HorizontalScrollView {
-	Context top;
-	LinearLayout gameEventsRow;
+	private Context top;
+	private LinearLayout gameEventsRow;
 	private ScrollView latestTurnSV;
 	private TextView latestTurn;
 	private boolean onlyShowOneTurn = false;
@@ -75,17 +76,9 @@ public class GameScrollerView extends HorizontalScrollView {
 
 	public void setGameEvent(String s, boolean b, int turnCount) {
 		if (b) {
-			latestTurn = new TextView(top);
-			latestTurn.setTextSize(10.0f);
-
-			latestTurnSV = new ScrollView(top);
-			latestTurnSV.setBackgroundResource(R.drawable.roundborder);
-			latestTurnSV.addView(latestTurn);
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-					ViewGroup.LayoutParams.FILL_PARENT);
-			latestTurnSV.setLayoutParams(lp);
+			latestTurnSV = (ScrollView) LayoutInflater.from(top).inflate(R.layout.gamescrollerviewcolumn, gameEventsRow, false);
 			gameEventsRow.addView(latestTurnSV);
+			latestTurn = (TextView) latestTurnSV.findViewById(R.id.latestTurn);
 			latestTurn.setText(s + (turnCount > 0 ? (top.getString(R.string.turn_header) + turnCount) : ""));
 
 	        if(onlyShowOneTurn) {
