@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,15 +39,47 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private TextView checked;
 	private View nomore;
 
-	MyCard c;
-	private OnClickListener gt;
 	CardGroup parent;
-	boolean opened = false;
+	private CardState state;
+	
+	static public class CardState {
+		public MyCard c;
+		public boolean opened;
+		public String indicator;
+		public int order;
+		
+		public CardState(MyCard c) {
+			this(c, false, "", -1);
+		}
+		
+		public CardState(MyCard c, boolean opened, String indicator, int order) {
+			this.c = c;
+			this.opened = opened;
+			this.indicator = indicator;
+			this.order = order;
+		}
+	}
+	
+	public CardView(Context context) {
+		this(context, null);
+	}
 
-	public CardView(Context context, OnClickListener gt, CardGroup parent, MyCard c) {
+	public CardView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init(context, null, null);
+	}
+	
+	public CardView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		init(context, null, null);
+	}
+	
+	public CardView(Context context, CardGroup parent, MyCard c) {
 		super(context);
-
-		this.gt = gt;
+		init(context, parent, c);
+	}
+	
+	private void init(Context context, CardGroup parent, MyCard c) {
 		this.parent = parent;
 
 		LayoutInflater.from(context).inflate(R.layout.cardview, this, true);
@@ -58,31 +91,19 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		checked = (TextView) findViewById(R.id.checked);
 		nomore = findViewById(R.id.nomore);
 
+		state = new CardState(null);
+		
 		if (c != null) {
 			setCard(c);
-			setOnLongClickListener(this);
 		}
-
-		setOnClickListener( new OnClickListener (){
-			@Override
-			public void onClick(View v) {
-				click(v);
-			}
-		});
 	}
 
 	public MyCard getCard() {
-		return c;
+		return state.c;
 	}
 
 	public void setCard(MyCard c) {
-		this.c = c;
-
-		if (opened) {
-			checked.setVisibility(VISIBLE);
-		} else {
-			checked.setVisibility(INVISIBLE);
-		}
+		this.state.c = c;
 
 		if(c.isPrize) {
 			cost.setVisibility(INVISIBLE);
@@ -152,18 +173,6 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				bgColor = (Color.WHITE);
 			else
 				bgColor = (Color.rgb(0xdb, 0xdb, 0x70));
-			/*
-			if ("Copper".equals(c.name))
-				bgColor = (Color.rgb(0xb8, 0x73, 0x33));
-			else if ("Silver".equals(c.name))
-				bgColor = (Color.rgb(0xc0, 0xc0, 0xc0));
-			else if ("Gold".equals(c.name))
-				bgColor = (Color.rgb(0xff, 0xd7, 0x00));
-			else if ("Platinum".equals(c.name))
-                bgColor = (Color.rgb(0xe5, 0xe4, 0xe2));
-			else
-				bgColor = (Color.rgb(0xdb, 0xdb, 0x70));
-			 */
 		}
 		else if (c.isCurse)
 			bgColor = (Color.rgb(0x94, 0, 0xd3));
@@ -179,18 +188,14 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			colorBox.setBackgroundColor(bgColor);
 	}
 
-	protected void click(@SuppressWarnings("unused") View v) {
-		gt.onClick(this);
-	}
-	
 	@Override
 	public boolean isChecked() {
-		return opened;
+		return state.opened;
 	}
 
 	@Override
 	public void toggle() {
-		setChecked(!opened);
+		setChecked(!state.opened);
 	}
 	
 	@Override
@@ -205,13 +210,16 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	@Override
 	public void setChecked(boolean arg0, int order, String indicator) {
-		opened = arg0;
-		if (order > 0)
+		state.opened = arg0;
+		state.indicator = indicator;
+		state.order = order;
+		if (order > 0) {
 			checked.setText(" " + (order+1));
-		else
+		} else {
             checked.setText(indicator);
+		}
 
-        if (opened)
+        if (state.opened)
             checked.setVisibility(VISIBLE);
         else
             checked.setVisibility(INVISIBLE);
@@ -233,7 +241,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	public void setCost(int newCost) {
 		cost.setText(" " + newCost + " ");
-		if (c != null && c.costPotion)
+		if (state.c != null && state.c.costPotion)
 			cost.setBackgroundResource(R.drawable.coinpotion);
 	}
 
@@ -264,13 +272,26 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			}
 		}
 	}
+	
+	public void setState(CardState s) {
+		state = s;
+		setCard(s.c);
+		setChecked(s.opened, s.order, s.indicator);
+	}
+	
+	public CardState getState() {
+		return state;
+	}
 
 	@Override
 	public boolean onLongClick(View view) {
 		CardView cardView = (CardView) view;
+		if(cardView.getCard() == null) {
+			return false;
+		}
 
 		HapticFeedback.vibrate(getContext(),AlertType.LONGCLICK);
-		String str = cardView.c.name;
+		String str = cardView.getCard().name;
 		str = str.toLowerCase();
 
 		StringTokenizer st = new StringTokenizer(str," ",false);
@@ -300,17 +321,17 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				TextView textView = new TextView(view.getContext());
 				textView.setPadding(15, 0, 15, 5);
 				String text = ""; //cardView.c.name;
-				if(cardView.c.expansion != null && cardView.c.expansion.length() != 0) {
-				    text += "(" + cardView.c.expansion + ")\n";
+				if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) {
+				    text += "(" + cardView.getCard().expansion + ")\n";
 				}
-				text += cardView.c.desc;
+				text += cardView.getCard().desc;
 				textView.setText( text );
 				v = textView;
 			}
         // }
-			String title = cardView.c.name;
+			String title = cardView.getCard().name;
 			if(PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
-				title += " (" + cardView.c.originalName + ")";
+				title += " (" + cardView.getCard().originalName + ")";
 			}
 		new AlertDialog.Builder(view.getContext())
 			.setTitle(title)

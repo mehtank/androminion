@@ -8,8 +8,10 @@ import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.ui.CardView.CardState;
 import com.mehtank.androminion.util.Achievements;
 import com.mehtank.androminion.util.CardGroup;
 import com.mehtank.androminion.util.HapticFeedback;
@@ -29,7 +32,7 @@ import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.comms.Event.EventObject;
 
-public class GameTable extends LinearLayout implements OnClickListener, OnSharedPreferenceChangeListener {
+public class GameTable extends LinearLayout implements OnSharedPreferenceChangeListener, OnItemClickListener, OnItemLongClickListener {
 	private final Androminion top;
 
 	ArrayList<String> allPlayers = new ArrayList<String>();
@@ -64,7 +67,18 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 
 	Achievements achievements;
 
-	ArrayList<CardView> openedCards = new ArrayList<CardView>();
+	private class CardInfo {
+		public CardState cs;
+		public CardGroup parent;
+		public int pos;
+		
+		public CardInfo(CardState cs, CardGroup parent, int pos) {
+			this.cs = cs;
+			this.parent = parent;
+			this.pos = pos;
+		}
+	}
+	ArrayList<CardInfo> openedCards = new ArrayList<CardInfo>();
 	int maxOpened = 0;
 	boolean exactOpened = true;
 	boolean myTurn;
@@ -76,15 +90,24 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	private HelpView helpView;
 
 	private LinearLayout makeTable() {
-    	moneyPile = new CardGroup(top, this, true);
-    	vpPile = new CardGroup(top, this, true);
-    	supplyPile = new CardGroup(top, this, true, 8);
-    	prizePile = new CardGroup(top, this, true);
+    	moneyPile = new CardGroup(top, true);
+    	vpPile = new CardGroup(top, true);
+    	supplyPile = new CardGroup(top, true);
+    	prizePile = new CardGroup(top, true);
 
     	moneyPileGV = GameTableViews.makeGV(top, moneyPile, 5);
+    	moneyPileGV.setOnItemClickListener(this);
+    	moneyPileGV.setOnItemLongClickListener(this);
     	vpPileGV = GameTableViews.makeGV(top, vpPile, 5);
+    	vpPileGV.setOnItemClickListener(this);
+    	vpPileGV.setOnItemLongClickListener(this);
     	supplyPileGV = GameTableViews.makeGV(top, supplyPile, 4);
+    	supplyPileGV.setGravity(Gravity.CENTER);
+    	supplyPileGV.setOnItemClickListener(this);
+    	supplyPileGV.setOnItemLongClickListener(this);
     	prizePileGV = GameTableViews.makeGV(top, prizePile, 5);
+    	prizePileGV.setOnItemClickListener(this);
+    	prizePileGV.setOnItemLongClickListener(this);
 
     	LinearLayout table = new LinearLayout(top);
     	table.setOrientation(VERTICAL);
@@ -99,15 +122,20 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	}
 
 	private View makeMyCards() {
-		hand = new CardGroup(top, this, false);
-    	played = new CardGroup(top, this, false);
-		island = new CardGroup(top, this, false);
-		village = new CardGroup(top, this, false);
+		hand = new CardGroup(top, false);
+    	played = new CardGroup(top, false);
+		island = new CardGroup(top, false);
+		village = new CardGroup(top, false);
 
     	handGV = GameTableViews.makeGV(top, hand, 1);
+    	handGV.setOnItemClickListener(this);
+    	handGV.setOnItemLongClickListener(this);
     	playedGV = GameTableViews.makeGV(top, played, 1);
+    	playedGV.setOnItemLongClickListener(this);
     	islandGV = GameTableViews.makeGV(top, island, 1);
+    	islandGV.setOnItemLongClickListener(this);
     	villageGV = GameTableViews.makeGV(top, village, 1);
+    	villageGV.setOnItemLongClickListener(this);
 
 //    	handGV.setBackgroundResource(R.drawable.roundborder);
 //    	playedGV.setBackgroundResource(R.drawable.roundborder);
@@ -405,58 +433,22 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		select.setClickable(false);
 		select.setTextColor(Color.GRAY);
 	}
-	@Override
-	public void onClick(View v) {
-		CardView clickedCard = (CardView) v;
 
-		if (clickedCard.c == null)
-			return;
-
-		if (sco == null)
-			return;
-
-		if (!canClick)
-			return;
-
-        if (clickedCard.opened) {
-			HapticFeedback.vibrate(getContext(), AlertType.CLICK);
-			if (openedCards.contains(clickedCard))
-				openedCards.remove(clickedCard);
-            clickedCard.setChecked(false, sco.getPickType().indicator());
-            selectButtonState();
-		} else {
-			if (isAcceptable(clickedCard)) {
-				HapticFeedback.vibrate(getContext(), AlertType.CLICK);
-				if (openedCards.size() >= maxOpened) {
-                    openedCards.get(0).setChecked(false, sco.getPickType().indicator());
-					openedCards.remove(0);
-				}
-                clickedCard.setChecked(true, sco.getPickType().indicator());
-				openedCards.add(clickedCard);
-                selectButtonState();
-			}
-		}
-		if (sco.ordered)
-			for (CardView c : openedCards)
-                c.setChecked(true, openedCards.indexOf(c), sco.getPickType().indicator());
-	}
-
-	boolean isAcceptable(CardView cv) {
-		MyCard c = cv.c;
-		if (sco.fromHand && (cv.parent != hand)) return false;
+	boolean isAcceptable(MyCard c, CardGroup parent) {
+		if (sco.fromHand && (parent != hand)) return false;
 		else if (sco.fromTable) {
 			if (sco.fromPrizes) {
-				if ((cv.parent != vpPile)
-				&&  (cv.parent != moneyPile)
-				&&  (cv.parent != supplyPile)
-				&&  (cv.parent != prizePile)) return false;
+				if ((parent != vpPile)
+				&&  (parent != moneyPile)
+				&&  (parent != supplyPile)
+				&&  (parent != prizePile)) return false;
 			} else {
-				if ((cv.parent != vpPile)
-				&&  (cv.parent != moneyPile)
-				&&  (cv.parent != supplyPile)) return false;
+				if ((parent != vpPile)
+				&&  (parent != moneyPile)
+				&&  (parent != supplyPile)) return false;
 			}
 		} else if (sco.fromPrizes) {
-			if (cv.parent != prizePile) return false;
+			if (parent != prizePile) return false;
 		}
 
 		return sco.checkValid(c, getCardCost(c));
@@ -481,8 +473,13 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		pass.setText(R.string.confirm_no);
 		actionText.setText(R.string.confirmation);
 
-		for (CardView cv : openedCards)
-            cv.setChecked(false, sco.getPickType().indicator());
+		for (CardInfo ci : openedCards) {
+			CardState cs = ci.cs;
+			cs.opened = false;
+			cs.order = -1;
+			cs.indicator = sco.getPickType().indicator();
+			ci.parent.updateState(ci.pos, cs);
+		}
 		openedCards.clear();
 
 		canClick = false;
@@ -499,10 +496,10 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 			} else {
 				int[] cards = new int[openedCards.size()];
 				for (int i = 0; i < openedCards.size(); i++) {
-					CardView cv = openedCards.get(i);
-					if (!isAcceptable(cv))
+					CardInfo ci = openedCards.get(i);
+					if (!isAcceptable(ci.cs.c, ci.parent))
 						return;
-					cards[i] = cv.c.id;
+					cards[i] = ci.cs.c.id;
 				}
 
                 if (sco.getPickType() == PickType.SELECT_WITH_ALL && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
@@ -533,8 +530,13 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		} else
 			return;
 
-		for (CardView cv : openedCards)
-            cv.setChecked(false, sco.getPickType().indicator());
+		for (CardInfo ci : openedCards) {
+			CardState cs = ci.cs;
+			cs.opened = false;
+			cs.order = -1;
+			cs.indicator = sco.getPickType().indicator();
+			ci.parent.updateState(ci.pos, cs);
+		}
 		openedCards.clear();
 		sco = null;
 		pass.setVisibility(INVISIBLE);
@@ -664,9 +666,9 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	private void updateSizes(GridView g, int[] supplySizes, int[] embargos) {
 		for (int i = 0; i < g.getChildCount(); i++) {
 			CardView cv = (CardView) g.getChildAt(i);
-			if (cv.c != null) {
-				cv.setSize(supplySizes[cv.c.id]);
-				cv.setEmbargos(embargos[cv.c.id]);
+			if (cv.getCard() != null) {
+				cv.setSize(supplySizes[cv.getCard().id]);
+				cv.setEmbargos(embargos[cv.getCard().id]);
 			}
 		}
 	}
@@ -682,7 +684,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 	private void toggleView(GridView g, int mode) {
 		for (int i = 0; i < g.getChildCount(); i++) {
 			CardView cv = (CardView) g.getChildAt(i);
-			if (cv.c != null)
+			if (cv.getCard() != null)
 				cv.swapNum(mode);
 		}
 	}
@@ -826,7 +828,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 
 	private void setCardCosts(View v) {
 		if (v instanceof CardView) {
-			((CardView) v).setCost(getCardCost(((CardView) v).c));
+			((CardView) v).setCost(getCardCost(((CardView) v).getCard()));
 		} else if (v instanceof ViewGroup) {
 			for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++)
 				setCardCosts(((ViewGroup) v).getChildAt(i));
@@ -861,7 +863,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
 		}
 		dvs.get(player).showCard(c, type);
 
-		return allPlayers.get(player)+ ": " + c.c.name;
+		return allPlayers.get(player)+ ": " + c.getCard().name;
 	}
 
     @Override
@@ -876,4 +878,63 @@ public class GameTable extends LinearLayout implements OnClickListener, OnShared
             }
         }
     }
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		CardView clickedCard = (CardView) view;
+		if (clickedCard == null)
+			return;
+
+		if (sco == null)
+			return;
+
+		if (!canClick)
+			return;
+
+        if (clickedCard.isChecked()) {
+			HapticFeedback.vibrate(getContext(), AlertType.CLICK);
+			for(int i=0;i<openedCards.size();i++){
+				CardInfo ci = openedCards.get(i);
+				if(ci.cs == clickedCard.getState() && ci.pos == position) {
+					openedCards.remove(i);
+					ci.cs.indicator = sco.getPickType().indicator();
+					ci.cs.order = -1;
+					ci.cs.opened = false;
+		            clickedCard.setState(ci.cs);
+		            selectButtonState();
+		            break;
+				}
+			}
+		} else {
+			if (isAcceptable(clickedCard.getCard(), clickedCard.parent)) {
+				HapticFeedback.vibrate(getContext(), AlertType.CLICK);
+				if (openedCards.size() >= maxOpened) {
+                    CardInfo ci = openedCards.get(0);
+                    ci.cs.opened = false;
+                    ci.cs.order = -1;
+                    ci.cs.indicator = sco.getPickType().indicator();
+                    ci.parent.updateState(ci.pos, ci.cs);
+					openedCards.remove(0);
+				}
+                clickedCard.setChecked(true, sco.getPickType().indicator());
+                CardInfo ci = new CardInfo(clickedCard.getState(), (CardGroup) parent.getAdapter(), position);
+				openedCards.add(ci);
+                selectButtonState();
+			}
+		}
+		if (sco.ordered)
+			for(int i=0;i < openedCards.size(); i++) {
+				CardInfo ci = openedCards.get(i);
+				ci.cs.opened = true;
+				ci.cs.indicator = sco.getPickType().indicator();
+				ci.cs.order = i;
+                ci.parent.updateState(ci.pos, ci.cs);
+			}
+	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		CardView clickedCard = (CardView) view;
+		return clickedCard.onLongClick(clickedCard);
+	}
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import android.graphics.Color;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -20,7 +20,7 @@ import com.mehtank.androminion.util.CardGroup;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
 
-public class OrderCardsView extends BottomInputView implements OnClickListener {
+public class OrderCardsView extends BottomInputView implements OnItemClickListener {
 	LinearLayout ll;
 	HorizontalScrollView hsv;
 
@@ -63,12 +63,14 @@ public class OrderCardsView extends BottomInputView implements OnClickListener {
 		for (int i=0; i<cards.length; i++)
 			origCards.add(i);
 
-		orig = new CardGroup(top, this, false);
+		orig = new CardGroup(top, false);
     	origGV = GameTableViews.makeGV(top, orig, 1);
+    	origGV.setOnItemClickListener(this);
     	origCS = (GameTableViews.myCardSet(top, top.getString(R.string.cards), origGV, null));
 
-		ordered = new CardGroup(top, this, false);
+		ordered = new CardGroup(top, false);
     	orderedGV = GameTableViews.makeGV(top, ordered, 1);
+    	orderedGV.setOnItemClickListener(this);
     	orderedCS = (GameTableViews.myCardSet(top, top.getString(R.string.top_of_deck), orderedGV, null));
 
         touch = new DragNDropListView (top);
@@ -114,14 +116,14 @@ public class OrderCardsView extends BottomInputView implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View v) {
-		int i = origGV.getPositionForView(v);
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		int i = origGV.getPositionForView(view);
 		if (i != AdapterView.INVALID_POSITION) {
 			int c = origCards.get(i);
 			origCards.remove(i);
 			orderedCards.add(0, c);
 		} else {
-			i = orderedGV.getPositionForView(v);
+			i = orderedGV.getPositionForView(view);
 			if (i != AdapterView.INVALID_POSITION) {
 				int c = orderedCards.get(i);
 				orderedCards.remove(i);
