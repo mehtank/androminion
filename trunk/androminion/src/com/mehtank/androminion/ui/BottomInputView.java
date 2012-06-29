@@ -1,82 +1,42 @@
 package com.mehtank.androminion.ui;
 
-import android.graphics.Color;
-import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 
-public abstract class BottomInputView extends LinearLayout {
-	Androminion top;
-	TextView title;
-	View content;
-	TextView down;
-	TextView up;
-	boolean hidden = false;
+public abstract class BottomInputView extends RelativeLayout implements OnClickListener{
+	protected Androminion top;
+	private TextView title;
+	private ImageView arrow;
+	private View content;
+	private boolean hidden = false;
 
 	public BottomInputView (Androminion top, String header) {
 		super(top);
-
 		this.top = top;
-
-		FrameLayout fl = new FrameLayout(top);
-		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				Gravity.CENTER);
-
-		title = new TextView(top);
-		title.setText(header);
-		title.setBackgroundColor(Color.BLUE);
-		title.setTextColor(Color.WHITE);
-		title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-		title.setPadding(5, 5, 5, 5);
-		title.setOnClickListener( new OnClickListener (){
-			@Override
-			public void onClick(View v) {
-				toggle();
-			}
-		});
-		title.setLayoutParams(lp);
-
-		down = new TextView(top);
-		down.setVisibility(VISIBLE);
-		down.setBackgroundResource(android.R.drawable.arrow_down_float);
-		up = new TextView(top);
-		up.setVisibility(INVISIBLE);
-		up.setBackgroundResource(android.R.drawable.arrow_up_float);
-
-		lp = new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				Gravity.CENTER_VERTICAL + Gravity.RIGHT);
-
-		down.setLayoutParams (lp);
-		up.setLayoutParams(lp);
-
-		fl.addView(title);
-		fl.addView(up);
-		fl.addView(down);
-
-		content = makeContentView(top);
-
-		lp = new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT,
-				Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL);
-
-		setOrientation(VERTICAL);
-		addView(fl);
-		addView(content);
-		setLayoutParams(lp);
+		
+		LayoutInflater.from(top).inflate(R.layout.bottominputview, this, true);
 		setBackgroundResource(R.drawable.solidround);
-
+	    setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL));
+		title = (TextView) findViewById(R.id.title);
+		title.setText(header);
+		title.setOnClickListener(this);
+		arrow = (ImageView) findViewById(R.id.arrow);
+		content = makeContentView(top);
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		lp.addRule(BELOW, R.id.title);
+		content.setLayoutParams(lp);
+		addView(content);
+		//content = (FrameLayout) findViewById(R.id.content);
+		//content.addView(makeContentView(top));
 		top.addView(this);
 	}
 
@@ -84,16 +44,17 @@ public abstract class BottomInputView extends LinearLayout {
 
 	public void toggle() {
 		if (hidden) {
-			addView(content);
-			title.setText(((String) title.getText()).trim());
-			up.setVisibility(INVISIBLE);
-			down.setVisibility(VISIBLE);
+			content.setVisibility(VISIBLE);
+			arrow.setImageResource(android.R.drawable.arrow_down_float);
 		} else {
-			title.setText(title.getText() + "   ");
-			removeView(content);
-			up.setVisibility(VISIBLE);
-			down.setVisibility(INVISIBLE);
+			content.setVisibility(GONE);
+			arrow.setImageResource(android.R.drawable.arrow_up_float);
 		}
 		hidden = !hidden;
+	}
+	
+	@Override
+	public void onClick(View v) {
+		toggle();
 	}
 }
