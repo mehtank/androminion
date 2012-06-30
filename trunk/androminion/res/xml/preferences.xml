@@ -7,8 +7,13 @@
 			android:dialogMessage="@string/name_pref_summary"></EditTextPreference>
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/ui_pref_title">
-		<CheckBoxPreference android:title="@string/statusbar_pref_title"
-			android:defaultValue="false" android:key="statusbar"></CheckBoxPreference>
+	    <ListPreference
+		    android:key="theme" 
+		    android:title="@string/pref_theme_title"
+		    android:summary="@string/pref_theme_summary"
+		    android:entries="@array/theme_names"
+		    android:entryValues="@array/theme_keys"
+		    android:defaultValue="androminion" />
 		<CheckBoxPreference android:title="@string/abc_header_pref_title"
 		android:summary="@string/abc_header_pref_summary"
 			android:defaultValue="true" android:key="abc_header"></CheckBoxPreference>

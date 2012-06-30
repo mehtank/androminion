@@ -39,6 +39,7 @@ import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
 import com.mehtank.androminion.util.HapticFeedback;
+import com.mehtank.androminion.util.ThemeSetter;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
@@ -84,12 +85,11 @@ public class Androminion extends Activity implements EventHandler {
 	protected String serverHost;
 	protected int serverPort;
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		SharedPreferences prefs;
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
+		ThemeSetter.set(this);
 		super.onCreate(savedInstanceState);
 
 		Intent intent = getIntent();
@@ -99,10 +99,6 @@ public class Androminion extends Activity implements EventHandler {
 		        cardsPassedInExtras = getIntent().getExtras().getStringArray("cards");
 		    }
 		}
-
-		debug("Dominion onCreate called!");
-
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

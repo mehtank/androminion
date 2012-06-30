@@ -6,7 +6,14 @@
 
 
 	<string name="ui_pref_title">Oberfläche</string>
-	<string name="statusbar_pref_title">Statusanzeige aktiv</string>
+	<string name="pref_theme_title">Design</string>
+	<string name="pref_theme_summary">Wähle unterschiedliche Designs</string>
+	<string-array name="theme_names">
+		<item>Dunkel</item>
+		<item>Dunkel mit Statusleiste</item>
+		<item>Hell</item>
+		<item>Hell mit Statusleiste</item>
+	</string-array>
 	<string name="abc_header_pref_title">Zeige schnelle Infos</string>
 	<string name="abc_header_pref_summary">Zeige Anzahl der Aktionen, Käufe und Münzen oben an</string>
 	<string name="one_turn_logs_pref_title">Details eines Zuges</string>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Androminon" parent="android:Theme.NoTitleBar.Fullscreen">
+        
+    </style>
+    
+    <style name="Androminon.WithStatus" parent="android:Theme.NoTitleBar">
+        
+    </style>
+    
+    <style name="Androminon.Light" parent="android:Theme.Light.NoTitleBar.Fullscreen">
+        
+    </style>
+    
+    <style name="Androminon.Light.WithStatus" parent="android:Theme.Light.NoTitleBar">
+        
+    </style>
+    
+    <string-array name="theme_keys">
+		<item>androminion</item>
+		<item>androminion-withstatus</item>
+		<item>androminion-light</item>
+		<item>androminion-light-withstatus</item>
+	</string-array>
+</resources>
