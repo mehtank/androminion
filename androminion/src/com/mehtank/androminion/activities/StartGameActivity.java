@@ -4,22 +4,19 @@ import java.util.ArrayList;
 
 import com.mehtank.androminion.fragments.StartGameFragment;
 import com.mehtank.androminion.fragments.StartGameFragment.OnStartGameListener;
+import com.mehtank.androminion.util.ThemeSetter;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.view.Window;
-import android.view.WindowManager;
 
 public class StartGameActivity extends FragmentActivity implements OnStartGameListener{
 	private Fragment mStartGameFragment;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		ThemeSetter.set(this);
 		super.onCreate(savedInstanceState);
 
 		if(savedInstanceState == null) {

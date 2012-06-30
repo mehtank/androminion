@@ -17,7 +17,6 @@
     <string name="clickvibeon_pref_title">Haptic feedback</string>
     <string name="allvibes_pref_title">Enable vibrations</string>
     <string name="notif_pref_title">Notifications</string>
-    <string name="statusbar_pref_title">Show status bar</string>
     <string name="abc_header_pref_title">Show quick ref header</string>
     <string name="abc_header_pref_summary">Displays your actions, buys and coin at the top (will take effect next game)</string>
     <string name="game_play_pref_title">Game Play</string>
@@ -36,4 +35,19 @@
     <string name="hide_card_counts_pref_summary">(will take effect next game)</string>
     <string name="one_turn_logs_pref_title">Single turn details</string>
     <string name="one_turn_logs_pref_summary">Only show the current turn in the game logs at the bottom of the screen (will take effect next game)</string>
+    
+    <string name="logging_pref_title">Game Logs</string>
+	<string name="logging_enable_pref_title">Enable game logs</string>
+	<string name="logging_enable_pref_summary">Logs will be stored on your SD card as text files</string>
+	<string name="logging_dir_pref_title">Log directory</string>
+	<string name="logging_dir_pref_summary">Directory to store game logs (will be created if necessary)</string>
+	
+	<string name="pref_theme_title">Theme</string>
+	<string name="pref_theme_summary">Sets the application theme</string>
+	<string-array name="theme_names">
+		<item>Dark</item>
+		<item>Dark with status bar</item>
+		<item>Light</item>
+		<item>Light with status bar</item>
+	</string-array>
 </resources>

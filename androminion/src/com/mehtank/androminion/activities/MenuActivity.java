@@ -8,14 +8,14 @@ import com.mehtank.androminion.fragments.AboutFragment;
 import com.mehtank.androminion.fragments.CombinedStatsFragment;
 import com.mehtank.androminion.fragments.StartGameFragment;
 import com.mehtank.androminion.fragments.StartGameFragment.OnStartGameListener;
+import com.mehtank.androminion.util.ThemeSetter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 public class MenuActivity extends FragmentActivity implements OnStartGameListener{
 	private boolean mTwoColums = false;
@@ -23,9 +23,8 @@ public class MenuActivity extends FragmentActivity implements OnStartGameListene
 	
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		PreferenceManager.setDefaultValues(this,R.xml.preferences,false);
+		ThemeSetter.set(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menuactivity);
 		
