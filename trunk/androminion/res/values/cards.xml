@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="Copper_name">Copper</string>
     <string name="Copper_desc"></string>
     <string name="Silver_name">Silver</string>
@@ -334,4 +335,5 @@
     <string name="Followers_desc">Gain an Estate. Each other player gains a Curse and discards down to 3 cards in hand. (This is not in the Supply.)</string>
     <string name="TrustySteed_name">Trusty Steed</string>
     <string name="TrustySteed_desc">Choose two: +2 Cards; +2 Actions; +2 coins; gain 4 silvers and put your deck into your discard pile. (The choices must be different.) (This is not in the Supply.)</string>
+
 </resources>

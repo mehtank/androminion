@@ -53,7 +53,6 @@ import com.vdom.core.Game;
 
 public class Androminion extends Activity implements EventHandler {
 	private static final boolean DEBUGGING = false;
-	public static boolean NOTOASTS = false;
 
 	static final boolean MULTIPLAYER = false;
 
@@ -164,14 +163,6 @@ public class Androminion extends Activity implements EventHandler {
 	public void onResume() {
 		super.onResume();
 		debug("onResume called");
-
-		NOTOASTS = getPref("toastsoff");
-
-		if (!getPref("statusbar"))
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		else
-			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
 
 	boolean getPref(String prefName) {
@@ -260,8 +251,7 @@ public class Androminion extends Activity implements EventHandler {
     				finish();
     			else {
     				lastBackClick = now;
-    				if (!NOTOASTS) Toast.makeText(top, getString(R.string.toast_quitconfirm), Toast.LENGTH_SHORT)
-    						.show();
+    				Toast.makeText(top, getString(R.string.toast_quitconfirm), Toast.LENGTH_SHORT).show();
     			}
     			return true;
 		    } else {
@@ -369,7 +359,7 @@ public class Androminion extends Activity implements EventHandler {
 			// during game
 			case CHAT:
 				HapticFeedback.vibrate(top, AlertType.CHAT);
-				if (!NOTOASTS) Toast.makeText(top, e.s, Toast.LENGTH_LONG).show();
+				Toast.makeText(top, e.s, Toast.LENGTH_LONG).show();
 				break;
 
 			case CARDOBTAINED:
@@ -630,7 +620,7 @@ public class Androminion extends Activity implements EventHandler {
 			ArrayList<String> strs = data.getStringArrayListExtra("command");
 			handle(new Event(Event.EType.STARTGAME)
 			.setObject(new EventObject(strs.toArray(new String[0]))));
-			if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.toast_starting), Toast.LENGTH_SHORT).show();
+			Toast.makeText(top, top.getString(R.string.toast_starting), Toast.LENGTH_SHORT).show();
 		}
 	}
 }

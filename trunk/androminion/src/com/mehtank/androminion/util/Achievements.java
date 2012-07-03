@@ -18,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.Toast;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 
 public class Achievements {
@@ -145,7 +144,7 @@ public class Achievements {
             Editor editor = prefs.edit();
             editor.putBoolean(KEYS[index], true);
             editor.commit();
-            if (!Androminion.NOTOASTS) Toast.makeText(context, context.getString(R.string.achievements_menu)+ "!!!\n" + text[index], Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.achievements_menu)+ "!!!\n" + text[index], Toast.LENGTH_SHORT).show();
         }
     }
 
