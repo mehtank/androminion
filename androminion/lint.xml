@@ -6,4 +6,29 @@
     <issue id="TypographyOther" severity="informational" />
     <issue id="TypographyQuotes" severity="informational" />
     <issue id="UnusedIds" severity="informational" />
+    <issue id="UnusedResources">
+        <ignore path="res\values\cards.xml" />
+        <ignore path="res\values-de\cards.xml" />
+        <ignore path="res\values-es\cards.xml" />
+        <ignore path="res\values-fr\cards.xml" />
+        <ignore path="res\values-ja\cards.xml" />
+        <ignore path="res\values-nl\cards.xml" />
+        <ignore path="res\values-ru\cards.xml" />
+        
+        <ignore path="res\values\expansions.xml" />
+        <ignore path="res\values-de\expansions.xml" />
+        <ignore path="res\values-es\expansions.xml" />
+        <ignore path="res\values-fr\expansions.xml" />
+        <ignore path="res\values-ja\expansions.xml" />
+        <ignore path="res\values-nl\expansions.xml" />
+        <ignore path="res\values-ru\expansions.xml" />
+        
+        <ignore path="res\values\gametypes.xml" />
+        <ignore path="res\values-de\gametypes.xml" />
+        <ignore path="res\values-es\gametypes.xml" />
+        <ignore path="res\values-fr\gametypes.xml" />
+        <ignore path="res\values-ja\gametypes.xml" />
+        <ignore path="res\values-nl\gametypes.xml" />
+        <ignore path="res\values-ru\gametypes.xml" />
+    </issue>
 </lint>

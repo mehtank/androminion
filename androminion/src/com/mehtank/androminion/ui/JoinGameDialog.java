@@ -102,7 +102,7 @@ public class JoinGameDialog implements DialogInterface.OnClickListener {
 			.setInteger(port)
 			.setString(gameName));
 
-		if (!Androminion.NOTOASTS) Toast.makeText(top, top.getString(R.string.toast_loading), Toast.LENGTH_SHORT).show();
+		Toast.makeText(top, top.getString(R.string.toast_loading), Toast.LENGTH_SHORT).show();
 	}
 
 	private void joinGame(int port) {
