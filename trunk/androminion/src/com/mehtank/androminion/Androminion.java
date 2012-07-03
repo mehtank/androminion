@@ -52,8 +52,6 @@ import com.vdom.comms.NewGame;
 import com.vdom.core.Game;
 
 public class Androminion extends Activity implements EventHandler {
-	private static final boolean DEBUGGING = false;
-
 	static final boolean MULTIPLAYER = false;
 
 	String[] cardsPassedInExtras;
@@ -306,9 +304,8 @@ public class Androminion extends Activity implements EventHandler {
 
 	@Override
 	public void debug(String s) {
-		if (DEBUGGING)
-			System.err.println(s);
-		// Log.w("Dominion", s);
+		if (BuildConfig.DEBUG)
+			Log.d("Androminion", s);
 	}
 
 	@Override
