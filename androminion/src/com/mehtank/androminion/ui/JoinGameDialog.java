@@ -1,7 +1,7 @@
 package com.mehtank.androminion.ui;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.activities.GameActivity;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
 
@@ -19,11 +19,11 @@ import android.widget.Toast;
 public class JoinGameDialog implements DialogInterface.OnClickListener {
 	LinearLayout vg;
 	EditText name;
-	Androminion top;
+	GameActivity top;
 	AlertDialog a;
 	SharedPreferences prefs;
 
-	public JoinGameDialog(Androminion top, Event e) {
+	public JoinGameDialog(GameActivity top, Event e) {
 		this.top = top;
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
@@ -41,7 +41,7 @@ public class JoinGameDialog implements DialogInterface.OnClickListener {
 		name.setSingleLine();
 
 		if (canConnect) {
-			name.setText(prefs.getString("name", Androminion.DEFAULT_NAME));
+			name.setText(prefs.getString("name", GameActivity.DEFAULT_NAME));
 			TextView tv = new TextView(top);
 			tv.setText("\nEnter your name:");
 			tv.setTextSize((float) (tv.getTextSize() * 1.5));
@@ -87,7 +87,7 @@ public class JoinGameDialog implements DialogInterface.OnClickListener {
 		}
 
 		if (numOptions == 1 && port != 0)
-			joinGame(port, prefs.getString("name", Androminion.DEFAULT_NAME));
+			joinGame(port, prefs.getString("name", GameActivity.DEFAULT_NAME));
 		else
 			a = new AlertDialog.Builder(top)
 				.setTitle("Game " + e.s + " running")

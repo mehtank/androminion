@@ -1,4 +1,4 @@
-package com.mehtank.androminion;
+package com.mehtank.androminion.activities;
 
 import java.io.IOException;
 import java.io.StreamCorruptedException;
@@ -26,15 +26,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
-import com.mehtank.androminion.activities.AboutActivity;
-import com.mehtank.androminion.activities.CombinedStatsActivity;
-import com.mehtank.androminion.activities.SettingsActivity;
-import com.mehtank.androminion.activities.StartGameActivity;
+import com.mehtank.androminion.BuildConfig;
+import com.mehtank.androminion.R;
 import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
@@ -51,12 +47,10 @@ import com.vdom.comms.MyCard;
 import com.vdom.comms.NewGame;
 import com.vdom.core.Game;
 
-public class Androminion extends Activity implements EventHandler {
+public class GameActivity extends Activity implements EventHandler {
 	static final boolean MULTIPLAYER = false;
 
-	String[] cardsPassedInExtras;
-
-	protected Androminion top = this;
+	protected GameActivity top = this;
 
 	FrameLayout topView;
 
@@ -84,18 +78,8 @@ public class Androminion extends Activity implements EventHandler {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		SharedPreferences prefs;
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		ThemeSetter.set(this);
 		super.onCreate(savedInstanceState);
-
-		Intent intent = getIntent();
-		if(intent != null) {
-		    Bundle extras = intent.getExtras();
-		    if(extras != null) {
-		        cardsPassedInExtras = getIntent().getExtras().getStringArray("cards");
-		    }
-		}
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -113,6 +97,7 @@ public class Androminion extends Activity implements EventHandler {
 
 		setContentView(topView);
 
+		SharedPreferences prefs;
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
 		name = prefs.getString("name", DEFAULT_NAME);
 

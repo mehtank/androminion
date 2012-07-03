@@ -14,8 +14,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.activities.GameActivity;
 import com.mehtank.androminion.util.CardGroup;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
@@ -55,7 +55,7 @@ public class OrderCardsView extends BottomInputView implements OnItemClickListen
         canSelect();
 	}
 
-	public OrderCardsView (Androminion top, String header, int[] cards) {
+	public OrderCardsView (GameActivity top, String header, int[] cards) {
 		super(top, header);
 		this.top = top;
 
@@ -156,7 +156,7 @@ public class OrderCardsView extends BottomInputView implements OnItemClickListen
 	}
 
 	@Override
-	protected View makeContentView(Androminion activity) {
+	protected View makeContentView(GameActivity activity) {
 		ll = new LinearLayout(top);
 		hsv = new HorizontalScrollView(top) {
     		@Override

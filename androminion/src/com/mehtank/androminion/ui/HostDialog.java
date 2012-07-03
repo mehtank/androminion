@@ -10,8 +10,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.activities.GameActivity;
 import com.vdom.comms.Event;
 
 public class HostDialog implements DialogInterface.OnClickListener {
@@ -25,10 +25,10 @@ public class HostDialog implements DialogInterface.OnClickListener {
 	EditText host;
 	EditText port;
 
-	Androminion top;
+	GameActivity top;
 	AlertDialog a;
 
-	public HostDialog(Androminion top, String hostString, int portNum) {
+	public HostDialog(GameActivity top, String hostString, int portNum) {
 		this.top = top;
 
 		gamehost = new RadioGroup(top);
@@ -98,7 +98,7 @@ public class HostDialog implements DialogInterface.OnClickListener {
 	@Override
 	public void onClick(DialogInterface dialog, int whichButton) {
 		if (whichButton == DialogInterface.BUTTON_POSITIVE) {
-			int p = Androminion.DEFAULT_PORT;
+			int p = GameActivity.DEFAULT_PORT;
 			String h = host.getText().toString();
 
 			if (gamehost.getCheckedRadioButtonId() == local.getId() || h.trim().length() == 0) {

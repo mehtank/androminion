@@ -2,7 +2,6 @@ package com.mehtank.androminion.activities;
 
 import java.util.ArrayList;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.fragments.AboutFragment;
 import com.mehtank.androminion.fragments.CombinedStatsFragment;
@@ -108,7 +107,7 @@ public class MenuActivity extends FragmentActivity implements OnStartGameListene
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == 0 && resultCode == RESULT_OK) {
-			Intent i = new Intent(this, Androminion.class);
+			Intent i = new Intent(this, GameActivity.class);
 			i.putExtras(data);
 			startActivity(i);
 		}
@@ -116,7 +115,7 @@ public class MenuActivity extends FragmentActivity implements OnStartGameListene
 
 	@Override
 	public void onStartGameClick(ArrayList<String> values) {
-		Intent i = new Intent(this, Androminion.class);
+		Intent i = new Intent(this, GameActivity.class);
 		i.putStringArrayListExtra("command", values);
 		startActivity(i);
 	}

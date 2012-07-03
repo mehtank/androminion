@@ -18,8 +18,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.activities.GameActivity;
 import com.mehtank.androminion.util.CardGroup;
 import com.mehtank.androminion.util.CheckableEx;
 import com.mehtank.androminion.util.HapticFeedback;
@@ -104,6 +104,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	public void setCard(MyCard c) {
 		this.state.c = c;
+		
+		if(c.costPotion) {
+			cost.setBackgroundResource(R.drawable.coinpotion);
+		} else {
+			cost.setBackgroundResource(R.drawable.coin);
+		}
 
 		if(c.isPrize) {
 			cost.setVisibility(INVISIBLE);
@@ -241,8 +247,6 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	public void setCost(int newCost) {
 		cost.setText(" " + newCost + " ");
-		if (state.c != null && state.c.costPotion)
-			cost.setBackgroundResource(R.drawable.coinpotion);
 	}
 
 	public void swapNum(int mode) {
@@ -309,7 +313,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
         // im.setScaleType(ImageView.ScaleType.FIT_CENTER);
         // v = im;
         // } else {
-			str = Androminion.BASEDIR + "/images/full/" + filename + ".jpg";
+			str = GameActivity.BASEDIR + "/images/full/" + filename + ".jpg";
 			File f = new File(str);
 			if (f.exists()) {
 				Uri u = Uri.parse(str);
