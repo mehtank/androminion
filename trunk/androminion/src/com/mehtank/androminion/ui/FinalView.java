@@ -10,12 +10,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.activities.GameActivity;
 
 public class FinalView extends FrameLayout implements OnClickListener {
 
-	Androminion top;
+	GameActivity top;
 	GameTable gt;
 
 	TextView tv;
@@ -26,7 +26,7 @@ public class FinalView extends FrameLayout implements OnClickListener {
 	public FinalView(Context context, GameTable gt, String nameStr, int numTurns, int[] embargos, int numCards, int[] cardCounts, int vp, boolean winner) {
 		super(context);
 
-		this.top = (Androminion) context;
+		this.top = (GameActivity) context;
 		this.gt = gt;
 		this.embargos = embargos;
 		this.cardCounts = cardCounts;

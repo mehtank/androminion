@@ -18,8 +18,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.activities.GameActivity;
 import com.mehtank.androminion.ui.CardView.CardState;
 import com.mehtank.androminion.util.Achievements;
 import com.mehtank.androminion.util.CardGroup;
@@ -33,7 +33,7 @@ import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.comms.Event.EventObject;
 
 public class GameTable extends LinearLayout implements OnSharedPreferenceChangeListener, OnItemClickListener, OnItemLongClickListener {
-	private final Androminion top;
+	private final GameActivity top;
 
 	ArrayList<String> allPlayers = new ArrayList<String>();
 
@@ -286,7 +286,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		gameOver.addView(tv);
 		gameOver.setLayoutParams(lp);
 	}
-	public GameTable(Androminion top) {
+	public GameTable(GameActivity top) {
 		super(top);
 		this.top = top;
 

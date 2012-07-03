@@ -8,14 +8,14 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.activities.GameActivity;
 import com.vdom.comms.Event;
 
 public class SelectStringView extends BottomInputView implements AdapterView.OnItemClickListener {
 	ListView lv;
 
-	public SelectStringView (Androminion top, String header, String[] options) {
+	public SelectStringView (GameActivity top, String header, String[] options) {
 		super(top, header);
 		lv.setAdapter(new ArrayAdapter<String>(top, R.layout.selectstring, options));
 	}
@@ -30,7 +30,7 @@ public class SelectStringView extends BottomInputView implements AdapterView.OnI
 	}
 
 	@Override
-	protected View makeContentView(Androminion activity) {
+	protected View makeContentView(GameActivity activity) {
 		lv = new ListView(top);
 		lv.setOnItemClickListener(this);
 		lv.setBackgroundColor(Color.LTGRAY);

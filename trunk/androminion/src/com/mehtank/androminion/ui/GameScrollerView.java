@@ -18,8 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.activities.GameActivity;
 
 public class GameScrollerView extends HorizontalScrollView {
 	private Context top;
@@ -49,7 +49,7 @@ public class GameScrollerView extends HorizontalScrollView {
 		gameEventsRow.removeAllViews();
 
 		if (PreferenceManager.getDefaultSharedPreferences(top).getBoolean("enable_logging", false)) {
-			String dir = Androminion.BASEDIR + PreferenceManager.getDefaultSharedPreferences(top).getString("logdir", "");
+			String dir = GameActivity.BASEDIR + PreferenceManager.getDefaultSharedPreferences(top).getString("logdir", "");
 			String filename = new SimpleDateFormat("'/log_'yyyy-MM-dd_HH-mm-ss'.txt'").format(new Date());
 			new File(dir).mkdirs();
 

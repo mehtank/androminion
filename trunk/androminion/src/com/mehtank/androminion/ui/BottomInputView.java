@@ -9,17 +9,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.activities.GameActivity;
 
 public abstract class BottomInputView extends RelativeLayout implements OnClickListener{
-	protected Androminion top;
+	protected GameActivity top;
 	private TextView title;
 	private ImageView arrow;
 	private View content;
 	private boolean hidden = false;
 
-	public BottomInputView (Androminion top, String header) {
+	public BottomInputView (GameActivity top, String header) {
 		super(top);
 		this.top = top;
 		
@@ -40,7 +40,7 @@ public abstract class BottomInputView extends RelativeLayout implements OnClickL
 		top.addView(this);
 	}
 
-	abstract protected View makeContentView(Androminion activity);
+	abstract protected View makeContentView(GameActivity activity);
 
 	public void toggle() {
 		if (hidden) {

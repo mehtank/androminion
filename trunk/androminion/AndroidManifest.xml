@@ -12,12 +12,12 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <supports-screens
-        android:resizeable="true"
-        android:xlargeScreens="true"
+        android:anyDensity="true"
         android:largeScreens="true"
-        android:smallScreens="true"
         android:normalScreens="true"
-        android:anyDensity="true"/>
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
 
     <application
         android:icon="@drawable/icon"
@@ -29,20 +29,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
+
+        <!-- compatibility to DominionShuffle -->
+        <activity-alias
             android:name=".Androminion"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:targetActivity=".activities.MenuActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <activity android:name=".activities.StartGameActivity"></activity>
-        <activity android:name=".activities.CombinedStatsActivity"></activity>
-        <activity android:name=".activities.SettingsActivity" ></activity>
-        <activity android:name=".activities.AboutActivity"></activity>
+        </activity-alias> 
 
+        <activity android:name=".activities.GameActivity" />
+        <activity android:name=".activities.StartGameActivity" />
+        <activity android:name=".activities.CombinedStatsActivity" />
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.AboutActivity" />
 
         <service
             android:name=".server.DominionServer"
@@ -51,7 +53,6 @@
                 <action android:name="com.mehtank.androminion.SERVER" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

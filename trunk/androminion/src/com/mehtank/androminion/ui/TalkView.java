@@ -1,6 +1,6 @@
 package com.mehtank.androminion.ui;
 
-import com.mehtank.androminion.Androminion;
+import com.mehtank.androminion.activities.GameActivity;
 import com.vdom.comms.Event;
 
 import android.content.Context;
@@ -12,9 +12,9 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class TalkView extends EditText implements OnEditorActionListener {
 
-	Androminion top;
+	GameActivity top;
 
-	public TalkView(Androminion top) {
+	public TalkView(GameActivity top) {
 		super(top);
 		this.top = top;
 		setSingleLine();
