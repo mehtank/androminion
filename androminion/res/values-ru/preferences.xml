@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <string name="toastsoff_pref_summary">Выбирайте этот пункт только если приложение почти всегда валится до начала игры</string>
-    <string name="toastsoff_pref_title">Отключить подсказки</string>
-        <string name="showenglishnames_pref_title">Английские названия</string>
-        <string name="showenglishnames_pref_summary">Показывать английские названия карт с скобках (бессмысленно в английской локали)</string>
+
+    <string name="showenglishnames_pref_title">Английские названия</string>
+    <string name="showenglishnames_pref_summary">Показывать английские названия карт с скобках (бессмысленно в английской локали)</string>
     <string name="exitonback_pref_summary">Выходить из игры когда нажата кнопка Назад</string>
     <string name="exitonback_pref_title">Выход по нажатию Назад</string>
     <string name="vibescreen_pref_title">Настроить вибрации…</string>
@@ -17,7 +16,6 @@
     <string name="clickvibeon_pref_title">Тактильная отдача</string>
     <string name="allvibes_pref_title">Включить вибрации</string>
     <string name="notif_pref_title">Оповещения</string>
-    <string name="statusbar_pref_title">Показывать панель статуса</string>
     <string name="abc_header_pref_title">Show quick ref header</string>
     <string name="abc_header_pref_summary">Показывать Ваши действия, покупки и монеты сверху (начнет действовать со следующей игры)</string>
     <string name="game_play_pref_title">Геймплей</string>
@@ -31,9 +29,9 @@
     <string name="name_pref_summary">Введите свой никнейм</string>
     <string name="name_pref_title">Имя</string>
     <string name="personalization_pref_title">Персонализация</string>
-
     <string name="hide_card_counts_pref_title">Спрятать счетчики карт</string>
     <string name="hide_card_counts_pref_summary">(начнет действовать со следующей игры)</string>
     <string name="one_turn_logs_pref_title">Детали одного хода</string>
     <string name="one_turn_logs_pref_summary">Показывать в логах игры внизу экрана только детали текущего хода (начнет действовать со следующей игры).</string>
+
 </resources>

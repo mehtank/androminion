@@ -22,8 +22,6 @@
 	<string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
 	<string name="exitonback_pref_title">Ende mit Zurückknopf</string>
 	<string name="exitonback_pref_summary">Beendet das Spiel erst, wenn der Zurückknopf erneut gedrückt wird</string>
-	<string name="toastsoff_pref_title">Toasts ausschalten</string>
-	<string name="toastsoff_pref_summary">Die Option Toast ausschalten nur wählen wenn das Spiel VOR dem Start abstürzt</string>
 	<string name="showenglishnames_pref_title">Englische Namen</string>
 	<string name="showenglishnames_pref_summary">Zeige die Englischen Namen der Karten in Klammern an</string>
 
