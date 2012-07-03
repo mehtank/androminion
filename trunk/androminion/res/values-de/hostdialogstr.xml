@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="host_menu">Starte Spiel</string>
-<string name="host_title">Verbinde mit Dominionserver</string>
-<string name="host_message">Wähle Art des Spielservers</string>
-<string name="host_prompt">Hostnamen oder IP-Adresse des Servers eingeben</string>
 
-<string name="host_local">Lokales Spiel</string>
-<string name="host_remote">Mehrspieler</string>
+    <string name="host_title">Verbinde mit Dominionserver</string>
+    <string name="host_message">Wähle Art des Spielservers</string>
+    <string name="host_prompt">Hostnamen oder IP-Adresse des Servers eingeben</string>
+    <string name="host_local">Lokales Spiel</string>
+    <string name="host_remote">Mehrspieler</string>
+
 </resources>

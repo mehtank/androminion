@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Androminon" parent="android:Theme.NoTitleBar.Fullscreen">
         
     </style>
@@ -16,7 +16,7 @@
         
     </style>
     
-    <string-array name="theme_keys">
+    <string-array name="theme_keys" tools:ignore="MissingTranslation">
 		<item>androminion</item>
 		<item>androminion-withstatus</item>
 		<item>androminion-light</item>
