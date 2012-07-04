@@ -26,6 +26,7 @@
         <activity android:name=".activities.MenuActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,11 +37,14 @@
             android:targetActivity=".activities.MenuActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity-alias> 
+        </activity-alias>
 
-        <activity android:name=".activities.GameActivity" />
+        <activity
+            android:name=".activities.GameActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activities.StartGameActivity" />
         <activity android:name=".activities.CombinedStatsActivity" />
         <activity android:name=".activities.SettingsActivity" />

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -287,9 +288,19 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		gameOver.addView(tv);
 		gameOver.setLayoutParams(lp);
 	}
-	public GameTable(GameActivity top) {
-		super(top);
-		this.top = top;
+	
+	public GameTable(Context context) {
+	    this(context, null);
+	}
+	
+	public GameTable(Context context, AttributeSet attrs) {
+	    this(context, attrs, 0);
+	}
+	
+	public GameTable(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs); //TODO remove this workaround
+		//super(context, attrs, defStyle); // fails with exception...
+		this.top = (GameActivity) context;
 
 		setOrientation(VERTICAL);
 
