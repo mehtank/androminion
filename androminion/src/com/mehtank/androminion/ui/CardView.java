@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
+import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,16 +27,12 @@ import com.vdom.comms.MyCard;
 
 public class CardView extends FrameLayout implements OnLongClickListener, CheckableEx {
 
-	public static final int SHOWTOGGLE = 0;
-	public static final int SHOWCOUNT = 1;
-	public static final int SHOWCOIN = 2;
-
 	public static final int WIDTH = 110;
 	private TextView name;
-	private View colorBox;
+	private View cardBox;
 	private TextView cost, countLeft, embargos;
 	private TextView checked;
-	private View nomore;
+	private TextView cardDesc;
 
 	CardGroup parent;
 	private CardState state;
@@ -43,6 +40,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	static public class CardState {
 		public MyCard c;
 		public boolean opened;
+		public boolean onTable;
 		public String indicator;
 		public int order;
 
@@ -82,12 +80,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		LayoutInflater.from(context).inflate(R.layout.cardview, this, true);
 		name = (TextView) findViewById(R.id.name);
-		colorBox = findViewById(R.id.colorBox);
+		cardBox = findViewById(R.id.cardBox);
 		cost = (TextView) findViewById(R.id.cost);
 		countLeft = (TextView) findViewById(R.id.countLeft);
 		embargos = (TextView) findViewById(R.id.embargos);
 		checked = (TextView) findViewById(R.id.checked);
-		nomore = findViewById(R.id.nomore);
+		cardDesc = (TextView) findViewById(R.id.cardDesc);
 
 		state = new CardState(null);
 
@@ -103,18 +101,23 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	public void setCard(MyCard c) {
 		this.state.c = c;
 
-		if(c.costPotion) {
+		if (cardDesc != null) {
+			cardDesc.setText(c.desc);
+		}
+
+		if (c.costPotion) {
 			cost.setBackgroundResource(R.drawable.coinpotion);
 		} else {
 			cost.setBackgroundResource(R.drawable.coin);
 		}
 
-		if(c.isPrize) {
+		if (c.isPrize) {
 			cost.setVisibility(INVISIBLE);
 		} else {
 			cost.setVisibility(VISIBLE);
 		}
 
+		// TODO: Merge this border with the color setting below, then get rid of cardBox.
 		if (c.isBane) {
 			setBackgroundResource(R.drawable.baneborder);
 		} else {
@@ -189,7 +192,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		name.setTextColor(fgColor);
 		countLeft.setTextColor(countColor);
 		if (bgColor != 0)
-			colorBox.setBackgroundColor(bgColor);
+			cardBox.setBackgroundColor(bgColor);
 	}
 
 	@Override
@@ -232,16 +235,23 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	public void setCountLeft(int s) {
 		countLeft.setText(" " + s + " ");
 		countLeft.setVisibility(VISIBLE);
-		if (s == 0)
-			nomore.setVisibility(VISIBLE);
-		else
-			nomore.setVisibility(GONE);
+
+		float alpha = s == 0 ? 0.3f : 1.0f;
+
+		// setAlpha() is API level 11+ only, so we use an instant animation instead.
+		AlphaAnimation alphaAnimation = new AlphaAnimation(alpha, alpha);
+		alphaAnimation.setDuration(0L);
+		alphaAnimation.setFillAfter(true);
+		cardBox.startAnimation(alphaAnimation);
 	}
 
 	public void setEmbargos(int s) {
-		embargos.setText(" " + s + " ");
-		if (s != 0)
+		if (s != 0) {
+			embargos.setText(" " + s + " ");
 			embargos.setVisibility(VISIBLE);
+		} else {
+			embargos.setVisibility(GONE);
+		}
 	}
 
 	public void setCost(int newCost) {
@@ -252,6 +262,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		state = s;
 		setCard(s.c);
 		setChecked(s.opened, s.order, s.indicator);
+		setOnTable(s.onTable);
+	}
+
+	private void setOnTable(boolean onTable) {
+		countLeft.setVisibility(onTable ? VISIBLE : GONE);
 	}
 
 	public CardState getState() {
