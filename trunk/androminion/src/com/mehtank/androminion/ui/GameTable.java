@@ -1,6 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -26,11 +27,11 @@ import com.mehtank.androminion.util.CardGroup;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.Event;
+import com.vdom.comms.Event.EventObject;
 import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
-import com.vdom.comms.Event.EventObject;
 
 public class GameTable extends LinearLayout implements OnSharedPreferenceChangeListener, OnItemClickListener, OnItemLongClickListener {
 	private final GameActivity top;
@@ -71,7 +72,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		public CardState cs;
 		public CardGroup parent;
 		public int pos;
-		
+
 		public CardInfo(CardState cs, CardGroup parent, int pos) {
 			this.cs = cs;
 			this.parent = parent;
@@ -408,8 +409,6 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 		top.nosplash();
 		gameScroller.setGameEvent(top.getString(R.string.game_loaded), true, 0);
-
-		showSupplySizes(); // TODO doesn't do anything
 	}
 
 	public void addCardToTable(MyCard c) {
@@ -667,7 +666,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		for (int i = 0; i < g.getChildCount(); i++) {
 			CardView cv = (CardView) g.getChildAt(i);
 			if (cv.getCard() != null) {
-				cv.setSize(supplySizes[cv.getCard().id]);
+				cv.setCountLeft(supplySizes[cv.getCard().id]);
 				cv.setEmbargos(embargos[cv.getCard().id]);
 			}
 		}
@@ -678,22 +677,6 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		updateSizes(vpPileGV, supplySizes, embargos);
 		updateSizes(supplyPileGV, supplySizes, embargos);
 		updateSizes(prizePileGV, supplySizes, embargos);
-		showSupplySizes();  // TODO only needs to happen once
-	}
-
-	private void toggleView(GridView g, int mode) {
-		for (int i = 0; i < g.getChildCount(); i++) {
-			CardView cv = (CardView) g.getChildAt(i);
-			if (cv.getCard() != null)
-				cv.swapNum(mode);
-		}
-	}
-
-	public void showSupplySizes() {
-		toggleView(moneyPileGV, CardView.SHOWCOUNT);
-		toggleView(vpPileGV, CardView.SHOWCOUNT);
-		toggleView(supplyPileGV, CardView.SHOWCOUNT);
-		toggleView(prizePileGV, CardView.SHOWCOUNT);
 	}
 
 	public void finalStatus(GameStatus gs) {
