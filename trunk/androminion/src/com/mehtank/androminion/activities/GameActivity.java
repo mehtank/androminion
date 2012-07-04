@@ -50,19 +50,19 @@ import com.vdom.core.Game;
 public class GameActivity extends Activity implements EventHandler {
 	static final boolean MULTIPLAYER = false;
 
-	protected GameActivity top = this;
+	private GameActivity top = this;
 
-	FrameLayout topView;
+	private FrameLayout topView;
 
-	GameTable gt;
-	View splash;
+	private GameTable gt;
+	private View splash;
 
-	boolean gameRunning = false;
-	long lastBackClick = 0;
+	private boolean gameRunning = false;
+	private long lastBackClick = 0;
 
-	Comms comm;
-	Thread commThread;
-	boolean gotQuit = false;
+	private Comms comm;
+	private Thread commThread;
+	private boolean gotQuit = false;
 
 	public static final String DEFAULT_NAME = "You";
 	public static final String DEFAULT_HOST = "localhost";
@@ -84,18 +84,10 @@ public class GameActivity extends Activity implements EventHandler {
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-		topView = new FrameLayout(this);
-
-		gt = new GameTable(this);
-		FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-				LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT);
-		topView.addView(gt, p);
-
-		splash = getLayoutInflater().inflate(R.layout.splashview, null);
-		topView.addView(splash);
-
+		topView = (FrameLayout) getLayoutInflater().inflate(R.layout.gameactivity, null);
 		setContentView(topView);
+		gt = (GameTable) findViewById(R.id.gameTable);
+		splash = findViewById(R.id.splash);
 
 		SharedPreferences prefs;
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
@@ -319,16 +311,6 @@ public class GameActivity extends Activity implements EventHandler {
 
 			case NEWGAME:
 				NewGame ng = e.o.ng;
-
-				int index = topView.indexOfChild(gt);
-				topView.removeView(gt);
-				gt = new GameTable(top);
-
-				FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-						LayoutParams.FILL_PARENT,
-						LayoutParams.FILL_PARENT);
-
-				topView.addView(gt, index, p);
 				splash();
 
 				saveLastCards(ng.cards);
