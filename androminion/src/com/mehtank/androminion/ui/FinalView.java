@@ -61,6 +61,5 @@ public class FinalView extends FrameLayout implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		gt.setSupplySizes(cardCounts, embargos);
-		gt.showSupplySizes();
 	}
 }

@@ -9,11 +9,9 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,17 +39,17 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	CardGroup parent;
 	private CardState state;
-	
+
 	static public class CardState {
 		public MyCard c;
 		public boolean opened;
 		public String indicator;
 		public int order;
-		
+
 		public CardState(MyCard c) {
 			this(c, false, "", -1);
 		}
-		
+
 		public CardState(MyCard c, boolean opened, String indicator, int order) {
 			this.c = c;
 			this.opened = opened;
@@ -59,7 +57,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			this.order = order;
 		}
 	}
-	
+
 	public CardView(Context context) {
 		this(context, null);
 	}
@@ -68,17 +66,17 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		super(context, attrs);
 		init(context, null, null);
 	}
-	
+
 	public CardView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context, null, null);
 	}
-	
+
 	public CardView(Context context, CardGroup parent, MyCard c) {
 		super(context);
 		init(context, parent, c);
 	}
-	
+
 	private void init(Context context, CardGroup parent, MyCard c) {
 		this.parent = parent;
 
@@ -92,7 +90,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		nomore = findViewById(R.id.nomore);
 
 		state = new CardState(null);
-		
+
 		if (c != null) {
 			setCard(c);
 		}
@@ -104,7 +102,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	public void setCard(MyCard c) {
 		this.state.c = c;
-		
+
 		if(c.costPotion) {
 			cost.setBackgroundResource(R.drawable.coinpotion);
 		} else {
@@ -203,12 +201,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	public void toggle() {
 		setChecked(!state.opened);
 	}
-	
+
 	@Override
 	public void setChecked(boolean arg0) {
 		setChecked(arg0,-1, "");
 	}
-	
+
 	@Override
 	public void setChecked(boolean arg0, String indicator) {
 		setChecked(arg0, -1, indicator);
@@ -231,12 +229,13 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             checked.setVisibility(INVISIBLE);
 	}
 
-	public void setSize(int s) {
+	public void setCountLeft(int s) {
 		countLeft.setText(" " + s + " ");
+		countLeft.setVisibility(VISIBLE);
 		if (s == 0)
 			nomore.setVisibility(VISIBLE);
 		else
-			nomore.setVisibility(INVISIBLE);
+			nomore.setVisibility(GONE);
 	}
 
 	public void setEmbargos(int s) {
@@ -249,40 +248,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		cost.setText(" " + newCost + " ");
 	}
 
-	public void swapNum(int mode) {
-		if (mode == SHOWCOIN) {
-			// cost.setVisibility(VISIBLE);
-			countLeft.setVisibility(INVISIBLE);
-			FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-					Gravity.CENTER);
-			name.setLayoutParams(p);
-			return;
-		} else if (mode == SHOWCOUNT) {
-			// cost.setVisibility(INVISIBLE);
-			countLeft.setVisibility(VISIBLE);
-			FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-					Gravity.TOP + Gravity.CENTER_HORIZONTAL);
-			name.setLayoutParams(p);
-			return;
-		} else {
-			if (countLeft.getVisibility() == View.VISIBLE) {
-				swapNum(SHOWCOIN);
-			} else {
-				swapNum(SHOWCOUNT);
-			}
-		}
-	}
-	
 	public void setState(CardState s) {
 		state = s;
 		setCard(s.c);
 		setChecked(s.opened, s.order, s.indicator);
 	}
-	
+
 	public CardState getState() {
 		return state;
 	}
