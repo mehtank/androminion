@@ -662,7 +662,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		new OrderCardsView(top, header, cards);
 	}
 
-	private void updateSizes(GridView g, int[] supplySizes, int[] embargos) {
+	private void updateCounts(GridView g, int[] supplySizes, int[] embargos) {
 		for (int i = 0; i < g.getChildCount(); i++) {
 			CardView cv = (CardView) g.getChildAt(i);
 			if (cv.getCard() != null) {
@@ -673,10 +673,10 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	}
 
 	public void setSupplySizes(int[] supplySizes, int[] embargos) {
-		updateSizes(moneyPileGV, supplySizes, embargos);
-		updateSizes(vpPileGV, supplySizes, embargos);
-		updateSizes(supplyPileGV, supplySizes, embargos);
-		updateSizes(prizePileGV, supplySizes, embargos);
+		updateCounts(moneyPileGV, supplySizes, embargos);
+		updateCounts(vpPileGV, supplySizes, embargos);
+		updateCounts(supplyPileGV, supplySizes, embargos);
+		updateCounts(prizePileGV, supplySizes, embargos);
 	}
 
 	public void finalStatus(GameStatus gs) {

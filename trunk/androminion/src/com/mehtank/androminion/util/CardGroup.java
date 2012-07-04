@@ -13,20 +13,21 @@ import android.widget.BaseAdapter;
 
 public class CardGroup extends BaseAdapter {
 	private Context top;
-	private boolean sorted = false;
+	private boolean onTable = false;
 	private ArrayList<CardState> cards = new ArrayList<CardState>();
-	
+
 	public CardGroup(Context top, boolean onTable) {
 		this.top = top;
-		this.sorted = onTable;
+		this.onTable = onTable;
 	}
-	
+
 	public void addCard(MyCard c) {
 		CardState ci = new CardState(c);
-		if (sorted) { // sort
+		ci.onTable = onTable;
+		if (onTable) { // sort cards that are on the table
 			int i = 0;
 			for (i=0; i < cards.size(); i++) {
-				if (cards.get(i).c.cost > c.cost) 
+				if (cards.get(i).c.cost > c.cost)
 					break;
 			}
 			cards.add(i, ci);
@@ -34,22 +35,22 @@ public class CardGroup extends BaseAdapter {
 			cards.add(ci);
 		notifyDataSetChanged();
 	}
-	
+
 	public void updateState(int pos, CardState cs){
 		cards.set(pos, cs);
 		notifyDataSetChanged();
 	}
-	
+
 	public void removeCard(int pos) {
 		cards.remove(pos);
 		notifyDataSetChanged();
 	}
-	
+
 	public void clear() {
 		cards.clear();
 		notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public int getCount() {
 		return cards.size();
