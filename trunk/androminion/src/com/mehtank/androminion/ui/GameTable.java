@@ -215,22 +215,6 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	return ll;
 	}
 
-	private void makeGameOver() {
-		gameOver = new LinearLayout(top);
-		gameOver.setOrientation(LinearLayout.VERTICAL);
-
-		TextView tv = new TextView(top);
-		tv.setText("Game over!\n");
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-        		ViewGroup.LayoutParams.FILL_PARENT,
-        		ViewGroup.LayoutParams.WRAP_CONTENT);
-        tv.setLayoutParams(lp);
-
-		gameOver.addView(tv);
-		gameOver.setLayoutParams(lp);
-	}
-	
 	public GameTable(Context context) {
 	    this(context, null);
 	}
@@ -262,10 +246,10 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	tr = (LinearLayout) findViewById(R.id.tr);
     	initHand();
     	tr.addView(makeTurnPanel());
+    	gameOver = (LinearLayout) findViewById(R.id.gameOver);
     	gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
     	
-    	makeGameOver();
     	helpView = new HelpView(this.top, new View[] {supply, turnView, myCardView, gameScroller}, new View[] {tr, supply, supply, tr});
     }
 
@@ -278,10 +262,10 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 
 	public void logToggle() {
-		if (gameScroller.getVisibility() == INVISIBLE)
+		if (gameScroller.getVisibility() != VISIBLE)
 	    	gameScroller.setVisibility(VISIBLE);
 		else
-			gameScroller.setVisibility(INVISIBLE);
+			gameScroller.setVisibility(GONE);
 	}
 
 	public void newGame(MyCard[] cards, String[] players) {
@@ -300,11 +284,8 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		deckStatus.removeAllViews();
 		gameScroller.clear();
 		gameScroller.setNumPlayers(players.length);
-		gameOver.removeAllViews();
-		//TODO fix
-		//tr.removeAllViews();
-    	//tr.addView(makeMyCards());
-    	//tr.addView(makeTurnPanel());
+		gameOver.setVisibility(GONE);
+		tr.setVisibility(VISIBLE);
     	helpView.setShowViews(new View[] {supply, turnView, myCardView, gameScroller});
 
 		for (MyCard c : cards)
@@ -652,7 +633,8 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 			if (i == gs.whoseTurn)
 				won = true;
 
-		tr.removeAllViews();
+		tr.setVisibility(GONE);
+		gameOver.setVisibility(VISIBLE);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				ViewGroup.LayoutParams.FILL_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -663,7 +645,6 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 				gs.handSizes[gs.whoseTurn], won);
 		fv.setLayoutParams(lp);
 		gameOver.addView(fv);
-		tr.addView(gameOver);
 	}
 
 	public void achieved(String achievement) {
