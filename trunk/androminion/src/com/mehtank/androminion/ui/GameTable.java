@@ -92,36 +92,30 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 	private HelpView helpView;
 
-	private LinearLayout makeTable() {
+	private void makeTable() {
     	moneyPile = new CardGroup(top, true);
-    	vpPile = new CardGroup(top, true);
-    	supplyPile = new CardGroup(top, true);
-    	prizePile = new CardGroup(top, true);
-
-    	moneyPileGV = GameTableViews.makeGV(top, moneyPile, 5);
+    	moneyPileGV = (GridView) findViewById(R.id.moneyPileGV);
+    	moneyPileGV.setAdapter(moneyPile);
     	moneyPileGV.setOnItemClickListener(this);
     	moneyPileGV.setOnItemLongClickListener(this);
-    	vpPileGV = GameTableViews.makeGV(top, vpPile, 5);
+    	
+    	vpPile = new CardGroup(top, true);
+    	vpPileGV = (GridView) findViewById(R.id.vpPileGV);
+    	vpPileGV.setAdapter(vpPile);
     	vpPileGV.setOnItemClickListener(this);
     	vpPileGV.setOnItemLongClickListener(this);
-    	supplyPileGV = GameTableViews.makeGV(top, supplyPile, 4);
-    	supplyPileGV.setGravity(Gravity.CENTER);
+    	
+    	supplyPile = new CardGroup(top, true);
+    	supplyPileGV = (GridView) findViewById(R.id.supplyPileGV);
+    	supplyPileGV.setAdapter(supplyPile);
     	supplyPileGV.setOnItemClickListener(this);
     	supplyPileGV.setOnItemLongClickListener(this);
-    	prizePileGV = GameTableViews.makeGV(top, prizePile, 5);
+    	
+    	prizePile = new CardGroup(top, true);
+    	prizePileGV = (GridView) findViewById(R.id.prizePileGV);
+    	prizePileGV.setAdapter(prizePile);
     	prizePileGV.setOnItemClickListener(this);
     	prizePileGV.setOnItemLongClickListener(this);
-
-    	LinearLayout table = new LinearLayout(top);
-    	table.setOrientation(VERTICAL);
-
-    	table.addView(moneyPileGV);
-    	table.addView(vpPileGV);
-    	table.addView(supplyPileGV);
-    	table.addView(prizePileGV);
-    	table.setBackgroundResource(R.drawable.roundborder);
-
-    	return table;
 	}
 
 	private View makeMyCards() {
@@ -295,10 +289,8 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
     	largeRefText = (TextView) findViewById(R.id.largeRefText);
     	
-    	supply = makeTable();
-    	int index = indexOfChild(largeRefText);
-    	addView(supply, index+1);
-    	
+    	supply = findViewById(R.id.supply);
+    	makeTable();
     	tr = (LinearLayout) findViewById(R.id.tr);
     	tr.addView(makeMyCards());
     	tr.addView(makeTurnPanel());
