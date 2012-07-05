@@ -25,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -53,7 +52,6 @@ public class GameActivity extends Activity implements EventHandler {
 	private GameActivity top = this;
 
 	private FrameLayout topView;
-
 	private GameTable gt;
 	private View splash;
 
@@ -67,14 +65,15 @@ public class GameActivity extends Activity implements EventHandler {
 	public static final String DEFAULT_NAME = "You";
 	public static final String DEFAULT_HOST = "localhost";
 	public static final int DEFAULT_PORT = 1251;
-	String name;
-	String host;
-	int port;
+
+	private String name;
+	private String host;
+	private int port;
 
 	// for invites
-	protected String serverName;
-	protected String serverHost;
-	protected int serverPort;
+	private String serverName;
+	private String serverHost;
+	private int serverPort;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -200,17 +199,6 @@ public class GameActivity extends Activity implements EventHandler {
 		case R.id.quit_menu:
 			finish();
 			return true;
-/*        case MENU_MAIN:
-            break;
-        case MENU_RESTART:
-            break;
-		case MENU_REMOTE_START:
-			new HostDialog(this, "", DEFAULT_PORT);
-			break;
-		case MENU_INVITE:
-			// TODO: alert("Server status:", ds.test());
-			invite();
-			break;*/
 		}
 		return false;
 	}
