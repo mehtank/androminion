@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -42,10 +39,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 	GridView handGV, playedGV, islandGV, villageGV;
 	CardGroup hand, played, island, village;
-	LinearLayout handCS, playedCS, islandCS, villageCS;
+	View islandColumn, villageColumn;
 	TextView playedHeader;
 	LinearLayout myCards;
-	boolean playedAdded = false, islandAdded = false, villageAdded = false;
 
 	GridView moneyPileGV, vpPileGV, supplyPileGV, prizePileGV;
 	CardGroup moneyPile, vpPile, supplyPile, prizePile;
@@ -92,7 +88,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 	private HelpView helpView;
 
-	private void makeTable() {
+	private void initTable() {
     	moneyPile = new CardGroup(top, true);
     	moneyPileGV = (GridView) findViewById(R.id.moneyPileGV);
     	moneyPileGV.setAdapter(moneyPile);
@@ -118,63 +114,34 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	prizePileGV.setOnItemLongClickListener(this);
 	}
 
-	private View makeMyCards() {
+	private void initHand() {
 		hand = new CardGroup(top, false);
-    	played = new CardGroup(top, false);
-		island = new CardGroup(top, false);
-		village = new CardGroup(top, false);
-
-    	handGV = GameTableViews.makeGV(top, hand, 1);
+    	handGV = (GridView) findViewById(R.id.handGV);
+    	handGV.setAdapter(hand);
     	handGV.setOnItemClickListener(this);
     	handGV.setOnItemLongClickListener(this);
-    	playedGV = GameTableViews.makeGV(top, played, 1);
+    	
+    	played = new CardGroup(top, false);
+    	playedGV = (GridView) findViewById(R.id.playedGV);
+    	playedGV.setAdapter(played);
     	playedGV.setOnItemLongClickListener(this);
-    	islandGV = GameTableViews.makeGV(top, island, 1);
+    	
+		island = new CardGroup(top, false);
+    	islandGV = (GridView) findViewById(R.id.islandGV);
+    	islandGV.setAdapter(island);
     	islandGV.setOnItemLongClickListener(this);
-    	villageGV = GameTableViews.makeGV(top, village, 1);
+    	islandColumn = findViewById(R.id.islandColumn);
+    	
+		village = new CardGroup(top, false);
+    	villageGV = (GridView) findViewById(R.id.villageGV);
+    	villageGV.setAdapter(village);
     	villageGV.setOnItemLongClickListener(this);
+    	villageColumn = findViewById(R.id.villageColumn);
 
-//    	handGV.setBackgroundResource(R.drawable.roundborder);
-//    	playedGV.setBackgroundResource(R.drawable.roundborder);
-//    	islandGV.setBackgroundResource(R.drawable.roundborder);
-//    	villageGV.setBackgroundResource(R.drawable.roundborder);
-
-    	playedHeader = new TextView(top);
-
-    	handCS = (GameTableViews.myCardSet(top, top.getString(R.string.hand_header), handGV, null));
-    	playedCS = (GameTableViews.myCardSet(top, top.getString(R.string.played_header), playedGV, playedHeader));
-    	islandCS = (GameTableViews.myCardSet(top, top.getString(R.string.island_header), islandGV, null));
-    	villageCS = (GameTableViews.myCardSet(top, top.getString(R.string.village_header), villageGV, null));
-
-    	islandCS.setBackgroundResource(R.drawable.roundborder);
-    	villageCS.setBackgroundResource(R.drawable.roundborder);
-
-    	myCards = new LinearLayout(top);
-    	myCards.setOrientation(HORIZONTAL);
-
-    	myCards.addView(handCS);
-    	myCards.addView(playedCS);
-		playedAdded = true;
-
-    	for (int i=0; i<8; i++)
-    		hand.addCard(new MyCard(0, "default", "default", "default"));
-
-    	HorizontalScrollView scrollView = new HorizontalScrollView(top) {
-    		boolean f = false;
-    		@Override
-    		public void onSizeChanged (int w, int h, int oldw, int oldh) {
-    			// System.err.println(" ******   onSizeChanged " + w + " " + h + " " + oldw + " " + oldh);
-    			if ((w != 0) && (h != 0) && (oldw == 0) && (oldh == 0))
-    				f = true;
-    			else if ((w != 0) && (h != 0) && f) {
-    		    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(w, Math.max(h, oldh));
-    		    	setLayoutParams(p);
-    			}
-    		}
-    	};
-    	scrollView.addView(myCards);
-    	myCardView = scrollView;
-    	return scrollView;
+    	playedHeader = (TextView) findViewById(R.id.playedHeader);
+    	
+    	//TODO remove quick hack
+    	myCardView = null;
 	}
 
 	private LinearLayout makeTurnPanel() {
@@ -239,8 +206,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	ll.addView(actionText);
 
         lp = new LinearLayout.LayoutParams(
-        		ViewGroup.LayoutParams.FILL_PARENT,
-        		ViewGroup.LayoutParams.WRAP_CONTENT);
+        		0,
+        		ViewGroup.LayoutParams.WRAP_CONTENT,
+        		1.0f);
         ll.setLayoutParams(lp);
 
         turnView = ll;
@@ -290,9 +258,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	largeRefText = (TextView) findViewById(R.id.largeRefText);
     	
     	supply = findViewById(R.id.supply);
-    	makeTable();
+    	initTable();
     	tr = (LinearLayout) findViewById(R.id.tr);
-    	tr.addView(makeMyCards());
+    	initHand();
     	tr.addView(makeTurnPanel());
     	gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
@@ -333,9 +301,10 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		gameScroller.clear();
 		gameScroller.setNumPlayers(players.length);
 		gameOver.removeAllViews();
-		tr.removeAllViews();
-    	tr.addView(makeMyCards());
-    	tr.addView(makeTurnPanel());
+		//TODO fix
+		//tr.removeAllViews();
+    	//tr.addView(makeMyCards());
+    	//tr.addView(makeTurnPanel());
     	helpView.setShowViews(new View[] {supply, turnView, myCardView, gameScroller});
 
 		for (MyCard c : cards)
@@ -749,19 +718,17 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 		GameTableViews.newCardGroup(hand, gs.myHand);
 		GameTableViews.newCardGroup(played, gs.playedCards);
-		if (!playedAdded && (gs.playedCards.length > 0)) {
-			myCards.addView(playedCS);
-			playedAdded = true;
-		}
 		GameTableViews.newCardGroup(island, gs.myIsland);
-		if (!islandAdded && (gs.myIsland.length > 0)) {
-			myCards.addView(islandCS);
-			islandAdded = true;
+		if (gs.myIsland.length > 0) {
+			islandColumn.setVisibility(VISIBLE);
+		} else {
+			islandColumn.setVisibility(GONE);
 		}
 		GameTableViews.newCardGroup(village, gs.myVillage);
-		if (!villageAdded && (gs.myVillage.length > 0)) {
-			myCards.addView(villageCS);
-			villageAdded = true;
+		if (gs.myVillage.length > 0) {
+			villageColumn.setVisibility(VISIBLE);
+		} else {
+			villageColumn.setVisibility(GONE);
 		}
 		setSupplySizes(gs.supplySizes, gs.embargos);
 		costs = gs.costs;
