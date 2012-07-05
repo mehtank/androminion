@@ -25,10 +25,6 @@ public class HelpView extends FrameLayout {
 	View[] showViews;
 	View[] parentViews;
 
-	public void setShowViews(View[] showViews) {
-		this.showViews = showViews;
-	}
-
 	public HelpView(Context context, View[] showViews, View[] parentViews) {
 		super(context);
 		ctx = context;

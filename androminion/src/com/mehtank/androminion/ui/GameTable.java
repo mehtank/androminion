@@ -140,8 +140,8 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
     	playedHeader = (TextView) findViewById(R.id.playedHeader);
     	
-    	//TODO remove quick hack
-    	myCardView = null;
+    	//only for help
+    	myCardView = findViewById(R.id.myCardView);
 	}
 
 	private LinearLayout makeTurnPanel() {
@@ -286,7 +286,6 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		gameScroller.setNumPlayers(players.length);
 		gameOver.setVisibility(GONE);
 		tr.setVisibility(VISIBLE);
-    	helpView.setShowViews(new View[] {supply, turnView, myCardView, gameScroller});
 
 		for (MyCard c : cards)
 			addCardToTable(c);
