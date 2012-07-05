@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -252,27 +253,6 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	return ll;
 	}
 
-    private LinearLayout makeLargeRef(Context context) {
-        largeRefText = new TextView(context);
-        largeRefText.setTextSize(22.0f);
-        largeRefText.setText("  ");
-        LinearLayout ll = new LinearLayout(context);
-        ll.setGravity(Gravity.CENTER_HORIZONTAL);
-        ll.setOrientation(HORIZONTAL);
-        ll.addView(largeRefText);
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-        		ViewGroup.LayoutParams.FILL_PARENT,
-        		ViewGroup.LayoutParams.WRAP_CONTENT);
-        ll.setLayoutParams(lp);
-
-        if(!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("abc_header", true)) {
-            ll.setVisibility(GONE);
-        }
-
-        return ll;
-    }
-
 	private void makeGameOver() {
 		gameOver = new LinearLayout(top);
 		gameOver.setOrientation(LinearLayout.VERTICAL);
@@ -310,39 +290,23 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
         catch(Exception e) {
             e.printStackTrace();
         }
+        
+        LayoutInflater.from(context).inflate(R.layout.gametableview, this, true);
 
-    	TextView titleText = new TextView(top);
-    	titleText.setText(R.string.title);
-    	makeGameOver();
-
-    	LinearLayout largeRef = makeLargeRef(top);
-    	tr = new LinearLayout(top);
+    	largeRefText = (TextView) findViewById(R.id.largeRefText);
+    	
+    	supply = makeTable();
+    	int index = indexOfChild(largeRefText);
+    	addView(supply, index+1);
+    	
+    	tr = (LinearLayout) findViewById(R.id.tr);
     	tr.addView(makeMyCards());
     	tr.addView(makeTurnPanel());
-
-    	addView(titleText);
-
-        addView(largeRef);
-
-    	addView(supply = makeTable());
-
-    	addView(tr);
-    	// addView(new TalkView(top));
-    	gameScroller = new GameScrollerView(top);
-    	/*
-    	FrameLayout.LayoutParams fp = new FrameLayout.LayoutParams(
-    			FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-    			Gravity.BOTTOM);
-    	gameScroller.setLayoutParams(fp);
-    	top.addView(gameScroller);
-    	gameScroller.setVisibility(INVISIBLE);
-    	*/
-
-    	addView(gameScroller);
+    	gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
-
+    	
+    	makeGameOver();
     	helpView = new HelpView(this.top, new View[] {supply, turnView, myCardView, gameScroller}, new View[] {tr, supply, supply, tr});
-    	// helpView = new HelpView(this.top, new View[] {supply, tr, tr, gameScroller}, new View[] {tr, supply, supply, tr});
     }
 
 	public void showHelp(int page) {

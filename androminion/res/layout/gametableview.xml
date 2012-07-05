@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.GameActivity" >
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title" />
+
+    <TextView
+        android:id="@+id/largeRefText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- insert table here -->
+
+    <LinearLayout
+        android:id="@+id/tr"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <com.mehtank.androminion.ui.GameScrollerView
+        android:id="@+id/gameScroller"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</merge>
