@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     tools:context=".activities.GameActivity" >
 
     <TextView
@@ -18,55 +18,29 @@
         android:layout_gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <LinearLayout
-        android:id="@+id/supply"
+    <include
+        android:id="@+id/supply_ref"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/roundborder"
-        android:orientation="vertical" >
-
-        <GridView
-            android:id="@+id/moneyPileGV"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="5"
-            android:stretchMode="columnWidth" />
-
-        <GridView
-            android:id="@+id/vpPileGV"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="5"
-            android:stretchMode="columnWidth" />
-
-        <GridView
-            android:id="@+id/supplyPileGV"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="4"
-            android:stretchMode="columnWidth" />
-
-        <GridView
-            android:id="@+id/prizePileGV"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="5"
-            android:stretchMode="columnWidth" />
-    </LinearLayout>
+        layout="@layout/supply" />
 
     <LinearLayout
         android:id="@+id/tr"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <include
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            layout="@layout/hand" />
+    </LinearLayout>
 
     <com.mehtank.androminion.ui.GameScrollerView
         android:id="@+id/gameScroller"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="120dp" />
 
 </merge>
