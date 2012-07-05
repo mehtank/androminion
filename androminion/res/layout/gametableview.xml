@@ -38,6 +38,15 @@
             layout="@layout/hand" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/gameOver"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="gone" >
+    </LinearLayout>
+
     <com.mehtank.androminion.ui.GameScrollerView
         android:id="@+id/gameScroller"
         android:layout_width="fill_parent"
