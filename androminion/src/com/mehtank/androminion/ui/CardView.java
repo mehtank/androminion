@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
@@ -129,70 +129,63 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			setCost(GameTable.getCardCost(c));
 		}
 
-		int fgColor = Color.WHITE;
-		int countColor = Color.WHITE;
-		int bgColor = Color.BLACK;
+		int cardStyleId = getStyleForCard(c);
+		TypedArray cardStyle = getContext().obtainStyledAttributes(cardStyleId,
+				new int[] {
+					R.attr.cardBackgroundColor,
+					R.attr.cardNameBackgroundColor,
+					R.attr.cardTextColor,
+					R.attr.cardCountColor });
+		int bgColor = cardStyle.getColor(0, R.color.cardDarkBackgroundColor);
+		int textColor = cardStyle.getColor(2, R.color.cardDefaultTextColor);
+        int nameBgColor = cardStyle.getColor(1, R.color.cardDefaultTextBackgroundColor);
+		int countColor = cardStyle.getColor(3, R.color.cardDefaultTextColor);
 
-		if (c.isReaction) {
-			bgColor = Color.rgb(0x00, 0x70, 0xcc);
-		    if (c.isVictory) {
-	            fgColor = (Color.BLACK);
-		        name.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
-		    }
-		    else if (c.isTreasure) {
-				bgColor = Color.rgb(0xdb, 0xdb, 0x70);
-	            fgColor = Color.WHITE;
-				countColor = Color.BLACK;
-                name.setBackgroundColor(Color.rgb(0x00, 0x70, 0xcc));
-            }
-		}
-		else if (c.isDuration) {
-			fgColor = (Color.BLACK);
-			countColor = Color.BLACK;
-			bgColor = (Color.rgb(0xff, 0x8c, 0x00));
-		}
-		else if (c.isAttack) {
-			fgColor = (Color.rgb(0xff, 0x80, 0x60));
-			countColor = (Color.rgb(0xff, 0x80, 0x60));
-		} else if (c.isTreasure && c.isVictory) {
-			bgColor = (Color.rgb(0xc0, 0xc0, 0xc0));
-			fgColor = (Color.BLACK);
-			countColor = Color.BLACK;
-			name.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
-		}
-		else if (c.isAction && c.isVictory) {
-			bgColor = (Color.BLACK);
-			fgColor = (Color.BLACK);
-			name.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
-		}
-		else if (c.isTreasure) {
-			fgColor = (Color.BLACK);
-			countColor = Color.BLACK;
-			if (c.isPotion)
-				bgColor = (Color.rgb(0x33, 0xcc, 0xff));
-			else if (c.gold == 1)
-				bgColor = (Color.rgb(0xcf, 0xb5, 0x3b));
-			else if (c.gold == 2)
-				bgColor = (Color.rgb(0xc0, 0xc0, 0xc0));
-			else if (c.gold == 3)
-				bgColor = (Color.YELLOW);
-			else if (c.gold == 5)
-				bgColor = (Color.WHITE);
-			else
-				bgColor = (Color.rgb(0xdb, 0xdb, 0x70));
-		}
-		else if (c.isCurse)
-			bgColor = (Color.rgb(0x94, 0, 0xd3));
-		else if (c.isVictory) {
-			fgColor = (Color.BLACK);
-			countColor = Color.BLACK;
-			bgColor = (Color.rgb(0x32, 0xcd, 0x32));
-		}
-
-		name.setTextColor(fgColor);
+		cardBox.setBackgroundColor(bgColor);
+		name.setTextColor(textColor);
+        name.setBackgroundColor(nameBgColor);
 		countLeft.setTextColor(countColor);
-		if (bgColor != 0)
-			cardBox.setBackgroundColor(bgColor);
+		if (cardDesc != null) {
+			// TODO: Check if using the same color here looks good in all cases.
+			cardDesc.setTextColor(textColor);
+		}
+	}
+
+	private static int getStyleForCard(MyCard c) {
+		if (c.isReaction && c.isVictory) {
+			return R.style.CardView_Reaction_Victory;
+		} else if (c.isReaction && c.isTreasure) {
+			return R.style.CardView_Treasure_Reaction;
+		} else if (c.isDuration) {
+			return R.style.CardView_Duration;
+		} else if (c.isAttack) {
+			return R.style.CardView_Attack;
+		} else if (c.isTreasure && c.isVictory) {
+			return R.style.CardView_Treasure_Victory;
+		} else if (c.isAction && c.isVictory) {
+			return R.style.CardView_Victory_Action;
+		} else if (c.isTreasure && c.isPotion) {
+			return R.style.CardView_Treasure_Potion;
+		} else if (c.isTreasure) {
+			switch (c.gold) {
+			case 1:
+				return R.style.CardView_Treasure_Copper;
+			case 2:
+				return R.style.CardView_Treasure_Silver;
+			case 3:
+				return R.style.CardView_Treasure_Gold;
+			case 5:
+				return R.style.CardView_Treasure_Platinum;
+			default:
+				return R.style.CardView_Treasure;
+			}
+		} else if (c.isCurse) {
+			return R.style.CardView_Curse;
+		} else if (c.isVictory) {
+			return R.style.CardView_Victory;
+		} else {
+			return R.style.CardView;
+		}
 	}
 
 	@Override
