@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:app="http://schemas.android.com/apk/res/com.mehtank.androminion">
+<resources>
     <color name="cardDefaultTextColor">#FFF</color>
     <color name="cardDefaultBackgroundColor">#000</color>
-    <color name="cardDarkBackgroundColor">#000</color>
     <color name="cardDefaultTextBackgroundColor">#0000</color>
     <color name="cardInverseTextColor">#000</color>
 
@@ -81,7 +80,6 @@
         <item name="cardBackgroundColor">@color/cardVictory</item>
     </style>
     <style name="CardView.Victory.Action">
-        <item name="cardBackgroundColor">@color/cardDarkBackgroundColor</item>
         <item name="cardNameBackgroundColor">@color/cardVictory</item>
     </style>
 

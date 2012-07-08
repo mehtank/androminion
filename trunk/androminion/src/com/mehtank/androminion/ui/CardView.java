@@ -136,7 +136,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 					R.attr.cardNameBackgroundColor,
 					R.attr.cardTextColor,
 					R.attr.cardCountColor });
-		int bgColor = cardStyle.getColor(0, R.color.cardDarkBackgroundColor);
+		int bgColor = cardStyle.getColor(0, R.color.cardDefaultBackgroundColor);
 		int textColor = cardStyle.getColor(2, R.color.cardDefaultTextColor);
         int nameBgColor = cardStyle.getColor(1, R.color.cardDefaultTextBackgroundColor);
 		int countColor = cardStyle.getColor(3, R.color.cardDefaultTextColor);
