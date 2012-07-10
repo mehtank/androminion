@@ -1,6 +1,10 @@
 package com.vdom.comms;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+
+import com.vdom.core.Util.MultilevelComparator;
 
 public class MyCard implements Serializable {
 	private static final long serialVersionUID = -1367468781663470597L;
@@ -45,5 +49,98 @@ public class MyCard implements Serializable {
 	
 	public String toString() {
 		return "Card #" + id + " (" + cost + ") " + name + ": " + desc;
+	}
+	
+	static public class CardNameComparator implements Comparator<MyCard> {
+		@Override
+		public int compare(MyCard card0, MyCard card1) {
+			return card0.name.compareTo(card1.name);
+		}
+	}
+
+	static public class CardCostComparator implements Comparator<MyCard> {
+		@Override
+		public int compare(MyCard card0, MyCard card1) {
+			if(card0.cost < card1.cost) {
+				return -1;
+			} else if(card0.cost > card1.cost) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
+	static public class CardPotionComparator implements Comparator<MyCard> {
+		@Override
+		public int compare(MyCard card0, MyCard card1) {
+			if(card0.costPotion) {
+				if(card1.costPotion) {
+					return 0;
+				} else {
+					return 1;
+				}
+			} else if(card1.costPotion) {
+				return -1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
+	static public class CardTypeComparator implements Comparator<MyCard> {
+		@Override
+		public int compare(MyCard card0, MyCard card1) {
+			if(card0.isAction) {
+				if(card1.isAction) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else if(card1.isAction) {
+				return 1;
+			} else if(card0.isTreasure || card0.isPotion) {
+				if(card1.isTreasure || card1.isPotion) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else if(card1.isTreasure || card1.isPotion) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
+	/**
+	 * Comparator for sorting cards by cost and then by name
+	 * Used for sorting on table
+	 */
+	static public class CardCostNameComparator extends MultilevelComparator<MyCard> {
+		private static final ArrayList<Comparator<MyCard>> cmps = new ArrayList<Comparator<MyCard>>();
+		static {
+			cmps.add(new CardCostComparator());
+			cmps.add(new CardNameComparator());
+		}
+		public CardCostNameComparator() {
+			super(cmps);
+		}
+	}
+	
+	/**
+	 * Comparator for sorting cards in hand.
+	 * Sort by type then by cost and last by name
+	 */
+	static public class CardHandComparator extends MultilevelComparator<MyCard> {
+		private static final ArrayList<Comparator<MyCard>> cmps = new ArrayList<Comparator<MyCard>>();
+		static {
+			cmps.add(new CardTypeComparator());
+			cmps.add(new CardCostComparator());
+			cmps.add(new CardNameComparator());
+		}
+		public CardHandComparator() {
+			super(cmps);
+		}
 	}
 }
