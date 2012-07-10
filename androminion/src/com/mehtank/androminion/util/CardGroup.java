@@ -1,6 +1,7 @@
 package com.mehtank.androminion.util;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import com.mehtank.androminion.ui.CardView;
 import com.mehtank.androminion.ui.CardView.CardState;
@@ -15,6 +16,8 @@ public class CardGroup extends BaseAdapter {
 	private Context top;
 	private boolean onTable = false;
 	private ArrayList<CardState> cards = new ArrayList<CardState>();
+	private Comparator<MyCard> cmp = new MyCard.CardCostNameComparator();
+	private boolean sorted = false;
 
 	public CardGroup(Context top, boolean onTable) {
 		this.top = top;
@@ -24,10 +27,10 @@ public class CardGroup extends BaseAdapter {
 	public void addCard(MyCard c) {
 		CardState ci = new CardState(c);
 		ci.onTable = onTable;
-		if (onTable) { // sort cards that are on the table
+		if (onTable || sorted) { // sort cards that are on the table
 			int i = 0;
 			for (i=0; i < cards.size(); i++) {
-				if (cards.get(i).c.cost > c.cost)
+				if(cmp.compare(c, cards.get(i).c) < 0)
 					break;
 			}
 			cards.add(i, ci);
@@ -77,5 +80,15 @@ public class CardGroup extends BaseAdapter {
 		}
 		cv.setState(cs);
 		return cv;
+	}
+	
+	public void enableSorting(Comparator<MyCard> comparator) {
+		sorted = true;
+		cmp = comparator;
+	}
+	
+	public void disableSorting() {
+		sorted = false;
+		cmp = new MyCard.CardCostNameComparator();
 	}
 }
