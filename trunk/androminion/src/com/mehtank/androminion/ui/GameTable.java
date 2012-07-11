@@ -50,7 +50,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	LinearLayout gameOver;
 
 	View supply;
-	View turnView;
+	LinearLayout turnView;
 	View myCardView;
 	private static int[] costs = {};
 
@@ -116,6 +116,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 	private void initHand() {
 		hand = new CardGroup(top, false);
+		// hand.enableSorting(new MyCard.CardHandComparator());
     	handGV = (GridView) findViewById(R.id.handGV);
     	handGV.setAdapter(hand);
     	handGV.setOnItemClickListener(this);
@@ -143,76 +144,28 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	//only for help
     	myCardView = findViewById(R.id.myCardView);
 	}
-
-	private LinearLayout makeTurnPanel() {
-    	select = new Button(top);
-    	select.setVisibility(INVISIBLE);
+	
+	private void initTurnPanel() {
+		turnView = (LinearLayout) findViewById(R.id.turnView);
+		
+		select = (Button) findViewById(R.id.select);
         setSelectText(SelectCardOptions.PickType.SELECT);
         select.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { cardSelected((Button) v); }
         });
-        LayoutParams p = new LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.FILL_PARENT,
-                1.0f
-                );
-        p.leftMargin = 0;
-        p.rightMargin = 0;
-        select.setLayoutParams(p);
-        select.setPadding(0, 0, 0, 0);
-
-    	pass = new Button(top);
-    	pass.setVisibility(INVISIBLE);
-    	pass.setText("Pass");
+        
+        pass = (Button) findViewById(R.id.pass);
         pass.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { cardSelected((Button) v); }
         });
-        p = new LayoutParams(
-        		ViewGroup.LayoutParams.WRAP_CONTENT,
-        		ViewGroup.LayoutParams.FILL_PARENT,
-                1.0f
-				);
-        p.leftMargin = 0;
-        p.rightMargin = 0;
-        pass.setLayoutParams(p);
-        pass.setPadding(0, 0, 0, 0);
-
-        LinearLayout buttons = new LinearLayout(top);
-        buttons.addView(select);
-        buttons.addView(pass);
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-        		ViewGroup.LayoutParams.FILL_PARENT,
-        		ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.leftMargin = 0;
-        lp.rightMargin = 0;
-        buttons.setLayoutParams(lp);
-
-        deckStatus = new LinearLayout(top);
-        deckStatus.setOrientation(VERTICAL);
-        deckStatus.setLayoutParams(lp);
+        
+        deckStatus = (LinearLayout) findViewById(R.id.deckStatus);
 
     	turnStatus = new TurnView(top, largeRefText);
     	turnStatus.setTextSize(12.0f);
-
-    	actionText = new TextView(top);
-		actionText.setTextSize(12.0f);
-
-    	LinearLayout ll = new LinearLayout(top);
-    	ll.setOrientation(VERTICAL);
-    	ll.addView(buttons);
-    	ll.addView(deckStatus);
-    	ll.addView(turnStatus);
-    	ll.addView(actionText);
-
-        lp = new LinearLayout.LayoutParams(
-        		0,
-        		ViewGroup.LayoutParams.WRAP_CONTENT,
-        		1.0f);
-        ll.setLayoutParams(lp);
-
-        turnView = ll;
-    	return ll;
+    	turnView.addView(turnStatus, 2);
+    	
+    	actionText = (TextView) findViewById(R.id.actionText);
 	}
 
 	public GameTable(Context context) {
@@ -245,7 +198,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	initTable();
     	tr = (LinearLayout) findViewById(R.id.tr);
     	initHand();
-    	tr.addView(makeTurnPanel());
+    	initTurnPanel();
     	gameOver = (LinearLayout) findViewById(R.id.gameOver);
     	gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);

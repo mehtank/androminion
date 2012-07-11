@@ -34,6 +34,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             layout="@layout/hand" />
+
+        <include layout="@layout/turnpanel" />
     </LinearLayout>
 
     <LinearLayout
