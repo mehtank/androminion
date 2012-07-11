@@ -65,6 +65,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	SelectStringView sv;
 
 	Achievements achievements;
+	CardAnimator animator;
 
 	private class CardInfo {
 		public CardState cs;
@@ -182,6 +183,8 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		this.top = (GameActivity) context;
 
 		setOrientation(VERTICAL);
+		
+		animator = new CardAnimator();
 
         try {
             achievements = new Achievements(top);
@@ -418,7 +421,6 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		new SelectStringView(top, title, options);
 	}
 
-	@SuppressWarnings("hiding")
 	public void selectCard(SelectCardOptions sco, String s, int maxOpened, boolean exactOpened) {
 		this.sco = sco;
 
@@ -695,15 +697,15 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		dvs.get(dvs.size()-1).setLayoutParams(lp);
 	}
 	public String cardObtained(int i, String s) {
-	    return top.getString(R.string.obtained, showCard(i, s, DeckView.ShowCardType.OBTAINED));
+	    return top.getString(R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
 	}
 	public String cardTrashed(int i, String s) {
-        return top.getString(R.string.trashed, showCard(i, s, DeckView.ShowCardType.TRASHED));
+        return top.getString(R.string.trashed, showCard(i, s, CardAnimator.ShowCardType.TRASHED));
 	}
 	public String cardRevealed(int i, String s) {
-        return top.getString(R.string.revealed, showCard(i, s, DeckView.ShowCardType.REVEALED));
+        return top.getString(R.string.revealed, showCard(i, s, CardAnimator.ShowCardType.REVEALED));
 	}
-	public String showCard (int card, String playerInt, DeckView.ShowCardType type) {
+	public String showCard (int card, String playerInt, CardAnimator.ShowCardType type) {
 		int player = 0;
 		CardView c = GameTableViews.getCardView(top, this, card);
 		try {
@@ -711,7 +713,8 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		} catch (NumberFormatException e) {
 			return "";
 		}
-		dvs.get(player).showCard(c, type);
+		animator.init(dvs.get(player));
+		animator.showCard(c, type);
 
 		return allPlayers.get(player)+ ": " + c.getCard().name;
 	}
