@@ -298,11 +298,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 	private void canSelect() {
 		select.setClickable(true);
-		select.setTextColor(Color.BLACK);
 	}
 	private void cannotSelect() {
 		select.setClickable(false);
-		select.setTextColor(Color.GRAY);
 	}
 
 	boolean isAcceptable(MyCard c, CardGroup parent) {
