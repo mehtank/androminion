@@ -37,8 +37,9 @@ public class DeckView extends RelativeLayout {
         }
 	}
 
-	public void set(String nameStr, int deckSize, int handSize, int numCards, int pt, int vt, boolean highlight) {
-		name.setText(nameStr);
+	public void set(String nameStr, int turns, int deckSize, int handSize, int numCards, int pt, int vt, boolean highlight) {
+		String txt = nameStr + getContext().getString(R.string.turn_header) + turns;
+		name.setText(txt);
 		if (highlight) {
 			name.setTextColor(Color.BLACK);
 			name.setBackgroundColor(Color.GRAY);
