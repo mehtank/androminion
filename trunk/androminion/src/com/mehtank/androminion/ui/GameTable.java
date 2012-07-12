@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mehtank.androminion.R;
@@ -25,6 +25,8 @@ import com.mehtank.androminion.util.Achievements;
 import com.mehtank.androminion.util.CardGroup;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
+import com.mehtank.androminion.util.PlayerAdapter;
+import com.mehtank.androminion.util.PlayerSummary;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.comms.GameStatus;
@@ -35,7 +37,7 @@ import com.vdom.comms.SelectCardOptions.PickType;
 public class GameTable extends LinearLayout implements OnSharedPreferenceChangeListener, OnItemClickListener, OnItemLongClickListener {
 	private final GameActivity top;
 
-	ArrayList<String> allPlayers = new ArrayList<String>();
+	PlayerAdapter players = new PlayerAdapter(getContext());
 
 	GridView handGV, playedGV, islandGV, villageGV;
 	CardGroup hand, played, island, village;
@@ -56,7 +58,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 	TextView actionText;
 	TextView largeRefText;
-	LinearLayout deckStatus;
+	ListView deckStatus;
 	TurnView turnStatus;
 	Button select, pass;
     String indicator;
@@ -160,7 +162,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
             @Override public void onClick(View v) { cardSelected((Button) v); }
         });
         
-        deckStatus = (LinearLayout) findViewById(R.id.deckStatus);
+        deckStatus = (ListView) findViewById(R.id.deckStatus);
+        deckStatus.setAdapter(players);
+        deckStatus.setEnabled(false);
 
     	turnStatus = new TurnView(top, largeRefText);
     	turnStatus.setTextSize(12.0f);
@@ -234,10 +238,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		played.clear();
 		island.clear();
 		village.clear();
-		allPlayers.clear();
+		this.players.clear();
 
 		actionText.setText("");
-		deckStatus.removeAllViews();
 		gameScroller.clear();
 		gameScroller.setNumPlayers(players.length);
 		gameOver.setVisibility(GONE);
@@ -556,7 +559,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		int minTurns = 10000;
 		ArrayList<Integer> winners = new ArrayList<Integer>();
 
-		for (int i=0; i<allPlayers.size(); i++) {
+		for (int i=0; i<players.getCount(); i++) {
 			if (gs.handSizes[i] > maxVP) {
 				winners.clear(); winners.add(i);
 				maxVP = gs.handSizes[i];
@@ -573,7 +576,11 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		try {
 		    if(!finalStatsReported) {
 		        finalStatsReported = true;
-		        achievements.gameOver(allPlayers, winners);
+		        ArrayList<String> pl = new ArrayList<String>(players.getCount());
+		        for(int i=0; i < players.getCount(); i++) {
+		        	pl.add(players.getItem(i).name);
+		        }
+		        achievements.gameOver(pl, winners);
 		    }
 		}
 		catch(Exception e) {
@@ -591,7 +598,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 				ViewGroup.LayoutParams.FILL_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        FinalView fv = new FinalView(top, this, allPlayers.get(gs.whoseTurn), gs.turnCounts[gs.whoseTurn],
+        FinalView fv = new FinalView(top, this, players.getItem(gs.whoseTurn).name, gs.turnCounts[gs.whoseTurn],
 				gs.embargos,
 				gs.numCards[gs.whoseTurn], gs.supplySizes,
 				gs.handSizes[gs.whoseTurn], won);
@@ -608,8 +615,6 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	    }
 	}
 
-	ArrayList<DeckView> dvs = new ArrayList<DeckView>();
-
 	public void setStatus(GameStatus gs, String s, boolean newTurn) {
 		if (s != null)
 			gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
@@ -619,12 +624,14 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 			finalStatus(gs);
 			return;
 		}
-		if (allPlayers.size() <= gs.whoseTurn) {
-			for (int i = allPlayers.size(); i < gs.whoseTurn; i++)
+		if (players.getCount() <= gs.whoseTurn) {
+			for (int i = players.getCount(); i < gs.whoseTurn; i++)
 				addPlayer("--");
 			addPlayer(gs.name);
-		} else
-			allPlayers.set(gs.whoseTurn, gs.name);
+		} else {
+			PlayerSummary ps = players.getItem(gs.whoseTurn);
+			ps.name = gs.name;
+		}
 
 		if (newTurn) {
 			myTurn = gs.whoseTurn == 0;
@@ -633,18 +640,17 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		}
 
 		turnStatus.setStatus(gs.turnStatus, gs.potions, myTurn);
-		deckStatus.removeAllViews();
-		for (int i=0; i<allPlayers.size(); i++) {
-	        dvs.get(i).set(allPlayers.get(i) + top.getString(R.string.turn_header) + gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.whoseTurn == i);
-			deckStatus.addView(dvs.get(i));
+		for (int i=0; i<players.getCount(); i++) {
+	        players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.whoseTurn == i);
 		}
+		players.notifyDataSetChanged();
 
 		actionText.setText("");
 
         if(newTurn) {
             String header = top.getString(R.string.played_header);
             if(!myTurn) {
-                header = allPlayers.get(gs.whoseTurn) + ":";
+                header = players.getItem(gs.whoseTurn).name + ":";
             }
             playedHeader.setText(header);
         }
@@ -686,13 +692,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	}
 
 	private void addPlayer(String name) {
-		allPlayers.add(name);
-		dvs.add(new DeckView(top));
-
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
-		dvs.get(dvs.size()-1).setLayoutParams(lp);
+		players.add(new PlayerSummary(name));
 	}
 	public String cardObtained(int i, String s) {
 	    return top.getString(R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
@@ -711,10 +711,10 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		} catch (NumberFormatException e) {
 			return "";
 		}
-		animator.init(dvs.get(player));
+		animator.init(deckStatus.getChildAt(player));
 		animator.showCard(c, type);
 
-		return allPlayers.get(player)+ ": " + c.getCard().name;
+		return players.getItem(player).name + ": " + c.getCard().name;
 	}
 
     @Override
