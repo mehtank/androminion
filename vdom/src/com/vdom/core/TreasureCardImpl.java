@@ -188,7 +188,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
 
     protected boolean illGottenGains(MoveContext context, Player player, boolean reevaluateTreasures) {
         if (context.getCardsLeft(Cards.copper) > 0) {
-            if (player.illGottenGains_gainCopper(context)) {
+            if (player.controlPlayer.illGottenGains_gainCopper(context)) {
                 player.gainNewCard(Cards.copper, this, context);
                 reevaluateTreasures = true;
             }
@@ -209,7 +209,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         }
 
         int maxCost = distinctCardsInPlay.size();
-        Card toObtain = player.hornOfPlenty_cardToObtain(context, maxCost);
+        Card toObtain = player.controlPlayer.hornOfPlenty_cardToObtain(context, maxCost);
         if (toObtain != null) {
             // check cost
             if (toObtain.getCost(context) <= maxCost) {

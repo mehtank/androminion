@@ -1105,6 +1105,8 @@ public class Game {
     }
     
     private void haggler(MoveContext context, Card cardBought) {
+    	if(!context.game.piles.containsKey(Cards.haggler.getName()))
+    		return;
         int hagglers = 0;
         for(Card c : context.getPlayedCards()) {
             if(c.equals(Cards.haggler)) {
@@ -1698,7 +1700,9 @@ public class Game {
                         context.vpsGainedThisTurn += ((VictoryCard) event.card).getVictoryPoints();
                     }
 
-                    if (player.isPossessed() && !Cards.masquerade.equals(event.responsible)) {
+                    boolean masqueradePass = Cards.masquerade.equals(event.responsible); 
+                    
+                    if (player.isPossessed() && !masqueradePass) {
                         possessedBoughtPile.add(event.card);
                         return;
                     }
@@ -1736,8 +1740,6 @@ public class Game {
                         }
                     }
                     boolean handled = false;
-                    
-                    boolean masqueradePass = Cards.masquerade.equals(event.responsible); 
                     
                     //Not sure if this is exactly right for the Trader, but it seems to be based on detailed card explanation in the rules
                     //The handling for new cards is done before taking the card from the pile in a different method below.
@@ -1870,10 +1872,10 @@ public class Game {
                         }
                         
                         if(validCard) {
-                            Card card = context.player.borderVillage_cardToObtain((MoveContext) context);
+                            Card card = context.player.controlPlayer.borderVillage_cardToObtain((MoveContext) context);
                             if (card != null) {
                                 if(card.getCost(context) < Cards.borderVillage.getCost(context) && !card.costPotion()) {                            
-                                    player.gainNewCard(card, event.card, (MoveContext) context);
+                                    player.controlPlayer.gainNewCard(card, event.card, (MoveContext) context);
                                 }
                                 else {
                                     Util.playerError(player, "Border Village returned invalid card, ignoring.");
