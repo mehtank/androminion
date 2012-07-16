@@ -13,14 +13,14 @@
 
         <Button
             android:id="@+id/select"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:visibility="invisible" />
 
         <Button
             android:id="@+id/pass"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:visibility="invisible" />

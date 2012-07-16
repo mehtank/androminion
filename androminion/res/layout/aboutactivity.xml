@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    class="com.mehtank.androminion.fragments.AboutFragment" >
-    <!-- Preview: layout=@layout/aboutfragment -->
+    class="com.mehtank.androminion.fragments.AboutFragment"
+    tools:layout="@layout/aboutfragment" >
+
 </fragment>
