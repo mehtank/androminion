@@ -1892,18 +1892,18 @@ public class Game {
                             }
                         }
                         
-                        switch (treasureCardsInPlay.size()) {
-                        case 0:
-                        case 1:
-                            break;
-                        default:
-                            Card[] order = player.mandarin_orderCards(context, treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]));
-                            for (int i = order.length - 1; i >= 0; i--) {
-                                Card c = order[i];
-                                player.putOnTopOfDeck(c);
-                                playedCards.remove(c);
-                            }
-                            break;
+                        if(treasureCardsInPlay.size() > 0) {
+                            Card[] order ;
+                            if (treasureCardsInPlay.size() == 1) 
+                            	order = treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]);
+	                        else
+	                        	order = player.mandarin_orderCards(context, treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]));
+
+	                        for (int i = order.length - 1; i >= 0; i--) {
+	                            Card c = order[i];
+	                            player.putOnTopOfDeck(c);
+	                            playedCards.remove(c);
+	                        }
                         }
                     }                    
                     // Achievement check...
