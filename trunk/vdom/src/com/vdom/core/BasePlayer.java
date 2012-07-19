@@ -898,7 +898,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         // Find the most expensive card that is still 6 or less
         Card bestCard = null;
         for (Card card : context.getCardsObtainedByLastPlayer()) {
-            if (card.getCost(context) <= 6 && context.getCardsLeft(card) > 0) {
+            if (context.getCardsLeft(card) > 0 && card.getCost(context) < 7 && (card.getCost(context) < 6 || !card.costPotion())) {
                 if (bestCard == null || card.getCost(context) > bestCard.getCost(context)) {
                     bestCard = card;
                 }
