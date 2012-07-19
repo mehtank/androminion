@@ -1113,6 +1113,8 @@ public class Game {
                 hagglers++;
             }
         }                    
+        if(hagglers==0)
+        	return;
         
         int cost = cardBought.getCost(context);
         boolean potion = cardBought.costPotion();
@@ -1132,7 +1134,7 @@ public class Game {
         	}
 
             if (validCards.size() > 0) {
-                Card toGain = context.getPlayer().haggler_cardToObtain(context, cost - 1, potion);
+                Card toGain = context.getPlayer().controlPlayer.haggler_cardToObtain(context, cost - 1, potion);
         		if(toGain != null) {
                     if (!validCards.contains(toGain)) {
         				Util.playerError(context.getPlayer(), "Invalid card returned from Haggler, ignoring.");
