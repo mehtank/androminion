@@ -1712,10 +1712,8 @@ public class Game {
                     if (context != null && event.card instanceof VictoryCard) {
                         context.vpsGainedThisTurn += ((VictoryCard) event.card).getVictoryPoints();
                     }
-
-                    boolean masqueradePass = Cards.masquerade.equals(event.responsible); 
                     
-                    if (player.isPossessed() && !masqueradePass) {
+                    if (player.isPossessed()) {
                         possessedBoughtPile.add(event.card);
                         return;
                     }
@@ -1756,7 +1754,7 @@ public class Game {
                     
                     //Not sure if this is exactly right for the Trader, but it seems to be based on detailed card explanation in the rules
                     //The handling for new cards is done before taking the card from the pile in a different method below.
-                    if(!event.newCard && !masqueradePass) {
+                    if(!event.newCard) {
                         if(player.hand.contains(Cards.trader)) {
                             if((player).trader_shouldGainSilverInstead((MoveContext) context, event.card)) {
                             	player.reveal(Cards.trader, null, context);
@@ -1772,7 +1770,7 @@ public class Game {
                         cardsObtainedLastTurn[playersTurn].add(event.card);
                     }
 
-                    if (player.hand.contains(Cards.watchTower) && !masqueradePass) {
+                    if (player.hand.contains(Cards.watchTower)) {
                         WatchTowerOption choice = context.player.watchTower_chooseOption((MoveContext) context, event.card);
     
                         if (choice == WatchTowerOption.TopOfDeck) {
@@ -1785,15 +1783,15 @@ public class Game {
                     }
 
                     if(!handled) {
-                        if (!masqueradePass && context.royalSealPlayed && context.player.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
+                        if (context.royalSealPlayed && context.player.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
                             player.putOnTopOfDeck(event.card);
-                        } else if (event.card.equals(Cards.nomadCamp) && !masqueradePass) {
+                        } else if (event.card.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card);
                         } else if (event.responsible != null) {
                             Card r = event.responsible;
                             if (r.equals(Cards.bagOfGold) || r.equals(Cards.develop) || r.equals(Cards.bureaucrat) || r.equals(Cards.seaHag) || r.equals(Cards.treasureMap) || r.equals(Cards.tournament) || r.equals(Cards.foolsGold)) {
                                 player.putOnTopOfDeck(event.card);
-                            } else if (r.equals(Cards.masquerade) || r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || r.equals(Cards.torturer)) {
+                            } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || r.equals(Cards.torturer)) {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);
@@ -1805,8 +1803,7 @@ public class Game {
                         }
                     } 
                     
-                    if (masqueradePass) {
-                    } else if (event.card.equals(Cards.illGottenGains)) {
+                    if (event.card.equals(Cards.illGottenGains)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
                                 MoveContext targetContext = new MoveContext(Game.this, targetPlayer);
