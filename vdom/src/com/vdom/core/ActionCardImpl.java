@@ -11,6 +11,7 @@ import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
 import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
+import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.JesterOption;
@@ -2377,7 +2378,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             Card card = passedCards[i];
             if (card != null) {
-                nextPlayer.gainCardAlreadyInPlay(card, this, new MoveContext(game, nextPlayer));
+            	nextPlayer.hand.add(card);
+            	if (nextPlayer instanceof GameEventListener) {
+	                GameEvent event = new GameEvent(GameEvent.Type.CardObtained, context);
+	                event.card = card;
+	                event.responsible = this;
+	                event.newCard = false;
+	                ((GameEventListener) nextPlayer).gameEvent(event);
+            	}
+
+                // nextPlayer.gainCardAlreadyInPlay(card, this, new MoveContext(game, nextPlayer));
             }
         }
 
