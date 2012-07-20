@@ -3529,7 +3529,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void smugglers(MoveContext context, Player currentPlayer) {
         Card card = currentPlayer.controlPlayer.smugglers_cardToObtain(context);
         if (card != null) {
-            if (card.getCost(context) > 6 || card.isPrize()) {
+            if (card.getCost(context) > 6 || card.isPrize() || card.costPotion()) {
                 Util.playerError(currentPlayer, "Smugglers card error, ignoring.");
                 card = null;
             } else {
