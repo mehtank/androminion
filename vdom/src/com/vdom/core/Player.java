@@ -508,7 +508,7 @@ public abstract class Player {
             if(tunnelContext == null) {
                 tunnelContext = new MoveContext(game, this);
             }
-            if((this).tunnel_shouldReveal(tunnelContext)) {
+            if(game.pileSize(Cards.gold) > 0 && (this).tunnel_shouldReveal(tunnelContext)) {
                 reveal(card, card, tunnelContext);
                 gainNewCard(Cards.gold, card, tunnelContext);
             }

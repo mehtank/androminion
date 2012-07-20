@@ -89,6 +89,7 @@ public class Game {
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedBoughtPile = new ArrayList<Card>();
 
+    public int tradeRouteValue = 0;
     public Card baneCard = null;
     double chanceForPlatColony = 0;
 
@@ -1095,8 +1096,8 @@ public class Game {
         		player.gainNewCard(Cards.gold, Cards.hoard, context);
         	}
         }
-        int embargos = getEmbargos(buy.getName());
 
+        int embargos = getEmbargos(buy.getName());
         for (int i = 0; i < embargos; i++) {
         	player.gainNewCard(Cards.curse, Cards.embargo, context);
         }
@@ -1613,6 +1614,16 @@ public class Game {
             }
         }
 
+        // Add tradeRoute tokens if tradeRoute in play
+        tradeRouteValue = 0;
+        if (isCardInGame(Cards.tradeRoute)) {
+	        for (CardPile pile : piles.values()) {
+	            if (pile.card instanceof VictoryCard) {
+	                pile.setTradeRouteToken();
+	            }
+	        }
+        }
+
         if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
             addPile(Cards.bagOfGold, 1);
             addPile(Cards.diadem, 1);
@@ -2036,6 +2047,7 @@ public class Game {
             return null;
         }
 
+    	tradeRouteValue += pile.takeTradeRouteToken();
         Card thisCard = pile.removeCard();
 
         return thisCard;
@@ -2073,23 +2085,20 @@ public class Game {
         return true;
     }
 
-    void addPile(Card card) {
+    CardPile addPile(Card card) {
         if (card instanceof VictoryCard) {
-            addPile(card, victoryCardPileSize);
+            return addPile(card, victoryCardPileSize);
         } else {
-            addPile(card, kingdomCardPileSize);
+        	return addPile(card, kingdomCardPileSize);
         }
     }
 
-    void addPile(Card card, int count) {
+    CardPile addPile(Card card, int count) {
         CardPile pile = new CardPile(card, count);
         piles.put(card.getName(), pile);
+        return pile;
     }
     
-    void addPile(CardPile pile) {
-        piles.put(pile.card.getName(), pile);
-    }
-
     private ArrayList<Card> getCardsObtainedByPlayer(int PlayerNumber) {
         return cardsObtainedLastTurn[PlayerNumber];
     }
