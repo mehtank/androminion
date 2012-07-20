@@ -2380,7 +2380,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (card != null) {
             	nextPlayer.hand.add(card);
             	if (nextPlayer instanceof GameEventListener) {
-	                GameEvent event = new GameEvent(GameEvent.Type.CardObtained, context);
+	                GameEvent event = new GameEvent(GameEvent.Type.CardObtained, new MoveContext(game, nextPlayer));
 	                event.card = card;
 	                event.responsible = this;
 	                event.newCard = false;
