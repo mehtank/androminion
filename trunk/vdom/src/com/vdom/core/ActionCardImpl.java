@@ -1444,19 +1444,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             currentPlayer.trash(card, this, context);
         }
 
-        int victoryCardPileSize = 12;
-
-        if (Game.numPlayers == 2) {
-            victoryCardPileSize = 8;
-        }
-
-        for (CardPile pile : game.piles.values()) {
-            if (pile.card instanceof VictoryCard) {
-                if (pile.getCount() < victoryCardPileSize) {
-                    context.addGold++;
-                }
-            }
-        }
+        context.addGold += game.tradeRouteValue;
     }
 
     private void vault(Game game, MoveContext context, Player currentPlayer) {
