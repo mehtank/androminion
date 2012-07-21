@@ -1426,6 +1426,17 @@ public class Game {
                 drawToHand(players[i], null, false);
             }
         }
+        
+        // Add tradeRoute tokens if tradeRoute in play
+        tradeRouteValue = 0;
+        if (isCardInGame(Cards.tradeRoute)) {
+	        for (CardPile pile : piles.values()) {
+	            if (pile.card instanceof VictoryCard) {
+	                pile.setTradeRouteToken();
+	            }
+	        }
+        }
+
     }
 
     protected void initCards() {
@@ -1614,16 +1625,6 @@ public class Game {
             }
         }
 
-        // Add tradeRoute tokens if tradeRoute in play
-        tradeRouteValue = 0;
-        if (isCardInGame(Cards.tradeRoute)) {
-	        for (CardPile pile : piles.values()) {
-	            if (pile.card instanceof VictoryCard) {
-	                pile.setTradeRouteToken();
-	            }
-	        }
-        }
-
         if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
             addPile(Cards.bagOfGold, 1);
             addPile(Cards.diadem, 1);
@@ -1712,7 +1713,7 @@ public class Game {
                     if (context != null && event.card instanceof VictoryCard) {
                         context.vpsGainedThisTurn += ((VictoryCard) event.card).getVictoryPoints();
                     }
-                    
+
                     if (player.isPossessed()) {
                         possessedBoughtPile.add(event.card);
                         return;
