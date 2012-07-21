@@ -2,6 +2,9 @@
 <projectDescription>
 	<name>Androminion</name>
 	<comment></comment>
+	<projects>
+		<project>vdom</project>
+	</projects>
 	<buildSpec>
 		<buildCommand>
 			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
