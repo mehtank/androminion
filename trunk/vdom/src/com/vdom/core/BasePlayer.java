@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -948,8 +949,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card embargo_supplyToEmbargo(MoveContext context) {
         // Embargo a random card
-        Card[] cards = context.getCardsInPlay();
-        return cards[rand.nextInt(cards.length)];
+        Card card;
+        ArrayList<Card> cardList = new ArrayList<Card> (Arrays.asList(context.getCardsInPlay()));
+        do {
+        	card = cardList.remove(rand.nextInt(cardList.size() - 1));
+        } while (!game.isValidEmbargoPile(card));
+        return card;
     }
 
     public Card lookout_cardToTrash(MoveContext context, Card[] cards) {

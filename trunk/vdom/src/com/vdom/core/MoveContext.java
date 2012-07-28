@@ -129,7 +129,7 @@ public class MoveContext {
     }
 
     public int getEmbargos(Card card) {
-        return game.getEmbargos(card.getName());
+        return game.getEmbargos(card);
     }
 
     public ArrayList<Card> getCardsObtainedByLastPlayer() {

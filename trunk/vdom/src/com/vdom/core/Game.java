@@ -1097,7 +1097,7 @@ public class Game {
         	}
         }
 
-        int embargos = getEmbargos(buy.getName());
+        int embargos = getEmbargos(buy);
         for (int i = 0; i < embargos; i++) {
         	player.gainNewCard(Cards.curse, Cards.embargo, context);
         }
@@ -1984,51 +1984,29 @@ public class Game {
         return false;
     }
 
-    // TODO privatize
-    public int getEmbargos(String name) {
-        Integer count = embargos.get(name);
-        if (count == null) {
-            return 0;
-        }
-
-        return count;
-    }
-
 	/*
 	Note that any cards in the supply can have Embargo coins added.
 	This includes the basic seven cards (Victory, Curse, Treasure),
 	any of the 10 game piles, and Colony/Platinum when included.
 	However, this does NOT include any Prizes from Cornucopia.
 	 */
-    void addEmbargo(String name) {
-        CardPile pile = piles.get(name);
-        // Don't embargo cards not in the game
-        if (this.isValidEmbargoPile(pile)) {
-
-			Integer count = embargos.get(name);
-			if (count == null) {
-				embargos.put(name, 1);
-			} else {
-				embargos.put(name, count + 1);
-			}
+    CardPile addEmbargo(Card card) {
+        if (isValidEmbargoPile(card)) {
+        	String name = card.getName();
+			embargos.put(name, getEmbargos(card) + 1);
+			return piles.get(name);
 		}
+		return null;
     }
 	
-	private boolean isValidEmbargoPile(final CardPile pile) {
-		boolean valid = true;
-		
-		if(pile == null) {
-			valid = false;
-		} else {
-			final Card card = pile.card;
-
-			if(card == null || Cards.prizeCards.contains(card)) {
-				valid = false;
-			}
-		}
-
-		return valid;
+	public boolean isValidEmbargoPile(Card card) {
+		return !(card == null || Cards.prizeCards.contains(card) || !cardInPlay(card));
 	}
+
+    public int getEmbargos(Card card) {
+        Integer count = embargos.get(card.getName());
+        return (count == null) ? 0 : count;    
+    }
 
     // Only is valid for cards in play...
     Card readCard(String name) {
