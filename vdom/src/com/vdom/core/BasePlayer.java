@@ -475,6 +475,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 return card;
         }
 
+        if (handCards.size() > 0)
+        	return handCards.get(0);
         return null;
     }
 
