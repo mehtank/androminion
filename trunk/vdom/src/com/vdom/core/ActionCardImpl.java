@@ -845,6 +845,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void mine(MoveContext context, Player currentPlayer) {
         TreasureCard cardToUpgrade = currentPlayer.controlPlayer.mine_treasureFromHandToUpgrade(context);
+        if (cardToUpgrade == null) {
+            Util.playerError(currentPlayer, "Mine card to upgrade was invalid, picking random treasure from hand.");
+            Card[] cards = currentPlayer.getTreasuresInHand().toArray(new Card[] {}); 
+            cardToUpgrade = (TreasureCard) Util.randomCard(cards);
+        }
         if (cardToUpgrade != null) {
             CardList hand = currentPlayer.getHand();
             for (int i = 0; i < hand.size(); i++) {
@@ -855,11 +860,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     currentPlayer.trash(thisCard, this, context);
 
                     TreasureCard newCard = currentPlayer.controlPlayer.mine_treasureToObtain(context, card.getCost(context) + 3, card.costPotion());
-                    if (newCard != null) {
-                        if (newCard.getCost(context) <= card.getCost(context) + 3) {
-                            currentPlayer.gainNewCard(newCard, this, context);
+                    if (!(newCard != null && newCard.getCost(context) <= card.getCost(context) + 3 && context.getCardsLeft(newCard) > 0)) {
+                        Util.playerError(currentPlayer, "Mine treasure to obtain was invalid, picking random treasure from table.");
+                        for (Card treasureCard : context.getTreasureCardsInPlay()) {
+                            if (context.getCardsLeft(treasureCard) > 0 && treasureCard.getCost(context) <= card.getCost(context) + 3) 
+                                if (!treasureCard.costPotion() || card.costPotion()) 
+                                    newCard = (TreasureCard) treasureCard;
                         }
                     }
+                    if (newCard != null && newCard.getCost(context) <= card.getCost(context) + 3 && context.getCardsLeft(newCard) > 0)
+                        currentPlayer.gainNewCard(newCard, this, context);
                     break;
                 }
             }
