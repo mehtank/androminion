@@ -505,7 +505,7 @@ public class UI extends JFrame implements GameEventListener {
         }
 
         public void refreshVps() {
-            vpLabel.setText(VP_TEXT + Game.calculateVps(player));
+            vpLabel.setText(VP_TEXT + player.getVPs());
         }
     }
 }

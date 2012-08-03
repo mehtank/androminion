@@ -84,7 +84,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         game.broadcastEvent(event);
 
         player.hand.remove(this);
-        context.playedCards.add(this);
+        player.playedCards.add(this);
 
         context.treasuresPlayedSoFar++;
         context.gold += getValue();
@@ -187,7 +187,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     }
 
     protected boolean illGottenGains(MoveContext context, Player player, boolean reevaluateTreasures) {
-        if (context.getCardsLeft(Cards.copper) > 0) {
+        if (context.getCardsLeftInPile(Cards.copper) > 0) {
             if (player.controlPlayer.illGottenGains_gainCopper(context)) {
                 player.gainNewCard(Cards.copper, this, context);
                 reevaluateTreasures = true;
@@ -201,7 +201,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         HashSet<String> distinctCardsInPlay = new HashSet<String>();
         distinctCardsInPlay.add(getName());
 
-        for (Card cardInPlay : context.playedCards) {
+        for (Card cardInPlay : player.playedCards) {
             distinctCardsInPlay.add(cardInPlay.getName());
         }
         for (Card cardInPlay : player.nextTurnCards) {
@@ -222,7 +222,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
                     game.broadcastEvent(event);
                     
                     if (toObtain instanceof VictoryCard) {
-                        context.playedCards.remove(this);
+                    	player.playedCards.remove(this);
                         player.trash(this, toObtain, context);
                         event = new GameEvent(GameEvent.Type.CardTrashed, context);
                         event.card = this;
