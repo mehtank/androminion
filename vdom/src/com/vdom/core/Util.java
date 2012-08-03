@@ -127,7 +127,7 @@ public class Util {
      * is not always a "debug" message, but it still seems to make sense to use the term.
      */
     public static void debug(String msg, boolean interactiveAsWell) {
-        if (Game.debug) {
+        if (Game.debug || Game.junit) {
             log(msg);
         }
     }
@@ -213,12 +213,12 @@ public class Util {
         // cost++;
         // }
 
-        Card[] cards = context.getCardsInPlay();
+        Card[] cards = context.getCardsInGame();
         int cost = 0;
         while (cost < 10) {
             for (Card card : cards) {
                 if (card.getCost(context) == cost) {
-                    log("" + context.getCardsLeft(card) + ":" + getLongText(card));
+                    log("" + context.getCardsLeftInPile(card) + ":" + getLongText(card));
                     log("");
                 }
             }
@@ -380,7 +380,7 @@ public class Util {
         return false;
     }
 
-    static ArrayList<Card> copy(CardList cards) {
+    public static ArrayList<Card> copy(CardList cards) {
         if (cards == null) {
             return null;
         }

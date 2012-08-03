@@ -282,9 +282,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card getTreasureFromTable(MoveContext context, String header, int maxCost, String passString) {
     	return getTreasureFromTable(context, header, maxCost, passString, false);
     }
-
+    
     public Card getTreasureFromTable(MoveContext context, String header, int maxCost, String passString, boolean potion) {
-        Card[] cards = context.getCardsInPlay();
+        Card[] cards = context.getCardsInGame();
         SelectCardOptions sco = new SelectCardOptions()
         	.fromTable()
         	.isTreasure();
@@ -342,7 +342,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, boolean actionOnly, boolean victoryAllowed, int potionCost, boolean includePrizes) {
-        Card[] cards = context.getCardsInPlay();
+        Card[] cards = context.getCardsInGame();
         SelectCardOptions sco = new SelectCardOptions()
         	.fromTable();
         if (includePrizes) {
@@ -1428,7 +1428,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             .setPickType(SelectCardOptions.PickType.SELECT)
             .setPassable(NOTPASSABLE);
 
-        for (Card card : context.getCardsInPlay()) {
+        for (Card card : context.getCardsInGame()) {
             if (card.isPrize() && context.getPileSize(card) > 0) {
                 sco.addValidCard(cardToInt(card));
             }

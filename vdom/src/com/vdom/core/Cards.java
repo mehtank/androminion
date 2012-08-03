@@ -33,8 +33,9 @@ public class Cards {
         // Cornucopia Expansion
         HornofPlenty, Fairgrounds, FarmingVillage, FortuneTeller, Hamlet, Harvest, HorseTraders, HuntingParty, Jester, Menagerie, Remake, Tournament, YoungWitch, BagofGold, Diadem, Followers, Princess, TrustySteed,
         // Hinterlands Expansion
-        BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel
-
+        BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel,
+        // Victory Token card container
+        VictoryTokens
     }
 
     public static final Card platinum;
@@ -43,6 +44,7 @@ public class Cards {
     public static final Card copper;
     public static final Card potion;
 
+    public static final Card victoryTokens;
     public static final Card colony;
     public static final Card province;
     public static final Card duchy;
@@ -231,6 +233,7 @@ public class Cards {
 
         nonKingdomCards.add(curse = new CurseCardImpl(Cards.Type.Curse, 0, -1));
 
+        nonKingdomCards.add(victoryTokens = new CardImpl(Cards.Type.VictoryTokens, 0));
         nonKingdomCards.add(colony = new VictoryCardImpl(Cards.Type.Colony, 11, 10));
         nonKingdomCards.add(province = new VictoryCardImpl(Cards.Type.Province, 8, 6));
         nonKingdomCards.add(duchy = new VictoryCardImpl(Cards.Type.Duchy, 5, 3));

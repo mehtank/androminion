@@ -44,7 +44,8 @@ public class MoveContext {
     public int cardsTrashedThisTurn = 0;
 
     public String message;
-    public ArrayList<Card> playedCards = new ArrayList<Card>();
+//    public ArrayList<Card> playedCards = new ArrayList<Card>();
+//    public CardList playedCards;
     public Player player;
     public Game game;
     
@@ -53,19 +54,11 @@ public class MoveContext {
     public MoveContext(Game game, Player player) {
         this.game = game;
         this.player = player;
+//        this.playedCards = player.playedCards;
     }
     
     public Player getPlayer() {
         return player;
-    }
-    
-    public int calculateLead(Card card) {
-        int lead = game.calculateLead(player);
-        if (canBuy(card) && card instanceof VictoryCard) {
-            lead += ((VictoryCard) card).getVictoryPoints();
-        }
-
-        return lead;
     }
     
     public boolean isQuickPlay() {
@@ -116,8 +109,8 @@ public class MoveContext {
         return quarriesPlayed;
     }
     
-    public ArrayList<Card> getPlayedCards() {
-        return playedCards;
+    public CardList getPlayedCards() {
+        return player.playedCards;
     }
 
     public int getPileSize(Card card) {
@@ -149,7 +142,7 @@ public class MoveContext {
 
     public Card[] getBuyableCards() {
         ArrayList<Card> buyableCards = new ArrayList<Card>();
-        for (Card card : getCardsInPlay()) {
+        for (Card card : getCardsInGame()) {
             if (canBuy(card)) {
                 buyableCards.add(card);
             }
@@ -208,7 +201,7 @@ public class MoveContext {
     }
 
     public int getCoinForStatus() {
-        if(playedCards.size() > 0) {
+        if(player.playedCards.size() > 0) {
             return getCoinAvailableForBuy();
         }
 
@@ -230,7 +223,7 @@ public class MoveContext {
     }
 
     public int getPotionsForStatus(Player p) {
-        if(playedCards.size() > 0) {
+        if(p.playedCards.size() > 0) {
             return potions;
         }
 
@@ -244,53 +237,6 @@ public class MoveContext {
         return count;
     }
     
-    public Card[] getCardsInPlay() {
-        return getCardsInPlay(null);
-    }
-
-    public Card[] getCardsInPlay(Class<?> c) {
-        ArrayList<Card> cards = new ArrayList<Card>();
-        for (CardPile pile : game.piles.values()) {
-            if (c == null || c.isInstance(pile.card))
-                cards.add(pile.card);
-        }
-        return cards.toArray(new Card[0]);
-    }
-
-    public Card[] getActionsInPlay() {
-        return getCardsInPlay(ActionCard.class);
-    }
-
-    public boolean cardInPlay(Card card) {
-        boolean cardInPlay = false;
-        for (Card thisCard : getCardsInPlay()) {
-            if (thisCard.equals(card)) {
-                cardInPlay = true;
-                break;
-            }
-        }
-        return cardInPlay;
-    }
-
-    public Card[] getTreasureCardsInPlay() {
-        return getCardsInPlay(TreasureCard.class);
-    }
-
-    public Card[] getCardsInPlayOrderByCost() {
-        Card[] cardsInPlay = getCardsInPlay();
-        Arrays.sort(cardsInPlay, new CardCostComparator());
-        return cardsInPlay;
-    }
-
-    public int getCardsLeft(Card card) {
-        CardPile pile = game.piles.get(card.getName());
-        if (pile == null || pile.getCount() < 0) {
-            return 0;
-        }
-
-        return pile.getCount();
-    }
-
     public void debug(String msg) {
         debug(msg, true);
     }
@@ -310,4 +256,43 @@ public class MoveContext {
     public String getMessage() {
         return message;
     }
+
+    // Delegate Cards in play to game
+    public Card[] getCardsInGame() {
+		return game.getCardsInGame();
+	}
+    
+    public boolean cardInGame(Card card) {
+		return game.cardInGame(card);
+    }
+
+    public int getCardsLeftInPile(Card card) {
+		return game.getCardsLeftInPile(card);
+    }
+
+    public Card[] getTreasureCardsInGame() {
+        return game.getTreasureCardsInGame();
+    }
+
+    protected boolean isNewCardAvailable(int cost, boolean potion) {
+        for(Card c : getCardsInGame()) {
+            if(c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    protected Card[] getAvailableCards(int cost, boolean potion) {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for(Card c : getCardsInGame()) {
+            if(c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+                cards.add(c);
+            }
+        }
+        
+        return cards.toArray(new Card[0]);
+    }
+    
 }
