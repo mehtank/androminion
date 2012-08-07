@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="achievements_2players8provinces">Heb alle Provincies aan het eind van een 2-spelerspel</string>
+	<string name="achievements_3or4players10provinces">Heb 10 of meer Provincies aan het eind van een 3- of 4-spelerspel</string>
+	<string name="achievements_score100">Win een spel met meer dan 100 Overwinningspunten</string>
+	<string name="achievements_score1more">Win een spel met precies 1 Overwinningspunt</string>
+	<string name="achievements_singlecard">Win een spel door niet meer dan 1 unieke Koninkrijkkaart aan te schaffen</string>
+	<string name="achievements_score50more">Win een spel met meer dan 50 Overwinningspunten</string>
+	<string name="achievements_skunk">Win een spel met minstens 1 tegenstander die minder dan 0 Overwinningspunten heeft</string>
+	<string name="achievements_trash5inaturn">Vernietig meer dan 5 kaarten in 1 beurt</string>
+	<string name="achievements_gainmorethan30inaturn">Verkrijg meer dan 30 Overwinningspunten in 1 beurt</string>
+	<string name="achievements_win10inarow">Win 10 spellen achter elkaar</string>
+	
+	<string name="currentWinStreak">Huidige win streak: </string>
+</resources>
