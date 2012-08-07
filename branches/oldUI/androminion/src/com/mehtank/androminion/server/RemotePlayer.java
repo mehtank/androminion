@@ -34,8 +34,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 	static int maxPause = 300000; // Maximum time to wait for new player to connect = 5 minutes in ms; 
 	private static VDomServer vdomServer = null;
 	
-	private static final String DISTINCT_CARDS = "Distinct Cards";
-	
 	Comms comm;
 	Thread commThread;
 	private int myPort = 0;
@@ -210,12 +208,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	return is;
     }
 
-    public MyCard[] setupCardsInPlay(MoveContext context) {
-    	ArrayList<MyCard> myCardsInPlay = new ArrayList<MyCard>();
+    public void setupCardsInPlay(MoveContext context) {
+    	ArrayList<MyCard> myCardsInPlayList = new ArrayList<MyCard>();
 
 		int index = 0;
 
-    	for (Card c : context.getCardsInPlay()) {
+    	for (Card c : context.getCardsInGame()) {
     		
     		MyCard mc;
     		if (context.game.baneCard == null) {
@@ -223,98 +221,25 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		} else {
     			mc = makeMyCard(c, index, c.getSafeName().equals(context.game.baneCard.getSafeName()));
     		}
-    		myCardsInPlay.add(mc);
+    		myCardsInPlayList.add(mc);
 
     		cardNamesInPlay.put(c.getName(), index);
     		cardsInPlay.add(index, c);
     		index++;
     	}
-    	return myCardsInPlay.toArray(new MyCard[0]);
+    	myCardsInPlay = myCardsInPlayList.toArray(new MyCard[0]);
     }
 
-    public int getVPs(Player player) {
-		Map<Card, Integer> totals = this.getVictoryPointTotals(player, this.getVictoryCardCounts(player));
-		
-        return this.getVPs(player, totals);
-    }
-
-	private int getVPs(Player player, Map<Card, Integer> totals) {
-		int vp = player.getVictoryTokens();
-
-		for(Integer total : totals.values()) {
-			vp += total;
-		}
-		return vp;
-	}
-
-	private Map<Object, Integer> getVictoryCardCounts(Player player) {
-		final HashSet<String> distinctCards = new HashSet<String>();
-		final Map<Object, Integer> cardCounts = new HashMap<Object, Integer>();
-
-		for (CardPile pile : player.game.piles.values()) {
-			Card card = pile.card;
-			
-			if(card instanceof VictoryCard || card instanceof CurseCard) {
-				cardCounts.put(card, 0);
-			}
-		}
-
-		for(Card card : player.getAllCards()) {
-			distinctCards.add(card.getName());
-			if (card instanceof VictoryCard || card instanceof CurseCard) {
-				if(cardCounts.containsKey(card)) {
-					cardCounts.put(card, cardCounts.get(card) + 1);
-				} else {
-					cardCounts.put(card, 1);
-				}
-			}
-		}
-		
-		cardCounts.put(RemotePlayer.DISTINCT_CARDS, distinctCards.size());
-		
-		return cardCounts;
-	}
-	
-	private Map<Card, Integer> getVictoryPointTotals(
-		final Player player,
-		final Map<Object, Integer> counts) {
-
-		Map<Card, Integer> totals = new HashMap<Card, Integer>();
-
-		for(Map.Entry<Object, Integer> entry : counts.entrySet()) {
-			if(entry.getKey() instanceof VictoryCard) {
-				VictoryCard victoryCard = (VictoryCard) entry.getKey();
-				totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
-			} else if(entry.getKey() instanceof CurseCard) {
-				CurseCard curseCard = (CurseCard) entry.getKey();
-				totals.put(curseCard, curseCard.getVictoryPoints() * entry.getValue());
-			}
-		}
-		
-		if(counts.containsKey(Cards.gardens))
-			totals.put(Cards.gardens, counts.get(Cards.gardens) * (player.getAllCards().size() / 10));
-		if(counts.containsKey(Cards.duke))
-			totals.put(Cards.duke, counts.get(Cards.duke) * counts.get(Cards.duchy));
-		if(counts.containsKey(Cards.fairgrounds))
-			totals.put(Cards.fairgrounds, counts.get(Cards.fairgrounds) * ((counts.get(DISTINCT_CARDS) / 5) * 2));
-		if(counts.containsKey(Cards.vineyard))
-			totals.put(Cards.vineyard, counts.get(Cards.vineyard) * (player.getActionCardCount() / 3));
-		if(counts.containsKey(Cards.silkRoad))
-			totals.put(Cards.silkRoad, counts.get(Cards.silkRoad) * (player.getVictoryCardCount() / 4));
-		
-		return totals;
-	}
-	
 	private String getVPOutput(Player player) {
 		
-		final Map<Object, Integer> counts = this.getVictoryCardCounts(player);
-		final Map<Card, Integer> totals = this.getVictoryPointTotals(player, counts);
+		final Map<Object, Integer> counts = player.getVictoryCardCounts();
+		final Map<Card, Integer> totals = player.getVictoryPointTotals(counts);
 
 		final StringBuilder sb
 			= new StringBuilder()
 				.append(player.getPlayerName())
 				.append(": ")
-				.append(this.getVPs(player, totals))
+				.append(this.getVPs(totals))
 				.append(" ")
 				.append(Strings.getString(R.string.game_over_vps))
 				.append('\n');
@@ -326,15 +251,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 			sb.append(this.getCardText(counts, totals, Cards.colony));
 		}
 		
-		List<Card> standardCards = new ArrayList<Card>();
-		standardCards.add(Cards.estate);
-		standardCards.add(Cards.duchy);
-		standardCards.add(Cards.province);
-		standardCards.add(Cards.colony);
-		standardCards.add(Cards.curse);
-		
+		// display victory cards from sets
 		for(Card card : totals.keySet()) {
-			if(!standardCards.contains(card)) {
+			if(!Cards.nonKingdomCards.contains(card)) {
 				sb.append(this.getCardText(counts, totals, card));
 			}
 		}
@@ -343,7 +262,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 		
 		sb
 			.append("\tVictory Tokens: ")
-			.append(player.getVictoryTokens())
+			.append(totals.get(Cards.victoryTokens))
 			.append('\n');
 
 		return sb.toString();
@@ -364,31 +283,33 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 		return sb.toString();
 	}
 
-	public Event fullStatusPacket(MoveContext context, Player curPlayer, boolean isFinal) {
-    	if (curPlayer == null)
-    		curPlayer = context.getPlayer();
+	public Event fullStatusPacket(MoveContext context, Player player, boolean isFinal) {
+    	if (player == null)
+    		player = context.getPlayer();
 
     	int[] supplySizes = new int[cardsInPlay.size()];
     	int[] embargos = new int[cardsInPlay.size()];
+    	int[] costs = new int[cardsInPlay.size()];
         
     	for (int i = 0; i < cardsInPlay.size(); i++) {
             if (!isFinal)
-            	supplySizes[i] = context.getCardsLeft(intToCard(i));
+            	supplySizes[i] = context.getCardsLeftInPile(intToCard(i));
             else
-            	supplySizes[i] = curPlayer.getMyCardCount(cardsInPlay.get(i));
+            	supplySizes[i] = player.getMyCardCount(cardsInPlay.get(i));
             embargos[i] = context.getEmbargos(intToCard(i));
+            costs[i] = intToCard(i).getCost(context);
     	}
 
         // show opponent hand if possessed
-        CardList hand = (curPlayer.isPossessed()) ? curPlayer.getHand() : getHand();
+        CardList shownHand = (player.isPossessed()) ? player.getHand() : getHand();
 
         // ArrayList<Card> playedCards = context.getPlayedCards();
 
-        if (!allPlayers.contains(curPlayer))
-        	allPlayers.add(curPlayer);
+        if (!allPlayers.contains(player))
+        	allPlayers.add(player);
         int numPlayers = allPlayers.size();
                 
-        int curPlayerIndex = allPlayers.indexOf(curPlayer);
+        int curPlayerIndex = allPlayers.indexOf(player);
         
         int numCards[] = new int[numPlayers];
         int turnCounts[] = new int[numPlayers];
@@ -403,7 +324,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	if (!isFinal)
         		handSizes[i] = p.getHand().size();
         	else
-        		handSizes[i] = getVPs(p);
+        		handSizes[i] = p.getVPs();
             turnCounts[i] = p.getTurnCount();
         	deckSizes[i] = p.getDeckSize();
             discardSizes[i] = p.getDiscardSize();
@@ -421,22 +342,23 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 						  context.getThroneRoomsInEffect()
     					 })
     	  .setFinal(isFinal)
-          .setPossessed(curPlayer.isPossessed())
+          .setPossessed(player.isPossessed())
           .setTurnCounts(turnCounts)
     	  .setSupplySizes(supplySizes)
     	  .setEmbargos(embargos)
-    	  .setHand(cardArrToIntArr(hand.toArray()))
+    	  .setCosts(costs)
+    	  .setHand(cardArrToIntArr(shownHand.toArray()))
     	  .setPlayedCards(cardArrToIntArr(playedCards.toArray(new Card[0])))
     	  .setCurPlayer(curPlayerIndex)
-    	  .setCurName(curPlayer.getPlayerName())
+    	  .setCurName(player.getPlayerName())
     	  .setHandSizes(handSizes)
     	  .setDeckSizes(deckSizes)
     	  .setNumCards(numCards)
     	  .setPirates(pirates)
     	  .setVictoryTokens(victoryTokens)
     	  .setCardCostModifier(context.cardCostModifier)
-    	  .setPotions(context.getPotionsForStatus(curPlayer))
-    	  .setIsland(cardArrToIntArr(curPlayer.getIsland().toArray())).setVillage(cardArrToIntArr(curPlayer.getNativeVillage().toArray()));
+    	  .setPotions(context.getPotionsForStatus(player))
+    	  .setIsland(cardArrToIntArr(player.getIsland().toArray())).setVillage(cardArrToIntArr(player.getNativeVillage().toArray()));
     	
     	Event p = new Event(EType.STATUS)
     				.setObject(new EventObject(gs));
@@ -447,7 +369,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     @Override
     public void newGame(MoveContext context) {
     	context.addGameListener(this);
-    	myCardsInPlay = setupCardsInPlay(context);
+    	setupCardsInPlay(context);
 
     	if (vdomServer != null)
     		vdomServer.registerRemotePlayer(this);
@@ -546,7 +468,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 if(provinces >= 10 && Game.players.length >= 3) {
                     achievement(context, "3or4players10provinces");
                 }
-                int vp = getVPs(this);
+                int vp = this.getVPs();
                 if(vp >= 100) {
                     achievement(context, "score100");
                 }
@@ -557,7 +479,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 boolean mostVp = true;
                 for(Player opp : context.game.getPlayersInTurnOrder()) {
                     if(opp != this) {
-                        int oppVP = getVPs(opp);
+                        int oppVP = opp.getVPs();
                         if(oppVP > vp) {
                             mostVp = false;
                         }

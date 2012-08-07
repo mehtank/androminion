@@ -78,8 +78,8 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 
                     boolean validCard = false;
                     
-                    for(Card c : context.getCardsInPlay()) {
-                        if(c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeft(c) > 0) {
+                    for(Card c : context.getCardsInGame()) {
+                        if(c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeftInPile(c) > 0) {
                             validCard = true;
                             break;
                         }

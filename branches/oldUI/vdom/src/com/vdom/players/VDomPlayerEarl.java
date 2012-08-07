@@ -14,10 +14,12 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
+import com.vdom.core.CardList;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
+import com.vdom.core.Util;
  
 public class VDomPlayerEarl extends BasePlayer
  {
@@ -384,7 +386,7 @@ public class VDomPlayerEarl extends BasePlayer
             return Cards.platinum;
         }
 
-        if (context.canBuy(Cards.province) && (!game.buyWouldEndGame(Cards.province) || context.calculateLead(Cards.province) >= 0)) {
+        if (context.canBuy(Cards.province) && (!game.buyWouldEndGame(Cards.province) || calculateLead(Cards.province) >= 0)) {
        return Cards.province;
      }
  
@@ -561,7 +563,7 @@ public class VDomPlayerEarl extends BasePlayer
  
    private int attackingCardsInPlay(MoveContext context) {
      int attackingCardsInPlay = 0;
-     for (Card card : context.getCardsInPlay()) {
+     for (Card card : context.getCardsInGame()) {
        if (DEFENDABLE_ATTACK_CARDS.contains(card)) {
          ++attackingCardsInPlay;
        }
@@ -647,7 +649,7 @@ public class VDomPlayerEarl extends BasePlayer
  
    private boolean cardInPlay(MoveContext context, Card card) {
      boolean cardInPlay = false;
-     for (Card thisCard : context.getCardsInPlay()) {
+     for (Card thisCard : context.getCardsInGame()) {
        if (thisCard.equals(card)) {
          cardInPlay = true;
          break;
@@ -670,7 +672,7 @@ public class VDomPlayerEarl extends BasePlayer
    }
  
    private Card calculateBuy(MoveContext context, int goldAvailable) {
-     Card[] cards = context.getCardsInPlay();
+     Card[] cards = context.getCardsInGame();
  
      if (shouldBuyChapel(context)) {
        return Cards.chapel;
@@ -894,7 +896,7 @@ public class VDomPlayerEarl extends BasePlayer
        return Cards.treasureMap;
      }
  
-     return null;
+     return super.courtyard_cardToPutBackOnDeck(context);
    }
  
    public Card embargo_supplyToEmbargo(MoveContext context)
@@ -910,18 +912,21 @@ public class VDomPlayerEarl extends BasePlayer
    public Card[] ghostShip_attack_cardsToPutBackOnDeck(MoveContext context)
    {
      ArrayList<Card> cards = new ArrayList<Card>();
+     ArrayList<Card> h = Util.copy(getHand());
  
      if (inHandCount(Cards.treasureMap) == 1) {
        for (Card card : getHand()) {
          if (card.equals(Cards.treasureMap)) {
-           cards.add(card);
+             if (h.remove(card))
+            	 cards.add(card);
          }
        }
      }
  
      for (Card card : getHand()) {
        if (card instanceof VictoryCard || card instanceof CurseCard) {
-         cards.add(card);
+           if (h.remove(card))
+          	 cards.add(card);
        }
        if (cards.size() == 2) {
          break;
@@ -931,7 +936,8 @@ public class VDomPlayerEarl extends BasePlayer
      if (cards.size() < 2) {
        for (Card card : getHand()) {
          if (card.equals(Cards.copper)) {
-           cards.add(card);
+             if (h.remove(card))
+            	 cards.add(card);
          }
          if (cards.size() == 2) {
            break;
@@ -951,7 +957,8 @@ public class VDomPlayerEarl extends BasePlayer
        }
  
        if (lowCard != null) {
-         cards.add(lowCard);
+           if (h.remove(lowCard))
+          	 cards.add(lowCard);
        }
      }
  
@@ -1030,10 +1037,10 @@ public Card masquerade_cardToPass(MoveContext context)
        return Cards.duchy;
      }
  
-     Card[] cards = context.getCardsInPlay();
+     Card[] cards = context.getCardsInGame();
      ArrayList<Card> randList = new ArrayList<Card>();
      for (Card card : cards) {
-       if (!card.isPrize() && (card.getCost(context) == cost) && (context.getCardsLeft(card) > 0) && card.costPotion() == potion) {
+       if (!card.isPrize() && (card.getCost(context) == cost) && (context.getCardsLeftInPile(card) > 0) && card.costPotion() == potion) {
          randList.add(card);
        }
      }

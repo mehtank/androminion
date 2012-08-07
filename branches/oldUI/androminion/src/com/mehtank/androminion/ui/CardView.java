@@ -155,9 +155,7 @@ public class CardView extends FrameLayout {
 
 		tv.setText(c.name, TextView.BufferType.SPANNABLE);
 		if(cost != null) {
-    		cost.setText(" " + c.cost + " ");
-    		if (c.costPotion)
-    			cost.setBackgroundResource(R.drawable.coinpotion);
+    		setCost(GameTable.getCardCost(c));
 		}
 		
 		int fgColor = Color.WHITE;
@@ -275,6 +273,13 @@ public class CardView extends FrameLayout {
 		embargos.setText(" " + s + " ");
 		if (s != 0) 
 			embargos.setVisibility(VISIBLE);
+	}
+
+	public void setCost(int newCost) {
+		if (cost == null) return;
+		cost.setText(" " + newCost + " ");
+		if (c != null && c.costPotion)
+			cost.setBackgroundResource(R.drawable.coinpotion);
 	}
 
 	public void swapNum(int mode) {

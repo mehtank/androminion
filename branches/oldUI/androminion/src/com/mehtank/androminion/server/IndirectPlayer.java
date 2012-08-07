@@ -288,7 +288,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public Card getTreasureFromTable(MoveContext context, String header, int maxCost, String passString, boolean potion) {
-        Card[] cards = context.getCardsInPlay();
+        Card[] cards = context.getCardsInGame();
         SelectCardOptions sco = new SelectCardOptions()
         	.fromTable()
         	.isTreasure();
@@ -338,18 +338,20 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, PickType pickType, boolean actionOnly, boolean victoryAllowed, int potionCost, boolean includePrizes) {
-        Card[] cards = context.getCardsInPlay();
+        Card[] cards = context.getCardsInGame();
         SelectCardOptions sco = new SelectCardOptions()
         	.fromTable();
         if (includePrizes) {
         	sco.fromPrizes();
         }
+
+        		
+//                sco.buyPhase = context.buyPhase;
+//                sco.quarriesPlayed(context.quarriesPlayed);
+//        		
+//                if(context != null && context.getPlayedCards() != null)		
+//                    sco.actionsInPlay = context.getActionCardsInPlayThisTurn();
         
-        sco.buyPhase = context.buyPhase;
-
-        if(context != null && context.getPlayedCards() != null)
-            sco.actionsInPlay = context.getActionCardsInPlayThisTurn();
-
         sco.setPassable(passString);
         
 //		if (passString != null && !passString.trim().equals(""))
@@ -380,17 +382,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if (sco.allowedCards.size() == 0)
         	return null;
 
-        if (maxCost < Integer.MAX_VALUE)
-        	maxCost -= context.cardCostModifier;
-        if (minCost > 0)
-        	minCost -= context.cardCostModifier;
-
         sco.maxCost(maxCost)
            .minCost(minCost)
-           .potionCost(potionCost)
-           .quarriesPlayed(context.getQuarriesPlayed());
+           .potionCost(potionCost);
 
-        boolean quarries = (context.getQuarriesPlayed() > 0);
         String selectString;
         
         String potions = "";
@@ -399,28 +394,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         } else if (potionCost > 1) {
         	potions = "p" + potionCost;
         }
-//        if(potionCost > 0) {
-//            potions = "p";
-//        }
-//        for(int i = 0; i < potionCost; i++) {
-//            potions += "p";
-//        }
         
         if (minCost == maxCost)
-            if(quarries)
-                selectString = Strings.format(R.string.select_from_table_exact_quarries, "" + maxCost + potions, "" + (maxCost + (2 * context.getQuarriesPlayed())) + potions, header);
-            else
-                selectString = Strings.format(R.string.select_from_table_exact, "" + maxCost + potions, header);
+        	selectString = Strings.format(R.string.select_from_table_exact, "" + maxCost + potions, header);
         else if ((minCost <= 0) && (maxCost < Integer.MAX_VALUE))
-            if(quarries)
-                selectString = Strings.format(R.string.select_from_table_max_quarries, "" + maxCost + potions, "" + (maxCost + (2 * context.getQuarriesPlayed())) + potions, header);
-            else
-                selectString = Strings.format(R.string.select_from_table_max, "" + maxCost + potions, header);
+        	selectString = Strings.format(R.string.select_from_table_max, "" + maxCost + potions, header);
         else if (maxCost < Integer.MAX_VALUE)
-            if(quarries)
-                selectString = Strings.format(R.string.select_from_table_between_quarries, "" + minCost + potions, "" + maxCost + potions, "" + (maxCost + (2 * context.getQuarriesPlayed())) + potions, header);
-            else
-                selectString = Strings.format(R.string.select_from_table_between, "" + minCost + potions, "" + maxCost + potions, header);
+        	selectString = Strings.format(R.string.select_from_table_between, "" + minCost + potions, "" + maxCost + potions, header);
         else if (minCost > 0)
             selectString = Strings.format(R.string.select_from_table_min, "" + minCost + potions, header);
         else
@@ -1384,7 +1364,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             .setPickType(SelectCardOptions.PickType.SELECT)
             .setPassable(NOTPASSABLE);
 
-        for (Card card : context.getCardsInPlay()) {
+        for (Card card : context.getCardsInGame()) {
             if (card.isPrize() && context.getPileSize(card) > 0) {
                 sco.addValidCard(cardToInt(card));
             }

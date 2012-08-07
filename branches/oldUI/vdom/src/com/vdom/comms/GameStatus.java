@@ -17,6 +17,7 @@ public class GameStatus implements Serializable {
 	public int[] turnStatus;
 	public int[] supplySizes;
 	public int[] embargos;
+	public int[] costs;
 	public int[] deckSizes;
 	public int[] handSizes;
 	public int[] numCards;
@@ -37,6 +38,7 @@ public class GameStatus implements Serializable {
 	public GameStatus setTurnStatus(int[] is) {turnStatus = is; return this;};
 	public GameStatus setSupplySizes(int[] is) {supplySizes = is; return this;};
 	public GameStatus setEmbargos(int[] is) {embargos = is; return this;};
+	public GameStatus setCosts(int[] is) {costs = is; return this;};
 	public GameStatus setDeckSizes(int[] is) {deckSizes = is; return this;};
 	public GameStatus setHandSizes(int[] is) {handSizes = is; return this;};
 	public GameStatus setNumCards(int[] is) {numCards = is; return this;}

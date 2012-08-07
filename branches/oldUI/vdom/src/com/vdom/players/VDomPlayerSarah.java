@@ -377,7 +377,7 @@ public class VDomPlayerSarah extends BasePlayer {
             }
         }
         if (treasureMapCount >= 2) {
-            return Cards.treasureMap;
+            return context.player.fromHand(Cards.treasureMap);
         }
 
         // don't play trashForced cards if no trash cards available (Apprentice, Ambassador, etc)
@@ -529,7 +529,7 @@ public class VDomPlayerSarah extends BasePlayer {
             }
         }
 
-        ret = bestBuy(coinAvailableForBuy, context, context.getCardsInPlay());
+        ret = bestBuy(coinAvailableForBuy, context, context.getCardsInGame());
         if(ret != null) {
             return ret;
         }
@@ -555,7 +555,7 @@ public class VDomPlayerSarah extends BasePlayer {
     
     @Override
     public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context) {
-        if(context.cardInPlay(Cards.grandMarket)) {
+        if(context.cardInGame(Cards.grandMarket)) {
             final ArrayList<TreasureCard> cards = new ArrayList<TreasureCard>();
             int coinWithoutCopper = 0;
             for(final Card c : context.getPlayer().getHand()) {
@@ -579,7 +579,7 @@ public class VDomPlayerSarah extends BasePlayer {
     public void newGame(MoveContext context) {
         super.newGame(context);
         earlyCardBuyCount = 0;
-        setupGameVariables(context.getGameType(), context.getCardsInPlay());
+        setupGameVariables(context.getGameType(), context.getCardsInGame());
     }        
         
     @Override

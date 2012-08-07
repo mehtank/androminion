@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
@@ -54,6 +55,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	View supply;
 	View turnView;
 	View myCardView;
+	private static int[] costs = {};
 	
 	TextView actionText;
 	TextView largeRefText;
@@ -302,7 +304,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
     	*/
     	
     	addView(gameScroller);
-    	gameScroller.setGameEvent("Dominion app loaded!", true);
+    	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
     	
     	helpView = new HelpView(this.top, new View[] {supply, turnView, myCardView, gameScroller}, new View[] {tr, supply, supply, tr});
     	// helpView = new HelpView(this.top, new View[] {supply, tr, tr, gameScroller}, new View[] {tr, supply, supply, tr});
@@ -382,8 +384,8 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
             vpPileGV.setNumColumns(5);
         
 		top.nosplash();
-		gameScroller.setGameEvent(Strings.getString(top, R.string.game_loaded), true);
-
+		gameScroller.setGameEvent(Strings.getString(top, R.string.game_loaded), true, 0);
+		
 		showSupplySizes(); // TODO doesn't do anything
 	}
 	
@@ -461,7 +463,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			if (cv.parent != prizePile) return false;
 		}
 		
-		return sco.checkValid(c);
+		return sco.checkValid(c, getCardCost(c));
 	}
 	
 	SelectCardOptions sco = null;
@@ -815,7 +817,7 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 
 	public void setStatus(GameStatus gs, String s, boolean newTurn) {
 		if (s != null)
-			gameScroller.setGameEvent(s, newTurn);
+			gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
 		
 		if (gs.isFinal) {
 			top.alert(AlertType.FINAL);
@@ -869,6 +871,25 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			villageAdded = true;
 		}
 		setSupplySizes(gs.supplySizes, gs.embargos);
+		costs = gs.costs;
+        setCardCosts(top.findViewById(android.R.id.content));
+	}
+	
+	static int getCardCost(MyCard c) {
+		if (c == null)
+			return 0;
+		if (costs != null && c.id < costs.length)
+			return costs[c.id];
+		return c.cost;
+	}
+	
+	private void setCardCosts(View v) {
+		if (v instanceof CardView) {
+			((CardView) v).setCost(getCardCost(((CardView) v).c));
+		} else if (v instanceof ViewGroup) {
+			for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++)
+				setCardCosts(((ViewGroup) v).getChildAt(i));
+		}
 	}
 	private void addPlayer(String name) {
 		allPlayers.add(name);

@@ -3,6 +3,15 @@ package com.vdom.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
@@ -125,7 +134,7 @@ public class Util {
      * is not always a "debug" message, but it still seems to make sense to use the term.
      */
     public static void debug(String msg, boolean interactiveAsWell) {
-        if (Game.debug) {
+        if (Game.debug || Game.junit) {
             log(msg);
         }
     }
@@ -211,12 +220,12 @@ public class Util {
         // cost++;
         // }
 
-        Card[] cards = context.getCardsInPlay();
+        Card[] cards = context.getCardsInGame();
         int cost = 0;
         while (cost < 10) {
             for (Card card : cards) {
                 if (card.getCost(context) == cost) {
-                    log("" + context.getCardsLeft(card) + ":" + getLongText(card));
+                    log("" + context.getCardsLeftInPile(card) + ":" + getLongText(card));
                     log("");
                 }
             }
@@ -378,7 +387,7 @@ public class Util {
         return false;
     }
 
-    static ArrayList<Card> copy(CardList cards) {
+    public static ArrayList<Card> copy(CardList cards) {
         if (cards == null) {
             return null;
         }
@@ -451,4 +460,51 @@ public class Util {
         }
         return list[Game.rand.nextInt(list.length)];
     }
+    
+	/**
+	 * Comparator for sorting by multiple attributes:
+	 * Compares with first Comparator if not equal return result
+	 * if equal use second one and repeat.
+	 * Repeat this pattern until last Comparator tried.
+	 */
+    static public class MultilevelComparator<T> implements Comparator<T> {
+    	private List<Comparator<T>> comps;
+    	
+    	public MultilevelComparator(List<Comparator<T>> comparators) {
+    		comps = comparators;
+    	}
+    	
+		@Override
+		public int compare(T arg0, T arg1) {
+			int ret = 0;
+			for(Comparator<T> cmp: comps) {
+				ret = cmp.compare(arg0, arg1);
+				if(ret != 0) {
+					return ret;
+				}
+			}
+			return ret;
+		}
+    }
+
+    public static <K, V extends Comparable<? super V>> Map<K, V> 
+    	sortByValue( Map<K, V> map )
+	{
+	    List<Map.Entry<K, V>> list =
+	        new LinkedList<Map.Entry<K, V>>( map.entrySet() );
+	    Collections.sort( list, new Comparator<Map.Entry<K, V>>()
+	    {
+	        public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
+	        {
+	            return (o1.getValue()).compareTo( o2.getValue() );
+	        }
+	    } );
+	
+	    Map<K, V> result = new LinkedHashMap<K, V>();
+	    for (Map.Entry<K, V> entry : list)
+	    {
+	        result.put( entry.getKey(), entry.getValue() );
+	    }
+	    return result;
+	}
 }

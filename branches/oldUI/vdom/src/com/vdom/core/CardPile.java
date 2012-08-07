@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class CardPile {
     public Card card;
     private ArrayList<Card> cards = new ArrayList<Card>();
-
+    public boolean tradeRouteToken = false;
     public CardPile(Card card, int count) {
         this.card = card;
 
@@ -23,6 +23,22 @@ public class CardPile {
      */
     public boolean isEmpty() {
         return cards.isEmpty();
+    }
+
+    public int takeTradeRouteToken() {
+    	if (tradeRouteToken) {
+	        tradeRouteToken = false;
+	        return 1;
+	    	}
+    	return 0;
+    }
+
+    public void setTradeRouteToken() {
+        tradeRouteToken = true;
+    }
+
+    public boolean hasTradeRouteToken() {
+        return tradeRouteToken;
     }
 
     public int getCount() {
