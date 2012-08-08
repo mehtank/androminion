@@ -66,6 +66,7 @@ public class Game {
     
     public static boolean quickPlay = false;
     public static boolean actionChains = false;
+    public static boolean suppressRedundantReactions = false;
     
     public static final HashSet<GameEvent.Type> showEvents = new HashSet<GameEvent.Type>();
     public static final HashSet<String> showPlayers = new HashSet<String>();
@@ -819,6 +820,7 @@ public class Game {
             String platColonyArg = "-platcolony";
             String quickPlayArg = "-quickplay";
             String actionChainsArg = "-actionchains";
+            String suppressRedundantReactionsArg = "-suppressredundantreactions";
             String cardArg = "-cards=";
 
             for (String arg : args) {
@@ -899,6 +901,8 @@ public class Game {
                         quickPlay = true;
                     } else if (arg.toLowerCase().equals(actionChainsArg)) {
                         actionChains = true;
+                    } else if (arg.toLowerCase().equals(suppressRedundantReactionsArg)) {
+                    	suppressRedundantReactions = true;
                     } else {
                         Util.log("Invalid arg:" + arg);
                         showUsage = true;

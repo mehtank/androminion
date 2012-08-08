@@ -281,7 +281,7 @@ public class Util {
         }
         
         Card reactionCard = null;
-        while ((reactionCard = player.getAttackReaction(context, responsible, defended)) != null) {
+        while ((reactionCard = player.getAttackReaction(context, responsible, defended, reactionCard)) != null) {
             GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
             event.card = reactionCard;
             game.broadcastEvent(event);
