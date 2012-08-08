@@ -1093,7 +1093,7 @@ public Card masquerade_cardToPass(MoveContext context)
    }
 
     @Override
-    public Card getAttackReaction(MoveContext context, Card responsible, boolean defended) {
+    public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
         Card[] reactionCards = getReactionCards(defended);
         for (Card c : reactionCards) {
             if (c.equals(Cards.moat) && !reactedMoat) {

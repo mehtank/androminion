@@ -1095,7 +1095,7 @@ public abstract class Player {
     
     public abstract Card[] margrave_attack_cardsToKeep(MoveContext context);
 
-	public abstract Card getAttackReaction(MoveContext context, Card responsible, boolean defended);
+	public abstract Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard);
 	
 	public abstract boolean revealBane(MoveContext context);
 	
