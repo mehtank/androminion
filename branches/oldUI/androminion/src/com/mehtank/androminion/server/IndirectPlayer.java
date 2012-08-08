@@ -1813,19 +1813,20 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override 
-    public Card getAttackReaction(MoveContext context, Card responsible, boolean defended) {
+    public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
     	Card[] reactionCards = getReactionCards(defended);
     	if (reactionCards.length > 0) {
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)
-                options.add(Strings.getCardName(c));
-            String none = getString(R.string.none);
-            options.add(none);
-            String o = selectString(context, R.string.reaction_query, responsible, options.toArray(new String[0]));
-            if(o.equals(none)) {
-                return null;
+            	if (lastCard == null || !context.game.suppressRedundantReactions || c.getName() != lastCard.getName())
+            		options.add(Strings.getCardName(c));
+            if (options.size() > 0) {
+	            String none = getString(R.string.none);
+	            options.add(none);
+	            String o = selectString(context, R.string.reaction_query, responsible, options.toArray(new String[0]));
+	            if(o.equals(none)) return null;
+	            return localNameToCard(o, reactionCards);
             }
-            return localNameToCard(o, reactionCards);
     	}
     	return null;
     }

@@ -354,6 +354,10 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
                 strs.add("-actionchains");
             }
 
+            if (prefs.getBoolean("suppress_redundant_reactions", true)) {
+                strs.add("-suppressredundantreactions");
+            }
+
             if(cardsSpecified != null) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("-cards=");

@@ -25,6 +25,8 @@
     <string name="quick_play_pref_summary">Most card interactions will be played automatically (will take effect next game)</string>
     <string name="action_chains_pref_title">Action Chains</string>
     <string name="action_chains_pref_summary">Enable multiple action selections in play order  (will take effect next game)</string>
+    <string name="suppress_redundant_reactions_pref_title">Suppress Last Reaction</string>
+    <string name="suppress_redundant_reactions_pref_summary">Suppress the reaction card just played from appearing in the dialog again (will take effect next game)</string>
     <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
     <string name="plat_colony_pref_summary">Always include platinum and colony cards, regardless of game type (will take effect next game)</string>
     <string name="ui_pref_title">User Interface</string>
