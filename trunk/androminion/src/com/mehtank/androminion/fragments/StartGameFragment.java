@@ -288,6 +288,10 @@ public class StartGameFragment extends Fragment implements OnCheckedChangeListen
             strs.add("-actionchains");
         }
 
+        if (mPrefs.getBoolean("suppress_redundant_reactions", true)) {
+            strs.add("-suppressredundantreactions");
+        }
+
         if(cardsSpecified != null) {
             StringBuilder sb = new StringBuilder();
             sb.append("-cards=");

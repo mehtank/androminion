@@ -62,6 +62,12 @@
             android:summary="@string/action_chains_pref_summary"
             android:title="@string/action_chains_pref_title" >
         </CheckBoxPreference>
+        <CheckBoxPreference 
+            android:defaultValue="true" 
+            android:key="suppress_redundant_reactions">
+            android:summary="@string/suppress_redundant_reactions_pref_summary"
+            android:title="@string/suppress_redundant_reactions_pref_title"
+        </CheckBoxPreference>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="plat_colony"
