@@ -13,9 +13,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
+import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
+import com.vdom.api.TreasureCard;
+import com.vdom.core.Cards.Type;
+import com.vdom.comms.MyCard;
+import com.vdom.comms.MyCard.CardNameComparator;
+import com.vdom.comms.MyCard.CardTypeComparator;
 
 public class Util {
     public static String cardArrayToString(Card[] cards) {
@@ -460,7 +467,7 @@ public class Util {
         }
         return list[Game.rand.nextInt(list.length)];
     }
-    
+
 	/**
 	 * Comparator for sorting by multiple attributes:
 	 * Compares with first Comparator if not equal return result
@@ -506,5 +513,142 @@ public class Util {
 	        result.put( entry.getKey(), entry.getValue() );
 	    }
 	    return result;
+	}
+
+	static public class CardNameComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			return card0.getName().compareTo(card1.getName());
+		}
+	}
+
+	static public class CardCostComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			if(card0.getCost(null) < card1.getCost(null)) {
+				return -1;
+			} else if(card0.getCost(null) > card1.getCost(null)) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
+	static public class CardCostComparatorDesc implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			CardCostComparator comp = new CardCostComparator();
+			return comp.compare(card1, card0);
+		}
+	}
+	
+	static public class CardValueComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			if ( !(card0 instanceof TreasureCard) || !(card1 instanceof TreasureCard) ) 
+				return 0;
+
+			TreasureCard tcard0 = (TreasureCard) card0;
+			TreasureCard tcard1 = (TreasureCard) card1;
+			
+			if (tcard0.getValue() < tcard1.getValue()) {
+				return -1;
+			} else if(tcard0.getValue() > tcard1.getValue()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
+	static public class CardValueComparatorDesc implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			CardValueComparator comp = new CardValueComparator();
+			return comp.compare(card1, card0);
+		}
+	}
+	
+	static public class CardPotionComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			if(card0.costPotion()) {
+				if(card1.costPotion()) {
+					return 0;
+				} else {
+					return 1;
+				}
+			} else if(card1.costPotion()) {
+				return -1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
+	static public class CardTypeComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			if(card0 instanceof ActionCard) {
+				if(card1 instanceof ActionCard) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else if(card1 instanceof ActionCard) {
+				return 1;
+			} else if(card0 instanceof TreasureCard || card0.getType() == Type.Potion) {
+				if(card1 instanceof TreasureCard || card1.getType() == Type.Potion) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else if(card1 instanceof TreasureCard || card1.getType() == Type.Potion) {
+				return 1;
+			} else if(card0 instanceof CurseCard) {
+				if(card1 instanceof CurseCard) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else if(card1 instanceof CurseCard) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
+	/**
+	 * Comparator for sorting cards by cost and then by name
+	 * Used for sorting on table
+	 */
+	static public class CardCostNameComparator extends MultilevelComparator<Card> {
+		private static final ArrayList<Comparator<Card>> cmps = new ArrayList<Comparator<Card>>();
+		static {
+			cmps.add(new CardCostComparator());
+			cmps.add(new CardNameComparator());
+		}
+		public CardCostNameComparator() {
+			super(cmps);
+		}
+	}
+	
+	/**
+	 * Comparator for sorting cards in hand.
+	 * Sort by type then by cost and last by name
+	 */
+	static public class CardHandComparator extends MultilevelComparator<Card> {
+		private static final ArrayList<Comparator<Card>> cmps = new ArrayList<Comparator<Card>>();
+		static {
+			cmps.add(new CardTypeComparator());
+			cmps.add(new CardValueComparatorDesc());
+			cmps.add(new CardCostComparatorDesc());
+			cmps.add(new CardNameComparator());
+		}
+		public CardHandComparator() {
+			super(cmps);
+		}
 	}
 }

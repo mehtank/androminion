@@ -1,10 +1,14 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import com.vdom.api.Card;
+import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEvent;
+import com.vdom.core.Util.CardHandComparator;
 
 public class CardList implements Iterable<Card> {
     ArrayList<Card> a = new ArrayList<Card>();
@@ -135,4 +139,10 @@ public class CardList implements Iterable<Card> {
     public int lastIndexOf(Card card) {
         return a.lastIndexOf(card);
     }
+
+	public Card[] sort(Comparator<Card> comp) {
+		Card[] sorted = this.toArray();
+	    Arrays.sort(sorted, comp);
+	    return sorted;
+	}
 }

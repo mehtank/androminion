@@ -56,6 +56,12 @@
             android:summary="@string/quick_play_pref_summary"
             android:title="@string/quick_play_pref_title" >
         </CheckBoxPreference>
+		<CheckBoxPreference 
+			android:defaultValue="false" 
+			android:key="sort_cards"
+			android:summary="@string/sort_cards_pref_summary"
+			android:title="@string/sort_cards_pref_title" >
+		</CheckBoxPreference>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="action_chains"

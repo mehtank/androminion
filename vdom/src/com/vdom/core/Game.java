@@ -65,6 +65,7 @@ public class Game {
     public static boolean platColonyNotPassedIn = false;
     
     public static boolean quickPlay = false;
+    public static boolean sortCards = false;
     public static boolean actionChains = false;
     public static boolean suppressRedundantReactions = false;
     
@@ -517,6 +518,7 @@ public class Game {
             }
         }
 
+        // draw next hand
         for (int i = 0; i < handCount; i++) {
             drawToHand(player, null, false);
         }
@@ -819,6 +821,7 @@ public class Game {
             String siteArg = "-site=";
             String platColonyArg = "-platcolony";
             String quickPlayArg = "-quickplay";
+            String sortCardsArg = "-sortcards";
             String actionChainsArg = "-actionchains";
             String suppressRedundantReactionsArg = "-suppressredundantreactions";
             String cardArg = "-cards=";
@@ -899,6 +902,8 @@ public class Game {
                         alwaysIncludePlatColony = true;
                     } else if (arg.toLowerCase().equals(quickPlayArg)) {
                         quickPlay = true;
+                    } else if (arg.toLowerCase().equals(sortCardsArg)) {
+                        sortCards = true;
                     } else if (arg.toLowerCase().equals(actionChainsArg)) {
                         actionChains = true;
                     } else if (arg.toLowerCase().equals(suppressRedundantReactionsArg)) {

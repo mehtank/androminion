@@ -382,7 +382,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setSupplySizes(supplySizes)
     	  .setEmbargos(embargos)
     	  .setCosts(costs)
-    	  .setHand(cardArrToIntArr(shownHand.toArray()))
+    	  .setHand(cardArrToIntArr(Game.sortCards ? shownHand.toArray() : shownHand.sort(new Util.CardHandComparator())))
     	  .setPlayedCards(cardArrToIntArr(playedCards.toArray(new Card[0])))
     	  .setCurPlayer(curPlayerIndex)
     	  .setCurName(player.getPlayerName())

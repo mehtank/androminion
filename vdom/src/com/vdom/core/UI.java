@@ -13,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.ImageIcon;
@@ -181,10 +183,17 @@ public class UI extends JFrame implements GameEventListener {
     }
 
     public void showHand(Player player) {
+        Card[] sortHand;
+        if (Game.sortCards) {
+        	sortHand = player.hand.sort(new Util.CardHandComparator());
+       	} else {
+       		sortHand = player.hand.toArray();
+       	}
+       		
         clear(handPanel);
-        for (Card card : player.hand) {
+        for (int i = 0; i < sortHand.length; i++) {
             JLabel cardLabel = new JLabel();
-            cardLabel.setIcon(getCardIcon(card));
+            cardLabel.setIcon(getCardIcon(sortHand[i]));
             handPanel.add(cardLabel);
         }
         handPanel.revalidate();
