@@ -350,6 +350,10 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
                 strs.add("-quickplay");
             }
 
+            if(prefs.getBoolean("sort_cards", false)) {
+                strs.add("-sort_cards");
+            }
+
             if (prefs.getBoolean("action_chains", false)) {
                 strs.add("-actionchains");
             }
