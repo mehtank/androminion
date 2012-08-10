@@ -237,7 +237,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     	gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
     	
-    	helpView = new HelpView(this.top, new View[] {supply, turnView, myCardView, gameScroller}, new View[] {tr, supply, supply, tr});
+    	/**
+    	 * findViewById(R.id.actionText) must be in here so that it gets fadet out whenever everything else fades out.
+    	 */
+    	helpView = new HelpView(this.top, new View[] {supply, turnView, myCardView, gameScroller, findViewById(R.id.actionText)}, new View[] {tr, supply, supply, tr});
     }
 
 	public void showHelp(int page) {
