@@ -103,7 +103,7 @@ public class VDomPlayerDumbo extends BasePlayer {
     }
     
  	@Override
-	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended) {
+	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastcard) {
         Card[] reactionCards = getReactionCards(defended);
     	for (Card c : reactionCards) {
     		if (c.equals(Cards.moat) && !reactedMoat) {
