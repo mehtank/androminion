@@ -88,7 +88,9 @@ public class HelpView extends FrameLayout {
 		if (bgID != 0) {
 			callout.setBackgroundResource(bgID);
 		}
-		
+		/*
+		 * This has to be subtracted since getLocationOnScreen gives the 
+		 */
 		((View)getParent()).getLocationOnScreen(location);
 		left -= location[0];
 		top -= location[1];
