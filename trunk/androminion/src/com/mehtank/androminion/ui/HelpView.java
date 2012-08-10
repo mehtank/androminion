@@ -65,22 +65,34 @@ public class HelpView extends FrameLayout {
 	}
 
 	int helpText(int stringID, View parent, final int page, int bgID) {
-		helpNext.setOnClickListener(new OnClickListener(){
+		helpNext.setOnClickListener(new OnClickListener() {
 			@Override public void onClick(View v) { showHelp(page+1); }
 		});
+		int[] location = new int[2];
+		parent.getLocationOnScreen(location);
+		
+		int left = location[0];
+		int top = location[1];
+		
 
-		int left = parent.getLeft();
-		int top = parent.getTop();
-		ViewParent vp = parent.getParent();
-		while (vp != getRootView()) {
-			left += ((View)vp).getLeft();
-			top += ((View)vp).getTop();
-			vp = vp.getParent();
-		}
+		
+	//	int left = parent.getLeft();
+	//	int top = parent.getTop();
+	//	ViewParent vp = parent.getParent();
+	//	while (vp != getRootView()) {
+	//		left += ((View)vp).getLeft();
+	//		top += ((View)vp).getTop();
+	//		vp = vp.getParent();
+	//	}
 
-		if (bgID != 0)
+		if (bgID != 0) {
 			callout.setBackgroundResource(bgID);
-
+		}
+		
+		((View)getParent()).getLocationOnScreen(location);
+		left -= location[0];
+		top -= location[1];
+		
 		helpText.setText(stringID);
 
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(parent.getWidth() + left, parent.getHeight() + top);
