@@ -3,7 +3,6 @@ package com.mehtank.androminion.ui;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -725,7 +724,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		gameOver.setVisibility(VISIBLE);
 		gameOverScroll.setVisibility(VISIBLE);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
         FinalView fv = new FinalView(top, this, players.getItem(gs.whoseTurn).name, gs.turnCounts[gs.whoseTurn],

@@ -497,7 +497,7 @@ public abstract class Player {
     
     public int getDistinctCardCount(ArrayList<Card> cards) {
     	if (cards==null) cards = this.getAllCards();
-        int cardCount = 0;
+//        int cardCount = 0;
 
 		final HashSet<String> distinctCards = new HashSet<String>();
 		for(Card card : cards) {

@@ -18,6 +18,10 @@
         <item>Hell mit dunkler Leiste</item>
     </string-array>
 
+    <string name="suppress_redundant_reactions_pref_title">Letzte Reaktion unterdrücken</string>
+    <string name="suppress_redundant_reactions_pref_summary">Verhindert, dass die gerade ausgespielte Karte nochmal im Dialog auftaucht (wirksam mit nächstem Spiel)</string>
+    <string name="sort_cards_pref_title">Karten sortieren</string>
+    <string name="sort_cards_pref_summary">Sortiert die Karten auf der Hand nach Aktion-Geld-Fluch-Siegpunkt (wirksam mit nächstem Spiel)</string>
     <string name="one_turn_logs_pref_title">Details eines Zuges</string>
     <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug in im Spiellog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
     <string name="hide_card_counts_pref_title">Verberge Kartenanzahl</string>

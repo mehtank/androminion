@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <TextView
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#999999"
+        android:background="#BBBBBB"
         android:padding="4dp"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
-    <!-- Width is arbitrary it must simply be great than height -->
+    <!-- Width specifies maximum size -->
+
     <ImageView
         android:id="@+id/arrow"
-        android:layout_width="80sp"
+        android:layout_width="30dp"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/title"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/margin_menus"
+        android:layout_marginRight="@dimen/margin_menus"
         android:scaleType="fitEnd"
-        android:src="@android:drawable/arrow_down_float" />
+        android:src="@android:drawable/arrow_down_float"
+        tools:ignore="ContentDescription" />
+
 </merge>

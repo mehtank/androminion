@@ -3,15 +3,14 @@ package com.mehtank.androminion.util;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import com.mehtank.androminion.ui.CardView;
-import com.mehtank.androminion.ui.CardView.CardState;
-import com.vdom.comms.MyCard;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
+
+import com.mehtank.androminion.ui.CardView;
+import com.mehtank.androminion.ui.CardView.CardState;
+import com.vdom.comms.MyCard;
 
 /**
  * Collection of cards (e.g. hand, row of piles) that is displayed in a row / table

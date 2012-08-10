@@ -1137,7 +1137,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this, context);
-                MoveContext playerContext = new MoveContext(game, player);
+//                MoveContext playerContext = new MoveContext(game, player);
 
                 if (player.hand.size() >= 4) {
                     Card[] cards = player.controlPlayer.ghostShip_attack_cardsToPutBackOnDeck(context);

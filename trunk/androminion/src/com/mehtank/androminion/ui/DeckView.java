@@ -1,15 +1,14 @@
 package com.mehtank.androminion.ui;
 
-import com.mehtank.androminion.R;
-
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.mehtank.androminion.R;
 
 public class DeckView extends RelativeLayout {
 	@SuppressWarnings("unused")

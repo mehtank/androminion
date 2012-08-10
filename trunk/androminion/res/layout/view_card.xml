@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/coin"
         android:textColor="@android:color/black"
-        android:textSize="12sp"
+        android:textSize="12dp"
         android:visibility="invisible" />
 
     <TextView
@@ -21,10 +21,10 @@
         style="@android:style/TextAppearance.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dip"
+        android:layout_marginLeft="2dp"
         android:layout_toRightOf="@id/cost"
         android:singleLine="true"
-        android:textSize="12dip" />
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/countLeft"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/name"
         android:layout_below="@id/name"
-        android:textSize="8dip"
+        android:textSize="8dp"
         android:visibility="gone" />
 
     <!-- Embargos can only happen on supply piles (where countLeft is also shown) -->
@@ -45,7 +45,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/embargos"
         android:textColor="@android:color/white"
-        android:textSize="12sp"
+        android:textSize="12dp"
         android:visibility="gone" />
 
     <TextView
