@@ -17,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class JoinGameDialog implements DialogInterface.OnClickListener {
+	@SuppressWarnings("unused")
+	private static final String TAG = "JoinGameDialog";
+	
 	LinearLayout vg;
 	EditText name;
 	GameActivity top;

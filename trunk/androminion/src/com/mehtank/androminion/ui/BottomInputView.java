@@ -12,7 +12,16 @@ import android.widget.TextView;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.activities.GameActivity;
 
+/**
+ * This class gives the frame and header for the choosing windows at the bottom.
+ * 
+ * The subclass has to overload makeContentView to generate what is supposed to be shown.
+ *
+ */
 public abstract class BottomInputView extends RelativeLayout implements OnClickListener{
+	@SuppressWarnings("unused")
+	private static final String TAG = "BottomInputView";
+	
 	protected GameActivity top;
 	private TextView title;
 	private ImageView arrow;
@@ -23,8 +32,8 @@ public abstract class BottomInputView extends RelativeLayout implements OnClickL
 		super(top);
 		this.top = top;
 		
-		LayoutInflater.from(top).inflate(R.layout.bottominputview, this, true);
-		setBackgroundResource(R.drawable.solidround);
+		LayoutInflater.from(top).inflate(R.layout.view_bottominput, this, true); // title
+		setBackgroundResource(R.drawable.solidround); // frame
 	    setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL));
 		title = (TextView) findViewById(R.id.title);
 		title.setText(header);
@@ -40,6 +49,11 @@ public abstract class BottomInputView extends RelativeLayout implements OnClickL
 		top.addView(this);
 	}
 
+	/**
+	 * Is called by the constructor
+	 * @param activity GameActivity object
+	 * @return content view
+	 */
 	abstract protected View makeContentView(GameActivity activity);
 
 	public void toggle() {

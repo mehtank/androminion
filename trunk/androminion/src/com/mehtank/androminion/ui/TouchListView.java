@@ -38,6 +38,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 public class TouchListView extends ListView {
+	@SuppressWarnings("unused")
+	private static final String TAG = "TouchListView";
+	
 	private ImageView mDragView;
 	private WindowManager mWindowManager;
 	private WindowManager.LayoutParams mWindowParams;

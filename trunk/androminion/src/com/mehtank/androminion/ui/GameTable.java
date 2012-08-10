@@ -3,8 +3,7 @@ package com.mehtank.androminion.ui;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,9 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.activities.GameActivity;
@@ -34,10 +34,17 @@ import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
 
-public class GameTable extends LinearLayout implements OnSharedPreferenceChangeListener, OnItemClickListener, OnItemLongClickListener {
+public class GameTable extends LinearLayout implements OnItemClickListener, OnItemLongClickListener {
+	@SuppressWarnings("unused")
+	private static final String TAG = "GameTable";
+	
 	private final GameActivity top;
 
-	PlayerAdapter players = new PlayerAdapter(getContext());
+	private PlayerAdapter players = new PlayerAdapter(getContext());
+
+	public PlayerAdapter getPlayerAdapter() {
+		return players;
+	}
 
 	GridView handGV, playedGV, islandGV, villageGV;
 	CardGroup hand, played, island, village;
@@ -50,6 +57,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 	LinearLayout tr;
 	LinearLayout gameOver;
+	ScrollView gameOverScroll;
 
 	View supply;
 	LinearLayout turnView;
@@ -57,9 +65,11 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	private static int[] costs = {};
 
 	TextView actionText;
-	TextView largeRefText;
-	ListView deckStatus;
+	LinearLayout deckStatus;
 	TurnView turnStatus;
+	/**
+	 * Button that are pressed to confirm or decline an option 
+	 */
 	Button select, pass;
     String indicator;
 	GameScrollerView gameScroller;
@@ -69,6 +79,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	Achievements achievements;
 	CardAnimator animator;
 
+	/**
+	 * Information about a selected card: group, position in that group, CardState
+	 */
 	private class CardInfo {
 		public CardState cs;
 		public CardGroup parent;
@@ -80,6 +93,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 			this.pos = pos;
 		}
 	}
+	/**
+	 * List of cards that were selected
+	 */
 	ArrayList<CardInfo> openedCards = new ArrayList<CardInfo>();
 	int maxOpened = 0;
 	boolean exactOpened = true;
@@ -91,6 +107,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 	private HelpView helpView;
 
+	/**
+	 * Initialize the card groups at the top of the screen, where the card piles go
+	 */
 	private void initTable() {
     	moneyPile = new CardGroup(top, true);
     	moneyPileGV = (GridView) findViewById(R.id.moneyPileGV);
@@ -117,6 +136,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	prizePileGV.setOnItemLongClickListener(this);
 	}
 
+	/**
+	 * Initialize card groups that belong to the user (hand, played, island, village)
+	 */
 	private void initHand() {
 		hand = new CardGroup(top, false);
 		// hand.enableSorting(new MyCard.CardHandComparator());
@@ -148,6 +170,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
     	myCardView = findViewById(R.id.myCardView);
 	}
 	
+	/**
+	 * Initialize player information list (right of the screen)
+	 */
 	private void initTurnPanel() {
 		turnView = (LinearLayout) findViewById(R.id.turnView);
 		
@@ -162,15 +187,17 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
             @Override public void onClick(View v) { cardSelected((Button) v); }
         });
         
-        deckStatus = (ListView) findViewById(R.id.deckStatus);
-        deckStatus.setAdapter(players);
-        deckStatus.setEnabled(false);
+        deckStatus = (LinearLayout) findViewById(R.id.deckStatus);
+        players.setContainer(deckStatus);
+        deckStatus.setEnabled(true);
 
-    	turnStatus = new TurnView(top, largeRefText);
+        turnStatus = new TurnView(top);
     	turnStatus.setTextSize(12.0f);
-    	turnView.addView(turnStatus, 2);
     	
+        //turnView.addView(turnStatus, 2);
+
     	actionText = (TextView) findViewById(R.id.actionText);
+    	players.setTurnStatus(turnStatus);
 	}
 
 	public GameTable(Context context) {
@@ -197,16 +224,16 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
             e.printStackTrace();
         }
         
-        LayoutInflater.from(context).inflate(R.layout.gametableview, this, true);
+        LayoutInflater.from(context).inflate(R.layout.view_gametable, this, true);
 
-    	largeRefText = (TextView) findViewById(R.id.largeRefText);
-    	
     	supply = findViewById(R.id.supply);
     	initTable();
     	tr = (LinearLayout) findViewById(R.id.tr);
     	initHand();
     	initTurnPanel();
     	gameOver = (LinearLayout) findViewById(R.id.gameOver);
+    	gameOverScroll = (ScrollView) findViewById(R.id.gameOverScroll);
+    	gameOver.removeAllViews(); // FIX: After playing two games in a row, winners of both games are displayed without this fix.
     	gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
     	
@@ -221,6 +248,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	}
 
 
+	/**
+	 * Turn log view on or off
+	 */
 	public void logToggle() {
 		if (gameScroller.getVisibility() != VISIBLE)
 	    	gameScroller.setVisibility(VISIBLE);
@@ -228,6 +258,11 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 			gameScroller.setVisibility(GONE);
 	}
 
+	/**
+	 * A new game was stared, we are given the information about the game setup
+	 * @param cards Cards that are in play
+	 * @param players Names of players
+	 */
 	public void newGame(MyCard[] cards, String[] players) {
 		GameTableViews.clearCards();
 		openedCards.clear();
@@ -244,6 +279,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		gameScroller.clear();
 		gameScroller.setNumPlayers(players.length);
 		gameOver.setVisibility(GONE);
+		gameOverScroll.setVisibility(GONE);
 		tr.setVisibility(VISIBLE);
 
 		for (MyCard c : cards)
@@ -259,6 +295,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
             }
 
         boolean colonyInPlay = false;
+        //check if there's a colony
         for (MyCard c : cards)
             if(c.originalSafeName.equals("Colony")) {
                 colonyInPlay = true;
@@ -266,12 +303,14 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
             }
 
         boolean potionInPlay = false;
+        // check if there's a potion
         for (MyCard c : cards)
             if(c.isPotion) {
                 potionInPlay = true;
                 break;
             }
 
+        // adjust size of pile table
         if(potionInPlay && platInPlay)
             moneyPileGV.setNumColumns(5);
         else
@@ -282,10 +321,19 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
         else
             vpPileGV.setNumColumns(5);
 
+        // done setting up, remove splash screen
 		top.nosplash();
+		// log start of game
 		gameScroller.setGameEvent(top.getString(R.string.game_loaded), true, 0);
 	}
 
+	/**
+	 * initialize a card pile for the table
+	 * 
+	 * This is called upon setup from within newGame 
+	 * 
+	 * @param c cart type
+	 */
 	public void addCardToTable(MyCard c) {
 		GameTableViews.addCard(c.id, c);
 
@@ -299,13 +347,25 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		    prizePile.addCard(c);
 	}
 
+	/**
+	 * Make the 'select' button clickable. Call this when the current selection of cards is valid, e.g. enough cards selected.
+	 */
 	private void canSelect() {
-		select.setClickable(true);
+		select.setEnabled(true);
 	}
+	/**
+	 * Make the 'select' button not clickable, if selection of cards is invalid
+	 */
 	private void cannotSelect() {
-		select.setClickable(false);
+		select.setEnabled(false);
 	}
 
+	/**
+	 * Is the given card an acceptable choice given the constrains saved in sco?
+	 * @param c chosen card
+	 * @param parent which pile the card was selected from
+	 * @return
+	 */
 	boolean isAcceptable(MyCard c, CardGroup parent) {
 		if (sco.fromHand && (parent != hand)) return false;
 		else if (sco.fromTable) {
@@ -326,8 +386,14 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		return sco.checkValid(c, getCardCost(c));
 	}
 
+	/**
+	 * Save the state of what kind of cards we may currently select
+	 */
 	SelectCardOptions sco = null;
 
+	/**
+	 * firstPass is true if the user clicked 'pass' once already and is asked if he is sure right now.
+	 */
 	boolean firstPass = false;
 	boolean canClick = true;
 	String prompt = "";
@@ -340,6 +406,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		canClick = true;
 	}
 
+	/**
+	 * Something was declined and we ask if the user is really, really sure
+	 */
 	void passButtons() {
         select.setText(pass.getText() + "!");
 		pass.setText(R.string.confirm_no);
@@ -357,15 +426,21 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		canClick = false;
 		canSelect();
 	}
+	
+	/**
+	 * One of the two buttons was clicked
+	 * @param b Button that was clicked
+	 */
 	public void cardSelected(Button b) {
 		if (sco == null)
 			return;
 
 		if (b == select) {
-			if (firstPass) {
+			if (firstPass) { // 'yes, we want to decline', send empty selection. 
+							 // if 'firstPass' is true, we already checked that an empty selection is valid
 				top.handle(new Event(Event.EType.CARD)
 								.setInteger(0));
-			} else {
+			} else { // We selected cards and now send a CARD event.
 				int[] cards = new int[openedCards.size()];
 				for (int i = 0; i < openedCards.size(); i++) {
 					CardInfo ci = openedCards.get(i);
@@ -401,7 +476,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 			return;
 		} else
 			return;
-
+		// we accepted or declined => remove selection markers, make buttons invisible
 		for (CardInfo ci : openedCards) {
 			CardState cs = ci.cs;
 			cs.opened = false;
@@ -417,11 +492,28 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		resetButtons();
 	}
 
+	/**
+	 * Prompt the user about options that a card gives us. (E.g. Thief: Which card to trash) 
+	 * @param title Message to the user about what to choose
+	 * @param options Options that the user has
+	 */
 	public void selectString(String title, String[] options) {
+		if (options.length == 1) {
+			Toast.makeText(top, title + ":\n" + options[0], Toast.LENGTH_LONG / 2).show();
+			top.handle(new Event(Event.EType.STRING).setString(options[0]));
+			return;
+		}
 		HapticFeedback.vibrate(getContext(),AlertType.SELECT);
 		new SelectStringView(top, title, options);
 	}
 
+	/**
+	 * RemotePlayer wants us to choose card(s)
+	 * @param sco What kind of cards to choose, and what for
+	 * @param s Prompt to display
+	 * @param maxOpened How many cards may be selected
+	 * @param exactOpened May we choose less than the max number of cards?
+	 */
 	public void selectCard(SelectCardOptions sco, String s, int maxOpened, boolean exactOpened) {
 		this.sco = sco;
 
@@ -444,6 +536,9 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
         selectButtonState();
 	}
 
+	/**
+	 * Update the 'state' (grayed out or not, text) of the select button, when a card was (un)selected.
+	 */
     protected void selectButtonState() {
         if (sco == null || sco.pickType == null) {
             setSelectText(PickType.SELECT);
@@ -482,6 +577,10 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		}
     }
 
+    /**
+     * Sets the button text corresponding to why the user has to pick cards
+     * @param key PickType
+     */
     public void setSelectText(SelectCardOptions.PickType key) {
         indicator = key.indicator();
         String text;
@@ -529,37 +628,64 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
         select.setText(text);
 	}
 
+    /**
+     * Prompt user about ordering cards (mostly to put them back on the deck in an order of his choosing)
+     * @param header Message to the user
+     * @param cards Indices into the cards the user should put into order
+     */
 	public void orderCards(String header, int[] cards) {
-		HapticFeedback.vibrate(getContext(),AlertType.SELECT);
-		new OrderCardsView(top, header, cards);
-	}
-
-	private void updateCounts(GridView g, int[] supplySizes, int[] embargos) {
-		for (int i = 0; i < g.getChildCount(); i++) {
-			CardView cv = (CardView) g.getChildAt(i);
-			if (cv.getCard() != null) {
-				cv.setCountLeft(supplySizes[cv.getCard().id]);
-				cv.setEmbargos(embargos[cv.getCard().id]);
+		String name = GameTableViews.cardsInPlay.get(cards[0]).name;
+		boolean allequal = true;
+		for (int c: cards) {
+			if (GameTableViews.cardsInPlay.get(c).name != name) {
+				allequal = false;
+				break;
 			}
+		}
+		if (allequal) {
+			int[] is = new int[cards.length];
+			for (int j = 0; j < cards.length; j++) {
+				is[j] = j;
+			}
+			top.handle(new Event(Event.EType.CARDORDER).setObject(new EventObject(is)));
+		} else {
+			HapticFeedback.vibrate(getContext(),AlertType.SELECT);
+			new OrderCardsView(top, header, cards);
 		}
 	}
 
+	/**
+	 * Display the numbers of pile sizes for the card piles on the 'table' 
+	 * @param supplySizes Sizes of piles
+	 * @param embargos number of embargos
+	 */
 	public void setSupplySizes(int[] supplySizes, int[] embargos) {
-		updateCounts(moneyPileGV, supplySizes, embargos);
-		updateCounts(vpPileGV, supplySizes, embargos);
-		updateCounts(supplyPileGV, supplySizes, embargos);
-		updateCounts(prizePileGV, supplySizes, embargos);
+		moneyPile.updateCounts(supplySizes, embargos);
+		vpPile.updateCounts(supplySizes, embargos);
+		supplyPile.updateCounts(supplySizes, embargos);
+		prizePile.updateCounts(supplySizes, embargos);
 	}
 
+	/**
+	 * Is executed instead of setStatus if the gs.isFinal flag is set.
+	 * 
+	 * This gets executed /for each player/.
+	 * 
+	 * @param gs
+	 */
 	public void finalStatus(GameStatus gs) {
-		if (!gs.isFinal)
+		if (!gs.isFinal) // does not happen as far as we know
 			return;
 
 		int maxVP = 0;
 		int minTurns = 10000;
+		/**
+		 * The player(s) to show as winner
+		 */
 		ArrayList<Integer> winners = new ArrayList<Integer>();
 
-		for (int i=0; i<players.getCount(); i++) {
+
+		for (int i=0; i<players.getCount(); i++) { //winners are calculated in this loop
 			if (gs.handSizes[i] > maxVP) {
 				winners.clear(); winners.add(i);
 				maxVP = gs.handSizes[i];
@@ -594,6 +720,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 
 		tr.setVisibility(GONE);
 		gameOver.setVisibility(VISIBLE);
+		gameOverScroll.setVisibility(VISIBLE);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				ViewGroup.LayoutParams.FILL_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -606,6 +733,10 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		gameOver.addView(fv);
 	}
 
+	/**
+	 * User got an achievement
+	 * @param achievement Achievement name
+	 */
 	public void achieved(String achievement) {
 	    try {
 	        achievements.achieved(achievement);
@@ -615,6 +746,12 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	    }
 	}
 
+	/**
+	 * The RemotePlayer updated us about the setup of the game, and we display the changes to the user.
+	 * @param gs GameStatus object contains all this information
+	 * @param s ?? don't know yet ??
+	 * @param newTurn ?? don't know yet ??
+	 */
 	public void setStatus(GameStatus gs, String s, boolean newTurn) {
 		if (s != null)
 			gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
@@ -694,15 +831,43 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 	private void addPlayer(String name) {
 		players.add(new PlayerSummary(name));
 	}
+	
+	/**
+	 * A player obtained a card and we notify the user
+	 * @param i card index
+	 * @param s player number, as a string
+	 * @return a message, either something like 'card obtained' from resources, or "&lt;playername&gt;: &lt;cardname&gt;"
+	 */
 	public String cardObtained(int i, String s) {
 	    return top.getString(R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
 	}
+	
+	/**
+	 * A player trashed a card and we notify the user
+	 * @param i card index
+	 * @param s player number, as a string
+	 * @return a message, either something like 'card trashed' from resources, or "&lt;playername&gt;: &lt;cardname&gt;"
+	 */
 	public String cardTrashed(int i, String s) {
         return top.getString(R.string.trashed, showCard(i, s, CardAnimator.ShowCardType.TRASHED));
 	}
+	
+	/**
+	 * A player revealed a card and we notify the user
+	 * @param i card index
+	 * @param s player number, as a string
+	 * @return a message, either something like 'card revealed' from resources, or "&lt;playername&gt;: &lt;cardname&gt;"
+	 */
 	public String cardRevealed(int i, String s) {
         return top.getString(R.string.revealed, showCard(i, s, CardAnimator.ShowCardType.REVEALED));
 	}
+	/**
+	 * Notify the user of a card played/revealed/... by a player.
+	 * @param card card index
+	 * @param playerInt player number, as a string
+	 * @param type how to show the card
+	 * @return "&lt;playername&gt;: &lt;cardname&gt;"
+	 */
 	public String showCard (int card, String playerInt, CardAnimator.ShowCardType type) {
 		int player = 0;
 		CardView c = GameTableViews.getCardView(top, this, card);
@@ -711,24 +876,14 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 		} catch (NumberFormatException e) {
 			return "";
 		}
-		animator.init(deckStatus.getChildAt(player));
-		animator.showCard(c, type);
+		View anchor = deckStatus.getChildAt(player);
+		if (anchor != null) {
+			animator.init(anchor);
+			animator.showCard(c, type);
+		}
 
 		return players.getItem(player).name + ": " + c.getCard().name;
 	}
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals("abc_header")) {
-            if(largeRefText != null) {
-                if(!sharedPreferences.getBoolean("abc_header", true)) {
-                    largeRefText.setVisibility(GONE);
-                } else {
-                    largeRefText.setVisibility(VISIBLE);
-                }
-            }
-        }
-    }
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -746,7 +901,7 @@ public class GameTable extends LinearLayout implements OnSharedPreferenceChangeL
 			HapticFeedback.vibrate(getContext(), AlertType.CLICK);
 			for(int i=0;i<openedCards.size();i++){
 				CardInfo ci = openedCards.get(i);
-				if(ci.cs == clickedCard.getState() && ci.pos == position) {
+				if(ci.cs == clickedCard.getState() && ci.pos == position) { // this is the card we clicked
 					openedCards.remove(i);
 					ci.cs.indicator = sco.getPickType().indicator();
 					ci.cs.order = -1;

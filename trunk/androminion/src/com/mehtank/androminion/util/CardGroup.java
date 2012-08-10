@@ -11,13 +11,32 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 
+/**
+ * Collection of cards (e.g. hand, row of piles) that is displayed in a row / table
+ *
+ */
 public class CardGroup extends BaseAdapter {
+	@SuppressWarnings("unused")
+	private static final String TAG = "CardGroup";
+	
 	private Context top;
 	private boolean onTable = false;
 	private ArrayList<CardState> cards = new ArrayList<CardState>();
 	private Comparator<MyCard> cmp = new MyCard.CardCostNameComparator();
 	private boolean sorted = false;
+	
+	// fix bug that lets item countLeft jump around
+	int[] supplySizes = null;
+	int[] embargos = null;
+	
+	public void updateCounts(int[] supplySizes, int[] embargos) {
+		this.supplySizes = supplySizes;
+		this.embargos = embargos;
+		notifyDataSetChanged();
+	}
+
 
 	public CardGroup(Context top, boolean onTable) {
 		this.top = top;
@@ -79,6 +98,11 @@ public class CardGroup extends BaseAdapter {
 			cv = (CardView) origView;
 		}
 		cv.setState(cs);
+		if (supplySizes != null)
+			cv.setCountLeft(supplySizes[cs.c.id]);
+		if (embargos != null)
+			cv.setEmbargos(embargos[cs.c.id]);
+
 		return cv;
 	}
 	

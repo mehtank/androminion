@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 public class DragNDropListView extends ListView {
-
+	@SuppressWarnings("unused")
+	private static final String TAG = "DragNDropListView";
+	
 	boolean mDragMode;
 
 	int mStartPosition;
@@ -58,7 +60,11 @@ public class DragNDropListView extends ListView {
 			return super.onTouchEvent(ev);
 
 		switch (action) {
-			case MotionEvent.ACTION_MOVE:
+		/*	default:
+				if (mDragView != null)
+					drag(x,y);
+				break;
+		*/	case MotionEvent.ACTION_MOVE:
 				if (mDragView != null) {
 					drag(x,y);
 					break;
@@ -79,10 +85,13 @@ public class DragNDropListView extends ListView {
 				break;
 			case MotionEvent.ACTION_CANCEL:
 			case MotionEvent.ACTION_UP:
-			default:
 				notifyDrag(x, y);
 				stopDrag();
 				mDragMode = false;
+				break;
+			default:
+				if (mDragView != null)
+					drag(x, y);
 				break;
 		}
 		return true;
@@ -123,7 +132,7 @@ public class DragNDropListView extends ListView {
 	// enable the drag view for dragging
 	private void startDrag(int itemIndex, int y) {
 		stopDrag();
-
+		requestDisallowInterceptTouchEvent(true);
 		View item = getChildAt(itemIndex);
 		if (item == null) return;
 		item.setDrawingCacheEnabled(true);
@@ -173,6 +182,9 @@ public class DragNDropListView extends ListView {
         }
 	}
 
+	/**
+	 * Interface for use in class
+	 */
 	public interface DragListener {
 		void onDrag(int from, int to);
 	}

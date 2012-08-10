@@ -11,8 +11,14 @@ import android.widget.TextView;
 
 import com.mehtank.androminion.R;
 
+/**
+ * Displays score etc upon end of game.
+ *
+ */
 public class FinalView extends FrameLayout implements OnClickListener {
-
+	@SuppressWarnings("unused")
+	private static final String TAG = "FinalView";
+	
 	private GameTable gt;
 	private int[] cardCounts, embargos;
 
@@ -26,7 +32,7 @@ public class FinalView extends FrameLayout implements OnClickListener {
 		this.embargos = embargos;
 		this.cardCounts = cardCounts;
 
-		LayoutInflater.from(context).inflate(R.layout.finalview, this, true);
+		LayoutInflater.from(context).inflate(R.layout.view_final, this, true);
 		name = (TextView) findViewById(R.id.name);
 		name.setText(context.getString(R.string.final_view_text, nameStr, "" + vp, "" + numTurns, "" + numCards));
 		if (winner) {

@@ -101,7 +101,7 @@ public class CardImpl implements Card {
     }
 
     public String getSafeName() {
-        if(safeName == null) {
+        /*if(safeName == null) {
             StringBuilder sb = new StringBuilder();
             for(char c : getName().toCharArray()) {
                 if(Character.isLetterOrDigit(c)) {
@@ -109,9 +109,9 @@ public class CardImpl implements Card {
                 }
             }
             safeName = sb.toString();
-        }
+        }*/
         
-        return safeName;
+        return name;
     }
 
     protected void checkInstantiateOK() {
@@ -199,7 +199,7 @@ public class CardImpl implements Card {
     }
 
     public boolean equals(Object object) {
-        return (object != null && (object instanceof Card) && name.equals(((Card) object).getName()));
+        return (object != null) && name.equals(((Card) object).getName()); // took away typecheck
     }
     
     public int hashCode() {

@@ -6,6 +6,9 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 
 public class HapticFeedback {
+	@SuppressWarnings("unused")
+	private static final String TAG = "HapticFeedback";
+	
 	public static enum AlertType {
 		CHAT, TURNBEGIN, SELECT, CLICK, LONGCLICK, FINAL,
 	};
@@ -29,19 +32,19 @@ public class HapticFeedback {
 			break;
 		case SELECT:
 			if (prefs.getBoolean("actionvibeon", false))
-				v.vibrate(75);
+				v.vibrate(new long[] {1, 75}, -1);
 			break;
 		case CLICK:
 			if (prefs.getBoolean("clickvibeon", false))
-				v.vibrate(20);
+				v.vibrate(new long[] {1, 20}, -1);
 			break;
 		case LONGCLICK:
 			if (prefs.getBoolean("clickvibeon", false))
-				v.vibrate(40);
+				v.vibrate(new long[] {1, 40}, -1);
 			break;
 		case FINAL:
 			if (prefs.getBoolean("gamevibeon", false))
-				v.vibrate(250);
+				v.vibrate(new long[] {1, 250}, -1);
 			break;
 		}
 	}

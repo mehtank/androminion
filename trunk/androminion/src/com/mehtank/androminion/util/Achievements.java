@@ -21,6 +21,9 @@ import android.widget.Toast;
 import com.mehtank.androminion.R;
 
 public class Achievements {
+	@SuppressWarnings("unused")
+	private static final String TAG = "Achievements";
+	
     public static final String[] KEYS = {
         "2players8provinces",
         "3or4players10provinces",

@@ -21,7 +21,14 @@ import android.widget.TextView;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.activities.GameActivity;
 
+/**
+ * Display of game log
+ * 
+ */
 public class GameScrollerView extends HorizontalScrollView {
+	@SuppressWarnings("unused")
+	private static final String TAG = "GameScrollerView";
+
 	private Context top;
 	private LinearLayout gameEventsRow;
 	private ScrollView latestTurnSV;
@@ -41,9 +48,9 @@ public class GameScrollerView extends HorizontalScrollView {
 
 		gameEventsRow = new LinearLayout(top);
 		gameEventsRow.setOrientation(LinearLayout.HORIZONTAL);
+
 		addView(gameEventsRow);
 	}
-
 
 	public void clear() {
 		gameEventsRow.removeAllViews();
@@ -59,7 +66,7 @@ public class GameScrollerView extends HorizontalScrollView {
 				logfile.createNewFile();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				Log.e("Logging", "Failed");
+				Log.e(TAG, "Failed");
 				logfile = null;
 				e.printStackTrace();
 			}
@@ -67,26 +74,35 @@ public class GameScrollerView extends HorizontalScrollView {
 	}
 
 	public void setNumPlayers(int numPlayers) {
-	    this.numPlayers = numPlayers;
-        if(PreferenceManager.getDefaultSharedPreferences(top).getBoolean("one_turn_logs", false)) {
-            onlyShowOneTurn = true;
-        }
+		this.numPlayers = numPlayers;
+		if (PreferenceManager.getDefaultSharedPreferences(top).getBoolean("one_turn_logs", false)) {
+			onlyShowOneTurn = true;
+		}
 	}
 
 	public void setGameEvent(String s, boolean b, int turnCount) {
 		if (b) {
-			latestTurnSV = (ScrollView) LayoutInflater.from(top).inflate(R.layout.gamescrollerviewcolumn, gameEventsRow, false);
-			gameEventsRow.addView(latestTurnSV);
+			latestTurnSV = (ScrollView) LayoutInflater.from(top).inflate(R.layout.view_gamescrollercolumn, gameEventsRow, false);
+
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+			layoutParams.setMargins((int) getResources().getDimension(R.dimen.margin_gamelog),
+					(int) getResources().getDimension(R.dimen.margin_gamelog),
+					(int) getResources().getDimension(R.dimen.margin_gamelog),
+					(int) getResources().getDimension(R.dimen.margin_gamelog));
+			gameEventsRow.addView(latestTurnSV, layoutParams);
+
 			latestTurn = (TextView) latestTurnSV.findViewById(R.id.latestTurn);
 			latestTurn.setText(s + (turnCount > 0 ? (top.getString(R.string.turn_header) + turnCount) : ""));
 
-	        if(onlyShowOneTurn) {
-	            views.add(latestTurnSV);
-	            while(views.size() > numPlayers + 1) {
-	                View view = views.remove(0);
-	                gameEventsRow.removeView(view);
-	            }
-	        }
+			latestTurn.setPadding(0, 0, (int) getResources().getDimension(R.dimen.margin_gamelog), 0);
+			
+			if (onlyShowOneTurn) {
+				views.add(latestTurnSV);
+				while (views.size() > numPlayers + 1) {
+					View view = views.remove(0);
+					gameEventsRow.removeView(view);
+				}
+			}
 		} else
 			latestTurn.setText(latestTurn.getText() + "\n" + s);
 

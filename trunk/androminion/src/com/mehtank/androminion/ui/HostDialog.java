@@ -15,6 +15,9 @@ import com.mehtank.androminion.activities.GameActivity;
 import com.vdom.comms.Event;
 
 public class HostDialog implements DialogInterface.OnClickListener {
+	@SuppressWarnings("unused")
+	private static final String TAG = "HostDialog";
+	
 	LinearLayout vg;
 
 	RadioGroup gamehost;

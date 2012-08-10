@@ -17,6 +17,9 @@ import android.widget.TextView;
 import com.mehtank.androminion.R;
 
 public class HelpView extends FrameLayout {
+	@SuppressWarnings("unused")
+	private static final String TAG = "HelpView";
+	
 	private final Context ctx;
 
 	TextView helpText;
@@ -39,9 +42,11 @@ public class HelpView extends FrameLayout {
 
 		helpNext = new Button(this.ctx);
 		helpNext.setText(R.string.help_next);
+		helpNext.setTextColor(getResources().getColor(android.R.color.black));
 
 		Button helpQuit = new Button(this.ctx);
 		helpQuit.setText(R.string.help_quit);
+		helpQuit.setTextColor(getResources().getColor(android.R.color.black));
 		helpQuit.setOnClickListener(new OnClickListener(){
 			@Override public void onClick(View v) { showHelp(0); }
 		});

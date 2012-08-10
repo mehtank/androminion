@@ -11,7 +11,9 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class TalkView extends EditText implements OnEditorActionListener {
-
+	@SuppressWarnings("unused")
+	private static final String TAG = "TalkView";
+	
 	GameActivity top;
 
 	public TalkView(GameActivity top) {

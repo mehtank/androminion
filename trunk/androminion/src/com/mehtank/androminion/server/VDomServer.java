@@ -3,6 +3,7 @@ package com.mehtank.androminion.server;
 import java.io.IOException;
 import java.util.*;
 
+import com.mehtank.androminion.BuildConfig;
 import com.vdom.api.GameType;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
@@ -11,11 +12,29 @@ import com.vdom.comms.Event.EType;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.core.Game;
 import com.vdom.core.Player;
+import com.vdom.core.ExitException;
+
+import java.util.concurrent.CountDownLatch;
 
 public class VDomServer implements EventHandler {
+	@SuppressWarnings("unused")
+	private static final String TAG = "VDomServer";
+	
+	private final boolean DEBUGGING = true;
+	
+	private CountDownLatch waitingPlayers = new CountDownLatch(0);
+	
+	/** 
+	 * This class will be run when a new game was created,
+	 * it is given all the arguments from the game preceded with a -
+	 * as well as all the player names
+	 *
+	 */
 
 	private class GameStarter implements Runnable {
-
+		@SuppressWarnings("unused")
+		private static final String TAG = "GameStarter";
+		
 		private String[] args;
 		public GameStarter(String[] args) {
 			this.args = args;
@@ -25,11 +44,11 @@ public class VDomServer implements EventHandler {
 			String clean = "Game over!";
 			isRunning = true;
 			try {
-				Game.main(args);
-			} catch (Exception e) {
+				Game.go(args, false); // don't call main(), which is only for commandline calling and catches the ExitException which /we want to handle here/.
+			} catch (ExitException e) {
 				debug("Game exception!");
 				e.printStackTrace();
-				clean = e.toString();
+				clean = "ExitException in Game.java\n" + e.toString();
 			}
 			debug("Game ended!");
 			isRunning = false;
@@ -38,6 +57,9 @@ public class VDomServer implements EventHandler {
 	}
 
 	static final String remotePlayerString = "Human Player";
+	/**
+	 * List of all players name => classname
+	 */
 	static final HashMap<String, String> allPlayers = new HashMap<String, String> ();
 	static {
 		allPlayers.put(remotePlayerString, "com.mehtank.androminion.server.RemotePlayer");
@@ -45,7 +67,7 @@ public class VDomServer implements EventHandler {
 		// allPlayers.put("Best yet (AI)", "net.spack.vdom.BestYet@http://earlcahill.com/myVdom.jar");
 	};
 
-	public static VDomServer me;
+	public static VDomServer me;  // will be the only instance of this class
 	public static int maxPause = 300000; // 5 minutes in ms
 	static int numGameTypes = 0;
 	static String[] gameStrings;
@@ -63,7 +85,8 @@ public class VDomServer implements EventHandler {
 
 	@Override
 	public void debug(String str) {
-		// System.out.println(str);
+		if (DEBUGGING)
+			System.out.println(str);
 	}
 	public void error(String str) {
 		// System.err.println(str);
@@ -80,8 +103,16 @@ public class VDomServer implements EventHandler {
 		return comm.getHost();
 	}
 
+	/**
+	 * initialize one instance of VDomServer.
+	 * 
+	 * This one instance is stored in 'me'. Also
+	 * run me.start().
+	 * 
+	 * @param args list of players 'name' 'classname'
+	 */
 	public static void main(String[] args) {
-		ArrayList<String> gameArray = new ArrayList<String>();
+		ArrayList<String> gameArray = new ArrayList<String>();  //all the card collection names AND ai players
 
 		if (args != null)
 			for (int i=0; i<args.length-1; i += 2)
@@ -95,9 +126,8 @@ public class VDomServer implements EventHandler {
 		numGameTypes = gameArray.size();
 		Collections.sort(gameArray);
 
-		gameArray.addAll(allPlayers.keySet());
+		gameArray.addAll(allPlayers.keySet());  // names of the ai players
 		gameStrings = gameArray.toArray(new String[0]);
-
 		me = new VDomServer();
 		me.start();
 	}
@@ -112,10 +142,8 @@ public class VDomServer implements EventHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 			error("Could not start server!");
-			System.exit(-1);
+			System.exit(-1); // TODO: This is not the android way
 		}
-		commThread = new Thread(comm);
-		commThread.start();
 	}
 	private void disconnect() {
 		if (comm == null) {
@@ -132,22 +160,33 @@ public class VDomServer implements EventHandler {
 		connect();
 	}
 
+	/**
+	 * returns game stats as an event
+	 * is sent as a reply to HELLO
+	 * @return
+	 */
 	private Event gameStats() {
 		Event e = new Event(EType.GAMESTATS)
 			.setBoolean(isStarted);
 
 		if (isStarted) {
-			while (!isRunning);
+		//	while (!isRunning); // WE SOLVE THIS WITH THE COUNTDOWN LATCH
+			while (true) {
+				try {
+					waitingPlayers.await();
+					break;
+				} catch (InterruptedException ie) {}
+			}
 			int currentHuman = 0;
 			ArrayList<String> runningStrings = new ArrayList<String>();
 
-			for (String s : gamePlayers) {
-				if (s.equals(remotePlayerString)) {
-					while (remotePlayers.size() <= currentHuman);
+			for (String s : gamePlayers) {  // We infer gamePlayers from the Game.java-command line arguments we received via the STARTGAME event. 
+				if (s.equals(remotePlayerString)) {   // the player is human
+					//while (remotePlayers.size() <= currentHuman); // WE SOLVE THIS WITH THE COUNTDOWN LATCH
 					RemotePlayer rp = remotePlayers.get(currentHuman++);
 					String name = "Human player";
 					if (rp.getPlayerName() != "")
-						name += ": " + rp.getPlayerName();
+						name += ": " + rp.getPlayerName(); // name is now "Human player: <chosen player name>"
 					if (rp.hasJoined())
 						runningStrings.add(name + " (playing)");
 					else if (rp.getPort() > 0)
@@ -158,6 +197,8 @@ public class VDomServer implements EventHandler {
 				} else
 					runningStrings.add(s);
 			}
+			// runningStrings: list of strings "Human player: <player name> (playing|seat open|not connected)"
+			// (not connected) happens only in race conditions, since the RemotePlayer thread sets its port shortly after setting 
 			e.setString(gameType)
 			 .setObject(new EventObject(runningStrings.toArray(new String[0])));
 		} else
@@ -165,6 +206,13 @@ public class VDomServer implements EventHandler {
 			 .setObject(new EventObject(gameStrings));
 		return e;
 	}
+	
+	/**
+	 * Gets executed in response to the STARTGAME event
+	 * runs Game.main(args) as a new thread
+	 * @param args the event's eventobject string list
+	 * args[0]: gameType
+	 */
 	private void startGame(String[] args) {
 		/*
 		Cards cs = new Cards();
@@ -203,33 +251,37 @@ public class VDomServer implements EventHandler {
 	              gameArgs.add(args[i]);
 		    }
 		}
-
+		waitingPlayers = new CountDownLatch(1); // TODO: how many humans are there?
 		isStarted = true;
 		gt = new Thread(new GameStarter(gameArgs.toArray(new String[0])));
 		gt.start();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {}
+	//	try {	
+	//		Thread.sleep(1000); // Made obsolete by CountDownLatch
+	//	} catch (InterruptedException e) {}
 	}
 
 	public void registerRemotePlayer(RemotePlayer rp) {
 		remotePlayers.add(rp);
+		waitingPlayers.countDown();
 	}
 	@Override
 	public boolean handle(Event e) {
 		boolean reconnect = true;
 		switch (e.t) {
-        case STARTGAME:
-            startGame(e.o.ss);
+        case STARTGAME: 
+            startGame(e.o.ss);  // execute Game.main()
 			//$FALL-THROUGH$
-
+            // !!!!!!!! NO BREAK !!!!!!!!!!!
         case HELLO:
-			try {
-				comm.put(gameStats());
+        	/*
+        	 * The following try/catch block is made obsolete by the addition of sendErrorHandler.
+        	 */
+//			try {
+				comm.put_ts(gameStats());
 				reconnect = false;
-			} catch (IOException e1) {
-				debug("Error sending game stats, restarting server.");
-			}
+//			} catch (IOException e1) {
+//				debug("Error sending game stats, restarting server.");
+//			}
 			break;
 
         case DISCONNECT:
@@ -245,6 +297,13 @@ public class VDomServer implements EventHandler {
 		reconnect();
 		return true;
 	}
+	
+	@Override
+	public void sendErrorHandler(Exception e) {
+		debug("Error while sending something; restarting server.");
+		reconnect(); // Yes, this is thread-safe, so it may be executed from here, even though 
+					 // sendErrorHandler is executed in a different thread from the rest.
+	}
 
 	public void endGame(String s) {
 		if (isStarted) {
@@ -256,8 +315,9 @@ public class VDomServer implements EventHandler {
 				}
 			}
 
-			if (isRunning)
-				remotePlayers.get(0).die();
+			if (isRunning) {
+				remotePlayers.get(0).kill_game(); // What we actually /want/ to do here: kill the vdom-thread.
+			}
 			gamePlayers.clear();
 			remotePlayers.clear();
 			gt = null;
@@ -272,11 +332,15 @@ public class VDomServer implements EventHandler {
 	}
 	public void say(String string) {
 		for (RemotePlayer rp : remotePlayers) {
-			try {
-				rp.comm.put(new Event(Event.EType.CHAT).setString(string));
-			} catch (Exception e) {
-				// whatever
-			}
+			/*
+			 * The following try/catch block is made obsolete by the addition of
+			 * sendErrorHandler to the EventHandler interface.
+			 */
+//			try {
+				rp.comm.put_ts(new Event(Event.EType.CHAT).setString(string));
+//			} catch (Exception e) {
+//				// whatever
+//			}
 		}
 	}
 
