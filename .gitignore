@@ -1,4 +1,5 @@
 project.properties
 */bin
 !Androminion.apk
+!/bin/Androminion.apk
 */gen

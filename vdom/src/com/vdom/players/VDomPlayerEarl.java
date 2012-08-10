@@ -14,7 +14,6 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
-import com.vdom.core.CardList;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;

@@ -32,7 +32,6 @@ import com.vdom.comms.MyCard;
  *
  */
 public class CardView extends FrameLayout implements OnLongClickListener, CheckableEx {
-	@SuppressWarnings("unused")
 	private static final String TAG = "CardView";
 	
 	private TextView name;

@@ -19,7 +19,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -82,6 +81,7 @@ import com.vdom.core.Game;
  */
 
 public class GameActivity extends SherlockActivity implements EventHandler {
+	@SuppressWarnings("unused")
 	private static final String TAG = "GameActivity";
 	
 	static final boolean MULTIPLAYER = false;
@@ -108,10 +108,10 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 	private String host;
 	private int port;
 
-	// for invites
-	private String serverName;
-	private String serverHost;
-	private int serverPort;
+//	// for invites
+//	private String serverName;
+//	private String serverHost;
+//	private int serverPort;
 
 	private final boolean DEBUGGING = true;
 	
@@ -485,6 +485,26 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 			case QUIT: // Server quit us
 				gotQuit = true;
 				disconnect();
+			case GETNAME:
+				break;
+			case GETSERVER:
+				break;
+			case KILLSENDER:
+				break;
+			case PING:
+				break;
+			case PONG:
+				break;
+			case SERVER:
+				break;
+			case SETNAME:
+				break;
+			case SLEEP:
+				break;
+			case Success:
+				break;
+			default:
+				break;
 			}
 			if (ack)
 				put(new Event(EType.Success));
@@ -618,15 +638,15 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 		return true;
 	}
 
-	private void saveHostPort() {
-		SharedPreferences prefs;
-		prefs = PreferenceManager.getDefaultSharedPreferences(top);
-
-		SharedPreferences.Editor edit = prefs.edit();
-		edit.putString("host", host);
-		edit.putInt("port", port);
-		edit.commit();
-	}
+//	private void saveHostPort() {
+//		SharedPreferences prefs;
+//		prefs = PreferenceManager.getDefaultSharedPreferences(top);
+//
+//		SharedPreferences.Editor edit = prefs.edit();
+//		edit.putString("host", host);
+//		edit.putInt("port", port);
+//		edit.commit();
+//	}
 
 	/**
 	 * Connect to a VDomServer <b>or</b> a RemotePlayer instance.
@@ -656,9 +676,9 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 			} else
 				throw (new IOException());
 			*/
-			serverName = name;
-			serverHost = getLocalIpAddress();
-			serverPort = DEFAULT_PORT;
+//			serverName = name;
+//			serverHost = getLocalIpAddress();
+//			serverPort = DEFAULT_PORT;
 			
 			readyForMessages = false; //HACK
 			put( new Event( EType.HELLO ).setString( name ) );

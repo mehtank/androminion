@@ -13,16 +13,12 @@ import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.RelativeLayout;
 
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.activities.GameActivity;
 import com.mehtank.androminion.util.CardGroup;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
-
-
-import android.view.animation.ScaleAnimation;
 
 public class OrderCardsView extends BottomInputView implements OnItemClickListener {
 	@SuppressWarnings("unused")

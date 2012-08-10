@@ -82,5 +82,5 @@
 	<string name="BlueHarvest_gametype">Schmalhans (Hntr, Ernte)</string> 
 	<string name="TravelingCircus_gametype">Wanderzirkus (Hntr, Ernte)</string>
 	  
-	<string name="Random_gametype">Zufällig</string>  
+	<string name="Random_gametype">Zufällig (alle Karten)</string>  
 </resources>

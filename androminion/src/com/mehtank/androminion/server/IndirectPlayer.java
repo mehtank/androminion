@@ -16,6 +16,7 @@ import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.CardList;
 import com.vdom.core.Cards;
+import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
 import com.vdom.core.QuickPlayPlayer;
@@ -1891,7 +1892,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if (reactionCards.length > 0) {
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)
-            	if (lastCard == null || !context.game.suppressRedundantReactions || c.getName() != lastCard.getName())
+            	if (lastCard == null || !Game.suppressRedundantReactions || c.getName() != lastCard.getName())
                    options.add(Strings.getCardName(c));
             if (options.size() > 0) {
             String none = getString(R.string.none);
@@ -1939,6 +1940,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         	case Action:
         		options.add(getString(R.string.putback_option_two));
         		break;
+			case None:
+				break;
+			default:
+				break;
         	}
         }
         options.add(getString(R.string.none));

@@ -13,10 +13,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -57,7 +53,6 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
             "Mary (AI)",
             "Chuck (AI)",
             "Sarah (AI)",
-            "Dumbo (AI)",
             "Random AI",
 	};
 

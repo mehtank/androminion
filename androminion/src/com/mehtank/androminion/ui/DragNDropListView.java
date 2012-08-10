@@ -97,7 +97,7 @@ public class DragNDropListView extends ListView {
 		return true;
 	}
 
-	private void notifyDrag(@SuppressWarnings("unused") int x, int y) {
+	private void notifyDrag(int x, int y) {
 		mEndPosition = pointToPosition(mOrigX, y);
 
 		if (mHiddenView != null)

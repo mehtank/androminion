@@ -1,20 +1,22 @@
 package com.mehtank.androminion.server;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
-import com.mehtank.androminion.BuildConfig;
 import com.vdom.api.GameType;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
-import com.vdom.comms.EventHandler;
 import com.vdom.comms.Event.EType;
 import com.vdom.comms.Event.EventObject;
+import com.vdom.comms.EventHandler;
+import com.vdom.core.ExitException;
 import com.vdom.core.Game;
 import com.vdom.core.Player;
-import com.vdom.core.ExitException;
-
-import java.util.concurrent.CountDownLatch;
 
 public class VDomServer implements EventHandler {
 	@SuppressWarnings("unused")

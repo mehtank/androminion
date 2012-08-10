@@ -6,9 +6,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import com.vdom.api.Card;
-import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEvent;
-import com.vdom.core.Util.CardHandComparator;
 
 public class CardList implements Iterable<Card> {
     ArrayList<Card> a = new ArrayList<Card>();

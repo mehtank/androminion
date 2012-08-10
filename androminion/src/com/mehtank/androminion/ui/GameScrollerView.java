@@ -26,7 +26,6 @@ import com.mehtank.androminion.activities.GameActivity;
  * 
  */
 public class GameScrollerView extends HorizontalScrollView {
-	@SuppressWarnings("unused")
 	private static final String TAG = "GameScrollerView";
 
 	private Context top;
