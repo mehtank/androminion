@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="cardDefaultTextColor">#FFF</color>
+    <color name="cardDefaultBackgroundColor">#000</color>
+    <color name="cardDefaultTextBackgroundColor">#0000</color>
+    <color name="cardInverseTextColor">#000</color>
+    <color name="cardAttack">#FF8060</color>
+    <color name="cardReaction">#0070CC</color>
+    <color name="cardDuration">#FF8C00</color>
+    <color name="cardVictory">#32CD32</color>
+    <color name="cardTreasure">#DBDB70</color>
+    <color name="cardCopper">#CFB53B</color>
+    <color name="cardSilver">#C0C0C0</color>
+    <color name="cardGold">#FFFF00</color>
+    <color name="cardPlatinum">#FFFFFF</color>
+    <color name="cardPotion">#33CCFF</color>
+    <color name="cardCurse">#9400D3</color>
+
+</resources>

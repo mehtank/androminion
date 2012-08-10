@@ -7,17 +7,21 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.activities.GameActivity;
 import com.vdom.comms.Event;
 
 public class SelectStringView extends BottomInputView implements AdapterView.OnItemClickListener {
+	@SuppressWarnings("unused")
+	private static final String TAG = "SelectStringView";
+	
 	ListView lv;
 
 	public SelectStringView (GameActivity top, String header, String[] options) {
 		super(top, header);
-		lv.setAdapter(new ArrayAdapter<String>(top, R.layout.selectstring, options));
+		lv.setAdapter(new ArrayAdapter<String>(top, R.layout.view_selectstring, options));
 	}
 
 	@Override

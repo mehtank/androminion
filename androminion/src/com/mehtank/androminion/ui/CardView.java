@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -25,9 +26,15 @@ import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.MyCard;
 
-public class CardView extends FrameLayout implements OnLongClickListener, CheckableEx {
 
-	public static final int WIDTH = 110;
+/**
+ * Corresponds to a single card that is visible on the 'table'
+ *
+ */
+public class CardView extends FrameLayout implements OnLongClickListener, CheckableEx {
+	@SuppressWarnings("unused")
+	private static final String TAG = "CardView";
+	
 	private TextView name;
 	private View cardBox;
 	private TextView cost, countLeft, embargos;
@@ -36,10 +43,13 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	CardGroup parent;
 	private CardState state;
-
+/**
+ * Information about a card type opened, onTable, indicator, order
+ *
+ */
 	static public class CardState {
-		public MyCard c;
-		public boolean opened;
+		public MyCard c; // card type
+		public boolean opened; // was selected
 		public boolean onTable;
 		public String indicator;
 		public int order;
@@ -78,7 +88,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private void init(Context context, CardGroup parent, MyCard c) {
 		this.parent = parent;
 
-		LayoutInflater.from(context).inflate(R.layout.cardview, this, true);
+		LayoutInflater.from(context).inflate(R.layout.view_card, this, true);
 		name = (TextView) findViewById(R.id.name);
 		cardBox = findViewById(R.id.cardBox);
 		cost = (TextView) findViewById(R.id.cost);
@@ -121,7 +131,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		if (c.isBane) {
 			setBackgroundResource(R.drawable.baneborder);
 		} else {
-			setBackgroundResource(R.drawable.roundborder);
+			setBackgroundResource(R.drawable.sharpborder);
 		}
 
 		name.setText(c.name, TextView.BufferType.SPANNABLE);
@@ -156,6 +166,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Reaction_Victory;
 		} else if (c.isReaction && c.isTreasure) {
 			return R.style.CardView_Treasure_Reaction;
+		} else if (c.isReaction) {
+			return R.style.CardView_Reaction;
 		} else if (c.isDuration) {
 			return R.style.CardView_Duration;
 		} else if (c.isAttack) {
@@ -313,8 +325,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			}
         // }
 			String title = cardView.getCard().name;
+			Log.d(TAG, "card title = " + title);
 			if(PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
 				title += " (" + cardView.getCard().originalName + ")";
+				Log.d(TAG, "card title now: " + title);
 			}
 		new AlertDialog.Builder(view.getContext())
 			.setTitle(title)

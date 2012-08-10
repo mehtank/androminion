@@ -33,15 +33,14 @@ public class CardList implements Iterable<Card> {
     }
 
     public boolean checkValid(Card card) {
-    	boolean isValid = true; 
+    	if (!(card == null || ((CardImpl) card).templateCard))
+    		return true;
         if (card == null) {
             Util.playerError(player, name + " contains null card.", true);
-            isValid = false;
-        } else if (((CardImpl) card).templateCard) {
+        } else {
             Util.playerError(player, "Trying to add template card to " + name, true);
-            isValid = false;
         }
-        return isValid;
+        return false;
     }
 
     public boolean contains(Card card) {

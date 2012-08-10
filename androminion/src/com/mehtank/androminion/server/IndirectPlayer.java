@@ -23,7 +23,9 @@ import com.vdom.core.QuickPlayPlayer;
  * Class that you can use to play remotely.
  */
 public abstract class IndirectPlayer extends QuickPlayPlayer {
-
+	@SuppressWarnings("unused")
+	private static final String TAG = "IndirectPlayer";
+	
     static Context top;
 
 	public abstract Card nameToCard(String o);

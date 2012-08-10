@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/supply"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <GridView
+        android:id="@+id/moneyPileGV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_supply"
+        android:layout_marginRight="@dimen/margin_supply"
+        android:layout_marginTop="@dimen/margin_supply"
+        android:horizontalSpacing="@dimen/margin_cards"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="5"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/margin_cards" />
+
+    <GridView
+        android:id="@+id/vpPileGV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_supply"
+        android:layout_marginRight="@dimen/margin_supply"
+        android:layout_marginTop="@dimen/margin_cards"
+        android:horizontalSpacing="@dimen/margin_cards"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="5"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/margin_cards" />
+
+    <GridView
+        android:id="@+id/supplyPileGV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_supply"
+        android:layout_marginRight="@dimen/margin_supply"
+        android:layout_marginTop="@dimen/margin_cards"
+        android:horizontalSpacing="@dimen/margin_cards"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="4"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/margin_cards" />
+
+    <GridView
+        android:id="@+id/prizePileGV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_supply"
+        android:layout_marginRight="@dimen/margin_supply"
+        android:layout_marginTop="@dimen/margin_cards"
+        android:horizontalSpacing="@dimen/margin_cards"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="5"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/margin_cards" />
+
+    <LinearLayout
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/supplyborder" >
+    </LinearLayout>
+
+</LinearLayout>

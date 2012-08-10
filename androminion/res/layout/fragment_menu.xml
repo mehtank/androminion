@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/bigicon_background"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/but_start"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickStartGame"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:text="@string/start_game_menu" />
+
+        <Button
+            android:id="@+id/but_stats"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickStats"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/stats_menu" />
+
+        <Button
+            android:id="@+id/but_settings"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickSettings"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/settings_menu" />
+
+        <Button
+            android:id="@+id/but_about"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickAbout"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/about_menu" />
+
+</LinearLayout>

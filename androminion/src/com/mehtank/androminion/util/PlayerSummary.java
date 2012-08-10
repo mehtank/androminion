@@ -1,6 +1,15 @@
 package com.mehtank.androminion.util;
 
+/**
+ * Information about one player
+ * 
+ * deck, hand size, total number of cards etc.
+ */
+
 public class PlayerSummary {
+	@SuppressWarnings("unused")
+	private static final String TAG = "PlayerSummary";
+	
 	public String name;
 	public int deckSize;
 	public int handSize;

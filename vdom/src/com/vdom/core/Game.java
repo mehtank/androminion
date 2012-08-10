@@ -125,18 +125,30 @@ public class Game {
 
 
     public static void main(String[] args) {
-        go(args, false);
+    	try {
+        	go(args, false);
+	    } catch (ExitException e) {
+	    	// This is what we would correctly need to do.
+	    	// May break some code though which relies on vdom being less strict
+	        System.exit(-1);
+	    }
     }
 
-    public static void go(String[] args, boolean html) {
+    public static void go(String[] args, boolean html) throws ExitException {
 
-        try {
-            processArgs(args);
+        /*
+         * Don't catch ExitException here. If someone throws an ExitException, it means the game is over, which should be handled by whoever owns us.
+         */
+ 
+    	
+        processArgs(args);
 
-            checkForInteractive();
+        checkForInteractive();
 
-            Util.debug("");
+        Util.debug("");
 
+
+        
             // Start game(s)
             if (gameTypeStr != null) {
                 gameType = GameType.fromName(gameTypeStr);
@@ -178,9 +190,7 @@ public class Game {
             if (test) {
                 printGameTypeStats();
             }
-        } catch (ExitException e) {
-            // Ignore...
-        }
+
 
         FrameworkEvent frameworkEvent = new FrameworkEvent(FrameworkEvent.Type.AllDone);
         FrameworkEventHelper.broadcastEvent(frameworkEvent);
@@ -728,9 +738,10 @@ public class Game {
             double num = wins.get(className);
 
             String name;
-            try {
-                name = playerCache.get(className).getPlayerName();
-            } catch (Exception e) {
+            Player pclass = playerCache.get(className);
+            if (pclass != null) {
+               	name = pclass.getPlayerName();
+            } else {
                 name = className;
             }
 
@@ -801,7 +812,7 @@ public class Game {
         return vps;
     }
 
-    protected static void processArgs(String[] args) {
+    protected static void processArgs(String[] args) throws ExitException {
         numPlayers = 0;
         cardsSpecifiedAtLaunch = null;
         overallWins.clear();
@@ -809,8 +820,9 @@ public class Game {
         gameTypeStats.clear();
         playerClassesAndJars.clear();
         playerCache.clear();
+        
+        // dont remove tabs in following to keep easy upstream-mergeability
 
-        try {
             String gameCountArg = "-count";
             String debugArg = "-debug";
             String showEventsArg = "-showevents";
@@ -937,14 +949,11 @@ public class Game {
 
             numPlayers = playerClassesAndJars.size();
 
-            if (numPlayers < 2 || numPlayers > 4 || showUsage) {
+            if (numPlayers < 2 || numPlayers > 6 || showUsage) {
                 Util.log("Usage: [-debug][-ignore(playername)][-count(# of Games)][-type(Game type)] class1 class2 [class3] [class4]");
                 throw new ExitException();
             }
 
-        } catch (ExitException e) {
-            // Ignore...
-        }
 
         if (gameTypeStr == null) {
             if (debug) {
@@ -1122,21 +1131,34 @@ public class Game {
         return false;
     }
 
-    private boolean checkGameOver() {
-        if (colonyInPlay && isPileEmpty(Cards.colony)) {
-            return true;
-        }
+	private boolean checkGameOver() {
+		if (colonyInPlay && isPileEmpty(Cards.colony)) {
+			return true;
+		}
 
-        if (isPileEmpty(Cards.province)) {
-            return true;
-        }
+		if (isPileEmpty(Cards.province)) {
+			return true;
+		}
 
-        if (emptyPiles() >= 3) {
-            return true;
-        }
+		switch (numPlayers) {
+		case 2:
+		case 3:
+		case 4:
+			/* Ends game for 2, 3 or 4 players */
+			if (emptyPiles() >= 3) {
+				return true;
+			}
+			break;
+		case 5:
+		case 6:
+			/* Ends game for 5 or 6 players */
+			if (emptyPiles() >= 4) {
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
     // TODO: all calls should use this but initial turn draws...
     boolean drawToHand(Player player, Card responsible) {
@@ -1374,37 +1396,54 @@ public class Game {
     }
 
     protected void initCards() {
-        piles.clear();
-        embargos.clear();
-        trashPile.clear();
+		piles.clear();
+		embargos.clear();
+		trashPile.clear();
 
-//        addPile(Cards.platinum, 12);
-        addPile(Cards.gold, 30);
-        addPile(Cards.silver, 40);
-        addPile(Cards.copper, 60);
+		// addPile(Cards.platinum, 12);
+		addPile(Cards.gold, 30);
+		addPile(Cards.silver, 40);
+		addPile(Cards.copper, 60);
 
-       if (numPlayers == 2) {
-            victoryCardPileSize = 8;
-       } else {
-    	   victoryCardPileSize = 12;
-       }
+		int provincePileSize = -1;
+		int curseCount = -1;
 
-//        addPile(Cards.colony);
-        addPile(Cards.province);
-        addPile(Cards.duchy);
-        addPile(Cards.estate, victoryCardPileSize + 3 * numPlayers);
+		switch (numPlayers) {
+		case 2:
+			curseCount = 10;
+			provincePileSize = 8;
+			victoryCardPileSize = 8;
+			break;
+		case 3:
+			curseCount = 20;
+			provincePileSize = 12;
+			victoryCardPileSize = 12;
+			break;
+		case 4:
+			curseCount = 30;
+			provincePileSize = 12;
+			victoryCardPileSize = 12;
+			break;
+		case 5:
+			curseCount = 40;
+			provincePileSize = 15;
+			victoryCardPileSize = 12;
+			break;
+		case 6:
+			curseCount = 50;
+			provincePileSize = 18;
+			victoryCardPileSize = 12;
+			break;
+		}
 
-        int curseCount = 10;
-        if (numPlayers == 3) {
-            curseCount = 20;
-        } else if (numPlayers == 4) {
-            curseCount = 30;
-        }
+		addPile(Cards.curse, curseCount);
+		// addPile(Cards.colony);
+		addPile(Cards.province, provincePileSize);
+		addPile(Cards.duchy, victoryCardPileSize);
+		addPile(Cards.estate, victoryCardPileSize + 3 * numPlayers);
 
-        addPile(Cards.curse, curseCount);
-
-        unfoundCards.clear();
-        int added = 0;
+		unfoundCards.clear();
+		int added = 0;
 
         if(cardsSpecifiedAtLaunch != null) {
         	platColonyNotPassedIn = true;
@@ -1416,7 +1455,7 @@ public class Game {
                     bane = true;
                     cardName = cardName.substring(BANE.length());
                 }            	
-            	
+            	/*
                 StringBuilder sb = new StringBuilder();
                 for(char c : cardName.toCharArray()) {
                     if(Character.isLetterOrDigit(c)) {
@@ -1426,11 +1465,21 @@ public class Game {
                 String s = sb.toString();
                 
                 for (Card c : Cards.actionCards) {
-                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) { // hotspot
                         card = c;
                         break;
                     }
-                }
+                }*/
+            	card = Cards.actionCardsMap.get(cardName); 
+            	String s = cardName;
+            	if (card == null) { // maybe we need equalsIgnoreCase
+                    for (Card c : Cards.actionCards) {
+                        if(c.getSafeName().equalsIgnoreCase(s)) {
+                            card = c;
+                            break;
+                        }
+                    }
+            	}
                 if(card != null && bane) {
                     baneCard = card;
                 }
@@ -1567,6 +1616,8 @@ public class Game {
             addPile(Cards.trustySteed, 1);
         }
 
+        if (!debug) { return; } //make stuff fast
+        
         boolean oldDebug = debug;
         if (!debug && !showEvents.isEmpty()) {
             debug = true;

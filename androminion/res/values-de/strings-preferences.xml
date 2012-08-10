@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="personalization_pref_title">Personalisierung</string>
+    <string name="name_pref_title">Name</string>
+    <string name="name_pref_summary">Spitznamen wählen</string>
+    <string name="userlang_pref_title">Sprache</string>
+    <string name="userlang_pref_summary">Sprache wählen (überschreibt Systemsprache)</string>
+    <string name="show_statusbar_pref_title">Statusleiste anzeigen</string>
+    <string name="show_statusbar_pref_summary">Zeige die System-Statusleiste während des spielens an</string>
+    <string name="ui_pref_title">Oberfläche</string>
+    <string name="pref_theme_title">Design</string>
+    <string name="pref_theme_summary">Wähle unterschiedliche Designs</string>
+
+    <string-array name="theme_names">
+        <item>Dunkel</item>
+        <item>Hell</item>
+        <item>Hell mit dunkler Leiste</item>
+    </string-array>
+
+    <string name="one_turn_logs_pref_title">Details eines Zuges</string>
+    <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug in im Spiellog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
+    <string name="hide_card_counts_pref_title">Verberge Kartenanzahl</string>
+    <string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
+    <string name="exitonback_pref_title">Ende mit Zurückknopf</string>
+    <string name="exitonback_pref_summary">Beendet das Spiel erst, wenn der Zurückknopf erneut gedrückt wird</string>
+    <string name="showenglishnames_pref_title">Englische Namen</string>
+    <string name="showenglishnames_pref_summary">Zeige die Englischen Namen der Karten in Klammern an</string>
+    <string name="game_play_pref_title">Spieleinstellungen</string>
+    <string name="quick_play_pref_title">Schnelles Spiel</string>
+    <string name="action_chains_pref_title">Aktionsketten</string>
+    <string name="action_chains_pref_summary">Aktiviere Auswahl von mehreren Aktionskarten in Ausspielreihenfolge. (Neustart des Spiels erforderlich)</string>
+    <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt. (Neustart des Spiels erforderlich)</string>
+    <string name="plat_colony_pref_title">Platin und Kolonien</string>
+    <string name="plat_colony_pref_summary">Immer mit den Karten Platin und Kolonien spielen, egal welche Art von Erweiterung gewählt ist.</string>
+    <string name="notif_pref_title">Benachrichtigungen</string>
+    <string name="allvibes_pref_title">Vibration aktivieren</string>
+    <string name="vibescreen_pref_title">Vibration einstellen &#8230;</string>
+    <string name="clickvibeon_pref_title">Haptisches Feedback</string>
+    <string name="clickvibeon_pref_summary">Vibrieren wenn Karten gespielt werden</string>
+    <string name="actionvibeon_pref_title">Aktionsanzeige</string>
+    <string name="actionvibeon_pref_summary">Vibrieren, wenn Du am Zug bist</string>
+    <string name="turnvibeon_pref_title">Zugbenachrichtigungen</string>
+    <string name="turnvibeon_pref_summary">Vibireren, wenn Dein Zug beginnt</string>
+    <string name="gamevibeon_pref_title">Spielende</string>
+    <string name="gamevibeon_pref_summary">Vibrieren wenn das Spiel endet</string>
+    <string name="logging_pref_title">Spielaufzeichnung</string>
+    <string name="logging_enable_pref_title">Aktiviere Spielaufzeichnung</string>
+    <string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
+    <string name="logging_dir_pref_title">Aufzeichnungsordner</string>
+    <string name="logging_dir_pref_summary">Ordnern zum speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
+
+</resources>

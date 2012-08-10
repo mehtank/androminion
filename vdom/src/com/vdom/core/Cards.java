@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import com.vdom.api.Card;
@@ -16,6 +17,7 @@ public class Cards {
     public static ArrayList<Card> actionCardsHinterlands = new ArrayList<Card>();
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
     public static ArrayList<Card> prizeCards = new ArrayList<Card>();
+    public static HashMap<String, Card> actionCardsMap = new HashMap<String, Card>();
 
     public enum Type {
         // Kingdom Cards
@@ -434,6 +436,9 @@ public class Cards {
         }
         for (Card card : actionCardsHinterlands) {
             actionCards.add(card);
+        }
+        for (Card card: actionCards) {
+        	actionCardsMap.put(card.getName(), card);
         }
     }
 

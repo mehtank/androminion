@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mehtank.androminion"
-    android:versionCode="205"
-    android:versionName="2.05" >
+    android:versionCode="300"
+    android:versionName="3.00" >
 
     <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="7" />
+        android:minSdkVersion="8"
+        android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -20,9 +20,10 @@
         android:xlargeScreens="true" />
 
     <application
+        android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/Androminon" >
+        android:theme="@style/Theme.Sherlock">
         <activity android:name=".activities.MenuActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,10 +46,26 @@
         <activity
             android:name=".activities.GameActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.StartGameActivity" />
-        <activity android:name=".activities.CombinedStatsActivity" />
-        <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.AboutActivity" />
+        <activity android:name=".activities.StartGameActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mehtank.androminion.activities.MenuActivity" />
+        </activity>
+        <activity android:name=".activities.StatisticsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mehtank.androminion.activities.MenuActivity" />
+        </activity>
+        <activity android:name=".activities.SettingsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mehtank.androminion.activities.MenuActivity" />
+        </activity>
+        <activity android:name=".activities.AboutActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mehtank.androminion.activities.MenuActivity" />
+        </activity>
 
         <service
             android:name=".server.DominionServer"

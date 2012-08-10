@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
     <item>
-	  	<bitmap
-	    	android:src="@drawable/bigicon"
-        	android:gravity="center" />
-	</item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/bigicon" />
+    </item>
     <item>
-	    <shape>
-	        <solid android:color="#99000000"/>
-	    </shape>
-	</item>
+        <shape>
+            <solid android:color="#BB000000" />
+        </shape>
+    </item>
+
 </layer-list>

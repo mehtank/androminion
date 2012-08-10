@@ -12,18 +12,25 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/ui_pref_title" >
         <ListPreference
-            android:defaultValue="androminion"
+            android:defaultValue="androminion-dark"
             android:entries="@array/theme_names"
             android:entryValues="@array/theme_keys"
             android:key="theme"
             android:summary="@string/pref_theme_summary"
             android:title="@string/pref_theme_title" />
+        <ListPreference
+            android:defaultValue=""
+            android:entries="@array/userlang_names"
+            android:entryValues="@array/userlang_keys"
+            android:key="userlang"
+            android:summary="@string/userlang_pref_summary"
+            android:title="@string/userlang_pref_title" />
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="abc_header"
-            android:summary="@string/abc_header_pref_summary"
-            android:title="@string/abc_header_pref_title" >
+            android:key="show_statusbar"
+            android:summary="@string/show_statusbar_pref_summary"
+            android:title="@string/show_statusbar_pref_title" >
         </CheckBoxPreference>
         <CheckBoxPreference
             android:defaultValue="false"

@@ -4,6 +4,7 @@ import com.mehtank.androminion.R;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DeckView extends RelativeLayout {
+	@SuppressWarnings("unused")
+	private static final String TAG = "DeckView";
+	
 	private TextView name;
 	private TextView pirates;
 	private TextView victoryTokens;
@@ -25,7 +29,7 @@ public class DeckView extends RelativeLayout {
 	public DeckView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-        LayoutInflater.from(context).inflate(R.layout.deckview, this, true);
+        LayoutInflater.from(context).inflate(R.layout.view_deck, this, true);
 		name = (TextView) findViewById(R.id.name);
 		pirates = (TextView) findViewById(R.id.pirates);
 		victoryTokens = (TextView) findViewById(R.id.victoryTokens);
@@ -41,11 +45,13 @@ public class DeckView extends RelativeLayout {
 		String txt = nameStr + getContext().getString(R.string.turn_header) + turns;
 		name.setText(txt);
 		if (highlight) {
-			name.setTextColor(Color.BLACK);
-			name.setBackgroundColor(Color.GRAY);
+//			name.setTextColor(Color.BLACK);
+//			name.setBackgroundColor(Color.GRAY);
+			name.setTypeface(Typeface.DEFAULT_BOLD);
 		} else {
-			name.setTextColor(Color.WHITE);
-			name.setBackgroundColor(Color.BLACK);
+//			name.setTextColor(Color.WHITE);
+//			name.setBackgroundColor(Color.TRANSPARENT);
+			name.setTypeface(Typeface.DEFAULT);
 		}
 
 		pirates.setText(" " + pt + " ");

@@ -3,6 +3,12 @@ package com.vdom.comms;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Gives information about cards that are selected by the player from the table (piles, hand, play)
+ *
+ * This clas gives information about the constrains set on the selection of cards, e.g. what type, cost, from which place
+ *
+ */
 public class SelectCardOptions implements Serializable {
 	private static final long serialVersionUID = -1473106875075390348L;
 

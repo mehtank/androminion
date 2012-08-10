@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.mehtank.androminion.R;
 
 public class TurnView extends LinearLayout {
+	@SuppressWarnings("unused")
+	private static final String TAG = "TurnView";
 
 	static final int MAXICONS = 5;
 
@@ -25,12 +27,9 @@ public class TurnView extends LinearLayout {
 	Uri trURI, actionURI, buyURI, bridgeURI;
 	TextView coins;
 
-	TextView largeRefText;
-
-	public TurnView(Context context, TextView largeRefText) {
+	public TurnView(Context context) {
 		super(context);
 
-		this.largeRefText = largeRefText;
 		this.top = context;
 
 		final String BASEDIR = Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -159,15 +158,6 @@ public class TurnView extends LinearLayout {
 
 			tv.setText(str);
 			tv.setLayoutParams(lp);
-
-			if(largeRefText != null) {
-			    if(myTurn) {
-			        largeRefText.setText(baseStr);
-			    }
-			    else {
-//			        largeRefText.setText(" ");
-			    }
-			}
 
 			addView(tv);
 		}

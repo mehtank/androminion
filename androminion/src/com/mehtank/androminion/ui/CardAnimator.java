@@ -2,6 +2,8 @@ package com.mehtank.androminion.ui;
 
 import java.util.ArrayList;
 
+import com.mehtank.androminion.R;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -17,6 +19,9 @@ import android.widget.FrameLayout;
 
 
 public class CardAnimator {
+	@SuppressWarnings("unused")
+	private static final String TAG = "CardAnimator";
+	
 	public static enum ShowCardType {OBTAINED, TRASHED, REVEALED};
 	
 	private ViewGroup rootView;
@@ -26,15 +31,17 @@ public class CardAnimator {
 	
 	public void init(View anchor) {
 		rootView = (ViewGroup) anchor.getRootView();
-		left = anchor.getLeft();
-		top = anchor.getTop();
+		int[] location = new int[2];
+		anchor.getLocationOnScreen(location);
+		left = location[0];
+		top = location[1];
 		height = anchor.getHeight();
-		ViewParent vp = anchor.getParent();
+		/* ViewParent vp = anchor.getParent();
 		while (vp != rootView) {
 			left += ((View)vp).getLeft();
 			top += ((View)vp).getTop();
 			vp = vp.getParent();
-		}
+		} */
 	}
 	
 	
@@ -43,14 +50,14 @@ public class CardAnimator {
 		TranslateAnimation trans;
 		AnimationSet anims = new AnimationSet(true);
 		anims.setInterpolator(new LinearInterpolator());
-
+		int cardWidth = (int) c.getResources().getDimension(R.dimen.cardWidth);
 		switch (type) {
 		case OBTAINED:
 			alpha = new AlphaAnimation(0, 1);
 			trans = new TranslateAnimation(
 					Animation.ABSOLUTE, left,
 					Animation.ABSOLUTE, left,
-					Animation.ABSOLUTE, top - height*2,
+					Animation.ABSOLUTE, top - height*.5f,
 					Animation.ABSOLUTE, top );
 			anims.setInterpolator(new DecelerateInterpolator());
 			break;
@@ -60,24 +67,29 @@ public class CardAnimator {
 					Animation.ABSOLUTE, left,
 					Animation.ABSOLUTE, left,
 					Animation.ABSOLUTE, top,
-					Animation.ABSOLUTE, top + height*2);
+					Animation.ABSOLUTE, top + height*.5f);
 			anims.setInterpolator(new AccelerateInterpolator());
 			break;
 		default: //  REVEALED
 			alpha = new AlphaAnimation(1, 0.5f);
 			trans = new TranslateAnimation(
-					Animation.ABSOLUTE, left,
-					Animation.ABSOLUTE, left,
+					Animation.ABSOLUTE, left + cardWidth,
+					Animation.ABSOLUTE, left + cardWidth,
 					Animation.ABSOLUTE, top,
-					Animation.ABSOLUTE, top + height*0.5f);
+					Animation.ABSOLUTE, top + height*.3f);
 		}
+		alpha.setDuration(500);
+		trans.setDuration(500);
 		anims.addAnimation(alpha);
 		anims.addAnimation(trans);
-		anims.setDuration(2500L);
+		trans = new TranslateAnimation(0, 0, 0, 0);
+		trans.setDuration(2000); //
+		anims.addAnimation(trans);
+
 
 		anims.setAnimationListener(new CVAnimListener(c));
 
-		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(CardView.WIDTH, ViewGroup.LayoutParams.WRAP_CONTENT);
+		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(cardWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
 		c.setLayoutParams(lp);
 		rootView.addView(c);
 		c.startAnimation(anims);
