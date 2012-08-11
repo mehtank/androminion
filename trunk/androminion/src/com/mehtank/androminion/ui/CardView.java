@@ -52,16 +52,22 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		public boolean onTable;
 		public String indicator;
 		public int order;
+		public boolean shade;
 
 		public CardState(MyCard c) {
-			this(c, false, "", -1);
+			this(c, false, "", -1, false);
 		}
 
 		public CardState(MyCard c, boolean opened, String indicator, int order) {
+		    this(c, opened, indicator, order, false);
+		}
+		
+		public CardState(MyCard c, boolean opened, String indicator, int order, boolean shade) {
 			this.c = c;
 			this.opened = opened;
 			this.indicator = indicator;
 			this.order = order;
+			this.shade = shade;
 		}
 	}
 
@@ -239,8 +245,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	public void setCountLeft(int s) {
 		countLeft.setText(" " + s + " ");
 		countLeft.setVisibility(VISIBLE);
+		if (s == 0) shade();
+	}
 
-		float alpha = s == 0 ? 0.3f : 1.0f;
+	public void shade() {	
+		float alpha = 0.3f;
 
 		// setAlpha() is API level 11+ only, so we use an instant animation instead.
 		AlphaAnimation alphaAnimation = new AlphaAnimation(alpha, alpha);
@@ -267,6 +276,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		setCard(s.c);
 		setChecked(s.opened, s.order, s.indicator);
 		setOnTable(s.onTable);
+		if (s.shade)
+			shade();
 	}
 
 	private void setOnTable(boolean onTable) {

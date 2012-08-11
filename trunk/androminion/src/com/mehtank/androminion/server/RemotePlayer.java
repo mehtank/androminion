@@ -59,6 +59,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private MyCard[] myCardsInPlay;
 
     private ArrayList<Card> playedCards = new ArrayList<Card>();
+    private ArrayList<Boolean> playedCardsNew = new ArrayList<Boolean>();
 
 	private boolean hasJoined = false;
 	private Object hasJoinedMonitor;
@@ -231,9 +232,18 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
 		int index = 0;
 
+		// ensure Copper is card #0
+		Card cop = Cards.copper;
+		MyCard mc = makeMyCard(cop, index, false);
+		myCardsInPlayList.add(mc);
+		cardNamesInPlay.put(cop.getName(), index);
+		cardsInPlay.add(index, cop);
+		index++;
+		
     	for (Card c : context.getCardsInGame()) {
-
-    		MyCard mc;
+    		if (c.getSafeName().equals(Cards.copper.getSafeName()))
+    			continue;
+    		
     		if (context.game.baneCard == null) {
     			mc = makeMyCard(c, index, false);
     		} else {
@@ -379,13 +389,20 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	deckSizes[i] = p.getDeckSize();
             discardSizes[i] = p.getDiscardSize();
         	numCards[i] = p.getAllCards().size();
+        	
         	pirates[i] = p.getPirateShipTreasure();
         	victoryTokens[i] = p.getVictoryTokens();
         }
-        numCards[curPlayerIndex] += context.getPlayedCards().size();
 
     	GameStatus gs = new GameStatus();
 
+    	int[] playedArray = new int[playedCards.size()];
+    	for (int i = 0; i < playedCards.size(); i++) {
+    		Card c = playedCards.get(i);
+    		boolean newcard = playedCardsNew.get(i).booleanValue();
+    		playedArray[i] = (cardToInt(c) * (newcard ? 1 : -1));
+    	}
+    	
     	gs.setTurnStatus(new int[] {context.getActionsLeft(),
     					  context.getBuysLeft(),
                           context.getCoinForStatus(),
@@ -398,7 +415,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setEmbargos(embargos)
     	  .setCosts(costs)
     	  .setHand(cardArrToIntArr(Game.sortCards ? shownHand.toArray() : shownHand.sort(new Util.CardHandComparator())))
-    	  .setPlayedCards(cardArrToIntArr(playedCards.toArray(new Card[0])))
+    	  .setPlayedCards(playedArray)
     	  .setCurPlayer(curPlayerIndex)
     	  .setCurName(player.getPlayerName())
     	  .setHandSizes(handSizes)
@@ -704,22 +721,28 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		curContext = context;
     		newTurn = true;
     		playedCards.clear();
+    		playedCardsNew.clear();
     		break;
     	case TurnEnd:
     		playedCards.clear();
+    		playedCardsNew.clear();
     		break;
         case CantBuy:
             break;
     	case PlayingAction:
     	case PlayingDurationAction:
             playedCards.add(event.getCard());
+            playedCardsNew.add(event.newCard);
             break;
     	case PlayingCoin:
     		playedCards.add(event.getCard());
+    		playedCardsNew.add(true);
     		break;
     	case CardObtained:
     	    if (event.responsible.equals(Cards.hornOfPlenty) && event.card instanceof VictoryCard) {
-    	        playedCards.remove(event.responsible);
+    	    	int index = playedCards.indexOf(event.responsible);
+    	        playedCards.remove(index);
+    	        playedCardsNew.remove(index);
     	    }
     	    break;
     	case GameOver:
@@ -820,8 +843,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
   //  			debug("Sending general game event message failed, ignoring.");
   //  			e.printStackTrace();
   //  		}
+    		}
     	}
-    }
 
 
     @Override
@@ -990,7 +1013,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 		if (gameThread == null) {
 			debug("die() called, but game thread already dead.");
 			return;
-		}
+	}
 		if (Thread.currentThread() == gameThread) {
 			gameThread = null;
 			throw new ExitException();
