@@ -281,8 +281,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			shade(0.3f);
 	}
 
-	private void setOnTable(boolean onTable) {
+	void setOnTable(boolean onTable) {
 		countLeft.setVisibility(onTable ? VISIBLE : GONE);
+		cardDesc.setVisibility(onTable ? VISIBLE : GONE);
 	}
 
 	public CardState getState() {
