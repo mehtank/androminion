@@ -898,6 +898,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		View anchor = deckStatus.getChildAt(player);
 		if (anchor != null) {
 			animator.init(anchor);
+			c.setOnTable(false);
 			animator.showCard(c, type);
 		}
 
