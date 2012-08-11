@@ -2,39 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardBox"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:background="@drawable/thinborder" >
+    android:layout_height="fill_parent"
+    android:background="@drawable/sharpborder" >
 
+    <TextView
+        android:id="@+id/name"
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:singleLine="true"
+        android:textSize="12dp" />
+    
     <TextView
         android:id="@+id/cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:background="@drawable/coin"
         android:textColor="@android:color/black"
-        android:textSize="11dp"
+        android:textSize="12dp"
         android:visibility="invisible" />
-    
-   <TextView
-        android:id="@+id/name"
-        style="@android:style/TextAppearance.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:layout_toRightOf="@id/cost"
-        android:layout_alignParentTop="true"
-        android:singleLine="true"
-        android:textSize="11dp" />
     
     <TextView
         android:id="@+id/countLeft"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:textSize="8dp"
+        android:layout_alignLeft="@id/name"
+        android:layout_below="@id/name"
+        android:textSize="10dp"
         android:visibility="gone" />
 
     <!-- Embargos can only happen on supply piles (where countLeft is also shown) -->
@@ -47,7 +47,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/embargos"
         android:textColor="@android:color/white"
-        android:textSize="11dp"
+        android:textSize="12dp"
         android:visibility="gone" />
 
     <TextView
