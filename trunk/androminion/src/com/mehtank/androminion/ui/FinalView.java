@@ -5,9 +5,9 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.mehtank.androminion.R;
 
@@ -23,7 +23,7 @@ public class FinalView extends FrameLayout implements OnClickListener {
 	private int[] cardCounts, embargos;
 
 	private TextView name;
-	private Button showCards;
+	public ToggleButton showCards;
 
 	public FinalView(Context context, GameTable gt, String nameStr, int numTurns, int[] embargos, int numCards, int[] cardCounts, int vp, boolean winner) {
 		super(context);
@@ -40,12 +40,17 @@ public class FinalView extends FrameLayout implements OnClickListener {
 			name.setBackgroundColor(Color.YELLOW);
 		}
 		
-		showCards = (Button) findViewById(R.id.showCards);
+		showCards = (ToggleButton) findViewById(R.id.showCards);
         showCards.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
-		gt.setSupplySizes(cardCounts, embargos);
+		if (showCards.isChecked()) {
+			gt.uncheckAllShowCardsButtons();
+			gt.setSupplySizes(cardCounts, embargos);
+			showCards.setChecked(true);
+		} else
+			gt.uncheckAllShowCardsButtons();
 	}
 }

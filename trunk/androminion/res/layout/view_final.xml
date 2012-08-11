@@ -7,11 +7,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left" />
 
-    <Button
+    <ToggleButton
         android:id="@+id/showCards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="@string/final_view_card_counts" />
+        android:textOff="@string/final_view_card_counts" 
+        android:textOn="@string/final_view_card_counts" />
 
 </merge>

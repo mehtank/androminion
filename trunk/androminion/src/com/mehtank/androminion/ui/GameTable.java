@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.activities.GameActivity;
@@ -77,6 +78,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
 	Achievements achievements;
 	CardAnimator animator;
+	
+	ArrayList<ToggleButton> showCardsButtons = new ArrayList<ToggleButton>();
 
 	/**
 	 * Information about a selected card: group, position in that group, CardState
@@ -197,6 +200,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
     	actionText = (TextView) findViewById(R.id.actionText);
     	players.setTurnStatus(turnStatus);
+    	showCardsButtons.clear();
 	}
 
 	public GameTable(Context context) {
@@ -399,6 +403,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	boolean firstPass = false;
 	boolean canClick = true;
 	String prompt = "";
+
+	private int[] lastSupplySizes;
+
+	private int[] lastEmbargos;
 
 	void resetButtons() {
 		CharSequence selectText = select.getText();
@@ -732,7 +740,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 				gs.numCards[gs.whoseTurn], gs.supplySizes,
 				gs.handSizes[gs.whoseTurn], won);
 		fv.setLayoutParams(lp);
+		showCardsButtons.add(fv.showCards);
 		gameOver.addView(fv);
+	}
+	
+	void uncheckAllShowCardsButtons() {
+		for (ToggleButton t : showCardsButtons)
+			t.setChecked(false);
+		setSupplySizes(this.lastSupplySizes, this.lastEmbargos);
 	}
 
 	/**
@@ -809,6 +824,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 			villageColumn.setVisibility(GONE);
 		}
 		setSupplySizes(gs.supplySizes, gs.embargos);
+		this.lastSupplySizes = gs.supplySizes;
+		this.lastEmbargos = gs.embargos;
 		costs = gs.costs;
         setCardCosts(top.findViewById(android.R.id.content));
 	}
