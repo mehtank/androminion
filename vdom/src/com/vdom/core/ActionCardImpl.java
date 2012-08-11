@@ -157,8 +157,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         super.play(game, context);
 
         Player currentPlayer = context.getPlayer();
+        boolean newCard = false;
 
         if (this.numberTimesAlreadyPlayed == 0) {
+        	newCard = true;
             this.trashed = false;
             if (fromHand)
                 currentPlayer.hand.remove(this);
@@ -173,6 +175,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
         event.card = this;
+        event.newCard = newCard;
         game.broadcastEvent(event);
 
         // playing an action

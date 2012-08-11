@@ -41,9 +41,13 @@ public class CardGroup extends BaseAdapter {
 		this.top = top;
 		this.onTable = onTable;
 	}
-
+	
 	public void addCard(MyCard c) {
-		CardState ci = new CardState(c);
+		addCard(c, true);
+	}
+
+	public void addCard(MyCard c, boolean state) {
+		CardState ci = new CardState(c, false, "", -1, !state);
 		ci.onTable = onTable;
 		if (onTable || sorted) { // sort cards that are on the table
 			int i = 0;
