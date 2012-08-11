@@ -3,7 +3,7 @@
     android:id="@+id/cardBox"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/sharpborder" >
+    android:background="@drawable/cardborder" >
 
     <TextView
         android:id="@+id/name"
