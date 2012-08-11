@@ -60,7 +60,7 @@
     <string name="Thief_name">Thief</string>
     <string name="Thief_desc">Each other player reveals the top 2 cards of his deck. If they revelaed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.</string>
     <string name="ThroneRoom_name">Throne Room</string>
-    <string name="ThroneRoom_desc">Choose an Action card in you hand. Play it twice.</string>
+    <string name="ThroneRoom_desc">Choose an Action card in your hand. Play it twice.</string>
     <string name="Village_name">Village</string>
     <string name="Village_desc"></string>
     <string name="Witch_name">Witch</string>

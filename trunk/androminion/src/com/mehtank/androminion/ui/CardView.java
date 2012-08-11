@@ -286,7 +286,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	void setOnTable(boolean onTable) {
 		countLeft.setVisibility(onTable ? VISIBLE : GONE);
-		cardDesc.setVisibility(onTable ? VISIBLE : GONE);
+		if (cardDesc != null)
+			cardDesc.setVisibility(onTable ? VISIBLE : GONE);
 	}
 
 	public CardState getState() {

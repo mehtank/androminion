@@ -80,6 +80,9 @@
 
     <style name="CardView.Victory.Action">
         <item name="cardNameBackgroundColor">@color/cardVictory</item>
+        <item name="cardTextColor">@color/cardDefaultTextColor</item>
+        <item name="cardCountColor">@color/cardDefaultTextColor</item>
+        <item name="cardBackgroundColor">@color/cardDefaultTextBackgroundColor</item>
     </style>
 
 </resources>
