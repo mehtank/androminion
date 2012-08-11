@@ -137,7 +137,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		if (c.isBane) {
 			setBackgroundResource(R.drawable.baneborder);
 		} else {
-			setBackgroundResource(R.drawable.sharpborder);
+			setBackgroundResource(R.drawable.cardborder);
 		}
 
 		name.setText(c.name, TextView.BufferType.SPANNABLE);
