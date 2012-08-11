@@ -675,6 +675,10 @@ public class Game {
                 }
             } else if (!card.equals(Cards.throneRoom) && !card.equals(Cards.kingsCourt)) {
                 Util.debug(player, "Bad duration card: " + card);
+            } else {
+                GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
+                event.card = card;
+                broadcastEvent(event);
             }
             ((CardImpl) card).cloneCount = 1;
         }
