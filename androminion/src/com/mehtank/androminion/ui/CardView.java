@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -161,8 +162,13 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
         name.setBackgroundColor(nameBgColor);
 		countLeft.setTextColor(countColor);
 		if (cardDesc != null) {
-			// TODO: Check if using the same color here looks good in all cases.
-			cardDesc.setTextColor(textColor);
+			cardDesc.setTextColor(countColor);
+			if (c.pile == MyCard.MONEYPILE || c.pile == MyCard.VPPILE) {
+				ViewGroup.LayoutParams params = cardDesc.getLayoutParams();
+				int pixels = (int) (0.5f + 20 * getContext().getResources().getDisplayMetrics().density);
+				params.height = pixels;
+				cardDesc.setLayoutParams(params);
+			}
 		}
 	}
 
