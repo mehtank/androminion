@@ -37,7 +37,7 @@ import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
 import com.mehtank.androminion.ui.StartGameDialog;
-import com.vdom.comms.Comms;
+import com.vdom.comms.CommsOld;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
 import com.vdom.comms.EventHandler;
@@ -77,7 +77,7 @@ public class Androminion extends Activity implements EventHandler {
 
 	boolean gameRunning = false;
 
-	Comms comm;
+	CommsOld comm;
 	Thread commThread;
 	boolean gotQuit = false;
 
@@ -565,7 +565,7 @@ public class Androminion extends Activity implements EventHandler {
 	private boolean connect(int p) {
 		disconnect();
 		gotQuit = false;
-		comm = new Comms(this, host, p);
+		comm = new CommsOld(this, host, p);
 		try {
 			comm.connect();
 			debug("New Comms connected to " + host + " on port " + port);
@@ -696,4 +696,11 @@ public class Androminion extends Activity implements EventHandler {
 	    
 	       new StartGameDialog(top, e, MULTIPLAYER, cardsPassedInExtras);
 	}
+
+	@Override
+	public void sendErrorHandler(Exception e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -50,7 +50,7 @@ public class GameTableViews {
 	public static void newCardGroup(CardGroup cg, int[] cards) {
 		cg.clear();
 		for (int c : cards) {
-			cg.addCard(cardsInPlay.get(c));
+			cg.addCard(cardsInPlay.get(Math.abs(c)));
 		}
 	}
 	

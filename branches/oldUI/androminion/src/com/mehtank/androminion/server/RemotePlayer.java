@@ -13,7 +13,7 @@ import com.vdom.api.GameEvent.Type;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
-import com.vdom.comms.Comms;
+import com.vdom.comms.CommsOld;
 import com.vdom.comms.Event;
 import com.vdom.comms.EventHandler;
 import com.vdom.comms.GameStatus;
@@ -34,7 +34,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 	static int maxPause = 300000; // Maximum time to wait for new player to connect = 5 minutes in ms; 
 	private static VDomServer vdomServer = null;
 	
-	Comms comm;
+	CommsOld comm;
 	Thread commThread;
 	private int myPort = 0;
 
@@ -45,6 +45,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private MyCard[] myCardsInPlay;
 
     private ArrayList<Card> playedCards = new ArrayList<Card>();
+    private ArrayList<Boolean> playedCardsNew = new ArrayList<Boolean>();
     
 	private boolean hasJoined = false;
 	private Boolean hasJoinedMonitor = false;
@@ -66,10 +67,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 				if ((System.currentTimeMillis() - startTime) > maxPause) {
 					debug("Timed out waiting for player to join.");
 					break;
-				}
 			}
 		}
 	}
+}
 	public void playerJoined(){
 		synchronized(hasJoinedMonitor) {
 			hasJoined = true;
@@ -213,9 +214,17 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
 		int index = 0;
 
+		// ensure Copper is card #0
+		Card cop = Cards.copper;
+		MyCard mc = makeMyCard(cop, index, false);
+		myCardsInPlayList.add(mc);
+		cardNamesInPlay.put(cop.getName(), index);
+		cardsInPlay.add(index, cop);
+		index++;
     	for (Card c : context.getCardsInGame()) {
+    		if (c.getSafeName().equals(Cards.copper.getSafeName()))
+    			continue;
     		
-    		MyCard mc;
     		if (context.game.baneCard == null) {
     			mc = makeMyCard(c, index, false);
     		} else {
@@ -332,10 +341,15 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	pirates[i] = p.getPirateShipTreasure();
         	victoryTokens[i] = p.getVictoryTokens();
         }
-        numCards[curPlayerIndex] += context.getPlayedCards().size();
 
     	GameStatus gs = new GameStatus();
     	
+    	int[] playedArray = new int[playedCards.size()];
+    	for (int i = 0; i < playedCards.size(); i++) {
+    		Card c = playedCards.get(i);
+    		boolean newcard = playedCardsNew.get(i).booleanValue();
+    		playedArray[i] = (cardToInt(c) * (newcard ? 1 : -1));
+    	}
     	gs.setTurnStatus(new int[] {context.getActionsLeft(), 
     					  context.getBuysLeft(),
                           context.getCoinForStatus(),
@@ -348,7 +362,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setEmbargos(embargos)
     	  .setCosts(costs)
     	  .setHand(cardArrToIntArr(Game.sortCards ? shownHand.toArray() : shownHand.sort(new Util.CardHandComparator())))
-    	  .setPlayedCards(cardArrToIntArr(playedCards.toArray(new Card[0])))
+    	  .setPlayedCards(playedArray)
     	  .setCurPlayer(curPlayerIndex)
     	  .setCurName(player.getPlayerName())
     	  .setHandSizes(handSizes)
@@ -644,22 +658,28 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		curContext = context;
     		newTurn = true;
     		playedCards.clear();
+    		playedCardsNew.clear();
     		break;
     	case TurnEnd:
     		playedCards.clear();
+    		playedCardsNew.clear();
     		break;
         case CantBuy:
             break;
     	case PlayingAction:
     	case PlayingDurationAction:
             playedCards.add(event.getCard());
+            playedCardsNew.add(event.newCard);
             break;
     	case PlayingCoin:
     		playedCards.add(event.getCard());
+    		playedCardsNew.add(true);
     		break;
     	case CardObtained:
     	    if (event.responsible.equals(Cards.hornOfPlenty) && event.card instanceof VictoryCard) {
-    	        playedCards.remove(event.responsible);
+    	    	int index = playedCards.indexOf(event.responsible);
+    	        playedCards.remove(index);
+    	        playedCardsNew.remove(index);
     	    }
     	    break;
     	case GameOver:
@@ -823,7 +843,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	hasJoined = false;
     	for (int connections = 0; connections < NUM_RETRIES; connections++) {
     		try {
-				comm = new Comms(this, nextPort++);
+				comm = new CommsOld(this, nextPort++);
 				port = comm.getPort();
 				commThread = new Thread(comm);
 				commThread.start();
@@ -888,5 +908,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 	
 	void die() {
 		throw new NullPointerException();		
+	}
+	@Override
+	public void sendErrorHandler(Exception e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -471,7 +471,11 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 	boolean firstPass = false;
 	boolean canClick = true;
 	String prompt = "";
-	
+
+	private int[] lastSupplySizes;
+
+	private int[] lastEmbargos;
+
 	void resetButtons() {
 		CharSequence selectText = select.getText();
 		pass.setText(selectText.subSequence(0, selectText.length()-1));
@@ -871,6 +875,8 @@ public class GameTable extends LinearLayout implements OnClickListener, OnLongCl
 			villageAdded = true;
 		}
 		setSupplySizes(gs.supplySizes, gs.embargos);
+		this.lastSupplySizes = gs.supplySizes;
+		this.lastEmbargos = gs.embargos;
 		costs = gs.costs;
         setCardCosts(top.findViewById(android.R.id.content));
 	}

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 import com.vdom.api.GameType;
-import com.vdom.comms.Comms;
+import com.vdom.comms.CommsOld;
 import com.vdom.comms.Event;
 import com.vdom.comms.EventHandler;
 import com.vdom.comms.Event.EType;
@@ -58,7 +58,7 @@ public class VDomServer implements EventHandler {
 	Thread gt;
 	boolean isStarted = false;
 	boolean isRunning = false;
-	Comms comm;
+	CommsOld comm;
 	Thread commThread;
 	
 	public void debug(String str) {
@@ -107,7 +107,7 @@ public class VDomServer implements EventHandler {
 	}	
 	private void connect() {
 		try {
-			comm = new Comms(this, 1251);
+			comm = new CommsOld(this, 1251);
 		} catch (IOException e) {
 			e.printStackTrace();
 			error("Could not start server!");
@@ -297,6 +297,11 @@ public class VDomServer implements EventHandler {
 		final Random rand = new Random(System.currentTimeMillis());
 
 		return randomPlayers.get(rand.nextInt(randomPlayers.size()));
+	}
+	@Override
+	public void sendErrorHandler(Exception e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
