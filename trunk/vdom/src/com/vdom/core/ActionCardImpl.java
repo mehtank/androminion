@@ -2910,7 +2910,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
                 player.attacked(this, context);
-                player.gainNewCard(Cards.curse, this, context);
+                MoveContext playerContext = new MoveContext(game, player);
+                player.gainNewCard(Cards.curse, this, playerContext);
                 if (player.hand.size() > 3) {
                     Card[] cardsToKeep = (player).controlPlayer.followers_attack_cardsToKeep(context);
 
