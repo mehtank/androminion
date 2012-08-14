@@ -19,7 +19,7 @@
             android:summary="@string/pref_theme_summary"
             android:title="@string/pref_theme_title" />
         <ListPreference
-            android:defaultValue=""
+            android:defaultValue="default"
             android:entries="@array/userlang_names"
             android:entryValues="@array/userlang_keys"
             android:key="userlang"

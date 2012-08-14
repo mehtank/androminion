@@ -56,6 +56,7 @@
     <string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
 
     <string-array name="userlang_names" tools:ignore="MissingTranslation">
+        <item>Default</item>
         <item>English</item>
         <item>German</item>
         <item>Spanish</item>
