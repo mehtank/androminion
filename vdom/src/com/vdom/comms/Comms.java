@@ -29,7 +29,7 @@ import com.vdom.comms.Event.EType;
 
 public class Comms {
 	final static int TIMEOUT = 15000; // 15 seconds in ms
-	final static boolean DEBUGGING = true;
+	final static boolean DEBUGGING = false;
 	
 	String host;
 	int port;
