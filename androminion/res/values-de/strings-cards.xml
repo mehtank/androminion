@@ -258,7 +258,7 @@
     <string name="Harvest_name">Ernte</string>
     <string name="Harvest_desc">Decke die 4 obersten Karten von deinem Nachziehstapel auf. Lege die aufgedeckten Karten ab. +1 Geld pro aufgedeckter Karte mit unterschiedlichem Namen.</string>
     <string name="HornofPlenty_name">Füllhorn</string>
-    <string name="HornofPlenty_desc">Nimm dir eine Karte, die 1 Geld pro Karte mit unterschiedlichem Namen im Spiel (diese eingeschlossen) kostet. Nimmst du dir eine Punktekarte, entsorge das Füllhorn.</string>
+    <string name="HornofPlenty_desc">Nimm dir eine Karte, die bis zu 1 Geld pro Karte mit unterschiedlichem Namen im Spiel (diese eingeschlossen) kostet. Nimmst du dir eine Punktekarte, entsorge das Füllhorn.</string>
     <string name="HorseTraders_name">Pferdehändler</string>
     <string name="HorseTraders_desc">Lege 2 Karten aus deiner Hand ab. Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand zur Seite legen. Wenn du das machst: Bei Beginn deines nächsten Zuges +1 Karte und nimm diese Karte wieder auf die Hand.</string>
     <string name="HuntingParty_name">Jagdgesellschaft</string>
