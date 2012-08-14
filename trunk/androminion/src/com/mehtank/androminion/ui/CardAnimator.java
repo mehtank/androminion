@@ -45,7 +45,7 @@ public class CardAnimator {
 	
 	
 	public void showCard(CardView c, ShowCardType type) {
-		AlphaAnimation alpha;
+		AlphaAnimation alpha = null;
 		TranslateAnimation trans;
 		AnimationSet anims = new AnimationSet(true);
 		anims.setInterpolator(new LinearInterpolator());
@@ -56,7 +56,7 @@ public class CardAnimator {
 			trans = new TranslateAnimation(
 					Animation.ABSOLUTE, left,
 					Animation.ABSOLUTE, left,
-					Animation.ABSOLUTE, top - height*.5f,
+					Animation.ABSOLUTE, top - height,
 					Animation.ABSOLUTE, top );
 			anims.setInterpolator(new DecelerateInterpolator());
 			break;
@@ -66,20 +66,22 @@ public class CardAnimator {
 					Animation.ABSOLUTE, left,
 					Animation.ABSOLUTE, left,
 					Animation.ABSOLUTE, top,
-					Animation.ABSOLUTE, top + height*.5f);
+					Animation.ABSOLUTE, top + height);
 			anims.setInterpolator(new AccelerateInterpolator());
 			break;
 		default: //  REVEALED
-			alpha = new AlphaAnimation(1, 0.5f);
+			// alpha = new AlphaAnimation(1, 0.5f);
 			trans = new TranslateAnimation(
-					Animation.ABSOLUTE, left + cardWidth,
+					Animation.ABSOLUTE, left,
 					Animation.ABSOLUTE, left + cardWidth,
 					Animation.ABSOLUTE, top,
-					Animation.ABSOLUTE, top + height*.3f);
+					Animation.ABSOLUTE, top);
 		}
-		alpha.setDuration(500);
-		trans.setDuration(500);
-		anims.addAnimation(alpha);
+		if (alpha != null)
+			alpha.setDuration(1000);
+		trans.setDuration(1000);
+		if (alpha != null)
+			anims.addAnimation(alpha);
 		anims.addAnimation(trans);
 		trans = new TranslateAnimation(0, 0, 0, 0);
 		trans.setDuration(2000); //

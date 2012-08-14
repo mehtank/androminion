@@ -9,6 +9,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         layout="@layout/view_supply" />
+    
+    <TextView
+        android:id="@+id/actionText"
+        android:layout_width="wrap_content"
+        android:minLines="2"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="14sp" /> <!-- Alternativ: android:textAppearance="?android:attr/textAppearanceMedium" -->
 
     <LinearLayout
         android:id="@+id/tr"
@@ -44,13 +52,6 @@
             android:visibility="gone" >
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/actionText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="12sp" /> <!-- Alternativ: android:textAppearance="?android:attr/textAppearanceMedium" -->
 
     <com.mehtank.androminion.ui.GameScrollerView
         android:id="@+id/gameScroller"

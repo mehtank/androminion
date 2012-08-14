@@ -113,7 +113,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 //	private String serverHost;
 //	private int serverPort;
 
-	private final boolean DEBUGGING = true;
+	private final boolean DEBUGGING = false;
 	
 	@SuppressLint("NewApi")
 	@Override
