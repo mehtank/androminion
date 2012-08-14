@@ -17,6 +17,8 @@ import com.mehtank.androminion.R;
 public class ThemeSetter {
 	@SuppressWarnings("unused")
 	private static final String TAG = "ThemeSetter";
+	
+	private static final Locale DefaultLocale = java.util.Locale.getDefault();
 
 	private static final HashMap<String, Integer> THEMES_BAR = new HashMap<String, Integer>() {
 		private static final long serialVersionUID = 1L;
@@ -70,9 +72,12 @@ public class ThemeSetter {
 				.getConfiguration();
 
 		String lang = settings.getString(act.getString(R.string.userlang_pref),
-				"");
+				"default");
 		Log.d("AndrominionApplication", "lang set to " + lang);
-		if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
+		if("default".equals(lang)){
+			lang = DefaultLocale.getLanguage();
+		}
+		if (!config.locale.getLanguage().equals(lang)) {
 			Locale locale = new Locale(lang);
 			Locale.setDefault(locale);
 			config.locale = locale;

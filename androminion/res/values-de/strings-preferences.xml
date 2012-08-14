@@ -6,6 +6,16 @@
     <string name="name_pref_summary">Spitznamen wählen</string>
     <string name="userlang_pref_title">Sprache</string>
     <string name="userlang_pref_summary">Sprache wählen (überschreibt Systemsprache)</string>
+    <string-array name="userlang_names">
+        <item>Voreinstellung</item>
+        <item>Englisch</item>
+        <item>Deutsch</item>
+        <item>Spanisch</item>
+        <item>Französisch</item>
+        <item>Japanisch</item>
+        <item>Niederländisch</item>
+        <item>Russisch</item>
+    </string-array>
     <string name="show_statusbar_pref_title">Statusleiste anzeigen</string>
     <string name="show_statusbar_pref_summary">Zeige die System-Statusleiste während des spielens an</string>
     <string name="ui_pref_title">Oberfläche</string>
