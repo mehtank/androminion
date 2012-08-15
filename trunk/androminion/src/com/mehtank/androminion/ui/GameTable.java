@@ -236,7 +236,6 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     	initTurnPanel();
     	gameOver = (LinearLayout) findViewById(R.id.gameOver);
     	gameOverScroll = (ScrollView) findViewById(R.id.gameOverScroll);
-    	gameOver.removeAllViews(); // FIX: After playing two games in a row, winners of both games are displayed without this fix.
     	gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
     	
@@ -285,6 +284,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		gameScroller.clear();
 		gameScroller.setNumPlayers(players.length);
 		gameOver.setVisibility(GONE);
+    	gameOver.removeAllViews(); // FIX: After playing two games in a row, winners of both games are displayed without this fix.
 		gameOverScroll.setVisibility(GONE);
 		tr.setVisibility(VISIBLE);
 
