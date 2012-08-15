@@ -50,31 +50,6 @@
 			android:key="allvibeson" android:defaultValue="true"></CheckBoxPreference>
 		<PreferenceScreen android:dependency="allvibeson"
 			android:title="@string/vibescreen_pref_title">
-        <PreferenceScreen
-            android:dependency="allvibeson"
-            android:title="@string/vibescreen_pref_title" >
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="clickvibeon"
-                android:summary="@string/clickvibeon_pref_summary"
-                android:title="@string/clickvibeon_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="actionvibeon"
-                android:summary="@string/actionvibeon_pref_summary"
-                android:title="@string/actionvibeon_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="turnvibeon"
-                android:summary="@string/turnvibeon_pref_summary"
-                android:title="@string/turnvibeon_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:dependency="allvibeson"
-                android:key="gamevibeon"
 			<CheckBoxPreference android:key="clickvibeon"
 				android:summary="@string/clickvibeon_pref_summary" android:title="@string/clickvibeon_pref_title"
 				android:defaultValue="true"></CheckBoxPreference>
