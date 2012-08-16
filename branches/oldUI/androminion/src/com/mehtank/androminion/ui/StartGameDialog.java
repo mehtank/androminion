@@ -351,7 +351,7 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
             }
 
             if(prefs.getBoolean("sort_cards", false)) {
-                strs.add("-sort_cards");
+                strs.add("-sortcards");
             }
 
             if (prefs.getBoolean("action_chains", false)) {
