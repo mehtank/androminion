@@ -1,9 +1,8 @@
 package com.mehtank.androminion.ui;
 
-import com.mehtank.androminion.activities.GameActivity;
+import com.mehtank.androminion.Androminion;
 import com.vdom.comms.Event;
 
-import android.content.Context;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -11,12 +10,10 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class TalkView extends EditText implements OnEditorActionListener {
-	@SuppressWarnings("unused")
-	private static final String TAG = "TalkView";
-	
-	GameActivity top;
 
-	public TalkView(GameActivity top) {
+	Androminion top;
+	
+	public TalkView(Androminion top) {
 		super(top);
 		this.top = top;
 		setSingleLine();
@@ -28,10 +25,10 @@ public class TalkView extends EditText implements OnEditorActionListener {
 		String txt = arg0.getText().toString().trim();
 		if (!txt.equals(""))
 			top.handle(new Event(Event.EType.SAY).setString(txt));
-
+		
 		setText("");
 
-		InputMethodManager imm = (InputMethodManager)top.getSystemService(Context.INPUT_METHOD_SERVICE);
+		InputMethodManager imm = (InputMethodManager)top.getSystemService(Androminion.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(getWindowToken(), 0);
 
 		return true;

@@ -1,75 +1,66 @@
 package com.mehtank.androminion.ui;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.graphics.Color;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
+import com.mehtank.androminion.Androminion;
+import com.mehtank.androminion.Androminion.AlertType;
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.activities.GameActivity;
-import com.mehtank.androminion.ui.CardView.CardState;
-import com.mehtank.androminion.util.Achievements;
-import com.mehtank.androminion.util.CardGroup;
-import com.mehtank.androminion.util.HapticFeedback;
-import com.mehtank.androminion.util.HapticFeedback.AlertType;
-import com.mehtank.androminion.util.PlayerAdapter;
-import com.mehtank.androminion.util.PlayerSummary;
 import com.vdom.comms.Event;
-import com.vdom.comms.Event.EventObject;
 import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
+import com.vdom.comms.Event.EventObject;
 
-public class GameTable extends LinearLayout implements OnItemClickListener, OnItemLongClickListener {
-	@SuppressWarnings("unused")
-	private static final String TAG = "GameTable";
+public class GameTable extends LinearLayout implements OnClickListener, OnLongClickListener, OnSharedPreferenceChangeListener {
+	Androminion top;
+
+	ArrayList<String> allPlayers = new ArrayList<String>();
 	
-	private final GameActivity top;
-
-	private PlayerAdapter players = new PlayerAdapter(getContext());
-
-	public PlayerAdapter getPlayerAdapter() {
-		return players;
-	}
-
 	GridView handGV, playedGV, islandGV, villageGV;
 	CardGroup hand, played, island, village;
-	View islandColumn, villageColumn;
+	LinearLayout handCS, playedCS, islandCS, villageCS;
 	TextView playedHeader;
 	LinearLayout myCards;
-
+	boolean playedAdded = false, islandAdded = false, villageAdded = false;
+	
 	GridView moneyPileGV, vpPileGV, supplyPileGV, prizePileGV;
 	CardGroup moneyPile, vpPile, supplyPile, prizePile;
-
+	
 	LinearLayout tr;
 	LinearLayout gameOver;
-	ScrollView gameOverScroll;
-
+	
 	View supply;
-	LinearLayout turnView;
+	View turnView;
 	View myCardView;
 	private static int[] costs = {};
-
+	
 	TextView actionText;
+	TextView largeRefText;
 	LinearLayout deckStatus;
 	TurnView turnStatus;
-	/**
-	 * Button that are pressed to confirm or decline an option 
-	 */
 	Button select, pass;
     String indicator;
 	GameScrollerView gameScroller;
@@ -77,197 +68,263 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	SelectStringView sv;
 
 	Achievements achievements;
-	CardAnimator animator;
 	
-	ArrayList<ToggleButton> showCardsButtons = new ArrayList<ToggleButton>();
-
-	/**
-	 * Information about a selected card: group, position in that group, CardState
-	 */
-	private class CardInfo {
-		public CardState cs;
-		public CardGroup parent;
-		public int pos;
-
-		public CardInfo(CardState cs, CardGroup parent, int pos) {
-			this.cs = cs;
-			this.parent = parent;
-			this.pos = pos;
-		}
-	}
-	/**
-	 * List of cards that were selected
-	 */
-	ArrayList<CardInfo> openedCards = new ArrayList<CardInfo>();
+	ArrayList<CardView> openedCards = new ArrayList<CardView>();
 	int maxOpened = 0;
 	boolean exactOpened = true;
 	boolean myTurn;
-
+	
 	boolean finalStatsReported = false;
-
+		
 	double textScale = GameTableViews.textScale;
 
 	private HelpView helpView;
+	
+	private LinearLayout makeTable(Context top) {
+    	moneyPile = new CardGroup(top, this, this, true);
+    	vpPile = new CardGroup(top, this, this, true);
+    	supplyPile = new CardGroup(top, this, this, true, 8);
+    	prizePile = new CardGroup(top, this, this, true);
 
-	/**
-	 * Initialize the card groups at the top of the screen, where the card piles go
-	 */
-	private void initTable() {
-    	moneyPile = new CardGroup(top, true);
-    	moneyPileGV = (GridView) findViewById(R.id.moneyPileGV);
-    	moneyPileGV.setAdapter(moneyPile);
-    	moneyPileGV.setOnItemClickListener(this);
-    	moneyPileGV.setOnItemLongClickListener(this);
-    	
-    	vpPile = new CardGroup(top, true);
-    	vpPileGV = (GridView) findViewById(R.id.vpPileGV);
-    	vpPileGV.setAdapter(vpPile);
-    	vpPileGV.setOnItemClickListener(this);
-    	vpPileGV.setOnItemLongClickListener(this);
-    	
-    	supplyPile = new CardGroup(top, true);
-    	supplyPileGV = (GridView) findViewById(R.id.supplyPileGV);
-    	supplyPileGV.setAdapter(supplyPile);
-    	supplyPileGV.setOnItemClickListener(this);
-    	supplyPileGV.setOnItemLongClickListener(this);
-    	
-    	prizePile = new CardGroup(top, true);
-    	prizePileGV = (GridView) findViewById(R.id.prizePileGV);
-    	prizePileGV.setAdapter(prizePile);
-    	prizePileGV.setOnItemClickListener(this);
-    	prizePileGV.setOnItemLongClickListener(this);
-	}
+    	moneyPileGV = GameTableViews.makeGV(top, moneyPile, 5);
+    	vpPileGV = GameTableViews.makeGV(top, vpPile, 5);
+    	supplyPileGV = GameTableViews.makeGV(top, supplyPile, 4);
+    	prizePileGV = GameTableViews.makeGV(top, prizePile, 5);
 
-	/**
-	 * Initialize card groups that belong to the user (hand, played, island, village)
-	 */
-	private void initHand() {
-		hand = new CardGroup(top, false);
-		// hand.enableSorting(new MyCard.CardHandComparator());
-    	handGV = (GridView) findViewById(R.id.handGV);
-    	handGV.setAdapter(hand);
-    	handGV.setOnItemClickListener(this);
-    	handGV.setOnItemLongClickListener(this);
+    	LinearLayout table = new LinearLayout(top);
+    	table.setOrientation(VERTICAL);
     	
-    	played = new CardGroup(top, false);
-    	playedGV = (GridView) findViewById(R.id.playedGV);
-    	playedGV.setAdapter(played);
-    	playedGV.setOnItemLongClickListener(this);
+    	table.addView(moneyPileGV);
+    	table.addView(vpPileGV);
+    	table.addView(supplyPileGV);
+    	table.addView(prizePileGV);
+    	table.setBackgroundResource(R.drawable.roundborder);
     	
-		island = new CardGroup(top, false);
-    	islandGV = (GridView) findViewById(R.id.islandGV);
-    	islandGV.setAdapter(island);
-    	islandGV.setOnItemLongClickListener(this);
-    	islandColumn = findViewById(R.id.islandColumn);
-    	
-		village = new CardGroup(top, false);
-    	villageGV = (GridView) findViewById(R.id.villageGV);
-    	villageGV.setAdapter(village);
-    	villageGV.setOnItemLongClickListener(this);
-    	villageColumn = findViewById(R.id.villageColumn);
-
-    	playedHeader = (TextView) findViewById(R.id.playedHeader);
-    	
-    	//only for help
-    	myCardView = findViewById(R.id.myCardView);
+    	return table;
 	}
 	
-	/**
-	 * Initialize player information list (right of the screen)
-	 */
-	private void initTurnPanel() {
-		turnView = (LinearLayout) findViewById(R.id.turnView);
-		
-		select = (Button) findViewById(R.id.select);
+	private View makeMyCards(Context top) {
+		hand = new CardGroup(top, this, this, false);
+    	played = new CardGroup(top, this, this, false);
+		island = new CardGroup(top, this, this, false);
+		village = new CardGroup(top, this, this, false);
+
+    	handGV = GameTableViews.makeGV(top, hand, 1);
+    	playedGV = GameTableViews.makeGV(top, played, 1);
+    	islandGV = GameTableViews.makeGV(top, island, 1);
+    	villageGV = GameTableViews.makeGV(top, village, 1);
+
+//    	handGV.setBackgroundResource(R.drawable.roundborder);
+//    	playedGV.setBackgroundResource(R.drawable.roundborder);
+//    	islandGV.setBackgroundResource(R.drawable.roundborder);
+//    	villageGV.setBackgroundResource(R.drawable.roundborder);
+
+    	playedHeader = new TextView(top);
+    	
+    	handCS = (GameTableViews.myCardSet(top, Strings.getString(top, R.string.hand_header), handGV, null));
+    	playedCS = (GameTableViews.myCardSet(top, Strings.getString(top, R.string.played_header), playedGV, playedHeader));
+    	islandCS = (GameTableViews.myCardSet(top, Strings.getString(top, R.string.island_header), islandGV, null));
+    	villageCS = (GameTableViews.myCardSet(top, Strings.getString(top, R.string.village_header), villageGV, null));
+
+    	islandCS.setBackgroundResource(R.drawable.roundborder);
+    	villageCS.setBackgroundResource(R.drawable.roundborder);
+    	
+    	myCards = new LinearLayout(top);
+    	myCards.setOrientation(HORIZONTAL);
+    	
+    	myCards.addView(handCS);
+    	myCards.addView(playedCS);
+		playedAdded = true;
+
+    	for (int i=0; i<8; i++) 
+    		hand.addCard(new MyCard(0, "default", "default", "default"));
+    	    	
+    	HorizontalScrollView sv = new HorizontalScrollView(top) {
+    		boolean f = false;
+    		@Override 
+    		public void onSizeChanged (int w, int h, int oldw, int oldh) {
+    			// System.err.println(" ******   onSizeChanged " + w + " " + h + " " + oldw + " " + oldh);
+    			if ((w != 0) && (h != 0) && (oldw == 0) && (oldh == 0)) 
+    				f = true;
+    			else if ((w != 0) && (h != 0) && f) {
+    		    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(w, Math.max(h, oldh));
+    		    	setLayoutParams(p);
+    			}
+    		}
+    	};
+    	sv.addView(myCards);    	
+    	myCardView = sv;
+    	return sv;
+	}
+	private LinearLayout makeTurnPanel(Context top) {
+    	select = new Button(top);
+    	select.setVisibility(INVISIBLE);
         setSelectText(SelectCardOptions.PickType.SELECT);
         select.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) { cardSelected((Button) v); }
+            public void onClick(View v) { cardSelected((Button) v); }
         });
-        
-        pass = (Button) findViewById(R.id.pass);
+        LayoutParams p = new LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.FILL_PARENT, 
+                1.0f
+                );
+        p.leftMargin = 0;
+        p.rightMargin = 0;
+        select.setLayoutParams(p);
+        select.setPadding(0, 0, 0, 0);
+
+    	pass = new Button(top);
+    	pass.setVisibility(INVISIBLE);
+    	pass.setText("Pass");
         pass.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) { cardSelected((Button) v); }
+            public void onClick(View v) { cardSelected((Button) v); }
         });
-        
-        deckStatus = (LinearLayout) findViewById(R.id.deckStatus);
-        players.setContainer(deckStatus);
-        deckStatus.setEnabled(true);
+        p = new LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.FILL_PARENT,
+                1.0f
+				);
+        p.leftMargin = 0;
+        p.rightMargin = 0;
+        pass.setLayoutParams(p);
+        pass.setPadding(0, 0, 0, 0);
 
-        turnStatus = new TurnView(top);
-    	turnStatus.setTextSize(12.0f);
+        LinearLayout buttons = new LinearLayout(top);
+        buttons.addView(select);
+        buttons.addView(pass);
     	
-        //turnView.addView(turnStatus, 2);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+        		LinearLayout.LayoutParams.FILL_PARENT,
+        		LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.leftMargin = 0;
+        lp.rightMargin = 0;
+        buttons.setLayoutParams(lp);
+        
+        deckStatus = new LinearLayout(top);
+        deckStatus.setOrientation(VERTICAL);
+        deckStatus.setLayoutParams(lp);
+        DeckView.setTextScale(textScale);
 
-    	actionText = (TextView) findViewById(R.id.actionText);
-    	players.setTurnStatus(turnStatus);
-    	showCardsButtons.clear();
+    	turnStatus = new TurnView(top, largeRefText);
+    	turnStatus.setTextSize((float) (turnStatus.getTextSize() * textScale));
+
+    	actionText = new TextView(top);
+		actionText.setTextSize((float) (actionText.getTextSize() * textScale));
+    	
+    	LinearLayout ll = new LinearLayout(top);
+    	ll.setOrientation(VERTICAL);
+    	ll.addView(buttons);
+    	ll.addView(deckStatus);
+    	ll.addView(turnStatus);
+    	ll.addView(actionText);
+    	
+        lp = new LinearLayout.LayoutParams(
+        		LinearLayout.LayoutParams.FILL_PARENT,
+        		LinearLayout.LayoutParams.WRAP_CONTENT);
+        ll.setLayoutParams(lp);
+    	
+        turnView = ll;
+    	return ll;
 	}
 
-	public GameTable(Context context) {
-	    this(context, null);
-	}
-	
-	public GameTable(Context context, AttributeSet attrs) {
-	    this(context, attrs, 0);
-	}
-	
-	public GameTable(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs); //TODO remove this workaround
-		//super(context, attrs, defStyle); // fails with exception...
-		this.top = (GameActivity) context;
+    private LinearLayout makeLargeRef(Context top) {
+        largeRefText = new TextView(top);
+        largeRefText.setTextSize((float) (largeRefText.getTextSize() * 1.6f));
+        largeRefText.setText("  ");
+        LinearLayout ll = new LinearLayout(top);
+        ll.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_HORIZONTAL);
+        ll.setOrientation(HORIZONTAL);
+        ll.addView(largeRefText);
+        
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.FILL_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        ll.setLayoutParams(lp);
 
+        if(!PreferenceManager.getDefaultSharedPreferences(top).getBoolean("abc_header", true)) {
+            ll.setVisibility(GONE);
+        }
+        
+        return ll;
+    }
+    
+	private void makeGameOver(Context top) {
+		gameOver = new LinearLayout(top);
+		gameOver.setOrientation(LinearLayout.VERTICAL);
+		
+		TextView tv = new TextView(top);
+		tv.setText("Game over!\n");
+		
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+        		LinearLayout.LayoutParams.FILL_PARENT,
+        		LinearLayout.LayoutParams.WRAP_CONTENT);
+        tv.setLayoutParams(lp);
+
+		gameOver.addView(tv);
+		gameOver.setLayoutParams(lp);
+	}
+	public GameTable(Androminion top) {
+		super(top);
+		this.top = top;
+		    	
 		setOrientation(VERTICAL);
 		
-		animator = new CardAnimator();
-
         try {
             achievements = new Achievements(top);
         }
         catch(Exception e) {
             e.printStackTrace();
         }
-        
-        LayoutInflater.from(context).inflate(R.layout.view_gametable, this, true);
+		
+    	TextView titleText = new TextView(top);
+    	titleText.setText(Strings.getString(top, R.string.title));
+    	makeGameOver(top);
 
-    	supply = findViewById(R.id.supply);
-    	initTable();
-    	tr = (LinearLayout) findViewById(R.id.tr);
-    	initHand();
-    	initTurnPanel();
-    	gameOver = (LinearLayout) findViewById(R.id.gameOver);
-    	gameOverScroll = (ScrollView) findViewById(R.id.gameOverScroll);
-    	gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
+    	LinearLayout largeRef = makeLargeRef(top);
+    	tr = new LinearLayout(top);
+    	tr.addView(makeMyCards(top));
+    	tr.addView(makeTurnPanel(top));
+    	
+    	addView(titleText);
+    	
+        addView(largeRef);
+        
+    	addView(supply = makeTable(top));
+    	
+    	addView(tr);
+    	// addView(new TalkView(top));
+    	gameScroller = new GameScrollerView(top, textScale);
+    	/*
+    	FrameLayout.LayoutParams fp = new FrameLayout.LayoutParams(
+    			FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, 
+    			Gravity.BOTTOM); 
+    	gameScroller.setLayoutParams(fp);
+    	top.addView(gameScroller);
+    	gameScroller.setVisibility(INVISIBLE);
+    	*/
+    	
+    	addView(gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
     	
-    	/**
-    	 * findViewById(R.id.actionText) must be in here so that it gets fadet out whenever everything else fades out.
-    	 */
-    	helpView = new HelpView(this.top, new View[] {supply, turnView, myCardView, gameScroller, findViewById(R.id.actionText)}, new View[] {tr, supply, supply, tr});
+    	helpView = new HelpView(this.top, new View[] {supply, turnView, myCardView, gameScroller}, new View[] {tr, supply, supply, tr});
+    	// helpView = new HelpView(this.top, new View[] {supply, tr, tr, gameScroller}, new View[] {tr, supply, supply, tr});
     }
-
+	
 	public void showHelp(int page) {
 		try {
 			top.addView(helpView);
 		} catch (IllegalStateException e) {}
 		helpView.showHelp(page);
 	}
-
-
-	/**
-	 * Turn log view on or off
-	 */
+	
+	
 	public void logToggle() {
-		if (gameScroller.getVisibility() != VISIBLE)
+		if (gameScroller.getVisibility() == INVISIBLE)
 	    	gameScroller.setVisibility(VISIBLE);
 		else
-			gameScroller.setVisibility(GONE);
+			gameScroller.setVisibility(INVISIBLE);
 	}
 
-	/**
-	 * A new game was stared, we are given the information about the game setup
-	 * @param cards Cards that are in play
-	 * @param players Names of players
-	 */
 	public void newGame(MyCard[] cards, String[] players) {
 		GameTableViews.clearCards();
 		openedCards.clear();
@@ -278,16 +335,18 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		played.clear();
 		island.clear();
 		village.clear();
-		this.players.clear();
-
+		allPlayers.clear();
+		
 		actionText.setText("");
+		deckStatus.removeAllViews();
 		gameScroller.clear();
 		gameScroller.setNumPlayers(players.length);
-		gameOver.setVisibility(GONE);
-    	gameOver.removeAllViews(); // FIX: After playing two games in a row, winners of both games are displayed without this fix.
-		gameOverScroll.setVisibility(GONE);
-		tr.setVisibility(VISIBLE);
-
+		gameOver.removeAllViews();
+		tr.removeAllViews();
+    	tr.addView(makeMyCards(top));
+    	tr.addView(makeTurnPanel(top));
+    	helpView.setShowViews(new View[] {supply, turnView, myCardView, gameScroller});
+		
 		for (MyCard c : cards)
 			addCardToTable(c);
 		for (String s : players)
@@ -299,47 +358,37 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 platInPlay = true;
                 break;
             }
-
+		    
         boolean colonyInPlay = false;
-        //check if there's a colony
         for (MyCard c : cards)
             if(c.originalSafeName.equals("Colony")) {
                 colonyInPlay = true;
                 break;
             }
-
+        
         boolean potionInPlay = false;
-        // check if there's a potion
         for (MyCard c : cards)
             if(c.isPotion) {
                 potionInPlay = true;
                 break;
             }
-
-        // adjust size of pile table
+        
         if(potionInPlay && platInPlay)
             moneyPileGV.setNumColumns(5);
         else
             moneyPileGV.setNumColumns(4);
-
+		
         if(!colonyInPlay)
             vpPileGV.setNumColumns(4);
         else
             vpPileGV.setNumColumns(5);
-
-        // done setting up, remove splash screen
+        
 		top.nosplash();
-		// log start of game
-		gameScroller.setGameEvent(top.getString(R.string.game_loaded), true, 0);
+		gameScroller.setGameEvent(Strings.getString(top, R.string.game_loaded), true, 0);
+		
+		showSupplySizes(); // TODO doesn't do anything
 	}
-
-	/**
-	 * initialize a card pile for the table
-	 * 
-	 * This is called upon setup from within newGame 
-	 * 
-	 * @param c cart type
-	 */
+	
 	public void addCardToTable(MyCard c) {
 		GameTableViews.addCard(c.id, c);
 
@@ -353,53 +402,72 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		    prizePile.addCard(c);
 	}
 
-	/**
-	 * Make the 'select' button clickable. Call this when the current selection of cards is valid, e.g. enough cards selected.
-	 */
 	private void canSelect() {
-		select.setEnabled(true);
+		select.setClickable(true);
+		select.setTextColor(Color.BLACK);
 	}
-	/**
-	 * Make the 'select' button not clickable, if selection of cards is invalid
-	 */
 	private void cannotSelect() {
-		select.setEnabled(false);
+		select.setClickable(false);
+		select.setTextColor(Color.GRAY);
+	}
+	public void onClick(View v) {
+		CardView clickedCard = (CardView) v;
+		
+		if (clickedCard.c == null)
+			return;
+		
+		if (sco == null) 
+			return;
+
+		if (!canClick) 
+			return;
+		
+        if (clickedCard.opened) {
+			top.alert(AlertType.CLICK);
+			if (openedCards.contains(clickedCard))
+				openedCards.remove(clickedCard);
+            clickedCard.setOpened(false, sco.getPickType().indicator());
+            selectButtonState();
+		} else {
+			if (isAcceptable(sco, clickedCard)) {
+				top.alert(AlertType.CLICK);
+				if (openedCards.size() >= maxOpened) {
+                    openedCards.get(0).setOpened(false, sco.getPickType().indicator());
+					openedCards.remove(0);
+				}
+                clickedCard.setOpened(true, sco.getPickType().indicator());
+				openedCards.add(clickedCard);
+                selectButtonState();
+			}
+		}
+		if (sco.ordered)
+			for (CardView c : openedCards)
+                c.setOpened(true, openedCards.indexOf(c), sco.getPickType().indicator());
 	}
 
-	/**
-	 * Is the given card an acceptable choice given the constrains saved in sco?
-	 * @param c chosen card
-	 * @param parent which pile the card was selected from
-	 * @return
-	 */
-	boolean isAcceptable(MyCard c, CardGroup parent) {
-		if (sco.fromHand && (parent != hand)) return false;
+	boolean isAcceptable(SelectCardOptions sco, CardView cv) {
+		MyCard c = cv.c;
+		if (sco.fromHand && (cv.parent != hand)) return false;
 		else if (sco.fromTable) {
 			if (sco.fromPrizes) {
-				if ((parent != vpPile)
-				&&  (parent != moneyPile)
-				&&  (parent != supplyPile)
-				&&  (parent != prizePile)) return false;
+				if ((cv.parent != vpPile)
+				&&  (cv.parent != moneyPile)
+				&&  (cv.parent != supplyPile)
+				&&  (cv.parent != prizePile)) return false;
 			} else {
-				if ((parent != vpPile)
-				&&  (parent != moneyPile)
-				&&  (parent != supplyPile)) return false;
+				if ((cv.parent != vpPile)
+				&&  (cv.parent != moneyPile)
+				&&  (cv.parent != supplyPile)) return false;
 			}
 		} else if (sco.fromPrizes) {
-			if (parent != prizePile) return false;
+			if (cv.parent != prizePile) return false;
 		}
-
+		
 		return sco.checkValid(c, getCardCost(c));
 	}
-
-	/**
-	 * Save the state of what kind of cards we may currently select
-	 */
+	
 	SelectCardOptions sco = null;
-
-	/**
-	 * firstPass is true if the user clicked 'pass' once already and is asked if he is sure right now.
-	 */
+	
 	boolean firstPass = false;
 	boolean canClick = true;
 	String prompt = "";
@@ -416,49 +484,35 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		canClick = true;
 	}
 
-	/**
-	 * Something was declined and we ask if the user is really, really sure
-	 */
 	void passButtons() {
         select.setText(pass.getText() + "!");
-		pass.setText(R.string.confirm_no);
-		actionText.setText(R.string.confirmation);
+		pass.setText(Strings.getString(top, R.string.confirm_no));
+		actionText.setText(Strings.getString(top, R.string.confirmation));
 
-		for (CardInfo ci : openedCards) {
-			CardState cs = ci.cs;
-			cs.opened = false;
-			cs.order = -1;
-			cs.indicator = sco.getPickType().indicator();
-			ci.parent.updateState(ci.pos, cs);
-		}
+		for (CardView cv : openedCards)
+            cv.setOpened(false, sco.getPickType().indicator());
 		openedCards.clear();
 
 		canClick = false;
 		canSelect();
 	}
-	
-	/**
-	 * One of the two buttons was clicked
-	 * @param b Button that was clicked
-	 */
 	public void cardSelected(Button b) {
 		if (sco == null)
 			return;
-
+		
 		if (b == select) {
-			if (firstPass) { // 'yes, we want to decline', send empty selection. 
-							 // if 'firstPass' is true, we already checked that an empty selection is valid
+			if (firstPass) {
 				top.handle(new Event(Event.EType.CARD)
-								.setInteger(0));
-			} else { // We selected cards and now send a CARD event.
+								.setInteger(0));				
+			} else {
 				int[] cards = new int[openedCards.size()];
 				for (int i = 0; i < openedCards.size(); i++) {
-					CardInfo ci = openedCards.get(i);
-					if (!isAcceptable(ci.cs.c, ci.parent))
+					CardView cv = openedCards.get(i);
+					if (!isAcceptable(sco, cv))
 						return;
-					cards[i] = ci.cs.c.id;
+					cards[i] = cv.c.id;
 				}
-
+				
                 if (sco.getPickType() == PickType.SELECT_WITH_ALL && openedCards.size() == 0 && !select.getText().toString().endsWith("!")) {
 				    // Hack to notify that "All" was selected
 	                top.handle(new Event(Event.EType.CARD)
@@ -474,7 +528,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 				}
 			}
 		} else if (b == pass) {
-			if (!sco.isPassable())
+			if (!sco.isPassable()) 
 				return;
 			if (firstPass) {
 				firstPass = false;
@@ -486,14 +540,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 			return;
 		} else
 			return;
-		// we accepted or declined => remove selection markers, make buttons invisible
-		for (CardInfo ci : openedCards) {
-			CardState cs = ci.cs;
-			cs.opened = false;
-			cs.order = -1;
-			cs.indicator = sco.getPickType().indicator();
-			ci.parent.updateState(ci.pos, cs);
-		}
+
+		for (CardView cv : openedCards)
+            cv.setOpened(false, sco.getPickType().indicator());
 		openedCards.clear();
 		sco = null;
 		pass.setVisibility(INVISIBLE);
@@ -502,31 +551,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		resetButtons();
 	}
 
-	/**
-	 * Prompt the user about options that a card gives us. (E.g. Thief: Which card to trash) 
-	 * @param title Message to the user about what to choose
-	 * @param options Options that the user has
-	 */
 	public void selectString(String title, String[] options) {
-		if (options.length == 1) {
-			Toast.makeText(top, title + ":\n" + options[0], Toast.LENGTH_LONG / 2).show();
-			top.handle(new Event(Event.EType.STRING).setString(options[0]));
-			return;
-		}
-		HapticFeedback.vibrate(getContext(),AlertType.SELECT);
+		top.alert(AlertType.SELECT);
 		new SelectStringView(top, title, options);
 	}
 
-	/**
-	 * RemotePlayer wants us to choose card(s)
-	 * @param sco What kind of cards to choose, and what for
-	 * @param s Prompt to display
-	 * @param maxOpened How many cards may be selected
-	 * @param exactOpened May we choose less than the max number of cards?
-	 */
 	public void selectCard(SelectCardOptions sco, String s, int maxOpened, boolean exactOpened) {
 		this.sco = sco;
-
+		
 		this.maxOpened = maxOpened;
 		this.exactOpened = exactOpened;
 
@@ -534,21 +566,18 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
 		firstPass = false;
 		resetButtons();
-
-		HapticFeedback.vibrate(getContext(),AlertType.SELECT);
+		
+		top.alert(AlertType.SELECT);
 		select.setVisibility(VISIBLE);
 		if (sco.isPassable()) {
 			pass.setVisibility(VISIBLE);
 			pass.setText(sco.passString);
 		} else
 			pass.setVisibility(INVISIBLE);
-
+		
         selectButtonState();
 	}
 
-	/**
-	 * Update the 'state' (grayed out or not, text) of the select button, when a card was (un)selected.
-	 */
     protected void selectButtonState() {
         if (sco == null || sco.pickType == null) {
             setSelectText(PickType.SELECT);
@@ -586,11 +615,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             canSelect();
 		}
     }
-
-    /**
-     * Sets the button text corresponding to why the user has to pick cards
-     * @param key PickType
-     */
+	
     public void setSelectText(SelectCardOptions.PickType key) {
         indicator = key.indicator();
         String text;
@@ -598,38 +623,38 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         switch (key) {
         case SELECT:
         case SELECT_IN_ORDER:
-            text = top.getString(R.string.select_button);
+            text = Strings.getString(top, R.string.select_button);
             break;
         case SELECT_WITH_ALL:
-            text = top.getString(R.string.all_button);
+            text = Strings.getString(top, R.string.all_button);
             break;
         case PLAY:
         case PLAY_IN_ORDER:
-            text = top.getString(R.string.play_button);
+            text = Strings.getString(top, R.string.play_button);
             break;
         case BUY:
-            text = top.getString(R.string.buy_button);
+            text = Strings.getString(top, R.string.buy_button);
             break;
         case DISCARD:
-            text = top.getString(R.string.discard_button);
+            text = Strings.getString(top, R.string.discard_button);
             break;
         case KEEP:
-            text = top.getString(R.string.keep_button);
+            text = Strings.getString(top, R.string.keep_button);
             break;
         case GIVE:
-            text = top.getString(R.string.give_button);
+            text = Strings.getString(top, R.string.give_button);
             break;
         case TRASH:
-            text = top.getString(R.string.trash_button);
+            text = Strings.getString(top, R.string.trash_button);
             break;
         case UPGRADE:
-            text = top.getString(R.string.upgrade_button);
+            text = Strings.getString(top, R.string.upgrade_button);
             break;
         case MINT:
-            text = top.getString(R.string.mint_button);
+            text = Strings.getString(top, R.string.mint_button);
             break;
         case SWINDLE:
-            text = top.getString(R.string.swindle_button);
+            text = Strings.getString(top, R.string.swindle_button);
             break;
         default:
             text = "";
@@ -638,64 +663,109 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         select.setText(text);
 	}
 
-    /**
-     * Prompt user about ordering cards (mostly to put them back on the deck in an order of his choosing)
-     * @param header Message to the user
-     * @param cards Indices into the cards the user should put into order
-     */
 	public void orderCards(String header, int[] cards) {
-		String name = GameTableViews.cardsInPlay.get(cards[0]).name;
-		boolean allequal = true;
-		for (int c: cards) {
-			if (GameTableViews.cardsInPlay.get(c).name != name) {
-				allequal = false;
-				break;
+		top.alert(AlertType.SELECT);
+		new OrderCardsView(top, this, header, cards);
+	}
+
+	public boolean onLongClick(View vin) {
+		CardView cardView = (CardView) vin;
+		
+		top.alert(AlertType.LONGCLICK);
+		String str = cardView.c.name;
+		str = str.toLowerCase();
+		
+		StringTokenizer st = new StringTokenizer(str," ",false);
+		String filename = "";
+		while (st.hasMoreElements()) filename += st.nextElement();
+		
+		View v;
+
+        // int resID =
+        // getResources().getIdentifier("com.mehtank.androminion:drawable/" +
+        // filename, null, null);
+        // if (resID != 0) {
+        // ImageView im = new ImageView(top);
+        // im.setBackgroundResource(resID);
+        // im.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        // v = im;
+        // } else {
+			str = Androminion.BASEDIR + "/images/full/" + filename + ".jpg";
+			File f = new File(str);
+			if (f.exists()) {
+				Uri u = Uri.parse(str);
+				ImageView im = new ImageView(top);
+	            im.setImageURI(u);  
+	            im.setScaleType(ImageView.ScaleType.FIT_CENTER);
+	            v = im;
+			} else {
+				TextView tv = new TextView(top);
+				tv.setPadding(15, 0, 15, 5);
+				String text = ""; //cardView.c.name;
+				if(cardView.c.expansion != null && cardView.c.expansion.length() != 0) {
+				    text += "(" + cardView.c.expansion + ")\n";
+				}
+				text += cardView.c.desc;
+				tv.setText( text );
+				v = tv;
 			}
-		}
-		if (allequal) {
-			int[] is = new int[cards.length];
-			for (int j = 0; j < cards.length; j++) {
-				is[j] = j;
+        // }
+			String title = cardView.c.name;
+			if(PreferenceManager.getDefaultSharedPreferences(top).getBoolean("showenglishnames", false)) {
+				title += " (" + cardView.c.originalName + ")";
 			}
-			top.handle(new Event(Event.EType.CARDORDER).setObject(new EventObject(is)));
-		} else {
-			HapticFeedback.vibrate(getContext(),AlertType.SELECT);
-			new OrderCardsView(top, header, cards);
+		new AlertDialog.Builder(top)
+			.setTitle(title)
+			.setView(v)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {} })
+			.show();
+
+		return true;
+	}
+
+	private void updateSizes(GridView g, int[] supplySizes, int[] embargos) {
+		for (int i = 0; i < g.getChildCount(); i++) {
+			CardView cv = (CardView) g.getChildAt(i);
+			if (cv.c != null) {
+				cv.setSize(supplySizes[cv.c.id]);
+				cv.setEmbargos(embargos[cv.c.id]);
+			}
 		}
 	}
 
-	/**
-	 * Display the numbers of pile sizes for the card piles on the 'table' 
-	 * @param supplySizes Sizes of piles
-	 * @param embargos number of embargos
-	 */
 	public void setSupplySizes(int[] supplySizes, int[] embargos) {
-		moneyPile.updateCounts(supplySizes, embargos);
-		vpPile.updateCounts(supplySizes, embargos);
-		supplyPile.updateCounts(supplySizes, embargos);
-		prizePile.updateCounts(supplySizes, embargos);
+		updateSizes(moneyPileGV, supplySizes, embargos);
+		updateSizes(vpPileGV, supplySizes, embargos);
+		updateSizes(supplyPileGV, supplySizes, embargos);
+		updateSizes(prizePileGV, supplySizes, embargos);
+		showSupplySizes();  // TODO only needs to happen once
+	}
+	
+	private void toggleView(GridView g, int mode) {
+		for (int i = 0; i < g.getChildCount(); i++) {
+			CardView cv = (CardView) g.getChildAt(i);
+			if (cv.c != null)
+				cv.swapNum(mode);
+		}
+	}
+	
+	public void showSupplySizes() {
+		toggleView(moneyPileGV, CardView.SHOWCOUNT);
+		toggleView(vpPileGV, CardView.SHOWCOUNT);
+		toggleView(supplyPileGV, CardView.SHOWCOUNT);
+		toggleView(prizePileGV, CardView.SHOWCOUNT);
 	}
 
-	/**
-	 * Is executed instead of setStatus if the gs.isFinal flag is set.
-	 * 
-	 * This gets executed /for each player/.
-	 * 
-	 * @param gs
-	 */
 	public void finalStatus(GameStatus gs) {
-		if (!gs.isFinal) // does not happen as far as we know
+		if (!gs.isFinal) 
 			return;
-
+			
 		int maxVP = 0;
 		int minTurns = 10000;
-		/**
-		 * The player(s) to show as winner
-		 */
 		ArrayList<Integer> winners = new ArrayList<Integer>();
-
-
-		for (int i=0; i<players.getCount(); i++) { //winners are calculated in this loop
+		
+		for (int i=0; i<allPlayers.size(); i++) {
 			if (gs.handSizes[i] > maxVP) {
 				winners.clear(); winners.add(i);
 				maxVP = gs.handSizes[i];
@@ -708,52 +778,36 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 					winners.add(i);
 			}
 		}
-
+		
 		try {
 		    if(!finalStatsReported) {
 		        finalStatsReported = true;
-		        ArrayList<String> pl = new ArrayList<String>(players.getCount());
-		        for(int i=0; i < players.getCount(); i++) {
-		        	pl.add(players.getItem(i).name);
-		        }
-		        achievements.gameOver(pl, winners);
+		        achievements.gameOver(allPlayers, winners);
 		    }
 		}
 		catch(Exception e) {
 		    e.printStackTrace();
 		}
-
+        
 		boolean won = false;
 		for (int i : winners)
 			if (i == gs.whoseTurn)
 				won = true;
-
-		tr.setVisibility(GONE);
-		gameOver.setVisibility(VISIBLE);
-		gameOverScroll.setVisibility(VISIBLE);
+		
+		tr.removeAllViews();
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        FinalView fv = new FinalView(top, this, players.getItem(gs.whoseTurn).name, gs.turnCounts[gs.whoseTurn],
+        FinalView fv = new FinalView(top, this, allPlayers.get(gs.whoseTurn), gs.turnCounts[gs.whoseTurn],
 				gs.embargos,
-				gs.numCards[gs.whoseTurn], gs.supplySizes,
+				gs.numCards[gs.whoseTurn], gs.supplySizes, 
 				gs.handSizes[gs.whoseTurn], won);
 		fv.setLayoutParams(lp);
-		showCardsButtons.add(fv.showCards);
 		gameOver.addView(fv);
+		tr.addView(gameOver);
 	}
 	
-	void uncheckAllShowCardsButtons() {
-		for (ToggleButton t : showCardsButtons)
-			t.setChecked(false);
-		setSupplySizes(this.lastSupplySizes, this.lastEmbargos);
-	}
-
-	/**
-	 * User got an achievement
-	 * @param achievement Achievement name
-	 */
 	public void achieved(String achievement) {
 	    try {
 	        achievements.achieved(achievement);
@@ -762,66 +816,63 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	        e.printStackTrace();
 	    }
 	}
+	
+	ArrayList<DeckView> dvs = new ArrayList<DeckView>();
 
-	/**
-	 * The RemotePlayer updated us about the setup of the game, and we display the changes to the user.
-	 * @param gs GameStatus object contains all this information
-	 * @param s ?? don't know yet ??
-	 * @param newTurn ?? don't know yet ??
-	 */
 	public void setStatus(GameStatus gs, String s, boolean newTurn) {
 		if (s != null)
 			gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
-
+		
 		if (gs.isFinal) {
-			HapticFeedback.vibrate(getContext(),AlertType.FINAL);
+			top.alert(AlertType.FINAL);
 			finalStatus(gs);
 			return;
 		}
-		if (players.getCount() <= gs.whoseTurn) {
-			for (int i = players.getCount(); i < gs.whoseTurn; i++)
+		if (allPlayers.size() <= gs.whoseTurn) {
+			for (int i = allPlayers.size(); i < gs.whoseTurn; i++)
 				addPlayer("--");
 			addPlayer(gs.name);
-		} else {
-			PlayerSummary ps = players.getItem(gs.whoseTurn);
-			ps.name = gs.name;
-		}
-
+		} else
+			allPlayers.set(gs.whoseTurn, gs.name);
+		
 		if (newTurn) {
 			myTurn = gs.whoseTurn == 0;
 			if (myTurn)
-				HapticFeedback.vibrate(getContext(),AlertType.TURNBEGIN);
+				top.alert(AlertType.TURNBEGIN);
 		}
-
-		turnStatus.setStatus(gs.turnStatus, gs.potions, myTurn);
-		for (int i=0; i<players.getCount(); i++) {
-	        players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.whoseTurn == i);
+		
+		turnStatus.setStatus(gs.turnStatus, gs.cardCostModifier, gs.potions, myTurn);
+		deckStatus.removeAllViews();
+		for (int i=0; i<allPlayers.size(); i++) {
+	        dvs.get(i).set(allPlayers.get(i), gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.whoseTurn == i);
+			deckStatus.addView(dvs.get(i));
 		}
-		players.notifyDataSetChanged();
-
+		
 		actionText.setText("");
-
+ 
         if(newTurn) {
-            String header = top.getString(R.string.played_header);
+            String header = Strings.getString(top, R.string.played_header);
             if(!myTurn) {
-                header = players.getItem(gs.whoseTurn).name + ":";
+                header = allPlayers.get(gs.whoseTurn) + ":";
             }
             playedHeader.setText(header);
         }
-
+		
 		GameTableViews.newCardGroup(hand, gs.myHand);
 		GameTableViews.newCardGroup(played, gs.playedCards);
+		if (!playedAdded && (gs.playedCards.length > 0)) {
+			myCards.addView(playedCS);
+			playedAdded = true;
+		}
 		GameTableViews.newCardGroup(island, gs.myIsland);
-		if (gs.myIsland.length > 0) {
-			islandColumn.setVisibility(VISIBLE);
-		} else {
-			islandColumn.setVisibility(GONE);
+		if (!islandAdded && (gs.myIsland.length > 0)) {
+			myCards.addView(islandCS);
+			islandAdded = true;
 		}
 		GameTableViews.newCardGroup(village, gs.myVillage);
-		if (gs.myVillage.length > 0) {
-			villageColumn.setVisibility(VISIBLE);
-		} else {
-			villageColumn.setVisibility(GONE);
+		if (!villageAdded && (gs.myVillage.length > 0)) {
+			myCards.addView(villageCS);
+			villageAdded = true;
 		}
 		setSupplySizes(gs.supplySizes, gs.embargos);
 		this.lastSupplySizes = gs.supplySizes;
@@ -829,7 +880,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		costs = gs.costs;
         setCardCosts(top.findViewById(android.R.id.content));
 	}
-
+	
 	static int getCardCost(MyCard c) {
 		if (c == null)
 			return 0;
@@ -837,57 +888,34 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 			return costs[c.id];
 		return c.cost;
 	}
-
+	
 	private void setCardCosts(View v) {
 		if (v instanceof CardView) {
-			((CardView) v).setCost(getCardCost(((CardView) v).getCard()));
+			((CardView) v).setCost(getCardCost(((CardView) v).c));
 		} else if (v instanceof ViewGroup) {
 			for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++)
 				setCardCosts(((ViewGroup) v).getChildAt(i));
 		}
 	}
-
 	private void addPlayer(String name) {
-		players.add(new PlayerSummary(name));
+		allPlayers.add(name);
+		dvs.add(new DeckView(top));
+		
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		dvs.get(dvs.size()-1).setLayoutParams(lp);
 	}
-	
-	/**
-	 * A player obtained a card and we notify the user
-	 * @param i card index
-	 * @param s player number, as a string
-	 * @return a message, either something like 'card obtained' from resources, or "&lt;playername&gt;: &lt;cardname&gt;"
-	 */
 	public String cardObtained(int i, String s) {
-	    return top.getString(R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
+	    return Strings.format(top, R.string.obtained, showCard(i, s, DeckView.ShowCardType.OBTAINED));
 	}
-	
-	/**
-	 * A player trashed a card and we notify the user
-	 * @param i card index
-	 * @param s player number, as a string
-	 * @return a message, either something like 'card trashed' from resources, or "&lt;playername&gt;: &lt;cardname&gt;"
-	 */
 	public String cardTrashed(int i, String s) {
-        return top.getString(R.string.trashed, showCard(i, s, CardAnimator.ShowCardType.TRASHED));
+        return Strings.format(top, R.string.trashed, showCard(i, s, DeckView.ShowCardType.TRASHED));
 	}
-	
-	/**
-	 * A player revealed a card and we notify the user
-	 * @param i card index
-	 * @param s player number, as a string
-	 * @return a message, either something like 'card revealed' from resources, or "&lt;playername&gt;: &lt;cardname&gt;"
-	 */
 	public String cardRevealed(int i, String s) {
-        return top.getString(R.string.revealed, showCard(i, s, CardAnimator.ShowCardType.REVEALED));
+        return Strings.format(top, R.string.revealed, showCard(i, s, DeckView.ShowCardType.REVEALED));
 	}
-	/**
-	 * Notify the user of a card played/revealed/... by a player.
-	 * @param card card index
-	 * @param playerInt player number, as a string
-	 * @param type how to show the card
-	 * @return "&lt;playername&gt;: &lt;cardname&gt;"
-	 */
-	public String showCard (int card, String playerInt, CardAnimator.ShowCardType type) {
+	public String showCard (int card, String playerInt, DeckView.ShowCardType type) {
 		int player = 0;
 		CardView c = GameTableViews.getCardView(top, this, card);
 		try {
@@ -895,72 +923,21 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		} catch (NumberFormatException e) {
 			return "";
 		}
-		View anchor = deckStatus.getChildAt(player);
-		if (anchor != null) {
-			animator.init(anchor);
-			c.setOnTable(false);
-			animator.showCard(c, type);
-		}
-
-		return players.getItem(player).name + ": " + c.getCard().name;
+		dvs.get(player).showCard(c, type);
+		
+		return allPlayers.get(player)+ ": " + c.c.name;
 	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		CardView clickedCard = (CardView) view;
-		if (clickedCard == null)
-			return;
-
-		if (sco == null)
-			return;
-
-		if (!canClick)
-			return;
-
-        if (clickedCard.isChecked()) {
-			HapticFeedback.vibrate(getContext(), AlertType.CLICK);
-			for(int i=0;i<openedCards.size();i++){
-				CardInfo ci = openedCards.get(i);
-				if(ci.cs == clickedCard.getState() && ci.pos == position) { // this is the card we clicked
-					openedCards.remove(i);
-					ci.cs.indicator = sco.getPickType().indicator();
-					ci.cs.order = -1;
-					ci.cs.opened = false;
-		            clickedCard.setState(ci.cs);
-		            selectButtonState();
-		            break;
-				}
-			}
-		} else {
-			if (isAcceptable(clickedCard.getCard(), clickedCard.parent)) {
-				HapticFeedback.vibrate(getContext(), AlertType.CLICK);
-				if (openedCards.size() >= maxOpened) {
-                    CardInfo ci = openedCards.get(0);
-                    ci.cs.opened = false;
-                    ci.cs.order = -1;
-                    ci.cs.indicator = sco.getPickType().indicator();
-                    ci.parent.updateState(ci.pos, ci.cs);
-					openedCards.remove(0);
-				}
-                clickedCard.setChecked(true, sco.getPickType().indicator());
-                CardInfo ci = new CardInfo(clickedCard.getState(), (CardGroup) parent.getAdapter(), position);
-				openedCards.add(ci);
-                selectButtonState();
-			}
-		}
-		if (sco.ordered)
-			for(int i=0;i < openedCards.size(); i++) {
-				CardInfo ci = openedCards.get(i);
-				ci.cs.opened = true;
-				ci.cs.indicator = sco.getPickType().indicator();
-				ci.cs.order = i;
-                ci.parent.updateState(ci.pos, ci.cs);
-			}
-	}
-
-	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		CardView clickedCard = (CardView) view;
-		return clickedCard.onLongClick(clickedCard);
-	}
+	
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("abc_header")) {
+            if(largeRefText != null) {
+                if(!sharedPreferences.getBoolean("abc_header", true)) {
+                    largeRefText.setVisibility(GONE);
+                } else {
+                    largeRefText.setVisibility(VISIBLE);
+                }
+            }
+        }
+    }
 }

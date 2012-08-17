@@ -12,9 +12,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class DominionServer extends Service {
-	@SuppressWarnings("unused")
-	private static final String TAG = "DominionServer";
-	
 	VDomServer vds;
 	private final static String stopped = "Server stopped";
 
@@ -36,7 +33,7 @@ public class DominionServer extends Service {
                 "Mary (AI)", "com.vdom.players.VDomPlayerMary",
                 "Chuck (AI)", "com.vdom.players.VDomPlayerChuck",
                 "Sarah (AI)", "com.vdom.players.VDomPlayerSarah",
-                "-debug"
+				"-debug"
 		});
 		vds = VDomServer.me;
 	}

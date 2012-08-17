@@ -1,363 +1,313 @@
 package com.mehtank.androminion.ui;
 
-import java.io.File;
-import java.util.StringTokenizer;
-
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.activities.GameActivity;
-import com.mehtank.androminion.util.CardGroup;
-import com.mehtank.androminion.util.CheckableEx;
-import com.mehtank.androminion.util.HapticFeedback;
-import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.MyCard;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
-/**
- * Corresponds to a single card that is visible on the 'table'
- *
- */
-public class CardView extends FrameLayout implements OnLongClickListener, CheckableEx {
-	private static final String TAG = "CardView";
+public class CardView extends FrameLayout {
+
+	public static final int SHOWTOGGLE = 0;
+	public static final int SHOWCOUNT = 1;
+	public static final int SHOWCOIN = 2;
 	
-	private TextView name;
-	private View cardBox;
-	private TextView cost, countLeft, embargos;
-	private TextView checked;
-	private TextView cardDesc;
-
+	public static final int WIDTH = 75;
+	TextView tv, colorBox;
+	TextView cost, countLeft, embargos;
+	TextView checked;
+	TextView nomore;
+	
+	MyCard c;
+	OnClickListener gt;
+	OnLongClickListener lc;
 	CardGroup parent;
-	private CardState state;
-/**
- * Information about a card type opened, onTable, indicator, order
- *
- */
-	static public class CardState {
-		public MyCard c; // card type
-		public boolean opened; // was selected
-		public boolean onTable;
-		public String indicator;
-		public int order;
-		public boolean shade;
+	boolean opened = false;
+	Androminion top;
 
-		public CardState(MyCard c) {
-			this(c, false, "", -1, false);
-		}
-
-		public CardState(MyCard c, boolean opened, String indicator, int order) {
-		    this(c, opened, indicator, order, false);
-		}
-		
-		public CardState(MyCard c, boolean opened, String indicator, int order, boolean shade) {
-			this.c = c;
-			this.opened = opened;
-			this.indicator = indicator;
-			this.order = order;
-			this.shade = shade;
-		}
-	}
-
-	public CardView(Context context) {
-		this(context, null);
-	}
-
-	public CardView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(context, null, null);
-	}
-
-	public CardView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		init(context, null, null);
-	}
-
-	public CardView(Context context, CardGroup parent, MyCard c) {
+	public CardView(Context context, OnClickListener gt, OnLongClickListener lc, CardGroup parent, MyCard c) {
 		super(context);
-		init(context, parent, c);
-	}
 
-	private void init(Context context, CardGroup parent, MyCard c) {
+		this.top = (Androminion) context;
+		this.gt = gt;
+		this.lc = lc;
 		this.parent = parent;
 
-		LayoutInflater.from(context).inflate(R.layout.view_card, this, true);
-		name = (TextView) findViewById(R.id.name);
-		cardBox = findViewById(R.id.cardBox);
-		cost = (TextView) findViewById(R.id.cost);
-		countLeft = (TextView) findViewById(R.id.countLeft);
-		embargos = (TextView) findViewById(R.id.embargos);
-		checked = (TextView) findViewById(R.id.checked);
-		cardDesc = (TextView) findViewById(R.id.cardDesc);
+		colorBox = new TextView(top);
+		FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.FILL_PARENT,
+				FrameLayout.LayoutParams.FILL_PARENT,
+				Gravity.CENTER);
+		colorBox.setLayoutParams(p);
+		addView(colorBox);
 
-		state = new CardState(null);
-
+		tv = new TextView(top);
+		tv.setSingleLine();
+		tv.setTextSize((float) (tv.getTextSize() * 0.6));
+		p = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.WRAP_CONTENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT,
+				Gravity.CENTER);
+		tv.setLayoutParams(p);
+		addView(tv);
+		
 		if (c != null) {
+			p = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					Gravity.LEFT + Gravity.CENTER_VERTICAL);
+			if(!c.isPrize) {
+    			cost = new TextView(top);
+    			cost.setText("0");
+    			cost.setTextSize((float) (cost.getTextSize() * 0.75));
+    			cost.setTextColor(Color.BLACK);
+    			cost.setBackgroundResource(R.drawable.coin);
+    			cost.setLayoutParams(p);
+    			addView(cost);
+			}
+	
+			p = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL);
+			countLeft = new TextView(top);
+			countLeft.setText("0");
+			countLeft.setTextSize((float) (countLeft.getTextSize() * 0.5));
+			// countLeft.setTextColor(Color.BLACK);
+			// countLeft.setBackgroundColor(Color.WHITE);
+			countLeft.setLayoutParams(p);
+			countLeft.setVisibility(INVISIBLE);
+			addView(countLeft);
+
+			p = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					Gravity.RIGHT + Gravity.CENTER_VERTICAL);
+			embargos = new TextView(top);
+			embargos.setText("0");
+			embargos.setTextSize((float) (embargos.getTextSize() * 0.75));
+			embargos.setTextColor(Color.WHITE);
+			embargos.setBackgroundResource(R.drawable.embargos);
+			embargos.setLayoutParams(p);
+			embargos.setVisibility(INVISIBLE);
+			addView(embargos);
+			
 			setCard(c);
+	
+			checked = new TextView(top);
+			checked.setTextColor(Color.RED);
+			checked.setTypeface(Typeface.DEFAULT_BOLD);
+            checked.setBackgroundResource(android.R.drawable.arrow_down_float);
+			if (opened)
+				checked.setVisibility(VISIBLE);
+			else
+				checked.setVisibility(INVISIBLE);
+			
+			p = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					Gravity.TOP + Gravity.RIGHT);
+			
+			checked.setLayoutParams (p);
+	
+			addView(checked);
+			
+			nomore = new TextView(top);
+			p = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.FILL_PARENT,
+					FrameLayout.LayoutParams.FILL_PARENT,
+					Gravity.CENTER);
+			nomore.setLayoutParams(p);
+			nomore.setBackgroundColor(Color.BLACK);
+			nomore.setVisibility(INVISIBLE);
+			nomore.getBackground().setAlpha(156);
+			addView(nomore);
+
+			if (c.isBane)
+				setBackgroundResource(R.drawable.baneborder);
+			else
+				setBackgroundResource(R.drawable.roundborder);
+
+	    	setOnLongClickListener( new OnLongClickListener (){
+				@Override
+				public boolean onLongClick(View v) {
+					return longClick(v);
+				} 
+			}); 
 		}
+		
+		setOnClickListener( new OnClickListener (){
+			@Override
+			public void onClick(View v) {
+				click(v);
+			} 
+		}); 
 	}
-
-	public MyCard getCard() {
-		return state.c;
-	}
-
+	
 	public void setCard(MyCard c) {
-		this.state.c = c;
+		this.c = c;
 
-		if (cardDesc != null) {
-			cardDesc.setText(c.desc);
-		}
-
-		if (c.costPotion) {
-			cost.setBackgroundResource(R.drawable.coinpotion);
-		} else {
-			cost.setBackgroundResource(R.drawable.coin);
-		}
-
-		if (c.isPrize) {
-			cost.setVisibility(INVISIBLE);
-		} else {
-			cost.setVisibility(VISIBLE);
-		}
-
-		// TODO: Merge this border with the color setting below, then get rid of cardBox.
-		if (c.isBane) {
-			setBackgroundResource(R.drawable.baneborder);
-		} else {
-			setBackgroundResource(R.drawable.cardborder);
-		}
-
-		name.setText(c.name, TextView.BufferType.SPANNABLE);
+		tv.setText(c.name, TextView.BufferType.SPANNABLE);
 		if(cost != null) {
-			setCost(GameTable.getCardCost(c));
+    		setCost(GameTable.getCardCost(c));
 		}
+		
+		int fgColor = Color.WHITE;
+		int countColor = Color.WHITE;
+		int bgColor = Color.BLACK;
 
-		int cardStyleId = getStyleForCard(c);
-		TypedArray cardStyle = getContext().obtainStyledAttributes(cardStyleId,
-				new int[] {
-					R.attr.cardBackgroundColor,
-					R.attr.cardNameBackgroundColor,
-					R.attr.cardTextColor,
-					R.attr.cardCountColor });
-		int bgColor = cardStyle.getColor(0, R.color.cardDefaultBackgroundColor);
-		int textColor = cardStyle.getColor(2, R.color.cardDefaultTextColor);
-        int nameBgColor = cardStyle.getColor(1, R.color.cardDefaultTextBackgroundColor);
-		int countColor = cardStyle.getColor(3, R.color.cardDefaultTextColor);
-
-		cardBox.setBackgroundColor(bgColor);
-		name.setTextColor(textColor);
-        name.setBackgroundColor(nameBgColor);
-		countLeft.setTextColor(countColor);
-		if (cardDesc != null) {
-			cardDesc.setTextColor(countColor);
-			if (c.pile == MyCard.MONEYPILE || c.pile == MyCard.VPPILE) {
-				ViewGroup.LayoutParams params = cardDesc.getLayoutParams();
-				int pixels = (int) (0.5f + 20 * getContext().getResources().getDisplayMetrics().density);
-				params.height = pixels;
-				cardDesc.setLayoutParams(params);
-			}
+		if (c.isReaction) {
+			bgColor = Color.rgb(0x00, 0x70, 0xcc);
+		    if (c.isVictory) {
+	            fgColor = (Color.BLACK);
+		        tv.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
+		    }
+		    else if (c.isTreasure) {
+				bgColor = Color.rgb(0xdb, 0xdb, 0x70);
+	            fgColor = Color.WHITE;
+				countColor = Color.BLACK;
+                tv.setBackgroundColor(Color.rgb(0x00, 0x70, 0xcc));
+            }
 		}
-	}
-
-	private static int getStyleForCard(MyCard c) {
-		if (c.isReaction && c.isVictory) {
-			return R.style.CardView_Reaction_Victory;
-		} else if (c.isReaction && c.isTreasure) {
-			return R.style.CardView_Treasure_Reaction;
-		} else if (c.isReaction) {
-			return R.style.CardView_Reaction;
-		} else if (c.isDuration) {
-			return R.style.CardView_Duration;
-		} else if (c.isAttack) {
-			return R.style.CardView_Attack;
+		else if (c.isDuration) {
+			fgColor = (Color.BLACK);
+			countColor = Color.BLACK;
+			bgColor = (Color.rgb(0xff, 0x8c, 0x00));
+		}
+		else if (c.isAttack) {
+			fgColor = (Color.rgb(0xff, 0x80, 0x60));
+			countColor = (Color.rgb(0xff, 0x80, 0x60));
 		} else if (c.isTreasure && c.isVictory) {
-			return R.style.CardView_Treasure_Victory;
-		} else if (c.isAction && c.isVictory) {
-			return R.style.CardView_Victory_Action;
-		} else if (c.isTreasure && c.isPotion) {
-			return R.style.CardView_Treasure_Potion;
-		} else if (c.isTreasure) {
-			switch (c.gold) {
-			case 1:
-				return R.style.CardView_Treasure_Copper;
-			case 2:
-				return R.style.CardView_Treasure_Silver;
-			case 3:
-				return R.style.CardView_Treasure_Gold;
-			case 5:
-				return R.style.CardView_Treasure_Platinum;
-			default:
-				return R.style.CardView_Treasure;
-			}
-		} else if (c.isCurse) {
-			return R.style.CardView_Curse;
-		} else if (c.isVictory) {
-			return R.style.CardView_Victory;
-		} else {
-			return R.style.CardView;
+			bgColor = (Color.rgb(0xc0, 0xc0, 0xc0));
+			fgColor = (Color.BLACK);
+			countColor = Color.BLACK;
+			tv.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
 		}
+		else if (c.isAction && c.isVictory) {
+			bgColor = (Color.BLACK);
+			fgColor = (Color.BLACK);
+			tv.setBackgroundColor(Color.rgb(0x32, 0xcd, 0x32));
+		}
+		else if (c.isTreasure) {
+			fgColor = (Color.BLACK);
+			countColor = Color.BLACK;
+			if (c.isPotion)
+				bgColor = (Color.rgb(0x33, 0xcc, 0xff));				
+			else if (c.gold == 1) 
+				bgColor = (Color.rgb(0xcf, 0xb5, 0x3b));
+			else if (c.gold == 2) 
+				bgColor = (Color.rgb(0xc0, 0xc0, 0xc0));
+			else if (c.gold == 3) 
+				bgColor = (Color.YELLOW);
+			else if (c.gold == 5)
+				bgColor = (Color.WHITE);
+			else
+				bgColor = (Color.rgb(0xdb, 0xdb, 0x70));
+			/*
+			if ("Copper".equals(c.name))
+				bgColor = (Color.rgb(0xb8, 0x73, 0x33));
+			else if ("Silver".equals(c.name))
+				bgColor = (Color.rgb(0xc0, 0xc0, 0xc0));
+			else if ("Gold".equals(c.name))
+				bgColor = (Color.rgb(0xff, 0xd7, 0x00));
+			else if ("Platinum".equals(c.name))
+                bgColor = (Color.rgb(0xe5, 0xe4, 0xe2));
+			else  
+				bgColor = (Color.rgb(0xdb, 0xdb, 0x70));
+			 */
+		}
+		else if (c.isCurse)
+			bgColor = (Color.rgb(0x94, 0, 0xd3));
+		else if (c.isVictory) {
+			fgColor = (Color.BLACK);
+			countColor = Color.BLACK;
+			bgColor = (Color.rgb(0x32, 0xcd, 0x32));
+		}
+		
+		tv.setTextColor(fgColor);
+		countLeft.setTextColor(countColor);
+		if (bgColor != 0)
+			colorBox.setBackgroundColor(bgColor);
 	}
 
-	@Override
-	public boolean isChecked() {
-		return state.opened;
+	protected void click(View arg0) {
+		gt.onClick(this);
 	}
 
-	@Override
-	public void toggle() {
-		setChecked(!state.opened);
+	protected boolean longClick(View arg0) {	
+		return lc.onLongClick(this);
 	}
 
-	@Override
-	public void setChecked(boolean arg0) {
-		setChecked(arg0,-1, "");
-	}
+    public void setOpened(boolean o, String indicator) {
+        setOpened(o, -1, indicator);
+    }
 
-	@Override
-	public void setChecked(boolean arg0, String indicator) {
-		setChecked(arg0, -1, indicator);
-	}
-
-	@Override
-	public void setChecked(boolean arg0, int order, String indicator) {
-		state.opened = arg0;
-		state.indicator = indicator;
-		state.order = order;
-		if (order > 0) {
+    public void setOpened(boolean o, int order, String indicator) {
+		opened = o;
+		if (order > 0)
 			checked.setText(" " + (order+1));
-		} else {
+		else
             checked.setText(indicator);
-		}
-
-        if (state.opened)
+		
+        if (opened)
             checked.setVisibility(VISIBLE);
         else
             checked.setVisibility(INVISIBLE);
 	}
-
-	public void setCountLeft(int s) {
+	
+	public void setSize(int s) {
 		countLeft.setText(" " + s + " ");
-		countLeft.setVisibility(VISIBLE);
 		if (s == 0) 
-			shade(true);
+			nomore.setVisibility(VISIBLE);
 		else
-			shade(false);
-	}
-
-	public void shade(boolean on) {	
-		float alpha = (on ? 0.3f : 1.0f);
-		// setAlpha() is API level 11+ only, so we use an instant animation instead.
-		AlphaAnimation alphaAnimation = new AlphaAnimation(alpha, alpha);
-		alphaAnimation.setDuration(0L);
-		alphaAnimation.setFillAfter(true);
-		cardBox.startAnimation(alphaAnimation);
+			nomore.setVisibility(INVISIBLE);
 	}
 
 	public void setEmbargos(int s) {
-		if (s != 0) {
-			embargos.setText(" " + s + " ");
+		embargos.setText(" " + s + " ");
+		if (s != 0) 
 			embargos.setVisibility(VISIBLE);
-		} else {
-			embargos.setVisibility(GONE);
-		}
 	}
 
 	public void setCost(int newCost) {
+		if (cost == null) return;
 		cost.setText(" " + newCost + " ");
+		if (c != null && c.costPotion)
+			cost.setBackgroundResource(R.drawable.coinpotion);
 	}
 
-	public void setState(CardState s) {
-		state = s;
-		setCard(s.c);
-		setChecked(s.opened, s.order, s.indicator);
-		setOnTable(s.onTable);
-		if (s.shade)
-			shade(true);
-		else
-			shade(false);
-	}
-
-	void setOnTable(boolean onTable) {
-		countLeft.setVisibility(onTable ? VISIBLE : GONE);
-		if (cardDesc != null)
-			cardDesc.setVisibility(onTable ? VISIBLE : GONE);
-	}
-
-	public CardState getState() {
-		return state;
-	}
-
-	@Override
-	public boolean onLongClick(View view) {
-		CardView cardView = (CardView) view;
-		if(cardView.getCard() == null) {
-			return false;
-		}
-
-		HapticFeedback.vibrate(getContext(),AlertType.LONGCLICK);
-		String str = cardView.getCard().name;
-		str = str.toLowerCase();
-
-		StringTokenizer st = new StringTokenizer(str," ",false);
-		String filename = "";
-		while (st.hasMoreElements()) filename += st.nextElement();
-
-		View v;
-
-        // int resID =
-        // getResources().getIdentifier("com.mehtank.androminion:drawable/" +
-        // filename, null, null);
-        // if (resID != 0) {
-        // ImageView im = new ImageView(top);
-        // im.setBackgroundResource(resID);
-        // im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        // v = im;
-        // } else {
-			str = GameActivity.BASEDIR + "/images/full/" + filename + ".jpg";
-			File f = new File(str);
-			if (f.exists()) {
-				Uri u = Uri.parse(str);
-				ImageView im = new ImageView(view.getContext());
-	            im.setImageURI(u);
-	            im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-	            v = im;
+	public void swapNum(int mode) {
+		if (mode == SHOWCOIN) {
+			// cost.setVisibility(VISIBLE);
+			countLeft.setVisibility(INVISIBLE);
+			FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					Gravity.CENTER);
+			tv.setLayoutParams(p);
+			return;
+		} else if (mode == SHOWCOUNT) {
+			// cost.setVisibility(INVISIBLE);
+			countLeft.setVisibility(VISIBLE);
+			FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					Gravity.TOP + Gravity.CENTER_HORIZONTAL);
+			tv.setLayoutParams(p);
+			return;
+		} else {			
+			if (countLeft.getVisibility() == TextView.VISIBLE) {
+				swapNum(SHOWCOIN);
 			} else {
-				TextView textView = new TextView(view.getContext());
-				textView.setPadding(15, 0, 15, 5);
-				String text = ""; //cardView.c.name;
-				if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) {
-				    text += "(" + cardView.getCard().expansion + ")\n";
-				}
-				text += cardView.getCard().desc;
-				textView.setText( text );
-				v = textView;
+				swapNum(SHOWCOUNT);
 			}
-        // }
-			String title = cardView.getCard().name;
-			Log.d(TAG, "card title = " + title);
-			if(PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
-				title += " (" + cardView.getCard().originalName + ")";
-				Log.d(TAG, "card title now: " + title);
-			}
-		new AlertDialog.Builder(view.getContext())
-			.setTitle(title)
-			.setView(v)
-			.setPositiveButton(android.R.string.ok, null)
-			.show();
-
-		return true;
+		}
 	}
+
 }

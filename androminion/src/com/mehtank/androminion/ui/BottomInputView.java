@@ -1,79 +1,98 @@
 package com.mehtank.androminion.ui;
 
-import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.activities.GameActivity;
 
-/**
- * This class gives the frame and header for the choosing windows at the bottom.
- * 
- * The subclass has to overload makeContentView to generate what is supposed to
- * be shown.
- * 
- */
-@SuppressLint("ViewConstructor")
-public abstract class BottomInputView extends RelativeLayout implements OnClickListener {
-	@SuppressWarnings("unused")
-	private static final String TAG = "BottomInputView";
-
-	protected GameActivity top;
-	private TextView title;
-	private ImageView arrow;
-	private View content;
-	private boolean hidden = false;
-
-	public BottomInputView(GameActivity top, String header) {
+public abstract class BottomInputView extends LinearLayout {
+	Androminion top;
+	TextView title;
+	View content;
+	TextView down;
+	TextView up;
+	boolean hidden = false;
+		
+	public BottomInputView (Androminion top, String header) {
 		super(top);
+		
 		this.top = top;
+		
+		FrameLayout fl = new FrameLayout(top);
+		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.FILL_PARENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT,
+				Gravity.CENTER);
 
-		LayoutInflater.from(top).inflate(R.layout.view_bottominput, this, true); // title
-		setBackgroundResource(R.drawable.solidround); // frame
-		setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
-		title = (TextView) findViewById(R.id.title);
+		title = new TextView(top);
 		title.setText(header);
-		title.setOnClickListener(this);
-		arrow = (ImageView) findViewById(R.id.arrow);
+		title.setBackgroundColor(Color.BLUE);
+		title.setTextColor(Color.WHITE);
+		title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+		title.setPadding(5, 5, 5, 5);
+		title.setOnClickListener( new OnClickListener (){
+			@Override
+			public void onClick(View v) {
+				toggle();
+			} 
+		}); 
+		title.setLayoutParams(lp);
+		
+		down = new TextView(top);
+		down.setVisibility(VISIBLE);
+		down.setBackgroundResource(android.R.drawable.arrow_down_float);
+		up = new TextView(top);
+		up.setVisibility(INVISIBLE);
+		up.setBackgroundResource(android.R.drawable.arrow_up_float);
+		
+		lp = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.WRAP_CONTENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT,
+				Gravity.CENTER_VERTICAL + Gravity.RIGHT);
+		
+		down.setLayoutParams (lp);
+		up.setLayoutParams(lp);
+
+		fl.addView(title);
+		fl.addView(up);
+		fl.addView(down);
+
 		content = makeContentView(top);
-		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		lp.addRule(BELOW, R.id.title);
-		content.setLayoutParams(lp);
+		
+		lp = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.FILL_PARENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT,
+				Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL);
+
+		setOrientation(VERTICAL);
+		addView(fl);
 		addView(content);
-		//content = (FrameLayout) findViewById(R.id.content);
-		//content.addView(makeContentView(top));
+		setLayoutParams(lp);
+		setBackgroundResource(R.drawable.solidround);
+
 		top.addView(this);
 	}
 
-	/**
-	 * Is called by the constructor
-	 * 
-	 * @param activity
-	 *            GameActivity object
-	 * @return content view
-	 */
-	abstract protected View makeContentView(GameActivity activity);
-
+	abstract protected View makeContentView(Androminion top);
+	
 	public void toggle() {
 		if (hidden) {
-			content.setVisibility(VISIBLE);
-			arrow.setImageResource(android.R.drawable.arrow_down_float);
+			addView(content);
+			title.setText(((String) title.getText()).trim());
+			up.setVisibility(INVISIBLE);
+			down.setVisibility(VISIBLE);
 		} else {
-			content.setVisibility(GONE);
-			arrow.setImageResource(android.R.drawable.arrow_up_float);
+			title.setText(title.getText() + "   ");
+			removeView(content);
+			up.setVisibility(VISIBLE);
+			down.setVisibility(INVISIBLE);
 		}
 		hidden = !hidden;
-	}
-
-	@Override
-	public void onClick(View v) {
-		toggle();
 	}
 }

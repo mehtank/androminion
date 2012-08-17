@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- About -->
+	<string name="app_name">Androminion</string>
+	<string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
+	<string name="version">Version %1$s</string>
+       
+       <!-- Game table -->
+       <string name="title">Androminion by Ankur Mehta</string>
+       <string name="obtained">%1$s gekauft</string>
+       <string name="trashed">%1$s entsorgt</string>
+       <string name="revealed">%1$s aufgedeckt</string>
+       <string name="confirmation">Bist du sicher?</string>
+       <string name="confirm_no">Nein</string>
+       <string name="select_button">Wähle</string>
+       <string name="buy_button">\ \ Kaufen\ \ </string>
+       <string name="play_button">\ Spielen\ </string>
+       <string name="discard_button">Abwerfen</string>
+       <string name="keep_button">Behalten</string>
+       <string name="give_button">Geben</string>
+       <string name="trash_button">Entsorgen</string>
+       <string name="upgrade_button">Upgrade</string>
+       <string name="mint_button">Münzen</string>
+       <string name="swindle_button">Tricksen</string>
+       <string name="all_button">Alle</string>
+       <string name="hand_header">Hand:</string>
+       <string name="played_header">Gespielt:</string>
+       <string name="island_header">Insel:</string>
+       <string name="village_header">Dorf:</string>
+
+    <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/k/(g) angezeigt</string>
+
+    <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+    <string name="action_single">%1$s Aktion</string>
+    <string name="action_multiple">%1$s Aktionen</string>
+    <string name="buy_single">%1$s Kauf</string>
+    <string name="buy_multiple">%1$s Käufe</string>
+    <string name="coins">(%1$s) Geld</string>
+
+
+    <string name="final_view_card_counts">Kartenanzahl</string>       
+    <string name="final_view_text">%1$s: %2$s SP.\n%3$s Züge, %4$s Karten.</string>       
+
+      <string name="reset">Reset</string>
+
+	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+	<string name="potion_single">%1$s Trank</string>
+	<string name="potion_multiple">%1$s Tränke</string>
+    <string name="start_new_game_on_server">Neues Spiel starten</string>
+    <string name="select_a_game_type_">Kartensatz wählen:</string>
+    <string name="select_players">Spieler wählen:</string>
+	<string name="player">Spieler </string>
+	<string name="none_game_start">Keiner</string>
+	<string name="start_game">Spiel starten!</string>
+	<string name="you">Du</string>
+
+	<string name="help_menu">Hilfe</string>
+	<string name="start_game_menu">Spiel starten</string>
+	<string name="settings_menu">Einstellungen</string>
+	<string name="about_menu">Über</string>
+	<string name="achievements_menu">Erfolge</string>
+	<string name="win_loss_menu">Siege/Verluste</string>
+	<string name="quit_menu">Beenden</string>
+	<string name="toast_starting">Starte Spiel&#8230;</string>
+	<string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
+	<string name="toast_loading">Lade Spiel&#8230;</string>
+
+	<string name="accept">Akzeptieren</string>
+	<string name="order_cards_summary">Ziehen/Ablegen\n um Karten \n anzuordnen</string>
+	<string name="stats_menu">Statistiken</string>
+	<string name="whatsnew_menu">Neuerungen</string>
+	<string name="whatsnew_title">Was ist neu: </string>
+	<string name="whatsnew"> <![CDATA[
+	    <h3>Please Read!</h3>
+		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will be the last major revision; Androminion will be removed from the market at the end of the month.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
+		On behalf of the Androminion team, it has been fun.<br>
+		-:ankur
+	    <h3>Version 2.05</h3>
+	    * Many gameplay bugfixes and UI enhancements <br>
+	    * We lied about 2.04 -- this actually the last version for Android 1.5 - 2.1
+	    <h3>Version 2.04</h3>
+	    * Übersetzung ins Niederländische <br>
+	    * Fehlerkorrekturen <br>
+	    * Letzte Version für Android 1.5 und 1.6
+	    <h3>Version 2.03</h3>	
+	    * Besessenheit! <br>
+	    * Weitere Übersetzungen: Spanisch, Französisch, Russisch <br>
+		* Sehr viele Fehlerkorrekturen und Verbesserungen
+	    <h3>Version 2.02</h3>
+	    * Crash auf Android 4.x behoben <br>
+        * Intuitiveres Verhalten des Burggrabens <br>
+        * Viele weitere Korrekturen und Erweiterung <br>
+        Du möchtest mehr Möglichkeiten Karten auszuwählen? Du kannst nun Androminion direkt aus <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a> starten!
+        <h3>Version 2.0</h3>
+	    Es hat eine längere Weile gedauert aber wir hoffen diese Aktualiserung war das Warten wert!  Es gab so viele Änderungen, dass wir sie hier nicht alle auflisten können. Trotzdem sind hier die bedeutendsten:<br/><br/>
+		<b><font color="lime">* Mehr Erweiterungen!</font></b>  Fast alle Karte aus Alchemie, Blütezeit, Reiche Ernte und Hinterland sind jetzt verfügbar.<br/>
+		<b><font color="lime">* Mehr Spieleoptionen!</font></b>  Wähle verschiedenste Variante zufälliger oder fertiger Decks, mit 2-4 Spielern.<br/>
+		<b><font color="lime">* Mehr KI-Optionen!</font></b>  Neue KIs Chuck, Mary, und Sarah.<br/>
+		<b><font color="lime">* Mehr Bugfixes!</font></b>  Und neue Fehler - eventuell.<br/>
+		* Same great taste!<br/>
+		<br/><font color="lime">Androminion ist nun Open Source!</font>  Diese Update wäre ohne die Hilfe einiger Mitwirkender nicht möglich gewesen; siehe Credits-Tab. Auch du kannst helfen! Schreibe Bugreports, Featurerequests, Übersetzungen und mehr unter<br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
+	]]>	</string>
+	<string name="contrib_menu">Credits </string>
+	<string name="contrib_title">Mitwirkende: </string>
+
+	<string name="game_type_random">Zufällig</string>
+	<string name="game_type_preset">Vorgefertigte</string>
+	<string name="game_type_last">Zuletzt gespielt</string>
+	<string name="game_type_specified">Ausgewählte Karten</string>
+	<string name="tournament_reveal">Provinz aufdecken</string>
+</resources>
+

@@ -1,145 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/personalization_pref_title" >
-        <EditTextPreference
-            android:defaultValue="@string/you"
-            android:dialogMessage="@string/name_pref_summary"
-            android:dialogTitle="@string/name_pref_title"
-            android:key="name"
-            android:title="@string/name_pref_title" >
-        </EditTextPreference>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/ui_pref_title" >
-        <ListPreference
-            android:defaultValue="androminion-dark"
-            android:entries="@array/theme_names"
-            android:entryValues="@array/theme_keys"
-            android:key="theme"
-            android:summary="@string/pref_theme_summary"
-            android:title="@string/pref_theme_title" />
-        <ListPreference
-            android:defaultValue="default"
-            android:entries="@array/userlang_names"
-            android:entryValues="@array/userlang_keys"
-            android:key="userlang"
-            android:summary="@string/userlang_pref_summary"
-            android:title="@string/userlang_pref_title" />
+	<PreferenceCategory android:title="@string/personalization_pref_title">
+		<EditTextPreference android:title="@string/name_pref_title"
+			android:key="name" android:defaultValue="@string/you" android:dialogTitle="@string/name_pref_title"
+			android:dialogMessage="@string/name_pref_summary"></EditTextPreference>
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/ui_pref_title">
+		<CheckBoxPreference android:title="@string/statusbar_pref_title"
+			android:defaultValue="false" android:key="statusbar"></CheckBoxPreference>
+		<CheckBoxPreference android:title="@string/abc_header_pref_title"
+		android:summary="@string/abc_header_pref_summary"
+			android:defaultValue="true" android:key="abc_header"></CheckBoxPreference>
+		<CheckBoxPreference android:title="@string/one_turn_logs_pref_title"
+			android:summary="@string/one_turn_logs_pref_summary"
+			android:defaultValue="false" android:key="one_turn_logs"></CheckBoxPreference>
+		<CheckBoxPreference android:title="@string/hide_card_counts_pref_title"
+			android:summary="@string/hide_card_counts_pref_summary"
+			android:defaultValue="false" android:key="hide_card_counts"></CheckBoxPreference>
+		<CheckBoxPreference android:key="exitonback"
+			android:defaultValue="true" android:title="@string/exitonback_pref_title"
+			android:summary="@string/exitonback_pref_summary"></CheckBoxPreference>
+		<CheckBoxPreference android:key="toastsoff" android:defaultValue="false" android:summary="@string/toastsoff_pref_summary" android:title="@string/toastsoff_pref_title"></CheckBoxPreference>
+		<CheckBoxPreference
+		    android:key="showenglishnames"
+			android:defaultValue="false"
+			android:title="@string/showenglishnames_pref_title"
+			android:summary="@string/showenglishnames_pref_summary"/>
+</PreferenceCategory>
+	<PreferenceCategory android:title="@string/game_play_pref_title">
+		<CheckBoxPreference android:title="@string/quick_play_pref_title"
+		android:summary="@string/quick_play_pref_summary"
+			android:defaultValue="false" android:key="quick_play"></CheckBoxPreference>
+		<CheckBoxPreference android:title="@string/sort_cards_pref_title"
+		android:summary="@string/sort_cards_pref_summary"
+			android:defaultValue="false" android:key="sort_cards"></CheckBoxPreference>
+		<CheckBoxPreference android:title="@string/action_chains_pref_title"
+        android:summary="@string/action_chains_pref_summary"
+            android:defaultValue="false" android:key="action_chains"></CheckBoxPreference>
+        <CheckBoxPreference android:title="@string/suppress_redundant_reactions_pref_title"
+        android:summary="@string/suppress_redundant_reactions_pref_summary"
+            android:defaultValue="true" android:key="suppress_redundant_reactions"></CheckBoxPreference>
+        		<CheckBoxPreference android:title="@string/plat_colony_pref_title"
+		android:summary="@string/plat_colony_pref_summary"
+			android:defaultValue="false" android:key="plat_colony"></CheckBoxPreference>
+</PreferenceCategory>
+	<PreferenceCategory android:title="@string/notif_pref_title">
+		<CheckBoxPreference android:title="@string/allvibes_pref_title"
+			android:key="allvibeson" android:defaultValue="true"></CheckBoxPreference>
+		<PreferenceScreen android:dependency="allvibeson"
+			android:title="@string/vibescreen_pref_title">
+			<CheckBoxPreference android:key="clickvibeon"
+				android:summary="@string/clickvibeon_pref_summary" android:title="@string/clickvibeon_pref_title"
+				android:defaultValue="true"></CheckBoxPreference>
+			<CheckBoxPreference android:key="actionvibeon"
+				android:summary="@string/actionvibeon_pref_summary" android:title="@string/actionvibeon_pref_title"
+				android:defaultValue="false"></CheckBoxPreference>
+			<CheckBoxPreference android:key="turnvibeon"
+				android:summary="@string/turnvibeon_pref_summary" android:title="@string/turnvibeon_pref_title"
+				android:defaultValue="false"></CheckBoxPreference>
+			<CheckBoxPreference android:key="gamevibeon"
+				android:summary="@string/gamevibeon_pref_summary" android:title="@string/gamevibeon_pref_title"
+				android:dependency="allvibeson" android:defaultValue="false"></CheckBoxPreference>
+		</PreferenceScreen>
 
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="show_statusbar"
-            android:summary="@string/show_statusbar_pref_summary"
-            android:title="@string/show_statusbar_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="one_turn_logs"
-            android:summary="@string/one_turn_logs_pref_summary"
-            android:title="@string/one_turn_logs_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="hide_card_counts"
-            android:summary="@string/hide_card_counts_pref_summary"
-            android:title="@string/hide_card_counts_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="exitonback"
-            android:summary="@string/exitonback_pref_summary"
-            android:title="@string/exitonback_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="showenglishnames"
-            android:summary="@string/showenglishnames_pref_summary"
-            android:title="@string/showenglishnames_pref_title" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/game_play_pref_title" >
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="quick_play"
-            android:summary="@string/quick_play_pref_summary"
-            android:title="@string/quick_play_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="sort_cards"
-            android:summary="@string/sort_cards_pref_summary"
-            android:title="@string/sort_cards_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="action_chains"
-            android:summary="@string/action_chains_pref_summary"
-            android:title="@string/action_chains_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="suppress_redundant_reactions"
-            android:summary="@string/suppress_redundant_reactions_pref_summary"
-            android:title="@string/suppress_redundant_reactions_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="plat_colony"
-            android:summary="@string/plat_colony_pref_summary"
-            android:title="@string/plat_colony_pref_title" >
-        </CheckBoxPreference>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/notif_pref_title" >
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="allvibeson"
-            android:title="@string/allvibes_pref_title" >
-        </CheckBoxPreference>
 
-        <PreferenceScreen
-            android:dependency="allvibeson"
-            android:title="@string/vibescreen_pref_title" >
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="clickvibeon"
-                android:summary="@string/clickvibeon_pref_summary"
-                android:title="@string/clickvibeon_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="actionvibeon"
-                android:summary="@string/actionvibeon_pref_summary"
-                android:title="@string/actionvibeon_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="turnvibeon"
-                android:summary="@string/turnvibeon_pref_summary"
-                android:title="@string/turnvibeon_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:dependency="allvibeson"
-                android:key="gamevibeon"
-                android:summary="@string/gamevibeon_pref_summary"
-                android:title="@string/gamevibeon_pref_title" >
-            </CheckBoxPreference>
-        </PreferenceScreen>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/logging_pref_title" >
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="enable_logging"
-            android:summary="@string/logging_enable_pref_summary"
-            android:title="@string/logging_enable_pref_title" >
-        </CheckBoxPreference>
 
-        <EditTextPreference
-            android:defaultValue="/logs"
-            android:dialogMessage="@string/logging_dir_pref_summary"
-            android:dialogTitle="@string/logging_dir_pref_title"
-            android:key="logdir"
-            android:title="@string/logging_dir_pref_title" >
-        </EditTextPreference>
-    </PreferenceCategory>
 
-</PreferenceScreen>
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/logging_pref_title">
+		<CheckBoxPreference android:title="@string/logging_enable_pref_title" android:summary="@string/logging_enable_pref_summary" android:defaultValue="false" android:key="enable_logging"></CheckBoxPreference>
+		<EditTextPreference android:dialogMessage="@string/logging_dir_pref_summary" android:dialogTitle="@string/logging_dir_pref_title" android:key="logdir" android:title="@string/logging_dir_pref_title" android:defaultValue="/logs"></EditTextPreference>
+	</PreferenceCategory></PreferenceScreen>

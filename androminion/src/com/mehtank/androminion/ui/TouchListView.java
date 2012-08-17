@@ -38,9 +38,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 public class TouchListView extends ListView {
-	@SuppressWarnings("unused")
-	private static final String TAG = "TouchListView";
-	
 	private ImageView mDragView;
 	private WindowManager mWindowManager;
 	private WindowManager.LayoutParams mWindowParams;
@@ -64,7 +61,8 @@ public class TouchListView extends ListView {
 	private final int mTouchSlop;
 	private int mItemHeightNormal=-1;
 	private int mItemHeightExpanded=-1;
-	private int dragndropBackgroundColor=0x00000000;
+	private int grabberId=-1;
+	private int dragndropBackgroundColor=0x00000000; 
 
 	public TouchListView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
@@ -83,6 +81,7 @@ public class TouchListView extends ListView {
 
 			mItemHeightNormal=a.getDimensionPixelSize(R.styleable.TouchListView_normal_height, 0);
 			mItemHeightExpanded=a.getDimensionPixelSize(R.styleable.TouchListView_expanded_height, mItemHeightNormal);
+			grabberId=a.getResourceId(R.styleable.TouchListView_grabber, -1);
 			dragndropBackgroundColor=a.getColor(R.styleable.TouchListView_dragndrop_background, 0x00000000);
 			mRemoveMode=a.getInt(R.styleable.TouchListView_remove_mode, -1);
 
@@ -129,14 +128,14 @@ public class TouchListView extends ListView {
 				ViewGroup item = (ViewGroup) getChildAt(itemnum - getFirstVisiblePosition());
 				mDragPoint = y - item.getTop();
 				mCoordOffset = ((int)ev.getRawY()) - y;
-				View dragger = item; // item.findViewById(grabberId);
+				View dragger = (View) item; // item.findViewById(grabberId);
 				Rect r = mTempRect;
 				//									dragger.getDrawingRect(r);
 
 				r.left=dragger.getLeft();
 				r.right=dragger.getRight();
 				r.top=dragger.getTop();
-				r.bottom=dragger.getBottom();
+				r.bottom=dragger.getBottom();									
 
 				if ((r.left<x) && (x<r.right)) {
 					item.setDrawingCacheEnabled(true);
@@ -280,7 +279,7 @@ public class TouchListView extends ListView {
 			mGestureDetector.onTouchEvent(ev);
 		}
 		if ((mDragListener != null || mDropListener != null) && mDragView != null) {
-			int action = ev.getAction();
+			int action = ev.getAction(); 
 			switch (action) {
 			case MotionEvent.ACTION_UP:
 			case MotionEvent.ACTION_CANCEL:
@@ -357,8 +356,8 @@ public class TouchListView extends ListView {
 		mWindowParams.x = 0;
 		mWindowParams.y = y - mDragPoint + mCoordOffset;
 
-		mWindowParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-		mWindowParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+		mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		mWindowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
 		mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
 		| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
 		| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON

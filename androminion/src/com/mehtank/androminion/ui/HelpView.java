@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
@@ -16,47 +16,46 @@ import android.widget.TextView;
 import com.mehtank.androminion.R;
 
 public class HelpView extends FrameLayout {
-	@SuppressWarnings("unused")
-	private static final String TAG = "HelpView";
+	Context top;
 	
-	private final Context ctx;
-
 	TextView helpText;
 	FrameLayout callout;
 	Button helpNext;
 	View[] showViews;
 	View[] parentViews;
 
+	public void setShowViews(View[] showViews) {
+		this.showViews = showViews;
+	}
+	
 	public HelpView(Context context, View[] showViews, View[] parentViews) {
 		super(context);
-		ctx = context;
+		top = context;
 		this.showViews = showViews;
 		this.parentViews = parentViews;
-
-		callout = new FrameLayout(this.ctx);
-		helpText = new TextView(this.ctx);
+		
+		callout = new FrameLayout(this.top);
+		helpText = new TextView(this.top);
 		// helpText.setTextSize(helpText.getTextSize()*1.2f);
 		helpText.setTextColor(Color.BLACK);
 		callout.addView(helpText);
-
-		helpNext = new Button(this.ctx);
+		
+		helpNext = new Button(this.top);
 		helpNext.setText(R.string.help_next);
-		helpNext.setTextColor(getResources().getColor(android.R.color.black));
 
-		Button helpQuit = new Button(this.ctx);
+		Button helpQuit = new Button(this.top);
 		helpQuit.setText(R.string.help_quit);
-		helpQuit.setTextColor(getResources().getColor(android.R.color.black));
 		helpQuit.setOnClickListener(new OnClickListener(){
-			@Override public void onClick(View v) { showHelp(0); }
+			public void onClick(View v) { showHelp(0); }
 		});
 
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, 
 				Gravity.BOTTOM + Gravity.LEFT);
 		callout.addView(helpNext, lp);
-
+		
 		lp = new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, 
 				Gravity.BOTTOM + Gravity.RIGHT);
 		callout.addView(helpQuit, lp);
 		addView(callout);
@@ -64,41 +63,27 @@ public class HelpView extends FrameLayout {
 	}
 
 	int helpText(int stringID, View parent, final int page, int bgID) {
-		helpNext.setOnClickListener(new OnClickListener() {
-			@Override public void onClick(View v) { showHelp(page+1); }
+		helpNext.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) { showHelp(page+1); }
 		});
-		int[] location = new int[2];
-		parent.getLocationOnScreen(location);
-		
-		int left = location[0];
-		int top = location[1];
-		
 
-		
-	//	int left = parent.getLeft();
-	//	int top = parent.getTop();
-	//	ViewParent vp = parent.getParent();
-	//	while (vp != getRootView()) {
-	//		left += ((View)vp).getLeft();
-	//		top += ((View)vp).getTop();
-	//		vp = vp.getParent();
-	//	}
-
-		if (bgID != 0) {
-			callout.setBackgroundResource(bgID);
+		int left = parent.getLeft();
+		int top = parent.getTop();
+		ViewParent vp = parent.getParent();
+		while (vp != getRootView()) {
+			left += ((View)vp).getLeft();
+			top += ((View)vp).getTop();
+			vp = vp.getParent();
 		}
-		/*
-		 * This has to be subtracted since getLocationOnScreen gives the 
-		 */
-		((View)getParent()).getLocationOnScreen(location);
-		left -= location[0];
-		top -= location[1];
 		
+		if (bgID != 0)
+			callout.setBackgroundResource(bgID);
+				
 		helpText.setText(stringID);
-
+		
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(parent.getWidth() + left, parent.getHeight() + top);
 		setLayoutParams(lp);
-
+		
 		setPadding(left, top, 0, 0);
 		return 0;
 	}
@@ -110,9 +95,9 @@ public class HelpView extends FrameLayout {
 		int bgID = 0;
 		boolean fadein = false;
 		boolean fadeout = false;
-
+		
 		hide();
-
+				
 		if (page == curpage++) {
 			stringID = R.string.help_supply1;
 			chapter = 0;
@@ -146,7 +131,7 @@ public class HelpView extends FrameLayout {
 		} else if (page == curpage++) {
 			stringID = R.string.help_turn5;
 			chapter = 1;
-
+			
 		} else if (page == curpage++) {
 			stringID = R.string.help_hand1;
 			chapter = 2;
@@ -165,7 +150,7 @@ public class HelpView extends FrameLayout {
 		} else if (page == curpage++) {
 			stringID = R.string.help_hand5;
 			chapter = 2;
-
+			
 		} else if (page == curpage++) {
 			stringID = R.string.help_log1;
 			chapter = 3;
@@ -175,7 +160,7 @@ public class HelpView extends FrameLayout {
 		} else if (page == curpage++) {
 			stringID = R.string.help_end;
 			chapter = 3;
-
+			
 		} else if (page == curpage++) {
 			chapter = 4;
 			fadein = true;
@@ -185,18 +170,18 @@ public class HelpView extends FrameLayout {
 			final View v = showViews[i];
 			AnimationSet fullfade = new AnimationSet(true);
 
-			Animation fade = AnimationUtils.loadAnimation(ctx, android.R.anim.fade_in);
-			if (page == 0) {
+			Animation fade = AnimationUtils.loadAnimation(top, android.R.anim.fade_in);
+			if (page == 0) { 
 				v.setVisibility(VISIBLE);
 				fade.setDuration(50L);
 				fullfade.addAnimation(fade);
 			} else if (fadein && (i != chapter-1)) {
 				v.setVisibility(VISIBLE);
 				fade.setDuration(700L);
-				fullfade.addAnimation(fade);
+				fullfade.addAnimation(fade);				
 			}
-
-			fade = AnimationUtils.loadAnimation(ctx, android.R.anim.fade_out);
+			
+			fade = AnimationUtils.loadAnimation(top, android.R.anim.fade_out);
 			if (fadeout && (i != chapter)) {
 				fade.setDuration(700L);
 				if (fadein) fade.setStartOffset(700L);
@@ -215,16 +200,16 @@ public class HelpView extends FrameLayout {
 			if (fullfade.getAnimations().size() > 0)
 				v.startAnimation(fullfade);
 		}
-
+		
 
 		if (stringID != 0) {
 			if (!fadeout)
 				setVisibility(VISIBLE);
 			helpText(stringID, parentViews[chapter], page, bgID);
 		}
-
+		
 		return 0;
-	}
+	}	
 
 	public void hide() {
 		setVisibility(INVISIBLE);

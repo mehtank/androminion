@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- Interaction -->
+	<string name="pass">パス</string>
+	<string name="card_revealed">%1$s は %2$s を公開した</string>
+	<string name="select_treasure">%2$s のためにテーブルから最大 (%1$s) コストの財宝カードを選択</string>
+	<string name="pawn_option_one">手先 (選択 2回のうち1回目):</string>
+	<string name="pawn_option_two">手先 (選択 2回のうち2回目):</string>
+	<string name="torturer_option_one">呪いを獲得</string>
+	<string name="torturer_option_two">2枚捨てる</string>
+	<string name="chancellor_query">山札を全て捨てる</string>
+	<string name="inn_option_one">山札に入れてシャッフル</string>
+	<string name="inn_option_two">捨て札のままにする</string>
+	<string name="tunnel_query">坑道を捨てる</string>
+	<string name="tunnel_option_one">金貨のために公開する</string>
+	
+	<string name="join_timed_out">Timed out waiting for player to join and start game.</string>
+	<string name="response_timed_out">Timed out waiting for player to join and respond to query.</string>
+	
+	<string name="vp_single">%1$s 勝利点</string>
+	<string name="vp_multiple">%1$s 勝利点</string>
+	<string name="coin_next_turn">次のターンに +(%1$s) コイン</string>
+	<string name="buy_next_turn_single">次のターンに +%1$s カードを購入</string>
+	<string name="buys_next_turn_multiple">次のターンに +%1$s カードを購入</string>
+	<string name="card_next_turn_single">次のターンに +%1$s カードを引く</string>
+	<string name="cards_next_turn_multiple">次のターンに +%1$s カードを引く</string>
+	<string name="action_next_turn_single">次のターンに +%1$s アクション</string>
+	<string name="actions_next_turn_multiple">次のターンに +%1$s アクション</string>
+	<string name="card_coin">+(%1$s) コイン</string>
+	<string name="card_buy_single">+%1$s カードを購入</string>
+	<string name="card_buys_multiple">+%1$s カードを購入</string>
+	<string name="card_action_single">+%1$s アクション</string>
+	<string name="card_actions_multiple">+%1$s アクション</string>
+	<string name="card_card_single">+%1$s カードを引く</string>
+	<string name="card_cards_multiple">+%1$s カードを引く</string>
+	<string name="card_victory_token_single">+%1$s 勝利点トークン</string>
+	<string name="card_victory_tokens_multiple">+%1$s 勝利点トークン</string>
+	
+	<string name="card_options_header">%1$s 選択</string>
+	<string name="part_play">プレイ</string>
+	<string name="part_buy">購入</string>
+	
+	<string name="select_from_table">%1$s のためにテーブルからカードを選択</string>
+	<string name="select_from_table_exact_quarries">%3$s のためにテーブルからちょうど (%1$s, アクションカードなら %2$s) コストのカードを選択</string>
+	<string name="select_from_table_exact">%2$s のためにテーブルからちょうど (%1$s) コストのカードを選択</string>
+	<string name="select_from_table_max_quarries">%3$s のためにテーブルから最大 (%1$s, アクションカードなら %2$s) コストのカードを選択</string>
+	<string name="select_from_table_max">%2$s のためにテーブルから最大 (%1$s) コストのカードを選択</string>
+	<string name="select_from_table_between_quarries">%4$s のためにテーブルから (%1$s) から (%2$s, アクションカードなら %3$s) コストのカードを選択</string>
+	<string name="select_from_table_between">%3$s のためにテーブルから (%1$s) から (%2$s) コストのカードを選択</string>
+	<string name="select_from_table_min">%2$s のためにテーブルから最小 (%1$s) コストのカードを選択</string>
+	
+	<string name="select_one_card_from_hand">%1$s のために手札からカードを選択</string>
+	<string name="select_up_to_x_cards_from_hand">%2$s のために手札から %1$s 枚までのカードを選択</string>
+	<string name="select_exactly_x_cards_from_hand">%2$s のために手札からちょうど %1$s 枚カードを選択</string>
+	
+	<string name="select_one_action_from_hand">%1$s のために手札からアクションカードを選択</string>
+	<string name="select_up_to_x_actions_from_hand">%2$s のために手札から %1$s 枚までのアクションカードを選択</string>
+	<string name="select_exactly_x_actions_from_hand">%2$s のために手札からちょうど %1$s 枚アクションカードを選択</string>
+	
+	<string name="select_one_treasure_from_hand">%1$s のために手札から財宝カードを選択</string>
+	<string name="select_up_to_x_treasures_from_hand">%2$s のために手札から %1$s 枚までの財宝カードを選択</string>
+	<string name="select_exactly_x_treasures_from_hand">%2$s のために手札からちょうど %1$s 枚財宝カードを選択</string>
+	
+	<string name="select_one_victory_from_hand">%1$s のために手札から勝利点カードを選択</string>
+	<string name="select_up_to_x_victorys_from_hand">%2$s のために手札から %1$s 枚までの勝利点カードを選択</string>
+	<string name="select_exactly_x_victorys_from_hand">%2$s のために手札からちょうど %1$s 枚勝利点カードを選択</string>
+
+	<string name="select_one_nontreasure_from_hand">%1$s のために手札から非財宝カードを選択</string>
+	<string name="select_up_to_x_nontreasures_from_hand">%2$s のために手札から %1$s 枚までの非財宝カードを選択</string>
+	<string name="select_exactly_x_nontreasures_from_hand">%2$s のために手札からちょうど %1$s 枚非財宝カードを選択</string>
+	
+	<string name="reaction_query">公開するリアクションカードを選択</string>
+	<string name="bane_option_one">災いカード (%1$s) を公開する</string>
+ 
+	<string name="card_to_reveal">公開 [%1$s]</string>
+	<string name="card_to_gain">獲得 [%1$s]</string>
+	<string name="card_to_trash">廃棄 [%1$s]</string>
+	<string name="card_to_discard">捨て札 [%1$s]</string>
+	<string name="discard">捨て札</string>
+	<string name="trash">廃棄</string>
+	<string name="keep">キープ</string>
+	<string name="none">もういい</string>
+	<string name="card_revealed_from_player">%1$s の山札から\n%2$s が %3$s を公開した</string>
+	<string name="GameStarting"></string>
+	<string name="GameOver">ゲームオーバー</string>
+	<string name="Embargo">抑留</string>
+	<string name="Status">ステータス</string>
+	<string name="CantBuy">%1$s を購入できない</string>
+	<string name="VictoryPoints">勝利点</string>
+	<string name="NewHand">新しい手札</string>
+	<string name="TurnBegin">ターン開始</string>
+	<string name="TurnEnd">ターン終了</string>
+	<string name="PlayingAction">プレイ中</string>
+	<string name="PlayedAction">プレイ完了</string>
+	<string name="PlayingDurationAction">持続プレイ中</string>
+	<string name="PlayingCoin">プレイ中</string>
+	<string name="BuyingCard">購入中</string>
+	<string name="NoBuy">(購入しない)</string>
+	<string name="DeckReplenished">山札が補充された</string>
+	<string name="PlayerAttacking">アタック中</string>
+	<string name="PlayerDefended">防御した</string>
+	<string name="CardOnTopOfDeck">カードを山札の上に置く</string>
+	<string name="CardObtained">獲得</string>
+	<string name="CardTrashed">廃棄</string>
+	<string name="CardRevealed">公開</string>
+	<string name="CardDiscarded">捨て札</string>
+	<string name="CardAddedToHand">カードが手札に加えられた</string>
+	<string name="CardRemovedFromHand">カードが手札から取り除かれた</string>
+
+	<string name="use_for_money">金の使用</string>
+	
+	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
+	<string name="game_over_status">ゲームオーバー — </string>
+	<string name="game_length_status">ゲーム時間: </string>
+	<string name="end_turn">ターン終了</string>
+	<string name="replace">そのまま戻す</string>
+	
+	<string name="secretchamber_part">山札に戻す [秘密の部屋]</string>
+	
+	<string name="ghostship_part">山札に戻す [幽霊船]</string>
+	
+	<string name="ambassador_query">サプライに戻す %1$s の数 [大使]:</string>
+	
+	<string name="goons_part">キープ [ならず者]</string>
+	
+	<string name="watch_tower_query">望楼 (%1$s 獲得):</string>
+	
+	<string name="followers_part">キープ [郎党]</string>
+	
+	<string name="treasure_to_trash">廃棄する財宝を選択</string>
+	
+	<string name="scheme_query">山札に戻すアクションカードを選択</string>
+	
+	<string name="herbalist_query">山札に戻す財宝カードを選択</string>
+	
+	<string name="thief_query">盗む財宝を選択</string>
+	
+	<string name="smuggle_query">密輸するカードを選択</string>
+	
+	<string name="courtyard_part_top_of_deck">山札の上に戻す [%1$s]</string>
+	
+	<string name="hamlet_part_discard_for_action">+1  アクションのための捨て札</string>
+	<string name="hamlet_part_discard_for_buy">+1  カードを購入のための捨て札</string>
+	
+	<string name="vault_part_discard_for_gold">コインのための捨て札</string>
+	<string name="vault_part_discard_for_card">+1  カードを引くのための捨て札</string>
+	
+	<string name="lookout_query_trash">廃棄するカードを選択</string>
+	<string name="lookout_query_discard">捨て札にするカードを選択</string>
+	
+	<string name="mountebank_query">香具師公開</string>
+	<string name="mountebank_option_one">呪いを捨て札にする</string>
+	<string name="mountebank_option_two">呪いと銅貨を獲得</string>
+	
+	<string name="pearldiver_option_one">山札の上に移動</string>
+	<string name="pearldiver_option_two">山札の底のままにする</string>
+	
+	<string name="alchemist_option_one">山札の上に戻す</string>
+	<string name="alchemist_option_two">捨て札</string>
+	
+	<string name="navigator_header">航海士は公開した: %1$s</string>
+	<string name="navigator_option_two">山札に戻す</string>
+	
+	<string name="tournament_reveal">属州を公開する</string>
+	<string name="tournament_option_one">属州を公開しない</string>
+	<string name="tournament_option_two">褒賞を獲得</string>
+	<string name="tournament_option_three">公領を獲得</string>
+	<string name="select_prize">褒賞を選択</string>
+	
+	<string name="trusty_steed_option_one">+2  アクション</string>
+	<string name="trusty_steed_option_two">+2  カードを引く</string>
+	<string name="trusty_steed_option_three">+(2) コイン</string>
+	<string name="trusty_steed_option_four">銀貨を4枚獲得し、山札を捨て札にする</string>
+	
+	<string name="mining_village_option_one">+(2) コインのために廃棄</string>
+	
+	<string name="golem_first_action">最初のプレイするアクション</string>
+	
+	<string name="duchess_query">公領の獲得</string>
+	<string name="duchess_option_one">公爵夫人も獲得</string>
+	
+	<string name="jack_of_all_trades_option_one">山札に戻す</string>
+	
+	<string name="duchess_play_option_one">山札に戻す</string>
+	
+	<string name="noble_brigand_query">%1$s から獲得するカード [義賊]</string>
+	
+	<string name="steward_option_one">+2  カードを引く</string>
+	<string name="steward_option_two">+(2) コイン</string>
+	<string name="steward_option_three">手札からカード2枚を廃棄</string>
+
+	<string name="pawn_one">+1  カードを引く</string>
+	<string name="pawn_two">+1  アクション</string>
+	<string name="pawn_three">+1  カードを購入</string>
+	<string name="pawn_four">+(1) コイン</string>
+	
+	<string name="nobles_option_one">+3  カードを引く</string>
+	<string name="nobles_option_two">+2  アクション</string>
+
+	<string name="minion_option_one">+(2) コイン</string>
+	<string name="minion_option_two">手札を捨てて、+4  カードを引く</string>
+
+	<string name="spice_merchant_option_one">+2  カードを引く,および +1  アクション</string>
+	<string name="spice_merchant_option_two">+(2) コイン, および +1  カードを購入</string>
+
+	<string name="watch_tower_option_one">公開しない</string>
+	<string name="watch_tower_option_three">山札の上に置く</string>
+
+	<string name="jester_option_one">あなたがコピーを獲得</string>
+	<string name="jester_option_two">%1$s がコピーを獲得</string>
+	
+	<string name="trader_gain">%1$s を獲得</string>
+	<string name="trader_gain_instead_of">%2$s の代わりに %1$s を獲得</string>
+
+	<string name="fools_gold_option_one">金貨のために廃棄</string>
+	
+	<string name="baron_option_one">+(4) コインのために屋敷を捨て札にする</string>
+	<string name="baron_option_two">屋敷を獲得</string>
+	
+	<string name="native_village_option_one">原住民の村からカードを手札に加える</string>
+	<string name="native_village_option_two">山札の上のカードを原住民の村に移動する</string>
+
+	<string name="ill_gotten_gains_option_one">銅貨を獲得</string>
+	
+	<string name="card_order_on_deck">山札のカードの順番:</string>
+	
+	<string name="treasury_number">山札に戻す宝物庫カードの数:</string>
+	
+	<string name="pirate_ship_option_one">+(%1$s) コイン</string>
+	<string name="pirate_ship_option_two">アタック</string>
+
+	<string name="top_of_deck">山札の一番上</string>
+	
+	<string name="saboteur_part">破壊されたカードと置換</string>
+	
+	<string name="mandarin_part">山札の上に置く</string>
+	
+	<string name="bureaucrat_part">山札の上に置く</string>
+	
+	<string name="masquerade_part">左に渡す</string>
+	
+	<string name="mine_part">鉱山</string>
+	
+	<string name="militia_part">民兵からキープ</string>
+	
+	<string name="bishop_part">勝利点トークンのための廃棄</string>
+	
+	<string name="swindler_part">コスト (%1$s) の詐欺師にあったカードの置換</string>
+	
+	<string name="margrave_part">辺境伯からキープ</string>
+	
+	<string name="wishing_well_part">山札の一番上のカードの推測</string>
+	
+	<string name="explorer_reveal">属州を公開する</string>
+	
+	<!-- *** -->
+	<string name="university_part">獲得 [大学]</string>
+	<!-- *** -->
+	
+	<string name="putback_query">山札に戻すカードを選択</string>
+	<string name="putback_option_one">財宝カード (薬草商)</string>
+	<string name="putback_option_two">アクションカード (画策)</string>
+	
+
+    
+    
+  <string name="game_over_vps"> 勝利点</string>
+    
+  <string name="coin_worth">(%1$s) コイン</string>
+  <string name="Cartographer_query">捨て札にするカードを選択</string>
+  <string name="cards">カード</string>
+  <string name="return_cards">山札にカードを戻す:</string>
+  <string name="take_normal">通常通り獲得</string>
+ 
+  
+</resources>

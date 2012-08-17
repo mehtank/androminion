@@ -1,5 +1,6 @@
 package com.mehtank.androminion.ui;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -7,21 +8,18 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mehtank.androminion.Androminion;
 import com.mehtank.androminion.R;
-import com.mehtank.androminion.activities.GameActivity;
 import com.vdom.comms.Event;
 
 public class SelectStringView extends BottomInputView implements AdapterView.OnItemClickListener {
-	@SuppressWarnings("unused")
-	private static final String TAG = "SelectStringView";
-	
 	ListView lv;
-
-	public SelectStringView (GameActivity top, String header, String[] options) {
+	
+	public SelectStringView (Androminion top, String header, String[] options) {
 		super(top, header);
-		lv.setAdapter(new ArrayAdapter<String>(top, R.layout.view_selectstring, options));
+		lv.setAdapter(new ArrayAdapter<String>(top, R.layout.selectstring, options));
 	}
-
+	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View v, int pos, long id) {
 		if (v instanceof TextView) {
@@ -32,11 +30,11 @@ public class SelectStringView extends BottomInputView implements AdapterView.OnI
 	}
 
 	@Override
-	protected View makeContentView(GameActivity activity) {
+	protected View makeContentView(Androminion top) {
 		lv = new ListView(top);
 		lv.setOnItemClickListener(this);
-		lv.setBackgroundDrawable(getResources().getDrawable(R.drawable.bottominputviewborder));
-
+		lv.setBackgroundColor(Color.LTGRAY);
+		
 		return lv;
 	}
 }

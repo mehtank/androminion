@@ -9,9 +9,6 @@ import com.vdom.api.Card;
 import com.vdom.api.GameType;
 
 public class Strings {
-	@SuppressWarnings("unused")
-	private static final String TAG = "Strings";
-	
     static HashMap<Card, String> nameCache = new HashMap<Card, String>();
     static HashMap<Card, String> descriptionCache = new HashMap<Card, String>();
     static HashMap<String, String> expansionCache = new HashMap<String, String>();
