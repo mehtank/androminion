@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="FirstGame_gametype">最初のゲーム (基本)</string>
+  <string name="BigMoney_gametype">ビッグ・マネー (基本)</string> 
+  <string name="Interaction_gametype">相互作用 (基本)</string> 
+  <string name="SizeDistortion_gametype">サイズ変形 (基本)</string> 
+  <string name="VillageSquare_gametype">村の広場 (基本)</string>
+  <string name="RandomBaseGame_gametype">ランダム基本</string>
+  
+  <string name="VictoryDance_gametype">勝利の舞 (陰謀)</string> 
+  <string name="SecretSchemes_gametype">秘密計画 (陰謀)</string> 
+  <string name="BestWishes_gametype">願い (陰謀)</string> 
+  <string name="RandomIntrigue_gametype">ランダム陰謀</string>
+  
+  <string name="Deconstruction_gametype">脱構築 (基本, 陰謀)</string> 
+  <string name="HandMadness_gametype">手札熱狂 (基本, 陰謀)</string> 
+  <string name="Underlings_gametype">下役たち (基本, 陰謀)</string>
+  
+  <string name="HighSeas_gametype">外洋 (海辺)</string> 
+  <string name="BuriedTreasure_gametype">埋蔵金 (海辺)</string> 
+  <string name="Shipwrecks_gametype">難破船 (海辺)</string> 
+  <string name="RandomSeaside_gametype">ランダム海辺</string>
+  
+  <string name="RandomAlchemy_gametype">ランダム錬金術</string>
+  
+  <string name="ForbiddenArts_gametype">禁断の芸術 (基本, 錬金術)</string> 
+  <string name="PotionMixers_gametype">薬剤調合師たち (基本, 錬金術)</string> 
+  <string name="ChemistryLesson_gametype">化学実験 (基本, 錬金術)</string>
+  
+  <string name="Servants_gametype">神のしもべ (陰謀, 錬金術)</string> 
+  <string name="SecretResearch_gametype">秘密調査 (陰謀, 錬金術)</string> 
+  <string name="PoolsToolsAndFools_gametype">プールとツールとフール (陰謀, 錬金術)</string>
+  
+  <string name="ReachForTomorrow_gametype">明日への架け橋 (基本, 海辺)</string> 
+  <string name="Repetition_gametype">反復 (基本, 海辺)</string> 
+  <string name="GiveAndTake_gametype">ギブ＆テイク (基本, 海辺)</string>
+
+  <string name="Beginners_gametype">初心者 (繁栄)</string> 
+  <string name="FriendlyInteractive_gametype">好意的な相互作用 (繁栄)</string> 
+  <string name="BigActions_gametype">ビッグ・アクション (繁栄)</string> 
+  <string name="RandomProsperity_gametype">ランダム繁栄</string>
+
+  <string name="BiggestMoney_gametype">巨費 (基本, 繁栄)</string> 
+  <string name="TheKingsArmy_gametype">王の軍隊 (基本, 繁栄)</string> 
+  <string name="TheGoodLife_gametype">良き人生 (基本, 繁栄)</string>
+
+  <string name="PathToVictory_gametype">勝利への道 (陰謀, 繁栄)</string> 
+  <string name="AllAlongTheWatchtower_gametype">見張りの塔からずっと (陰謀, 繁栄)</string> 
+  <string name="LuckySeven_gametype">ラッキーセブン (陰謀, 繁栄)</string>
+
+  <string name="RandomCornucopia_gametype">ランダム収穫祭</string>
+
+  <string name="BountyOfTheHunt_gametype">賞金稼ぎ (基本, 収穫祭)</string> 
+  <string name="BadOmens_gametype">凶兆 (基本, 収穫祭)</string> 
+  <string name="TheJestersWorkshop_gametype">道化師の仕事場 (基本, 収穫祭)</string>
+
+  <string name="LastLaughs_gametype">最後に笑う者 (陰謀, 収穫祭)</string> 
+  <string name="TheSpiceOfLife_gametype">刺激的人生 (陰謀, 収穫祭)</string> 
+  <string name="SmallVictories_gametype">小さな勝利 (陰謀, 収穫祭)</string>
+
+  <string name="HinterlandsIntro_gametype">入門 (異郷)</string> 
+  <string name="FairTrades_gametype">公平な取引 (異郷)</string> 
+  <string name="Bargains_gametype">バーゲン (異郷)</string> 
+  <string name="Gambits_gametype">初めの一手 (異郷)</string> 
+  <string name="RandomHinterlands_gametype">ランダム異郷</string>
+    
+  <string name="HighwayRobbery_gametype">辻強盗 (基本, 異郷)</string> 
+  <string name="AdventuresAbroad_gametype">異国への冒険 (基本, 異郷)</string>
+    
+  <string name="MoneyForNothing_gametype">無駄金 (異郷, 陰謀)</string> 
+  <string name="TheDukesBall_gametype">公爵の舞踏会 (異郷, 陰謀)</string>
+    
+  <string name="Travelers_gametype">旅行者たち (異郷, 海辺)</string> 
+  <string name="Diplomacy_gametype">外交 (異郷, 海辺)</string>
+    
+  <string name="SchemesAndDreams_gametype">画策と夢 (異郷, 錬金術)</string> 
+  <string name="WineCountry_gametype">ワインカントリー (異郷, 錬金術)</string>
+
+  <string name="InstantGratification_gametype">その場の満足 (異郷, 繁栄)</string> 
+  <string name="TreasureTrove_gametype">貴重な発見 (異郷, 繁栄)</string>
+   
+  <string name="BlueHarvest_gametype">青田刈り (異郷, 収穫祭)</string> 
+  <string name="TravelingCircus_gametype">旅一座 (異郷, 収穫祭)</string>
+  <string name="Random_gametype">ランダム</string>
+  
+</resources>

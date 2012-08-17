@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="Base">Basis</string>
+	<string name="Intrigue">Die Intrige</string>
+	<string name="Seaside">Seaside</string>
+	<string name="Alchemy">Die Alchemisten</string>
+	<string name="Prosperity">Blütezeit</string>
+	<string name="Cornucopia">Reiche Ernte</string>
+	<string name="Hinterlands">Hinterland</string>
+</resources>
