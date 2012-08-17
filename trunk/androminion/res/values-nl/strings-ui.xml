@@ -70,6 +70,17 @@
 	<string name="whatsnew_menu">Wat is nieuw </string>
 	<string name="whatsnew_title">Wat is nieuw: </string>
 	<string name="whatsnew"> <![CDATA[
+		<h3>Please Read!</h3>
+		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will be the last major revision; Androminion will be removed from the market at the end of the month.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
+		On behalf of the Androminion team, it has been fun.<br>
+		-:ankur
+		<h3>Version 3.00</h3>
+	    * Many gameplay bugfixes <br>
+	    * Optimized user interface with tablet support <br>
+	    * Compatibility: Android 2.2+
+	    <h3>Version 2.05</h3>
+	    * Many gameplay bugfixes <br>
+	    * We lied about 2.04 -- this actually the last version for Android 1.5 - 2.1
 	    <h3>Version 2.04</h3>
 	    * Translation to Dutch <br>
 	    * Bugfixes <br>
