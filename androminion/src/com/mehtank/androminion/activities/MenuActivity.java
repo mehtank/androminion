@@ -2,13 +2,18 @@ package com.mehtank.androminion.activities;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -64,6 +69,25 @@ public class MenuActivity extends SherlockFragmentActivity implements
 			if (savedInstanceState != null) {
 				mState = savedInstanceState.getInt("mState");
 			}
+		}
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if (!prefs.getString("LastVersion", "None").equals(getString(R.string.version))) {
+			SharedPreferences.Editor edit = prefs.edit();
+			edit.putString("LastVersion", getString(R.string.version));
+			edit.commit();
+
+			LayoutInflater inflator = LayoutInflater.from(getApplicationContext());
+			View v = inflator.inflate(R.layout.fragment_whatsnew, null);
+			TextView tv = (TextView) v.findViewById(R.id.whatsnew);
+			tv.setText(Html.fromHtml(getString(R.string.whatsnew)));
+			tv.setMovementMethod(LinkMovementMethod.getInstance());
+
+			new AlertDialog.Builder(this)
+				.setView(v)
+				.setPositiveButton(android.R.string.ok, null)
+				.setTitle(R.string.app_name)
+				.create()
+				.show();
 		}
 	}
 
