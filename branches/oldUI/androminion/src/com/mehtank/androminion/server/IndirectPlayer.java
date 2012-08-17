@@ -317,8 +317,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getFromTable(context, header, maxCost, minCost, isBuy, passString, SelectCardOptions.PickType.SELECT);
     }
     
-    public Card getNonVictoryFromTable(MoveContext context, String header, int maxCost, boolean isBuy, String passString, int potionCost) {
-        return getFromTable(context, header, maxCost, Integer.MIN_VALUE, isBuy, passString, SelectCardOptions.PickType.SELECT, false, false, potionCost);
+    public Card getNonVictoryFromTable(MoveContext context, String header, int maxCost, int maxCostWithoutPotion, int minCost, boolean isBuy, String passString, int potionCost) {
+        return getFromTable(context, header, maxCost, minCost, isBuy, passString, SelectCardOptions.PickType.SELECT, false, false, potionCost, false, maxCostWithoutPotion);
     }
     
     public ActionCard getActionFromTable(MoveContext context, String header, int maxCost, String passString) {
@@ -336,8 +336,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, PickType pickType, boolean actionOnly, boolean victoryAllowed, int potionCost) {
         return getFromTable(context, header, maxCost, minCost, isBuy, passString, pickType, actionOnly, victoryAllowed, potionCost, false);
     }
-    
+
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, PickType pickType, boolean actionOnly, boolean victoryAllowed, int potionCost, boolean includePrizes) {
+        return getFromTable(context, header, maxCost, minCost, isBuy, passString, pickType, actionOnly, victoryAllowed, potionCost, includePrizes, maxCost);
+    }
+
+    public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, PickType pickType, boolean actionOnly, boolean victoryAllowed, int potionCost, boolean includePrizes, int maxCostWithoutPotion) {
         Card[] cards = context.getCardsInGame();
         SelectCardOptions sco = new SelectCardOptions()
         	.fromTable();
@@ -367,8 +371,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         
 		for (Card card : cards) {
-            if ((!isBuy && card.getCost(context, context.buyPhase) <= maxCost) ||
-        		(isBuy && context.canBuy(card, maxCost))) {
+            if ((!isBuy && card.getCost(context, context.buyPhase) <= (card.costPotion() ? maxCost : maxCostWithoutPotion)) ||
+        		(isBuy && context.canBuy(card, maxCost)) ) {
         		if (card.getCost(context) >= minCost) {
         		    if(victoryAllowed || !(card instanceof VictoryCard)) {
         		        if(potionCost == -1 || (potionCost == 0 && !card.costPotion()) || (potionCost > 0 && card.costPotion()) || (potionCost > 0 && !card.costPotion() && maxCost != minCost)) {
@@ -382,7 +386,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if (sco.allowedCards.size() == 0)
         	return null;
 
-        sco.maxCost(maxCost)
+        sco.maxCost(maxCostWithoutPotion)
            .minCost(minCost)
            .potionCost(potionCost);
 
@@ -1728,7 +1732,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_haggler_cardToObtain(context, maxCost, potion)) {
             return super.haggler_cardToObtain(context, maxCost, potion);
         }
-        return getNonVictoryFromTable(context, getGainString(Cards.haggler), maxCost, false, NOTPASSABLE, potion?1:0);
+        return getNonVictoryFromTable(context, getGainString(Cards.haggler), maxCost, (maxCost + (potion?1:0)), 0, false, NOTPASSABLE, potion?1:0);
     }
     
     @Override
