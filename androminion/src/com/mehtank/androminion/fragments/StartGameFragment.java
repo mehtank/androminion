@@ -286,6 +286,10 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
             strs.add("-quickplay");
         }
 
+        if(mPrefs.getBoolean("sort_cards", false)) {
+            strs.add("-sortcards");
+        }
+
         if (mPrefs.getBoolean("action_chains", false)) {
             strs.add("-actionchains");
         }

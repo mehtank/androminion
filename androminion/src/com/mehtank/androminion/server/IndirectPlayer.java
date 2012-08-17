@@ -1892,7 +1892,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if (reactionCards.length > 0) {
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)
-            	if (lastCard == null || !Game.suppressRedundantReactions || c.getName() != lastCard.getName())
+            	if (lastCard == null || !Game.suppressRedundantReactions || c.getName() != lastCard.getName() || c.equals(Cards.horseTraders))
                    options.add(Strings.getCardName(c));
             if (options.size() > 0) {
             String none = getString(R.string.none);
