@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>  
+
+       
+        <!-- About -->
+    <string name="app_name">Андроминион</string>
+        <string name="splash">Используйте меню, чтоб начать игру или, если игра уже запущена, чтоб получить помощь по игре.</string>
+        <string name="version">Версия %1$s</string>
+       
+        <!-- Game table -->
+        <string name="title">Андроминион от Ankur Mehta</string>
+        <string name="obtained">%1$s получено</string>
+        <string name="trashed">%1$s выброшено</string>
+        <string name="revealed">%1$s открыто</string>
+        <string name="confirmation">Вы уверены?</string>
+        <string name="confirm_no">Нет</string>
+        <string name="select_button">Выберите</string>
+        <string name="buy_button">\ \ Купить\ \ </string>
+        <string name="play_button">\ Играть\ </string>
+        <string name="discard_button">Сбросить</string>
+        <string name="keep_button">Оставить</string>
+        <string name="give_button">Дать</string>
+        <string name="trash_button">На свалку</string>
+        <string name="upgrade_button">Улучшить</string>
+        <string name="mint_button">Мон. двор</string>
+        <string name="swindle_button">Смошенничать</string>
+        <string name="all_button">Все</string>
+        <string name="hand_header">Рука:</string>
+        <string name="played_header">Сыграно:</string>
+        <string name="island_header">Остров:</string>
+        <string name="village_header">Деревня:</string>
+
+<!--        <string name="game_loaded">Game loaded!\nActions, buys and coins\navailable are shown in \nthe log as a/b/(c)</string>-->
+	<string name="game_loaded">Игра загружена!\nДоступные действия, покупки\n и монеты показаны\n в логах как а/б/(в)</string>
+	
+        <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+        <string name="action_single">%1$s дейст.</string>
+        <string name="action_multiple">%1$s дейст.</string>
+        <string name="buy_single">%1$s покуп.</string>
+        <string name="buy_multiple">%1$s покуп.</string>
+        <string name="coins">(%1$s) монет</string>
+
+        <string name="final_view_card_counts">Счетчики карт</string>              
+        <string name="final_view_text">%1$s: %2$s ПО.\n%3$s ходов, %4$s карт.</string>                
+
+    <string name="reset">Сброс</string>
+   
+        <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+        <string name="potion_single">%1$s зелье</string>
+        <string name="potion_multiple">%1$s зелий</string>
+        <string name="start_new_game_on_server">Начать игру на сервере</string>
+        <string name="select_a_game_type_">Выбор типа игры:</string>
+        <string name="select_players">Выбор игроков:</string>
+        <string name="player">Игрок </string>
+        <string name="none_game_start">Нет</string>
+        <string name="start_game">Начать игру!</string>
+        <string name="you">Вы</string>
+        <string name="help_menu">Помощь</string>
+        <string name="start_game_menu">Начало игры</string>
+        <string name="settings_menu">Настройки</string>
+        <string name="about_menu">О программе</string>
+        <string name="achievements_menu">Достижения</string>
+	<string name="win_loss_menu">Рекорды Побед/Пораж.</string>
+        <string name="quit_menu">Выход</string>
+        <string name="toast_starting">Начинаем игру…</string>
+        <string name="toast_quitconfirm">Нажмите еще раз, чтобы выйти.</string>
+        <string name="toast_loading">Загружаю игру…</string>
+
+        <string name="accept">Принять</string>
+<!--         <string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string> -->
+        <string name="order_cards_summary">Перетащите\nкарты, чтобы\nизменить их\nпорядок.</string>
+	
+        <string name="stats_menu">Статистика</string>
+        <string name="whatsnew_menu">Что нового </string>
+        <string name="whatsnew_title">Что нового: </string>
+        <string name="whatsnew"> <![CDATA[
+        <h3>Please Read!</h3>
+		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will be the last major revision; Androminion will be removed from the market at the end of the month.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
+		On behalf of the Androminion team, it has been fun.<br>
+		-:ankur
+	    <h3>Version 2.05</h3>
+	    * Many gameplay bugfixes and UI enhancements <br>
+	    * We lied about 2.04 -- this actually the last version for Android 1.5 - 2.1
+	    <h3>Version 2.04</h3>
+	    * Translation to Dutch <br>
+	    * Bugfixes <br>
+	    * Last version for Android 1.5 and 1.6
+	      <h3>Версия 2.03</h3>
+	    * Одержимость! <br>
+	    * Новые переводы <br>
+	    * Очень много багфиксов и улучшений <br> <br>
+            <h3>Версия 2.02</h3>      
+            * Исправлены падения на Android 4.x <br>
+            * Более интуитивное поведение карты Ровt <br>
+                * Много других багфиксов и улучшений <br> <br>
+                Теперь можно запускать Андроминион прямо из <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a>!
+                * Тот же отличный вкус! ;)<br/>
+                <br/><font color="lime">Андроминион теперь open source!</font>  Это обновление было бы невозможно без помощи многих, кто внес в него свой вклад; пожалуйста, посмотрите закладку Создатели. Вы тоже можете помочь! Присылайте багрепорты, запросы на функции, переводы и тд. на <br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/>
+        ]]>     </string>
+        <string name="contrib_menu">Создатели </string>
+        <string name="contrib_title">Вкладчики: </string>
+        <string name="logging_pref_title">Логи игры</string>
+        <string name="logging_enable_pref_title">Включить логи игры</string>
+        <string name="logging_enable_pref_summary">Логи будут храниться на Вашей SD карте в виде текстовых файлов</string>
+        <string name="logging_dir_pref_title">Папка логов</string>
+        <string name="logging_dir_pref_summary">Папка для хранения логов игры (при необходимости будет создана)</string>
+        <string name="game_type_random">Случайно</string>
+        <string name="game_type_preset">Настройка</string>
+        <string name="game_type_last">Последняя сыгранная</string>
+        <string name="game_type_specified">Указать карты</string>
+</resources>
+

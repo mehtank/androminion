@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="host_menu">Nieuw spel</string>
+<string name="host_title">Verbind met een Dominion Server</string>
+<string name="host_message">Kies het type spel server.</string>
+<string name="host_prompt">Voer de hostname of IP-address van de server in waarmee je wilt verbinden.</string>
+
+<string name="host_local">Lokaal spel</string>
+<string name="host_remote">Remote spel</string>
+</resources>

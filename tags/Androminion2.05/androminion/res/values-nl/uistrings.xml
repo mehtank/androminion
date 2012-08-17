@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>  
+
+	
+	<!-- About -->
+    <string name="app_name">Androminion</string>
+	<string name="splash">Gebruik het menu om een nieuw spel te starten of om speelhulp te krijgen tijdens eens spel.</string>
+	<string name="version">Versie %1$s</string>
+	
+	<!-- Game table -->
+	<string name="title">Androminion door Ankur Mehta</string>
+	<string name="obtained">%1$s gepakt</string>
+	<string name="trashed">%1$s vernietigd</string>
+	<string name="revealed">%1$s getoond</string>
+	<string name="confirmation">Weet je het zeker?</string>
+	<string name="confirm_no">Nee</string>
+	<string name="select_button">Kies</string>
+	<string name="buy_button">\ \ Koop\ \ </string>
+	<string name="play_button">\ Speel\ </string>
+	<string name="discard_button">Leg af</string>
+	<string name="keep_button">Houd</string>
+	<string name="give_button">Geef</string>
+	<string name="trash_button">Vernietig</string>
+	<string name="upgrade_button">Waardeer op</string>
+	<string name="mint_button">Munt</string>
+	<string name="swindle_button">Licht op</string>
+	<string name="all_button">Alles</string>
+	<string name="hand_header">Hand:</string>
+	<string name="played_header">Gespeeld:</string>
+	<string name="island_header">Eiland:</string>
+	<string name="village_header">Dorp:</string>
+	<string name="game_loaded">Spel geladen!\nBeschikbare acties, aanschaffen en geld\nworden in de log getoond als a/a/(g)</string>
+
+	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+	<string name="action_single">%1$s actie</string>
+	<string name="action_multiple">%1$s acties</string>
+	<string name="buy_single">%1$s aanschaf</string>
+	<string name="buy_multiple">%1$s aanschaf</string>
+	<string name="coins">(%1$s) geld</string>
+
+	<string name="final_view_card_counts">Kaarten</string>		
+	<string name="final_view_text">%1$s: %2$s overwinningspunten.\n%3$s beurten, %4$s kaarten.</string>		
+
+    <string name="reset">Reset</string>
+    
+	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+	<string name="potion_single">%1$s drankje</string>
+	<string name="potion_multiple">%1$s drankjes</string>
+	<string name="start_new_game_on_server">Start nieuw spel op de server</string>
+	<string name="select_a_game_type_">Speltype:</string>
+	<string name="select_players">Aantal spelers:</string>
+	<string name="player">Speler </string>
+	<string name="none_game_start">Geen</string>
+	<string name="start_game">Start spel!</string>
+	<string name="you">Jij</string>
+	<string name="help_menu">Help</string>
+	<string name="start_game_menu">Nieuw Spel</string>
+	<string name="settings_menu">Instellingen</string>
+	<string name="about_menu">Over</string>
+	<string name="achievements_menu">Prestaties</string>
+	<string name="win_loss_menu">Winst/verlies historie</string>
+	<string name="quit_menu">Stop</string>
+	<string name="toast_starting">Spel starten…</string>
+	<string name="toast_quitconfirm">Tik nogmaals om af te sluiten.</string>
+	<string name="toast_loading">Spel aan het laden…</string>
+
+	<string name="accept">Accepteer</string>
+	<string name="order_cards_summary">Sleep/\nde kaarten om hun volgorde \nte veranderen.</string>
+	<string name="stats_menu">Statistieken</string>
+	<string name="whatsnew_menu">Wat is nieuw </string>
+	<string name="whatsnew_title">Wat is nieuw: </string>
+	<string name="whatsnew"> <![CDATA[
+	    <h3>Please Read!</h3>
+		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will be the last major revision; Androminion will be removed from the market at the end of the month.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
+		On behalf of the Androminion team, it has been fun.<br>
+		-:ankur
+	    <h3>Version 2.05</h3>
+	    * Many gameplay bugfixes and UI enhancements <br>
+	    * We lied about 2.04 -- this actually the last version for Android 1.5 - 2.1
+	    <h3>Version 2.04</h3>
+	    * Translation to Dutch <br>
+	    * Bugfixes <br>
+	    * Last version for Android 1.5 and 1.6
+	    <h3>Versie 2.03</h3>	
+	    * Possession! <br>
+	    * Toegevoegde vertalingen <br>
+		* Vele, vele bugfixes en verbeteringen <br> <br>
+	    <h3>Versie 2.02</h3>	
+	    * Fix crashes op Android 4.x <br>
+	    * Meer intuïtief Slotgracht gedrag <br>
+		* Vele andere bugfixes en verbeteringen <br> <br>
+		Wil je een gemakkelijkere manier om je koninkrijkkaarten te kiezen?  Je kan nu Androminion direct vanuit <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a> starten!
+	    <h3>Versie 2.0</h3>
+		Het heeft een tijd geduurd, maar we hopen dat deze update het wachten waard was!  Er zijn zoveel veranderingen dat we ze niet allemaal hier kunnen opsommen, maar hieronder wat highlights:<br/><br/>
+		<b><font color="lime">* Meer uitbreidingen!</font></b>  De meesten van de Alchemistenkaarten, Welvaart, Overvloed, en Het Achterland zijn nu beschikbaar.<br/>
+		<b><font color="lime">* Meer spelopties!</font></b>  Kies uit verschillende willekeurige of uitgekozen decks, met 2 tot 4 spelers.<br/>
+		<b><font color="lime">* Meer AI opties!</font></b>  Introduceert AI Chuck, Mary, en Sarah.<br/>
+		<b><font color="lime">* Meer bugfixes!</font></b>  Waarschijnlijk ook meer bugs.<br/>
+		* Hetzelfde goede gevoel!<br/>
+		<br/><font color="lime">Androminion is nu open source!</font>  Deze update was niet mogelijk geweest zonder de inbreng van de bijdragers; Bekijk alsjeblieft de credits tab. Jij kan ook helpen!  Registreer bug reports, feature requests, vertalingen, en meer op <br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
+	]]>	</string>
+	<string name="contrib_menu">Credits </string>
+	<string name="contrib_title">Bijgedragen door: </string>
+	<string name="logging_pref_title">Spel Logs</string>
+	<string name="logging_enable_pref_title">Schakel spel logs in</string>
+	<string name="logging_enable_pref_summary">Logs worden opgeslagen op je SD kaart als tekstbestanden.</string>
+	<string name="logging_dir_pref_title">Log folder</string>
+	<string name="logging_dir_pref_summary">Folder waar spel logs worden opgeslagen (zal worden aangemaakt wanneer nodig)</string>
+	<string name="game_type_random">Willekeurig</string>
+	<string name="game_type_preset">Voorgedefinieerd</string>
+	<string name="game_type_last">Laatst gespeeld</string>
+	<string name="game_type_specified">Gespecificeerd</string>
+</resources>
