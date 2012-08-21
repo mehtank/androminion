@@ -629,7 +629,17 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 		/*
 		 * The following try/catch block is made obsolete by the addition of
 		 * sendErrorHandler to the EventHandler-interface.
+		 * 
+		 * except it isn't: still getting NullPointerExceptions here [ 8/21/12 ]
 		 */
+		
+		// maybe this will help?
+		if (comm == null) {
+			if (!connect(port)) {
+				lostConnection();
+				return;
+			}
+		}
 //		try {
 			comm.put_ts(e);
 //		} catch (Exception e1) {
