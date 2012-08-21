@@ -199,6 +199,9 @@ public class MoveContext {
     }
 
     public int getCoinForStatus() {
+        return getCoinAvailableForBuy();
+
+        /*
         if(player.playedCards.size() > 0) {
             return getCoinAvailableForBuy();
         }
@@ -218,6 +221,7 @@ public class MoveContext {
         }
 
         return coin;
+        */
     }
 
     public int getPotionsForStatus(Player p) {
