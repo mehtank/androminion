@@ -51,7 +51,7 @@
         <item>Dark</item>
         <item>Light</item>
         <item>Light with dark Actionbar</item>
-    </string-array>
+        </string-array>
 
     <string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
 
@@ -73,5 +73,7 @@
         <item>Simple</item>
         <item>Descriptive</item>
     </string-array>
+        <string name="pref_showactionbar_title">Show action bar</string>
+        <string name="pref_showactionbar_summary">Disable if you have a small screen, enable if you lack hard buttons</string>
     
 </resources>

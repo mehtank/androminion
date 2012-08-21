@@ -99,7 +99,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		this.parent = parent;
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		viewstyle = prefs.getString("viewstyle", "viewstyle-simple");
+		viewstyle = prefs.getString("viewstyle", context.getString(R.string.pref_viewstyle_default));
 		
 		if (("viewstyle-classic").equals(viewstyle))
 			LayoutInflater.from(context).inflate(R.layout.view_oldcard, this, true);

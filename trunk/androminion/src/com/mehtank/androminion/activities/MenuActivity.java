@@ -45,7 +45,7 @@ public class MenuActivity extends SherlockFragmentActivity implements
 		Log.d(TAG,
 				"Theme is set to "
 						+ pref.getString("theme", "androminion-dark"));
-		if (pref.getString("theme", "androminion-dark").equals("androminion")) {
+		if (pref.getString("theme", getString(R.string.pref_theme_default)).equals("androminion")) {
 			// Settings from previous Androminion version exist
 			Log.d(TAG, "Resetting theme setting to default value");
 			Editor editor = pref.edit();
