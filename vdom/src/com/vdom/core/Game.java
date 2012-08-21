@@ -1143,10 +1143,11 @@ public class Game {
 		}
 
 		switch (numPlayers) {
+		case 1:
 		case 2:
 		case 3:
 		case 4:
-			/* Ends game for 2, 3 or 4 players */
+			/* Ends game for 1, 2, 3 or 4 players */
 			if (emptyPiles() >= 3) {
 				return true;
 			}
@@ -1619,7 +1620,7 @@ public class Game {
             addPile(Cards.trustySteed, 1);
         }
 
-        if (!debug) { return; } //make stuff fast
+//        if (!debug) { return; } //make stuff fast
         
         boolean oldDebug = debug;
         if (!debug && !showEvents.isEmpty()) {
