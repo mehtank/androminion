@@ -161,15 +161,15 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 		((TextView) mView.findViewById(R.id.txtPlayer1))
 			.setText(" - " + player + "1:  ");
 
+		players = new ArrayList<String>(players);
+		players.add(getString(R.string.none_game_start));
+		adapter = createArrayAdapter(players);
+
 		((TextView) mView.findViewById(R.id.txtPlayer2))
 		.setText(" - " + player + "2:  ");
 		mPlayer2.setPrompt(player+"2");
 		mPlayer2.setAdapter(adapter);
 		mPlayer2.setSelection(adapter.getPosition(mPrefs.getString("gamePref2", getString(R.string.none_game_start))));
-
-		players = new ArrayList<String>(players);
-		players.add(getString(R.string.none_game_start));
-		adapter = createArrayAdapter(players);
 
 		((TextView) mView.findViewById(R.id.txtPlayer3))
 		.setText(" - " + player + "3:  ");

@@ -951,7 +951,7 @@ public class Game {
 
             numPlayers = playerClassesAndJars.size();
 
-            if (numPlayers < 2 || numPlayers > 6 || showUsage) {
+            if (numPlayers < 1 || numPlayers > 6 || showUsage) {
                 Util.log("Usage: [-debug][-ignore(playername)][-count(# of Games)][-type(Game type)] class1 class2 [class3] [class4]");
                 throw new ExitException();
             }
@@ -1411,6 +1411,7 @@ public class Game {
 		int curseCount = -1;
 
 		switch (numPlayers) {
+		case 1:
 		case 2:
 			curseCount = 10;
 			provincePileSize = 8;

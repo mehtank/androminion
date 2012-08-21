@@ -16,5 +16,11 @@
         <item>nl</item>
         <item>ru</item>
     </string-array>
+    <string-array name="viewstyle_keys" tools:ignore="MissingTranslation">
+        <item>viewstyle-classic</item>
+        <item>viewstyle-simple</item>
+        <item>viewstyle-descriptive</item>
+    </string-array>
+    
 
 </resources>

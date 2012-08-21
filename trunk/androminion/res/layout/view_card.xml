@@ -3,7 +3,7 @@
     android:id="@+id/cardBox"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/cardborder" >
+    android:background="@drawable/thinborder" >
 
     <TextView
         android:id="@+id/cost"
@@ -19,17 +19,19 @@
     <TextView
         android:id="@+id/name"
         style="@android:style/TextAppearance.Small"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_toRightOf="@id/cost"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:singleLine="true"
         android:textSize="11dp" />
     
     <TextView
         android:id="@+id/countLeft"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+		android:gravity="center"
         android:layout_alignLeft="@id/name"
         android:layout_below="@id/name"
         android:textSize="8dp"

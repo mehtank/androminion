@@ -11,7 +11,7 @@
         </EditTextPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/ui_pref_title" >
-        <ListPreference
+        <ListPreference android:key="viewstyle" android:title="@string/pref_viewstyle_title" android:entries="@array/viewstyle_names" android:entryValues="@array/viewstyle_keys" android:defaultValue="viewstyle-simple" android:summary="@string/pref_viewstyle_summary"/><ListPreference
             android:defaultValue="androminion-dark"
             android:entries="@array/theme_names"
             android:entryValues="@array/theme_keys"
@@ -55,6 +55,7 @@
             android:key="showenglishnames"
             android:summary="@string/showenglishnames_pref_summary"
             android:title="@string/showenglishnames_pref_title" />
+        
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/game_play_pref_title" >
         <CheckBoxPreference
