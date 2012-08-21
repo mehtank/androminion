@@ -1404,12 +1404,11 @@ public class Game {
 		trashPile.clear();
 
 		// addPile(Cards.platinum, 12);
-		addPile(Cards.gold, 30);
-		addPile(Cards.silver, 40);
-		addPile(Cards.copper, 60);
+
 
 		int provincePileSize = -1;
 		int curseCount = -1;
+		int treasureMultiplier = 1;
 
 		switch (numPlayers) {
 		case 1:
@@ -1432,14 +1431,20 @@ public class Game {
 			curseCount = 40;
 			provincePileSize = 15;
 			victoryCardPileSize = 12;
+			treasureMultiplier = 2;
 			break;
 		case 6:
 			curseCount = 50;
 			provincePileSize = 18;
 			victoryCardPileSize = 12;
+			treasureMultiplier = 2;
 			break;
 		}
 
+		addPile(Cards.gold, 30 * treasureMultiplier);
+		addPile(Cards.silver, 40 * treasureMultiplier);
+		addPile(Cards.copper, 60 * treasureMultiplier);
+		
 		addPile(Cards.curse, curseCount);
 		// addPile(Cards.colony);
 		addPile(Cards.province, provincePileSize);
