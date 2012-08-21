@@ -6,6 +6,17 @@
     android:background="@drawable/thinborder" >
 
     <TextView
+        android:id="@+id/name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:singleLine="true"
+        style="@style/style_cardview_name"
+        />
+    
+    <TextView
         android:id="@+id/cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,20 +24,9 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/coin"
         android:textColor="@android:color/black"
-        android:textSize="11dp"
+        style="@style/style_cardview_cost"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/name"
-        style="@android:style/TextAppearance.Small"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:singleLine="true"
-        android:textSize="11dp" />
-    
     <TextView
         android:id="@+id/countLeft"
         android:layout_width="fill_parent"
@@ -34,7 +34,7 @@
 		android:gravity="center"
         android:layout_alignLeft="@id/name"
         android:layout_below="@id/name"
-        android:textSize="8dp"
+        style="@style/style_cardview_count"
         android:visibility="gone" />
 
     <!-- Embargos can only happen on supply piles (where countLeft is also shown) -->
@@ -47,7 +47,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/embargos"
         android:textColor="@android:color/white"
-        android:textSize="11dp"
+        style="@style/style_cardview_cost"
         android:visibility="gone" />
 
     <TextView
