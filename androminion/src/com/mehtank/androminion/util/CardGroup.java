@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -101,10 +102,15 @@ public class CardGroup extends BaseAdapter {
 			cv = (CardView) origView;
 		}
 		cv.setState(cs);
-		if (supplySizes != null)
-			cv.setCountLeft(supplySizes[cs.c.id]);
-		if (embargos != null)
-			cv.setEmbargos(embargos[cs.c.id]);
+		try {
+			if (supplySizes != null)
+				cv.setCountLeft(supplySizes[cs.c.id]);
+			if (embargos != null)
+				cv.setEmbargos(embargos[cs.c.id]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO See why this is happening?
+			Log.w(TAG, "exception", e);
+		}
 
 		return cv;
 	}
