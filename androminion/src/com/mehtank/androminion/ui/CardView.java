@@ -5,11 +5,13 @@ import java.util.StringTokenizer;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -40,7 +42,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private TextView cost, countLeft, embargos;
 	private TextView checked;
 	private TextView cardDesc;
-
+	
+	private String viewstyle;
+	
 	CardGroup parent;
 	private CardState state;
 /**
@@ -94,7 +98,14 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private void init(Context context, CardGroup parent, MyCard c) {
 		this.parent = parent;
 
-		LayoutInflater.from(context).inflate(R.layout.view_card, this, true);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		viewstyle = prefs.getString("viewstyle", "viewstyle-simple");
+		
+		if (("viewstyle-classic").equals(viewstyle))
+			LayoutInflater.from(context).inflate(R.layout.view_oldcard, this, true);
+		else
+			LayoutInflater.from(context).inflate(R.layout.view_card, this, true);
+		
 		name = (TextView) findViewById(R.id.name);
 		cardBox = findViewById(R.id.cardBox);
 		cost = (TextView) findViewById(R.id.cost);
@@ -293,7 +304,20 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	void setOnTable(boolean onTable) {
 		countLeft.setVisibility(onTable ? VISIBLE : GONE);
 		if (cardDesc != null)
-			cardDesc.setVisibility(onTable ? VISIBLE : GONE);
+			cardDesc.setVisibility((onTable && "viewstyle-descriptive".equals(viewstyle)) ? VISIBLE : GONE);
+		if (onTable && "viewstyle-classic".equals(viewstyle)) {
+			FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					Gravity.TOP + Gravity.CENTER_HORIZONTAL);
+			name.setLayoutParams(p);
+		} else if ("viewstyle-classic".equals(viewstyle)) {
+			FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					Gravity.CENTER);
+			name.setLayoutParams(p);
+		}
 	}
 
 	public CardState getState() {
