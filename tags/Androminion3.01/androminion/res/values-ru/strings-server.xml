@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <!-- Interaction -->
+        <string name="pass">Передайте</string>
+        <string name="card_revealed">%1$s открыта %2$s</string>
+        <string name="select_treasure">Выберите карту Казны, которая стоит от (%1$s) до %2$s</string>
+        <string name="pawn_option_one">Паж (выбор 1 из 2):</string>
+        <string name="pawn_option_two">Паж (выбор 2 из 2):</string>
+        <string name="torturer_option_one">Возьмите проклятье</string>
+        <string name="torturer_option_two">Сбросьте 2 карты</string>
+        <string name="chancellor_query">Сбросьте всю колоду</string>
+        <string name="inn_option_one">Замешайте в колоду</string>
+        <string name="inn_option_two">Оставьте в сбросе</string>
+        <string name="tunnel_query">Сбросить Туннель</string>
+        <string name="tunnel_option_one">Открыть за золото</string>
+
+        <string name="join_timed_out">Вышло время ожидания присоединения игрока и старта игры.</string>
+        <string name="response_timed_out">Вышло время ожидания когда игрок присоединится и ответит на запрос.</string>
+
+        <string name="vp_single">Стоит %1$s ПО</string>
+        <string name="vp_multiple">Стоит %1$s ПО</string>
+        <string name="coin_next_turn">+(%1$s) монета в след. ход</string>
+        <string name="buy_next_turn_single">+%1$s покупок в след. ход</string>
+        <string name="buys_next_turn_multiple">+%1$s покупок в след. ход</string>
+        <string name="card_next_turn_single">+%1$s карта в след. ход</string>
+        <string name="cards_next_turn_multiple">+%1$s карт(ы) в след. ход</string>
+        <string name="action_next_turn_single">+%1$s действие в след. ход</string>
+        <string name="actions_next_turn_multiple">+%1$s действия(й) в след. ход</string>
+        <string name="card_coin">+(%1$s) монета</string>
+        <string name="card_buy_single">+%1$s покупка</string>
+        <string name="card_buys_multiple">+%1$s покупок(-ки)</string>
+        <string name="card_action_single">+%1$s действие</string>
+        <string name="card_actions_multiple">+%1$s действий(-я)</string>
+        <string name="card_card_single">+%1$s карта</string>
+        <string name="card_cards_multiple">+%1$s карт(ы)</string>
+        <string name="card_victory_token_single">+%1$s жетон ПО</string>
+        <string name="card_victory_tokens_multiple">+%1$s жетона(-ов) ПО</string>
+
+        <string name="card_options_header">%1$s выбор</string>
+        <string name="part_play">игра</string>
+        <string name="part_buy">покупка</string>
+
+        <string name="select_from_table">Выберите карту со стола чтоб %1$s</string>
+        <string name="select_from_table_exact">Выберите карту со стола, которая стоит от (%1$s) до %2$s</string>
+        <string name="select_from_table_max">Выберите карту со стола, которая стоит максимум от (%1$s) до %2$s</string>
+        <string name="select_from_table_between">Выберите карту со стола, которая стоит между (%1$s) и (%2$s) до %3$s</string>
+        <string name="select_from_table_min">Выберите карту со стола, которая стоит хотя бы от (%1$s) до %2$s</string>
+
+        <string name="select_one_card_from_hand">Выберите карту с руки чтоб %1$s</string>
+        <string name="select_up_to_x_cards_from_hand">Выберите до %1$s карт с руки чтоб %2$s</string>
+        <string name="select_exactly_x_cards_from_hand">Выберите %1$s карт с руки чтоб %2$s</string>
+
+        <string name="select_one_action_from_hand">Выберите карту действий с руки чтоб %1$s</string>
+        <string name="select_up_to_x_actions_from_hand">Выберите до %1$s карт действия с Вашу руки чтоб %2$s</string>
+        <string name="select_exactly_x_actions_from_hand">Выберите %1$s карт действия с руки чтоб %2$s</string>
+
+        <string name="select_one_treasure_from_hand">Выберите карту Казны с руки чтоб %1$s</string>
+        <string name="select_up_to_x_treasures_from_hand">Выберите до %1$s карт Казны с руки чтоб %2$s</string>
+        <string name="select_exactly_x_treasures_from_hand">Выберите %1$s карт Казны с руки чтоб %2$s</string>
+
+        <string name="select_one_victory_from_hand">Выберите карту ПО с руки чтоб %1$s</string>
+        <string name="select_up_to_x_victorys_from_hand">Выберите до %1$s карт ПО с руки чтоб %2$s</string>
+        <string name="select_exactly_x_victorys_from_hand">Выберите %1$s карт ПО с руки чтоб %2$s</string>
+
+        <string name="select_one_nontreasure_from_hand">Выберите карту (не Казны) с руки чтоб %1$s</string>
+        <string name="select_up_to_x_nontreasures_from_hand">Выберите до %1$s карт (не Казны) с руки чтоб %2$s</string>
+        <string name="select_exactly_x_nontreasures_from_hand">Выберите %1$s карт (не Казны) с руки чтоб %2$s</string>
+
+        <string name="reaction_query">Установите карту реакции, которую покажете.</string>
+        <string name="bane_option_one">Покажите карту Несчастья (%1$s)</string>
+
+        <string name="card_to_reveal">открыть [%1$s]</string>
+        <string name="card_to_gain">набрать [%1$s]</string>
+        <string name="card_to_trash">выкинуть на свалку [%1$s]</string>
+        <string name="card_to_discard">сбросить [%1$s]</string>
+        <string name="discard">Сбросить</string>
+        <string name="trash">Выкинуть</string>
+        <string name="keep">Оставить</string>
+        <string name="none">Ничего</string>
+        <string name="card_revealed_from_player">Игроком %1$s\n%2$s открыта %3$s</string>
+        <string name="GameStarting"></string>
+        <string name="GameOver">Конец игры</string>
+        <string name="Embargo">Эмбарго</string>
+        <string name="Status">Статус</string>
+        <string name="CantBuy">Нельзя купить %1$s</string>
+        <string name="VictoryPoints">Победные Очки</string>
+        <string name="NewHand">Новая рука</string>
+        <string name="TurnBegin">Ход начинается</string>
+        <string name="TurnEnd">Конец хода</string>
+        <string name="PlayingAction">Играет</string>
+        <string name="PlayedAction">Сыграл</string>
+        <string name="PlayingDurationAction">Длительность игры</string>
+        <string name="PlayingCoin">Играет</string>
+        <string name="BuyingCard">Покупает</string>
+        <string name="NoBuy">(Без покупок)</string>
+        <string name="DeckReplenished">Колода восполнена</string>
+        <string name="PlayerAttacking">Атакует</string>
+        <string name="PlayerDefended">Защитился</string>
+        <string name="CardOnTopOfDeck">Карта положена на верх колоды</string>
+        <string name="CardObtained">Взята</string>
+        <string name="CardTrashed">Выброшена</string>
+        <string name="CardRevealed">Открыта</string>
+        <string name="CardDiscarded">Сброшена</string>
+        <string name="CardAddedToHand">Карта добавлена в руку</string>
+        <string name="CardRemovedFromHand">Кара удалена с руки</string>
+
+        <string name="use_for_money">использовать за деньги</string>
+
+        <string name="action_buys_coin">%1$s/%2$s/%3$s</string>
+        <string name="game_over_status">Конец игры — </string>
+        <string name="game_length_status">Длина игры: </string>
+        <string name="end_turn">Конец хода</string>
+        <string name="replace">Заменить</string>
+
+        <string name="secretchamber_part">положить назад на колоду [Тайная комната]</string>
+
+        <string name="ghostship_part">положить назад на колоду [Корабль-призрак]</string>
+
+        <string name="ambassador_query">Кол-во %1$s для возвращения в Запас [Посол]:</string>
+
+        <string name="goons_part">оставить [Бандиты]</string>
+
+        <string name="watch_tower_query">"Сторожевая башня (%1$s набрано):</string>
+
+        <string name="followers_part">оставить [Последователи]</string>
+
+        <string name="treasure_to_trash">Выберите карту Казны чтоб удалить на свалку</string>
+
+        <string name="scheme_query">Выберите карту действия чтоб вернуть на колоду</string>
+
+        <string name="herbalist_query">Выберите карту Казны чтоб вернуть на колоду</string>
+
+        <string name="thief_query">Выберите карту Казны чтоб украсть</string>
+
+        <string name="smuggle_query">Выберите карту, чтоб получить контрабандой</string>
+
+        <string name="courtyard_part_top_of_deck">положите на верх колоды [%1$s]</string>
+
+        <string name="hamlet_part_discard_for_action">сбросьте для +1 действия</string>
+        <string name="hamlet_part_discard_for_buy">сбросьте для +1 покупки</string>
+
+        <string name="vault_part_discard_for_gold">сбросьте за монеты</string>
+        <string name="vault_part_discard_for_card">сбросьте для +1 карты</string>
+
+        <string name="lookout_query_trash">Выберите карту чтоб удалить на свалку</string>
+        <string name="lookout_query_discard">Выберите карту чтоб сбросить</string>
+
+        <string name="mountebank_query">Шарлатан открыт</string>
+        <string name="mountebank_option_one">Сбросить Проклятье</string>
+        <string name="mountebank_option_two">Набрать Проклятье и Медь</string>
+
+        <string name="pearldiver_option_one">Переместить на верх</string>
+        <string name="pearldiver_option_two">Оставить на дне</string>
+
+        <string name="alchemist_option_one">Вернуть на колоду</string>
+        <string name="alchemist_option_two">Сбросить</string>
+
+        <string name="navigator_header">Штурман открыт: %1$s</string>
+        <string name="navigator_option_two">Заменить на колоде</string>
+
+        <string name="tournament_reveal">Открыть Провинцию</string>
+        <string name="tournament_option_one">Не открывать Провинцию</string>
+        <string name="tournament_option_two">Получить Приз</string>
+        <string name="tournament_option_three">Получить Герцогство</string>
+        <string name="select_prize">Выберите приз</string>
+
+        <string name="trusty_steed_option_one">+2 действия</string>
+        <string name="trusty_steed_option_two">+2 карты</string>
+        <string name="trusty_steed_option_three">+(2) монеты</string>
+        <string name="trusty_steed_option_four">Получите 4 Серебра и сбросьте колоду</string>
+
+        <string name="mining_village_option_one">Удалите на свалку для +(2)</string>
+
+        <string name="golem_first_action">Действие, которое сыграть первым</string>
+
+        <string name="duchess_query">Получение Герцогства</string>
+        <string name="duchess_option_one">Также получить Герцогиню</string>
+
+        <string name="jack_of_all_trades_option_one">Вернуть на колоду</string>
+
+        <string name="duchess_play_option_one">Вернуть на колоду</string>
+
+        <string name="noble_brigand_query">Карту, которую взять у %1$s [Благородный разбойник]</string>
+
+        <string name="steward_option_one">+2 карты</string>
+        <string name="steward_option_two">+(2) монеты</string>
+        <string name="steward_option_three">Удалите на свалку два карты с руки</string>
+
+        <string name="pawn_one">Взять карту</string>
+        <string name="pawn_two">+1 действие</string>
+        <string name="pawn_three">+1 покупка</string>
+        <string name="pawn_four">+(1) монета</string>
+
+        <string name="nobles_option_one">+3 карты</string>
+        <string name="nobles_option_two">+2 действия</string>
+
+        <string name="minion_option_one">+(2) монеты</string>
+        <string name="minion_option_two">Сбросить руку, +4 карты</string>
+
+        <string name="spice_merchant_option_one">+2 карты и +1 действие</string>
+        <string name="spice_merchant_option_two">+(2) монеты и +1 покупка</string>
+
+        <string name="watch_tower_option_one">Не открывать</string>
+        <string name="watch_tower_option_three">Верх колоды</string>
+
+        <string name="jester_option_one">Набрать копию себе</string>
+        <string name="jester_option_two">Дать копию %1$s</string>
+
+        <string name="trader_gain">Получить %1$s</string>
+        <string name="trader_gain_instead_of">Получить %1$s вместо %2$s</string>
+
+        <string name="fools_gold_option_one">Удалить на свалку за Золото</string>
+
+        <string name="baron_option_one">Сбросить Поместье за +(4) монеты</string>
+        <string name="baron_option_two">Набрать Поместье</string>
+
+        <string name="native_village_option_one">Взять карты с Местной деревни в руку</string>
+        <string name="native_village_option_two">Положить верхнюю карту с колоды на Местную деревню</string>
+
+        <string name="ill_gotten_gains_option_one">Набрать Медь</string>
+
+        <string name="card_order_on_deck">Порядок карт на колоде:</string>
+
+        <string name="treasury_number">Количество карт Казны, чтоб вернуть на колоду:</string>
+
+        <string name="pirate_ship_option_one">Возьмите +(%1$s) монет</string>
+        <string name="pirate_ship_option_two">Атака</string>
+
+        <string name="top_of_deck">Верх колоды</string>
+
+        <string name="saboteur_part">Замените Вашу саботированную карту</string>
+
+        <string name="mandarin_part">поместите на верх колоды</string>
+
+        <string name="bureaucrat_part">поместите на верх колоды</string>
+
+        <string name="masquerade_part">передайте игроку слева</string>
+
+        <string name="mine_part">заменить на</string>
+
+        <string name="militia_part">сохранить от Ополчения</string>
+
+        <string name="bishop_part">удалить на свалку за жетоны ПО</string>
+
+        <string name="swindler_part">заменить потерпевшую карту ценой (%1$s)</string>
+
+        <string name="margrave_part">сохранить от Маркграфа</string>
+
+        <string name="wishing_well_part">угадать карту на верху колоды</string>
+
+        <string name="explorer_reveal">Открыть Провинцию</string>
+
+        <!-- *** -->
+        <string name="university_part">получить [Университет]</string>
+        <!-- *** -->
+
+        <string name="putback_query">Выберите карту чтоб вернуть на колоду</string>
+        <string name="putback_option_one">Карта Казны (Знахарь)</string>
+        <string name="putback_option_two">Карта действия (Замысел)</string>
+
+  <string name="game_over_vps"> ПО</string>
+
+  <string name="coin_worth">Стоит (%1$s) монет</string>
+  <string name="Cartographer_query">Выберите карту чтоб сбросить</string>
+  <string name="cards">Карты</string>
+  <string name="return_cards">Верните карты в колоду:</string>
+  <string name="take_normal">Возьмите обычно:</string>
+
+</resources>
