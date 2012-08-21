@@ -24,6 +24,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -91,6 +92,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 	private FrameLayout topView;
 	private GameTable gt;
 	private View splash;
+	private TextView miniactionbar;
 
 	private boolean gameRunning = false;
 	private long lastBackClick = 0;
@@ -118,20 +120,25 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		ThemeSetter.setTheme(this, true);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(top);
+		ThemeSetter.setTheme(this, prefs.getBoolean("show_action_bar", "true".equals(getString(R.string.pref_showactionbar_default))));
 		ThemeSetter.setLanguage(this);
 		super.onCreate(savedInstanceState);
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(top);
 		
 		topView = (FrameLayout) getLayoutInflater().inflate(R.layout.activity_game, null);
 		setContentView(topView);
 		
 		ActionBar bar = getSupportActionBar();
-		bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-		bar.setDisplayHomeAsUpEnabled(true);
-		bar.setDisplayShowTitleEnabled(true);
-		bar.setTitle(R.string.app_name);
+		if (bar == null) {
+			miniactionbar = (TextView) topView.findViewById(R.id.miniactionbar);
+			miniactionbar.setVisibility(TextView.VISIBLE);
+		} else {
+			bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+			bar.setDisplayHomeAsUpEnabled(true);
+			bar.setDisplayShowTitleEnabled(true);
+			bar.setTitle(R.string.app_name);
+		}
 
 		/*
 		 * Disable Strict mode (quick fix to make it run with targetSDKversion
@@ -192,9 +199,9 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 	@Override
 	public void onResume() {
 		super.onResume();
-		ThemeSetter.setTheme(this, true);
-		ThemeSetter.setLanguage(this);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(top);
+		ThemeSetter.setTheme(this, prefs.getBoolean("show_action_bar", "true".equals(getString(R.string.pref_showactionbar_default))));
+		ThemeSetter.setLanguage(this);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		if (!prefs.getBoolean("show_statusbar", true)) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -519,9 +526,15 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 		private void setStatus(Event e) {
 			GameStatus gs = e.o.gs;
 			gt.setStatus(gs, e.s, e.b);
+			String name = gt.getPlayerAdapter().getItem(gs.whoseTurn).name;
+			String subtitle = buildHintString(gs, e.s, e.b);
 			ActionBar bar = getSupportActionBar();
-			bar.setSubtitle(buildHintString(gs, e.s, e.b));
-			bar.setTitle(getResources().getString(R.string.currentplayer) + ": " + gt.getPlayerAdapter().getItem(gs.whoseTurn).name);
+			if (bar == null) {
+				miniactionbar.setText(name + ": " + subtitle);
+			} else {
+				bar.setSubtitle(subtitle);
+				bar.setTitle(getResources().getString(R.string.currentplayer) + ": " + name);
+			}
 		}
 
 		/**

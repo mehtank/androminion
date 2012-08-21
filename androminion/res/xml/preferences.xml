@@ -11,14 +11,26 @@
         </EditTextPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/ui_pref_title" >
-        <ListPreference android:key="viewstyle" android:title="@string/pref_viewstyle_title" android:entries="@array/viewstyle_names" android:entryValues="@array/viewstyle_keys" android:defaultValue="viewstyle-simple" android:summary="@string/pref_viewstyle_summary"/><ListPreference
-            android:defaultValue="androminion-dark"
+        <ListPreference 
+            android:key="viewstyle" 
+            android:title="@string/pref_viewstyle_title" 
+            android:entries="@array/viewstyle_names" 
+            android:entryValues="@array/viewstyle_keys" 
+            android:defaultValue="@string/pref_viewstyle_default" 
+            android:summary="@string/pref_viewstyle_summary"/>
+        <CheckBoxPreference android:key="show_action_bar" 
+            android:title="@string/pref_showactionbar_title" 
+            android:defaultValue="@string/pref_showactionbar_default" 
+            android:summary="@string/pref_showactionbar_summary"/>
+        <ListPreference
+            android:defaultValue="@string/pref_theme_default"
             android:entries="@array/theme_names"
             android:entryValues="@array/theme_keys"
             android:key="theme"
             android:summary="@string/pref_theme_summary"
             android:title="@string/pref_theme_title" />
-        <ListPreference
+        <CheckBoxPreference android:defaultValue="true" android:key="show_statusbar" android:summary="@string/show_statusbar_pref_summary" android:title="@string/show_statusbar_pref_title">
+        </CheckBoxPreference><ListPreference
             android:defaultValue="default"
             android:entries="@array/userlang_names"
             android:entryValues="@array/userlang_keys"
@@ -26,13 +38,8 @@
             android:summary="@string/userlang_pref_summary"
             android:title="@string/userlang_pref_title" />
 
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="show_statusbar"
-            android:summary="@string/show_statusbar_pref_summary"
-            android:title="@string/show_statusbar_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
+        
+        <CheckBoxPreference android:defaultValue="false" android:key="showenglishnames" android:summary="@string/showenglishnames_pref_summary" android:title="@string/showenglishnames_pref_title" /><CheckBoxPreference
             android:defaultValue="false"
             android:key="one_turn_logs"
             android:summary="@string/one_turn_logs_pref_summary"
@@ -50,11 +57,8 @@
             android:summary="@string/exitonback_pref_summary"
             android:title="@string/exitonback_pref_title" >
         </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="showenglishnames"
-            android:summary="@string/showenglishnames_pref_summary"
-            android:title="@string/showenglishnames_pref_title" />
+        
+        
         
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/game_play_pref_title" >
