@@ -41,7 +41,13 @@
         <CheckBoxPreference android:title="@string/suppress_redundant_reactions_pref_title"
         android:summary="@string/suppress_redundant_reactions_pref_summary"
             android:defaultValue="true" android:key="suppress_redundant_reactions"></CheckBoxPreference>
-        		<CheckBoxPreference android:title="@string/plat_colony_pref_title"
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="equal_start_hands"
+            android:summary="@string/equal_start_hands_pref_summary"
+            android:title="@string/equal_start_hands_pref_title" >
+        </CheckBoxPreference>
+        <CheckBoxPreference android:title="@string/plat_colony_pref_title"
 		android:summary="@string/plat_colony_pref_summary"
 			android:defaultValue="false" android:key="plat_colony"></CheckBoxPreference>
 </PreferenceCategory>
