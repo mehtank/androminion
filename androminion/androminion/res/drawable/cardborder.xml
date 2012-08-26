@@ -1,0 +1,23 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <stroke
+        android:width="2dp"
+        android:color="#666666" />
+
+    <padding
+        android:bottom="3dp"
+        android:left="3dp"
+        android:right="3dp"
+        android:top="3dp" />
+
+    <!--
+    Corners get overlay from background, making it ugly.
+    Could be fixed by creating a seperate border definition
+    for every card background color type I guess.
+    -->
+    <corners android:radius="2dp" />
+
+    <solid android:color="@android:color/transparent" />
+    
+</shape>
