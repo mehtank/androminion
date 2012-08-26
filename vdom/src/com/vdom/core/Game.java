@@ -66,6 +66,7 @@ public class Game {
     public static boolean sortCards = false;
     public static boolean actionChains = false;
     public static boolean suppressRedundantReactions = false;
+    public static boolean equalStartHands = false;
     
     public static final HashSet<GameEvent.Type> showEvents = new HashSet<GameEvent.Type>();
     public static final HashSet<String> showPlayers = new HashSet<String>();
@@ -838,6 +839,7 @@ public class Game {
             String sortCardsArg = "-sortcards";
             String actionChainsArg = "-actionchains";
             String suppressRedundantReactionsArg = "-suppressredundantreactions";
+            String equalStartHandsArg = "-equalstarthands";
             String cardArg = "-cards=";
 
             for (String arg : args) {
@@ -922,6 +924,8 @@ public class Game {
                         actionChains = true;
                     } else if (arg.toLowerCase().equals(suppressRedundantReactionsArg)) {
                     	suppressRedundantReactions = true;
+                    } else if (arg.toLowerCase().equals(equalStartHandsArg)) {
+                    	equalStartHands = true;
                     } else {
                         Util.log("Invalid arg:" + arg);
                         showUsage = true;
@@ -1381,9 +1385,19 @@ public class Game {
             player.discard(takeFromPile(Cards.estate), null, null);
             player.discard(takeFromPile(Cards.estate), null, null);
 
-            while (player.hand.size() < 5) {
-                drawToHand(players[i], null, false);
-            }
+            if (!equalStartHands || i == 0) {
+	            while (player.hand.size() < 5) 
+	                drawToHand(player, null, false);
+	            }
+            else {
+            	// make subsequent player hands equal
+            	for (int j = 0; j < 5; j++) {
+            		Card card = players[0].hand.get(j);
+					player.discard.remove(card);
+					player.hand.add(card);
+            	}
+            	player.replenishDeck();
+			}
         }
         
         // Add tradeRoute tokens if tradeRoute in play
