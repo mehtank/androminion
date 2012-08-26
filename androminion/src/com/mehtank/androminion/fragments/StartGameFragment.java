@@ -298,6 +298,10 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
             strs.add("-suppressredundantreactions");
         }
 
+        if (mPrefs.getBoolean("equal_start_hands", false)) {
+            strs.add("-equalstarthands");
+        }
+
         if(cardsSpecified != null) {
             StringBuilder sb = new StringBuilder();
             sb.append("-cards=");

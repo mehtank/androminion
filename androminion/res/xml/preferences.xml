@@ -88,6 +88,12 @@
         </CheckBoxPreference>
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="equal_start_hands"
+            android:summary="@string/equal_start_hands_pref_summary"
+            android:title="@string/equal_start_hands_pref_title" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="plat_colony"
             android:summary="@string/plat_colony_pref_summary"
             android:title="@string/plat_colony_pref_title" >
