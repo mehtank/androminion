@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="userlang_pref_title">Language</string>
+    <string name="userlang_pref_summary">Choose language (overrides system setting)</string>
+    <string name="showenglishnames_pref_title">Show English names</string>
+    <string name="showenglishnames_pref_summary">Show English card names in brackets (senseless in English locale)</string>
+    <string name="exitonback_pref_summary">Quit the game when the back button is pressed</string>
+    <string name="exitonback_pref_title">Exit on back button</string>
+    <string name="vibescreen_pref_title">Configure vibrations…</string>
+    <string name="gamevibeon_pref_summary">Vibrate when the game is over</string>
+    <string name="gamevibeon_pref_title">Game over</string>
+    <string name="actionvibeon_pref_summary">Vibrate when your input is needed</string>
+    <string name="actionvibeon_pref_title">Action indicator</string>
+    <string name="turnvibeon_pref_summary">Vibrate when your turn begins</string>
+    <string name="turnvibeon_pref_title">Turn notification</string>
+    <string name="clickvibeon_pref_summary">Vibrate when cards are selected</string>
+    <string name="clickvibeon_pref_title">Haptic feedback</string>
+    <string name="allvibes_pref_title">Enable vibrations</string>
+    <string name="notif_pref_title">Notifications</string>
+    <string name="show_statusbar_pref_title">Show statusbar</string>
+    <string name="show_statusbar_pref_summary">Display the system status bar while playing</string>
+    <string name="game_play_pref_title">Game Play</string>
+    <string name="quick_play_pref_title">Quick play</string>
+    <string name="quick_play_pref_summary">Most card interactions will be played automatically (will take effect next game)</string>
+    <string name="sort_cards_pref_title">Sort Cards</string>
+    <string name="sort_cards_pref_summary">Sort cards in hand by type action-treasure-curse-victory (will take effect next game)</string>
+    <string name="action_chains_pref_title">Action Chains</string>
+    <string name="action_chains_pref_summary">Enable multiple action selections in play order  (will take effect next game)</string>
+    <string name="suppress_redundant_reactions_pref_title">Suppress Last Reaction</string>
+    <string name="suppress_redundant_reactions_pref_summary">Suppress the reaction card just played from appearing in the dialog again (will take effect next game)</string>
+    <string name="equal_start_hands_pref_title">Equal Start Hands</string>
+    <string name="equal_start_hands_pref_summary">All players have the same starting hand (will take effect next game)</string>
+    <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
+    <string name="plat_colony_pref_summary">Always include platinum and colony cards, regardless of game type (will take effect next game)</string>
+    <string name="ui_pref_title">User Interface</string>
+    <string name="name_pref_summary">Enter your nickname</string>
+    <string name="name_pref_title">Name</string>
+    <string name="personalization_pref_title">Personalization</string>
+    <string name="hide_card_counts_pref_title">Hide card counts</string>
+    <string name="hide_card_counts_pref_summary">(will take effect next game)</string>
+    <string name="one_turn_logs_pref_title">Single turn details</string>
+    <string name="one_turn_logs_pref_summary">Only show the current turn in the game logs at the bottom of the screen (will take effect next game)</string>
+    <string name="logging_pref_title">Game Logs</string>
+    <string name="logging_enable_pref_title">Enable game logs</string>
+    <string name="logging_enable_pref_summary">Logs will be stored on your SD card as text files</string>
+    <string name="logging_dir_pref_title">Log directory</string>
+    <string name="logging_dir_pref_summary">Directory to store game logs (will be created if necessary)</string>
+    <string name="pref_theme_title">Theme</string>
+    <string name="pref_theme_summary">Sets the application theme</string>
+        
+    <string-array name="theme_names">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Light with dark Actionbar</item>
+        </string-array>
+
+    <string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
+
+    <string-array name="userlang_names" tools:ignore="MissingTranslation">
+        <item>Default</item>
+        <item>English</item>
+        <item>German</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>Japanese</item>
+        <item>Dutch</item>
+        <item>Russian</item>
+    </string-array>
+
+    <string name="pref_viewstyle_title">User Interface style</string>
+    <string name="pref_viewstyle_summary">Sets the display style for the cards</string>
+    <string-array name="viewstyle_names">
+        <item>Classic</item>
+        <item>Simple</item>
+        <item>Descriptive</item>
+    </string-array>
+        <string name="pref_showactionbar_title">Show action bar</string>
+        <string name="pref_showactionbar_summary">Disable if you have a small screen, enable if you lack hard buttons</string>
+    
+</resources>

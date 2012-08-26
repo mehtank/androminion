@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myCardView"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fadeScrollbars="true" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal" >
+
+        <!-- Hand -->
+
+        <LinearLayout
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_hands"
+            android:orientation="vertical" >
+
+            <!-- Title -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hand_header" />
+
+            <!-- Cards -->
+
+            <GridView
+                android:id="@+id/handGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:scrollbarStyle="outsideOverlay"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/margin_cards" />
+        </LinearLayout>
+
+        <!-- Played -->
+
+        <LinearLayout
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_hands"
+            android:orientation="vertical" >
+
+            <!-- Title -->
+
+            <TextView
+                android:id="@+id/playedHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/played_header" />
+
+            <!-- Cards -->
+
+            <GridView
+                android:id="@+id/playedGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/margin_cards" />
+        </LinearLayout>
+
+        <!-- Island -->
+
+        <LinearLayout
+            android:id="@+id/islandColumn"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_cards"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <!-- Title -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/island_header" />
+
+            <!-- Cards -->
+
+            <GridView
+                android:id="@+id/islandGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/margin_cards" />
+        </LinearLayout>
+
+        <!-- Village -->
+
+        <LinearLayout
+            android:id="@+id/villageColumn"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_hands"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <!-- Title -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/village_header" />
+
+            <!-- Cards -->
+
+            <GridView
+                android:id="@+id/villageGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/margin_cards" />
+        </LinearLayout>
+    </LinearLayout>
+
+</HorizontalScrollView>
