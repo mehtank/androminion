@@ -36,6 +36,7 @@ public class DominionServer extends Service {
                 "Mary (AI)", "com.vdom.players.VDomPlayerMary",
                 "Chuck (AI)", "com.vdom.players.VDomPlayerChuck",
                 "Sarah (AI)", "com.vdom.players.VDomPlayerSarah",
+                "Patrick (AI)", "com.vdom.players.VDomPlayerPatrick",
                 "-debug"
 		});
 		vds = VDomServer.me;
