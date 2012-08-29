@@ -1924,4 +1924,23 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public Card armory_cardToObtain(MoveContext context) {
         return bestCardInPlay(context, 4);
 	}
+
+	@Override
+	public Card squire_cardToObtain(MoveContext context) {
+		ArrayList<Card> options = new ArrayList<Card>();
+		for (CardPile pile : game.piles.values()) {
+			if ((pile.card instanceof ActionCard) && (pile.getCount() > 0)) {
+				ActionCard ac = (ActionCard) pile.card;
+				if (ac.isAttack()) {
+					options.add(pile.card);
+				}
+			}
+		}
+		
+		if (options.size() > 0) {
+			return Util.randomCard(options);
+		} else {
+			return null;
+		}
+	}
 }

@@ -349,7 +349,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, boolean actionOnly, boolean victoryAllowed, int potionCost, boolean includePrizes, int maxCostWithoutPotion) {
-        Card[] cards = context.getCardsInGame();
+	    Card[] cards = context.getCardsInGame();
         SelectCardOptions sco = new SelectCardOptions()
         	.fromTable();
         if (includePrizes) {
@@ -412,6 +412,43 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         return pickACard(context, selectString, sco);
     }
+    
+    public Card getFromTable(MoveContext context, String header, SelectCardOptions sco, boolean isBuy) {
+	    Card[] cards = context.getCardsInGame();
+	    
+	    for (Card card : cards) {
+	    	if (sco.checkValid(card, 0)) {
+	    		sco.addValidCard(cardToInt(card));
+	    	}
+	    }
+        String selectString;
+        int potionCost = context.getPotions();
+        String potions = "";
+        if (isBuy) {
+	        if (potionCost == 1) {
+	        	potions = "p";
+	        } else if (potionCost > 1) {
+	        	potions = "p" + potionCost;
+	        }
+        }
+
+        if (sco.minCost == sco.maxCost) {
+        	if (sco.minCost == -1)
+        		selectString = Strings.format(R.string.select_from_table, header);
+        	else
+        		selectString = Strings.format(R.string.select_from_table_exact, "" + sco.maxCost + potions, header);
+        } else if ((sco.minCost <= 0) && (sco.maxCost < Integer.MAX_VALUE))
+        	selectString = Strings.format(R.string.select_from_table_max, "" + sco.maxCost + potions, header);
+        else if (sco.maxCost < Integer.MAX_VALUE)
+        	selectString = Strings.format(R.string.select_from_table_between, "" + sco.minCost + potions, "" + sco.maxCost + potions, header);
+        else if (sco.minCost > 0)
+            selectString = Strings.format(R.string.select_from_table_min, "" + sco.minCost + potions, header);
+        else
+            selectString = Strings.format(R.string.select_from_table, header);
+
+        return pickACard(context, selectString, sco);
+    }
+        
 
     public int selectInt(MoveContext context, String header, int maxInt, int errVal) {
     	ArrayList<String> options = new ArrayList<String>();
@@ -1896,7 +1933,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if (reactionCards.length > 0) {
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)
-            	if (lastCard == null || !context.game.suppressRedundantReactions || c.getName() != lastCard.getName() || c.equals(Cards.horseTraders) || c.equals(Cards.beggar))
+            	if (lastCard == null || !Game.suppressRedundantReactions || c.getName() != lastCard.getName() || c.equals(Cards.horseTraders) || c.equals(Cards.beggar))
                    options.add(Strings.getCardName(c));
             if (options.size() > 0) {
             String none = getString(R.string.none);
@@ -1954,6 +1991,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
 		return h.get(selectString(context, getString(R.string.putback_query), options.toArray(new String[0])));
     }
+    
+    @Override
 	public SquireOption squire_chooseOption(MoveContext context) {
 //	    if(context.isQuickPlay() && shouldAutoPlay_steward_chooseOption(context)) {
 //	        return super.steward_chooseOption(context);
@@ -1967,6 +2006,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 		return h.get(selectString(context, Cards.squire, h.keySet().toArray(new String[0])));
 	}
 
+	@Override
 	public Card armory_cardToObtain(MoveContext context) {
 	    if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
 	        return super.armory_cardToObtain(context);
@@ -1974,12 +2014,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getFromTable(context, getGainString(Cards.armory), 4, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, 0);
 	}
 
+	@Override
 	public Card altar_cardToTrash(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_apprentice_cardToTrash(context)) {
             return super.altar_cardToTrash(context);
         }
         return getAnyFromHand(context, getTrashString(Cards.altar), NOTPASSABLE, SelectCardOptions.PickType.TRASH);
     }
+	
 	@Override
 	public Card altar_cardToObtain(MoveContext context) {
 	    if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
@@ -1987,5 +2029,20 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	    }
         return getFromTable(context, getGainString(Cards.altar), 5, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, 0);
 	}
-    
+	
+	@Override
+	public Card squire_cardToObtain(MoveContext context) {
+	    if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
+	        return super.squire_cardToObtain(context);
+	    }
+	    SelectCardOptions sco = new SelectCardOptions().fromTable().isAttack().setPassable(NOTPASSABLE);
+	    return getFromTable(context, getGainString(Cards.squire), sco, false);
+	}
+	@Override
+	public Card rats_cardToTrash(MoveContext context) {
+	    if(context.isQuickPlay() && shouldAutoPlay_trader_cardToTrash(context)) {
+	        return super.rats_cardToTrash(context);
+	    }
+	    return getAnyFromHand(context, getTrashString(Cards.rats), NOTPASSABLE, SelectCardOptions.PickType.TRASH);
+	}
 }

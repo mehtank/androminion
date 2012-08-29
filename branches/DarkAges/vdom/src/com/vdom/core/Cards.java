@@ -480,5 +480,12 @@ public class Cards {
     public static boolean isKingdomCard(Card c) {
         return !nonKingdomCards.contains(c);
     }
+    
+    public static boolean isReaction(Card c) {
+        if ((c.equals(Cards.moat)) || (c.equals(Cards.secretChamber)) || (c.equals(Cards.watchTower)) || (c.equals(Cards.horseTraders)) || (c.equals(Cards.foolsGold)) || (c.equals(Cards.trader)) || (c.equals(Cards.tunnel)) || (c.equals(Cards.beggar))) {
+        	return true;
+        }
+        return false;
+    }
 
 }

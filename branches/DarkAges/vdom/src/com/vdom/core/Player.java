@@ -688,7 +688,10 @@ public abstract class Player {
         	game.drawToHand(this, card, false);
         }
         if (card.equals(Cards.squire)) {
-        	// TODO: Gain an Attack card
+        	Card s = squire_cardToObtain(context);
+        	if (s != null) {
+        		gainNewCard(s, card, context);
+        	}
         }
         if (isPossessed()) {
             context.game.possessedTrashPile.add(card);
@@ -1142,5 +1145,7 @@ public abstract class Player {
 	public abstract boolean beggar_shouldDiscard(MoveContext context);
 
 	public abstract Card armory_cardToObtain(MoveContext context);
+
+	public abstract Card squire_cardToObtain(MoveContext context);
 
 }
