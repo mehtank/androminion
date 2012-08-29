@@ -53,6 +53,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
             "Mary (AI)",
             "Chuck (AI)",
             "Sarah (AI)",
+            "Patrick (AI)",
             "Random AI",
 	};
 
