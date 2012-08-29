@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Androminion" parent="Theme.Sherlock"></style>
+
+    <style name="Theme.Androminion.Light.DarkActionBar" parent="Theme.Sherlock.Light.DarkActionBar">
+        <!-- <item name="myCoolColor">@color/blue</item> -->
+    </style>
+
+    <style name="Theme.Androminion.Light" parent="Theme.Sherlock.Light">
+        <!-- <item name="myCoolColor">@color/green</item> -->
+    </style>
+
+    <style name="Theme.Androminion.NoActionBar" parent="Theme.Sherlock.NoActionBar"></style>
+
+    <style name="Theme.Androminion.Light.NoActionBar" parent="Theme.Sherlock.Light.NoActionBar">
+        <!-- <item name="myCoolColor">@color/green</item> -->
+    </style>
+
+</resources>

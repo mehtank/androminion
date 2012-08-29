@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="FirstGame_gametype">First Game (Base)</string>
+  <string name="BigMoney_gametype">Big Money (Base)</string> 
+  <string name="Interaction_gametype">Interaction (Base)</string> 
+  <string name="SizeDistortion_gametype">Size Distortion (Base)</string> 
+  <string name="VillageSquare_gametype">Village Square (Base)</string>
+  <string name="RandomBaseGame_gametype">Random Base Game</string>
+  
+  <string name="VictoryDance_gametype">Victory Dance (Intr)</string> 
+  <string name="SecretSchemes_gametype">Secret Schemes (Intr)</string> 
+  <string name="BestWishes_gametype">Best Wishes (Intr)</string> 
+  <string name="RandomIntrigue_gametype">Random Intrigue</string>
+  
+  <string name="Deconstruction_gametype">Deconstruction (Base, Intr)</string> 
+  <string name="HandMadness_gametype">Hand Madness (Base, Intr)</string> 
+  <string name="Underlings_gametype">Underlings (Base, Intr)</string>
+  
+  <string name="HighSeas_gametype">High Seas (Sea)</string> 
+  <string name="BuriedTreasure_gametype">Buried Treasure (Sea)</string> 
+  <string name="Shipwrecks_gametype">Shipwrecks (Sea)</string> 
+  <string name="RandomSeaside_gametype">Random Seaside</string>
+  
+  <string name="RandomAlchemy_gametype">Random Alchemy</string>
+  
+  <string name="ForbiddenArts_gametype">Forbidden Arts (Base, Alch)</string> 
+  <string name="PotionMixers_gametype">Potion Mixers (Base, Alch)</string> 
+  <string name="ChemistryLesson_gametype">Chemistry Lesson (Base, Alch)</string>
+  
+  <string name="Servants_gametype">Servants (Intr, Alch)</string> 
+  <string name="SecretResearch_gametype">Secret Research (Intr, Alch)</string> 
+  <string name="PoolsToolsAndFools_gametype">Pools, Tools, and Fools (Intr, Alch)</string>
+  
+  <string name="ReachForTomorrow_gametype">Reach for Tomorrow (Base, Sea)</string> 
+  <string name="Repetition_gametype">Repetition (Base, Sea)</string> 
+  <string name="GiveAndTake_gametype">Give and Take (Base, Sea)</string>
+
+  <string name="Beginners_gametype">Beginners (Prsp)</string> 
+  <string name="FriendlyInteractive_gametype">Friendly Interactive (Prsp)</string> 
+  <string name="BigActions_gametype">Big Actions (Prsp)</string> 
+  <string name="RandomProsperity_gametype">Random Prosperity</string>
+
+  <string name="BiggestMoney_gametype">Biggest Money (Base, Prsp)</string> 
+  <string name="TheKingsArmy_gametype">The King\'s Army (Base, Prsp)</string> 
+  <string name="TheGoodLife_gametype">The Good Life (Base, Prsp)</string>
+
+  <string name="PathToVictory_gametype">Path to Victory (Intr, Prsp)</string> 
+  <string name="AllAlongTheWatchtower_gametype">All Along the Watchtower (Intr, Prsp)</string> 
+  <string name="LuckySeven_gametype">Lucky Seven (Intr, Prsp)</string>
+
+  <string name="RandomCornucopia_gametype">Random Cornucopia</string>
+
+  <string name="BountyOfTheHunt_gametype">Bounty of the Hunt (Base, Corn)</string> 
+  <string name="BadOmens_gametype">Bad Omens (Base, Corn)</string> 
+  <string name="TheJestersWorkshop_gametype">The Jester\'s Workshop (Base, Corn)</string>
+
+  <string name="LastLaughs_gametype">Last Laughs (Intr, Corn)</string> 
+  <string name="TheSpiceOfLife_gametype">The Spice of Life (Intr, Corn)</string> 
+  <string name="SmallVictories_gametype">Small Victories (Intr, Corn)</string>
+
+  <string name="HinterlandsIntro_gametype">Hinterlands Intro (Hntr)</string> 
+  <string name="FairTrades_gametype">Fair Trades (Hntr)</string> 
+  <string name="Bargains_gametype">Bargains (Hntr)</string> 
+  <string name="Gambits_gametype">Gambits (Hntr)</string> 
+  <string name="RandomHinterlands_gametype">Random Hinterlands</string>
+    
+  <string name="HighwayRobbery_gametype">Highway Robbery (Base, Hntr)</string> 
+  <string name="AdventuresAbroad_gametype">Adventures Abroad (Base, Hntr)</string>
+    
+  <string name="MoneyForNothing_gametype">Money for Nothing (Hntr, Intr)</string> 
+  <string name="TheDukesBall_gametype">The Duke\'s Ball (Hntr, Intr)</string>
+    
+  <string name="Travelers_gametype">Travelers (Hntr, Sea)</string> 
+  <string name="Diplomacy_gametype">Diplomacy (Hntr, Sea)</string>
+    
+  <string name="SchemesAndDreams_gametype">Schemes and Dreams (Hntr, Alch)</string> 
+  <string name="WineCountry_gametype">Wine Country (Hntr, Alch)</string>
+
+  <string name="InstantGratification_gametype">Instant Gratification (Hntr, Prsp)</string> 
+  <string name="TreasureTrove_gametype">Treasure Trove (Hntr, Prsp)</string>
+   
+  <string name="BlueHarvest_gametype">Blue Harvest (Hntr, Corn)</string> 
+  <string name="TravelingCircus_gametype">Traveling Circus (Hntr, Corn)</string>
+    
+  <string name="Random_gametype">Random (all sets)</string>    
+</resources>
