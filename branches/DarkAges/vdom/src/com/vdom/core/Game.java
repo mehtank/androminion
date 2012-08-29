@@ -2135,7 +2135,8 @@ public class Game {
     }
 
     protected CardPile addPile(Card card) {
-        return addPile(card, ((card instanceof VictoryCard) ? victoryCardPileSize : kingdomCardPileSize));
+    	// the Rats hack is dirty and should be cleaned up, but it works
+        return addPile(card, ((card instanceof VictoryCard) ? victoryCardPileSize : (card.equals(Cards.rats) ? 20 : kingdomCardPileSize)));
     }
 
     protected CardPile addPile(Card card, int count) {

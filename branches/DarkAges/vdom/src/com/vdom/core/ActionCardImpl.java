@@ -3880,11 +3880,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	        	treasures++;
 	        }
 	    }
-	    
-	    treasures = Math.min(4, treasures);
-	    
     	context.addGold = Math.max(0, context.addGold-treasures);
-
 	}
 
 	private void sage(Game game, MoveContext context, Player currentPlayer) {
