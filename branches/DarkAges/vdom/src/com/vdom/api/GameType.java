@@ -65,6 +65,9 @@ public enum GameType {
     // Hinterlands and Cornucopia
     BlueHarvest("Blue Harvest (Hntr, Corn)"), TravelingCircus("Traveling Circus (Hntr, Corn)"),
 
+    // Dark Ages
+    // TODO: remove for production release, or replace with sets from the rule book
+    DarkAgesTest("Dark Ages Test (DA)"),
     
     // All Cards
     Random("Random"),

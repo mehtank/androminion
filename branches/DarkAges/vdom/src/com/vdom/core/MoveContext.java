@@ -36,6 +36,7 @@ public class MoveContext {
     public int totalCardsBoughtThisTurn = 0;
     public boolean buyPhase = false;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
+    public int beggarSilverIsOnTop = 0;
 
     // For checking Achievements
     public int vpsGainedThisTurn = 0;

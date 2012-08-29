@@ -15,6 +15,7 @@ public class Cards {
     public static ArrayList<Card> actionCardsProsperity = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsCornucopia = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsHinterlands = new ArrayList<Card>();
+    public static ArrayList<Card> actionCardsDarkAges = new ArrayList<Card>();
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
     public static ArrayList<Card> prizeCards = new ArrayList<Card>();
     public static HashMap<String, Card> actionCardsMap = new HashMap<String, Card>();
@@ -36,6 +37,10 @@ public class Cards {
         HornofPlenty, Fairgrounds, FarmingVillage, FortuneTeller, Hamlet, Harvest, HorseTraders, HuntingParty, Jester, Menagerie, Remake, Tournament, YoungWitch, BagofGold, Diadem, Followers, Princess, TrustySteed,
         // Hinterlands Expansion
         BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel,
+        // Dark Ages Expansion
+        Altar, Armory, Beggar, Catacombs, Count, Counterfeit, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Squire, Storeroom, WanderingMinstrel,
+        // Dark Ages not yet implemented
+        // BandOfMisfits, BanditCamp, DeathCart, Hermit, Madman, Necropolis, OvergrownEstate, Hovel, Cultist, RuinedMarket, Pillage, Spoils, Mercenary, Urchin, Vagrant
         // Victory Token card container
         VictoryTokens
     }
@@ -224,6 +229,24 @@ public class Cards {
     public static final Card stables;
     public static final Card trader;
     public static final Card tunnel;
+
+    // Dark Ages expansion - INCOMPLETE at the moment
+    
+    // TODO: following cards can be implemented ithout changing the mechanics of the game
+    //Beggar, Catacombs, Count, Counterfeit, Forager, 
+    //Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic,
+    //Procession, Rebuild, Rogue, Sage, Scavenger, Storeroom, WanderingMinstrel
+    public static final Card altar;
+    public static final Card armory;
+    public static final Card beggar;
+    public static final Card feodum;
+    public static final Card fortress;
+    public static final Card poorHouse;
+    public static final Card rats;
+    public static final Card sage;
+    public static final Card squire;
+    
+    
 
     static {
         // nonKingdomCards
@@ -415,6 +438,18 @@ public class Cards {
         actionCardsHinterlands.add(trader = new ActionCardImpl.Builder(Cards.Type.Trader, 4).trashForced().description("Trash a card from your hand. Gain a number of Silvers equal to its cost in coins - When you would gain a card, you may reveal this from your hand. If you do, instead, gain a silver.").expansion("Hinterlands").build());
         actionCardsHinterlands.add(tunnel = new VictoryCardImpl.Builder(Cards.Type.Tunnel, 3, 2).description("When you discard this other than during a Clean-up phase, you may reveal it. If you do, gain a Gold.").expansion("Hinterlands").build());
         
+        // Dark Ages (INCOMPLETE)
+        actionCardsDarkAges.add(altar = new ActionCardImpl.Builder(Cards.Type.Altar, 6).trashForced().description("Trash a card from your hand. Gain a card costing up to 5 coins.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(armory = new ActionCardImpl.Builder(Cards.Type.Armory, 4).description("Gain a card costing up to 4 coins. Put it on top of your deck.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(feodum = new VictoryCardImpl.Builder(Cards.Type.Feodum, 4, 0).description("Worth 1 VP for every 3 Silvers in your deck (round down). - When you trash this, gain 3 Silvers.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(fortress = new ActionCardImpl.Builder(Cards.Type.Fortress, 4).addCards(1).addActions(2).description("When you trash this, put it into your hand.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(poorHouse = new ActionCardImpl.Builder(Cards.Type.PoorHouse, 1).addGold(4).description("Reveal your hand. -1 coin per treasure card in your hand, to a minimum of 0 coins.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(rats = new ActionCardImpl.Builder(Cards.Type.Rats, 4).addCards(1).addActions(1).description("Gain a Rats. Trash a card from your hand other than a Rats (or reveal a hand of all Rats).").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(sage = new ActionCardImpl.Builder(Cards.Type.Sage, 3).addActions(1).description("Reveal cards from the top of your deck until you reveal one costing 3 coins or more. Put that card into your hand and discard the rest.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(squire = new ActionCardImpl.Builder(Cards.Type.Squire, 2).addGold(1).description("Choose one: +2 Actions; or +2 Buys; or gain a Silver. - When you trash this, gain an Attack card.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(beggar = new ActionCardImpl.Builder(Cards.Type.Beggar, 2).description("Gain 3 Coppers, putting them into your hand. When another player plays an Attack card, you may discard this. If you do, gain two Silvers, putting one on top of your deck.").expansion("Dark Ages").build());
+        
+        
         // Collect all Expansions
         for (Card card : actionCardsBaseGame) {
             actionCards.add(card);
@@ -437,8 +472,8 @@ public class Cards {
         for (Card card : actionCardsHinterlands) {
             actionCards.add(card);
         }
-        for (Card card: actionCards) {
-        	actionCardsMap.put(card.getName(), card);
+        for (Card card : actionCardsDarkAges) {
+            actionCards.add(card);
         }
     }
 

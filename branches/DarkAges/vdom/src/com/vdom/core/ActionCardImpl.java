@@ -532,6 +532,27 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case Possession:
             possession(context);
             break;
+        case PoorHouse:
+        	poorHouse(context, currentPlayer);
+        	break;
+        case Sage:
+        	sage(game, context, currentPlayer);
+        	break;
+        case Rats:
+        	rats(context, currentPlayer);
+        	break;
+        case Squire:
+        	squire(context, currentPlayer);
+        	break;
+        case Armory:
+        	armory(currentPlayer, context);
+        	break;
+        case Altar:
+        	altar(currentPlayer, context);
+        	break;
+        case Beggar:
+        	beggar(currentPlayer, context);
+        	break;
         default:
             break;
         }
@@ -3848,4 +3869,133 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
         }
     }
+
+	private void poorHouse(MoveContext context, Player currentPlayer) {
+	    int treasures = 0;
+	
+	    for (int i = 0; i < currentPlayer.hand.size(); i++) {
+	        Card card = currentPlayer.hand.get(i);
+	        currentPlayer.reveal(card, this, context);
+	        if (card instanceof TreasureCard) {
+	        	treasures++;
+	        }
+	    }
+	    
+	    treasures = Math.min(4, treasures);
+	    
+    	context.addGold = Math.max(0, context.addGold-treasures);
+
+	}
+
+	private void sage(Game game, MoveContext context, Player currentPlayer) {
+	    HashSet<String> cardNames = new HashSet<String>();
+	
+	    for (int i = 0; i < currentPlayer.hand.size(); i++) {
+	        Card card = currentPlayer.hand.get(i);
+	        cardNames.add(card.getName());
+	        currentPlayer.reveal(card, this, context);
+	    }
+	
+	    ArrayList<Card> toDiscard = new ArrayList<Card>();
+	    
+	    Card draw = null;
+	    while ((draw = game.draw(currentPlayer)) != null && draw.getCost(context) < 3) {
+    		currentPlayer.reveal(draw, this, context);
+    		toDiscard.add(draw);
+	    }
+	
+	    if (draw != null) {
+	        currentPlayer.reveal(draw, this, context);
+	        currentPlayer.hand.add(draw);
+	    }
+	    
+	    while (!toDiscard.isEmpty()) {
+	        currentPlayer.discard(toDiscard.remove(0), this, null);
+	    }
+	}
+	
+	private void rats(MoveContext context, Player currentPlayer) {
+		currentPlayer.gainNewCard(Cards.rats, this, context);
+		
+        if(currentPlayer.hand.size() > 0) {
+        	boolean hasother = false;
+        	for (Card c : currentPlayer.hand) {
+        		if (!c.equals(Cards.rats)) {
+        			hasother = true;
+        		}
+        	}
+        	if (!hasother) {
+                for (int i = 0; i < currentPlayer.hand.size(); i++) {
+                    Card card = currentPlayer.hand.get(i);
+                    currentPlayer.reveal(card, this, context);
+                }
+        	} else {
+	            Card card = currentPlayer.controlPlayer.rats_cardToTrash(context);
+	            if(card == null || !currentPlayer.hand.contains(card)) {
+	                Util.playerError(currentPlayer, "Rats card to trash invalid, picking one");
+	                card = currentPlayer.hand.get(0);
+	            }
+	            
+	            currentPlayer.hand.remove(card);
+	            currentPlayer.trash(card, this, context);
+        	}
+        }
+	}
+
+	private void squire(MoveContext context, Player currentPlayer) {
+	    Player.SquireOption option = currentPlayer.controlPlayer.squire_chooseOption(context);
+
+		if (option == null) {
+	        Util.playerError(currentPlayer, "Squire option error, ignoring.");
+	    } else {
+	        if (option == Player.SquireOption.AddActions) {
+	            context.actions += 2;
+	        } else if (option == Player.SquireOption.AddBuys) {
+	        	context.buys += 2;
+	        } else if (option == Player.SquireOption.GainSilver) {
+	        	currentPlayer.gainNewCard(Cards.silver, this, context);
+	        }
+	    }
+	}
+
+	public void armory(Player currentPlayer, MoveContext context) {
+	    Card card = currentPlayer.controlPlayer.armory_cardToObtain(context);
+	    if (card != null) {
+	        // check cost
+	        if (card.getCost(context) <= 5) {
+	            currentPlayer.gainNewCard(card, this, context);
+	            //currentPlayer.discard.remove(Cards.armory);
+	            //currentPlayer.putOnTopOfDeck(Cards.armory);
+	            
+	        }
+	    }
+	}
+	
+	public void altar(Player currentPlayer, MoveContext context) {
+        if (currentPlayer.getHand().size() > 0) {
+            Card card = currentPlayer.controlPlayer.altar_cardToTrash(context);
+
+            if (card == null || !currentPlayer.hand.contains(card)) {
+                Util.playerError(currentPlayer, "Altar trash error, trashing a random card.");
+                card = Util.randomCard(currentPlayer.hand);
+            }
+
+            currentPlayer.hand.remove(card);
+            currentPlayer.trash(card, this, context);
+        }
+        
+		Card card = currentPlayer.controlPlayer.altar_cardToObtain(context);
+        if (card != null) {
+            // check cost
+            if (card.getCost(context) <= 5) {
+                currentPlayer.gainNewCard(card, this, context);
+            }
+        }
+	}
+	
+	public void beggar(Player currentPlayer, MoveContext context) {
+		currentPlayer.gainNewCard(Cards.copper, this, context);
+		currentPlayer.gainNewCard(Cards.copper, this, context);
+		currentPlayer.gainNewCard(Cards.copper, this, context);
+	}
 }

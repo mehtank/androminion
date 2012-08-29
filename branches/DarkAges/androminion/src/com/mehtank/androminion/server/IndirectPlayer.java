@@ -1896,7 +1896,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if (reactionCards.length > 0) {
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)
-            	if (lastCard == null || !Game.suppressRedundantReactions || c.getName() != lastCard.getName() || c.equals(Cards.horseTraders))
+            	if (lastCard == null || !context.game.suppressRedundantReactions || c.getName() != lastCard.getName() || c.equals(Cards.horseTraders) || c.equals(Cards.beggar))
                    options.add(Strings.getCardName(c));
             if (options.size() > 0) {
             String none = getString(R.string.none);
@@ -1954,4 +1954,38 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
 		return h.get(selectString(context, getString(R.string.putback_query), options.toArray(new String[0])));
     }
+	public SquireOption squire_chooseOption(MoveContext context) {
+//	    if(context.isQuickPlay() && shouldAutoPlay_steward_chooseOption(context)) {
+//	        return super.steward_chooseOption(context);
+//	    }
+	    LinkedHashMap<String, SquireOption> h = new LinkedHashMap<String, SquireOption>();
+		
+		h.put(getString(R.string.squire_option_one), SquireOption.AddActions);
+		h.put(getString(R.string.squire_option_two), SquireOption.AddBuys);
+		h.put(getString(R.string.squire_option_three), SquireOption.GainSilver);
+	
+		return h.get(selectString(context, Cards.squire, h.keySet().toArray(new String[0])));
+	}
+
+	public Card armory_cardToObtain(MoveContext context) {
+	    if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
+	        return super.armory_cardToObtain(context);
+	    }
+        return getFromTable(context, getGainString(Cards.armory), 4, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, 0);
+	}
+
+	public Card altar_cardToTrash(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_apprentice_cardToTrash(context)) {
+            return super.altar_cardToTrash(context);
+        }
+        return getAnyFromHand(context, getTrashString(Cards.altar), NOTPASSABLE, SelectCardOptions.PickType.TRASH);
+    }
+	@Override
+	public Card altar_cardToObtain(MoveContext context) {
+	    if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
+	        return super.altar_cardToObtain(context);
+	    }
+        return getFromTable(context, getGainString(Cards.altar), 5, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, 0);
+	}
+    
 }

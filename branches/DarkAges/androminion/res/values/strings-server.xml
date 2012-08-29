@@ -187,7 +187,11 @@
 	<string name="steward_option_two">+(2) Coins</string>
 	<string name="steward_option_three">Trash two cards from your hand</string>
 
-	<string name="pawn_one">Draw a card</string>
+	<string name="squire_option_one">+2 Actions</string>
+	<string name="squire_option_two">+2 Buys</string>
+	<string name="squire_option_three">Gain a Silver</string>
+
+		<string name="pawn_one">Draw a card</string>
 	<string name="pawn_two">+1 Action</string>
 	<string name="pawn_three">+1 Buy</string>
 	<string name="pawn_four">+(1) Coin</string>

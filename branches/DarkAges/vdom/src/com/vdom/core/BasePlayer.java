@@ -319,7 +319,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             } else if (c.equals(Cards.secretChamber) && !secretChamberSelected) {
                 reactionCards.add(c);
                 secretChamberSelected = true;
-            } else if (c.equals(Cards.horseTraders)) {
+            } else if (c.equals(Cards.horseTraders) || c.equals(Cards.beggar)) {
                 reactionCards.add(c);
             }
         }
@@ -1880,6 +1880,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }    
     
     @Override
+    public Card rats_cardToTrash(MoveContext context) {
+    	return trader_cardToTrash(context);
+    }
+    
+    @Override
     public boolean revealBane(MoveContext context) {
         return true;
     }
@@ -1890,4 +1895,33 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return options.get(0);
     }
     
+	@Override
+	public SquireOption squire_chooseOption(MoveContext context) {
+		return SquireOption.AddActions;
+	}
+    
+	@Override
+	public Card altar_cardToTrash(MoveContext context) {
+    	Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (card == null) {
+    		card = lowestCard(context, context.getPlayer().getHand(), false);
+    	}
+    		
+    	return card;
+	}
+
+	@Override
+	public Card altar_cardToObtain(MoveContext context) {
+        return bestCardInPlay(context, 5);
+	}
+
+    @Override
+	public boolean beggar_shouldDiscard(MoveContext context) {
+		return true;
+	}
+
+	@Override
+	public Card armory_cardToObtain(MoveContext context) {
+        return bestCardInPlay(context, 4);
+	}
 }

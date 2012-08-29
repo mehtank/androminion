@@ -554,6 +554,8 @@ public abstract class Player {
 			totals.put(Cards.vineyard, counts.get(Cards.vineyard) * (this.getActionCardCount() / 3));
 		if(counts.containsKey(Cards.silkRoad))
 			totals.put(Cards.silkRoad, counts.get(Cards.silkRoad) * (this.getVictoryCardCount() / 4));
+		if(counts.containsKey(Cards.feodum))
+			totals.put(Cards.feodum, counts.get(Cards.feodum) * (Util.getCardCount(getAllCards(), Cards.silver)  / 3));
 
 		totals.put(Cards.victoryTokens, this.getVictoryTokens());
 				
@@ -675,6 +677,19 @@ public abstract class Player {
             // TODO: Track in main game event listener instead
             context.cardsTrashedThisTurn++;
         }
+        
+        // Dark Ages on_Trash triggers
+        if (card.equals(Cards.feodum)) {
+            gainNewCard(Cards.silver, card, context);
+            gainNewCard(Cards.silver, card, context);
+            gainNewCard(Cards.silver, card, context);
+        }
+        if (card.equals(Cards.rats)) {
+        	game.drawToHand(this, card, false);
+        }
+        if (card.equals(Cards.squire)) {
+        	// TODO: Gain an Attack card
+        }
         if (isPossessed()) {
             context.game.possessedTrashPile.add(card);
         } else {
@@ -684,6 +699,11 @@ public abstract class Player {
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
+
+        if (card.equals(Cards.fortress)) {
+        	context.game.trashPile.remove(card);
+        	hand.add(card);
+        }
     }
 
     public void reveal(Card card, Card responsible, MoveContext context) {
@@ -763,6 +783,12 @@ public abstract class Player {
     	Coin,
     	Action,
     	None
+    }
+
+    public static enum SquireOption {
+    	AddActions,
+    	AddBuys,
+    	GainSilver
     }
 
     // Context is passed for the player to add a GameEventListener
@@ -1094,6 +1120,10 @@ public abstract class Player {
     public abstract Card mandarin_cardToReplace(MoveContext context);
     
     public abstract Card[] margrave_attack_cardsToKeep(MoveContext context);
+    
+    public abstract Card rats_cardToTrash(MoveContext context);
+    
+    public abstract SquireOption squire_chooseOption(MoveContext context);
 
 	public abstract Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard);
 	
@@ -1104,5 +1134,13 @@ public abstract class Player {
     public int getMyCardCount(Card card) {
         return Util.getCardCount(getAllCards(), card);
     }
+
+	public abstract Card altar_cardToTrash(MoveContext context);
+
+	public abstract Card altar_cardToObtain(MoveContext context);
+	
+	public abstract boolean beggar_shouldDiscard(MoveContext context);
+
+	public abstract Card armory_cardToObtain(MoveContext context);
 
 }
