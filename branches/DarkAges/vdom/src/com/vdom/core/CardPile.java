@@ -7,6 +7,8 @@ public class CardPile {
     public Card card;
     private ArrayList<Card> cards = new ArrayList<Card>();
     public boolean tradeRouteToken = false;
+    private boolean isSupply = true;
+    
     public CardPile(Card card, int count) {
         this.card = card;
 
@@ -23,6 +25,15 @@ public class CardPile {
      */
     public boolean isEmpty() {
         return cards.isEmpty();
+    }
+    
+    public CardPile notInSupply() {
+    	this.isSupply = false;
+    	return this;
+    }
+    
+    public boolean isSupply() {
+    	return this.isSupply;
     }
 
     public int takeTradeRouteToken() {

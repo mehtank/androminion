@@ -319,7 +319,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             } else if (c.equals(Cards.secretChamber) && !secretChamberSelected) {
                 reactionCards.add(c);
                 secretChamberSelected = true;
-            } else if (c.equals(Cards.horseTraders) || c.equals(Cards.beggar)) {
+            } else if (c.equals(Cards.horseTraders) || c.equals(Cards.beggar) || c.equals(Cards.marketSquare)) {
                 reactionCards.add(c);
             }
         }
@@ -1942,5 +1942,120 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public boolean catacombs_shouldDiscardTopCards(MoveContext context, Card[] array) {
+		int discards = 0;
+		for (Card c : array) 
+			if (shouldDiscard(c))
+				discards++;
+		
+		return (discards > 1);
+	}
+
+	@Override
+	public Card catacombs_cardToObtain(MoveContext context) {
+		return bestCardInPlay(context, Math.max(0, game.piles.get(Cards.catacombs.getName()).card.getCost(context) - 1));
+	}
+
+	@Override
+	public CountFirstOption count_chooseFirstOption(MoveContext context) {
+        if (getCurrencyTotal(context) < 6) return Player.CountFirstOption.GainCopper;
+        
+        return Player.CountFirstOption.PutOnDeck;
+	}
+
+	@Override
+	public CountSecondOption count_chooseSecondOption(MoveContext context) {
+		if (game.pileSize(Cards.colony) > 3 || game.pileSize(Cards.province) > 3)
+			return Player.CountSecondOption.Coins;
+		else
+			return Player.CountSecondOption.GainDuchy;
+	}
+
+	@Override
+	public Card[] count_cardsToDiscard(MoveContext context) {
+        return lowestCards(context, hand, 2, true);
+	}
+
+	@Override
+	public Card count_cardToPutBackOnDeck(MoveContext context) {
+		return Util.randomCard(hand);
+	}
+	
+	@Override
+	public Card forager_cardToTrash(MoveContext context) {
+    	Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (card == null) {
+    		card = lowestCard(context, context.getPlayer().getHand(), false);
+    	}
+    	return card;
+	}
+
+	@Override
+	public GraverobberOption graverobber_chooseOption(MoveContext context) {
+		return GraverobberOption.GainFromTrash;
+	}
+
+	@Override
+	public Card graverobber_cardToGainFromTrash(MoveContext context) {
+		ArrayList<Card> options = new ArrayList<Card>();
+		for (Card c : game.trashPile) {
+			if (c.getCost(context) >= 3 && c.getCost(context) <= 6) {
+				options.add(c);
+			}
+		}
+		return Util.randomCard(options);
+	}
+
+	@Override
+	public Card graverobber_cardToTrash(MoveContext context) {
+		CardList ac = new CardList(controlPlayer, name);
+		for (Card c : hand) {
+			ac.add(c);
+		}
+		
+		if (ac.size() > 0) {
+	    	Card card = pickOutCard(ac, getTrashCards());
+	    	if (card == null) {
+	    		card = lowestCard(context, context.getPlayer().getHand(), false);
+	    	}
+	    	return card;
+		} 
+		return null;
+	}
+
+	@Override
+	public Card graverobber_cardToReplace(MoveContext context, int maxCost, boolean potion) {
+		return bestCardInPlay(context, maxCost, false, potion);
+	}
+
+	@Override
+	public HuntingGroundsOption huntingGround_chooseOption(MoveContext context) {
+		return HuntingGroundsOption.GainDuchy;
+	}
+
+	@Override
+	public boolean ironmonger_shouldDiscard(MoveContext context, Card card) {
+		return this.shouldDiscard(card);
+	}
+
+	@Override
+	public Card junkDealer_cardToTrash(MoveContext context) {
+        if (context.getPlayer().getHand().size() == 0) {
+            return null;
+        }
+
+        Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (card != null) 
+    		return card;
+        
+        return context.getPlayer().getHand().get(0);
+	}
+
+	@Override
+	public boolean marketSquare_shouldDiscard(MoveContext context) {
+		return true;
 	}
 }

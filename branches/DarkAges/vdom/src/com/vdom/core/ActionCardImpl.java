@@ -553,12 +553,30 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case Beggar:
         	beggar(currentPlayer, context);
         	break;
+        case Catacombs:
+        	catacombs(game, currentPlayer, context);
+        	break;
+        case Count:
+        	count(currentPlayer, context);
+        	break;
+        case Forager:
+        	forager(game, currentPlayer, context);
+        	break;
+        case Graverobber:
+        	graverobber(game, currentPlayer, context);
+        	break;
+        case Ironmonger:
+        	ironmonger(game, currentPlayer, context);
+        	break;
+        case JunkDealer:
+        	junkDealer(currentPlayer, context);
+        	break;
         default:
             break;
         }
     }
 
-    private void warehouse(MoveContext context, Player currentPlayer) {
+	private void warehouse(MoveContext context, Player currentPlayer) {
         if (currentPlayer.hand.size() == 0) {
             return;
         }
@@ -3967,7 +3985,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    }
 	}
 	
-	public void altar(Player currentPlayer, MoveContext context) {
+	private void altar(Player currentPlayer, MoveContext context) {
         if (currentPlayer.getHand().size() > 0) {
             Card card = currentPlayer.controlPlayer.altar_cardToTrash(context);
 
@@ -3994,4 +4012,217 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		currentPlayer.gainNewCard(Cards.copper, this, context);
 		currentPlayer.gainNewCard(Cards.copper, this, context);
 	}
+	
+	public void catacombs(Game game, Player currentPlayer, MoveContext context) {
+        ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
+        for (int i = 0; i < 3; i++) {
+            Card card = game.draw(currentPlayer);
+            if (card != null) {
+                topOfTheDeck.add(card);
+            }
+        }
+
+        if (topOfTheDeck.size() > 0) {
+            if (currentPlayer.controlPlayer.catacombs_shouldDiscardTopCards(context, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]))) {
+                while (!topOfTheDeck.isEmpty()) {
+                    currentPlayer.discard(topOfTheDeck.remove(0), this, null);
+                }
+                game.drawToHand(currentPlayer, this);
+                game.drawToHand(currentPlayer, this);
+                game.drawToHand(currentPlayer, this);
+            } else {
+                // Put the cards in hand
+                for (Card c : topOfTheDeck) {
+                	currentPlayer.hand.add(c);
+                }
+            }
+        }
+	}
+	
+	private void count(Player currentPlayer, MoveContext context) {
+		Player.CountFirstOption option1 = currentPlayer.controlPlayer.count_chooseFirstOption(context);
+		if (option1 == null) {
+	        Util.playerError(currentPlayer, "Count first option error, ignoring.");
+	    } else {
+	    	switch (option1) {
+	    	case Discard:
+	    		Card[] cards;
+	            if (currentPlayer.hand.size() > 2) {
+	                cards = currentPlayer.controlPlayer.count_cardsToDiscard(context);
+	            } else {
+	                cards = currentPlayer.getHand().toArray();
+	            }
+	            boolean bad = false;
+	            if (cards == null) {
+	                bad = true;
+	            } else if (cards.length > 2) {
+	                bad = true;
+	            } else {
+	                ArrayList<Card> handCopy = Util.copy(currentPlayer.hand);
+	                for (Card card : cards) {
+	                    if (!handCopy.remove(card)) {
+	                        bad = true;
+	                        break;
+	                    }
+	                }
+	            }
+
+	            if (bad) {
+	                Util.playerError(currentPlayer, "Count discard error, discarding first 2 cards.");
+	                cards = new Card[2];
+
+	                for (int i = 0; i < cards.length; i++) {
+	                    cards[i] = currentPlayer.hand.get(i);
+	                }
+	            }
+
+	            for (int i = 0; i < cards.length; i++) {
+	                currentPlayer.hand.remove(cards[i]);
+	                currentPlayer.reveal(cards[i], this, context);
+	                currentPlayer.discard(cards[i], this, null);
+	            }
+	    		break;
+	    	case PutOnDeck:
+	            if (currentPlayer.getHand().size() > 0) {
+	                Card card = currentPlayer.controlPlayer.count_cardToPutBackOnDeck(context);
+	       
+	                if (card == null || !currentPlayer.hand.contains(card)) {
+	                    Util.playerError(currentPlayer, "Count error, just putting back a random card.");
+	                    card = Util.randomCard(currentPlayer.hand);
+	                }
+	       
+	                currentPlayer.hand.remove(card);
+	                currentPlayer.putOnTopOfDeck(card);
+	            }
+	    		break;
+	    	case GainCopper:
+	    		currentPlayer.gainNewCard(Cards.copper, this, context);
+	    		break;
+	    	}
+	    }
+
+		Player.CountSecondOption option2 = currentPlayer.controlPlayer.count_chooseSecondOption(context);
+		if (option2 == null) {
+	        Util.playerError(currentPlayer, "Count second option error, ignoring.");
+	    } else {
+	    	switch (option2) {
+	    	case Coins:
+	    		context.addGold += 3;
+	    		break;
+	    	case TrashHand:
+	    		if (currentPlayer.hand.size() > 0) {
+		    		Card[] temp = currentPlayer.hand.toArray();
+		    		for (Card c : temp) {
+		    			currentPlayer.hand.remove(c);
+		    			currentPlayer.trash(c, this, context);
+		    		}
+	    		}
+	    		break;
+	    	case GainDuchy:
+	    		currentPlayer.gainNewCard(Cards.duchy, this, context);
+	    		break;
+	    	}
+	    }
+	}
+	
+	private void forager(Game game, Player currentPlayer, MoveContext context) {
+        if (currentPlayer.getHand().size() > 0) {
+            Card card = currentPlayer.controlPlayer.forager_cardToTrash(context);
+
+            if (card == null || !currentPlayer.hand.contains(card)) {
+                Util.playerError(currentPlayer, "Forager trash error, trashing a random card.");
+                card = Util.randomCard(currentPlayer.hand);
+            }
+
+            currentPlayer.hand.remove(card);
+            currentPlayer.trash(card, this, context);
+        }
+        
+        HashSet<String> cardNames = new HashSet<String>();
+        for (Card card : game.trashPile) {
+            if (card == null) {
+                break;
+            }
+
+            if (card instanceof TreasureCard) {
+                cardNames.add(card.getName());
+            }
+        }
+        context.addGold += cardNames.size();
+	}
+	
+	private void graverobber(Game game, Player currentPlayer, MoveContext context) {
+		Player.GraverobberOption option = currentPlayer.controlPlayer.graverobber_chooseOption(context);
+		if (option == null) {
+			Util.playerError(currentPlayer, "Graverobber option error, choosing automatically");
+			option = Player.GraverobberOption.GainFromTrash;
+		}
+		
+		Card toGain;
+		
+		switch (option) {
+		case GainFromTrash:
+			toGain = currentPlayer.controlPlayer.graverobber_cardToGainFromTrash(context);
+			
+			if (toGain == null || toGain.costPotion() || toGain.getCost(context) < 3 || toGain.getCost(context) > 6) {
+				Util.playerError(currentPlayer, "Graverobber gain card choice error, choosing nothing");
+				return;
+			}
+
+			game.trashPile.remove(toGain);
+			currentPlayer.reveal(toGain, this, context);
+			currentPlayer.deck.add(0, toGain);
+			
+			break;
+		
+		case TrashActionCard:
+			Card toTrash = currentPlayer.controlPlayer.graverobber_cardToTrash(context);
+            
+			if (toTrash == null || !currentPlayer.hand.contains(toTrash) || !(toTrash instanceof ActionCard)) {
+                Util.playerError(currentPlayer, "Forager trash error, trashing nothing.");
+                return;
+            }
+			
+			currentPlayer.hand.remove(toTrash);
+			currentPlayer.trash(toTrash, this, context);
+			
+			toGain = currentPlayer.controlPlayer.graverobber_cardToReplace(context, 3 + toTrash.getCost(context), toTrash.costPotion());
+			if (toGain != null) {
+				currentPlayer.gainNewCard(toGain, this, context);
+			}
+			break;
+		}
+	}
+
+	private void ironmonger(Game game, Player currentPlayer, MoveContext context) {
+		Card card = game.draw(currentPlayer);
+		
+		if (currentPlayer.controlPlayer.ironmonger_shouldDiscard(context, card)) {
+			currentPlayer.discard(card, this, context);
+		} else {
+			currentPlayer.putOnTopOfDeck(card);
+		}
+		
+		if (card instanceof ActionCard) {
+			context.actions += 1;
+		}
+		if (card instanceof TreasureCard) {
+			context.addGold++;
+		}
+		if (card instanceof VictoryCard) {
+			game.drawToHand(currentPlayer, this);
+		}
+	}
+
+	private void junkDealer(Player currentPlayer, MoveContext context) {
+        Card card = currentPlayer.controlPlayer.junkDealer_cardToTrash(context);
+        if(card == null || !currentPlayer.hand.contains(card)) {
+            Util.playerError(currentPlayer, "Junk Dealer card to trash invalid, picking one");
+            card = currentPlayer.hand.get(0);
+        }
+        
+        currentPlayer.hand.remove(card);
+        currentPlayer.trash(card, this, context);
+	}
+
 }

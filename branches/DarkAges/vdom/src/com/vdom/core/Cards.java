@@ -232,10 +232,8 @@ public class Cards {
 
     // Dark Ages expansion - INCOMPLETE at the moment
     
-    // TODO: following cards can be implemented ithout changing the mechanics of the game
-    //Beggar, Catacombs, Count, Counterfeit, Forager, 
-    //Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic,
-    //Procession, Rebuild, Rogue, Sage, Scavenger, Storeroom, WanderingMinstrel
+    // TODO: following cards can be implemented without changing the mechanics of the game
+    //Counterfeit, JunkDealer, MarketSquare, Mystic, Procession, Rebuild, Rogue, Sage, Scavenger, Storeroom, WanderingMinstrel
     public static final Card altar;
     public static final Card armory;
     public static final Card beggar;
@@ -245,8 +243,15 @@ public class Cards {
     public static final Card rats;
     public static final Card sage;
     public static final Card squire;
+    public static final Card catacombs;
+    public static final Card count;
+    public static final Card forager;
+    public static final Card graverobber;
+    public static final Card huntingGrounds;
+    public static final Card ironmonger;
+    public static final Card junkDealer;
     
-    
+    public static final Card marketSquare;
 
     static {
         // nonKingdomCards
@@ -444,10 +449,18 @@ public class Cards {
         actionCardsDarkAges.add(feodum = new VictoryCardImpl.Builder(Cards.Type.Feodum, 4, 0).description("Worth 1 VP for every 3 Silvers in your deck (round down). - When you trash this, gain 3 Silvers.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(fortress = new ActionCardImpl.Builder(Cards.Type.Fortress, 4).addCards(1).addActions(2).description("When you trash this, put it into your hand.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(poorHouse = new ActionCardImpl.Builder(Cards.Type.PoorHouse, 1).addGold(4).description("Reveal your hand. -1 coin per treasure card in your hand, to a minimum of 0 coins.").expansion("Dark Ages").build());
-        actionCardsDarkAges.add(rats = new ActionCardImpl.Builder(Cards.Type.Rats, 4).addCards(1).addActions(1).description("Gain a Rats. Trash a card from your hand other than a Rats (or reveal a hand of all Rats).").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(rats = new ActionCardImpl.Builder(Cards.Type.Rats, 4).addCards(1).addActions(1).trashForced().description("Gain a Rats. Trash a card from your hand other than a Rats (or reveal a hand of all Rats).").expansion("Dark Ages").build());
         actionCardsDarkAges.add(sage = new ActionCardImpl.Builder(Cards.Type.Sage, 3).addActions(1).description("Reveal cards from the top of your deck until you reveal one costing 3 coins or more. Put that card into your hand and discard the rest.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(squire = new ActionCardImpl.Builder(Cards.Type.Squire, 2).addGold(1).description("Choose one: +2 Actions; or +2 Buys; or gain a Silver. - When you trash this, gain an Attack card.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(beggar = new ActionCardImpl.Builder(Cards.Type.Beggar, 2).description("Gain 3 Coppers, putting them into your hand. When another player plays an Attack card, you may discard this. If you do, gain two Silvers, putting one on top of your deck.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(catacombs = new ActionCardImpl.Builder(Cards.Type.Catacombs, 5).description("Look at the top 3 cards of your deck. Choose one: Put them into your hand; or discard them and +3 Cards. When you trash this, gain a cheaper card.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(count = new ActionCardImpl.Builder(Cards.Type.Count, 5).description("Choose one: Discard 2 cards; or put a card from your hand on top of your deck; or gain a Copper. Choose one: + 3 ; or trash your hand; or gain a Duchy").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(forager = new ActionCardImpl.Builder(Cards.Type.Forager, 3).addActions(1).addBuys(1).trashForced().description("Trash a card from your hand. +1 coin per differently named Treasure in the trash.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(graverobber = new ActionCardImpl.Builder(Cards.Type.Graverobber, 5).description("Choose one: Gain a card from the trash costing from 3 to 6 coins, putting it on top of your deck; or trash an Action card from your hand and gain a card costing up to 3 more than it").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(huntingGrounds = new ActionCardImpl.Builder(Cards.Type.HuntingGrounds, 6).addCards(4).description("When you trash this, gain a Duchy or 3 Estates.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(ironmonger = new ActionCardImpl.Builder(Cards.Type.Ironmonger, 4).addCards(1).addActions(1).description("Reveal the top card of your deck; you may discard it. Either way, if it is an Action card, +1 Action; Treasure card, + 1 coin; Victory card, +1 Card.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(junkDealer = new ActionCardImpl.Builder(Cards.Type.JunkDealer, 5).addCards(1).addActions(1).addGold(1).trashForced().description("Trash a card from your hand.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(marketSquare = new ActionCardImpl.Builder(Cards.Type.MarketSquare, 3).addCards(1).addActions(1).addBuys(1).description("When one of your cards is trashed, you may discard this from your hand. If you do, gain a Gold.").expansion("Dark Ages").build());
         
         
         // Collect all Expansions
@@ -482,7 +495,7 @@ public class Cards {
     }
     
     public static boolean isReaction(Card c) {
-        if ((c.equals(Cards.moat)) || (c.equals(Cards.secretChamber)) || (c.equals(Cards.watchTower)) || (c.equals(Cards.horseTraders)) || (c.equals(Cards.foolsGold)) || (c.equals(Cards.trader)) || (c.equals(Cards.tunnel)) || (c.equals(Cards.beggar))) {
+        if ((c.equals(Cards.moat)) || (c.equals(Cards.secretChamber)) || (c.equals(Cards.watchTower)) || (c.equals(Cards.horseTraders)) || (c.equals(Cards.foolsGold)) || (c.equals(Cards.trader)) || (c.equals(Cards.tunnel)) || (c.equals(Cards.beggar)) || (c.equals(Cards.marketSquare))) {
         	return true;
         }
         return false;

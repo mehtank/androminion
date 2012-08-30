@@ -15,7 +15,8 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public abstract class Player {
-    Random rand = new Random(System.currentTimeMillis());
+
+	Random rand = new Random(System.currentTimeMillis());
 
 	public static final String RANDOM_AI = "Random AI";
 	public static final String DISTINCT_CARDS = "Distinct Cards";
@@ -693,6 +694,37 @@ public abstract class Player {
         		gainNewCard(s, card, context);
         	}
         }
+        if (card.equals(Cards.catacombs)) {
+        	Card c = catacombs_cardToObtain(context);
+        	if (c != null) {
+        		gainNewCard(c, card, context);
+        	}
+        }
+        if (card.equals(Cards.huntingGrounds)) {
+        	Player.HuntingGroundsOption option = huntingGround_chooseOption(context);
+        	if (option != null) {
+        		switch (option) {
+        		case GainDuchy:
+        			gainNewCard(Cards.duchy, card, context);
+        			break;
+        		case GainEstates:
+        			gainNewCard(Cards.estate, card, context);
+        			gainNewCard(Cards.estate, card, context);
+        			gainNewCard(Cards.estate, card, context);
+        			break;
+    			default:
+    				break;
+        		}
+        	}
+        }
+        while (hand.contains(Cards.marketSquare)) {
+        	Card m = hand.get(Cards.marketSquare);
+        	if (marketSquare_shouldDiscard(context)) {
+        		hand.remove(m);
+        		discard(m, card, context);
+        		gainNewCard(Cards.gold, m, context);
+        	}
+        }
         if (isPossessed()) {
             context.game.possessedTrashPile.add(card);
         } else {
@@ -709,7 +741,11 @@ public abstract class Player {
         }
     }
 
-    public void reveal(Card card, Card responsible, MoveContext context) {
+    public abstract HuntingGroundsOption huntingGround_chooseOption(MoveContext context);
+
+	public abstract Card catacombs_cardToObtain(MoveContext context);
+
+	public void reveal(Card card, Card responsible, MoveContext context) {
         GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
         event.card = card;
         event.responsible = responsible;
@@ -793,6 +829,27 @@ public abstract class Player {
     	AddBuys,
     	GainSilver
     }
+
+    public enum CountFirstOption {
+    	Discard,
+    	PutOnDeck,
+    	GainCopper
+	}
+
+    public enum CountSecondOption {
+    	Coins,
+    	TrashHand,
+    	GainDuchy
+	}
+    
+	public enum GraverobberOption {
+		GainFromTrash,
+		TrashActionCard
+	}
+
+	public enum HuntingGroundsOption {
+		GainDuchy, GainEstates
+	}
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
@@ -1148,4 +1205,29 @@ public abstract class Player {
 
 	public abstract Card squire_cardToObtain(MoveContext context);
 
+	public abstract boolean catacombs_shouldDiscardTopCards(MoveContext context, Card[] array);
+
+	public abstract CountFirstOption count_chooseFirstOption(MoveContext context);
+	
+	public abstract CountSecondOption count_chooseSecondOption(MoveContext context);
+	
+	public abstract Card[] count_cardsToDiscard(MoveContext context);
+
+	public abstract Card count_cardToPutBackOnDeck(MoveContext context);
+
+	public abstract Card forager_cardToTrash(MoveContext context);
+
+	public abstract GraverobberOption graverobber_chooseOption(MoveContext context);
+
+	public abstract Card graverobber_cardToGainFromTrash(MoveContext context);
+	
+	public abstract Card graverobber_cardToTrash(MoveContext context);
+
+	public abstract Card graverobber_cardToReplace(MoveContext context, int maxCost, boolean potion);
+
+	public abstract boolean ironmonger_shouldDiscard(MoveContext context, Card card);
+
+	public abstract Card junkDealer_cardToTrash(MoveContext context);
+	
+	public abstract boolean marketSquare_shouldDiscard(MoveContext context);
 }

@@ -279,7 +279,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownComboActionCards.add(Cards.shantyTown);
 		knownComboActionCards.add(Cards.highway);
 		knownComboActionCards.add(Cards.festival);
-		//knownComboActionCards.add(Cards.sage);
+		knownComboActionCards.add(Cards.sage);
+		knownComboActionCards.add(Cards.fortress);
 		
 		knownTier3Cards.add(Cards.bureaucrat);
 		knownTier3Cards.add(Cards.adventurer);

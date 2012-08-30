@@ -51,6 +51,10 @@
 	<string name="select_up_to_x_cards_from_hand">Pick up to %1$s cards from your hand to %2$s</string>
 	<string name="select_exactly_x_cards_from_hand">Pick exactly %1$s cards from your hand to %2$s</string>
 	
+	<string name="select_one_card_from_trash">Pick a card from trash to %1$s</string>
+	<string name="select_up_to_x_cards_from_trash">Pick up to %1$s cards from trash to %2$s</string>
+	<string name="select_exactly_x_cards_from_trash">Pick exactly %1$s cards from trash to %2$s</string>
+	
 	<string name="select_one_action_from_hand">Pick an action card from your hand to %1$s</string>
 	<string name="select_up_to_x_actions_from_hand">Pick up to %1$s action cards from your hand to %2$s</string>
 	<string name="select_exactly_x_actions_from_hand">Pick exactly %1$s action cards from your hand to %2$s</string>
@@ -159,6 +163,10 @@
 	<string name="navigator_header">Navigator revealed: %1$s</string>
 	<string name="navigator_option_two">Replace on deck</string>
 	
+	<string name="catacombs_header">Catacombs revealed: %1$s</string>
+	<string name="catacombs_option_one">Put all in hand</string>
+	<string name="catacombs_option_two">Discard and +3 cards</string>
+	
 	<string name="tournament_reveal">Reveal Province</string>
 	<string name="tournament_option_one">Don\'t reveal Province</string>
 	<string name="tournament_option_two">Gain Prize</string>
@@ -191,7 +199,23 @@
 	<string name="squire_option_two">+2 Buys</string>
 	<string name="squire_option_three">Gain a Silver</string>
 
-		<string name="pawn_one">Draw a card</string>
+	<string name="count_firstoption_one">Discard 2 cards</string>
+	<string name="count_firstoption_two">Put a card on top of deck</string>
+	<string name="count_firstoption_three">Gain a Copper</string>
+	<string name="count_secondoption_one">+3 coins</string>
+	<string name="count_secondoption_two">Trash your hand</string>
+	<string name="count_secondoption_three">Gain a Duchy</string>
+	<string name="count_part_top_of_deck">put on top of your deck [%1$s]</string>
+	
+	<string name="graverobber_option_one">Gain card from trash</string>
+	<string name="graverobber_option_two">Trash an Action card</string>
+	
+	<string name="hunting_grounds_option_one">Gain a Duchy</string>
+	<string name="hunting_grounds_option_two">Gain 3 Estates</string>
+	
+	<string name="ironmonger_option_one">Put back on deck</string>
+	
+	<string name="pawn_one">Draw a card</string>
 	<string name="pawn_two">+1 Action</string>
 	<string name="pawn_three">+1 Buy</string>
 	<string name="pawn_four">+(1) Coin</string>

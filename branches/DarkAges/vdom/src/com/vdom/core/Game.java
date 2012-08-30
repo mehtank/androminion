@@ -1006,9 +1006,11 @@ public class Game {
 //            return false;
 //        }
 
-        if (card.isPrize()) {
-            return false;
-        }
+        if (!piles.get(card.getName()).isSupply()) return false;
+        
+//        if (card.isPrize()) {
+//            return false;
+//        }
 
         if (isPileEmpty(card)) {
             return false;
@@ -1463,7 +1465,7 @@ public class Game {
 		// addPile(Cards.colony);
 		addPile(Cards.province, provincePileSize);
 		addPile(Cards.duchy, victoryCardPileSize);
-		addPile(Cards.estate, victoryCardPileSize + 3 * numPlayers);
+		addPile(Cards.estate, victoryCardPileSize + (3 * numPlayers));
 
 		unfoundCards.clear();
 		int added = 0;
@@ -1632,11 +1634,11 @@ public class Game {
         }
 
         if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
-            addPile(Cards.bagOfGold, 1);
-            addPile(Cards.diadem, 1);
-            addPile(Cards.followers, 1);
-            addPile(Cards.princess, 1);
-            addPile(Cards.trustySteed, 1);
+            addPile(Cards.bagOfGold, 1, false);
+            addPile(Cards.diadem, 1, false);
+            addPile(Cards.followers, 1, false);
+            addPile(Cards.princess, 1, false);
+            addPile(Cards.trustySteed, 1, false);
         }
 
 //        if (!debug) { return; } //make stuff fast
@@ -1802,7 +1804,7 @@ public class Game {
                                 player.putOnTopOfDeck(event.card);
                             } else if (r.equals(Cards.beggar)) {
                             	if (event.card.equals(Cards.copper)) {
-                                	player.putOnTopOfDeck(event.card);
+                                	player.hand.add(event.card);
                             	} else if (event.card.equals(Cards.silver) && context.beggarSilverIsOnTop == 0) {
                                 player.putOnTopOfDeck(event.card);
                             		context.beggarSilverIsOnTop++;
@@ -2074,7 +2076,7 @@ public class Game {
     public int emptyPiles() {
         int emptyPiles = 0;
         for (CardPile pile : piles.values()) {
-            if (pile.getCount() <= 0 && !pile.card.isPrize()) {
+            if (pile.getCount() <= 0 && pile.isSupply()) {
                 emptyPiles++;
             }
         }
@@ -2140,9 +2142,16 @@ public class Game {
     }
 
     protected CardPile addPile(Card card, int count) {
-        CardPile pile = new CardPile(card, count);
-        piles.put(card.getName(), pile);
-        return pile;
+    	return addPile(card, count, true);
+    }
+    
+    protected CardPile addPile(Card card, int count, boolean isSupply) {
+    	CardPile pile = new CardPile(card, count);
+    	if (!isSupply) {
+    		pile.notInSupply();
+    	}
+    	piles.put(card.getName(), pile);
+    	return pile;
     }
     
     private ArrayList<Card> getCardsObtainedByPlayer(int PlayerNumber) {
