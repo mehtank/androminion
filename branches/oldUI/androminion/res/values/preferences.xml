@@ -29,7 +29,7 @@
     <string name="action_chains_pref_summary">Enable multiple action selections in play order  (will take effect next game)</string>
     <string name="suppress_redundant_reactions_pref_title">Suppress Last Reaction</string>
     <string name="suppress_redundant_reactions_pref_summary">Suppress the reaction card just played from appearing in the dialog again (will take effect next game)</string>
-    <string name="equal_start_hands_pref_title">Equal start Hands</string>
+    <string name="equal_start_hands_pref_title">Equal Start Hands</string>
     <string name="equal_start_hands_pref_summary">All players have the same starting hand (will take effect next game)</string>
     <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
     <string name="plat_colony_pref_summary">Always include platinum and colony cards, regardless of game type (will take effect next game)</string>

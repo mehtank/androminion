@@ -354,6 +354,9 @@ public class StartGameDialog implements DialogInterface.OnClickListener {
                 strs.add("-sortcards");
             }
 
+            if(prefs.getBoolean("equal_start_hands", false)) {
+                strs.add("-equalstarthands");
+            }
             if (prefs.getBoolean("action_chains", false)) {
                 strs.add("-actionchains");
             }
