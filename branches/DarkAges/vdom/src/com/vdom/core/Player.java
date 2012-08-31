@@ -717,13 +717,16 @@ public abstract class Player {
         		}
         	}
         }
-        while (hand.contains(Cards.marketSquare)) {
+        
+        int marketSquare_count = Util.getCardCount(hand, Cards.marketSquare);
+        while (marketSquare_count > 0) {
         	Card m = hand.get(Cards.marketSquare);
         	if (marketSquare_shouldDiscard(context)) {
         		hand.remove(m);
         		discard(m, card, context);
         		gainNewCard(Cards.gold, m, context);
         	}
+        	marketSquare_count--;
         }
         if (isPossessed()) {
             context.game.possessedTrashPile.add(card);
