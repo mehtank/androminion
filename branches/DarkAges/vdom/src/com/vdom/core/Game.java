@@ -2121,6 +2121,10 @@ public class Game {
         return getCardsInGame(TreasureCard.class);
     }
 
+    public Card[] getVictoryCardsInGame() {
+        return getCardsInGame(VictoryCard.class);
+    }
+
     public Card[] getCardsInGameOrderByCost() {
         Card[] cardsInPlay = getCardsInGame();
         Arrays.sort(cardsInPlay, new CardCostComparator());

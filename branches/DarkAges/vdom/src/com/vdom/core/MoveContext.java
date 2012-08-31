@@ -276,6 +276,10 @@ public class MoveContext {
         return game.getTreasureCardsInGame();
     }
 
+    public Card[] getVictoryCardsInGame() {
+        return game.getVictoryCardsInGame();
+    }
+
     protected boolean isNewCardAvailable(int cost, boolean potion) {
         for(Card c : getCardsInGame()) {
             if(c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {

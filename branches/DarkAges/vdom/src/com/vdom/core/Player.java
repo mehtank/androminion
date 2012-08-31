@@ -1230,4 +1230,29 @@ public abstract class Player {
 	public abstract Card junkDealer_cardToTrash(MoveContext context);
 	
 	public abstract boolean marketSquare_shouldDiscard(MoveContext context);
+
+	public abstract Card mystic_cardGuess(MoveContext context);
+
+	public abstract boolean scavenger_shouldDiscardDeck(MoveContext context);
+
+	public abstract Card scavenger_cardToPutBackOnDeck(MoveContext context);
+
+	public abstract Card[] storeroom_cardsToDiscardForCards(MoveContext context);
+
+	public abstract Card[] storeroom_cardsToDiscardForCoins(MoveContext context);
+
+	public abstract ActionCard procession_cardToPlay(MoveContext context);
+
+	public abstract Card procession_cardToGain(MoveContext context, int maxCost, boolean potion);
+
+	public abstract Card rebuild_cardToPick(MoveContext context);
+
+	public abstract Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion);
+
+	public abstract Card rogue_cardToGain(MoveContext context);
+
+	public abstract Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash);
+
+	public abstract TreasureCard counterfeit_cardToPlay(MoveContext context);
+
 }

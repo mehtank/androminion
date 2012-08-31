@@ -233,7 +233,7 @@ public class Cards {
     // Dark Ages expansion - INCOMPLETE at the moment
     
     // TODO: following cards can be implemented without changing the mechanics of the game
-    //Counterfeit, JunkDealer, MarketSquare, Mystic, Procession, Rebuild, Rogue, Sage, Scavenger, Storeroom, WanderingMinstrel
+    //Counterfeit
     public static final Card altar;
     public static final Card armory;
     public static final Card beggar;
@@ -250,8 +250,16 @@ public class Cards {
     public static final Card huntingGrounds;
     public static final Card ironmonger;
     public static final Card junkDealer;
-    
     public static final Card marketSquare;
+    public static final Card mystic;
+    public static final Card scavenger;
+    public static final Card storeroom;
+    public static final Card wanderingMinstrel;
+    public static final Card procession;
+    public static final Card rebuild;
+    public static final Card rogue;
+    
+    public static final Card counterfeit;
 
     static {
         // nonKingdomCards
@@ -461,7 +469,14 @@ public class Cards {
         actionCardsDarkAges.add(ironmonger = new ActionCardImpl.Builder(Cards.Type.Ironmonger, 4).addCards(1).addActions(1).description("Reveal the top card of your deck; you may discard it. Either way, if it is an Action card, +1 Action; Treasure card, + 1 coin; Victory card, +1 Card.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(junkDealer = new ActionCardImpl.Builder(Cards.Type.JunkDealer, 5).addCards(1).addActions(1).addGold(1).trashForced().description("Trash a card from your hand.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(marketSquare = new ActionCardImpl.Builder(Cards.Type.MarketSquare, 3).addCards(1).addActions(1).addBuys(1).description("When one of your cards is trashed, you may discard this from your hand. If you do, gain a Gold.").expansion("Dark Ages").build());
-        
+        actionCardsDarkAges.add(mystic = new ActionCardImpl.Builder(Cards.Type.Mystic, 5).addActions(1).addGold(2).description("Name a card. Reveal the top card of your deck. If it’s the named card, put it into your hand.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(scavenger = new ActionCardImpl.Builder(Cards.Type.Scavenger, 4).addGold(2).description("You may put your deck into your discard pile. Look through your discard pile and put one card from it on top of your deck.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(storeroom = new ActionCardImpl.Builder(Cards.Type.Storeroom, 3).addBuys(1).description("Discard any number of cards. +1 Card per card discarded. Discard any number of cards. +1 coin per card discarded the second time.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(wanderingMinstrel = new ActionCardImpl.Builder(Cards.Type.WanderingMinstrel, 4).addCards(1).addActions(2).description("Reveal the top 3 cards of your deck. Put the Actions back on top in any order and discard the rest.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(procession = new ActionCardImpl.Builder(Cards.Type.Procession, 4).description("You may play an Action card from your hand twice. Trash it. Gain an Action card costing exactly 1 more than it.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(rebuild = new ActionCardImpl.Builder(Cards.Type.Rebuild, 5).addActions(1).description("Name a card. Reveal cards from the top of your deck until you reveal a Victory card that is not the named card. Discard the other cards. Trash the Victory card and gain a Victory card costing up to 3 more than it.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(rogue = new ActionCardImpl.Builder(Cards.Type.Rogue, 5).attack().addGold(2).description("If there are any cards in the trash costing from 3 to 6 coins, gain one of them. Otherwise, each other player reveals the top 2 cards of his deck, trashes one of them costing from 3 to 6 coins, and discards the rest.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(counterfeit = new TreasureCardImpl.Builder(Cards.Type.Counterfeit, 5, 1).description("+1 Buy  When you play this, you may play a Treasure from your hand twice. If you do, trash that Treasure.").expansion("Dark Ages").build());
         
         // Collect all Expansions
         for (Card card : actionCardsBaseGame) {

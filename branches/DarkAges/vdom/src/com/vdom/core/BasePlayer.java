@@ -162,6 +162,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     public Card[] lowestCards(MoveContext context, CardList cards, int num, boolean anyVictory) {
+    	return lowestCards(context, cards.toArrayList(), num, anyVictory);
+    }
+    
+	public Card[] lowestCards(MoveContext context, ArrayList<Card> cards, int num, boolean anyVictory) {
         if (cards == null) {
             return null;
         }
@@ -171,7 +175,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         
         if (cards.size() <= num) {
-            return cards.toArray();
+            return cards.toArray(new Card[0]);
         }
         
         ArrayList<Card> cardArray = new ArrayList<Card>();
@@ -1305,6 +1309,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
         
+        for (int i = cardArray.size() - 1; i >= 0; i--) {
+            TreasureCard card = cardArray.get(i);
+            if(card.equals(Cards.counterfeit)) {
+                ret.add(0, cardArray.remove(i));
+            }
+        }
+        
         return ret;
     }
 
@@ -1537,6 +1548,33 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return treasures[index];
     }
     
+    public VictoryCard getBestVictoryCard(MoveContext context) {
+    	ArrayList<VictoryCard> cards = new ArrayList<VictoryCard>();
+    	
+    	for (Card c : context.getVictoryCardsInGame()) {
+    		cards.add((VictoryCard) c);
+    	}
+    	
+    	return getBestVictoryCard(context, cards.toArray(new VictoryCard[0]));
+    }
+    
+    public VictoryCard getBestVictoryCard(MoveContext context, VictoryCard[] cards) {
+        if(cards == null) {
+            return null;
+        }
+        if(cards.length == 1) {
+            return cards[0];
+        }
+        int index = 0;
+        int vp = cards[0].getVictoryPoints();
+        for(int i=1; i < cards.length; i++) {
+            if(cards[i].getVictoryPoints() > vp) {
+                index = i;
+                vp = cards[i].getVictoryPoints();
+            }
+        }
+        return cards[index];
+    }
     public boolean isOnlyTreasure(Card card) {
         if(!(card instanceof TreasureCard)) {
             return false;
@@ -2057,5 +2095,110 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	@Override
 	public boolean marketSquare_shouldDiscard(MoveContext context) {
 		return true;
+	}
+
+	@Override
+	public Card mystic_cardGuess(MoveContext context) {
+	    return Cards.silver;
+	}
+
+	@Override
+	public boolean scavenger_shouldDiscardDeck(MoveContext context) {
+		return true;
+	}
+
+	@Override
+	public Card scavenger_cardToPutBackOnDeck(MoveContext context) {
+		return Util.randomCard(discard);
+	}
+
+	@Override
+	public Card[] storeroom_cardsToDiscardForCards(MoveContext context) {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (Card card : context.getPlayer().getHand()) {
+            if ((!(card instanceof ActionCard) && !(card instanceof TreasureCard)) || card.equals(Cards.cellar) || card.equals(Cards.storeroom) || card.equals(Cards.copper)) {
+                cards.add(card);
+            }
+        }
+
+        if (context.getActionsLeft() == 0) {
+            for (Card c : context.getPlayer().getHand()) {
+                if ((c instanceof ActionCard)) {
+                    cards.add(c);
+                }
+            }
+        }
+        
+        return cards.toArray(new Card[0]);
+	}
+
+	@Override
+	public Card[] storeroom_cardsToDiscardForCoins(MoveContext context) {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (Card card : context.getPlayer().getHand()) {
+            if ((!(card instanceof ActionCard) && !(card instanceof TreasureCard)) || card.equals(Cards.cellar) || card.equals(Cards.storeroom) || card.equals(Cards.copper)) {
+                cards.add(card);
+            }
+        }
+
+        if (context.getActionsLeft() == 0) {
+            for (Card c : context.getPlayer().getHand()) {
+                if ((c instanceof ActionCard)) {
+                    cards.add(c);
+                }
+            }
+        }
+        
+        return cards.toArray(new Card[0]);
+	}
+
+	@Override
+	public ActionCard procession_cardToPlay(MoveContext context) {
+        return kingsCourt_cardToPlay(context);
+	}
+
+	@Override
+	public Card procession_cardToGain(MoveContext context, int maxCost, boolean potion) {
+        return bestCardInPlay(context, maxCost, false, potion);
+	}
+
+	@Override
+	public Card rebuild_cardToPick(MoveContext context) {
+		if (context.game.colonyInPlay)
+			return Cards.colony;
+		else
+			return Cards.province;
+	}
+
+	@Override
+	public Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		for (Card c: context.getVictoryCardsInGame()) {
+			if (c.getCost(context) <= maxCost) {
+				cards.add(c);
+			}
+		}
+		return this.getBestVictoryCard(context, cards.toArray(new VictoryCard[0]));
+	}
+
+	@Override
+	public Card rogue_cardToGain(MoveContext context) {
+		ArrayList<Card> options = new ArrayList<Card>();
+		for (Card c : game.trashPile) {
+			if (c.getCost(context) >= 3 && c.getCost(context) <= 6) {
+				options.add(c);
+			}
+		}
+		return Util.randomCard(options);
+	}
+
+	@Override
+	public Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
+		return this.lowestCards(context, canTrash, 1, false)[0];
+	}
+
+	@Override
+	public TreasureCard counterfeit_cardToPlay(MoveContext context) {
+		return null;
 	}
 }

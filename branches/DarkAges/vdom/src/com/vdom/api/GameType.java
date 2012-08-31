@@ -66,6 +66,8 @@ public enum GameType {
     BlueHarvest("Blue Harvest (Hntr, Corn)"), TravelingCircus("Traveling Circus (Hntr, Corn)"),
 
     // Dark Ages
+    RandomDarkAges("Random Dark Ages"),
+
     // TODO: remove for production release, or replace with sets from the rule book
     DarkAgesTest("Dark Ages Test (DA)"),
     

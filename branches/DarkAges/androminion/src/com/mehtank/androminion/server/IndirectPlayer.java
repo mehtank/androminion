@@ -2133,9 +2133,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	@Override
 	public Card graverobber_cardToGainFromTrash(MoveContext context) {
 	    LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-		
-	    // oh, how simple it looks, and how ugly it will be
+	    ArrayList<Card> options = new ArrayList<Card>(); 
+	    
 	    for (Card c : game.trashPile) {
+	    	if (c.getCost(context) >= 3 && c.getCost(context) <= 6)
+	    		options.add(c);
+	    }
+	    
+	    if (options.isEmpty()) {
+	    	return null;
+	    }
+		
+	    for (Card c : options) {
 	    	h.put(c.getName(), c);
 	    }
 	
@@ -2184,5 +2193,123 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	@Override
 	public boolean marketSquare_shouldDiscard(MoveContext context) {
         return selectBoolean(context, Cards.marketSquare, getString(R.string.discard), getString(R.string.keep));
+	}
+	
+	@Override
+	public Card mystic_cardGuess(MoveContext context) {
+	    if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
+	        return super.mystic_cardGuess(context);
+	    }
+	    return getFromTable(context, getString(R.string.wishing_well_part), Integer.MAX_VALUE, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, -1, true);
+	}
+	
+	@Override
+	public boolean scavenger_shouldDiscardDeck(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_chancellor_shouldDiscardDeck(context)) {
+            return super.scavenger_shouldDiscardDeck(context);
+        }
+		return selectBoolean(context, getCardName(Cards.scavenger), getString(R.string.chancellor_query), getString(R.string.pass));
+	}
+	
+	@Override
+	public Card scavenger_cardToPutBackOnDeck(MoveContext context) {
+	    LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
+		
+	    // oh, how simple it looks, and how ugly it will be (again)
+	    for (Card c : discard) {
+	    	h.put(c.getName(), c);
+	    }
+	
+		return h.get(selectString(context, Cards.scavenger, h.keySet().toArray(new String[0])));
+	}
+	
+	@Override
+	public Card[] storeroom_cardsToDiscardForCards(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_cellar_cardsToDiscard(context)) {
+            return super.storeroom_cardsToDiscardForCards(context);
+        }
+        return getAnyFromHand(context, getDiscardString(Cards.storeroom), getString(R.string.none), getHand().size(), false, SelectCardOptions.PickType.DISCARD);
+	}
+	
+	@Override
+	public Card[] storeroom_cardsToDiscardForCoins(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_cellar_cardsToDiscard(context)) {
+            return super.storeroom_cardsToDiscardForCoins(context);
+        }
+        return getAnyFromHand(context, getDiscardString(Cards.storeroom), getString(R.string.none), getHand().size(), false, SelectCardOptions.PickType.DISCARD);
+	}
+	
+	@Override
+	public ActionCard procession_cardToPlay(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_throneRoom_cardToPlay(context)) {
+            return super.procession_cardToPlay(context);
+        }
+        return (ActionCard) getActionFromHand(context, getCardName(Cards.procession), getString(R.string.none), SelectCardOptions.PickType.PLAY);
+	}
+	
+	@Override
+	public Card procession_cardToGain(MoveContext context, int maxCost,	boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, maxCost, potion)) {
+            return super.procession_cardToGain(context, maxCost, potion);
+        }
+
+        return getFromTable(context, getGainString(Cards.procession), maxCost, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, potion ? 1 : 0);
+	}
+	
+	@Override
+	public Card rebuild_cardToPick(MoveContext context) {
+	    if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
+	        return super.rebuild_cardToPick(context);
+	    }
+	    SelectCardOptions sco = new SelectCardOptions().fromTable().isVictory().setPassable(NOTPASSABLE);
+	    return getFromTable(context, getGainString(Cards.rebuild), sco, false);
+	}
+	
+	@Override
+	public Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion) {
+	    if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, maxCost, costPotion)) {
+	        return super.rebuild_cardToGain(context, maxCost, costPotion);
+	    }
+	    SelectCardOptions sco = new SelectCardOptions().fromTable().isVictory().maxCost(maxCost).setPassable(NOTPASSABLE);
+	    return getFromTable(context, getGainString(Cards.rebuild), sco, false);
+	}
+	
+	@Override
+	public Card rogue_cardToGain(MoveContext context) {
+	    LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
+	    ArrayList<Card> options = new ArrayList<Card>(); 
+	    
+	    for (Card c : game.trashPile) {
+	    	if (c.getCost(context) >= 3 && c.getCost(context) <= 6)
+	    		options.add(c);
+	    }
+	    
+	    if (options.isEmpty()) {
+	    	return null;
+	    }
+		
+	    for (Card c : options) {
+	    	h.put(c.getName(), c);
+	    }
+	
+		return h.get(selectString(context, Cards.rogue, h.keySet().toArray(new String[0])));
+	}
+	
+	@Override
+	public Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
+	    LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
+	    for (Card c : canTrash) {
+	    	h.put(c.getName(), c);
+	    }
+	
+		return h.get(selectString(context, Cards.rogue, h.keySet().toArray(new String[0])));
+	}
+	@Override
+	
+	public TreasureCard counterfeit_cardToPlay(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_masquerade_cardToTrash(context)) {
+            return super.counterfeit_cardToPlay(context);
+        }
+        return (TreasureCard) getTreasureFromHand(context, getTrashString(Cards.counterfeit), getString(R.string.none), SelectCardOptions.PickType.TRASH);
 	}
 }
