@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.mehtank.androminion.R;
 
@@ -16,7 +16,7 @@ public class MenuFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		LinearLayout linLayout = (LinearLayout) inflater.inflate(
+		ScrollView scrollView = (ScrollView) inflater.inflate(
 				R.layout.fragment_menu, container);
 
 // No longer needen since moohtank changed the menu layout back to the old style
@@ -40,6 +40,6 @@ public class MenuFragment extends Fragment {
 //			butAbout.setTextColor(getResources().getColor(
 //					android.R.color.primary_text_dark));
 //		}
-		return linLayout;
+		return scrollView;
 	}
 }
