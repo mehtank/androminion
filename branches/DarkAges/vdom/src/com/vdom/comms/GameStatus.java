@@ -14,6 +14,7 @@ public class GameStatus implements Serializable {
 	public int[] playedCards;
 	public int[] myIsland;
 	public int[] myVillage;
+	public int[] trashPile;
 	public int[] turnStatus;
 	public int[] supplySizes;
 	public int[] embargos;
@@ -46,6 +47,8 @@ public class GameStatus implements Serializable {
     public GameStatus setVictoryTokens(int[] is) {victoryTokens = is; return this;}
 	public GameStatus setCardCostModifier(int i) {cardCostModifier = i; return this;}
     public GameStatus setPotions(int i) {potions = i; return this;}
+    public GameStatus setTrash(int[] is) {trashPile = is; return this;}
+    
 	public String toString() {
 		String str = name + "(" + whoseTurn + ")";
 		return str;

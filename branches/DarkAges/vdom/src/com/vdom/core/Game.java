@@ -2139,6 +2139,11 @@ public class Game {
 
         return pile.getCount();
     }
+    
+    public ArrayList<Card> GetTrashPile()
+    {
+        return trashPile;
+    }
 
     protected CardPile addPile(Card card) {
     	// the Rats hack is dirty and should be cleaned up, but it works

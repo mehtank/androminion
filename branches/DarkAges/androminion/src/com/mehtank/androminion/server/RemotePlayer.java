@@ -226,6 +226,18 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	}
     	return is;
     }
+	
+	public int[] arrayListToIntArr(ArrayList<Card> cards) 
+	{
+        int[] is = new int[cards.size()];
+        
+        for (int i = 0; i < cards.size(); ++i) 
+        {
+            is[i] = cardToInt((Card)cards.get(i));
+        }
+        
+        return is;
+    }
 
     public void setupCardsInPlay(MoveContext context) {
     	ArrayList<MyCard> myCardsInPlayList = new ArrayList<MyCard>();
@@ -426,7 +438,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setCardCostModifier(context.cardCostModifier)
     	  .setPotions(context.getPotionsForStatus(player))
     	  .setIsland(cardArrToIntArr(player.getIsland().toArray()))
-    	  .setVillage(cardArrToIntArr(player.getNativeVillage().toArray()));
+    	  .setVillage(cardArrToIntArr(player.getNativeVillage().toArray()))
+    	  .setTrash(arrayListToIntArr(player.game.GetTrashPile()));;
 
     	Event p = new Event(EType.STATUS)
     				.setObject(new EventObject(gs));

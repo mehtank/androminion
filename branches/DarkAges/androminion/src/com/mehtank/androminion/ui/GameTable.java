@@ -46,9 +46,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		return players;
 	}
 
-	GridView handGV, playedGV, islandGV, villageGV;
-	CardGroup hand, played, island, village;
-	View islandColumn, villageColumn;
+	GridView handGV, playedGV, islandGV, villageGV, trashGV;
+	CardGroup hand, played, island, village, trash;
+	View islandColumn, villageColumn, trashColumn;
 	TextView playedHeader;
 	LinearLayout myCards;
 
@@ -165,6 +165,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     	villageGV.setAdapter(village);
     	villageGV.setOnItemLongClickListener(this);
     	villageColumn = findViewById(R.id.villageColumn);
+    	
+    	trash = new CardGroup(top, false);
+        trashGV = (GridView) findViewById(R.id.trashGV);
+        trashGV.setAdapter(trash);
+        trashGV.setOnItemLongClickListener(this);
+        trashColumn = findViewById(R.id.trashColumn);
 
     	playedHeader = (TextView) findViewById(R.id.playedHeader);
     	
@@ -278,6 +284,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		played.clear();
 		island.clear();
 		village.clear();
+		trash.clear();
 		this.players.clear();
 
 		actionText.setText("");
@@ -823,6 +830,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		} else {
 			villageColumn.setVisibility(GONE);
 		}
+		
+		GameTableViews.newCardGroup(trash, gs.trashPile);
+		if (gs.trashPile.length > 0) {
+			trashColumn.setVisibility(VISIBLE);
+		} else {
+			trashColumn.setVisibility(GONE);
+		}
+	    
 		setSupplySizes(gs.supplySizes, gs.embargos);
 		this.lastSupplySizes = gs.supplySizes;
 		this.lastEmbargos = gs.embargos;
