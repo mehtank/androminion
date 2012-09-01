@@ -67,6 +67,8 @@
     <string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
     <string name="logging_dir_pref_title">Aufzeichnungsordner</string>
     <string name="logging_dir_pref_summary">Ordnern zum speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
+    <string name="pref_viewstyle_title">Stil der Benutzeroberfläche</string>
+    <string name="pref_viewstyle_summary">Setzt den Stil der Benutzeroberfläche</string>
 
     <string-array name="viewstyle_names">
         <item>Klassisch</item>
