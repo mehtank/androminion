@@ -1036,6 +1036,11 @@ public class Game {
         Player player = context.getPlayer();
         context.buys--;
 
+        int embargos = getEmbargos(buy);
+        for (int i = 0; i < embargos; i++) {
+        	player.gainNewCard(Cards.curse, Cards.embargo, context);
+        }
+
         Card card = takeFromPileCheckTrader(buy, context);
         if(card != null) {
 	        GameEvent event = new GameEvent(GameEvent.Type.BuyingCard, (MoveContext) context);
@@ -1065,10 +1070,6 @@ public class Game {
         	}
         }
 
-        int embargos = getEmbargos(buy);
-        for (int i = 0; i < embargos; i++) {
-        	player.gainNewCard(Cards.curse, Cards.embargo, context);
-        }
         buy.isBought(context);
         haggler(context, buy);
     }
