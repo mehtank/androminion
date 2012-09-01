@@ -6,6 +6,7 @@
     <string name="name_pref_summary">Spitznamen wählen</string>
     <string name="userlang_pref_title">Sprache</string>
     <string name="userlang_pref_summary">Sprache wählen (überschreibt Systemsprache)</string>
+
     <string-array name="userlang_names">
         <item>Voreinstellung</item>
         <item>Englisch</item>
@@ -16,6 +17,7 @@
         <item>Niederländisch</item>
         <item>Russisch</item>
     </string-array>
+
     <string name="show_statusbar_pref_title">Statusleiste anzeigen</string>
     <string name="show_statusbar_pref_summary">Zeige die System-Statusleiste während des spielens an</string>
     <string name="ui_pref_title">Oberfläche</string>
@@ -30,6 +32,8 @@
 
     <string name="suppress_redundant_reactions_pref_title">Letzte Reaktion unterdrücken</string>
     <string name="suppress_redundant_reactions_pref_summary">Verhindert, dass die gerade ausgespielte Karte nochmal im Dialog auftaucht (wirksam mit nächstem Spiel)</string>
+    <string name="equal_start_hands_pref_title">Gleiche Starthände</string>
+    <string name="equal_start_hands_pref_summary">Alle Spieler starten mit den gleichen Karten (wirksam mit nächstem Spiel)</string>
     <string name="sort_cards_pref_title">Karten sortieren</string>
     <string name="sort_cards_pref_summary">Sortiert die Karten auf der Hand nach Aktion-Geld-Fluch-Siegpunkt (wirksam mit nächstem Spiel)</string>
     <string name="one_turn_logs_pref_title">Details eines Zuges</string>
@@ -63,5 +67,14 @@
     <string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
     <string name="logging_dir_pref_title">Aufzeichnungsordner</string>
     <string name="logging_dir_pref_summary">Ordnern zum speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
+
+    <string-array name="viewstyle_names">
+        <item>Klassisch</item>
+        <item>Modern</item>
+        <item>Ausführlich</item>
+    </string-array>
+
+    <string name="pref_showactionbar_title">Actionbar anzeigen</string>
+    <string name="pref_showactionbar_summary">Deaktivieren auf Geräten mit kleinem Bildschirm, Aktivieren bei Geräten ohne Hardware-Tasten</string>
 
 </resources>
