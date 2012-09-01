@@ -29,7 +29,6 @@ import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.MyCard;
 
-
 /**
  * Corresponds to a single card that is visible on the 'table'
  *
@@ -100,12 +99,14 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		viewstyle = prefs.getString("viewstyle", context.getString(R.string.pref_viewstyle_default));
-		
-		if (("viewstyle-classic").equals(viewstyle))
-			LayoutInflater.from(context).inflate(R.layout.view_oldcard, this, true);
+
+		if (viewstyle.equals("viewstyle-classic"))
+			LayoutInflater.from(context).inflate(R.layout.view_card_classic, this, true);
+		else if (viewstyle.equals("viewstyle-descriptive"))
+			LayoutInflater.from(context).inflate(R.layout.view_card_descriptive, this, true);
 		else
 			LayoutInflater.from(context).inflate(R.layout.view_card, this, true);
-		
+
 		name = (TextView) findViewById(R.id.name);
 		cardBox = findViewById(R.id.cardBox);
 		cost = (TextView) findViewById(R.id.cost);
@@ -145,10 +146,18 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 
 		// TODO: Merge this border with the color setting below, then get rid of cardBox.
-		if (c.isBane) {
-			setBackgroundResource(R.drawable.baneborder);
+		if (viewstyle.equals("viewstyle-simple")) {
+			if (c.isBane) {
+				setBackgroundResource(R.drawable.thinbaneborder);
+			} else {
+				setBackgroundResource(R.drawable.thinborder);
+			}
 		} else {
-			setBackgroundResource(R.drawable.cardborder);
+			if (c.isBane) {
+				setBackgroundResource(R.drawable.baneborder);
+			} else {
+				setBackgroundResource(R.drawable.cardborder);
+			}
 		}
 
 		name.setText(c.name, TextView.BufferType.SPANNABLE);

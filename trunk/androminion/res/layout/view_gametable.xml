@@ -5,17 +5,17 @@
     android:layout_height="fill_parent"
     tools:context=".activities.GameActivity" >
 
-    <TextView 
+    <TextView
+        android:id="@+id/miniactionbar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/miniactionbar"
         android:visibility="gone" />
-        
+
     <include
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         layout="@layout/view_supply" />
-    
+
     <LinearLayout
         android:id="@+id/tr"
         android:layout_width="fill_parent"

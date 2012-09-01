@@ -731,8 +731,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		tr.setVisibility(GONE);
 		gameOver.setVisibility(VISIBLE);
 		gameOverScroll.setVisibility(VISIBLE);
+		@SuppressWarnings("deprecation")
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.FILL_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
         FinalView fv = new FinalView(top, this, players.getItem(gs.whoseTurn).name, gs.turnCounts[gs.whoseTurn],

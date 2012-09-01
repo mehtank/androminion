@@ -1,64 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardBox"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
-    <!-- Background is set in CardView.java, so no need to set it here. Removed to avoid confusion -->
-
-    <TextView
-        android:id="@+id/cost"
-        style="@style/style_cardview_cost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/coin"
-        android:textColor="@android:color/black"
-        android:visibility="invisible" />
+    android:layout_height="fill_parent"
+    android:background="@drawable/thinborder" >
 
     <TextView
         android:id="@+id/name"
-        style="@style/style_cardview_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_toRightOf="@id/cost"
-        android:singleLine="true" />
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:textSize="8.4sp" />
+
+    <TextView
+        android:id="@+id/cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:background="@drawable/coin"
+        android:textColor="@android:color/black"
+        android:textSize="10.5sp"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/countLeft"
-        style="@style/style_cardview_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/name"
-        android:layout_below="@id/name"
+        android:layout_gravity="bottom|center_horizontal"
+        android:textSize="7dp"
         android:visibility="gone" />
 
     <!-- Embargos can only happen on supply piles (where countLeft is also shown) -->
 
     <TextView
         android:id="@+id/embargos"
-        style="@style/style_cardview_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/countLeft"
-        android:layout_alignParentRight="true"
+        android:layout_gravity="right|center_vertical"
         android:background="@drawable/embargos"
         android:textColor="@android:color/white"
+        android:textSize="10.5dp"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/checked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/cost"
+        android:layout_gravity="top|right"
         android:background="@android:drawable/arrow_down_float"
         android:textColor="#ff0000"
         android:textStyle="bold"
         android:visibility="gone" />
 
-    <include layout="@layout/view_carddetails" />
-
-</RelativeLayout>
+</FrameLayout>

@@ -31,19 +31,20 @@ public abstract class BottomInputView extends RelativeLayout implements OnClickL
 	private View content;
 	private boolean hidden = false;
 
+	@SuppressWarnings("deprecation")
 	public BottomInputView(GameActivity top, String header) {
 		super(top);
 		this.top = top;
 
 		LayoutInflater.from(top).inflate(R.layout.view_bottominput, this, true); // title
 		setBackgroundResource(R.drawable.solidround); // frame
-		setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
+		setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
 		title = (TextView) findViewById(R.id.title);
 		title.setText(header);
 		title.setOnClickListener(this);
 		arrow = (ImageView) findViewById(R.id.arrow);
 		content = makeContentView(top);
-		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		lp.addRule(BELOW, R.id.title);
 		content.setLayoutParams(lp);
 		addView(content);

@@ -20,44 +20,44 @@
         android:adjustViewBounds="true"
         android:src="@drawable/logo" />
 
-        <Button
-            android:id="@+id/but_start"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:onClick="onClickStartGame"
-            android:paddingBottom="20dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp"
-            android:text="@string/start_game_menu" />
+    <Button
+        android:id="@+id/but_start"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="onClickStartGame"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:text="@string/start_game_menu" />
 
-        <Button
-            android:id="@+id/but_stats"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onClickStats"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/stats_menu" />
+    <Button
+        android:id="@+id/but_stats"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickStats"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/stats_menu" />
 
-        <Button
-            android:id="@+id/but_settings"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onClickSettings"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/settings_menu" />
+    <Button
+        android:id="@+id/but_settings"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickSettings"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/settings_menu" />
 
-        <Button
-            android:id="@+id/but_about"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onClickAbout"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/about_menu" />
+    <Button
+        android:id="@+id/but_about"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickAbout"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/about_menu" />
 
 </LinearLayout>
