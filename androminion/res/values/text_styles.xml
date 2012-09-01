@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="style_cardview_name">
         <item name="android:textSize">11sp</item>
     </style>
+
     <style name="style_cardview_cost">
         <item name="android:textSize">11sp</item>
     </style>
-        <style name="style_cardview_count">
+
+    <style name="style_cardview_count">
         <item name="android:textSize">8sp</item>
     </style>
+
     <style name="style_actiontext">
         <item name="android:textSize">12sp</item>
     </style>

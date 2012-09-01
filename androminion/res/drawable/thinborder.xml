@@ -1,6 +1,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
-
     <stroke
         android:width="2dp"
         android:color="#666666" />
@@ -16,8 +15,8 @@
     Could be fixed by creating a seperate border definition
     for every card background color type I guess.
     -->
-    <corners android:radius="2dp" />
+    <corners android:radius="0dp" />
 
     <solid android:color="@android:color/transparent" />
-    
+
 </shape>

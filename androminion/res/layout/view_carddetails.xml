@@ -7,12 +7,12 @@
         android:id="@+id/cardDesc"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:maxLines="4" 
-        android:ellipsize="marquee" 
-        android:gravity="center"
-        android:textSize="10dp"
-        android:padding="3dp"
+        android:layout_below="@+id/countLeft"
         android:background="#66666666"
-        android:layout_below="@+id/countLeft" />
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:maxLines="4"
+        android:padding="3dp"
+        android:textSize="10dp" />
 
 </merge>

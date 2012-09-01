@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
     <item
         android:id="@+id/startgame_menu"
-        android:title="@string/start_game_menu"
-        android:icon="@android:drawable/ic_menu_slideshow" />
+        android:icon="@android:drawable/ic_menu_slideshow"
+        android:title="@string/start_game_menu"/>
     <item
         android:id="@+id/help_menu"
-        android:title="@string/help_menu"
         android:icon="@android:drawable/ic_menu_help"
-        android:visible="false" />
-	<item
+        android:title="@string/help_menu"
+        android:visible="false"/>
+    <item
         android:id="@+id/settings_menu"
-        android:title="@string/settings_menu"
-        android:icon="@android:drawable/ic_menu_preferences" />
-	<item
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/settings_menu"/>
+    <item
         android:id="@+id/about_menu"
-        android:title="@string/about_menu"
-        android:icon="@android:drawable/ic_menu_info_details" />
-	<item
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/about_menu"/>
+    <item
         android:id="@+id/stats_menu"
-        android:title="@string/stats_menu"
-        android:icon="@android:drawable/ic_menu_myplaces" />
-	<item
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="@string/stats_menu"/>
+    <item
         android:id="@+id/quit_menu"
-        android:title="@string/quit_menu"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel" />
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="@string/quit_menu"/>
+
 </menu>

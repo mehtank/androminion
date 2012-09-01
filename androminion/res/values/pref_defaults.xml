@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="pref_viewstyle_default">viewstyle-classic</string>
     <string name="pref_showactionbar_default">false</string>
     <string name="pref_theme_default">androminion-dark</string>
+
 </resources>
