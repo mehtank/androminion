@@ -278,6 +278,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		played.clear();
 		island.clear();
 		village.clear();
+		prizePile.clear();
 		this.players.clear();
 
 		actionText.setText("");
