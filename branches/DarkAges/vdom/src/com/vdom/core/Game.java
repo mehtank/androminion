@@ -1641,6 +1641,12 @@ public class Game {
             addPile(Cards.trustySteed, 1, false);
         }
 
+		// If Bandit Camp is in play, we'll need Spoils (non-supply)
+		if (piles.containsKey(Cards.banditCamp.getName()))
+        {
+            addPile(Cards.spoils, 15, false);
+        }
+		
 //        if (!debug) { return; } //make stuff fast
         
         boolean oldDebug = debug;

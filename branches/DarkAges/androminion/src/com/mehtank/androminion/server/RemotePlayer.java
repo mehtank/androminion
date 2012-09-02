@@ -130,6 +130,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             card.pile = MyCard.PRIZEPILE;
             card.isPrize = true;
         }
+		
+		if (c.equals(Cards.spoils))
+        {
+            card.pile = MyCard.NON_SUPPLY_PILE;
+        }
 
     	if ((c.equals(Cards.copper)) ||
     	   (c.equals(Cards.silver)) ||
@@ -439,7 +444,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setPotions(context.getPotionsForStatus(player))
     	  .setIsland(cardArrToIntArr(player.getIsland().toArray()))
     	  .setVillage(cardArrToIntArr(player.getNativeVillage().toArray()))
-    	  .setTrash(arrayListToIntArr(player.game.GetTrashPile()));;
+    	  .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
     	Event p = new Event(EType.STATUS)
     				.setObject(new EventObject(gs));

@@ -129,6 +129,13 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         } else if (equals(Cards.counterfeit)) {
         	reevaluateTreasures = counterfeit(context, game, reevaluateTreasures, player);
         }
+		else if (equals(Cards.spoils))
+        {
+			// Return to the spoils pile
+            player.playedCards.remove(this);                   
+            CardPile pile = game.piles.get(getName());
+            pile.addCard(this);
+        }
 
         return reevaluateTreasures;
     }

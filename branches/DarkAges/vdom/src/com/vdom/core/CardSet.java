@@ -20,7 +20,7 @@ public class CardSet {
 
 	public static Random rand = new Random(System.currentTimeMillis());
 	private static final Map<GameType, CardSet> CardSetMap = new HashMap<GameType, CardSet>();
-	
+
 	public static final GameType defaultGameType = GameType.Random;
 
 	private final List<Card> cards;
@@ -32,30 +32,30 @@ public class CardSet {
 		this.baneCard = baneCard;
 		this.isRandom = false;
 	}
-	
+
 	private CardSet(final Card[] cardsArray, final Card baneCard) {
 		this.cards = Arrays.asList(cardsArray);
 		this.baneCard = baneCard;
 		this.isRandom = false;
 	}
-	
+
 	private CardSet(final List<Card> cards, final boolean isRandom) {
 		this.cards = cards;
 		this.baneCard = null;
 		this.isRandom = isRandom;
 	}
-	
+
 	public static CardSet getCardSet(final GameType type) {
 		CardSet set = CardSet.CardSetMap.get(type);
-		
+
 		if(set == null) {
 			set = CardSet.getCardSet(CardSet.defaultGameType);
 		}
-		
+
 		if(set.isRandom) {
 			set = CardSet.getRandomCardSet(set.getCards());
 		}
-		
+
 		return set;
 	}
 
@@ -90,13 +90,13 @@ public class CardSet {
 		if(!cardSetList.contains(Cards.youngWitch)) {
 			baneCard = null;
 		}
-		
+
 		return new CardSet(cardSetList, baneCard);
 	}
-	
+
 	private static Card getRandomBaneCard(final List<Card> possibleCards) {
 		Card baneCard = null;
-		
+
 		Card card = null;
 		do {
 			card = possibleCards.get(rand.nextInt(possibleCards.size()));
@@ -105,7 +105,7 @@ public class CardSet {
 				baneCard = card;
 			}
 		} while(baneCard == null);
-		
+
 		return baneCard;
 	}
 
@@ -190,7 +190,7 @@ public class CardSet {
 		CardSetMap.put(GameType.TreasureTrove, new CardSet(new Card[]{Cards.bank, Cards.monument, Cards.royalSeal, Cards.tradeRoute, Cards.venture, Cards.cache, Cards.develop, Cards.foolsGold, Cards.illGottenGains, Cards.mandarin}, null));
 		CardSetMap.put(GameType.BlueHarvest, new CardSet(new Card[]{Cards.hamlet, Cards.hornOfPlenty, Cards.horseTraders, Cards.jester, Cards.tournament, Cards.foolsGold, Cards.mandarin, Cards.nobleBrigand, Cards.trader, Cards.tunnel}, null));
 		CardSetMap.put(GameType.TravelingCircus, new CardSet(new Card[]{Cards.fairgrounds, Cards.farmingVillage, Cards.huntingParty, Cards.jester, Cards.menagerie, Cards.borderVillage, Cards.embassy, Cards.foolsGold, Cards.nomadCamp, Cards.oasis}, null));
-		CardSetMap.put(GameType.DarkAgesTest, new CardSet(new Card[]{Cards.graverobber, Cards.rebuild, Cards.marketSquare, Cards.scavenger, Cards.forager, Cards.wanderingMinstrel, Cards.sage, Cards.rogue, Cards.ironmonger, Cards.counterfeit}, null));
+		CardSetMap.put(GameType.DarkAgesTest, new CardSet(new Card[]{Cards.graverobber, Cards.rebuild, Cards.marketSquare, Cards.scavenger, Cards.forager, Cards.wanderingMinstrel, Cards.sage, Cards.rogue, Cards.hornOfPlenty, Cards.banditCamp}, null));
 
 	}
 

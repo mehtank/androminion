@@ -551,6 +551,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case Altar:
         	altar(currentPlayer, context);
         	break;
+		case BanditCamp:
+			banditCamp(context, currentPlayer);
+			break;
         case Beggar:
         	beggar(currentPlayer, context);
         	break;
@@ -4049,6 +4052,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
         }
 	}
+	
+	private void banditCamp(MoveContext context, Player currentPlayer)
+    {
+        // Gain a Spoils from the Spoils pile
+        currentPlayer.gainNewCard(Cards.spoils, this, context);
+    }
 	
 	public void beggar(Player currentPlayer, MoveContext context) {
 		currentPlayer.gainNewCard(Cards.copper, this, context);

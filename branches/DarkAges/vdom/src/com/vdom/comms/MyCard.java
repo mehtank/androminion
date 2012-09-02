@@ -37,6 +37,7 @@ public class MyCard implements Serializable {
 	public static final int MONEYPILE = 2;
 	public static final int VPPILE = 3;
 	public static final int PRIZEPILE = 4;
+	public static final int NON_SUPPLY_PILE = 5;	// Used for DA cards (for now)
 
 	public int pile;
 	 
