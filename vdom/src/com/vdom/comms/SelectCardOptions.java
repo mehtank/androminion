@@ -38,6 +38,7 @@ public class SelectCardOptions implements Serializable {
 
 	public boolean fromHand = false;
 	public boolean fromTable = false;
+	public boolean allowEmpty = false;
 	public boolean fromPrizes = false;
 	public int maxCost = -1;
 	public int minCost = -1;
@@ -54,6 +55,7 @@ public class SelectCardOptions implements Serializable {
 //	public SelectCardOptions setType(SelectType s) {selectType = s; return this;}
 	public SelectCardOptions fromHand() {fromHand = true; return this;}
 	public SelectCardOptions fromTable() {fromTable = true; return this;}
+	public SelectCardOptions allowEmpty() {allowEmpty = true; return this;}
     public SelectCardOptions fromPrizes() {fromPrizes = true; return this;}
 	public SelectCardOptions isAction() {isAction = true; return this;}
 	public SelectCardOptions isReaction() {isReaction = true; return this;}
