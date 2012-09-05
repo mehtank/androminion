@@ -320,6 +320,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return (ActionCard) getFromTable(context, header, maxCost, Integer.MIN_VALUE, false, passString, true, true);
     }
 
+    public Card getFromTable(MoveContext context, String header, String passString) {
+    	// allows for selection of empty piles
+    	// only for Wishing Well, Contraband, Embargo
+    	return getFromTable(context, header, Integer.MAX_VALUE, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, -1, true, Integer.MAX_VALUE, true);
+    }
 
     public Card getFromTable(MoveContext context, String header, int maxCost, String passString) {
     	return getFromTable(context, header, maxCost, Integer.MIN_VALUE, false, passString);
@@ -349,11 +354,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, boolean actionOnly, boolean victoryAllowed, int potionCost, boolean includePrizes, int maxCostWithoutPotion) {
+    	return getFromTable(context, header, maxCost, minCost, isBuy, passString, actionOnly, victoryAllowed, potionCost, includePrizes, maxCostWithoutPotion, false);
+    }
+
+    public Card getFromTable(MoveContext context, String header, int maxCost, int minCost, boolean isBuy, String passString, boolean actionOnly, boolean victoryAllowed, int potionCost, boolean includePrizes, int maxCostWithoutPotion, boolean allowEmpty) {
         Card[] cards = context.getCardsInGame();
         SelectCardOptions sco = new SelectCardOptions()
         	.fromTable();
         if (includePrizes) {
         	sco.fromPrizes();
+        }
+        if (allowEmpty) {
+        	sco.allowEmpty();
         }
 
         sco.setPassable(passString);
@@ -811,7 +823,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
             return super.wishingWell_cardGuess(context);
         }
-        return getFromTable(context, getString(R.string.wishing_well_part), Integer.MAX_VALUE, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, -1, true);
+        return getFromTable(context, getString(R.string.wishing_well_part), NOTPASSABLE);
 	}
 
     @Override
@@ -973,7 +985,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_embargo_supplyToEmbargo(context)) {
             return super.embargo_supplyToEmbargo(context);
         }
-    	return getFromTable(context, getCardName(Cards.embargo), Integer.MAX_VALUE, NOTPASSABLE);
+    	return getFromTable(context, getCardName(Cards.embargo), NOTPASSABLE);
 	}
 
     // Will be passed all three cards
@@ -1161,7 +1173,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_contraband_cardPlayerCantBuy(context)) {
             return super.contraband_cardPlayerCantBuy(context);
         }
-        return getFromTable(context, getCardName(Cards.contraband), Integer.MAX_VALUE, NOTPASSABLE);
+        return getFromTable(context, getCardName(Cards.contraband), NOTPASSABLE);
     }
 
     @Override
