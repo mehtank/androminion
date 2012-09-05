@@ -593,6 +593,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case Rogue:
         	rogue(game, context, currentPlayer);
         	break;
+        case Governor:
+        	governor(game, context, currentPlayer);
+        	break;
+        case Envoy:
+        	envoy(game, context, currentPlayer);
         default:
             break;
         }
@@ -4470,4 +4475,125 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		}
 	}
 
+	private void governor(Game game, MoveContext context, Player currentPlayer) {
+	    Player.GovernorOption option = currentPlayer.controlPlayer.governor_chooseOption(context);
+
+		if (option == null) {
+	        Util.playerError(currentPlayer, "Governor option error, ignoring.");
+	    } else {
+	        if (option == Player.GovernorOption.AddCards) {
+	            game.drawToHand(currentPlayer, this);
+	            game.drawToHand(currentPlayer, this);
+	            game.drawToHand(currentPlayer, this);
+	            for (Player player : getAllPlayers()) {
+	                if (player != context.getPlayer()) {
+	                    drawToHand(game, player, this);
+	                }
+	            }
+	        } else if (option == Player.GovernorOption.GainTreasure) {
+	        	currentPlayer.gainNewCard(Cards.gold, this, context);
+	        	for (Player player : getAllPlayers()) {
+	        		if (player != context.getPlayer()) {
+	        			player.gainNewCard(Cards.silver, this, new MoveContext(game, player));
+	        		}
+	        	}
+	        } else if (option == Player.GovernorOption.Upgrade) {
+	        	if (currentPlayer.getHand().size() > 0) {
+	                Card card = currentPlayer.controlPlayer.governor_cardToTrash(context);
+	                if (card == null || !currentPlayer.hand.contains(card)) {
+	                    Util.playerError(currentPlayer, "Governor trash error, upgrading a random card.");
+	                    card = Util.randomCard(currentPlayer.hand);
+	                }
+	       
+	                int value = card.getCost(context) + 2;
+	                boolean potion = card.costPotion();
+	                currentPlayer.hand.remove(card);
+	                currentPlayer.trash(card, this, context);
+	       
+	                card = currentPlayer.controlPlayer.governor_cardToObtain(context, value, potion);
+	                if (card != null) {
+	                    if (card.getCost(context) != value || card.costPotion() != potion) {
+	                        Util.playerError(currentPlayer, "Governor error, new card does not cost value of the old card +2.");
+	                    } else {
+	                        if(!currentPlayer.gainNewCard(card, this, context)) {
+	                            Util.playerError(currentPlayer, "Governor error, pile is empty or card is not in the game.");
+	                        }
+	                    }
+	                }
+	            }
+	        	for (Player player : getAllPlayers()) {
+	                if (player != context.getPlayer()) {
+	                	MoveContext playerContext = new MoveContext(game, player);
+	                	if (player.getHand().size() > 0) {
+	    	                Card card = player.controlPlayer.governor_cardToTrash(playerContext);
+	    	                if (card == null || !player.hand.contains(card)) {
+	    	                    Util.playerError(player, "Governor trash error, upgrading a random card.");
+	    	                    card = Util.randomCard(player.hand);
+	    	                }
+	    	       
+	    	                int value = card.getCost(playerContext) + 2;
+	    	                boolean potion = card.costPotion();
+	    	                player.hand.remove(card);
+	    	                player.trash(card, this, playerContext);
+	    	       
+	    	                card = player.controlPlayer.governor_cardToObtain(playerContext, value, potion);
+	    	                if (card != null) {
+	    	                    if (card.getCost(playerContext) != value || card.costPotion() != potion) {
+	    	                        Util.playerError(player, "Governor error, new card does not cost value of the old card +2.");
+	    	                    } else {
+	    	                        if(!player.gainNewCard(card, this, playerContext)) {
+	    	                            Util.playerError(player, "Governor error, pile is empty or card is not in the game.");
+	    	                        }
+	    	                    }
+	    	                }
+	    	            }
+	                }
+	            }
+	        }
+	    }
+	}
+
+	private void envoy(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		Player nextPlayer = game.getNextPlayer();
+        for (int i = 0; i < 5; i++) {
+            Card card = game.draw(currentPlayer);
+            if (card != null) {
+                cards.add(card);
+                currentPlayer.reveal(card, this, context);
+            }
+        }
+
+        if (cards.size() == 0) {
+            return;
+        }
+
+        Card toDiscard;
+
+        if (cards.size() > 1) {
+            toDiscard = nextPlayer.controlPlayer.envoy_cardToDiscard(context, cards.toArray(new Card[cards.size()]));
+        } else {
+            toDiscard = cards.get(0);
+        }
+        if (toDiscard == null || !cards.contains(toDiscard)) {
+            Util.playerError(currentPlayer, "Envoy discard error, just picking the first card.");
+            toDiscard = cards.get(0);
+        }
+
+        currentPlayer.discard(toDiscard, this, context);
+
+        cards.remove(toDiscard);
+
+        GameEvent event = new GameEvent(GameEvent.Type.CardDiscarded, (MoveContext) context);
+        event.card = toDiscard;
+        event.responsible = this;
+        game.broadcastEvent(event);
+        
+        if (cards.size() > 0) {
+        	for(Card c : cards) {
+        		currentPlayer.hand.add(c);
+        	}
+        }
+        
+	}
 }

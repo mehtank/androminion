@@ -2201,4 +2201,37 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public TreasureCard counterfeit_cardToPlay(MoveContext context) {
 		return null;
 	}
+	
+	@Override
+    public boolean walledVillage_backOnDeck(MoveContext context) {
+        return true;
+    }
+	
+	@Override
+	public GovernorOption governor_chooseOption(MoveContext context) {
+		return GovernorOption.AddCards;
+	}
+	
+	@Override
+    public Card governor_cardToTrash(MoveContext context) {
+        return this.upgrade_cardToTrash(context);
+    }
+
+    @Override
+    public Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion) {
+        return this.upgrade_cardToObtain(context, exactCost, potion);
+    }
+    
+    @Override
+    public Card envoy_cardToDiscard(MoveContext context, Card[] cards) {
+    	//TODO: Make this more intelligent.
+    	CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
+    	for(Card c : cards) {
+            cl.add(c);
+    	}
+    	while(cl.size() > 1) {
+    		cl.remove(lowestCard(context, cl, false));
+    	}
+        return cl.get(0);
+    }
 }

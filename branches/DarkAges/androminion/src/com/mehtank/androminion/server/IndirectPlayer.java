@@ -1962,6 +1962,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         LinkedHashMap<String, PutBackOption> h = new LinkedHashMap<String, PutBackOption>();
 		h.put(getCardName(Cards.treasury), PutBackOption.Treasury);
 		h.put(getCardName(Cards.alchemist), PutBackOption.Alchemist);
+		h.put(getCardName(Cards.walledVillage), PutBackOption.WalledVillage);
 		h.put(getString(R.string.putback_option_one), PutBackOption.Coin);
 		h.put(getString(R.string.putback_option_two), PutBackOption.Action);
         h.put(getString(R.string.none), PutBackOption.None);
@@ -1973,6 +1974,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         		break;
         	case Alchemist:
         		options.add(getCardName(Cards.alchemist));
+        		break;
+        	case WalledVillage:
+        		options.add(getCardName(Cards.walledVillage));
         		break;
         	case Coin:
         		options.add(getString(R.string.putback_option_one));
@@ -2311,5 +2315,27 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.counterfeit_cardToPlay(context);
         }
         return (TreasureCard) getTreasureFromHand(context, getTrashString(Cards.counterfeit), getString(R.string.none), SelectCardOptions.PickType.TRASH);
+	}
+	
+	@Override
+    public boolean walledVillage_backOnDeck(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_walledVillage_backOnDeck(context)) {
+            return super.walledVillage_backOnDeck(context);
+        }
+        String option1 = getString(R.string.walledVillage_option_one);
+        String option2 = getString(R.string.walledVillage_option_two);
+        return selectBoolean(context, Cards.walledVillage, option1, option2);
+    }
+	
+    @Override
+	public GovernorOption governor_chooseOption(MoveContext context) {
+
+	    LinkedHashMap<String, GovernorOption> h = new LinkedHashMap<String, GovernorOption>();
+		
+		h.put(getString(R.string.governor_option_one), GovernorOption.AddCards);
+		h.put(getString(R.string.governor_option_two), GovernorOption.GainTreasure);
+		h.put(getString(R.string.governor_option_three), GovernorOption.Upgrade);
+	
+		return h.get(selectString(context, Cards.governor, h.keySet().toArray(new String[0])));
 	}
 }

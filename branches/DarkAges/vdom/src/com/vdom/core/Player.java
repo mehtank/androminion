@@ -214,6 +214,7 @@ public abstract class Player {
     	boolean potionPlayed = false;
     	boolean treasurePlayed = false;
     	boolean actionPlayed = false;
+    	short actionsPlayed = 0;
     	for (Card c: playedCards) {
     		if (c.equals(Cards.potion)) {
     			potionPlayed = true;
@@ -222,6 +223,7 @@ public abstract class Player {
     			treasurePlayed = true;
     		}
     		if (c instanceof ActionCard) {
+    			actionsPlayed++;
     			actionPlayed = true;
     		}
     		if (potionPlayed && treasurePlayed && actionPlayed) {
@@ -233,7 +235,9 @@ public abstract class Player {
     			options.add(PutBackOption.Treasury);
     		} else if (c.equals(Cards.alchemist) && potionPlayed) {
     			options.add(PutBackOption.Alchemist);
-    		} else if (c.equals(Cards.herbalist) && treasurePlayed) {
+    		} else if (c.equals(Cards.walledVillage) && actionsPlayed <= 2) {
+    			options.add(PutBackOption.WalledVillage);
+			} else if (c.equals(Cards.herbalist) && treasurePlayed) {
     			options.add(PutBackOption.Coin);
     		}
     	}
@@ -284,6 +288,10 @@ public abstract class Player {
         			Card alchemist = findCard(context, Cards.alchemist);
         			playedCards.remove(alchemist);
                     putBackCards.add(alchemist);
+        		} else if (putBackOption == PutBackOption.WalledVillage) {
+                	Card walledVillage = findCard(context, Cards.walledVillage);
+                	playedCards.remove(walledVillage);
+                	putBackCards.add(walledVillage);
         		} else if (putBackOption == PutBackOption.Coin) {
         			Card herbalist = findCard(context, Cards.herbalist);
         			playedCards.remove(herbalist);
@@ -822,6 +830,7 @@ public abstract class Player {
     public static enum PutBackOption {
     	Treasury,
     	Alchemist,
+    	WalledVillage,
     	Coin,
     	Action,
     	None
@@ -852,6 +861,12 @@ public abstract class Player {
 
 	public enum HuntingGroundsOption {
 		GainDuchy, GainEstates
+	}
+	
+	public enum GovernorOption {
+		AddCards,
+		GainTreasure,
+		Upgrade
 	}
 
     // Context is passed for the player to add a GameEventListener
@@ -1184,6 +1199,9 @@ public abstract class Player {
     
     public abstract Card[] margrave_attack_cardsToKeep(MoveContext context);
     
+    // ////////////////////////////////////////////
+    // Card interactions - cards from Dark Ages
+    // ////////////////////////////////////////////
     public abstract Card rats_cardToTrash(MoveContext context);
     
     public abstract SquireOption squire_chooseOption(MoveContext context);
@@ -1257,5 +1275,17 @@ public abstract class Player {
 	public abstract Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash);
 
 	public abstract TreasureCard counterfeit_cardToPlay(MoveContext context);
+	
+	// ////////////////////////////////////////////
+    // Card interactions - Promotional Cards
+    // ////////////////////////////////////////////
+	public abstract boolean walledVillage_backOnDeck(MoveContext context);
+	
+	public abstract GovernorOption governor_chooseOption(MoveContext context);
 
+    public abstract Card governor_cardToTrash(MoveContext context);
+
+    public abstract Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion);
+
+    public abstract Card envoy_cardToDiscard(MoveContext context, Card[] revealedCards);
 }

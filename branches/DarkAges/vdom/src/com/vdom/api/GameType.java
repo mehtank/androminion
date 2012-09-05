@@ -71,6 +71,9 @@ public enum GameType {
     // TODO: remove for production release, or replace with sets from the rule book
     DarkAgesTest("Dark Ages Test (DA)"),
     
+    // TODO: remove for production release
+    PromoCardTest("Promo Card Test (Base, Promo)"),
+    
     // All Cards
     Random("Random"),
 

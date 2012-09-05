@@ -191,6 +191,7 @@ public class CardSet {
 		CardSetMap.put(GameType.BlueHarvest, new CardSet(new Card[]{Cards.hamlet, Cards.hornOfPlenty, Cards.horseTraders, Cards.jester, Cards.tournament, Cards.foolsGold, Cards.mandarin, Cards.nobleBrigand, Cards.trader, Cards.tunnel}, null));
 		CardSetMap.put(GameType.TravelingCircus, new CardSet(new Card[]{Cards.fairgrounds, Cards.farmingVillage, Cards.huntingParty, Cards.jester, Cards.menagerie, Cards.borderVillage, Cards.embassy, Cards.foolsGold, Cards.nomadCamp, Cards.oasis}, null));
 		CardSetMap.put(GameType.DarkAgesTest, new CardSet(new Card[]{Cards.graverobber, Cards.rebuild, Cards.marketSquare, Cards.scavenger, Cards.forager, Cards.wanderingMinstrel, Cards.sage, Cards.rogue, Cards.hornOfPlenty, Cards.banditCamp}, null));
+		CardSetMap.put(GameType.PromoCardTest, new CardSet(new Card[]{Cards.governor, Cards.chapel, Cards.festival, Cards.envoy, Cards.market, Cards.remodel, Cards.smithy, Cards.throneRoom, Cards.walledVillage, Cards.woodcutter}, null));
 
 	}
 

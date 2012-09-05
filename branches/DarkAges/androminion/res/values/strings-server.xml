@@ -278,6 +278,13 @@
 	<string name="wishing_well_part">guess is your top card</string>
 
 	<string name="explorer_reveal">Reveal Province</string>
+	
+	<string name="walledVillage_option_one">Put back on deck</string>
+	<string name="walledVillage_option_two">Discard</string>
+	
+	<string name="governor_option_one">Each Player Draws 1 (3) Cards</string>
+	<string name="governor_option_two">Each Player Gains a Silver (Gold)</string>
+	<string name="governor_option_three">Each Player Upgrades exactly 1 (2) more</string>
 		
 	<!-- *** -->
 	<string name="university_part">gain [University]</string>

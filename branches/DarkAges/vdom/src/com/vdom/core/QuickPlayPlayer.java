@@ -750,4 +750,8 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_selectPutBackOption(MoveContext context, List<PutBackOption> putBacks) {
     	return true;
     }
+    
+    public boolean shouldAutoPlay_walledVillage_backOnDeck(MoveContext context) {
+        return false;
+    }
 }
