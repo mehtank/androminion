@@ -63,6 +63,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     final int TREASUREFROMHAND = 2;
     final int VICTORYFROMHAND = 3;
     final int NONTREASUREFROMHAND = 4;
+    final int NONRATSFROMHAND = 5;
 
     final String NOTPASSABLE = null;
 
@@ -93,6 +94,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     public String getDiscardString(Card cardResponsible) {
         return Strings.format(R.string.card_to_discard, getCardName(cardResponsible));
+    }
+    
+    public String getOpponentDiscardString(Card cardResponsible, String opponentName)
+    {
+    	return Strings.format(R.string.opponent_discard, opponentName, getCardName(cardResponsible));
     }
 
     public String selectString(MoveContext context, Card cardResponsible, String[] s) {
@@ -147,6 +153,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             case NONTREASUREFROMHAND:
                 if (!(card instanceof TreasureCard))
                     sco.isNonTreasure().addValidCard(cardToInt(card));
+                break;
+            case NONRATSFROMHAND:
+                if (!(card.equals(Cards.rats)))
+                {
+                    sco.addValidCard(cardToInt(card));
+                }
                 break;
             default:
         		sco.addValidCard(cardToInt(card));
@@ -219,6 +231,23 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         		}
 
         return tempCards;
+    }
+    
+	public Card getNonRatsFromHand(MoveContext context, String header, String passString, PickType pickType)
+    {
+        Card[] cs = getFromHand(context, header, passString, NONRATSFROMHAND, 1, false, false, pickType);
+        
+		if (cs == null)
+		{
+            return null;
+		}
+		
+        return cs[0];
+    }
+	
+    public Card getAnyFromArray(MoveContext context, String header, String passString, ArrayList<Card> cards, boolean exact, PickType pickType)
+    {
+    	return null;
     }
 
     public Card[] getAnyFromHand(MoveContext context, String header, String passString, int count, boolean exact, PickType pickType) {
@@ -2043,12 +2072,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	}
 	
 	@Override
-	public Card rats_cardToTrash(MoveContext context) {
-	    if(context.isQuickPlay() && shouldAutoPlay_trader_cardToTrash(context)) {
+    public Card rats_cardToTrash(MoveContext context) 
+    {
+		if (context.isQuickPlay() && shouldAutoPlay_rats_cardToTrash(context)) 
+		{
 	        return super.rats_cardToTrash(context);
 	    }
-	    return getAnyFromHand(context, getTrashString(Cards.rats), NOTPASSABLE, SelectCardOptions.PickType.TRASH);
-	}
+		
+        return getNonRatsFromHand(context, getTrashString(Cards.rats), NOTPASSABLE, SelectCardOptions.PickType.TRASH);
+    }
 	
 	@Override
 	public boolean catacombs_shouldDiscardTopCards(MoveContext context, Card[] cards) {
@@ -2252,12 +2284,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	}
 	
 	@Override
-	public Card procession_cardToGain(MoveContext context, int maxCost,	boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, maxCost, potion)) {
-            return super.procession_cardToGain(context, maxCost, potion);
+	public Card procession_cardToGain(MoveContext context, int exactCost,	boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, exactCost, potion)) {
+            return super.procession_cardToGain(context, exactCost, potion);
         }
 
-        return getFromTable(context, getGainString(Cards.procession), maxCost, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, potion ? 1 : 0);
+        return getFromTable(context, getGainString(Cards.procession), exactCost, exactCost, false, NOTPASSABLE, false, true, potion ? 1 : 0);
 	}
 	
 	@Override
@@ -2308,13 +2340,39 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	
 		return h.get(selectString(context, Cards.rogue, h.keySet().toArray(new String[0])));
 	}
-	@Override
 	
+	@Override
 	public TreasureCard counterfeit_cardToPlay(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_masquerade_cardToTrash(context)) {
             return super.counterfeit_cardToPlay(context);
         }
         return (TreasureCard) getTreasureFromHand(context, getTrashString(Cards.counterfeit), getString(R.string.none), SelectCardOptions.PickType.TRASH);
+	}
+	
+	@Override
+	public Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards)
+	{
+		if(context.isQuickPlay() && shouldAutoPlay_pillage_opponentCardToDiscard(context)) 
+		{
+            return super.pillage_opponentCardToDiscard(context, handCards);
+        }
+		
+        ArrayList<String> options = new ArrayList<String>();
+        
+        for (Card c : handCards)
+        {
+            options.add(Strings.getCardName(c));
+        }
+
+        if (!options.isEmpty()) 
+        {
+            String o = selectString(context, getOpponentDiscardString(Cards.pillage, context.attackedPlayer.getPlayerName()), options.toArray(new String[0]));
+            return (Card) localNameToCard(o, handCards.toArray(new Card[0]));
+        } 
+        else 
+        {
+            return null;
+        }
 	}
 	
 	@Override

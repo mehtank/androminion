@@ -301,5 +301,6 @@
   <string name="cards">Cards</string>
   <string name="return_cards">Return cards to deck:</string>
   <string name="take_normal">Take normally</string>
+  <string name="opponent_discard">Choose card for %1$s to discard (%2$s)</string>
   
 </resources>

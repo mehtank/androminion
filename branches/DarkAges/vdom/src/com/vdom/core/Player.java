@@ -1198,15 +1198,8 @@ public abstract class Player {
     public abstract Card mandarin_cardToReplace(MoveContext context);
     
     public abstract Card[] margrave_attack_cardsToKeep(MoveContext context);
-    
-    // ////////////////////////////////////////////
-    // Card interactions - cards from Dark Ages
-    // ////////////////////////////////////////////
-    public abstract Card rats_cardToTrash(MoveContext context);
-    
-    public abstract SquireOption squire_chooseOption(MoveContext context);
 
-	public abstract Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard);
+    public abstract Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard);
 	
 	public abstract boolean revealBane(MoveContext context);
 	
@@ -1215,6 +1208,13 @@ public abstract class Player {
     public int getMyCardCount(Card card) {
         return Util.getCardCount(getAllCards(), card);
     }
+    
+    // ////////////////////////////////////////////
+    // Card interactions - cards from Dark Ages
+    // ////////////////////////////////////////////
+    public abstract Card rats_cardToTrash(MoveContext context);
+    
+    public abstract SquireOption squire_chooseOption(MoveContext context);
 
 	public abstract Card altar_cardToTrash(MoveContext context);
 
@@ -1275,6 +1275,8 @@ public abstract class Player {
 	public abstract Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash);
 
 	public abstract TreasureCard counterfeit_cardToPlay(MoveContext context);
+
+	public abstract Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards);
 	
 	// ////////////////////////////////////////////
     // Card interactions - Promotional Cards

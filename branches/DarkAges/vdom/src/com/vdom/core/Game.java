@@ -1006,7 +1006,12 @@ public class Game {
 //            return false;
 //        }
 
-        if (!piles.get(card.getName()).isSupply()) return false;
+        CardPile thePile = piles.get(card.getName());
+        
+        if (thePile == null || thePile.isSupply() == false) 
+        {
+        	return false;
+        }
         
 //        if (card.isPrize()) {
 //            return false;
@@ -1641,8 +1646,9 @@ public class Game {
             addPile(Cards.trustySteed, 1, false);
         }
 
-		// If Bandit Camp is in play, we'll need Spoils (non-supply)
-		if (piles.containsKey(Cards.banditCamp.getName()))
+		// If Bandit Camp and/or Pillage is in play, we'll need Spoils (non-supply)
+		if (piles.containsKey(Cards.banditCamp.getName()) ||
+			piles.containsKey(Cards.pillage.getName()))
         {
             addPile(Cards.spoils, 15, false);
         }

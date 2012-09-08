@@ -739,6 +739,16 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
+    public boolean shouldAutoPlay_rats_cardToTrash(MoveContext context)
+    {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_pillage_opponentCardToDiscard(MoveContext context) 
+    {
+        return true;
+    }
+    
     public boolean shouldAutoPlay_margrave_attack_cardsToKeep(MoveContext context) {
         return shouldAutoPlay_militia_attack_cardsToKeep(context);
     }

@@ -10,6 +10,7 @@ import java.util.Random;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
+import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
 import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
@@ -1918,8 +1919,30 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }    
     
     @Override
-    public Card rats_cardToTrash(MoveContext context) {
-    	return trader_cardToTrash(context);
+    public Card rats_cardToTrash(MoveContext context) 
+    {
+    	ArrayList<Card> nonRatsChoices = new ArrayList<Card>();
+    	
+    	// Look for the low hanging fruit -- cards generally considered trash
+    	for (Card c : context.getPlayer().getHand()) 
+    	{
+            if (isTrashCard(c)) 
+            {
+                return c;
+            }
+            else if (c.getType() != Cards.Type.Rats)
+            {
+            	// Build a list of the cards we can trash
+            	nonRatsChoices.add(c);
+            }
+        }
+    	
+    	if (nonRatsChoices.size() > 1)
+    	{
+    		Collections.sort(nonRatsChoices, new CardCostComparator());
+    	}
+    	
+    	return nonRatsChoices.get(0);
     }
     
     @Override
@@ -2203,6 +2226,41 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 	
 	@Override
+	public Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards)
+	{
+		// ToDo: Logic
+		Card cardToDiscard = null;
+		
+		for (Card c : handCards) 
+		{
+            if (c instanceof ActionCard) 
+            {
+                cardToDiscard = c;
+                break;
+            }
+        }
+		
+		if (cardToDiscard == null)
+		{
+			for (Card c : handCards) 
+			{
+	            if (c instanceof TreasureCard) 
+	            {
+	                cardToDiscard = c;
+	                break;
+	            }
+	        }
+		}
+		
+		if (cardToDiscard == null)
+		{
+			cardToDiscard = Util.randomCard(handCards);
+		}
+		
+		return cardToDiscard;
+	}
+	
+	@Override
     public boolean walledVillage_backOnDeck(MoveContext context) {
         return true;
     }
@@ -2233,5 +2291,4 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		cl.remove(lowestCard(context, cl, false));
     	}
         return cl.get(0);
-    }
-}
+    }}
