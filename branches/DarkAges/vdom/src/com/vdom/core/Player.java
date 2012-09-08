@@ -738,11 +738,16 @@ public abstract class Player {
         	marketSquare_count--;
         }
         
-        if (isPossessed()) {
-            context.game.possessedTrashPile.add(card);
-        } else {
-            context.game.trashPile.add(card);
+        if (game.piles.get(card.getName()).isSupply()) {
+	        if (isPossessed()) {
+	            context.game.possessedTrashPile.add(card);
+	        } else {
+	            context.game.trashPile.add(card);
+	        }
+        } else if (card.equals(Cards.spoils)) {
+        	context.game.piles.get(Cards.spoils.getName()).addCard(card);
         }
+        
         GameEvent event = new GameEvent(GameEvent.Type.CardTrashed, context);
         event.card = card;
         event.responsible = responsible;
