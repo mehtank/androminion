@@ -82,5 +82,6 @@
   <string name="BlueHarvest_gametype">Blue Harvest (Hntr, Corn)</string> 
   <string name="TravelingCircus_gametype">Traveling Circus (Hntr, Corn)</string>
     
-  <string name="Random_gametype">Random (all sets)</string>    
+  <string name="Random_gametype">Random (all sets)</string>
+  <string name="RandomDarkAges">Random Dark Ages</string>    
 </resources>

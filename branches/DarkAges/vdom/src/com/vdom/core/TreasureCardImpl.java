@@ -254,10 +254,12 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     	TreasureCard treasure = currentPlayer.counterfeit_cardToPlay(context);
     	if (treasure != null) {
     		TreasureCardImpl card = (TreasureCardImpl) treasure;
-    		card.playTreasure(context);
-    		card.playTreasure(context, true);
-    		
+
+    		currentPlayer.hand.remove(treasure);
     		currentPlayer.trash(treasure, this, context);
+    		
+    		card.playTreasure(context, true);
+    		card.playTreasure(context, true);
     	}
 
         return true;

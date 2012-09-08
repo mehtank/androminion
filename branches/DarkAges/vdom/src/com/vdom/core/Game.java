@@ -361,8 +361,9 @@ public class Game {
         while (treasures != null && !treasures.isEmpty()) {
             while (!treasures.isEmpty()) {
                 TreasureCard card = treasures.remove(0);
-                card.playTreasure(context);
-                }
+                if (player.hand.contains(card)) // this is needed due to counterfeit which trashes cards during this loop
+                	card.playTreasure(context);
+            }
             treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
         }
     }

@@ -4394,27 +4394,25 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	private void rebuild(Player currentPlayer, Game game, MoveContext context) {
 		Card named = currentPlayer.controlPlayer.rebuild_cardToPick(context);
 		ArrayList<Card> cards = new ArrayList<Card>();
-		Card last = Cards.copper;
+		Card last = null;
 
-		while (last != null) {
-			cards.add(0, game.draw(currentPlayer));
-			last = cards.get(0);
+		// search for first Victory card that was not named
+		while ((last = game.draw(currentPlayer)) != null) {
+			if (last instanceof VictoryCard && !last.equals(named)) break;
+			cards.add(last);
 			currentPlayer.reveal(last, this, context);
-
-			if (last instanceof VictoryCard && !last.equals(named)) {
-				break;
-			}
 		}
 
-		last = cards.remove(0);
+		// Discard all other revealed cards
 		for (Card c : cards) {
 			currentPlayer.discard(c, this, context);
 		}
 
+		// Trash the found Victory card
 		currentPlayer.trash(last, this, context);
 
+		// Gain Victory card that cost up to 3 more coins
 		Card toGain = currentPlayer.controlPlayer.rebuild_cardToGain(context, 3 + last.getCost(context), last.costPotion());
-
 		if (toGain != null) {
 			currentPlayer.gainNewCard(toGain, this, context);
 		}

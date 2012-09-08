@@ -1284,6 +1284,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
+            if(card.equals(Cards.counterfeit)) {
+                ret.add(0, cardArray.remove(i));
+            }
+        }
+        
+        for (int i = cardArray.size() - 1; i >= 0; i--) {
+            TreasureCard card = cardArray.get(i);
             if(!card.equals(Cards.bank) && !card.equals(Cards.venture) && !card.equals(Cards.hornOfPlenty)) {
                 ret.add(cardArray.remove(i));
             }
@@ -1307,13 +1314,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             TreasureCard card = cardArray.get(i);
             if(card.equals(Cards.bank)) {
                 ret.add(cardArray.remove(i));
-            }
-        }
-        
-        for (int i = cardArray.size() - 1; i >= 0; i--) {
-            TreasureCard card = cardArray.get(i);
-            if(card.equals(Cards.counterfeit)) {
-                ret.add(0, cardArray.remove(i));
             }
         }
         

@@ -726,6 +726,7 @@ public abstract class Player {
         	}
         }
         
+        // Market Square
         int marketSquare_count = Util.getCardCount(hand, Cards.marketSquare);
         while (marketSquare_count > 0) {
         	Card m = hand.get(Cards.marketSquare);
@@ -736,6 +737,7 @@ public abstract class Player {
         	}
         	marketSquare_count--;
         }
+        
         if (isPossessed()) {
             context.game.possessedTrashPile.add(card);
         } else {

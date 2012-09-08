@@ -2030,6 +2030,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		return false;
 	}
 	
+	@SuppressWarnings("unused")
 	private int needPotion() { // TODO must be tested
 		float needpotion = 0;
 		
