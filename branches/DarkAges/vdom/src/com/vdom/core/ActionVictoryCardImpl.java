@@ -17,6 +17,7 @@ public class ActionVictoryCardImpl extends ActionCardImpl implements VictoryCard
         }
     }
 
+    @Override
     public int getVictoryPoints() {
         return vp;
     }

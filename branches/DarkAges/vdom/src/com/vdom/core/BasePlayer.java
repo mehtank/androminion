@@ -2261,6 +2261,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 	
 	@Override
+	public boolean trashHovel(MoveContext context)
+	{
+		return true;
+	}
+	
+	@Override
     public boolean walledVillage_backOnDeck(MoveContext context) {
         return true;
     }

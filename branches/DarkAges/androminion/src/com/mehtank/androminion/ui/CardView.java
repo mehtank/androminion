@@ -36,15 +36,15 @@ import com.vdom.comms.MyCard;
  */
 public class CardView extends FrameLayout implements OnLongClickListener, CheckableEx {
 	private static final String TAG = "CardView";
-	
+
 	private TextView name;
 	private View cardBox;
 	private TextView cost, countLeft, embargos;
 	private TextView checked;
 	private TextView cardDesc;
-	
+
 	private String viewstyle;
-	
+
 	CardGroup parent;
 	private CardState state;
 /**
@@ -66,7 +66,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		public CardState(MyCard c, boolean opened, String indicator, int order) {
 		    this(c, opened, indicator, order, false);
 		}
-		
+
 		public CardState(MyCard c, boolean opened, String indicator, int order, boolean shade) {
 			this.c = c;
 			this.opened = opened;
@@ -100,12 +100,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		viewstyle = prefs.getString("viewstyle", context.getString(R.string.pref_viewstyle_default));
-		
+
 		if (("viewstyle-classic").equals(viewstyle))
 			LayoutInflater.from(context).inflate(R.layout.view_oldcard, this, true);
 		else
 			LayoutInflater.from(context).inflate(R.layout.view_card, this, true);
-		
+
 		name = (TextView) findViewById(R.id.name);
 		cardBox = findViewById(R.id.cardBox);
 		cost = (TextView) findViewById(R.id.cost);
@@ -147,7 +147,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		// TODO: Merge this border with the color setting below, then get rid of cardBox.
 		if (c.isBane) {
 			setBackgroundResource(R.drawable.baneborder);
-		} else {
+		} 
+		else if (c.isShelter)
+		{
+			setBackgroundResource(R.drawable.shelterborder);
+		}
+		else {
 			setBackgroundResource(R.drawable.cardborder);
 		}
 
@@ -262,13 +267,13 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	public void setCountLeft(int s) {
 		countLeft.setText(" " + s + " ");
 		countLeft.setVisibility(VISIBLE);
-		if (s == 0) 
+		if (s == 0)
 			shade(true);
 		else
 			shade(false);
 	}
 
-	public void shade(boolean on) {	
+	public void shade(boolean on) {
 		float alpha = (on ? 0.3f : 1.0f);
 		// setAlpha() is API level 11+ only, so we use an instant animation instead.
 		AlphaAnimation alphaAnimation = new AlphaAnimation(alpha, alpha);

@@ -20,6 +20,7 @@ public class Cards {
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
     public static ArrayList<Card> prizeCards = new ArrayList<Card>();
     public static ArrayList<Card> nonSupplyCards = new ArrayList<Card>();
+    
     public static HashMap<String, Card> actionCardsMap = new HashMap<String, Card>();
 
     public enum Type {
@@ -41,8 +42,9 @@ public class Cards {
         BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel,
         // Dark Ages Expansion
         Altar, Armory, BanditCamp, Beggar, Catacombs, Count, Counterfeit, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel,
+        Necropolis, Hovel, OvergrownEstate,
         // Dark Ages not yet implemented
-        // BandOfMisfits, DeathCart, Hermit, Madman, Necropolis, OvergrownEstate, Hovel, Cultist, RuinedMarket, Mercenary, Urchin, Vagrant
+        // BandOfMisfits, DeathCart, Hermit, Madman, Cultist, RuinedMarket, Mercenary, Urchin, Vagrant
         // Promo Cards
         Envoy, Governor, WalledVillage,
         // Promo Cards (not yet implemented)
@@ -266,6 +268,9 @@ public class Cards {
     public static final Card spoils;
     public static final Card counterfeit;
     public static final Card pillage;
+    public static final Card necropolis;
+    public static final Card hovel;
+    public static final Card overgrownEstate;
 
     // Promo Cards (Incomplete)
     // TODO:Implement Rest of promo cards
@@ -494,6 +499,10 @@ public class Cards {
         
         nonSupplyCards.add(spoils = new TreasureCardImpl.Builder(Cards.Type.Spoils, 0, 3).description("When you play this, return it to the Spoils pile (This is not in the Supply).").expansion("DarkAges").build());
 		
+        nonKingdomCards.add(necropolis = new ActionCardImpl.Builder(Cards.Type.Necropolis, 1).addActions(2).isShelter().expansion("Dark Ages").build());
+        nonKingdomCards.add(overgrownEstate = new VictoryCardImpl.Builder(Cards.Type.OvergrownEstate, 1, 0).isShelter().description("When you trash this, +1 Card").expansion("Dark Ages").build());
+        nonKingdomCards.add(hovel = new ReactionCardImpl.Builder(Cards.Type.Hovel,1).isShelter().description("When you buy a Victory card, you may trash this from your hand").expansion("Dark Ages").build());
+        
         // Promo Cards (Incomplete)
         actionCardsPromo.add(walledVillage = new ActionCardImpl.Builder(Cards.Type.WalledVillage, 4).addCards(1).addActions(2).description("At the start of Clean-up, if you have this and no more than one other Action card in play, you may put this on top of your deck.").expansion("Promo").build());
         actionCardsPromo.add(governor = new ActionCardImpl.Builder(Cards.Type.Governor, 5).addActions(1).description("Choose one; you get the version in parentheses: Each player gets +1 (+3) Cards; or each player gains a Silver (Gold); or each player may trash a card from his hand and gain a card costing exactly 1 (2) more.").expansion("Promo").build());

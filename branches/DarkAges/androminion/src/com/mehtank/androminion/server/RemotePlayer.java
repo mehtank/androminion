@@ -118,6 +118,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	card.cost = c.getCost(null);
     	card.costPotion = c.costPotion();
     	card.isBane = isBane;
+    	card.isShelter = c.isShelter();
 
     	card.pile = MyCard.SUPPLYPILE;
 
@@ -134,6 +135,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 		if (c.equals(Cards.spoils))
         {
             card.pile = MyCard.NON_SUPPLY_PILE;
+        }
+		
+		if (c.equals(Cards.necropolis) ||
+			c.equals(Cards.overgrownEstate) ||
+			c.equals(Cards.hovel))
+        {
+            card.pile = MyCard.SHELTER_PILES;
         }
 
     	if ((c.equals(Cards.copper)) ||

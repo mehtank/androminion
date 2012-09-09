@@ -18,6 +18,7 @@ public class TreasureVictoryCardImpl extends TreasureCardImpl implements Victory
         }
     }
 
+    @Override
     public int getVictoryPoints() {
         return vp;
     }

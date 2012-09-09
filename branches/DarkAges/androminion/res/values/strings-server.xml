@@ -215,6 +215,8 @@
 	
 	<string name="ironmonger_option_one">Put back on deck</string>
 	
+	<string name="hovel_option">Trash Hovel</string>
+	
 	<string name="pawn_one">Draw a card</string>
 	<string name="pawn_two">+1 Action</string>
 	<string name="pawn_three">+1 Buy</string>

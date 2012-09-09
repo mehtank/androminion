@@ -64,6 +64,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     final int VICTORYFROMHAND = 3;
     final int NONTREASUREFROMHAND = 4;
     final int NONRATSFROMHAND = 5;
+    final int NONSHELTERFROMHAND = 6;
 
     final String NOTPASSABLE = null;
 
@@ -160,6 +161,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                     sco.addValidCard(cardToInt(card));
                 }
                 break;
+            case NONSHELTERFROMHAND:
+            	if (!(card.isShelter()))
+            	{
+            		sco.addValidCard(cardToInt(card));
+            	}
+            	break;
             default:
         		sco.addValidCard(cardToInt(card));
         	}
@@ -244,6 +251,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 		
         return cs[0];
     }
+	
+	public Card getNonShelterFromHand(MoveContext context, String header, String passString, PickType pickType)
+	{
+		Card[] cs = getFromHand(context, header, passString, NONSHELTERFROMHAND, 1, true, false, pickType);
+		
+        if (cs == null)
+        {
+            return null;
+        }
+        
+        return cs[0];
+	}
 	
     public Card getAnyFromArray(MoveContext context, String header, String passString, ArrayList<Card> cards, boolean exact, PickType pickType)
     {
@@ -404,9 +423,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         		(isBuy && context.canBuy(card, maxCost))) {
         		if (card.getCost(context) >= minCost) {
         		    if(victoryAllowed || !(card instanceof VictoryCard)) {
-        		        if(potionCost == -1 || (potionCost == 0 && !card.costPotion()) || (potionCost > 0 && card.costPotion()) || (potionCost > 0 && !card.costPotion() && maxCost != minCost)) {
-        		            sco.addValidCard(cardToInt(card));
-        		        }
+        		    	if (card.isShelter() == false) {
+	        		        if(potionCost == -1 || (potionCost == 0 && !card.costPotion()) || (potionCost > 0 && card.costPotion()) || (potionCost > 0 && !card.costPotion() && maxCost != minCost)) {
+	        		            sco.addValidCard(cardToInt(card));
+	        		        }
+        		    	}
         		    }
         		}
         	}
@@ -1074,7 +1095,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_ambassador_revealedCard(context)) {
             return super.ambassador_revealedCard(context);
         }
-		return getAnyFromHand(context, getRevealString(Cards.ambassador), NOTPASSABLE);
+        
+        return getNonShelterFromHand(context, getRevealString(Cards.ambassador), NOTPASSABLE, SelectCardOptions.PickType.SELECT);
 	}
 
     @Override
@@ -2373,6 +2395,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         {
             return null;
         }
+	}
+	
+	@Override
+	public boolean trashHovel(MoveContext context)
+	{
+		if(context.isQuickPlay()) 
+		{
+            return true;
+        }
+		else
+		{
+			return selectBoolean(context, getCardName(Cards.hovel), getString(R.string.hovel_option), getString(R.string.pass));
+		}
 	}
 	
 	@Override
