@@ -2398,7 +2398,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	}
 	
 	@Override
-	public boolean trashHovel(MoveContext context)
+	public boolean hovel_shouldTrash(MoveContext context)
 	{
 		if(context.isQuickPlay()) 
 		{

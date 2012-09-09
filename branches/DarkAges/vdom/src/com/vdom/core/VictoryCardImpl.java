@@ -69,7 +69,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     	
     	for (Card c : context.player.hand)
     	{
-    		if (c.getType() == Cards.Type.Hovel && context.player.trashHovel(context))
+    		if (c.getType() == Cards.Type.Hovel && context.player.hovel_shouldTrash(context))
     		{
     			hovelsToTrash.add(c);
     		}

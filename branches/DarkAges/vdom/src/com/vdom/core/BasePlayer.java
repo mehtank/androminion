@@ -19,8 +19,8 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
-    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.estate };
-    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.copper, Cards.estate };
+    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.estate, Cards.overgrownEstate, Cards.hovel };
+    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.copper, Cards.estate, Cards.overgrownEstate };
     
     protected Random rand = new Random(System.currentTimeMillis());
     protected static final int COST_MAX = 11;
@@ -2261,7 +2261,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 	
 	@Override
-	public boolean trashHovel(MoveContext context)
+	public boolean hovel_shouldTrash(MoveContext context)
 	{
 		return true;
 	}

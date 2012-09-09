@@ -21,7 +21,7 @@ import com.vdom.core.Player;
 import com.vdom.core.Util;
 
 /**
- * @author bur
+ * @author buralien
  *
  */
 public class VDomPlayerPatrick extends BasePlayer {
@@ -191,6 +191,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		specialVictoryCards.add(Cards.harem);
 		specialVictoryCards.add(Cards.farmland);
+		specialVictoryCards.add(Cards.feodum);
 		
 		//populate 
 		for (Card c : specialTreasureCards) {
@@ -255,6 +256,9 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownDoubleActionCards.add(Cards.saboteur);
 		knownDoubleActionCards.add(Cards.minion);
 		knownDoubleActionCards.add(Cards.masquerade);
+		knownDoubleActionCards.add(Cards.rogue);
+		knownDoubleActionCards.add(Cards.pillage);
+		knownDoubleActionCards.add(Cards.rebuild);
 		
 		knownMultiActionCards.add(Cards.laboratory);
 		knownMultiActionCards.add(Cards.market);
@@ -281,6 +285,9 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownComboActionCards.add(Cards.festival);
 		knownComboActionCards.add(Cards.sage);
 		knownComboActionCards.add(Cards.fortress);
+		knownComboActionCards.add(Cards.banditCamp);
+		knownComboActionCards.add(Cards.marketSquare);
+		knownComboActionCards.add(Cards.wanderingMinstrel);
 		
 		knownTier3Cards.add(Cards.bureaucrat);
 		knownTier3Cards.add(Cards.adventurer);
@@ -323,7 +330,6 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 		knownDefenseCards.add(Cards.watchTower);
 		knownDefenseCards.add(Cards.moat);
-		//knownDefenseCards.add(Cards.trader);
 		
 		knownCursingCards.add(Cards.witch);
 		knownCursingCards.add(Cards.seaHag);
@@ -352,6 +358,15 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownTrashingCards.add(Cards.jackOfAllTrades);
 		knownTrashingCards.add(Cards.trader);
 		knownTrashingCards.add(Cards.ambassador); // it is not actually trashing cards, but uses similar mechanism to get rid of them
+		knownTrashingCards.add(Cards.altar);
+		knownTrashingCards.add(Cards.count);
+		knownTrashingCards.add(Cards.counterfeit);
+		knownTrashingCards.add(Cards.forager);
+		knownTrashingCards.add(Cards.graverobber);
+		knownTrashingCards.add(Cards.junkDealer);
+		knownTrashingCards.add(Cards.procession);
+		knownTrashingCards.add(Cards.rats);
+		knownTrashingCards.add(Cards.rebuild);
 		
 		knownGood52Cards.add(Cards.wharf);
 		knownGood52Cards.add(Cards.jackOfAllTrades);
@@ -623,9 +638,9 @@ public class VDomPlayerPatrick extends BasePlayer {
 			if (card.equals(Cards.silkRoad)) {
 				vps += Math.round(this.getCardCount(VictoryCard.class, list) / 4);
 			}
-//			if (card.equals(Cards.feodum)) {
-//				vps += Math.round(Util.getCardCount(list, Cards.silver) / 3);
-//			}
+			if (card.equals(Cards.feodum)) {
+				vps += Math.round(Util.getCardCount(list, Cards.silver) / 3);
+			}
 			//consider also VP token making cards? 
 		}
 		
@@ -668,7 +683,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 	/**
 	 * @param list			list of cards
-	 * @param destructive	true if discard is mandatory, false if optional
+	 * @param destructive	whether this is a forced discard, or optional
 	 * @return				best candidate for discarding
 	 */
 	private Card getCardToDiscard(ArrayList<Card> list, DiscardOption destructive) {
@@ -726,6 +741,23 @@ public class VDomPlayerPatrick extends BasePlayer {
 		// This is as far as we go with useless cards
 		if (destructive == DiscardOption.NonDestructive) {
 			return null;
+		}
+		
+		// Overgrown Estate
+		if (list.contains(Cards.overgrownEstate)) {
+			return list.get(list.indexOf(Cards.overgrownEstate));
+		}
+		
+		// Hovel
+		if (list.contains(Cards.hovel)) {
+			return list.get(list.indexOf(Cards.hovel));
+		}
+		
+		// Necropolis if playing only few actions
+		if (this.strategy != StrategyOption.MultiAction) {
+			if (list.contains(Cards.necropolis)) {
+				return list.get(list.indexOf(Cards.necropolis));
+			}
 		}
 		
 		// Copper
@@ -821,13 +853,19 @@ public class VDomPlayerPatrick extends BasePlayer {
 	/**
 	 * @param context	context
 	 * @param hand		cards in hand
-	 * @param destructive	return only "useless" cards, or null if no such choice
+	 * @param destructive	based on this, return only "useless" cards, or null if no such choice
 	 * @return			best candidate for trashing
 	 */
 	private Card getCardToTrash(ArrayList<Card> hand, ArrayList<Card> deck, DiscardOption destructive) {
-		// Curse should be trashed at any time
+		// Curse, Overgrown Estate and Hovel should be trashed at any time
 		if (hand.contains(Cards.curse)) {
 			return hand.get(hand.indexOf(Cards.curse));
+		}
+		if (hand.contains(Cards.overgrownEstate)) {
+			return hand.get(hand.indexOf(Cards.overgrownEstate));
+		}
+		if (hand.contains(Cards.hovel)) {
+			return hand.get(hand.indexOf(Cards.hovel));
 		}
 		
 		// Potions should be trashed if they are not useful anymore
@@ -1212,9 +1250,9 @@ public class VDomPlayerPatrick extends BasePlayer {
 						if (vc.equals(Cards.silkRoad)) {
 							vp += Math.floor(this.getCardCount(VictoryCard.class, deck) / 4);
 						}
-//						if (vc.equals(Cards.feodum)) {
-//							vp += Math.floor(Util.getCardCount(this.getAllCards(), Cards.silver) / 3);
-//						}
+						if (vc.equals(Cards.feodum)) {
+							vp += Math.floor(Util.getCardCount(this.getAllCards(), Cards.silver) / 3);
+						}
 						if (game.embargos.containsKey(vc)) {
 							vp -= (game.embargos.get(vc) + this.guessReshufflesToEnd(context));
 						}
@@ -1877,7 +1915,11 @@ public class VDomPlayerPatrick extends BasePlayer {
 	   }
 	   
 	   if (this.opponents.get(event.player.playerNumber).getVP() == -1000) {
-		   this.opponents.get(event.player.playerNumber).setVP(3);
+		   if (game.sheltersInPlay) {
+			   this.opponents.get(event.player.playerNumber).setVP(0);
+		   } else {
+			   this.opponents.get(event.player.playerNumber).setVP(3);
+		   }
 	   }
 
 	   if ((event.getType() == GameEvent.Type.BuyingCard) || (event.getType() == GameEvent.Type.CardObtained)) {
@@ -2497,7 +2539,32 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 	@Override
 	public Card tradeRoute_cardToTrash(MoveContext context) {
-	    // TODO:: Finish prosperity
 	    return this.getCardToTrash(DiscardOption.Destructive);
+	}
+
+
+
+	@Override
+	public Card rogue_cardToGain(MoveContext context) {
+		
+		
+		
+		// TODO Auto-generated method stub
+		return super.rogue_cardToGain(context);
+	}
+
+
+
+	@Override
+	public Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
+		return this.getCardToTrash(canTrash, DiscardOption.Destructive);
+	}
+
+
+
+	@Override
+	public Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards) {
+		// TODO Auto-generated method stub
+		return Util.randomCard(handCards);
 	}
 }

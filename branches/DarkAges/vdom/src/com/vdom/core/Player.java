@@ -1288,7 +1288,7 @@ public abstract class Player {
 
 	public abstract Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards);
 
-	public abstract boolean trashHovel(MoveContext context);
+	public abstract boolean hovel_shouldTrash(MoveContext context);
 
 	// ////////////////////////////////////////////
     // Card interactions - Promotional Cards
