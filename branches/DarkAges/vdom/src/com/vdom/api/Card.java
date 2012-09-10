@@ -26,7 +26,7 @@ public interface Card {
     public boolean isPrize();
     
     public boolean isShelter();
-
+    
     public Integer getId();
     
     public void isBought(MoveContext context);

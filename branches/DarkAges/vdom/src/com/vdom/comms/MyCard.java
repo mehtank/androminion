@@ -33,6 +33,7 @@ public class MyCard implements Serializable {
 	public boolean isPotion = false;
 	public boolean isBane = false;
 	public boolean isShelter = false;
+	public boolean isRuins = false;
 	
 	public static final int SUPPLYPILE = 1;
 	public static final int MONEYPILE = 2;
@@ -40,8 +41,10 @@ public class MyCard implements Serializable {
 	public static final int PRIZEPILE = 4;
 	public static final int NON_SUPPLY_PILE = 5;	// Used for DA cards (for now)
 	public static final int SHELTER_PILES = 6;
+	public static final int RUINS_PILE = 7;
 
 	public int pile;
+
 	 
 	public MyCard(int id, String name, String originalSafeName, String originalName) {
 		this.id = id;

@@ -41,6 +41,11 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
         case OvergrownEstate:
         	context.game.drawToHand(context.player, this);
         	break;
+        case Feodum:
+        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+        	break;
         default:
         	break;
     	}

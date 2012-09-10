@@ -87,7 +87,7 @@ public class Game {
     static HashMap<String, Double> overallWins = new HashMap<String, Double>();
 
     public static Random rand = new Random(System.currentTimeMillis());
-    public HashMap<String, CardPile> piles = new HashMap<String, CardPile>();
+    public HashMap<String, AbstractCardPile> piles = new HashMap<String, AbstractCardPile>();
     public HashMap<String, Integer> embargos = new HashMap<String, Integer>();
     public ArrayList<Card> trashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
@@ -300,8 +300,8 @@ public class Game {
         if (test) {
             // System.out.println();
             ArrayList<Card> gameCards = new ArrayList<Card>();
-            for (CardPile pile : piles.values()) {
-                Card card = pile.card;
+            for (AbstractCardPile pile : piles.values()) {
+                Card card = pile.card();
                 if (!card.equals(Cards.copper) && !card.equals(Cards.silver) && !card.equals(Cards.gold) && !card.equals(Cards.platinum)
                     && !card.equals(Cards.estate) && !card.equals(Cards.duchy) && !card.equals(Cards.province) && !card.equals(Cards.colony)
                     && !card.equals(Cards.curse)) {
@@ -339,8 +339,8 @@ public class Game {
     public int cardsInLowestPiles (int numPiles) {
         int[] ips = new int[piles.size() - 1 - (colonyInPlay ? 1 : 0)];
         int count = 0;
-        for (CardPile pile : piles.values()) {
-            if (pile.card != Cards.province && pile.card != Cards.colony)
+        for (AbstractCardPile pile : piles.values()) {
+            if (pile.card() != Cards.province && pile.card() != Cards.colony)
                 ips[count++] = pile.getCount();
             }
         Arrays.sort(ips);
@@ -1014,7 +1014,7 @@ public class Game {
 //            return false;
 //        }
 
-        CardPile thePile = piles.get(card.getName());
+        AbstractCardPile thePile = piles.get(card.getName());
 
         if (thePile == null || thePile.isSupply() == false)
         {
@@ -1437,8 +1437,8 @@ public class Game {
         // Add tradeRoute tokens if tradeRoute in play
         tradeRouteValue = 0;
         if (isCardInGame(Cards.tradeRoute)) {
-	        for (CardPile pile : piles.values()) {
-	            if (pile.card instanceof VictoryCard) {
+	        for (AbstractCardPile pile : piles.values()) {
+	            if (pile.card() instanceof VictoryCard) {
 	                pile.setTradeRouteToken();
 	            }
 	        }
@@ -1641,9 +1641,9 @@ public class Game {
         {
         	sheltersInPlay = false;
         	
-        	for (CardPile pile : piles.values()) 
+        	for (AbstractCardPile pile : piles.values()) 
         	{
-                if (pile != null && pile.card != null && pile.card.getExpansion() != null && pile.card.isShelter() == false && pile.card.getExpansion().equals("Dark Ages")) 
+                if (pile != null && pile.card() != null && pile.card().getExpansion() != null && pile.card().isShelter() == false && pile.card().getExpansion().equals("Dark Ages")) 
                 {
                     chanceForShelters += 0.1;
                 }
@@ -1666,8 +1666,8 @@ public class Game {
             platInPlay = false;
             colonyInPlay = false;
 
-            for (CardPile pile : piles.values()) {
-                if (pile != null && pile.card != null && pile.card.getExpansion() != null && pile.card.getExpansion().equals("Prosperity")) {
+            for (AbstractCardPile pile : piles.values()) {
+                if (pile != null && pile.card() != null && pile.card().getExpansion() != null && pile.card().getExpansion().equals("Prosperity")) {
                     chanceForPlatColony += 0.1;
                 }
             }
@@ -1684,13 +1684,21 @@ public class Game {
             addPile(Cards.colony);
 
         // Add the potion if there are any cards that need them.
-        for (CardPile pile : piles.values()) {
-            if (pile.card.costPotion()) {
+        for (AbstractCardPile pile : piles.values()) {
+            if (pile.card().costPotion()) {
                 addPile(Cards.potion, 16);
                 break;
             }
         }
-
+        
+        // Add Ruins pile if any Looter cards are present
+        for (AbstractCardPile pile : piles.values()) {
+        	if (pile.card() instanceof ActionCard && ((ActionCard)pile.card()).isLooter()) {
+        		addPile(Cards.abandonedMine); // adding any Ruins card as a pile will result in creating the Ruins pile properly
+                break;
+            }
+        }
+        
         if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
             addPile(Cards.bagOfGold, 1, false);
             addPile(Cards.diadem, 1, false);
@@ -1728,11 +1736,11 @@ public class Game {
 
         int cost = 0;
         while (cost < 10) {
-            for (CardPile pile : piles.values()) {
-                if (!Cards.nonKingdomCards.contains(pile.card)) {
-                    if (pile.card.getCost(null) == cost) {
-                        Util.debug(Util.getShortText(pile.card), true);
-                        cardListText += Util.getShortText(pile.card) + "\n";
+            for (AbstractCardPile pile : piles.values()) {
+                if (!Cards.nonKingdomCards.contains(pile.card())) {
+                    if (pile.card().getCost(null) == cost) {
+                        Util.debug(Util.getShortText(pile.card()), true);
+                        cardListText += Util.getShortText(pile.card()) + "\n";
                     }
                 }
             }
@@ -2075,7 +2083,7 @@ public class Game {
 	However, this does NOT include any Prizes from Cornucopia.
 	 */
 
-    CardPile addEmbargo(Card card) {
+    AbstractCardPile addEmbargo(Card card) {
         if (isValidEmbargoPile(card)) {
         	String name = card.getName();
 			embargos.put(name, getEmbargos(card) + 1);
@@ -2095,15 +2103,15 @@ public class Game {
 
     // Only is valid for cards in play...
     protected Card readCard(String name) {
-        CardPile pile = piles.get(name);
+        AbstractCardPile pile = piles.get(name);
         if (pile == null || pile.getCount() <= 0) {
             return null;
         }
-        return pile.card;
+        return pile.card();
     }
 
     protected Card takeFromPile(Card card) {
-        CardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = piles.get(card.getName());
         if (pile == null || pile.getCount() <= 0) {
             return null;
         }
@@ -2126,7 +2134,7 @@ public class Game {
     }
 
     public int pileSize(Card card) {
-        CardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = piles.get(card.getName());
         if (pile == null) {
             return -1;
         }
@@ -2140,7 +2148,7 @@ public class Game {
 
     public int emptyPiles() {
         int emptyPiles = 0;
-        for (CardPile pile : piles.values()) {
+        for (AbstractCardPile pile : piles.values()) {
             if (pile.getCount() <= 0 && pile.isSupply()) {
                 emptyPiles++;
             }
@@ -2149,7 +2157,7 @@ public class Game {
     }
 
     public boolean isCardInGame(Card card) {
-        CardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = piles.get(card.getName());
         if (pile == null) {
             return false;
         }
@@ -2162,9 +2170,9 @@ public class Game {
 
     public Card[] getCardsInGame(Class<?> c) {
         ArrayList<Card> cards = new ArrayList<Card>();
-        for (CardPile pile : piles.values()) {
-            if (c == null || c.isInstance(pile.card))
-                cards.add(pile.card);
+        for (AbstractCardPile pile : piles.values()) {
+            if (c == null || c.isInstance(pile.card()))
+                cards.add(pile.card());
         }
         return cards.toArray(new Card[0]);
     }
@@ -2174,8 +2182,8 @@ public class Game {
     }
 
     public boolean cardInGame(Card c) {
-        for (CardPile pile : piles.values()) {
-            if(pile.card.equals(c)) {
+        for (AbstractCardPile pile : piles.values()) {
+            if(pile.card().equals(c)) {
                 return true;
             }
         }
@@ -2197,7 +2205,7 @@ public class Game {
     }
 
     public int getCardsLeftInPile(Card card) {
-        CardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = piles.get(card.getName());
         if (pile == null || pile.getCount() < 0) {
             return 0;
         }
@@ -2210,22 +2218,34 @@ public class Game {
         return trashPile;
     }
 
-    protected CardPile addPile(Card card) {
+    protected AbstractCardPile addPile(Card card) {
     	// the Rats hack is dirty and should be cleaned up, but it works
         return addPile(card, ((card instanceof VictoryCard) ? victoryCardPileSize : (card.equals(Cards.rats) ? 20 : kingdomCardPileSize)));
     }
 
-    protected CardPile addPile(Card card, int count) {
+    protected AbstractCardPile addPile(Card card, int count) {
     	return addPile(card, count, true);
     }
 
-    protected CardPile addPile(Card card, int count, boolean isSupply) {
-    	CardPile pile = new CardPile(card, count);
+    protected AbstractCardPile addPile(Card card, int count, boolean isSupply) {
+    	AbstractCardPile pile;
+    	if (card instanceof ActionCard) {
+        	if (((ActionCard)card).isKnight()) {
+        		pile = new VariableCardPile(AbstractCardPile.PileType.KnightsPile);
+        	} else if (((ActionCard)card).isRuins()) {
+        		pile = new VariableCardPile(AbstractCardPile.PileType.RuinsPile);
+        	} else {
+        		pile = new SingleCardPile(card, count);
+        	}
+    	} else {
+    		pile = new SingleCardPile(card, count);
+    	}
+
     	if (!isSupply) {
     		pile.notInSupply();
     	}
     		
-    	piles.put(card.getName(), pile);
+    	piles.put(pile.card().getName(), pile);
 
     	return pile;
     }
@@ -2306,7 +2326,7 @@ public class Game {
             return false;
         }
 
-        CardPile grandMarket = piles.get(Cards.grandMarket.getName());
+        AbstractCardPile grandMarket = piles.get(Cards.grandMarket.getName());
         for(Card card : cards) {
             if (
                 card.equals(Cards.philosophersStone) ||

@@ -1,16 +1,16 @@
 package com.vdom.core;
 
-import com.vdom.api.*;
 import java.util.ArrayList;
 
-public class CardPile {
-    public Card card;
-    private ArrayList<Card> cards = new ArrayList<Card>();
-    public boolean tradeRouteToken = false;
-    private boolean isSupply = true;
+import com.vdom.api.*;
+
+public class SingleCardPile extends AbstractCardPile {
+    private Card card;
     
-    public CardPile(Card card, int count) {
+    public SingleCardPile(Card card, int count) {
         this.card = card;
+        this.type = PileType.SingleCardPile;
+        this.cards = new ArrayList<Card>();
 
         for (int i = 1; i <= count; i++) {
             // TODO: put in checks to make sure template card is never
@@ -20,38 +20,18 @@ public class CardPile {
         }
     }
 
-    /**
-     * @return the count
-     */
-    public boolean isEmpty() {
-        return cards.isEmpty();
-    }
-    
-    public CardPile notInSupply() {
+    @Override
+    public SingleCardPile notInSupply() {
     	this.isSupply = false;
     	return this;
     }
     
+    @Override
     public boolean isSupply() {
     	return this.isSupply;
     }
 
-    public int takeTradeRouteToken() {
-    	if (tradeRouteToken) {
-	        tradeRouteToken = false;
-	        return 1;
-	    	}
-    	return 0;
-    }
-
-    public void setTradeRouteToken() {
-        tradeRouteToken = true;
-    }
-
-    public boolean hasTradeRouteToken() {
-        return tradeRouteToken;
-    }
-
+    @Override
     public int getCount() {
         return cards.size();
     }
@@ -68,5 +48,9 @@ public class CardPile {
         }
     }
 
-}
+	@Override
+	public Card card() {
+		return card;
+	}
 
+}

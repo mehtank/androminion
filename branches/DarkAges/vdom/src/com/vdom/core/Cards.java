@@ -42,7 +42,7 @@ public class Cards {
         BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel,
         // Dark Ages Expansion
         Altar, Armory, BanditCamp, Beggar, Catacombs, Count, Counterfeit, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel,
-        Necropolis, Hovel, OvergrownEstate,
+        Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors,
         // Dark Ages not yet implemented
         // BandOfMisfits, DeathCart, Hermit, Madman, Cultist, RuinedMarket, Mercenary, Urchin, Vagrant
         // Promo Cards
@@ -268,9 +268,16 @@ public class Cards {
     public static final Card spoils;
     public static final Card counterfeit;
     public static final Card pillage;
+    
     public static final Card necropolis;
     public static final Card hovel;
     public static final Card overgrownEstate;
+    
+    public static final Card abandonedMine;
+    public static final Card ruinedLibrary;
+    public static final Card ruinedMarket;
+    public static final Card ruinedVillage;
+    public static final Card survivors;
 
     // Promo Cards (Incomplete)
     // TODO:Implement Rest of promo cards
@@ -495,10 +502,18 @@ public class Cards {
         actionCardsDarkAges.add(rebuild = new ActionCardImpl.Builder(Cards.Type.Rebuild, 5).addActions(1).description("Name a card. Reveal cards from the top of your deck until you reveal a Victory card that is not the named card. Discard the other cards. Trash the Victory card and gain a Victory card costing up to 3 more than it.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(rogue = new ActionCardImpl.Builder(Cards.Type.Rogue, 5).attack().addGold(2).description("If there are any cards in the trash costing from 3 to 6 coins, gain one of them. Otherwise, each other player reveals the top 2 cards of his deck, trashes one of them costing from 3 to 6 coins, and discards the rest.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(counterfeit = new TreasureCardImpl.Builder(Cards.Type.Counterfeit, 5, 1).description("+1 Buy  When you play this, you may play a Treasure from your hand twice. If you do, trash that Treasure.").expansion("Dark Ages").build());
-        actionCardsDarkAges.add(pillage = new ActionCardImpl.Builder(Cards.Type.Pillage, 5).attack().description("Trash this. Each other player with 5 or more cards in hand reveals his hand and discards a card that you choose. Gain 2 Spoils from the Spoils pile.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(pillage = new ActionCardImpl.Builder(Cards.Type.Pillage, 5).attack().trashOnUse().description("Trash this. Each other player with 5 or more cards in hand reveals his hand and discards a card that you choose. Gain 2 Spoils from the Spoils pile.").expansion("Dark Ages").build());
         
         nonSupplyCards.add(spoils = new TreasureCardImpl.Builder(Cards.Type.Spoils, 0, 3).description("When you play this, return it to the Spoils pile (This is not in the Supply).").expansion("DarkAges").build());
 		
+        // Ruins
+        nonKingdomCards.add(abandonedMine = new ActionCardImpl.Builder(Cards.Type.AbandonedMine, 0).addGold(1).ruins().expansion("Dark Ages").build());
+        nonKingdomCards.add(ruinedLibrary = new ActionCardImpl.Builder(Cards.Type.RuinedLibrary, 0).addCards(1).ruins().expansion("Dark Ages").build());
+        nonKingdomCards.add(ruinedMarket = new ActionCardImpl.Builder(Cards.Type.RuinedMarket, 0).addBuys(1).ruins().expansion("Dark Ages").build());
+        nonKingdomCards.add(ruinedVillage = new ActionCardImpl.Builder(Cards.Type.RuinedVillage, 0).addActions(1).ruins().expansion("Dark Ages").build());
+        nonKingdomCards.add(survivors = new ActionCardImpl.Builder(Cards.Type.Survivors, 0).ruins().description("Look at the top 2 cards of your deck. Discard them or put them back in any order.").expansion("Dark Ages").build());
+        
+        // Shelters
         nonKingdomCards.add(necropolis = new ActionCardImpl.Builder(Cards.Type.Necropolis, 1).addActions(2).isShelter().expansion("Dark Ages").build());
         nonKingdomCards.add(overgrownEstate = new VictoryCardImpl.Builder(Cards.Type.OvergrownEstate, 1, 0).isShelter().description("When you trash this, +1 Card").expansion("Dark Ages").build());
         nonKingdomCards.add(hovel = new ReactionCardImpl.Builder(Cards.Type.Hovel,1).isShelter().description("When you buy a Victory card, you may trash this from your hand").expansion("Dark Ages").build());

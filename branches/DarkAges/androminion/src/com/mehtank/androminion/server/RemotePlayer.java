@@ -119,6 +119,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	card.costPotion = c.costPotion();
     	card.isBane = isBane;
     	card.isShelter = c.isShelter();
+    	if (c instanceof ActionCard)
+    		card.isRuins = ((ActionCard)c).isRuins();
 
     	card.pile = MyCard.SUPPLYPILE;
 
@@ -155,6 +157,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	   (c.equals(Cards.province)) ||
     	   (c.equals(Cards.colony)) ||
            (c.equals(Cards.curse))) card.pile = MyCard.VPPILE;
+    	if (card.isRuins)
+    		card.pile = MyCard.RUINS_PILE;
 
         if (c.equals(Cards.potion)) card.isPotion = true;
     	if (c.equals(Cards.curse)) {

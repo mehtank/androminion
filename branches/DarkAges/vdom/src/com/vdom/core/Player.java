@@ -448,8 +448,8 @@ public abstract class Player {
 		final Map<Object, Integer> cardCounts = new HashMap<Object, Integer>();
 
 		// seed counts with all victory cards in play
-		for (CardPile pile : this.game.piles.values()) {
-			Card card = pile.card;
+		for (AbstractCardPile pile : this.game.piles.values()) {
+			Card card = pile.card();
 
 			if(card instanceof VictoryCard || card instanceof CurseCard) {
 				cardCounts.put(card, 0);
@@ -687,55 +687,14 @@ public abstract class Player {
             context.cardsTrashedThisTurn++;
         }
 
-        // Dark Ages on_Trash triggers
-        if (card.equals(Cards.feodum)) {
-            gainNewCard(Cards.silver, card, context);
-            gainNewCard(Cards.silver, card, context);
-            gainNewCard(Cards.silver, card, context);
-        }
-        if (card.equals(Cards.rats)) {
-        	game.drawToHand(this, card, false);
-        }
-        if (card.equals(Cards.squire)) {
-        	Card s = squire_cardToObtain(context);
-        	if (s != null) {
-        		gainNewCard(s, card, context);
-        	}
-        }
-        if (card.equals(Cards.catacombs)) {
-        	Card c = catacombs_cardToObtain(context);
-        	if (c != null) {
-        		gainNewCard(c, card, context);
-        	}
-        }
-        if (card.equals(Cards.huntingGrounds)) {
-        	Player.HuntingGroundsOption option = huntingGround_chooseOption(context);
-        	if (option != null) {
-        		switch (option) {
-        		case GainDuchy:
-        			gainNewCard(Cards.duchy, card, context);
-        			break;
-        		case GainEstates:
-        			gainNewCard(Cards.estate, card, context);
-        			gainNewCard(Cards.estate, card, context);
-        			gainNewCard(Cards.estate, card, context);
-        			break;
-    			default:
-    				break;
-        		}
-        	}
-        }
-
         // Market Square
-        int marketSquare_count = Util.getCardCount(hand, Cards.marketSquare);
-        while (marketSquare_count > 0) {
-        	Card m = hand.get(Cards.marketSquare);
+        while (Util.getCardCount(hand, Cards.marketSquare) > 0) {
         	if (marketSquare_shouldDiscard(context)) {
+            	Card m = hand.get(Cards.marketSquare);
         		hand.remove(m);
         		discard(m, card, context);
         		gainNewCard(Cards.gold, m, context);
         	}
-        	marketSquare_count--;
         }
 
         if (game.piles.get(card.getName()).isSupply() || card.isShelter()) {
@@ -756,10 +715,10 @@ public abstract class Player {
         event.responsible = responsible;
         context.game.broadcastEvent(event);
 
-        if (card.equals(Cards.fortress)) {
-        	context.game.trashPile.remove(card);
-        	hand.add(card);
-        }
+//        if (card.equals(Cards.fortress)) {
+//        	context.game.trashPile.remove(card);
+//        	hand.add(card);
+//        }
     }
 
     public abstract HuntingGroundsOption huntingGround_chooseOption(MoveContext context);

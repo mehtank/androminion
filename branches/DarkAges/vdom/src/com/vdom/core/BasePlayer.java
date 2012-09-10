@@ -1989,11 +1989,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	@Override
 	public Card squire_cardToObtain(MoveContext context) {
 		ArrayList<Card> options = new ArrayList<Card>();
-		for (CardPile pile : game.piles.values()) {
-			if ((pile.card instanceof ActionCard) && (pile.getCount() > 0)) {
-				ActionCard ac = (ActionCard) pile.card;
+		for (AbstractCardPile pile : game.piles.values()) {
+			if ((pile.card() instanceof ActionCard) && (pile.getCount() > 0)) {
+				ActionCard ac = (ActionCard) pile.card();
 				if (ac.isAttack()) {
-					options.add(pile.card);
+					options.add(pile.card());
 				}
 			}
 		}
@@ -2017,7 +2017,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card catacombs_cardToObtain(MoveContext context) {
-		return bestCardInPlay(context, Math.max(0, game.piles.get(Cards.catacombs.getName()).card.getCost(context) - 1));
+		return bestCardInPlay(context, Math.max(0, game.piles.get(Cards.catacombs.getName()).card().getCost(context) - 1));
 	}
 
 	@Override

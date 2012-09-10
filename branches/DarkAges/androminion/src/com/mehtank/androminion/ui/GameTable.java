@@ -384,7 +384,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 			moneyPile.addCard(c);
 		else if (c.pile == MyCard.VPPILE)
 			vpPile.addCard(c);
-		else if (c.pile == MyCard.SUPPLYPILE)
+		else if (c.pile == MyCard.SUPPLYPILE || c.pile == MyCard.RUINS_PILE)
 			supplyPile.addCard(c);
 		else if (c.pile == MyCard.PRIZEPILE)
 		    prizePile.addCard(c);

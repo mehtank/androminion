@@ -483,10 +483,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
 
         if (sco.minCost == sco.maxCost) {
-        	if (sco.minCost == -1)
-        		selectString = Strings.format(R.string.select_from_table, header);
-        	else
+        	if (sco.minCost == -1) {
+        		if (sco.isAttack) {
+        			selectString = Strings.format(R.string.select_from_table_attack, header);
+        		} else {
+        			selectString = Strings.format(R.string.select_from_table, header);
+        		}
+        	} else {
         		selectString = Strings.format(R.string.select_from_table_exact, "" + sco.maxCost + potions, header);
+        	}
         } else if ((sco.minCost <= 0) && (sco.maxCost < Integer.MAX_VALUE))
         	selectString = Strings.format(R.string.select_from_table_max, "" + sco.maxCost + potions, header);
         else if (sco.maxCost < Integer.MAX_VALUE)
@@ -1979,8 +1984,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
-    	Card[] reactionCards = getReactionCards(defended);
-    	if (reactionCards.length > 0) {
+    	ArrayList<Card> reactionCards = new ArrayList<Card>();
+    	for (Card c : getReactionCards(defended)) {
+    		if (!c.equals(Cards.marketSquare)) {
+    			reactionCards.add(c);
+    		}
+    	}
+    	if (reactionCards.size() > 0) {
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)
             	if (lastCard == null || !Game.suppressRedundantReactions || c.getName() != lastCard.getName() || c.equals(Cards.horseTraders) || c.equals(Cards.beggar))
@@ -1990,7 +2000,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	            options.add(none);
 	            String o = selectString(context, R.string.reaction_query, responsible, options.toArray(new String[0]));
 	            if(o.equals(none)) return null;
-	            return localNameToCard(o, reactionCards);
+	            return localNameToCard(o, reactionCards.toArray(new Card[0]));
             }
     	}
     	return null;
@@ -2127,7 +2137,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
             return super.catacombs_cardToObtain(context);
         }
-        int maxPrice = Math.max(0, game.piles.get(Cards.catacombs.getName()).card.getCost(context) - 1);
+        int maxPrice = Math.max(0, game.piles.get(Cards.catacombs.getName()).card().getCost(context) - 1);
         return getFromTable(context, getGainString(Cards.catacombs), maxPrice, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, 0);
 	}
 	

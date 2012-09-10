@@ -12,8 +12,8 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.api.CurseCard;
+import com.vdom.core.AbstractCardPile;
 import com.vdom.core.BasePlayer;
-import com.vdom.core.CardPile;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
@@ -258,7 +258,6 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownDoubleActionCards.add(Cards.masquerade);
 		knownDoubleActionCards.add(Cards.rogue);
 		knownDoubleActionCards.add(Cards.pillage);
-		knownDoubleActionCards.add(Cards.rebuild);
 		
 		knownMultiActionCards.add(Cards.laboratory);
 		knownMultiActionCards.add(Cards.market);
@@ -274,7 +273,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownComboActionCards.add(Cards.huntingParty);
 		knownComboActionCards.add(Cards.peddler);
 		knownComboActionCards.add(Cards.city);
-		knownComboActionCards.add(Cards.grandMarket); // shouldn't base a multiaction strategy on only this card due to the buy req
+		knownComboActionCards.add(Cards.grandMarket);
 		knownComboActionCards.add(Cards.village);
 		knownComboActionCards.add(Cards.workersVillage);
 		knownComboActionCards.add(Cards.fishingVillage);
@@ -307,6 +306,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownTier3Cards.add(Cards.duchess);
 		knownTier3Cards.add(Cards.watchTower);
 		knownTier3Cards.add(Cards.lookout);
+		knownTier3Cards.add(Cards.rebuild);
 		
 		// knownPrizeCards should be sorted according to importance
 		knownPrizeCards.add(Cards.followers);
@@ -428,8 +428,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int min2 = 1000;
 		int min3 = 1000;
 		
-		for (CardPile pile : game.piles.values()) {
-			if ((pile.card.equals(Cards.province)) || (pile.card.equals(Cards.colony))) {
+		for (AbstractCardPile pile : game.piles.values()) {
+			if ((pile.card().equals(Cards.province)) || (pile.card().equals(Cards.colony))) {
 				if (pile.getCount() < prov_col) {
 					prov_col = pile.getCount();
 				}
@@ -1228,8 +1228,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		// here we check each card available for buy
 		// the goal is to find the best VP card, best treasure and best action card
-		for (CardPile pile : game.piles.values()) {
-			Card card = pile.card;
+		for (AbstractCardPile pile : game.piles.values()) {
+			Card card = pile.card();
 			
 			if (!exact || card.getCost(context) == gold) {
 				if (game.isValidBuy(context, card, gold)) {
@@ -1630,8 +1630,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		if (mandatory) {
 			this.log("must choose a card");
-			for (CardPile pile : game.piles.values()) {
-				Card card = pile.card;
+			for (AbstractCardPile pile : game.piles.values()) {
+				Card card = pile.card();
 				if (!exact || card.getCost(context) == gold) {
 					if ((game.isValidBuy(context, card, gold)) && !(card.equals(Cards.curse))) {
 						return card;
@@ -1774,13 +1774,13 @@ public class VDomPlayerPatrick extends BasePlayer {
 			}
 		}
 		
-		for (CardPile pile : game.piles.values()) {
-			if ((knownActionCards.contains(pile.card)) && (pile.getCount() > 2)) {
-				if ((knownCursingCards.contains(pile.card)) || (!shouldReCurse)) {
-					if (!game.embargos.containsKey(pile.card)) {
-						cards.add((ActionCard) pile.card);
+		for (AbstractCardPile pile : game.piles.values()) {
+			if ((knownActionCards.contains(pile.card())) && (pile.getCount() > 2)) {
+				if ((knownCursingCards.contains(pile.card())) || (!shouldReCurse)) {
+					if (!game.embargos.containsKey(pile.card())) {
+						cards.add((ActionCard) pile.card());
 					} else {
-						this.log("advisorAction: skipped " + pile.card + " due to embargo");
+						this.log("advisorAction: skipped " + pile.card() + " due to embargo");
 					}
 				}
 			}
@@ -1822,14 +1822,14 @@ public class VDomPlayerPatrick extends BasePlayer {
 				this.strategy = StrategyOption.MultiAction;
 				this.log("advisorAction: multiple cantrips and combo cards (via " + this.strategyCard + ")");
 
-				for (CardPile pile : game.piles.values()) {
-					if (VDomPlayerPatrick.knownMultiActionCards.contains(pile.card)) {
-						this.strategyPossibleCards.add((ActionCard) pile.card);
+				for (AbstractCardPile pile : game.piles.values()) {
+					if (VDomPlayerPatrick.knownMultiActionCards.contains(pile.card())) {
+						this.strategyPossibleCards.add((ActionCard) pile.card());
 					}
 				}
-				for (CardPile pile : game.piles.values()) {
-					if (VDomPlayerPatrick.knownComboActionCards.contains(pile.card)) {
-						this.strategyPossibleCards.add((ActionCard) pile.card);
+				for (AbstractCardPile pile : game.piles.values()) {
+					if (VDomPlayerPatrick.knownComboActionCards.contains(pile.card())) {
+						this.strategyPossibleCards.add((ActionCard) pile.card());
 					}
 				}
 			} else if (knownDoubleActionCards.contains(this.strategyCard)) {

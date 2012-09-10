@@ -26,6 +26,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     protected int addGold;
     protected int addVictoryTokens;
     protected boolean attack;
+    protected boolean ruins;
+    protected boolean knight;
+    protected boolean looter;
     boolean trashForced = false;
 
     public ActionCardImpl(Builder builder) {
@@ -47,6 +50,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    protected int addGold;
 	    protected int addVictoryTokens;
 	    protected boolean attack;
+	    protected boolean ruins;
+	    protected boolean knight;
+	    protected boolean looter;
 	    protected boolean trashOnUse;
         protected boolean trashForced = false;
 
@@ -81,6 +87,21 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         public Builder attack() {
             attack = true;
+            return this;
+        }
+
+        public Builder ruins() {
+            ruins = true;
+            return this;
+        }
+
+        public Builder knight() {
+            knight = true;
+            return this;
+        }
+
+        public Builder looter() {
+            looter = true;
             return this;
         }
 
@@ -143,6 +164,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         c.addGold = addGold;
         c.addVictoryTokens = addVictoryTokens;
         c.attack = attack;
+        c.ruins = ruins;
+        c.knight = knight;
+        c.looter = looter;
         c.trashOnUse = trashOnUse;
     }
 
@@ -1188,7 +1212,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (int i = 0; i < returnCount; i++) {
             if (currentPlayer.hand.contains(card)) {
                 currentPlayer.hand.remove(card);
-                CardPile pile = game.piles.get(card.getName());
+                AbstractCardPile pile = game.piles.get(card.getName());
                 // Card thisCard = pile.removeCard();
                 pile.addCard(card);
             } else {
@@ -1422,8 +1446,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
 
                 if (this.type == Cards.Type.Procession) {
-                	//currentPlayer.hand.remove(cardToPlay);
-                	currentPlayer.trash(cardToPlay, this, context);
+
+                	if (!cardToPlay.trashOnUse) {
+                		currentPlayer.trash(cardToPlay, this, context);
+                	}
 
                 	Card cardToGain = currentPlayer.controlPlayer.procession_cardToGain(context, 1 + cardToPlay.getCost(context), cardToPlay.costPotion());
             		if (cardToPlay.getCost(context) + 1 != cardToGain.getCost(context)) {
@@ -4647,5 +4673,73 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	}
         }
 
+	}
+
+	@Override
+	public void isTrashed(MoveContext context) {
+		switch (this.getType()) {
+		case Rats:
+			context.game.drawToHand(context.player, this, false);
+			break;
+		case Squire:
+			Card s = context.player.controlPlayer.squire_cardToObtain(context);
+        	if (s != null) {
+        		context.player.controlPlayer.gainNewCard(s, this, context);
+        	}
+        	break;
+		case Catacombs:
+			Card c = context.player.controlPlayer.catacombs_cardToObtain(context);
+        	if (c != null) {
+        		context.player.controlPlayer.gainNewCard(c, this, context);
+        	}
+        	break;
+		case HuntingGrounds:
+        	Player.HuntingGroundsOption option = context.player.controlPlayer.huntingGround_chooseOption(context);
+        	if (option != null) {
+        		switch (option) {
+        		case GainDuchy:
+        			context.player.controlPlayer.gainNewCard(Cards.duchy, this, context);
+        			break;
+        		case GainEstates:
+        			context.player.controlPlayer.gainNewCard(Cards.estate, this, context);
+        			context.player.controlPlayer.gainNewCard(Cards.estate, this, context);
+        			context.player.controlPlayer.gainNewCard(Cards.estate, this, context);
+        			break;
+    			default:
+    				break;
+        		}
+        	}
+			break;
+		case Fortress:
+			context.game.trashPile.remove(this);
+        	context.player.hand.add(this);
+        	break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public boolean isRuins() {
+		switch (this.getType()) {
+		case AbandonedMine:
+		case RuinedLibrary:
+		case RuinedMarket:
+		case RuinedVillage:
+		case Survivors:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isKnight() {
+		return knight;
+	}
+
+	@Override
+	public boolean isLooter() {
+		return looter;
 	}
 }

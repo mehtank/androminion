@@ -83,5 +83,8 @@
         <item name="cardCountColor">@color/cardDefaultTextColor</item>
         <item name="cardBackgroundColor">@color/cardDefaultTextBackgroundColor</item>
     </style>
+    <style name="CardView.Ruins">
+        <item name="cardBackgroundColor">@color/cardRuins</item>
+    </style>
 
 </resources>
