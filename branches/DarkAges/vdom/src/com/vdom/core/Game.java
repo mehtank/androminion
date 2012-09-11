@@ -1014,7 +1014,7 @@ public class Game {
 //            return false;
 //        }
 
-        AbstractCardPile thePile = piles.get(card.getName());
+        AbstractCardPile thePile = getPile(card);
 
         if (thePile == null || thePile.isSupply() == false)
         {
@@ -1694,7 +1694,8 @@ public class Game {
         // Add Ruins pile if any Looter cards are present
         for (AbstractCardPile pile : piles.values()) {
         	if (pile.card() instanceof ActionCard && ((ActionCard)pile.card()).isLooter()) {
-        		addPile(Cards.abandonedMine); // adding any Ruins card as a pile will result in creating the Ruins pile properly
+        		AbstractCardPile p = addPile(Cards.abandonedMine); // adding any Ruins card as a pile will result in creating the Ruins pile properly
+        		Util.debug("Ruins Pile: " + p);
                 break;
             }
         }
@@ -2102,16 +2103,16 @@ public class Game {
 	}
 
     // Only is valid for cards in play...
-    protected Card readCard(String name) {
-        AbstractCardPile pile = piles.get(name);
-        if (pile == null || pile.getCount() <= 0) {
-            return null;
-        }
-        return pile.card();
-    }
+//    protected Card readCard(String name) {
+//        AbstractCardPile pile = piles.get(name);
+//        if (pile == null || pile.getCount() <= 0) {
+//            return null;
+//        }
+//        return pile.card();
+//    }
 
     protected Card takeFromPile(Card card) {
-    	AbstractCardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = getPile(card);
         if (pile == null || pile.getCount() <= 0) {
             return null;
         }
@@ -2134,7 +2135,7 @@ public class Game {
     }
 
     public int pileSize(Card card) {
-    	AbstractCardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = getPile(card);
         if (pile == null) {
             return -1;
         }
@@ -2157,7 +2158,7 @@ public class Game {
     }
 
     public boolean isCardInGame(Card card) {
-    	AbstractCardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = getPile(card);
         if (pile == null) {
             return false;
         }
@@ -2205,7 +2206,7 @@ public class Game {
     }
 
     public int getCardsLeftInPile(Card card) {
-    	AbstractCardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = getPile(card);
         if (pile == null || pile.getCount() < 0) {
             return 0;
         }
@@ -2244,9 +2245,21 @@ public class Game {
     	if (!isSupply) {
     		pile.notInSupply();
     	}
-    		
-    	piles.put(pile.card().getName(), pile);
 
+    	switch (pile.type) {
+		case KnightsPile:
+			piles.put("Knights", pile);
+			break;
+		case RuinsPile:
+			piles.put("Ruins", pile);
+			break;
+		case SingleCardPile:
+			piles.put(pile.card().getName(), pile);
+			break;
+		default:
+			break;
+    	}
+    	
     	return pile;
     }
 
@@ -2326,7 +2339,7 @@ public class Game {
             return false;
         }
 
-        AbstractCardPile grandMarket = piles.get(Cards.grandMarket.getName());
+        AbstractCardPile grandMarket = getPile(Cards.grandMarket);
         for(Card card : cards) {
             if (
                 card.equals(Cards.philosophersStone) ||
@@ -2367,5 +2380,28 @@ public class Game {
             }
         }
         return false;
+    }
+    
+    /**
+     * @return Card on top of the Ruins pile
+     */
+    public Card getNextRuinsCard() {
+    	for (AbstractCardPile p : piles.values()) {
+    		if (p.type.equals(AbstractCardPile.PileType.RuinsPile)) {
+    			return p.card();
+    		}
+    	}
+		return null;
+    }
+    
+    public AbstractCardPile getPile(Card card) {
+    	if (card instanceof ActionCard) {
+    		if (((ActionCard)card).isRuins()) {
+    			return piles.get("Ruins");
+    		} else if (((ActionCard)card).isKnight()) {
+    			return piles.get("Knights");
+    		}
+    	}
+    	return piles.get(card.getName());
     }
 }

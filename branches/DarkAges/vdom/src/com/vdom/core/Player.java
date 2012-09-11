@@ -662,6 +662,20 @@ public abstract class Player {
         }
         return false;
     }
+    
+    public boolean gainNewCardFromPile(AbstractCardPile pile, Card responsible, MoveContext context) {
+    	switch (pile.type) {
+    	case SingleCardPile:
+    		return gainNewCard(pile.card(), responsible, context);
+    	case RuinsPile:
+    		return gainNewCard(game.getNextRuinsCard(), responsible, context);
+		case KnightsPile:
+			break;
+		default:
+			break;
+    	}
+		return false;
+    }
 
     public void gainCardAlreadyInPlay(Card card, Card responsible, MoveContext context) {
         if (context != null) {
@@ -697,14 +711,14 @@ public abstract class Player {
         	}
         }
 
-        if (game.piles.get(card.getName()).isSupply() || card.isShelter()) {
+        if (game.getPile(card).isSupply() || card.isShelter()) {
 			if (isPossessed()) {
 				context.game.possessedTrashPile.add(card);
 			} else {
 				context.game.trashPile.add(card);
 			}
         } else if (card.equals(Cards.spoils)) {
-        	context.game.piles.get(Cards.spoils.getName()).addCard(card);
+        	context.game.getPile(Cards.spoils).addCard(card);
         }
 
         // Execute special card logic when the trashing occurs
@@ -1261,4 +1275,10 @@ public abstract class Player {
     public abstract Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion);
 
     public abstract Card envoy_cardToDiscard(MoveContext context, Card[] revealedCards);
+
+	public abstract boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array);
+
+	public abstract Card[] survivors_cardOrder(MoveContext context, Card[] array);
+
+	public abstract boolean cultist_shouldPlayNext(MoveContext context);
 }

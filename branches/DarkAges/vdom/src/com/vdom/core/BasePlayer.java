@@ -2017,7 +2017,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card catacombs_cardToObtain(MoveContext context) {
-		return bestCardInPlay(context, Math.max(0, game.piles.get(Cards.catacombs.getName()).card().getCost(context) - 1));
+		return bestCardInPlay(context, Math.max(0, game.getPile(Cards.catacombs).card().getCost(context) - 1));
 	}
 
 	@Override
@@ -2297,4 +2297,29 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		cl.remove(lowestCard(context, cl, false));
     	}
         return cl.get(0);
-    }}
+    }
+
+	@Override
+	public boolean survivors_shouldDiscardTopCards(MoveContext context,
+			Card[] array) {
+        // Discard them if there is more than 1 victory card
+        int victoryCount = 0;
+        for (Card card : array) {
+            if (shouldDiscard(card)) {
+                victoryCount++;
+            }
+        }
+        return (victoryCount > 1);
+	}
+
+	@Override
+	public Card[] survivors_cardOrder(MoveContext context, Card[] array) {
+		return array;
+	}
+
+	@Override
+	public boolean cultist_shouldPlayNext(MoveContext context) {
+		return true;
+	}
+
+}

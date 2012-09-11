@@ -133,7 +133,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         {
 			// Return to the spoils pile
             player.playedCards.remove(this);                   
-            SingleCardPile pile = (SingleCardPile) game.piles.get(getName());
+            SingleCardPile pile = (SingleCardPile) game.getPile(this);
             pile.addCard(this);
         }
 

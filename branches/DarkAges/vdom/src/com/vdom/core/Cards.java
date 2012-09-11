@@ -20,6 +20,7 @@ public class Cards {
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
     public static ArrayList<Card> prizeCards = new ArrayList<Card>();
     public static ArrayList<Card> nonSupplyCards = new ArrayList<Card>();
+    public static ArrayList<Card> ruinsCards = new ArrayList<Card>();
     
     public static HashMap<String, Card> actionCardsMap = new HashMap<String, Card>();
 
@@ -42,9 +43,9 @@ public class Cards {
         BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel,
         // Dark Ages Expansion
         Altar, Armory, BanditCamp, Beggar, Catacombs, Count, Counterfeit, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel,
-        Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors,
+        Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors, Cultist,
         // Dark Ages not yet implemented
-        // BandOfMisfits, DeathCart, Hermit, Madman, Cultist, RuinedMarket, Mercenary, Urchin, Vagrant
+        // BandOfMisfits, DeathCart, Hermit, Madman, Mercenary, Urchin, Vagrant
         // Promo Cards
         Envoy, Governor, WalledVillage,
         // Promo Cards (not yet implemented)
@@ -268,6 +269,7 @@ public class Cards {
     public static final Card spoils;
     public static final Card counterfeit;
     public static final Card pillage;
+    public static final Card cultist;
     
     public static final Card necropolis;
     public static final Card hovel;
@@ -503,6 +505,8 @@ public class Cards {
         actionCardsDarkAges.add(rogue = new ActionCardImpl.Builder(Cards.Type.Rogue, 5).attack().addGold(2).description("If there are any cards in the trash costing from 3 to 6 coins, gain one of them. Otherwise, each other player reveals the top 2 cards of his deck, trashes one of them costing from 3 to 6 coins, and discards the rest.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(counterfeit = new TreasureCardImpl.Builder(Cards.Type.Counterfeit, 5, 1).description("+1 Buy  When you play this, you may play a Treasure from your hand twice. If you do, trash that Treasure.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(pillage = new ActionCardImpl.Builder(Cards.Type.Pillage, 5).attack().trashOnUse().description("Trash this. Each other player with 5 or more cards in hand reveals his hand and discards a card that you choose. Gain 2 Spoils from the Spoils pile.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(cultist = new ActionCardImpl.Builder(Cards.Type.Cultist, 5).attack().looter().addCards(2).description("Each other player gains a Ruins. You may play a Cultist from your hand. When you trash this, +3 Cards.").expansion("Dark Ages").build());
+        
         
         nonSupplyCards.add(spoils = new TreasureCardImpl.Builder(Cards.Type.Spoils, 0, 3).description("When you play this, return it to the Spoils pile (This is not in the Supply).").expansion("DarkAges").build());
 		
@@ -552,6 +556,14 @@ public class Cards {
         	actionCards.add(card);
         }
     }
+    
+    static {
+    	ruinsCards.add(abandonedMine);
+    	ruinsCards.add(ruinedLibrary);
+    	ruinsCards.add(ruinedMarket);
+    	ruinsCards.add(ruinedVillage);
+    	ruinsCards.add(survivors);
+    }
 
     public static boolean isKingdomCard(Card c) {
         return !nonKingdomCards.contains(c);
@@ -563,5 +575,6 @@ public class Cards {
         }
         return false;
     }
+    
 
 }

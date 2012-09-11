@@ -625,6 +625,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	break;
         case Envoy:
         	envoy(game, context, currentPlayer);
+        case Survivors:
+        	survivors(context, game, currentPlayer);
+        	break;
+        case Cultist:
+        	cultist(context, game, currentPlayer);
+        	break;
         default:
             break;
         }
@@ -1212,7 +1218,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (int i = 0; i < returnCount; i++) {
             if (currentPlayer.hand.contains(card)) {
                 currentPlayer.hand.remove(card);
-                AbstractCardPile pile = game.piles.get(card.getName());
+                AbstractCardPile pile = game.getPile(card);
                 // Card thisCard = pile.removeCard();
                 pile.addCard(card);
             } else {
@@ -4714,6 +4720,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			context.game.trashPile.remove(this);
         	context.player.hand.add(this);
         	break;
+		case Cultist:
+			context.game.drawToHand(context.player, this, false);
+			context.game.drawToHand(context.player, this, false);
+			context.game.drawToHand(context.player, this, false);
+			break;
 		default:
 			break;
 		}
@@ -4740,6 +4751,86 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
 	@Override
 	public boolean isLooter() {
-		return looter;
+		switch (this.getType()) {
+		case Cultist:
+			return true;
+		default:
+			return false;
+		}
 	}
+
+	private void survivors(MoveContext context, Game game, Player currentPlayer) {
+        ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
+        for (int i = 0; i < 2; i++) {
+            Card card = game.draw(currentPlayer);
+            if (card != null) {
+                topOfTheDeck.add(card);
+            }
+        }
+
+        if (topOfTheDeck.size() > 0) {
+            if (currentPlayer.controlPlayer.survivors_shouldDiscardTopCards(context, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]))) {
+                while (!topOfTheDeck.isEmpty()) {
+                    currentPlayer.discard(topOfTheDeck.remove(0), this, null);
+                }
+            } else {
+                Card[] order = currentPlayer.controlPlayer.survivors_cardOrder(context, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]));
+
+                // Check that they returned the right cards
+                boolean bad = false;
+
+                if (order == null) {
+                    bad = true;
+                } else {
+                    ArrayList<Card> copy = new ArrayList<Card>();
+                    for (Card card : topOfTheDeck) {
+                        copy.add(card);
+                    }
+
+                    for (Card card : order) {
+                        if (!copy.remove(card)) {
+                            bad = true;
+                            break;
+                        }
+                    }
+
+                    if (!copy.isEmpty()) {
+                        bad = true;
+                    }
+                }
+
+                if (bad) {
+                    Util.playerError(currentPlayer, "Survivors order cards error, ignoring.");
+                    order = topOfTheDeck.toArray(new Card[topOfTheDeck.size()]);
+                }
+
+                // Put the cards back on the deck
+                for (int i = order.length - 1; i >= 0; i--) {
+                    currentPlayer.putOnTopOfDeck(order[i]);
+                }
+            }
+        }
+	}
+
+	private void cultist(MoveContext context, Game game, Player currentPlayer) {
+        for (Player player : game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
+                player.attacked(this, context);
+                player.gainNewCard(game.getNextRuinsCard(), this, context);
+            }
+        }
+        
+        if (currentPlayer.hand.contains(Cards.cultist) && currentPlayer.controlPlayer.cultist_shouldPlayNext(context)) {
+        	ActionCardImpl next = (ActionCardImpl) currentPlayer.hand.get(Cards.cultist);
+            if (next != null) {
+                context.freeActionInEffect++;
+
+                next.play(game, context, true);
+
+                context.freeActionInEffect--;
+            }
+        }
+	}
+
+
 }

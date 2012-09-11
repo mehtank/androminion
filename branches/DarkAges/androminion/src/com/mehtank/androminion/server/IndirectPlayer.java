@@ -29,7 +29,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	
     static Context top;
 
-	public abstract Card nameToCard(String o);
+//	public abstract Card nameToCard(String o);
     public abstract int cardToInt(Card card);
     public abstract int[] cardArrToIntArr(Card[] cards);
 	public Card nameToCard(String o, Card[] cards) {
@@ -2137,7 +2137,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
             return super.catacombs_cardToObtain(context);
         }
-        int maxPrice = Math.max(0, game.piles.get(Cards.catacombs.getName()).card().getCost(context) - 1);
+        int maxPrice = Math.max(0, game.getPile(Cards.catacombs).card().getCost(context) - 1);
         return getFromTable(context, getGainString(Cards.catacombs), maxPrice, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, 0);
 	}
 	
@@ -2440,5 +2440,45 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 		h.put(getString(R.string.governor_option_three), GovernorOption.Upgrade);
 	
 		return h.get(selectString(context, Cards.governor, h.keySet().toArray(new String[0])));
+	}
+	@Override
+	public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array) {
+        if(context.isQuickPlay() && shouldAutoPlay_navigator_shouldDiscardTopCards(context, array)) {
+            return super.survivors_shouldDiscardTopCards(context, array);
+        }
+		String header = "";
+		for (Card c : array)
+			header += getCardName(c) + ", ";
+		header += "--";
+		header = header.replace(", --", "");
+		header = Strings.format(R.string.survivors_header, header);
+
+        String option1 = getString(R.string.discard);
+        String option2 = getString(R.string.navigator_option_two);
+
+    	return selectBoolean(context, header, option1, option2);
+	}
+	@Override
+	public Card[] survivors_cardOrder(MoveContext context, Card[] array) {
+        if(context.isQuickPlay() && shouldAutoPlay_navigator_cardOrder(context, array)) {
+            return super.survivors_cardOrder(context, array);
+        }
+    	ArrayList<Card> orderedCards = new ArrayList<Card>();
+    	int[] order = orderCards(context, cardArrToIntArr(array));
+    	for (int i : order) {
+    		orderedCards.add(array[i]);
+    	}
+    	return orderedCards.toArray(new Card[0]);
+	}
+	@Override
+	public boolean cultist_shouldPlayNext(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_cultist_shouldPlayNext(context)) {
+            return super.cultist_shouldPlayNext(context);
+        }
+
+        String option1 = getString(R.string.cultist_play_next);
+        String option2 = getString(R.string.pass);
+
+    	return selectBoolean(context, Cards.cultist.getName(), option1, option2);
 	}
 }
