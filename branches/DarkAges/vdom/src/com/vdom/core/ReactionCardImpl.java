@@ -1,7 +1,6 @@
 package com.vdom.core;
 
 import com.vdom.api.ReactionCard;
-import com.vdom.core.VictoryCardImpl.Builder;
 
 public class ReactionCardImpl extends CardImpl implements ReactionCard 
 {

@@ -18,7 +18,6 @@ import com.vdom.comms.MyCard;
  *
  */
 public class CardGroup extends BaseAdapter {
-	@SuppressWarnings("unused")
 	private static final String TAG = "CardGroup";
 	
 	private Context top;

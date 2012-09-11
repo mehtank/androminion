@@ -226,7 +226,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	}
     	return cs;
     }
-	@Override
 	public Card nameToCard(String o) {
     	return intToCard(cardNamesInPlay.get(o));
 	}
