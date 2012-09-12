@@ -309,4 +309,7 @@
   
   <string name="cultist_play_next">Play another Cultist from hand</string>
   
+  <string name="urchin_keep">keep from Urchin</string>
+  <string name="urchin_trash_for_mercenary">Trash for Mercenary</string>
+  
 </resources>

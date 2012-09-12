@@ -1580,14 +1580,8 @@ public class Game {
                 if(s.equalsIgnoreCase("blackmarket")) {
                     replacementCost = 3;
                 }
-                else if(s.equalsIgnoreCase("envoy")) {
-                    replacementCost = 4;
-                }
                 else if(s.equalsIgnoreCase("stash")) {
                     replacementCost = 5;
-                }
-                else if(s.equalsIgnoreCase("walledvillage")) {
-                    replacementCost = 4;
                 }
 
                 if(replacementCost != -1) {
@@ -1708,12 +1702,19 @@ public class Game {
             addPile(Cards.trustySteed, 1, false);
         }
 
-		// If Bandit Camp and/or Pillage is in play, we'll need Spoils (non-supply)
+		// If Bandit Camp, Pillage, or Marauder is in play, we'll need Spoils (non-supply)
 		if (piles.containsKey(Cards.banditCamp.getName()) ||
-			piles.containsKey(Cards.pillage.getName()))
+			piles.containsKey(Cards.pillage.getName()) ||
+			piles.containsKey(Cards.marauder.getName()))
         {
             addPile(Cards.spoils, 15, false);
         }
+		
+		// If Urchin is in play, we'll need Mercenary (non-supply)
+		if (piles.containsKey(Cards.urchin.getName()))
+		{
+			addPile(Cards.mercenary, 10, false);
+		}
 
 //        if (!debug) { return; } //make stuff fast
 

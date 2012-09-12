@@ -2053,6 +2053,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	return card;
 	}
+	@Override
+	public Card deathCart_actionToTrash(MoveContext context)
+	{
+		Card ac = null;
+		for (Card c : context.player.hand)
+		{
+			if (c instanceof ActionCard)
+			{
+				ac = c;
+				break;
+			}
+		}
+		return ac;
+	}
 
 	@Override
 	public GraverobberOption graverobber_chooseOption(MoveContext context) {
@@ -2321,5 +2335,100 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public boolean cultist_shouldPlayNext(MoveContext context) {
 		return true;
 	}
+	
+	@Override
+    public Card[] urchin_attack_cardsToKeep(MoveContext context) 
+	{
+		// Using the Militia discard logic for now...
+		
+        ArrayList<Card> keepers = new ArrayList<Card>();
+        ArrayList<Card> discards = new ArrayList<Card>();
+        
+        // Just add in the non-victory cards...
+        for (Card card : context.attackedPlayer.getHand()) {
+            if (!shouldDiscard(card)) {
+                keepers.add(card);
+            } else {
+            	discards.add(card);
+            }
+        }
 
+        while (keepers.size() < 4) {
+        	keepers.add(discards.remove(0));
+        }
+
+        // Still more than 4? Remove all but one action...
+        while (keepers.size() > 4) {
+            int bestAction = -1;
+            boolean removed = false;
+            for (int i = 0; i < keepers.size(); i++) {
+                if (keepers.get(i) instanceof ActionCard) {
+                    if (bestAction == -1) {
+                        bestAction = i;
+                    } else {
+                        if(keepers.get(i).getCost(context) > keepers.get(bestAction).getCost(context)) {
+                            keepers.remove(bestAction);
+                            bestAction = i;
+                        }
+                        else {
+                            keepers.remove(i);
+                        }
+                        removed = true;
+                        break;
+                    }
+                }
+            }
+            if (!removed) {
+                break;
+            }
+        }
+
+        // Still more than 4? Start removing copper...
+        while (keepers.size() > 4) {
+            boolean removed = false;
+            for (int i = 0; i < keepers.size(); i++) {
+                if (keepers.get(i).equals(Cards.copper)) {
+                    keepers.remove(i);
+                    removed = true;
+                    break;
+                }
+            }
+            if (!removed) {
+                break;
+            }
+        }
+
+        // Still more than 4? Start removing silver...
+        while (keepers.size() > 4) {
+            boolean removed = false;
+            for (int i = 0; i < keepers.size(); i++) {
+                if (keepers.get(i).equals(Cards.silver)) {
+                    keepers.remove(i);
+                    removed = true;
+                    break;
+                }
+            }
+            if (!removed) {
+                break;
+            }
+        }
+
+        while (keepers.size() > 4) {
+            keepers.remove(0);
+        }
+
+        return keepers.toArray(new Card[0]);
+    }
+	
+	@Override
+	public boolean urchin_shouldTrashForMercenary(MoveContext context)
+	{
+		return true;
+	}
+	
+	@Override
+	public Card[] mercenary_cardsToTrash(MoveContext context)
+	{
+		return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
+	}
 }

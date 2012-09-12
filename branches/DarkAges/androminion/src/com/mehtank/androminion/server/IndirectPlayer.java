@@ -2178,6 +2178,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
 		return getAnyFromHand(context, Strings.format(R.string.count_part_top_of_deck, getCardName(Cards.count)), NOTPASSABLE);
 	}
+	@Override
+	public Card deathCart_actionToTrash(MoveContext context)
+	{
+		return getActionFromHand(context, getTrashString(Cards.deathCart), getString(R.string.none), SelectCardOptions.PickType.TRASH);
+	}
 	
 	@Override
 	public Card forager_cardToTrash(MoveContext context) {
@@ -2480,5 +2485,38 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         String option2 = getString(R.string.pass);
 
     	return selectBoolean(context, Cards.cultist.getName(), option1, option2);
+	}
+	
+	@Override
+	public Card[] urchin_attack_cardsToKeep(MoveContext context) 
+	{
+        //if(context.isQuickPlay() && shouldAutoPlay_urchin_attack_cardsToKeep(context)) {
+        //    return super.urchin_attack_cardsToKeep(context);
+        //}
+        
+        return getAnyFromHand(context, getString(R.string.urchin_keep), NOTPASSABLE, 4, true, SelectCardOptions.PickType.KEEP);
+	}
+	
+	@Override
+	public boolean urchin_shouldTrashForMercenary(MoveContext context)
+	{
+		if(context.isQuickPlay() && urchin_shouldTrashForMercenary(context)) {
+            return super.urchin_shouldTrashForMercenary(context);
+        }
+
+        String option1 = getString(R.string.urchin_trash_for_mercenary);
+        String option2 = getString(R.string.pass);
+
+    	return selectBoolean(context, Cards.urchin.getName(), option1, option2);
+	}
+	
+	@Override
+	public Card[] mercenary_cardsToTrash(MoveContext context)
+	{
+		//if(context.isQuickPlay() && shouldAutoPlay_mercenary_cardsToTrash(context)) {
+        //    return super.mercenary_cardsToTrash(context);
+        //}
+		
+        return getAnyFromHand(context, getTrashString(Cards.mercenary), getString(R.string.none), 2, true, SelectCardOptions.PickType.TRASH);
 	}
 }

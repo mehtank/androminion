@@ -390,5 +390,20 @@
     <string name="Pillage_desc">Trash this. Each other player with 5 or more cards in hand reveals his hand and discards a card that you choose. Gain 2 Spoils from the Spoils pile.</string>
     <string name="Spoils_name">Spoils</string>
     <string name="Spoils_desc">When you play this, return it to the Spoils pile (This is not in the Supply).</string>
-    
+    <string name="AbandonedMine_name">AbandonedMine</string>
+    <string name="AbandonedMine_desc"></string>
+    <string name="RuinedLibrary_name">RuinedLibrary</string>
+    <string name="RuinedLibrary_desc"></string>
+    <string name="RuinedMarket_name">RuinedMarket</string>
+    <string name="RuinedMarket_desc"></string>
+    <string name="RuinedVillage_name">RuinedVillage</string>
+    <string name="RuinedVillage_desc"></string>
+    <string name="Survivors_name">Survivors</string>
+    <string name="Survivors_desc"></string>
+    <string name="Hovel_name">Hovel</string>
+    <string name="Hovel_desc">When you buy a Victory card, you may trash this from your hand</string>
+    <string name="OvergrownEstate_name">OvergrownEstate</string>
+    <string name="OvergrownEstate_desc">When you trash this, +1 Card</string>
+    <string name="Necropolis_name">Necropolis</string>
+    <string name="Necropolis_desc"></string>
 </resources>

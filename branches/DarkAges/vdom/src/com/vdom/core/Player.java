@@ -662,7 +662,7 @@ public abstract class Player {
         }
         return false;
     }
-    
+
     public boolean gainNewCardFromPile(AbstractCardPile pile, Card responsible, MoveContext context) {
     	switch (pile.type) {
     	case SingleCardPile:
@@ -711,14 +711,12 @@ public abstract class Player {
         	}
         }
 
-        if (game.getPile(card).isSupply() || card.isShelter()) {
+        if (game.getPile(card).isSupply() || card.isShelter() || card.equals(Cards.spoils)) {
 			if (isPossessed()) {
 				context.game.possessedTrashPile.add(card);
 			} else {
 				context.game.trashPile.add(card);
 			}
-        } else if (card.equals(Cards.spoils)) {
-        	context.game.getPile(Cards.spoils).addCard(card);
         }
 
         // Execute special card logic when the trashing occurs
@@ -1262,6 +1260,14 @@ public abstract class Player {
 	public abstract Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards);
 
 	public abstract boolean hovel_shouldTrash(MoveContext context);
+
+	public abstract Card deathCart_actionToTrash(MoveContext context);
+	
+	public abstract Card[] urchin_attack_cardsToKeep(MoveContext context);
+	
+	public abstract boolean urchin_shouldTrashForMercenary(MoveContext context);
+	
+	public abstract Card[] mercenary_cardsToTrash(MoveContext context);
 
 	// ////////////////////////////////////////////
     // Card interactions - Promotional Cards

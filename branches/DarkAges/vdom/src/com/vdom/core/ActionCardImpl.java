@@ -39,6 +39,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         addGold = builder.addGold;
         addVictoryTokens = builder.addVictoryTokens;
         attack = builder.attack;
+        ruins = builder.ruins;
+        knight = builder.knight;
+        looter = builder.looter;
         trashOnUse = builder.trashOnUse;
         trashForced = builder.trashForced;
     }
@@ -217,6 +220,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         while (cardsToDraw > 0) {
             cardsToDraw--;
             game.drawToHand(currentPlayer, this);
+        }
+        
+        if (isAttack())
+        {
+        	attackPlayed(context, game, currentPlayer);
         }
 
         additionalCardActions(game, context, currentPlayer);
@@ -587,6 +595,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case Count:
         	count(currentPlayer, context);
         	break;
+        case DeathCart:
+        	deathCart(currentPlayer, context);
+        	break;
         case Forager:
         	forager(game, currentPlayer, context);
         	break;
@@ -630,6 +641,15 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	break;
         case Cultist:
         	cultist(context, game, currentPlayer);
+        	break;
+        case Urchin:
+        	urchin(context, game, currentPlayer);
+        	break;
+        case Mercenary:
+        	mercenary(context, game, currentPlayer);
+        	break;
+        case Marauder:
+        	marauder(context, game, currentPlayer);
         	break;
         default:
             break;
@@ -3884,6 +3904,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
             context.copperPlayed = false;
             break;
+        case DeathCart:
+        	//context.player.gainNewCard(context.game.getNextRuinsCard(), this, context);
+        	//context.player.gainNewCard(context.game.getNextRuinsCard(), this, context);
+        	break;
         default:
             break;
         }
@@ -4215,6 +4239,20 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    		break;
 	    	}
 	    }
+	}
+	private void deathCart(Player currentPlayer, MoveContext context)
+	{
+		Card actionCardToTrash = currentPlayer.deathCart_actionToTrash(context);
+		if (actionCardToTrash != null)
+		{
+			currentPlayer.hand.remove(actionCardToTrash);
+            currentPlayer.trash(actionCardToTrash, this, context);
+		}
+		else
+		{
+			currentPlayer.playedCards.remove(this);      
+            currentPlayer.trash(this, this, context);
+		}
 	}
 
 	private void forager(Game game, Player currentPlayer, MoveContext context) {
@@ -4753,6 +4791,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	public boolean isLooter() {
 		switch (this.getType()) {
 		case Cultist:
+		case DeathCart:
 			return true;
 		default:
 			return false;
@@ -4816,7 +4855,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
                 player.attacked(this, context);
-                player.gainNewCard(game.getNextRuinsCard(), this, context);
+                MoveContext playerContext = new MoveContext(game, player);
+                player.gainNewCard(game.getNextRuinsCard(), this, playerContext);
             }
         }
         
@@ -4832,5 +4872,147 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 	}
 
+	private void urchin(MoveContext context, Game game, Player currentPlayer) 
+	{		
+        for (Player player : game.getPlayersInTurnOrder()) 
+        {
+            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) 
+            {
+                player.attacked(this, context);
+                
+                if (player.hand.size() > 4)
+                {
+                	Card[] cardsToKeep = player.controlPlayer.urchin_attack_cardsToKeep(context);
+                	
+                	// Remove cards to keep from the hand temporarily
+                    for (Card card : cardsToKeep) 
+                    {
+                        player.hand.remove(card);
+                    }
 
+                    // Discard all of the cards left
+                    for (Card card : player.hand) 
+                    {
+                        player.discard(card, this, context);
+                    }
+
+                    // Clear out the hand
+                    player.hand.clear();
+
+                    // Put the cardsToKeep back
+                    for (Card card : cardsToKeep) 
+                    {
+                        player.hand.add(card);
+                    }
+                }
+            }
+        }
+	}
+	
+	private void attackPlayed(MoveContext context, Game game, Player currentPlayer)
+	{
+		// TODO: Need to support multiple Urchins being trashed...
+		Card trashedUrchin = null;
+		
+		// If an Urchin has been played, offer the player the option to trash it for a Mercenary
+		for (Card c : currentPlayer.playedCards)
+		{
+			if (c.getType() == Cards.Type.Urchin && c != this && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context))
+			{
+				trashedUrchin = c;
+				currentPlayer.trash(c, this, context);
+				currentPlayer.gainNewCard(Cards.mercenary, this, context);
+				break;
+			}
+		}
+		
+		if (trashedUrchin != null)
+		{
+			currentPlayer.playedCards.remove(trashedUrchin);
+		}
+	}
+	
+	private void mercenary(MoveContext context, Game game, Player currentPlayer) 
+	{
+		int cardsTrashedCount = 0;
+		
+		Card[] cards = currentPlayer.controlPlayer.mercenary_cardsToTrash(context);
+		
+        if (cards != null) {
+            if (cards.length > 2) {
+                Util.playerError(currentPlayer, "Mercenary trash error, trying to trash too many cards, ignoring.");
+            } else {
+                for (Card card : cards) {
+                    for (int i = 0; i < currentPlayer.hand.size(); i++) {
+                        Card playersCard = currentPlayer.hand.get(i);
+                        if (playersCard.equals(card)) {
+                            Card thisCard = currentPlayer.hand.remove(i);
+
+                            currentPlayer.trash(thisCard, this, context);
+                            ++cardsTrashedCount;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (cardsTrashedCount == 2)
+        {
+        	game.drawToHand(currentPlayer, this);
+        	game.drawToHand(currentPlayer, this);
+        	
+        	context.addGold += 2;
+        	
+        	for (Player player : game.getPlayersInTurnOrder()) 
+            {
+                if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) 
+                {
+                    player.attacked(this, context);
+                    
+                    if (player.hand.size() > 3)
+                    {
+                    	// Reusing Militia logic for now...
+                    	Card[] cardsToKeep = player.controlPlayer.militia_attack_cardsToKeep(context);
+                    	
+                    	// Remove cards to keep from the hand temporarily
+                        for (Card card : cardsToKeep) 
+                        {
+                            player.hand.remove(card);
+                        }
+
+                        // Discard all of the cards left
+                        for (Card card : player.hand) 
+                        {
+                            player.discard(card, this, context);
+                        }
+
+                        // Clear out the hand
+                        player.hand.clear();
+
+                        // Put the cardsToKeep back
+                        for (Card card : cardsToKeep) 
+                        {
+                            player.hand.add(card);
+                        }
+                    }
+                }
+            }
+        }
+	}
+
+	private void marauder(MoveContext context, Game game, Player currentPlayer) 
+	{
+		currentPlayer.gainNewCard(Cards.spoils, this, context);
+		
+		for (Player player : game.getPlayersInTurnOrder()) 
+		{
+            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) 
+            {
+                player.attacked(this, context);
+                //MoveContext playerContext = new MoveContext(game, player);
+                //player.gainNewCard(game.getNextRuinsCard(), this, playerContext);
+            }
+        }
+	}
 }
