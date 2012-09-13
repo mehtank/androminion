@@ -26,8 +26,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     protected int addGold;
     protected int addVictoryTokens;
     protected boolean attack;
-    protected boolean ruins;
-    protected boolean knight;
     protected boolean looter;
     boolean trashForced = false;
 
@@ -39,8 +37,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         addGold = builder.addGold;
         addVictoryTokens = builder.addVictoryTokens;
         attack = builder.attack;
-        ruins = builder.ruins;
-        knight = builder.knight;
         looter = builder.looter;
         trashOnUse = builder.trashOnUse;
         trashForced = builder.trashForced;
@@ -53,8 +49,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    protected int addGold;
 	    protected int addVictoryTokens;
 	    protected boolean attack;
-	    protected boolean ruins;
-	    protected boolean knight;
 	    protected boolean looter;
 	    protected boolean trashOnUse;
         protected boolean trashForced = false;
@@ -90,16 +84,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         public Builder attack() {
             attack = true;
-            return this;
-        }
-
-        public Builder ruins() {
-            ruins = true;
-            return this;
-        }
-
-        public Builder knight() {
-            knight = true;
             return this;
         }
 
@@ -167,8 +151,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         c.addGold = addGold;
         c.addVictoryTokens = addVictoryTokens;
         c.attack = attack;
-        c.ruins = ruins;
-        c.knight = knight;
         c.looter = looter;
         c.trashOnUse = trashOnUse;
     }
@@ -3905,8 +3887,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             context.copperPlayed = false;
             break;
         case DeathCart:
-        	//context.player.gainNewCard(context.game.getNextRuinsCard(), this, context);
-        	//context.player.gainNewCard(context.game.getNextRuinsCard(), this, context);
+        	context.player.gainNewCard(Cards.virtualRuins, this, context);
+        	context.player.gainNewCard(Cards.virtualRuins, this, context);
         	break;
         default:
             break;
@@ -4784,7 +4766,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
 	@Override
 	public boolean isKnight() {
-		return knight;
+		return isKnight;
 	}
 
 	@Override
@@ -4856,7 +4838,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
                 player.attacked(this, context);
                 MoveContext playerContext = new MoveContext(game, player);
-                player.gainNewCard(game.getNextRuinsCard(), this, playerContext);
+                player.gainNewCard(Cards.virtualRuins, this, playerContext);
             }
         }
         
@@ -5010,8 +4992,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) 
             {
                 player.attacked(this, context);
-                //MoveContext playerContext = new MoveContext(game, player);
-                //player.gainNewCard(game.getNextRuinsCard(), this, playerContext);
+                MoveContext playerContext = new MoveContext(game, player);
+                player.gainNewCard(Cards.virtualRuins, this, playerContext);
             }
         }
 	}

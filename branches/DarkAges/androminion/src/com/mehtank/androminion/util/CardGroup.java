@@ -123,4 +123,13 @@ public class CardGroup extends BaseAdapter {
 		sorted = false;
 		cmp = new MyCard.CardCostNameComparator();
 	}
+
+
+	public void updateCardName(int index, String s) {
+		for (CardState cs : cards) {
+			if (cs.c.id == index) {
+				cs.c.name = s;
+			}
+		}
+	}
 }

@@ -16,6 +16,8 @@ public class CardImpl implements Card {
     int numberTimesAlreadyPlayed = 0;
     boolean isPrize = false;
     boolean isShelter = false;
+    boolean isRuins = false;
+    boolean isKnight = false;
     int cloneCount = 1;
 
     private Integer id;
@@ -41,6 +43,8 @@ public class CardImpl implements Card {
         expansion = builder.expansion;
         isPrize = builder.isPrize;
         isShelter = builder.isShelter;
+        isRuins = builder.isRuins;
+        isKnight = builder.isKnight;
         trashOnUse = builder.trashOnUse;
     }
 
@@ -56,6 +60,8 @@ public class CardImpl implements Card {
 
 	    protected boolean isPrize = false;
 	    protected boolean isShelter = false;
+	    protected boolean isRuins = false;
+	    protected boolean isKnight = false;
         protected boolean trashOnUse = false;
 
 
@@ -92,6 +98,16 @@ public class CardImpl implements Card {
         
         public Builder isShelter() {
         	isShelter = true;
+        	return this;
+        }
+
+        public Builder isRuins() {
+        	isRuins = true;
+        	return this;
+        }
+
+        public Builder isKnight() {
+        	isKnight = true;
         	return this;
         }
 
@@ -148,6 +164,8 @@ public class CardImpl implements Card {
         c.expansion = expansion;
         c.isPrize = isPrize;
         c.isShelter = isShelter;
+        c.isRuins = isRuins;
+        c.isKnight = isKnight;
         c.vp = vp;
     }
 
@@ -218,13 +236,21 @@ public class CardImpl implements Card {
     public boolean costPotion() {
         return costPotion;
     }
-    
+    @Override
     public boolean isPrize() {
         return isPrize;
     }
-    
+    @Override
     public boolean isShelter() {
     	return isShelter;
+    }
+    @Override
+    public boolean isRuins() {
+    	return isRuins;
+    }
+    @Override
+    public boolean isKnight() {
+    	return isKnight;
     }
     
     @Override

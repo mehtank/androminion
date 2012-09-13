@@ -26,6 +26,10 @@ public class GameStatus implements Serializable {
 	public int[] victoryTokens;
 	public int cardCostModifier;
 	public int potions;
+	public String ruinsTopCard;
+	public int ruinsID;
+	public String knightsTopCard;
+	public int knightsID;
 
 	public GameStatus setFinal(boolean b) {isFinal = b; return this;}
     public GameStatus setPossessed(boolean b) {isPossessed = b; return this;}
@@ -48,6 +52,8 @@ public class GameStatus implements Serializable {
 	public GameStatus setCardCostModifier(int i) {cardCostModifier = i; return this;}
     public GameStatus setPotions(int i) {potions = i; return this;}
     public GameStatus setTrash(int[] is) {trashPile = is; return this;}
+    public GameStatus setRuinsTopCard(int i, String s) {ruinsTopCard = s; ruinsID = i; return this;}
+    public GameStatus setKnightTopCard(int i, String s) {knightsTopCard = s; knightsID = i; return this;}
     
 	public String toString() {
 		String str = name + "(" + whoseTurn + ")";

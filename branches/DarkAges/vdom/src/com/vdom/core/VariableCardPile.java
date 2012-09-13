@@ -2,30 +2,28 @@ package com.vdom.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.HashMap;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 
 public class VariableCardPile extends AbstractCardPile {
-
-	public VariableCardPile(PileType piletype) {
+	
+	HashMap<String, SingleCardPile> piles;
+	
+	public VariableCardPile(PileType piletype, int count) {
 		this.type = piletype;
 		this.cards = new ArrayList<Card>();
+		this.piles = new HashMap<String, SingleCardPile>();
 
 		// TODO: put in checks to make sure template card is never
         // "put into play".
 		switch (this.type) {
-		case KnightsPile:
-			for (Card card : this.generateKnightsPile()) {
-	            CardImpl thisCard = ((CardImpl) card).instantiate();
-	            cards.add(thisCard);
-			}
-			break;
 		case RuinsPile:
-			for (Card card : this.generateRuinsPile(Game.numPlayers)) {
-	            CardImpl thisCard = ((CardImpl) card).instantiate();
-	            cards.add(thisCard);
-			}
+			cards = this.generateRuinsPile(count);
+			break;
+		case KnightsPile:
+			cards = Cards.knightsCards;
+			Collections.shuffle(cards);
 			break;
 		default:
 			break;
@@ -34,7 +32,21 @@ public class VariableCardPile extends AbstractCardPile {
 
 	@Override
 	public Card card() {
-		return cards.get(0);
+		if (cards.isEmpty()) {
+			switch (type) {
+			case RuinsPile:
+				return Cards.virtualRuins;
+			case KnightsPile:
+				return Cards.virtualKnight;
+			default:
+				return null;
+			}
+		}
+		return piles.get(topCard().getName()).card();
+	}
+	
+	public void addLinkedPile(SingleCardPile p) {
+		this.piles.put(p.card().getName(), p);
 	}
 
 	@Override
@@ -63,17 +75,15 @@ public class VariableCardPile extends AbstractCardPile {
 
 	@Override
 	public Card removeCard() {
+		if (cards.isEmpty()) {
+			return null;
+		}
 		return cards.remove(0);
 	}
 	
-	private ArrayList<Card> generateKnightsPile() {
-		return null;
-	}
-	
-    private ArrayList<Card> generateRuinsPile(int players) {
+    private ArrayList<Card> generateRuinsPile(int count) {
     	ArrayList<Card> ruins = new ArrayList<Card>();
     	ArrayList<Card> ret = new ArrayList<Card>();
-    	int size = Math.min(50, (players * 10) - 10); // 
     	
     	for (int i = 0; i < 10; i++) {
     		ruins.add(Cards.abandonedMine);
@@ -87,11 +97,21 @@ public class VariableCardPile extends AbstractCardPile {
     	
     	for (Card c : ruins) {
     		ret.add(c);
-    		if (ret.size() >= size) break;
+    		if (ret.size() >= count) break;
     	}
     	
     	return ret;
     }
+
+	public SingleCardPile getTopLinkedPile() {
+		if (topCard() == null) return null;
+		return piles.get(topCard().getName());
+	}
+	
+	private Card topCard() {
+		if (cards.isEmpty()) return null;
+		return cards.get(0);
+	}
 
 
 }

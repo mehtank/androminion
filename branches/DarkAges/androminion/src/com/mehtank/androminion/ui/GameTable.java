@@ -384,7 +384,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 			moneyPile.addCard(c);
 		else if (c.pile == MyCard.VPPILE)
 			vpPile.addCard(c);
-		else if (c.pile == MyCard.SUPPLYPILE || c.pile == MyCard.RUINS_PILE)
+		else if (c.pile == MyCard.SUPPLYPILE)
 			supplyPile.addCard(c);
 		else if (c.pile == MyCard.PRIZEPILE)
 		    prizePile.addCard(c);
@@ -877,6 +877,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		this.lastEmbargos = gs.embargos;
 		costs = gs.costs;
         setCardCosts(top.findViewById(android.R.id.content));
+        
+        supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard);
+        supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard);
 	}
 
 	static int getCardCost(MyCard c) {

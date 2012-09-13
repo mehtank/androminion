@@ -27,6 +27,10 @@ public interface Card {
     
     public boolean isShelter();
     
+    public boolean isRuins();
+    
+    public boolean isKnight();
+    
     public Integer getId();
     
     public void isBought(MoveContext context);

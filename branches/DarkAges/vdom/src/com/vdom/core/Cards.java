@@ -21,6 +21,7 @@ public class Cards {
     public static ArrayList<Card> prizeCards = new ArrayList<Card>();
     public static ArrayList<Card> nonSupplyCards = new ArrayList<Card>();
     public static ArrayList<Card> ruinsCards = new ArrayList<Card>();
+    public static ArrayList<Card> knightsCards = new ArrayList<Card>();
     
     public static HashMap<String, Card> actionCardsMap = new HashMap<String, Card>();
 
@@ -42,14 +43,15 @@ public class Cards {
         // Hinterlands Expansion
         BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel,
         // Dark Ages Expansion
-        Altar, Armory, BanditCamp, Beggar, Catacombs, Count, Counterfeit, DeathCart, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel,
-        Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors, Cultist, Urchin, Mercenary, Marauder,
+        Altar, Armory, BanditCamp, Beggar, Catacombs, Count, Counterfeit, DeathCart, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel, Cultist, Urchin, Mercenary, Marauder,
+        Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors,
+        VirtualRuins, VirtualKnight,
         // Dark Ages not yet implemented
         // BandOfMisfits, Hermit, Madman, Vagrant
         // Promo Cards
         Envoy, Governor, WalledVillage,
         // Promo Cards (not yet implemented)
-        // BlackMarket, Envoy, Governor, Stash
+        // BlackMarket, Stash
         // Victory Token card container
         VictoryTokens
     }
@@ -284,6 +286,9 @@ public class Cards {
     public static final Card ruinedMarket;
     public static final Card ruinedVillage;
     public static final Card survivors;
+    public static final Card virtualRuins;
+    
+    public static final Card virtualKnight;
 
     // Promo Cards (Incomplete)
     // TODO:Implement Rest of promo cards
@@ -519,11 +524,15 @@ public class Cards {
 		nonSupplyCards.add(mercenary = new ActionCardImpl.Builder(Cards.Type.Mercenary, 0).attack().description("You may trash 2 cards from your hand. If you do, +2 cards, +2 coins, and each other player discards down to 3 cards in hand. (This is not in the supply)").expansion("Dark Ages").build());
         
         // Ruins
-        nonKingdomCards.add(abandonedMine = new ActionCardImpl.Builder(Cards.Type.AbandonedMine, 0).addGold(1).ruins().expansion("Dark Ages").build());
-        nonKingdomCards.add(ruinedLibrary = new ActionCardImpl.Builder(Cards.Type.RuinedLibrary, 0).addCards(1).ruins().expansion("Dark Ages").build());
-        nonKingdomCards.add(ruinedMarket = new ActionCardImpl.Builder(Cards.Type.RuinedMarket, 0).addBuys(1).ruins().expansion("Dark Ages").build());
-        nonKingdomCards.add(ruinedVillage = new ActionCardImpl.Builder(Cards.Type.RuinedVillage, 0).addActions(1).ruins().expansion("Dark Ages").build());
-        nonKingdomCards.add(survivors = new ActionCardImpl.Builder(Cards.Type.Survivors, 0).ruins().description("Look at the top 2 cards of your deck. Discard them or put them back in any order.").expansion("Dark Ages").build());
+        ruinsCards.add(abandonedMine = new ActionCardImpl.Builder(Cards.Type.AbandonedMine, 0).addGold(1).isRuins().expansion("Dark Ages").build());
+        ruinsCards.add(ruinedLibrary = new ActionCardImpl.Builder(Cards.Type.RuinedLibrary, 0).addCards(1).isRuins().expansion("Dark Ages").build());
+        ruinsCards.add(ruinedMarket = new ActionCardImpl.Builder(Cards.Type.RuinedMarket, 0).addBuys(1).isRuins().expansion("Dark Ages").build());
+        ruinsCards.add(ruinedVillage = new ActionCardImpl.Builder(Cards.Type.RuinedVillage, 0).addActions(1).isRuins().expansion("Dark Ages").build());
+        ruinsCards.add(survivors = new ActionCardImpl.Builder(Cards.Type.Survivors, 0).isRuins().description("Look at the top 2 cards of your deck. Discard them or put them back in any order.").expansion("Dark Ages").build());
+        nonKingdomCards.add(virtualRuins = new CardImpl(Cards.Type.VirtualRuins, 0));
+        
+        // Knights
+        actionCardsDarkAges.add(virtualKnight = new CardImpl(Cards.Type.VirtualKnight, 0));
         
         // Shelters
         nonKingdomCards.add(necropolis = new ActionCardImpl.Builder(Cards.Type.Necropolis, 1).addActions(2).isShelter().expansion("Dark Ages").build());
@@ -565,14 +574,6 @@ public class Cards {
         }
     }
     
-    static {
-    	ruinsCards.add(abandonedMine);
-    	ruinsCards.add(ruinedLibrary);
-    	ruinsCards.add(ruinedMarket);
-    	ruinsCards.add(ruinedVillage);
-    	ruinsCards.add(survivors);
-    }
-
     public static boolean isKingdomCard(Card c) {
         return !nonKingdomCards.contains(c);
     }

@@ -1685,14 +1685,20 @@ public class Game {
             }
         }
         
-        // Add Ruins pile if any Looter cards are present
+        // We have to add one "invisible" pile for each ruins card and a "virtual" visible pile
+        boolean looter = false;
         for (AbstractCardPile pile : piles.values()) {
         	if (pile.card() instanceof ActionCard && ((ActionCard)pile.card()).isLooter()) {
-        		AbstractCardPile p = addPile(Cards.abandonedMine); // adding any Ruins card as a pile will result in creating the Ruins pile properly
-        		Util.debug("Ruins Pile: " + p);
-                break;
+        		looter = true;
             }
         }
+        if (looter) {
+			VariableCardPile rp = (VariableCardPile) this.addPile(Cards.virtualRuins, (numPlayers * 10) - 10);
+			for (Card r : Cards.ruinsCards) {
+				rp.addLinkedPile((SingleCardPile) this.addPile(r, 10, false));
+			}
+        }
+
         
         if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
             addPile(Cards.bagOfGold, 1, false);
@@ -2118,8 +2124,16 @@ public class Game {
             return null;
         }
 
+        Card thisCard;
     	tradeRouteValue += pile.takeTradeRouteToken();
-        Card thisCard = pile.removeCard();
+    	if (card.equals(Cards.virtualRuins) || card.equals(Cards.virtualKnight)) {
+    		SingleCardPile cp = ((VariableCardPile) pile).getTopLinkedPile();
+    		if (cp == null) return null;
+    		thisCard = cp.removeCard();
+    		pile.removeCard();
+    	} else {
+    		thisCard = pile.removeCard();
+    	}
 
         return thisCard;
     }
@@ -2174,7 +2188,13 @@ public class Game {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (AbstractCardPile pile : piles.values()) {
             if (c == null || c.isInstance(pile.card()))
-                cards.add(pile.card());
+            	if (pile.type.equals(AbstractCardPile.PileType.RuinsPile)) {
+            		cards.add(Cards.virtualRuins);
+            	} else if (pile.type.equals(AbstractCardPile.PileType.KnightsPile)) {
+            		cards.add(Cards.virtualKnight);
+            	} else {
+            		cards.add(pile.card());
+            	}
         }
         return cards.toArray(new Card[0]);
     }
@@ -2231,14 +2251,10 @@ public class Game {
 
     protected AbstractCardPile addPile(Card card, int count, boolean isSupply) {
     	AbstractCardPile pile;
-    	if (card instanceof ActionCard) {
-        	if (((ActionCard)card).isKnight()) {
-        		pile = new VariableCardPile(AbstractCardPile.PileType.KnightsPile);
-        	} else if (((ActionCard)card).isRuins()) {
-        		pile = new VariableCardPile(AbstractCardPile.PileType.RuinsPile);
-        	} else {
-        		pile = new SingleCardPile(card, count);
-        	}
+    	if (card.equals(Cards.virtualRuins)) {
+    		pile = new VariableCardPile(AbstractCardPile.PileType.RuinsPile, Math.max(10, Math.min(50, (numPlayers * 10) - 10)));
+    	} else if (card.equals(Cards.virtualKnight)) {
+    		pile = new VariableCardPile(AbstractCardPile.PileType.KnightsPile, 10);
     	} else {
     		pile = new SingleCardPile(card, count);
     	}
@@ -2247,19 +2263,7 @@ public class Game {
     		pile.notInSupply();
     	}
 
-    	switch (pile.type) {
-		case KnightsPile:
-			piles.put("Knights", pile);
-			break;
-		case RuinsPile:
-			piles.put("Ruins", pile);
-			break;
-		case SingleCardPile:
-			piles.put(pile.card().getName(), pile);
-			break;
-		default:
-			break;
-    	}
+		piles.put(card.getName(), pile);
     	
     	return pile;
     }
@@ -2386,23 +2390,19 @@ public class Game {
     /**
      * @return Card on top of the Ruins pile
      */
-    public Card getNextRuinsCard() {
-    	for (AbstractCardPile p : piles.values()) {
-    		if (p.type.equals(AbstractCardPile.PileType.RuinsPile)) {
-    			return p.card();
-    		}
-    	}
-		return null;
+    public Card getTopRuinsCard() {
+    	AbstractCardPile p = getPile(Cards.virtualRuins);
+    	if (p == null) return null;
+    	return p.card();
+    }
+    
+    public Card getTopKnightCard() {
+    	AbstractCardPile p = getPile(Cards.virtualKnight);
+    	if (p == null) return null;
+    	return p.card();
     }
     
     public AbstractCardPile getPile(Card card) {
-    	if (card instanceof ActionCard) {
-    		if (((ActionCard)card).isRuins()) {
-    			return piles.get("Ruins");
-    		} else if (((ActionCard)card).isKnight()) {
-    			return piles.get("Knights");
-    		}
-    	}
     	return piles.get(card.getName());
     }
 }

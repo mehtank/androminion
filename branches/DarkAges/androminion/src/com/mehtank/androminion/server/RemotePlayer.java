@@ -119,8 +119,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	card.costPotion = c.costPotion();
     	card.isBane = isBane;
     	card.isShelter = c.isShelter();
-    	if (c instanceof ActionCard)
-    		card.isRuins = ((ActionCard)c).isRuins();
+    	if (c.equals(Cards.virtualRuins))
+    		card.isRuins = true;
+    	else
+    		card.isRuins = c.isRuins();
+    	
 
     	card.pile = MyCard.SUPPLYPILE;
 
@@ -158,10 +161,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	   (c.equals(Cards.province)) ||
     	   (c.equals(Cards.colony)) ||
            (c.equals(Cards.curse))) card.pile = MyCard.VPPILE;
-    	if (card.isRuins)
-    		card.pile = MyCard.RUINS_PILE;
+    	
+    	if (Cards.ruinsCards.contains(c))
+    		card.pile = MyCard.RUINS_PILES;
 
-        if (c.equals(Cards.potion)) card.isPotion = true;
+    	if (Cards.knightsCards.contains(c))
+    		card.pile = MyCard.KNIGHTS_PILES;
+
+    	if (c.equals(Cards.potion)) card.isPotion = true;
     	if (c.equals(Cards.curse)) {
     		card.isCurse = true;
     		card.vp = ((CurseCard) c).getVictoryPoints();
@@ -233,7 +240,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     @Override
     public int cardToInt(Card card) {
         // TODO:  NullPointerException for tournament prizes
-    	return cardNamesInPlay.get(card.getName());
+    	if (cardNamesInPlay.containsKey(card.getName()))
+    		return cardNamesInPlay.get(card.getName());
+    	else
+    		return -1;
     }
     
 	public int[] cardArrToIntArr(Card[] cards) {
@@ -457,6 +467,16 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setIsland(cardArrToIntArr(player.getIsland().toArray()))
     	  .setVillage(cardArrToIntArr(player.getNativeVillage().toArray()))
     	  .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
+    	
+    	if (game.getTopRuinsCard() != null)
+    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), game.getTopRuinsCard().getName());
+    	else
+    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Cards.virtualRuins.getName());
+
+    	if (game.getTopKnightCard() != null)
+    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), game.getTopKnightCard().getName());
+    	else
+    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Cards.virtualKnight.getName());
 
     	Event p = new Event(EType.STATUS)
     				.setObject(new EventObject(gs));

@@ -406,4 +406,8 @@
     <string name="OvergrownEstate_desc">When you trash this, +1 Card</string>
     <string name="Necropolis_name">Necropolis</string>
     <string name="Necropolis_desc"></string>
+    <string name="VirtualRuins_name">Ruins</string>
+    <string name="VirtualRuins_desc"/>
+    <string name="VirtualKnight_name">Knights</string>
+    <string name="VirtualKnight_desc"/>
 </resources>

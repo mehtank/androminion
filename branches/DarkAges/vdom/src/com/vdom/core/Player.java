@@ -668,9 +668,9 @@ public abstract class Player {
     	case SingleCardPile:
     		return gainNewCard(pile.card(), responsible, context);
     	case RuinsPile:
-    		return gainNewCard(game.getNextRuinsCard(), responsible, context);
+    		return gainNewCard(game.getTopRuinsCard(), responsible, context);
 		case KnightsPile:
-			break;
+			return gainNewCard(game.getTopKnightCard(), responsible, context);
 		default:
 			break;
     	}
@@ -711,7 +711,7 @@ public abstract class Player {
         	}
         }
 
-        if (game.getPile(card).isSupply() || card.isShelter() || card.equals(Cards.spoils)) {
+        if (game.getPile(card).isSupply() || card.isShelter() || card.equals(Cards.spoils) || card.isRuins()) {
 			if (isPossessed()) {
 				context.game.possessedTrashPile.add(card);
 			} else {
