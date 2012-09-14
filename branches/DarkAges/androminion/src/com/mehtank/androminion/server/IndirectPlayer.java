@@ -97,6 +97,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return Strings.format(R.string.card_to_discard, getCardName(cardResponsible));
     }
     
+    public String getNameString(Card cardResponsible) {
+        return Strings.format(R.string.card_to_name, getCardName(cardResponsible));
+    }
+
     public String getOpponentDiscardString(Card cardResponsible, String opponentName)
     {
     	return Strings.format(R.string.opponent_discard, opponentName, getCardName(cardResponsible));
@@ -2335,7 +2339,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	        return super.rebuild_cardToPick(context);
 	    }
 	    SelectCardOptions sco = new SelectCardOptions().fromTable().isVictory().setPassable(NOTPASSABLE);
-	    return getFromTable(context, getGainString(Cards.rebuild), sco, false);
+	    return getFromTable(context, getNameString(Cards.rebuild), sco, false);
+	    //getFromTable(context, getString(R.string.wishing_well_part), Integer.MAX_VALUE, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, -1, true)
 	}
 	
 	@Override

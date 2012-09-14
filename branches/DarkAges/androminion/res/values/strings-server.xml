@@ -79,6 +79,7 @@
 	<string name="card_to_gain">gain [%1$s]</string>
 	<string name="card_to_trash">trash [%1$s]</string>
 	<string name="card_to_discard">discard [%1$s]</string>
+	<string name="card_to_name">name [%1$s]</string>
 	<string name="discard">Discard</string>
 	<string name="trash">Trash</string>
 	<string name="keep">Keep</string>
