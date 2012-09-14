@@ -138,7 +138,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
 		
 		if (c.equals(Cards.spoils) ||
-			c.equals(Cards.mercenary))
+			c.equals(Cards.mercenary) ||
+			c.equals(Cards.madman))
         {
             card.pile = MyCard.NON_SUPPLY_PILE;
         }
@@ -469,14 +470,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
     	
     	if (game.getTopRuinsCard() != null)
-    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), game.getTopRuinsCard().getName());
+    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), game.getTopRuinsCard().getName(), game.getTopRuinsCard().getDescription());
     	else
-    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Cards.virtualRuins.getName());
+    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Cards.virtualRuins.getName(), Cards.virtualRuins.getDescription());
 
     	if (game.getTopKnightCard() != null)
-    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), game.getTopKnightCard().getName());
+    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), game.getTopKnightCard().getName(), game.getTopKnightCard().getDescription());
     	else
-    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Cards.virtualKnight.getName());
+    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Cards.virtualKnight.getName(), Cards.virtualKnight.getDescription());
 
     	Event p = new Event(EType.STATUS)
     				.setObject(new EventObject(gs));

@@ -353,7 +353,7 @@ public abstract class Player {
         }
 
         while (!playedCards.isEmpty()) {
-            discard(playedCards.remove(0), null, null, false);
+            discard(playedCards.remove(0), null, context, false);
         }
 
         if (isPossessed()) {
@@ -632,7 +632,27 @@ public abstract class Player {
                 gainNewCard(Cards.gold, card, tunnelContext);
             }
         }
-        discard.add(card);
+        
+        if (card.equals(Cards.hermit))
+    	{        	
+        	if (!commandedDiscard && 
+        	    (context != null) && 
+        	    (context.totalCardsBoughtThisTurn == 0) && 
+        	    (!context.game.isPileEmpty(Cards.madman)) && 
+        	    hermit_trashForMadman(context))
+		    {
+		    	trash(card, card, context);
+		    	this.gainNewCard(Cards.madman, card, context);
+		    }
+    		else
+    	    {
+    	    	discard.add(card);
+    	    }
+    	}
+        else
+	    {
+	    	discard.add(card);
+	    }
 
         // XXX making game slow; is this necessary?  For that matter, are discarded cards public?
 //        if(context != null) {
@@ -1268,6 +1288,12 @@ public abstract class Player {
 	public abstract boolean urchin_shouldTrashForMercenary(MoveContext context);
 	
 	public abstract Card[] mercenary_cardsToTrash(MoveContext context);
+	
+	public abstract boolean madman_shouldReturnToPile(MoveContext context);
+	
+	public abstract Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard);
+	public abstract Card hermit_cardToGain(MoveContext context);
+	public abstract boolean hermit_trashForMadman(MoveContext context);
 
 	// ////////////////////////////////////////////
     // Card interactions - Promotional Cards

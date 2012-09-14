@@ -1721,8 +1721,12 @@ public class Game {
 		{
 			addPile(Cards.mercenary, 10, false);
 		}
-
-//        if (!debug) { return; } //make stuff fast
+		
+		// If Hermit is in play, we'll need Madman (non-supply)
+		if (piles.containsKey(Cards.hermit.getName()))
+		{
+			addPile(Cards.madman, 10, false);
+		}
 
         boolean oldDebug = debug;
         if (!debug && !showEvents.isEmpty()) {
@@ -1732,15 +1736,6 @@ public class Game {
         Util.debug("Cards in Play", true);
         Util.debug("---------------", true);
         cardListText += "Cards in play\n---------------\n";
-        // Util.debug(Cards.copper.getName());
-        // Util.debug(Cards.silver.getName());
-        // Util.debug(Cards.gold.getName());
-        // Util.debug(Cards.estate.getName());
-        // Util.debug(Cards.duchy.getName());
-        // Util.debug(Cards.province.getName());
-        // Util.debug(Cards.curse.getName());
-        // Util.debug("");
-        //
 
         int cost = 0;
         while (cost < 10) {

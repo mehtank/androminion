@@ -878,8 +878,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		costs = gs.costs;
         setCardCosts(top.findViewById(android.R.id.content));
         
-        supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard);
-        supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard);
+        supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, gs.ruinsTopCardDesc);
+        supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardDesc);
 	}
 
 	static int getCardCost(MyCard c) {

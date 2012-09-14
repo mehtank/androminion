@@ -306,10 +306,10 @@
   <string name="take_normal">Take normally</string>
   <string name="opponent_discard">Choose card for %1$s to discard (%2$s)</string>
   <string name="survivors_header">Survivors revealed: %1$s</string>
-  
   <string name="cultist_play_next">Play another Cultist from hand</string>
-  
-  <string name="urchin_keep">keep from Urchin</string>
-  <string name="urchin_trash_for_mercenary">Trash for Mercenary</string>
+  <string name="urchin_keep">Keep from Urchin</string>
+  <string name="urchin_trash_for_mercenary">Trash Urchin for Mercenary</string>
+  <string name="madman_option">Return Madman</string>
+  <string name="hermit_trash_for_madman">Trash Hermit for Madman</string>
   
 </resources>

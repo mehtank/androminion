@@ -768,4 +768,19 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 	public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
 		return true;
 	}
+	
+	public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context)
+	{
+		return true;
+	}
+	
+	public boolean shouldAutoPlay_madman_shouldReturnToPile(MoveContext context)
+	{
+		return true;
+	}
+	
+	public boolean shouldAutoPlay_hermit_trashForMadman(MoveContext context)
+	{
+		return true;
+	}
 }

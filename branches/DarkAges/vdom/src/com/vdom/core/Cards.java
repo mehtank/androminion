@@ -43,11 +43,13 @@ public class Cards {
         // Hinterlands Expansion
         BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel,
         // Dark Ages Expansion
-        Altar, Armory, BanditCamp, Beggar, Catacombs, Count, Counterfeit, DeathCart, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel, Cultist, Urchin, Mercenary, Marauder,
-        Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors,
+        Altar, Armory, BanditCamp, Beggar, Catacombs, Count, Counterfeit, DeathCart, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel,
+        Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors, Cultist, Urchin, Mercenary, Marauder, Hermit, Madman, Vagrant,
+       
         VirtualRuins, VirtualKnight,
         // Dark Ages not yet implemented
-        // BandOfMisfits, Hermit, Madman, Vagrant
+        // BandOfMisfits,
+       
         // Promo Cards
         Envoy, Governor, WalledVillage,
         // Promo Cards (not yet implemented)
@@ -276,6 +278,9 @@ public class Cards {
     public static final Card urchin;
     public static final Card mercenary;
     public static final Card marauder;
+    public static final Card hermit;
+    public static final Card madman;
+    public static final Card vagrant;
     
     public static final Card necropolis;
     public static final Card hovel;
@@ -287,7 +292,7 @@ public class Cards {
     public static final Card ruinedVillage;
     public static final Card survivors;
     public static final Card virtualRuins;
-    
+
     public static final Card virtualKnight;
 
     // Promo Cards (Incomplete)
@@ -518,11 +523,13 @@ public class Cards {
         actionCardsDarkAges.add(cultist = new ActionCardImpl.Builder(Cards.Type.Cultist, 5).attack().looter().addCards(2).description("Each other player gains a Ruins. You may play a Cultist from your hand. When you trash this, +3 Cards.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(urchin = new ActionCardImpl.Builder(Cards.Type.Urchin, 3).attack().addCards(1).addActions(1).description("Each other player discards down to 4 cards in hand. When you play another attack card with this in play, you may trash this. If you do, gain a Mercenary from the Mercenary pile.").expansion("Dark Ages").build());
         actionCardsDarkAges.add(marauder = new ActionCardImpl.Builder(Cards.Type.Marauder, 4).attack().looter().description("Gain a Spoils from the Spoils pile. Each other player gains a Ruins.").expansion("Dark Ages").build());
-        
+        actionCardsDarkAges.add(hermit = new ActionCardImpl.Builder(Cards.Type.Hermit, 3).description("Look through your discard pile. You may trash a card from your discard pile or hand that is not a Treasure. Gain a card costing up to 3 coins. When you discard this from play, if you did not buy any cards this turn, trash this and gain a Madman from the Madman pile.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(vagrant = new ActionCardImpl.Builder(Cards.Type.Vagrant, 2).addCards(1).addActions(1).description("Reveal the top card of your deck. If it's a Curse, Ruins, Shelter, or Victory card, put it into your hand.").expansion("Dark Ages").build());
         
         nonSupplyCards.add(spoils = new TreasureCardImpl.Builder(Cards.Type.Spoils, 0, 3).description("When you play this, return it to the Spoils pile (This is not in the Supply).").expansion("DarkAges").build());
 		nonSupplyCards.add(mercenary = new ActionCardImpl.Builder(Cards.Type.Mercenary, 0).attack().description("You may trash 2 cards from your hand. If you do, +2 cards, +2 coins, and each other player discards down to 3 cards in hand. (This is not in the supply)").expansion("Dark Ages").build());
-        
+		nonSupplyCards.add(madman = new ActionCardImpl.Builder(Cards.Type.Madman, 0).description("Return this to the Madman pile. If you do, +1 Card per card in your hand. (This is not in the supply)").expansion("Dark Ages").build());
+		
         // Ruins
         ruinsCards.add(abandonedMine = new ActionCardImpl.Builder(Cards.Type.AbandonedMine, 0).addGold(1).isRuins().expansion("Dark Ages").build());
         ruinsCards.add(ruinedLibrary = new ActionCardImpl.Builder(Cards.Type.RuinedLibrary, 0).addCards(1).isRuins().expansion("Dark Ages").build());

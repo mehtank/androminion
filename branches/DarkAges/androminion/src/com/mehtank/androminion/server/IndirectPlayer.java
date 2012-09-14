@@ -2500,7 +2500,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	@Override
 	public boolean urchin_shouldTrashForMercenary(MoveContext context)
 	{
-		if(context.isQuickPlay() && urchin_shouldTrashForMercenary(context)) {
+		if(context.isQuickPlay() && shouldAutoPlay_urchin_shouldTrashForMercenary(context)) {
             return super.urchin_shouldTrashForMercenary(context);
         }
 
@@ -2518,5 +2518,64 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         //}
 		
         return getAnyFromHand(context, getTrashString(Cards.mercenary), getString(R.string.none), 2, true, SelectCardOptions.PickType.TRASH);
+	}
+	
+	@Override
+	public boolean madman_shouldReturnToPile(MoveContext context)
+	{
+		if(context.isQuickPlay() && shouldAutoPlay_madman_shouldReturnToPile(context)) {
+            return super.madman_shouldReturnToPile(context);
+        }
+
+        String option1 = getString(R.string.madman_option);
+        String option2 = getString(R.string.pass);
+
+    	return selectBoolean(context, Cards.madman.getName(), option1, option2);
+	}
+	
+	@Override
+	public Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard)
+	{
+		LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
+		
+		int cardCount = 0;
+		
+		// Add option to skip the trashing
+		h.put("None", null);
+		
+		for (Card c : cardList) 
+	    {
+			if (cardCount < nonTreasureCountInDiscard)
+			{
+				h.put(c.getName() + " (discard pile)", c);
+			}
+			else
+			{
+				h.put(c.getName() + " (deck)", c);
+			}
+			
+			++cardCount;
+	    }
+	
+		return h.get(selectString(context, getTrashString(Cards.hermit), h.keySet().toArray(new String[0])));
+	}
+	
+	@Override
+	public Card hermit_cardToGain(MoveContext context)
+	{
+		return getFromTable(context, getGainString(Cards.hermit), 3, 0, false, NOTPASSABLE, false, true);
+	}
+	
+	@Override
+	public boolean hermit_trashForMadman(MoveContext context)
+	{
+		if(context.isQuickPlay() && shouldAutoPlay_hermit_trashForMadman(context)) {
+            return super.hermit_trashForMadman(context);
+        }
+
+        String option1 = getString(R.string.hermit_trash_for_madman);
+        String option2 = getString(R.string.pass);
+
+    	return selectBoolean(context, Cards.hermit.getName(), option1, option2);
 	}
 }

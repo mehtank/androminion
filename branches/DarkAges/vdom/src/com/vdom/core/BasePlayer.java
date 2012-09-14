@@ -51,7 +51,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public void gameEvent(GameEvent event) {
         // There are quite a few event types, found in the GameEvent.Type enum, that
         // are broadcast.
-
         if (event.getType() == GameEvent.Type.PlayingAction) {
             reactedMoat = false;
             reactedSecretChamber = false;
@@ -2430,5 +2429,29 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public Card[] mercenary_cardsToTrash(MoveContext context)
 	{
 		return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
+	}
+	
+	@Override
+	public Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard)
+	{	
+		return this.lowestCards(context, cardList, 1, false)[0];
+	}
+	
+	@Override
+	public Card hermit_cardToGain(MoveContext context)
+	{
+		return bestCardInPlay(context, 3, false, false);
+	}
+	
+	@Override
+	public boolean madman_shouldReturnToPile(MoveContext context)
+	{
+		return true;
+	}
+	
+	@Override
+	public boolean hermit_trashForMadman(MoveContext context)
+	{
+		return true;
 	}
 }

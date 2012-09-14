@@ -633,6 +633,15 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case Marauder:
         	marauder(context, game, currentPlayer);
         	break;
+        case Hermit:
+        	hermit(context, game, currentPlayer);
+        	break;
+        case Madman:
+        	madman(context, game, currentPlayer);
+        	break;
+        case Vagrant:
+        	vagrant(context, game, currentPlayer);
+        	break;
         default:
             break;
         }
@@ -4542,9 +4551,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
 	private void pillage(Game game, MoveContext context, Player currentPlayer)
 	{
-		// Trash this.
-		currentPlayer.playedCards.remove(this);
-		currentPlayer.trash(this, this, context);
 
 		// Each other player with 5 cards in hand reveals his hand and discards a card that you choose.
 		for (Player targetPlayer : game.getPlayersInTurnOrder())
@@ -4996,5 +5002,87 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 player.gainNewCard(Cards.virtualRuins, this, playerContext);
             }
         }
+	}
+	
+	private void hermit(MoveContext context, Game game, Player currentPlayer)
+	{
+		ArrayList<Card> options = new ArrayList<Card>();
+		int nonTreasureCountInDiscard = 0;
+		
+		for (Card c : currentPlayer.discard) 
+		{
+			if (!(c instanceof TreasureCard)) 
+			{
+				options.add(c);
+				++nonTreasureCountInDiscard;	// Keep track of which cards are in the discard pile so that the player 
+												// can tell if they are trashing from discard or deck
+			}
+		}
+		
+		for (Card c: currentPlayer.hand)
+		{
+			if (!(c instanceof TreasureCard))
+			{
+				options.add(c);
+			}
+		}
+
+		if (options.size() > 0) 
+		{
+			// Offer the option to trash a non-treasure card
+			Card toTrash = currentPlayer.hermit_cardToTrash(context, options, nonTreasureCountInDiscard);
+			
+			if (toTrash != null) 
+			{
+				if (currentPlayer.hand.contains(toTrash))
+				{
+					currentPlayer.hand.remove(toTrash);
+				}
+				else if (currentPlayer.discard.contains(toTrash))
+				{
+					currentPlayer.discard.remove(toTrash);
+				}
+				
+				currentPlayer.trash(toTrash, this, context);
+			}
+		}
+		
+		// Gain a card costing up to 3 coins
+        Card c = context.player.controlPlayer.hermit_cardToGain(context);
+        
+    	if (c != null) 
+    	{
+    		context.player.controlPlayer.gainNewCard(c, this, context);
+    	}
+	}
+	
+	private void madman(MoveContext context, Game game, Player currentPlayer)
+	{
+		if (currentPlayer.controlPlayer.madman_shouldReturnToPile(context))
+		{
+			// Return to the Madman pile
+            currentPlayer.playedCards.remove(this);                   
+            SingleCardPile pile = (SingleCardPile) game.getPile(this);
+            pile.addCard(this);
+            
+            int handSize = currentPlayer.hand.size();
+            
+            for (int i = 0; i < handSize; ++i)
+            {
+            	game.drawToHand(currentPlayer, this);
+            }
+		}
+	}
+	
+	private void vagrant(MoveContext context, Game game, Player currentPlayer)
+	{
+		Card c = game.draw(currentPlayer);
+		
+		currentPlayer.reveal(c, this, context);
+		
+		if (c.getType() == Cards.Type.Curse || c.isShelter() || (c instanceof VictoryCard) || ((c instanceof ActionCard) && (((ActionCard)c).isRuins())))
+		{
+			currentPlayer.hand.add(c);
+		}
 	}
 }
