@@ -258,7 +258,13 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     		TreasureCardImpl card = (TreasureCardImpl) treasure;
 
     		currentPlayer.hand.remove(treasure);
-    		currentPlayer.trash(treasure, this, context);
+    		if (treasure.equals(Cards.spoils)) {
+				// Return to the spoils pile
+	            currentPlayer.playedCards.remove(treasure);                   
+	            game.getPile(Cards.spoils).addCard(treasure);
+	            
+    		} else 
+    			currentPlayer.trash(treasure, this, context);
     		
     		card.playTreasure(context, true);
     		card.playTreasure(context, true);
