@@ -12,7 +12,7 @@ public class SingleCardPile extends AbstractCardPile {
         this.type = PileType.SingleCardPile;
         this.cards = new ArrayList<Card>();
 
-        for (int i = 1; i <= count; i++) {
+        for (int i = 0; i < count; i++) {
             // TODO: put in checks to make sure template card is never
             // "put into play".
             CardImpl thisCard = ((CardImpl) card).instantiate();

@@ -2578,4 +2578,34 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     	return selectBoolean(context, Cards.hermit.getName(), option1, option2);
 	}
+	@Override
+	public Card[] dameAnna_cardsToTrash(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_chapel_cardsToTrash(context)) {
+            return super.dameAnna_cardsToTrash(context);
+        }
+        return getAnyFromHand(context, getTrashString(Cards.dameAnna), getString(R.string.none), 2, false, SelectCardOptions.PickType.TRASH);
+	}
+	@Override
+	public Card knight_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
+	    LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
+	    for (Card c : canTrash) {
+	    	h.put(c.getName(), c);
+	    }
+	
+		return h.get(selectString(context, Cards.virtualKnight, h.keySet().toArray(new String[0])));
+	}
+	@Override
+	public Card[] sirMichael_attack_cardsToKeep(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_militia_attack_cardsToKeep(context)) {
+            return super.sirMichael_attack_cardsToKeep(context);
+        }
+        return getAnyFromHand(context, getString(R.string.sir_michael_part), NOTPASSABLE, 3, true, SelectCardOptions.PickType.KEEP);
+	}
+	@Override
+	public Card dameNatalie_cardToObtain(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
+            return super.dameNatalie_cardToObtain(context);
+        }
+        return getFromTable(context, getGainString(Cards.dameNatalie), 3, Integer.MIN_VALUE, false, getString(R.string.none), false, true, 0);
+	}
 }

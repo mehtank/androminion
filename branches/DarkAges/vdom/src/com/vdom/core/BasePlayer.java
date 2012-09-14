@@ -2454,4 +2454,24 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	{
 		return true;
 	}
+
+	@Override
+	public Card[] dameAnna_cardsToTrash(MoveContext context) {
+		return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
+	}
+
+	@Override
+	public Card knight_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
+		return this.lowestCards(context, canTrash, 1, false)[0];
+	}
+
+	@Override
+	public Card[] sirMichael_attack_cardsToKeep(MoveContext context) {
+		return militia_attack_cardsToKeep(context);	
+	}
+
+	@Override
+	public Card dameNatalie_cardToObtain(MoveContext context) {
+        return bestCardInPlay(context, 3);
+	}
 }

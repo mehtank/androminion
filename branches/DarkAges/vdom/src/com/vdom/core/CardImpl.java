@@ -106,11 +106,6 @@ public class CardImpl implements Card {
         	return this;
         }
 
-        public Builder isKnight() {
-        	isKnight = true;
-        	return this;
-        }
-
         public Builder trashOnUse() {
             trashOnUse = true;
             return this;
@@ -220,7 +215,7 @@ public class CardImpl implements Card {
     public String getDescription() {
         return description;
     }
-
+    
     public String toString() {
         return name; // + " (id=" + id + ")";
     }

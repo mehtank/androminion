@@ -131,10 +131,12 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         }
 		else if (equals(Cards.spoils))
         {
-			// Return to the spoils pile
-            player.playedCards.remove(this);                   
-            SingleCardPile pile = (SingleCardPile) game.getPile(this);
-            pile.addCard(this);
+			if (!isClone) {
+				// Return to the spoils pile
+	            player.playedCards.remove(this);                   
+	            AbstractCardPile pile = game.getPile(this);
+	            pile.addCard(this);
+			}
         }
 
         return reevaluateTreasures;

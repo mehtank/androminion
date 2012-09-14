@@ -25,6 +25,8 @@ public class Cards {
     
     public static HashMap<String, Card> actionCardsMap = new HashMap<String, Card>();
 
+    static final String KNIGHTS_TEXT = "Each other player reveals the top 2 cards of his deck, trashes one of them costing from 3 to 6 coins, and discards the rest. If a Knight is trashed by this, trash this card.";
+    
     public enum Type {
         // Kingdom Cards
         Platinum, Gold, Silver, Copper, Potion, Colony, Province, Duchy, Estate, Curse,
@@ -45,7 +47,7 @@ public class Cards {
         // Dark Ages Expansion
         Altar, Armory, BanditCamp, Beggar, Catacombs, Count, Counterfeit, DeathCart, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel,
         Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors, Cultist, Urchin, Mercenary, Marauder, Hermit, Madman, Vagrant,
-       
+        DameAnna, DameJosephine, DameMolly, DameNatalie, DameSylvia, SirBailey, SirDestry, SirMartin, SirMichael, SirVander,
         VirtualRuins, VirtualKnight,
         // Dark Ages not yet implemented
         // BandOfMisfits,
@@ -282,6 +284,18 @@ public class Cards {
     public static final Card madman;
     public static final Card vagrant;
     
+    public static final Card dameAnna;
+    public static final Card dameJosephine;
+    public static final Card dameMolly;
+    public static final Card dameSylvia;
+    public static final Card dameNatalie;
+    public static final Card sirBailey;
+    public static final Card sirDestry;
+    public static final Card sirMartin;
+    public static final Card sirMichael;
+    public static final Card sirVander;
+    public static final Card virtualKnight;
+    
     public static final Card necropolis;
     public static final Card hovel;
     public static final Card overgrownEstate;
@@ -293,7 +307,6 @@ public class Cards {
     public static final Card survivors;
     public static final Card virtualRuins;
 
-    public static final Card virtualKnight;
 
     // Promo Cards (Incomplete)
     // TODO:Implement Rest of promo cards
@@ -539,7 +552,17 @@ public class Cards {
         nonKingdomCards.add(virtualRuins = new CardImpl(Cards.Type.VirtualRuins, 0));
         
         // Knights
-        actionCardsDarkAges.add(virtualKnight = new CardImpl(Cards.Type.VirtualKnight, 0));
+        knightsCards.add(dameAnna = new ActionCardImpl.Builder(Cards.Type.DameAnna, 5).isKnight().description("You may trash up to 2 cards from your hand. " + KNIGHTS_TEXT).expansion("Dark Ages").build());
+        knightsCards.add(dameJosephine = new ActionVictoryCardImpl.Builder(Cards.Type.DameJosephine, 5).isKnight().vp(2).description(KNIGHTS_TEXT).expansion("Dark Ages").build());
+        knightsCards.add(dameMolly = new ActionCardImpl.Builder(Cards.Type.DameMolly, 5).isKnight().addActions(2).description(KNIGHTS_TEXT).expansion("Dark Ages").build());
+        knightsCards.add(dameNatalie = new ActionCardImpl.Builder(Cards.Type.DameNatalie, 5).isKnight().description("You may gain a card costing up to 3 coins. " + KNIGHTS_TEXT).expansion("Dark Ages").build());
+        knightsCards.add(dameSylvia = new ActionCardImpl.Builder(Cards.Type.DameSylvia, 5).isKnight().addGold(2).description(KNIGHTS_TEXT).expansion("Dark Ages").build());
+        knightsCards.add(sirBailey = new ActionCardImpl.Builder(Cards.Type.SirBailey, 5).isKnight().addActions(1).addCards(1).description(KNIGHTS_TEXT).expansion("Dark Ages").build());
+        knightsCards.add(sirDestry = new ActionCardImpl.Builder(Cards.Type.SirDestry, 5).isKnight().addCards(2).description(KNIGHTS_TEXT).expansion("Dark Ages").build());
+        knightsCards.add(sirMartin = new ActionCardImpl.Builder(Cards.Type.SirMartin, 4).isKnight().addBuys(2).description(KNIGHTS_TEXT).expansion("Dark Ages").build());
+        knightsCards.add(sirMichael = new ActionCardImpl.Builder(Cards.Type.SirMichael, 5).isKnight().description("Each other player discards down to 3 cards in hand. " + KNIGHTS_TEXT).expansion("Dark Ages").build());
+        knightsCards.add(sirVander = new ActionCardImpl.Builder(Cards.Type.SirVander, 5).isKnight().description(KNIGHTS_TEXT + " When you trash this, gain a Gold.").expansion("Dark Ages").build());
+        actionCardsDarkAges.add(virtualKnight = new CardImpl(Cards.Type.VirtualKnight, 5));
         
         // Shelters
         nonKingdomCards.add(necropolis = new ActionCardImpl.Builder(Cards.Type.Necropolis, 1).addActions(2).isShelter().expansion("Dark Ages").build());

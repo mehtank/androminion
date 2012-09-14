@@ -105,6 +105,24 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             return new ActionCardImpl(this);
         }
 
+		@Override
+		public Builder isShelter() {
+			this.isShelter = true;
+			return this;
+		}
+
+		@Override
+		public Builder isRuins() {
+			this.isRuins = true;
+			return this;
+		}
+
+		public Builder isKnight() {
+			this.isKnight = true;
+			this.attack = true;
+			return this;
+		}
+
     }
 
     public int getAddActions() {
@@ -602,10 +620,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	storeroom(game, context, currentPlayer);
         	break;
         case WanderingMinstrel:
-        	wanderingMinstrel(game, currentPlayer, context);
+        	wanderingMinstrel(currentPlayer, context);
         	break;
         case Rebuild:
-        	rebuild(currentPlayer, game, context);
+        	rebuild(currentPlayer, context);
         	break;
         case Rogue:
         	rogue(game, context, currentPlayer);
@@ -641,6 +659,24 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	break;
         case Vagrant:
         	vagrant(context, game, currentPlayer);
+        	break;
+        case DameAnna:
+        	dameAnna(context, currentPlayer);
+        	break;
+        case DameNatalie:
+        	dameNatalie(context, currentPlayer);
+        	break;
+        case SirMichael:
+        	sirMichael(context, currentPlayer);
+        	break;
+        case DameJosephine:
+        case DameMolly:
+        case DameSylvia:
+        case SirBailey:
+        case SirDestry:
+        case SirMartin:
+        case SirVander:
+        	knight(context, currentPlayer);
         	break;
         default:
             break;
@@ -4437,11 +4473,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     //TODO doesn't allow ordering of cards at this time
-    private void wanderingMinstrel(Game game, Player currentPlayer, MoveContext context) {
+    private void wanderingMinstrel(Player currentPlayer, MoveContext context) {
     	ArrayList<Card> revealed = new ArrayList<Card>();
-    	revealed.add(game.draw(currentPlayer));
-    	revealed.add(game.draw(currentPlayer));
-    	revealed.add(game.draw(currentPlayer));
+    	revealed.add(context.game.draw(currentPlayer));
+    	revealed.add(context.game.draw(currentPlayer));
+    	revealed.add(context.game.draw(currentPlayer));
 
     	for (Card c : revealed) {
     		currentPlayer.reveal(c, this, context);
@@ -4452,13 +4488,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     		}
     	}
 	}
-	private void rebuild(Player currentPlayer, Game game, MoveContext context) {
+	private void rebuild(Player currentPlayer, MoveContext context) {
 		Card named = currentPlayer.controlPlayer.rebuild_cardToPick(context);
 		ArrayList<Card> cards = new ArrayList<Card>();
 		Card last = null;
 
 		// search for first Victory card that was not named
-		while ((last = game.draw(currentPlayer)) != null) {
+		while ((last = context.game.draw(currentPlayer)) != null) {
 			if (last instanceof VictoryCard && !last.equals(named)) break;
 			cards.add(last);
 			currentPlayer.reveal(last, this, context);
@@ -4531,7 +4567,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	                        cardToTrash = canTrash.get(0);
 	                        targetPlayer.discard(canTrash.remove(1), this, targetContext);
 	                    } else {
-	                        cardToTrash = currentPlayer.controlPlayer.rogue_cardToTrash(context, canTrash);
+	                        cardToTrash = targetPlayer.rogue_cardToTrash(context, canTrash);
 	                    }
 
 	                    for (Card card : canTrash) {
@@ -4750,6 +4786,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			context.game.drawToHand(context.player, this, false);
 			context.game.drawToHand(context.player, this, false);
 			context.game.drawToHand(context.player, this, false);
+			break;
+		case SirVander:
+			context.player.controlPlayer.gainNewCard(Cards.gold, this, context);
 			break;
 		default:
 			break;
@@ -5080,9 +5119,156 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		
 		currentPlayer.reveal(c, this, context);
 		
-		if (c.getType() == Cards.Type.Curse || c.isShelter() || (c instanceof VictoryCard) || ((c instanceof ActionCard) && (((ActionCard)c).isRuins())))
+		if (c.getType() == Cards.Type.Curse || c.isShelter() || (c instanceof VictoryCard) || (c.isRuins()))
 		{
 			currentPlayer.hand.add(c);
+		} else {
+			currentPlayer.putOnTopOfDeck(c);
 		}
+	}
+	
+	private void knight(MoveContext context, Player currentPlayer) {
+		for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(context.game, targetPlayer, this)) {
+                targetPlayer.attacked(this, context);
+                MoveContext targetContext = new MoveContext(context.game, targetPlayer);
+                ArrayList<Card> canTrash = new ArrayList<Card>();
+
+                List<Card> cardsToDiscard = new ArrayList<Card>();
+                for (int i = 0; i < 2; i++) {
+                    Card card = context.game.draw(targetPlayer);
+
+                    if (card != null) {
+                        targetPlayer.reveal(card, this, targetContext);
+
+                        if (card.getCost(targetContext) >= 3 && card.getCost(targetContext) <= 6) {
+                            canTrash.add(card);
+                        } else {
+                        	cardsToDiscard.add(card);
+                        }
+                    }
+                }
+
+                for (Card c: cardsToDiscard) {
+                    targetPlayer.discard(c, this, targetContext);
+                }
+
+                Card cardToTrash = null;
+
+                if (canTrash.size() == 1) {
+                    cardToTrash = canTrash.get(0);
+                } else if (canTrash.size() == 2) {
+                    if (canTrash.get(0).equals(canTrash.get(1))) {
+                        cardToTrash = canTrash.get(0);
+                        targetPlayer.discard(canTrash.remove(1), this, targetContext);
+                    } else {
+                        cardToTrash = targetPlayer.knight_cardToTrash(context, canTrash);
+                    }
+
+                    for (Card card : canTrash) {
+                        if (!card.equals(cardToTrash)) {
+                            targetPlayer.discard(card, this, targetContext);
+                        }
+                    }
+                }
+
+                if (cardToTrash != null) {
+                    targetPlayer.trash(cardToTrash, this, targetContext);
+                }
+                if (cardToTrash.isKnight()) {
+                	currentPlayer.trash(this, this, context);
+                }
+            }
+        }		
+	}
+	
+	private void dameAnna(MoveContext context, Player currentPlayer) {
+        Card[] cards = currentPlayer.controlPlayer.dameAnna_cardsToTrash(context);
+        if (cards != null) {
+            if (cards.length > 2) {
+                Util.playerError(currentPlayer, "Dame Anna trash error, trying to trash too many cards, ignoring.");
+            } else {
+                for (Card card : cards) {
+                    for (int i = 0; i < currentPlayer.hand.size(); i++) {
+                        Card playersCard = currentPlayer.hand.get(i);
+                        if (playersCard.equals(card)) {
+                            Card thisCard = currentPlayer.hand.remove(i);
+
+                            currentPlayer.trash(thisCard, this, context);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        knight(context, currentPlayer);
+	}
+	
+	private void sirMichael(MoveContext context, Player currentPlayer) {
+        for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+                player.attacked(this, context);
+
+                if (player.hand.size() > 3) {
+                    Card[] cardsToKeep = (player).controlPlayer.sirMichael_attack_cardsToKeep(context);
+
+                    boolean bad = false;
+                    if (cardsToKeep == null || cardsToKeep.length != 3) {
+                        bad = true;
+                    } else {
+                        ArrayList<Card> handCopy = Util.copy(player.hand);
+                        for (Card cardToKeep : cardsToKeep) {
+                            if (!handCopy.remove(cardToKeep)) {
+                                bad = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (bad) {
+                        Util.playerError(player, "Sir Michael discard error, just keeping first 3.");
+                        cardsToKeep = new Card[3];
+                        cardsToKeep[0] = player.hand.get(0);
+                        cardsToKeep[1] = player.hand.get(1);
+                        cardsToKeep[2] = player.hand.get(2);
+                    }
+
+                    // Remove cards to keep from the hand temporarily
+                    for (Card card : cardsToKeep) {
+                        player.hand.remove(card);
+                    }
+
+                    // Discard all of the cards left
+                    for (Card card : player.hand) {
+                        player.discard(card, this, context);
+                    }
+
+                    // Clear out the hand
+                    player.hand.clear();
+
+                    // Put the cardsToKeep back
+                    for (Card card : cardsToKeep) {
+                        player.hand.add(card);
+                    }
+                }
+            }
+        }
+        
+        knight(context, currentPlayer);
+	}
+	
+	private void dameNatalie(MoveContext context, Player currentPlayer) {
+        Card card = currentPlayer.controlPlayer.dameNatalie_cardToObtain(context);
+        if (card != null) {
+            // check cost
+            if (card.getCost(context) <= 3) {
+                currentPlayer.gainNewCard(card, this, context);
+            } else {
+            	Util.playerError(currentPlayer, "Dame Natalie error: chosen card that costs more then 3");
+            }
+        }
+        
+        knight(context, currentPlayer);
 	}
 }

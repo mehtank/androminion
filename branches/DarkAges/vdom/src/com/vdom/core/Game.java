@@ -1626,6 +1626,13 @@ public class Game {
 			}
 		}
         
+		if (piles.containsKey(Cards.virtualKnight.getName())) {
+			VariableCardPile kp = (VariableCardPile) this.getPile(Cards.virtualKnight);
+			for (Card k : Cards.knightsCards) {
+				kp.addLinkedPile((SingleCardPile) addPile(k, 1, false));
+			}
+		}
+
         chanceForShelters = 0.0;
         if (alwaysUseShelters)
         {
@@ -1727,7 +1734,7 @@ public class Game {
 		{
 			addPile(Cards.madman, 10, false);
 		}
-
+		
         boolean oldDebug = debug;
         if (!debug && !showEvents.isEmpty()) {
             debug = true;
@@ -2249,7 +2256,7 @@ public class Game {
     	if (card.equals(Cards.virtualRuins)) {
     		pile = new VariableCardPile(AbstractCardPile.PileType.RuinsPile, Math.max(10, Math.min(50, (numPlayers * 10) - 10)));
     	} else if (card.equals(Cards.virtualKnight)) {
-    		pile = new VariableCardPile(AbstractCardPile.PileType.KnightsPile, 10);
+    		pile = new VariableCardPile(AbstractCardPile.PileType.KnightsPile, Math.min(Cards.knightsCards.size(), 10));
     	} else {
     		pile = new SingleCardPile(card, count);
     	}

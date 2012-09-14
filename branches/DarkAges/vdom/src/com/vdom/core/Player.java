@@ -1313,4 +1313,12 @@ public abstract class Player {
 	public abstract Card[] survivors_cardOrder(MoveContext context, Card[] array);
 
 	public abstract boolean cultist_shouldPlayNext(MoveContext context);
+
+	public abstract Card[] dameAnna_cardsToTrash(MoveContext context);
+
+	public abstract Card knight_cardToTrash(MoveContext context, ArrayList<Card> canTrash);
+
+	public abstract Card[] sirMichael_attack_cardsToKeep(MoveContext context);
+
+	public abstract Card dameNatalie_cardToObtain(MoveContext context);
 }
