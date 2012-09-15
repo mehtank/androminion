@@ -678,6 +678,10 @@ public abstract class Player {
             }
 
             context.game.broadcastEvent(gainEvent);
+            
+            // invoke different actions on gain
+            cardToGain.isGained(context);
+            
             return true;
         }
         return false;

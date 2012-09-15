@@ -1057,6 +1057,9 @@ public class Game {
 	        event.card = card;
 	        event.newCard = true;
 	        broadcastEvent(event);
+	        
+	        // execute specific actions triggered on card gain
+	        card.isGained(context);
         }
         // cost adjusted based on any cards played or card being bought
         int cost = buy.getCost(context);

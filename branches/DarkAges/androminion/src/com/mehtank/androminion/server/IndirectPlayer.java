@@ -1104,8 +1104,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_ambassador_revealedCard(context)) {
             return super.ambassador_revealedCard(context);
         }
-        
-        return getNonShelterFromHand(context, getRevealString(Cards.ambassador), NOTPASSABLE, SelectCardOptions.PickType.SELECT);
+        return getAnyFromHand(context, getRevealString(Cards.ambassador), NOTPASSABLE);
 	}
 
     @Override

@@ -256,4 +256,9 @@ public class CardImpl implements Card {
     public void isTrashed(MoveContext context)
     {
     }
+
+	@Override
+	public void isGained(MoveContext context) {
+		
+	}
 }

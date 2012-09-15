@@ -36,4 +36,6 @@ public interface Card {
     public void isBought(MoveContext context);
     
     public void isTrashed(MoveContext context);
+    
+    public void isGained(MoveContext context);
 }

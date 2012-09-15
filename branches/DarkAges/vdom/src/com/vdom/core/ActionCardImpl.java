@@ -1241,7 +1241,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             return;
         }
 
-        Card card = currentPlayer.controlPlayer.ambassador_revealedCard(context);
+        
+        Card card_orig = currentPlayer.controlPlayer.ambassador_revealedCard(context);
+        Card card = card_orig;
 
         if (card == null) {
             card = Util.randomCard(currentPlayer.hand);
@@ -1249,36 +1251,49 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             Util.playerError(currentPlayer, "Ambassador revealed card error, picking random card.");
             card = Util.randomCard(currentPlayer.hand);
         }
-
-        currentPlayer.reveal(card, this, context);
-        context.debug("Ambassador revealed card:" + card.getName());
+        
+        AbstractCardPile pile;
+        if (card.isKnight()) {
+        	card = Cards.virtualKnight;
+        } else if (card.isRuins()) {
+        	card = Cards.virtualRuins;
+        }
+        pile = game.getPile(card);
+    
+        currentPlayer.reveal(card_orig, this, context);
+        context.debug("Ambassador revealed card:" + card_orig.getName());
         int returnCount = -1;
-        if (!card.isPrize()) {
-            returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, card);
+        if (pile.isSupply()) {
+            returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, card_orig);
+        } else {
+        	context.debug("Ambassador revealed card that is not in supply and therefore can't be returned and distributed");
         }
 
-        if (returnCount < 0 || returnCount > 2) {
-            Util.playerError(currentPlayer, "Ambassador return to supply error, ignoring.");
-            returnCount = 0;
+        if (returnCount > 2) {
+            Util.playerError(currentPlayer, "Ambassador return to supply error (more then 2 cards), returning 2.");
+            returnCount = 2;
         }
 
         for (int i = 0; i < returnCount; i++) {
-            if (currentPlayer.hand.contains(card)) {
-                currentPlayer.hand.remove(card);
-                AbstractCardPile pile = game.getPile(card);
-                // Card thisCard = pile.removeCard();
-                pile.addCard(card);
+            if (currentPlayer.hand.contains(card_orig)) {
+                currentPlayer.hand.remove(card_orig);
+                pile.addCard(card_orig);
             } else {
                 Util.playerError(currentPlayer, "Ambassador return to supply error, just returning those available.");
                 break;
             }
         }
 
-        for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this, context);
-                player.gainNewCard(card, this, new MoveContext(game, player));
-            }
+        if (returnCount > -1) {
+	        for (Player player : game.getPlayersInTurnOrder()) {
+	            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
+	                player.attacked(this, context);
+	                
+	                if (pile.getType() == AbstractCardPile.PileType.SingleCardPile || card_orig.equals(pile.card())) {
+	                	player.gainNewCard(card, this, new MoveContext(game, player));
+	                }
+	            }
+	        }
         }
     }
 
@@ -3931,10 +3946,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
             context.copperPlayed = false;
             break;
-        case DeathCart:
-        	context.player.gainNewCard(Cards.virtualRuins, this, context);
-        	context.player.gainNewCard(Cards.virtualRuins, this, context);
-        	break;
         default:
             break;
         }
@@ -4745,6 +4756,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
 	@Override
 	public void isTrashed(MoveContext context) {
+		super.isTrashed(context);
 		switch (this.getType()) {
 		case Rats:
 			context.game.drawToHand(context.player, this, false);
@@ -4839,6 +4851,19 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			break;
 		case SirVander:
 			context.player.controlPlayer.gainNewCard(Cards.gold, this, context);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	@Override
+	public void isGained(MoveContext context) {
+		super.isGained(context);
+		switch (this.type) {
+		case DeathCart:
+			context.player.controlPlayer.gainNewCard(Cards.virtualRuins, this, context);
+			context.player.controlPlayer.gainNewCard(Cards.virtualRuins, this, context);
 			break;
 		default:
 			break;
@@ -5225,9 +5250,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 if (cardToTrash != null) {
                     targetPlayer.trash(cardToTrash, this, targetContext);
-                }
-                if (cardToTrash.isKnight()) {
-                	currentPlayer.trash(this, this, context);
+                    if (cardToTrash.isKnight()) {
+                    	currentPlayer.trash(this, this, context);
+                    }
                 }
             }
         }		
