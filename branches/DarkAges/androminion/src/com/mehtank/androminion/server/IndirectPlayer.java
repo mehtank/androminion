@@ -2245,7 +2245,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	}
 	
 	@Override
-	public HuntingGroundsOption huntingGround_chooseOption(MoveContext context) {
+	public HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context) {
 	    LinkedHashMap<String, HuntingGroundsOption> h = new LinkedHashMap<String, HuntingGroundsOption>();
 		
 		h.put(getString(R.string.hunting_grounds_option_one), HuntingGroundsOption.GainDuchy);

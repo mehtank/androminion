@@ -489,12 +489,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
     	
     	if (game.getTopRuinsCard() != null)
-    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), game.getTopRuinsCard().getName(), getFullCardDescription(game.getTopRuinsCard()));
+    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Strings.getCardName(game.getTopRuinsCard()), getFullCardDescription(game.getTopRuinsCard()));
     	else
     		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Cards.virtualRuins.getName(), Cards.virtualRuins.getDescription());
 
     	if (game.getTopKnightCard() != null)
-    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), game.getTopKnightCard().getName(), getFullCardDescription(game.getTopKnightCard()));
+    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Strings.getCardName(game.getTopKnightCard()), getFullCardDescription(game.getTopKnightCard()));
     	else
     		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Cards.virtualKnight.getName(), Cards.virtualKnight.getDescription());
 

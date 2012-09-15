@@ -746,14 +746,9 @@ public abstract class Player {
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
-
-//        if (card.equals(Cards.fortress)) {
-//        	context.game.trashPile.remove(card);
-//        	hand.add(card);
-//        }
     }
 
-    public abstract HuntingGroundsOption huntingGround_chooseOption(MoveContext context);
+    public abstract HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context);
 
 	public abstract Card catacombs_cardToObtain(MoveContext context);
 

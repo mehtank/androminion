@@ -1411,6 +1411,12 @@ public class Game {
             	player.discard(takeFromPile(Cards.necropolis), null, null);
             	player.discard(takeFromPile(Cards.overgrownEstate), null, null);
             	player.discard(takeFromPile(Cards.hovel), null, null);
+            	
+            	// Also need to remove the Estates that were put in the pile prior to 
+            	// determining if Shelters would be used
+            	takeFromPile(Cards.estate);
+            	takeFromPile(Cards.estate);
+            	takeFromPile(Cards.estate);
             }
             else
             {
@@ -1647,6 +1653,12 @@ public class Game {
                 if (pile != null && pile.card() != null && pile.card().getExpansion() != null && pile.card().isShelter() == false && pile.card().getExpansion().equals("Dark Ages")) 
                 {
                     chanceForShelters += 0.1;
+                }
+                
+                if (chanceForShelters >= 1.0)
+                {
+                	chanceForShelters = 1.0;
+                	break;
                 }
             }
 

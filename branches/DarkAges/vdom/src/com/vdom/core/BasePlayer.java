@@ -2106,7 +2106,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
 	@Override
-	public HuntingGroundsOption huntingGround_chooseOption(MoveContext context) {
+	public HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context) {
 		return HuntingGroundsOption.GainDuchy;
 	}
 

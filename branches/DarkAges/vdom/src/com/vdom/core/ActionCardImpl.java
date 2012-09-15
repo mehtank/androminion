@@ -56,7 +56,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         public Builder(Cards.Type type, int cost) {
             super(type, cost);
         }
-
+        
         public Builder addActions(int val) {
             addActions = val;
             return this;
@@ -4532,7 +4532,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
 			currentPlayer.gainCardAlreadyInPlay(toGain, this, context);
 			game.trashPile.remove(toGain);
-		} else { // trash other players card
+		} else { // Other players trash a card
 	        for (Player targetPlayer : game.getPlayersInTurnOrder()) {
 	            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
 	                targetPlayer.attacked(this, context);
@@ -4750,10 +4750,31 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			context.game.drawToHand(context.player, this, false);
 			break;
 		case Squire:
-			Card s = context.player.controlPlayer.squire_cardToObtain(context);
-        	if (s != null) {
-        		context.player.controlPlayer.gainNewCard(s, this, context);
-        	}
+			// Need to ensure that there is at least one Attack card that can be gained,
+			// otherwise this choice should be bypassed.
+			boolean attackCardAvailable = false;
+			
+			for (Card c : context.game.getCardsInGame())
+			{
+				if (c instanceof ActionCard)
+				{
+					if (((ActionCard)c).isAttack() && context.game.getPile(c).getCount() > 0)
+					{
+						attackCardAvailable = true;
+						break;
+					}
+				}
+			}
+			
+			if (attackCardAvailable)
+			{
+				Card s = context.player.controlPlayer.squire_cardToObtain(context);
+        	
+				if (s != null) 
+				{
+					context.player.controlPlayer.gainNewCard(s, this, context);
+				}
+			}
         	break;
 		case Catacombs:
 			Card c = context.player.controlPlayer.catacombs_cardToObtain(context);
@@ -4762,21 +4783,50 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	}
         	break;
 		case HuntingGrounds:
-        	Player.HuntingGroundsOption option = context.player.controlPlayer.huntingGround_chooseOption(context);
-        	if (option != null) {
-        		switch (option) {
-        		case GainDuchy:
-        			context.player.controlPlayer.gainNewCard(Cards.duchy, this, context);
-        			break;
-        		case GainEstates:
-        			context.player.controlPlayer.gainNewCard(Cards.estate, this, context);
-        			context.player.controlPlayer.gainNewCard(Cards.estate, this, context);
-        			context.player.controlPlayer.gainNewCard(Cards.estate, this, context);
-        			break;
-    			default:
-    				break;
-        		}
-        	}
+			// Make sure there are Estates and/or Duchies available when trashing Hunting Grounds.
+			// If there isn't a choice to be made, the player gets the option that is still available,
+			// or nothing at all if both piles are empty
+			int duchyCount      = context.game.getPile(Cards.duchy).getCount();
+			int estateCount     = context.game.getPile(Cards.estate).getCount();
+			boolean gainDuchy   = false;
+			boolean gainEstates = false;
+			
+			if (duchyCount > 0 && estateCount > 0)
+			{
+	        	Player.HuntingGroundsOption option = context.player.controlPlayer.huntingGrounds_chooseOption(context);
+	        	if (option != null) {
+	        		switch (option) {
+	        		case GainDuchy:
+	        			gainDuchy = true;
+	        			break;
+	        		case GainEstates:
+	        			gainEstates = true;
+	        			break;
+	    			default:
+	    				break;
+	        		}
+	        	}
+			}
+			else if (duchyCount > 0)
+			{
+				gainDuchy = true;
+			}
+			else if (estateCount > 0)
+			{
+    			gainEstates = true;
+			}
+			
+			if (gainDuchy)
+			{
+				context.player.controlPlayer.gainNewCard(Cards.duchy, this, context);
+			}
+			else if (gainEstates)
+			{
+				context.player.controlPlayer.gainNewCard(Cards.estate, this, context);
+    			context.player.controlPlayer.gainNewCard(Cards.estate, this, context);
+    			context.player.controlPlayer.gainNewCard(Cards.estate, this, context);
+			}
+			
 			break;
 		case Fortress:
 			context.game.trashPile.remove(this);
@@ -4819,6 +4869,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		switch (this.getType()) {
 		case Cultist:
 		case DeathCart:
+		case Marauder:
 			return true;
 		default:
 			return false;
