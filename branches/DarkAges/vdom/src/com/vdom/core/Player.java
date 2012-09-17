@@ -725,23 +725,30 @@ public abstract class Player {
             context.cardsTrashedThisTurn++;
         }
 
-        // Market Square
-        while (Util.getCardCount(hand, Cards.marketSquare) > 0) {
-        	if (marketSquare_shouldDiscard(context)) {
-            	Card m = hand.get(Cards.marketSquare);
-        		hand.remove(m);
-        		discard(m, card, context);
-        		gainNewCard(Cards.gold, m, context);
+        // Market Square trashing reaction
+        if (Util.getCardCount(hand, Cards.marketSquare) > 0) {
+        	ArrayList<Card> marketSquaresInHand = new ArrayList<Card>();
+        	
+        	for (Card c : hand) {
+        		if (c.getType() == Cards.Type.MarketSquare) {
+        			marketSquaresInHand.add(c);
+        		}
+        	}
+        	
+        	for (Card c : marketSquaresInHand) {
+        		if (marketSquare_shouldDiscard(context)) {
+            		hand.remove(c);
+            		discard(c, card, context);
+            		gainNewCard(Cards.gold, c, context);
+            	}
         	}
         }
 
-        if (game.getPile(card).isSupply() || card.isShelter() || card.equals(Cards.spoils) || card.isRuins()) {
-			if (isPossessed()) {
-				context.game.possessedTrashPile.add(card);
-			} else {
-				context.game.trashPile.add(card);
-			}
-        }
+		if (isPossessed()) {
+			context.game.possessedTrashPile.add(card);
+		} else {
+			context.game.trashPile.add(card);
+		}
 
         // Execute special card logic when the trashing occurs
         card.isTrashed(context);

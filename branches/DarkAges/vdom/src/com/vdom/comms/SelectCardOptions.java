@@ -54,6 +54,7 @@ public class SelectCardOptions implements Serializable {
     public boolean isNonTreasure = false;
 	public boolean isVictory = false;
 	public boolean isAttack = false;
+	public boolean isNonShelter = false;
 	public String passString = null;
 	public boolean ordered = false;
 	public ArrayList<Integer> allowedCards = new ArrayList<Integer>();
@@ -68,6 +69,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions isNonTreasure() {isNonTreasure = true; return this;}
 	public SelectCardOptions isVictory() {isVictory = true; return this;}
 	public SelectCardOptions isAttack() {isAttack = true; return this;}
+	public SelectCardOptions isNonShelter() {isNonShelter = true; return this;}
 	public SelectCardOptions setPassable(String s) {passString = s; return this;}
 	public SelectCardOptions ordered() {ordered = true; return this;}
 	public SelectCardOptions maxCost(int c) {maxCost = c; return this;}
@@ -94,6 +96,12 @@ public class SelectCardOptions implements Serializable {
 		return allowedCards.contains(new Integer(card));
 	}
 	
+	// Return the number of cards that have matched the filter
+	public int getAllowedCardCount()
+	{
+		return allowedCards.size();
+	}
+	
 	public void addValidCard(int card) {
 		allowedCards.add(new Integer(card));
 	}
@@ -109,6 +117,7 @@ public class SelectCardOptions implements Serializable {
 		if (isNonTreasure && c.isTreasure) return false;
 		if (isVictory && !c.isVictory) return false;
 		if (isAttack && !c.isAttack) return false;
+		if (isNonShelter && c.isShelter) return false;
 		if (isReaction && !c.isReaction) return false;
 		if (fromPrizes && !c.isPrize && !fromTable) return false; 
 		if (potionCost == 0 && c.costPotion) return false;
@@ -129,7 +138,8 @@ public class SelectCardOptions implements Serializable {
 		if (fromPrizes && !c.isPrize() && !fromTable) return false; 
 		if (potionCost == 0 && c.costPotion()) return false;
 		if (potionCost > 0 && maxCost == minCost && !c.costPotion()) return false;
-
+		if (isNonShelter && c.isShelter()) return false;
+		
 		if (c instanceof ActionCard) {
 			if (isAttack && !(((ActionCard) c).isAttack())) return false;
 		} else {

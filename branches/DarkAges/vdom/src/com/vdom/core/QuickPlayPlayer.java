@@ -739,13 +739,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_rats_cardToTrash(MoveContext context)
-    {
+    public boolean shouldAutoPlay_rats_cardToTrash(MoveContext context) {
     	return false;
     }
     
-    public boolean shouldAutoPlay_pillage_opponentCardToDiscard(MoveContext context) 
-    {
+    public boolean shouldAutoPlay_pillage_opponentCardToDiscard(MoveContext context) {
         return true;
     }
     
@@ -769,18 +767,19 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 		return true;
 	}
 	
-	public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context)
-	{
+	public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context) {
 		return true;
 	}
 	
-	public boolean shouldAutoPlay_madman_shouldReturnToPile(MoveContext context)
-	{
+	public boolean shouldAutoPlay_madman_shouldReturnToPile(MoveContext context) {
 		return true;
 	}
 	
-	public boolean shouldAutoPlay_hermit_trashForMadman(MoveContext context)
-	{
+	public boolean shouldAutoPlay_hermit_trashForMadman(MoveContext context) {
 		return true;
 	}
+	
+	public boolean shouldAutoPlay_procession_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+        return false;
+    }
 }

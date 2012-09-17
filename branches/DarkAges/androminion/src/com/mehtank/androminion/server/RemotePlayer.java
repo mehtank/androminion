@@ -225,7 +225,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		card.vp = ((VictoryCard) c).getVictoryPoints();
     	}
     	if (c instanceof TreasureCard) {
-    		card.desc = Strings.format(R.string.coin_worth, "" + ((TreasureCard) c).getValue()) + "\n" + card.desc;
     		card.isTreasure = true;
     		card.gold = ((TreasureCard) c).getValue();
     	}

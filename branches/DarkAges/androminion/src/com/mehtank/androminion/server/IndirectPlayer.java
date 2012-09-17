@@ -471,10 +471,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	    Card[] cards = context.getCardsInGame();
 	    
 	    for (Card card : cards) {
-	    	if (sco.checkValid(card, 0)) {
+	    	if (sco.checkValid(card, card.getCost(context))) {
 	    		sco.addValidCard(cardToInt(card));
 	    	}
 	    }
+	    
+	    if (sco.getAllowedCardCount() == 0)
+	    {
+	    	// No cards fit the filter, so return early
+	    	return null;
+	    }
+	    
         String selectString;
         int potionCost = context.getPotions();
         String potions = "";
@@ -2325,11 +2332,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	
 	@Override
 	public Card procession_cardToGain(MoveContext context, int exactCost,	boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, exactCost, potion)) {
+        if(context.isQuickPlay() && shouldAutoPlay_procession_cardToObtain(context, exactCost, potion)) {
             return super.procession_cardToGain(context, exactCost, potion);
         }
 
-        return getFromTable(context, getGainString(Cards.procession), exactCost, exactCost, false, NOTPASSABLE, false, true, potion ? 1 : 0);
+        SelectCardOptions sco = new SelectCardOptions().fromTable().isAction().isNonShelter().maxCost(exactCost).minCost(exactCost).potionCost(potion ? 1 : 0).setPassable(NOTPASSABLE);
+
+        return getFromTable(context, getGainString(Cards.procession), sco, false);
 	}
 	
 	@Override

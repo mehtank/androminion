@@ -1517,14 +1517,15 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 	if (!cardToPlay.trashOnUse) {
                 		currentPlayer.trash(cardToPlay, this, context);
+                		currentPlayer.playedCards.remove(cardToPlay);
                 	}
 
                 	Card cardToGain = currentPlayer.controlPlayer.procession_cardToGain(context, 1 + cardToPlay.getCost(context), cardToPlay.costPotion());
-            		if (cardToPlay.getCost(context) + 1 != cardToGain.getCost(context)) {
-            			Util.playerError(currentPlayer, "Procession error: invalid cost of card to gain, ignoring");
-            		} else {
-            			currentPlayer.gainNewCard(cardToGain, this, context);
-            		}
+                	
+                	if ((cardToGain != null) && (cardToPlay.getCost(context) + 1) == cardToGain.getCost(context))
+                	{
+                		currentPlayer.gainNewCard(cardToGain, this, context);
+                	}
                 }
             }
         }

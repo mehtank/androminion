@@ -562,7 +562,7 @@ public class Cards {
         knightsCards.add(sirMartin = new ActionCardImpl.Builder(Cards.Type.SirMartin, 4).isKnight().addBuys(2).description(KNIGHTS_TEXT).expansion("Dark Ages").build());
         knightsCards.add(sirMichael = new ActionCardImpl.Builder(Cards.Type.SirMichael, 5).isKnight().description("Each other player discards down to 3 cards in hand. " + KNIGHTS_TEXT).expansion("Dark Ages").build());
         knightsCards.add(sirVander = new ActionCardImpl.Builder(Cards.Type.SirVander, 5).isKnight().description(KNIGHTS_TEXT + " When you trash this, gain a Gold.").expansion("Dark Ages").build());
-        actionCardsDarkAges.add(virtualKnight = new CardImpl(Cards.Type.VirtualKnight, 5));
+        actionCardsDarkAges.add(virtualKnight = new ActionCardImpl.Builder(Cards.Type.VirtualKnight, 5).build());
         
         // Shelters
         nonKingdomCards.add(necropolis = new ActionCardImpl.Builder(Cards.Type.Necropolis, 1).addActions(2).isShelter().expansion("Dark Ages").build());
