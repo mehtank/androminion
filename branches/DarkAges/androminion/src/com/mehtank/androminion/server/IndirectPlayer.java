@@ -413,7 +413,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 //		if (passString != null && !passString.trim().equals(""))
 //			sco.isPassable();
 
-        if(actionOnly) {
+        if (actionOnly) {
             sco.isAction = true;
         }
 
@@ -455,9 +455,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         if (minCost == maxCost)
         	selectString = Strings.format(R.string.select_from_table_exact, "" + maxCost + potions, header);
-        else if ((minCost <= 0) && (maxCost < Integer.MAX_VALUE))
-        	selectString = Strings.format(R.string.select_from_table_max, "" + maxCost + potions, header);
-        else if (maxCost < Integer.MAX_VALUE)
+        else if ((minCost <= 0) && (maxCost < Integer.MAX_VALUE)) {
+        	if (victoryAllowed) {
+        		selectString = Strings.format(R.string.select_from_table_max, "" + maxCost + potions, header);
+        	} else {
+        		selectString = Strings.format(R.string.select_from_table_max_non_vp, "" + maxCost + potions, header);
+        	}
+        } else if (maxCost < Integer.MAX_VALUE)
         	selectString = Strings.format(R.string.select_from_table_between, "" + minCost + potions, "" + maxCost + potions, header);
         else if (minCost > 0)
             selectString = Strings.format(R.string.select_from_table_min, "" + minCost + potions, header);
@@ -501,7 +505,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         			selectString = Strings.format(R.string.select_from_table, header);
         		}
         	} else {
-        		selectString = Strings.format(R.string.select_from_table_exact, "" + sco.maxCost + potions, header);
+        		if (sco.isAction) {
+        			selectString = Strings.format(R.string.select_from_table_exact_action, "" + sco.maxCost + potions, header);
+        		}
+        		else {
+        			selectString = Strings.format(R.string.select_from_table_exact, "" + sco.maxCost + potions, header);
+        		}
         	}
         } else if ((sco.minCost <= 0) && (sco.maxCost < Integer.MAX_VALUE))
         	selectString = Strings.format(R.string.select_from_table_max, "" + sco.maxCost + potions, header);

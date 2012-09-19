@@ -131,17 +131,17 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     	supplyPileGV.setOnItemClickListener(this);
     	supplyPileGV.setOnItemLongClickListener(this);
 
-    	prizePile = new CardGroup(top, true);
-    	prizePileGV = (GridView) findViewById(R.id.prizePileGV);
-    	prizePileGV.setAdapter(prizePile);
-    	prizePileGV.setOnItemClickListener(this);
-    	prizePileGV.setOnItemLongClickListener(this);
-
     	nonSupplyPile = new CardGroup(top, true);
     	nonSupplyPileGV = (GridView) findViewById(R.id.nonSupplyPileGV);
     	nonSupplyPileGV.setAdapter(nonSupplyPile);
     	nonSupplyPileGV.setOnItemClickListener(this);
     	nonSupplyPileGV.setOnItemLongClickListener(this);
+    	
+    	prizePile = new CardGroup(top, true);
+    	prizePileGV = (GridView) findViewById(R.id.prizePileGV);
+    	prizePileGV.setAdapter(prizePile);
+    	prizePileGV.setOnItemClickListener(this);
+    	prizePileGV.setOnItemLongClickListener(this);
 	}
 
 	/**

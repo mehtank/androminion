@@ -1515,7 +1515,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 if (this.type == Cards.Type.Procession) {
 
-                	if (!cardToPlay.trashOnUse) {
+                	if (!cardToPlay.trashOnUse && currentPlayer.playedCards.contains(cardToPlay)) {
                 		currentPlayer.trash(cardToPlay, this, context);
                 		currentPlayer.playedCards.remove(cardToPlay);
                 	}
@@ -4287,10 +4287,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			currentPlayer.hand.remove(actionCardToTrash);
             currentPlayer.trash(actionCardToTrash, this, context);
 		}
-		else
+		else if (!this.trashed)
 		{
 			currentPlayer.playedCards.remove(this);      
             currentPlayer.trash(this, this, context);
+            this.trashed = true;
 		}
 	}
 
@@ -5174,7 +5175,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	
 	private void madman(MoveContext context, Game game, Player currentPlayer)
 	{
-		if (currentPlayer.controlPlayer.madman_shouldReturnToPile(context))
+		if (currentPlayer.controlPlayer.madman_shouldReturnToPile(context) && currentPlayer.playedCards.contains(this))
 		{
 			// Return to the Madman pile
             currentPlayer.playedCards.remove(this);                   

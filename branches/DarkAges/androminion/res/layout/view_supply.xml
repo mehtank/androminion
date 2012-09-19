@@ -46,7 +46,7 @@
         android:verticalSpacing="@dimen/margin_cards" />
 
     <GridView
-        android:id="@+id/prizePileGV"
+        android:id="@+id/nonSupplyPileGV"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_supply"
@@ -57,9 +57,9 @@
         android:numColumns="5"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/margin_cards" />
-	
-	<GridView
-        android:id="@+id/nonSupplyPileGV"
+    
+    <GridView
+        android:id="@+id/prizePileGV"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_supply"
