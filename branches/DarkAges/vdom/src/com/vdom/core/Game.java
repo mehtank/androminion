@@ -1854,7 +1854,9 @@ public class Game {
                            r.equals(Cards.jester) ||
                            r.equals(Cards.develop) ||
                            r.equals(Cards.haggler) ||
-                           r.equals(Cards.workshop))
+                           r.equals(Cards.workshop) ||
+                           r.equals(Cards.hermit) ||
+                           r.equals(Cards.dameNatalie))
                         {
                             commandedDiscard = false;
                         }

@@ -22,7 +22,9 @@ public class VariableCardPile extends AbstractCardPile {
 			cards = this.generateRuinsPile(count);
 			break;
 		case KnightsPile:
-			cards = Cards.knightsCards;
+			for (Card c: Cards.knightsCards) {
+				cards.add(c);
+			}
 			Collections.shuffle(cards);
 			break;
 		default:

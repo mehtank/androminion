@@ -190,10 +190,12 @@ public class CardSet {
 		CardSetMap.put(GameType.TreasureTrove, new CardSet(new Card[]{Cards.bank, Cards.monument, Cards.royalSeal, Cards.tradeRoute, Cards.venture, Cards.cache, Cards.develop, Cards.foolsGold, Cards.illGottenGains, Cards.mandarin}, null));
 		CardSetMap.put(GameType.BlueHarvest, new CardSet(new Card[]{Cards.hamlet, Cards.hornOfPlenty, Cards.horseTraders, Cards.jester, Cards.tournament, Cards.foolsGold, Cards.mandarin, Cards.nobleBrigand, Cards.trader, Cards.tunnel}, null));
 		CardSetMap.put(GameType.TravelingCircus, new CardSet(new Card[]{Cards.fairgrounds, Cards.farmingVillage, Cards.huntingParty, Cards.jester, Cards.menagerie, Cards.borderVillage, Cards.embassy, Cards.foolsGold, Cards.nomadCamp, Cards.oasis}, null));
-		CardSetMap.put(GameType.DarkAgesTest, new CardSet(new Card[]{Cards.forager, Cards.virtualKnight, Cards.marketSquare, Cards.counterfeit, Cards.procession, Cards.vagrant, Cards.hermit, Cards.squire, Cards.tunnel, Cards.deathCart}, null));
+		CardSetMap.put(GameType.DarkAgesTest, new CardSet(new Card[]{Cards.forager, Cards.virtualKnight, Cards.tournament, Cards.rogue, Cards.procession, Cards.vagrant, Cards.hermit, Cards.squire, Cards.walledVillage, Cards.deathCart}, null));
 		CardSetMap.put(GameType.PlayingChessWithDeath, new CardSet(new Card[]{Cards.banditCamp, Cards.graverobber, Cards.junkDealer, Cards.mystic, Cards.pillage, Cards.rats, Cards.sage, Cards.scavenger, Cards.storeroom, Cards.vagrant}, null));
 		CardSetMap.put(GameType.HighAndLow, new CardSet(new Card[]{Cards.hermit, Cards.huntingGrounds, Cards.mystic, Cards.poorHouse, Cards.wanderingMinstrel, Cards.cellar, Cards.moneyLender, Cards.throneRoom, Cards.witch, Cards.workshop}, null));
 		CardSetMap.put(GameType.ChivalryAndRevelry, new CardSet(new Card[]{Cards.altar, Cards.virtualKnight, Cards.rats, Cards.scavenger, Cards.squire, Cards.festival, Cards.gardens, Cards.laboratory, Cards.library, Cards.remodel}, null));
+		CardSetMap.put(GameType.Prophecy, new CardSet(new Card[]{Cards.armory, Cards.ironmonger, Cards.mystic, Cards.rebuild, Cards.vagrant, Cards.baron, Cards.conspirator, Cards.greatHall, Cards.nobles, Cards.wishingWell}, null));
+		CardSetMap.put(GameType.Invasion, new CardSet(new Card[]{Cards.beggar, Cards.marauder, Cards.rogue, Cards.squire, Cards.urchin, Cards.harem, Cards.miningVillage, Cards.swindler, Cards.torturer, Cards.upgrade}, null));
 		CardSetMap.put(GameType.PromoCardTest, new CardSet(new Card[]{Cards.governor, Cards.chapel, Cards.festival, Cards.envoy, Cards.market, Cards.remodel, Cards.smithy, Cards.throneRoom, Cards.walledVillage, Cards.rebuild}, null));
 
 	}

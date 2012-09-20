@@ -417,7 +417,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             sco.isAction = true;
         }
 
-        if(isBuy) {
+        if (isBuy) {
             sco.pickType = SelectCardOptions.PickType.BUY;
             potionCost = context.getPotions();
         }
@@ -473,10 +473,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     
     public Card getFromTable(MoveContext context, String header, SelectCardOptions sco, boolean isBuy) {
 	    Card[] cards = context.getCardsInGame();
+	    Card firstCardAvailable = null;
 	    
 	    for (Card card : cards) {
 	    	if (sco.checkValid(card, card.getCost(context))) {
 	    		sco.addValidCard(cardToInt(card));
+	    		
+	    		if (firstCardAvailable == null) {
+	    			firstCardAvailable = card;
+	    		}
 	    	}
 	    }
 	    
@@ -484,6 +489,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	    {
 	    	// No cards fit the filter, so return early
 	    	return null;
+	    }
+	    else if (sco.getAllowedCardCount() == 1 && !sco.isPassable())
+	    {
+	    	// Only one card available and player can't pass...go ahead and return
+	    	return firstCardAvailable;
 	    }
 	    
         String selectString;
@@ -1551,7 +1561,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 sco.addValidCard(cardToInt(card));
             }
         }
-
+        
         return pickACard(context, getString(R.string.select_prize), sco);
     }
 

@@ -533,7 +533,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_tournament_chooseOption(MoveContext context) {
-        return true;
+        return false;
     }
 
     

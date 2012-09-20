@@ -70,6 +70,9 @@ public enum GameType {
     
     // Dark Ages and Base
     HighAndLow("HighAndLow (DA, Base)"), ChivalryAndRevelry("ChivalryAndRevelry (DA, Base)"),
+    
+    // Dark Ages and Intrigue
+    Prophecy("Prophecy (DA, Intr)"), Invasion("Invasion (DA, Intr)"),
 
     // TODO: remove for production release, or replace with sets from the rule book
     DarkAgesTest("Dark Ages Test (DA)"),

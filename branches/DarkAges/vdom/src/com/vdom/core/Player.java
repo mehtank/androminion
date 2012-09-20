@@ -664,7 +664,7 @@ public abstract class Player {
 
     public boolean gainNewCard(Card cardToGain, Card responsible, MoveContext context) {
         Card card = game.takeFromPileCheckTrader(cardToGain, context);
-        if(card != null) {
+        if (card != null) {
             GameEvent gainEvent = new GameEvent(GameEvent.Type.CardObtained, (MoveContext) context);
             gainEvent.card = card;
             gainEvent.responsible = responsible;
