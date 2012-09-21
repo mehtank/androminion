@@ -409,6 +409,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
 
         sco.setPassable(passString);
+        
+        // A player should never be allowed to get a Shelter from the table
+        sco.isNonShelter();
 
 //		if (passString != null && !passString.trim().equals(""))
 //			sco.isPassable();
@@ -2447,7 +2450,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	@Override
 	public boolean hovel_shouldTrash(MoveContext context)
 	{
-		if(context.isQuickPlay()) 
+		if(context.isQuickPlay())
 		{
             return true;
         }

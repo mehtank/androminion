@@ -187,6 +187,26 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			}
 		}
 	}
+	
+	//TODO: Use this to update the VirtualKnights pile
+	/*public void updateCardStyle(MyCard c) {
+		int cardStyleId = getStyleForCard(c);
+		TypedArray cardStyle = getContext().obtainStyledAttributes(cardStyleId,
+				new int[] {
+					R.attr.cardBackgroundColor,
+					R.attr.cardNameBackgroundColor,
+					R.attr.cardTextColor,
+					R.attr.cardCountColor });
+		int bgColor = cardStyle.getColor(0, R.color.cardDefaultBackgroundColor);
+		int textColor = cardStyle.getColor(2, R.color.cardDefaultTextColor);
+        int nameBgColor = cardStyle.getColor(1, R.color.cardDefaultTextBackgroundColor);
+		int countColor = cardStyle.getColor(3, R.color.cardDefaultTextColor);
+
+		cardBox.setBackgroundColor(bgColor);
+		name.setTextColor(textColor);
+        name.setBackgroundColor(nameBgColor);
+		countLeft.setTextColor(countColor);		
+	}*/
 
 	private static int getStyleForCard(MyCard c) {
 		if (c.isReaction && c.isVictory) {

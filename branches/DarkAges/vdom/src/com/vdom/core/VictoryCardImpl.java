@@ -69,25 +69,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     @Override
     public void isBought(MoveContext context) {
     	
-    	// If player has a Hovel (or multiple Hovels), offer the option to trash...
-    	ArrayList<Card> hovelsToTrash = new ArrayList<Card>();
-    	
-    	for (Card c : context.player.hand)
-    	{
-    		if (c.getType() == Cards.Type.Hovel && context.player.hovel_shouldTrash(context))
-    		{
-    			hovelsToTrash.add(c);
-    		}
-    	}
-    	
-    	if (hovelsToTrash.size() > 0)
-    	{
-    		for (Card c : hovelsToTrash)
-    		{
-    			context.player.hand.remove(c);
-    			context.player.trash(c, this, context);
-    		}
-    	}
+    	context.game.trashHovelsInHandOption(context.player, context, this);
     	
     	if (this.equals(Cards.farmland)) {
             Player player = context.getPlayer();

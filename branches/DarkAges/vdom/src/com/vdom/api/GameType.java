@@ -73,7 +73,10 @@ public enum GameType {
     
     // Dark Ages and Intrigue
     Prophecy("Prophecy (DA, Intr)"), Invasion("Invasion (DA, Intr)"),
-
+    
+    // Dark Ages and Seaside
+    WateryGraves("Watery Graves (DA, Sea)"), Peasants("Peasants (DA, Sea)"),
+    
     // TODO: remove for production release, or replace with sets from the rule book
     DarkAgesTest("Dark Ages Test (DA)"),
     

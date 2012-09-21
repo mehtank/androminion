@@ -38,6 +38,11 @@ public class TreasureVictoryCardImpl extends TreasureCardImpl implements Victory
 
     protected TreasureVictoryCardImpl() {
     }
+    
+    @Override
+    public void isBought(MoveContext context) {
+    	context.game.trashHovelsInHandOption(context.player, context, this);
+    }
 
     @Override
     public String getStats() {

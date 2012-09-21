@@ -1087,6 +1087,13 @@ public class Game {
         for (int i = 0; i < embargos; i++) {
         	player.gainNewCard(Cards.curse, Cards.embargo, context);
         }
+        
+        if (buy.equals(Cards.virtualKnight))
+        {
+			// Swap in the real Knight
+        	buy = card;
+        }
+        
         buy.isBought(context);
         haggler(context, buy);
     }
@@ -1374,7 +1381,7 @@ public class Game {
             context = new MoveContext(this, players[i]);
             String s = cardListText + "\n---------------\n\n";
             if (!alwaysIncludePlatColony && !platColonyPassedIn && !platColonyNotPassedIn) {
-                s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (platInPlay ? "included" : "not included" + "\n");
+                s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (platInPlay ? "included\n" : "not included\n");
             }
             if (baneCard != null) {
                 s += "Bane card: " + baneCard.getName() + "\n";
@@ -1386,7 +1393,7 @@ public class Game {
             }
             else
             {
-            	s += "Chance for Shelters\n   " + (Math.round(chanceForShelters * 100)) + "% ... " + (sheltersInPlay ? "included" : "not included" + "\n");
+            	s += "Chance for Shelters\n   " + (Math.round(chanceForShelters * 100)) + "% ... " + (sheltersInPlay ? "included\n" : "not included\n");
             }
             
             s += unfoundCardText;
@@ -1506,10 +1513,6 @@ public class Game {
 		addPile(Cards.province, provincePileSize);
 		addPile(Cards.duchy, victoryCardPileSize);
 		addPile(Cards.estate, victoryCardPileSize + (3 * numPlayers));
-
-		addPile(Cards.necropolis, numPlayers, false);
-		addPile(Cards.overgrownEstate, numPlayers, false);
-		addPile(Cards.hovel, numPlayers, false);
 
 		unfoundCards.clear();
 		int added = 0;
@@ -1640,6 +1643,8 @@ public class Game {
 			for (Card k : Cards.knightsCards) {
 				kp.addLinkedPile((SingleCardPile) addPile(k, 1, false));
 			}
+			
+			
 		}
 
         chanceForShelters = 0.0;
@@ -1650,10 +1655,17 @@ public class Game {
         else
         {
         	sheltersInPlay = false;
+        	boolean alreadyCountedKnights = false;
         	
         	for (AbstractCardPile pile : piles.values()) 
         	{
-                if (pile != null && pile.card() != null && pile.card().getExpansion() != null && pile.card().isShelter() == false && pile.card().getExpansion().equals("Dark Ages")) 
+                if (pile != null && 
+                	pile.card() != null && 
+                	pile.card().getExpansion() != null && 
+                	pile.card().isShelter() == false &&
+                	pile.card().isRuins() == false &&
+                	(pile.card().isKnight() == false || !alreadyCountedKnights) &&
+                	pile.card().getExpansion().equals("Dark Ages")) 
                 {
                     chanceForShelters += 0.1;
                 }
@@ -1663,11 +1675,20 @@ public class Game {
                 	chanceForShelters = 1.0;
                 	break;
                 }
+                
+                if (pile.card().isKnight())
+                {
+                	alreadyCountedKnights = true;
+                }
             }
 
             if (rand.nextDouble() < chanceForShelters) 
             {
                 sheltersInPlay = true;
+                
+                addPile(Cards.necropolis, numPlayers, false);
+        		addPile(Cards.overgrownEstate, numPlayers, false);
+        		addPile(Cards.hovel, numPlayers, false);
             }
         }
 
@@ -2423,5 +2444,28 @@ public class Game {
     
     public AbstractCardPile getPile(Card card) {
     	return piles.get(card.getName());
+    }
+    
+    public void trashHovelsInHandOption(Player player, MoveContext context, Card responsible)
+    {
+    	// If player has a Hovel (or multiple Hovels), offer the option to trash...
+    	ArrayList<Card> hovelsToTrash = new ArrayList<Card>();
+	
+		for (Card c : player.hand)
+		{
+			if (c.getType() == Cards.Type.Hovel && player.hovel_shouldTrash(context))
+			{
+				hovelsToTrash.add(c);
+			}
+		}
+	
+		if (hovelsToTrash.size() > 0)
+		{
+			for (Card c : hovelsToTrash)
+			{
+				player.hand.remove(c);
+				player.trash(c, responsible, context);
+			}
+		}
     }
 }

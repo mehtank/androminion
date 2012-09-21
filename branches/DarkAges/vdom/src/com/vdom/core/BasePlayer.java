@@ -114,7 +114,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             for (Card card : cards) {
                 int cardCost = card.getCost(context);
                 if (cardCost == cost && context.getCardsLeftInPile(card) > 0) {
-                    if (card.equals(Cards.curse) || card.isPrize() || isTrashCard(card) || (card.equals(Cards.potion) && !shouldBuyPotion())) {
+                    if (card.equals(Cards.curse) || card.isPrize() || card.isShelter() || isTrashCard(card) || (card.equals(Cards.potion) && !shouldBuyPotion())) {
                         continue;
                     }
 
