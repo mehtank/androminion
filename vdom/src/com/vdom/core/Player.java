@@ -612,10 +612,7 @@ public abstract class Player {
     // TODO make similar way to put cards back on the deck (remove as well?)
     public void discard(Card card, Card responsible, MoveContext context, boolean commandedDiscard) { // See rules explanation of Tunnel for what commandedDiscard means.
         if(commandedDiscard && card.equals(Cards.tunnel)) {
-            MoveContext tunnelContext = context;
-            if(tunnelContext == null) {
-                tunnelContext = new MoveContext(game, this);
-            }
+            MoveContext tunnelContext = new MoveContext(game, this);
             if(game.pileSize(Cards.gold) > 0 && (this).tunnel_shouldReveal(tunnelContext)) {
                 reveal(card, card, tunnelContext);
                 gainNewCard(Cards.gold, card, tunnelContext);
