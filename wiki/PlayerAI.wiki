@@ -7,3 +7,5 @@
  * Mary - A mean version of the Sarah AI.
 
  * Drew - Same as Sarah, but likes a different set of cards. Also buys treasure cards more often than other cards.
+
+ * Patrick - Basically a BigMoney+ strategy, is aware about the different special treasure and victory cards and has a list of known "strong" cards.
