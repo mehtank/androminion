@@ -62,6 +62,7 @@ public class Game {
     public static boolean platColonyPassedIn = false;
     public static boolean platColonyNotPassedIn = false;
 
+    public static boolean sheltersPassedIn = false;
     public static boolean alwaysUseShelters = false;
 
     public static boolean quickPlay = false;
@@ -1387,7 +1388,7 @@ public class Game {
                 s += "Bane card: " + baneCard.getName() + "\n";
             }
             
-            if (alwaysUseShelters)
+            if (alwaysUseShelters || sheltersPassedIn)
             {
             	s += "Shelters included...\n";
             }
@@ -1555,6 +1556,9 @@ public class Game {
                 if(card != null && bane) {
                     baneCard = card;
                 }
+                if (cardName.equalsIgnoreCase("Knights")) {
+            		card = Cards.virtualKnight;
+                }
 
                 if(card != null
 //                    && !card.equals(Cards.possession)
@@ -1578,6 +1582,8 @@ public class Game {
                 } else if ( s.equalsIgnoreCase(Cards.platinum.getSafeName()) ||
                 			s.equalsIgnoreCase(Cards.colony.getSafeName()) ) {
                     platColonyPassedIn = true;
+                } else if (s.equalsIgnoreCase("Shelter")) {
+                	sheltersPassedIn = true;
                 } else {
                     unfoundCards.add(s);
                     Util.debug("ERROR::Could not find card:" + s);
@@ -1648,12 +1654,9 @@ public class Game {
 		}
 
         chanceForShelters = 0.0;
-        if (alwaysUseShelters)
-        {
+        if (alwaysUseShelters || sheltersPassedIn) {
         	sheltersInPlay = true;
-        }
-        else
-        {
+        } else {
         	sheltersInPlay = false;
         	boolean alreadyCountedKnights = false;
         	
@@ -1685,13 +1688,14 @@ public class Game {
             if (rand.nextDouble() < chanceForShelters) 
             {
                 sheltersInPlay = true;
+            }
+        }
                 
+        if (sheltersInPlay) {
                 addPile(Cards.necropolis, numPlayers, false);
         		addPile(Cards.overgrownEstate, numPlayers, false);
         		addPile(Cards.hovel, numPlayers, false);
-            }
         }
-
         chanceForPlatColony = 0;
         if (alwaysIncludePlatColony || platColonyPassedIn) {
 			platInPlay = true;

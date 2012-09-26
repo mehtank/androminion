@@ -636,6 +636,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	break;
         case Envoy:
         	envoy(game, context, currentPlayer);
+        	break;
         case Survivors:
         	survivors(context, game, currentPlayer);
         	break;
