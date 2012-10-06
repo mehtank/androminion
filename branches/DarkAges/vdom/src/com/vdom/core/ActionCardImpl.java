@@ -4341,8 +4341,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			}
 
 			game.trashPile.remove(toGain);
-			currentPlayer.reveal(toGain, this, context);
-			currentPlayer.deck.add(0, toGain);
+            currentPlayer.gainCardAlreadyInPlay(toGain, this, context);
 
 			break;
 
@@ -4544,8 +4543,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 				toGain = Util.randomCard(options);
 			}
 
-			currentPlayer.gainCardAlreadyInPlay(toGain, this, context);
 			game.trashPile.remove(toGain);
+			currentPlayer.gainCardAlreadyInPlay(toGain, this, context);
 		} else { // Other players trash a card
 	        for (Player targetPlayer : game.getPlayersInTurnOrder()) {
 	            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
@@ -4860,7 +4859,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void isGained(MoveContext context) {
 		super.isGained(context);
 		switch (this.type) {
@@ -4871,7 +4870,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		default:
 			break;
 		}
-	}
+	}*/
 
 	@Override
 	public boolean isRuins() {
@@ -5127,49 +5126,41 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		ArrayList<Card> options = new ArrayList<Card>();
 		int nonTreasureCountInDiscard = 0;
 		
-		for (Card c : currentPlayer.discard) 
-		{
-			if (!(c instanceof TreasureCard)) 
-			{
+		for (Card c : currentPlayer.discard) {
+			if (!(c instanceof TreasureCard)) {
 				options.add(c);
 				++nonTreasureCountInDiscard;	// Keep track of which cards are in the discard pile so that the player 
 												// can tell if they are trashing from discard or deck
 			}
 		}
 		
-		for (Card c: currentPlayer.hand)
-		{
-			if (!(c instanceof TreasureCard))
-			{
+		for (Card c: currentPlayer.hand) {
+			if (!(c instanceof TreasureCard)) {
 				options.add(c);
 			}
 		}
 
-		if (options.size() > 0) 
-		{
+		if (options.size() > 0) {
 			// Offer the option to trash a non-treasure card
 			Card toTrash = currentPlayer.hermit_cardToTrash(context, options, nonTreasureCountInDiscard);
 			
-			if (toTrash != null) 
-			{
-				if (currentPlayer.hand.contains(toTrash))
-				{
-					currentPlayer.hand.remove(toTrash);
-				}
-				else if (currentPlayer.discard.contains(toTrash))
-				{
+			if (toTrash != null) {
+				if (currentPlayer.discard.contains(toTrash) && currentPlayer.latestHermitTrashFromDiscard) {
 					currentPlayer.discard.remove(toTrash);
+					currentPlayer.trash(toTrash, this, context);
+				} else if (currentPlayer.hand.contains(toTrash) && !currentPlayer.latestHermitTrashFromDiscard) {
+					currentPlayer.hand.remove(toTrash);
+					currentPlayer.trash(toTrash, this, context);
+				} else {
+					Util.playerError(currentPlayer, "Hermit trash error, chosen card to trash not in hand or discard, ignoring.");
 				}
-				
-				currentPlayer.trash(toTrash, this, context);
 			}
 		}
 		
 		// Gain a card costing up to 3 coins
         Card c = context.player.controlPlayer.hermit_cardToGain(context);
         
-    	if (c != null) 
-    	{
+    	if (c != null) {
     		context.player.controlPlayer.gainNewCard(c, this, context);
     	}
 	}

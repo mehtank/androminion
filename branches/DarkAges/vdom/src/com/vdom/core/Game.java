@@ -1060,7 +1060,7 @@ public class Game {
 	        broadcastEvent(event);
 	        
 	        // execute specific actions triggered on card gain
-	        card.isGained(context);
+	        //card.isGained(context);
         }
         // cost adjusted based on any cards played or card being bought
         int cost = buy.getCost(context);
@@ -2058,6 +2058,9 @@ public class Game {
 	                            playedCards.remove(c);
 	                        }
                         }
+                    } else if (event.card.equals(Cards.deathCart)) {
+                    	context.player.controlPlayer.gainNewCard(Cards.virtualRuins, event.card, context);
+            			context.player.controlPlayer.gainNewCard(Cards.virtualRuins, event.card, context);
                     }
                     // Achievement check...
                     if(event.getType() == GameEvent.Type.BuyingCard && !player.achievementSingleCardFailed) {

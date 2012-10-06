@@ -2434,7 +2434,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	@Override
 	public Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard)
 	{	
-		return this.lowestCards(context, cardList, 1, false)[0];
+		Card cardToTrash = this.lowestCards(context, cardList, 1, false)[0];
+		
+		if (cardList.indexOf(cardToTrash) < nonTreasureCountInDiscard) {
+			latestHermitTrashFromDiscard = true;
+		} else {
+			latestHermitTrashFromDiscard = false;
+		}
+		
+		return cardToTrash;
 	}
 	
 	@Override

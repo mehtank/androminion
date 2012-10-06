@@ -37,5 +37,5 @@ public interface Card {
     
     public void isTrashed(MoveContext context);
     
-    public void isGained(MoveContext context);
+    //public void isGained(MoveContext context);
 }

@@ -257,8 +257,8 @@ public class CardImpl implements Card {
     {
     }
 
-	@Override
+	/*@Override
 	public void isGained(MoveContext context) {
 		
-	}
+	}*/
 }

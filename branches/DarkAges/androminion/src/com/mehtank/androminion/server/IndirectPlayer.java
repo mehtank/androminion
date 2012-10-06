@@ -2578,21 +2578,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 		// Add option to skip the trashing
 		h.put("None", null);
 		
-		for (Card c : cardList) 
-	    {
-			if (cardCount < nonTreasureCountInDiscard)
-			{
+		for (Card c : cardList) {
+			if (cardCount < nonTreasureCountInDiscard) {
 				h.put(c.getName() + " (discard pile)", c);
-			}
-			else
-			{
+			} else {
 				h.put(c.getName() + " (deck)", c);
 			}
 			
 			++cardCount;
 	    }
+		
+		String choice = selectString(context, getTrashString(Cards.hermit), h.keySet().toArray(new String[0])); 
 	
-		return h.get(selectString(context, getTrashString(Cards.hermit), h.keySet().toArray(new String[0])));
+		if (choice.contains("discard pile")) {
+			latestHermitTrashFromDiscard = true;
+		} else {
+			latestHermitTrashFromDiscard = false;
+		}
+		
+		return h.get(choice);
 	}
 	
 	@Override

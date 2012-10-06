@@ -41,6 +41,7 @@ public abstract class Player {
     protected CardList island;
     protected CardList haven;
     protected CardList horseTraders;
+    protected boolean latestHermitTrashFromDiscard;
     public Game game;
     public Player controlPlayer = this;
 
@@ -679,7 +680,7 @@ public abstract class Player {
             context.game.broadcastEvent(gainEvent);
             
             // invoke different actions on gain
-            cardToGain.isGained(context);
+            //cardToGain.isGained(context);
             
             return true;
         }
