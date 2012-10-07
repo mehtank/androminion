@@ -762,8 +762,12 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_walledVillage_backOnDeck(MoveContext context) {
         return false;
     }
+    
+    public boolean shouldAutoPlay_envoy_opponentCardToDiscard(MoveContext context) {
+        return false;
+    }
 
-	public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
+    public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
 		return true;
 	}
 	

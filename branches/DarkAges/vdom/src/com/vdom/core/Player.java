@@ -10,6 +10,7 @@ import java.util.Random;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
+import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
@@ -210,39 +211,22 @@ public abstract class Player {
         horseTraders = new CardList(this, "Horse Traders");
     }
 
-    private List<PutBackOption> getPutBackOptions(MoveContext context, boolean victoryBought) {
+    private List<PutBackOption> getPutBackOptions(MoveContext context, boolean victoryBought, boolean potionPlayed, boolean treasurePlayed,
+    											  short actionsPlayedCount) {
     	List<PutBackOption> options = new ArrayList<PutBackOption>();
-    	boolean potionPlayed = false;
-    	boolean treasurePlayed = false;
-    	boolean actionPlayed = false;
-    	short actionsPlayed = 0;
-    	for (Card c: playedCards) {
-    		if (c.equals(Cards.potion)) {
-    			potionPlayed = true;
-    			treasurePlayed = true;
-    		} else if (c instanceof TreasureCard) {
-    			treasurePlayed = true;
-    		}
-    		if (c instanceof ActionCard) {
-    			actionsPlayed++;
-    			actionPlayed = true;
-    		}
-    		if (potionPlayed && treasurePlayed && actionPlayed) {
-    			break;
-    		}
-    	}
+    	
     	for (Card c: playedCards) {
     		if (c.equals(Cards.treasury) && !victoryBought) {
     			options.add(PutBackOption.Treasury);
     		} else if (c.equals(Cards.alchemist) && potionPlayed) {
     			options.add(PutBackOption.Alchemist);
-    		} else if (c.equals(Cards.walledVillage) && actionsPlayed <= 2) {
+    		} else if (c.equals(Cards.walledVillage) && (actionsPlayedCount <= 2)) {
     			options.add(PutBackOption.WalledVillage);
 			} else if (c.equals(Cards.herbalist) && treasurePlayed) {
     			options.add(PutBackOption.Coin);
     		}
     	}
-    	if (actionPlayed) {
+    	if (actionsPlayedCount > 0) {
     		for (int i = 0; i < context.schemesPlayed; i++) {
     			options.add(PutBackOption.Action);
     		}
@@ -271,12 +255,38 @@ public abstract class Player {
         // /////////////////////////////////
         // Discard played cards
         // /////////////////////////////////
-        boolean victoryBought = getVictoryCardsBoughtThisTurn(context) > 0;
+        
+        // Determine if criteria were met for certain action cards
+        boolean victoryBought  = getVictoryCardsBoughtThisTurn(context) > 0;
+        boolean potionPlayed   = false;
+    	boolean treasurePlayed = false;
+    	short actionsPlayed    = 0;
+    	
+    	for (Card c: playedCards) {
+    		if (c.equals(Cards.potion)) {
+    			potionPlayed = true;
+    			treasurePlayed = true;
+    		} else if (c instanceof TreasureCard) {
+    			treasurePlayed = true;
+    		}
+    		if (c instanceof ActionCard) {
+    			actionsPlayed++;
+    		}
+    		if (potionPlayed && treasurePlayed && (actionsPlayed > 0)) {
+    			break;
+    		}
+    	}
+    	
+    	for (Card c :  nextTurnCards) {
+    		if (c instanceof DurationCard) {
+    			++actionsPlayed;
+    		}
+    	}
 
         List<PutBackOption> putBackOptions;
         ArrayList<Card> putBackCards = new ArrayList<Card>();
 
-        while (!(putBackOptions = controlPlayer.getPutBackOptions(context, victoryBought)).isEmpty()) {
+        while (!(putBackOptions = controlPlayer.getPutBackOptions(context, victoryBought, potionPlayed, treasurePlayed, actionsPlayed)).isEmpty()) {
             PutBackOption putBackOption = controlPlayer.selectPutBackOption(context, putBackOptions);
             if (putBackOption == PutBackOption.None || (isPossessed() && controlPlayer.isAi())) {
         		break;

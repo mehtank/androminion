@@ -2069,7 +2069,21 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public GraverobberOption graverobber_chooseOption(MoveContext context) {
-		return GraverobberOption.GainFromTrash;
+		
+		boolean trashContainsValidCard = false;
+		
+		for (Card c : context.game.trashPile) {
+			if (c.getCost(context) >= 3 && c.getCost(context) <= 6) {
+				trashContainsValidCard = true;
+				break;
+			}
+		}
+		
+		if (trashContainsValidCard) {
+			return GraverobberOption.GainFromTrash;
+		} else {
+			return GraverobberOption.TrashActionCard;
+		}
 	}
 
 	@Override
@@ -2087,13 +2101,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public Card graverobber_cardToTrash(MoveContext context) {
 		CardList ac = new CardList(controlPlayer, name);
 		for (Card c : hand) {
-			ac.add(c);
+			if (c instanceof ActionCard) {
+				ac.add(c);
+			}
 		}
 		
 		if (ac.size() > 0) {
 	    	Card card = pickOutCard(ac, getTrashCards());
 	    	if (card == null) {
-	    		card = lowestCard(context, context.getPlayer().getHand(), false);
+	    		card = lowestCard(context, ac, false);
 	    	}
 	    	return card;
 		} 

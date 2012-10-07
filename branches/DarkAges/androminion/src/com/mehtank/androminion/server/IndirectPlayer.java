@@ -2481,6 +2481,27 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	
 		return h.get(selectString(context, Cards.governor, h.keySet().toArray(new String[0])));
 	}
+    
+    @Override
+    public Card envoy_cardToDiscard(MoveContext context, Card[] cards) {
+    	if(context.isQuickPlay() && shouldAutoPlay_envoy_opponentCardToDiscard(context)) {
+            return super.envoy_cardToDiscard(context, cards);
+        }
+		
+        ArrayList<String> options = new ArrayList<String>();
+        
+        for (Card c : cards) {
+            options.add(Strings.getCardName(c));
+        }
+
+        if (!options.isEmpty()) {
+            String o = selectString(context, getOpponentDiscardString(Cards.envoy, context.getPlayer().getPlayerName()), options.toArray(new String[0]));
+            return (Card) localNameToCard(o, cards);
+        } else {
+            return null;
+        }
+    }
+    
 	@Override
 	public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array) {
         if(context.isQuickPlay() && shouldAutoPlay_navigator_shouldDiscardTopCards(context, array)) {

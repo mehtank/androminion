@@ -4336,7 +4336,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			toGain = currentPlayer.controlPlayer.graverobber_cardToGainFromTrash(context);
 
 			if (toGain == null || toGain.costPotion() || toGain.getCost(context) < 3 || toGain.getCost(context) > 6) {
-				Util.playerError(currentPlayer, "Graverobber gain card choice error, choosing nothing");
+				Util.playerError(currentPlayer, "Graverobber gain card choice error, gaining nothing");
 				return;
 			}
 
@@ -4349,7 +4349,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			Card toTrash = currentPlayer.controlPlayer.graverobber_cardToTrash(context);
 
 			if (toTrash == null || !currentPlayer.hand.contains(toTrash) || !(toTrash instanceof ActionCard)) {
-                Util.playerError(currentPlayer, "Forager trash error, trashing nothing.");
+                Util.playerError(currentPlayer, "Graverobber trash error, trashing nothing.");
                 return;
             }
 
