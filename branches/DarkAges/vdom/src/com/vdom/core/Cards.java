@@ -540,7 +540,7 @@ public class Cards {
         actionCardsDarkAges.add(wanderingMinstrel = new ActionCardImpl.Builder(Cards.Type.WanderingMinstrel, 4).addCards(1).addActions(2).description("Reveal the top 3 cards of your deck. Put the Actions back on top in any order and discard the rest.").expansion("Dark Ages").build());
         
         // Non-Supply Cards
-        nonSupplyCards.add(madman = new ActionCardImpl.Builder(Cards.Type.Madman, 0).description("Return this to the Madman pile. If you do, +1 Card per card in your hand. (This is not in the supply)").expansion("Dark Ages").build());
+        nonSupplyCards.add(madman = new ActionCardImpl.Builder(Cards.Type.Madman, 0).addActions(2).description("Return this to the Madman pile. If you do, +1 Card per card in your hand. (This is not in the supply)").expansion("Dark Ages").build());
         nonSupplyCards.add(mercenary = new ActionCardImpl.Builder(Cards.Type.Mercenary, 0).attack().description("You may trash 2 cards from your hand. If you do, +2 cards, +2 coins, and each other player discards down to 3 cards in hand. (This is not in the supply)").expansion("Dark Ages").build());
         nonSupplyCards.add(spoils = new TreasureCardImpl.Builder(Cards.Type.Spoils, 0, 3).description("When you play this, return it to the Spoils pile (This is not in the Supply).").expansion("Dark Ages").build());
 		
