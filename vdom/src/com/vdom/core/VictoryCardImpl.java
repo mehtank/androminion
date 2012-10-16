@@ -1,6 +1,9 @@
 package com.vdom.core;
 
+import java.util.ArrayList;
+
 import com.vdom.api.Card;
+import com.vdom.core.MoveContext;
 import com.vdom.api.VictoryCard;
 
 public class VictoryCardImpl extends CardImpl implements VictoryCard {
@@ -25,8 +28,27 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 
     }
 
+    @Override
     public int getVictoryPoints() {
         return vp;
+    }
+    
+    @Override
+    public void isTrashed(MoveContext context)
+    {
+    	switch (this.getType()) 
+    	{
+        case OvergrownEstate:
+        	context.game.drawToHand(context.player, this);
+        	break;
+        case Feodum:
+        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+        	break;
+        default:
+        	break;
+    	}
     }
 
     @Override
@@ -46,6 +68,9 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 
     @Override
     public void isBought(MoveContext context) {
+    	
+    	context.game.trashHovelsInHandOption(context.player, context, this);
+    	
     	if (this.equals(Cards.farmland)) {
             Player player = context.getPlayer();
         	if(player.getHand().size() > 0) {

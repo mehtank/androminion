@@ -15,6 +15,9 @@ public class CardImpl implements Card {
     boolean trashed = false;
     int numberTimesAlreadyPlayed = 0;
     boolean isPrize = false;
+    boolean isShelter = false;
+    boolean isRuins = false;
+    boolean isKnight = false;
     int cloneCount = 1;
 
     private Integer id;
@@ -39,6 +42,9 @@ public class CardImpl implements Card {
         description = builder.description;
         expansion = builder.expansion;
         isPrize = builder.isPrize;
+        isShelter = builder.isShelter;
+        isRuins = builder.isRuins;
+        isKnight = builder.isKnight;
         trashOnUse = builder.trashOnUse;
     }
 
@@ -53,6 +59,9 @@ public class CardImpl implements Card {
         protected String expansion = "";
 
 	    protected boolean isPrize = false;
+	    protected boolean isShelter = false;
+	    protected boolean isRuins = false;
+	    protected boolean isKnight = false;
         protected boolean trashOnUse = false;
 
 
@@ -85,6 +94,16 @@ public class CardImpl implements Card {
         public Builder isPrize() {
             isPrize = true;
             return this;
+        }
+        
+        public Builder isShelter() {
+        	isShelter = true;
+        	return this;
+        }
+
+        public Builder isRuins() {
+        	isRuins = true;
+        	return this;
         }
 
         public Builder trashOnUse() {
@@ -139,6 +158,9 @@ public class CardImpl implements Card {
         c.description = description;
         c.expansion = expansion;
         c.isPrize = isPrize;
+        c.isShelter = isShelter;
+        c.isRuins = isRuins;
+        c.isKnight = isKnight;
         c.vp = vp;
     }
 
@@ -193,7 +215,7 @@ public class CardImpl implements Card {
     public String getDescription() {
         return description;
     }
-
+    
     public String toString() {
         return name; // + " (id=" + id + ")";
     }
@@ -209,12 +231,34 @@ public class CardImpl implements Card {
     public boolean costPotion() {
         return costPotion;
     }
-    
+    @Override
     public boolean isPrize() {
         return isPrize;
+    }
+    @Override
+    public boolean isShelter() {
+    	return isShelter;
+    }
+    @Override
+    public boolean isRuins() {
+    	return isRuins;
+    }
+    @Override
+    public boolean isKnight() {
+    	return isKnight;
     }
     
     @Override
     public void isBought(MoveContext context) {
     }
+    
+    @Override
+    public void isTrashed(MoveContext context)
+    {
+    }
+
+	/*@Override
+	public void isGained(MoveContext context) {
+		
+	}*/
 }

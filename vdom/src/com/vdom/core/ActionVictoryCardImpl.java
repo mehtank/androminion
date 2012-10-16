@@ -17,6 +17,7 @@ public class ActionVictoryCardImpl extends ActionCardImpl implements VictoryCard
         }
     }
 
+    @Override
     public int getVictoryPoints() {
         return vp;
     }
@@ -34,6 +35,11 @@ public class ActionVictoryCardImpl extends ActionCardImpl implements VictoryCard
     }
 
     protected ActionVictoryCardImpl() {
+    }
+    
+    @Override
+    public void isBought(MoveContext context) {
+    	context.game.trashHovelsInHandOption(context.player, context, this);
     }
 
 }

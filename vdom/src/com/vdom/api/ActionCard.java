@@ -15,6 +15,12 @@ public interface ActionCard extends Card {
     public int getAddVictoryTokens();
 
     public boolean isAttack();
+    
+    public boolean isRuins();
+    
+    public boolean isKnight();
+    
+    public boolean isLooter();
 
     public boolean trashForced();
 

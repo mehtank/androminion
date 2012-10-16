@@ -9,7 +9,6 @@ import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
-import com.vdom.api.TreasureCard;
 
 public class MoveContext {
     public int actions = 1;
@@ -36,6 +35,7 @@ public class MoveContext {
     public int totalCardsBoughtThisTurn = 0;
     public boolean buyPhase = false;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
+    public int beggarSilverIsOnTop = 0;
 
     // For checking Achievements
     public int vpsGainedThisTurn = 0;
@@ -274,6 +274,10 @@ public class MoveContext {
 
     public Card[] getTreasureCardsInGame() {
         return game.getTreasureCardsInGame();
+    }
+
+    public Card[] getVictoryCardsInGame() {
+        return game.getVictoryCardsInGame();
     }
 
     protected boolean isNewCardAvailable(int cost, boolean potion) {

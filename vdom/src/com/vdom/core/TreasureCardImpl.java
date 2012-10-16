@@ -75,6 +75,10 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     // return true if Treasure cards should be re-evaluated since might affect
     // coin play order
     public boolean playTreasure(MoveContext context) {
+    	return playTreasure(context, false);
+    }
+    
+    public boolean playTreasure(MoveContext context, boolean isClone) {
         boolean reevaluateTreasures = false;
         Player player = context.player;
         Game game = context.game;
@@ -82,10 +86,12 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         GameEvent event = new GameEvent(GameEvent.Type.PlayingCoin, (MoveContext) context);
         event.card = this;
         game.broadcastEvent(event);
-
-        player.hand.remove(this);
-        player.playedCards.add(this);
-
+	
+        if (!isClone) {
+	        player.hand.remove(this);
+	        player.playedCards.add(this);
+        }
+        
         context.treasuresPlayedSoFar++;
         context.gold += getValue();
         if (providePotion()) {
@@ -120,6 +126,17 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             hornOfPlenty(context, player, game);
         } else if (equals(Cards.illGottenGains)) {
             reevaluateTreasures = illGottenGains(context, player, reevaluateTreasures);
+        } else if (equals(Cards.counterfeit)) {
+        	reevaluateTreasures = counterfeit(context, game, reevaluateTreasures, player);
+        }
+		else if (equals(Cards.spoils))
+        {
+			if (!isClone) {
+				// Return to the spoils pile
+	            player.playedCards.remove(this);                   
+	            AbstractCardPile pile = game.getPile(this);
+	            pile.addCard(this);
+			}
         }
 
         return reevaluateTreasures;
@@ -232,4 +249,29 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             }
         }
     }
+    
+    protected boolean counterfeit(MoveContext context, Game game, boolean reevaluateTreasures, Player currentPlayer) {
+        context.buys++;
+        
+    	TreasureCard treasure = currentPlayer.counterfeit_cardToPlay(context);
+    	if (treasure != null) {
+    		TreasureCardImpl card = (TreasureCardImpl) treasure;
+
+    		currentPlayer.hand.remove(treasure);
+    		if (treasure.equals(Cards.spoils)) {
+				// Return to the spoils pile
+	            currentPlayer.playedCards.remove(treasure);                   
+	            game.getPile(Cards.spoils).addCard(treasure);
+	            
+    		} else 
+    			currentPlayer.trash(treasure, this, context);
+    		
+    		card.playTreasure(context, true);
+    		card.playTreasure(context, true);
+    	}
+
+        return true;
+    }
+
+
 }

@@ -16,5 +16,6 @@
     <color name="cardPlatinum">#FFFFFF</color>
     <color name="cardPotion">#33CCFF</color>
     <color name="cardCurse">#9400D3</color>
+    <color name="cardRuins">#806F49</color>
 
 </resources>

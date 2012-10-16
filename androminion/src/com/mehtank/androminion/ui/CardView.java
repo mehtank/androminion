@@ -35,15 +35,15 @@ import com.vdom.comms.MyCard;
  */
 public class CardView extends FrameLayout implements OnLongClickListener, CheckableEx {
 	private static final String TAG = "CardView";
-	
+
 	private TextView name;
 	private View cardBox;
 	private TextView cost, countLeft, embargos;
 	private TextView checked;
 	private TextView cardDesc;
-	
+
 	private String viewstyle;
-	
+
 	CardGroup parent;
 	private CardState state;
 /**
@@ -65,7 +65,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		public CardState(MyCard c, boolean opened, String indicator, int order) {
 		    this(c, opened, indicator, order, false);
 		}
-		
+
 		public CardState(MyCard c, boolean opened, String indicator, int order, boolean shade) {
 			this.c = c;
 			this.opened = opened;
@@ -155,7 +155,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else {
 			if (c.isBane) {
 				setBackgroundResource(R.drawable.baneborder);
-			} else {
+		} 
+		else if (c.isShelter)
+		{
+			setBackgroundResource(R.drawable.shelterborder);
+		}
+		else {
 				setBackgroundResource(R.drawable.cardborder);
 			}
 		}
@@ -191,6 +196,26 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			}
 		}
 	}
+	
+	//TODO: Use this to update the VirtualKnights pile
+	/*public void updateCardStyle(MyCard c) {
+		int cardStyleId = getStyleForCard(c);
+		TypedArray cardStyle = getContext().obtainStyledAttributes(cardStyleId,
+				new int[] {
+					R.attr.cardBackgroundColor,
+					R.attr.cardNameBackgroundColor,
+					R.attr.cardTextColor,
+					R.attr.cardCountColor });
+		int bgColor = cardStyle.getColor(0, R.color.cardDefaultBackgroundColor);
+		int textColor = cardStyle.getColor(2, R.color.cardDefaultTextColor);
+        int nameBgColor = cardStyle.getColor(1, R.color.cardDefaultTextBackgroundColor);
+		int countColor = cardStyle.getColor(3, R.color.cardDefaultTextColor);
+
+		cardBox.setBackgroundColor(bgColor);
+		name.setTextColor(textColor);
+        name.setBackgroundColor(nameBgColor);
+		countLeft.setTextColor(countColor);		
+	}*/
 
 	private static int getStyleForCard(MyCard c) {
 		if (c.isReaction && c.isVictory) {
@@ -201,6 +226,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Reaction;
 		} else if (c.isDuration) {
 			return R.style.CardView_Duration;
+		} else if (c.isRuins) {
+			return R.style.CardView_Ruins;
+		} else if (c.isVictory && c.isAttack) { 
+			return R.style.CardView_Attack_Victory;
 		} else if (c.isAttack) {
 			return R.style.CardView_Attack;
 		} else if (c.isTreasure && c.isVictory) {
@@ -271,13 +300,13 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	public void setCountLeft(int s) {
 		countLeft.setText(" " + s + " ");
 		countLeft.setVisibility(VISIBLE);
-		if (s == 0) 
+		if (s == 0)
 			shade(true);
 		else
 			shade(false);
 	}
 
-	public void shade(boolean on) {	
+	public void shade(boolean on) {
 		float alpha = (on ? 0.3f : 1.0f);
 		// setAlpha() is API level 11+ only, so we use an instant animation instead.
 		AlphaAnimation alphaAnimation = new AlphaAnimation(alpha, alpha);
