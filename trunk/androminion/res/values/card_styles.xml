@@ -36,6 +36,12 @@
         <item name="cardTextColor">@color/cardAttack</item>
         <item name="cardCountColor">@color/cardAttack</item>
     </style>
+    
+    <style name="CardView.Attack.Victory">
+        <item name="cardNameBackgroundColor">@color/cardVictory</item>
+        <item name="cardCountColor">@color/cardDefaultTextColor</item>
+        <item name="cardBackgroundColor">@color/cardDefaultTextBackgroundColor</item>
+    </style>
 
     <style name="CardView.Curse">
         <item name="cardBackgroundColor">@color/cardCurse</item>
@@ -82,6 +88,9 @@
         <item name="cardNameBackgroundColor">@color/cardVictory</item>
         <item name="cardCountColor">@color/cardDefaultTextColor</item>
         <item name="cardBackgroundColor">@color/cardDefaultTextBackgroundColor</item>
+    </style>
+    <style name="CardView.Ruins">
+        <item name="cardBackgroundColor">@color/cardRuins</item>
     </style>
 
 </resources>

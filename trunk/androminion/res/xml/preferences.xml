@@ -109,6 +109,12 @@
             android:summary="@string/plat_colony_pref_summary"
             android:title="@string/plat_colony_pref_title" >
         </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="use_shelters"
+            android:summary="@string/shelters_pref_summary"
+            android:title="@string/shelters_pref_title" >
+        </CheckBoxPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notif_pref_title" >
         <CheckBoxPreference

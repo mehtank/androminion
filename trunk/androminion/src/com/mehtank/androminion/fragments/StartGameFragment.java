@@ -23,7 +23,7 @@ import com.vdom.api.GameType;
 public class StartGameFragment extends SherlockFragment implements OnClickListener, OnItemSelectedListener {
 	@SuppressWarnings("unused")
 	private static final String TAG = "StartGameFragment";
-	
+
 	//Views
 	View mView;
 
@@ -68,7 +68,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 		com.mehtank.androminion.server.Strings.context = getActivity().getApplicationContext();
 
 		mView = inflater.inflate(R.layout.fragment_startgame, null);
-		
+
 		mCardsetSpinner = (Spinner) mView.findViewById(R.id.spinnerCardset);
 		mCardsetSpinner.setOnItemSelectedListener(this);
 		mRandomSpinner = (Spinner) mView.findViewById(R.id.spinnerRandom);
@@ -78,9 +78,9 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 		mPlayer4 = (Spinner) mView.findViewById(R.id.spPlayer4);
 		mPlayer5 = (Spinner) mView.findViewById(R.id.spPlayer5);
 		mPlayer6 = (Spinner) mView.findViewById(R.id.spPlayer6);
-		
+
 		// TODO: Set listeners for top spinner
-		
+
 		mStartGame = (Button) mView.findViewById(R.id.butStart);
 		mStartGame.setOnClickListener(this);
 
@@ -102,10 +102,10 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 		} else {
 			mGameType = TypeOptions.valueOf(mPrefs.getString("gameType", TypeOptions.PRESET.name()));
 		}
-		
+
 		ArrayAdapter<String> cardsetAdapter = createArrayAdapter(cardspinnerlist);
 		mCardsetSpinner.setAdapter(cardsetAdapter);
-		
+
 		// Change preselected Radio button / spinner value
 		switch (mGameType) {
 		case RANDOM:
@@ -125,7 +125,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         //Fill card set spinners
 		ArrayList<String> presets = new ArrayList<String>();
 		ArrayList<String> randoms = new ArrayList<String>();
-		
+
 		GameType[] types = GameType.values();
 		String type;
 		for (int i = 0; i < types.length; i++) {
@@ -183,13 +183,13 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 		mPlayer4.setPrompt(player+"4");
 		mPlayer4.setAdapter(adapter);
 		mPlayer4.setSelection(adapter.getPosition(mPrefs.getString("gamePref4", getString(R.string.none_game_start))));
-		
+
 		((TextView) mView.findViewById(R.id.txtPlayer5))
 		.setText(" - " + player + "5:  ");
 		mPlayer5.setPrompt(player+"5");
 		mPlayer5.setAdapter(adapter);
 		mPlayer5.setSelection(adapter.getPosition(mPrefs.getString("gamePref5", getString(R.string.none_game_start))));
-		
+
 		((TextView) mView.findViewById(R.id.txtPlayer6))
 		.setText(" - " + player + "6:  ");
 		mPlayer6.setPrompt(player+"6");
@@ -278,9 +278,14 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         str = (String) mPlayer6.getSelectedItem();
         strs.add(str);
         edit.putString("gamePref6", str);
-        
+
 		if(mPrefs.getBoolean("plat_colony", false)) {
 		    strs.add("-platcolony");
+		}
+
+		if (mPrefs.getBoolean("use_shelters", false))
+		{
+			strs.add("-useshelters");
 		}
 
         if(mPrefs.getBoolean("quick_play", false)) {
@@ -350,7 +355,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 	public void onNothingSelected(AdapterView<?> parent) {
 		// Nothing selected - so let's do nothing
 	}
-	
+
 	// Container Activity must implement this interface
 	public interface OnStartGameListener {
 		public void onStartGameClick(ArrayList<String> values);

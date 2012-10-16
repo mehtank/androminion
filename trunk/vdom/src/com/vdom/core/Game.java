@@ -30,18 +30,18 @@ public class Game {
     public static boolean debug = false;
     public static Integer cardSequence = 1;
     public static HashMap<String, Double> GAME_TYPE_WINS = new HashMap<String, Double>();
-    
+
     public static HashMap<String, Integer> winStats = new HashMap<String, Integer>();
     public static final String QUICK_PLAY = "(QuickPlay)";
     public static final String BANE = "bane+";
-    
+
     public static String[] cardsSpecifiedAtLaunch;
     public static ArrayList<String> unfoundCards = new ArrayList<String>();
     String cardListText = "";
     String unfoundCardText = "";
     int totalCardCountGameBegin = 0;
     int totalCardCountGameEnd = 0;
-    
+
     /**
      * Player classes and optionally the url to the jar on the web that the class is located in. Player class
      * is in index [0] of the array and the jar is in index [1]. Index [1] is null (but still there) if the
@@ -51,23 +51,26 @@ public class Game {
 
     /**
      * The card set to use for the game.
-     * 
+     *
      * @see com.vdom.api.GameType
      */
     public static GameType gameType = GameType.Random;
     public static String gameTypeStr = null;
     public static boolean showUsage = false;
 
-    public static boolean alwaysIncludePlatColony = false; 
-    public static boolean platColonyPassedIn = false; 
+    public static boolean alwaysIncludePlatColony = false;
+    public static boolean platColonyPassedIn = false;
     public static boolean platColonyNotPassedIn = false;
-    
+
+    public static boolean sheltersPassedIn = false;
+    public static boolean alwaysUseShelters = false;
+
     public static boolean quickPlay = false;
     public static boolean sortCards = false;
     public static boolean actionChains = false;
     public static boolean suppressRedundantReactions = false;
     public static boolean equalStartHands = false;
-    
+
     public static final HashSet<GameEvent.Type> showEvents = new HashSet<GameEvent.Type>();
     public static final HashSet<String> showPlayers = new HashSet<String>();
     static boolean test = false;
@@ -85,7 +88,7 @@ public class Game {
     static HashMap<String, Double> overallWins = new HashMap<String, Double>();
 
     public static Random rand = new Random(System.currentTimeMillis());
-    public HashMap<String, CardPile> piles = new HashMap<String, CardPile>();
+    public HashMap<String, AbstractCardPile> piles = new HashMap<String, AbstractCardPile>();
     public HashMap<String, Integer> embargos = new HashMap<String, Integer>();
     public ArrayList<Card> trashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
@@ -94,6 +97,7 @@ public class Game {
     public int tradeRouteValue = 0;
     public Card baneCard = null;
     double chanceForPlatColony = 0;
+    double chanceForShelters = 0.0;
 
     private static final int kingdomCardPileSize = 10;
     public static int victoryCardPileSize = 12;
@@ -111,6 +115,7 @@ public class Game {
 
     public boolean platInPlay = false;
     public boolean colonyInPlay = false;
+    public boolean sheltersInPlay = false;
 
     public int possessionsToProcess = 0;
     public Player possessingPlayer = null;
@@ -138,8 +143,8 @@ public class Game {
         /*
          * Don't catch ExitException here. If someone throws an ExitException, it means the game is over, which should be handled by whoever owns us.
          */
- 
-    	
+
+
         processArgs(args);
 
         checkForInteractive();
@@ -147,7 +152,7 @@ public class Game {
         Util.debug("");
 
 
-        
+
             // Start game(s)
             if (gameTypeStr != null) {
                 gameType = GameType.fromName(gameTypeStr);
@@ -243,7 +248,7 @@ public class Game {
                 // /////////////////////////////////
                 playerAction(player, context);
 
-                
+
                 // /////////////////////////////////
                 // Select Treasure for Buy
                 // /////////////////////////////////
@@ -265,7 +270,7 @@ public class Game {
                 player.cleanup(context);
                 boolean takeAnotherTurn = playerEndTurn(player, context);
                 gameOver = checkGameOver();
-                
+
                 if (!gameOver) {
                     setPlayersTurn(takeAnotherTurn);
                 }
@@ -296,8 +301,8 @@ public class Game {
         if (test) {
             // System.out.println();
             ArrayList<Card> gameCards = new ArrayList<Card>();
-            for (CardPile pile : piles.values()) {
-                Card card = pile.card;
+            for (AbstractCardPile pile : piles.values()) {
+                Card card = pile.card();
                 if (!card.equals(Cards.copper) && !card.equals(Cards.silver) && !card.equals(Cards.gold) && !card.equals(Cards.platinum)
                     && !card.equals(Cards.estate) && !card.equals(Cards.duchy) && !card.equals(Cards.province) && !card.equals(Cards.colony)
                     && !card.equals(Cards.curse)) {
@@ -335,8 +340,8 @@ public class Game {
     public int cardsInLowestPiles (int numPiles) {
         int[] ips = new int[piles.size() - 1 - (colonyInPlay ? 1 : 0)];
         int count = 0;
-        for (CardPile pile : piles.values()) {
-            if (pile.card != Cards.province && pile.card != Cards.colony)
+        for (AbstractCardPile pile : piles.values()) {
+            if (pile.card() != Cards.province && pile.card() != Cards.colony)
                 ips[count++] = pile.getCount();
             }
         Arrays.sort(ips);
@@ -361,8 +366,9 @@ public class Game {
         while (treasures != null && !treasures.isEmpty()) {
             while (!treasures.isEmpty()) {
                 TreasureCard card = treasures.remove(0);
-                card.playTreasure(context);
-                }
+                if (player.hand.contains(card)) // this is needed due to counterfeit which trashes cards during this loop
+                	card.playTreasure(context);
+            }
             treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
         }
     }
@@ -823,7 +829,7 @@ public class Game {
         gameTypeStats.clear();
         playerClassesAndJars.clear();
         playerCache.clear();
-        
+
         // dont remove tabs in following to keep easy upstream-mergeability
 
             String gameCountArg = "-count";
@@ -835,6 +841,7 @@ public class Game {
             String ignorePlayerErrorsArg = "-ignore";
             String siteArg = "-site=";
             String platColonyArg = "-platcolony";
+            String useSheltersArg = "-useshelters";
             String quickPlayArg = "-quickplay";
             String sortCardsArg = "-sortcards";
             String actionChainsArg = "-actionchains";
@@ -916,6 +923,8 @@ public class Game {
                         }
                     } else if (arg.toLowerCase().equals(platColonyArg)) {
                         alwaysIncludePlatColony = true;
+                    } else if (arg.toLowerCase().equals(useSheltersArg)) {
+						alwaysUseShelters = true;
                     } else if (arg.toLowerCase().equals(quickPlayArg)) {
                         quickPlay = true;
                     } else if (arg.toLowerCase().equals(sortCardsArg)) {
@@ -999,16 +1008,23 @@ public class Game {
         if (card == null) {
             return true;
         }
-        
-        // TODO: Temp hack to prevent AI from buying possession, even though human player can, since it only half works 
+
+        // TODO: Temp hack to prevent AI from buying possession, even though human player can, since it only half works
         //       (AI will make decisions while possessed, but will try to make "good" ones)
 //        if(card.equals(Cards.possession) && context != null && context.getPlayer() != null && context.getPlayer().isAi()) {
 //            return false;
 //        }
 
-        if (card.isPrize()) {
-            return false;
+        AbstractCardPile thePile = getPile(card);
+
+        if (thePile == null || thePile.isSupply() == false)
+        {
+        	return false;
         }
+
+//        if (card.isPrize()) {
+//            return false;
+//        }
 
         if (isPileEmpty(card)) {
             return false;
@@ -1023,7 +1039,7 @@ public class Game {
         }
 
         int cost = card.getCost(context, true);
-        
+
         int potions = context.getPotions();
         if (cost <= gold && (!card.costPotion() || potions > 0)) {
             return true;
@@ -1047,6 +1063,9 @@ public class Game {
 	        event.card = card;
 	        event.newCard = true;
 	        broadcastEvent(event);
+	        
+	        // execute specific actions triggered on card gain
+	        //card.isGained(context);
         }
         // cost adjusted based on any cards played or card being bought
         int cost = buy.getCost(context);
@@ -1070,10 +1089,17 @@ public class Game {
         	}
         }
 
+        
+        if (buy.equals(Cards.virtualKnight))
+        {
+			// Swap in the real Knight
+        	buy = card;
+        }
+        
         buy.isBought(context);
         haggler(context, buy);
     }
-    
+
     private void haggler(MoveContext context, Card cardBought) {
     	if(!context.game.piles.containsKey(Cards.haggler.getName()))
     		return;
@@ -1082,10 +1108,10 @@ public class Game {
             if(c.equals(Cards.haggler)) {
                 hagglers++;
             }
-        }                    
+        }
         if(hagglers==0)
         	return;
-        
+
         int cost = cardBought.getCost(context);
         boolean potion = cardBought.costPotion();
         List<Card> validCards = new ArrayList<Card>();
@@ -1117,7 +1143,7 @@ public class Game {
         }
 
     }
-    
+
     public boolean buyWouldEndGame(Card card) {
         if (colonyInPlay && card.equals(Cards.colony)) {
             if (pileSize(card) <= 1) {
@@ -1130,7 +1156,7 @@ public class Game {
                 return true;
             }
         }
-        
+
         if (emptyPiles() >= 2 && pileSize(card) <= 1) {
             return true;
         }
@@ -1183,7 +1209,7 @@ public class Game {
         if (responsible != null) {
             Util.debug(player, responsible.getName() + " draw:" + card.getName(), true);
         }
-        
+
         return true;
     }
 
@@ -1206,7 +1232,7 @@ public class Game {
         GameEvent event = new GameEvent(GameEvent.Type.DeckReplenished, context);
         broadcastEvent(event);
     }
-    
+
     private void handleShowEvent(GameEvent event) {
         if (showEvents.contains(event.getType())) {
             Player player = event.getPlayer();
@@ -1258,7 +1284,7 @@ public class Game {
         for (int i = 0; i < numPlayers; i++) {
             for (Card card : players[i].getAllCards()) {
                 cardCounts.put(card.getName(), cardCounts.get(card.getName()) + 1);
-            }            
+            }
         }
         Util.log(cardCounts.toString());
 
@@ -1357,11 +1383,21 @@ public class Game {
             context = new MoveContext(this, players[i]);
             String s = cardListText + "\n---------------\n\n";
             if (!alwaysIncludePlatColony && !platColonyPassedIn && !platColonyNotPassedIn) {
-                s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (platInPlay ? "included" : "not included" + "\n");
+                s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (platInPlay ? "included\n" : "not included\n");
             }
             if (baneCard != null) {
                 s += "Bane card: " + baneCard.getName() + "\n";
             }
+            
+            if (alwaysUseShelters || sheltersPassedIn)
+            {
+            	s += "Shelters included...\n";
+            }
+            else
+            {
+            	s += "Chance for Shelters\n   " + (Math.round(chanceForShelters * 100)) + "% ... " + (sheltersInPlay ? "included\n" : "not included\n");
+            }
+            
             s += unfoundCardText;
             context.message = s;
             broadcastEvent(new GameEvent(GameEvent.Type.GameStarting, context));
@@ -1382,12 +1418,27 @@ public class Game {
             player.discard(takeFromPile(Cards.copper), null, null);
             player.discard(takeFromPile(Cards.copper), null, null);
 
-            player.discard(takeFromPile(Cards.estate), null, null);
-            player.discard(takeFromPile(Cards.estate), null, null);
-            player.discard(takeFromPile(Cards.estate), null, null);
+            if (sheltersInPlay)
+            {
+            	player.discard(takeFromPile(Cards.necropolis), null, null);
+            	player.discard(takeFromPile(Cards.overgrownEstate), null, null);
+            	player.discard(takeFromPile(Cards.hovel), null, null);
+            	
+            	// Also need to remove the Estates that were put in the pile prior to 
+            	// determining if Shelters would be used
+            	takeFromPile(Cards.estate);
+            	takeFromPile(Cards.estate);
+            	takeFromPile(Cards.estate);
+            }
+            else
+            {
+            	player.discard(takeFromPile(Cards.estate), null, null);
+                player.discard(takeFromPile(Cards.estate), null, null);
+                player.discard(takeFromPile(Cards.estate), null, null);            	
+            }
 
             if (!equalStartHands || i == 0) {
-	            while (player.hand.size() < 5) 
+	            while (player.hand.size() < 5)
 	                drawToHand(player, null, false);
 	            }
             else {
@@ -1400,12 +1451,12 @@ public class Game {
             	player.replenishDeck();
 			}
         }
-        
+
         // Add tradeRoute tokens if tradeRoute in play
         tradeRouteValue = 0;
         if (isCardInGame(Cards.tradeRoute)) {
-	        for (CardPile pile : piles.values()) {
-	            if (pile.card instanceof VictoryCard) {
+	        for (AbstractCardPile pile : piles.values()) {
+	            if (pile.card() instanceof VictoryCard) {
 	                pile.setTradeRouteToken();
 	            }
 	        }
@@ -1459,12 +1510,11 @@ public class Game {
 		addPile(Cards.gold, 30 * treasureMultiplier);
 		addPile(Cards.silver, 40 * treasureMultiplier);
 		addPile(Cards.copper, 60 * treasureMultiplier);
-		
+
 		addPile(Cards.curse, curseCount);
-		// addPile(Cards.colony);
 		addPile(Cards.province, provincePileSize);
 		addPile(Cards.duchy, victoryCardPileSize);
-		addPile(Cards.estate, victoryCardPileSize + 3 * numPlayers);
+		addPile(Cards.estate, victoryCardPileSize + (3 * numPlayers));
 
 		unfoundCards.clear();
 		int added = 0;
@@ -1478,7 +1528,7 @@ public class Game {
             	if(cardName.startsWith(BANE)) {
                     bane = true;
                     cardName = cardName.substring(BANE.length());
-                }            	
+                }
             	/*
                 StringBuilder sb = new StringBuilder();
                 for(char c : cardName.toCharArray()) {
@@ -1487,14 +1537,14 @@ public class Game {
                     }
                 }
                 String s = sb.toString();
-                
+
                 for (Card c : Cards.actionCards) {
                     if(c.getSafeName().equalsIgnoreCase(s)) { // hotspot
                         card = c;
                         break;
                     }
                 }*/
-            	card = Cards.actionCardsMap.get(cardName); 
+            	card = Cards.actionCardsMap.get(cardName);
             	String s = cardName;
             	if (card == null) { // maybe we need equalsIgnoreCase
                     for (Card c : Cards.actionCards) {
@@ -1507,7 +1557,10 @@ public class Game {
                 if(card != null && bane) {
                     baneCard = card;
                 }
-                
+                if (cardName.equalsIgnoreCase("Knights")) {
+            		card = Cards.virtualKnight;
+                }
+
                 if(card != null
 //                    && !card.equals(Cards.possession)
                     ) {
@@ -1530,30 +1583,26 @@ public class Game {
                 } else if ( s.equalsIgnoreCase(Cards.platinum.getSafeName()) ||
                 			s.equalsIgnoreCase(Cards.colony.getSafeName()) ) {
                     platColonyPassedIn = true;
+                } else if (s.equalsIgnoreCase("Shelter")) {
+                	sheltersPassedIn = true;
                 } else {
                     unfoundCards.add(s);
                     Util.debug("ERROR::Could not find card:" + s);
                 }
             }
-            
+
             for(String s : unfoundCards) {
-            	if (added >= 10) 
+            	if (added >= 10)
             		break;
                 Card c = null;
                 int replacementCost = -1;
                 if(s.equalsIgnoreCase("blackmarket")) {
                     replacementCost = 3;
                 }
-                else if(s.equalsIgnoreCase("envoy")) {
-                    replacementCost = 4;
-                }
                 else if(s.equalsIgnoreCase("stash")) {
                     replacementCost = 5;
                 }
-                else if(s.equalsIgnoreCase("walledvillage")) {
-                    replacementCost = 4;
-                }
-                
+
                 if(replacementCost != -1) {
                     ArrayList<Card> cardsWithSameCost = new ArrayList<Card>();
                     for (Card card : Cards.actionCards) {
@@ -1561,19 +1610,19 @@ public class Game {
                             cardsWithSameCost.add(card);
                         }
                     }
-                    
+
                     if(cardsWithSameCost.size() > 0) {
                         c = cardsWithSameCost.get(rand.nextInt(cardsWithSameCost.size()));
                     }
                 }
-            
+
                 while(c == null) {
                     c = Cards.actionCards.get(rand.nextInt(Cards.actionCards.size()));
                     if(cardInGame(c)) {
                         c = null;
                     }
                 }
-                
+
                 addPile(c);
                 added += 1;
             }
@@ -1595,10 +1644,62 @@ public class Game {
 				this.addPile(this.baneCard);
 			}
 		}
+        
+		if (piles.containsKey(Cards.virtualKnight.getName())) {
+			VariableCardPile kp = (VariableCardPile) this.getPile(Cards.virtualKnight);
+			for (Card k : Cards.knightsCards) {
+				kp.addLinkedPile((SingleCardPile) addPile(k, 1, false));
+			}
+			
+			
+		}
 
+        chanceForShelters = 0.0;
+        if (alwaysUseShelters || sheltersPassedIn) {
+        	sheltersInPlay = true;
+        } else {
+        	sheltersInPlay = false;
+        	boolean alreadyCountedKnights = false;
+        	
+        	for (AbstractCardPile pile : piles.values()) 
+        	{
+                if (pile != null && 
+                	pile.card() != null && 
+                	pile.card().getExpansion() != null && 
+                	pile.card().isShelter() == false &&
+                	pile.card().isRuins() == false &&
+                	(pile.card().isKnight() == false || !alreadyCountedKnights) &&
+                	pile.card().getExpansion().equals("Dark Ages")) 
+                {
+                    chanceForShelters += 0.1;
+                }
+                
+                if (chanceForShelters >= 1.0)
+                {
+                	chanceForShelters = 1.0;
+                	break;
+                }
+                
+                if (pile.card().isKnight())
+                {
+                	alreadyCountedKnights = true;
+                }
+            }
+
+            if (rand.nextDouble() < chanceForShelters) 
+            {
+                sheltersInPlay = true;
+            }
+        }
+                
+        if (sheltersInPlay) {
+                addPile(Cards.necropolis, numPlayers, false);
+        		addPile(Cards.overgrownEstate, numPlayers, false);
+        		addPile(Cards.hovel, numPlayers, false);
+        }
         chanceForPlatColony = 0;
         if (alwaysIncludePlatColony || platColonyPassedIn) {
-            platInPlay = true;
+			platInPlay = true;
             colonyInPlay = true;
         } else if (platColonyNotPassedIn) {
             platInPlay = false;
@@ -1607,8 +1708,8 @@ public class Game {
             platInPlay = false;
             colonyInPlay = false;
 
-            for (CardPile pile : piles.values()) {
-                if (pile != null && pile.card != null && pile.card.getExpansion() != null && pile.card.getExpansion().equals("Prosperity")) {
+            for (AbstractCardPile pile : piles.values()) {
+                if (pile != null && pile.card() != null && pile.card().getExpansion() != null && pile.card().getExpansion().equals("Prosperity")) {
                     chanceForPlatColony += 0.1;
                 }
             }
@@ -1625,23 +1726,56 @@ public class Game {
             addPile(Cards.colony);
 
         // Add the potion if there are any cards that need them.
-        for (CardPile pile : piles.values()) {
-            if (pile.card.costPotion()) {
+        for (AbstractCardPile pile : piles.values()) {
+            if (pile.card().costPotion()) {
                 addPile(Cards.potion, 16);
                 break;
             }
         }
-
-        if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
-            addPile(Cards.bagOfGold, 1);
-            addPile(Cards.diadem, 1);
-            addPile(Cards.followers, 1);
-            addPile(Cards.princess, 1);
-            addPile(Cards.trustySteed, 1);
+        
+        // We have to add one "invisible" pile for each ruins card and a "virtual" visible pile
+        boolean looter = false;
+        for (AbstractCardPile pile : piles.values()) {
+        	if (pile.card() instanceof ActionCard && ((ActionCard)pile.card()).isLooter()) {
+        		looter = true;
+            }
+        }
+        if (looter) {
+			VariableCardPile rp = (VariableCardPile) this.addPile(Cards.virtualRuins, (numPlayers * 10) - 10);
+			for (Card r : Cards.ruinsCards) {
+				rp.addLinkedPile((SingleCardPile) this.addPile(r, 10, false));
+			}
         }
 
-//        if (!debug) { return; } //make stuff fast
         
+        if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
+            addPile(Cards.bagOfGold, 1, false);
+            addPile(Cards.diadem, 1, false);
+            addPile(Cards.followers, 1, false);
+            addPile(Cards.princess, 1, false);
+            addPile(Cards.trustySteed, 1, false);
+        }
+
+		// If Bandit Camp, Pillage, or Marauder is in play, we'll need Spoils (non-supply)
+		if (piles.containsKey(Cards.banditCamp.getName()) ||
+			piles.containsKey(Cards.pillage.getName()) ||
+			piles.containsKey(Cards.marauder.getName()))
+        {
+            addPile(Cards.spoils, 15, false);
+        }
+		
+		// If Urchin is in play, we'll need Mercenary (non-supply)
+		if (piles.containsKey(Cards.urchin.getName()))
+		{
+			addPile(Cards.mercenary, 10, false);
+		}
+		
+		// If Hermit is in play, we'll need Madman (non-supply)
+		if (piles.containsKey(Cards.hermit.getName()))
+		{
+			addPile(Cards.madman, 10, false);
+		}
+		
         boolean oldDebug = debug;
         if (!debug && !showEvents.isEmpty()) {
             debug = true;
@@ -1650,23 +1784,14 @@ public class Game {
         Util.debug("Cards in Play", true);
         Util.debug("---------------", true);
         cardListText += "Cards in play\n---------------\n";
-        // Util.debug(Cards.copper.getName());
-        // Util.debug(Cards.silver.getName());
-        // Util.debug(Cards.gold.getName());
-        // Util.debug(Cards.estate.getName());
-        // Util.debug(Cards.duchy.getName());
-        // Util.debug(Cards.province.getName());
-        // Util.debug(Cards.curse.getName());
-        // Util.debug("");
-        //
 
         int cost = 0;
         while (cost < 10) {
-            for (CardPile pile : piles.values()) {
-                if (!Cards.nonKingdomCards.contains(pile.card)) {
-                    if (pile.card.getCost(null) == cost) {
-                        Util.debug(Util.getShortText(pile.card), true);
-                        cardListText += Util.getShortText(pile.card) + "\n";
+            for (AbstractCardPile pile : piles.values()) {
+                if (!Cards.nonKingdomCards.contains(pile.card())) {
+                    if (pile.card().getCost(null) == cost) {
+                        Util.debug(Util.getShortText(pile.card()), true);
+                        cardListText += Util.getShortText(pile.card()) + "\n";
                     }
                 }
             }
@@ -1713,9 +1838,9 @@ public class Game {
                 if (event.getType() == GameEvent.Type.GameStarting || event.getType() == GameEvent.Type.GameOver) {
                     return;
                 }
-                
+
                 if (event.getType() == GameEvent.Type.CardObtained || event.getType() == GameEvent.Type.BuyingCard) {
-                    
+
                     MoveContext context = event.getContext();
                     Player player = context.getPlayer();
 
@@ -1730,7 +1855,7 @@ public class Game {
 
                     if (Cards.inn.equals(event.responsible))
                         Util.debug((String.format("discard pile: %d", player.discard.size())), true);
-                    
+
                     // See rules explanation of Tunnel for what commandedDiscard means.
                     boolean commandedDiscard = true;
                     if(event.getType() == GameEvent.Type.BuyingCard) {
@@ -1738,7 +1863,7 @@ public class Game {
                     }
                     if(event.responsible != null) {
                         Card r = event.responsible;
-                        if(r.equals(Cards.borderVillage) || 
+                        if(r.equals(Cards.borderVillage) ||
                            r.equals(Cards.feast) ||
                            r.equals(Cards.remodel) ||
                            r.equals(Cards.swindler) ||
@@ -1755,13 +1880,15 @@ public class Game {
                            r.equals(Cards.jester) ||
                            r.equals(Cards.develop) ||
                            r.equals(Cards.haggler) ||
-                           r.equals(Cards.workshop))
+                           r.equals(Cards.workshop) ||
+                           r.equals(Cards.hermit) ||
+                           r.equals(Cards.dameNatalie))
                         {
                             commandedDiscard = false;
                         }
                     }
                     boolean handled = false;
-                    
+
                     //Not sure if this is exactly right for the Trader, but it seems to be based on detailed card explanation in the rules
                     //The handling for new cards is done before taking the card from the pile in a different method below.
                     if(!event.newCard) {
@@ -1775,21 +1902,21 @@ public class Game {
                             }
                         }
                     }
-                    
+
                     if (event.getPlayer() == players[playersTurn]) {
                         cardsObtainedLastTurn[playersTurn].add(event.card);
                     }
 
                     if (player.hand.contains(Cards.watchTower)) {
                         WatchTowerOption choice = context.player.watchTower_chooseOption((MoveContext) context, event.card);
-    
+
                         if (choice == WatchTowerOption.TopOfDeck) {
                             handled = true;
                             player.putOnTopOfDeck(event.card);
                         } else if (choice == WatchTowerOption.Trash) {
                             handled = true;
                             player.trash(event.card, Cards.watchTower, (MoveContext) context);
-                        } 
+                        }
                     }
 
                     if(!handled) {
@@ -1799,8 +1926,15 @@ public class Game {
                             player.putOnTopOfDeck(event.card);
                         } else if (event.responsible != null) {
                             Card r = event.responsible;
-                            if (r.equals(Cards.bagOfGold) || r.equals(Cards.develop) || r.equals(Cards.bureaucrat) || r.equals(Cards.seaHag) || r.equals(Cards.treasureMap) || r.equals(Cards.tournament) || r.equals(Cards.foolsGold)) {
+                            if (r.equals(Cards.bagOfGold) || r.equals(Cards.develop) || r.equals(Cards.bureaucrat) || r.equals(Cards.seaHag) || r.equals(Cards.treasureMap) || r.equals(Cards.tournament) || r.equals(Cards.foolsGold) || r.equals(Cards.armory)) {
                                 player.putOnTopOfDeck(event.card);
+                            } else if (r.equals(Cards.beggar)) {
+                            	if (event.card.equals(Cards.copper)) {
+                                	player.hand.add(event.card);
+                            	} else if (event.card.equals(Cards.silver) && context.beggarSilverIsOnTop == 0) {
+                                player.putOnTopOfDeck(event.card);
+                            		context.beggarSilverIsOnTop++;
+                            	}
                             } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || r.equals(Cards.torturer)) {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
@@ -1811,8 +1945,8 @@ public class Game {
                         } else {
                             player.discard(event.card, null, null, commandedDiscard);
                         }
-                    } 
-                    
+                    }
+
                     if (event.card.equals(Cards.illGottenGains)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
@@ -1832,7 +1966,7 @@ public class Game {
                                         foolsGoldCount++;
                                     }
                                 }
-                                
+
                                 while(foolsGoldCount-- > 0) {
                                     MoveContext targetContext = new MoveContext(Game.this, targetPlayer);
                                     if((targetPlayer).foolsGold_shouldTrash(targetContext)) {
@@ -1883,18 +2017,18 @@ public class Game {
                         }
                     } else if (event.card.equals(Cards.borderVillage)) {
                         boolean validCard = false;
-                        
+
                         for(Card c : event.context.getCardsInGame()) {
                             if(c.getCost(context) < Cards.borderVillage.getCost(context) && !c.costPotion() && event.context.getCardsLeftInPile(c) > 0) {
                                 validCard = true;
                                 break;
                             }
                         }
-                        
+
                         if(validCard) {
                             Card card = context.player.controlPlayer.borderVillage_cardToObtain((MoveContext) context);
                             if (card != null) {
-                                if(card.getCost(context) < Cards.borderVillage.getCost(context) && !card.costPotion()) {                            
+                                if(card.getCost(context) < Cards.borderVillage.getCost(context) && !card.costPotion()) {
                                     player.controlPlayer.gainNewCard(card, event.card, (MoveContext) context);
                                 }
                                 else {
@@ -1905,16 +2039,16 @@ public class Game {
                     } else if (event.card.equals(Cards.mandarin)) {
                         CardList playedCards = ((MoveContext) context).getPlayedCards();
                         ArrayList<Card> treasureCardsInPlay = new ArrayList<Card>();
-                        
+
                         for(Card c : playedCards) {
                             if(c instanceof TreasureCard) {
                                 treasureCardsInPlay.add(c);
                             }
                         }
-                        
+
                         if(treasureCardsInPlay.size() > 0) {
                             Card[] order ;
-                            if (treasureCardsInPlay.size() == 1) 
+                            if (treasureCardsInPlay.size() == 1)
                             	order = treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]);
 	                        else
 	                        	order = player.mandarin_orderCards(context, treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]));
@@ -1925,7 +2059,10 @@ public class Game {
 	                            playedCards.remove(c);
 	                        }
                         }
-                    }                    
+                    } else if (event.card.equals(Cards.deathCart)) {
+                    	context.player.controlPlayer.gainNewCard(Cards.virtualRuins, event.card, context);
+            			context.player.controlPlayer.gainNewCard(Cards.virtualRuins, event.card, context);
+                    }
                     // Achievement check...
                     if(event.getType() == GameEvent.Type.BuyingCard && !player.achievementSingleCardFailed) {
                         if (Cards.isKingdomCard(event.getCard())) {
@@ -1941,7 +2078,7 @@ public class Game {
                         }
                     }
                 }
-                
+
                 boolean shouldShow = (debug || junit);
                 if (!shouldShow) {
                     if (event.getType() != GameEvent.Type.TurnBegin && event.getType() != GameEvent.Type.TurnEnd
@@ -2002,7 +2139,7 @@ public class Game {
 	However, this does NOT include any Prizes from Cornucopia.
 	 */
 
-    CardPile addEmbargo(Card card) {
+    AbstractCardPile addEmbargo(Card card) {
         if (isValidEmbargoPile(card)) {
         	String name = card.getName();
 			embargos.put(name, getEmbargos(card) + 1);
@@ -2017,30 +2154,38 @@ public class Game {
 
     public int getEmbargos(Card card) {
         Integer count = embargos.get(card.getName());
-        return (count == null) ? 0 : count;    
+        return (count == null) ? 0 : count;
 	}
 
     // Only is valid for cards in play...
-    protected Card readCard(String name) {
-        CardPile pile = piles.get(name);
-        if (pile == null || pile.getCount() <= 0) {
-            return null;
-        }
-        return pile.card;
-    }
+//    protected Card readCard(String name) {
+//        AbstractCardPile pile = piles.get(name);
+//        if (pile == null || pile.getCount() <= 0) {
+//            return null;
+//        }
+//        return pile.card();
+//    }
 
     protected Card takeFromPile(Card card) {
-        CardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = getPile(card);
         if (pile == null || pile.getCount() <= 0) {
             return null;
         }
 
+        Card thisCard;
     	tradeRouteValue += pile.takeTradeRouteToken();
-        Card thisCard = pile.removeCard();
+    	if (card.equals(Cards.virtualRuins) || card.equals(Cards.virtualKnight)) {
+    		SingleCardPile cp = ((VariableCardPile) pile).getTopLinkedPile();
+    		if (cp == null) return null;
+    		thisCard = cp.removeCard();
+    		pile.removeCard();
+    	} else {
+    		thisCard = pile.removeCard();
+    	}
 
         return thisCard;
     }
-    
+
     protected Card takeFromPileCheckTrader(Card cardToGain, MoveContext context) {
         if(!isPileEmpty(cardToGain) && context.getPlayer().hand.contains(Cards.trader) && !cardToGain.equals(Cards.silver)) {
             if (context.player.controlPlayer.trader_shouldGainSilverInstead((MoveContext) context, cardToGain)) {
@@ -2048,12 +2193,12 @@ public class Game {
                 context.player.reveal(Cards.trader, null, context);
             }
         }
-        
+
         return takeFromPile(cardToGain);
     }
 
     public int pileSize(Card card) {
-        CardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = getPile(card);
         if (pile == null) {
             return -1;
         }
@@ -2067,8 +2212,8 @@ public class Game {
 
     public int emptyPiles() {
         int emptyPiles = 0;
-        for (CardPile pile : piles.values()) {
-            if (pile.getCount() <= 0 && !pile.card.isPrize()) {
+        for (AbstractCardPile pile : piles.values()) {
+            if (pile.getCount() <= 0 && pile.isSupply()) {
                 emptyPiles++;
             }
         }
@@ -2076,7 +2221,7 @@ public class Game {
     }
 
     public boolean isCardInGame(Card card) {
-        CardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = getPile(card);
         if (pile == null) {
             return false;
         }
@@ -2089,9 +2234,15 @@ public class Game {
 
     public Card[] getCardsInGame(Class<?> c) {
         ArrayList<Card> cards = new ArrayList<Card>();
-        for (CardPile pile : piles.values()) {
-            if (c == null || c.isInstance(pile.card))
-                cards.add(pile.card);
+        for (AbstractCardPile pile : piles.values()) {
+            if (c == null || c.isInstance(pile.card()))
+            	if (pile.type.equals(AbstractCardPile.PileType.RuinsPile)) {
+            		cards.add(Cards.virtualRuins);
+            	} else if (pile.type.equals(AbstractCardPile.PileType.KnightsPile)) {
+            		cards.add(Cards.virtualKnight);
+            	} else {
+            		cards.add(pile.card());
+            	}
         }
         return cards.toArray(new Card[0]);
     }
@@ -2101,8 +2252,8 @@ public class Game {
     }
 
     public boolean cardInGame(Card c) {
-        for (CardPile pile : piles.values()) {
-            if(pile.card.equals(c)) {
+        for (AbstractCardPile pile : piles.values()) {
+            if(pile.card().equals(c)) {
                 return true;
             }
         }
@@ -2113,6 +2264,10 @@ public class Game {
         return getCardsInGame(TreasureCard.class);
     }
 
+    public Card[] getVictoryCardsInGame() {
+        return getCardsInGame(VictoryCard.class);
+    }
+
     public Card[] getCardsInGameOrderByCost() {
         Card[] cardsInPlay = getCardsInGame();
         Arrays.sort(cardsInPlay, new CardCostComparator());
@@ -2120,7 +2275,7 @@ public class Game {
     }
 
     public int getCardsLeftInPile(Card card) {
-        CardPile pile = piles.get(card.getName());
+    	AbstractCardPile pile = getPile(card);
         if (pile == null || pile.getCount() < 0) {
             return 0;
         }
@@ -2128,16 +2283,39 @@ public class Game {
         return pile.getCount();
     }
 
-    protected CardPile addPile(Card card) {
-        return addPile(card, ((card instanceof VictoryCard) ? victoryCardPileSize : kingdomCardPileSize));
+    public ArrayList<Card> GetTrashPile()
+    {
+        return trashPile;
     }
 
-    protected CardPile addPile(Card card, int count) {
-        CardPile pile = new CardPile(card, count);
-        piles.put(card.getName(), pile);
-        return pile;
+    protected AbstractCardPile addPile(Card card) {
+    	// the Rats hack is dirty and should be cleaned up, but it works
+        return addPile(card, ((card instanceof VictoryCard) ? victoryCardPileSize : (card.equals(Cards.rats) ? 20 : kingdomCardPileSize)));
     }
-    
+
+    protected AbstractCardPile addPile(Card card, int count) {
+    	return addPile(card, count, true);
+    }
+
+    protected AbstractCardPile addPile(Card card, int count, boolean isSupply) {
+    	AbstractCardPile pile;
+    	if (card.equals(Cards.virtualRuins)) {
+    		pile = new VariableCardPile(AbstractCardPile.PileType.RuinsPile, Math.max(10, Math.min(50, (numPlayers * 10) - 10)));
+    	} else if (card.equals(Cards.virtualKnight)) {
+    		pile = new VariableCardPile(AbstractCardPile.PileType.KnightsPile, Math.min(Cards.knightsCards.size(), 10));
+    	} else {
+    		pile = new SingleCardPile(card, count);
+    	}
+
+    	if (!isSupply) {
+    		pile.notInSupply();
+    	}
+
+		piles.put(card.getName(), pile);
+    	
+    	return pile;
+    }
+
     private ArrayList<Card> getCardsObtainedByPlayer(int PlayerNumber) {
         return cardsObtainedLastTurn[PlayerNumber];
     }
@@ -2204,17 +2382,17 @@ public class Game {
 
         return handString;
     }
-    
+
     public boolean playerShouldSelectCoinsToPlay(MoveContext context, CardList cards) {
         if(!quickPlay) {
             return true;
         }
-        
+
         if(cards == null) {
             return false;
         }
 
-        CardPile grandMarket = piles.get(Cards.grandMarket.getName());
+        AbstractCardPile grandMarket = getPile(Cards.grandMarket);
         for(Card card : cards) {
             if (
                 card.equals(Cards.philosophersStone) ||
@@ -2224,14 +2402,14 @@ public class Game {
                 card.equals(Cards.quarry) ||
                 card.equals(Cards.talisman) ||
                 card.equals(Cards.hornOfPlenty) ||
-                card.equals(Cards.diadem) || 
+                card.equals(Cards.diadem) ||
                 (card.equals(Cards.copper) && grandMarket != null && grandMarket.getCount() > 0)
-                ) 
+                )
             {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -2255,5 +2433,47 @@ public class Game {
             }
         }
         return false;
+    }
+    
+    /**
+     * @return Card on top of the Ruins pile
+     */
+    public Card getTopRuinsCard() {
+    	AbstractCardPile p = getPile(Cards.virtualRuins);
+    	if (p == null) return null;
+    	return p.card();
+    }
+    
+    public Card getTopKnightCard() {
+    	AbstractCardPile p = getPile(Cards.virtualKnight);
+    	if (p == null) return null;
+    	return p.card();
+    }
+    
+    public AbstractCardPile getPile(Card card) {
+    	return piles.get(card.getName());
+    }
+    
+    public void trashHovelsInHandOption(Player player, MoveContext context, Card responsible)
+    {
+    	// If player has a Hovel (or multiple Hovels), offer the option to trash...
+    	ArrayList<Card> hovelsToTrash = new ArrayList<Card>();
+	
+		for (Card c : player.hand)
+		{
+			if (c.getType() == Cards.Type.Hovel && player.hovel_shouldTrash(context))
+			{
+				hovelsToTrash.add(c);
+			}
+		}
+	
+		if (hovelsToTrash.size() > 0)
+		{
+			for (Card c : hovelsToTrash)
+			{
+				player.hand.remove(c);
+				player.trash(c, responsible, context);
+			}
+		}
     }
 }

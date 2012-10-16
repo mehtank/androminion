@@ -108,16 +108,68 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 	public boolean hasJoined() {
 		return hasJoined;
 	}
+	
+	public static String getFullCardDescription(Card c) {
+    	String ret = Strings.getCardDescription(c);
+
+    	if (c.equals(Cards.curse)) {
+            ret = Strings.format(R.string.vp_single, "" + ((CurseCard) c).getVictoryPoints()) + "\n" + ret;
+    	}
+    	if (c instanceof VictoryCard) {
+    		if (((VictoryCard) c).getVictoryPoints() > 1)
+    			ret = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
+    		else if (((VictoryCard) c).getVictoryPoints() > 0)
+                ret = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
+            else if (((VictoryCard) c).getVictoryPoints() < -1)
+                ret = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
+            else if (((VictoryCard) c).getVictoryPoints() < 0)
+                ret = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
+    	}
+    	if (c instanceof TreasureCard) {
+    		ret = Strings.format(R.string.coin_worth, "" + ((TreasureCard) c).getValue()) + "\n" + ret;
+    	}
+    	if (c instanceof ActionCard) {
+    		ActionCard ac = (ActionCard) c;
+    		if (c instanceof DurationCard) {
+    			DurationCard dc = (DurationCard) c;
+        		if (dc.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn, "" + dc.getAddGoldNextTurn()) + "\n" + ret;
+        		if (dc.getAddBuysNextTurn() > 1) ret = Strings.format(R.string.buys_next_turn_multiple, "" + dc.getAddBuysNextTurn()) + "\n" + ret;
+        		else if (dc.getAddBuysNextTurn() > 0) ret = Strings.format(R.string.buy_next_turn_single, "" + dc.getAddBuysNextTurn()) + "\n" + ret;
+        		if (dc.getAddActionsNextTurn() > 1) ret =  Strings.format(R.string.actions_next_turn_multiple, "" + dc.getAddActionsNextTurn()) + "\n" + ret;
+        		else if (dc.getAddActionsNextTurn() > 0) ret =  Strings.format(R.string.action_next_turn_single, "" + dc.getAddActionsNextTurn()) + "\n" + ret;
+        		if (dc.getAddCardsNextTurn() > 1) ret = Strings.format(R.string.cards_next_turn_multiple, "" + dc.getAddCardsNextTurn()) + "\n" + ret;
+        		else if (dc.getAddCardsNextTurn() > 0) ret = Strings.format(R.string.card_next_turn_single, "" + dc.getAddCardsNextTurn()) + "\n" + ret;
+
+    		}
+
+    		if (ac.getAddGold() > 0) ret = Strings.format(R.string.card_coin, "" + ac.getAddGold()) + "\n" + ret;
+    		if (ac.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + ret;
+    		else if (ac.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + ac.getAddBuys()) + "\n" + ret;
+    		if (ac.getAddActions() > 1) ret = Strings.format(R.string.card_actions_multiple, "" + ac.getAddActions()) + "\n" + ret;
+    		else if (ac.getAddActions() > 0) ret = Strings.format(R.string.card_action_single, "" + ac.getAddActions()) + "\n" + ret;
+    		if (ac.getAddCards() > 1) ret = Strings.format(R.string.card_cards_multiple, "" + ac.getAddCards()) + "\n" + ret;
+    		else if (ac.getAddCards() > 0) ret = Strings.format(R.string.card_card_single, "" + ac.getAddCards()) + "\n" + ret;
+            if (ac.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + ac.getAddVictoryTokens()) + "\n" + ret;
+            else if (ac.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + ac.getAddVictoryTokens()) + "\n" + ret;
+    	}
+		return ret;
+	}
 
 	public static MyCard makeMyCard(Card c, int index, boolean isBane){
 //    	MyCard card = new MyCard(index, c.getName());
 
         MyCard card = new MyCard(index, Strings.getCardName(c), c.getSafeName(), c.getName());
-    	card.desc = Strings.getCardDescription(c);
+    	card.desc = getFullCardDescription(c);
     	card.expansion = Strings.getCardExpansion(c);
     	card.cost = c.getCost(null);
     	card.costPotion = c.costPotion();
     	card.isBane = isBane;
+    	card.isShelter = c.isShelter();
+    	if (c.equals(Cards.virtualRuins))
+    		card.isRuins = true;
+    	else
+    		card.isRuins = c.isRuins();
+    	
 
     	card.pile = MyCard.SUPPLYPILE;
 
@@ -129,6 +181,20 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
             card.pile = MyCard.PRIZEPILE;
             card.isPrize = true;
+        }
+		
+		if (c.equals(Cards.spoils) ||
+			c.equals(Cards.mercenary) ||
+			c.equals(Cards.madman))
+        {
+            card.pile = MyCard.NON_SUPPLY_PILE;
+        }
+		
+		if (c.equals(Cards.necropolis) ||
+			c.equals(Cards.overgrownEstate) ||
+			c.equals(Cards.hovel))
+        {
+            card.pile = MyCard.SHELTER_PILES;
         }
 
     	if ((c.equals(Cards.copper)) ||
@@ -142,58 +208,36 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	   (c.equals(Cards.province)) ||
     	   (c.equals(Cards.colony)) ||
            (c.equals(Cards.curse))) card.pile = MyCard.VPPILE;
+    	
+    	if (Cards.ruinsCards.contains(c))
+    		card.pile = MyCard.RUINS_PILES;
 
-        if (c.equals(Cards.potion)) card.isPotion = true;
+    	if (Cards.knightsCards.contains(c))
+    		card.pile = MyCard.KNIGHTS_PILES;
+
+    	if (c.equals(Cards.potion)) card.isPotion = true;
     	if (c.equals(Cards.curse)) {
     		card.isCurse = true;
     		card.vp = ((CurseCard) c).getVictoryPoints();
-            card.desc = Strings.format(R.string.vp_single, "" + card.vp) + "\n" + card.desc;
     	}
     	if (c instanceof VictoryCard) {
-    		if (((VictoryCard) c).getVictoryPoints() > 1)
-    			card.desc = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
-    		else if (((VictoryCard) c).getVictoryPoints() > 0)
-                card.desc = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
-            else if (((VictoryCard) c).getVictoryPoints() < -1)
-                card.desc = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
-            else if (((VictoryCard) c).getVictoryPoints() < 0)
-                card.desc = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + card.desc;
     		card.isVictory = true;
     		card.vp = ((VictoryCard) c).getVictoryPoints();
     	}
     	if (c instanceof TreasureCard) {
-    		card.desc = Strings.format(R.string.coin_worth, "" + ((TreasureCard) c).getValue()) + "\n" + card.desc;
     		card.isTreasure = true;
     		card.gold = ((TreasureCard) c).getValue();
     	}
     	if (c instanceof ActionCard) {
     		ActionCard ac = (ActionCard) c;
     		card.isAction = true;
-
     		if (c instanceof DurationCard) {
-    			DurationCard dc = (DurationCard) c;
-        		if (dc.getAddGoldNextTurn() > 0) card.desc = Strings.format(R.string.coin_next_turn, "" + dc.getAddGoldNextTurn()) + "\n" + card.desc;
-        		if (dc.getAddBuysNextTurn() > 1) card.desc = Strings.format(R.string.buys_next_turn_multiple, "" + dc.getAddBuysNextTurn()) + "\n" + card.desc;
-        		else if (dc.getAddBuysNextTurn() > 0) card.desc = Strings.format(R.string.buy_next_turn_single, "" + dc.getAddBuysNextTurn()) + "\n" + card.desc;
-        		if (dc.getAddActionsNextTurn() > 1) card.desc =  Strings.format(R.string.actions_next_turn_multiple, "" + dc.getAddActionsNextTurn()) + "\n" + card.desc;
-        		else if (dc.getAddActionsNextTurn() > 0) card.desc =  Strings.format(R.string.action_next_turn_single, "" + dc.getAddActionsNextTurn()) + "\n" + card.desc;
-        		if (dc.getAddCardsNextTurn() > 1) card.desc = Strings.format(R.string.cards_next_turn_multiple, "" + dc.getAddCardsNextTurn()) + "\n" + card.desc;
-        		else if (dc.getAddCardsNextTurn() > 0) card.desc = Strings.format(R.string.card_next_turn_single, "" + dc.getAddCardsNextTurn()) + "\n" + card.desc;
-
     			card.isDuration = true;
-    		} else if (((ActionCard) c).isAttack()) card.isAttack = true;
-
-    		if (ac.getAddGold() > 0) card.desc = Strings.format(R.string.card_coin, "" + ac.getAddGold()) + "\n" + card.desc;
-    		if (ac.getAddBuys() > 1) card.desc = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + card.desc;
-    		else if (ac.getAddBuys() > 0) card.desc = Strings.format(R.string.card_buy_single, "" + ac.getAddBuys()) + "\n" + card.desc;
-    		if (ac.getAddActions() > 1) card.desc = Strings.format(R.string.card_actions_multiple, "" + ac.getAddActions()) + "\n" + card.desc;
-    		else if (ac.getAddActions() > 0) card.desc = Strings.format(R.string.card_action_single, "" + ac.getAddActions()) + "\n" + card.desc;
-    		if (ac.getAddCards() > 1) card.desc = Strings.format(R.string.card_cards_multiple, "" + ac.getAddCards()) + "\n" + card.desc;
-    		else if (ac.getAddCards() > 0) card.desc = Strings.format(R.string.card_card_single, "" + ac.getAddCards()) + "\n" + card.desc;
-            if (ac.getAddVictoryTokens() > 1) card.desc = Strings.format(R.string.card_victory_tokens_multiple, "" + ac.getAddVictoryTokens()) + "\n" + card.desc;
-            else if (ac.getAddVictoryTokens() > 0) card.desc = Strings.format(R.string.card_victory_token_single, "" + ac.getAddVictoryTokens()) + "\n" + card.desc;
+    		} else 
+    			if (ac.isAttack() || c.equals(Cards.virtualKnight)) 
+    				card.isAttack = true;
     	}
-        if ((c.equals(Cards.moat)) || (c.equals(Cards.secretChamber)) || (c.equals(Cards.watchTower)) || (c.equals(Cards.horseTraders)) || (c.equals(Cards.foolsGold)) || (c.equals(Cards.trader)) || (c.equals(Cards.tunnel)))
+        if (Cards.isReaction(c)) 
             card.isReaction = true;
 
     	return card;
@@ -209,14 +253,16 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	}
     	return cs;
     }
-	@Override
 	public Card nameToCard(String o) {
     	return intToCard(cardNamesInPlay.get(o));
 	}
     @Override
     public int cardToInt(Card card) {
         // TODO:  NullPointerException for tournament prizes
-    	return cardNamesInPlay.get(card.getName());
+    	if (cardNamesInPlay.containsKey(card.getName()))
+    		return cardNamesInPlay.get(card.getName());
+    	else
+    		return -1;
     }
     
 	public int[] cardArrToIntArr(Card[] cards) {
@@ -225,6 +271,18 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     		is[i] = cardToInt(cards[i]);
     	}
     	return is;
+    }
+	
+	public int[] arrayListToIntArr(ArrayList<Card> cards) 
+	{
+        int[] is = new int[cards.size()];
+        
+        for (int i = 0; i < cards.size(); ++i) 
+        {
+            is[i] = cardToInt((Card)cards.get(i));
+        }
+        
+        return is;
     }
 
     public void setupCardsInPlay(MoveContext context) {
@@ -426,7 +484,18 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setCardCostModifier(context.cardCostModifier)
     	  .setPotions(context.getPotionsForStatus(player))
     	  .setIsland(cardArrToIntArr(player.getIsland().toArray()))
-    	  .setVillage(cardArrToIntArr(player.getNativeVillage().toArray()));
+    	  .setVillage(cardArrToIntArr(player.getNativeVillage().toArray()))
+    	  .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
+    	
+    	if (game.getTopRuinsCard() != null)
+    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Strings.getCardName(game.getTopRuinsCard()), getFullCardDescription(game.getTopRuinsCard()));
+    	else
+    		gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Cards.virtualRuins.getName(), Cards.virtualRuins.getDescription());
+
+    	if (game.getTopKnightCard() != null)
+    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Strings.getCardName(game.getTopKnightCard()), getFullCardDescription(game.getTopKnightCard()));
+    	else
+    		gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Cards.virtualKnight.getName(), Cards.virtualKnight.getDescription());
 
     	Event p = new Event(EType.STATUS)
     				.setObject(new EventObject(gs));

@@ -37,7 +37,7 @@ import com.vdom.comms.SelectCardOptions.PickType;
 public class GameTable extends LinearLayout implements OnItemClickListener, OnItemLongClickListener {
 	@SuppressWarnings("unused")
 	private static final String TAG = "GameTable";
-	
+
 	private final GameActivity top;
 
 	private PlayerAdapter players = new PlayerAdapter(getContext());
@@ -46,14 +46,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		return players;
 	}
 
-	GridView handGV, playedGV, islandGV, villageGV;
-	CardGroup hand, played, island, village;
-	View islandColumn, villageColumn;
+	GridView handGV, playedGV, islandGV, villageGV, trashGV;
+	CardGroup hand, played, island, village, trash;
+	View islandColumn, villageColumn, trashColumn;
 	TextView playedHeader;
 	LinearLayout myCards;
 
-	GridView moneyPileGV, vpPileGV, supplyPileGV, prizePileGV;
-	CardGroup moneyPile, vpPile, supplyPile, prizePile;
+	GridView moneyPileGV, vpPileGV, supplyPileGV, prizePileGV, nonSupplyPileGV;
+	CardGroup moneyPile, vpPile, supplyPile, prizePile, nonSupplyPile;
 
 	LinearLayout tr;
 	LinearLayout gameOver;
@@ -68,7 +68,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	LinearLayout deckStatus;
 	TurnView turnStatus;
 	/**
-	 * Button that are pressed to confirm or decline an option 
+	 * Button that are pressed to confirm or decline an option
 	 */
 	Button select, pass;
     String indicator;
@@ -78,7 +78,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
 	Achievements achievements;
 	CardAnimator animator;
-	
+
 	ArrayList<ToggleButton> showCardsButtons = new ArrayList<ToggleButton>();
 
 	/**
@@ -118,18 +118,24 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     	moneyPileGV.setAdapter(moneyPile);
     	moneyPileGV.setOnItemClickListener(this);
     	moneyPileGV.setOnItemLongClickListener(this);
-    	
+
     	vpPile = new CardGroup(top, true);
     	vpPileGV = (GridView) findViewById(R.id.vpPileGV);
     	vpPileGV.setAdapter(vpPile);
     	vpPileGV.setOnItemClickListener(this);
     	vpPileGV.setOnItemLongClickListener(this);
-    	
+
     	supplyPile = new CardGroup(top, true);
     	supplyPileGV = (GridView) findViewById(R.id.supplyPileGV);
     	supplyPileGV.setAdapter(supplyPile);
     	supplyPileGV.setOnItemClickListener(this);
     	supplyPileGV.setOnItemLongClickListener(this);
+
+    	nonSupplyPile = new CardGroup(top, true);
+    	nonSupplyPileGV = (GridView) findViewById(R.id.nonSupplyPileGV);
+    	nonSupplyPileGV.setAdapter(nonSupplyPile);
+    	nonSupplyPileGV.setOnItemClickListener(this);
+    	nonSupplyPileGV.setOnItemLongClickListener(this);
     	
     	prizePile = new CardGroup(top, true);
     	prizePileGV = (GridView) findViewById(R.id.prizePileGV);
@@ -148,54 +154,60 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     	handGV.setAdapter(hand);
     	handGV.setOnItemClickListener(this);
     	handGV.setOnItemLongClickListener(this);
-    	
+
     	played = new CardGroup(top, false);
     	playedGV = (GridView) findViewById(R.id.playedGV);
     	playedGV.setAdapter(played);
     	playedGV.setOnItemLongClickListener(this);
-    	
+
 		island = new CardGroup(top, false);
     	islandGV = (GridView) findViewById(R.id.islandGV);
     	islandGV.setAdapter(island);
     	islandGV.setOnItemLongClickListener(this);
     	islandColumn = findViewById(R.id.islandColumn);
-    	
+
 		village = new CardGroup(top, false);
     	villageGV = (GridView) findViewById(R.id.villageGV);
     	villageGV.setAdapter(village);
     	villageGV.setOnItemLongClickListener(this);
     	villageColumn = findViewById(R.id.villageColumn);
 
+    	trash = new CardGroup(top, false);
+        trashGV = (GridView) findViewById(R.id.trashGV);
+        trashGV.setAdapter(trash);
+        trashGV.setOnItemLongClickListener(this);
+        trashColumn = findViewById(R.id.trashColumn);
+
     	playedHeader = (TextView) findViewById(R.id.playedHeader);
-    	
+
     	//only for help
     	myCardView = findViewById(R.id.myCardView);
 	}
-	
+
 	/**
 	 * Initialize player information list (right of the screen)
 	 */
 	private void initTurnPanel() {
 		turnView = (LinearLayout) findViewById(R.id.turnView);
-		
+
 		select = (Button) findViewById(R.id.select);
         setSelectText(SelectCardOptions.PickType.SELECT);
         select.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { cardSelected((Button) v); }
         });
-        
+
         pass = (Button) findViewById(R.id.pass);
         pass.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { cardSelected((Button) v); }
         });
-        
+
         deckStatus = (LinearLayout) findViewById(R.id.deckStatus);
         players.setContainer(deckStatus);
         deckStatus.setEnabled(true);
 
         turnStatus = new TurnView(top);
     	turnStatus.setTextSize(12.0f);
-    	
+
         //turnView.addView(turnStatus, 2);
 
     	actionText = (TextView) findViewById(R.id.actionText);
@@ -206,18 +218,18 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	public GameTable(Context context) {
 	    this(context, null);
 	}
-	
+
 	public GameTable(Context context, AttributeSet attrs) {
 	    this(context, attrs, 0);
 	}
-	
+
 	public GameTable(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs); //TODO remove this workaround
 		//super(context, attrs, defStyle); // fails with exception...
 		this.top = (GameActivity) context;
 
 		setOrientation(VERTICAL);
-		
+
 		animator = new CardAnimator();
 
         try {
@@ -226,7 +238,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         catch(Exception e) {
             e.printStackTrace();
         }
-        
+
         LayoutInflater.from(context).inflate(R.layout.view_gametable, this, true);
 
     	supply = findViewById(R.id.supply);
@@ -238,7 +250,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     	gameOverScroll = (ScrollView) findViewById(R.id.gameOverScroll);
     	gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
     	gameScroller.setGameEvent("Dominion app loaded!", true, 0);
-    	
+
     	/**
     	 * findViewById(R.id.actionText) must be in here so that it gets fadet out whenever everything else fades out.
     	 */
@@ -274,11 +286,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		moneyPile.clear();
 		vpPile.clear();
 		supplyPile.clear();
+		prizePile.clear();
+		nonSupplyPile.clear();
 		hand.clear();
 		played.clear();
 		island.clear();
 		village.clear();
-		prizePile.clear();
+		trash.clear();
 		this.players.clear();
 
 		actionText.setText("");
@@ -328,6 +342,28 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         else
             vpPileGV.setNumColumns(5);
 
+		short nonSupplyCardsInPlay = 0;
+
+        for (MyCard c : cards)
+        {
+			// More types to check for eventually...
+            if (c.originalSafeName.equals("Spoils") ||
+                c.originalSafeName.equals("Mercenary") ||
+                c.originalSafeName.equals("Madman"))
+            {
+                ++nonSupplyCardsInPlay;
+            }
+        }
+
+        if (nonSupplyCardsInPlay > 4)
+        {
+            nonSupplyPileGV.setNumColumns(nonSupplyCardsInPlay);
+        }
+        else
+        {
+            nonSupplyPileGV.setNumColumns(4);
+        }
+
         // done setting up, remove splash screen
 		top.nosplash();
 		// log start of game
@@ -336,9 +372,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
 	/**
 	 * initialize a card pile for the table
-	 * 
-	 * This is called upon setup from within newGame 
-	 * 
+	 *
+	 * This is called upon setup from within newGame
+	 *
 	 * @param c cart type
 	 */
 	public void addCardToTable(MyCard c) {
@@ -352,6 +388,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 			supplyPile.addCard(c);
 		else if (c.pile == MyCard.PRIZEPILE)
 		    prizePile.addCard(c);
+		else if (c.pile == MyCard.NON_SUPPLY_PILE)
+			nonSupplyPile.addCard(c);
 	}
 
 	/**
@@ -384,7 +422,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 				if ((parent != vpPile)
 				&&  (parent != moneyPile)
 				&&  (parent != supplyPile)
-				&&  (parent != prizePile)) return false;
+				&&  (parent != prizePile)
+				&&  (parent != nonSupplyPile)) return false;
 			} else {
 				if ((parent != vpPile)
 				&&  (parent != moneyPile)
@@ -441,7 +480,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		canClick = false;
 		canSelect();
 	}
-	
+
 	/**
 	 * One of the two buttons was clicked
 	 * @param b Button that was clicked
@@ -451,7 +490,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 			return;
 
 		if (b == select) {
-			if (firstPass) { // 'yes, we want to decline', send empty selection. 
+			if (firstPass) { // 'yes, we want to decline', send empty selection.
 							 // if 'firstPass' is true, we already checked that an empty selection is valid
 				top.handle(new Event(Event.EType.CARD)
 								.setInteger(0));
@@ -508,7 +547,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	}
 
 	/**
-	 * Prompt the user about options that a card gives us. (E.g. Thief: Which card to trash) 
+	 * Prompt the user about options that a card gives us. (E.g. Thief: Which card to trash)
 	 * @param title Message to the user about what to choose
 	 * @param options Options that the user has
 	 */
@@ -670,7 +709,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	}
 
 	/**
-	 * Display the numbers of pile sizes for the card piles on the 'table' 
+	 * Display the numbers of pile sizes for the card piles on the 'table'
 	 * @param supplySizes Sizes of piles
 	 * @param embargos number of embargos
 	 */
@@ -679,13 +718,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		vpPile.updateCounts(supplySizes, embargos);
 		supplyPile.updateCounts(supplySizes, embargos);
 		prizePile.updateCounts(supplySizes, embargos);
+		nonSupplyPile.updateCounts(supplySizes, embargos);
 	}
 
 	/**
 	 * Is executed instead of setStatus if the gs.isFinal flag is set.
-	 * 
+	 *
 	 * This gets executed /for each player/.
-	 * 
+	 *
 	 * @param gs
 	 */
 	public void finalStatus(GameStatus gs) {
@@ -749,7 +789,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		showCardsButtons.add(fv.showCards);
 		gameOver.addView(fv);
 	}
-	
+
 	void uncheckAllShowCardsButtons() {
 		for (ToggleButton t : showCardsButtons)
 			t.setChecked(false);
@@ -829,11 +869,22 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		} else {
 			villageColumn.setVisibility(GONE);
 		}
+
+		GameTableViews.newCardGroup(trash, gs.trashPile);
+		if (gs.trashPile.length > 0) {
+			trashColumn.setVisibility(VISIBLE);
+		} else {
+			trashColumn.setVisibility(GONE);
+		}
+
 		setSupplySizes(gs.supplySizes, gs.embargos);
 		this.lastSupplySizes = gs.supplySizes;
 		this.lastEmbargos = gs.embargos;
 		costs = gs.costs;
         setCardCosts(top.findViewById(android.R.id.content));
+        
+        supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, gs.ruinsTopCardDesc);
+        supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardDesc);
 	}
 
 	static int getCardCost(MyCard c) {
@@ -856,7 +907,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	private void addPlayer(String name) {
 		players.add(new PlayerSummary(name));
 	}
-	
+
 	/**
 	 * A player obtained a card and we notify the user
 	 * @param i card index
@@ -866,7 +917,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	public String cardObtained(int i, String s) {
 	    return top.getString(R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
 	}
-	
+
 	/**
 	 * A player trashed a card and we notify the user
 	 * @param i card index
@@ -876,7 +927,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	public String cardTrashed(int i, String s) {
         return top.getString(R.string.trashed, showCard(i, s, CardAnimator.ShowCardType.TRASHED));
 	}
-	
+
 	/**
 	 * A player revealed a card and we notify the user
 	 * @param i card index

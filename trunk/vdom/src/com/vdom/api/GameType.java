@@ -17,7 +17,7 @@ public enum GameType {
     // Alchemy
     RandomAlchemy("Random Alchemy"),
 
-    // Base and Alchemy 
+    // Base and Alchemy
     ForbiddenArts("Forbidden Arts (Base, Alch)"), PotionMixers("Potion Mixers (Base, Alch)"), ChemistryLesson("Chemistry Lesson (Base, Alch)"),
 
     // Intrigue and Alchemy
@@ -46,26 +46,47 @@ public enum GameType {
 
     // Hinterlands
     HinterlandsIntro("Hinterlands Intro (Hntr)"), FairTrades("Fair Trades (Hntr)"), Bargains("Bargains (Hntr)"), Gambits("Gambits (Hntr)"), RandomHinterlands("Random Hinterlands"),
-    
+
     // Base and Hinterlands
     HighwayRobbery("Highway Robbery (Base, Hntr)"), AdventuresAbroad("Adventures Abroad (Base, Hntr)"),
-    
+
     // Hinterlands and Intrigue
     MoneyForNothing("Money for Nothing (Hntr, Intr)"), TheDukesBall("The Duke's Ball (Hntr, Intr)"),
-    
+
     // Hinterlands and Seaside
     Travelers("Travelers (Hntr, Sea)"), Diplomacy("Diplomacy (Hntr, Sea)"),
-    
+
     // Hinterlands and Alchemy
     SchemesAndDreams("Schemes and Dreams (Hntr, Alch)"), WineCountry("Wine Country (Hntr, Alch)"),
 
     // Hinterlands and Prosperity
     InstantGratification("Instant Gratification (Hntr, Prsp)"), TreasureTrove("Treasure Trove (Hntr, Prsp)"),
-    
+
     // Hinterlands and Cornucopia
     BlueHarvest("Blue Harvest (Hntr, Corn)"), TravelingCircus("Traveling Circus (Hntr, Corn)"),
 
-    
+    // Dark Ages
+    RandomDarkAges("Random Dark Ages"), PlayingChessWithDeath("Playing Chess With Death (DA)"),
+
+    // Dark Ages and Base
+    HighAndLow("HighAndLow (DA, Base)"), ChivalryAndRevelry("ChivalryAndRevelry (DA, Base)"),
+
+    // Dark Ages and Intrigue
+    Prophecy("Prophecy (DA, Intr)"), Invasion("Invasion (DA, Intr)"),
+
+    // Dark Ages and Seaside
+    WateryGraves("Watery Graves (DA, Sea)"), Peasants("Peasants (DA, Sea)"),
+
+    Infestations("Infestations (DA, Alch)"), Lamentations("Lamentations (DA, Alch)"),
+    OneMansTrash("One Man's Trash (DA, Prsp)"), HonorAmongThieves("Honor Among Thieves (DA, Prsp)"),
+    /*DarkCarnival("Dark Carnival (DA, Corn)"),*/ ToTheVictor("To The Victor (DA, Corn)"),
+    FarFromHome("Far From Home (DA, Hntr)"), Expeditions("Expeditions (DA, Hntr)"),
+    // TODO: remove for production release, or replace with sets from the rule book
+    DarkAgesTest("Dark Ages Test (DA)"),
+
+    // TODO: remove for production release
+    PromoCardTest("Promo Card Test (Base, Promo)"),
+
     // All Cards
     Random("Random"),
 
@@ -81,7 +102,7 @@ public enum GameType {
     public String getName() {
         return name;
     }
-    
+
     public static GameType fromName(String name) {
         name = name.replace(" the ", " The ");
         name = name.replace(" for ", " For ");

@@ -290,6 +290,8 @@ public class Util {
                 doSecretChamber(context, game, player, responsible);
         	else if (reactionCard.equals(Cards.horseTraders))
                 doHorseTraders(context, game, player, responsible);
+        	else if (reactionCard.equals(Cards.beggar))
+                doBeggar(context, game, player, responsible);
         	else if (reactionCard.equals(Cards.moat)) {
                 defended = true;
                 
@@ -385,6 +387,29 @@ public class Util {
         }
 
         return false;
+    }
+
+    static boolean doBeggar(MoveContext context, Game game, Player player, Card responsible) {
+    	Card beggar = null;
+    	
+        for (Card card : player.hand) {
+            if (card.equals(Cards.beggar)) {
+                beggar = card;
+            }
+        }
+        
+        if (beggar != null) {
+        	if (player.beggar_shouldDiscard(context)) {
+        		player.hand.remove(player.hand.indexOf(beggar), true);        		
+            	player.discard(beggar, responsible, context);
+            	player.gainNewCard(Cards.silver, beggar, context);
+            	player.gainNewCard(Cards.silver, beggar, context);
+        	}
+        	context.beggarSilverIsOnTop = 0;
+        	return true;
+        }
+    	
+    	return false;
     }
 
     public static ArrayList<Card> copy(CardList cards) {

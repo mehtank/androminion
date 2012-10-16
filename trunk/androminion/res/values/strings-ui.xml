@@ -129,5 +129,6 @@
     <string name="potion_multiple">%1$s potions</string>
     <string name="accept">Accept</string>
     <string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>
+    <string name="trash_header">Trash:</string>
 
 </resources>

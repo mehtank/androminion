@@ -79,5 +79,7 @@
 
     <string name="pref_showactionbar_title">Show action bar</string>
     <string name="pref_showactionbar_summary">Disable if you have a small screen, enable if you lack hard buttons</string>
-
+        <string name="shelters_pref_title">Start with Shelters</string>
+        <string name="shelters_pref_summary">Always use Shelters (from Dark Ages) in place of starting Estates</string>
+    
 </resources>

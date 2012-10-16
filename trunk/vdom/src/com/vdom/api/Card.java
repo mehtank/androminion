@@ -24,8 +24,18 @@ public interface Card {
     public boolean costPotion();
     
     public boolean isPrize();
-
+    
+    public boolean isShelter();
+    
+    public boolean isRuins();
+    
+    public boolean isKnight();
+    
     public Integer getId();
     
     public void isBought(MoveContext context);
+    
+    public void isTrashed(MoveContext context);
+    
+    //public void isGained(MoveContext context);
 }

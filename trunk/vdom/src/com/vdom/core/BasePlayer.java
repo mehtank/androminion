@@ -10,6 +10,7 @@ import java.util.Random;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
+import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
 import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
@@ -18,8 +19,8 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
-    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.estate };
-    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.copper, Cards.estate };
+    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.estate, Cards.overgrownEstate, Cards.hovel };
+    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.copper, Cards.estate, Cards.overgrownEstate };
     
     protected Random rand = new Random(System.currentTimeMillis());
     protected static final int COST_MAX = 11;
@@ -50,7 +51,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public void gameEvent(GameEvent event) {
         // There are quite a few event types, found in the GameEvent.Type enum, that
         // are broadcast.
-
         if (event.getType() == GameEvent.Type.PlayingAction) {
             reactedMoat = false;
             reactedSecretChamber = false;
@@ -114,7 +114,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             for (Card card : cards) {
                 int cardCost = card.getCost(context);
                 if (cardCost == cost && context.getCardsLeftInPile(card) > 0) {
-                    if (card.equals(Cards.curse) || card.isPrize() || isTrashCard(card) || (card.equals(Cards.potion) && !shouldBuyPotion())) {
+                    if (card.equals(Cards.curse) || card.isPrize() || card.isShelter() || isTrashCard(card) || (card.equals(Cards.potion) && !shouldBuyPotion())) {
                         continue;
                     }
 
@@ -162,6 +162,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     public Card[] lowestCards(MoveContext context, CardList cards, int num, boolean anyVictory) {
+    	return lowestCards(context, cards.toArrayList(), num, anyVictory);
+    }
+    
+	public Card[] lowestCards(MoveContext context, ArrayList<Card> cards, int num, boolean anyVictory) {
         if (cards == null) {
             return null;
         }
@@ -171,7 +175,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         
         if (cards.size() <= num) {
-            return cards.toArray();
+            return cards.toArray(new Card[0]);
         }
         
         ArrayList<Card> cardArray = new ArrayList<Card>();
@@ -319,7 +323,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             } else if (c.equals(Cards.secretChamber) && !secretChamberSelected) {
                 reactionCards.add(c);
                 secretChamberSelected = true;
-            } else if (c.equals(Cards.horseTraders)) {
+            } else if (c.equals(Cards.horseTraders) || c.equals(Cards.beggar) || c.equals(Cards.marketSquare)) {
                 reactionCards.add(c);
             }
         }
@@ -1279,6 +1283,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
+            if(card.equals(Cards.counterfeit)) {
+                ret.add(0, cardArray.remove(i));
+            }
+        }
+        
+        for (int i = cardArray.size() - 1; i >= 0; i--) {
+            TreasureCard card = cardArray.get(i);
             if(!card.equals(Cards.bank) && !card.equals(Cards.venture) && !card.equals(Cards.hornOfPlenty)) {
                 ret.add(cardArray.remove(i));
             }
@@ -1537,6 +1548,33 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return treasures[index];
     }
     
+    public VictoryCard getBestVictoryCard(MoveContext context) {
+    	ArrayList<VictoryCard> cards = new ArrayList<VictoryCard>();
+    	
+    	for (Card c : context.getVictoryCardsInGame()) {
+    		cards.add((VictoryCard) c);
+    	}
+    	
+    	return getBestVictoryCard(context, cards.toArray(new VictoryCard[0]));
+    }
+    
+    public VictoryCard getBestVictoryCard(MoveContext context, VictoryCard[] cards) {
+        if(cards == null) {
+            return null;
+        }
+        if(cards.length == 1) {
+            return cards[0];
+        }
+        int index = 0;
+        int vp = cards[0].getVictoryPoints();
+        for(int i=1; i < cards.length; i++) {
+            if(cards[i].getVictoryPoints() > vp) {
+                index = i;
+                vp = cards[i].getVictoryPoints();
+            }
+        }
+        return cards[index];
+    }
     public boolean isOnlyTreasure(Card card) {
         if(!(card instanceof TreasureCard)) {
             return false;
@@ -1880,6 +1918,33 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }    
     
     @Override
+    public Card rats_cardToTrash(MoveContext context) 
+    {
+    	ArrayList<Card> nonRatsChoices = new ArrayList<Card>();
+    	
+    	// Look for the low hanging fruit -- cards generally considered trash
+    	for (Card c : context.getPlayer().getHand()) 
+    	{
+            if (isTrashCard(c)) 
+            {
+                return c;
+            }
+            else if (c.getType() != Cards.Type.Rats)
+            {
+            	// Build a list of the cards we can trash
+            	nonRatsChoices.add(c);
+            }
+        }
+    	
+    	if (nonRatsChoices.size() > 1)
+    	{
+    		Collections.sort(nonRatsChoices, new CardCostComparator());
+    	}
+    	
+    	return nonRatsChoices.get(0);
+    }
+    
+    @Override
     public boolean revealBane(MoveContext context) {
         return true;
     }
@@ -1890,4 +1955,547 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return options.get(0);
     }
     
+	@Override
+	public SquireOption squire_chooseOption(MoveContext context) {
+		return SquireOption.AddActions;
+	}
+    
+	@Override
+	public Card altar_cardToTrash(MoveContext context) {
+    	Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (card == null) {
+    		card = lowestCard(context, context.getPlayer().getHand(), false);
+    	}
+    		
+    	return card;
+	}
+
+	@Override
+	public Card altar_cardToObtain(MoveContext context) {
+        return bestCardInPlay(context, 5);
+	}
+
+    @Override
+	public boolean beggar_shouldDiscard(MoveContext context) {
+		return true;
+	}
+
+	@Override
+	public Card armory_cardToObtain(MoveContext context) {
+        return bestCardInPlay(context, 4);
+	}
+
+	@Override
+	public Card squire_cardToObtain(MoveContext context) {
+		ArrayList<Card> options = new ArrayList<Card>();
+		for (AbstractCardPile pile : game.piles.values()) {
+			if ((pile.card() instanceof ActionCard) && (pile.getCount() > 0)) {
+				ActionCard ac = (ActionCard) pile.card();
+				if (ac.isAttack()) {
+					options.add(pile.card());
+				}
+			}
+		}
+		
+		if (options.size() > 0) {
+			return Util.randomCard(options);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean catacombs_shouldDiscardTopCards(MoveContext context, Card[] array) {
+		int discards = 0;
+		for (Card c : array) 
+			if (shouldDiscard(c))
+				discards++;
+		
+		return (discards > 1);
+	}
+
+	@Override
+	public Card catacombs_cardToObtain(MoveContext context) {
+		return bestCardInPlay(context, Math.max(0, game.getPile(Cards.catacombs).card().getCost(context) - 1));
+	}
+
+	@Override
+	public CountFirstOption count_chooseFirstOption(MoveContext context) {
+        if (getCurrencyTotal(context) < 6) return Player.CountFirstOption.GainCopper;
+        
+        return Player.CountFirstOption.PutOnDeck;
+	}
+
+	@Override
+	public CountSecondOption count_chooseSecondOption(MoveContext context) {
+		if (game.pileSize(Cards.colony) > 3 || game.pileSize(Cards.province) > 3)
+			return Player.CountSecondOption.Coins;
+		else
+			return Player.CountSecondOption.GainDuchy;
+	}
+
+	@Override
+	public Card[] count_cardsToDiscard(MoveContext context) {
+        return lowestCards(context, hand, 2, true);
+	}
+
+	@Override
+	public Card count_cardToPutBackOnDeck(MoveContext context) {
+		return Util.randomCard(hand);
+	}
+	
+	@Override
+	public Card forager_cardToTrash(MoveContext context) {
+    	Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (card == null) {
+    		card = lowestCard(context, context.getPlayer().getHand(), false);
+    	}
+    	return card;
+	}
+	@Override
+	public Card deathCart_actionToTrash(MoveContext context)
+	{
+		Card ac = null;
+		for (Card c : context.player.hand)
+		{
+			if (c instanceof ActionCard)
+			{
+				ac = c;
+				break;
+			}
+		}
+		return ac;
+	}
+
+	@Override
+	public GraverobberOption graverobber_chooseOption(MoveContext context) {
+		
+		boolean trashContainsValidCard = false;
+		
+		for (Card c : context.game.trashPile) {
+			if (c.getCost(context) >= 3 && c.getCost(context) <= 6) {
+				trashContainsValidCard = true;
+				break;
+			}
+		}
+		
+		if (trashContainsValidCard) {
+			return GraverobberOption.GainFromTrash;
+		} else {
+			return GraverobberOption.TrashActionCard;
+		}
+	}
+
+	@Override
+	public Card graverobber_cardToGainFromTrash(MoveContext context) {
+		ArrayList<Card> options = new ArrayList<Card>();
+		for (Card c : game.trashPile) {
+			if (c.getCost(context) >= 3 && c.getCost(context) <= 6) {
+				options.add(c);
+			}
+		}
+		return Util.randomCard(options);
+	}
+
+	@Override
+	public Card graverobber_cardToTrash(MoveContext context) {
+		CardList ac = new CardList(controlPlayer, name);
+		for (Card c : hand) {
+			if (c instanceof ActionCard) {
+				ac.add(c);
+			}
+		}
+		
+		if (ac.size() > 0) {
+	    	Card card = pickOutCard(ac, getTrashCards());
+	    	if (card == null) {
+	    		card = lowestCard(context, ac, false);
+	    	}
+	    	return card;
+		} 
+		return null;
+	}
+
+	@Override
+	public Card graverobber_cardToReplace(MoveContext context, int maxCost, boolean potion) {
+		return bestCardInPlay(context, maxCost, false, potion);
+	}
+
+	@Override
+	public HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context) {
+		return HuntingGroundsOption.GainDuchy;
+	}
+
+	@Override
+	public boolean ironmonger_shouldDiscard(MoveContext context, Card card) {
+		return this.shouldDiscard(card);
+	}
+
+	@Override
+	public Card junkDealer_cardToTrash(MoveContext context) {
+        if (context.getPlayer().getHand().size() == 0) {
+            return null;
+        }
+
+        Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (card != null) 
+    		return card;
+        
+        return context.getPlayer().getHand().get(0);
+	}
+
+	@Override
+	public boolean marketSquare_shouldDiscard(MoveContext context) {
+		return true;
+	}
+
+	@Override
+	public Card mystic_cardGuess(MoveContext context) {
+	    return Cards.silver;
+	}
+
+	@Override
+	public boolean scavenger_shouldDiscardDeck(MoveContext context) {
+		return true;
+	}
+
+	@Override
+	public Card scavenger_cardToPutBackOnDeck(MoveContext context) {
+		return Util.randomCard(discard);
+	}
+
+	@Override
+	public Card[] storeroom_cardsToDiscardForCards(MoveContext context) {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (Card card : context.getPlayer().getHand()) {
+            if ((!(card instanceof ActionCard) && !(card instanceof TreasureCard)) || card.equals(Cards.cellar) || card.equals(Cards.storeroom) || card.equals(Cards.copper)) {
+                cards.add(card);
+            }
+        }
+
+        if (context.getActionsLeft() == 0) {
+            for (Card c : context.getPlayer().getHand()) {
+                if ((c instanceof ActionCard)) {
+                    cards.add(c);
+                }
+            }
+        }
+        
+        return cards.toArray(new Card[0]);
+	}
+
+	@Override
+	public Card[] storeroom_cardsToDiscardForCoins(MoveContext context) {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (Card card : context.getPlayer().getHand()) {
+            if ((!(card instanceof ActionCard) && !(card instanceof TreasureCard)) || card.equals(Cards.cellar) || card.equals(Cards.storeroom) || card.equals(Cards.copper)) {
+                cards.add(card);
+            }
+        }
+
+        if (context.getActionsLeft() == 0) {
+            for (Card c : context.getPlayer().getHand()) {
+                if ((c instanceof ActionCard)) {
+                    cards.add(c);
+                }
+            }
+        }
+        
+        return cards.toArray(new Card[0]);
+	}
+
+	@Override
+	public ActionCard procession_cardToPlay(MoveContext context) {
+        return kingsCourt_cardToPlay(context);
+	}
+
+	@Override
+	public Card procession_cardToGain(MoveContext context, int maxCost, boolean potion) {
+        return bestCardInPlay(context, maxCost, false, potion);
+	}
+
+	@Override
+	public Card rebuild_cardToPick(MoveContext context) {
+		if (context.game.colonyInPlay)
+			return Cards.colony;
+		else
+			return Cards.province;
+	}
+
+	@Override
+	public Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		for (Card c: context.getVictoryCardsInGame()) {
+			if (c.getCost(context) <= maxCost) {
+				cards.add(c);
+			}
+		}
+		return this.getBestVictoryCard(context, cards.toArray(new VictoryCard[0]));
+	}
+
+	@Override
+	public Card rogue_cardToGain(MoveContext context) {
+		ArrayList<Card> options = new ArrayList<Card>();
+		for (Card c : game.trashPile) {
+			if (c.getCost(context) >= 3 && c.getCost(context) <= 6) {
+				options.add(c);
+			}
+		}
+		return Util.randomCard(options);
+	}
+
+	@Override
+	public Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
+		return this.lowestCards(context, canTrash, 1, false)[0];
+	}
+
+	@Override
+	public TreasureCard counterfeit_cardToPlay(MoveContext context) {
+		return null;
+	}
+	
+	@Override
+	public Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards)
+	{
+		// ToDo: Logic
+		Card cardToDiscard = null;
+		
+		for (Card c : handCards) 
+		{
+            if (c instanceof ActionCard) 
+            {
+                cardToDiscard = c;
+                break;
+            }
+        }
+		
+		if (cardToDiscard == null)
+		{
+			for (Card c : handCards) 
+			{
+	            if (c instanceof TreasureCard) 
+	            {
+	                cardToDiscard = c;
+	                break;
+	            }
+	        }
+		}
+		
+		if (cardToDiscard == null)
+		{
+			cardToDiscard = Util.randomCard(handCards);
+		}
+		
+		return cardToDiscard;
+	}
+	
+	@Override
+	public boolean hovel_shouldTrash(MoveContext context)
+	{
+		return true;
+	}
+	
+	@Override
+    public boolean walledVillage_backOnDeck(MoveContext context) {
+        return true;
+    }
+	
+	@Override
+	public GovernorOption governor_chooseOption(MoveContext context) {
+		return GovernorOption.AddCards;
+	}
+	
+	@Override
+    public Card governor_cardToTrash(MoveContext context) {
+        return this.upgrade_cardToTrash(context);
+    }
+
+    @Override
+    public Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion) {
+        return this.upgrade_cardToObtain(context, exactCost, potion);
+    }
+    
+    @Override
+    public Card envoy_cardToDiscard(MoveContext context, Card[] cards) {
+    	//TODO: Make this more intelligent.
+    	CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
+    	for(Card c : cards) {
+            cl.add(c);
+    	}
+    	while(cl.size() > 1) {
+    		cl.remove(lowestCard(context, cl, false));
+    	}
+        return cl.get(0);
+    }
+
+	@Override
+	public boolean survivors_shouldDiscardTopCards(MoveContext context,
+			Card[] array) {
+        // Discard them if there is more than 1 victory card
+        int victoryCount = 0;
+        for (Card card : array) {
+            if (shouldDiscard(card)) {
+                victoryCount++;
+            }
+        }
+        return (victoryCount > 1);
+	}
+
+	@Override
+	public Card[] survivors_cardOrder(MoveContext context, Card[] array) {
+		return array;
+	}
+
+	@Override
+	public boolean cultist_shouldPlayNext(MoveContext context) {
+		return true;
+	}
+	
+	@Override
+    public Card[] urchin_attack_cardsToKeep(MoveContext context) 
+	{
+		// Using the Militia discard logic for now...
+		
+        ArrayList<Card> keepers = new ArrayList<Card>();
+        ArrayList<Card> discards = new ArrayList<Card>();
+        
+        // Just add in the non-victory cards...
+        for (Card card : context.attackedPlayer.getHand()) {
+            if (!shouldDiscard(card)) {
+                keepers.add(card);
+            } else {
+            	discards.add(card);
+            }
+        }
+
+        while (keepers.size() < 4) {
+        	keepers.add(discards.remove(0));
+        }
+
+        // Still more than 4? Remove all but one action...
+        while (keepers.size() > 4) {
+            int bestAction = -1;
+            boolean removed = false;
+            for (int i = 0; i < keepers.size(); i++) {
+                if (keepers.get(i) instanceof ActionCard) {
+                    if (bestAction == -1) {
+                        bestAction = i;
+                    } else {
+                        if(keepers.get(i).getCost(context) > keepers.get(bestAction).getCost(context)) {
+                            keepers.remove(bestAction);
+                            bestAction = i;
+                        }
+                        else {
+                            keepers.remove(i);
+                        }
+                        removed = true;
+                        break;
+                    }
+                }
+            }
+            if (!removed) {
+                break;
+            }
+        }
+
+        // Still more than 4? Start removing copper...
+        while (keepers.size() > 4) {
+            boolean removed = false;
+            for (int i = 0; i < keepers.size(); i++) {
+                if (keepers.get(i).equals(Cards.copper)) {
+                    keepers.remove(i);
+                    removed = true;
+                    break;
+                }
+            }
+            if (!removed) {
+                break;
+            }
+        }
+
+        // Still more than 4? Start removing silver...
+        while (keepers.size() > 4) {
+            boolean removed = false;
+            for (int i = 0; i < keepers.size(); i++) {
+                if (keepers.get(i).equals(Cards.silver)) {
+                    keepers.remove(i);
+                    removed = true;
+                    break;
+                }
+            }
+            if (!removed) {
+                break;
+            }
+        }
+
+        while (keepers.size() > 4) {
+            keepers.remove(0);
+        }
+
+        return keepers.toArray(new Card[0]);
+    }
+	
+	@Override
+	public boolean urchin_shouldTrashForMercenary(MoveContext context)
+	{
+		return true;
+	}
+	
+	@Override
+	public Card[] mercenary_cardsToTrash(MoveContext context)
+	{
+		return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
+	}
+	
+	@Override
+	public Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard)
+	{	
+		Card cardToTrash = this.lowestCards(context, cardList, 1, false)[0];
+		
+		if (cardList.indexOf(cardToTrash) < nonTreasureCountInDiscard) {
+			latestHermitTrashFromDiscard = true;
+		} else {
+			latestHermitTrashFromDiscard = false;
+		}
+		
+		return cardToTrash;
+	}
+	
+	@Override
+	public Card hermit_cardToGain(MoveContext context)
+	{
+		return bestCardInPlay(context, 3, false, false);
+	}
+	
+	@Override
+	public boolean madman_shouldReturnToPile(MoveContext context)
+	{
+		return true;
+	}
+	
+	@Override
+	public boolean hermit_trashForMadman(MoveContext context)
+	{
+		return true;
+	}
+
+	@Override
+	public Card[] dameAnna_cardsToTrash(MoveContext context) {
+		return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
+	}
+
+	@Override
+	public Card knight_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
+		return this.lowestCards(context, canTrash, 1, false)[0];
+	}
+
+	@Override
+	public Card[] sirMichael_attack_cardsToKeep(MoveContext context) {
+		return militia_attack_cardsToKeep(context);	
+	}
+
+	@Override
+	public Card dameNatalie_cardToObtain(MoveContext context) {
+        return bestCardInPlay(context, 3);
+	}
 }

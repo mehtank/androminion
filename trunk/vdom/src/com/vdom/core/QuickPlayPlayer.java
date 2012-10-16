@@ -533,7 +533,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_tournament_chooseOption(MoveContext context) {
-        return true;
+        return false;
     }
 
     
@@ -739,6 +739,14 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
+    public boolean shouldAutoPlay_rats_cardToTrash(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_pillage_opponentCardToDiscard(MoveContext context) {
+        return true;
+    }
+    
     public boolean shouldAutoPlay_margrave_attack_cardsToKeep(MoveContext context) {
         return shouldAutoPlay_militia_attack_cardsToKeep(context);
     }
@@ -749,5 +757,33 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     
     public boolean shouldAutoPlay_selectPutBackOption(MoveContext context, List<PutBackOption> putBacks) {
     	return true;
+    }
+    
+    public boolean shouldAutoPlay_walledVillage_backOnDeck(MoveContext context) {
+        return false;
+    }
+    
+    public boolean shouldAutoPlay_envoy_opponentCardToDiscard(MoveContext context) {
+        return false;
+    }
+
+    public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
+		return true;
+	}
+	
+	public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context) {
+		return true;
+	}
+	
+	public boolean shouldAutoPlay_madman_shouldReturnToPile(MoveContext context) {
+		return true;
+	}
+	
+	public boolean shouldAutoPlay_hermit_trashForMadman(MoveContext context) {
+		return true;
+	}
+	
+	public boolean shouldAutoPlay_procession_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+        return false;
     }
 }
