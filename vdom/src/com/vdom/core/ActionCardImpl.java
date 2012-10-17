@@ -5167,19 +5167,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     	}
 	}
 	
-	private void madman(MoveContext context, Game game, Player currentPlayer)
-	{
-		if (currentPlayer.controlPlayer.madman_shouldReturnToPile(context) && currentPlayer.playedCards.contains(this))
-		{
+	private void madman(MoveContext context, Game game, Player currentPlayer) {
+		if (currentPlayer.playedCards.contains(this)) {
 			// Return to the Madman pile
-            currentPlayer.playedCards.remove(this);                   
+            currentPlayer.playedCards.remove(this);
             SingleCardPile pile = (SingleCardPile) game.getPile(this);
             pile.addCard(this);
             
             int handSize = currentPlayer.hand.size();
             
-            for (int i = 0; i < handSize; ++i)
-            {
+            for (int i = 0; i < handSize; ++i) {
             	game.drawToHand(currentPlayer, this);
             }
 		}
