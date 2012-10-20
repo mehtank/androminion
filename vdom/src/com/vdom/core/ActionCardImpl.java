@@ -4367,20 +4367,22 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	private void ironmonger(Game game, Player currentPlayer, MoveContext context) {
 		Card card = game.draw(currentPlayer);
 
-		if (currentPlayer.controlPlayer.ironmonger_shouldDiscard(context, card)) {
-			currentPlayer.discard(card, this, context);
-		} else {
-			currentPlayer.putOnTopOfDeck(card);
-		}
-
-		if (card instanceof ActionCard) {
-			context.actions += 1;
-		}
-		if (card instanceof TreasureCard) {
-			context.addGold++;
-		}
-		if (card instanceof VictoryCard) {
-			game.drawToHand(currentPlayer, this);
+		if (card != null) {
+			if (currentPlayer.controlPlayer.ironmonger_shouldDiscard(context, card)) {
+				currentPlayer.discard(card, this, context);
+			} else {
+				currentPlayer.putOnTopOfDeck(card);
+			}
+	
+			if (card instanceof ActionCard) {
+				context.actions += 1;
+			}
+			if (card instanceof TreasureCard) {
+				context.addGold++;
+			}
+			if (card instanceof VictoryCard) {
+				game.drawToHand(currentPlayer, this);
+			}
 		}
 	}
 
@@ -4396,17 +4398,20 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	}
 
 	private void mystic(Game game, MoveContext context, Player currentPlayer) {
-	    Card card = currentPlayer.controlPlayer.mystic_cardGuess(context);
-	    Card draw = game.draw(currentPlayer);
-	    if (card != null && draw != null) {
-	        currentPlayer.reveal(draw, this, context);
-
-	        if (card.equals(draw)) {
-	            currentPlayer.hand.add(draw);
-	        } else {
-	            currentPlayer.putOnTopOfDeck(draw);
-	        }
-	    }
+		if (currentPlayer.deck.size() > 0 || currentPlayer.discard.size() > 0) {  // Only allow a guess if there are cards in the deck or discard pile
+		    Card card = currentPlayer.controlPlayer.mystic_cardGuess(context);
+		    Card draw = game.draw(currentPlayer);
+		    
+		    if (card != null && draw != null) {
+		        currentPlayer.reveal(draw, this, context);
+	
+		        if (card.equals(draw)) {
+		            currentPlayer.hand.add(draw);
+		        } else {
+		            currentPlayer.putOnTopOfDeck(draw);
+		        }
+		    }
+		} 
 	}
 
     private void scavenger(Game game, MoveContext context, Player currentPlayer)
