@@ -1004,7 +1004,7 @@ public abstract class Player {
     // Either return two cards, or null if you do not want to trash any cards.
     public abstract Card[] tradingPost_cardsToTrash(MoveContext context);
 
-    public abstract Card wishingWell_cardGuess(MoveContext context);
+    public abstract Card wishingWell_cardGuess(MoveContext context, ArrayList<Card> cardList);
 
     public abstract Card upgrade_cardToTrash(MoveContext context);
 
@@ -1269,7 +1269,7 @@ public abstract class Player {
 
 	public abstract boolean marketSquare_shouldDiscard(MoveContext context);
 
-	public abstract Card mystic_cardGuess(MoveContext context);
+	public abstract Card mystic_cardGuess(MoveContext context, ArrayList<Card> cardList);
 
 	public abstract boolean scavenger_shouldDiscardDeck(MoveContext context);
 

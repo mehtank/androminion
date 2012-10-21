@@ -758,7 +758,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card wishingWell_cardGuess(MoveContext context) {
+    public Card wishingWell_cardGuess(MoveContext context, ArrayList<Card> cardList) {
         return Cards.silver;
     }
 
@@ -2150,7 +2150,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
 	@Override
-	public Card mystic_cardGuess(MoveContext context) {
+	public Card mystic_cardGuess(MoveContext context, ArrayList<Card> cardList) {
 	    return Cards.silver;
 	}
 
