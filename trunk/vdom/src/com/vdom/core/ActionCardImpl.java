@@ -2831,17 +2831,39 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void wishingWell(Game game, MoveContext context, Player currentPlayer) {
-        Card card = currentPlayer.controlPlayer.wishingWell_cardGuess(context);
-        Card draw = game.draw(currentPlayer);
-        if (card != null && draw != null) {
-            currentPlayer.reveal(draw, this, context);
-
-            if (card.equals(draw)) {
-                currentPlayer.hand.add(draw);
-            } else {
-                currentPlayer.putOnTopOfDeck(draw);
-            }
-        }
+    	
+    	if (currentPlayer.deck.size() > 0 || currentPlayer.discard.size() > 0) {  // Only allow a guess if there are cards in the deck or discard pile
+			
+    		// Create a list of possible cards to guess, using the player's hand, discard pile, and deck 
+    		// (even though the player could technically name a card he doesn't have)
+			ArrayList<Card> options = new ArrayList<Card>();
+			
+			for (Card c : currentPlayer.discard) {
+					options.add(c);
+			}
+			
+			for (Card c: currentPlayer.hand) {
+					options.add(c);
+			}
+			
+			for (Card c: currentPlayer.deck) {
+				options.add(c);
+			}
+	
+			if (options.size() > 0) {
+				Card card = currentPlayer.controlPlayer.wishingWell_cardGuess(context, options);
+		        Card draw = game.draw(currentPlayer);
+		        if (card != null && draw != null) {
+		            currentPlayer.reveal(draw, this, context);
+		
+		            if (card.equals(draw)) {
+		                currentPlayer.hand.add(draw);
+		            } else {
+		                currentPlayer.putOnTopOfDeck(draw);
+		            }
+		        }
+			}
+		}
     }
 
     private void upgrade(MoveContext context, Player currentPlayer) {
@@ -4398,20 +4420,40 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	}
 
 	private void mystic(Game game, MoveContext context, Player currentPlayer) {
+		
 		if (currentPlayer.deck.size() > 0 || currentPlayer.discard.size() > 0) {  // Only allow a guess if there are cards in the deck or discard pile
-		    Card card = currentPlayer.controlPlayer.mystic_cardGuess(context);
-		    Card draw = game.draw(currentPlayer);
-		    
-		    if (card != null && draw != null) {
-		        currentPlayer.reveal(draw, this, context);
+			
+    		// Create a list of possible cards to guess, using the player's hand, discard pile, and deck 
+    		// (even though the player could technically name a card he doesn't have)
+			ArrayList<Card> options = new ArrayList<Card>();
+			
+			for (Card c : currentPlayer.discard) {
+					options.add(c);
+			}
+			
+			for (Card c: currentPlayer.hand) {
+					options.add(c);
+			}
+			
+			for (Card c: currentPlayer.deck) {
+				options.add(c);
+			}
 	
-		        if (card.equals(draw)) {
-		            currentPlayer.hand.add(draw);
-		        } else {
-		            currentPlayer.putOnTopOfDeck(draw);
-		        }
-		    }
-		} 
+			if (options.size() > 0) {
+				Card toName = currentPlayer.mystic_cardGuess(context, options);
+				Card draw   = game.draw(currentPlayer);
+			    
+			    if (toName != null && draw != null) {
+			        currentPlayer.reveal(draw, this, context);
+		
+			        if (toName.equals(draw)) {
+			            currentPlayer.hand.add(draw);
+			        } else {
+			            currentPlayer.putOnTopOfDeck(draw);
+			        }
+			    }
+			}
+		}
 	}
 
     private void scavenger(Game game, MoveContext context, Player currentPlayer)
@@ -4697,7 +4739,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    	                    card = Util.randomCard(player.hand);
 	    	                }
 
-	    	                int value = card.getCost(playerContext) + 2;
+	    	                int value = card.getCost(playerContext) + 1;
 	    	                boolean potion = card.costPotion();
 	    	                player.hand.remove(card);
 	    	                player.trash(card, this, playerContext);
@@ -4705,7 +4747,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    	                card = player.controlPlayer.governor_cardToObtain(playerContext, value, potion);
 	    	                if (card != null) {
 	    	                    if (card.getCost(playerContext) != value || card.costPotion() != potion) {
-	    	                        Util.playerError(player, "Governor error, new card does not cost value of the old card +2.");
+	    	                        Util.playerError(player, "Governor error, new card does not cost value of the old card +1.");
 	    	                    } else {
 	    	                        if(!player.gainNewCard(card, this, playerContext)) {
 	    	                            Util.playerError(player, "Governor error, pile is empty or card is not in the game.");
@@ -5248,6 +5290,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 if (cardToTrash != null) {
                     targetPlayer.trash(cardToTrash, this, targetContext);
+                    
+                    // If the card trashed was a knight, the attacking knight should be trashed as well
                     if (cardToTrash.isKnight()) {
                     	currentPlayer.trash(this, this, context);
                     }

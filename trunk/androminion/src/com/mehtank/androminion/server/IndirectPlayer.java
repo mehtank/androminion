@@ -943,11 +943,23 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	}
 
     @Override
-    public Card wishingWell_cardGuess(MoveContext context) {
+    public Card wishingWell_cardGuess(MoveContext context, ArrayList<Card> cardList) {
         if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
-            return super.wishingWell_cardGuess(context);
+            return super.wishingWell_cardGuess(context, cardList);
         }
-        return getFromTable(context, getString(R.string.wishing_well_part), NOTPASSABLE);
+        
+	    LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
+
+		// Add option to skip the guess
+		h.put("None", null);
+		
+		for (Card c : cardList) {
+			h.put(c.getName(), c);
+	    }
+		
+		String choice = selectString(context, getNameString(Cards.wishingWell), h.keySet().toArray(new String[0])); 
+	
+		return h.get(choice);
 	}
 
     @Override
@@ -2313,11 +2325,24 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	}
 	
 	@Override
-	public Card mystic_cardGuess(MoveContext context) {
-	    if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
-	        return super.mystic_cardGuess(context);
+	public Card mystic_cardGuess(MoveContext context, ArrayList<Card> cardList) {
+	    
+		if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
+	        return super.mystic_cardGuess(context, cardList);
 	    }
-	    return getFromTable(context, getString(R.string.wishing_well_part), Integer.MAX_VALUE, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, -1, true);
+	  
+	    LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
+
+		// Add option to skip the guess
+		h.put("None", null);
+		
+		for (Card c : cardList) {
+			h.put(c.getName(), c);
+	    }
+		
+		String choice = selectString(context, getNameString(Cards.mystic), h.keySet().toArray(new String[0])); 
+	
+		return h.get(choice);
 	}
 	
 	@Override
@@ -2382,7 +2407,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	    }
 	    SelectCardOptions sco = new SelectCardOptions().fromTable().isVictory().setPassable(NOTPASSABLE);
 	    return getFromTable(context, getNameString(Cards.rebuild), sco, false);
-	    //getFromTable(context, getString(R.string.wishing_well_part), Integer.MAX_VALUE, Integer.MIN_VALUE, false, NOTPASSABLE, false, true, -1, true)
 	}
 	
 	@Override
