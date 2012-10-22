@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import com.vdom.api.ActionCard;
@@ -715,6 +716,14 @@ public class Game {
             return;
         }
 
+        double totalGameCount = 0;
+        Iterator<Entry<String, Double>> it = wins.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String, Double> e = it.next();
+            totalGameCount += e.getValue();
+        }
+        gameCount = (int) totalGameCount;
+        
         StringBuilder sb = new StringBuilder();
 
         String s = gameType + ":";
@@ -770,7 +779,7 @@ public class Game {
             } else {
                 sb.append(" ");
             }
-            sb.append(name + " %" + numStr);
+            sb.append(name + " " + numStr + "%");
 
             winStats.put(name, Integer.parseInt(numStr.trim()));
         }
@@ -779,13 +788,8 @@ public class Game {
     }
 
     private static void printGameTypeStats() {
-        Collections.sort(gameTypeStats, new Comparator<GameStats>() {
-            public int compare(GameStats gs1, GameStats gs2) {
-                return gs1.aveTurns - gs2.aveTurns;
-            }
-        });
-
-        for (GameStats stats : gameTypeStats) {
+        for (int i=0; i < gameTypeStats.size(); i++) {
+        	GameStats stats = gameTypeStats.get(i); 
             StringBuilder sb = new StringBuilder();
             sb.append(stats.gameType);
             if (stats.gameType.toString().length() < 8) {

@@ -117,6 +117,10 @@ public class CardList implements Iterable<Card> {
     	return a;
     }
 
+    public ArrayList<Card> toArrayListClone() {
+    	return (ArrayList<Card>) a.clone();
+    }
+
     public boolean isEmpty() {
         return size() == 0;
     }
