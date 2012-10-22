@@ -598,6 +598,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public TorturerOption torturer_attack_chooseOption(MoveContext context) {
+    	if (game.pileSize(Cards.curse) <= 0) {
+    		return Player.TorturerOption.TakeCurse;
+		}
     	CardList h = context.attackedPlayer.getHand();
         for (Card c : h) {
             if(c.equals(Cards.watchTower) || c.equals(Cards.trader)) {
