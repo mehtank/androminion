@@ -1241,10 +1241,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (currentPlayer.hand.size() == 0) {
             return;
         }
-
         
-        Card card_orig = currentPlayer.controlPlayer.ambassador_revealedCard(context);
-        Card card = card_orig;
+        Card card = currentPlayer.controlPlayer.ambassador_revealedCard(context);
 
         if (card == null) {
             card = Util.randomCard(currentPlayer.hand);
@@ -1261,24 +1259,30 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
         pile = game.getPile(card);
     
-        currentPlayer.reveal(card_orig, this, context);
-        context.debug("Ambassador revealed card:" + card_orig.getName());
-        int returnCount = -1;
-        if (pile.isSupply()) {
-            returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, card_orig);
-        } else {
-        	context.debug("Ambassador revealed card that is not in supply and therefore can't be returned and distributed");
-        }
+        currentPlayer.reveal(card, this, context);
+        Util.log("Ambassador revealed card:" + card.getName());
 
-        if (returnCount > 2) {
-            Util.playerError(currentPlayer, "Ambassador return to supply error (more then 2 cards), returning 2.");
-            returnCount = 2;
+        int returnCount = -1;
+        if (!pile.isSupply()) {
+            Util.playerError(currentPlayer, "Ambassador revealed card not in supply, returning 0.");
+        } else {
+            returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, card);
+            if (returnCount > 2) {
+            	Util.playerError(currentPlayer, "Ambassador return to supply error (more than 2 cards), returning 2.");
+            	returnCount = 2;
+            } else {
+            	int inHandCount = currentPlayer.inHandCount(card);
+            	if (returnCount > inHandCount) {
+            		Util.playerError(currentPlayer, "Ambassador return to supply error (more than cards in hand), returning " + inHandCount);
+            		returnCount = inHandCount;
+            	}
+            }
         }
 
         for (int i = 0; i < returnCount; i++) {
-            if (currentPlayer.hand.contains(card_orig)) {
-                currentPlayer.hand.remove(card_orig);
-                pile.addCard(card_orig);
+            if (currentPlayer.hand.contains(card)) {
+                currentPlayer.hand.remove(card);
+                pile.addCard(card);
             } else {
                 Util.playerError(currentPlayer, "Ambassador return to supply error, just returning those available.");
                 break;
@@ -1290,7 +1294,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
 	                player.attacked(this, context);
 	                
-	                if (pile.getType() == AbstractCardPile.PileType.SingleCardPile || card_orig.equals(pile.card())) {
+	                if (pile.getType() == AbstractCardPile.PileType.SingleCardPile || card.equals(pile.card())) {
 	                	player.gainNewCard(card, this, new MoveContext(game, player));
 	                }
 	            }
