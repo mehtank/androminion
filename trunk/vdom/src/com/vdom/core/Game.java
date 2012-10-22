@@ -184,6 +184,10 @@ public class Game {
                         gameType = GameType.RandomSeaside;
                         new Game().start();
                     }
+                    for (int i = 0; i < 20; i++) {
+                        gameType = GameType.RandomDarkAges;
+                        new Game().start();
+                    }
                 }
                 if (!debug && !test) {
                     Util.log("----------------------------------------------------");

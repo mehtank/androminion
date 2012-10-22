@@ -1253,7 +1253,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 						if (vc.equals(Cards.feodum)) {
 							vp += Math.floor(Util.getCardCount(this.getAllCards(), Cards.silver) / 3);
 						}
-						if (game.embargos.containsKey(vc)) {
+						if (game.embargos.containsKey(vc.getName())) {
 							vp -= (game.embargos.get(vc) + this.guessReshufflesToEnd(context));
 						}
 						
@@ -2176,11 +2176,11 @@ public class VDomPlayerPatrick extends BasePlayer {
 	    this.log("ambassador_returnToSupplyFromHand: -2 cards");
 	    Card two = this.advisorGeneral(context, this.getCurrencyTotal(temphand), false, false);
 	    
-	    if (zero.equals(two)) {
+	    if (zero != null && two != null && zero.equals(two)) {
 	    	return 2;
-	    } else if (zero.equals(one)) {
+	    } else if (zero != null && one != null && zero.equals(one)) {
     		return 1;
-    	} else if (one.equals(two)) {
+    	} else if (one != null && two != null && one.equals(two)) {
     		return 2;
     	} else {
     		return 0;
@@ -2227,7 +2227,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			return true;
 		}
 		
-		if (this.opponents.getIsAttacking() && !this.strategyCard.isAttack()) {
+		if (this.opponents != null && this.opponents.getIsAttacking() && this.strategyCard != null && !this.strategyCard.isAttack()) {
 			return true;
 		}
 		
