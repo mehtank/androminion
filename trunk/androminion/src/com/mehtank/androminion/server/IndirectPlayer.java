@@ -2657,13 +2657,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	    }
 		
 		String choice = selectString(context, getTrashString(Cards.hermit), h.keySet().toArray(new String[0])); 
-	
-		if (choice.contains("discard pile")) {
-			latestHermitTrashFromDiscard = true;
-		} else {
-			latestHermitTrashFromDiscard = false;
-		}
-		
 		return h.get(choice);
 	}
 	

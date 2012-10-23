@@ -5181,6 +5181,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	{
 		ArrayList<Card> options = new ArrayList<Card>();
 		int nonTreasureCountInDiscard = 0;
+		boolean latestHermitTrashFromDiscard = false;
 		
 		for (Card c : currentPlayer.discard) {
 			if (!(c instanceof TreasureCard)) {
@@ -5199,12 +5200,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		if (options.size() > 0) {
 			// Offer the option to trash a non-treasure card
 			Card toTrash = currentPlayer.controlPlayer.hermit_cardToTrash(context, options, nonTreasureCountInDiscard);
+			latestHermitTrashFromDiscard = (options.indexOf(toTrash) < nonTreasureCountInDiscard);
 			
 			if (toTrash != null) {
-				if (currentPlayer.discard.contains(toTrash) && currentPlayer.latestHermitTrashFromDiscard) {
+				if (currentPlayer.discard.contains(toTrash) && latestHermitTrashFromDiscard) {
 					currentPlayer.discard.remove(toTrash);
 					currentPlayer.trash(toTrash, this, context);
-				} else if (currentPlayer.hand.contains(toTrash) && !currentPlayer.latestHermitTrashFromDiscard) {
+				} else if (currentPlayer.hand.contains(toTrash) && !latestHermitTrashFromDiscard) {
 					currentPlayer.hand.remove(toTrash);
 					currentPlayer.trash(toTrash, this, context);
 				} else {
