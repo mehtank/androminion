@@ -1901,7 +1901,7 @@ public class Game {
                     //The handling for new cards is done before taking the card from the pile in a different method below.
                     if(!event.newCard) {
                         if(player.hand.contains(Cards.trader)) {
-                            if((player).trader_shouldGainSilverInstead((MoveContext) context, event.card)) {
+                            if(player.controlPlayer.trader_shouldGainSilverInstead((MoveContext) context, event.card)) {
                             	player.reveal(Cards.trader, null, context);
                                 player.trash(event.card, Cards.trader, (MoveContext) context);
                                 event.card = Cards.silver;
@@ -1916,7 +1916,7 @@ public class Game {
                     }
 
                     if (player.hand.contains(Cards.watchTower)) {
-                        WatchTowerOption choice = context.player.watchTower_chooseOption((MoveContext) context, event.card);
+                        WatchTowerOption choice = context.player.controlPlayer.watchTower_chooseOption((MoveContext) context, event.card);
 
                         if (choice == WatchTowerOption.TopOfDeck) {
                             handled = true;
@@ -1928,7 +1928,7 @@ public class Game {
                     }
 
                     if(!handled) {
-                        if (context.royalSealPlayed && context.player.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
+                        if (context.royalSealPlayed && context.player.controlPlayer.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
                             player.putOnTopOfDeck(event.card);
                         } else if (event.card.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card);
@@ -1977,7 +1977,7 @@ public class Game {
 
                                 while(foolsGoldCount-- > 0) {
                                     MoveContext targetContext = new MoveContext(Game.this, targetPlayer);
-                                    if((targetPlayer).foolsGold_shouldTrash(targetContext)) {
+                                    if(targetPlayer.controlPlayer.foolsGold_shouldTrash(targetContext)) {
                                         targetPlayer.hand.remove(Cards.foolsGold);
                                         targetPlayer.trash(Cards.foolsGold, Cards.foolsGold, targetContext);
                                         targetPlayer.gainNewCard(Cards.gold, Cards.foolsGold, targetContext);
@@ -1987,7 +1987,7 @@ public class Game {
                         }
                     } else if(event.card.equals(Cards.duchy)) {
                         if (getCardsLeftInPile(Cards.duchess) > 0) {
-                            if((player).duchess_shouldGainBecauseOfDuchy((MoveContext) context)) {
+                            if(player.controlPlayer.duchess_shouldGainBecauseOfDuchy((MoveContext) context)) {
                                 player.gainNewCard(Cards.duchess, Cards.duchess, context);
                             }
                         }
@@ -2009,7 +2009,7 @@ public class Game {
                             Card c = player.discard.get(i);
                             if(c instanceof ActionCard) {
                                 actionCardsFound++;
-                                if((player).inn_shuffleCardBackIntoDeck(event.getContext(), (ActionCard) c)) {
+                                if(player.controlPlayer.inn_shuffleCardBackIntoDeck(event.getContext(), (ActionCard) c)) {
                                     cards.add(c);
                                 }
                             }
@@ -2059,7 +2059,7 @@ public class Game {
                             if (treasureCardsInPlay.size() == 1)
                             	order = treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]);
 	                        else
-	                        	order = player.mandarin_orderCards(context, treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]));
+	                        	order = player.controlPlayer.mandarin_orderCards(context, treasureCardsInPlay.toArray(new Card[treasureCardsInPlay.size()]));
 
 	                        for (int i = order.length - 1; i >= 0; i--) {
 	                            Card c = order[i];
@@ -2469,7 +2469,7 @@ public class Game {
 	
 		for (Card c : player.hand)
 		{
-			if (c.getType() == Cards.Type.Hovel && player.hovel_shouldTrash(context))
+			if (c.getType() == Cards.Type.Hovel && player.controlPlayer.hovel_shouldTrash(context))
 			{
 				hovelsToTrash.add(c);
 			}

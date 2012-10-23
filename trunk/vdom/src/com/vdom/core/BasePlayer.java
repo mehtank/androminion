@@ -559,7 +559,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public boolean scryingPool_shouldDiscard(MoveContext context, Player targetPlayer, Card card) {
-        return spy_shouldDiscard(context,  targetPlayer, card);
+        return controlPlayer.spy_shouldDiscard(context,  targetPlayer, card);
     }
 
     // ////////////////////////////////////////////
@@ -1120,7 +1120,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card[] goons_attack_cardsToKeep(MoveContext context) {
-        return militia_attack_cardsToKeep(context);
+        return controlPlayer.militia_attack_cardsToKeep(context);
     }
 
     @Override
@@ -1214,7 +1214,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public ActionCard throneRoom_cardToPlay(MoveContext context) {
-        return kingsCourt_cardToPlay(context);
+        return controlPlayer.kingsCourt_cardToPlay(context);
     }
     
     @Override
@@ -1459,7 +1459,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card[] followers_attack_cardsToKeep(MoveContext context) {
-        return militia_attack_cardsToKeep(context);
+        return controlPlayer.militia_attack_cardsToKeep(context);
     }
 
     @Override
@@ -1736,7 +1736,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card[] embassy_cardsToDiscard(MoveContext context) {
-        return warehouse_cardsToDiscard(context);
+        return controlPlayer.warehouse_cardsToDiscard(context);
     }
 
     @Override
@@ -1877,7 +1877,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card farmland_cardToTrash(MoveContext context) {
-        return remodel_cardToTrash(context);
+        return controlPlayer.remodel_cardToTrash(context);
     }
 
     @Override
@@ -1917,7 +1917,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card[] margrave_attack_cardsToKeep(MoveContext context) {
-        return militia_attack_cardsToKeep(context);
+        return controlPlayer.militia_attack_cardsToKeep(context);
     }    
     
     @Override
@@ -2209,7 +2209,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public ActionCard procession_cardToPlay(MoveContext context) {
-        return kingsCourt_cardToPlay(context);
+        return controlPlayer.kingsCourt_cardToPlay(context);
 	}
 
 	@Override
@@ -2310,12 +2310,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	
 	@Override
     public Card governor_cardToTrash(MoveContext context) {
-        return this.upgrade_cardToTrash(context);
+        return controlPlayer.upgrade_cardToTrash(context);
     }
 
     @Override
     public Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-        return this.upgrade_cardToObtain(context, exactCost, potion);
+        return controlPlayer.upgrade_cardToObtain(context, exactCost, potion);
     }
     
     @Override
@@ -2494,7 +2494,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card[] sirMichael_attack_cardsToKeep(MoveContext context) {
-		return militia_attack_cardsToKeep(context);	
+		return controlPlayer.militia_attack_cardsToKeep(context);	
 	}
 
 	@Override

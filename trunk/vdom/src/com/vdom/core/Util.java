@@ -281,7 +281,7 @@ public class Util {
         }
         
         Card reactionCard = null;
-        while ((reactionCard = player.getAttackReaction(context, responsible, defended, reactionCard)) != null) {
+        while ((reactionCard = player.controlPlayer.getAttackReaction(context, responsible, defended, reactionCard)) != null) {
             GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
             event.card = reactionCard;
             game.broadcastEvent(event);
@@ -326,7 +326,7 @@ public class Util {
             game.drawToHand(player, responsible);
 
             if (player.hand.size() > 0) {
-                Card[] cards = player.secretChamber_cardsToPutOnDeck(context);
+                Card[] cards = player.controlPlayer.secretChamber_cardsToPutOnDeck(context);
                 boolean bad = false;
                 if (cards == null || cards.length > 2 || (cards.length < 2 && cards.length != player.hand.size())) {
                     bad = true;
@@ -399,7 +399,7 @@ public class Util {
         }
         
         if (beggar != null) {
-        	if (player.beggar_shouldDiscard(context)) {
+        	if (player.controlPlayer.beggar_shouldDiscard(context)) {
         		player.hand.remove(player.hand.indexOf(beggar), true);        		
             	player.discard(beggar, responsible, context);
             	player.gainNewCard(Cards.silver, beggar, context);

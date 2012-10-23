@@ -534,7 +534,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         			selectString = Strings.format(R.string.select_from_table_exact_action, "" + sco.maxCost + potions, header);
         		}
         		else {
-        			selectString = Strings.format(R.string.select_from_table_exact, "" + sco.maxCost + potions, header);
+            		if (sco.isVictory) {
+            			selectString = Strings.format(R.string.select_from_table_max_vp, "" + sco.maxCost + potions, header);
+                	} else {
+                		selectString = Strings.format(R.string.select_from_table_exact, "" + sco.maxCost + potions, header);
+                	}
         		}
         	}
         } else if ((sco.minCost <= 0) && (sco.maxCost < Integer.MAX_VALUE))
@@ -581,6 +585,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         String c1 = getCardName(cardResponsible);
         String c2 = getCardName(cardRevealed);
         String query = Strings.format(R.string.card_revealed, c1, c2);
+        return selectBoolean(context, query, strTrue, strFalse);
+    }
+
+    public boolean selectBooleanCardRevealedFromHand(MoveContext context, Card cardResponsible, Card cardRevealed, String strTrue, String strFalse) {
+        String c1 = getCardName(cardResponsible);
+        String c2 = getCardName(cardRevealed);
+        String query = Strings.format(R.string.card_revealed_from_hand, c1, c2);
         return selectBoolean(context, query, strTrue, strFalse);
     }
 
@@ -2639,7 +2650,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 			if (cardCount < nonTreasureCountInDiscard) {
 				h.put(c.getName() + " (discard pile)", c);
 			} else {
-				h.put(c.getName() + " (deck)", c);
+				h.put(c.getName() + " (hand)", c);
 			}
 			
 			++cardCount;
