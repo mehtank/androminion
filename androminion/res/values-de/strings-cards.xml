@@ -335,5 +335,15 @@
     <string name="Followers_desc">Nimm ein Anwesen. Jeder Mitspieler muss einen Fluch nehmen und Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
     <string name="TrustySteed_name">Streitroß</string>
     <string name="TrustySteed_desc">Wähle zwei verschiedene: +2 Karten; +2 Aktionen; +2 Geld; Nimm 4 Silber und lege sofort deinen kompletten Nachziehstapel auf deinen Ablagestapel.</string>
-
+    <string name="Altar_name">Altar</string>
+    <string name="Altar_desc">Entsorge eine Karte aus deiner Hand. Nimm eine Karte, die bis zu 2 Geld kostet.</string>
+    <string name="Armory_name">Armory</string>
+    <string name="Armory_desc">Nimm eine Karte die bis zu 4 Geld kostet und lege diese verdeckt auf den Nachziehstapel.</string>
+    <string name="BanditCamp_name">Banditenlager</string>
+    <string name="BanditCamp_desc">Nimm eine Beute-Karte vom Beute-Stapel.</string>
+    <string name="DeathCart_name">Leichenkarren</string>
+    <string name="DeathCart_desc">Du darfst eine Aktionskarte aus deiner Hand entsorgen. Wenn du das nicht machst, entsorge diese Karte. Wenn du den Leichenkarren nimmst, nimm 2 Ruinen-Karten.</string>
+    <string name="Feodum_name">Lehen</string>
+    <string name="Feodum_desc">Wert 1 Siegpunkt für je 3 Silber in deinem Kartensatz (abgerundet). Wenn Du das Lehen entsorgst, nimm 3 Silber.</string>
+    
 </resources>

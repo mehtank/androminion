@@ -81,6 +81,8 @@
 	 
 	<string name="BlueHarvest_gametype">Schmalhans (Hntr, Ernte)</string> 
 	<string name="TravelingCircus_gametype">Wanderzirkus (Hntr, Ernte)</string>
+	
+	<string name="PlayingChessWithDeath_gametype">Spiel mit dem Teufel (DA)</string>	
 	  
 	<string name="Random_gametype">Zufällig (alle Karten)</string>  
 </resources>
