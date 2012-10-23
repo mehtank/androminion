@@ -31,6 +31,8 @@ public class GameEvent {
         CardObtained, // Card was obtained by a player through an effect of an action
         CardTrashed, // Card removed from the game
         CardRevealed, // Card revealed by an action
+        CardRevealedFromHand, // Card revealed from the hand by an action
+        CardNamed, // Card named by player
 
         CardDiscarded, // A card was discarded
         CardAddedToHand, // A new card has been added to a player's hand

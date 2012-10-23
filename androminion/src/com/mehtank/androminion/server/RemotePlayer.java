@@ -735,6 +735,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	    case CardRevealed:
                 strEvent += Strings.getString(R.string.CardRevealed);
                 break;
+    	    case CardRevealedFromHand:
+                strEvent += Strings.getString(R.string.CardRevealedFromHand);
+                break;
     	    case CardDiscarded:
                 strEvent += Strings.getString(R.string.CardDiscarded);
                 break;

@@ -78,6 +78,9 @@ public abstract class Player {
         return getMyCardCount(Cards.copper) + getMyCardCount(Cards.silver) * 2 + getMyCardCount(Cards.gold) * 3 + getMyCardCount(Cards.platinum) * 5;
     }
 
+    public int getMyCardCount(Card card) {
+        return Util.getCardCount(getAllCards(), card);
+    }
     public int getTurnCount() {
         return turnCount;
     }
@@ -355,7 +358,7 @@ public abstract class Player {
         case 0:
             break;
         default:
-            Card[] orderedCards = topOfDeck_orderCards(context, putBackCards.toArray(new Card[0]));
+            Card[] orderedCards = controlPlayer.topOfDeck_orderCards(context, putBackCards.toArray(new Card[0]));
 
             for (int i = orderedCards.length - 1; i >= 0; i--) {
                 Card card = orderedCards[i];
@@ -637,7 +640,7 @@ public abstract class Player {
 
         	MoveContext tunnelContext = new MoveContext(game, this);
         	
-            if(game.pileSize(Cards.gold) > 0 && (this).tunnel_shouldReveal(tunnelContext)) {
+            if(game.pileSize(Cards.gold) > 0 && controlPlayer.tunnel_shouldReveal(tunnelContext)) {
                 reveal(card, card, tunnelContext);
                 gainNewCard(Cards.gold, card, tunnelContext);
             }
@@ -647,9 +650,10 @@ public abstract class Player {
     	{        	
         	if (!commandedDiscard && 
         	    (context != null) && 
-        	    (context.totalCardsBoughtThisTurn == 0) && 
+        	    (context.totalCardsBoughtThisTurn == 0) &&
+        	    (game.possessedBoughtPile.isEmpty()) &&
         	    (!context.game.isPileEmpty(Cards.madman)) && 
-        	    hermit_trashForMadman(context))
+        	    controlPlayer.hermit_trashForMadman(context))
 		    {
 		    	trash(card, card, context);
 		    	this.gainNewCard(Cards.madman, card, context);
@@ -746,7 +750,7 @@ public abstract class Player {
         	}
         	
         	for (Card c : marketSquaresInHand) {
-        		if (marketSquare_shouldDiscard(context)) {
+        		if (controlPlayer.marketSquare_shouldDiscard(context)) {
             		hand.remove(c);
             		discard(c, card, context);
             		gainNewCard(Cards.gold, c, context);
@@ -772,6 +776,20 @@ public abstract class Player {
     public abstract HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context);
 
 	public abstract Card catacombs_cardToObtain(MoveContext context);
+
+    public void namedCard(Card card, Card responsible, MoveContext context) {
+        GameEvent event = new GameEvent(GameEvent.Type.CardNamed, context);
+        event.card = card;
+        event.responsible = responsible;
+        context.game.broadcastEvent(event);
+    }
+
+    public void revealFromHand(Card card, Card responsible, MoveContext context) {
+        GameEvent event = new GameEvent(GameEvent.Type.CardRevealedFromHand, context);
+        event.card = card;
+        event.responsible = responsible;
+        context.game.broadcastEvent(event);
+    }
 
     public void reveal(Card card, Card responsible, MoveContext context) {
         GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
@@ -1221,10 +1239,6 @@ public abstract class Player {
 	public abstract boolean revealBane(MoveContext context);
 
 	public abstract PutBackOption selectPutBackOption(MoveContext context, List<PutBackOption> options);
-
-    public int getMyCardCount(Card card) {
-        return Util.getCardCount(getAllCards(), card);
-    }
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Dark Ages

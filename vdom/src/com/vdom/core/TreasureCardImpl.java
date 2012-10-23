@@ -151,7 +151,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
 
     protected boolean contraband(MoveContext context, Game game, boolean reevaluateTreasures) {
         context.buys++;
-        Card cantBuyCard = game.getNextPlayer().contraband_cardPlayerCantBuy(context);
+        Card cantBuyCard = game.getNextPlayer().controlPlayer.contraband_cardPlayerCantBuy(context);
 
         if (cantBuyCard != null && !context.cantBuy.contains(cantBuyCard)) {
             context.cantBuy.add(cantBuyCard);
@@ -185,7 +185,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
 
         if (treasureCardFound != null) {
             if (equals(Cards.loan)) {
-                if (player.loan_shouldTrashTreasure(context, treasureCardFound)) {
+                if (player.controlPlayer.loan_shouldTrashTreasure(context, treasureCardFound)) {
                     player.trash(treasureCardFound, this, context);
                 } else {
                     player.discard(treasureCardFound, this, null);
@@ -253,7 +253,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     protected boolean counterfeit(MoveContext context, Game game, boolean reevaluateTreasures, Player currentPlayer) {
         context.buys++;
         
-    	TreasureCard treasure = currentPlayer.counterfeit_cardToPlay(context);
+    	TreasureCard treasure = currentPlayer.controlPlayer.counterfeit_cardToPlay(context);
     	if (treasure != null) {
     		TreasureCardImpl card = (TreasureCardImpl) treasure;
 

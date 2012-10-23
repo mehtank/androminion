@@ -1873,7 +1873,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card card = currentPlayer.hand.get(i);
             cardNames.add(card.getName());
-            currentPlayer.reveal(card, this, context);
+            currentPlayer.revealFromHand(card, this, context);
         }
 
         ArrayList<Card> toDiscard = new ArrayList<Card>();
@@ -2856,6 +2856,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	
 			if (options.size() > 0) {
 				Card card = currentPlayer.controlPlayer.wishingWell_cardGuess(context, options);
+				currentPlayer.controlPlayer.namedCard(card, this, context);
 		        Card draw = game.draw(currentPlayer);
 		        if (card != null && draw != null) {
 		            currentPlayer.reveal(draw, this, context);
@@ -4083,7 +4084,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    for (int i = 0; i < currentPlayer.hand.size(); i++) {
 	        Card card = currentPlayer.hand.get(i);
 	        cardNames.add(card.getName());
-	        currentPlayer.reveal(card, this, context);
+	        //currentPlayer.reveal(card, this, context);
 	    }
 
 	    ArrayList<Card> toDiscard = new ArrayList<Card>();
@@ -4308,7 +4309,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	}
 	private void deathCart(Player currentPlayer, MoveContext context)
 	{
-		Card actionCardToTrash = currentPlayer.deathCart_actionToTrash(context);
+		Card actionCardToTrash = currentPlayer.controlPlayer.deathCart_actionToTrash(context);
 		if (actionCardToTrash != null)
 		{
 			currentPlayer.hand.remove(actionCardToTrash);
@@ -4444,7 +4445,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			}
 	
 			if (options.size() > 0) {
-				Card toName = currentPlayer.mystic_cardGuess(context, options);
+				Card toName = currentPlayer.controlPlayer.mystic_cardGuess(context, options);
+				currentPlayer.controlPlayer.namedCard(toName, this, context);
 				Card draw   = game.draw(currentPlayer);
 			    
 			    if (toName != null && draw != null) {
@@ -4554,6 +4556,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	}
 	private void rebuild(Player currentPlayer, MoveContext context) {
 		Card named = currentPlayer.controlPlayer.rebuild_cardToPick(context);
+		currentPlayer.controlPlayer.namedCard(named, this, context);
 		ArrayList<Card> cards = new ArrayList<Card>();
 		Card last = null;
 
@@ -4590,7 +4593,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		}
 
 		if (options.size() > 0) { // gain a card
-			Card toGain = currentPlayer.rogue_cardToGain(context);
+			Card toGain = currentPlayer.controlPlayer.rogue_cardToGain(context);
 			if (toGain == null) {
 				Util.playerError(currentPlayer, "Rogue error, no card to gain selected, picking random");
 				toGain = Util.randomCard(options);
@@ -4633,7 +4636,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	                        cardToTrash = canTrash.get(0);
 	                        targetPlayer.discard(canTrash.remove(1), this, targetContext);
 	                    } else {
-	                        cardToTrash = targetPlayer.rogue_cardToTrash(context, canTrash);
+	                        cardToTrash = targetPlayer.controlPlayer.rogue_cardToTrash(context, canTrash);
 	                    }
 
 	                    for (Card card : canTrash) {
@@ -4672,7 +4675,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     targetPlayer.reveal(card, this, targetContext);
                 }
 
-                Card cardToDiscard = currentPlayer.pillage_opponentCardToDiscard(targetContext, cardsInHand);
+                Card cardToDiscard = currentPlayer.controlPlayer.pillage_opponentCardToDiscard(targetContext, cardsInHand);
 
                 if (cardToDiscard != null)
                 {
@@ -5183,7 +5186,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			if (!(c instanceof TreasureCard)) {
 				options.add(c);
 				++nonTreasureCountInDiscard;	// Keep track of which cards are in the discard pile so that the player 
-												// can tell if they are trashing from discard or deck
+												// can tell if they are trashing from discard or hand
 			}
 		}
 		
@@ -5195,7 +5198,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
 		if (options.size() > 0) {
 			// Offer the option to trash a non-treasure card
-			Card toTrash = currentPlayer.hermit_cardToTrash(context, options, nonTreasureCountInDiscard);
+			Card toTrash = currentPlayer.controlPlayer.hermit_cardToTrash(context, options, nonTreasureCountInDiscard);
 			
 			if (toTrash != null) {
 				if (currentPlayer.discard.contains(toTrash) && currentPlayer.latestHermitTrashFromDiscard) {

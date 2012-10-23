@@ -101,6 +101,7 @@
     <string name="obtained">%1$s gained</string>
     <string name="trashed">%1$s trashed</string>
     <string name="revealed">%1$s revealed</string>
+    <string name="revealed_from_hand">%1$s revealed (from hand)</string>
     <string name="confirmation">Are you sure?</string>
     <string name="confirm_no">No</string>
     <string name="select_button">Select</string>

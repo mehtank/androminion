@@ -74,7 +74,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     	if (this.equals(Cards.farmland)) {
             Player player = context.getPlayer();
         	if(player.getHand().size() > 0) {
-                Card cardToTrash = player.farmland_cardToTrash((MoveContext) context);
+                Card cardToTrash = player.controlPlayer.farmland_cardToTrash((MoveContext) context);
 
                 if (cardToTrash == null) {
                     Util.playerError(player, "Farmland did not return a card to trash, trashing random card.");
@@ -111,7 +111,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
                     }
 
                     if(validCard) {
-                        Card card = player.farmland_cardToObtain((MoveContext) context, cost, potion);
+                        Card card = player.controlPlayer.farmland_cardToObtain((MoveContext) context, cost, potion);
                         if (card != null) {
                             // check cost
                             if (card.getCost(context) != cost || card.costPotion() != potion) {

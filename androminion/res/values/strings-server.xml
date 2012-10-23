@@ -4,6 +4,7 @@
 	<!-- Interaction -->
 	<string name="pass">Pass</string>
 	<string name="card_revealed">%1$s revealed %2$s</string>
+	<string name="card_revealed_from_hand">%1$s revealed (from hand) %2$s</string>
 	<string name="select_treasure">Select a treasure card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
 	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
@@ -47,6 +48,7 @@
 	<string name="select_from_table_exact_action">Select an Action card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_non_vp">Select a non-victory card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_vp">Select a Victory card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_between">Select a card from the table that costs between (%1$s) and (%2$s) to %3$s</string>
 	<string name="select_from_table_min">Select a card from the table that costs at least (%1$s) to %2$s</string>
 	
@@ -109,6 +111,7 @@
 	<string name="CardObtained">Gained</string>
 	<string name="CardTrashed">Trashed</string>
 	<string name="CardRevealed">Revealed</string>
+	<string name="CardRevealedFromHand">Revealed from hand</string>
 	<string name="CardDiscarded">Discarded</string>
 	<string name="CardAddedToHand">Card added to hand</string>
 	<string name="CardRemovedFromHand">Card removed from hand</string>

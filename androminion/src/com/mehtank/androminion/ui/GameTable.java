@@ -937,6 +937,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	public String cardRevealed(int i, String s) {
         return top.getString(R.string.revealed, showCard(i, s, CardAnimator.ShowCardType.REVEALED));
 	}
+	public String cardRevealedFromHand(int i, String s) {
+        return top.getString(R.string.revealed_from_hand, showCard(i, s, CardAnimator.ShowCardType.REVEALED));
+	}
 	/**
 	 * Notify the user of a card played/revealed/... by a player.
 	 * @param card card index
