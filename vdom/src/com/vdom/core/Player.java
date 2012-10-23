@@ -646,17 +646,15 @@ public abstract class Player {
             }
         }
         
-        if (card.equals(Cards.hermit))
-    	{        	
+        if (card.equals(Cards.hermit)) {        	
         	if (!commandedDiscard && 
         	    (context != null) && 
         	    (context.totalCardsBoughtThisTurn == 0) &&
-        	    (game.possessedBoughtPile.isEmpty()) &&
         	    (!context.game.isPileEmpty(Cards.madman)) && 
         	    controlPlayer.hermit_trashForMadman(context))
 		    {
 		    	trash(card, card, context);
-		    	this.gainNewCard(Cards.madman, card, context);
+		    	controlPlayer.gainNewCard(Cards.madman, card, context);
 		    }
     		else
     	    {
