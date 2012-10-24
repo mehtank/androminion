@@ -18,6 +18,7 @@ import com.vdom.core.CardList;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
+import com.vdom.core.MoveContext.PileSelection;
 import com.vdom.core.Player;
 import com.vdom.core.QuickPlayPlayer;
 /**
@@ -2657,6 +2658,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	    }
 		
 		String choice = selectString(context, getTrashString(Cards.hermit), h.keySet().toArray(new String[0])); 
+		
+		if (choice.contains("discard pile")) {
+			context.hermitTrashCardPile = PileSelection.DISCARD;
+		} else if (choice.contains("hand")) {
+			context.hermitTrashCardPile = PileSelection.HAND;
+		} 
+		
 		return h.get(choice);
 	}
 	
