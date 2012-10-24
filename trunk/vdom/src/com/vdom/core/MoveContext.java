@@ -37,6 +37,9 @@ public class MoveContext {
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public int beggarSilverIsOnTop = 0;
 
+    public enum PileSelection {DISCARD,HAND,DECK,ANY};
+    public PileSelection hermitTrashCardPile = PileSelection.ANY;
+
     // For checking Achievements
     public int vpsGainedThisTurn = 0;
     public int cardsTrashedThisTurn = 0;

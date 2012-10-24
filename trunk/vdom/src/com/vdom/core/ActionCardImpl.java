@@ -14,6 +14,7 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.core.MoveContext.PileSelection;
 import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.SpiceMerchantOption;
 import com.vdom.core.Player.TournamentOption;
@@ -5181,7 +5182,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	{
 		ArrayList<Card> options = new ArrayList<Card>();
 		int nonTreasureCountInDiscard = 0;
-		boolean latestHermitTrashFromDiscard = false;
 		
 		for (Card c : currentPlayer.discard) {
 			if (!(c instanceof TreasureCard)) {
@@ -5199,14 +5199,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
 		if (options.size() > 0) {
 			// Offer the option to trash a non-treasure card
+			context.hermitTrashCardPile = PileSelection.ANY; 
 			Card toTrash = currentPlayer.controlPlayer.hermit_cardToTrash(context, options, nonTreasureCountInDiscard);
-			latestHermitTrashFromDiscard = (options.indexOf(toTrash) < nonTreasureCountInDiscard);
 			
 			if (toTrash != null) {
-				if (currentPlayer.discard.contains(toTrash) && latestHermitTrashFromDiscard) {
+				if (currentPlayer.discard.contains(toTrash) && (context.hermitTrashCardPile == PileSelection.ANY || context.hermitTrashCardPile == PileSelection.DISCARD)) {
 					currentPlayer.discard.remove(toTrash);
 					currentPlayer.trash(toTrash, this, context);
-				} else if (currentPlayer.hand.contains(toTrash) && !latestHermitTrashFromDiscard) {
+				} else if (currentPlayer.hand.contains(toTrash) && (context.hermitTrashCardPile == PileSelection.ANY || context.hermitTrashCardPile == PileSelection.HAND)) {
 					currentPlayer.hand.remove(toTrash);
 					currentPlayer.trash(toTrash, this, context);
 				} else {
@@ -5216,10 +5216,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		}
 		
 		// Gain a card costing up to 3 coins
-        Card c = context.player.controlPlayer.hermit_cardToGain(context);
+        Card c = currentPlayer.controlPlayer.hermit_cardToGain(context);
         
     	if (c != null) {
-    		context.player.controlPlayer.gainNewCard(c, this, context);
+    		currentPlayer.controlPlayer.gainNewCard(c, this, context);
     	}
 	}
 	
