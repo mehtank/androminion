@@ -42,7 +42,6 @@ public abstract class Player {
     protected CardList island;
     protected CardList haven;
     protected CardList horseTraders;
-    protected boolean latestHermitTrashFromDiscard;
     public Game game;
     public Player controlPlayer = this;
 
@@ -650,7 +649,6 @@ public abstract class Player {
         	if (!commandedDiscard && 
         	    (context != null) && 
         	    (context.totalCardsBoughtThisTurn == 0) &&
-        	    (!context.game.isPileEmpty(Cards.madman)) && 
         	    controlPlayer.hermit_trashForMadman(context))
 		    {
 		    	trash(card, card, context);
