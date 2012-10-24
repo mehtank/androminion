@@ -247,14 +247,6 @@ public abstract class Player {
 
     protected void cleanup(MoveContext context) {
         // /////////////////////////////////
-        // Discard hand
-        // /////////////////////////////////
-
-        while (getHand().size() > 0) {
-            discard(hand.remove(0, false), null, null, false);
-        }
-
-        // /////////////////////////////////
         // Discard played cards
         // /////////////////////////////////
         
@@ -378,7 +370,16 @@ public abstract class Player {
                 controlPlayer.gainCardAlreadyInPlay(game.possessedBoughtPile.remove(0), Cards.possession, controlContext);
             }
         }
+
         // /////////////////////////////////
+        // Discard hand
+        // /////////////////////////////////
+
+        while (getHand().size() > 0) {
+            discard(hand.remove(0, false), null, null, false);
+        }
+
+// /////////////////////////////////
         // Double check that deck/discard/hand all have valid cards.
         // /////////////////////////////////
         checkCardsValid();
