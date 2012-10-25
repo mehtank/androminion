@@ -82,7 +82,29 @@
 	<string name="BlueHarvest_gametype">Schmalhans (Hntr, Ernte)</string> 
 	<string name="TravelingCircus_gametype">Wanderzirkus (Hntr, Ernte)</string>
 	
-	<string name="PlayingChessWithDeath_gametype">Spiel mit dem Teufel (DA)</string>	
-	  
+	<string name="RandomDarkAges_gametype">Zufälliges Dark Ages</string>
+	<string name="PlayingChessWithDeath_gametype">Spiel mit dem Teufel (DA)</string>
+    
+    <string name="HighAndLow_gametype">Auf und Ab (DA, Base)</string>
+    <string name="ChivalryAndRevelry_gametype">Ritterspiele (DA, Base)</string>
+    
+    <string name="Prophecy_gametype">Prophezeiung (DA, Intr)</string>
+    <string name="Invasion_gametype">Invasion (DA, Intr)</string>
+    
+    <string name="WateryGraves_gametype">Nasses Grab (DA, Sea)</string>
+    <string name="Peasants_gametype">Einfaches Volk (DA, Sea)</string>
+    
+    <string name="Infestations_gametype">Seuchenherd (DA, Alch)</string>
+    <string name="Lamentations_gametype">Klagelied (DA, Alch)</string>
+    
+    <string name="OneMansTrash_gametype">Des einen Müll (DA, Blüte)</string>
+    <string name="HonorAmongThieves_gametype">Ehere unter Dieben (DA, Blüte)</string>
+    
+   <!--<string name="DarkCarnival_gametype">Dunkler Karneval (DA, Ernte)</string> -->
+    <string name="ToTheVictor_gametype">Auf den Sieger (DA, Ernte)</string>
+        
+   <string name="FarFromHome_gametype">Fern von Zuhause (DA, Hntr)</string>
+   <string name="Expeditions_gametype">Expeditionen (DA, Hntr)</string>
+            
 	<string name="Random_gametype">Zufällig (alle Karten)</string>  
 </resources>
