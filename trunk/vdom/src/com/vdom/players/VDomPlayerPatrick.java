@@ -977,22 +977,46 @@ public class VDomPlayerPatrick extends BasePlayer {
 		ArrayList<Card> ret = new ArrayList<Card>(); 
 		Card card = null;
 		
-		while (temphand.size() > 0) {
+		while (ret.size() < 2) {
 			card = this.getCardToDiscard(temphand, DiscardOption.SemiDestructive);
+			if (card == null) {
+				break;
+			} 
 			temphand.remove(card);
-			if (card != null) {
-				ret.add(card);
-			}
+			ret.add(card);
 		}
 		
-		if (getMyAddActions() == 0) {
-			for (Card acard : temphand) {
-				if (acard instanceof ActionCard) {
-					ret.add(acard);
+		while (ret.size() < 2) {
+			if (getMyAddActions() == 0) {
+				for (Card acard : temphand) {
+					if (acard instanceof ActionCard) {
+						ret.add(acard);
+					}
 				}
 			}
 		}
 		
+		while (ret.size() < 2) {
+			for (Card vCard : temphand) {
+				if (vCard instanceof VictoryCard) {
+					ret.add(vCard);
+				}
+			}
+		}
+		
+		while (ret.size() < 2) {
+			for (Card tCard : temphand) {
+				if (!(tCard instanceof TreasureCard)) {
+					ret.add(tCard);
+				}
+			}
+		}
+		
+		while (ret.size() < 2) {
+			for (Card tCard : temphand) {
+				ret.add(tCard);
+			}
+		}
         this.log("vault: chosen " + ret);
         
         if (ret.size() > 0) {
@@ -1263,7 +1287,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 							vp += Math.floor(Util.getCardCount(this.getAllCards(), Cards.silver) / 3);
 						}
 						if (game.embargos.containsKey(vc.getName())) {
-							vp -= (game.embargos.get(vc) + this.guessReshufflesToEnd(context));
+							vp -= (game.embargos.get(vc.getName()) + this.guessReshufflesToEnd(context));
 						}
 						
 						// don't end the game if losing and the last card will not secure a win

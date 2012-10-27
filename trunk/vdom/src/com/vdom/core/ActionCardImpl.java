@@ -4819,10 +4819,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
 	@Override
 	public void isTrashed(MoveContext context) {
-		super.isTrashed(context);
 		switch (this.getType()) {
 		case Rats:
-			context.game.drawToHand(context.player, this, false);
+			context.game.drawToHand(context.player, this, true);
 			break;
 		case Squire:
 			// Need to ensure that there is at least one Attack card that can be gained,

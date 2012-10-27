@@ -349,7 +349,7 @@
     <string name="PoorHouse_name">Poor House</string>
     <string name="PoorHouse_desc">Reveal your hand. -1 coin per treasure card in your hand, to a minimum of 0 coins.</string>
     <string name="Rats_name">Rats</string>
-    <string name="Rats_desc">Gain a Rats. Trash a card from your hand other than a Rats (or reveal a hand of all Rats).</string>
+    <string name="Rats_desc">Gain a Rats. Trash a card from your hand other than a Rats (or reveal a hand of all Rats). When you trash this, +1 Card.</string>
     <string name="Sage_name">Sage</string>
     <string name="Sage_desc">Reveal cards from the top of your deck until you reveal one costing 3 coins or more. Put that card into your hand and discard the rest.</string>
     <string name="Squire_name">Squire</string>

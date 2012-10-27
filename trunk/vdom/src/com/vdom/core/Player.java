@@ -666,12 +666,12 @@ public abstract class Player {
 	    }
 
         // XXX making game slow; is this necessary?  For that matter, are discarded cards public?
-//        if(context != null) {
-//            GameEvent event = new GameEvent(GameEvent.Type.CardDiscarded, context);
-//            event.card = card;
-//            event.responsible = responsible;
-//            context.game.broadcastEvent(event);
-//        }
+        if(context != null && commandedDiscard) {
+            GameEvent event = new GameEvent(GameEvent.Type.CardDiscarded, context);
+            event.card = card;
+            event.responsible = responsible;
+            context.game.broadcastEvent(event);
+        }
     }
 
     public boolean gainNewCard(Card cardToGain, Card responsible, MoveContext context) {
@@ -736,6 +736,14 @@ public abstract class Player {
             context.cardsTrashedThisTurn++;
         }
 
+        GameEvent event = new GameEvent(GameEvent.Type.CardTrashed, context);
+        event.card = card;
+        event.responsible = responsible;
+        context.game.broadcastEvent(event);
+
+        // Execute special card logic when the trashing occurs
+        card.isTrashed(context);
+
         // Market Square trashing reaction
         if (Util.getCardCount(hand, Cards.marketSquare) > 0) {
         	ArrayList<Card> marketSquaresInHand = new ArrayList<Card>();
@@ -761,13 +769,6 @@ public abstract class Player {
             context.game.trashPile.add(card);
         }
 
-        // Execute special card logic when the trashing occurs
-        card.isTrashed(context);
-
-        GameEvent event = new GameEvent(GameEvent.Type.CardTrashed, context);
-        event.card = card;
-        event.responsible = responsible;
-        context.game.broadcastEvent(event);
     }
 
     public abstract HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context);
