@@ -2519,40 +2519,44 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void tradingPost(MoveContext context, Player currentPlayer) {
-        if (currentPlayer.getHand().size() < 2) {
+        if (currentPlayer.getHand().size() == 0) {
             return;
         }
+        ArrayList<Card> handCopy = Util.copy(currentPlayer.getHand());
         Card[] cardsToTrash = currentPlayer.controlPlayer.tradingPost_cardsToTrash(context);
-        // TODO is trash forced? Should we not allow null here?
-        if (cardsToTrash != null) {
-            boolean bad = false;
-            if (cardsToTrash.length != 2) {
-                bad = true;
-            } else {
-                // TODO Check for null in individual elements of other arrays returned by players as
-                // well...
-                if (cardsToTrash[0] == null || cardsToTrash[1] == null) {
+        // Trash forced, pick cards randomly if not selected
+        boolean bad = false;
+        if (cardsToTrash == null) {
+            bad = true;
+        } else if (handCopy.size() < 2 && cardsToTrash.length != handCopy.size()) {
+            bad = true;
+        } else if (cardsToTrash.length != 2) {
+            bad = true;
+        } else {
+            ArrayList<Card> copyForTrash = Util.copy(currentPlayer.getHand());
+            for (Card cardToKeep : cardsToTrash) {
+                if (!copyForTrash.remove(cardToKeep)) {
                     bad = true;
-                } else {
-                    ArrayList<Card> handCopy = Util.copy(currentPlayer.hand);
-
-                    if (!handCopy.remove(cardsToTrash[0]) || !handCopy.remove(cardsToTrash[1])) {
-                        bad = true;
-                    } else {
-                        for (int i = 0; i < 2; i++) {
-                            currentPlayer.hand.remove(cardsToTrash[i]);
-                            currentPlayer.trash(cardsToTrash[i], this, context);
-                        }
-                        currentPlayer.gainNewCard(Cards.silver, this, context);
-                    }
+                    break;
                 }
             }
+        }
 
-            // TODO is trash forced? should we just discard the first two cards in hand?
-            if (bad) {
-                Util.playerError(currentPlayer, "Trading Post error, ignoring.");
+        if (bad) {
+            if (handCopy.size() >= 2) {
+                Util.playerError(currentPlayer, "TradingPost trash error, just trashing the first 2.");
+            }
+            cardsToTrash = new Card[Math.min(2, handCopy.size())];
+            for (int i = 0; i < cardsToTrash.length; i++) {
+                cardsToTrash[i] = handCopy.get(i);
             }
         }
+
+        for (int i = 0; i < 2; i++) {
+            currentPlayer.hand.remove(cardsToTrash[i]);
+            currentPlayer.trash(cardsToTrash[i], this, context);
+        }
+        currentPlayer.gainNewCard(Cards.silver, this, context);
     }
 
     private void masquerade(Game game, MoveContext context, Player currentPlayer) {

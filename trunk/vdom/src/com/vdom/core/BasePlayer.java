@@ -754,10 +754,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         return Player.NoblesOption.AddCards;    }
 
-    // Either return two cards, or null if you do not want to trash any cards.
+    // Must return two cards if possible.
     @Override
     public Card[] tradingPost_cardsToTrash(MoveContext context) {
-        return null;
+    	return lowestCards(context, context.getPlayer().getHand(), 2, true);
     }
 
     @Override
