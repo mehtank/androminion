@@ -4543,22 +4543,33 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
 
-    //TODO doesn't allow ordering of cards at this time
     private void wanderingMinstrel(Player currentPlayer, MoveContext context) {
-    	ArrayList<Card> revealed = new ArrayList<Card>();
-    	revealed.add(context.game.draw(currentPlayer));
-    	revealed.add(context.game.draw(currentPlayer));
-    	revealed.add(context.game.draw(currentPlayer));
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (int i = 0; i < 3; i++) {
+            Card card = context.game.draw(currentPlayer);
+            if (card == null) {
+                break;
+            }
+            if (!(card instanceof ActionCard) ) {
+	            currentPlayer.discard(card, this, context);
+            } else {
+	            currentPlayer.reveal(card, this, context);
+                cards.add(card);
+            }
+        }
 
-    	for (Card c : revealed) {
-    		currentPlayer.reveal(c, this, context);
-    		if (c instanceof ActionCard) {
-    			currentPlayer.putOnTopOfDeck(c);
-    		} else {
-    			currentPlayer.discard(c, this, context);
-    		}
-    	}
+        if (cards.size() == 0) {
+            return;
+        }
+
+        Card[] orderedCards = currentPlayer.controlPlayer.topOfDeck_orderCards(context, cards.toArray(new Card[0]));
+
+        for (int i = orderedCards.length - 1; i >= 0; i--) {
+            currentPlayer.putOnTopOfDeck(orderedCards[i], context, true);
+        }
+        
 	}
+    
 	private void rebuild(Player currentPlayer, MoveContext context) {
 		Card named = currentPlayer.controlPlayer.rebuild_cardToPick(context);
 		currentPlayer.controlPlayer.namedCard(named, this, context);
