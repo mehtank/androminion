@@ -2624,6 +2624,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getAnyFromHand(context, getTrashString(Cards.mercenary), getString(R.string.none), 2, true, SelectCardOptions.PickType.TRASH);
 	}
 	
+    @Override
+    public Card[] mercenary_attack_cardsToKeep(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_militia_attack_cardsToKeep(context)) {
+            return super.mercenary_attack_cardsToKeep(context);
+        }
+        return getAnyFromHand(context, getString(R.string.militia_part), NOTPASSABLE, 3, true, SelectCardOptions.PickType.KEEP);
+    }
+
 	@Override
 	public boolean madman_shouldReturnToPile(MoveContext context)
 	{

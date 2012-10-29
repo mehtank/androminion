@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -629,10 +630,52 @@ public abstract class Player {
         deck.checkValid();
     }
 
+//	protected void discardRemainingCardsFromHand(MoveContext context, Card[] cardsToKeep) {
+//		discardRemainingCardsFromHand(context, cardsToKeep, null, -1);
+//	}
+	protected void discardRemainingCardsFromHand(MoveContext context, Card[] cardsToKeep, Card responsibleCard, int keepCardCount) {
+		ArrayList<Card> keepCards = new ArrayList<Card>(Arrays.asList(cardsToKeep));
+
+		if (keepCardCount > 0) {
+	        boolean bad = false;
+	        if (cardsToKeep == null || cardsToKeep.length != keepCardCount) {
+	            bad = true;
+	        } else {
+	            ArrayList<Card> handCopy = Util.copy(hand);
+	            for (Card cardToKeep : cardsToKeep) {
+	                if (!handCopy.remove(cardToKeep)) {
+	                    bad = true;
+	                    break;
+	                }
+	            }
+	        }
+	
+	        if (bad) {
+	            Util.playerError(this, responsibleCard.getName() + " discard error, just keeping first " + keepCardCount);
+	            cardsToKeep = new Card[keepCardCount];
+	            for (int i = 0; i < keepCardCount; i++) {
+	            	cardsToKeep[i] = hand.get(i);
+				}
+	        }
+	
+			
+		}
+		
+        // Discard remaining cards
+		for (int i = hand.size(); i > 0; ) {
+			Card card = hand.get(--i);
+			if (keepCards.contains(card)) {
+		        keepCards.remove(card);
+			} else {
+		        hand.remove(i, false);
+		        discard(card, responsibleCard, context);
+			}
+		}
+	}
+	
     public void discard(Card card, Card responsible, MoveContext context) {
         discard(card, responsible, context, true);
     }
-
 
     // TODO make similar way to put cards back on the deck (remove as well?)
     public void discard(Card card, Card responsible, MoveContext context, boolean commandedDiscard) { // See rules explanation of Tunnel for what commandedDiscard means.
@@ -670,6 +713,7 @@ public abstract class Player {
             GameEvent event = new GameEvent(GameEvent.Type.CardDiscarded, context);
             event.card = card;
             event.responsible = responsible;
+            event.setPlayer(this);
             context.game.broadcastEvent(event);
         }
     }
@@ -1316,7 +1360,8 @@ public abstract class Player {
 	public abstract boolean urchin_shouldTrashForMercenary(MoveContext context);
 	
 	public abstract Card[] mercenary_cardsToTrash(MoveContext context);
-	
+    public abstract Card[] mercenary_attack_cardsToKeep(MoveContext context);
+
 	public abstract boolean madman_shouldReturnToPile(MoveContext context);
 	
 	public abstract Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard);

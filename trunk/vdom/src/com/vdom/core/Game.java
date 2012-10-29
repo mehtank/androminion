@@ -170,10 +170,6 @@ public class Game {
 
                 if (test) {
                     for (int i = 0; i < 5; i++) {
-                        gameType = GameType.Random;
-                        new Game().start();
-                    }
-                    for (int i = 0; i < 5; i++) {
                         gameType = GameType.RandomBaseGame;
                         new Game().start();
                     }
@@ -185,8 +181,12 @@ public class Game {
                         gameType = GameType.RandomSeaside;
                         new Game().start();
                     }
-                    for (int i = 0; i < 20; i++) {
+                    for (int i = 0; i < 5; i++) {
                         gameType = GameType.RandomDarkAges;
+                        new Game().start();
+                    }
+                    for (int i = 0; i < 5; i++) {
+                        gameType = GameType.Random;
                         new Game().start();
                     }
                 }

@@ -385,7 +385,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 	}
 	
-	private int debug = 1;
+	private boolean debug = Game.debug;
 	private StrategyOption strategy = StrategyOption.Nothing;
 	private ActionCard strategyCard = null;
 	private ArrayList<ActionCard> strategyPossibleCards = new ArrayList<ActionCard>();
@@ -397,7 +397,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	 * @param s	text to log via System.out (if debug enabled)
 	 */
 	private void log(String s) {
-		if (debug > 0) {
+		if (debug) {
 			System.out.println("<AI> " + s);
 		}
 	}
@@ -1320,7 +1320,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 							tempdeck.add(Cards.copper);
 						}
 						if (game.embargos.containsKey(card.getName())) {
-							for (int i = 0; i < game.embargos.get(card); i++) {
+							for (int i = 0; i < game.embargos.get(card.getName()); i++) {
 								tempdeck.add(Cards.curse);
 							}
 						}
@@ -1505,7 +1505,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 			scard = Cards.farmland;
 			if (special_cards.contains(scard)) {
-				if (maxVP_card.getVictoryPoints() < 4) {
+				if (maxVP_card != null && maxVP_card.getVictoryPoints() < 4) {
 					if (!(hand.contains(Cards.curse))) {
 						special_cards.remove(scard);
 					}
@@ -2574,7 +2574,6 @@ public class VDomPlayerPatrick extends BasePlayer {
 	public Card tradeRoute_cardToTrash(MoveContext context) {
 	    return this.getCardToTrash(DiscardOption.Destructive);
 	}
-
 
 
 	@Override

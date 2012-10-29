@@ -1261,7 +1261,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         pile = game.getPile(card);
     
         currentPlayer.reveal(card, this, context);
-        Util.log("Ambassador revealed card:" + card.getName());
+        //Util.log("Ambassador revealed card:" + card.getName());
 
         int returnCount = -1;
         if (!pile.isSupply()) {
@@ -2318,47 +2318,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this, context);
 
-                if (player.hand.size() > 3) {
-                    Card[] cardsToKeep = (player).controlPlayer.militia_attack_cardsToKeep(context);
-
-                    boolean bad = false;
-                    if (cardsToKeep == null || cardsToKeep.length != 3) {
-                        bad = true;
-                    } else {
-                        ArrayList<Card> handCopy = Util.copy(player.hand);
-                        for (Card cardToKeep : cardsToKeep) {
-                            if (!handCopy.remove(cardToKeep)) {
-                                bad = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (bad) {
-                        Util.playerError(player, "Militia discard error, just keeping first 3.");
-                        cardsToKeep = new Card[3];
-                        cardsToKeep[0] = player.hand.get(0);
-                        cardsToKeep[1] = player.hand.get(1);
-                        cardsToKeep[2] = player.hand.get(2);
-                    }
-
-                    // Remove cards to keep from the hand temporarily
-                    for (Card card : cardsToKeep) {
-                        player.hand.remove(card);
-                    }
-
-                    // Discard all of the cards left
-                    for (Card card : player.hand) {
-                        player.discard(card, this, context);
-                    }
-
-                    // Clear out the hand
-                    player.hand.clear();
-
-                    // Put the cardsToKeep back
-                    for (Card card : cardsToKeep) {
-                        player.hand.add(card);
-                    }
+                int keepCardCount = 3;
+                if (player.hand.size() > keepCardCount) {
+                    Card[] cardsToKeep = player.controlPlayer.militia_attack_cardsToKeep(context);
+                    player.discardRemainingCardsFromHand(context, cardsToKeep, this, keepCardCount);
                 }
             }
         }
@@ -2530,7 +2493,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             bad = true;
         } else if (handCopy.size() < 2 && cardsToTrash.length != handCopy.size()) {
             bad = true;
-        } else if (cardsToTrash.length != 2) {
+        } else if (handCopy.size() >= 2 && cardsToTrash.length != 2) {
             bad = true;
         } else {
             ArrayList<Card> copyForTrash = Util.copy(currentPlayer.getHand());
@@ -2552,7 +2515,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = cardsToTrash.length - 1; i >= 0 ; i--) {
             currentPlayer.hand.remove(cardsToTrash[i]);
             currentPlayer.trash(cardsToTrash[i], this, context);
         }
@@ -3032,48 +2995,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this, context);
 
-                if (player.hand.size() > 3) {
-                    Card[] cardsToKeep = (player).controlPlayer.goons_attack_cardsToKeep(context);
-
-                    boolean bad = false;
-                    if (cardsToKeep == null || cardsToKeep.length != 3) {
-                        bad = true;
-                    } else {
-                        ArrayList<Card> handCopy = Util.copy(player.hand);
-                        for (Card cardToKeep : cardsToKeep) {
-                            if (!handCopy.remove(cardToKeep)) {
-                                bad = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (bad) {
-                        Util.playerError(player, "Goons discard error, just keeping first 3.");
-                        cardsToKeep = new Card[3];
-                        cardsToKeep[0] = player.hand.get(0);
-                        cardsToKeep[1] = player.hand.get(1);
-                        cardsToKeep[2] = player.hand.get(2);
-                    }
-
-                    // Remove cards to keep from the hand temporarily
-                    for (Card card : cardsToKeep) {
-                        player.hand.remove(card);
-                    }
-
-                    // Discard all of the cards left
-                    for (Card card : player.hand) {
-                        player.discard(card, this, context);
-                    }
-
-                    // Clear out the hand
-                    player.hand.clear();
-
-                    // Put the cardsToKeep back
-                    for (Card card : cardsToKeep) {
-                        player.hand.add(card);
-                    }
+                int keepCardCount = 3;
+                if (player.hand.size() > keepCardCount) {
+                    Card[] cardsToKeep = player.controlPlayer.goons_attack_cardsToKeep(context);
+                    player.discardRemainingCardsFromHand(context, cardsToKeep, this, keepCardCount);
                 }
+
             }
         }
     }
@@ -3133,47 +3060,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 player.attacked(this, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 player.gainNewCard(Cards.curse, this, playerContext);
-                if (player.hand.size() > 3) {
-                    Card[] cardsToKeep = (player).controlPlayer.followers_attack_cardsToKeep(context);
 
-                    boolean bad = false;
-                    if (cardsToKeep == null || cardsToKeep.length != 3) {
-                        bad = true;
-                    } else {
-                        ArrayList<Card> handCopy = Util.copy(player.hand);
-                        for (Card cardToKeep : cardsToKeep) {
-                            if (!handCopy.remove(cardToKeep)) {
-                                bad = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (bad) {
-                        Util.playerError(player, "Followers discard error, just keeping first 3.");
-                        cardsToKeep = new Card[3];
-                        cardsToKeep[0] = player.hand.get(0);
-                        cardsToKeep[1] = player.hand.get(1);
-                        cardsToKeep[2] = player.hand.get(2);
-                    }
-
-                    // Remove cards to keep from the hand temporarily
-                    for (Card card : cardsToKeep) {
-                        player.hand.remove(card);
-                    }
-
-                    // Discard all of the cards left
-                    for (Card card : player.hand) {
-                        player.discard(card, this, context);
-                    }
-
-                    // Clear out the hand
-                    player.hand.clear();
-
-                    // Put the cardsToKeep back
-                    for (Card card : cardsToKeep) {
-                        player.hand.add(card);
-                    }
+                int keepCardCount = 3;
+                if (player.hand.size() > keepCardCount) {
+                    Card[] cardsToKeep = player.controlPlayer.followers_attack_cardsToKeep(context);
+                    player.discardRemainingCardsFromHand(context, cardsToKeep, this, keepCardCount);
                 }
             }
         }
@@ -3212,47 +3103,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 player.attacked(this, context);
                 game.drawToHand(player, this);
 
-                if (player.hand.size() > 3) {
-                    Card[] cardsToKeep = (player).controlPlayer.margrave_attack_cardsToKeep(context);
-
-                    boolean bad = false;
-                    if (cardsToKeep == null || cardsToKeep.length != 3) {
-                        bad = true;
-                    } else {
-                        ArrayList<Card> handCopy = Util.copy(player.hand);
-                        for (Card cardToKeep : cardsToKeep) {
-                            if (!handCopy.remove(cardToKeep)) {
-                                bad = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (bad) {
-                        Util.playerError(player, "Margrave discard error, just keeping first 3.");
-                        cardsToKeep = new Card[3];
-                        cardsToKeep[0] = player.hand.get(0);
-                        cardsToKeep[1] = player.hand.get(1);
-                        cardsToKeep[2] = player.hand.get(2);
-                    }
-
-                    // Remove cards to keep from the hand temporarily
-                    for (Card card : cardsToKeep) {
-                        player.hand.remove(card);
-                    }
-
-                    // Discard all of the cards left
-                    for (Card card : player.hand) {
-                        player.discard(card, this, context);
-                    }
-
-                    // Clear out the hand
-                    player.hand.clear();
-
-                    // Put the cardsToKeep back
-                    for (Card card : cardsToKeep) {
-                        player.hand.add(card);
-                    }
+                int keepCardCount = 3;
+                if (player.hand.size() > keepCardCount) {
+                    Card[] cardsToKeep = player.controlPlayer.margrave_attack_cardsToKeep(context);
+                    player.discardRemainingCardsFromHand(context, cardsToKeep, this, keepCardCount);
                 }
             }
         }
@@ -5048,63 +4902,31 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 	}
 
-	private void urchin(MoveContext context, Game game, Player currentPlayer) 
-	{		
-        for (Player player : game.getPlayersInTurnOrder()) 
-        {
-            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) 
-            {
+	private void urchin(MoveContext context, Game game, Player currentPlayer) 	{		
+        for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
                 player.attacked(this, context);
-                
-                if (player.hand.size() > 4)
-                {
-                	Card[] cardsToKeep = player.controlPlayer.urchin_attack_cardsToKeep(context);
-                	
-                	// Remove cards to keep from the hand temporarily
-                    for (Card card : cardsToKeep) 
-                    {
-                        player.hand.remove(card);
-                    }
 
-                    // Discard all of the cards left
-                    for (Card card : player.hand) 
-                    {
-                        player.discard(card, this, context);
-                    }
-
-                    // Clear out the hand
-                    player.hand.clear();
-
-                    // Put the cardsToKeep back
-                    for (Card card : cardsToKeep) 
-                    {
-                        player.hand.add(card);
-                    }
+                int keepCardCount = 4;
+                if (player.hand.size() > keepCardCount) {
+                    Card[] cardsToKeep = player.controlPlayer.urchin_attack_cardsToKeep(context);
+                    player.discardRemainingCardsFromHand(context, cardsToKeep, this, keepCardCount);
                 }
             }
         }
 	}
-	
-	private void attackPlayed(MoveContext context, Game game, Player currentPlayer)
-	{
-		// TODO: Need to support multiple Urchins being trashed...
-		Card trashedUrchin = null;
-		
+
+	private void attackPlayed(MoveContext context, Game game, Player currentPlayer)	{
 		// If an Urchin has been played, offer the player the option to trash it for a Mercenary
-		for (Card c : currentPlayer.playedCards)
-		{
-			if (c.getType() == Cards.Type.Urchin && c != this && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context))
-			{
-				trashedUrchin = c;
-				currentPlayer.trash(c, this, context);
-				currentPlayer.gainNewCard(Cards.mercenary, this, context);
-				break;
+		if (Util.getCardCount(currentPlayer.playedCards, Cards.urchin) > 0) {
+			for (int i = currentPlayer.playedCards.size() - 1; i > 0 ; ) {
+				Card c = currentPlayer.playedCards.get(--i);
+				if (c.getType() == Cards.Type.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context)) {
+					currentPlayer.trash(c, this, context);
+					currentPlayer.gainNewCard(Cards.mercenary, this, context);
+					currentPlayer.playedCards.remove(i);
+				}
 			}
-		}
-		
-		if (trashedUrchin != null)
-		{
-			currentPlayer.playedCards.remove(trashedUrchin);
 		}
 	}
 	
@@ -5140,37 +4962,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	
         	context.addGold += 2;
         	
-        	for (Player player : game.getPlayersInTurnOrder()) 
-            {
-                if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) 
-                {
+            for (Player player : game.getPlayersInTurnOrder()) {
+                if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                     player.attacked(this, context);
-                    
-                    if (player.hand.size() > 3)
-                    {
-                    	// Reusing Militia logic for now...
-                    	Card[] cardsToKeep = player.controlPlayer.militia_attack_cardsToKeep(context);
-                    	
-                    	// Remove cards to keep from the hand temporarily
-                        for (Card card : cardsToKeep) 
-                        {
-                            player.hand.remove(card);
-                        }
 
-                        // Discard all of the cards left
-                        for (Card card : player.hand) 
-                        {
-                            player.discard(card, this, context);
-                        }
-
-                        // Clear out the hand
-                        player.hand.clear();
-
-                        // Put the cardsToKeep back
-                        for (Card card : cardsToKeep) 
-                        {
-                            player.hand.add(card);
-                        }
+                    int keepCardCount = 3;
+                    if (player.hand.size() > keepCardCount) {
+                        Card[] cardsToKeep = player.controlPlayer.mercenary_attack_cardsToKeep(context);
+                        player.discardRemainingCardsFromHand(context, cardsToKeep, this, keepCardCount);
                     }
                 }
             }
@@ -5255,14 +5054,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	private void vagrant(MoveContext context, Game game, Player currentPlayer)
 	{
 		Card c = game.draw(currentPlayer);
-		
-		currentPlayer.reveal(c, this, context);
-		
-		if (c.getType() == Cards.Type.Curse || c.isShelter() || (c instanceof VictoryCard) || (c.isRuins()))
-		{
-			currentPlayer.hand.add(c);
-		} else {
-			currentPlayer.putOnTopOfDeck(c);
+		if (c != null) {
+			currentPlayer.reveal(c, this, context);
+			if (c.getType() == Cards.Type.Curse || c.isShelter() || (c instanceof VictoryCard) || (c.isRuins())) {
+				currentPlayer.hand.add(c);
+			} else {
+				currentPlayer.putOnTopOfDeck(c);
+			}
 		}
 	}
 	
@@ -5351,47 +5149,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
                 player.attacked(this, context);
 
-                if (player.hand.size() > 3) {
-                    Card[] cardsToKeep = (player).controlPlayer.sirMichael_attack_cardsToKeep(context);
-
-                    boolean bad = false;
-                    if (cardsToKeep == null || cardsToKeep.length != 3) {
-                        bad = true;
-                    } else {
-                        ArrayList<Card> handCopy = Util.copy(player.hand);
-                        for (Card cardToKeep : cardsToKeep) {
-                            if (!handCopy.remove(cardToKeep)) {
-                                bad = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (bad) {
-                        Util.playerError(player, "Sir Michael discard error, just keeping first 3.");
-                        cardsToKeep = new Card[3];
-                        cardsToKeep[0] = player.hand.get(0);
-                        cardsToKeep[1] = player.hand.get(1);
-                        cardsToKeep[2] = player.hand.get(2);
-                    }
-
-                    // Remove cards to keep from the hand temporarily
-                    for (Card card : cardsToKeep) {
-                        player.hand.remove(card);
-                    }
-
-                    // Discard all of the cards left
-                    for (Card card : player.hand) {
-                        player.discard(card, this, context);
-                    }
-
-                    // Clear out the hand
-                    player.hand.clear();
-
-                    // Put the cardsToKeep back
-                    for (Card card : cardsToKeep) {
-                        player.hand.add(card);
-                    }
+                int keepCardCount = 3;
+                if (player.hand.size() > keepCardCount) {
+                    Card[] cardsToKeep = player.controlPlayer.sirMichael_attack_cardsToKeep(context);
+                    player.discardRemainingCardsFromHand(context, cardsToKeep, this, keepCardCount);
                 }
             }
         }
