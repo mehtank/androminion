@@ -117,7 +117,8 @@ public class CardList implements Iterable<Card> {
     	return a;
     }
 
-    public ArrayList<Card> toArrayListClone() {
+    @SuppressWarnings("unchecked")
+	public ArrayList<Card> toArrayListClone() {
     	return (ArrayList<Card>) a.clone();
     }
 

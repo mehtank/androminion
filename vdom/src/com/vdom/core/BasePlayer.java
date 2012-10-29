@@ -2233,7 +2233,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 				cards.add(c);
 			}
 		}
-		return this.getBestVictoryCard(context, cards.toArray(new VictoryCard[0]));
+		return (cards.size() == 0) ? null : this.getBestVictoryCard(context, cards.toArray(new VictoryCard[0]));
 	}
 
 	@Override
@@ -2445,11 +2445,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 	
 	@Override
-	public Card[] mercenary_cardsToTrash(MoveContext context)
-	{
+	public Card[] mercenary_cardsToTrash(MoveContext context) {
 		return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
 	}
 	
+    @Override
+    public Card[] mercenary_attack_cardsToKeep(MoveContext context) {
+        return controlPlayer.militia_attack_cardsToKeep(context);
+    }
+
 	@Override
 	public Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard) 
 	{	
