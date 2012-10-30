@@ -2519,7 +2519,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             currentPlayer.hand.remove(cardsToTrash[i]);
             currentPlayer.trash(cardsToTrash[i], this, context);
         }
-        currentPlayer.gainNewCard(Cards.silver, this, context);
+        if (cardsToTrash.length == 2) {
+            currentPlayer.gainNewCard(Cards.silver, this, context);
+		}
     }
 
     private void masquerade(Game game, MoveContext context, Player currentPlayer) {
