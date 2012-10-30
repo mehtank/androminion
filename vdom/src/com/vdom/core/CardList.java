@@ -142,6 +142,10 @@ public class CardList implements Iterable<Card> {
         return a.lastIndexOf(card);
     }
 
+    public Card getLastCard() {
+        return a.size() == 0 ? null : a.get(a.size()-1);
+    }
+
 	public Card[] sort(Comparator<Card> comp) {
 		Card[] sorted = this.toArray();
 	    Arrays.sort(sorted, comp);

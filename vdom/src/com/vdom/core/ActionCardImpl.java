@@ -21,7 +21,8 @@ import com.vdom.core.Player.TournamentOption;
 import com.vdom.core.Player.TrustySteedOption;
 
 public class ActionCardImpl extends CardImpl implements ActionCard {
-    protected int addActions;
+	// template (immutable)
+	protected int addActions;
     protected int addBuys;
     protected int addCards;
     protected int addGold;
@@ -29,6 +30,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     protected boolean attack;
     protected boolean looter;
     boolean trashForced = false;
+    boolean trashOnUse = false;
 
     public ActionCardImpl(Builder builder) {
         super(builder);
@@ -189,7 +191,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         if (this.numberTimesAlreadyPlayed == 0) {
         	newCard = true;
-            this.trashed = false;
+            this.movedToNextTurnPile = false;
             if (fromHand)
                 currentPlayer.hand.remove(this);
             if (trashOnUse) {
@@ -1507,8 +1509,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     if (cardToPlay instanceof DurationCard && !cardToPlay.equals(Cards.tactician)) {
                         // Need to move throning card to NextTurnCards first
                         // (but does not play)
-                        if (!this.trashed) {
-                            this.trashed = true;
+                        if (!this.movedToNextTurnPile) {
+                            this.movedToNextTurnPile = true;
                             int idx = currentPlayer.playedCards.lastIndexOf(this);
                             int ntidx = currentPlayer.nextTurnCards.size() - 1;
                             if (idx >= 0 && ntidx >= 0) {
@@ -1520,16 +1522,17 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
 
                 if (this.type == Cards.Type.Procession) {
-
-                	if (!cardToPlay.trashOnUse && currentPlayer.playedCards.contains(cardToPlay)) {
+                	if (!cardToPlay.trashOnUse) {
                 		currentPlayer.trash(cardToPlay, this, context);
-                		currentPlayer.playedCards.remove(cardToPlay);
+                		if (currentPlayer.playedCards.getLastCard() == cardToPlay) { 
+                			currentPlayer.playedCards.remove(cardToPlay);
+                		} else if (cardToPlay instanceof DurationCard && currentPlayer.nextTurnCards.getLastCard() == cardToPlay) { 
+                			((CardImpl) cardToPlay).trashAfterPlay = true;
+                		}
                 	}
 
                 	Card cardToGain = currentPlayer.controlPlayer.procession_cardToGain(context, 1 + cardToPlay.getCost(context), cardToPlay.costPotion());
-                	
-                	if ((cardToGain != null) && (cardToPlay.getCost(context) + 1) == cardToGain.getCost(context))
-                	{
+                	if ((cardToGain != null) && (cardToPlay.getCost(context) + 1) == cardToGain.getCost(context)) {
                 		currentPlayer.gainNewCard(cardToGain, this, context);
                 	}
                 }
@@ -2581,10 +2584,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void miningVillage(MoveContext context, Player currentPlayer) {
-        if (!this.trashed) {
+        if (!this.movedToNextTurnPile) {
             if (currentPlayer.controlPlayer.miningVillage_shouldTrashMiningVillage(context)) {
                 context.addGold += 2;
-                this.trashed = true;
+                this.movedToNextTurnPile = true;
                 currentPlayer.trash(this, null, context);
                 currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this));
             }
@@ -4176,11 +4179,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			currentPlayer.hand.remove(actionCardToTrash);
             currentPlayer.trash(actionCardToTrash, this, context);
 		}
-		else if (!this.trashed)
+		else if (!this.movedToNextTurnPile)
 		{
 			currentPlayer.playedCards.remove(this);      
             currentPlayer.trash(this, this, context);
-            this.trashed = true;
+            this.movedToNextTurnPile = true;
 		}
 	}
 

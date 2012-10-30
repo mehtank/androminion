@@ -685,18 +685,21 @@ public class Game {
                     }
 
                 }
-            } else if (!card.equals(Cards.throneRoom) && !card.equals(Cards.kingsCourt)) {
+            } else if (!card.equals(Cards.throneRoom) && !card.equals(Cards.kingsCourt)  && !card.equals(Cards.procession)) {
                 Util.debug(player, "Bad duration card: " + card);
             } else {
                 GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
                 event.card = card;
                 broadcastEvent(event);
             }
-            ((CardImpl) card).cloneCount = 1;
         }
 
         while (!player.nextTurnCards.isEmpty()) {
-        	player.playedCards.add(player.nextTurnCards.remove(0));
+        	Card card = player.nextTurnCards.remove(0);
+            ((CardImpl) card).cloneCount = 1;
+            if (!((CardImpl) card).trashAfterPlay) {
+            	player.playedCards.add(card);
+            }
         }
 
         while (!player.haven.isEmpty()) {
