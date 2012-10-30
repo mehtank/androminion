@@ -3,28 +3,30 @@ package com.vdom.core;
 import com.vdom.api.Card;
 
 public class CardImpl implements Card {
-    Cards.Type type;
+	// Template (immutable)
+	Cards.Type type;
     String name;
+    String safeName;
     int cost;
     boolean costPotion = false;
 
     String description = "";
     String expansion = "";
     protected int vp;
-    boolean trashOnUse = false;
-    boolean trashed = false;
-    int numberTimesAlreadyPlayed = 0;
     boolean isPrize = false;
     boolean isShelter = false;
     boolean isRuins = false;
     boolean isKnight = false;
-    int cloneCount = 1;
 
-    private Integer id;
-
-    static int maxNameLen;
+    static int maxNameLen;	// across all cards
     public boolean templateCard = true;
-    String safeName;
+
+    // Implementation (mutable)
+    private Integer id;
+    boolean movedToNextTurnPile = false;
+    boolean trashAfterPlay = false;
+    int numberTimesAlreadyPlayed = 0;
+    int cloneCount = 1;
 
     protected CardImpl(Cards.Type type, int cost) {
         this.type = type;
@@ -45,7 +47,6 @@ public class CardImpl implements Card {
         isShelter = builder.isShelter;
         isRuins = builder.isRuins;
         isKnight = builder.isKnight;
-        trashOnUse = builder.trashOnUse;
     }
 
     public static class Builder {
@@ -62,7 +63,6 @@ public class CardImpl implements Card {
 	    protected boolean isShelter = false;
 	    protected boolean isRuins = false;
 	    protected boolean isKnight = false;
-        protected boolean trashOnUse = false;
 
 
         public Builder(Cards.Type type, int cost) {
@@ -104,11 +104,6 @@ public class CardImpl implements Card {
         public Builder isRuins() {
         	isRuins = true;
         	return this;
-        }
-
-        public Builder trashOnUse() {
-            trashOnUse = true;
-            return this;
         }
 
         public CardImpl build() {
