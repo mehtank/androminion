@@ -2417,7 +2417,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	    if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
 	        return super.rebuild_cardToPick(context);
 	    }
-	    SelectCardOptions sco = new SelectCardOptions().fromTable().isVictory().setPassable(NOTPASSABLE);
+	    SelectCardOptions sco = new SelectCardOptions().fromTable().isVictory().allowEmpty().setPassable(NOTPASSABLE);
 	    return getFromTable(context, getNameString(Cards.rebuild), sco, false);
 	}
 	
@@ -2681,19 +2681,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	{
 		return getFromTable(context, getGainString(Cards.hermit), 3, 0, false, NOTPASSABLE, false, true);
 	}
-	
-	@Override
-	public boolean hermit_trashForMadman(MoveContext context)
-	{
-		if(context.isQuickPlay() && shouldAutoPlay_hermit_trashForMadman(context)) {
-            return super.hermit_trashForMadman(context);
-        }
-
-        String option1 = getString(R.string.hermit_trash_for_madman);
-        String option2 = getString(R.string.pass);
-
-    	return selectBoolean(context, Cards.hermit.getName(), option1, option2);
-	}
+		
 	@Override
 	public Card[] dameAnna_cardsToTrash(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_chapel_cardsToTrash(context)) {
