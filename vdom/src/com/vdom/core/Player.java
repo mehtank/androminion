@@ -692,8 +692,7 @@ public abstract class Player {
         if (card.equals(Cards.hermit)) {        	
         	if (!commandedDiscard && 
         	    (context != null) && 
-        	    (context.totalCardsBoughtThisTurn == 0) &&
-        	    controlPlayer.hermit_trashForMadman(context))
+        	    (context.totalCardsBoughtThisTurn == 0))
 		    {
 		    	trash(card, card, context);
 		    	controlPlayer.gainNewCard(Cards.madman, card, context);
@@ -1366,7 +1365,6 @@ public abstract class Player {
 	
 	public abstract Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard);
 	public abstract Card hermit_cardToGain(MoveContext context);
-	public abstract boolean hermit_trashForMadman(MoveContext context);
 
 	// ////////////////////////////////////////////
     // Card interactions - Promotional Cards

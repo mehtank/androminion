@@ -2473,12 +2473,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 	
 	@Override
-	public boolean hermit_trashForMadman(MoveContext context)
-	{
-		return  (!context.game.isPileEmpty(Cards.madman));
-	}
-
-	@Override
 	public Card[] dameAnna_cardsToTrash(MoveContext context) {
 		return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
 	}
