@@ -1869,10 +1869,10 @@ public class Game {
 
                     // See rules explanation of Tunnel for what commandedDiscard means.
                     boolean commandedDiscard = true;
-                    if(event.getType() == GameEvent.Type.BuyingCard) {
+                    if(event.getType() == GameEvent.Type.BuyingCard
+                   		|| event.getType() == GameEvent.Type.CardObtained) {
                         commandedDiscard = false;
-                    }
-                    if(event.responsible != null) {
+                    } else if(event.responsible != null) {
                         Card r = event.responsible;
                         if(r.equals(Cards.borderVillage) ||
                            r.equals(Cards.feast) ||
