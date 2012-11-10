@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="help_supply1">Willkommen zu Androminion, der Android Umsetzung des preisgekrönten Strategie Kartenspiels Dominion, von Donald X. Vaccarino erschienen im Verlag Rio Grande Games.</string>
+	<string name="help_supply2">Wenn Du die Spielregeln von Dominion nicht kennst, ist es ratsam, zuerst die offiziellen Regeln zu lesen. Link dazu findest Du auf der WIKI Seite \n http://android.mehtank.com.</string>
+	<string name="help_supply3">Dies ist der Kartenvorrat. Hier siehst du alle in diesem Spiel verfüg- und kaufbaren Karten.
+       \n\nUm Details zu den einzelnen Karten zu sehen, reicht ein ein langes Klicken auf die jeweilige Karte. .</string>
+	<string name="help_supply4">Die Kosten einer Karte wird in dem gelben Kreis angezeigt, die verbleibende Anzahl steht unter dem Kartennamen.
+       \n\nWenn die Karte Embargo im Spiel ist, wird die Anzahl der Embargopunkte auf dem jeweiligen Vorratsstapel in einem schwarzen Kreis rechts oben gezeigt.</string>
+
+	<string name="help_turn1">Ansicht dieser Runde. Hier siehst Du die Aktionen der einzelnen Spieler der aktuellen Runde.</string>
+	<string name="help_turn2">Der aktuelle Spieler wird hervorgehoben angezeigt, die Spieler werden in der Zugreihenfolge aufgelistet.</string>
+	<string name="help_turn3">Die Ziffern unter den Spielernamen zeigen die Anzahl der Karten in ihrem Nachziehstapel, den Karten auf den Hand sowie dem Ablagestapel inkl. aller sonstigen Karten z.b. dem Eingeborenemdorf, auf Inseln usw. .</string>
+	<string name="help_turn4">Wird mit der Karte Piratenschiff gespielt, wird die Anzahl der Piratenschiff Münzen in einem roten Kreis negben dem Namen des Spieles angezeigt.</string>
+	<string name="help_turn5">Es wird die aktuelle Anzahl an Aktionen, Käufen und Geld am Ende zusammen mit eine Nachricht der erwarteten Eingaben gezeigt.</string>
+
+	<string name="help_hand1">Die erste Spalte zeigt die Karten auf deiner Hand. Diese Spalte ist nur für dich sichtbar.</string>
+	<string name="help_hand2">Die zweite Spalte zeigt die in dieser Runde von dir ausgespielten Karten. Diese Spalte ist für alle sichtbar</string>
+	<string name="help_hand3">Um den Inhalt eines Eingeborenendorfes oder einer Insel sehen zu können, wische diesen Bereich nach links.</string>
+	<string name="help_hand4">Sollte eine diese Spalten zu lang werden, kannst du den kompletten Inhalt sehen indem Du die Spalte nach oben bzw. wieder nach unten wischt.</string>
+	<string name="help_hand5">Zur Wiederholung: langes Drücken zeigt Infos zu der Karte</string>
+
+	<string name="help_log1">Zu guter Letzt: im unteren Bereich wird die komplette Spielhistorie dises Spiels gezeigt.
+          \n\nDiese Hilfe kannst du auch während eines Spiels über das Menü aufrufen.</string>
+	<string name="help_end">Viel Glück und viel Spaß beim Spielen!
+       \n\n\n -:ankur
+
+\n\n Deutsche Übersetzung:\n
+
+Joerg V. und Sascha H. </string>
+	<string name="help_next">Nächste Seite</string>
+	<string name="help_quit">Hilfe beenden</string>
+</resources>
