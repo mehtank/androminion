@@ -53,23 +53,38 @@ public class GameScrollerView extends HorizontalScrollView {
 
 	public void clear() {
 		gameEventsRow.removeAllViews();
+		String filename = "/latest.txt";
 
 		if (PreferenceManager.getDefaultSharedPreferences(top).getBoolean("enable_logging", false)) {
-			String dir = GameActivity.BASEDIR + PreferenceManager.getDefaultSharedPreferences(top).getString("logdir", "");
-			String filename = new SimpleDateFormat("'/log_'yyyy-MM-dd_HH-mm-ss'.txt'").format(new Date());
-			new File(dir).mkdirs();
+			filename = new SimpleDateFormat("'/log_'yyyy-MM-dd_HH-mm-ss'.txt'").format(new Date());
+		}
+			
+		String dir = GameActivity.BASEDIR + PreferenceManager.getDefaultSharedPreferences(top).getString("logdir", "");
+		new File(dir).mkdirs();
 
-			logfile = new File(dir + filename);
-			Log.e("Logging", dir + filename);
+		logfile = new File(dir + filename);
+		logfile.delete();
+		Log.e("Logging", dir + filename);
+		try {
+			logfile.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Log.e(TAG, "Failed");
+			logfile = null;
+			e.printStackTrace();
+		}
+		
+		if (logfile != null && logfile.canWrite()) {
 			try {
-				logfile.createNewFile();
+				FileWriter f = new FileWriter(logfile.getCanonicalPath(), true); // append to file
+				f.write(new SimpleDateFormat("'New game started on 'yyyy/MM/dd' at 'HH:mm:ss'\n'").format(new Date()));
+				f.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				Log.e(TAG, "Failed");
-				logfile = null;
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	public void setNumPlayers(int numPlayers) {
