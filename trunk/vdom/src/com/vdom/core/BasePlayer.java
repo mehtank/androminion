@@ -1277,12 +1277,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-        for (int i = cardArray.size() - 1; i >= 0; i--) {
-            TreasureCard card = cardArray.get(i);
-            if (card.equals(Cards.illGottenGains)) {
-                ret.add(cardArray.remove(i));
-            }
-        }
 
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
@@ -1293,11 +1287,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
-            if(!card.equals(Cards.bank) && !card.equals(Cards.venture) && !card.equals(Cards.hornOfPlenty)) {
+            if(!card.equals(Cards.bank) && !card.equals(Cards.venture) && !card.equals(Cards.hornOfPlenty) && !card.equals(Cards.illGottenGains)) {
                 ret.add(cardArray.remove(i));
             }
         }
 
+        for (int i = cardArray.size() - 1; i >= 0; i--) {
+            TreasureCard card = cardArray.get(i);
+            if (card.equals(Cards.illGottenGains)) {
+                ret.add(cardArray.remove(i));
+            }
+        }
+        
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             TreasureCard card = cardArray.get(i);
             if(card.equals(Cards.venture)) {
