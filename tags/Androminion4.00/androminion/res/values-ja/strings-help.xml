@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="help_supply1">Androminionへようこそ。Androminionは、Donald X. Vaccarino作、Rio Grande Games出版の、多くの賞を受賞した戦略カードゲーム、「ドミニオン」のアンドロイド実装です。 </string>
+	<string name="help_supply2">もしあなたがドミニオンの遊び方を知らないならば、最初に公式のルールかWikipediaの項目を読むことをお勧めします。リンクは次から見つけられます。 \n\t http://android.mehtank.com</string>
+	<string name="help_supply3">これはカードサプライです。 ここからはあなたが今回のゲームで購入できる全てのカードを見ることができます。
+		\n\nあるカードについて、もっと情報が必要なら、単純にカードを長押しすることによって詳細ダイアログを出すことができます。</string>
+	<string name="help_supply4">それぞれのカードのコストはカードの左側の黄色い丸の中に書いてあります。そしてカードの残り枚数はカード名の下に表示されます。
+		\n\nもし「抑留」が存在するなら、抑留トークンの数がカードの右側の黒い丸の中に書いてあります。 </string>
+
+	<string name="help_turn1">これはターンビューです。ここであなたはそれぞれのプレイヤーの現在のターンについての情報を見られます。</string>
+	<string name="help_turn2">現在のターンを実行しているプレイヤーは強調表示されます。そしてそれぞれのプレイヤーはターンの順番に並んでいます。</string>
+	<string name="help_turn3">プレイヤー名の下の数字は順番に山札、手札、デッキ全体(マット含む)のカード数を示しています。</string>
+	<string name="help_turn4">もし「海賊船」が存在するなら、海賊船トークンの数がプレイヤー名の右側の赤い丸の中に書いてあります。 </string>
+	<string name="help_turn5">現在のアクション数、購入数、そしてお金はもっとも下に表示されます。一緒に、今何をするべきかについての情報も表示されます。</string>
+
+	<string name="help_hand1">1番目の列はあなたの手札のカードを示しています。これはあなたにしか見えません。 </string>
+	<string name="help_hand2">2番目の列は現在のターンにプレイされたカードを示しています。これは全員見ることができます。 </string>
+	<string name="help_hand3">もしあなたが「原住民の村」か「島」を持っているなら、ビューを左にスワイプしてください。それらのマットを見ることができます。 </string>
+	<string name="help_hand4">もしこれらの列が非常に長くなったなら、ビューを上下にドラッグして全てのカードを見ることができます。</string>
+	<string name="help_hand5">あなたはカードを長押しして詳細情報を見ることができます。大事なことなので2回言いました。 </string>
+	
+	<string name="help_log1">最後に、ゲームの履歴はあなたの画面下部にスクロールできるゲームログとして表示されます。
+		\n\nゲームプレイ中はメニューを使用することによって、いつでも再びこのヘルプを見ることができます。</string>
+
+	<string name="help_end">グッドラック、そしてゲームを楽しんでください! \n\n\n\t\t\t-:ankur</string>
+
+	<string name="help_next">次ページ</string>
+	<string name="help_quit">ヘルプ終了</string>
+</resources>
