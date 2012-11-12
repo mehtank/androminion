@@ -60,11 +60,8 @@ public class Game {
     public static boolean showUsage = false;
 
     public static boolean alwaysIncludePlatColony = false;
-    public static boolean platColonyPassedIn = false;
-    public static boolean platColonyNotPassedIn = false;
-
-    public static boolean sheltersPassedIn = false;
     public static boolean alwaysUseShelters = false;
+    public static boolean sheltersPassedIn = false;
 
     public static boolean quickPlay = false;
     public static boolean sortCards = false;
@@ -97,7 +94,7 @@ public class Game {
 
     public int tradeRouteValue = 0;
     public Card baneCard = null;
-    double chanceForPlatColony = 0;
+    double chanceForPlatColony = -1;
     double chanceForShelters = 0.0;
 
     private static final int kingdomCardPileSize = 10;
@@ -114,8 +111,6 @@ public class Game {
     public static HashMap<String, Class<?>> cachedPlayerClasses = new HashMap<String, Class<?>>();
     public static Player[] players;
 
-    public boolean platInPlay = false;
-    public boolean colonyInPlay = false;
     public boolean sheltersInPlay = false;
 
     public int possessionsToProcess = 0;
@@ -343,7 +338,7 @@ public class Game {
     }
 
     public int cardsInLowestPiles (int numPiles) {
-        int[] ips = new int[piles.size() - 1 - (colonyInPlay ? 1 : 0)];
+        int[] ips = new int[piles.size() - 1 - (isColonyInPlay() ? 1 : 0)];
         int count = 0;
         for (AbstractCardPile pile : piles.values()) {
             if (pile.card() != Cards.province && pile.card() != Cards.colony)
@@ -1156,7 +1151,7 @@ public class Game {
     }
 
     public boolean buyWouldEndGame(Card card) {
-        if (colonyInPlay && card.equals(Cards.colony)) {
+        if (isColonyInPlay() && card.equals(Cards.colony)) {
             if (pileSize(card) <= 1) {
                 return true;
             }
@@ -1176,7 +1171,7 @@ public class Game {
     }
 
 	private boolean checkGameOver() {
-		if (colonyInPlay && isPileEmpty(Cards.colony)) {
+		if (isColonyInPlay() && isPileEmpty(Cards.colony)) {
 			return true;
 		}
 
@@ -1393,8 +1388,8 @@ public class Game {
 
             context = new MoveContext(this, players[i]);
             String s = cardListText + "\n---------------\n\n";
-            if (!alwaysIncludePlatColony && !platColonyPassedIn && !platColonyNotPassedIn) {
-                s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (platInPlay ? "included\n" : "not included\n");
+            if (chanceForPlatColony > -1) {
+                s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (isPlatInPlay() ? "included\n" : "not included\n");
             }
             if (baneCard != null) {
                 s += "Bane card: " + baneCard.getName() + "\n";
@@ -1480,8 +1475,8 @@ public class Game {
 		embargos.clear();
 		trashPile.clear();
 
-		// addPile(Cards.platinum, 12);
-
+    	boolean platColonyNotPassedIn = false;
+    	boolean platColonyPassedIn = false;
 
 		int provincePileSize = -1;
 		int curseCount = -1;
@@ -1708,17 +1703,16 @@ public class Game {
         		addPile(Cards.overgrownEstate, numPlayers, false);
         		addPile(Cards.hovel, numPlayers, false);
         }
-        chanceForPlatColony = 0;
-        if (alwaysIncludePlatColony || platColonyPassedIn) {
-			platInPlay = true;
-            colonyInPlay = true;
-        } else if (platColonyNotPassedIn) {
-            platInPlay = false;
-            colonyInPlay = false;
-        } else {
-            platInPlay = false;
-            colonyInPlay = false;
 
+
+        // Check for PlatColony
+        boolean addPlatColony = false;
+        if (alwaysIncludePlatColony || platColonyPassedIn) {
+        	addPlatColony = true;
+        } else if (platColonyNotPassedIn) {
+        	addPlatColony = false;
+        } else {
+            chanceForPlatColony = 0;
             for (AbstractCardPile pile : piles.values()) {
                 if (pile != null && pile.card() != null && pile.card().getExpansion() != null && pile.card().getExpansion().equals("Prosperity")) {
                     chanceForPlatColony += 0.1;
@@ -1726,16 +1720,15 @@ public class Game {
             }
 
             if (rand.nextDouble() < chanceForPlatColony) {
-                platInPlay = true;
-                colonyInPlay = true;
+            	addPlatColony= true;
             }
         }
 
-        if (platInPlay)
+        if (addPlatColony) {
             addPile(Cards.platinum, 12);
-        if (colonyInPlay)
             addPile(Cards.colony);
-
+        }
+        
         // Add the potion if there are any cards that need them.
         for (AbstractCardPile pile : piles.values()) {
             if (pile.card().costPotion()) {
@@ -2271,7 +2264,15 @@ public class Game {
         return false;
     }
 
-    public Card[] getTreasureCardsInGame() {
+    public boolean isPlatInPlay() {
+		return cardInGame(Cards.platinum);
+	}
+
+	public boolean isColonyInPlay() {
+		return cardInGame(Cards.colony);
+	}
+
+	public Card[] getTreasureCardsInGame() {
         return getCardsInGame(TreasureCard.class);
     }
 

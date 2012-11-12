@@ -1134,7 +1134,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 //		}
 		
 		ArrayList<Card> preffered = new ArrayList<Card>();
-		if (game.platInPlay) {
+		if (game.isPlatInPlay()) {
 			preffered.add(Cards.colony);
 			preffered.add(Cards.platinum);
 		} else {
@@ -1452,7 +1452,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	
 			scard = Cards.hoard;
 			if (special_cards.contains(scard)) {
-				if ((Util.getCardCount(deck, Cards.gold) <= Util.getCardCount(deck, Cards.hoard)) || game.platInPlay) {				
+				if ((Util.getCardCount(deck, Cards.gold) <= Util.getCardCount(deck, Cards.hoard)) || game.isPlatInPlay()) {				
 					this.log("Hoard not good, either platinum in play or have " 
 							+ Util.getCardCount(deck, Cards.gold) + " gold and " 
 							+ Util.getCardCount(deck, Cards.hoard) + " hoards");
@@ -1464,7 +1464,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	
 			scard = Cards.harem;
 			if (special_cards.contains(scard)) {
-				if ((mpc < 1.2) || (game.platInPlay)) {
+				if ((mpc < 1.2) || (game.isPlatInPlay())) {
 					this.log("Harem not good, mpc = " + mpc);
 					special_cards.remove(scard);
 				} 
