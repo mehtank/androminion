@@ -664,7 +664,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-        boolean latest = game.colonyInPlay? 
+        boolean latest = game.isColonyInPlay()? 
  context.getCardsLeftInPile(Cards.province) < Game.numPlayers || context.getCardsLeftInPile(Cards.colony) < Game.numPlayers : context.getCardsLeftInPile(Cards.province) < Game.numPlayers;
 
         if (changeList.contains(Cards.curse)) {
@@ -1181,13 +1181,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card contraband_cardPlayerCantBuy(MoveContext context) {
         ArrayList<Card> cantBuy = context.getCantBuy();
 
-        if (game.colonyInPlay && turnCount > midGame && !cantBuy.contains(Cards.colony)) {
+        if (game.isColonyInPlay() && turnCount > midGame && !cantBuy.contains(Cards.colony)) {
             return Cards.colony;
-        } else if (game.colonyInPlay && turnCount < midGame && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
+        } else if (game.isColonyInPlay() && turnCount < midGame && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
             return Cards.platinum;
         } else if (turnCount > midGame && !cantBuy.contains(Cards.province)) {
             return Cards.province;
-        } else if (game.colonyInPlay && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
+        } else if (game.isColonyInPlay() && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
             return Cards.platinum;
         } else if (turnCount > midGame && game.pileSize(Cards.duchy) > 0 && !cantBuy.contains(Cards.duchy)) {
             return Cards.duchy;
@@ -2220,7 +2220,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card rebuild_cardToPick(MoveContext context) {
-		if (context.game.colonyInPlay)
+		if (context.game.isColonyInPlay())
 			return Cards.colony;
 		else
 			return Cards.province;
