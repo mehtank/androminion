@@ -42,7 +42,7 @@ public class SingleCardPile extends AbstractCardPile {
 
     public Card removeCard() {
         if (!cards.isEmpty()) {
-            return cards.remove(cards.size() - 1);
+            return cards.remove(0);
         } else {
             return null;
         }
