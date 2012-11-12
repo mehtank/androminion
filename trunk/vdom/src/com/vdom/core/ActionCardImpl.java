@@ -1253,28 +1253,30 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             Util.playerError(currentPlayer, "Ambassador revealed card error, picking random card.");
             card = Util.randomCard(currentPlayer.hand);
         }
+        Card origCard = card;
+        Card virtCard = card;
         
         AbstractCardPile pile;
         if (card.isKnight()) {
-        	card = Cards.virtualKnight;
+        	virtCard = Cards.virtualKnight;
         } else if (card.isRuins()) {
-        	card = Cards.virtualRuins;
+        	virtCard = Cards.virtualRuins;
         }
-        pile = game.getPile(card);
+        pile = game.getPile(virtCard);
     
-        currentPlayer.reveal(card, this, context);
-        //Util.log("Ambassador revealed card:" + card.getName());
+        currentPlayer.reveal(origCard, this, context);
+        //Util.log("Ambassador revealed card:" + origCard.getName());
 
         int returnCount = -1;
         if (!pile.isSupply()) {
             Util.playerError(currentPlayer, "Ambassador revealed card not in supply, returning 0.");
         } else {
-            returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, card);
+            returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, origCard);
             if (returnCount > 2) {
             	Util.playerError(currentPlayer, "Ambassador return to supply error (more than 2 cards), returning 2.");
             	returnCount = 2;
             } else {
-            	int inHandCount = currentPlayer.inHandCount(card);
+            	int inHandCount = currentPlayer.inHandCount(origCard);
             	if (returnCount > inHandCount) {
             		Util.playerError(currentPlayer, "Ambassador return to supply error (more than cards in hand), returning " + inHandCount);
             		returnCount = inHandCount;
@@ -1283,9 +1285,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         for (int i = 0; i < returnCount; i++) {
-            if (currentPlayer.hand.contains(card)) {
-                currentPlayer.hand.remove(card);
-                pile.addCard(card);
+        	int idx = currentPlayer.hand.indexOf(origCard);
+        	if (idx > -1) {
+                pile.addCard(currentPlayer.hand.remove(idx));
             } else {
                 Util.playerError(currentPlayer, "Ambassador return to supply error, just returning those available.");
                 break;
@@ -1297,8 +1299,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
 	                player.attacked(this, context);
 	                
-	                if (pile.getType() == AbstractCardPile.PileType.SingleCardPile || card.equals(pile.card())) {
-	                	player.gainNewCard(card, this, new MoveContext(game, player));
+	                
+	                if (pile.getType() == AbstractCardPile.PileType.SingleCardPile || origCard.equals(pile.card()) ) {
+	                	player.gainNewCard(virtCard, this, new MoveContext(game, player));
 	                }
 	            }
 	        }
@@ -1526,7 +1529,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 		currentPlayer.trash(cardToPlay, this, context);
                 		if (currentPlayer.playedCards.getLastCard() == cardToPlay) { 
                 			currentPlayer.playedCards.remove(cardToPlay);
-                		} else if (cardToPlay instanceof DurationCard && currentPlayer.nextTurnCards.getLastCard() == cardToPlay) { 
+                		} 
+                		if (currentPlayer.nextTurnCards.contains(cardToPlay)) { 
                 			((CardImpl) cardToPlay).trashAfterPlay = true;
                 		}
                 	}

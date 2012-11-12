@@ -699,6 +699,8 @@ public class Game {
             ((CardImpl) card).cloneCount = 1;
             if (!((CardImpl) card).trashAfterPlay) {
             	player.playedCards.add(card);
+            } else {
+            	((CardImpl) card).trashAfterPlay = false;
             }
         }
 
