@@ -548,11 +548,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case Embassy:
             embassy(context, currentPlayer);
             break;
-        case Highway:
-            if (this.numberTimesAlreadyPlayed == 0) {
-                context.cardCostModifier -= 1;
-            }
-            break;
         case Inn:
             inn(context, currentPlayer);
             break;
@@ -3841,7 +3836,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     it.remove();
                 }
             }
-            context.copperPlayed = false;
             break;
         default:
             break;

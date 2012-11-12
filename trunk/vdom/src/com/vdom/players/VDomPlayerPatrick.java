@@ -1134,7 +1134,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 //		}
 		
 		ArrayList<Card> preffered = new ArrayList<Card>();
-		if (game.isPlatInPlay()) {
+		if (game.isPlatInGame()) {
 			preffered.add(Cards.colony);
 			preffered.add(Cards.platinum);
 		} else {
@@ -1452,7 +1452,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	
 			scard = Cards.hoard;
 			if (special_cards.contains(scard)) {
-				if ((Util.getCardCount(deck, Cards.gold) <= Util.getCardCount(deck, Cards.hoard)) || game.isPlatInPlay()) {				
+				if ((Util.getCardCount(deck, Cards.gold) <= Util.getCardCount(deck, Cards.hoard)) || game.isPlatInGame()) {				
 					this.log("Hoard not good, either platinum in play or have " 
 							+ Util.getCardCount(deck, Cards.gold) + " gold and " 
 							+ Util.getCardCount(deck, Cards.hoard) + " hoards");
@@ -1464,7 +1464,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	
 			scard = Cards.harem;
 			if (special_cards.contains(scard)) {
-				if ((mpc < 1.2) || (game.isPlatInPlay())) {
+				if ((mpc < 1.2) || (game.isPlatInGame())) {
 					this.log("Harem not good, mpc = " + mpc);
 					special_cards.remove(scard);
 				} 
@@ -1647,8 +1647,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		if (maxVP_card != null) {
 			if (!exact || maxVP_card.getCost(context) == gold) {
-				if ((mpc > (1.9 - (maxVP_card.getVictoryPoints() * 0.15 * (context.hoardsPlayed + 1)))) || ((guessTurnsToReshuffle() > guessTurnsToEnd()) && (maxVP_card.getVictoryPoints() > 1))) {
-					this.log("choosing victory (hoards: " + context.hoardsPlayed + ")");
+				if ((mpc > (1.9 - (maxVP_card.getVictoryPoints() * 0.15 * (context.countCardsInPlay(Cards.hoard) + 1)))) || ((guessTurnsToReshuffle() > guessTurnsToEnd()) && (maxVP_card.getVictoryPoints() > 1))) {
+					this.log("choosing victory (hoards: " + context.countCardsInPlay(Cards.hoard) + ")");
 					return maxVP_card;
 				}
 			}

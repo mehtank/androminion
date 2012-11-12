@@ -464,7 +464,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	gs.setTurnStatus(new int[] {context.getActionsLeft(),
     					  context.getBuysLeft(),
                           context.getCoinForStatus(),
-						  context.getThroneRoomsInEffect()
+						  context.countThroneRoomsInEffect()
     					 })
     	  .setFinal(isFinal)
           .setPossessed(player.isPossessed())

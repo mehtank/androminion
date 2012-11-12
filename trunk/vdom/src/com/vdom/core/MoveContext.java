@@ -3,12 +3,15 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
+import com.vdom.api.DurationCard;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
+import com.vdom.api.TreasureCard;
 
 public class MoveContext {
     public int actions = 1;
@@ -20,16 +23,13 @@ public class MoveContext {
     public int actionsPlayedSoFar = 0;
     public int treasuresPlayedSoFar = 0;
     public int goldAvailable;
-    public boolean copperPlayed = false;
     public int coppersmithsPlayed = 0;
     public int goonsPlayed = 0;
-    public int hoardsPlayed = 0;
-    public int freeActionInEffect = 0;
-    public int quarriesPlayed = 0;
-    public boolean royalSealPlayed = false;
-    public int talismansPlayed = 0;
-    public int foolsGoldPlayed = 0;
     public int schemesPlayed = 0;
+    
+    public int foolsGoldPlayed = 0;
+
+    public int freeActionInEffect = 0;
     public int cardCostModifier = 0;
     public int victoryCardsBoughtThisTurn = 0;
     public int totalCardsBoughtThisTurn = 0;
@@ -74,7 +74,18 @@ public class MoveContext {
         return cantBuy;
     }
 
-    public int getActionCardsInPlayThisTurn() {
+    public int countTreasureCardsInPlayThisTurn() {
+        int treasuresInPlay = 0;
+        for(Card c : getPlayedCards()) {
+            if(c instanceof TreasureCard) {
+            	treasuresInPlay++;
+            }
+        }
+
+        return treasuresInPlay;
+    }
+    
+    public int countActionCardsInPlayThisTurn() {
         int actionsInPlay = 0;
         for(Card c : getPlayedCards()) {
             if(c instanceof ActionCard) {
@@ -82,12 +93,25 @@ public class MoveContext {
             }
         }
         for(Card c : player.nextTurnCards) {
-            if(c instanceof ActionCard) {
+            if(c instanceof DurationCard) {
                 actionsInPlay++;
             }
         }
 
         return actionsInPlay;
+    }
+    
+    public int countUniqueCardsInPlayThisTurn() {
+        HashSet<String> distinctCardsInPlay = new HashSet<String>();
+
+        for (Card cardInPlay : player.playedCards) {
+            distinctCardsInPlay.add(cardInPlay.getName());
+        }
+        for (Card cardInPlay : player.nextTurnCards) {
+            distinctCardsInPlay.add(cardInPlay.getName());
+        }
+
+        return distinctCardsInPlay.size();
     }
     
     public int getVictoryCardsBoughtThisTurn() {
@@ -102,19 +126,23 @@ public class MoveContext {
         return game.buyWouldEndGame(card);
     }
 
-    public int getThroneRoomsInEffect() {
+    public int countThroneRoomsInEffect() {
         return freeActionInEffect;
     }
 
-    public int getQuarriesPlayed() {
-        return quarriesPlayed;
-    }
-    
-    public CardList getPlayedCards() {
+	public int countCardsInPlay(Card c) {
+        return Collections.frequency(getPlayedCards().toArrayList(), c);
+	}
+
+    public boolean isRoyalSealInPlay() {
+    	return getPlayedCards().contains(Cards.royalSeal);
+	}
+
+	public CardList getPlayedCards() {
         return player.playedCards;
     }
 
-    public int getPileSize(Card card) {
+	public int getPileSize(Card card) {
         return game.pileSize(card);
     }
 
@@ -303,5 +331,5 @@ public class MoveContext {
         
         return cards.toArray(new Card[0]);
     }
-    
+
 }

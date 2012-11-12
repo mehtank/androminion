@@ -1030,15 +1030,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getAnyFromHand(context, getTrashString(Cards.salvager), NOTPASSABLE, SelectCardOptions.PickType.TRASH);
 	}
 
-    @Override
-    public int treasury_putBackOnDeck(MoveContext context, int treasuryCardsInPlay) {
-        if(context.isQuickPlay() && shouldAutoPlay_treasury_putBackOnDeck(context, treasuryCardsInPlay)) {
-            return super.treasury_putBackOnDeck(context, treasuryCardsInPlay);
-        }
-    	return selectInt(context, getString(R.string.treasury_number), treasuryCardsInPlay, 0);
-	}
-
-    @Override
+    @Override 
     public Card[] warehouse_cardsToDiscard(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_warehouse_cardsToDiscard(context)) {
             return super.warehouse_cardsToDiscard(context);
