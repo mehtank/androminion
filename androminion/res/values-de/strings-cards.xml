@@ -382,7 +382,7 @@
     <string name="WanderingMinstrel_name">Wandering Minstrel</string>
     <string name="WanderingMinstrel_desc">Decke die 3 obersten Karten deines Nachziehstapels auf. Lege aufgedeckte Aktionskarten in beliebiger Reihenfolge zurück auf den Nachziehstapel. Lege die übrigen aufgedeckten karten ab.</string>
     <string name="Procession_name">Prozession</string>
-    <string name="Procession_desc">Du darfst eine Aktionskarte aus deiner Hand zweimal ausspielen. Entsorge die ausgespielte Karte und nimm dir eine Karte, die genau 1 Geld mehr kostet.</string>
+    <string name="Procession_desc">Du darfst eine Aktionskarte aus deiner Hand zweimal ausspielen. Entsorge die ausgespielte Karte und nimm dir eine Aktionskarte, die genau 1 Geld mehr kostet.</string>
     <string name="Rebuild_name">Neubau</string>
     <string name="Rebuild_desc">Benenne eine Karte. Decke so lange Karten con deinem Nachziehstapel auf, bis du eine Punktekarte aufdeckst, die nicht die benannte Karte ist. Lege die anderen Karten ab. Entsorge die Punktekarte und nimm dir eine Punktekarte, die bis zu 3 Geld mehr kostet.</string>
     <string name="Rogue_name">Schurke</string>
