@@ -664,7 +664,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-        boolean latest = game.isColonyInPlay()? 
+        boolean latest = game.isColonyInGame()? 
  context.getCardsLeftInPile(Cards.province) < Game.numPlayers || context.getCardsLeftInPile(Cards.colony) < Game.numPlayers : context.getCardsLeftInPile(Cards.province) < Game.numPlayers;
 
         if (changeList.contains(Cards.curse)) {
@@ -877,11 +877,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         
         return lowestCard(context, context.getPlayer().getHand(), false);
-    }
-
-    @Override
-    public int treasury_putBackOnDeck(MoveContext context, int treasuryCardsInPlay) {
-        return treasuryCardsInPlay;
     }
 
     @Override
@@ -1181,13 +1176,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card contraband_cardPlayerCantBuy(MoveContext context) {
         ArrayList<Card> cantBuy = context.getCantBuy();
 
-        if (game.isColonyInPlay() && turnCount > midGame && !cantBuy.contains(Cards.colony)) {
+        if (game.isColonyInGame() && turnCount > midGame && !cantBuy.contains(Cards.colony)) {
             return Cards.colony;
-        } else if (game.isColonyInPlay() && turnCount < midGame && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
+        } else if (game.isColonyInGame() && turnCount < midGame && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
             return Cards.platinum;
         } else if (turnCount > midGame && !cantBuy.contains(Cards.province)) {
             return Cards.province;
-        } else if (game.isColonyInPlay() && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
+        } else if (game.isColonyInGame() && game.pileSize(Cards.platinum) > 0 && !cantBuy.contains(Cards.platinum)) {
             return Cards.platinum;
         } else if (turnCount > midGame && game.pileSize(Cards.duchy) > 0 && !cantBuy.contains(Cards.duchy)) {
             return Cards.duchy;
@@ -2220,7 +2215,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card rebuild_cardToPick(MoveContext context) {
-		if (context.game.isColonyInPlay())
+		if (context.game.isColonyInGame())
 			return Cards.colony;
 		else
 			return Cards.province;

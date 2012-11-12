@@ -56,6 +56,14 @@ public class CardList implements Iterable<Card> {
         return null;
     }
 
+    public int indexOf(Integer id) {
+        for (int i = 0; i < a.size(); i++) {
+            if (a.get(i).getId() == id) 
+                return i;
+		} 
+        return -1;
+    }
+
     public boolean remove(Card card) {
         return a.remove(card);
     }

@@ -86,10 +86,9 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         GameEvent event = new GameEvent(GameEvent.Type.PlayingCoin, (MoveContext) context);
         event.card = this;
         game.broadcastEvent(event);
-	
-        if (!isClone) {
-	        player.hand.remove(this);
-	        player.playedCards.add(this);
+
+        if (this.numberTimesAlreadyPlayed == 0) {
+        	player.playedCards.add(player.hand.remove(player.hand.indexOf(this.getId())));
         }
         
         context.treasuresPlayedSoFar++;
@@ -101,23 +100,14 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         // Special cards
         if (equals(Cards.foolsGold)) {
             foolsGold(context);
-        } else if (equals(Cards.quarry)) {
-            context.quarriesPlayed++;
         } else if (equals(Cards.philosophersStone)) {
             context.gold += (player.getDeckSize() + player.getDiscardSize()) / 5;
-        } else if (equals(Cards.royalSeal)) {
-            context.royalSealPlayed = true;
-        } else if (equals(Cards.talisman)) {
-            context.talismansPlayed++;
         } else if (equals(Cards.diadem)) {
             context.gold += context.getActionsLeft();
         } else if (equals(Cards.copper)) {
-            context.copperPlayed = true;
             context.gold += context.coppersmithsPlayed;
         } else if (equals(Cards.bank)) {
             context.gold += context.treasuresPlayedSoFar;
-        } else if (equals(Cards.hoard)) {
-            context.hoardsPlayed++;
         } else if (equals(Cards.contraband)) {
             reevaluateTreasures = contraband(context, game, reevaluateTreasures);
         } else if (equals(Cards.loan) || equals(Cards.venture)) {
@@ -133,9 +123,8 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         {
 			if (!isClone) {
 				// Return to the spoils pile
-	            player.playedCards.remove(this);                   
 	            AbstractCardPile pile = game.getPile(this);
-	            pile.addCard(this);
+	            pile.addCard(player.playedCards.remove(player.playedCards.indexOf(this.getId())));
 			}
         }
 
@@ -215,17 +204,8 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
 
     protected void hornOfPlenty(MoveContext context, Player player, Game game) {
         GameEvent event;
-        HashSet<String> distinctCardsInPlay = new HashSet<String>();
-        distinctCardsInPlay.add(getName());
 
-        for (Card cardInPlay : player.playedCards) {
-            distinctCardsInPlay.add(cardInPlay.getName());
-        }
-        for (Card cardInPlay : player.nextTurnCards) {
-            distinctCardsInPlay.add(cardInPlay.getName());
-        }
-
-        int maxCost = distinctCardsInPlay.size();
+        int maxCost = context.countUniqueCardsInPlayThisTurn();
         Card toObtain = player.controlPlayer.hornOfPlenty_cardToObtain(context, maxCost);
         if (toObtain != null) {
             // check cost
@@ -255,23 +235,24 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         
     	TreasureCard treasure = currentPlayer.controlPlayer.counterfeit_cardToPlay(context);
     	if (treasure != null) {
-    		TreasureCardImpl card = (TreasureCardImpl) treasure;
-
-    		currentPlayer.hand.remove(treasure);
-    		if (treasure.equals(Cards.spoils)) {
-				// Return to the spoils pile
-	            currentPlayer.playedCards.remove(treasure);                   
-	            game.getPile(Cards.spoils).addCard(treasure);
-	            
-    		} else 
-    			currentPlayer.trash(treasure, this, context);
-    		
-    		card.playTreasure(context, true);
-    		card.playTreasure(context, true);
+    		TreasureCardImpl cardToPlay = (TreasureCardImpl) treasure;
+            cardToPlay.cloneCount = 2;
+            for (int i = 0; i < cardToPlay.cloneCount;) {
+                cardToPlay.numberTimesAlreadyPlayed = i++;
+                cardToPlay.playTreasure(context, cardToPlay.numberTimesAlreadyPlayed == 0 ? true : false);
+            }
+            cardToPlay.cloneCount = 0;
+            cardToPlay.numberTimesAlreadyPlayed = 0;    		
+    		if (!treasure.equals(Cards.spoils)) {
+    			int ind = currentPlayer.playedCards.indexOf(cardToPlay.getId());
+	    		if (ind >= 0 && ind == currentPlayer.playedCards.size() - 1) { 
+	    			currentPlayer.playedCards.remove(ind);
+	    		}
+   			currentPlayer.trash(cardToPlay, this, context);
+    		}
     	}
 
         return true;
+
     }
-
-
 }

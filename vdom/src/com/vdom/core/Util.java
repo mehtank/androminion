@@ -201,25 +201,6 @@ public class Util {
         Player player = context.getPlayer();
         log("");
 
-        // Card[] cards = new Card[] { Cards.estate, Cards.duchy, Cards.province, Cards.curse };
-        // for (Card card : cards) {
-        // log("" + context.getCardsLeft(card) + ":" + card.getName() + " (" +
-        // card.getCost() + ")");
-        // }
-        //
-        // cards = context.getActionsInPlay();
-        // int cost = 0;
-        // while (cost < 10) {
-        // for (Card card : cards) {
-        // if (card.getCost() == cost) {
-        // log("" + context.getCardsLeft(card) + ":" + card.getName() + " (" +
-        // card.getCost() + ")");
-        // }
-        // }
-        //
-        // cost++;
-        // }
-
         Card[] cards = context.getCardsInGame();
         int cost = 0;
         while (cost < 10) {

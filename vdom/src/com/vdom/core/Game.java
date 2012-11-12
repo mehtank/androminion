@@ -338,7 +338,7 @@ public class Game {
     }
 
     public int cardsInLowestPiles (int numPiles) {
-        int[] ips = new int[piles.size() - 1 - (isColonyInPlay() ? 1 : 0)];
+        int[] ips = new int[piles.size() - 1 - (isColonyInGame() ? 1 : 0)];
         int count = 0;
         for (AbstractCardPile pile : piles.values()) {
             if (pile.card() != Cards.province && pile.card() != Cards.colony)
@@ -1042,7 +1042,7 @@ public class Game {
             return false;
         }
 
-        if (context.copperPlayed && card.equals(Cards.grandMarket)) {
+        if ((context.countCardsInPlay(Cards.copper) > 0) && card.equals(Cards.grandMarket)) {
             return false;
         }
 
@@ -1087,8 +1087,8 @@ public class Game {
 
         if (buy.costPotion()) {
         	context.potions--;
-        } else if (!(buy instanceof VictoryCard) && context.talismansPlayed > 0 && cost < 5) {
-        	for (int i = 0; i < context.talismansPlayed; i++) {
+        } else if (!(buy instanceof VictoryCard) && cost < 5) {
+        	for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
         		context.getPlayer().gainNewCard(buy, Cards.talisman, context);
         	}
         }
@@ -1097,7 +1097,7 @@ public class Game {
 
         if (buy instanceof VictoryCard) {
         	context.victoryCardsBoughtThisTurn++;
-        	for (int i = 0; i < context.hoardsPlayed; i++) {
+        	for (int i = 1; i <= context.countCardsInPlay(Cards.hoard); i++) {
         		player.gainNewCard(Cards.gold, Cards.hoard, context);
         	}
         }
@@ -1109,14 +1109,7 @@ public class Game {
     private void haggler(MoveContext context, Card cardBought) {
     	if(!context.game.piles.containsKey(Cards.haggler.getName()))
     		return;
-        int hagglers = 0;
-        for(Card c : context.getPlayedCards()) {
-            if(c.equals(Cards.haggler)) {
-                hagglers++;
-            }
-        }
-        if(hagglers==0)
-        	return;
+        int hagglers = context.countCardsInPlay(Cards.haggler);
 
         int cost = cardBought.getCost(context);
         boolean potion = cardBought.costPotion();
@@ -1151,7 +1144,7 @@ public class Game {
     }
 
     public boolean buyWouldEndGame(Card card) {
-        if (isColonyInPlay() && card.equals(Cards.colony)) {
+        if (isColonyInGame() && card.equals(Cards.colony)) {
             if (pileSize(card) <= 1) {
                 return true;
             }
@@ -1171,7 +1164,7 @@ public class Game {
     }
 
 	private boolean checkGameOver() {
-		if (isColonyInPlay() && isPileEmpty(Cards.colony)) {
+		if (isColonyInGame() && isPileEmpty(Cards.colony)) {
 			return true;
 		}
 
@@ -1389,7 +1382,7 @@ public class Game {
             context = new MoveContext(this, players[i]);
             String s = cardListText + "\n---------------\n\n";
             if (chanceForPlatColony > -1) {
-                s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (isPlatInPlay() ? "included\n" : "not included\n");
+                s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (isPlatInGame() ? "included\n" : "not included\n");
             }
             if (baneCard != null) {
                 s += "Bane card: " + baneCard.getName() + "\n";
@@ -1924,7 +1917,7 @@ public class Game {
                     }
 
                     if(!handled) {
-                        if (context.royalSealPlayed && context.player.controlPlayer.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
+                        if (context.isRoyalSealInPlay() && context.player.controlPlayer.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
                             player.putOnTopOfDeck(event.card);
                         } else if (event.card.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card);
@@ -2264,11 +2257,11 @@ public class Game {
         return false;
     }
 
-    public boolean isPlatInPlay() {
+    public boolean isPlatInGame() {
 		return cardInGame(Cards.platinum);
 	}
 
-	public boolean isColonyInPlay() {
+	public boolean isColonyInGame() {
 		return cardInGame(Cards.colony);
 	}
 
@@ -2281,9 +2274,9 @@ public class Game {
     }
 
     public Card[] getCardsInGameOrderByCost() {
-        Card[] cardsInPlay = getCardsInGame();
-        Arrays.sort(cardsInPlay, new CardCostComparator());
-        return cardsInPlay;
+        Card[] cardsInGame = getCardsInGame();
+        Arrays.sort(cardsInGame, new CardCostComparator());
+        return cardsInGame;
     }
 
     public int getCardsLeftInPile(Card card) {

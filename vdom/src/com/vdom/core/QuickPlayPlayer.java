@@ -249,11 +249,6 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_treasury_putBackOnDeck(MoveContext context, int treasuryCardsInPlay) {
-        return true;
-    }
-
-    
     public boolean shouldAutoPlay_pirateShip_takeTreasure(MoveContext context) {
         return true;
     }

@@ -58,10 +58,6 @@ public abstract class Player {
         context.vpsGainedThisTurn += vt;
     }
 
-    public int getVictoryCardsBoughtThisTurn(MoveContext context) {
-        return context.getVictoryCardsBoughtThisTurn();
-    }
-
     public int getTotalCardsBoughtThisTurn(MoveContext context) {
         return context.getTotalCardsBoughtThisTurn();
     }
@@ -214,8 +210,14 @@ public abstract class Player {
         horseTraders = new CardList(this, "Horse Traders");
     }
 
-    private List<PutBackOption> getPutBackOptions(MoveContext context, boolean victoryBought, boolean potionPlayed, boolean treasurePlayed,
-    											  short actionsPlayedCount) {
+    private List<PutBackOption> getPutBackOptions(MoveContext context) {
+    	
+        // Determine if criteria were met for certain action cards
+        boolean victoryBought = context.getVictoryCardsBoughtThisTurn() > 0;
+        boolean potionPlayed   = context.countCardsInPlay(Cards.potion) > 0;
+    	boolean treasurePlayed = context.countTreasureCardsInPlayThisTurn() > 0;
+    	int actionsPlayed = context.countActionCardsInPlayThisTurn();
+
     	List<PutBackOption> options = new ArrayList<PutBackOption>();
     	
     	for (Card c: playedCards) {
@@ -223,13 +225,13 @@ public abstract class Player {
     			options.add(PutBackOption.Treasury);
     		} else if (c.equals(Cards.alchemist) && potionPlayed) {
     			options.add(PutBackOption.Alchemist);
-    		} else if (c.equals(Cards.walledVillage) && (actionsPlayedCount <= 2)) {
+    		} else if (c.equals(Cards.walledVillage) && actionsPlayed == 1) {
     			options.add(PutBackOption.WalledVillage);
     		} else if (c.equals(Cards.herbalist) && treasurePlayed) {
     			options.add(PutBackOption.Coin);
     		}
     	}
-    	if (actionsPlayedCount > 0) {
+    	if (actionsPlayed > 0) {
     		for (int i = 0; i < context.schemesPlayed; i++) {
     			options.add(PutBackOption.Action);
     		}
@@ -251,37 +253,10 @@ public abstract class Player {
         // Discard played cards
         // /////////////////////////////////
         
-        // Determine if criteria were met for certain action cards
-        boolean victoryBought = getVictoryCardsBoughtThisTurn(context) > 0;
-        boolean potionPlayed   = false;
-    	boolean treasurePlayed = false;
-    	short actionsPlayed    = 0;
-        
-    	for (Card c: playedCards) {
-    		if (c.equals(Cards.potion)) {
-    			potionPlayed = true;
-    			treasurePlayed = true;
-    		} else if (c instanceof TreasureCard) {
-    			treasurePlayed = true;
-    		}
-    		if (c instanceof ActionCard) {
-    			actionsPlayed++;
-    		}
-    		if (potionPlayed && treasurePlayed && (actionsPlayed > 0)) {
-    			break;
-    		}
-    	}
-    	
-    	for (Card c :  nextTurnCards) {
-    		if (c instanceof DurationCard) {
-    			++actionsPlayed;
-    		}
-    	}
-
         List<PutBackOption> putBackOptions;
         ArrayList<Card> putBackCards = new ArrayList<Card>();
 
-        while (!(putBackOptions = controlPlayer.getPutBackOptions(context, victoryBought, potionPlayed, treasurePlayed, actionsPlayed)).isEmpty()) {
+        while (!(putBackOptions = controlPlayer.getPutBackOptions(context)).isEmpty()) {
             PutBackOption putBackOption = controlPlayer.selectPutBackOption(context, putBackOptions);
             if (putBackOption == PutBackOption.None || (isPossessed() && controlPlayer.isAi())) {
         		break;
@@ -806,7 +781,10 @@ public abstract class Player {
         	}
         }
 
-        if (isPossessed()) {
+    	if (card.equals(Cards.spoils)) {
+            AbstractCardPile pile = context.game.getPile(card);
+            pile.addCard(card);
+    	} else if (isPossessed()) {
             context.game.possessedTrashPile.add(card);
         } else {
             context.game.trashPile.add(card);
@@ -1079,8 +1057,6 @@ public abstract class Player {
     public abstract Card[] ghostShip_attack_cardsToPutBackOnDeck(MoveContext context);
 
     public abstract Card salvager_cardToTrash(MoveContext context);
-
-    public abstract int treasury_putBackOnDeck(MoveContext context, int treasuryCardsInPlay);
 
     public abstract Card[] warehouse_cardsToDiscard(MoveContext context);
 
