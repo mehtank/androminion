@@ -1077,6 +1077,11 @@ public class Game {
 	        event.newCard = true;
 	        broadcastEvent(event);
 	        
+			// Swap in the real Knight
+	        if (buy.equals(Cards.virtualKnight)) {
+	        	buy = card;
+	        }
+	        
 	        // execute specific actions triggered on card gain
 	        //card.isGained(context);
         }
@@ -1100,13 +1105,6 @@ public class Game {
         	for (int i = 0; i < context.hoardsPlayed; i++) {
         		player.gainNewCard(Cards.gold, Cards.hoard, context);
         	}
-        }
-
-        
-        if (buy.equals(Cards.virtualKnight))
-        {
-			// Swap in the real Knight
-        	buy = card;
         }
         
         buy.isBought(context);
