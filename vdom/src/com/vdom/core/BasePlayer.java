@@ -29,9 +29,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected int potionCount = 0;
     protected int midGame;
     
-    protected boolean reactedMoat = false;
-    protected boolean reactedSecretChamber = false;
-    //private boolean Card;
+    protected HashSet<Card> reactedSet = new HashSet<Card>();
 
     @Override
     public void newGame(MoveContext context) {
@@ -52,8 +50,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         // There are quite a few event types, found in the GameEvent.Type enum, that
         // are broadcast.
         if (event.getType() == GameEvent.Type.PlayingAction) {
-            reactedMoat = false;
-            reactedSecretChamber = false;
+        	reactedSet.clear();
         }
         if(event.getPlayer() == this && (event.getType() == GameEvent.Type.CardObtained || event.getType() == GameEvent.Type.BuyingCard)) {
             if(event.getCard() instanceof ActionCard) {
@@ -80,7 +77,24 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public abstract Card doBuy(MoveContext context);
     
-    // ////////////////////////
+	@Override
+	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
+		Card[] reactionCards = getReactionCards(defended);
+		for (Card c : reactionCards) {
+			// Single Cards
+			if (c.equals(Cards.secretChamber) || c.equals(Cards.moat) || c.equals(Cards.marketSquare) || c.equals(Cards.watchTower)) {
+				if (!reactedSet.contains(c)) {
+					reactedSet.add(c);
+					return c;
+				} 
+			} else {
+				return c;
+			} 
+		}
+		return null;
+	}
+
+	// ////////////////////////
     // Helper Methods
     // ////////////////////////
 
@@ -323,7 +337,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             } else if (c.equals(Cards.secretChamber) && !secretChamberSelected) {
                 reactionCards.add(c);
                 secretChamberSelected = true;
-            } else if (c.equals(Cards.horseTraders) || c.equals(Cards.beggar) || c.equals(Cards.marketSquare)) {
+            } else if (c.equals(Cards.horseTraders) || c.equals(Cards.watchTower) || c.equals(Cards.beggar) || c.equals(Cards.marketSquare)) {
                 reactionCards.add(c);
             }
         }
