@@ -2022,19 +2022,6 @@ public class VDomPlayerPatrick extends BasePlayer {
 	}
 
 
-
-	@Override
-	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
-	    for (Card card : this.hand) {
-	    	if (knownDefenseCards.contains(card)) {
-	    		return card;
-	    	}
-	    }
-	    return null;
-	}
-
-
-
 	@Override
 	public Card trader_cardToTrash(MoveContext context) {
 	    return this.getCardToTrash(DiscardOption.Destructive);

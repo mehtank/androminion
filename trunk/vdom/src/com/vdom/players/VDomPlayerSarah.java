@@ -641,22 +641,5 @@ public class VDomPlayerSarah extends BasePlayer {
         return cards.toArray(new Card[0]);
       }
 
-	@Override
-	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
-        Card[] reactionCards = getReactionCards(defended);
-    	for (Card c : reactionCards) {
-    		if (c.equals(Cards.moat) && !reactedMoat) {
-    			reactedMoat = true;
-    			return c;
-    		}
-    		if (c.equals(Cards.secretChamber) && !reactedSecretChamber) {
-    			reactedSecretChamber = true;
-    			return c;
-    		}
-    		if (c.equals(Cards.horseTraders))
-    			return c;
-    	}
-    	return null;
-	}
     
 }
