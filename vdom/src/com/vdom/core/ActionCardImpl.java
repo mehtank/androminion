@@ -5116,8 +5116,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     targetPlayer.trash(cardToTrash, this, targetContext);
                     
                     // If the card trashed was a knight, the attacking knight should be trashed as well
-                    if (cardToTrash.isKnight()) {
-                    	currentPlayer.trash(this, this, context);
+                    if (cardToTrash.isKnight() && currentPlayer.playedCards.contains(this) && currentPlayer.playedCards.getLastCard() == this) {
+                    	currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), cardToTrash, context);
                     }
                 }
             }

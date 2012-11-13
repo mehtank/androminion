@@ -244,11 +244,9 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             cardToPlay.cloneCount = 0;
             cardToPlay.numberTimesAlreadyPlayed = 0;    		
     		if (!treasure.equals(Cards.spoils)) {
-    			int ind = currentPlayer.playedCards.indexOf(cardToPlay.getId());
-	    		if (ind >= 0 && ind == currentPlayer.playedCards.size() - 1) { 
-	    			currentPlayer.playedCards.remove(ind);
+                if (currentPlayer.playedCards.getLastCard() == cardToPlay) {
+                	currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), this, context);
 	    		}
-   			currentPlayer.trash(cardToPlay, this, context);
     		}
     	}
 
