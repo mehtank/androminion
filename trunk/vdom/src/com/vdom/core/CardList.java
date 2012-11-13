@@ -57,7 +57,7 @@ public class CardList implements Iterable<Card> {
     }
 
     public int indexOf(Integer id) {
-        for (int i = 0; i < a.size(); i++) {
+        for (int i = a.size() - 1; i >= 0 ; i--) {
             if (a.get(i).getId() == id) 
                 return i;
 		} 
@@ -152,6 +152,10 @@ public class CardList implements Iterable<Card> {
 
     public Card getLastCard() {
         return a.size() == 0 ? null : a.get(a.size()-1);
+    }
+
+    public Card removeLastCard() {
+        return a.size() == 0 ? null : a.remove(a.size()-1);
     }
 
 	public Card[] sort(Comparator<Card> comp) {
