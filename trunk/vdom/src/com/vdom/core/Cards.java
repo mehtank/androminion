@@ -550,7 +550,7 @@ public class Cards {
         ruinsCards.add(ruinedMarket = new ActionCardImpl.Builder(Cards.Type.RuinedMarket, 0).addBuys(1).isRuins().expansion("Dark Ages").build());
         ruinsCards.add(ruinedVillage = new ActionCardImpl.Builder(Cards.Type.RuinedVillage, 0).addActions(1).isRuins().expansion("Dark Ages").build());
         ruinsCards.add(survivors = new ActionCardImpl.Builder(Cards.Type.Survivors, 0).isRuins().description("Look at the top 2 cards of your deck. Discard them or put them back in any order.").expansion("Dark Ages").build());
-        nonKingdomCards.add(virtualRuins = new CardImpl(Cards.Type.VirtualRuins, 0));
+        nonKingdomCards.add(virtualRuins = new CardImpl.Builder(Cards.Type.VirtualRuins, 0).isRuins().build());
         
         // Knights
         knightsCards.add(dameAnna = new ActionCardImpl.Builder(Cards.Type.DameAnna, 5).isKnight().description("You may trash up to 2 cards from your hand. " + KNIGHTS_TEXT).expansion("Dark Ages").build());

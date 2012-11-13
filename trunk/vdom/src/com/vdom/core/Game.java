@@ -1072,24 +1072,24 @@ public class Game {
 	        event.newCard = true;
 	        broadcastEvent(event);
 	        
-			// Swap in the real Knight
+			// Swap in the real knight
 	        if (buy.equals(Cards.virtualKnight)) {
 	        	buy = card;
 	        }
 	        
-	        // execute specific actions triggered on card gain
-	        //card.isGained(context);
         }
+
         // cost adjusted based on any cards played or card being bought
         int cost = buy.getCost(context);
-
         context.gold -= buy.getCost(context);
 
         if (buy.costPotion()) {
         	context.potions--;
-        } else if (!(buy instanceof VictoryCard) && cost < 5) {
+        } else if (!(buy instanceof VictoryCard) && !buy.isKnight() && cost < 5) {
         	for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
-        		context.getPlayer().gainNewCard(buy, Cards.talisman, context);
+        		if (!buy.isRuins() || (card != null && card.equals(getTopRuinsCard()))) {
+            		context.getPlayer().gainNewCard(buy, Cards.talisman, context);
+				}
         	}
         }
 
