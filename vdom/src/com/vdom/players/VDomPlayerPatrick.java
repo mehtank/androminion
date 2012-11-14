@@ -454,10 +454,15 @@ public class VDomPlayerPatrick extends BasePlayer {
 		return this.advisorGeneral(context, gold, false, false);
 	}
 
-	@Override
-	public String getPlayerName() {
-		return "Patrick";
-	}
+    @Override
+    public String getPlayerName() {
+    	return getPlayerName(game.maskPlayerNames);
+    }
+    
+    @Override
+    public String getPlayerName(boolean maskName) {
+    	return maskName ? "Player " + (playerNumber + 1) : "Patrick";
+    }
 
 	public boolean isAi() {
         return true;

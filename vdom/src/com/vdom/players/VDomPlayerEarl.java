@@ -169,8 +169,14 @@ public class VDomPlayerEarl extends BasePlayer
      debug(getStat(historyItems, HistoryItem.Action.PLAYED).toString());
    }
  
+   @Override
    public String getPlayerName() {
-     return "Earl";
+   	return getPlayerName(game.maskPlayerNames);
+   }
+   
+   @Override
+   public String getPlayerName(boolean maskName) {
+   	return maskName ? "Player " + (playerNumber + 1) : "Earl";
    }
  
    public Card doAction(MoveContext context) {

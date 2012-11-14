@@ -7,6 +7,7 @@ public class GameStatus implements Serializable {
 
 	public int whoseTurn;
 	public String name;
+	public String[] realNames;
 	public boolean isFinal;
     public boolean isPossessed;
     public int[] turnCounts;
@@ -36,6 +37,7 @@ public class GameStatus implements Serializable {
 	public GameStatus setFinal(boolean b) {isFinal = b; return this;}
     public GameStatus setPossessed(boolean b) {isPossessed = b; return this;}
     public GameStatus setTurnCounts(int[] is) {turnCounts = is; return this;};
+    public GameStatus setRealNames(String[] is) {realNames = is; return this;};
 	public GameStatus setCurPlayer(int i) {whoseTurn = i; return this;}
 	public GameStatus setCurName(String s) {name = s; return this;}
 	public GameStatus setHand(int[] is) {myHand = is; return this;};

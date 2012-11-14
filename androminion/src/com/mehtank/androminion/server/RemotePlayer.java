@@ -436,6 +436,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int handSizes[] = new int[numPlayers];
         int pirates[] = new int[numPlayers];
         int victoryTokens[] = new int[numPlayers];
+		String realNames[] = new String[numPlayers];
 
         for (int i=0; i<numPlayers; i++) {
         	Player p = allPlayers.get(i);
@@ -450,6 +451,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	
         	pirates[i] = p.getPirateShipTreasure();
         	victoryTokens[i] = p.getVictoryTokens();
+        	realNames[i] = p.getPlayerName(false);
         }
 
     	GameStatus gs = new GameStatus();
@@ -475,7 +477,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setHand(cardArrToIntArr(Game.sortCards ? shownHand.sort(new Util.CardHandComparator()) : shownHand.toArray()))
     	  .setPlayedCards(playedArray)
     	  .setCurPlayer(curPlayerIndex)
-    	  .setCurName(player.getPlayerName())
+    	  .setCurName(player.getPlayerName(!isFinal))
+    	  .setRealNames(realNames)
     	  .setHandSizes(handSizes)
     	  .setDeckSizes(deckSizes)
     	  .setNumCards(numCards)
@@ -922,9 +925,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     @Override
     public String getPlayerName() {
-        return name;
+    	return name;
     }
-
+    
+    @Override
+    public String getPlayerName(boolean maskName) {
+    	return getPlayerName();
+    }
+    
 	@Override
     protected Card[] pickCards(MoveContext context, String header, SelectCardOptions sco, int count, boolean exact) {
         if (sco.allowedCards.size() == 0)
@@ -1085,6 +1093,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 	private void die() {
 		if (gameThread == null) {
 			debug("die() called, but game thread already dead.");
+			kill_game();
 			return;
 	}
 		if (Thread.currentThread() == gameThread) {

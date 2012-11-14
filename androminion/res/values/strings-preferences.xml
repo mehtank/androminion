@@ -37,6 +37,8 @@
     <string name="name_pref_summary">Enter your nickname</string>
     <string name="name_pref_title">Name</string>
     <string name="personalization_pref_title">Personalization</string>
+    <string name="mask_names_pref_title">Mask AI Names</string>
+    <string name="mask_names_pref_summary">(will take effect next game)</string>
     <string name="hide_card_counts_pref_title">Hide card counts</string>
     <string name="hide_card_counts_pref_summary">(will take effect next game)</string>
     <string name="one_turn_logs_pref_title">Single turn details</string>

@@ -11,6 +11,7 @@ public class PlayerSummary {
 	private static final String TAG = "PlayerSummary";
 	
 	public String name;
+	public String realName;
 	public int deckSize;
 	public int handSize;
 	public int numCards;

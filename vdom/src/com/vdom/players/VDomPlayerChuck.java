@@ -23,7 +23,12 @@ public class VDomPlayerChuck extends BasePlayer  {
 
     @Override
     public String getPlayerName() {
-        return "Chuck";
+    	return getPlayerName(game.maskPlayerNames);
+    }
+    
+    @Override
+    public String getPlayerName(boolean maskName) {
+    	return maskName ? "Player " + (playerNumber + 1) : "Chuck";
     }
     
     @Override

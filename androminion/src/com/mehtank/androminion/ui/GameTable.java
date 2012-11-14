@@ -759,7 +759,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		        finalStatsReported = true;
 		        ArrayList<String> pl = new ArrayList<String>(players.getCount());
 		        for(int i=0; i < players.getCount(); i++) {
-		        	pl.add(players.getItem(i).name);
+		        	pl.add(gs.realNames[i]);
 		        }
 		        achievements.gameOver(pl, winners);
 		    }
@@ -781,7 +781,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 				ViewGroup.LayoutParams.FILL_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        FinalView fv = new FinalView(top, this, players.getItem(gs.whoseTurn).name, gs.turnCounts[gs.whoseTurn],
+        FinalView fv = new FinalView(top, this, gs.realNames[gs.whoseTurn], gs.turnCounts[gs.whoseTurn],
 				gs.embargos,
 				gs.numCards[gs.whoseTurn], gs.supplySizes,
 				gs.handSizes[gs.whoseTurn], won);
