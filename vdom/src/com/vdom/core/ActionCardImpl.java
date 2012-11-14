@@ -4229,7 +4229,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 				return;
 			}
 
-			game.trashPile.remove(toGain);
+			currentPlayer.deck.add(0, game.trashPile.remove(game.trashPile.indexOf(toGain)));
             currentPlayer.gainCardAlreadyInPlay(toGain, this, context);
 
 			break;
