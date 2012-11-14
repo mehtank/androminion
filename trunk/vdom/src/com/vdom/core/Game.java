@@ -49,8 +49,7 @@ public class Game {
      * default class loader should be used.
      */
     static ArrayList<String[]> playerClassesAndJars = new ArrayList<String[]>();
-
-    /**
+        /**
      * The card set to use for the game.
      *
      * @see com.vdom.api.GameType
@@ -68,6 +67,7 @@ public class Game {
     public static boolean actionChains = false;
     public static boolean suppressRedundantReactions = false;
     public static boolean equalStartHands = false;
+    public static boolean maskPlayerNames = false;
 
     public static final HashSet<GameEvent.Type> showEvents = new HashSet<GameEvent.Type>();
     public static final HashSet<String> showPlayers = new HashSet<String>();
@@ -140,8 +140,7 @@ public class Game {
          * Don't catch ExitException here. If someone throws an ExitException, it means the game is over, which should be handled by whoever owns us.
          */
 
-
-        processArgs(args);
+    	processArgs(args);
 
         checkForInteractive();
 
@@ -275,7 +274,9 @@ public class Game {
                     setPlayersTurn(takeAnotherTurn);
                 }
             }
-
+            
+            // unmask players
+            maskPlayerNames = false;
             int vps[] = gameOver(gameTypeSpecificWins);
             if (test) {
                 // Compute game stats
@@ -830,7 +831,8 @@ public class Game {
     }
 
     protected static void processArgs(String[] args) throws ExitException {
-        numPlayers = 0;
+    	maskPlayerNames = false;
+    	numPlayers = 0;
         cardsSpecifiedAtLaunch = null;
         overallWins.clear();
         GAME_TYPE_WINS.clear();
@@ -851,6 +853,7 @@ public class Game {
             String platColonyArg = "-platcolony";
             String useSheltersArg = "-useshelters";
             String quickPlayArg = "-quickplay";
+            String maskPlayerNamesArg = "-masknames";
             String sortCardsArg = "-sortcards";
             String actionChainsArg = "-actionchains";
             String suppressRedundantReactionsArg = "-suppressredundantreactions";
@@ -937,6 +940,8 @@ public class Game {
                         quickPlay = true;
                     } else if (arg.toLowerCase().equals(sortCardsArg)) {
                         sortCards = true;
+                    } else if (arg.toLowerCase().equals(maskPlayerNamesArg)) {
+                    	maskPlayerNames = true;
                     } else if (arg.toLowerCase().equals(actionChainsArg)) {
                         actionChains = true;
                     } else if (arg.toLowerCase().equals(suppressRedundantReactionsArg)) {

@@ -959,6 +959,7 @@ public abstract class Player {
     }
 
     public abstract String getPlayerName();
+    public abstract String getPlayerName(boolean maskName);
 
     public abstract Card doAction(MoveContext context);
 

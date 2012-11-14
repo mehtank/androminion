@@ -66,6 +66,12 @@
             android:title="@string/hide_card_counts_pref_title" >
         </CheckBoxPreference>
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="mask_names"
+            android:summary="@string/mask_names_pref_summary"
+            android:title="@string/mask_names_pref_title" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="exitonback"
             android:summary="@string/exitonback_pref_summary"

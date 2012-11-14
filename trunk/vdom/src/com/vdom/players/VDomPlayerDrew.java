@@ -275,6 +275,11 @@ public class VDomPlayerDrew extends VDomPlayerSarah {
 
     @Override
     public String getPlayerName() {
-        return "Drew";
+    	return getPlayerName(game.maskPlayerNames);
+    }
+    
+    @Override
+    public String getPlayerName(boolean maskName) {
+    	return maskName ? "Player " + (playerNumber + 1) : "Drew";
     }
 }
