@@ -1928,7 +1928,7 @@ public class Game {
                             player.putOnTopOfDeck(event.card);
                         } else if (event.responsible != null) {
                             Card r = event.responsible;
-                            if (r.equals(Cards.bagOfGold) || r.equals(Cards.develop) || r.equals(Cards.bureaucrat) || r.equals(Cards.seaHag) || r.equals(Cards.treasureMap) || r.equals(Cards.tournament) || r.equals(Cards.foolsGold) || r.equals(Cards.armory)) {
+                            if (r.equals(Cards.bagOfGold) || r.equals(Cards.develop) || r.equals(Cards.bureaucrat) || r.equals(Cards.seaHag) || r.equals(Cards.treasureMap) || r.equals(Cards.tournament) || r.equals(Cards.foolsGold) || r.equals(Cards.graverobber) || r.equals(Cards.armory)) {
                                 player.putOnTopOfDeck(event.card);
                             } else if (r.equals(Cards.beggar)) {
                             	if (event.card.equals(Cards.copper)) {

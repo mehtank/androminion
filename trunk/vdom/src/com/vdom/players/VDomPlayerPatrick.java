@@ -1585,7 +1585,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 					} 
 				} else if (specialVictoryCards.contains(c)) {
 					if (c.equals(Cards.farmland)) {
-						if ((hand.contains(Cards.curse)) && (maxVP_card.getVictoryPoints() <= 4)) {
+						if ((hand.contains(Cards.curse)) && (maxVP_card == null || maxVP_card.getVictoryPoints() <= 4)) {
 							maxVP_card = (VictoryCard) c;
 						}
 					}
