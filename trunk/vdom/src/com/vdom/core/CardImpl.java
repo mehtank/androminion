@@ -174,10 +174,15 @@ public class CardImpl implements Card {
     }
 
     public int getCost(MoveContext context, boolean buyPhase) {
-        int costModifier = 0;
+    	if (this.equals(Cards.virtualKnight))
+    		if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
+    			return context.game.getTopKnightCard().getCost(context,buyPhase); 
+
+    	int costModifier = 0;
         costModifier -= (this instanceof ActionCardImpl) ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
         costModifier -= context.countCardsInPlay(Cards.highway);
         costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlayThisTurn()) : 0;
+        //costModifier -= (this.isKnight ? (cost - game. (2 * context.countCardsInPlay(Cards.quarry)) : 0;
 
         return Math.max(0, cost + costModifier + context.cardCostModifier);
     }

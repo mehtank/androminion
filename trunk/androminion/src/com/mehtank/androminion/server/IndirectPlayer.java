@@ -445,7 +445,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         		    if(victoryAllowed || !(card instanceof VictoryCard)) {
         		    	if (card.isShelter() == false) {
 	        		        if(potionCost == -1 || (potionCost == 0 && !card.costPotion()) || (potionCost > 0 && card.costPotion()) || (potionCost > 0 && !card.costPotion() && maxCost != minCost)) {
-	        		            sco.addValidCard(cardToInt(card));
+	        		        	if (allowEmpty || !context.game.isPileEmpty(card)) {
+		        		            sco.addValidCard(cardToInt(card));
+								}
 	        		        }
         		    	}
         		    }
@@ -493,10 +495,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	    
 	    for (Card card : cards) {
 	    	if (sco.checkValid(card, card.getCost(context))) {
-	    		sco.addValidCard(cardToInt(card));
-	    		
-	    		if (firstCardAvailable == null) {
-	    			firstCardAvailable = card;
+	    		if (sco.allowEmpty || !context.game.isPileEmpty(card)) {
+	    			sco.addValidCard(cardToInt(card));
+		    		if (firstCardAvailable == null) {
+		    			firstCardAvailable = card;
+		    		}
 	    		}
 	    	}
 	    }

@@ -32,6 +32,7 @@ public class GameStatus implements Serializable {
 	public int ruinsID;
 	public String knightsTopCard;
 	public String knightsTopCardDesc;
+	public int knightsTopCardCost;
 	public int knightsID;
 
 	public GameStatus setFinal(boolean b) {isFinal = b; return this;}
@@ -57,7 +58,7 @@ public class GameStatus implements Serializable {
     public GameStatus setPotions(int i) {potions = i; return this;}
     public GameStatus setTrash(int[] is) {trashPile = is; return this;}
     public GameStatus setRuinsTopCard(int i, String s, String d) {ruinsTopCard = s; ruinsTopCardDesc = d; ruinsID = i; return this;}
-    public GameStatus setKnightTopCard(int i, String s, String d) {knightsTopCard = s; knightsTopCardDesc = d; knightsID = i; return this;}
+    public GameStatus setKnightTopCard(int i, String s, String d, int c) {knightsTopCard = s; knightsTopCardDesc = d; knightsID = i; knightsTopCardCost = c; return this;}
     
 	public String toString() {
 		String str = name + "(" + whoseTurn + ")";

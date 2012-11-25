@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import com.vdom.core.Cards;
 import com.vdom.core.Util.MultilevelComparator;
 
 public class MyCard implements Serializable {
@@ -53,6 +54,7 @@ public class MyCard implements Serializable {
 		this.name = name;
 		this.originalSafeName = originalSafeName;
 		this.originalName = originalName;
+		this.isKnight = originalName.equals("VirtualKnight");
 	}
 	
 	public String toString() {
@@ -72,6 +74,10 @@ public class MyCard implements Serializable {
 			if(card0.cost < card1.cost) {
 				return -1;
 			} else if(card0.cost > card1.cost) {
+				return 1;
+			} else if(card0.isKnight) {
+				return -1;
+			} else if(card1.isKnight) {
 				return 1;
 			} else {
 				return 0;
