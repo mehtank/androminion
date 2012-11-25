@@ -194,6 +194,9 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 				startActivityForResult(i, 0);
 			}
 		}
+		if (gameRunning) {
+			Game.processUserPrefArgs(getUserPrefs().toArray(new String[0]));
+		}
 	}
 
 	@Override
@@ -208,12 +211,55 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 		} else {
 			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
+		if (gameRunning) {
+			Game.processUserPrefArgs(getUserPrefs().toArray(new String[0]));
+		}
 	}
 
 	boolean getPref(String prefName) {
 		SharedPreferences prefs;
 		prefs = PreferenceManager.getDefaultSharedPreferences(top);
 		return prefs.getBoolean(prefName, false);
+	}
+
+	ArrayList<String> getUserPrefs() {
+		ArrayList<String> strs = new ArrayList<String>();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(top);
+		
+		if(prefs.getBoolean("plat_colony", false)) {
+		    strs.add("-platcolony");
+		}
+
+		if (prefs.getBoolean("use_shelters", false))
+		{
+			strs.add("-useshelters");
+		}
+
+        if(prefs.getBoolean("quick_play", false)) {
+            strs.add("-quickplay");
+        }
+
+        if(prefs.getBoolean("mask_names", false)) {
+            strs.add("-masknames");
+        }
+
+        if(prefs.getBoolean("sort_cards", false)) {
+            strs.add("-sortcards");
+        }
+
+        if (prefs.getBoolean("action_chains", false)) {
+            strs.add("-actionchains");
+        }
+
+        if (prefs.getBoolean("suppress_redundant_reactions", true)) {
+            strs.add("-suppressredundantreactions");
+        }
+
+        if (prefs.getBoolean("equal_start_hands", false)) {
+            strs.add("-equalstarthands");
+        }
+
+		return strs;
 	}
 
 	void startServer() {
