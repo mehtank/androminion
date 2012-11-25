@@ -93,7 +93,7 @@ public class Strings {
     			gametype = r.getString(id);
     		}      
     		catch(Exception e) {
-    			e.printStackTrace();
+    			//e.printStackTrace();
     		}
     	}
     	if (gametype == null){

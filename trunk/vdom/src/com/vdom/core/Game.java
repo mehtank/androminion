@@ -123,7 +123,6 @@ public class Game {
 
     private static HashMap<String, Player> playerCache = new HashMap<String, Player>();
 
-
     public static void main(String[] args) {
     	try {
         	go(args, false);
@@ -139,14 +138,10 @@ public class Game {
         /*
          * Don't catch ExitException here. If someone throws an ExitException, it means the game is over, which should be handled by whoever owns us.
          */
-
+    	
     	processArgs(args);
-
-        checkForInteractive();
-
+    	
         Util.debug("");
-
-
 
             // Start game(s)
             if (gameTypeStr != null) {
@@ -831,7 +826,12 @@ public class Game {
     }
 
     protected static void processArgs(String[] args) throws ExitException {
-    	maskPlayerNames = false;
+        // dont remove tabs in following to keep easy upstream-mergeability
+    	processNewGameArgs(args);
+    	processUserPrefArgs(args);
+    }
+
+    protected static void processNewGameArgs(String[] args) throws ExitException {
     	numPlayers = 0;
         cardsSpecifiedAtLaunch = null;
         overallWins.clear();
@@ -840,159 +840,182 @@ public class Game {
         playerClassesAndJars.clear();
         playerCache.clear();
 
-        // dont remove tabs in following to keep easy upstream-mergeability
+        String gameCountArg = "-count";
+        String debugArg = "-debug";
+        String showEventsArg = "-showevents";
+        String gameTypeArg = "-type";
+        String gameTypeStatsArg = "-test";
+        String ignorePlayerErrorsArg = "-ignore";
+        String showPlayersArg = "-showplayers";
+        String siteArg = "-site=";
+        String cardArg = "-cards=";
 
-            String gameCountArg = "-count";
-            String debugArg = "-debug";
-            String showEventsArg = "-showevents";
-            String showPlayersArg = "-showplayers";
-            String gameTypeArg = "-type";
-            String gameTypeStatsArg = "-test";
-            String ignorePlayerErrorsArg = "-ignore";
-            String siteArg = "-site=";
-            String platColonyArg = "-platcolony";
-            String useSheltersArg = "-useshelters";
-            String quickPlayArg = "-quickplay";
-            String maskPlayerNamesArg = "-masknames";
-            String sortCardsArg = "-sortcards";
-            String actionChainsArg = "-actionchains";
-            String suppressRedundantReactionsArg = "-suppressredundantreactions";
-            String equalStartHandsArg = "-equalstarthands";
-            String cardArg = "-cards=";
+        for (String arg : args) {
+            if (arg == null) {
+                continue;
+            }
 
-            for (String arg : args) {
-                if (arg == null) {
-                    continue;
-                }
+            if (arg.startsWith("#")) {
+                continue;
+            }
 
-                if (arg.startsWith("#")) {
-                    continue;
-                }
-
-                if (arg.startsWith("-")) {
-                    if (arg.toLowerCase().equals(debugArg)) {
-                        debug = true;
-                        if (showEvents.isEmpty()) {
-                            for (GameEvent.Type eventType : GameEvent.Type.values()) {
-                                showEvents.add(eventType);
-                            }
+            if (arg.startsWith("-")) {
+                if (arg.toLowerCase().equals(debugArg)) {
+                    debug = true;
+                    if (showEvents.isEmpty()) {
+                        for (GameEvent.Type eventType : GameEvent.Type.values()) {
+                            showEvents.add(eventType);
                         }
-                    } else if (arg.toLowerCase().startsWith(showEventsArg)) {
-                        String showEventsString = arg.substring(showEventsArg.length() + 1);
-                        for (String event : showEventsString.split(",")) {
-                            showEvents.add(GameEvent.Type.valueOf(event));
-                        }
-                    } else if (arg.toLowerCase().startsWith(showPlayersArg)) {
-                        String showPlayersString = arg.substring(showPlayersArg.length() + 1);
-                        for (String player : showPlayersString.split(",")) {
-                            showPlayers.add(player);
-                        }
-                    } else if (arg.toLowerCase().startsWith(ignorePlayerErrorsArg)) {
-                        if (arg.trim().toLowerCase().equals(ignorePlayerErrorsArg)) {
-                            ignoreAllPlayerErrors = true;
-                        } else {
-                            ignoreSomePlayerErrors = true;
-
-                            try {
-                                String player = arg.substring(ignorePlayerErrorsArg.length()).trim();
-                                ignoreList.add(player);
-                            } catch (Exception e) {
-                                Util.log(e);
-                                throw new ExitException();
-                            }
-                        }
-                    } else if (arg.toLowerCase().equals(gameTypeStatsArg)) {
-                        test = true;
-                    } else if (arg.toLowerCase().startsWith(gameCountArg)) {
-                        try {
-                            numGames = Integer.parseInt(arg.substring(gameCountArg.length()));
-                        } catch (Exception e) {
-                            Util.log(e);
-                            throw new ExitException();
-                        }
-                    } else if (arg.toLowerCase().startsWith(cardArg)) {
-                        try {
-                            cardsSpecifiedAtLaunch = arg.substring(cardArg.length()).split("-");
-                        } catch (Exception e) {
-                            Util.log(e);
-                            throw new ExitException();
-                        }
-                    } else if (arg.toLowerCase().startsWith(siteArg)) {
-                        try {
-                            // UI.downloadSite =
-                            // arg.substring(siteArg.length());
-                        } catch (Exception e) {
-                            Util.log(e);
-                            throw new ExitException();
-                        }
-                    } else if (arg.toLowerCase().startsWith(gameTypeArg)) {
-                        try {
-                            gameTypeStr = arg.substring(gameTypeArg.length());
-                        } catch (Exception e) {
-                            Util.log(e);
-                            throw new ExitException();
-                        }
-                    } else if (arg.toLowerCase().equals(platColonyArg)) {
-                        alwaysIncludePlatColony = true;
-                    } else if (arg.toLowerCase().equals(useSheltersArg)) {
-						alwaysUseShelters = true;
-                    } else if (arg.toLowerCase().equals(quickPlayArg)) {
-                        quickPlay = true;
-                    } else if (arg.toLowerCase().equals(sortCardsArg)) {
-                        sortCards = true;
-                    } else if (arg.toLowerCase().equals(maskPlayerNamesArg)) {
-                    	maskPlayerNames = true;
-                    } else if (arg.toLowerCase().equals(actionChainsArg)) {
-                        actionChains = true;
-                    } else if (arg.toLowerCase().equals(suppressRedundantReactionsArg)) {
-                    	suppressRedundantReactions = true;
-                    } else if (arg.toLowerCase().equals(equalStartHandsArg)) {
-                    	equalStartHands = true;
+                    }
+                } else if (arg.toLowerCase().startsWith(showEventsArg)) {
+                    String showEventsString = arg.substring(showEventsArg.length() + 1);
+                    for (String event : showEventsString.split(",")) {
+                        showEvents.add(GameEvent.Type.valueOf(event));
+                    }
+                } else if (arg.toLowerCase().startsWith(showPlayersArg)) {
+                    String showPlayersString = arg.substring(showPlayersArg.length() + 1);
+                    for (String player : showPlayersString.split(",")) {
+                        showPlayers.add(player);
+                    }
+                } else if (arg.toLowerCase().startsWith(ignorePlayerErrorsArg)) {
+                    if (arg.trim().toLowerCase().equals(ignorePlayerErrorsArg)) {
+                        ignoreAllPlayerErrors = true;
                     } else {
-                        Util.log("Invalid arg:" + arg);
-                        showUsage = true;
+                        ignoreSomePlayerErrors = true;
+
+                        try {
+                            String player = arg.substring(ignorePlayerErrorsArg.length()).trim();
+                            ignoreList.add(player);
+                        } catch (Exception e) {
+                            Util.log(e);
+                            throw new ExitException();
+                        }
                     }
-                } else {
-                    String options = "";
-                    String name = null;
-                    int starIndex = arg.indexOf("*");
-                    if (starIndex != -1) {
-                        name = arg.substring(starIndex + 1);
-                        arg = arg.substring(0, starIndex);
+                } else if (arg.toLowerCase().equals(gameTypeStatsArg)) {
+                    test = true;
+                } else if (arg.toLowerCase().startsWith(gameCountArg)) {
+                    try {
+                        numGames = Integer.parseInt(arg.substring(gameCountArg.length()));
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
                     }
-                    if (arg.endsWith(QUICK_PLAY)) {
-                        arg = arg.substring(0, arg.length() - QUICK_PLAY.length());
-                        options += "q";
+                } else if (arg.toLowerCase().startsWith(cardArg)) {
+                    try {
+                        cardsSpecifiedAtLaunch = arg.substring(cardArg.length()).split("-");
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
                     }
-                    int atIndex = arg.indexOf("@");
-                    String className = arg;
-                    String jar = null;
-                    if (atIndex != -1) {
-                        className = className.substring(0, atIndex);
-                        jar = arg.substring(atIndex + 1);
+                } else if (arg.toLowerCase().startsWith(siteArg)) {
+                    try {
+                        // UI.downloadSite =
+                        // arg.substring(siteArg.length());
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
                     }
-                    playerClassesAndJars.add(new String[] { className, jar, name, options });
+                } else if (arg.toLowerCase().startsWith(gameTypeArg)) {
+                    try {
+                        gameTypeStr = arg.substring(gameTypeArg.length());
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
+                    }
+//                } else {
+//                    Util.log("Invalid arg:" + arg);
+//                    showUsage = true;
                 }
-            }
-
-            numPlayers = playerClassesAndJars.size();
-
-            if (numPlayers < 1 || numPlayers > 6 || showUsage) {
-                Util.log("Usage: [-debug][-ignore(playername)][-count(# of Games)][-type(Game type)] class1 class2 [class3] [class4]");
-                throw new ExitException();
-            }
-
-
-        if (gameTypeStr == null) {
-            if (debug) {
-                gameTypeStr = "FirstGame";
+            } else {
+                String options = "";
+                String name = null;
+                int starIndex = arg.indexOf("*");
+                if (starIndex != -1) {
+                    name = arg.substring(starIndex + 1);
+                    arg = arg.substring(0, starIndex);
+                }
+                if (arg.endsWith(QUICK_PLAY)) {
+                    arg = arg.substring(0, arg.length() - QUICK_PLAY.length());
+                    options += "q";
+                }
+                int atIndex = arg.indexOf("@");
+                String className = arg;
+                String jar = null;
+                if (atIndex != -1) {
+                    className = className.substring(0, atIndex);
+                    jar = arg.substring(atIndex + 1);
+                }
+                playerClassesAndJars.add(new String[] { className, jar, name, options });
             }
         }
 
-        if (numGames == -1) {
-        	numGames = 1;
+        numPlayers = playerClassesAndJars.size();
+
+        if (numPlayers < 1 || numPlayers > 6 || showUsage) {
+            Util.log("Usage: [-debug][-ignore(playername)][-count(# of Games)][-type(Game type)] class1 class2 [class3] [class4]");
+            throw new ExitException();
         }
 
+	    if (gameTypeStr == null) {
+	        if (debug) {
+	            gameTypeStr = "FirstGame";
+	        }
+	    }
+	
+	    if (numGames == -1) {
+	    	numGames = 1;
+	    }
+
+    }
+
+    public static void processUserPrefArgs(String[] args) throws ExitException {
+        quickPlay = false;
+        sortCards = false;
+    	maskPlayerNames = false;
+        actionChains = false;
+    	suppressRedundantReactions = false;
+        alwaysIncludePlatColony = false;
+		alwaysUseShelters = false;
+    	equalStartHands = false;
+    	
+        String quickPlayArg = "-quickplay";
+        String maskPlayerNamesArg = "-masknames";
+        String sortCardsArg = "-sortcards";
+        String actionChainsArg = "-actionchains";
+        String suppressRedundantReactionsArg = "-suppressredundantreactions";
+        String platColonyArg = "-platcolony";
+        String useSheltersArg = "-useshelters";
+        String equalStartHandsArg = "-equalstarthands";
+
+        for (String arg : args) {
+            if (arg == null) {
+                continue;
+            }
+
+            if (arg.startsWith("#")) {
+                continue;
+            }
+
+            if (arg.startsWith("-")) {
+	            if (arg.toLowerCase().equals(quickPlayArg)) {
+	                quickPlay = true;
+	            } else if (arg.toLowerCase().equals(sortCardsArg)) {
+	                sortCards = true;
+	            } else if (arg.toLowerCase().equals(maskPlayerNamesArg)) {
+	            	maskPlayerNames = true;
+	            } else if (arg.toLowerCase().equals(actionChainsArg)) {
+	                actionChains = true;
+	            } else if (arg.toLowerCase().equals(suppressRedundantReactionsArg)) {
+	            	suppressRedundantReactions = true;
+                } else if (arg.toLowerCase().equals(platColonyArg)) {
+                    alwaysIncludePlatColony = true;
+                } else if (arg.toLowerCase().equals(useSheltersArg)) {
+					alwaysUseShelters = true;
+                } else if (arg.toLowerCase().equals(equalStartHandsArg)) {
+                	equalStartHands = true;
+	            }
+	        }
+        }
     }
 
     public boolean isValidAction(MoveContext context, Card action) {
@@ -1388,6 +1411,10 @@ public class Game {
             String s = cardListText + "\n---------------\n\n";
             if (chanceForPlatColony > -1) {
                 s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (isPlatInGame() ? "included\n" : "not included\n");
+            }
+            else
+            {
+            	s += "Platinum/Colony included...\n";
             }
             if (baneCard != null) {
                 s += "Bane card: " + baneCard.getName() + "\n";
