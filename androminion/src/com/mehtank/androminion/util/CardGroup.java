@@ -126,10 +126,14 @@ public class CardGroup extends BaseAdapter {
 
 
 	public void updateCardName(int index, String s, String d) {
+		updateCardName(index, s, d, -1);
+	}
+	public void updateCardName(int index, String s, String d, int c) {
 		for (CardState cs : cards) {
 			if (cs.c.id == index) {
 				cs.c.name = s;
 				cs.c.desc = d;
+				if (c >= 0) cs.c.cost = c;
 			}
 		}
 	}

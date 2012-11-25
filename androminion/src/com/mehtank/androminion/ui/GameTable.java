@@ -414,10 +414,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	boolean isAcceptable(MyCard c, CardGroup parent) {
 		if (sco.fromHand && (parent != hand)) return false;
 		else if (sco.fromTable) {
-			if (!sco.allowEmpty) {
-				if (lastSupplySizes[c.id] == 0)
-					return false;
-			}
+//			if (!sco.allowEmpty) {
+//				if (lastSupplySizes[c.id] == 0)
+//					return false;
+//			}
 			if (sco.fromPrizes) {
 				if ((parent != vpPile)
 				&&  (parent != moneyPile)
@@ -877,14 +877,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 			trashColumn.setVisibility(GONE);
 		}
 
-		setSupplySizes(gs.supplySizes, gs.embargos);
 		this.lastSupplySizes = gs.supplySizes;
 		this.lastEmbargos = gs.embargos;
 		costs = gs.costs;
-        setCardCosts(top.findViewById(android.R.id.content));
         
         supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, gs.ruinsTopCardDesc);
-        supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardDesc);
+        supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardDesc, gs.knightsTopCardCost);
+		setSupplySizes(gs.supplySizes, gs.embargos);
+        setCardCosts(top.findViewById(android.R.id.content));
 	}
 
 	static int getCardCost(MyCard c) {
