@@ -39,7 +39,7 @@ public class VDomPlayerSarah extends BasePlayer {
     }
 
     public void setupGameVariables(GameType gameType, Card[] cardsInPlay) {
-        trashCards = new Card[] { Cards.curse, Cards.estate, Cards.copper };
+        trashCards = new Card[] { Cards.curse, Cards.estate, Cards.copper, Cards.rats };
         valuedCards = new Card[] { Cards.torturer, Cards.bazaar, Cards.masquerade, Cards.ghostShip, Cards.wharf, Cards.smithy, Cards.harem, Cards.adventurer,
             Cards.shantyTown, Cards.festival, Cards.moneyLender, Cards.venture, Cards.tournament, Cards.miningVillage, Cards.mint, Cards.farmingVillage,
             Cards.kingsCourt, Cards.jester, Cards.youngWitch, Cards.goons, Cards.monument, Cards.bishop, Cards.hamlet, Cards.fortuneTeller, Cards.watchTower,
@@ -373,6 +373,15 @@ public class VDomPlayerSarah extends BasePlayer {
     public Card doAction(MoveContext context) {
         ArrayList<ActionCard> actionCards = context.getPlayer().getActionsInHand();
 
+        // don't play rats
+        if (game.isCardInGame(Cards.rats)) {
+	        for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+	            if (Cards.rats.equals(it.next())) {
+	                it.remove();
+	            }
+	        }
+        }
+        
         // Pair of Treasure Maps goes first
         int treasureMapCount = 0;
         for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
@@ -385,9 +394,10 @@ public class VDomPlayerSarah extends BasePlayer {
             return context.player.fromHand(Cards.treasureMap);
         }
 
+        
         // don't play trashForced cards if no trash cards available (Apprentice, Ambassador, etc)
         Card[] trashableCards = pickOutCards(context.getPlayer().getHand(), 1, getTrashCards());
-        if (trashableCards == null) { 
+        if (trashableCards == null) {
             for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
                 if (it.next().trashForced())
                     it.remove();
@@ -450,6 +460,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 !favorSilverGoldPlat && (card.equals(Cards.silver) || card.equals(Cards.gold) || card.equals(Cards.platinum)) ||
                 card.equals(Cards.curse) || 
                 card.equals(Cards.copper) || 
+                card.equals(Cards.rats) || 
                 card.equals(Cards.potion) && !shouldBuyPotion() ||
                 card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
