@@ -3538,8 +3538,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     for (int i = 0; i < currentPlayer.hand.size(); i++) {
                         Card playersCard = currentPlayer.hand.get(i);
                         if (playersCard.equals(card)) {
-                            Card thisCard = currentPlayer.hand.remove(i);
-
+                            Card thisCard = currentPlayer.hand.remove(i, false);
                             currentPlayer.trash(thisCard, this, context);
                             break;
                         }

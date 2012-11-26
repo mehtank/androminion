@@ -88,7 +88,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         game.broadcastEvent(event);
 
         if (this.numberTimesAlreadyPlayed == 0) {
-        	player.playedCards.add(player.hand.remove(player.hand.indexOf(this.getId())));
+        	player.playedCards.add(player.hand.remove(player.hand.indexOf(this.getId()), false));
         }
         
         context.treasuresPlayedSoFar++;
