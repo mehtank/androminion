@@ -2589,6 +2589,6 @@ public class VDomPlayerPatrick extends BasePlayer {
 	@Override
 	public Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards) {
 		// TODO Auto-generated method stub
-		return Util.randomCard(handCards);
+		return super.pillage_opponentCardToDiscard(context, handCards);
 	}
 }

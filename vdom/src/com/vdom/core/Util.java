@@ -434,7 +434,7 @@ public class Util {
         }
 
         Arrays.sort(cards, new CardCostComparator());
-        return cards[cards.length - 1];
+        return cards[0];
     }
 
     public static Card getMostExpensiveCard(Card[] cards) {
@@ -443,7 +443,7 @@ public class Util {
         }
 
         Arrays.sort(cards, new CardCostComparator());
-        return cards[0];
+        return cards[cards.length - 1];
     }
     
     public static Card randomCard(ArrayList<Card> list) {
