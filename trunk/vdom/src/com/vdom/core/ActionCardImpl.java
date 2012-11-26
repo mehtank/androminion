@@ -4274,14 +4274,15 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	}
 
 	private void junkDealer(Player currentPlayer, MoveContext context) {
-        Card card = currentPlayer.controlPlayer.junkDealer_cardToTrash(context);
-        if(card == null || !currentPlayer.hand.contains(card)) {
-            Util.playerError(currentPlayer, "Junk Dealer card to trash invalid, picking one");
-            card = currentPlayer.hand.get(0);
-        }
-
-        currentPlayer.hand.remove(card);
-        currentPlayer.trash(card, this, context);
+		if (!currentPlayer.hand.isEmpty()) {
+			Card card = currentPlayer.controlPlayer.junkDealer_cardToTrash(context);
+	        if(card == null || !currentPlayer.hand.contains(card)) {
+	            Util.playerError(currentPlayer, "Junk Dealer card to trash invalid, picking one");
+	            card = currentPlayer.hand.get(0);
+	        }
+	        currentPlayer.hand.remove(card);
+	        currentPlayer.trash(card, this, context);
+		}
 	}
 
 	private void mystic(Game game, MoveContext context, Player currentPlayer) {

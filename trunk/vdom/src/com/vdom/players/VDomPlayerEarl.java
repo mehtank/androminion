@@ -201,7 +201,7 @@ public class VDomPlayerEarl extends BasePlayer
  
      int actionCards = 0;
      for (Card card : hand) {
-       if (card instanceof ActionCard) {
+       if (card instanceof ActionCard && !card.equals(Cards.rats)) {
          ++actionCards;
        }
      }
@@ -788,7 +788,7 @@ public class VDomPlayerEarl extends BasePlayer
        }
      }
      for (Card card : getHand()) {
-       if (card.equals(Cards.copper)) {
+       if (card.equals(Cards.copper) || card.equals(Cards.rats)) {
          return card;
        }
      }

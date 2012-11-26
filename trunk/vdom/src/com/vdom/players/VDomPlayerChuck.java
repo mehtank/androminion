@@ -143,6 +143,7 @@ public class VDomPlayerChuck extends BasePlayer  {
                         !context.canBuy(card) || 
                         card.equals(Cards.curse) || 
                         card.equals(Cards.copper) || 
+                        card.equals(Cards.rats) || 
                         card.equals(Cards.potion) && !shouldBuyPotion() ||
                         card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= 2 ||
                         card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= 2 ||
