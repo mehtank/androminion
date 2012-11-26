@@ -119,23 +119,35 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         if (isBuy) {
             maxCost = maxCostWithoutPotion = COST_MAX;
         }
+        
         Card[] cards = context.getCardsInGame();
+        ArrayList<Card> cardList = new ArrayList<Card>();
+        for (int i = 0; i < cards.length; i++) {
+			Card card = cards[i];
+            if (card.equals(Cards.curse) 
+        		|| card.isShelter() 
+        		|| !Cards.isSupplyCard(card) 
+        		|| isTrashCard(card) 
+        		|| (card.equals(Cards.potion) && !shouldBuyPotion())
+        		|| (actionOnly && !(card instanceof ActionCard)) 
+        		|| (!victoryCardAllowed && (card instanceof VictoryCard))
+        		) {
+            } else {
+            	cardList.add(card);
+            }
+		}
+        if (cardList.isEmpty()) {
+			return null;
+		}
+        
         int cost = maxCostWithoutPotion;
         int highestCost = 0;
         ArrayList<Card> randList = new ArrayList<Card>();
         
         while (cost >= 0) {
-            for (Card card : cards) {
+            for (Card card : cardList) {
                 int cardCost = card.getCost(context);
                 if (cardCost == cost && context.getCardsLeftInPile(card) > 0) {
-                    if (card.equals(Cards.curse) || card.isPrize() || card.isShelter() || isTrashCard(card) || (card.equals(Cards.potion) && !shouldBuyPotion())) {
-                        continue;
-                    }
-
-                    if ((actionOnly && !(card instanceof ActionCard)) || (!victoryCardAllowed && (card instanceof VictoryCard))) {
-                        continue;
-                    }
-
                     if ((!exactCost && potion) || (card.costPotion() && potion) || (!card.costPotion() && !potion)) {
                         if ((cardCost <= maxCostWithoutPotion && !card.costPotion()) || (cardCost <= maxCost)) {
                             if (!isBuy || context.canBuy(card)) {
@@ -673,7 +685,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         Card[] cards = context.getCardsInGame();
         ArrayList<Card> changeList = new ArrayList<Card>();
         for (Card card : cards) {
-            if (!card.isPrize() && card.getCost(context) == cost && context.getCardsLeftInPile(card) > 0 && card.costPotion() == potion) {
+            if (Cards.isSupplyCard(card) && card.getCost(context) == cost && context.getCardsLeftInPile(card) > 0 && card.costPotion() == potion) {
                 changeList.add(card);
             }
         }

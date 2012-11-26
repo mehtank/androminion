@@ -1455,7 +1455,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         Card card = currentPlayer.controlPlayer.forge_cardToObtain(context, totalCost);
         if (card != null) {
-            if (card.getCost(context) != totalCost || card.costPotion() || card.isPrize() || card.equals(Cards.curse)) {
+            if (card.getCost(context) != totalCost || card.costPotion() || !Cards.isSupplyCard(card) || card.equals(Cards.curse)) {
                 Util.playerError(currentPlayer, "Forge returned invalid card, ignoring.");
             } else {
                 if(!currentPlayer.gainNewCard(card, this, context)) {
@@ -2673,7 +2673,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                         Card card = (player).controlPlayer.saboteur_cardToObtain(playerContext, value, potion);
                         if (card != null) {
-                            if (card.getCost(context) > value || (card.costPotion() && !potion) || card.isPrize()) {
+                            if (card.getCost(context) > value || (card.costPotion() && !potion) || !Cards.isSupplyCard(card)) {
                                 Util.playerError(currentPlayer, "Saboteur obtain error, ignoring.");
                             }
                             else {
@@ -2958,14 +2958,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     if (card == null) {
                         // Check that there are no cards that are possible to trade for...
                         for (Card thisCard : context.getCardsInGame()) {
-                            if (!thisCard.isPrize() && game.pileSize(thisCard) > 0 && thisCard.getCost(context) == draw.getCost(context) && thisCard.costPotion() == draw.costPotion()) {
+                            if (Cards.isSupplyCard(thisCard) && !game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.costPotion() == draw.costPotion()) {
                                 bad = true;
                                 break;
                             }
                         }
-                    } else if (context.getCardsLeftInPile(card) == 0) {
-                        bad = true;
-                    } else if (card.isPrize() || card.getCost(context) != draw.getCost(context) || card.costPotion() != draw.costPotion()) {
+                    } else if (!Cards.isSupplyCard(card) || game.isPileEmpty(card)  || card.getCost(context) != draw.getCost(context) || card.costPotion() != draw.costPotion()) {
                         bad = true;
                     }
 
@@ -2974,7 +2972,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                         ArrayList<Card> possible = new ArrayList<Card>();
                         for (Card thisCard : context.getCardsInGame()) {
-                            if (!thisCard.isPrize() && game.pileSize(thisCard) > 0 && thisCard.getCost(context) == draw.getCost(context) && thisCard.costPotion() == draw.costPotion()) {
+                            if (Cards.isSupplyCard(thisCard) && !game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.costPotion() == draw.costPotion()) {
                                 possible.add(thisCard);
                             }
                         }
@@ -3637,7 +3635,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void smugglers(MoveContext context, Player currentPlayer) {
         Card card = currentPlayer.controlPlayer.smugglers_cardToObtain(context);
         if (card != null) {
-            if (card.getCost(context) > 6 || card.isPrize() || card.costPotion()) {
+            if (card.getCost(context) > 6 || !Cards.isSupplyCard(card) || card.costPotion()) {
                 Util.playerError(currentPlayer, "Smugglers card error, ignoring.");
                 card = null;
             } else {
