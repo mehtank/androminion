@@ -2282,32 +2282,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	@Override
 	public Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards)
 	{
-		// ToDo: Logic
 		Card cardToDiscard = null;
-		
-		for (Card c : handCards) 
-		{
-            if (c instanceof ActionCard) 
-            {
-                cardToDiscard = c;
-                break;
-            }
-        }
-		
-		if (cardToDiscard == null)
-		{
-			for (Card c : handCards) 
-			{
-	            if (c instanceof TreasureCard) 
-	            {
-	                cardToDiscard = c;
-	                break;
-	            }
-	        }
+
+		ArrayList<Card> goodCards = new ArrayList<Card>();
+    	for (Card c : handCards)
+    		if (c instanceof TreasureCard || c instanceof ActionCard)
+    			goodCards.add(c);
+
+    	if (goodCards.size() > 0) {
+        	cardToDiscard = Util.getMostExpensiveCard(goodCards.toArray(new Card[0]));
 		}
-		
-		if (cardToDiscard == null)
-		{
+
+    	if (cardToDiscard == null) {
 			cardToDiscard = Util.randomCard(handCards);
 		}
 		
