@@ -1045,7 +1045,7 @@ public Card masquerade_cardToPass(MoveContext context)
      Card[] cards = context.getCardsInGame();
      ArrayList<Card> randList = new ArrayList<Card>();
      for (Card card : cards) {
-       if (!card.isPrize() && (card.getCost(context) == cost) && (context.getCardsLeftInPile(card) > 0) && card.costPotion() == potion) {
+       if (Cards.isSupplyCard(card) && (card.getCost(context) == cost) && (context.getCardsLeftInPile(card) > 0) && card.costPotion() == potion) {
          randList.add(card);
        }
      }

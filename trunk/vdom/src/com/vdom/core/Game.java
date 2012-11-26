@@ -1052,15 +1052,14 @@ public class Game {
 //        }
 
         AbstractCardPile thePile = getPile(card);
-
         if (thePile == null || thePile.isSupply() == false)
         {
         	return false;
         }
 
-//        if (card.isPrize()) {
-//            return false;
-//        }
+        if (!Cards.isSupplyCard(card)) {
+            return false;
+        }
 
         if (isPileEmpty(card)) {
             return false;
@@ -1146,7 +1145,7 @@ public class Game {
         for (int i = 0; i < hagglers; i++) {
             validCards.clear();
             for (Card card : getCardsInGame()) {
-                if (!(card instanceof VictoryCard) && !card.isPrize() && getCardsLeftInPile(card) > 0) {
+                if (!(card instanceof VictoryCard) && Cards.isSupplyCard(card) && getCardsLeftInPile(card) > 0) {
                     int gainCardCost = card.getCost(context);
                     boolean gainCardPotion = card.costPotion();
 
@@ -2178,7 +2177,7 @@ public class Game {
     }
 
 	public boolean isValidEmbargoPile(Card card) {
-		return !(card == null || Cards.prizeCards.contains(card) || !cardInGame(card));
+		return !(card == null || !cardInGame(card) || !Cards.isSupplyCard(card) );
 		}
 
     public int getEmbargos(Card card) {
