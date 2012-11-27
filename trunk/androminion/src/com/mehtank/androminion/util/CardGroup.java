@@ -137,4 +137,12 @@ public class CardGroup extends BaseAdapter {
 			}
 		}
 	}
+
+	public int getPos(int index) {
+		for (int i = 0; i < cards.size(); i++) {
+			if (cards.get(i).c.id == index) 
+				return i;
+		}
+		return -1;
+	}
 }

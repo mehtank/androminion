@@ -43,6 +43,7 @@ public class SelectCardOptions implements Serializable {
     public PickType pickType = PickType.SELECT;
 
 	public boolean fromHand = false;
+	public int defaultCardSelected = -1;
 	public boolean fromTable = false;
 	public boolean allowEmpty = false;
 	public boolean fromPrizes = false;
@@ -62,6 +63,7 @@ public class SelectCardOptions implements Serializable {
 
 //	public SelectCardOptions setType(SelectType s) {selectType = s; return this;}
 	public SelectCardOptions fromHand() {fromHand = true; return this;}
+	public SelectCardOptions defaultCardSelected(int c) {defaultCardSelected = c; return this;}
 	public SelectCardOptions fromTable() {fromTable = true; return this;}
 	public SelectCardOptions allowEmpty() {allowEmpty = true; return this;}
     public SelectCardOptions fromPrizes() {fromPrizes = true; return this;}

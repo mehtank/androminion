@@ -180,6 +180,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         if (sco.allowedCards.size() == 0)
         	return null;
+        else if (sco.allowedCards.size() == 1)
+        	sco.defaultCardSelected = sco.allowedCards.get(0);
 
         String str = "";
         switch (type) {
