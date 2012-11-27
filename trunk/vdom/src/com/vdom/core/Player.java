@@ -25,7 +25,7 @@ public abstract class Player {
 	public static final String VICTORY_TOKENS = "Victory Tokens";
 
     // Only used by InteractivePlayer currently
-    public String name;
+    private String name;
     public int playerNumber;
     public int shuffleCount = 0;
     protected int turnCount = 0;

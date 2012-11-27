@@ -22,13 +22,13 @@
     <string name="show_statusbar_pref_summary">Display the system status bar while playing</string>
     <string name="game_play_pref_title">Game Play</string>
     <string name="quick_play_pref_title">Quick play</string>
-    <string name="quick_play_pref_summary">Most card interactions will be played automatically (will take effect next game)</string>
+    <string name="quick_play_pref_summary">Most card interactions will be played automatically</string>
     <string name="sort_cards_pref_title">Sort Cards</string>
-    <string name="sort_cards_pref_summary">Sort cards in hand by type action-treasure-curse-victory (will take effect next game)</string>
+    <string name="sort_cards_pref_summary">Sort cards in hand by type action-treasure-curse-victory</string>
     <string name="action_chains_pref_title">Action Chains</string>
-    <string name="action_chains_pref_summary">Enable multiple action selections in play order  (will take effect next game)</string>
+    <string name="action_chains_pref_summary">Enable multiple action selections in play order</string>
     <string name="suppress_redundant_reactions_pref_title">Suppress Last Reaction</string>
-    <string name="suppress_redundant_reactions_pref_summary">Suppress the reaction card just played from appearing in the dialog again (will take effect next game)</string>
+    <string name="suppress_redundant_reactions_pref_summary">Suppress the reaction card just played from appearing in the dialog again</string>
     <string name="equal_start_hands_pref_title">Equal Start Hands</string>
     <string name="equal_start_hands_pref_summary">All players have the same starting hand (will take effect next game)</string>
     <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
@@ -38,7 +38,7 @@
     <string name="name_pref_title">Name</string>
     <string name="personalization_pref_title">Personalization</string>
     <string name="mask_names_pref_title">Mask AI Names</string>
-    <string name="mask_names_pref_summary">(will take effect next game)</string>
+    <string name="mask_names_pref_summary"></string>
     <string name="hide_card_counts_pref_title">Hide card counts</string>
     <string name="hide_card_counts_pref_summary">(will take effect next game)</string>
     <string name="one_turn_logs_pref_title">Single turn details</string>

@@ -2123,7 +2123,7 @@ public class Game {
                         msg.append(":" + event.card.getName());
                     }
                     if (event.getType() == GameEvent.Type.TurnBegin && event.getPlayer().isPossessed()) {
-                        msg.append(" possessed by " + event.getPlayer().controlPlayer.name + "!");
+                        msg.append(" possessed by " + event.getPlayer().controlPlayer.getPlayerName() + "!");
                     }
                     if (event.attackedPlayer != null) {
                         msg.append(", attacking:" + event.attackedPlayer.getPlayerName());
