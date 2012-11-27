@@ -2124,7 +2124,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card graverobber_cardToTrash(MoveContext context) {
-		CardList ac = new CardList(controlPlayer, name);
+		CardList ac = new CardList(controlPlayer, getPlayerName(false));
 		for (Card c : hand) {
 			if (c instanceof ActionCard) {
 				ac.add(c);
