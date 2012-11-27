@@ -1959,9 +1959,10 @@ public class Game {
                             } else if (r.equals(Cards.beggar)) {
                             	if (event.card.equals(Cards.copper)) {
                                 	player.hand.add(event.card);
-                            	} else if (event.card.equals(Cards.silver) && context.beggarSilverIsOnTop == 0) {
-                                player.putOnTopOfDeck(event.card);
-                            		context.beggarSilverIsOnTop++;
+                            	} else if (event.card.equals(Cards.silver) && context.beggarSilverIsOnTop++ == 0) {
+                            		player.putOnTopOfDeck(event.card);
+                            	} else if (event.card.equals(Cards.silver)) {
+                            		player.discard.add(event.card);
                             	}
                             } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || r.equals(Cards.torturer)) {
                                 player.hand.add(event.card);
