@@ -612,7 +612,20 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             } else {
                 cannotSelect();
             }
-            return;
+
+            // update indicator for default play action card
+            if (sco.defaultCardSelected != -1 && sco.fromHand) {
+            	int pos = hand.getPos(sco.defaultCardSelected);
+            	if (pos != -1) {
+	            	CardView cv = (CardView) hand.getView(pos, null, null);
+	                cv.setChecked(true, sco.getPickType().indicator());
+	                CardInfo ci = new CardInfo(cv.getState(), hand, pos);
+					openedCards.add(ci);
+	            	hand.updateState(pos, cv.getState());
+            	}
+			} else {
+				return;
+			}
         }
 
         // something picked
