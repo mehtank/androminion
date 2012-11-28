@@ -1613,7 +1613,10 @@ public class Game {
                 } else if ( s.equalsIgnoreCase(Cards.platinum.getSafeName()) ||
                 			s.equalsIgnoreCase(Cards.colony.getSafeName()) ) {
                     platColonyPassedIn = true;
-                } else if (s.equalsIgnoreCase("Shelter")) {
+                } else if (s.equalsIgnoreCase("Shelter") ||
+        			s.equalsIgnoreCase(Cards.hovel.getSafeName()) ||
+        			s.equalsIgnoreCase(Cards.overgrownEstate.getSafeName()) ||
+        			s.equalsIgnoreCase(Cards.necropolis.getSafeName()) ) {
                 	sheltersPassedIn = true;
                 } else {
                     unfoundCards.add(s);
@@ -1629,7 +1632,8 @@ public class Game {
                 if(s.equalsIgnoreCase("blackmarket")) {
                     replacementCost = 3;
                 }
-                else if(s.equalsIgnoreCase("stash")) {
+                else if(s.equalsIgnoreCase("stash") ||
+    			s.equalsIgnoreCase("bandofmisfits") ) {
                     replacementCost = 5;
                 }
 
@@ -2264,7 +2268,7 @@ public class Game {
     public Card[] getCardsInGame(Class<?> c) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (AbstractCardPile pile : piles.values()) {
-            if (c == null || c.isInstance(pile.card()))
+            if (c == null) {
             	if (pile.type.equals(AbstractCardPile.PileType.RuinsPile)) {
             		cards.add(Cards.virtualRuins);
             	} else if (pile.type.equals(AbstractCardPile.PileType.KnightsPile)) {
@@ -2272,6 +2276,9 @@ public class Game {
             	} else {
             		cards.add(pile.card());
             	}
+            } else if (c.isInstance(pile.card()) && pile.isSupply) {
+            	cards.add(pile.card());
+            }
         }
         return cards.toArray(new Card[0]);
     }
@@ -2282,7 +2289,7 @@ public class Game {
 
     public boolean cardInGame(Card c) {
         for (AbstractCardPile pile : piles.values()) {
-            if(pile.card().equals(c)) {
+            if(c.equals(pile.card())) {
                 return true;
             }
         }

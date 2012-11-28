@@ -911,7 +911,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		}
 		
 		// Copper can be trashed if we have high money/card ratio
-		if ((this.getMoneyPerCard(deck) >= 1) || (this.strategyCard.equals(Cards.chapel))) {
+		if ((this.getMoneyPerCard(deck) >= 1) || (this.strategyCard != null && this.strategyCard.equals(Cards.chapel))) {
 			if (list.contains(Cards.copper)) {
 				return list.get(list.indexOf(Cards.copper));
 			}
