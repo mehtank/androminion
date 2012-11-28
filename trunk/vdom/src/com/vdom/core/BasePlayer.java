@@ -2249,10 +2249,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion) {
-		ArrayList<Card> cards = new ArrayList<Card>();
+		ArrayList<VictoryCard> cards = new ArrayList<VictoryCard>();
 		for (Card c: context.getVictoryCardsInGame()) {
-			if (c.getCost(context) <= maxCost) {
-				cards.add(c);
+			if (c.getCost(context) <= maxCost && !game.isPileEmpty(c)) {
+				cards.add((VictoryCard) c);
 			}
 		}
 		return (cards.size() == 0) ? null : this.getBestVictoryCard(context, cards.toArray(new VictoryCard[0]));

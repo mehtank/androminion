@@ -2742,8 +2742,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 card = Util.randomCard(currentPlayer.hand);
             }
 
-            currentPlayer.hand.remove(card);
-            currentPlayer.putOnTopOfDeck(card);
+            currentPlayer.putOnTopOfDeck(currentPlayer.hand.remove(currentPlayer.hand.indexOf(card)));
         }
     }
 

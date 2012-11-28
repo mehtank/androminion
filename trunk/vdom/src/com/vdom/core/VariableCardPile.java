@@ -44,6 +44,9 @@ public class VariableCardPile extends AbstractCardPile {
 				return null;
 			}
 		}
+		if (piles.isEmpty()) {
+			return null;
+		}
 		return piles.get(topCard().getName()).card();
 	}
 	
