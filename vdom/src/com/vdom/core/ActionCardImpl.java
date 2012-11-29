@@ -803,9 +803,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void embargo(Game game, MoveContext context, Player currentPlayer) {
         Card card = currentPlayer.controlPlayer.embargo_supplyToEmbargo(context);
-        while (game.addEmbargo(card)==null) {
+        while (game.addEmbargo(card) == null) {
             Util.playerError(currentPlayer, "Embargo error, adding embargo to random card.");
-            card = Util.randomCard(context.getCardsInGame());
+            while (true) {
+            	card = Util.randomCard(context.getCardsInGame());
+            	if (game.isValidEmbargoPile(card)) break;
+            }
         }
 
         GameEvent event = new GameEvent(GameEvent.Type.Embargo, context);

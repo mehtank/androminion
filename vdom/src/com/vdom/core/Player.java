@@ -759,6 +759,16 @@ public abstract class Player {
         event.responsible = responsible;
         context.game.broadcastEvent(event);
 
+        // Some cards get diverted
+    	if (card.equals(Cards.spoils)) {
+            AbstractCardPile pile = context.game.getPile(card);
+            pile.addCard(card);
+    	} else if (isPossessed()) {
+            context.game.possessedTrashPile.add(card);
+        } else {
+            context.game.trashPile.add(card);
+        }
+
         // Execute special card logic when the trashing occurs
         card.isTrashed(context);
 
@@ -779,15 +789,6 @@ public abstract class Player {
             		gainNewCard(Cards.gold, c, context);
             	}
         	}
-        }
-
-    	if (card.equals(Cards.spoils)) {
-            AbstractCardPile pile = context.game.getPile(card);
-            pile.addCard(card);
-    	} else if (isPossessed()) {
-            context.game.possessedTrashPile.add(card);
-        } else {
-            context.game.trashPile.add(card);
         }
 
     }
