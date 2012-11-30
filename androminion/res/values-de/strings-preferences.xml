@@ -40,6 +40,8 @@
     <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug in im Spiellog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
     <string name="hide_card_counts_pref_title">Verberge Kartenanzahl</string>
     <string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
+	<string name="mask_names_pref_title">Verstecke KI-Namen</string>
+	<string name="mask_names_pref_summary">Die Namen der KI-Spieler sind während des Spiels unsichtbar</string>
     <string name="exitonback_pref_title">Ende mit Zurückknopf</string>
     <string name="exitonback_pref_summary">Beendet das Spiel erst, wenn der Zurückknopf erneut gedrückt wird</string>
     <string name="showenglishnames_pref_title">Englische Namen</string>
@@ -51,6 +53,8 @@
     <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt. (Neustart des Spiels erforderlich)</string>
     <string name="plat_colony_pref_title">Platin und Kolonien</string>
     <string name="plat_colony_pref_summary">Immer mit den Karten Platin und Kolonien spielen, egal welche Art von Erweiterung gewählt ist.</string>
+	<string name="shelters_pref_title">Zuflucht-Karten</string>
+	<string name="shelters_pref_summary">Verwende immer Zuflucht-Karten (aus Dark Ages) anstelle der Anwesen.</string>
     <string name="notif_pref_title">Benachrichtigungen</string>
     <string name="allvibes_pref_title">Vibration aktivieren</string>
     <string name="vibescreen_pref_title">Vibration einstellen &#8230;</string>

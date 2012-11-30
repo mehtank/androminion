@@ -37,7 +37,7 @@
 		-:ankur
 		<h3>Version 4.00</h3>
 		* Dark Ages! <br>
-		* Promo cards: Envoy, Governer, Walled Village <br>
+		* Promo cards: Envoy, Governor, Walled Village <br>
 		* Bugfixes, enhancements, updates, etc. 
 		<h3>Version 3.01</h3>
 	    * Fixed UI for smaller screens <br>
@@ -120,7 +120,7 @@
     <string name="island_header">Island:</string>
     <string name="village_header">Village:</string>
     <string name="turn_header">: Turn\u0020</string>
-    <string name="game_loaded">Game loaded!\nActions, buys and coins\navailable are shown in \nthe log as a/b/(c)</string>
+    <string name="game_loaded" tools:ignore="TypographyOther">Game loaded!\nActions, buys and coins\navailable are shown in \nthe log as a/b/(c)</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
     <string name="action_single">%1$s action</string>
     <string name="action_multiple">%1$s actions</string>
