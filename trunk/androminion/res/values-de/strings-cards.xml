@@ -182,7 +182,7 @@
     <string name="Familiar_name">Vertrauter</string>
     <string name="Familiar_desc">Jeder Mitspieler muss sich eine Fluchkarte nehmen.</string>
     <string name="Golem_name">Golem</string>
-    <string name="Golem_desc">Decke so lange Karten von deinem Nachziehstapel auf, bis 2 Aktionskarten (ausser Golem-Karten) offen liegen. Lege sofort alle übrigen aufgedeckten Karten ab und spiele die beiden Aktionskarten in beliebiger Reihenfolge.</string>
+    <string name="Golem_desc">Decke so lange Karten von deinem Nachziehstapel auf, bis 2 Aktionskarten (außer Golem-Karten) offen liegen. Lege sofort alle übrigen aufgedeckten Karten ab und spiele die beiden Aktionskarten in beliebiger Reihenfolge.</string>
     <string name="Herbalist_name">Kräuterkundiger</string>
     <string name="Herbalist_desc">Wenn diese Karte im Spiel ist und du sie ablegst, darfst du eine deiner Geldkarten im Spiel verdeckt oben auf deinen Nachziehstapel legen.</string>
     <string name="PhilosophersStone_name">Stein der Weisen</string>
@@ -384,7 +384,7 @@
     <string name="Procession_name">Prozession</string>
     <string name="Procession_desc">Du darfst eine Aktionskarte aus deiner Hand zweimal ausspielen. Entsorge die ausgespielte Karte und nimm dir eine Aktionskarte, die genau 1 Geld mehr kostet.</string>
     <string name="Rebuild_name">Neubau</string>
-    <string name="Rebuild_desc">Benenne eine Karte. Decke so lange Karten con deinem Nachziehstapel auf, bis du eine Punktekarte aufdeckst, die nicht die benannte Karte ist. Lege die anderen Karten ab. Entsorge die Punktekarte und nimm dir eine Punktekarte, die bis zu 3 Geld mehr kostet.</string>
+    <string name="Rebuild_desc">Benenne eine Karte. Decke so lange Karten von deinem Nachziehstapel auf, bis du eine Punktekarte aufdeckst, die nicht die benannte Karte ist. Lege die anderen Karten ab. Entsorge die Punktekarte und nimm dir eine Punktekarte, die bis zu 3 Geld mehr kostet.</string>
     <string name="Rogue_name">Schurke</string>
     <string name="Rogue_desc">Wenn im Müllstapel eine oder mehrere Karten sind, die 3 bis 5 Geld kosten, nimm dir eine davon. Wenn dies nicht der Fall ist, muss jeder Mitspieler die obersten beiden Karten seines Nachziehstapels aufdecken, eine solche Karte entsorgen und die übigen Karten ablegen.</string>
     <string name="Counterfeit_name">Falschgeld</string>
@@ -445,7 +445,7 @@
     <string name="SirMichael_name">Sir Michael</string>
     <string name="SirMichael_desc">Jeder Mitspieler muss Karten ablegen, bis er nur noch 3 Karten auf der Hand hat. Jeder Mitspieler muss die obersten beiden Karten seines Nachziehstapels aufdecken, eine davon entsorgen, die 3 bis 6 Geld kostet und die übrigen aufgedeckten Karten ablegen. Wenn dadurch ein Ritter entsorgt wird, entsorge Sir Michael.</string>
     <string name="SirVander_name">Sir Vander</string>
-    <string name="SirVander_desc">Jeder Mitspieler muss die obersten beiden Karten seines Nachziehstapels aufdecken, eine davon entsorgen, die 3 bis 6 Geld kostet und die übrigen aufgedeckten Karten ablegen. Wenn dadurch ein Ritter entsorgt wird, entsorge Sir Vander. When you trash this, gain a Gold.</string>
+    <string name="SirVander_desc">Jeder Mitspieler muss die obersten beiden Karten seines Nachziehstapels aufdecken, eine davon entsorgen, die 3 bis 6 Geld kostet und die übrigen aufgedeckten Karten ablegen. Wenn dadurch ein Ritter entsorgt wird, entsorge Sir Vander. Wenn du diese Karte entsorgst, nimm ein Gold.</string>
     <string name="VirtualKnight_name">Ritter</string>
     <string name="VirtualKnight_desc"/>
     

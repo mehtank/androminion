@@ -263,4 +263,39 @@
 	<string name="putback_query">Wähle Karte zum Zurücklegen</string>
 	<string name="putback_option_one">Geldkarte (Kräuterkundiger)</string>
 	<string name="putback_option_two">Aktionskarte (Komplott)</string>
+	
+	<string name="survivors_header">Die Überlebenden haben aufgedeckt: %1$s</string>
+	<string name="cultist_play_next">Spiele einen weiteren Kultisten aus deiner Hand</string>
+	<string name="urchin_keep">Gassenjunge: Behalte</string>
+	<string name="urchin_trash_for_mercenary">Entsorge diese Karte und nimm dir einen Söldner.</string>
+	<string name="madman_option">Lege diese Karte zurück auf den Verrückten-Stapel.</string>
+	
+	<string name="count_firstoption_one">Lege zwei Karten aus deiner Hand ab</string>
+	<string name="count_firstoption_two">Lege eine Karte aus deiner Hand auf den Nachziehstapel</string>
+	<string name="count_firstoption_three">Nimm dir ein Kupfer</string>
+	<string name="count_secondoption_one">+3 Geld</string>
+	<string name="count_secondoption_two">Entsorge alle deine Handkarten</string>
+	<string name="count_secondoption_three">Nimm dir ein Herzogtum</string>
+	<string name="count_part_top_of_deck">lege [%1$s] zurück auf deinen Nachziehstapel</string>
+	
+	<string name="graverobber_option_one">Nimm dir eine Karte vom Müllstapel</string>
+	<string name="graverobber_option_two">Entsorge eine Aktionskarte aus deiner Hand</string>
+
+	<string name="squire_option_one">+2 Aktionen</string>
+	<string name="squire_option_two">+2 Käufe</string>
+	<string name="squire_option_three">Nimm dir ein Silber</string>
+	
+	<string name="hunting_grounds_option_one">Nimm dir ein Herzogtum</string>
+	<string name="hunting_grounds_option_two">Nimm dir 3 Anwesen</string>
+	
+	<string name="ironmonger_option_one">Lege diese Karte zurück auf deinen Nachziehstapel</string>
+	
+	<string name="hovel_option">Entsorge die Hütte</string>
+	
+	<string name="catacombs_header">Die Katakomben haben aufgedeckt: %1$s</string>
+	<string name="catacombs_option_one">Nimm die Karten auf die Hand</string>
+	<string name="catacombs_option_two">Lege die Karten ab und ziehe 3 Karten</string>
+	
+	<string name="card_to_name">[%1$s]: Nenne</string>
+	<string name="opponent_discard">Wähle eine Karte von %1$s, die dieser ablegen muss (%2$s)</string>
 </resources>
