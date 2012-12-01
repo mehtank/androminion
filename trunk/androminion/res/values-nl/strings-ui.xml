@@ -7,7 +7,6 @@
 	<string name="version">Versie %1$s</string>
 	
 	<!-- Game table -->
-	<string name="title">Androminion door Ankur Mehta</string>
 	<string name="obtained">%1$s gepakt</string>
 	<string name="trashed">%1$s vernietigd</string>
 	<string name="revealed">%1$s getoond</string>

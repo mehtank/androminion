@@ -83,5 +83,28 @@
   <string name="TravelingCircus_gametype">Traveling Circus (Hntr, Corn)</string>
     
   <string name="Random_gametype">Random (all sets)</string>
-  <string name="RandomDarkAges_gametype">Random Dark Ages</string>    
+  <string name="RandomDarkAges_gametype">Random Dark Ages</string>
+  
+  	<string name="PlayingChessWithDeath_gametype">Playing Chess With Death (DA)</string>
+    
+    <string name="HighAndLow_gametype">High And Low (DA, Base)</string>
+    <string name="ChivalryAndRevelry_gametype">Chivalry And Revelry (DA, Base)</string>
+    
+    <string name="Prophecy_gametype">Prophecy (DA, Intr)</string>
+    <string name="Invasion_gametype">Invasion (DA, Intr)</string>
+    
+    <string name="WateryGraves_gametype">Watery Graves (DA, Sea)</string>
+    <string name="Peasants_gametype">Peasants (DA, Sea)</string>
+    
+    <string name="Infestations_gametype">Infestations (DA, Alch)</string>
+    <string name="Lamentations_gametype">Lamentations (DA, Alch)</string>
+    
+    <string name="OneMansTrash_gametype">One Man\'s Trash (DA, Prsp)</string>
+    <string name="HonorAmongThieves_gametype">Honor Among Thieves (DA, Prsp)</string>
+    
+   <!--<string name="DarkCarnival_gametype">Dark Carnival (DA, Corn)</string> -->
+    <string name="ToTheVictor_gametype">To The Victor (DA, Corn)</string>
+        
+   <string name="FarFromHome_gametype">Far From Home (DA, Hntr)</string>
+   <string name="Expeditions_gametype">Expeditions (DA, Hntr)</string>    
 </resources>
