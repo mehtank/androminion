@@ -205,9 +205,6 @@ public class CardSet {
 		CardSetMap.put(GameType.FarFromHome, new CardSet(new Card[]{Cards.beggar, Cards.count, Cards.feodum, Cards.marauder, Cards.wanderingMinstrel, Cards.cartographer, Cards.develop, Cards.embassy, Cards.foolsGold, Cards.haggler}, null));
 		CardSetMap.put(GameType.Expeditions, new CardSet(new Card[]{Cards.altar, Cards.catacombs, Cards.ironmonger, Cards.poorHouse, Cards.storeroom, Cards.crossroads, Cards.farmland, Cards.highway, Cards.spiceMerchant, Cards.tunnel}, null));
 		CardSetMap.put(GameType.Lamentations, new CardSet(new Card[]{Cards.beggar, Cards.catacombs, Cards.counterfeit, Cards.forager, Cards.ironmonger, Cards.pillage, Cards.apothecary, Cards.golem, Cards.herbalist, Cards.university}, null));
-		CardSetMap.put(GameType.DarkAgesTest, new CardSet(new Card[]{Cards.feast, Cards.rebuild, Cards.ironmonger, Cards.tunnel, Cards.procession, Cards.vagrant, Cards.haggler, Cards.squire, Cards.hermit, Cards.develop}, null));
-		CardSetMap.put(GameType.PromoCardTest, new CardSet(new Card[]{Cards.governor, Cards.chapel, Cards.festival, Cards.envoy, Cards.market, Cards.remodel, Cards.smithy, Cards.throneRoom, Cards.walledVillage, Cards.rebuild}, null));
-
 	}
 
 }

@@ -81,11 +81,6 @@ public enum GameType {
     OneMansTrash("One Man's Trash (DA, Prsp)"), HonorAmongThieves("Honor Among Thieves (DA, Prsp)"),
     /*DarkCarnival("Dark Carnival (DA, Corn)"),*/ ToTheVictor("To The Victor (DA, Corn)"),
     FarFromHome("Far From Home (DA, Hntr)"), Expeditions("Expeditions (DA, Hntr)"),
-    // TODO: remove for production release, or replace with sets from the rule book
-    DarkAgesTest("Dark Ages Test (DA)"),
-
-    // TODO: remove for production release
-    PromoCardTest("Promo Card Test (Base, Promo)"),
 
     // All Cards
     Random("Random"),
