@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="FirstGame_gametype">Erstes Spiel (Basis)</string>
-	<string name="BigMoney_gametype">Grosses Geld (Basis)</string> 
+	<string name="BigMoney_gametype">Großes Geld (Basis)</string> 
 	<string name="Interaction_gametype">Interaktion (Basis)</string> 
 	<string name="SizeDistortion_gametype">Im Wandel (Basis)</string> 
 	<string name="VillageSquare_gametype">Dorfplatz (Basis)</string>
@@ -37,7 +37,7 @@
 
 	<string name="Beginners_gametype">Anfänger (Blüte)</string> 
 	<string name="FriendlyInteractive_gametype">Freundliche Interaktion (Blüte)</string> 
-	<string name="BigActions_gametype">Grosse Aktionen (Blüte)</string> 
+	<string name="BigActions_gametype">Große Aktionen (Blüte)</string> 
 	<string name="RandomProsperity_gametype">Zufälliges Blütezeit</string>
 
 	<string name="BiggestMoney_gametype">Haufenweise Geld (Base, Blüte)</string> 

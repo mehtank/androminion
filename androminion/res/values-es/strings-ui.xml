@@ -3,7 +3,6 @@
 
 	
 	<!-- About -->
-    <string name="app_name">Androminion</string>
 	<string name="splash">Usa el menu para iniciar una nueva partida o, durante el juego, para ver como jugar.</string>
 	<string name="version">Versión %1$s</string>
 	
@@ -117,6 +116,6 @@
 	<string name="logging_dir_pref_summary">Directorio para  guardar los registros (se creara si es necesario)</string>
 	<string name="game_type_random">Aleatorio</string>
 	<string name="game_type_preset">Por defecto</string>
-	<string name="game_type_last">Ultimo jugado</string>
+	<string name="game_type_last">Último jugado</string>
 	<string name="game_type_specified">Seleccionar cartas</string>
 </resources>

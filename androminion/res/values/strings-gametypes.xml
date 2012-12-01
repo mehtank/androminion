@@ -83,5 +83,5 @@
   <string name="TravelingCircus_gametype">Traveling Circus (Hntr, Corn)</string>
     
   <string name="Random_gametype">Random (all sets)</string>
-  <string name="RandomDarkAges">Random Dark Ages</string>    
+  <string name="RandomDarkAges_gametype">Random Dark Ages</string>    
 </resources>

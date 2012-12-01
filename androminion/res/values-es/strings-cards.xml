@@ -54,7 +54,7 @@
     <string name="Remodel_desc">Elimina una carta de tu mano. Gana una carta que cueste hasta 2 monedas mas que la carta eliminada.</string>
     <string name="Smithy_name">Herreria</string>
     <string name="Smithy_desc"></string>
-    <string name="Spy_name">Espia</string>
+    <string name="Spy_name">Espía</string>
     <string name="Spy_desc">Cada jugador (incluso tú) revela la carta superior y tú decides si la descarta o la devuelve a su sitio.</string>
     <string name="Thief_name">Ladrón</string>
     <string name="Thief_desc">Cada jugador (menos tú) revela las dos cartas superiores de su mazo y elimina 1 carta de Tesoro entre las reveladas (a elección tuya). Puedes ganar los Tesoros eliminados que quieras. Las demás cartas reveladas se descartan.</string>
@@ -72,7 +72,7 @@
     <string name="Gardens_desc">Consigue 1 Punto de Victoria por cada 10 cartas que tengas en tu mazo (redondeando hacia abajo).</string>
     <string name="Torturer_name">Torturador</string>
     <string name="Torturer_desc">Cada uno de los demás jugadores elige entre: descartar dos cartas ; o coger una maldición que va a su mano.</string>
-    <string name="SecretChamber_name">Camara Secreta</string>
+    <string name="SecretChamber_name">Cámara Secreta</string>
     <string name="SecretChamber_desc">Descarta cualquier numero de cartas. +1 Moneda por Carta descartada. Cuando otro jugador juegue una Carta de Ataque, muestra esta carta, si lo haces, +2 Cartas, entonces, pon dos cartas de tu mano en la parte superior de tu mazo.</string>
     <string name="Nobles_name">Nobleza</string>
   <string name="Nobles_desc">Elije uno: /n+3 cartas/no /n+2Acciones.</string>
@@ -87,7 +87,7 @@
     <string name="Bridge_name">Puente</string>
     <string name="Bridge_desc">Todas las cartas (incluidas las de la mano de los jugadores) cuentan una moneda menos este turno, pero no menos que 0.</string>
     <string name="Conspirator_name">Conspirador</string>
-    <string name="Conspirator_desc">Si has jugado 3 o mas acciones este turno (incluyendo esta): +1 Carta, +1 Accion.</string>
+    <string name="Conspirator_desc">Si has jugado 3 o mas acciones este turno (incluyendo esta): +1 Carta, +1 Acción.</string>
     <string name="Ironworks_name">Ironworks</string>
     <string name="Ironworks_desc">Gana una carta que valga hasta 4 monedas. Si es… Una carta de acción +1 acción. Carta de tesoro +1 moneda. Carta de Victoria +1 carta.</string>
     <string name="Masquerade_name">Mascarada</string>

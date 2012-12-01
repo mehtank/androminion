@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>  
 	<!-- About -->
-    <string name="app_name">Androminion</string>
 	<string name="splash">メニューを使用してゲーム開始。または、ゲーム中にメニューを使用してヘルプを表示。</string>
 	<string name="version">Version %1$s</string>
 	
 	<!-- Prefs -->
 	
 	<!-- Game table -->
-	<string name="title">Androminion by Ankur Mehta</string>
 	<string name="obtained">%1$s を獲得した</string>
 	<string name="trashed">%1$s を廃棄した</string>
 	<string name="revealed">%1$s を公開した</string>
