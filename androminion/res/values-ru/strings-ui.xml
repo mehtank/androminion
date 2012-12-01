@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>  
+<resources xmlns:tools="http://schemas.android.com/tools">  
 
        
         <!-- About -->
-    <string name="app_name">Андроминион</string>
+	<string name="app_name" tools:ignore="ExtraTranslation">Андроминион</string>
         <string name="splash">Используйте меню, чтоб начать игру или, если игра уже запущена, чтоб получить помощь по игре.</string>
         <string name="version">Версия %1$s</string>
        
