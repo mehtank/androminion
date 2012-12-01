@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>  
+<resources xmlns:tools="http://schemas.android.com/tools">  
 
 	
 	<!-- About -->
-    <string name="app_name">Androminion</string>
 	<string name="splash">Use the menu to start a new game, or, while a game is running, to display help on how to play.</string>
 	<string name="version">Version %1$s</string>
 	
@@ -29,7 +28,7 @@
 	<string name="island_header">Island:</string>
 	<string name="village_header">Village:</string>
 
-	<string name="game_loaded">Game loaded!\nActions, buys and coins\navailable are shown in \nthe log as a/b/(c)</string>
+	<string name="game_loaded" tools:ignore="TypographyOther">Game loaded!\nActions, buys and coins\navailable are shown in \nthe log as a/b/(c)</string>
 
 	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
 	<string name="action_single">%1$s action</string>

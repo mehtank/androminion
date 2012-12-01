@@ -25,12 +25,12 @@
 	<string name="buys_next_turn_multiple">+%1$s Compras el proximo turno</string>
 	<string name="card_next_turn_single">+%1$s Carta el proximo turno</string>
 	<string name="cards_next_turn_multiple">+%1$s Cartas el proximo turno</string>
-	<string name="action_next_turn_single">+%1$s Accion el proximo turno</string>
+	<string name="action_next_turn_single">+%1$s Acción el proximo turno</string>
 	<string name="actions_next_turn_multiple">+%1$s Acciones e</string>
 	<string name="card_coin">+(%1$s) Monedas</string>
 	<string name="card_buy_single">+%1$s Compra</string>
 	<string name="card_buys_multiple">+%1$s Compras</string>
-	<string name="card_action_single">+%1$s Accion</string>
+	<string name="card_action_single">+%1$s Acción</string>
 	<string name="card_actions_multiple">+%1$s Acciones</string>
 	<string name="card_card_single">+%1$s Carta</string>
 	<string name="card_cards_multiple">+%1$s Cartas</string>
@@ -45,7 +45,7 @@
 	<string name="select_from_table_exact">Elije una carta de la mesa que cueste exactamente (%1$s) para %2$s</string>
 	<string name="select_from_table_max">Elije una carta de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_between">Elije una carta de la mesa que cueste entre (%1$s) y (%2$s) para %3$s</string>
-	<string name="select_from_table_min">Elije una carta de la mesa que cueste como minimo (%1$s) para %2$s</string>
+	<string name="select_from_table_min">Elije una carta de la mesa que cueste como mínimo (%1$s) para %2$s</string>
 
 	<string name="select_one_card_from_hand">Elije una carta de tu mano para %1$s</string>
 	<string name="select_up_to_x_cards_from_hand">Elije hasta %1$s cartas de tu mano para %2$s</string>
