@@ -3,12 +3,11 @@
 
        
         <!-- About -->
-	<string name="app_name" tools:ignore="ExtraTranslation">Андроминион</string>
+		<string name="app_name">Андроминион</string>
         <string name="splash">Используйте меню, чтоб начать игру или, если игра уже запущена, чтоб получить помощь по игре.</string>
         <string name="version">Версия %1$s</string>
        
         <!-- Game table -->
-        <string name="title">Андроминион от Ankur Mehta</string>
         <string name="obtained">%1$s получено</string>
         <string name="trashed">%1$s выброшено</string>
         <string name="revealed">%1$s открыто</string>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+	<!-- AndroidManifest -->
+	<string name="app_name">Androminion</string>
 
     <string name="settingsactivity_title">Einstellungen</string>
     <string name="statisticsactivity_title">Statistiken</string>
