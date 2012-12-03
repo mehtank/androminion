@@ -3,77 +3,64 @@
     
 	<!-- AndroidManifest -->
 	<string name="app_name">Androminion</string>
-
-    <string name="settingsactivity_title">Einstellungen</string>
-    <string name="statisticsactivity_title">Statistiken</string>
-    <string name="resetstatistics_menu">Statistiken zurücksetzen</string>
-    <string name="win_loss_playerwins">Spieler Spiele gewonnen</string>
-    <string name="aboutactivity_title">Über</string>
-    <string name="startgameactivity_title">Spiel starten</string>
-    <string name="select_gametype">Wähle einen Spieltyp:</string>
-    <string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
-    <string name="version">Version %1$s</string>
-
-    <!-- Game table -->
-    <string name="obtained">%1$s gekauft</string>
-    <string name="trashed">%1$s entsorgt</string>
-    <string name="revealed">%1$s aufgedeckt</string>
-    <string name="confirmation">Bist du sicher?</string>
-    <string name="confirm_no">Nein</string>
-    <string name="select_button">Wähle</string>
-    <string name="buy_button">\ \ Kaufen\ \ </string>
-    <string name="play_button">\ Spielen\ </string>
-    <string name="discard_button">Abwerfen</string>
-    <string name="keep_button">Behalten</string>
-    <string name="give_button">Geben</string>
-    <string name="trash_button">Entsorgen</string>
-    <string name="upgrade_button">Upgrade</string>
-    <string name="mint_button">Münzen</string>
-    <string name="swindle_button">Tricksen</string>
-    <string name="all_button">Alle</string>
-    <string name="hand_header">Hand:</string>
-    <string name="played_header">Gespielt:</string>
-    <string name="island_header">Insel:</string>
-    <string name="village_header">Dorf:</string>
-    <string name="turn_header">: Zug\u0020</string>
-    <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/k/(g) angezeigt</string>
-    <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
-    <string name="action_single">%1$s Aktion</string>
-    <string name="action_multiple">%1$s Aktionen</string>
-    <string name="buy_single">%1$s Kauf</string>
-    <string name="buy_multiple">%1$s Käufe</string>
-    <string name="coins">(%1$s) Geld</string>
-    <string name="final_view_card_counts">Kartenanzahl</string>
-    <string name="final_view_text">%1$s: %2$s SP.\n%3$s Züge, %4$s Karten.</string>
-    <string name="reset">Reset</string>
-    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-    <string name="potion_single">%1$s Trank</string>
-    <string name="potion_multiple">%1$s Tränke</string>
-    <string name="start_new_game_on_server">Neues Spiel starten</string>
-    <string name="select_gametype">Kartensatz wählen:</string>
-    <string name="select_players">Spieler wählen:</string>
-    <string name="player">Spieler </string>
-    <string name="currentplayer">Aktueller Spieler</string>
-    <string name="none_game_start">Keiner</string>
-    <string name="start_game">Spiel starten!</string>
-    <string name="you">Du</string>
-    <string name="help_menu">Hilfe</string>
-    <string name="start_game_menu">Spiel starten</string>
+	
+	<!-- Menu Fragment -->
+	<string name="start_game_menu">Spiel starten</string>
+    <string name="stats_menu">Statistiken</string>
     <string name="settings_menu">Einstellungen</string>
     <string name="about_menu">Über</string>
-    <string name="achievements_menu">Erfolge</string>
-    <string name="win_loss_menu">Siege/Verluste</string>
-    <string name="quit_menu">Beenden</string>
-    <string name="toast_starting">Starte Spiel&#8230;</string>
-    <string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
-    <string name="toast_loading">Lade Spiel&#8230;</string>
-    <string name="accept">Akzeptieren</string>
-    <string name="order_cards_summary">Ziehen/Ablegen\n um Karten \n anzuordnen</string>
-    <string name="stats_menu">Statistiken</string>
-    <string name="whatsnew_menu">Neuerungen</string>
-    <string name="whatsnew_title">Was ist neu: </string>
-    <string name="whatsnew">
-<![CDATA[
+    
+    <!-- Game Activity Menu -->
+	<string name="help_menu">Hilfe</string>
+	<string name="quit_menu">Beenden</string>
+    
+    <!-- StartGame Activity -->
+	<string name="startgameactivity_title">Spiel starten</string>
+	
+    <!-- StartGame Fragment -->
+    <string name="select_gametype">Kartensatz wählen:</string>
+	<string name="select_players">Spieler wählen:</string>
+	<string name="player">Spieler </string>
+    <string name="you">Du</string>
+    <string name="start_game">Spiel starten!</string>
+	<string name="game_type_random">Zufällig</string>
+	<string name="game_type_preset">Vorgefertigte</string>
+	<string name="game_type_last">Zuletzt gespielt</string>
+	<string name="game_type_specified">Ausgewählte Karten</string>
+	<string name="none_game_start">Keiner</string>
+
+    <!-- Statisitcs Activity -->
+	<string name="statisticsactivity_title">Statistiken</string>
+	<string name="win_loss_menu">Siege/Verluste</string>
+	<string name="achievements_menu">Erfolge</string>
+	<string name="reset">Reset</string>
+	<string-array name="reset_choices">
+		<item>Statistik zurücksetzten</item>
+		<item>Erfolge zurücksetzten</item>
+    </string-array>
+
+	<!-- Statisitcs Activity Menu-->
+	<string name="resetstatistics_menu">Statistiken zurücksetzen</string>
+	
+	<!-- WinLoss View -->
+	<string name="currentWinStreak">Aktuelle Glückssträhne: </string>
+	<string name="win_loss_playerwins">Spieler Spiele gewonnen</string>	
+	
+	<!-- Settings Activity -->
+    <string name="settingsactivity_title">Einstellungen</string>
+
+	<!-- About Activity -->
+	<string name="aboutactivity_title">Über</string>
+	<string name="whatsnew_menu">Neuerungen</string>
+	<string name="contrib_menu">Credits </string>
+	
+	<!-- About Fragment -->
+	<string name="version">Version %1$s</string>
+	
+	<!-- WhatsNew Fragment -->
+	<string name="whatsnew_title">Was ist neu: </string>
+	<string name="whatsnew">
+	<![CDATA[
 		<h3>Bitte lesen!</h3>
 		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Entwicklung von Androminion einzustellen, da sie eine offizielle digitale Version ihres Spiels herausbringen. Daher wird dies die letzte große Überarbeitung sein. Androminion wird aus dem Google Play Store zum Ende des Monats entfernt werden. Danke an alle. die an diesem Projekt mitgewirkt haben, Fehlerberichte eingesandt oder Androminion verbreitet haben -- ohne euch wäre Androminion nicht so gut und populär, wie es heute ist.<br><br>
 		Im Namen des Androminion-Teams: Es hat Spaß gemacht.<br>
@@ -115,18 +102,53 @@
 		* Same great taste!<br/>
 		<br/><font color="lime">Androminion ist nun Open Source!</font>  Diese Update wäre ohne die Hilfe einiger Mitwirkender nicht möglich gewesen; siehe Credits-Tab. Auch du kannst helfen! Schreibe Bugreports, Featurerequests, Übersetzungen und mehr unter<br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
 	]]>
-    </string>
-    <string name="contrib_menu">Credits </string>
-    <string name="contrib_title">Mitwirkende: </string>
-    <string name="game_type_random">Zufällig</string>
-    <string name="game_type_preset">Vorgefertigte</string>
-    <string name="game_type_last">Zuletzt gespielt</string>
-    <string name="game_type_specified">Ausgewählte Karten</string>
+	</string>
+
+	<!-- Credits Fragment -->
+	<string name="contrib_title">Mitwirkende: </string>
+	
+	<!-- Game Activity -->
+    <string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
+
+    <string name="obtained">%1$s gekauft</string>
+    <string name="trashed">%1$s entsorgt</string>
+    <string name="revealed">%1$s aufgedeckt</string>
+    <string name="confirmation">Bist du sicher?</string>
+    <string name="confirm_no">Nein</string>
+    <string name="select_button">Wähle</string>
+    <string name="buy_button">\ \ Kaufen\ \ </string>
+    <string name="play_button">\ Spielen\ </string>
+    <string name="discard_button">Abwerfen</string>
+    <string name="keep_button">Behalten</string>
+    <string name="give_button">Geben</string>
+    <string name="trash_button">Entsorgen</string>
+    <string name="upgrade_button">Upgrade</string>
+    <string name="mint_button">Münzen</string>
+    <string name="swindle_button">Tricksen</string>
+    <string name="all_button">Alle</string>
+    <string name="hand_header">Hand:</string>
+    <string name="played_header">Gespielt:</string>
+    <string name="island_header">Insel:</string>
+    <string name="village_header">Dorf:</string>
+    <string name="turn_header">: Zug\u0020</string>
+    <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/k/(g) angezeigt</string>
+    <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+    <string name="action_single">%1$s Aktion</string>
+    <string name="action_multiple">%1$s Aktionen</string>
+    <string name="buy_single">%1$s Kauf</string>
+    <string name="buy_multiple">%1$s Käufe</string>
+    <string name="coins">(%1$s) Geld</string>
+    <string name="final_view_card_counts">Kartenanzahl</string>
+    <string name="final_view_text">%1$s: %2$s SP.\n%3$s Züge, %4$s Karten.</string>
+    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+    <string name="potion_single">%1$s Trank</string>
+    <string name="potion_multiple">%1$s Tränke</string>
+    <string name="start_new_game_on_server">Neues Spiel starten</string>
+    <string name="currentplayer">Aktueller Spieler</string>
+    <string name="toast_starting">Starte Spiel&#8230;</string>
+    <string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
+    <string name="toast_loading">Lade Spiel&#8230;</string>
+    <string name="accept">Akzeptieren</string>
+    <string name="order_cards_summary">Ziehen/Ablegen\n um Karten \n anzuordnen</string>
     <string name="tournament_reveal">Provinz aufdecken</string>
-
-    <string-array name="reset_choices">
-        <item>Statistik zurücksetzten</item>
-        <item>Erfolge zurücksetzten</item>
-    </string-array>
-
 </resources>
