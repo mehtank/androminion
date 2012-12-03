@@ -1,6 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 import android.app.AlertDialog;
@@ -371,7 +372,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		HapticFeedback.vibrate(getContext(),AlertType.LONGCLICK);
 		String str = cardView.getCard().name;
-		str = str.toLowerCase();
+		str = str.toLowerCase(Locale.US);
 
 		StringTokenizer st = new StringTokenizer(str," ",false);
 		String filename = "";
