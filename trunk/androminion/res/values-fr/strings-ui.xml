@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">  
+<resources xmlns:tools="http://schemas.android.com/tools">
 
+	<!-- AndroidManifest -->
+	<string name="app_name">Androminion</string>
 	
 	<!-- About -->
 	<string name="splash">Use the menu to start a new game, or, while a game is running, to display help on how to play.</string>

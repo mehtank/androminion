@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    
+	<!-- AndroidManifest -->
+	<string name="app_name">Androminion</string>
 
     <!-- Menu Activity -->
     <string name="start_game_menu">Start Game</string>

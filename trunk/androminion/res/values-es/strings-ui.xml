@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>  
+<resources>
 
+	<!-- AndroidManifest -->
+	<string name="app_name">Androminion</string>
 	
 	<!-- About -->
 	<string name="splash">Usa el menu para iniciar una nueva partida o, durante el juego, para ver como jugar.</string>

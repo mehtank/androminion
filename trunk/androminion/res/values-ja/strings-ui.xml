@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>  
+<resources>
+
+	<!-- AndroidManifest -->
+	<string name="app_name">Androminion</string>
+
 	<!-- About -->
 	<string name="splash">メニューを使用してゲーム開始。または、ゲーム中にメニューを使用してヘルプを表示。</string>
 	<string name="version">Version %1$s</string>
