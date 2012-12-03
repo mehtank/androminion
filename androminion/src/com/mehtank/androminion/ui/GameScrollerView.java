@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
@@ -56,7 +57,7 @@ public class GameScrollerView extends HorizontalScrollView {
 		String filename = "/latest.txt";
 
 		if (PreferenceManager.getDefaultSharedPreferences(top).getBoolean("enable_logging", false)) {
-			filename = new SimpleDateFormat("'/log_'yyyy-MM-dd_HH-mm-ss'.txt'").format(new Date());
+			filename = new SimpleDateFormat("'/log_'yyyy-MM-dd_HH-mm-ss'.txt'", Locale.US).format(new Date());
 		}
 			
 		String dir = GameActivity.BASEDIR + PreferenceManager.getDefaultSharedPreferences(top).getString("logdir", "");
@@ -77,7 +78,7 @@ public class GameScrollerView extends HorizontalScrollView {
 		if (logfile != null && logfile.canWrite()) {
 			try {
 				FileWriter f = new FileWriter(logfile.getCanonicalPath(), true); // append to file
-				f.write(new SimpleDateFormat("'New game started on 'yyyy/MM/dd' at 'HH:mm:ss'\n'").format(new Date()));
+				f.write(new SimpleDateFormat("'New game started on 'yyyy/MM/dd' at 'HH:mm:ss'\n'", Locale.US).format(new Date()));
 				f.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
