@@ -297,8 +297,8 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
 		super.onOptionsItemSelected(item);
-		switch (item.getItemId()) {
-		case android.R.id.home:
+	    int id = item.getItemId();
+		if (id == android.R.id.home) {
 			// Code from somewhere above, redundant
 			if (getPref("exitonback")) {
 				long now = System.currentTimeMillis();
@@ -312,22 +312,21 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 			} else {
 				return false;
 			}
-		case R.id.startgame_menu:
+		} else if (id == R.id.startgame_menu) {
 			quickstart();
 			return true;
-		case R.id.help_menu:
+	    } else if (id == R.id.help_menu) {
 			gt.showHelp(1);
-			break;
-		case R.id.settings_menu:
+	    } else if (id == R.id.settings_menu) {
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
-		case R.id.about_menu:
+	    } else if (id == R.id.about_menu) {
 			startActivity(new Intent(this, AboutActivity.class));
 			return true;
-        case R.id.stats_menu:
+	    } else if (id == R.id.stats_menu) {
         	startActivity(new Intent(this, StatisticsActivity.class));
         	return true;
-		case R.id.quit_menu:
+	    } else if (id == R.id.quit_menu) {
 			finish();
 			return true;
 		}

@@ -72,15 +72,15 @@ public class StatisticsActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
+	    int id = item.getItemId();
+	    if (id == android.R.id.home){
 			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		case R.id.resetstatistics_menu:
+	    } else if (id == R.id.resetstatistics_menu) {
 			buildResetDialog(this).show();
-		default:
+	    } else {
 			return super.onOptionsItemSelected(item);
 		}
+		return true;
 	}
 
 	private AlertDialog buildResetDialog(final Context context) {
