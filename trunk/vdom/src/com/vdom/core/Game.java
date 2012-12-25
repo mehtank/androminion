@@ -2155,9 +2155,8 @@ public class Game {
 
     boolean hasLighthouse(Player player) {
         for (Card card : player.nextTurnCards) {
-            if (card.equals(Cards.lighthouse)) {
+            if (card.equals(Cards.lighthouse) && !((CardImpl) card).trashAfterPlay)
                 return true;
-            }
         }
 
         return false;
