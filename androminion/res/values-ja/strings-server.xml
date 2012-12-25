@@ -42,8 +42,12 @@
 	<string name="part_buy">購入</string>
 
 	<string name="select_from_table">%1$s のためにテーブルからカードを選択</string>
+	<string name="select_from_table_attack">%1$s のためにテーブルからアタックカードを選択</string>
 	<string name="select_from_table_exact">%2$s のためにテーブルからちょうど (%1$s) コストのカードを選択</string>
+	<string name="select_from_table_exact_action">%2$s のためにテーブルからちょうど (%1$s) コストのアクションカードを選択</string>
 	<string name="select_from_table_max">%2$s のためにテーブルから最大 (%1$s) コストのカードを選択</string>
+	<string name="select_from_table_max_non_vp">%2$s のためにテーブルから最大 (%1$s) コストの非勝利点カードを選択</string>
+	<string name="select_from_table_max_vp">%2$s のためにテーブルから最大 (%1$s) コストの勝利点カードを選択</string>
 	<string name="select_from_table_between">%3$s のためにテーブルから (%1$s) から (%2$s) コストのカードを選択</string>
 	<string name="select_from_table_min">%2$s のためにテーブルから最小 (%1$s) コストのカードを選択</string>
 
@@ -74,6 +78,9 @@
 	<string name="card_to_gain">獲得 [%1$s]</string>
 	<string name="card_to_trash">廃棄 [%1$s]</string>
 	<string name="card_to_discard">捨て札 [%1$s]</string>
+	<string name="card_to_discard_for_card">カードのための捨て札 [%1$s]</string>
+	<string name="card_to_discard_for_coin">コインのための捨て札 [%1$s]</string>
+	<string name="card_to_name">指定 [%1$s]</string>
 	<string name="discard">捨て札</string>
 	<string name="trash">廃棄</string>
 	<string name="keep">キープ</string>
@@ -101,6 +108,7 @@
 	<string name="CardObtained">獲得</string>
 	<string name="CardTrashed">廃棄</string>
 	<string name="CardRevealed">公開</string>
+	<string name="CardRevealedFromHand">手札から公開</string>
 	<string name="CardDiscarded">捨て札</string>
 	<string name="CardAddedToHand">カードが手札に加えられた</string>
 	<string name="CardRemovedFromHand">カードが手札から取り除かれた</string>
@@ -108,7 +116,7 @@
 	<string name="use_for_money">金の使用</string>
 
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
-	<string name="game_over_status">ゲームオーバー — </string>
+	<string name="game_over_status">ゲームオーバー ? </string>
 	<string name="game_length_status">ゲーム時間: </string>
 	<string name="end_turn">ターン終了</string>
 	<string name="replace">そのまま戻す</string>
@@ -159,6 +167,10 @@
 	<string name="navigator_header">航海士は公開した: %1$s</string>
 	<string name="navigator_option_two">山札に戻す</string>
 
+	<string name="catacombs_header">地下墓所は公開した : %1$s</string>
+	<string name="catacombs_option_one">全て手札に入れる</string>
+	<string name="catacombs_option_two">捨て札にして+3 カードを引く</string>
+
 	<string name="tournament_reveal">属州を公開する</string>
 	<string name="tournament_option_one">属州を公開しない</string>
 	<string name="tournament_option_two">褒賞を獲得</string>
@@ -187,6 +199,28 @@
 	<string name="steward_option_two">+(2) コイン</string>
 	<string name="steward_option_three">手札からカード2枚を廃棄</string>
 
+	<string name="squire_option_one">+2 アクション</string>
+	<string name="squire_option_two">+2 購入</string>
+	<string name="squire_option_three">銀貨を獲得</string>
+
+	<string name="count_firstoption_one">2枚捨て札にする</string>
+	<string name="count_firstoption_two">デッキの一番上にカード1枚を置く</string>
+	<string name="count_firstoption_three">銅貨を獲得</string>
+	<string name="count_secondoption_one">+(3) コイン</string>
+	<string name="count_secondoption_two">手札を全て廃棄する</string>
+	<string name="count_secondoption_three">公領を獲得</string>
+	<string name="count_part_top_of_deck">デッキの一番上に置くカード [%1$s]</string>
+	
+	<string name="graverobber_option_one">廃棄置き場からカードを獲得する</string>
+	<string name="graverobber_option_two">アクションカードを廃棄する</string>
+	
+	<string name="hunting_grounds_option_one">公領を獲得</string>
+	<string name="hunting_grounds_option_two">屋敷3枚を獲得</string>
+	
+	<string name="ironmonger_option_one">デッキに戻す</string>
+	
+	<string name="hovel_option">納屋を廃棄する</string>
+	
 	<string name="pawn_one">+1  カードを引く</string>
 	<string name="pawn_two">+1  アクション</string>
 	<string name="pawn_three">+1  カードを購入</string>
@@ -240,6 +274,8 @@
 	<string name="mine_part">鉱山</string>
 
 	<string name="militia_part">民兵からキープ</string>
+	<string name="mercenary_part">傭兵からキープ</string>
+		<string name="sir_michael_part">サー・マイケルからキープ</string>
 
 	<string name="bishop_part">勝利点トークンのための廃棄</string>
 
@@ -251,6 +287,13 @@
 
 	<string name="explorer_reveal">属州を公開する</string>
 
+	<string name="walledVillage_option_one">デッキの一番上に戻す</string>
+	<string name="walledVillage_option_two">捨て札にする</string>
+	
+	<string name="governor_option_one">各プレイヤーは1枚(3枚)カードを引く</string>
+	<string name="governor_option_two">各プレイヤーは銀貨(金貨)を獲得する</string>
+	<string name="governor_option_three">各プレイヤーはちょうど1(2)高いカードにアップグレードする</string>
+
 	<!-- *** -->
 	<string name="university_part">獲得 [大学]</string>
 	<!-- *** -->
@@ -259,9 +302,6 @@
 	<string name="putback_option_one">財宝カード (薬草商)</string>
 	<string name="putback_option_two">アクションカード (画策)</string>
 
-
-
-
   <string name="game_over_vps"> 勝利点</string>
 
   <string name="coin_worth">(%1$s) コイン</string>
@@ -269,6 +309,12 @@
   <string name="cards">カード</string>
   <string name="return_cards">山札にカードを戻す:</string>
   <string name="take_normal">通常通り獲得</string>
+  <string name="opponent_discard">%1$s のために捨て札を選択 (%2$s)</string>
+  <string name="survivors_header">生存者は公開した: %1$s</string>
+  <string name="cultist_play_next">手札から他の狂信者を使う</string>
+  <string name="urchin_keep">浮浪児のままにする</string>
+  <string name="urchin_trash_for_mercenary">傭兵のために浮浪児を廃棄する</string>
+  <string name="madman_option">狂人を戻す</string>
 
 
 </resources>
