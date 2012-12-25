@@ -1120,7 +1120,7 @@ public class Game {
         	}
         }
 
-        player.addVictoryTokens(context, context.goonsPlayed);
+        player.addVictoryTokens(context, context.countGoonsInPlayThisTurn());
 
         if (buy instanceof VictoryCard) {
         	context.victoryCardsBoughtThisTurn++;

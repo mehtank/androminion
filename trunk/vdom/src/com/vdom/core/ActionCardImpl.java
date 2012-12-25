@@ -2991,10 +2991,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void goons(Game game, MoveContext context, Player currentPlayer) {
-        if (this.numberTimesAlreadyPlayed == 0) {
-            context.goonsPlayed++;
-        }
-
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this, context);
