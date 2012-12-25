@@ -95,9 +95,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     public String getDiscardString(Card cardResponsible) {
-        return Strings.format(R.string.card_to_discard, getCardName(cardResponsible));
+        return getDiscardString(cardResponsible, R.string.card_to_discard);
     }
     
+    public String getDiscardString(Card cardResponsible, int ResId) {
+        return Strings.format(ResId, getCardName(cardResponsible));
+    }
+
     public String getNameString(Card cardResponsible) {
         return Strings.format(R.string.card_to_name, getCardName(cardResponsible));
     }
@@ -2379,7 +2383,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_cellar_cardsToDiscard(context)) {
             return super.storeroom_cardsToDiscardForCards(context);
         }
-        return getAnyFromHand(context, getDiscardString(Cards.storeroom), getString(R.string.none), getHand().size(), false, SelectCardOptions.PickType.DISCARD);
+        return getAnyFromHand(context, getDiscardString(Cards.storeroom, R.string.card_to_discard_for_card), getString(R.string.none), getHand().size(), false, SelectCardOptions.PickType.DISCARD);
 	}
 	
 	@Override
@@ -2387,7 +2391,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_cellar_cardsToDiscard(context)) {
             return super.storeroom_cardsToDiscardForCoins(context);
         }
-        return getAnyFromHand(context, getDiscardString(Cards.storeroom), getString(R.string.none), getHand().size(), false, SelectCardOptions.PickType.DISCARD);
+        return getAnyFromHand(context, getDiscardString(Cards.storeroom, R.string.card_to_discard_for_coin), getString(R.string.none), getHand().size(), false, SelectCardOptions.PickType.DISCARD);
 	}
 	
 	@Override
