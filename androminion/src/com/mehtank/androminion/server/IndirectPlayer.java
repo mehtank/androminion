@@ -2676,7 +2676,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	@Override
 	public Card hermit_cardToGain(MoveContext context)
 	{
-		return getFromTable(context, getGainString(Cards.hermit), 3, 0, false, NOTPASSABLE, false, true);
+		return getFromTable(context, getGainString(Cards.hermit), 3, 0, false, NOTPASSABLE, false, true, 0);
 	}
 		
 	@Override

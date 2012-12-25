@@ -5027,10 +5027,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			}
 		}
 		
-		// Gain a card costing up to 3 coins
+		// Gain a card costing up to 3 coins (no potion)
         Card c = currentPlayer.controlPlayer.hermit_cardToGain(context);
-        
     	if (c != null) {
+    		if (c.getCost(context, false) > 3 || c.costPotion()) {
+	            Util.playerError(currentPlayer, "Hermit card selection error, picking card from table.");
+	            c = (context.getCardsLeftInPile(Cards.silver) > 0) ? Cards.silver : Cards.copper; 
+			}
     		currentPlayer.controlPlayer.gainNewCard(c, this, context);
     	}
 	}
