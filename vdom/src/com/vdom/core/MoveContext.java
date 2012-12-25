@@ -24,7 +24,6 @@ public class MoveContext {
     public int treasuresPlayedSoFar = 0;
     public int goldAvailable;
     public int coppersmithsPlayed = 0;
-    public int goonsPlayed = 0;
     public int schemesPlayed = 0;
     
     public int foolsGoldPlayed = 0;
@@ -74,6 +73,17 @@ public class MoveContext {
         return cantBuy;
     }
 
+    public int countGoonsInPlayThisTurn() {
+        int goonsInPlay = 0;
+        for(Card c : getPlayedCards()) {
+            if(c.equals(Cards.goons)) {
+            	goonsInPlay++;
+            }
+        }
+
+        return goonsInPlay;
+    }
+    
     public int countTreasureCardsInPlayThisTurn() {
         int treasuresInPlay = 0;
         for(Card c : getPlayedCards()) {
