@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="userlang_pref_title">言語</string>
+    <string name="userlang_pref_summary">言語の選択 (システム設定より優先します)</string>
     <string name="showenglishnames_pref_title">英語名の表示</string>
-	<string name="showenglishnames_pref_summary">カッコ内に英語名を表示する</string>
+    <string name="showenglishnames_pref_summary">カッコ内に英語名を表示する</string>
     <string name="exitonback_pref_summary">戻るボタンを押したときにゲームを終了する</string>
     <string name="exitonback_pref_title">戻るボタンで終了</string>
     <string name="vibescreen_pref_title">バイブレーション設定…</string>
@@ -15,20 +18,71 @@
     <string name="clickvibeon_pref_title">触覚のフィードバック</string>
     <string name="allvibes_pref_title">バイブレーションの有効</string>
     <string name="notif_pref_title">通知</string>
+
+    <string name="show_statusbar_pref_title">ステータスバーの表示</string>
+    <string name="show_statusbar_pref_summary">ゲーム中にシステムステータスバーを表示する</string>
     <string name="game_play_pref_title">ゲームプレイ</string>
     <string name="quick_play_pref_title">クイックプレイ</string>
-    <string name="quick_play_pref_summary">多くのカードのインタラクションを自動で行う (次のゲームから有効)</string>
+    <string name="quick_play_pref_summary">多くのカードのインタラクションを自動で行う</string>
+    <string name="sort_cards_pref_title">カードのソート</string>
+    <string name="sort_cards_pref_summary">手札のカードを種類(アクション-財宝-呪い-勝利点の順)別にソートする</string>
     <string name="action_chains_pref_title">アクションの連鎖</string>
-    <string name="action_chains_pref_summary">複数のアクションカードを選び、選んだ順番で使用できる (次のゲームから有効)</string>
+    <string name="action_chains_pref_summary">複数のアクションカードを選び、選んだ順番で使用できる</string>
+    <string name="suppress_redundant_reactions_pref_title">最後のリアクションの抑止</string>
+    <string name="suppress_redundant_reactions_pref_summary">ちょうど前にプレイしたリアクションカードの再度のダイアログ表示を抑止する</string>
+    <string name="equal_start_hands_pref_title">平等な開始時手札</string>
+    <string name="equal_start_hands_pref_summary">全プレイヤーが同じ開始時手札を持つ (次のゲームから有効)</string>
     <string name="plat_colony_pref_title">白金貨と植民地の使用</string>
     <string name="plat_colony_pref_summary">ゲームタイプにかかわらず、いつも白金貨と植民地を加える (次のゲームから有効)</string>
-    <string name="ui_pref_title">ユーザ・インタフェース</string>
+    <string name="ui_pref_title">ユーザーインタフェース</string>
     <string name="name_pref_summary">ニックネームを入力</string>
     <string name="name_pref_title">名前</string>
-    <string name="personalization_pref_title">パーソナライゼーション</string>    
-    
-    <string name="hide_card_counts_pref_title">カードの数を隠す</string>
+    <string name="personalization_pref_title">パーソナライゼーション</string>
+    <string name="mask_names_pref_title">AI名を隠す</string>
+    <string name="mask_names_pref_summary"></string>
+    <string name="hide_card_counts_pref_title">カード枚数を隠す</string>
     <string name="hide_card_counts_pref_summary">(次のゲームから有効)</string>
     <string name="one_turn_logs_pref_title">1ターンのみの詳細</string>
     <string name="one_turn_logs_pref_summary">現在のターンについてのみ画面下部にログを出力する (次のゲームから有効)</string>
+    <string name="logging_pref_title">ゲームログ</string>
+    <string name="logging_enable_pref_title">ゲームログの有効化</string>
+    <string name="logging_enable_pref_summary">ログはSDカードにテキストファイルとして保存されます</string>
+    <string name="logging_dir_pref_title">ログディレクトリ</string>
+    <string name="logging_dir_pref_summary">ゲームログを保存するディレクトリ (なければ作成)</string>
+    <string name="pref_theme_title">テーマ</string>
+    <string name="pref_theme_summary">アプリケーションテーマを設定</string>
+
+    <string-array name="theme_names">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Light with dark Actionbar</item>
+    </string-array>
+
+    <string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
+
+    <string-array name="userlang_names" tools:ignore="MissingTranslation">
+        <item>Default</item>
+        <item>English</item>
+        <item>German</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>Japanese</item>
+        <item>Dutch</item>
+        <item>Russian</item>
+    </string-array>
+
+    <string name="pref_viewstyle_title">ユーザーインタフェーススタイル</string>
+    <string name="pref_viewstyle_summary">カードの表示スタイルの設定</string>
+
+    <string-array name="viewstyle_names">
+        <item>Classic</item>
+        <item>Simple</item>
+        <item>Descriptive</item>
+    </string-array>
+
+    <string name="pref_showactionbar_title">アクションバーの表示</string>
+    <string name="pref_showactionbar_summary">画面が小さければ無効化, ハードボタンがなければ有効化してください。</string>
+        <string name="shelters_pref_title">避難所の使用</string>
+        <string name="shelters_pref_summary">いつも屋敷の代わりに避難所 (暗黒時代) を使用</string>
+    
 </resources>

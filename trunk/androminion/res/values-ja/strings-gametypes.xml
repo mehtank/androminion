@@ -81,6 +81,31 @@
    
   <string name="BlueHarvest_gametype">青田刈り (異郷, 収穫祭)</string> 
   <string name="TravelingCircus_gametype">旅一座 (異郷, 収穫祭)</string>
-  <string name="Random_gametype">ランダム</string>
+  <string name="Random_gametype">ランダム(全セット)</string>
   
+  <string name="RandomDarkAges_gametype">ランダム暗黒時代</string>
+  
+  	<string name="PlayingChessWithDeath_gametype">死のチェスゲーム (暗黒時代)</string>
+    
+    <string name="HighAndLow_gametype">天国と地獄 (暗黒時代, 基本)</string>
+    <string name="ChivalryAndRevelry_gametype">騎士道とバカ騒ぎ (暗黒時代, 基本)</string>
+    
+    <string name="Prophecy_gametype">予言 (暗黒時代, 陰謀)</string>
+    <string name="Invasion_gametype">侵攻 (暗黒時代, 陰謀)</string>
+    
+    <string name="WateryGraves_gametype">海の藻屑 (暗黒時代, 海辺)</string>
+    <string name="Peasants_gametype">農民たち (暗黒時代, 海辺)</string>
+    
+    <string name="Infestations_gametype">蔓延 (暗黒時代, 錬金術)</string>
+    <string name="Lamentations_gametype">哀歌 (暗黒時代, 錬金術)</string>
+    
+    <string name="OneMansTrash_gametype">ある人にとってはゴミ (暗黒時代, 繁栄)</string>
+    <string name="HonorAmongThieves_gametype">盗人にも仁義 (暗黒時代, 繁栄)</string>
+    
+   <!--<string name="DarkCarnival_gametype">暗黒の儀式 (暗黒時代, 収穫祭)</string> -->
+    <string name="ToTheVictor_gametype">勝者への道 (暗黒時代, 収穫祭)</string>
+        
+   <string name="FarFromHome_gametype">はるか遠く (暗黒時代, 異郷)</string>
+   <string name="Expeditions_gametype">探検隊 (暗黒時代, 異郷)</string>    
+
 </resources>
