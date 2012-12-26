@@ -1,92 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
+<resources xmlns:tools="http://schemas.android.com/tools">
+    
 	<!-- AndroidManifest -->
 	<string name="app_name">Androminion</string>
 
-	<!-- About -->
-	<string name="splash">メニューを使用してゲーム開始。または、ゲーム中にメニューを使用してヘルプを表示。</string>
-	<string name="version">Version %1$s</string>
-	
-	<!-- Prefs -->
-	
-	<!-- Game table -->
-	<string name="obtained">%1$s を獲得した</string>
-	<string name="trashed">%1$s を廃棄した</string>
-	<string name="revealed">%1$s を公開した</string>
-	<string name="confirmation">本当にいいですね?</string>
-	<string name="confirm_no">いいえ</string>
-	<string name="select_button">選択</string>
-	<string name="buy_button">購入</string>
-	<string name="play_button">プレイ</string>
-	<string name="discard_button">捨て札</string>
-	<string name="keep_button">残す</string>
-	<string name="give_button">渡す</string>
-	<string name="trash_button">廃棄</string>
-	<string name="upgrade_button">アップグレード</string>
-	<string name="mint_button">造幣所</string>
-	<string name="swindle_button">詐欺師</string>
-	<string name="all_button">すべて</string>
-	<string name="hand_header">手札:</string>
-	<string name="played_header">プレイ:</string>
-	<string name="island_header">島:</string>
-	<string name="village_header">村:</string>
+    <!-- Menu Activity -->
+    <string name="start_game_menu">ゲーム開始</string>
+    <string name="stats_menu">統計</string>
+    <string name="settings_menu">設定</string>
+    <string name="about_menu">アバウト</string>
+    <string name="help_menu">ヘルプ</string>
+    <string name="quit_menu">終了</string>
 
-	<string name="game_loaded">ゲームロード完了!\nアクション/購入/(コイン)\nの形式でログに表示されます</string>
+    <!-- Settings Activity -->
+    <string name="settingsactivity_title">設定</string>
 
-	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
-	<string name="action_single">%1$s action</string>
-	<string name="action_multiple">%1$s actions</string>
-	<string name="buy_single">%1$s buy</string>
-	<string name="buy_multiple">%1$s buys</string>
-	<string name="coins">(%1$s) coin</string>
-
-	<string name="final_view_card_counts">カード数</string>		
-	<string name="final_view_text">%1$s: %2$s 勝利点.\n%3$s ターン, %4$s カード</string>		
+    <!-- Statistics Activity -->
+    <string name="statisticsactivity_title">統計</string>
+    <string name="resetstatistics_menu">統計のリセット</string>
+    <string name="win_loss_menu">勝利/敗北 記録</string>
+    <string name="win_loss_playerwins">人ゲームの勝利</string>
+    <string name="achievements_menu">業績</string>
+        <string-array name="reset_choices">
+        <item>統計のリセット</item>
+        <item>業績のリセット</item>
+    </string-array>
     <string name="reset">リセット</string>
-    
-	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-	<string name="potion_single">%1$s potion</string>
-	<string name="potion_multiple">%1$s potions</string>
-	<string name="start_new_game_on_server">サーバ上で新しいゲームを開始</string>
-	<string name="select_gametype">ゲームタイプを選択:</string>
-	<string name="select_players">プレイヤー選択:</string>
-	<string name="player">プレイヤー </string>
-	<string name="none_game_start">なし</string>
-	<string name="start_game">ゲーム開始!</string>
-	<string name="you">あなた</string>
-	<string name="help_menu">ヘルプ</string>
-	<string name="start_game_menu">ゲーム開始</string>
-	<string name="settings_menu">設定</string>
-	<string name="about_menu">アバウト</string>
-	<string name="achievements_menu">業績</string>
-	<string name="win_loss_menu">勝利/敗北 記録</string>
-	<string name="quit_menu">終了</string>
-	<string name="toast_starting">ゲーム開始中…</string>
-	<string name="toast_quitconfirm">もう一度クリックすると終了.</string>
-	<string name="toast_loading">ゲームロード中..</string>
-	
-	<string name="accept">了承</string>
-	<string name="order_cards_summary">ドラッグアンドドロップで\nカードを並び替え</string>
-		<string name="stats_menu">統計</string>
-	<string name="whatsnew_menu">What\'s new </string>
-	<string name="whatsnew_title">What\'s new: </string>
-	<string name="whatsnew"> <![CDATA[
+
+    <!-- About Activity -->
+    <string name="aboutactivity_title">アバウト</string>
+    <string name="version">Version %1$s</string>
+    <string name="whatsnew_menu">What\'s new </string>
+    <string name="whatsnew_title">What\'s new: </string>
+    <string name="whatsnew">
+<![CDATA[
 		<h3>Please Read!</h3>
-		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will be the last major revision; Androminion will be removed from the market at the end of the month.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
+		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will (probably) be the last major revision; Androminion will be removed from the market soon.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
 		On behalf of the Androminion team, it has been fun.<br>
 		-:ankur
+		<h3>Version 4.00</h3>
+		* 暗黒時代! <br>
+		* プロモカード: 公使, 総督, 囲郭村 <br>
+		* バグ修正, 強化, 改良, etc. 
 		<h3>Version 3.01</h3>
-	    * Fixed UI for smaller screens <br>
-	    * Added solitare play <br>
-	    * Some more bugfixes 
+	    * 小さい画面用のUIの修正 <br>
+	    * 1人用ゲームの追加 <br>
+	    * いくつかのバグフィックス 
 		<h3>Version 3.00</h3>
-	    * Many gameplay bugfixes <br>
-	    * Optimized user interface with tablet support <br>
-	    * Compatibility: Android 2.2+
+	    * 多くのゲームプレイ上のバグ修正 <br>
+	    * タブレット用のUI最適化 <br>
+	    * 互換性: Android 2.2+
 	    <h3>Version 2.05</h3>
-	    * Many gameplay bugfixes <br>
-	    * We lied about 2.04 -- this actually the last version for Android 1.5 - 2.1
+	    * 多くのゲームプレイ上のバグ修正 <br>
+	    * 我々は2.04で嘘をつきました -- これは本当に Android 1.5 - 2.1 用の最終バージョンです。
 	    <h3>Version 2.04</h3>
 	    * オランダ語への翻訳 <br>
 	    * バグ修正 <br>
@@ -109,16 +75,67 @@
 		* 同じおいしさ!<br/>
 		<br/><font color="lime">Androminionは現在オープンソースです!</font>  今回のアップデートは、多くの貢献者の助けを借りずには不可能だったでしょう; ぜひクレジットタブを見てください。  あなたも参加できます!  バグレポートの投稿、機能のリクエスト、翻訳などなど <br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
 	]]>	</string>
-	<string name="contrib_menu">クレジット </string>
-	<string name="contrib_title">貢献者: </string>
-	<string name="logging_pref_title">ゲームログ</string>
-	<string name="logging_enable_pref_title">ゲームログの有効化</string>
-	<string name="logging_enable_pref_summary">ログをSDカードにテキストファイルとして保存する</string>
-	<string name="logging_dir_pref_title">ログディレクトリ</string>
-	<string name="logging_dir_pref_summary">ゲームログを保存するディレクトリ(ない場合は作成)</string>
-	<string name="game_type_random">ランダム</string>
-	<string name="game_type_preset">プリセット</string>
-	<string name="game_type_last">前のプレイ</string>
-	<string name="game_type_specified">カードを指定</string>
-	
+    <string name="contrib_menu">クレジット </string>
+    <string name="contrib_title">貢献者: </string>
+
+    <!-- StartGame Activity -->
+    <string name="startgameactivity_title">ゲーム開始</string>
+    <string name="select_gametype">ゲームタイプの選択:</string>
+    <string name="game_type_random">ランダム</string>
+    <string name="game_type_preset">プリセット</string>
+    <string name="game_type_last">最後のゲーム</string>
+    <string name="game_type_specified">カードの指定</string>
+    <string name="select_players">プレイヤーの選択:</string>
+    <string name="player">プレイヤー </string>
+    <string name="currentplayer">現在のプレイヤー</string>
+    <string name="you">あなた</string>
+    <string name="start_game">ゲーム開始!</string>
+    <string name="none_game_start">None</string> <!-- Unused -->
+    <string name="start_new_game_on_server">Start new game on server</string> <!-- Unused -->
+
+    <!-- Game Activity: Splash Screen -->
+    <string name="splash">メニューを使用してゲーム開始。または、ゲーム中にメニューを使用してヘルプを表示。</string>
+
+    <!-- Game Activity: Ingame -->
+    <string name="toast_starting">ゲーム開始中…</string> <!-- Unused -->
+    <string name="toast_loading">ゲームロード中…</string>
+    <string name="toast_quitconfirm">もう一度クリックすると終了.</string>
+    <string name="obtained">%1$s を獲得した</string>
+    <string name="trashed">%1$s を廃棄した</string>
+    <string name="revealed">%1$s を公開した</string>
+    <string name="revealed_from_hand">%1$s を公開した (手札から)</string>
+    <string name="confirmation">本当にいいですね?</string>
+    <string name="confirm_no">いいえ</string>
+    <string name="select_button">選択</string>
+    <string name="buy_button">購入</string>
+    <string name="play_button">プレイ</string>
+    <string name="discard_button">捨て札</string>
+    <string name="keep_button">残す</string>
+    <string name="give_button">渡す</string>
+    <string name="trash_button">廃棄</string>
+    <string name="upgrade_button">アップグレード</string>
+    <string name="mint_button">造幣所</string>
+    <string name="swindle_button">詐欺師</string>
+    <string name="all_button">すべて</string>
+    <string name="hand_header">手札:</string>
+    <string name="played_header">プレイ:</string>
+    <string name="island_header">島:</string>
+    <string name="village_header">村:</string>
+    <string name="turn_header">: ターン\u0020</string>
+    <string name="game_loaded">ゲームロード完了!\nアクション/購入/(コイン)\nの形式でログに表示されます</string>
+    <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+    <string name="action_single">%1$s action</string>
+    <string name="action_multiple">%1$s actions</string>
+    <string name="buy_single">%1$s buy</string>
+    <string name="buy_multiple">%1$s buys</string>
+    <string name="coins">(%1$s) coin</string>
+    <string name="final_view_card_counts">カード数</string>		
+    <string name="final_view_text">%1$s: %2$s 勝利点.\n%3$s ターン, %4$s カード</string>		
+    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+    <string name="potion_single">%1$s potion</string>
+    <string name="potion_multiple">%1$s potions</string>
+    <string name="accept">了承</string>
+    <string name="order_cards_summary">ドラッグアンドドロップで\nカードを並び替え</string>
+    <string name="trash_header">廃棄:</string>
+
 </resources>
