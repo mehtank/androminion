@@ -128,13 +128,14 @@ public class MyCard implements Serializable {
 	}
 	
 	/**
-	 * Comparator for sorting cards by cost and then by name
+	 * Comparator for sorting cards by cost, potion and then by name
 	 * Used for sorting on table
 	 */
 	static public class CardCostNameComparator extends MultilevelComparator<MyCard> {
 		private static final ArrayList<Comparator<MyCard>> cmps = new ArrayList<Comparator<MyCard>>();
 		static {
 			cmps.add(new CardCostComparator());
+			cmps.add(new CardPotionComparator());
 			cmps.add(new CardNameComparator());
 		}
 		public CardCostNameComparator() {

@@ -149,7 +149,6 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 	 */
 	private void initHand() {
 		hand = new CardGroup(top, false);
-		// hand.enableSorting(new MyCard.CardHandComparator());
     	handGV = (GridView) findViewById(R.id.handGV);
     	handGV.setAdapter(hand);
     	handGV.setOnItemClickListener(this);

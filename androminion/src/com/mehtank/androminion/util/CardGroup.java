@@ -114,17 +114,6 @@ public class CardGroup extends BaseAdapter {
 		return cv;
 	}
 	
-	public void enableSorting(Comparator<MyCard> comparator) {
-		sorted = true;
-		cmp = comparator;
-	}
-	
-	public void disableSorting() {
-		sorted = false;
-		cmp = new MyCard.CardCostNameComparator();
-	}
-
-
 	public void updateCardName(int index, String s, String d) {
 		updateCardName(index, s, d, -1);
 	}
