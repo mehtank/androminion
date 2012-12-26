@@ -4483,8 +4483,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
 	                    if (card != null) {
 	                        targetPlayer.reveal(card, this, targetContext);
+	                        int cardCost = card.getCost(context);
 
-	                        if (card.getCost(targetContext) >= 3 && card.getCost(targetContext) <= 6) {
+	                        if (cardCost >= 3 && cardCost <= 6) {
 	                            canTrash.add(card);
 	                        } else {
 	                        	cardsToDiscard.add(card);
