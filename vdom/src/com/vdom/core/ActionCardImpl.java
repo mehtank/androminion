@@ -2,6 +2,7 @@ package com.vdom.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -2814,21 +2815,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			
     		// Create a list of possible cards to guess, using the player's hand, discard pile, and deck 
     		// (even though the player could technically name a card he doesn't have)
-			ArrayList<Card> options = new ArrayList<Card>();
-			
-			for (Card c : currentPlayer.discard) {
-					options.add(c);
-			}
-			
-			for (Card c: currentPlayer.hand) {
-					options.add(c);
-			}
-			
-			for (Card c: currentPlayer.deck) {
-				options.add(c);
-			}
-	
-			if (options.size() > 0) {
+			ArrayList<Card> options = currentPlayer.getAllCards();
+			Collections.sort(options, new Util.CardNameComparator());
+
+			if (!options.isEmpty()) {
 				Card card = currentPlayer.controlPlayer.wishingWell_cardGuess(context, options);
 				currentPlayer.controlPlayer.namedCard(card, this, context);
 		        Card draw = game.draw(currentPlayer);
@@ -4286,21 +4276,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		
 		if (currentPlayer.deck.size() > 0 || currentPlayer.discard.size() > 0) {  // Only allow a guess if there are cards in the deck or discard pile
 			
-    		// Create a list of possible cards to guess, using the player's hand, discard pile, and deck 
+    		// Create a list of all possible cards to guess, using the player's hand, discard pile, and deck 
     		// (even though the player could technically name a card he doesn't have)
-			ArrayList<Card> options = new ArrayList<Card>();
-			
-			for (Card c : currentPlayer.discard) {
-					options.add(c);
-			}
-			
-			for (Card c: currentPlayer.hand) {
-					options.add(c);
-			}
-			
-			for (Card c: currentPlayer.deck) {
-				options.add(c);
-			}
+			ArrayList<Card> options = currentPlayer.getAllCards();
+			Collections.sort(options, new Util.CardNameComparator());
 	
 			if (options.size() > 0) {
 				Card toName = currentPlayer.controlPlayer.mystic_cardGuess(context, options);
@@ -5003,14 +4982,21 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 												// can tell if they are trashing from discard or hand
 			}
 		}
+		if (!options.isEmpty())
+			Collections.sort(options, new Util.CardNameComparator());
 		
+		ArrayList<Card> options2 = new ArrayList<Card>();
 		for (Card c: currentPlayer.hand) {
 			if (!(c instanceof TreasureCard)) {
-				options.add(c);
+				options2.add(c);
 			}
 		}
+		if (!options2.isEmpty()) {
+			Collections.sort(options2, new Util.CardNameComparator());
+			options.addAll(options2);
+		}
 
-		if (options.size() > 0) {
+		if (!options.isEmpty()) {
 			// Offer the option to trash a non-treasure card
 			context.hermitTrashCardPile = PileSelection.ANY; 
 			Card toTrash = currentPlayer.controlPlayer.hermit_cardToTrash(context, options, nonTreasureCountInDiscard);
