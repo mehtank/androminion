@@ -341,10 +341,7 @@ public abstract class Player {
             while (!game.possessedTrashPile.isEmpty()) {
                 discard(game.possessedTrashPile.remove(0), null, null, false);
             }
-            MoveContext controlContext = new MoveContext(game, controlPlayer);
-            while (!game.possessedBoughtPile.isEmpty()) {
-                controlPlayer.gainCardAlreadyInPlay(game.possessedBoughtPile.remove(0), Cards.possession, controlContext);
-            }
+            game.possessedBoughtPile.clear();
         }
 
         // /////////////////////////////////

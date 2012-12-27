@@ -1876,13 +1876,15 @@ public class Game {
                     MoveContext context = event.getContext();
                     Player player = context.getPlayer();
 
-                    if (context != null && event.card instanceof VictoryCard) {
-                        context.vpsGainedThisTurn += ((VictoryCard) event.card).getVictoryPoints();
-                    }
-
                     if (player.isPossessed()) {
                         possessedBoughtPile.add(event.card);
+                        MoveContext controlContext = new MoveContext(context.game, context.getPlayer().controlPlayer);
+                        controlContext.getPlayer().gainCardAlreadyInPlay(event.card, Cards.possession, controlContext);
                         return;
+                    }
+
+                    if (context != null && event.card instanceof VictoryCard) {
+                        context.vpsGainedThisTurn += ((VictoryCard) event.card).getVictoryPoints();
                     }
 
                     if (Cards.inn.equals(event.responsible))
