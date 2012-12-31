@@ -387,7 +387,7 @@
     <string name="Rogue_name">盗賊</string>
     <string name="Rogue_desc">廃棄置き場にコストが(3) コイン～(6) コインのカードがある場合、その中の1枚を獲得する。ない場合、他のプレイヤーは全員自分のデッキの上から2枚のカードを公開し、その中のコストが(3) コイン～(6) コインのカード1枚を廃棄し、残りを捨て札にする。</string>
     <string name="Counterfeit_name">偽造通貨</string>
-    <string name="Counterfeit_desc">あなたはこのカードを使うとき、あなたは手札の財宝カードを2度使用できる。\nそうした場合、その財宝カードを廃棄する。</string>
+    <string name="Counterfeit_desc">+1 カードを購入\nあなたはこのカードを使うとき、あなたは手札の財宝カードを2度使用できる。\nそうした場合、その財宝カードを廃棄する。</string>
     <string name="Pillage_name">略奪</string>
     <string name="Pillage_desc">このカードを廃棄する。手札が5枚以上の他のプレイヤーは全員自分の手札を公開し、その中からあなたが選んだカード1枚を捨て札にする。略奪品の山札から略奪品2枚を獲得する。</string>
     <string name="Spoils_name">略奪品</string>
