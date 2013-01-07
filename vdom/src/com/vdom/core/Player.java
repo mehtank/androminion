@@ -367,6 +367,10 @@ public abstract class Player {
         return hand;
     }
 
+    public CardList getDiscard() {
+        return discard;
+    }
+
     public int getDeckSize() {
         return deck.size();
     }

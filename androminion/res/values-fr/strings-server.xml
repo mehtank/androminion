@@ -4,7 +4,7 @@
 	<!-- Interaction -->
 	<string name="pass">Pass</string>
 	<string name="card_revealed">%1$s revealed %2$s</string>
-	<string name="select_treasure">Select a treasure card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_treasure">Select a treasure card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
 	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
 	<string name="torturer_option_one">Take a curse</string>

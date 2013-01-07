@@ -4,7 +4,7 @@
 	<!-- Interaction -->
 	<string name="pass">Pasar</string>
 	<string name="card_revealed">%1$s descubierto %2$s</string>
-	<string name="select_treasure">Selecciona una carta de la mesa que cueste al menos (%1$s) a %2$s</string>
+	<string name="select_from_table_max_treasure">Selecciona una carta de la mesa que cueste al menos (%1$s) a %2$s</string>
 	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
 	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
 	<string name="torturer_option_one">Coge una maldición</string>
