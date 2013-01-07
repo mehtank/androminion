@@ -4,7 +4,7 @@
 	<!-- Interaction -->
 	<string name="pass">パス</string>
 	<string name="card_revealed">%1$s は %2$s を公開した</string>
-	<string name="select_treasure">%2$s のためにテーブルから最大 (%1$s) コストの財宝カードを選択</string>
+	<string name="select_from_table_max_treasure">%2$s のためにテーブルから最大 (%1$s) コストの財宝カードを選択</string>
 	<string name="pawn_option_one">手先 (選択 2回のうち1回目):</string>
 	<string name="pawn_option_two">手先 (選択 2回のうち2回目):</string>
 	<string name="torturer_option_one">呪いを獲得</string>

@@ -4,7 +4,7 @@
         <!-- Interaction -->
         <string name="pass">Передайте</string>
         <string name="card_revealed">%1$s открыта %2$s</string>
-        <string name="select_treasure">Выберите карту Казны, которая стоит от (%1$s) до %2$s</string>
+        <string name="select_from_table_max_treasure">Выберите карту Казны, которая стоит от (%1$s) до %2$s</string>
         <string name="pawn_option_one">Паж (выбор 1 из 2):</string>
         <string name="pawn_option_two">Паж (выбор 2 из 2):</string>
         <string name="torturer_option_one">Возьмите проклятье</string>

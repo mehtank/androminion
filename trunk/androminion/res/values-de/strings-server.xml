@@ -4,7 +4,7 @@
       <!-- Interaction -->
       <string name="pass">Passen</string>
       <string name="card_revealed">%1$s deckt %2$s auf</string>
-      <string name="select_treasure">%2$s eine Geldkarte die maximal (%1$s) kostet</string>
+      <string name="select_from_table_max_treasure">%2$s eine Geldkarte die maximal (%1$s) kostet</string>
       <string name="pawn_option_one">Handlanger (Option 1 von 2):</string>
       <string name="pawn_option_two">Handlanger (Option 2 von 2):</string>
       <string name="torturer_option_one">Nimm einen Fluch</string>
