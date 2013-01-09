@@ -1507,6 +1507,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                     cardToPlay.numberTimesAlreadyPlayed = 0;
                     context.freeActionInEffect--;
+                    // If the cardToPlay was a knight, and was trashed, reset clonecount
+                    if (cardToPlay.isKnight() && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
+                    	cardToPlay.cloneCount = 1;
+                    }
 
                     if (cardToPlay instanceof DurationCard && !cardToPlay.equals(Cards.tactician)) {
                         // Need to move throning card to NextTurnCards first
