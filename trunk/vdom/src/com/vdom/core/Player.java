@@ -159,7 +159,7 @@ public abstract class Player {
         return addBuys;
     }
 
-    public boolean inHand(Card card) {
+	public boolean inHand(Card card) {
         for (Card thisCard : hand) {
             if (thisCard.equals(card)) {
                 return true;
@@ -252,8 +252,15 @@ public abstract class Player {
         // /////////////////////////////////
         // Discard played cards
         // /////////////////////////////////
-        
-        List<PutBackOption> putBackOptions;
+
+    	// reset any lingering CloneCounts
+    	for (Card card : playedCards) {
+        	CardImpl actualCard = (CardImpl) card;
+        	actualCard.cloneCount = 1;
+		}
+    	
+    	// Check for return-to-deck options
+    	List<PutBackOption> putBackOptions;
         ArrayList<Card> putBackCards = new ArrayList<Card>();
 
         while (!(putBackOptions = controlPlayer.getPutBackOptions(context)).isEmpty()) {
@@ -460,6 +467,23 @@ public abstract class Player {
 
 		cardCounts.put(DISTINCT_CARDS, distinctCards.size());
 
+		return cardCounts;
+	}
+
+	public Map<Object, Integer> getAllCardCounts() {
+		final HashSet<String> distinctCards = new HashSet<String>();
+		final Map<Object, Integer> cardCounts = new HashMap<Object, Integer>();
+
+		for(Card card : this.getAllCards()) {
+			distinctCards.add(card.getName());
+			if(cardCounts.containsKey(card)) {
+				cardCounts.put(card, cardCounts.get(card) + 1);
+			} else {
+				cardCounts.put(card, 1);
+			}
+		}
+
+		cardCounts.put(DISTINCT_CARDS, distinctCards.size());
 		return cardCounts;
 	}
 
