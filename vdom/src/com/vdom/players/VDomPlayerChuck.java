@@ -192,7 +192,7 @@ public class VDomPlayerChuck extends BasePlayer  {
 
     @Override
     public Card[] getTrashCards() {
-        return new Card[]{ Cards.curse, Cards.estate, Cards.copper };
+        return new Card[]{ Cards.curse, Cards.estate, Cards.copper, Cards.overgrownEstate, Cards.hovel, Cards.abandonedMine, Cards.ruinedLibrary, Cards.ruinedMarket, Cards.ruinedVillage, Cards.survivors, Cards.virtualRuins  };
     }
 
 }

@@ -19,8 +19,8 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
-    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.estate, Cards.overgrownEstate, Cards.hovel };
-    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.copper, Cards.estate, Cards.overgrownEstate };
+    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.estate, Cards.overgrownEstate, Cards.hovel, Cards.abandonedMine, Cards.ruinedLibrary, Cards.ruinedMarket, Cards.ruinedVillage, Cards.survivors, Cards.virtualRuins };
+    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.copper, Cards.estate, Cards.overgrownEstate, Cards.abandonedMine, Cards.ruinedLibrary, Cards.ruinedMarket, Cards.ruinedVillage, Cards.survivors, Cards.virtualRuins };
     
     protected Random rand = new Random(System.currentTimeMillis());
     protected static final int COST_MAX = 11;
