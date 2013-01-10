@@ -39,7 +39,7 @@ public class VDomPlayerSarah extends BasePlayer {
     }
 
     public void setupGameVariables(GameType gameType, Card[] cardsInPlay) {
-        trashCards = new Card[] { Cards.curse, Cards.estate, Cards.copper, Cards.rats };
+        trashCards = new Card[] { Cards.curse, Cards.estate, Cards.copper, Cards.rats, Cards.overgrownEstate, Cards.hovel, Cards.abandonedMine, Cards.ruinedLibrary, Cards.ruinedMarket, Cards.ruinedVillage, Cards.survivors, Cards.virtualRuins  };
         valuedCards = new Card[] { Cards.torturer, Cards.bazaar, Cards.masquerade, Cards.ghostShip, Cards.wharf, Cards.smithy, Cards.harem, Cards.adventurer,
             Cards.shantyTown, Cards.festival, Cards.moneyLender, Cards.venture, Cards.tournament, Cards.miningVillage, Cards.mint, Cards.farmingVillage,
             Cards.kingsCourt, Cards.jester, Cards.youngWitch, Cards.goons, Cards.monument, Cards.bishop, Cards.hamlet, Cards.fortuneTeller, Cards.watchTower,
