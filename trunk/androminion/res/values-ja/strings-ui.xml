@@ -34,10 +34,14 @@
     <string name="whatsnew_title">What\'s new: </string>
     <string name="whatsnew">
 <![CDATA[
-		<h3>Please Read!</h3>
-		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will (probably) be the last major revision; Androminion will be removed from the market soon.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
-		On behalf of the Androminion team, it has been fun.<br>
+		<h3>ネットワークのパーミッションと利用について</h3>
+		このアプリケーションの機能は厳密にローカルネットワーク層を利用してプレイヤーとゲーム間で通信しています。--現在のところ、<b>携帯電話の外にまったくデータを送信していません。</b> にもかかわらず、このローカルネットワークは未だネットワークのパーミッションを必要とし、そのような内部データ転送が完全なアプリケーションの利用に見えるかもしれません。
+		<h3>お読みください!</h3>
+		Dominionのパブリッシャであるリオ・グランデ・ゲームは、彼らが公式な電子版ゲームを発売するために、Androminionの開発中止を我々に依頼しました。 なので、これは(おそらく)最後のメジャーバージョンアップになります; Androminionはまもなくマーケットから削除されます。プロジェクトに貢献してくれた皆さん、バグレポートを投稿してくれた皆さん、広めてくれた皆さん、ありがとうございました。 -- 皆さんなしではAndrominionは現在のように洗練されたり人気が出たりすることはありませんでした。  <br><br>
+		Androminionチームを代表して、楽しかったです。<br>
 		-:ankur
+		<h3>Version 4.02</h3>
+		* たくさんのバグフィックス
 		<h3>Version 4.00</h3>
 		* 暗黒時代! <br>
 		* プロモカード: 公使, 総督, 囲郭村 <br>
