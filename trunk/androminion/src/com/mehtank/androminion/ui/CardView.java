@@ -1,14 +1,21 @@
 package com.mehtank.androminion.ui;
 
 import java.io.File;
+import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -44,6 +51,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private TextView cardDesc;
 
 	private String viewstyle;
+	private boolean autodownload;
+	private Context top;
 
 	CardGroup parent;
 	private CardState state;
@@ -97,9 +106,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	private void init(Context context, CardGroup parent, MyCard c) {
 		this.parent = parent;
-
+		this.top = context;
+		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		viewstyle = prefs.getString("viewstyle", context.getString(R.string.pref_viewstyle_default));
+		autodownload = prefs.getBoolean("autodownload", false);
 
 		if (viewstyle.equals("viewstyle-classic"))
 			LayoutInflater.from(context).inflate(R.layout.view_card_classic, this, true);
@@ -363,6 +374,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		return state;
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public boolean onLongClick(View view) {
 		CardView cardView = (CardView) view;
@@ -371,50 +383,72 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 
 		HapticFeedback.vibrate(getContext(),AlertType.LONGCLICK);
-		String str = cardView.getCard().name;
-		str = str.toLowerCase(Locale.US);
 
+		String str = cardView.getCard().originalSafeName;
+		str = str.toLowerCase(Locale.US);
 		StringTokenizer st = new StringTokenizer(str," ",false);
 		String filename = "";
 		while (st.hasMoreElements()) filename += st.nextElement();
 
+		str = cardView.getCard().originalExpansion;
+		str = str.toLowerCase(Locale.US);
+		st = new StringTokenizer(str," ",false);
+		String exp = "";
+		while (st.hasMoreElements()) exp += st.nextElement();
+		
 		View v;
 
-        // int resID =
-        // getResources().getIdentifier("com.mehtank.androminion:drawable/" +
-        // filename, null, null);
-        // if (resID != 0) {
-        // ImageView im = new ImageView(top);
-        // im.setBackgroundResource(resID);
-        // im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        // v = im;
-        // } else {
-			str = GameActivity.BASEDIR + "/images/full/" + filename + ".jpg";
-			File f = new File(str);
-			if (f.exists()) {
-				Uri u = Uri.parse(str);
-				ImageView im = new ImageView(view.getContext());
-	            im.setImageURI(u);
-	            im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-	            v = im;
-			} else {
-				TextView textView = new TextView(view.getContext());
-				textView.setPadding(15, 0, 15, 5);
-				String text = ""; //cardView.c.name;
-				if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) {
-				    text += "(" + cardView.getCard().expansion + ")\n";
+		String subdir = "/images/full/";
+		str = GameActivity.BASEDIR + subdir + filename + ".jpg";
+		File f = new File(str);
+		
+		if (!f.exists() && autodownload) {
+			if (isDownloadManagerAvailable(top)) {
+				new File(GameActivity.BASEDIR + subdir).mkdirs();
+				String imgurl = "http://dominion.diehrstraits.com/scans/" + exp + "/" + filename + ".jpg";
+	
+				// from: http://stackoverflow.com/questions/3028306/download-a-file-with-android-and-showing-the-progress-in-a-progressdialog
+				DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imgurl));
+				request.setTitle(top.getString(R.string.img_download_title, cardView.getCard().name));
+				request.setDescription(top.getString(R.string.img_download_desc, imgurl));
+				// in order for this if to run, you must use the android 3.2 to compile your app
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+				    request.allowScanningByMediaScanner();
+				    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 				}
-				text += cardView.getCard().desc;
-				textView.setText( text );
-				v = textView;
+				request.setDestinationInExternalPublicDir(GameActivity.BASEDIRFROMEXT + subdir, filename + ".jpg");
+	
+				// get download service and enqueue file
+				DownloadManager manager = (DownloadManager) top.getSystemService(Context.DOWNLOAD_SERVICE);
+				manager.enqueue(request);
 			}
-        // }
-			String title = cardView.getCard().name;
-			Log.d(TAG, "card title = " + title);
-			if(PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
-				title += " (" + cardView.getCard().originalName + ")";
-				Log.d(TAG, "card title now: " + title);
+		}
+
+		if (f.exists()) {
+			Uri u = Uri.parse(str);
+			ImageView im = new ImageView(view.getContext());
+            im.setImageURI(u);
+            im.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            v = im;
+		} else {
+			TextView textView = new TextView(view.getContext());
+			textView.setPadding(15, 0, 15, 5);
+			String text = ""; //cardView.c.name;
+			if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) {
+			    text += "(" + cardView.getCard().expansion + ")\n";
 			}
+			text += cardView.getCard().desc;
+			textView.setText( text );
+			v = textView;
+		}
+
+		String title = cardView.getCard().name;
+		Log.d(TAG, "card title = " + title);
+		if(PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
+			title += " (" + cardView.getCard().originalName + ")";
+			Log.d(TAG, "card title now: " + title);
+		}
+		
 		new AlertDialog.Builder(view.getContext())
 			.setTitle(title)
 			.setView(v)
@@ -423,4 +457,27 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		return true;
 	}
+	
+	/**
+	 * @param context used to check the device version and DownloadManager information
+	 * @return true if the download manager is available
+	 * 
+	 * from: http://stackoverflow.com/questions/3028306/download-a-file-with-android-and-showing-the-progress-in-a-progressdialog
+	 */
+	public static boolean isDownloadManagerAvailable(Context context) {
+	    try {
+	        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+	            return false;
+	        }
+	        Intent intent = new Intent(Intent.ACTION_MAIN);
+	        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+	        intent.setClassName("com.android.providers.downloads.ui", "com.android.providers.downloads.ui.DownloadList");
+	        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent,
+	                PackageManager.MATCH_DEFAULT_ONLY);
+	        return list.size() > 0;
+	    } catch (Exception e) {
+	        return false;
+	    }
+	}
+
 }

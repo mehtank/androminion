@@ -77,6 +77,7 @@
             android:summary="@string/exitonback_pref_summary"
             android:title="@string/exitonback_pref_title" >
         </CheckBoxPreference>
+        <CheckBoxPreference android:summary="@string/autodownload_pref_summary" android:title="@string/autodownload_pref_title" android:key="autodownload"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/game_play_pref_title" >
         <CheckBoxPreference
