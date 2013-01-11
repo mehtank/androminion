@@ -13,6 +13,7 @@ public class MyCard implements Serializable {
 	public int id;
 	public String name;
 	public String expansion;
+	public String originalExpansion;
 	public String desc;
 	
 	public String originalSafeName;

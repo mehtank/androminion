@@ -396,7 +396,8 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 
 	static final int MESSAGE_EVENT = 0;
 	static final int MESSAGE_LOSTCONNECTION = 1;
-	public static final String BASEDIR = Environment.getExternalStorageDirectory().getPath() + "/Androminion";
+	public static final String BASEDIRFROMEXT = "/Androminion";
+	public static final String BASEDIR = Environment.getExternalStorageDirectory().getPath() + BASEDIRFROMEXT;
 
 	@Override
 	public void debug(String s) {

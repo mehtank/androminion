@@ -142,5 +142,7 @@
     <string name="accept">Accept</string>
     <string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>
     <string name="trash_header">Trash:</string>
-
+	<string name="img_download_title">%1$s card art</string>
+	<string name="img_download_desc">Downloading card art from %1$s</string>
+		
 </resources>
