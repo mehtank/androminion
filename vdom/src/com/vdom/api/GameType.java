@@ -66,7 +66,7 @@ public enum GameType {
     BlueHarvest("Blue Harvest (Hntr, Corn)"), TravelingCircus("Traveling Circus (Hntr, Corn)"),
 
     // Dark Ages
-    RandomDarkAges("Random Dark Ages"), PlayingChessWithDeath("Playing Chess With Death (DA)"),
+    RandomDarkAges("Random Dark Ages"), PlayingChessWithDeath("Playing Chess With Death (DA)"), GrimParade("Grim Parade (DA)"),
 
     // Dark Ages and Base
     HighAndLow("HighAndLow (DA, Base)"), ChivalryAndRevelry("ChivalryAndRevelry (DA, Base)"),
@@ -79,7 +79,7 @@ public enum GameType {
 
     Infestations("Infestations (DA, Alch)"), Lamentations("Lamentations (DA, Alch)"),
     OneMansTrash("One Man's Trash (DA, Prsp)"), HonorAmongThieves("Honor Among Thieves (DA, Prsp)"),
-    /*DarkCarnival("Dark Carnival (DA, Corn)"),*/ ToTheVictor("To The Victor (DA, Corn)"),
+    DarkCarnival("Dark Carnival (DA, Corn)"), ToTheVictor("To The Victor (DA, Corn)"),
     FarFromHome("Far From Home (DA, Hntr)"), Expeditions("Expeditions (DA, Hntr)"),
 
     // All Cards

@@ -340,6 +340,8 @@
     <string name="Armory_desc">Gain a card costing up to 4 coins. Put it on top of your deck.</string>
     <string name="BanditCamp_name">Bandit Camp</string>
     <string name="BanditCamp_desc">Gain a Spoils from the Spoils pile.</string>
+    <string name="BandOfMisfits_name">Band of Misfits</string>
+    <string name="BandOfMisfits_desc">Play this as if it were an Action card in the supply costing less than it that you choose. This is that card until it leaves play.</string>
     <string name="DeathCart_name">Death Cart</string>
     <string name="DeathCart_desc">You may trash an Action card from your hand. If you don\'t, trash this. When you gain this, gain 2 Ruins.</string>
     <string name="Feodum_name">Feodum</string>

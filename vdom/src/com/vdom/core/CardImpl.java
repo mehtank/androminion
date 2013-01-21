@@ -5,6 +5,7 @@ import com.vdom.api.Card;
 public class CardImpl implements Card {
 	// Template (immutable)
 	Cards.Type type;
+	CardImpl templateCard;
     String name;
     String safeName;
     int cost;
@@ -19,7 +20,6 @@ public class CardImpl implements Card {
     boolean isKnight = false;
 
     static int maxNameLen;	// across all cards
-    public boolean templateCard = true;
 
     // Implementation (mutable)
     private Integer id;
@@ -27,6 +27,8 @@ public class CardImpl implements Card {
     boolean trashAfterPlay = false;
     int numberTimesAlreadyPlayed = 0;
     int cloneCount = 1;
+    CardImpl impersonatingCard = null;
+    CardImpl controlCard = this;
 
     protected CardImpl(Cards.Type type, int cost) {
         this.type = type;
@@ -114,7 +116,7 @@ public class CardImpl implements Card {
     protected CardImpl() {
     }
 
-    public String getSafeName() {
+	public String getSafeName() {
         /*if(safeName == null) {
             StringBuilder sb = new StringBuilder();
             for(char c : getName().toCharArray()) {
@@ -128,8 +130,16 @@ public class CardImpl implements Card {
         return name;
     }
 
+	public boolean isTemplateCard() {
+		return templateCard == null;
+	}
+
+	public CardImpl getTemplateCard() {
+		return templateCard == null ? this : templateCard;
+	}
+
     protected void checkInstantiateOK() {
-        if (!templateCard) {
+        if (!isTemplateCard()) {
             Thread.dumpStack();
             Util.debug("Trying to create a real card from a real card instead of a template");
         }
@@ -143,7 +153,7 @@ public class CardImpl implements Card {
     }
 
     protected void copyValues(CardImpl c) {
-        c.templateCard = false;
+        c.templateCard = this;
         c.id = Game.cardSequence++;
 
         c.type = type;
@@ -254,9 +264,38 @@ public class CardImpl implements Card {
     }
     
     @Override
-    public void isTrashed(MoveContext context)
-    {
+    public void isTrashed(MoveContext context) {
     }
+
+	public boolean isImpersonatingAnotherCard() {
+		return !(this.impersonatingCard == null);
+	}
+
+    public Card behaveAsCard() {
+    	return (this.impersonatingCard == null ? this : this.impersonatingCard);
+    }
+
+//	CardImpl getImpersonatingCard() {
+//		return impersonatingCard;
+//	}
+
+	void startImpersonatingCard(CardImpl impersonatingCard) {
+		impersonatingCard.setControlCard(this);
+		this.impersonatingCard = impersonatingCard;
+		}
+
+	void stopImpersonatingCard() {
+		this.impersonatingCard = null;
+		}
+
+	@Override
+	public CardImpl getControlCard() {
+		return controlCard;
+	}
+
+	void setControlCard(CardImpl controlCard) {
+		this.controlCard = controlCard;
+	}
 
 	/*@Override
 	public void isGained(MoveContext context) {

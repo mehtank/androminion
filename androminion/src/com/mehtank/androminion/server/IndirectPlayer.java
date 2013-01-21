@@ -14,6 +14,7 @@ import com.vdom.api.VictoryCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.comms.SelectCardOptions.ActionType;
+import com.vdom.core.ActionCardImpl;
 import com.vdom.core.CardList;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
@@ -2441,4 +2442,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(3).setPassable(getString(R.string.none));
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.dameNatalie), sco);
     }
+
+    @Override
+    public ActionCard bandOfMisfits_actionCardToImpersonate(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(context)) {
+            return super.bandOfMisfits_actionCardToImpersonate(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(Cards.bandOfMisfits.getCost(context) - 1).isAction().setPassable(getString(R.string.none));
+        return (ActionCardImpl) getFromTable(context, getString(R.string.part_play), sco);
+    }
+
 }

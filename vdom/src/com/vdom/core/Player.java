@@ -221,13 +221,13 @@ public abstract class Player {
     	List<PutBackOption> options = new ArrayList<PutBackOption>();
     	
     	for (Card c: playedCards) {
-    		if (c.equals(Cards.treasury) && !victoryBought) {
+    		if (c.behaveAsCard().equals(Cards.treasury) && !victoryBought) {
     			options.add(PutBackOption.Treasury);
-    		} else if (c.equals(Cards.alchemist) && potionPlayed) {
+    		} else if (c.behaveAsCard().equals(Cards.alchemist) && potionPlayed) {
     			options.add(PutBackOption.Alchemist);
-    		} else if (c.equals(Cards.walledVillage) && actionsPlayed == 1) {
+    		} else if (c.behaveAsCard().equals(Cards.walledVillage) && actionsPlayed == 1) {
     			options.add(PutBackOption.WalledVillage);
-    		} else if (c.equals(Cards.herbalist) && treasurePlayed) {
+    		} else if (c.behaveAsCard().equals(Cards.herbalist) && treasurePlayed) {
     			options.add(PutBackOption.Coin);
     		}
     	}
@@ -241,7 +241,7 @@ public abstract class Player {
 
     private Card findCard(MoveContext context, Card template) {
 		for (Card c: playedCards) {
-			if (c.equals(template)) {
+			if (c.behaveAsCard().equals(template)) {
 				return c;
 			}
 		}
@@ -325,24 +325,27 @@ public abstract class Player {
         	}
         }
 
-        switch (putBackCards.size()) {
-        case 1:
-            putOnTopOfDeck(putBackCards.get(0), context, true);
-            break;
-        case 0:
-            break;
-        default:
-            Card[] orderedCards = controlPlayer.topOfDeck_orderCards(context, putBackCards.toArray(new Card[0]));
-
-            for (int i = orderedCards.length - 1; i >= 0; i--) {
-                Card card = orderedCards[i];
-                putOnTopOfDeck(card, context, true);
-            }
+        if (!putBackCards.isEmpty()) {
+        	// reset any lingering Impersonations
+	    	for (Card card : putBackCards) {
+	        	((CardImpl) card).stopImpersonatingCard();
+			}
+    	
+	        if (putBackCards.size() == 1) {
+	            putOnTopOfDeck(putBackCards.get(0), context, true);
+	        } else {
+	        	Card[] orderedCards = controlPlayer.topOfDeck_orderCards(context, putBackCards.toArray(new Card[0]));
+	
+	            for (int i = orderedCards.length - 1; i >= 0; i--) {
+	                Card card = orderedCards[i];
+	                putOnTopOfDeck(card, context, true);
+	            }
+	        }
         }
-
+        
         while (!playedCards.isEmpty()) {
-            discard(playedCards.remove(0), null, context, false);
-        }
+    		discard(playedCards.remove(0), null, context, false);
+    	}
 
         if (isPossessed()) {
             while (!game.possessedTrashPile.isEmpty()) {
@@ -689,7 +692,7 @@ public abstract class Player {
             }
         }
         
-        if (card.equals(Cards.hermit)) {        	
+        if (card.behaveAsCard().equals(Cards.hermit)) {        	
         	if (!commandedDiscard && 
         	    (context != null) && 
         	    (context.totalCardsBoughtThisTurn == 0))
@@ -699,7 +702,7 @@ public abstract class Player {
 		    }
     		else
     	    {
-        discard.add(card);
+                discard.add(card);
     	    }
     	}
         else
@@ -707,6 +710,9 @@ public abstract class Player {
 	    	discard.add(card);
 	    }
 
+    	// card left play - stop impersonations
+    	((CardImpl) card).stopImpersonatingCard();
+    	        
         // XXX making game slow; is this necessary?  For that matter, are discarded cards public?
         if(context != null && commandedDiscard) {
             GameEvent event = new GameEvent(GameEvent.Type.CardDiscarded, context);
@@ -847,7 +853,7 @@ public abstract class Player {
         context.attackedPlayer = this;
         GameEvent event = new GameEvent(GameEvent.Type.PlayerAttacking, context);
         event.attackedPlayer = this;
-        event.card = card;
+        event.card = card.behaveAsCard();
         context.game.broadcastEvent(event);
     }
 
@@ -1368,6 +1374,8 @@ public abstract class Player {
 	
 	public abstract Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard);
 	public abstract Card hermit_cardToGain(MoveContext context);
+
+	public abstract ActionCard bandOfMisfits_actionCardToImpersonate(MoveContext context);
 
 	// ////////////////////////////////////////////
     // Card interactions - Promotional Cards

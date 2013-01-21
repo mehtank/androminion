@@ -150,6 +150,7 @@ public class SelectCardOptions implements Serializable {
 		if (isNonShelter && c.isShelter) return false;
 		if (isReaction && !c.isReaction) return false;
 		if (fromPrizes && !c.isPrize) return false; 
+		if (fromTable && !fromPrizes && c.isPrize) return false; 
 		//if (fromPrizes && !c.isPrize && !fromTable) return false; 
 		if (potionCost == 0 && c.costPotion) return false;
 		if (maxCost == minCost && potionCost > 0 && !c.costPotion) return false;
@@ -173,6 +174,7 @@ public class SelectCardOptions implements Serializable {
 		if (isVictory && !(c instanceof VictoryCard)) return false;
 		if (isNonVictory && (c instanceof VictoryCard)) return false;
 		if (fromPrizes && !c.isPrize()) return false; 
+		if (fromTable && !fromPrizes && c.isPrize()) return false; 
 		if (potionCost == 0 && c.costPotion()) return false;
 		if (maxCost == minCost && potionCost > 0 && !c.costPotion()) return false;
 		if (isNonRats && c.equals(Cards.rats)) return false;
