@@ -1,11 +1,12 @@
 package com.vdom.api;
 
+import com.vdom.core.CardImpl;
 import com.vdom.core.Cards.Type;
 import com.vdom.core.MoveContext;
 
 
 public interface Card {
-    public Type getType();
+	public Type getType();
 
     public String getName();
 
@@ -36,6 +37,15 @@ public interface Card {
     public void isBought(MoveContext context);
     
     public void isTrashed(MoveContext context);
+    
+	public boolean isImpersonatingAnotherCard();
+    public Card behaveAsCard();
+    public CardImpl getControlCard();
+
+    public boolean isTemplateCard();
+    public CardImpl getTemplateCard();
+
+    public CardImpl instantiate();
     
     //public void isGained(MoveContext context);
 }

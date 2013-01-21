@@ -28,6 +28,7 @@ public class MoveContext {
     
     public int foolsGoldPlayed = 0;
 
+    public int golemInEffect = 0;
     public int freeActionInEffect = 0;
     public int cardCostModifier = 0;
     public int victoryCardsBoughtThisTurn = 0;
@@ -73,15 +74,26 @@ public class MoveContext {
         return cantBuy;
     }
 
-    public int countGoonsInPlayThisTurn() {
-        int goonsInPlay = 0;
+	public CardList getPlayedCards() {
+        return player.playedCards;
+    }
+
+	public int countCardsInPlay(Card card) {
+        int cardsInPlay = 0;
         for(Card c : getPlayedCards()) {
-            if(c.equals(Cards.goons)) {
-            	goonsInPlay++;
+            if(c.behaveAsCard().equals(card)) {
+            	cardsInPlay++;
             }
         }
+        return cardsInPlay;
+	}
 
-        return goonsInPlay;
+    public boolean isRoyalSealInPlay() {
+    	return (countCardsInPlay(Cards.royalSeal) > 0);
+	}
+
+    public int countGoonsInPlayThisTurn() {
+    	return countCardsInPlay(Cards.goons);
     }
     
     public int countTreasureCardsInPlayThisTurn() {
@@ -98,12 +110,12 @@ public class MoveContext {
     public int countActionCardsInPlayThisTurn() {
         int actionsInPlay = 0;
         for(Card c : getPlayedCards()) {
-            if(c instanceof ActionCard) {
+            if(c.behaveAsCard() instanceof ActionCard) {
                 actionsInPlay++;
             }
         }
         for(Card c : player.nextTurnCards) {
-            if(c instanceof DurationCard) {
+            if(c.behaveAsCard() instanceof DurationCard) {
                 actionsInPlay++;
             }
         }
@@ -115,10 +127,10 @@ public class MoveContext {
         HashSet<String> distinctCardsInPlay = new HashSet<String>();
 
         for (Card cardInPlay : player.playedCards) {
-            distinctCardsInPlay.add(cardInPlay.getName());
+            distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
         }
         for (Card cardInPlay : player.nextTurnCards) {
-            distinctCardsInPlay.add(cardInPlay.getName());
+            distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
         }
 
         return distinctCardsInPlay.size();
@@ -138,18 +150,6 @@ public class MoveContext {
 
     public int countThroneRoomsInEffect() {
         return freeActionInEffect;
-    }
-
-	public int countCardsInPlay(Card c) {
-        return Collections.frequency(getPlayedCards().toArrayList(), c);
-	}
-
-    public boolean isRoyalSealInPlay() {
-    	return getPlayedCards().contains(Cards.royalSeal);
-	}
-
-	public CardList getPlayedCards() {
-        return player.playedCards;
     }
 
 	public int getPileSize(Card card) {

@@ -88,7 +88,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         game.broadcastEvent(event);
 
         if (this.numberTimesAlreadyPlayed == 0) {
-        	player.playedCards.add(player.hand.remove(player.hand.indexOf(this.getId()), false));
+        	player.playedCards.add(player.hand.removeCard(this));
         }
         
         context.treasuresPlayedSoFar++;
@@ -244,7 +244,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             cardToPlay.cloneCount = 0;
             cardToPlay.numberTimesAlreadyPlayed = 0;    		
     		if (!treasure.equals(Cards.spoils)) {
-                if (currentPlayer.playedCards.getLastCard() == cardToPlay) {
+                if (currentPlayer.playedCards.getLastCard().getId() == cardToPlay.getId()) {
                 	currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), this, context);
 	    		}
     		}

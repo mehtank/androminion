@@ -777,4 +777,9 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 	public boolean shouldAutoPlay_procession_cardToObtain(MoveContext context, int maxCost, boolean potion) {
         return false;
     }
+
+    public boolean shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(MoveContext context) {
+        return false;
+    }
+
 }

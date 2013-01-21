@@ -31,7 +31,7 @@ public class CardList implements Iterable<Card> {
     }
 
     public boolean checkValid(Card card) {
-    	if (!(card == null || ((CardImpl) card).templateCard))
+    	if (!(card == null || card.isTemplateCard()))
     		return true;
         if (card == null) {
             Util.playerError(player, name + " contains null card.", true);
@@ -62,6 +62,16 @@ public class CardList implements Iterable<Card> {
                 return i;
 		} 
         return -1;
+    }
+
+    public Card removeCard(Card card, boolean showUI) {
+        int idx = indexOf(card.getId());
+        this.remove(idx, showUI);
+        return card;
+    }
+
+    public Card removeCard(Card card) {
+        return removeCard(card, false);
     }
 
     public boolean remove(Card card) {

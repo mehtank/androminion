@@ -2499,4 +2499,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public Card dameNatalie_cardToObtain(MoveContext context) {
         return bestCardInPlay(context, 3);
 	}
+
+    @Override
+    public ActionCard bandOfMisfits_actionCardToImpersonate(MoveContext context) {
+        //TODO: better logic
+        return (ActionCardImpl) bestCardInPlay(context, 4, false, true, true, false);
+    }
+
 }

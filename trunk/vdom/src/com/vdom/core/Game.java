@@ -520,8 +520,9 @@ public class Game {
         boolean takeAnotherTurn = false;
         // Can only have at most two consecutive turns
         for (Card card : player.nextTurnCards) {
-            if ((card instanceof DurationCard) && ((DurationCard) card).takeAnotherTurn()) {
-                handCount = ((DurationCard) card).takeAnotherTurnCardCount();
+        	Card behaveAsCard = card.behaveAsCard();
+            if ((behaveAsCard instanceof DurationCard) && ((DurationCard) behaveAsCard).takeAnotherTurn()) {
+                handCount = ((DurationCard) behaveAsCard).takeAnotherTurnCardCount();
                 if (consecutiveTurnCounter <= 1) {
                     takeAnotherTurn = true;
                     break;
@@ -651,8 +652,8 @@ public class Game {
         broadcastEvent(gevent);
 
         for (Card card : player.nextTurnCards) {
-            if (card instanceof DurationCard) {
-                DurationCard thisCard = (DurationCard) card;
+            if (card.behaveAsCard() instanceof DurationCard) {
+                DurationCard thisCard = (DurationCard) card.behaveAsCard();
 
                 for (int clone = ((CardImpl) card).cloneCount; clone > 0; clone--) {
                     GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
@@ -676,7 +677,7 @@ public class Game {
                     }
 
                 }
-            } else if (!card.equals(Cards.throneRoom) && !card.equals(Cards.kingsCourt)  && !card.equals(Cards.procession)) {
+            } else if (!card.equals(Cards.throneRoom) && !card.equals(Cards.kingsCourt)  && !card.equals(Cards.procession)  && !card.equals(Cards.bandOfMisfits)) {
                 Util.debug(player, "Bad duration card: " + card);
             } else {
                 GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
@@ -687,11 +688,12 @@ public class Game {
 
         while (!player.nextTurnCards.isEmpty()) {
         	Card card = player.nextTurnCards.remove(0);
-            ((CardImpl) card).cloneCount = 1;
-            if (!((CardImpl) card).trashAfterPlay) {
+        	CardImpl behaveAsCard = (CardImpl) card.behaveAsCard();
+        	behaveAsCard.cloneCount = 1;
+            if (!behaveAsCard.trashAfterPlay) {
             	player.playedCards.add(card);
             } else {
-            	((CardImpl) card).trashAfterPlay = false;
+            	behaveAsCard.trashAfterPlay = false;
             }
         }
 
@@ -2127,6 +2129,12 @@ public class Game {
                     msg.append(event.getPlayer().getPlayerName() + ":" + event.getType());
                     if (event.card != null) {
                         msg.append(":" + event.card.getName());
+                        if (event.card.getControlCard() != event.card) {
+                            msg.append(" <" + event.card.getControlCard().getName() + ">");
+                        }
+                        if (event.card.isImpersonatingAnotherCard()) {
+                            msg.append(" (as " + event.card.behaveAsCard().getName() + ")");
+                        }
                     }
                     if (event.getType() == GameEvent.Type.TurnBegin && event.getPlayer().isPossessed()) {
                         msg.append(" possessed by " + event.getPlayer().controlPlayer.getPlayerName() + "!");
@@ -2157,7 +2165,7 @@ public class Game {
 
     boolean hasLighthouse(Player player) {
         for (Card card : player.nextTurnCards) {
-            if (card.equals(Cards.lighthouse) && !((CardImpl) card).trashAfterPlay)
+            if (card.behaveAsCard().equals(Cards.lighthouse) && !((CardImpl) card).trashAfterPlay)
                 return true;
         }
 
@@ -2201,7 +2209,10 @@ public class Game {
 //    }
 
     protected Card takeFromPile(Card card) {
-    	AbstractCardPile pile = getPile(card);
+		if (card.isKnight()) card = Cards.virtualKnight;
+		if (card.isRuins()) card = Cards.virtualRuins;
+			
+		AbstractCardPile pile = getPile(card);
         if (pile == null || pile.getCount() <= 0) {
             return null;
         }
