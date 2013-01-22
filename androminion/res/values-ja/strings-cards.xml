@@ -340,6 +340,8 @@
     <string name="Armory_desc">コスト(4) コイン以下のカード1枚を獲得し、あなたのデッキの一番上に置く。</string>
     <string name="BanditCamp_name">山賊の宿営地</string>
     <string name="BanditCamp_desc">略奪品の山札から略奪品1枚を獲得する。</string>
+    <string name="BandOfMisfits_name">はみだし者</string>
+    <string name="BandOfMisfits_desc">サプライにあるこのカードよりもコストが少ないアクションカード1枚をあなたが選び、そのカードとしてこのカードをプレイする。このカードはプレイエリアを離れるまで選んだカードとして扱う。</string>
     <string name="DeathCart_name">死の荷車</string>
     <string name="DeathCart_desc">あなたの手札からアクションカード1枚を廃棄してもよい。そうしない場合、このカードを廃棄する。\n---\nあなたはこのカードを獲得したとき、廃墟2枚を獲得する。</string>
     <string name="Feodum_name">封土</string>
