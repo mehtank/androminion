@@ -1087,11 +1087,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> residue = new ArrayList<Card>();
         for (int i = 1; i <= 4; i++) {
             Card card = game.draw(currentPlayer);
-            if (card == null) {
-            } else if (card.equals(Cards.copper) || card.equals(Cards.potion)) {
-                currentPlayer.hand.add(card);
-            } else {
-                residue.add(card);
+            if (card != null) {
+            	currentPlayer.reveal(card, this.controlCard, context);
+            	if (card.equals(Cards.copper) || card.equals(Cards.potion)) {
+            		currentPlayer.hand.add(card);
+	            } else {
+	                residue.add(card);
+	            }
             }
         }
 
