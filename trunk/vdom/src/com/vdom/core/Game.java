@@ -1232,11 +1232,11 @@ public class Game {
         if (card == null)
             return false;
 
-        player.hand.add(card, showUI);
-
         if (responsible != null) {
             Util.debug(player, responsible.getName() + " draw:" + card.getName(), true);
         }
+
+        player.hand.add(card, showUI);
 
         return true;
     }
