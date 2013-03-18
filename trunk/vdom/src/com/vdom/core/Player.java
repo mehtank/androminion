@@ -319,7 +319,13 @@ public abstract class Player {
                         Util.playerError(this, "Scheme returned invalid card to put back on top of deck, ignoring");
                         break;
                     }
+
                     Card card = playedCards.remove(index);
+                    if (card.behaveAsCard().equals(Cards.hermit) &&
+                    	(context != null) && 
+                    	(context.totalCardsBoughtThisTurn == 0)) {
+            		    	controlPlayer.gainNewCard(Cards.madman, card, context);
+            		    }
                     putBackCards.add(card);
         		}
         	}
