@@ -790,11 +790,8 @@ public abstract class Player {
         event.responsible = responsible;
         context.game.broadcastEvent(event);
 
-        // Some cards get diverted
-    	if (card.equals(Cards.spoils)) {
-            AbstractCardPile pile = context.game.getPile(card);
-            pile.addCard(card);
-    	} else if (isPossessed()) {
+        // Add to trash pile
+    	if (isPossessed()) {
             context.game.possessedTrashPile.add(card);
         } else {
             context.game.trashPile.add(card);
