@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- International strings, no translation needed -->
-    <string name="copyright" translatable="false">\n©2010–2012 by Ankur Mehta\nhttp://android.mehtank.com</string>
-    <string name="dom_copyright" translatable="false">\nDominion card game ©2008–2012 by Rio Grande Games.</string>
+    <string name="copyright" translatable="false">\n©2010–2013 by Ankur Mehta\nhttp://android.mehtank.com</string>
+    <string name="dom_copyright" translatable="false">\nDominion card game ©2008–2013 by Rio Grande Games.</string>
     <string name="contributors" translatable="false">\nTodd Barlow
         \nMartin Binder
 		\nDrew Chamberlain
