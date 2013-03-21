@@ -3,6 +3,8 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -1622,6 +1624,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return false;
     }
     
+    public boolean isAttackCard(Card card) {
+        if(card instanceof ActionCard ) {
+        	ActionCard aCard = (ActionCard) card;
+            return aCard.isAttack();
+        }
+        
+        return false;
+    }
+    
     public boolean isOnlyVictory(Card card) {
         if(!(card instanceof VictoryCard)) {
             return false;
@@ -2328,15 +2339,48 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card envoy_cardToDiscard(MoveContext context, Card[] cards) {
-    	//TODO: Make this more intelligent.
+    	// build list of "good" cards
     	CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
-    	for(Card c : cards) {
-            cl.add(c);
+    	for(Card card : cards) {
+    		if (!isOnlyVictory(card) && !isCurse(card) && !isTrashCard(card)) {
+    			cl.add(card);
+			}
     	}
-    	while(cl.size() > 1) {
-    		cl.remove(lowestCard(context, cl, false));
+
+    	// not enough to choose from
+    	if (cl.size() == 0) {
+    		return cards[0];
+    	} else if (cl.size() == 1) {
+    		return cl.get(0);
     	}
-        return cl.get(0);
+		cards = cl.sort(new Util.CardCostComparatorDesc());
+
+    	// pick out mean cards and big treasure
+    	if (cl.contains(Cards.saboteur)) {
+			return cl.get(Cards.saboteur);
+		} else if (cl.contains(Cards.platinum)) {
+			return cl.get(Cards.platinum);
+		} else if (game.pileSize(Cards.curse) > 0 && !this.hand.contains(Cards.moat) && !this.hand.contains(Cards.watchTower)
+				&& (cl.contains(Cards.witch) || cl.contains(Cards.seaHag) || cl.contains(Cards.torturer))) {
+			if (cl.contains(Cards.witch)) return cl.get(Cards.witch);
+			if (cl.contains(Cards.seaHag)) return cl.get(Cards.seaHag);
+			if (cl.contains(Cards.torturer)) return cl.get(Cards.torturer);
+		}
+
+    	if (!this.hand.contains(Cards.moat)) {
+        	for (Card card : cl) {
+    			if (isAttackCard(card)) {
+					return card;
+				}
+    		}
+    	}
+    	
+		if (cl.contains(Cards.gold)) {
+			return cl.get(Cards.gold);
+		}
+		
+		Card[] left = cl.sort(new Util.CardCostComparatorDesc());
+        return left[0];
     }
 
 	@Override
