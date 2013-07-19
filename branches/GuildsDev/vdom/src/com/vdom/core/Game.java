@@ -96,6 +96,8 @@ public class Game {
     public Card baneCard = null;
     double chanceForPlatColony = -1;
     double chanceForShelters = 0.0;
+    
+    public boolean bakerInPlay = false;
 
     private static final int kingdomCardPileSize = 10;
     public static int victoryCardPileSize = 12;
@@ -247,11 +249,15 @@ public class Game {
                 // Select Treasure for Buy
                 // /////////////////////////////////
                 playTreasures(player, context);
+                
+                // Spend Guilds coin tokens if applicable
+                playGuildsTokens(player, context);
 
                 // /////////////////////////////////
                 // Buy Phase
                 // /////////////////////////////////
                 playerBuy(player, context);
+                
                 if (context.totalCardsBoughtThisTurn == 0) {
                     GameEvent event = new GameEvent(GameEvent.Type.NoBuy, context);
                     broadcastEvent(event);
@@ -366,6 +372,24 @@ public class Game {
                 	card.playTreasure(context);
             }
             treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
+        }
+    }
+    
+    protected void playGuildsTokens(Player player, MoveContext context)
+    {
+        int coinTokenTotal = player.getGuildsCoinTokenCount();
+        
+        if (coinTokenTotal > 0)
+        {
+            // Offer the player the option of "spending" Guilds coin tokens prior to buying cards
+            int numTokensToSpend = player.numGuildsCoinTokensToSpend(context);
+            
+            if (numTokensToSpend > 0 && numTokensToSpend <= coinTokenTotal)
+            {
+                player.spendGuildsCoinTokens(numTokensToSpend);
+                context.addGold += numTokensToSpend;
+                Util.debug(player, "Spent " + numTokensToSpend + " Guilds coin tokens");
+            }
         }
     }
 
@@ -1110,7 +1134,18 @@ public class Game {
 
         // cost adjusted based on any cards played or card being bought
         int cost = buy.getCost(context);
-        context.gold -= buy.getCost(context);
+        
+        // If card can be overpaid for, do so now
+        if (buy.isOverpay())
+        {
+            context.overpayAmount = player.amountToOverpay(context, cost);
+        }
+        else
+        {
+            context.overpayAmount = 0;
+        }
+                
+        context.gold -= (buy.getCost(context) + context.overpayAmount);
 
         if (buy.costPotion()) {
         	context.potions--;
@@ -1123,6 +1158,7 @@ public class Game {
         }
 
         player.addVictoryTokens(context, context.countGoonsInPlayThisTurn());
+        player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn());
 
         if (buy instanceof VictoryCard) {
         	context.victoryCardsBoughtThisTurn++;
@@ -1419,6 +1455,12 @@ public class Game {
             }
             if (baneCard != null) {
                 s += "Bane card: " + baneCard.getName() + "\n";
+            }
+            
+            // When Baker is included in the game, each Player starts with 1 coin token
+            if (bakerInPlay)
+            {
+                players[i].gainGuildsCoinTokens(1);
             }
             
             if (alwaysUseShelters || sheltersPassedIn)
@@ -1808,6 +1850,12 @@ public class Game {
 		if (piles.containsKey(Cards.hermit.getName()))
 		{
 			addPile(Cards.madman, 10, false);
+		}
+		
+		// If Baker is in play, each player starts with one coin token
+		if (piles.containsKey(Cards.baker.getName()))
+		{
+		    bakerInPlay = true;
 		}
 		
         boolean oldDebug = debug;

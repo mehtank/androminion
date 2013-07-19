@@ -32,6 +32,10 @@ public abstract class Player {
     public int vps;
     public boolean win = false;
     public int pirateShipTreasure;
+    
+    // The number of coin tokens held by the player
+    private int guildsCoinTokenCount;
+    
     private Card checkLeadCard;
     private int victoryTokens;
     protected CardList hand;
@@ -405,6 +409,28 @@ public abstract class Player {
 
     public int getPirateShipTreasure() {
         return pirateShipTreasure;
+    }
+    
+    public int getGuildsCoinTokenCount()
+    {
+        return guildsCoinTokenCount;
+    }
+    
+    public void gainGuildsCoinTokens(int tokenCount)
+    {
+        guildsCoinTokenCount += tokenCount;
+    }
+    
+    public void spendGuildsCoinTokens(int tokenCount)
+    {
+        if (tokenCount <= guildsCoinTokenCount)
+        {
+            guildsCoinTokenCount -= tokenCount;
+        }
+        else
+        {
+            Util.playerError(this, "spendGuildsCoinTokens() - Can't spend " + tokenCount + " coin tokens, only have " + guildsCoinTokenCount);
+        }
     }
 
     public int getVictoryTokens() {
@@ -957,6 +983,13 @@ public abstract class Player {
 		GainTreasure,
 		Upgrade
 	}
+	
+	public enum DoctorOverpayOption
+	{
+	    TrashIt,
+	    DiscardIt,
+	    PutItBack
+	}
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
@@ -1380,6 +1413,26 @@ public abstract class Player {
 
 	public abstract ActionCard bandOfMisfits_actionCardToImpersonate(MoveContext context);
 
+	// ////////////////////////////////////////////
+    // Card interactions - Guilds Expansion
+    // ////////////////////////////////////////////
+	public abstract int numGuildsCoinTokensToSpend(MoveContext context);
+	public abstract int amountToOverpay(MoveContext context, int cardCost);
+	public abstract TreasureCard taxman_treasureToTrash(MoveContext context);
+	public abstract TreasureCard taxman_treasureToObtain(MoveContext context, int maxCost);
+	public abstract TreasureCard plaza_treasureToDiscard(MoveContext context);
+	public abstract Card butcher_cardToTrash(MoveContext context);
+	public abstract Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion);
+	public abstract Card advisor_cardToDiscard(MoveContext context, Card[] cards);
+	public abstract Card journeyman_cardToPick(MoveContext context);
+	public abstract Card stonemason_cardToTrash(MoveContext context);
+	public abstract Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion);
+	public abstract Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount);
+	public abstract Card doctor_cardToPick(MoveContext context);
+	public abstract ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards);
+	public abstract DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card);
+	public abstract Card herald_cardTopDeck(MoveContext context, ArrayList<Card> cardList);
+	
 	// ////////////////////////////////////////////
     // Card interactions - Promotional Cards
     // ////////////////////////////////////////////

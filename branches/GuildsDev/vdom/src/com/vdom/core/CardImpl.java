@@ -18,6 +18,7 @@ public class CardImpl implements Card {
     boolean isShelter = false;
     boolean isRuins = false;
     boolean isKnight = false;
+    boolean isOverpay = false;  // can this card be overpaid for?
 
     static int maxNameLen;	// across all cards
 
@@ -49,6 +50,7 @@ public class CardImpl implements Card {
         isShelter = builder.isShelter;
         isRuins = builder.isRuins;
         isKnight = builder.isKnight;
+        isOverpay = builder.isOverpay;
     }
 
     public static class Builder {
@@ -61,10 +63,11 @@ public class CardImpl implements Card {
         protected String description = "";
         protected String expansion = "";
 
-	    protected boolean isPrize = false;
+	    protected boolean isPrize   = false;
 	    protected boolean isShelter = false;
-	    protected boolean isRuins = false;
-	    protected boolean isKnight = false;
+	    protected boolean isRuins   = false;
+	    protected boolean isKnight  = false;
+	    protected boolean isOverpay = false;
 
 
         public Builder(Cards.Type type, int cost) {
@@ -107,6 +110,12 @@ public class CardImpl implements Card {
         	isRuins = true;
         	return this;
         }
+        
+        public Builder isOverpay()
+        {
+            isOverpay = true;
+            return this;
+        }
 
         public CardImpl build() {
             return new CardImpl(this);
@@ -117,16 +126,6 @@ public class CardImpl implements Card {
     }
 
 	public String getSafeName() {
-        /*if(safeName == null) {
-            StringBuilder sb = new StringBuilder();
-            for(char c : getName().toCharArray()) {
-                if(Character.isLetterOrDigit(c)) {
-                    sb.append(c);
-                }
-            }
-            safeName = sb.toString();
-        }*/
-        
         return name;
     }
 
@@ -166,6 +165,7 @@ public class CardImpl implements Card {
         c.isShelter = isShelter;
         c.isRuins = isRuins;
         c.isKnight = isKnight;
+        c.isOverpay = isOverpay;
         c.vp = vp;
     }
 
@@ -257,6 +257,12 @@ public class CardImpl implements Card {
     @Override
     public boolean isKnight() {
     	return isKnight;
+    }
+    
+    @Override
+    public boolean isOverpay()
+    {
+        return isOverpay;
     }
     
     @Override

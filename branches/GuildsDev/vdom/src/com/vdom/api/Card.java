@@ -32,6 +32,8 @@ public interface Card {
     
     public boolean isKnight();
     
+    public boolean isOverpay();
+    
     public Integer getId();
     
     public void isBought(MoveContext context);

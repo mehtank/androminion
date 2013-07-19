@@ -37,6 +37,7 @@ public class MyCard implements Serializable {
 	public boolean isShelter = false;
 	public boolean isRuins = false;
 	public boolean isKnight = false;
+	public boolean isOverpay = false;
 	
 	public static final int SUPPLYPILE = 1;
 	public static final int MONEYPILE = 2;

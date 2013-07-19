@@ -781,5 +781,9 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(MoveContext context) {
         return false;
     }
+    
+    public boolean shouldAutoPlay_taxman_treasureToObtain(MoveContext context, int maxCost) {
+        return true;
+    }
 
 }

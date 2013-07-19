@@ -16,6 +16,7 @@ public class Cards {
     public static ArrayList<Card> actionCardsCornucopia = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsHinterlands = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsDarkAges = new ArrayList<Card>();
+    public static ArrayList<Card> actionCardsGuilds = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
     public static ArrayList<Card> prizeCards = new ArrayList<Card>();
@@ -50,7 +51,8 @@ public class Cards {
         Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors, Cultist, Urchin, Mercenary, Marauder, Hermit, Madman, Vagrant,
         DameAnna, DameJosephine, DameMolly, DameNatalie, DameSylvia, SirBailey, SirDestry, SirMartin, SirMichael, SirVander,
         VirtualRuins, VirtualKnight,
-        // Dark Ages not yet implemented
+        // Guilds Expansion
+        Advisor, Baker, Butcher, CandlestickMaker, Doctor, Herald, Journeyman, Masterpiece, MerchantGuild, Plaza, StoneMason, Soothsayer, TaxMan,
        
         // Promo Cards
         Envoy, Governor, WalledVillage,
@@ -307,6 +309,21 @@ public class Cards {
     public static final Card ruinedVillage;
     public static final Card survivors;
     public static final Card virtualRuins;
+    
+    // Guilds expansion
+    public static final Card advisor;
+    public static final Card baker;
+    public static final Card butcher;
+    public static final Card candlestickMaker;
+    public static final Card doctor;
+    public static final Card herald;
+    public static final Card journeyman;
+    public static final Card masterpiece;
+    public static final Card merchantGuild;
+    public static final Card plaza;
+    public static final Card soothsayer;
+    public static final Card stonemason;
+    public static final Card taxman;
 
 
     // Promo Cards (Incomplete)
@@ -541,6 +558,21 @@ public class Cards {
         actionCardsDarkAges.add(vagrant = new ActionCardImpl.Builder(Cards.Type.Vagrant, 2).addCards(1).addActions(1).description("Reveal the top card of your deck. If it's a Curse, Ruins, Shelter, or Victory card, put it into your hand.").expansion("DarkAges").build());
         actionCardsDarkAges.add(wanderingMinstrel = new ActionCardImpl.Builder(Cards.Type.WanderingMinstrel, 4).addCards(1).addActions(2).description("Reveal the top 3 cards of your deck. Put the Actions back on top in any order and discard the rest.").expansion("DarkAges").build());
         
+        // Guilds
+        actionCardsGuilds.add(advisor          = new ActionCardImpl.Builder(Cards.Type.Advisor, 4).addActions(1).description("Reveal the top 3 cards of your deck. The player to your left chooses one of them. Discard that card. Put the other cards into your hand.").expansion("Guilds").build());
+        actionCardsGuilds.add(soothsayer       = new ActionCardImpl.Builder(Cards.Type.Soothsayer, 5).attack().description("Gain a Gold. Each other player gains a Curse. Each player who did draws a card.").expansion("Guilds").build());
+        actionCardsGuilds.add(taxman           = new ActionCardImpl.Builder(Cards.Type.TaxMan, 4).attack().description("You may trash a Treasure from your hand. Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it). Gain a Treasure card costing up to $3 more than the trashed card, putting it on top of your deck.").expansion("Guilds").build());
+        actionCardsGuilds.add(plaza            = new ActionCardImpl.Builder(Cards.Type.Plaza, 4).addCards(1).addActions(2).description("You may discard a Treasure card. If you do, take a Coin token.").expansion("Guilds").build());
+        actionCardsGuilds.add(candlestickMaker = new ActionCardImpl.Builder(Cards.Type.CandlestickMaker, 2).addActions(1).addBuys(1).description("Take a Coin token.").expansion("Guilds").build());
+        actionCardsGuilds.add(baker            = new ActionCardImpl.Builder(Cards.Type.Baker, 5).addCards(1).addActions(1).description("Take a Coin token. SETUP: Each Player takes a Coin token.").expansion("Guilds").build());
+        actionCardsGuilds.add(merchantGuild    = new ActionCardImpl.Builder(Cards.Type.MerchantGuild, 5).addBuys(1).addGold(1).description("While this is in play, when you buy a card, take a Coin token.").expansion("Guilds").build());
+        actionCardsGuilds.add(butcher          = new ActionCardImpl.Builder(Cards.Type.Butcher, 5).description("Take 2 Coin tokens. You may trash a card from your hand and then pay any number of Coin tokens. If you did trash a card, gain a card with a cost of up to the cost of the trashed card plus the number of Coin tokens you paid.").expansion("Guilds").build());
+        actionCardsGuilds.add(journeyman       = new ActionCardImpl.Builder(Cards.Type.Journeyman, 5).description("Name a card. Reveal cards from the top of your deck until you reveal 3 cards that are not the named card. Put those cards into your hand and discard the rest.").expansion("Guilds").build());
+        actionCardsGuilds.add(stonemason       = new ActionCardImpl.Builder(Cards.Type.StoneMason, 2).isOverpay().description("Trash a card from your hand, Gain 2 cards each costing less than it. When you buy this, you may overpay for it. If you do, gain 2 Action cards each costing the amount you overpaid.").expansion("Guilds").build());
+        actionCardsGuilds.add(masterpiece      = new TreasureCardImpl.Builder(Cards.Type.Masterpiece, 3, 1).isOverpay().description("When you buy this, you may overpay for it. If you do, gain a Silver per $1 you overpaid.").expansion("Guilds").build());
+        actionCardsGuilds.add(doctor           = new ActionCardImpl.Builder(Cards.Type.Doctor, 3).isOverpay().description("Name a card. Reveal the top 3 cards of your deck. Trash the matches. Put the rest back on top in any order.  When you buy this, you may overpay for it. For each $1 you overpaid, look at the top card of your deck; trash it, discard it, or put it back.").expansion("Guilds").build());
+        actionCardsGuilds.add(herald           = new ActionCardImpl.Builder(Cards.Type.Herald, 4).addCards(1).addActions(1).isOverpay().description("Reveal the top card of your deck. If it is an Action, play it. When you buy this, you may overpay for it. For each $1 you overpaid, look through your discard pile and put a card from it on top of your deck.").expansion("Guilds").build());
+        
         // Non-Supply Cards
         nonSupplyCards.add(madman = new ActionCardImpl.Builder(Cards.Type.Madman, 0).addActions(2).description("Return this to the Madman pile. If you do, +1 Card per card in your hand. (This is not in the supply)").expansion("DarkAges").build());
         nonSupplyCards.add(mercenary = new ActionCardImpl.Builder(Cards.Type.Mercenary, 0).attack().description("You may trash 2 cards from your hand. If you do, +2 cards, +2 coins, and each other player discards down to 3 cards in hand. (This is not in the supply)").expansion("DarkAges").build());
@@ -599,12 +631,9 @@ public class Cards {
         for (Card card : actionCardsHinterlands) {
             actionCards.add(card);
         }
-        for (Card card : actionCardsDarkAges) {
-            actionCards.add(card);
-        }
-        for (Card card : actionCardsPromo) {
-        	actionCards.add(card);
-        }
+        for (Card card : actionCardsDarkAges) { actionCards.add(card); }
+        for (Card card : actionCardsGuilds)   { actionCards.add(card); }
+        for (Card card : actionCardsPromo)    { actionCards.add(card); }
     }
     
     public static boolean isKingdomCard(Card c) {

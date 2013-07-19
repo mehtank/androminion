@@ -27,6 +27,7 @@ public class MoveContext {
     public int schemesPlayed = 0;
     
     public int foolsGoldPlayed = 0;
+    public int overpayAmount = 0;
 
     public int golemInEffect = 0;
     public int freeActionInEffect = 0;
@@ -342,4 +343,8 @@ public class MoveContext {
         return cards.toArray(new Card[0]);
     }
 
+    public int countMerchantGuildsInPlayThisTurn() 
+    {
+        return countCardsInPlay(Cards.merchantGuild);
+    }
 }

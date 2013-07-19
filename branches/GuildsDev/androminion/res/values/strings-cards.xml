@@ -449,4 +449,31 @@
     <string name="SirVander_desc">Each other player reveals the top 2 cards of his deck, trashes one of them costing from 3 to 6 coins, and discards the rest. If a Knight is trashed by this, trash this card. When you trash this, gain a Gold.</string>
     <string name="VirtualKnight_name">Knights</string>
     <string name="VirtualKnight_desc"/>
+    
+    <string name="Advisor_name">Advisor</string>
+    <string name="Advisor_desc">Reveal the top 3 cards of your deck. The player to your left chooses one of them. Discard that card. Put the other cards into your hand.</string>
+    <string name="Baker_name">Baker</string>
+    <string name="Baker_desc">Take a Coin token. SETUP: Each player takes a Coin token.</string>
+    <string name="Butcher_name">Butcher</string>
+    <string name="Butcher_desc">Take 2 Coin tokens. You may trash a card from your hand and then pay any number of Coin tokens. If you did trash a card, gain a card with a cost of up to the cost of the trashed card plus the number of Coin tokens you paid.</string>
+    <string name="CandlestickMaker_name">Candlestick Maker</string>
+    <string name="CandlestickMaker_desc">Take a Coin token.</string>
+    <string name="Doctor_name">Doctor</string>
+    <string name="Doctor_desc">Name a card. Reveal the top 3 cards of your deck. Trash the matches. Put the rest back on top in any order. When you buy this, you may overpay for it. For each $1 you overpaid, look at the top card of your deck; trash it, discard it, or put it back.</string>
+    <string name="Herald_name">Herald</string>
+    <string name="Herald_desc">Reveal the top card of your deck. If it is an Action, play it. When you buy this, you may overpay for it. For each $1 you overpaid, look through your discard pile and put a card from it on top of your deck. </string>
+    <string name="Journeyman_name">Journeyman</string>
+    <string name="Journeyman_desc">Name a card. Reveal cards from the top of your deck until you reveal 3 cards that are not the named card. Put those cards into your hand and discard the rest.</string>
+    <string name="Masterpiece_name">Masterpiece</string>
+    <string name="Masterpiece_desc">When you buy this, you may overpay for it. If you do, gain a Silver per $1 you overpaid.</string>
+    <string name="MerchantGuild_name">Merchant Guild</string>
+    <string name="MerchantGuild_desc">While this is in play, when you buy a card, take a Coin token.</string>  
+    <string name="Plaza_name">Plaza</string>
+    <string name="Plaza_desc">You may discard a Treasure card. If you do, take a Coin token.</string>
+    <string name="Soothsayer_name">Soothsayer</string>
+    <string name="Soothsayer_desc">Gain a Gold. Each other player gains a Curse. Each player who did draws a card.</string>    
+    <string name="StoneMason_name">Stone Mason</string>
+    <string name="StoneMason_desc">Trash a card from your hand, Gain 2 cards each costing less than it. When you buy this, you may overpay for it. If you do, gain 2 Action cards each costing the amount you overpaid.</string>
+    <string name="Taxman_name">Taxman</string>
+    <string name="Taxman_desc">You may trash a Treasure from your hand. Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it). Gain a Treasure card costing up to $3 more than the trashed card, putting it on top of your deck.</string>
 </resources>

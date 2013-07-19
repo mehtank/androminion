@@ -2451,5 +2451,138 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(Cards.bandOfMisfits.getCost(context) - 1).isAction().setPassable(getString(R.string.none));
         return (ActionCardImpl) getFromTable(context, getString(R.string.part_play), sco);
     }
+    
+    @Override
+    public TreasureCard taxman_treasureToTrash(MoveContext context) 
+    {    
+        SelectCardOptions sco = new SelectCardOptions().isTreasure().setPassable(getString(R.string.none)).setPickType(PickType.TRASH);
+        return (TreasureCard) getCardFromHand(context, getActionString(ActionType.TRASH, Cards.taxman), sco);
+    }
+    
+    @Override
+    public TreasureCard taxman_treasureToObtain(MoveContext context, int maxCost) {
+        if(context.isQuickPlay() && shouldAutoPlay_taxman_treasureToObtain(context, maxCost)) {
+            return super.taxman_treasureToObtain(context, maxCost);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost);
+        return (TreasureCard) getFromTable(context, getString(R.string.taxman_part), sco);
+    }
+    
+    @Override
+    public TreasureCard plaza_treasureToDiscard(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_stables_treasureToDiscard(context)) {
+            return super.stables_treasureToDiscard(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isTreasure().setPassable(getString(R.string.none)).setPickType(PickType.DISCARD);
+        return (TreasureCard) getCardFromHand(context, getActionString(ActionType.DISCARD, Cards.plaza), sco);
+    }
+    
+    @Override
+    public int numGuildsCoinTokensToSpend(MoveContext context)
+    {
+        return selectInt(context, "Spend Guilds Coin Tokens", getGuildsCoinTokenCount(), 0);
+    }
+    
+    @Override
+    public int amountToOverpay(MoveContext context, int cardCost)
+    {
+        return selectInt(context, "Overpay?", context.getCoinAvailableForBuy() - cardCost, 0);
+    }
+    
+    @Override
+    public Card butcher_cardToTrash(MoveContext context) 
+    {
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH);
+        return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.butcher), sco);
+    }
+    
+    @Override
+    public Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion)
+    {        
+        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0);
+        return getFromTable(context, getActionString(ActionType.GAIN, Cards.butcher), sco);
+    }
+    
+    @Override
+    public Card advisor_cardToDiscard(MoveContext context, Card[] cards)
+    {
+        ArrayList<String> options = new ArrayList<String>();
+        
+        for (Card c : cards) 
+        {
+            options.add(Strings.getCardName(c));
+        }
 
+        if (!options.isEmpty()) 
+        {
+            String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.advisor, context.getPlayer().getPlayerName()), options.toArray(new String[0]));
+            return (Card) localNameToCard(o, cards);
+        } 
+        else 
+        {
+            return null;
+        }
+    }
+    
+    @Override
+    public Card journeyman_cardToPick(MoveContext context) 
+    {
+        SelectCardOptions sco = new SelectCardOptions().allowEmpty();
+        return getFromTable(context, getActionString(ActionType.NAMECARD, Cards.journeyman), sco);
+    }
+    
+    @Override
+    public Card stonemason_cardToTrash(MoveContext context)
+    {
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH).allowEmpty();
+        return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.stonemason), sco);
+    }
+    
+    @Override
+    public Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion)
+    {
+        SelectCardOptions sco = new SelectCardOptions().allowEmpty().maxCost(maxCost).potionCost(potion ? 1 : 0);
+        return getFromTable(context, getActionString(ActionType.GAIN, Cards.stonemason), sco);
+    }
+    
+    @Override
+    public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount)
+    {
+        SelectCardOptions sco = new SelectCardOptions().allowEmpty().exactCost(overpayAmount).isAction();
+        return getFromTable(context, getActionString(ActionType.GAIN, Cards.stonemason), sco);
+    }
+    
+    @Override
+    public Card doctor_cardToPick(MoveContext context)
+    {
+        SelectCardOptions sco = new SelectCardOptions().allowEmpty();
+        return getFromTable(context, getActionString(ActionType.NAMECARD, Cards.doctor), sco);
+    }
+    
+    @Override
+    public ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards) 
+    {
+        ArrayList<Card> orderedCards = new ArrayList<Card>();
+        
+        int[] order = orderCards(context, cardArrToIntArr(cards.toArray(new Card[0])));
+        
+        for (int i : order)
+        {
+            orderedCards.add(cards.get(i));
+        }
+        
+        return orderedCards;
+    }
+    
+    @Override
+    public DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card) 
+    {
+        LinkedHashMap<String, DoctorOverpayOption> optionMap = new LinkedHashMap<String, DoctorOverpayOption>();
+        
+        optionMap.put(getString(R.string.doctor_overpay_option_one),   DoctorOverpayOption.TrashIt);
+        optionMap.put(getString(R.string.doctor_overpay_option_two),   DoctorOverpayOption.DiscardIt);
+        optionMap.put(getString(R.string.doctor_overpay_option_three), DoctorOverpayOption.PutItBack);
+    
+        return optionMap.get(selectString(context, "Doctor revealed " + getCardName(card), optionMap.keySet().toArray(new String[0])));
+    }
 }

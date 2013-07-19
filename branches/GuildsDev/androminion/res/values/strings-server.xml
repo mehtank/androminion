@@ -322,4 +322,10 @@
   <string name="urchin_trash_for_mercenary">Trash Urchin for Mercenary</string>
   <string name="madman_option">Return Madman</string>
   
+  <string name="taxman_part">gain</string>
+  <string name="doctor_overpay_option_one">Trash</string>
+  <string name="doctor_overpay_option_two">Discard</string>
+  <string name="doctor_overpay_option_three">Put Back</string>
+  
+  
 </resources>

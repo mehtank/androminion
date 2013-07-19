@@ -853,7 +853,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
 		turnStatus.setStatus(gs.turnStatus, gs.potions, myTurn);
 		for (int i=0; i<players.getCount(); i++) {
-	        players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.whoseTurn == i);
+	        players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.guildsCoinTokens[i], gs.whoseTurn == i);
 		}
 		players.notifyDataSetChanged();
 
@@ -909,7 +909,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
 	private void setCardCosts(View v) {
 		if (v instanceof CardView) {
-			((CardView) v).setCost(getCardCost(((CardView) v).getCard()));
+			((CardView) v).setCost(getCardCost(((CardView) v).getCard()), ((CardView) v).getCard().isOverpay);
 		} else if (v instanceof ViewGroup) {
 			for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++)
 				setCardCosts(((ViewGroup) v).getChildAt(i));

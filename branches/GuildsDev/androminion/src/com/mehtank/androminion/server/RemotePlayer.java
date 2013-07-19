@@ -166,6 +166,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	card.costPotion = c.costPotion();
     	card.isBane = isBane;
     	card.isShelter = c.isShelter();
+    	card.isOverpay = c.isOverpay();
     	if (c.equals(Cards.virtualRuins))
     		card.isRuins = true;
     	else
@@ -437,6 +438,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int handSizes[] = new int[numPlayers];
         int pirates[] = new int[numPlayers];
         int victoryTokens[] = new int[numPlayers];
+        int guildsCoinTokens[] = new int[numPlayers];
 		String realNames[] = new String[numPlayers];
 
         for (int i=0; i<numPlayers; i++) {
@@ -452,6 +454,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	
         	pirates[i] = p.getPirateShipTreasure();
         	victoryTokens[i] = p.getVictoryTokens();
+        	guildsCoinTokens[i] = p.getGuildsCoinTokenCount();
         	realNames[i] = p.getPlayerName(false);
         }
 
@@ -485,6 +488,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setNumCards(numCards)
     	  .setPirates(pirates)
     	  .setVictoryTokens(victoryTokens)
+    	  .setGuildsCoinTokens(guildsCoinTokens)
     	  .setCardCostModifier(context.cardCostModifier)
     	  .setPotions(context.getPotionsForStatus(player))
     	  .setIsland(cardArrToIntArr(player.getIsland().toArray()))

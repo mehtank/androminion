@@ -253,4 +253,28 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         return true;
 
     }
+    
+    @Override
+    public void isBought(MoveContext context) 
+    {
+        switch (this.controlCard.getType()) 
+        {
+        case Masterpiece:
+            masterpiece(context);
+            break;
+        default:
+            break;
+        }
+    }
+    
+    public void masterpiece(MoveContext context)
+    {
+        for (int i = 0; i < context.overpayAmount; ++i)
+        {
+            if(!context.getPlayer().gainNewCard(Cards.silver, this.controlCard, context)) 
+            {
+                break;
+            }
+        }
+    }
 }
