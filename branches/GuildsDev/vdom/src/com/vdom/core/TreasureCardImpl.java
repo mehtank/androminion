@@ -91,8 +91,13 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         	player.playedCards.add(player.hand.removeCard(this));
         }
         
-        context.treasuresPlayedSoFar++;
+        if (!isClone)
+        {
+            context.treasuresPlayedSoFar++;
+        }
+        
         context.gold += getValue();
+        
         if (providePotion()) {
             context.potions++;
         }
@@ -234,16 +239,22 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         context.buys++;
         
     	TreasureCard treasure = currentPlayer.controlPlayer.counterfeit_cardToPlay(context);
+    	
     	if (treasure != null) {
     		TreasureCardImpl cardToPlay = (TreasureCardImpl) treasure;
             cardToPlay.cloneCount = 2;
             for (int i = 0; i < cardToPlay.cloneCount;) {
                 cardToPlay.numberTimesAlreadyPlayed = i++;
-                cardToPlay.playTreasure(context, cardToPlay.numberTimesAlreadyPlayed == 0 ? true : false);
+                cardToPlay.playTreasure(context, cardToPlay.numberTimesAlreadyPlayed == 0 ? false : true);
             }
+            
             cardToPlay.cloneCount = 0;
             cardToPlay.numberTimesAlreadyPlayed = 0;    		
-    		if (!treasure.equals(Cards.spoils)) {
+            
+            // A counterfeited card will not count in the calculations of future cards that care about the number of treasures played (such as Bank)
+            context.treasuresPlayedSoFar--; 
+            
+            if (!treasure.equals(Cards.spoils)) {
                 if (currentPlayer.playedCards.getLastCard().getId() == cardToPlay.getId()) {
                 	currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), this, context);
 	    		}

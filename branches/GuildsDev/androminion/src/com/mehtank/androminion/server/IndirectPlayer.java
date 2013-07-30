@@ -346,7 +346,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card doBuy(MoveContext context) {
-        SelectCardOptions sco = new SelectCardOptions().isBuy().maxCost(context.getCoinAvailableForBuy()).potionCost(context.getPotions()).setPassable(getString(R.string.end_turn)).setPickType(PickType.BUY);
+        SelectCardOptions sco = new SelectCardOptions().isBuy().maxCost(context.getCoinAvailableForBuy()).copperCountInPlay(context.countCardsInPlay(Cards.copper)).potionCost(context.getPotions()).setPassable(getString(R.string.end_turn)).setPickType(PickType.BUY);
         return getFromTable(context, getString(R.string.part_buy), sco);
     }
 
@@ -2153,7 +2153,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, maxCost, costPotion)) {
             return super.rebuild_cardToGain(context, maxCost, costPotion);
         }
-        SelectCardOptions sco = new SelectCardOptions().isVictory().maxCost(maxCost);
+        SelectCardOptions sco = new SelectCardOptions().isVictory().maxCost(maxCost).potionCost(costPotion ? 1 : 0);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.rebuild), sco);
     }
     
@@ -2486,7 +2486,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public int amountToOverpay(MoveContext context, int cardCost)
     {
-        return selectInt(context, "Overpay?", context.getCoinAvailableForBuy() - cardCost, 0);
+        int availableAmount = context.getCoinAvailableForBuy() - cardCost;
+        
+        if (availableAmount <= 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return selectInt(context, "Overpay?", availableAmount, 0);
+        }
     }
     
     @Override
@@ -2546,9 +2555,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount)
+    public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion)
     {
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty().exactCost(overpayAmount).isAction();
+        SelectCardOptions sco = new SelectCardOptions().allowEmpty().exactCost(overpayAmount).isAction().potionCost(potion ? 1 : 0);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.stonemason), sco);
     }
     
@@ -2584,5 +2593,26 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         optionMap.put(getString(R.string.doctor_overpay_option_three), DoctorOverpayOption.PutItBack);
     
         return optionMap.get(selectString(context, "Doctor revealed " + getCardName(card), optionMap.keySet().toArray(new String[0])));
+    }
+    
+    @Override
+    public Card herald_cardTopDeck(MoveContext context, Card[] cardList)
+    {
+        ArrayList<String> options = new ArrayList<String>();
+        
+        for (Card c : cardList) 
+        {
+            options.add(Strings.getCardName(c));
+        }
+
+        if (!options.isEmpty()) 
+        {
+            String o = selectString(context, R.string.herald_overpay_query, Cards.herald, options.toArray(new String[0]));
+            return (Card) localNameToCard(o, cardList);
+        } 
+        else 
+        {
+            return null;
+        }
     }
 }

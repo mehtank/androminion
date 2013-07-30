@@ -433,10 +433,15 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else {
 			TextView textView = new TextView(view.getContext());
 			textView.setPadding(15, 0, 15, 5);
-			String text = ""; //cardView.c.name;
-			if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) {
-			    text += "(" + cardView.getCard().expansion + ")\n";
-			}
+			String text = cardView.getCard().GetCardTypeString();
+			
+			if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) 
+			{
+                text += "(" + cardView.getCard().expansion + ")";
+            }
+			
+			text += "\n";
+			
 			text += cardView.getCard().desc;
 			textView.setText( text );
 			v = textView;

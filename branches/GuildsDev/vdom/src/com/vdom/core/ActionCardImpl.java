@@ -35,15 +35,15 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     public ActionCardImpl(Builder builder) {
         super(builder);
-        addActions = builder.addActions;
-        addBuys = builder.addBuys;
-        addCards = builder.addCards;
-        addGold = builder.addGold;
+        addActions       = builder.addActions;
+        addBuys          = builder.addBuys;
+        addCards         = builder.addCards;
+        addGold          = builder.addGold;
         addVictoryTokens = builder.addVictoryTokens;
-        attack = builder.attack;
-        looter = builder.looter;
-        trashOnUse = builder.trashOnUse;
-        trashForced = builder.trashForced;
+        attack           = builder.attack;
+        looter           = builder.looter;
+        trashOnUse       = builder.trashOnUse;
+        trashForced      = builder.trashForced;
     }
 
     public static class Builder extends CardImpl.Builder{
@@ -113,6 +113,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		public Builder isShelter() {
 			this.isShelter = true;
 			return this;
+		}
+		
+		@Override
+		public Builder isLooter() {
+		    this.isLooter = true;
+		    return this;
 		}
 
 		@Override
@@ -1897,23 +1903,40 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 targetPlayer.attacked(this.controlCard, context);
 
                 Card draw = game.draw(targetPlayer);
-                if (draw == null) {
+                Card virtCard = draw;
+                
+                if (draw == null) 
+                {
                     continue;
                 }
 
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetPlayer.reveal(draw, this.controlCard, targetContext);
                 targetPlayer.discard(draw, this.controlCard, targetContext);
-
-                MoveContext toGainContext = null;
-
-                if (draw instanceof VictoryCard) {
-                    targetPlayer.gainNewCard(Cards.curse, this.controlCard, targetContext);
-                } else {
-                    if (!game.isPileEmpty(draw)) {
-                        JesterOption option = currentPlayer.controlPlayer.controlPlayer.jester_chooseOption(context, targetPlayer, draw);
-                        toGainContext = JesterOption.GainCopy.equals(option) ? context : targetContext;
-                        toGainContext.getPlayer().gainNewCard(draw, this.controlCard, toGainContext);
+                
+                if (Cards.isSupplyCard(draw))
+                {
+                    AbstractCardPile pile;
+                    if (draw.isKnight()) {
+                        virtCard = Cards.virtualKnight;
+                    } else if (draw.isRuins()) {
+                        virtCard = Cards.virtualRuins;
+                    }
+                    pile = game.getPile(virtCard);
+    
+                    MoveContext toGainContext = null;
+    
+                    if (draw instanceof VictoryCard) {
+                        targetPlayer.gainNewCard(Cards.curse, this.controlCard, targetContext);
+                    } else {
+                        
+                        if (!game.isPileEmpty(draw) &&
+                            (pile.getType() == AbstractCardPile.PileType.SingleCardPile || draw.equals(pile.card()))) 
+                        {
+                            JesterOption option = currentPlayer.controlPlayer.controlPlayer.jester_chooseOption(context, targetPlayer, draw);
+                            toGainContext = JesterOption.GainCopy.equals(option) ? context : targetContext;
+                            toGainContext.getPlayer().gainNewCard(draw, this.controlCard, toGainContext);
+                        }
                     }
                 }
             }
@@ -3871,7 +3894,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             doctorOverpay(context);
             break;
         case Herald:
-            heraldOverpay(context);
+            heraldOverpay(context, context.getPlayer());
             break;
         default:
             break;
@@ -5578,7 +5601,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         // Gain two action cards each costing the amount overpaid
         // TODO: Should be able to overpay by Potion and gain potion action cards...
         
-        Card c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount);
+        Card c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.potions > 0 ? true : false));
         
         if (c != null)
         {
@@ -5588,7 +5611,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
         }
         
-        c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount);
+        c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.potions > 0 ? true : false));
         
         if (c != null)
         {
@@ -5687,21 +5710,22 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
     
-    public void heraldOverpay(MoveContext context)
+    public void heraldOverpay(MoveContext context, Player currentPlayer)
     {
-        for (int i = 0; i <= context.overpayAmount; ++i)
+        for (int i = 0; i < context.overpayAmount; ++i)
         {
-            if (context.player.discard.size() > 0) {  // Only allow a choice if there are cards in the discard pile
-                
+            // Only allow a choice if there are cards in the discard pile
+            if (currentPlayer.discard.size() > 0) 
+            {      
                 // Create a list of all cards in the player's discard pile 
-                ArrayList<Card> options = context.player.getDiscard().toArrayList();
+                ArrayList<Card> options = currentPlayer.getDiscard().toArrayList();
                 Collections.sort(options, new Util.CardNameComparator());
         
                 if (options.size() > 0) 
                 {
-                    Card cardToTopDeck = context.player.herald_cardTopDeck(context, options);
-                    context.player.discard.remove(cardToTopDeck);
-                    context.player.putOnTopOfDeck(cardToTopDeck);
+                    Card cardToTopDeck = context.player.herald_cardTopDeck(context, options.toArray(new Card[options.size()]));
+                    currentPlayer.discard.remove(cardToTopDeck);
+                    currentPlayer.putOnTopOfDeck(cardToTopDeck);
                 }
             }
         }

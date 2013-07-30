@@ -91,6 +91,9 @@ public enum GameType {
     // Guilds + Intrigue
     NameThatCard("Name That Card (Guilds, Intr)"), TricksOfTheTrade("Tricks of the Trade (Guilds, Intr)"), DecisionsDecisions("Decisions, Decisions (Guilds, Intr)"),
 
+    // Test Guilds
+    TestGuilds("Test Guilds"),
+    
     // All Cards
     Random("Random"),
 

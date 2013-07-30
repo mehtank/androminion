@@ -1427,11 +1427,11 @@ public abstract class Player {
 	public abstract Card journeyman_cardToPick(MoveContext context);
 	public abstract Card stonemason_cardToTrash(MoveContext context);
 	public abstract Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion);
-	public abstract Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount);
+	public abstract Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion);
 	public abstract Card doctor_cardToPick(MoveContext context);
 	public abstract ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards);
 	public abstract DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card);
-	public abstract Card herald_cardTopDeck(MoveContext context, ArrayList<Card> cardList);
+	public abstract Card herald_cardTopDeck(MoveContext context, Card[] cardList);
 	
 	// ////////////////////////////////////////////
     // Card interactions - Promotional Cards

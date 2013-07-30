@@ -24,20 +24,21 @@ public class MyCard implements Serializable {
 	public int vp = 0;
 	public int gold = 0;
 
-	public boolean isVictory = false;
-	public boolean isCurse = false;
+	public boolean isVictory  = false;
+	public boolean isCurse    = false;
 	public boolean isTreasure = false;
-	public boolean isAction = false;
+	public boolean isAction   = false;
 	public boolean isReaction = false;
-	public boolean isAttack = false;
+	public boolean isAttack   = false;
 	public boolean isDuration = false;
-	public boolean isPrize = false;
-	public boolean isPotion = false;
-	public boolean isBane = false;
-	public boolean isShelter = false;
-	public boolean isRuins = false;
-	public boolean isKnight = false;
-	public boolean isOverpay = false;
+	public boolean isPrize    = false;
+	public boolean isPotion   = false;
+	public boolean isBane     = false;
+	public boolean isShelter  = false;
+	public boolean isRuins    = false;
+	public boolean isLooter   = false;
+	public boolean isKnight   = false;
+	public boolean isOverpay  = false;
 	
 	public static final int SUPPLYPILE = 1;
 	public static final int MONEYPILE = 2;
@@ -58,6 +59,100 @@ public class MyCard implements Serializable {
 		this.originalName = originalName;
 		this.isKnight = originalName.equals("VirtualKnight");
 	}
+	
+	public String GetCardTypeString()
+    {
+	    String cardType = "";
+        
+        if (isAction)
+        {
+            cardType += "Action ";
+            
+            if (isAttack)
+            {
+                cardType += "- Attack ";
+            }
+            
+            if (isLooter)
+            {
+                cardType += "- Looter ";
+            }
+            
+            if (isRuins)
+            {
+                cardType += "- Ruins ";
+            }
+            
+            if (isPrize)
+            {
+                cardType += "- Prize ";
+            }
+            
+            if (isReaction)
+            {
+                cardType += "- Reaction ";
+            }
+            
+            if (isDuration)
+            {
+                cardType += "- Duration ";
+            }
+            
+            if (isVictory)
+            {
+                cardType += "- Victory ";
+            }
+            
+            if (isKnight)
+            {
+                cardType += "- Knight ";
+            }
+            
+            if (isShelter)
+            {
+                cardType += "- Shelter";
+            }
+        }
+        else if (isTreasure)
+        {
+            cardType += "Treasure ";
+            
+            if (isVictory)
+            {
+                cardType += "- Victory ";
+            }
+            
+            if (isReaction)
+            {
+                cardType += "- Reaction ";
+            }
+            
+            if (isPrize)
+            {
+                cardType += "- Prize ";
+            }
+        }
+        else if (isVictory)
+        {
+            cardType += "Victory ";
+            
+            if (isShelter)
+            {
+                cardType += "- Shelter";
+            }
+            
+            if (isReaction)
+            {
+                cardType += "- Reaction";
+            }
+        }
+        else if (name.equalsIgnoreCase("hovel"))
+        {
+            cardType += "Reaction - Shelter";
+        }
+        
+        return cardType;
+    }
 	
 	public String toString() {
 		return "Card #" + id + " (" + cost + ") " + name + ": " + desc;

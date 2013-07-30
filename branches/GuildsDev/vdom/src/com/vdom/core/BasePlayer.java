@@ -2717,9 +2717,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount)
+    public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion)
     {
-        return bestCardInPlay(context, overpayAmount, true, false);
+        return bestCardInPlay(context, overpayAmount, true, potion);
     }
     
     @Override
@@ -2759,13 +2759,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return doo;
     }
     
-    public Card herald_cardTopDeck(MoveContext context, ArrayList<Card> cardList)
+    public Card herald_cardTopDeck(MoveContext context, Card[] cardList)
     {
         Card cardToReturn = null;
         
-        if (cardList.size() > 0)
+        if (cardList.length > 0)
         {
-            cardToReturn = cardList.get(0);
+            cardToReturn = cardList[0];
         }
         
         for (Card c : cardList)

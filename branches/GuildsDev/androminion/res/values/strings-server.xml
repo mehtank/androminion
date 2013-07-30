@@ -326,6 +326,7 @@
   <string name="doctor_overpay_option_one">Trash</string>
   <string name="doctor_overpay_option_two">Discard</string>
   <string name="doctor_overpay_option_three">Put Back</string>
+  <string name="herald_overpay_query">Select card to put back on deck</string>
   
   
 </resources>
