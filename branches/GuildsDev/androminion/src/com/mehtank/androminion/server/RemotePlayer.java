@@ -717,6 +717,18 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	    case BuyingCard:
                 strEvent += Strings.getString(R.string.BuyingCard);
                 break;
+    	    case OverpayForCard:
+    	        if (context != null && context.overpayAmount >= 10)
+                {
+                    achievement(context, "overpayby10ormore");
+                }
+    	        break;
+    	    case GuildsTokenObtained:
+    	        if (context != null && getGuildsCoinTokenCount() >= 50)
+                {
+                    achievement(context, "stockpile50tokens");
+                }
+    	        break;
     	    case NoBuy:
                 strEvent += Strings.getString(R.string.NoBuy);
                 break;

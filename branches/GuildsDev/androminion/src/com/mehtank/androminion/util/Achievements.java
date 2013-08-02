@@ -35,6 +35,8 @@ public class Achievements {
         "trash5inaturn",
         "gainmorethan30inaturn",
         "win10inarow",
+        "overpayby10ormore",
+        "stockpile50tokens"
         };
     private static final int[] ids = {
     	R.string.achievements_2players8provinces,
@@ -46,7 +48,9 @@ public class Achievements {
     	R.string.achievements_skunk,
     	R.string.achievements_trash5inaturn,
     	R.string.achievements_gainmorethan30inaturn,
-    	R.string.achievements_win10inarow
+    	R.string.achievements_win10inarow,
+    	R.string.achievements_overpayby10ormore,
+    	R.string.achievements_stockpile50tokens
     };
     public String[] text = new String[KEYS.length];
     boolean[] achievementsDone = new boolean[KEYS.length];

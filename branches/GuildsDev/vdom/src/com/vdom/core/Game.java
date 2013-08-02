@@ -1119,7 +1119,7 @@ public class Game {
         }
 
         Card card = takeFromPileCheckTrader(buy, context);
-        if(card != null) {
+        if (card != null) {
 	        GameEvent event = new GameEvent(GameEvent.Type.BuyingCard, (MoveContext) context);
 	        event.card = card;
 	        event.newCard = true;
@@ -1145,6 +1145,14 @@ public class Game {
                 context.overpayPotions = player.overpayByPotions(context, context.potions);
                 context.potions -= context.overpayPotions;
             }
+            
+            if (context.overpayAmount > 0 || context.overpayPotions > 0)
+            {
+                GameEvent event = new GameEvent(GameEvent.Type.OverpayForCard, (MoveContext) context);
+                event.card = card;
+                event.newCard = true;
+                broadcastEvent(event);
+            }
         }
         else
         {
@@ -1165,7 +1173,13 @@ public class Game {
         }
 
         player.addVictoryTokens(context, context.countGoonsInPlayThisTurn());
-        player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn());
+        
+        if (context.countMerchantGuildsInPlayThisTurn() > 0)
+        {
+            player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn());
+            GameEvent event   = new GameEvent(GameEvent.Type.GuildsTokenObtained, context);
+            broadcastEvent(event);
+        }
 
         if (buy instanceof VictoryCard) {
         	context.victoryCardsBoughtThisTurn++;

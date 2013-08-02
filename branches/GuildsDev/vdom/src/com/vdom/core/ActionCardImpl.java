@@ -5286,6 +5286,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
     
+    private void sendGuildsTokenObtainedEvent(Game game, MoveContext context)
+    {
+        GameEvent event   = new GameEvent(GameEvent.Type.GuildsTokenObtained, context);
+        game.broadcastEvent(event);
+    }
+    
     private void soothsayer(Game game, MoveContext context, Player currentPlayer) 
     {
         currentPlayer.gainNewCard(Cards.gold, this.controlCard, context);
@@ -5378,6 +5384,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 currentPlayer.reveal(toDiscard, this.controlCard, context);
                 currentPlayer.discard(toDiscard, this.controlCard, context);
                 currentPlayer.gainGuildsCoinTokens(1);
+                sendGuildsTokenObtainedEvent(game, context);
                 Util.debug(currentPlayer, "Gained a Guild coin token via Plaza");
             }
         }
@@ -5386,11 +5393,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void candlestickMaker(Game game, MoveContext context, Player currentPlayer)
     {
         currentPlayer.gainGuildsCoinTokens(1);
+        sendGuildsTokenObtainedEvent(game, context);
     }
     
     private void baker(Game game, MoveContext context, Player currentPlayer)
     {
         currentPlayer.gainGuildsCoinTokens(1);
+        sendGuildsTokenObtainedEvent(game, context);
     }
     
     private void advisor(Game game, MoveContext context, Player currentPlayer)
@@ -5462,6 +5471,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
          */
         
         currentPlayer.gainGuildsCoinTokens(2);
+        sendGuildsTokenObtainedEvent(game, context);
         
         if (currentPlayer.getHand().size() > 0) 
         {
@@ -5598,24 +5608,26 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     
     public void stoneMasonOverpay(MoveContext context)
     {
-        // Gain two action cards each costing the amount overpaid
-        
-        Card c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
-        
-        if (c != null)
+        if (context.overpayAmount > 0 || context.overpayPotions > 0)
         {
-            if (!context.player.gainNewCard(c, this.controlCard, context)) 
-            {
-                Util.playerError(context.player, "Stone Mason overpay gain #1 error, pile is empty or card is not in the game.");
-            }
-            
-            c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
+            // Gain two action cards each costing the amount overpaid
+            Card c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
             
             if (c != null)
             {
                 if (!context.player.gainNewCard(c, this.controlCard, context)) 
                 {
-                    Util.playerError(context.player, "Stone Mason overpay gain #2 error, pile is empty or card is not in the game.");
+                    Util.playerError(context.player, "Stone Mason overpay gain #1 error, pile is empty or card is not in the game.");
+                }
+                
+                c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
+                
+                if (c != null)
+                {
+                    if (!context.player.gainNewCard(c, this.controlCard, context)) 
+                    {
+                        Util.playerError(context.player, "Stone Mason overpay gain #2 error, pile is empty or card is not in the game.");
+                    }
                 }
             }
         }
