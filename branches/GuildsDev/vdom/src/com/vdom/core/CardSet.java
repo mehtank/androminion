@@ -215,7 +215,7 @@ public class CardSet {
 		CardSetMap.put(GameType.TricksOfTheTrade,   new CardSet(new Card[]{Cards.stonemason, Cards.herald, Cards.soothsayer, Cards.journeyman, Cards.butcher, Cards.greatHall, Cards.nobles, Cards.conspirator, Cards.masquerade, Cards.coppersmith}, null));
 		CardSetMap.put(GameType.DecisionsDecisions, new CardSet(new Card[]{Cards.merchantGuild, Cards.candlestickMaker, Cards.masterpiece, Cards.taxman, Cards.butcher, Cards.bridge, Cards.pawn, Cards.miningVillage, Cards.upgrade, Cards.duke}, null));
 		
-		CardSetMap.put(GameType.TestGuilds, new CardSet(new Card[]{Cards.merchantGuild, Cards.banditCamp, Cards.vineyard, Cards.jester, Cards.rebuild, Cards.counterfeit, Cards.throneRoom, Cards.miningVillage, Cards.upgrade, Cards.bank}, null));
+		CardSetMap.put(GameType.TestGuilds, new CardSet(new Card[]{Cards.merchantGuild, Cards.herald, Cards.butcher, Cards.familiar, Cards.golem, Cards.counterfeit, Cards.herbalist, Cards.village, Cards.stonemason, Cards.bank}, null));
 	}
 
 }

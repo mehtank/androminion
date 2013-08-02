@@ -2679,6 +2679,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public int overpayByPotions(MoveContext context, int availablePotions)
+    {
+        // TODO: Implement
+        return 0;
+    }
+    
+    @Override
     public Card stonemason_cardToTrash(MoveContext context)
     {
         if (context.getPlayer().getHand().size() == 0) {

@@ -1139,10 +1139,17 @@ public class Game {
         if (buy.isOverpay())
         {
             context.overpayAmount = player.amountToOverpay(context, cost);
+            
+            if (context.potions > 0)
+            {
+                context.overpayPotions = player.overpayByPotions(context, context.potions);
+                context.potions -= context.overpayPotions;
+            }
         }
         else
         {
-            context.overpayAmount = 0;
+            context.overpayAmount  = 0;
+            context.overpayPotions = 0;
         }
                 
         context.gold -= (buy.getCost(context) + context.overpayAmount);

@@ -2488,6 +2488,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     {
         int availableAmount = context.getCoinAvailableForBuy() - cardCost;
         
+        // If at least one potion is available, it can be used to overpay
+        int potion = context.potions;
+        
         if (availableAmount <= 0)
         {
             return 0;
@@ -2499,9 +2502,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public int overpayByPotions(MoveContext context, int availablePotions)
+    {
+        if (availablePotions > 0)
+        {
+            return selectInt(context, "Overpay by Potion(s)?", availablePotions, 0);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+    @Override
     public Card butcher_cardToTrash(MoveContext context) 
     {
-        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH);
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH).setPassable(getString(R.string.none));
         return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.butcher), sco);
     }
     
@@ -2600,9 +2616,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     {
         ArrayList<String> options = new ArrayList<String>();
         
+        // Remove first Herald from this list (representing the most recent one bought)
+        boolean heraldRemoved = false;
+        
         for (Card c : cardList) 
         {
-            options.add(Strings.getCardName(c));
+            if (!heraldRemoved && c.getName().equalsIgnoreCase("herald"))
+            {
+                heraldRemoved = true;
+            }
+            else
+            {
+                options.add(Strings.getCardName(c));
+            }
         }
 
         if (!options.isEmpty()) 

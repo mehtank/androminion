@@ -5599,9 +5599,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     public void stoneMasonOverpay(MoveContext context)
     {
         // Gain two action cards each costing the amount overpaid
-        // TODO: Should be able to overpay by Potion and gain potion action cards...
         
-        Card c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.potions > 0 ? true : false));
+        Card c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
         
         if (c != null)
         {
@@ -5609,15 +5608,15 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             {
                 Util.playerError(context.player, "Stone Mason overpay gain #1 error, pile is empty or card is not in the game.");
             }
-        }
-        
-        c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.potions > 0 ? true : false));
-        
-        if (c != null)
-        {
-            if (!context.player.gainNewCard(c, this.controlCard, context)) 
+            
+            c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
+            
+            if (c != null)
             {
-                Util.playerError(context.player, "Stone Mason overpay gain #2 error, pile is empty or card is not in the game.");
+                if (!context.player.gainNewCard(c, this.controlCard, context)) 
+                {
+                    Util.playerError(context.player, "Stone Mason overpay gain #2 error, pile is empty or card is not in the game.");
+                }
             }
         }
     }
@@ -5711,7 +5710,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
     
     public void heraldOverpay(MoveContext context, Player currentPlayer)
-    {
+    {      
         for (int i = 0; i < context.overpayAmount; ++i)
         {
             // Only allow a choice if there are cards in the discard pile
@@ -5719,13 +5718,18 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             {      
                 // Create a list of all cards in the player's discard pile 
                 ArrayList<Card> options = currentPlayer.getDiscard().toArrayList();
+                
                 Collections.sort(options, new Util.CardNameComparator());
         
                 if (options.size() > 0) 
                 {
                     Card cardToTopDeck = context.player.herald_cardTopDeck(context, options.toArray(new Card[options.size()]));
-                    currentPlayer.discard.remove(cardToTopDeck);
-                    currentPlayer.putOnTopOfDeck(cardToTopDeck);
+                    
+                    if (cardToTopDeck != null)
+                    {
+                        currentPlayer.discard.remove(cardToTopDeck);
+                        currentPlayer.putOnTopOfDeck(cardToTopDeck);
+                    }
                 }
             }
         }

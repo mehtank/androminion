@@ -476,4 +476,11 @@
     <string name="StoneMason_desc">Trash a card from your hand, Gain 2 cards each costing less than it. When you buy this, you may overpay for it. If you do, gain 2 Action cards each costing the amount you overpaid.</string>
     <string name="Taxman_name">Taxman</string>
     <string name="Taxman_desc">You may trash a Treasure from your hand. Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it). Gain a Treasure card costing up to $3 more than the trashed card, putting it on top of your deck.</string>
+    
+    <string name="Envoy_name">Envoy</string>
+    <string name="Envoy_desc">Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.</string>
+    <string name="Governor_name">Governor</string>
+    <string name="Governor_desc">Choose one; you get the version in parentheses: Each player gets +1 (+3) Cards; or each player gains a Silver (Gold); or each player may trash a card from his hand and gain a card costing exactly 1 (2) more.</string>
+    <string name="WalledVillage_name">Walled Village</string>
+    <string name="WalledVillage_desc">At the start of Clean-up, if you have this and no more than one other Action card in play, you may put this on top of your deck.</string>
 </resources>

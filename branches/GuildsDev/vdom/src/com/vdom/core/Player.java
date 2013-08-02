@@ -1418,6 +1418,7 @@ public abstract class Player {
     // ////////////////////////////////////////////
 	public abstract int numGuildsCoinTokensToSpend(MoveContext context);
 	public abstract int amountToOverpay(MoveContext context, int cardCost);
+	public abstract int overpayByPotions(MoveContext context, int availablePotions);
 	public abstract TreasureCard taxman_treasureToTrash(MoveContext context);
 	public abstract TreasureCard taxman_treasureToObtain(MoveContext context, int maxCost);
 	public abstract TreasureCard plaza_treasureToDiscard(MoveContext context);
