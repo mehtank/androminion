@@ -86,16 +86,23 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	@Override
 	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
 		Card[] reactionCards = getReactionCards(defended);
-		for (Card c : reactionCards) {
-			// Single Cards
-			if (c.equals(Cards.secretChamber) || c.equals(Cards.moat) || c.equals(Cards.marketSquare) || c.equals(Cards.watchTower)) {
-				if (!reactedSet.contains(c)) {
-					reactedSet.add(c);
-					return c;
-				} 
-			} else {
-				return c;
-			} 
+		for (Card c : reactionCards) 
+		{
+			if (!c.equals(Cards.marketSquare) && !c.equals(Cards.watchTower))
+			{
+    			if (c.equals(Cards.secretChamber) || c.equals(Cards.moat) || c.equals(Cards.horseTraders) || c.equals(Cards.beggar)) 
+    			{
+    				if (!reactedSet.contains(c)) 
+    				{
+    					reactedSet.add(c);
+    					return c;
+    				} 
+    			} 
+    			else 
+    			{
+    				return c;
+    			}
+			}
 		}
 		return null;
 	}

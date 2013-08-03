@@ -1770,7 +1770,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
         ArrayList<Card> reactionCards = new ArrayList<Card>();
         for (Card c : getReactionCards(defended)) {
-            if (!c.equals(Cards.marketSquare)) {
+            if (!c.equals(Cards.marketSquare) && !c.equals(Cards.watchTower)) 
+            {
                 reactionCards.add(c);
             }
         }

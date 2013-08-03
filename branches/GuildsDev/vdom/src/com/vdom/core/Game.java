@@ -96,7 +96,7 @@ public class Game {
     public Card baneCard = null;
     double chanceForPlatColony = -1;
     double chanceForShelters = 0.0;
-    
+
     public boolean bakerInPlay = false;
 
     private static final int kingdomCardPileSize = 10;
@@ -140,9 +140,9 @@ public class Game {
         /*
          * Don't catch ExitException here. If someone throws an ExitException, it means the game is over, which should be handled by whoever owns us.
          */
-    	
+
     	processArgs(args);
-    	
+
         Util.debug("");
 
             // Start game(s)
@@ -249,7 +249,7 @@ public class Game {
                 // Select Treasure for Buy
                 // /////////////////////////////////
                 playTreasures(player, context);
-                
+
                 // Spend Guilds coin tokens if applicable
                 playGuildsTokens(player, context);
 
@@ -257,7 +257,7 @@ public class Game {
                 // Buy Phase
                 // /////////////////////////////////
                 playerBuy(player, context);
-                
+
                 if (context.totalCardsBoughtThisTurn == 0) {
                     GameEvent event = new GameEvent(GameEvent.Type.NoBuy, context);
                     broadcastEvent(event);
@@ -275,7 +275,7 @@ public class Game {
                     setPlayersTurn(takeAnotherTurn);
                 }
             }
-            
+
             // unmask players
             maskPlayerNames = false;
             int vps[] = gameOver(gameTypeSpecificWins);
@@ -374,16 +374,16 @@ public class Game {
             treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context) : player.getTreasuresInHand();
         }
     }
-    
+
     protected void playGuildsTokens(Player player, MoveContext context)
     {
         int coinTokenTotal = player.getGuildsCoinTokenCount();
-        
+
         if (coinTokenTotal > 0)
         {
             // Offer the player the option of "spending" Guilds coin tokens prior to buying cards
             int numTokensToSpend = player.numGuildsCoinTokensToSpend(context);
-            
+
             if (numTokensToSpend > 0 && numTokensToSpend <= coinTokenTotal)
             {
                 player.spendGuildsCoinTokens(numTokensToSpend);
@@ -745,7 +745,7 @@ public class Game {
             totalGameCount += e.getValue();
         }
         gameCount = (int) totalGameCount;
-        
+
         StringBuilder sb = new StringBuilder();
 
         String s = gameType + ":";
@@ -811,7 +811,7 @@ public class Game {
 
     private static void printGameTypeStats() {
         for (int i=0; i < gameTypeStats.size(); i++) {
-        	GameStats stats = gameTypeStats.get(i); 
+        	GameStats stats = gameTypeStats.get(i);
             StringBuilder sb = new StringBuilder();
             sb.append(stats.gameType);
             if (stats.gameType.toString().length() < 8) {
@@ -987,7 +987,7 @@ public class Game {
 	            gameTypeStr = "FirstGame";
 	        }
 	    }
-	
+
 	    if (numGames == -1) {
 	    	numGames = 1;
 	    }
@@ -1003,7 +1003,7 @@ public class Game {
         alwaysIncludePlatColony = false;
 		alwaysUseShelters = false;
     	equalStartHands = false;
-    	
+
         String quickPlayArg = "-quickplay";
         String maskPlayerNamesArg = "-masknames";
         String sortCardsArg = "-sortcards";
@@ -1124,28 +1124,28 @@ public class Game {
 	        event.card = card;
 	        event.newCard = true;
 	        broadcastEvent(event);
-	        
+
 			// Swap in the real knight
 	        if (buy.equals(Cards.virtualKnight)) {
 	        	buy = card;
 	        }
-	        
+
         }
 
         // cost adjusted based on any cards played or card being bought
         int cost = buy.getCost(context);
-        
+
         // If card can be overpaid for, do so now
         if (buy.isOverpay())
         {
             context.overpayAmount = player.amountToOverpay(context, cost);
-            
+
             if (context.potions > 0)
             {
                 context.overpayPotions = player.overpayByPotions(context, context.potions);
                 context.potions -= context.overpayPotions;
             }
-            
+
             if (context.overpayAmount > 0 || context.overpayPotions > 0)
             {
                 GameEvent event = new GameEvent(GameEvent.Type.OverpayForCard, (MoveContext) context);
@@ -1159,7 +1159,7 @@ public class Game {
             context.overpayAmount  = 0;
             context.overpayPotions = 0;
         }
-                
+
         context.gold -= (buy.getCost(context) + context.overpayAmount);
 
         if (buy.costPotion()) {
@@ -1173,7 +1173,7 @@ public class Game {
         }
 
         player.addVictoryTokens(context, context.countGoonsInPlayThisTurn());
-        
+
         if (context.countMerchantGuildsInPlayThisTurn() > 0)
         {
             player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn());
@@ -1187,7 +1187,7 @@ public class Game {
         		player.gainNewCard(Cards.gold, Cards.hoard, context);
         	}
         }
-        
+
         buy.isBought(context);
         haggler(context, buy);
     }
@@ -1477,13 +1477,13 @@ public class Game {
             if (baneCard != null) {
                 s += "Bane card: " + baneCard.getName() + "\n";
             }
-            
+
             // When Baker is included in the game, each Player starts with 1 coin token
             if (bakerInPlay)
             {
                 players[i].gainGuildsCoinTokens(1);
             }
-            
+
             if (alwaysUseShelters || sheltersPassedIn)
             {
             	s += "Shelters included...\n";
@@ -1492,7 +1492,7 @@ public class Game {
             {
             	s += "Chance for Shelters\n   " + (Math.round(chanceForShelters * 100)) + "% ... " + (sheltersInPlay ? "included\n" : "not included\n");
             }
-            
+
             s += unfoundCardText;
             context.message = s;
             broadcastEvent(new GameEvent(GameEvent.Type.GameStarting, context));
@@ -1518,8 +1518,8 @@ public class Game {
             	player.discard(takeFromPile(Cards.necropolis), null, null);
             	player.discard(takeFromPile(Cards.overgrownEstate), null, null);
             	player.discard(takeFromPile(Cards.hovel), null, null);
-            	
-            	// Also need to remove the Estates that were put in the pile prior to 
+
+            	// Also need to remove the Estates that were put in the pile prior to
             	// determining if Shelters would be used
             	takeFromPile(Cards.estate);
             	takeFromPile(Cards.estate);
@@ -1529,7 +1529,7 @@ public class Game {
             {
             	player.discard(takeFromPile(Cards.estate), null, null);
                 player.discard(takeFromPile(Cards.estate), null, null);
-                player.discard(takeFromPile(Cards.estate), null, null);            	
+                player.discard(takeFromPile(Cards.estate), null, null);
             }
 
             if (!equalStartHands || i == 0) {
@@ -1697,8 +1697,7 @@ public class Game {
                 if(s.equalsIgnoreCase("blackmarket")) {
                     replacementCost = 3;
                 }
-                else if(s.equalsIgnoreCase("stash") ||
-    			s.equalsIgnoreCase("bandofmisfits") ) {
+                else if(s.equalsIgnoreCase("stash")) {
                     replacementCost = 5;
                 }
 
@@ -1743,14 +1742,14 @@ public class Game {
 				this.addPile(this.baneCard);
 			}
 		}
-        
+
 		if (piles.containsKey(Cards.virtualKnight.getName())) {
 			VariableCardPile kp = (VariableCardPile) this.getPile(Cards.virtualKnight);
 			for (Card k : Cards.knightsCards) {
 				kp.addLinkedPile((SingleCardPile) addPile(k, 1, false));
 			}
-			
-			
+
+
 		}
 
         chanceForShelters = 0.0;
@@ -1759,38 +1758,38 @@ public class Game {
         } else {
         	sheltersInPlay = false;
         	boolean alreadyCountedKnights = false;
-        	
-        	for (AbstractCardPile pile : piles.values()) 
+
+        	for (AbstractCardPile pile : piles.values())
         	{
-                if (pile != null && 
-                	pile.card() != null && 
-                	pile.card().getExpansion() != null && 
+                if (pile != null &&
+                	pile.card() != null &&
+                	pile.card().getExpansion() != null &&
                 	pile.card().isShelter() == false &&
                 	pile.card().isRuins() == false &&
                 	(pile.card().isKnight() == false || !alreadyCountedKnights) &&
-                	pile.card().getExpansion().equals("Dark Ages")) 
+                	pile.card().getExpansion().equals("Dark Ages"))
                 {
                     chanceForShelters += 0.1;
                 }
-                
+
                 if (chanceForShelters >= 1.0)
                 {
                 	chanceForShelters = 1.0;
                 	break;
                 }
-                
+
                 if (pile.card().isKnight())
                 {
                 	alreadyCountedKnights = true;
                 }
             }
 
-            if (rand.nextDouble() < chanceForShelters) 
+            if (rand.nextDouble() < chanceForShelters)
             {
                 sheltersInPlay = true;
             }
         }
-                
+
         if (sheltersInPlay) {
                 addPile(Cards.necropolis, numPlayers, false);
         		addPile(Cards.overgrownEstate, numPlayers, false);
@@ -1821,7 +1820,7 @@ public class Game {
             addPile(Cards.platinum, 12);
             addPile(Cards.colony);
         }
-        
+
         // Add the potion if there are any cards that need them.
         for (AbstractCardPile pile : piles.values()) {
             if (pile.card().costPotion()) {
@@ -1829,7 +1828,7 @@ public class Game {
                 break;
             }
         }
-        
+
         // We have to add one "invisible" pile for each ruins card and a "virtual" visible pile
         boolean looter = false;
         for (AbstractCardPile pile : piles.values()) {
@@ -1844,7 +1843,7 @@ public class Game {
 			}
         }
 
-        
+
         if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
             addPile(Cards.bagOfGold, 1, false);
             addPile(Cards.diadem, 1, false);
@@ -1860,25 +1859,25 @@ public class Game {
         {
             addPile(Cards.spoils, 15, false);
         }
-		
+
 		// If Urchin is in play, we'll need Mercenary (non-supply)
 		if (piles.containsKey(Cards.urchin.getName()))
 		{
 			addPile(Cards.mercenary, 10, false);
 		}
-		
+
 		// If Hermit is in play, we'll need Madman (non-supply)
 		if (piles.containsKey(Cards.hermit.getName()))
 		{
 			addPile(Cards.madman, 10, false);
 		}
-		
+
 		// If Baker is in play, each player starts with one coin token
 		if (piles.containsKey(Cards.baker.getName()))
 		{
 		    bakerInPlay = true;
 		}
-		
+
         boolean oldDebug = debug;
         if (!debug && !showEvents.isEmpty()) {
             debug = true;
@@ -2017,10 +2016,20 @@ public class Game {
 
                         if (choice == WatchTowerOption.TopOfDeck) {
                             handled = true;
-                            player.putOnTopOfDeck(event.card);
+                            GameEvent watchTowerEvent = new GameEvent(GameEvent.Type.CardRevealed, context);
+                            watchTowerEvent.card = Cards.watchTower;
+                            watchTowerEvent.responsible = null;
+                            context.game.broadcastEvent(watchTowerEvent);
+
+                            player.putOnTopOfDeck(event.card, context, true);
                         } else if (choice == WatchTowerOption.Trash) {
                             handled = true;
-                            player.trash(event.card, Cards.watchTower, (MoveContext) context);
+                            GameEvent watchTowerEvent = new GameEvent(GameEvent.Type.CardRevealed, context);
+                            watchTowerEvent.card = Cards.watchTower;
+                            watchTowerEvent.responsible = null;
+                            context.game.broadcastEvent(watchTowerEvent);
+
+                            player.trash(event.card, Cards.watchTower, context);
                         }
                     }
 
@@ -2280,7 +2289,7 @@ public class Game {
     protected Card takeFromPile(Card card) {
 		if (card.isKnight()) card = Cards.virtualKnight;
 		if (card.isRuins()) card = Cards.virtualRuins;
-			
+
 		AbstractCardPile pile = getPile(card);
         if (pile == null || pile.getCount() <= 0) {
             return null;
@@ -2437,7 +2446,7 @@ public class Game {
     	}
 
 		piles.put(card.getName(), pile);
-    	
+
     	return pile;
     }
 
@@ -2559,7 +2568,7 @@ public class Game {
         }
         return false;
     }
-    
+
     /**
      * @return Card on top of the Ruins pile
      */
@@ -2568,22 +2577,22 @@ public class Game {
     	if (p == null) return null;
     	return p.card();
     }
-    
+
     public Card getTopKnightCard() {
     	AbstractCardPile p = getPile(Cards.virtualKnight);
     	if (p == null) return null;
     	return p.card();
     }
-    
+
     public AbstractCardPile getPile(Card card) {
     	return piles.get(card.getName());
     }
-    
+
     public void trashHovelsInHandOption(Player player, MoveContext context, Card responsible)
     {
     	// If player has a Hovel (or multiple Hovels), offer the option to trash...
     	ArrayList<Card> hovelsToTrash = new ArrayList<Card>();
-	
+
 		for (Card c : player.hand)
 		{
 			if (c.getType() == Cards.Type.Hovel && player.controlPlayer.hovel_shouldTrash(context))
@@ -2591,7 +2600,7 @@ public class Game {
 				hovelsToTrash.add(c);
 			}
 		}
-	
+
 		if (hovelsToTrash.size() > 0)
 		{
 			for (Card c : hovelsToTrash)

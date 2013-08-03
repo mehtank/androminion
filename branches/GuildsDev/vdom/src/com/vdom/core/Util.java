@@ -381,7 +381,7 @@ public class Util {
         
         if (beggar != null) {
         	if (player.controlPlayer.beggar_shouldDiscard(context)) {
-        		player.hand.remove(player.hand.indexOf(beggar), true);        		
+        		player.hand.remove(player.hand.indexOf(beggar), false);        		
             	player.discard(beggar, responsible, context);
             	player.gainNewCard(Cards.silver, beggar, context);
             	player.gainNewCard(Cards.silver, beggar, context);
