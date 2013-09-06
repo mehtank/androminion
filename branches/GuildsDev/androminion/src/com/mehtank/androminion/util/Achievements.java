@@ -90,6 +90,12 @@ public class Achievements {
             if(key.startsWith("p4wins_") || key.startsWith("p4losses_")) {
                 prefsToClear.add(key);
             }
+            if(key.startsWith("p5wins_") || key.startsWith("p5losses_")) {
+                prefsToClear.add(key);
+            }
+            if(key.startsWith("p6wins_") || key.startsWith("p6losses_")) {
+                prefsToClear.add(key);
+            }
         }
 
         if(prefsToClear.size() > 0) {
@@ -282,7 +288,7 @@ public class Achievements {
     }
 
     public static boolean isHumanPlayer(String s) {
-        if(!s.equals("Mary") && !s.equals("Sarah") && !s.equals("Earl") && !s.equals("Drew") && !s.equals("Chuck")) {
+        if(!s.equals("Mary") && !s.equals("Sarah") && !s.equals("Earl") && !s.equals("Drew") && !s.equals("Chuck") && !s.equals("Patrick")) {
             return true;
         }
         return false;
