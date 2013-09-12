@@ -61,6 +61,7 @@ public class SelectCardOptions implements Serializable {
 	public int minCost = Integer.MIN_VALUE;
 	public int maxCost = Integer.MAX_VALUE;
 	public int maxCostWithoutPotion = Integer.MAX_VALUE;
+	public int copperCountInPlay = 0;
 	public int potionCost = -1;
 	public boolean fromPrizes = false;
 
@@ -97,6 +98,7 @@ public class SelectCardOptions implements Serializable {
 	public SelectCardOptions exactCost(int c) {minCost = c; maxCost = c; maxCostWithoutPotion = c; return this;}
 	public SelectCardOptions potionCost(int c) {potionCost = c; return this;}
 	public SelectCardOptions maxCostWithoutPotion() {maxCostWithoutPotion = maxCost + (maxCost < Integer.MAX_VALUE && potionCost > 0 ? 1 : 0); return this;}
+	public SelectCardOptions copperCountInPlay(int c) {copperCountInPlay = c; return this; }
 
     public SelectCardOptions isAction() {isAction = true; return this;}
 	public SelectCardOptions isReaction() {isReaction = true; return this;}
@@ -178,6 +180,7 @@ public class SelectCardOptions implements Serializable {
 		if (potionCost == 0 && c.costPotion()) return false;
 		if (maxCost == minCost && potionCost > 0 && !c.costPotion()) return false;
 		if (isNonRats && c.equals(Cards.rats)) return false;
+	    if (c.equals(Cards.grandMarket) && copperCountInPlay > 0) return false;
 		if (isNonShelter && c.isShelter()) return false;
 		
 		if (c instanceof ActionCard) {

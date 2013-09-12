@@ -28,9 +28,13 @@ public interface Card {
     
     public boolean isShelter();
     
+    public boolean isLooter();
+    
     public boolean isRuins();
     
     public boolean isKnight();
+    
+    public boolean isOverpay();
     
     public Integer getId();
     

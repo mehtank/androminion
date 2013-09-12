@@ -35,15 +35,15 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     public ActionCardImpl(Builder builder) {
         super(builder);
-        addActions = builder.addActions;
-        addBuys = builder.addBuys;
-        addCards = builder.addCards;
-        addGold = builder.addGold;
+        addActions       = builder.addActions;
+        addBuys          = builder.addBuys;
+        addCards         = builder.addCards;
+        addGold          = builder.addGold;
         addVictoryTokens = builder.addVictoryTokens;
-        attack = builder.attack;
-        looter = builder.looter;
-        trashOnUse = builder.trashOnUse;
-        trashForced = builder.trashForced;
+        attack           = builder.attack;
+        looter           = builder.looter;
+        trashOnUse       = builder.trashOnUse;
+        trashForced      = builder.trashForced;
     }
 
     public static class Builder extends CardImpl.Builder{
@@ -113,6 +113,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		public Builder isShelter() {
 			this.isShelter = true;
 			return this;
+		}
+		
+		@Override
+		public Builder isLooter() {
+		    this.isLooter = true;
+		    return this;
 		}
 
 		@Override
@@ -689,6 +695,39 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case SirVander:
         	knight(context, currentPlayer);
         	break;
+        case Soothsayer:
+            soothsayer(game, context, currentPlayer);
+            break;
+        case TaxMan:
+            taxman(game, context, currentPlayer);
+            break;
+        case Plaza:
+            plaza(game, context, currentPlayer);
+            break;
+        case CandlestickMaker:
+            candlestickMaker(game, context, currentPlayer);
+            break;
+        case Baker:
+            baker(game, context, currentPlayer);
+            break;
+        case Butcher:
+            butcher(game, context, currentPlayer);
+            break;
+        case Advisor:
+            advisor(game, context, currentPlayer);
+            break;
+        case Journeyman:
+            journeyman(game, context, currentPlayer);
+            break;
+        case StoneMason:
+            stonemason(game, context, currentPlayer);
+            break;
+        case Doctor:
+            doctor(game, context, currentPlayer);
+            break;
+        case Herald:
+            herald(game, context, currentPlayer);
+            break;
         default:
             break;
         }
@@ -1864,23 +1903,40 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 targetPlayer.attacked(this.controlCard, context);
 
                 Card draw = game.draw(targetPlayer);
-                if (draw == null) {
+                Card virtCard = draw;
+                
+                if (draw == null) 
+                {
                     continue;
                 }
 
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetPlayer.reveal(draw, this.controlCard, targetContext);
                 targetPlayer.discard(draw, this.controlCard, targetContext);
-
-                MoveContext toGainContext = null;
-
-                if (draw instanceof VictoryCard) {
-                    targetPlayer.gainNewCard(Cards.curse, this.controlCard, targetContext);
-                } else {
-                    if (!game.isPileEmpty(draw)) {
-                        JesterOption option = currentPlayer.controlPlayer.controlPlayer.jester_chooseOption(context, targetPlayer, draw);
-                        toGainContext = JesterOption.GainCopy.equals(option) ? context : targetContext;
-                        toGainContext.getPlayer().gainNewCard(draw, this.controlCard, toGainContext);
+                
+                if (Cards.isSupplyCard(draw))
+                {
+                    AbstractCardPile pile;
+                    if (draw.isKnight()) {
+                        virtCard = Cards.virtualKnight;
+                    } else if (draw.isRuins()) {
+                        virtCard = Cards.virtualRuins;
+                    }
+                    pile = game.getPile(virtCard);
+    
+                    MoveContext toGainContext = null;
+    
+                    if (draw instanceof VictoryCard) {
+                        targetPlayer.gainNewCard(Cards.curse, this.controlCard, targetContext);
+                    } else {
+                        
+                        if (!game.isPileEmpty(draw) &&
+                            (pile.getType() == AbstractCardPile.PileType.SingleCardPile || draw.equals(pile.card()))) 
+                        {
+                            JesterOption option = currentPlayer.controlPlayer.controlPlayer.jester_chooseOption(context, targetPlayer, draw);
+                            toGainContext = JesterOption.GainCopy.equals(option) ? context : targetContext;
+                            toGainContext.getPlayer().gainNewCard(draw, this.controlCard, toGainContext);
+                        }
                     }
                 }
             }
@@ -3831,6 +3887,15 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
             }
             break;
+        case StoneMason:
+            stoneMasonOverpay(context);
+            break;
+        case Doctor:
+            doctorOverpay(context);
+            break;
+        case Herald:
+            heraldOverpay(context, context.getPlayer());
+            break;
         default:
             break;
         }
@@ -5220,5 +5285,465 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
         }
     }
+    
+    private void sendGuildsTokenObtainedEvent(Game game, MoveContext context)
+    {
+        GameEvent event   = new GameEvent(GameEvent.Type.GuildsTokenObtained, context);
+        game.broadcastEvent(event);
+    }
+    
+    private void soothsayer(Game game, MoveContext context, Player currentPlayer) 
+    {
+        currentPlayer.gainNewCard(Cards.gold, this.controlCard, context);
+        
+        for (Player player : game.getPlayersInTurnOrder()) 
+        {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) 
+            {
+                player.attacked(this.controlCard, context);
+                MoveContext playerContext = new MoveContext(game, player);
 
+                boolean curseGained = player.gainNewCard(Cards.curse, this.controlCard, playerContext);
+                
+                if (curseGained)
+                {
+                    drawToHand(game, player, this.controlCard);
+                }
+            }
+        }
+    }
+    
+    private void taxman(Game game, MoveContext context, Player currentPlayer) 
+    {
+        /*You may trash a Treasure from your hand. 
+         * Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it).
+           Gain a Treasure card costing up to $3 more than the trashed card, putting it on top of your deck.*/
+
+        if (currentPlayer.getHand().size() > 0) {
+            Card card = currentPlayer.controlPlayer.taxman_treasureToTrash(context);
+
+            if (card != null)
+            {
+                currentPlayer.hand.remove(card);
+                currentPlayer.trash(card, this.controlCard, context);
+                
+                for (Player player : game.getPlayersInTurnOrder()) 
+                {
+                    if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) 
+                    {
+                        player.attacked(this.controlCard, context);
+                        MoveContext playerContext = new MoveContext(game, player);
+                        
+                        if (player.hand.size() >= 5)
+                        {
+                            if (player.hand.contains(card))
+                            {
+                                Card c2 = player.hand.get(card);
+                                player.hand.remove(c2);
+                                player.discard(c2, this.controlCard, playerContext);
+                            }
+                            else
+                            {
+                                for (Card c : player.getHand()) 
+                                {
+                                    player.reveal(c, this.controlCard, playerContext);
+                                }   
+                            }
+                        }
+                    }
+                }
+                
+                TreasureCard newCard = currentPlayer.controlPlayer.taxman_treasureToObtain(context, card.getCost(context) + 3);
+
+                if (newCard != null && newCard.getCost(context) <= card.getCost(context) + 3 && context.getCardsLeftInPile(newCard) > 0)
+                {
+                    //context.player.putOnTopOfDeck(newCard);
+                    currentPlayer.gainNewCard(newCard, this.controlCard, context);
+                }
+            }
+        }
+    }
+    
+    private void plaza(Game game, MoveContext context, Player currentPlayer) 
+    {
+        boolean valid = false;
+        
+        for (Card c : currentPlayer.hand) {
+            if (c instanceof TreasureCard) {
+                valid = true;
+            }
+        }
+
+        if (valid) 
+        {
+            TreasureCard toDiscard = currentPlayer.controlPlayer.plaza_treasureToDiscard(context);
+
+            if (toDiscard != null && currentPlayer.hand.contains(toDiscard)) 
+            {
+                currentPlayer.hand.remove(toDiscard);
+                currentPlayer.reveal(toDiscard, this.controlCard, context);
+                currentPlayer.discard(toDiscard, this.controlCard, context);
+                currentPlayer.gainGuildsCoinTokens(1);
+                sendGuildsTokenObtainedEvent(game, context);
+                Util.debug(currentPlayer, "Gained a Guild coin token via Plaza");
+            }
+        }
+    }
+    
+    private void candlestickMaker(Game game, MoveContext context, Player currentPlayer)
+    {
+        currentPlayer.gainGuildsCoinTokens(1);
+        sendGuildsTokenObtainedEvent(game, context);
+    }
+    
+    private void baker(Game game, MoveContext context, Player currentPlayer)
+    {
+        currentPlayer.gainGuildsCoinTokens(1);
+        sendGuildsTokenObtainedEvent(game, context);
+    }
+    
+    private void advisor(Game game, MoveContext context, Player currentPlayer)
+    {
+        /*Reveal the top 3 cards of your deck. 
+         * The player to your left chooses one of them. 
+         * Discard that card. 
+         * Put the other cards into your hand.*/
+        
+        ArrayList<Card> cards = new ArrayList<Card>();
+        Player nextPlayer     = game.getNextPlayer();
+        
+        for (int i = 0; i < 3; ++i) 
+        {
+            Card card = game.draw(currentPlayer);
+            
+            if (card != null) 
+            {
+                cards.add(card);
+                currentPlayer.reveal(card, this.controlCard, context);
+            }
+        }
+
+        if (cards.size() == 0) 
+        {
+            return;
+        }
+
+        Card toDiscard;
+
+        if (cards.size() > 1) 
+        {
+            toDiscard = nextPlayer.controlPlayer.advisor_cardToDiscard(context, cards.toArray(new Card[cards.size()]));
+        } 
+        else 
+        {
+            toDiscard = cards.get(0);
+        }
+        
+        if (toDiscard == null || !cards.contains(toDiscard)) 
+        {
+            Util.playerError(currentPlayer, "Advisor discard error, just picking the first card.");
+            toDiscard = cards.get(0);
+        }
+
+        currentPlayer.discard(toDiscard, this.controlCard, context);
+
+        cards.remove(toDiscard);
+
+        GameEvent event   = new GameEvent(GameEvent.Type.CardDiscarded, (MoveContext) context);
+        event.card        = toDiscard;
+        event.responsible = this.controlCard;
+        game.broadcastEvent(event);
+
+        if (cards.size() > 0) 
+        {
+            for(Card c : cards) 
+            {
+                currentPlayer.hand.add(c);
+            }
+        }
+    }
+    
+    private void butcher(Game game, MoveContext context, Player currentPlayer)
+    {
+        /*Take 2 Coin tokens. 
+         * You may trash a card from your hand and then pay any number of Coin tokens. 
+         * If you did trash a card, gain a card with a cost of up to the cost of the trashed card plus the number of Coin tokens you paid.
+         */
+        
+        currentPlayer.gainGuildsCoinTokens(2);
+        sendGuildsTokenObtainedEvent(game, context);
+        
+        if (currentPlayer.getHand().size() > 0) 
+        {
+            Card card = currentPlayer.controlPlayer.butcher_cardToTrash(context);
+
+            if (card != null)
+            {
+                currentPlayer.hand.remove(card);
+                currentPlayer.trash(card, this.controlCard, context);
+                
+                int value      = card.getCost(context);
+                boolean potion = card.costPotion();
+                
+                
+                if (currentPlayer.getGuildsCoinTokenCount() > 0)
+                {
+                    // Offer the player the option of "spending" Guilds coin tokens prior to gaining a card
+                    int numTokensToSpend = currentPlayer.numGuildsCoinTokensToSpend(context);
+                    
+                    if (numTokensToSpend > 0 && numTokensToSpend <= currentPlayer.getGuildsCoinTokenCount())
+                    {
+                        currentPlayer.spendGuildsCoinTokens(numTokensToSpend);
+                        value += numTokensToSpend;
+                    }
+
+                    card = currentPlayer.controlPlayer.butcher_cardToObtain(context, value, potion);
+                    
+                    if (card != null) 
+                    {
+                        if (card.getCost(context) > value) 
+                        {
+                            Util.playerError(currentPlayer, "Butcher error, new card does not have appropriate cost");
+                        } 
+                        else 
+                        {
+                            if (!currentPlayer.gainNewCard(card, this.controlCard, context)) 
+                            {
+                                Util.playerError(currentPlayer, "Butcher error, pile is empty or card is not in the game.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private void journeyman(Game game, MoveContext context, Player currentPlayer) 
+    {
+        Card named = currentPlayer.controlPlayer.journeyman_cardToPick(context);
+        currentPlayer.controlPlayer.namedCard(named, this.controlCard, context);
+        
+        ArrayList<Card> cardsToKeep    = new ArrayList<Card>();
+        ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
+        Card last                      = null;
+        int diffCardsFound             = 0;
+
+        // search for the first 3 cards that were not named
+        while (diffCardsFound < 3 && (last = context.game.draw(currentPlayer)) != null) 
+        {
+            if (!last.equals(named))
+            {
+                ++diffCardsFound;
+                cardsToKeep.add(last);
+            }
+            else
+            {
+                cardsToDiscard.add(last);
+            }
+            
+            currentPlayer.reveal(last, this.controlCard, context);
+        }
+
+        // Discard all matches
+        for (Card c : cardsToDiscard) 
+        {
+            currentPlayer.discard(c, this.controlCard, context);
+        }
+        
+        // Place all other cards into the Player's hand
+        for (Card c : cardsToKeep)
+        {
+            currentPlayer.hand.add(c);
+        }
+    }
+    
+    private void stonemason(Game game, MoveContext context, Player currentPlayer) 
+    {
+        /*Trash a card from your hand, Gain 2 cards each costing less than it.
+          When you buy this, you may overpay for it. 
+          If you do, gain 2 Action cards each costing the amount you overpaid. */
+        
+        if (currentPlayer.getHand().size() > 0) 
+        {
+            Card card = currentPlayer.controlPlayer.stonemason_cardToTrash(context);
+
+            if (card != null)
+            {
+                currentPlayer.hand.remove(card);
+                currentPlayer.trash(card, this.controlCard, context);
+                
+                int value      = card.getCost(context) - 1;
+                boolean potion = card.costPotion();
+                boolean cardGainError = false;
+               
+                if (value >= 0)
+                {
+                    card = currentPlayer.controlPlayer.stonemason_cardToGain(context, value, potion);
+                    
+                    if (card != null) 
+                    {
+                        if (!currentPlayer.gainNewCard(card, this.controlCard, context)) 
+                        {
+                            Util.playerError(currentPlayer, "Stone Mason card gain #1 error, pile is empty or card is not in the game.");
+                            cardGainError = true;
+                        }
+                    }
+                    
+                    if (!cardGainError)
+                    {
+                        card = currentPlayer.controlPlayer.stonemason_cardToGain(context, value, potion);
+                        
+                        if (card != null)
+                        {
+                            if (!currentPlayer.gainNewCard(card, this.controlCard, context)) 
+                            {
+                                Util.playerError(currentPlayer, "Stone Mason card gain #2 error, pile is empty or card is not in the game.");
+                            }
+                        }  
+                    }
+                }
+            }
+        }
+    }
+    
+    public void stoneMasonOverpay(MoveContext context)
+    {
+        if (context.overpayAmount > 0 || context.overpayPotions > 0)
+        {
+            // Gain two action cards each costing the amount overpaid
+            Card c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
+            
+            if (c != null)
+            {
+                if (!context.player.gainNewCard(c, this.controlCard, context)) 
+                {
+                    Util.playerError(context.player, "Stone Mason overpay gain #1 error, pile is empty or card is not in the game.");
+                }
+                
+                c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
+                
+                if (c != null)
+                {
+                    if (!context.player.gainNewCard(c, this.controlCard, context)) 
+                    {
+                        Util.playerError(context.player, "Stone Mason overpay gain #2 error, pile is empty or card is not in the game.");
+                    }
+                }
+            }
+        }
+    }
+    
+    private void doctor(Game game, MoveContext context, Player currentPlayer) 
+    {
+        /*Name a card. 
+         * Reveal the top 3 cards of your deck. 
+         * Trash the matches. 
+         * Put the rest back on top in any order.
+           When you buy this, you may overpay for it. 
+           For each $1 you overpaid, look at the top card of your deck; trash it, discard it, or put it back.*/
+        
+        Card named = currentPlayer.controlPlayer.doctor_cardToPick(context);
+        
+        ArrayList<Card> revealedCards = new ArrayList<Card>();
+       
+        for (int i = 0; i < 3; ++i)
+        {
+            Card card = game.draw(currentPlayer);
+            if (card != null)
+            {
+                currentPlayer.reveal(card, this.controlCard, context);
+                
+                if (card.equals(named))
+                {
+                    currentPlayer.trash(card, this.controlCard, context);
+                }
+                else
+                {
+                    revealedCards.add(card);
+                }
+            }
+        }
+        
+        if (revealedCards.size() > 0)
+        {
+            ArrayList<Card> orderedCards = currentPlayer.controlPlayer.doctor_cardsForDeck(context, revealedCards);
+        
+            for (Card c : orderedCards)
+            {
+                currentPlayer.putOnTopOfDeck(c);
+            }
+        }
+    }
+    
+    public void doctorOverpay(MoveContext context)
+    {
+        for (int i = 0; i < context.overpayAmount; ++i)
+        {
+            Card card = context.game.draw(context.player);
+            
+            Player.DoctorOverpayOption doo = context.player.doctor_chooseOption(context, card);
+            
+            switch(doo)
+            {
+            case TrashIt:
+                context.player.trash(card, this.controlCard, context);
+                break;
+            case DiscardIt:
+                context.player.discard(card, this.controlCard, context);
+                break;
+            case PutItBack:
+                context.player.putOnTopOfDeck(card);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    
+    private void herald(Game game, MoveContext context, Player currentPlayer) 
+    {
+        Card draw = game.draw(currentPlayer);
+        
+        if (draw != null) 
+        {
+            currentPlayer.reveal(draw, this.controlCard, context);
+
+            if (draw instanceof ActionCard) 
+            {
+                context.freeActionInEffect++;
+                ((ActionCardImpl) draw).play(game, context, false);
+                context.freeActionInEffect--;
+            } 
+            else 
+            {
+                context.player.putOnTopOfDeck(draw);
+            }
+        }
+    }
+    
+    public void heraldOverpay(MoveContext context, Player currentPlayer)
+    {      
+        for (int i = 0; i < context.overpayAmount; ++i)
+        {
+            // Only allow a choice if there are cards in the discard pile
+            if (currentPlayer.discard.size() > 0) 
+            {      
+                // Create a list of all cards in the player's discard pile 
+                ArrayList<Card> options = currentPlayer.getDiscard().toArrayList();
+                
+                Collections.sort(options, new Util.CardNameComparator());
+        
+                if (options.size() > 0) 
+                {
+                    Card cardToTopDeck = context.player.herald_cardTopDeck(context, options.toArray(new Card[options.size()]));
+                    
+                    if (cardToTopDeck != null)
+                    {
+                        currentPlayer.discard.remove(cardToTopDeck);
+                        currentPlayer.putOnTopOfDeck(cardToTopDeck);
+                    }
+                }
+            }
+        }
+    }
 }

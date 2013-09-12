@@ -17,6 +17,7 @@ public class DeckView extends RelativeLayout {
 	private TextView name;
 	private TextView pirates;
 	private TextView victoryTokens;
+	private TextView guildsCoinTokens;
 	private TextView counts;
 
 	private boolean showCardCounts = true;
@@ -32,6 +33,7 @@ public class DeckView extends RelativeLayout {
 		name = (TextView) findViewById(R.id.name);
 		pirates = (TextView) findViewById(R.id.pirates);
 		victoryTokens = (TextView) findViewById(R.id.victoryTokens);
+		guildsCoinTokens = (TextView) findViewById(R.id.guildsCoinTokens);
 		counts = (TextView) findViewById(R.id.counts);
 
         if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("hide_card_counts", false)) {
@@ -40,7 +42,7 @@ public class DeckView extends RelativeLayout {
         }
 	}
 
-	public void set(String nameStr, int turns, int deckSize, int handSize, int numCards, int pt, int vt, boolean highlight) {
+	public void set(String nameStr, int turns, int deckSize, int handSize, int numCards, int pt, int vt, int gct, boolean highlight) {
 		String txt = nameStr + getContext().getString(R.string.turn_header) + turns;
 		name.setText(txt);
 		if (highlight) {
@@ -64,6 +66,12 @@ public class DeckView extends RelativeLayout {
             victoryTokens.setVisibility(VISIBLE);
         else
             victoryTokens.setVisibility(INVISIBLE);
+        
+        guildsCoinTokens.setText(" " + gct + " ");
+        if (gct != 0)
+            guildsCoinTokens.setVisibility(VISIBLE);
+        else
+            guildsCoinTokens.setVisibility(INVISIBLE);
 
         if(showCardCounts) {
     		String str = "{ \u2261 " + deckSize +
