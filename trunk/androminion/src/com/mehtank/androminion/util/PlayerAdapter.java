@@ -50,7 +50,7 @@ public class PlayerAdapter extends ArrayAdapter<PlayerSummary> {
 			dv = (DeckView) origView;
 		}
 		ps = getItem(pos);
-		dv.set(ps.name, ps.turns, ps.deckSize, ps.handSize, ps.numCards, ps.pt, ps.vt, ps.highlight);
+		dv.set(ps.name, ps.turns, ps.deckSize, ps.handSize, ps.numCards, ps.pt, ps.vt, ps.gct, ps.highlight);
 		return dv;
 	}
 	

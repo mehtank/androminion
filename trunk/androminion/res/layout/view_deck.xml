@@ -41,5 +41,15 @@
         android:textColor="#000000"
         android:textSize="12sp"
         android:visibility="invisible" />
+    
+    <TextView
+        android:id="@+id/guildsCoinTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pirates"
+        android:background="@drawable/guildscointokens"
+        android:textColor="#0000FF"
+        android:textSize="12sp"
+        android:visibility="invisible" />
 
 </merge>

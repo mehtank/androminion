@@ -166,6 +166,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	card.costPotion = c.costPotion();
     	card.isBane = isBane;
     	card.isShelter = c.isShelter();
+    	card.isLooter = c.isLooter();
+    	card.isOverpay = c.isOverpay();
     	if (c.equals(Cards.virtualRuins))
     		card.isRuins = true;
     	else
@@ -437,6 +439,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int handSizes[] = new int[numPlayers];
         int pirates[] = new int[numPlayers];
         int victoryTokens[] = new int[numPlayers];
+        int guildsCoinTokens[] = new int[numPlayers];
 		String realNames[] = new String[numPlayers];
 
         for (int i=0; i<numPlayers; i++) {
@@ -452,6 +455,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	
         	pirates[i] = p.getPirateShipTreasure();
         	victoryTokens[i] = p.getVictoryTokens();
+        	guildsCoinTokens[i] = p.getGuildsCoinTokenCount();
         	realNames[i] = p.getPlayerName(false);
         }
 
@@ -485,6 +489,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setNumCards(numCards)
     	  .setPirates(pirates)
     	  .setVictoryTokens(victoryTokens)
+    	  .setGuildsCoinTokens(guildsCoinTokens)
     	  .setCardCostModifier(context.cardCostModifier)
     	  .setPotions(context.getPotionsForStatus(player))
     	  .setIsland(cardArrToIntArr(player.getIsland().toArray()))
@@ -712,6 +717,18 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	    case BuyingCard:
                 strEvent += Strings.getString(R.string.BuyingCard);
                 break;
+    	    case OverpayForCard:
+    	        if (context != null && context.overpayAmount >= 10)
+                {
+                    achievement(context, "overpayby10ormore");
+                }
+    	        break;
+    	    case GuildsTokenObtained:
+    	        if (context != null && getGuildsCoinTokenCount() >= 50)
+                {
+                    achievement(context, "stockpile50tokens");
+                }
+    	        break;
     	    case NoBuy:
                 strEvent += Strings.getString(R.string.NoBuy);
                 break;

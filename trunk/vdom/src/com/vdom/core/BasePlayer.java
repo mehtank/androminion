@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -19,6 +20,9 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.comms.SelectCardOptions;
+import com.vdom.comms.SelectCardOptions.ActionType;
+import com.vdom.core.Player.DoctorOverpayOption;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.estate, Cards.overgrownEstate, Cards.hovel, Cards.abandonedMine, Cards.ruinedLibrary, Cards.ruinedMarket, Cards.ruinedVillage, Cards.survivors, Cards.virtualRuins };
@@ -82,16 +86,23 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	@Override
 	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
 		Card[] reactionCards = getReactionCards(defended);
-		for (Card c : reactionCards) {
-			// Single Cards
-			if (c.equals(Cards.secretChamber) || c.equals(Cards.moat) || c.equals(Cards.marketSquare) || c.equals(Cards.watchTower)) {
-				if (!reactedSet.contains(c)) {
-					reactedSet.add(c);
-					return c;
-				} 
-			} else {
-				return c;
-			} 
+		for (Card c : reactionCards) 
+		{
+			if (!c.equals(Cards.marketSquare) && !c.equals(Cards.watchTower))
+			{
+    			if (c.equals(Cards.secretChamber) || c.equals(Cards.moat) || c.equals(Cards.horseTraders) || c.equals(Cards.beggar)) 
+    			{
+    				if (!reactedSet.contains(c)) 
+    				{
+    					reactedSet.add(c);
+    					return c;
+    				} 
+    			} 
+    			else 
+    			{
+    				return c;
+    			}
+			}
 		}
 		return null;
 	}
@@ -2550,4 +2561,236 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return (ActionCardImpl) bestCardInPlay(context, 4, false, true, true, false);
     }
 
+    @Override
+    public TreasureCard taxman_treasureToTrash(MoveContext context) {
+        ArrayList<TreasureCard> handCards = context.getPlayer().getTreasuresInHand();
+        Collections.sort(handCards, new CardValueComparator());
+
+        HashSet<Integer> treasureCardValues = new HashSet<Integer>();
+        for (Card card : context.getTreasureCardsInGame()) {
+            if (context.getCardsLeftInPile(card) > 0)
+                treasureCardValues.add(card.getCost(context));
+        }
+
+        for (int i = 0; i < handCards.size(); i++) {
+            TreasureCard card = handCards.get(i);
+            if (treasureCardValues.contains(card.getCost(context) + 3))
+                return card;
+        }
+
+        if (handCards.size() > 0)
+            return handCards.get(0);
+
+        return null;
+    }
+    
+    @Override
+    public TreasureCard taxman_treasureToObtain(MoveContext context, int cost) {
+        TreasureCard newCard = null;
+        int newCost = -1;
+        for (Card card : context.getTreasureCardsInGame()) {
+            if (context.getCardsLeftInPile(card) > 0 && card.getCost(context) <= cost && card.getCost(context) >= newCost) {
+                    newCard = (TreasureCard) card;
+                    newCost = card.getCost(context);
+            }
+        }
+
+        return newCard;
+    }
+    
+    @Override
+    public TreasureCard plaza_treasureToDiscard(MoveContext context) {
+        for (Card card : context.getPlayer().getHand()) {
+            for(Card trash : getTrashCards()) {
+                if(trash.equals(card) && (card instanceof TreasureCard)) {
+                    return (TreasureCard) card;
+                }
+            }
+        }
+        
+        if (Game.rand.nextBoolean() && context.getPlayer().getHand().contains(Cards.silver)) {
+            return (TreasureCard) context.getPlayer().fromHand(Cards.silver);
+        }
+
+        return null;
+    }
+    
+    @Override
+    public int numGuildsCoinTokensToSpend(MoveContext context)
+    {
+        if (getGuildsCoinTokenCount() > 2)
+        {
+            return getGuildsCoinTokenCount();
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+    @Override
+    public Card butcher_cardToTrash(MoveContext context) {
+        if (context.getPlayer().getHand().size() == 0) {
+            return null;
+        }
+        
+        if (context.getPlayer().getHand().size() == 1) {
+            return context.getPlayer().getHand().get(0);
+        }
+
+        for (Card c : context.getPlayer().getHand()) {
+            if(c.equals(Cards.curse)) {
+                return c;
+            }
+        }
+        
+        for (Card c : context.getPlayer().getHand()) {
+            if(isTrashCard(c)) {
+                return c;
+            }
+        }
+        
+        for (Card c : context.getPlayer().getHand()) {
+            if(c instanceof VictoryCard) {
+                continue;
+            }
+        }
+        
+        return null;
+    }
+    
+    @Override
+    public Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion)
+    {        
+        return bestCardInPlay(context, maxCost, false, potion);
+    }
+    
+    @Override
+    public Card advisor_cardToDiscard(MoveContext context, Card[] cards) 
+    {
+        return envoy_cardToDiscard(context, cards);
+    }
+    
+    @Override
+    public Card journeyman_cardToPick(MoveContext context) 
+    {
+        // TODO: Implement
+        return Cards.estate;
+    }
+    
+    @Override
+    public int amountToOverpay(MoveContext context, int cardCost)
+    {
+        // TODO: Implement
+        return 0;
+    }
+    
+    @Override
+    public int overpayByPotions(MoveContext context, int availablePotions)
+    {
+        // TODO: Implement
+        return 0;
+    }
+    
+    @Override
+    public Card stonemason_cardToTrash(MoveContext context)
+    {
+        if (context.getPlayer().getHand().size() == 0) {
+            return null;
+        }
+        
+        if (context.getPlayer().getHand().size() == 1) {
+            return context.getPlayer().getHand().get(0);
+        }
+
+        for (Card c : context.getPlayer().getHand()) {
+            if(c.equals(Cards.curse)) {
+                return c;
+            }
+        }
+        
+        for (Card c : context.getPlayer().getHand()) {
+            if(isTrashCard(c)) {
+                return c;
+            }
+        }
+        
+        for (Card c : context.getPlayer().getHand()) {
+            if(c instanceof VictoryCard) {
+                continue;
+            }
+        }
+        
+        return null;
+    }
+    
+    @Override
+    public Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion)
+    {
+        return bestCardInPlay(context, maxCost, false, potion);
+    }
+    
+    @Override
+    public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion)
+    {
+        return bestCardInPlay(context, overpayAmount, true, potion);
+    }
+    
+    @Override
+    public Card doctor_cardToPick(MoveContext context) 
+    {
+        // TODO: Implement
+        return Cards.estate;
+    }
+    
+    @Override
+    public ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards)
+    {
+        return cards;
+    }
+    
+    @Override
+    public DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card) 
+    {
+        DoctorOverpayOption doo = DoctorOverpayOption.DiscardIt;
+        
+        for (Card trashCard : getTrashCards())
+        {
+            if (trashCard.equals(card))
+            {
+                doo = DoctorOverpayOption.TrashIt;
+            }
+        }
+        
+        if (card.equals(Cards.gold)     || 
+            card.equals(Cards.platinum) || 
+            card.equals(Cards.silver)   || 
+            (card instanceof ActionCard && context.actions > 0))
+        {
+            doo = DoctorOverpayOption.PutItBack;
+        }
+        
+        return doo;
+    }
+    
+    public Card herald_cardTopDeck(MoveContext context, Card[] cardList)
+    {
+        Card cardToReturn = null;
+        
+        if (cardList.length > 0)
+        {
+            cardToReturn = cardList[0];
+        }
+        
+        for (Card c : cardList)
+        {
+            if (!shouldDiscard(c) && !c.equals(Cards.copper))
+            {
+                cardToReturn = c;
+                break;
+            }
+        }
+        
+        return cardToReturn;
+    }
 }

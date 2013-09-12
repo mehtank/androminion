@@ -179,7 +179,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		name.setText(c.name, TextView.BufferType.SPANNABLE);
 		if(cost != null) {
-			setCost(GameTable.getCardCost(c));
+			setCost(GameTable.getCardCost(c), c.isOverpay);
 		}
 
 		int cardStyleId = getStyleForCard(c);
@@ -336,8 +336,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 	}
 
-	public void setCost(int newCost) {
-		cost.setText(" " + newCost + " ");
+	public void setCost(int newCost, boolean overpay) {
+		cost.setText(" " + newCost + (overpay ? "+" : "") + " ");
 	}
 
 	public void setState(CardState s) {
@@ -433,10 +433,15 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else {
 			TextView textView = new TextView(view.getContext());
 			textView.setPadding(15, 0, 15, 5);
-			String text = ""; //cardView.c.name;
-			if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) {
-			    text += "(" + cardView.getCard().expansion + ")\n";
-			}
+			String text = cardView.getCard().GetCardTypeString();
+			
+			if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) 
+			{
+                text += "(" + cardView.getCard().expansion + ")";
+            }
+			
+			text += "\n";
+			
 			text += cardView.getCard().desc;
 			textView.setText( text );
 			v = textView;

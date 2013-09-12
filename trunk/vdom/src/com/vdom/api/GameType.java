@@ -81,7 +81,16 @@ public enum GameType {
     OneMansTrash("One Man's Trash (DA, Prsp)"), HonorAmongThieves("Honor Among Thieves (DA, Prsp)"),
     DarkCarnival("Dark Carnival (DA, Corn)"), ToTheVictor("To The Victor (DA, Corn)"),
     FarFromHome("Far From Home (DA, Hntr)"), Expeditions("Expeditions (DA, Hntr)"),
-
+    
+    // Guilds
+    RandomGuilds("Random Guilds"),
+    
+    // Guilds + Base
+    ArtsAndCrafts("Arts and Crafts (Guilds, Base)"), CleanLiving("Clean Living (Guilds, Base)"), GildingTheLily("Gilding the Lily (Guilds, Base)"),
+    
+    // Guilds + Intrigue
+    NameThatCard("Name That Card (Guilds, Intr)"), TricksOfTheTrade("Tricks of the Trade (Guilds, Intr)"), DecisionsDecisions("Decisions, Decisions (Guilds, Intr)"),
+    
     // All Cards
     Random("Random"),
 

@@ -23,6 +23,8 @@ public class GameEvent {
         PlayingDurationAction, // Duration action card's next turn effects are about to occur for a player.
         PlayingCoin, // Coin card is about to be played by a player.
         BuyingCard, // Buying a card in the buy phase.
+        OverpayForCard, // Overpaying for a Guilds card.
+        GuildsTokenObtained, // Recieve a Guilds token
         NoBuy, // Player didn't buy a card
         DeckReplenished, // Discard pile shuffled to create a new deck for one of the players
         PlayerAttacking, // Player is attacking another player

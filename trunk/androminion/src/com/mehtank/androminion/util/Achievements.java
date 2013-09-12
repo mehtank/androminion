@@ -35,6 +35,8 @@ public class Achievements {
         "trash5inaturn",
         "gainmorethan30inaturn",
         "win10inarow",
+        "overpayby10ormore",
+        "stockpile50tokens"
         };
     private static final int[] ids = {
     	R.string.achievements_2players8provinces,
@@ -46,7 +48,9 @@ public class Achievements {
     	R.string.achievements_skunk,
     	R.string.achievements_trash5inaturn,
     	R.string.achievements_gainmorethan30inaturn,
-    	R.string.achievements_win10inarow
+    	R.string.achievements_win10inarow,
+    	R.string.achievements_overpayby10ormore,
+    	R.string.achievements_stockpile50tokens
     };
     public String[] text = new String[KEYS.length];
     boolean[] achievementsDone = new boolean[KEYS.length];
@@ -84,6 +88,12 @@ public class Achievements {
                 prefsToClear.add(key);
             }
             if(key.startsWith("p4wins_") || key.startsWith("p4losses_")) {
+                prefsToClear.add(key);
+            }
+            if(key.startsWith("p5wins_") || key.startsWith("p5losses_")) {
+                prefsToClear.add(key);
+            }
+            if(key.startsWith("p6wins_") || key.startsWith("p6losses_")) {
                 prefsToClear.add(key);
             }
         }
@@ -278,7 +288,7 @@ public class Achievements {
     }
 
     public static boolean isHumanPlayer(String s) {
-        if(!s.equals("Mary") && !s.equals("Sarah") && !s.equals("Earl") && !s.equals("Drew") && !s.equals("Chuck")) {
+        if(!s.equals("Mary") && !s.equals("Sarah") && !s.equals("Earl") && !s.equals("Drew") && !s.equals("Chuck") && !s.equals("Patrick")) {
             return true;
         }
         return false;
