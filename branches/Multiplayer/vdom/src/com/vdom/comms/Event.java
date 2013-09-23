@@ -32,6 +32,7 @@ public class Event implements Serializable{
 		public GameStatus gs; // game status
 		public String[] ss; // description (?)
 		public int[] is;
+		public Object[] os;
 		public NewGame ng; // new game
 		public SelectCardOptions sco; // select card options
 		
@@ -52,6 +53,13 @@ public class Event implements Serializable{
 		}
 		public EventObject(SelectCardOptions o) {
 			this.sco = o;
+		}
+		// A little ugly, but this is so we can put an enum in here without having to
+		// handle lots of different enum types.  TODO(matt): maybe move all of the card
+		// option enums into a single class, so we can accept that as a parameter instead
+		// of Object?
+		public EventObject(Object[] o) {
+			this.os = o;
 		}
 	}
 	
@@ -372,6 +380,26 @@ public class Event implements Serializable{
 		 * @param i time in ms
 		 */
 		SLEEP,
+		//////////////////////////////////
+		// CARD-SPECIFIC EVENTS BELOW HERE
+		//////////////////////////////////
+		/**
+		 * OPTION
+		 *
+		 * Generic event returned by a client when selecting an option from an enum array.
+		 *
+		 * @param i is set to the index of the option selected.
+		 */
+		OPTION,
+		/**
+		 * SPICEMERCHANT
+		 *
+		 * Request user to choose an option for the Spice Merchant card.
+		 * <p><b>needs EType.OPTION response</b></p>
+		 *
+		 * @param o has its Object[] set to SpiceMerchantOption.values()
+		 */
+		SPICEMERCHANT,
 	}
 	public EType t; // event type
 	public String s; // event string
