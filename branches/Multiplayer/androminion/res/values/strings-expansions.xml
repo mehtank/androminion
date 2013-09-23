@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="Base"></string>
+    <string name="Intrigue">Intrigue</string>
+    <string name="Seaside">Seaside</string>
+    <string name="Alchemy">Alchemy</string>
+    <string name="Prosperity">Prosperity</string>
+    <string name="Cornucopia">Cornucopia</string>
+    <string name="Hinterlands">Hinterlands</string>
+    <string name="DarkAges">Dark Ages</string>
+    <string name="Guilds">Guilds</string>
+    <string name="Promo">Promo</string>
+    
+</resources>
