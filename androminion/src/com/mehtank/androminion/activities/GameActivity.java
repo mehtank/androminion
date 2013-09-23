@@ -518,6 +518,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                 case STRING:
                 case CARD:
                 case CARDORDER:
+                case OPTION:
                     put(e);
                     break;
 
@@ -556,6 +557,9 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     break;
                 case Success:
                     break;
+                // Card-specific events
+                case SPICEMERCHANT:
+                    gt.handleSpiceMerchant(e);
                 default:
                     break;
             }

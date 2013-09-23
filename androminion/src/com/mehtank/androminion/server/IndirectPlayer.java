@@ -1552,20 +1552,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public SpiceMerchantOption spiceMerchant_chooseOption(MoveContext context) {
-        if(context.isQuickPlay() && shouldAutoPlay_spiceMerchant_chooseOption(context)) {
-            return super.spiceMerchant_chooseOption(context);
-        }
-        LinkedHashMap<String, SpiceMerchantOption> h = new LinkedHashMap<String, SpiceMerchantOption>();
-
-        h.put(getString(R.string.spice_merchant_option_one), SpiceMerchantOption.AddCardsAndAction);
-        h.put(getString(R.string.spice_merchant_option_two), SpiceMerchantOption.AddGoldAndBuy);
-
-        String o = selectString(context, getCardName(Cards.spiceMerchant), h.keySet().toArray(new String[0]));
-        return h.get(o);
-    }
-
-    @Override
     public Card[] embassy_cardsToDiscard(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_embassy_cardsToDiscard(context)) {
             return super.embassy_cardsToDiscard(context);

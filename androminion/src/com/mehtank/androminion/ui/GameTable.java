@@ -20,6 +20,7 @@ import android.widget.ToggleButton;
 
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.activities.GameActivity;
+import com.mehtank.androminion.server.Strings;
 import com.mehtank.androminion.ui.CardView.CardState;
 import com.mehtank.androminion.util.Achievements;
 import com.mehtank.androminion.util.CardGroup;
@@ -27,12 +28,15 @@ import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.mehtank.androminion.util.PlayerAdapter;
 import com.mehtank.androminion.util.PlayerSummary;
+import com.vdom.api.Card;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
+import com.vdom.core.Cards;
+import com.vdom.core.Player.SpiceMerchantOption;
 
 public class GameTable extends LinearLayout implements OnItemClickListener, OnItemLongClickListener {
     @SuppressWarnings("unused")
@@ -413,10 +417,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     boolean isAcceptable(MyCard c, CardGroup parent) {
         if (sco.fromHand && (parent != hand)) return false;
         else if (sco.fromTable) {
-            //			if (!sco.allowEmpty) {
-            //				if (lastSupplySizes[c.id] == 0)
-            //					return false;
-            //			}
+            //          if (!sco.allowEmpty) {
+            //              if (lastSupplySizes[c.id] == 0)
+            //                  return false;
+            //          }
             if (sco.fromPrizes) {
                 if ((parent != vpPile)
                     &&  (parent != moneyPile)
@@ -545,19 +549,46 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         resetButtons();
     }
 
+    public String getString(int id) {
+        return Strings.getString(id);
+    }
+
+    public String getCardName(Card card) {
+        return Strings.getCardName(card);
+    }
+
+    /**
+     * Calls selectString after getting the right strings from R
+     */
+    public void handleSpiceMerchant(Event e) {
+        SpiceMerchantOption[] options = (SpiceMerchantOption[]) e.o.os;
+        String[] stringOptions = new String[options.length];
+        for (int i=0; i < options.length; i++) {
+            if (options[i] == SpiceMerchantOption.AddCardsAndAction) {
+                stringOptions[i] = getString(R.string.spice_merchant_option_one);
+            } else if (options[i] == SpiceMerchantOption.AddGoldAndBuy) {
+                stringOptions[i] = getString(R.string.spice_merchant_option_two);
+            }
+        }
+        selectString(getCardName(Cards.spiceMerchant), stringOptions, true);
+    }
+
+    public void selectString(String title, String[] options) {
+        selectString(title, options, false);
+    }
     /**
      * Prompt the user about options that a card gives us. (E.g. Thief: Which card to trash)
      * @param title Message to the user about what to choose
      * @param options Options that the user has
      */
-    public void selectString(String title, String[] options) {
+    public void selectString(String title, String[] options, boolean isNewApi) {
         if (options.length == 1) {
             Toast.makeText(top, title + ":\n" + options[0], Toast.LENGTH_LONG / 2).show();
             top.handle(new Event(Event.EType.STRING).setString(options[0]));
             return;
         }
         HapticFeedback.vibrate(getContext(),AlertType.SELECT);
-        new SelectStringView(top, title, options);
+        new SelectStringView(top, title, options, isNewApi);
     }
 
     /**
