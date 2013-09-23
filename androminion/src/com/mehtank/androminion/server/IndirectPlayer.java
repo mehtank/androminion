@@ -28,7 +28,7 @@ import com.vdom.core.QuickPlayPlayer;
 public abstract class IndirectPlayer extends QuickPlayPlayer {
     @SuppressWarnings("unused")
     private static final String TAG = "IndirectPlayerOrig";
-    
+
     public abstract Card intToCard(int i);
     public abstract int cardToInt(Card card);
     public abstract int[] cardArrToIntArr(Card[] cards);
@@ -79,14 +79,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     public String getActionString(ActionType action, Card cardResponsible, String opponentName) {
         switch (action) {
-        case DISCARD: return Strings.format(R.string.card_to_discard, getCardName(cardResponsible));
-        case DISCARDFORCARD: return Strings.format(R.string.card_to_discard_for_card, getCardName(cardResponsible));
-        case DISCARDFORCOIN: return Strings.format(R.string.card_to_discard_for_coin, getCardName(cardResponsible));
-        case REVEAL: return Strings.format(R.string.card_to_reveal, getCardName(cardResponsible));
-        case GAIN: return Strings.format(R.string.card_to_gain, getCardName(cardResponsible));
-        case TRASH: return Strings.format(R.string.card_to_trash, getCardName(cardResponsible));
-        case NAMECARD: return Strings.format(R.string.card_to_name, getCardName(cardResponsible));
-        case OPPONENTDISCARD: return Strings.format(R.string.opponent_discard, opponentName, getCardName(cardResponsible));
+            case DISCARD: return Strings.format(R.string.card_to_discard, getCardName(cardResponsible));
+            case DISCARDFORCARD: return Strings.format(R.string.card_to_discard_for_card, getCardName(cardResponsible));
+            case DISCARDFORCOIN: return Strings.format(R.string.card_to_discard_for_coin, getCardName(cardResponsible));
+            case REVEAL: return Strings.format(R.string.card_to_reveal, getCardName(cardResponsible));
+            case GAIN: return Strings.format(R.string.card_to_gain, getCardName(cardResponsible));
+            case TRASH: return Strings.format(R.string.card_to_trash, getCardName(cardResponsible));
+            case NAMECARD: return Strings.format(R.string.card_to_name, getCardName(cardResponsible));
+            case OPPONENTDISCARD: return Strings.format(R.string.opponent_discard, opponentName, getCardName(cardResponsible));
         }
         return null;
     }
@@ -94,101 +94,101 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     private String getActionString(ActionType action, Card cardResponsible) {
         return getActionString(action, cardResponsible, null);
     }
-    
+
     private Card getCardFromHand(MoveContext context, String header, SelectCardOptions sco) {
         Card[] cs = getFromHand(context, header, sco.setCount(1).exactCount());
         return (cs == null ? null : cs[0]);
     }
-    
+
     private Card[] getFromHand(MoveContext context, String header, SelectCardOptions sco) {
-      sco =  sco.fromHand();
-      CardList localHand = (context.player.isPossessed()) ? context.player.getHand() : getHand();
-      if (localHand.size() == 0) {
-          return null;
-      } else if (sco.count == Integer.MAX_VALUE) {
-          sco.setCount(localHand.size());
-      } else if (sco.count < 0) {
-          sco.setCount(localHand.size() + sco.count).exactCount();
-      } else if (localHand.size() < sco.count && sco.exactCount) {
-        sco.setCount(localHand.size());
-      }
+        sco =  sco.fromHand();
+        CardList localHand = (context.player.isPossessed()) ? context.player.getHand() : getHand();
+        if (localHand.size() == 0) {
+            return null;
+        } else if (sco.count == Integer.MAX_VALUE) {
+            sco.setCount(localHand.size());
+        } else if (sco.count < 0) {
+            sco.setCount(localHand.size() + sco.count).exactCount();
+        } else if (localHand.size() < sco.count && sco.exactCount) {
+            sco.setCount(localHand.size());
+        }
 
-      ArrayList<Card> handList = new ArrayList<Card>();
+        ArrayList<Card> handList = new ArrayList<Card>();
 
-      for (Card card : localHand) {
-          if (sco.checkValid(card)) {
-              handList.add(card);
-              sco.addValidCard(cardToInt(card));
-          }
-      }
-      
-      if (sco.allowedCards.size() == 0)
-          return null;
-      else if (sco.allowedCards.size() == 1 || (sco.isAction && Collections.frequency(sco.allowedCards, sco.allowedCards.get(0)) == sco.allowedCards.size()))
-          sco.defaultCardSelected = sco.allowedCards.get(0);
+        for (Card card : localHand) {
+            if (sco.checkValid(card)) {
+                handList.add(card);
+                sco.addValidCard(cardToInt(card));
+            }
+        }
 
-      String str = "";
-      if (sco.isAction) {
-         if(sco.count == 1)
-             str = Strings.format(R.string.select_one_action_from_hand, header);
-         else if(sco.exactCount)
-             str = Strings.format(R.string.select_exactly_x_actions_from_hand, "" + sco.count, header);
-         else
-             str = Strings.format(R.string.select_up_to_x_actions_from_hand, "" + sco.count, header);
-      } else if (sco.isTreasure) {
-          if(sco.count == 1)
-              str = Strings.format(R.string.select_one_treasure_from_hand, header);
-          else if(sco.exactCount)
-              str = Strings.format(R.string.select_exactly_x_treasures_from_hand, "" + sco.count, header);
-          else
-              str = Strings.format(R.string.select_up_to_x_treasures_from_hand, "" + sco.count, header);
-      } else if (sco.isVictory) {
-          if(sco.count == 1)
-              str = Strings.format(R.string.select_one_victory_from_hand, header);
-          else if(sco.exactCount)
-              str = Strings.format(R.string.select_exactly_x_victorys_from_hand, "" + sco.count, header);
-          else
-              str = Strings.format(R.string.select_up_to_x_victorys_from_hand, "" + sco.count, header);
-      } else if (sco.isNonTreasure) {
-          if(sco.count == 1)
-              str = Strings.format(R.string.select_one_nontreasure_from_hand, header);
-          else if(sco.exactCount)
-              str = Strings.format(R.string.select_exactly_x_nontreasures_from_hand, "" + sco.count, header);
-          else
-              str = Strings.format(R.string.select_up_to_x_nontreasures_from_hand, "" + sco.count, header);
-      } else {
-          if(sco.count == 1)
-              str = Strings.format(R.string.select_one_card_from_hand, header);
-          else if(sco.exactCount)
-              str = Strings.format(R.string.select_exactly_x_cards_from_hand, "" + sco.count, header);
-          else
-              str = Strings.format(R.string.select_up_to_x_cards_from_hand, "" + sco.count, header);
-      }
+        if (sco.allowedCards.size() == 0)
+            return null;
+        else if (sco.allowedCards.size() == 1 || (sco.isAction && Collections.frequency(sco.allowedCards, sco.allowedCards.get(0)) == sco.allowedCards.size()))
+            sco.defaultCardSelected = sco.allowedCards.get(0);
 
-      Card[] tempCards = pickCards(context, str, sco, sco.count, sco.exactCount);
-      if (tempCards == null)
-          return null;
+        String str = "";
+        if (sco.isAction) {
+            if(sco.count == 1)
+                str = Strings.format(R.string.select_one_action_from_hand, header);
+            else if(sco.exactCount)
+                str = Strings.format(R.string.select_exactly_x_actions_from_hand, "" + sco.count, header);
+            else
+                str = Strings.format(R.string.select_up_to_x_actions_from_hand, "" + sco.count, header);
+        } else if (sco.isTreasure) {
+            if(sco.count == 1)
+                str = Strings.format(R.string.select_one_treasure_from_hand, header);
+            else if(sco.exactCount)
+                str = Strings.format(R.string.select_exactly_x_treasures_from_hand, "" + sco.count, header);
+            else
+                str = Strings.format(R.string.select_up_to_x_treasures_from_hand, "" + sco.count, header);
+        } else if (sco.isVictory) {
+            if(sco.count == 1)
+                str = Strings.format(R.string.select_one_victory_from_hand, header);
+            else if(sco.exactCount)
+                str = Strings.format(R.string.select_exactly_x_victorys_from_hand, "" + sco.count, header);
+            else
+                str = Strings.format(R.string.select_up_to_x_victorys_from_hand, "" + sco.count, header);
+        } else if (sco.isNonTreasure) {
+            if(sco.count == 1)
+                str = Strings.format(R.string.select_one_nontreasure_from_hand, header);
+            else if(sco.exactCount)
+                str = Strings.format(R.string.select_exactly_x_nontreasures_from_hand, "" + sco.count, header);
+            else
+                str = Strings.format(R.string.select_up_to_x_nontreasures_from_hand, "" + sco.count, header);
+        } else {
+            if(sco.count == 1)
+                str = Strings.format(R.string.select_one_card_from_hand, header);
+            else if(sco.exactCount)
+                str = Strings.format(R.string.select_exactly_x_cards_from_hand, "" + sco.count, header);
+            else
+                str = Strings.format(R.string.select_up_to_x_cards_from_hand, "" + sco.count, header);
+        }
 
-      // Hack to notify that "All" was selected
-      if(tempCards.length == 0) {
-          return tempCards;
-      }
+        Card[] tempCards = pickCards(context, str, sco, sco.count, sco.exactCount);
+        if (tempCards == null)
+            return null;
 
-      for (int i=0; i<tempCards.length; i++)
-          for (Card c : handList)
-              if (c.equals(tempCards[i])) {
-                  tempCards[i] = c;
-                  handList.remove(c);
-                  break;
-              }
+        // Hack to notify that "All" was selected
+        if(tempCards.length == 0) {
+            return tempCards;
+        }
 
-      return tempCards;
-  }
-    
+        for (int i=0; i<tempCards.length; i++)
+            for (Card c : handList)
+                if (c.equals(tempCards[i])) {
+                    tempCards[i] = c;
+                    handList.remove(c);
+                    break;
+                }
+
+        return tempCards;
+    }
+
     private Card getFromTable(MoveContext context, String header, SelectCardOptions sco) {
         sco.fromTable();
         Card[] cards = context.getCardsInGame();
-        
+
         for (Card card : cards) {
             if (sco.allowEmpty || !context.game.isPileEmpty(card)) {
                 if (sco.checkValid(card, card.getCost(context))) {
@@ -196,7 +196,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 }
             }
         }
-        
+
         if (sco.getAllowedCardCount() == 0) {
             // No cards fit the filter, so return early
             return null;
@@ -205,13 +205,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             // Only one card available and player can't pass...go ahead and return
             return intToCard(sco.allowedCards.get(0));
         }
-        
+
         String minCostString = (sco.minCost <= 0) ? "" : "" + sco.minCost;
         String maxCostString = (sco.maxCost == Integer.MAX_VALUE) ? "" : "" + sco.maxCost + sco.potionString();
         String selectString;
-	    
+
         if (sco.fromPrizes)
-        	selectString = header;
+            selectString = header;
         else if (sco.minCost == sco.maxCost) {
             if (sco.isAttack) {
                 selectString = Strings.format(R.string.select_from_table_attack, maxCostString, header);
@@ -221,27 +221,27 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 selectString = Strings.format(R.string.select_from_table_exact, maxCostString, header);
             }
         } else if (sco.minCost <= 0 && sco.maxCost < Integer.MAX_VALUE) {
-		    if (sco.isVictory) {
-		        selectString = Strings.format(R.string.select_from_table_max_vp, maxCostString, header);
-		    } else if (sco.isNonVictory) {
-		        selectString = Strings.format(R.string.select_from_table_max_non_vp, maxCostString, header);
-		    } else if (sco.isTreasure) {
-		        selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
-		    } else if (sco.isAction) {
-		        selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
-		    } else {
-		    	selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
-		    }
-    	} else if (sco.minCost > 0 && sco.maxCost < Integer.MAX_VALUE) {
+            if (sco.isVictory) {
+                selectString = Strings.format(R.string.select_from_table_max_vp, maxCostString, header);
+            } else if (sco.isNonVictory) {
+                selectString = Strings.format(R.string.select_from_table_max_non_vp, maxCostString, header);
+            } else if (sco.isTreasure) {
+                selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
+            } else if (sco.isAction) {
+                selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
+            } else {
+                selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
+            }
+        } else if (sco.minCost > 0 && sco.maxCost < Integer.MAX_VALUE) {
             selectString = Strings.format(R.string.select_from_table_between, minCostString, maxCostString, header);
-    	} else if (sco.minCost > 0) {
+        } else if (sco.minCost > 0) {
             selectString = Strings.format(R.string.select_from_table_min, minCostString + sco.potionString(), header);
-    	} else {
+        } else {
             selectString = Strings.format(R.string.select_from_table, header);
-    	}
+        }
         return pickACard(context, selectString, sco);
     }
-    
+
     public int selectInt(MoveContext context, String header, int maxInt, int errVal) {
         ArrayList<String> options = new ArrayList<String>();
         for (int i=0; i<=maxInt; i++)
@@ -317,26 +317,26 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         SelectCardOptions sco = new SelectCardOptions().isAction().setPassable(getString(R.string.none));
         if (singleCard) 
-        	sco.setCount(1).setPickType(PickType.PLAY);
+            sco.setCount(1).setPickType(PickType.PLAY);
         else 
-        	sco.setCount(actionCount).ordered().setPickType(PickType.PLAY_IN_ORDER);
-        
+            sco.setCount(actionCount).ordered().setPickType(PickType.PLAY_IN_ORDER);
+
         Card[] cards = getFromHand(context, getString(R.string.part_play), sco);
-        	
+
         if (cards == null)
             return null;
         // Hack that tells us that "Play the only one card" was selected
         else if (actionCount == 1 && cards.length == 0) {
             cards = new Card[1];
             cards[0] = actionCard;
-        	}
+        }
         return cards;
     }
-    
+
     @Override
     public Card doAction(MoveContext context) {
-    	Card[] cards = doAction(context, true);
-    	return (cards == null ? null : cards[0]); 
+        Card[] cards = doAction(context, true);
+        return (cards == null ? null : cards[0]); 
     }
 
     @Override
@@ -686,18 +686,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
             return super.wishingWell_cardGuess(context, cardList);
         }
-        
+
         LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
 
         // Add option to skip the guess
         h.put("None", null);
-        
+
         for (Card c : cardList) {
             h.put(c.getName(), c);
         }
-        
+
         String choice = selectString(context, getActionString(ActionType.NAMECARD, Cards.wishingWell), h.keySet().toArray(new String[0])); 
-    
+
         return h.get(choice);
     }
 
@@ -975,12 +975,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (Card c : cards)
             options.add(Strings.getCardName(c));
 
-//        String none = getString(R.string.none);
-//        options.add(none);
+        //        String none = getString(R.string.none);
+        //        options.add(none);
         String o = selectString(context, R.string.herbalist_query, Cards.herbalist, options.toArray(new String[0]));
-//        if(o.equals(none)) {
-//            return null;
-//        }
+        //        if(o.equals(none)) {
+        //            return null;
+        //        }
         return (TreasureCard) localNameToCard(o, cards);
     }
 
@@ -1779,7 +1779,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)
                 if (lastCard == null || !Game.suppressRedundantReactions || c.getName() != lastCard.getName() || c.equals(Cards.horseTraders) || c.equals(Cards.beggar))
-                   options.add(Strings.getCardName(c));
+                    options.add(Strings.getCardName(c));
             if (options.size() > 0) {
                 String none = getString(R.string.none);
                 options.add(none);
@@ -1815,43 +1815,43 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         List<String> options = new ArrayList<String>();
         for (PutBackOption putBack : putBacks) {
             switch (putBack) {
-            case Treasury:
-                options.add(getCardName(Cards.treasury));
-                break;
-            case Alchemist:
-                options.add(getCardName(Cards.alchemist));
-                break;
-            case WalledVillage:
-                options.add(getCardName(Cards.walledVillage));
-                break;
-            case Coin:
-                options.add(getString(R.string.putback_option_one));
-                break;
-            case Action:
-                options.add(getString(R.string.putback_option_two));
-                break;
-            case None:
-                break;
-            default:
-                break;
+                case Treasury:
+                    options.add(getCardName(Cards.treasury));
+                    break;
+                case Alchemist:
+                    options.add(getCardName(Cards.alchemist));
+                    break;
+                case WalledVillage:
+                    options.add(getCardName(Cards.walledVillage));
+                    break;
+                case Coin:
+                    options.add(getString(R.string.putback_option_one));
+                    break;
+                case Action:
+                    options.add(getString(R.string.putback_option_two));
+                    break;
+                case None:
+                    break;
+                default:
+                    break;
             }
         }
         options.add(getString(R.string.none));
 
         return h.get(selectString(context, getString(R.string.putback_query), options.toArray(new String[0])));
     }
-    
+
     @Override
     public SquireOption squire_chooseOption(MoveContext context) {
-//      if(context.isQuickPlay() && shouldAutoPlay_steward_chooseOption(context)) {
-//          return super.steward_chooseOption(context);
-//      }
+        //      if(context.isQuickPlay() && shouldAutoPlay_steward_chooseOption(context)) {
+        //          return super.steward_chooseOption(context);
+        //      }
         LinkedHashMap<String, SquireOption> h = new LinkedHashMap<String, SquireOption>();
-        
+
         h.put(getString(R.string.squire_option_one), SquireOption.AddActions);
         h.put(getString(R.string.squire_option_two), SquireOption.AddBuys);
         h.put(getString(R.string.squire_option_three), SquireOption.GainSilver);
-    
+
         return h.get(selectString(context, Cards.squire, h.keySet().toArray(new String[0])));
     }
 
@@ -1872,7 +1872,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH);
         return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.altar), sco);
     }
-    
+
     @Override
     public Card altar_cardToObtain(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
@@ -1881,7 +1881,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(5);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.altar), sco);
     }
-    
+
     @Override
     public Card squire_cardToObtain(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
@@ -1890,7 +1890,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isAttack();
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.squire), sco);
     }
-    
+
     @Override
     public Card rats_cardToTrash(MoveContext context) {
         if (context.isQuickPlay() && shouldAutoPlay_rats_cardToTrash(context)) {
@@ -1899,7 +1899,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isNonRats().setPickType(PickType.TRASH);
         return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.rats), sco);
     }
-    
+
     @Override
     public boolean catacombs_shouldDiscardTopCards(MoveContext context, Card[] cards) {
         if(context.isQuickPlay() && shouldAutoPlay_navigator_shouldDiscardTopCards(context, cards)) {
@@ -1917,7 +1917,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         return !selectBoolean(context, header, option1, option2);
     }
-    
+
     @Override
     public Card catacombs_cardToObtain(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
@@ -1927,29 +1927,29 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(maxPrice);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.catacombs), sco);
     }
-    
+
     @Override
     public CountFirstOption count_chooseFirstOption(MoveContext context) {
         LinkedHashMap<String, CountFirstOption> h = new LinkedHashMap<String, CountFirstOption>();
-        
+
         h.put(getString(R.string.count_firstoption_one), CountFirstOption.Discard);
         h.put(getString(R.string.count_firstoption_two), CountFirstOption.PutOnDeck);
         h.put(getString(R.string.count_firstoption_three), CountFirstOption.GainCopper);
-    
+
         return h.get(selectString(context, Cards.count, h.keySet().toArray(new String[0])));
     }
-    
+
     @Override
     public CountSecondOption count_chooseSecondOption(MoveContext context) {
         LinkedHashMap<String, CountSecondOption> h = new LinkedHashMap<String, CountSecondOption>();
-        
+
         h.put(getString(R.string.count_secondoption_one), CountSecondOption.Coins);
         h.put(getString(R.string.count_secondoption_two), CountSecondOption.TrashHand);
         h.put(getString(R.string.count_secondoption_three), CountSecondOption.GainDuchy);
-    
+
         return h.get(selectString(context, Cards.count, h.keySet().toArray(new String[0])));
     }
-    
+
     @Override
     public Card[] count_cardsToDiscard(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_torturer_attack_cardsToDiscard(context)) {
@@ -1958,7 +1958,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount().setPickType(PickType.DISCARD);
         return getFromHand(context, getActionString(ActionType.DISCARD, Cards.count), sco);
     }
-    
+
     @Override
     public Card count_cardToPutBackOnDeck(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_courtyard_cardToPutBackOnDeck(context)) {
@@ -1972,7 +1972,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isAction().setPassable(getString(R.string.none)).setPickType(PickType.TRASH);
         return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.deathCart), sco);
     }
-    
+
     @Override
     public Card forager_cardToTrash(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_apprentice_cardToTrash(context)) {
@@ -1982,38 +1982,38 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.forager), sco);
 
     }
-    
+
     @Override
     public GraverobberOption graverobber_chooseOption(MoveContext context) {
         LinkedHashMap<String, GraverobberOption> h = new LinkedHashMap<String, GraverobberOption>();
-        
+
         h.put(getString(R.string.graverobber_option_one), GraverobberOption.GainFromTrash);
         h.put(getString(R.string.graverobber_option_two), GraverobberOption.TrashActionCard);
-    
+
         return h.get(selectString(context, Cards.graverobber, h.keySet().toArray(new String[0])));
     }
-    
+
     @Override
     public Card graverobber_cardToGainFromTrash(MoveContext context) {
         LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
         ArrayList<Card> options = new ArrayList<Card>(); 
-        
+
         for (Card c : game.trashPile) {
             if (c.getCost(context) >= 3 && c.getCost(context) <= 6)
                 options.add(c);
         }
-        
+
         if (options.isEmpty()) {
             return null;
         }
-        
+
         for (Card c : options) {
             h.put(c.getName(), c);
         }
-    
+
         return h.get(selectString(context, Cards.graverobber, h.keySet().toArray(new String[0])));
     }
-    
+
     @Override
     public Card graverobber_cardToTrash(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_apprentice_cardToTrash(context)) {
@@ -2022,7 +2022,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isAction().setPickType(PickType.TRASH);
         return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.graverobber), sco);
     }
-    
+
     @Override
     public Card graverobber_cardToReplace(MoveContext context, int maxCost, boolean potion) {
         if(context.isQuickPlay() && shouldAutoPlay_expand_cardToObtain(context, maxCost, potion)) {
@@ -2031,22 +2031,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.graverobber), sco);
     }
-    
+
     @Override
     public HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context) {
         LinkedHashMap<String, HuntingGroundsOption> h = new LinkedHashMap<String, HuntingGroundsOption>();
-        
+
         h.put(getString(R.string.hunting_grounds_option_one), HuntingGroundsOption.GainDuchy);
         h.put(getString(R.string.hunting_grounds_option_two), HuntingGroundsOption.GainEstates);
-    
+
         return h.get(selectString(context, Cards.huntingGrounds, h.keySet().toArray(new String[0])));
     }
-    
+
     @Override
     public boolean ironmonger_shouldDiscard(MoveContext context, Card card) {
         return !selectBooleanCardRevealed(context, Cards.ironmonger, card, getString(R.string.ironmonger_option_one), getString(R.string.discard));
     }
-    
+
     @Override
     public Card junkDealer_cardToTrash(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_trader_cardToTrash(context)) {
@@ -2055,33 +2055,33 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH);
         return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.junkDealer), sco);
     }
-    
+
     @Override
     public boolean marketSquare_shouldDiscard(MoveContext context) {
         return selectBoolean(context, Cards.marketSquare, getString(R.string.discard), getString(R.string.keep));
     }
-    
+
     @Override
     public Card mystic_cardGuess(MoveContext context, ArrayList<Card> cardList) {
-        
+
         if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
             return super.mystic_cardGuess(context, cardList);
         }
-      
+
         LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
 
         // Add option to skip the guess
         h.put("None", null);
-        
+
         for (Card c : cardList) {
             h.put(c.getName(), c);
         }
-        
+
         String choice = selectString(context, getActionString(ActionType.NAMECARD, Cards.mystic), h.keySet().toArray(new String[0])); 
-    
+
         return h.get(choice);
     }
-    
+
     @Override
     public boolean scavenger_shouldDiscardDeck(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_chancellor_shouldDiscardDeck(context)) {
@@ -2089,21 +2089,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         return selectBoolean(context, getCardName(Cards.scavenger), getString(R.string.chancellor_query), getString(R.string.pass));
     }
-    
+
     @Override
-	public Card scavenger_cardToPutBackOnDeck(MoveContext context) {
+    public Card scavenger_cardToPutBackOnDeck(MoveContext context) {
         CardList localDiscard = (context.player.isPossessed()) ? context.player.getDiscard() : getDiscard();
-	    if (localDiscard.isEmpty())
-	    	return null;
-		
-	    // oh, how simple it looks, and how ugly it will be (again)
-	    LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-	    for (Card c : localDiscard) {
-	    	h.put(c.getName(), c);
-	    }
-	    return h.get(selectString(context, Cards.scavenger, h.keySet().toArray(new String[0])));
-	}
-    
+        if (localDiscard.isEmpty())
+            return null;
+
+        // oh, how simple it looks, and how ugly it will be (again)
+        LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
+        for (Card c : localDiscard) {
+            h.put(c.getName(), c);
+        }
+        return h.get(selectString(context, Cards.scavenger, h.keySet().toArray(new String[0])));
+    }
+
     @Override
     public Card[] storeroom_cardsToDiscardForCards(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_cellar_cardsToDiscard(context)) {
@@ -2112,7 +2112,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none)).setPickType(PickType.DISCARD);
         return getFromHand(context, getActionString(ActionType.DISCARDFORCARD, Cards.storeroom), sco);
     }
-    
+
     @Override
     public Card[] storeroom_cardsToDiscardForCoins(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_cellar_cardsToDiscard(context)) {
@@ -2121,7 +2121,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none)).setPickType(PickType.DISCARD);
         return getFromHand(context, getActionString(ActionType.DISCARDFORCOIN, Cards.storeroom), sco);
     }
-    
+
     @Override
     public ActionCard procession_cardToPlay(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_throneRoom_cardToPlay(context)) {
@@ -2130,7 +2130,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isAction().setPassable(getString(R.string.none)).setPickType(PickType.PLAY);
         return (ActionCard) getCardFromHand(context, getCardName(Cards.procession), sco);
     }
-    
+
     @Override
     public Card procession_cardToGain(MoveContext context, int exactCost,   boolean potion) {
         if(context.isQuickPlay() && shouldAutoPlay_procession_cardToObtain(context, exactCost, potion)) {
@@ -2139,7 +2139,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isAction().exactCost(exactCost).potionCost(potion ? 1 : 0);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.procession), sco);
     }
-    
+
     @Override
     public Card rebuild_cardToPick(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
@@ -2148,7 +2148,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isVictory().allowEmpty();
         return getFromTable(context, getActionString(ActionType.NAMECARD, Cards.rebuild), sco);
     }
-    
+
     @Override
     public Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion) {
         if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, maxCost, costPotion)) {
@@ -2157,38 +2157,38 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isVictory().maxCost(maxCost).potionCost(costPotion ? 1 : 0);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.rebuild), sco);
     }
-    
+
     @Override
     public Card rogue_cardToGain(MoveContext context) {
         LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
         ArrayList<Card> options = new ArrayList<Card>(); 
-        
+
         for (Card c : game.trashPile) {
             if (c.getCost(context) >= 3 && c.getCost(context) <= 6)
                 options.add(c);
         }
-        
+
         if (options.isEmpty()) {
             return null;
         }
-        
+
         for (Card c : options) {
             h.put(c.getName(), c);
         }
-    
+
         return h.get(selectString(context, Cards.rogue, h.keySet().toArray(new String[0])));
     }
-    
+
     @Override
     public Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
         LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
         for (Card c : canTrash) {
             h.put(c.getName(), c);
         }
-    
+
         return h.get(selectString(context, Cards.rogue, h.keySet().toArray(new String[0])));
     }
-    
+
     @Override
     public TreasureCard counterfeit_cardToPlay(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_masquerade_cardToTrash(context)) {
@@ -2197,7 +2197,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isTreasure().setPassable(getString(R.string.none)).setPickType(PickType.TRASH);
         return (TreasureCard) getCardFromHand(context, getActionString(ActionType.TRASH, Cards.counterfeit), sco);
     }
-    
+
     @Override
     public Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards)
     {
@@ -2205,9 +2205,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         {
             return super.pillage_opponentCardToDiscard(context, handCards);
         }
-        
+
         ArrayList<String> options = new ArrayList<String>();
-        
+
         for (Card c : handCards)
         {
             options.add(Strings.getCardName(c));
@@ -2223,7 +2223,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return null;
         }
     }
-    
+
     @Override
     public boolean hovel_shouldTrash(MoveContext context)
     {
@@ -2236,7 +2236,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return selectBoolean(context, getCardName(Cards.hovel), getString(R.string.hovel_option), getString(R.string.pass));
         }
     }
-    
+
     @Override
     public boolean walledVillage_backOnDeck(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_walledVillage_backOnDeck(context)) {
@@ -2246,27 +2246,27 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         String option2 = getString(R.string.walledVillage_option_two);
         return selectBoolean(context, Cards.walledVillage, option1, option2);
     }
-    
+
     @Override
     public GovernorOption governor_chooseOption(MoveContext context) {
 
         LinkedHashMap<String, GovernorOption> h = new LinkedHashMap<String, GovernorOption>();
-        
+
         h.put(getString(R.string.governor_option_one), GovernorOption.AddCards);
         h.put(getString(R.string.governor_option_two), GovernorOption.GainTreasure);
         h.put(getString(R.string.governor_option_three), GovernorOption.Upgrade);
-    
+
         return h.get(selectString(context, Cards.governor, h.keySet().toArray(new String[0])));
     }
-    
+
     @Override
     public Card envoy_cardToDiscard(MoveContext context, Card[] cards) {
         if(context.isQuickPlay() && shouldAutoPlay_envoy_opponentCardToDiscard(context)) {
             return super.envoy_cardToDiscard(context, cards);
         }
-        
+
         ArrayList<String> options = new ArrayList<String>();
-        
+
         for (Card c : cards) {
             options.add(Strings.getCardName(c));
         }
@@ -2278,7 +2278,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return null;
         }
     }
-    
+
     @Override
     public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array) {
         if(context.isQuickPlay() && shouldAutoPlay_navigator_shouldDiscardTopCards(context, array)) {
@@ -2319,17 +2319,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         return selectBoolean(context, Cards.cultist.getName(), option1, option2);
     }
-    
+
     @Override
     public Card[] urchin_attack_cardsToKeep(MoveContext context) {
         //if(context.isQuickPlay() && shouldAutoPlay_urchin_attack_cardsToKeep(context)) {
         //    return super.urchin_attack_cardsToKeep(context);
         //}
-        
+
         SelectCardOptions sco = new SelectCardOptions().setCount(4).exactCount().setPickType(PickType.KEEP);
         return getFromHand(context, getString(R.string.urchin_keep), sco);
     }
-    
+
     @Override
     public boolean urchin_shouldTrashForMercenary(MoveContext context)
     {
@@ -2342,7 +2342,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         return selectBoolean(context, Cards.urchin.getName(), option1, option2);
     }
-    
+
     @Override
     public Card[] mercenary_cardsToTrash(MoveContext context) {
         //if(context.isQuickPlay() && shouldAutoPlay_mercenary_cardsToTrash(context)) {
@@ -2351,7 +2351,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount().setPassable(getString(R.string.none)).setPickType(PickType.TRASH);
         return getFromHand(context, getActionString(ActionType.TRASH, Cards.mercenary), sco);
     }
-    
+
     @Override
     public Card[] mercenary_attack_cardsToKeep(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_militia_attack_cardsToKeep(context)) {
@@ -2373,44 +2373,44 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         return selectBoolean(context, Cards.madman.getName(), option1, option2);
     }
-    
+
     @Override
     public Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard)
     {
         LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-        
+
         int cardCount = 0;
-        
+
         // Add option to skip the trashing
         h.put("None", null);
-        
+
         for (Card c : cardList) {
             if (cardCount < nonTreasureCountInDiscard) {
                 h.put(c.getName() + " (discard pile)", c);
             } else {
                 h.put(c.getName() + " (hand)", c);
             }
-            
+
             ++cardCount;
         }
-        
+
         String choice = selectString(context, getActionString(ActionType.TRASH, Cards.hermit), h.keySet().toArray(new String[0])); 
-        
+
         if (choice.contains("discard pile")) {
             context.hermitTrashCardPile = PileSelection.DISCARD;
         } else if (choice.contains("hand")) {
             context.hermitTrashCardPile = PileSelection.HAND;
         } 
-        
+
         return h.get(choice);
     }
-    
+
     @Override
     public Card hermit_cardToGain(MoveContext context)  {
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(3);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.hermit), sco);
     }
-        
+
     @Override
     public Card[] dameAnna_cardsToTrash(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_chapel_cardsToTrash(context)) {
@@ -2452,14 +2452,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(Cards.bandOfMisfits.getCost(context) - 1).isAction().setPassable(getString(R.string.none));
         return (ActionCardImpl) getFromTable(context, getString(R.string.part_play), sco);
     }
-    
+
     @Override
     public TreasureCard taxman_treasureToTrash(MoveContext context) 
     {    
         SelectCardOptions sco = new SelectCardOptions().isTreasure().setPassable(getString(R.string.none)).setPickType(PickType.TRASH);
         return (TreasureCard) getCardFromHand(context, getActionString(ActionType.TRASH, Cards.taxman), sco);
     }
-    
+
     @Override
     public TreasureCard taxman_treasureToObtain(MoveContext context, int maxCost) {
         if(context.isQuickPlay() && shouldAutoPlay_taxman_treasureToObtain(context, maxCost)) {
@@ -2468,7 +2468,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost);
         return (TreasureCard) getFromTable(context, getString(R.string.taxman_part), sco);
     }
-    
+
     @Override
     public TreasureCard plaza_treasureToDiscard(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_stables_treasureToDiscard(context)) {
@@ -2477,21 +2477,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isTreasure().setPassable(getString(R.string.none)).setPickType(PickType.DISCARD);
         return (TreasureCard) getCardFromHand(context, getActionString(ActionType.DISCARD, Cards.plaza), sco);
     }
-    
+
     @Override
     public int numGuildsCoinTokensToSpend(MoveContext context)
     {
         return selectInt(context, "Spend Guilds Coin Tokens", getGuildsCoinTokenCount(), 0);
     }
-    
+
     @Override
     public int amountToOverpay(MoveContext context, int cardCost)
     {
         int availableAmount = context.getCoinAvailableForBuy() - cardCost;
-        
+
         // If at least one potion is available, it can be used to overpay
         int potion = context.potions;
-        
+
         if (availableAmount <= 0)
         {
             return 0;
@@ -2501,7 +2501,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return selectInt(context, "Overpay?", availableAmount, 0);
         }
     }
-    
+
     @Override
     public int overpayByPotions(MoveContext context, int availablePotions)
     {
@@ -2514,26 +2514,26 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return 0;
         }
     }
-    
+
     @Override
     public Card butcher_cardToTrash(MoveContext context) 
     {
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH).setPassable(getString(R.string.none));
         return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.butcher), sco);
     }
-    
+
     @Override
     public Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion)
     {        
         SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.butcher), sco);
     }
-    
+
     @Override
     public Card advisor_cardToDiscard(MoveContext context, Card[] cards)
     {
         ArrayList<String> options = new ArrayList<String>();
-        
+
         for (Card c : cards) 
         {
             options.add(Strings.getCardName(c));
@@ -2549,77 +2549,77 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return null;
         }
     }
-    
+
     @Override
     public Card journeyman_cardToPick(MoveContext context) 
     {
         SelectCardOptions sco = new SelectCardOptions().allowEmpty();
         return getFromTable(context, getActionString(ActionType.NAMECARD, Cards.journeyman), sco);
     }
-    
+
     @Override
     public Card stonemason_cardToTrash(MoveContext context)
     {
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH).allowEmpty();
         return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.stonemason), sco);
     }
-    
+
     @Override
     public Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion)
     {
         SelectCardOptions sco = new SelectCardOptions().allowEmpty().maxCost(maxCost).potionCost(potion ? 1 : 0);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.stonemason), sco);
     }
-    
+
     @Override
     public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion)
     {
         SelectCardOptions sco = new SelectCardOptions().allowEmpty().exactCost(overpayAmount).isAction().potionCost(potion ? 1 : 0);
         return getFromTable(context, getActionString(ActionType.GAIN, Cards.stonemason), sco);
     }
-    
+
     @Override
     public Card doctor_cardToPick(MoveContext context)
     {
         SelectCardOptions sco = new SelectCardOptions().allowEmpty();
         return getFromTable(context, getActionString(ActionType.NAMECARD, Cards.doctor), sco);
     }
-    
+
     @Override
     public ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards) 
     {
         ArrayList<Card> orderedCards = new ArrayList<Card>();
-        
+
         int[] order = orderCards(context, cardArrToIntArr(cards.toArray(new Card[0])));
-        
+
         for (int i : order)
         {
             orderedCards.add(cards.get(i));
         }
-        
+
         return orderedCards;
     }
-    
+
     @Override
     public DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card) 
     {
         LinkedHashMap<String, DoctorOverpayOption> optionMap = new LinkedHashMap<String, DoctorOverpayOption>();
-        
+
         optionMap.put(getString(R.string.doctor_overpay_option_one),   DoctorOverpayOption.TrashIt);
         optionMap.put(getString(R.string.doctor_overpay_option_two),   DoctorOverpayOption.DiscardIt);
         optionMap.put(getString(R.string.doctor_overpay_option_three), DoctorOverpayOption.PutItBack);
-    
+
         return optionMap.get(selectString(context, "Doctor revealed " + getCardName(card), optionMap.keySet().toArray(new String[0])));
     }
-    
+
     @Override
     public Card herald_cardTopDeck(MoveContext context, Card[] cardList)
     {
         ArrayList<String> options = new ArrayList<String>();
-        
+
         // Remove first Herald from this list (representing the most recent one bought)
         boolean heraldRemoved = false;
-        
+
         for (Card c : cardList) 
         {
             if (!heraldRemoved && c.getName().equalsIgnoreCase("herald"))
