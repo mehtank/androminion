@@ -9,6 +9,7 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public class TreasureCardImpl extends CardImpl implements TreasureCard {
+    private static final long serialVersionUID = 1L;
     int value;
     boolean providePotion;
     

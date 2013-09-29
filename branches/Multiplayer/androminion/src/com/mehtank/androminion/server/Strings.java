@@ -5,8 +5,11 @@ import java.util.HashMap;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.mehtank.androminion.R;
 import com.vdom.api.Card;
 import com.vdom.api.GameType;
+import com.vdom.core.Player.SpiceMerchantOption;
+import com.vdom.core.Player.TorturerOption;
 
 public class Strings {
 	@SuppressWarnings("unused")
@@ -129,5 +132,28 @@ public class Strings {
     
     public static String getString(int resId) {
         return context.getString(resId);
+    }
+
+    /**
+     * Takes an option object (TODO(matt): make a class that's more restrictive than Object that
+     * these options can inherit from) and returns the string the corresponds to the option.
+     */
+    public static String getOptionText(Object option) {
+        if (option instanceof SpiceMerchantOption) {
+            // Actually, if this works without a cast, and it appears that it does, we don't need
+            // the outer if-statements.  But maybe this way is a little more organized?
+            if (option == SpiceMerchantOption.AddCardsAndAction) {
+                return getString(R.string.spice_merchant_option_one);
+            } else if (option == SpiceMerchantOption.AddGoldAndBuy) {
+                return getString(R.string.spice_merchant_option_two);
+            }
+        } else if (option instanceof TorturerOption) {
+            if (option == TorturerOption.TakeCurse) {
+                return getString(R.string.torturer_option_one);
+            } else if (option == TorturerOption.DiscardTwoCards) {
+                return getString(R.string.torturer_option_two);
+            }
+        }
+        throw new RuntimeException("I got passed an option object that I don't understand!");
     }
 }
