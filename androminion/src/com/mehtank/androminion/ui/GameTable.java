@@ -37,6 +37,7 @@ import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.Cards;
 import com.vdom.core.Player.SpiceMerchantOption;
+import com.vdom.core.Player.TorturerOption;
 
 public class GameTable extends LinearLayout implements OnItemClickListener, OnItemLongClickListener {
     @SuppressWarnings("unused")
@@ -549,28 +550,15 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         resetButtons();
     }
 
-    public String getString(int id) {
-        return Strings.getString(id);
-    }
-
-    public String getCardName(Card card) {
-        return Strings.getCardName(card);
-    }
-
     /**
-     * Calls selectString after getting the right strings from R
+     * Calls selectString after getting the right (localized) strings from R.
      */
-    public void handleSpiceMerchant(Event e) {
-        SpiceMerchantOption[] options = (SpiceMerchantOption[]) e.o.os;
-        String[] stringOptions = new String[options.length];
-        for (int i=0; i < options.length; i++) {
-            if (options[i] == SpiceMerchantOption.AddCardsAndAction) {
-                stringOptions[i] = getString(R.string.spice_merchant_option_one);
-            } else if (options[i] == SpiceMerchantOption.AddGoldAndBuy) {
-                stringOptions[i] = getString(R.string.spice_merchant_option_two);
-            }
+    public void selectOption(Event e) {
+        String[] options = new String[e.o.os.length];
+        for (int i = 0; i < options.length; i++) {
+            options[i] = Strings.getOptionText(e.o.os[i]);
         }
-        selectString(getCardName(Cards.spiceMerchant), stringOptions, true);
+        selectString(Strings.getCardName(e.c), options, true);
     }
 
     public void selectString(String title, String[] options) {

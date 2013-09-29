@@ -2,6 +2,8 @@ package com.vdom.comms;
 
 import java.io.Serializable;
 
+import com.vdom.api.Card;
+
 
 /**
  * Event class: This object makes up the communication protocol between RemotePlayer, running in vdom, and the game activity. <br>
@@ -31,6 +33,7 @@ public class Event implements Serializable{
 	
 		public GameStatus gs; // game status
 		public String[] ss; // description (?)
+		public Card[] cs; // for choosing from a set of cards
 		public int[] is;
 		public Object[] os;
 		public NewGame ng; // new game
@@ -44,6 +47,9 @@ public class Event implements Serializable{
 		}
 		public EventObject(String[] o) {
 			this.ss = o;
+		}
+		public EventObject(Card[] o) {
+			this.cs = o;
 		}
 		public EventObject(int[] o) {
 			this.is = o;
@@ -217,6 +223,25 @@ public class Event implements Serializable{
 		 */
 		CARD,
 		/**
+		 * GETOPTION
+		 * 
+		 * Sent from RemotePlayer when the player needs to choose an option.
+                 * Meant to replace GETSTRING, which is too coupled to the android framework.
+                 * <p><b>needs EType.OPTION response</b></p>
+		 * 
+		 * @param c Card requesting the option.
+		 * @param o has its Object[] set to the available options
+		 */
+		GETOPTION,
+		/**
+		 * OPTION
+		 *
+		 * Generic event returned by a client when selecting an option from an enum array.
+		 *
+		 * @param i is set to the index of the option selected.
+		 */
+		OPTION,
+		/**
 		 * GETSTRING
 		 * 
 		 * Sent from RemotePlayer when the player needs to enter a string. This is the prompt of what option of
@@ -380,29 +405,10 @@ public class Event implements Serializable{
 		 * @param i time in ms
 		 */
 		SLEEP,
-		//////////////////////////////////
-		// CARD-SPECIFIC EVENTS BELOW HERE
-		//////////////////////////////////
-		/**
-		 * OPTION
-		 *
-		 * Generic event returned by a client when selecting an option from an enum array.
-		 *
-		 * @param i is set to the index of the option selected.
-		 */
-		OPTION,
-		/**
-		 * SPICEMERCHANT
-		 *
-		 * Request user to choose an option for the Spice Merchant card.
-		 * <p><b>needs EType.OPTION response</b></p>
-		 *
-		 * @param o has its Object[] set to SpiceMerchantOption.values()
-		 */
-		SPICEMERCHANT,
 	}
 	public EType t; // event type
 	public String s; // event string
+	public Card c; // event card
 	public boolean b; // some bool
 	public int i; // some int
 	public EventObject o; // reverence an event object (public child class)
@@ -417,6 +423,10 @@ public class Event implements Serializable{
 	}
 	public Event setString(String s) {
 		this.s = s;
+		return this;
+	}
+	public Event setCard(Card c) {
+		this.c = c;
 		return this;
 	}
 	public Event setBoolean(boolean b) {

@@ -22,6 +22,7 @@ import com.vdom.core.Player.TournamentOption;
 import com.vdom.core.Player.TrustySteedOption;
 
 public class ActionCardImpl extends CardImpl implements ActionCard {
+    private static final long serialVersionUID = 1L;
     // template (immutable)
     protected int addActions;
     protected int addBuys;

@@ -47,6 +47,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     abstract protected String selectString(MoveContext context, String header, String[] s);
+    abstract protected int selectOption(MoveContext context, Card card, Object[] options);
     abstract protected int[] orderCards(MoveContext context, int[] cards);
     abstract protected int[] orderCards(MoveContext context, int[] cards, String header);
 
@@ -524,15 +525,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
+    public SpiceMerchantOption spiceMerchant_chooseOption(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_spiceMerchant_chooseOption(context)) {
+            return super.spiceMerchant_chooseOption(context);
+        }
+        SpiceMerchantOption[] options = SpiceMerchantOption.values();
+        return options[selectOption(context, Cards.spiceMerchant, options)];
+    }
+
+    @Override
     public TorturerOption torturer_attack_chooseOption(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_torturer_attack_chooseOption(context)) {
             return super.torturer_attack_chooseOption(context);
         }
-        LinkedHashMap<String, TorturerOption> h = new LinkedHashMap<String, TorturerOption>();
-        h.put(getString(R.string.torturer_option_one), TorturerOption.TakeCurse);
-        h.put(getString(R.string.torturer_option_two), TorturerOption.DiscardTwoCards);
-
-        return h.get(selectString(context, Cards.torturer, h.keySet().toArray(new String[0])));
+        TorturerOption[] options = TorturerOption.values();
+        return options[selectOption(context, Cards.torturer, options)];
     }
 
     @Override

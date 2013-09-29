@@ -1,11 +1,13 @@
 package com.vdom.api;
 
+import java.io.Serializable;
+
 import com.vdom.core.CardImpl;
 import com.vdom.core.Cards.Type;
 import com.vdom.core.MoveContext;
 
 
-public interface Card {
+public interface Card extends Serializable {
 	public Type getType();
 
     public String getName();

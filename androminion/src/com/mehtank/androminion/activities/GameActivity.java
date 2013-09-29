@@ -481,6 +481,10 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     gt.selectCard(e.o.sco, e.s, e.i, e.b);
                     break;
 
+                case GETOPTION:  // RemotePlayer wants us to choose an option (like GETSTRING, but we have to figure out the strings first)
+                    gt.selectOption(e);
+                    break;
+
                 case GETSTRING:
                     gt.selectString(e.s, e.o.ss);
                     break;
@@ -557,9 +561,6 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     break;
                 case Success:
                     break;
-                // Card-specific events
-                case SPICEMERCHANT:
-                    gt.handleSpiceMerchant(e);
                 default:
                     break;
             }

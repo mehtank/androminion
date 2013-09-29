@@ -989,18 +989,15 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     }
 
     @Override
-    public SpiceMerchantOption spiceMerchant_chooseOption(MoveContext context) {
-        if(context.isQuickPlay() && shouldAutoPlay_spiceMerchant_chooseOption(context)) {
-            return super.spiceMerchant_chooseOption(context);
-        }
-        SpiceMerchantOption[] options = SpiceMerchantOption.values();
-        Event p = new Event(EType.SPICEMERCHANT)
+    public int selectOption(MoveContext context, Card card, Object[] options) {
+        Event p = new Event(EType.GETOPTION)
+                .setCard(card)
                 .setObject(new EventObject(options));
         p = query(context, p, EType.OPTION);
         if (p == null)
-            return null;
+            return -1;
         else
-            return options[p.i];
+            return p.i;
     }
 
     @Override
