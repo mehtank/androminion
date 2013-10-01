@@ -547,13 +547,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_steward_chooseOption(context)) {
             return super.steward_chooseOption(context);
         }
-        LinkedHashMap<String, StewardOption> h = new LinkedHashMap<String, StewardOption>();
-
-        h.put(getString(R.string.steward_option_one), StewardOption.AddCards);
-        h.put(getString(R.string.steward_option_two), StewardOption.AddGold);
-        h.put(getString(R.string.steward_option_three), StewardOption.TrashCards);
-
-        return h.get(selectString(context, Cards.steward, h.keySet().toArray(new String[0])));
+        StewardOption[] options = StewardOption.values();
+        return options[selectOption(context, Cards.steward, options)];
     }
 
     @Override
@@ -670,12 +665,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_nobles_chooseOptions(context)) {
             return super.nobles_chooseOptions(context);
         }
-        LinkedHashMap<String, NoblesOption> h = new LinkedHashMap<String, NoblesOption>();
-
-        h.put(getString(R.string.nobles_option_one), NoblesOption.AddCards);
-        h.put(getString(R.string.nobles_option_two), NoblesOption.AddActions);
-
-        return h.get(selectString(context, Cards.nobles, h.keySet().toArray(new String[0])));
+        NoblesOption[] options = NoblesOption.values();
+        return options[selectOption(context, Cards.nobles, options)];
     }
 
     // Either return two cards, or null if you do not want to trash any cards.
@@ -731,12 +722,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_minion_chooseOption(context)) {
             return super.minion_chooseOption(context);
         }
-        LinkedHashMap<String, MinionOption> h = new LinkedHashMap<String, MinionOption>();
-
-        h.put(getString(R.string.minion_option_one), MinionOption.AddGold);
-        h.put(getString(R.string.minion_option_two), MinionOption.RolloverCards);
-
-        return h.get(selectString(context, Cards.minion, h.keySet().toArray(new String[0])));
+        MinionOption[] options = MinionOption.values();
+        return options[selectOption(context, Cards.minion, options)];
     }
 
     @Override
@@ -1206,13 +1193,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_watchTower_chooseOption(context, card)) {
             return super.watchTower_chooseOption(context, card);
         }
-        LinkedHashMap<String, WatchTowerOption> h = new LinkedHashMap<String, WatchTowerOption>();
-
-        h.put(getString(R.string.watch_tower_option_one), WatchTowerOption.Normal);
-        h.put(getString(R.string.trash), WatchTowerOption.Trash);
-        h.put(getString(R.string.watch_tower_option_three), WatchTowerOption.TopOfDeck);
-
-        return h.get(selectString(context, Strings.format(R.string.watch_tower_query, getCardName(card)), h.keySet().toArray(new String[0])));
+        WatchTowerOption[] options = WatchTowerOption.values();
+        return options[selectOption(context, Cards.watchTower, options)];
     }
 
     @Override
@@ -1256,6 +1238,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_jester_chooseOption(context, targetPlayer, card)) {
             return super.jester_chooseOption(context, targetPlayer, card);
         }
+        /*
+         * TODO(matt): this one needs a little more work, because we need to pass in the player,
+         * too.
+        JesterOption[] options = JesterOption.values();
+        return options[selectOption(context, Cards.jester, options)];
+        */
 
         LinkedHashMap<String, JesterOption> h = new LinkedHashMap<String, JesterOption>();
 
@@ -1298,12 +1286,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_tournament_chooseOption(context)) {
             return super.tournament_chooseOption(context);
         }
-        LinkedHashMap<String, TournamentOption> h = new LinkedHashMap<String, TournamentOption>();
-
-        h.put(getString(R.string.tournament_option_two), TournamentOption.GainPrize);
-        h.put(getString(R.string.tournament_option_three), TournamentOption.GainDuchy);
-
-        return h.get(selectString(context, Cards.tournament, h.keySet().toArray(new String[0])));
+        TournamentOption[] options = TournamentOption.values();
+        return options[selectOption(context, Cards.tournament, options)];
     }
 
     @Override
@@ -1338,16 +1322,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_trustySteed_chooseOptions(context)) {
             return super.trustySteed_chooseOptions(context);
         }
-        LinkedHashMap<String, TrustySteedOption> h = new LinkedHashMap<String, TrustySteedOption>();
-
-        h.put(getString(R.string.trusty_steed_option_two), TrustySteedOption.AddCards);
-        h.put(getString(R.string.trusty_steed_option_one), TrustySteedOption.AddActions);
-        h.put(getString(R.string.trusty_steed_option_three), TrustySteedOption.AddGold);
-        h.put(getString(R.string.trusty_steed_option_four), TrustySteedOption.GainSilvers);
-
         TrustySteedOption[] choices = new TrustySteedOption[2];
-        choices[0] = h.remove(selectString(context, Cards.trustySteed, h.keySet().toArray(new String[0])));
-        choices[1] = h.remove(selectString(context, Cards.trustySteed, h.keySet().toArray(new String[0])));
+
+        TrustySteedOption[] options = TrustySteedOption.values();
+        int choiceOne = selectOption(context, Cards.trustySteed, options);
+        choices[0] = options[choiceOne];
+        TrustySteedOption[] secondOptions = new TrustySteedOption[options.length - 1];
+        int j = 0;
+        for (int i=0; i<options.length; i++, j++) {
+            if (i == choiceOne) {
+                i++;
+            }
+            secondOptions[j] = options[i];
+        }
+        int choiceTwo = selectOption(context, Cards.trustySteed, secondOptions);
+        choices[1] = secondOptions[choiceTwo];
         return choices;
     }
 
@@ -1797,6 +1786,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_selectPutBackOption(context, putBacks)) {
             return super.selectPutBackOption(context, putBacks);
         }
+        // TODO(matt): this one looks like it'll tricky.
         Collections.sort(putBacks);
         LinkedHashMap<String, PutBackOption> h = new LinkedHashMap<String, PutBackOption>();
         h.put(getCardName(Cards.treasury), PutBackOption.Treasury);
@@ -1839,13 +1829,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         //      if(context.isQuickPlay() && shouldAutoPlay_steward_chooseOption(context)) {
         //          return super.steward_chooseOption(context);
         //      }
-        LinkedHashMap<String, SquireOption> h = new LinkedHashMap<String, SquireOption>();
-
-        h.put(getString(R.string.squire_option_one), SquireOption.AddActions);
-        h.put(getString(R.string.squire_option_two), SquireOption.AddBuys);
-        h.put(getString(R.string.squire_option_three), SquireOption.GainSilver);
-
-        return h.get(selectString(context, Cards.squire, h.keySet().toArray(new String[0])));
+        SquireOption[] options = SquireOption.values();
+        return options[selectOption(context, Cards.squire, options)];
     }
 
     @Override
@@ -1923,24 +1908,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public CountFirstOption count_chooseFirstOption(MoveContext context) {
-        LinkedHashMap<String, CountFirstOption> h = new LinkedHashMap<String, CountFirstOption>();
-
-        h.put(getString(R.string.count_firstoption_one), CountFirstOption.Discard);
-        h.put(getString(R.string.count_firstoption_two), CountFirstOption.PutOnDeck);
-        h.put(getString(R.string.count_firstoption_three), CountFirstOption.GainCopper);
-
-        return h.get(selectString(context, Cards.count, h.keySet().toArray(new String[0])));
+        CountFirstOption[] options = CountFirstOption.values();
+        return options[selectOption(context, Cards.count, options)];
     }
 
     @Override
     public CountSecondOption count_chooseSecondOption(MoveContext context) {
-        LinkedHashMap<String, CountSecondOption> h = new LinkedHashMap<String, CountSecondOption>();
-
-        h.put(getString(R.string.count_secondoption_one), CountSecondOption.Coins);
-        h.put(getString(R.string.count_secondoption_two), CountSecondOption.TrashHand);
-        h.put(getString(R.string.count_secondoption_three), CountSecondOption.GainDuchy);
-
-        return h.get(selectString(context, Cards.count, h.keySet().toArray(new String[0])));
+        CountSecondOption[] options = CountSecondOption.values();
+        return options[selectOption(context, Cards.count, options)];
     }
 
     @Override
