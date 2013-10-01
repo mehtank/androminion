@@ -8,8 +8,18 @@ import android.content.res.Resources;
 import com.mehtank.androminion.R;
 import com.vdom.api.Card;
 import com.vdom.api.GameType;
+import com.vdom.core.Player.CountFirstOption;
+import com.vdom.core.Player.CountSecondOption;
+import com.vdom.core.Player.JesterOption;
+import com.vdom.core.Player.MinionOption;
+import com.vdom.core.Player.NoblesOption;
 import com.vdom.core.Player.SpiceMerchantOption;
+import com.vdom.core.Player.SquireOption;
+import com.vdom.core.Player.StewardOption;
 import com.vdom.core.Player.TorturerOption;
+import com.vdom.core.Player.TournamentOption;
+import com.vdom.core.Player.TrustySteedOption;
+import com.vdom.core.Player.WatchTowerOption;
 
 public class Strings {
 	@SuppressWarnings("unused")
@@ -141,7 +151,8 @@ public class Strings {
     public static String getOptionText(Object option) {
         if (option instanceof SpiceMerchantOption) {
             // Actually, if this works without a cast, and it appears that it does, we don't need
-            // the outer if-statements.  But maybe this way is a little more organized?
+            // the outer if-statements.  But maybe this way is a little more organized?  Or we
+            // could do an outer switch?  Would that be any faster?
             if (option == SpiceMerchantOption.AddCardsAndAction) {
                 return getString(R.string.spice_merchant_option_one);
             } else if (option == SpiceMerchantOption.AddGoldAndBuy) {
@@ -152,6 +163,83 @@ public class Strings {
                 return getString(R.string.torturer_option_one);
             } else if (option == TorturerOption.DiscardTwoCards) {
                 return getString(R.string.torturer_option_two);
+            }
+        } else if (option instanceof StewardOption) {
+            if (option == StewardOption.AddCards) {
+                return getString(R.string.steward_option_one);
+            } else if (option == StewardOption.AddGold) {
+                return getString(R.string.steward_option_two);
+            } else if (option == StewardOption.TrashCards) {
+                return getString(R.string.steward_option_three);
+            }
+        } else if (option instanceof NoblesOption) {
+            if (option == NoblesOption.AddCards) {
+                return getString(R.string.nobles_option_one);
+            } else if (option == NoblesOption.AddActions) {
+                return getString(R.string.nobles_option_two);
+            }
+        } else if (option instanceof MinionOption) {
+            if (option == MinionOption.AddGold) {
+                return getString(R.string.minion_option_one);
+            } else if (option == MinionOption.RolloverCards) {
+                return getString(R.string.minion_option_two);
+            }
+        } else if (option instanceof WatchTowerOption) {
+            if (option == WatchTowerOption.Normal) {
+                return getString(R.string.watch_tower_option_one);
+            } else if (option == WatchTowerOption.Trash) {
+                return getString(R.string.trash);
+            } else if (option == WatchTowerOption.TopOfDeck) {
+                return getString(R.string.watch_tower_option_three);
+            }
+        } else if (option instanceof JesterOption) {
+            if (option == JesterOption.GainCopy) {
+                return getString(R.string.jester_option_one);
+            } else if (option == JesterOption.GiveCopy) {
+                /*
+                 * TODO(matt): figure out the right API to make this work
+                return format(R.string.jester_option_two, targetPlayer.getPlayerName());
+                 */
+            }
+        } else if (option instanceof TournamentOption) {
+            if (option == TournamentOption.GainPrize) {
+                return getString(R.string.tournament_option_two);
+            } else if (option == TournamentOption.GainDuchy) {
+                return getString(R.string.tournament_option_three);
+            }
+        } else if (option instanceof TrustySteedOption) {
+            if (option == TrustySteedOption.AddActions) {
+                return getString(R.string.trusty_steed_option_one);
+            } else if (option == TrustySteedOption.AddCards) {
+                return getString(R.string.trusty_steed_option_two);
+            } else if (option == TrustySteedOption.AddGold) {
+                return getString(R.string.trusty_steed_option_three);
+            } else if (option == TrustySteedOption.GainSilvers) {
+                return getString(R.string.trusty_steed_option_four);
+            }
+        } else if (option instanceof SquireOption) {
+            if (option == SquireOption.AddActions) {
+                return getString(R.string.squire_option_one);
+            } else if (option == SquireOption.AddBuys) {
+                return getString(R.string.squire_option_two);
+            } else if (option == SquireOption.GainSilver) {
+                return getString(R.string.squire_option_three);
+            }
+        } else if (option instanceof CountFirstOption) {
+            if (option == CountFirstOption.Discard) {
+                return getString(R.string.count_firstoption_one);
+            } else if (option == CountFirstOption.PutOnDeck) {
+                return getString(R.string.count_firstoption_two);
+            } else if (option == CountFirstOption.GainCopper) {
+                return getString(R.string.count_firstoption_three);
+            }
+        } else if (option instanceof CountSecondOption) {
+            if (option == CountSecondOption.Coins) {
+                return getString(R.string.count_secondoption_one);
+            } else if (option == CountSecondOption.TrashHand) {
+                return getString(R.string.count_secondoption_two);
+            } else if (option == CountSecondOption.GainDuchy) {
+                return getString(R.string.count_secondoption_three);
             }
         }
         throw new RuntimeException("I got passed an option object that I don't understand!");
