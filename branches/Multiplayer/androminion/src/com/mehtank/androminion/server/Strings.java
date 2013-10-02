@@ -10,9 +10,13 @@ import com.vdom.api.Card;
 import com.vdom.api.GameType;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
+import com.vdom.core.Player.GovernorOption;
+import com.vdom.core.Player.GraverobberOption;
+import com.vdom.core.Player.HuntingGroundsOption;
 import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.MinionOption;
 import com.vdom.core.Player.NoblesOption;
+import com.vdom.core.Player.PawnOption;
 import com.vdom.core.Player.SpiceMerchantOption;
 import com.vdom.core.Player.SquireOption;
 import com.vdom.core.Player.StewardOption;
@@ -240,6 +244,36 @@ public class Strings {
                 return getString(R.string.count_secondoption_two);
             } else if (option == CountSecondOption.GainDuchy) {
                 return getString(R.string.count_secondoption_three);
+            }
+        } else if (option instanceof GraverobberOption) {
+            if (option == GraverobberOption.GainFromTrash) {
+                return getString(R.string.graverobber_option_one);
+            } else if (option == GraverobberOption.TrashActionCard) {
+                return getString(R.string.graverobber_option_two);
+            }
+        } else if (option instanceof HuntingGroundsOption) {
+            if (option == HuntingGroundsOption.GainDuchy) {
+                return getString(R.string.hunting_grounds_option_one);
+            } else if (option == HuntingGroundsOption.GainEstates) {
+                return getString(R.string.hunting_grounds_option_two);
+            }
+        } else if (option instanceof GovernorOption) {
+            if (option == GovernorOption.AddCards) {
+                return getString(R.string.governor_option_one);
+            } else if (option == GovernorOption.GainTreasure) {
+                return getString(R.string.governor_option_two);
+            } else if (option == GovernorOption.Upgrade) {
+                return getString(R.string.governor_option_three);
+            }
+        } else if (option instanceof PawnOption) {
+            if (option == PawnOption.AddCard) {
+                return getString(R.string.pawn_one);
+            } else if (option == PawnOption.AddAction) {
+                return getString(R.string.pawn_two);
+            } else if (option == PawnOption.AddBuy) {
+                return getString(R.string.pawn_three);
+            } else if (option == PawnOption.AddGold) {
+                return getString(R.string.pawn_four);
             }
         }
         throw new RuntimeException("I got passed an option object that I don't understand!");

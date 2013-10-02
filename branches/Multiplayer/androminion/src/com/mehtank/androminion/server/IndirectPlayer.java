@@ -507,21 +507,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_pawn_chooseOptions(context)) {
             return super.pawn_chooseOptions(context);
         }
-        PawnOption[] os = new PawnOption[2];
+        // There's probably some code that could be shared between this and the Trusty Steed
+        // method, though it would be better if there were some Option superclass that I could use
+        // instead of Object.
+        PawnOption[] choices = new PawnOption[2];
 
-        LinkedHashMap<String, PawnOption> h = new LinkedHashMap<String, PawnOption>();
-
-        h.put(getString(R.string.pawn_one), PawnOption.AddCard);
-        h.put(getString(R.string.pawn_two), PawnOption.AddAction);
-        h.put(getString(R.string.pawn_three), PawnOption.AddBuy);
-        h.put(getString(R.string.pawn_four), PawnOption.AddGold);
-
-        String o1 = selectString(context, getString(R.string.pawn_option_one), h.keySet().toArray(new String[0]));
-        os[0] = h.get(o1);
-        h.remove(o1);
-        String o2 = selectString(context, getString(R.string.pawn_option_one), h.keySet().toArray(new String[0]));
-        os[1] = h.get(o2);
-        return os;
+        PawnOption[] options = PawnOption.values();
+        int choiceOne = selectOption(context, Cards.pawn, options);
+        choices[0] = options[choiceOne];
+        PawnOption[] secondOptions = new PawnOption[options.length - 1];
+        int j = 0;
+        for (int i=0; i<options.length; i++, j++) {
+            if (i == choiceOne) {
+                i++;
+            }
+            secondOptions[j] = options[i];
+        }
+        int choiceTwo = selectOption(context, Cards.pawn, secondOptions);
+        choices[1] = secondOptions[choiceTwo];
+        return choices;
     }
 
     @Override
@@ -1953,18 +1957,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public GraverobberOption graverobber_chooseOption(MoveContext context) {
-        LinkedHashMap<String, GraverobberOption> h = new LinkedHashMap<String, GraverobberOption>();
-
-        h.put(getString(R.string.graverobber_option_one), GraverobberOption.GainFromTrash);
-        h.put(getString(R.string.graverobber_option_two), GraverobberOption.TrashActionCard);
-
-        return h.get(selectString(context, Cards.graverobber, h.keySet().toArray(new String[0])));
+        GraverobberOption[] options = GraverobberOption.values();
+        return options[selectOption(context, Cards.graverobber, options)];
     }
 
     @Override
     public Card graverobber_cardToGainFromTrash(MoveContext context) {
         LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-        ArrayList<Card> options = new ArrayList<Card>(); 
+        ArrayList<Card> options = new ArrayList<Card>();
 
         for (Card c : game.trashPile) {
             if (c.getCost(context) >= 3 && c.getCost(context) <= 6)
@@ -2002,12 +2002,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context) {
-        LinkedHashMap<String, HuntingGroundsOption> h = new LinkedHashMap<String, HuntingGroundsOption>();
-
-        h.put(getString(R.string.hunting_grounds_option_one), HuntingGroundsOption.GainDuchy);
-        h.put(getString(R.string.hunting_grounds_option_two), HuntingGroundsOption.GainEstates);
-
-        return h.get(selectString(context, Cards.huntingGrounds, h.keySet().toArray(new String[0])));
+        HuntingGroundsOption[] options = HuntingGroundsOption.values();
+        return options[selectOption(context, Cards.huntingGrounds, options)];
     }
 
     @Override
@@ -2217,14 +2213,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public GovernorOption governor_chooseOption(MoveContext context) {
-
-        LinkedHashMap<String, GovernorOption> h = new LinkedHashMap<String, GovernorOption>();
-
-        h.put(getString(R.string.governor_option_one), GovernorOption.AddCards);
-        h.put(getString(R.string.governor_option_two), GovernorOption.GainTreasure);
-        h.put(getString(R.string.governor_option_three), GovernorOption.Upgrade);
-
-        return h.get(selectString(context, Cards.governor, h.keySet().toArray(new String[0])));
+        GovernorOption[] options = GovernorOption.values();
+        return options[selectOption(context, Cards.governor, options)];
     }
 
     @Override
@@ -2569,8 +2559,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card) 
-    {
+    public DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card) {
+        /*
+         * TODO(matt): this needs to be done like Jester, whenever I figure that card out.
+        DoctorOverpayOption[] options = DoctorOverpayOption.values();
+        return options[selectOption(context, Cards.doctor, options)];
+        */
         LinkedHashMap<String, DoctorOverpayOption> optionMap = new LinkedHashMap<String, DoctorOverpayOption>();
 
         optionMap.put(getString(R.string.doctor_overpay_option_one),   DoctorOverpayOption.TrashIt);
