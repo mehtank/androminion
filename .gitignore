@@ -3,3 +3,4 @@ project.properties
 !Androminion.apk
 !/bin/Androminion.apk
 */gen
+*.swp
