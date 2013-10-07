@@ -206,41 +206,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             // Only one card available and player can't pass...go ahead and return
             return intToCard(sco.allowedCards.get(0));
         }
-
-        String minCostString = (sco.minCost <= 0) ? "" : "" + sco.minCost;
-        String maxCostString = (sco.maxCost == Integer.MAX_VALUE) ? "" : "" + sco.maxCost + sco.potionString();
-        String selectString;
-
-        if (sco.fromPrizes)
-            selectString = header;
-        else if (sco.minCost == sco.maxCost) {
-            if (sco.isAttack) {
-                selectString = Strings.format(R.string.select_from_table_attack, maxCostString, header);
-            } else if (sco.isAction) {
-                selectString = Strings.format(R.string.select_from_table_exact_action, maxCostString, header);
-            } else {
-                selectString = Strings.format(R.string.select_from_table_exact, maxCostString, header);
-            }
-        } else if (sco.minCost <= 0 && sco.maxCost < Integer.MAX_VALUE) {
-            if (sco.isVictory) {
-                selectString = Strings.format(R.string.select_from_table_max_vp, maxCostString, header);
-            } else if (sco.isNonVictory) {
-                selectString = Strings.format(R.string.select_from_table_max_non_vp, maxCostString, header);
-            } else if (sco.isTreasure) {
-                selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
-            } else if (sco.isAction) {
-                selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
-            } else {
-                selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
-            }
-        } else if (sco.minCost > 0 && sco.maxCost < Integer.MAX_VALUE) {
-            selectString = Strings.format(R.string.select_from_table_between, minCostString, maxCostString, header);
-        } else if (sco.minCost > 0) {
-            selectString = Strings.format(R.string.select_from_table_min, minCostString + sco.potionString(), header);
-        } else {
-            selectString = Strings.format(R.string.select_from_table, header);
-        }
-        return pickACard(context, selectString, sco);
+        return pickACard(context, header, sco);
     }
 
     public int selectInt(MoveContext context, String header, int maxInt, int errVal) {

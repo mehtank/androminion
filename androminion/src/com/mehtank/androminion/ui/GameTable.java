@@ -592,7 +592,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         this.maxOpened = maxOpened;
         this.exactOpened = exactOpened;
 
-        prompt = s;
+        prompt = Strings.getSelectCardText(sco, s);
 
         firstPass = false;
         resetButtons();
@@ -600,6 +600,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         HapticFeedback.vibrate(getContext(),AlertType.SELECT);
         select.setVisibility(VISIBLE);
         if (sco.isPassable()) {
+            // TODO(matt): What is this?  A couple of quick greps seem to say this is dead code.
             pass.setVisibility(VISIBLE);
             pass.setText(sco.passString);
         } else
