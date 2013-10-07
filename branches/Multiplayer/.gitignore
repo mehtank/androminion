@@ -1,6 +1,10 @@
 project.properties
-*/bin
+local.properties
 !Androminion.apk
 !/bin/Androminion.apk
+vdom/classes/
+vdom/vdom.jar
+androminion/libs/vdom.jar
+*/bin
 */gen
 *.swp
