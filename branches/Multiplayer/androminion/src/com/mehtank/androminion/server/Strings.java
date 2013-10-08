@@ -9,6 +9,7 @@ import com.mehtank.androminion.R;
 import com.vdom.api.Card;
 import com.vdom.api.GameType;
 import com.vdom.comms.SelectCardOptions;
+import com.vdom.core.Cards;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
 import com.vdom.core.Player.GovernorOption;
@@ -286,35 +287,84 @@ public class Strings {
                 "" : "" + sco.maxCost + sco.potionString();
         String selectString;
 
-        if (sco.fromPrizes)
-            selectString = header;
-        else if (sco.minCost == sco.maxCost) {
-            if (sco.isAttack) {
-                selectString = Strings.format(R.string.select_from_table_attack, maxCostString, header);
-            } else if (sco.isAction) {
-                selectString = Strings.format(R.string.select_from_table_exact_action, maxCostString, header);
+        if (sco.fromTable) {
+            if (sco.fromPrizes)
+                selectString = header;
+            else if (sco.minCost == sco.maxCost) {
+                if (sco.isAttack) {
+                    selectString = Strings.format(R.string.select_from_table_attack, maxCostString, header);
+                } else if (sco.isAction) {
+                    selectString = Strings.format(R.string.select_from_table_exact_action, maxCostString, header);
+                } else {
+                    selectString = Strings.format(R.string.select_from_table_exact, maxCostString, header);
+                }
+            } else if (sco.minCost <= 0 && sco.maxCost < Integer.MAX_VALUE) {
+                if (sco.isVictory) {
+                    selectString = Strings.format(R.string.select_from_table_max_vp, maxCostString, header);
+                } else if (sco.isNonVictory) {
+                    selectString = Strings.format(R.string.select_from_table_max_non_vp, maxCostString, header);
+                } else if (sco.isTreasure) {
+                    selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
+                } else if (sco.isAction) {
+                    selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
+                } else {
+                    selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
+                }
+            } else if (sco.minCost > 0 && sco.maxCost < Integer.MAX_VALUE) {
+                selectString = Strings.format(R.string.select_from_table_between, minCostString, maxCostString, header);
+            } else if (sco.minCost > 0) {
+                selectString = Strings.format(R.string.select_from_table_min, minCostString + sco.potionString(), header);
             } else {
-                selectString = Strings.format(R.string.select_from_table_exact, maxCostString, header);
+                selectString = Strings.format(R.string.select_from_table, header);
             }
-        } else if (sco.minCost <= 0 && sco.maxCost < Integer.MAX_VALUE) {
-            if (sco.isVictory) {
-                selectString = Strings.format(R.string.select_from_table_max_vp, maxCostString, header);
-            } else if (sco.isNonVictory) {
-                selectString = Strings.format(R.string.select_from_table_max_non_vp, maxCostString, header);
+            return selectString;
+        } else if (sco.fromHand) {
+            String str = "";
+            if (sco.isAction) {
+                if(sco.count == 1)
+                    str = Strings.format(R.string.select_one_action_from_hand, header);
+                else if(sco.exactCount)
+                    str = Strings.format(R.string.select_exactly_x_actions_from_hand, "" + sco.count, header);
+                else
+                    str = Strings.format(R.string.select_up_to_x_actions_from_hand, "" + sco.count, header);
             } else if (sco.isTreasure) {
-                selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
-            } else if (sco.isAction) {
-                selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
+                if(sco.count == 1)
+                    str = Strings.format(R.string.select_one_treasure_from_hand, header);
+                else if(sco.exactCount)
+                    str = Strings.format(R.string.select_exactly_x_treasures_from_hand, "" + sco.count, header);
+                else
+                    str = Strings.format(R.string.select_up_to_x_treasures_from_hand, "" + sco.count, header);
+            } else if (sco.isVictory) {
+                if(sco.count == 1)
+                    str = Strings.format(R.string.select_one_victory_from_hand, header);
+                else if(sco.exactCount)
+                    str = Strings.format(R.string.select_exactly_x_victorys_from_hand, "" + sco.count, header);
+                else
+                    str = Strings.format(R.string.select_up_to_x_victorys_from_hand, "" + sco.count, header);
+            } else if (sco.isNonTreasure) {
+                if(sco.count == 1)
+                    str = Strings.format(R.string.select_one_nontreasure_from_hand, header);
+                else if(sco.exactCount)
+                    str = Strings.format(R.string.select_exactly_x_nontreasures_from_hand, "" + sco.count, header);
+                else
+                    str = Strings.format(R.string.select_up_to_x_nontreasures_from_hand, "" + sco.count, header);
             } else {
-                selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
+                if(sco.count == 1)
+                    str = Strings.format(R.string.select_one_card_from_hand, header);
+                else if(sco.exactCount)
+                    str = Strings.format(R.string.select_exactly_x_cards_from_hand, "" + sco.count, header);
+                else
+                    str = Strings.format(R.string.select_up_to_x_cards_from_hand, "" + sco.count, header);
             }
-        } else if (sco.minCost > 0 && sco.maxCost < Integer.MAX_VALUE) {
-            selectString = Strings.format(R.string.select_from_table_between, minCostString, maxCostString, header);
-        } else if (sco.minCost > 0) {
-            selectString = Strings.format(R.string.select_from_table_min, minCostString + sco.potionString(), header);
-        } else {
-            selectString = Strings.format(R.string.select_from_table, header);
+            return str;
         }
-        return selectString;
+        throw new RuntimeException("SelectCardOptions isn't from table or from hand...");
+    }
+
+    public static String getActionCardText(SelectCardOptions sco) {
+        if (sco.cardResponsible == Cards.militia) {
+            return getString(R.string.militia_part);
+        }
+        throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
     }
 }

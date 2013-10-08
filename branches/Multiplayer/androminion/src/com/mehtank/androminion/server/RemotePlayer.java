@@ -973,6 +973,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         else
             return intArrToCardArr(p.o.is);
     }
+
     @Override
     public String selectString(MoveContext context, String header, String[] s) {
         //	    if(header != null && !header.equals("")) {
