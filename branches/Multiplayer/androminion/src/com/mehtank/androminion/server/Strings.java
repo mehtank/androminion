@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 
 import com.mehtank.androminion.R;
 import com.vdom.api.Card;
@@ -362,7 +363,12 @@ public class Strings {
     }
 
     public static String getActionCardText(SelectCardOptions sco) {
-        if (sco.cardResponsible == Cards.militia) {
+        // We can't test for object equality with, e.g., Cards.militia here, because the object was
+        // originally created in another process, possibly on a separate machine, serialized, sent
+        // over a network, and then deserialized.  So we check for name equality as a decent
+        // alternative (it's significantly slower, but still fast enough that it shouldn't be an
+        // issue).
+        if (getCardName(sco.cardResponsible).equals(getCardName(Cards.militia))) {
             return getString(R.string.militia_part);
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
