@@ -47,6 +47,8 @@ public class SelectCardOptions implements Serializable {
     }
 
     public PickType pickType = PickType.SELECT;
+    public ActionType actionType = null;
+    public Card cardResponsible = null;
 
     public int defaultCardSelected = -1;
     public boolean fromHand = false;
@@ -81,6 +83,8 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions setHeader(String s) {header = s; return this;}
     public SelectCardOptions setPassable(String s) {passString = s; return this;}
     public SelectCardOptions setPickType(PickType pickType) {this.pickType = pickType;return this;}
+    public SelectCardOptions setActionType(ActionType actionType) {this.actionType = actionType;return this;}
+    public SelectCardOptions setCardResponsible(Card card) {this.cardResponsible = card;return this;}
     public SelectCardOptions fromHand() {fromHand = true; return this;}
     public SelectCardOptions defaultCardSelected(int c) {defaultCardSelected = c; return this;}
     public SelectCardOptions isNonShelter() {isNonShelter = true; return this;}

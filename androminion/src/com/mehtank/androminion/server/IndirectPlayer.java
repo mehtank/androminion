@@ -128,45 +128,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         else if (sco.allowedCards.size() == 1 || (sco.isAction && Collections.frequency(sco.allowedCards, sco.allowedCards.get(0)) == sco.allowedCards.size()))
             sco.defaultCardSelected = sco.allowedCards.get(0);
 
-        String str = "";
-        if (sco.isAction) {
-            if(sco.count == 1)
-                str = Strings.format(R.string.select_one_action_from_hand, header);
-            else if(sco.exactCount)
-                str = Strings.format(R.string.select_exactly_x_actions_from_hand, "" + sco.count, header);
-            else
-                str = Strings.format(R.string.select_up_to_x_actions_from_hand, "" + sco.count, header);
-        } else if (sco.isTreasure) {
-            if(sco.count == 1)
-                str = Strings.format(R.string.select_one_treasure_from_hand, header);
-            else if(sco.exactCount)
-                str = Strings.format(R.string.select_exactly_x_treasures_from_hand, "" + sco.count, header);
-            else
-                str = Strings.format(R.string.select_up_to_x_treasures_from_hand, "" + sco.count, header);
-        } else if (sco.isVictory) {
-            if(sco.count == 1)
-                str = Strings.format(R.string.select_one_victory_from_hand, header);
-            else if(sco.exactCount)
-                str = Strings.format(R.string.select_exactly_x_victorys_from_hand, "" + sco.count, header);
-            else
-                str = Strings.format(R.string.select_up_to_x_victorys_from_hand, "" + sco.count, header);
-        } else if (sco.isNonTreasure) {
-            if(sco.count == 1)
-                str = Strings.format(R.string.select_one_nontreasure_from_hand, header);
-            else if(sco.exactCount)
-                str = Strings.format(R.string.select_exactly_x_nontreasures_from_hand, "" + sco.count, header);
-            else
-                str = Strings.format(R.string.select_up_to_x_nontreasures_from_hand, "" + sco.count, header);
-        } else {
-            if(sco.count == 1)
-                str = Strings.format(R.string.select_one_card_from_hand, header);
-            else if(sco.exactCount)
-                str = Strings.format(R.string.select_exactly_x_cards_from_hand, "" + sco.count, header);
-            else
-                str = Strings.format(R.string.select_up_to_x_cards_from_hand, "" + sco.count, header);
-        }
-
-        Card[] tempCards = pickCards(context, str, sco, sco.count, sco.exactCount);
+        Card[] tempCards = pickCards(context, header, sco, sco.count, sco.exactCount);
         if (tempCards == null)
             return null;
 
@@ -401,8 +363,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_militia_attack_cardsToKeep(context)) {
             return super.militia_attack_cardsToKeep(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount().setPickType(PickType.KEEP);
-        return getFromHand(context, getString(R.string.militia_part), sco);
+        SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount().setPickType(PickType.KEEP).setCardResponsible(Cards.militia);
+        return getFromHand(context, null, sco);
     }
 
     @Override

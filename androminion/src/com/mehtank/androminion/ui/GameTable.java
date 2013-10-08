@@ -592,6 +592,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         this.maxOpened = maxOpened;
         this.exactOpened = exactOpened;
 
+        if (s == null) {
+            // TODO(matt): maybe these methods could be named better...
+            s = Strings.getActionCardText(sco);
+        }
         prompt = Strings.getSelectCardText(sco, s);
 
         firstPass = false;
