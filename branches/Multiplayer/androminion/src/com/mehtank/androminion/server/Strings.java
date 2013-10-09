@@ -1,15 +1,19 @@
 package com.mehtank.androminion.server;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 
 import com.mehtank.androminion.R;
 import com.vdom.api.Card;
 import com.vdom.api.GameType;
 import com.vdom.comms.SelectCardOptions;
+import com.vdom.comms.SelectCardOptions.ActionType;
+import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.Cards;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
@@ -362,14 +366,64 @@ public class Strings {
         throw new RuntimeException("SelectCardOptions isn't from table or from hand...");
     }
 
+    public static String getActionString(ActionType action, Card cardResponsible) {
+        return getActionString(action, cardResponsible, null);
+    }
+
+    public static String getActionString(ActionType action, Card cardResponsible, String opponentName) {
+        switch (action) {
+            case DISCARD: return Strings.format(R.string.card_to_discard, getCardName(cardResponsible));
+            case DISCARDFORCARD: return Strings.format(R.string.card_to_discard_for_card, getCardName(cardResponsible));
+            case DISCARDFORCOIN: return Strings.format(R.string.card_to_discard_for_coin, getCardName(cardResponsible));
+            case REVEAL: return Strings.format(R.string.card_to_reveal, getCardName(cardResponsible));
+            case GAIN: return Strings.format(R.string.card_to_gain, getCardName(cardResponsible));
+            case TRASH: return Strings.format(R.string.card_to_trash, getCardName(cardResponsible));
+            case NAMECARD: return Strings.format(R.string.card_to_name, getCardName(cardResponsible));
+            case OPPONENTDISCARD: return Strings.format(R.string.opponent_discard, opponentName, getCardName(cardResponsible));
+        }
+        return null;
+    }
+
+    public static Set<String> simpleActionStrings = new HashSet<String>(Arrays.asList(
+            getCardName(Cards.cellar),
+            getCardName(Cards.chapel),
+            getCardName(Cards.feast),
+            getCardName(Cards.ironworks),
+            getCardName(Cards.remodel),
+            getCardName(Cards.secretChamber),
+            getCardName(Cards.steward),
+            getCardName(Cards.torturer),
+            getCardName(Cards.workshop)
+            ));
+
     public static String getActionCardText(SelectCardOptions sco) {
         // We can't test for object equality with, e.g., Cards.militia here, because the object was
         // originally created in another process, possibly on a separate machine, serialized, sent
         // over a network, and then deserialized.  So we check for name equality as a decent
         // alternative (it's significantly slower, but still fast enough that it shouldn't be an
         // issue).
-        if (getCardName(sco.cardResponsible).equals(getCardName(Cards.militia))) {
+        if (simpleActionStrings.contains(getCardName(sco.cardResponsible))) {
+            return getActionString(sco.actionType, sco.cardResponsible);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.militia))) {
             return getString(R.string.militia_part);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.mine))) {
+            if (sco.pickType == PickType.UPGRADE) {
+                return getCardName(Cards.mine);
+            } else {
+                return getString(R.string.mine_part);
+            }
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.swindler))) {
+            return Strings.format(R.string.swindler_part,
+                                  "" + sco.maxCost + (sco.potionCost == 0 ? "" : "p"));
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.courtyard))) {
+            return Strings.format(R.string.courtyard_part_top_of_deck,
+                                  getCardName(Cards.courtyard));
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.masquerade))) {
+            if (sco.pickType == PickType.GIVE) {
+                return getString(R.string.masquerade_part);
+            } else {
+                return getActionString(sco.actionType, sco.cardResponsible);
+            }
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
     }
