@@ -385,14 +385,24 @@ public class Strings {
     }
 
     public static Set<String> simpleActionStrings = new HashSet<String>(Arrays.asList(
+            getCardName(Cards.ambassador),
+            getCardName(Cards.apprentice),
             getCardName(Cards.cellar),
             getCardName(Cards.chapel),
+            getCardName(Cards.expand),
             getCardName(Cards.feast),
+            getCardName(Cards.forge),
             getCardName(Cards.ironworks),
             getCardName(Cards.remodel),
+            getCardName(Cards.salvager),
             getCardName(Cards.secretChamber),
             getCardName(Cards.steward),
+            getCardName(Cards.tradeRoute),
+            getCardName(Cards.tradingPost),
+            getCardName(Cards.transmute),
             getCardName(Cards.torturer),
+            getCardName(Cards.upgrade),
+            getCardName(Cards.warehouse),
             getCardName(Cards.workshop)
             ));
 
@@ -405,6 +415,8 @@ public class Strings {
         if (simpleActionStrings.contains(getCardName(sco.cardResponsible))) {
             return getActionString(sco.actionType, sco.cardResponsible);
         } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.militia))) {
+            // TODO(matt): maybe there's a good way to create a map, or something, for all of these
+            // that just need [card]_part?
             return getString(R.string.militia_part);
         } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.mine))) {
             if (sco.pickType == PickType.UPGRADE) {
@@ -423,6 +435,44 @@ public class Strings {
                 return getString(R.string.masquerade_part);
             } else {
                 return getActionString(sco.actionType, sco.cardResponsible);
+            }
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.bureaucrat))) {
+            return getString(R.string.bureaucrat_part);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.saboteur))) {
+            return getString(R.string.saboteur_part);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.secretChamber))) {
+            return getString(R.string.secretchamber_part);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.ghostShip))) {
+            return getString(R.string.ghostship_part);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.goons))) {
+            return getString(R.string.goons_part);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.island))) {
+            return getCardName(Cards.island);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.haven))) {
+            return getCardName(Cards.haven);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.kingsCourt))) {
+            return getCardName(Cards.kingsCourt);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.mint))) {
+            return getCardName(Cards.mint);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.throneRoom))) {
+            return getCardName(Cards.throneRoom);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.embargo))) {
+            return getCardName(Cards.embargo);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.contraband))) {
+            return getCardName(Cards.contraband);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.university))) {
+            return getString(R.string.university_part);
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.bishop))) {
+            if (sco.actionType == ActionType.TRASH) {
+                return getActionString(sco.actionType, sco.cardResponsible);
+            } else {
+                return getString(R.string.bishop_part);
+            }
+        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.vault))) {
+            if (sco.count == 2) {
+                return getString(R.string.vault_part_discard_for_card);
+            } else {
+                return getString(R.string.vault_part_discard_for_gold);
             }
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
