@@ -3,6 +3,7 @@ package com.mehtank.androminion.server;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import android.content.Context;
@@ -406,69 +407,67 @@ public class Strings {
             getCardName(Cards.workshop)
             ));
 
+    public static Map<String, String> actionStringMap = new HashMap<String, String>();
+    static {
+        actionStringMap.put(getCardName(Cards.bureaucrat), getString(R.string.bureaucrat_part));
+        actionStringMap.put(getCardName(Cards.courtyard),
+                            Strings.format(R.string.courtyard_part_top_of_deck,
+                                           getCardName(Cards.courtyard)));
+        actionStringMap.put(getCardName(Cards.contraband), getCardName(Cards.contraband));
+        actionStringMap.put(getCardName(Cards.embargo), getCardName(Cards.embargo));
+        actionStringMap.put(getCardName(Cards.ghostShip), getString(R.string.ghostship_part));
+        actionStringMap.put(getCardName(Cards.goons), getString(R.string.goons_part));
+        actionStringMap.put(getCardName(Cards.haven), getCardName(Cards.haven));
+        actionStringMap.put(getCardName(Cards.island), getCardName(Cards.island));
+        actionStringMap.put(getCardName(Cards.kingsCourt), getCardName(Cards.kingsCourt));
+        actionStringMap.put(getCardName(Cards.militia), getString(R.string.militia_part));
+        actionStringMap.put(getCardName(Cards.mint), getCardName(Cards.mint));
+        actionStringMap.put(getCardName(Cards.saboteur), getString(R.string.saboteur_part));
+        actionStringMap.put(getCardName(Cards.secretChamber), getString(R.string.secretchamber_part));
+        actionStringMap.put(getCardName(Cards.throneRoom), getCardName(Cards.throneRoom));
+        actionStringMap.put(getCardName(Cards.university), getString(R.string.university_part));
+    }
+
     public static String getActionCardText(SelectCardOptions sco) {
         // We can't test for object equality with, e.g., Cards.militia here, because the object was
         // originally created in another process, possibly on a separate machine, serialized, sent
-        // over a network, and then deserialized.  So we check for name equality as a decent
-        // alternative (it's significantly slower, but still fast enough that it shouldn't be an
-        // issue).
-        if (simpleActionStrings.contains(getCardName(sco.cardResponsible))) {
+        // over a network, and then deserialized.  So we use the card name string throughout this
+        // method.
+        String cardName = getCardName(sco.cardResponsible);
+        if (simpleActionStrings.contains(cardName)) {
             return getActionString(sco.actionType, sco.cardResponsible);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.militia))) {
-            // TODO(matt): maybe there's a good way to create a map, or something, for all of these
-            // that just need [card]_part?
-            return getString(R.string.militia_part);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.mine))) {
+        }
+
+        String actionString = actionStringMap.get(cardName);
+        if (actionString != null) {
+            return actionString;
+        }
+
+        // Here we just have special cases, where there is more than one possible string for a
+        // particular card, and the difference isn't captured in the action type, or we need to
+        // include some dynamic information from the select card options in the string.
+        if (cardName.equals(getCardName(Cards.mine))) {
             if (sco.pickType == PickType.UPGRADE) {
                 return getCardName(Cards.mine);
             } else {
                 return getString(R.string.mine_part);
             }
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.swindler))) {
+        } else if (cardName.equals(getCardName(Cards.swindler))) {
             return Strings.format(R.string.swindler_part,
                                   "" + sco.maxCost + (sco.potionCost == 0 ? "" : "p"));
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.courtyard))) {
-            return Strings.format(R.string.courtyard_part_top_of_deck,
-                                  getCardName(Cards.courtyard));
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.masquerade))) {
+        } else if (cardName.equals(getCardName(Cards.masquerade))) {
             if (sco.pickType == PickType.GIVE) {
                 return getString(R.string.masquerade_part);
             } else {
                 return getActionString(sco.actionType, sco.cardResponsible);
             }
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.bureaucrat))) {
-            return getString(R.string.bureaucrat_part);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.saboteur))) {
-            return getString(R.string.saboteur_part);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.secretChamber))) {
-            return getString(R.string.secretchamber_part);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.ghostShip))) {
-            return getString(R.string.ghostship_part);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.goons))) {
-            return getString(R.string.goons_part);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.island))) {
-            return getCardName(Cards.island);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.haven))) {
-            return getCardName(Cards.haven);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.kingsCourt))) {
-            return getCardName(Cards.kingsCourt);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.mint))) {
-            return getCardName(Cards.mint);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.throneRoom))) {
-            return getCardName(Cards.throneRoom);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.embargo))) {
-            return getCardName(Cards.embargo);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.contraband))) {
-            return getCardName(Cards.contraband);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.university))) {
-            return getString(R.string.university_part);
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.bishop))) {
+        } else if (cardName.equals(getCardName(Cards.bishop))) {
             if (sco.actionType == ActionType.TRASH) {
                 return getActionString(sco.actionType, sco.cardResponsible);
             } else {
                 return getString(R.string.bishop_part);
             }
-        } else if (getCardName(sco.cardResponsible).equals(getCardName(Cards.vault))) {
+        } else if (cardName.equals(getCardName(Cards.vault))) {
             if (sco.count == 2) {
                 return getString(R.string.vault_part_discard_for_card);
             } else {
