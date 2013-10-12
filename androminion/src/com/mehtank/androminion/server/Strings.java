@@ -372,6 +372,10 @@ public class Strings {
     }
 
     public static String getActionString(ActionType action, Card cardResponsible, String opponentName) {
+        // TODO(matt): ActionType seems mostly to be redundant with PickType in the
+        // SelectCardOptions.  Just in terms of cleaning up the code, it would probably be nice to
+        // remove one of them (probably ActionType).  But that's not necessary for the multiplayer
+        // stuff, so I'll leave it for later.
         switch (action) {
             case DISCARD: return Strings.format(R.string.card_to_discard, getCardName(cardResponsible));
             case DISCARDFORCARD: return Strings.format(R.string.card_to_discard_for_card, getCardName(cardResponsible));
@@ -386,25 +390,45 @@ public class Strings {
     }
 
     public static Set<String> simpleActionStrings = new HashSet<String>(Arrays.asList(
+            getCardName(Cards.altar),
             getCardName(Cards.ambassador),
             getCardName(Cards.apprentice),
+            getCardName(Cards.armory),
+            getCardName(Cards.borderVillage),
+            getCardName(Cards.catacombs),
             getCardName(Cards.cellar),
             getCardName(Cards.chapel),
+            getCardName(Cards.develop),
+            getCardName(Cards.embassy),
             getCardName(Cards.expand),
+            getCardName(Cards.farmland),
             getCardName(Cards.feast),
             getCardName(Cards.forge),
+            getCardName(Cards.haggler),
+            getCardName(Cards.hornOfPlenty),
+            getCardName(Cards.horseTraders),
+            getCardName(Cards.inn),
             getCardName(Cards.ironworks),
+            getCardName(Cards.jackOfAllTrades),
+            getCardName(Cards.oasis),
+            getCardName(Cards.rats),
+            getCardName(Cards.remake),
             getCardName(Cards.remodel),
             getCardName(Cards.salvager),
             getCardName(Cards.secretChamber),
+            getCardName(Cards.spiceMerchant),
+            getCardName(Cards.squire),
+            getCardName(Cards.stables),
             getCardName(Cards.steward),
+            getCardName(Cards.torturer),
             getCardName(Cards.tradeRoute),
+            getCardName(Cards.trader),
             getCardName(Cards.tradingPost),
             getCardName(Cards.transmute),
-            getCardName(Cards.torturer),
             getCardName(Cards.upgrade),
             getCardName(Cards.warehouse),
-            getCardName(Cards.workshop)
+            getCardName(Cards.workshop),
+            getCardName(Cards.youngWitch)
             ));
 
     public static Map<String, String> actionStringMap = new HashMap<String, String>();
@@ -415,16 +439,20 @@ public class Strings {
                                            getCardName(Cards.courtyard)));
         actionStringMap.put(getCardName(Cards.contraband), getCardName(Cards.contraband));
         actionStringMap.put(getCardName(Cards.embargo), getCardName(Cards.embargo));
+        actionStringMap.put(getCardName(Cards.followers), getString(R.string.followers_part));
         actionStringMap.put(getCardName(Cards.ghostShip), getString(R.string.ghostship_part));
         actionStringMap.put(getCardName(Cards.goons), getString(R.string.goons_part));
         actionStringMap.put(getCardName(Cards.haven), getCardName(Cards.haven));
         actionStringMap.put(getCardName(Cards.island), getCardName(Cards.island));
         actionStringMap.put(getCardName(Cards.kingsCourt), getCardName(Cards.kingsCourt));
+        actionStringMap.put(getCardName(Cards.mandarin), getString(R.string.mandarin_part));
+        actionStringMap.put(getCardName(Cards.margrave), getString(R.string.margrave_part));
         actionStringMap.put(getCardName(Cards.militia), getString(R.string.militia_part));
         actionStringMap.put(getCardName(Cards.mint), getCardName(Cards.mint));
         actionStringMap.put(getCardName(Cards.saboteur), getString(R.string.saboteur_part));
         actionStringMap.put(getCardName(Cards.secretChamber), getString(R.string.secretchamber_part));
         actionStringMap.put(getCardName(Cards.throneRoom), getCardName(Cards.throneRoom));
+        actionStringMap.put(getCardName(Cards.tournament), getString(R.string.select_prize));
         actionStringMap.put(getCardName(Cards.university), getString(R.string.university_part));
     }
 
@@ -472,6 +500,17 @@ public class Strings {
                 return getString(R.string.vault_part_discard_for_card);
             } else {
                 return getString(R.string.vault_part_discard_for_gold);
+            }
+        } else if (cardName.equals(getCardName(Cards.hamlet))) {
+            // WARNING: This is a total hack!  We need to differentiate the "discard for action" from
+            // the "discard for buy", but we don't have any way in the SelectCardOptions to do
+            // that.  So we set a fake action type in IndirectPlayer.java, and handle it as a
+            // special case here.  This is fragile and could easily break if the rest of the code
+            // changes and we aren't careful.  TODO(matt): come up with a better way to do this.
+            if (sco.actionType == ActionType.DISCARD) {
+                return getString(R.string.hamlet_part_discard_for_action);
+            } else {
+                return getString(R.string.hamlet_part_discard_for_buy);
             }
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
