@@ -7,31 +7,4 @@
         </exec>
         <copy file="${vdom-dir}/vdom.jar" todir="${source.dir}/../libs/" overwrite="true"/>
     </target>
-
-    <target name="clean" description="Delete all generated files">
-        <delete dir="classes"/>
-    </target>
-
-    <target name="compile" description="Compiles the Task" depends="vdom_lib">
-        <mkdir dir="classes"/>
-        <javac target="1.5" srcdir="src" destdir="classes"/>
-    </target>
-
-    <target name="jar" description="JARs the Task" depends="compile">
-        <jar destfile="androminion.jar" basedir="classes"/>
-    </target>
-
-    <target name="run_with_remotes" depends="jar">
-        <java classname="com.vdom.core.Game" fork="true">
-            <classpath>
-                <path location="androminion.jar"/>
-                <path location="libs/vdom.jar"/>
-            </classpath>
-            <arg value="-typeFirstGame"/>
-            <arg value="com.mehtank.androminion.server.RemotePlayer*Matt"/>
-            <arg value="com.mehtank.androminion.server.RemotePlayer*Sabrina"/>
-            <arg value="com.vdom.players.VDomPlayerDrew"/>
-            <arg value="com.vdom.players.VDomPlayerEarl"/>
-        </java>
-    </target>
 </project>
