@@ -86,9 +86,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return Strings.getActionString(action, cardResponsible, null);
     }
 
+    private Card getCardFromHand(MoveContext context, SelectCardOptions sco) {
+        return getCardFromHand(context, null, sco);
+    }
+
     private Card getCardFromHand(MoveContext context, String header, SelectCardOptions sco) {
         Card[] cs = getFromHand(context, header, sco.setCount(1).exactCount());
         return (cs == null ? null : cs[0]);
+    }
+
+    private Card[] getFromHand(MoveContext context, SelectCardOptions sco) {
+        return getFromHand(context, null, sco);
     }
 
     private Card[] getFromHand(MoveContext context, String header, SelectCardOptions sco) {
@@ -136,6 +144,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 }
 
         return tempCards;
+    }
+
+    private Card getFromTable(MoveContext context, SelectCardOptions sco) {
+        return getFromTable(context, null, sco);
     }
 
     private Card getFromTable(MoveContext context, String header, SelectCardOptions sco) {
@@ -310,7 +322,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
                 .setCardResponsible(Cards.workshop).setActionType(ActionType.GAIN);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -320,7 +332,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(5)
                 .setCardResponsible(Cards.feast).setActionType(ActionType.GAIN);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -330,7 +342,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.UPGRADE)
                 .setCardResponsible(Cards.remodel).setActionType(ActionType.TRASH);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -340,7 +352,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0)
                 .setCardResponsible(Cards.remodel).setActionType(ActionType.GAIN);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -350,7 +362,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost)
                 .potionCost(potion ? 1 : 0).setCardResponsible(Cards.mine);
-        return (TreasureCard) getFromTable(context, null, sco);
+        return (TreasureCard) getFromTable(context, sco);
     }
 
     @Override
@@ -360,7 +372,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
                 .setPickType(PickType.KEEP).setCardResponsible(Cards.militia);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -378,7 +390,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure().setPickType(PickType.UPGRADE)
                 .setCardResponsible(Cards.mine);
-        return (TreasureCard) getCardFromHand(context, null, sco);
+        return (TreasureCard) getCardFromHand(context, sco);
     }
 
     @Override
@@ -389,7 +401,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setCount(4)
                 .setPassable(getString(R.string.none)).setPickType(PickType.TRASH)
                 .setCardResponsible(Cards.chapel).setActionType(ActionType.TRASH);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -400,7 +412,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none))
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
                 .setCardResponsible(Cards.cellar);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -430,7 +442,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none))
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
                 .setCardResponsible(Cards.secretChamber);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -493,7 +505,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().exactCost(cost).potionCost(potion ? 1 : 0)
                 .setCardResponsible(Cards.swindler);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -504,7 +516,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount()
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
                 .setCardResponsible(Cards.steward);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -515,7 +527,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount()
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
                 .setCardResponsible(Cards.torturer);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -524,7 +536,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.courtyard_cardToPutBackOnDeck(context);
         }
         SelectCardOptions sco = new SelectCardOptions().setCardResponsible(Cards.courtyard);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -542,7 +554,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(4)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.ironworks);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -552,7 +564,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.GIVE)
                 .setCardResponsible(Cards.masquerade);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -562,7 +574,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().isVictory()
                 .setCardResponsible(Cards.bureaucrat);
-        return (VictoryCard) getCardFromHand(context, null, sco);
+        return (VictoryCard) getCardFromHand(context, sco);
     }
 
     @Override
@@ -573,7 +585,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none))
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
                 .setCardResponsible(Cards.masquerade);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -591,7 +603,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none))
                 .maxCost(maxCost).potionCost(potion ? 1 : 0).setCardResponsible(Cards.saboteur);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -624,7 +636,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount()
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
                 .setCardResponsible(Cards.tradingPost);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -654,7 +666,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.upgrade);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -665,7 +677,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost)
                 .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.upgrade);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -684,7 +696,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount().ordered()
                 .setCardResponsible(Cards.secretChamber);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     // ////////////////////////////////////////////
@@ -697,7 +709,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setCount(-3).ordered()
                 .setCardResponsible(Cards.ghostShip);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -707,7 +719,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.salvager);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override 
@@ -718,7 +730,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
                 .setCardResponsible(Cards.warehouse);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -762,7 +774,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.island_cardToSetAside(context);
         }
         SelectCardOptions sco = new SelectCardOptions().setCardResponsible(Cards.island);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -771,7 +783,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.haven_cardToSetAside(context);
         }
         SelectCardOptions sco = new SelectCardOptions().setCardResponsible(Cards.haven);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -812,7 +824,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .setCardResponsible(Cards.embargo);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     // Will be passed all three cards
@@ -850,7 +862,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setActionType(ActionType.REVEAL)
                 .setCardResponsible(Cards.ambassador);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -892,7 +904,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.transmute);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -943,7 +955,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.apprentice);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -953,7 +965,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(5).isAction()
                 .setPassable(getString(R.string.none)).setCardResponsible(Cards.university);
-        return (ActionCard) getFromTable(context, null, sco);
+        return (ActionCard) getFromTable(context, sco);
     }
 
     @Override
@@ -993,7 +1005,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setCardResponsible(Cards.bishop);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1004,7 +1016,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none))
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
                 .setCardResponsible(Cards.bishop);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1014,7 +1026,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .setCardResponsible(Cards.contraband);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1024,7 +1036,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.expand);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1034,7 +1046,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.expand);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1045,7 +1057,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none))
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
                 .setCardResponsible(Cards.forge);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1055,7 +1067,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).exactCost(exactCost)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.forge);
-        return getFromTable(context, null, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1065,7 +1077,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
                 .setPickType(PickType.KEEP).setCardResponsible(Cards.goons);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1076,7 +1088,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isAction()
                 .setPassable(getString(R.string.none)).setPickType(PickType.PLAY)
                 .setCardResponsible(Cards.kingsCourt);
-        return (ActionCard) getCardFromHand(context, null, sco);
+        return (ActionCard) getCardFromHand(context, sco);
     }
 
     @Override
@@ -1087,7 +1099,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isAction()
                 .setPassable(getString(R.string.none)).setPickType(PickType.PLAY)
                 .setCardResponsible(Cards.throneRoom);
-        return (ActionCard) getCardFromHand(context, null, sco);
+        return (ActionCard) getCardFromHand(context, sco);
     }
 
     @Override
@@ -1106,7 +1118,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isTreasure()
                 .setPassable(getString(R.string.pass)).setPickType(PickType.MINT)
                 .setCardResponsible(Cards.mint);
-        return (TreasureCard) getCardFromHand(context, null, sco);
+        return (TreasureCard) getCardFromHand(context, sco);
     }
 
     @Override
@@ -1144,7 +1156,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.tradeRoute);
-        return getCardFromHand(context, null, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1154,7 +1166,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none))
                 .setPickType(PickType.DISCARD).setCardResponsible(Cards.vault);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1165,7 +1177,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount()
                 .setPassable(getString(R.string.none)).setPickType(PickType.DISCARD)
                 .setCardResponsible(Cards.vault);
-        return getFromHand(context, null, sco);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1182,8 +1194,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_hamlet_cardToDiscardForAction(context)) {
             return super.hamlet_cardToDiscardForAction(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none)).setPickType(PickType.DISCARD);
-        return getCardFromHand(context, getString(R.string.hamlet_part_discard_for_action), sco);
+        // WARNING: This is a total hack!  We need to differentiate the "discard for action" from
+        // the "discard for buy", but we don't have any way in the SelectCardOptions to do that.
+        // So we set a fake action type here, and handle this as a special case in Strings.java.
+        // This is fragile and could easily break if the rest of the code changes and we aren't
+        // careful.  TODO(matt): come up with a better way to do this.
+        SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none))
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.hamlet);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1191,8 +1210,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_hamlet_cardToDiscardForBuy(context)) {
             return super.hamlet_cardToDiscardForBuy(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none)).setPickType(PickType.DISCARD);
-        return getCardFromHand(context, getString(R.string.hamlet_part_discard_for_buy), sco);
+        SelectCardOptions sco = new SelectCardOptions().setPassable(getString(R.string.none))
+                .setPickType(PickType.DISCARD).setCardResponsible(Cards.hamlet);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1200,8 +1220,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_hornOfPlenty_cardToObtain(context, maxCost)) {
             return super.hornOfPlenty_cardToObtain(context, maxCost);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(maxCost);
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.hornOfPlenty), sco);
+        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(maxCost)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.hornOfPlenty);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1209,8 +1230,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_horseTraders_cardsToDiscard(context)) {
             return super.horseTraders_cardsToDiscard(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount().setPickType(PickType.DISCARD);
-        return getFromHand(context, getActionString(ActionType.DISCARD, Cards.horseTraders), sco);
+        SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.horseTraders);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1239,8 +1262,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_remake_cardToTrash(context)) {
             return super.remake_cardToTrash(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH);
-        return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.remake), sco);
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.remake);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1248,8 +1272,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_remake_cardToObtain(context, exactCost, potion)) {
             return super.remake_cardToObtain(context, exactCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost).potionCost(potion ? 1 : 0);
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.remake), sco);
+        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost)
+                .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
+                .setCardResponsible(Cards.remake);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1257,8 +1283,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_tournament_shouldRevealProvince(context)) {
             return super.tournament_shouldRevealProvince(context);
         }
-        return selectBoolean(context, Cards.tournament, Strings.getString(R.string.tournament_reveal), Strings.getString(R.string.tournament_option_one));
-
+        return selectBoolean(context,
+                             Cards.tournament,
+                             Strings.getString(R.string.tournament_reveal),
+                             Strings.getString(R.string.tournament_option_one));
     }
 
     @Override
@@ -1275,8 +1303,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_tournament_choosePrize(context)) {
             return super.tournament_choosePrize(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().fromPrizes();
-        return getFromTable(context, getString(R.string.select_prize), sco);
+        SelectCardOptions sco = new SelectCardOptions().fromPrizes()
+                .setCardResponsible(Cards.tournament);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1284,8 +1313,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_youngWitch_cardsToDiscard(context)) {
             return super.youngWitch_cardsToDiscard(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount().setPickType(PickType.DISCARD);
-        return getFromHand(context, getActionString(ActionType.DISCARD, Cards.youngWitch), sco);
+        SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.youngWitch);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1293,8 +1324,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_followers_attack_cardsToKeep(context)) {
             return super.followers_attack_cardsToKeep(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount().setPickType(PickType.KEEP);
-        return getFromHand(context, getString(R.string.followers_part), sco);
+        SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.KEEP).setCardResponsible(Cards.followers);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1424,8 +1456,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_trader_cardToTrash(context)) {
             return super.trader_cardToTrash(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH);
-        return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.trader), sco);
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.trader);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1433,8 +1466,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_oasis_cardToDiscard(context)) {
             return super.oasis_cardToDiscard(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.DISCARD);
-        return getCardFromHand(context, getActionString(ActionType.DISCARD, Cards.oasis), sco);
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.DISCARD)
+                .setActionType(ActionType.DISCARD).setCardResponsible(Cards.oasis);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1442,8 +1476,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_develop_cardToTrash(context)) {
             return super.develop_cardToTrash(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH);
-        return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.develop), sco);
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.develop);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1451,8 +1486,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_develop_lowCardToGain(context, cost, potion)) {
             return super.develop_lowCardToGain(context, cost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(cost).potionCost(potion ? 1 : 0);
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.develop), sco);
+        SelectCardOptions sco = new SelectCardOptions().exactCost(cost).potionCost(potion ? 1 : 0)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.develop);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1460,8 +1496,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_develop_highCardToGain(context, cost, potion)) {
             return super.develop_highCardToGain(context, cost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(cost).potionCost(potion ? 1 : 0);
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.develop), sco);
+        SelectCardOptions sco = new SelectCardOptions().exactCost(cost).potionCost(potion ? 1 : 0)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.develop);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1514,8 +1551,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_jackOfAllTrades_nonTreasureToTrash(context)) {
             super.jackOfAllTrades_nonTreasureToTrash(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().isNonTreasure().setPassable(getString(R.string.none)).setPickType(PickType.TRASH);
-        return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.jackOfAllTrades), sco);
+        SelectCardOptions sco = new SelectCardOptions().isNonTreasure()
+                .setPassable(getString(R.string.none)).setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.jackOfAllTrades);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1523,8 +1562,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_spiceMerchant_treasureToTrash(context)) {
             return super.spiceMerchant_treasureToTrash(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().isTreasure().setPassable(getString(R.string.none)).setPickType(PickType.TRASH);
-        return (TreasureCard) getCardFromHand(context, getActionString(ActionType.TRASH, Cards.spiceMerchant), sco);
+        SelectCardOptions sco = new SelectCardOptions().isTreasure()
+                .setPassable(getString(R.string.none)).setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.spiceMerchant);
+        return (TreasureCard) getCardFromHand(context, sco);
     }
 
     @Override
@@ -1532,8 +1573,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_embassy_cardsToDiscard(context)) {
             return super.embassy_cardsToDiscard(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount().setPickType(PickType.DISCARD);
-        return getFromHand(context, getActionString(ActionType.DISCARD, Cards.embassy), sco);
+        SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.embassy);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1638,8 +1681,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_haggler_cardToObtain(context, maxCost, potion)) {
             return super.haggler_cardToObtain(context, maxCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(potion?1:0).maxCost(maxCost).maxCostWithoutPotion().isNonVictory();
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.haggler), sco);
+        SelectCardOptions sco = new SelectCardOptions().potionCost(potion?1:0)
+                .maxCost(maxCost).maxCostWithoutPotion().isNonVictory()
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.haggler);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1647,8 +1692,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_inn_cardsToDiscard(context)) {
             return super.inn_cardsToDiscard(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount().setPickType(PickType.DISCARD);
-        return getFromHand(context, getActionString(ActionType.DISCARD, Cards.inn), sco);
+        SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.inn);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1667,8 +1714,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_borderVillage_cardToObtain(context)) {
             return super.borderVillage_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(Cards.borderVillage.getCost(context) - 1);
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.borderVillage), sco);
+        SelectCardOptions sco = new SelectCardOptions().potionCost(0)
+                .maxCost(Cards.borderVillage.getCost(context) - 1)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.borderVillage);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1676,8 +1725,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_farmland_cardToTrash(context)) {
             return super.farmland_cardToTrash(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH);
-        return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.farmland), sco);
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.farmland);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1685,8 +1735,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, exactCost, potion)) {
             return super.remodel_cardToObtain(context, exactCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost).potionCost(potion ? 1 : 0);
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.farmland), sco);
+        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost)
+                .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
+                .setCardResponsible(Cards.farmland);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1694,8 +1746,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_stables_treasureToDiscard(context)) {
             return super.stables_treasureToDiscard(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().isTreasure().setPassable(getString(R.string.none)).setPickType(PickType.DISCARD);
-        return (TreasureCard) getCardFromHand(context, getActionString(ActionType.DISCARD, Cards.stables), sco);
+        SelectCardOptions sco = new SelectCardOptions().isTreasure()
+                .setPassable(getString(R.string.none)).setPickType(PickType.DISCARD)
+                .setActionType(ActionType.DISCARD).setCardResponsible(Cards.stables);
+        return (TreasureCard) getCardFromHand(context, sco);
     }
 
     @Override
@@ -1703,8 +1757,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_mandarin_cardToReplace(context)) {
             return super.mandarin_cardToReplace(context);
         }
-        SelectCardOptions sco = new SelectCardOptions();
-        return getCardFromHand(context, getString(R.string.mandarin_part), sco);
+        SelectCardOptions sco = new SelectCardOptions().setCardResponsible(Cards.mandarin);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1724,8 +1778,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_margrave_attack_cardsToKeep(context)) {
             return super.margrave_attack_cardsToKeep(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount().setPickType(PickType.KEEP);
-        return getFromHand(context, getString(R.string.margrave_part), sco);
+        SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.KEEP).setCardResponsible(Cards.margrave);
+        return getFromHand(context, sco);
     }
 
     @Override
@@ -1766,7 +1821,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_selectPutBackOption(context, putBacks)) {
             return super.selectPutBackOption(context, putBacks);
         }
-        // TODO(matt): this one looks like it'll tricky.
+        // TODO(matt): this one looks like it'll be tricky.
         Collections.sort(putBacks);
         LinkedHashMap<String, PutBackOption> h = new LinkedHashMap<String, PutBackOption>();
         h.put(getCardName(Cards.treasury), PutBackOption.Treasury);
@@ -1818,8 +1873,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
             return super.armory_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(4);
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.armory), sco);
+        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(4)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.armory);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1827,8 +1883,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_apprentice_cardToTrash(context)) {
             return super.altar_cardToTrash(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH);
-        return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.altar), sco);
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.altar);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1836,8 +1893,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
             return super.altar_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(5);
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.altar), sco);
+        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(5)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.altar);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1845,8 +1903,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
             return super.squire_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().isAttack();
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.squire), sco);
+        SelectCardOptions sco = new SelectCardOptions().isAttack().setActionType(ActionType.GAIN)
+                .setCardResponsible(Cards.squire);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1854,8 +1913,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if (context.isQuickPlay() && shouldAutoPlay_rats_cardToTrash(context)) {
             return super.rats_cardToTrash(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().isNonRats().setPickType(PickType.TRASH);
-        return getCardFromHand(context, getActionString(ActionType.TRASH, Cards.rats), sco);
+        SelectCardOptions sco = new SelectCardOptions().isNonRats().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.rats);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1882,8 +1942,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.catacombs_cardToObtain(context);
         }
         int maxPrice = Math.max(0, game.getPile(Cards.catacombs).card().getCost(context) - 1);
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(maxPrice);
-        return getFromTable(context, getActionString(ActionType.GAIN, Cards.catacombs), sco);
+        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(maxPrice)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.catacombs);
+        return getFromTable(context, sco);
     }
 
     @Override
