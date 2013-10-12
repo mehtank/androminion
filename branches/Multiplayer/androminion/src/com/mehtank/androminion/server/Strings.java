@@ -367,6 +367,10 @@ public class Strings {
         throw new RuntimeException("SelectCardOptions isn't from table or from hand...");
     }
 
+    public static String getActionString(SelectCardOptions sco) {
+        return getActionString(sco.actionType, sco.cardResponsible);
+    }
+
     public static String getActionString(ActionType action, Card cardResponsible) {
         return getActionString(action, cardResponsible, null);
     }
@@ -395,23 +399,36 @@ public class Strings {
             getCardName(Cards.apprentice),
             getCardName(Cards.armory),
             getCardName(Cards.borderVillage),
+            getCardName(Cards.butcher),
             getCardName(Cards.catacombs),
             getCardName(Cards.cellar),
             getCardName(Cards.chapel),
+            getCardName(Cards.counterfeit),
+            getCardName(Cards.dameAnna),
+            getCardName(Cards.dameNatalie),
+            getCardName(Cards.deathCart),
             getCardName(Cards.develop),
+            getCardName(Cards.doctor),
             getCardName(Cards.embassy),
             getCardName(Cards.expand),
             getCardName(Cards.farmland),
             getCardName(Cards.feast),
+            getCardName(Cards.forager),
             getCardName(Cards.forge),
+            getCardName(Cards.graverobber),
             getCardName(Cards.haggler),
+            getCardName(Cards.hermit),
             getCardName(Cards.hornOfPlenty),
             getCardName(Cards.horseTraders),
             getCardName(Cards.inn),
             getCardName(Cards.ironworks),
             getCardName(Cards.jackOfAllTrades),
+            getCardName(Cards.journeyman),
+            getCardName(Cards.junkDealer),
             getCardName(Cards.oasis),
+            getCardName(Cards.plaza),
             getCardName(Cards.rats),
+            getCardName(Cards.rebuild),
             getCardName(Cards.remake),
             getCardName(Cards.remodel),
             getCardName(Cards.salvager),
@@ -420,6 +437,8 @@ public class Strings {
             getCardName(Cards.squire),
             getCardName(Cards.stables),
             getCardName(Cards.steward),
+            getCardName(Cards.stonemason),
+            getCardName(Cards.storeroom),
             getCardName(Cards.torturer),
             getCardName(Cards.tradeRoute),
             getCardName(Cards.trader),
@@ -434,6 +453,7 @@ public class Strings {
     public static Map<String, String> actionStringMap = new HashMap<String, String>();
     static {
         actionStringMap.put(getCardName(Cards.bureaucrat), getString(R.string.bureaucrat_part));
+        actionStringMap.put(getCardName(Cards.bandOfMisfits), getString(R.string.part_play));
         actionStringMap.put(getCardName(Cards.courtyard),
                             Strings.format(R.string.courtyard_part_top_of_deck,
                                            getCardName(Cards.courtyard)));
@@ -451,9 +471,11 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.mint), getCardName(Cards.mint));
         actionStringMap.put(getCardName(Cards.saboteur), getString(R.string.saboteur_part));
         actionStringMap.put(getCardName(Cards.secretChamber), getString(R.string.secretchamber_part));
+        actionStringMap.put(getCardName(Cards.sirMichael), getString(R.string.sir_michael_part));
         actionStringMap.put(getCardName(Cards.throneRoom), getCardName(Cards.throneRoom));
         actionStringMap.put(getCardName(Cards.tournament), getString(R.string.select_prize));
         actionStringMap.put(getCardName(Cards.university), getString(R.string.university_part));
+        actionStringMap.put(getCardName(Cards.urchin), getString(R.string.urchin_keep));
     }
 
     public static String getActionCardText(SelectCardOptions sco) {
@@ -463,7 +485,7 @@ public class Strings {
         // method.
         String cardName = getCardName(sco.cardResponsible);
         if (simpleActionStrings.contains(cardName)) {
-            return getActionString(sco.actionType, sco.cardResponsible);
+            return getActionString(sco);
         }
 
         String actionString = actionStringMap.get(cardName);
@@ -487,11 +509,11 @@ public class Strings {
             if (sco.pickType == PickType.GIVE) {
                 return getString(R.string.masquerade_part);
             } else {
-                return getActionString(sco.actionType, sco.cardResponsible);
+                return getActionString(sco);
             }
         } else if (cardName.equals(getCardName(Cards.bishop))) {
             if (sco.actionType == ActionType.TRASH) {
-                return getActionString(sco.actionType, sco.cardResponsible);
+                return getActionString(sco);
             } else {
                 return getString(R.string.bishop_part);
             }
@@ -507,10 +529,37 @@ public class Strings {
             // that.  So we set a fake action type in IndirectPlayer.java, and handle it as a
             // special case here.  This is fragile and could easily break if the rest of the code
             // changes and we aren't careful.  TODO(matt): come up with a better way to do this.
+            // Probably the right way is to add an action type called DISCARDFORACTION and
+            // DISCARDFORBUY, like there is DISCARDFORCARD and DISCARDFORCOIN.  That would require
+            // adding some new strings, though, and getting rid of the strings here.
             if (sco.actionType == ActionType.DISCARD) {
                 return getString(R.string.hamlet_part_discard_for_action);
             } else {
                 return getString(R.string.hamlet_part_discard_for_buy);
+            }
+        } else if (cardName.equals(getCardName(Cards.count))) {
+            if (sco.actionType == ActionType.DISCARD) {
+                return getActionString(sco);
+            } else {
+                return Strings.format(R.string.count_part_top_of_deck, getCardName(Cards.count));
+            }
+        } else if (cardName.equals(getCardName(Cards.procession))) {
+            if (sco.actionType == ActionType.GAIN) {
+                return getActionString(sco);
+            } else {
+                return getCardName(Cards.procession);
+            }
+        } else if (cardName.equals(getCardName(Cards.mercenary))) {
+            if (sco.actionType == ActionType.TRASH) {
+                return getActionString(sco);
+            } else {
+                return getString(R.string.mercenary_part);
+            }
+        } else if (cardName.equals(getCardName(Cards.taxman))) {
+            if (sco.actionType == ActionType.TRASH) {
+                return getActionString(sco);
+            } else {
+                return getString(R.string.taxman_part);
             }
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
