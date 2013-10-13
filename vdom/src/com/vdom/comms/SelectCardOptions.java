@@ -59,6 +59,8 @@ public class SelectCardOptions implements Serializable {
 
     public boolean fromTable = false;
     public boolean isBuyPhase = false;
+    public boolean isActionPhase = false;
+    public boolean isTreasurePhase = false;
     public boolean allowEmpty = false;
     public int minCost = Integer.MIN_VALUE;
     public int maxCost = Integer.MAX_VALUE;
@@ -75,13 +77,13 @@ public class SelectCardOptions implements Serializable {
     public boolean isNonVictory = false;
     public boolean isAttack = false;
     public boolean isNonShelter = false;
-    public String passString = null;
+    public boolean passable = false;
     public String header = null;
     public ArrayList<Integer> allowedCards = new ArrayList<Integer>();
 
     //public SelectCardOptions setType(SelectType s) {selectType = s; return this;}
     public SelectCardOptions setHeader(String s) {header = s; return this;}
-    public SelectCardOptions setPassable(String s) {passString = s; return this;}
+    public SelectCardOptions setPassable() {passable = true; return this;}
     public SelectCardOptions setPickType(PickType pickType) {this.pickType = pickType;return this;}
     public SelectCardOptions setActionType(ActionType actionType) {this.actionType = actionType;return this;}
     public SelectCardOptions setCardResponsible(Card card) {this.cardResponsible = card;return this;}
@@ -95,6 +97,8 @@ public class SelectCardOptions implements Serializable {
 
     public SelectCardOptions fromTable() {fromTable = true;isNonShelter=true;count=1;exactCount=true; return this;}
     public SelectCardOptions isBuy() {isBuyPhase= true; this.pickType = PickType.BUY; return this;}
+    public SelectCardOptions isActionPhase() {isActionPhase=true; return this;}
+    public SelectCardOptions isTreasurePhase() {isTreasurePhase=true; return this;}
     public SelectCardOptions allowEmpty() {allowEmpty = true; return this;}
     public SelectCardOptions fromPrizes() {fromPrizes = true; return this;}
     public SelectCardOptions minCost(int c) {minCost = c; return this;}
@@ -197,7 +201,7 @@ public class SelectCardOptions implements Serializable {
         return true;
     }
     public boolean isPassable() {
-        return (passString != null && !passString.trim().equals(""));
+        return passable;
     }
 
     public String potionString() {
