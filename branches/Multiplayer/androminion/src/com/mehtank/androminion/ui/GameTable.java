@@ -592,7 +592,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         this.maxOpened = maxOpened;
         this.exactOpened = exactOpened;
 
-        if (s == null) {
+        if (sco.isBuyPhase) {
+            s = Strings.getString(R.string.part_buy);
+        } else if (sco.isActionPhase) {
+            s = Strings.getString(R.string.part_play);
+        } else if (sco.isTreasurePhase) {
+            s = Strings.getString(R.string.use_for_money);
+        } else if (s == null) {
             // TODO(matt): maybe these methods could be named better...
             s = Strings.getActionCardText(sco);
         }
@@ -604,9 +610,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         HapticFeedback.vibrate(getContext(),AlertType.SELECT);
         select.setVisibility(VISIBLE);
         if (sco.isPassable()) {
-            // TODO(matt): What is this?  A couple of quick greps seem to say this is dead code.
             pass.setVisibility(VISIBLE);
-            pass.setText(sco.passString);
+            if (sco.isBuyPhase) {
+                pass.setText(Strings.getString(R.string.end_turn));
+            } else {
+                pass.setText(Strings.getString(R.string.none));
+            }
         } else
             pass.setVisibility(INVISIBLE);
 
