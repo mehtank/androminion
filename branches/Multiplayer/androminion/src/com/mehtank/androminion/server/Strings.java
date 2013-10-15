@@ -34,35 +34,35 @@ import com.vdom.core.Player.TrustySteedOption;
 import com.vdom.core.Player.WatchTowerOption;
 
 public class Strings {
-	@SuppressWarnings("unused")
-	private static final String TAG = "Strings";
-	
+    @SuppressWarnings("unused")
+    private static final String TAG = "Strings";
+
     static HashMap<Card, String> nameCache = new HashMap<Card, String>();
     static HashMap<Card, String> descriptionCache = new HashMap<Card, String>();
     static HashMap<String, String> expansionCache = new HashMap<String, String>();
     static HashMap<GameType, String> gametypeCache = new HashMap<GameType, String>();
-	public static Context context;
-    
+    public static Context context;
+
     public static String getCardName(Card c) {
         String name = nameCache.get(c);
         if(name == null) {
-           try {
-               Resources r = context.getResources();
-               int id = r.getIdentifier(c.getSafeName() + "_name", "string", context.getPackageName());
-               name = r.getString(id);
-           }
-           catch(Exception e) {
-               e.printStackTrace();
-           }
-           if(name == null) {
-               name = c.getName();
-           }
-           
-           nameCache.put(c, name);
+            try {
+                Resources r = context.getResources();
+                int id = r.getIdentifier(c.getSafeName() + "_name", "string", context.getPackageName());
+                name = r.getString(id);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+            if(name == null) {
+                name = c.getName();
+            }
+
+            nameCache.put(c, name);
         }
         return name;
     }
-    
+
     public static String getCardDescription(Card c) {
         String description = descriptionCache.get(c);
         if(description == null) {
@@ -77,21 +77,21 @@ public class Strings {
             if(description == null) {
                 description = c.getDescription();
             }
-            
+
             descriptionCache.put(c, description);
         }
         return description;
     }
-    
+
     public static String getCardExpansion(Card c) {
         if (c.getExpansion().isEmpty()) {
             // Victory cards (e.g. "Duchy") don't have a single expansion;
             // they're both in Base and Intrigue.
             return "";
         }
-        
+
         String expansion = expansionCache.get(c.getExpansion());
-        
+
         if (expansion == null) {
             try {
                 Resources r = context.getResources();
@@ -101,49 +101,49 @@ public class Strings {
             catch(Exception e) {
                 e.printStackTrace();
             }
-            
-            if(expansion.equals("")) 
+
+            if(expansion.equals(""))
             {
                 expansion = c.getExpansion();
             }
-            
+
             expansionCache.put(c.getExpansion(), expansion);
         }
         return expansion;
     }
-    
-    public static String getGameTypeName(GameType g) {
-    	
-    	String gametype = gametypeCache.get(g);
-    	if (gametype==null){
-    		try {
-    			Resources r = context.getResources();
-    			int id = r.getIdentifier(g.name() + "_gametype", "string", context.getPackageName());
-    			gametype = r.getString(id);
-    		}      
-    		catch(Exception e) {
-    			//e.printStackTrace();
-    		}
-    	}
-    	if (gametype == null){
-//          Fallback is the name in the enumeration    		
-    		gametype = g.getName();
-    	}
-    	
-    	gametypeCache.put(g, gametype);
-    	return gametype;
-    }
-    
-    public static GameType getGameTypefromName(String s){
-    	
-    	for (GameType g : GameType.values()) {
-    	  if (getGameTypeName(g).equals(s))
-    	  { return g; }
-    	}
-    	return null;
-    	}
 
-    
+    public static String getGameTypeName(GameType g) {
+
+        String gametype = gametypeCache.get(g);
+        if (gametype==null){
+            try {
+                Resources r = context.getResources();
+                int id = r.getIdentifier(g.name() + "_gametype", "string", context.getPackageName());
+                gametype = r.getString(id);
+            }
+            catch(Exception e) {
+                //e.printStackTrace();
+            }
+        }
+        if (gametype == null){
+            //          Fallback is the name in the enumeration
+            gametype = g.getName();
+        }
+
+        gametypeCache.put(g, gametype);
+        return gametype;
+    }
+
+    public static GameType getGameTypefromName(String s){
+
+        for (GameType g : GameType.values()) {
+            if (getGameTypeName(g).equals(s))
+            { return g; }
+        }
+        return null;
+    }
+
+
     public static String format(String str, Object... args) {
         return String.format(str, args);
     }
@@ -151,7 +151,7 @@ public class Strings {
     public static String format(int resId, Object... args) {
         return String.format(context.getString(resId), args);
     }
-    
+
     public static String getString(int resId) {
         return context.getString(resId);
     }
@@ -210,7 +210,7 @@ public class Strings {
             } else if (option == JesterOption.GiveCopy) {
                 /*
                  * TODO(matt): figure out the right API to make this work
-                return format(R.string.jester_option_two, targetPlayer.getPlayerName());
+                 return format(R.string.jester_option_two, targetPlayer.getPlayerName());
                  */
             }
         } else if (option instanceof TournamentOption) {
@@ -448,7 +448,7 @@ public class Strings {
             getCardName(Cards.warehouse),
             getCardName(Cards.workshop),
             getCardName(Cards.youngWitch)
-            ));
+                    ));
 
     public static Map<String, String> actionStringMap = new HashMap<String, String>();
     static {
