@@ -976,9 +976,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     @Override
     public String selectString(MoveContext context, String header, String[] s) {
-        //	    if(header != null && !header.equals("")) {
-        //	        header = header + ":";
-        //	    }
         Event p = new Event(EType.GETSTRING)
                 .setString(header)
                 .setObject(new EventObject(s));
@@ -987,6 +984,23 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             return null;
         else
             return p.s;
+    }
+
+    // If I were designing this from scratch, I may have picked an API that treated this
+    // selectBoolean method and the selectOption method the same.  But I'm not designing this from
+    // scratch, I'm just trying to cut the strings out of an existing API while minimizing my
+    // effort, so we get something that's a little bit disjointed.  Oh well...
+
+    @Override
+    public boolean selectBoolean(MoveContext context, Card cardResponsible, Object[] extras) {
+        Event p = new Event(EType.GETBOOLEAN)
+                .setCard(cardResponsible)
+                .setObject(new EventObject(extras));
+        p = query(context, p, EType.BOOLEAN);
+        if (p == null)
+            return false;
+        else
+            return p.b;
     }
 
     @Override

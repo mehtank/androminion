@@ -558,25 +558,45 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         for (int i = 0; i < options.length; i++) {
             options[i] = Strings.getOptionText(e.o.os[i]);
         }
-        selectString(Strings.getCardName(e.c), options, true);
+        selectString(Strings.getCardName(e.c), options, Event.EType.OPTION);
     }
 
     public void selectString(String title, String[] options) {
-        selectString(title, options, false);
+        selectString(title, options, Event.EType.STRING);
     }
     /**
      * Prompt the user about options that a card gives us. (E.g. Thief: Which card to trash)
      * @param title Message to the user about what to choose
      * @param options Options that the user has
      */
-    public void selectString(String title, String[] options, boolean isNewApi) {
+    public void selectString(String title, String[] options, Event.EType eventType) {
         if (options.length == 1) {
             Toast.makeText(top, title + ":\n" + options[0], Toast.LENGTH_LONG / 2).show();
             top.handle(new Event(Event.EType.STRING).setString(options[0]));
             return;
         }
         HapticFeedback.vibrate(getContext(),AlertType.SELECT);
-        new SelectStringView(top, title, options, isNewApi);
+        new SelectStringView(top, title, options, eventType);
+    }
+
+    /**
+     * RemotePlayer wants us to choose between two options.  We call selectString after setting up
+     * the strings that represent the options we're choosing between.  The action that represents
+     * "true" should always be placed first in the list of options.
+     * @param cardResponsible The card that initiated this action.  We use this, along with extras,
+     * to determine what the two options are.
+     * @param extras Extra information (if necessary) to determine the specifics of the options.
+     */
+    public void selectBoolean(Card cardResponsible, Object[] extras) {
+        String[] strings = Strings.getBooleanStrings(cardResponsible, extras);
+        // We lump all of the strings together into a single method to make the logic simpler in
+        // Strings.getBooleanStrings.  It makes for a little bit of moving things around here, but
+        // I think it's better to keep the Strings call simpler.
+        String header = strings[0];
+        String[] options = new String[2];
+        options[0] = strings[1];
+        options[1] = strings[2];
+        selectString(header, options, Event.EType.BOOLEAN);
     }
 
     /**

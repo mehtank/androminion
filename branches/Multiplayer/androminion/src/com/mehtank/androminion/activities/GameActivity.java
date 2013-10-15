@@ -489,6 +489,10 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     gt.selectString(e.s, e.o.ss);
                     break;
 
+                case GETBOOLEAN:
+                    gt.selectBoolean(e.c, e.o.os);
+                    break;
+
                 case ORDERCARDS:
                     gt.orderCards(e.s, e.o.is);
                     break;
@@ -523,6 +527,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                 case CARD:
                 case CARDORDER:
                 case OPTION:
+                case BOOLEAN:
                     put(e);
                     break;
 

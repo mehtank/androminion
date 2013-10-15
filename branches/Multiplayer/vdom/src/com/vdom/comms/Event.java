@@ -259,6 +259,27 @@ public class Event implements Serializable{
          */
         STRING,
         /**
+         * GETBOOLEAN
+         *
+         * Sent from RemotePlayer when the player needs to pick between two options. Tells the
+         * player which card initiated the selection, plus whatever extra information is necessary
+         * to reconstruct the options (such as what card was revealed, by which player, etc.).
+         * Replaces some instances of GETSTRING (where GETOPTION replaces most of the others).
+         * <p><b>needs EType.BOOLEAN response</b></p>
+         * @param c Card that initiated the need for a response
+         * @param o has its Object[] set to whatever extra information is needed
+         */
+        GETBOOLEAN,
+        /**
+         * BOOLEAN
+         *
+         * Sent from SelectStringView to GameActivity, which forwards it to RemotePlayer, as a
+         * response to GetBoolean.
+         *
+         * @param b The selected boolean.
+         */
+        BOOLEAN,
+        /**
          * ORDERCARDS
          *
          * Sent from RemotePlayer when the player needs to put cards in an order (to put them on the deck mainly)
