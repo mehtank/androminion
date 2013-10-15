@@ -19,16 +19,19 @@ public class SelectStringView extends BottomInputView implements AdapterView.OnI
     private static final String TAG = "SelectStringView";
 
     ListView lv;
-    private boolean isNewApi;
+    private Event.EType eventType;
     private List<String> options;
 
     public SelectStringView (GameActivity top, String header, String[] options) {
-        this(top, header, options, false);
+        this(top, header, options, Event.EType.STRING);
     }
 
-    public SelectStringView (GameActivity top, String header, String[] options, boolean isNewApi) {
+    public SelectStringView (GameActivity top,
+                             String header,
+                             String[] options,
+                             Event.EType returnType) {
         super(top, header);
-        this.isNewApi = isNewApi;
+        this.eventType = eventType;
         this.options = Arrays.asList(options);
         lv.setAdapter(new ArrayAdapter<String>(top, R.layout.view_selectstring, options));
     }
@@ -38,8 +41,11 @@ public class SelectStringView extends BottomInputView implements AdapterView.OnI
         if (v instanceof TextView) {
             ((FrameLayout) this.getParent()).removeView(this);
             String s = (((TextView) v).getText().toString());
-            if (isNewApi) {
+            if (eventType == Event.EType.OPTION) {
                 top.handle(new Event(Event.EType.OPTION).setInteger(options.indexOf(s)));
+            } else if (eventType == Event.EType.BOOLEAN) {
+                // "True" event is always first.
+                top.handle(new Event(Event.EType.BOOLEAN).setBoolean(options.indexOf(s) == 0));
             } else {
                 top.handle(new Event(Event.EType.STRING).setString(s));
             }

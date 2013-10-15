@@ -287,6 +287,62 @@ public class Strings {
         throw new RuntimeException("I got passed an option object that I don't understand!");
     }
 
+    /**
+     * Get the strings necessary for selecting a boolean option initiated by cardResponsible,
+     * using extras to fill in the necessary information for creating the strings.
+     *
+     * The first item in the returned array is the header to show, the second item is the string
+     * that will be interpreted as "true" if selected, and the third item is the string that will
+     * be interpreted as "false".
+     */
+    public static String[] getBooleanStrings(Card cardResponsible, Object[] extras) {
+        // See note below under getActionCardText for why we can't test for object equality here,
+        // and instead use string equality.
+        String cardName = getCardName(cardResponsible);
+        String[] strings = new String[3];
+        strings[0] = cardName;  // common enough to set this as a default; override if necessary.
+        if (cardName.equals(getCardName(Cards.alchemist))) {
+            strings[1] = getString(R.string.alchemist_option_one);
+            strings[2] = getString(R.string.alchemist_option_two);
+        } else if (cardName.equals(getCardName(Cards.baron))) {
+            strings[1] = getString(R.string.baron_option_one);
+            strings[2] = getString(R.string.baron_option_two);
+        } else if (cardName.equals(getCardName(Cards.chancellor))) {
+            strings[1] = getString(R.string.chancellor_query);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.explorer))) {
+            strings[1] = getString(R.string.explorer_reveal);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.miningVillage))) {
+            strings[1] = getString(R.string.mining_village_option_one);
+            strings[2] = getString(R.string.keep);
+        } else if (cardName.equals(getCardName(Cards.mountebank))) {
+            strings[0] = getString(R.string.mountebank_query);
+            strings[1] = getString(R.string.mountebank_option_one);
+            strings[2] = getString(R.string.mountebank_option_two);
+        } else if (cardName.equals(getCardName(Cards.pirateShip))) {
+            strings[1] = format(R.string.pirate_ship_option_one, "" + (Integer) extras[0]);
+            strings[2] = getString(R.string.pirate_ship_option_two);
+        } else if (cardName.equals(getCardName(Cards.nativeVillage))) {
+            strings[1] = getString(R.string.native_village_option_one);
+            strings[2] = getString(R.string.native_village_option_two);
+        } else if (cardName.equals(getCardName(Cards.navigator))) {
+            String header = "";
+            for (Object card : extras)
+                header += getCardName((Card) card) + ", ";
+            header += "--";
+            header = header.replace(", --", "");
+            strings[0] = Strings.format(R.string.navigator_header, header);
+            strings[1] = getString(R.string.discard);
+            strings[2] = getString(R.string.navigator_option_two);
+        }
+        if (strings[1] != null) {
+            return strings;
+        }
+        throw new RuntimeException("I got passed a card that I don't know how to create a boolean "
+                                   + "option for!");
+    }
+
     public static String getSelectCardText(SelectCardOptions sco, String header) {
         String minCostString = (sco.minCost <= 0) ? "" : "" + sco.minCost;
         String maxCostString = (sco.maxCost == Integer.MAX_VALUE) ?
