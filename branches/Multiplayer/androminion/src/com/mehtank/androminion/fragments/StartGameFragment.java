@@ -65,7 +65,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		com.mehtank.androminion.server.Strings.context = getActivity().getApplicationContext();
+		com.mehtank.androminion.server.Strings.initContext(getActivity().getApplicationContext());
 
 		mView = inflater.inflate(R.layout.fragment_startgame, null);
 

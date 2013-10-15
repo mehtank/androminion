@@ -41,7 +41,14 @@ public class Strings {
     static HashMap<Card, String> descriptionCache = new HashMap<Card, String>();
     static HashMap<String, String> expansionCache = new HashMap<String, String>();
     static HashMap<GameType, String> gametypeCache = new HashMap<GameType, String>();
-    public static Context context;
+    private static Map<String, String> actionStringMap;
+    private static Set<String> simpleActionStrings;
+    private static Context context;
+
+    public static void initContext(Context c) {
+        context = c;
+        initActionStrings();
+    }
 
     public static String getCardName(Card c) {
         String name = nameCache.get(c);
@@ -449,7 +456,9 @@ public class Strings {
         return null;
     }
 
-    public static Set<String> simpleActionStrings = new HashSet<String>(Arrays.asList(
+    private static void initActionStrings() {
+        if (simpleActionStrings != null) return;
+        simpleActionStrings = new HashSet<String>(Arrays.asList(
             getCardName(Cards.altar),
             getCardName(Cards.ambassador),
             getCardName(Cards.apprentice),
@@ -504,10 +513,8 @@ public class Strings {
             getCardName(Cards.warehouse),
             getCardName(Cards.workshop),
             getCardName(Cards.youngWitch)
-                    ));
-
-    public static Map<String, String> actionStringMap = new HashMap<String, String>();
-    static {
+        ));
+        actionStringMap = new HashMap<String, String>();
         actionStringMap.put(getCardName(Cards.bureaucrat), getString(R.string.bureaucrat_part));
         actionStringMap.put(getCardName(Cards.bandOfMisfits), getString(R.string.part_play));
         actionStringMap.put(getCardName(Cards.courtyard),
