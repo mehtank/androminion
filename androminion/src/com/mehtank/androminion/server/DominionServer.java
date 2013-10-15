@@ -29,7 +29,7 @@ public class DominionServer extends Service {
 		if (!test().equals(stopped))
 			return;
 		
-        Strings.context = this;
+        Strings.initContext(this);
 		VDomServer.main(new String[] {
 				"Drew (AI)", "com.vdom.players.VDomPlayerDrew",
 				"Earl (AI)", "com.vdom.players.VDomPlayerEarl",
