@@ -65,7 +65,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		com.mehtank.androminion.server.Strings.initContext(getActivity().getApplicationContext());
+		com.mehtank.androminion.ui.Strings.initContext(getActivity().getApplicationContext());
 
 		mView = inflater.inflate(R.layout.fragment_startgame, null);
 
@@ -132,7 +132,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 			if (types[i] == GameType.Specified) {
 				continue;
 			}
-			type = com.mehtank.androminion.server.Strings.getGameTypeName(types[i]);
+			type = com.mehtank.androminion.ui.Strings.getGameTypeName(types[i]);
 			if (types[i].name().startsWith("Random")) {
 				randoms.add(type);
 			} else {
@@ -230,7 +230,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 			edit.putString("gameType", TypeOptions.RANDOM.name());
 
             spinnerStr = (String) mRandomSpinner.getSelectedItem();
-			g = com.mehtank.androminion.server.Strings.getGameTypefromName(spinnerStr);
+			g = com.mehtank.androminion.ui.Strings.getGameTypefromName(spinnerStr);
 			if (g != null)
 				strs.add(g.getName());
 			edit.putString("randomPref", spinnerStr);
@@ -239,7 +239,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 			edit.putString("gameType", TypeOptions.PRESET.name());
 
             spinnerStr = (String) mPresetSpinner.getSelectedItem();
-			g = com.mehtank.androminion.server.Strings.getGameTypefromName(spinnerStr);
+			g = com.mehtank.androminion.ui.Strings.getGameTypefromName(spinnerStr);
 			if (g != null)
 				strs.add(g.getName());
 			edit.putString("presetPref", spinnerStr);

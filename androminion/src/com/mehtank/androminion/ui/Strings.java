@@ -1,4 +1,4 @@
-package com.mehtank.androminion.server;
+package com.mehtank.androminion.ui;
 
 import java.util.Arrays;
 import java.util.HashMap;
