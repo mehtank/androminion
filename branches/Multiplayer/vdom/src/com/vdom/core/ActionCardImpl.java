@@ -2881,6 +2881,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             // Create a list of possible cards to guess, using the player's hand, discard pile, and deck 
             // (even though the player could technically name a card he doesn't have)
+            // NOTE(matt): IndirectPlayer now ignores the options array that is passed in here,
+            // allowing the player to pick whatever card they want.
             ArrayList<Card> options = currentPlayer.getAllCards();
             Collections.sort(options, new Util.CardNameComparator());
 
@@ -4353,6 +4355,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             // Create a list of all possible cards to guess, using the player's hand, discard pile, and deck 
             // (even though the player could technically name a card he doesn't have)
+            // NOTE(matt): IndirectPlayer now ignores the options array that is passed in here,
+            // allowing the player to pick whatever card they want.
             ArrayList<Card> options = currentPlayer.getAllCards();
             Collections.sort(options, new Util.CardNameComparator());
 

@@ -630,19 +630,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
             return super.wishingWell_cardGuess(context, cardList);
         }
-
-        LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-
-        // Add option to skip the guess
-        h.put("None", null);
-
-        for (Card c : cardList) {
-            h.put(c.getName(), c);
-        }
-
-        String choice = selectString(context, getActionString(ActionType.NAMECARD, Cards.wishingWell), h.keySet().toArray(new String[0])); 
-
-        return h.get(choice);
+        SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+                .setActionType(ActionType.NAMECARD).setCardResponsible(Cards.wishingWell);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -708,7 +698,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getCardFromHand(context, sco);
     }
 
-    @Override 
+    @Override
     public Card[] warehouse_cardsToDiscard(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_warehouse_cardsToDiscard(context)) {
             return super.warehouse_cardsToDiscard(context);
@@ -742,15 +732,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_smugglers_cardToObtain(context)) {
             return super.smugglers_cardToObtain(context);
         }
-        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<Card> options = new ArrayList<Card>();
         Card[] cards = context.getCardsObtainedByLastPlayer().toArray(new Card[0]);
         for (Card c : cards)
             if (c.getCost(context) <= 6 && !c.isPrize())
-                options.add(Strings.getCardName(c));
+                options.add(c);
 
         if (options.size() > 0) {
-            String o = selectString(context, getString(R.string.smuggle_query), options.toArray(new String[0]));
-            return localNameToCard(o, cards);
+            int o = selectOption(context, Cards.smugglers, options.toArray());
+            return options.get(o);
         } else
             return null;
     }
@@ -2053,23 +2043,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card mystic_cardGuess(MoveContext context, ArrayList<Card> cardList) {
-
         if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
             return super.mystic_cardGuess(context, cardList);
         }
-
-        LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-
-        // Add option to skip the guess
-        h.put("None", null);
-
-        for (Card c : cardList) {
-            h.put(c.getName(), c);
-        }
-
-        String choice = selectString(context, getActionString(ActionType.NAMECARD, Cards.mystic), h.keySet().toArray(new String[0])); 
-
-        return h.get(choice);
+        SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+                .setActionType(ActionType.NAMECARD).setCardResponsible(Cards.mystic);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -2085,13 +2064,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         CardList localDiscard = (context.player.isPossessed()) ? context.player.getDiscard() : getDiscard();
         if (localDiscard.isEmpty())
             return null;
-
-        // oh, how simple it looks, and how ugly it will be (again)
-        LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-        for (Card c : localDiscard) {
-            h.put(c.getName(), c);
-        }
-        return h.get(selectString(context, Cards.scavenger, h.keySet().toArray(new String[0])));
+        return localDiscard.get(selectOption(context, Cards.scavenger, localDiscard.toArray()));
     }
 
     @Override
@@ -2162,7 +2135,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card rogue_cardToGain(MoveContext context) {
         LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-        ArrayList<Card> options = new ArrayList<Card>(); 
+        ArrayList<Card> options = new ArrayList<Card>();
 
         for (Card c : game.trashPile) {
             if (c.getCost(context) >= 3 && c.getCost(context) <= 6)
@@ -2172,22 +2145,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if (options.isEmpty()) {
             return null;
         }
-
-        for (Card c : options) {
-            h.put(c.getName(), c);
-        }
-
-        return h.get(selectString(context, Cards.rogue, h.keySet().toArray(new String[0])));
+        return options.get(selectOption(context, Cards.rogue, options.toArray()));
     }
 
     @Override
     public Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
-        LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-        for (Card c : canTrash) {
-            h.put(c.getName(), c);
-        }
-
-        return h.get(selectString(context, Cards.rogue, h.keySet().toArray(new String[0])));
+        return canTrash.get(selectOption(context, Cards.rogue, canTrash.toArray()));
     }
 
     @Override
@@ -2212,14 +2175,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (Card c : handCards) {
             options.add(Strings.getCardName(c));
         }
-
-        if (!options.isEmpty()) {
-            String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.pillage, context.attackedPlayer.getPlayerName()), options.toArray(new String[0]));
-            return (Card) localNameToCard(o, handCards.toArray(new Card[0]));
-        }
-        else {
+        if (options.isEmpty()) {
             return null;
         }
+
+        // TODO(matt): We should be using selectOption here, but I need to augment this to allow
+        // for extras in computing the header.  The options are easy - they are just cards.
+        String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.pillage, context.attackedPlayer.getPlayerName()), options.toArray(new String[0]));
+        return (Card) localNameToCard(o, handCards.toArray(new Card[0]));
     }
 
     @Override
@@ -2255,13 +2218,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (Card c : cards) {
             options.add(Strings.getCardName(c));
         }
-
-        if (!options.isEmpty()) {
-            String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.envoy, context.getPlayer().getPlayerName()), options.toArray(new String[0]));
-            return (Card) localNameToCard(o, cards);
-        } else {
+        if (options.isEmpty()) {
             return null;
         }
+
+        // TODO(matt): We should be using selectOption here, but I need to augment this to allow
+        // for extras in computing the header.  The options are easy - they are just cards.
+        String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.envoy, context.getPlayer().getPlayerName()), options.toArray(new String[0]));
+        return (Card) localNameToCard(o, cards);
     }
 
     @Override
@@ -2387,14 +2351,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.dameAnna);
         return getFromHand(context, sco);
     }
+
     @Override
     public Card knight_cardToTrash(MoveContext context, ArrayList<Card> canTrash) {
-        LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-        for (Card c : canTrash) {
-            h.put(c.getName(), c);
-        }
-        return h.get(selectString(context, Cards.virtualKnight, h.keySet().toArray(new String[0])));
+        return canTrash.get(selectOption(context, Cards.virtualKnight, canTrash.toArray()));
     }
+
     @Override
     public Card[] sirMichael_attack_cardsToKeep(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_militia_attack_cardsToKeep(context)) {
@@ -2404,6 +2366,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setPickType(PickType.KEEP).setCardResponsible(Cards.sirMichael);
         return getFromHand(context, sco);
     }
+
     @Override
     public Card dameNatalie_cardToObtain(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
@@ -2456,45 +2419,37 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public int numGuildsCoinTokensToSpend(MoveContext context)
-    {
+    public int numGuildsCoinTokensToSpend(MoveContext context) {
         return selectInt(context, "Spend Guilds Coin Tokens", getGuildsCoinTokenCount(), 0);
     }
 
     @Override
-    public int amountToOverpay(MoveContext context, int cardCost)
-    {
+    public int amountToOverpay(MoveContext context, int cardCost) {
         int availableAmount = context.getCoinAvailableForBuy() - cardCost;
 
         // If at least one potion is available, it can be used to overpay
         int potion = context.potions;
 
-        if (availableAmount <= 0)
-        {
+        if (availableAmount <= 0) {
             return 0;
         }
-        else
-        {
+        else {
             return selectInt(context, "Overpay?", availableAmount, 0);
         }
     }
 
     @Override
-    public int overpayByPotions(MoveContext context, int availablePotions)
-    {
-        if (availablePotions > 0)
-        {
+    public int overpayByPotions(MoveContext context, int availablePotions) {
+        if (availablePotions > 0) {
             return selectInt(context, "Overpay by Potion(s)?", availablePotions, 0);
         }
-        else
-        {
+        else {
             return 0;
         }
     }
 
     @Override
-    public Card butcher_cardToTrash(MoveContext context)
-    {
+    public Card butcher_cardToTrash(MoveContext context) {
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setPassable().setActionType(ActionType.TRASH)
                 .setCardResponsible(Cards.butcher);
@@ -2502,53 +2457,46 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion)
-    {
+    public Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion) {
         SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.butcher);
         return getFromTable(context, sco);
     }
 
     @Override
-    public Card advisor_cardToDiscard(MoveContext context, Card[] cards)
-    {
+    public Card advisor_cardToDiscard(MoveContext context, Card[] cards) {
         ArrayList<String> options = new ArrayList<String>();
 
-        for (Card c : cards) 
-        {
+        for (Card c : cards) {
             options.add(Strings.getCardName(c));
         }
 
-        if (!options.isEmpty()) 
-        {
+        // TODO(matt): We should be using selectOption here, but I need to augment this to allow
+        // for extras in computing the header.  The options are easy - they are just cards.
+        if (!options.isEmpty()) {
             String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.advisor, context.getPlayer().getPlayerName()), options.toArray(new String[0]));
             return (Card) localNameToCard(o, cards);
-        } 
-        else 
-        {
+        } else {
             return null;
         }
     }
 
     @Override
-    public Card journeyman_cardToPick(MoveContext context) 
-    {
+    public Card journeyman_cardToPick(MoveContext context) {
         SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .setActionType(ActionType.NAMECARD).setCardResponsible(Cards.journeyman);
         return getFromTable(context, sco);
     }
 
     @Override
-    public Card stonemason_cardToTrash(MoveContext context)
-    {
+    public Card stonemason_cardToTrash(MoveContext context) {
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH).allowEmpty()
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.stonemason);
         return getCardFromHand(context, sco);
     }
 
     @Override
-    public Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion)
-    {
+    public Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion) {
         SelectCardOptions sco = new SelectCardOptions().allowEmpty().maxCost(maxCost)
                 .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.stonemason);
@@ -2556,8 +2504,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion)
-    {
+    public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion) {
         SelectCardOptions sco = new SelectCardOptions().allowEmpty().exactCost(overpayAmount)
                 .isAction().potionCost(potion ? 1 : 0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.stonemason);
@@ -2565,22 +2512,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card doctor_cardToPick(MoveContext context)
-    {
+    public Card doctor_cardToPick(MoveContext context) {
         SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .setActionType(ActionType.NAMECARD).setCardResponsible(Cards.doctor);
         return getFromTable(context, sco);
     }
 
     @Override
-    public ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards) 
-    {
+    public ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards) {
         ArrayList<Card> orderedCards = new ArrayList<Card>();
 
         int[] order = orderCards(context, cardArrToIntArr(cards.toArray(new Card[0])));
 
-        for (int i : order)
-        {
+        for (int i : order) {
             orderedCards.add(cards.get(i));
         }
 
@@ -2604,33 +2548,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card herald_cardTopDeck(MoveContext context, Card[] cardList)
-    {
-        ArrayList<String> options = new ArrayList<String>();
+    public Card herald_cardTopDeck(MoveContext context, Card[] cardList) {
+        ArrayList<Card> options = new ArrayList<Card>();
 
         // Remove first Herald from this list (representing the most recent one bought)
         boolean heraldRemoved = false;
 
-        for (Card c : cardList) 
-        {
-            if (!heraldRemoved && c.getName().equalsIgnoreCase("herald"))
-            {
+        for (Card c : cardList) {
+            if (!heraldRemoved && c.getName().equalsIgnoreCase("herald")) {
                 heraldRemoved = true;
             }
-            else
-            {
-                options.add(Strings.getCardName(c));
+            else {
+                options.add(c);
             }
         }
 
-        if (!options.isEmpty()) 
-        {
-            String o = selectString(context, R.string.herald_overpay_query, Cards.herald, options.toArray(new String[0]));
-            return (Card) localNameToCard(o, cardList);
-        } 
-        else 
-        {
+        if (options.isEmpty()) {
             return null;
         }
+
+        return options.get(selectOption(context, Cards.herald, options.toArray()));
     }
 }
