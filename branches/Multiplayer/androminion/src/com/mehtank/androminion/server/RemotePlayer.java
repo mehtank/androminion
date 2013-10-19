@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.ui.Strings;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;

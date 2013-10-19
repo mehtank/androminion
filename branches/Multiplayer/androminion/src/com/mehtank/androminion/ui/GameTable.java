@@ -20,7 +20,6 @@ import android.widget.ToggleButton;
 
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.activities.GameActivity;
-import com.mehtank.androminion.server.Strings;
 import com.mehtank.androminion.ui.CardView.CardState;
 import com.mehtank.androminion.util.Achievements;
 import com.mehtank.androminion.util.CardGroup;
