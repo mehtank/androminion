@@ -557,7 +557,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         for (int i = 0; i < options.length; i++) {
             options[i] = Strings.getOptionText(e.o.os[i]);
         }
-        selectString(Strings.getCardName(e.c), options, Event.EType.OPTION);
+        selectString(Strings.getSelectOptionHeader(e.c), options, Event.EType.OPTION);
     }
 
     public void selectString(String title, String[] options) {

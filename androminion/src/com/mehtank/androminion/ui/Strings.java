@@ -164,9 +164,21 @@ public class Strings {
         return context.getString(resId);
     }
 
+    public static String getSelectOptionHeader(Card card) {
+        String cardName = getCardName(card);
+        if (cardName.equals(getCardName(Cards.smugglers))) {
+            return getString(R.string.smuggle_query);
+        } else if (cardName.equals(getCardName(Cards.herald))) {
+            return getString(R.string.herald_overpay_query) + " [" + cardName + "]";
+        } else if (cardName.equals(getCardName(Cards.cartographer))) {
+            return getString(R.string.Cartographer_query) + " [" + cardName + "]";
+        }
+        return cardName;
+    }
     /**
-     * Takes an option object (TODO(matt): make a class that's more restrictive than Object that
-     * these options can inherit from) and returns the string the corresponds to the option.
+     * Takes an option object and returns the string the corresponds to the option.  (TODO(matt):
+     * make a class that's more restrictive than Object that these options can inherit from,
+     * though, actually, now that we're using Cards in here too, maybe we shouldn't do that...)
      */
     public static String getOptionText(Object option) {
         if (option instanceof SpiceMerchantOption) {
@@ -291,6 +303,8 @@ public class Strings {
             } else if (option == PawnOption.AddGold) {
                 return getString(R.string.pawn_four);
             }
+        } else if (option instanceof Card) {
+            return getCardName((Card) option);
         }
         throw new RuntimeException("I got passed an option object that I don't understand!");
     }
