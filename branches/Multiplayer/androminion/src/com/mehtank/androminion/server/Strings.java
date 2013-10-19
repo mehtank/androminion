@@ -16,6 +16,7 @@ import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.Cards;
+import com.vdom.core.Player;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
 import com.vdom.core.Player.GovernorOption;
@@ -314,12 +315,66 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.baron))) {
             strings[1] = getString(R.string.baron_option_one);
             strings[2] = getString(R.string.baron_option_two);
+        } else if (cardName.equals(getCardName(Cards.catacombs))) {
+            strings[0] = format(R.string.catacombs_header, combineCardNames(extras));
+            strings[1] = getString(R.string.catacombs_option_one);
+            strings[2] = getString(R.string.catacombs_option_two);
         } else if (cardName.equals(getCardName(Cards.chancellor))) {
             strings[1] = getString(R.string.chancellor_query);
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.cultist))) {
+            strings[1] = getString(R.string.cultist_play_next);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.duchess))) {
+            if (extras == null) {
+                // This is asking if you want to _gain_ a duchess (upon purchase of a duchy).
+                strings[0] = getString(R.string.duchess_query);
+                strings[1] = getString(R.string.duchess_option_one);
+                strings[2] = getString(R.string.pass);
+            } else {
+                // And this one is from _playing_ the duchess.
+                strings[0] = getCardRevealedHeader(extras);
+                strings[1] = getString(R.string.duchess_play_option_one);
+                strings[2] = getString(R.string.discard);
+            }
         } else if (cardName.equals(getCardName(Cards.explorer))) {
             strings[1] = getString(R.string.explorer_reveal);
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.foolsGold))) {
+            strings[1] = getString(R.string.fools_gold_option_one);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.hovel))) {
+            strings[1] = getString(R.string.hovel_option);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.illGottenGains))) {
+            strings[1] = getString(R.string.ill_gotten_gains_option_one);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.inn))) {
+            strings[0] = getCardRevealedHeader(extras);
+            strings[1] = getString(R.string.inn_option_one);
+            strings[2] = getString(R.string.inn_option_two);
+        } else if (cardName.equals(getCardName(Cards.ironmonger))) {
+            strings[0] = getCardRevealedHeader(extras);
+            strings[1] = getString(R.string.ironmonger_option_one);
+            strings[2] = getString(R.string.discard);
+        } else if (cardName.equals(getCardName(Cards.jackOfAllTrades))) {
+            strings[0] = getCardRevealedHeader(extras);
+            strings[1] = getString(R.string.jack_of_all_trades_option_one);
+            strings[2] = getString(R.string.discard);
+        } else if (cardName.equals(getCardName(Cards.library))) {
+            strings[0] = getCardRevealedHeader(extras);
+            strings[1] = getString(R.string.keep);
+            strings[2] = getString(R.string.discard);
+        } else if (cardName.equals(getCardName(Cards.loan))) {
+            strings[0] = getCardRevealedHeader(extras);
+            strings[1] = getString(R.string.trash);
+            strings[2] = getString(R.string.discard);
+        } else if (cardName.equals(getCardName(Cards.madman))) {
+            strings[1] = getString(R.string.madman_option);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.marketSquare))) {
+            strings[1] = getString(R.string.discard);
+            strings[2] = getString(R.string.keep);
         } else if (cardName.equals(getCardName(Cards.miningVillage))) {
             strings[1] = getString(R.string.mining_village_option_one);
             strings[2] = getString(R.string.keep);
@@ -327,6 +382,10 @@ public class Strings {
             strings[0] = getString(R.string.mountebank_query);
             strings[1] = getString(R.string.mountebank_option_one);
             strings[2] = getString(R.string.mountebank_option_two);
+        } else if (cardName.equals(getCardName(Cards.pearlDiver))) {
+            strings[0] = getCardRevealedHeader(extras);
+            strings[1] = getString(R.string.pearldiver_option_one);
+            strings[2] = getString(R.string.pearldiver_option_two);
         } else if (cardName.equals(getCardName(Cards.pirateShip))) {
             strings[1] = format(R.string.pirate_ship_option_one, "" + (Integer) extras[0]);
             strings[2] = getString(R.string.pirate_ship_option_two);
@@ -334,20 +393,102 @@ public class Strings {
             strings[1] = getString(R.string.native_village_option_one);
             strings[2] = getString(R.string.native_village_option_two);
         } else if (cardName.equals(getCardName(Cards.navigator))) {
-            String header = "";
-            for (Object card : extras)
-                header += getCardName((Card) card) + ", ";
-            header += "--";
-            header = header.replace(", --", "");
-            strings[0] = Strings.format(R.string.navigator_header, header);
+            strings[0] = Strings.format(R.string.navigator_header, combineCardNames(extras));
             strings[1] = getString(R.string.discard);
             strings[2] = getString(R.string.navigator_option_two);
+        } else if (cardName.equals(getCardName(Cards.nobleBrigand))) {
+            strings[0] = Strings.format(R.string.noble_brigand_query, extras[0]);
+            strings[1] = getCardName((Card) extras[1]);
+            strings[2] = getCardName((Card) extras[2]);
+        } else if (cardName.equals(getCardName(Cards.oracle))) {
+            Player player = (Player) extras[0];
+            String cardNames = combineCardNames(extras, 1);
+            strings[0] = format(R.string.card_revealed, player.getPlayerName(), cardNames);
+            strings[1] = getString(R.string.top_of_deck);
+            strings[2] = getString(R.string.discard);
+        } else if (cardName.equals(getCardName(Cards.royalSeal))) {
+            strings[0] = getCardRevealedHeader(extras);
+            strings[1] = getString(R.string.top_of_deck);
+            strings[2] = getString(R.string.take_normal);
+        } else if (cardName.equals(getCardName(Cards.scavenger))) {
+            // This is pretty ugly, but that's how it's written.  That's the problem with using
+            // card names as variables instead of english.  An ambitious goal would be to redo all
+            // of these names using something a little more sane and reusable (but it's probably
+            // not worth the effort, as this works).
+            strings[1] = getString(R.string.chancellor_query);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.scryingPool))) {
+            strings[0] = getPlayerRevealedCardHeader(extras);
+            strings[1] = getString(R.string.discard);
+            strings[2] = getString(R.string.replace);
+        } else if (cardName.equals(getCardName(Cards.spy))) {
+            strings[0] = getPlayerRevealedCardHeader(extras);
+            strings[1] = getString(R.string.discard);
+            strings[2] = getString(R.string.replace);
+        } else if (cardName.equals(getCardName(Cards.survivors))) {
+            strings[0] = Strings.format(R.string.survivors_header, combineCardNames(extras));
+            strings[1] = getString(R.string.discard);
+            strings[2] = getString(R.string.navigator_option_two);
+        } else if (cardName.equals(getCardName(Cards.tournament))) {
+            strings[1] = getString(R.string.tournament_reveal);
+            strings[2] = getString(R.string.tournament_option_one);
+        } else if (cardName.equals(getCardName(Cards.trader))) {
+            String c_name = getCardName((Card)extras[0]);
+            strings[1] = format(R.string.trader_gain, c_name);
+            strings[2] = format(R.string.trader_gain_instead_of, getCardName(Cards.silver), c_name);
+        } else if (cardName.equals(getCardName(Cards.tunnel))) {
+            strings[0] = getString(R.string.tunnel_query);
+            strings[1] = getString(R.string.tunnel_option_one);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.urchin))) {
+            strings[1] = getString(R.string.urchin_trash_for_mercenary);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.walledVillage))) {
+            strings[1] = getString(R.string.walledVillage_option_one);
+            strings[2] = getString(R.string.walledVillage_option_two);
+        } else if (cardName.equals(getCardName(Cards.youngWitch))) {
+            strings[1] = format(R.string.bane_option_one, getCardName((Card)extras[0]));
+            strings[2] = getString(R.string.pass);
         }
         if (strings[1] != null) {
             return strings;
         }
         throw new RuntimeException("I got passed a card that I don't know how to create a boolean "
                                    + "option for!");
+    }
+
+    public static String combineCardNames(Object[] cards) {
+        return combineCardNames(cards, 0);
+    }
+
+    public static String getCardRevealedHeader(Object[] extras) {
+        return getCardRevealedHeader((Card) extras[0], (Card) extras[1]);
+    }
+
+    public static String getCardRevealedHeader(Card responsible, Card revealed) {
+        return format(R.string.card_revealed, getCardName(responsible), getCardName(revealed));
+    }
+
+    public static String getPlayerRevealedCardHeader(Object[] extras) {
+        return getPlayerRevealedCardHeader((Player) extras[0], (Card) extras[1], (Card) extras[2]);
+    }
+
+    public static String getPlayerRevealedCardHeader(Player p, Card responsible, Card revealed) {
+        return format(R.string.card_revealed_from_player,
+                      p.getPlayerName(),
+                      getCardName(responsible),
+                      getCardName(revealed));
+    }
+
+    public static String combineCardNames(Object[] cards, int startIndex) {
+        String cardNames = "";
+        for (int i = startIndex; i < cards.length; i++) {
+            cardNames += getCardName((Card) cards[i]);
+            if (i != cards.length - 1) {
+                cardNames += ", ";
+            }
+        }
+        return cardNames;
     }
 
     public static String getSelectCardText(SelectCardOptions sco, String header) {
