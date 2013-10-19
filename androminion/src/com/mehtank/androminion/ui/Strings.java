@@ -164,14 +164,32 @@ public class Strings {
         return context.getString(resId);
     }
 
-    public static String getSelectOptionHeader(Card card) {
+    public static String getSelectOptionHeader(Card card, Object[] extras) {
         String cardName = getCardName(card);
-        if (cardName.equals(getCardName(Cards.smugglers))) {
-            return getString(R.string.smuggle_query);
+        if (cardName.equals(getCardName(Cards.cartographer))) {
+            return getString(R.string.Cartographer_query) + " [" + cardName + "]";
+        } else if (cardName.equals(getCardName(Cards.golem))) {
+            return getString(R.string.golem_first_action);
         } else if (cardName.equals(getCardName(Cards.herald))) {
             return getString(R.string.herald_overpay_query) + " [" + cardName + "]";
-        } else if (cardName.equals(getCardName(Cards.cartographer))) {
-            return getString(R.string.Cartographer_query) + " [" + cardName + "]";
+        } else if (cardName.equals(getCardName(Cards.herbalist))) {
+            return getString(R.string.herbalist_query);
+        } else if (cardName.equals(getCardName(Cards.lookout))) {
+            // TODO(matt): I don't think this is robust - what if you don't have 3 cards to flip
+            // over, and you've only flipped over 2, but still trash a card first?  Once
+            // getOptionText is fixed, we can add an indicator field to the extras, I think, and
+            // that would be more robust.
+            if (extras.length == 3) {
+                return getString(R.string.lookout_query_trash);
+            } else {
+                return getString(R.string.lookout_query_discard);
+            }
+        } else if (cardName.equals(getCardName(Cards.pirateShip))) {
+            return getString(R.string.treasure_to_trash);
+        } else if (cardName.equals(getCardName(Cards.smugglers))) {
+            return getString(R.string.smuggle_query);
+        } else if (cardName.equals(getCardName(Cards.thief))) {
+            return getString(R.string.treasure_to_trash);
         }
         return cardName;
     }

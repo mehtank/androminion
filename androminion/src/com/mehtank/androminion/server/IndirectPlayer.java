@@ -800,12 +800,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_lookout_cardToTrash(context, cards)) {
             return super.lookout_cardToTrash(context, cards);
         }
-        ArrayList<String> options = new ArrayList<String>();
-        for (Card c : cards)
-            options.add(Strings.getCardName(c));
-
-        String o = selectString(context, R.string.lookout_query_trash, Cards.lookout, options.toArray(new String[0]));
-        return localNameToCard(o, cards);
+        // TODO(matt): prepend an indicator to the array that's passed in here.
+        return cards[selectOption(context, Cards.lookout, cards)];
     }
 
     // Will be passed the two cards leftover after trashing one
@@ -814,12 +810,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_lookout_cardToDiscard(context, cards)) {
             return super.lookout_cardToDiscard(context, cards);
         }
-        ArrayList<String> options = new ArrayList<String>();
-        for (Card c : cards)
-            options.add(Strings.getCardName(c));
-
-        String o = selectString(context, R.string.lookout_query_discard, Cards.lookout, options.toArray(new String[0]));
-        return localNameToCard(o, cards);
+        // TODO(matt): prepend an indicator to the array that's passed in here.
+        return cards[selectOption(context, Cards.lookout, cards)];
     }
 
     @Override
@@ -901,17 +893,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_herbalist_backOnDeck(context, cards)) {
             return super.herbalist_backOnDeck(context, cards);
         }
-        ArrayList<String> options = new ArrayList<String>();
-        for (Card c : cards)
-            options.add(Strings.getCardName(c));
-
-        //        String none = getString(R.string.none);
-        //        options.add(none);
-        String o = selectString(context, R.string.herbalist_query, Cards.herbalist, options.toArray(new String[0]));
-        //        if(o.equals(none)) {
-        //            return null;
-        //        }
-        return (TreasureCard) localNameToCard(o, cards);
+        return cards[selectOption(context, Cards.herbalist, cards)];
     }
 
     @Override
@@ -952,17 +934,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.golem_cardOrder(context, cards);
         }
 
-        if(cards == null || cards.length < 2) {
+        if (cards == null || cards.length < 2) {
             return cards;
         }
 
-        ArrayList<String> options = new ArrayList<String>();
-        for (Card c : cards)
-            options.add(Strings.getCardName(c));
-
-        String o = selectString(context, R.string.golem_first_action, Cards.golem, options.toArray(new String[0]));
-        Card c = localNameToCard(o, cards);
-        if(c.equals(cards[0])) {
+        int o = selectOption(context, Cards.golem, cards);
+        if (o == 0) {
             return cards;
         }
         return new ActionCard[]{ cards[1], cards[0] };
@@ -1330,16 +1307,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_thief_treasureToTrash(context, treasures)) {
             return super.thief_treasureToTrash(context, treasures);
         }
-        ArrayList<String> options = new ArrayList<String>();
-        for (TreasureCard c : treasures)
-            options.add(Strings.getCardName(c));
-
-        if (options.size() > 0) {
-            String o = selectString(context, R.string.treasure_to_trash, Cards.thief, options.toArray(new String[0]));
-            return (TreasureCard) localNameToCard(o, treasures);
-        } else {
-            return null;
-        }
+        return treasures[selectOption(context, Cards.thief, treasures)];
     }
 
     @Override
@@ -1372,16 +1340,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_pirateShip_treasureToTrash(context, treasures)) {
             return super.pirateShip_treasureToTrash(context, treasures);
         }
-        ArrayList<String> options = new ArrayList<String>();
-        for (TreasureCard c : treasures)
-            options.add(Strings.getCardName(c));
-
-        if (options.size() > 0) {
-            String o = selectString(context, R.string.treasure_to_trash, Cards.pirateShip, options.toArray(new String[0]));
-            return (TreasureCard) localNameToCard(o, treasures);
-        } else {
-            return null;
-        }
+        return treasures[selectOption(context, Cards.pirateShip, treasures)];
     }
 
     @Override
@@ -1973,23 +1932,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card graverobber_cardToGainFromTrash(MoveContext context) {
-        LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
         ArrayList<Card> options = new ArrayList<Card>();
-
         for (Card c : game.trashPile) {
             if (c.getCost(context) >= 3 && c.getCost(context) <= 6)
                 options.add(c);
         }
-
         if (options.isEmpty()) {
             return null;
         }
-
-        for (Card c : options) {
-            h.put(c.getName(), c);
-        }
-
-        return h.get(selectString(context, Cards.graverobber, h.keySet().toArray(new String[0])));
+        return options.get(selectOption(context, Cards.graverobber, options.toArray()));
     }
 
     @Override
@@ -2323,13 +2274,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             ++cardCount;
         }
 
-        String choice = selectString(context, getActionString(ActionType.TRASH, Cards.hermit), h.keySet().toArray(new String[0])); 
+        String choice = selectString(context, getActionString(ActionType.TRASH, Cards.hermit), h.keySet().toArray(new String[0]));
 
         if (choice.contains("discard pile")) {
             context.hermitTrashCardPile = PileSelection.DISCARD;
         } else if (choice.contains("hand")) {
             context.hermitTrashCardPile = PileSelection.HAND;
-        } 
+        }
 
         return h.get(choice);
     }
