@@ -49,6 +49,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Deprecated
     abstract protected String selectString(MoveContext context, String header, String[] s);
     abstract protected boolean selectBoolean(MoveContext context, Card cardResponsible, Object[] extras);
+    public boolean selectBoolean(MoveContext context, Card cardResponsible) {
+        return selectBoolean(context, cardResponsible, null);
+    }
+
     abstract protected int selectOption(MoveContext context, Card card, Object[] options);
     abstract protected int[] orderCards(MoveContext context, int[] cards);
     @Deprecated
@@ -188,41 +192,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         } catch (NumberFormatException e) {
             return errVal;
         }
-    }
-
-    public boolean selectBoolean(MoveContext context, Card cardResponsible) {
-        return selectBoolean(context, cardResponsible, null);
-    }
-
-    @Deprecated
-    public boolean selectBoolean(MoveContext context, Card c, String strTrue, String strFalse) {
-        String header = getCardName(c);
-        return selectBoolean(context, header, strTrue, strFalse);
-    }
-
-    @Deprecated
-    public boolean selectBoolean(MoveContext context, String header, String strTrue, String strFalse) {
-        String [] s = new String [] {strTrue, strFalse};
-        String r = selectString(context, header, s);
-        if (strTrue.equals(r))
-            return true;
-        return false;
-    }
-
-    @Deprecated
-    public boolean selectBooleanCardRevealed(MoveContext context, Card cardResponsible, Card cardRevealed, String strTrue, String strFalse) {
-        String c1 = getCardName(cardResponsible);
-        String c2 = getCardName(cardRevealed);
-        String query = Strings.format(R.string.card_revealed, c1, c2);
-        return selectBoolean(context, query, strTrue, strFalse);
-    }
-
-    @Deprecated
-    public boolean selectBooleanCardRevealedAndPlayer(MoveContext context, Card cardResponsible, Card cardRevealed, Player p, String strTrue, String strFalse) {
-        String c1 = getCardName(cardResponsible);
-        String c2 = getCardName(cardRevealed);
-        String query = Strings.format(R.string.card_revealed_from_player, p.getPlayerName(), c1, c2);
-        return selectBoolean(context, query, strTrue, strFalse);
     }
 
     @Override
@@ -429,7 +398,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_library_shouldKeepAction(context, action)) {
             return super.library_shouldKeepAction(context, action);
         }
-        return selectBooleanCardRevealed(context, Cards.library, action, getString(R.string.keep), getString(R.string.discard));
+        Object[] extras = new Object[2];
+        extras[0] = Cards.library;
+        extras[1] = action;
+        return selectBoolean(context, Cards.library, extras);
     }
 
     @Override
@@ -437,7 +409,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_spy_shouldDiscard(context, targetPlayer, card)) {
             return super.spy_shouldDiscard(context, targetPlayer, card);
         }
-        return selectBooleanCardRevealedAndPlayer(context, Cards.spy, card, targetPlayer, getString(R.string.discard), getString(R.string.replace));
+        Object[] extras = new Object[3];
+        extras[0] = targetPlayer;
+        extras[1] = Cards.spy;
+        extras[2] = card;
+        return selectBoolean(context, Cards.spy, extras);
     }
 
     // ////////////////////////////////////////////
@@ -884,9 +860,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.pearlDiver_shouldMoveToTop(context, card);
         }
 
-        String option1 = getString(R.string.pearldiver_option_one);
-        String option2 = getString(R.string.pearldiver_option_two);
-        return selectBooleanCardRevealed(context, Cards.pearlDiver, card, option1, option2);
+        Object[] extras = new Object[2];
+        extras[0] = Cards.pearlDiver;
+        extras[1] = card;
+        return selectBoolean(context, Cards.pearlDiver, extras);
     }
 
     @Override
@@ -971,7 +948,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_scryingPool_shouldDiscard(context, targetPlayer, card)) {
             return super.scryingPool_shouldDiscard(context, targetPlayer, card);
         }
-        return selectBooleanCardRevealedAndPlayer(context, Cards.scryingPool, card, targetPlayer, getString(R.string.discard), getString(R.string.replace));
+        Object[] extras = new Object[3];
+        extras[0] = targetPlayer;
+        extras[1] = Cards.scryingPool;
+        extras[2] = card;
+        return selectBoolean(context, Cards.scryingPool, extras);
     }
 
     @Override
@@ -1105,7 +1086,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_loan_shouldTrashTreasure(context, treasure)) {
             return super.loan_shouldTrashTreasure(context, treasure);
         }
-        return selectBooleanCardRevealed(context, Cards.loan, treasure, getString(R.string.trash), getString(R.string.discard));
+        Object[] extras = new Object[2];
+        extras[0] = Cards.loan;
+        extras[1] = treasure;
+        return selectBoolean(context, Cards.loan, extras);
     }
 
     @Override
@@ -1144,7 +1128,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_royalSeal_shouldPutCardOnDeck(context, card)) {
             return super.royalSeal_shouldPutCardOnDeck(context, card);
         }
-        return selectBooleanCardRevealed(context, Cards.royalSeal, card, getString(R.string.top_of_deck), getString(R.string.take_normal));
+        Object[] extras = new Object[2];
+        extras[0] = Cards.royalSeal;
+        extras[1] = card;
+        return selectBoolean(context, Cards.royalSeal, extras);
     }
 
     @Override
@@ -1281,10 +1268,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_tournament_shouldRevealProvince(context)) {
             return super.tournament_shouldRevealProvince(context);
         }
-        return selectBoolean(context,
-                             Cards.tournament,
-                             Strings.getString(R.string.tournament_reveal),
-                             Strings.getString(R.string.tournament_option_one));
+        return selectBoolean(context, Cards.tournament);
     }
 
     @Override
@@ -1414,7 +1398,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_tunnel_shouldReveal(context)) {
             return super.tunnel_shouldReveal(context);
         }
-        return selectBoolean(context, getString(R.string.tunnel_query), getString(R.string.tunnel_option_one), getString(R.string.pass));
+        return selectBoolean(context, Cards.tunnel);
     }
 
     @Override
@@ -1422,7 +1406,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_duchess_shouldGainBecauseOfDuchy(context)) {
             return super.duchess_shouldGainBecauseOfDuchy(context);
         }
-        return selectBoolean(context, getString(R.string.duchess_query), getString(R.string.duchess_option_one), getString(R.string.pass));
+        return selectBoolean(context, Cards.duchess);
     }
 
     @Override
@@ -1430,7 +1414,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_duchess_shouldDiscardCardFromTopOfDeck(context, card)) {
             return super.duchess_shouldDiscardCardFromTopOfDeck(context, card);
         }
-        return !selectBooleanCardRevealed(context, Cards.duchess, card, getString(R.string.duchess_play_option_one), getString(R.string.discard));
+        Object[] extras = new Object[2];
+        extras[0] = Cards.duchess;
+        extras[1] = card;
+        return !selectBoolean(context, Cards.duchess, extras);
     }
 
     @Override
@@ -1438,7 +1425,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_foolsGold_shouldTrash(context)) {
             return super.foolsGold_shouldTrash(context);
         }
-        return selectBoolean(context, Cards.foolsGold, getString(R.string.fools_gold_option_one), getString(R.string.pass));
+        return selectBoolean(context, Cards.foolsGold);
     }
 
     @Override
@@ -1446,7 +1433,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_trader_shouldGainSilverInstead(context, card)) {
             return super.trader_shouldGainSilverInstead(context, card);
         }
-        return !selectBoolean(context, Cards.trader, Strings.format(R.string.trader_gain, getCardName(card)), Strings.format(R.string.trader_gain_instead_of, getCardName(Cards.silver), getCardName(card)));
+        Object[] extras = new Object[1];
+        extras[0] = card;
+        return !selectBoolean(context, Cards.trader, extras);
     }
 
     @Override
@@ -1517,22 +1506,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.nobleBrigand_silverOrGoldToTrash(context, silverOrGoldCards);
         }
 
-        int highIndex;
-        int lowIndex;
         if(silverOrGoldCards[0].getCost(context) >= silverOrGoldCards[1].getCost(context)) {
-            highIndex = 0;
-            lowIndex = 1;
-        }
-        else {
-            highIndex = 1;
-            lowIndex = 0;
+            TreasureCard tmp = silverOrGoldCards[0];
+            silverOrGoldCards[0] = silverOrGoldCards[1];
+            silverOrGoldCards[1] = tmp;
         }
 
-        if(selectBoolean(context, Strings.format(R.string.noble_brigand_query, context.getAttackedPlayer()), Strings.getCardName(silverOrGoldCards[lowIndex]), Strings.getCardName(silverOrGoldCards[highIndex]))) {
-            return silverOrGoldCards[lowIndex];
+        Object[] extras = new Object[3];
+        extras[0] = context.getAttackedPlayer();
+        extras[1] = silverOrGoldCards[0];
+        extras[2] = silverOrGoldCards[1];
+        if(selectBoolean(context, Cards.nobleBrigand, extras)) {
+            return silverOrGoldCards[0];
         }
         else {
-            return silverOrGoldCards[highIndex];
+            return silverOrGoldCards[1];
         }
     }
 
@@ -1541,7 +1529,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_jackOfAllTrades_shouldDiscardCardFromTopOfDeck(context, card)) {
             super.jackOfAllTrades_shouldDiscardCardFromTopOfDeck(context, card);
         }
-        return !selectBooleanCardRevealed(context, Cards.jackOfAllTrades, card, getString(R.string.jack_of_all_trades_option_one), getString(R.string.discard));
+        Object[] extras = new Object[2];
+        extras[0] = Cards.jackOfAllTrades;
+        extras[1] = card;
+        return !selectBoolean(context, Cards.jackOfAllTrades, extras);
     }
 
     @Override
@@ -1641,17 +1632,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_oracle_shouldDiscard(context, player, cards)) {
             return super.oracle_shouldDiscard(context, player, cards);
         }
-        String cardNames = "";
-        boolean first = true;
-        for(Card c : cards) {
-            if(first)
-                first = false;
-            else
-                cardNames += ", ";
-            cardNames += Strings.getCardName(c);
+        Object[] extras = new Object[cards.size() + 1];
+        extras[0] = player;
+        for (int i = 0; i < cards.size(); i++) {
+            extras[i+1] = cards.get(i);
         }
-        String s = Strings.format(R.string.card_revealed, player.getPlayerName(), cardNames);
-        return !selectBoolean(context, s, getString(R.string.top_of_deck), getString(R.string.discard));
+        return !selectBoolean(context, Cards.oracle, extras);
     }
 
     @Override
@@ -1671,7 +1657,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_illGottenGains_gainCopper(context)) {
             return super.illGottenGains_gainCopper(context);
         }
-        return selectBoolean(context, Cards.illGottenGains, getString(R.string.ill_gotten_gains_option_one), getString(R.string.pass));
+        return selectBoolean(context, Cards.illGottenGains);
     }
 
     @Override
@@ -1702,9 +1688,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.inn_shuffleCardBackIntoDeck(context, card);
         }
 
-        String option1 = getString(R.string.inn_option_one);
-        String option2 = getString(R.string.inn_option_two);
-        return selectBooleanCardRevealed(context, Cards.inn, card, option1, option2);
+        Object[] extras = new Object[2];
+        extras[0] = Cards.inn;
+        extras[1] = card;
+        return selectBoolean(context, Cards.inn, extras);
     }
 
     @Override
@@ -1811,7 +1798,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_revealBane(context)) {
             return super.revealBane(context);
         }
-        return selectBoolean(context, Cards.youngWitch, Strings.format(R.string.bane_option_one, Strings.getCardName(game.baneCard)), getString(R.string.pass));
+        Object[] extras = new Object[1];
+        extras[0] = game.baneCard;
+        return selectBoolean(context, Cards.youngWitch, extras);
     }
 
     @Override
@@ -1921,17 +1910,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_navigator_shouldDiscardTopCards(context, cards)) {
             return super.catacombs_shouldDiscardTopCards(context, cards);
         }
-        String header = "";
-        for (Card c : cards)
-            header += getCardName(c) + ", ";
-        header += "--";
-        header = header.replace(", --", "");
-        header = Strings.format(R.string.catacombs_header, header);
-
-        String option1 = getString(R.string.catacombs_option_one);
-        String option2 = getString(R.string.catacombs_option_two);
-
-        return !selectBoolean(context, header, option1, option2);
+        return !selectBoolean(context, Cards.catacombs, cards);
     }
 
     @Override
@@ -2050,7 +2029,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public boolean ironmonger_shouldDiscard(MoveContext context, Card card) {
-        return !selectBooleanCardRevealed(context, Cards.ironmonger, card, getString(R.string.ironmonger_option_one), getString(R.string.discard));
+        Object[] extras = new Object[2];
+        extras[0] = Cards.ironmonger;
+        extras[1] = card;
+        return !selectBoolean(context, Cards.ironmonger, extras);
     }
 
     @Override
@@ -2065,7 +2047,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public boolean marketSquare_shouldDiscard(MoveContext context) {
-        return selectBoolean(context, Cards.marketSquare, getString(R.string.discard), getString(R.string.keep));
+        return selectBoolean(context, Cards.marketSquare);
     }
 
     @Override
@@ -2094,7 +2076,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_chancellor_shouldDiscardDeck(context)) {
             return super.scavenger_shouldDiscardDeck(context);
         }
-        return selectBoolean(context, getCardName(Cards.scavenger), getString(R.string.chancellor_query), getString(R.string.pass));
+        return selectBoolean(context, Cards.scavenger);
     }
 
     @Override
@@ -2219,42 +2201,32 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards)
-    {
-        if(context.isQuickPlay() && shouldAutoPlay_pillage_opponentCardToDiscard(context)) 
-        {
+    public Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards) {
+        if(context.isQuickPlay() && shouldAutoPlay_pillage_opponentCardToDiscard(context)) {
             return super.pillage_opponentCardToDiscard(context, handCards);
         }
 
         ArrayList<String> options = new ArrayList<String>();
 
-        for (Card c : handCards)
-        {
+        for (Card c : handCards) {
             options.add(Strings.getCardName(c));
         }
 
-        if (!options.isEmpty()) 
-        {
+        if (!options.isEmpty()) {
             String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.pillage, context.attackedPlayer.getPlayerName()), options.toArray(new String[0]));
             return (Card) localNameToCard(o, handCards.toArray(new Card[0]));
-        } 
-        else 
-        {
+        }
+        else {
             return null;
         }
     }
 
     @Override
-    public boolean hovel_shouldTrash(MoveContext context)
-    {
-        if(context.isQuickPlay())
-        {
+    public boolean hovel_shouldTrash(MoveContext context) {
+        if(context.isQuickPlay()) {
             return true;
         }
-        else
-        {
-            return selectBoolean(context, getCardName(Cards.hovel), getString(R.string.hovel_option), getString(R.string.pass));
-        }
+        return selectBoolean(context, Cards.hovel);
     }
 
     @Override
@@ -2262,9 +2234,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_walledVillage_backOnDeck(context)) {
             return super.walledVillage_backOnDeck(context);
         }
-        String option1 = getString(R.string.walledVillage_option_one);
-        String option2 = getString(R.string.walledVillage_option_two);
-        return selectBoolean(context, Cards.walledVillage, option1, option2);
+        return selectBoolean(context, Cards.walledVillage);
     }
 
     @Override
@@ -2294,31 +2264,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array) {
-        if(context.isQuickPlay() && shouldAutoPlay_navigator_shouldDiscardTopCards(context, array)) {
-            return super.survivors_shouldDiscardTopCards(context, array);
+    public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] cards) {
+        if(context.isQuickPlay() && shouldAutoPlay_navigator_shouldDiscardTopCards(context, cards)) {
+            return super.survivors_shouldDiscardTopCards(context, cards);
         }
-        String header = "";
-        for (Card c : array)
-            header += getCardName(c) + ", ";
-        header += "--";
-        header = header.replace(", --", "");
-        header = Strings.format(R.string.survivors_header, header);
-
-        String option1 = getString(R.string.discard);
-        String option2 = getString(R.string.navigator_option_two);
-
-        return selectBoolean(context, header, option1, option2);
+        return selectBoolean(context, Cards.survivors, cards);
     }
     @Override
-    public Card[] survivors_cardOrder(MoveContext context, Card[] array) {
-        if(context.isQuickPlay() && shouldAutoPlay_navigator_cardOrder(context, array)) {
-            return super.survivors_cardOrder(context, array);
+    public Card[] survivors_cardOrder(MoveContext context, Card[] cards) {
+        if(context.isQuickPlay() && shouldAutoPlay_navigator_cardOrder(context, cards)) {
+            return super.survivors_cardOrder(context, cards);
         }
         ArrayList<Card> orderedCards = new ArrayList<Card>();
-        int[] order = orderCards(context, cardArrToIntArr(array));
+        int[] order = orderCards(context, cardArrToIntArr(cards));
         for (int i : order) {
-            orderedCards.add(array[i]);
+            orderedCards.add(cards[i]);
         }
         return orderedCards.toArray(new Card[0]);
     }
@@ -2327,11 +2287,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_cultist_shouldPlayNext(context)) {
             return super.cultist_shouldPlayNext(context);
         }
-
-        String option1 = getString(R.string.cultist_play_next);
-        String option2 = getString(R.string.pass);
-
-        return selectBoolean(context, Cards.cultist.getName(), option1, option2);
+        return selectBoolean(context, Cards.cultist);
     }
 
     @Override
@@ -2346,16 +2302,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean urchin_shouldTrashForMercenary(MoveContext context)
-    {
+    public boolean urchin_shouldTrashForMercenary(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_urchin_shouldTrashForMercenary(context)) {
             return super.urchin_shouldTrashForMercenary(context);
         }
-
-        String option1 = getString(R.string.urchin_trash_for_mercenary);
-        String option2 = getString(R.string.pass);
-
-        return selectBoolean(context, Cards.urchin.getName(), option1, option2);
+        return selectBoolean(context, Cards.urchin);
     }
 
     @Override
@@ -2380,16 +2331,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean madman_shouldReturnToPile(MoveContext context)
-    {
+    public boolean madman_shouldReturnToPile(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_madman_shouldReturnToPile(context)) {
             return super.madman_shouldReturnToPile(context);
         }
-
-        String option1 = getString(R.string.madman_option);
-        String option2 = getString(R.string.pass);
-
-        return selectBoolean(context, Cards.madman.getName(), option1, option2);
+        return selectBoolean(context, Cards.madman);
     }
 
     @Override
