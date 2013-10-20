@@ -553,13 +553,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * Calls selectString after getting the right (localized) strings from R.
      */
     public void selectOption(Event e) {
-        String[] options = new String[e.o.os.length];
-        for (int i = 0; i < options.length; i++) {
-            options[i] = Strings.getOptionText(e.o.os[i]);
-        }
-        // TODO(matt): we either need to add another field to the event, or make the above code
-        // (getOptionText) dependent on the card.  It's probably easiest just change the above
-        // code, because there aren't that many cards that it would affect.
+        String[] options = Strings.getOptions(e.c, e.o.os);
         selectString(Strings.getSelectOptionHeader(e.c, e.o.os), options, Event.EType.OPTION);
     }
 

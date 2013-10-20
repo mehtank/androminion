@@ -164,6 +164,21 @@ public class Strings {
         return context.getString(resId);
     }
 
+    /**
+     * Takes a card and an array of "options", and returns an array of strings, where each string
+     * corresponds to an actual option in the options array.  Some of the items in the options
+     * array might not actually be options, they might be information that tells us about the
+     * options, or about the header to show, and that depends on the card.  That's why we take the
+     * card as input here.
+     */
+    public static String[] getOptions(Card card, Object[] options) {
+        String[] strings = new String[options.length];
+        for (int i = 0; i < options.length; i++) {
+            strings[i] = Strings.getOptionText(options[i], options);
+        }
+        return strings;
+    }
+
     public static String getSelectOptionHeader(Card card, Object[] extras) {
         String cardName = getCardName(card);
         if (cardName.equals(getCardName(Cards.cartographer))) {
@@ -174,6 +189,8 @@ public class Strings {
             return getString(R.string.herald_overpay_query) + " [" + cardName + "]";
         } else if (cardName.equals(getCardName(Cards.herbalist))) {
             return getString(R.string.herbalist_query);
+        } else if (cardName.equals(getCardName(Cards.jester))) {
+            return format(R.string.card_revealed, cardName, getCardName((Card)extras[1]));
         } else if (cardName.equals(getCardName(Cards.lookout))) {
             // TODO(matt): I don't think this is robust - what if you don't have 3 cards to flip
             // over, and you've only flipped over 2, but still trash a card first?  Once
@@ -189,7 +206,13 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.smugglers))) {
             return getString(R.string.smuggle_query);
         } else if (cardName.equals(getCardName(Cards.thief))) {
-            return getString(R.string.treasure_to_trash);
+            if (extras[0] == null) {
+                // In this case we're gaining treasures that have been trashed.
+                return getString(R.string.thief_query);
+            } else {
+                // And in this case we're deciding which of two treasures we should trash.
+                return getString(R.string.treasure_to_trash);
+            }
         }
         return cardName;
     }
@@ -198,7 +221,7 @@ public class Strings {
      * make a class that's more restrictive than Object that these options can inherit from,
      * though, actually, now that we're using Cards in here too, maybe we shouldn't do that...)
      */
-    public static String getOptionText(Object option) {
+    public static String getOptionText(Object option, Object[] extras) {
         if (option instanceof SpiceMerchantOption) {
             // Actually, if this works without a cast, and it appears that it does, we don't need
             // the outer if-statements.  But maybe this way is a little more organized?  Or we
@@ -246,10 +269,7 @@ public class Strings {
             if (option == JesterOption.GainCopy) {
                 return getString(R.string.jester_option_one);
             } else if (option == JesterOption.GiveCopy) {
-                /*
-                 * TODO(matt): figure out the right API to make this work
-                 return format(R.string.jester_option_two, targetPlayer.getPlayerName());
-                 */
+                 return format(R.string.jester_option_two, ((Player)extras[0]).getPlayerName());
             }
         } else if (option instanceof TournamentOption) {
             if (option == TournamentOption.GainPrize) {
