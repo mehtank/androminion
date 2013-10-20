@@ -1194,20 +1194,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_jester_chooseOption(context, targetPlayer, card)) {
             return super.jester_chooseOption(context, targetPlayer, card);
         }
-        /*
-         * TODO(matt): this one needs a little more work, because we need to pass in the player,
-         * too.
-        JesterOption[] options = JesterOption.values();
-        return options[selectOption(context, Cards.jester, options)];
-        */
-
-        LinkedHashMap<String, JesterOption> h = new LinkedHashMap<String, JesterOption>();
-
-        h.put(getString(R.string.jester_option_one), JesterOption.GainCopy);
-        h.put(Strings.format(R.string.jester_option_two, targetPlayer.getPlayerName()), JesterOption.GiveCopy);
-
-        String header = Strings.format(R.string.card_revealed, getCardName(Cards.jester), getCardName(card));
-        return h.get(selectString(context, header, h.keySet().toArray(new String[0])));
+        JesterOption[] jester_options = JesterOption.values();
+        Object[] options = new Object[2 + jester_options.length];
+        options[0] = targetPlayer;
+        options[1] = card;
+        for (int i = 0; i < jester_options.length; i++) {
+            options[i + 2] = jester_options[i];
+        }
+        return jester_options[selectOption(context, Cards.jester, options)];
     }
 
     @Override
@@ -1315,24 +1309,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_thief_treasuresToGain(context, treasures)) {
             return super.thief_treasuresToGain(context, treasures);
         }
-        ArrayList<String> options = new ArrayList<String>();
-        options.add(getString(R.string.none));
+        ArrayList<Card> options = new ArrayList<Card>();
+        options.add(null);
         for (TreasureCard c : treasures)
-            options.add(Strings.getCardName(c));
+            options.add(c);
 
-        if (options.size() > 0) {
-            ArrayList<TreasureCard> toGain = new ArrayList<TreasureCard>();
-            String o = null;
+        ArrayList<TreasureCard> toGain = new ArrayList<TreasureCard>();
 
-            while (options.size() > 1 && !getString(R.string.none).equals(o = selectString(context, R.string.thief_query, Cards.thief, options.toArray(new String[0])))) {
-                toGain.add((TreasureCard) localNameToCard(o, treasures));
-                options.remove(o);
-            }
-
-            return toGain.toArray(new TreasureCard[0]);
-        } else {
-            return null;
+        int o = selectOption(context, Cards.thief, options.toArray());
+        while (options.size() > 1 && o != 0) {
+            toGain.add((TreasureCard) options.get(o));
+            options.remove(o);
+            o = selectOption(context, Cards.thief, options.toArray());
         }
+
+        return toGain.toArray(new TreasureCard[0]);
     }
 
     @Override
