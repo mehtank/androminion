@@ -2345,7 +2345,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_taxman_treasureToObtain(context, maxCost)) {
             return super.taxman_treasureToObtain(context, maxCost);
         }
-        SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost);
+        SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost)
+                .setCardResponsible(Cards.taxman);
         return (TreasureCard) getFromTable(context, sco);
     }
 
