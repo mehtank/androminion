@@ -1316,11 +1316,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         ArrayList<TreasureCard> toGain = new ArrayList<TreasureCard>();
 
-        int o = selectOption(context, Cards.thief, options.toArray());
-        while (options.size() > 1 && o != 0) {
+        while (options.size() > 1) {
+            int o = selectOption(context, Cards.thief, options.toArray());
+            if (o == 0) break;
             toGain.add((TreasureCard) options.get(o));
             options.remove(o);
-            o = selectOption(context, Cards.thief, options.toArray());
         }
 
         return toGain.toArray(new TreasureCard[0]);
@@ -1518,23 +1518,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(cards == null || cards.length == 0) {
             return cards;
         }
+        ArrayList<Card> options = new ArrayList<Card>();
+        options.add(null);
+        for (Card c : cards)
+            options.add(c);
 
         ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
 
-        ArrayList<String> options = new ArrayList<String>();
-        for (Card c : cards)
-            options.add(Strings.getCardName(c));
-        String none = getString(R.string.none);
-        options.add(none);
-
-        do {
-            String o = selectString(context, R.string.Cartographer_query, Cards.cartographer, options.toArray(new String[0]));
-            if (o.equals(none)) {
-                break;
-            }
-            cardsToDiscard.add(localNameToCard(o, cards));
+        while (options.size() > 1) {
+            int o = selectOption(context, Cards.cartographer, options.toArray());
+            if (o == 0) break;
+            cardsToDiscard.add((Card) options.get(o));
             options.remove(o);
-        } while (options.size() > 1);
+        }
 
         return cardsToDiscard.toArray(new Card[0]);
     }
@@ -1556,16 +1552,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_scheme_actionToPutOnTopOfDeck(context, actions)) {
             return super.scheme_actionToPutOnTopOfDeck(context, actions);
         }
-        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<ActionCard> options = new ArrayList<ActionCard>();
         for (ActionCard c : actions)
-            options.add(Strings.getCardName(c));
-        String none = getString(R.string.none);
-        options.add(none);
-        String o = selectString(context, R.string.scheme_query, Cards.scheme, options.toArray(new String[0]));
-        if(o.equals(none)) {
-            return null;
-        }
-        return (ActionCard) localNameToCard(o, actions);
+            options.add(c);
+        options.add(null);
+        return options.get(selectOption(context, Cards.scheme, options.toArray()));
     }
 
     @Override
@@ -1719,6 +1710,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             }
         }
         if (reactionCards.size() > 0) {
+            // TODO(matt): this one is a little tricky, as I don't know apriori what cards can be
+            // the card responsible here.  I'll have to do something a little different.
             ArrayList<String> options = new ArrayList<String>();
             for (Card c : reactionCards)
                 if (lastCard == null || !Game.suppressRedundantReactions || c.getName() != lastCard.getName() || c.equals(Cards.horseTraders) || c.equals(Cards.beggar))
@@ -2408,20 +2401,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card advisor_cardToDiscard(MoveContext context, Card[] cards) {
-        ArrayList<String> options = new ArrayList<String>();
-
-        for (Card c : cards) {
-            options.add(Strings.getCardName(c));
+        Object[] options = new Object[1 + cards.length];
+        options[0] = context.getPlayer();
+        for (int i = 0; i < cards.length; i++) {
+            options[i + 1] = cards[i];
         }
-
-        // TODO(matt): We should be using selectOption here, but I need to augment this to allow
-        // for extras in computing the header.  The options are easy - they are just cards.
-        if (!options.isEmpty()) {
-            String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.advisor, context.getPlayer().getPlayerName()), options.toArray(new String[0]));
-            return (Card) localNameToCard(o, cards);
-        } else {
-            return null;
-        }
+        return cards[selectOption(context, Cards.advisor, options)];
     }
 
     @Override
@@ -2476,18 +2461,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card) {
-        /*
-         * TODO(matt): this needs to be done like Jester, whenever I figure that card out.
-        DoctorOverpayOption[] options = DoctorOverpayOption.values();
-        return options[selectOption(context, Cards.doctor, options)];
-        */
-        LinkedHashMap<String, DoctorOverpayOption> optionMap = new LinkedHashMap<String, DoctorOverpayOption>();
-
-        optionMap.put(getString(R.string.doctor_overpay_option_one),   DoctorOverpayOption.TrashIt);
-        optionMap.put(getString(R.string.doctor_overpay_option_two),   DoctorOverpayOption.DiscardIt);
-        optionMap.put(getString(R.string.doctor_overpay_option_three), DoctorOverpayOption.PutItBack);
-
-        return optionMap.get(selectString(context, "Doctor revealed " + getCardName(card), optionMap.keySet().toArray(new String[0])));
+        DoctorOverpayOption[] doctor_options = DoctorOverpayOption.values();
+        Object[] options = new Object[1 + doctor_options.length];
+        options[0] = card;
+        for (int i = 0; i < doctor_options.length; i++) {
+            options[i + 1] = doctor_options[i];
+        }
+        return doctor_options[selectOption(context, Cards.doctor, options)];
     }
 
     @Override
