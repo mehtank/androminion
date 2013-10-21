@@ -343,6 +343,8 @@ public class Strings {
             }
         } else if (option instanceof Card) {
             return getCardName((Card) option);
+        } else if (option == null) {
+            return getString(R.string.none);
         }
         throw new RuntimeException("I got passed an option object that I don't understand!");
     }
