@@ -19,6 +19,7 @@ import com.vdom.core.Cards;
 import com.vdom.core.Player;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
+import com.vdom.core.Player.DoctorOverpayOption;
 import com.vdom.core.Player.GovernorOption;
 import com.vdom.core.Player.GraverobberOption;
 import com.vdom.core.Player.HuntingGroundsOption;
@@ -173,7 +174,16 @@ public class Strings {
      */
     public static String[] getOptions(Card card, Object[] options) {
         String[] strings = new String[options.length];
-        for (int i = 0; i < options.length; i++) {
+        int startIndex = 0;
+        String cardName = getCardName(card);
+        // TODO(matt): I could put these into sets, for startIndex = 1, 2, etc., to make this more
+        // compact.
+        if (cardName.equals(getCardName(Cards.advisor))) {
+            startIndex = 1;
+        } else if (cardName.equals(getCardName(Cards.jester))) {
+            startIndex = 2;
+        }
+        for (int i = startIndex; i < options.length; i++) {
             strings[i] = Strings.getOptionText(options[i], options);
         }
         return strings;
@@ -181,8 +191,12 @@ public class Strings {
 
     public static String getSelectOptionHeader(Card card, Object[] extras) {
         String cardName = getCardName(card);
-        if (cardName.equals(getCardName(Cards.cartographer))) {
+        if (cardName.equals(getCardName(Cards.advisor))) {
+            return getActionString(ActionType.OPPONENTDISCARD, card, ((Player)extras[0]).getPlayerName());
+        } else if (cardName.equals(getCardName(Cards.cartographer))) {
             return getString(R.string.Cartographer_query) + " [" + cardName + "]";
+        } else if (cardName.equals(getCardName(Cards.doctor))) {
+            return "Doctor revealed " + getCardName((Card)extras[0]);  // TODO(matt): fix this string
         } else if (cardName.equals(getCardName(Cards.golem))) {
             return getString(R.string.golem_first_action);
         } else if (cardName.equals(getCardName(Cards.herald))) {
@@ -203,6 +217,8 @@ public class Strings {
             }
         } else if (cardName.equals(getCardName(Cards.pirateShip))) {
             return getString(R.string.treasure_to_trash);
+        } else if (cardName.equals(getCardName(Cards.scheme))) {
+            return getString(R.string.scheme_query);
         } else if (cardName.equals(getCardName(Cards.smugglers))) {
             return getString(R.string.smuggle_query);
         } else if (cardName.equals(getCardName(Cards.thief))) {
@@ -340,6 +356,14 @@ public class Strings {
                 return getString(R.string.pawn_three);
             } else if (option == PawnOption.AddGold) {
                 return getString(R.string.pawn_four);
+            }
+        } else if (option instanceof DoctorOverpayOption) {
+            if (option == DoctorOverpayOption.TrashIt) {
+                return getString(R.string.doctor_overpay_option_one);
+            } else if (option == DoctorOverpayOption.DiscardIt) {
+                return getString(R.string.doctor_overpay_option_two);
+            } else if (option == DoctorOverpayOption.PutItBack) {
+                return getString(R.string.doctor_overpay_option_three);
             }
         } else if (option instanceof Card) {
             return getCardName((Card) option);
