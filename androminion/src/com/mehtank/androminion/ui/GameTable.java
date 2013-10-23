@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -553,24 +554,35 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * Calls selectString after getting the right (localized) strings from R.
      */
     public void selectOption(Event e) {
+        Log.d(TAG, "Getting options for event type: " + e.t);
         String[] options = Strings.getOptions(e.c, e.o.os);
         selectString(Strings.getSelectOptionHeader(e.c, e.o.os), options, Event.EType.OPTION);
     }
 
-    public void selectString(String title, String[] options) {
-        selectString(title, options, Event.EType.STRING);
-    }
     /**
      * Prompt the user about options that a card gives us. (E.g. Thief: Which card to trash)
+     *
+     * This isn't ever called directly anymore, because having the server send strings to display
+     * is just messy.  But this is still a useful primitive method that other methods call.  For
+     * example, the server will send a GETOPTION event to the client (this code), and then we use
+     * the information in the GETOPTION event to figure out what strings to display, then call this
+     * method.
+     *
      * @param title Message to the user about what to choose
      * @param options Options that the user has
      */
     public void selectString(String title, String[] options, Event.EType eventType) {
+        /*
+         * TODO(matt): Because we got rid of the STRING event, we need to handle this differently
+         * for each eventType we're passed in (it could be OPTION or BOOLEAN).  But I think all of
+         * these cases are caught in the VDOM code, anyway, so this shouldn't change anything.  I'm
+         * leaving the code here, though, in case I'm wrong about that and we need to fix it.
         if (options.length == 1) {
             Toast.makeText(top, title + ":\n" + options[0], Toast.LENGTH_LONG / 2).show();
             top.handle(new Event(Event.EType.STRING).setString(options[0]));
             return;
         }
+        */
         HapticFeedback.vibrate(getContext(),AlertType.SELECT);
         new SelectStringView(top, title, options, eventType);
     }
@@ -745,10 +757,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
     /**
      * Prompt user about ordering cards (mostly to put them back on the deck in an order of his choosing)
-     * @param header Message to the user
      * @param cards Indices into the cards the user should put into order
      */
-    public void orderCards(String header, int[] cards) {
+    public void orderCards(int[] cards) {
         String name = GameTableViews.cardsInPlay.get(cards[0]).name;
         boolean allequal = true;
         for (int c: cards) {
@@ -765,7 +776,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             top.handle(new Event(Event.EType.CARDORDER).setObject(new EventObject(is)));
         } else {
             HapticFeedback.vibrate(getContext(),AlertType.SELECT);
-            new OrderCardsView(top, header, cards);
+            new OrderCardsView(top, Strings.getString(R.string.card_order_on_deck), cards);
         }
     }
 

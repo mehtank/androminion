@@ -174,41 +174,10 @@ public class Strings {
      * card as input here.
      */
     public static String[] getOptions(Card card, Object[] options) {
-        int startIndex = 0;
-        String cardName = null;
-        // TODO(matt): it'd be cleaner to make this an enum, or something, instead of using these
-        // strings.
-        if (options[0] instanceof String) {
-            String optionString = (String) options[0];
-            if (optionString.equals("REACTION")) {
-                startIndex = 1;
-            } else if (optionString.equals("PUTBACK")) {
-                startIndex = 1;
-                cardName = "none";
-            } else if (optionString.equals("GUILDCOINS")) {
-                startIndex = 1;
-                cardName = "none";
-            } else if (optionString.equals("OVERPAY")) {
-                startIndex = 1;
-                cardName = "none";
-            } else if (optionString.equals("OVERPAYP")) {
-                startIndex = 1;
-                cardName = "none";
-            }
-        }
-        if (cardName != null) {
-            cardName = getCardName(card);
-        }
-        // TODO(matt): I could put these into sets, for startIndex = 1, 2, etc., to make this more
-        // compact.
-        if (cardName.equals(getCardName(Cards.advisor))) {
-            startIndex = 1;
-        } else if (cardName.equals(getCardName(Cards.ambassador))) {
-            startIndex = 1;
-        } else if (cardName.equals(getCardName(Cards.envoy))) {
-            startIndex = 1;
-        } else if (cardName.equals(getCardName(Cards.hermit))) {
-            String[] strings = new String[options.length - 1];
+        int startIndex = getOptionStartIndex(card, options);
+        String[] strings = new String[options.length - startIndex];
+        if (card != null && getCardName(card).equals(getCardName(Cards.hermit))) {
+            strings = new String[options.length - 1];
             int nonTreasureCountInDiscard = (Integer) options[0];
             String pile = " (discard pile)";  // TODO(matt): put these hard-coded strings into R?
             for (int i = 1; i < options.length; i++) {
@@ -218,18 +187,49 @@ public class Strings {
                 }
             }
             return strings;
-        } else if (cardName.equals(getCardName(Cards.jester))) {
-            startIndex = 2;
-        } else if (cardName.equals(getCardName(Cards.lookout))) {
-            startIndex = 1;
-        } else if (cardName.equals(getCardName(Cards.pillage))) {
-            startIndex = 1;
         }
-        String[] strings = new String[options.length - startIndex];
         for (int i = startIndex; i < options.length; i++) {
             strings[i - startIndex] = Strings.getOptionText(options[i], options);
         }
         return strings;
+    }
+
+    private static int getOptionStartIndex(Card card, Object[] options) {
+        // TODO(matt): it'd be cleaner to make this an enum, or something, instead of using these
+        // strings.
+        if (options[0] instanceof String) {
+            String optionString = (String) options[0];
+            if (optionString.equals("REACTION")) {
+                return 1;
+            } else if (optionString.equals("PUTBACK")) {
+                return 1;
+            } else if (optionString.equals("GUILDCOINS")) {
+                return 1;
+            } else if (optionString.equals("OVERPAY")) {
+                return 1;
+            } else if (optionString.equals("OVERPAYP")) {
+                return 1;
+            }
+        }
+        if (card == null)
+            return 0;
+        String cardName = getCardName(card);
+        // TODO(matt): I could put these into sets, for startIndex = 1, 2, etc., to make this more
+        // compact.
+        if (cardName.equals(getCardName(Cards.advisor))) {
+            return 1;
+        } else if (cardName.equals(getCardName(Cards.ambassador))) {
+            return 1;
+        } else if (cardName.equals(getCardName(Cards.envoy))) {
+            return 1;
+        } else if (cardName.equals(getCardName(Cards.jester))) {
+            return 2;
+        } else if (cardName.equals(getCardName(Cards.lookout))) {
+            return 1;
+        } else if (cardName.equals(getCardName(Cards.pillage))) {
+            return 1;
+        }
+        return 0;
     }
 
     public static String getSelectOptionHeader(Card card, Object[] extras) {
@@ -291,9 +291,9 @@ public class Strings {
         return cardName;
     }
     /**
-     * Takes an option object and returns the string the corresponds to the option.  (TODO(matt):
-     * make a class that's more restrictive than Object that these options can inherit from,
-     * though, actually, now that we're using Cards in here too, maybe we shouldn't do that...)
+     * Takes an option object and returns the string the corresponds to the option.  The API could
+     * be a little cleaner than just passing Objects around, but it was the easiest way to change
+     * the API to decouple to server code from the android framework.
      */
     public static String getOptionText(Object option, Object[] extras) {
         if (option instanceof SpiceMerchantOption) {
@@ -734,8 +734,9 @@ public class Strings {
     public static String getActionString(ActionType action, Card cardResponsible, String opponentName) {
         // TODO(matt): ActionType seems mostly to be redundant with PickType in the
         // SelectCardOptions.  Just in terms of cleaning up the code, it would probably be nice to
-        // remove one of them (probably ActionType).  But that's not necessary for the multiplayer
-        // stuff, so I'll leave it for later.
+        // remove one of them (probably ActionType).  The only tricky thing is that ActionType
+        // distinguishes between DISCARDFORCARD and DISCARDFORCOIN, while PickType doesn't.  But
+        // this isn't necessary for the multiplayer stuff, so I'll leave it for later.
         switch (action) {
             case DISCARD: return Strings.format(R.string.card_to_discard, getCardName(cardResponsible));
             case DISCARDFORCARD: return Strings.format(R.string.card_to_discard_for_card, getCardName(cardResponsible));
