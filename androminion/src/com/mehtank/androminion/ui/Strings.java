@@ -176,12 +176,20 @@ public class Strings {
         String[] strings = new String[options.length];
         int startIndex = 0;
         String cardName = getCardName(card);
+        if (options[0] instanceof String && ((String)options[0]).equals("REACTION")) {
+            startIndex = 1;
         // TODO(matt): I could put these into sets, for startIndex = 1, 2, etc., to make this more
-        // compact.
-        if (cardName.equals(getCardName(Cards.advisor))) {
+        // compact, and slightly faster.
+        } else if (cardName.equals(getCardName(Cards.advisor))) {
+            startIndex = 1;
+        } else if (cardName.equals(getCardName(Cards.envoy))) {
             startIndex = 1;
         } else if (cardName.equals(getCardName(Cards.jester))) {
             startIndex = 2;
+        } else if (cardName.equals(getCardName(Cards.lookout))) {
+            startIndex = 1;
+        } else if (cardName.equals(getCardName(Cards.pillage))) {
+            startIndex = 1;
         }
         for (int i = startIndex; i < options.length; i++) {
             strings[i] = Strings.getOptionText(options[i], options);
@@ -191,12 +199,16 @@ public class Strings {
 
     public static String getSelectOptionHeader(Card card, Object[] extras) {
         String cardName = getCardName(card);
-        if (cardName.equals(getCardName(Cards.advisor))) {
+        if (extras[0] instanceof String && ((String)extras[0]).equals("REACTION")) {
+            return R.string.reaction_query + " [" + cardName + "]";
+        } else if (cardName.equals(getCardName(Cards.advisor))) {
             return getActionString(ActionType.OPPONENTDISCARD, card, ((Player)extras[0]).getPlayerName());
         } else if (cardName.equals(getCardName(Cards.cartographer))) {
             return getString(R.string.Cartographer_query) + " [" + cardName + "]";
         } else if (cardName.equals(getCardName(Cards.doctor))) {
             return "Doctor revealed " + getCardName((Card)extras[0]);  // TODO(matt): fix this string
+        } else if (cardName.equals(getCardName(Cards.envoy))) {
+            return getActionString(ActionType.OPPONENTDISCARD, card, ((Player)extras[0]).getPlayerName());
         } else if (cardName.equals(getCardName(Cards.golem))) {
             return getString(R.string.golem_first_action);
         } else if (cardName.equals(getCardName(Cards.herald))) {
@@ -206,15 +218,13 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.jester))) {
             return format(R.string.card_revealed, cardName, getCardName((Card)extras[1]));
         } else if (cardName.equals(getCardName(Cards.lookout))) {
-            // TODO(matt): I don't think this is robust - what if you don't have 3 cards to flip
-            // over, and you've only flipped over 2, but still trash a card first?  Once
-            // getOptionText is fixed, we can add an indicator field to the extras, I think, and
-            // that would be more robust.
-            if (extras.length == 3) {
+            if (extras[0] == ActionType.TRASH) {
                 return getString(R.string.lookout_query_trash);
-            } else {
+            } else if (extras[0] == ActionType.DISCARD) {
                 return getString(R.string.lookout_query_discard);
             }
+        } else if (cardName.equals(getCardName(Cards.pillage))) {
+            return getActionString(ActionType.OPPONENTDISCARD, card, ((Player)extras[0]).getPlayerName());
         } else if (cardName.equals(getCardName(Cards.pirateShip))) {
             return getString(R.string.treasure_to_trash);
         } else if (cardName.equals(getCardName(Cards.scheme))) {
