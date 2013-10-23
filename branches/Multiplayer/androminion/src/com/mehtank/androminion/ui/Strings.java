@@ -27,6 +27,7 @@ import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.MinionOption;
 import com.vdom.core.Player.NoblesOption;
 import com.vdom.core.Player.PawnOption;
+import com.vdom.core.Player.PutBackOption;
 import com.vdom.core.Player.SpiceMerchantOption;
 import com.vdom.core.Player.SquireOption;
 import com.vdom.core.Player.StewardOption;
@@ -173,17 +174,50 @@ public class Strings {
      * card as input here.
      */
     public static String[] getOptions(Card card, Object[] options) {
-        String[] strings = new String[options.length];
         int startIndex = 0;
-        String cardName = getCardName(card);
-        if (options[0] instanceof String && ((String)options[0]).equals("REACTION")) {
-            startIndex = 1;
+        String cardName = null;
+        // TODO(matt): it'd be cleaner to make this an enum, or something, instead of using these
+        // strings.
+        if (options[0] instanceof String) {
+            String optionString = (String) options[0];
+            if (optionString.equals("REACTION")) {
+                startIndex = 1;
+            } else if (optionString.equals("PUTBACK")) {
+                startIndex = 1;
+                cardName = "none";
+            } else if (optionString.equals("GUILDCOINS")) {
+                startIndex = 1;
+                cardName = "none";
+            } else if (optionString.equals("OVERPAY")) {
+                startIndex = 1;
+                cardName = "none";
+            } else if (optionString.equals("OVERPAYP")) {
+                startIndex = 1;
+                cardName = "none";
+            }
+        }
+        if (cardName != null) {
+            cardName = getCardName(card);
+        }
         // TODO(matt): I could put these into sets, for startIndex = 1, 2, etc., to make this more
-        // compact, and slightly faster.
-        } else if (cardName.equals(getCardName(Cards.advisor))) {
+        // compact.
+        if (cardName.equals(getCardName(Cards.advisor))) {
+            startIndex = 1;
+        } else if (cardName.equals(getCardName(Cards.ambassador))) {
             startIndex = 1;
         } else if (cardName.equals(getCardName(Cards.envoy))) {
             startIndex = 1;
+        } else if (cardName.equals(getCardName(Cards.hermit))) {
+            String[] strings = new String[options.length - 1];
+            int nonTreasureCountInDiscard = (Integer) options[0];
+            String pile = " (discard pile)";  // TODO(matt): put these hard-coded strings into R?
+            for (int i = 1; i < options.length; i++) {
+                strings[i - 1] = getCardName((Card)options[i]) + pile;
+                if (i - 1 >= nonTreasureCountInDiscard) {
+                    pile = " (hand)";
+                }
+            }
+            return strings;
         } else if (cardName.equals(getCardName(Cards.jester))) {
             startIndex = 2;
         } else if (cardName.equals(getCardName(Cards.lookout))) {
@@ -191,18 +225,30 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.pillage))) {
             startIndex = 1;
         }
+        String[] strings = new String[options.length - startIndex];
         for (int i = startIndex; i < options.length; i++) {
-            strings[i] = Strings.getOptionText(options[i], options);
+            strings[i - startIndex] = Strings.getOptionText(options[i], options);
         }
         return strings;
     }
 
     public static String getSelectOptionHeader(Card card, Object[] extras) {
+        if (card == null && extras[0] instanceof String && ((String)extras[0]).equals("PUTBACK")) {
+            return getString(R.string.putback_query);
+        }
         String cardName = getCardName(card);
         if (extras[0] instanceof String && ((String)extras[0]).equals("REACTION")) {
             return R.string.reaction_query + " [" + cardName + "]";
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals("GUILDCOINS")) {
+            return "Spend Guilds Coin Tokens";
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals("OVERPAY")) {
+            return "Overpay?";
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals("OVERPAYP")) {
+            return "Overpay by Potion(s)?";
         } else if (cardName.equals(getCardName(Cards.advisor))) {
             return getActionString(ActionType.OPPONENTDISCARD, card, ((Player)extras[0]).getPlayerName());
+        } else if (cardName.equals(getCardName(Cards.ambassador))) {
+            return format(R.string.ambassador_query, getCardName((Card)extras[0]));
         } else if (cardName.equals(getCardName(Cards.cartographer))) {
             return getString(R.string.Cartographer_query) + " [" + cardName + "]";
         } else if (cardName.equals(getCardName(Cards.doctor))) {
@@ -215,6 +261,8 @@ public class Strings {
             return getString(R.string.herald_overpay_query) + " [" + cardName + "]";
         } else if (cardName.equals(getCardName(Cards.herbalist))) {
             return getString(R.string.herbalist_query);
+        } else if (cardName.equals(getCardName(Cards.hermit))) {
+            return getActionString(ActionType.TRASH, Cards.hermit);
         } else if (cardName.equals(getCardName(Cards.jester))) {
             return format(R.string.card_revealed, cardName, getCardName((Card)extras[1]));
         } else if (cardName.equals(getCardName(Cards.lookout))) {
@@ -375,10 +423,26 @@ public class Strings {
             } else if (option == DoctorOverpayOption.PutItBack) {
                 return getString(R.string.doctor_overpay_option_three);
             }
+        } else if (option instanceof PutBackOption) {
+            if (option == PutBackOption.Action) {
+                return getString(R.string.putback_option_two);
+            } else if (option == PutBackOption.Alchemist) {
+                return getCardName(Cards.alchemist);
+            } else if (option == PutBackOption.Coin) {
+                return getString(R.string.putback_option_one);
+            } else if (option == PutBackOption.None) {
+                return getString(R.string.none);
+            } else if (option == PutBackOption.Treasury) {
+                return getCardName(Cards.treasury);
+            } else if (option == PutBackOption.WalledVillage) {
+                return getCardName(Cards.walledVillage);
+            }
         } else if (option instanceof Card) {
             return getCardName((Card) option);
         } else if (option == null) {
             return getString(R.string.none);
+        } else if (option instanceof Integer) {
+            return "" + option;
         }
         throw new RuntimeException("I got passed an option object that I don't understand!");
     }

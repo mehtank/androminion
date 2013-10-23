@@ -226,7 +226,6 @@ public class Event implements Serializable{
          * GETOPTION
          *
          * Sent from RemotePlayer when the player needs to choose an option.
-         * Meant to replace GETSTRING, which is too coupled to the android framework.
          * <p><b>needs EType.OPTION response</b></p>
          *
          * @param c Card requesting the option.
@@ -242,29 +241,11 @@ public class Event implements Serializable{
          */
         OPTION,
         /**
-         * GETSTRING
-         *
-         * Sent from RemotePlayer when the player needs to enter a string. This is the prompt of what option of
-         * an action card to perform. <p><b>needs EType.STRING response</b></p>
-         * @param s prompt to display
-         * @param o has its String[] set to the available options
-         */
-        GETSTRING,
-        /**
-         * STRING
-         *
-         * Sent from SelectStringView to GameActivity, which forwards it to RemotePlayer, as a response to GetString.
-         *
-         * @param s The selected string.
-         */
-        STRING,
-        /**
          * GETBOOLEAN
          *
          * Sent from RemotePlayer when the player needs to pick between two options. Tells the
          * player which card initiated the selection, plus whatever extra information is necessary
          * to reconstruct the options (such as what card was revealed, by which player, etc.).
-         * Replaces some instances of GETSTRING (where GETOPTION replaces most of the others).
          * <p><b>needs EType.BOOLEAN response</b></p>
          * @param c Card that initiated the need for a response
          * @param o has its Object[] set to whatever extra information is needed
