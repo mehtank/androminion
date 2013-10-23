@@ -47,8 +47,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return null;
     }
 
-    @Deprecated
-    abstract protected String selectString(MoveContext context, String header, String[] s);
     abstract protected boolean selectBoolean(MoveContext context, Card cardResponsible, Object[] extras);
     public boolean selectBoolean(MoveContext context, Card cardResponsible) {
         return selectBoolean(context, cardResponsible, null);
@@ -70,11 +68,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public boolean isAi() {
         return false;
-    }
-
-    @Deprecated
-    public String selectString(MoveContext context, int resId, Card cardResponsible, String[] s) {
-        return selectString(context, getString(resId) + " [" + getCardName(cardResponsible) + "]", s);
     }
 
     @Deprecated
@@ -175,19 +168,23 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return pickACard(context, null, sco);
     }
 
-    @Deprecated
-    public int selectInt(MoveContext context, String header, int maxInt, int errVal) {
-        ArrayList<String> options = new ArrayList<String>();
+    public int selectInt(MoveContext context, Card responsible, int maxInt) {
+        return selectInt(context, responsible, maxInt, null);
+    }
+
+    public int selectInt(MoveContext context, Card responsible, int maxInt, Object extra) {
+        Integer[] int_options = new Integer[maxInt + 1];
         for (int i=0; i<=maxInt; i++)
-            options.add("" + i);
-
-        String o = selectString(context, header, options.toArray(new String[0]));
-
-        try {
-            return Integer.parseInt(o);
-        } catch (NumberFormatException e) {
-            return errVal;
+            int_options[i] = i;
+        Object[] options = int_options;
+        if (extra != null) {
+            options = new Object[1 + int_options.length];
+            options[0] = extra;
+            for (int i = 0; i < int_options.length; i++) {
+                options[i + 1] = int_options[i];
+            }
         }
+        return int_options[selectOption(context, responsible, options)];
     }
 
     @Override
@@ -837,7 +834,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             if (c.equals(card))
                 numCards++;
 
-        return selectInt(context, Strings.format(R.string.ambassador_query, getCardName(card)), Math.min(2, numCards), 0);
+        return selectInt(context, Cards.ambassador, Math.min(2, numCards), card);
     }
 
     @Override
@@ -1753,42 +1750,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_selectPutBackOption(context, putBacks)) {
             return super.selectPutBackOption(context, putBacks);
         }
-        // TODO(matt): this one looks like it'll be tricky.
         Collections.sort(putBacks);
-        LinkedHashMap<String, PutBackOption> h = new LinkedHashMap<String, PutBackOption>();
-        h.put(getCardName(Cards.treasury), PutBackOption.Treasury);
-        h.put(getCardName(Cards.alchemist), PutBackOption.Alchemist);
-        h.put(getCardName(Cards.walledVillage), PutBackOption.WalledVillage);
-        h.put(getString(R.string.putback_option_one), PutBackOption.Coin);
-        h.put(getString(R.string.putback_option_two), PutBackOption.Action);
-        h.put(getString(R.string.none), PutBackOption.None);
-        List<String> options = new ArrayList<String>();
-        for (PutBackOption putBack : putBacks) {
-            switch (putBack) {
-                case Treasury:
-                    options.add(getCardName(Cards.treasury));
-                    break;
-                case Alchemist:
-                    options.add(getCardName(Cards.alchemist));
-                    break;
-                case WalledVillage:
-                    options.add(getCardName(Cards.walledVillage));
-                    break;
-                case Coin:
-                    options.add(getString(R.string.putback_option_one));
-                    break;
-                case Action:
-                    options.add(getString(R.string.putback_option_two));
-                    break;
-                case None:
-                    break;
-                default:
-                    break;
-            }
+        putBacks.add(PutBackOption.None);
+        Object[] options = new Object[1 + putBacks.size()];
+        options[0] = "PUTBACK";
+        for (int i = 0; i < putBacks.size(); i++) {
+            options[i + 1] = putBacks.get(i);
         }
-        options.add(getString(R.string.none));
-
-        return h.get(selectString(context, getString(R.string.putback_query), options.toArray(new String[0])));
+        return putBacks.get(selectOption(context, null, options));
     }
 
     @Override
@@ -2235,34 +2204,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard)
-    {
-        LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
-
-        int cardCount = 0;
-
-        // Add option to skip the trashing
-        h.put("None", null);
-
-        for (Card c : cardList) {
-            if (cardCount < nonTreasureCountInDiscard) {
-                h.put(c.getName() + " (discard pile)", c);
-            } else {
-                h.put(c.getName() + " (hand)", c);
-            }
-
-            ++cardCount;
+    public Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard) {
+        Object[] options = new Object[1 + cardList.size()];
+        options[0] = nonTreasureCountInDiscard;
+        for (int i = 0; i < cardList.size(); i++) {
+            options[i + 1] = cardList.get(i);
         }
-
-        String choice = selectString(context, getActionString(ActionType.TRASH, Cards.hermit), h.keySet().toArray(new String[0]));
-
-        if (choice.contains("discard pile")) {
+        int choice = selectOption(context, Cards.hermit, options);
+        if (choice < nonTreasureCountInDiscard) {
             context.hermitTrashCardPile = PileSelection.DISCARD;
-        } else if (choice.contains("hand")) {
+        } else {
             context.hermitTrashCardPile = PileSelection.HAND;
         }
-
-        return h.get(choice);
+        return cardList.get(choice);
     }
 
     @Override
@@ -2352,7 +2306,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public int numGuildsCoinTokensToSpend(MoveContext context) {
-        return selectInt(context, "Spend Guilds Coin Tokens", getGuildsCoinTokenCount(), 0);
+        return selectInt(context, null, getGuildsCoinTokenCount(), "GUILDCOINS");
     }
 
     @Override
@@ -2366,14 +2320,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return 0;
         }
         else {
-            return selectInt(context, "Overpay?", availableAmount, 0);
+            return selectInt(context, null, availableAmount, "OVERPAY");
         }
     }
 
     @Override
     public int overpayByPotions(MoveContext context, int availablePotions) {
         if (availablePotions > 0) {
-            return selectInt(context, "Overpay by Potion(s)?", availablePotions, 0);
+            return selectInt(context, null, availablePotions, "OVERPAYP");
         }
         else {
             return 0;

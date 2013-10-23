@@ -975,18 +975,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             return intArrToCardArr(p.o.is);
     }
 
-    @Override
-    public String selectString(MoveContext context, String header, String[] s) {
-        Event p = new Event(EType.GETSTRING)
-                .setString(header)
-                .setObject(new EventObject(s));
-        p = query(context, p, EType.STRING);
-        if (p == null)
-            return null;
-        else
-            return p.s;
-    }
-
     // If I were designing this from scratch, I may have picked an API that treated this
     // selectBoolean method and the selectOption method the same.  But I'm not designing this from
     // scratch, I'm just trying to cut the strings out of an existing API while minimizing my
