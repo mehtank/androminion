@@ -73,11 +73,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Deprecated
-    public String selectString(MoveContext context, Card cardResponsible, String[] s) {
-        return selectString(context, Strings.format(R.string.card_options_header, getCardName(cardResponsible)), s);
-    }
-
-    @Deprecated
     public String selectString(MoveContext context, int resId, Card cardResponsible, String[] s) {
         return selectString(context, getString(resId) + " [" + getCardName(cardResponsible) + "]", s);
     }
@@ -800,8 +795,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_lookout_cardToTrash(context, cards)) {
             return super.lookout_cardToTrash(context, cards);
         }
-        // TODO(matt): prepend an indicator to the array that's passed in here.
-        return cards[selectOption(context, Cards.lookout, cards)];
+        Object[] options = new Object[1 + cards.length];
+        options[0] = ActionType.TRASH;
+        for (int i = 0; i < cards.length; i++) {
+            options[i + 1] = cards[i];
+        }
+        return cards[selectOption(context, Cards.lookout, options)];
     }
 
     // Will be passed the two cards leftover after trashing one
@@ -810,8 +809,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_lookout_cardToDiscard(context, cards)) {
             return super.lookout_cardToDiscard(context, cards);
         }
-        // TODO(matt): prepend an indicator to the array that's passed in here.
-        return cards[selectOption(context, Cards.lookout, cards)];
+        Object[] options = new Object[1 + cards.length];
+        options[0] = ActionType.DISCARD;
+        for (int i = 0; i < cards.length; i++) {
+            options[i + 1] = cards[i];
+        }
+        return cards[selectOption(context, Cards.lookout, options)];
     }
 
     @Override
@@ -1704,24 +1707,32 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
         ArrayList<Card> reactionCards = new ArrayList<Card>();
         for (Card c : getReactionCards(defended)) {
-            if (!c.equals(Cards.marketSquare) && !c.equals(Cards.watchTower)) 
-            {
+            if (!c.equals(Cards.marketSquare) && !c.equals(Cards.watchTower)) {
                 reactionCards.add(c);
             }
         }
         if (reactionCards.size() > 0) {
-            // TODO(matt): this one is a little tricky, as I don't know apriori what cards can be
-            // the card responsible here.  I'll have to do something a little different.
-            ArrayList<String> options = new ArrayList<String>();
-            for (Card c : reactionCards)
-                if (lastCard == null || !Game.suppressRedundantReactions || c.getName() != lastCard.getName() || c.equals(Cards.horseTraders) || c.equals(Cards.beggar))
-                    options.add(Strings.getCardName(c));
-            if (options.size() > 0) {
-                String none = getString(R.string.none);
-                options.add(none);
-                String o = selectString(context, R.string.reaction_query, responsible, options.toArray(new String[0]));
-                if(o.equals(none)) return null;
-                return localNameToCard(o, reactionCards.toArray(new Card[0]));
+            ArrayList<Card> cards = new ArrayList<Card>();
+            for (Card c : reactionCards) {
+                if (lastCard == null
+                        || !Game.suppressRedundantReactions
+                        || c.getName() != lastCard.getName()
+                        || c.equals(Cards.horseTraders)
+                        || c.equals(Cards.beggar)) {
+                    cards.add(c);
+                }
+            }
+            if (cards.size() > 0) {
+                cards.add(null);
+                Object[] options = new Object[1 + cards.size()];
+                // TODO(matt): this is quite a bit hackish.  But it should work.  At the very
+                // least, though, this string should be hard-coded somewhere else in a constant
+                // somewhere, and reused in the ui.Strings methods.
+                options[0] = "REACTION";
+                for (int i = 0; i < cards.size(); i++) {
+                    options[i + 1] = cards.get(i);
+                }
+                return cards.get(selectOption(context, responsible, options));
             }
         }
         return null;
@@ -2105,19 +2116,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.pillage_opponentCardToDiscard(context, handCards);
         }
 
-        ArrayList<String> options = new ArrayList<String>();
-
-        for (Card c : handCards) {
-            options.add(Strings.getCardName(c));
+        Object[] options = new Object[1 + handCards.size()];
+        options[0] = context.attackedPlayer;
+        for (int i = 0; i < handCards.size(); i++) {
+            options[i + 1] = handCards.get(i);
         }
-        if (options.isEmpty()) {
-            return null;
-        }
-
-        // TODO(matt): We should be using selectOption here, but I need to augment this to allow
-        // for extras in computing the header.  The options are easy - they are just cards.
-        String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.pillage, context.attackedPlayer.getPlayerName()), options.toArray(new String[0]));
-        return (Card) localNameToCard(o, handCards.toArray(new Card[0]));
+        return handCards.get(selectOption(context, Cards.pillage, options));
     }
 
     @Override
@@ -2147,20 +2151,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_envoy_opponentCardToDiscard(context)) {
             return super.envoy_cardToDiscard(context, cards);
         }
-
-        ArrayList<String> options = new ArrayList<String>();
-
-        for (Card c : cards) {
-            options.add(Strings.getCardName(c));
+        Object[] options = new Object[1 + cards.length];
+        options[0] = context.getPlayer();
+        for (int i = 0; i < cards.length; i++) {
+            options[i + 1] = cards[i];
         }
-        if (options.isEmpty()) {
-            return null;
-        }
-
-        // TODO(matt): We should be using selectOption here, but I need to augment this to allow
-        // for extras in computing the header.  The options are easy - they are just cards.
-        String o = selectString(context, getActionString(ActionType.OPPONENTDISCARD, Cards.envoy, context.getPlayer().getPlayerName()), options.toArray(new String[0]));
-        return (Card) localNameToCard(o, cards);
+        return cards[selectOption(context, Cards.envoy, options)];
     }
 
     @Override
