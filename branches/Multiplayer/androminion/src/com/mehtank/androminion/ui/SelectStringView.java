@@ -22,14 +22,10 @@ public class SelectStringView extends BottomInputView implements AdapterView.OnI
     private Event.EType returnType;
     private List<String> options;
 
-    public SelectStringView (GameActivity top, String header, String[] options) {
-        this(top, header, options, Event.EType.STRING);
-    }
-
-    public SelectStringView (GameActivity top,
-                             String header,
-                             String[] options,
-                             Event.EType returnType) {
+    public SelectStringView(GameActivity top,
+                            String header,
+                            String[] options,
+                            Event.EType returnType) {
         super(top, header);
         this.returnType = returnType;
         this.options = Arrays.asList(options);
@@ -47,7 +43,7 @@ public class SelectStringView extends BottomInputView implements AdapterView.OnI
                 // "True" event is always first.
                 top.handle(new Event(Event.EType.BOOLEAN).setBoolean(options.indexOf(s) == 0));
             } else {
-                top.handle(new Event(Event.EType.STRING).setString(s));
+                throw new RuntimeException("Got an event type I don't know how to handle!");
             }
         }
     }

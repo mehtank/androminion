@@ -481,12 +481,8 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     gt.selectCard(e.o.sco, e.s, e.i, e.b);
                     break;
 
-                case GETOPTION:  // RemotePlayer wants us to choose an option (like GETSTRING, but we have to figure out the strings first)
+                case GETOPTION:  // RemotePlayer wants us to choose an option (like the old GETSTRING, but we have to figure out the strings first)
                     gt.selectOption(e);
-                    break;
-
-                case GETSTRING:
-                    gt.selectString(e.s, e.o.ss);
                     break;
 
                 case GETBOOLEAN:
@@ -494,7 +490,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     break;
 
                 case ORDERCARDS:
-                    gt.orderCards(e.s, e.o.is);
+                    gt.orderCards(e.o.is);
                     break;
 
                     // FROM DIALOGS --
@@ -523,7 +519,6 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     // Whenever the user made a choice and sent this to GameTable (or various prompting dialogs), we receive it here.
                     // and send it on to RemotePlayer
                 case SAY:
-                case STRING:
                 case CARD:
                 case CARDORDER:
                 case OPTION:

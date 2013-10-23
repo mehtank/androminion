@@ -29,6 +29,7 @@ import com.vdom.core.CardList;
 import com.vdom.core.Cards;
 import com.vdom.core.ExitException;
 import com.vdom.core.Game;
+import com.vdom.core.IndirectPlayer;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
 import com.vdom.core.Util;
@@ -953,14 +954,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     }
 
     @Override
-    protected Card[] pickCards(MoveContext context, String header, SelectCardOptions sco, int count, boolean exact) {
+    protected Card[] pickCards(MoveContext context, SelectCardOptions sco, int count, boolean exact) {
         if (sco.allowedCards.size() == 0)
             return null;
 
         Event p = new Event(EType.GETCARD)
                 .setInteger(count)
                 .setBoolean(exact)
-                .setString(header)
                 .setObject(new EventObject(sco));
 
         p = query(context, p, EType.CARD);
@@ -1006,17 +1006,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     @Override
     protected int[] orderCards(MoveContext context, int[] cards) {
-        return orderCards(context, cards, Strings.getString(R.string.return_cards));
-    }
-
-    @Override
-    protected int[] orderCards(MoveContext context, int[] cards, String header) {
         if(cards != null && cards.length == 1) {
             return new int[]{ 0 };
         }
 
         Event p = new Event(EType.ORDERCARDS)
-                .setString(header)
                 .setObject(new EventObject(cards));
 
         p = query(context, p, EType.CARDORDER);

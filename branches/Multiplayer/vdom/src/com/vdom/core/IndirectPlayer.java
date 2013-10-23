@@ -1,12 +1,8 @@
-package com.mehtank.androminion.server;
+package com.vdom.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-
-import com.mehtank.androminion.R;
-import com.mehtank.androminion.ui.Strings;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
@@ -15,34 +11,17 @@ import com.vdom.api.VictoryCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.comms.SelectCardOptions.ActionType;
-import com.vdom.core.ActionCardImpl;
-import com.vdom.core.CardList;
-import com.vdom.core.Cards;
-import com.vdom.core.Game;
-import com.vdom.core.MoveContext;
-import com.vdom.core.MoveContext.PileSelection;
-import com.vdom.core.Player;
-import com.vdom.core.QuickPlayPlayer;
+
 /**
  * Class that you can use to play remotely.
  */
 public abstract class IndirectPlayer extends QuickPlayPlayer {
-    @SuppressWarnings("unused")
-    private static final String TAG = "IndirectPlayerOrig";
-
     public abstract Card intToCard(int i);
     public abstract int cardToInt(Card card);
     public abstract int[] cardArrToIntArr(Card[] cards);
     public Card nameToCard(String o, Card[] cards) {
         for (Card c : cards)
             if (c.getName().equals(o))
-                return c;
-        return null;
-    }
-
-    public Card localNameToCard(String o, Card[] cards) {
-        for (Card c : cards)
-            if (Strings.getCardName(c).equals(o))
                 return c;
         return null;
     }
@@ -54,40 +33,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     abstract protected int selectOption(MoveContext context, Card card, Object[] options);
     abstract protected int[] orderCards(MoveContext context, int[] cards);
-    @Deprecated
-    abstract protected int[] orderCards(MoveContext context, int[] cards, String header);
 
-    @Deprecated
-    abstract protected Card[] pickCards(MoveContext context, String header, SelectCardOptions sco, int count, boolean exact);
-    @Deprecated
-    private Card pickACard(MoveContext context, String header, SelectCardOptions sco) {
-        Card[] cs = pickCards(context, header, sco, 1, true);
+    abstract protected Card[] pickCards(MoveContext context, SelectCardOptions sco, int count, boolean exact);
+    private Card pickACard(MoveContext context, SelectCardOptions sco) {
+        Card[] cs = pickCards(context, sco, 1, true);
         return (cs == null ? null : cs[0]);
     }
 
     @Override
     public boolean isAi() {
         return false;
-    }
-
-    @Deprecated
-    public String getString(int id) {
-        return Strings.getString(id);
-    }
-
-    @Deprecated
-    public String getCardName(Card card) {
-        return Strings.getCardName(card);
-    }
-
-    @Deprecated
-    public String getActionString(ActionType action, Card cardResponsible, String opponentName) {
-        return Strings.getActionString(action, cardResponsible, opponentName);
-    }
-
-    @Deprecated
-    private String getActionString(ActionType action, Card cardResponsible) {
-        return Strings.getActionString(action, cardResponsible, null);
     }
 
     private Card getCardFromHand(MoveContext context, SelectCardOptions sco) {
@@ -125,7 +80,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                   sco.allowedCards.size()))
             sco.defaultCardSelected = sco.allowedCards.get(0);
 
-        Card[] tempCards = pickCards(context, null, sco, sco.count, sco.exactCount);
+        Card[] tempCards = pickCards(context, sco, sco.count, sco.exactCount);
         if (tempCards == null)
             return null;
 
@@ -165,7 +120,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             // Only one card available and player can't pass...go ahead and return
             return intToCard(sco.allowedCards.get(0));
         }
-        return pickACard(context, null, sco);
+        return pickACard(context, sco);
     }
 
     public int selectInt(MoveContext context, Card responsible, int maxInt) {
@@ -441,6 +396,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (int i=0; i<options.length; i++, j++) {
             if (i == choiceOne) {
                 i++;
+                if (i == options.length) break;
             }
             secondOptions[j] = options[i];
         }
@@ -1435,7 +1391,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.develop_orderCards(context, cards);
         }
         ArrayList<Card> orderedCards = new ArrayList<Card>();
-        int[] order = orderCards(context, cardArrToIntArr(cards), getString(R.string.card_order_on_deck));
+        int[] order = orderCards(context, cardArrToIntArr(cards));
         for (int i : order)
             orderedCards.add(cards[i]);
         return orderedCards.toArray(new Card[0]);
@@ -1724,7 +1680,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 Object[] options = new Object[1 + cards.size()];
                 // TODO(matt): this is quite a bit hackish.  But it should work.  At the very
                 // least, though, this string should be hard-coded somewhere else in a constant
-                // somewhere, and reused in the ui.Strings methods.
+                // somewhere, and reused in the ui.Strings methods.  There are a number of places
+                // in the code that should be similarly fixed ("PUTBACK", "OVERPAY", "GUILDCOINS",
+                // and "OVERPAYP").
                 options[0] = "REACTION";
                 for (int i = 0; i < cards.size(); i++) {
                     options[i + 1] = cards.get(i);
@@ -2049,7 +2007,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card rogue_cardToGain(MoveContext context) {
-        LinkedHashMap<String, Card> h = new LinkedHashMap<String, Card>();
         ArrayList<Card> options = new ArrayList<Card>();
 
         for (Card c : game.trashPile) {
@@ -2212,9 +2169,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         int choice = selectOption(context, Cards.hermit, options);
         if (choice < nonTreasureCountInDiscard) {
-            context.hermitTrashCardPile = PileSelection.DISCARD;
+            context.hermitTrashCardPile = MoveContext.PileSelection.DISCARD;
         } else {
-            context.hermitTrashCardPile = PileSelection.HAND;
+            context.hermitTrashCardPile = MoveContext.PileSelection.HAND;
         }
         return cardList.get(choice);
     }
@@ -2312,10 +2269,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public int amountToOverpay(MoveContext context, int cardCost) {
         int availableAmount = context.getCoinAvailableForBuy() - cardCost;
-
-        // If at least one potion is available, it can be used to overpay
-        int potion = context.potions;
-
         if (availableAmount <= 0) {
             return 0;
         }
