@@ -358,7 +358,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.spy_shouldDiscard(context, targetPlayer, card);
         }
         Object[] extras = new Object[3];
-        extras[0] = targetPlayer;
+        extras[0] = targetPlayer.getPlayerName();
         extras[1] = Cards.spy;
         extras[2] = card;
         return selectBoolean(context, Cards.spy, extras);
@@ -878,7 +878,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.scryingPool_shouldDiscard(context, targetPlayer, card);
         }
         Object[] extras = new Object[3];
-        extras[0] = targetPlayer;
+        extras[0] = targetPlayer.getPlayerName();
         extras[1] = Cards.scryingPool;
         extras[2] = card;
         return selectBoolean(context, Cards.scryingPool, extras);

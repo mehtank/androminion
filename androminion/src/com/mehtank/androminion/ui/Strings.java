@@ -624,12 +624,12 @@ public class Strings {
     }
 
     public static String getPlayerRevealedCardHeader(Object[] extras) {
-        return getPlayerRevealedCardHeader((Player) extras[0], (Card) extras[1], (Card) extras[2]);
+        return getPlayerRevealedCardHeader((String) extras[0], (Card) extras[1], (Card) extras[2]);
     }
 
-    public static String getPlayerRevealedCardHeader(Player p, Card responsible, Card revealed) {
+    public static String getPlayerRevealedCardHeader(String name, Card responsible, Card revealed) {
         return format(R.string.card_revealed_from_player,
-                      p.getPlayerName(),
+                      name,
                       getCardName(responsible),
                       getCardName(revealed));
     }
