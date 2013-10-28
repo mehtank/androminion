@@ -1,0 +1,136 @@
+BUILDING THE APP
+================
+
+
+Building/debugging with ant
+---------------------------
+
+Make sure you have the android SDK installed (here is a good guide:
+http://developer.android.com/training/basics/firstapp/index.html), with
+whatever target is found in the project.properties under androminion/ and
+actionbarsherlock/ (in both the multiplayer branch and trunk, that is
+android-14 for actionbarsherlock/project.properties, and android-15 for
+androminion/project.properties; so, using the SDK manager that you'll find when
+you get the android SDK, be sure you install the "SDK Platform" for both API
+level 14 and API level 15).
+
+With the SDK installed, you can just use ant to build the app (I think you can
+also run the app through Eclipse, but I don't know much about how that works -
+the guide linked above might help you if that's what you want to do).  So cd
+into the androminion/ directory, then run the following two commands:
+
+`ant vdom_lib`
+`ant debug`
+
+The first command builds the vdom library code and puts a .jar file in the
+androminion directory, and the second command builds the app (including the
+actionbarsherlock code) in debug mode.  There's probably a way to change the
+build files so you only need one command, but I didn't look hard enough to
+figure it out.
+
+Once you've built the app, you can install it on your device using adb.  There
+are instructions for that on the page linked above, too.  The command, though,
+is
+
+`adb install -r bin/Androminion-debug.apk`
+
+The -r means "please overwrite any version already there".  But it will
+probably fail the first time if you already have androminion installed from the
+play store, as it's signed by a different certificate.  So you'll have to
+uninstall the version from the play store, then run the command.
+
+Once it's installed, if you see a crash, you can get the log output by running
+
+`adb logcat`
+
+This could be long and obnoxious; what I like to do is run
+
+`adb logcat -c`
+`adb logcat -d |less`
+
+The -c in the first command clears the log (you do this just before doing
+something on the app that you know will crash it), and the -d in the second
+command dumps the log and exits, instead of continuously showing messages as
+they come in.
+
+
+Building/debugging with Eclipse
+-------------------------------
+
+TODO(matt): I don't use eclipse, so someone else should probably write this...
+
+--------------------
+
+TODO(matt): I'm pretty sure everything under this point is out of date.  I
+think there was a fork from Google code that got merged back in to the
+repository, bringing this file along with it.
+
+1. About this project
+
+    This is a fork of androminion by Ankur Metah, originated from google code
+    project "androminion", an android based implementation of the game
+    "Dominion" by Rio Grande Games.
+
+    This fork was originally based on version r561 (2012-08-02) of the
+    official project and has since been updated up to r638 (2012-08-31).
+
+    Goals of this fork are:
+    - A better User Interface, first for smartphones and later for tablets
+      (done)
+    - Better AI players, possibly using a neural network
+      (work in progress)
+    - Possibly a separate server and multiplayer functionality
+      (later)
+    - And of course some bug fixing and code commenting
+      (partly done)
+
+    Licensed under LGPL: http://www.gnu.org/licenses/lgpl-3.0.html
+
+2. Branching strategy
+
+    ----------------------------------------------------------------------------
+    master:
+    latest stable version, ready for production
+    ----------------------------------------------------------------------------
+    ^
+    |
+    ----------------------------------------------------------------------------
+    develop:
+    contains changes in progress, may not be ready for production
+    will be marged into master when in a stable, tested state
+    ----------------------------------------------------------------------------
+    ^    ^    ^    ^    ^
+    |    |    |    |    |
+    ----------------------------------------------------------------------------
+    topic branches (e.g. dev-ui or dev-bot):
+    for working on a feature or bug fix, will then be merged into develop
+    ----------------------------------------------------------------------------
+
+    See also:
+    http://stackoverflow.com/questions/2428722/git-branch-strategy-for-small-dev-team
+
+3. Import newest changes from Google Code SVN
+
+    3.1 Prepare SVN synchronisation with SVN metadata
+    (Do only once after cloning bitbucket repository)
+
+        git checkout master
+        git update-ref refs/remotes/trunk origin/master
+        git svn init http://androminion.googlecode.com/svn/trunk/
+        git svn fetch
+
+    3.2 Copy newest changes in SVN to bitbucket
+
+        git checkout master
+        git svn fetch (or git svn rebase?)
+        git push master
+
+    3.3 Copy newest changes in git/bitbucket back to SVN
+
+        git checkout master
+        git svn dcommit
+            --commit-url https://androminion.googlecode.com/svn/trunk/
+            --username=google.user@gmail.com
+
+    Merging seems only to work properly with the master branch, so this is
+    used for synchronizing svn and git.
