@@ -220,6 +220,8 @@ public class Strings {
             return 1;
         } else if (cardName.equals(getCardName(Cards.ambassador))) {
             return 1;
+        } else if (cardName.equals(getCardName(Cards.doctor))) {
+            return 1;
         } else if (cardName.equals(getCardName(Cards.envoy))) {
             return 1;
         } else if (cardName.equals(getCardName(Cards.jester))) {
