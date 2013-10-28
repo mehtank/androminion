@@ -233,19 +233,19 @@ public class Strings {
     }
 
     public static String getSelectOptionHeader(Card card, Object[] extras) {
-        if (card == null && extras[0] instanceof String && ((String)extras[0]).equals("PUTBACK")) {
+        if (extras[0] instanceof String && ((String)extras[0]).equals("PUTBACK")) {
             return getString(R.string.putback_query);
-        }
-        String cardName = getCardName(card);
-        if (extras[0] instanceof String && ((String)extras[0]).equals("REACTION")) {
-            return R.string.reaction_query + " [" + cardName + "]";
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals("REACTION")) {
+            return R.string.reaction_query + " [" + getCardName(card) + "]";
         } else if (extras[0] instanceof String && ((String)extras[0]).equals("GUILDCOINS")) {
             return "Spend Guilds Coin Tokens";
         } else if (extras[0] instanceof String && ((String)extras[0]).equals("OVERPAY")) {
             return "Overpay?";
         } else if (extras[0] instanceof String && ((String)extras[0]).equals("OVERPAYP")) {
             return "Overpay by Potion(s)?";
-        } else if (cardName.equals(getCardName(Cards.advisor))) {
+        }
+        String cardName = getCardName(card);
+        if (cardName.equals(getCardName(Cards.advisor))) {
             return getActionString(ActionType.OPPONENTDISCARD, card, ((Player)extras[0]).getPlayerName());
         } else if (cardName.equals(getCardName(Cards.ambassador))) {
             return format(R.string.ambassador_query, getCardName((Card)extras[0]));
