@@ -554,7 +554,6 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * Calls selectString after getting the right (localized) strings from R.
      */
     public void selectOption(Event e) {
-        Log.d(TAG, "Getting options for event type: " + e.t);
         String[] options = Strings.getOptions(e.c, e.o.os);
         selectString(Strings.getSelectOptionHeader(e.c, e.o.os), options, Event.EType.OPTION);
     }
