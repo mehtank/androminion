@@ -1152,7 +1152,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         JesterOption[] jester_options = JesterOption.values();
         Object[] options = new Object[2 + jester_options.length];
-        options[0] = targetPlayer;
+        options[0] = targetPlayer.getPlayerName();
         options[1] = card;
         for (int i = 0; i < jester_options.length; i++) {
             options[i + 2] = jester_options[i];
@@ -1521,7 +1521,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.oracle_shouldDiscard(context, player, cards);
         }
         Object[] extras = new Object[cards.size() + 1];
-        extras[0] = player;
+        extras[0] = player.getPlayerName();
         for (int i = 0; i < cards.size(); i++) {
             extras[i+1] = cards.get(i);
         }
@@ -2043,7 +2043,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
 
         Object[] options = new Object[1 + handCards.size()];
-        options[0] = context.attackedPlayer;
+        options[0] = context.attackedPlayer.getPlayerName();
         for (int i = 0; i < handCards.size(); i++) {
             options[i + 1] = handCards.get(i);
         }
@@ -2078,7 +2078,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.envoy_cardToDiscard(context, cards);
         }
         Object[] options = new Object[1 + cards.length];
-        options[0] = context.getPlayer();
+        options[0] = context.getPlayer().getPlayerName();
         for (int i = 0; i < cards.length; i++) {
             options[i + 1] = cards[i];
         }
@@ -2305,7 +2305,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card advisor_cardToDiscard(MoveContext context, Card[] cards) {
         Object[] options = new Object[1 + cards.length];
-        options[0] = context.getPlayer();
+        options[0] = context.getPlayer().getPlayerName();
         for (int i = 0; i < cards.length; i++) {
             options[i + 1] = cards[i];
         }

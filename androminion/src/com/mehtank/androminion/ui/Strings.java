@@ -248,7 +248,7 @@ public class Strings {
         }
         String cardName = getCardName(card);
         if (cardName.equals(getCardName(Cards.advisor))) {
-            return getActionString(ActionType.OPPONENTDISCARD, card, ((Player)extras[0]).getPlayerName());
+            return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
         } else if (cardName.equals(getCardName(Cards.ambassador))) {
             return format(R.string.ambassador_query, getCardName((Card)extras[0]));
         } else if (cardName.equals(getCardName(Cards.cartographer))) {
@@ -256,7 +256,7 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.doctor))) {
             return "Doctor revealed " + getCardName((Card)extras[0]);  // TODO(matt): fix this string
         } else if (cardName.equals(getCardName(Cards.envoy))) {
-            return getActionString(ActionType.OPPONENTDISCARD, card, ((Player)extras[0]).getPlayerName());
+            return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
         } else if (cardName.equals(getCardName(Cards.golem))) {
             return getString(R.string.golem_first_action);
         } else if (cardName.equals(getCardName(Cards.herald))) {
@@ -274,7 +274,7 @@ public class Strings {
                 return getString(R.string.lookout_query_discard);
             }
         } else if (cardName.equals(getCardName(Cards.pillage))) {
-            return getActionString(ActionType.OPPONENTDISCARD, card, ((Player)extras[0]).getPlayerName());
+            return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
         } else if (cardName.equals(getCardName(Cards.pirateShip))) {
             return getString(R.string.treasure_to_trash);
         } else if (cardName.equals(getCardName(Cards.scheme))) {
@@ -345,7 +345,7 @@ public class Strings {
             if (option == JesterOption.GainCopy) {
                 return getString(R.string.jester_option_one);
             } else if (option == JesterOption.GiveCopy) {
-                 return format(R.string.jester_option_two, ((Player)extras[0]).getPlayerName());
+                 return format(R.string.jester_option_two, extras[0]);
             }
         } else if (option instanceof TournamentOption) {
             if (option == TournamentOption.GainPrize) {
@@ -555,9 +555,8 @@ public class Strings {
             strings[1] = getCardName((Card) extras[1]);
             strings[2] = getCardName((Card) extras[2]);
         } else if (cardName.equals(getCardName(Cards.oracle))) {
-            Player player = (Player) extras[0];
             String cardNames = combineCardNames(extras, 1);
-            strings[0] = format(R.string.card_revealed, player.getPlayerName(), cardNames);
+            strings[0] = format(R.string.card_revealed, extras[0], cardNames);
             strings[1] = getString(R.string.top_of_deck);
             strings[2] = getString(R.string.discard);
         } else if (cardName.equals(getCardName(Cards.royalSeal))) {
