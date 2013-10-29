@@ -8,6 +8,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 
 import com.mehtank.androminion.R;
 import com.vdom.api.Card;
@@ -38,7 +39,7 @@ import com.vdom.core.Player.WatchTowerOption;
 
 public class Strings {
     @SuppressWarnings("unused")
-    private static final String TAG = "Strings";
+    private static final String TAG = "Androminion.Strings";
 
     static HashMap<Card, String> nameCache = new HashMap<Card, String>();
     static HashMap<Card, String> descriptionCache = new HashMap<Card, String>();
@@ -181,10 +182,10 @@ public class Strings {
             int nonTreasureCountInDiscard = (Integer) options[0];
             String pile = " (discard pile)";  // TODO(matt): put these hard-coded strings into R?
             for (int i = 1; i < options.length; i++) {
-                strings[i - 1] = getCardName((Card)options[i]) + pile;
                 if (i - 1 >= nonTreasureCountInDiscard) {
                     pile = " (hand)";
                 }
+                strings[i - 1] = getCardName((Card)options[i]) + pile;
             }
             return strings;
         }

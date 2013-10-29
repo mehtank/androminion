@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
@@ -2881,9 +2882,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             // Create a list of possible cards to guess, using the player's hand, discard pile, and deck 
             // (even though the player could technically name a card he doesn't have)
-            // NOTE(matt): IndirectPlayer now ignores the options array that is passed in here,
-            // allowing the player to pick whatever card they want.
-            ArrayList<Card> options = currentPlayer.getAllCards();
+            ArrayList<Card> options = new ArrayList<Card>(currentPlayer.getDistinctCards());
             Collections.sort(options, new Util.CardNameComparator());
 
             if (!options.isEmpty()) {
@@ -4355,9 +4354,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             // Create a list of all possible cards to guess, using the player's hand, discard pile, and deck 
             // (even though the player could technically name a card he doesn't have)
-            // NOTE(matt): IndirectPlayer now ignores the options array that is passed in here,
-            // allowing the player to pick whatever card they want.
-            ArrayList<Card> options = currentPlayer.getAllCards();
+            ArrayList<Card> options = new ArrayList<Card>(currentPlayer.getDistinctCards());
             Collections.sort(options, new Util.CardNameComparator());
 
             if (options.size() > 0) {
@@ -5053,33 +5050,32 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void hermit(MoveContext context, Game game, Player currentPlayer)
     {
         ArrayList<Card> options = new ArrayList<Card>();
-        int nonTreasureCountInDiscard = 0;
 
+        Set<Card> inDiscard = new HashSet<Card>();
         for (Card c : currentPlayer.discard) {
             if (!(c instanceof TreasureCard)) {
-                options.add(c);
-                ++nonTreasureCountInDiscard;    // Keep track of which cards are in the discard pile so that the player 
-                // can tell if they are trashing from discard or hand
+                inDiscard.add(c);
             }
         }
-        if (!options.isEmpty())
-            Collections.sort(options, new Util.CardNameComparator());
+        options.addAll(inDiscard);
+        Collections.sort(options, new Util.CardNameComparator());
 
-        ArrayList<Card> options2 = new ArrayList<Card>();
+        Set<Card> inHand = new HashSet<Card>();
         for (Card c: currentPlayer.hand) {
             if (!(c instanceof TreasureCard)) {
-                options2.add(c);
+                inHand.add(c);
             }
         }
-        if (!options2.isEmpty()) {
-            Collections.sort(options2, new Util.CardNameComparator());
-            options.addAll(options2);
-        }
+        List<Card> handList = new ArrayList<Card>(inHand);
+        Collections.sort(handList, new Util.CardNameComparator());
+        options.addAll(handList);
 
         if (!options.isEmpty()) {
             // Offer the option to trash a non-treasure card
-            context.hermitTrashCardPile = PileSelection.ANY; 
-            Card toTrash = currentPlayer.controlPlayer.hermit_cardToTrash(context, options, nonTreasureCountInDiscard);
+            context.hermitTrashCardPile = PileSelection.ANY;
+            Card toTrash = currentPlayer.controlPlayer.hermit_cardToTrash(context,
+                                                                          options,
+                                                                          inDiscard.size());
 
             if (toTrash != null) {
                 if (currentPlayer.discard.contains(toTrash) && (context.hermitTrashCardPile == PileSelection.ANY || context.hermitTrashCardPile == PileSelection.DISCARD)) {
@@ -5504,15 +5500,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                     card = currentPlayer.controlPlayer.butcher_cardToObtain(context, value, potion);
 
-                    if (card != null) 
-                    {
-                        if (card.getCost(context) > value) 
-                        {
+                    if (card != null) {
+                        if (card.getCost(context) > value) {
                             Util.playerError(currentPlayer, "Butcher error, new card does not have appropriate cost");
-                        } 
-                        else 
-                        {
-                            if (!currentPlayer.gainNewCard(card, this.controlCard, context)) 
+                        }
+                        else {
+                            if (!currentPlayer.gainNewCard(card, this.controlCard, context))
                             {
                                 Util.playerError(currentPlayer, "Butcher error, pile is empty or card is not in the game.");
                             }
@@ -5523,26 +5516,24 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
 
-    private void journeyman(Game game, MoveContext context, Player currentPlayer) 
-    {
-        Card named = currentPlayer.controlPlayer.journeyman_cardToPick(context);
+    private void journeyman(Game game, MoveContext context, Player currentPlayer) {
+        List<Card> options = new ArrayList<Card>(currentPlayer.getDistinctCards());
+        Collections.sort(options, new Util.CardNameComparator());
+        Card named = currentPlayer.controlPlayer.journeyman_cardToPick(context, options);
         currentPlayer.controlPlayer.namedCard(named, this.controlCard, context);
 
-        ArrayList<Card> cardsToKeep    = new ArrayList<Card>();
+        ArrayList<Card> cardsToKeep = new ArrayList<Card>();
         ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
-        Card last                      = null;
-        int diffCardsFound             = 0;
+        Card last = null;
+        int diffCardsFound = 0;
 
         // search for the first 3 cards that were not named
-        while (diffCardsFound < 3 && (last = context.game.draw(currentPlayer)) != null) 
-        {
-            if (!last.equals(named))
-            {
+        while (diffCardsFound < 3 && (last = context.game.draw(currentPlayer)) != null) {
+            if (!last.equals(named)) {
                 ++diffCardsFound;
                 cardsToKeep.add(last);
             }
-            else
-            {
+            else {
                 cardsToDiscard.add(last);
             }
 
@@ -5550,30 +5541,25 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         // Discard all matches
-        for (Card c : cardsToDiscard) 
-        {
+        for (Card c : cardsToDiscard) {
             currentPlayer.discard(c, this.controlCard, context);
         }
 
         // Place all other cards into the Player's hand
-        for (Card c : cardsToKeep)
-        {
+        for (Card c : cardsToKeep) {
             currentPlayer.hand.add(c);
         }
     }
 
-    private void stonemason(Game game, MoveContext context, Player currentPlayer) 
-    {
+    private void stonemason(Game game, MoveContext context, Player currentPlayer) {
         /*Trash a card from your hand, Gain 2 cards each costing less than it.
-          When you buy this, you may overpay for it. 
+          When you buy this, you may overpay for it.
           If you do, gain 2 Action cards each costing the amount you overpaid. */
 
-        if (currentPlayer.getHand().size() > 0) 
-        {
+        if (currentPlayer.getHand().size() > 0) {
             Card card = currentPlayer.controlPlayer.stonemason_cardToTrash(context);
 
-            if (card != null)
-            {
+            if (card != null) {
                 currentPlayer.hand.remove(card);
                 currentPlayer.trash(card, this.controlCard, context);
 
@@ -5581,30 +5567,24 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 boolean potion = card.costPotion();
                 boolean cardGainError = false;
 
-                if (value >= 0)
-                {
+                if (value >= 0) {
                     card = currentPlayer.controlPlayer.stonemason_cardToGain(context, value, potion);
 
-                    if (card != null) 
-                    {
-                        if (!currentPlayer.gainNewCard(card, this.controlCard, context)) 
-                        {
+                    if (card != null) {
+                        if (!currentPlayer.gainNewCard(card, this.controlCard, context)) {
                             Util.playerError(currentPlayer, "Stone Mason card gain #1 error, pile is empty or card is not in the game.");
                             cardGainError = true;
                         }
                     }
 
-                    if (!cardGainError)
-                    {
+                    if (!cardGainError) {
                         card = currentPlayer.controlPlayer.stonemason_cardToGain(context, value, potion);
 
-                        if (card != null)
-                        {
-                            if (!currentPlayer.gainNewCard(card, this.controlCard, context)) 
-                            {
+                        if (card != null) {
+                            if (!currentPlayer.gainNewCard(card, this.controlCard, context)) {
                                 Util.playerError(currentPlayer, "Stone Mason card gain #2 error, pile is empty or card is not in the game.");
                             }
-                        }  
+                        }
                     }
                 }
             }
@@ -5638,43 +5618,38 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
 
-    private void doctor(Game game, MoveContext context, Player currentPlayer) 
-    {
-        /*Name a card. 
-         * Reveal the top 3 cards of your deck. 
-         * Trash the matches. 
+    private void doctor(Game game, MoveContext context, Player currentPlayer) {
+        /*Name a card.
+         * Reveal the top 3 cards of your deck.
+         * Trash the matches.
          * Put the rest back on top in any order.
-         When you buy this, you may overpay for it. 
+         When you buy this, you may overpay for it.
          For each $1 you overpaid, look at the top card of your deck; trash it, discard it, or put it back.*/
 
-        Card named = currentPlayer.controlPlayer.doctor_cardToPick(context);
+        List<Card> options = new ArrayList<Card>(currentPlayer.getDistinctCards());
+        Collections.sort(options, new Util.CardNameComparator());
+        Card named = currentPlayer.controlPlayer.doctor_cardToPick(context, options);
 
         ArrayList<Card> revealedCards = new ArrayList<Card>();
 
-        for (int i = 0; i < 3; ++i)
-        {
+        for (int i = 0; i < 3; ++i) {
             Card card = game.draw(currentPlayer);
-            if (card != null)
-            {
+            if (card != null) {
                 currentPlayer.reveal(card, this.controlCard, context);
 
-                if (card.equals(named))
-                {
+                if (card.equals(named)) {
                     currentPlayer.trash(card, this.controlCard, context);
                 }
-                else
-                {
+                else {
                     revealedCards.add(card);
                 }
             }
         }
 
-        if (revealedCards.size() > 0)
-        {
+        if (revealedCards.size() > 0) {
             ArrayList<Card> orderedCards = currentPlayer.controlPlayer.doctor_cardsForDeck(context, revealedCards);
 
-            for (Card c : orderedCards)
-            {
+            for (Card c : orderedCards) {
                 currentPlayer.putOnTopOfDeck(c);
             }
         }

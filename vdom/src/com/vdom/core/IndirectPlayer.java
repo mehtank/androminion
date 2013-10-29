@@ -578,9 +578,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
             return super.wishingWell_cardGuess(context, cardList);
         }
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty()
-                .setActionType(ActionType.NAMECARD).setCardResponsible(Cards.wishingWell);
-        return getFromTable(context, sco);
+        ArrayList<Card> options = new ArrayList<Card>();
+        options.add(null);
+        for (Card c : cardList) {
+            options.add(c);
+        }
+        return options.get(selectOption(context, Cards.wishingWell, options.toArray()));
     }
 
     @Override
@@ -1919,9 +1922,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_wishingWell_cardGuess(context)) {
             return super.mystic_cardGuess(context, cardList);
         }
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty()
-                .setActionType(ActionType.NAMECARD).setCardResponsible(Cards.mystic);
-        return getFromTable(context, sco);
+        ArrayList<Card> options = new ArrayList<Card>();
+        options.add(null);
+        for (Card c : cardList) {
+            options.add(c);
+        }
+        return options.get(selectOption(context, Cards.mystic, options.toArray()));
     }
 
     @Override
@@ -2313,10 +2319,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card journeyman_cardToPick(MoveContext context) {
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty()
-                .setActionType(ActionType.NAMECARD).setCardResponsible(Cards.journeyman);
-        return getFromTable(context, sco);
+    public Card journeyman_cardToPick(MoveContext context, List<Card> cardList) {
+        List<Card> options = new ArrayList<Card>();
+        options.add(null);
+        for (Card c : cardList) {
+            options.add(c);
+        }
+        return options.get(selectOption(context, Cards.journeyman, options.toArray()));
     }
 
     @Override
@@ -2343,10 +2352,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card doctor_cardToPick(MoveContext context) {
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty()
-                .setActionType(ActionType.NAMECARD).setCardResponsible(Cards.doctor);
-        return getFromTable(context, sco);
+    public Card doctor_cardToPick(MoveContext context, List<Card> cardList) {
+        List<Card> options = new ArrayList<Card>();
+        options.add(null);
+        for (Card c : cardList) {
+            options.add(c);
+        }
+        return options.get(selectOption(context, Cards.doctor, options.toArray()));
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Random;
 
 import com.vdom.api.ActionCard;
@@ -474,6 +475,10 @@ public abstract class Player {
             allCards.add(checkLeadCard);
         }
         return allCards;
+    }
+
+    public Set<Card> getDistinctCards() {
+        return new HashSet<Card>(getAllCards());
     }
 
     public Map<Object, Integer> getVictoryCardCounts() {
@@ -1425,11 +1430,11 @@ public abstract class Player {
     public abstract Card butcher_cardToTrash(MoveContext context);
     public abstract Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion);
     public abstract Card advisor_cardToDiscard(MoveContext context, Card[] cards);
-    public abstract Card journeyman_cardToPick(MoveContext context);
+    public abstract Card journeyman_cardToPick(MoveContext context, List<Card> cardList);
     public abstract Card stonemason_cardToTrash(MoveContext context);
     public abstract Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion);
     public abstract Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion);
-    public abstract Card doctor_cardToPick(MoveContext context);
+    public abstract Card doctor_cardToPick(MoveContext context, List<Card> cardList);
     public abstract ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards);
     public abstract DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card);
     public abstract Card herald_cardTopDeck(MoveContext context, Card[] cardList);
