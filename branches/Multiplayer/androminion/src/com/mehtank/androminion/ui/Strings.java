@@ -239,7 +239,7 @@ public class Strings {
         if (extras[0] instanceof String && ((String)extras[0]).equals("PUTBACK")) {
             return getString(R.string.putback_query);
         } else if (extras[0] instanceof String && ((String)extras[0]).equals("REACTION")) {
-            return R.string.reaction_query + " [" + getCardName(card) + "]";
+            return getString(R.string.reaction_query) + " [" + getCardName(card) + "]";
         } else if (extras[0] instanceof String && ((String)extras[0]).equals("GUILDCOINS")) {
             return "Spend Guilds Coin Tokens";
         } else if (extras[0] instanceof String && ((String)extras[0]).equals("OVERPAY")) {
