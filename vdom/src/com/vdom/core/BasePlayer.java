@@ -2672,7 +2672,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card journeyman_cardToPick(MoveContext context) 
+    public Card journeyman_cardToPick(MoveContext context, List<Card> cardList) 
     {
         // TODO: Implement
         return Cards.estate;
@@ -2737,7 +2737,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card doctor_cardToPick(MoveContext context) 
+    public Card doctor_cardToPick(MoveContext context, List<Card> cardList) 
     {
         // TODO: Implement
         return Cards.estate;
