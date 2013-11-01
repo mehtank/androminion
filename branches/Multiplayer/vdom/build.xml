@@ -10,7 +10,8 @@
 
     <target name="compile" description="Compiles the Task">
         <mkdir dir="classes"/>
-        <javac target="1.5" srcdir="src" debug="true" destdir="classes"/>
+        <javac source="1.5" target="1.5" srcdir="src" debug="true"
+                destdir="classes"/>
     </target>
 
     <target name="jar" description="JARs the Task" depends="compile">

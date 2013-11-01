@@ -3,6 +3,9 @@
     <target name="vdom_lib">
         <property name="vdom-dir" value="${source.dir}/../../vdom/" />
         <exec executable="ant" dir="${vdom-dir}">
+            <arg value="clean" />
+        </exec>
+        <exec executable="ant" dir="${vdom-dir}">
             <arg value="jar" />
         </exec>
         <copy file="${vdom-dir}/vdom.jar" todir="${source.dir}/../libs/" overwrite="true"/>
