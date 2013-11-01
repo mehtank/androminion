@@ -222,7 +222,11 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.ambassador))) {
             return 1;
         } else if (cardName.equals(getCardName(Cards.doctor))) {
-            return 1;
+            if (options[0] == null) {
+                return 0;
+            } else {
+                return 1;
+            }
         } else if (cardName.equals(getCardName(Cards.envoy))) {
             return 1;
         } else if (cardName.equals(getCardName(Cards.jester))) {
@@ -255,7 +259,11 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.cartographer))) {
             return getString(R.string.Cartographer_query) + " [" + cardName + "]";
         } else if (cardName.equals(getCardName(Cards.doctor))) {
-            return "Doctor revealed " + getCardName((Card)extras[0]);  // TODO(matt): fix this string
+            if (extras[0] == null) {
+                return cardName;
+            } else {
+                return "Doctor revealed " + getCardName((Card)extras[0]);  // TODO(matt): fix this string
+            }
         } else if (cardName.equals(getCardName(Cards.envoy))) {
             return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
         } else if (cardName.equals(getCardName(Cards.golem))) {
