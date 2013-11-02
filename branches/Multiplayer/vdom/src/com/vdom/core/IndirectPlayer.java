@@ -2168,12 +2168,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard) {
-        Object[] options = new Object[1 + cardList.size()];
+        Object[] options = new Object[2 + cardList.size()];
         options[0] = nonTreasureCountInDiscard;
+        options[1] = null;
         for (int i = 0; i < cardList.size(); i++) {
-            options[i + 1] = cardList.get(i);
+            options[i + 2] = cardList.get(i);
         }
         int choice = selectOption(context, Cards.hermit, options);
+        if (choice == 0) {
+            return null;
+        }
+        // Just to make the indexing back what it would have been if there were no "none" choice.
+        choice--;
         if (choice < nonTreasureCountInDiscard) {
             context.hermitTrashCardPile = MoveContext.PileSelection.DISCARD;
         } else {

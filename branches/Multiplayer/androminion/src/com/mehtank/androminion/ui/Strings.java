@@ -179,10 +179,11 @@ public class Strings {
         String[] strings = new String[options.length - startIndex];
         if (card != null && getCardName(card).equals(getCardName(Cards.hermit))) {
             strings = new String[options.length - 1];
+            strings[0] = getString(R.string.none);
             int nonTreasureCountInDiscard = (Integer) options[0];
             String pile = " (discard pile)";  // TODO(matt): put these hard-coded strings into R?
-            for (int i = 1; i < options.length; i++) {
-                if (i - 1 >= nonTreasureCountInDiscard) {
+            for (int i = 2; i < options.length; i++) {
+                if (i - 2 >= nonTreasureCountInDiscard) {
                     pile = " (hand)";
                 }
                 strings[i - 1] = getCardName((Card)options[i]) + pile;
