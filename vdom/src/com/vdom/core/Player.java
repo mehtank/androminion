@@ -230,7 +230,7 @@ public abstract class Player {
                 options.add(PutBackOption.Treasury);
             } else if (c.behaveAsCard().equals(Cards.alchemist) && potionPlayed) {
                 options.add(PutBackOption.Alchemist);
-            } else if (c.behaveAsCard().equals(Cards.walledVillage) && actionsPlayed == 1) {
+            } else if (c.behaveAsCard().equals(Cards.walledVillage) && actionsPlayed <= 2) {
                 options.add(PutBackOption.WalledVillage);
             } else if (c.behaveAsCard().equals(Cards.herbalist) && treasurePlayed) {
                 options.add(PutBackOption.Coin);
