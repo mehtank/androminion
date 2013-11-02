@@ -1827,7 +1827,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_courtyard_cardToPutBackOnDeck(context)) {
             return super.count_cardToPutBackOnDeck(context);
         }
-        SelectCardOptions sco = new SelectCardOptions();
+        SelectCardOptions sco = new SelectCardOptions().setCardResponsible(Cards.count);
         return getCardFromHand(context, sco);
     }
     @Override
@@ -2154,7 +2154,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.mercenary_attack_cardsToKeep(context);
         }
         SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
-                .setPickType(PickType.KEEP);
+                .setPickType(PickType.KEEP).setCardResponsible(Cards.mercenary);
         return getFromHand(context, sco);
     }
 
