@@ -47,11 +47,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     static int maxPause = 300000; // Maximum time to wait for new player to connect = 5 minutes in ms;
     private static VDomServer vdomServer = null; // points to the VDomServer object
 
-    //	private static final String DISTINCT_CARDS = "Distinct Cards";
+    // private static final String DISTINCT_CARDS = "Distinct Cards";
 
     Comms comm = null;
     // communication thread handled internally now
-    //	Thread commThread;
+    // Thread commThread;
     private int myPort = 0;
 
     protected String name;
@@ -111,57 +111,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return hasJoined;
     }
 
-    public static String getFullCardDescription(Card c) {
-        String ret = Strings.getCardDescription(c);
-
-        if (c.equals(Cards.curse)) {
-            ret = Strings.format(R.string.vp_single, "" + ((CurseCard) c).getVictoryPoints()) + "\n" + ret;
-        }
-        if (c instanceof VictoryCard) {
-            if (((VictoryCard) c).getVictoryPoints() > 1)
-                ret = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
-            else if (((VictoryCard) c).getVictoryPoints() > 0)
-                ret = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
-            else if (((VictoryCard) c).getVictoryPoints() < -1)
-                ret = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
-            else if (((VictoryCard) c).getVictoryPoints() < 0)
-                ret = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
-        }
-        if (c instanceof TreasureCard) {
-            ret = Strings.format(R.string.coin_worth, "" + ((TreasureCard) c).getValue()) + "\n" + ret;
-        }
-        if (c instanceof ActionCard) {
-            ActionCard ac = (ActionCard) c;
-            if (c instanceof DurationCard) {
-                DurationCard dc = (DurationCard) c;
-                if (dc.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn, "" + dc.getAddGoldNextTurn()) + "\n" + ret;
-                if (dc.getAddBuysNextTurn() > 1) ret = Strings.format(R.string.buys_next_turn_multiple, "" + dc.getAddBuysNextTurn()) + "\n" + ret;
-                else if (dc.getAddBuysNextTurn() > 0) ret = Strings.format(R.string.buy_next_turn_single, "" + dc.getAddBuysNextTurn()) + "\n" + ret;
-                if (dc.getAddActionsNextTurn() > 1) ret =  Strings.format(R.string.actions_next_turn_multiple, "" + dc.getAddActionsNextTurn()) + "\n" + ret;
-                else if (dc.getAddActionsNextTurn() > 0) ret =  Strings.format(R.string.action_next_turn_single, "" + dc.getAddActionsNextTurn()) + "\n" + ret;
-                if (dc.getAddCardsNextTurn() > 1) ret = Strings.format(R.string.cards_next_turn_multiple, "" + dc.getAddCardsNextTurn()) + "\n" + ret;
-                else if (dc.getAddCardsNextTurn() > 0) ret = Strings.format(R.string.card_next_turn_single, "" + dc.getAddCardsNextTurn()) + "\n" + ret;
-
-            }
-
-            if (ac.getAddGold() > 0) ret = Strings.format(R.string.card_coin, "" + ac.getAddGold()) + "\n" + ret;
-            if (ac.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + ret;
-            else if (ac.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + ac.getAddBuys()) + "\n" + ret;
-            if (ac.getAddActions() > 1) ret = Strings.format(R.string.card_actions_multiple, "" + ac.getAddActions()) + "\n" + ret;
-            else if (ac.getAddActions() > 0) ret = Strings.format(R.string.card_action_single, "" + ac.getAddActions()) + "\n" + ret;
-            if (ac.getAddCards() > 1) ret = Strings.format(R.string.card_cards_multiple, "" + ac.getAddCards()) + "\n" + ret;
-            else if (ac.getAddCards() > 0) ret = Strings.format(R.string.card_card_single, "" + ac.getAddCards()) + "\n" + ret;
-            if (ac.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + ac.getAddVictoryTokens()) + "\n" + ret;
-            else if (ac.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + ac.getAddVictoryTokens()) + "\n" + ret;
-        }
-        return ret;
-    }
-
     public static MyCard makeMyCard(Card c, int index, boolean isBane){
         //    	MyCard card = new MyCard(index, c.getName());
 
         MyCard card = new MyCard(index, Strings.getCardName(c), c.getSafeName(), c.getName());
-        card.desc = getFullCardDescription(c);
+        card.desc = Strings.getFullCardDescription(c);
         card.expansion = Strings.getCardExpansion(c);
         card.originalExpansion = c.getExpansion();
         card.cost = c.getCost(null);
@@ -321,37 +275,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         myCardsInPlay = myCardsInPlayList.toArray(new MyCard[0]);
     }
 
-
-    //	private Map<Card, Integer> getVictoryPointTotals(
-    //		final Player player,
-    //		final Map<Object, Integer> counts) {
-    //
-    //		Map<Card, Integer> totals = new HashMap<Card, Integer>();
-    //
-    //		for(Map.Entry<Object, Integer> entry : counts.entrySet()) {
-    //			if(entry.getKey() instanceof VictoryCard) {
-    //				VictoryCard victoryCard = (VictoryCard) entry.getKey();
-    //				totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
-    //			} else if(entry.getKey() instanceof CurseCard) {
-    //				CurseCard curseCard = (CurseCard) entry.getKey();
-    //				totals.put(curseCard, curseCard.getVictoryPoints() * entry.getValue());
-    //			}
-    //		}
-    //
-    //		if(counts.containsKey(Cards.gardens))
-    //			totals.put(Cards.gardens, counts.get(Cards.gardens) * (player.getAllCards().size() / 10));
-    //		if(counts.containsKey(Cards.duke))
-    //			totals.put(Cards.duke, counts.get(Cards.duke) * counts.get(Cards.duchy));
-    //		if(counts.containsKey(Cards.fairgrounds))
-    //			totals.put(Cards.fairgrounds, counts.get(Cards.fairgrounds) * ((counts.get(DISTINCT_CARDS) / 5) * 2));
-    //		if(counts.containsKey(Cards.vineyard))
-    //			totals.put(Cards.vineyard, counts.get(Cards.vineyard) * (player.getActionCardCount() / 3));
-    //		if(counts.containsKey(Cards.silkRoad))
-    //			totals.put(Cards.silkRoad, counts.get(Cards.silkRoad) * (player.getVictoryCardCount() / 4));
-    //
-    //		return totals;
-    //	}
-
     private String getVPOutput(Player player) {
 
         final Map<Object, Integer> counts = player.getVictoryCardCounts();
@@ -499,12 +422,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
         if (game.getTopRuinsCard() != null)
-            gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Strings.getCardName(game.getTopRuinsCard()), getFullCardDescription(game.getTopRuinsCard()));
+            gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Strings.getCardName(game.getTopRuinsCard()), Strings.getFullCardDescription(game.getTopRuinsCard()));
         else
             gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), Cards.virtualRuins.getName(), Cards.virtualRuins.getDescription());
 
         if (game.getTopKnightCard() != null)
-            gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Strings.getCardName(game.getTopKnightCard()), getFullCardDescription(game.getTopKnightCard()), game.getTopKnightCard().getCost(context));
+            gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Strings.getCardName(game.getTopKnightCard()), Strings.getFullCardDescription(game.getTopKnightCard()), game.getTopKnightCard().getCost(context));
         else
             gs.setKnightTopCard(cardToInt(Cards.virtualKnight), Cards.virtualKnight.getName(), Cards.virtualKnight.getDescription(), Cards.virtualKnight.getCost(context));
 
@@ -910,7 +833,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
 
         if (event.getPlayer() != null) {
-            //   		try {
             switch (event.getType()) {
                 case BuyingCard:
                 case CardObtained:
@@ -935,10 +857,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                         comm.put_ts(status);
             }
             comm.put_ts(new Event(EType.SLEEP).setInteger(100));
-            //  		} catch (IOException e) {
-            //  			debug("Sending general game event message failed, ignoring.");
-            //  			e.printStackTrace();
-            //  		}
         }
     }
 
