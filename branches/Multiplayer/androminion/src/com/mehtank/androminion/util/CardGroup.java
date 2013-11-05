@@ -11,6 +11,8 @@ import android.widget.BaseAdapter;
 
 import com.mehtank.androminion.ui.CardView;
 import com.mehtank.androminion.ui.CardView.CardState;
+import com.mehtank.androminion.ui.Strings;
+import com.vdom.api.Card;
 import com.vdom.comms.MyCard;
 
 /**
@@ -114,15 +116,21 @@ public class CardGroup extends BaseAdapter {
         return cv;
     }
 
-    public void updateCardName(int index, String s, String d) {
-        updateCardName(index, s, d, -1);
-    }
-    public void updateCardName(int index, String s, String d, int c) {
+    /**
+     * This is to update the card information that's displayed when a pile is non-uniform, as with
+     * Ruins and Knights cards.
+     *
+     * @param index Tells us the index of the card pile that we're supposed to update
+     * @param card The card that is now on top, whose information we should display
+     * @param cost The cost of the card as we should display it (as this depends on context, we
+     *             can't just grab it from the card itself).
+     */
+    public void updateCardName(int index, Card card, int cost) {
         for (CardState cs : cards) {
             if (cs.c.id == index) {
-                cs.c.name = s;
-                cs.c.desc = d;
-                if (c >= 0) cs.c.cost = c;
+                cs.c.name = Strings.getCardName(card);
+                cs.c.desc = Strings.getCardDescription(card);
+                if (cost >= 0) cs.c.cost = cost;
             }
         }
     }
