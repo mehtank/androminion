@@ -2,6 +2,8 @@ package com.vdom.comms;
 
 import java.io.Serializable;
 
+import com.vdom.api.Card;
+
 public class GameStatus implements Serializable {
     private static final long serialVersionUID = -5928579898003313213L;
 
@@ -28,11 +30,9 @@ public class GameStatus implements Serializable {
     public int[] guildsCoinTokens;
     public int cardCostModifier;
     public int potions;
-    public String ruinsTopCard;
-    public String ruinsTopCardDesc;
+    public Card ruinsTopCard;
     public int ruinsID;
-    public String knightsTopCard;
-    public String knightsTopCardDesc;
+    public Card knightsTopCard;
     public int knightsTopCardCost;
     public int knightsID;
 
@@ -59,8 +59,8 @@ public class GameStatus implements Serializable {
     public GameStatus setCardCostModifier(int i) {cardCostModifier = i; return this;}
     public GameStatus setPotions(int i) {potions = i; return this;}
     public GameStatus setTrash(int[] is) {trashPile = is; return this;}
-    public GameStatus setRuinsTopCard(int i, String s, String d) {ruinsTopCard = s; ruinsTopCardDesc = d; ruinsID = i; return this;}
-    public GameStatus setKnightTopCard(int i, String s, String d, int c) {knightsTopCard = s; knightsTopCardDesc = d; knightsID = i; knightsTopCardCost = c; return this;}
+    public GameStatus setRuinsTopCard(int i, Card c) {ruinsTopCard = c; ruinsID = i; return this;}
+    public GameStatus setKnightTopCard(int i, Card c, int cost) {knightsTopCard = c; knightsID = i; knightsTopCardCost = cost; return this;}
 
     public String toString() {
         String str = name + "(" + whoseTurn + ")";
