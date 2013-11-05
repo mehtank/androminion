@@ -2,7 +2,9 @@ package com.vdom.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
@@ -1943,7 +1945,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         CardList localDiscard = (context.player.isPossessed()) ? context.player.getDiscard() : getDiscard();
         if (localDiscard.isEmpty())
             return null;
-        return localDiscard.get(selectOption(context, Cards.scavenger, localDiscard.toArray()));
+        Set<Card> uniqueCards = new HashSet<Card>(localDiscard.toArrayList());
+        List<Card> options = new ArrayList<Card>(uniqueCards);
+        Collections.sort(options, new Util.CardNameComparator());
+
+        return options.get(selectOption(context, Cards.scavenger, options.toArray()));
     }
 
     @Override
