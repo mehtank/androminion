@@ -129,7 +129,7 @@ public class CardGroup extends BaseAdapter {
         for (CardState cs : cards) {
             if (cs.c.id == index) {
                 cs.c.name = Strings.getCardName(card);
-                cs.c.desc = Strings.getCardDescription(card);
+                cs.c.desc = Strings.getFullCardDescription(card);
                 if (cost >= 0) cs.c.cost = cost;
             }
         }

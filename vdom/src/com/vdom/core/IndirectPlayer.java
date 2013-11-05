@@ -199,6 +199,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card doBuy(MoveContext context) {
+        // TODO(matt): issue 612: if there's a cantBuy card, make it not selectable somehow.
         SelectCardOptions sco = new SelectCardOptions().isBuy()
                 .maxCost(context.getCoinAvailableForBuy())
                 .copperCountInPlay(context.countCardsInPlay(Cards.copper))
