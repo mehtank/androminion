@@ -14,9 +14,11 @@ import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
 import com.vdom.api.DurationCard;
+import com.vdom.api.GameEvent;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.comms.Event;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
@@ -41,6 +43,7 @@ import com.vdom.core.Player.TrustySteedOption;
 import com.vdom.core.Player.WatchTowerOption;
 
 public class Strings {
+
     @SuppressWarnings("unused")
     private static final String TAG = "Androminion.Strings";
 
@@ -168,6 +171,19 @@ public class Strings {
 
     public static String getString(int resId) {
         return context.getString(resId);
+    }
+
+    /**
+     * Given an Event object, return the string that should be shown in the game log.  We look into
+     * the GameEvent stored inside the Event object to decide what that string should be (GameEvent
+     * is how the Game talks to RemotePlayer, while Event is how RemotePlayer talks to
+     * Androminion).
+     */
+    public static String getStatusText(Event event) {
+        if (event.ge.getType() == GameEvent.Type.Embargo) {
+            return event.s + getString(R.string.Embargo);
+        }
+        return event.s;
     }
 
     public static String getFullCardDescription(Card c) {

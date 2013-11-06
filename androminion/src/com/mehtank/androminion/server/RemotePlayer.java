@@ -590,7 +590,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     strEvent += Strings.getString(R.string.GameOver);
                     break;
                 case Embargo:
-                    strEvent += Strings.getString(R.string.Embargo);
+                    // strEvent += Strings.getString(R.string.Embargo);
                     break;
                 case Status:
                     strEvent += Strings.getString(R.string.Status);
