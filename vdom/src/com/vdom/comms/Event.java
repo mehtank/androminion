@@ -410,7 +410,7 @@ public class Event implements Serializable{
         SLEEP,
     }
     public EType t; // event type
-    public GameEvent ge; // game event that was responsible, if any
+    public GameEvent.Type gameEventType; // game event that was responsible, if any
     public String s; // event string
     public Card c; // event card
     public boolean b; // some bool
@@ -426,8 +426,8 @@ public class Event implements Serializable{
         return this;
     }
 
-    public Event setGameEvent(GameEvent ge) {
-        this.ge = ge;
+    public Event setGameEventType(GameEvent.Type gameEventType) {
+        this.gameEventType = gameEventType;
         return this;
     }
 

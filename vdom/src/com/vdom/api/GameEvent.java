@@ -3,15 +3,14 @@ package com.vdom.api;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
 
-
-public class GameEvent { 
+public class GameEvent {
     public enum Type {
         GameStarting, // A new game is starting, called at the start of each game when multiple are played
         GameOver, // Game completed
         Embargo, // Embargo added to card
 
         Status, // Sent before playing an action or buying a card for UI to show action/buy/coin status
-        
+
         CantBuy, // Card that can't be bought (ie. named in playing Contraband)
         VictoryPoints, // VictoryPoints at the end of the game
         NewHand, // Player gets a NewHand

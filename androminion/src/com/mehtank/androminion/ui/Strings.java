@@ -180,7 +180,7 @@ public class Strings {
      * Androminion).
      */
     public static String getStatusText(Event event) {
-        if (event.ge.getType() == GameEvent.Type.Embargo) {
+        if (event.gameEventType == GameEvent.Type.Embargo) {
             return event.s + getString(R.string.Embargo);
         }
         return event.s;
