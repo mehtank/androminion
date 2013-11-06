@@ -3,6 +3,7 @@ package com.vdom.comms;
 import java.io.Serializable;
 
 import com.vdom.api.Card;
+import com.vdom.api.GameEvent;
 
 
 /**
@@ -409,6 +410,7 @@ public class Event implements Serializable{
         SLEEP,
     }
     public EType t; // event type
+    public GameEvent ge; // game event that was responsible, if any
     public String s; // event string
     public Card c; // event card
     public boolean b; // some bool
@@ -423,6 +425,12 @@ public class Event implements Serializable{
         this.t = r;
         return this;
     }
+
+    public Event setGameEvent(GameEvent ge) {
+        this.ge = ge;
+        return this;
+    }
+
     public Event setString(String s) {
         this.s = s;
         return this;
