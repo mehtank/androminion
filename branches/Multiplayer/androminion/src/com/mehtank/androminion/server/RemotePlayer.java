@@ -640,14 +640,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     strEvent += Strings.getString(R.string.BuyingCard);
                     break;
                 case OverpayForCard:
-                    if (context != null && context.overpayAmount >= 10)
-                    {
+                    if (context != null && context.overpayAmount >= 10) {
                         achievement(context, "overpayby10ormore");
                     }
                     break;
                 case GuildsTokenObtained:
-                    if (context != null && getGuildsCoinTokenCount() >= 50)
-                    {
+                    if (context != null && getGuildsCoinTokenCount() >= 50) {
                         achievement(context, "stockpile50tokens");
                     }
                     break;
@@ -825,6 +823,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
                 .setString(strEvent)
+                .setGameEvent(event)
                 .setBoolean(newTurn);
         String playerInt = "" + allPlayers.indexOf(event.getPlayer());
 
