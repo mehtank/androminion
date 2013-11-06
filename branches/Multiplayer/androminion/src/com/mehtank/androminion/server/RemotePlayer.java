@@ -694,6 +694,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
         }
 
+        // TODO(matt): move these into Strings.getStatusText.  To do that we need to put everything
+        // necessary into the status Event object below.
         if (event.getCard() != null && event.getType() != Type.CardAddedToHand && event.getType() != Type.PlayerAttacking)
             strEvent += " " + Strings.getCardName(event.getCard()) + " ";
         if (event.getType() == Type.TurnBegin && event.getPlayer().isPossessed())
@@ -823,7 +825,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
                 .setString(strEvent)
-                .setGameEvent(event)
+                .setGameEventType(event.getType())
                 .setBoolean(newTurn);
         String playerInt = "" + allPlayers.indexOf(event.getPlayer());
 
