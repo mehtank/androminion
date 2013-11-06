@@ -25,9 +25,9 @@ public class MoveContext {
     public int goldAvailable;
     public int coppersmithsPlayed = 0;
     public int schemesPlayed = 0;
-    
+
     public int foolsGoldPlayed = 0;
-    
+
     public int overpayAmount  = 0;  // The number of extra coins paid for a card
     public int overpayPotions = 0;  // The number of potions paid for an overpay card
 
@@ -48,68 +48,68 @@ public class MoveContext {
     public int cardsTrashedThisTurn = 0;
 
     public String message;
-//    public ArrayList<Card> playedCards = new ArrayList<Card>();
-//    public CardList playedCards;
+    //    public ArrayList<Card> playedCards = new ArrayList<Card>();
+    //    public CardList playedCards;
     public Player player;
     public Game game;
-    
+
     public Player attackedPlayer;
 
     public MoveContext(Game game, Player player) {
         this.game = game;
         this.player = player;
-//        this.playedCards = player.playedCards;
+        //        this.playedCards = player.playedCards;
     }
-    
+
     public Player getPlayer() {
         return player;
     }
-    
+
     public boolean isQuickPlay() {
         return Game.quickPlay;
     }
-    
+
     public int getPotions() {
         return potions;
     }
-    
+
     public ArrayList<Card> getCantBuy() {
         return cantBuy;
     }
 
-	public CardList getPlayedCards() {
+    public CardList getPlayedCards() {
         return player.playedCards;
     }
 
-	public int countCardsInPlay(Card card) {
+    public int countCardsInPlay(Card card) {
         int cardsInPlay = 0;
         for(Card c : getPlayedCards()) {
             if(c.behaveAsCard().equals(card)) {
-            	cardsInPlay++;
+                cardsInPlay++;
             }
         }
         return cardsInPlay;
-	}
+    }
 
     public boolean isRoyalSealInPlay() {
-    	return (countCardsInPlay(Cards.royalSeal) > 0);
-	}
+        return (countCardsInPlay(Cards.royalSeal) > 0);
+    }
 
     public int countGoonsInPlayThisTurn() {
-    	return countCardsInPlay(Cards.goons);
+        return countCardsInPlay(Cards.goons);
     }
-    
+
     public int countTreasureCardsInPlayThisTurn() {
         int treasuresInPlay = 0;
         for(Card c : getPlayedCards()) {
             if(c instanceof TreasureCard) {
-            	treasuresInPlay++;
+                treasuresInPlay++;
             }
         }
 
         return treasuresInPlay;
     }
-    
+
     public int countActionCardsInPlayThisTurn() {
         int actionsInPlay = 0;
         for(Card c : getPlayedCards()) {
@@ -125,7 +125,7 @@ public class MoveContext {
 
         return actionsInPlay;
     }
-    
+
     public int countUniqueCardsInPlayThisTurn() {
         HashSet<String> distinctCardsInPlay = new HashSet<String>();
 
@@ -138,7 +138,7 @@ public class MoveContext {
 
         return distinctCardsInPlay.size();
     }
-    
+
     public int getVictoryCardsBoughtThisTurn() {
         return victoryCardsBoughtThisTurn;
     }
@@ -155,7 +155,7 @@ public class MoveContext {
         return freeActionInEffect;
     }
 
-	public int getPileSize(Card card) {
+    public int getPileSize(Card card) {
         return game.pileSize(card);
     }
 
@@ -246,26 +246,26 @@ public class MoveContext {
         return getCoinAvailableForBuy();
 
         /*
-        if(player.playedCards.size() > 0) {
-            return getCoinAvailableForBuy();
-        }
+           if(player.playedCards.size() > 0) {
+           return getCoinAvailableForBuy();
+           }
 
-        int coin = 0;
-        int foolsgoldcount = 0;
-        for (Card card : player.getHand()) {
-            if (card instanceof TreasureCard) {
-                coin += ((TreasureCard) card).getValue();
-                 if (card.getType() == Cards.Type.FoolsGold) {
-                 foolsgoldcount++;
-                 if (foolsgoldcount > 1) {
-                 coin += 3;
-                 }
-                 }
-            }
-        }
+           int coin = 0;
+           int foolsgoldcount = 0;
+           for (Card card : player.getHand()) {
+           if (card instanceof TreasureCard) {
+           coin += ((TreasureCard) card).getValue();
+           if (card.getType() == Cards.Type.FoolsGold) {
+           foolsgoldcount++;
+           if (foolsgoldcount > 1) {
+           coin += 3;
+           }
+           }
+           }
+           }
 
-        return coin;
-        */
+           return coin;
+           */
     }
 
     public int getPotionsForStatus(Player p) {
@@ -282,7 +282,7 @@ public class MoveContext {
 
         return count;
     }
-    
+
     public void debug(String msg) {
         debug(msg, true);
     }
@@ -294,26 +294,26 @@ public class MoveContext {
             player.debug(msg);
         }
     }
-    
+
     public String getAttackedPlayer() {
         return (attackedPlayer == null)?null:attackedPlayer.getPlayerName();
     }
-    
+
     public String getMessage() {
         return message;
     }
 
     // Delegate Cards in play to game
     public Card[] getCardsInGame() {
-		return game.getCardsInGame();
-	}
-    
+        return game.getCardsInGame();
+    }
+
     public boolean cardInGame(Card card) {
-		return game.cardInGame(card);
+        return game.cardInGame(card);
     }
 
     public int getCardsLeftInPile(Card card) {
-		return game.getCardsLeftInPile(card);
+        return game.getCardsLeftInPile(card);
     }
 
     public Card[] getTreasureCardsInGame() {
@@ -330,10 +330,10 @@ public class MoveContext {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     protected Card[] getAvailableCards(int cost, boolean potion) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for(Card c : getCardsInGame()) {
@@ -341,12 +341,11 @@ public class MoveContext {
                 cards.add(c);
             }
         }
-        
+
         return cards.toArray(new Card[0]);
     }
 
-    public int countMerchantGuildsInPlayThisTurn() 
-    {
+    public int countMerchantGuildsInPlayThisTurn() {
         return countCardsInPlay(Cards.merchantGuild);
     }
 }
