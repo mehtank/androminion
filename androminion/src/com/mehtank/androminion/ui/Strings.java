@@ -180,10 +180,14 @@ public class Strings {
      * Androminion).
      */
     public static String getStatusText(Event event) {
+        String statusText = event.s;
         if (event.gameEventType == GameEvent.Type.Embargo) {
-            return event.s + getString(R.string.Embargo);
+            statusText += getString(R.string.Embargo);
         }
-        return event.s;
+        if (event.c != null && event.gameEventType == GameEvent.Type.Embargo) {
+            statusText += " " + getCardName(event.c) + " ";
+        }
+        return statusText;
     }
 
     public static String getFullCardDescription(Card c) {

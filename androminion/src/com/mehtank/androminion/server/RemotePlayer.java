@@ -519,6 +519,125 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             playerNameIncluded = true;
         }
 
+        boolean newTurn = false;
+        boolean isFinal = false;
+
+        switch (event.getType()) {
+            case VictoryPoints:
+                sendEvent = false;
+                break;
+            case GameStarting:
+                if (event.getPlayer() == this) {
+                    waitForJoin();
+                    if (!hasJoined)
+                        quit(Strings.getString(R.string.join_timed_out));
+                }
+                whenStarted = System.currentTimeMillis();
+                playedCards.clear();
+                gameOver = false;
+
+                // Only send the event if its the first game starting, which doesn't include the player
+                // name, so that the "Chance for plat/colony" shows up only once and so that only one
+                // GameStarting event gets shown in the status area.
+                if(playerNameIncluded) {
+                    sendEvent = false;
+                }
+                break;
+            case TurnBegin:
+                curPlayer = event.getPlayer();
+                curContext = context;
+                newTurn = true;
+                playedCards.clear();
+                playedCardsNew.clear();
+                break;
+            case TurnEnd:
+                playedCards.clear();
+                playedCardsNew.clear();
+                break;
+            case CantBuy:
+                break;
+            case PlayingAction:
+            case PlayingDurationAction:
+                playedCards.add(event.getCard());
+                playedCardsNew.add(event.newCard);
+                break;
+            case PlayingCoin:
+                playedCards.add(event.getCard());
+                playedCardsNew.add(true);
+                break;
+            case CardObtained:
+                if (event.responsible.equals(Cards.hornOfPlenty) && event.card instanceof VictoryCard) {
+                    int index = playedCards.indexOf(event.responsible);
+                    playedCards.remove(index);
+                    playedCardsNew.remove(index);
+                }
+                break;
+            case GameOver:
+                curPlayer = event.getPlayer();
+                curContext = context;
+                isFinal = true;
+
+                strEvent = getVPOutput(curPlayer);
+                if (!gameOver) {
+                    String time = Strings.getString(R.string.game_over_status);
+                    time += " ";
+                    long duration = System.currentTimeMillis() - whenStarted;
+                    if (duration > 1000 * 60 * 60)
+                        time += (duration / (1000 * 60 * 60)) + "h ";
+                    duration = duration % (1000 * 60 * 60);
+                    if (duration > 1000 * 60)
+                        time += (duration / (1000 * 60)) + "m ";
+                    duration = duration % (1000 * 60);
+                    time += (duration / (1000)) + "s.\n";
+                    if(!event.getContext().cardsSpecifiedOnStartup()) {
+                        time += Strings.getGameTypeName(event.getContext().getGameType());
+                    }
+
+                    time += "\n\n";
+
+                    strEvent = time + strEvent;
+                    gameOver = true;
+                    newTurn = true;
+                }
+                break;
+            case BuyingCard:
+                break;
+            case CardAddedToHand:
+                break;
+            case CardDiscarded:
+                break;
+            case CardOnTopOfDeck:
+                break;
+            case CardRemovedFromHand:
+                break;
+            case CardRevealed:
+                break;
+            case CardTrashed:
+                break;
+            case DeckReplenished:
+                break;
+            case Embargo:
+                break;
+            case NewHand:
+                break;
+            case NoBuy:
+                break;
+            case PlayedAction:
+                break;
+            case PlayerAttacking:
+                break;
+            case PlayerDefended:
+                break;
+            case Status:
+                break;
+            default:
+                break;
+        }
+
+        Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
+                .setGameEventType(event.getType())
+                .setBoolean(newTurn);
+
         if(event.getType() == GameEvent.Type.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)
@@ -696,7 +815,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         // TODO(matt): move these into Strings.getStatusText.  To do that we need to put everything
         // necessary into the status Event object below.
-        if (event.getCard() != null && event.getType() != Type.CardAddedToHand && event.getType() != Type.PlayerAttacking)
+        if (event.getCard() != null
+                && event.getType() != Type.CardAddedToHand
+                && event.getType() != Type.PlayerAttacking
+                && event.getType() != Type.Embargo /* TEMPORARY */)
             strEvent += " " + Strings.getCardName(event.getCard()) + " ";
         if (event.getType() == Type.TurnBegin && event.getPlayer().isPossessed())
             strEvent += " possessed by " + event.getPlayer().controlPlayer.getPlayerName() + "!";
@@ -708,125 +830,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         debug("												GAME EVENT - " + strEvent);
 
-        boolean newTurn = false;
-        boolean isFinal = false;
-
-        switch (event.getType()) {
-            case VictoryPoints:
-                sendEvent = false;
-                break;
-            case GameStarting:
-                if (event.getPlayer() == this) {
-                    waitForJoin();
-                    if (!hasJoined)
-                        quit(Strings.getString(R.string.join_timed_out));
-                }
-                whenStarted = System.currentTimeMillis();
-                playedCards.clear();
-                gameOver = false;
-
-                // Only send the event if its the first game starting, which doesn't include the player
-                // name, so that the "Chance for plat/colony" shows up only once and so that only one
-                // GameStarting event gets shown in the status area.
-                if(playerNameIncluded) {
-                    sendEvent = false;
-                }
-                break;
-            case TurnBegin:
-                curPlayer = event.getPlayer();
-                curContext = context;
-                newTurn = true;
-                playedCards.clear();
-                playedCardsNew.clear();
-                break;
-            case TurnEnd:
-                playedCards.clear();
-                playedCardsNew.clear();
-                break;
-            case CantBuy:
-                break;
-            case PlayingAction:
-            case PlayingDurationAction:
-                playedCards.add(event.getCard());
-                playedCardsNew.add(event.newCard);
-                break;
-            case PlayingCoin:
-                playedCards.add(event.getCard());
-                playedCardsNew.add(true);
-                break;
-            case CardObtained:
-                if (event.responsible.equals(Cards.hornOfPlenty) && event.card instanceof VictoryCard) {
-                    int index = playedCards.indexOf(event.responsible);
-                    playedCards.remove(index);
-                    playedCardsNew.remove(index);
-                }
-                break;
-            case GameOver:
-                curPlayer = event.getPlayer();
-                curContext = context;
-                isFinal = true;
-
-                strEvent = getVPOutput(curPlayer);
-                if (!gameOver) {
-                    String time = Strings.getString(R.string.game_over_status);
-                    time += " ";
-                    long duration = System.currentTimeMillis() - whenStarted;
-                    if (duration > 1000 * 60 * 60)
-                        time += (duration / (1000 * 60 * 60)) + "h ";
-                    duration = duration % (1000 * 60 * 60);
-                    if (duration > 1000 * 60)
-                        time += (duration / (1000 * 60)) + "m ";
-                    duration = duration % (1000 * 60);
-                    time += (duration / (1000)) + "s.\n";
-                    if(!event.getContext().cardsSpecifiedOnStartup()) {
-                        time += Strings.getGameTypeName(event.getContext().getGameType());
-                    }
-
-                    time += "\n\n";
-
-                    strEvent = time + strEvent;
-                    gameOver = true;
-                    newTurn = true;
-                }
-                break;
-            case BuyingCard:
-                break;
-            case CardAddedToHand:
-                break;
-            case CardDiscarded:
-                break;
-            case CardOnTopOfDeck:
-                break;
-            case CardRemovedFromHand:
-                break;
-            case CardRevealed:
-                break;
-            case CardTrashed:
-                break;
-            case DeckReplenished:
-                break;
-            case Embargo:
-                break;
-            case NewHand:
-                break;
-            case NoBuy:
-                break;
-            case PlayedAction:
-                break;
-            case PlayerAttacking:
-                break;
-            case PlayerDefended:
-                break;
-            case Status:
-                break;
-            default:
-                break;
-        }
-
-        Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
-                .setString(strEvent)
-                .setGameEventType(event.getType())
-                .setBoolean(newTurn);
+        status.setString(strEvent);
+        status.setCard(event.getCard());
         String playerInt = "" + allPlayers.indexOf(event.getPlayer());
 
 
