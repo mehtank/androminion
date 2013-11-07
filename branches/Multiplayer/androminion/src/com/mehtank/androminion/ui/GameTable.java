@@ -382,6 +382,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param c cart type
      */
     public void addCardToTable(MyCard c) {
+        // Localize a few strings in the card before actually saving it.
+        Strings.localizeMyCard(c);
         GameTableViews.addCard(c.id, c);
 
         if (c.pile == MyCard.MONEYPILE)

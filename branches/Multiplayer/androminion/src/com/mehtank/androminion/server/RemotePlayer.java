@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mehtank.androminion.R;
-import com.mehtank.androminion.ui.Strings;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
@@ -114,9 +112,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     }
 
     public static MyCard makeMyCard(Card c, int index, boolean isBane){
-        MyCard card = new MyCard(index, Strings.getCardName(c), c.getSafeName(), c.getName());
-        card.desc = Strings.getFullCardDescription(c);
-        card.expansion = Strings.getCardExpansion(c);
+        MyCard card = new MyCard(index, c.getName(), c.getSafeName(), c.getName());
+        card.desc = c.getDescription();
+        card.expansion = c.getExpansion();
         card.originalExpansion = c.getExpansion();
         card.cost = c.getCost(null);
         card.costPotion = c.costPotion();
@@ -443,7 +441,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             reconnect("Could not complete query.");
             waitForJoin();
             if (!hasJoined)
-                quit(Strings.getString(R.string.response_timed_out));
+                quit("Response timed out");
         }
         quit("Could not complete query.");
         return null;
@@ -459,18 +457,29 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         MoveContext context = event.getContext();
 
-        boolean sendEvent = true;
+        // First we check for achievements
+        checkForAchievements(context, event.getType());
 
-        String strEvent = "";
+        // Now we prepare to send an event.
+        boolean sendEvent = true;
+        String playerName = "";
         boolean playerNameIncluded = false;
         if (event.getPlayer() != null && event.getPlayer().getPlayerName() != null) {
-            strEvent += event.getPlayer().getPlayerName() + ": ";
+            playerName += event.getPlayer().getPlayerName() + ": ";
             playerNameIncluded = true;
         }
-
         boolean newTurn = false;
         boolean isFinal = false;
+        Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
+                .setGameEventType(event.getType())
+                .setBoolean(newTurn)
+                .setString(playerName)
+                .setCard(event.getCard());
+        String playerInt = "" + allPlayers.indexOf(event.getPlayer());
 
+        // Because we push all construction of strings to the client that talks to RemotePlayer, we
+        // create the "extras" object that gives the client enough information to know what exactly
+        // the event is.  This part of the "extras" object applies to all event types.
         List<Object> extras = new ArrayList<Object>();
         if (event.getPlayer().isPossessed()) {
             extras.add(event.getPlayer().controlPlayer.getPlayerName());
@@ -488,175 +497,79 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(null);
         }
 
-        switch (event.getType()) {
-            case VictoryPoints:
+
+        // Now check for event-type-specific things that we should do.
+        if (event.getType() == Type.VictoryPoints) {
                 sendEvent = false;
-                break;
-            case GameStarting:
-                if (event.getPlayer() == this) {
-                    waitForJoin();
-                    if (!hasJoined)
-                        quit(Strings.getString(R.string.join_timed_out));
-                }
-                whenStarted = System.currentTimeMillis();
-                playedCards.clear();
-                gameOver = false;
+        } else if (event.getType() == Type.GameStarting) {
+            if (event.getPlayer() == this) {
+                waitForJoin();
+                if (!hasJoined)
+                    quit("Join timed out");
+            }
+            whenStarted = System.currentTimeMillis();
+            playedCards.clear();
+            gameOver = false;
 
-                // Only send the event if its the first game starting, which doesn't include the player
-                // name, so that the "Chance for plat/colony" shows up only once and so that only one
-                // GameStarting event gets shown in the status area.
-                if(playerNameIncluded) {
-                    sendEvent = false;
-                }
-                break;
-            case TurnBegin:
-                curPlayer = event.getPlayer();
-                curContext = context;
-                newTurn = true;
-                playedCards.clear();
-                playedCardsNew.clear();
-                break;
-            case TurnEnd:
-                playedCards.clear();
-                playedCardsNew.clear();
-                break;
-            case PlayingAction:
-            case PlayingDurationAction:
-                playedCards.add(event.getCard());
-                playedCardsNew.add(event.newCard);
-                break;
-            case PlayingCoin:
-                playedCards.add(event.getCard());
-                playedCardsNew.add(true);
-                break;
-            case CardObtained:
-                if (event.responsible.equals(Cards.hornOfPlenty) && event.card instanceof VictoryCard) {
-                    int index = playedCards.indexOf(event.responsible);
-                    playedCards.remove(index);
-                    playedCardsNew.remove(index);
-                }
-                break;
-            case GameOver:
-                curPlayer = event.getPlayer();
-                curContext = context;
-                isFinal = true;
-                Map<Object, Integer> counts = curPlayer.getVictoryCardCounts();
-                extras.add(curPlayer.getPlayerName());
-                extras.add(counts);
-                extras.add(curPlayer.getVictoryPointTotals(counts));
-                long duration = System.currentTimeMillis() - whenStarted;
-                extras.add(duration);
-                if (!event.getContext().cardsSpecifiedOnStartup()) {
-                    extras.add(event.getContext().getGameType());
-                } else {
-                    extras.add(null);
-                }
-                break;
-            default:
-                break;
-        }
-        Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
-                .setGameEventType(event.getType())
-                .setBoolean(newTurn);
-
-        if (event.getType() == GameEvent.Type.Status) {
+            // Only send the event if its the first game starting, which doesn't include the player
+            // name, so that the "Chance for plat/colony" shows up only once and so that only one
+            // GameStarting event gets shown in the status area.
+            if (playerNameIncluded) {
+                sendEvent = false;
+            }
+        } else if (event.getType() == Type.TurnBegin) {
+            curPlayer = event.getPlayer();
+            curContext = context;
+            newTurn = true;
+            playedCards.clear();
+            playedCardsNew.clear();
+        } else if (event.getType() == Type.TurnEnd) {
+            playedCards.clear();
+            playedCardsNew.clear();
+        } else if (event.getType() == Type.PlayingAction || event.getType() == Type.PlayingDurationAction) {
+            playedCards.add(event.getCard());
+            playedCardsNew.add(event.newCard);
+        } else if (event.getType() == Type.PlayingCoin) {
+            playedCards.add(event.getCard());
+            playedCardsNew.add(true);
+        } else if (event.getType() == Type.CardObtained) {
+            if (event.responsible.equals(Cards.hornOfPlenty) && event.card instanceof VictoryCard) {
+                int index = playedCards.indexOf(event.responsible);
+                playedCards.remove(index);
+                playedCardsNew.remove(index);
+            }
+        } else if (event.getType() == Type.GameOver) {
+            curPlayer = event.getPlayer();
+            curContext = context;
+            isFinal = true;
+            Map<Object, Integer> counts = curPlayer.getVictoryCardCounts();
+            extras.add(curPlayer.getPlayerName());
+            extras.add(counts);
+            extras.add(curPlayer.getVictoryPointTotals(counts));
+            long duration = System.currentTimeMillis() - whenStarted;
+            extras.add(duration);
+            if (!event.getContext().cardsSpecifiedOnStartup()) {
+                extras.add(event.getContext().getGameType());
+            } else {
+                extras.add(null);
+            }
+        } else if (event.getType() == Type.CantBuy) {
+            status.o.cs = context.getCantBuy().toArray(new Card[0]);
+        } else if (event.getType() == Type.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)
                 coin += "p";
             coin = "(" + coin + ")"; // <" + String.valueOf(event.player.discard.size()) + ">";
-            strEvent += Strings.format(R.string.action_buys_coin, context.getActionsLeft(), context.getBuysLeft(), coin);
-        }
-        else {
-            switch(event.getType()) {
-                case GameOver:
-                    // Check for achievements
-                    int provinces = 0;
-                    for(Card c : getAllCards()) {
-                        if(c.equals(Cards.province)) {
-                            provinces++;
-                        }
-                    }
-                    if(provinces == 8 && Game.players.length == 2) {
-                        achievement(context, "2players8provinces");
-                    }
-                    if(provinces >= 10 && Game.players.length >= 3) {
-                        achievement(context, "3or4players10provinces");
-                    }
-                    int vp = this.getVPs();
-                    if(vp >= 100) {
-                        achievement(context, "score100");
-                    }
-
-                    boolean beatBy50 = true;
-                    boolean skunk = false;
-                    boolean beatBy1 = false;
-                    boolean mostVp = true;
-                    for(Player opp : context.game.getPlayersInTurnOrder()) {
-                        if(opp != this) {
-                            int oppVP = opp.getVPs();
-                            if(oppVP > vp) {
-                                mostVp = false;
-                            }
-
-                            if(oppVP <= 0) {
-                                skunk = true;
-                            }
-                            if(vp == oppVP + 1) {
-                                beatBy1 = true;
-                            }
-                            if(vp < oppVP + 50) {
-                                beatBy50 = false;
-                            }
-                        }
-                    }
-                    if(mostVp && beatBy50) {
-                        achievement(context, "score50more");
-                    }
-                    if(mostVp && skunk) {
-                        achievement(context, "skunk");
-                    }
-                    if(mostVp && beatBy1) {
-                        achievement(context, "score1more");
-                    }
-
-                    if(mostVp && !achievementSingleCardFailed) {
-                        achievement(context, "singlecard");
-                    }
-                    break;
-                case CantBuy:
-                    status.o.cs = context.getCantBuy().toArray(new Card[0]);
-                    break;
-                case TurnEnd:
-                    if(context != null && context.getPlayer() == this && context.vpsGainedThisTurn > 30) {
-                        achievement(context, "gainmorethan30inaturn");
-                    }
-                    break;
-                case OverpayForCard:
-                    if (context != null && context.overpayAmount >= 10) {
-                        achievement(context, "overpayby10ormore");
-                    }
-                    break;
-                case GuildsTokenObtained:
-                    if (context != null && getGuildsCoinTokenCount() >= 50) {
-                        achievement(context, "stockpile50tokens");
-                    }
-                    break;
-                case CardTrashed:
-                    if(context != null && context.getPlayer() == this && context.cardsTrashedThisTurn > 5) {
-                        achievement(context, "trash5inaturn");
-                    }
-                    break;
-            }
+            extras.add("" + context.getActionsLeft());
+            extras.add("" + context.getBuysLeft());
+            extras.add(coin);
         }
 
-        debug("												GAME EVENT - " + strEvent);
-
-        status.setString(strEvent);
-        status.setCard(event.getCard());
+        // We have to wait until this point to set status.o.os, because the block above was adding
+        // things to extras.
         status.o.os = extras.toArray();
-        String playerInt = "" + allPlayers.indexOf(event.getPlayer());
 
-
+        // Now we actually send the event.
         if (event.getPlayer() != null) {
             switch (event.getType()) {
                 case BuyingCard:
@@ -682,6 +595,79 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                         comm.put_ts(status);
             }
             comm.put_ts(new Event(EType.SLEEP).setInteger(100));
+        }
+    }
+
+    private void checkForAchievements(MoveContext context, Type eventType) {
+        if (eventType == Type.GameOver) {
+            int provinces = 0;
+            for(Card c : getAllCards()) {
+                if(c.equals(Cards.province)) {
+                    provinces++;
+                }
+            }
+            if(provinces == 8 && Game.players.length == 2) {
+                achievement(context, "2players8provinces");
+            }
+            if(provinces >= 10 && Game.players.length >= 3) {
+                achievement(context, "3or4players10provinces");
+            }
+            int vp = this.getVPs();
+            if(vp >= 100) {
+                achievement(context, "score100");
+            }
+
+            boolean beatBy50 = true;
+            boolean skunk = false;
+            boolean beatBy1 = false;
+            boolean mostVp = true;
+            for(Player opp : context.game.getPlayersInTurnOrder()) {
+                if(opp != this) {
+                    int oppVP = opp.getVPs();
+                    if(oppVP > vp) {
+                        mostVp = false;
+                    }
+
+                    if(oppVP <= 0) {
+                        skunk = true;
+                    }
+                    if(vp == oppVP + 1) {
+                        beatBy1 = true;
+                    }
+                    if(vp < oppVP + 50) {
+                        beatBy50 = false;
+                    }
+                }
+            }
+            if(mostVp && beatBy50) {
+                achievement(context, "score50more");
+            }
+            if(mostVp && skunk) {
+                achievement(context, "skunk");
+            }
+            if(mostVp && beatBy1) {
+                achievement(context, "score1more");
+            }
+
+            if(mostVp && !achievementSingleCardFailed) {
+                achievement(context, "singlecard");
+            }
+        } else if (eventType == Type.TurnEnd) {
+            if(context != null && context.getPlayer() == this && context.vpsGainedThisTurn > 30) {
+                achievement(context, "gainmorethan30inaturn");
+            }
+        } else if (eventType == Type.OverpayForCard) {
+            if (context != null && context.overpayAmount >= 10) {
+                achievement(context, "overpayby10ormore");
+            }
+        } else if (eventType == Type.GuildsTokenObtained) {
+            if (context != null && getGuildsCoinTokenCount() >= 50) {
+                achievement(context, "stockpile50tokens");
+            }
+        } else if (eventType == Type.CardTrashed) {
+            if(context != null && context.getPlayer() == this && context.cardsTrashedThisTurn > 5) {
+                achievement(context, "trash5inaturn");
+            }
         }
     }
 
@@ -831,25 +817,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
     }
 
-    public void sendQuit(String s) {
-        String time = "\n\n";
-        time += Strings.getString(R.string.game_length_status);
-        time += " ";
-        long duration = System.currentTimeMillis() - whenStarted;
-        if (duration > 1000 * 60 * 60)
-            time += (duration / (1000 * 60 * 60)) + "h ";
-        duration = duration % (1000 * 60 * 60);
-        if (duration > 1000 * 60)
-            time += (duration / (1000 * 60)) + "m ";
-        duration = duration % (1000 * 60);
-        time += (duration / (1000)) + "s.";
-
-        // Try-Catch block made obsolete by sendErrorHandler
-        //		try {
-        comm.put_ts(new Event(EType.QUIT).setString(s + time));
-        //		} catch (Exception e) {
-        //			// Whatever.
-        //		}
+    public void sendQuit() {
+        // There was a string being sent here with QUIT, but it was ignored on the receiving side,
+        // so I got rid of it to remove a dependency on ui/Strings.java.
+        comm.put_ts(new Event(EType.QUIT));
         disconnect();
     }
 
@@ -857,7 +828,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private void quit(String s) {
         debug("!!! Quitting: " + s + " !!!");
         if (vdomServer != null)
-            vdomServer.endGame(name + " : " + s);
+            vdomServer.endGame();
         else
             die();
     }

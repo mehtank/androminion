@@ -44,18 +44,17 @@ public class VDomServer implements EventHandler {
 		}
 		@Override
 		public void run() {
-			String clean = "Game over!";
 			isRunning = true;
 			try {
 				Game.go(args, false); // don't call main(), which is only for commandline calling and catches the ExitException which /we want to handle here/.
 			} catch (ExitException e) {
 				debug("Game exception!");
 				e.printStackTrace();
-				clean = "ExitException in Game.java\n" + e.toString();
+				//clean = "ExitException in Game.java\n" + e.toString();
 			}
 			debug("Game ended!");
 			isRunning = false;
-			endGame(clean);
+			endGame();
 		}
 	}
 
@@ -308,11 +307,11 @@ public class VDomServer implements EventHandler {
 					 // sendErrorHandler is executed in a different thread from the rest.
 	}
 
-	public void endGame(String s) {
+	public void endGame() {
 		if (isStarted) {
 			for (RemotePlayer rp : remotePlayers) {
 				try {
-					rp.sendQuit(s);
+					rp.sendQuit();
 				} catch (Exception e) {
 					// whatever
 				}
@@ -330,7 +329,7 @@ public class VDomServer implements EventHandler {
 	}
 
 	public void quit() {
-		endGame("Server killed game.");
+		endGame();
 		disconnect();
 	}
 	public void say(String string) {
