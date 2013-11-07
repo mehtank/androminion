@@ -472,7 +472,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         boolean isFinal = false;
         Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
                 .setGameEventType(event.getType())
-                .setBoolean(newTurn)
                 .setString(playerName)
                 .setCard(event.getCard());
         String playerInt = "" + allPlayers.indexOf(event.getPlayer());
@@ -568,6 +567,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         // We have to wait until this point to set status.o.os, because the block above was adding
         // things to extras.
         status.o.os = extras.toArray();
+        // We also have to set newTurn here, because some of the logic above tells us that
+        // information.
+        status.setBoolean(newTurn);
 
         // Now we actually send the event.
         if (event.getPlayer() != null) {
