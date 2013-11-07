@@ -19,6 +19,7 @@ import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.comms.Event;
+import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
@@ -129,6 +130,13 @@ public class Strings {
         return expansion;
     }
 
+    public static void localizeMyCard(MyCard c) {
+        Card card = Cards.cardNameToCard.get(c.originalSafeName);
+        c.name = getCardName(card);
+        c.desc = getFullCardDescription(card);
+        c.expansion = getCardExpansion(card);
+    }
+
     public static String getGameTypeName(GameType g) {
 
         String gametype = gametypeCache.get(g);
@@ -183,11 +191,13 @@ public class Strings {
      * @param extras Some extra objects that contain things we need to render the status text.
      *               This is quite ugly, I think, but it was the easiest way make RemotePlayer less
      *               ugly...  We could clean this up in a few ways, notably by adding a
-     *               StatusObject or something to the Event.  Items in the extras list:
+     *               StatusObject or something to the Event.  Items in the extras list (be sure
+     *               this is in sync with RemotePlayer.gameEvent!):
      *               extras[0]: string possessingPlayerName (or null)
      *               extras[1]: string attackedPlayerName (or null)
      *               extras[2]: string context.getMessage() (or null)
-     *               extras[3:4]: If GameOver event, contains some specific things for that.
+     *               If event type is GameOver: extras[3:7] are used
+     *               If event type is Status: extras[3:5] are used
      */
     public static String getStatusText(Event event, Object[] extras) {
         String statusText = event.s;
@@ -265,6 +275,7 @@ public class Strings {
             statusText += format(R.string.CantBuy, cards);
         } else if (event.gameEventType == GameEvent.Type.Status) {
             statusText += getString(R.string.Status);
+            statusText += format(R.string.action_buys_coin, extras[3], extras[4], extras[5]);
         } else {
             statusText += event.gameEventType.toString();
         }

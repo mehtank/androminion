@@ -7,7 +7,6 @@ import java.util.HashSet;
 import com.vdom.api.Card;
 
 public class Cards {
-    public static HashSet<Card> nonKingdomCards = new HashSet<Card>();
     public static ArrayList<Card> actionCardsBaseGame = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsIntrigue = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsSeaside = new ArrayList<Card>();
@@ -23,37 +22,58 @@ public class Cards {
     public static ArrayList<Card> nonSupplyCards = new ArrayList<Card>();
     public static ArrayList<Card> ruinsCards = new ArrayList<Card>();
     public static ArrayList<Card> knightsCards = new ArrayList<Card>();
+    public static HashSet<Card> nonKingdomCards = new HashSet<Card>();
 
-    public static HashMap<String, Card> actionCardsMap = new HashMap<String, Card>();
+    public static HashMap<String, Card> cardNameToCard = new HashMap<String, Card>();
 
-    static final String KNIGHTS_TEXT = "Each other player reveals the top 2 cards of his deck, trashes one of them costing from 3 to 6 coins, and discards the rest. If a Knight is trashed by this, trash this card.";
+    static final String KNIGHTS_TEXT = "Each other player reveals the top 2 cards of his deck, " +
+            "trashes one of them costing from 3 to 6 coins, and discards the rest. If a Knight " +
+            "is trashed by this, trash this card.";
 
     public enum Type {
         // Kingdom Cards
         Platinum, Gold, Silver, Copper, Potion, Colony, Province, Duchy, Estate, Curse,
         // Base Set
-        Gardens, Moat, Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom, Feast, Festival, Laboratory, Library, Market, Militia, Mine, MoneyLender, Remodel, Smithy, Spy, Thief, ThroneRoom, Village, Witch, Woodcutter, Workshop,
+        Gardens, Moat, Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom, Feast,
+        Festival, Laboratory, Library, Market, Militia, Mine, MoneyLender, Remodel, Smithy, Spy,
+        Thief, ThroneRoom, Village, Witch, Woodcutter, Workshop,
         // Intrigue Expansion
-        Duke, SecretChamber, Nobles, Coppersmith, Courtyard, Torturer, Harem, Baron, Bridge, Conspirator, Ironworks, Masquerade, MiningVillage, Minion, Pawn, Saboteur, ShantyTown, Scout, Steward, Swindler, TradingPost, WishingWell, Upgrade, Tribute, GreatHall,
+        Duke, SecretChamber, Nobles, Coppersmith, Courtyard, Torturer, Harem, Baron, Bridge,
+        Conspirator, Ironworks, Masquerade, MiningVillage, Minion, Pawn, Saboteur, ShantyTown,
+        Scout, Steward, Swindler, TradingPost, WishingWell, Upgrade, Tribute, GreatHall,
         // Seaside Expansion
-        Haven, SeaHag, Tactician, Caravan, Lighthouse, FishingVillage, Wharf, MerchantShip, Outpost, GhostShip, Salvager, PirateShip, NativeVillage, Island, Cutpurse, Bazaar, Smugglers, Explorer, PearlDiver, TreasureMap, Navigator, Treasury, Lookout, Ambassador, Warehouse, Embargo,
+        Haven, SeaHag, Tactician, Caravan, Lighthouse, FishingVillage, Wharf, MerchantShip,
+        Outpost, GhostShip, Salvager, PirateShip, NativeVillage, Island, Cutpurse, Bazaar,
+        Smugglers, Explorer, PearlDiver, TreasureMap, Navigator, Treasury, Lookout, Ambassador,
+        Warehouse, Embargo,
         // Alchemy Expansion
-        Alchemist, Apothecary, Apprentice, Familiar, Golem, Herbalist, PhilosophersStone, Possession, ScryingPool, Transmute, University, Vineyard,
+        Alchemist, Apothecary, Apprentice, Familiar, Golem, Herbalist, PhilosophersStone,
+        Possession, ScryingPool, Transmute, University, Vineyard,
         // Prosperity Expansion
-        Bank, Bishop, City, Contraband, CountingHouse, Expand, Forge, Goons, GrandMarket, Hoard, KingsCourt, Loan, Mint, Monument, Mountebank, Peddler, Quarry, Rabble, RoyalSeal, Talisman, TradeRoute, Vault, Venture, WatchTower, WorkersVillage,
+        Bank, Bishop, City, Contraband, CountingHouse, Expand, Forge, Goons, GrandMarket, Hoard,
+        KingsCourt, Loan, Mint, Monument, Mountebank, Peddler, Quarry, Rabble, RoyalSeal, Talisman,
+        TradeRoute, Vault, Venture, WatchTower, WorkersVillage,
         // Cornucopia Expansion
-        HornofPlenty, Fairgrounds, FarmingVillage, FortuneTeller, Hamlet, Harvest, HorseTraders, HuntingParty, Jester, Menagerie, Remake, Tournament, YoungWitch, BagofGold, Diadem, Followers, Princess, TrustySteed,
+        HornofPlenty, Fairgrounds, FarmingVillage, FortuneTeller, Hamlet, Harvest, HorseTraders,
+        HuntingParty, Jester, Menagerie, Remake, Tournament, YoungWitch, BagofGold, Diadem,
+        Followers, Princess, TrustySteed,
         // Hinterlands Expansion
-        BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland, FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave, NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader, Tunnel,
+        BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland,
+        FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave,
+        NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader,
+        Tunnel,
         // Dark Ages Expansion
-        BandOfMisfits,
-        Altar, Armory, BanditCamp, Beggar, Catacombs, Count, Counterfeit, DeathCart, Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer, MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage, Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel,
-        Necropolis, Hovel, OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors, Cultist, Urchin, Mercenary, Marauder, Hermit, Madman, Vagrant,
-        DameAnna, DameJosephine, DameMolly, DameNatalie, DameSylvia, SirBailey, SirDestry, SirMartin, SirMichael, SirVander,
+        Altar, Armory, BandOfMisfits, BanditCamp, Beggar, Catacombs, Count, Counterfeit, DeathCart,
+        Feodum, Forager, Fortress, Graverobber, HuntingGrounds, Ironmonger, JunkDealer,
+        MarketSquare, Mystic, Pillage, PoorHouse, Procession, Rats, Rebuild, Rogue, Sage,
+        Scavenger, Spoils, Squire, Storeroom, WanderingMinstrel, Necropolis, Hovel,
+        OvergrownEstate, AbandonedMine, RuinedLibrary, RuinedMarket, RuinedVillage, Survivors,
+        Cultist, Urchin, Mercenary, Marauder, Hermit, Madman, Vagrant, DameAnna, DameJosephine,
+        DameMolly, DameNatalie, DameSylvia, SirBailey, SirDestry, SirMartin, SirMichael, SirVander,
         VirtualRuins, VirtualKnight,
         // Guilds Expansion
-        Advisor, Baker, Butcher, CandlestickMaker, Doctor, Herald, Journeyman, Masterpiece, MerchantGuild, Plaza, StoneMason, Soothsayer, TaxMan,
-
+        Advisor, Baker, Butcher, CandlestickMaker, Doctor, Herald, Journeyman, Masterpiece,
+        MerchantGuild, Plaza, StoneMason, Soothsayer, TaxMan,
         // Promo Cards
         Envoy, Governor, WalledVillage,
         // Promo Cards (not yet implemented)
@@ -247,8 +267,7 @@ public class Cards {
     public static final Card trader;
     public static final Card tunnel;
 
-    // Dark Ages expansion - INCOMPLETE at the moment
-    //TODO: implement rest of DA cards
+    // Dark Ages expansion
     public static final Card altar;
     public static final Card armory;
     public static final Card banditCamp;
@@ -620,6 +639,13 @@ public class Cards {
         for (Card card : actionCardsDarkAges)    { actionCards.add(card); }
         for (Card card : actionCardsGuilds)      { actionCards.add(card); }
         for (Card card : actionCardsPromo)       { actionCards.add(card); }
+
+        for (Card card : actionCards) { cardNameToCard.put(card.getName(), card); }
+        for (Card card : prizeCards) { cardNameToCard.put(card.getName(), card); }
+        for (Card card : nonSupplyCards) { cardNameToCard.put(card.getName(), card); }
+        for (Card card : ruinsCards) { cardNameToCard.put(card.getName(), card); }
+        for (Card card : knightsCards) { cardNameToCard.put(card.getName(), card); }
+        for (Card card : nonKingdomCards) { cardNameToCard.put(card.getName(), card); }
     }
 
     public static boolean isKingdomCard(Card c) {

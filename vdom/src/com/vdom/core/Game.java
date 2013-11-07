@@ -1639,7 +1639,7 @@ public class Game {
                    break;
                    }
                    }*/
-                card = Cards.actionCardsMap.get(cardName);
+                card = Cards.cardNameToCard.get(cardName);
                 String s = cardName;
                 if (card == null) { // maybe we need equalsIgnoreCase
                     for (Card c : Cards.actionCards) {
