@@ -576,7 +576,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
          */
         private void setStatus(Event e) {
             GameStatus gs = e.o.gs;
-            gt.setStatus(gs, e);
+            gt.setStatus(gs, e.o.os, e);
             String name = gt.getPlayerAdapter().getItem(gs.whoseTurn).name;
             String subtitle = buildHintString(gs, e.s, e.b);
             ActionBar bar = getSupportActionBar();
