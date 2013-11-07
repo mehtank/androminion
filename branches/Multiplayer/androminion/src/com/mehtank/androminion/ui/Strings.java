@@ -250,7 +250,9 @@ public class Strings {
         } else if (event.gameEventType == GameEvent.Type.PlayingCoin) {
             statusText += getString(R.string.PlayingCoin);
         } else if (event.gameEventType == GameEvent.Type.BuyingCard) {
-            statusText += getString(R.string.BuyingCard);
+            // It turns out that this is already set by the CARDOBTAINED event, so we don't need to
+            // worry about it here.
+            // statusText += getString(R.string.BuyingCard);
         } else if (event.gameEventType == GameEvent.Type.TurnEnd) {
             statusText += getString(R.string.TurnEnd);
         } else if (event.gameEventType == GameEvent.Type.VictoryPoints) {
@@ -274,20 +276,24 @@ public class Strings {
             }
             statusText += format(R.string.CantBuy, cards);
         } else if (event.gameEventType == GameEvent.Type.Status) {
-            statusText += getString(R.string.Status);
             statusText += format(R.string.action_buys_coin, extras[3], extras[4], extras[5]);
-        } else {
+        } else if (event.gameEventType != null) {
             statusText += event.gameEventType.toString();
         }
 
         // Then, if there's a card associated with the event, we display it here.
         if (event.c != null
                 && event.gameEventType != GameEvent.Type.CardAddedToHand
-                && event.gameEventType != GameEvent.Type.PlayerAttacking) {
+                && event.gameEventType != GameEvent.Type.PlayerAttacking
+                && event.gameEventType != GameEvent.Type.BuyingCard) {
             statusText += " " + getCardName(event.c) + " ";
         }
 
         // And a few other random things that should be added to the status text.
+        if (extras == null) {
+            return statusText;
+        }
+
         if (event.gameEventType == GameEvent.Type.TurnBegin && extras[0] != null) {
             statusText += " possessed by " + extras[0] + "!";
         }
