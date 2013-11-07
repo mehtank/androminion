@@ -3,6 +3,8 @@ package com.mehtank.androminion.server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import java.util.List;
 import java.util.Map;
 
 import com.mehtank.androminion.R;
@@ -271,60 +273,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         myCardsInPlay = myCardsInPlayList.toArray(new MyCard[0]);
     }
 
-    private String getVPOutput(Player player) {
-
-        final Map<Object, Integer> counts = player.getVictoryCardCounts();
-        final Map<Card, Integer> totals = player.getVictoryPointTotals(counts);
-
-        final StringBuilder sb
-                = new StringBuilder()
-                .append(player.getPlayerName())
-                .append(": ")
-                .append(this.getVPs(totals))
-                .append(" ")
-                .append(Strings.getString(R.string.game_over_vps))
-                .append('\n');
-
-        sb.append(this.getCardText(counts, totals, Cards.estate));
-        sb.append(this.getCardText(counts, totals, Cards.duchy));
-        sb.append(this.getCardText(counts, totals, Cards.province));
-        if(counts.containsKey(Cards.colony)) {
-            sb.append(this.getCardText(counts, totals, Cards.colony));
-        }
-
-        // display victory cards from sets
-
-        for(Card card : totals.keySet()) {
-            if(!Cards.nonKingdomCards.contains(card)) {
-                sb.append(this.getCardText(counts, totals, card));
-            }
-        }
-
-        sb.append(this.getCardText(counts, totals, Cards.curse));
-
-        sb
-                .append("\tVictory Tokens: ")
-                .append(totals.get(Cards.victoryTokens))
-                .append('\n');
-
-        return sb.toString();
-    }
-
-    private String getCardText(final Map<Object, Integer> counts, final Map<Card, Integer> totals, final Card card) {
-        final StringBuilder sb = new StringBuilder()
-                .append('\t')
-                .append(card.getName())
-                .append(" x")
-                .append(counts.get(card))
-                .append(": ")
-                .append(totals.get(card))
-                .append(" ")
-                .append(Strings.getString(R.string.game_over_vps))
-                .append('\n');
-
-        return sb.toString();
-    }
-
     public Event fullStatusPacket(MoveContext context, Player player, boolean isFinal) {
         if (player == null)
             player = context.getPlayer();
@@ -504,6 +452,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     Player curPlayer = null;
     MoveContext curContext = null;
     boolean gameOver = false;
+
     @Override
     public void gameEvent(GameEvent event) {
         super.gameEvent(event);
@@ -521,6 +470,23 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         boolean newTurn = false;
         boolean isFinal = false;
+
+        List<Object> extras = new ArrayList<Object>();
+        if (event.getPlayer().isPossessed()) {
+            extras.add(event.getPlayer().controlPlayer.getPlayerName());
+        } else {
+            extras.add(null);
+        }
+        if (event.getAttackedPlayer() != null) {
+            extras.add(event.getAttackedPlayer().getPlayerName());
+        } else {
+            extras.add(null);
+        }
+        if (context != null && context.getMessage() != null) {
+            extras.add(context.getMessage());
+        } else {
+            extras.add(null);
+        }
 
         switch (event.getType()) {
             case VictoryPoints:
@@ -554,8 +520,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 playedCards.clear();
                 playedCardsNew.clear();
                 break;
-            case CantBuy:
-                break;
             case PlayingAction:
             case PlayingDurationAction:
                 playedCards.add(event.getCard());
@@ -576,69 +540,26 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 curPlayer = event.getPlayer();
                 curContext = context;
                 isFinal = true;
-
-                strEvent = getVPOutput(curPlayer);
-                if (!gameOver) {
-                    String time = Strings.getString(R.string.game_over_status);
-                    time += " ";
-                    long duration = System.currentTimeMillis() - whenStarted;
-                    if (duration > 1000 * 60 * 60)
-                        time += (duration / (1000 * 60 * 60)) + "h ";
-                    duration = duration % (1000 * 60 * 60);
-                    if (duration > 1000 * 60)
-                        time += (duration / (1000 * 60)) + "m ";
-                    duration = duration % (1000 * 60);
-                    time += (duration / (1000)) + "s.\n";
-                    if(!event.getContext().cardsSpecifiedOnStartup()) {
-                        time += Strings.getGameTypeName(event.getContext().getGameType());
-                    }
-
-                    time += "\n\n";
-
-                    strEvent = time + strEvent;
-                    gameOver = true;
-                    newTurn = true;
+                Map<Object, Integer> counts = curPlayer.getVictoryCardCounts();
+                extras.add(curPlayer.getPlayerName());
+                extras.add(counts);
+                extras.add(curPlayer.getVictoryPointTotals(counts));
+                long duration = System.currentTimeMillis() - whenStarted;
+                extras.add(duration);
+                if (!event.getContext().cardsSpecifiedOnStartup()) {
+                    extras.add(event.getContext().getGameType());
+                } else {
+                    extras.add(null);
                 }
-                break;
-            case BuyingCard:
-                break;
-            case CardAddedToHand:
-                break;
-            case CardDiscarded:
-                break;
-            case CardOnTopOfDeck:
-                break;
-            case CardRemovedFromHand:
-                break;
-            case CardRevealed:
-                break;
-            case CardTrashed:
-                break;
-            case DeckReplenished:
-                break;
-            case Embargo:
-                break;
-            case NewHand:
-                break;
-            case NoBuy:
-                break;
-            case PlayedAction:
-                break;
-            case PlayerAttacking:
-                break;
-            case PlayerDefended:
-                break;
-            case Status:
                 break;
             default:
                 break;
         }
-
         Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
                 .setGameEventType(event.getType())
                 .setBoolean(newTurn);
 
-        if(event.getType() == GameEvent.Type.Status) {
+        if (event.getType() == GameEvent.Type.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)
                 coin += "p";
@@ -647,10 +568,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
         else {
             switch(event.getType()) {
-                case GameStarting:
-
-                    strEvent += Strings.getString(R.string.GameStarting);
-                    break;
                 case GameOver:
                     // Check for achievements
                     int provinces = 0;
@@ -705,58 +622,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     if(mostVp && !achievementSingleCardFailed) {
                         achievement(context, "singlecard");
                     }
-
-                    strEvent += Strings.getString(R.string.GameOver);
-                    break;
-                case Embargo:
-                    // strEvent += Strings.getString(R.string.Embargo);
-                    break;
-                case Status:
-                    strEvent += Strings.getString(R.string.Status);
                     break;
                 case CantBuy:
-                    String cards = "";
-                    boolean first = true;
-                    for(Card card : context.getCantBuy()) {
-                        if(first) {
-                            first = false;
-                        }
-                        else {
-                            cards += ", ";
-                        }
-                        cards += Strings.getCardName(card);
-                    }
-                    strEvent += Strings.format(R.string.CantBuy, cards);
-                    break;
-                case VictoryPoints:
-                    strEvent += Strings.getString(R.string.VictoryPoints);
-                    break;
-                case NewHand:
-                    strEvent += Strings.getString(R.string.NewHand);
-                    break;
-                case TurnBegin:
-                    strEvent += Strings.getString(R.string.TurnBegin);
+                    status.o.cs = context.getCantBuy().toArray(new Card[0]);
                     break;
                 case TurnEnd:
                     if(context != null && context.getPlayer() == this && context.vpsGainedThisTurn > 30) {
                         achievement(context, "gainmorethan30inaturn");
                     }
-                    strEvent += Strings.getString(R.string.TurnEnd);
-                    break;
-                case PlayingAction:
-                    strEvent += Strings.getString(R.string.PlayingAction);
-                    break;
-                case PlayedAction:
-                    strEvent += Strings.getString(R.string.PlayedAction);
-                    break;
-                case PlayingDurationAction:
-                    strEvent += Strings.getString(R.string.PlayingDurationAction);
-                    break;
-                case PlayingCoin:
-                    strEvent += Strings.getString(R.string.PlayingCoin);
-                    break;
-                case BuyingCard:
-                    strEvent += Strings.getString(R.string.BuyingCard);
                     break;
                 case OverpayForCard:
                     if (context != null && context.overpayAmount >= 10) {
@@ -768,70 +641,19 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                         achievement(context, "stockpile50tokens");
                     }
                     break;
-                case NoBuy:
-                    strEvent += Strings.getString(R.string.NoBuy);
-                    break;
-                case DeckReplenished:
-                    strEvent += Strings.getString(R.string.DeckReplenished);
-                    break;
-                case PlayerAttacking:
-                    strEvent += Strings.getString(R.string.PlayerAttacking);
-                    break;
-                case PlayerDefended:
-                    strEvent += Strings.getString(R.string.PlayerDefended);
-                    break;
-                case CardOnTopOfDeck:
-                    strEvent += Strings.getString(R.string.CardOnTopOfDeck);
-                    break;
-                case CardObtained:
-                    strEvent += Strings.getString(R.string.CardObtained);
-                    break;
                 case CardTrashed:
                     if(context != null && context.getPlayer() == this && context.cardsTrashedThisTurn > 5) {
                         achievement(context, "trash5inaturn");
                     }
-                    strEvent += Strings.getString(R.string.CardTrashed);
-                    break;
-                case CardRevealed:
-                    strEvent += Strings.getString(R.string.CardRevealed);
-                    break;
-                case CardRevealedFromHand:
-                    strEvent += Strings.getString(R.string.CardRevealedFromHand);
-                    break;
-                case CardDiscarded:
-                    strEvent += Strings.getString(R.string.CardDiscarded);
-                    break;
-                case CardAddedToHand:
-                    strEvent += Strings.getString(R.string.CardAddedToHand);
-                    break;
-                case CardRemovedFromHand:
-                    strEvent += Strings.getString(R.string.CardRemovedFromHand);
-                    break;
-                default:
-                    strEvent += event.getType().toString();
                     break;
             }
-        }
-
-        // TODO(matt): move these into Strings.getStatusText.  To do that we need to put everything
-        // necessary into the status Event object below.
-        if (event.getCard() != null
-                && event.getType() != Type.CardAddedToHand
-                && event.getType() != Type.PlayerAttacking
-                && event.getType() != Type.Embargo /* TEMPORARY */)
-            strEvent += " " + Strings.getCardName(event.getCard()) + " ";
-        if (event.getType() == Type.TurnBegin && event.getPlayer().isPossessed())
-            strEvent += " possessed by " + event.getPlayer().controlPlayer.getPlayerName() + "!";
-        if (event.getAttackedPlayer() != null)
-            strEvent += " (" + event.getAttackedPlayer().getPlayerName() + ") ";
-        if (context != null && context.getMessage() != null) {
-            strEvent += "\n" + context.getMessage();
         }
 
         debug("												GAME EVENT - " + strEvent);
 
         status.setString(strEvent);
         status.setCard(event.getCard());
+        status.o.os = extras.toArray();
         String playerInt = "" + allPlayers.indexOf(event.getPlayer());
 
 

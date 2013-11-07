@@ -886,9 +886,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param s ?? don't know yet ??
      * @param newTurn ?? don't know yet ??
      */
-    public void setStatus(GameStatus gs, Event event) {
+    public void setStatus(GameStatus gs, Object[] objects, Event event) {
         boolean newTurn = event.b;
-        String s = Strings.getStatusText(event);
+        String s = Strings.getStatusText(event, objects);
         if (s != null)
             gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
 

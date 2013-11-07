@@ -178,14 +178,113 @@ public class Strings {
      * the GameEvent stored inside the Event object to decide what that string should be (GameEvent
      * is how the Game talks to RemotePlayer, while Event is how RemotePlayer talks to
      * Androminion).
+     *
+     * @param event The event object that we're generating status text from.
+     * @param extras Some extra objects that contain things we need to render the status text.
+     *               This is quite ugly, I think, but it was the easiest way make RemotePlayer less
+     *               ugly...  We could clean this up in a few ways, notably by adding a
+     *               StatusObject or something to the Event.  Items in the extras list:
+     *               extras[0]: string possessingPlayerName (or null)
+     *               extras[1]: string attackedPlayerName (or null)
+     *               extras[2]: string context.getMessage() (or null)
+     *               extras[3:4]: If GameOver event, contains some specific things for that.
      */
-    public static String getStatusText(Event event) {
+    public static String getStatusText(Event event, Object[] extras) {
         String statusText = event.s;
+        // The first part of the text tells us what kind of event we're dealing with.
         if (event.gameEventType == GameEvent.Type.Embargo) {
             statusText += getString(R.string.Embargo);
+        } else if (event.gameEventType == GameEvent.Type.GameStarting) {
+            statusText += getString(R.string.GameStarting);
+        } else if (event.gameEventType == GameEvent.Type.GameOver) {
+            statusText += getGameTimeString((Long) extras[6]);
+            if (extras[7] != null) {
+                statusText += getGameTypeName((GameType) extras[7]);
+            }
+
+            statusText += "\n\n";
+            statusText = getVPOutput((String) extras[3],
+                                     (Map<Object, Integer>) extras[4],
+                                     (Map<Card, Integer>) extras[5]);
+            statusText += getString(R.string.GameOver);
+        } else if (event.gameEventType == GameEvent.Type.CardRevealed) {
+            statusText += getString(R.string.CardRevealed);
+        } else if (event.gameEventType == GameEvent.Type.CardRevealedFromHand) {
+            statusText += getString(R.string.CardRevealedFromHand);
+        } else if (event.gameEventType == GameEvent.Type.CardDiscarded) {
+            statusText += getString(R.string.CardDiscarded);
+        } else if (event.gameEventType == GameEvent.Type.CardAddedToHand) {
+            statusText += getString(R.string.CardAddedToHand);
+        } else if (event.gameEventType == GameEvent.Type.CardRemovedFromHand) {
+            statusText += getString(R.string.CardRemovedFromHand);
+        } else if (event.gameEventType == GameEvent.Type.CardTrashed) {
+            statusText += getString(R.string.CardTrashed);
+        } else if (event.gameEventType == GameEvent.Type.NoBuy) {
+            statusText += getString(R.string.NoBuy);
+        } else if (event.gameEventType == GameEvent.Type.DeckReplenished) {
+            statusText += getString(R.string.DeckReplenished);
+        } else if (event.gameEventType == GameEvent.Type.PlayerAttacking) {
+            statusText += getString(R.string.PlayerAttacking);
+        } else if (event.gameEventType == GameEvent.Type.PlayerDefended) {
+            statusText += getString(R.string.PlayerDefended);
+        } else if (event.gameEventType == GameEvent.Type.CardOnTopOfDeck) {
+            statusText += getString(R.string.CardOnTopOfDeck);
+        } else if (event.gameEventType == GameEvent.Type.CardObtained) {
+            statusText += getString(R.string.CardObtained);
+        } else if (event.gameEventType == GameEvent.Type.PlayingAction) {
+            statusText += getString(R.string.PlayingAction);
+        } else if (event.gameEventType == GameEvent.Type.PlayedAction) {
+            statusText += getString(R.string.PlayedAction);
+        } else if (event.gameEventType == GameEvent.Type.PlayingDurationAction) {
+            statusText += getString(R.string.PlayingDurationAction);
+        } else if (event.gameEventType == GameEvent.Type.PlayingCoin) {
+            statusText += getString(R.string.PlayingCoin);
+        } else if (event.gameEventType == GameEvent.Type.BuyingCard) {
+            statusText += getString(R.string.BuyingCard);
+        } else if (event.gameEventType == GameEvent.Type.TurnEnd) {
+            statusText += getString(R.string.TurnEnd);
+        } else if (event.gameEventType == GameEvent.Type.VictoryPoints) {
+            statusText += getString(R.string.VictoryPoints);
+        } else if (event.gameEventType == GameEvent.Type.NewHand) {
+            statusText += getString(R.string.NewHand);
+        } else if (event.gameEventType == GameEvent.Type.TurnBegin) {
+            statusText += getString(R.string.TurnBegin);
+        } else if (event.gameEventType == GameEvent.Type.CantBuy) {
+            Card[] cantBuy = event.o.cs;
+            String cards = "";
+            boolean first = true;
+            for(Card card : cantBuy) {
+                if(first) {
+                    first = false;
+                }
+                else {
+                    cards += ", ";
+                }
+                cards += getCardName(card);
+            }
+            statusText += format(R.string.CantBuy, cards);
+        } else if (event.gameEventType == GameEvent.Type.Status) {
+            statusText += getString(R.string.Status);
+        } else {
+            statusText += event.gameEventType.toString();
         }
-        if (event.c != null && event.gameEventType == GameEvent.Type.Embargo) {
+
+        // Then, if there's a card associated with the event, we display it here.
+        if (event.c != null
+                && event.gameEventType != GameEvent.Type.CardAddedToHand
+                && event.gameEventType != GameEvent.Type.PlayerAttacking) {
             statusText += " " + getCardName(event.c) + " ";
+        }
+
+        // And a few other random things that should be added to the status text.
+        if (event.gameEventType == GameEvent.Type.TurnBegin && extras[0] != null) {
+            statusText += " possessed by " + extras[0] + "!";
+        }
+        if (extras[1] != null) {
+            statusText += " (" + extras[1] + ") ";  // this is the player that's being attacked.
+        }
+        if (extras[2] != null) {
+            statusText += "\n" + extras[2];  // if there's a message from the context, add it here.
         }
         return statusText;
     }
@@ -1000,5 +1099,82 @@ public class Strings {
             }
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
+    }
+
+    /**
+     * Not totally sure what the real use of this is yet, but it was a private method in
+     * RemotePlayer that didn't need to be there.
+     */
+    public static String getCardText(final Map<Object, Integer> counts,
+                                     final Map<Card, Integer> totals,
+                                     final Card card) {
+        final StringBuilder sb = new StringBuilder()
+                .append('\t')
+                .append(card.getName())
+                .append(" x")
+                .append(counts.get(card))
+                .append(": ")
+                .append(totals.get(card))
+                .append(" ")
+                .append(Strings.getString(R.string.game_over_vps))
+                .append('\n');
+
+        return sb.toString();
+    }
+
+    /**
+     * Get the end game text that shows victory point totals for a particular player.
+     */
+    public static String getVPOutput(String playerName,
+                                     Map<Object, Integer> counts,
+                                     Map<Card, Integer> totals) {
+        int totalVPs = 0;
+        for (Integer total : totals.values()) {
+            totalVPs += total;
+        }
+        final StringBuilder sb
+                = new StringBuilder()
+                .append(playerName)
+                .append(": ")
+                .append(totalVPs)
+                .append(" ")
+                .append(Strings.getString(R.string.game_over_vps))
+                .append('\n');
+
+        sb.append(Strings.getCardText(counts, totals, Cards.estate));
+        sb.append(Strings.getCardText(counts, totals, Cards.duchy));
+        sb.append(Strings.getCardText(counts, totals, Cards.province));
+        if(counts.containsKey(Cards.colony)) {
+            sb.append(Strings.getCardText(counts, totals, Cards.colony));
+        }
+
+        // display victory cards from sets
+
+        for(Card card : totals.keySet()) {
+            if(!Cards.nonKingdomCards.contains(card)) {
+                sb.append(Strings.getCardText(counts, totals, card));
+            }
+        }
+
+        sb.append(Strings.getCardText(counts, totals, Cards.curse));
+
+        sb.append("\tVictory Tokens: ")
+                .append(totals.get(Cards.victoryTokens))
+                .append('\n');
+
+        return sb.toString();
+    }
+
+    public static String getGameTimeString(long duration) {
+        String time = getString(R.string.game_over_status);
+        time += " ";
+        if (duration > 1000 * 60 * 60)
+            time += (duration / (1000 * 60 * 60)) + "h ";
+        duration = duration % (1000 * 60 * 60);
+        if (duration > 1000 * 60)
+            time += (duration / (1000 * 60)) + "m ";
+        duration = duration % (1000 * 60);
+        time += (duration / (1000)) + "s.\n";
+        return time;
     }
 }
