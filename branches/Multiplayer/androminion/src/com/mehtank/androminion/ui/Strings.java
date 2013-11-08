@@ -201,6 +201,14 @@ public class Strings {
      */
     public static String getStatusText(Event event, Object[] extras) {
         String statusText = event.s;
+        // These events already had their strings handled, so we don't need to do anything with
+        // them here.
+        if (event.t == Event.EType.CARDOBTAINED
+                || event.t == Event.EType.CARDTRASHED
+                || event.t == Event.EType.CARDREVEALED) {
+            return statusText;
+        }
+
         // The first part of the text tells us what kind of event we're dealing with.
         if (event.gameEventType == GameEvent.Type.Embargo) {
             statusText += getString(R.string.Embargo);
@@ -217,10 +225,6 @@ public class Strings {
                                      (Map<Object, Integer>) extras[4],
                                      (Map<Card, Integer>) extras[5]);
             statusText += getString(R.string.GameOver);
-        } else if (event.gameEventType == GameEvent.Type.CardRevealed) {
-            // It turns out that this is already set by the CARDREVEALED event, so we don't need to
-            // worry about it here.
-            // statusText += getString(R.string.CardRevealed);
         } else if (event.gameEventType == GameEvent.Type.CardRevealedFromHand) {
             statusText += getString(R.string.CardRevealedFromHand);
         } else if (event.gameEventType == GameEvent.Type.CardDiscarded) {
@@ -229,10 +233,6 @@ public class Strings {
             statusText += getString(R.string.CardAddedToHand);
         } else if (event.gameEventType == GameEvent.Type.CardRemovedFromHand) {
             statusText += getString(R.string.CardRemovedFromHand);
-        } else if (event.gameEventType == GameEvent.Type.CardTrashed) {
-            // It turns out that this is already set by the CARDTRASHED event, so we don't need to
-            // worry about it here.
-            // statusText += getString(R.string.CardTrashed);
         } else if (event.gameEventType == GameEvent.Type.NoBuy) {
             statusText += getString(R.string.NoBuy);
         } else if (event.gameEventType == GameEvent.Type.DeckReplenished) {
@@ -243,10 +243,6 @@ public class Strings {
             statusText += getString(R.string.PlayerDefended);
         } else if (event.gameEventType == GameEvent.Type.CardOnTopOfDeck) {
             statusText += getString(R.string.CardOnTopOfDeck);
-        } else if (event.gameEventType == GameEvent.Type.CardObtained) {
-            // It turns out that this is already set by the CARDOBTAINED event, so we don't need to
-            // worry about it here.
-            // statusText += getString(R.string.CardObtained);
         } else if (event.gameEventType == GameEvent.Type.PlayingAction) {
             statusText += getString(R.string.PlayingAction);
         } else if (event.gameEventType == GameEvent.Type.PlayedAction) {
@@ -255,10 +251,6 @@ public class Strings {
             statusText += getString(R.string.PlayingDurationAction);
         } else if (event.gameEventType == GameEvent.Type.PlayingCoin) {
             statusText += getString(R.string.PlayingCoin);
-        } else if (event.gameEventType == GameEvent.Type.BuyingCard) {
-            // It turns out that this is already set by the CARDOBTAINED event, so we don't need to
-            // worry about it here.
-            // statusText += getString(R.string.BuyingCard);
         } else if (event.gameEventType == GameEvent.Type.TurnEnd) {
             statusText += getString(R.string.TurnEnd);
         } else if (event.gameEventType == GameEvent.Type.VictoryPoints) {
@@ -290,8 +282,7 @@ public class Strings {
         // Then, if there's a card associated with the event, we display it here.
         if (event.c != null
                 && event.gameEventType != GameEvent.Type.CardAddedToHand
-                && event.gameEventType != GameEvent.Type.PlayerAttacking
-                && event.gameEventType != GameEvent.Type.BuyingCard) {
+                && event.gameEventType != GameEvent.Type.PlayerAttacking) {
             statusText += " " + getCardName(event.c) + " ";
         }
 
