@@ -460,7 +460,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         // First we check for achievements
         checkForAchievements(context, event.getType());
 
-        // Now we prepare to send an event.
+        // Now we set up some variables that we need to send an event.
         boolean sendEvent = true;
         String playerName = "";
         boolean playerNameIncluded = false;
@@ -470,10 +470,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
         boolean newTurn = false;
         boolean isFinal = false;
-        Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
-                .setGameEventType(event.getType())
-                .setString(playerName)
-                .setCard(event.getCard());
+        Card[] cards = null;
         String playerInt = "" + allPlayers.indexOf(event.getPlayer());
 
         // Because we push all construction of strings to the client that talks to RemotePlayer, we
@@ -541,6 +538,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             curPlayer = event.getPlayer();
             curContext = context;
             isFinal = true;
+            newTurn = true;
             Map<Object, Integer> counts = curPlayer.getVictoryCardCounts();
             extras.add(curPlayer.getPlayerName());
             extras.add(counts);
@@ -553,7 +551,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 extras.add(null);
             }
         } else if (event.getType() == Type.CantBuy) {
-            status.o.cs = context.getCantBuy().toArray(new Card[0]);
+            cards = context.getCantBuy().toArray(new Card[0]);
         } else if (event.getType() == Type.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)
@@ -564,12 +562,15 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(coin);
         }
 
-        // We have to wait until this point to set status.o.os, because the block above was adding
-        // things to extras.
+        // We need to wait until this point to actually create the event, because the logic above
+        // modified some of these variables.
+        Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
+                .setGameEventType(event.getType())
+                .setString(playerName)
+                .setCard(event.getCard())
+                .setBoolean(newTurn);
         status.o.os = extras.toArray();
-        // We also have to set newTurn here, because some of the logic above tells us that
-        // information.
-        status.setBoolean(newTurn);
+        status.o.cs = cards;
 
         // Now we actually send the event.
         if (event.getPlayer() != null) {

@@ -218,7 +218,9 @@ public class Strings {
                                      (Map<Card, Integer>) extras[5]);
             statusText += getString(R.string.GameOver);
         } else if (event.gameEventType == GameEvent.Type.CardRevealed) {
-            statusText += getString(R.string.CardRevealed);
+            // It turns out that this is already set by the CARDREVEALED event, so we don't need to
+            // worry about it here.
+            // statusText += getString(R.string.CardRevealed);
         } else if (event.gameEventType == GameEvent.Type.CardRevealedFromHand) {
             statusText += getString(R.string.CardRevealedFromHand);
         } else if (event.gameEventType == GameEvent.Type.CardDiscarded) {
@@ -228,7 +230,9 @@ public class Strings {
         } else if (event.gameEventType == GameEvent.Type.CardRemovedFromHand) {
             statusText += getString(R.string.CardRemovedFromHand);
         } else if (event.gameEventType == GameEvent.Type.CardTrashed) {
-            statusText += getString(R.string.CardTrashed);
+            // It turns out that this is already set by the CARDTRASHED event, so we don't need to
+            // worry about it here.
+            // statusText += getString(R.string.CardTrashed);
         } else if (event.gameEventType == GameEvent.Type.NoBuy) {
             statusText += getString(R.string.NoBuy);
         } else if (event.gameEventType == GameEvent.Type.DeckReplenished) {
@@ -240,7 +244,9 @@ public class Strings {
         } else if (event.gameEventType == GameEvent.Type.CardOnTopOfDeck) {
             statusText += getString(R.string.CardOnTopOfDeck);
         } else if (event.gameEventType == GameEvent.Type.CardObtained) {
-            statusText += getString(R.string.CardObtained);
+            // It turns out that this is already set by the CARDOBTAINED event, so we don't need to
+            // worry about it here.
+            // statusText += getString(R.string.CardObtained);
         } else if (event.gameEventType == GameEvent.Type.PlayingAction) {
             statusText += getString(R.string.PlayingAction);
         } else if (event.gameEventType == GameEvent.Type.PlayedAction) {
