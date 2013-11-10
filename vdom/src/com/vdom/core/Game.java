@@ -1624,29 +1624,11 @@ public class Game {
                     bane = true;
                     cardName = cardName.substring(BANE.length());
                 }
-                /*
-                   StringBuilder sb = new StringBuilder();
-                   for(char c : cardName.toCharArray()) {
-                   if(Character.isLetterOrDigit(c)) {
-                   sb.append(c);
-                   }
-                   }
-                   String s = sb.toString();
-
-                   for (Card c : Cards.actionCards) {
-                   if(c.getSafeName().equalsIgnoreCase(s)) { // hotspot
-                   card = c;
-                   break;
-                   }
-                   }*/
-                card = Cards.cardNameToCard.get(cardName);
                 String s = cardName;
-                if (card == null) { // maybe we need equalsIgnoreCase
-                    for (Card c : Cards.actionCards) {
-                        if(c.getSafeName().equalsIgnoreCase(s)) {
-                            card = c;
-                            break;
-                        }
+                for (Card c : Cards.actionCards) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                        card = c;
+                        break;
                     }
                 }
                 if(card != null && bane) {
@@ -1656,9 +1638,7 @@ public class Game {
                     card = Cards.virtualKnight;
                 }
 
-                if(card != null
-                   //                    && !card.equals(Cards.possession)
-                  ) {
+                if(card != null) {
                     addPile(card);
                     added += 1;
                 } else if ( s.equalsIgnoreCase(Cards.curse.getSafeName()) ||
