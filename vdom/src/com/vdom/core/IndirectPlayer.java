@@ -1250,6 +1250,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (int i=0; i<options.length; i++, j++) {
             if (i == choiceOne) {
                 i++;
+                if (i == options.length) break;
             }
             secondOptions[j] = options[i];
         }
