@@ -51,19 +51,19 @@ import com.vdom.core.Game;
 
 /**
  * How all this works:
- * 
+ *
  * if this activity is onCreated without saved instance state and without "command"-"extra",
  * it spawns the startgameactivity, which in turn runs the startgamefragment. the startgamefragment
  * asks the user about parameters of the new game and returns to the startgameactivity, which runs
  * *this* activity again, this time *with* "command".
- * 
+ *
  * On creation, we had also created a server intent (DominionServer), which instantiated VDomServer, which
  * started a vdom.comms server and listened on a hardcoded port. when we are run with "command", we send ourselves
  * the STARTGAME event directly, which causes us to connect to the server with the given port, and
  * send it the STARTGAME event. This causes the server to create a thread which contains Game.main()
  * with the arguments we had in this activity's "command" List of Strings. The server sends back
  * a GAMESTATS event.
- * 
+ *
  * When the server ran the Game.main(), it gave it a string referencing RemotePlayer.java. RemotePlayer.java
  * is executed by the vdom engine, and it gets all the information that a player would usually get. RemotePlayer
  * also listens on a custom port for someone to connect. This port is reported to us here with the GAMESTATS
@@ -71,12 +71,12 @@ import com.vdom.core.Game;
  * would ask us which position we wanted to join if we had more than one option. We don't, so it uses the
  * option we have and sends us a JOINGAME event. This gives us the port to connect to the RemotePlayer, and
  * the name.
- * 
+ *
  * This makes us /disconnect/ from the vdomserver and /connect/ to the RemotePlayer.
- * 
+ *
  * We send it a HELLO message, which the RemotePlayer responds to by giving the list of other players
  * and cards. We create a GameTable object, which gives us the game view.
- * 
+ *
  * Everything that happens in the game from then on is sent to us as an event, which we handle and respond to.
  * The response contains the information about what we are doing.
  */
@@ -98,7 +98,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
     private long lastBackClick = 0;
 
     private Comms comm;
-    private volatile boolean readyForMessages = true; //This is set to true when we may receive messages. 
+    private volatile boolean readyForMessages = true; //This is set to true when we may receive messages.
 
     private boolean gotQuit = false;
 
@@ -110,10 +110,10 @@ public class GameActivity extends SherlockActivity implements EventHandler {
     private String host;
     private int port;
 
-    //	// for invites
-    //	private String serverName;
-    //	private String serverHost;
-    //	private int serverPort;
+    //    // for invites
+    //    private String serverName;
+    //    private String serverHost;
+    //    private int serverPort;
 
     private final boolean DEBUGGING = false;
 
@@ -145,10 +145,10 @@ public class GameActivity extends SherlockActivity implements EventHandler {
          * 16). Should be properly fixed by putting all network dependent
          * behavior in a seperate thread.
          */
-        //		if (Build.VERSION.SDK_INT >= 11) {
-        //			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        //			StrictMode.setThreadPolicy(policy);
-        //		}
+        //        if (Build.VERSION.SDK_INT >= 11) {
+        //            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //            StrictMode.setThreadPolicy(policy);
+        //        }
 
         gt = (GameTable) findViewById(R.id.gameTable);
         splash = findViewById(R.id.splash);
@@ -571,7 +571,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         /**
          * Could eventually skip setting the bar titles over and over again for
          * better performance, but works
-         * 
+         *
          * @param e
          */
         private void setStatus(Event e) {
@@ -591,7 +591,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         /**
          * This is just a quick try, duplicate to code in TurnView. Should be
          * fixed sooner or later...
-         * 
+         *
          * @param gs
          * @param s
          * @param newTurn
@@ -610,16 +610,16 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             else
                 buys = top.getString(R.string.buy_multiple, "" + gs.turnStatus[1]);
 
-            //		            String coinStr = "" + is[2] + ((potions > 0)?"p":"");
+            //                    String coinStr = "" + is[2] + ((potions > 0)?"p":"");
             String coinStr = "" + gs.turnStatus[2];
             if (gs.potions == 1) {
                 coinStr += "p";
             } else if (gs.potions > 1) {
                 coinStr += "p" + gs.potions;
             }
-            //		            for(int i=0; i < potions; i++) {
-            //		                coinStr += "p";
-            //		            }
+            //                    for(int i=0; i < potions; i++) {
+            //                        coinStr += "p";
+            //                    }
             String coinsStr = top.getString(R.string.coins, coinStr);
             String baseStr = top.getString(R.string.actions_buys_coins, actions, buys, coinsStr);
 
@@ -680,7 +680,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         /*
          * The following try/catch block is made obsolete by the addition of
          * sendErrorHandler to the EventHandler-interface.
-         * 
+         *
          * except it isn't: still getting NullPointerExceptions here [ 8/21/12 ]
          */
 
@@ -691,11 +691,11 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                 return;
             }
         }
-        //		try {
+        //        try {
         comm.put_ts(e);
-        //		} catch (Exception e1) {
-        //			lostConnection();
-        //		}
+        //        } catch (Exception e1) {
+        //            lostConnection();
+        //        }
     }
 
     @Override
@@ -712,28 +712,28 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         return true;
     }
 
-    //	private void saveHostPort() {
-    //		SharedPreferences prefs;
-    //		prefs = PreferenceManager.getDefaultSharedPreferences(top);
+    //    private void saveHostPort() {
+    //        SharedPreferences prefs;
+    //        prefs = PreferenceManager.getDefaultSharedPreferences(top);
     //
-    //		SharedPreferences.Editor edit = prefs.edit();
-    //		edit.putString("host", host);
-    //		edit.putInt("port", port);
-    //		edit.commit();
-    //	}
+    //        SharedPreferences.Editor edit = prefs.edit();
+    //        edit.putString("host", host);
+    //        edit.putInt("port", port);
+    //        edit.commit();
+    //    }
 
     /**
      * Connect to a VDomServer <b>or</b> a RemotePlayer instance.
-     * 
-     * Here we disconnect from wherever we were connected before, connect to 
+     *
+     * Here we disconnect from wherever we were connected before, connect to
      * host (host is the class variable) at port p and send it HELLO, on which
      * RemotePlayer responds (ideally) with NEWGAME, VDomServer with GAMESTATS
-     * 
+     *
      * @param p port to connect to
      */
     private void startGame(int p) {
 
-        try {            
+        try {
             if (!connect(p))
                 return;
             // Toast.makeText(top, "Loading game...", Toast.LENGTH_SHORT).show();
@@ -750,9 +750,9 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                } else
                throw (new IOException());
                */
-            //			serverName = name;
-            //			serverHost = getLocalIpAddress();
-            //			serverPort = DEFAULT_PORT;
+            //            serverName = name;
+            //            serverHost = getLocalIpAddress();
+            //            serverPort = DEFAULT_PORT;
 
             readyForMessages = false; //HACK
             put( new Event( EType.HELLO ).setString( name ) );
@@ -805,7 +805,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
     }
 
     /**
-     * 
+     *
      * @param e GAMESTATS event
      */
     protected void handshake(Event e) {
@@ -816,10 +816,10 @@ public class GameActivity extends SherlockActivity implements EventHandler {
     }
 
     protected void startNewGame(Event e) {
-        //		if (!NOTOASTS) Toast.makeText(top, "Starting game...", Toast.LENGTH_SHORT).show();
-        //		handle(new Event(Event.EType.STARTGAME)
-        //			.setObject(new String[] { "Random", "Human Player",
-        //					"Drew (AI)", "Earl (AI)" }));
+        //        if (!NOTOASTS) Toast.makeText(top, "Starting game...", Toast.LENGTH_SHORT).show();
+        //        handle(new Event(Event.EType.STARTGAME)
+        //            .setObject(new String[] { "Random", "Human Player",
+        //                    "Drew (AI)", "Earl (AI)" }));
 
         Intent i = new Intent(this,StartGameActivity.class);
         if(getIntent().hasExtra("cards")) {
