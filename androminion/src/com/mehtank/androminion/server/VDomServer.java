@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
-import com.mehtank.androminion.ui.Strings;
 import com.vdom.api.GameType;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
@@ -71,8 +70,6 @@ public class VDomServer implements EventHandler {
 
     public static VDomServer me;  // will be the only instance of this class
     public static int maxPause = 300000; // 5 minutes in ms
-    static int numGameTypes = 0;
-    static String[] gameStrings;
     static boolean debugOutput = false;
 
     String gameType;
@@ -114,8 +111,6 @@ public class VDomServer implements EventHandler {
      * @param args list of players 'name' 'classname'
      */
     public static void main(String[] args) {
-        ArrayList<String> gameArray = new ArrayList<String>();  //all the card collection names AND ai players
-
         if (args != null)
             for (int i=0; i<args.length-1; i += 2)
                 allPlayers.put(args[i], args[i+1]);
@@ -123,13 +118,6 @@ public class VDomServer implements EventHandler {
         if (args[args.length-1].endsWith("debug"))
             debugOutput = true;
 
-        for (GameType g : GameType.values())
-            gameArray.add(Strings.getGameTypeName(g));
-        numGameTypes = gameArray.size();
-        Collections.sort(gameArray);
-
-        gameArray.addAll(allPlayers.keySet());  // names of the ai players
-        gameStrings = gameArray.toArray(new String[0]);
         me = new VDomServer();
         me.start();
     }
@@ -203,9 +191,11 @@ public class VDomServer implements EventHandler {
             // (not connected) happens only in race conditions, since the RemotePlayer thread sets its port shortly after setting
             e.setString(gameType)
                     .setObject(new EventObject(runningStrings.toArray(new String[0])));
-        } else
-            e.setInteger(numGameTypes)
-                    .setObject(new EventObject(gameStrings));
+        } else {
+            // TODO(matt): to be fixed.  The code that was here was dead, and we might need to
+            // modify something here to get a "join game" kind of dialog.  But we'll see about that
+            // later.
+        }
         return e;
     }
 
