@@ -27,7 +27,7 @@ public class VDomServer implements EventHandler {
 
     private CountDownLatch waitingPlayers = new CountDownLatch(0);
 
-    /** 
+    /**
      * This class will be run when a new game was created,
      * it is given all the arguments from the game preceded with a -
      * as well as all the player names
@@ -107,10 +107,10 @@ public class VDomServer implements EventHandler {
 
     /**
      * initialize one instance of VDomServer.
-     * 
+     *
      * This one instance is stored in 'me'. Also
      * run me.start().
-     * 
+     *
      * @param args list of players 'name' 'classname'
      */
     public static void main(String[] args) {
@@ -172,7 +172,7 @@ public class VDomServer implements EventHandler {
                 .setBoolean(isStarted);
 
         if (isStarted) {
-            //	while (!isRunning); // WE SOLVE THIS WITH THE COUNTDOWN LATCH
+            //    while (!isRunning); // WE SOLVE THIS WITH THE COUNTDOWN LATCH
             while (true) {
                 try {
                     waitingPlayers.await();
@@ -182,7 +182,7 @@ public class VDomServer implements EventHandler {
             int currentHuman = 0;
             ArrayList<String> runningStrings = new ArrayList<String>();
 
-            for (String s : gamePlayers) {  // We infer gamePlayers from the Game.java-command line arguments we received via the STARTGAME event. 
+            for (String s : gamePlayers) {  // We infer gamePlayers from the Game.java-command line arguments we received via the STARTGAME event.
                 if (s.equals(remotePlayerString)) {   // the player is human
                     //while (remotePlayers.size() <= currentHuman); // WE SOLVE THIS WITH THE COUNTDOWN LATCH
                     RemotePlayer rp = remotePlayers.get(currentHuman++);
@@ -200,7 +200,7 @@ public class VDomServer implements EventHandler {
                     runningStrings.add(s);
             }
             // runningStrings: list of strings "Human player: <player name> (playing|seat open|not connected)"
-            // (not connected) happens only in race conditions, since the RemotePlayer thread sets its port shortly after setting 
+            // (not connected) happens only in race conditions, since the RemotePlayer thread sets its port shortly after setting
             e.setString(gameType)
                     .setObject(new EventObject(runningStrings.toArray(new String[0])));
         } else
@@ -257,9 +257,9 @@ public class VDomServer implements EventHandler {
         isStarted = true;
         gt = new Thread(new GameStarter(gameArgs.toArray(new String[0])));
         gt.start();
-        //	try {	
-        //		Thread.sleep(1000); // Made obsolete by CountDownLatch
-        //	} catch (InterruptedException e) {}
+        //    try {
+        //        Thread.sleep(1000); // Made obsolete by CountDownLatch
+        //    } catch (InterruptedException e) {}
     }
 
     public void registerRemotePlayer(RemotePlayer rp) {
@@ -270,7 +270,7 @@ public class VDomServer implements EventHandler {
     public boolean handle(Event e) {
         boolean reconnect = true;
         switch (e.t) {
-            case STARTGAME: 
+            case STARTGAME:
                 startGame(e.o.ss);  // execute Game.main()
                 //$FALL-THROUGH$
                 // !!!!!!!! NO BREAK !!!!!!!!!!!
@@ -278,12 +278,12 @@ public class VDomServer implements EventHandler {
                 /*
                  * The following try/catch block is made obsolete by the addition of sendErrorHandler.
                  */
-                //			try {
+                //            try {
                 comm.put_ts(gameStats());
                 reconnect = false;
-                //			} catch (IOException e1) {
-                //				debug("Error sending game stats, restarting server.");
-                //			}
+                //            } catch (IOException e1) {
+                //                debug("Error sending game stats, restarting server.");
+                //            }
                 break;
 
             case DISCONNECT:
@@ -303,7 +303,7 @@ public class VDomServer implements EventHandler {
     @Override
     public void sendErrorHandler(Exception e) {
         debug("Error while sending something; restarting server.");
-        reconnect(); // Yes, this is thread-safe, so it may be executed from here, even though 
+        reconnect(); // Yes, this is thread-safe, so it may be executed from here, even though
         // sendErrorHandler is executed in a different thread from the rest.
     }
 
@@ -338,11 +338,11 @@ public class VDomServer implements EventHandler {
              * The following try/catch block is made obsolete by the addition of
              * sendErrorHandler to the EventHandler interface.
              */
-            //			try {
+            //            try {
             rp.comm.put_ts(new Event(Event.EType.CHAT).setString(string));
-            //			} catch (Exception e) {
-            //				// whatever
-            //			}
+            //            } catch (Exception e) {
+            //                // whatever
+            //            }
         }
     }
 
