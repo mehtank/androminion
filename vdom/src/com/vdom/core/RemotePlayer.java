@@ -1,4 +1,4 @@
-package com.mehtank.androminion.server;
+package com.vdom.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
