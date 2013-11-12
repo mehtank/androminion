@@ -6,6 +6,7 @@
 
     <!-- Menu Activity -->
     <string name="start_game_menu">Start Game</string>
+    <string name="join_game_menu">Join Game</string>
     <string name="stats_menu">Statistics</string>
     <string name="settings_menu">Settings</string>
     <string name="about_menu">About</string>
