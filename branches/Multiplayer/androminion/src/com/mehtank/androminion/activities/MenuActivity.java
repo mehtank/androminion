@@ -146,6 +146,17 @@ OnStartGameListener {
         // }
     }
 
+    public void onClickJoinGame(View view) {
+        // TODO(matt): what in the world do I do here?  We need to have the user enter a host name
+        // and port, and pass that host name and port to the GameActivity, so that the GameActivity
+        // sends a HELLO event to the RemotePlayer that's listening at that port.
+        new AlertDialog.Builder(this)
+                .setPositiveButton(android.R.string.ok, null)
+                .setTitle("I'm not sure what to do after this...")
+                .create()
+                .show();
+    }
+
     private void changeFragment(SherlockFragment newFragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_content, newFragment).commit();
