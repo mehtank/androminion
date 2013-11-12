@@ -791,6 +791,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             try {
                 comm = new Comms(this, nextPort++);
                 port = comm.getPort();
+                System.out.println("Remote player now listening on port " + port);
                 return port;
             } catch (IOException e) {
                 //				comm = null; // can cause NullPointerExceptions in different threads

@@ -24,9 +24,10 @@
                 <path location="vdom.jar"/>
             </classpath>
             <arg value="-typeFirstGame"/>
+            <arg value="-debug"/>
             <arg value="com.vdom.players.VDomPlayerDrew"/>
             <arg value="com.vdom.players.VDomPlayerEarl"/>
-            <arg value="com.vdom.players.RemotePlayer*Matt"/>
+            <arg value="com.vdom.core.RemotePlayer*Matt"/>
         </java>
     </target>
 
