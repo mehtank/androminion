@@ -18,6 +18,10 @@ import com.vdom.core.ExitException;
 import com.vdom.core.Game;
 import com.vdom.core.Player;
 
+// TODO(matt): On second thought, it looks like this might be fine staying in the androminion code.
+// It looks like you don't need this to have a RemotePlayer talk to the Game; the point of this is
+// to hook together the Androminion client to the Game code.
+
 public class VDomServer implements EventHandler {
     @SuppressWarnings("unused")
     private static final String TAG = "VDomServer";
@@ -63,7 +67,7 @@ public class VDomServer implements EventHandler {
      */
     static final HashMap<String, String> allPlayers = new HashMap<String, String> ();
     static {
-        allPlayers.put(remotePlayerString, "com.mehtank.androminion.server.RemotePlayer");
+        allPlayers.put(remotePlayerString, "com.vdom.core.RemotePlayer");
         // allPlayers.put("Drew's VDom player (AI)", "com.vdom.drew.VDomPlayer@http://www.delvegames.com/DrewsVDomPlayer.jar");
         // allPlayers.put("Best yet (AI)", "net.spack.vdom.BestYet@http://earlcahill.com/myVdom.jar");
     };

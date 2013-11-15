@@ -6,6 +6,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 import com.mehtank.androminion.ui.Strings;
+import com.vdom.core.VDomServer;
 
 import android.app.Service;
 import android.content.Intent;
