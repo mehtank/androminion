@@ -150,6 +150,12 @@ OnStartGameListener {
         // TODO(matt): what in the world do I do here?  We need to have the user enter a host name
         // and port, and pass that host name and port to the GameActivity, so that the GameActivity
         // sends a HELLO event to the RemotePlayer that's listening at that port.
+        //
+        // Ok, to do this we need to call something like startActivityForResult(some_intent,
+        // some_result_code).  Then let that activity get us a host and port, and the activity
+        // calls setResult(RESULT_ok, data); finish(); (as in
+        // StartGameActivity.onStartGameClick()).  That will send us back here to
+        // onActivityResult(), where we need to add an additional check for the request code.
         new AlertDialog.Builder(this)
                 .setPositiveButton(android.R.string.ok, null)
                 .setTitle("I'm not sure what to do after this...")
