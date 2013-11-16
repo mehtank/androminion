@@ -28,6 +28,7 @@
             <arg value="com.vdom.players.VDomPlayerDrew"/>
             <arg value="com.vdom.players.VDomPlayerEarl"/>
             <arg value="com.vdom.core.RemotePlayer*Matt"/>
+            <arg value="com.vdom.core.RemotePlayer*Sabrina"/>
         </java>
     </target>
 
