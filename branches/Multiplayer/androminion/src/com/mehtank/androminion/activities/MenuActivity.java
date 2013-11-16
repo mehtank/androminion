@@ -159,12 +159,14 @@ OnStartGameListener {
         vg.addView(name);
         final EditText host = new EditText(this);
         host.setSingleLine();
+        host.setText(prefs.getString("host", "localhost"));
         TextView hostView = new TextView(this);
         hostView.setText("\nHost:");
         vg.addView(hostView);
         vg.addView(host);
         final EditText port = new EditText(this);
         port.setSingleLine();
+        port.setText(prefs.getString("port", "2255"));
         TextView portView = new TextView(this);
         portView.setText("\nPort:");
         vg.addView(portView);

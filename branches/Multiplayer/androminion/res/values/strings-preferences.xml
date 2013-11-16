@@ -34,9 +34,14 @@
     <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
     <string name="plat_colony_pref_summary">Always include platinum and colony cards, regardless of game type (will take effect next game)</string>
     <string name="ui_pref_title">User Interface</string>
+    <string name="personalization_pref_title">Personalization</string>
     <string name="name_pref_summary">Enter your nickname</string>
     <string name="name_pref_title">Name</string>
-    <string name="personalization_pref_title">Personalization</string>
+    <string name="multiplayer_pref_title">Multiplayer</string>
+    <string name="host_pref_summary">Default host to connect to when joining a game</string>
+    <string name="host_pref_title">Host</string>
+    <string name="port_pref_summary">Default player port when joining a game (generally 2255)</string>
+    <string name="port_pref_title">Port</string>
     <string name="mask_names_pref_title">Mask AI Names</string>
     <string name="mask_names_pref_summary"></string>
     <string name="hide_card_counts_pref_title">Hide card counts</string>
