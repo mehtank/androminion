@@ -161,10 +161,13 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         if(extras !=null) {
             host = extras.getString("host");
             port = extras.getInt("port");
+            if (getIntent().hasExtra("name")) {
+                name = extras.getString("name");
+            }
             if (host != null && port != 0) {
-                // handle(new Event(Event.EType.SETHOST).setString(host).setInteger(port));
-                debug("Wants to connect to dom://" + host + ":" + port);
-                new HostDialog(this, host, port);
+                handle(new Event(Event.EType.SETHOST).setString(host).setInteger(port));
+                // debug("Wants to connect to dom://" + host + ":" + port);
+                // new HostDialog(this, host, port);
                 return;
             }
         }

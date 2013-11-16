@@ -3,6 +3,8 @@ package com.mehtank.androminion.activities;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -13,6 +15,8 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -121,14 +125,7 @@ OnStartGameListener {
     }
 
     public void onClickStats(View view) {
-        // if (mTwoColums) {
-        // if (mState != R.id.but_stats) {
-        // mState = R.id.but_stats;
-        // changeFragment(new CombinedStatsFragment());
-        // }
-        // } else {
         startActivity(new Intent(this, StatisticsActivity.class));
-        // }
     }
 
     public void onClickSettings(View view) {
@@ -136,14 +133,7 @@ OnStartGameListener {
     }
 
     public void onClickAbout(View view) {
-        // if(mTwoColums){
-        // if(mState != R.id.but_about) {
-        // mState = R.id.but_about;
-        // changeFragment(new AboutFragment());
-        // }
-        // } else {
         startActivity(new Intent(this, AboutActivity.class));
-        // }
     }
 
     public void onClickJoinGame(View view) {
@@ -156,9 +146,43 @@ OnStartGameListener {
         // calls setResult(RESULT_ok, data); finish(); (as in
         // StartGameActivity.onStartGameClick()).  That will send us back here to
         // onActivityResult(), where we need to add an additional check for the request code.
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        LinearLayout vg = new LinearLayout(this);
+        vg.setOrientation(LinearLayout.VERTICAL);
+        final EditText name = new EditText(this);
+        name.setSingleLine();
+        name.setText(prefs.getString("name", GameActivity.DEFAULT_NAME));
+        TextView nameView = new TextView(this);
+        nameView.setText("\nYour name:");  // TODO(matt): move these strings to res/
+        vg.addView(nameView);
+        vg.addView(name);
+        final EditText host = new EditText(this);
+        host.setSingleLine();
+        TextView hostView = new TextView(this);
+        hostView.setText("\nHost:");
+        vg.addView(hostView);
+        vg.addView(host);
+        final EditText port = new EditText(this);
+        port.setSingleLine();
+        TextView portView = new TextView(this);
+        portView.setText("\nPort:");
+        vg.addView(portView);
+        vg.addView(port);
         new AlertDialog.Builder(this)
                 .setPositiveButton(android.R.string.ok, null)
-                .setTitle("I'm not sure what to do after this...")
+                .setView(vg)
+                .setTitle("Enter host and port")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent i = new Intent(MenuActivity.this, GameActivity.class);
+                        i.putExtra("name", name.getText().toString());
+                        i.putExtra("host", host.getText().toString());
+                        i.putExtra("port", Integer.valueOf(port.getText().toString()));
+                        startActivity(i);
+                    }
+                })
                 .create()
                 .show();
     }
