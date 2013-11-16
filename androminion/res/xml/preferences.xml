@@ -10,6 +10,22 @@
             android:title="@string/name_pref_title" >
         </EditTextPreference>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/multiplayer_pref_title" >
+        <EditTextPreference
+            android:key="host"
+            android:defaultValue="localhost"
+            android:dialogMessage="@string/host_pref_summary"
+            android:dialogTitle="@string/host_pref_title"
+            android:title="@string/host_pref_title" >
+        </EditTextPreference>
+        <EditTextPreference
+            android:key="port"
+            android:defaultValue="2255"
+            android:dialogMessage="@string/port_pref_summary"
+            android:dialogTitle="@string/port_pref_title"
+            android:title="@string/port_pref_title" >
+        </EditTextPreference>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/ui_pref_title" >
         <ListPreference
             android:defaultValue="@string/pref_viewstyle_default"
