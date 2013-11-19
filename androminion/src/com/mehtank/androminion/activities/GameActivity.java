@@ -172,8 +172,8 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             }
         }
 
-        host = prefs.getString("host", DEFAULT_HOST);
-        port = prefs.getInt("port", DEFAULT_PORT);
+        host = DEFAULT_HOST;
+        port = DEFAULT_PORT;
 
         if (!prefs.getString("LastVersion", "None").equals(getString(R.string.version))) {
             SharedPreferences.Editor edit = prefs.edit();
