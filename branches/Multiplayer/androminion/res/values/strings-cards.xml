@@ -101,7 +101,7 @@
     <string name="Saboteur_name">Saboteur</string>
     <string name="Saboteur_desc">Each other player reveals cards from the top of his deck until revealing one costing 3 Coins or more. He trashes that card and may gain a card costing at most 2 Coins less than it. He discards the other revealed cards.</string>
     <string name="ShantyTown_name">Shanty Town</string>
-    <string name="ShantyTown_desc">Reveal you hand. If you have no Action cards in hand, +2 Cards.</string>
+    <string name="ShantyTown_desc">Reveal your hand. If you have no Action cards in hand, +2 Cards.</string>
     <string name="Scout_name">Scout</string>
     <string name="Scout_desc">Reveal the top 4 cards of your deck. Put the revealed Victory cards into your hand. Put the other cards on top of your deck in any order.</string>
     <string name="Steward_name">Steward</string>
