@@ -52,7 +52,7 @@ public class Cards {
         DameAnna, DameJosephine, DameMolly, DameNatalie, DameSylvia, SirBailey, SirDestry, SirMartin, SirMichael, SirVander,
         VirtualRuins, VirtualKnight,
         // Guilds Expansion
-        Advisor, Baker, Butcher, CandlestickMaker, Doctor, Herald, Journeyman, Masterpiece, MerchantGuild, Plaza, StoneMason, Soothsayer, TaxMan,
+        Advisor, Baker, Butcher, CandlestickMaker, Doctor, Herald, Journeyman, Masterpiece, MerchantGuild, Plaza, StoneMason, Soothsayer, Taxman,
        
         // Promo Cards
         Envoy, Governor, WalledVillage,
@@ -561,7 +561,7 @@ public class Cards {
         // Guilds
         actionCardsGuilds.add(advisor          = new ActionCardImpl.Builder(Cards.Type.Advisor, 4).addActions(1).description("Reveal the top 3 cards of your deck. The player to your left chooses one of them. Discard that card. Put the other cards into your hand.").expansion("Guilds").build());
         actionCardsGuilds.add(soothsayer       = new ActionCardImpl.Builder(Cards.Type.Soothsayer, 5).attack().description("Gain a Gold. Each other player gains a Curse. Each player who did draws a card.").expansion("Guilds").build());
-        actionCardsGuilds.add(taxman           = new ActionCardImpl.Builder(Cards.Type.TaxMan, 4).attack().description("You may trash a Treasure from your hand. Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it). Gain a Treasure card costing up to $3 more than the trashed card, putting it on top of your deck.").expansion("Guilds").build());
+        actionCardsGuilds.add(taxman           = new ActionCardImpl.Builder(Cards.Type.Taxman, 4).attack().description("You may trash a Treasure from your hand. Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it). Gain a Treasure card costing up to $3 more than the trashed card, putting it on top of your deck.").expansion("Guilds").build());
         actionCardsGuilds.add(plaza            = new ActionCardImpl.Builder(Cards.Type.Plaza, 4).addCards(1).addActions(2).description("You may discard a Treasure card. If you do, take a Coin token.").expansion("Guilds").build());
         actionCardsGuilds.add(candlestickMaker = new ActionCardImpl.Builder(Cards.Type.CandlestickMaker, 2).addActions(1).addBuys(1).description("Take a Coin token.").expansion("Guilds").build());
         actionCardsGuilds.add(baker            = new ActionCardImpl.Builder(Cards.Type.Baker, 5).addCards(1).addActions(1).description("Take a Coin token. SETUP: Each Player takes a Coin token.").expansion("Guilds").build());

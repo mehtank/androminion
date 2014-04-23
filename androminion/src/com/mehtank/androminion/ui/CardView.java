@@ -373,7 +373,102 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	public CardState getState() {
 		return state;
 	}
-
+	
+	public String GetCardTypeString(MyCard c)
+    {
+	    String cardType = "";
+	    Context context = getContext();
+        
+        if (c.isAction)
+        {
+            cardType += context.getString(R.string.type_action);
+            
+            if (c.isAttack)
+            {
+                cardType += " - " + context.getString(R.string.type_attack);
+            }
+            
+            if (c.isLooter)
+            {
+                cardType += " - " + context.getString(R.string.type_looter);
+            }
+            
+            if (c.isRuins)
+            {
+                cardType += " - " + context.getString(R.string.type_ruins);
+            }
+            
+            if (c.isPrize)
+            {
+                cardType += " - " + context.getString(R.string.type_prize);
+            }
+            
+            if (c.isReaction)
+            {
+                cardType += " - " + context.getString(R.string.type_reaction);
+            }
+            
+            if (c.isDuration)
+            {
+                cardType += " - " + context.getString(R.string.type_duration);
+            }
+            
+            if (c.isVictory)
+            {
+                cardType += " - " + context.getString(R.string.type_victory);
+            }
+            
+            if (c.isKnight)
+            {
+                cardType += " - " + context.getString(R.string.type_knight);
+            }
+            
+            if (c.isShelter)
+            {
+                cardType += " - " + context.getString(R.string.type_shelter);
+            }
+        }
+        else if (c.isTreasure)
+        {
+            cardType += context.getString(R.string.type_treasure);
+            
+            if (c.isVictory)
+            {
+                cardType += " - " + context.getString(R.string.type_victory);
+            }
+            
+            if (c.isReaction)
+            {
+                cardType += " - " + context.getString(R.string.type_reaction);
+            }
+            
+            if (c.isPrize)
+            {
+                cardType += " - " + context.getString(R.string.type_prize);
+            }
+        }
+        else if (c.isVictory)
+        {
+            cardType += context.getString(R.string.type_victory);
+            
+            if (c.isShelter)
+            {
+                cardType += " - " + context.getString(R.string.type_shelter);
+            }
+            
+            if (c.isReaction)
+            {
+                cardType += " - " + context.getString(R.string.type_reaction);
+            }
+        }
+        else if (c.name.equalsIgnoreCase("hovel"))
+        {
+            cardType += context.getString(R.string.type_reaction) + " - " + context.getString(R.string.type_shelter);
+        }
+        
+        return cardType;
+    }
+	
 	@SuppressLint("NewApi")
 	@Override
 	public boolean onLongClick(View view) {
@@ -433,11 +528,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else {
 			TextView textView = new TextView(view.getContext());
 			textView.setPadding(15, 0, 15, 5);
-			String text = cardView.getCard().GetCardTypeString();
+			String text = GetCardTypeString(cardView.getCard());
 			
 			if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) 
 			{
-                text += "(" + cardView.getCard().expansion + ")";
+                text += " (" + cardView.getCard().expansion + ")";
             }
 			
 			text += "\n";
