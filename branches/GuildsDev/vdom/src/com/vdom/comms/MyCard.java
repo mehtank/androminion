@@ -60,6 +60,9 @@ public class MyCard implements Serializable {
 		this.isKnight = originalName.equals("VirtualKnight");
 	}
 	
+	/* This method is now unused. It had been copied to CardView.java
+	 * to simplify card type internationalization.
+	 */
 	public String GetCardTypeString()
     {
 	    String cardType = "";
