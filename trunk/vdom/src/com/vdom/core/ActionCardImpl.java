@@ -698,7 +698,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         case Soothsayer:
             soothsayer(game, context, currentPlayer);
             break;
-        case TaxMan:
+        case Taxman:
             taxman(game, context, currentPlayer);
             break;
         case Plaza:
