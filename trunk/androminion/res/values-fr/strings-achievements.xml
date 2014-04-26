@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="achievements_2players8provinces">Have all 8 Provinces at the end of a 2 player game</string>
-	<string name="achievements_3or4players10provinces">Have 10 or more Provinces at the end of a 3 or 4 player game</string>
-	<string name="achievements_score100">Win a game with 100 or more VP</string>
-	<string name="achievements_score1more">Win a game by exactly 1 VP</string>
-	<string name="achievements_singlecard">Win a game buying no more than one unique Kingdom Card</string>
-	<string name="achievements_score50more">Win a game by more than 50 VP</string>
-	<string name="achievements_skunk">Win a game with at least one opponent having 0 or less VP</string>
-	<string name="achievements_trash5inaturn">Trash more than 5 cards in a single turn</string>
-	<string name="achievements_gainmorethan30inaturn">Gain more than 30 VP in a single turn</string>
-	<string name="achievements_win10inarow">Win 10 games in a row</string>
-	
-	<string name="currentWinStreak">Current win streak: </string>
+
+    <string name="achievements_2players8provinces">Avoir les 8 Provinces à la fin d\'une partie à 2 joueurs</string>
+    <string name="achievements_3or4players10provinces">Avoir 10 Provinces ou plus à la fin d\'une partie à 3 ou 4 joueurs</string>
+    <string name="achievements_score100">Gagner une partie avec 100 PV ou plus</string>
+    <string name="achievements_score1more">Gagner une partie avec 1 PV de différence</string>
+    <string name="achievements_score50more">Gagner une partie avec 50 PV de différence ou plus</string>
+    <string name="achievements_singlecard">Gagner une partie en n\'achetant qu\'un seule carte Royaume</string>
+    <string name="achievements_skunk">Gagner une partie avec l\'un des adversaires ayant 0 PV ou moins</string>
+    <string name="achievements_trash5inaturn">Ecarter plus de 5 cartes en un seul tour</string>
+    <string name="achievements_gainmorethan30inaturn">Gagner plus de 30 PV en un seul tour</string>
+    <string name="achievements_win10inarow">Gagner 10 parties de suite</string>
+    <string name="achievements_overpayby10ormore">Surpayer une carte de 10 jetons Pièce ou plus</string>
+    <string name="achievements_stockpile50tokens">Emmagasiner 50 jetons Pièce ou plus</string>
+    
+    <string name="currentWinStreak">Victoires consécutives: </string>
+
 </resources>
