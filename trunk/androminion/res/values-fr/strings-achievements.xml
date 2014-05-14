@@ -6,7 +6,7 @@
     <string name="achievements_score100">Gagner une partie avec 100 PV ou plus</string>
     <string name="achievements_score1more">Gagner une partie avec 1 PV de différence</string>
     <string name="achievements_score50more">Gagner une partie avec 50 PV de différence ou plus</string>
-    <string name="achievements_singlecard">Gagner une partie en n\'achetant qu\'un seule carte Royaume</string>
+    <string name="achievements_singlecard">Gagner une partie en n\'achetant qu\'une seule carte Royaume</string>
     <string name="achievements_skunk">Gagner une partie avec l\'un des adversaires ayant 0 PV ou moins</string>
     <string name="achievements_trash5inaturn">Ecarter plus de 5 cartes en un seul tour</string>
     <string name="achievements_gainmorethan30inaturn">Gagner plus de 30 PV en un seul tour</string>
