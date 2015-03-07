@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="achievements_2players8provinces">Poseer las 8 provincias al final de una partida de 2 jugadores</string>
-	<string name="achievements_3or4players10provinces">poseer 10 o mas provincias al final de una partida de 3 o 4 jugadores</string>
-	<string name="achievements_score100">Ganar una partida con 100 o mas PV</string>
+	<string name="achievements_3or4players10provinces">Poseer 10 o más provincias al final de una partida de 3 o 4 jugadores</string>
+	<string name="achievements_score100">Ganar una partida con 100 o más PV</string>
 	<string name="achievements_score1more">Ganar una partida con exactamente 1 PV</string>
-	<string name="achievements_singlecard">Ganar una partida no comprando mas  de una carta de reino única</string>
-	<string name="achievements_score50more">Gana una partida con mas de 50 PV</string>
+	<string name="achievements_singlecard">Ganar una partida no comprando más de una carta de reino única</string>
+	<string name="achievements_score50more">Gana una partida con más de 50 PV</string>
 	<string name="achievements_skunk">Gana una partida con al menos un oponente con 0 o menos PV</string>
-	<string name="achievements_trash5inaturn">Elimina mas de 5 cartas en un solo turno</string>
-	<string name="achievements_gainmorethan30inaturn">Gana mas de 30 PV en un solo turno</string>
+	<string name="achievements_trash5inaturn">Elimina más de 5 cartas en un solo turno</string>
+	<string name="achievements_gainmorethan30inaturn">Gana más de 30 PV en un solo turno</string>
 	<string name="achievements_win10inarow">Gana 10 partidas seguidas</string>
 	
 	<string name="currentWinStreak">Logros conseguidos: </string>
