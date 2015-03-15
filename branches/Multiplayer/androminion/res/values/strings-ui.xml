@@ -31,16 +31,32 @@
     <!-- About Activity -->
     <string name="aboutactivity_title">About</string>
     <string name="version">Version %1$s</string>
+    <string name="connections_menu">Connections </string>
+    <string name="connections_title">Connections: </string>
+    <string name="connections">
+	<![CDATA[
+        <h3>On network permissions and usage</h3>
+		This app functions by using a strictly local networking layer to talk between the player and the game -- currently <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.<br><br>
+		See also: <a href="https://code.google.com/p/androminion/issues/detail?id=522">https://code.google.com/p/androminion/issues/detail?id=522</a><br>
+    <h3>Steps to run a multiplayer game</h3>
+      	<b><font color="red">You need the source code to compile the server vdom!</font></b> In the vdom\\ directory, type \'ant run\' (or just start com.vdom.core.Game with whatever arguments you want - the build file build.xml has some default arguments).  Be sure you know the host name or ip address for the machine that\'s running the game server, and that the player ports (by default 2255 and 2256) aren\'t blocked by your machine\'s firewall.<br>
+      	Open the app on two separate devices.  Use the \"join game\" dialog to enter your name, the host name or ip address of the machine running the server, then the port that shows up in the terminal where you\'re running the server.  Once the first player connects, a second port will show up; enter that one in on the second device (should be 2255 and 2256). The interface for the first player that connects will be missing a lot of stuff until the second player connects, but once both players are there, things work fine.<br><br>
+		Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
+	]]>
+</string>
     <string name="whatsnew_menu">What\'s new </string>
     <string name="whatsnew_title">What\'s new: </string>
     <string name="whatsnew">
 <![CDATA[
-		<h3>On network permissions and usage</h3>
-		This app functions by using a strictly local networking layer to talk between the player and the game -- currently <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage. 
 		<h3>Please Read!</h3>
 		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will (probably) be the last major revision; Androminion will be removed from the market soon.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
 		On behalf of the Androminion team, it has been fun.<br>
 		-:ankur
+		<h3>Version 5.01</h3>
+		* Promo Black Market!!! <br>
+		* Promo Prince!!! <br>
+		* Additional language translations <br>
+		* Lots of bugfixes and enhancements
 		<h3>Version 5.00</h3>
 		* Includes Guilds expansion! <br>
 		* Additional language translations <br>
@@ -132,6 +148,7 @@
     <string name="played_header">Played:</string>
     <string name="island_header">Island:</string>
     <string name="village_header">Village:</string>
+    <string name="prince_header">Prince:</string>
     <string name="turn_header">: Turn\u0020</string>
     <string name="game_loaded" tools:ignore="TypographyOther">Game loaded!\nActions, buys and coins\navailable are shown in \nthe log as a/b/(c)</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
@@ -148,7 +165,8 @@
     <string name="accept">Accept</string>
     <string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>
     <string name="trash_header">Trash:</string>
-	<string name="img_download_title">%1$s card art</string>
+    <string name="blackMarket_header">Bl. Market:</string>
+    <string name="img_download_title">%1$s card art</string>
 	<string name="img_download_desc">Downloading card art from %1$s</string>
 		
 </resources>

@@ -21,6 +21,11 @@
     <string name="show_statusbar_pref_title">Show statusbar</string>
     <string name="show_statusbar_pref_summary">Display the system status bar while playing</string>
     <string name="game_play_pref_title">Game Play</string>
+    <string name="testing_pref_title">Test-Modus</string>
+    <string name="start_guilds_coin_tokens_pref_title">Guilds coin tokens</string>
+    <string name="start_guilds_coin_tokens_pref_summary">Start with Guilds coin tokens instead of cards</string>
+    <string name="less_provinces_pref_title">Less provinces</string>
+    <string name="less_provinces_pref_summary">Play with less provinces</string>
     <string name="quick_play_pref_title">Quick play</string>
     <string name="quick_play_pref_summary">Most card interactions will be played automatically</string>
     <string name="sort_cards_pref_title">Sort Cards</string>
@@ -33,6 +38,8 @@
     <string name="equal_start_hands_pref_summary">All players have the same starting hand (will take effect next game)</string>
     <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
     <string name="plat_colony_pref_summary">Always include platinum and colony cards, regardless of game type (will take effect next game)</string>
+    <string name="black_market_count_pref_title">Cards im Black Market deck</string>
+    <string name="black_market_count_pref_summary">Number of cards in Black Market deck if Black Market is in play (at least 15 recommended)</string>
     <string name="ui_pref_title">User Interface</string>
     <string name="personalization_pref_title">Personalization</string>
     <string name="name_pref_summary">Enter your nickname</string>

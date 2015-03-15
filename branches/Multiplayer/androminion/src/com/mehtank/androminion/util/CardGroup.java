@@ -125,12 +125,13 @@ public class CardGroup extends BaseAdapter {
      * @param cost The cost of the card as we should display it (as this depends on context, we
      *             can't just grab it from the card itself).
      */
-    public void updateCardName(int index, Card card, int cost) {
+    public void updateCardName(int index, Card card, int cost, boolean isVictory) {
         for (CardState cs : cards) {
             if (cs.c.id == index) {
                 cs.c.name = Strings.getCardName(card);
                 cs.c.desc = Strings.getFullCardDescription(card);
                 if (cost >= 0) cs.c.cost = cost;
+                cs.c.isVictory = isVictory;
             }
         }
     }

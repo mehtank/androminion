@@ -36,6 +36,7 @@ import com.mehtank.androminion.R;
 import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.HostDialog;
 import com.mehtank.androminion.ui.JoinGameDialog;
+import com.mehtank.androminion.ui.Strings;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.mehtank.androminion.util.ThemeSetter;
@@ -48,6 +49,7 @@ import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.NewGame;
 import com.vdom.core.Game;
+import com.vdom.core.Util;
 
 /**
  * How all this works:
@@ -238,6 +240,8 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             strs.add("-useshelters");
         }
 
+        strs.add("-blackmarketcount" + prefs.getString("black_market_count", "25"));
+
         if(prefs.getBoolean("quick_play", false)) {
             strs.add("-quickplay");
         }
@@ -262,6 +266,13 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             strs.add("-equalstarthands");
         }
 
+        if (prefs.getBoolean("start_guilds_coin_tokens", false)) {
+            strs.add("-startguildscointokens");
+        }
+        if (prefs.getBoolean("less_provinces", false)) {
+            strs.add("-lessprovinces");
+        }
+        
         return strs;
     }
 
@@ -451,13 +462,41 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     gt.newGame(ng.cards, ng.players);
                     gameRunning = true;
 
+                    for (int i=0; i < ng.cards.length - 1; i++) {                    	
+                        for (int j=i+1; j < ng.cards.length; j++) {
+                        	if (ng.cards[i].name.compareTo(ng.cards[j].name) > 0) {
+                        		MyCard mc = ng.cards[j];
+                        		ng.cards[j] = ng.cards[i];
+                        		ng.cards[i] = mc;                        		
+                        	}
+                        }
+                    }
+                    /*TODO frr*/
+                    Event event = new Event(Event.EType.CARDRANKING).setObject(new EventObject(ng));
+                    put(event);
+                    
                     //PreferenceManager.getDefaultSharedPreferences(top).registerOnSharedPreferenceChangeListener(gt);
                     break;
 
-                    // during game
+                // during game
                 case CHAT: // received chat message
                     HapticFeedback.vibrate(top, AlertType.CHAT);
                     Toast.makeText(top, e.s, Toast.LENGTH_LONG).show();
+                    break;
+
+                case INFORM: // received inform message
+                	String s;
+                	if (e.s != null) {
+                		s = e.s;
+	                	if (e.s.equals("TRASHED")) {
+	                		s = getString(R.string.trashed);
+	                	}
+                	}
+                	else {
+                		s = "%1$s";
+                	}
+                    String inform = Strings.format(s, Strings.getCardName(e.c));
+                    Toast.makeText(top, inform, Toast.LENGTH_LONG).show();
                     break;
 
                 case CARDOBTAINED: // a player got a card
@@ -638,7 +677,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 
         int i=0;
         for (MyCard c : cards)
-            edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + c.originalSafeName);
+            edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + (c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
 
         edit.commit();
     }
@@ -660,15 +699,14 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             debug("New Comms connected to " + host + " on port " + p);
             return true;
         } catch (StreamCorruptedException e) {
-            alert("Connection failed!", "Stream Corrupted.");
+            alert(getString(R.string.connection_failed), getString(R.string.stream_corrupted));
             e.printStackTrace();
         } catch (UnknownHostException e) {
-            alert("Connection failed!", "Unknown Host.  Configure settings.");
+            alert(getString(R.string.connection_failed), getString(R.string.unknown_host));
         } catch (SocketException e) {
-            alert("Connection failed!",
-                  "Network unreachable or server refused connection.");
+            alert(getString(R.string.connection_failed), getString(R.string.network_unreachable));
         } catch (IOException e) {
-            alert("Connection failed!", "IO Error.");
+            alert(getString(R.string.connection_failed), getString(R.string.io_error));
             e.printStackTrace();
         }
         return false;

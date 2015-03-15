@@ -3,11 +3,18 @@
 	<string name="achievements_2players8provinces">Habe alle 8 Provinzen am Ende eines 2er-Spiels</string>
 	<string name="achievements_3or4players10provinces">Habe 10 oder mehr Provinzen am Ende eines 3er oder 4er-Spiels</string>
 	<string name="achievements_score100">Gewinne ein Spiel mit mindestens 100 Siegpunkten</string>
+	<string name="achievements_score100withoutProsperity">Gewinne ein Spiel mit mindestens 100 Siegpunkten ohne Karten aus Blütezeit</string>
 	<string name="achievements_score1more">Gewinne ein Spiel mit genau einem Siegpunkt mehr</string>
+	<string name="achievements_score500">Gewinne ein Spiel mit mindestens 500 Siegpunkten</string>
 	<string name="achievements_singlecard">Gewinne ein Spiel mit höchstens einer Sorte Königreichkarten</string>
-	<string name="achievements_score50more">Gewinne ein Spiel mit mindestens 50 Siegpunkten</string>
+	<string name="achievements_score50more">Gewinne ein Spiel mit mindestens 50 Siegpunkten mehr</string>
 	<string name="achievements_skunk">Gewinne ein Spiel, bei dem ein Gegner 0 oder weniger Punkte hat</string>
 	<string name="achievements_trash5inaturn">Entsorge mindestens 5 Karten in einem Zug</string>
 	<string name="achievements_gainmorethan30inaturn">Erreiche mehr als 30 Siegpunkte in einem Zug</string>
 	<string name="achievements_win10inarow">Gewinne 10 Spiele direkt nacheinander</string>
+	<string name="achievements_overpayby10ormore">Überzahle eine Karte mit 10 oder mehr</string>
+	<string name="achievements_stockpile50tokens">Sammle mindestens 50 Münzen</string>
+	<string name="achievements_2tacticians">Spiele 2 Taktiker in einem Zug, wobei du bei jedem mindestens eine Karte abwirfst</string>
+	<string name="achievements_13curses">Gewinne ein Spiel mit genau 13 Flüchen in deinem Deck</string>
+	<string name="achievements_allEmpty">Gewinne ein Spiel, bei dem alle Stapel des Vorrats leer sind</string>
 </resources>

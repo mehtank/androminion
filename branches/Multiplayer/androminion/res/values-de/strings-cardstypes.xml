@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="type_treasure">Geld</string>
+    <string name="type_victory">Punkte</string>
+    <string name="type_action">Aktion</string>
+    <string name="type_attack">Angriff</string>
+    <string name="type_reaction">Reaktion</string>
+    <string name="type_duration">Dauer</string>
+    <string name="type_looter">Plündern</string>
+    <string name="type_ruins">Ruine</string>
+    <string name="type_prize">Preis</string>
+    <string name="type_knight">Ritter</string>
+    <string name="type_shelter">Unterschlupf</string>
+</resources>

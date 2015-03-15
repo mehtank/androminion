@@ -138,6 +138,13 @@
             android:summary="@string/shelters_pref_summary"
             android:title="@string/shelters_pref_title" >
         </CheckBoxPreference>
+        <EditTextPreference
+            android:key="black_market_count"
+            android:defaultValue="25"
+            android:dialogMessage="@string/black_market_count_pref_summary"
+            android:dialogTitle="@string/black_market_count_pref_title"
+            android:title="@string/black_market_count_pref_title" >
+        </EditTextPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notif_pref_title" >
         <CheckBoxPreference
@@ -192,5 +199,21 @@
             android:title="@string/logging_dir_pref_title" >
         </EditTextPreference>
     </PreferenceCategory>
+<!-- only for testing   
+    <PreferenceCategory android:title="@string/testing_pref_title" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="start_guilds_coin_tokens"
+            android:summary="@string/start_guilds_coin_tokens_pref_summary"
+            android:title="@string/start_guilds_coin_tokens_pref_title" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="less_provinces"
+            android:summary="@string/less_provinces_pref_summary"
+            android:title="@string/less_provinces_pref_title" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+-->
 
 </PreferenceScreen>
