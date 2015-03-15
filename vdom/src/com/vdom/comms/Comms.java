@@ -101,7 +101,7 @@ public class Comms {
                 }
             } catch(InterruptedException e1){
 
-            }				
+            }
 
             if (e != null && e.t == EType.KILLSENDER) { // We need the possibility to cancel a get_ts in case we had a put_ts error.
                 return null;
@@ -533,7 +533,7 @@ public class Comms {
                     catch (InterruptedException e) {}
                     p = null;
                     continue;
-                }	
+                }
                 if ((p != null) && (p.t == Event.EType.PING))
                     try {
                         put(new Event(Event.EType.PONG));

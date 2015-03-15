@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import com.vdom.api.Card;
+import com.vdom.api.VictoryCard;
 
 public class CardImpl implements Card {
 	// Template (immutable)
@@ -200,12 +201,24 @@ public class CardImpl implements Card {
     	int costModifier = 0;
         costModifier -= (this instanceof ActionCardImpl) ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
         costModifier -= context.countCardsInPlay(Cards.highway);
+        costModifier -= 2 * context.countCardsInPlay(Cards.princess);
         costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlayThisTurn()) : 0;
         //costModifier -= (this.isKnight ? (cost - game. (2 * context.countCardsInPlay(Cards.quarry)) : 0;
 
         return Math.max(0, cost + costModifier + context.cardCostModifier);
     }
 
+    public boolean isVictory(MoveContext context) {
+        if (context == null)
+            return false;
+        
+    	if (this.equals(Cards.virtualKnight))
+    		if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
+    			return (context.game.getTopKnightCard() instanceof VictoryCard); 
+
+		return (this instanceof VictoryCard);
+    }
+    
     /**
      * @return the id
      */
@@ -277,6 +290,10 @@ public class CardImpl implements Card {
     public boolean isOverpay()
     {
         return isOverpay;
+    }
+    
+    @Override
+    public void isBuying(MoveContext context) {
     }
     
     @Override

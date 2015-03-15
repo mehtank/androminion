@@ -22,6 +22,7 @@ public class Cards {
     public static ArrayList<Card> nonSupplyCards = new ArrayList<Card>();
     public static ArrayList<Card> ruinsCards = new ArrayList<Card>();
     public static ArrayList<Card> knightsCards = new ArrayList<Card>();
+    public static ArrayList<Card> blackMarketCards = new ArrayList<Card>();
     public static HashSet<Card> nonKingdomCards = new HashSet<Card>();
 
     public static HashMap<String, Card> cardNameToCard = new HashMap<String, Card>();
@@ -72,12 +73,12 @@ public class Cards {
         DameMolly, DameNatalie, DameSylvia, SirBailey, SirDestry, SirMartin, SirMichael, SirVander,
         VirtualRuins, VirtualKnight,
         // Guilds Expansion
-        Advisor, Baker, Butcher, CandlestickMaker, Doctor, Herald, Journeyman, Masterpiece,
-        MerchantGuild, Plaza, StoneMason, Soothsayer, TaxMan,
+        Advisor, Baker, Butcher, CandlestickMaker, Doctor, Herald, Journeyman, Masterpiece, MerchantGuild, Plaza, StoneMason, Soothsayer, Taxman,
+       
         // Promo Cards
-        Envoy, Governor, WalledVillage,
+        Envoy, Governor, WalledVillage, Prince, BlackMarket,
         // Promo Cards (not yet implemented)
-        // BlackMarket, Stash
+        // Stash
         // Victory Token card container
         VictoryTokens
     }
@@ -350,6 +351,8 @@ public class Cards {
     public static final Card walledVillage;
     public static final Card governor;
     public static final Card envoy;
+    public static final Card prince;
+    public static final Card blackMarket;
 
     static {
         // nonKingdomCards
@@ -541,7 +544,7 @@ public class Cards {
         actionCardsHinterlands.add(trader = new ActionCardImpl.Builder(Cards.Type.Trader, 4).trashForced().description("Trash a card from your hand. Gain a number of Silvers equal to its cost in coins - When you would gain a card, you may reveal this from your hand. If you do, instead, gain a silver.").expansion("Hinterlands").build());
         actionCardsHinterlands.add(tunnel = new VictoryCardImpl.Builder(Cards.Type.Tunnel, 3, 2).description("When you discard this other than during a Clean-up phase, you may reveal it. If you do, gain a Gold.").expansion("Hinterlands").build());
 
-        // Dark Ages (INCOMPLETE)
+        // Dark Ages
         actionCardsDarkAges.add(altar = new ActionCardImpl.Builder(Cards.Type.Altar, 6).trashForced().description("Trash a card from your hand. Gain a card costing up to 5 coins.").expansion("DarkAges").build());
         actionCardsDarkAges.add(armory = new ActionCardImpl.Builder(Cards.Type.Armory, 4).description("Gain a card costing up to 4 coins. Put it on top of your deck.").expansion("DarkAges").build());
         actionCardsDarkAges.add(banditCamp = new ActionCardImpl.Builder(Cards.Type.BanditCamp, 5).addActions(2).addCards(1).description("Gain a Spoils from the Spoils pile.").expansion("DarkAges").build());
@@ -580,14 +583,14 @@ public class Cards {
         // Guilds
         actionCardsGuilds.add(advisor          = new ActionCardImpl.Builder(Cards.Type.Advisor, 4).addActions(1).description("Reveal the top 3 cards of your deck. The player to your left chooses one of them. Discard that card. Put the other cards into your hand.").expansion("Guilds").build());
         actionCardsGuilds.add(soothsayer       = new ActionCardImpl.Builder(Cards.Type.Soothsayer, 5).attack().description("Gain a Gold. Each other player gains a Curse. Each player who did draws a card.").expansion("Guilds").build());
-        actionCardsGuilds.add(taxman           = new ActionCardImpl.Builder(Cards.Type.TaxMan, 4).attack().description("You may trash a Treasure from your hand. Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it). Gain a Treasure card costing up to $3 more than the trashed card, putting it on top of your deck.").expansion("Guilds").build());
+        actionCardsGuilds.add(taxman           = new ActionCardImpl.Builder(Cards.Type.Taxman, 4).attack().description("You may trash a Treasure from your hand. Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it). Gain a Treasure card costing up to $3 more than the trashed card, putting it on top of your deck.").expansion("Guilds").build());
         actionCardsGuilds.add(plaza            = new ActionCardImpl.Builder(Cards.Type.Plaza, 4).addCards(1).addActions(2).description("You may discard a Treasure card. If you do, take a Coin token.").expansion("Guilds").build());
         actionCardsGuilds.add(candlestickMaker = new ActionCardImpl.Builder(Cards.Type.CandlestickMaker, 2).addActions(1).addBuys(1).description("Take a Coin token.").expansion("Guilds").build());
         actionCardsGuilds.add(baker            = new ActionCardImpl.Builder(Cards.Type.Baker, 5).addCards(1).addActions(1).description("Take a Coin token. SETUP: Each Player takes a Coin token.").expansion("Guilds").build());
         actionCardsGuilds.add(merchantGuild    = new ActionCardImpl.Builder(Cards.Type.MerchantGuild, 5).addBuys(1).addGold(1).description("While this is in play, when you buy a card, take a Coin token.").expansion("Guilds").build());
         actionCardsGuilds.add(butcher          = new ActionCardImpl.Builder(Cards.Type.Butcher, 5).description("Take 2 Coin tokens. You may trash a card from your hand and then pay any number of Coin tokens. If you did trash a card, gain a card with a cost of up to the cost of the trashed card plus the number of Coin tokens you paid.").expansion("Guilds").build());
         actionCardsGuilds.add(journeyman       = new ActionCardImpl.Builder(Cards.Type.Journeyman, 5).description("Name a card. Reveal cards from the top of your deck until you reveal 3 cards that are not the named card. Put those cards into your hand and discard the rest.").expansion("Guilds").build());
-        actionCardsGuilds.add(stonemason       = new ActionCardImpl.Builder(Cards.Type.StoneMason, 2).isOverpay().description("Trash a card from your hand, Gain 2 cards each costing less than it. When you buy this, you may overpay for it. If you do, gain 2 Action cards each costing the amount you overpaid.").expansion("Guilds").build());
+        actionCardsGuilds.add(stonemason       = new ActionCardImpl.Builder(Cards.Type.StoneMason, 2).trashForced().isOverpay().description("Trash a card from your hand, Gain 2 cards each costing less than it. When you buy this, you may overpay for it. If you do, gain 2 Action cards each costing the amount you overpaid.").expansion("Guilds").build());
         actionCardsGuilds.add(masterpiece      = new TreasureCardImpl.Builder(Cards.Type.Masterpiece, 3, 1).isOverpay().description("When you buy this, you may overpay for it. If you do, gain a Silver per $1 you overpaid.").expansion("Guilds").build());
         actionCardsGuilds.add(doctor           = new ActionCardImpl.Builder(Cards.Type.Doctor, 3).isOverpay().description("Name a card. Reveal the top 3 cards of your deck. Trash the matches. Put the rest back on top in any order.  When you buy this, you may overpay for it. For each $1 you overpaid, look at the top card of your deck; trash it, discard it, or put it back.").expansion("Guilds").build());
         actionCardsGuilds.add(herald           = new ActionCardImpl.Builder(Cards.Type.Herald, 4).addCards(1).addActions(1).isOverpay().description("Reveal the top card of your deck. If it is an Action, play it. When you buy this, you may overpay for it. For each $1 you overpaid, look through your discard pile and put a card from it on top of your deck.").expansion("Guilds").build());
@@ -627,6 +630,8 @@ public class Cards {
         actionCardsPromo.add(walledVillage = new ActionCardImpl.Builder(Cards.Type.WalledVillage, 4).addCards(1).addActions(2).description("At the start of Clean-up, if you have this and no more than one other Action card in play, you may put this on top of your deck.").expansion("Promo").build());
         actionCardsPromo.add(governor      = new ActionCardImpl.Builder(Cards.Type.Governor, 5).addActions(1).description("Choose one; you get the version in parentheses: Each player gets +1 (+3) Cards; or each player gains a Silver (Gold); or each player may trash a card from his hand and gain a card costing exactly 1 (2) more.").expansion("Promo").build());
         actionCardsPromo.add(envoy         = new ActionCardImpl.Builder(Cards.Type.Envoy, 4).description("Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.").expansion("Promo").build());
+        actionCardsPromo.add(prince        = new ActionCardImpl.Builder(Cards.Type.Prince, 8).description("You may set this aside. If you do, set aside an Action card from your hand costing up to 4 Coins. At the start of each of your turns, play that Action, setting it aside again when you discard it from play. (Stop playing it if you fail to set it aside on a turn you play it.)").expansion("Promo").build());
+        actionCardsPromo.add(blackMarket   = new ActionCardImpl.Builder(Cards.Type.BlackMarket, 3).addGold(2).description("Reveal the top 3 cards of the Black Market deck. You may buy one of them immediately. Put the unbought cards on the bottom of the Black Market deck in any order./n(Before the game, make a Black Market deck out of one copy of each Kingdom card not in the supply.)").expansion("Promo").build());
 
         // Collect all Expansions
         for (Card card : actionCardsBaseGame)    { actionCards.add(card); }
@@ -646,6 +651,8 @@ public class Cards {
         for (Card card : ruinsCards) { cardNameToCard.put(card.getName(), card); }
         for (Card card : knightsCards) { cardNameToCard.put(card.getName(), card); }
         for (Card card : nonKingdomCards) { cardNameToCard.put(card.getName(), card); }
+        
+        blackMarketCards.clear(); // Cards in Black Market deck are non supply
     }
 
     public static boolean isKingdomCard(Card c) {
@@ -653,7 +660,7 @@ public class Cards {
     }
 
     public static boolean isSupplyCard(Card c) {
-        return !(nonSupplyCards.contains(c) || prizeCards.contains(c));
+        return !(nonSupplyCards.contains(c) || prizeCards.contains(c) || blackMarketCards.contains(c));
     }
 
     public static boolean isReaction(Card c) {

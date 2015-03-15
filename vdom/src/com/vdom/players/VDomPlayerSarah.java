@@ -39,7 +39,8 @@ public class VDomPlayerSarah extends BasePlayer {
     }
 
     public void setupGameVariables(GameType gameType, Card[] cardsInPlay) {
-        trashCards = new Card[] { Cards.curse, Cards.estate, Cards.copper, Cards.rats, Cards.overgrownEstate, Cards.hovel, Cards.abandonedMine, Cards.ruinedLibrary, Cards.ruinedMarket, Cards.ruinedVillage, Cards.survivors, Cards.virtualRuins  };
+        //trash in this order!
+        trashCards = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.hovel, Cards.estate, Cards.copper, Cards.masterpiece };
         valuedCards = new Card[] { Cards.torturer, Cards.bazaar, Cards.masquerade, Cards.ghostShip, Cards.wharf, Cards.smithy, Cards.harem, Cards.adventurer,
             Cards.shantyTown, Cards.festival, Cards.moneyLender, Cards.venture, Cards.tournament, Cards.miningVillage, Cards.mint, Cards.farmingVillage,
             Cards.kingsCourt, Cards.jester, Cards.youngWitch, Cards.goons, Cards.monument, Cards.bishop, Cards.hamlet, Cards.fortuneTeller, Cards.watchTower,
@@ -80,7 +81,7 @@ public class VDomPlayerSarah extends BasePlayer {
 
         int numCornucopia = 0;
         for (final Card card : cardsInPlay) {
-            if (card.getExpansion() != null && card.getExpansion().equals("Cornucopia")) {
+            if (card.getExpansion() != null && card.getExpansion().equals("Cornucopia") && !card.isPrize()) {
                 numCornucopia++;
             }
         }
@@ -304,7 +305,7 @@ public class VDomPlayerSarah extends BasePlayer {
             earlyCardBuyMax = 1;
             midGame = 14;
             actionCardMax = 5;
-            valuedCards = new Card[] { Cards.jester, Cards.chancellor, Cards.farmingVillage, Cards.market, Cards.platinum, Cards.gold, Cards.silver };
+            valuedCards = new Card[] { Cards.jester, Cards.chancellor, Cards.farmingVillage, Cards.market, Cards.baker, Cards.platinum, Cards.gold, Cards.silver };
         } else if (gameType == GameType.LastLaughs) {
             // farmingVillage
             // harvest
@@ -361,12 +362,12 @@ public class VDomPlayerSarah extends BasePlayer {
 
     @Override
     public String getPlayerName() {
-    	return getPlayerName(game.maskPlayerNames);
+        return getPlayerName(game.maskPlayerNames);
     }
     
     @Override
     public String getPlayerName(boolean maskName) {
-    	return maskName ? "Player " + (playerNumber + 1) : "Sarah";
+        return maskName ? "Player " + (playerNumber + 1) : "Sarah";
     }
 
     @Override
@@ -375,11 +376,11 @@ public class VDomPlayerSarah extends BasePlayer {
 
         // don't play rats
         if (game.isCardInGame(Cards.rats)) {
-	        for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
-	            if (Cards.rats.equals(it.next())) {
-	                it.remove();
-	            }
-	        }
+            for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+                if (Cards.rats.equals(it.next())) {
+                    it.remove();
+                }
+            }
         }
         
         // Pair of Treasure Maps goes first
@@ -394,7 +395,19 @@ public class VDomPlayerSarah extends BasePlayer {
             return context.player.fromHand(Cards.treasureMap);
         }
 
-        
+        // play prince if action card candidate available
+        Card[] princeCards;
+        if (actionCards.contains(Cards.prince)) {
+            ArrayList<Card> cardList = new ArrayList<Card>();
+            for (Card c : actionCards) {
+                cardList.add(c);
+            }
+            princeCards = prince_cardCandidates(context, cardList, false);
+        }
+        else {
+            princeCards = new Card[0];
+        }
+                
         // don't play trashForced cards if no trash cards available (Apprentice, Ambassador, etc)
         Card[] trashableCards = pickOutCards(context.getPlayer().getHand(), 1, getTrashCards());
         if (trashableCards == null) {
@@ -408,11 +421,15 @@ public class VDomPlayerSarah extends BasePlayer {
         for (final Card card : actionCards) {
             if (context.canPlay(card)) {
                 ActionCard action = (ActionCard) card;
-                if (action.getAddActions() > 0) 
+                if (action.getAddActions() > 0 && !isInCardArray(card, princeCards)) 
                     return action;
             }
         }
 
+        if (princeCards.length != 0) {
+            return context.player.fromHand(Cards.prince);
+        }
+            
         if (context.player.inHand(Cards.throneRoom) && context.canPlay(Cards.throneRoom)) {
             return context.player.fromHand(Cards.throneRoom);
         }
@@ -428,10 +445,10 @@ public class VDomPlayerSarah extends BasePlayer {
         final ArrayList<Card> randList = new ArrayList<Card>();
         while (cost >= 0) {
             for (final Card card : actionCards) {
-                if (
-                        !context.canPlay(card) || 
-                        card.equals(Cards.treasureMap) ||
-                        card.getCost(context) != cost
+                if (   !context.canPlay(card) 
+                    || card.equals(Cards.treasureMap)
+                    || card.getCost(context) != cost
+                    || card.equals(Cards.tactician) && context.countCardsInPlay(Cards.tactician) > 0
                    ) {
                     continue;
                 }
@@ -457,14 +474,15 @@ public class VDomPlayerSarah extends BasePlayer {
         return 
                 !context.canBuy(card) || 
                 card instanceof ActionCard && actionCardCount >= actionCardMax || 
-                !favorSilverGoldPlat && (card.equals(Cards.silver) || card.equals(Cards.gold) || card.equals(Cards.platinum)) ||
+                !favorSilverGoldPlat && (card.equals(Cards.silver) || card.equals(Cards.masterpiece) || card.equals(Cards.gold) || card.equals(Cards.platinum)) ||
                 card.equals(Cards.curse) || 
+                card.equals(Cards.virtualRuins) ||
                 card.equals(Cards.copper) || 
                 card.equals(Cards.rats) || 
                 card.equals(Cards.potion) && !shouldBuyPotion() ||
                 card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
-                context.getEmbargos(card) > 0 ||
+                context.getEmbargosIfCursesLeft(card) > 0 ||
                 !(card instanceof ActionCard) && !(card instanceof TreasureCard);
     }
 
@@ -498,39 +516,79 @@ public class VDomPlayerSarah extends BasePlayer {
             return Cards.platinum;
         }
 
+        if(context.canBuy(Cards.prince) && turnCount < midGame && context.cardInGame(Cards.colony) && getMyCardCount(Cards.prince) < 2) {
+            ArrayList<Card> allCards = new ArrayList<Card>(getAllCards());
+            if (prince_cardCandidates(context, allCards, false).length >= 2 + 2*getMyCardCount(Cards.prince))
+                return Cards.prince;
+        }
+        
         if ((alwaysBuyProvince || turnCount > earlyGame) && context.canBuy(Cards.province)) {
             return Cards.province;
         }
         
-        if (turnCount > midGame && coinAvailableForBuy <= 7 && context.canBuy(Cards.duchy) && rand.nextInt(3) == 0) {
-            if(context.getEmbargos(Cards.duchy) == 0) {
+        if (turnCount > midGame && coinAvailableForBuy <= 7 && rand.nextInt(3) == 0) {
+            if (context.canBuy(Cards.vineyard) && actionCardCount >=9 && context.getEmbargosIfCursesLeft(Cards.vineyard) == 0) {
+                return Cards.vineyard;
+            }
+            if(context.canBuy(Cards.duchy) && context.getEmbargosIfCursesLeft(Cards.duchy) == 0) {
                 return Cards.duchy;
+            }
+            if (context.canBuy(Cards.vineyard) && actionCardCount >=6 && context.getEmbargosIfCursesLeft(Cards.vineyard) == 0) {
+                return Cards.vineyard;
             }
         }
 
         if (buyEstates) {
             if (turnCount > midGame && coinAvailableForBuy <= 2 && context.canBuy(Cards.estate)) {
-                if(context.getEmbargos(Cards.estate) == 0) {
+                if(context.getEmbargosIfCursesLeft(Cards.estate) == 0) {
                     return Cards.estate;
                 }
             }
         }
         
-        if(context.canBuy(Cards.grandMarket) && rand.nextInt(MAX_OF_ONE_ACTION_CARD * 2) < inHandCount(Cards.grandMarket)) {
+        if(context.canBuy(Cards.possession) && getMyCardCount(Cards.possession) < 2) {
+            return Cards.possession;
+        }
+
+        if(context.canBuy(Cards.grandMarket) && rand.nextInt(MAX_OF_ONE_ACTION_CARD * 2) < getMyCardCount(Cards.grandMarket)) {
             return Cards.grandMarket;
+        }
+
+        //try cards with potion before silver 
+        if (context.getPotions() > 0) {
+            //buy in this order
+            final Card[] POTION_CARDS = new Card[] { Cards.possession, Cards.golem, Cards.familiar, Cards.alchemist, Cards.philosophersStone, Cards.scryingPool, Cards.apothecary, Cards.university };
+            for (Card card : POTION_CARDS) {
+            	if (context.canBuy(card)) {
+            		if (   getMyCardCount(card) >= 2
+            			&& !(card.equals(Cards.alchemist) || card.equals(Cards.philosophersStone) || card.equals(Cards.scryingPool) ) ) {
+            			continue;
+            		}
+            		if (card.equals(Cards.familiar) && (context.game.pileSize(Cards.curse) <= 3 || turnCount > midGame)) {
+            			continue;
+            		}
+            		if (context.getEmbargosIfCursesLeft(card) > 0) {
+            			continue;
+            		}
+            		if (coinAvailableForBuy >= card.getCost(context) + 3) {
+            			continue;
+            		}
+            		return card;
+            	}
+            }
         }
 
         final double silverLine = .5d;
 
         if (favorSilverGoldPlat) {
             if (game.pileSize(Cards.silver) > 0 && coinAvailableForBuy >= 3 && coinAvailableForBuy <= silverMax && rand.nextFloat() > silverLine) {
-                if(context.getEmbargos(Cards.silver) == 0) {
+                if(context.getEmbargosIfCursesLeft(Cards.silver) == 0) {
                     return Cards.silver;
                 }
             }
 
             if (game.pileSize(Cards.gold) > 0 && coinAvailableForBuy >= 6 && coinAvailableForBuy <= 6 && rand.nextFloat() > silverLine) {
-                if(context.getEmbargos(Cards.gold) == 0) {
+                if(context.getEmbargosIfCursesLeft(Cards.gold) == 0) {
                     return Cards.gold;
                 }
             }
@@ -555,13 +613,13 @@ public class VDomPlayerSarah extends BasePlayer {
         }
 
         if (context.canBuy(Cards.gold)) {
-            if(context.getEmbargos(Cards.gold) == 0) {
+            if(context.getEmbargosIfCursesLeft(Cards.gold) == 0) {
                 return Cards.gold;
             }
         }
 
         if (context.canBuy(Cards.silver)) {
-            if(context.getEmbargos(Cards.silver) == 0) {
+            if(context.getEmbargosIfCursesLeft(Cards.silver) == 0) {
                 return Cards.silver;
             }
         }
@@ -617,12 +675,17 @@ public class VDomPlayerSarah extends BasePlayer {
                     continue;
                 }
                 
-                final int currentCount = inHandCount(card);
+                final int currentCount = getMyCardCount(card);
                 if(isOnlyTreasure(card) || card instanceof VictoryCard || currentCount == 0 || rand.nextInt(MAX_OF_ONE_ACTION_CARD) < currentCount) {
                     randList.add(card);
                 }
             }
 
+            // prefer silver instead of masterpiece if you can't overpay by 2
+            if (randList.contains(Cards.masterpiece) && randList.contains(Cards.silver) && coinAvailableForBuy < 5) {
+                randList.remove(Cards.masterpiece);
+            }
+            
             if (randList.size() > 0) {
                 return randList.get(rand.nextInt(randList.size()));
             }

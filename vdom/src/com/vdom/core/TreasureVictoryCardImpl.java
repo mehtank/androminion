@@ -40,7 +40,7 @@ public class TreasureVictoryCardImpl extends TreasureCardImpl implements Victory
     }
     
     @Override
-    public void isBought(MoveContext context) {
+    public void isBuying(MoveContext context) {
     	context.game.trashHovelsInHandOption(context.player, context, this);
     }
 

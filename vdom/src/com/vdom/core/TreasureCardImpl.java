@@ -86,10 +86,12 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
 
         GameEvent event = new GameEvent(GameEvent.Type.PlayingCoin, (MoveContext) context);
         event.card = this;
+        event.newCard = !isClone;
         game.broadcastEvent(event);
 
         if (this.numberTimesAlreadyPlayed == 0) {
-        	player.playedCards.add(player.hand.removeCard(this));
+        	player.hand.remove(this);
+        	player.playedCards.add(this);
         }
         
         if (!isClone)
@@ -113,7 +115,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         } else if (equals(Cards.copper)) {
             context.gold += context.coppersmithsPlayed;
         } else if (equals(Cards.bank)) {
-            context.gold += context.treasuresPlayedSoFar;
+            context.gold += treasuresInPlay(player.playedCards);
         } else if (equals(Cards.contraband)) {
             reevaluateTreasures = contraband(context, game, reevaluateTreasures);
         } else if (equals(Cards.loan) || equals(Cards.venture)) {
@@ -135,6 +137,16 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         }
 
         return reevaluateTreasures;
+    }
+
+    protected int treasuresInPlay(CardList playedCards) {
+    	int treasuresInPlay = 0;
+        for (Card card : playedCards) {
+ 	       if (card instanceof TreasureCard) {
+ 	    	  treasuresInPlay++;
+ 	       }
+        }
+        return treasuresInPlay;
     }
 
     protected void foolsGold(MoveContext context) {
@@ -256,10 +268,11 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             context.treasuresPlayedSoFar--; 
             
             if (!treasure.equals(Cards.spoils)) {
-                if (currentPlayer.playedCards.getLastCard().getId() == cardToPlay.getId()) {
-                	currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), this, context);
-	    		}
-    		}
+                if (currentPlayer.playedCards.getLastCard().equals(treasure)) {
+                	currentPlayer.playedCards.remove(treasure);
+                	currentPlayer.trash(treasure, this, context);
+                }
+    		    }
     	}
 
         return true;
@@ -267,7 +280,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     }
     
     @Override
-    public void isBought(MoveContext context) 
+    public void isBuying(MoveContext context)
     {
         switch (this.controlCard.getType()) 
         {
@@ -283,7 +296,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     {
         for (int i = 0; i < context.overpayAmount; ++i)
         {
-            if(!context.getPlayer().gainNewCard(Cards.silver, this.controlCard, context)) 
+            if(context.getPlayer().gainNewCard(Cards.silver, this.controlCard, context) == null) 
             {
                 break;
             }

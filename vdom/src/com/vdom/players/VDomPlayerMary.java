@@ -32,11 +32,11 @@ public class VDomPlayerMary extends VDomPlayerSarah {
 
     @Override
     public String getPlayerName() {
-    	return getPlayerName(game.maskPlayerNames);
+        return getPlayerName(game.maskPlayerNames);
     }
     
     @Override
     public String getPlayerName(boolean maskName) {
-    	return maskName ? "Player " + (playerNumber + 1) : "Mary";
+        return maskName ? "Player " + (playerNumber + 1) : "Mary";
     }
 }

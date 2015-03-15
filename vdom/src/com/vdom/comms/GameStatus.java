@@ -15,9 +15,12 @@ public class GameStatus implements Serializable {
     public int[] turnCounts;
     public int[] myHand;
     public int[] playedCards;
+    public int[] myPrince;
     public int[] myIsland;
     public int[] myVillage;
     public int[] trashPile;
+    public int[] blackMarketPile;
+    public int[] blackMarketPileShuffled;
     public int[] turnStatus;
     public int[] supplySizes;
     public int[] embargos;
@@ -34,6 +37,7 @@ public class GameStatus implements Serializable {
     public int ruinsID;
     public Card knightsTopCard;
     public int knightsTopCardCost;
+    public boolean knightsTopCardIsVictory;
     public int knightsID;
 
     public GameStatus setFinal(boolean b) {isFinal = b; return this;}
@@ -44,6 +48,7 @@ public class GameStatus implements Serializable {
     public GameStatus setCurName(String s) {name = s; return this;}
     public GameStatus setHand(int[] is) {myHand = is; return this;};
     public GameStatus setPlayedCards(int[] is) {playedCards = is; return this;};
+    public GameStatus setPrince(int[] is) {myPrince = is; return this;};
     public GameStatus setIsland(int[] is) {myIsland = is; return this;};
     public GameStatus setVillage(int[] is) {myVillage = is; return this;};
     public GameStatus setTurnStatus(int[] is) {turnStatus = is; return this;};
@@ -59,8 +64,9 @@ public class GameStatus implements Serializable {
     public GameStatus setCardCostModifier(int i) {cardCostModifier = i; return this;}
     public GameStatus setPotions(int i) {potions = i; return this;}
     public GameStatus setTrash(int[] is) {trashPile = is; return this;}
+    public GameStatus setBlackMarket(int[] is) {blackMarketPile = is; return this;}
     public GameStatus setRuinsTopCard(int i, Card c) {ruinsTopCard = c; ruinsID = i; return this;}
-    public GameStatus setKnightTopCard(int i, Card c, int cost) {knightsTopCard = c; knightsID = i; knightsTopCardCost = cost; return this;}
+    public GameStatus setKnightTopCard(int i, Card c, int cost, boolean isVictory) {knightsTopCard = c; knightsID = i; knightsTopCardCost = cost; knightsTopCardIsVictory = isVictory; return this;}
 
     public String toString() {
         String str = name + "(" + whoseTurn + ")";

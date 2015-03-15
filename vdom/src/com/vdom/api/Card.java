@@ -8,7 +8,7 @@ import com.vdom.core.MoveContext;
 
 
 public interface Card extends Serializable {
-	public Type getType();
+    public Type getType();
 
     public String getName();
 
@@ -24,6 +24,8 @@ public interface Card extends Serializable {
 
     public int getCost(MoveContext context, boolean buyPhase);
 
+    public boolean isVictory(MoveContext context);
+    
     public boolean costPotion();
     
     public boolean isPrize();
@@ -40,11 +42,12 @@ public interface Card extends Serializable {
     
     public Integer getId();
     
+    public void isBuying(MoveContext context);
     public void isBought(MoveContext context);
     
     public void isTrashed(MoveContext context);
     
-	public boolean isImpersonatingAnotherCard();
+    public boolean isImpersonatingAnotherCard();
     public Card behaveAsCard();
     public CardImpl getControlCard();
 

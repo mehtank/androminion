@@ -17,11 +17,12 @@ public class MoveContext {
     public int actions = 1;
     public int buys = 1;
     public int addGold = 0;
+    public int addPotions = 0;
 
     public int gold;
     public int potions;
     public int actionsPlayedSoFar = 0;
-    public int treasuresPlayedSoFar = 0;
+    public int treasuresPlayedSoFar = 0; /* Doesn't work because of Spoils or Mint */
     public int goldAvailable;
     public int coppersmithsPlayed = 0;
     public int schemesPlayed = 0;
@@ -37,8 +38,10 @@ public class MoveContext {
     public int victoryCardsBoughtThisTurn = 0;
     public int totalCardsBoughtThisTurn = 0;
     public boolean buyPhase = false;
+    public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't spend Guilds coin tokens)
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public int beggarSilverIsOnTop = 0;
+    public boolean graverobberGainedCardOnTop = false;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;
@@ -59,6 +62,14 @@ public class MoveContext {
         this.game = game;
         this.player = player;
         //        this.playedCards = player.playedCards;
+    }
+
+    public MoveContext(MoveContext context, Game game, Player player) {
+        this.actions = context.actions;
+        this.buys = context.buys;
+        this.addGold = context.addGold;
+        this.game = game;
+        this.player = player;
     }
 
     public Player getPlayer() {
@@ -167,6 +178,10 @@ public class MoveContext {
         return game.getEmbargos(card);
     }
 
+    public int getEmbargosIfCursesLeft(Card card) {
+        return game.getEmbargosIfCursesLeft(card);
+    }
+
     public ArrayList<Card> getCardsObtainedByLastPlayer() {
         return game.getCardsObtainedByLastPlayer();
     }
@@ -245,6 +260,7 @@ public class MoveContext {
     public int getCoinForStatus() {
         return getCoinAvailableForBuy();
 
+        //see BasePlayer.getCoinEstimate()
         /*
            if(player.playedCards.size() > 0) {
            return getCoinAvailableForBuy();
@@ -326,7 +342,7 @@ public class MoveContext {
 
     protected boolean isNewCardAvailable(int cost, boolean potion) {
         for(Card c : getCardsInGame()) {
-            if(c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+            if(Cards.isSupplyCard(c)&& c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
                 return true;
             }
         }
@@ -337,7 +353,7 @@ public class MoveContext {
     protected Card[] getAvailableCards(int cost, boolean potion) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for(Card c : getCardsInGame()) {
-            if(c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+            if(Cards.isSupplyCard(c) && c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
                 cards.add(c);
             }
         }
