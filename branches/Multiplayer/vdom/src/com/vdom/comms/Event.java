@@ -133,6 +133,15 @@ public class Event implements Serializable{
          * @param o Has its NewGame object set to information about the game which GameActivity has joined
          */
         NEWGAME,
+        /**
+         * CARDRANKING
+         * <p>
+         * Sent from GameActivity to RemotePlayer after NEWGAME received.
+         * Goal: Sort cards by names in foreign language        
+         *
+         * @param ?
+         */
+        CARDRANKING,
 
         /**
          * STARTGAME
@@ -327,6 +336,16 @@ public class Event implements Serializable{
          * @param s message
          */
         SAY,
+        /**
+         * INFORM
+         *
+         * Broadcast a chat message.
+         * When GameActivity receives this (from TalkView), it forwards it to RemotePlayer.
+         * VDomServer then causes all remote players to send back a CHAT message.
+         *
+         * @param s message
+         */
+        INFORM,
         /**
          * CHAT
          *

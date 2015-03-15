@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="DominionServer" basedir="." default="jar">
+<project name="vdom" basedir="." default="jar">
 
     <property name="main-class" value="com.vdom.core.Game"/>
 

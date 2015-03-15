@@ -24,6 +24,7 @@ public class GameEvent {
         BuyingCard, // Buying a card in the buy phase.
         OverpayForCard, // Overpaying for a Guilds card.
         GuildsTokenObtained, // Recieve a Guilds token
+        GuildsTokenSpend, // Spend Guilds token
         NoBuy, // Player didn't buy a card
         DeckReplenished, // Discard pile shuffled to create a new deck for one of the players
         PlayerAttacking, // Player is attacking another player
@@ -37,7 +38,10 @@ public class GameEvent {
 
         CardDiscarded, // A card was discarded
         CardAddedToHand, // A new card has been added to a player's hand
-        CardRemovedFromHand, // A card has been removed from a player's hand
+        CardRemovedFromHand, // A card has been removed from a player's hand        
+        CardSetAside, // A card was set aside (prince)
+        CardSetAsideOnIslandMat, // A card was set aside on island mat
+        DeckPutIntoDiscardPile, // Deck put into discard pile
     }
 
     public Type type;

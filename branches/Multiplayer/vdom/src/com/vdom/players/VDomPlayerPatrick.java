@@ -209,7 +209,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	private static ArrayList<Card> knownActionCards = new ArrayList<Card>();
 	private static ArrayList<Card> knownSingleActionCards = new ArrayList<Card>(); // just one in deck is enough (trashing, etc.)
 	private static ArrayList<Card> knownDoubleActionCards = new ArrayList<Card>(); // two in deck is ok (mostly attacks and other good terminals)
-	private static ArrayList<Card> knownMultiActionCards = new ArrayList<Card>(); // cantrips of which we can have any number without terminal colision
+	private static ArrayList<Card> knownMultiActionCards = new ArrayList<Card>(); // cantrips of which we can have any number without terminal collision
 	private static ArrayList<Card> knownComboActionCards = new ArrayList<Card>(); // cantrips and other cards which don't work on their own but need other cards
 	private static ArrayList<Card> knownDefenseCards = new ArrayList<Card>(); // can be bought as reaction to aggressive opponent, normally no
 	private static ArrayList<Card> knownCursingCards = new ArrayList<Card>(); // cards that add curses to opponent's deck
@@ -239,6 +239,10 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownSingleActionCards.add(Cards.tournament);
 		knownSingleActionCards.add(Cards.nobleBrigand);
 		knownSingleActionCards.add(Cards.tradeRoute);
+		knownSingleActionCards.add(Cards.envoy);
+		knownSingleActionCards.add(Cards.butcher);
+		knownSingleActionCards.add(Cards.journeyman);
+		knownSingleActionCards.add(Cards.prince);
 		
 		knownDoubleActionCards.add(Cards.wharf);
 		knownDoubleActionCards.add(Cards.jackOfAllTrades);
@@ -258,6 +262,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownDoubleActionCards.add(Cards.masquerade);
 		knownDoubleActionCards.add(Cards.rogue);
 		knownDoubleActionCards.add(Cards.pillage);
+		knownDoubleActionCards.add(Cards.butcher);
 		
 		knownMultiActionCards.add(Cards.laboratory);
 		knownMultiActionCards.add(Cards.market);
@@ -267,6 +272,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownMultiActionCards.add(Cards.caravan);
 		knownMultiActionCards.add(Cards.alchemist);
 		knownMultiActionCards.add(Cards.scryingPool);
+		knownMultiActionCards.add(Cards.baker);
+		knownMultiActionCards.add(Cards.governor);
 		
 		knownComboActionCards.add(Cards.throneRoom);
 		knownComboActionCards.add(Cards.kingsCourt);
@@ -287,6 +294,11 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownComboActionCards.add(Cards.banditCamp);
 		knownComboActionCards.add(Cards.marketSquare);
 		knownComboActionCards.add(Cards.wanderingMinstrel);
+		knownComboActionCards.add(Cards.advisor);
+		knownComboActionCards.add(Cards.candlestickMaker);
+		knownComboActionCards.add(Cards.herald);
+		knownComboActionCards.add(Cards.plaza);
+		knownComboActionCards.add(Cards.walledVillage);
 		
 		knownTier3Cards.add(Cards.bureaucrat);
 		knownTier3Cards.add(Cards.adventurer);
@@ -338,6 +350,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownCursingCards.add(Cards.torturer);
 		knownCursingCards.add(Cards.jester);
 		knownCursingCards.add(Cards.familiar);
+		knownCursingCards.add(Cards.soothsayer);
 		//knownCursingCards.add(Cards.followers);
 		
 		knownTrashingCards.add(Cards.chapel);
@@ -367,6 +380,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		knownTrashingCards.add(Cards.procession);
 		knownTrashingCards.add(Cards.rats);
 		knownTrashingCards.add(Cards.rebuild);
+		knownTrashingCards.add(Cards.butcher);
+		knownTrashingCards.add(Cards.stonemason);
 		
 		knownGood52Cards.add(Cards.wharf);
 		knownGood52Cards.add(Cards.jackOfAllTrades);
@@ -542,6 +557,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	 */
 	private int getCurrencyTotal(ArrayList<Card> list) {
 		int money = 0;
+		int bankcount = 0;
 		
 		for (Card card : list) {
 			if (card instanceof TreasureCard) {
@@ -552,8 +568,12 @@ public class VDomPlayerPatrick extends BasePlayer {
 			}
 			if (card.equals(Cards.bank)) {
 				// money += 1 + this.getMoneyPerCard(list);
-				money += this.getTotalTreasureCards(list) - 1;
+				money += this.getTotalTreasureCards(list) - ++bankcount;
 			}
+		    if (card.equals(Cards.philosophersStone)) {
+		    	money += (list.size()-7) / 5;
+		    }
+			
 			if (card instanceof ActionCard) {
 				money += ((ActionCard) card).getAddGold();
 			}
@@ -590,7 +610,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 				money += 1;
 			}
 			if (card.equals(Cards.philosophersStone)) {
-				money += (list.size()/20);
+				money += ((list.size()-7)/5);   /* (list.size()/20); ??? */
 			}
 			if (card.equals(Cards.bank)) {
 				//TODO maybe there is some way of incorporating the avg money per card without creating an infinite loop?
@@ -691,6 +711,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	 * @param destructive	whether this is a forced discard, or optional
 	 * @return				best candidate for discarding
 	 */
+    @SuppressWarnings("unchecked")
 	private Card getCardToDiscard(ArrayList<Card> list, DiscardOption destructive) {
 		// Tunnel
 		if (list.contains(Cards.tunnel)) {
@@ -698,15 +719,27 @@ public class VDomPlayerPatrick extends BasePlayer {
 		}
 
 		// Curse
-		if (list.contains(Cards.curse)) {
-			int trashit = 0;
-			for (Card c : list) {
-				trashit += (knownTrashingCards.contains(c) ? 1 : 0);
-			}
-			if (trashit < Util.getCardCount(list, Cards.curse)) {
-				return list.get(list.indexOf(Cards.curse));
-			}
+		int trashit = 0;
+		for (Card c : list) {
+			trashit += (knownTrashingCards.contains(c) ? 1 : 0);
 		}
+		Card[] cardsToMatch = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins };
+        for(Card match : cardsToMatch) {
+    		if (list.contains(match)) {
+    			if ( (trashit -= Util.getCardCount(list, match)) < 0) {
+    				return list.get(list.indexOf(match));
+    			}
+    		}
+        }
+//		if (list.contains(Cards.curse)) {
+//			int trashit = 0;
+//			for (Card c : list) {
+//				trashit += (knownTrashingCards.contains(c) ? 1 : 0);
+//			}
+//			if (trashit < Util.getCardCount(list, Cards.curse)) {
+//				return list.get(list.indexOf(Cards.curse));
+//			}
+//		}
 		
 		// Victory cards with no other function
 		for (Card card : list) {
@@ -733,11 +766,27 @@ public class VDomPlayerPatrick extends BasePlayer {
 		case DoubleAction:
 		case MultiAction:
 		case Mirror:
+			/* clear strategy and try again without strategyPossibleCards.
+			 * don't pick random so early */
+	        ArrayList<Card> cards2discard = (ArrayList<Card>) list.clone();
 			for (Card card : list) {
-				if (!this.strategyPossibleCards.contains(card)) {
-					return card;
+				if (this.strategyPossibleCards.contains(card)) {
+					cards2discard.remove(card);
 				}
 			}
+			if (cards2discard.size() > 0)
+			{
+				StrategyOption saveStrategy = this.strategy;
+				this.strategy = StrategyOption.Nothing;
+	        	Card card = getCardToDiscard(cards2discard, destructive);
+	        	this.strategy = saveStrategy;
+	        	return card;
+			}
+//			for (Card card : list) {
+//				if (!this.strategyPossibleCards.contains(card)) {
+//					return card;
+//				}
+//			}
 			break;
 		default:
 			break;
@@ -746,16 +795,6 @@ public class VDomPlayerPatrick extends BasePlayer {
 		// This is as far as we go with useless cards
 		if (destructive == DiscardOption.NonDestructive) {
 			return null;
-		}
-		
-		// Overgrown Estate
-		if (list.contains(Cards.overgrownEstate)) {
-			return list.get(list.indexOf(Cards.overgrownEstate));
-		}
-		
-		// Hovel
-		if (list.contains(Cards.hovel)) {
-			return list.get(list.indexOf(Cards.hovel));
 		}
 		
 		// Necropolis if playing only few actions
@@ -856,7 +895,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	}
 	
 	private Card getCardToTrash(ArrayList<Card> list, DiscardOption destructive) {
-		return getCardToTrash(list, new ArrayList<Card>(), destructive);
+		return getCardToTrash(list, new ArrayList<Card>(), destructive, false);
 	}
 	
 	/**
@@ -865,17 +904,29 @@ public class VDomPlayerPatrick extends BasePlayer {
 	 * @param destructive	based on this, return only "useless" cards, or null if no such choice
 	 * @return			best candidate for trashing
 	 */
-	private Card getCardToTrash(ArrayList<Card> list, ArrayList<Card> deck, DiscardOption destructive) {
+	private Card getCardToTrash(ArrayList<Card> list, ArrayList<Card> deck, DiscardOption destructive, boolean ambassador) {
 		// Curse, Overgrown Estate and Hovel should be trashed at any time
-		if (list.contains(Cards.curse)) {
-			return list.get(list.indexOf(Cards.curse));
+		Card[] cardsToMatch;
+		if (!ambassador) {
+			cardsToMatch = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins };			
 		}
-		if (list.contains(Cards.overgrownEstate)) {
-			return list.get(list.indexOf(Cards.overgrownEstate));
+		else { // without shelters
+			cardsToMatch = new Card[] { Cards.curse, Cards.rats, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins };
 		}
-		if (list.contains(Cards.hovel)) {
-			return list.get(list.indexOf(Cards.hovel));
-		}
+        for(Card match : cardsToMatch) {
+    		if (list.contains(match)) {
+    			return list.get(list.indexOf(match));
+    		}
+        }
+//		if (list.contains(Cards.curse)) {
+//			return list.get(list.indexOf(Cards.curse));
+//		}
+//		if (list.contains(Cards.overgrownEstate)) {
+//			return list.get(list.indexOf(Cards.overgrownEstate));
+//		}
+//		if (list.contains(Cards.hovel)) {
+//			return list.get(list.indexOf(Cards.hovel));
+//		}
 		
 		// Potions should be trashed if they are not useful anymore
 		if (list.contains(Cards.potion)) {
@@ -935,7 +986,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		Card ret = Cards.colony;
 		for (Card c : list) {
-			if (c.getCost(null) < ret.getCost(null)) {
+			if (c.getCost(null) < ret.getCost(null) && !c.isPrize()) {
 				ret = list.get(list.indexOf(c));
 			}
 		}
@@ -1085,6 +1136,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			}
 		}
 		
+        temphand = this.hand.toArrayListClone();
 	    return getCardToDiscard(temphand, DiscardOption.Destructive);
 	}
 
@@ -1116,9 +1168,9 @@ public class VDomPlayerPatrick extends BasePlayer {
             return Player.TorturerOption.TakeCurse;
 	    }
 	    
-        int discarded = 2;
 		ArrayList<Card> temphand = this.hand.toArrayListClone();
-        ArrayList<Card> toDiscard = this.getCardsToDiscard(temphand, discarded, DiscardOption.NonDestructive);
+        int discarded = Math.min(2, temphand.size());
+        ArrayList<Card> toDiscard = this.getCardsToDiscard(temphand, discarded, DiscardOption.SemiDestructive);
         if (toDiscard.size() >= discarded) {
         	return Player.TorturerOption.DiscardTwoCards;
         }
@@ -1436,7 +1488,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 			Card scard = Cards.loan;
 			if (special_cards.contains(scard)) {
-				// we have no loan in deck and significantly more copper then other trasures
+				// we have no loan in deck and significantly more copper then other treasures
 				if ((this.inDeck(context, scard)) || (this.inDeckCount(context, Cards.copper)*2 <= this.getCurrencyTotal(context))) {
 					// buying only when there are a lot of coppers and only 1 piece
 					this.log("Loan not good, " + this.inDeckCount(context, Cards.copper) 
@@ -1609,6 +1661,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		this.log("guessTurnsToEnd(): " + guessTurnsToEnd());
 		this.log("best action: " + action_card);
 		
+		// this condition is the reason why Patrick doesn't buy princes
 		if (action_card != null && maxVP_card != null && (maxVP_card.getVictoryPoints() < 6)) {
 			this.log("choosing action");
 
@@ -1931,7 +1984,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 	public boolean jackOfAllTrades_shouldDiscardCardFromTopOfDeck(MoveContext context, Card card) {
 		ArrayList<Card> a = new ArrayList<Card>();
 		a.add(card);
-	    if(card.equals(getCardToDiscard(a, DiscardOption.NonDestructive))) {
+	    if(   card.equals(getCardToDiscard(a, DiscardOption.NonDestructive))
+	       && (jackOfAllTrades_nonTreasureToTrash(context) != null || (card instanceof TreasureCard))) {
 	        return true;
 	    }
 	    return false;
@@ -2023,7 +2077,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 	@Override
 	public Card[] vault_cardsToDiscardForCard(MoveContext context) {
-		return this.getCardsToDiscard(hand.toArrayListClone(), 2, DiscardOption.NonDestructive).toArray(new Card[2]);
+		return this.getCardsToDiscard(hand.toArrayListClone(), 2, DiscardOption.SemiDestructive).toArray(new Card[2]);
 	}
 
 
@@ -2122,10 +2176,10 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		Card[] ret = new Card[2];
 		
-		ret[0] = this.getCardToTrash(temphand, this.getAllCards(), DiscardOption.Destructive);
+		ret[0] = this.getCardToTrash(temphand, this.getAllCards(), DiscardOption.Destructive, false);
 		temphand.remove(ret[0]);
 		
-		ret[1] = this.getCardToTrash(temphand, this.getAllCards(), DiscardOption.Destructive);
+		ret[1] = this.getCardToTrash(temphand, this.getAllCards(), DiscardOption.Destructive, false);
 		
 		return ret;
 	}
@@ -2183,7 +2237,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	}
 
 	private Card getCardToTrash(DiscardOption destructive) {
-		return getCardToTrash(this.hand.toArrayListClone(), this.getAllCards(), destructive);
+		return getCardToTrash(this.hand.toArrayListClone(), this.getAllCards(), destructive, false);
 	}
 
 	@Override
@@ -2216,7 +2270,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 	@Override
 	public Card ambassador_revealedCard(MoveContext context) {
-	    return this.getCardToTrash(DiscardOption.Destructive);
+		return this.getCardToTrash(this.hand.toArrayListClone(), new ArrayList<Card>(), DiscardOption.Destructive, true);
 	}
 
 	public Card lookout_cardToDiscard(MoveContext context, Card[] cards) {
@@ -2353,22 +2407,44 @@ public class VDomPlayerPatrick extends BasePlayer {
 				}
 			}
 			
+	        // don't play candidates if prince is on hand
+            Card[] princeCards;
+	        if (ac.contains(Cards.prince)) {
+	            ArrayList<Card> cardList = new ArrayList<Card>();
+	            for (Card c : ac) {
+	            	cardList.add(c);
+	            }
+	            // we haven't got context, so we can't regard highways
+	            princeCards = prince_cardCandidates(null/*context*/, cardList, false);
+	        }
+	        else {
+	        	princeCards = new Card[0];
+	        }
+	                
 			for (ActionCard a : ac) {
-				if (isCantrip(a)) {
+				if (isCantrip(a) && !isInCardArray(a, princeCards)) {
 					return a;
 				}
 			}
 
 			for (ActionCard a : ac) {
-				if (a.getAddActions() > 0) {
+				if (a.getAddActions() > 0 && !isInCardArray(a, princeCards)) {
 					return a;
 				}
 			}
 			
+
+            if (princeCards.length != 0) {
+				return hand.get(hand.indexOf(Cards.prince));
+            }
+            
 			ActionCard bestcoin = (ActionCard) Cards.village;
 			ActionCard bestcards = (ActionCard) Cards.militia;
 			
 			for (ActionCard a : ac) {
+                if (a.equals(Cards.tactician) && playedCards.contains(Cards.tactician) ) {
+                	continue;
+                }
 				if (a.getAddGold() > bestcoin.getAddGold()) {
 					bestcoin = a;
 				}
@@ -2483,7 +2559,9 @@ public class VDomPlayerPatrick extends BasePlayer {
 	
 	@Override
 	public boolean scryingPool_shouldDiscard(MoveContext context, Player targetPlayer, Card card) {
-	    boolean discard = this.shouldDiscard(card);
+		ArrayList<Card> c = new ArrayList<Card>();
+		c.add(card);
+		boolean discard = (this.getCardToDiscard(c, DiscardOption.SemiDestructive) != null);
 	    
 	    if (targetPlayer == this) {
 	    	this.log("scryingPool_shouldDiscard: " + (discard ? "discard " : "keep ") + "my " + card );

@@ -8,6 +8,7 @@ public abstract class AbstractCardPile {
 
     protected ArrayList<Card> cards;
     protected boolean isSupply = true;
+    protected boolean isBlackMarket = false;
     protected boolean tradeRouteToken = false;
     
 	static enum PileType {
@@ -26,8 +27,17 @@ public abstract class AbstractCardPile {
     	return this;
     }
 
+	public AbstractCardPile inBlackMarket() {
+    	this.isBlackMarket = true;
+    	return this;
+    }
+
 	public boolean isSupply() {
     	return this.isSupply;
+    }
+
+	public boolean isBlackMarket() {
+    	return this.isBlackMarket;
     }
 
 	public int getCount() {

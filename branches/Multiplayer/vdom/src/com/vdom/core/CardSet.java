@@ -45,15 +45,15 @@ public class CardSet {
 		this.isRandom = isRandom;
 	}
 
-	public static CardSet getCardSet(final GameType type) {
+	public static CardSet getCardSet(final GameType type, int count) {
 		CardSet set = CardSet.CardSetMap.get(type);
 
 		if(set == null) {
-			set = CardSet.getCardSet(CardSet.defaultGameType);
+			set = CardSet.getCardSet(CardSet.defaultGameType, count);
 		}
 
 		if(set.isRandom) {
-			set = CardSet.getRandomCardSet(set.getCards());
+			set = CardSet.getRandomCardSet(set.getCards(), count);
 		}
 
 		return set;
@@ -67,13 +67,20 @@ public class CardSet {
 	 * @param possibleCards The set of cards that can be included in the random CardSet
 	 * @return A random CardSet selected from the list of entered cards.
 	 */
-	private static CardSet getRandomCardSet(final List<Card> possibleCards) {
+	public static CardSet getRandomCardSet(final List<Card> possibleCards, int count) {
 		final List<Card> cardSetList = new ArrayList<Card>();
-		//Save off a possible bane card initially to avoid having to add another card later.
-		Card baneCard = CardSet.getRandomBaneCard(possibleCards);
-
+		Card baneCard = null;
+		if (count == -1) {
+			count = 10;
+			//Save off a possible bane card initially to avoid having to add another card later.
+			baneCard = CardSet.getRandomBaneCard(possibleCards);
+		}
+		else {
+			count = Math.min(count, possibleCards.size());
+		}
+		
 		int added = 0;
-		while (added < 10) {
+		while (added < count) {
 			Card card;
 			do {
 				card = possibleCards.get(rand.nextInt(possibleCards.size()));

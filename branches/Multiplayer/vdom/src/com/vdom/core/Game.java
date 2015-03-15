@@ -35,6 +35,7 @@ public class Game {
     public static HashMap<String, Integer> winStats = new HashMap<String, Integer>();
     public static final String QUICK_PLAY = "(QuickPlay)";
     public static final String BANE = "bane+";
+    public static final String BLACKMARKET = "blackMarket+";
 
     public static String[] cardsSpecifiedAtLaunch;
     public static ArrayList<String> unfoundCards = new ArrayList<String>();
@@ -60,13 +61,18 @@ public class Game {
 
     public static boolean alwaysIncludePlatColony = false;
     public static boolean alwaysUseShelters = false;
+    public static boolean sheltersNotPassedIn = false;
     public static boolean sheltersPassedIn = false;
+    
+    public static int blackMarketCount = 25;
 
     public static boolean quickPlay = false;
     public static boolean sortCards = false;
     public static boolean actionChains = false;
     public static boolean suppressRedundantReactions = false;
     public static boolean equalStartHands = false;
+    public static boolean startGuildsCoinTokens = false; //only for testing
+    public static boolean lessProvinces = false; //only for testing
     public static boolean maskPlayerNames = false;
 
     public static final HashSet<GameEvent.Type> showEvents = new HashSet<GameEvent.Type>();
@@ -91,6 +97,8 @@ public class Game {
     public ArrayList<Card> trashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedBoughtPile = new ArrayList<Card>();
+    public ArrayList<Card> blackMarketPile = new ArrayList<Card>();
+    public ArrayList<Card> blackMarketPileShuffled = new ArrayList<Card>();
 
     public int tradeRouteValue = 0;
     public Card baneCard = null;
@@ -358,8 +366,11 @@ public class Game {
         // Set the turn gold to the correct amount
         context.gold = context.addGold;
         context.addGold = 0;
-        context.potions = 0;
-        context.buyPhase = true;
+        context.potions = context.addPotions;
+        context.addPotions = 0;
+        if (!context.blackMarketBuyPhase) {
+            context.buyPhase = true;
+        }
 
         boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
         ArrayList<TreasureCard> treasures = null;
@@ -382,12 +393,18 @@ public class Game {
         if (coinTokenTotal > 0)
         {
             // Offer the player the option of "spending" Guilds coin tokens prior to buying cards
-            int numTokensToSpend = player.numGuildsCoinTokensToSpend(context);
+            int numTokensToSpend = player.controlPlayer.numGuildsCoinTokensToSpend(context, coinTokenTotal, false/*!butcher*/);
 
             if (numTokensToSpend > 0 && numTokensToSpend <= coinTokenTotal)
             {
                 player.spendGuildsCoinTokens(numTokensToSpend);
                 context.addGold += numTokensToSpend;
+                if(numTokensToSpend > 0)
+                {
+                    GameEvent event = new GameEvent(GameEvent.Type.GuildsTokenSpend, context);
+                    event.setComment(": " + numTokensToSpend);
+                    context.game.broadcastEvent(event);
+                }
                 Util.debug(player, "Spent " + numTokensToSpend + " Guilds coin tokens");
             }
         }
@@ -730,7 +747,35 @@ public class Game {
             player.hand.add(horseTrader);
             drawToHand(player, horseTrader);
         }
-
+        
+        /*play cards on prince*/
+        ArrayList<Card> princeCards = new ArrayList<Card>();
+        for (Card card : player.prince) {
+            if (!card.equals(Cards.prince)) {
+                princeCards.add(card);
+            }
+        }
+        while (!princeCards.isEmpty()) {
+            int o = player.controlPlayer.prince_cardToPlay(context, princeCards.toArray(new ActionCard[princeCards.size()]));
+            Card card = princeCards.get(o);
+            if (card == null) {
+                card = princeCards.get(0);
+                Util.log("ERROR: prince_cardToPlay returned " + o);
+            }
+            princeCards.remove(card);
+            if (!(card instanceof DurationCard)) {
+                player.playedByPrince.add(card);
+            }
+            player.prince.remove(card);
+            
+            context.freeActionInEffect++;
+            try {
+                ((ActionCardImpl) card).play(this, context, false);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+            context.freeActionInEffect--;
+        }
     }
 
     private static void printStats(HashMap<String, Double> wins, int gameCount, String gameType) {
@@ -1003,6 +1048,8 @@ public class Game {
         alwaysIncludePlatColony = false;
         alwaysUseShelters = false;
         equalStartHands = false;
+        startGuildsCoinTokens = false; //only for testing
+        lessProvinces = false; //only for testing
 
         String quickPlayArg = "-quickplay";
         String maskPlayerNamesArg = "-masknames";
@@ -1011,7 +1058,10 @@ public class Game {
         String suppressRedundantReactionsArg = "-suppressredundantreactions";
         String platColonyArg = "-platcolony";
         String useSheltersArg = "-useshelters";
+        String blackMarketCountArg = "-blackmarketcount";
         String equalStartHandsArg = "-equalstarthands";
+        String startGuildsCoinTokensArg = "-startguildscointokens"; //only for testing
+        String lessProvincesArg = "-lessprovinces"; //only for testing
 
         for (String arg : args) {
             if (arg == null) {
@@ -1037,8 +1087,14 @@ public class Game {
                     alwaysIncludePlatColony = true;
                 } else if (arg.toLowerCase().equals(useSheltersArg)) {
                     alwaysUseShelters = true;
+                } else if (arg.toLowerCase().startsWith(blackMarketCountArg)) {
+                    blackMarketCount = Integer.parseInt(arg.toLowerCase().substring(blackMarketCountArg.length()));
                 } else if (arg.toLowerCase().equals(equalStartHandsArg)) {
                     equalStartHands = true;
+                } else if (arg.toLowerCase().equals(startGuildsCoinTokensArg)) {
+                    startGuildsCoinTokens = true; //only for testing
+                } else if (arg.toLowerCase().equals(lessProvincesArg)) {
+                    lessProvinces = true; //only for testing
                 }
             }
         }
@@ -1078,13 +1134,24 @@ public class Game {
         //        }
 
         AbstractCardPile thePile = getPile(card);
-        if (thePile == null || thePile.isSupply() == false)
-        {
+        if (thePile == null) {
             return false;
         }
-
-        if (!Cards.isSupplyCard(card)) {
-            return false;
+        if (context.blackMarketBuyPhase) {
+            if (thePile.isBlackMarket() == false) {
+                return false;
+            }
+            if (Cards.isSupplyCard(card)) {
+                return false;
+            }
+        }
+        else {
+            if (thePile.isSupply() == false) {
+                return false;
+            }
+            if (!Cards.isSupplyCard(card)) {
+                return false;
+            }
         }
 
         if (isPileEmpty(card)) {
@@ -1099,7 +1166,7 @@ public class Game {
             return false;
         }
 
-        int cost = card.getCost(context, true);
+        int cost = card.getCost(context, !context.blackMarketBuyPhase);
 
         int potions = context.getPotions();
         if (cost <= gold && (!card.costPotion() || potions > 0)) {
@@ -1109,9 +1176,11 @@ public class Game {
         return false;
     }
 
-    void playBuy(MoveContext context, Card buy) {
+    Card playBuy(MoveContext context, Card buy) {
         Player player = context.getPlayer();
-        context.buys--;
+        if (!context.blackMarketBuyPhase) {
+            context.buys--;
+        }
 
         int embargos = getEmbargos(buy);
         for (int i = 0; i < embargos; i++) {
@@ -1119,26 +1188,16 @@ public class Game {
         }
 
         Card card = takeFromPileCheckTrader(buy, context);
-        if (card != null) {
-            GameEvent event = new GameEvent(GameEvent.Type.BuyingCard, (MoveContext) context);
-            event.card = card;
-            event.newCard = true;
-            broadcastEvent(event);
 
-            // Swap in the real knight
-            if (buy.equals(Cards.virtualKnight)) {
-                buy = card;
-            }
-
-        }
-
+        /* GameEvent.Type.BuyingCard must be after overpaying! */
+        
         // cost adjusted based on any cards played or card being bought
         int cost = buy.getCost(context);
 
         // If card can be overpaid for, do so now
         if (buy.isOverpay())
         {
-            context.overpayAmount = player.amountToOverpay(context, cost);
+            context.overpayAmount = player.amountToOverpay(context, buy, cost);
 
             if (context.potions > 0)
             {
@@ -1158,6 +1217,20 @@ public class Game {
         {
             context.overpayAmount  = 0;
             context.overpayPotions = 0;
+        }
+        
+        buy.isBuying(context);
+
+        if (card != null) {
+            GameEvent event = new GameEvent(GameEvent.Type.BuyingCard, (MoveContext) context);
+            event.card = card;
+            event.newCard = true;
+            broadcastEvent(event);
+
+            // Swap in the real knight
+            if (buy.equals(Cards.virtualKnight)) {
+                buy = card;
+            }
         }
 
         context.gold -= (buy.getCost(context) + context.overpayAmount);
@@ -1190,6 +1263,8 @@ public class Game {
 
         buy.isBought(context);
         haggler(context, buy);
+        
+        return card;
     }
 
     private void haggler(MoveContext context, Card cardBought) {
@@ -1483,6 +1558,11 @@ public class Game {
             {
                 players[i].gainGuildsCoinTokens(1);
             }
+            //only for testing
+            if (startGuildsCoinTokens && !players[i].isAi())
+            {
+                players[i].gainGuildsCoinTokens(99);
+            }
 
             if (alwaysUseShelters || sheltersPassedIn)
             {
@@ -1490,6 +1570,9 @@ public class Game {
             }
             else
             {
+                if (sheltersNotPassedIn) {
+                    chanceForShelters = 0;
+                }
                 s += "Chance for Shelters\n   " + (Math.round(chanceForShelters * 100)) + "% ... " + (sheltersInPlay ? "included\n" : "not included\n");
             }
 
@@ -1504,7 +1587,7 @@ public class Game {
         Player player;
         for (int i = 0; i < numPlayers; i++) {
             player = players[i];
-
+            
             player.discard(takeFromPile(Cards.copper), null, null);
             player.discard(takeFromPile(Cards.copper), null, null);
             player.discard(takeFromPile(Cards.copper), null, null);
@@ -1512,7 +1595,7 @@ public class Game {
             player.discard(takeFromPile(Cards.copper), null, null);
             player.discard(takeFromPile(Cards.copper), null, null);
             player.discard(takeFromPile(Cards.copper), null, null);
-
+            
             if (sheltersInPlay)
             {
                 player.discard(takeFromPile(Cards.necropolis), null, null);
@@ -1547,11 +1630,25 @@ public class Game {
             }
         }
 
+        if (startGuildsCoinTokens) //only for testing
+        {
+            for (int i = 0; i < numPlayers; i++) {
+                player = players[i];
+                if (player.isAi())
+                {
+                    continue;
+                }
+                player.hand.clear();
+                player.deck.clear();
+                player.discard.clear();
+            }
+        }
+        
         // Add tradeRoute tokens if tradeRoute in play
         tradeRouteValue = 0;
         if (isCardInGame(Cards.tradeRoute)) {
             for (AbstractCardPile pile : piles.values()) {
-                if (pile.card() instanceof VictoryCard) {
+                if ((pile.card() instanceof VictoryCard) && !pile.card().isKnight() && !pile.isBlackMarket()) {
                     pile.setTradeRouteToken();
                 }
             }
@@ -1563,9 +1660,13 @@ public class Game {
         piles.clear();
         embargos.clear();
         trashPile.clear();
+        blackMarketPile.clear();
+        blackMarketPileShuffled.clear();
 
         boolean platColonyNotPassedIn = false;
         boolean platColonyPassedIn = false;
+        sheltersNotPassedIn = false;
+        sheltersPassedIn = false;
 
         int provincePileSize = -1;
         int curseCount = -1;
@@ -1601,6 +1702,11 @@ public class Game {
                 treasureMultiplier = 2;
                 break;
         }
+        //only for testing
+        if (lessProvinces)
+        {
+            provincePileSize = 1; 
+        }
 
         addPile(Cards.gold, 30 * treasureMultiplier);
         addPile(Cards.silver, 40 * treasureMultiplier);
@@ -1616,13 +1722,19 @@ public class Game {
 
         if(cardsSpecifiedAtLaunch != null) {
             platColonyNotPassedIn = true;
+            sheltersNotPassedIn = true;
             for(String cardName : cardsSpecifiedAtLaunch) {
                 Card card = null;
                 boolean bane = false;
+                boolean blackMarket = false;
 
                 if(cardName.startsWith(BANE)) {
                     bane = true;
                     cardName = cardName.substring(BANE.length());
+                }
+                if(cardName.startsWith(BLACKMARKET)) {
+                    blackMarket = true;
+                    cardName = cardName.substring(BLACKMARKET.length());
                 }
                 String s = cardName;
                 for (Card c : Cards.actionCards) {
@@ -1633,6 +1745,9 @@ public class Game {
                 }
                 if(card != null && bane) {
                     baneCard = card;
+                }
+                if(card != null && blackMarket) {
+                    blackMarketPile.add(card);
                 }
                 if (cardName.equalsIgnoreCase("Knights")) {
                     card = Cards.virtualKnight;
@@ -1674,10 +1789,7 @@ public class Game {
                     break;
                 Card c = null;
                 int replacementCost = -1;
-                if(s.equalsIgnoreCase("blackmarket")) {
-                    replacementCost = 3;
-                }
-                else if(s.equalsIgnoreCase("stash")) {
+                if(s.equalsIgnoreCase("stash")) {
                     replacementCost = 5;
                 }
 
@@ -1707,9 +1819,9 @@ public class Game {
 
             gameType = GameType.Specified;
         } else {
-            CardSet cardSet = CardSet.getCardSet(gameType);
+            CardSet cardSet = CardSet.getCardSet(gameType, -1);
             if(cardSet == null) {
-                cardSet = CardSet.getCardSet(CardSet.defaultGameType);
+                cardSet = CardSet.getCardSet(CardSet.defaultGameType, -1);
             }
 
             for(Card card : cardSet.getCards()) {
@@ -1723,6 +1835,44 @@ public class Game {
             }
         }
 
+        // Black Market
+        Cards.blackMarketCards.clear();
+        if (piles.containsKey(Cards.blackMarket.getName()))
+        {
+            // get 10 cards more then needed. Extract the cards in supply
+            int count = Math.max(blackMarketCount - blackMarketPile.size(), 0);
+            List<Card> allCards = CardSet.getCardSet(GameType.Random, count+10).getCards();
+            List<Card> cards = new ArrayList<Card>();
+            for (int i = 0; i < allCards.size(); i++) {
+                if (!piles.containsKey(allCards.get(i).getName())) {
+                    cards.add(allCards.get(i));
+                }
+            }
+            // take count cards from the rest
+            cards = CardSet.getRandomCardSet(cards, count).getCards();
+            for (int i = 0; i < cards.size(); i++) {
+                blackMarketPile.add(cards.get(i));
+            }
+            if (blackMarketPile.contains(Cards.virtualKnight)) {
+                // pick one real knight
+                blackMarketPile.remove(Cards.virtualKnight);
+                blackMarketPile.add(Cards.knightsCards.get(Game.rand.nextInt(Cards.knightsCards.size())));
+            }
+            // sort
+            Collections.sort(blackMarketPile, new Util.CardCostComparator());
+            // put all in piles
+            cards.clear();
+            for (int i = 0; i < blackMarketPile.size(); i++) {
+                cards.add(blackMarketPile.get(i));
+                addPile(blackMarketPile.get(i), 1, false, true);
+                Cards.blackMarketCards.add(blackMarketPile.get(i));
+            }
+            // shuffle
+            while (cards.size() > 0) {
+                blackMarketPileShuffled.add(cards.remove(Game.rand.nextInt(cards.size())));
+            }
+        }        
+        
         if (piles.containsKey(Cards.virtualKnight.getName())) {
             VariableCardPile kp = (VariableCardPile) this.getPile(Cards.virtualKnight);
             for (Card k : Cards.knightsCards) {
@@ -1747,7 +1897,7 @@ public class Game {
                     pile.card().isShelter() == false &&
                     pile.card().isRuins() == false &&
                     (pile.card().isKnight() == false || !alreadyCountedKnights) &&
-                    pile.card().getExpansion().equals("Dark Ages"))
+                    pile.card().getExpansion().equals("DarkAges"))
                 {
                     chanceForShelters += 0.1;
                 }
@@ -1782,6 +1932,7 @@ public class Game {
         if (alwaysIncludePlatColony || platColonyPassedIn) {
             addPlatColony = true;
         } else if (platColonyNotPassedIn) {
+            chanceForPlatColony = 0;
             addPlatColony = false;
         } else {
             chanceForPlatColony = 0;
@@ -2015,9 +2166,9 @@ public class Game {
 
                     if(!handled) {
                         if (context.isRoyalSealInPlay() && context.player.controlPlayer.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
-                            player.putOnTopOfDeck(event.card);
+                            player.putOnTopOfDeck(event.card, context, true);
                         } else if (event.card.equals(Cards.nomadCamp)) {
-                            player.putOnTopOfDeck(event.card);
+                            player.putOnTopOfDeck(event.card, context, true);
                         } else if (event.responsible != null) {
                             Card r = event.responsible;
                             if (r.equals(Cards.armory)
@@ -2025,17 +2176,17 @@ public class Game {
                                 || r.equals(Cards.bureaucrat)
                                 || r.equals(Cards.develop)
                                 || r.equals(Cards.foolsGold)
-                                || r.equals(Cards.graverobber)
+                                || r.equals(Cards.graverobber) && context.graverobberGainedCardOnTop == true
                                 || r.equals(Cards.seaHag)
                                 || r.equals(Cards.taxman)
                                 || r.equals(Cards.tournament)
                                 || r.equals(Cards.treasureMap)) {
-                                player.putOnTopOfDeck(event.card);
+                                player.putOnTopOfDeck(event.card, context, true);
                             } else if (r.equals(Cards.beggar)) {
                                 if (event.card.equals(Cards.copper)) {
                                     player.hand.add(event.card);
                                 } else if (event.card.equals(Cards.silver) && context.beggarSilverIsOnTop++ == 0) {
-                                    player.putOnTopOfDeck(event.card);
+                                    player.putOnTopOfDeck(event.card, context, true);
                                 } else if (event.card.equals(Cards.silver)) {
                                     player.discard.add(event.card);
                                 }
@@ -2044,10 +2195,10 @@ public class Game {
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);
                             } else {
-                                player.discard(event.card, null, null, commandedDiscard);
+                                player.discard(event.card, null, null, commandedDiscard, false);
                             }
                         } else {
-                            player.discard(event.card, null, null, commandedDiscard);
+                            player.discard(event.card, null, null, commandedDiscard, false);
                         }
                     }
 
@@ -2082,7 +2233,7 @@ public class Game {
                             }
                         }
                     } else if(event.card.equals(Cards.duchy)) {
-                        if (getCardsLeftInPile(Cards.duchess) > 0) {
+                        if (Cards.isSupplyCard(Cards.duchess) && getCardsLeftInPile(Cards.duchess) > 0) {
                             if(player.controlPlayer.duchess_shouldGainBecauseOfDuchy((MoveContext) context)) {
                                 player.gainNewCard(Cards.duchess, Cards.duchess, context);
                             }
@@ -2123,7 +2274,7 @@ public class Game {
                         boolean validCard = false;
 
                         for(Card c : event.context.getCardsInGame()) {
-                            if(c.getCost(context) < Cards.borderVillage.getCost(context) && !c.costPotion() && event.context.getCardsLeftInPile(c) > 0) {
+                            if(Cards.isSupplyCard(c) && c.getCost(context) < Cards.borderVillage.getCost(context) && !c.costPotion() && event.context.getCardsLeftInPile(c) > 0) {
                                 validCard = true;
                                 break;
                             }
@@ -2265,6 +2416,10 @@ public class Game {
         Integer count = embargos.get(card.getName());
         return (count == null) ? 0 : count;
     }
+    
+    public int getEmbargosIfCursesLeft(Card card) {
+        return Math.min(getEmbargos(card), pileSize(Cards.curse));
+    }
 
     // Only is valid for cards in play...
     //    protected Card readCard(String name) {
@@ -2276,9 +2431,15 @@ public class Game {
     //    }
 
     protected Card takeFromPile(Card card) {
-        if (card.isKnight()) card = Cards.virtualKnight;
-        if (card.isRuins()) card = Cards.virtualRuins;
-
+        return takeFromPile(card, null);
+    }
+    
+    protected Card takeFromPile(Card card, MoveContext context) {
+        if (context == null || !context.blackMarketBuyPhase) {
+            if (card.isKnight()) card = Cards.virtualKnight;
+            if (card.isRuins()) card = Cards.virtualRuins;
+        }
+        
         AbstractCardPile pile = getPile(card);
         if (pile == null || pile.getCount() <= 0) {
             return null;
@@ -2306,7 +2467,7 @@ public class Game {
             }
         }
 
-        return takeFromPile(cardToGain);
+        return takeFromPile(cardToGain, context);
     }
 
     public int pileSize(Card card) {
@@ -2411,6 +2572,11 @@ public class Game {
         return trashPile;
     }
 
+    public ArrayList<Card> GetBlackMarketPile()
+    {
+        return blackMarketPile;
+    }
+
     protected AbstractCardPile addPile(Card card) {
         // the Rats hack is dirty and should be cleaned up, but it works
         return addPile(card, ((card instanceof VictoryCard) ? victoryCardPileSize : (card.equals(Cards.rats) ? 20 : kingdomCardPileSize)));
@@ -2421,6 +2587,10 @@ public class Game {
     }
 
     protected AbstractCardPile addPile(Card card, int count, boolean isSupply) {
+        return addPile(card, count, isSupply, false);
+    }
+
+    protected AbstractCardPile addPile(Card card, int count, boolean isSupply, boolean isBlackMarket) {
         AbstractCardPile pile;
         if (card.equals(Cards.virtualRuins)) {
             pile = new VariableCardPile(AbstractCardPile.PileType.RuinsPile, Math.max(10, Math.min(50, (numPlayers * 10) - 10)));
@@ -2432,6 +2602,9 @@ public class Game {
 
         if (!isSupply) {
             pile.notInSupply();
+        }
+        if (isBlackMarket) {
+            pile.inBlackMarket();
         }
 
         piles.put(card.getName(), pile);

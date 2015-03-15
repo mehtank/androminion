@@ -215,7 +215,7 @@ public class Util {
         }
         log("");
         log("Deck:" + player.getDeckSize() + " PirateShip:" + player.getPirateShipTreasure() + " NativeVillage:" + cardArrayToString(player.getNativeVillage())
-            + " Island:" + cardArrayToString(player.getIsland()));
+            + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()));
         log("");
     }
 
@@ -371,8 +371,8 @@ public class Util {
     }
 
     static boolean doBeggar(MoveContext context, Game game, Player player, Card responsible) {
-    	Card beggar = null;
-    	
+        Card beggar = null;
+
         for (Card card : player.hand) {
             if (card.equals(Cards.beggar)) {
                 beggar = card;
@@ -380,17 +380,17 @@ public class Util {
         }
         
         if (beggar != null) {
-        	if (player.controlPlayer.beggar_shouldDiscard(context)) {
-        		player.hand.remove(player.hand.indexOf(beggar), false);        		
-            	player.discard(beggar, responsible, context);
-            	player.gainNewCard(Cards.silver, beggar, context);
-            	player.gainNewCard(Cards.silver, beggar, context);
-        	}
-        	context.beggarSilverIsOnTop = 0;
-        	return true;
+            if (player.controlPlayer.beggar_shouldDiscard(context, responsible)) {
+                player.hand.remove(player.hand.indexOf(beggar), false);
+                player.discard(beggar, responsible, context);
+                player.gainNewCard(Cards.silver, beggar, context);
+                player.gainNewCard(Cards.silver, beggar, context);
+            }
+            context.beggarSilverIsOnTop = 0;
+            return true;
         }
-    	
-    	return false;
+
+        return false;
     }
 
     public static ArrayList<Card> copy(CardList cards) {

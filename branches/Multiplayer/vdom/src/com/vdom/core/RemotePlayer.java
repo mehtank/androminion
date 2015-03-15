@@ -111,7 +111,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return hasJoined;
     }
 
-    public static MyCard makeMyCard(Card c, int index, boolean isBane){
+    public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isBlackMarket){
         MyCard card = new MyCard(index, c.getName(), c.getSafeName(), c.getName());
         card.desc = c.getDescription();
         card.expansion = c.getExpansion();
@@ -196,6 +196,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
         if (Cards.isReaction(c))
             card.isReaction = true;
+        if (isBlackMarket) {
+            card.isBlackMarket = true;
+            card.pile = MyCard.BLACKMARKET_PILE;
+        }
 
         return card;
     }
@@ -245,22 +249,28 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         int index = 0;
 
-        // ensure Copper is card #0
-        Card cop = Cards.copper;
-        MyCard mc = makeMyCard(cop, index, false);
+        // ensure card #0 is a card not to shade, e.g. Curse. See Rev r581
+        Card curse = Cards.curse;
+        MyCard mc = makeMyCard(curse, index, false, false);
         myCardsInPlayList.add(mc);
-        cardNamesInPlay.put(cop.getName(), index);
-        cardsInPlay.add(index, cop);
+        cardNamesInPlay.put(curse.getName(), index);
+        cardsInPlay.add(index, curse);
         index++;
 
         for (Card c : context.getCardsInGame()) {
-            if (c.getSafeName().equals(Cards.copper.getSafeName()))
+            if (c.getSafeName().equals(Cards.curse.getSafeName()))
                 continue;
 
+            boolean isBlackMarket = false;
+            for (Card bm : context.game.blackMarketPile) {
+                if (c.getSafeName().equals(bm.getSafeName())) {
+                    isBlackMarket = true;
+                }
+            }
             if (context.game.baneCard == null) {
-                mc = makeMyCard(c, index, false);
+                mc = makeMyCard(c, index, false, isBlackMarket);
             } else {
-                mc = makeMyCard(c, index, c.getSafeName().equals(context.game.baneCard.getSafeName()));
+                mc = makeMyCard(c, index, c.getSafeName().equals(context.game.baneCard.getSafeName()), isBlackMarket);
             }
             myCardsInPlayList.add(mc);
 
@@ -279,13 +289,50 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int[] embargos = new int[cardsInPlay.size()];
         int[] costs = new int[cardsInPlay.size()];
 
+        int i_virtualRuins = -1;
+        int i_virtualKnight = -1;
+        int ruinsSize = 0;
+        int knightSize = 0;
+
         for (int i = 0; i < cardsInPlay.size(); i++) {
             if (!isFinal)
+            {
                 supplySizes[i] = context.getCardsLeftInPile(intToCard(i));
+            }
             else
+            {
                 supplySizes[i] = player.getMyCardCount(cardsInPlay.get(i));
+                /* at end: count ruins and knights for each player */
+                if (cardsInPlay.get(i).equals(Cards.virtualRuins))
+                {
+                   i_virtualRuins = i;
+                }
+                else if (cardsInPlay.get(i).isRuins())
+                {
+                   ruinsSize += player.getMyCardCount(cardsInPlay.get(i));
+                }
+                if (cardsInPlay.get(i).equals(Cards.virtualKnight))
+                {
+                   i_virtualKnight = i;
+                }
+                else if (cardsInPlay.get(i).isKnight())
+                {
+                   knightSize += player.getMyCardCount(cardsInPlay.get(i));
+                }
+            }
             embargos[i] = context.getEmbargos(intToCard(i));
             costs[i] = intToCard(i).getCost(context);
+        }
+        if (isFinal)
+        {
+            if(i_virtualRuins != -1)
+            {
+                supplySizes[i_virtualRuins] = ruinsSize;
+            }
+            if(i_virtualKnight != -1)
+            {
+                supplySizes[i_virtualKnight] = knightSize;
+            }
         }
 
         // show opponent hand if possessed
@@ -359,8 +406,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setGuildsCoinTokens(guildsCoinTokens)
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
+                .setPrince(cardArrToIntArr(player.getPrince().toArray()))
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
-                .setVillage(cardArrToIntArr(player.getNativeVillage().toArray()))
+                .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)
+                .setBlackMarket(arrayListToIntArr(player.game.GetBlackMarketPile()))
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
         Card topRuins = game.getTopRuinsCard();
@@ -372,7 +421,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (topKnight == null) {
             topKnight = Cards.virtualKnight;
         }
-        gs.setKnightTopCard(cardToInt(Cards.virtualKnight), topKnight, topKnight.getCost(context));
+        gs.setKnightTopCard(cardToInt(Cards.virtualKnight), topKnight, topKnight.getCost(context), topKnight.isVictory(context));
 
         Event p = new Event(EType.STATUS)
                 .setObject(new EventObject(gs));
@@ -452,6 +501,17 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     boolean gameOver = false;
 
     @Override
+    public void trash(Card card, Card responsible, MoveContext context) {
+        //inform about trashed card
+        Event p = new Event(EType.INFORM)
+            .setString("TRASHED")
+            .setCard(card);
+        comm.put_ts(p);
+        
+        super.trash(card, responsible, context);
+    }    
+    
+    @Override
     public void gameEvent(GameEvent event) {
         super.gameEvent(event);
 
@@ -522,12 +582,17 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         } else if (event.getType() == Type.TurnEnd) {
             playedCards.clear();
             playedCardsNew.clear();
+            
+            int islandSize = event.player.island.size();
+            extras.add(islandSize);
+            int nativeVillageSize = event.player.nativeVillage.size();
+            extras.add(nativeVillageSize);
         } else if (event.getType() == Type.PlayingAction || event.getType() == Type.PlayingDurationAction) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
         } else if (event.getType() == Type.PlayingCoin) {
             playedCards.add(event.getCard());
-            playedCardsNew.add(true);
+            playedCardsNew.add(event.newCard);
         } else if (event.getType() == Type.CardObtained) {
             if (event.responsible.equals(Cards.hornOfPlenty) && event.card instanceof VictoryCard) {
                 int index = playedCards.indexOf(event.responsible);
@@ -552,6 +617,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
         } else if (event.getType() == Type.CantBuy) {
             cards = context.getCantBuy().toArray(new Card[0]);
+        } else if (event.getType() == Type.GuildsTokenSpend) {
+            if (event.getComment() != null) {
+                extras.add(event.getComment());
+            }
         } else if (event.getType() == Type.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)
@@ -590,7 +659,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     break;
                 case PlayerDefended:
                     comm.put_ts(status);
-                    comm.put_ts(status.setType(EType.CARDREVEALED).setString(playerInt).setInteger(cardToInt(event.getCard())));
+                    //comm.put_ts(status.setType(EType.CARDREVEALED).setString(playerInt).setInteger(cardToInt(event.getCard()))); /*causes error*/
 
                     break;
                 default:
@@ -604,25 +673,50 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private void checkForAchievements(MoveContext context, Type eventType) {
         if (eventType == Type.GameOver) {
             int provinces = 0;
+            int curses = 0;
             for(Card c : getAllCards()) {
                 if(c.equals(Cards.province)) {
                     provinces++;
+                }
+                if(c.equals(Cards.curse)) {
+                    curses++;
                 }
             }
             if(provinces == 8 && Game.players.length == 2) {
                 achievement(context, "2players8provinces");
             }
-            if(provinces >= 10 && Game.players.length >= 3) {
+            if(provinces >= 10 && (Game.players.length == 3 || Game.players.length == 4)) {
                 achievement(context, "3or4players10provinces");
             }
             int vp = this.getVPs();
             if(vp >= 100) {
                 achievement(context, "score100");
+                
+                // without Prosperity?
+                boolean prosperity = false;
+                if (context.game.isColonyInGame() || context.game.isPlatInGame()) {
+                    prosperity = true;
+                }
+                else {
+                    Card[] cards = context.getCardsInGame();
+                    for (Card card : cards) {
+                        if (Cards.isSupplyCard(card) && card.getExpansion().equals("Prosperity")) {
+                            prosperity = true;
+                            break;
+                        }
+                    }
+                }
+                if (!prosperity) {
+                    achievement(context, "score100withoutProsperity");
+                }
             }
-
+            if(vp >= 500) {
+                achievement(context, "score500");
+            }
             boolean beatBy50 = true;
             boolean skunk = false;
             boolean beatBy1 = false;
+            boolean equalVp = false;
             boolean mostVp = true;
             for(Player opp : context.game.getPlayersInTurnOrder()) {
                 if(opp != this) {
@@ -634,6 +728,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     if(oppVP <= 0) {
                         skunk = true;
                     }
+                    if(vp == oppVP) {
+                        equalVp = true;
+                    }
                     if(vp == oppVP + 1) {
                         beatBy1 = true;
                     }
@@ -642,22 +739,48 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     }
                 }
             }
-            if(mostVp && beatBy50) {
+            if(mostVp && beatBy50 && !equalVp && Game.numPlayers > 1) {
                 achievement(context, "score50more");
             }
             if(mostVp && skunk) {
                 achievement(context, "skunk");
             }
-            if(mostVp && beatBy1) {
+            if(mostVp && beatBy1 && !equalVp) {
                 achievement(context, "score1more");
             }
 
             if(mostVp && !achievementSingleCardFailed) {
                 achievement(context, "singlecard");
             }
+            if(mostVp && curses == 13) {
+                achievement(context, "13curses");
+            }
+            // no cards left in the Supply
+            boolean allEmpty = true;
+            Card[] cards = context.getCardsInGame();
+            for (Card card : cards) {
+                if (Cards.isSupplyCard(card) && !context.game.isPileEmpty(card)) {
+                    allEmpty = false;
+                    break;
+                }
+            }
+            if(mostVp && allEmpty) {
+                achievement(context, "allEmpty");
+            }
+
         } else if (eventType == Type.TurnEnd) {
             if(context != null && context.getPlayer() == this && context.vpsGainedThisTurn > 30) {
                 achievement(context, "gainmorethan30inaturn");
+            }
+            if(context != null && context.getPlayer() == this) {
+                int tacticians = 0;
+                for (int i = 0; i < context.player.nextTurnCards.size(); i++)
+                {
+                    if (context.player.nextTurnCards.get(i).equals(Cards.tactician))
+                        tacticians++;
+                }
+                if (tacticians >= 2)
+                    achievement(context, "2tacticians");
             }
         } else if (eventType == Type.OverpayForCard) {
             if (context != null && context.overpayAmount >= 10) {
@@ -726,6 +849,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     @Override
     public int selectOption(MoveContext context, Card card, Object[] options) {
+        /* choose from options */
+        if (options.length == 1) {
+            return 0;
+        }
+
         Event p = new Event(EType.GETOPTION)
                 .setCard(card)
                 .setObject(new EventObject(options));
@@ -754,6 +882,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     @Override
     public boolean handle(Event e) {
+        if (e.t == EType.CARDRANKING) {
+            /*TODO frr*/
+            //Goal: Sort cards by names in foreign language
+            MyCard[] cardranking = e.o.ng.cards;
+        }
         if (e.t == EType.HELLO) {
             name = (e.s == "" ? "Remote player" : e.s);
             debug("Name set: " + name);
@@ -794,7 +927,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 System.out.println("Remote player now listening on port " + port);
                 return port;
             } catch (IOException e) {
-                //				comm = null; // can cause NullPointerExceptions in different threads
+                // comm = null; // can cause NullPointerExceptions in different threads
                 e.printStackTrace();
                 debug ("Could not open a server for remote player... attempt " + (connections + 1));
             }
@@ -804,7 +937,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private void disconnect() {
         if (comm != null)
             comm.stop();
-        //		comm = null; // can cause NullPointerExceptions in different threads
+        // comm = null; // can cause NullPointerExceptions in different threads
         hasJoined = false;
         myPort = 0;
     }

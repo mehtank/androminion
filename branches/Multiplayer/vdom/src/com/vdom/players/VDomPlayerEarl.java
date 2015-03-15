@@ -1,6 +1,6 @@
- package com.vdom.players;
- 
- import java.util.ArrayList;
+package com.vdom.players;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,7 +41,7 @@ public class VDomPlayerEarl extends BasePlayer
    static HashSet<Card> DEFENDABLE_ATTACK_CARDS = new HashSet<Card>();
  
    static { Card[] attackCards = { Cards.cutpurse, Cards.ghostShip, Cards.militia, Cards.pirateShip/*, Cards.saboteur */, Cards.seaHag, Cards.thief, Cards.torturer, 
-       Cards.witch };
+       Cards.witch, Cards.mountebank, Cards.rabble, Cards.goons, Cards.youngWitch, Cards.margrave, Cards.cultist, Cards.marauder, Cards.pillage, Cards.soothsayer };
      for (Card card : attackCards)
        DEFENDABLE_ATTACK_CARDS.add(card);
    }
@@ -171,12 +171,12 @@ public class VDomPlayerEarl extends BasePlayer
  
    @Override
    public String getPlayerName() {
-   	return getPlayerName(game.maskPlayerNames);
+       return getPlayerName(game.maskPlayerNames);
    }
    
    @Override
    public String getPlayerName(boolean maskName) {
-   	return maskName ? "Player " + (playerNumber + 1) : "Earl";
+       return maskName ? "Player " + (playerNumber + 1) : "Earl";
    }
  
    public Card doAction(MoveContext context) {
@@ -191,6 +191,16 @@ public class VDomPlayerEarl extends BasePlayer
        return Cards.treasureMap;
      }
  
+     // play prince if action card candidate available
+     if (inHand(Cards.prince)) {
+         ArrayList<Card> cardList = new ArrayList<Card>();
+         for (Card c : hand) {
+             cardList.add(c);
+         }
+         if (prince_cardCandidates(context, cardList, false).length != 0)
+             return Cards.prince;
+     }
+             
      if ((inHand(Cards.nobles)) && 
        (context.getActionsLeft() > 1)) {
        return Cards.nobles;
@@ -201,7 +211,10 @@ public class VDomPlayerEarl extends BasePlayer
  
      int actionCards = 0;
      for (Card card : hand) {
-       if (card instanceof ActionCard && !card.equals(Cards.rats)) {
+       if (   card instanceof ActionCard
+           && !card.equals(Cards.rats)
+           && !(card.equals(Cards.tactician) && context.countCardsInPlay(Cards.tactician) > 0)
+          ) {
          ++actionCards;
        }
      }
@@ -383,15 +396,15 @@ public class VDomPlayerEarl extends BasePlayer
        return cardToBuy;
      }
  
-        if (context.canBuy(Cards.colony)) {
-            return Cards.colony;
-        }
+     if (context.canBuy(Cards.colony)) {
+       return Cards.colony;
+     }
 
-        if (context.canBuy(Cards.platinum) && turnCount < 15 && game.pileSize(Cards.province) > 4) {
-            return Cards.platinum;
-        }
+     if (context.canBuy(Cards.platinum) && turnCount < 15 && game.pileSize(Cards.province) > 4) {
+       return Cards.platinum;
+     }
 
-        if (context.canBuy(Cards.province) && (!game.buyWouldEndGame(Cards.province) || calculateLead(Cards.province) >= 0)) {
+     if (context.canBuy(Cards.province) && (!game.buyWouldEndGame(Cards.province) || calculateLead(Cards.province) >= 0)) {
        return Cards.province;
      }
  
@@ -434,8 +447,8 @@ public class VDomPlayerEarl extends BasePlayer
        return Cards.duchy;
      }
  
-     Card[] cards = { Cards.market, Cards.mine/*, Cards.saboteur */};
-     Card thisCard = pickBalancedBuyable(context, cards, Integer.valueOf(2));
+     Card[] cards = { Cards.market, Cards.baker, Cards.mine/*, Cards.saboteur */};
+     Card thisCard = pickBalancedBuyable(context, cards, Integer.valueOf(3));
      if (thisCard != null) {
        return thisCard;
      }
@@ -444,13 +457,13 @@ public class VDomPlayerEarl extends BasePlayer
        return Cards.mine;
      }
  
-     Card[] cards2 = { Cards.festival, Cards.market };
-     thisCard = pickBalancedBuyable(context, cards2, Integer.valueOf(3));
+     Card[] cards2 = { Cards.festival, Cards.market, Cards.baker };
+     thisCard = pickBalancedBuyable(context, cards2, Integer.valueOf(4));
      if (thisCard != null) {
        return thisCard;
      }
  
-     Card[] cards3 = { Cards.festival, Cards.market, Cards.laboratory, Cards.witch, Cards.library };
+     Card[] cards3 = { Cards.festival, Cards.market, Cards.baker, Cards.laboratory, Cards.witch, Cards.library };
      thisCard = pickBalancedBuyable(context, cards3);
      if (thisCard != null) {
        return thisCard;
@@ -569,7 +582,7 @@ public class VDomPlayerEarl extends BasePlayer
    private int attackingCardsInPlay(MoveContext context) {
      int attackingCardsInPlay = 0;
      for (Card card : context.getCardsInGame()) {
-       if (DEFENDABLE_ATTACK_CARDS.contains(card)) {
+       if (Cards.isSupplyCard(card) && DEFENDABLE_ATTACK_CARDS.contains(card)) {
          ++attackingCardsInPlay;
        }
      }
@@ -655,7 +668,7 @@ public class VDomPlayerEarl extends BasePlayer
    private boolean cardInPlay(MoveContext context, Card card) {
      boolean cardInPlay = false;
      for (Card thisCard : context.getCardsInGame()) {
-       if (thisCard.equals(card)) {
+       if (thisCard.equals(card) && Cards.isSupplyCard(thisCard)) {
          cardInPlay = true;
          break;
        }
@@ -668,7 +681,7 @@ public class VDomPlayerEarl extends BasePlayer
    }
  
    private boolean shouldBuyChapel(MoveContext context) {
-     int goldAvailable = context.getCoinAvailableForBuy();
+     int goldAvailable = getCoinEstimate(context);
      return ((isChapelGame(context)) && (this.turnCount < 3) && (((goldAvailable == 2) || (goldAvailable == 3))) && (getMyCardCount(Cards.chapel) < 1));
    }
  
@@ -765,7 +778,7 @@ public class VDomPlayerEarl extends BasePlayer
    }
  
    public Card feast_cardToGet(MoveContext context) {
-     Card[] cards = { Cards.market, Cards.laboratory, Cards.mine };
+     Card[] cards = { Cards.market, Cards.baker, Cards.laboratory, Cards.mine };
      Card card = pickBalancedAvailable(context, cards);
  
      return card;
@@ -802,7 +815,10 @@ public class VDomPlayerEarl extends BasePlayer
    public Card[] militia_attack_cardsToKeep(MoveContext context) {
      ArrayList<Card> cards = new ArrayList<Card>();
      for (Card card : getHand()) {
-       if (!(card instanceof VictoryCard) && !(card instanceof CurseCard)) {
+       if (   !(card instanceof VictoryCard)
+           && !(card instanceof CurseCard)
+           && !(card.isShelter())
+           && !(card.isRuins())) {
          cards.add(card);
        }
      }
@@ -889,12 +905,7 @@ public class VDomPlayerEarl extends BasePlayer
  
      return cards.toArray(new Card[0]);
    }
- 
-   public boolean spy_shouldDiscard(MoveContext context, Card card)
-   {
-     return ((!(card instanceof VictoryCard)) && (!(card.equals(Cards.copper)) && !(card instanceof CurseCard)));
-   }
- 
+
    public Card courtyard_cardToPutBackOnDeck(MoveContext context)
    {
      if (inHandCount(Cards.treasureMap) == 1) {
@@ -923,7 +934,7 @@ public class VDomPlayerEarl extends BasePlayer
        for (Card card : getHand()) {
          if (card.equals(Cards.treasureMap)) {
              if (h.remove(card))
-            	 cards.add(card);
+                 cards.add(card);
          }
        }
      }
@@ -931,7 +942,7 @@ public class VDomPlayerEarl extends BasePlayer
      for (Card card : getHand()) {
        if (card instanceof VictoryCard || card instanceof CurseCard) {
            if (h.remove(card))
-          	 cards.add(card);
+               cards.add(card);
        }
        if (cards.size() == 2) {
          break;
@@ -942,7 +953,7 @@ public class VDomPlayerEarl extends BasePlayer
        for (Card card : getHand()) {
          if (card.equals(Cards.copper)) {
              if (h.remove(card))
-            	 cards.add(card);
+                 cards.add(card);
          }
          if (cards.size() == 2) {
            break;
@@ -963,7 +974,7 @@ public class VDomPlayerEarl extends BasePlayer
  
        if (lowCard != null) {
            if (h.remove(lowCard))
-          	 cards.add(lowCard);
+               cards.add(lowCard);
        }
      }
  
