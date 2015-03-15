@@ -51,9 +51,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         return players;
     }
 
-    GridView handGV, playedGV, islandGV, villageGV, trashGV;
-    CardGroup hand, played, island, village, trash;
-    View islandColumn, villageColumn, trashColumn;
+    GridView handGV, playedGV, princeGV, islandGV, villageGV, blackMarketGV, trashGV;
+    CardGroup hand, played, prince, island, village, blackMarket, trash;
+    View princeColumn, islandColumn, villageColumn, blackMarketColumn, trashColumn;
     TextView playedHeader;
     LinearLayout myCards;
 
@@ -150,7 +150,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     }
 
     /**
-     * Initialize card groups that belong to the user (hand, played, island, village)
+     * Initialize card groups that belong to the user (hand, played, prince, island, village)
      */
     private void initHand() {
         hand = new CardGroup(top, false);
@@ -164,6 +164,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         playedGV.setAdapter(played);
         playedGV.setOnItemLongClickListener(this);
 
+        prince = new CardGroup(top, false);
+        princeGV = (GridView) findViewById(R.id.princeGV);
+        princeGV.setAdapter(prince);
+        princeGV.setOnItemLongClickListener(this);
+        princeColumn = findViewById(R.id.princeColumn);
+
         island = new CardGroup(top, false);
         islandGV = (GridView) findViewById(R.id.islandGV);
         islandGV.setAdapter(island);
@@ -175,6 +181,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         villageGV.setAdapter(village);
         villageGV.setOnItemLongClickListener(this);
         villageColumn = findViewById(R.id.villageColumn);
+
+        blackMarket = new CardGroup(top, false);
+        blackMarketGV = (GridView) findViewById(R.id.blackMarketGV);
+        blackMarketGV.setAdapter(blackMarket);
+        blackMarketGV.setOnItemLongClickListener(this);
+        blackMarketColumn = findViewById(R.id.blackMarketColumn);
 
         trash = new CardGroup(top, false);
         trashGV = (GridView) findViewById(R.id.trashGV);
@@ -294,9 +306,11 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         nonSupplyPile.clear();
         hand.clear();
         played.clear();
+        prince.clear();
         island.clear();
         village.clear();
         trash.clear();
+        blackMarket.clear();
         this.players.clear();
 
         actionText.setText("");
@@ -557,7 +571,23 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      */
     public void selectOption(Event e) {
         String[] options = Strings.getOptions(e.c, e.o.os);
-        selectString(Strings.getSelectOptionHeader(e.c, e.o.os), options, Event.EType.OPTION);
+        boolean allequal = true;
+        if (options != null) {
+            String firstOption = options[0];
+	        for (String o: options) {
+	            if (o != firstOption) {
+	                allequal = false;
+	                break;
+	            }
+	        }
+        }
+        if (allequal) {
+        	int[] is = new int[] { 0 };
+            top.handle(new Event(Event.EType.OPTION).setObject(new EventObject(is)));
+        }
+        else {
+        	selectString(Strings.getSelectOptionHeader(e.c, e.o.os), options, Event.EType.OPTION);
+        }
     }
 
     /**
@@ -683,6 +713,20 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                     CardInfo ci = new CardInfo(cv.getState(), hand, pos);
                     openedCards.add(ci);
                     hand.updateState(pos, cv.getState());
+                }
+            } else
+            /* if swindler curse is default */
+            if (   sco.cardResponsible != null
+            	&& sco.cardResponsible.getName().equals("Swindler")
+                && sco.defaultCardSelected != -1
+                && sco.fromTable) {
+                int pos = vpPile.getPos(sco.defaultCardSelected);
+                if (pos != -1) {
+                    CardView cv = (CardView) vpPile.getView(pos, null, null);
+                    cv.setChecked(true, sco.getPickType().indicator());
+                    CardInfo ci = new CardInfo(cv.getState(), vpPile, pos);
+                    openedCards.add(ci);
+                    vpPile.updateState(pos, cv.getState());
                 }
             } else {
                 return;
@@ -895,6 +939,11 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
 
         if (gs.isFinal) {
+            /*print ruins and not abandoned mine*/
+            supplyPile.updateCardName(gs.ruinsID, Cards.virtualRuins, -1, false);
+            supplyPile.updateCardName(gs.knightsID, Cards.virtualKnight, -1, false);
+            setSupplySizes(this.lastSupplySizes, this.lastEmbargos);
+            
             HapticFeedback.vibrate(getContext(),AlertType.FINAL);
             finalStatus(gs);
             return;
@@ -929,20 +978,35 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             }
             playedHeader.setText(header);
         }
-
+        
         GameTableViews.newCardGroup(hand, gs.myHand);
         GameTableViews.newCardGroup(played, gs.playedCards);
+        GameTableViews.newCardGroup(prince, gs.myPrince);
+        if (gs.myPrince.length > 0) {
+        	princeColumn.setVisibility(VISIBLE);
+        } else {
+        	princeColumn.setVisibility(GONE);
+        }
+        
         GameTableViews.newCardGroup(island, gs.myIsland);
         if (gs.myIsland.length > 0) {
             islandColumn.setVisibility(VISIBLE);
         } else {
             islandColumn.setVisibility(GONE);
         }
+        
         GameTableViews.newCardGroup(village, gs.myVillage);
         if (gs.myVillage.length > 0) {
             villageColumn.setVisibility(VISIBLE);
         } else {
             villageColumn.setVisibility(GONE);
+        }
+
+        GameTableViews.newCardGroup(blackMarket, gs.blackMarketPile);
+        if (gs.blackMarketPile.length > 0) {
+        	blackMarketColumn.setVisibility(VISIBLE);
+        } else {
+        	blackMarketColumn.setVisibility(GONE);
         }
 
         GameTableViews.newCardGroup(trash, gs.trashPile);
@@ -956,8 +1020,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         this.lastEmbargos = gs.embargos;
         costs = gs.costs;
 
-        supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, -1);
-        supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardCost);
+        supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, -1, false);
+        supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardCost, gs.knightsTopCardIsVictory);
         setSupplySizes(gs.supplySizes, gs.embargos);
         setCardCosts(top.findViewById(android.R.id.content));
     }

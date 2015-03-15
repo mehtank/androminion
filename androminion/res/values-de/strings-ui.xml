@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
 	<!-- AndroidManifest -->
 	<string name="app_name">Androminion</string>
-	
-	<!-- Menu Fragment -->
-	<string name="start_game_menu">Spiel starten</string>
+
+    <!-- Menu Fragment -->
+    <string name="start_game_menu">Spiel starten</string>
+    <string name="join_game_menu">Multiplayer: Mit Server verbinden</string>
     <string name="stats_menu">Statistiken</string>
     <string name="settings_menu">Einstellungen</string>
     <string name="about_menu">Über</string>
-    
+
     <!-- Game Activity Menu -->
-	<string name="help_menu">Hilfe</string>
-	<string name="quit_menu">Beenden</string>
-    
+    <string name="help_menu">Hilfe</string>
+    <string name="quit_menu">Beenden</string>
+
     <!-- StartGame Activity -->
-	<string name="startgameactivity_title">Spiel starten</string>
-	
+    <string name="startgameactivity_title">Spiel starten</string>
+
     <!-- StartGame Fragment -->
     <string name="select_gametype">Kartensatz wählen:</string>
 	<string name="select_players">Spieler wählen:</string>
@@ -57,6 +58,8 @@
 	<!-- About Fragment -->
 	<string name="version">Version %1$s</string>
 	
+	<!-- Connections Fragment -->
+	<string name="connections_menu">Verbindungen </string>
 	<!-- WhatsNew Fragment -->
 	<string name="whatsnew_title">Was ist neu: </string>
 	<string name="whatsnew">
@@ -65,12 +68,24 @@
 		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Entwicklung von Androminion einzustellen, da sie eine offizielle digitale Version ihres Spiels herausbringen. Daher wird dies die letzte große Überarbeitung sein. Androminion wird aus dem Google Play Store zum Ende des Monats entfernt werden. Danke an alle. die an diesem Projekt mitgewirkt haben, Fehlerberichte eingesandt oder Androminion verbreitet haben -- ohne euch wäre Androminion nicht so gut und populär, wie es heute ist.<br><br>
 		Im Namen des Androminion-Teams: Es hat Spaß gemacht.<br>
 		-:ankur
-		<h3>Version 4.01</h3>
+		<h3>Version 5.01</h3>
+		* Promokarte Schwarzmarkt!!! <br>
+		* Promokarte Prinz!!! <br>
+		* Gilden und Promokarten auf Deutsch! <br>
+		* Noch mehr Fehlerbehebungen und Verbesserungen
+		<h3>Version 5.00</h3>
+		* Jetzt mit Gilden! <br>
+		* Weitere Übersetzungen <br>
+		* Viele Fehlerbehebungen
+		<h3>Version 4.02</h3>
+		* Vogelfreie implementiert<br>
+		* Viele Fehlerbehebungen
+		<h3>Version 4.00</h3>
 		* Dark Ages! <br>
 		* Neue Promokarten: Gesandter, Gouverneur und Carcassonne <br>
 		* Noch mehr Fehlerbehebungen und Verbesserungen
 		<h3>Version 3.01</h3>
-	    * UI für kleine Bildschirme verbessert <br>
+	    * Oberfläche für kleine Bildschirme verbessert <br>
 	    * Einzelspieler Modus hinzugefügt <br>
 	    * Weitere Fehlerbehebungen und Verbesserungen 
 		<h3>Version 3.00</h3>
@@ -95,7 +110,7 @@
         Du möchtest mehr Möglichkeiten Karten auszuwählen? Du kannst nun Androminion direkt aus <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a> starten!
         <h3>Version 2.0</h3>
 	    Es hat eine längere Weile gedauert aber wir hoffen diese Aktualiserung war das Warten wert!  Es gab so viele Änderungen, dass wir sie hier nicht alle auflisten können. Trotzdem sind hier die bedeutendsten:<br/><br/>
-		<b><font color="lime">* Mehr Erweiterungen!</font></b>  Fast alle Karte aus Alchemie, Blütezeit, Reiche Ernte und Hinterland sind jetzt verfügbar.<br/>
+		<b><font color="lime">* Mehr Erweiterungen!</font></b>  Fast alle Karten aus Alchemie, Blütezeit, Reiche Ernte und Hinterland sind jetzt verfügbar.<br/>
 		<b><font color="lime">* Mehr Spieleoptionen!</font></b>  Wähle verschiedenste Variante zufälliger oder fertiger Decks, mit 2-4 Spielern.<br/>
 		<b><font color="lime">* Mehr KI-Optionen!</font></b>  Neue KIs Chuck, Mary, und Sarah.<br/>
 		<b><font color="lime">* Mehr Bugfixes!</font></b>  Und neue Fehler - eventuell.<br/>
@@ -129,7 +144,8 @@
     <string name="hand_header">Hand:</string>
     <string name="played_header">Gespielt:</string>
     <string name="island_header">Insel:</string>
-    <string name="village_header">Dorf:</string>
+    <string name="village_header">Eing. Dorf:</string>
+    <string name="prince_header">Prinz:</string>
     <string name="turn_header">: Zug\u0020</string>
     <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/k/(g) angezeigt</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
@@ -151,4 +167,8 @@
     <string name="accept">Akzeptieren</string>
     <string name="order_cards_summary">Ziehen/Ablegen\n um Karten \n anzuordnen</string>
     <string name="tournament_reveal">Provinz aufdecken</string>
+    <string name="trash_header">Müll:</string>
+    <string name="blackMarket_header">S. Markt:</string>
+    <string name="img_download_title">%1$s Bild</string>
+    <string name="img_download_desc">Lade Bild von %1$s</string>
 </resources>

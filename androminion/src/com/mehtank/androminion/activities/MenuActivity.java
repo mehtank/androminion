@@ -154,27 +154,27 @@ OnStartGameListener {
         name.setSingleLine();
         name.setText(prefs.getString("name", GameActivity.DEFAULT_NAME));
         TextView nameView = new TextView(this);
-        nameView.setText("\nYour name:");  // TODO(matt): move these strings to res/
+        nameView.setText("\n"+getString(R.string.your_name));
         vg.addView(nameView);
         vg.addView(name);
         final EditText host = new EditText(this);
         host.setSingleLine();
         host.setText(prefs.getString("host", "localhost"));
         TextView hostView = new TextView(this);
-        hostView.setText("\nHost:");
+        hostView.setText("\n"+getString(R.string.host));
         vg.addView(hostView);
         vg.addView(host);
         final EditText port = new EditText(this);
         port.setSingleLine();
         port.setText(prefs.getString("port", "2255"));
         TextView portView = new TextView(this);
-        portView.setText("\nPort:");
+        portView.setText("\n"+getString(R.string.port));
         vg.addView(portView);
         vg.addView(port);
         new AlertDialog.Builder(this)
                 .setPositiveButton(android.R.string.ok, null)
                 .setView(vg)
-                .setTitle("Enter host and port")
+                .setTitle(getString(R.string.enter_host_and_port))
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

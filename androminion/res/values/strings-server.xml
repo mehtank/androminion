@@ -8,9 +8,9 @@
 	<string name="select_from_table_max_treasure">Select a treasure card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
 	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
-	<string name="torturer_option_one">Take a curse</string>
+	<string name="torturer_option_one">Take a curse into hand</string>
 	<string name="torturer_option_two">Discard two cards</string>
-	<string name="chancellor_query">Discard entire deck</string>
+	<string name="chancellor_query">Put your deck into your discard pile</string>
 	<string name="inn_option_one">Shuffle into deck</string>
 	<string name="inn_option_two">Leave in discard</string>
 	<string name="tunnel_query">Discarding Tunnel</string>
@@ -42,6 +42,9 @@
 	<string name="part_play">play</string>
 	<string name="part_buy">buy</string>
 	
+	<string name="discardPile">discard pile</string>
+	<string name="hand">hand</string>
+  
 	<string name="select_from_table">Select a card from the table to %1$s</string>
 	<string name="select_from_table_attack">Select an Attack card from the table to %1$s</string>
 	<string name="select_from_table_exact">Select a card from the table that costs exactly (%1$s) to %2$s</string>
@@ -95,6 +98,8 @@
 	<string name="GameStarting"></string>
 	<string name="GameOver">Game over</string>
 	<string name="Embargo">Embargo</string>
+	<string name="OnIslandMat">Cards on island</string>
+	<string name="OnNativeVillageMat">Cards on native village</string>
 	<string name="Status">Status</string>
 	<string name="CantBuy">Can\'t buy %1$s</string>
 	<string name="VictoryPoints">Victory points</string>
@@ -106,6 +111,9 @@
 	<string name="PlayingDurationAction">Playing duration</string>
 	<string name="PlayingCoin">Playing</string>
 	<string name="BuyingCard">Buying</string>
+	<string name="GuildsTokenObtained">Guilds token obtained</string>
+	<string name="GuildsTokenSpend">Guilds token paid</string>
+	<string name="OverpayForCard">Overpay for card</string>
 	<string name="NoBuy">(No buy)</string>
 	<string name="DeckReplenished">Deck replenished</string>
 	<string name="PlayerAttacking">Attacking</string>
@@ -115,10 +123,14 @@
 	<string name="CardTrashed">Trashed</string>
 	<string name="CardRevealed">Revealed</string>
 	<string name="CardRevealedFromHand">Revealed from hand</string>
+	<string name="CardNamed">Card named</string>
 	<string name="CardDiscarded">Discarded</string>
 	<string name="CardAddedToHand">Card added to hand</string>
 	<string name="CardRemovedFromHand">Card removed from hand</string>
-
+	<string name="CardSetAside">Card set aside (prince)</string>
+	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>
+	<string name="DeckPutIntoDiscardPile">Deck put into discard pile</string>
+	
 	<string name="use_for_money">use for money</string>
 	
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
@@ -128,6 +140,7 @@
 	<string name="replace">Replace</string>
 	
 	<string name="secretchamber_part">put back on deck [Secret Chamber]</string>
+	<string name="secretchamber_query_discard">[Secret Chamber] Select cards to discard</string>
 	
 	<string name="ghostship_part">put back on deck [Ghost Ship]</string>
 	
@@ -160,7 +173,7 @@
 	<string name="lookout_query_trash">Select card to trash</string>
 	<string name="lookout_query_discard">Select card to discard</string>
 	
-	<string name="mountebank_query">Mountebank revealed</string>
+	<string name="mountebank_query">Mountebank</string>
 	<string name="mountebank_option_one">Discard Curse</string>
 	<string name="mountebank_option_two">Gain Curse and Copper</string>
 	
@@ -275,13 +288,20 @@
 	
 	<string name="bureaucrat_part">put on top of your deck</string>
 	
+  <string name="haven_part">put aside</string>
+	
+	<string name="island_part">put on island mat</string>
+	
 	<string name="masquerade_part">pass to your left</string>
 	
 	<string name="mine_part">mine to</string>
-	
+
+  <string name="throne_room_part">Throne Room</string>
+  <string name="kings_court_part">King\'s Court</string>
+   
 	<string name="militia_part">keep from Militia</string>
 	<string name="mercenary_part">keep from Mercenary</string>
-		<string name="sir_michael_part">keep from Sir Michael</string>
+	<string name="sir_michael_part">keep from Sir Michael</string>
 	
 	<string name="bishop_part">trash for Victory Tokens</string>
 	
@@ -300,15 +320,19 @@
 	<string name="governor_option_two">Each Player Gains a Silver (Gold)</string>
 	<string name="governor_option_three">Each Player Upgrades exactly 1 (2) more</string>
 		
-	<!-- *** -->
+    <string name="prince_part">set aside with prince</string>
+	
+		<!-- *** -->
 	<string name="university_part">gain [University]</string>
 	<!-- *** -->
 
 	<string name="putback_query">Select card to put back on deck</string>
 	<string name="putback_option_one">Treasure card (Herbalist)</string>
 	<string name="putback_option_two">Action card (Scheme)</string>
+	<string name="putback_option_all">Put all back on deck</string>
 
   <string name="game_over_vps"> VPs</string>
+  <string name="victory_tokens">Victory Tokens</string>
     
   <string name="coin_worth">Worth (%1$s) Coin</string>
   <string name="Cartographer_query">Select card to discard</string>
@@ -327,6 +351,10 @@
   <string name="doctor_overpay_option_two">Discard</string>
   <string name="doctor_overpay_option_three">Put Back</string>
   <string name="herald_overpay_query">Select card to put back on deck</string>
+  <string name="spend_guilds_coin_tokens">Spend Guilds Coin Tokens</string>
+  <string name="buy_overpay">Overpay?</string>
+  <string name="buy_overpay_by_potions">Overpay by Potion(s)?</string>
+  <string name="possessed_by">possessed by</string>
   
-  
+	<string name="countingHouse_query">Select number of Copper cards to put into your hand</string>
 </resources>

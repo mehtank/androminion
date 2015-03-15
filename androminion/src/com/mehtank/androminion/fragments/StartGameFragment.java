@@ -288,6 +288,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
             strs.add("-useshelters");
         }
 
+        strs.add("-blackmarketcount" + mPrefs.getString("black_market_count", "25"));
+        
         if(mPrefs.getBoolean("quick_play", false)) {
             strs.add("-quickplay");
         }
@@ -312,6 +314,13 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
             strs.add("-equalstarthands");
         }
 
+        if (mPrefs.getBoolean("start_guilds_coin_tokens", false)) {
+            strs.add("-startguildscointokens");
+        }
+        if (mPrefs.getBoolean("less_provinces", false)) {
+            strs.add("-lessprovinces");
+        }
+        
         if(cardsSpecified != null) {
             StringBuilder sb = new StringBuilder();
             sb.append("-cards=");
