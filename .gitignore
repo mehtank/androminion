@@ -3,3 +3,5 @@ project.properties
 !Androminion.apk
 !/bin/Androminion.apk
 */gen
+/androminion_JUnit
+/vdom_junit
