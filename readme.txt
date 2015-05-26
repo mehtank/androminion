@@ -1,4 +1,4 @@
-Download apk here: https://github.com/mehtank/androminion/commit/0a9b4eccfae9a01077fed86d46fcb5ee3b30511d#diff-784d52d2a0bacda414022e0b6e9f8c8a
+Download apk here: https://github.com/mehtank/androminion/blob/master/androminion/bin/Androminion.apk
 
 1. About this project
 
