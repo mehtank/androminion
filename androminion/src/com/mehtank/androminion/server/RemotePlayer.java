@@ -482,7 +482,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	  .setHand(cardArrToIntArr(Game.sortCards ? shownHand.sort(new Util.CardHandComparator()) : shownHand.toArray()))
     	  .setPlayedCards(playedArray)
     	  .setCurPlayer(curPlayerIndex)
-    	  .setCurName(player.getPlayerName(!isFinal && game.maskPlayerNames))
+    	  .setCurName(player.getPlayerName(!isFinal && Game.maskPlayerNames))
     	  .setRealNames(realNames)
     	  .setHandSizes(handSizes)
     	  .setDeckSizes(deckSizes)

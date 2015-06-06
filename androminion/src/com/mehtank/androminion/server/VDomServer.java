@@ -309,7 +309,8 @@ public class VDomServer implements EventHandler {
 
 	public void endGame(String s) {
 		if (isStarted) {
-			for (RemotePlayer rp : remotePlayers) {
+			for (int i = remotePlayers.size() - 1; i >=0; i--) {
+				RemotePlayer rp = remotePlayers.get(i);
 				try {
 					rp.sendQuit(s);
 				} catch (Exception e) {
