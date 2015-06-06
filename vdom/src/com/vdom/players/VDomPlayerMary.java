@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.vdom.api.Card;
 import com.vdom.api.GameType;
 import com.vdom.core.Cards;
+import com.vdom.core.Game;
 
 public class VDomPlayerMary extends VDomPlayerSarah {
     public boolean isAi() {
@@ -32,7 +33,7 @@ public class VDomPlayerMary extends VDomPlayerSarah {
 
     @Override
     public String getPlayerName() {
-    	return getPlayerName(game.maskPlayerNames);
+    	return getPlayerName(Game.maskPlayerNames);
     }
     
     @Override

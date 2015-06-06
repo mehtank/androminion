@@ -456,7 +456,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 
     @Override
     public String getPlayerName() {
-    	return getPlayerName(game.maskPlayerNames);
+    	return getPlayerName(Game.maskPlayerNames);
     }
     
     @Override

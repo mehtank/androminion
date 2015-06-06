@@ -3,6 +3,7 @@ package com.vdom.players;
 import com.vdom.api.Card;
 import com.vdom.api.GameType;
 import com.vdom.core.Cards;
+import com.vdom.core.Game;
 
 public class VDomPlayerDrew extends VDomPlayerSarah {
 
@@ -275,7 +276,7 @@ public class VDomPlayerDrew extends VDomPlayerSarah {
 
     @Override
     public String getPlayerName() {
-    	return getPlayerName(game.maskPlayerNames);
+    	return getPlayerName(Game.maskPlayerNames);
     }
     
     @Override

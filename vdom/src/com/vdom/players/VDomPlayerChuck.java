@@ -8,6 +8,7 @@ import com.vdom.api.Card;
 import com.vdom.api.TreasureCard;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
+import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
 
 public class VDomPlayerChuck extends BasePlayer  {
@@ -23,7 +24,7 @@ public class VDomPlayerChuck extends BasePlayer  {
 
     @Override
     public String getPlayerName() {
-    	return getPlayerName(game.maskPlayerNames);
+    	return getPlayerName(Game.maskPlayerNames);
     }
     
     @Override
