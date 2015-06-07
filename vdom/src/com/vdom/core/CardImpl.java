@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import com.vdom.api.Card;
+import com.vdom.core.TreasureCardImpl.Builder;
 
 public class CardImpl implements Card {
 	// Template (immutable)
@@ -65,12 +66,16 @@ public class CardImpl implements Card {
         protected String description = "";
         protected String expansion = "";
 
+	    protected boolean attack    = false;
 	    protected boolean isPrize   = false;
 	    protected boolean isShelter = false;
 	    protected boolean isRuins   = false;
 	    protected boolean isKnight  = false;
 	    protected boolean isLooter  = false;
 	    protected boolean isOverpay = false;
+	    protected boolean isEvent   = false;
+	    protected boolean isReserve = false;
+	    protected boolean isTraveller  = false;
 
 
         public Builder(Cards.Type type, int cost) {
@@ -99,6 +104,11 @@ public class CardImpl implements Card {
             return this;
         }
 
+        public Builder attack() {
+            attack = true;
+            return this;
+        }
+
         public Builder isPrize() {
             isPrize = true;
             return this;
@@ -124,6 +134,16 @@ public class CardImpl implements Card {
             isOverpay = true;
             return this;
         }
+
+		public Builder isEvent() {
+            isEvent = true;
+            return this;
+		}
+
+		public Builder isReserve() {
+            isReserve = true;
+            return this;
+		}
 
         public CardImpl build() {
             return new CardImpl(this);

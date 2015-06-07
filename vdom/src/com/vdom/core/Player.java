@@ -1433,6 +1433,12 @@ public abstract class Player {
 	public abstract ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards);
 	public abstract DoctorOverpayOption doctor_chooseOption(MoveContext context, Card card);
 	public abstract Card herald_cardTopDeck(MoveContext context, Card[] cardList);
+
+	// ////////////////////////////////////////////
+    // Card interactions - Adventures Expansion
+    // ////////////////////////////////////////////
+
+	
 	
 	// ////////////////////////////////////////////
     // Card interactions - Promotional Cards
