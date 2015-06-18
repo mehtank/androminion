@@ -7,4 +7,7 @@
 	<string name="Prosperity">Prospérité</string>    
 	<string name="Cornucopia">Abondance</string>    
 	<string name="Hinterlands">L\'Arrière-Pays</string>     
+    <string name="DarkAges">L\'Age des Ténèbres</string>
+    <string name="Guilds">Guildes</string>
+    <string name="Promo">Promo</string>
 </resources>

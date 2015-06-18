@@ -22,7 +22,7 @@
 	<string name="vp_single">Worth %1$s VP</string>
 	<string name="vp_multiple">Worth %1$s VPs</string>
 	<string name="coin_next_turn">+(%1$s) Coin next turn</string>
-	<string name="buy_next_turn_single">+%1$s Buys next turn</string>
+	<string name="buy_next_turn_single">+%1$s Buy next turn</string>
 	<string name="buys_next_turn_multiple">+%1$s Buys next turn</string>
 	<string name="card_next_turn_single">+%1$s Card next turn</string>
 	<string name="cards_next_turn_multiple">+%1$s Cards next turn</string>
@@ -296,8 +296,8 @@
 	
 	<string name="mine_part">mine to</string>
 
-  <string name="throne_room_part">Throne Room</string>
-  <string name="kings_court_part">King\'s Court</string>
+  <string name="throne_room_part">play 2 times</string>
+  <string name="kings_court_part">play 3 times</string>
    
 	<string name="militia_part">keep from Militia</string>
 	<string name="mercenary_part">keep from Mercenary</string>
