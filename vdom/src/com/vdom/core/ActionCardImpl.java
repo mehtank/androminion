@@ -15,6 +15,7 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.core.CardImpl.Builder;
 import com.vdom.core.MoveContext.PileSelection;
 import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.SpiceMerchantOption;
@@ -52,7 +53,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	    protected int addCards;
 	    protected int addGold;
 	    protected int addVictoryTokens;
-	    protected boolean attack;
 	    protected boolean looter;
 	    protected boolean trashOnUse;
         protected boolean trashForced = false;
@@ -83,11 +83,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         public Builder addVictoryTokens(int val) {
             addVictoryTokens = val;
-            return this;
-        }
-
-        public Builder attack() {
-            attack = true;
             return this;
         }
 
@@ -130,6 +125,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 		public Builder isKnight() {
 			this.isKnight = true;
 			this.attack = true;
+			return this;
+		}
+
+		public Builder isEvent() {
+			this.isEvent = true;
+			return this;
+		}
+
+		public Builder isTraveller() {
+			this.isEvent = true;
 			return this;
 		}
 

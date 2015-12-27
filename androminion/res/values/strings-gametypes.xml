@@ -107,4 +107,27 @@
         
    <string name="FarFromHome_gametype">Far From Home (DA, Hntr)</string>
    <string name="Expeditions_gametype">Expeditions (DA, Hntr)</string>    
+
+   <string name="RandomAdventures_gametype">Random Adventures</string>
+   <string name="GentleIntro_gametype">Gentle Intro (Adv)</string>    
+   <string name="ExpertIntro_gametype">Expert Intro (Adv)</string>    
+   <string name="LevelUp_gametype">Level Up (Adv,Base)</string>    
+   <string name="SonOfSizeDistortion_gametype">Son of Size Distortion (Adv,Base)</string>    
+   <string name="RoyaltyFactory_gametype">Royalty Factory (Adv,Intr)</string>    
+   <string name="MastersofFinance_gametype">Masters of Finance (Adv,Intr)</string>    
+   <string name="PrinceofOrange_gametype">Prince of Orange (Adv,Sea)</string>    
+   <string name="GiftsandMathoms_gametype">Gifts and Mathoms (Adv,Sea)</string>    
+   <string name="HastePotion_gametype">Haste Potion (Adv,Alch)</string>    
+   <string name="Cursecatchers_gametype">Cursecatchers (Adv,Alch)</string>    
+   <string name="LastWillandMonument_gametype">Last Will and Monument (Adv,Prsp)</string>    
+   <string name="ThinkBig_gametype">Think Big (Adv,Prsp)</string>    
+   <string name="TheHerosReturn_gametype">The Hero\'s Return (Adv,Corn)</string>    
+   <string name="SeacraftandWitchcraft_gametype">Seacraft and Witchcraft (Adv,Corn)</string>    
+   <string name="TradersandRaiders_gametype">Traders and Raiders (Adv,Hntr)</string>    
+   <string name="Journeys_gametype">Journeys (Adv,Hntr)</string>    
+   <string name="CemeteryPolka_gametype">Cemetery Polka (Adv,DA)</string>    
+   <string name="GroovyDecay_gametype">Groovy Decay (Adv,DA)</string>    
+   <string name="Spendthrift_gametype">Spendthrift (Adv,Gld)</string>    
+   <string name="QueenofTan_gametype">Queen of Tan (Adv,Gld)</string>    
+
 </resources>
