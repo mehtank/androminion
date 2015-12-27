@@ -1,12 +1,12 @@
 package com.vdom.core;
 
 import com.vdom.api.Card;
-import com.vdom.core.TreasureCardImpl.Builder;
+import com.vdom.api.VictoryCard;
 
 public class CardImpl implements Card {
-	// Template (immutable)
-	Cards.Type type;
-	CardImpl templateCard;
+    // Template (immutable)
+    Cards.Type type;
+    CardImpl templateCard;
     String name;
     String safeName;
     int cost;
@@ -21,8 +21,11 @@ public class CardImpl implements Card {
     boolean isKnight  = false;
     boolean isLooter  = false;
     boolean isOverpay = false;  // can this card be overpaid for?
+    boolean isEvent = false;
+    boolean isReserve = false;
+    boolean isTraveller = false;
 
-    static int maxNameLen;	// across all cards
+    static int maxNameLen;    // across all cards
 
     // Implementation (mutable)
     private Integer id;
@@ -54,6 +57,9 @@ public class CardImpl implements Card {
         isKnight    = builder.isKnight;
         isLooter    = builder.isLooter;
         isOverpay   = builder.isOverpay;
+        isEvent     = builder.isEvent;
+        isReserve   = builder.isReserve;
+        isTraveller = builder.isTraveller;
     }
 
     public static class Builder {
@@ -66,16 +72,16 @@ public class CardImpl implements Card {
         protected String description = "";
         protected String expansion = "";
 
-	    protected boolean attack    = false;
-	    protected boolean isPrize   = false;
-	    protected boolean isShelter = false;
-	    protected boolean isRuins   = false;
-	    protected boolean isKnight  = false;
-	    protected boolean isLooter  = false;
-	    protected boolean isOverpay = false;
-	    protected boolean isEvent   = false;
-	    protected boolean isReserve = false;
-	    protected boolean isTraveller  = false;
+        protected boolean attack      = false;
+        protected boolean isPrize     = false;
+        protected boolean isShelter   = false;
+        protected boolean isRuins     = false;
+        protected boolean isKnight    = false;
+        protected boolean isLooter    = false;
+        protected boolean isOverpay   = false;
+        protected boolean isEvent     = false;
+        protected boolean isReserve   = false;
+        protected boolean isTraveller = false;
 
 
         public Builder(Cards.Type type, int cost) {
@@ -115,13 +121,13 @@ public class CardImpl implements Card {
         }
         
         public Builder isShelter() {
-        	isShelter = true;
-        	return this;
+            isShelter = true;
+            return this;
         }
 
         public Builder isRuins() {
-        	isRuins = true;
-        	return this;
+            isRuins = true;
+            return this;
         }
         
         public Builder isLooter() {
@@ -135,15 +141,15 @@ public class CardImpl implements Card {
             return this;
         }
 
-		public Builder isEvent() {
+        public Builder isEvent() {
             isEvent = true;
             return this;
-		}
+        }
 
-		public Builder isReserve() {
+        public Builder isReserve() {
             isReserve = true;
             return this;
-		}
+        }
 
         public CardImpl build() {
             return new CardImpl(this);
@@ -153,17 +159,17 @@ public class CardImpl implements Card {
     protected CardImpl() {
     }
 
-	public String getSafeName() {
+    public String getSafeName() {
         return name;
     }
 
-	public boolean isTemplateCard() {
-		return templateCard == null;
-	}
+    public boolean isTemplateCard() {
+        return templateCard == null;
+    }
 
-	public CardImpl getTemplateCard() {
-		return templateCard == null ? this : templateCard;
-	}
+    public CardImpl getTemplateCard() {
+        return templateCard == null ? this : templateCard;
+    }
 
     protected void checkInstantiateOK() {
         if (!isTemplateCard()) {
@@ -195,6 +201,9 @@ public class CardImpl implements Card {
         c.isKnight = isKnight;
         c.isLooter = isLooter;
         c.isOverpay = isOverpay;
+        c.isEvent = isEvent;
+        c.isReserve = isReserve;
+        c.isTraveller = isTraveller;
         c.vp = vp;
     }
 
@@ -213,19 +222,34 @@ public class CardImpl implements Card {
     }
 
     public int getCost(MoveContext context, boolean buyPhase) {
-    	if (this.equals(Cards.virtualKnight))
-    		if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
-    			return context.game.getTopKnightCard().getCost(context,buyPhase); 
+    	if (this.isEvent()) return cost; //Costs of Events are not affected by cards like Bridge Troll.
+        if (this.equals(Cards.virtualKnight))
+            if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
+                return context.game.getTopKnightCard().getCost(context,buyPhase); 
 
-    	int costModifier = 0;
+        int costModifier = 0;
         costModifier -= (this instanceof ActionCardImpl) ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
         costModifier -= context.countCardsInPlay(Cards.highway);
+        costModifier -= context.countCardsInPlay(Cards.bridgeTroll);
+        costModifier -= context.countCardsInNextTurn(Cards.bridgeTroll);
+        costModifier -= 2 * context.countCardsInPlay(Cards.princess);
         costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlayThisTurn()) : 0;
         //costModifier -= (this.isKnight ? (cost - game. (2 * context.countCardsInPlay(Cards.quarry)) : 0;
 
-        return Math.max(0, cost + costModifier + context.cardCostModifier);
+        return Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);
     }
 
+    public boolean isVictory(MoveContext context) {
+        if (context == null)
+            return false;
+        
+        if (this.equals(Cards.virtualKnight))
+            if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
+                return (context.game.getTopKnightCard() instanceof VictoryCard); 
+
+        return (this instanceof VictoryCard);
+    }
+    
     /**
      * @return the id
      */
@@ -238,7 +262,7 @@ public class CardImpl implements Card {
 
     public String getStats() {
         StringBuilder sb = new StringBuilder();
-		    sb.append ("(" + cost + (costPotion ? "p)" : ") "));
+            sb.append ("(" + cost + (costPotion ? "p)" : ") "));
         if (vp > 0) {
             sb.append(", " + vp + " victory point");
             if (vp > 1) {
@@ -277,15 +301,15 @@ public class CardImpl implements Card {
     }
     @Override
     public boolean isShelter() {
-    	return isShelter;
+        return isShelter;
     }
     @Override
     public boolean isRuins() {
-    	return isRuins;
+        return isRuins;
     }
     @Override
     public boolean isKnight() {
-    	return isKnight;
+        return isKnight;
     }
     
     @Override
@@ -300,6 +324,28 @@ public class CardImpl implements Card {
     }
     
     @Override
+    public boolean isEvent()
+    {
+        return isEvent;
+    }
+    
+    @Override
+    public boolean isReserve()
+    {
+        return isReserve;
+    }
+    
+    @Override
+    public boolean isTraveller()
+    {
+        return isTraveller;
+    }
+    
+    @Override
+    public void isBuying(MoveContext context) {
+    }
+    
+    @Override
     public void isBought(MoveContext context) {
     }
     
@@ -307,38 +353,38 @@ public class CardImpl implements Card {
     public void isTrashed(MoveContext context) {
     }
 
-	public boolean isImpersonatingAnotherCard() {
-		return !(this.impersonatingCard == null);
-	}
-
-    public Card behaveAsCard() {
-    	return (this.impersonatingCard == null ? this : this.impersonatingCard);
+    public boolean isImpersonatingAnotherCard() {
+        return !(this.impersonatingCard == null);
     }
 
-//	CardImpl getImpersonatingCard() {
-//		return impersonatingCard;
-//	}
+    public Card behaveAsCard() {
+        return (this.impersonatingCard == null ? this : this.impersonatingCard);
+    }
 
-	void startImpersonatingCard(CardImpl impersonatingCard) {
-		impersonatingCard.setControlCard(this);
-		this.impersonatingCard = impersonatingCard;
-		}
+//    CardImpl getImpersonatingCard() {
+//        return impersonatingCard;
+//    }
 
-	void stopImpersonatingCard() {
-		this.impersonatingCard = null;
-		}
+    void startImpersonatingCard(CardImpl impersonatingCard) {
+        impersonatingCard.setControlCard(this);
+        this.impersonatingCard = impersonatingCard;
+        }
 
-	@Override
-	public CardImpl getControlCard() {
-		return controlCard;
-	}
+    void stopImpersonatingCard() {
+        this.impersonatingCard = null;
+        }
 
-	void setControlCard(CardImpl controlCard) {
-		this.controlCard = controlCard;
-	}
+    @Override
+    public CardImpl getControlCard() {
+        return controlCard;
+    }
 
-	/*@Override
-	public void isGained(MoveContext context) {
-		
-	}*/
+    void setControlCard(CardImpl controlCard) {
+        this.controlCard = controlCard;
+    }
+
+    /*@Override
+    public void isGained(MoveContext context) {
+        
+    }*/
 }

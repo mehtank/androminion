@@ -36,19 +36,19 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     @Override
     public void isTrashed(MoveContext context)
     {
-    	switch (this.getType()) 
-    	{
+        switch (this.getType()) 
+        {
         case OvergrownEstate:
-        	context.game.drawToHand(context.player, this);
-        	break;
+            context.game.drawToHand(context.player, this);
+            break;
         case Feodum:
-        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-        	break;
+            context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+            context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+            context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+            break;
         default:
-        	break;
-    	}
+            break;
+        }
     }
 
     @Override
@@ -67,13 +67,12 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     }
 
     @Override
-    public void isBought(MoveContext context) {
-    	
-    	context.game.trashHovelsInHandOption(context.player, context, this);
-    	
-    	if (this.equals(Cards.farmland)) {
+    public void isBuying(MoveContext context) {
+        context.game.trashHovelsInHandOption(context.player, context, this);
+
+        if (this.equals(Cards.farmland)) {
             Player player = context.getPlayer();
-        	if(player.getHand().size() > 0) {
+            if(player.getHand().size() > 0) {
                 Card cardToTrash = player.controlPlayer.farmland_cardToTrash((MoveContext) context);
 
                 if (cardToTrash == null) {
@@ -104,7 +103,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
                     boolean validCard = false;
                     
                     for(Card c : context.getCardsInGame()) {
-                        if(c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeftInPile(c) > 0) {
+                        if(Cards.isSupplyCard(c) && c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeftInPile(c) > 0) {
                             validCard = true;
                             break;
                         }
@@ -119,7 +118,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
                             }
                             else
                             {
-                                if(!player.gainNewCard(card, this, (MoveContext) context)) {
+                                if(player.gainNewCard(card, this, (MoveContext) context) == null) {
                                     Util.playerError(player, "Farmland new card is invalid, ignoring.");
                                 }
                             }
@@ -129,7 +128,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
                         }
                     }
                 }
-        	}
-    	}
+            }
+        }
     }
 }

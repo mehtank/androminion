@@ -234,14 +234,24 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Reaction_Victory;
 		} else if (c.isReaction && c.isTreasure) {
 			return R.style.CardView_Treasure_Reaction;
+		} else if (c.isDuration && c.isReaction) {
+			return R.style.CardView_Duration_Reaction;
 		} else if (c.isReaction) {
 			return R.style.CardView_Reaction;
+		} else if (c.isDuration && c.isAttack) {
+			return R.style.CardView_Duration_Attack;
 		} else if (c.isDuration) {
 			return R.style.CardView_Duration;
+		} else if (c.isReserve && c.isVictory) {
+			return R.style.CardView_Reserve_Victory;
+		} else if (c.isReserve) {
+			return R.style.CardView_Reserve;
 		} else if (c.isRuins) {
 			return R.style.CardView_Ruins;
 		} else if (c.isVictory && c.isAttack) { 
 			return R.style.CardView_Attack_Victory;
+		} else if (c.isTreasure && c.isAttack) {
+			return R.style.CardView_Treasure_Attack;
 		} else if (c.isAttack) {
 			return R.style.CardView_Attack;
 		} else if (c.isTreasure && c.isVictory) {
@@ -267,6 +277,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Curse;
 		} else if (c.isVictory) {
 			return R.style.CardView_Victory;
+		} else if (c.isEvent) {
+			return R.style.CardView_Event;
 		} else {
 			return R.style.CardView;
 		}
@@ -373,102 +385,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	public CardState getState() {
 		return state;
 	}
-	
-	public String GetCardTypeString(MyCard c)
-    {
-	    String cardType = "";
-	    Context context = getContext();
-        
-        if (c.isAction)
-        {
-            cardType += context.getString(R.string.type_action);
-            
-            if (c.isAttack)
-            {
-                cardType += " - " + context.getString(R.string.type_attack);
-            }
-            
-            if (c.isLooter)
-            {
-                cardType += " - " + context.getString(R.string.type_looter);
-            }
-            
-            if (c.isRuins)
-            {
-                cardType += " - " + context.getString(R.string.type_ruins);
-            }
-            
-            if (c.isPrize)
-            {
-                cardType += " - " + context.getString(R.string.type_prize);
-            }
-            
-            if (c.isReaction)
-            {
-                cardType += " - " + context.getString(R.string.type_reaction);
-            }
-            
-            if (c.isDuration)
-            {
-                cardType += " - " + context.getString(R.string.type_duration);
-            }
-            
-            if (c.isVictory)
-            {
-                cardType += " - " + context.getString(R.string.type_victory);
-            }
-            
-            if (c.isKnight)
-            {
-                cardType += " - " + context.getString(R.string.type_knight);
-            }
-            
-            if (c.isShelter)
-            {
-                cardType += " - " + context.getString(R.string.type_shelter);
-            }
-        }
-        else if (c.isTreasure)
-        {
-            cardType += context.getString(R.string.type_treasure);
-            
-            if (c.isVictory)
-            {
-                cardType += " - " + context.getString(R.string.type_victory);
-            }
-            
-            if (c.isReaction)
-            {
-                cardType += " - " + context.getString(R.string.type_reaction);
-            }
-            
-            if (c.isPrize)
-            {
-                cardType += " - " + context.getString(R.string.type_prize);
-            }
-        }
-        else if (c.isVictory)
-        {
-            cardType += context.getString(R.string.type_victory);
-            
-            if (c.isShelter)
-            {
-                cardType += " - " + context.getString(R.string.type_shelter);
-            }
-            
-            if (c.isReaction)
-            {
-                cardType += " - " + context.getString(R.string.type_reaction);
-            }
-        }
-        else if (c.name.equalsIgnoreCase("hovel"))
-        {
-            cardType += context.getString(R.string.type_reaction) + " - " + context.getString(R.string.type_shelter);
-        }
-        
-        return cardType;
-    }
-	
+
 	@SuppressLint("NewApi")
 	@Override
 	public boolean onLongClick(View view) {
@@ -558,6 +475,120 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		return true;
 	}
 	
+	public String GetCardTypeString(MyCard c)
+    {
+	    String cardType = "";
+	    Context context = getContext();
+        
+        if (c.isAction)
+        {
+            cardType += context.getString(R.string.type_action);
+            
+            if (c.isAttack)
+            {
+                cardType += " - " + context.getString(R.string.type_attack);
+            }
+            
+            if (c.isLooter)
+            {
+                cardType += " - " + context.getString(R.string.type_looter);
+            }
+            
+            if (c.isRuins)
+            {
+                cardType += " - " + context.getString(R.string.type_ruins);
+            }
+            
+            if (c.isPrize)
+            {
+                cardType += " - " + context.getString(R.string.type_prize);
+            }
+            
+            if (c.isTraveller)
+            {
+                cardType += " - " + context.getString(R.string.type_traveller);
+            }
+            
+            if (c.isReserve)
+            {
+                cardType += " - " + context.getString(R.string.type_reserve);
+            }
+            
+            if (c.isDuration)
+            {
+                cardType += " - " + context.getString(R.string.type_duration);
+            }
+            
+            if (c.isReaction)
+            {
+                cardType += " - " + context.getString(R.string.type_reaction);
+            }
+            
+            if (c.isVictory)
+            {
+                cardType += " - " + context.getString(R.string.type_victory);
+            }
+            
+            if (c.isKnight)
+            {
+                cardType += " - " + context.getString(R.string.type_knight);
+            }
+            
+            if (c.isShelter)
+            {
+                cardType += " - " + context.getString(R.string.type_shelter);
+            }
+        }
+        else if (c.isTreasure)
+        {
+            cardType += context.getString(R.string.type_treasure);
+            
+            if (c.isAttack)
+            {
+                cardType += " - " + context.getString(R.string.type_attack);
+            }
+            
+            if (c.isVictory)
+            {
+                cardType += " - " + context.getString(R.string.type_victory);
+            }
+            
+            if (c.isReaction)
+            {
+                cardType += " - " + context.getString(R.string.type_reaction);
+            }
+            
+            if (c.isPrize)
+            {
+                cardType += " - " + context.getString(R.string.type_prize);
+            }            
+        }
+        else if (c.isVictory)
+        {
+            cardType += context.getString(R.string.type_victory);
+            
+            if (c.isShelter)
+            {
+                cardType += " - " + context.getString(R.string.type_shelter);
+            }
+            
+            if (c.isReaction)
+            {
+                cardType += " - " + context.getString(R.string.type_reaction);
+            }
+        }
+        else if (c.isEvent)
+        {
+            cardType += context.getString(R.string.type_event);
+        }
+        else if (c.name.equalsIgnoreCase("hovel"))
+        {
+            cardType += context.getString(R.string.type_reaction) + " - " + context.getString(R.string.type_shelter);
+        }
+        
+        return cardType;
+    }
+		
 	/**
 	 * @param context used to check the device version and DownloadManager information
 	 * @return true if the download manager is available

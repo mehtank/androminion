@@ -30,7 +30,7 @@ public class DumpCardResources {
         cards.addAll(Cards.actionCardsDarkAges);
         cards.addAll(Cards.actionCardsGuilds);
         cards.addAll(Cards.actionCardsAdventures);
-
+        
         cards.add(Cards.princess);
         cards.add(Cards.bagOfGold);
         cards.add(Cards.diadem);

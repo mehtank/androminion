@@ -22,6 +22,10 @@ public interface ActionCard extends Card {
     
     public boolean isLooter();
 
+    public boolean isReserve();
+    
+    public boolean isTraveller();
+    
     public boolean trashForced();
 
     public void play(Game game, MoveContext context);

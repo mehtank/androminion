@@ -18,6 +18,9 @@ public class PlayerSummary {
 	public int pt;
 	public int vt;
 	public int gct; // Guilds Coin Tokens
+	public boolean journeyTokenFaceUp;
+	public boolean minusOneCoinTokenOn;
+	public boolean minusOneCardTokenOn;
 	public boolean highlight = false;
 	public int turns;
 	
@@ -25,7 +28,7 @@ public class PlayerSummary {
 		this.name = name;
 	}
 	
-	public void set(String name, int turns, int deckSize, int handSize, int numCards, int pt, int vt, int gct, boolean highlight){
+	public void set(String name, int turns, int deckSize, int handSize, int numCards, int pt, int vt, int gct, boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, boolean journeyTokenFaceUp, boolean highlight){
 		this.name = name;
 		this.turns = turns;
 		this.deckSize = deckSize;
@@ -34,6 +37,9 @@ public class PlayerSummary {
 		this.pt = pt;
 		this.vt = vt;
 		this.gct = gct;
+		this.journeyTokenFaceUp = journeyTokenFaceUp;
+		this.minusOneCoinTokenOn = minusOneCoinTokenOn;
+		this.minusOneCardTokenOn = minusOneCardTokenOn;
 		this.highlight = highlight;
 	}
 	

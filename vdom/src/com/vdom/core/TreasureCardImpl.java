@@ -1,7 +1,6 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
@@ -9,8 +8,10 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public class TreasureCardImpl extends CardImpl implements TreasureCard {
+    private static final long serialVersionUID = 1L;
     int value;
     boolean providePotion;
+    protected boolean attack;
     
     public TreasureCardImpl(Cards.Type type, int cost, int value) {
         super(type, cost);
@@ -21,6 +22,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         super(builder);
         value = builder.value;
         providePotion = builder.providePotion;
+        attack = builder.attack;
     }
 
     public static class Builder extends CardImpl.Builder {
@@ -53,6 +55,10 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         return value;
     }
 
+    public boolean isAttack() {
+        return attack;
+    }
+
     @Override
     public CardImpl instantiate() {
         checkInstantiateOK();
@@ -69,6 +75,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         super.copyValues(c);
         c.value = value;
         c.providePotion = providePotion;
+        c.attack = attack;
     }
 
     @Override
@@ -85,10 +92,12 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
 
         GameEvent event = new GameEvent(GameEvent.Type.PlayingCoin, (MoveContext) context);
         event.card = this;
+        event.newCard = !isClone;
         game.broadcastEvent(event);
 
         if (this.numberTimesAlreadyPlayed == 0) {
-        	player.playedCards.add(player.hand.removeCard(this));
+        	player.hand.remove(this);
+        	player.playedCards.add(this);
         }
         
         if (!isClone)
@@ -112,7 +121,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         } else if (equals(Cards.copper)) {
             context.gold += context.coppersmithsPlayed;
         } else if (equals(Cards.bank)) {
-            context.gold += context.treasuresPlayedSoFar;
+            context.gold += treasuresInPlay(player.playedCards);
         } else if (equals(Cards.contraband)) {
             reevaluateTreasures = contraband(context, game, reevaluateTreasures);
         } else if (equals(Cards.loan) || equals(Cards.venture)) {
@@ -122,7 +131,11 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         } else if (equals(Cards.illGottenGains)) {
             reevaluateTreasures = illGottenGains(context, player, reevaluateTreasures);
         } else if (equals(Cards.counterfeit)) {
-        	reevaluateTreasures = counterfeit(context, game, reevaluateTreasures, player);
+        	  reevaluateTreasures = counterfeit(context, game, reevaluateTreasures, player);
+        } else if (equals(Cards.treasureTrove)) {
+        	  treasureTrove(context, player, game);
+        } else if (equals(Cards.relic)) {
+        	  relic(context, player, game);
         }
 		else if (equals(Cards.spoils))
         {
@@ -134,6 +147,16 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         }
 
         return reevaluateTreasures;
+    }
+
+    protected int treasuresInPlay(CardList playedCards) {
+    	int treasuresInPlay = 0;
+        for (Card card : playedCards) {
+ 	       if (card instanceof TreasureCard) {
+ 	    	  treasuresInPlay++;
+ 	       }
+        }
+        return treasuresInPlay;
     }
 
     protected void foolsGold(MoveContext context) {
@@ -161,7 +184,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         GameEvent event = null;
 
         while (treasureCardFound == null) {
-            Card draw = game.draw(player);
+            Card draw = game.draw(player, true);
             if (draw == null) {
                 break;
             }
@@ -255,10 +278,11 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             context.treasuresPlayedSoFar--; 
             
             if (!treasure.equals(Cards.spoils)) {
-                if (currentPlayer.playedCards.getLastCard().getId() == cardToPlay.getId()) {
-                	currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), this, context);
-	    		}
-    		}
+                if (currentPlayer.playedCards.getLastCard().equals(treasure)) {
+                	currentPlayer.playedCards.remove(treasure);
+                	currentPlayer.trash(treasure, this, context);
+                }
+    		    }
     	}
 
         return true;
@@ -266,7 +290,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     }
     
     @Override
-    public void isBought(MoveContext context) 
+    public void isBuying(MoveContext context)
     {
         switch (this.controlCard.getType()) 
         {
@@ -282,10 +306,31 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     {
         for (int i = 0; i < context.overpayAmount; ++i)
         {
-            if(!context.getPlayer().gainNewCard(Cards.silver, this.controlCard, context)) 
+            if(context.getPlayer().gainNewCard(Cards.silver, this.controlCard, context) == null) 
             {
                 break;
             }
         }
     }
+
+    /*Adventures*/
+    protected void treasureTrove(MoveContext context, Player player, Game game) {
+        context.getPlayer().gainNewCard(Cards.gold, this.controlCard, context); 
+        context.getPlayer().gainNewCard(Cards.copper, this.controlCard, context); 
+    }    
+
+    protected void relic(MoveContext context, Player player, Game game) {
+        ArrayList<Player> playersToAttack = new ArrayList<Player>();
+        for (Player targetPlayer : game.getPlayersInTurnOrder()) {
+            if (targetPlayer != player && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+                playersToAttack.add(targetPlayer);
+                targetPlayer.attacked(this.controlCard, context);
+            }
+        }
+
+        for (Player targetPlayer : playersToAttack) {
+            MoveContext targetContext = new MoveContext(context.game, targetPlayer);
+        	targetPlayer.setMinusOneCardToken(true, targetContext);
+        }
+    }    
 }

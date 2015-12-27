@@ -17,5 +17,7 @@
     <color name="cardPotion">#33CCFF</color>
     <color name="cardCurse">#9400D3</color>
     <color name="cardRuins">#806F49</color>
+    <color name="cardEvent">#E6DEC8</color>
+    <color name="cardReserve">#E0D53A</color>
 
 </resources>
