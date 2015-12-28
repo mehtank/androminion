@@ -1154,7 +1154,6 @@ public class Strings {
             getCardName(Cards.artificer),
             getCardName(Cards.bonfire),
             getCardName(Cards.dungeon),
-            getCardName(Cards.gear),
             getCardName(Cards.storyteller),
             getCardName(Cards.treasureTrove)
         ));

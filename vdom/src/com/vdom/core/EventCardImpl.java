@@ -151,6 +151,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
         	context.player.hand.remove(card);
         	context.player.save = card;
         }
+        context.cantBuy.add(this); //once per turn
     }
     
     private void scoutingParty(MoveContext context) {
