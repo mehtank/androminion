@@ -1511,12 +1511,17 @@ public class Game {
         return false;
     }
 
-    // TODO: all calls should use this but initial turn draws...
+    // Use drawToHand when "drawing" or "+ X cards" when -1 Card token could be drawn instead
     boolean drawToHand(Player player, Card responsible) {
         return drawToHand(player, responsible, true);
     }
 
     boolean drawToHand(Player player, Card responsible, boolean showUI) {
+    	if (player.getMinusOneCardToken()) {
+    		MoveContext context = new MoveContext(this, player);
+    		player.setMinusOneCardToken(false, context);
+    		return false;
+    	}
         Card card = draw(player);
         if (card == null)
             return false;
@@ -1530,26 +1535,17 @@ public class Game {
         return true;
     }
 
+    // Use draw when removing a card from the top of the deck without "drawing" it (e.g. look at or reveal)
     Card draw(Player player) {
-    	return draw(player, false);
-    }
-    
-    Card draw(Player player, boolean ignoringMinusOneCardToken) {
-    	if(!ignoringMinusOneCardToken && player.getMinusOneCardToken()) {
-            MoveContext context = new MoveContext(this, player);
-    		player.setMinusOneCardToken(false, context);
-    		return null;
-    	} else {
-	        if (player.deck.isEmpty()) {
-	            if (player.discard.isEmpty()) {
-	                return null;
-	            } else {
-	                replenishDeck(player);
-	            }
-	        }
-	
-	        return player.deck.remove(0);
-    	}
+    	if (player.deck.isEmpty()) {
+            if (player.discard.isEmpty()) {
+                return null;
+            } else {
+                replenishDeck(player);
+            }
+        }
+
+        return player.deck.remove(0);
     }
 
     public void replenishDeck(Player player) {

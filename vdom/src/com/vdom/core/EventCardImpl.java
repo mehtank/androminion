@@ -157,7 +157,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
     private void scoutingParty(MoveContext context) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i < 5; i++) {
-            Card card = context.game.draw(context.player, true);
+            Card card = context.game.draw(context.player);
             if (card != null) {
                 cards.add(card);
             }

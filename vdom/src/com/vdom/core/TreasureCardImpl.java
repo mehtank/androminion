@@ -184,7 +184,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         GameEvent event = null;
 
         while (treasureCardFound == null) {
-            Card draw = game.draw(player, true);
+            Card draw = game.draw(player);
             if (draw == null) {
                 break;
             }
