@@ -649,6 +649,33 @@ public class Util {
 	}
 	
 	/**
+	 * Comparator for sorting cards.
+	 * Traveller cards first, rest unsortet
+	 */
+	static public class CardTravellerComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			if(card0.isTraveller()) {
+				if(card1.isTraveller()) {
+					if(card0.getCost(null) > card1.getCost(null)) {
+						return -1;
+					} else if(card0.getCost(null) < card1.getCost(null)) {
+						return 1;
+					} else {
+						return 0;
+					}
+				} else {
+					return -1;
+				}
+			} else if(card1.isTraveller()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+
+	/**
 	 * Comparator for sorting cards by cost and then by name
 	 * Used for sorting on table
 	 */

@@ -2,6 +2,7 @@ package com.vdom.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -447,6 +448,7 @@ public abstract class Player {
         }
 
         
+        Collections.sort(playedCards.toArrayList(), new Util.CardTravellerComparator());
         while (!playedCards.isEmpty()) {
             discard(playedCards.remove(0), null, context, false, true);
         }
@@ -896,6 +898,8 @@ public abstract class Player {
     	if (card.equals(Cards.treasureHunter)) exchange = Cards.warrior;
     	if (card.equals(Cards.warrior)) exchange = Cards.hero;
     	if (card.equals(Cards.hero)) exchange = Cards.champion;
+    	if (context.getCardsLeftInPile(exchange) <= 0)
+    		exchange = null;
     	if (exchange != null) {
             if(!controlPlayer.traveller_shouldExchange(context, card, exchange))
             	exchange = null;
