@@ -1918,6 +1918,12 @@ public class Game {
                         break;
                     }
                 }
+                for (Card c : Cards.eventsCards) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                        card = c;
+                        break;
+                    }
+                }
                 if(card != null && bane) {
                     baneCard = card;
                 }
