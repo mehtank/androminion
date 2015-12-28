@@ -266,25 +266,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         game.broadcastEvent(event);
 
         // test if any prince card left the play
-        if (currentPlayer.playedByPrince.size() > 0) {
-            ArrayList<Card> playedByPrince = new ArrayList<Card>();
-            for (int i = 0; i < currentPlayer.playedByPrince.size(); i++) {
-                playedByPrince.add(currentPlayer.playedByPrince.remove(i));
-            }
-            ArrayList<Card> playedCards = new ArrayList<Card>();
-            for (int i = 0; i < currentPlayer.playedCards.size(); i++) {
-                playedCards.add(currentPlayer.playedCards.get(i));
-            }
-            for (Card card : playedByPrince) {
-                if (playedCards.contains(card)) {
-                    playedCards.remove(card);
-                    currentPlayer.playedByPrince.add(card);
-                }
-                else {
-                    Util.log("Prince card has left the play:" + card.getName());
-                }
-            }
-        }
+        currentPlayer.princeCardLeftThePlay(currentPlayer);
     }
 
     protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {

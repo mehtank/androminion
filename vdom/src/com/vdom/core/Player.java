@@ -451,6 +451,7 @@ public abstract class Player {
         Collections.sort(playedCards.toArrayList(), new Util.CardTravellerComparator());
         while (!playedCards.isEmpty()) {
             discard(playedCards.remove(0), null, context, false, true);
+            princeCardLeftThePlay(this); // princed travellers may be exchanged
         }
         
         playedByPrince.clear();
@@ -1017,6 +1018,29 @@ public abstract class Player {
             event.responsible = responsible;
             event.newCard = false;
             context.game.broadcastEvent(event);
+        }
+    }
+
+    // test if any prince card left the play
+    public void princeCardLeftThePlay(Player currentPlayer) {
+        if (currentPlayer.playedByPrince.size() > 0) {
+            ArrayList<Card> playedByPrince = new ArrayList<Card>();
+            for (int i = 0; i < currentPlayer.playedByPrince.size(); i++) {
+                playedByPrince.add(currentPlayer.playedByPrince.remove(i));
+            }
+            ArrayList<Card> playedCards = new ArrayList<Card>();
+            for (int i = 0; i < currentPlayer.playedCards.size(); i++) {
+                playedCards.add(currentPlayer.playedCards.get(i));
+            }
+            for (Card card : playedByPrince) {
+                if (playedCards.contains(card)) {
+                    playedCards.remove(card);
+                    currentPlayer.playedByPrince.add(card);
+                }
+                else {
+                    Util.log("Prince card has left the play:" + card.getName());
+                }
+            }
         }
     }
 
