@@ -21,7 +21,6 @@ public class MoveContext {
     public int potions;
     public int actionsPlayedSoFar = 0;
     public int treasuresPlayedSoFar = 0; /* Doesn't work because of Spoils or Mint */
-    public int goldAvailable;
     public int coppersmithsPlayed = 0;
     public int schemesPlayed = 0;
 

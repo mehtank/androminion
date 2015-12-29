@@ -7,8 +7,9 @@ import java.util.Comparator;
 import com.vdom.core.Util.MultilevelComparator;
 
 public class MyCard implements Serializable {
-	private static final long serialVersionUID = -1367468781663470597L;
 
+	private static final long serialVersionUID = 4918045082221992494L;
+	
 	public int id;
 	public String name;
 	public String expansion;
@@ -52,6 +53,7 @@ public class MyCard implements Serializable {
 	public static final int RUINS_PILES = 7;
 	public static final int KNIGHTS_PILES = 8;
 	public static final int BLACKMARKET_PILE = 9;
+	public static final int EVENTPILE = 10;
 
 	public int pile;
 

@@ -53,6 +53,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private String viewstyle;
 	private boolean autodownload;
 	private Context top;
+	private boolean hideCountLeft;
 
 	CardGroup parent;
 	private CardState state;
@@ -155,6 +156,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			cost.setVisibility(INVISIBLE);
 		} else {
 			cost.setVisibility(VISIBLE);
+		}
+		
+		if (c.isEvent){
+			hideCountLeft = true;
+			countLeft.setVisibility(GONE);
 		}
 
 		// TODO: Merge this border with the color setting below, then get rid of cardBox.
@@ -323,7 +329,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	public void setCountLeft(int s) {
 		countLeft.setText(" " + s + " ");
-		countLeft.setVisibility(VISIBLE);
+		countLeft.setVisibility(hideCountLeft ? GONE : VISIBLE);
+		
 		if (s == 0)
 			shade(true);
 		else
@@ -364,7 +371,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	}
 
 	void setOnTable(boolean onTable) {
-		countLeft.setVisibility(onTable ? VISIBLE : GONE);
+		countLeft.setVisibility(onTable && !hideCountLeft ? VISIBLE : GONE);
 		if (cardDesc != null)
 			cardDesc.setVisibility((onTable && "viewstyle-descriptive".equals(viewstyle)) ? VISIBLE : GONE);
 		if (onTable && "viewstyle-classic".equals(viewstyle)) {

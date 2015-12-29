@@ -660,7 +660,6 @@ public class Game {
 
     protected void playerBuy(Player player, MoveContext context) {
         Card buy = null;
-        context.goldAvailable = context.getCoinAvailableForBuy();
         do {
             try {
                 buy = player.controlPlayer.doBuy(context);

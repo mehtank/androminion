@@ -56,8 +56,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     TextView playedHeader;
     LinearLayout myCards;
 
-    GridView moneyPileGV, vpPileGV, supplyPileGV, prizePileGV, nonSupplyPileGV;
-    CardGroup moneyPile, vpPile, supplyPile, prizePile, nonSupplyPile;
+    GridView moneyPileGV, vpPileGV, supplyPileGV, prizePileGV, nonSupplyPileGV, eventPileGV;
+    CardGroup moneyPile, vpPile, supplyPile, prizePile, nonSupplyPile, eventPile;
 
     LinearLayout tr;
     LinearLayout gameOver;
@@ -146,6 +146,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         prizePileGV.setAdapter(prizePile);
         prizePileGV.setOnItemClickListener(this);
         prizePileGV.setOnItemLongClickListener(this);
+        
+        eventPile = new CardGroup(top, true);
+        eventPileGV = (GridView) findViewById(R.id.eventPileGV);
+        eventPileGV.setAdapter(eventPile);
+        eventPileGV.setOnItemClickListener(this);
+        eventPileGV.setOnItemLongClickListener(this);
     }
 
     /**
@@ -309,6 +315,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         vpPile.clear();
         supplyPile.clear();
         prizePile.clear();
+        eventPile.clear();
         nonSupplyPile.clear();
         hand.clear();
         played.clear();
@@ -426,6 +433,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             prizePile.addCard(c);
         else if (c.pile == MyCard.NON_SUPPLY_PILE)
             nonSupplyPile.addCard(c);
+        else if (c.pile == MyCard.EVENTPILE)
+        	eventPile.addCard(c);
     }
 
     /**
@@ -464,7 +473,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             } else {
                 if ((parent != vpPile)
                     &&  (parent != moneyPile)
-                    &&  (parent != supplyPile)) return false;
+                    &&  (parent != supplyPile)
+                    &&  (parent != eventPile)) return false;
             }
         } else if (sco.fromPrizes) {
             if (parent != prizePile) return false;

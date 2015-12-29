@@ -221,6 +221,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (c instanceof EventCard) {
             EventCard ac = (EventCard) c;
             card.isEvent = true;
+            card.pile = MyCard.EVENTPILE;
         }
 
         return card;
