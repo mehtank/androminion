@@ -6081,18 +6081,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
     
     private void bridgeTroll(Game game, MoveContext context, Player currentPlayer)
-    {    	
-        ArrayList<Player> playersToAttack = new ArrayList<Player>();
+    {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
-                playersToAttack.add(targetPlayer);
+                MoveContext targetContext = new MoveContext(context.game, targetPlayer);
                 targetPlayer.attacked(this.controlCard, context);
+                targetPlayer.setMinusOneCoinToken(true, targetContext);
             }
-        }
-
-        for (Player targetPlayer : playersToAttack) {
-            MoveContext targetContext = new MoveContext(context.game, targetPlayer);
-        	targetPlayer.setMinusOneCoinToken(true, targetContext);
         }
     }
     
