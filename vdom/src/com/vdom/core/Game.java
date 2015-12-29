@@ -366,11 +366,6 @@ public class Game {
 
     protected void playTreasures(Player player, MoveContext context, int maxCards) {
     	// storyteller sets maxCards != -1
-        // Set the turn gold to the correct amount
-        context.gold = context.addGold;
-        context.addGold = 0;
-        context.potions = context.addPotions;
-        context.addPotions = 0;
         if (!context.blackMarketBuyPhase && maxCards == -1) {
             context.buyPhase = true;
         }
@@ -405,7 +400,7 @@ public class Game {
             if (numTokensToSpend > 0 && numTokensToSpend <= coinTokenTotal)
             {
                 player.spendGuildsCoinTokens(numTokensToSpend);
-                context.addGold += numTokensToSpend;
+                context.addCoins(numTokensToSpend);
                 if(numTokensToSpend > 0)
                 {
                     GameEvent event = new GameEvent(GameEvent.Type.GuildsTokenSpend, context);
@@ -596,10 +591,8 @@ public class Game {
         context.actionsPlayedSoFar = 0;
         context.actions = 1;
         context.buys = 1;
-        context.addGold = 0;
         context.coppersmithsPlayed = 0;
-        context.gold = context.getCoinAvailableForBuy();
-
+        
         GameEvent event = new GameEvent(GameEvent.Type.NewHand, context);
         broadcastEvent(event);
         event = null;
@@ -827,14 +820,13 @@ public class Game {
                 broadcastEvent(event);
 
                 context.actions += thisCard.getAddActionsNextTurn();
-                context.addGold += thisCard.getAddGoldNextTurn();
+                context.addCoins(thisCard.getAddGoldNextTurn());
                 context.buys += thisCard.getAddBuysNextTurn();
                 int addCardsNextTurn = thisCard.getAddCardsNextTurn();
 
                 /* addCardsNextTurn are displayed like addCards but sometimes the text differs */
                 if (thisCard.getType() == Cards.Type.Tactician) {
                     context.actions += 1;
-                    context.addGold += 0;
                     context.buys += 1;
                     addCardsNextTurn = 5;
                 }
@@ -1386,7 +1378,7 @@ public class Game {
             }
         }
 
-        context.gold -= (buy.getCost(context) + context.overpayAmount);
+        context.spendCoins(buy.getCost(context) + context.overpayAmount);
 
         if (buy.costPotion()) {
             context.potions--;

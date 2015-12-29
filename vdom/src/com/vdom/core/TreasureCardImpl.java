@@ -105,7 +105,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             context.treasuresPlayedSoFar++;
         }
         
-        context.gold += getValue();
+        context.addCoins(getValue());
         
         if (providePotion()) {
             context.potions++;
@@ -115,13 +115,13 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         if (equals(Cards.foolsGold)) {
             foolsGold(context);
         } else if (equals(Cards.philosophersStone)) {
-            context.gold += (player.getDeckSize() + player.getDiscardSize()) / 5;
+            context.addCoins((player.getDeckSize() + player.getDiscardSize()) / 5);
         } else if (equals(Cards.diadem)) {
-            context.gold += context.getActionsLeft();
+            context.addCoins(context.getActionsLeft());
         } else if (equals(Cards.copper)) {
-            context.gold += context.coppersmithsPlayed;
+            context.addCoins(context.coppersmithsPlayed);
         } else if (equals(Cards.bank)) {
-            context.gold += treasuresInPlay(player.playedCards);
+            context.addCoins(treasuresInPlay(player.playedCards));
         } else if (equals(Cards.contraband)) {
             reevaluateTreasures = contraband(context, game, reevaluateTreasures);
         } else if (equals(Cards.loan) || equals(Cards.venture)) {
@@ -162,7 +162,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     protected void foolsGold(MoveContext context) {
         context.foolsGoldPlayed++;
         if (context.foolsGoldPlayed > 1) {
-            context.gold += 3;
+            context.addCoins(3);
         }
     }
 

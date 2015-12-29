@@ -121,7 +121,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
     protected void borrow(MoveContext context) {
     	if (!context.player.getMinusOneCardToken()) {
     		context.player.setMinusOneCardToken(true, context);
-    		context.addGold += 1;
+    		context.addCoins(1);
     	}
         context.cantBuy.add(this); //once per turn
     }    

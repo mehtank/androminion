@@ -1140,19 +1140,19 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card blackMarket_chooseCard(MoveContext context, ArrayList<Card> cardList) {
-        if(context.gold == 8 && cardList.contains(Cards.prince) && turnCount < midGame && context.cardInGame(Cards.colony) && getMyCardCount(Cards.prince) < 2) {
+        if(context.getCoins() == 8 && cardList.contains(Cards.prince) && turnCount < midGame && context.cardInGame(Cards.colony) && getMyCardCount(Cards.prince) < 2) {
             ArrayList<Card> allCards = new ArrayList<Card>(getAllCards());
             if (prince_cardCandidates(context, allCards, false).length >= 2 + 2*getMyCardCount(Cards.prince))
                 return Cards.prince;
         }
-        if (context.gold >= 8) {
+        if (context.getCoins() >= 8) {
             return null;
         }
         
         ArrayList<Card> keyList = new ArrayList<Card>();
         final Card[] KEY_CARDS = new Card[] { Cards.scryingPool, Cards.masquerade, Cards.swindler, Cards.familiar, Cards.militia, Cards.seaHag, Cards.tournament, Cards.youngWitch, Cards.golem, Cards.cultist, Cards.mountebank, Cards.torturer, Cards.minion, Cards.governor, Cards.illGottenGains, Cards.saboteur, Cards.ghostShip, Cards.wharf, Cards.witch, Cards.goons, Cards.grandMarket };
         for (Card card : KEY_CARDS) {
-            if (cardList.contains(card) && (context.gold - card.getCost(context, false) <= 2 || context.potions > 0 && card.costPotion())) {
+            if (cardList.contains(card) && (context.getCoins() - card.getCost(context, false) <= 2 || context.potions > 0 && card.costPotion())) {
                 keyList.add(card);
             }
         }
@@ -1162,7 +1162,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         keyList.clear();
         for (Card card : cardList) {
-            if (context.gold - card.getCost(context, false) <= 1) {
+            if (context.getCoins() - card.getCost(context, false) <= 1) {
                 if (   !card.equals(Cards.treasureMap)
                     && !card.equals(Cards.rats) /*AIs don't play rats*/) {
                     keyList.add(card);

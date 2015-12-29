@@ -16,10 +16,8 @@ import com.vdom.api.TreasureCard;
 public class MoveContext {
     public int actions = 1;
     public int buys = 1;
-    public int addGold = 0;
-    public int addPotions = 0;
 
-    public int gold;
+    private int coins = 0;
     public int potions;
     public int actionsPlayedSoFar = 0;
     public int treasuresPlayedSoFar = 0; /* Doesn't work because of Spoils or Mint */
@@ -69,7 +67,7 @@ public class MoveContext {
     public MoveContext(MoveContext context, Game game, Player player) {
         this.actions = context.actions;
         this.buys = context.buys;
-        this.addGold = context.addGold;
+        this.coins = context.coins;
         this.game = game;
         this.player = player;
     }
@@ -301,9 +299,36 @@ public class MoveContext {
     public int getBuysLeft() {
         return buys;
     }
+    
+    public int getCoins() {
+    	return coins;
+    }
 
     public int getCoinAvailableForBuy() {
-        return gold + addGold;
+        return getCoins();
+    }
+    
+    public void addCoins(int coinsToAdd) {
+    	addCoins(coinsToAdd, null);
+    }
+    
+    public void addCoins(int coinsToAdd, Card responsible) {
+    	if (coinsToAdd == 0)
+    		return;
+    	if (coinsToAdd > 0) {
+    		if (getPlayer().getMinusOneCoinToken()) {
+    			--coinsToAdd;
+    			getPlayer().setMinusOneCoinToken(false, this);
+    		}
+    	}
+    	
+    	coins += coinsToAdd;
+    	if (coins < 0)
+    		coins = 0;
+    }
+    
+    public void spendCoins(int coinsToSpend) {
+    	coins -= coinsToSpend;
     }
 
     public int getCoinForStatus() {
