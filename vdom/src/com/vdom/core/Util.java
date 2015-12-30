@@ -434,6 +434,19 @@ public class Util {
 
         return copy;
     }
+    
+    public static ArrayList<Card> copy(Iterable<Card> cards) {
+        if (cards == null) {
+            return null;
+        }
+
+        ArrayList<Card> copy = new ArrayList<Card>();
+        for (Card card : cards) {
+            copy.add(card);
+        }
+
+        return copy;
+    }
 
     public static int getCardCount(CardList cards, Card card) {
         int count = 0;
@@ -457,6 +470,27 @@ public class Util {
         return count;
     }
     
+
+	public static boolean areCardsInHand(Card[] cards, MoveContext context) {
+		return areCardsInList(cards, context.getPlayer().getHand());
+	}
+	
+	public static boolean areCardsInList(Card[] cards, Iterable<Card> list) {
+		boolean bad = false;
+        if (cards == null) {
+            bad = true;
+        } else {
+            ArrayList<Card> handCopy = Util.copy(list);
+            for (Card card : cards) {
+                if (!handCopy.remove(card)) {
+                    bad = true;
+                    break;
+                }
+            }
+        }
+		return !bad;
+	}
+	    
     public static Card getLeastExpensiveCard(Card[] cards) {
         if (cards == null || cards.length == 0) {
             return null;

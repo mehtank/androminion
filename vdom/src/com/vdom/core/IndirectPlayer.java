@@ -2611,6 +2611,32 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         extras[0] = this.getMiserTreasure();
         return selectBoolean(context, Cards.miser, extras);
     }
+    
+    @Override
+    public boolean raze_shouldTrashRazePlayed(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_raze_shouldTrashRazePlayed(context)) {
+            return super.raze_shouldTrashRazePlayed(context);
+        }
+    	return selectBoolean(context, Cards.raze);
+    }
+    
+    @Override
+    public Card raze_cardToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_raze_cardToTrash(context)) {
+            return super.raze_cardToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+        		.setActionType(ActionType.TRASH).setCardResponsible(Cards.raze);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card raze_cardToKeep(MoveContext context, Card[] cards) {
+    	if(context.isQuickPlay() && shouldAutoPlay_raze_cardToKeep(context)) {
+            return super.raze_cardToKeep(context, cards);
+        }
+        return cards[selectOption(context, Cards.raze, cards)];
+    }
 
     @Override
     public boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange) {

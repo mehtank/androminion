@@ -440,6 +440,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         return reactionCards.toArray(new Card[0]);
     }
+    
+    protected boolean containsCardCostingAtLeast(MoveContext context, Iterable<Card> toSearch, Card[] toLookFor, int cost) {
+    	for(Card c : toSearch) {
+	    	for(Card checkCard : toLookFor) {
+	            if(checkCard.equals(c) && (c.getCost(context) >= cost)) {
+	                return true;
+	            }
+	        }
+    	}
+    	return false;
+    }
 
     @Override
     public Card[] topOfDeck_orderCards(MoveContext context, Card[] cards) {
@@ -3206,6 +3217,62 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public boolean raze_shouldTrashRazePlayed(MoveContext context) {
+    	if (getHand().size() == 0) {
+    		return true;
+    	}
+    	int numLowCostTrashCards = 0;
+    	for(Card c : getHand()) {
+	    	for(Card trash : getTrashCards()) {
+	            if(trash.equals(c) && (c.getCost(context) >= Cards.raze.getCost(context))) {
+	                return false;
+	            }
+	            numLowCostTrashCards++;
+	        }
+    	}    	
+    	//Currently favors keeping the Raze around if we have anything trashy to trash in hand that would
+    	// get at least as many cards than Raze
+    	return numLowCostTrashCards == 0;
+    }
+    
+    @Override
+    public Card raze_cardToTrash(MoveContext context) {
+    	ArrayList<Card> lowTrashCards = new ArrayList<Card>();
+    	for(Card c : getHand()) {
+	    	for(Card trash : getTrashCards()) {
+	            if(trash.equals(c) && (c.getCost(context) >= Cards.raze.getCost(context))) {
+	                return c;
+	            }
+	            lowTrashCards.add(c);
+	        }
+    	}
+    	if (!lowTrashCards.isEmpty()) {
+    		return lowTrashCards.get(0);
+    	}
+    	return lowestCard(context, getHand(), false);
+    }
+    
+    @Override
+    public Card raze_cardToKeep(MoveContext context, Card[] cards) {
+    	Card cardToKeep = null;
+
+		ArrayList<Card> goodCards = new ArrayList<Card>();
+    	for (Card c : cards)
+    		if (c instanceof TreasureCard || c instanceof ActionCard)
+    			goodCards.add(c);
+
+    	if (goodCards.size() > 0) {
+        	cardToKeep = Util.getMostExpensiveCard(goodCards.toArray(new Card[0]));
+		}
+
+    	if (cardToKeep == null) {
+			cardToKeep = Util.randomCard(cards);
+		}
+		
+		return cardToKeep;
     }
 
 	@Override

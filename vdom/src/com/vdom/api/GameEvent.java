@@ -40,6 +40,8 @@ public class GameEvent {
         CardAddedToHand, // A new card has been added to a player's hand
         CardRemovedFromHand, // A card has been removed from a player's hand        
         CardSetAside, // A card was set aside (prince)
+        CardSetAsideGear, // A card was set aside (gear)
+        CardSetAsideHaven, // A card was set aside (haven)
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
         CardSetAsideOnIslandMat, // A card was set aside on island mat
         DeckPutIntoDiscardPile, // Deck put into discard pile

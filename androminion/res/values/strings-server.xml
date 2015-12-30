@@ -133,6 +133,8 @@
 	<string name="CardRemovedFromHand">Card removed from hand</string>
     <string name="CardSetAsideOnTavernMat">Card put on tavern mat</string>
 	<string name="CardSetAside">Card set aside (prince)</string>
+	<string name="CardSetAsideHaven">Card set aside (Haven)</string>
+	<string name="CardSetAsideGear">Card set aside (Gear)</string>
 	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>
 	<string name="DeckPutIntoDiscardPile">Deck put into discard pile</string>
 	<string name="TurnJourneyTokenFaceUp">Journey token turned face up</string>
@@ -149,6 +151,10 @@
 	<string name="game_length_status">Game length: </string>
 	<string name="end_turn">End turn</string>
 	<string name="replace">Replace</string>
+	
+	<string name="trash_card_from_hand">Trash card from hand</string>
+	<string name="gain_silver">Gain a Silver</string>
+	<string name="trash_this">Trash this card</string>
 	
 	<string name="secretchamber_part">put back on deck [Secret Chamber]</string>
 	<string name="secretchamber_query_discard">[Secret Chamber] Select cards to discard</string>
@@ -167,6 +173,8 @@
 	
 	<string name="scheme_query">Select action card to put back on deck</string>
 	
+	<string name="raze_query">Select card to put in hand</string>
+		
 	<string name="herbalist_query">Select treasure card to put back on deck</string>
 	
 	<string name="thief_query">Select treasure to steal</string>
@@ -230,9 +238,7 @@
 	<string name="steward_option_three">Trash two cards from your hand</string>
 
 	<string name="amulet_option_one">+(1) Coin</string>
-	<string name="amulet_option_two">Trash a card from your hand</string>
-	<string name="amulet_option_three">Gain a Silver</string>
-
+	
 	<string name="squire_option_one">+2 Actions</string>
 	<string name="squire_option_two">+2 Buys</string>
 	<string name="squire_option_three">Gain a Silver</string>
@@ -296,7 +302,7 @@
 	<string name="pirate_ship_option_two">Attack</string>
     <string name="miser_option_one">Take +(%1$s) Coins</string>
     <string name="miser_option_two">Put a Copper onto Tavern mat</string>
-	
+        
 	<string name="top_of_deck">Top of deck</string>
 	
 	<string name="saboteur_part">replace your sabotaged card</string>
@@ -305,9 +311,9 @@
 	
 	<string name="bureaucrat_part">put on top of your deck</string>
 	
-  <string name="haven_part">put aside</string>
+  <string name="haven_part">put aside [Haven]</string>
 	
-  <string name="gear_part">put aside</string>
+  <string name="gear_part">put aside [Gear]</string>
 	
 	<string name="island_part">put on island mat</string>
 	

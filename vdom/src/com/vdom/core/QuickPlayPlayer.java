@@ -824,6 +824,21 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_miser_shouldTakeTreasure(MoveContext context) {
         return true;
     }
+    
+    public boolean shouldAutoPlay_raze_shouldTrashRazePlayed(MoveContext context) {
+    	if (getHand().size() == 0) {
+    		return true;
+    	}
+    	return containsCardCostingAtLeast(context, getHand(), getTrashCards(), Cards.raze.getCost(context));
+    }
+    
+    public boolean shouldAutoPlay_raze_cardToTrash(MoveContext context) {
+    	return containsCardCostingAtLeast(context, getHand(), getTrashCards(), Cards.raze.getCost(context));
+    }
+    
+    public boolean shouldAutoPlay_raze_cardToKeep(MoveContext context) {
+    	return false;
+    }
 
     public boolean shouldAutoPlay_traveller_shouldExchange(MoveContext context, Card traveller, Card exchange) {
         return true;

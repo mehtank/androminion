@@ -144,6 +144,9 @@
     <string name="game_length_status">Spieldauer: </string>
     <string name="end_turn">Zugende</string>
     <string name="replace">Ersetze</string>
+    
+    <string name="trash_card_from_hand">Entsorge eine Handkarte</string>
+	<string name="gain_silver">Nimm dir ein Silber</string>
 
     <string name="secretchamber_part">[Geheimkammer]: Lege oben auf den Nachziehstapel: Wähle</string>
     <string name="secretchamber_query_discard">[Geheimkammer]: Lege ab: Wähle</string>
@@ -224,8 +227,6 @@
     <string name="steward_option_three">Entsorge zwei Karten aus deiner Hand</string>
 
     <string name="amulet_option_one">+(1) Geld</string>
-    <string name="amulet_option_two">Entsorge eine Handkarte</string>
-    <string name="amulet_option_three">Nimm dir ein Silber</string>
 
     <string name="squire_option_one">+2 Aktionen</string>
     <string name="squire_option_two">+2 Käufe</string>

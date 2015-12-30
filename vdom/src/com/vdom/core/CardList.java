@@ -173,4 +173,9 @@ public class CardList implements Iterable<Card> {
         Arrays.sort(sorted, comp);
         return sorted;
     }
+    
+    @Override
+    public String toString() {
+    	return name + "(" + player.getPlayerName() + "): " + a.toString();
+    }
 }

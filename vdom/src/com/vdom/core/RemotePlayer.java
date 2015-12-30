@@ -134,12 +134,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         card.pile = MyCard.SUPPLYPILE;
 
-        if ((c.equals(Cards.bagOfGold)) ||
-            (c.equals(Cards.diadem)) ||
-            (c.equals(Cards.followers)) ||
-            (c.equals(Cards.princess)) ||
-            (c.equals(Cards.trustySteed))) {
-
+        if (c.isPrize()) {
             card.pile = MyCard.PRIZEPILE;
             card.isPrize = true;
         }

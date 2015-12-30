@@ -786,6 +786,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case Ranger:
                 ranger(game, context, currentPlayer);
                 break;
+            case Raze:
+            	raze(game, context, currentPlayer);
+            	break;
             case Soldier:
                 soldier(game, context, currentPlayer);
                 break;
@@ -3823,7 +3826,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void haven(MoveContext context, Player currentPlayer) {
-        Card card = currentPlayer.controlPlayer.haven_cardToSetAside(context);
+        Card card = currentPlayer.getHand().size() == 0 ? null : currentPlayer.controlPlayer.haven_cardToSetAside(context);
         if ((card == null && hand(currentPlayer).size() > 0) || (card != null && !hand(currentPlayer).contains(card))) {
             Util.playerError(currentPlayer, "Haven set aside card error, setting aside the first card in hand.");
             card = hand(currentPlayer).get(0);
@@ -3832,6 +3835,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (card != null) {
             hand(currentPlayer).remove(card);
             haven(currentPlayer).add(card);
+            GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideHaven, (MoveContext) context);
+            event.card = card;
+            context.game.broadcastEvent(event);
         } else if (this.controlCard.cloneCount == 1) {
             currentPlayer.nextTurnCards.remove(this.controlCard);
             currentPlayer.playedCards.add(this.controlCard);
@@ -6100,13 +6106,24 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     
     private void gear(MoveContext context, Player currentPlayer) {
     	boolean cardSetAside = false;
-        Card[] cards = currentPlayer.controlPlayer.gear_cardsToSetAside(context);
+        Card[] cards = currentPlayer.getHand().size() == 0 ? null : currentPlayer.controlPlayer.gear_cardsToSetAside(context);
+        if (cards.length > 2) {
+        	Util.playerError(currentPlayer, "Gear: Tried to set aside too many cards. Setting aside zero.");
+        	cards = null;
+        }
+        if (!Util.areCardsInHand(cards, context)) {
+        	Util.playerError(currentPlayer, "Gear: Tried to set aside cards not in hand. Setting aside zero.");
+        	cards = null;
+        }
         if (cards != null) {
             for (Card card : cards) {
                 if (card != null) {
                 	cardSetAside = true;
                     hand(currentPlayer).remove(card);
                     haven(currentPlayer).add(card);
+                    GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideGear, (MoveContext) context);
+                    event.card = card;
+                    context.game.broadcastEvent(event);
                 }
             }
         }
@@ -6205,6 +6222,52 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if(currentPlayer.flipJourneyToken(context)) {
             drawToHand(game, currentPlayer, this.controlCard, 5);
         }
+    }
+    
+    private void raze(Game game, MoveContext context, Player currentPlayer) {
+    	int trashCost = 0;
+    	if (currentPlayer.controlPlayer.raze_shouldTrashRazePlayed(context)) {
+    		if (!this.controlCard.movedToNextTurnPile) {
+                this.controlCard.movedToNextTurnPile = true;
+                trashCost = this.controlCard.getCost(context);
+                currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.controlCard));
+                currentPlayer.trash(this.controlCard, null, context);
+            }
+        } else if (currentPlayer.getHand().size() > 0) {
+        	Card cardToTrash = currentPlayer.controlPlayer.raze_cardToTrash(context);
+        	if (cardToTrash == null || !currentPlayer.getHand().contains(cardToTrash)) {
+                Util.playerError(currentPlayer, "Raze trash error, trashing a random card.");
+                cardToTrash = Util.randomCard(currentPlayer.getHand());
+            }
+        	trashCost = cardToTrash.getCost(context);
+        	currentPlayer.getHand().remove(cardToTrash);
+            currentPlayer.trash(cardToTrash, this.controlCard, context);
+        }
+    	if (trashCost == 0)
+    		return;
+    	else if (trashCost == 1) {
+    		Card c = game.draw(currentPlayer);
+    		if (c != null)
+    			currentPlayer.hand.add(c);
+    	} else {
+    		ArrayList<Card> lookAtCards = new ArrayList<Card>(trashCost);
+    		while (lookAtCards.size() < trashCost) {
+    			Card c = game.draw(currentPlayer);
+    			if (c == null)
+    				break;
+    			lookAtCards.add(c);
+    		}
+    		Card cardToKeep = currentPlayer.controlPlayer.raze_cardToKeep(context, lookAtCards.toArray(new Card[0]));
+    		if (cardToKeep == null || !lookAtCards.contains(cardToKeep)) {
+    			Util.playerError(currentPlayer, "Raze keep error. Keeping random card.");
+    			cardToKeep = Util.randomCard(lookAtCards);
+    		}
+    		lookAtCards.remove(cardToKeep);
+    		currentPlayer.getHand().add(cardToKeep);
+    		for (Card c : lookAtCards) {
+                currentPlayer.discard(c, this.controlCard, context);
+            }
+    	}
     }
 
     private void soldier(Game game, MoveContext context, Player currentPlayer) {       

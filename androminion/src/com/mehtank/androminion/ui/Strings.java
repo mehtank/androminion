@@ -104,7 +104,7 @@ public class Strings {
     }
 
     public static String getCardExpansion(Card c) {
-        if (c.getExpansion().isEmpty()) {
+        if (c.getExpansion() == "") {
             // Victory cards (e.g. "Duchy") don't have a single expansion;
             // they're both in Base and Intrigue.
             return "";
@@ -259,6 +259,10 @@ public class Strings {
             statusText += getString(R.string.PlayingDurationAction);
         } else if (event.gameEventType == GameEvent.Type.CardSetAside) {
             statusText += getString(R.string.CardSetAside);
+        } else if (event.gameEventType == GameEvent.Type.CardSetAsideHaven) {
+            statusText += getString(R.string.CardSetAsideHaven);
+        } else if (event.gameEventType == GameEvent.Type.CardSetAsideGear) {
+            statusText += getString(R.string.CardSetAsideGear);
         } else if (event.gameEventType == GameEvent.Type.CardSetAsideOnTavernMat) {
             statusText += getString(R.string.CardSetAsideOnTavernMat);
         } else if (event.gameEventType == GameEvent.Type.CardSetAsideOnIslandMat) {
@@ -574,6 +578,8 @@ public class Strings {
             return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
         } else if (cardName.equals(getCardName(Cards.pirateShip))) {
             return getString(R.string.treasure_to_trash);
+        } else if (cardName.equals(getCardName(Cards.raze))) {
+            return getString(R.string.raze_query);
         } else if (cardName.equals(getCardName(Cards.scheme))) {
             return getString(R.string.scheme_query);
         } else if (cardName.equals(getCardName(Cards.smugglers))) {
@@ -626,9 +632,9 @@ public class Strings {
             if (option == AmuletOption.AddGold) {
                 return getString(R.string.amulet_option_one);
             } else if (option == AmuletOption.TrashCard) {
-                return getString(R.string.amulet_option_two);
+                return getString(R.string.trash_card_from_hand);
             } else if (option == AmuletOption.GainSilver) {
-                return getString(R.string.amulet_option_three);
+                return getString(R.string.gain_silver);
             }
         } else if (option instanceof NoblesOption) {
             if (option == NoblesOption.AddCards) {
@@ -875,6 +881,9 @@ public class Strings {
             strings[0] = format(R.string.card_revealed, extras[0], cardNames);
             strings[1] = getString(R.string.top_of_deck);
             strings[2] = getString(R.string.discard);
+        } else if (cardName.equals(getCardName(Cards.raze))) {
+            strings[1] = getString(R.string.trash_this);
+            strings[2] = getString(R.string.trash_card_from_hand);
         } else if (cardName.equals(getCardName(Cards.royalSeal))) {
             strings[0] = getCardRevealedHeader(extras);
             strings[1] = getString(R.string.top_of_deck);
@@ -1154,6 +1163,7 @@ public class Strings {
             getCardName(Cards.artificer),
             getCardName(Cards.bonfire),
             getCardName(Cards.dungeon),
+            getCardName(Cards.raze),
             getCardName(Cards.storyteller),
             getCardName(Cards.treasureTrove)
         ));

@@ -1694,21 +1694,25 @@ public abstract class Player {
     // ////////////////////////////////////////////
     // Card interactions - Adventures Expansion
     // ////////////////////////////////////////////
-    public abstract Card scoutingParty_cardToDiscard(MoveContext context, Card[] revealedCards);
+    
+    public abstract AmuletOption amulet_chooseOption(MoveContext context);
+    public abstract Card amulet_cardToTrash(MoveContext context);
     public abstract Card[] artificer_cardsToDiscard(MoveContext context);
     public abstract Card artificer_cardToObtain(MoveContext context, int cost);
     public abstract Card[] gear_cardsToSetAside(MoveContext context);
-    public abstract AmuletOption amulet_chooseOption(MoveContext context);
-    public abstract Card amulet_cardToTrash(MoveContext context);
     public abstract boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange);
     public abstract boolean miser_shouldTakeTreasure(MoveContext context);
+    public abstract boolean raze_shouldTrashRazePlayed(MoveContext context);
+    public abstract Card raze_cardToTrash(MoveContext context);
+	public abstract Card raze_cardToKeep(MoveContext context, Card[] cards);
     public abstract int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal);
+    
+    // ///////////////////////////////////////////////
+    // Card interactions - Adventures Expansion Events
+    // ///////////////////////////////////////////////
+    
     public abstract Card[] bonfire_cardsToTrash(MoveContext context);
-
-    
-    
-    
-
+    public abstract Card scoutingParty_cardToDiscard(MoveContext context, Card[] revealedCards);
 
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards
