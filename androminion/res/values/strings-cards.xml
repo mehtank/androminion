@@ -480,7 +480,7 @@
     <string name="Amulet_name">Amulet</string>
     <string name="Amulet_desc">Now and at the start of your next turn, choose one: +1 coin; or trash a card from your hand; or gain a Silver.</string>
     <string name="Artificer_name">Artificer</string>
-    <string name="Artificer_desc">Discard any number of cards. You may gain a card costing exactly 1 coin per card discarded, putting it on top of your deck.</string>
+    <string name="Artificer_desc">Discard any number of cards. You may gain a card costing exactly 1 Coin per card discarded, putting it on top of your deck.</string>
     <string name="BridgeTroll_name">Bridge Troll</string>
     <string name="BridgeTroll_desc">Each other player takes his -1 coin token. - While this is on play, cards cost 1 coin less on your turns, but not less than 0 coins.</string>
     <string name="CaravanGuard_name">Caravan Guard</string>

@@ -6057,13 +6057,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void artificer(Game game, MoveContext context, Player currentPlayer) {
     	int numberOfCards = 0;
-        Card[] cards = currentPlayer.controlPlayer.artificer_cardsToDiscard(context);
+        Card[] cards = currentPlayer.getHand().size() == 0 ? null : currentPlayer.controlPlayer.artificer_cardsToDiscard(context);
         if (cards != null) {
             for (Card card : cards) {
                 if (card != null) {
-                	hand(currentPlayer).remove(card);
-                    currentPlayer.discard(card, this.controlCard, context);
-                    numberOfCards++;
+                	if (hand(currentPlayer).remove(card)) {
+	                    currentPlayer.discard(card, this.controlCard, context);
+	                    numberOfCards++;
+                	}
                 }
             }
             if (numberOfCards != cards.length) {
@@ -6074,14 +6075,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (toObtain != null) {
             // check cost
             if (toObtain.getCost(context) == numberOfCards) {
-                toObtain = game.takeFromPile(toObtain);
-                // could still be null here if the pile is empty.
-                if (toObtain != null) {
-                	GameEvent event = new GameEvent(GameEvent.Type.CardObtained, context);
-                    event.card = toObtain;
-                    event.responsible = this;
-                    game.broadcastEvent(event);	                    
-                }
+            	currentPlayer.gainNewCard(toObtain, this.controlCard, context);
             }
         }
     }

@@ -1142,7 +1142,7 @@ public class Strings {
             getCardName(Cards.remake),
             getCardName(Cards.remodel),
             getCardName(Cards.salvager),
-            /* secretChamber isn't simply, causes error in getActionString() */
+            /* secretChamber isn't simple, causes error in getActionString() */
             getCardName(Cards.spiceMerchant),
             getCardName(Cards.squire),
             getCardName(Cards.stables),
