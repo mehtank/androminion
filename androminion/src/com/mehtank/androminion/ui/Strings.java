@@ -1135,6 +1135,7 @@ public class Strings {
             getCardName(Cards.jackOfAllTrades),
             getCardName(Cards.journeyman),
             getCardName(Cards.junkDealer),
+            getCardName(Cards.messenger),
             getCardName(Cards.oasis),
             getCardName(Cards.plaza),
             getCardName(Cards.rats),

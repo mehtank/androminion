@@ -3198,6 +3198,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         return cards.toArray(new Card[0]);
     }
+    
+    public Card messenger_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
+    }
+    public boolean messenger_shouldDiscardDeck(MoveContext context, Card responsible) {
+    	return true;
+    }
 
     @Override
     public boolean miser_shouldTakeTreasure(MoveContext context) {

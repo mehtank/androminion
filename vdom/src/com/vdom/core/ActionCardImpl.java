@@ -778,7 +778,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 magpie(game, context, currentPlayer);
                 break;
             case Messenger:
-                chancellor(game, context, currentPlayer);
+                messenger(game, context, currentPlayer);
                 break;
             case Miser:
                 miser(game, context, currentPlayer);
@@ -3953,6 +3953,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void chancellor(Game game, MoveContext context, Player currentPlayer) {
+    	if (currentPlayer.getDeckSize() == 0)
+    		return;
         boolean discard = currentPlayer.controlPlayer.chancellor_shouldDiscardDeck(context, this.controlCard);
         if (discard) {
             GameEvent event = new GameEvent(GameEvent.Type.DeckPutIntoDiscardPile, (MoveContext) context);
@@ -4137,14 +4139,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case Messenger:
             	/* This buy is already in totalCardsBoughtThisTurn */
             	if(context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn == 1) {
-	                Card card = context.getPlayer().controlPlayer.workshop_cardToObtain(context); /*frr18 todo correct name */
+	                Card card = context.getPlayer().controlPlayer.messenger_cardToObtain(context);
 	                if (card != null) {
-	                	context.getPlayer().gainNewCard(card, this.controlCard, context);
-	                    for (Player player : getAllPlayers()) {
-	                        if (player != context.getPlayer()) {
-	                            player.gainNewCard(card, this.controlCard, new MoveContext(context.game, player));
-	                        }
-	                    }
+	                	Card cardGained = context.getPlayer().gainNewCard(card, this.controlCard, context);
+	                	if (cardGained.equals(card)) {
+		                    for (Player player : context.game.getPlayersInTurnOrder()) {
+		                        if (player != context.getPlayer()) {
+		                            player.gainNewCard(card, this.controlCard, new MoveContext(context.game, player));
+		                        }
+		                    }
+	                	}
 	                }
             	}
                 break;
@@ -4635,7 +4639,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void scavenger(Game game, MoveContext context, Player currentPlayer)
     {
-        boolean discard = currentPlayer.controlPlayer.scavenger_shouldDiscardDeck(context);
+        boolean discard = currentPlayer.getDeckSize() == 0 ? false : currentPlayer.controlPlayer.scavenger_shouldDiscardDeck(context);
 
         // Discard the entire deck if the player chose to do so
         if (discard)
@@ -6188,6 +6192,19 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
             if ((c instanceof VictoryCard) || (c instanceof ActionCard)) {
                 currentPlayer.gainNewCard(Cards.magpie, this.controlCard, context);
+            }
+        }
+    }
+    
+    private void messenger(Game game, MoveContext context, Player currentPlayer) {
+    	if (currentPlayer.getDeckSize() == 0)
+    		return;
+        boolean discard = currentPlayer.controlPlayer.messenger_shouldDiscardDeck(context, this.controlCard);
+        if (discard) {
+            GameEvent event = new GameEvent(GameEvent.Type.DeckPutIntoDiscardPile, (MoveContext) context);
+            game.broadcastEvent(event);
+            while (currentPlayer.getDeckSize() > 0) {
+                currentPlayer.discard(game.draw(currentPlayer), this.controlCard, null, false, false);
             }
         }
     }

@@ -1701,6 +1701,8 @@ public abstract class Player {
     public abstract Card artificer_cardToObtain(MoveContext context, int cost);
     public abstract Card[] gear_cardsToSetAside(MoveContext context);
     public abstract boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange);
+    public abstract Card messenger_cardToObtain(MoveContext context);
+    public abstract boolean messenger_shouldDiscardDeck(MoveContext context, Card responsible);
     public abstract boolean miser_shouldTakeTreasure(MoveContext context);
     public abstract boolean raze_shouldTrashRazePlayed(MoveContext context);
     public abstract Card raze_cardToTrash(MoveContext context);

@@ -2601,6 +2601,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setCardResponsible(Cards.gear);
         return getFromHand(context, sco);
     }
+    
+    @Override
+    public boolean messenger_shouldDiscardDeck(MoveContext context,
+    		Card responsible) {
+    	if(context.isQuickPlay() && shouldAutoPlay_messenger_shouldDiscardDeck(context, responsible)) {
+            return super.messenger_shouldDiscardDeck(context, responsible);
+        }
+        return selectBoolean(context, responsible);
+    }
+    
+    @Override
+    public Card messenger_cardToObtain(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_messenger_cardToObtain(context)) {
+            return super.messenger_cardToObtain(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
+                .setCardResponsible(Cards.messenger).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
 
     @Override
     public boolean miser_shouldTakeTreasure(MoveContext context) {
