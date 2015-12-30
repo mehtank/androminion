@@ -130,6 +130,7 @@
     <string name="toast_loading">Loading game…</string>
     <string name="toast_quitconfirm">Click again to quit.</string>
     <string name="obtained">%1$s gained</string>
+    <string name="eventBought">%1$s bought</string>
     <string name="trashed">%1$s trashed</string>
     <string name="revealed">%1$s revealed</string>
     <string name="revealed_from_hand">%1$s revealed (from hand)</string>

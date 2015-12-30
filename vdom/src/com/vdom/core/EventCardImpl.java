@@ -89,7 +89,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
             }
         }
         if (noTreasureCard) {
-	        Card card = context.player.controlPlayer.workshop_cardToObtain(context); /*frr18 todo right name*/
+	        Card card = context.player.controlPlayer.alms_cardToObtain(context);
 	        if (card != null) {
 	            if (card.getCost(context) <= 4) {
 	            	context.player.gainNewCard(card, this.controlCard, context);

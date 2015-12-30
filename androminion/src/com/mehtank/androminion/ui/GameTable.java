@@ -1096,13 +1096,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     }
 
     /**
-     * A player obtained a card and we notify the user
+     * A player obtained a card/event and we notify the user
      * @param i card index
      * @param s player number, as a string
      * @return a message, either something like 'card obtained' from resources, or "&lt;playername&gt;: &lt;cardname&gt;"
      */
     public String cardObtained(int i, String s) {
-        return top.getString(R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
+    	boolean isEvent = GameTableViews.cardsInPlay.get(i).isEvent;
+        return top.getString(isEvent ? R.string.eventBought : R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
     }
 
     /**

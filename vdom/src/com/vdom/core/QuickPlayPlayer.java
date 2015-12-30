@@ -855,6 +855,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_cleanup_wineMerchantToDiscard(MoveContext context) {
         return true;
     }
+    
+    public boolean shouldAutoPlay_alms_cardToObtain(MoveContext context) {
+    	return false;
+    }
 
     public boolean shouldAutoPlay_scoutingParty_cardToDiscard(MoveContext context) {
         return false;

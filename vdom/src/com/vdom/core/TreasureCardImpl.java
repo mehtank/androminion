@@ -316,7 +316,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     /*Adventures*/
     protected void treasureTrove(MoveContext context, Player player, Game game) {
         context.getPlayer().gainNewCard(Cards.gold, this.controlCard, context); 
-        context.getPlayer().gainNewCard(Cards.copper, this.controlCard, context); 
+        context.getPlayer().gainNewCard(Cards.copper, this.controlCard, context);
     }    
 
     protected void relic(MoveContext context, Player player, Game game) {

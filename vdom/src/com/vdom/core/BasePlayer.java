@@ -3202,6 +3202,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card messenger_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 4, true);
     }
+    
     public boolean messenger_shouldDiscardDeck(MoveContext context, Card responsible) {
     	return true;
     }
@@ -3295,6 +3296,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal) {
         return wineMerchantTotal;
+    }
+    
+    @Override
+    public Card alms_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
     }
     
     public Card[] bonfire_cardsToTrash(MoveContext context) {

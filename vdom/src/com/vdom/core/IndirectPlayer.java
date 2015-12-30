@@ -2674,6 +2674,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         return selectInt(context, Cards.wineMerchant, wineMerchantTotal);
     }
+    
+    @Override
+    public Card alms_cardToObtain(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_alms_cardToObtain(context)) {
+            return super.alms_cardToObtain(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
+                .setCardResponsible(Cards.alms).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
 
     @Override
     public Card[] bonfire_cardsToTrash(MoveContext context) {

@@ -1166,7 +1166,8 @@ public class Strings {
             getCardName(Cards.dungeon),
             getCardName(Cards.raze),
             getCardName(Cards.storyteller),
-            getCardName(Cards.treasureTrove)
+            /*Adventures Events*/
+            getCardName(Cards.alms)
         ));
         actionStringMap = new HashMap<String, String>();
         actionStringMap.put(getCardName(Cards.bureaucrat), getString(R.string.bureaucrat_part));

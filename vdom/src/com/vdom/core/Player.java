@@ -1713,6 +1713,7 @@ public abstract class Player {
     // Card interactions - Adventures Expansion Events
     // ///////////////////////////////////////////////
     
+    public abstract Card alms_cardToObtain(MoveContext context);
     public abstract Card[] bonfire_cardsToTrash(MoveContext context);
     public abstract Card scoutingParty_cardToDiscard(MoveContext context, Card[] revealedCards);
 
