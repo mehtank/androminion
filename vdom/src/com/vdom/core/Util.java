@@ -404,18 +404,15 @@ public class Util {
     }
 
     static boolean doCaravanGuard(MoveContext context, Game game, Player player, Card responsible) {
-        Card caravanGuard = null;
+        ActionCardImpl caravanGuard = null;
         for (Card card : player.hand) {
             if (card.equals(Cards.caravanGuard)) {
-            	caravanGuard = card;
+            	caravanGuard = (ActionCardImpl) card;
             }
         }
 
         if (caravanGuard != null) {
-            player.hand.remove(caravanGuard);
-            player.nextTurnCards.add((DurationCard) caravanGuard);
-            game.drawToHand(player, responsible);
-
+        	caravanGuard.play(game, context, true);
             return true;
         }
 
