@@ -2845,6 +2845,10 @@ public class Game {
 
         return players[next];
     }
+    
+    public Player getCurrentPlayer() {
+        return players[playersTurn];
+    }
 
     public Player[] getPlayersInTurnOrder() {
         Player[] ordered = new Player[numPlayers];

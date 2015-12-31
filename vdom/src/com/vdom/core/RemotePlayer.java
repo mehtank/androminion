@@ -619,10 +619,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(islandSize);
             int nativeVillageSize = event.player.nativeVillage.size();
             extras.add(nativeVillageSize);
-        } else if (event.getType() == Type.PlayingAction || event.getType() == Type.PlayingDurationAction) {
+        } else if (isPlayersTurn(event) && event.getType() == Type.PlayingAction || event.getType() == Type.PlayingDurationAction) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
-        } else if (event.getType() == Type.PlayingCoin) {
+        } else if (isPlayersTurn(event) && event.getType() == Type.PlayingCoin) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
         } else if (event.getType() == Type.CardObtained) {
@@ -702,7 +702,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
     }
 
-    private void checkForAchievements(MoveContext context, Type eventType) {
+    private boolean isPlayersTurn(GameEvent event) {
+		return event.context.game.getCurrentPlayer().equals(event.player);
+	}
+	private void checkForAchievements(MoveContext context, Type eventType) {
         if (eventType == Type.GameOver) {
             int provinces = 0;
             int curses = 0;

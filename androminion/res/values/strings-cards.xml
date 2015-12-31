@@ -502,7 +502,7 @@
     <string name="Gear_name">Gear</string>
     <string name="Gear_desc">Set aside up to 2 cards from your hand face down. At the start of your next turn, put them into your hand.</string>
     <string name="Giant_name">Giant</string>
-    <string name="Giant_desc">Turn your Journey token over (it starts face up). If it\'s face down, +1 coin. If it\'s face up, +5 coins, and each other player reveals the top card of his deck, trashes it if it costs from 3 to 6 coins, and otherwise discards it and gains a Curse.</string>
+    <string name="Giant_desc">Turn your Journey token over (it starts face up). If it\'s face down, +1 Coin. If it\'s face up, +5 Coins, and each other player reveals the top card of his deck, trashes it if it costs from 3 to 6 Coins, and otherwise discards it and gains a Curse.</string>
     <string name="Guide_name">Guide</string>
     <string name="Guide_desc">Put this on your Tavern mat. - At the start of your turn, you may call this, to discard your hand and draw 5 cards.</string>
     <string name="HauntedWoods_name">Haunted Woods</string>

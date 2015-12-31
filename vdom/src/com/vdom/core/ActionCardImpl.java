@@ -6129,13 +6129,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
                 playersToAttack.add(targetPlayer);
-                targetPlayer.attacked(this.controlCard, context);
             }
         }
         if(currentPlayer.flipJourneyToken(context)) {
             context.addCoins(5);
             
             for (Player targetPlayer : playersToAttack) {
+            	targetPlayer.attacked(this.controlCard, context);
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
 
                 Card card = game.draw(targetPlayer);
@@ -6151,9 +6151,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     }
                 }
             }
-        } else
-        {
-            context.addCoins(1);
+        } else {
+        	context.addCoins(1);
         }
     }
 

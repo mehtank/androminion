@@ -472,7 +472,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      */
     boolean isAcceptable(MyCard c, CardGroup parent) {
         if (sco.fromHand && (parent != hand)) return false;
-        else if (sco.fromPlayed && (parent != played)) return false;
+        else if (sco.fromPlayed && (parent != played)) return false; // TODO: prevent throned plays from being selected from played group
         else if (sco.fromTable) {
             //          if (!sco.allowEmpty) {
             //              if (lastSupplySizes[c.id] == 0)
