@@ -2076,35 +2076,28 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void horseTradersDungeon(MoveContext context, Player currentPlayer) {
-        Card[] cardsToDiscard = currentPlayer.controlPlayer.horseTradersDungeon_cardsToDiscard(context, this.controlCard);
-        boolean bad = false;
-
-        if (cardsToDiscard == null) {
-            bad = true;
-        } else if (currentPlayer.hand.size() < 2 && cardsToDiscard.length != currentPlayer.hand.size()) {
-            bad = true;
-        } else if (cardsToDiscard.length != 2) {
-            bad = true;
-        } else {
-            ArrayList<Card> copy = Util.copy(currentPlayer.hand);
-            for (Card cardToKeep : cardsToDiscard) {
-                if (!copy.remove(cardToKeep)) {
-                    bad = true;
-                    break;
+    	CardList hand = currentPlayer.getHand();
+    	if (hand.size() == 0)
+    		return;
+    	Card[] cardsToDiscard;
+    	if (hand.size() <= 2) {
+    		cardsToDiscard = new Card[currentPlayer.getHand().size()];
+    		for (int i = 0; i < cardsToDiscard.length; ++i) {
+    			cardsToDiscard[i] = hand.get(i);
+    		}
+    	} else {
+    		cardsToDiscard = currentPlayer.controlPlayer.horseTradersDungeon_cardsToDiscard(context, this.controlCard);
+            if (cardsToDiscard == null || cardsToDiscard.length != 2 || !Util.areCardsInHand(cardsToDiscard, context)) {
+                if (currentPlayer.hand.size() >= 2) {
+                    Util.playerError(currentPlayer, "Horse Traders discard error, just discarding the first 2.");
+                }
+                cardsToDiscard = new Card[Math.min(2, currentPlayer.hand.size())];
+                for (int i = 0; i < cardsToDiscard.length; i++) {
+                    cardsToDiscard[i] = currentPlayer.hand.get(i);
                 }
             }
-        }
-
-        if (bad) {
-            if (currentPlayer.hand.size() >= 2) {
-                Util.playerError(currentPlayer, "Horse Traders discard error, just discarding the first 2.");
-            }
-            cardsToDiscard = new Card[Math.min(2, currentPlayer.hand.size())];
-            for (int i = 0; i < cardsToDiscard.length; i++) {
-                cardsToDiscard[i] = currentPlayer.hand.get(i);
-            }
-        }
-
+    	}
+        
         for (Card card : cardsToDiscard) {
             currentPlayer.hand.remove(card);
             currentPlayer.discard(card, this.controlCard, context);
