@@ -1479,7 +1479,7 @@ public abstract class Player {
 
     public abstract WatchTowerOption watchTower_chooseOption(MoveContext context, Card card);
 
-    public abstract ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards);
+    public abstract ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Cornucopia

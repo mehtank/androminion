@@ -249,10 +249,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards) {
+    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible) {
     	// storyteller sets maxCards != -1
         if(context.isQuickPlay()) {
-            return super.treasureCardsToPlayInOrder(context, maxCards);
+            return super.treasureCardsToPlayInOrder(context, maxCards, responsible);
         }
 
         int treasureCount = 0;
@@ -266,7 +266,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
 
         SelectCardOptions sco = new SelectCardOptions().isTreasure().setPassable().isTreasurePhase()
-                .setCount(treasureCount).ordered().setPickType(PickType.SELECT_WITH_ALL);
+                .setCount(treasureCount).ordered().setPickType(PickType.SELECT_WITH_ALL)
+                .setCardResponsible(responsible);
         Card[] cards = getFromHand(context, sco);
         if (cards == null) {
             return null;
@@ -283,7 +284,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 }
                 return treasures;
         	} else
-                return super.treasureCardsToPlayInOrder(context, maxCards);
+                return super.treasureCardsToPlayInOrder(context, maxCards, responsible);
         }
 
         ArrayList<TreasureCard> treasures = new ArrayList<TreasureCard>();

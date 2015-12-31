@@ -1528,7 +1528,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards) {
+    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible) {
         ArrayList<TreasureCard> ret = new ArrayList<TreasureCard>();
         
         ArrayList<TreasureCard> cardArray = new ArrayList<TreasureCard>();

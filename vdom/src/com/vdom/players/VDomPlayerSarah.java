@@ -635,7 +635,7 @@ public class VDomPlayerSarah extends BasePlayer {
     }
     
     @Override
-    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards) {
+    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible) {
         if(context.cardInGame(Cards.grandMarket)) {
             final ArrayList<TreasureCard> cards = new ArrayList<TreasureCard>();
             int coinWithoutCopper = 0;
@@ -652,7 +652,7 @@ public class VDomPlayerSarah extends BasePlayer {
             }
         }
         
-        return super.treasureCardsToPlayInOrder(context, maxCards);
+        return super.treasureCardsToPlayInOrder(context, maxCards, responsible);
     }
     
 

@@ -1124,7 +1124,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
         
         // play treasures 
-        context.game.playTreasures(currentPlayer, context, -1);
+        context.game.playTreasures(currentPlayer, context, -1, this.controlCard);
         
         // get one buy from BlackMarkt pile
         ArrayList<Card> canBuy = new ArrayList<Card>();
@@ -6305,7 +6305,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void storyteller(Game game, MoveContext context, Player currentPlayer) {
         // play up to 3 treasures
-        context.game.playTreasures(currentPlayer, context, 3);
+        context.game.playTreasures(currentPlayer, context, 3, this.controlCard);
         
         int coins = context.getCoins();
         context.spendCoins(coins);

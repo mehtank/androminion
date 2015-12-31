@@ -258,7 +258,7 @@ public class Game {
                 // /////////////////////////////////
                 // Select Treasure for Buy
                 // /////////////////////////////////
-                playTreasures(player, context, -1);
+                playTreasures(player, context, -1, null);
 
                 // Spend Guilds coin tokens if applicable
                 playGuildsTokens(player, context);
@@ -364,7 +364,7 @@ public class Game {
         return count;
     }
 
-    protected void playTreasures(Player player, MoveContext context, int maxCards) {
+    protected void playTreasures(Player player, MoveContext context, int maxCards, Card responsible) {
     	// storyteller sets maxCards != -1
         if (!context.blackMarketBuyPhase && maxCards == -1) {
             context.buyPhase = true;
@@ -373,7 +373,7 @@ public class Game {
         boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
         if (maxCards != -1) selectingCoins = true;// storyteller
         ArrayList<TreasureCard> treasures = null;
-        treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards) : player.getTreasuresInHand();
+        treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand();
 
         while (treasures != null && !treasures.isEmpty() && maxCards != 0) {
             while (!treasures.isEmpty() && maxCards != 0) {
@@ -384,7 +384,7 @@ public class Game {
                 }
             }
             if (maxCards != 0)
-            	treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards) : player.getTreasuresInHand();
+            	treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand();
         }
     }
 

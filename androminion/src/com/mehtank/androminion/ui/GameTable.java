@@ -698,6 +698,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             s = Strings.getString(R.string.part_play);
         } else if (sco.isTreasurePhase) {
             s = Strings.getString(R.string.use_for_money);
+            if (sco.cardResponsible != null)
+            	s += " [" + Strings.getCardName(sco.cardResponsible) +"]";
         } else if (s == null) {
             // TODO(matt): maybe these methods could be named better...
             s = Strings.getActionCardText(sco);

@@ -538,7 +538,7 @@
     <string name="Soldier_name">Soldier</string>
     <string name="Soldier_desc">+1 coin per other Attack you have in play. Each other player with 4 or more cards in hand discards a card. ~ When you discard this from play, you may exchange it for a Fugitive.</string>
     <string name="Storyteller_name">Storyteller</string>
-    <string name="Storyteller_desc">Play up to 3 Treasures from your hand. Pay all of your coins; +1 Card per coin paid.</string>
+    <string name="Storyteller_desc">Play up to 3 Treasures from your hand. Pay all of your Coins; +1 Card per Coin paid.</string>
     <string name="SwampHag_name">Swamp Hag</string>
     <string name="SwampHag_desc">Until your next turn, when any other player buys a card, he gains a Curse.</string>
     <string name="Teacher_name">Teacher</string>
