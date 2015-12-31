@@ -478,7 +478,7 @@
     <string name="Taxman_desc">You may trash a Treasure from your hand. Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it). Gain a Treasure card costing up to 3 Coins more than the trashed card, putting it on top of your deck.</string>
         
     <string name="Amulet_name">Amulet</string>
-    <string name="Amulet_desc">Now and at the start of your next turn, choose one: +1 coin; or trash a card from your hand; or gain a Silver.</string>
+    <string name="Amulet_desc">Now and at the start of your next turn, choose one: +1 Coin; or trash a card from your hand; or gain a Silver.</string>
     <string name="Artificer_name">Artificer</string>
     <string name="Artificer_desc">Discard any number of cards. You may gain a card costing exactly 1 Coin per card discarded, putting it on top of your deck.</string>
     <string name="BridgeTroll_name">Bridge Troll</string>

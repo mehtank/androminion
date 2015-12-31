@@ -17,6 +17,7 @@ import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.MoveContext.PileSelection;
+import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.SpiceMerchantOption;
 import com.vdom.core.Player.TournamentOption;
@@ -6027,28 +6028,26 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Player.AmuletOption option = currentPlayer.controlPlayer.amulet_chooseOption(context);
 
         if (option == null) {
-            Util.playerError(currentPlayer, "Amulet option error, ignoring.");
-        } else {
-            if (option == Player.AmuletOption.AddGold) {
-                context.addCoins(1);
-            } else if (option == Player.AmuletOption.GainSilver) {
-                currentPlayer.gainNewCard(Cards.silver, this.controlCard, context);
-            } else if (option == Player.AmuletOption.TrashCard) {
-                CardList hand = currentPlayer.getHand();
-                if (hand.size() == 0) {
-                    return;
-                }
-
-                Card cardToTrash = currentPlayer.controlPlayer.amulet_cardToTrash(context);
-                if (cardToTrash == null) {
-                    Util.playerError(currentPlayer, "Amulet card to trash was null, not trashing anything.");
-                } else if (!currentPlayer.hand.contains(cardToTrash)) {
-                    Util.playerError(currentPlayer, "Amulet card to trash is not in your hand, not trashing anything.");
-                } else {
-                    currentPlayer.hand.remove(cardToTrash);
-                    currentPlayer.trash(cardToTrash, this.controlCard, context);
-                }
+            Util.playerError(currentPlayer, "Amulet option error, choosing +(1) Coin.");
+            option = AmuletOption.AddGold;
+        }
+        if (option == Player.AmuletOption.AddGold) {
+            context.addCoins(1);
+        } else if (option == Player.AmuletOption.GainSilver) {
+            currentPlayer.gainNewCard(Cards.silver, this.controlCard, context);
+        } else if (option == Player.AmuletOption.TrashCard) {
+            CardList hand = currentPlayer.getHand();
+            if (hand.size() == 0) {
+                return;
             }
+
+            Card cardToTrash = currentPlayer.controlPlayer.amulet_cardToTrash(context);
+            if (cardToTrash == null || !currentPlayer.hand.contains(cardToTrash)) {
+                Util.playerError(currentPlayer, "Amulet card to trash error, trashing random card.");
+                cardToTrash = Util.randomCard(currentPlayer.getHand());
+            }
+            currentPlayer.hand.remove(cardToTrash);
+            currentPlayer.trash(cardToTrash, this.controlCard, context);
         }
     }
 
