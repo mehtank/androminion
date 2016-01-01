@@ -512,6 +512,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     private int[] lastSupplySizes;
 
     private int[] lastEmbargos;
+    
+    private int[][][] lastTokens;
 
     void resetButtons() {
         CharSequence selectText = select.getText();
@@ -872,13 +874,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * Display the numbers of pile sizes for the card piles on the 'table'
      * @param supplySizes Sizes of piles
      * @param embargos number of embargos
+     * @param tokens 
      */
-    public void setSupplySizes(int[] supplySizes, int[] embargos) {
-        moneyPile.updateCounts(supplySizes, embargos);
-        vpPile.updateCounts(supplySizes, embargos);
-        supplyPile.updateCounts(supplySizes, embargos);
-        prizePile.updateCounts(supplySizes, embargos);
-        nonSupplyPile.updateCounts(supplySizes, embargos);
+    public void setSupplySizes(int[] supplySizes, int[] embargos, int[][][] tokens) {
+        moneyPile.updateCounts(supplySizes, embargos, tokens);
+        vpPile.updateCounts(supplySizes, embargos, tokens);
+        supplyPile.updateCounts(supplySizes, embargos, tokens);
+        prizePile.updateCounts(supplySizes, embargos, tokens);
+        nonSupplyPile.updateCounts(supplySizes, embargos, tokens);
     }
 
     /**
@@ -942,7 +945,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         FinalView fv = new FinalView(top, this, gs.realNames[gs.whoseTurn], gs.turnCounts[gs.whoseTurn],
-                                     gs.embargos,
+                                     gs.embargos, gs.tokens,
                                      gs.numCards[gs.whoseTurn], gs.supplySizes,
                                      gs.handSizes[gs.whoseTurn], won);
         fv.setLayoutParams(lp);
@@ -953,7 +956,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     void uncheckAllShowCardsButtons() {
         for (ToggleButton t : showCardsButtons)
             t.setChecked(false);
-        setSupplySizes(this.lastSupplySizes, this.lastEmbargos);
+        setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastTokens);
     }
 
     /**
@@ -985,7 +988,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             /*print ruins and not abandoned mine*/
             supplyPile.updateCardName(gs.ruinsID, Cards.virtualRuins, -1, false);
             supplyPile.updateCardName(gs.knightsID, Cards.virtualKnight, -1, false);
-            setSupplySizes(this.lastSupplySizes, this.lastEmbargos);
+            setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastTokens);
             
             HapticFeedback.vibrate(getContext(),AlertType.FINAL);
             finalStatus(gs);
@@ -1068,11 +1071,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         this.lastSupplySizes = gs.supplySizes;
         this.lastEmbargos = gs.embargos;
+        this.lastTokens = gs.tokens;
         costs = gs.costs;
 
         supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, -1, false);
         supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardCost, gs.knightsTopCardIsVictory);
-        setSupplySizes(gs.supplySizes, gs.embargos);
+        setSupplySizes(gs.supplySizes, gs.embargos, gs.tokens);
         setCardCosts(top.findViewById(android.R.id.content));
     }
 

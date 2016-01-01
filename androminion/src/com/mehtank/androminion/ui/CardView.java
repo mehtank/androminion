@@ -14,6 +14,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -27,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mehtank.androminion.R;
@@ -36,6 +40,7 @@ import com.mehtank.androminion.util.CheckableEx;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.MyCard;
+import com.vdom.core.PlayerSupplyToken;
 
 /**
  * Corresponds to a single card that is visible on the 'table'
@@ -47,6 +52,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private TextView name;
 	private View cardBox;
 	private TextView cost, countLeft, embargos;
+	private LinearLayout tokens;
 	private TextView checked;
 	private TextView cardDesc;
 
@@ -57,6 +63,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	CardGroup parent;
 	private CardState state;
+
 /**
  * Information about a card type opened, onTable, indicator, order
  *
@@ -125,9 +132,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		cost = (TextView) findViewById(R.id.cost);
 		countLeft = (TextView) findViewById(R.id.countLeft);
 		embargos = (TextView) findViewById(R.id.embargos);
+		tokens = (LinearLayout) findViewById(R.id.tokens);
 		checked = (TextView) findViewById(R.id.checked);
 		cardDesc = (TextView) findViewById(R.id.cardDesc);
-
+		
 		state = new CardState(null);
 
 		if (c != null) {
@@ -353,6 +361,95 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else {
 			embargos.setVisibility(GONE);
 		}
+	}
+	
+	public void setTokens(int[][] newTokens) {
+		tokens.removeAllViews();
+		for (int i = 0; i < newTokens.length; ++i) {
+			int[] players = newTokens[i];
+			for (int tokenId : players) {
+				View tokenView = getViewForToken(i, tokenId);
+				if (tokenView != null)
+					tokens.addView(tokenView);
+			}
+		}
+	}
+	
+	private View getViewForToken(int player, int tokenId) {
+		int backgroundId = R.drawable.circulartoken;;
+		String text;
+		switch(PlayerSupplyToken.getById(tokenId)) {
+			case PlusOneCard:
+				backgroundId = R.drawable.rectangulartoken;
+				text = "+1";
+				break;
+			case PlusOneAction:
+				text = "+A"; 
+				break;
+			case PlusOneBuy:
+				text = "+B";
+				break;
+			case PlusOneCoin:
+				text = "+1";
+				break;
+			case MinusTwoCost:
+				text = "-2";
+				break;
+			case Trashing:
+				text = "X";
+				break;
+			default:
+				return null;
+		}
+		float sd = getResources().getDisplayMetrics().scaledDensity;
+		float dp = getResources().getDisplayMetrics().density;
+		GradientDrawable background = (GradientDrawable)getResources().getDrawable(backgroundId).mutate();
+		background.setColor(getPlayerColor(player));
+		background.setStroke((int)(2 * dp), getPlayerStrokeColor(player));
+		TextView token = new TextView(getContext());
+		token.setBackgroundDrawable(background);
+		int pad = (int)dp;
+		token.setTextSize(sd * 8);
+		token.setTextColor(Color.BLACK);
+		token.setPadding(pad, pad, pad, pad);
+		token.setText(text);
+		return token;
+	}
+
+	public int getPlayerColor(int playerNumber) {
+		switch(playerNumber) {
+			case 0:
+				return getResources().getColor(R.color.player1Color);
+			case 1:
+				return getResources().getColor(R.color.player2Color);
+			case 2:
+				return getResources().getColor(R.color.player3Color);
+			case 3:
+				return getResources().getColor(R.color.player4Color);
+			case 4:
+				return getResources().getColor(R.color.player5Color);
+			case 5:
+			default:
+				return getResources().getColor(R.color.player6Color);
+		}
+	}
+	
+	private int getPlayerStrokeColor(int playerNumber) {
+		switch(playerNumber) {
+		case 0:
+			return getResources().getColor(R.color.player1LineColor);
+		case 1:
+			return getResources().getColor(R.color.player2LineColor);
+		case 2:
+			return getResources().getColor(R.color.player3LineColor);
+		case 3:
+			return getResources().getColor(R.color.player4LineColor);
+		case 4:
+			return getResources().getColor(R.color.player5LineColor);
+		case 5:
+		default:
+			return getResources().getColor(R.color.player6LineColor);
+	}
 	}
 
 	public void setCost(int newCost, boolean overpay) {
@@ -617,5 +714,4 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	        return false;
 	    }
 	}
-
 }

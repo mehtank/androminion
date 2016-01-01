@@ -218,6 +218,18 @@ public class Strings {
         // The first part of the text tells us what kind of event we're dealing with.
         if (event.gameEventType == GameEvent.Type.Embargo) {
             statusText += getString(R.string.Embargo);
+        } else if (event.gameEventType == GameEvent.Type.PlusOneCardTokenMoved) {
+            statusText += getString(R.string.PlusOneCardTokenMoved);
+        } else if (event.gameEventType == GameEvent.Type.PlusOneActionTokenMoved) {
+        	statusText += getString(R.string.PlusOneActionTokenMoved);
+        } else if (event.gameEventType == GameEvent.Type.PlusOneBuyTokenMoved) {
+        	statusText += getString(R.string.PlusOneBuyTokenMoved);
+        } else if (event.gameEventType == GameEvent.Type.PlusOneCoinTokenMoved) {
+        	statusText += getString(R.string.PlusOneCoinTokenMoved);
+        } else if (event.gameEventType == GameEvent.Type.MinusTwoCostTokenMoved) {
+        	statusText += getString(R.string.MinusTwoCostTokenMoved);
+        } else if (event.gameEventType == GameEvent.Type.TrashingTokenMoved) {
+        	statusText += getString(R.string.TrashingTokenMoved);
         } else if (event.gameEventType == GameEvent.Type.GameStarting) {
             statusText += getString(R.string.GameStarting);
         } else if (event.gameEventType == GameEvent.Type.GameOver) {
@@ -1012,6 +1024,8 @@ public class Strings {
             } else {
                 if (sco.isAttack) {
                     selectString = Strings.format(R.string.select_from_table_attack, header);
+                } if (sco.isAction) {
+                	selectString = Strings.format(R.string.select_from_table_action, header);
                 } else {
                     selectString = Strings.format(R.string.select_from_table, header);
                 }
@@ -1167,11 +1181,14 @@ public class Strings {
             getCardName(Cards.raze),
             getCardName(Cards.storyteller),
             /*Adventures Events*/
-            getCardName(Cards.alms)
+            getCardName(Cards.alms),
+            getCardName(Cards.seaway)
+            
         ));
         actionStringMap = new HashMap<String, String>();
         actionStringMap.put(getCardName(Cards.bureaucrat), getString(R.string.bureaucrat_part));
         actionStringMap.put(getCardName(Cards.bandOfMisfits), getString(R.string.part_play));
+        actionStringMap.put(getCardName(Cards.ferry), getString(R.string.part_move_token_minus_2_cost));
         actionStringMap.put(getCardName(Cards.courtyard),
                             Strings.format(R.string.courtyard_part_top_of_deck,
                                            getCardName(Cards.courtyard)));
@@ -1183,8 +1200,10 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.haven), getString(R.string.haven_part));
         actionStringMap.put(getCardName(Cards.gear), getString(R.string.gear_part));
         actionStringMap.put(getCardName(Cards.island), getString(R.string.island_part));
+        actionStringMap.put(getCardName(Cards.pathfinding), getString(R.string.part_move_token_plus_one_card));
         actionStringMap.put(getCardName(Cards.prince), getString(R.string.prince_part));
         actionStringMap.put(getCardName(Cards.kingsCourt), getString(R.string.kings_court_part));
+        actionStringMap.put(getCardName(Cards.lostArts), getString(R.string.part_move_token_plus_one_action));
         actionStringMap.put(getCardName(Cards.mandarin), getString(R.string.mandarin_part));
         actionStringMap.put(getCardName(Cards.margrave), getString(R.string.margrave_part));
         actionStringMap.put(getCardName(Cards.militia), getString(R.string.militia_part));
@@ -1194,6 +1213,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.throneRoom), getString(R.string.throne_room_part));
         actionStringMap.put(getCardName(Cards.disciple), getString(R.string.throne_room_part)); /*frr18 todo*/
         actionStringMap.put(getCardName(Cards.tournament), getString(R.string.select_prize));
+        actionStringMap.put(getCardName(Cards.training), getString(R.string.part_move_token_plus_one_coin));
         actionStringMap.put(getCardName(Cards.university), getString(R.string.university_part));
         actionStringMap.put(getCardName(Cards.urchin), getString(R.string.urchin_keep));
     }
@@ -1286,6 +1306,12 @@ public class Strings {
                 return getActionString(sco);
             } else {
                 return getString(R.string.taxman_part);
+            }
+        } else if (cardName.equals(getCardName(Cards.plan))) {
+            if (sco.actionType == ActionType.TRASH) {
+                return getActionString(sco);
+            } else {
+                return getString(R.string.part_move_token_trashing);
             }
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");

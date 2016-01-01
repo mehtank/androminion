@@ -21,6 +21,7 @@ import com.vdom.api.EventCard;
 import com.vdom.api.FrameworkEvent;
 import com.vdom.api.FrameworkEventHelper;
 import com.vdom.api.GameEvent;
+import com.vdom.api.GameEvent.Type;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
@@ -95,6 +96,7 @@ public class Game {
     public static Random rand = new Random(System.currentTimeMillis());
     public HashMap<String, AbstractCardPile> piles = new HashMap<String, AbstractCardPile>();
     public HashMap<String, Integer> embargos = new HashMap<String, Integer>();
+    private HashMap<String, HashMap<Player, List<PlayerSupplyToken>>> playerSupplyTokens = new HashMap<String, HashMap<Player,List<PlayerSupplyToken>>>();
     public ArrayList<Card> trashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedBoughtPile = new ArrayList<Card>();
@@ -1340,8 +1342,20 @@ public class Game {
         }
         
         buy.isBuying(context);
-
+        
         if(!buy.isEvent()) {
+        	if (player.getHand().size() > 0 && isPlayerSupplyTokenOnPile(buy, player, PlayerSupplyToken.Trashing)) {
+                Card cardToTrash = player.controlPlayer.trashingToken_cardToTrash((MoveContext) context);
+                if (cardToTrash != null) {
+                	if (!player.getHand().contains(cardToTrash)) {
+                		Util.playerError(player, "Trashing token error, invalid card to trash, ignoring.");
+                	} else {
+                		player.hand.remove(cardToTrash);
+                		player.trash(cardToTrash, null, context);
+                	}
+                }
+        	}
+        	
         	/*frr18 todo defense */
 	        for (int i=0; i < swampHagAttacks(player); i++) {
 	            player.gainNewCard(Cards.curse, Cards.swampHag, context);                    	
@@ -1689,7 +1703,7 @@ public class Game {
 
             // Interactive player needs this called once for each player on startup so internal counts work properly.
             players[i].getPlayerName();
-
+            
             MoveContext context = new MoveContext(this, players[i]);
             players[i].newGame(context);
             players[i].initCards();
@@ -1821,6 +1835,7 @@ public class Game {
     protected void initCards() {
         piles.clear();
         embargos.clear();
+        playerSupplyTokens.clear();
         trashPile.clear();
         blackMarketPile.clear();
         blackMarketPileShuffled.clear();
@@ -2626,7 +2641,54 @@ public class Game {
         return (count == null) ? 0 : count;
     }
     
-    // Only is valid for cards in play...
+    public List<PlayerSupplyToken> getPlayerSupplyTokens(Card card, Player player) {
+    	card = card.getTemplateCard();
+    	if (player == null || !playerSupplyTokens.containsKey(card.getName()))
+    		return new ArrayList<PlayerSupplyToken>();
+    	
+    	if (!playerSupplyTokens.get(card.getName()).containsKey(player)) {
+        	playerSupplyTokens.get(card.getName()).put(player, new ArrayList<PlayerSupplyToken>());
+    	}
+    	return playerSupplyTokens.get(card.getName()).get(player);
+    }
+    
+    public boolean isPlayerSupplyTokenOnPile(Card card, Player player, PlayerSupplyToken token) {
+    	return getPlayerSupplyTokens(card, player).contains(token);
+    }
+    
+    public void movePlayerSupplyToken(Card card, Player player, PlayerSupplyToken token) {
+    	removePlayerSupplyToken(player, token);
+    	getPlayerSupplyTokens(card, player).add(token);
+    	
+        MoveContext context = new MoveContext(this, player);
+        GameEvent.Type eventType = null;
+        if (token == PlayerSupplyToken.PlusOneCard) {
+        	eventType = Type.PlusOneCardTokenMoved;
+        } else if (token == PlayerSupplyToken.PlusOneAction) {
+        	eventType = Type.PlusOneActionTokenMoved;
+        } else if (token == PlayerSupplyToken.PlusOneBuy) {
+        	eventType = Type.PlusOneBuyTokenMoved;
+        } else if (token == PlayerSupplyToken.PlusOneCoin) {
+        	eventType = Type.PlusOneCoinTokenMoved;
+        } else if (token == PlayerSupplyToken.MinusTwoCost) {
+        	eventType = Type.MinusTwoCostTokenMoved;
+        } else if (token == PlayerSupplyToken.Trashing) {
+        	eventType = Type.TrashingTokenMoved;
+        }
+        GameEvent event = new GameEvent(eventType, context);
+        event.card = card;
+        broadcastEvent(event);
+    }
+    
+    private void removePlayerSupplyToken(Player player, PlayerSupplyToken token) {
+		for (String cardName : playerSupplyTokens.keySet()) {
+			if (playerSupplyTokens.get(cardName).containsKey(player)) {
+				playerSupplyTokens.get(cardName).get(player).remove(token);
+			}
+		}
+	}
+
+	// Only is valid for cards in play...
     //    protected Card readCard(String name) {
     //        AbstractCardPile pile = piles.get(name);
     //        if (pile == null || pile.getCount() <= 0) {
@@ -2817,6 +2879,9 @@ public class Game {
         }
 
         piles.put(card.getName(), pile);
+        
+        playerSupplyTokens.put(card.getName(), new HashMap<Player, List<PlayerSupplyToken>>());
+        
 
         return pile;
     }

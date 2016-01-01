@@ -5,9 +5,10 @@ import java.io.Serializable;
 import com.vdom.api.Card;
 
 public class GameStatus implements Serializable {
-    private static final long serialVersionUID = -5928579898003313213L;
-
-    public int whoseTurn;
+    
+	private static final long serialVersionUID = -8819195521987453596L;
+	
+	public int whoseTurn;
     public String name;
     public String[] realNames;
     public boolean isFinal;
@@ -25,6 +26,7 @@ public class GameStatus implements Serializable {
     public int[] turnStatus;
     public int[] supplySizes;
     public int[] embargos;
+    public int[][][] tokens;
     public int[] costs;
     public int[] deckSizes;
     public int[] handSizes;
@@ -61,6 +63,7 @@ public class GameStatus implements Serializable {
     public GameStatus setTurnStatus(int[] is) {turnStatus = is; return this;};
     public GameStatus setSupplySizes(int[] is) {supplySizes = is; return this;};
     public GameStatus setEmbargos(int[] is) {embargos = is; return this;};
+    public GameStatus setTokens(int[][][] is) {tokens = is; return this;};
     public GameStatus setCosts(int[] is) {costs = is; return this;};
     public GameStatus setDeckSizes(int[] is) {deckSizes = is; return this;};
     public GameStatus setHandSizes(int[] is) {handSizes = is; return this;};

@@ -1715,7 +1715,14 @@ public abstract class Player {
     
     public abstract Card alms_cardToObtain(MoveContext context);
     public abstract Card[] bonfire_cardsToTrash(MoveContext context);
+    public abstract ActionCard ferry_actionCardPileToHaveToken(MoveContext context);
+    public abstract ActionCard lostArts_actionCardPileToHaveToken(MoveContext context);
+    public abstract ActionCard pathfinding_actionCardPileToHaveToken(MoveContext context);
+    public abstract ActionCard plan_actionCardPileToHaveToken(MoveContext context);
     public abstract Card scoutingParty_cardToDiscard(MoveContext context, Card[] revealedCards);
+    public abstract ActionCard seaway_cardToObtain(MoveContext context);
+    public abstract ActionCard training_actionCardPileToHaveToken(MoveContext context);
+    public abstract Card trashingToken_cardToTrash(MoveContext context);
 
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

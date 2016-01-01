@@ -2696,6 +2696,46 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setCardResponsible(Cards.bonfire).setActionType(ActionType.TRASH);
         return getFromPlayed(context, sco);
     }
+    
+    @Override
+    public ActionCard ferry_actionCardPileToHaveToken(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_ferry_actionCardPileToHaveToken(context)) {
+            return super.ferry_actionCardPileToHaveToken(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions()
+                .isAction().setCardResponsible(Cards.ferry);
+        return (ActionCard) getFromTable(context, sco);
+    }
+    
+    @Override
+    public ActionCard lostArts_actionCardPileToHaveToken(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_lostArts_actionCardPileToHaveToken(context)) {
+            return super.lostArts_actionCardPileToHaveToken(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions()
+                .isAction().setCardResponsible(Cards.lostArts);
+        return (ActionCard) getFromTable(context, sco);
+    }
+    
+    @Override
+    public ActionCard pathfinding_actionCardPileToHaveToken(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_pathfinding_actionCardPileToHaveToken(context)) {
+            return super.pathfinding_actionCardPileToHaveToken(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions()
+                .isAction().setCardResponsible(Cards.pathfinding);
+        return (ActionCard) getFromTable(context, sco);
+    }
+    
+    @Override
+    public ActionCard plan_actionCardPileToHaveToken(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_plan_actionCardPileToHaveToken(context)) {
+            return super.plan_actionCardPileToHaveToken(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions()
+                .isAction().setCardResponsible(Cards.plan);
+        return (ActionCard) getFromTable(context, sco);
+    }
 
     @Override
     public Card scoutingParty_cardToDiscard(MoveContext context,  Card[] cards) {
@@ -2709,6 +2749,36 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         return cards[selectOption(context, Cards.scoutingParty, options)];
     }
+    
+    @Override
+    public ActionCard seaway_cardToObtain(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_seaway_cardToObtain(context)) {
+            return super.seaway_cardToObtain(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
+                .setCardResponsible(Cards.seaway).isAction().setActionType(ActionType.GAIN);
+        return (ActionCard) getFromTable(context, sco);
+    }
 
+    @Override
+    public ActionCard training_actionCardPileToHaveToken(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_training_actionCardPileToHaveToken(context)) {
+            return super.training_actionCardPileToHaveToken(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions()
+                .isAction().setCardResponsible(Cards.training);
+        return (ActionCard) getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card trashingToken_cardToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_trashingToken_cardToTrash(context)) {
+            return super.trashingToken_cardToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.plan);
+        return getCardFromHand(context, sco);
+    }
 
 }

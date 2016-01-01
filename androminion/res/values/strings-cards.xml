@@ -565,10 +565,10 @@
     <string name="Expedition_name">Expedition</string>
     <string name="Expedition_desc">Draw 2 extra cards for your next hand.</string>
     <string name="Ferry_name">Ferry</string>
-    <string name="Ferry_desc">Move your -2 coins cost token to an Action Supply pile (cards from that pile cost 2 coins less on your turns, but not less than 0 coins).</string>
+    <string name="Ferry_desc">Move your -2 cost token to an Action Supply pile (cards from that pile cost 2 Coins less on your turns, but not less than 0 Coins).</string>
     <string name="Inheritance_name">Inheritance</string>
     <string name="Inheritance_desc">Once per game: Set aside a non-Victory Action card from the Supply costing up to 4 Coins. Move your Estate token to it (your Estates gain the abilities and types of that card).</string>
-    <string name="LostArts_name">LostArts</string>
+    <string name="LostArts_name">Lost Arts</string>
     <string name="LostArts_desc">Move your +1 Action token to an Action Supply pile (when you play a card from that pile, you first get +1 Action).</string>
     <string name="Mission_name">Mission</string>
     <string name="Mission_desc">Once per turn: If the previous turn wasn\'t yours, take another turn after this one, in which you can\'t buy cards.</string>
@@ -591,7 +591,7 @@
     <string name="Trade_name">Trade</string>
     <string name="Trade_desc">Trash up to 2 cards from your hand. Gain a Silver per card you trashed.</string>
     <string name="Training_name">Training</string>
-    <string name="Training_desc">Move your +1 coin token to an Action Supply pile (when you play a card from that pile, you first get +1 coin).</string>
+    <string name="Training_desc">Move your +1 Coin token to an Action Supply pile (when you play a card from that pile, you first get +1 Coin).</string>
     <string name="TravellingFair_name">TravellingFair</string>
     <string name="TravellingFair_desc">When you gain a card this turn, you may put it on top of your deck.</string>
     

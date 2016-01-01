@@ -31,10 +31,12 @@ public class CardGroup extends BaseAdapter {
     // fix bug that lets item countLeft jump around
     int[] supplySizes = null;
     int[] embargos = null;
+    int[][][] tokens = null;
 
-    public void updateCounts(int[] supplySizes, int[] embargos) {
+    public void updateCounts(int[] supplySizes, int[] embargos, int[][][] tokens) {
         this.supplySizes = supplySizes;
         this.embargos = embargos;
+        this.tokens = tokens;
         notifyDataSetChanged();
     }
 
@@ -108,6 +110,8 @@ public class CardGroup extends BaseAdapter {
                 cv.setCountLeft(supplySizes[cs.c.id]);
             if (embargos != null)
                 cv.setEmbargos(embargos[cs.c.id]);
+            if (tokens != null)
+            	cv.setTokens(tokens[cs.c.id]);
         } catch (ArrayIndexOutOfBoundsException e) {
             // TODO See why this is happening?
             Log.w(TAG, "exception", e);

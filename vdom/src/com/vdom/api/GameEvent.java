@@ -47,10 +47,16 @@ public class GameEvent {
         DeckPutIntoDiscardPile, // Deck put into discard pile
         TurnJourneyTokenFaceUp, // journey token turned face up
         TurnJourneyTokenFaceDown, // journey token turned face down
-        MinusOneCoinTokenOn, // journey token turned face up
-        MinusOneCoinTokenOff, // journey token turned face down
-        MinusOneCardTokenOn, // journey token turned face up
-        MinusOneCardTokenOff, // journey token turned face down
+        MinusOneCoinTokenOn, // -1 Coin token taken by player
+        MinusOneCoinTokenOff, // -1 Coin token removed by player
+        MinusOneCardTokenOn, // -1 Card token put on deck by player
+        MinusOneCardTokenOff, // -1 Card token drawn from deck by player
+        PlusOneCardTokenMoved, // +1 Card token moved to supply pile
+        PlusOneActionTokenMoved, // +1 Action token moved to supply pile
+        PlusOneBuyTokenMoved, // +1 Buy token moved to supply pile
+        PlusOneCoinTokenMoved, // +1 Coin token moved to supply pile
+        MinusTwoCostTokenMoved, // -2 Cost Token moved to supply pile
+        TrashingTokenMoved, // Trashing token moved to supply pile
     }
 
     public Type type;

@@ -19,5 +19,20 @@
     <color name="cardRuins">#806F49</color>
     <color name="cardEvent">#B0AFA7</color>
     <color name="cardReserve">#E6DEC8</color>
+    
+    <color name="player1Color">#d9562b</color>
+    <color name="player2Color">#508db9</color>
+    <color name="player3Color">#e5d63a</color>
+    <color name="player4Color">#24ad4c</color>
+    <color name="player5Color">#f2982a</color>
+    <color name="player6Color">#dadbdc</color>
+    
+    <color name="player1LineColor">#a44121</color>
+    <color name="player2LineColor">#3b6888</color>
+    <color name="player3LineColor">#b5a92e</color>
+    <color name="player4LineColor">#1c883c</color>
+    <color name="player5LineColor">#c47b22</color>
+    <color name="player6LineColor">#abacad</color>
+    
 
 </resources>

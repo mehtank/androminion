@@ -41,12 +41,19 @@
 	<string name="card_options_header">%1$s option</string>
 	<string name="part_play">play</string>
 	<string name="part_buy">buy</string>
+	<string name="part_move_token_minus_2_cost">move your -2 cost token to</string>
+	<string name="part_move_token_plus_one_card">move your +1 Card token to</string>
+	<string name="part_move_token_plus_one_action">move your +1 Action token to</string>
+	<string name="part_move_token_plus_one_buy">move your +1 Buy token to</string>
+	<string name="part_move_token_plus_one_coin">move your +1 Coin token to</string>
+	<string name="part_move_token_trashing">move your Trashing token to</string>
 	
 	<string name="discardPile">discard pile</string>
 	<string name="hand">hand</string>
   
 	<string name="select_from_table">Select a card from the table to %1$s</string>
 	<string name="select_from_table_attack">Select an Attack card from the table to %1$s</string>
+	<string name="select_from_table_action">Select an Action card from the table to %1$s</string>
 	<string name="select_from_table_exact">Select a card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_exact_action">Select an Action card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
@@ -102,6 +109,12 @@
 	<string name="GameStarting"></string>
 	<string name="GameOver">Game over</string>
 	<string name="Embargo">Embargo</string>
+	<string name="PlusOneCardTokenMoved">+1 Card token moved to</string>
+	<string name="PlusOneActionTokenMoved">+1 Action token moved to</string>
+	<string name="PlusOneBuyTokenMoved">+1 Buy token moved to</string>
+	<string name="PlusOneCoinTokenMoved">+1 Coin token moved to</string>
+	<string name="MinusTwoCostTokenMoved">-2 cost token moved to</string>
+	<string name="TrashingTokenMoved">Trashing token moved to</string>
 	<string name="OnIslandMat">Cards on island</string>
 	<string name="OnNativeVillageMat">Cards on native village</string>
 	<string name="Status">Status</string>

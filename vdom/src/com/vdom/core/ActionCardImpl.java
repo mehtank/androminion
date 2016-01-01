@@ -238,13 +238,22 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         event.card = this;
         event.newCard = newCard;
         game.broadcastEvent(event);
-
+      
         // playing an action
         if (this == actualCard) 
             context.actionsPlayedSoFar++;
         if (context.freeActionInEffect == 0) {
             context.actions--;
         }
+        
+        if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneAction))
+        	context.actions += 1;
+        if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneBuy))
+        	context.buys += addBuys;
+        if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneCoin))
+        	context.addCoins(1);
+        if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneCard))
+        	game.drawToHand(currentPlayer, actualCard);
 
         context.actions += addActions;
         context.buys += addBuys;

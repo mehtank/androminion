@@ -234,6 +234,7 @@ public class CardImpl implements Card {
         costModifier -= context.countCardsInNextTurn(Cards.bridgeTroll);
         costModifier -= 2 * context.countCardsInPlay(Cards.princess);
         costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlayThisTurn()) : 0;
+        costModifier -= (context.game.isPlayerSupplyTokenOnPile(this, context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
         //costModifier -= (this.isKnight ? (cost - game. (2 * context.countCardsInPlay(Cards.quarry)) : 0;
 
         return Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);

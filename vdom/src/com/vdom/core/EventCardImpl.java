@@ -2,6 +2,7 @@ package com.vdom.core;
 
 import java.util.ArrayList;
 
+import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.EventCard;
 import com.vdom.api.TreasureCard;
@@ -66,6 +67,18 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	        case Expedition:
 	        	context.totalExpeditionBoughtThisTurn += 2;
                 break;
+	        case Ferry:
+	        	ferry(context);
+        		break;
+	        case LostArts:
+	        	lostArts(context);
+	        	break;
+	        case Pathfinding:
+	        	pathfinding(context);
+	        	break;
+	        case Plan:
+	        	plan(context);
+	        	break;
 	        case Raid:
 	        	raid(context);
                 break;
@@ -75,10 +88,32 @@ public class EventCardImpl extends CardImpl implements EventCard {
             case ScoutingParty:
             	scoutingParty(context);
                 break;
+            case Seaway:
+            	seaway(context);
+            	break;
+            case Training:
+            	training(context);
+            	break;
             default:
                 break;
         }
     }
+    
+    private void placeToken(MoveContext context, ActionCard card, PlayerSupplyToken token) {
+    	if (card == null) {
+    		Card[] cards = context.game.getActionsInGame();
+    		if (cards.length != 0) {
+                Util.playerError(context.getPlayer(), getName() + " error: did not pick a valid pile, ignoring.");
+            }
+            return;
+    	}
+    	if (!context.game.cardInGame(card) ||
+    			!Cards.isSupplyCard(card)) {
+    		Util.playerError(context.getPlayer(), getName() + " error: Invalid pile chosen, ignoring");
+    	}
+    	
+    	context.game.movePlayerSupplyToken(card, context.getPlayer(), token);
+	}
 
     public void alms(MoveContext context) {
     	boolean noTreasureCard = true;
@@ -124,9 +159,29 @@ public class EventCardImpl extends CardImpl implements EventCard {
     		context.addCoins(1);
     	}
         context.cantBuy.add(this); //once per turn
-    }    
+    }
     
-    protected void raid(MoveContext context) {
+    private void ferry(MoveContext context) {
+    	ActionCard card = context.getPlayer().controlPlayer.ferry_actionCardPileToHaveToken(context);
+    	placeToken(context, card, PlayerSupplyToken.MinusTwoCost);
+    }
+    
+    private void lostArts(MoveContext context) {
+    	ActionCard card = context.getPlayer().controlPlayer.lostArts_actionCardPileToHaveToken(context);
+    	placeToken(context, card, PlayerSupplyToken.PlusOneAction);
+    }
+    
+    private void pathfinding(MoveContext context) {
+    	ActionCard card = context.getPlayer().controlPlayer.pathfinding_actionCardPileToHaveToken(context);
+    	placeToken(context, card, PlayerSupplyToken.PlusOneCard);
+    }
+    
+    private void plan(MoveContext context) {
+    	ActionCard card = context.getPlayer().controlPlayer.plan_actionCardPileToHaveToken(context);
+    	placeToken(context, card, PlayerSupplyToken.Trashing);
+    }
+    
+	protected void raid(MoveContext context) {
         for(Card card : context.player.playedCards) {
             if (card.equals(Cards.silver)) {
                 context.player.gainNewCard(Cards.silver, this, context);
@@ -138,7 +193,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
             	targetPlayer.setMinusOneCardToken(true, targetContext);
             }
         }
-    }    
+    }
     
     private void save(MoveContext context) {
         Card card = context.player.controlPlayer.haven_cardToSetAside(context); /*frr18 todo right name*/
@@ -225,6 +280,21 @@ public class EventCardImpl extends CardImpl implements EventCard {
         }        
     }
     
+    private void seaway(MoveContext context) {
+    	ActionCard card = context.player.controlPlayer.seaway_cardToObtain(context);
+        if (card != null) {
+            if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card)) {
+            	Card gainedCard = context.player.gainNewCard(card, this.controlCard, context);
+            	if (card.equals(gainedCard))
+            		placeToken(context, card, PlayerSupplyToken.PlusOneBuy);
+            }
+        }
+    	
+    }
     
+    private void training(MoveContext context) {
+    	ActionCard card = context.getPlayer().controlPlayer.training_actionCardPileToHaveToken(context);
+    	placeToken(context, card, PlayerSupplyToken.PlusOneCoin);
+    }
     
 }

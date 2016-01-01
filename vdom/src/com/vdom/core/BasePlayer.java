@@ -3306,6 +3306,26 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card[] bonfire_cardsToTrash(MoveContext context) {
         return pickOutCards(context.getPlayer().playedCards, 2, getTrashCards());
     }
+    
+    @Override
+    public ActionCard ferry_actionCardPileToHaveToken(MoveContext context) {
+    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    }
+    
+    @Override
+    public ActionCard lostArts_actionCardPileToHaveToken(MoveContext context) {
+    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    }
+    
+    @Override
+    public ActionCard pathfinding_actionCardPileToHaveToken(MoveContext context) {
+    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    }
+    
+    @Override
+    public ActionCard plan_actionCardPileToHaveToken(MoveContext context) {
+    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    }
 
     @Override
     public Card scoutingParty_cardToDiscard(MoveContext context,  Card[] cards) {
@@ -3314,5 +3334,19 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             cl.add(c);
         return lowestCard(context, cl, true);
     }
-
+    
+    @Override
+    public ActionCard seaway_cardToObtain(MoveContext context) {
+    	return (ActionCard) bestCardInPlay(context, 4, false, false, true, true, true);
+    }
+    
+    @Override
+    public ActionCard training_actionCardPileToHaveToken(MoveContext context) {
+    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    }
+    
+    @Override
+    public Card trashingToken_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
 }

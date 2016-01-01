@@ -305,6 +305,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         int[] supplySizes = new int[cardsInPlay.size()];
         int[] embargos = new int[cardsInPlay.size()];
+        int[][][] tokens = new int[cardsInPlay.size()][][];
         int[] costs = new int[cardsInPlay.size()];
 
         int i_virtualRuins = -1;
@@ -339,6 +340,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 }
             }
             embargos[i] = context.getEmbargos(intToCard(i));
+            
             costs[i] = intToCard(i).getCost(context);
         }
         if (isFinal)
@@ -396,6 +398,21 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             minusOneCardTokenOn[i] = p.getMinusOneCardToken();
             realNames[i] = p.getPlayerName(false);
         }
+        
+        for (int i = 0; i < cardsInPlay.size(); i++) {
+        	Card card = cardsInPlay.get(i);
+        	int[][] playersForCard = new int[numPlayers][];
+        	for (int j = 0; j < numPlayers; j++) {
+        		Player p = allPlayers.get(j);
+        		List<PlayerSupplyToken> playerTokensList = context.game.getPlayerSupplyTokens(card, p);
+            	int[] playerTokensOnCard = new int[playerTokensList.size()];
+            	for (int k = 0; k < playerTokensOnCard.length; ++k) {
+            		playerTokensOnCard[k] = playerTokensList.get(k).getId();
+            	}
+            	playersForCard[j] = playerTokensOnCard;
+        	}
+        	tokens[i] = playersForCard;
+        }
 
         GameStatus gs = new GameStatus();
 
@@ -416,6 +433,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setTurnCounts(turnCounts)
                 .setSupplySizes(supplySizes)
                 .setEmbargos(embargos)
+                .setTokens(tokens)
                 .setCosts(costs)
                 .setHand(cardArrToIntArr(Game.sortCards ? shownHand.sort(new Util.CardHandComparator()) : shownHand.toArray()))
                 .setPlayedCards(playedArray)

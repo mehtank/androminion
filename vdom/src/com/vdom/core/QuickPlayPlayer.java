@@ -859,9 +859,37 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_alms_cardToObtain(MoveContext context) {
     	return false;
     }
+    
+    public boolean shouldAutoPlay_ferry_actionCardPileToHaveToken(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_lostArts_actionCardPileToHaveToken(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_pathfinding_actionCardPileToHaveToken(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_plan_actionCardPileToHaveToken(MoveContext context) {
+    	return false;
+    }
 
     public boolean shouldAutoPlay_scoutingParty_cardToDiscard(MoveContext context) {
         return false;
+    }
+    
+    public boolean shouldAutoPlay_seaway_cardToObtain(MoveContext context) {
+        return false;
+    }
+    
+    public boolean shouldAutoPlay_training_actionCardPileToHaveToken(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_trashingToken_cardToTrash(MoveContext context) {
+        return true;
     }
 
 }
