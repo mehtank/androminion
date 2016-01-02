@@ -109,6 +109,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
         currentPlayer.playedCards.add(this.controlCard);
        	GameEvent event = new GameEvent(GameEvent.Type.CallingCard, (MoveContext) context);
         event.card = this.controlCard;
+        event.newCard = true;
         context.game.broadcastEvent(event);
         return true;
 	}
