@@ -14,7 +14,7 @@ import com.vdom.core.MoveContext;
 /**
  * Gives information about cards that are selected by the player from the table (piles, hand, play)
  *
- * This clas gives information about the constrains set on the selection of cards, e.g. what type, cost, from which place
+ * This class gives information about the constrains set on the selection of cards, e.g. what type, cost, from which place
  *
  */
 public class SelectCardOptions implements Serializable {
@@ -79,6 +79,7 @@ public class SelectCardOptions implements Serializable {
     public boolean isAttack = false;
     public boolean isNonShelter = false;
     public boolean isSupplyCard = false;
+    public int noTokensForPlayer = -1;
     public boolean passable = false;
     public String header = null;
     public ArrayList<Integer> allowedCards = new ArrayList<Integer>();
@@ -119,6 +120,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions isNonVictory() {isNonVictory = true; return this;}
     public SelectCardOptions isAttack() {isAttack = true; return this;}
     public SelectCardOptions isSupplyCard() {isSupplyCard = true; return this;}
+    public SelectCardOptions noTokensForPlayer(int p) {noTokensForPlayer = p; return this;}
 
     public SelectCardOptions allowedCards(int[] is) {
         for (int i : is)
@@ -146,13 +148,14 @@ public class SelectCardOptions implements Serializable {
     }
 
     public boolean checkValid(MyCard c) {
-        return checkValid(c, 0);
+        return checkValid(c, 0, false);
     }
 
-    public boolean checkValid(MyCard c, int cost) {
+    public boolean checkValid(MyCard c, int cost, boolean hasTokens) {
 
         if ((maxCost >= 0) && (cost > maxCost )) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
+        if (noTokensForPlayer != -1 && hasTokens) return false;
 
         if (isAction && !c.isAction) return false;
         if (isReaction && !c.isReaction) return false;
@@ -174,13 +177,14 @@ public class SelectCardOptions implements Serializable {
     }
 
     public boolean checkValid(Card c, boolean cardIsVictory) {
-        return checkValid(c, 0, cardIsVictory);
+        return checkValid(c, 0, cardIsVictory, false);
     }
 
-    public boolean checkValid(Card c, int cost, boolean cardIsVictory) {
+    public boolean checkValid(Card c, int cost, boolean cardIsVictory, boolean hasTokens) {
 
         if ((maxCost >= 0) && (cost > (c.costPotion() ? maxCost : maxCostWithoutPotion))) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
+        if (noTokensForPlayer != -1 && hasTokens) return false;
 
         if (isReaction && !(Cards.isReaction(c))) return false;
         if (isTreasure && !(c instanceof TreasureCard)) return false;
@@ -194,7 +198,7 @@ public class SelectCardOptions implements Serializable {
         if (isNonRats && c.equals(Cards.rats)) return false;
         if (c.equals(Cards.grandMarket) && copperCountInPlay > 0) return false;
         if (isNonShelter && c.isShelter()) return false;
-
+        
         if (c instanceof ActionCard) {
             if (isAttack && !(((ActionCard) c).isAttack())) return false;
         } else {

@@ -542,7 +542,7 @@
     <string name="SwampHag_name">Swamp Hag</string>
     <string name="SwampHag_desc">Until your next turn, when any other player buys a card, he gains a Curse.</string>
     <string name="Teacher_name">Teacher</string>
-    <string name="Teacher_desc">Put this on your Tavern mat. ~ At the start of your turn, you may call this, to move your +1 Card, +1 Action, +1 Buy, or +1 coin token to an Action Supply pile you have no tokens on (when you play a card from that pile, you first get that bonus).</string>
+    <string name="Teacher_desc">Put this on your Tavern mat. ~ At the start of your turn, you may call this, to move your +1 Card, +1 Action, +1 Buy, or +1 Coin token to an Action Supply pile you have no tokens on (when you play a card from that pile, you first get that bonus).</string>
     <string name="Transmogrify_name">Transmogrify</string>
     <string name="Transmogrify_desc">Put this on your Tavern mat. - At the start of your turn, you may call this, to trash a card from your hand, gain a card costing up to 1 Coin more than it, and put that card into your hand.</string>
     <string name="TreasureHunter_name">TreasureHunter</string>

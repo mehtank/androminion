@@ -145,6 +145,8 @@
 	<string name="CardAddedToHand">Card added to hand</string>
 	<string name="CardRemovedFromHand">Card removed from hand</string>
     <string name="CardSetAsideOnTavernMat">Card put on tavern mat</string>
+    <string name="CallingCard">Calling</string>
+    <string name="CalledCard">Called</string>
 	<string name="CardSetAside">Card set aside (prince)</string>
 	<string name="CardSetAsideHaven">Card set aside (Haven)</string>
 	<string name="CardSetAsideGear">Card set aside (Gear)</string>
@@ -156,6 +158,11 @@
     <string name="MinusOneCoinTokenOff">-1 coin token removed</string>
 	<string name="MinusOneCardTokenOn">-1 card token put onto deck</string>
     <string name="MinusOneCardTokenOff">-1 card token removed</string>
+    
+    <string name="plus_one_card_token">+1 Card token</string>
+    <string name="plus_one_action_token">+1 Action token</string>
+    <string name="plus_one_buy_token">+1 Buy token</string>
+    <string name="plus_one_coin_token">+1 Coin token</string>
     		
 	<string name="use_for_money">use for money</string>
 	
@@ -193,6 +200,8 @@
 	<string name="thief_query">Select treasure to steal</string>
 	
 	<string name="smuggle_query">Select card to smuggle</string>
+	
+	<string name="teacher_query">Select token to move</string>
 	
 	<string name="courtyard_part_top_of_deck">put on top of your deck [%1$s]</string>
 	
@@ -402,4 +411,6 @@
   <string name="traveller_exchange">Exchange it for %1$s</string>
   <string name="wineMerchant_option_one">Discard from Tavern</string>
   <string name="wineMerchant_query">Select number of Wine Merchants, to discard from Tavern</string>
+  
+  <string name="call_when_gain_query">Gaining %1$s. Call card:</string>
 </resources>

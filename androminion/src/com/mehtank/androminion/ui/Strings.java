@@ -25,6 +25,7 @@ import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.Cards;
+import com.vdom.core.IndirectPlayer;
 import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
@@ -44,6 +45,7 @@ import com.vdom.core.Player.TorturerOption;
 import com.vdom.core.Player.TournamentOption;
 import com.vdom.core.Player.TrustySteedOption;
 import com.vdom.core.Player.WatchTowerOption;
+import com.vdom.core.PlayerSupplyToken;
 
 public class Strings {
 
@@ -277,6 +279,10 @@ public class Strings {
             statusText += getString(R.string.CardSetAsideGear);
         } else if (event.gameEventType == GameEvent.Type.CardSetAsideOnTavernMat) {
             statusText += getString(R.string.CardSetAsideOnTavernMat);
+        } else if (event.gameEventType == GameEvent.Type.CallingCard) {
+			statusText += getString(R.string.CallingCard);
+		} else if (event.gameEventType == GameEvent.Type.CalledCard) {
+			statusText += getString(R.string.CalledCard);
         } else if (event.gameEventType == GameEvent.Type.CardSetAsideOnIslandMat) {
             statusText += getString(R.string.CardSetAsideOnIslandMat);
         } else if (event.gameEventType == GameEvent.Type.DeckPutIntoDiscardPile) {
@@ -500,17 +506,19 @@ public class Strings {
         // strings.
         if (options[0] instanceof String) {
             String optionString = (String) options[0];
-            if (optionString.equals("REACTION")) {
+            if (optionString.equals(IndirectPlayer.OPTION_REACTION)) {
                 return 1;
-            } else if (optionString.equals("PUTBACK")) {
+            } else if (optionString.equals(IndirectPlayer.OPTION_PUTBACK)) {
                 return 1;
-            } else if (optionString.equals("GUILDCOINS")) {
+            } else if (optionString.equals(IndirectPlayer.OPTION_SPEND_GUILD_COINS)) {
                 return 1;
-            } else if (optionString.equals("OVERPAY")) {
+            } else if (optionString.equals(IndirectPlayer.OPTION_OVERPAY)) {
                 return 1;
-            } else if (optionString.equals("OVERPAYP")) {
+            } else if (optionString.equals(IndirectPlayer.OPTION_OVERPAY_POTION)) {
                 return 1;
-            }
+            } else if (optionString.equals(IndirectPlayer.OPTION_CALL_WHEN_GAIN)) {
+				return 1;
+			}
         }
         if (card == null)
             return 0;
@@ -542,17 +550,19 @@ public class Strings {
     }
 
     public static String getSelectOptionHeader(Card card, Object[] extras) {
-        if (extras[0] instanceof String && ((String)extras[0]).equals("PUTBACK")) {
+        if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_PUTBACK)) {
             return getString(R.string.putback_query);
-        } else if (extras[0] instanceof String && ((String)extras[0]).equals("REACTION")) {
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_REACTION)) {
             return getString(R.string.reaction_query) + " [" + getCardName(card) + "]";
-        } else if (extras[0] instanceof String && ((String)extras[0]).equals("GUILDCOINS")) {
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_SPEND_GUILD_COINS)) {
             return getString(R.string.spend_guilds_coin_tokens);
-        } else if (extras[0] instanceof String && ((String)extras[0]).equals("OVERPAY")) {
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_OVERPAY)) {
             return getString(R.string.buy_overpay);
-        } else if (extras[0] instanceof String && ((String)extras[0]).equals("OVERPAYP")) {
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_OVERPAY_POTION)) {
             return getString(R.string.buy_overpay_by_potions);
-        }
+        } else if (extras[0] instanceof String && ((String) extras[0]).equals(IndirectPlayer.OPTION_CALL_WHEN_GAIN)) {
+			return format(R.string.call_when_gain_query, getCardName(card));
+		}
         String cardName = getCardName(card);
         if (cardName.equals(getCardName(Cards.advisor))) {
             return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
@@ -596,6 +606,8 @@ public class Strings {
             return getString(R.string.scheme_query);
         } else if (cardName.equals(getCardName(Cards.smugglers))) {
             return getString(R.string.smuggle_query);
+        } else if (cardName.equals(getCardName(Cards.teacher))) {
+			return getString(R.string.teacher_query);
         } else if (cardName.equals(getCardName(Cards.thief))) {
             if (extras[0] == null) {
                 // In this case we're gaining treasures that have been trashed.
@@ -744,6 +756,16 @@ public class Strings {
             } else if (option == PawnOption.AddGold) {
                 return getString(R.string.pawn_four);
             }
+        } else if (option instanceof PlayerSupplyToken) {
+			if (option == PlayerSupplyToken.PlusOneCard) {
+				return getString(R.string.plus_one_card_token);
+			} else if (option == PlayerSupplyToken.PlusOneAction) {
+				return getString(R.string.plus_one_action_token);
+			} else if (option == PlayerSupplyToken.PlusOneBuy) {
+				return getString(R.string.plus_one_buy_token);
+			} else if (option == PlayerSupplyToken.PlusOneCoin) {
+				return getString(R.string.plus_one_coin_token);
+			}
         } else if (option instanceof DoctorOverpayOption) {
             if (option == DoctorOverpayOption.TrashIt) {
                 return getString(R.string.doctor_overpay_option_one);
@@ -1178,8 +1200,10 @@ public class Strings {
             getCardName(Cards.artificer),
             getCardName(Cards.bonfire),
             getCardName(Cards.dungeon),
+            getCardName(Cards.ratcatcher),
             getCardName(Cards.raze),
             getCardName(Cards.storyteller),
+            getCardName(Cards.transmogrify),
             /*Adventures Events*/
             getCardName(Cards.alms),
             getCardName(Cards.seaway)

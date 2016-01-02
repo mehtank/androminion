@@ -43,6 +43,8 @@ public class GameEvent {
         CardSetAsideGear, // A card was set aside (gear)
         CardSetAsideHaven, // A card was set aside (haven)
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
+        CallingCard, // A card is about to be called from the tavern mat
+        CalledCard, // A card was called from the tavern mat
         CardSetAsideOnIslandMat, // A card was set aside on island mat
         DeckPutIntoDiscardPile, // Deck put into discard pile
         TurnJourneyTokenFaceUp, // journey token turned face up

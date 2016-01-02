@@ -772,6 +772,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             	disciple(game, context, currentPlayer);
                 break;
             case DistantLands:
+            case Duplicate:
+            case Guide:
+            case Ratcatcher:
+            case RoyalCarriage:
+            case Teacher:
+            case Transmogrify:
             case WineMerchant:
             	putOnTavern(game, context, currentPlayer);
                 break;

@@ -23,6 +23,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
     protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate };
     protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate, Cards.copper, Cards.masterpiece };
+    protected static final Card[] EASY_WHEN_TRASH_CARDS = new Card[] { Cards.cultist, Cards.rats, Cards.catacombs, Cards.fortress, Cards.huntingGrounds, Cards.sirVander, Cards.overgrownEstate};
     
     protected Random rand = new Random(System.currentTimeMillis());
     protected static final int COST_MAX = 11;
@@ -271,6 +272,21 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return null;
     }
     
+	
+	protected Card highestCard(MoveContext context, Iterable<Card> cards) {
+		float highestCost = -1;
+		Card highestCard = null;
+		for (Card c : cards) {
+			float cost = c.getCost(context);
+			float potionOffset = c.costPotion() ? 2.5f : 0.0f;
+			if (cost + potionOffset > highestCost) {
+				highestCost = cost + potionOffset;
+				highestCard = c;
+			}
+		}
+		return highestCard;
+	}
+    
     public Card lowestCard(MoveContext context, CardList cards, boolean discard) {
         Card[] ret = lowestCards(context, cards, 1, discard);
         if(ret == null) {
@@ -408,6 +424,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return ret.toArray(new Card[0]);
     }
     
+
+	protected ArrayList<Card> getAttackCardsLeft() {
+		ArrayList<Card> options = new ArrayList<Card>();
+		for (AbstractCardPile pile : game.piles.values()) {
+			if ((pile.card() instanceof ActionCard) && (pile.getCount() > 0)) {
+				ActionCard ac = (ActionCard) pile.card();
+				if (ac.isAttack()) {
+					options.add(pile.card());
+				}
+			}
+		}
+		return options;
+	}
+    
     public Card[] getTrashCards() {
         if(turnCount < midGame) {
             return EARLY_TRASH_CARDS;
@@ -415,6 +445,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         else {
             return LATE_TRASH_CARDS;
         }
+    }
+    
+    public Card[] getEasyWhenTrashCards() {
+    	return EASY_WHEN_TRASH_CARDS;
     }
     
     protected Card[] getReactionCards(boolean defended) {
@@ -2281,15 +2315,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card squire_cardToObtain(MoveContext context) {
-		ArrayList<Card> options = new ArrayList<Card>();
-		for (AbstractCardPile pile : game.piles.values()) {
-			if ((pile.card() instanceof ActionCard) && (pile.getCount() > 0)) {
-				ActionCard ac = (ActionCard) pile.card();
-				if (ac.isAttack()) {
-					options.add(pile.card());
-				}
-			}
-		}
+		ArrayList<Card> options = getAttackCardsLeft();
 		
 		if (options.size() > 0) {
 			return Util.randomCard(options);
@@ -3186,6 +3212,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card artificer_cardToObtain(MoveContext context, int cost) {
         return bestCardInPlay(context, cost, true, false, false);
     }
+    
+    public CallableCard call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards) {
+    	// only possible cards to call here are Duplicate or Estate (behaving like a Duplicate)
+    	//don't duplicate trash (TODO: estate might not be trash with Inheritance)
+    	for (Card c : getTrashCards()) {
+    		if (c.equals(gainedCard))
+    			return null;
+    	}
+    	if (possibleCards.length > 0)
+    		return possibleCards[0];
+    	return null;
+    }
 
     @Override
     public Card[] gear_cardsToSetAside(MoveContext context) {
@@ -3225,6 +3263,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public Card ratcatcher_cardToTrash(MoveContext context) {
+    	Card toTrash = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (toTrash == null) {
+    		toTrash = lowestCard(context, getHand(), false);
+    	}
+    	return toTrash;
     }
     
     @Override
@@ -3282,6 +3329,92 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		
 		return cardToKeep;
     }
+    
+    @Override
+    public PlayerSupplyToken teacher_tokenTypeToMove(MoveContext context) {
+    	//get a token that hasn't been used yet if possible
+    	ArrayList<PlayerSupplyToken> validTokens = new ArrayList<PlayerSupplyToken>();
+    	ArrayList<PlayerSupplyToken> unavailableTokens = new ArrayList<PlayerSupplyToken>();
+    	validTokens.add(PlayerSupplyToken.PlusOneCard);
+    	validTokens.add(PlayerSupplyToken.PlusOneAction);
+    	validTokens.add(PlayerSupplyToken.PlusOneCoin);
+    	validTokens.add(PlayerSupplyToken.PlusOneBuy);
+    	
+    	for (PlayerSupplyToken token : validTokens) {
+    		for (Card c : context.game.getCardsInGame()) {
+    			if (context.game.isPlayerSupplyTokenOnPile(c, context.getPlayer(), token))
+    				unavailableTokens.add(token);
+    		}
+    	}
+    	
+    	for (PlayerSupplyToken token : unavailableTokens)
+    		validTokens.remove(token);
+    	
+    	if (validTokens.size() > 0)
+    		return validTokens.get(0);
+    	return PlayerSupplyToken.PlusOneCard;
+    }
+    
+    @Override
+    public ActionCard teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token) {
+    	// TODO: better logic based on token type and how many cards we have or want to have of the augmented card
+    	Card[] cards = context.game.getCardsInGame();
+		Arrays.sort(cards, new Util.CardCostComparatorDesc()); 
+    	for (Card c : cards) {
+    		if (c instanceof ActionCard && 
+    				Cards.isSupplyCard(c) && 
+    				game.getPlayerSupplyTokens(c, this).size() == 0)
+    			return (ActionCard) c;
+    	}
+    	return null;
+    }
+    
+    @Override
+    public Card transmogrify_cardToTrash(MoveContext context) {
+    	CardList hand = context.getPlayer().getHand();
+    	
+    	//when-trash trash cards that benefit us
+    	Card bestCard = pickOutCard(hand, getEasyWhenTrashCards());
+    	if (bestCard != null)
+    		return bestCard;
+    	
+    	if (getAttackCardsLeft().size() > 0 && hand.contains(Cards.squire)) {
+    		return Cards.squire;
+    	}
+    	
+    	//find best card on the table costing 1 more than the cards we have in hand - trash card from hand
+    	bestCard = null;
+    	int bestUpgradedCost = -1;
+    	for (Card c : hand) {
+    		int newCost = c.getCost(context) + 1;
+    		Card supplyCard = bestCardInPlay(context, newCost, true, c.costPotion(), false, true, false);
+    		if (supplyCard != null && newCost > bestUpgradedCost) {
+    			bestCard = c;
+    			bestUpgradedCost = newCost;
+    		}
+    	}
+    	if (bestCard != null) {
+    		return bestCard;
+    	}
+    	
+    	//if not any, trash a curse, ruins or copper
+    	if (hand.contains(Cards.curse)) return Cards.curse;
+    	
+    	if (!context.game.isCardInGame(Cards.poorHouse)) {
+    		for (Card c : hand) {
+        		if (c.isRuins())
+        			return c;
+        	}
+    		if (hand.contains(Cards.copper)) return Cards.copper;
+    	}
+    		
+    	return Util.randomCard(context.getPlayer().getHand());
+    }
+    
+    @Override
+    public Card transmogrify_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+    	return bestCardInPlay(context, maxCost, false, potion, true);
+    }
 
 	@Override
 	public boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange)
@@ -3332,7 +3465,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
         for(Card c : cards)
             cl.add(c);
-        return lowestCard(context, cl, true);
+        Card toDiscard = pickOutCard(cl, getTrashCards());
+        if (toDiscard == null)
+        	toDiscard = lowestCard(context, cl, true);
+        return toDiscard;
     }
     
     @Override

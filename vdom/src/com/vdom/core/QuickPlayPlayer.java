@@ -821,6 +821,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
+    public boolean shouldAutoPlay_call_whenGainCardToCall(MoveContext context,
+    		Card gainedCard, CallableCard[] possibleCards) {
+    	return false;
+    }
+    
     public boolean shouldAutoPlay_messenger_shouldDiscardDeck(MoveContext context, Card responsible) {
     	return true;
     }
@@ -831,6 +836,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     public boolean shouldAutoPlay_miser_shouldTakeTreasure(MoveContext context) {
         return true;
+    }
+    
+    public boolean shouldAutoPlay_ratcatcher_cardToTrash(MoveContext context) {
+    	return false;
     }
     
     public boolean shouldAutoPlay_raze_shouldTrashRazePlayed(MoveContext context) {
@@ -845,6 +854,22 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_raze_cardToKeep(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_teacher_tokenTypeToMove(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_transmogrify_cardToTrash(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_transmogrify_cardToObtain(MoveContext context, int maxCost, boolean potion) {
     	return false;
     }
 

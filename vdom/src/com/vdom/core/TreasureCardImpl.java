@@ -131,14 +131,14 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         } else if (equals(Cards.illGottenGains)) {
             reevaluateTreasures = illGottenGains(context, player, reevaluateTreasures);
         } else if (equals(Cards.counterfeit)) {
-        	  reevaluateTreasures = counterfeit(context, game, reevaluateTreasures, player);
+        	reevaluateTreasures = counterfeit(context, game, reevaluateTreasures, player);
         } else if (equals(Cards.treasureTrove)) {
-        	  treasureTrove(context, player, game);
+        	treasureTrove(context, player, game);
         } else if (equals(Cards.relic)) {
-        	  relic(context, player, game);
-        }
-		else if (equals(Cards.spoils))
-        {
+        	relic(context, player, game);
+        } else if (equals(Cards.coinOfTheRealm)) {
+        	putOnTavern(game, context, player);
+        } else if (equals(Cards.spoils)) {
 			if (!isClone) {
 				// Return to the spoils pile
 	            AbstractCardPile pile = game.getPile(this);
@@ -277,7 +277,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             // A counterfeited card will not count in the calculations of future cards that care about the number of treasures played (such as Bank)
             context.treasuresPlayedSoFar--; 
             
-            if (!treasure.equals(Cards.spoils)) {
+            if (!(treasure.equals(Cards.spoils) || treasure.equals(Cards.coinOfTheRealm))) {
                 if (currentPlayer.playedCards.getLastCard().equals(treasure)) {
                 	currentPlayer.playedCards.remove(treasure);
                 	currentPlayer.trash(treasure, this, context);
@@ -332,5 +332,22 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             MoveContext targetContext = new MoveContext(context.game, targetPlayer);
         	targetPlayer.setMinusOneCardToken(true, targetContext);
         }
-    }    
+    }
+    
+    private void putOnTavern(Game game, MoveContext context, Player currentPlayer) {
+        // counterfeit has here no effect since card is already put on tavern
+        // Move to tavern mat
+        if (this.controlCard.numberTimesAlreadyPlayed == 0) {
+            currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.controlCard));
+            currentPlayer.tavern.add(this.controlCard);
+            this.controlCard.stopImpersonatingCard();
+
+            GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideOnTavernMat, (MoveContext) context);
+            event.card = this.controlCard;
+            game.broadcastEvent(event);
+        } else {
+            // reset clone count
+            this.controlCard.cloneCount = 1;
+        }
+    }
 }

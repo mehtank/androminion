@@ -99,22 +99,6 @@ public class EventCardImpl extends CardImpl implements EventCard {
         }
     }
     
-    private void placeToken(MoveContext context, ActionCard card, PlayerSupplyToken token) {
-    	if (card == null) {
-    		Card[] cards = context.game.getActionsInGame();
-    		if (cards.length != 0) {
-                Util.playerError(context.getPlayer(), getName() + " error: did not pick a valid pile, ignoring.");
-            }
-            return;
-    	}
-    	if (!context.game.cardInGame(card) ||
-    			!Cards.isSupplyCard(card)) {
-    		Util.playerError(context.getPlayer(), getName() + " error: Invalid pile chosen, ignoring");
-    	}
-    	
-    	context.game.movePlayerSupplyToken(card, context.getPlayer(), token);
-	}
-
     public void alms(MoveContext context) {
     	boolean noTreasureCard = true;
         for(Card card : context.player.playedCards) {

@@ -27,6 +27,7 @@ public abstract class Player {
 
     // Only used by InteractivePlayer currently
     private String name;
+    private int playerIndex;
     public int playerNumber;
     public int shuffleCount = 0;
     protected int turnCount = 0;
@@ -84,6 +85,14 @@ public abstract class Player {
 
     public void setName(String name) {
         this.name = name.replace("_", " ");
+    }
+    
+    public void setPlayerIndex(int value) {
+    	playerIndex = value;
+    }
+    
+    public int getPlayerIndex() {
+    	return playerIndex;
     }
 
     public int getCurrencyTotal(MoveContext context) {
@@ -301,6 +310,18 @@ public abstract class Player {
             }
         }
         return null;
+    }
+    
+    protected void cleanupOutOfTurn(MoveContext context) {
+    	//So far now, only cards that can happen here are Duplicate 
+    	// and Coin of the Realm (when called after playing a Caravan Guard as part of a Reaction)
+    	for (Card card : playedCards) {
+            CardImpl actualCard = (CardImpl) card;
+            actualCard.cloneCount = 1;
+        }
+    	while (!playedCards.isEmpty()) {
+            discard(playedCards.remove(0), null, context, false, true);
+        }
     }
 
     protected void cleanup(MoveContext context) {
@@ -1699,14 +1720,20 @@ public abstract class Player {
     public abstract Card amulet_cardToTrash(MoveContext context);
     public abstract Card[] artificer_cardsToDiscard(MoveContext context);
     public abstract Card artificer_cardToObtain(MoveContext context, int cost);
+    public abstract CallableCard call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards);
     public abstract Card[] gear_cardsToSetAside(MoveContext context);
     public abstract boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange);
     public abstract Card messenger_cardToObtain(MoveContext context);
     public abstract boolean messenger_shouldDiscardDeck(MoveContext context, Card responsible);
     public abstract boolean miser_shouldTakeTreasure(MoveContext context);
+    public abstract Card ratcatcher_cardToTrash(MoveContext context);
     public abstract boolean raze_shouldTrashRazePlayed(MoveContext context);
     public abstract Card raze_cardToTrash(MoveContext context);
 	public abstract Card raze_cardToKeep(MoveContext context, Card[] cards);
+	public abstract PlayerSupplyToken teacher_tokenTypeToMove(MoveContext context);
+	public abstract ActionCard teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token);
+	public abstract Card transmogrify_cardToTrash(MoveContext context);
+	public abstract Card transmogrify_cardToObtain(MoveContext context, int maxCost, boolean potion);
     public abstract int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal);
     
     // ///////////////////////////////////////////////

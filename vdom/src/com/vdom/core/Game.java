@@ -280,6 +280,14 @@ public class Game {
                 // Discard, draw new hand
                 // /////////////////////////////////
                 player.cleanup(context);
+                
+                //clean up other players cards in play without future duration effects, e.g. Duplicate
+                for (Player otherPlayer : getPlayersInTurnOrder()) {
+                	if (otherPlayer != player) {
+                		otherPlayer.cleanupOutOfTurn(new MoveContext(this, otherPlayer));
+                	}
+                }
+                
                 boolean takeAnotherTurn = playerEndTurn(player, context);
                 gameOver = checkGameOver();
 
@@ -1668,6 +1676,7 @@ public class Game {
                 String[] playerStartupInfo = playerClassesAndJars.get(i);
                 if (playerStartupInfo[1] == null) {
                     players[i] = (Player) Class.forName(playerStartupInfo[0]).newInstance();
+                    players[i].setPlayerIndex(i);
                 } else {
                     String key = playerStartupInfo[0] + "::" + playerStartupInfo[1];
                     // players[i] = cachedPlayers.get(key);
@@ -1687,6 +1696,7 @@ public class Game {
                     }
 
                     players[i] = (Player) playerClass.newInstance();
+                    players[i].setPlayerIndex(i);
                 }
                 if(playerStartupInfo[2] != null) {
                     players[i].setName(playerStartupInfo[2]);
@@ -2281,8 +2291,9 @@ public class Game {
                     return;
                 }
 
-                if (event.getType() == GameEvent.Type.CardObtained || event.getType() == GameEvent.Type.BuyingCard) {
-
+                if ((event.getType() == GameEvent.Type.CardObtained || event.getType() == GameEvent.Type.BuyingCard) &&
+                		!event.card.isEvent()) {
+                	
                     MoveContext context = event.getContext();
                     Player player = context.getPlayer();
 
@@ -2400,7 +2411,7 @@ public class Game {
                                 } else if (event.card.equals(Cards.silver)) {
                                     player.discard.add(event.card);
                                 }
-                            } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || r.equals(Cards.torturer)) {
+                            } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || r.equals(Cards.torturer) || r.equals(Cards.transmogrify)) {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);
@@ -2410,6 +2421,28 @@ public class Game {
                         } else {
                             player.discard(event.card, null, null, commandedDiscard, false);
                         }
+                    }
+                    
+                    ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
+                    for (Card c : player.tavern) {
+                    	if (c.behaveAsCard() instanceof CallableCard) {
+                    		if (!((CallableCard)c.behaveAsCard()).isCallableWhenCardGained())
+                    			continue;
+                    		int callCost = ((CallableCard)c.behaveAsCard()).getCallableWhenGainedMaxCost();
+                    		if (callCost == -1 || event.card.getCost(context) <= callCost) {
+                    			callableCards.add((CallableCard) c);
+                    		}
+                    	}
+                    }
+                    if (!callableCards.isEmpty()) {
+                    	//ask player which card to call
+                    	Collections.sort(callableCards, new Util.CardCostComparator());
+                    	// we want null entry at the end for None
+                    	CallableCard[] cardsAsArray = callableCards.toArray(new CallableCard[callableCards.size() + 1]);
+                    	CallableCard toCall = player.controlPlayer.call_whenGainCardToCall(context, event.card, cardsAsArray);
+                    	if (toCall != null || callableCards.contains(toCall)) {
+                    		toCall.callWhenCardGained(context, event.card);
+                    	}
                     }
 
                     if (event.card.equals(Cards.illGottenGains)) {
