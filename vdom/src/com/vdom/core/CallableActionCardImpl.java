@@ -2,6 +2,7 @@ package com.vdom.core;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
+import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 
 public class CallableActionCardImpl extends ActionCardImpl implements CallableCard {
@@ -94,6 +95,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
         c.callableWhenActionResolved = callableWhenActionResolved;
         c.callableWhenTurnStarts = callableWhenTurnStarts;
         c.callableWhenCardGainedMaxCost = callableWhenCardGainedMaxCost;
+        c.actionStillNeedsToBeInPlay = actionStillNeedsToBeInPlay;
     }
 
     protected CallableActionCardImpl() {
@@ -132,7 +134,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
     	finishCall(context);
     }
     
-	public void callWhenActionResolved(MoveContext context, Card resolvedAction) {
+	public void callWhenActionResolved(MoveContext context, ActionCard resolvedAction) {
     	if (!callableWhenActionResolved) return;
     	if (!call(context)) return;
     	Game game = context.game;
@@ -203,8 +205,33 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
 	}
 
 	private void royalCarriage(Card resolvedAction, MoveContext context, Game game, Player currentPlayer) {
-		// TODO Auto-generated method stub
+		ActionCardImpl cardToPlay = (ActionCardImpl) resolvedAction; 
 		
+		context.freeActionInEffect++;
+
+        cardToPlay.cloneCount += 1;
+        cardToPlay.numberTimesAlreadyPlayed = 1;
+        cardToPlay.play(game, context, false);
+        cardToPlay.numberTimesAlreadyPlayed = 0; //TODO: not sure if this is right
+        context.freeActionInEffect--;
+        // If the cardToPlay was a knight, and was trashed, reset clonecount
+        if (cardToPlay.isKnight() && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
+            cardToPlay.cloneCount = 1;
+        }
+
+        if (cardToPlay instanceof DurationCard && !cardToPlay.equals(Cards.tactician)) {
+            // Need to move royal carriage card to NextTurnCards first
+            // (but does not play)
+            if (!this.controlCard.movedToNextTurnPile) {
+                this.controlCard.movedToNextTurnPile = true;
+                int idx = currentPlayer.playedCards.lastIndexOf(this.controlCard);
+                int ntidx = currentPlayer.nextTurnCards.size() - 1;
+                if (idx >= 0 && ntidx >= 0) {
+                    currentPlayer.playedCards.remove(idx);
+                    currentPlayer.nextTurnCards.add(ntidx, this.controlCard);
+                }
+            }
+        }
 	}
 
 	private void teacher(MoveContext context, Game game, Player currentPlayer) {

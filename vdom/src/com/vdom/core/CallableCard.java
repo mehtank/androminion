@@ -1,5 +1,6 @@
 package com.vdom.core;
 
+import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 
 public interface CallableCard extends Card {
@@ -15,7 +16,7 @@ public interface CallableCard extends Card {
 	
 	public void callWhenCardGained(MoveContext context, Card cardToGain);
     
-	public void callWhenActionResolved(MoveContext context, Card resolvedAction);
+	public void callWhenActionResolved(MoveContext context, ActionCard resolvedAction);
     
 	public void callAtStartOfTurn(MoveContext context);
 }

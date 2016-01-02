@@ -1,5 +1,6 @@
 package com.vdom.core;
 
+import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 
@@ -94,6 +95,7 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
         c.callableWhenActionResolved = callableWhenActionResolved;
         c.callableWhenTurnStarts = callableWhenTurnStarts;
         c.callableWhenCardGainedMaxCost = callableWhenCardGainedMaxCost;
+        c.actionStillNeedsToBeInPlay = actionStillNeedsToBeInPlay;
     }
 
     protected CallableTreasureCardImpl() {
@@ -107,6 +109,7 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
         currentPlayer.playedCards.add(this.controlCard);
        	GameEvent event = new GameEvent(GameEvent.Type.CallingCard, (MoveContext) context);
         event.card = this.controlCard;
+        event.newCard = true;
         context.game.broadcastEvent(event);
         return true;
 	}
@@ -127,7 +130,7 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
     	finishCall(context);
     }
     
-	public void callWhenActionResolved(MoveContext context, Card resolvedAction) {
+	public void callWhenActionResolved(MoveContext context, ActionCard resolvedAction) {
     	if (!callableWhenActionResolved) return;
     	if (!call(context)) return;
     	Game game = context.game;

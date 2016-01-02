@@ -3220,6 +3220,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		if (c.equals(gainedCard))
     			return null;
     	}
+    	//TODO: duplicate only good stuff
     	if (possibleCards.length > 0)
     		return possibleCards[0];
     	return null;

@@ -872,6 +872,7 @@ public class Game {
                || card.equals(Cards.disciple)
                || card.equals(Cards.kingsCourt)
                || card.equals(Cards.procession)
+               || card.equals(Cards.royalCarriage)
                || card.equals(Cards.bandOfMisfits))
         	{
                 if(!player.nextTurnCards.isEmpty()) {
