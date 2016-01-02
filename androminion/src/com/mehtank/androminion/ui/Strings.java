@@ -518,6 +518,8 @@ public class Strings {
                 return 1;
             } else if (optionString.equals(IndirectPlayer.OPTION_CALL_WHEN_GAIN)) {
 				return 1;
+			} else if (optionString.equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION)) {
+				return 1;
 			}
         }
         if (card == null)
@@ -562,6 +564,8 @@ public class Strings {
             return getString(R.string.buy_overpay_by_potions);
         } else if (extras[0] instanceof String && ((String) extras[0]).equals(IndirectPlayer.OPTION_CALL_WHEN_GAIN)) {
 			return format(R.string.call_when_gain_query, getCardName(card));
+		} else if (extras[0] instanceof String && ((String) extras[0]).equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION)) {
+			return format(R.string.call_resolve_action_query, getCardName(card));
 		}
         String cardName = getCardName(card);
         if (cardName.equals(getCardName(Cards.advisor))) {

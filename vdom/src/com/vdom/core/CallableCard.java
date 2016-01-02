@@ -9,6 +9,8 @@ public interface CallableCard extends Card {
 	
 	public boolean isCallableWhenActionResolved();
 	
+	public boolean doesActionStillNeedToBeInPlay();
+	
 	public boolean isCallableWhenTurnStarts();
 	
 	public void callWhenCardGained(MoveContext context, Card cardToGain);

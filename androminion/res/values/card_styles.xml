@@ -123,5 +123,10 @@
         <item name="cardBackgroundColor">@color/cardReserve</item>
         <item name="cardNameBackgroundColor">@color/cardVictory</item>
     </style>
+    
+    <style name="CardView.Treasure.Reserve" parent="@style/CardView.InverseText">
+        <item name="cardBackgroundColor">@color/cardCopper</item>
+        <item name="cardNameBackgroundColor">@color/cardReserve</item>
+    </style>
 
 </resources>

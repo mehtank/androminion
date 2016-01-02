@@ -2423,6 +2423,10 @@ public class Game {
                         }
                     }
                     
+                    // check for when-gain callable cards
+                    // NOTE: Technically this should be done in a loop, as you can call multiple cards for one when-gain.
+                    //   However, since the only card here, Duplicate, will trigger another on-gain anyway
+                    //   we don't need to.
                     ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
                     for (Card c : player.tavern) {
                     	if (c.behaveAsCard() instanceof CallableCard) {

@@ -413,4 +413,5 @@
   <string name="wineMerchant_query">Select number of Wine Merchants, to discard from Tavern</string>
   
   <string name="call_when_gain_query">Gaining %1$s. Call card:</string>
+  <string name="call_resolve_action_query">%1$s resolved. Call card:</string>
 </resources>

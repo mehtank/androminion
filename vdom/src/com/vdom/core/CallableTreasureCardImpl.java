@@ -8,6 +8,7 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
 	private static final long serialVersionUID = 1L;
 	protected boolean callableWhenCardGained;
     protected boolean callableWhenActionResolved;
+    protected boolean actionStillNeedsToBeInPlay;
     protected boolean callableWhenTurnStarts;
     protected int callableWhenCardGainedMaxCost = -1;
 	
@@ -15,6 +16,7 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
         super(builder);
         callableWhenCardGained = builder.callableWhenCardGained;
         callableWhenActionResolved = builder.callableWhenActionResolved;
+        actionStillNeedsToBeInPlay = builder.actionStillNeedsToBeInPlay;
         callableWhenTurnStarts = builder.callableWhenTurnStarts;
         callableWhenCardGainedMaxCost = builder.callableWhenCardGainedMaxCost;
     }
@@ -31,6 +33,10 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
 		return callableWhenActionResolved;
 	}
 	
+	public boolean doesActionStillNeedToBeInPlay() {
+		return actionStillNeedsToBeInPlay;
+	}
+	
 	public boolean isCallableWhenTurnStarts() {
 		return callableWhenTurnStarts;
 	}
@@ -39,6 +45,7 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
 
         protected boolean callableWhenCardGained;
         protected boolean callableWhenActionResolved;
+        protected boolean actionStillNeedsToBeInPlay;
         protected boolean callableWhenTurnStarts;
         protected int callableWhenCardGainedMaxCost;
         
@@ -53,6 +60,12 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
 
         public Builder callWhenActionResolved() {
         	callableWhenActionResolved = true;
+            return this;
+        }
+        
+        public Builder callWhenActionResolved(boolean mustBeInPlay) {
+        	callableWhenActionResolved = true;
+        	actionStillNeedsToBeInPlay = mustBeInPlay;
             return this;
         }
 

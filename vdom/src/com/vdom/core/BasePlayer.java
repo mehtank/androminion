@@ -3224,8 +3224,50 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		return possibleCards[0];
     	return null;
     }
+    
+    public CallableCard call_whenActionResolveCardToCall(MoveContext context, ActionCard resolvedAction, CallableCard[] possibleCards) {
+    	// Check coin of the Realm first
+    	boolean hasMoreActionsLeft = false;
+    	for (Card c : getHand()) {
+    		if (c instanceof ActionCard) {
+    			hasMoreActionsLeft = true;
+    		}
+    	}
+    	for (CallableCard c : possibleCards) {
+    		if (c == null) continue;
+    		if (c.equals(Cards.coinOfTheRealm) && context.actions == 0 && hasMoreActionsLeft) {
+    			return c;
+    		}
+    	}
+    	// Royal Carriage our strongest action card
+    	Card bestAction = getBestActionCard(getHand(), context);
+    	if (bestAction != null) {
+	    	for (CallableCard c : possibleCards) {
+	    		if (c == null) continue;
+	    		if (c.behaveAsCard().equals(Cards.royalCarriage) && resolvedAction.equals(bestAction)) {
+	        		return c;
+	        	}
+	    	}
+    	}
+    	return null;
+    }
 
-    @Override
+    private Card getBestActionCard(CardList hand, MoveContext context) {
+    	int highestCost = -1;
+    	Card bestCard = null;
+		for (Card c : getDistinctCards()) {
+			if (c instanceof ActionCard) {
+				int cost = c.getCost(context);
+				if (cost > highestCost) {
+					highestCost = cost;
+					bestCard = c;
+				}
+			}
+		}
+		return bestCard;
+	}
+
+	@Override
     public Card[] gear_cardsToSetAside(MoveContext context) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (Card card : context.getPlayer().getHand()) {

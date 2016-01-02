@@ -1721,6 +1721,7 @@ public abstract class Player {
     public abstract Card[] artificer_cardsToDiscard(MoveContext context);
     public abstract Card artificer_cardToObtain(MoveContext context, int cost);
     public abstract CallableCard call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards);
+    public abstract CallableCard call_whenActionResolveCardToCall(MoveContext context, ActionCard resolvedAction, CallableCard[] possibleCards);
     public abstract Card[] gear_cardsToSetAside(MoveContext context);
     public abstract boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange);
     public abstract Card messenger_cardToObtain(MoveContext context);

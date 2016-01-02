@@ -821,8 +821,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_call_whenGainCardToCall(MoveContext context,
-    		Card gainedCard, CallableCard[] possibleCards) {
+    public boolean shouldAutoPlay_call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_call_whenActionResolveCardToCall(MoveContext context, ActionCard resolvedCard, CallableCard[] possibleCards) {
     	return false;
     }
     
