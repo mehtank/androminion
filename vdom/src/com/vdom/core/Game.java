@@ -901,6 +901,36 @@ public class Game {
         while (!staysInPlayCards.isEmpty()) {
             player.nextTurnCards.add(staysInPlayCards.remove(0));
         }
+        
+        //TODO: Dominionator - integrate this with other start of turn logic
+        //      Will require tracking duration effects independent of cards
+        
+        //check for start-of-turn callable cards
+        ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
+        CallableCard toCall = null;
+        for (Card c : player.tavern) {
+        	if (c.behaveAsCard() instanceof CallableCard) {
+        		CallableCard card = (CallableCard)(c.behaveAsCard());
+        		if (!card.isCallableWhenTurnStarts())
+        			continue;
+        		callableCards.add((CallableCard) c);
+        	}
+        }
+        if (!callableCards.isEmpty()) {
+        	Collections.sort(callableCards, new Util.CardCostComparator());
+	        do {
+	        	toCall = null;
+	        	// we want null entry at the end for None
+	        	CallableCard[] cardsAsArray = callableCards.toArray(new CallableCard[callableCards.size() + 1]);
+	        	//ask player which card to call
+	        	toCall = player.controlPlayer.call_whenTurnStartCardToCall(context, cardsAsArray);
+	        	if (toCall != null && callableCards.contains(toCall)) {
+	        		callableCards.remove(toCall);
+	        		toCall.callAtStartOfTurn(context);
+	        	}
+		        // loop while we still have cards to call
+	        } while (toCall != null && !callableCards.isEmpty());
+        }
     }
 
     private static void printStats(HashMap<String, Double> wins, int gameCount, String gameType) {

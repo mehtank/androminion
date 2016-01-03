@@ -829,6 +829,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_call_whenTurnStartCardToCall(MoveContext context, CallableCard[] possibleCards) {
+    	return false;
+    }
+    
     public boolean shouldAutoPlay_messenger_shouldDiscardDeck(MoveContext context, Card responsible) {
     	return true;
     }

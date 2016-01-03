@@ -2625,6 +2625,20 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         return possibleCards[selectOption(context, resolvedAction, options)];
     }
+    
+    @Override
+    public CallableCard call_whenTurnStartCardToCall(MoveContext context, CallableCard[] possibleCards) {
+    	if(context.isQuickPlay() && shouldAutoPlay_call_whenTurnStartCardToCall(context, possibleCards)) {
+            return super.call_whenTurnStartCardToCall(context, possibleCards);
+        }
+
+        Object[] options = new Object[1 + possibleCards.length];
+        options[0] = OPTION_START_TURN_EFFECT;
+        for (int i = 0; i < possibleCards.length; i++) {
+            options[i + 1] = possibleCards[i];
+        }
+        return possibleCards[selectOption(context, null, options)];
+    }
 
     @Override
     public Card[] gear_cardsToSetAside(MoveContext context) {

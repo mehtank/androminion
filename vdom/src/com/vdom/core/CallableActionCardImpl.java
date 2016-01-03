@@ -245,7 +245,6 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
 					&& game.getPlayerSupplyTokens(c, currentPlayer).size() == 0) {
 				numFreePiles++;
 				lastFreePile = (ActionCard) c;
-				break;
 			}
 		}
 		if (numFreePiles == 0)

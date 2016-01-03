@@ -149,6 +149,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
        }
        coin += bankcount * (treasurecards + venturecount) - (bankcount*bankcount + bankcount) / 2;
        coin += context.player.getGuildsCoinTokenCount();
+       coin += context.getCoins();
+       
+       //TODO: estimate coin to get from actions in hand
        
        return coin;
     }
@@ -3252,6 +3255,69 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	return null;
     }
+    
+    @Override
+    public CallableCard call_whenTurnStartCardToCall(MoveContext context, CallableCard[] possibleCards) {
+    	CardList hand = context.getPlayer().getHand();
+    	int coins = getCoinEstimate(context);
+    	for (CallableCard c : possibleCards) {
+    		if (c == null) continue;
+    		if (c.equals(Cards.ratcatcher) &&
+    				pickOutCard(hand, getTrashCards()) != null) {
+    			return c;
+    		} else if (c.equals(Cards.teacher)) {
+    			if (!getUnplacedTokens(context).isEmpty()) {
+    				return c;
+    			}
+    		} else if (c.equals(Cards.transmogrify)) {
+    			//TODO: when to call Transmogrify - currently always
+    			return c;
+    		}
+    	}
+    	
+    	// Guide logic - want to call Guide after any Ratcatchers
+    	for (CallableCard c : possibleCards) {
+    		if (c == null) continue;
+    		if (c.equals(Cards.guide)) {
+    			if (coins < Cards.gold.getCost(context) && hand.contains(Cards.tunnel)) {
+    				return c;
+    			}
+    			
+    			//use guide to cycle faster if have Travellers in deck
+    			boolean handHasTraveller = false;
+    			for (Card handCard : hand) {
+    				if (handCard.isTraveller()) {
+    					handHasTraveller = true;
+    					break;
+    				}
+    			}
+    			if (!handHasTraveller) {
+    				for (Card card : context.getPlayer().getDistinctCards()) {
+    					if (card.isTraveller()) {
+    						return c;
+    					}
+    				}
+    			}
+    			
+    			//use guide if have bad hand
+    			//TODO: better rules around what constitutes a bad hand
+    			if (coins < 4 || hand.size() < 5) {
+    				return c;
+    			}
+    		}
+    	}
+    	
+    	//Transmogrify - always call after Guide
+    	for (CallableCard c : possibleCards) {
+    		if (c == null) continue;
+    		if (c.equals(Cards.transmogrify)) {
+    			//TODO: when to call Transmogrify - currently always
+    			return c;
+    		}
+    	}
+    	
+    	return null;
+    }
 
     private Card getBestActionCard(CardList hand, MoveContext context) {
     	int highestCost = -1;
@@ -3376,6 +3442,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public PlayerSupplyToken teacher_tokenTypeToMove(MoveContext context) {
     	//get a token that hasn't been used yet if possible
+    	List<PlayerSupplyToken> validTokens = getUnplacedTokens(context);
+    	if (validTokens.size() > 0)
+    		return validTokens.get(0);
+    	return PlayerSupplyToken.PlusOneCard;
+    }
+    
+    private List<PlayerSupplyToken> getUnplacedTokens(MoveContext context) {
     	ArrayList<PlayerSupplyToken> validTokens = new ArrayList<PlayerSupplyToken>();
     	ArrayList<PlayerSupplyToken> unavailableTokens = new ArrayList<PlayerSupplyToken>();
     	validTokens.add(PlayerSupplyToken.PlusOneCard);
@@ -3392,10 +3465,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	
     	for (PlayerSupplyToken token : unavailableTokens)
     		validTokens.remove(token);
-    	
-    	if (validTokens.size() > 0)
-    		return validTokens.get(0);
-    	return PlayerSupplyToken.PlusOneCard;
+    	return validTokens;
     }
     
     @Override

@@ -520,6 +520,8 @@ public class Strings {
 				return 1;
 			} else if (optionString.equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION)) {
 				return 1;
+			} else if (optionString.equals(IndirectPlayer.OPTION_START_TURN_EFFECT)) {
+				return 1;
 			}
         }
         if (card == null)
@@ -566,6 +568,8 @@ public class Strings {
 			return format(R.string.call_when_gain_query, getCardName(card));
 		} else if (extras[0] instanceof String && ((String) extras[0]).equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION)) {
 			return format(R.string.call_resolve_action_query, getCardName(card));
+		} else if (extras[0] instanceof String && ((String) extras[0]).equals(IndirectPlayer.OPTION_START_TURN_EFFECT)) {
+			return getString(R.string.call_start_turn_query);
 		}
         String cardName = getCardName(card);
         if (cardName.equals(getCardName(Cards.advisor))) {
@@ -1244,6 +1248,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.training), getString(R.string.part_move_token_plus_one_coin));
         actionStringMap.put(getCardName(Cards.university), getString(R.string.university_part));
         actionStringMap.put(getCardName(Cards.urchin), getString(R.string.urchin_keep));
+        actionStringMap.put(getCardName(Cards.teacher), getString(R.string.teacher_move_token));
     }
 
     public static String getActionCardText(SelectCardOptions sco) {
