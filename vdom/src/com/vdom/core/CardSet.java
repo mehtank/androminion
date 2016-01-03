@@ -224,7 +224,7 @@ public class CardSet {
 		CardSetMap.put(GameType.DecisionsDecisions, new CardSet(new Card[]{Cards.merchantGuild, Cards.candlestickMaker, Cards.masterpiece, Cards.taxman, Cards.butcher, Cards.bridge, Cards.pawn, Cards.miningVillage, Cards.upgrade, Cards.duke}, null));
 
     /*frr18 AdventureTest*/
-		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.moat, Cards.bridgeTroll, Cards.masquerade, Cards.save, Cards.wharf, Cards.bonfire, Cards.woodcutter, Cards.borrow, Cards.throneRoom, Cards.contraband, Cards.alms, Cards.raid}, null));
+		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.ratcatcher, Cards.bridgeTroll, Cards.amulet, Cards.guide, Cards.save, Cards.transmogrify, Cards.workersVillage, Cards.peasant, Cards.borrow, Cards.throneRoom, Cards.contraband, Cards.expedition, Cards.raid, Cards.militia, Cards.ferry, Cards.embargo, Cards.lostArts, Cards.training, Cards.plan, Cards.pathfinding, Cards.seaway, Cards.duplicate}, null));
 		CardSetMap.put(GameType.GentleIntro, new CardSet(new Card[] { Cards.amulet, Cards.distantLands, Cards.dungeon, Cards.duplicate, Cards.giant, Cards.hireling, Cards.port, Cards.ranger, Cards.ratcatcher, Cards.treasureTrove, Cards.scoutingParty}, null));
 		CardSetMap.put(GameType.ExpertIntro, new CardSet(new Card[] { Cards.caravanGuard, Cards.coinOfTheRealm, Cards.hauntedWoods, Cards.lostCity, Cards.magpie, Cards.peasant, Cards.raze, Cards.swampHag, Cards.transmogrify, Cards.wineMerchant, Cards.mission, Cards.plan}, null));
 		CardSetMap.put(GameType.LevelUp, new CardSet(new Card[] { Cards.dungeon, Cards.gear, Cards.guide, Cards.lostCity, Cards.miser, Cards.market, Cards.militia, Cards.spy, Cards.throneRoom, Cards.workshop, Cards.training}, null));

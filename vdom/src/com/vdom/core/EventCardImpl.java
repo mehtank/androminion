@@ -58,6 +58,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	        case Alms:
 	        	alms(context);
                 break;
+	        case Ball:
+	        	ball(context);
+	        	break;
 	        case Bonfire:
 	        	bonfire(context);
                 break;
@@ -116,6 +119,20 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	        }
         }
         context.cantBuy.add(this); //once per turn
+    }
+    
+    public void ball(MoveContext context) {
+    	Player player = context.getPlayer();
+    	player.setMinusOneCoinToken(true, context);
+    	for (int i = 0; i < 2; ++i) {
+			Card card = player.controlPlayer.ball_cardToObtain(context);
+			if (card != null) {
+	            // check cost
+	            if (card.getCost(context) <= 4) {
+	            	player.gainNewCard(card, this, context);
+	            }
+	        }
+		}
     }
     
     private void bonfire(MoveContext context) {

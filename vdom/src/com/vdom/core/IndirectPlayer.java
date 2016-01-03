@@ -2788,6 +2788,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setCardResponsible(Cards.alms).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
+    
+    @Override
+    public Card ball_cardToObtain(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_ball_cardToObtain(context)) {
+            return super.ball_cardToObtain(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
+                .setCardResponsible(Cards.ball).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
 
     @Override
     public Card[] bonfire_cardsToTrash(MoveContext context) {

@@ -1743,6 +1743,7 @@ public abstract class Player {
     // ///////////////////////////////////////////////
     
     public abstract Card alms_cardToObtain(MoveContext context);
+    public abstract Card ball_cardToObtain(MoveContext context);
     public abstract Card[] bonfire_cardsToTrash(MoveContext context);
     public abstract ActionCard ferry_actionCardPileToHaveToken(MoveContext context);
     public abstract ActionCard lostArts_actionCardPileToHaveToken(MoveContext context);

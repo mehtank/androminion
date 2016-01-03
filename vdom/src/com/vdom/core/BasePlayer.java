@@ -3548,6 +3548,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card alms_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 4, true);
     }
+    @Override
+    public Card ball_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
+    }
     
     public Card[] bonfire_cardsToTrash(MoveContext context) {
         return pickOutCards(context.getPlayer().playedCards, 2, getTrashCards());

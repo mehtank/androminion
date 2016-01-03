@@ -892,6 +892,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_ball_cardToObtain(MoveContext context) {
+    	return false;
+    }
+    
     public boolean shouldAutoPlay_ferry_actionCardPileToHaveToken(MoveContext context) {
     	return false;
     }

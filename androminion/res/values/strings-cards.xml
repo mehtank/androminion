@@ -557,11 +557,11 @@
     <string name="Alms_name">Alms</string>
     <string name="Alms_desc">Once per turn: If you have no Treasures in play, gain a card costing up to 4 Coins.</string>
     <string name="Ball_name">Ball</string>
-    <string name="Ball_desc">Take your -1 coin token. Gain 2 cards each costing up to 4 Coins.</string>
+    <string name="Ball_desc">Take your -1 Coin token. Gain 2 cards each costing up to 4 Coins.</string>
     <string name="Bonfire_name">Bonfire</string>
     <string name="Bonfire_desc">Trash up to 2 cards you have in play.</string>
     <string name="Borrow_name">Borrow</string>
-    <string name="Borrow_desc">Once per turn: If your -1 Card token isn\'t on your deck, put it there and +1 coin.</string>
+    <string name="Borrow_desc">Once per turn: If your -1 Card token isn\'t on your deck, put it there and +1 Coin.</string>
     <string name="Expedition_name">Expedition</string>
     <string name="Expedition_desc">Draw 2 extra cards for your next hand.</string>
     <string name="Ferry_name">Ferry</string>

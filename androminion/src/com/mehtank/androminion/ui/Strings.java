@@ -1214,6 +1214,7 @@ public class Strings {
             getCardName(Cards.transmogrify),
             /*Adventures Events*/
             getCardName(Cards.alms),
+            getCardName(Cards.ball),
             getCardName(Cards.seaway)
             
         ));
