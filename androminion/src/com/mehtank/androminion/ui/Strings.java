@@ -30,6 +30,7 @@ import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
 import com.vdom.core.Player.DoctorOverpayOption;
+import com.vdom.core.Player.ExtraTurnOption;
 import com.vdom.core.Player.GovernorOption;
 import com.vdom.core.Player.GraverobberOption;
 import com.vdom.core.Player.HuntingGroundsOption;
@@ -572,6 +573,8 @@ public class Strings {
 			return format(R.string.call_resolve_action_query, getCardName(card));
 		} else if (extras[0] instanceof String && ((String) extras[0]).equals(IndirectPlayer.OPTION_START_TURN_EFFECT)) {
 			return getString(R.string.call_start_turn_query);
+		} else if (extras[0] instanceof ExtraTurnOption) {
+			return getString(R.string.extra_turns_query);
 		}
         String cardName = getCardName(card);
         if (cardName.equals(getCardName(Cards.advisor))) {
@@ -669,6 +672,14 @@ public class Strings {
                 return getString(R.string.trash_card_from_hand);
             } else if (option == AmuletOption.GainSilver) {
                 return getString(R.string.gain_silver);
+            }
+        } else if (option instanceof ExtraTurnOption) {
+            if (option == ExtraTurnOption.OutpostFirst) {
+                return getString(R.string.extra_turns_outpost_first);
+            } else if (option == ExtraTurnOption.MissionFirst) {
+                return getString(R.string.extra_turns_mission_first);
+            } else if (option == ExtraTurnOption.PossessionFirst) {
+                return getString(R.string.extra_turns_possession_first);
             }
         } else if (option instanceof NoblesOption) {
             if (option == NoblesOption.AddCards) {

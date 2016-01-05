@@ -588,13 +588,13 @@ public class VDomPlayerSarah extends BasePlayer {
         final double silverLine = .5d;
 
         if (favorSilverGoldPlat) {
-            if (game.pileSize(Cards.silver) > 0 && coinAvailableForBuy >= 3 && coinAvailableForBuy <= silverMax && rand.nextFloat() > silverLine) {
+            if (context.canBuy(Cards.silver) && game.pileSize(Cards.silver) > 0 && coinAvailableForBuy >= 3 && coinAvailableForBuy <= silverMax && rand.nextFloat() > silverLine) {
                 if(context.getEmbargosIfCursesLeft(Cards.silver) == 0) {
                     return Cards.silver;
                 }
             }
 
-            if (game.pileSize(Cards.gold) > 0 && coinAvailableForBuy >= 6 && coinAvailableForBuy <= 6 && rand.nextFloat() > silverLine) {
+            if (context.canBuy(Cards.gold) && game.pileSize(Cards.gold) > 0 && coinAvailableForBuy >= 6 && coinAvailableForBuy <= 6 && rand.nextFloat() > silverLine) {
                 if(context.getEmbargosIfCursesLeft(Cards.gold) == 0) {
                     return Cards.gold;
                 }

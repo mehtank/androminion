@@ -661,6 +661,9 @@ public class VDomPlayerEarl extends BasePlayer
          card = null;
        }
      }
+     
+     if (!context.canBuy(card))
+    	 card = null;
  
      return card;
    }

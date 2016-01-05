@@ -80,7 +80,7 @@ public class SelectCardOptions implements Serializable {
     public boolean isNonShelter = false;
     public boolean isSupplyCard = false;
     public boolean different = false;
-    public int noTokensForPlayer = -1;
+    public boolean noTokens = false;
     public boolean passable = false;
     public String header = null;
     public ArrayList<Integer> allowedCards = new ArrayList<Integer>();
@@ -122,7 +122,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions isNonVictory() {isNonVictory = true; return this;}
     public SelectCardOptions isAttack() {isAttack = true; return this;}
     public SelectCardOptions isSupplyCard() {isSupplyCard = true; return this;}
-    public SelectCardOptions noTokensForPlayer(int p) {noTokensForPlayer = p; return this;}
+    public SelectCardOptions noTokens() {noTokens = true; return this;}
 
     public SelectCardOptions allowedCards(int[] is) {
         for (int i : is)
@@ -150,15 +150,14 @@ public class SelectCardOptions implements Serializable {
     }
 
     public boolean checkValid(MyCard c) {
-        return checkValid(c, 0, false);
+        return checkValid(c, 0);
     }
 
     /* Note: This method must be synchrony with checkValid(Card c, int cost, boolean cardIsVictory) */
-    public boolean checkValid(MyCard c, int cost, boolean hasTokens) {
+    public boolean checkValid(MyCard c, int cost) {
 
     	if ((maxCost >= 0) && (cost > (c.costPotion ? maxCost : maxCostWithoutPotion))) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
-        if (noTokensForPlayer != -1 && hasTokens) return false;
 
         if (isAction && !c.isAction) return false;
         if (isReaction && !c.isReaction) return false;
@@ -180,16 +179,15 @@ public class SelectCardOptions implements Serializable {
     }
 
     public boolean checkValid(Card c, boolean cardIsVictory) {
-        return checkValid(c, 0, cardIsVictory, false);
+        return checkValid(c, 0, cardIsVictory);
     }
 
     /* Note: This method must be synchrony with checkValid(MyCard c, int cost) */
-    public boolean checkValid(Card c, int cost, boolean cardIsVictory, boolean hasTokens) {
+    public boolean checkValid(Card c, int cost, boolean cardIsVictory) {
 
         if ((maxCost >= 0) && (cost > (c.costPotion() ? maxCost : maxCostWithoutPotion))) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
-        if (noTokensForPlayer != -1 && hasTokens) return false;
-
+        
         if (isReaction && !(Cards.isReaction(c))) return false;
         if (isTreasure && !(c instanceof TreasureCard)) return false;
         if (isNonTreasure && (c instanceof TreasureCard)) return false;

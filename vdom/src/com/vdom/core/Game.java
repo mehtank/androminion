@@ -9,8 +9,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Queue;
 import java.util.Random;
 
 import com.vdom.api.ActionCard;
@@ -26,6 +28,7 @@ import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.core.Player.ExtraTurnOption;
 import com.vdom.core.Player.WatchTowerOption;
 
 public class Game {
@@ -207,6 +210,14 @@ public class Game {
         FrameworkEvent frameworkEvent = new FrameworkEvent(FrameworkEvent.Type.AllDone);
         FrameworkEventHelper.broadcastEvent(frameworkEvent);
     }
+    
+    private static class ExtraTurnInfo {
+		public ExtraTurnInfo() {}
+		public ExtraTurnInfo(boolean canBuyCards) {
+			this.canBuyCards = canBuyCards;
+		}
+		public boolean canBuyCards = true;
+	}
 
     void start() throws ExitException {
         HashMap<String, Double> gameTypeSpecificWins = new HashMap<String, Double>();
@@ -244,10 +255,13 @@ public class Game {
             playersTurn = 0;
             turnCount = 1;
             Util.debug("Turn " + turnCount);
+            
+            Queue<ExtraTurnInfo> extraTurnsInfo = new LinkedList<ExtraTurnInfo>();
 
             while (!gameOver) {
                 Player player = players[playersTurn];
-                MoveContext context = new MoveContext(this, player);
+                boolean canBuyCards = extraTurnsInfo.isEmpty() ? true : extraTurnsInfo.remove().canBuyCards;
+                MoveContext context = new MoveContext(this, player, canBuyCards);
 
                 playerBeginTurn(player, context);
 
@@ -288,11 +302,11 @@ public class Game {
                 	}
                 }
                 
-                boolean takeAnotherTurn = playerEndTurn(player, context);
+                extraTurnsInfo.addAll(playerEndTurn(player, context));
                 gameOver = checkGameOver();
 
                 if (!gameOver) {
-                    setPlayersTurn(takeAnotherTurn);
+                    setPlayersTurn(!extraTurnsInfo.isEmpty());
                 }
             }
 
@@ -567,17 +581,17 @@ public class Game {
         Util.debug("", true);
     }
 
-    protected boolean playerEndTurn(Player player, MoveContext context) {
+    protected List<ExtraTurnInfo> playerEndTurn(Player player, MoveContext context) {
         int handCount = 5;
 
-        boolean takeAnotherTurn = false;
+        List<ExtraTurnInfo> result = new ArrayList<Game.ExtraTurnInfo>();
         // Can only have at most two consecutive turns
         for (Card card : player.nextTurnCards) {
             Card behaveAsCard = card.behaveAsCard();
             if ((behaveAsCard instanceof DurationCard) && ((DurationCard) behaveAsCard).takeAnotherTurn()) {
                 handCount = ((DurationCard) behaveAsCard).takeAnotherTurnCardCount();
                 if (consecutiveTurnCounter <= 1) {
-                    takeAnotherTurn = true;
+                	result.add(new ExtraTurnInfo());
                     break;
                 }
             }
@@ -621,7 +635,28 @@ public class Game {
         }
         event = new GameEvent(GameEvent.Type.TurnEnd, context);
         broadcastEvent(event);
-        return takeAnotherTurn;
+        
+        if (context.missionBought && consecutiveTurnCounter <= 1) {
+			if (!result.isEmpty()) {
+				//ask player if they want to do mission turn with three cards or do outpost turn first then mission turn
+				// player not possessed because we are between turns
+				
+				//TODO: dominionator - integrate this with Possession turn logic
+				ExtraTurnOption[] options = new ExtraTurnOption[]{ExtraTurnOption.OutpostFirst, ExtraTurnOption.MissionFirst};
+				switch(player.extraTurn_chooseOption(context, options)) {
+				case MissionFirst:
+					result.get(0).canBuyCards = false;
+					break;
+				case OutpostFirst:
+					result.add(new ExtraTurnInfo(false));
+					break;
+				}
+			} else {
+				result.add(new ExtraTurnInfo(false));
+			}
+		}
+        
+        return result;
     }
 
     protected void playerAction(Player player, MoveContext context) {
@@ -751,12 +786,14 @@ public class Game {
                 		}
                     } else {
                     	durationCards.add((DurationCard) thisCard);
+                    	durationCards.add(Cards.curse); /*dummy*/
                     }
                 }
             } else if(   thisCard.equals(Cards.throneRoom)
                       || thisCard.equals(Cards.disciple)
                       || thisCard.equals(Cards.kingsCourt)
                       || thisCard.equals(Cards.procession)
+                      || thisCard.equals(Cards.royalCarriage)
                       || thisCard.equals(Cards.bandOfMisfits)) {
                 GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
                 event.card = thisCard;
@@ -1294,6 +1331,9 @@ public class Game {
         if (thePile == null) {
             return false;
         }
+        if (!context.canBuyCards && !card.isEvent()) {
+        	return false;
+        }
         if (context.blackMarketBuyPhase) {
             if (thePile.isBlackMarket() == false) {
                 return false;
@@ -1322,7 +1362,7 @@ public class Game {
             return false;
         }
 
-        if ((context.countCardsInPlay(Cards.copper) > 0) && card.equals(Cards.grandMarket)) {
+        if (card.equals(Cards.grandMarket) && (context.countCardsInPlay(Cards.copper) > 0)) {
             return false;
         }
 
@@ -1709,7 +1749,6 @@ public class Game {
                 String[] playerStartupInfo = playerClassesAndJars.get(i);
                 if (playerStartupInfo[1] == null) {
                     players[i] = (Player) Class.forName(playerStartupInfo[0]).newInstance();
-                    players[i].setPlayerIndex(i);
                 } else {
                     String key = playerStartupInfo[0] + "::" + playerStartupInfo[1];
                     // players[i] = cachedPlayers.get(key);
@@ -1729,7 +1768,6 @@ public class Game {
                     }
 
                     players[i] = (Player) playerClass.newInstance();
-                    players[i].setPlayerIndex(i);
                 }
                 if(playerStartupInfo[2] != null) {
                     players[i].setName(playerStartupInfo[2]);

@@ -936,4 +936,8 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
 
+    public boolean shouldAutoPlay_extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options) {
+    	return true;
+    }
+
 }

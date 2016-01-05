@@ -67,7 +67,6 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     LinearLayout turnView;
     View myCardView;
     private static int[] costs = {};
-    private static int[][][] tokens = {};
 
     TextView actionText;
     LinearLayout deckStatus;
@@ -495,7 +494,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             if (parent != prizePile) return false;
         }
 
-        return sco.checkValid(c, getCardCost(c), getHasTokensForPlayer(c, sco.noTokensForPlayer));
+        return sco.checkValid(c, getCardCost(c));
     }
 
     /**
@@ -1074,7 +1073,6 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         this.lastEmbargos = gs.embargos;
         this.lastTokens = gs.tokens;
         costs = gs.costs;
-        tokens = gs.tokens;
 
         supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, -1, false);
         supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardCost, gs.knightsTopCardIsVictory);
@@ -1088,17 +1086,6 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         if (costs != null && c.id < costs.length)
             return costs[c.id];
         return c.cost;
-    }
-    
-    static boolean getHasTokensForPlayer(MyCard c, int playerIndex) {
-    	if (playerIndex == -1)
-    		return false;
-    	if (tokens == null || tokens.length == 0)
-    		return false;
-    	if (c.id >= tokens.length) return false;
-    	int[][] cardTokens = tokens[c.id];
-    	if (playerIndex >= cardTokens.length) return false;
-    	return tokens[c.id][playerIndex].length > 0;
     }
 
     private void setCardCosts(View v) {

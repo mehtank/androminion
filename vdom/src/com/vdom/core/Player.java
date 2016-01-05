@@ -27,7 +27,6 @@ public abstract class Player {
 
     // Only used by InteractivePlayer currently
     private String name;
-    private int playerIndex;
     public int playerNumber;
     public int shuffleCount = 0;
     protected int turnCount = 0;
@@ -85,14 +84,6 @@ public abstract class Player {
 
     public void setName(String name) {
         this.name = name.replace("_", " ");
-    }
-    
-    public void setPlayerIndex(int value) {
-    	playerIndex = value;
-    }
-    
-    public int getPlayerIndex() {
-    	return playerIndex;
     }
 
     public int getCurrencyTotal(MoveContext context) {
@@ -1266,6 +1257,12 @@ public abstract class Player {
         TrashCard,
         GainSilver
     }
+    
+    public static enum ExtraTurnOption {
+    	OutpostFirst,
+    	MissionFirst,
+    	PossessionFirst
+	}
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
@@ -1762,6 +1759,8 @@ public abstract class Player {
     public abstract ActionCard training_actionCardPileToHaveToken(MoveContext context);
     public abstract Card trashingToken_cardToTrash(MoveContext context);
     public abstract Card[] trade_cardsToTrash(MoveContext context);
+    
+    public abstract ExtraTurnOption extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options);
 
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

@@ -18,6 +18,7 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
+import com.vdom.core.Player.ExtraTurnOption;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
@@ -3569,6 +3570,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public ActionCard lostArts_actionCardPileToHaveToken(MoveContext context) {
     	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    }
+        
+    public ExtraTurnOption extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options) {
+    	for (ExtraTurnOption option : options) {
+    		if (option == ExtraTurnOption.OutpostFirst) {
+    			return option;
+    		}
+    	}
+    	return options[0]; //don't much about extra turn order as long as Outpost turn check happens first
     }
     
     @Override

@@ -263,6 +263,11 @@
 
 	<string name="amulet_option_one">+(1) Coin</string>
 	
+	<string name="extra_turns_query">Choose extra turn order</string>
+	<string name="extra_turns_outpost_first">Outpost first</string>
+	<string name="extra_turns_mission_first">Mission turn first</string>
+	<string name="extra_turns_possession_first">Possessed turn first</string>
+	
 	<string name="squire_option_one">+2 Actions</string>
 	<string name="squire_option_two">+2 Buys</string>
 	<string name="squire_option_three">Gain a Silver</string>

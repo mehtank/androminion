@@ -99,7 +99,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         ArrayList<Card> handList = new ArrayList<Card>();
 
         for (Card card : localHand) {
-            if (sco.checkValid(card, card.getCost(context), card.isVictory(context), false)) {
+            if (sco.checkValid(card, card.getCost(context), card.isVictory(context))) {
                 handList.add(card);
                 sco.addValidCard(cardToInt(card));
             }
@@ -153,8 +153,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         	boolean hasTokens = context.game.getPlayerSupplyTokens(card, context.getPlayer()).size() > 0;
             if (   !(card.isEvent() && sco.cardResponsible != null && sco.cardResponsible.equals(Cards.contraband) )
             	&& (sco.allowEmpty || !context.game.isPileEmpty(card))) {
-                if (   sco.checkValid(card, card.getCost(context), card.isVictory(context), hasTokens)
-                    && (   !context.cantBuy.contains(card)
+                if (   sco.checkValid(card, card.getCost(context), card.isVictory(context))
+                	&& (!(sco.noTokens && hasTokens))
+                    && (   (!context.cantBuy.contains(card) && (context.canBuyCards || card.isEvent()))
                         || !sco.pickType.equals(PickType.BUY))
                     && !(   !Cards.isSupplyCard(card)
                          && sco.actionType != null
@@ -2742,7 +2743,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.teacher_actionCardPileToHaveToken(context, token);
         }
     	SelectCardOptions sco = new SelectCardOptions()
-                .isAction().noTokensForPlayer(context.getPlayer().getPlayerIndex()).setCardResponsible(Cards.teacher);
+                .isAction().noTokens().setCardResponsible(Cards.teacher);
     	//TODO: specify can only select piles without a token
         return (ActionCard) getFromTable(context, sco);
     }
@@ -2920,6 +2921,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
                 .setCardResponsible(Cards.plan);
         return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public ExtraTurnOption extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options) {
+    	if(context.isQuickPlay() && shouldAutoPlay_extraTurn_chooseOption(context, options)) {
+            return super.extraTurn_chooseOption(context, options);
+        }
+        return options[selectOption(context, null, options)];
     }
 
 }

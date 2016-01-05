@@ -77,6 +77,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	        case LostArts:
 	        	lostArts(context);
 	        	break;
+	        case Mission:
+	        	mission(context);
+	        	break;
 	        case Pathfinding:
 	        	pathfinding(context);
 	        	break;
@@ -179,6 +182,11 @@ public class EventCardImpl extends CardImpl implements EventCard {
     private void lostArts(MoveContext context) {
     	ActionCard card = context.getPlayer().controlPlayer.lostArts_actionCardPileToHaveToken(context);
     	placeToken(context, card, PlayerSupplyToken.PlusOneAction);
+    }
+    
+    private void mission(MoveContext context) {
+    	context.missionBought = true;
+    	context.cantBuy.add(this);
     }
     
     private void pathfinding(MoveContext context) {
