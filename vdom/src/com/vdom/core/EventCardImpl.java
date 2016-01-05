@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
@@ -79,6 +80,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	        case Pathfinding:
 	        	pathfinding(context);
 	        	break;
+	        case Pilgrimage:
+	        	pilgrimage(context);
+	        	break;
 	        case Plan:
 	        	plan(context);
 	        	break;
@@ -94,9 +98,14 @@ public class EventCardImpl extends CardImpl implements EventCard {
             case Seaway:
             	seaway(context);
             	break;
+            case Trade:
+            	trade(context);
+            	break;
             case Training:
             	training(context);
             	break;
+            case TravellingFair:
+            	context.travellingFairBought = true;
             default:
                 break;
         }
@@ -176,6 +185,32 @@ public class EventCardImpl extends CardImpl implements EventCard {
     	ActionCard card = context.getPlayer().controlPlayer.pathfinding_actionCardPileToHaveToken(context);
     	placeToken(context, card, PlayerSupplyToken.PlusOneCard);
     }
+    
+    private void pilgrimage(MoveContext context) {
+    	if(context.player.flipJourneyToken(context)) {
+    		Card[] cards = context.player.controlPlayer.pilgrimage_cardsToGain(context);
+    		if (cards != null) {
+    			if (cards.length > 3) {
+    				Util.playerError(context.player, "Pilgrimage gain error, trying to gain too many cards, ignoring.");
+    			} else {
+    				HashSet<Card> differentCards = new HashSet<Card>();
+    				for (Card card : cards) {
+    					differentCards.add(card);
+    				}
+    				for (Card card : differentCards) {
+    					if(context.player.playedCards.contains(card) || 
+    							context.player.nextTurnCards.contains(card) ||
+    							context.player.playedByPrince.contains(card)) {
+    						context.player.gainNewCard(card, this.controlCard, context);
+    					} else {
+    						Util.playerError(context.player, "Pilgrimage gain error, card not in play, ignoring.");
+    					}
+    				}
+    			}
+    		}
+    	}
+    	context.cantBuy.add(this); //once per turn
+	}
     
     private void plan(MoveContext context) {
     	ActionCard card = context.getPlayer().controlPlayer.plan_actionCardPileToHaveToken(context);
@@ -297,5 +332,25 @@ public class EventCardImpl extends CardImpl implements EventCard {
     	ActionCard card = context.getPlayer().controlPlayer.training_actionCardPileToHaveToken(context);
     	placeToken(context, card, PlayerSupplyToken.PlusOneCoin);
     }
+    
+    private void trade(MoveContext context) {
+    	Card[] cards = context.player.controlPlayer.trade_cardsToTrash(context);
+    	if (cards != null) {
+    		if (cards.length > 2) {
+    			Util.playerError(context.player, "Trade trash error, trying to trash too many cards, ignoring.");
+    		} else {
+    			for (Card card : cards) {
+    				for (int i = 0; i < context.player.hand.size(); i++) {
+    					Card inHand = context.player.hand.get(i);
+    					if (inHand.equals(card)) {
+    						context.player.trash(context.player.hand.remove(i, false), this.controlCard, context);
+    						context.player.gainNewCard(Cards.silver, this, context);
+    						break;
+    					}
+    				}
+    			}
+    		}
+    	}
+	}
     
 }

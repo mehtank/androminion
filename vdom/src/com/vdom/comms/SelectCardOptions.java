@@ -79,6 +79,7 @@ public class SelectCardOptions implements Serializable {
     public boolean isAttack = false;
     public boolean isNonShelter = false;
     public boolean isSupplyCard = false;
+    public boolean different = false;
     public int noTokensForPlayer = -1;
     public boolean passable = false;
     public String header = null;
@@ -86,6 +87,7 @@ public class SelectCardOptions implements Serializable {
 
     //public SelectCardOptions setType(SelectType s) {selectType = s; return this;}
     public SelectCardOptions setHeader(String s) {header = s; return this;}
+    public SelectCardOptions setDifferent() {different = true; return this;}
     public SelectCardOptions setPassable() {passable = true; return this;}
     public SelectCardOptions setPickType(PickType pickType) {this.pickType = pickType;return this;}
     public SelectCardOptions setActionType(ActionType actionType) {this.actionType = actionType;return this;}
@@ -151,9 +153,10 @@ public class SelectCardOptions implements Serializable {
         return checkValid(c, 0, false);
     }
 
+    /* Note: This method must be synchrony with checkValid(Card c, int cost, boolean cardIsVictory) */
     public boolean checkValid(MyCard c, int cost, boolean hasTokens) {
 
-        if ((maxCost >= 0) && (cost > maxCost )) return false;
+    	if ((maxCost >= 0) && (cost > (c.costPotion ? maxCost : maxCostWithoutPotion))) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
         if (noTokensForPlayer != -1 && hasTokens) return false;
 
@@ -180,6 +183,7 @@ public class SelectCardOptions implements Serializable {
         return checkValid(c, 0, cardIsVictory, false);
     }
 
+    /* Note: This method must be synchrony with checkValid(MyCard c, int cost) */
     public boolean checkValid(Card c, int cost, boolean cardIsVictory, boolean hasTokens) {
 
         if ((maxCost >= 0) && (cost > (c.costPotion() ? maxCost : maxCostWithoutPotion))) return false;
@@ -204,10 +208,14 @@ public class SelectCardOptions implements Serializable {
         } else {
             if (isAction || isAttack) return false;
         }
-        if ((isBuyPhase || isSupplyCard) && !Cards.isSupplyCard(c) && !c.isEvent()) return false;
+        if (isBuyPhase && !Cards.isSupplyCard(c) && !c.isEvent()) return false;
+        if (isSupplyCard && !Cards.isSupplyCard(c)) return false;
 
         return true;
     }
+    public boolean isDifferent() {
+    	return different;
+	}
     public boolean isPassable() {
         return passable;
     }

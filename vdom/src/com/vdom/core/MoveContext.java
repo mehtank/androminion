@@ -41,6 +41,7 @@ public class MoveContext {
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public int beggarSilverIsOnTop = 0;
     public boolean graverobberGainedCardOnTop = false;
+    public boolean travellingFairBought = false;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;

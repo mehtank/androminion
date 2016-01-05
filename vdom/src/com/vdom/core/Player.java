@@ -1002,8 +1002,15 @@ public abstract class Player {
 
         // XXX making game slow; is this necessary?  For that matter, are discarded cards public?
         if(context != null && (commandedDiscard || exchange != null)) {
-            GameEvent event = new GameEvent(GameEvent.Type.CardDiscarded, context);
-            event.card = (exchange != null ? exchange : card);
+            GameEvent event;
+        	if(exchange != null) {
+        		event = new GameEvent(GameEvent.Type.TravellerExchanged, context);
+        		event.card = (exchange);
+        	} else {
+            	event = new GameEvent(GameEvent.Type.CardDiscarded, context);
+            	event.card = (card);
+        	}
+            
             event.responsible = responsible;
             event.setPlayer(this);
             context.game.broadcastEvent(event);
@@ -1490,7 +1497,7 @@ public abstract class Player {
 
     public abstract Card[] rabble_attack_cardOrder(MoveContext context, Card[] cards);
 
-    public abstract boolean royalSeal_shouldPutCardOnDeck(MoveContext context, Card card);
+    public abstract boolean royalSealTravellingFair_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card);
 
     public abstract Card tradeRoute_cardToTrash(MoveContext context);
 
@@ -1748,11 +1755,13 @@ public abstract class Player {
     public abstract ActionCard ferry_actionCardPileToHaveToken(MoveContext context);
     public abstract ActionCard lostArts_actionCardPileToHaveToken(MoveContext context);
     public abstract ActionCard pathfinding_actionCardPileToHaveToken(MoveContext context);
+    public abstract Card[] pilgrimage_cardsToGain(MoveContext context);
     public abstract ActionCard plan_actionCardPileToHaveToken(MoveContext context);
     public abstract Card scoutingParty_cardToDiscard(MoveContext context, Card[] revealedCards);
     public abstract ActionCard seaway_cardToObtain(MoveContext context);
     public abstract ActionCard training_actionCardPileToHaveToken(MoveContext context);
     public abstract Card trashingToken_cardToTrash(MoveContext context);
+    public abstract Card[] trade_cardsToTrash(MoveContext context);
 
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

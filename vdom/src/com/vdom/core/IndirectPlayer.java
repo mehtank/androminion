@@ -76,7 +76,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if (fromTheHand) {
             sco = sco.fromHand();
     	} else {
-    		localHand = context.player.playedCards;
+    		localHand = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
+    		for (Card card : context.player.playedCards) {
+    			localHand.add(card);
+    		}
+    		for (Card card : context.player.nextTurnCards) {
+    			localHand.add(card);
+    		}
     		sco = sco.fromPlayed();
     	}
     	
@@ -1178,14 +1184,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean royalSeal_shouldPutCardOnDeck(MoveContext context, Card card) {
-        if(context.isQuickPlay() && shouldAutoPlay_royalSeal_shouldPutCardOnDeck(context, card)) {
-            return super.royalSeal_shouldPutCardOnDeck(context, card);
+    public boolean royalSealTravellingFair_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card) {
+    	if(context.isQuickPlay() && shouldAutoPlay_royalSealTravellingFair_shouldPutCardOnDeck(context, responsible, card)) {
+            return super.royalSealTravellingFair_shouldPutCardOnDeck(context, responsible, card);
         }
         Object[] extras = new Object[2];
-        extras[0] = Cards.royalSeal;
+        extras[0] = responsible; /* royalSeal or travellingFair */
         extras[1] = card;
-        return selectBoolean(context, Cards.royalSeal, extras);
+        return selectBoolean(context, responsible, extras);
     }
 
     @Override
@@ -2485,9 +2491,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion) {
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty().maxCost(maxCost)
-                .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
-                .setCardResponsible(Cards.stonemason);
+    	SelectCardOptions sco = new SelectCardOptions().allowEmpty().potionCost(potion?1:0)
+				.maxCost(maxCost).maxCostWithoutPotion()
+				.setActionType(ActionType.GAIN).setCardResponsible(Cards.stonemason);
         return getFromTable(context, sco);
     }
 
@@ -2841,6 +2847,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+	public Card[] pilgrimage_cardsToGain(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_pilgrimage_cardsToGain(context)) {
+    		return super.pilgrimage_cardsToGain(context);
+    	}
+    	SelectCardOptions sco = new SelectCardOptions().setCount(3).setDifferent()
+    			.setPassable().setPickType(PickType.SELECT)
+    			.setCardResponsible(Cards.pilgrimage).setActionType(ActionType.GAIN);
+		return getFromPlayed(context, sco);
+	}
+    
+    @Override
     public ActionCard plan_actionCardPileToHaveToken(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_plan_actionCardPileToHaveToken(context)) {
             return super.plan_actionCardPileToHaveToken(context);
@@ -2872,6 +2889,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setCardResponsible(Cards.seaway).isAction().setActionType(ActionType.GAIN);
         return (ActionCard) getFromTable(context, sco);
     }
+    
+    @Override
+    public Card[] trade_cardsToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_trade_cardsToTrash(context)) {
+    		return super.trade_cardsToTrash(context);
+		}
+		SelectCardOptions sco = new SelectCardOptions().setCount(2)
+			.setPassable().setPickType(PickType.TRASH)
+			.setCardResponsible(Cards.trade).setActionType(ActionType.TRASH);
+    	return getFromHand(context, sco);
+	}
 
     @Override
     public ActionCard training_actionCardPileToHaveToken(MoveContext context) {

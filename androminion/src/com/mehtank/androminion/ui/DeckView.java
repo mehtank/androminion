@@ -86,7 +86,6 @@ public class DeckView extends RelativeLayout {
         else
             journeyToken.setVisibility(INVISIBLE);
 
-        /*frr18 todo -1 Card*/
         minusOneCardToken.setText(" -1 ");
         if (minusOneCardTokenOn)
         	minusOneCardToken.setVisibility(VISIBLE);

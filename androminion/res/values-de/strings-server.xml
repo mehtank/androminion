@@ -78,6 +78,7 @@
     <string name="select_one_card_from_played">%1$s eine Karte, die du im Spiel hast</string>
     <string name="select_up_to_x_cards_from_played">%2$s bis zu %1$s Karten, die du im Spiel hast</string>
     <string name="select_exactly_x_cards_from_played">%2$s genau %1$s Karten, die du im Spiel hast</string>
+    <string name="select_up_to_x_different_cards_from_played">%2$s bis zu %1$s Karten mit unterschiedlichem Namen, die du im Spiel hast.</string>
 
     <string name="reaction_query">Wähle Reaktionskarte zum Zeigen</string>
     <string name="bane_option_one">Zeige Bannkarte (%1$s)</string>
@@ -130,6 +131,7 @@
     <string name="CardSetAside">Karte beiseite gelegt (Prinz)</string>
     <string name="CardSetAsideOnIslandMat">Karte auf Insel-Tableau gelegt</string>
     <string name="DeckPutIntoDiscardPile">Nachziehstapel auf Ablagestapel gelegt</string>
+    <string name="TravellerExchanged">Reisender eingetauscht in</string>
     <string name="TurnJourneyTokenFaceUp">Reise-Marker auf Vorderseite gedreht</string>
     <string name="TurnJourneyTokenFaceDown">Reise-Marker auf Rückseite gedreht</string>
     <string name="MinusOneCoinTokenOn">-1 Geld-Marker vor sich platziert</string>
@@ -373,7 +375,7 @@
   <string name="HauntedWoodsAttacks">Geisterwald im Spiel</string>
   <string name="SwampHagAttacks_single">%1$s Sumpfhexe im Spiel</string>
   <string name="SwampHagAttacks_multiple">%1$s Sumpfhexen im Spiel</string>
-  <string name="traveller_exchange">Tausche aus gegen %1$s</string>
+  <string name="traveller_exchange">Tausche ein gegen %1$s</string>
   <string name="wineMerchant_option_one">Vom Tableau ablegen</string>
   <string name="wineMerchant_query">Wähle Anzahl Weinhändler, die du vom Tableau ablegst</string>
 </resources>

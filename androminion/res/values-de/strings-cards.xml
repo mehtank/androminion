@@ -244,7 +244,7 @@
     <string name="Venture_name">Abenteuer</string>
     <string name="Venture_desc">Wenn du diese Karte ausspielst, decke solange Karten von deinem Nachziehstapel auf, bis eine Geldkarte offen liegt. Lege die übrigen aufgedeckten Karten ab und spiele die Geldkarte aus.</string>
     <string name="WatchTower_name">Wachturm</string>
-    <string name="WatchTower_desc">Ziehe solange Karten nach, bis du 6 Karten auf der Hand hast. Wenn du eine Karte nimmst oder kaufst darfst du den Wachturm aus deiner Hand aufdecken. Wenn du das machst: Entsorge die neue Karte oder lege sie sofort auf deinen Nachziehstapel.</string>
+    <string name="WatchTower_desc">Ziehe solange Karten nach, bis du 6 Karten auf der Hand hast.\nWenn du eine Karte nimmst oder kaufst darfst du den Wachturm aus deiner Hand aufdecken. Wenn du das machst: Entsorge die neue Karte oder lege sie sofort auf deinen Nachziehstapel.</string>
     <string name="WorkersVillage_name">Arbeiterdorf</string>
     <string name="WorkersVillage_desc"></string>
     <string name="Fairgrounds_name">Festplatz</string>
@@ -528,8 +528,8 @@
     <string name="Port_desc">Wenn du diese Karte kaufst, nimm dir eine weitere Hafenstadt.</string>
     <string name="Ranger_name">Wildhüter</string>
     <string name="Ranger_desc">Drehe deinen Reise-Marker um.\nLiegt die Vorderseite oben: +5 Karten</string>
-    <string name="Ratcatcher_name">Ratcatcher</string>
-    <string name="Ratcatcher_desc">Put this on your Tavern mat. - At the start of your turn, you may call this, to trash a card from your hand.</string>
+    <string name="Ratcatcher_name">Rattenfänger</string>
+    <string name="Ratcatcher_desc">Lege diese Karte auf dein Wirtshaustableau.\nZu Beginn deines Zuges darfst du diese Karte von deinem Tableau aufrufen. Wenn du das tust, musst du eine Handkarte entsorgen.</string>
     <string name="Raze_name">Raze</string>
     <string name="Raze_desc">Trash this or a card from your hand. Look at a number of cards from the top of your deck equal to the cost in coins of the trashed card. Put one into your hand and discard the rest.</string>
     <string name="Relic_name">Relikt</string>
@@ -558,9 +558,9 @@
     <string name="Alms_name">Almosen</string>
     <string name="Alms_desc">Einmal pro Zug: Wenn du keine Geldkarten im Spiel hast, nimm dir eine Karte, die bis zu 4 Geld kostet.</string>
     <string name="Ball_name">Ball</string>
-    <string name="Ball_desc">Take your -$1 token. Gain 2 cards each costing up to $4.</string>
-    <string name="Bonfire_name">Bonfire</string>
-    <string name="Bonfire_desc">Trash up to 2 cards you have in play.</string>
+    <string name="Ball_desc">Nimm deinen -1 Geld-Marker. Nimm dir 2 Karten, die jede bis zu 4 Geld kostet.</string>
+    <string name="Bonfire_name">Freudenfeuer</string>
+    <string name="Bonfire_desc">Entsorge bis zu 2 Karten, die du im Spiel hast.</string>
     <string name="Borrow_name">Leihgabe</string>
     <string name="Borrow_desc">Einmal pro Zug: Wenn dein -1 Karte-Marker nicht auf deinem Nachziehstapel liegt, lege ihn dorthin und +1 Geld.</string>
     <string name="Expedition_name">Expedition</string>
@@ -575,8 +575,8 @@
     <string name="Mission_desc">Once per turn: If the previous turn wasn\'t yours, take another turn after this one, in which you can\'t buy cards.</string>
     <string name="Pathfinding_name">Pathfinding</string>
     <string name="Pathfinding_desc">Move your +1 Card token to an Action Supply pile (when you play a card from that pile, you first get +1 Card).</string>
-    <string name="Pilgrimage_name">Pilgrimage</string>
-    <string name="Pilgrimage_desc">Once per turn: Turn your Journey token over (it starts face up); then if it\'s face up, choose up to 3 differently named cards you have in play and gain a copy of each.</string>
+    <string name="Pilgrimage_name">Pilgerfahrt</string>
+    <string name="Pilgrimage_desc">Einmal pro Zug: Drehe deinen Reise-Marker um. Liegt die Vorderseite oben: Wähle bis zu 3 Karten mit unterschiedlichem Namen, die du im Spiel hast und nimm dir jeweils eine davon.</string>
     <string name="Plan_name">Plan</string>
     <string name="Plan_desc">Move your Trashing token to an Action Supply pile (when you buy a card from that pile, you may trash a card from your hand.)</string>
     <string name="Quest_name">Quest</string>
@@ -589,12 +589,12 @@
     <string name="ScoutingParty_desc">Sieh dir die obersten 5 Karten deines Nachziehstapels an. Lege 3 davon ab und den Rest in beliebiger Reihenfolge zurück auf den Nachziehstapel.</string>
     <string name="Seaway_name">Seaway</string>
     <string name="Seaway_desc">Gain an Action card costing up to $4. Move your +1 Buy token to its pile (when you play a card from that pile, you first get +1 Buy).</string>
-    <string name="Trade_name">Trade</string>
-    <string name="Trade_desc">Trash up to 2 cards from your hand. Gain a Silver per card you trashed.</string>
+    <string name="Trade_name">Handel</string>
+    <string name="Trade_desc">Entsorge bis zu 2 Handkarten. Nimm dir für jede entsorgte Karte ein Silber.</string>
     <string name="Training_name">Training</string>
     <string name="Training_desc">Move your +$1 token to an Action Supply pile (when you play a card from that pile, you first get +$1).</string>
-    <string name="TravellingFair_name">TravellingFair</string>
-    <string name="TravellingFair_desc">When you gain a card this turn, you may put it on top of your deck.</string>
+    <string name="TravellingFair_name">Wanderzirkus</string>
+    <string name="TravellingFair_desc">Wenn du in diesem Zug eine Karte nimmst, darfst du sie auf deinen Nachziehstapel legen.</string>
     
     <string name="Envoy_name">Gesandter</string>
     <string name="Envoy_desc">Decke die obersten 5 Karten von deinem Nachziehstapel auf. Der Spieler links von dir wählt eine der aufgedeckten Karten aus. Lege die gewählte Karte ab. Nimm die übrigen Karten auf die Hand.</string>

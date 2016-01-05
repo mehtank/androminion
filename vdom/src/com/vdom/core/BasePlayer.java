@@ -149,6 +149,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
        }
        coin += bankcount * (treasurecards + venturecount) - (bankcount*bankcount + bankcount) / 2;
        coin += context.player.getGuildsCoinTokenCount();
+       if(context.player.getMinusOneCoinToken() && coin > 0)
+    	   coin--;
        coin += context.getCoins();
        
        //TODO: estimate coin to get from actions in hand
@@ -1543,7 +1545,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public boolean royalSeal_shouldPutCardOnDeck(MoveContext context, Card card) {
+    public boolean royalSealTravellingFair_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card) {
         if(isOnlyVictory(card)) {
             return false;
         }
@@ -2972,6 +2974,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		return coinTokenTotal;
     	
     	int gold = context.getCoinAvailableForBuy();
+    	if(getMinusOneCoinToken())
+    		gold--;
     	int coinTokenToSpend = 0;
     	
         if(game.isValidBuy(context, Cards.colony, gold + coinTokenTotal)) {
@@ -3573,6 +3577,34 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card[] pilgrimage_cardsToGain(MoveContext context) {
+    	HashSet<Card> cardsToMatch = new HashSet<Card>();
+    	for(int i = 0; i < 2; i++) {
+    		for(Card card : (i==0 ? context.getPlayer().playedCards : context.getPlayer().nextTurnCards)) {
+    			if(Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0) {
+    				boolean good = true;
+    				for(Card trash : getTrashCards()) {
+    					if(card.equals(trash)) {
+    						good = false;
+    						break;
+    					}
+    				}
+    				if(good) {
+    					cardsToMatch.add(card);
+    				}
+    			}
+    		}
+    	}
+    	ArrayList<Card> sorted = new ArrayList<Card>();
+    	sorted.addAll(cardsToMatch);
+    	Collections.sort(sorted, Collections.reverseOrder(new Util.CardCostComparator()));
+    	CardList s = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
+    	for(Card c : sorted)
+    		s.add(c);
+    	return pickOutCards(s, 3, s.toArray());
+	}
+    
+    @Override
     public ActionCard plan_actionCardPileToHaveToken(MoveContext context) {
     	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
     }
@@ -3591,6 +3623,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public ActionCard seaway_cardToObtain(MoveContext context) {
     	return (ActionCard) bestCardInPlay(context, 4, false, false, true, true, true);
+    }
+    
+    public Card[] trade_cardsToTrash(MoveContext context) {
+    	return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
     }
     
     @Override

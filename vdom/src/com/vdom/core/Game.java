@@ -740,15 +740,17 @@ public class Game {
                  * now that you have more cards to choose from. 
                  */
                 for (int clone = ((CardImpl) card).cloneCount; clone > 0; clone--) {
-                    durationCards.add((DurationCard) thisCard);
                     if(   thisCard.equals(Cards.amulet)
                        || thisCard.equals(Cards.dungeon)) {
                         allDurationAreSimple = false;
                     }
                     if(thisCard.equals(Cards.haven) || thisCard.equals(Cards.gear)) {
-                        durationCards.add(player.haven.remove(0));
+                    	if(player.haven != null && player.haven.size() > 0) {
+                    		durationCards.add((DurationCard) thisCard);
+                    		durationCards.add(player.haven.remove(0));
+                		}
                     } else {
-                        durationCards.add(Cards.curse); /*dummy*/
+                    	durationCards.add((DurationCard) thisCard);
                     }
                 }
             } else if(   thisCard.equals(Cards.throneRoom)
@@ -2416,8 +2418,10 @@ public class Game {
                     }
 
                     if(!handled) {
-                        if (context.isRoyalSealInPlay() && context.player.controlPlayer.royalSeal_shouldPutCardOnDeck((MoveContext) context, event.card)) {
+                    	if (context.isRoyalSealInPlay() && context.player.controlPlayer.royalSealTravellingFair_shouldPutCardOnDeck((MoveContext) context, Cards.royalSeal, event.card)) {
                             player.putOnTopOfDeck(event.card, context, true);
+                    	} else if (context.travellingFairBought && context.player.controlPlayer.royalSealTravellingFair_shouldPutCardOnDeck((MoveContext) context, Cards.travellingFair, event.card)) {
+                    		player.putOnTopOfDeck(event.card, context, true);
                         } else if (event.card.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);
                         } else if (event.responsible != null) {

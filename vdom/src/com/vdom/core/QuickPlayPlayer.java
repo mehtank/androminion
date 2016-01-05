@@ -469,7 +469,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_royalSeal_shouldPutCardOnDeck(MoveContext context, Card card) {
+    public boolean shouldAutoPlay_royalSealTravellingFair_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card) {
         return true;
     }
 
@@ -908,6 +908,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_pilgrimage_cardsToGain(MoveContext context) {
+    	return false;
+	}
+    
     public boolean shouldAutoPlay_plan_actionCardPileToHaveToken(MoveContext context) {
     	return false;
     }
@@ -918,6 +922,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     
     public boolean shouldAutoPlay_seaway_cardToObtain(MoveContext context) {
         return false;
+    }
+    
+    public boolean shouldAutoPlay_trade_cardsToTrash(MoveContext context) {
+    	return false;
     }
     
     public boolean shouldAutoPlay_training_actionCardPileToHaveToken(MoveContext context) {

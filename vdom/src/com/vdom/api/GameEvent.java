@@ -47,12 +47,13 @@ public class GameEvent {
         CalledCard, // A card was called from the tavern mat
         CardSetAsideOnIslandMat, // A card was set aside on island mat
         DeckPutIntoDiscardPile, // Deck put into discard pile
+        TravellerExchanged, // traveller exchanged
         TurnJourneyTokenFaceUp, // journey token turned face up
         TurnJourneyTokenFaceDown, // journey token turned face down
-        MinusOneCoinTokenOn, // -1 Coin token taken by player
-        MinusOneCoinTokenOff, // -1 Coin token removed by player
-        MinusOneCardTokenOn, // -1 Card token put on deck by player
-        MinusOneCardTokenOff, // -1 Card token drawn from deck by player
+        MinusOneCoinTokenOn, // -1 Coin token placed
+        MinusOneCoinTokenOff, // -1 Coin token removed
+        MinusOneCardTokenOn, // -1 Card token put onto deck
+        MinusOneCardTokenOff, // -1 Card token drawn from deck
         PlusOneCardTokenMoved, // +1 Card token moved to supply pile
         PlusOneActionTokenMoved, // +1 Action token moved to supply pile
         PlusOneBuyTokenMoved, // +1 Buy token moved to supply pile

@@ -287,6 +287,8 @@ public class Strings {
             statusText += getString(R.string.CardSetAsideOnIslandMat);
         } else if (event.gameEventType == GameEvent.Type.DeckPutIntoDiscardPile) {
             statusText += getString(R.string.DeckPutIntoDiscardPile);
+        } else if (event.gameEventType == GameEvent.Type.TravellerExchanged) {
+        	statusText += getString(R.string.TravellerExchanged);
         } else if (event.gameEventType == GameEvent.Type.TurnJourneyTokenFaceUp) {
             statusText += getString(R.string.TurnJourneyTokenFaceUp);
         } else if (event.gameEventType == GameEvent.Type.TurnJourneyTokenFaceDown) {
@@ -926,7 +928,7 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.raze))) {
             strings[1] = getString(R.string.trash_this);
             strings[2] = getString(R.string.trash_card_from_hand);
-        } else if (cardName.equals(getCardName(Cards.royalSeal))) {
+        } else if (cardName.equals(getCardName(Cards.royalSeal)) || cardName.equals(getCardName(Cards.travellingFair))) {
             strings[0] = getCardRevealedHeader(extras);
             strings[1] = getString(R.string.top_of_deck);
             strings[2] = getString(R.string.take_normal);
@@ -1106,8 +1108,12 @@ public class Strings {
                 str = Strings.format(R.string.select_one_card_from_played, header);
             else if(sco.exactCount)
                 str = Strings.format(R.string.select_exactly_x_cards_from_played, "" + sco.count, header);
-            else
-                str = Strings.format(R.string.select_up_to_x_cards_from_played, "" + sco.count, header);
+            else {
+            	if (sco.different)
+            		str = Strings.format(R.string.select_up_to_x_different_cards_from_played, "" + sco.count, header);
+            	else
+            		str = Strings.format(R.string.select_up_to_x_cards_from_played, "" + sco.count, header);
+            }
             return str;
         }
         throw new RuntimeException("SelectCardOptions isn't from table or from hand or from played...");
@@ -1211,10 +1217,12 @@ public class Strings {
             getCardName(Cards.ratcatcher),
             getCardName(Cards.raze),
             getCardName(Cards.storyteller),
+            getCardName(Cards.trade),
             getCardName(Cards.transmogrify),
             /*Adventures Events*/
             getCardName(Cards.alms),
             getCardName(Cards.ball),
+            getCardName(Cards.pilgrimage),
             getCardName(Cards.seaway)
             
         ));

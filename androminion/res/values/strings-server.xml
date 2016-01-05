@@ -90,6 +90,7 @@
 	<string name="select_one_card_from_played">Pick a card you have in play to %1$s</string>
 	<string name="select_up_to_x_cards_from_played">Pick up to %1$s cards you have in play to %2$s</string>
 	<string name="select_exactly_x_cards_from_played">Pick exactly %1$s cards you have in play to %2$s</string>
+	<string name="select_up_to_x_different_cards_from_played">Pick up to %1$s differently named cards you have in play to %2$s</string>
 	
 	<string name="reaction_query">Select reaction card to reveal</string>
 	<string name="bane_option_one">Reveal Bane card (%1$s)</string>
@@ -152,6 +153,7 @@
 	<string name="CardSetAsideGear">Card set aside (Gear)</string>
 	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>
 	<string name="DeckPutIntoDiscardPile">Deck put into discard pile</string>
+	<string name="TravellerExchanged">Traveller exchanged for</string>
 	<string name="TurnJourneyTokenFaceUp">Journey token turned face up</string>
 	<string name="TurnJourneyTokenFaceDown">Journey token turned face down</string>
     <string name="MinusOneCoinTokenOn">-1 coin token placed</string>
