@@ -482,7 +482,7 @@
     <string name="Artificer_name">Artificer</string>
     <string name="Artificer_desc">Discard any number of cards. You may gain a card costing exactly 1 Coin per card discarded, putting it on top of your deck.</string>
     <string name="BridgeTroll_name">Bridge Troll</string>
-    <string name="BridgeTroll_desc">Each other player takes his -1 coin token. - While this is on play, cards cost 1 coin less on your turns, but not less than 0 coins.</string>
+    <string name="BridgeTroll_desc">Each other player takes his -1 coin token. - While this is in play, cards cost 1 Coin less on your turns, but not less than 0 Coins.</string>
     <string name="CaravanGuard_name">Caravan Guard</string>
     <string name="CaravanGuard_desc">When another player plays an Attack card, you may play this from your hand. (+1 Action has no effect if it\'s not your turn.)</string>
     <string name="Champion_name">Champion</string>

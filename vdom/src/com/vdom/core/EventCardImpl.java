@@ -207,8 +207,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
     				}
     				for (Card card : differentCards) {
     					if(context.player.playedCards.contains(card) || 
-    							context.player.nextTurnCards.contains(card) ||
-    							context.player.playedByPrince.contains(card)) {
+    							context.player.nextTurnCards.contains(card)) {
     						context.player.gainNewCard(card, this.controlCard, context);
     					} else {
     						Util.playerError(context.player, "Pilgrimage gain error, card not in play, ignoring.");

@@ -40,8 +40,8 @@
 
     <style name="CardView.Duration.Attack">
         <item name="cardBackgroundColor">@color/cardDuration</item>
-        <item name="cardTextColor">@color/cardDefaultTextColor</item>
-        <item name="cardCountColor">@color/cardDefaultTextColor</item>
+        <item name="cardTextColor">@color/cardAttackInverse</item>
+        <item name="cardCountColor">@color/cardAttackInverse</item>
     </style>
 
     <style name="CardView.Attack">
@@ -94,8 +94,8 @@
 
     <style name="CardView.Treasure.Attack">
         <item name="cardBackgroundColor">@color/cardSilver</item>
-        <item name="cardTextColor">@color/cardAttack</item>
-        <item name="cardCountColor">@color/cardAttack</item>
+        <item name="cardTextColor">@color/cardAttackInverse</item>
+        <item name="cardCountColor">@color/cardAttackInverse</item>
     </style>
 
     <style name="CardView.Victory" parent="@style/CardView.InverseText">

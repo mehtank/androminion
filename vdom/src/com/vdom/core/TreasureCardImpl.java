@@ -324,11 +324,11 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != player && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
                 playersToAttack.add(targetPlayer);
-                targetPlayer.attacked(this.controlCard, context);
             }
         }
 
         for (Player targetPlayer : playersToAttack) {
+            targetPlayer.attacked(this.controlCard, context);
             MoveContext targetContext = new MoveContext(context.game, targetPlayer);
         	targetPlayer.setMinusOneCardToken(true, targetContext);
         }
