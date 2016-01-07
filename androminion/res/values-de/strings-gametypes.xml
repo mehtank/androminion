@@ -106,5 +106,7 @@
    <string name="FarFromHome_gametype">Fern von Zuhause (DA, Hntr)</string>
    <string name="Expeditions_gametype">Expeditionen (DA, Hntr)</string>
             
+   <string name="RandomGuilds_gametype">Zufälliges Gilden</string>
+
 	<string name="Random_gametype">Zufällig (alle Karten)</string>  
 </resources>

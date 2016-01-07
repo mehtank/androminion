@@ -3,15 +3,14 @@ package com.vdom.api;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
 
-
-public class GameEvent { 
+public class GameEvent {
     public enum Type {
         GameStarting, // A new game is starting, called at the start of each game when multiple are played
         GameOver, // Game completed
         Embargo, // Embargo added to card
 
         Status, // Sent before playing an action or buying a card for UI to show action/buy/coin status
-        
+
         CantBuy, // Card that can't be bought (ie. named in playing Contraband)
         VictoryPoints, // VictoryPoints at the end of the game
         NewHand, // Player gets a NewHand
@@ -25,6 +24,7 @@ public class GameEvent {
         BuyingCard, // Buying a card in the buy phase.
         OverpayForCard, // Overpaying for a Guilds card.
         GuildsTokenObtained, // Recieve a Guilds token
+        GuildsTokenSpend, // Spend Guilds token
         NoBuy, // Player didn't buy a card
         DeckReplenished, // Discard pile shuffled to create a new deck for one of the players
         PlayerAttacking, // Player is attacking another player
@@ -38,7 +38,17 @@ public class GameEvent {
 
         CardDiscarded, // A card was discarded
         CardAddedToHand, // A new card has been added to a player's hand
-        CardRemovedFromHand, // A card has been removed from a player's hand
+        CardRemovedFromHand, // A card has been removed from a player's hand        
+        CardSetAside, // A card was set aside (prince)
+        CardSetAsideOnTavernMat, // A card was set aside on tavern mat
+        CardSetAsideOnIslandMat, // A card was set aside on island mat
+        DeckPutIntoDiscardPile, // Deck put into discard pile
+        TurnJourneyTokenFaceUp, // journey token turned face up
+        TurnJourneyTokenFaceDown, // journey token turned face down
+        MinusOneCoinTokenOn, // journey token turned face up
+        MinusOneCoinTokenOff, // journey token turned face down
+        MinusOneCardTokenOn, // journey token turned face up
+        MinusOneCardTokenOff, // journey token turned face down
     }
 
     public Type type;

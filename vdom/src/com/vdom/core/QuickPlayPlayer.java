@@ -9,7 +9,8 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public abstract class QuickPlayPlayer extends BasePlayer {
-    protected static final Card[] TRASH_CARDS = new Card[] { Cards.curse, Cards.estate, Cards.copper };
+    //trash in this order!
+    protected static final Card[] TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.hovel, Cards.estate, Cards.copper, Cards.masterpiece };
 
 //    public static QuickPlayPlayer instance = new QuickPlayPlayer();
     
@@ -83,7 +84,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_chancellor_shouldDiscardDeck(MoveContext context) {
+    public boolean shouldAutoPlay_chancellor_shouldDiscardDeck(MoveContext context, Card responsible) {
         return true;
     }
 
@@ -220,7 +221,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_upgrade_cardToTrash(MoveContext context) {
+    public boolean shouldAutoPlay_upgrade_cardToTrash(MoveContext context, boolean passable) {
         return false;
     }
 
@@ -271,6 +272,22 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
+    public boolean shouldAutoPlay_prince_cardToSetAside(MoveContext context) {
+        return false;
+    }
+
+    public boolean shouldAutoPlay_duration_cardToPlay(MoveContext context) {
+        return true;
+    }
+    
+    public boolean shouldAutoPlay_blackMarket_chooseCard(MoveContext context) {
+        return false;
+    }
+
+    public boolean shouldAutoPlay_blackMarket_orderCards(MoveContext context, Card[] cards) {
+        return true;
+    }
+
     public boolean shouldAutoPlay_haven_cardToSetAside(MoveContext context) {
         return false;
     }
@@ -314,7 +331,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     public boolean shouldAutoPlay_explorer_shouldRevealProvince(MoveContext context) {
-    	return true;
+        return true;
     }
     
     public boolean shouldAutoPlay_university_actionCardToObtain(MoveContext context) {
@@ -356,6 +373,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
+    public boolean shouldAutoPlay_countingHouse_coppersIntoHand(MoveContext context) {
+        return true;
+    }
+
+    
     public boolean shouldAutoPlay_expand_cardToTrash(MoveContext context) {
         return false;
     }
@@ -385,7 +407,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         int treasureCount = 0;
 
         for(Card c : getHand()) {
-            if(c instanceof TreasureCard) {
+            if(c instanceof TreasureCard && Cards.isSupplyCard(c)) {
                 treasureCount++;
             }
         }
@@ -395,7 +417,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         }
         
         for(Card c : getHand()) {
-            if(c instanceof TreasureCard && !(c.equals(Cards.copper) || c.equals(Cards.silver) || c.equals(Cards.gold) || c.equals(Cards.platinum))) {
+            if(c instanceof TreasureCard && Cards.isSupplyCard(c) && !(c.equals(Cards.copper) || c.equals(Cards.silver) || c.equals(Cards.gold) || c.equals(Cards.platinum))) {
                 return false;
             }
         }
@@ -457,7 +479,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_treasureCardsToPlayInOrder(MoveContext context) {
+    public boolean shouldAutoPlay_treasureCardsToPlayInOrder(MoveContext context, int maxCards) {
         return true;
     }
 
@@ -503,7 +525,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_horseTraders_cardsToDiscard(MoveContext context) {
+    public boolean shouldAutoPlay_horseTradersDungeon_cardsToDiscard(MoveContext context) {
         return true;
     }
 
@@ -524,7 +546,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     
     public boolean shouldAutoPlay_tournament_shouldRevealProvince(MoveContext context) {
-    	return true;
+        return true;
     }
     
     public boolean shouldAutoPlay_tournament_chooseOption(MoveContext context) {
@@ -723,7 +745,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_stables_treasureToDiscard(MoveContext context) {
-        return false;
+        return true;
     }
     
     public boolean shouldAutoPlay_borderVillage_cardToObtain(MoveContext context) {
@@ -735,7 +757,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_rats_cardToTrash(MoveContext context) {
-    	return false;
+        return false;
     }
     
     public boolean shouldAutoPlay_pillage_opponentCardToDiscard(MoveContext context) {
@@ -747,15 +769,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     public boolean shouldAutoPlay_revealBane(MoveContext context) {
-    	return true;
+        return true;
     }
     
     public boolean shouldAutoPlay_selectPutBackOption(MoveContext context, List<PutBackOption> putBacks) {
-    	return true;
-    }
-    
-    public boolean shouldAutoPlay_walledVillage_backOnDeck(MoveContext context) {
-        return false;
+        return true;
     }
     
     public boolean shouldAutoPlay_envoy_opponentCardToDiscard(MoveContext context) {
@@ -763,18 +781,18 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
-		return true;
-	}
-	
-	public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context) {
-		return true;
-	}
-	
-	public boolean shouldAutoPlay_madman_shouldReturnToPile(MoveContext context) {
-		return true;
-	}
-		
-	public boolean shouldAutoPlay_procession_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+        return true;
+    }
+
+    public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context) {
+        return true;
+    }
+
+    public boolean shouldAutoPlay_madman_shouldReturnToPile(MoveContext context) {
+        return true;
+    }
+
+    public boolean shouldAutoPlay_procession_cardToObtain(MoveContext context, int maxCost, boolean potion) {
         return false;
     }
 
@@ -782,8 +800,41 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_taxman_treasureToObtain(MoveContext context, int maxCost) {
+    public boolean shouldAutoPlay_taxman_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
         return true;
+    }
+
+    /*Adventures*/
+    public boolean shouldAutoPlay_amulet_chooseOption(MoveContext context) {
+        return false;
+    }
+    
+    public boolean shouldAutoPlay_amulet_cardToTrash(MoveContext context) {
+        return false;
+    }
+    
+    public boolean shouldAutoPlay_artificer_cardsToDiscard(MoveContext context) {
+        return false;
+    }
+
+    public boolean shouldAutoPlay_artificer_cardToObtain(MoveContext context, int cost) {
+        return false;
+    }
+
+    public boolean shouldAutoPlay_miser_shouldTakeTreasure(MoveContext context) {
+        return true;
+    }
+
+    public boolean shouldAutoPlay_traveller_shouldExchange(MoveContext context, Card traveller, Card exchange) {
+        return true;
+    }
+
+    public boolean shouldAutoPlay_cleanup_wineMerchantToDiscard(MoveContext context) {
+        return true;
+    }
+
+    public boolean shouldAutoPlay_scoutingParty_cardToDiscard(MoveContext context) {
+        return false;
     }
 
 }

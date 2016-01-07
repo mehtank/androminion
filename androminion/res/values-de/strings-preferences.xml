@@ -4,6 +4,11 @@
     <string name="personalization_pref_title">Personalisierung</string>
     <string name="name_pref_title">Name</string>
     <string name="name_pref_summary">Spitznamen wählen</string>
+    <string name="multiplayer_pref_title">Multiplayer</string>
+    <string name="host_pref_title">Host</string>
+    <string name="host_pref_summary">Default host to connect to when joining a game</string>
+    <string name="port_pref_title">Port</string>
+    <string name="port_pref_summary">Default player port when joining a game (generally 2255)</string>
     <string name="userlang_pref_title">Sprache</string>
     <string name="userlang_pref_summary">Sprache wählen (überschreibt Systemsprache)</string>
 
@@ -19,7 +24,7 @@
     </string-array>
 
     <string name="show_statusbar_pref_title">Statusleiste anzeigen</string>
-    <string name="show_statusbar_pref_summary">Zeige die System-Statusleiste während des spielens an</string>
+    <string name="show_statusbar_pref_summary">Zeige die System-Statusleiste während des Spielens an</string>
     <string name="ui_pref_title">Oberfläche</string>
     <string name="pref_theme_title">Design</string>
     <string name="pref_theme_summary">Wähle unterschiedliche Designs</string>
@@ -31,13 +36,13 @@
     </string-array>
 
     <string name="suppress_redundant_reactions_pref_title">Letzte Reaktion unterdrücken</string>
-    <string name="suppress_redundant_reactions_pref_summary">Verhindert, dass die gerade ausgespielte Karte nochmal im Dialog auftaucht (wirksam mit nächstem Spiel)</string>
+    <string name="suppress_redundant_reactions_pref_summary">Verhindert, dass die gerade ausgespielte Reaktionskarte nochmal im Dialog auftaucht (wirksam mit nächstem Spiel)</string>
     <string name="equal_start_hands_pref_title">Gleiche Starthände</string>
     <string name="equal_start_hands_pref_summary">Alle Spieler starten mit den gleichen Karten (wirksam mit nächstem Spiel)</string>
     <string name="sort_cards_pref_title">Karten sortieren</string>
     <string name="sort_cards_pref_summary">Sortiert die Karten auf der Hand nach Aktion-Geld-Fluch-Siegpunkt (wirksam mit nächstem Spiel)</string>
     <string name="one_turn_logs_pref_title">Details eines Zuges</string>
-    <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug in im Spiellog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
+    <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug im Spiellog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
     <string name="hide_card_counts_pref_title">Verberge Kartenanzahl</string>
     <string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
 	<string name="mask_names_pref_title">Verstecke KI-Namen</string>
@@ -45,32 +50,39 @@
     <string name="exitonback_pref_title">Ende mit Zurückknopf</string>
     <string name="exitonback_pref_summary">Beendet das Spiel erst, wenn der Zurückknopf erneut gedrückt wird</string>
     <string name="showenglishnames_pref_title">Englische Namen</string>
-    <string name="showenglishnames_pref_summary">Zeige die Englischen Namen der Karten in Klammern an</string>
+    <string name="showenglishnames_pref_summary">Zeige die englischen Namen der Karten in Klammern an</string>
     <string name="game_play_pref_title">Spieleinstellungen</string>
+    <string name="testing_pref_title">Test-Modus</string>
+    <string name="start_guilds_coin_tokens_pref_title">Münzen</string>
+    <string name="start_guilds_coin_tokens_pref_summary">Starte mit Münzen und ohne Karten</string>
+    <string name="less_provinces_pref_title">Weniger Provinzen</string>
+    <string name="less_provinces_pref_summary">Spiele mit weniger Provinzen</string>
     <string name="quick_play_pref_title">Schnelles Spiel</string>
     <string name="action_chains_pref_title">Aktionsketten</string>
-    <string name="action_chains_pref_summary">Aktiviere Auswahl von mehreren Aktionskarten in Ausspielreihenfolge. (Neustart des Spiels erforderlich)</string>
-    <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt. (Neustart des Spiels erforderlich)</string>
+    <string name="action_chains_pref_summary">Aktiviere Auswahl von mehreren Aktionskarten in Ausspielreihenfolge (Neustart des Spiels erforderlich)</string>
+    <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt (Neustart des Spiels erforderlich)</string>
     <string name="plat_colony_pref_title">Platin und Kolonien</string>
-    <string name="plat_colony_pref_summary">Immer mit den Karten Platin und Kolonien spielen, egal welche Art von Erweiterung gewählt ist.</string>
-	<string name="shelters_pref_title">Zuflucht-Karten</string>
-	<string name="shelters_pref_summary">Verwende immer Zuflucht-Karten (aus Dark Ages) anstelle der Anwesen.</string>
+    <string name="plat_colony_pref_summary">Immer mit den Karten Platin und Kolonien spielen, egal welche Art von Erweiterung gewählt ist</string>
+    <string name="shelters_pref_title">Unterschlupf-Karten</string>
+    <string name="shelters_pref_summary">Verwende immer Unterschlupf-Karten (aus Dark Ages) anstelle der Anwesen</string>
+    <string name="black_market_count_pref_title">Karten im Schwarzmarkt-Stapel</string>
+    <string name="black_market_count_pref_summary">Anzahl der Karten im Schwarzmarkt-Stapel, falls der Schwarzmarkt im Spiel ist (Empfehlung: Mindestens 15)</string>
     <string name="notif_pref_title">Benachrichtigungen</string>
     <string name="allvibes_pref_title">Vibration aktivieren</string>
     <string name="vibescreen_pref_title">Vibration einstellen &#8230;</string>
     <string name="clickvibeon_pref_title">Haptisches Feedback</string>
-    <string name="clickvibeon_pref_summary">Vibrieren wenn Karten gespielt werden</string>
+    <string name="clickvibeon_pref_summary">Vibrieren, wenn Karte gewählt wird</string>
     <string name="actionvibeon_pref_title">Aktionsanzeige</string>
     <string name="actionvibeon_pref_summary">Vibrieren, wenn Du am Zug bist</string>
     <string name="turnvibeon_pref_title">Zugbenachrichtigungen</string>
-    <string name="turnvibeon_pref_summary">Vibireren, wenn Dein Zug beginnt</string>
+    <string name="turnvibeon_pref_summary">Vibrieren, wenn Dein Zug beginnt</string>
     <string name="gamevibeon_pref_title">Spielende</string>
-    <string name="gamevibeon_pref_summary">Vibrieren wenn das Spiel endet</string>
+    <string name="gamevibeon_pref_summary">Vibrieren, wenn das Spiel endet</string>
     <string name="logging_pref_title">Spielaufzeichnung</string>
     <string name="logging_enable_pref_title">Aktiviere Spielaufzeichnung</string>
     <string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
     <string name="logging_dir_pref_title">Aufzeichnungsordner</string>
-    <string name="logging_dir_pref_summary">Ordnern zum speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
+    <string name="logging_dir_pref_summary">Ordner zum Speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
     <string name="pref_viewstyle_title">Stil der Benutzeroberfläche</string>
     <string name="pref_viewstyle_summary">Setzt den Stil der Benutzeroberfläche</string>
 
@@ -81,6 +93,6 @@
     </string-array>
 
     <string name="pref_showactionbar_title">Actionbar anzeigen</string>
-    <string name="pref_showactionbar_summary">Deaktivieren auf Geräten mit kleinem Bildschirm, Aktivieren bei Geräten ohne Hardware-Tasten</string>
+    <string name="pref_showactionbar_summary">Deaktivieren auf Geräten mit kleinem Bildschirm, aktivieren bei Geräten ohne Hardware-Tasten</string>
 
 </resources>

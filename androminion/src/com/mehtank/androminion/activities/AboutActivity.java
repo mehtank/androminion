@@ -11,11 +11,12 @@ import com.mehtank.androminion.R;
 import com.mehtank.androminion.fragments.AboutFragment;
 import com.mehtank.androminion.fragments.CreditsFragment;
 import com.mehtank.androminion.fragments.WhatsnewFragment;
+import com.mehtank.androminion.fragments.ConnectionsFragment;
 import com.mehtank.androminion.util.ThemeSetter;
 import com.mehtank.androminion.util.compat.TabsAdapter;
 
 /**
- * This activity just shows three tabs: about, what's new and credits.
+ * This activity just shows four tabs: about, connections, what's new and credits.
  * 
  * Rewrite to support actionbar, tabs and swipe gestures (backwards compatible
  * to API7).
@@ -51,6 +52,12 @@ public class AboutActivity extends SherlockFragmentActivity {
 		ActionBar.Tab aboutTab = bar.newTab().setText(R.string.about_menu)
 				.setIcon(android.R.drawable.ic_menu_info_details);
 		mTabsAdapter.addTab(aboutTab, AboutFragment.class, null);
+
+		// connections tab
+		ActionBar.Tab connectionsTab = bar.newTab()
+				.setText(R.string.connections_menu)
+				.setIcon(android.R.drawable.ic_menu_share);
+		mTabsAdapter.addTab(connectionsTab, ConnectionsFragment.class, null);
 
 		// What's New tab
 		ActionBar.Tab whatsnewTab = bar.newTab()

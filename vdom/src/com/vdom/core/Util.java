@@ -13,6 +13,7 @@ import java.util.Map;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
+import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.core.Cards.Type;
@@ -215,7 +216,7 @@ public class Util {
         }
         log("");
         log("Deck:" + player.getDeckSize() + " PirateShip:" + player.getPirateShipTreasure() + " NativeVillage:" + cardArrayToString(player.getNativeVillage())
-            + " Island:" + cardArrayToString(player.getIsland()));
+            + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()));
         log("");
     }
 
@@ -260,6 +261,13 @@ public class Util {
             event.card = Cards.lighthouse;
             game.broadcastEvent(event);
         }
+        if (game.countChampionsInPlay(player) > 0) {
+            defended = true;
+            
+            GameEvent event = new GameEvent(GameEvent.Type.PlayerDefended, context);
+            event.card = Cards.champion;
+            game.broadcastEvent(event);
+        }
         
         Card reactionCard = null;
         while ((reactionCard = player.controlPlayer.getAttackReaction(context, responsible, defended, reactionCard)) != null) {
@@ -273,6 +281,8 @@ public class Util {
                 doHorseTraders(context, game, player, responsible);
         	else if (reactionCard.equals(Cards.beggar))
                 doBeggar(context, game, player, responsible);
+        	else if (reactionCard.equals(Cards.caravanGuard))
+                doCaravanGuard(context, game, player, responsible);
         	else if (reactionCard.equals(Cards.moat)) {
                 defended = true;
                 
@@ -371,8 +381,8 @@ public class Util {
     }
 
     static boolean doBeggar(MoveContext context, Game game, Player player, Card responsible) {
-    	Card beggar = null;
-    	
+        Card beggar = null;
+
         for (Card card : player.hand) {
             if (card.equals(Cards.beggar)) {
                 beggar = card;
@@ -380,17 +390,36 @@ public class Util {
         }
         
         if (beggar != null) {
-        	if (player.controlPlayer.beggar_shouldDiscard(context)) {
-        		player.hand.remove(player.hand.indexOf(beggar), false);        		
-            	player.discard(beggar, responsible, context);
-            	player.gainNewCard(Cards.silver, beggar, context);
-            	player.gainNewCard(Cards.silver, beggar, context);
-        	}
-        	context.beggarSilverIsOnTop = 0;
-        	return true;
+            if (player.controlPlayer.beggar_shouldDiscard(context, responsible)) {
+                player.hand.remove(player.hand.indexOf(beggar), false);
+                player.discard(beggar, responsible, context);
+                player.gainNewCard(Cards.silver, beggar, context);
+                player.gainNewCard(Cards.silver, beggar, context);
+            }
+            context.beggarSilverIsOnTop = 0;
+            return true;
         }
-    	
-    	return false;
+
+        return false;
+    }
+
+    static boolean doCaravanGuard(MoveContext context, Game game, Player player, Card responsible) {
+        Card caravanGuard = null;
+        for (Card card : player.hand) {
+            if (card.equals(Cards.caravanGuard)) {
+            	caravanGuard = card;
+            }
+        }
+
+        if (caravanGuard != null) {
+            player.hand.remove(caravanGuard);
+            player.nextTurnCards.add((DurationCard) caravanGuard);
+            game.drawToHand(player, responsible);
+
+            return true;
+        }
+
+        return false;
     }
 
     public static ArrayList<Card> copy(CardList cards) {
