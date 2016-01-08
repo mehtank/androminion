@@ -2,11 +2,13 @@ package com.vdom.core;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.EventCard;
 import com.vdom.api.TreasureCard;
+import com.vdom.core.Player.QuestOption;
 
 public class EventCardImpl extends CardImpl implements EventCard {
     protected int addBuys;
@@ -88,6 +90,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	        	break;
 	        case Plan:
 	        	plan(context);
+	        	break;
+	        case Quest:
+	        	quest(context);
 	        	break;
 	        case Raid:
 	        	raid(context);
@@ -222,6 +227,77 @@ public class EventCardImpl extends CardImpl implements EventCard {
     private void plan(MoveContext context) {
     	ActionCard card = context.getPlayer().controlPlayer.plan_actionCardPileToHaveToken(context);
     	placeToken(context, card, PlayerSupplyToken.Trashing);
+    }
+    
+    private void quest(MoveContext context) {
+    	Player player = context.getPlayer();
+    	CardList hand = player.getHand();
+    	if (hand.size() == 0)
+    		return;
+    	QuestOption option = player.controlPlayer.quest_chooseOption(context);
+    	if (option == null) {
+    		return;
+    	}
+    	if (option == QuestOption.DiscardAttack) {
+    		Set<Card> attackSet = new HashSet<Card>();
+    		for (Card card : hand) {
+    			if (card.behaveAsCard().isAttack()) {
+    				attackSet.add(card);
+    			}
+    		}
+    		if (attackSet.size() == 0) {
+    			return;
+    		} else if (attackSet.size() == 1) {
+    			Card toDiscard = attackSet.toArray(new Card[0])[0];
+    			hand.remove(toDiscard);
+    			context.getPlayer().discard(toDiscard, this, context);
+    		} else {
+    			Card[] attacks = attackSet.toArray(new Card[0]);
+    			Card toDiscard = player.controlPlayer.quest_attackCardToDiscard(context, attacks);
+    			if (toDiscard == null || !attackSet.contains(toDiscard)) {
+    				Util.playerError(player, "Quest error, picked attack didn't have. Choosing first attack.");
+    				toDiscard = attacks[0];
+    			}
+    			hand.remove(toDiscard);
+    			context.getPlayer().discard(toDiscard, this, context);
+    		}
+    	} else if (option == QuestOption.DiscardTwoCurses) {
+    		int numCurses = 0;
+    		for(int n = 0; n < 2; ++n) {
+    			for (int i = 0; i < hand.size(); ++i) {
+    				if (hand.get(i).equals(Cards.curse)) {
+    					numCurses++;
+    					player.discard(hand.remove(i), this, context);
+    					break;
+    				}
+    			}
+    		}
+    		if (numCurses != 2)
+    			return;
+    	} else if (option == QuestOption.DiscardSixCards) {
+    		if (hand.size() <= 6) {
+    			int numCards = hand.size();
+    			while (!hand.isEmpty()) {
+    				player.discard(hand.remove(0), this, context);
+    			}
+    			if (numCards < 6)
+    				return;
+    		} else {
+    			Card[] toDiscard = player.controlPlayer.quest_cardsToDiscard(context);
+    			if (toDiscard.length != 6 || !Util.areCardsInHand(toDiscard, context)) {
+    				Util.playerError(player, "Quest error, picked cards to discard player didn't have. Choosing first siz.");
+    				for (int i = 0; i < 6; ++i) {
+    					player.discard(hand.remove(0), Cards.quest, context);
+    				}
+    			} else {
+    				for (Card card : toDiscard) {
+    		            hand.remove(card);
+    		            player.discard(card, this, context);
+    		        }
+    			}
+    		}
+    	}
+    	player.gainNewCard(Cards.gold, this, context);
     }
     
 	protected void raid(MoveContext context) {

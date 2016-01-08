@@ -31,7 +31,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     protected int addCards;
     protected int addGold;
     protected int addVictoryTokens;
-    protected boolean attack;
     protected boolean looter;
     boolean trashForced = false;
     boolean trashOnUse = false;
@@ -43,7 +42,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         addCards         = builder.addCards;
         addGold          = builder.addGold;
         addVictoryTokens = builder.addVictoryTokens;
-        attack           = builder.attack;
         looter           = builder.looter;
         trashOnUse       = builder.trashOnUse;
         trashForced      = builder.trashForced;
@@ -167,10 +165,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         return addVictoryTokens;
     }
 
-    public boolean isAttack() {
-        return attack;
-    }
-
     public boolean trashForced() {
         return trashForced;
     }
@@ -198,7 +192,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         c.addCards = addCards;
         c.addGold = addGold;
         c.addVictoryTokens = addVictoryTokens;
-        c.attack = attack;
         c.looter = looter;
         c.trashForced = trashForced;
         c.trashOnUse = trashOnUse;
@@ -219,6 +212,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ActionCardImpl actualCard = (this.getControlCard() != null ? (ActionCardImpl) this.getControlCard() : this);
         
         context.actions += game.countChampionsInPlay(currentPlayer);
+        
+        if (isAttack())
+            attackPlayed(context, game, currentPlayer);
         
         if (this.numberTimesAlreadyPlayed == 0 && this == actualCard) {
             newCard = true;
@@ -266,8 +262,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             game.drawToHand(currentPlayer, this);
         }
 
-        if (isAttack())
-            attackPlayed(context, game, currentPlayer);
+        
 
         additionalCardActions(game, context, currentPlayer);
 
@@ -5074,13 +5069,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 for (Card c : context.game.getCardsInGame())
                 {
-                    if (c instanceof ActionCard)
-                    {
-                        if (Cards.isSupplyCard(c) && ((ActionCard)c).isAttack() && context.game.getPile(c).getCount() > 0)
-                        {
-                            attackCardAvailable = true;
-                            break;
-                        }
+                    if (Cards.isSupplyCard(c) && c.isAttack() && context.game.getPile(c).getCount() > 0) {
+                        attackCardAvailable = true;
+                        break;
                     }
                 }
 
@@ -5297,18 +5288,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     Card[] cardsToKeep = player.controlPlayer.urchin_attack_cardsToKeep(playerContext);
                     player.discardRemainingCardsFromHand(playerContext, cardsToKeep, this.controlCard, keepCardCount);
                 }
-            }
-        }
-    }
-
-    private void attackPlayed(MoveContext context, Game game, Player currentPlayer) {
-        // If an Urchin has been played, offer the player the option to trash it for a Mercenary
-        for (int i = currentPlayer.playedCards.size() - 1; i > 0 ; ) {
-            Card c = currentPlayer.playedCards.get(--i);
-            if (c.behaveAsCard().getType() == Cards.Type.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context)) {
-                currentPlayer.trash(c.getControlCard(), this, context);
-                currentPlayer.gainNewCard(Cards.mercenary, this, context);
-                currentPlayer.playedCards.remove(i);
             }
         }
     }

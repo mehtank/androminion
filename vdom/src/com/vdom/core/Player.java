@@ -1263,6 +1263,12 @@ public abstract class Player {
     	MissionFirst,
     	PossessionFirst
 	}
+    
+    public static enum QuestOption {
+    	DiscardAttack,
+    	DiscardTwoCurses,
+    	DiscardSixCards
+    }
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
@@ -1754,6 +1760,9 @@ public abstract class Player {
     public abstract ActionCard pathfinding_actionCardPileToHaveToken(MoveContext context);
     public abstract Card[] pilgrimage_cardsToGain(MoveContext context);
     public abstract ActionCard plan_actionCardPileToHaveToken(MoveContext context);
+    public abstract QuestOption quest_chooseOption(MoveContext context);
+    public abstract Card quest_attackCardToDiscard(MoveContext context, Card[] attacks);
+    public abstract Card[] quest_cardsToDiscard(MoveContext context);
     public abstract Card scoutingParty_cardToDiscard(MoveContext context, Card[] revealedCards);
     public abstract ActionCard seaway_cardToObtain(MoveContext context);
     public abstract ActionCard training_actionCardPileToHaveToken(MoveContext context);

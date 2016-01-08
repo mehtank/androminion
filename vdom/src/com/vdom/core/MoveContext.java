@@ -158,29 +158,22 @@ public class MoveContext {
     
     public int countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay type) {
         int actionsInPlay = 0;
-        for(Card c : getPlayedCards()) {
-            if(c.behaveAsCard() instanceof ActionCard) {
-            	if(   type == CardsInPlay.ACTION
-                   || type == CardsInPlay.ATTACK && ((ActionCard) c.behaveAsCard()).isAttack()
-                   || type == CardsInPlay.TRAVELLER && ((ActionCard) c.behaveAsCard()).isTraveller()
-            	  )
-            	{
-                    actionsInPlay++;
-            	}
-            }
+        for (Card c : getPlayedCards()) {
+        	if ((type == CardsInPlay.ATTACK && c.isAttack())
+        			|| (type == CardsInPlay.TRAVELLER && c.isTraveller())
+        			|| (type == CardsInPlay.ACTION && c.behaveAsCard() instanceof ActionCard)) {
+    			actionsInPlay++;
+        	}
         }
-        for(Card c : player.nextTurnCards) {
-            if(c.behaveAsCard() instanceof DurationCard) {
-            	if(   type == CardsInPlay.ACTION
-                   || type == CardsInPlay.ATTACK && ((DurationCard) c.behaveAsCard()).isAttack()
-                   || type == CardsInPlay.TRAVELLER && ((DurationCard) c.behaveAsCard()).isTraveller()
-             	  )
-            	{
-                    actionsInPlay++;
-            	}
-            }
+        for (Card c : player.nextTurnCards) {
+        	if (c instanceof CardImpl && ((CardImpl)c).trashAfterPlay)
+        		continue;
+        	if ((type == CardsInPlay.ATTACK && c.isAttack())
+        			|| (type == CardsInPlay.TRAVELLER && c.isTraveller())
+        			|| (type == CardsInPlay.ACTION && c.behaveAsCard() instanceof ActionCard)) {
+    			actionsInPlay++;
+        	}
         }
-
         return actionsInPlay;
     }
 

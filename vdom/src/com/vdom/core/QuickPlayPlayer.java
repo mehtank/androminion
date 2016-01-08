@@ -915,6 +915,18 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_plan_actionCardPileToHaveToken(MoveContext context) {
     	return false;
     }
+    
+    public boolean shouldAutoPlay_quest_chooseOption(MoveContext context) {
+    	return true;
+    }
+    
+    public boolean shouldAutoPlay_quest_attackCardToDiscard(MoveContext context, Card[] attacks) {
+    	return true;
+    }
+    
+    public boolean shouldAutoPlay_quest_cardsToDiscard(MoveContext context) {
+    	return true;
+    }
 
     public boolean shouldAutoPlay_scoutingParty_cardToDiscard(MoveContext context) {
         return false;

@@ -16,6 +16,7 @@ public class CardImpl implements Card {
     String description = "";
     String expansion = "";
     protected int vp;
+    boolean isAttack  = false;
     boolean isPrize   = false;
     boolean isShelter = false;
     boolean isRuins   = false;
@@ -52,6 +53,7 @@ public class CardImpl implements Card {
         vp = builder.vp;
         description = builder.description;
         expansion   = builder.expansion;
+        isAttack    = builder.attack;
         isPrize     = builder.isPrize;
         isShelter   = builder.isShelter;
         isRuins     = builder.isRuins;
@@ -196,6 +198,7 @@ public class CardImpl implements Card {
         c.costPotion = costPotion;
         c.description = description;
         c.expansion = expansion;
+        c.isAttack = isAttack;
         c.isPrize = isPrize;
         c.isShelter = isShelter;
         c.isRuins = isRuins;
@@ -297,6 +300,11 @@ public class CardImpl implements Card {
     public boolean costPotion() {
         return costPotion;
     }
+    
+    @Override
+    public boolean isAttack() {
+    	return isAttack;
+    }    
     @Override
     public boolean isPrize() {
         return isPrize;
@@ -400,6 +408,18 @@ public class CardImpl implements Card {
     	
     	context.game.movePlayerSupplyToken(card, context.getPlayer(), token);
 	}
+    
+    protected void attackPlayed(MoveContext context, Game game, Player currentPlayer) {
+        // If an Urchin has been played, offer the player the option to trash it for a Mercenary
+        for (int i = currentPlayer.playedCards.size() - 1; i > 0 ; ) {
+            Card c = currentPlayer.playedCards.get(--i);
+            if (c.behaveAsCard().getType() == Cards.Type.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context)) {
+                currentPlayer.trash(c.getControlCard(), this, context);
+                currentPlayer.gainNewCard(Cards.mercenary, this, context);
+                currentPlayer.playedCards.remove(i);
+            }
+        }
+    }
 
     /*@Override
     public void isGained(MoveContext context) {

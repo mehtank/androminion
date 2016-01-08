@@ -196,6 +196,8 @@
 	<string name="scheme_query">Select action card to put back on deck</string>
 	
 	<string name="raze_query">Select card to put in hand</string>
+	
+	<string name="quest_attack_to_discard">Attack to discard</string>
 		
 	<string name="herbalist_query">Select treasure card to put back on deck</string>
 	
@@ -267,6 +269,10 @@
 	<string name="extra_turns_outpost_first">Outpost first</string>
 	<string name="extra_turns_mission_first">Mission turn first</string>
 	<string name="extra_turns_possession_first">Possessed turn first</string>
+	
+	<string name="quest_discard_attack">Discard Attack</string>
+	<string name="quest_discard_two_curses">Discard two Curses</string>
+	<string name="quest_discard_six_cards">Discard six cards</string>
 	
 	<string name="squire_option_one">+2 Actions</string>
 	<string name="squire_option_two">+2 Buys</string>

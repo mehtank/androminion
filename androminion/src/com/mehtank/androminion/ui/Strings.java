@@ -39,6 +39,7 @@ import com.vdom.core.Player.MinionOption;
 import com.vdom.core.Player.NoblesOption;
 import com.vdom.core.Player.PawnOption;
 import com.vdom.core.Player.PutBackOption;
+import com.vdom.core.Player.QuestOption;
 import com.vdom.core.Player.SpiceMerchantOption;
 import com.vdom.core.Player.SquireOption;
 import com.vdom.core.Player.StewardOption;
@@ -613,6 +614,8 @@ public class Strings {
             return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
         } else if (cardName.equals(getCardName(Cards.pirateShip))) {
             return getString(R.string.treasure_to_trash);
+        } else if (cardName.equals(getCardName(Cards.quest)) && extras[0] instanceof Card) {
+            return getString(R.string.quest_attack_to_discard);
         } else if (cardName.equals(getCardName(Cards.raze))) {
             return getString(R.string.raze_query);
         } else if (cardName.equals(getCardName(Cards.scheme))) {
@@ -680,6 +683,14 @@ public class Strings {
                 return getString(R.string.extra_turns_mission_first);
             } else if (option == ExtraTurnOption.PossessionFirst) {
                 return getString(R.string.extra_turns_possession_first);
+            }
+        } else if (option instanceof QuestOption) {
+            if (option == QuestOption.DiscardAttack) {
+                return getString(R.string.quest_discard_attack);
+            } else if (option == QuestOption.DiscardTwoCurses) {
+                return getString(R.string.quest_discard_two_curses);
+            } else if (option == QuestOption.DiscardSixCards) {
+                return getString(R.string.quest_discard_six_cards);
             }
         } else if (option instanceof NoblesOption) {
             if (option == NoblesOption.AddCards) {
@@ -1199,6 +1210,7 @@ public class Strings {
             getCardName(Cards.messenger),
             getCardName(Cards.oasis),
             getCardName(Cards.plaza),
+            getCardName(Cards.quest),
             getCardName(Cards.rats),
             getCardName(Cards.rebuild),
             getCardName(Cards.remake),

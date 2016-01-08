@@ -11,7 +11,6 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     private static final long serialVersionUID = 1L;
     int value;
     boolean providePotion;
-    protected boolean attack;
     
     public TreasureCardImpl(Cards.Type type, int cost, int value) {
         super(type, cost);
@@ -22,7 +21,6 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         super(builder);
         value = builder.value;
         providePotion = builder.providePotion;
-        attack = builder.attack;
     }
 
     public static class Builder extends CardImpl.Builder {
@@ -55,10 +53,6 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         return value;
     }
 
-    public boolean isAttack() {
-        return attack;
-    }
-
     @Override
     public CardImpl instantiate() {
         checkInstantiateOK();
@@ -75,7 +69,6 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         super.copyValues(c);
         c.value = value;
         c.providePotion = providePotion;
-        c.attack = attack;
     }
 
     @Override
@@ -99,6 +92,9 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         	player.hand.remove(this);
         	player.playedCards.add(this);
         }
+        
+        if (isAttack())
+            attackPlayed(context, game, player);
         
         if (!isClone)
         {

@@ -434,11 +434,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	protected ArrayList<Card> getAttackCardsLeft() {
 		ArrayList<Card> options = new ArrayList<Card>();
 		for (AbstractCardPile pile : game.piles.values()) {
-			if ((pile.card() instanceof ActionCard) && (pile.getCount() > 0)) {
-				ActionCard ac = (ActionCard) pile.card();
-				if (ac.isAttack()) {
-					options.add(pile.card());
-				}
+			if (pile.getCount() > 0 && pile.card().isAttack()) {
+				options.add(pile.card());
 			}
 		}
 		return options;
@@ -1897,15 +1894,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return false;
     }
     
-    public boolean isAttackCard(Card card) {
-        if(card instanceof ActionCard) {
-            ActionCard aCard = (ActionCard) card;
-            return aCard.isAttack();
-        }
-        
-        return false;
-    }
-    
     public boolean isOnlyVictory(Card card) {
         if(!(card instanceof VictoryCard)) {
             return false;
@@ -2696,7 +2684,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	
     	if (!this.hand.contains(Cards.moat)) {
         	for (Card card : cl) {
-    			if (isAttackCard(card)) {
+    			if (card.isAttack()) {
 					return card;
 				}
     		}
@@ -3617,6 +3605,32 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public ActionCard plan_actionCardPileToHaveToken(MoveContext context) {
     	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    }
+    
+    @Override
+    public QuestOption quest_chooseOption(MoveContext context) {
+    	Card[] curses = new Card[]{Cards.curse, Cards.curse};
+    	if (Util.areCardsInHand(curses, context)) {
+    		return QuestOption.DiscardTwoCurses;
+    	}
+    	if (context.getPlayer().getHand().size() >= 6) {
+    		return QuestOption.DiscardSixCards;
+    	}
+    	return QuestOption.DiscardAttack;
+    }
+    
+    @Override
+    public Card quest_attackCardToDiscard(MoveContext context, Card[] attacks) {
+    	return attacks[0];
+    }
+    
+    @Override
+    public Card[] quest_cardsToDiscard(MoveContext context) {
+    	Card[] result = new Card[6];
+    	for (int i = 0; i < 6; ++i) {
+    		result[i] = context.getPlayer().getHand().get(i);
+    	}
+    	return result;
     }
 
     @Override

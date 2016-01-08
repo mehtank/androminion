@@ -2867,7 +2867,35 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .isAction().setCardResponsible(Cards.plan);
         return (ActionCard) getFromTable(context, sco);
     }
-
+    
+    @Override
+    public QuestOption quest_chooseOption(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_quest_chooseOption(context)) {
+            return super.quest_chooseOption(context);
+        }
+        QuestOption[] options = QuestOption.values();
+        return options[selectOption(context, Cards.quest, options)];
+    }
+    
+    @Override
+    public Card quest_attackCardToDiscard(MoveContext context, Card[] attacks) {
+    	if(context.isQuickPlay() && shouldAutoPlay_quest_attackCardToDiscard(context, attacks)) {
+            return super.quest_attackCardToDiscard(context, attacks);
+        }
+        return attacks[selectOption(context, Cards.quest, attacks)];
+    }
+    
+    @Override
+    public Card[] quest_cardsToDiscard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_quest_cardsToDiscard(context)) {
+            return super.quest_cardsToDiscard(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions().setCount(6).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.quest);
+        return getFromHand(context, sco);
+    }
+    
     @Override
     public Card scoutingParty_cardToDiscard(MoveContext context,  Card[] cards) {
         if(context.isQuickPlay() && shouldAutoPlay_scoutingParty_cardToDiscard(context)) {
