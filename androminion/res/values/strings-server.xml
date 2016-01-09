@@ -424,7 +424,7 @@
   <string name="traveller_exchange">Exchange it for %1$s</string>
   <string name="teacher_move_token">move your token to (without your tokens on it). [Teacher]</string>
   <string name="wineMerchant_option_one">Discard from Tavern</string>
-  <string name="wineMerchant_query">Select number of Wine Merchants, to discard from Tavern</string>
+  <string name="wineMerchant_query">Number of Wine Merchants to discard from Tavern</string>
   
   <string name="call_when_gain_query">Gaining %1$s. Call card:</string>
   <string name="call_resolve_action_query">%1$s resolved. Call card:</string>

@@ -2783,6 +2783,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_cleanup_wineMerchantToDiscard(context)) {
             return super.cleanup_wineMerchantToDiscard(context, wineMerchantTotal);
         }
+        if (wineMerchantTotal  == 1) {
+        	return selectBoolean(context, Cards.wineMerchant) ? 1 : 0;
+        }
+        
         return selectInt(context, Cards.wineMerchant, wineMerchantTotal);
     }
     

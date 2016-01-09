@@ -842,7 +842,14 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     public boolean shouldAutoPlay_miser_shouldTakeTreasure(MoveContext context) {
-        return true;
+    	if (getMiserTreasure() == 0) {
+            return true;
+        }
+        
+        if (!hand.contains(Cards.copper)) {
+            return true;
+        }
+        return false;
     }
     
     public boolean shouldAutoPlay_ratcatcher_cardToTrash(MoveContext context) {

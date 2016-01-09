@@ -518,7 +518,7 @@
     <string name="Messenger_name">Messenger</string>
     <string name="Messenger_desc">You may put your deck into your discard pile. - When this is your first buy in a turn, gain a card costing up to 4 Coins, and each other player gains a copy of it.</string>
     <string name="Miser_name">Miser</string>
-    <string name="Miser_desc">Choose one: Put a Copper from your hand onto your Tavern mat; or +1 coin per Copper on your Tavern mat.</string>
+    <string name="Miser_desc">Choose one: Put a Copper from your hand onto your Tavern mat; or +1 Coin per Copper on your Tavern mat.</string>
     <string name="Page_name">Page</string>
     <string name="Page_desc">When you discard this from play, you may exchange it for a Treasure Hunter.</string>
     <string name="Peasant_name">Peasant</string>
@@ -552,7 +552,7 @@
     <string name="Warrior_name">Warrior</string>
     <string name="Warrior_desc">For each Traveller you have in play (including this), each other player discards the top card of his deck and trashes it if it costs 3 or 4 coins. ~ When you discard this from play, you may exchange it for a Hero.</string>
     <string name="WineMerchant_name">Wine Merchant</string>
-    <string name="WineMerchant_desc">Put this on your Tavern mat. - At the end of your Buy phase, if you have at least 2 coins unspent, you may discard this from your Tavern mat.</string>
+    <string name="WineMerchant_desc">Put this on your Tavern mat. - At the end of your Buy phase, if you have at least 2 Coins unspent, you may discard this from your Tavern mat.</string>
     
     <string name="Alms_name">Alms</string>
     <string name="Alms_desc">Once per turn: If you have no Treasures in play, gain a card costing up to 4 Coins.</string>

@@ -448,7 +448,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setHauntedWoodsAttacks(game.hauntedWoodsAttacks(player))
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
-                .setTavern(cardArrToIntArr(player.getTavern().toArray()))
+                .setTavern(cardArrToIntArr(player.getTavern().sort(new Util.CardTavernComparator())))
                 .setPrince(cardArrToIntArr(player.getPrince().toArray()))
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
                 .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)

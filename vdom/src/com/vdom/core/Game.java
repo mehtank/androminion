@@ -732,6 +732,30 @@ public class Game {
                 }
             }
         } while (context.buys > 0 && buy != null);
+        
+
+        //Discard Wine Merchants from Tavern
+        if(context.getCoinAvailableForBuy() >= 2) {
+        	int wineMerchants = 0;
+            for (Card card : player.getTavern()) {
+                if (Cards.wineMerchant.equals(card)) {
+                	wineMerchants++;
+                }
+            }
+            int wineMerchantsTotal = player.controlPlayer.cleanup_wineMerchantToDiscard(context, wineMerchants);
+            if (wineMerchants < 0 || wineMerchantsTotal > wineMerchants) {
+                Util.playerError(player, "Wine Merchant discard error, invalid number of Wine Merchants. Discarding all Wine Merchants.");
+                wineMerchantsTotal = wineMerchants;
+            }
+            if(wineMerchantsTotal > 0) {
+            	for (int i = 0; i < wineMerchantsTotal; i++) {
+            	    Card card = player.getTavern().get(Cards.wineMerchant);
+            	    player.getTavern().remove(card);
+                    player.discard(card, null, context, true, false); //set commandedDiscard=true and cleanup=false to force GameEvent 
+            	}
+            }
+        }
+        
         context.buyPhase = false;
     }
 

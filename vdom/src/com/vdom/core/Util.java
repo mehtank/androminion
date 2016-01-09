@@ -13,7 +13,6 @@ import java.util.Map;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
-import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.core.Cards.Type;
@@ -705,7 +704,35 @@ public class Util {
 			}
 		}
 	}
-
+	
+	/**
+	 * Comparator used for sorting cards into groups of utility on Tavern mat.
+	 * Cards you'll want to look at the most often end up first.
+	 */
+	public static class TavernCardTypeComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			return getTavernCompareVal(card0) - getTavernCompareVal(card1);
+		}
+	}
+	
+	private static int getTavernCompareVal(Card c) {
+		if (c == null) return Integer.MAX_VALUE;
+		if (c.equals(Cards.duplicate)) {
+			return 2;
+		}
+		if (c.equals(Cards.distantLands)) {
+			return 3;
+		}
+		if (c.isReserve()) {
+			return 1;
+		}
+		if (c.equals(Cards.copper)) {
+			return 4;
+		}
+		return 5;
+	}
+	
 	/**
 	 * Comparator for sorting cards by cost and then by name
 	 * Used for sorting on table
@@ -734,6 +761,22 @@ public class Util {
 			cmps.add(new CardNameComparator());
 		}
 		public CardHandComparator() {
+			super(cmps);
+		}
+	}
+	
+	/**
+	 * Comparator for sorting cards on Tavern mat.
+	 * Sort by utility of looking at them on Tavern mat, then by cost, last by name;
+	 */
+	static public class CardTavernComparator extends MultilevelComparator<Card> {
+		private static final ArrayList<Comparator<Card>> cmps = new ArrayList<Comparator<Card>>();
+		static {
+			cmps.add(new TavernCardTypeComparator());
+			cmps.add(new CardCostComparatorDesc());
+			cmps.add(new CardNameComparator());
+		}
+		public CardTavernComparator() {
 			super(cmps);
 		}
 	}
