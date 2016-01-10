@@ -18,7 +18,7 @@
         <item name="cardTextColor">@color/cardInverseTextColor</item>
         <item name="cardCountColor">@color/cardInverseTextColor</item>
     </style>
-
+        
     <style name="CardView.Reaction">
         <item name="cardBackgroundColor">@color/cardReaction</item>
     </style>
@@ -27,7 +27,7 @@
         <item name="cardNameBackgroundColor">@color/cardVictory</item>
         <item name="cardTextColor">@color/cardInverseTextColor</item>
     </style>
-
+    
     <style name="CardView.Duration" parent="@style/CardView.InverseText">
         <item name="cardBackgroundColor">@color/cardDuration</item>
     </style>
@@ -107,8 +107,21 @@
         <item name="cardCountColor">@color/cardDefaultTextColor</item>
         <item name="cardBackgroundColor">@color/cardDefaultTextBackgroundColor</item>
     </style>
+    
     <style name="CardView.Ruins">
         <item name="cardBackgroundColor">@color/cardRuins</item>
+    </style>
+    
+    <style name="CardView.Shelter" parent="@style/CardView.InverseText">
+        <item name="cardNameBackgroundColor">@color/cardShelter</item>
+    </style>
+    
+    <style name="CardView.Shelter.Reaction">
+        <item name="cardBackgroundColor">@color/cardReaction</item>
+    </style>
+    
+    <style name="CardView.Shelter.Victory">
+        <item name="cardBackgroundColor">@color/cardVictory</item>
     </style>
 
     <style name="CardView.Event" parent="@style/CardView.InverseText">

@@ -833,6 +833,18 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_disciple_cardToPlay(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_fugitive_cardToDiscard(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_hero_treasureToObtain(MoveContext context) {
+    	return false;
+    }
+    
     public boolean shouldAutoPlay_messenger_shouldDiscardDeck(MoveContext context, Card responsible) {
     	return true;
     }
@@ -868,6 +880,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_raze_cardToKeep(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_soldier_cardToDiscard(MoveContext context) {
     	return false;
     }
     

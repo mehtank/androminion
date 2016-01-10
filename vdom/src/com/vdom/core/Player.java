@@ -901,16 +901,7 @@ public abstract class Player {
     public void discard(Card card, Card responsible, MoveContext context, boolean commandedDiscard, boolean cleanup) { // See rules explanation of Tunnel for what commandedDiscard means.
         boolean willDiscard = false;
         Card exchange = null;
-        if(commandedDiscard && card.equals(Cards.tunnel)) {
-
-            MoveContext tunnelContext = new MoveContext(game, this);
-
-            if(game.pileSize(Cards.gold) > 0 && controlPlayer.tunnel_shouldReveal(tunnelContext)) {
-                reveal(card, card, tunnelContext);
-                controlPlayer.gainNewCard(Cards.gold, card, tunnelContext);
-            }
-        }
-
+        
         if (card.behaveAsCard().equals(Cards.hermit)) {
             if (!commandedDiscard && 
                 (context != null) && 
@@ -962,6 +953,17 @@ public abstract class Player {
             }
             else {
                 discard.add(card);
+            }
+        }
+        if (willDiscard) {
+        	if(commandedDiscard && card.equals(Cards.tunnel)) {
+
+                MoveContext tunnelContext = new MoveContext(game, this);
+
+                if(game.pileSize(Cards.gold) > 0 && controlPlayer.tunnel_shouldReveal(tunnelContext)) {
+                    reveal(card, card, tunnelContext);
+                    gainNewCard(Cards.gold, card, tunnelContext);
+                }
             }
         }
 
@@ -1710,7 +1712,10 @@ public abstract class Player {
     public abstract CallableCard call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards);
     public abstract CallableCard call_whenActionResolveCardToCall(MoveContext context, ActionCard resolvedAction, CallableCard[] possibleCards);
     public abstract CallableCard call_whenTurnStartCardToCall(MoveContext context, CallableCard[] possibleCards);
+    public abstract ActionCard disciple_cardToPlay(MoveContext context);
+    public abstract Card fugitive_cardToDiscard(MoveContext context);
     public abstract Card[] gear_cardsToSetAside(MoveContext context);
+    public abstract TreasureCard hero_treasureToObtain(MoveContext context);
     public abstract boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange);
     public abstract Card messenger_cardToObtain(MoveContext context);
     public abstract boolean messenger_shouldDiscardDeck(MoveContext context, Card responsible);
@@ -1719,6 +1724,7 @@ public abstract class Player {
     public abstract boolean raze_shouldTrashRazePlayed(MoveContext context);
     public abstract Card raze_cardToTrash(MoveContext context);
 	public abstract Card raze_cardToKeep(MoveContext context, Card[] cards);
+	public abstract Card soldier_cardToDiscard(MoveContext context);
 	public abstract PlayerSupplyToken teacher_tokenTypeToMove(MoveContext context);
 	public abstract ActionCard teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token);
 	public abstract Card transmogrify_cardToTrash(MoveContext context);

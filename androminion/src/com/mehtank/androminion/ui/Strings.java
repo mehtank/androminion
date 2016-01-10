@@ -1078,8 +1078,10 @@ public class Strings {
             } else {
                 if (sco.isAttack) {
                     selectString = Strings.format(R.string.select_from_table_attack, header);
-                } if (sco.isAction) {
+                } else if (sco.isAction) {
                 	selectString = Strings.format(R.string.select_from_table_action, header);
+                } else if (sco.isTreasure) {
+                	selectString = Strings.format(R.string.select_from_table_treasure, header);
                 } else {
                     selectString = Strings.format(R.string.select_from_table, header);
                 }
@@ -1237,9 +1239,12 @@ public class Strings {
             getCardName(Cards.artificer),
             getCardName(Cards.bonfire),
             getCardName(Cards.dungeon),
+            getCardName(Cards.fugitive),
+            getCardName(Cards.hero),
             getCardName(Cards.ratcatcher),
             getCardName(Cards.raze),
             getCardName(Cards.storyteller),
+            getCardName(Cards.soldier),
             getCardName(Cards.trade),
             getCardName(Cards.transmogrify),
             /*Adventures Events*/
@@ -1275,7 +1280,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.saboteur), getString(R.string.saboteur_part));
         actionStringMap.put(getCardName(Cards.sirMichael), getString(R.string.sir_michael_part));
         actionStringMap.put(getCardName(Cards.throneRoom), getString(R.string.throne_room_part));
-        actionStringMap.put(getCardName(Cards.disciple), getString(R.string.throne_room_part)); /*frr18 todo*/
+        actionStringMap.put(getCardName(Cards.disciple), getString(R.string.throne_room_part));
         actionStringMap.put(getCardName(Cards.tournament), getString(R.string.select_prize));
         actionStringMap.put(getCardName(Cards.training), getString(R.string.part_move_token_plus_one_coin));
         actionStringMap.put(getCardName(Cards.university), getString(R.string.university_part));

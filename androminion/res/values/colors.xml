@@ -10,6 +10,7 @@
     <color name="cardReaction">#0070CC</color>
     <color name="cardDuration">#FF8C00</color>
     <color name="cardVictory">#32CD32</color>
+    <color name="cardShelter">#ED4C3B</color>
     <color name="cardTreasure">#DBDB70</color>
     <color name="cardCopper">#CFB53B</color>
     <color name="cardSilver">#C0C0C0</color>

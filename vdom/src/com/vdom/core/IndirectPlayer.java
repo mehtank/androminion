@@ -1137,7 +1137,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.throneRoom_cardToPlay(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isAction()
-                .setPassable().setPickType(PickType.PLAY)
+                .setPickType(PickType.PLAY)
                 .setCardResponsible(Cards.throneRoom);
         return (ActionCard) getCardFromHand(context, sco);
     }
@@ -2646,6 +2646,27 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         return possibleCards[selectOption(context, null, options)];
     }
+    
+    @Override
+    public ActionCard disciple_cardToPlay(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_disciple_cardToPlay(context)) {
+            return super.disciple_cardToPlay(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isAction()
+                .setPassable().setPickType(PickType.PLAY)
+                .setCardResponsible(Cards.disciple);
+        return (ActionCard) getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card fugitive_cardToDiscard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_fugitive_cardToDiscard(context)) {
+            return super.fugitive_cardToDiscard(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.DISCARD)
+                .setActionType(ActionType.DISCARD).setCardResponsible(Cards.fugitive);
+        return getCardFromHand(context, sco);
+    }
 
     @Override
     public Card[] gear_cardsToSetAside(MoveContext context) {
@@ -2655,6 +2676,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setPassable().setCount(2)
                 .setCardResponsible(Cards.gear);
         return getFromHand(context, sco);
+    }
+    
+    @Override
+    public TreasureCard hero_treasureToObtain(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_hero_treasureToObtain(context)) {
+            return super.hero_treasureToObtain(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isTreasure()
+        		.setActionType(ActionType.GAIN)
+        		.setCardResponsible(Cards.hero);
+        return (TreasureCard) getFromTable(context, sco);
     }
     
     @Override
@@ -2720,6 +2752,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.raze_cardToKeep(context, cards);
         }
         return cards[selectOption(context, Cards.raze, cards)];
+    }
+    
+    @Override
+    public Card soldier_cardToDiscard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_soldier_cardToDiscard(context)) {
+            return super.soldier_cardToDiscard(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.DISCARD)
+                .setActionType(ActionType.DISCARD).setCardResponsible(Cards.soldier);
+        return getCardFromHand(context, sco);
     }
     
     @Override

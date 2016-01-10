@@ -135,7 +135,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         supplyPileGV.setOnItemClickListener(this);
         supplyPileGV.setOnItemLongClickListener(this);
 
-        nonSupplyPile = new CardGroup(top, true);
+        nonSupplyPile = new CardGroup(top, true, new MyCard.CardNonSupplyComparator());
         nonSupplyPileGV = (GridView) findViewById(R.id.nonSupplyPileGV);
         nonSupplyPileGV.setAdapter(nonSupplyPile);
         nonSupplyPileGV.setOnItemClickListener(this);
@@ -410,13 +410,16 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             }
         }
 
-        if (nonSupplyCardsInPlay >= 4)
+        if (nonSupplyCardsInPlay <= 4 
+        		|| nonSupplyCardsInPlay == 6
+        		|| nonSupplyCardsInPlay == 7
+        		|| nonSupplyCardsInPlay == 8)
         {
-            nonSupplyPileGV.setNumColumns(5);
+            nonSupplyPileGV.setNumColumns(4);
         }
         else
         {
-            nonSupplyPileGV.setNumColumns(4);
+            nonSupplyPileGV.setNumColumns(5);
         }
 
         // done setting up, remove splash screen

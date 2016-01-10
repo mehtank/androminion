@@ -14,6 +14,7 @@ import com.mehtank.androminion.ui.CardView.CardState;
 import com.mehtank.androminion.ui.Strings;
 import com.vdom.api.Card;
 import com.vdom.comms.MyCard;
+import com.vdom.comms.MyCard.CardNonSupplyComparator;
 
 /**
  * Collection of cards (e.g. hand, row of piles) that is displayed in a row / table
@@ -40,10 +41,14 @@ public class CardGroup extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-
     public CardGroup(Context top, boolean onTable) {
+    	this(top, onTable, new MyCard.CardCostNameComparator());
+    }
+
+    public CardGroup(Context top, boolean onTable, Comparator<MyCard> comparator) {
         this.top = top;
         this.onTable = onTable;
+        this.cmp = comparator;
     }
 
     public void addCard(MyCard c) {

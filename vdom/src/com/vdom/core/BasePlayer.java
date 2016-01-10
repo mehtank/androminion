@@ -3326,6 +3326,22 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		}
 		return bestCard;
 	}
+    
+    @Override
+    public ActionCard disciple_cardToPlay(MoveContext context) {
+    	//TODO better logic
+        for (Card c : context.getPlayer().getHand()) {
+            if(c instanceof ActionCard) {
+                return (ActionCard) c;
+            }
+        }
+        return null;
+    }
+    
+    @Override
+    public Card fugitive_cardToDiscard(MoveContext context) {
+    	return lowestCard(context, context.getPlayer().getHand(), true);
+    }
 
 	@Override
     public Card[] gear_cardsToSetAside(MoveContext context) {
@@ -3338,6 +3354,23 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         return cards.toArray(new Card[0]);
     }
+	
+	@Override
+	public TreasureCard hero_treasureToObtain(MoveContext context) {
+		TreasureCard newCard = null;
+        float highestUtility = -1;
+        float potionUtility = 2.5f;
+        for (Card card : context.getTreasureCardsInGame()) {
+        	float utility = card.getCost(context) + (card.costPotion() ? potionUtility : 0);
+            if (Cards.isSupplyCard(card) 
+            		&& context.getCardsLeftInPile(card) > 0 
+            		&& utility >= highestUtility) {
+                newCard = (TreasureCard) card;
+                highestUtility = utility;
+            }
+        }
+        return newCard;
+	}
     
     public Card messenger_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 4, true);
@@ -3430,6 +3463,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		}
 		
 		return cardToKeep;
+    }
+    
+    @Override
+    public Card soldier_cardToDiscard(MoveContext context) {
+    	return lowestCard(context, context.getPlayer().getHand(), true);
     }
     
     @Override
@@ -3527,6 +3565,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	{
     	/* don't trash prince cards */    	
     	if (context.getPlayer().getPlayedByPrince().contains(traveller)) {
+    		return false;
+    	}
+    	if (exchange.equals(Cards.champion) && context.game.countChampionsInPlay(context.getPlayer()) > 0) {
     		return false;
     	}
 		return true;
