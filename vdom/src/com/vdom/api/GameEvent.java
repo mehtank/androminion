@@ -42,6 +42,7 @@ public class GameEvent {
         CardSetAside, // A card was set aside (prince)
         CardSetAsideGear, // A card was set aside (gear)
         CardSetAsideHaven, // A card was set aside (haven)
+        CardSetAsideSave, // A card was set aside (save)
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
         CallingCard, // A card is about to be called from the tavern mat
         CalledCard, // A card was called from the tavern mat
@@ -72,6 +73,7 @@ public class GameEvent {
     // //////////////////////////////////////////////
 
     public Card card;
+    private boolean cardPrivate;
     public Card responsible;
     public Player attackedPlayer;
     public boolean newCard;
@@ -128,5 +130,12 @@ public class GameEvent {
         this.comment = comment;
     }
 
-
+    public boolean isCardPrivate() {
+    	return cardPrivate;
+    }
+    
+    public void setPrivate(boolean value) {
+    	cardPrivate = value;
+    }
+    
 }

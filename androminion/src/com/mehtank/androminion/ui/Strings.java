@@ -279,6 +279,8 @@ public class Strings {
             statusText += getString(R.string.CardSetAsideHaven);
         } else if (event.gameEventType == GameEvent.Type.CardSetAsideGear) {
             statusText += getString(R.string.CardSetAsideGear);
+        } else if (event.gameEventType == GameEvent.Type.CardSetAsideSave) {
+            statusText += getString(R.string.CardSetAsideSave);
         } else if (event.gameEventType == GameEvent.Type.CardSetAsideOnTavernMat) {
             statusText += getString(R.string.CardSetAsideOnTavernMat);
         } else if (event.gameEventType == GameEvent.Type.CallingCard) {
@@ -1278,6 +1280,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.militia), getString(R.string.militia_part));
         actionStringMap.put(getCardName(Cards.mint), getCardName(Cards.mint));
         actionStringMap.put(getCardName(Cards.saboteur), getString(R.string.saboteur_part));
+        actionStringMap.put(getCardName(Cards.save), getString(R.string.save_part));
         actionStringMap.put(getCardName(Cards.sirMichael), getString(R.string.sir_michael_part));
         actionStringMap.put(getCardName(Cards.throneRoom), getString(R.string.throne_room_part));
         actionStringMap.put(getCardName(Cards.disciple), getString(R.string.throne_room_part));

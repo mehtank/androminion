@@ -675,13 +675,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add("" + context.getBuysLeft());
             extras.add(coin);
         }
-
+        
+        boolean sendCard = (event.isCardPrivate() && event.getPlayer() != null && event.getPlayer() == this) || !event.isCardPrivate();
         // We need to wait until this point to actually create the event, because the logic above
         // modified some of these variables.
         Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
                 .setGameEventType(event.getType())
                 .setString(playerName)
-                .setCard(event.getCard())
+                .setCard(sendCard ? event.getCard() : null)
                 .setBoolean(newTurn);
         status.o.os = extras.toArray();
         status.o.cs = cards;

@@ -2943,6 +2943,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card save_cardToSetAside(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_save_cardToSetAside(context)) {
+            return super.save_cardToSetAside(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setCardResponsible(Cards.save);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public Card scoutingParty_cardToDiscard(MoveContext context,  Card[] cards) {
         if(context.isQuickPlay() && shouldAutoPlay_scoutingParty_cardToDiscard(context)) {
             return super.scoutingParty_cardToDiscard(context, cards);

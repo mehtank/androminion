@@ -7,6 +7,7 @@ import java.util.Set;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.EventCard;
+import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.core.Player.QuestOption;
 
@@ -315,17 +316,23 @@ public class EventCardImpl extends CardImpl implements EventCard {
     }
     
     private void save(MoveContext context) {
-        Card card = context.player.controlPlayer.haven_cardToSetAside(context); /*frr18 todo right name*/
-        if ((card == null && context.player.hand.size() > 0) || (card != null && !context.player.hand.contains(card))) {
+    	context.cantBuy.add(this); //once per turn
+    	CardList hand = context.getPlayer().getHand();
+    	if (hand.size() == 0)
+    		return;
+    	
+        Card card = (hand.size() == 1) ? hand.get(0) : context.player.controlPlayer.save_cardToSetAside(context);
+        if (card == null || !context.player.hand.contains(card)) {
             Util.playerError(context.player, "Save set aside card error, setting aside the first card in hand.");
             card = context.player.hand.get(0);
         }
 
-        if (card != null) {
-        	context.player.hand.remove(card);
-        	context.player.save = card;
-        }
-        context.cantBuy.add(this); //once per turn
+    	context.player.hand.remove(card);
+    	context.player.save = card;
+    	GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideSave, context);
+        event.card = card;
+        event.setPrivate(true);
+        context.game.broadcastEvent(event);
     }
     
     private void scoutingParty(MoveContext context) {

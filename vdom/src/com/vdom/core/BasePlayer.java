@@ -3673,6 +3673,25 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	return result;
     }
+    
+    @Override
+    public Card save_cardToSetAside(MoveContext context) {
+    	Card bestCard = null;
+    	float highestUtility = -3;
+    	float potionUtility = 2.5f;
+    	for (Card c : context.getPlayer().getHand()) {
+    		float utility = c.getCost(context) + (c.costPotion() ? potionUtility : 0);
+    		if (isOnlyVictory(c))
+    			utility = -2;
+    		if (c.equals(Cards.curse))
+    			utility = -1;
+    		if (utility > highestUtility) {
+    			highestUtility = utility;
+    			bestCard = c;
+    		}
+    	}
+    	return bestCard;
+    }
 
     @Override
     public Card scoutingParty_cardToDiscard(MoveContext context,  Card[] cards) {

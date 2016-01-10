@@ -3890,6 +3890,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             haven(currentPlayer).add(card);
             GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideHaven, (MoveContext) context);
             event.card = card;
+            event.setPrivate(true);
             context.game.broadcastEvent(event);
         } else if (this.controlCard.cloneCount == 1) {
             currentPlayer.nextTurnCards.remove(this.controlCard);
@@ -6168,6 +6169,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     haven(currentPlayer).add(card);
                     GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideGear, (MoveContext) context);
                     event.card = card;
+                    event.setPrivate(true);
                     context.game.broadcastEvent(event);
                 }
             }

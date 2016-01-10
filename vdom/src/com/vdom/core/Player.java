@@ -1746,6 +1746,7 @@ public abstract class Player {
     public abstract QuestOption quest_chooseOption(MoveContext context);
     public abstract Card quest_attackCardToDiscard(MoveContext context, Card[] attacks);
     public abstract Card[] quest_cardsToDiscard(MoveContext context);
+    public abstract Card save_cardToSetAside(MoveContext context);
     public abstract Card scoutingParty_cardToDiscard(MoveContext context, Card[] revealedCards);
     public abstract ActionCard seaway_cardToObtain(MoveContext context);
     public abstract ActionCard training_actionCardPileToHaveToken(MoveContext context);

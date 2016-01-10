@@ -152,6 +152,7 @@
 	<string name="CardSetAside">Card set aside (prince)</string>
 	<string name="CardSetAsideHaven">Card set aside (Haven)</string>
 	<string name="CardSetAsideGear">Card set aside (Gear)</string>
+	<string name="CardSetAsideSave">Card set aside (Save)</string>
 	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>
 	<string name="DeckPutIntoDiscardPile">Deck put into discard pile</string>
 	<string name="TravellerExchanged">Traveller exchanged for</string>
@@ -350,6 +351,8 @@
   <string name="haven_part">put aside [Haven]</string>
 	
   <string name="gear_part">put aside [Gear]</string>
+  
+  <string name="save_part">put aside [Save]</string>
 	
 	<string name="island_part">put on island mat</string>
 	
