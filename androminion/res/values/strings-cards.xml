@@ -584,7 +584,7 @@
     <string name="Raid_desc">Gain a Silver per Silver you have in play. Each other player puts his -1 Card token on his deck.</string>
     <string name="Save_name">Save</string>
     <string name="Save_desc">Once per turn: Set aside a card from your hand, and put it into your hand at end of turn (after drawing).</string>
-    <string name="ScoutingParty_name">ScoutingParty</string>
+    <string name="ScoutingParty_name">Scouting Party</string>
     <string name="ScoutingParty_desc">Look at the top 5 cards of your deck. Discard 3 and put the rest back in any order.</string>
     <string name="Seaway_name">Seaway</string>
     <string name="Seaway_desc">Gain an Action card costing up to 4 Coins. Move your +1 Buy token to its pile (when you play a card from that pile, you first get +1 Buy).</string>

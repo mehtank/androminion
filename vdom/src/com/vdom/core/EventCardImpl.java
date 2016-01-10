@@ -395,7 +395,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	        }
 	
 	        if (bad) {
-	            Util.playerError(context.player, "Survivors order cards error, ignoring.");
+	            Util.playerError(context.player, "Scouting Party order cards error, ignoring.");
 	            order = cards.toArray(new Card[cards.size()]);
 	        }
 	
