@@ -3636,7 +3636,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	ArrayList<Card> sorted = new ArrayList<Card>();
     	sorted.addAll(cardsToMatch);
-    	Collections.sort(sorted, Collections.reverseOrder(new Util.CardCostComparator()));
+    	Collections.sort(sorted, new Util.CardCostComparatorDesc());
     	CardList s = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
     	for(Card c : sorted)
     		s.add(c);

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +34,6 @@ import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.Cards;
-import com.vdom.core.Player.SpiceMerchantOption;
-import com.vdom.core.Player.TorturerOption;
 
 public class GameTable extends LinearLayout implements OnItemClickListener, OnItemLongClickListener {
     @SuppressWarnings("unused")
@@ -1191,7 +1188,15 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         } else {
             if (isAcceptable(clickedCard.getCard(), clickedCard.parent)) {
                 HapticFeedback.vibrate(getContext(), AlertType.CLICK);
-                if (openedCards.size() >= maxOpened) {
+                if (sco.isDifferent() && hasDuplicate(openedCards, clickedCard.getState().c)) {
+                	int duplicateIndex = getFirstIndex(openedCards, clickedCard.getState().c);
+                	CardInfo ci = openedCards.get(duplicateIndex);
+                    ci.cs.opened = false;
+                    ci.cs.order = -1;
+                    ci.cs.indicator = sco.getPickType().indicator();
+                    ci.parent.updateState(ci.pos, ci.cs);
+                    openedCards.remove(duplicateIndex);
+                } else if (openedCards.size() >= maxOpened) {
                     CardInfo ci = openedCards.get(0);
                     ci.cs.opened = false;
                     ci.cs.order = -1;
@@ -1199,6 +1204,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                     ci.parent.updateState(ci.pos, ci.cs);
                     openedCards.remove(0);
                 }
+                
                 clickedCard.setChecked(true, sco.getPickType().indicator());
                 CardInfo ci = new CardInfo(clickedCard.getState(), (CardGroup) parent.getAdapter(), position);
                 openedCards.add(ci);
@@ -1215,7 +1221,20 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             }
     }
 
-    @Override
+	private boolean hasDuplicate(ArrayList<CardInfo> cards, MyCard c) {
+		return getFirstIndex(cards, c) != -1;
+	}
+
+	private int getFirstIndex(ArrayList<CardInfo> cards, MyCard c) {
+		for (int i = 0; i < cards.size(); ++i) {
+			if (cards.get(i).cs.c.originalSafeName.equals(c.originalSafeName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	@Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         CardView clickedCard = (CardView) view;
         return clickedCard.onLongClick(clickedCard);
