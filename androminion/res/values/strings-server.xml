@@ -402,7 +402,7 @@
   <string name="Cartographer_query">Select card to discard</string>
   <string name="cards">Cards</string>
   <string name="return_cards">Return cards to deck:</string>
-  <string name="take_normal">Take normally</string>
+  <string name="take_normal">Gain normally</string>
   <string name="opponent_discard">Choose card for %1$s to discard (%2$s)</string>
   <string name="survivors_header">Survivors revealed: %1$s</string>
   <string name="cultist_play_next">Play another Cultist from hand</string>

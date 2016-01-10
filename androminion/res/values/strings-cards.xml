@@ -592,7 +592,7 @@
     <string name="Trade_desc">Trash up to 2 cards from your hand. Gain a Silver per card you trashed.</string>
     <string name="Training_name">Training</string>
     <string name="Training_desc">Move your +1 Coin token to an Action Supply pile (when you play a card from that pile, you first get +1 Coin).</string>
-    <string name="TravellingFair_name">TravellingFair</string>
+    <string name="TravellingFair_name">Travelling Fair</string>
     <string name="TravellingFair_desc">When you gain a card this turn, you may put it on top of your deck.</string>
     
     <string name="Envoy_name">Envoy</string>
