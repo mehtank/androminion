@@ -44,8 +44,12 @@ public class CardSet {
 		this.baneCard = null;
 		this.isRandom = isRandom;
 	}
-
+	
 	public static CardSet getCardSet(final GameType type, int count) {
+		return getCardSet(type, count, null, false, -1);
+	}
+
+	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions, boolean randomIncludeEvents, int numRandomEvents) {
 		CardSet set = CardSet.CardSetMap.get(type);
 
 		if(set == null) {
@@ -53,67 +57,158 @@ public class CardSet {
 		}
 
 		if(set.isRandom) {
-			set = CardSet.getRandomCardSet(set.getCards(), count);
+			List<Card> cards = set.getCards();
+			if (randomExpansions != null && randomExpansions.size() > 0) {
+				cards = new ArrayList<Card>();
+				for (Expansion expansion : randomExpansions) {
+					cards.addAll(expansion.getKingdomCards());
+				}
+			}
+			if (randomIncludeEvents) {
+				cards.addAll(Cards.eventsCards);
+			}
+			set = CardSet.getRandomCardSet(set.getCards(), count, numRandomEvents);
 		}
 
 		return set;
 	}
+	
+	public static CardSet getRandomCardSet(final List<Card> possibleCards) {
+		return getRandomCardSet(possibleCards, -1, 0);
+	}
 
-	/**
-	 * This returns a random CardSet using a subset of the cards entered as a parameter.
-	 * Note that a bane card is set aside every time to avoid having to swap out a card after
-	 * the entire set is selected.  If a bane card is not required, that value is simply cleared away.
-	 *
-	 * @param possibleCards The set of cards that can be included in the random CardSet
-	 * @return A random CardSet selected from the list of entered cards.
-	 */
 	public static CardSet getRandomCardSet(final List<Card> possibleCards, int count) {
+		return getRandomCardSet(possibleCards, count, 0);
+	}
+	
+	/**
+	 * Gets a random card set containing the specified number of cards from the given possible cards
+	 * 
+	 * @param possibleCards Possible cards and Events to choose from
+	 * @param count the number of cards to include in the result. -1 means to use the default number 
+	 *        of Kingdom piles and include a Bane card if needed.
+	 * @param eventCount number of Events to include in the result. Negative numbers mean to include
+	 *        at most that absolute value of Events using the selection method suggested in the rules 
+	 * @return A random CardSet selected from the list of entered cards
+	 */
+	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount) {
 		final List<Card> cardSetList = new ArrayList<Card>();
+		final List<Card> eventList = new ArrayList<Card>();
+		
+		possibleCards = new ArrayList<Card>(possibleCards);
+		shuffle(possibleCards);
+		
 		Card baneCard = null;
-		if (count == -1) {
+		boolean findBandIfNeeded = false;
+		if (count < 0) {
 			count = 10;
-			//Save off a possible bane card initially to avoid having to add another card later.
-			baneCard = CardSet.getRandomBaneCard(possibleCards);
-		}
-		else {
-			count = Math.min(count, possibleCards.size());
+			findBandIfNeeded = true;
 		}
 		
-		int added = 0;
-		while (added < count) {
-			Card card;
-			do {
-				card = possibleCards.get(rand.nextInt(possibleCards.size()));
-				if (card.equals(baneCard) || cardSetList.contains(card)) {
-					card = null;
+		if (eventCount <= 0) {
+			//negative number means take events as they come up until abs(eventCount) events - as in Dominion Adventures rules
+			int maxEvents = Math.abs(eventCount);
+			int numEvents = countEvents(possibleCards);
+			count = Math.min(possibleCards.size() - numEvents, count);
+			for (Card c : possibleCards) {
+				if (c.isEvent() && eventList.size() < maxEvents) {
+					eventList.add(c);
+				} else {
+					cardSetList.add(c);
+					if (cardSetList.size() == count) {
+						break;
+					}
 				}
-			} while (card == null);
-
-			cardSetList.add(card);
-			added++;
+			}
+			
+		} else {
+			//partition events into a separate list and pick them separately
+			List<Card> events = new ArrayList<Card>();
+			List<Card> cards = new ArrayList<Card>();
+			for (Card c : possibleCards) {
+				if (c.isEvent())
+					events.add(c);
+				else
+					cards.add(c);
+			}
+			
+			eventCount = Math.min(eventCount, events.size());
+			pick(cards, cardSetList, count);
+			pick(events, eventList, eventCount);
 		}
-
-		//If we don't need the bane card, just discard it.
-		if(!cardSetList.contains(Cards.youngWitch)) {
-			baneCard = null;
+		
+		// pick a band card if needed
+		if (findBandIfNeeded && cardSetList.contains(Cards.youngWitch)) {
+			for (Card c : possibleCards) {
+				if (cardSetList.contains(c))
+					continue;
+	            if (isValidBane(c)) {
+					baneCard = c;
+				}
+			}
+			if (baneCard == null) {
+				baneCard = swapOutBaneCard(cardSetList, possibleCards);
+			}
 		}
-
+		
+		cardSetList.addAll(eventList);
+		
 		return new CardSet(cardSetList, baneCard);
 	}
 
-	private static Card getRandomBaneCard(final List<Card> possibleCards) {
-		Card baneCard = null;
-
-		Card card = null;
-		do {
-			card = possibleCards.get(rand.nextInt(possibleCards.size()));
-			final int cost = card.getCost(null);
-            if (!card.costPotion() && (cost == 2 || cost == 3)) {
-				baneCard = card;
+	private static Card swapOutBaneCard(List<Card> swapFrom, List<Card> replaceFrom) {
+		Card bane = null;
+		for (Card c : swapFrom) {
+			if (isValidBane(c)) {
+				bane = c;
+				break;
 			}
-		} while(baneCard == null);
+		}
+		
+		if (bane == null)
+			return null;
+		
+		swapFrom.remove(bane);
+		for (Card c : replaceFrom) {
+			if (!c.equals(bane) && !swapFrom.contains(c)) {
+				swapFrom.add(c);
+				break;
+			}
+		}
+		return bane;
+	}
+	
+	private static boolean isValidBane(Card c) {
+		int cost = c.getCost(null);
+		return !c.costPotion() && (cost == 2 || cost == 3);
+	}
 
-		return baneCard;
+	private static void pick(List<Card> source, List<Card> target, int count) {
+		shuffle(source);
+		for (Card c : source) {
+			target.add(c);
+			if (target.size() == count)
+				break;
+		}
+	}
+
+	private static int countEvents(List<Card> allCards) {
+		int numEvents = 0;
+		for (Card c : allCards) {
+			if (c.isEvent())
+				numEvents++;
+		}
+		return numEvents;
+	}
+
+	private static void shuffle(List<Card> cards) {
+		int numCards = cards.size();
+		for (int i = 0; i < numCards; ++i) {
+			int newIdx = rand.nextInt(numCards);
+			Card tmp = cards.get(i);
+			cards.set(i, cards.get(newIdx));
+			cards.set(newIdx, tmp);
+		}
 	}
 
 	public Card getBaneCard() {
@@ -224,7 +319,7 @@ public class CardSet {
 		CardSetMap.put(GameType.DecisionsDecisions, new CardSet(new Card[]{Cards.merchantGuild, Cards.candlestickMaker, Cards.masterpiece, Cards.taxman, Cards.butcher, Cards.bridge, Cards.pawn, Cards.miningVillage, Cards.upgrade, Cards.duke}, null));
 
     /*frr18 AdventureTest*/
-		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.ratcatcher, Cards.bridgeTroll, Cards.amulet, Cards.guide, Cards.save, Cards.transmogrify, Cards.workersVillage, Cards.peasant, Cards.borrow, Cards.throneRoom, Cards.contraband, Cards.expedition, Cards.raid, Cards.militia, Cards.ferry, Cards.embargo, Cards.lostArts, Cards.training, Cards.plan, Cards.pathfinding, Cards.seaway, Cards.duplicate}, null));
+		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.ratcatcher, Cards.quest, Cards.miser, Cards.guide, Cards.transmogrify, Cards.wineMerchant, Cards.chapel, Cards.throneRoom, Cards.contraband, Cards.peasant, Cards.embargo, Cards.mission, Cards.hireling, Cards.seaway}, null));
 		CardSetMap.put(GameType.GentleIntro, new CardSet(new Card[] { Cards.amulet, Cards.distantLands, Cards.dungeon, Cards.duplicate, Cards.giant, Cards.hireling, Cards.port, Cards.ranger, Cards.ratcatcher, Cards.treasureTrove, Cards.scoutingParty}, null));
 		CardSetMap.put(GameType.ExpertIntro, new CardSet(new Card[] { Cards.caravanGuard, Cards.coinOfTheRealm, Cards.hauntedWoods, Cards.lostCity, Cards.magpie, Cards.peasant, Cards.raze, Cards.swampHag, Cards.transmogrify, Cards.wineMerchant, Cards.mission, Cards.plan}, null));
 		CardSetMap.put(GameType.LevelUp, new CardSet(new Card[] { Cards.dungeon, Cards.gear, Cards.guide, Cards.lostCity, Cards.miser, Cards.market, Cards.militia, Cards.spy, Cards.throneRoom, Cards.workshop, Cards.training}, null));

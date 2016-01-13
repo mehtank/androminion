@@ -314,10 +314,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 			if (this == c)
 				return true;
 		}
-		for (Card c : currentPlayer.playedByPrince) {
-			if (this == c)
-				return true;
-		}
 		return false;
 	}
 

@@ -61,6 +61,7 @@ public class Game {
      * @see com.vdom.api.GameType
      */
     public static GameType gameType = GameType.Random;
+    public static List<Expansion> randomExpansions = null;
     public static String gameTypeStr = null;
     public static boolean showUsage = false;
 
@@ -70,6 +71,9 @@ public class Game {
     public static boolean sheltersPassedIn = false;
     
     public static int blackMarketCount = 25;
+    
+    public static boolean randomIncludesEvents = false;
+    public static int numRandomEvents = -2;
 
     public static boolean quickPlay = false;
     public static boolean sortCards = false;
@@ -162,7 +166,7 @@ public class Game {
 
         // Start game(s)
         if (gameTypeStr != null) {
-            gameType = GameType.fromName(gameTypeStr);
+            gameType = GameType.fromName(gameTypeStr);            
             new Game().start();
         } else {
             for (String[] className : playerClassesAndJars) {
@@ -1133,6 +1137,8 @@ public class Game {
         String debugArg = "-debug";
         String showEventsArg = "-showevents";
         String gameTypeArg = "-type";
+        String randomIncludesEventsArg = "-randomeventcards";
+        String numRandomEventsArg = "-numeventcards";
         String gameTypeStatsArg = "-test";
         String ignorePlayerErrorsArg = "-ignore";
         String showPlayersArg = "-showplayers";
@@ -1204,9 +1210,31 @@ public class Game {
                         Util.log(e);
                         throw new ExitException();
                     }
+                } else if (arg.toLowerCase().startsWith(randomIncludesEventsArg)) {
+                    try {
+                        randomIncludesEvents = true;
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
+                    }
+                } else if (arg.toLowerCase().startsWith(numRandomEventsArg)) {
+                    try {
+                        numRandomEvents = Integer.parseInt(arg.substring(numRandomEventsArg.length()));
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
+                    }
                 } else if (arg.toLowerCase().startsWith(gameTypeArg)) {
                     try {
                         gameTypeStr = arg.substring(gameTypeArg.length());
+                        String[] parts = gameTypeStr.split("-");
+                        if (parts.length > 0) {
+                        	gameTypeStr = parts[0];
+                        	randomExpansions = new ArrayList<Expansion>();
+                    		for (int i = 1; i < parts.length; ++i) {
+                        		randomExpansions.add(Expansion.valueOf(parts[i]));
+                        	}
+                        }
                     } catch (Exception e) {
                         Util.log(e);
                         throw new ExitException();
@@ -2107,7 +2135,7 @@ public class Game {
 
             gameType = GameType.Specified;
         } else {
-            CardSet cardSet = CardSet.getCardSet(gameType, -1);
+            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomIncludesEvents, numRandomEvents);
             if(cardSet == null) {
                 cardSet = CardSet.getCardSet(CardSet.defaultGameType, -1);
             }
