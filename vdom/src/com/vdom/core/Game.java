@@ -73,7 +73,7 @@ public class Game {
     public static int blackMarketCount = 25;
     
     public static boolean randomIncludesEvents = false;
-    public static int numRandomEvents = -2;
+    public static int numRandomEvents = 0;
 
     public static boolean quickPlay = false;
     public static boolean sortCards = false;
@@ -1132,13 +1132,15 @@ public class Game {
         gameTypeStats.clear();
         playerClassesAndJars.clear();
         playerCache.clear();
+        numRandomEvents = 0;
+        randomIncludesEvents = false;
+        randomExpansions = null;
 
         String gameCountArg = "-count";
         String debugArg = "-debug";
         String showEventsArg = "-showevents";
         String gameTypeArg = "-type";
-        String randomIncludesEventsArg = "-randomeventcards";
-        String numRandomEventsArg = "-numeventcards";
+        String numRandomEventsArg = "-eventcards";
         String gameTypeStatsArg = "-test";
         String ignorePlayerErrorsArg = "-ignore";
         String showPlayersArg = "-showplayers";
@@ -1210,16 +1212,13 @@ public class Game {
                         Util.log(e);
                         throw new ExitException();
                     }
-                } else if (arg.toLowerCase().startsWith(randomIncludesEventsArg)) {
-                    try {
-                        randomIncludesEvents = true;
-                    } catch (Exception e) {
-                        Util.log(e);
-                        throw new ExitException();
-                    }
                 } else if (arg.toLowerCase().startsWith(numRandomEventsArg)) {
                     try {
-                        numRandomEvents = Integer.parseInt(arg.substring(numRandomEventsArg.length()));
+                        int num = Integer.parseInt(arg.substring(numRandomEventsArg.length()));
+                        if (num != 0) {
+                        	randomIncludesEvents = true;
+                        	numRandomEvents = num;
+                        }
                     } catch (Exception e) {
                         Util.log(e);
                         throw new ExitException();

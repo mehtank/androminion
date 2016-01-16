@@ -57,17 +57,19 @@ public class CardSet {
 		}
 
 		if(set.isRandom) {
-			List<Card> cards = set.getCards();
+			List<Card> cards;
 			if (randomExpansions != null && randomExpansions.size() > 0) {
 				cards = new ArrayList<Card>();
 				for (Expansion expansion : randomExpansions) {
 					cards.addAll(expansion.getKingdomCards());
 				}
+			} else {
+				cards = new ArrayList<Card>(set.getCards());
 			}
 			if (randomIncludeEvents) {
 				cards.addAll(Cards.eventsCards);
 			}
-			set = CardSet.getRandomCardSet(set.getCards(), count, numRandomEvents);
+			set = CardSet.getRandomCardSet(cards, count, numRandomEvents);
 		}
 
 		return set;
@@ -111,8 +113,10 @@ public class CardSet {
 			int numEvents = countEvents(possibleCards);
 			count = Math.min(possibleCards.size() - numEvents, count);
 			for (Card c : possibleCards) {
-				if (c.isEvent() && eventList.size() < maxEvents) {
-					eventList.add(c);
+				if (c.isEvent()) {
+					if (eventList.size() < maxEvents) {
+						eventList.add(c);
+					}
 				} else {
 					cardSetList.add(c);
 					if (cardSetList.size() == count) {
