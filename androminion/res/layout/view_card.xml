@@ -47,14 +47,14 @@
         android:background="@drawable/embargos"
         android:textColor="@android:color/white"
         android:visibility="gone" />
-    
+
     <LinearLayout
         android:id="@+id/tokens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/cost"
+        android:layout_alignParentTop="true"
         android:orientation="horizontal" />
 
     <TextView

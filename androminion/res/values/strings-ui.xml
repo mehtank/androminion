@@ -177,5 +177,16 @@
     <string name="blackMarket_header">Bl. Market:</string>
     <string name="img_download_title">%1$s card art</string>
 	<string name="img_download_desc">Downloading card art from %1$s</string>
-		
+	<string name="token_plus_one_action_initial">A</string>
+	<string name="token_plus_one_buy_initial">B</string>
+	<string name="token_header">- Tokens -</string>
+	<string name="token_plus_one_card">+1 Card</string>
+	<string name="token_plus_one_action">+1 Action</string>
+	<string name="token_plus_one_buy">+1 Buy</string>
+	<string name="token_plus_one_coin">+1 Coin</string>
+	<string name="token_minus_2_cost">-2 cost</string>
+	<string name="token_trashing">Trashing</string>
+	<string name="token_colon">:\u0020</string>
+	<string name="token_separator">,\u0020</string>
+	<string name="token_embargo">Embargoes</string>
 </resources>
