@@ -3,7 +3,9 @@ package com.mehtank.androminion.ui;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1011,7 +1013,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         turnStatus.setStatus(gs.turnStatus, gs.potions, myTurn);
         for (int i=0; i<players.getCount(); i++) {
-            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.guildsCoinTokens[i], gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokenFaceUp[i], gs.whoseTurn == i);
+        	int color = GameTable.getPlayerTextBackgroundColor(getContext(), i);
+        	boolean showColor = hasTokens(i, gs.tokens);
+            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.guildsCoinTokens[i], gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokenFaceUp[i], gs.whoseTurn == i, showColor, color);
         }
         players.notifyDataSetChanged();
 
@@ -1080,7 +1084,15 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         setCardCosts(top.findViewById(android.R.id.content));
     }
 
-    static int getCardCost(MyCard c) {
+    private boolean hasTokens(int playerIndex, int[][][] tokens) {
+		for (int[][] playerTokensForCard : tokens) {
+			if (playerTokensForCard[playerIndex].length > 0)
+				return true;
+		}
+		return false;
+	}
+
+	static int getCardCost(MyCard c) {
         if (c == null)
             return 0;
         if (costs != null && c.id < costs.length)
@@ -1239,4 +1251,68 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         CardView clickedCard = (CardView) view;
         return clickedCard.onLongClick(clickedCard);
     }
+	
+	public static int getPlayerColor(Resources resources, int playerIndex) {
+		switch(playerIndex) {
+			case 0:
+				return resources.getColor(R.color.player1Color);
+			case 1:
+				return resources.getColor(R.color.player2Color);
+			case 2:
+				return resources.getColor(R.color.player3Color);
+			case 3:
+				return resources.getColor(R.color.player4Color);
+			case 4:
+				return resources.getColor(R.color.player5Color);
+			case 5:
+			default:
+				return resources.getColor(R.color.player6Color);
+		}
+	}
+	
+	public static int getPlayerStrokeColor(Resources resources, int playerIndex) {
+		switch(playerIndex) {
+		case 0:
+			return resources.getColor(R.color.player1LineColor);
+		case 1:
+			return resources.getColor(R.color.player2LineColor);
+		case 2:
+			return resources.getColor(R.color.player3LineColor);
+		case 3:
+			return resources.getColor(R.color.player4LineColor);
+		case 4:
+			return resources.getColor(R.color.player5LineColor);
+		case 5:
+		default:
+			return resources.getColor(R.color.player6LineColor);
+		}
+	}
+	
+	public static int getPlayerTextBackgroundColor(Context context, int playerIndex) {
+		int attrId;
+		switch(playerIndex) {
+		case 0:
+			attrId = R.attr.player1TextBackgroundColor;
+			break;
+		case 1:
+			attrId = R.attr.player2TextBackgroundColor;
+			break;
+		case 2:
+			attrId = R.attr.player3TextBackgroundColor;
+			break;
+		case 3:
+			attrId = R.attr.player4TextBackgroundColor;
+			break;
+		case 4:
+			attrId = R.attr.player5TextBackgroundColor;
+			break;
+		case 5:
+		default:
+			attrId = R.attr.player6TextBackgroundColor;
+		}
+		TypedValue typedValue = new TypedValue();
+		context.getTheme().resolveAttribute(attrId, typedValue, true);
+		int color = typedValue.data;
+		return color;
+	}
 }

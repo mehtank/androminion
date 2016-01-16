@@ -423,43 +423,15 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		token.setText(text);
 		return token;
 	}
-
-	public int getPlayerColor(int playerNumber) {
-		switch(playerNumber) {
-			case 0:
-				return getResources().getColor(R.color.player1Color);
-			case 1:
-				return getResources().getColor(R.color.player2Color);
-			case 2:
-				return getResources().getColor(R.color.player3Color);
-			case 3:
-				return getResources().getColor(R.color.player4Color);
-			case 4:
-				return getResources().getColor(R.color.player5Color);
-			case 5:
-			default:
-				return getResources().getColor(R.color.player6Color);
-		}
+	
+	private int getPlayerColor(int playerIndex) {
+		return GameTable.getPlayerColor(getResources(), playerIndex);
 	}
 	
-	private int getPlayerStrokeColor(int playerNumber) {
-		switch(playerNumber) {
-		case 0:
-			return getResources().getColor(R.color.player1LineColor);
-		case 1:
-			return getResources().getColor(R.color.player2LineColor);
-		case 2:
-			return getResources().getColor(R.color.player3LineColor);
-		case 3:
-			return getResources().getColor(R.color.player4LineColor);
-		case 4:
-			return getResources().getColor(R.color.player5LineColor);
-		case 5:
-		default:
-			return getResources().getColor(R.color.player6LineColor);
+	private int getPlayerStrokeColor(int playerIndex) {
+		return GameTable.getPlayerStrokeColor(getResources(), playerIndex);
 	}
-	}
-
+	
 	public void setCost(int newCost, boolean overpay) {
 		cost.setText(" " + newCost + (overpay ? "+" : "") + " ");
 	}

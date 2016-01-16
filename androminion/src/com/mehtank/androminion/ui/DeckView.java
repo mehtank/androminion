@@ -1,6 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
@@ -48,7 +49,10 @@ public class DeckView extends RelativeLayout {
         }
 	}
 
-	public void set(String nameStr, int turns, int deckSize, int handSize, int numCards, int pt, int vt, int gct, boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, boolean journeyTokenFaceUp, boolean highlight) {
+	public void set(String nameStr, int turns, int deckSize, int handSize, int numCards, 
+			int pt, int vt, int gct, 
+			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, boolean journeyTokenFaceUp, 
+			boolean highlight, boolean showColor, int color) {
 		String txt = nameStr + getContext().getString(R.string.turn_header) + turns;
 		name.setText(txt);
 		if (highlight) {
@@ -59,6 +63,11 @@ public class DeckView extends RelativeLayout {
 //			name.setTextColor(Color.WHITE);
 //			name.setBackgroundColor(Color.TRANSPARENT);
 			name.setTypeface(Typeface.DEFAULT);
+		}
+		if (showColor) {
+			name.setBackgroundColor(color);
+		} else {
+			name.setBackgroundColor(Color.TRANSPARENT);
 		}
 
 		pirates.setText(" " + pt + " ");
