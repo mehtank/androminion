@@ -779,6 +779,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_envoy_opponentCardToDiscard(MoveContext context) {
         return false;
     }
+    
+    public boolean shouldAutoPlay_stash_chooseDeckPosition(MoveContext context, int deckSize, int numStashes, int cardsToDraw) {
+    	return context.buyPhase;
+    }
 
     public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
         return true;

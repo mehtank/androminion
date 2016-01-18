@@ -496,8 +496,6 @@
     <string name="Prince_desc">Vous pouvez mettre de coté cette carte. Si vous le faites, mettez de coté une carte Action coûtant jusqu\'à 4 Pièces. Au début de chacun de vos tours, jouez cette carte Action, en la remettant de coté lorsque vous la défaussez du jeu. (Arrêtez de la jouer si vous ne pouvez pas la remettre de coté le même tour que vous l\'avez joué.)</string>
     <string name="WalledVillage_name">Village Fortifié</string>
     <string name="WalledVillage_desc">Au début de votre phase Ajustement, si vous avez cette carte et aucune autre carte Action en jeu, vous pouvez placez cette carte sur le dessus de votre deck.</string>
-	<!-- Not implemented
     <string name="Stash_name">Cachette</string>
     <string name="Stash_desc">Lorsque vous mélangez, vous pouvez placer cette carte où vous voulez dans votre deck.</string>
-    -->
 </resources>

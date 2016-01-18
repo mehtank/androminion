@@ -213,6 +213,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             card.isEvent = true;
             card.pile = MyCard.EVENTPILE;
         }
+        if (c.equals(Cards.stash)) {
+        	card.isStash = true;
+        }
 
         return card;
     }
@@ -364,8 +367,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int numCards[] = new int[numPlayers];
         int turnCounts[] = new int[numPlayers];
         int deckSizes[] = new int[numPlayers];
+        boolean stashOnDeck[] = new boolean[numPlayers];
         int discardSizes[] = new int[numPlayers];
         int handSizes[] = new int[numPlayers];
+        int stashesInHand[] = new int[numPlayers]; 
         int pirates[] = new int[numPlayers];
         int victoryTokens[] = new int[numPlayers];
         int guildsCoinTokens[] = new int[numPlayers];
@@ -380,8 +385,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 handSizes[i] = p.getHand().size();
             else
                 handSizes[i] = p.getVPs();
+            stashesInHand[i] = p.getStashesInHand();
             turnCounts[i] = p.getTurnCount();
             deckSizes[i] = p.getDeckSize();
+            stashOnDeck[i] = p.isStashOnDeck();
             discardSizes[i] = p.getDiscardSize();
             numCards[i] = p.getAllCards().size();
 
@@ -436,7 +443,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setCurName(player.getPlayerName(!isFinal && Game.maskPlayerNames))
                 .setRealNames(realNames)
                 .setHandSizes(handSizes)
+                .setStashesInHand(stashesInHand)
                 .setDeckSizes(deckSizes)
+                .setStashOnDeck(stashOnDeck)
                 .setNumCards(numCards)
                 .setPirates(pirates)
                 .setVictoryTokens(victoryTokens)

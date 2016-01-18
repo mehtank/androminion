@@ -6,7 +6,7 @@ import com.vdom.api.Card;
 
 public class GameStatus implements Serializable {
     
-	private static final long serialVersionUID = -8819195521987453596L;
+	private static final long serialVersionUID = -1192478381540599643L;
 	
 	public int whoseTurn;
     public String name;
@@ -29,7 +29,9 @@ public class GameStatus implements Serializable {
     public int[][][] tokens;
     public int[] costs;
     public int[] deckSizes;
+    public boolean[] stashOnDeck;
     public int[] handSizes;
+    public int[] stashesInHand;
     public int[] numCards;
     public int[] pirates;
     public int[] victoryTokens;
@@ -66,7 +68,9 @@ public class GameStatus implements Serializable {
     public GameStatus setTokens(int[][][] is) {tokens = is; return this;};
     public GameStatus setCosts(int[] is) {costs = is; return this;};
     public GameStatus setDeckSizes(int[] is) {deckSizes = is; return this;};
+    public GameStatus setStashOnDeck(boolean[] is) {stashOnDeck = is; return this;};
     public GameStatus setHandSizes(int[] is) {handSizes = is; return this;};
+    public GameStatus setStashesInHand(int[] is) {stashesInHand = is; return this;};
     public GameStatus setNumCards(int[] is) {numCards = is; return this;}
     public GameStatus setPirates(int[] is) {pirates = is; return this;}
     public GameStatus setVictoryTokens(int[] is) {victoryTokens = is; return this;}

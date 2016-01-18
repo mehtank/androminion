@@ -474,6 +474,18 @@ public abstract class Player {
     public CardList getHand() {
         return hand;
     }
+    
+    public int getStashesInHand() {
+    	if (hand.size() == 0)
+    		return 0;
+    	int result = 0;
+    	for (Card c : hand) {
+    		if (c.equals(Cards.stash)) {
+    			result++;
+    		}
+    	}
+    	return result;
+    }
 
     public CardList getDiscard() {
         return discard;
@@ -481,6 +493,12 @@ public abstract class Player {
 
     public int getDeckSize() {
         return deck.size();
+    }
+    
+    public boolean isStashOnDeck() {
+    	if (deck.size() == 0)
+    		return false;
+    	return deck.get(0).equals(Cards.stash);
     }
 
     public int getDiscardSize() {
@@ -808,21 +826,78 @@ public abstract class Player {
         deck.add(0, card);
     }
 
-    public void replenishDeck() {
+    public void replenishDeck(MoveContext context) {
         shuffleCount++;
-        while (discard.size() > 0) {
-            deck.add(discard.remove(Game.rand.nextInt(discard.size())));
+        shuffleIntoDeck(context, discard);
+    }
+    
+    private void shuffleIntoDeck(MoveContext context, CardList source) {
+    	int cardsLeftToDraw = 5; //TODO - dominionator - do this and don't forget to account for -1 card token
+    	ArrayList<Card> stashes = new ArrayList<Card>();
+    	int positionAll = -1;
+    	if (context != null) {
+	        int numStashes = 0;
+	        for (Card c : source) {
+	        	if (c.equals(Cards.stash)) {
+	        		numStashes++;
+	        	}
+	        }
+	        boolean shuffleNormally = false;
+	        if (source.size() == numStashes) {
+	        	shuffleNormally = true;
+	        } else if (numStashes > 1) {
+	        	positionAll = this.controlPlayer.stash_chooseDeckPosition(context, source.size() - numStashes, numStashes, cardsLeftToDraw);
+	        	// -1 -> Pass (shuffle normally)
+	        	// -2 or below -> (choose individually)
+	        	if (positionAll > source.size() - numStashes)
+	        		positionAll = -1;
+	        	if (positionAll == -1) {
+	        		shuffleNormally = true;
+	        	}
+	        }
+	        if (!shuffleNormally) {
+	        	//pull out the Stash cards
+	        	for (int i = 0; i < source.size(); ++i) {
+        			if (source.get(i).equals(Cards.stash)) {
+        				stashes.add(source.remove(i--));
+        			}
+	        	}
+	        }
         }
+    	
+    	// shuffle
+    	while (source.size() > 0) {
+            deck.add(source.remove(Game.rand.nextInt(source.size())));
+        }
+    	
+    	while (stashes.size() > 0) {
+    		source.add(stashes.remove(0));
+    	}
+    	
+        // add pulled Stash cards back into deck
+    	if (source.size() > 0) {
+	    	int numStashes = source.size();
+	    	for (int i = 0; i < numStashes; ++i) {
+	    		int position;
+	    		if (positionAll >= 0) {
+	    			position = positionAll;
+	    		} else {
+	    			position = controlPlayer.stash_chooseDeckPosition(context, deck.size(), 1, cardsLeftToDraw);
+	    			if (position < 0)
+	    				position = Game.rand.nextInt(deck.size() + 1);
+	    			position = Math.min(position, deck.size());
+	    		}
+	    		deck.add(position, source.remove(0));
+	    	}
+    	}
     }
 
-    public void shuffleDeck() {
-        ArrayList<Card> tempDeck = new ArrayList<Card>();
+    public void shuffleDeck(MoveContext context) {
+        CardList tempDeck = new CardList(this, name);
         while (deck.size() > 0) {
-            tempDeck.add(deck.remove(Game.rand.nextInt(deck.size())));
+            tempDeck.add(deck.remove(0));
         }
-        for(Card c : tempDeck) {
-            deck.add(c);
-        }
+        shuffleIntoDeck(context, tempDeck);
     }
 
     public void checkCardsValid() {
@@ -831,9 +906,6 @@ public abstract class Player {
         deck.checkValid();
     }
 
-    //	protected void discardRemainingCardsFromHand(MoveContext context, Card[] cardsToKeep) {
-    //		discardRemainingCardsFromHand(context, cardsToKeep, null, -1);
-    //	}
     protected void discardRemainingCardsFromHand(MoveContext context, Card[] cardsToKeep, Card responsibleCard, int keepCardCount) {
         ArrayList<Card> keepCards = new ArrayList<Card>(Arrays.asList(cardsToKeep));
 
@@ -1765,7 +1837,9 @@ public abstract class Player {
     public abstract Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion);
 
     public abstract Card envoy_cardToDiscard(MoveContext context, Card[] revealedCards);
-
+    
+    public abstract int stash_chooseDeckPosition(MoveContext context, int deckSize, int numStashes, int cardsToDraw);
+    
     public abstract boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array);
 
     public abstract Card[] survivors_cardOrder(MoveContext context, Card[] array);

@@ -43,6 +43,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public static final String OPTION_CALL_WHEN_GAIN = "CALLWHENGAIN";
     public static final String OPTION_CALL_RESOLVE_ACTION = "CALLAFTERACTION";
     public static final String OPTION_START_TURN_EFFECT = "STARTTURN";
+    public static final String OPTION_STASH = "PLACESTASH";
+    public static final String OPTION_STASH_POSITION = "PLACESTASHPOS";
 
     abstract protected int selectOption(MoveContext context, Card card, Object[] options);
     abstract protected int[] orderCards(MoveContext context, int[] cards);
@@ -2234,6 +2236,57 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             options[i + 1] = cards[i];
         }
         return cards[selectOption(context, Cards.envoy, options)];
+    }
+
+    public enum StashOption {
+    	PlaceOnTop,
+    	PlaceAfterCardsToDraw,
+    	PlaceOther
+    }
+    
+    @Override
+    public int stash_chooseDeckPosition(MoveContext context, int deckSize, int numStashes, int cardsToDraw) {
+    	if(context.isQuickPlay() && shouldAutoPlay_stash_chooseDeckPosition(context, deckSize, numStashes, cardsToDraw)) {
+            return super.stash_chooseDeckPosition(context, deckSize, numStashes, cardsToDraw);
+        }
+    	// Simple options first
+    	Object[] options = new Object[7];
+    	options[0] = OPTION_STASH;
+    	options[1] = deckSize;
+    	options[2] = numStashes;
+    	options[3] = cardsToDraw;
+    	options[4] = StashOption.PlaceOnTop;
+    	options[5] = StashOption.PlaceAfterCardsToDraw;
+    	options[6] = StashOption.PlaceOther;
+    	
+    	StashOption option = (StashOption) options[selectOption(context, Cards.stash, options) + 4];
+    	if (option == StashOption.PlaceOnTop) {
+    		return 0;
+    	} else if (option == StashOption.PlaceAfterCardsToDraw) {
+    		if (cardsToDraw > deckSize)
+    			return deckSize;
+    		return cardsToDraw;
+    	}
+    	// advanced options if player chose other
+    	if (numStashes > 1) {
+	    	options = new Object[deckSize + 6];
+	    	options[0] = OPTION_STASH_POSITION;
+	    	options[1] = deckSize;
+	    	options[2] = numStashes;
+	    	for (int i = 3; i < options.length; ++i) {
+	    		options[i] = i - 5;
+	    	}
+	    	return (Integer) options[selectOption(context, Cards.stash, options) + 3];
+    	}
+    	
+    	options = new Object[deckSize + 5];
+    	options[0] = OPTION_STASH_POSITION;
+    	options[1] = deckSize;
+    	options[2] = numStashes;
+    	for (int i = 3; i < options.length; ++i) {
+    		options[i] = i - 4;
+    	}
+    	return (Integer) options[selectOption(context, Cards.stash, options) + 3];
     }
 
     @Override

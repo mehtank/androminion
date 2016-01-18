@@ -606,6 +606,8 @@
     <string name="Prince_desc">Du darfst diese Karte zur Seite legen. Wenn du das tust: Lege eine Aktionskarte aus deiner Hand zur Seite, die bis zu 4 Geld kostet.\nZu Beginn deines Zuges: Spiele die zur Seite gelegte Aktionskarte. Sobald du sie ablegen musst, legst du sie stattdessen wieder zur Seite. Solltest du sie nicht ablegen müssen, legst du sie nicht wieder zur Seite. Die Wirkung der Karte Prinz wird sofort aufgehoben. Sie bleibt bis zum Spielende beiseitegelegt und kommt nicht mehr zum Einsatz.</string>
     <string name="BlackMarket_name">Schwarzmarkt</string>
     <string name="BlackMarket_desc">Decke die obersten 3 Karten vom Schwarzmarkt-Stapel auf. Du darfst sofort eine der aufgedeckten Karten kaufen. Lege die nicht gekauften Karten in beliebiger Reihenfolge unter den Schwarzmarkt-Stapel zurück.\nSpielvorbereitung: Vor Spielbeginn wird ein Schwarzmarkt-Stapel gebildet. Dieser enthält jeweils eine Karte aller Königreichkarten, die nicht im Vorrat sind.</string>
+    <string name="Stash_name">Geldversteck</string>
+    <string name="Stash_desc">Nachdem du deinen Ablagestapel gemischt hast, darfst du diese Karte an eine beliebige Stelle in deinen Nachziehstapel einsortieren.</string>
     <string name="Summon_name">Einladung</string>
     <string name="Summon_desc">Nimm eine Aktionskarte, die bis zu 4 Geld kostet und lege sie zur Seite. Spiele sie zu Beginn deines nächsten Zuges.</string>
 </resources>

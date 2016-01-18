@@ -605,6 +605,8 @@
     <string name="Prince_desc">You may set this aside. If you do, set aside an Action card from your hand costing up to 4 Coins. At the start of each of your turns, play that Action, setting it aside again when you discard it from play. (Stop playing it if you fail to set it aside on a turn you play it.)</string>
     <string name="BlackMarket_name">Black Market</string>
     <string name="BlackMarket_desc">Reveal the top 3 cards of the Black Market deck. You may buy one of them immediately. Put the unbought cards on the bottom of the Black Market deck in any order.\n(Before the game, make a Black Market deck out of one copy of each Kingdom card not in the supply.)</string>
+    <string name="Stash_name">Stash</string>
+    <string name="Stash_desc">When you shuffle, you may put this anywhere in your deck.</string>
     <string name="Summon_name">Summon</string>
     <string name="Summon_desc">Gain an Action card costing up to 4 Coins. Set it aside. If you do, then at the start of your next turn, play it.</string>
 </resources>

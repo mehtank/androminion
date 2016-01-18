@@ -1686,9 +1686,9 @@ public class Game {
     }
 
     public void replenishDeck(Player player) {
-        player.replenishDeck();
-
-        MoveContext context = new MoveContext(this, player);
+    	MoveContext context = new MoveContext(this, player);
+        player.replenishDeck(context);
+        
         GameEvent event = new GameEvent(GameEvent.Type.DeckReplenished, context);
         broadcastEvent(event);
     }
@@ -1934,7 +1934,7 @@ public class Game {
                     player.discard.remove(card);
                     player.hand.add(card);
                 }
-                player.replenishDeck();
+                player.replenishDeck(null);
             }
         }
 
@@ -2104,9 +2104,6 @@ public class Game {
                     break;
                 Card c = null;
                 int replacementCost = -1;
-                if(s.equalsIgnoreCase("stash")) {
-                    replacementCost = 5;
-                }
 
                 if(replacementCost != -1) {
                     ArrayList<Card> cardsWithSameCost = new ArrayList<Card>();
@@ -2637,7 +2634,7 @@ public class Game {
                                 player.discard.remove(c);
                                 player.deck.add(c);
                             }
-                            player.shuffleDeck();
+                            player.shuffleDeck(context);
                         }
                     } else if (event.card.equals(Cards.borderVillage)) {
                         boolean validCard = false;

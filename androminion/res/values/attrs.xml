@@ -6,4 +6,5 @@
     <attr name="player4TextBackgroundColor" format="reference" />
     <attr name="player5TextBackgroundColor" format="reference" />
     <attr name="player6TextBackgroundColor" format="reference" />
+    <attr name="stashTextColor" format="reference" />
 </resources>

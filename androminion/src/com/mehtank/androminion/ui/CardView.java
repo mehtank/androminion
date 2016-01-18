@@ -181,18 +181,19 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		if (viewstyle.equals("viewstyle-simple")) {
 			if (c.isBane) {
 				setBackgroundResource(R.drawable.thinbaneborder);
+			} else if (c.isStash) {
+				setBackgroundResource(R.drawable.thinstashborder);
 			} else {
 				setBackgroundResource(R.drawable.thinborder);
 			}
 		} else {
 			if (c.isBane) {
 				setBackgroundResource(R.drawable.baneborder);
-		} 
-		else if (c.isShelter)
-		{
-			setBackgroundResource(R.drawable.shelterborder);
-		}
-		else {
+			} else if (c.isStash) {
+				setBackgroundResource(R.drawable.stashborder);
+			} else if (c.isShelter) {
+				setBackgroundResource(R.drawable.shelterborder);
+			} else {
 				setBackgroundResource(R.drawable.cardborder);
 			}
 		}

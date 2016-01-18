@@ -334,4 +334,6 @@
     <string name="Followers_desc">Gana una carta de Finca. Cada jugador (menos tú) gana una Maldición y se descarta hasta quedarse con 3 cartas en su mano.</string>
     <string name="TrustySteed_name">Corcel Fiel</string>
     <string name="TrustySteed_desc">Elige dos opciones distintas: +2 Cartas; +2 Acciones; +(2); ganar 4 cartas de Plata y poner tu mazo en tu pila de descartes.</string>
+    <string name="Stash_name">Alijo</string>
+    <string name="Stash_desc">Al barajar, puedes colocar esta carta en cualquier posición de tu mazo.</string>
 </resources>

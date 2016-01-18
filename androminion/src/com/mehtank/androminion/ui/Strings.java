@@ -26,6 +26,7 @@ import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.Cards;
 import com.vdom.core.IndirectPlayer;
+import com.vdom.core.IndirectPlayer.StashOption;
 import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
@@ -501,6 +502,30 @@ public class Strings {
             }
             return strings2;
         }
+        
+        if (card != null && card.equals(Cards.stash) && options[0].equals(IndirectPlayer.OPTION_STASH_POSITION)) {
+        	int numStashes = (Integer) options[2];        	
+        	if (numStashes == 1) {
+	        	strings[0] = getString(R.string.pass);
+	        	strings[1] = getString(R.string.stash_on_top);
+	        	for (int i = 2; i < strings.length - 1; ++i) {
+	        		int cardsDown = i - 1;
+	        		strings[i] = format(cardsDown == 1 ? R.string.stash_1_card_down : R.string.stash_x_cards_down, cardsDown);
+	        	}
+	        	strings[strings.length-1] = getString(R.string.stash_on_bottom);
+        	} else {
+        		strings[0] = getString(R.string.stash_choose_individually);
+	        	strings[1] = getString(R.string.pass);
+	        	strings[2] = getString(R.string.stash_on_top);
+	        	for (int i = 3; i < strings.length - 1; ++i) {
+	        		int cardsDown = i - 2;
+	        		strings[i] = format(cardsDown == 1 ? R.string.stash_1_card_down : R.string.stash_x_cards_down, cardsDown);
+	        	}
+	        	strings[strings.length-1] = getString(R.string.stash_on_bottom);
+        	}
+        	return strings;
+        }
+        
         for (int i = startIndex; i < options.length; i++) {
             strings[i - startIndex] = Strings.getOptionText(options[i], options);
         }
@@ -528,6 +553,10 @@ public class Strings {
 				return 1;
 			} else if (optionString.equals(IndirectPlayer.OPTION_START_TURN_EFFECT)) {
 				return 1;
+			} else if (optionString.equals(IndirectPlayer.OPTION_STASH)) {
+				return 4;
+			} else if (optionString.equals(IndirectPlayer.OPTION_STASH_POSITION)) {
+				return 3;
 			}
         }
         if (card == null)
@@ -576,6 +605,12 @@ public class Strings {
 			return format(R.string.call_resolve_action_query, getCardName(card));
 		} else if (extras[0] instanceof String && ((String) extras[0]).equals(IndirectPlayer.OPTION_START_TURN_EFFECT)) {
 			return getString(R.string.call_start_turn_query);
+		} else if (extras[0] instanceof String && (((String) extras[0]).equals(IndirectPlayer.OPTION_STASH)
+				|| ((String) extras[0]).equals(IndirectPlayer.OPTION_STASH_POSITION))) {
+			if ((Integer)extras[2] == 1) {
+				return getString(R.string.place_stash_query);
+			}
+			return format(R.string.place_stashes_query, extras[2]);
 		} else if (extras[0] instanceof ExtraTurnOption) {
 			return getString(R.string.extra_turns_query);
 		}
@@ -807,6 +842,20 @@ public class Strings {
                 return getString(R.string.doctor_overpay_option_two);
             } else if (option == DoctorOverpayOption.PutItBack) {
                 return getString(R.string.doctor_overpay_option_three);
+            }
+        } else if (option instanceof StashOption) {
+            if (option == StashOption.PlaceOnTop) {
+                return getString(R.string.stash_on_top);
+            } else if (option == StashOption.PlaceAfterCardsToDraw) {
+            	int deckSize = (Integer) extras[1];
+            	int cardsToDraw = (Integer) extras[3];
+            	if (cardsToDraw > deckSize) {
+            		return getString(R.string.stash_on_bottom);
+            	} else {
+            		return format(R.string.stash_after_cards_to_draw, cardsToDraw);
+            	}
+            } else if (option == StashOption.PlaceOther) {
+                return getString(R.string.stash_more_options);
             }
         } else if (option instanceof PutBackOption) {
             if (option == PutBackOption.Action) {

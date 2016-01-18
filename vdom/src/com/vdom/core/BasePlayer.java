@@ -18,7 +18,6 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
-import com.vdom.core.Player.ExtraTurnOption;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
@@ -2696,6 +2695,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		
 		Card[] left = cl.sort(new Util.CardCostComparatorDesc());
         return left[0];
+    }
+    
+    @Override
+    public int stash_chooseDeckPosition(MoveContext context, int deckSize, int numStashes, int cardsToDraw) {
+    	if (context.attackedPlayer == this)
+    		return cardsToDraw;
+    	return 0;
     }
 
 	@Override

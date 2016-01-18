@@ -13,7 +13,9 @@ public class PlayerSummary {
 	public String name;
 	public String realName;
 	public int deckSize;
+	public boolean stashOnDeck;
 	public int handSize;
+	public int stashesInHand;
 	public int numCards;
 	public int pt;
 	public int vt;
@@ -30,11 +32,13 @@ public class PlayerSummary {
 		this.name = name;
 	}
 	
-	public void set(String name, int turns, int deckSize, int handSize, int numCards, int pt, int vt, int gct, boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, boolean journeyTokenFaceUp, boolean highlight, boolean showColor, int color){
+	public void set(String name, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, int pt, int vt, int gct, boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, boolean journeyTokenFaceUp, boolean highlight, boolean showColor, int color){
 		this.name = name;
 		this.turns = turns;
 		this.deckSize = deckSize;
+		this.stashOnDeck = stashOnDeck;
 		this.handSize = handSize;
+		this.stashesInHand = stashesInHand;
 		this.numCards = numCards;
 		this.pt = pt;
 		this.vt = vt;

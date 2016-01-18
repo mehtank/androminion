@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,7 +24,15 @@ public class DeckView extends RelativeLayout {
 	private TextView journeyToken;
 	private TextView minusOneCoinToken;
 	private TextView minusOneCardToken;
-	private TextView counts;
+	private LinearLayout counts;
+	private TextView countsPrefix;
+	private TextView countsDeck;
+	private TextView countsMiddle;
+	private TextView countsStashesInHand;
+	private TextView countsSuffix;
+	
+	private int textColor;
+	private int stashColor;
 
 	private boolean showCardCounts = true;
 
@@ -41,15 +51,27 @@ public class DeckView extends RelativeLayout {
 		journeyToken = (TextView) findViewById(R.id.journeyToken);
 		minusOneCoinToken = (TextView) findViewById(R.id.minusOneCoinToken);
 		minusOneCardToken = (TextView) findViewById(R.id.minusOneCardToken);
-		counts = (TextView) findViewById(R.id.counts);
+		counts = (LinearLayout) findViewById(R.id.counts);
+		countsPrefix = (TextView) findViewById(R.id.countsPrefix);
+		countsDeck = (TextView) findViewById(R.id.countsDeck);
+		countsMiddle = (TextView) findViewById(R.id.countsMiddle);
+		countsStashesInHand = (TextView) findViewById(R.id.countsStashesInHand);
+		countsSuffix = (TextView) findViewById(R.id.countsSuffix);
 
         if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("hide_card_counts", false)) {
             showCardCounts = false;
             counts.setVisibility(INVISIBLE);
         }
+        
+        TypedValue typedValue = new TypedValue();
+		context.getTheme().resolveAttribute(R.attr.stashTextColor, typedValue, true);
+		stashColor = typedValue.data;
+		
+		textColor = new TextView(context).getTextColors().getDefaultColor();
+
 	}
 
-	public void set(String nameStr, int turns, int deckSize, int handSize, int numCards, 
+	public void set(String nameStr, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, 
 			int pt, int vt, int gct, 
 			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, boolean journeyTokenFaceUp, 
 			boolean highlight, boolean showColor, int color) {
@@ -108,10 +130,12 @@ public class DeckView extends RelativeLayout {
         	minusOneCoinToken.setVisibility(INVISIBLE);
         
         if(showCardCounts) {
-    		String str = "{ \u2261 " + deckSize +
-    					 "    \u261e " + handSize +
-    					 "    \u03a3 " + numCards + " }";
-    		counts.setText(str);
+        	countsPrefix.setText("{ ");
+        	countsDeck.setText("\u2261 ");
+        	countsDeck.setTextColor(stashOnDeck ? stashColor : textColor);
+        	countsMiddle.setText(deckSize + "    \u261e " + handSize);
+        	countsStashesInHand.setText(stashesInHand == 0 ? "" : " (" + stashesInHand + ")");
+        	countsSuffix.setText("    \u03a3 " + numCards + " }");
         }
 	}
 }

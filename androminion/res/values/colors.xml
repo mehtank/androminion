@@ -21,6 +21,9 @@
     <color name="cardRuins">#806F49</color>
     <color name="cardEvent">#B0AFA7</color>
     <color name="cardReserve">#DDC492</color>
+    <color name="stashBorder">#E84C4C</color>
+    <color name="stashTextLight">#E84C4C</color>
+    <color name="stashTextDark">#E84C4C</color>
     
     <color name="player1Color">#d9562b</color>
     <color name="player2Color">#508db9</color>

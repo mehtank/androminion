@@ -87,7 +87,7 @@ public class Cards {
         VirtualEvents,
         
         // Promo Cards
-        Envoy, Governor, WalledVillage, Prince, BlackMarket, Summon,
+        Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon,
         // Promo Cards (not yet implemented)
         // Stash
         // Victory Token card container
@@ -426,6 +426,7 @@ public class Cards {
     public static final Card envoy;
     public static final Card prince;
     public static final Card blackMarket;
+    public static final Card stash;
     public static final Card summon;
 
     static {
@@ -771,6 +772,7 @@ public class Cards {
         actionCardsPromo.add(envoy         = new ActionCardImpl.Builder(Cards.Type.Envoy, 4).description("Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.").expansion("Promo").build());
         actionCardsPromo.add(prince        = new ActionCardImpl.Builder(Cards.Type.Prince, 8).description("You may set this aside. If you do, set aside an Action card from your hand costing up to 4 Coins. At the start of each of your turns, play that Action, setting it aside again when you discard it from play. (Stop playing it if you fail to set it aside on a turn you play it.)").expansion("Promo").build());
         actionCardsPromo.add(blackMarket   = new ActionCardImpl.Builder(Cards.Type.BlackMarket, 3).addGold(2).description("Reveal the top 3 cards of the Black Market deck. You may buy one of them immediately. Put the unbought cards on the bottom of the Black Market deck in any order./n(Before the game, make a Black Market deck out of one copy of each Kingdom card not in the supply.)").expansion("Promo").build());
+        actionCardsPromo.add(stash         = new TreasureCardImpl.Builder(Cards.Type.Stash, 5, 2).description("When you shuffle, you may put this anywhere in your deck.").expansion("Promo").build());
         eventCardsPromo.add(summon         = new EventCardImpl.Builder(Cards.Type.Summon, 5).isEvent().description("Gain an Action card costing up to 4 Coins. Set it aside. If you do, then at the start of your next turn, play it.").expansion("Promo").build());
 
         // Collect all Expansions

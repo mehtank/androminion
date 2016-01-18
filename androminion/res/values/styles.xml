@@ -8,6 +8,7 @@
         <item name="player4TextBackgroundColor">@color/player4LineColor</item>
         <item name="player5TextBackgroundColor">@color/player5LineColor</item>
         <item name="player6TextBackgroundColor">@color/player6LineColor</item>
+        <item name="stashTextColor">@color/stashTextLight</item>
     </style>
 
     <style name="Theme.Androminion.Light.DarkActionBar" parent="Theme.Sherlock.Light.DarkActionBar">
@@ -17,6 +18,7 @@
         <item name="player4TextBackgroundColor">@color/player4Color</item>
         <item name="player5TextBackgroundColor">@color/player5Color</item>
         <item name="player6TextBackgroundColor">@color/player6Color</item>
+        <item name="stashTextColor">@color/stashTextDark</item>
     </style>
 
     <style name="Theme.Androminion.Light" parent="Theme.Sherlock.Light">
@@ -26,6 +28,7 @@
         <item name="player4TextBackgroundColor">@color/player4Color</item>
         <item name="player5TextBackgroundColor">@color/player5Color</item>
         <item name="player6TextBackgroundColor">@color/player6Color</item>
+        <item name="stashTextColor">@color/stashTextDark</item>
     </style>
 
     <style name="Theme.Androminion.NoActionBar" parent="Theme.Sherlock.NoActionBar">
@@ -35,6 +38,7 @@
         <item name="player4TextBackgroundColor">@color/player4LineColor</item>
         <item name="player5TextBackgroundColor">@color/player5LineColor</item>
         <item name="player6TextBackgroundColor">@color/player6LineColor</item>
+        <item name="stashTextColor">@color/stashTextLight</item>
     </style>
 
     <style name="Theme.Androminion.Light.NoActionBar" parent="Theme.Sherlock.Light.NoActionBar">
@@ -44,6 +48,7 @@
         <item name="player4TextBackgroundColor">@color/player4Color</item>
         <item name="player5TextBackgroundColor">@color/player5Color</item>
         <item name="player6TextBackgroundColor">@color/player6Color</item>
+        <item name="stashTextColor">@color/stashTextDark</item>
     </style>
 
 </resources>
