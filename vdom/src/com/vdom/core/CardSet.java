@@ -224,7 +224,7 @@ public class CardSet {
 	
 	private static boolean isValidBane(Card c) {
 		int cost = c.getCost(null);
-		return !c.costPotion() && (cost == 2 || cost == 3);
+		return !c.costPotion() && (cost == 2 || cost == 3) && !c.isEvent();
 	}
 
 	private static void pick(List<Card> source, List<Card> target, int count) {

@@ -581,14 +581,14 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             im.setImageURI(u);
             im.setScaleType(ImageView.ScaleType.FIT_CENTER);
             
-            String tokenDesc = getTokenDescription();
-            if (!tokenDesc.isEmpty()) {
+            String extraDesc = getExtraDescription();
+            if (!extraDesc.isEmpty()) {
             	LinearLayout ll = new LinearLayout(view.getContext());
             	ll.setOrientation(LinearLayout.VERTICAL);
             	ll.addView(im);
             	TextView textView = new TextView(view.getContext());
     			textView.setPadding(15, 0, 15, 5);
-    			textView.setText(tokenDesc);
+    			textView.setText(extraDesc);
     			ll.addView(textView);
             	v = ll;
             } else {
@@ -609,9 +609,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			text += "\n";
 			
 			text += cardView.getCard().desc;
-			String tokenDescription = getTokenDescription();
-			if (!tokenDescription.isEmpty()) {
-				text += "\n\n" + tokenDescription;
+			String extraDescription = getExtraDescription();
+			if (!extraDescription.isEmpty()) {
+				text += "\n\n" + extraDescription;
 			}
 			
 			textView.setText( text );
@@ -634,10 +634,15 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		return true;
 	}
 	
-	private String getTokenDescription() {
+	private String getExtraDescription() {
 		String text = "";
+		if (state.c.isBane) {
+			text += getContext().getString(R.string.bane_card);
+		}
 		boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
 		if (hasPlayerTokens || numEmbargos > 0) {
+			if (text.length() > 0)
+				text += "\n\n";
 			text += getContext().getString(R.string.token_header);
 			text += "\n";
 			if (numEmbargos > 0) {

@@ -943,7 +943,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         // Check for Treasure Map in hand
         Card anotherMap = null;
         for (Card card : currentPlayer.hand) {
-            if (card.equals(this)) {
+            if (card.equals(Cards.treasureMap)) {
                 anotherMap = card;
                 break;
             }
