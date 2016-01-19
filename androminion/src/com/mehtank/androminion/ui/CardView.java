@@ -546,6 +546,14 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		st = new StringTokenizer(str," ",false);
 		String exp = "";
 		while (st.hasMoreElements()) exp += st.nextElement();
+		if (exp.length() == 0)
+			exp = "common";
+		if (filename.equals("potion"))
+			exp = "alchemy";
+		else if (filename.equals("colony"))
+			exp = "prosperity";
+		else if (filename.equals("platinum"))
+			exp = "prosperity";
 		
 		View v;
 
