@@ -605,7 +605,7 @@ public class Game {
 
         // draw next hand
         for (int i = 0; i < handCount; i++) {
-            drawToHand(player, null, handCount - i, false);
+            drawToHand(context, null, handCount - i, false);
         }
 
         if (player.save != null) {
@@ -883,7 +883,7 @@ public class Game {
             } else if(card.equals(Cards.horseTraders)) {
                 Card horseTrader = player.horseTraders.remove(0);
                 player.hand.add(horseTrader);
-                drawToHand(player, horseTrader, 1);
+                drawToHand(context, horseTrader, 1);
             } else if(card instanceof DurationCard) {
                 if(card.equals(Cards.haven) || card.equals(Cards.gear)) {
                     player.hand.add(card2);
@@ -914,7 +914,7 @@ public class Game {
                 }
 
                 for (int i = 0; i < addCardsNextTurn; i++) {
-                    drawToHand(player, thisCard, addCardsNextTurn - i, true);
+                    drawToHand(context, thisCard, addCardsNextTurn - i, true);
                 }
                 
                 if (   thisCard.getType() == Cards.Type.Amulet
@@ -1649,17 +1649,17 @@ public class Game {
     }
 
     // Use drawToHand when "drawing" or "+ X cards" when -1 Card token could be drawn instead
-    boolean drawToHand(Player player, Card responsible, int cardsLeftToDraw) {
-        return drawToHand(player, responsible, cardsLeftToDraw, true);
+    boolean drawToHand(MoveContext context, Card responsible, int cardsLeftToDraw) {
+        return drawToHand(context, responsible, cardsLeftToDraw, true);
     }
 
-    boolean drawToHand(Player player, Card responsible, int cardsLeftToDraw, boolean showUI) {
+    boolean drawToHand(MoveContext context, Card responsible, int cardsLeftToDraw, boolean showUI) {
+    	Player player = context.player;
     	if (player.getMinusOneCardToken()) {
-    		MoveContext context = new MoveContext(this, player);
     		player.setMinusOneCardToken(false, context);
     		return false;
     	}
-        Card card = draw(player, cardsLeftToDraw);
+        Card card = draw(context, responsible, cardsLeftToDraw);
         if (card == null)
             return false;
 
@@ -1673,21 +1673,20 @@ public class Game {
     }
 
     // Use draw when removing a card from the top of the deck without "drawing" it (e.g. look at or reveal)
-    Card draw(Player player, int cardsLeftToDraw) {
-    	if (player.deck.isEmpty()) {
-            if (player.discard.isEmpty()) {
+    Card draw(MoveContext context, Card responsible, int cardsLeftToDraw) {
+    	if (context.player.deck.isEmpty()) {
+            if (context.player.discard.isEmpty()) {
                 return null;
             } else {
-                replenishDeck(player, cardsLeftToDraw);
+                replenishDeck(context, responsible, cardsLeftToDraw);
             }
         }
 
-        return player.deck.remove(0);
+        return context.player.deck.remove(0);
     }
 
-    public void replenishDeck(Player player, int cardsLeftToDraw) {
-    	MoveContext context = new MoveContext(this, player);
-        player.replenishDeck(context, cardsLeftToDraw);
+    public void replenishDeck(MoveContext context, Card responsible, int cardsLeftToDraw) {
+        context.player.replenishDeck(context, responsible, cardsLeftToDraw);
         
         GameEvent event = new GameEvent(GameEvent.Type.DeckReplenished, context);
         broadcastEvent(event);
@@ -1925,7 +1924,7 @@ public class Game {
 
             if (!equalStartHands || i == 0) {
                 while (player.hand.size() < 5)
-                    drawToHand(player, null, 5 - player.hand.size(), false);
+                    drawToHand(new MoveContext(this, player), null, 5 - player.hand.size(), false);
             }
             else {
                 // make subsequent player hands equal
@@ -1934,7 +1933,7 @@ public class Game {
                     player.discard.remove(card);
                     player.hand.add(card);
                 }
-                player.replenishDeck(null, 0);
+                player.replenishDeck(null, null, 0);
             }
         }
 
@@ -2634,7 +2633,7 @@ public class Game {
                                 player.discard.remove(c);
                                 player.deck.add(c);
                             }
-                            player.shuffleDeck(context);
+                            player.shuffleDeck(context, event.card);
                         }
                     } else if (event.card.equals(Cards.borderVillage)) {
                         boolean validCard = false;
@@ -2686,7 +2685,7 @@ public class Game {
                     } else if(event.card.equals(Cards.lostCity)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
-                                drawToHand(targetPlayer, event.card, 1, true);
+                                drawToHand(new MoveContext(Game.this, targetPlayer), event.card, 1, true);
                             }
                         }
                     }

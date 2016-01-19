@@ -184,7 +184,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
             }
         }
 		for (int i = 0; i < 5; ++i) {
-			game.drawToHand(currentPlayer, this.controlCard, 5 - i);
+			game.drawToHand(context, this.controlCard, 5 - i);
 		}
 		
 	}

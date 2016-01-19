@@ -967,6 +967,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card wishingWell_cardGuess(MoveContext context, ArrayList<Card> cardList) {
+    	if (context.getPlayer().isStashOnDeck())
+    		return Cards.stash;
         return Cards.silver;
     }
 
@@ -2463,6 +2465,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card mystic_cardGuess(MoveContext context, ArrayList<Card> cardList) {
+		if (context.getPlayer().isStashOnDeck())
+			return Cards.stash;
 	    return Cards.silver;
 	}
 
@@ -2698,9 +2702,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public int stash_chooseDeckPosition(MoveContext context, int deckSize, int numStashes, int cardsToDraw) {
-    	if (context.attackedPlayer == this)
+    public int stash_chooseDeckPosition(MoveContext context, Card responsible, int deckSize, int numStashes, int cardsToDraw) {
+    	if (context.attackedPlayer == this && !Cards.margrave.equals(responsible.behaveAsCard())
+    			&& !Cards.soothsayer.equals(responsible.behaveAsCard()))
     		return cardsToDraw;
+    	if (Cards.vagrant.equals(responsible.behaveAsCard())
+    			|| Cards.doctor.equals(responsible.behaveAsCard())
+    			|| Cards.herald.equals(responsible.behaveAsCard())
+    			|| Cards.envoy.equals(responsible.behaveAsCard())
+				|| Cards.advisor.equals(responsible.behaveAsCard())
+				|| Cards.secretChamber.equals(responsible.behaveAsCard())
+				|| Cards.tribute.equals(responsible.behaveAsCard())) {
+    		return cardsToDraw;
+    	}
+    		
     	return 0;
     }
 

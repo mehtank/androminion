@@ -2245,21 +2245,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public int stash_chooseDeckPosition(MoveContext context, int deckSize, int numStashes, int cardsToDraw) {
+    public int stash_chooseDeckPosition(MoveContext context, Card responsible, int deckSize, int numStashes, int cardsToDraw) {
     	if(context.isQuickPlay() && shouldAutoPlay_stash_chooseDeckPosition(context, deckSize, numStashes, cardsToDraw)) {
-            return super.stash_chooseDeckPosition(context, deckSize, numStashes, cardsToDraw);
+            return super.stash_chooseDeckPosition(context, responsible, deckSize, numStashes, cardsToDraw);
         }
     	// Simple options first
-    	Object[] options = new Object[7];
+    	Object[] options = new Object[8];
     	options[0] = OPTION_STASH;
     	options[1] = deckSize;
     	options[2] = numStashes;
     	options[3] = cardsToDraw;
-    	options[4] = StashOption.PlaceOnTop;
-    	options[5] = StashOption.PlaceAfterCardsToDraw;
-    	options[6] = StashOption.PlaceOther;
+    	options[4] = responsible != null ? responsible.behaveAsCard() : null;
+    	options[5] = StashOption.PlaceOnTop;
+    	options[6] = StashOption.PlaceAfterCardsToDraw;
+    	options[7] = StashOption.PlaceOther;
     	
-    	StashOption option = (StashOption) options[selectOption(context, Cards.stash, options) + 4];
+    	StashOption option = (StashOption) options[selectOption(context, Cards.stash, options) + 5];
     	if (option == StashOption.PlaceOnTop) {
     		return 0;
     	} else if (option == StashOption.PlaceAfterCardsToDraw) {
@@ -2269,24 +2270,26 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	}
     	// advanced options if player chose other
     	if (numStashes > 1) {
-	    	options = new Object[deckSize + 6];
+	    	options = new Object[deckSize + 7];
 	    	options[0] = OPTION_STASH_POSITION;
 	    	options[1] = deckSize;
 	    	options[2] = numStashes;
-	    	for (int i = 3; i < options.length; ++i) {
-	    		options[i] = i - 5;
+	    	options[3] = responsible != null ? responsible.behaveAsCard() : null;
+	    	for (int i = 4; i < options.length; ++i) {
+	    		options[i] = i - 6;
 	    	}
-	    	return (Integer) options[selectOption(context, Cards.stash, options) + 3];
+	    	return (Integer) options[selectOption(context, Cards.stash, options) + 4];
     	}
     	
-    	options = new Object[deckSize + 5];
+    	options = new Object[deckSize + 6];
     	options[0] = OPTION_STASH_POSITION;
     	options[1] = deckSize;
     	options[2] = numStashes;
-    	for (int i = 3; i < options.length; ++i) {
-    		options[i] = i - 4;
+    	options[3] = responsible != null ? responsible.behaveAsCard() : null;
+    	for (int i = 4; i < options.length; ++i) {
+    		options[i] = i - 5;
     	}
-    	return (Integer) options[selectOption(context, Cards.stash, options) + 3];
+    	return (Integer) options[selectOption(context, Cards.stash, options) + 4];
     }
 
     @Override

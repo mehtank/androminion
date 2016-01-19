@@ -312,8 +312,8 @@ public class Util {
 //            event.card = Cards.secretChamber;
 //            game.broadcastEvent(event);
 
-            game.drawToHand(player, responsible, 2);
-            game.drawToHand(player, responsible, 1);
+            game.drawToHand(context, Cards.secretChamber, 2);
+            game.drawToHand(context, Cards.secretChamber, 1);
 
             if (player.hand.size() > 0) {
                 Card[] cards = player.controlPlayer.secretChamber_cardsToPutOnDeck(context);

@@ -554,9 +554,9 @@ public class Strings {
 			} else if (optionString.equals(IndirectPlayer.OPTION_START_TURN_EFFECT)) {
 				return 1;
 			} else if (optionString.equals(IndirectPlayer.OPTION_STASH)) {
-				return 4;
+				return 5;
 			} else if (optionString.equals(IndirectPlayer.OPTION_STASH_POSITION)) {
-				return 3;
+				return 4;
 			}
         }
         if (card == null)

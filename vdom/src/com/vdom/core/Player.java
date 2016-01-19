@@ -826,12 +826,12 @@ public abstract class Player {
         deck.add(0, card);
     }
 
-    public void replenishDeck(MoveContext context, int cardsLeftToDraw) {
+    public void replenishDeck(MoveContext context, Card responsible, int cardsLeftToDraw) {
         shuffleCount++;
-        shuffleIntoDeck(context, discard, cardsLeftToDraw);
+        shuffleIntoDeck(context, responsible, discard, cardsLeftToDraw);
     }
     
-    private void shuffleIntoDeck(MoveContext context, CardList source, int cardsLeftToDraw) {
+    private void shuffleIntoDeck(MoveContext context, Card responsible, CardList source, int cardsLeftToDraw) {
     	ArrayList<Card> stashes = new ArrayList<Card>();
     	int positionAll = -1;
     	if (context != null) {
@@ -848,11 +848,11 @@ public abstract class Player {
 	        	int afterCardsToDraw = cardsLeftToDraw;
 	        	if (afterCardsToDraw < 1)
 	        		afterCardsToDraw = source.size() - numStashes;
-	        	positionAll = this.controlPlayer.stash_chooseDeckPosition(context, source.size() - numStashes, numStashes, afterCardsToDraw);
+	        	positionAll = this.controlPlayer.stash_chooseDeckPosition(context, responsible, source.size() - numStashes, numStashes, afterCardsToDraw);
 	        	// -1 -> Pass (shuffle normally)
 	        	// -2 or below -> (choose individually)
 	        	if (positionAll > source.size() - numStashes)
-	        		positionAll = -1;
+	        		positionAll = source.size() - numStashes;
 	        	if (positionAll == -1) {
 	        		shuffleNormally = true;
 	        	}
@@ -883,12 +883,13 @@ public abstract class Player {
 	    		int position;
 	    		if (positionAll >= 0) {
 	    			position = positionAll;
+	    			position = Math.min(position, deck.size());
 	    		} else {
 	    			int afterCurrentCards = cardsLeftToDraw;
 	    			if (cardsLeftToDraw < 1) {
 	    				afterCurrentCards = deck.size();
 	    			}
-	    			position = controlPlayer.stash_chooseDeckPosition(context, deck.size(), 1, afterCurrentCards);
+	    			position = controlPlayer.stash_chooseDeckPosition(context, responsible, deck.size(), 1, afterCurrentCards);
 	    			if (position < 0)
 	    				position = Game.rand.nextInt(deck.size() + 1);
 	    			position = Math.min(position, deck.size());
@@ -898,12 +899,12 @@ public abstract class Player {
     	}
     }
 
-    public void shuffleDeck(MoveContext context) {
+    public void shuffleDeck(MoveContext context, Card responsible) {
         CardList tempDeck = new CardList(this, name);
         while (deck.size() > 0) {
             tempDeck.add(deck.remove(0));
         }
-        shuffleIntoDeck(context, tempDeck, 0);
+        shuffleIntoDeck(context, responsible, tempDeck, 0);
     }
 
     public void checkCardsValid() {
@@ -1844,7 +1845,7 @@ public abstract class Player {
 
     public abstract Card envoy_cardToDiscard(MoveContext context, Card[] revealedCards);
     
-    public abstract int stash_chooseDeckPosition(MoveContext context, int deckSize, int numStashes, int cardsToDraw);
+    public abstract int stash_chooseDeckPosition(MoveContext context, Card responsible, int deckSize, int numStashes, int cardsToDraw);
     
     public abstract boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array);
 

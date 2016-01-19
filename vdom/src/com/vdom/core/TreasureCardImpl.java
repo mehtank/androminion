@@ -180,7 +180,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         GameEvent event = null;
 
         while (treasureCardFound == null) {
-            Card draw = game.draw(player, -1);
+            Card draw = game.draw(context, controlCard, -1);
             if (draw == null) {
                 break;
             }
@@ -326,6 +326,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         for (Player targetPlayer : playersToAttack) {
             targetPlayer.attacked(this.controlCard, context);
             MoveContext targetContext = new MoveContext(context.game, targetPlayer);
+            targetContext.attackedPlayer = targetPlayer;
         	targetPlayer.setMinusOneCardToken(true, targetContext);
         }
     }
