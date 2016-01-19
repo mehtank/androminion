@@ -249,20 +249,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneCoin))
         	context.addCoins(1);
         if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneCard))
-        	game.drawToHand(currentPlayer, actualCard);
+        	game.drawToHand(currentPlayer, actualCard, 1 + addCards);
 
         context.actions += addActions;
         context.buys += addBuys;
         context.addCoins(addGold);
         currentPlayer.addVictoryTokens(context, addVictoryTokens);
 
-        int cardsToDraw = addCards;
-        while (cardsToDraw > 0) {
-            cardsToDraw--;
-            game.drawToHand(currentPlayer, this);
+        for (int i = 0; i < addCards; ++i) {
+        	game.drawToHand(currentPlayer, this, addCards - i);
         }
-
-        
 
         additionalCardActions(game, context, currentPlayer);
 
@@ -993,7 +989,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void navigator(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 5; i++) {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 5 - i);
             if (card != null) {
                 topOfTheDeck.add(card);
             }
@@ -1046,7 +1042,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void lookout(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i < 3; i++) {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 3 - i);
             if (card != null) {
                 cards.add(card);
             }
@@ -1098,8 +1094,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void pearlDiver(MoveContext context, Player currentPlayer) {
-        if (currentPlayer.getDeckSize() <= 1 && currentPlayer.discard.size() + currentPlayer.getDeckSize() > 1) {
-            context.game.replenishDeck(currentPlayer);
+        if (currentPlayer.getDeckSize() == 0 && currentPlayer.discard.size() > 0) {
+            context.game.replenishDeck(currentPlayer, 0);
         }
 
         if (currentPlayer.getDeckSize() > 1) {
@@ -1252,7 +1248,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 currentPlayer.hand.add(currentPlayer.nativeVillage.remove(0));
             }
         } else {
-            Card draw = game.draw(currentPlayer);
+            Card draw = game.draw(currentPlayer, 1);
             if (draw != null) {
                 currentPlayer.nativeVillage.add(draw);
                 Util.sensitiveDebug(currentPlayer, "Added to Native Village:" + draw.getName(), true);
@@ -1266,7 +1262,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
 
-                Card draw = game.draw(player);
+                Card draw = game.draw(player, 1);
                 if (draw != null) {
                     player.discard(draw, this.controlCard, playerContext);
                 }
@@ -1279,7 +1275,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void councilRoom(Game game, MoveContext context) {
         for (Player player : getAllPlayers()) {
             if (player != context.getPlayer()) {
-                drawToHand(game, player, this.controlCard);
+                game.drawToHand(player, this.controlCard, 1);
             }
         }
     }
@@ -1338,8 +1334,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             currentPlayer.hand.remove(cardToTrash);
             currentPlayer.trash(cardToTrash, this.controlCard, context);
 
-            for (int i = 1; i <= (cardToTrash.getCost(context) + (cardToTrash.costPotion() ? 2 : 0)); i++) {
-                game.drawToHand(currentPlayer, this.controlCard);
+            int cardsToDraw = (cardToTrash.getCost(context) + (cardToTrash.costPotion() ? 2 : 0));
+            for (int i = 1; i <= cardsToDraw; i++) {
+                game.drawToHand(currentPlayer, this.controlCard, cardsToDraw - i);
             }
         }
     }
@@ -1368,7 +1365,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void apothecary(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> residue = new ArrayList<Card>();
         for (int i = 1; i <= 4; i++) {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 4 - i);
             if (card != null) {
                 currentPlayer.reveal(card, this.controlCard, context);
                 if (card.equals(Cards.copper) || card.equals(Cards.potion)) {
@@ -1482,7 +1479,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void scout(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i < 4; i++) {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 4 - i);
             if (card == null) {
                 break;
             }
@@ -1690,7 +1687,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void city(Game game, MoveContext context, Player currentPlayer) {
         if (game.emptyPiles() > 0) {
-            game.drawToHand(currentPlayer, this.controlCard);
+            game.drawToHand(currentPlayer, this.controlCard, 1);
         }
         if (game.emptyPiles() > 1) {
             context.buys++;
@@ -1916,7 +1913,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 List<Card> cardToDiscard = new ArrayList<Card>();
 
                 for (int i = 0; i < 3; i++) {
-                    Card card = game.draw(player);
+                    Card card = game.draw(player, 3 - i);
                     if (card != null) {
                         player.reveal(card, this.controlCard, playerContext);
 
@@ -2034,7 +2031,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     }
 
                     if (numberOfCardsDiscarded == 2) {
-                        game.drawToHand(player, this.controlCard);
+                        game.drawToHand(player, this.controlCard, 1);
                     }
                 }
             }
@@ -2042,10 +2039,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void watchTower(Game game, MoveContext context, Player currentPlayer) {
-        while (currentPlayer.hand.size() < 6) {
-            if(!game.drawToHand(currentPlayer, this.controlCard))
+    	int cardsToDraw = 6 - currentPlayer.hand.size();
+    	for (int i = 0; i < cardsToDraw; ++i) {
+    		if(!game.drawToHand(currentPlayer, this.controlCard, cardsToDraw - i))
                 break;
-        }
+    	}
     }
 
     private void farmingVillage(Game game, MoveContext context, Player currentPlayer) {
@@ -2053,7 +2051,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
-        while ((draw = game.draw(currentPlayer)) != null && !(draw instanceof ActionCard) && !(draw instanceof TreasureCard)) {
+        while ((draw = game.draw(currentPlayer, -1)) != null && !(draw instanceof ActionCard) && !(draw instanceof TreasureCard)) {
             toDiscard.add(draw);
         }
 
@@ -2078,7 +2076,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
 
                 Card draw = null;
-                while ((draw = game.draw(player)) != null && !(draw instanceof VictoryCard) && !(draw instanceof CurseCard)) {
+                while ((draw = game.draw(player, -1)) != null && !(draw instanceof VictoryCard) && !(draw instanceof CurseCard)) {
                     player.reveal(draw, this.controlCard, playerContext);
                     cardsToDiscard.add(draw);
                 }
@@ -2115,7 +2113,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         HashSet<String> cardNames = new HashSet<String>();
         List<Card> cardToDiscard = new ArrayList<Card>();
         for (int i = 0; i < 4; i++) {
-            Card draw = game.draw(currentPlayer);
+            Card draw = game.draw(currentPlayer, 4 - i);
             if (draw == null) {
                 break;
             }
@@ -2165,7 +2163,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
                 targetPlayer.attacked(this.controlCard, context);
 
-                Card draw = game.draw(targetPlayer);
+                Card draw = game.draw(targetPlayer, 1);
                 Card virtCard = draw;
 
                 if (draw == null) 
@@ -2216,7 +2214,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
         Card draw = null;
-        while ((draw = game.draw(currentPlayer)) != null && cardNames.contains(draw.getName())) {
+        while ((draw = game.draw(currentPlayer, -1)) != null && cardNames.contains(draw.getName())) {
             currentPlayer.reveal(draw, this.controlCard, context);
             toDiscard.add(draw);
         }
@@ -2241,7 +2239,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         for(int i=0; i < victoryCards; i++) {
-            game.drawToHand(currentPlayer, this.controlCard);
+            game.drawToHand(currentPlayer, this.controlCard, victoryCards - i);
         }
 
         int crossroadsPlayed = this.controlCard.numberTimesAlreadyPlayed;
@@ -2264,7 +2262,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     context.actions += 2;
                 } else if (option == TrustySteedOption.AddCards) {
                     for (int i = 0; i < 2; i++) {
-                        game.drawToHand(currentPlayer, this.controlCard);
+                        game.drawToHand(currentPlayer, this.controlCard, 2 - i);
                     }
                 } else if (option == TrustySteedOption.AddGold) {
                     context.addCoins(2);
@@ -2287,7 +2285,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void duchess(Game game, MoveContext context) {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            Card c = game.draw(targetPlayer);
+            Card c = game.draw(targetPlayer, 1);
             if(c != null) {
                 MoveContext targetPlayerContext = new MoveContext(context, game, targetPlayer);
                 boolean discard = (targetPlayer).controlPlayer.duchess_shouldDiscardCardFromTopOfDeck(targetPlayerContext, c);
@@ -2321,8 +2319,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                     SpiceMerchantOption option = currentPlayer.controlPlayer.spiceMerchant_chooseOption(context);
                     if(option == SpiceMerchantOption.AddCardsAndAction) {
-                        game.drawToHand(currentPlayer, this.controlCard);
-                        game.drawToHand(currentPlayer, this.controlCard);
+                        game.drawToHand(currentPlayer, this.controlCard, 2);
+                        game.drawToHand(currentPlayer, this.controlCard, 1);
                         context.actions += 1;
                     }
                     else {
@@ -2356,7 +2354,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void cartographer(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 4; i++) {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 4 - i);
             if (card != null) {
                 topOfTheDeck.add(card);
             }
@@ -2535,8 +2533,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (option == Player.StewardOption.AddGold) {
                 context.addCoins(2);
             } else if (option == Player.StewardOption.AddCards) {
-                game.drawToHand(currentPlayer, this.controlCard);
-                game.drawToHand(currentPlayer, this.controlCard);
+                game.drawToHand(currentPlayer, this.controlCard, 2);
+                game.drawToHand(currentPlayer, this.controlCard, 1);
             } else if (option == Player.StewardOption.TrashCards) {
                 CardList hand = currentPlayer.getHand();
                 if (hand.size() == 0) {
@@ -2593,7 +2591,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 List<Card> cardsToDiscard = new ArrayList<Card>();
                 for (int i = 0; i < 2; i++) {
-                    Card card = game.draw(targetPlayer);
+                    Card card = game.draw(targetPlayer, 2 - i);
 
                     if (card != null) {
                         targetPlayer.reveal(card, this.controlCard, targetContext);
@@ -2755,7 +2753,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         int numCards = distinct ? 3 : 1;
         for (int i = 0; i < numCards; i++) {
-            game.drawToHand(currentPlayer, this.controlCard);
+            game.drawToHand(currentPlayer, this.controlCard, numCards - i);
         }
     }
 
@@ -2809,7 +2807,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         if (!opponentsRevealedProvince) {
-        	game.drawToHand(currentPlayer, this);
+        	game.drawToHand(currentPlayer, this, 1);
             context.addCoins(1);
         }
     }
@@ -2952,10 +2950,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                         player.discard(player.hand.remove(0), this.controlCard, targetContext);
                     }
 
-                    game.drawToHand(player, this.controlCard);
-                    game.drawToHand(player, this.controlCard);
-                    game.drawToHand(player, this.controlCard);
-                    game.drawToHand(player, this.controlCard);
+                    game.drawToHand(player, this.controlCard, 4);
+                    game.drawToHand(player, this.controlCard, 3);
+                    game.drawToHand(player, this.controlCard, 2);
+                    game.drawToHand(player, this.controlCard, 1);
                 }
             }
         }
@@ -2972,7 +2970,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 } else if (option == Player.PawnOption.AddBuy) {
                     context.buys++;
                 } else if (option == Player.PawnOption.AddCard) {
-                    game.drawToHand(currentPlayer, this.controlCard);
+                    game.drawToHand(currentPlayer, this.controlCard, 1);
                 } else if (option == Player.PawnOption.AddGold) {
                     context.addCoins(1);
                 }
@@ -2990,7 +2988,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 ArrayList<Card> toDiscard = new ArrayList<Card>();
                 Card draw;
 
-                while ((draw = game.draw(player)) != null) {
+                while ((draw = game.draw(player, -1)) != null) {
                     if (draw.getCost(context) >= 3) {
                         int value = draw.getCost(context);
                         value -= 2;
@@ -3039,8 +3037,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         if (!actions) {
-            game.drawToHand(currentPlayer, this.controlCard);
-            game.drawToHand(currentPlayer, this.controlCard);
+            game.drawToHand(currentPlayer, this.controlCard, 2);
+            game.drawToHand(currentPlayer, this.controlCard, 1);
         }
     }
 
@@ -3088,7 +3086,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
 
                 MoveContext playerContext = new MoveContext(game, player);
-                Card card = game.draw(player);
+                Card card = game.draw(player, 1);
 
                 if (card != null) {
                     player.reveal(card, this.controlCard, playerContext);
@@ -3115,7 +3113,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             ArrayList<Card> cardsToPutInHand = new ArrayList<Card>();
 
             Card draw = null;
-            while ((draw = game.draw(currentPlayer)) != null) {
+            while ((draw = game.draw(currentPlayer, -1)) != null) {
                 currentPlayer.reveal(draw, this.controlCard, new MoveContext(context, game, currentPlayer));
                 cardsToPutInHand.add(draw);
                 if(!(draw instanceof ActionCard)) {
@@ -3132,7 +3130,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void conspirator(Game game, MoveContext context, Player currentPlayer) {
         if (context.actionsPlayedSoFar >= 3) {
             context.actions++;
-            game.drawToHand(currentPlayer, this.controlCard);
+            game.drawToHand(currentPlayer, this.controlCard, 1);
         }
     }
 
@@ -3148,7 +3146,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (!options.isEmpty()) {
                 Card card = currentPlayer.controlPlayer.wishingWell_cardGuess(context, options);
                 currentPlayer.controlPlayer.namedCard(card, this.controlCard, context);
-                Card draw = game.draw(currentPlayer);
+                Card draw = game.draw(currentPlayer, 1);
                 if (draw != null) {
                     currentPlayer.reveal(draw, this.controlCard, context);
 
@@ -3199,7 +3197,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     context.addCoins(1);
                 }
                 if (card instanceof VictoryCard) {
-                    game.drawToHand(currentPlayer, this.controlCard);
+                    game.drawToHand(currentPlayer, this.controlCard, 1);
                 }
             }
         }
@@ -3213,9 +3211,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (option == Player.NoblesOption.AddActions) {
                 context.actions += 2;
             } else if (option == Player.NoblesOption.AddCards) {
-                game.drawToHand(currentPlayer, this.controlCard);
-                game.drawToHand(currentPlayer, this.controlCard);
-                game.drawToHand(currentPlayer, this.controlCard);
+                game.drawToHand(currentPlayer, this.controlCard, 3);
+                game.drawToHand(currentPlayer, this.controlCard, 2);
+                game.drawToHand(currentPlayer, this.controlCard, 1);
             }
         }
     }
@@ -3223,8 +3221,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void tribute(Game game, MoveContext context, Player currentPlayer) {
         Card[] revealedCards = new Card[2];
         Player nextPlayer = game.getNextPlayer();
-        revealedCards[0] = game.draw(nextPlayer);
-        revealedCards[1] = game.draw(nextPlayer);
+        revealedCards[0] = game.draw(nextPlayer, 2);
+        revealedCards[1] = game.draw(nextPlayer, 1);
 
         if (revealedCards[0] != null) {
             nextPlayer.reveal(revealedCards[0], this.controlCard, new MoveContext(game, nextPlayer));
@@ -3250,8 +3248,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     context.addCoins(2);
                 }
                 if (card instanceof VictoryCard) {
-                    game.drawToHand(currentPlayer, this.controlCard);
-                    game.drawToHand(currentPlayer, this.controlCard);
+                    game.drawToHand(currentPlayer, this.controlCard, 2);
+                    game.drawToHand(currentPlayer, this.controlCard, 1);
                 }
             }
         }
@@ -3267,7 +3265,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
 
-                Card draw = game.draw(player);
+                Card draw = game.draw(player, 1);
                 if (draw != null) {
                     player.trash(draw, this.controlCard, playerContext);
 
@@ -3408,7 +3406,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 context.actions++;
 
                 for (int i = 0; i < 3; i++) {
-                    if(!game.drawToHand(currentPlayer, this.controlCard)) {
+                    if(!game.drawToHand(currentPlayer, this.controlCard, 3 - i)) {
                         break;
                     }
                 }
@@ -3422,7 +3420,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
-                game.drawToHand(player, this.controlCard);
+                game.drawToHand(player, this.controlCard, 1);
 
                 int keepCardCount = 3;
                 if (player.hand.size() > keepCardCount) {
@@ -3440,7 +3438,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 ArrayList<Card> cards = new ArrayList<Card>();
                 for(int i=0; i < 2; i++) {
-                    Card c = game.draw(targetPlayer);
+                    Card c = game.draw(targetPlayer, 2 - i);
                     if(c == null) {
                         break;
                     }
@@ -3489,7 +3487,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         for(int i=0; i < 2; i++) {
-            game.drawToHand(currentPlayer, this.controlCard);
+            game.drawToHand(currentPlayer, this.controlCard, 2 - i);
         }
     }
 
@@ -3510,7 +3508,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void jackOfAllTrades(Game game, MoveContext context, Player currentPlayer) {
         currentPlayer.gainNewCard(Cards.silver, this.controlCard, context);
 
-        Card c = game.draw(currentPlayer);
+        Card c = game.draw(currentPlayer, 1);
         if(c != null) {
             boolean discard = currentPlayer.controlPlayer.jackOfAllTrades_shouldDiscardCardFromTopOfDeck(context, c);
             if(discard) {
@@ -3519,12 +3517,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 currentPlayer.putOnTopOfDeck(c);
             }
         }
-        while(currentPlayer.hand.size() < 5) {
-            if(!game.drawToHand(currentPlayer, this.controlCard)) {
+        
+        int cardsToDraw = 5 - currentPlayer.hand.size();
+        for (int i = 0; i < cardsToDraw; ++i) {
+        	if(!game.drawToHand(currentPlayer, this.controlCard, cardsToDraw - i)) {
                 break;
             }
         }
-
+        
         Card cardToTrash = currentPlayer.controlPlayer.jackOfAllTrades_nonTreasureToTrash(context);
         if(cardToTrash != null) {
             if(!currentPlayer.hand.contains(cardToTrash) || cardToTrash instanceof TreasureCard) {
@@ -3668,9 +3668,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 Util.playerError(currentPlayer, "Cellar discard error, trying to discard cards not in hand, ignoring extra.");
             }
 
-            while (numberOfCards > 0) {
-                numberOfCards--;
-                game.drawToHand(currentPlayer, this.controlCard);
+            for (int i = 0; i < numberOfCards; ++i) {
+            	game.drawToHand(currentPlayer, this.controlCard, numberOfCards - i);
             }
         }
     }
@@ -3746,7 +3745,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> toOrder = new ArrayList<Card>();
 
         while (toOrder.size() < 2) {
-            Card draw = game.draw(currentPlayer);
+            Card draw = game.draw(currentPlayer, -1);
             if (draw == null) {
                 break;
             }
@@ -3807,7 +3806,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         int treasureCardsRevealed = 0;
 
         while (treasureCardsRevealed < 2) {
-            Card draw = game.draw(currentPlayer);
+            Card draw = game.draw(currentPlayer, -1);
             if (draw == null) {
                 break;
             }
@@ -3832,7 +3831,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         //  we need to manually remove the minus one card token
         currentPlayer.setMinusOneCardToken(false, context);
         while (currentPlayer.hand.size() < 7) {
-        	Card draw = game.draw(currentPlayer);
+        	Card draw = game.draw(currentPlayer, -1);
             if (draw == null) {
                 break;
             }
@@ -3914,7 +3913,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 List<Card> cardToDiscard = new ArrayList<Card>();
 
                 for (int i = 0; i < 2; i++) {
-                    Card card = game.draw(targetPlayer);
+                    Card card = game.draw(targetPlayer, 2 - i);
 
                     if (card != null) {
                         targetPlayer.reveal(card, this.controlCard, targetContext);
@@ -4010,7 +4009,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             GameEvent event = new GameEvent(GameEvent.Type.DeckPutIntoDiscardPile, (MoveContext) context);
             game.broadcastEvent(event);
             while (currentPlayer.getDeckSize() > 0) {
-                currentPlayer.discard(game.draw(currentPlayer), this.controlCard, null, false, false);
+                currentPlayer.discard(game.draw(currentPlayer, 0), this.controlCard, null, false, false);
             }
         }
     }
@@ -4125,20 +4124,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     protected void drawToHand(Game game, Player player, Card responsible, int count) {
         for (int i=0; i < count; i++) {
-            game.drawToHand(player, responsible);
+            game.drawToHand(player, responsible, count - i);
         }
-    }
-
-    protected void drawToHand(Game game, Player player, Card responsible) {
-        game.drawToHand(player, responsible);
     }
 
     protected void addToHand(Player player, Card card) {
         player.hand.add(card);
     }
 
-    protected Card draw(Game game, Player player) {
-        return game.draw(player);
+    protected Card draw(Game game, Player player, int cardsLeftToDraw) {
+        return game.draw(player, cardsLeftToDraw);
     }
 
     protected Player[] getAllPlayers() {
@@ -4229,7 +4224,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 List<Card> cardsToDiscard = new ArrayList<Card>();
                 for (int j = 0; j < 2; j++) {
-                    Card card = context.game.draw(targetPlayer);
+                    Card card = context.game.draw(targetPlayer, 2 - j);
                     if(card == null) {
                         break;
                     }
@@ -4322,7 +4317,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
         Card draw = null;
-        while ((draw = game.draw(currentPlayer)) != null && draw.getCost(context) < 3) {
+        while ((draw = game.draw(currentPlayer, -1)) != null && draw.getCost(context) < 3) {
             currentPlayer.reveal(draw, this.controlCard, context);
             toDiscard.add(draw);
         }
@@ -4431,7 +4426,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     public void catacombs(Game game, Player currentPlayer, MoveContext context) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 3; i++) {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 3 - i);
             if (card != null) {
                 topOfTheDeck.add(card);
             }
@@ -4442,9 +4437,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 while (!topOfTheDeck.isEmpty()) {
                     currentPlayer.discard(topOfTheDeck.remove(0), this.controlCard, context);
                 }
-                game.drawToHand(currentPlayer, this.controlCard);
-                game.drawToHand(currentPlayer, this.controlCard);
-                game.drawToHand(currentPlayer, this.controlCard);
+                game.drawToHand(currentPlayer, this.controlCard, 3);
+                game.drawToHand(currentPlayer, this.controlCard, 2);
+                game.drawToHand(currentPlayer, this.controlCard, 1);
             } else {
                 // Put the cards in hand
                 for (Card c : topOfTheDeck) {
@@ -4626,7 +4621,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void ironmonger(Game game, Player currentPlayer, MoveContext context) {
-        Card card = game.draw(currentPlayer);
+        Card card = game.draw(currentPlayer, 1);
         
         if (card != null) {
             currentPlayer.reveal(card, this.controlCard, context);
@@ -4643,7 +4638,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 context.addCoins(1);
             }
             if (card instanceof VictoryCard) {
-                game.drawToHand(currentPlayer, this.controlCard);
+                game.drawToHand(currentPlayer, this.controlCard, 1);
             }
         }
     }
@@ -4672,7 +4667,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (options.size() > 0) {
                 Card toName = currentPlayer.controlPlayer.mystic_cardGuess(context, options);
                 currentPlayer.controlPlayer.namedCard(toName, this.controlCard, context);
-                Card draw = game.draw(currentPlayer);
+                Card draw = game.draw(currentPlayer, 1);
 
                 if (draw != null) {
                     currentPlayer.reveal(draw, this.controlCard, context);
@@ -4698,7 +4693,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             game.broadcastEvent(event);
             while (currentPlayer.getDeckSize() > 0)
             {
-                currentPlayer.discard(game.draw(currentPlayer), this.controlCard, null, false, false);
+                currentPlayer.discard(game.draw(currentPlayer, 0), this.controlCard, null, false, false);
             }
         }
 
@@ -4737,9 +4732,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 Util.playerError(currentPlayer, "Storeroom discard error, trying to discard cards not in hand, ignoring extra.");
             }
 
-            while (numberOfCards > 0) {
-                numberOfCards--;
-                game.drawToHand(currentPlayer, this.controlCard);
+            for (int i = 0; i < numberOfCards; ++i) {
+            	game.drawToHand(currentPlayer, this.controlCard, numberOfCards - i);
             }
         }
 
@@ -4771,7 +4765,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void wanderingMinstrel(Player currentPlayer, MoveContext context) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i < 3; i++) {
-            Card card = context.game.draw(currentPlayer);
+            Card card = context.game.draw(currentPlayer, 3 - i);
             if (card == null) {
                 break;
             }
@@ -4810,7 +4804,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Card last = null;
 
         // search for first Victory card that was not named
-        while ((last = context.game.draw(currentPlayer)) != null) {
+        while ((last = context.game.draw(currentPlayer, -1)) != null) {
             if (last instanceof VictoryCard && !last.equals(named)) break;
             cards.add(last);
             currentPlayer.reveal(last, this.controlCard, context);
@@ -4859,7 +4853,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                     List<Card> cardsToDiscard = new ArrayList<Card>();
                     for (int i = 0; i < 2; i++) {
-                        Card card = game.draw(targetPlayer);
+                        Card card = game.draw(targetPlayer, 2 - i);
 
                         if (card != null) {
                             targetPlayer.reveal(card, this.controlCard, targetContext);
@@ -4947,12 +4941,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             Util.playerError(currentPlayer, "Governor option error, ignoring.");
         } else {
             if (option == Player.GovernorOption.AddCards) {
-                game.drawToHand(currentPlayer, this.controlCard);
-                game.drawToHand(currentPlayer, this.controlCard);
-                game.drawToHand(currentPlayer, this.controlCard);
+                game.drawToHand(currentPlayer, this.controlCard, 3);
+                game.drawToHand(currentPlayer, this.controlCard, 2);
+                game.drawToHand(currentPlayer, this.controlCard, 1);
                 for (Player player : getAllPlayers()) {
                     if (player != context.getPlayer()) {
-                        drawToHand(game, player, this.controlCard);
+                        game.drawToHand(player, this.controlCard, 1);
                     }
                 }
             } else if (option == Player.GovernorOption.GainTreasure) {
@@ -5020,7 +5014,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> cards = new ArrayList<Card>();
         Player nextPlayer = game.getNextPlayer();
         for (int i = 0; i < 5; i++) {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 5 - i);
             if (card != null) {
                 cards.add(card);
                 currentPlayer.reveal(card, this.controlCard, context);
@@ -5059,7 +5053,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     public void isTrashed(MoveContext context) {
         switch (this.controlCard.behaveAsCard().getType()) {
             case Rats:
-                context.game.drawToHand(context.player, this.controlCard, true);
+                context.game.drawToHand(context.player, this.controlCard, 1, true);
                 break;
             case Squire:
                 // Need to ensure that there is at least one Attack card that can be gained,
@@ -5132,9 +5126,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 context.player.hand.add(this.controlCard);
                 break;
             case Cultist:
-                context.game.drawToHand(context.player, this.controlCard, false);
-                context.game.drawToHand(context.player, this.controlCard, false);
-                context.game.drawToHand(context.player, this.controlCard, false);
+                context.game.drawToHand(context.player, this.controlCard, 3, false);
+                context.game.drawToHand(context.player, this.controlCard, 2, false);
+                context.game.drawToHand(context.player, this.controlCard, 1, false);
                 break;
             case SirVander:
                 context.player.controlPlayer.gainNewCard(Cards.gold, this.controlCard, context);
@@ -5204,7 +5198,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void survivors(MoveContext context, Game game, Player currentPlayer) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 2; i++) {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 2 - i);
             if (card != null) {
                 topOfTheDeck.add(card);
             }
@@ -5320,8 +5314,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         if (cardsTrashedCount == 2)
         {
-            game.drawToHand(currentPlayer, this.controlCard);
-            game.drawToHand(currentPlayer, this.controlCard);
+            game.drawToHand(currentPlayer, this.controlCard, 2);
+            game.drawToHand(currentPlayer, this.controlCard, 1);
 
             context.addCoins(2);
 
@@ -5420,14 +5414,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             int handSize = currentPlayer.hand.size();
 
             for (int i = 0; i < handSize; ++i) {
-                game.drawToHand(currentPlayer, this.controlCard);
+                game.drawToHand(currentPlayer, this.controlCard, handSize - i);
             }
         }
     }
 
     private void vagrant(MoveContext context, Game game, Player currentPlayer)
     {
-        Card c = game.draw(currentPlayer);
+        Card c = game.draw(currentPlayer, 1);
         if (c != null) {
             currentPlayer.reveal(c, this.controlCard, context);
             if (c.getType() == Cards.Type.Curse || c.isShelter() || (c instanceof VictoryCard) || (c.isRuins())) {
@@ -5448,7 +5442,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 List<Card> cardsToDiscard = new ArrayList<Card>();
                 for (int i = 0; i < 2; i++) {
-                    Card card = context.game.draw(targetPlayer);
+                    Card card = context.game.draw(targetPlayer, 2 - i);
 
                     if (card != null) {
                         targetPlayer.reveal(card, this.controlCard, targetContext);
@@ -5621,7 +5615,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 if (curseGained.equals(Cards.curse))
                 {
-                    drawToHand(game, player, this.controlCard);
+                    game.drawToHand(player, this.controlCard, 1);
                 }
             }
         }
@@ -5728,7 +5722,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         for (int i = 0; i < 3; ++i) 
         {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 3 - i);
 
             if (card != null) 
             {
@@ -5843,7 +5837,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         int diffCardsFound = 0;
 
         // search for the first 3 cards that were not named
-        while (diffCardsFound < 3 && (last = context.game.draw(currentPlayer)) != null) {
+        while (diffCardsFound < 3 && (last = context.game.draw(currentPlayer, -1)) != null) {
             if (!last.equals(named)) {
                 ++diffCardsFound;
                 cardsToKeep.add(last);
@@ -5949,7 +5943,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> revealedCards = new ArrayList<Card>();
 
         for (int i = 0; i < 3; ++i) {
-            Card card = game.draw(currentPlayer);
+            Card card = game.draw(currentPlayer, 3 - i);
             if (card != null) {
                 currentPlayer.reveal(card, this.controlCard, context);
 
@@ -5976,7 +5970,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     {
         for (int i = 0; i < context.overpayAmount; ++i)
         {
-            Card card = context.game.draw(context.player);
+            Card card = context.game.draw(context.player, context.overpayAmount - i);
 
             if (card != null)
             {
@@ -6002,7 +5996,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void herald(Game game, MoveContext context, Player currentPlayer) 
     {
-        Card draw = game.draw(currentPlayer);
+        Card draw = game.draw(currentPlayer, 1);
 
         if (draw != null) 
         {
@@ -6191,7 +6185,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             	targetPlayer.attacked(this.controlCard, context);
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
 
-                Card card = game.draw(targetPlayer);
+                Card card = game.draw(targetPlayer, 1);
                 if (card != null) {
                     targetPlayer.reveal(card, this.controlCard, targetContext);
                     int cardCost = card.getCost(context);
@@ -6237,7 +6231,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     
     private void magpie(Game game, MoveContext context, Player currentPlayer)
     {
-        Card c = game.draw(currentPlayer);
+        Card c = game.draw(currentPlayer , 1);
         if (c != null) {
             currentPlayer.reveal(c, this.controlCard, context);
             if (c instanceof TreasureCard) {
@@ -6259,7 +6253,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             GameEvent event = new GameEvent(GameEvent.Type.DeckPutIntoDiscardPile, (MoveContext) context);
             game.broadcastEvent(event);
             while (currentPlayer.getDeckSize() > 0) {
-                currentPlayer.discard(game.draw(currentPlayer), this.controlCard, null, false, false);
+                currentPlayer.discard(game.draw(currentPlayer, 0), this.controlCard, null, false, false);
             }
         }
     }
@@ -6312,13 +6306,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     	if (trashCost == 0)
     		return;
     	else if (trashCost == 1) {
-    		Card c = game.draw(currentPlayer);
+    		Card c = game.draw(currentPlayer, 1);
     		if (c != null)
     			currentPlayer.hand.add(c);
     	} else {
     		ArrayList<Card> lookAtCards = new ArrayList<Card>(trashCost);
-    		while (lookAtCards.size() < trashCost) {
-    			Card c = game.draw(currentPlayer);
+    		for (int i = 0; i < trashCost; ++i) {
+    			Card c = game.draw(currentPlayer, trashCost - i);
     			if (c == null)
     				break;
     			lookAtCards.add(c);
@@ -6366,7 +6360,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         context.spendCoins(coins);
         
         for (int i = 0; i < coins; i++) {
-        	game.drawToHand(currentPlayer, this.controlCard);
+        	game.drawToHand(currentPlayer, this.controlCard, coins - i);
         }
     }
     
@@ -6389,7 +6383,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     			player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
-                Card draw = game.draw(player);
+                Card draw = game.draw(player, numTravellers - i);
                 if (draw != null) {
                 	int cost = draw.getCost(context);
                 	if (draw.costPotion()) 

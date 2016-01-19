@@ -826,13 +826,12 @@ public abstract class Player {
         deck.add(0, card);
     }
 
-    public void replenishDeck(MoveContext context) {
+    public void replenishDeck(MoveContext context, int cardsLeftToDraw) {
         shuffleCount++;
-        shuffleIntoDeck(context, discard);
+        shuffleIntoDeck(context, discard, cardsLeftToDraw);
     }
     
-    private void shuffleIntoDeck(MoveContext context, CardList source) {
-    	int cardsLeftToDraw = 5; //TODO - dominionator - do this and don't forget to account for -1 card token
+    private void shuffleIntoDeck(MoveContext context, CardList source, int cardsLeftToDraw) {
     	ArrayList<Card> stashes = new ArrayList<Card>();
     	int positionAll = -1;
     	if (context != null) {
@@ -846,7 +845,10 @@ public abstract class Player {
 	        if (source.size() == numStashes) {
 	        	shuffleNormally = true;
 	        } else if (numStashes > 1) {
-	        	positionAll = this.controlPlayer.stash_chooseDeckPosition(context, source.size() - numStashes, numStashes, cardsLeftToDraw);
+	        	int afterCardsToDraw = cardsLeftToDraw;
+	        	if (afterCardsToDraw < 1)
+	        		afterCardsToDraw = source.size() - numStashes;
+	        	positionAll = this.controlPlayer.stash_chooseDeckPosition(context, source.size() - numStashes, numStashes, afterCardsToDraw);
 	        	// -1 -> Pass (shuffle normally)
 	        	// -2 or below -> (choose individually)
 	        	if (positionAll > source.size() - numStashes)
@@ -882,7 +884,11 @@ public abstract class Player {
 	    		if (positionAll >= 0) {
 	    			position = positionAll;
 	    		} else {
-	    			position = controlPlayer.stash_chooseDeckPosition(context, deck.size(), 1, cardsLeftToDraw);
+	    			int afterCurrentCards = cardsLeftToDraw;
+	    			if (cardsLeftToDraw < 1) {
+	    				afterCurrentCards = deck.size();
+	    			}
+	    			position = controlPlayer.stash_chooseDeckPosition(context, deck.size(), 1, afterCurrentCards);
 	    			if (position < 0)
 	    				position = Game.rand.nextInt(deck.size() + 1);
 	    			position = Math.min(position, deck.size());
@@ -897,7 +903,7 @@ public abstract class Player {
         while (deck.size() > 0) {
             tempDeck.add(deck.remove(0));
         }
-        shuffleIntoDeck(context, tempDeck);
+        shuffleIntoDeck(context, tempDeck, 0);
     }
 
     public void checkCardsValid() {

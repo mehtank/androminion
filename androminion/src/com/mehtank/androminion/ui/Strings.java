@@ -849,7 +849,7 @@ public class Strings {
             } else if (option == StashOption.PlaceAfterCardsToDraw) {
             	int deckSize = (Integer) extras[1];
             	int cardsToDraw = (Integer) extras[3];
-            	if (cardsToDraw > deckSize) {
+            	if (cardsToDraw >= deckSize) {
             		return getString(R.string.stash_on_bottom);
             	} else {
             		return format(R.string.stash_after_cards_to_draw, cardsToDraw);

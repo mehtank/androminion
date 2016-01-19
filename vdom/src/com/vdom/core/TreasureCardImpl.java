@@ -180,7 +180,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         GameEvent event = null;
 
         while (treasureCardFound == null) {
-            Card draw = game.draw(player);
+            Card draw = game.draw(player, -1);
             if (draw == null) {
                 break;
             }

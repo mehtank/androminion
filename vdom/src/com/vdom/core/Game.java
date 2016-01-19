@@ -605,7 +605,7 @@ public class Game {
 
         // draw next hand
         for (int i = 0; i < handCount; i++) {
-            drawToHand(player, null, false);
+            drawToHand(player, null, handCount - i, false);
         }
 
         if (player.save != null) {
@@ -883,7 +883,7 @@ public class Game {
             } else if(card.equals(Cards.horseTraders)) {
                 Card horseTrader = player.horseTraders.remove(0);
                 player.hand.add(horseTrader);
-                drawToHand(player, horseTrader);
+                drawToHand(player, horseTrader, 1);
             } else if(card instanceof DurationCard) {
                 if(card.equals(Cards.haven) || card.equals(Cards.gear)) {
                     player.hand.add(card2);
@@ -914,7 +914,7 @@ public class Game {
                 }
 
                 for (int i = 0; i < addCardsNextTurn; i++) {
-                    drawToHand(player, thisCard, true);
+                    drawToHand(player, thisCard, addCardsNextTurn - i, true);
                 }
                 
                 if (   thisCard.getType() == Cards.Type.Amulet
@@ -1649,17 +1649,17 @@ public class Game {
     }
 
     // Use drawToHand when "drawing" or "+ X cards" when -1 Card token could be drawn instead
-    boolean drawToHand(Player player, Card responsible) {
-        return drawToHand(player, responsible, true);
+    boolean drawToHand(Player player, Card responsible, int cardsLeftToDraw) {
+        return drawToHand(player, responsible, cardsLeftToDraw, true);
     }
 
-    boolean drawToHand(Player player, Card responsible, boolean showUI) {
+    boolean drawToHand(Player player, Card responsible, int cardsLeftToDraw, boolean showUI) {
     	if (player.getMinusOneCardToken()) {
     		MoveContext context = new MoveContext(this, player);
     		player.setMinusOneCardToken(false, context);
     		return false;
     	}
-        Card card = draw(player);
+        Card card = draw(player, cardsLeftToDraw);
         if (card == null)
             return false;
 
@@ -1673,21 +1673,21 @@ public class Game {
     }
 
     // Use draw when removing a card from the top of the deck without "drawing" it (e.g. look at or reveal)
-    Card draw(Player player) {
+    Card draw(Player player, int cardsLeftToDraw) {
     	if (player.deck.isEmpty()) {
             if (player.discard.isEmpty()) {
                 return null;
             } else {
-                replenishDeck(player);
+                replenishDeck(player, cardsLeftToDraw);
             }
         }
 
         return player.deck.remove(0);
     }
 
-    public void replenishDeck(Player player) {
+    public void replenishDeck(Player player, int cardsLeftToDraw) {
     	MoveContext context = new MoveContext(this, player);
-        player.replenishDeck(context);
+        player.replenishDeck(context, cardsLeftToDraw);
         
         GameEvent event = new GameEvent(GameEvent.Type.DeckReplenished, context);
         broadcastEvent(event);
@@ -1925,7 +1925,7 @@ public class Game {
 
             if (!equalStartHands || i == 0) {
                 while (player.hand.size() < 5)
-                    drawToHand(player, null, false);
+                    drawToHand(player, null, 5 - player.hand.size(), false);
             }
             else {
                 // make subsequent player hands equal
@@ -1934,7 +1934,7 @@ public class Game {
                     player.discard.remove(card);
                     player.hand.add(card);
                 }
-                player.replenishDeck(null);
+                player.replenishDeck(null, 0);
             }
         }
 
@@ -2686,7 +2686,7 @@ public class Game {
                     } else if(event.card.equals(Cards.lostCity)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
-                                drawToHand(targetPlayer, event.card, true);
+                                drawToHand(targetPlayer, event.card, 1, true);
                             }
                         }
                     }
