@@ -46,10 +46,10 @@ public class CardSet {
 	}
 	
 	public static CardSet getCardSet(final GameType type, int count) {
-		return getCardSet(type, count, null, false, -1);
+		return getCardSet(type, count, null, false, -1, false);
 	}
 
-	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions, boolean randomIncludeEvents, int numRandomEvents) {
+	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions, boolean randomIncludeEvents, int numRandomEvents, boolean adjustRandomForAlchemy) {
 		CardSet set = CardSet.CardSetMap.get(type);
 
 		if(set == null) {
@@ -69,18 +69,18 @@ public class CardSet {
 			if (randomIncludeEvents) {
 				cards.addAll(Cards.eventsCards);
 			}
-			set = CardSet.getRandomCardSet(cards, count, numRandomEvents);
+			set = CardSet.getRandomCardSet(cards, count, numRandomEvents, adjustRandomForAlchemy);
 		}
 
 		return set;
 	}
 	
 	public static CardSet getRandomCardSet(final List<Card> possibleCards) {
-		return getRandomCardSet(possibleCards, -1, 0);
+		return getRandomCardSet(possibleCards, -1, 0, false);
 	}
 
 	public static CardSet getRandomCardSet(final List<Card> possibleCards, int count) {
-		return getRandomCardSet(possibleCards, count, 0);
+		return getRandomCardSet(possibleCards, count, 0, false);
 	}
 	
 	/**
@@ -93,7 +93,7 @@ public class CardSet {
 	 *        at most that absolute value of Events using the selection method suggested in the rules 
 	 * @return A random CardSet selected from the list of entered cards
 	 */
-	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount) {
+	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount, boolean adjustForAlchemy) {
 		final List<Card> cardSetList = new ArrayList<Card>();
 		final List<Card> eventList = new ArrayList<Card>();
 		
@@ -155,9 +155,49 @@ public class CardSet {
 			}
 		}
 		
+		// Do Alchemy recommendation - if at least one Alchemy card is in, use 3 to 5 at once
+		if (adjustForAlchemy)
+			performAlchemyRecommendation(cardSetList, possibleCards);
+		
 		cardSetList.addAll(eventList);
 		
 		return new CardSet(cardSetList, baneCard);
+	}
+
+	private static int MIN_RECOMMENDED_ALCHEMY = 3;
+	private static int MAX_RECOMMENDED_ALCHEMY = 5;
+	private static void performAlchemyRecommendation(List<Card> cardSetList, List<Card> possibleCards) {
+		if (cardSetList.size() < MIN_RECOMMENDED_ALCHEMY)
+			return;
+		
+		Set<Card> alchemyCardsUsed = new HashSet<Card>();
+		for (Card c : cardSetList) {
+			if (c.getExpansion().equals("Alchemy"))
+				alchemyCardsUsed.add(c);
+		}
+		
+		int numAlchemyCards = alchemyCardsUsed.size();
+		if (!(numAlchemyCards > 0 && numAlchemyCards < MIN_RECOMMENDED_ALCHEMY))
+			return;
+		
+		int numAlchemyCardsToUse = rand.nextInt(MAX_RECOMMENDED_ALCHEMY - MIN_RECOMMENDED_ALCHEMY + 1) + MIN_RECOMMENDED_ALCHEMY;
+		numAlchemyCardsToUse = Math.min(numAlchemyCardsToUse, Expansion.Alchemy.getKingdomCards().size() - numAlchemyCards);
+		
+		LinkedList<Card> cardsToPickFrom = new LinkedList<Card>();
+		for (Card c : Expansion.Alchemy.getKingdomCards()) {
+			if (!alchemyCardsUsed.contains(c))
+				cardsToPickFrom.add(c);
+		}
+
+		for(int i = 0; i < cardSetList.size(); ++i) {
+			if (alchemyCardsUsed.contains(cardSetList.get(i)))
+				continue;
+			Card replacement = cardsToPickFrom.remove(rand.nextInt(cardsToPickFrom.size()));
+			cardSetList.set(i, replacement);
+			numAlchemyCards++;
+			if (numAlchemyCards == numAlchemyCardsToUse)
+				break;
+		}
 	}
 
 	private static Card swapOutBaneCard(List<Card> swapFrom, List<Card> replaceFrom) {
@@ -323,7 +363,7 @@ public class CardSet {
 		CardSetMap.put(GameType.DecisionsDecisions, new CardSet(new Card[]{Cards.merchantGuild, Cards.candlestickMaker, Cards.masterpiece, Cards.taxman, Cards.butcher, Cards.bridge, Cards.pawn, Cards.miningVillage, Cards.upgrade, Cards.duke}, null));
 
     /*frr18 AdventureTest*/
-		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.ratcatcher, Cards.quest, Cards.miser, Cards.guide, Cards.transmogrify, Cards.wineMerchant, Cards.chapel, Cards.throneRoom, Cards.contraband, Cards.peasant, Cards.embargo, Cards.mission, Cards.hireling, Cards.seaway}, null));
+		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.library, Cards.inn, Cards.transmogrify, Cards.stash, Cards.chapel, Cards.throneRoom, Cards.contraband, Cards.workersVillage, Cards.embargo, Cards.apprentice, Cards.borrow, Cards.lostArts, Cards.pathfinding}, null));
 		CardSetMap.put(GameType.GentleIntro, new CardSet(new Card[] { Cards.amulet, Cards.distantLands, Cards.dungeon, Cards.duplicate, Cards.giant, Cards.hireling, Cards.port, Cards.ranger, Cards.ratcatcher, Cards.treasureTrove, Cards.scoutingParty}, null));
 		CardSetMap.put(GameType.ExpertIntro, new CardSet(new Card[] { Cards.caravanGuard, Cards.coinOfTheRealm, Cards.hauntedWoods, Cards.lostCity, Cards.magpie, Cards.peasant, Cards.raze, Cards.swampHag, Cards.transmogrify, Cards.wineMerchant, Cards.mission, Cards.plan}, null));
 		CardSetMap.put(GameType.LevelUp, new CardSet(new Card[] { Cards.dungeon, Cards.gear, Cards.guide, Cards.lostCity, Cards.miser, Cards.market, Cards.militia, Cards.spy, Cards.throneRoom, Cards.workshop, Cards.training}, null));

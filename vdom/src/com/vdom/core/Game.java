@@ -2130,7 +2130,7 @@ public class Game {
 
             gameType = GameType.Specified;
         } else {
-            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomIncludesEvents, numRandomEvents);
+            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomIncludesEvents, numRandomEvents, true);
             if(cardSet == null) {
                 cardSet = CardSet.getCardSet(CardSet.defaultGameType, -1);
             }
