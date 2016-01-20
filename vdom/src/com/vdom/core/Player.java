@@ -51,6 +51,7 @@ public abstract class Player {
     protected CardList nativeVillage;
     protected CardList tavern;
     protected CardList prince;
+    protected CardList summon;
     protected CardList island;
     protected CardList haven;
     protected CardList horseTraders;
@@ -242,6 +243,7 @@ public abstract class Player {
         nativeVillage = new CardList(this, "Native Village");
         tavern = new CardList(this, "Tavern");
         prince = new CardList(this, "Prince");
+        summon = new CardList(this, "Summon");
         playedByPrince = new CardList(this, "PlayedByPrince");
         island = new CardList(this, "Island");
         haven = new CardList(this, "Haven");
@@ -520,6 +522,10 @@ public abstract class Player {
     public CardList getPrince() {
         return prince;
     }
+    
+    public CardList getSummon() {
+        return summon;
+    }
 
     public CardList getPlayedByPrince() {
         return playedByPrince;
@@ -640,6 +646,9 @@ public abstract class Player {
             allCards.add(card);
         }
         for (Card card : prince) {
+            allCards.add(card);
+        }
+        for (Card card : summon) {
             allCards.add(card);
         }
         for (Card card : horseTraders) {
@@ -1828,6 +1837,7 @@ public abstract class Player {
     public abstract Card save_cardToSetAside(MoveContext context);
     public abstract Card scoutingParty_cardToDiscard(MoveContext context, Card[] revealedCards);
     public abstract ActionCard seaway_cardToObtain(MoveContext context);
+    public abstract ActionCard summon_cardToObtain(MoveContext context);
     public abstract ActionCard training_actionCardPileToHaveToken(MoveContext context);
     public abstract Card trashingToken_cardToTrash(MoveContext context);
     public abstract Card[] trade_cardsToTrash(MoveContext context);

@@ -276,6 +276,8 @@ public class Strings {
             statusText += getString(R.string.PlayingDurationAction);
         } else if (event.gameEventType == GameEvent.Type.CardSetAside) {
             statusText += getString(R.string.CardSetAside);
+        } else if (event.gameEventType == GameEvent.Type.CardSetAsideSummon) {
+            statusText += getString(R.string.CardSetAsideSummon);
         } else if (event.gameEventType == GameEvent.Type.CardSetAsideHaven) {
             statusText += getString(R.string.CardSetAsideHaven);
         } else if (event.gameEventType == GameEvent.Type.CardSetAsideGear) {
@@ -489,7 +491,8 @@ public class Strings {
                        || ((Card)options[i]).equals(Cards.gear) ) {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
                                 + " (" + "\u261e" + getCardName(((Card) options[i+1])) + ")";
-                    } else if(((Card)options[i]).equals(Cards.prince)) {
+                    } else if(((Card)options[i]).equals(Cards.prince)
+                    		|| ((Card)options[i]).equals(Cards.summon)) {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i+1]) 
                             + " (" + getCardName(((Card) options[i])) + ")";
                     } else if(((Card)options[i]).equals(Cards.horseTraders)) {
@@ -1302,7 +1305,9 @@ public class Strings {
             getCardName(Cards.alms),
             getCardName(Cards.ball),
             getCardName(Cards.pilgrimage),
-            getCardName(Cards.seaway)
+            getCardName(Cards.seaway),
+            /*Promo Events*/
+            getCardName(Cards.summon)
             
         ));
         actionStringMap = new HashMap<String, String>();

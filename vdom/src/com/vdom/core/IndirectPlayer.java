@@ -3031,6 +3031,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public ActionCard summon_cardToObtain(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_summon_cardToObtain(context)) {
+            return super.summon_cardToObtain(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
+                .setCardResponsible(Cards.summon).isAction().setActionType(ActionType.GAIN);
+        return (ActionCard) getFromTable(context, sco);
+    }
+    
+    @Override
     public Card[] trade_cardsToTrash(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_trade_cardsToTrash(context)) {
     		return super.trade_cardsToTrash(context);

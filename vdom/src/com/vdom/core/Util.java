@@ -215,7 +215,7 @@ public class Util {
         }
         log("");
         log("Deck:" + player.getDeckSize() + " PirateShip:" + player.getPirateShipTreasure() + " NativeVillage:" + cardArrayToString(player.getNativeVillage())
-            + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()));
+            + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()) + " Summon:" + cardArrayToString(player.getSummon()));
         log("");
     }
 

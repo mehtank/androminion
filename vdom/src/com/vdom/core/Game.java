@@ -839,6 +839,13 @@ public class Game {
                 durationCards.add(card);
             }
         }
+        for (Card card : player.summon) {
+            if (!card.equals(Cards.summon)) {
+                allDurationAreSimple = false;
+                durationCards.add(Cards.summon);
+                durationCards.add(card);
+            }
+        }
         while (!player.haven.isEmpty()) {
         	/*gear could set 2 cards aside*/
             durationCards.add((DurationCard) Cards.gear);
@@ -866,12 +873,22 @@ public class Game {
 
             durationCards.remove(selection+1);
             durationCards.remove(selection);
-
+            
             if(card.equals(Cards.prince)) {
                 if (!(card2 instanceof DurationCard)) {
                     player.playedByPrince.add(card2);
                 }
                 player.prince.remove(card2);
+                
+                context.freeActionInEffect++;
+                try {
+                    ((ActionCardImpl) card2).play(this, context, false);
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                }
+                context.freeActionInEffect--;
+            } else if(card.equals(Cards.summon)) {
+                player.summon.remove(card2);
                 
                 context.freeActionInEffect++;
                 try {
@@ -2507,6 +2524,17 @@ public class Game {
                             player.putOnTopOfDeck(event.card, context, true);
                     	} else if (context.travellingFairBought && context.player.controlPlayer.royalSealTravellingFair_shouldPutCardOnDeck((MoveContext) context, Cards.travellingFair, event.card)) {
                     		player.putOnTopOfDeck(event.card, context, true);
+                        } else if (event.responsible != null && event.responsible.equals(Cards.summon)
+                        		&& (!event.card.equals(Cards.inn))
+                        		&& (!event.card.equals(Cards.borderVillage) || (event.card.equals(Cards.borderVillage) && Cards.borderVillage.getCost(context) == 0))
+                        		&& (!event.card.equals(Cards.deathCart) || (event.card.equals(Cards.deathCart) && context.game.isPileEmpty(Cards.virtualRuins)))
+                        				) {
+                            //TODO: figure out better way to handle not Summoning Death Cart or Border Village (or other cards) due to lose track rule
+                        	//      may have missed some esoteric cases here (e.g. Inn's when-gain ability doesn't have to have Summon lose track)
+                        	context.player.summon.add(event.card);
+        					GameEvent summonEvent = new GameEvent(GameEvent.Type.CardSetAsideSummon, context);
+        					summonEvent.card = event.card;
+        					context.game.broadcastEvent(summonEvent);
                         } else if (event.card.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);
                         } else if (event.responsible != null) {
@@ -2633,8 +2661,8 @@ public class Game {
                                 player.discard.remove(c);
                                 player.deck.add(c);
                             }
-                            player.shuffleDeck(context, event.card);
                         }
+                        player.shuffleDeck(context, event.card);
                     } else if (event.card.equals(Cards.borderVillage)) {
                         boolean validCard = false;
 

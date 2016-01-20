@@ -107,6 +107,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
             case Seaway:
             	seaway(context);
             	break;
+            case Summon:
+            	summon(context);
+            	break;
             case Trade:
             	trade(context);
             	break;
@@ -416,6 +419,15 @@ public class EventCardImpl extends CardImpl implements EventCard {
             }
         }
     	
+    }
+    
+    private void summon(MoveContext context) {
+    	ActionCard card = context.player.controlPlayer.summon_cardToObtain(context);
+        if (card != null) {
+            if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card)) {
+            	context.player.gainNewCard(card, this.controlCard, context);
+            }
+        }
     }
     
     private void training(MoveContext context) {

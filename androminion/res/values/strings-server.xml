@@ -149,7 +149,8 @@
     <string name="CardSetAsideOnTavernMat">Card put on tavern mat</string>
     <string name="CallingCard">Calling</string>
     <string name="CalledCard">Called</string>
-	<string name="CardSetAside">Card set aside (prince)</string>
+	<string name="CardSetAside">Card set aside (Prince)</string>
+	<string name="CardSetAsideSummon">Card set aside (Summon)</string>
 	<string name="CardSetAsideHaven">Card set aside (Haven)</string>
 	<string name="CardSetAsideGear">Card set aside (Gear)</string>
 	<string name="CardSetAsideSave">Card set aside (Save)</string>

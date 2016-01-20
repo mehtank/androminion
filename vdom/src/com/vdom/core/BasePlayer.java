@@ -3730,6 +3730,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	return (ActionCard) bestCardInPlay(context, 4, false, false, true, true, true);
     }
     
+    @Override
+    public ActionCard summon_cardToObtain(MoveContext context) {
+    	return (ActionCard) bestCardInPlay(context, 4, false, false, true, true, true);
+    }
+    
     public Card[] trade_cardsToTrash(MoveContext context) {
     	return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
     }

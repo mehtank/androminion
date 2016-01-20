@@ -967,6 +967,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
+    public boolean shouldAutoPlay_summon_cardToObtain(MoveContext context) {
+        return false;
+    }
+    
     public boolean shouldAutoPlay_trade_cardsToTrash(MoveContext context) {
     	return false;
     }
