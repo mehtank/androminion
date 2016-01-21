@@ -851,8 +851,29 @@ public class Game {
             durationCards.add((DurationCard) Cards.gear);
             durationCards.add(player.haven.remove(0));
         }
+        int numOptionalItems = 0;
+        if (!allDurationAreSimple) {
+        	// Add cards callable at start of turn
+        	 ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
+             for (Card c : player.tavern) {
+             	if (c.behaveAsCard() instanceof CallableCard) {
+             		CallableCard card = (CallableCard)(c.behaveAsCard());
+             		if (!card.isCallableWhenTurnStarts())
+             			continue;
+             		callableCards.add((CallableCard) c);
+             	}
+             }
+             if (!callableCards.isEmpty()) {
+             	Collections.sort(callableCards, new Util.CardCostComparator());
+     	        for (Card c : callableCards) {
+     	        	durationCards.add(c);
+     	        	durationCards.add(Cards.curse);
+     	        	numOptionalItems += 2;
+     	        }
+             }
+        }
         
-        while (!durationCards.isEmpty()) {
+        while (durationCards.size() > numOptionalItems) {
         	int selection=0;
             if(allDurationAreSimple) {
             	selection=0;
@@ -944,6 +965,10 @@ public class Game {
                     }
                     context.freeActionInEffect--;
                 }                
+            } else if(card.behaveAsCard() instanceof CallableCard 
+            		&& ((CallableCard)card.behaveAsCard()).isCallableWhenTurnStarts()) {
+            	numOptionalItems -= 2;
+            	((CallableCard)card.behaveAsCard()).callAtStartOfTurn(context);
             } else {
                 Util.log("ERROR: nextTurnCards contains " + card);
             }
@@ -986,9 +1011,10 @@ public class Game {
             player.nextTurnCards.add(staysInPlayCards.remove(0));
         }
         
-        //TODO: Dominionator - integrate this with other start of turn logic
-        //      Will require tracking duration effects independent of cards
+        //TODO: Dominionator - Will require tracking duration effects independent of cards
+        //       to do correctly - do this later.
         
+        //TODO: integrate this into the main action selection UI if possible to make it more seamless
         //check for start-of-turn callable cards
         ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
         CallableCard toCall = null;

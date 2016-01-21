@@ -434,6 +434,8 @@
   <string name="call_when_gain_query">Gaining %1$s. Call card:</string>
   <string name="call_resolve_action_query">%1$s resolved. Call card:</string>
   <string name="call_start_turn_query">Start of turn. Call card:</string>
+  <string name="start_turn_query">Start of turn. Pick action:</string>
+  <string name="call_optional">%1$s (optional)</string>
   
   <string name="place_stash_query">Place Stash in deck</string>
   <string name="place_stashes_query">Place %1$s Stash cards in deck</string>

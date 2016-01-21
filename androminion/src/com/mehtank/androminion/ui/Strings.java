@@ -24,6 +24,7 @@ import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
+import com.vdom.core.CallableCard;
 import com.vdom.core.Cards;
 import com.vdom.core.IndirectPlayer;
 import com.vdom.core.IndirectPlayer.StashOption;
@@ -498,6 +499,8 @@ public class Strings {
                     } else if(((Card)options[i]).equals(Cards.horseTraders)) {
                         strings2[(i - startIndex)/2] = "\u261e" + getCardName((Card)options[i]) 
                             + ", \u261e" + getString(R.string.pawn_one);
+                    } else if(options[i] instanceof CallableCard && ((CallableCard)options[i]).isCallableWhenTurnStarts()) {
+                        strings2[(i - startIndex)/2] = format(R.string.call_optional, getCardName((Card)options[i]));
                     } else {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]);
                     }
@@ -634,8 +637,10 @@ public class Strings {
             }
         } else if (cardName.equals(getCardName(Cards.envoy))) {
             return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
-        } else if (cardName.equals(getCardName(Cards.golem)) || cardName.equals(getCardName(Cards.prince))) {
+        } else if (cardName.equals(getCardName(Cards.golem))) {
             return getString(R.string.golem_first_action);
+        } else if (cardName.equals(getCardName(Cards.prince))) { // Prince signifies all start of turn effects
+            return getString(R.string.start_turn_query);
         } else if (cardName.equals(getCardName(Cards.herald))) {
             return getString(R.string.herald_overpay_query) + " [" + cardName + "]";
         } else if (cardName.equals(getCardName(Cards.herbalist))) {

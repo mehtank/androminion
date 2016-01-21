@@ -121,6 +121,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
             default:
                 break;
         }
+        
+        // test if prince lost track of any cards
+        context.player.princeCardLeftThePlay(context.player);
     }
     
     public void alms(MoveContext context) {
