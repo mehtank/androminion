@@ -823,6 +823,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case Giant:
                 giant(game, context, currentPlayer);
                 break;
+            case HauntedWoods:
+            	swampHagHauntedWoods(game, context, currentPlayer);
+            	break;
             case Hero:
                 hero(game, context, currentPlayer);
                 break;
@@ -847,6 +850,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case Storyteller:
             	storyteller(game, context, currentPlayer);
                 break;
+            case SwampHag:
+            	swampHagHauntedWoods(game, context, currentPlayer);
+            	break;
             case TreasureHunter:
             	treasureHunter(game, context, currentPlayer);
                 break;
@@ -6384,6 +6390,17 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         
         for (int i = 0; i < coins; i++) {
         	game.drawToHand(context, this.controlCard, coins - i);
+        }
+    }
+    
+    private void swampHagHauntedWoods(Game game, MoveContext context, Player currentPlayer) {
+        for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
+        	if (targetPlayer != currentPlayer) {
+        		if (!Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+        			targetPlayer.attacked(this.controlCard, context);
+        			currentPlayer.addDurationEffectOnOtherPlayer(targetPlayer, this.type);
+        		}
+        	}
         }
     }
     

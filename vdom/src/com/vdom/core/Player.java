@@ -56,6 +56,7 @@ public abstract class Player {
     protected CardList haven;
     protected CardList horseTraders;
     protected Card save;
+    protected Map<Player, Map<Cards.Type, Integer>> attackDurationEffectsOnOthers;
     public Game game;
     public Player controlPlayer = this;
 
@@ -248,6 +249,7 @@ public abstract class Player {
         island = new CardList(this, "Island");
         haven = new CardList(this, "Haven");
         horseTraders = new CardList(this, "Horse Traders");
+        attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Type,Integer>>();
     }
 
     private List<PutBackOption> getPutBackOptions(MoveContext context, int actionsPlayed) {
@@ -811,6 +813,29 @@ public abstract class Player {
         totals.put(Cards.victoryTokens, this.getVictoryTokens());
 
         return totals;
+    }
+    
+    public void clearDurationEffectsOnOtherPlayers() {
+    	attackDurationEffectsOnOthers.clear();
+    }
+    
+    public void addDurationEffectOnOtherPlayer(Player player, Cards.Type effectType) {
+    	if (!attackDurationEffectsOnOthers.containsKey(player)) {
+    		attackDurationEffectsOnOthers.put(player, new HashMap<Cards.Type, Integer>());
+    	}
+    	Map<Cards.Type, Integer> otherPlayerEffects = attackDurationEffectsOnOthers.get(player); 
+    	if (!otherPlayerEffects.containsKey(effectType)) {
+    		otherPlayerEffects.put(effectType, 0);
+    	}
+    	otherPlayerEffects.put(effectType, otherPlayerEffects.get(effectType) + 1);
+    }
+    
+    public int getDurationEffectsOnOtherPlayer(Player player, Cards.Type effectType) {
+    	if (attackDurationEffectsOnOthers.containsKey(player)
+			&& attackDurationEffectsOnOthers.get(player).containsKey(effectType)) {
+    		return attackDurationEffectsOnOthers.get(player).get(effectType);
+    	}
+		return 0;
     }
 
     public Card peekAtDeckBottom() {

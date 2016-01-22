@@ -770,10 +770,13 @@ public class Game {
             player.controlPlayer = player;
             consecutiveTurnCounter++;
         }
-
+        
         cardsObtainedLastTurn[playersTurn].clear();
         if (consecutiveTurnCounter == 1)
             player.newTurn();
+        
+        player.clearDurationEffectsOnOtherPlayers();
+        
         GameEvent gevent = new GameEvent(GameEvent.Type.TurnBegin, context);
         broadcastEvent(gevent);
 
@@ -1531,13 +1534,11 @@ public class Game {
                 }
         	}
         	
-        	/*frr18 todo defense */
 	        for (int i=0; i < swampHagAttacks(player); i++) {
 	            player.gainNewCard(Cards.curse, Cards.swampHag, context);                    	
 	        }
 	        
 	        if (hauntedWoodsAttacks(player)) {
-	        	/*frr18 todo defense */
 	            if(player.hand.size() > 0) {
 	                Card[] order;
 	                if (player.hand.size() == 1)
@@ -3264,14 +3265,11 @@ public class Game {
     
     public boolean hauntedWoodsAttacks(Player player)
     {
-    	/*frr18 todo defense */
         for (Player otherPlayer : players) {
             if (otherPlayer != null && otherPlayer != player) {
-                for (Card card : otherPlayer.nextTurnCards) {
-                    if(card.equals(Cards.hauntedWoods)) {
-                    	return true;
-                    }
-                }
+            	if (otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Type.HauntedWoods) > 0) {
+            		return true;
+            	}
             }
         }
         return false;
@@ -3279,15 +3277,10 @@ public class Game {
 
     public int swampHagAttacks(Player player)
     {
-    	/*frr18 todo defense */
     	int swampHags = 0;
         for (Player otherPlayer : players) {
             if (otherPlayer != null && otherPlayer != player) {
-                for (Card card : otherPlayer.nextTurnCards) {
-                    if(card.equals(Cards.swampHag)) {                    	
-                    	swampHags += ((CardImpl) card).cloneCount;;                	
-                    }
-                }            	
+            	swampHags += otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Type.SwampHag);
             }
         }
         return swampHags;
