@@ -820,12 +820,7 @@ public class Game {
                     	durationCards.add(Cards.curse); /*dummy*/
                     }
                 }
-            } else if(   thisCard.equals(Cards.throneRoom)
-                      || thisCard.equals(Cards.disciple)
-                      || thisCard.equals(Cards.kingsCourt)
-                      || thisCard.equals(Cards.procession)
-                      || thisCard.equals(Cards.royalCarriage)
-                      || thisCard.equals(Cards.bandOfMisfits)) {
+            } else if(isModifierCard(thisCard.behaveAsCard())) {
                 GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
                 event.card = thisCard;
                 broadcastEvent(event);
@@ -980,25 +975,30 @@ public class Game {
         ArrayList<Card> staysInPlayCards = new ArrayList<Card>();
         while (!player.nextTurnCards.isEmpty()) {
             Card card = player.nextTurnCards.remove(0);
-        	if(   card.equals(Cards.throneRoom)
-               || card.equals(Cards.disciple)
-               || card.equals(Cards.kingsCourt)
-               || card.equals(Cards.procession)
-               || card.equals(Cards.royalCarriage)
-               || card.equals(Cards.bandOfMisfits))
-        	{
+        	if(isModifierCard(card.behaveAsCard())) {
                 if(!player.nextTurnCards.isEmpty()) {
                   	Card nextCard = player.nextTurnCards.get(0);
-                    if(nextCard.getType() == Cards.Type.Hireling || nextCard.getType() == Cards.Type.Champion) {
+                  	int additionalModifierCards = 0;
+                  	while (nextCard != null && isModifierCard(nextCard.behaveAsCard())) {
+                  		additionalModifierCards++;
+                  		if (player.nextTurnCards.size() > additionalModifierCards)
+                  			nextCard = player.nextTurnCards.get(additionalModifierCards);
+                  		else
+                  			nextCard = null;
+                  	}
+                    if(nextCard != null && (nextCard.behaveAsCard().equals(Cards.hireling) || nextCard.behaveAsCard().equals(Cards.champion))) {
                     	staysInPlayCards.add(card);
+                    	for (int i = 0; i < additionalModifierCards; ++i) {
+                    		staysInPlayCards.add(player.nextTurnCards.remove(0));
+                    	}
                         player.nextTurnCards.remove(0);
-                        staysInPlayCards.add((DurationCard) nextCard);
+                        staysInPlayCards.add(nextCard);
                     	continue;
                     }
                 }
             }
         	
-        	if(card.getType() == Cards.Type.Hireling || card.getType() == Cards.Type.Champion) {
+        	if(card.behaveAsCard().equals(Cards.hireling) || card.behaveAsCard().equals(Cards.champion)) {
         		staysInPlayCards.add((DurationCard) card);
             } else {
 	            CardImpl behaveAsCard = (CardImpl) card.behaveAsCard();
@@ -1046,7 +1046,15 @@ public class Game {
         }
     }
 
-    private static void printStats(HashMap<String, Double> wins, int gameCount, String gameType) {
+    private boolean isModifierCard(Card card) {
+		return card.equals(Cards.throneRoom)
+	               || card.equals(Cards.disciple)
+	               || card.equals(Cards.kingsCourt)
+	               || card.equals(Cards.procession)
+	               || card.equals(Cards.royalCarriage);
+	}
+
+	private static void printStats(HashMap<String, Double> wins, int gameCount, String gameType) {
         if (!test || gameCount == 1) {
             return;
         }
