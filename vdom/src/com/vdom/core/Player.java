@@ -55,6 +55,7 @@ public abstract class Player {
     protected CardList island;
     protected CardList haven;
     protected CardList horseTraders;
+    protected Card inheritance;
     protected Card save;
     protected Map<Player, Map<Cards.Type, Integer>> attackDurationEffectsOnOthers;
     public Game game;
@@ -249,6 +250,7 @@ public abstract class Player {
         island = new CardList(this, "Island");
         haven = new CardList(this, "Haven");
         horseTraders = new CardList(this, "Horse Traders");
+        inheritance = null;
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Type,Integer>>();
     }
 
@@ -528,6 +530,10 @@ public abstract class Player {
     public CardList getSummon() {
         return summon;
     }
+    
+    public Card getInheritance() {
+    	return inheritance;
+    }
 
     public CardList getPlayedByPrince() {
         return playedByPrince;
@@ -656,6 +662,7 @@ public abstract class Player {
         for (Card card : horseTraders) {
             allCards.add(card);
         }
+        allCards.add(inheritance);
         if (checkLeadCard != null) {
             allCards.add(checkLeadCard);
         }
@@ -1852,6 +1859,7 @@ public abstract class Player {
     public abstract Card ball_cardToObtain(MoveContext context);
     public abstract Card[] bonfire_cardsToTrash(MoveContext context);
     public abstract ActionCard ferry_actionCardPileToHaveToken(MoveContext context);
+    public abstract ActionCard inheritance_actionCardTosetAside(MoveContext context);
     public abstract ActionCard lostArts_actionCardPileToHaveToken(MoveContext context);
     public abstract ActionCard pathfinding_actionCardPileToHaveToken(MoveContext context);
     public abstract Card[] pilgrimage_cardsToGain(MoveContext context);

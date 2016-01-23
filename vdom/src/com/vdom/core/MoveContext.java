@@ -68,6 +68,8 @@ public class MoveContext {
         this.game = game;
         this.player = player;
         this.canBuyCards = canBuyCards;
+        if (player.getInheritance() != null)
+        	cantBuy.add(Cards.inheritance);
         //        this.playedCards = player.playedCards;
     }
 
@@ -77,6 +79,8 @@ public class MoveContext {
         this.coins = context.coins;
         this.game = game;
         this.player = player;
+        if (player.getInheritance() != null)
+        	cantBuy.add(Cards.inheritance);
     }
 
     public Player getPlayer() {

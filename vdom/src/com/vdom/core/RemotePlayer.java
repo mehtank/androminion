@@ -461,6 +461,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setPrince(cardArrToIntArr(player.getPrince().toArray()))
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
                 .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)
+                .setInheritance(player.inheritance == null ? -1 : cardToInt(player.inheritance))
                 .setBlackMarket(arrayListToIntArr(player.game.GetBlackMarketPile()))
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 

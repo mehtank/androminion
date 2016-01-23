@@ -3618,6 +3618,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public ActionCard inheritance_actionCardTosetAside(MoveContext context) {
+    	//TODO: favor cantrips
+    	return (ActionCard) bestCardInPlay(context, 4, false, false, true, false, true);
+    }
+    
+    @Override
     public ActionCard lostArts_actionCardPileToHaveToken(MoveContext context) {
     	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
     }

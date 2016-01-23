@@ -214,8 +214,10 @@ public class Util {
             cost++;
         }
         log("");
-        log("Deck:" + player.getDeckSize() + " PirateShip:" + player.getPirateShipTreasure() + " NativeVillage:" + cardArrayToString(player.getNativeVillage())
-            + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()) + " Summon:" + cardArrayToString(player.getSummon()));
+        log("Deck:" + player.getDeckSize() + " PirateShip:" + player.getPirateShipTreasure() 
+        		+ " NativeVillage:" + cardArrayToString(player.getNativeVillage())
+            + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()) 
+            + " Summon:" + cardArrayToString(player.getSummon()) + " Inheritance:" + player.getInheritance());
         log("");
     }
 

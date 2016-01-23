@@ -5145,6 +5145,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 break;
             case Fortress:
+            	//TODO: if Possessed, give choice of whether to put in hand or set aside card
                 context.game.trashPile.remove(this.controlCard);
                 context.player.hand.add(this.controlCard);
                 break;

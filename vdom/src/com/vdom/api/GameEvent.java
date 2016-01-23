@@ -48,6 +48,7 @@ public class GameEvent {
         CallingCard, // A card is about to be called from the tavern mat
         CalledCard, // A card was called from the tavern mat
         CardSetAsideOnIslandMat, // A card was set aside on island mat
+        CardSetAsideInheritance, // A card was set aside with Inheritance
         DeckPutIntoDiscardPile, // Deck put into discard pile
         TravellerExchanged, // traveller exchanged
         TurnJourneyTokenFaceUp, // journey token turned face up

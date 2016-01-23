@@ -175,6 +175,7 @@
     <string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>
     <string name="trash_header">Trash:</string>
     <string name="blackMarket_header">Bl. Market:</string>
+    <string name="inheritance_header">Inherit:</string>
     <string name="img_download_title">%1$s card art</string>
 	<string name="img_download_desc">Downloading card art from %1$s</string>
 	<string name="token_plus_one_action_initial">A</string>

@@ -49,9 +49,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         return players;
     }
 
-    GridView handGV, playedGV, tavernGV, princeGV, islandGV, villageGV, blackMarketGV, trashGV;
-    CardGroup hand, played, tavern, prince, island, village, blackMarket, trash;
-    View tavernColumn, princeColumn, islandColumn, villageColumn, blackMarketColumn, trashColumn;
+    GridView handGV, playedGV, tavernGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
+    CardGroup hand, played, tavern, prince, island, village, inheritance, blackMarket, trash;
+    View tavernColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
     TextView playedHeader;
     LinearLayout myCards;
 
@@ -192,7 +192,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         villageGV.setAdapter(village);
         villageGV.setOnItemLongClickListener(this);
         villageColumn = findViewById(R.id.villageColumn);
-
+        
+        inheritance = new CardGroup(top, false);
+        inheritanceGV = (GridView) findViewById(R.id.inheritanceGV);
+        inheritanceGV.setAdapter(inheritance);
+        inheritanceGV.setOnItemLongClickListener(this);
+        inheritanceColumn = findViewById(R.id.inheritanceColumn);
+        
         blackMarket = new CardGroup(top, false);
         blackMarketGV = (GridView) findViewById(R.id.blackMarketGV);
         blackMarketGV.setAdapter(blackMarket);
@@ -324,6 +330,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         village.clear();
         trash.clear();
         blackMarket.clear();
+        inheritance.clear();
         this.players.clear();
 
         actionText.setText("");
@@ -1061,13 +1068,20 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             villageColumn.setVisibility(GONE);
         }
 
+        GameTableViews.newSingleCardGroup(inheritance, gs.myInheritance);
+        if (gs.myInheritance >= 0) {
+            inheritanceColumn.setVisibility(VISIBLE);
+        } else {
+        	inheritanceColumn.setVisibility(GONE);
+        }
+        
         GameTableViews.newCardGroup(blackMarket, gs.blackMarketPile);
         if (gs.blackMarketPile.length > 0) {
         	blackMarketColumn.setVisibility(VISIBLE);
         } else {
         	blackMarketColumn.setVisibility(GONE);
         }
-
+        
         GameTableViews.newCardGroup(trash, gs.trashPile);
         if (gs.trashPile.length > 0) {
             trashColumn.setVisibility(VISIBLE);

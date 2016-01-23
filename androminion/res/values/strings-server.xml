@@ -59,6 +59,7 @@
 	<string name="select_from_table_exact_action">Select an Action card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_non_vp">Select a non-victory card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_non_vp_action">Select a non-victory action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_vp">Select a Victory card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_action">Select an Action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_between">Select a card from the table that costs between (%1$s) and (%2$s) to %3$s</string>
@@ -103,6 +104,7 @@
 	<string name="card_to_discard_for_card">discard [%1$s] for cards</string>
 	<string name="card_to_discard_for_coin">discard [%1$s] for coin</string>
 	<string name="card_to_name">name [%1$s]</string>
+	<string name="card_to_set_aside">set aside [%1$s]</string>
 	<string name="discard">Discard</string>
 	<string name="trash">Trash</string>
 	<string name="keep">Keep</string>
@@ -155,6 +157,7 @@
 	<string name="CardSetAsideGear">Card set aside (Gear)</string>
 	<string name="CardSetAsideSave">Card set aside (Save)</string>
 	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>
+	<string name="CardSetAsideInheritance">Card set aside (Inheritance)</string>
 	<string name="DeckPutIntoDiscardPile">Deck put into discard pile</string>
 	<string name="TravellerExchanged">Traveller exchanged for</string>
 	<string name="TurnJourneyTokenFaceUp">Journey token turned face up</string>

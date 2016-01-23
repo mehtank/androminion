@@ -2930,6 +2930,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public ActionCard inheritance_actionCardTosetAside(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_inheritance_actionCardTosetAside(context)) {
+            return super.inheritance_actionCardTosetAside(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions()
+                .isAction().isNonVictory().maxCost(4).potionCost(0)
+                .setActionType(ActionType.SETASIDE).setCardResponsible(Cards.inheritance);
+        return (ActionCard) getFromTable(context, sco);
+    }
+    
+    @Override
     public ActionCard lostArts_actionCardPileToHaveToken(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_lostArts_actionCardPileToHaveToken(context)) {
             return super.lostArts_actionCardPileToHaveToken(context);

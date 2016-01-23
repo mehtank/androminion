@@ -293,6 +293,8 @@ public class Strings {
 			statusText += getString(R.string.CalledCard);
         } else if (event.gameEventType == GameEvent.Type.CardSetAsideOnIslandMat) {
             statusText += getString(R.string.CardSetAsideOnIslandMat);
+        } else if (event.gameEventType == GameEvent.Type.CardSetAsideInheritance) {
+            statusText += getString(R.string.CardSetAsideInheritance);
         } else if (event.gameEventType == GameEvent.Type.DeckPutIntoDiscardPile) {
             statusText += getString(R.string.DeckPutIntoDiscardPile);
         } else if (event.gameEventType == GameEvent.Type.TravellerExchanged) {
@@ -1122,7 +1124,11 @@ public class Strings {
                 if (sco.isVictory) {
                     selectString = Strings.format(R.string.select_from_table_max_vp, maxCostString, header);
                 } else if (sco.isNonVictory) {
-                    selectString = Strings.format(R.string.select_from_table_max_non_vp, maxCostString, header);
+                	if (sco.isAction) {
+                		selectString = Strings.format(R.string.select_from_table_max_non_vp_action, maxCostString, header);
+                	} else {
+                		selectString = Strings.format(R.string.select_from_table_max_non_vp, maxCostString, header);
+                	}
                 } else if (sco.isTreasure) {
                     selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
                 } else if (sco.isAction) {
@@ -1229,6 +1235,7 @@ public class Strings {
             case TRASH: return Strings.format(R.string.card_to_trash, getCardName(cardResponsible));
             case NAMECARD: return Strings.format(R.string.card_to_name, getCardName(cardResponsible));
             case OPPONENTDISCARD: return Strings.format(R.string.opponent_discard, opponentName, getCardName(cardResponsible));
+            case SETASIDE: return Strings.format(R.string.card_to_set_aside, getCardName(cardResponsible));
         }
         return null;
     }
@@ -1309,6 +1316,7 @@ public class Strings {
             /*Adventures Events*/
             getCardName(Cards.alms),
             getCardName(Cards.ball),
+            getCardName(Cards.inheritance),
             getCardName(Cards.pilgrimage),
             getCardName(Cards.seaway),
             /*Promo Events*/

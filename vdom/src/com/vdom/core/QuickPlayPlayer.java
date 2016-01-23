@@ -927,6 +927,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_inheritance_actionCardTosetAside(MoveContext context) {
+    	return false;
+    }
+    
     public boolean shouldAutoPlay_lostArts_actionCardPileToHaveToken(MoveContext context) {
     	return false;
     }

@@ -77,6 +77,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	        case Ferry:
 	        	ferry(context);
         		break;
+	        case Inheritance:
+	        	inheritance(context);
+	        	break;
 	        case LostArts:
 	        	lostArts(context);
 	        	break;
@@ -189,6 +192,18 @@ public class EventCardImpl extends CardImpl implements EventCard {
     private void ferry(MoveContext context) {
     	ActionCard card = context.getPlayer().controlPlayer.ferry_actionCardPileToHaveToken(context);
     	placeToken(context, card, PlayerSupplyToken.MinusTwoCost);
+    }
+    
+    private void inheritance(MoveContext context) {
+    	ActionCard card = context.getPlayer().controlPlayer.inheritance_actionCardTosetAside(context);
+    	if (card != null) {
+            if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card) && !card.isVictory(context)) {
+            	context.player.inheritance = context.game.takeFromPile(card, context);
+            	GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideInheritance, context);
+                event.card = card;
+                context.game.broadcastEvent(event);
+            }
+        }
     }
     
     private void lostArts(MoveContext context) {
