@@ -58,6 +58,8 @@
 	<string name="select_from_table_exact">Select a card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_exact_action">Select an Action card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_events">Select an event from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_cards_events">Select a card or event from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_non_vp">Select a non-victory card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_non_vp_action">Select a non-victory action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_vp">Select a Victory card from the table that costs at most (%1$s) to %2$s</string>

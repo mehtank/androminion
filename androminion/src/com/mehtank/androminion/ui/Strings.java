@@ -1133,8 +1133,12 @@ public class Strings {
                     selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
                 } else if (sco.isAction) {
                     selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
-                } else {
+                } else if (containsOnlyEvents(sco)) {
+                    selectString = Strings.format(R.string.select_from_table_max_events, maxCostString, header);
+                } else if (containsOnlyCards(sco)) {
                     selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
+                } else {
+                    selectString = Strings.format(R.string.select_from_table_max_cards_events, maxCostString, header);
                 }
             } else if (sco.minCost > 0 && sco.maxCost < Integer.MAX_VALUE) {
                 selectString = Strings.format(R.string.select_from_table_between, minCostString, maxCostString, header);
@@ -1208,7 +1212,23 @@ public class Strings {
         throw new RuntimeException("SelectCardOptions isn't from table or from hand or from played...");
     }
 
-    public static String getActionString(SelectCardOptions sco) {
+    private static boolean containsOnlyCards(SelectCardOptions sco) {
+    	for (int cardId : sco.allowedCards) {
+    		if (GameTableViews.intToMyCard(cardId).isEvent)
+    			return false;
+    	}
+    	return true;
+	}
+
+	private static boolean containsOnlyEvents(SelectCardOptions sco) {
+    	for (int cardId : sco.allowedCards) {
+    		if (!GameTableViews.intToMyCard(cardId).isEvent)
+    			return false;
+    	}
+    	return true;
+	}
+
+	public static String getActionString(SelectCardOptions sco) {
         return getActionString(sco.actionType, sco.cardResponsible);
     }
 

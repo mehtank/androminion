@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mehtank.androminion"
-    android:versionCode="601"
-    android:versionName="6.01" >
+    android:versionCode="603"
+    android:versionName="6.03" >
 
     <uses-sdk
         android:minSdkVersion="7"
