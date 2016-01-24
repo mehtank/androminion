@@ -1827,8 +1827,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     context.freeActionInEffect++;
 
                     cardToPlay.cloneCount = (equals(Cards.kingsCourt) ? 3 : 2);
-                    for (int i = 0; i < cardToPlay.cloneCount;) {
-                        cardToPlay.numberTimesAlreadyPlayed = i++;
+                    int cloneCount = cardToPlay.cloneCount;
+                    cardToPlay.numberTimesAlreadyPlayed = -1;
+                    for (int i = 0; i < cloneCount; ++i) {
+                        cardToPlay.numberTimesAlreadyPlayed++;
                         cardToPlay.play(game, context, cardToPlay.numberTimesAlreadyPlayed == 0 ? true : false);
                     }
 

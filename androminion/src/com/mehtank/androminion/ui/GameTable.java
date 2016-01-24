@@ -481,9 +481,11 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param parent which pile the card was selected from
      * @return
      */
-    boolean isAcceptable(MyCard c, CardGroup parent) {
+    boolean isAcceptable(CardState cs, CardGroup parent) {
+    	MyCard c = cs.c;
+    	if (cs.shade) return false;
         if (sco.fromHand && (parent != hand)) return false;
-        else if (sco.fromPlayed && (parent != played)) return false; // TODO: prevent throned plays from being selected from played group
+        else if (sco.fromPlayed && (parent != played)) return false;
         else if (sco.fromTable) {
             //          if (!sco.allowEmpty) {
             //              if (lastSupplySizes[c.id] == 0)
@@ -572,7 +574,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 int[] cards = new int[openedCards.size()];
                 for (int i = 0; i < openedCards.size(); i++) {
                     CardInfo ci = openedCards.get(i);
-                    if (!isAcceptable(ci.cs.c, ci.parent))
+                    if (!isAcceptable(ci.cs, ci.parent))
                         return;
                     cards[i] = ci.cs.c.id;
                 }
@@ -1214,7 +1216,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 }
             }
         } else {
-            if (isAcceptable(clickedCard.getCard(), clickedCard.parent)) {
+            if (isAcceptable(clickedCard.getState(), clickedCard.parent)) {
                 HapticFeedback.vibrate(getContext(), AlertType.CLICK);
                 if (sco.isDifferent() && hasDuplicate(openedCards, clickedCard.getState().c)) {
                 	int duplicateIndex = getFirstIndex(openedCards, clickedCard.getState().c);

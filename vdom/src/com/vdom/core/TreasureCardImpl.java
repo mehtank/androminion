@@ -83,15 +83,16 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         Player player = context.player;
         Game game = context.game;
 
+        if (this.numberTimesAlreadyPlayed == 0) {
+        	player.hand.remove(this);
+        	player.playedCards.add(this);
+        }
+        
         GameEvent event = new GameEvent(GameEvent.Type.PlayingCoin, (MoveContext) context);
         event.card = this;
         event.newCard = !isClone;
         game.broadcastEvent(event);
 
-        if (this.numberTimesAlreadyPlayed == 0) {
-        	player.hand.remove(this);
-        	player.playedCards.add(this);
-        }
         
         if (isAttack())
             attackPlayed(context, game, player);

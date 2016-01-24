@@ -266,8 +266,9 @@ public class Game {
                 Player player = players[playersTurn];
                 boolean canBuyCards = extraTurnsInfo.isEmpty() ? true : extraTurnsInfo.remove().canBuyCards;
                 MoveContext context = new MoveContext(this, player, canBuyCards);
-
+                context.startOfTurn = true;
                 playerBeginTurn(player, context);
+                context.startOfTurn = false;
 
                 // /////////////////////////////////
                 // Actions
@@ -792,7 +793,8 @@ public class Game {
          * other Durations like Wharf - (Curse)
          */
         boolean allDurationAreSimple = true;
-        ArrayList<Card> durationCards = new ArrayList<Card>();
+        ArrayList<Card> durationEffects = new ArrayList<Card>();
+        ArrayList<Boolean> durationEffectsAreCards = new ArrayList<Boolean>();
         for (Card card : player.nextTurnCards) {
             Card thisCard = card.behaveAsCard();
             if (thisCard instanceof DurationCard) {
@@ -805,49 +807,66 @@ public class Game {
                  * that Silver), and then choose to trash a card from the second Amulet play,
                  * now that you have more cards to choose from. 
                  */
-                for (int clone = ((CardImpl) card).cloneCount; clone > 0; clone--) {
+            	int cloneCount = ((CardImpl) card).cloneCount;
+                for (int clone = cloneCount; clone > 0; clone--) {
                     if(   thisCard.equals(Cards.amulet)
                        || thisCard.equals(Cards.dungeon)) {
                         allDurationAreSimple = false;
                     }
                     if(thisCard.equals(Cards.haven) || thisCard.equals(Cards.gear)) {
                     	if(player.haven != null && player.haven.size() > 0) {
-                    		durationCards.add((DurationCard) thisCard);
-                    		durationCards.add(player.haven.remove(0));
+                    		durationEffects.add(card);
+                    		durationEffects.add(player.haven.remove(0));
+                    		durationEffectsAreCards.add(clone == cloneCount 
+                    				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
+                    		durationEffectsAreCards.add(false);
                 		}
                     } else {
-                    	durationCards.add((DurationCard) thisCard);
-                    	durationCards.add(Cards.curse); /*dummy*/
+                    	durationEffects.add(card);
+                    	durationEffects.add(Cards.curse); /*dummy*/
+                    	durationEffectsAreCards.add(clone == cloneCount
+                    			&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
+                		durationEffectsAreCards.add(false);
                     }
                 }
             } else if(isModifierCard(thisCard.behaveAsCard())) {
                 GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
-                event.card = thisCard;
+                event.card = card;
+                event.newCard = true;
                 broadcastEvent(event);
             }
         }
         for (Card card : player.horseTraders) {
-            durationCards.add(card);
-            durationCards.add(Cards.curse); /*dummy*/
+            durationEffects.add(card);
+            durationEffects.add(Cards.curse); /*dummy*/
+            durationEffectsAreCards.add(true);
+    		durationEffectsAreCards.add(false);
         }
         for (Card card : player.prince) {
             if (!card.equals(Cards.prince)) {
                 allDurationAreSimple = false;
-                durationCards.add(Cards.prince);
-                durationCards.add(card);
+                durationEffects.add(Cards.prince);
+                durationEffects.add(card);
+                durationEffectsAreCards.add(true);
+        		durationEffectsAreCards.add(false);
             }
         }
         for (Card card : player.summon) {
             if (!card.equals(Cards.summon)) {
                 allDurationAreSimple = false;
-                durationCards.add(Cards.summon);
-                durationCards.add(card);
+                durationEffects.add(Cards.summon);
+                durationEffects.add(card);
+                durationEffectsAreCards.add(true);
+        		durationEffectsAreCards.add(false);
             }
         }
         while (!player.haven.isEmpty()) {
         	/*gear could set 2 cards aside*/
-            durationCards.add((DurationCard) Cards.gear);
-            durationCards.add(player.haven.remove(0));
+        	// BUG: both cards set aside by Gear need to be added to hand at the same time
+            durationEffects.add((DurationCard) Cards.gear);
+            durationEffects.add(player.haven.remove(0));
+            durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
         }
         int numOptionalItems = 0;
         if (!allDurationAreSimple) {
@@ -864,34 +883,39 @@ public class Game {
              if (!callableCards.isEmpty()) {
              	Collections.sort(callableCards, new Util.CardCostComparator());
      	        for (Card c : callableCards) {
-     	        	durationCards.add(c);
-     	        	durationCards.add(Cards.curse);
+     	        	durationEffects.add(c);
+     	        	durationEffects.add(Cards.curse);
+     	        	durationEffectsAreCards.add(false);
+     	    		durationEffectsAreCards.add(false);
      	        	numOptionalItems += 2;
      	        }
              }
         }
         
-        while (durationCards.size() > numOptionalItems) {
+        while (durationEffects.size() > numOptionalItems) {
         	int selection=0;
             if(allDurationAreSimple) {
             	selection=0;
             } else {
-            	selection = 2*player.controlPlayer.duration_cardToPlay(context, durationCards.toArray(new Card[durationCards.size()]));
+            	selection = 2*player.controlPlayer.duration_cardToPlay(context, durationEffects.toArray(new Card[durationEffects.size()]));
             }
-            Card card = durationCards.get(selection);
+            Card card = durationEffects.get(selection);
+            boolean isRealCard = durationEffectsAreCards.get(selection);
             if (card == null) {
                 Util.log("ERROR: duration_cardToPlay returned " + selection);
                 selection=0;
-                card = durationCards.get(selection);
+                card = durationEffects.get(selection);
             }
-            Card card2 = durationCards.get(selection+1);
+            Card card2 = durationEffects.get(selection+1);
             if (card2 == null) {
                 Util.log("ERROR: duration_cardToPlay returned " + selection);
                 card2 = card;
             }
 
-            durationCards.remove(selection+1);
-            durationCards.remove(selection);
+            durationEffects.remove(selection+1);
+            durationEffects.remove(selection);
+            durationEffectsAreCards.remove(selection+1);
+            durationEffectsAreCards.remove(selection);
             
             if(card.equals(Cards.prince)) {
                 if (!(card2 instanceof DurationCard)) {
@@ -920,15 +944,16 @@ public class Game {
                 Card horseTrader = player.horseTraders.remove(0);
                 player.hand.add(horseTrader);
                 drawToHand(context, horseTrader, 1);
-            } else if(card instanceof DurationCard) {
-                if(card.equals(Cards.haven) || card.equals(Cards.gear)) {
+            } else if(card.behaveAsCard() instanceof DurationCard) {
+                if(card.behaveAsCard().equals(Cards.haven) || card.behaveAsCard().equals(Cards.gear)) {
                     player.hand.add(card2);
                 }
                 
                 DurationCard thisCard = (DurationCard) card.behaveAsCard();
                 
                 GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
-                event.card = thisCard;
+                event.card = card;
+                event.newCard = isRealCard;
                 broadcastEvent(event);
 
                 context.actions += thisCard.getAddActionsNextTurn();
@@ -1003,10 +1028,11 @@ public class Game {
             } else {
 	            CardImpl behaveAsCard = (CardImpl) card.behaveAsCard();
 	            behaveAsCard.cloneCount = 1;
-	            if (!behaveAsCard.trashAfterPlay) {
+	            if (!(behaveAsCard.trashAfterPlay || ((CardImpl)card).trashAfterPlay)) {
 	                player.playedCards.add(card);
 	            } else {
 	                behaveAsCard.trashAfterPlay = false;
+	                ((CardImpl)card).trashAfterPlay = false;
 	            }
             }
         }
@@ -1046,7 +1072,7 @@ public class Game {
         }
     }
 
-    private boolean isModifierCard(Card card) {
+    public static boolean isModifierCard(Card card) {
 		return card.equals(Cards.throneRoom)
 	               || card.equals(Cards.disciple)
 	               || card.equals(Cards.kingsCourt)

@@ -3,7 +3,6 @@ package com.vdom.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -417,6 +416,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
 
         GameStatus gs = new GameStatus();
+        
+        matchToCardsInPlay(context, playedCards, playedCardsNew);
 
         int[] playedArray = new int[playedCards.size()];
         for (int i = 0; i < playedCards.size(); i++) {
@@ -482,7 +483,53 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return p;
     }
 
-    @Override
+    private void matchToCardsInPlay(MoveContext context, ArrayList<Card> played, ArrayList<Boolean> playedReal) {
+    	if (context.startOfTurn)
+    		return;
+    	Map<Card, Integer> inPlayCounts = new HashMap<Card, Integer>();
+    	for (Card c : context.player.playedCards) {
+    		if (!inPlayCounts.containsKey(c)) {
+    			inPlayCounts.put(c, 1);
+    		} else {
+    			inPlayCounts.put(c, inPlayCounts.get(c)+1);
+    		}
+    	}
+    	for (Card c : context.player.nextTurnCards) {
+    		if (((CardImpl)c).trashAfterPlay)
+    			continue;
+			if (!inPlayCounts.containsKey(c)) {
+    			inPlayCounts.put(c, 1);
+    		} else {
+    			inPlayCounts.put(c, inPlayCounts.get(c)+1);
+    		}
+    	}
+    	Map<Card, Integer> playedCounts = new HashMap<Card, Integer>();
+    	for (int i = 0; i < played.size(); ++i) {
+    		if (!playedReal.get(i))
+    			continue;
+    		Card c = played.get(i);
+    		if (!playedCounts.containsKey(c)) {
+    			playedCounts.put(c, 1);
+    		} else {
+    			playedCounts.put(c, playedCounts.get(c)+1);
+    		}
+    	}
+    	
+    	for (Card c : playedCounts.keySet()) {
+    		int inPlayCount = (inPlayCounts.containsKey(c) ? inPlayCounts.get(c) : 0);
+    		if (playedCounts.get(c) > inPlayCount) {
+    			int extras = playedCounts.get(c) - inPlayCount;
+    			for (int i = played.size() - 1; extras > 0 && i >= 0; --i) {
+    				if (played.get(i).equals(c) && playedReal.get(i)) {
+    					playedReal.set(i, false);
+    					extras--;
+    				}
+    			}
+    		}
+    	}
+	}
+    
+	@Override
     public void newGame(MoveContext context) {
         hasJoinedMonitor = new Object(); // every game needs a different monitor, otherwise we wake up threads that are supposed to be dead.
         context.addGameListener(this);
@@ -648,12 +695,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         } else if (isPlayersTurn(event) && event.getType() == Type.PlayingCoin) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
-        } else if (event.getType() == Type.CardObtained) {
-            if (event.responsible.equals(Cards.hornOfPlenty) && event.card instanceof VictoryCard) {
-                int index = playedCards.indexOf(event.responsible);
-                playedCards.remove(index);
-                playedCardsNew.remove(index);
-            }
         } else if (event.getType() == Type.GameOver) {
             curPlayer = event.getPlayer();
             curContext = context;

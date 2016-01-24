@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
+import com.vdom.api.DurationCard;
 import com.vdom.api.EventCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
@@ -168,12 +169,25 @@ public class EventCardImpl extends CardImpl implements EventCard {
             if (cards.length > 2) {
                 Util.playerError(context.player, "Bonfire trash error, trying to trash too many cards, ignoring.");
             } else {
+            	cardLoop:
                 for (Card card : cards) {
                     for (int i = 0; i < context.player.playedCards.size(); i++) {
                         Card playedCard = context.player.playedCards.get(i);
                         if (playedCard.equals(card)) {
                             context.player.trash(context.player.playedCards.remove(i, false), this.controlCard, context);
-                            break;
+                            continue cardLoop;
+                        }
+                    }
+                    for (int i = 0; i < context.player.nextTurnCards.size(); i++) {
+                        Card nextTurnCard = context.player.nextTurnCards.get(i);
+                        if (nextTurnCard.equals(card)) {
+                        	if (nextTurnCard.behaveAsCard() instanceof DurationCard) {
+                        		((CardImpl)nextTurnCard).trashAfterPlay = true;
+                                context.player.trash(nextTurnCard, this.controlCard, context);
+                        	} else {
+                        		context.player.trash(context.player.nextTurnCards.remove(i, false), this.controlCard, context);
+                        	}
+                        	continue cardLoop;
                         }
                     }
                 }

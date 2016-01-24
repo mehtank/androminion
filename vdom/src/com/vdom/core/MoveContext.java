@@ -37,6 +37,7 @@ public class MoveContext {
     public int totalEventsBoughtThisTurn = 0;
     public int totalExpeditionBoughtThisTurn = 0;
     public boolean canBuyCards = true;
+    public boolean startOfTurn = false;
     public boolean buyPhase = false;
     public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't spend Guilds coin tokens)
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
