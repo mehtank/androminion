@@ -659,7 +659,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 				vps += list.size() / 10;
 			}
 			if (card.equals(Cards.vineyard)) {
-				vps += Math.round(this.getCardCount(ActionCard.class, list) / 3);
+				vps += Math.round(this.getActionCardCount(list) / 3);
 			}
 			if (card.equals(Cards.fairgrounds)) {
 				vps += Math.round(this.getCardNameCount(list) / 5);

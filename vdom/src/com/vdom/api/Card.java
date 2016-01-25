@@ -29,6 +29,8 @@ public interface Card extends Serializable {
     
     public boolean costPotion();
     
+    public boolean isAction();
+    
     public boolean isAttack();
     
     public boolean isPrize();

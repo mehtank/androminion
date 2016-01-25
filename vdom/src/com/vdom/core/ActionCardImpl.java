@@ -306,7 +306,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 				return true;
 		}
 		for (Card c : currentPlayer.nextTurnCards) {
-			if (c instanceof ActionCardImpl && !((ActionCardImpl)c).trashAfterPlay && this == c)
+			if (c instanceof CardImpl && !((CardImpl)c).trashAfterPlay && this == c)
 			if (this == c)
 				return true;
 		}

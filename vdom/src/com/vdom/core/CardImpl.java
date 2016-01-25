@@ -232,7 +232,7 @@ public class CardImpl implements Card {
                 return context.game.getTopKnightCard().getCost(context,buyPhase); 
 
         int costModifier = 0;
-        costModifier -= (this instanceof ActionCardImpl) ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
+        costModifier -= this.isAction() ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
         costModifier -= context.countCardsInPlay(Cards.highway);
         costModifier -= context.countCardsInPlay(Cards.bridgeTroll);
         costModifier -= context.countCardsInNextTurn(Cards.bridgeTroll);
@@ -334,6 +334,10 @@ public class CardImpl implements Card {
 
     public boolean costPotion() {
         return costPotion;
+    }
+    
+    public boolean isAction() {
+    	return this instanceof ActionCard;
     }
     
     @Override

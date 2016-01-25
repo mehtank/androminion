@@ -116,7 +116,7 @@ public abstract class Player {
     public ArrayList<Card> getActionCards(Card[] cards) {
         ArrayList<Card> actionCards = new ArrayList<Card>();
         for (Card card : cards) {
-            if (card instanceof ActionCardImpl) {
+            if (card.isAction()) {
                 actionCards.add(card);
             }
         }
@@ -736,11 +736,17 @@ public abstract class Player {
     }
 
     public int getActionCardCount() {
-        return this.getCardCount(ActionCard.class);
+    	return getActionCardCount(getAllCards());
     }
 
     public int getActionCardCount(ArrayList<Card> cards) {
-        return this.getCardCount(ActionCard.class, cards);
+    	int cardCount = 0;
+        for (Card c : cards) {
+            if (c.isAction()) {
+                cardCount++;
+            }
+        }
+        return cardCount;
     }
 
     public int getVictoryCardCount() {
