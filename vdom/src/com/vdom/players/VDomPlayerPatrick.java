@@ -575,7 +575,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		    	money += (list.size()-7) / 5;
 		    }
 			
-			if (card instanceof ActionCard) {
+			if (card.isAction()) {
 				money += ((ActionCard) card).getAddGold();
 			}
 		}
@@ -604,7 +604,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			if (card instanceof TreasureCard) {
 				money += ((TreasureCard) card).getValue();
 			}
-			if (card instanceof ActionCard) {
+			if (card.isAction()) {
 				ActionCard ac = (ActionCard)card;
 				money += ac.getAddGold();
 				//money += ac.getAddCards();
@@ -760,7 +760,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		switch (this.strategy) {
 		case NoAction:
 			for (Card card : list) {
-				if (card instanceof ActionCard) {
+				if (card.isAction()) {
 					return card;
 				}
 			}
@@ -820,7 +820,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		// Action cards
 		for (Card card : list) {
-			if (card instanceof ActionCard) {
+			if (card.isAction()) {
 				return card;
 			}
 		}
@@ -1049,7 +1049,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		while (ret.size() < 2) {
 			if (getMyAddActions() == 0) {
 				for (Card acard : temphand) {
-					if (acard instanceof ActionCard) {
+					if (acard.isAction()) {
 						ret.add(acard);
 					}
 				}
@@ -1950,7 +1950,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int size = 0;
 		for (Card card : deck) {
 			size++;
-			if (card instanceof ActionCard) {
+			if (card.isAction()) {
 				if(isCantrip((ActionCard) card)) {
 					size--;
 				}
@@ -2021,7 +2021,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	   if ((event.getType() == GameEvent.Type.BuyingCard) || (event.getType() == GameEvent.Type.CardObtained)) {
     	   Card card = event.getCard();
     	   
-    	   if (card instanceof ActionCard) {
+    	   if (card.isAction()) {
     		   ActionCard ac = (ActionCard) card;
     		   this.opponents.get(event.player.playerNumber).putActionCard(card);
     		   if (ac.isAttack()) { 
@@ -2344,7 +2344,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		ArrayList<Card> ret = new ArrayList<Card>();
 		
 		for (Card card : getAllCards()) {
-			if (card instanceof ActionCard) {
+			if (card.isAction()) {
 				if (((ActionCard) card).getAddActions() <= 0) {
 					ret.add(card);
 				}
@@ -2358,7 +2358,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int addcards = 0;
 		
 		for (Card card : getAllCards()) {
-			if (card instanceof ActionCard) {
+			if (card.isAction()) {
 				addcards += ((ActionCard) card).getAddCards();
 			}
 		}
@@ -2381,7 +2381,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		this.log("advisorPlayAction: " + hand);
 		ArrayList<ActionCard> ac = new ArrayList<ActionCard>();
 		for (Card card : hand) {
-			if (card instanceof ActionCard) {
+			if (card.isAction()) {
 				ac.add((ActionCard) card);
 			}
 		}

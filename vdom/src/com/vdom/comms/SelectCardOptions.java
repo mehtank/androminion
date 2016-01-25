@@ -156,7 +156,7 @@ public class SelectCardOptions implements Serializable {
     /* Note: This method must be synchrony with checkValid(Card c, int cost, boolean cardIsVictory) */
     public boolean checkValid(MyCard c, int cost) {
 
-    	if ((maxCost >= 0) && (cost > (c.costPotion ? maxCost : maxCostWithoutPotion))) return false;
+  /*  	if ((maxCost >= 0) && (cost > (c.costPotion ? maxCost : maxCostWithoutPotion))) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
 
         if (isAction && !c.isAction) return false;
@@ -172,7 +172,7 @@ public class SelectCardOptions implements Serializable {
         if (fromTable && !fromPrizes && c.isPrize) return false;
         //if (fromPrizes && !c.isPrize && !fromTable) return false;
         if (potionCost == 0 && c.costPotion) return false;
-        if (maxCost == minCost && potionCost > 0 && !c.costPotion) return false;
+        if (maxCost == minCost && potionCost > 0 && !c.costPotion) return false; */
         if (!cardInList(c.id)) return false;
 
         return true;
@@ -201,10 +201,8 @@ public class SelectCardOptions implements Serializable {
         if (c.equals(Cards.grandMarket) && copperCountInPlay > 0) return false;
         if (isNonShelter && c.isShelter()) return false;
         if (isAttack && !c.isAttack()) return false;
+        if (isAction && !c.isAction()) return false;
         
-        if (!(c instanceof ActionCard)) {
-            if (isAction) return false;
-        }
         if (isBuyPhase && !Cards.isSupplyCard(c) && !c.isEvent()) return false;
         if (isSupplyCard && !Cards.isSupplyCard(c)) return false;
 

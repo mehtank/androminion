@@ -166,7 +166,7 @@ public class MoveContext {
         for (Card c : getPlayedCards()) {
         	if ((type == CardsInPlay.ATTACK && c.isAttack())
         			|| (type == CardsInPlay.TRAVELLER && c.isTraveller())
-        			|| (type == CardsInPlay.ACTION && c.behaveAsCard() instanceof ActionCard)) {
+        			|| (type == CardsInPlay.ACTION && c.isAction())) {
     			actionsInPlay++;
         	}
         }
@@ -175,7 +175,7 @@ public class MoveContext {
         		continue;
         	if ((type == CardsInPlay.ATTACK && c.isAttack())
         			|| (type == CardsInPlay.TRAVELLER && c.isTraveller())
-        			|| (type == CardsInPlay.ACTION && c.behaveAsCard() instanceof ActionCard)) {
+        			|| (type == CardsInPlay.ACTION && c.isAction())) {
     			actionsInPlay++;
         	}
         }
@@ -282,8 +282,8 @@ public class MoveContext {
     }
 
     public boolean canPlay(Card card) {
-        if (card instanceof ActionCard) {
-            return game.isValidAction(this, (ActionCard) card);
+        if (card.isAction()) {
+            return game.isValidAction(this, card);
         } else {
             return false;
         }

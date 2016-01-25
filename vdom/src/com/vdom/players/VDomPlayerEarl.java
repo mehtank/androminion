@@ -161,7 +161,7 @@ public class VDomPlayerEarl extends BasePlayer
      HashMap<Integer, Integer> victoryHelpers = getVictoryStat(historyItems);
  
      for (HistoryItem historyItem : historyItems) {
-       if ((historyItem.getAction() == HistoryItem.Action.BOUGHT) && (historyItem.getCard() instanceof ActionCard)) {
+       if ((historyItem.getAction() == HistoryItem.Action.BOUGHT) && (historyItem.getCard().isAction())) {
          debug(historyItem.toString() + ", was in hand " + inHand.get(historyItem.getCard().getId()) + " times, played " + 
            played.get(historyItem.getCard().getId()) + " times, and saw " + victoryHelpers.get(historyItem.getCard().getId()) + " vps");
        }
@@ -211,7 +211,7 @@ public class VDomPlayerEarl extends BasePlayer
  
      int actionCards = 0;
      for (Card card : hand) {
-       if (   card instanceof ActionCard
+       if (   card.isAction()
            && !card.equals(Cards.rats)
            && !(card.equals(Cards.tactician) && context.countCardsInPlay(Cards.tactician) > 0)
           ) {
@@ -320,7 +320,7 @@ public class VDomPlayerEarl extends BasePlayer
        if (card.equals(Cards.treasureMap)) {
          continue;
        }
-       if (card instanceof ActionCard) {
+       if (card.isAction()) {
          if (dontPlay.contains(card)) {
            continue;
          }
@@ -339,7 +339,7 @@ public class VDomPlayerEarl extends BasePlayer
      int bestAddActions = 0;
  
      for (Card card : hand) {
-       if (card instanceof ActionCard) {
+       if (card.isAction()) {
          ActionCard action = (ActionCard)card;
          if (action.getAddActions() > 0) {
            int addCards = action.getAddCards();
@@ -362,7 +362,7 @@ public class VDomPlayerEarl extends BasePlayer
      int bestAddCards = 0;
  
      for (Card card : hand) {
-       if (card instanceof ActionCard) {
+       if (card.isAction()) {
          ActionCard action = (ActionCard)card;
          int thisAddCards = action.getAddCards();
          if (thisAddCards > bestAddCards) {
@@ -1004,7 +1004,7 @@ public Card masquerade_cardToPass(MoveContext context)
        if (card.equals(Cards.nobles)) {
          continue;
        }
-       if (card instanceof ActionCard) {
+       if (card.isAction()) {
          ++count;
        }
      }

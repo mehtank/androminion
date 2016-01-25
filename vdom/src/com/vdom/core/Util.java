@@ -650,13 +650,13 @@ public class Util {
 	static public class CardTypeComparator implements Comparator<Card> {
 		@Override
 		public int compare(Card card0, Card card1) {
-			if(card0 instanceof ActionCard) {
-				if(card1 instanceof ActionCard) {
+			if(card0.isAction()) {
+				if(card1.isAction()) {
 					return 0;
 				} else {
 					return -1;
 				}
-			} else if(card1 instanceof ActionCard) {
+			} else if(card1.isAction()) {
 				return 1;
 			} else if(card0 instanceof TreasureCard || card0.getType() == Type.Potion) {
 				if(card1 instanceof TreasureCard || card1.getType() == Type.Potion) {

@@ -1430,7 +1430,7 @@ public class Game {
             return false;
         }
 
-        if (!(action instanceof ActionCard)) {
+        if (!(action.isAction())) {
             return false;
         }
 
@@ -2352,7 +2352,7 @@ public class Game {
         // We have to add one "invisible" pile for each ruins card and a "virtual" visible pile
         boolean looter = false;
         for (AbstractCardPile pile : piles.values()) {
-            if (pile.card() instanceof ActionCard && ((ActionCard)pile.card()).isLooter()) {
+            if (pile.card().isLooter()) {
                 looter = true;
             }
         }
@@ -2708,7 +2708,7 @@ public class Game {
                         int actionCardsFound = 0;
                         for(int i=player.discard.size() - 1; i >= 0; i--) {
                             Card c = player.discard.get(i);
-                            if(c instanceof ActionCard) {
+                            if(c.isAction()) {
                                 actionCardsFound++;
                                 if(player.controlPlayer.inn_shuffleCardBackIntoDeck(event.getContext(), (ActionCard) c)) {
                                     cards.add(c);

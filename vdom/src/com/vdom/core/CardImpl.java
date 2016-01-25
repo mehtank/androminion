@@ -341,6 +341,11 @@ public class CardImpl implements Card {
     }
     
     @Override
+    public boolean isAction(Player player) {
+    	return player.getInheritance() != null && this.getType() == player.getInheritance().getType();
+    }
+    
+    @Override
     public boolean isAttack() {
     	return isAttack;
     }    

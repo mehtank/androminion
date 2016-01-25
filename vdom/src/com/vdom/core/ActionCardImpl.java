@@ -1151,7 +1151,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 card = null;
             }
             
-            if (card != null && card instanceof ActionCard && card.getCost(context) <= 4 && !card.costPotion()) {
+            if (card != null && card.isAction() && card.getCost(context) <= 4 && !card.costPotion()) {
                 currentPlayer.prince.add(currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.controlCard)));
                 this.controlCard.stopImpersonatingCard();
                 
@@ -1327,7 +1327,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void university(MoveContext context, Player currentPlayer) {
         ActionCard cardToObtain = currentPlayer.controlPlayer.university_actionCardToObtain(context);
-        if (cardToObtain != null && cardToObtain instanceof ActionCard && cardToObtain.getCost(context) <= 5 && !cardToObtain.costPotion()) {
+        if (cardToObtain != null && cardToObtain.isAction() && cardToObtain.getCost(context) <= 5 && !cardToObtain.costPotion()) {
             currentPlayer.gainNewCard(cardToObtain, this.controlCard, context);
         }
     }
@@ -1358,7 +1358,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         } else {
             currentPlayer.hand.remove(cardToTrash);
             currentPlayer.trash(cardToTrash, this.controlCard, context);
-            if (cardToTrash instanceof ActionCard) {
+            if (cardToTrash.isAction()) {
                 currentPlayer.gainNewCard(Cards.duchy, this.controlCard, context);
             }
             if (cardToTrash instanceof TreasureCard) {
@@ -1797,7 +1797,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> actionCards = new ArrayList<Card>();
         ActionCardImpl cardToPlay = null;
         for (Card card : currentPlayer.hand) {
-            if (card instanceof ActionCard) {
+            if (card.isAction()) {
                 actionCards.add(card);
             }
         }
@@ -1929,7 +1929,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     if (card != null) {
                         player.reveal(card, this.controlCard, playerContext);
 
-                        if (card instanceof TreasureCard || card instanceof ActionCard) {
+                        if (card instanceof TreasureCard || card.isAction()) {
                             cardToDiscard.add(card);
                         } else {
                             topOfTheDeck.add(card);
@@ -2063,7 +2063,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
-        while ((draw = game.draw(context, controlCard, -1)) != null && !(draw instanceof ActionCard) && !(draw instanceof TreasureCard)) {
+        while ((draw = game.draw(context, controlCard, -1)) != null && !(draw.isAction()) && !(draw instanceof TreasureCard)) {
             toDiscard.add(draw);
         }
 
@@ -3047,7 +3047,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (Card card : currentPlayer.hand) {
             currentPlayer.reveal(card, this.controlCard, context);
 
-            if (card instanceof ActionCard) {
+            if (card.isAction()) {
                 actions = true;
             }
         }
@@ -3133,7 +3133,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             while ((draw = game.draw(context, controlCard, -1)) != null) {
                 currentPlayer.reveal(draw, this.controlCard, new MoveContext(context, game, currentPlayer));
                 cardsToPutInHand.add(draw);
-                if(!(draw instanceof ActionCard)) {
+                if(!(draw.isAction())) {
                     break;
                 }
             }
@@ -3207,7 +3207,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Card card = currentPlayer.controlPlayer.ironworks_cardToObtain(context);
         if (card != null && card.getCost(context) <= 4 && !card.costPotion()) {
             if (currentPlayer.gainNewCard(card, this.controlCard, context).equals(card)) {
-                if (card instanceof ActionCard) {
+                if (card.isAction()) {
                     context.actions++;
                 }
                 if (card instanceof TreasureCard) {
@@ -3259,7 +3259,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         for (Card card : revealedCards) {
             if (card != null && !card.equals(Cards.curse)) {
-                if (card instanceof ActionCard) {
+                if (card.isAction()) {
                     context.actions += 2;
                 }
                 if (card instanceof TreasureCard) {
@@ -3775,7 +3775,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             currentPlayer.reveal(draw, this.controlCard, context);
 
-            if (draw instanceof ActionCard && !draw.equals(Cards.golem)) {
+            if (draw.isAction() && !draw.equals(Cards.golem)) {
                 toOrder.add(draw);
                 // currentPlayer.hand.add(draw);
             } else {
@@ -3860,7 +3860,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
             
             boolean shouldKeep = true;
-            if (draw instanceof ActionCard) {
+            if (draw.isAction()) {
                 shouldKeep = currentPlayer.controlPlayer.library_shouldKeepAction(context, (ActionCard) draw);
             }
 
@@ -4627,7 +4627,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case TrashActionCard:
                 Card toTrash = currentPlayer.controlPlayer.graverobber_cardToTrash(context);
 
-                if (toTrash == null || !currentPlayer.hand.contains(toTrash) || !(toTrash instanceof ActionCard)) {
+                if (toTrash == null || !currentPlayer.hand.contains(toTrash) || !(toTrash.isAction())) {
                     Util.playerError(currentPlayer, "Graverobber trash error, trashing nothing.");
                     return;
                 }
@@ -4655,7 +4655,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 currentPlayer.putOnTopOfDeck(card, context, true);
             }
 
-            if (card instanceof ActionCard) {
+            if (card.isAction()) {
                 context.actions += 1;
             }
             if (card instanceof TreasureCard) {
@@ -4793,7 +4793,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (card == null) {
                 break;
             }
-            if (!(card instanceof ActionCard) ) {
+            if (!(card.isAction()) ) {
                 currentPlayer.discard(card, this.controlCard, context);
             } else {
                 currentPlayer.reveal(card, this.controlCard, context);
@@ -5582,7 +5582,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (cardToImpersonate != null 
                 && !game.isPileEmpty(cardToImpersonate)
                 && Cards.isSupplyCard(cardToImpersonate)
-                && cardToImpersonate instanceof ActionCard 
+                && cardToImpersonate.isAction()
                 && cardToImpersonate.getCost(context) < this.controlCard.getCost(context) 
                 && (context.golemInEffect == 0 || cardToImpersonate != Cards.golem)) {
                 GameEvent event = new GameEvent(GameEvent.Type.CardNamed, (MoveContext) context);
@@ -6032,7 +6032,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         {
             currentPlayer.reveal(draw, this.controlCard, context);
 
-            if (draw instanceof ActionCard) 
+            if (draw.isAction()) 
             {
                 context.freeActionInEffect++;
                 ((ActionCardImpl) draw).play(game, context, false);
@@ -6271,7 +6271,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             } else {
                 currentPlayer.putOnTopOfDeck(c, context, true);
             }
-            if ((c instanceof VictoryCard) || (c instanceof ActionCard)) {
+            if ((c instanceof VictoryCard) || (c.isAction())) {
                 currentPlayer.gainNewCard(Cards.magpie, this.controlCard, context);
             }
         }

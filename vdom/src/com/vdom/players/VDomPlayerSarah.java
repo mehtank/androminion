@@ -479,7 +479,7 @@ public class VDomPlayerSarah extends BasePlayer {
     public boolean shouldPassOnBuy(MoveContext context, Card card) {
         return 
                 !context.canBuy(card) || 
-                card instanceof ActionCard && actionCardCount >= actionCardMax || 
+                card.isAction() && actionCardCount >= actionCardMax || 
                 !favorSilverGoldPlat && (card.equals(Cards.silver) || card.equals(Cards.masterpiece) || card.equals(Cards.gold) || card.equals(Cards.platinum)) ||
                 card.equals(Cards.curse) || 
                 card.equals(Cards.virtualRuins) ||
@@ -490,7 +490,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 context.getEmbargosIfCursesLeft(card) > 0 ||
-                !(card instanceof ActionCard) && !(card instanceof TreasureCard) && !(card instanceof EventCard);
+                !(card.isAction()) && !(card instanceof TreasureCard) && !(card instanceof EventCard);
     }
 
     @Override

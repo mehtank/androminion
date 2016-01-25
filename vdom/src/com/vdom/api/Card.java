@@ -6,6 +6,7 @@ import com.vdom.core.CardImpl;
 import com.vdom.core.Game;
 import com.vdom.core.Cards.Type;
 import com.vdom.core.MoveContext;
+import com.vdom.core.Player;
 
 
 public interface Card extends Serializable {
@@ -30,6 +31,13 @@ public interface Card extends Serializable {
     public boolean costPotion();
     
     public boolean isAction();
+    
+    /**
+     * Is the card an action if it belonged to the current player?
+     * @param player
+     * @return
+     */
+    public boolean isAction(Player player);
     
     public boolean isAttack();
     

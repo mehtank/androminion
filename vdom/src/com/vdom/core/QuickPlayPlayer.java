@@ -493,7 +493,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         int actionCards = 0;
         int trashCards = 0;
         for(Card c : getHand()) {
-            if(c instanceof ActionCard) {
+            if(c.isAction()) {
                 actionCards++;
             }
             for(Card trash : getTrashCards()) {

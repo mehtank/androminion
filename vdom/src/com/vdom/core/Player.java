@@ -131,7 +131,7 @@ public abstract class Player {
     public int getMyAddActionCardCount() {
         int addActionsCards = 0;
         for (Card card : getAllCards()) {
-            if (card instanceof ActionCard) {
+            if (card.isAction()) {
                 if (((ActionCard) card).getAddActions() > 0) {
                     addActionsCards++;
                 }
@@ -144,7 +144,7 @@ public abstract class Player {
     public int getMyAddCardCardCount() {
         int addCards = 0;
         for (Card card : getAllCards()) {
-            if (card instanceof ActionCard) {
+            if (card.isAction()) {
                 if (((ActionCard) card).getAddCards() > 0) {
                     addCards++;
                 }
@@ -157,7 +157,7 @@ public abstract class Player {
     public int getMyAddActions() {
         int addActions = 0;
         for (Card card : getAllCards()) {
-            if (card instanceof ActionCard) {
+            if (card.isAction()) {
                 addActions += ((ActionCard) card).getAddActions();
             }
         }
@@ -168,7 +168,7 @@ public abstract class Player {
     public int getMyAddCards() {
         int addCards = 0;
         for (Card card : getAllCards()) {
-            if (card instanceof ActionCard) {
+            if (card.isAction()) {
                 addCards += ((ActionCard) card).getAddCards();
             }
         }
@@ -179,7 +179,7 @@ public abstract class Player {
     public int getMyAddBuys() {
         int addBuys = 0;
         for (Card card : getAllCards()) {
-            if (card instanceof ActionCard) {
+            if (card.isAction()) {
                 addBuys += ((ActionCard) card).getAddBuys();
             }
         }
@@ -396,7 +396,7 @@ public abstract class Player {
                     context.schemesPlayed --;
                     ArrayList<Card> actions = new ArrayList<Card>();
                     for(Card c : playedCards) {
-                        if(c instanceof ActionCard) {
+                        if(c.isAction()) {
                             actions.add(c);
                         }
                     }
@@ -1404,7 +1404,7 @@ public abstract class Player {
         ArrayList<ActionCard> actions = new ArrayList<ActionCard>();
 
         for (Card c : getHand())
-            if (c instanceof ActionCard)
+            if (c.isAction())
                 actions.add((ActionCard) c);
 
         return actions;
