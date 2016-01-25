@@ -255,6 +255,36 @@ public class CardImpl implements Card {
         return (this instanceof VictoryCard);
     }
     
+    @Override
+    public int getAddCards() {
+    	return 0;
+    }
+    
+    @Override
+    public int getAddActions() {
+    	return 0;
+    }
+    
+    @Override
+    public int getAddGold() {
+    	return 0;
+    }
+    
+    @Override
+    public int getAddBuys() {
+    	return 0;
+    }
+    
+    @Override
+    public int getAddVictoryTokens() {
+    	return 0;
+    }
+    
+    @Override
+    public boolean trashForced() {
+    	return false;
+    }
+    
     /**
      * @return the id
      */
@@ -262,7 +292,12 @@ public class CardImpl implements Card {
         return id;
     }
 
+    @Override
     public void play(Game game, MoveContext context) {
+    }
+    
+    @Override
+    public void play(Game game, MoveContext context, boolean fromHand) {
     }
 
     public String getStats() {

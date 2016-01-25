@@ -3,6 +3,7 @@ package com.vdom.api;
 import java.io.Serializable;
 
 import com.vdom.core.CardImpl;
+import com.vdom.core.Game;
 import com.vdom.core.Cards.Type;
 import com.vdom.core.MoveContext;
 
@@ -47,6 +48,26 @@ public interface Card extends Serializable {
     public boolean isReserve();
     
     public boolean isTraveller();
+    
+    public int getAddCards();
+    
+    public int getAddActions();
+    
+    public int getAddGold();
+    
+    public int getAddBuys();
+    
+    public int getAddVictoryTokens();
+    
+    /**
+     * Does this card force you to trash a card when played? (Used for AI)
+     * @return Whether this card forces you to trash a card when played
+     */
+    public boolean trashForced();
+    
+    public void play(Game game, MoveContext context);
+    
+    public void play(Game game, MoveContext context, boolean fromHand);
     
     public Integer getId();
     

@@ -1156,8 +1156,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 if (   !card.isRuins()
                     && !card.equals(Cards.necropolis)
                     && !((ActionCard) card).trashForced()
-                    && !((ActionCardImpl) card).trashOnUse
                     && !(card instanceof DurationCard)
+                    && !(card.isReserve())
+                    && !(card.isTraveller())
+                    && !card.equals(Cards.feast)
+                    && !card.equals(Cards.embargo)
+                    && !card.equals(Cards.pillage)
                     && !card.equals(Cards.shantyTown)
                     && !card.equals(Cards.island)
                     && !card.equals(Cards.lookout)
@@ -1165,6 +1169,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                     && !card.equals(Cards.deathCart)
                     && !card.equals(Cards.procession)
                     && !card.equals(Cards.madman)
+                    && !card.equals(Cards.raze)
                     && !card.equals(Cards.prince)
                    ) {
                     actionCards.add(card);
