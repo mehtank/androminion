@@ -129,7 +129,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;
         else
-            card.isRuins = c.isRuins();
+            card.isRuins = c.isRuins(null);
 
 
         card.pile = MyCard.SUPPLYPILE;
@@ -323,7 +323,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 {
                    i_virtualRuins = i;
                 }
-                else if (cardsInPlay.get(i).isRuins())
+                else if (cardsInPlay.get(i).isRuins(null))
                 {
                    ruinsSize += player.getMyCardCount(cardsInPlay.get(i));
                 }

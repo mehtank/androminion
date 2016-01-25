@@ -399,8 +399,10 @@ public class CardImpl implements Card {
         return isShelter;
     }
     @Override
-    public boolean isRuins() {
-        return isRuins;
+    public boolean isRuins(Player player) {
+    	if (player == null || player.getInheritance() == null)
+    		return isRuins;
+    	return ((CardImpl)player.getInheritance()).isRuins;
     }
     @Override
     public boolean isKnight(Player player) {

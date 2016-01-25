@@ -1556,7 +1556,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         AbstractCardPile pile;
         if (card.isKnight(null)) {
             virtCard = Cards.virtualKnight;
-        } else if (card.isRuins()) {
+        } else if (card.isRuins(null)) {
             virtCard = Cards.virtualRuins;
         }
         pile = game.getPile(virtCard);
@@ -2195,7 +2195,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     AbstractCardPile pile;
                     if (draw.isKnight(null)) {
                         virtCard = Cards.virtualKnight;
-                    } else if (draw.isRuins()) {
+                    } else if (draw.isRuins(null)) {
                         virtCard = Cards.virtualRuins;
                     }
                     pile = game.getPile(virtCard);
@@ -5179,42 +5179,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
       }
       }*/
 
-    @Override
-    public boolean isRuins() {
-        switch (this.controlCard.getType()) {
-            case AbandonedMine:
-            case RuinedLibrary:
-            case RuinedMarket:
-            case RuinedVillage:
-            case Survivors:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    public boolean isLooter() {
-        switch (this.controlCard.getType()) {
-            case Cultist:
-            case DeathCart:
-            case Marauder:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    public boolean isReserve() {
-        return isReserve;
-    }
-
-    @Override
-    public boolean isTraveller() {
-        return isTraveller;
-    }
-
     private void survivors(MoveContext context, Game game, Player currentPlayer) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 2; i++) {
@@ -5446,7 +5410,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Card c = game.draw(context, controlCard, 1);
         if (c != null) {
             currentPlayer.reveal(c, this.controlCard, context);
-            if (c.getType() == Cards.Type.Curse || c.isShelter() || (c instanceof VictoryCard) || (c.isRuins())) {
+            if (c.getType() == Cards.Type.Curse || c.isShelter() || (c instanceof VictoryCard) || (c.isRuins(currentPlayer))) {
                 currentPlayer.hand.add(c);
             } else {
                 currentPlayer.putOnTopOfDeck(c, context, true);

@@ -1606,7 +1606,7 @@ public class Game {
             context.potions--;
         } else if (!(buy instanceof VictoryCard) && !buy.isKnight(null) && cost < 5 && !buy.isEvent()) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
-                if (!buy.isRuins() || (card != null && card.equals(getTopRuinsCard()))) {
+                if (!buy.isRuins(null) || (card != null && card.equals(getTopRuinsCard()))) {
                     context.getPlayer().gainNewCard(buy, Cards.talisman, context);
                 }
             }
@@ -2283,7 +2283,7 @@ public class Game {
                     pile.card() != null &&
                     pile.card().getExpansion() != null &&
                     pile.card().isShelter() == false &&
-                    pile.card().isRuins() == false &&
+                    pile.card().isRuins(null) == false &&
                     (pile.card().isKnight(null) == false || !alreadyCountedKnights) &&
                     pile.card().getExpansion().equals("DarkAges"))
                 {
@@ -2949,7 +2949,7 @@ public class Game {
     protected Card takeFromPile(Card card, MoveContext context) {
         if (context == null || !context.blackMarketBuyPhase) {
             if (card.isKnight(null)) card = Cards.virtualKnight;
-            if (card.isRuins()) card = Cards.virtualRuins;
+            if (card.isRuins(null)) card = Cards.virtualRuins;
         }
         
         AbstractCardPile pile = getPile(card);

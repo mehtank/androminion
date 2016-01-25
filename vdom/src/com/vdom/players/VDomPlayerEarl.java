@@ -821,7 +821,7 @@ public class VDomPlayerEarl extends BasePlayer
        if (   !(card instanceof VictoryCard)
            && !(card instanceof CurseCard)
            && !(card.isShelter())
-           && !(card.isRuins())) {
+           && !(card.isRuins(this))) {
          cards.add(card);
        }
      }

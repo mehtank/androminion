@@ -67,7 +67,7 @@ public class VariableCardPile extends AbstractCardPile {
 			}
 			break;
 		case RuinsPile:
-			if (card.isRuins()) {
+			if (card.isRuins(null)) {
 				cards.add(0, card);
 			}
 			break;
