@@ -380,12 +380,15 @@ public class CardImpl implements Card {
     
     @Override
     public boolean isAction(Player player) {
+    	//TODO: redo?
     	return player.getInheritance() != null && this.getType() == player.getInheritance().getType();
     }
     
     @Override
-    public boolean isAttack() {
-    	return isAttack;
+    public boolean isAttack(Player player) {
+    	if (player == null || player.getInheritance() == null)
+    		return isAttack;
+    	return ((CardImpl)player.getInheritance()).isAttack;
     }    
     @Override
     public boolean isPrize() {

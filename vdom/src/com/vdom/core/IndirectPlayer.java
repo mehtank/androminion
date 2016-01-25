@@ -101,7 +101,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         ArrayList<Card> handList = new ArrayList<Card>();
 
         for (Card card : localHand) {
-            if (sco.checkValid(card, card.getCost(context), card.isVictory(context))) {
+            if (sco.checkValid(card, card.getCost(context), card.isVictory(context), context)) {
                 handList.add(card);
                 sco.addValidCard(cardToInt(card));
             }
@@ -155,7 +155,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         	boolean hasTokens = context.game.getPlayerSupplyTokens(card, context.getPlayer()).size() > 0;
             if (   !(card.isEvent() && sco.cardResponsible != null && sco.cardResponsible.equals(Cards.contraband) )
             	&& (sco.allowEmpty || !context.game.isPileEmpty(card))) {
-                if (   sco.checkValid(card, card.getCost(context), card.isVictory(context))
+                if (   sco.checkValid(card, card.getCost(context), card.isVictory(context), null)
                 	&& (!(sco.noTokens && hasTokens))
                     && (   (!context.cantBuy.contains(card) && (context.canBuyCards || card.isEvent()))
                         || !sco.pickType.equals(PickType.BUY))

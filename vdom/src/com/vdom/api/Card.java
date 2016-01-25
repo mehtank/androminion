@@ -31,17 +31,12 @@ public interface Card extends Serializable {
     public boolean costPotion();
     
     public boolean isAction();
-    
-    /**
-     * Is the card an action if it belonged to the current player?
-     * @param player
-     * @return
-     */
+  
     public boolean isAction(Player player);
     
     public boolean isDuration(Player player);
     
-    public boolean isAttack();
+    public boolean isAttack(Player player);
     
     public boolean isPrize();
     

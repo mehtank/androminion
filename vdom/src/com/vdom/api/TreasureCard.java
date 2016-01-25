@@ -11,5 +11,4 @@ public interface TreasureCard extends Card {
     
     public boolean playTreasure(MoveContext context);
     
-    public boolean isAttack();   
 }

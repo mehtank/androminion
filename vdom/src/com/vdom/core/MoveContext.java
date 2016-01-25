@@ -162,7 +162,7 @@ public class MoveContext {
     public int countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay type) {
         int actionsInPlay = 0;
         for (Card c : getPlayedCards()) {
-        	if ((type == CardsInPlay.ATTACK && c.isAttack())
+        	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
         			|| (type == CardsInPlay.TRAVELLER && c.isTraveller())
         			|| (type == CardsInPlay.ACTION && c.isAction())) {
     			actionsInPlay++;
@@ -171,7 +171,7 @@ public class MoveContext {
         for (Card c : player.nextTurnCards) {
         	if (c instanceof CardImpl && ((CardImpl)c).trashAfterPlay)
         		continue;
-        	if ((type == CardsInPlay.ATTACK && c.isAttack())
+        	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
         			|| (type == CardsInPlay.TRAVELLER && c.isTraveller())
         			|| (type == CardsInPlay.ACTION && c.isAction())) {
     			actionsInPlay++;

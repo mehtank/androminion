@@ -10,6 +10,7 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Cards;
 import com.vdom.core.MoveContext;
+import com.vdom.core.Player;
 
 /**
  * Gives information about cards that are selected by the player from the table (piles, hand, play)
@@ -178,12 +179,14 @@ public class SelectCardOptions implements Serializable {
         return true;
     }
 
-    public boolean checkValid(Card c, boolean cardIsVictory) {
-        return checkValid(c, 0, cardIsVictory);
+    public boolean checkValid(Card c, boolean cardIsVictory, MoveContext context) {
+        return checkValid(c, 0, cardIsVictory, context);
     }
 
     /* Note: This method must be synchrony with checkValid(MyCard c, int cost) */
-    public boolean checkValid(Card c, int cost, boolean cardIsVictory) {
+    public boolean checkValid(Card c, int cost, boolean cardIsVictory, MoveContext context) {
+    	
+    	Player p = context != null ? context.player : null;
 
         if ((maxCost >= 0) && (cost > (c.costPotion() ? maxCost : maxCostWithoutPotion))) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
@@ -200,7 +203,7 @@ public class SelectCardOptions implements Serializable {
         if (isNonRats && c.equals(Cards.rats)) return false;
         if (c.equals(Cards.grandMarket) && copperCountInPlay > 0) return false;
         if (isNonShelter && c.isShelter()) return false;
-        if (isAttack && !c.isAttack()) return false;
+        if (isAttack && !c.isAttack(p)) return false;
         if (isAction && !c.isAction()) return false;
         
         if (isBuyPhase && !Cards.isSupplyCard(c) && !c.isEvent()) return false;

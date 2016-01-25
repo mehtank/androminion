@@ -276,7 +276,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
     	if (option == QuestOption.DiscardAttack) {
     		Set<Card> attackSet = new HashSet<Card>();
     		for (Card card : hand) {
-    			if (card.behaveAsCard().isAttack()) {
+    			if (card.behaveAsCard().isAttack(player)) {
     				attackSet.add(card);
     			}
     		}

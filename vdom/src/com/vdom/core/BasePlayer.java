@@ -432,7 +432,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	protected ArrayList<Card> getAttackCardsLeft() {
 		ArrayList<Card> options = new ArrayList<Card>();
 		for (AbstractCardPile pile : game.piles.values()) {
-			if (pile.getCount() > 0 && pile.card().isAttack()) {
+			if (pile.getCount() > 0 && pile.card().isAttack(null)) {
 				options.add(pile.card());
 			}
 		}
@@ -2694,7 +2694,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	
     	if (!this.hand.contains(Cards.moat)) {
         	for (Card card : cl) {
-    			if (card.isAttack()) {
+    			if (card.isAttack(context.player)) {
 					return card;
 				}
     		}

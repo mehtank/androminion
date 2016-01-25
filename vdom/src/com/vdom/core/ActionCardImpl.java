@@ -212,7 +212,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         
         context.actions += game.countChampionsInPlay(currentPlayer);
         
-        if (isAttack())
+        if (isAttack(currentPlayer))
             attackPlayed(context, game, currentPlayer);
         
         if (this.numberTimesAlreadyPlayed == 0 && this == actualCard) {
@@ -5086,7 +5086,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 for (Card c : context.game.getCardsInGame())
                 {
-                    if (Cards.isSupplyCard(c) && c.isAttack() && context.game.getPile(c).getCount() > 0) {
+                    if (Cards.isSupplyCard(c) && c.isAttack(null) && context.game.getPile(c).getCount() > 0) {
                         attackCardAvailable = true;
                         break;
                     }

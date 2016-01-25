@@ -94,7 +94,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         game.broadcastEvent(event);
 
         
-        if (isAttack())
+        if (isAttack(player))
             attackPlayed(context, game, player);
         
         if (!isClone)
