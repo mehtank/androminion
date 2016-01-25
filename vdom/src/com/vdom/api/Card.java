@@ -39,6 +39,8 @@ public interface Card extends Serializable {
      */
     public boolean isAction(Player player);
     
+    public boolean isDuration(Player player);
+    
     public boolean isAttack();
     
     public boolean isPrize();
@@ -68,6 +70,18 @@ public interface Card extends Serializable {
     public int getAddBuys();
     
     public int getAddVictoryTokens();
+    
+    public int getAddCardsNextTurn();
+    
+    public int getAddActionsNextTurn();
+    
+    public int getAddGoldNextTurn();
+    
+    public int getAddBuysNextTurn();
+    
+    public boolean takeAnotherTurn();
+    
+    public int takeAnotherTurnCardCount();
     
     /**
      * Does this card force you to trash a card when played? (Used for AI)

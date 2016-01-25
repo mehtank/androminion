@@ -2,6 +2,7 @@ package com.vdom.core;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
+import com.vdom.api.DurationCard;
 import com.vdom.api.VictoryCard;
 
 public class CardImpl implements Card {
@@ -281,6 +282,36 @@ public class CardImpl implements Card {
     }
     
     @Override
+    public int getAddCardsNextTurn() {
+    	return 0;
+    }
+    
+    @Override
+    public int getAddActionsNextTurn() {
+    	return 0;
+    }
+    
+    @Override
+    public int getAddGoldNextTurn() {
+    	return 0;
+    }
+    
+    @Override
+    public int getAddBuysNextTurn() {
+    	return 0;
+    }
+    
+    @Override
+    public boolean takeAnotherTurn() {
+    	return false;
+    }
+    
+    @Override
+    public int takeAnotherTurnCardCount() {
+    	return 0;
+    }
+    
+    @Override
     public boolean trashForced() {
     	return false;
     }
@@ -338,6 +369,13 @@ public class CardImpl implements Card {
     
     public boolean isAction() {
     	return this instanceof ActionCard;
+    }
+    
+    @Override
+    public boolean isDuration(Player player) {
+    	if (player == null || player.getInheritance() == null)
+    		return this instanceof DurationCard;
+    	return player.getInheritance() instanceof DurationCard;
     }
     
     @Override
