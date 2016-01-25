@@ -217,7 +217,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
         	cardToPlay.numberTimesAlreadyPlayed = 0; //TODO: not sure if this is always right
         context.freeActionInEffect--;
         // If the cardToPlay was a knight, and was trashed, reset clonecount
-        if (cardToPlay.isKnight() && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
+        if (cardToPlay.isKnight(currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
             cardToPlay.cloneCount = 1;
         }
 

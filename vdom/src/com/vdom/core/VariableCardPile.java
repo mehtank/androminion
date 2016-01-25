@@ -62,7 +62,7 @@ public class VariableCardPile extends AbstractCardPile {
 
 		switch (type) {
 		case KnightsPile:
-			if (card.isKnight()) {
+			if (card.isKnight(null)) {
 				cards.add(0, card);
 			}
 			break;

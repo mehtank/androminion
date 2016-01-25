@@ -1554,7 +1554,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Card virtCard = card;
 
         AbstractCardPile pile;
-        if (card.isKnight()) {
+        if (card.isKnight(null)) {
             virtCard = Cards.virtualKnight;
         } else if (card.isRuins()) {
             virtCard = Cards.virtualRuins;
@@ -1836,7 +1836,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     cardToPlay.numberTimesAlreadyPlayed = 0;
                     context.freeActionInEffect--;
                     // If the cardToPlay was a knight, and was trashed, reset clonecount
-                    if (cardToPlay.isKnight() && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
+                    if (cardToPlay.isKnight(currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
                         cardToPlay.cloneCount = 1;
                     }
 
@@ -2193,7 +2193,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 else if (Cards.isSupplyCard(draw))
                 {
                     AbstractCardPile pile;
-                    if (draw.isKnight()) {
+                    if (draw.isKnight(null)) {
                         virtCard = Cards.virtualKnight;
                     } else if (draw.isRuins()) {
                         virtCard = Cards.virtualRuins;
@@ -5194,11 +5194,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     @Override
-    public boolean isKnight() {
-        return isKnight;
-    }
-
-    @Override
     public boolean isLooter() {
         switch (this.controlCard.getType()) {
             case Cultist:
@@ -5510,7 +5505,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     targetPlayer.trash(cardToTrash, this.controlCard, targetContext);
 
                     // If the card trashed was a knight, the attacking knight should be trashed as well
-                    if (cardToTrash.isKnight() && currentPlayer.playedCards.contains(this.controlCard) && currentPlayer.playedCards.getLastCard() == this.controlCard) {
+                    if (cardToTrash.isKnight(targetPlayer) && currentPlayer.playedCards.contains(this.controlCard) && currentPlayer.playedCards.getLastCard() == this.controlCard) {
                         currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), cardToTrash, context);
                     }
                 }

@@ -46,7 +46,7 @@ public interface Card extends Serializable {
     
     public boolean isRuins();
     
-    public boolean isKnight();
+    public boolean isKnight(Player player);
     
     public boolean isOverpay();
     

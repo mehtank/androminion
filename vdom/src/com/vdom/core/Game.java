@@ -1604,7 +1604,7 @@ public class Game {
 
         if (buy.costPotion()) {
             context.potions--;
-        } else if (!(buy instanceof VictoryCard) && !buy.isKnight() && cost < 5 && !buy.isEvent()) {
+        } else if (!(buy instanceof VictoryCard) && !buy.isKnight(null) && cost < 5 && !buy.isEvent()) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
                 if (!buy.isRuins() || (card != null && card.equals(getTopRuinsCard()))) {
                     context.getPlayer().gainNewCard(buy, Cards.talisman, context);
@@ -2032,7 +2032,7 @@ public class Game {
         tradeRouteValue = 0;
         if (isCardInGame(Cards.tradeRoute)) {
             for (AbstractCardPile pile : piles.values()) {
-                if ((pile.card() instanceof VictoryCard) && !pile.card().isKnight() && !pile.isBlackMarket()) {
+                if ((pile.card() instanceof VictoryCard) && !pile.card().isKnight(null) && !pile.isBlackMarket()) {
                     pile.setTradeRouteToken();
                 }
             }
@@ -2284,7 +2284,7 @@ public class Game {
                     pile.card().getExpansion() != null &&
                     pile.card().isShelter() == false &&
                     pile.card().isRuins() == false &&
-                    (pile.card().isKnight() == false || !alreadyCountedKnights) &&
+                    (pile.card().isKnight(null) == false || !alreadyCountedKnights) &&
                     pile.card().getExpansion().equals("DarkAges"))
                 {
                     chanceForShelters += 0.1;
@@ -2296,7 +2296,7 @@ public class Game {
                     break;
                 }
 
-                if (pile.card().isKnight())
+                if (pile.card().isKnight(null))
                 {
                     alreadyCountedKnights = true;
                 }
@@ -2948,7 +2948,7 @@ public class Game {
     
     protected Card takeFromPile(Card card, MoveContext context) {
         if (context == null || !context.blackMarketBuyPhase) {
-            if (card.isKnight()) card = Cards.virtualKnight;
+            if (card.isKnight(null)) card = Cards.virtualKnight;
             if (card.isRuins()) card = Cards.virtualRuins;
         }
         

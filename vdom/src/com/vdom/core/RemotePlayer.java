@@ -331,7 +331,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 {
                    i_virtualKnight = i;
                 }
-                else if (cardsInPlay.get(i).isKnight())
+                else if (cardsInPlay.get(i).isKnight(null))
                 {
                    knightSize += player.getMyCardCount(cardsInPlay.get(i));
                 }

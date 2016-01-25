@@ -403,8 +403,10 @@ public class CardImpl implements Card {
         return isRuins;
     }
     @Override
-    public boolean isKnight() {
-        return isKnight;
+    public boolean isKnight(Player player) {
+    	if (player == null || player.getInheritance() == null)
+    		return isKnight;
+    	return ((CardImpl)player.getInheritance()).isKnight;
     }
     
     @Override
