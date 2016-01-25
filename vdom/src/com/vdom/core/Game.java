@@ -18,7 +18,6 @@ import java.util.Random;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
-import com.vdom.api.DurationCard;
 import com.vdom.api.EventCard;
 import com.vdom.api.FrameworkEvent;
 import com.vdom.api.FrameworkEventHelper;
@@ -593,8 +592,8 @@ public class Game {
         // Can only have at most two consecutive turns
         for (Card card : player.nextTurnCards) {
             Card behaveAsCard = card.behaveAsCard();
-            if ((behaveAsCard instanceof DurationCard) && ((DurationCard) behaveAsCard).takeAnotherTurn()) {
-                handCount = ((DurationCard) behaveAsCard).takeAnotherTurnCardCount();
+            if (behaveAsCard.takeAnotherTurn()) {
+                handCount = behaveAsCard.takeAnotherTurnCardCount();
                 if (consecutiveTurnCounter <= 1) {
                 	result.add(new ExtraTurnInfo());
                     break;
@@ -784,7 +783,7 @@ public class Game {
         /* Duration cards, horse traders, cards on prince*/
         
         /* selectOption() must know if horse traders are set aside by reaction or by haven/gear or by prince.
-         * We put 2 cards in list durationCards to differentiate:
+         * We put 2 cards in list durationEffects to differentiate:
          * Examples (Curse is here a dummy card):
          * HorseTrader - (Curse)
          * Haven - Card set aside by haven or gear
@@ -797,7 +796,7 @@ public class Game {
         ArrayList<Boolean> durationEffectsAreCards = new ArrayList<Boolean>();
         for (Card card : player.nextTurnCards) {
             Card thisCard = card.behaveAsCard();
-            if (thisCard instanceof DurationCard) {
+            if (thisCard.isDuration(player)) {
                 /* Wiki:
                  * Effects that resolve at the start of your turn can be resolved in any order;
                  * this includes multiple plays of the same Duration card by a Throne Room variant.
@@ -863,7 +862,7 @@ public class Game {
         while (!player.haven.isEmpty()) {
         	/*gear could set 2 cards aside*/
         	// BUG: both cards set aside by Gear need to be added to hand at the same time
-            durationEffects.add((DurationCard) Cards.gear);
+            durationEffects.add(Cards.gear);
             durationEffects.add(player.haven.remove(0));
             durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
@@ -918,7 +917,7 @@ public class Game {
             durationEffectsAreCards.remove(selection);
             
             if(card.equals(Cards.prince)) {
-                if (!(card2 instanceof DurationCard)) {
+                if (!(card2.isDuration(player))) {
                     player.playedByPrince.add(card2);
                 }
                 player.prince.remove(card2);
@@ -944,12 +943,12 @@ public class Game {
                 Card horseTrader = player.horseTraders.remove(0);
                 player.hand.add(horseTrader);
                 drawToHand(context, horseTrader, 1);
-            } else if(card.behaveAsCard() instanceof DurationCard) {
+            } else if(card.behaveAsCard().isDuration(player)) {
                 if(card.behaveAsCard().equals(Cards.haven) || card.behaveAsCard().equals(Cards.gear)) {
                     player.hand.add(card2);
                 }
                 
-                DurationCard thisCard = (DurationCard) card.behaveAsCard();
+                Card thisCard = card.behaveAsCard();
                 
                 GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
                 event.card = card;
@@ -1024,7 +1023,7 @@ public class Game {
             }
         	
         	if(card.behaveAsCard().equals(Cards.hireling) || card.behaveAsCard().equals(Cards.champion)) {
-        		staysInPlayCards.add((DurationCard) card);
+        		staysInPlayCards.add(card);
             } else {
 	            CardImpl behaveAsCard = (CardImpl) card.behaveAsCard();
 	            behaveAsCard.cloneCount = 1;

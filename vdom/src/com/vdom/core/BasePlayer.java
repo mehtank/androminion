@@ -13,7 +13,6 @@ import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
 import com.vdom.api.CurseCard;
-import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
@@ -1156,7 +1155,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 if (   !card.isRuins()
                     && !card.equals(Cards.necropolis)
                     && !((ActionCard) card).trashForced()
-                    && !(card instanceof DurationCard)
+                    && !(card.isDuration(context.player))
                     && !(card.isReserve())
                     && !(card.isTraveller())
                     && !card.equals(Cards.feast)

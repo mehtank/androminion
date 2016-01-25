@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.DurationCard;
 import com.vdom.api.EventCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
@@ -181,7 +180,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
                     for (int i = 0; i < context.player.nextTurnCards.size(); i++) {
                         Card nextTurnCard = context.player.nextTurnCards.get(i);
                         if (nextTurnCard.equals(card)) {
-                        	if (nextTurnCard.behaveAsCard() instanceof DurationCard) {
+                        	if (nextTurnCard.isDuration(context.player)) {
                         		((CardImpl)nextTurnCard).trashAfterPlay = true;
                                 context.player.trash(nextTurnCard, this.controlCard, context);
                         	} else {

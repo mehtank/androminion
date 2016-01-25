@@ -11,7 +11,6 @@ import java.util.Set;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
-import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
@@ -223,8 +222,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 currentPlayer.hand.remove(this);
             if (trashOnUse) {
                 currentPlayer.trash(this, null, context);
-            } else if (this instanceof DurationCard) {
-                currentPlayer.nextTurnCards.add((DurationCard) this);
+            } else if (this.isDuration(currentPlayer)) {
+                currentPlayer.nextTurnCards.add(this);
             } else {
                 currentPlayer.playedCards.add(this);
             }
@@ -1841,7 +1840,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                         cardToPlay.cloneCount = 1;
                     }
 
-                    if (cardToPlay instanceof DurationCard && !cardToPlay.equals(Cards.tactician)) {
+                    if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
                         // Need to move throning card to NextTurnCards first
                         // (but does not play)
                         if (!this.controlCard.movedToNextTurnPile) {
@@ -5610,7 +5609,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             int idx = currentPlayer.playedCards.lastIndexOf(this);
             if (idx >= 0) currentPlayer.playedCards.remove(idx);
             currentPlayer.trash(this, null, context);
-        } else if (cardToPlay instanceof DurationCard && !cardToPlay.equals(Cards.outpost)) {
+        } else if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
             if (!this.controlCard.movedToNextTurnPile) {
                 this.controlCard.movedToNextTurnPile = true;
                 int idx = currentPlayer.playedCards.lastIndexOf(this);

@@ -2,7 +2,6 @@ package com.vdom.core;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 
 public class CallableActionCardImpl extends ActionCardImpl implements CallableCard {
@@ -222,7 +221,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
             cardToPlay.cloneCount = 1;
         }
 
-        if (cardToPlay instanceof DurationCard && !cardToPlay.equals(Cards.tactician)) {
+        if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
             // Need to move royal carriage card to NextTurnCards first
             // (but does not play)
             if (!this.controlCard.movedToNextTurnPile) {
