@@ -429,15 +429,19 @@ public class CardImpl implements Card {
     }
     
     @Override
-    public boolean isReserve()
+    public boolean isReserve(Player player)
     {
-        return isReserve;
+    	if (player == null || player.getInheritance() == null)
+    		return isReserve;
+    	return ((CardImpl)player.getInheritance()).isReserve;
     }
     
     @Override
-    public boolean isTraveller()
+    public boolean isTraveller(Player player)
     {
-        return isTraveller;
+    	if (player == null || player.getInheritance() == null)
+    		return isTraveller;
+    	return ((CardImpl)player.getInheritance()).isTraveller;
     }
     
     @Override

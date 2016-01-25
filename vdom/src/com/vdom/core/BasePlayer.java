@@ -1156,8 +1156,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                     && !card.equals(Cards.necropolis)
                     && !((ActionCard) card).trashForced()
                     && !(card.isDuration(context.player))
-                    && !(card.isReserve())
-                    && !(card.isTraveller())
+                    && !(card.isReserve(context.player))
+                    && !(card.isTraveller(context.player))
                     && !card.equals(Cards.feast)
                     && !card.equals(Cards.embargo)
                     && !card.equals(Cards.pillage)
@@ -3307,14 +3307,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     			//use guide to cycle faster if have Travellers in deck
     			boolean handHasTraveller = false;
     			for (Card handCard : hand) {
-    				if (handCard.isTraveller()) {
+    				if (handCard.isTraveller(context.getPlayer())) {
     					handHasTraveller = true;
     					break;
     				}
     			}
     			if (!handHasTraveller) {
     				for (Card card : context.getPlayer().getDistinctCards()) {
-    					if (card.isTraveller()) {
+    					if (card.isTraveller(context.getPlayer())) {
     						return c;
     					}
     				}

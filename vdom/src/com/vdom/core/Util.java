@@ -687,8 +687,8 @@ public class Util {
 	static public class CardTravellerComparator implements Comparator<Card> {
 		@Override
 		public int compare(Card card0, Card card1) {
-			if(card0.isTraveller()) {
-				if(card1.isTraveller()) {
+			if(card0.isTraveller(null)) {
+				if(card1.isTraveller(null)) {
 					if(card0.getCost(null) > card1.getCost(null)) {
 						return -1;
 					} else if(card0.getCost(null) < card1.getCost(null)) {
@@ -699,7 +699,7 @@ public class Util {
 				} else {
 					return -1;
 				}
-			} else if(card1.isTraveller()) {
+			} else if(card1.isTraveller(null)) {
 				return 1;
 			} else {
 				return 0;
@@ -726,7 +726,7 @@ public class Util {
 		if (c.equals(Cards.distantLands)) {
 			return 3;
 		}
-		if (c.isReserve()) {
+		if (c.isReserve(null)) {
 			return 1;
 		}
 		if (c.equals(Cards.copper)) {

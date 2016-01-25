@@ -123,8 +123,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.isLooter = c.isLooter();
         card.isOverpay = c.isOverpay();
         card.isEvent = c.isEvent();
-        card.isReserve = c.isReserve();
-        card.isTraveller = c.isTraveller();
+        card.isReserve = c.isReserve(null);
+        card.isTraveller = c.isTraveller(null);
         card.isAttack = c.isAttack(null) || c.equals(Cards.virtualKnight);
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;

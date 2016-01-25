@@ -52,9 +52,9 @@ public interface Card extends Serializable {
     
     public boolean isEvent();
     
-    public boolean isReserve();
+    public boolean isReserve(Player player);
     
-    public boolean isTraveller();
+    public boolean isTraveller(Player player);
     
     public int getAddCards();
     

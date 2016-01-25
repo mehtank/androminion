@@ -1066,7 +1066,7 @@ public abstract class Player {
                     context.game.broadcastEvent(event);
                 }
             }
-            else if(!commandedDiscard && cleanup && card.isTraveller()) {
+            else if(!commandedDiscard && cleanup && card.isTraveller(this)) {
                 exchange = traveller_exchange(context, card);
                 if (exchange != null) {
     				// Return to the pile
