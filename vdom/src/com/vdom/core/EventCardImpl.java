@@ -203,13 +203,14 @@ public class EventCardImpl extends CardImpl implements EventCard {
     }
     
     private void ferry(MoveContext context) {
-    	ActionCard card = context.getPlayer().controlPlayer.ferry_actionCardPileToHaveToken(context);
-    	placeToken(context, card, PlayerSupplyToken.MinusTwoCost);
+    	Card card = context.getPlayer().controlPlayer.ferry_actionCardPileToHaveToken(context);
+    	if (card.isAction(null))
+    		placeToken(context, card, PlayerSupplyToken.MinusTwoCost);
     }
     
     private void inheritance(MoveContext context) {
-    	ActionCard card = context.getPlayer().controlPlayer.inheritance_actionCardTosetAside(context);
-    	if (card != null) {
+    	Card card = context.getPlayer().controlPlayer.inheritance_actionCardTosetAside(context);
+    	if (card != null && card.isAction(null)) {
             if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card) && !card.isVictory(context)) {
             	context.player.inheritance = context.game.takeFromPile(card, context);
             	GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideInheritance, context);
@@ -220,8 +221,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
     }
     
     private void lostArts(MoveContext context) {
-    	ActionCard card = context.getPlayer().controlPlayer.lostArts_actionCardPileToHaveToken(context);
-    	placeToken(context, card, PlayerSupplyToken.PlusOneAction);
+    	Card card = context.getPlayer().controlPlayer.lostArts_actionCardPileToHaveToken(context);
+    	if (card.isAction(null))
+    		placeToken(context, card, PlayerSupplyToken.PlusOneAction);
     }
     
     private void mission(MoveContext context) {
@@ -230,8 +232,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
     }
     
     private void pathfinding(MoveContext context) {
-    	ActionCard card = context.getPlayer().controlPlayer.pathfinding_actionCardPileToHaveToken(context);
-    	placeToken(context, card, PlayerSupplyToken.PlusOneCard);
+    	Card card = context.getPlayer().controlPlayer.pathfinding_actionCardPileToHaveToken(context);
+    	if (card.isAction(null))
+    		placeToken(context, card, PlayerSupplyToken.PlusOneCard);
     }
     
     private void pilgrimage(MoveContext context) {
@@ -260,8 +263,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	}
     
     private void plan(MoveContext context) {
-    	ActionCard card = context.getPlayer().controlPlayer.plan_actionCardPileToHaveToken(context);
-    	placeToken(context, card, PlayerSupplyToken.Trashing);
+    	Card card = context.getPlayer().controlPlayer.plan_actionCardPileToHaveToken(context);
+    	if (card.isAction(null))
+    		placeToken(context, card, PlayerSupplyToken.Trashing);
     }
     
     private void quest(MoveContext context) {
@@ -441,8 +445,8 @@ public class EventCardImpl extends CardImpl implements EventCard {
     }
     
     private void seaway(MoveContext context) {
-    	ActionCard card = context.player.controlPlayer.seaway_cardToObtain(context);
-        if (card != null) {
+    	Card card = context.player.controlPlayer.seaway_cardToObtain(context);
+        if (card != null && card.isAction(null)) {
             if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card)) {
             	Card gainedCard = context.player.gainNewCard(card, this.controlCard, context);
             	if (card.equals(gainedCard))
@@ -453,8 +457,8 @@ public class EventCardImpl extends CardImpl implements EventCard {
     }
     
     private void summon(MoveContext context) {
-    	ActionCard card = context.player.controlPlayer.summon_cardToObtain(context);
-        if (card != null) {
+    	Card card = context.player.controlPlayer.summon_cardToObtain(context);
+        if (card != null && card.isAction(null)) {
             if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card)) {
             	context.player.gainNewCard(card, this.controlCard, context);
             }
@@ -462,8 +466,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
     }
     
     private void training(MoveContext context) {
-    	ActionCard card = context.getPlayer().controlPlayer.training_actionCardPileToHaveToken(context);
-    	placeToken(context, card, PlayerSupplyToken.PlusOneCoin);
+    	Card card = context.getPlayer().controlPlayer.training_actionCardPileToHaveToken(context);
+    	if (card.isAction(null))
+    		placeToken(context, card, PlayerSupplyToken.PlusOneCoin);
     }
     
     private void trade(MoveContext context) {

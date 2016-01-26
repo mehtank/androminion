@@ -669,19 +669,19 @@ public class Game {
         Card action = null;
         do {
             action = null;
-            ArrayList<ActionCard> actionCards = null;
+            ArrayList<Card> actionCards = null;
             if (!actionChains || player.controlPlayer.isAi()) {
-                action = (ActionCard) player.controlPlayer.doAction(context);
+                action = player.controlPlayer.doAction(context);
                 if (action != null) {
-                    actionCards = new ArrayList<ActionCard>();
-                    actionCards.add((ActionCard) action);
+                    actionCards = new ArrayList<Card>();
+                    actionCards.add(action);
                 }
             } else {
                 Card[] cs = player.controlPlayer.actionCardsToPlayInOrder(context);
                 if (cs != null && cs.length != 0) {
-                    actionCards = new ArrayList<ActionCard>();
+                    actionCards = new ArrayList<Card>();
                     for (int i = 0; i < cs.length; i++) {
-                        actionCards.add((ActionCard) cs[i]);
+                        actionCards.add(cs[i]);
                     }
                 }
             }
@@ -2709,7 +2709,7 @@ public class Game {
                             Card c = player.discard.get(i);
                             if(c.isAction(player)) {
                                 actionCardsFound++;
-                                if(player.controlPlayer.inn_shuffleCardBackIntoDeck(event.getContext(), (ActionCard) c)) {
+                                if(player.controlPlayer.inn_shuffleCardBackIntoDeck(event.getContext(), c)) {
                                     cards.add(c);
                                 }
                             }

@@ -1326,7 +1326,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void university(MoveContext context, Player currentPlayer) {
-        ActionCard cardToObtain = currentPlayer.controlPlayer.university_actionCardToObtain(context);
+        Card cardToObtain = currentPlayer.controlPlayer.university_actionCardToObtain(context);
         if (cardToObtain != null && cardToObtain.isAction(null) && cardToObtain.getCost(context) <= 5 && !cardToObtain.costPotion()) {
             currentPlayer.gainNewCard(cardToObtain, this.controlCard, context);
         }
@@ -3793,7 +3793,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (toOrder.size() == 1) {
                 toPlay = toOrder.toArray(new Card[toOrder.size()]);
             } else {
-                ActionCard[] playOrder = currentPlayer.controlPlayer.golem_cardOrder(context, toOrder.toArray(new ActionCard[toOrder.size()]));
+                Card[] playOrder = currentPlayer.controlPlayer.golem_cardOrder(context, toOrder.toArray(new Card[toOrder.size()]));
 
                 if (playOrder == null) {
                     Util.playerError(currentPlayer, "Nothing back from golem_cardOrder, using order found");
@@ -3861,7 +3861,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             
             boolean shouldKeep = true;
             if (draw.isAction(currentPlayer)) {
-                shouldKeep = currentPlayer.controlPlayer.library_shouldKeepAction(context, (ActionCard) draw);
+                shouldKeep = currentPlayer.controlPlayer.library_shouldKeepAction(context, draw);
             }
 
             if (shouldKeep) {
@@ -5537,7 +5537,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         // Already impersonating another card?
         if (!this.isImpersonatingAnotherCard()) {
             // Get card to impersonate
-            ActionCard cardToImpersonate = currentPlayer.controlPlayer.bandOfMisfits_actionCardToImpersonate(context);
+            Card cardToImpersonate = currentPlayer.controlPlayer.bandOfMisfits_actionCardToImpersonate(context);
             if (cardToImpersonate != null 
                 && !game.isPileEmpty(cardToImpersonate)
                 && Cards.isSupplyCard(cardToImpersonate)

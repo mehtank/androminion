@@ -7,10 +7,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Random;
+import java.util.Set;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
@@ -132,7 +131,7 @@ public abstract class Player {
         int addActionsCards = 0;
         for (Card card : getAllCards()) {
             if (card.isAction(this)) {
-                if (((ActionCard) card).getAddActions() > 0) {
+                if (card.getAddActions() > 0) {
                     addActionsCards++;
                 }
             }
@@ -145,7 +144,7 @@ public abstract class Player {
         int addCards = 0;
         for (Card card : getAllCards()) {
             if (card.isAction(this)) {
-                if (((ActionCard) card).getAddCards() > 0) {
+                if (card.getAddCards() > 0) {
                     addCards++;
                 }
             }
@@ -158,7 +157,7 @@ public abstract class Player {
         int addActions = 0;
         for (Card card : getAllCards()) {
             if (card.isAction(this)) {
-                addActions += ((ActionCard) card).getAddActions();
+                addActions += card.getAddActions();
             }
         }
 
@@ -169,7 +168,7 @@ public abstract class Player {
         int addCards = 0;
         for (Card card : getAllCards()) {
             if (card.isAction(this)) {
-                addCards += ((ActionCard) card).getAddCards();
+                addCards += card.getAddCards();
             }
         }
 
@@ -180,7 +179,7 @@ public abstract class Player {
         int addBuys = 0;
         for (Card card : getAllCards()) {
             if (card.isAction(this)) {
-                addBuys += ((ActionCard) card).getAddBuys();
+                addBuys += card.getAddBuys();
             }
         }
 
@@ -404,7 +403,7 @@ public abstract class Player {
                         break;
                     }
 
-                    ActionCard actionToPutBack = controlPlayer.scheme_actionToPutOnTopOfDeck(((MoveContext) context), actions.toArray(new ActionCard[0]));
+                    Card actionToPutBack = controlPlayer.scheme_actionToPutOnTopOfDeck(((MoveContext) context), actions.toArray(new Card[0]));
                     if(actionToPutBack == null) {
                         break;
                     }
@@ -1400,12 +1399,12 @@ public abstract class Player {
         return victory;
     }
 
-    public ArrayList<ActionCard> getActionsInHand(Player player) {
-        ArrayList<ActionCard> actions = new ArrayList<ActionCard>();
+    public ArrayList<Card> getActionsInHand(Player player) {
+        ArrayList<Card> actions = new ArrayList<Card>();
 
         for (Card c : getHand())
             if (c.isAction(player))
-                actions.add((ActionCard) c);
+                actions.add(c);
 
         return actions;
     }
@@ -1448,7 +1447,7 @@ public abstract class Player {
 
     public abstract Card[] cellar_cardsToDiscard(MoveContext context);
 
-    public abstract boolean library_shouldKeepAction(MoveContext context, ActionCard action);
+    public abstract boolean library_shouldKeepAction(MoveContext context, Card action);
 
     public abstract boolean spy_shouldDiscard(MoveContext context, Player targetPlayer, Card card);
 
@@ -1566,11 +1565,11 @@ public abstract class Player {
 
     public abstract Card apprentice_cardToTrash(MoveContext context);
 
-    public abstract ActionCard university_actionCardToObtain(MoveContext context);
+    public abstract Card university_actionCardToObtain(MoveContext context);
 
     public abstract boolean scryingPool_shouldDiscard(MoveContext context, Player targetPlayer, Card card);
 
-    public abstract ActionCard[] golem_cardOrder(MoveContext context, ActionCard[] cards);
+    public abstract Card[] golem_cardOrder(MoveContext context, Card[] cards);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Prosperity
@@ -1593,9 +1592,9 @@ public abstract class Player {
 
     public abstract Card[] goons_attack_cardsToKeep(MoveContext context);
 
-    public abstract ActionCard kingsCourt_cardToPlay(MoveContext context);
+    public abstract Card kingsCourt_cardToPlay(MoveContext context);
 
-    public abstract ActionCard throneRoom_cardToPlay(MoveContext context);
+    public abstract Card throneRoom_cardToPlay(MoveContext context);
 
     public abstract boolean loan_shouldTrashTreasure(MoveContext context, TreasureCard treasure);
 
@@ -1689,7 +1688,7 @@ public abstract class Player {
 
     public abstract Card[] cartographer_cardOrder(MoveContext context, Card[] cards);
 
-    public abstract ActionCard scheme_actionToPutOnTopOfDeck(MoveContext context, ActionCard[] actions);
+    public abstract Card scheme_actionToPutOnTopOfDeck(MoveContext context, Card[] actions);
 
     public abstract boolean tunnel_shouldReveal(MoveContext context);
 
@@ -1707,7 +1706,7 @@ public abstract class Player {
 
     public abstract Card[] inn_cardsToDiscard(MoveContext context);
 
-    public abstract boolean inn_shuffleCardBackIntoDeck(MoveContext context, ActionCard card);
+    public abstract boolean inn_shuffleCardBackIntoDeck(MoveContext context, Card card);
 
     public abstract Card mandarin_cardToReplace(MoveContext context);
 
@@ -1772,7 +1771,7 @@ public abstract class Player {
 
     public abstract Card[] storeroom_cardsToDiscardForCoins(MoveContext context);
 
-    public abstract ActionCard procession_cardToPlay(MoveContext context);
+    public abstract Card procession_cardToPlay(MoveContext context);
 
     public abstract Card procession_cardToGain(MoveContext context, int maxCost, boolean potion);
 
@@ -1804,7 +1803,7 @@ public abstract class Player {
     public abstract Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard);
     public abstract Card hermit_cardToGain(MoveContext context);
 
-    public abstract ActionCard bandOfMisfits_actionCardToImpersonate(MoveContext context);
+    public abstract Card bandOfMisfits_actionCardToImpersonate(MoveContext context);
 
     // ////////////////////////////////////////////
     // Card interactions - Guilds Expansion
@@ -1836,9 +1835,9 @@ public abstract class Player {
     public abstract Card[] artificer_cardsToDiscard(MoveContext context);
     public abstract Card artificer_cardToObtain(MoveContext context, int cost);
     public abstract CallableCard call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards);
-    public abstract CallableCard call_whenActionResolveCardToCall(MoveContext context, ActionCard resolvedAction, CallableCard[] possibleCards);
+    public abstract CallableCard call_whenActionResolveCardToCall(MoveContext context, Card resolvedAction, CallableCard[] possibleCards);
     public abstract CallableCard call_whenTurnStartCardToCall(MoveContext context, CallableCard[] possibleCards);
-    public abstract ActionCard disciple_cardToPlay(MoveContext context);
+    public abstract Card disciple_cardToPlay(MoveContext context);
     public abstract Card fugitive_cardToDiscard(MoveContext context);
     public abstract Card[] gear_cardsToSetAside(MoveContext context);
     public abstract TreasureCard hero_treasureToObtain(MoveContext context);
@@ -1852,7 +1851,7 @@ public abstract class Player {
 	public abstract Card raze_cardToKeep(MoveContext context, Card[] cards);
 	public abstract Card soldier_cardToDiscard(MoveContext context);
 	public abstract PlayerSupplyToken teacher_tokenTypeToMove(MoveContext context);
-	public abstract ActionCard teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token);
+	public abstract Card teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token);
 	public abstract Card transmogrify_cardToTrash(MoveContext context);
 	public abstract Card transmogrify_cardToObtain(MoveContext context, int maxCost, boolean potion);
     public abstract int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal);
@@ -1864,20 +1863,20 @@ public abstract class Player {
     public abstract Card alms_cardToObtain(MoveContext context);
     public abstract Card ball_cardToObtain(MoveContext context);
     public abstract Card[] bonfire_cardsToTrash(MoveContext context);
-    public abstract ActionCard ferry_actionCardPileToHaveToken(MoveContext context);
-    public abstract ActionCard inheritance_actionCardTosetAside(MoveContext context);
-    public abstract ActionCard lostArts_actionCardPileToHaveToken(MoveContext context);
-    public abstract ActionCard pathfinding_actionCardPileToHaveToken(MoveContext context);
+    public abstract Card ferry_actionCardPileToHaveToken(MoveContext context);
+    public abstract Card inheritance_actionCardTosetAside(MoveContext context);
+    public abstract Card lostArts_actionCardPileToHaveToken(MoveContext context);
+    public abstract Card pathfinding_actionCardPileToHaveToken(MoveContext context);
     public abstract Card[] pilgrimage_cardsToGain(MoveContext context);
-    public abstract ActionCard plan_actionCardPileToHaveToken(MoveContext context);
+    public abstract Card plan_actionCardPileToHaveToken(MoveContext context);
     public abstract QuestOption quest_chooseOption(MoveContext context);
     public abstract Card quest_attackCardToDiscard(MoveContext context, Card[] attacks);
     public abstract Card[] quest_cardsToDiscard(MoveContext context);
     public abstract Card save_cardToSetAside(MoveContext context);
     public abstract Card scoutingParty_cardToDiscard(MoveContext context, Card[] revealedCards);
-    public abstract ActionCard seaway_cardToObtain(MoveContext context);
-    public abstract ActionCard summon_cardToObtain(MoveContext context);
-    public abstract ActionCard training_actionCardPileToHaveToken(MoveContext context);
+    public abstract Card seaway_cardToObtain(MoveContext context);
+    public abstract Card summon_cardToObtain(MoveContext context);
+    public abstract Card training_actionCardPileToHaveToken(MoveContext context);
     public abstract Card trashingToken_cardToTrash(MoveContext context);
     public abstract Card[] trade_cardsToTrash(MoveContext context);
     

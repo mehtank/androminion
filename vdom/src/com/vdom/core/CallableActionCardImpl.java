@@ -134,7 +134,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
     	finishCall(context);
     }
     
-	public void callWhenActionResolved(MoveContext context, ActionCard resolvedAction) {
+	public void callWhenActionResolved(MoveContext context, Card resolvedAction) {
     	if (!callableWhenActionResolved) return;
     	if (!call(context)) return;
     	Game game = context.game;
@@ -239,13 +239,13 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
 	private void teacher(MoveContext context, Game game, Player currentPlayer) {
 		//look to see if we have a free pile
 		int numFreePiles = 0;
-		ActionCard lastFreePile = null;
+		Card lastFreePile = null;
 		for (Card c : game.getCardsInGame()) {
 			if (game.getPile(c).isSupply() 
 					&& c.isAction(null)
 					&& game.getPlayerSupplyTokens(c, currentPlayer).size() == 0) {
 				numFreePiles++;
-				lastFreePile = (ActionCard) c;
+				lastFreePile = c;
 			}
 		}
 		if (numFreePiles == 0)
@@ -261,7 +261,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
 			token = PlayerSupplyToken.PlusOneBuy;
 		}
 		
-		ActionCard card;
+		Card card;
 		if (numFreePiles == 1) {
 			card = lastFreePile;
 		} else {

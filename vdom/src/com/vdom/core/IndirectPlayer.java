@@ -6,15 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
-import com.vdom.comms.Event;
 import com.vdom.comms.SelectCardOptions;
-import com.vdom.comms.Event.EType;
-import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.comms.SelectCardOptions.ActionType;
+import com.vdom.comms.SelectCardOptions.PickType;
 
 /**
  * Class that you can use to play remotely.
@@ -417,7 +414,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean library_shouldKeepAction(MoveContext context, ActionCard action) {
+    public boolean library_shouldKeepAction(MoveContext context, Card action) {
         if(context.isQuickPlay() && shouldAutoPlay_library_shouldKeepAction(context, action)) {
             return super.library_shouldKeepAction(context, action);
         }
@@ -994,13 +991,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public ActionCard university_actionCardToObtain(MoveContext context) {
+    public Card university_actionCardToObtain(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_university_actionCardToObtain(context)) {
             return super.university_actionCardToObtain(context);
         }
         SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(5).isAction()
                 .setPassable().setCardResponsible(Cards.university);
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -1016,7 +1013,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public ActionCard[] golem_cardOrder(MoveContext context, ActionCard[] cards) {
+    public Card[] golem_cardOrder(MoveContext context, Card[] cards) {
         if(context.isQuickPlay() && shouldAutoPlay_golem_cardOrder(context, cards)) {
             return super.golem_cardOrder(context, cards);
         }
@@ -1029,7 +1026,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if (o == 0) {
             return cards;
         }
-        return new ActionCard[]{ cards[1], cards[0] };
+        return new Card[]{ cards[1], cards[0] };
     }
 
     @Override
@@ -1123,25 +1120,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public ActionCard kingsCourt_cardToPlay(MoveContext context) {
+    public Card kingsCourt_cardToPlay(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_kingsCourt_cardToPlay(context)) {
             return super.kingsCourt_cardToPlay(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isAction()
                 .setPassable().setPickType(PickType.PLAY)
                 .setCardResponsible(Cards.kingsCourt);
-        return (ActionCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
-    public ActionCard throneRoom_cardToPlay(MoveContext context) {
+    public Card throneRoom_cardToPlay(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_throneRoom_cardToPlay(context)) {
             return super.throneRoom_cardToPlay(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isAction()
                 .setPickType(PickType.PLAY)
                 .setCardResponsible(Cards.throneRoom);
-        return (ActionCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1649,12 +1646,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public ActionCard scheme_actionToPutOnTopOfDeck(MoveContext context, ActionCard[] actions) {
+    public Card scheme_actionToPutOnTopOfDeck(MoveContext context, Card[] actions) {
         if(context.isQuickPlay() && shouldAutoPlay_scheme_actionToPutOnTopOfDeck(context, actions)) {
             return super.scheme_actionToPutOnTopOfDeck(context, actions);
         }
-        ArrayList<ActionCard> options = new ArrayList<ActionCard>();
-        for (ActionCard c : actions)
+        ArrayList<Card> options = new ArrayList<Card>();
+        for (Card c : actions)
             options.add(c);
         options.add(null);
         return options.get(selectOption(context, Cards.scheme, options.toArray()));
@@ -1716,7 +1713,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean inn_shuffleCardBackIntoDeck(MoveContext context, ActionCard card) {
+    public boolean inn_shuffleCardBackIntoDeck(MoveContext context, Card card) {
         if(context.isQuickPlay() && shouldAutoPlay_inn_shuffleCardBackIntoDeck(context, card)) {
             return super.inn_shuffleCardBackIntoDeck(context, card);
         }
@@ -2119,14 +2116,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public ActionCard procession_cardToPlay(MoveContext context) {
+    public Card procession_cardToPlay(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_throneRoom_cardToPlay(context)) {
             return super.procession_cardToPlay(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isAction()
-                .setPassable().setPickType(PickType.PLAY)
                 .setCardResponsible(Cards.procession);
-        return (ActionCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -2434,14 +2430,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public ActionCard bandOfMisfits_actionCardToImpersonate(MoveContext context) {
+    public Card bandOfMisfits_actionCardToImpersonate(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(context)) {
             return super.bandOfMisfits_actionCardToImpersonate(context);
         }
         SelectCardOptions sco = new SelectCardOptions().potionCost(0)
                 .maxCost(Cards.bandOfMisfits.getCost(context) - 1).isAction()
                 .setCardResponsible(Cards.bandOfMisfits);
-        return (ActionCardImpl) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -2676,7 +2672,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public CallableCard call_whenActionResolveCardToCall(MoveContext context, ActionCard resolvedAction, CallableCard[] possibleCards) {
+    public CallableCard call_whenActionResolveCardToCall(MoveContext context, Card resolvedAction, CallableCard[] possibleCards) {
     	if(context.isQuickPlay() && shouldAutoPlay_call_whenActionResolveCardToCall(context, resolvedAction, possibleCards)) {
             return super.call_whenActionResolveCardToCall(context, resolvedAction, possibleCards);
         }
@@ -2704,14 +2700,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public ActionCard disciple_cardToPlay(MoveContext context) {
+    public Card disciple_cardToPlay(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_disciple_cardToPlay(context)) {
             return super.disciple_cardToPlay(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isAction()
                 .setPassable().setPickType(PickType.PLAY)
                 .setCardResponsible(Cards.disciple);
-        return (ActionCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
     
     @Override
@@ -2835,15 +2831,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public ActionCard teacher_actionCardPileToHaveToken(MoveContext context,
+    public Card teacher_actionCardPileToHaveToken(MoveContext context,
     		PlayerSupplyToken token) {
     	if(context.isQuickPlay() && shouldAutoPlay_teacher_actionCardPileToHaveToken(context, token)) {
             return super.teacher_actionCardPileToHaveToken(context, token);
         }
     	SelectCardOptions sco = new SelectCardOptions()
                 .isAction().noTokens().setCardResponsible(Cards.teacher);
-    	//TODO: specify can only select piles without a token
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override
@@ -2920,44 +2915,44 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public ActionCard ferry_actionCardPileToHaveToken(MoveContext context) {
+    public Card ferry_actionCardPileToHaveToken(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_ferry_actionCardPileToHaveToken(context)) {
             return super.ferry_actionCardPileToHaveToken(context);
         }
     	SelectCardOptions sco = new SelectCardOptions()
                 .isAction().setCardResponsible(Cards.ferry);
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override
-    public ActionCard inheritance_actionCardTosetAside(MoveContext context) {
+    public Card inheritance_actionCardTosetAside(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_inheritance_actionCardTosetAside(context)) {
             return super.inheritance_actionCardTosetAside(context);
         }
     	SelectCardOptions sco = new SelectCardOptions()
                 .isAction().isNonVictory().maxCost(4).potionCost(0)
                 .setActionType(ActionType.SETASIDE).setCardResponsible(Cards.inheritance);
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override
-    public ActionCard lostArts_actionCardPileToHaveToken(MoveContext context) {
+    public Card lostArts_actionCardPileToHaveToken(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_lostArts_actionCardPileToHaveToken(context)) {
             return super.lostArts_actionCardPileToHaveToken(context);
         }
     	SelectCardOptions sco = new SelectCardOptions()
                 .isAction().setCardResponsible(Cards.lostArts);
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override
-    public ActionCard pathfinding_actionCardPileToHaveToken(MoveContext context) {
+    public Card pathfinding_actionCardPileToHaveToken(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_pathfinding_actionCardPileToHaveToken(context)) {
             return super.pathfinding_actionCardPileToHaveToken(context);
         }
     	SelectCardOptions sco = new SelectCardOptions()
                 .isAction().setCardResponsible(Cards.pathfinding);
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override
@@ -2972,13 +2967,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	}
     
     @Override
-    public ActionCard plan_actionCardPileToHaveToken(MoveContext context) {
+    public Card plan_actionCardPileToHaveToken(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_plan_actionCardPileToHaveToken(context)) {
             return super.plan_actionCardPileToHaveToken(context);
         }
     	SelectCardOptions sco = new SelectCardOptions()
                 .isAction().setCardResponsible(Cards.plan);
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override
@@ -3032,23 +3027,23 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public ActionCard seaway_cardToObtain(MoveContext context) {
+    public Card seaway_cardToObtain(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_seaway_cardToObtain(context)) {
             return super.seaway_cardToObtain(context);
         }
         SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
                 .setCardResponsible(Cards.seaway).isAction().setActionType(ActionType.GAIN);
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override
-    public ActionCard summon_cardToObtain(MoveContext context) {
+    public Card summon_cardToObtain(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_summon_cardToObtain(context)) {
             return super.summon_cardToObtain(context);
         }
         SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
                 .setCardResponsible(Cards.summon).isAction().setActionType(ActionType.GAIN);
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override
@@ -3063,13 +3058,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	}
 
     @Override
-    public ActionCard training_actionCardPileToHaveToken(MoveContext context) {
+    public Card training_actionCardPileToHaveToken(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_training_actionCardPileToHaveToken(context)) {
             return super.training_actionCardPileToHaveToken(context);
         }
     	SelectCardOptions sco = new SelectCardOptions()
                 .isAction().setCardResponsible(Cards.training);
-        return (ActionCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override

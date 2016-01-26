@@ -374,11 +374,11 @@ public class VDomPlayerSarah extends BasePlayer {
 
     @Override
     public Card doAction(MoveContext context) {
-        ArrayList<ActionCard> actionCards = context.getPlayer().getActionsInHand(context.player);
+        ArrayList<Card> actionCards = context.getPlayer().getActionsInHand(context.player);
 
         // don't play rats
         if (game.isCardInGame(Cards.rats)) {
-            for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+            for (Iterator<Card> it = actionCards.iterator(); it.hasNext(); ) {
                 if (Cards.rats.equals(it.next())) {
                     it.remove();
                 }
@@ -387,7 +387,7 @@ public class VDomPlayerSarah extends BasePlayer {
         
         // Pair of Treasure Maps goes first
         int treasureMapCount = 0;
-        for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+        for (Iterator<Card> it = actionCards.iterator(); it.hasNext(); ) {
             if (Cards.treasureMap.equals(it.next())) {
                 treasureMapCount++;
                 it.remove();
@@ -413,7 +413,7 @@ public class VDomPlayerSarah extends BasePlayer {
         // don't play trashForced cards if no trash cards available (Apprentice, Ambassador, etc)
         Card[] trashableCards = pickOutCards(context.getPlayer().getHand(), 1, getTrashCards());
         if (trashableCards == null) {
-            for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+            for (Iterator<Card> it = actionCards.iterator(); it.hasNext(); ) {
                 if (it.next().trashForced())
                     it.remove();
             }
@@ -422,7 +422,7 @@ public class VDomPlayerSarah extends BasePlayer {
         // play Action Cards that add more actions
         for (final Card card : actionCards) {
             if (context.canPlay(card)) {
-                ActionCard action = (ActionCard) card;
+                Card action = card;
                 if (action.getAddActions() > 0 && !isInCardArray(card, princeCards)) 
                     return action;
             }

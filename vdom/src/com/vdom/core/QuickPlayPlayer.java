@@ -103,7 +103,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_library_shouldKeepAction(MoveContext context, ActionCard action) {
+    public boolean shouldAutoPlay_library_shouldKeepAction(MoveContext context, Card action) {
         if(context.getActionsLeft() == 0) {
             return true;
         }
@@ -724,7 +724,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_scheme_actionToPutOnTopOfDeck(MoveContext context, ActionCard[] actions) {
+    public boolean shouldAutoPlay_scheme_actionToPutOnTopOfDeck(MoveContext context, Card[] actions) {
         return false;
     }
     
@@ -732,7 +732,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
     
-    public boolean shouldAutoPlay_inn_shuffleCardBackIntoDeck(MoveContext context, ActionCard card) {
+    public boolean shouldAutoPlay_inn_shuffleCardBackIntoDeck(MoveContext context, Card card) {
         return true;
     }
     
@@ -829,7 +829,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
-    public boolean shouldAutoPlay_call_whenActionResolveCardToCall(MoveContext context, ActionCard resolvedCard, CallableCard[] possibleCards) {
+    public boolean shouldAutoPlay_call_whenActionResolveCardToCall(MoveContext context, Card resolvedCard, CallableCard[] possibleCards) {
     	return false;
     }
     

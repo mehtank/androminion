@@ -484,7 +484,7 @@ public class CardImpl implements Card {
         this.controlCard = controlCard;
     }
     
-    protected void placeToken(MoveContext context, ActionCard card, PlayerSupplyToken token) {
+    protected void placeToken(MoveContext context, Card card, PlayerSupplyToken token) {
     	if (card == null) {
     		Card[] cards = context.game.getActionsInGame();
     		if (cards.length != 0) {

@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
-import com.vdom.api.DurationCard;
 import com.vdom.api.EventCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.Type;
@@ -25,14 +23,6 @@ import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.NewGame;
 import com.vdom.comms.SelectCardOptions;
-import com.vdom.core.CardList;
-import com.vdom.core.Cards;
-import com.vdom.core.ExitException;
-import com.vdom.core.Game;
-import com.vdom.core.IndirectPlayer;
-import com.vdom.core.MoveContext;
-import com.vdom.core.Player;
-import com.vdom.core.Util;
 
 /**
  * Class that you can use to play remotely.
@@ -194,10 +184,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             card.isTreasure = true;
             card.gold = tc.getValue();
         }
-        if (c instanceof ActionCard) {
-            ActionCard ac = (ActionCard) c;
+        if (c.isAction(null)) {
             card.isAction = true;
-            if (c instanceof DurationCard) {
+            if (c.isDuration(null)) {
                 card.isDuration = true;
             }
         }

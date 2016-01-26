@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
@@ -325,7 +324,7 @@ public class VDomPlayerEarl extends BasePlayer
            continue;
          }
  
-         ActionCard action = (ActionCard)card;
+         Card action = card;
          if (context.canPlay(action)) {
            return action;
          }
@@ -334,13 +333,13 @@ public class VDomPlayerEarl extends BasePlayer
      return null;
    }
  
-   private ActionCard getBestAddActionAction(Card[] hand, Player player) {
-     ActionCard bestAction = null;
+   private Card getBestAddActionAction(Card[] hand, Player player) {
+     Card bestAction = null;
      int bestAddActions = 0;
  
      for (Card card : hand) {
        if (card.isAction(player)) {
-         ActionCard action = (ActionCard)card;
+         Card action = card;
          if (action.getAddActions() > 0) {
            int addCards = action.getAddCards();
  
@@ -357,13 +356,13 @@ public class VDomPlayerEarl extends BasePlayer
      return bestAction;
    }
  
-   private ActionCard getBestAddActionCard(Card[] hand, Player player) {
-     ActionCard bestAction = null;
+   private Card getBestAddActionCard(Card[] hand, Player player) {
+     Card bestAction = null;
      int bestAddCards = 0;
  
      for (Card card : hand) {
        if (card.isAction(player)) {
-         ActionCard action = (ActionCard)card;
+         Card action = card;
          int thisAddCards = action.getAddCards();
          if (thisAddCards > bestAddCards) {
            bestAction = action;

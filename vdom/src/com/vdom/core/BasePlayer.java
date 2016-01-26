@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
@@ -691,7 +690,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public boolean library_shouldKeepAction(MoveContext context, ActionCard action) {
+    public boolean library_shouldKeepAction(MoveContext context, Card action) {
         if (context.getActionsLeft() == 0) {
             return false;
         }
@@ -1154,7 +1153,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             if (card.isAction(context.player) && card.getCost(context) <= 4 && !card.costPotion()) {
                 if (   !card.isRuins(context.player)
                     && !card.equals(Cards.necropolis)
-                    && !((ActionCard) card).trashForced()
+                    && !card.trashForced()
                     && !(card.isDuration(context.player))
                     && !(card.isReserve(context.player))
                     && !(card.isTraveller(context.player))
@@ -1335,9 +1334,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public ActionCard university_actionCardToObtain(MoveContext context) {
+    public Card university_actionCardToObtain(MoveContext context) {
         //TODO: better logic
-        return (ActionCard) bestCardInPlay(context, 5, false, false, true, false, false);
+        return bestCardInPlay(context, 5, false, false, true, false, false);
     }
 
     @Override
@@ -1518,11 +1517,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public ActionCard kingsCourt_cardToPlay(MoveContext context) {
+    public Card kingsCourt_cardToPlay(MoveContext context) {
         //TODO better logic
         for (Card c : context.getPlayer().getHand()) {
             if(c.isAction(context.getPlayer())) {
-                return (ActionCard) c;
+                return c;
             }
         }
         
@@ -1530,7 +1529,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public ActionCard throneRoom_cardToPlay(MoveContext context) {
+    public Card throneRoom_cardToPlay(MoveContext context) {
         return controlPlayer.kingsCourt_cardToPlay(context);
     }
     
@@ -1641,7 +1640,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public ActionCard[] golem_cardOrder(MoveContext context, ActionCard[] cards) {
+    public Card[] golem_cardOrder(MoveContext context, Card[] cards) {
         return cards;
     }
 
@@ -2059,7 +2058,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public ActionCard scheme_actionToPutOnTopOfDeck(MoveContext context, ActionCard[] actions) {
+    public Card scheme_actionToPutOnTopOfDeck(MoveContext context, Card[] actions) {
         /* don't put prince cards back on top */
         if(actions == null || actions.length == 0) {
             return null;
@@ -2190,7 +2189,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public boolean inn_shuffleCardBackIntoDeck(MoveContext context, ActionCard card) {
+    public boolean inn_shuffleCardBackIntoDeck(MoveContext context, Card card) {
         return true;
     }
 
@@ -2528,8 +2527,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
 	@Override
-	public ActionCard procession_cardToPlay(MoveContext context) {
-    return controlPlayer.kingsCourt_cardToPlay(context);
+	public Card procession_cardToPlay(MoveContext context) {
+		return controlPlayer.kingsCourt_cardToPlay(context);
 	}
 
 	@Override
@@ -2906,11 +2905,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
     @Override
-    public ActionCard bandOfMisfits_actionCardToImpersonate(MoveContext context) {
+    public Card bandOfMisfits_actionCardToImpersonate(MoveContext context) {
     	if (context.getPlayer().getHand().contains(Cards.treasureMap)) {
-    		return (ActionCard) Cards.treasureMap;
+    		return Cards.treasureMap;
     	}
-        return (ActionCardImpl) bestCardInPlay(context, 4, false, false, true, true, true);
+        return bestCardInPlay(context, 4, false, false, true, true, true);
     }
 
     @Override
@@ -3250,7 +3249,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	return null;
     }
     
-    public CallableCard call_whenActionResolveCardToCall(MoveContext context, ActionCard resolvedAction, CallableCard[] possibleCards) {
+    public CallableCard call_whenActionResolveCardToCall(MoveContext context, Card resolvedAction, CallableCard[] possibleCards) {
     	// Check coin of the Realm first
     	boolean hasMoreActionsLeft = false;
     	for (Card c : getHand()) {
@@ -3356,11 +3355,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
     
     @Override
-    public ActionCard disciple_cardToPlay(MoveContext context) {
+    public Card disciple_cardToPlay(MoveContext context) {
     	//TODO better logic
         for (Card c : context.getPlayer().getHand()) {
             if(c.isAction(context.getPlayer())) {
-                return (ActionCard) c;
+                return c;
             }
         }
         return null;
@@ -3528,7 +3527,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public ActionCard teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token) {
+    public Card teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token) {
     	// TODO: better logic based on token type and how many cards we have or want to have of the augmented card
     	Card[] cards = context.game.getCardsInGame();
 		Arrays.sort(cards, new Util.CardCostComparatorDesc()); 
@@ -3536,7 +3535,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		if (c.isAction(null) && 
     				Cards.isSupplyCard(c) && 
     				game.getPlayerSupplyTokens(c, this).size() == 0)
-    			return (ActionCard) c;
+    			return c;
     	}
     	return null;
     }
@@ -3620,19 +3619,19 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public ActionCard ferry_actionCardPileToHaveToken(MoveContext context) {
-    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    public Card ferry_actionCardPileToHaveToken(MoveContext context) {
+    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
     }
     
     @Override
-    public ActionCard inheritance_actionCardTosetAside(MoveContext context) {
+    public Card inheritance_actionCardTosetAside(MoveContext context) {
     	//TODO: favor cantrips
-    	return (ActionCard) bestCardInPlay(context, 4, false, false, true, false, true);
+    	return bestCardInPlay(context, 4, false, false, true, false, true);
     }
     
     @Override
-    public ActionCard lostArts_actionCardPileToHaveToken(MoveContext context) {
-    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    public Card lostArts_actionCardPileToHaveToken(MoveContext context) {
+    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
     }
         
     public ExtraTurnOption extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options) {
@@ -3645,8 +3644,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public ActionCard pathfinding_actionCardPileToHaveToken(MoveContext context) {
-    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    public Card pathfinding_actionCardPileToHaveToken(MoveContext context) {
+    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
     }
     
     @Override
@@ -3678,8 +3677,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
     
     @Override
-    public ActionCard plan_actionCardPileToHaveToken(MoveContext context) {
-    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    public Card plan_actionCardPileToHaveToken(MoveContext context) {
+    	//TODO: favor lower cards we'd want a lot of (e.g. villages, cantrips)
+    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
     }
     
     @Override
@@ -3739,13 +3739,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public ActionCard seaway_cardToObtain(MoveContext context) {
-    	return (ActionCard) bestCardInPlay(context, 4, false, false, true, true, true);
+    public Card seaway_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, false, false, true, true, true);
     }
     
     @Override
-    public ActionCard summon_cardToObtain(MoveContext context) {
-    	return (ActionCard) bestCardInPlay(context, 4, false, false, true, true, true);
+    public Card summon_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, false, false, true, true, true);
     }
     
     public Card[] trade_cardsToTrash(MoveContext context) {
@@ -3753,8 +3753,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public ActionCard training_actionCardPileToHaveToken(MoveContext context) {
-    	return (ActionCard) bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    public Card training_actionCardPileToHaveToken(MoveContext context) {
+    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
     }
     
     @Override

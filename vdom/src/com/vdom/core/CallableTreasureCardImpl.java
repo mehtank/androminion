@@ -130,7 +130,7 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
     	finishCall(context);
     }
     
-	public void callWhenActionResolved(MoveContext context, ActionCard resolvedAction) {
+	public void callWhenActionResolved(MoveContext context, Card resolvedAction) {
     	if (!callableWhenActionResolved) return;
     	if (!call(context)) return;
     	Game game = context.game;
