@@ -1,9 +1,6 @@
 package com.vdom.core;
 
-import java.util.ArrayList;
-
 import com.vdom.api.Card;
-import com.vdom.core.MoveContext;
 import com.vdom.api.VictoryCard;
 
 public class VictoryCardImpl extends CardImpl implements VictoryCard {
@@ -31,6 +28,25 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     @Override
     public int getVictoryPoints() {
         return vp;
+    }
+    
+    @Override
+    public void play(Game game, MoveContext context) {
+    	play(game, context, true);
+    }
+    
+    @Override
+    public void play(Game game, MoveContext context, boolean fromHand) {
+    	super.play(game, context, fromHand);
+    	switch (this.getType()) {
+    	case Estate:
+    		if (context.player.getInheritance() != null) {
+    	    	// TODO 
+    		}
+    		break;
+    	default:
+    		break;
+    	}
     }
     
     @Override
