@@ -56,7 +56,7 @@ public class VariableCardPile extends AbstractCardPile {
 
 	@Override
 	public void addCard(Card card) {
-		if (!card.isAction()) return;
+		if (!card.isAction(null)) return;
 
 		piles.get(card.getName()).addCard(card);
 

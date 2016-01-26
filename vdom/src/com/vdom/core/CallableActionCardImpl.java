@@ -242,7 +242,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
 		ActionCard lastFreePile = null;
 		for (Card c : game.getCardsInGame()) {
 			if (game.getPile(c).isSupply() 
-					&& c.isAction()
+					&& c.isAction(null)
 					&& game.getPlayerSupplyTokens(c, currentPlayer).size() == 0) {
 				numFreePiles++;
 				lastFreePile = (ActionCard) c;

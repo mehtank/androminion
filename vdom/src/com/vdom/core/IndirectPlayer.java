@@ -219,7 +219,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         int actionCount = 0;
         Card actionCard = null;
         for (Card card : (context.player.isPossessed()) ? context.player.getHand() : getHand()) {
-            if (card.isAction()) {
+            if (card.isAction(context.player)) {
                 actionCount++;
                 actionCard = card;
             }

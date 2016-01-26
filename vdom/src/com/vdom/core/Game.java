@@ -1429,7 +1429,7 @@ public class Game {
             return false;
         }
 
-        if (!(action.isAction())) {
+        if (!(action.isAction(context.player))) {
             return false;
         }
 
@@ -2707,7 +2707,7 @@ public class Game {
                         int actionCardsFound = 0;
                         for(int i=player.discard.size() - 1; i >= 0; i--) {
                             Card c = player.discard.get(i);
-                            if(c.isAction()) {
+                            if(c.isAction(player)) {
                                 actionCardsFound++;
                                 if(player.controlPlayer.inn_shuffleCardBackIntoDeck(event.getContext(), (ActionCard) c)) {
                                     cards.add(c);

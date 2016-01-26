@@ -374,7 +374,7 @@ public class VDomPlayerSarah extends BasePlayer {
 
     @Override
     public Card doAction(MoveContext context) {
-        ArrayList<ActionCard> actionCards = context.getPlayer().getActionsInHand();
+        ArrayList<ActionCard> actionCards = context.getPlayer().getActionsInHand(context.player);
 
         // don't play rats
         if (game.isCardInGame(Cards.rats)) {
@@ -479,7 +479,7 @@ public class VDomPlayerSarah extends BasePlayer {
     public boolean shouldPassOnBuy(MoveContext context, Card card) {
         return 
                 !context.canBuy(card) || 
-                card.isAction() && actionCardCount >= actionCardMax || 
+                card.isAction(context.player) && actionCardCount >= actionCardMax || 
                 !favorSilverGoldPlat && (card.equals(Cards.silver) || card.equals(Cards.masterpiece) || card.equals(Cards.gold) || card.equals(Cards.platinum)) ||
                 card.equals(Cards.curse) || 
                 card.equals(Cards.virtualRuins) ||
@@ -490,7 +490,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 context.getEmbargosIfCursesLeft(card) > 0 ||
-                !(card.isAction()) && !(card instanceof TreasureCard) && !(card instanceof EventCard);
+                !(card.isAction(context.player)) && !(card instanceof TreasureCard) && !(card instanceof EventCard);
     }
 
     @Override
@@ -683,7 +683,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 }
                 
                 final int currentCount = getMyCardCount(card);
-                if(isOnlyTreasure(card) || card instanceof VictoryCard || currentCount == 0 || rand.nextInt(MAX_OF_ONE_ACTION_CARD) < currentCount) {
+                if(isOnlyTreasure(card, context.getPlayer()) || card instanceof VictoryCard || currentCount == 0 || rand.nextInt(MAX_OF_ONE_ACTION_CARD) < currentCount) {
                     randList.add(card);
                 }
             }

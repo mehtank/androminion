@@ -161,7 +161,7 @@ public class VDomPlayerEarl extends BasePlayer
      HashMap<Integer, Integer> victoryHelpers = getVictoryStat(historyItems);
  
      for (HistoryItem historyItem : historyItems) {
-       if ((historyItem.getAction() == HistoryItem.Action.BOUGHT) && (historyItem.getCard().isAction())) {
+       if ((historyItem.getAction() == HistoryItem.Action.BOUGHT) && (historyItem.getCard().isAction(this))) {
          debug(historyItem.toString() + ", was in hand " + inHand.get(historyItem.getCard().getId()) + " times, played " + 
            played.get(historyItem.getCard().getId()) + " times, and saw " + victoryHelpers.get(historyItem.getCard().getId()) + " vps");
        }
@@ -211,7 +211,7 @@ public class VDomPlayerEarl extends BasePlayer
  
      int actionCards = 0;
      for (Card card : hand) {
-       if (   card.isAction()
+       if (   card.isAction(context.player)
            && !card.equals(Cards.rats)
            && !(card.equals(Cards.tactician) && context.countCardsInPlay(Cards.tactician) > 0)
           ) {
@@ -274,7 +274,7 @@ public class VDomPlayerEarl extends BasePlayer
          return Cards.throneRoom;
        }
  
-       Card bestCard = getBestAddingAction(hasThroneRoom);
+       Card bestCard = getBestAddingAction(hasThroneRoom, context.player);
        if (bestCard != null) {
          return Cards.throneRoom;
        }
@@ -287,7 +287,7 @@ public class VDomPlayerEarl extends BasePlayer
        THRONE_ROOM_DUDS += 1;
      }
  
-     Card bestCard = getBestAddingAction(hasThroneRoom);
+     Card bestCard = getBestAddingAction(hasThroneRoom, context.player);
      if (bestCard != null) {
        return bestCard;
      }
@@ -320,7 +320,7 @@ public class VDomPlayerEarl extends BasePlayer
        if (card.equals(Cards.treasureMap)) {
          continue;
        }
-       if (card.isAction()) {
+       if (card.isAction(context.player)) {
          if (dontPlay.contains(card)) {
            continue;
          }
@@ -334,12 +334,12 @@ public class VDomPlayerEarl extends BasePlayer
      return null;
    }
  
-   private ActionCard getBestAddActionAction(Card[] hand) {
+   private ActionCard getBestAddActionAction(Card[] hand, Player player) {
      ActionCard bestAction = null;
      int bestAddActions = 0;
  
      for (Card card : hand) {
-       if (card.isAction()) {
+       if (card.isAction(player)) {
          ActionCard action = (ActionCard)card;
          if (action.getAddActions() > 0) {
            int addCards = action.getAddCards();
@@ -357,12 +357,12 @@ public class VDomPlayerEarl extends BasePlayer
      return bestAction;
    }
  
-   private ActionCard getBestAddActionCard(Card[] hand) {
+   private ActionCard getBestAddActionCard(Card[] hand, Player player) {
      ActionCard bestAction = null;
      int bestAddCards = 0;
  
      for (Card card : hand) {
-       if (card.isAction()) {
+       if (card.isAction(player)) {
          ActionCard action = (ActionCard)card;
          int thisAddCards = action.getAddCards();
          if (thisAddCards > bestAddCards) {
@@ -375,13 +375,13 @@ public class VDomPlayerEarl extends BasePlayer
      return bestAction;
    }
  
-   private Card getBestAddingAction(boolean hasThroneRoom) {
+   private Card getBestAddingAction(boolean hasThroneRoom, Player player) {
      Card[] hand = getHand().toArray();
  
-     Card bestAction = getBestAddActionAction(hand);
+     Card bestAction = getBestAddActionAction(hand, player);
  
      if (bestAction == null) {
-       bestAction = getBestAddActionCard(hand);
+       bestAction = getBestAddActionCard(hand, player);
      }
  
      if (bestAction != null) {
@@ -998,13 +998,13 @@ public Card masquerade_cardToPass(MoveContext context)
         return c;
 }
  
-   private int nonNobleActionCardCount() {
+   private int nonNobleActionCardCount(Player player) {
      int count = 0;
      for (Card card : getHand()) {
        if (card.equals(Cards.nobles)) {
          continue;
        }
-       if (card.isAction()) {
+       if (card.isAction(player)) {
          ++count;
        }
      }
@@ -1020,7 +1020,7 @@ public Card masquerade_cardToPass(MoveContext context)
        return Player.NoblesOption.AddCards;
      if (inHandCount(Cards.nobles) == 2)
        return Player.NoblesOption.AddActions;
-     if (nonNobleActionCardCount() > 0) {
+     if (nonNobleActionCardCount(context.player) > 0) {
        return Player.NoblesOption.AddActions;
      }
      return Player.NoblesOption.AddCards;

@@ -493,7 +493,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         int actionCards = 0;
         int trashCards = 0;
         for(Card c : getHand()) {
-            if(c.isAction()) {
+            if(c.isAction(context.player)) {
                 actionCards++;
             }
             for(Card trash : getTrashCards()) {
@@ -609,7 +609,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
                 return true;
             }
         }
-        if(isOnlyVictory(card)) {
+        if(isOnlyVictory(card, context.getPlayer())) {
             return true;
         }
         
@@ -634,7 +634,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     
     public boolean shouldAutoPlay_oasis_cardToDiscard(MoveContext context) {
         for(Card c : getHand()) {
-            if(isTrashCard(c) || isOnlyTreasure(c)) {
+            if(isTrashCard(c) || isOnlyTreasure(c, context.player)) {
                 return true;
             }
         }
@@ -643,7 +643,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_jackOfAllTrades_shouldDiscardCardFromTopOfDeck(MoveContext context, Card card) {
-        if(isTrashCard(card) || isOnlyVictory(card)) {
+        if(isTrashCard(card) || isOnlyVictory(card, context.getPlayer())) {
             return true;
         }
         return false;

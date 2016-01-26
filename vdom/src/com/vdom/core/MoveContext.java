@@ -164,7 +164,7 @@ public class MoveContext {
         for (Card c : getPlayedCards()) {
         	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
         			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
-        			|| (type == CardsInPlay.ACTION && c.isAction())) {
+        			|| (type == CardsInPlay.ACTION && c.isAction(player))) {
     			actionsInPlay++;
         	}
         }
@@ -173,7 +173,7 @@ public class MoveContext {
         		continue;
         	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
         			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
-        			|| (type == CardsInPlay.ACTION && c.isAction())) {
+        			|| (type == CardsInPlay.ACTION && c.isAction(player))) {
     			actionsInPlay++;
         	}
         }
@@ -280,7 +280,7 @@ public class MoveContext {
     }
 
     public boolean canPlay(Card card) {
-        if (card.isAction()) {
+        if (card.isAction(player)) {
             return game.isValidAction(this, card);
         } else {
             return false;

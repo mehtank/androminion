@@ -113,10 +113,10 @@ public abstract class Player {
         turnCount++;
     }
 
-    public ArrayList<Card> getActionCards(Card[] cards) {
+    public ArrayList<Card> getActionCards(Card[] cards, Player player) {
         ArrayList<Card> actionCards = new ArrayList<Card>();
         for (Card card : cards) {
-            if (card.isAction()) {
+            if (card.isAction(player)) {
                 actionCards.add(card);
             }
         }
@@ -124,14 +124,14 @@ public abstract class Player {
         return actionCards;
     }
 
-    public int getActionCardCount(Card[] cards) {
-        return getActionCards(cards).size();
+    public int getActionCardCount(Card[] cards, Player player) {
+        return getActionCards(cards, player).size();
     }
 
     public int getMyAddActionCardCount() {
         int addActionsCards = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction()) {
+            if (card.isAction(this)) {
                 if (((ActionCard) card).getAddActions() > 0) {
                     addActionsCards++;
                 }
@@ -144,7 +144,7 @@ public abstract class Player {
     public int getMyAddCardCardCount() {
         int addCards = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction()) {
+            if (card.isAction(this)) {
                 if (((ActionCard) card).getAddCards() > 0) {
                     addCards++;
                 }
@@ -157,7 +157,7 @@ public abstract class Player {
     public int getMyAddActions() {
         int addActions = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction()) {
+            if (card.isAction(this)) {
                 addActions += ((ActionCard) card).getAddActions();
             }
         }
@@ -168,7 +168,7 @@ public abstract class Player {
     public int getMyAddCards() {
         int addCards = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction()) {
+            if (card.isAction(this)) {
                 addCards += ((ActionCard) card).getAddCards();
             }
         }
@@ -179,7 +179,7 @@ public abstract class Player {
     public int getMyAddBuys() {
         int addBuys = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction()) {
+            if (card.isAction(this)) {
                 addBuys += ((ActionCard) card).getAddBuys();
             }
         }
@@ -396,7 +396,7 @@ public abstract class Player {
                     context.schemesPlayed --;
                     ArrayList<Card> actions = new ArrayList<Card>();
                     for(Card c : playedCards) {
-                        if(c.isAction()) {
+                        if(c.isAction(context.player)) {
                             actions.add(c);
                         }
                     }
@@ -735,14 +735,14 @@ public abstract class Player {
         return cardCount;
     }
 
-    public int getActionCardCount() {
-    	return getActionCardCount(getAllCards());
+    public int getActionCardCount(Player player) {
+    	return getActionCardCount(getAllCards(), player);
     }
 
-    public int getActionCardCount(ArrayList<Card> cards) {
+    public int getActionCardCount(ArrayList<Card> cards, Player player) {
     	int cardCount = 0;
         for (Card c : cards) {
-            if (c.isAction()) {
+            if (c.isAction(player)) {
                 cardCount++;
             }
         }
@@ -813,7 +813,7 @@ public abstract class Player {
         if(counts.containsKey(Cards.fairgrounds))
             totals.put(Cards.fairgrounds, counts.get(Cards.fairgrounds) * ((counts.get(DISTINCT_CARDS) / 5) * 2));
         if(counts.containsKey(Cards.vineyard))
-            totals.put(Cards.vineyard, counts.get(Cards.vineyard) * (this.getActionCardCount() / 3));
+            totals.put(Cards.vineyard, counts.get(Cards.vineyard) * (this.getActionCardCount(this) / 3));
         if(counts.containsKey(Cards.silkRoad))
             totals.put(Cards.silkRoad, counts.get(Cards.silkRoad) * (this.getVictoryCardCount() / 4));
         if(counts.containsKey(Cards.feodum))
@@ -1400,11 +1400,11 @@ public abstract class Player {
         return victory;
     }
 
-    public ArrayList<ActionCard> getActionsInHand() {
+    public ArrayList<ActionCard> getActionsInHand(Player player) {
         ArrayList<ActionCard> actions = new ArrayList<ActionCard>();
 
         for (Card c : getHand())
-            if (c.isAction())
+            if (c.isAction(player))
                 actions.add((ActionCard) c);
 
         return actions;

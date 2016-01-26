@@ -233,7 +233,8 @@ public class CardImpl implements Card {
                 return context.game.getTopKnightCard().getCost(context,buyPhase); 
 
         int costModifier = 0;
-        costModifier -= this.isAction() ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
+        //TODO: BUG this isAction call for Quarry should be player-specific sometimes 
+        costModifier -= this.isAction(null) ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
         costModifier -= context.countCardsInPlay(Cards.highway);
         costModifier -= context.countCardsInPlay(Cards.bridgeTroll);
         costModifier -= context.countCardsInNextTurn(Cards.bridgeTroll);
@@ -367,10 +368,6 @@ public class CardImpl implements Card {
         return costPotion;
     }
     
-    public boolean isAction() {
-    	return this instanceof ActionCard;
-    }
-    
     @Override
     public boolean isDuration(Player player) {
     	if (player == null || player.getInheritance() == null)
@@ -380,8 +377,9 @@ public class CardImpl implements Card {
     
     @Override
     public boolean isAction(Player player) {
-    	//TODO: redo?
-    	return player.getInheritance() != null && this.getType() == player.getInheritance().getType();
+    	if (player == null || player.getInheritance() == null)
+    		return this instanceof ActionCard;
+    	return player.getInheritance() instanceof ActionCard;
     }
     
     @Override

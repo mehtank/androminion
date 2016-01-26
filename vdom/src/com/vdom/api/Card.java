@@ -29,9 +29,7 @@ public interface Card extends Serializable {
     public boolean isVictory(MoveContext context);
     
     public boolean costPotion();
-    
-    public boolean isAction();
-  
+
     public boolean isAction(Player player);
     
     public boolean isDuration(Player player);
