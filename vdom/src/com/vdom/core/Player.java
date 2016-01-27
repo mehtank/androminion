@@ -661,7 +661,8 @@ public abstract class Player {
         for (Card card : horseTraders) {
             allCards.add(card);
         }
-        allCards.add(inheritance);
+        if (inheritance != null)
+        	allCards.add(inheritance);
         if (checkLeadCard != null) {
             allCards.add(checkLeadCard);
         }

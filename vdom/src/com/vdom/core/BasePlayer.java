@@ -2709,6 +2709,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public int stash_chooseDeckPosition(MoveContext context, Card responsible, int deckSize, int numStashes, int cardsToDraw) {
+    	if (responsible == null) {
+    		if (numStashes <= cardsToDraw)
+    			return 0;
+    		return cardsToDraw;
+    	}
+    	
     	if (context.attackedPlayer == this && !Cards.margrave.equals(responsible.behaveAsCard())
     			&& !Cards.soothsayer.equals(responsible.behaveAsCard()))
     		return cardsToDraw;
