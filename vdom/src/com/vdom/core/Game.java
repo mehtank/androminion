@@ -694,7 +694,7 @@ public class Game {
                         broadcastEvent(event);
 
                         try {
-                            ((ActionCardImpl) action).play(this, (MoveContext) context, true);
+                            action.play(this, (MoveContext) context, true);
                         } catch (RuntimeException e) {
                             e.printStackTrace();
                         }
@@ -924,7 +924,7 @@ public class Game {
                 
                 context.freeActionInEffect++;
                 try {
-                    ((ActionCardImpl) card2).play(this, context, false);
+                    card2.play(this, context, false);
                 } catch (RuntimeException e) {
                     e.printStackTrace();
                 }
@@ -934,7 +934,7 @@ public class Game {
                 
                 context.freeActionInEffect++;
                 try {
-                    ((ActionCardImpl) card2).play(this, context, false);
+                    card2.play(this, context, false);
                 } catch (RuntimeException e) {
                     e.printStackTrace();
                 }

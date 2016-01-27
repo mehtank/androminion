@@ -37,6 +37,7 @@ public class CardImpl implements Card {
     int numberTimesAlreadyPlayed = 0;
     int cloneCount = 1;
     CardImpl impersonatingCard = null;
+    CardImpl inheritingAbilitiesCard = null;
     CardImpl controlCard = this;
 
     protected CardImpl(Cards.Type type, int cost) {
@@ -232,6 +233,10 @@ public class CardImpl implements Card {
             if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
                 return context.game.getTopKnightCard().getCost(context,buyPhase); 
 
+        if (controlCard != null && controlCard != this && controlCard.inheritingAbilitiesCard != null) {
+        	return controlCard.getCost(context, buyPhase);
+        }
+        
         int costModifier = 0;
         //TODO: BUG this isAction call for Quarry should be player-specific sometimes 
         costModifier -= this.isAction(null) ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
@@ -377,7 +382,7 @@ public class CardImpl implements Card {
     
     @Override
     public boolean isAction(Player player) {
-    	if (player == null || player.getInheritance() == null)
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return this instanceof ActionCard;
     	return player.getInheritance() instanceof ActionCard;
     }
@@ -459,21 +464,34 @@ public class CardImpl implements Card {
     }
 
     public Card behaveAsCard() {
-        return (this.impersonatingCard == null ? this : this.impersonatingCard);
+        if (impersonatingCard != null)
+        	return impersonatingCard;
+        if (inheritingAbilitiesCard != null)
+        	return inheritingAbilitiesCard;
+        return this;
     }
 
 //    CardImpl getImpersonatingCard() {
 //        return impersonatingCard;
 //    }
+    
+    void startInheritingCardAbilities(CardImpl inheritingCard) {
+    	inheritingCard.setControlCard(this);
+    	this.inheritingAbilitiesCard = inheritingCard; 
+    }
 
     void startImpersonatingCard(CardImpl impersonatingCard) {
         impersonatingCard.setControlCard(this);
         this.impersonatingCard = impersonatingCard;
-        }
+    }
 
     void stopImpersonatingCard() {
         this.impersonatingCard = null;
-        }
+    }
+    
+    void stopInheritingCardAbilities() {
+    	this.inheritingAbilitiesCard = null;
+    }
 
     @Override
     public CardImpl getControlCard() {
@@ -511,6 +529,19 @@ public class CardImpl implements Card {
             }
         }
     }
+    
+    protected boolean isInPlay(Player currentPlayer) {
+		for (Card c : currentPlayer.playedCards) {
+			if (this == c)
+				return true;
+		}
+		for (Card c : currentPlayer.nextTurnCards) {
+			if (c instanceof CardImpl && !((CardImpl)c).trashAfterPlay && this == c)
+			if (this == c)
+				return true;
+		}
+		return false;
+	}
 
     /*@Override
     public void isGained(MoveContext context) {

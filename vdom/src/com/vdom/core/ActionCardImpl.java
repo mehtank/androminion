@@ -209,7 +209,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         Player currentPlayer = context.getPlayer();
         boolean newCard = false;
-        ActionCardImpl actualCard = (this.getControlCard() != null ? (ActionCardImpl) this.getControlCard() : this);
+        Card actualCard = (this.getControlCard() != null ? this.getControlCard() : this);
+        boolean isInheritedAbility = actualCard.equals(Cards.estate);
         
         context.actions += game.countChampionsInPlay(currentPlayer);
         
@@ -229,11 +230,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 currentPlayer.playedCards.add(this);
             }
         }
-
-        GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
-        event.card = this;
-        event.newCard = newCard;
-        game.broadcastEvent(event);
+        
+        GameEvent event;
+        if (!isInheritedAbility) {
+	        event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
+	        event.card = this;
+	        event.newCard = newCard;
+	        game.broadcastEvent(event);
+        }
       
         // playing an action
         if (this == actualCard) 
@@ -262,9 +266,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         additionalCardActions(game, context, currentPlayer);
 
-        event = new GameEvent(GameEvent.Type.PlayedAction, (MoveContext) context);
-        event.card = this;
-        game.broadcastEvent(event);
+        if (!isInheritedAbility) {
+	        event = new GameEvent(GameEvent.Type.PlayedAction, (MoveContext) context);
+	        event.card = this;
+	        game.broadcastEvent(event);
+        } else {
+        	return;
+        }
 
         // test if any prince card left the play
         currentPlayer.princeCardLeftThePlay(currentPlayer);
@@ -299,19 +307,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	        } while (toCall != null && toCall.equals(Cards.coinOfTheRealm) && !callableCards.isEmpty());
         }
     }
-
-    private boolean isInPlay(Player currentPlayer) {
-		for (Card c : currentPlayer.playedCards) {
-			if (this == c)
-				return true;
-		}
-		for (Card c : currentPlayer.nextTurnCards) {
-			if (c instanceof CardImpl && !((CardImpl)c).trashAfterPlay && this == c)
-			if (this == c)
-				return true;
-		}
-		return false;
-	}
 
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
         switch (this.getType()) {
@@ -2152,7 +2147,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     			cardsToDiscard[i] = hand.get(i);
     		}
     	} else {
-    		cardsToDiscard = currentPlayer.controlPlayer.horseTradersDungeon_cardsToDiscard(context, this.controlCard);
+    		cardsToDiscard = currentPlayer.controlPlayer.horseTradersDungeon_cardsToDiscard(context, this);
             if (cardsToDiscard == null || cardsToDiscard.length != 2 || !Util.areCardsInHand(cardsToDiscard, context)) {
                 if (currentPlayer.hand.size() >= 2) {
                     Util.playerError(currentPlayer, "Horse Traders discard error, just discarding the first 2.");
@@ -5165,6 +5160,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         // card left play - stop any impersonations
         this.controlCard.stopImpersonatingCard();
+        this.controlCard.stopInheritingCardAbilities();
     }
 
     /*@Override

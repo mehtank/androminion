@@ -1,6 +1,10 @@
 package com.vdom.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import com.vdom.api.Card;
+import com.vdom.api.GameEvent;
 import com.vdom.api.VictoryCard;
 
 public class VictoryCardImpl extends CardImpl implements VictoryCard {
@@ -38,10 +42,91 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     @Override
     public void play(Game game, MoveContext context, boolean fromHand) {
     	super.play(game, context, fromHand);
+    	Player currentPlayer = context.getPlayer();
     	switch (this.getType()) {
     	case Estate:
-    		if (context.player.getInheritance() != null) {
-    	    	// TODO 
+    		Card inheritedCard = context.player.getInheritance();
+    		if (inheritedCard != null) {
+    	    	// TODO
+    			boolean newCard = false;
+    			 if (this.numberTimesAlreadyPlayed == 0) {
+		            newCard = true;
+		            this.movedToNextTurnPile = false;
+		            if (fromHand)
+		                currentPlayer.hand.remove(this);
+		           currentPlayer.playedCards.add(this);
+		        }
+    			
+			 	GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
+		 		event.card = this;
+		 		event.newCard = newCard;
+		 		game.broadcastEvent(event); 
+    			
+	 			context.actionsPlayedSoFar++;
+		        if (context.freeActionInEffect == 0) {
+		            context.actions--;
+		        }
+		        
+		        this.startInheritingCardAbilities(inheritedCard.getTemplateCard().instantiate());
+		        // Play the inheritance virtual card
+		        ActionCardImpl cardToPlay = (ActionCardImpl) this.behaveAsCard();
+		        context.freeActionInEffect++;
+		        cardToPlay.play(game, context, false);
+		        context.freeActionInEffect--;
+
+		        // impersonated card stays in play until next turn?
+		        if (cardToPlay.trashOnUse) {
+		            int idx = currentPlayer.playedCards.lastIndexOf(this);
+		            if (idx >= 0) currentPlayer.playedCards.remove(idx);
+		            currentPlayer.trash(this, null, context);
+		        } else if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
+		            if (!this.controlCard.movedToNextTurnPile) {
+		                this.controlCard.movedToNextTurnPile = true;
+		                int idx = currentPlayer.playedCards.lastIndexOf(this);
+		                if (idx >= 0) {
+		                    currentPlayer.playedCards.remove(idx);
+		                    currentPlayer.nextTurnCards.add(this);
+		                }
+		            }
+		        }
+		        
+		        event = new GameEvent(GameEvent.Type.PlayedAction, (MoveContext) context);
+		        event.card = this;
+		        game.broadcastEvent(event);
+		        
+		        // test if any prince card left the play
+		        currentPlayer.princeCardLeftThePlay(currentPlayer);
+		        
+		        // check for cards to call after resolving action
+		        boolean isActionInPlay = isInPlay(currentPlayer);
+		        ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
+		        CallableCard toCall = null;
+		        for (Card c : currentPlayer.tavern) {
+		        	if (c.behaveAsCard() instanceof CallableCard) {
+		        		CallableCard card = (CallableCard)(c.behaveAsCard());
+		        		if (!card.isCallableWhenActionResolved() || (card.doesActionStillNeedToBeInPlay() && !isActionInPlay))
+		        			continue;
+		        		callableCards.add((CallableCard) c);
+		        	}
+		        }
+		        if (!callableCards.isEmpty()) {
+		        	Collections.sort(callableCards, new Util.CardCostComparator());
+			        do {
+			        	toCall = null;
+			        	// we want null entry at the end for None
+			        	CallableCard[] cardsAsArray = callableCards.toArray(new CallableCard[callableCards.size() + 1]);
+			        	//ask player which card to call
+			        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, this, cardsAsArray);
+			        	if (toCall != null && callableCards.contains(toCall)) {
+			        		callableCards.remove(toCall);
+			        		toCall.callWhenActionResolved(context, this);
+			        	}
+				        // loop while we still have cards to call
+				        // NOTE: we have a hack here to prevent asking for duplicate calls on an unused Royal Carriage
+				        //   since technically you can ask for more and action re-played by royal carriage will ask as well
+			        } while (toCall != null && toCall.equals(Cards.coinOfTheRealm) && !callableCards.isEmpty());
+		        }
+		 		
     		}
     		break;
     	default:
