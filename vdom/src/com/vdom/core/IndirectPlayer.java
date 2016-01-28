@@ -1725,12 +1725,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card borderVillage_cardToObtain(MoveContext context) {
-        if(context.isQuickPlay() && shouldAutoPlay_borderVillage_cardToObtain(context)) {
-            return super.borderVillage_cardToObtain(context);
+    public Card borderVillage_cardToObtain(MoveContext context, int maxCost) {
+        if(context.isQuickPlay() && shouldAutoPlay_borderVillage_cardToObtain(context, maxCost)) {
+            return super.borderVillage_cardToObtain(context, maxCost);
         }
         SelectCardOptions sco = new SelectCardOptions().potionCost(0)
-                .maxCost(Cards.borderVillage.getCost(context) - 1)
+                .maxCost(maxCost)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.borderVillage);
         return getFromTable(context, sco);
     }

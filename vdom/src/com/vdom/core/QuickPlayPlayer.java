@@ -748,7 +748,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
     
-    public boolean shouldAutoPlay_borderVillage_cardToObtain(MoveContext context) {
+    public boolean shouldAutoPlay_borderVillage_cardToObtain(MoveContext context, int maxCost) {
         return false;
     }
     

@@ -2519,6 +2519,9 @@ public class Game {
                         commandedDiscard = false;
                     } else if(event.responsible != null) {
                         Card r = event.responsible;
+                        if (r.equals(Cards.estate) && player.getInheritance() != null) {
+                        	r = player.getInheritance();
+                        }
                         if(r.equals(Cards.borderVillage) ||
                            r.equals(Cards.feast) ||
                            r.equals(Cards.remodel) ||
@@ -2584,6 +2587,11 @@ public class Game {
                             player.trash(event.card, Cards.watchTower, context);
                         }
                     }
+                    
+                    Card gainedCardAbility = event.card;
+                    if (gainedCardAbility.equals(Cards.estate) && player.getInheritance() != null) {
+                    	gainedCardAbility = player.getInheritance();
+                    }
 
                     if(!handled) {
                     	if (context.isRoyalSealInPlay() && context.player.controlPlayer.royalSealTravellingFair_shouldPutCardOnDeck((MoveContext) context, Cards.royalSeal, event.card)) {
@@ -2601,10 +2609,14 @@ public class Game {
         					GameEvent summonEvent = new GameEvent(GameEvent.Type.CardSetAsideSummon, context);
         					summonEvent.card = event.card;
         					context.game.broadcastEvent(summonEvent);
-                        } else if (event.card.equals(Cards.nomadCamp)) {
+                        } else if (gainedCardAbility.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);
                         } else if (event.responsible != null) {
                             Card r = event.responsible;
+                            if (r.equals(Cards.estate) && player.getInheritance() != null) {
+                            	r = player.getInheritance();
+                            }
+                            
                             if (r.equals(Cards.armory)
                                 || r.equals(Cards.artificer)
                                 || r.equals(Cards.bagOfGold)
@@ -2662,8 +2674,8 @@ public class Game {
                     		toCall.callWhenCardGained(context, event.card);
                     	}
                     }
-
-                    if (event.card.equals(Cards.illGottenGains)) {
+                    
+                    if (gainedCardAbility.equals(Cards.illGottenGains)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
                                 MoveContext targetContext = new MoveContext(Game.this, targetPlayer);
@@ -2697,18 +2709,18 @@ public class Game {
                                 player.gainNewCard(Cards.duchess, Cards.duchess, context);
                             }
                         }
-                    } else if(event.card.equals(Cards.embassy)) {
+                    } else if(gainedCardAbility.equals(Cards.embassy)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
                                 MoveContext targetContext = new MoveContext(Game.this, targetPlayer);
                                 targetPlayer.gainNewCard(Cards.silver, event.card, targetContext);
                             }
                         }
-                    } else if(event.card.equals(Cards.cache)) {
+                    } else if(gainedCardAbility.equals(Cards.cache)) {
                         for(int i=0; i < 2; i++) {
                             player.gainNewCard(Cards.copper, event.card, context);
                         }
-                    } else if(event.card.equals(Cards.inn)) {
+                    } else if(gainedCardAbility.equals(Cards.inn)) {
                         ArrayList<Card> cards = new ArrayList<Card>();
                         int actionCardsFound = 0;
                         for(int i=player.discard.size() - 1; i >= 0; i--) {
@@ -2729,20 +2741,20 @@ public class Game {
                             }
                         }
                         player.shuffleDeck(context, event.card);
-                    } else if (event.card.equals(Cards.borderVillage)) {
+                    } else if (gainedCardAbility.equals(Cards.borderVillage)) {
                         boolean validCard = false;
-
+                        int gainedCardCost = event.card.getCost(context);
                         for(Card c : event.context.getCardsInGame()) {
-                            if(Cards.isSupplyCard(c) && c.getCost(context) < Cards.borderVillage.getCost(context) && !c.costPotion() && event.context.getCardsLeftInPile(c) > 0) {
+                            if(Cards.isSupplyCard(c) && c.getCost(context) < gainedCardCost && !c.costPotion() && event.context.getCardsLeftInPile(c) > 0) {
                                 validCard = true;
                                 break;
                             }
                         }
 
                         if(validCard) {
-                            Card card = context.player.controlPlayer.borderVillage_cardToObtain((MoveContext) context);
+                            Card card = context.player.controlPlayer.borderVillage_cardToObtain(context, gainedCardCost - 1);
                             if (card != null) {
-                                if(card.getCost(context) < Cards.borderVillage.getCost(context) && !card.costPotion()) {
+                                if(card.getCost(context) < gainedCardCost && !card.costPotion()) {
                                     player.controlPlayer.gainNewCard(card, event.card, (MoveContext) context);
                                 }
                                 else {
@@ -2750,7 +2762,7 @@ public class Game {
                                 }
                             }
                         }
-                    } else if (event.card.equals(Cards.mandarin)) {
+                    } else if (gainedCardAbility.equals(Cards.mandarin)) {
                         CardList playedCards = ((MoveContext) context).getPlayedCards();
                         ArrayList<Card> treasureCardsInPlay = new ArrayList<Card>();
 
@@ -2773,10 +2785,10 @@ public class Game {
                                 playedCards.remove(c);
                             }
                         }
-                    } else if (event.card.equals(Cards.deathCart)) {
+                    } else if (gainedCardAbility.equals(Cards.deathCart)) {
                         context.player.controlPlayer.gainNewCard(Cards.virtualRuins, event.card, context);
                         context.player.controlPlayer.gainNewCard(Cards.virtualRuins, event.card, context);
-                    } else if(event.card.equals(Cards.lostCity)) {
+                    } else if (gainedCardAbility.equals(Cards.lostCity)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
                                 drawToHand(new MoveContext(Game.this, targetPlayer), event.card, 1, true);

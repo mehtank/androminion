@@ -2194,8 +2194,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card borderVillage_cardToObtain(MoveContext context) {
-        return bestCardInPlay(context, Cards.borderVillage.getCost(context) - 1, true);
+    public Card borderVillage_cardToObtain(MoveContext context, int maxCost) {
+        return bestCardInPlay(context, maxCost, true);
     }
 
     @Override

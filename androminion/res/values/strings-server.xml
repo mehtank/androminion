@@ -134,8 +134,8 @@
 	<string name="PlayingDurationAction">Playing duration</string>
 	<string name="PlayingCoin">Playing</string>
 	<string name="BuyingCard">Buying</string>
-	<string name="GuildsTokenObtained">Guilds token obtained</string>
-	<string name="GuildsTokenSpend">Guilds token paid</string>
+	<string name="GuildsTokenObtained">Coin token obtained</string>
+	<string name="GuildsTokenSpend">Coin token spent</string>
 	<string name="OverpayForCard">Overpay for card</string>
 	<string name="NoBuy">(No buy)</string>
 	<string name="DeckReplenished">Deck replenished</string>
@@ -421,7 +421,7 @@
   <string name="doctor_overpay_option_two">Discard</string>
   <string name="doctor_overpay_option_three">Put Back</string>
   <string name="herald_overpay_query">Select card to put back on deck</string>
-  <string name="spend_guilds_coin_tokens">Spend Guilds Coin Tokens</string>
+  <string name="spend_guilds_coin_tokens">Spend Coin Tokens</string>
   <string name="buy_overpay">Overpay?</string>
   <string name="buy_overpay_by_potions">Overpay by Potion(s)?</string>
   <string name="possessed_by">possessed by</string>

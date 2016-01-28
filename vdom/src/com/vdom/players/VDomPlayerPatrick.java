@@ -1151,9 +1151,9 @@ public class VDomPlayerPatrick extends BasePlayer {
 	}
 
 	@Override
-	public Card borderVillage_cardToObtain(MoveContext context) {
+	public Card borderVillage_cardToObtain(MoveContext context, int maxCost) {
 		this.log("borderVillage_cardToObtain");
-	    return this.advisorGeneral(context, 5, false, true);
+	    return this.advisorGeneral(context, maxCost, false, true);
 	}
 
 	@Override

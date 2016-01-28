@@ -31,7 +31,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     protected int addCards;
     protected int addGold;
     protected int addVictoryTokens;
-    protected boolean looter;
     boolean trashForced = false;
     boolean trashOnUse = false;
 
@@ -42,7 +41,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         addCards         = builder.addCards;
         addGold          = builder.addGold;
         addVictoryTokens = builder.addVictoryTokens;
-        looter           = builder.looter;
         trashOnUse       = builder.trashOnUse;
         trashForced      = builder.trashForced;
     }
@@ -53,7 +51,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         protected int addCards;
         protected int addGold;
         protected int addVictoryTokens;
-        protected boolean looter;
         protected boolean trashOnUse;
         protected boolean trashForced = false;
 
@@ -83,11 +80,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         public Builder addVictoryTokens(int val) {
             addVictoryTokens = val;
-            return this;
-        }
-
-        public Builder looter() {
-            looter = true;
             return this;
         }
 
@@ -192,7 +184,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         c.addCards = addCards;
         c.addGold = addGold;
         c.addVictoryTokens = addVictoryTokens;
-        c.looter = looter;
         c.trashForced = trashForced;
         c.trashOnUse = trashOnUse;
     }
