@@ -1528,13 +1528,19 @@ public class Game {
         int cost = buy.getCost(context);
 
         // If card can be overpaid for, do so now
-        if (buy.isOverpay())
+        if (buy.isOverpay(player))
         {
-            context.overpayAmount = player.amountToOverpay(context, buy, cost);
+            int coinOverpay = player.amountToOverpay(context, buy, cost);
+            coinOverpay = Math.max(0,  coinOverpay);
+            coinOverpay = Math.min(coinOverpay, context.getCoinAvailableForBuy());
+            context.overpayAmount = coinOverpay;
 
             if (context.potions > 0)
             {
-                context.overpayPotions = player.overpayByPotions(context, context.potions);
+            	int potionOverpay = player.overpayByPotions(context, context.potions);
+            	potionOverpay = Math.max(0, potionOverpay);
+            	potionOverpay = Math.min(potionOverpay, context.getPotions());
+                context.overpayPotions = potionOverpay;
                 context.potions -= context.overpayPotions;
             }
 

@@ -6235,7 +6235,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void messenger(Game game, MoveContext context, Player currentPlayer) {
     	if (currentPlayer.getDeckSize() == 0)
     		return;
-        boolean discard = currentPlayer.controlPlayer.messenger_shouldDiscardDeck(context, this.controlCard);
+        boolean discard = currentPlayer.controlPlayer.messenger_shouldDiscardDeck(context, this);
         if (discard) {
             GameEvent event = new GameEvent(GameEvent.Type.DeckPutIntoDiscardPile, (MoveContext) context);
             game.broadcastEvent(event);

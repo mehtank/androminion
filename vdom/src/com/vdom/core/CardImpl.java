@@ -375,7 +375,7 @@ public class CardImpl implements Card {
     
     @Override
     public boolean isDuration(Player player) {
-    	if (player == null || player.getInheritance() == null)
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return this instanceof DurationCard;
     	return player.getInheritance() instanceof DurationCard;
     }
@@ -389,7 +389,7 @@ public class CardImpl implements Card {
     
     @Override
     public boolean isAttack(Player player) {
-    	if (player == null || player.getInheritance() == null)
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return isAttack;
     	return ((CardImpl)player.getInheritance()).isAttack;
     }    
@@ -403,13 +403,13 @@ public class CardImpl implements Card {
     }
     @Override
     public boolean isRuins(Player player) {
-    	if (player == null || player.getInheritance() == null)
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return isRuins;
     	return ((CardImpl)player.getInheritance()).isRuins;
     }
     @Override
     public boolean isKnight(Player player) {
-    	if (player == null || player.getInheritance() == null)
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return isKnight;
     	return ((CardImpl)player.getInheritance()).isKnight;
     }
@@ -420,9 +420,10 @@ public class CardImpl implements Card {
     }
     
     @Override
-    public boolean isOverpay()
-    {
-        return isOverpay;
+    public boolean isOverpay(Player player) {
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
+    		return isOverpay;
+    	return ((CardImpl)player.getInheritance()).isOverpay;
     }
     
     @Override
@@ -434,7 +435,7 @@ public class CardImpl implements Card {
     @Override
     public boolean isReserve(Player player)
     {
-    	if (player == null || player.getInheritance() == null)
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return isReserve;
     	return ((CardImpl)player.getInheritance()).isReserve;
     }
@@ -442,7 +443,7 @@ public class CardImpl implements Card {
     @Override
     public boolean isTraveller(Player player)
     {
-    	if (player == null || player.getInheritance() == null)
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return isTraveller;
     	return ((CardImpl)player.getInheritance()).isTraveller;
     }

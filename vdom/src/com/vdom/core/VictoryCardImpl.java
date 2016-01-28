@@ -170,8 +170,13 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     @Override
     public void isBuying(MoveContext context) {
         context.game.trashHovelsInHandOption(context.player, context, this);
-
-        if (this.equals(Cards.farmland)) {
+        
+        if (this.equals(Cards.estate)) {
+        	Card inheritance = context.getPlayer().getInheritance();
+        	if (inheritance != null) {
+        		inheritance.isBuying(context);
+        	}
+        } else if (this.equals(Cards.farmland)) {
             Player player = context.getPlayer();
             if(player.getHand().size() > 0) {
                 Card cardToTrash = player.controlPlayer.farmland_cardToTrash((MoveContext) context);
