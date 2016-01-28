@@ -1649,7 +1649,7 @@ public abstract class Player {
     // ////////////////////////////////////////////
     // Card interactions - cards from Hinterlands
     // ////////////////////////////////////////////
-    public abstract Card borderVillage_cardToObtain(MoveContext context);
+    public abstract Card borderVillage_cardToObtain(MoveContext context, int maxCost);
 
     public abstract Card farmland_cardToTrash(MoveContext context);
 

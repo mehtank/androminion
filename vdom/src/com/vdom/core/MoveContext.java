@@ -109,14 +109,14 @@ public class MoveContext {
                 cardsInPlay++;
             }
         }
-        return cardsInPlay;
+        return cardsInPlay + countCardsInNextTurn(card);
     }
 
     public CardList getCardsInNextTurn() {
         return player.nextTurnCards;
     }
 
-    public int countCardsInNextTurn(Card card) {
+    private int countCardsInNextTurn(Card card) {
         int cardsInNextTurn = 0;
         for(Card c : getCardsInNextTurn()) {
             if(c.behaveAsCard().equals(card)) {
@@ -131,7 +131,7 @@ public class MoveContext {
     }
 
     public int countGoonsInPlayThisTurn() {
-        return countCardsInPlay(Cards.goons);
+    	return countCardsInPlay(Cards.goons);
     }
 
     public int countTreasureCardsInPlayThisTurn() {
@@ -439,6 +439,6 @@ public class MoveContext {
     }
 
     public int countMerchantGuildsInPlayThisTurn() {
-        return countCardsInPlay(Cards.merchantGuild);
+    	return countCardsInPlay(Cards.merchantGuild);
     }
 }

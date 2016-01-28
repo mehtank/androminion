@@ -237,17 +237,21 @@ public class CardImpl implements Card {
         	return controlCard.getCost(context, buyPhase);
         }
         
+        MoveContext currentPlayerContext = context; 
+        if (context.game.getCurrentPlayer() != context.getPlayer()) {
+        	currentPlayerContext = new MoveContext(context.game, context.game.getCurrentPlayer());
+        }
+        
         int costModifier = 0;
         //TODO: BUG this isAction call for Quarry should be player-specific sometimes 
         costModifier -= this.isAction(null) ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
         costModifier -= context.countCardsInPlay(Cards.highway);
-        costModifier -= context.countCardsInPlay(Cards.bridgeTroll);
-        costModifier -= context.countCardsInNextTurn(Cards.bridgeTroll);
+        costModifier -= currentPlayerContext.countCardsInPlay(Cards.bridgeTroll);
         costModifier -= 2 * context.countCardsInPlay(Cards.princess);
+        //TODO: BUG if an inherited peddler is yours, its cost should lower during your buy phase 
         costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlayThisTurn()) : 0;
         costModifier -= (context.game.isPlayerSupplyTokenOnPile(this, context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
-        //costModifier -= (this.isKnight ? (cost - game. (2 * context.countCardsInPlay(Cards.quarry)) : 0;
-
+        
         return Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);
     }
 
