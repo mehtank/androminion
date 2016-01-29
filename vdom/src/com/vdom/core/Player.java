@@ -1006,18 +1006,18 @@ public abstract class Player {
 
     private Card traveller_exchange(MoveContext context, Card card) {
     	Card exchange = null;
-    	if (card.equals(Cards.peasant)) exchange = Cards.soldier;
+    	if (card.behaveAsCard().equals(Cards.peasant)) exchange = Cards.soldier;
     	if (card.equals(Cards.soldier)) exchange = Cards.fugitive;
     	if (card.equals(Cards.fugitive)) exchange = Cards.disciple;
     	if (card.equals(Cards.disciple)) exchange = Cards.teacher;
-    	if (card.equals(Cards.page)) exchange = Cards.treasureHunter;
+    	if (card.behaveAsCard().equals(Cards.page)) exchange = Cards.treasureHunter;
     	if (card.equals(Cards.treasureHunter)) exchange = Cards.warrior;
     	if (card.equals(Cards.warrior)) exchange = Cards.hero;
     	if (card.equals(Cards.hero)) exchange = Cards.champion;
     	if (context.getCardsLeftInPile(exchange) <= 0)
     		exchange = null;
     	if (exchange != null) {
-            if(!controlPlayer.traveller_shouldExchange(context, card, exchange))
+            if(!controlPlayer.traveller_shouldExchange(context, card.behaveAsCard(), exchange))
             	exchange = null;
     	}
     	return exchange;
