@@ -271,20 +271,28 @@ public class Util {
         }
         
         Card reactionCard = null;
-        while ((reactionCard = player.controlPlayer.getAttackReaction(context, responsible, defended, reactionCard)) != null) {
+        Card reactionCardAbility = null;
+        while ((reactionCard = player.controlPlayer.getAttackReaction(context, responsible, defended, reactionCardAbility)) != null) {
+        	//TODO: error check reactionCard
+        	
             GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
             event.card = reactionCard;
             game.broadcastEvent(event);
 
-        	if (reactionCard.equals(Cards.secretChamber))
-                doSecretChamber(context, game, player, responsible);
-        	else if (reactionCard.equals(Cards.horseTraders))
-                doHorseTraders(context, game, player, responsible);
-        	else if (reactionCard.equals(Cards.beggar))
-                doBeggar(context, game, player, responsible);
-        	else if (reactionCard.equals(Cards.caravanGuard))
-                doCaravanGuard(context, game, player, responsible);
-        	else if (reactionCard.equals(Cards.moat)) {
+            reactionCardAbility = reactionCard;
+            if (reactionCard.equals(Cards.estate)) {
+            	reactionCardAbility = player.getInheritance();
+            }
+            
+        	if (reactionCardAbility.equals(Cards.secretChamber))
+                doSecretChamber(context, game, player, responsible, reactionCard);
+        	else if (reactionCardAbility.equals(Cards.horseTraders))
+                doHorseTraders(context, game, player, responsible, reactionCard);
+        	else if (reactionCardAbility.equals(Cards.beggar))
+                doBeggar(context, game, player, responsible, reactionCard);
+        	else if (reactionCardAbility.equals(Cards.caravanGuard))
+                doCaravanGuard(context, game, player, responsible, reactionCard);
+        	else if (reactionCardAbility.equals(Cards.moat)) {
                 defended = true;
                 
                 event = new GameEvent(GameEvent.Type.PlayerDefended, context);
@@ -296,23 +304,16 @@ public class Util {
         return defended;
     }
 
-    static boolean doSecretChamber(MoveContext context, Game game, Player player, Card responsible) {
+    private static boolean doSecretChamber(MoveContext context, Game game, Player player, Card responsible, Card reactionCard) {
 
         boolean found = false;
         for (Card card : player.hand) {
-            if (card.equals(Cards.secretChamber)) {
+            if (card.equals(reactionCard)) {
                 found = true;
             }
         }
 
         if (found) {
-//            GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, context);
-//            event.card = Cards.secretChamber;
-//            game.broadcastEvent(event);
-//
-//            event = new GameEvent(GameEvent.Type.CardRevealed, context);
-//            event.card = Cards.secretChamber;
-//            game.broadcastEvent(event);
 
             game.drawToHand(context, Cards.secretChamber, 2);
             game.drawToHand(context, Cards.secretChamber, 1);
@@ -354,38 +355,32 @@ public class Util {
         return found;
     }
 
-    static boolean doHorseTraders(MoveContext context, Game game, Player player, Card responsible) {
+    private static boolean doHorseTraders(MoveContext context, Game game, Player player, Card responsible, Card reactionCard) {
 
         Card horseTraders = null;
         for (Card card : player.hand) {
-            if (card.equals(Cards.horseTraders)) {
+            if (card.equals(reactionCard)) {
                 horseTraders = card;
+                if (reactionCard.equals(Cards.estate)) {
+                	((CardImpl)card).startInheritingCardAbilities(Cards.horseTraders.getTemplateCard().instantiate());
+                }
             }
         }
 
         if (horseTraders != null) {
-//            GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, context);
-//            event.card = Cards.horseTraders;
-//            game.broadcastEvent(event);
-//
-//            event = new GameEvent(GameEvent.Type.CardRevealed, context);
-//            event.card = Cards.horseTraders;
-//            game.broadcastEvent(event);
-
             player.hand.remove(horseTraders);
             player.horseTraders.add(horseTraders);
-
             return true;
         }
 
         return false;
     }
 
-    static boolean doBeggar(MoveContext context, Game game, Player player, Card responsible) {
+    private static boolean doBeggar(MoveContext context, Game game, Player player, Card responsible, Card reactionCard) {
         Card beggar = null;
 
         for (Card card : player.hand) {
-            if (card.equals(Cards.beggar)) {
+            if (card.equals(reactionCard)) {
                 beggar = card;
             }
         }
@@ -404,11 +399,11 @@ public class Util {
         return false;
     }
 
-    static boolean doCaravanGuard(MoveContext context, Game game, Player player, Card responsible) {
-        ActionCardImpl caravanGuard = null;
+    private static boolean doCaravanGuard(MoveContext context, Game game, Player player, Card responsible, Card reactionCard) {
+        Card caravanGuard = null;
         for (Card card : player.hand) {
-            if (card.equals(Cards.caravanGuard)) {
-            	caravanGuard = (ActionCardImpl) card;
+            if (card.equals(reactionCard)) {
+            	caravanGuard = card;
             }
         }
 

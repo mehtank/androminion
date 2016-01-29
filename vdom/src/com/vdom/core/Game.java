@@ -939,7 +939,7 @@ public class Game {
                     e.printStackTrace();
                 }
                 context.freeActionInEffect--;
-            } else if(card.equals(Cards.horseTraders)) {
+            } else if(card.behaveAsCard().equals(Cards.horseTraders)) {
                 Card horseTrader = player.horseTraders.remove(0);
                 player.hand.add(horseTrader);
                 drawToHand(context, horseTrader, 1);

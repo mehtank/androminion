@@ -82,29 +82,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
 	@Override
 	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
-		Card[] reactionCards = getReactionCards(defended);
+		Card[] reactionCards = getAttackReactionCards(defended);
 		for (Card c : reactionCards) 
 		{
-			if (!c.equals(Cards.marketSquare) && !c.equals(Cards.watchTower))
+			if (!reactedSet.contains(c)) 
 			{
-    			if (   c.equals(Cards.secretChamber)
-    				|| c.equals(Cards.horseTraders)
-    				|| c.equals(Cards.beggar)
-    				|| c.equals(Cards.caravanGuard)
-    				|| c.equals(Cards.moat)
-    			   ) 
-    			{
-    				if (!reactedSet.contains(c)) 
-    				{
-    					reactedSet.add(c);
-    					return c;
-    				} 
-    			} 
-    			else 
-    			{
-    				return c;
-    			}
-			}
+				reactedSet.add(c);
+				return c;
+			} 
 		}
 		return null;
 	}
@@ -451,23 +436,25 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	return EASY_WHEN_TRASH_CARDS;
     }
     
-    protected Card[] getReactionCards(boolean defended) {
+    protected Card[] getAttackReactionCards(boolean defended) {
         ArrayList<Card> reactionCards = new ArrayList<Card>();
         boolean moatSelected = false;
         boolean secretChamberSelected = false;
 
         for (Card c : getHand()) {
-            if (c.equals(Cards.moat) && !defended && !moatSelected) {
+        	Card a = c;
+        	if (c.equals(Cards.estate) && isAttackReaction(getInheritance())) {
+        		a = getInheritance();
+        	}
+            if (a.equals(Cards.moat) && !defended && !moatSelected) {
                 reactionCards.add(c);
                 moatSelected = true;
-            } else if (c.equals(Cards.secretChamber) && !secretChamberSelected) {
+            } else if (a.equals(Cards.secretChamber) && !secretChamberSelected) {
                 reactionCards.add(c);
                 secretChamberSelected = true;
-            } else if (   c.equals(Cards.horseTraders)
-            		   || c.equals(Cards.watchTower)
-            		   || c.equals(Cards.beggar)
-            		   || c.equals(Cards.marketSquare)
-            		   || c.equals(Cards.caravanGuard)
+            } else if (   a.equals(Cards.horseTraders)
+            		   || a.equals(Cards.beggar)
+            		   || a.equals(Cards.caravanGuard)
             		  ) {
                 reactionCards.add(c);
             }
@@ -475,7 +462,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return reactionCards.toArray(new Card[0]);
     }
     
-    protected boolean containsCardCostingAtLeast(MoveContext context, Iterable<Card> toSearch, Card[] toLookFor, int cost) {
+    protected boolean isAttackReaction(Card c) {
+		return c != null && (
+			c.equals(Cards.moat)
+			|| c.equals(Cards.secretChamber)
+			|| c.equals(Cards.horseTraders)
+			|| c.equals(Cards.beggar)
+			|| c.equals(Cards.caravanGuard));
+	}
+
+	protected boolean containsCardCostingAtLeast(MoveContext context, Iterable<Card> toSearch, Card[] toLookFor, int cost) {
     	for(Card c : toSearch) {
 	    	for(Card checkCard : toLookFor) {
 	            if(checkCard.equals(c) && (c.getCost(context) >= cost)) {

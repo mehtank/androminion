@@ -1800,20 +1800,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
         ArrayList<Card> reactionCards = new ArrayList<Card>();
-        for (Card c : getReactionCards(defended)) {
-            if (!c.equals(Cards.marketSquare) && !c.equals(Cards.watchTower)) {
-                reactionCards.add(c);
-            }
+        for (Card c : getAttackReactionCards(defended)) {
+        	reactionCards.add(c);
         }
         if (reactionCards.size() > 0) {
             ArrayList<Card> cards = new ArrayList<Card>();
             for (Card c : reactionCards) {
+            	Card a = c;
+            	if (c.equals(Cards.estate)) {
+            		a = getInheritance();
+            	}
                 if (lastCard == null
                         || !Game.suppressRedundantReactions
-                        || c.getName() != lastCard.getName()
-                        || c.equals(Cards.horseTraders)
-                        || c.equals(Cards.beggar)
-                        || c.equals(Cards.caravanGuard)
+                        || a.getName() != lastCard.getName()
+                        || a.equals(Cards.horseTraders)
+                        || a.equals(Cards.beggar)
+                        || a.equals(Cards.caravanGuard)
                         ) {
                     cards.add(c);
                 }
