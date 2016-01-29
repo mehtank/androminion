@@ -1438,7 +1438,7 @@ public abstract class Player {
 
     public abstract TreasureCard[] thief_treasuresToGain(MoveContext context, TreasureCard[] treasures);
 
-    public abstract boolean chancellor_shouldDiscardDeck(MoveContext context, Card responsible);
+    public abstract boolean chancellor_shouldDiscardDeck(MoveContext context);
 
     public abstract TreasureCard mine_treasureFromHandToUpgrade(MoveContext context);
 
@@ -1496,9 +1496,9 @@ public abstract class Player {
 
     public abstract Card wishingWell_cardGuess(MoveContext context, ArrayList<Card> cardList);
 
-    public abstract Card upgrade_cardToTrash(MoveContext context, Card responsible, boolean passable);
+    public abstract Card upgrade_cardToTrash(MoveContext context);
 
-    public abstract Card upgrade_cardToObtain(MoveContext context, Card responsible, int exactCost, boolean potion);
+    public abstract Card upgrade_cardToObtain(MoveContext context, int exactCost, boolean potion);
 
     public abstract MinionOption minion_chooseOption(MoveContext context);
 
@@ -1844,7 +1844,7 @@ public abstract class Player {
     public abstract TreasureCard hero_treasureToObtain(MoveContext context);
     public abstract boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange);
     public abstract Card messenger_cardToObtain(MoveContext context);
-    public abstract boolean messenger_shouldDiscardDeck(MoveContext context, Card responsible);
+    public abstract boolean messenger_shouldDiscardDeck(MoveContext context);
     public abstract boolean miser_shouldTakeTreasure(MoveContext context);
     public abstract Card ratcatcher_cardToTrash(MoveContext context);
     public abstract boolean raze_shouldTrashRazePlayed(MoveContext context);

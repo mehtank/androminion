@@ -614,7 +614,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public boolean chancellor_shouldDiscardDeck(MoveContext context, Card responsible) {
+    public boolean chancellor_shouldDiscardDeck(MoveContext context) {
         return true;
     }
 
@@ -971,12 +971,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card upgrade_cardToTrash(MoveContext context, Card responsible, boolean passable) {
+    public Card upgrade_cardToTrash(MoveContext context) {
         if (context.getPlayer().getHand().size() == 0) {
             return null;
         }
         
-        if (context.getPlayer().getHand().size() == 1 && !passable) {
+        if (context.getPlayer().getHand().size() == 1) {
             return context.getPlayer().getHand().get(0);
         }
 
@@ -996,15 +996,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
         
-        if (card == null && !passable) {
+        if (card == null) {
             card = lowestCard(context, context.getPlayer().getHand(), false);
         }
 
         return card;
     }
-
+    
     @Override
-    public Card upgrade_cardToObtain(MoveContext context, Card responsible, int exactCost, boolean potion) {
+    public Card upgrade_cardToObtain(MoveContext context, int exactCost, boolean potion) {
         return bestCardInPlay(context, exactCost, true, potion, true);
     }
 
@@ -2636,12 +2636,32 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	
 	@Override
     public Card governor_cardToTrash(MoveContext context) {
-        return controlPlayer.upgrade_cardToTrash(context, Cards.governor, true);
+		if (context.getPlayer().getHand().size() == 0) {
+            return null;
+        }
+
+        Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+        if (card != null) {
+            return card;
+        }
+        for (Card c : context.getPlayer().getHand()) {
+            if(c instanceof VictoryCard) {
+                continue;
+            }
+            
+            for(Card avail : context.getCardsInGame()) {
+                if(Cards.isSupplyCard(avail) && avail.getCost(context) == c.getCost(context) + 1 && context.getCardsLeftInPile(avail) > 0 && !avail.costPotion()) {
+                    return c;
+                }
+            }
+        }
+
+        return card;
     }
 
     @Override
     public Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-        return controlPlayer.upgrade_cardToObtain(context, Cards.governor, exactCost, potion);
+    	return bestCardInPlay(context, exactCost, true, potion, true);
     }
     
     @Override
@@ -3409,7 +3429,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	return bestCardInPlay(context, 4, true);
     }
     
-    public boolean messenger_shouldDiscardDeck(MoveContext context, Card responsible) {
+    public boolean messenger_shouldDiscardDeck(MoveContext context) {
     	return true;
     }
 

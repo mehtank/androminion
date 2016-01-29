@@ -84,7 +84,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_chancellor_shouldDiscardDeck(MoveContext context, Card responsible) {
+    public boolean shouldAutoPlay_chancellor_shouldDiscardDeck(MoveContext context) {
         return true;
     }
 
@@ -220,8 +220,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
 
+    public boolean shouldAutoPlay_scavenger_shouldDiscardDeck(MoveContext context) {
+    	return false;
+    }
     
-    public boolean shouldAutoPlay_upgrade_cardToTrash(MoveContext context, boolean passable) {
+    public boolean shouldAutoPlay_upgrade_cardToTrash(MoveContext context) {
         return false;
     }
 
@@ -776,6 +779,14 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
     
+    public boolean shouldAutoPlay_governor_cardToTrash(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_governor_cardToObtain(MoveContext context, int exactCost, boolean potion) {
+    	return false;
+    }
+    
     public boolean shouldAutoPlay_envoy_opponentCardToDiscard(MoveContext context) {
         return false;
     }
@@ -849,7 +860,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
-    public boolean shouldAutoPlay_messenger_shouldDiscardDeck(MoveContext context, Card responsible) {
+    public boolean shouldAutoPlay_messenger_shouldDiscardDeck(MoveContext context) {
     	return true;
     }
     

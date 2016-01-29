@@ -893,7 +893,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void cutpurse(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -982,7 +982,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void navigator(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 5; i++) {
-            Card card = game.draw(context, controlCard, 5 - i);
+            Card card = game.draw(context, Cards.navigator, 5 - i);
             if (card != null) {
                 topOfTheDeck.add(card);
             }
@@ -1035,7 +1035,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void lookout(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i < 3; i++) {
-            Card card = game.draw(context, controlCard, 3 - i);
+            Card card = game.draw(context, Cards.lookout, 3 - i);
             if (card != null) {
                 cards.add(card);
             }
@@ -1088,7 +1088,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void pearlDiver(MoveContext context, Player currentPlayer) {
         if (currentPlayer.getDeckSize() == 0 && currentPlayer.discard.size() > 0) {
-            context.game.replenishDeck(context, controlCard, 0);
+            context.game.replenishDeck(context, Cards.pearlDiver, 0);
         }
 
         if (currentPlayer.getDeckSize() > 1) {
@@ -1241,7 +1241,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 currentPlayer.hand.add(currentPlayer.nativeVillage.remove(0));
             }
         } else {
-            Card draw = game.draw(context, controlCard, 1);
+            Card draw = game.draw(context, Cards.nativeVillage, 1);
             if (draw != null) {
                 currentPlayer.nativeVillage.add(draw);
                 Util.sensitiveDebug(currentPlayer, "Added to Native Village:" + draw.getName(), true);
@@ -1251,12 +1251,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void seaHag(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
 
-                Card draw = game.draw(playerContext, controlCard, 1);
+                Card draw = game.draw(playerContext, Cards.seaHag, 1);
                 if (draw != null) {
                     player.discard(draw, this.controlCard, playerContext);
                 }
@@ -1269,7 +1269,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void councilRoom(Game game, MoveContext context) {
         for (Player player : getAllPlayers()) {
             if (player != context.getPlayer()) {
-                game.drawToHand(new MoveContext(game, player), this.controlCard, 1);
+                game.drawToHand(new MoveContext(game, player), this, 1);
             }
         }
     }
@@ -1330,7 +1330,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             int cardsToDraw = (cardToTrash.getCost(context) + (cardToTrash.costPotion() ? 2 : 0));
             for (int i = 1; i <= cardsToDraw; i++) {
-                game.drawToHand(context, this.controlCard, cardsToDraw - i);
+                game.drawToHand(context, this, cardsToDraw - i);
             }
         }
     }
@@ -1359,7 +1359,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void apothecary(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> residue = new ArrayList<Card>();
         for (int i = 1; i <= 4; i++) {
-            Card card = game.draw(context, controlCard, 4 - i);
+            Card card = game.draw(context, Cards.apothecary, 4 - i);
             if (card != null) {
                 currentPlayer.reveal(card, this.controlCard, context);
                 if (card.equals(Cards.copper) || card.equals(Cards.potion)) {
@@ -1384,7 +1384,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void witchFamiliar(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext targetContext = new MoveContext(game, player);
                 targetContext.attackedPlayer = player;
@@ -1413,7 +1413,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void torturer(Game game, MoveContext context, Player currentPlayer) {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 targetPlayer.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, targetPlayer);
                 playerContext.attackedPlayer = targetPlayer;
@@ -1475,7 +1475,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void scout(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i < 4; i++) {
-            Card card = game.draw(context, controlCard, 4 - i);
+            Card card = game.draw(context, Cards.scout, 4 - i);
             if (card == null) {
                 break;
             }
@@ -1581,7 +1581,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         /* Even if revealed Shelters, opponents may react */
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
 
                 if (returnCount > -1) {
@@ -1595,7 +1595,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void ghostShip(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -1683,7 +1683,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void city(Game game, MoveContext context, Player currentPlayer) {
         if (game.emptyPiles() > 0) {
-            game.drawToHand(context, this.controlCard, 1);
+            game.drawToHand(context, this, 1);
         }
         if (game.emptyPiles() > 1) {
             context.buys++;
@@ -1877,7 +1877,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void mountebank(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -1903,7 +1903,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void rabble(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -1911,7 +1911,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 List<Card> cardToDiscard = new ArrayList<Card>();
 
                 for (int i = 0; i < 3; i++) {
-                    Card card = game.draw(playerContext, controlCard, 3 - i);
+                    Card card = game.draw(playerContext, Cards.rabble, 3 - i);
                     if (card != null) {
                         player.reveal(card, this.controlCard, playerContext);
 
@@ -2029,7 +2029,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     }
 
                     if (numberOfCardsDiscarded == 2) {
-                        game.drawToHand(playerContext, this.controlCard, 1);
+                        game.drawToHand(playerContext, this, 1);
                     }
                 }
             }
@@ -2039,7 +2039,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void watchTower(Game game, MoveContext context, Player currentPlayer) {
     	int cardsToDraw = 6 - currentPlayer.hand.size();
     	for (int i = 0; i < cardsToDraw; ++i) {
-    		if(!game.drawToHand(context, this.controlCard, cardsToDraw - i))
+    		if(!game.drawToHand(context, this, cardsToDraw - i))
                 break;
     	}
     }
@@ -2049,7 +2049,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
-        while ((draw = game.draw(context, controlCard, -1)) != null && !(draw.isAction(currentPlayer)) && !(draw instanceof TreasureCard)) {
+        while ((draw = game.draw(context, Cards.farmingVillage, -1)) != null && !(draw.isAction(currentPlayer)) && !(draw instanceof TreasureCard)) {
             toDiscard.add(draw);
         }
 
@@ -2067,14 +2067,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void fortuneTeller(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
                 ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
 
                 Card draw = null;
-                while ((draw = game.draw(playerContext, controlCard, -1)) != null && !(draw instanceof VictoryCard) && !(draw instanceof CurseCard)) {
+                while ((draw = game.draw(playerContext, Cards.fortuneTeller, -1)) != null && !(draw instanceof VictoryCard) && !(draw instanceof CurseCard)) {
                     player.reveal(draw, this.controlCard, playerContext);
                     cardsToDiscard.add(draw);
                 }
@@ -2111,7 +2111,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         HashSet<String> cardNames = new HashSet<String>();
         List<Card> cardToDiscard = new ArrayList<Card>();
         for (int i = 0; i < 4; i++) {
-            Card draw = game.draw(context, controlCard, 4 - i);
+            Card draw = game.draw(context, Cards.harvest, 4 - i);
             if (draw == null) {
                 break;
             }
@@ -2158,12 +2158,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void jester(Game game, MoveContext context, Player currentPlayer) {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 targetPlayer.attacked(this.controlCard, context);
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
 
-                Card draw = game.draw(targetContext, controlCard, 1);
+                Card draw = game.draw(targetContext, Cards.jester, 1);
                 Card virtCard = draw;
 
                 if (draw == null) 
@@ -2213,7 +2213,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
         Card draw = null;
-        while ((draw = game.draw(context, controlCard, -1)) != null && cardNames.contains(draw.getName())) {
+        while ((draw = game.draw(context, Cards.huntingParty, -1)) != null && cardNames.contains(draw.getName())) {
             currentPlayer.reveal(draw, this.controlCard, context);
             toDiscard.add(draw);
         }
@@ -2238,7 +2238,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         for(int i=0; i < victoryCards; i++) {
-            game.drawToHand(context, this.controlCard, victoryCards - i);
+            game.drawToHand(context, this, victoryCards - i);
         }
 
         int crossroadsPlayed = this.controlCard.numberTimesAlreadyPlayed;
@@ -2261,7 +2261,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     context.actions += 2;
                 } else if (option == TrustySteedOption.AddCards) {
                     for (int i = 0; i < 2; i++) {
-                        game.drawToHand(context, this.controlCard, 2 - i);
+                        game.drawToHand(context, this, 2 - i);
                     }
                 } else if (option == TrustySteedOption.AddGold) {
                     context.addCoins(2);
@@ -2285,7 +2285,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void duchess(Game game, MoveContext context) {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
         	MoveContext targetPlayerContext = new MoveContext(context, game, targetPlayer);
-            Card c = game.draw(targetPlayerContext, controlCard, 1);
+            Card c = game.draw(targetPlayerContext, Cards.duchess, 1);
             if(c != null) {
                 boolean discard = (targetPlayer).controlPlayer.duchess_shouldDiscardCardFromTopOfDeck(targetPlayerContext, c);
                 if(discard) {
@@ -2318,8 +2318,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                     SpiceMerchantOption option = currentPlayer.controlPlayer.spiceMerchant_chooseOption(context);
                     if(option == SpiceMerchantOption.AddCardsAndAction) {
-                        game.drawToHand(context, this.controlCard, 2);
-                        game.drawToHand(context, this.controlCard, 1);
+                        game.drawToHand(context, this, 2);
+                        game.drawToHand(context, this, 1);
                         context.actions += 1;
                     }
                     else {
@@ -2353,7 +2353,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void cartographer(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 4; i++) {
-            Card card = game.draw(context, controlCard, 4 - i);
+            Card card = game.draw(context, Cards.cartographer, 4 - i);
             if (card != null) {
                 topOfTheDeck.add(card);
             }
@@ -2532,8 +2532,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (option == Player.StewardOption.AddGold) {
                 context.addCoins(2);
             } else if (option == Player.StewardOption.AddCards) {
-                game.drawToHand(context, this.controlCard, 2);
-                game.drawToHand(context, this.controlCard, 1);
+                game.drawToHand(context, this, 2);
+                game.drawToHand(context, this, 1);
             } else if (option == Player.StewardOption.TrashCards) {
                 CardList hand = currentPlayer.getHand();
                 if (hand.size() == 0) {
@@ -2583,7 +2583,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<TreasureCard> trashed = new ArrayList<TreasureCard>();
 
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 targetPlayer.attacked(this.controlCard, context);
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
@@ -2591,7 +2591,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 List<Card> cardsToDiscard = new ArrayList<Card>();
                 for (int i = 0; i < 2; i++) {
-                    Card card = game.draw(targetContext, controlCard, 2 - i);
+                    Card card = game.draw(targetContext, Cards.thief, 2 - i);
 
                     if (card != null) {
                         targetPlayer.reveal(card, this.controlCard, targetContext);
@@ -2648,7 +2648,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void militia(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -2753,7 +2753,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         int numCards = distinct ? 3 : 1;
         for (int i = 0; i < numCards; i++) {
-            game.drawToHand(context, this.controlCard, numCards - i);
+            game.drawToHand(context, this, numCards - i);
         }
     }
 
@@ -2925,7 +2925,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void minion(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Player> playersToAttack = new ArrayList<Player>();
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player == currentPlayer || !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player == currentPlayer || !Util.isDefendedFromAttack(game, player, this)) {
                 playersToAttack.add(player);
                 if (player != currentPlayer) {
                     player.attacked(this.controlCard, context);
@@ -2951,10 +2951,10 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                         player.discard(player.hand.remove(0), this.controlCard, targetContext);
                     }
 
-                    game.drawToHand(targetContext, this.controlCard, 4);
-                    game.drawToHand(targetContext, this.controlCard, 3);
-                    game.drawToHand(targetContext, this.controlCard, 2);
-                    game.drawToHand(targetContext, this.controlCard, 1);
+                    game.drawToHand(targetContext, this, 4);
+                    game.drawToHand(targetContext, this, 3);
+                    game.drawToHand(targetContext, this, 2);
+                    game.drawToHand(targetContext, this, 1);
                 }
             }
         }
@@ -2971,7 +2971,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 } else if (option == Player.PawnOption.AddBuy) {
                     context.buys++;
                 } else if (option == Player.PawnOption.AddCard) {
-                    game.drawToHand(context, this.controlCard, 1);
+                    game.drawToHand(context, this, 1);
                 } else if (option == Player.PawnOption.AddGold) {
                     context.addCoins(1);
                 }
@@ -2981,7 +2981,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void saboteur(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -2990,7 +2990,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 ArrayList<Card> toDiscard = new ArrayList<Card>();
                 Card draw;
 
-                while ((draw = game.draw(playerContext, controlCard, -1)) != null) {
+                while ((draw = game.draw(playerContext, Cards.saboteur, -1)) != null) {
                     if (draw.getCost(context) >= 3) {
                         int value = draw.getCost(context);
                         value -= 2;
@@ -3039,8 +3039,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         if (!actions) {
-            game.drawToHand(context, this.controlCard, 2);
-            game.drawToHand(context, this.controlCard, 1);
+            game.drawToHand(context, this, 2);
+            game.drawToHand(context, this, 1);
         }
     }
 
@@ -3082,14 +3082,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             // Note that this.controlCard is the opposite check of other attacks, the spy/scrying pool lets
             // the current player look at their own deck which is a good thing, so always
             // allow that
-            if (player == currentPlayer || (!Util.isDefendedFromAttack(game, player, this.controlCard))) {
+            if (player == currentPlayer || (!Util.isDefendedFromAttack(game, player, this))) {
                 if (player != currentPlayer) {
                     player.attacked(this.controlCard, context);
                 }
 
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
-                Card card = game.draw(playerContext, controlCard, 1);
+                Card card = game.draw(playerContext, this, 1);
 
                 if (card != null) {
                     player.reveal(card, this.controlCard, playerContext);
@@ -3116,7 +3116,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             ArrayList<Card> cardsToPutInHand = new ArrayList<Card>();
 
             Card draw = null;
-            while ((draw = game.draw(context, controlCard, -1)) != null) {
+            while ((draw = game.draw(context, Cards.scryingPool, -1)) != null) {
                 currentPlayer.reveal(draw, this.controlCard, new MoveContext(context, game, currentPlayer));
                 cardsToPutInHand.add(draw);
                 if(!(draw.isAction(currentPlayer))) {
@@ -3133,7 +3133,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void conspirator(Game game, MoveContext context, Player currentPlayer) {
         if (context.actionsPlayedSoFar >= 3) {
             context.actions++;
-            game.drawToHand(context, this.controlCard, 1);
+            game.drawToHand(context, this, 1);
         }
     }
 
@@ -3149,7 +3149,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (!options.isEmpty()) {
                 Card card = currentPlayer.controlPlayer.wishingWell_cardGuess(context, options);
                 currentPlayer.controlPlayer.namedCard(card, this.controlCard, context);
-                Card draw = game.draw(context, controlCard, 1);
+                Card draw = game.draw(context, Cards.wishingWell, 1);
                 if (draw != null) {
                     currentPlayer.reveal(draw, this.controlCard, context);
 
@@ -3165,7 +3165,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void upgrade(MoveContext context, Player currentPlayer) {
         if (currentPlayer.getHand().size() > 0) {
-            Card card = currentPlayer.controlPlayer.upgrade_cardToTrash(context, Cards.upgrade, false);
+            Card card = currentPlayer.controlPlayer.upgrade_cardToTrash(context);
             if (card == null || !currentPlayer.hand.contains(card)) {
                 Util.playerError(currentPlayer, "Upgrade trash error, upgrading a random card.");
                 card = Util.randomCard(currentPlayer.hand);
@@ -3176,7 +3176,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             currentPlayer.hand.remove(card);
             currentPlayer.trash(card, this.controlCard, context);
 
-            card = currentPlayer.controlPlayer.upgrade_cardToObtain(context, Cards.upgrade, value, potion);
+            card = currentPlayer.controlPlayer.upgrade_cardToObtain(context, value, potion);
             if (card != null) {
                 if (card.getCost(context) != value || card.costPotion() != potion) {
                     Util.playerError(currentPlayer, "Upgrade error, new card does not cost value of the old card +1.");
@@ -3200,7 +3200,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     context.addCoins(1);
                 }
                 if (card instanceof VictoryCard) {
-                    game.drawToHand(context, this.controlCard, 1);
+                    game.drawToHand(context, this, 1);
                 }
             }
         }
@@ -3214,9 +3214,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (option == Player.NoblesOption.AddActions) {
                 context.actions += 2;
             } else if (option == Player.NoblesOption.AddCards) {
-                game.drawToHand(context, this.controlCard, 3);
-                game.drawToHand(context, this.controlCard, 2);
-                game.drawToHand(context, this.controlCard, 1);
+                game.drawToHand(context, this, 3);
+                game.drawToHand(context, this, 2);
+                game.drawToHand(context, this, 1);
             }
         }
     }
@@ -3225,8 +3225,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Card[] revealedCards = new Card[2];
         Player nextPlayer = game.getNextPlayer();
         MoveContext targetContext = new MoveContext(game, nextPlayer);
-        revealedCards[0] = game.draw(targetContext, controlCard, 2);
-        revealedCards[1] = game.draw(targetContext, controlCard, 1);
+        revealedCards[0] = game.draw(targetContext, Cards.tribute, 2);
+        revealedCards[1] = game.draw(targetContext, Cards.tribute, 1);
 
         if (revealedCards[0] != null) {
             nextPlayer.reveal(revealedCards[0], this.controlCard, targetContext);
@@ -3252,8 +3252,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     context.addCoins(2);
                 }
                 if (card instanceof VictoryCard) {
-                    game.drawToHand(context, this.controlCard, 2);
-                    game.drawToHand(context, this.controlCard, 1);
+                    game.drawToHand(context, this, 2);
+                    game.drawToHand(context, this, 1);
                 }
             }
         }
@@ -3265,12 +3265,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void swindler(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
 
-                Card draw = game.draw(playerContext, controlCard, 1);
+                Card draw = game.draw(playerContext, Cards.swindler, 1);
                 if (draw != null) {
                     player.trash(draw, this.controlCard, playerContext);
 
@@ -3312,7 +3312,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void goons(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -3363,7 +3363,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != currentPlayer && !isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != currentPlayer && !isDefendedFromAttack(game, targetPlayer, this)) {
                 if (targetPlayer.hand.contains(game.baneCard) && game.pileSize(Cards.curse) > 0 && targetPlayer.revealBane(context)) {
                     targetPlayer.reveal(game.baneCard, this.controlCard, new MoveContext(game, targetPlayer));
                 } else {
@@ -3380,7 +3380,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         currentPlayer.gainNewCard(Cards.estate, this.controlCard, context);
 
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -3414,7 +3414,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 context.actions++;
 
                 for (int i = 0; i < 3; i++) {
-                    if(!game.drawToHand(context, this.controlCard, 3 - i)) {
+                    if(!game.drawToHand(context, this, 3 - i)) {
                         break;
                     }
                 }
@@ -3424,7 +3424,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void margrave(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -3441,13 +3441,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void oracle(Game game, MoveContext context, Player currentPlayer) {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer == currentPlayer || !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer == currentPlayer || !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 targetPlayer.attacked(this.controlCard, context);
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
                 ArrayList<Card> cards = new ArrayList<Card>();
                 for(int i=0; i < 2; i++) {
-                    Card c = game.draw(targetContext, controlCard, 2 - i);
+                    Card c = game.draw(targetContext, Cards.oracle, 2 - i);
                     if(c == null) {
                         break;
                     }
@@ -3496,7 +3496,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         for(int i=0; i < 2; i++) {
-            game.drawToHand(context, this.controlCard, 2 - i);
+            game.drawToHand(context, this, 2 - i);
         }
     }
 
@@ -3517,7 +3517,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void jackOfAllTrades(Game game, MoveContext context, Player currentPlayer) {
         currentPlayer.gainNewCard(Cards.silver, this.controlCard, context);
 
-        Card c = game.draw(context, controlCard, 1);
+        Card c = game.draw(context, Cards.jackOfAllTrades, 1);
         if(c != null) {
             boolean discard = currentPlayer.controlPlayer.jackOfAllTrades_shouldDiscardCardFromTopOfDeck(context, c);
             if(discard) {
@@ -3529,7 +3529,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         
         int cardsToDraw = 5 - currentPlayer.hand.size();
         for (int i = 0; i < cardsToDraw; ++i) {
-        	if(!game.drawToHand(context, this.controlCard, cardsToDraw - i)) {
+        	if(!game.drawToHand(context, this, cardsToDraw - i)) {
                 break;
             }
         }
@@ -3678,7 +3678,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
 
             for (int i = 0; i < numberOfCards; ++i) {
-            	game.drawToHand(context, this.controlCard, numberOfCards - i);
+            	game.drawToHand(context, this, numberOfCards - i);
             }
         }
     }
@@ -3706,7 +3706,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         currentPlayer.gainNewCard(Cards.silver, this, context);
 
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -3754,7 +3754,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> toOrder = new ArrayList<Card>();
 
         while (toOrder.size() < 2) {
-            Card draw = game.draw(context, controlCard, -1);
+            Card draw = game.draw(context, Cards.golem, -1);
             if (draw == null) {
                 break;
             }
@@ -3815,7 +3815,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         int treasureCardsRevealed = 0;
 
         while (treasureCardsRevealed < 2) {
-            Card draw = game.draw(context, controlCard, -1);
+            Card draw = game.draw(context, Cards.adventurer, -1);
             if (draw == null) {
                 break;
             }
@@ -3840,7 +3840,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         //  we need to manually remove the minus one card token
         currentPlayer.setMinusOneCardToken(false, context);
         while (currentPlayer.hand.size() < 7) {
-        	Card draw = game.draw(context, controlCard, -1);
+        	Card draw = game.draw(context, Cards.library, -1);
             if (draw == null) {
                 break;
             }
@@ -3905,7 +3905,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void pirateShip(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Player> playersToAttack = new ArrayList<Player>();
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 playersToAttack.add(targetPlayer);
                 targetPlayer.attacked(this.controlCard, context);
             }
@@ -3922,7 +3922,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 List<Card> cardToDiscard = new ArrayList<Card>();
 
                 for (int i = 0; i < 2; i++) {
-                    Card card = game.draw(targetContext, controlCard, 2 - i);
+                    Card card = game.draw(targetContext, Cards.pirateShip, 2 - i);
 
                     if (card != null) {
                         targetPlayer.reveal(card, this.controlCard, targetContext);
@@ -4013,12 +4013,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void chancellor(Game game, MoveContext context, Player currentPlayer) {
     	if (currentPlayer.getDeckSize() == 0)
     		return;
-        boolean discard = currentPlayer.controlPlayer.chancellor_shouldDiscardDeck(context, this.controlCard);
+        boolean discard = currentPlayer.controlPlayer.chancellor_shouldDiscardDeck(context);
         if (discard) {
             GameEvent event = new GameEvent(GameEvent.Type.DeckPutIntoDiscardPile, (MoveContext) context);
             game.broadcastEvent(event);
             while (currentPlayer.getDeckSize() > 0) {
-                currentPlayer.discard(game.draw(context, controlCard, 0), this.controlCard, null, false, false);
+                currentPlayer.discard(game.draw(context, Cards.chancellor, 0), this.controlCard, null, false, false);
             }
         }
     }
@@ -4142,7 +4142,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     protected Card draw(MoveContext context, int cardsLeftToDraw) {
-        return context.game.draw(context, controlCard, cardsLeftToDraw);
+        return context.game.draw(context, this, cardsLeftToDraw);
     }
 
     protected Player[] getAllPlayers() {
@@ -4225,7 +4225,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         int i = 0;
         for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
             // Hinterlands card details in the rules states that noble brigand is not defensible when triggered from a buy
-            if (targetPlayer != player && (!defensible || !Util.isDefendedFromAttack(context.game, targetPlayer, this.controlCard))) {
+            if (targetPlayer != player && (!defensible || !Util.isDefendedFromAttack(context.game, targetPlayer, this))) {
                 targetPlayer.attacked(this.controlCard, moveContext);
                 MoveContext targetContext = new MoveContext(context.game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
@@ -4234,7 +4234,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 List<Card> cardsToDiscard = new ArrayList<Card>();
                 for (int j = 0; j < 2; j++) {
-                    Card card = context.game.draw(targetContext, controlCard, 2 - j);
+                    Card card = context.game.draw(targetContext, Cards.nobleBrigand, 2 - j);
                     if(card == null) {
                         break;
                     }
@@ -4327,7 +4327,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
         Card draw = null;
-        while ((draw = game.draw(context, controlCard, -1)) != null && draw.getCost(context) < 3) {
+        while ((draw = game.draw(context, Cards.sage, -1)) != null && draw.getCost(context) < 3) {
             currentPlayer.reveal(draw, this.controlCard, context);
             toDiscard.add(draw);
         }
@@ -4436,7 +4436,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     public void catacombs(Game game, Player currentPlayer, MoveContext context) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 3; i++) {
-            Card card = game.draw(context, controlCard, 3 - i);
+            Card card = game.draw(context, Cards.catacombs, 3 - i);
             if (card != null) {
                 topOfTheDeck.add(card);
             }
@@ -4447,9 +4447,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 while (!topOfTheDeck.isEmpty()) {
                     currentPlayer.discard(topOfTheDeck.remove(0), this.controlCard, context);
                 }
-                game.drawToHand(context, this.controlCard, 3);
-                game.drawToHand(context, this.controlCard, 2);
-                game.drawToHand(context, this.controlCard, 1);
+                game.drawToHand(context, this, 3);
+                game.drawToHand(context, this, 2);
+                game.drawToHand(context, this, 1);
             } else {
                 // Put the cards in hand
                 for (Card c : topOfTheDeck) {
@@ -4631,7 +4631,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     }
 
     private void ironmonger(Game game, Player currentPlayer, MoveContext context) {
-        Card card = game.draw(context, controlCard, 1);
+        Card card = game.draw(context, Cards.ironmonger, 1);
         
         if (card != null) {
             currentPlayer.reveal(card, this.controlCard, context);
@@ -4648,7 +4648,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 context.addCoins(1);
             }
             if (card instanceof VictoryCard) {
-                game.drawToHand(context, this.controlCard, 1);
+                game.drawToHand(context, this, 1);
             }
         }
     }
@@ -4677,7 +4677,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (options.size() > 0) {
                 Card toName = currentPlayer.controlPlayer.mystic_cardGuess(context, options);
                 currentPlayer.controlPlayer.namedCard(toName, this.controlCard, context);
-                Card draw = game.draw(context, controlCard, 1);
+                Card draw = game.draw(context, Cards.mystic, 1);
 
                 if (draw != null) {
                     currentPlayer.reveal(draw, this.controlCard, context);
@@ -4703,7 +4703,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             game.broadcastEvent(event);
             while (currentPlayer.getDeckSize() > 0)
             {
-                currentPlayer.discard(game.draw(context, controlCard, 0), this.controlCard, null, false, false);
+                currentPlayer.discard(game.draw(context, Cards.scavenger, 0), this.controlCard, null, false, false);
             }
         }
 
@@ -4743,7 +4743,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
 
             for (int i = 0; i < numberOfCards; ++i) {
-            	game.drawToHand(context, this.controlCard, numberOfCards - i);
+            	game.drawToHand(context, this, numberOfCards - i);
             }
         }
 
@@ -4775,7 +4775,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void wanderingMinstrel(Player currentPlayer, MoveContext context) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i < 3; i++) {
-            Card card = context.game.draw(context, controlCard, 3 - i);
+            Card card = context.game.draw(context, Cards.wanderingMinstrel, 3 - i);
             if (card == null) {
                 break;
             }
@@ -4814,7 +4814,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         Card last = null;
 
         // search for first Victory card that was not named
-        while ((last = context.game.draw(context, controlCard, -1)) != null) {
+        while ((last = context.game.draw(context, Cards.rebuild, -1)) != null) {
             if (last instanceof VictoryCard && !last.equals(named)) break;
             cards.add(last);
             currentPlayer.reveal(last, this.controlCard, context);
@@ -4856,7 +4856,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             currentPlayer.gainCardAlreadyInPlay(toGain, this.controlCard, context);
         } else { // Other players trash a card
             for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-                if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+                if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                     targetPlayer.attacked(this.controlCard, context);
                     MoveContext targetContext = new MoveContext(game, targetPlayer);
                     targetContext.attackedPlayer = targetPlayer;
@@ -4864,7 +4864,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                     List<Card> cardsToDiscard = new ArrayList<Card>();
                     for (int i = 0; i < 2; i++) {
-                        Card card = game.draw(targetContext, controlCard, 2 - i);
+                        Card card = game.draw(targetContext, Cards.rogue, 2 - i);
 
                         if (card != null) {
                             targetPlayer.reveal(card, this.controlCard, targetContext);
@@ -4916,7 +4916,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (Player targetPlayer : game.getPlayersInTurnOrder())
         {
             if (targetPlayer != currentPlayer &&
-                !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard) &&
+                !Util.isDefendedFromAttack(game, targetPlayer, this) &&
                 targetPlayer.getHand().size() >= 5)
             {
                 targetPlayer.attacked(this.controlCard, context);
@@ -4952,12 +4952,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             Util.playerError(currentPlayer, "Governor option error, ignoring.");
         } else {
             if (option == Player.GovernorOption.AddCards) {
-                game.drawToHand(context, this.controlCard, 3);
-                game.drawToHand(context, this.controlCard, 2);
-                game.drawToHand(context, this.controlCard, 1);
+                game.drawToHand(context, this, 3);
+                game.drawToHand(context, this, 2);
+                game.drawToHand(context, this, 1);
                 for (Player player : getAllPlayers()) {
                     if (player != context.getPlayer()) {
-                        game.drawToHand(new MoveContext(game, player), this.controlCard, 1);
+                        game.drawToHand(new MoveContext(game, player), this, 1);
                     }
                 }
             } else if (option == Player.GovernorOption.GainTreasure) {
@@ -5025,7 +5025,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> cards = new ArrayList<Card>();
         Player nextPlayer = game.getNextPlayer();
         for (int i = 0; i < 5; i++) {
-            Card card = game.draw(context, controlCard, 5 - i);
+            Card card = game.draw(context, Cards.envoy, 5 - i);
             if (card != null) {
                 cards.add(card);
                 currentPlayer.reveal(card, this.controlCard, context);
@@ -5064,7 +5064,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     public void isTrashed(MoveContext context) {
         switch (this.controlCard.behaveAsCard().getType()) {
             case Rats:
-                context.game.drawToHand(context, this.controlCard, 1, true);
+                context.game.drawToHand(context, this, 1, true);
                 break;
             case Squire:
                 // Need to ensure that there is at least one Attack card that can be gained,
@@ -5138,9 +5138,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 context.player.hand.add(this.controlCard);
                 break;
             case Cultist:
-                context.game.drawToHand(context, this.controlCard, 3, false);
-                context.game.drawToHand(context, this.controlCard, 2, false);
-                context.game.drawToHand(context, this.controlCard, 1, false);
+                context.game.drawToHand(context, this, 3, false);
+                context.game.drawToHand(context, this, 2, false);
+                context.game.drawToHand(context, this, 1, false);
                 break;
             case SirVander:
                 context.player.controlPlayer.gainNewCard(Cards.gold, this.controlCard, context);
@@ -5170,7 +5170,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void survivors(MoveContext context, Game game, Player currentPlayer) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 2; i++) {
-            Card card = game.draw(context, controlCard, 2 - i);
+            Card card = game.draw(context, Cards.survivors, 2 - i);
             if (card != null) {
                 topOfTheDeck.add(card);
             }
@@ -5222,7 +5222,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void cultist(MoveContext context, Game game, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !isDefendedFromAttack(game, player, this.controlCard)) {
+            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -5244,7 +5244,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void urchin(MoveContext context, Game game, Player currentPlayer)   {       
         for (Player player : context.game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -5287,13 +5287,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         if (cardsTrashedCount == 2)
         {
-            game.drawToHand(context, this.controlCard, 2);
-            game.drawToHand(context, this.controlCard, 1);
+            game.drawToHand(context, this, 2);
+            game.drawToHand(context, this, 1);
 
             context.addCoins(2);
 
             for (Player player : game.getPlayersInTurnOrder()) {
-                if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) {
+                if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                     player.attacked(this.controlCard, context);
                     MoveContext playerContext = new MoveContext(game, player);
                     playerContext.attackedPlayer = player;
@@ -5314,7 +5314,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         for (Player player : game.getPlayersInTurnOrder()) 
         {
-            if (player != currentPlayer && !isDefendedFromAttack(game, player, this.controlCard)) 
+            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) 
             {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
@@ -5388,14 +5388,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             int handSize = currentPlayer.hand.size();
 
             for (int i = 0; i < handSize; ++i) {
-                game.drawToHand(context, this.controlCard, handSize - i);
+                game.drawToHand(context, this, handSize - i);
             }
         }
     }
 
     private void vagrant(MoveContext context, Game game, Player currentPlayer)
     {
-        Card c = game.draw(context, controlCard, 1);
+        Card c = game.draw(context, Cards.vagrant, 1);
         if (c != null) {
             currentPlayer.reveal(c, this.controlCard, context);
             if (c.getType() == Cards.Type.Curse || c.isShelter() || (c instanceof VictoryCard) || (c.isRuins(currentPlayer))) {
@@ -5408,7 +5408,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void knight(MoveContext context, Player currentPlayer) {
         for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
-            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(context.game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(context.game, targetPlayer, this)) {
                 targetPlayer.attacked(this.controlCard, context);
                 MoveContext targetContext = new MoveContext(context.game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
@@ -5416,7 +5416,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 List<Card> cardsToDiscard = new ArrayList<Card>();
                 for (int i = 0; i < 2; i++) {
-                    Card card = context.game.draw(targetContext, controlCard, 2 - i);
+                    Card card = context.game.draw(targetContext, this, 2 - i);
 
                     if (card != null) {
                         targetPlayer.reveal(card, this.controlCard, targetContext);
@@ -5490,7 +5490,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void sirMichael(MoveContext context, Game game, Player currentPlayer) {
         for (Player player : context.game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -5580,7 +5580,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         for (Player player : game.getPlayersInTurnOrder()) 
         {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) 
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) 
             {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
@@ -5590,7 +5590,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 if (curseGained.equals(Cards.curse))
                 {
-                    game.drawToHand(playerContext, this.controlCard, 1);
+                    game.drawToHand(playerContext, this, 1);
                 }
             }
         }
@@ -5612,7 +5612,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
                 for (Player player : game.getPlayersInTurnOrder()) 
                 {
-                    if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this.controlCard)) 
+                    if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) 
                     {
                         player.attacked(this.controlCard, context);
                         MoveContext playerContext = new MoveContext(game, player);
@@ -5698,7 +5698,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         for (int i = 0; i < 3; ++i) 
         {
-            Card card = game.draw(context, controlCard, 3 - i);
+            Card card = game.draw(context, Cards.advisor, 3 - i);
 
             if (card != null) 
             {
@@ -5813,7 +5813,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         int diffCardsFound = 0;
 
         // search for the first 3 cards that were not named
-        while (diffCardsFound < 3 && (last = context.game.draw(context, controlCard, -1)) != null) {
+        while (diffCardsFound < 3 && (last = context.game.draw(context, Cards.journeyman, -1)) != null) {
             if (!last.equals(named)) {
                 ++diffCardsFound;
                 cardsToKeep.add(last);
@@ -5919,7 +5919,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         ArrayList<Card> revealedCards = new ArrayList<Card>();
 
         for (int i = 0; i < 3; ++i) {
-            Card card = game.draw(context, controlCard, 3 - i);
+            Card card = game.draw(context, Cards.doctor, 3 - i);
             if (card != null) {
                 currentPlayer.reveal(card, this.controlCard, context);
 
@@ -5972,7 +5972,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void herald(Game game, MoveContext context, Player currentPlayer) 
     {
-        Card draw = game.draw(context, controlCard, 1);
+        Card draw = game.draw(context, Cards.herald, 1);
 
         if (draw != null) 
         {
@@ -6089,7 +6089,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void bridgeTroll(Game game, MoveContext context, Player currentPlayer)
     {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 MoveContext targetContext = new MoveContext(context.game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
                 targetPlayer.attacked(this.controlCard, context);
@@ -6151,7 +6151,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     {    	
         ArrayList<Player> playersToAttack = new ArrayList<Player>();
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 playersToAttack.add(targetPlayer);
             }
         }
@@ -6163,7 +6163,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
 
-                Card card = game.draw(targetContext, controlCard, 1);
+                Card card = game.draw(targetContext, Cards.giant, 1);
                 if (card != null) {
                     targetPlayer.reveal(card, this.controlCard, targetContext);
                     int cardCost = card.getCost(context);
@@ -6209,7 +6209,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     
     private void magpie(Game game, MoveContext context, Player currentPlayer)
     {
-        Card c = game.draw(context, controlCard, 1);
+        Card c = game.draw(context, Cards.magpie, 1);
         if (c != null) {
             currentPlayer.reveal(c, this.controlCard, context);
             if (c instanceof TreasureCard) {
@@ -6226,12 +6226,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void messenger(Game game, MoveContext context, Player currentPlayer) {
     	if (currentPlayer.getDeckSize() == 0)
     		return;
-        boolean discard = currentPlayer.controlPlayer.messenger_shouldDiscardDeck(context, this);
+        boolean discard = currentPlayer.controlPlayer.messenger_shouldDiscardDeck(context);
         if (discard) {
             GameEvent event = new GameEvent(GameEvent.Type.DeckPutIntoDiscardPile, (MoveContext) context);
             game.broadcastEvent(event);
             while (currentPlayer.getDeckSize() > 0) {
-                currentPlayer.discard(game.draw(context, controlCard, 0), this.controlCard, null, false, false);
+                currentPlayer.discard(game.draw(context, Cards.messenger, 0), this.controlCard, null, false, false);
             }
         }
     }
@@ -6258,7 +6258,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void ranger(Game game, MoveContext context, Player currentPlayer) {
         if(currentPlayer.flipJourneyToken(context)) {
-            drawToHand(context, this.controlCard, 5);
+            drawToHand(context, this, 5);
         }
     }
     
@@ -6284,13 +6284,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     	if (trashCost == 0)
     		return;
     	else if (trashCost == 1) {
-    		Card c = game.draw(context, controlCard, 1);
+    		Card c = game.draw(context, Cards.raze, 1);
     		if (c != null)
     			currentPlayer.hand.add(c);
     	} else {
     		ArrayList<Card> lookAtCards = new ArrayList<Card>(trashCost);
     		for (int i = 0; i < trashCost; ++i) {
-    			Card c = game.draw(context, controlCard, trashCost - i);
+    			Card c = game.draw(context, Cards.raze, trashCost - i);
     			if (c == null)
     				break;
     			lookAtCards.add(c);
@@ -6311,7 +6311,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void soldier(Game game, MoveContext context, Player currentPlayer) {       
     	context.addCoins(context.countAttackCardsInPlayThisTurn() - 1); //without this soldier
     	for (Player player : context.game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -6338,14 +6338,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         context.spendCoins(coins);
         
         for (int i = 0; i < coins; i++) {
-        	game.drawToHand(context, this.controlCard, coins - i);
+        	game.drawToHand(context, this, coins - i);
         }
     }
     
     private void swampHagHauntedWoods(Game game, MoveContext context, Player currentPlayer) {
         for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
         	if (targetPlayer != currentPlayer) {
-        		if (!Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+        		if (!Util.isDefendedFromAttack(game, targetPlayer, this)) {
         			targetPlayer.attacked(this.controlCard, context);
         			currentPlayer.addDurationEffectOnOtherPlayer(targetPlayer, this.type);
         		}
@@ -6362,7 +6362,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void warrior(Game game, MoveContext context, Player currentPlayer) {
     	ArrayList<Player> attackedPlayers = new ArrayList<Player>();
     	for (Player player : context.game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this.controlCard)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
             	attackedPlayers.add(player);
             }
     	}
@@ -6372,7 +6372,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     			player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
-                Card draw = game.draw(playerContext, controlCard, numTravellers - i);
+                Card draw = game.draw(playerContext, Cards.warrior, numTravellers - i);
                 if (draw != null) {
                 	int cost = draw.getCost(context);
                 	if (draw.costPotion()) 

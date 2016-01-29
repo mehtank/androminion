@@ -181,7 +181,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         GameEvent event = null;
 
         while (treasureCardFound == null) {
-            Card draw = game.draw(context, controlCard, -1);
+            Card draw = game.draw(context, this, -1);
             if (draw == null) {
                 break;
             }
@@ -319,7 +319,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     protected void relic(MoveContext context, Player player, Game game) {
         ArrayList<Player> playersToAttack = new ArrayList<Player>();
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != player && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != player && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 playersToAttack.add(targetPlayer);
             }
         }

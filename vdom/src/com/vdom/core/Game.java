@@ -2740,7 +2740,7 @@ public class Game {
                                 player.deck.add(c);
                             }
                         }
-                        player.shuffleDeck(context, event.card);
+                        player.shuffleDeck(context, Cards.inn);
                     } else if (gainedCardAbility.equals(Cards.borderVillage)) {
                         boolean validCard = false;
                         int gainedCardCost = event.card.getCost(context);
@@ -2791,7 +2791,7 @@ public class Game {
                     } else if (gainedCardAbility.equals(Cards.lostCity)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
-                                drawToHand(new MoveContext(Game.this, targetPlayer), event.card, 1, true);
+                                drawToHand(new MoveContext(Game.this, targetPlayer), Cards.lostCity, 1, true);
                             }
                         }
                     }

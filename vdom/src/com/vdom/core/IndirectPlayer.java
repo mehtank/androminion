@@ -374,11 +374,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean chancellor_shouldDiscardDeck(MoveContext context, Card responsible) {
-        if(context.isQuickPlay() && shouldAutoPlay_chancellor_shouldDiscardDeck(context, responsible)) {
-            return super.chancellor_shouldDiscardDeck(context, responsible);
+    public boolean chancellor_shouldDiscardDeck(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_chancellor_shouldDiscardDeck(context)) {
+            return super.chancellor_shouldDiscardDeck(context);
         }
-        return selectBoolean(context, responsible);
+        return selectBoolean(context, Cards.chancellor);
     }
 
     @Override
@@ -660,27 +660,23 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card upgrade_cardToTrash(MoveContext context, Card responsible, boolean passable) {
-        if(context.isQuickPlay() && shouldAutoPlay_upgrade_cardToTrash(context, passable)) {
-            return super.upgrade_cardToTrash(context, responsible, passable);
+    public Card upgrade_cardToTrash(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_upgrade_cardToTrash(context)) {
+            return super.upgrade_cardToTrash(context);
         }
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
-                .setActionType(ActionType.TRASH).setCardResponsible(responsible);
-        if(passable) /*For governor where you MAY trash a card*/
-        {
-           sco = sco.setPassable();
-        }
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.upgrade);
         return getCardFromHand(context, sco);
     }
 
     @Override
-    public Card upgrade_cardToObtain(MoveContext context, Card responsible, int exactCost, boolean potion) {
+    public Card upgrade_cardToObtain(MoveContext context, int exactCost, boolean potion) {
         if(context.isQuickPlay() && shouldAutoPlay_upgrade_cardToObtain(context, exactCost, potion)) {
-            return super.upgrade_cardToObtain(context, responsible, exactCost, potion);
+            return super.upgrade_cardToObtain(context, exactCost, potion);
         }
         SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost)
                 .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
-                .setCardResponsible(responsible);
+                .setCardResponsible(Cards.upgrade);
         return getFromTable(context, sco);
     }
 
@@ -2075,7 +2071,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public boolean scavenger_shouldDiscardDeck(MoveContext context) {
-        if(context.isQuickPlay() && shouldAutoPlay_chancellor_shouldDiscardDeck(context, Cards.scavenger)) {
+        if(context.isQuickPlay() && shouldAutoPlay_scavenger_shouldDiscardDeck(context)) {
             return super.scavenger_shouldDiscardDeck(context);
         }
         return selectBoolean(context, Cards.scavenger);
@@ -2219,6 +2215,27 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public GovernorOption governor_chooseOption(MoveContext context) {
         GovernorOption[] options = GovernorOption.values();
         return options[selectOption(context, Cards.governor, options)];
+    }
+    
+    @Override
+    public Card governor_cardToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_governor_cardToTrash(context)) {
+            return super.governor_cardToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+        	.setPassable().setActionType(ActionType.TRASH).setCardResponsible(Cards.governor);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion) {
+    	if(context.isQuickPlay() && shouldAutoPlay_governor_cardToObtain(context, exactCost, potion)) {
+            return super.governor_cardToObtain(context, exactCost, potion);
+        }
+        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost)
+                .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
+                .setCardResponsible(Cards.governor);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -2742,12 +2759,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public boolean messenger_shouldDiscardDeck(MoveContext context,
-    		Card responsible) {
-    	if(context.isQuickPlay() && shouldAutoPlay_messenger_shouldDiscardDeck(context, responsible)) {
-            return super.messenger_shouldDiscardDeck(context, responsible);
+    public boolean messenger_shouldDiscardDeck(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_messenger_shouldDiscardDeck(context)) {
+            return super.messenger_shouldDiscardDeck(context);
         }
-        return selectBoolean(context, responsible);
+        return selectBoolean(context, Cards.messenger);
     }
     
     @Override
