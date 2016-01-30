@@ -39,9 +39,8 @@
     </style>
 
     <style name="CardView.Duration.Attack">
-        <item name="cardBackgroundColor">@color/cardDuration</item>
-        <item name="cardTextColor">@color/cardAttackInverse</item>
-        <item name="cardCountColor">@color/cardAttackInverse</item>
+        <item name="cardTextColor">@color/cardAttack</item>
+        <item name="cardNameBackgroundColor">@color/cardDefaultBackgroundColor</item>
     </style>
 
     <style name="CardView.Attack">

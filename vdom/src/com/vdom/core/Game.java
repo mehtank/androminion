@@ -882,6 +882,11 @@ public class Game {
              if (!callableCards.isEmpty()) {
              	Collections.sort(callableCards, new Util.CardCostComparator());
      	        for (Card c : callableCards) {
+     	        	if (c.behaveAsCard().equals(Cards.guide)
+     	        		|| c.behaveAsCard().equals(Cards.ratcatcher)
+     	        		|| c.behaveAsCard().equals(Cards.transmogrify)) {
+     	        		allDurationAreSimple = false;
+     	        	}
      	        	durationEffects.add(c);
      	        	durationEffects.add(Cards.curse);
      	        	durationEffectsAreCards.add(false);

@@ -490,7 +490,7 @@
     <string name="CoinOfTheRealm_name">Coin of the Realm</string>
     <string name="CoinOfTheRealm_desc">When you play this, put it on your Tavern mat. - Directly after resolving an Action, you may call this, for +2 Actions.</string>
     <string name="Disciple_name">Disciple</string>
-    <string name="Disciple_desc">You may play an Action card from your hand twice. Gain a copy of it. - When you discard this from play, you may exchange it for a Teacher.</string>
+    <string name="Disciple_desc">You may play an Action card from your hand twice. Gain a copy of it. - When you discard this from play, you may exchange it for a Teacher. (This is not in the Supply.)</string>
     <string name="DistantLands_name">Distant Lands</string>
     <string name="DistantLands_desc">Put this on your Tavern mat. - Worth 4 VP if on your Tavern mat at the end of the game (otherwise worth 0 VP).</string>
     <string name="Dungeon_name">Dungeon</string>

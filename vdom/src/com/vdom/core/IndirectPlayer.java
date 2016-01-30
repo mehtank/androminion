@@ -2854,7 +2854,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_teacher_actionCardPileToHaveToken(context, token)) {
             return super.teacher_actionCardPileToHaveToken(context, token);
         }
-    	SelectCardOptions sco = new SelectCardOptions()
+    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .isAction().noTokens().setCardResponsible(Cards.teacher);
         return getFromTable(context, sco);
     }
