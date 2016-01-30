@@ -1,66 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
 	<!-- AndroidManifest -->
 	<string name="app_name">Androminion</string>
 
-    <!-- Menu Fragment -->
+    <!-- Menu Activity -->
     <string name="start_game_menu">Spiel starten</string>
     <string name="join_game_menu">Multiplayer: Mit Server verbinden</string>
     <string name="stats_menu">Statistiken</string>
     <string name="settings_menu">Einstellungen</string>
     <string name="about_menu">Über</string>
-
-    <!-- Game Activity Menu -->
     <string name="help_menu">Hilfe</string>
     <string name="quit_menu">Beenden</string>
 
-    <!-- StartGame Activity -->
-    <string name="startgameactivity_title">Spiel starten</string>
+	<!-- Settings Activity -->
+    <string name="settingsactivity_title">Einstellungen</string>
 
-    <!-- StartGame Fragment -->
-    <string name="select_gametype">Kartensatz wählen:</string>
-	<string name="select_players">Spieler wählen:</string>
-	<string name="player">Spieler </string>
-    <string name="you">Du</string>
-    <string name="start_game">Spiel starten!</string>
-	<string name="game_type_random">Zufällig</string>
-	<string name="game_type_preset">Vorgefertigte</string>
-	<string name="game_type_last">Zuletzt gespielt</string>
-	<string name="game_type_specified">Ausgewählte Karten</string>
-	<string name="none_game_start">Keiner</string>
-
-    <!-- Statisitcs Activity -->
+    <!-- Statistics Activity -->
 	<string name="statisticsactivity_title">Statistiken</string>
+	<string name="resetstatistics_menu">Statistiken zurücksetzen</string>
 	<string name="win_loss_menu">Siege/Verluste</string>
+	<string name="win_loss_playerwins">Spieler Spiele gewonnen</string>	
 	<string name="achievements_menu">Erfolge</string>
-	<string name="reset">Reset</string>
 	<string-array name="reset_choices">
 		<item>Statistik zurücksetzten</item>
 		<item>Erfolge zurücksetzten</item>
     </string-array>
 
-	<!-- Statisitcs Activity Menu-->
-	<string name="resetstatistics_menu">Statistiken zurücksetzen</string>
-	
-	<!-- WinLoss View -->
-	<string name="currentWinStreak">Aktuelle Glückssträhne: </string>
-	<string name="win_loss_playerwins">Spieler Spiele gewonnen</string>	
-	
-	<!-- Settings Activity -->
-    <string name="settingsactivity_title">Einstellungen</string>
+	<string name="reset">Reset</string>
+
 
 	<!-- About Activity -->
 	<string name="aboutactivity_title">Über</string>
-	<string name="whatsnew_menu">Neuerungen</string>
-	<string name="contrib_menu">Credits </string>
-	
-	<!-- About Fragment -->
 	<string name="version">Version %1$s</string>
-	
-	<!-- Connections Fragment -->
 	<string name="connections_menu">Verbindungen </string>
-	<!-- WhatsNew Fragment -->
+    <string name="connections_title">Verbindungen: </string>
+    <string name="connections">
+	<![CDATA[
+        <h3>On network permissions and usage</h3>
+		This app functions by using a strictly local networking layer to talk between the player and the game -- currently <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.<br><br>
+		See also: <a href="https://code.google.com/p/androminion/issues/detail?id=522">https://code.google.com/p/androminion/issues/detail?id=522</a><br>
+    <h3>Steps to run a multiplayer game</h3>
+      	<b><font color="red">You need the source code to compile the server vdom!</font></b> In the vdom\\ directory, type \'ant run\' (or just start com.vdom.core.Game with whatever arguments you want - the build file build.xml has some default arguments).  Be sure you know the host name or ip address for the machine that\'s running the game server, and that the player ports (by default 2255 and 2256) aren\'t blocked by your machine\'s firewall.<br>
+      	Open the app on two separate devices.  Use the \"join game\" dialog to enter your name, the host name or ip address of the machine running the server, then the port that shows up in the terminal where you\'re running the server.  Once the first player connects, a second port will show up; enter that one in on the second device (should be 2255 and 2256). The interface for the first player that connects will be missing a lot of stuff until the second player connects, but once both players are there, things work fine.<br><br>
+		Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
+	]]>
+</string>
+	<string name="whatsnew_menu">Neuerungen</string>
 	<string name="whatsnew_title">Was ist neu: </string>
 	<string name="whatsnew">
 	<![CDATA[
@@ -68,6 +54,9 @@
 		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Entwicklung von Androminion einzustellen, da sie eine offizielle digitale Version ihres Spiels herausbringen. Daher wird dies die letzte große Überarbeitung sein. Androminion wird aus dem Google Play Store zum Ende des Monats entfernt werden. Danke an alle. die an diesem Projekt mitgewirkt haben, Fehlerberichte eingesandt oder Androminion verbreitet haben -- ohne euch wäre Androminion nicht so gut und populär, wie es heute ist.<br><br>
 		Im Namen des Androminion-Teams: Es hat Spaß gemacht.<br>
 		-:ankur
+		<h3>Version 6.03</h3>
+		* Adventures Expansion!
+		* Promo Cards: Stash, Summon
 		<h3>Version 6.00</h3>
 		* Abenteuer (beta)
 		<h3>Version 5.01</h3>
@@ -120,16 +109,41 @@
 		<br/><font color="lime">Androminion ist nun Open Source!</font>  Diese Update wäre ohne die Hilfe einiger Mitwirkender nicht möglich gewesen; siehe Credits-Tab. Auch du kannst helfen! Schreibe Bugreports, Featurerequests, Übersetzungen und mehr unter<br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
 	]]>
 	</string>
-
-	<!-- Credits Fragment -->
+	<string name="contrib_menu">Credits </string>
 	<string name="contrib_title">Mitwirkende: </string>
-	
-	<!-- Game Activity -->
-    <string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
 
+    <!-- StartGame Activity -->
+    <string name="startgameactivity_title">Spiel starten</string>
+    <string name="select_gametype">Kartensatz wählen:</string>
+	<string name="game_type_random">Zufällig</string>
+	<string name="game_type_preset">Vorgefertigte</string>
+	<string name="game_type_last">Zuletzt gespielt</string>
+	<string name="game_type_specified">Ausgewählte Karten</string>
+    <string name="random_all_cards">Alle Karten</string>
+    <string name="random_include_events">Ereignisse: </string>
+    <string name="random_events_none">Keine</string>
+    <string name="random_events_random">Zufällig</string>
+    <string name="random_include_cards">Mit Königreichkarten aus</string>
+	<string name="select_players">Spieler wählen:</string>
+	<string name="player">Spieler </string>
+    <string name="currentplayer">Aktueller Spieler</string>
+    <string name="you">Du</string>
+    <string name="start_game">Spiel starten!</string>
+	<string name="none_game_start">Keiner</string> <!-- Unused -->
+    <string name="start_new_game_on_server">Neues Spiel starten</string> <!-- Unused -->
+
+    <!-- Game Activity: Splash Screen -->
+    <string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
+	
+    <!-- Game Activity: Ingame -->
+    <string name="toast_starting">Starte Spiel&#8230;</string> <!-- Unused -->
+    <string name="toast_loading">Lade Spiel&#8230;</string>
+    <string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
     <string name="obtained">%1$s gekauft</string>
+    <string name="eventBought">%1$s gekauft</string>
     <string name="trashed">%1$s entsorgt</string>
     <string name="revealed">%1$s aufgedeckt</string>
+    <string name="revealed_from_hand">%1$s von der Hand aufgedeckt</string>
     <string name="confirmation">Bist du sicher?</string>
     <string name="confirm_no">Nein</string>
     <string name="select_button">Wähle</string>
@@ -162,16 +176,24 @@
     <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
     <string name="potion_single">%1$s Trank</string>
     <string name="potion_multiple">%1$s Tränke</string>
-    <string name="start_new_game_on_server">Neues Spiel starten</string>
-    <string name="currentplayer">Aktueller Spieler</string>
-    <string name="toast_starting">Starte Spiel&#8230;</string>
-    <string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
-    <string name="toast_loading">Lade Spiel&#8230;</string>
     <string name="accept">Akzeptieren</string>
     <string name="order_cards_summary">Ziehen/Ablegen\n um Karten \n anzuordnen</string>
-    <string name="tournament_reveal">Provinz aufdecken</string>
     <string name="trash_header">Müll:</string>
-    <string name="blackMarket_header">S. Markt:</string>
+    <string name="blackMarket_header">Schwarzmarkt:</string>
+    <string name="inheritance_header">Erbe:</string>
     <string name="img_download_title">%1$s Bild</string>
     <string name="img_download_desc">Lade Bild von %1$s</string>
+	<string name="token_plus_one_action_initial">A</string>
+	<string name="token_plus_one_buy_initial">B</string>
+	<string name="token_header">- Marker -</string>
+	<string name="token_plus_one_card">+1 Karte</string>
+	<string name="token_plus_one_action">+1 Aktion</string>
+	<string name="token_plus_one_buy">+1 Kauf</string>
+	<string name="token_plus_one_coin">+1 Geld</string>
+	<string name="token_minus_2_cost">-2 Kosten</string>
+	<string name="token_trashing">entsorgen</string>
+	<string name="token_colon">:\u0020</string>
+	<string name="token_separator">,\u0020</string>
+	<string name="token_embargo">Embargos</string>
+	<string name="bane_card">Bannkarte</string>
 </resources>

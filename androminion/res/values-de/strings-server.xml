@@ -2,18 +2,19 @@
 <resources>
 
       <!-- Interaction -->
-      <string name="pass">Passen</string>
-      <string name="card_revealed">%1$s deckt %2$s auf</string>
-      <string name="select_from_table_max_treasure">%2$s eine Geldkarte die maximal (%1$s) kostet</string>
-      <string name="pawn_option_one">Handlanger (Option 1 von 2):</string>
-      <string name="pawn_option_two">Handlanger (Option 2 von 2):</string>
-      <string name="torturer_option_one">Nimm einen Fluch auf die Hand</string>
-      <string name="torturer_option_two">2 Karten abwerfen</string>
-      <string name="chancellor_query">Nachziehstapel auf Ablagestapel legen</string>
-      <string name="inn_option_one">In den Nachziehstapel mischen</string>
-      <string name="inn_option_two">Auf Ablagestapel belassen</string>
-      <string name="tunnel_query">Tunnel ablegen</string>
-      <string name="tunnel_option_one">Aufdecken für Gold</string>
+    <string name="pass">Passen</string>
+    <string name="card_revealed">%1$s deckt %2$s auf</string>
+    <string name="card_revealed_from_hand">%1$s deckt %2$s von der Hand auf</string>
+    <string name="select_from_table_max_treasure">%2$s eine Geldkarte die maximal (%1$s) kostet</string>
+    <string name="pawn_option_one">Handlanger (Option 1 von 2):</string>
+    <string name="pawn_option_two">Handlanger (Option 2 von 2):</string>
+    <string name="torturer_option_one">Nimm einen Fluch auf die Hand</string>
+    <string name="torturer_option_two">2 Karten abwerfen</string>
+    <string name="chancellor_query">Nachziehstapel auf Ablagestapel legen</string>
+    <string name="inn_option_one">In den Nachziehstapel mischen</string>
+    <string name="inn_option_two">Auf Ablagestapel belassen</string>
+    <string name="tunnel_query">Tunnel ablegen</string>
+    <string name="tunnel_option_one">Aufdecken für Gold</string>
 
     <string name="join_timed_out">Time out während des Wartens auf andere Mitspieler.</string>
     <string name="response_timed_out">Time out während des Wartens auf eine Anfrage nach Mitspieler.</string>
@@ -40,16 +41,27 @@
     <string name="card_options_header">%1$s Option</string>
     <string name="part_play">Spiele</string>
     <string name="part_buy">Kaufe</string>
+	<string name="part_move_token_minus_2_cost">lege Deinen -2 Kosten Marker auf</string>
+	<string name="part_move_token_plus_one_card">lege Deinen +1 Karte Marker auf</string>
+	<string name="part_move_token_plus_one_action">lege Deinen +1 Aktion Marker auf</string>
+	<string name="part_move_token_plus_one_buy">lege Deinen +1 Kauf Marker auf</string>
+	<string name="part_move_token_plus_one_coin">lege Deinen +1 Geld Marker auf</string>
+	<string name="part_move_token_trashing">lege Deinen Entsorgungsmarker auf</string>
 
     <string name="discardPile">Ablagestapel</string>
     <string name="hand">Hand</string>
   
     <string name="select_from_table">%1$s eine Karte vom Tisch</string>
     <string name="select_from_table_attack">%1$s eine Angriffskarte vom Tisch</string>
+	<string name="select_from_table_action">Wähle eine Aktionskarte aus dem Vorrat auf %1$s</string>
+	<string name="select_from_table_treasure">Wähle eine Geldkarte aus dem Vorrat auf %1$s</string>
     <string name="select_from_table_exact">%2$s eine Karte vom Tisch, die genau (%1$s) kostet</string>
     <string name="select_from_table_exact_action">%2$s eine Aktionskarte vom Tisch die genau (%1$s) kostet</string>
     <string name="select_from_table_max">%2$s eine Karte vom Tisch, die höchstens (%1$s) kostet</string>
+	<string name="select_from_table_max_events">%2$s ein Ereignis, das höchstens (%1$s) kostet</string>
+	<string name="select_from_table_max_cards_events">%2$s eine Karte oder Ereignis vom Tisch, das höchstens (%1$s) kostet</string>
     <string name="select_from_table_max_non_vp">%2$s eine Nicht-Punktekarte vom Tisch die höchstens (%1$s) kostet</string>
+    <string name="select_from_table_max_non_vp_action">%2$s eine Aktionskarte vom Tisch die höchstens (%1$s) kostet und keine Punktekarte ist.</string>
     <string name="select_from_table_max_vp">%2$s eine Punktekarte vom Tisch die höchstens (%1$s) kostet</string>
     <string name="select_from_table_max_action">%2$s eine Aktionskarte vom Tisch die höchstens (%1$s) kostet</string>
     <string name="select_from_table_between">%3$s eine Karte vom Tisch, die zwischen (%1$s) und (%2$s) kostet</string>
@@ -58,6 +70,10 @@
     <string name="select_one_card_from_hand">%1$s eine Karte aus deiner Hand</string>
     <string name="select_up_to_x_cards_from_hand">%2$s bis zu %1$s Karten aus deiner Hand</string>
     <string name="select_exactly_x_cards_from_hand">%2$s genau %1$s Karten aus deiner Hand</string>
+
+	<string name="select_one_card_from_trash">%1$s eine Karte vom Müll</string>
+	<string name="select_up_to_x_cards_from_trash">%2$s bis zu %1$s Karten vom Müll</string>
+	<string name="select_exactly_x_cards_from_trash">%2$s genau %1$s Karten vom Müll</string>
 
     <string name="select_one_action_from_hand">%1$s eine Aktionskarte aus deiner Hand</string>
     <string name="select_up_to_x_actions_from_hand">%2$s bis zu %1$s Aktionskarten aus deiner Hand</string>
@@ -90,6 +106,7 @@
     <string name="card_to_discard_for_card">[%1$s]: Lege ab für +Karten</string>
     <string name="card_to_discard_for_coin">[%1$s]: Lege ab für +Geld</string>
     <string name="card_to_name">[%1$s]: Nenne</string>
+	<string name="card_to_set_aside">[%1$s]: Lege zur Seite</string>
     <string name="discard">Abwerfen</string>
     <string name="trash">Entsorgen</string>
     <string name="keep">Behalten</string>
@@ -98,6 +115,12 @@
     <string name="GameStarting">Spielstart</string>
     <string name="GameOver">Spielende</string>
     <string name="Embargo">Embargo</string>
+	<string name="PlusOneCardTokenMoved">+1 Karte Marker gelegt</string>
+	<string name="PlusOneActionTokenMoved">+1 Aktion Marker gelegt</string>
+	<string name="PlusOneBuyTokenMoved">+1 Kauf Marker gelegt</string>
+	<string name="PlusOneCoinTokenMoved">+1 Geld Marker gelegt</string>
+	<string name="MinusTwoCostTokenMoved">-2 Kosten Marker gelegt</string>
+	<string name="TrashingTokenMoved">Entsorgungsmarker gelegt</string>
     <string name="OnIslandMat">Karten auf Insel</string>
     <string name="OnNativeVillageMat">Karten auf Dorf</string>
     <string name="Status">Status</string>
@@ -128,8 +151,15 @@
     <string name="CardAddedToHand">Karte der Hand hinzugefügt</string>
     <string name="CardRemovedFromHand">Karte aus der Hand gezogen</string>
     <string name="CardSetAsideOnTavernMat">Karte auf Wirtshaustableau gelegt</string>
+    <string name="CallingCard">aufrufen</string>
+    <string name="CalledCard">aufgerufen</string>
     <string name="CardSetAside">Karte beiseite gelegt (Prinz)</string>
+	<string name="CardSetAsideSummon">Karte beiseite gelegt (Einladung)</string>
+	<string name="CardSetAsideHaven">Karte beiseite gelegt (Hafen)</string>
+	<string name="CardSetAsideGear">Karte beiseite gelegt (Ausrüstung)</string>
+	<string name="CardSetAsideSave">Karte beiseite gelegt (Zuflucht)</string>
     <string name="CardSetAsideOnIslandMat">Karte auf Insel-Tableau gelegt</string>
+	<string name="CardSetAsideInheritance">Karte beiseite gelegt (Erbschaft)</string>
     <string name="DeckPutIntoDiscardPile">Nachziehstapel auf Ablagestapel gelegt</string>
     <string name="TravellerExchanged">Reisender eingetauscht in</string>
     <string name="TurnJourneyTokenFaceUp">Reise-Marker auf Vorderseite gedreht</string>
@@ -139,6 +169,11 @@
     <string name="MinusOneCardTokenOn">-1 Karte-Marker auf Nachziehstapel gelegt</string>
     <string name="MinusOneCardTokenOff">-1 Karte-Marker entfernt</string>
     	
+    <string name="plus_one_card_token">+1 Karte Marker</string>
+    <string name="plus_one_action_token">+1 Aktion Marker</string>
+    <string name="plus_one_buy_token">+1 Kauf Marker</string>
+    <string name="plus_one_coin_token">+1 Geld Marker</string>
+
     <string name="use_for_money">Geld: Wähle</string>
 
     <string name="action_buys_coin">%1$s/%2$s/%3$s</string>
@@ -149,6 +184,7 @@
     
     <string name="trash_card_from_hand">Entsorge eine Handkarte</string>
 	<string name="gain_silver">Nimm dir ein Silber</string>
+	<string name="trash_this">Entsorge diese Karte</string>
 
     <string name="secretchamber_part">[Geheimkammer]: Lege oben auf den Nachziehstapel: Wähle</string>
     <string name="secretchamber_query_discard">[Geheimkammer]: Lege ab: Wähle</string>
@@ -165,14 +201,20 @@
 
     <string name="treasure_to_trash">Wähle eine Geldkarte zum Entsorgen</string>
 
-    <string name="scheme_query">Wähle Karte, die auf Nachziehstapel zurückgelegt werden soll.</string>
+    <string name="scheme_query">Wähle Karte, die auf Nachziehstapel zurückgelegt werden soll</string>
 
+	<string name="raze_query">Wähle Karte, die auf die Hand genommen werden soll</string>
+	
+	<string name="quest_attack_to_discard">Angriffskarte zum Abwerfen</string>
+		
     <string name="herbalist_query">Wähle Karte, die auf den Nachziehstapel zurückgelegt werden soll.</string>
 
     <string name="thief_query">Wähle zu stehlende Karte</string>
 
     <string name="smuggle_query">Wähle zu schmuggelnde Karte</string>
 
+	<string name="teacher_query">Wähle einen Marker</string>
+	
     <string name="courtyard_part_top_of_deck"> [%1$s]: Lege oben auf den Nachziehstapel: Wähle</string>
 
     <string name="hamlet_part_discard_for_action">Abwerfen für +1 Aktion: Wähle</string>
@@ -201,6 +243,7 @@
     <string name="catacombs_option_one">Nimm die Karten auf die Hand</string>
     <string name="catacombs_option_two">Lege die Karten ab und ziehe 3 Karten</string>
 
+	<string name="tournament_reveal">Provinz aufdecken</string>
     <string name="tournament_option_one">Keine Provinz aufdecken</string>
     <string name="tournament_option_two">Nimm einen Preis</string>
     <string name="tournament_option_three">Nimm ein Herzogtum</string>
@@ -230,6 +273,15 @@
 
     <string name="amulet_option_one">+(1) Geld</string>
 
+	<string name="extra_turns_query">Wähle Extra-Zug</string>
+	<string name="extra_turns_outpost_first">Aussenposten</string>
+	<string name="extra_turns_mission_first">Mission</string>
+	<string name="extra_turns_possession_first">Besessenheit</string>
+	
+	<string name="quest_discard_attack">Angriffskarte abwerfen</string>
+	<string name="quest_discard_two_curses">Zwei Flüche abwerfen</string>
+	<string name="quest_discard_six_cards">Sechs Karten abwerfen</string>
+	
     <string name="squire_option_one">+2 Aktionen</string>
     <string name="squire_option_two">+2 Käufe</string>
     <string name="squire_option_three">Nimm dir ein Silber</string>
@@ -306,7 +358,9 @@
 	
     <string name="gear_part">[Ausrüstung]: Lege bis zu 2 Handkarten verdeckt zur Seite: Wähle</string>
 	
-    <string name="island_part">[Insel]: Lege mit Insel auf das Insel-Tableau: Wähle</string>
+  <string name="save_part">[Zuflucht]: Lege zur Seite</string>
+	
+    <string name="island_part">[Insel]: Lege auf das Insel-Tableau</string>
 	
     <string name="masquerade_part">Gib Karte nach links: Wähle</string>
 
@@ -321,11 +375,12 @@
 
     <string name="bishop_part">[Bischof]: Entsorge</string>
 
-    <string name="swindler_part">Ersetze erschwindelte Karte im Wert zu (%1$s): Wähle</string>
+    <string name="swindler_part">[Trickser]: Ersetze Karte im Wert bis zu (%1$s)</string>
 
     <string name="margrave_part">[Markgraf]: Behalte</string>
 
     <string name="wishing_well_part">Errate die oberste Karte: Wähle</string>
+
     <string name="explorer_reveal">Zeige Provinz</string>
 
     <string name="walledVillage_option_one">Zurück auf den Nachziehstapel</string>
@@ -337,8 +392,9 @@
 
     <string name="prince_part">[Prinz]: Lege mit Prinz beiseite: Wähle</string>
 	
+		<!-- *** -->
     <string name="university_part">[Universität]: Nimm </string>
-
+		<!-- *** -->
 
     <string name="putback_query">Wähle Karte zum Zurücklegen</string>
     <string name="putback_option_one">Geldkarte (Kräuterkundiger)</string>
@@ -376,6 +432,23 @@
   <string name="SwampHagAttacks_single">%1$s Sumpfhexe im Spiel</string>
   <string name="SwampHagAttacks_multiple">%1$s Sumpfhexen im Spiel</string>
   <string name="traveller_exchange">Tausche ein gegen %1$s</string>
+  <string name="teacher_move_token">move your token to (without your tokens on it). [Teacher]</string>
   <string name="wineMerchant_option_one">Vom Tableau ablegen</string>
   <string name="wineMerchant_query">Wähle Anzahl Weinhändler, die du vom Tableau ablegst</string>
+
+  <string name="call_when_gain_query">%1$s genommen. Karte aufrufen:</string>
+  <string name="call_resolve_action_query">%1$s ausgeführt. Karte aufrufen:</string>
+  <string name="call_start_turn_query">Beginn deines Zuges: Karte aufrufen:</string>
+  <string name="start_turn_query">Beginn deines Zuges: Wähle Aktion:</string>
+  <string name="call_optional">%1$s (optional)</string>
+  
+  <string name="place_stash_query">Geheimversteck einsortieren</string>
+  <string name="place_stashes_query">Sortiere %1$s Geheimverstecke in deinen Nachziehstapel</string>
+  <string name="stash_on_top">oben</string>
+  <string name="stash_on_bottom">unten</string>
+  <string name="stash_choose_individually">Wähle einzeln</string>
+  <string name="stash_1_card_down">1 Karte tiefer</string>
+  <string name="stash_x_cards_down">%1$s Karten tiefer</string>
+  <string name="stash_after_cards_to_draw">Nachdem Karten gezogen wurden (%1$s)</string>
+  <string name="stash_more_options">Anders</string>
 </resources>
