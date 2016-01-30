@@ -2556,9 +2556,12 @@ public class Game {
                     //Not sure if this is exactly right for the Trader, but it seems to be based on detailed card explanation in the rules
                     //The handling for new cards is done before taking the card from the pile in a different method below.
                     if(!event.newCard) {
-                        if(player.hand.contains(Cards.trader)) {
+                    	boolean hasInheritedTrader = Cards.trader.equals(context.getPlayer().getInheritance()) && context.getPlayer().hand.contains(Cards.estate);
+                        boolean hasTrader = context.getPlayer().hand.contains(Cards.trader);
+                        Card traderCard = hasTrader ? Cards.trader : Cards.estate;
+                        if(hasTrader || hasInheritedTrader) {
                             if(player.controlPlayer.trader_shouldGainSilverInstead((MoveContext) context, event.card)) {
-                                player.reveal(Cards.trader, null, context);
+                                player.reveal(traderCard, null, context);
                                 player.trash(event.card, Cards.trader, (MoveContext) context);
                                 event.card = Cards.silver;
                                 player.gainNewCard(Cards.silver, Cards.trader, context);
@@ -2570,14 +2573,17 @@ public class Game {
                     if (event.getPlayer() == players[playersTurn]) {
                         cardsObtainedLastTurn[playersTurn].add(event.card);
                     }
-
-                    if (player.hand.contains(Cards.watchTower)) {
+                    
+                    boolean hasInheritedWatchtower = Cards.watchTower.equals(player.getInheritance()) && player.hand.contains(Cards.estate);
+                    boolean hasWatchtower = player.hand.contains(Cards.watchTower);
+                    Card watchTowerCard = hasWatchtower ? Cards.watchTower : Cards.estate;
+                    if (hasWatchtower || hasInheritedWatchtower) {
                         WatchTowerOption choice = context.player.controlPlayer.watchTower_chooseOption((MoveContext) context, event.card);
 
                         if (choice == WatchTowerOption.TopOfDeck) {
                             handled = true;
                             GameEvent watchTowerEvent = new GameEvent(GameEvent.Type.CardRevealed, context);
-                            watchTowerEvent.card = Cards.watchTower;
+                            watchTowerEvent.card = watchTowerCard;
                             watchTowerEvent.responsible = null;
                             context.game.broadcastEvent(watchTowerEvent);
 
@@ -2585,7 +2591,7 @@ public class Game {
                         } else if (choice == WatchTowerOption.Trash) {
                             handled = true;
                             GameEvent watchTowerEvent = new GameEvent(GameEvent.Type.CardRevealed, context);
-                            watchTowerEvent.card = Cards.watchTower;
+                            watchTowerEvent.card = watchTowerCard;
                             watchTowerEvent.responsible = null;
                             context.game.broadcastEvent(watchTowerEvent);
 
@@ -2995,10 +3001,13 @@ public class Game {
     }
 
     protected Card takeFromPileCheckTrader(Card cardToGain, MoveContext context) {
-        if(!isPileEmpty(cardToGain) && context.getPlayer().hand.contains(Cards.trader) && !cardToGain.equals(Cards.silver)) {
+    	boolean hasInheritedTrader = Cards.trader.equals(context.getPlayer().getInheritance()) && context.getPlayer().hand.contains(Cards.estate);
+        boolean hasTrader = context.getPlayer().hand.contains(Cards.trader);
+        Card traderCard = hasTrader ? Cards.trader : Cards.estate;
+        if(!isPileEmpty(cardToGain) && (hasTrader || hasInheritedTrader) && !cardToGain.equals(Cards.silver)) {
             if (context.player.controlPlayer.trader_shouldGainSilverInstead((MoveContext) context, cardToGain)) {
                 cardToGain = Cards.silver;
-                context.player.reveal(Cards.trader, null, context);
+                context.player.reveal(traderCard, null, context);
             }
         }
 

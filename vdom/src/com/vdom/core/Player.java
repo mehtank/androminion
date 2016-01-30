@@ -1198,20 +1198,22 @@ public abstract class Player {
         card.isTrashed(context);
 
         // Market Square trashing reaction
-        if (Util.getCardCount(hand, Cards.marketSquare) > 0) {
+        boolean hasInheritedMarketSquare = Cards.marketSquare.equals(context.getPlayer().getInheritance()) && context.getPlayer().hand.contains(Cards.estate);
+        boolean hasMarketSquare = context.getPlayer().hand.contains(Cards.marketSquare);
+        if (hasMarketSquare || hasInheritedMarketSquare) {
             ArrayList<Card> marketSquaresInHand = new ArrayList<Card>();
 
             for (Card c : hand) {
-                if (c.getType() == Cards.Type.MarketSquare) {
+                if (c.getType() == Cards.Type.MarketSquare || (hasInheritedMarketSquare && c.equals(Cards.estate))) {
                     marketSquaresInHand.add(c);
                 }
             }
 
             for (Card c : marketSquaresInHand) {
-                if (controlPlayer.marketSquare_shouldDiscard(context)) {
+                if (controlPlayer.marketSquare_shouldDiscard(context, c)) {
                     hand.remove(c);
                     discard(c, card, context);
-                    gainNewCard(Cards.gold, c, context);
+                    gainNewCard(Cards.gold, Cards.marketSquare, context);
                 }
             }
         }
@@ -1760,7 +1762,7 @@ public abstract class Player {
 
     public abstract Card junkDealer_cardToTrash(MoveContext context);
 
-    public abstract boolean marketSquare_shouldDiscard(MoveContext context);
+    public abstract boolean marketSquare_shouldDiscard(MoveContext context, Card reactionCard);
 
     public abstract Card mystic_cardGuess(MoveContext context, ArrayList<Card> cardList);
 

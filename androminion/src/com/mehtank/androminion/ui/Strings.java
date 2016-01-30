@@ -973,6 +973,9 @@ public class Strings {
             strings[1] = getString(R.string.madman_option);
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.marketSquare))) {
+        	if (getCardName((Card)extras[0]).equals(getCardName(Cards.estate))) {
+        		strings[0] = getCardName(Cards.estate) + " (" + getCardName(Cards.marketSquare) + ")";
+        	}
             strings[1] = getString(R.string.discard);
             strings[2] = getString(R.string.keep);
         } else if (cardName.equals(getCardName(Cards.miningVillage))) {

@@ -2461,7 +2461,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
 	@Override
-	public boolean marketSquare_shouldDiscard(MoveContext context) {
+	public boolean marketSquare_shouldDiscard(MoveContext context, Card reactionCard) {
 		return true;
 	}
 

@@ -2054,8 +2054,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean marketSquare_shouldDiscard(MoveContext context) {
-        return selectBoolean(context, Cards.marketSquare);
+    public boolean marketSquare_shouldDiscard(MoveContext context, Card reactionCard) {
+        return selectBoolean(context, Cards.marketSquare, new Object[]{reactionCard});
     }
 
     @Override
