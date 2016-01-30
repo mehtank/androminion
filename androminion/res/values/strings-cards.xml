@@ -496,7 +496,7 @@
     <string name="Dungeon_name">Dungeon</string>
     <string name="Dungeon_desc">Discard 2 cards. At the start of your next turn: +2 Cards, then discard 2 cards.</string>
     <string name="Duplicate_name">Duplicate</string>
-    <string name="Duplicate_desc">Put this on your Tavern mat. - When you gain a card costing up to 6 Coins, you may call this, to gain a copy of that card. (This is not in the Supply.)</string>
+    <string name="Duplicate_desc">Put this on your Tavern mat. - When you gain a card costing up to 6 Coins, you may call this, to gain a copy of that card.</string>
     <string name="Fugitive_name">Fugitive</string>
     <string name="Fugitive_desc">Discard a card. - When you discard this from play, you may exchange it for a Disciple. (This is not in the Supply.)</string>
     <string name="Gear_name">Gear</string>
@@ -508,7 +508,7 @@
     <string name="HauntedWoods_name">Haunted Woods</string>
     <string name="HauntedWoods_desc">Until your next turn, when any other player buys a card, he puts his hand on top of his deck in any order.</string>
     <string name="Hero_name">Hero</string>
-    <string name="Hero_desc">Gain a Treasure - When you discard this from play, you may exchange it for a Champion.</string>
+    <string name="Hero_desc">Gain a Treasure - When you discard this from play, you may exchange it for a Champion. (This is not in the Supply.)</string>
     <string name="Hireling_name">Hireling</string>
     <string name="Hireling_desc">At the start of each of your turns for the rest of the game: +1 Card. (This stays in play.)</string>
     <string name="LostCity_name">Lost City</string>
@@ -546,11 +546,11 @@
     <string name="Transmogrify_name">Transmogrify</string>
     <string name="Transmogrify_desc">Put this on your Tavern mat. - At the start of your turn, you may call this, to trash a card from your hand, gain a card costing up to 1 Coin more than it, and put that card into your hand.</string>
     <string name="TreasureHunter_name">Treasure Hunter</string>
-    <string name="TreasureHunter_desc">Gain a Silver per card the player to your right gained in his last turn. - When you discard this from play, you may exchange it for a Warrior.</string>
+    <string name="TreasureHunter_desc">Gain a Silver per card the player to your right gained in his last turn. - When you discard this from play, you may exchange it for a Warrior. (This is not in the Supply.)</string>
     <string name="TreasureTrove_name">Treasure Trove</string>
     <string name="TreasureTrove_desc">When you play this, gain a Gold and a Copper.</string>
     <string name="Warrior_name">Warrior</string>
-    <string name="Warrior_desc">For each Traveller you have in play (including this), each other player discards the top card of his deck and trashes it if it costs 3 Coins or 4 Coins. - When you discard this from play, you may exchange it for a Hero.</string>
+    <string name="Warrior_desc">For each Traveller you have in play (including this), each other player discards the top card of his deck and trashes it if it costs 3 Coins or 4 Coins. - When you discard this from play, you may exchange it for a Hero. (This is not in the Supply.)</string>
     <string name="WineMerchant_name">Wine Merchant</string>
     <string name="WineMerchant_desc">Put this on your Tavern mat. - At the end of your Buy phase, if you have at least 2 Coins unspent, you may discard this from your Tavern mat.</string>
     
