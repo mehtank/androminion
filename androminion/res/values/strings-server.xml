@@ -432,7 +432,10 @@
   <string name="SwampHagAttacks_single">%1$s Swamp Hag in effect</string>
   <string name="SwampHagAttacks_multiple">%1$s Swamp Hags in effect</string>
   <string name="traveller_exchange">Exchange it for %1$s</string>
-  <string name="teacher_move_token">move your token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_card">move your +1 Card token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_action">move your +1 Action token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_buy">move your +1 Buy token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_coin">move your +1 Coin token to (without your tokens on it). [Teacher]</string>
   <string name="wineMerchant_option_one">Discard from Tavern</string>
   <string name="wineMerchant_query">Number of Wine Merchants to discard from Tavern</string>
   

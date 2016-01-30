@@ -432,7 +432,10 @@
   <string name="SwampHagAttacks_single">%1$s Sumpfhexe im Spiel</string>
   <string name="SwampHagAttacks_multiple">%1$s Sumpfhexen im Spiel</string>
   <string name="traveller_exchange">Tausche ein gegen %1$s</string>
-  <string name="teacher_move_token">move your token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_card">move your +1 Card token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_action">move your +1 Action token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_buy">move your +1 Buy token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_coin">move your +1 Coin token to (without your tokens on it). [Teacher]</string>
   <string name="wineMerchant_option_one">Vom Tableau ablegen</string>
   <string name="wineMerchant_query">Wähle Anzahl Weinhändler, die du vom Tableau ablegst</string>
 

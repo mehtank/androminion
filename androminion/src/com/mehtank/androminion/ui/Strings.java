@@ -1375,7 +1375,6 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.training), getString(R.string.part_move_token_plus_one_coin));
         actionStringMap.put(getCardName(Cards.university), getString(R.string.university_part));
         actionStringMap.put(getCardName(Cards.urchin), getString(R.string.urchin_keep));
-        actionStringMap.put(getCardName(Cards.teacher), getString(R.string.teacher_move_token));
     }
 
     public static String getActionCardText(SelectCardOptions sco) {
@@ -1473,6 +1472,16 @@ public class Strings {
             } else {
                 return getString(R.string.part_move_token_trashing);
             }
+        } else if (cardName.equals(getCardName(Cards.teacher))) {
+            if (sco.token == PlayerSupplyToken.PlusOneCard) {
+            	return getString(R.string.teacher_move_token_plus_one_card);
+            } else if (sco.token == PlayerSupplyToken.PlusOneAction) {
+            	return getString(R.string.teacher_move_token_plus_one_action);
+            } else if (sco.token == PlayerSupplyToken.PlusOneBuy) {
+            	return getString(R.string.teacher_move_token_plus_one_buy);
+            } else if (sco.token == PlayerSupplyToken.PlusOneCoin) {
+            	return getString(R.string.teacher_move_token_plus_one_coin);
+            } 
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
     }

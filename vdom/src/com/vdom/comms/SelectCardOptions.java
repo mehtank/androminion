@@ -11,6 +11,7 @@ import com.vdom.api.VictoryCard;
 import com.vdom.core.Cards;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
+import com.vdom.core.PlayerSupplyToken;
 
 /**
  * Gives information about cards that are selected by the player from the table (piles, hand, play)
@@ -83,6 +84,9 @@ public class SelectCardOptions implements Serializable {
     public boolean different = false;
     public boolean noTokens = false;
     public boolean passable = false;
+    
+    public PlayerSupplyToken token = null;
+    
     public String header = null;
     public ArrayList<Integer> allowedCards = new ArrayList<Integer>();
 
@@ -124,6 +128,8 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions isAttack() {isAttack = true; return this;}
     public SelectCardOptions isSupplyCard() {isSupplyCard = true; return this;}
     public SelectCardOptions noTokens() {noTokens = true; return this;}
+    
+    public SelectCardOptions token(PlayerSupplyToken c) {token = c; return this;}
 
     public SelectCardOptions allowedCards(int[] is) {
         for (int i : is)
