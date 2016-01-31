@@ -24,7 +24,6 @@ import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
-import com.vdom.core.CallableCard;
 import com.vdom.core.Cards;
 import com.vdom.core.IndirectPlayer;
 import com.vdom.core.IndirectPlayer.StashOption;
