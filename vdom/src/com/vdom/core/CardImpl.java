@@ -27,6 +27,8 @@ public class CardImpl implements Card {
     boolean isEvent = false;
     boolean isReserve = false;
     boolean isTraveller = false;
+    
+    boolean trashOnUse = false;
 
     static int maxNameLen;    // across all cards
 
@@ -65,6 +67,7 @@ public class CardImpl implements Card {
         isEvent     = builder.isEvent;
         isReserve   = builder.isReserve;
         isTraveller = builder.isTraveller;
+        trashOnUse   = builder.trashOnUse;
     }
 
     public static class Builder {
@@ -87,6 +90,8 @@ public class CardImpl implements Card {
         protected boolean isEvent     = false;
         protected boolean isReserve   = false;
         protected boolean isTraveller = false;
+        
+        protected boolean trashOnUse  = false;
 
 
         public Builder(Cards.Type type, int cost) {
@@ -155,6 +160,11 @@ public class CardImpl implements Card {
             isReserve = true;
             return this;
         }
+        
+        public Builder trashOnUse() {
+            trashOnUse = true;
+            return this;
+        }
 
         public CardImpl build() {
             return new CardImpl(this);
@@ -211,6 +221,7 @@ public class CardImpl implements Card {
         c.isReserve = isReserve;
         c.isTraveller = isTraveller;
         c.vp = vp;
+        c.trashOnUse = trashOnUse;
     }
 
     public Cards.Type getType() {

@@ -205,11 +205,11 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
 	}
 
 	private void royalCarriage(Card resolvedAction, MoveContext context, Game game, Player currentPlayer) {
-		ActionCardImpl cardToPlay = (ActionCardImpl) resolvedAction; 
+		CardImpl cardToPlay = (CardImpl) resolvedAction; 
 		
 		context.freeActionInEffect++;
 
-        cardToPlay.cloneCount += 1;
+        cardToPlay.getControlCard().cloneCount += 1;
         boolean beingThroned = cardToPlay.numberTimesAlreadyPlayed > 0;
         cardToPlay.numberTimesAlreadyPlayed = beingThroned ? cardToPlay.numberTimesAlreadyPlayed + 1 : 1;
         cardToPlay.play(game, context, false);
@@ -218,7 +218,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
         context.freeActionInEffect--;
         // If the cardToPlay was a knight, and was trashed, reset clonecount
         if (cardToPlay.isKnight(currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
-            cardToPlay.cloneCount = 1;
+            cardToPlay.getControlCard().cloneCount = 1;
         }
 
         if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.tactician)) {

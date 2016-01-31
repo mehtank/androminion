@@ -69,7 +69,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 		        
 		        this.startInheritingCardAbilities(inheritedCard.getTemplateCard().instantiate());
 		        // Play the inheritance virtual card
-		        ActionCardImpl cardToPlay = (ActionCardImpl) this.behaveAsCard();
+		        CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
 		        context.freeActionInEffect++;
 		        cardToPlay.play(game, context, false);
 		        context.freeActionInEffect--;

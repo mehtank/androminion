@@ -32,7 +32,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     protected int addGold;
     protected int addVictoryTokens;
     boolean trashForced = false;
-    boolean trashOnUse = false;
 
     public ActionCardImpl(Builder builder) {
         super(builder);
@@ -41,7 +40,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         addCards         = builder.addCards;
         addGold          = builder.addGold;
         addVictoryTokens = builder.addVictoryTokens;
-        trashOnUse       = builder.trashOnUse;
         trashForced      = builder.trashForced;
     }
 
@@ -51,7 +49,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         protected int addCards;
         protected int addGold;
         protected int addVictoryTokens;
-        protected boolean trashOnUse;
         protected boolean trashForced = false;
 
         public Builder(Cards.Type type, int cost) {
@@ -80,11 +77,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         public Builder addVictoryTokens(int val) {
             addVictoryTokens = val;
-            return this;
-        }
-
-        public Builder trashOnUse() {
-            trashOnUse = true;
             return this;
         }
 
@@ -185,7 +177,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         c.addGold = addGold;
         c.addVictoryTokens = addVictoryTokens;
         c.trashForced = trashForced;
-        c.trashOnUse = trashOnUse;
     }
 
     protected ActionCardImpl() {
@@ -1150,7 +1141,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             }
         } else {
             // reset clone count
-            this.controlCard.cloneCount = 1;
+            this.getControlCard().cloneCount = 1;
         }
     }
 
@@ -1781,7 +1772,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private Card throneRoomKingsCourt(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> actionCards = new ArrayList<Card>();
-        ActionCardImpl cardToPlay = null;
+        CardImpl cardToPlay = null;
         for (Card card : currentPlayer.hand) {
             if (card.isAction(currentPlayer)) {
                 actionCards.add(card);
@@ -1791,16 +1782,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         if (!actionCards.isEmpty()) {
             switch (this.type) {
                 case ThroneRoom:
-                    cardToPlay = (ActionCardImpl) currentPlayer.controlPlayer.throneRoom_cardToPlay(context);
+                    cardToPlay = (CardImpl) currentPlayer.controlPlayer.throneRoom_cardToPlay(context);
                     break;
                 case Disciple:
-                    cardToPlay = (ActionCardImpl) currentPlayer.controlPlayer.disciple_cardToPlay(context);
+                    cardToPlay = (CardImpl) currentPlayer.controlPlayer.disciple_cardToPlay(context);
                     break;
                 case KingsCourt:
-                    cardToPlay = (ActionCardImpl) currentPlayer.controlPlayer.kingsCourt_cardToPlay(context);
+                    cardToPlay = (CardImpl) currentPlayer.controlPlayer.kingsCourt_cardToPlay(context);
                     break;
                 case Procession:
-                    cardToPlay = (ActionCardImpl) currentPlayer.controlPlayer.procession_cardToPlay(context);
+                    cardToPlay = (CardImpl) currentPlayer.controlPlayer.procession_cardToPlay(context);
                     break;
                 default:
                     break;
@@ -3811,7 +3802,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             context.freeActionInEffect++;context.golemInEffect++;
             for (Card card : toPlay) {
-                ((ActionCardImpl) card).play(game, context, false);
+                card.play(game, context, false);
             }
             context.freeActionInEffect--;context.golemInEffect--;
         }
@@ -3903,7 +3894,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             event.card = card;
             event.setPrivate(true);
             context.game.broadcastEvent(event);
-        } else if (this.controlCard.cloneCount == 1) {
+        } else if (this.getControlCard().cloneCount == 1) {
             currentPlayer.nextTurnCards.remove(this.controlCard);
             currentPlayer.playedCards.add(this.controlCard);
         }
@@ -5128,7 +5119,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         if (currentPlayer.hand.contains(Cards.cultist) && currentPlayer.controlPlayer.cultist_shouldPlayNext(context)) {
-            ActionCardImpl next = (ActionCardImpl) currentPlayer.hand.get(Cards.cultist);
+            Card next = currentPlayer.hand.get(Cards.cultist);
             if (next != null) {
                 context.freeActionInEffect++;
 
@@ -5445,7 +5436,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
         // Play the impersonated card
-        ActionCardImpl cardToPlay = (ActionCardImpl) this.impersonatingCard;
+        CardImpl cardToPlay = (CardImpl) this.impersonatingCard;
         context.freeActionInEffect++;
         cardToPlay.play(game, context, false);
         context.freeActionInEffect--;
@@ -5880,7 +5871,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             if (draw.isAction(currentPlayer)) 
             {
                 context.freeActionInEffect++;
-                ((ActionCardImpl) draw).play(game, context, false);
+                draw.play(game, context, false);
                 context.freeActionInEffect--;
             } 
             else 
@@ -5929,7 +5920,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             game.broadcastEvent(event);
         } else {
             // reset clone count
-            this.controlCard.cloneCount = 1;
+            this.getControlCard().cloneCount = 1;
         }
     }
 
@@ -6040,7 +6031,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
             }
         }
-        if (!cardSetAside && this.controlCard.cloneCount == 1) {
+        if (!cardSetAside && this.getControlCard().cloneCount == 1) {
             currentPlayer.nextTurnCards.remove(this.controlCard);
             currentPlayer.playedCards.add(this.controlCard);
         }
