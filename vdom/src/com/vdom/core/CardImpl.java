@@ -462,6 +462,113 @@ public class CardImpl implements Card {
     
     @Override
     public void isTrashed(MoveContext context) {
+    	Cards.Type trashType = this.controlCard.getType();
+    	if (this.controlCard.equals(Cards.estate) && context.player.getInheritance() != null) {
+    		trashType = context.player.getInheritance().getType();
+    	}
+    	
+        switch (trashType) {
+            case Rats:
+                context.game.drawToHand(context, this, 1, true);
+                break;
+            case Squire:
+                // Need to ensure that there is at least one Attack card that can be gained,
+                // otherwise this.controlCard choice should be bypassed.
+                boolean attackCardAvailable = false;
+
+                for (Card c : context.game.getCardsInGame())
+                {
+                    if (Cards.isSupplyCard(c) && c.isAttack(null) && context.game.getPile(c).getCount() > 0) {
+                        attackCardAvailable = true;
+                        break;
+                    }
+                }
+
+                if (attackCardAvailable)
+                {
+                    Card s = context.player.controlPlayer.squire_cardToObtain(context);
+
+                    if (s != null) 
+                    {
+                        context.player.controlPlayer.gainNewCard(s, this.controlCard, context);
+                    }
+                }
+                break;
+            case Catacombs:
+            	int cost = this.controlCard.equals(Cards.estate) ? this.controlCard.getCost(context) : this.getCost(context);
+            	cost--;
+            	if (cost >= 0) {
+	                Card c = context.player.controlPlayer.catacombs_cardToObtain(context, cost);
+	                if (c != null) {
+	                    context.player.controlPlayer.gainNewCard(c, this.controlCard, context);
+	                }
+            	}
+                break;
+            case HuntingGrounds:
+                  // Wiki: If you trash Hunting Grounds and the Duchy pile is empty,
+                  // you can still choose Duchy (and gain nothing). 
+                int duchyCount      = context.game.getPile(Cards.duchy).getCount();
+                int estateCount     = context.game.getPile(Cards.estate).getCount();
+                boolean gainDuchy   = false;
+                boolean gainEstates = false;
+
+                if (duchyCount > 0 || estateCount > 0)
+                {
+                    Player.HuntingGroundsOption option = context.player.controlPlayer.huntingGrounds_chooseOption(context);
+                    if (option != null) {
+                        switch (option) {
+                            case GainDuchy:
+                                gainDuchy = true;
+                                break;
+                            case GainEstates:
+                                gainEstates = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                
+                if (gainDuchy)
+                {
+                    context.player.controlPlayer.gainNewCard(Cards.duchy, this.controlCard, context);
+                }
+                else if (gainEstates)
+                {
+                    context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
+                    context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
+                    context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
+                }
+
+                break;
+            case Fortress:
+            	//TODO: if Possessed, give choice of whether to put in hand or set aside card
+                context.game.trashPile.remove(this.controlCard);
+                context.player.hand.add(this.controlCard);
+                break;
+            case Cultist:
+                context.game.drawToHand(context, this, 3, false);
+                context.game.drawToHand(context, this, 2, false);
+                context.game.drawToHand(context, this, 1, false);
+                break;
+            case SirVander:
+                context.player.controlPlayer.gainNewCard(Cards.gold, this.controlCard, context);
+                break;
+            case OvergrownEstate:
+                context.game.drawToHand(context, controlCard, 1);
+                break;
+            case Feodum:
+                context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+                context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+                context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+                break;
+            default:
+                break;
+        }
+        
+        // card left play - stop any impersonations
+        this.controlCard.stopImpersonatingCard();
+        this.controlCard.stopInheritingCardAbilities();
     }
 
     public boolean isImpersonatingAnotherCard() {

@@ -184,10 +184,18 @@ public class MoveContext {
         HashSet<String> distinctCardsInPlay = new HashSet<String>();
 
         for (Card cardInPlay : player.playedCards) {
-            distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
+        	if (cardInPlay.getControlCard().equals(Cards.estate)) {
+        		distinctCardsInPlay.add(cardInPlay.getName());
+        	} else {
+        		distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
+        	}
         }
         for (Card cardInPlay : player.nextTurnCards) {
-            distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
+        	if (cardInPlay.getControlCard().equals(Cards.estate)) {
+        		distinctCardsInPlay.add(cardInPlay.getName());
+        	} else {
+        		distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
+        	}
         }
 
         return distinctCardsInPlay.size();

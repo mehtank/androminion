@@ -842,7 +842,7 @@ public class Game {
     		durationEffectsAreCards.add(false);
         }
         for (Card card : player.prince) {
-            if (!card.equals(Cards.prince)) {
+            if (!card.equals(Cards.prince) && !card.equals(Cards.estate)) {
                 allDurationAreSimple = false;
                 durationEffects.add(Cards.prince);
                 durationEffects.add(card);

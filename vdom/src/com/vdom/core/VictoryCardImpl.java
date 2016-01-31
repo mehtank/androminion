@@ -133,24 +133,6 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     		break;
     	}
     }
-    
-    @Override
-    public void isTrashed(MoveContext context)
-    {
-        switch (this.getType()) 
-        {
-        case OvergrownEstate:
-            context.game.drawToHand(context, controlCard, 1);
-            break;
-        case Feodum:
-            context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-            context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-            context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-            break;
-        default:
-            break;
-        }
-    }
 
     @Override
     public CardImpl instantiate() {

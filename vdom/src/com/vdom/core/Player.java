@@ -1222,7 +1222,7 @@ public abstract class Player {
 
     public abstract HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context);
 
-    public abstract Card catacombs_cardToObtain(MoveContext context);
+    public abstract Card catacombs_cardToObtain(MoveContext context, int maxCost);
 
     public void namedCard(Card card, Card responsible, MoveContext context) {
         GameEvent event = new GameEvent(GameEvent.Type.CardNamed, context);

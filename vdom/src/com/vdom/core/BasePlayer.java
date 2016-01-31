@@ -2329,8 +2329,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
 	@Override
-	public Card catacombs_cardToObtain(MoveContext context) {
-		return bestCardInPlay(context, Math.max(0, game.getPile(Cards.catacombs).card().getCost(context) - 1), true);
+	public Card catacombs_cardToObtain(MoveContext context, int maxCost) {
+		return bestCardInPlay(context, maxCost, true);
 	}
 
 	@Override
@@ -2928,7 +2928,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card bandOfMisfits_actionCardToImpersonate(MoveContext context) {
-    	if (context.getPlayer().getHand().contains(Cards.treasureMap)) {
+    	if (context.getPlayer().getHand().contains(Cards.treasureMap) && !game.isPileEmpty(Cards.treasureMap)) {
     		return Cards.treasureMap;
     	}
         return bestCardInPlay(context, 4, false, false, true, true, true);

@@ -943,7 +943,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         // Treasure Map still trashes extra Treasure Maps in hand on throneRoom
         if (this.numberTimesAlreadyPlayed == 0) {
-            if (anotherMap != null) {
+            if (anotherMap != null && !this.getControlCard().equals(Cards.estate)) {
                 // going to get the gold so trash map played and map from hand
                 currentPlayer.trash(currentPlayer.playedCards.removeCard(this.controlCard), null, context);
                 currentPlayer.trash(currentPlayer.hand.removeCard(anotherMap), null, context);
@@ -2241,11 +2241,17 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             game.drawToHand(context, this, victoryCards - i);
         }
 
-        int crossroadsPlayed = this.controlCard.numberTimesAlreadyPlayed;
-        crossroadsPlayed += context.countCardsInPlay(Cards.crossroads);
-
-        if (crossroadsPlayed <= 1) {
-            context.actions += 3;
+        if (!this.controlCard.equals(Cards.estate)) {
+	        int crossroadsPlayed = this.controlCard.numberTimesAlreadyPlayed;
+	        for(Card c : context.getPlayedCards()) {
+	            if(c.equals(Cards.crossroads)) {
+	                crossroadsPlayed++;
+	            }
+	        }
+	        
+	        if (crossroadsPlayed <= 1) {
+	            context.actions += 3;
+	        }
         }
     }
 
@@ -2886,6 +2892,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
             Card card = passedCards[i];
             if (card != null) {
+            	((CardImpl)card).stopInheritingCardAbilities();
                 nextPlayer.hand.add(card);
                 if (nextPlayer instanceof GameEventListener) {
                     GameEvent event = new GameEvent(GameEvent.Type.CardObtained, new MoveContext(context, game, nextPlayer));
@@ -4392,9 +4399,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             // check cost
             if (card.getCost(context) <= 5) {
                 currentPlayer.gainNewCard(card, this.controlCard, context);
-                //currentPlayer.discard.remove(Cards.armory);
-                //currentPlayer.putOnTopOfDeck(Cards.armory);
-
             }
         }
     }
@@ -5059,113 +5063,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
 
     }
-
-    @Override
-    public void isTrashed(MoveContext context) {
-        switch (this.controlCard.behaveAsCard().getType()) {
-            case Rats:
-                context.game.drawToHand(context, this, 1, true);
-                break;
-            case Squire:
-                // Need to ensure that there is at least one Attack card that can be gained,
-                // otherwise this.controlCard choice should be bypassed.
-                boolean attackCardAvailable = false;
-
-                for (Card c : context.game.getCardsInGame())
-                {
-                    if (Cards.isSupplyCard(c) && c.isAttack(null) && context.game.getPile(c).getCount() > 0) {
-                        attackCardAvailable = true;
-                        break;
-                    }
-                }
-
-                if (attackCardAvailable)
-                {
-                    Card s = context.player.controlPlayer.squire_cardToObtain(context);
-
-                    if (s != null) 
-                    {
-                        context.player.controlPlayer.gainNewCard(s, this.controlCard, context);
-                    }
-                }
-                break;
-            case Catacombs:
-                Card c = context.player.controlPlayer.catacombs_cardToObtain(context);
-                if (c != null) {
-                    context.player.controlPlayer.gainNewCard(c, this.controlCard, context);
-                }
-                break;
-            case HuntingGrounds:
-                  // Wiki: If you trash Hunting Grounds and the Duchy pile is empty,
-                  // you can still choose Duchy (and gain nothing). 
-                int duchyCount      = context.game.getPile(Cards.duchy).getCount();
-                int estateCount     = context.game.getPile(Cards.estate).getCount();
-                boolean gainDuchy   = false;
-                boolean gainEstates = false;
-
-                if (duchyCount > 0 || estateCount > 0)
-                {
-                    Player.HuntingGroundsOption option = context.player.controlPlayer.huntingGrounds_chooseOption(context);
-                    if (option != null) {
-                        switch (option) {
-                            case GainDuchy:
-                                gainDuchy = true;
-                                break;
-                            case GainEstates:
-                                gainEstates = true;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                
-                if (gainDuchy)
-                {
-                    context.player.controlPlayer.gainNewCard(Cards.duchy, this.controlCard, context);
-                }
-                else if (gainEstates)
-                {
-                    context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
-                    context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
-                    context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
-                }
-
-                break;
-            case Fortress:
-            	//TODO: if Possessed, give choice of whether to put in hand or set aside card
-                context.game.trashPile.remove(this.controlCard);
-                context.player.hand.add(this.controlCard);
-                break;
-            case Cultist:
-                context.game.drawToHand(context, this, 3, false);
-                context.game.drawToHand(context, this, 2, false);
-                context.game.drawToHand(context, this, 1, false);
-                break;
-            case SirVander:
-                context.player.controlPlayer.gainNewCard(Cards.gold, this.controlCard, context);
-                break;
-            default:
-                break;
-        }
-
-        // card left play - stop any impersonations
-        this.controlCard.stopImpersonatingCard();
-        this.controlCard.stopInheritingCardAbilities();
-    }
-
-    /*@Override
-      public void isGained(MoveContext context) {
-      super.isGained(context);
-      switch (this.controlCard.type) {
-      case DeathCart:
-      context.player.controlPlayer.gainNewCard(Cards.virtualRuins, this.controlCard, context);
-      context.player.controlPlayer.gainNewCard(Cards.virtualRuins, this.controlCard, context);
-      break;
-      default:
-      break;
-      }
-      }*/
 
     private void survivors(MoveContext context, Game game, Player currentPlayer) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
@@ -6269,7 +6166,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 this.controlCard.movedToNextTurnPile = true;
                 trashCost = this.controlCard.getCost(context);
                 currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.controlCard));
-                currentPlayer.trash(this.controlCard, null, context);
+                currentPlayer.trash(this.controlCard, this.controlCard, context);
             }
         } else if (currentPlayer.getHand().size() > 0) {
         	Card cardToTrash = currentPlayer.controlPlayer.raze_cardToTrash(context);

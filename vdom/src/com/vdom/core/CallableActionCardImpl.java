@@ -192,14 +192,14 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
 		if (currentPlayer.getHand().size() == 0) {
 			return;
 		}
-        Card cardToTrash = currentPlayer.controlPlayer.ratcatcher_cardToTrash((MoveContext) context);
+        Card cardToTrash = currentPlayer.getHand().size() == 1 ? currentPlayer.getHand().get(0) : currentPlayer.controlPlayer.ratcatcher_cardToTrash((MoveContext) context);
         if (cardToTrash != null) {
         	if (!currentPlayer.getHand().contains(cardToTrash)) {
         		Util.playerError(currentPlayer, "Ratcatcher error, invalid card to trash, trashing random card.");
         		cardToTrash = Util.randomCard(currentPlayer.getHand());
         	} else {
         		currentPlayer.hand.remove(cardToTrash);
-        		currentPlayer.trash(cardToTrash, null, context);
+        		currentPlayer.trash(cardToTrash, this.controlCard, context);
         	}
         }
 	}

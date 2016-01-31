@@ -1926,12 +1926,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card catacombs_cardToObtain(MoveContext context) {
+    public Card catacombs_cardToObtain(MoveContext context, int maxCost) {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
-            return super.catacombs_cardToObtain(context);
+            return super.catacombs_cardToObtain(context, maxCost);
         }
-        int maxPrice = Math.max(0, game.getPile(Cards.catacombs).card().getCost(context) - 1);
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(maxPrice)
+        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(maxCost)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.catacombs);
         return getFromTable(context, sco);
     }
