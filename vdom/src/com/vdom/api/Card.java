@@ -82,6 +82,22 @@ public interface Card extends Serializable {
      */
     public boolean trashForced();
     
+	public boolean isCallableWhenCardGained();
+	
+	public int getCallableWhenGainedMaxCost();
+	
+	public boolean isCallableWhenActionResolved();
+	
+	public boolean doesActionStillNeedToBeInPlayToCall();
+	
+	public boolean isCallableWhenTurnStarts();
+	
+	public void callWhenCardGained(MoveContext context, Card cardToGain);
+    
+	public void callWhenActionResolved(MoveContext context, Card resolvedAction);
+    
+	public void callAtStartOfTurn(MoveContext context);
+    
     public void play(Game game, MoveContext context);
     
     public void play(Game game, MoveContext context, boolean fromHand);

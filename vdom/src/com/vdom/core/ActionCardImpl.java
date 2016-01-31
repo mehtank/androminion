@@ -268,16 +268,16 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         // test if any prince card left the play
         currentPlayer.princeCardLeftThePlay(currentPlayer);
         
-        // check for cards to call after resolving action
+     // check for cards to call after resolving action
         boolean isActionInPlay = isInPlay(currentPlayer);
-        ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
-        CallableCard toCall = null;
+        ArrayList<Card> callableCards = new ArrayList<Card>();
+        Card toCall = null;
         for (Card c : currentPlayer.tavern) {
-        	if (c.behaveAsCard() instanceof CallableCard) {
-        		CallableCard card = (CallableCard)(c.behaveAsCard());
-        		if (!card.isCallableWhenActionResolved() || (card.doesActionStillNeedToBeInPlay() && !isActionInPlay))
+        	if (c.behaveAsCard().isCallableWhenActionResolved()) {
+        		if (c.behaveAsCard().doesActionStillNeedToBeInPlayToCall() && !isActionInPlay) {
         			continue;
-        		callableCards.add((CallableCard) c);
+        		}
+        		callableCards.add(c);
         	}
         }
         if (!callableCards.isEmpty()) {
@@ -285,12 +285,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 	        do {
 	        	toCall = null;
 	        	// we want null entry at the end for None
-	        	CallableCard[] cardsAsArray = callableCards.toArray(new CallableCard[callableCards.size() + 1]);
+	        	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
 	        	//ask player which card to call
 	        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, this, cardsAsArray);
 	        	if (toCall != null && callableCards.contains(toCall)) {
 	        		callableCards.remove(toCall);
-	        		toCall.callWhenActionResolved(context, this);
+	        		toCall.behaveAsCard().callWhenActionResolved(context, this);
 	        	}
 		        // loop while we still have cards to call
 		        // NOTE: we have a hack here to prevent asking for duplicate calls on an unused Royal Carriage
@@ -5421,7 +5421,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         // Already impersonating another card?
         if (!this.isImpersonatingAnotherCard()) {
             // Get card to impersonate
-            Card cardToImpersonate = currentPlayer.controlPlayer.bandOfMisfits_actionCardToImpersonate(context);
+        	int cost = this.controlCard.getCost(context);
+        	if (cost == 0) return;
+            Card cardToImpersonate = currentPlayer.controlPlayer.bandOfMisfits_actionCardToImpersonate(context, cost - 1);
             if (cardToImpersonate != null 
                 && !game.isPileEmpty(cardToImpersonate)
                 && Cards.isSupplyCard(cardToImpersonate)

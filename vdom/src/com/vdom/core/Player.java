@@ -1806,7 +1806,7 @@ public abstract class Player {
     public abstract Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard);
     public abstract Card hermit_cardToGain(MoveContext context);
 
-    public abstract Card bandOfMisfits_actionCardToImpersonate(MoveContext context);
+    public abstract Card bandOfMisfits_actionCardToImpersonate(MoveContext context, int maxCost);
 
     // ////////////////////////////////////////////
     // Card interactions - Guilds Expansion
@@ -1837,9 +1837,9 @@ public abstract class Player {
     public abstract Card amulet_cardToTrash(MoveContext context);
     public abstract Card[] artificer_cardsToDiscard(MoveContext context);
     public abstract Card artificer_cardToObtain(MoveContext context, int cost);
-    public abstract CallableCard call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards);
-    public abstract CallableCard call_whenActionResolveCardToCall(MoveContext context, Card resolvedAction, CallableCard[] possibleCards);
-    public abstract CallableCard call_whenTurnStartCardToCall(MoveContext context, CallableCard[] possibleCards);
+    public abstract Card call_whenGainCardToCall(MoveContext context, Card gainedCard, Card[] possibleCards);
+    public abstract Card call_whenActionResolveCardToCall(MoveContext context, Card resolvedAction, Card[] possibleCards);
+    public abstract Card call_whenTurnStartCardToCall(MoveContext context, Card[] possibleCards);
     public abstract Card disciple_cardToPlay(MoveContext context);
     public abstract Card fugitive_cardToDiscard(MoveContext context);
     public abstract Card[] gear_cardsToSetAside(MoveContext context);
@@ -1858,7 +1858,8 @@ public abstract class Player {
 	public abstract Card transmogrify_cardToTrash(MoveContext context);
 	public abstract Card transmogrify_cardToObtain(MoveContext context, int maxCost, boolean potion);
     public abstract int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal);
-    
+    public abstract int cleanup_wineMerchantEstateToDiscard(MoveContext context, int wineMerchantTotal);
+        
     // ///////////////////////////////////////////////
     // Card interactions - Adventures Expansion Events
     // ///////////////////////////////////////////////

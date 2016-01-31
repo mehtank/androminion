@@ -2448,12 +2448,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card bandOfMisfits_actionCardToImpersonate(MoveContext context) {
-        if(context.isQuickPlay() && shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(context)) {
-            return super.bandOfMisfits_actionCardToImpersonate(context);
+    public Card bandOfMisfits_actionCardToImpersonate(MoveContext context, int maxCost) {
+        if(context.isQuickPlay() && shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(context, maxCost)) {
+            return super.bandOfMisfits_actionCardToImpersonate(context, maxCost);
         }
         SelectCardOptions sco = new SelectCardOptions().potionCost(0)
-                .maxCost(Cards.bandOfMisfits.getCost(context) - 1).isAction()
+                .maxCost(maxCost).isAction()
                 .setCardResponsible(Cards.bandOfMisfits);
         return getFromTable(context, sco);
     }
@@ -2676,7 +2676,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public CallableCard call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards) {
+    public Card call_whenGainCardToCall(MoveContext context, Card gainedCard, Card[] possibleCards) {
     	if(context.isQuickPlay() && shouldAutoPlay_call_whenGainCardToCall(context, gainedCard, possibleCards)) {
             return super.call_whenGainCardToCall(context, gainedCard, possibleCards);
         }
@@ -2690,7 +2690,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public CallableCard call_whenActionResolveCardToCall(MoveContext context, Card resolvedAction, CallableCard[] possibleCards) {
+    public Card call_whenActionResolveCardToCall(MoveContext context, Card resolvedAction, Card[] possibleCards) {
     	if(context.isQuickPlay() && shouldAutoPlay_call_whenActionResolveCardToCall(context, resolvedAction, possibleCards)) {
             return super.call_whenActionResolveCardToCall(context, resolvedAction, possibleCards);
         }
@@ -2704,7 +2704,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public CallableCard call_whenTurnStartCardToCall(MoveContext context, CallableCard[] possibleCards) {
+    public Card call_whenTurnStartCardToCall(MoveContext context, Card[] possibleCards) {
     	if(context.isQuickPlay() && shouldAutoPlay_call_whenTurnStartCardToCall(context, possibleCards)) {
             return super.call_whenTurnStartCardToCall(context, possibleCards);
         }
@@ -2898,6 +2898,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         
         return selectInt(context, Cards.wineMerchant, wineMerchantTotal);
+    }
+    
+    @Override
+    public int cleanup_wineMerchantEstateToDiscard(MoveContext context, int wineMerchantTotal) {
+    	if(context.isQuickPlay() && shouldAutoPlay_cleanup_wineMerchantEstateToDiscard(context)) {
+            return super.cleanup_wineMerchantEstateToDiscard(context, wineMerchantTotal);
+        }
+        if (wineMerchantTotal  == 1) {
+        	return selectBoolean(context, Cards.estate) ? 1 : 0;
+        }
+        
+        return selectInt(context, Cards.estate, wineMerchantTotal);
     }
     
     @Override

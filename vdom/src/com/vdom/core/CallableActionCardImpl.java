@@ -34,7 +34,7 @@ public class CallableActionCardImpl extends ActionCardImpl implements CallableCa
 		return callableWhenActionResolved;
 	}
 	
-	public boolean doesActionStillNeedToBeInPlay() {
+	public boolean doesActionStillNeedToBeInPlayToCall() {
 		return actionStillNeedsToBeInPlay;
 	}
 	

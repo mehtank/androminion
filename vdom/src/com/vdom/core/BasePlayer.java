@@ -2927,11 +2927,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
     @Override
-    public Card bandOfMisfits_actionCardToImpersonate(MoveContext context) {
-    	if (context.getPlayer().getHand().contains(Cards.treasureMap) && !game.isPileEmpty(Cards.treasureMap)) {
+    public Card bandOfMisfits_actionCardToImpersonate(MoveContext context, int maxCost) {
+    	if (context.getPlayer().getHand().contains(Cards.treasureMap) 
+    			&& !game.isPileEmpty(Cards.treasureMap)
+    			&& Cards.treasureMap.getCost(context) <= maxCost) {
     		return Cards.treasureMap;
     	}
-        return bestCardInPlay(context, 4, false, false, true, true, true);
+        return bestCardInPlay(context, maxCost, false, false, true, true, true);
     }
 
     @Override
@@ -3258,7 +3260,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return bestCardInPlay(context, cost, true, false, false);
     }
     
-    public CallableCard call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards) {
+    public Card call_whenGainCardToCall(MoveContext context, Card gainedCard, Card[] possibleCards) {
     	// only possible cards to call here are Duplicate or Estate (behaving like a Duplicate)
     	//don't duplicate trash (TODO: estate might not be trash with Inheritance)
     	for (Card c : getTrashCards()) {
@@ -3271,7 +3273,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	return null;
     }
     
-    public CallableCard call_whenActionResolveCardToCall(MoveContext context, Card resolvedAction, CallableCard[] possibleCards) {
+    public Card call_whenActionResolveCardToCall(MoveContext context, Card resolvedAction, Card[] possibleCards) {
     	// Check coin of the Realm first
     	boolean hasMoreActionsLeft = false;
     	for (Card c : getHand()) {
@@ -3279,7 +3281,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     			hasMoreActionsLeft = true;
     		}
     	}
-    	for (CallableCard c : possibleCards) {
+    	for (Card c : possibleCards) {
     		if (c == null) continue;
     		if (c.equals(Cards.coinOfTheRealm) && context.actions == 0 && hasMoreActionsLeft) {
     			return c;
@@ -3288,7 +3290,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	// Royal Carriage our strongest action card
     	Card bestAction = getBestActionCard(getHand(), context);
     	if (bestAction != null) {
-	    	for (CallableCard c : possibleCards) {
+	    	for (Card c : possibleCards) {
 	    		if (c == null) continue;
 	    		if (c.behaveAsCard().equals(Cards.royalCarriage) && resolvedAction.equals(bestAction)) {
 	        		return c;
@@ -3299,10 +3301,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public CallableCard call_whenTurnStartCardToCall(MoveContext context, CallableCard[] possibleCards) {
+    public Card call_whenTurnStartCardToCall(MoveContext context, Card[] possibleCards) {
     	CardList hand = context.getPlayer().getHand();
     	int coins = getCoinEstimate(context);
-    	for (CallableCard c : possibleCards) {
+    	for (Card c : possibleCards) {
     		if (c == null) continue;
     		if (c.equals(Cards.ratcatcher) &&
     				pickOutCard(hand, getTrashCards()) != null) {
@@ -3318,7 +3320,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	
     	// Guide logic - want to call Guide after any Ratcatchers
-    	for (CallableCard c : possibleCards) {
+    	for (Card c : possibleCards) {
     		if (c == null) continue;
     		if (c.equals(Cards.guide)) {
     			if (coins < Cards.gold.getCost(context) && hand.contains(Cards.tunnel)) {
@@ -3350,7 +3352,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	
     	//Transmogrify - always call after Guide
-    	for (CallableCard c : possibleCards) {
+    	for (Card c : possibleCards) {
     		if (c == null) continue;
     		if (c.equals(Cards.transmogrify)) {
     			//TODO: when to call Transmogrify - currently always
@@ -3625,6 +3627,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal) {
         return wineMerchantTotal;
+    }
+    
+    @Override
+    public int cleanup_wineMerchantEstateToDiscard(MoveContext context, int wineMerchantTotal) {
+    	return wineMerchantTotal;
     }
     
     @Override

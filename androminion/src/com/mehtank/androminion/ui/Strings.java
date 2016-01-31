@@ -501,7 +501,7 @@ public class Strings {
                     } else if(((Card)options[i]).equals(Cards.horseTraders)) {
                         strings2[(i - startIndex)/2] = "\u261e" + getCardName((Card)options[i]) 
                             + ", \u261e" + getString(R.string.pawn_one);
-                    } else if(options[i] instanceof CallableCard && ((CallableCard)options[i]).isCallableWhenTurnStarts()) {
+                    } else if(((Card)options[i]).isCallableWhenTurnStarts() || ((Card)options[i]).equals(Cards.estate)) {
                         strings2[(i - startIndex)/2] = format(R.string.call_optional, getCardName((Card)options[i]));
                     } else {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]);
@@ -683,6 +683,8 @@ public class Strings {
             return format(R.string.watch_tower_query, getCardName((Card)extras[0]));
         } else if (cardName.equals(getCardName(Cards.wineMerchant))) {
             return getString(R.string.wineMerchant_query);
+        } else if (cardName.equals(getCardName(Cards.estate))) {
+            return getString(R.string.wineMerchantEstate_query);
         }
         return cardName;
     }
@@ -1050,7 +1052,7 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.youngWitch))) {
             strings[1] = format(R.string.bane_option_one, getCardName((Card)extras[0]));
             strings[2] = getString(R.string.pass);
-        } else if (cardName.equals(getCardName(Cards.wineMerchant))) {
+        } else if (cardName.equals(getCardName(Cards.wineMerchant)) || cardName.equals(getCardName(Cards.estate))) {
             strings[1] = getString(R.string.wineMerchant_option_one);
             strings[2] = getString(R.string.pass);
         } else if (   cardName.equals(getCardName(Cards.peasant))

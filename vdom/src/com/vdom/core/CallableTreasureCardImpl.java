@@ -34,7 +34,7 @@ public class CallableTreasureCardImpl extends TreasureCardImpl implements Callab
 		return callableWhenActionResolved;
 	}
 	
-	public boolean doesActionStillNeedToBeInPlay() {
+	public boolean doesActionStillNeedToBeInPlayToCall() {
 		return actionStillNeedsToBeInPlay;
 	}
 	

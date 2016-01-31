@@ -811,7 +811,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
 
-    public boolean shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(MoveContext context) {
+    public boolean shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(MoveContext context, int maxCost) {
         return false;
     }
     
@@ -836,15 +836,15 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_call_whenGainCardToCall(MoveContext context, Card gainedCard, CallableCard[] possibleCards) {
+    public boolean shouldAutoPlay_call_whenGainCardToCall(MoveContext context, Card gainedCard, Card[] possibleCards) {
     	return false;
     }
     
-    public boolean shouldAutoPlay_call_whenActionResolveCardToCall(MoveContext context, Card resolvedCard, CallableCard[] possibleCards) {
+    public boolean shouldAutoPlay_call_whenActionResolveCardToCall(MoveContext context, Card resolvedCard, Card[] possibleCards) {
     	return false;
     }
     
-    public boolean shouldAutoPlay_call_whenTurnStartCardToCall(MoveContext context, CallableCard[] possibleCards) {
+    public boolean shouldAutoPlay_call_whenTurnStartCardToCall(MoveContext context, Card[] possibleCards) {
     	return false;
     }
     
@@ -923,6 +923,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     public boolean shouldAutoPlay_cleanup_wineMerchantToDiscard(MoveContext context) {
+        return true;
+    }
+    
+    public boolean shouldAutoPlay_cleanup_wineMerchantEstateToDiscard(MoveContext context) {
         return true;
     }
     

@@ -746,17 +746,43 @@ public class Game {
                 	wineMerchants++;
                 }
             }
-            int wineMerchantsTotal = player.controlPlayer.cleanup_wineMerchantToDiscard(context, wineMerchants);
-            if (wineMerchants < 0 || wineMerchantsTotal > wineMerchants) {
-                Util.playerError(player, "Wine Merchant discard error, invalid number of Wine Merchants. Discarding all Wine Merchants.");
-                wineMerchantsTotal = wineMerchants;
+            if (wineMerchants > 0) {
+	            int wineMerchantsTotal = player.controlPlayer.cleanup_wineMerchantToDiscard(context, wineMerchants);
+	            if (wineMerchants < 0 || wineMerchantsTotal > wineMerchants) {
+	                Util.playerError(player, "Wine Merchant discard error, invalid number of Wine Merchants. Discarding all Wine Merchants.");
+	                wineMerchantsTotal = wineMerchants;
+	            }
+	            if(wineMerchantsTotal > 0) {
+	            	for (int i = 0; i < wineMerchantsTotal; i++) {
+	            	    Card card = player.getTavern().get(Cards.wineMerchant);
+	            	    player.getTavern().remove(card);
+	                    player.discard(card, null, context, true, false); //set commandedDiscard=true and cleanup=false to force GameEvent 
+	            	}
+	            }
             }
-            if(wineMerchantsTotal > 0) {
-            	for (int i = 0; i < wineMerchantsTotal; i++) {
-            	    Card card = player.getTavern().get(Cards.wineMerchant);
-            	    player.getTavern().remove(card);
-                    player.discard(card, null, context, true, false); //set commandedDiscard=true and cleanup=false to force GameEvent 
-            	}
+        }
+        
+      //Discard Wine Merchants Estates from Tavern
+        if(context.getCoinAvailableForBuy() >= 2) {
+        	int wineMerchants = 0;
+            for (Card card : player.getTavern()) {
+                if (Cards.estate.equals(card) && Cards.wineMerchant.equals(card.behaveAsCard())) {
+                	wineMerchants++;
+                }
+            }
+            if (wineMerchants > 0) {
+	            int wineMerchantsTotal = player.controlPlayer.cleanup_wineMerchantEstateToDiscard(context, wineMerchants);
+	            if (wineMerchants < 0 || wineMerchantsTotal > wineMerchants) {
+	                Util.playerError(player, "Wine Merchant estate discard error, invalid number of Wine Merchants. Discarding all Wine Merchants.");
+	                wineMerchantsTotal = wineMerchants;
+	            }
+	            if(wineMerchantsTotal > 0) {
+	            	for (int i = 0; i < wineMerchantsTotal; i++) {
+	            	    Card card = player.getTavern().get(Cards.estate);
+	            	    player.getTavern().remove(card);
+	                    player.discard(card, null, context, true, false); //set commandedDiscard=true and cleanup=false to force GameEvent 
+	            	}
+	            }
             }
         }
         
@@ -870,13 +896,10 @@ public class Game {
         int numOptionalItems = 0;
         if (!allDurationAreSimple) {
         	// Add cards callable at start of turn
-        	 ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
+        	 ArrayList<Card> callableCards = new ArrayList<Card>();
              for (Card c : player.tavern) {
-             	if (c.behaveAsCard() instanceof CallableCard) {
-             		CallableCard card = (CallableCard)(c.behaveAsCard());
-             		if (!card.isCallableWhenTurnStarts())
-             			continue;
-             		callableCards.add((CallableCard) c);
+             	if (c.behaveAsCard().isCallableWhenTurnStarts()) {
+             		callableCards.add((Card) c);
              	}
              }
              if (!callableCards.isEmpty()) {
@@ -992,10 +1015,9 @@ public class Game {
                     }
                     context.freeActionInEffect--;
                 }                
-            } else if(card.behaveAsCard() instanceof CallableCard 
-            		&& ((CallableCard)card.behaveAsCard()).isCallableWhenTurnStarts()) {
+            } else if(card.behaveAsCard().isCallableWhenTurnStarts()) {
             	numOptionalItems -= 2;
-            	((CallableCard)card.behaveAsCard()).callAtStartOfTurn(context);
+            	card.behaveAsCard().callAtStartOfTurn(context);
             } else {
                 Util.log("ERROR: nextTurnCards contains " + card);
             }
@@ -1045,18 +1067,15 @@ public class Game {
         }
         
         //TODO: Dominionator - Will require tracking duration effects independent of cards
-        //       to do correctly - do this later.
+        //       to do correctly or replacing real card with a dummy card - do this later.
         
         //TODO: integrate this into the main action selection UI if possible to make it more seamless
         //check for start-of-turn callable cards
-        ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
-        CallableCard toCall = null;
+        ArrayList<Card> callableCards = new ArrayList<Card>();
+        Card toCall = null;
         for (Card c : player.tavern) {
-        	if (c.behaveAsCard() instanceof CallableCard) {
-        		CallableCard card = (CallableCard)(c.behaveAsCard());
-        		if (!card.isCallableWhenTurnStarts())
-        			continue;
-        		callableCards.add((CallableCard) c);
+        	if (c.behaveAsCard().isCallableWhenTurnStarts()) {
+        		callableCards.add(c);
         	}
         }
         if (!callableCards.isEmpty()) {
@@ -1064,12 +1083,12 @@ public class Game {
 	        do {
 	        	toCall = null;
 	        	// we want null entry at the end for None
-	        	CallableCard[] cardsAsArray = callableCards.toArray(new CallableCard[callableCards.size() + 1]);
+	        	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
 	        	//ask player which card to call
 	        	toCall = player.controlPlayer.call_whenTurnStartCardToCall(context, cardsAsArray);
 	        	if (toCall != null && callableCards.contains(toCall)) {
-	        		callableCards.remove(toCall);
-	        		toCall.callAtStartOfTurn(context);
+	        		toCall = callableCards.remove(callableCards.indexOf(toCall));
+	        		toCall.behaveAsCard().callAtStartOfTurn(context);
 	        	}
 		        // loop while we still have cards to call
 	        } while (toCall != null && !callableCards.isEmpty());
@@ -2664,14 +2683,12 @@ public class Game {
                     // NOTE: Technically this should be done in a loop, as you can call multiple cards for one when-gain.
                     //   However, since the only card here, Duplicate, will trigger another on-gain anyway
                     //   we don't need to.
-                    ArrayList<CallableCard> callableCards = new ArrayList<CallableCard>();
+                    ArrayList<Card> callableCards = new ArrayList<Card>();
                     for (Card c : player.tavern) {
-                    	if (c.behaveAsCard() instanceof CallableCard) {
-                    		if (!((CallableCard)c.behaveAsCard()).isCallableWhenCardGained())
-                    			continue;
-                    		int callCost = ((CallableCard)c.behaveAsCard()).getCallableWhenGainedMaxCost();
+                    	if (c.behaveAsCard().isCallableWhenCardGained()) {
+                    		int callCost = c.behaveAsCard().getCallableWhenGainedMaxCost();
                     		if (callCost == -1 || event.card.getCost(context) <= callCost) {
-                    			callableCards.add((CallableCard) c);
+                    			callableCards.add(c);
                     		}
                     	}
                     }
@@ -2679,10 +2696,10 @@ public class Game {
                     	//ask player which card to call
                     	Collections.sort(callableCards, new Util.CardCostComparator());
                     	// we want null entry at the end for None
-                    	CallableCard[] cardsAsArray = callableCards.toArray(new CallableCard[callableCards.size() + 1]);
-                    	CallableCard toCall = player.controlPlayer.call_whenGainCardToCall(context, event.card, cardsAsArray);
+                    	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
+                    	Card toCall = player.controlPlayer.call_whenGainCardToCall(context, event.card, cardsAsArray);
                     	if (toCall != null || callableCards.contains(toCall)) {
-                    		toCall.callWhenCardGained(context, event.card);
+                    		toCall.behaveAsCard().callWhenCardGained(context, event.card);
                     	}
                     }
                     

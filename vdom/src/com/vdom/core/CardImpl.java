@@ -461,6 +461,43 @@ public class CardImpl implements Card {
     }
     
     @Override
+    public boolean isCallableWhenCardGained() {
+    	return false;
+    }
+    
+    @Override
+    public int getCallableWhenGainedMaxCost() {
+    	return 6;
+    }
+    
+    @Override
+    public boolean isCallableWhenActionResolved() {
+    	return false;
+    }
+    
+    @Override
+    public boolean doesActionStillNeedToBeInPlayToCall() {
+    	return false;
+    }
+    
+    @Override
+    public boolean isCallableWhenTurnStarts() {
+    	return false;
+    }
+    
+    @Override
+    public void callWhenCardGained(MoveContext context, Card cardToGain) {	
+    }
+    
+    @Override
+    public void callWhenActionResolved(MoveContext context, Card resolvedAction) {
+    }
+    
+    @Override
+    public void callAtStartOfTurn(MoveContext context) {
+    }
+    
+    @Override
     public void isTrashed(MoveContext context) {
     	Cards.Type trashType = this.controlCard.getType();
     	if (this.controlCard.equals(Cards.estate) && context.player.getInheritance() != null) {
