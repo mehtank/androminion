@@ -64,10 +64,12 @@ public class Game {
     public static String gameTypeStr = null;
     public static boolean showUsage = false;
 
-    public static boolean alwaysIncludePlatColony = false;
-    public static boolean alwaysUseShelters = false;
     public static boolean sheltersNotPassedIn = false;
     public static boolean sheltersPassedIn = false;
+    public static boolean platColonyNotPassedIn = false;
+    public static boolean platColonyPassedIn = false;
+    public static double chanceForPlatColony = -1;
+    public static double chanceForShelters = 0.0;
     
     public static int blackMarketCount = 25;
     
@@ -111,8 +113,6 @@ public class Game {
 
     public int tradeRouteValue = 0;
     public Card baneCard = null;
-    double chanceForPlatColony = -1;
-    double chanceForShelters = 0.0;
 
     public boolean bakerInPlay = false;
     public boolean journeyTokenInPlay = false;
@@ -1241,7 +1241,7 @@ public class Game {
         numRandomEvents = 0;
         randomIncludesEvents = false;
         randomExpansions = null;
-
+        
         String gameCountArg = "-count";
         String debugArg = "-debug";
         String showEventsArg = "-showevents";
@@ -1396,8 +1396,8 @@ public class Game {
         maskPlayerNames = false;
         actionChains = false;
         suppressRedundantReactions = false;
-        alwaysIncludePlatColony = false;
-        alwaysUseShelters = false;
+        chanceForPlatColony = -1;
+        chanceForShelters = -1;
         equalStartHands = false;
         startGuildsCoinTokens = false; //only for testing
         lessProvinces = false; //only for testing
@@ -1434,10 +1434,10 @@ public class Game {
                     actionChains = true;
                 } else if (arg.toLowerCase().equals(suppressRedundantReactionsArg)) {
                     suppressRedundantReactions = true;
-                } else if (arg.toLowerCase().equals(platColonyArg)) {
-                    alwaysIncludePlatColony = true;
-                } else if (arg.toLowerCase().equals(useSheltersArg)) {
-                    alwaysUseShelters = true;
+                } else if (arg.toLowerCase().startsWith(platColonyArg)) {
+                	chanceForPlatColony = Integer.parseInt(arg.toLowerCase().substring(platColonyArg.length())) / 100.0;
+                } else if (arg.toLowerCase().startsWith(useSheltersArg)) {
+                	chanceForShelters = Integer.parseInt(arg.toLowerCase().substring(useSheltersArg.length())) / 100.0;
                 } else if (arg.toLowerCase().startsWith(blackMarketCountArg)) {
                     blackMarketCount = Integer.parseInt(arg.toLowerCase().substring(blackMarketCountArg.length()));
                 } else if (arg.toLowerCase().equals(equalStartHandsArg)) {
@@ -1951,13 +1951,15 @@ public class Game {
 
             context = new MoveContext(this, players[i]);
             String s = cardListText + "\n---------------\n\n";
-            if (chanceForPlatColony > -1) {
+            
+            if (platColonyPassedIn || chanceForPlatColony > 0.9999) {
+                s += "Platinum/Colony included...\n";
+            } else if (platColonyNotPassedIn || Math.round(chanceForPlatColony * 100) == 0) {
+                s += "Platinum/Colony not included...\n";
+            } else {
                 s += "Chance for Platinum/Colony\n   " + (Math.round(chanceForPlatColony * 100)) + "% ... " + (isPlatInGame() ? "included\n" : "not included\n");
             }
-            else
-            {
-                s += "Platinum/Colony included...\n";
-            }
+
             if (baneCard != null) {
                 s += "Bane card: " + baneCard.getName() + "\n";
             }
@@ -1981,15 +1983,12 @@ public class Game {
                 players[i].flipJourneyToken(null);
             }
 
-            if (alwaysUseShelters || sheltersPassedIn)
-            {
+            if (sheltersPassedIn || chanceForShelters > 0.9999) {
                 s += "Shelters included...\n";
+            } else if (sheltersNotPassedIn || Math.round(chanceForShelters * 100) == 0) {
+                s += "Shelters not included...\n";
             }
-            else
-            {
-                if (sheltersNotPassedIn) {
-                    chanceForShelters = 0;
-                }
+            else {
                 s += "Chance for Shelters\n   " + (Math.round(chanceForShelters * 100)) + "% ... " + (sheltersInPlay ? "included\n" : "not included\n");
             }
 
@@ -2081,8 +2080,8 @@ public class Game {
         blackMarketPile.clear();
         blackMarketPileShuffled.clear();
 
-        boolean platColonyNotPassedIn = false;
-        boolean platColonyPassedIn = false;
+        platColonyNotPassedIn = false;
+        platColonyPassedIn = false;
         sheltersNotPassedIn = false;
         sheltersPassedIn = false;
 
@@ -2303,10 +2302,13 @@ public class Game {
 
         }
 
-        chanceForShelters = 0.0;
-        if (alwaysUseShelters || sheltersPassedIn) {
+        if (sheltersPassedIn) {
             sheltersInPlay = true;
+            chanceForShelters = 1;
+        } else if (chanceForShelters > -0.0001) { 
+        	sheltersInPlay = rand.nextDouble() < chanceForShelters;
         } else {
+        	chanceForShelters = 0.0;
             sheltersInPlay = false;
             boolean alreadyCountedKnights = false;
 
@@ -2350,11 +2352,10 @@ public class Game {
 
         // Check for PlatColony
         boolean addPlatColony = false;
-        if (alwaysIncludePlatColony || platColonyPassedIn) {
+        if (platColonyPassedIn) {
             addPlatColony = true;
-        } else if (platColonyNotPassedIn) {
-            chanceForPlatColony = 0;
-            addPlatColony = false;
+        } else if (chanceForPlatColony > -0.0001) {
+            addPlatColony = rand.nextDouble() < chanceForPlatColony;
         } else {
             chanceForPlatColony = 0;
             for (AbstractCardPile pile : piles.values()) {

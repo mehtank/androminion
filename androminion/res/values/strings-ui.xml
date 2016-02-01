@@ -118,6 +118,12 @@
     <string name="game_type_last">Last played</string>
     <string name="game_type_specified">Specified cards</string>
     <string name="random_all_cards">All cards</string>
+    <string name="include_platinum_colony">Platinum/Colony: </string>
+    <string name="include_shelters">Shelters: </string>
+    <string name="include_cards_random">Random</string>
+    <string name="include_cards_yes">Use</string>
+    <string name="include_cards_no">Don\'t use</string>
+    <string name="include_cards_percent">%1$s%% chance</string>
     <string name="random_include_events">Event cards: </string>
     <string name="random_events_none">None</string>
     <string name="random_events_random">Random</string>

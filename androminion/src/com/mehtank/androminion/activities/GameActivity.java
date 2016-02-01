@@ -229,15 +229,6 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         ArrayList<String> strs = new ArrayList<String>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(top);
 
-        if(prefs.getBoolean("plat_colony", false)) {
-            strs.add("-platcolony");
-        }
-
-        if (prefs.getBoolean("use_shelters", false))
-        {
-            strs.add("-useshelters");
-        }
-
         strs.add("-blackmarketcount" + prefs.getString("black_market_count", "25"));
 
         if(prefs.getBoolean("quick_play", false)) {

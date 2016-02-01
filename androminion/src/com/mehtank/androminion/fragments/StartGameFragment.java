@@ -33,6 +33,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     @SuppressWarnings("unused")
     private static final String TAG = "StartGameFragment";
     
+    private static final String PLAT_COLONY_PREF = "platinumColonyChance";
+    private static final String SHELTERS_PREF = "sheltersChance";
     private static final String RANDOM_ALL_CARDS_PREF = "randomAllCards";
     private static final String RANDOM_NUM_EVENTS_PREF = "randomNumEvents";
     private static final String RANDOM_MAX_EVENTS_PREF = "randomMaxEvents";
@@ -46,6 +48,10 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     Spinner mCardsetSpinner;
     Spinner mPresetSpinner;
     CheckBox mRandomAllCheckbox;
+    LinearLayout mPlatColonyLayout;
+    Spinner mPlatColonySpinner;
+    LinearLayout mSheltersLayout;
+    Spinner mSheltersSpinner;
     LinearLayout mRandomEventsLayout;
     Spinner mRandomEventsSpinner;
     LinearLayout mRandomOptionsLayout;
@@ -105,6 +111,10 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mCardsetSpinner.setOnItemSelectedListener(this);        
         mPresetSpinner = (Spinner) mView.findViewById(R.id.spinnerPreset);
         mRandomAllCheckbox = (CheckBox) mView.findViewById(R.id.checkboxRandomAll);
+        mPlatColonyLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutPlatinumColony);
+        mPlatColonySpinner = (Spinner) mView.findViewById(R.id.spinnerPlatinumColony);
+        mSheltersLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutShelters);
+        mSheltersSpinner = (Spinner) mView.findViewById(R.id.spinnerShelters);
         mRandomOptionsLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomOptions);
         mRandomEventsLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomEvents);
         mRandomEventsSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomEvents);
@@ -191,6 +201,31 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         ArrayAdapter<String> adapter = createArrayAdapter(presets);
         mPresetSpinner.setAdapter(adapter);
         mPresetSpinner.setSelection(adapter.getPosition(mPrefs.getString("presetPref", "First Game (Base)")));
+        
+        // Fill platinum/colony & shelters spinners
+        int platColonyChance = mPrefs.getInt(PLAT_COLONY_PREF, -1);
+        ArrayList<String> platColonySpinnerList = new ArrayList<String>();
+        platColonySpinnerList.add(getResources().getString(R.string.include_cards_random));
+        platColonySpinnerList.add(getResources().getString(R.string.include_cards_yes));
+        platColonySpinnerList.add(getResources().getString(R.string.include_cards_no));
+        platColonySpinnerList.add(String.format(getResources().getString(R.string.include_cards_percent), 25));
+        platColonySpinnerList.add(String.format(getResources().getString(R.string.include_cards_percent), 50));
+        platColonySpinnerList.add(String.format(getResources().getString(R.string.include_cards_percent), 75));
+        ArrayAdapter<String> platColonyAdapter = createArrayAdapter(platColonySpinnerList);
+        mPlatColonySpinner.setAdapter(platColonyAdapter);
+        mPlatColonySpinner.setSelection(chanceToPos(platColonyChance));
+        
+        int sheltersChance = mPrefs.getInt(SHELTERS_PREF, -1);
+        ArrayList<String> sheltersSpinnerList = new ArrayList<String>();
+        sheltersSpinnerList.add(getResources().getString(R.string.include_cards_random));
+        sheltersSpinnerList.add(getResources().getString(R.string.include_cards_yes));
+        sheltersSpinnerList.add(getResources().getString(R.string.include_cards_no));
+        sheltersSpinnerList.add(String.format(getResources().getString(R.string.include_cards_percent), 25));
+        sheltersSpinnerList.add(String.format(getResources().getString(R.string.include_cards_percent), 50));
+        sheltersSpinnerList.add(String.format(getResources().getString(R.string.include_cards_percent), 75));
+        ArrayAdapter<String> sheltersAdapter = createArrayAdapter(sheltersSpinnerList);
+        mSheltersSpinner.setAdapter(sheltersAdapter);
+        mSheltersSpinner.setSelection(chanceToPos(sheltersChance));
         
         // Fill random game options
         mRandomAllCheckbox.setChecked(mPrefs.getBoolean(RANDOM_ALL_CARDS_PREF, true));
@@ -327,6 +362,30 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 			}
     	}
 	}
+	
+	private int chanceToPos(int percentChance) {
+    	switch(percentChance) {
+    	case -1: return 0;
+    	case 100: return 1;
+    	case 0: return 2;
+    	case 25: return 3;
+    	case 50: return 4;
+    	case 75: return 5;
+    	}
+    	return 0;
+	}
+	
+	private int posToChance(int pos) {
+    	switch(pos) {
+    	case 0: return -1;
+    	case 1: return 100;
+    	case 2: return 0;
+    	case 3: return 25;
+    	case 4: return 50;
+    	case 5: return 75;
+    	}
+    	return -1;
+	}
 
     private int posToNumEvents(int pos) {
     	int numEvents = 0;
@@ -364,6 +423,10 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     	
     	int presetVisibility = mGameType == TypeOptions.PRESET ? View.VISIBLE : View.GONE;
     	mPresetSpinner.setVisibility(presetVisibility);
+    	
+    	int includeCardsVisibility = mGameType == TypeOptions.PRESET || mGameType == TypeOptions.RANDOM ? View.VISIBLE : View.GONE;
+    	mPlatColonyLayout.setVisibility(includeCardsVisibility);
+    	mSheltersLayout.setVisibility(includeCardsVisibility);
     	
     }
 
@@ -468,13 +531,20 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         strs.add(str);
         edit.putString("gamePref6", str);
 
-        if(mPrefs.getBoolean("plat_colony", false)) {
-            strs.add("-platcolony");
+        if (mPlatColonySpinner.getVisibility() == View.VISIBLE) {
+		    int platColonyChance = posToChance(mPlatColonySpinner.getSelectedItemPosition());
+		    if(platColonyChance != -1) {
+		        strs.add("-platcolony" + platColonyChance);
+		    }
+		    edit.putInt(PLAT_COLONY_PREF, platColonyChance);
         }
 
-        if (mPrefs.getBoolean("use_shelters", false))
-        {
-            strs.add("-useshelters");
+        if (mSheltersSpinner.getVerticalFadingEdgeLength() == View.VISIBLE) {
+	        int sheltersChance = posToChance(mSheltersSpinner.getSelectedItemPosition());
+	        if (sheltersChance != -1) {
+	            strs.add("-useshelters" + sheltersChance);
+	        }
+	        edit.putInt(SHELTERS_PREF, sheltersChance);
         }
 
         strs.add("-blackmarketcount" + mPrefs.getString("black_market_count", "25"));
