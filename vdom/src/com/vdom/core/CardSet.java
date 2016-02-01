@@ -141,6 +141,10 @@ public class CardSet {
 			pick(events, eventList, eventCount);
 		}
 		
+		// Do Alchemy recommendation - if at least one Alchemy card is in, use 3 to 5 at once
+		if (adjustForAlchemy)
+			performAlchemyRecommendation(cardSetList, possibleCards);
+		
 		// pick a band card if needed
 		if (findBandIfNeeded && cardSetList.contains(Cards.youngWitch)) {
 			for (Card c : possibleCards) {
@@ -154,10 +158,6 @@ public class CardSet {
 				baneCard = swapOutBaneCard(cardSetList, possibleCards);
 			}
 		}
-		
-		// Do Alchemy recommendation - if at least one Alchemy card is in, use 3 to 5 at once
-		if (adjustForAlchemy)
-			performAlchemyRecommendation(cardSetList, possibleCards);
 		
 		cardSetList.addAll(eventList);
 		
@@ -177,8 +177,50 @@ public class CardSet {
 		}
 		
 		int numAlchemyCards = alchemyCardsUsed.size();
-		if (!(numAlchemyCards > 0 && numAlchemyCards < MIN_RECOMMENDED_ALCHEMY))
+		if (!(numAlchemyCards < MIN_RECOMMENDED_ALCHEMY))
 			return;
+		
+		//count alchemy cards available out of total cards
+		int numAlchemyCardsAvailable = 0;
+		int numKindgomCardsAvailable = 0;
+		for (Card c : possibleCards) {
+			if (!Cards.isKingdomCard(c))
+				continue;
+			numKindgomCardsAvailable++;
+			if (c.getExpansion().equals("Alchemy"))
+				numAlchemyCardsAvailable++;
+		}
+		
+		if (numKindgomCardsAvailable - numAlchemyCardsAvailable < cardSetList.size()) {
+			return;
+		}
+		
+		// whether we use the adjustment for the recommended number of Alchemy cards is dependent on the proportion of
+		//   cards that are Alchemy cards - if not we're not using, we remove all Alchemy cards rather than leave
+		//   an amount less than the recommended number to play with
+		boolean useAlchemyCards = rand.nextInt(numKindgomCardsAvailable) < numAlchemyCardsAvailable;
+		
+		if (!useAlchemyCards) {
+			if (numAlchemyCards == 0)
+				return;
+			// replace any alchemy cards with others
+			LinkedList<Card> cardsToPickFrom = new LinkedList<Card>();
+			for (Card c : possibleCards) {
+				if (!Cards.isKingdomCard(c) 
+						|| cardSetList.contains(c) 
+						|| c.getExpansion().equals("Alchemy"))
+					continue;
+				cardsToPickFrom.add(c);
+			}
+			
+			for(int i = 0; i < cardSetList.size(); ++i) {
+				if (cardSetList.get(i).getExpansion().equals("Alchemy")) {
+					Card replacement = cardsToPickFrom.remove(rand.nextInt(cardsToPickFrom.size()));
+					cardSetList.set(i,  replacement);
+				}
+			}
+			return;
+		}
 		
 		int numAlchemyCardsToUse = rand.nextInt(MAX_RECOMMENDED_ALCHEMY - MIN_RECOMMENDED_ALCHEMY + 1) + MIN_RECOMMENDED_ALCHEMY;
 		numAlchemyCardsToUse = Math.min(numAlchemyCardsToUse, Expansion.Alchemy.getKingdomCards().size() - numAlchemyCards);
@@ -363,7 +405,7 @@ public class CardSet {
 		CardSetMap.put(GameType.DecisionsDecisions, new CardSet(new Card[]{Cards.merchantGuild, Cards.candlestickMaker, Cards.masterpiece, Cards.taxman, Cards.butcher, Cards.bridge, Cards.pawn, Cards.miningVillage, Cards.upgrade, Cards.duke}, null));
 
     /*frr18 AdventureTest*/
-		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.library, Cards.inn, Cards.transmogrify, Cards.stash, Cards.chapel, Cards.throneRoom, Cards.contraband, Cards.workersVillage, Cards.embargo, Cards.apprentice, Cards.borrow, Cards.lostArts, Cards.pathfinding}, null));
+		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.page, Cards.haggler, Cards.highway, Cards.merchantGuild, Cards.chapel, Cards.throneRoom, Cards.bridgeTroll, Cards.deathCart, Cards.lostCity, Cards.apprentice, Cards.borrow, Cards.ferry, Cards.pathfinding, Cards.inheritance}, null));
 		CardSetMap.put(GameType.GentleIntro, new CardSet(new Card[] { Cards.amulet, Cards.distantLands, Cards.dungeon, Cards.duplicate, Cards.giant, Cards.hireling, Cards.port, Cards.ranger, Cards.ratcatcher, Cards.treasureTrove, Cards.scoutingParty}, null));
 		CardSetMap.put(GameType.ExpertIntro, new CardSet(new Card[] { Cards.caravanGuard, Cards.coinOfTheRealm, Cards.hauntedWoods, Cards.lostCity, Cards.magpie, Cards.peasant, Cards.raze, Cards.swampHag, Cards.transmogrify, Cards.wineMerchant, Cards.mission, Cards.plan}, null));
 		CardSetMap.put(GameType.LevelUp, new CardSet(new Card[] { Cards.dungeon, Cards.gear, Cards.guide, Cards.lostCity, Cards.miser, Cards.market, Cards.militia, Cards.spy, Cards.throneRoom, Cards.workshop, Cards.training}, null));
