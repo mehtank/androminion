@@ -6185,16 +6185,18 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     				break;
     			lookAtCards.add(c);
     		}
-    		Card cardToKeep = currentPlayer.controlPlayer.raze_cardToKeep(context, lookAtCards.toArray(new Card[0]));
-    		if (cardToKeep == null || !lookAtCards.contains(cardToKeep)) {
-    			Util.playerError(currentPlayer, "Raze keep error. Keeping random card.");
-    			cardToKeep = Util.randomCard(lookAtCards);
+    		if (lookAtCards.size() > 0) {
+	    		Card cardToKeep = lookAtCards.size() == 1 ? lookAtCards.get(0) : currentPlayer.controlPlayer.raze_cardToKeep(context, lookAtCards.toArray(new Card[0]));
+	    		if (cardToKeep == null || !lookAtCards.contains(cardToKeep)) {
+	    			Util.playerError(currentPlayer, "Raze keep error. Keeping random card.");
+	    			cardToKeep = Util.randomCard(lookAtCards);
+	    		}
+	    		lookAtCards.remove(cardToKeep);
+	    		currentPlayer.getHand().add(cardToKeep);
+	    		for (Card c : lookAtCards) {
+	                currentPlayer.discard(c, this.controlCard, context);
+	            }
     		}
-    		lookAtCards.remove(cardToKeep);
-    		currentPlayer.getHand().add(cardToKeep);
-    		for (Card c : lookAtCards) {
-                currentPlayer.discard(c, this.controlCard, context);
-            }
     	}
     }
 
