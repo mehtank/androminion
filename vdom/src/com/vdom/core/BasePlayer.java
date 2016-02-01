@@ -173,10 +173,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || card.equals(Cards.abandonedMine) /*choose only virtualRuins*/
                 || card.equals(Cards.ruinedLibrary)
                 || card.equals(Cards.ruinedMarket)
-                || card.equals(Cards.ruinedVillage)
+                || card.equals(Cards.ruinedVillage) 
                 || card.equals(Cards.survivors)
+                || (card.isKnight(null) && !card.equals(Cards.virtualKnight)) /*choose only virtualKnight*/
                 || !Cards.isSupplyCard(card)
-                || (actionOnly && !(card.isAction(this))) 
+                || (actionOnly && !(card.isAction(null))) 
                 || (!victoryCardAllowed && (card instanceof VictoryCard) && !card.equals(Cards.curse))
                 ) {
                 /*card not allowed*/
