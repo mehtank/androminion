@@ -894,29 +894,31 @@ public class Game {
     		durationEffectsAreCards.add(false);
         }
         int numOptionalItems = 0;
+        ArrayList<Card> callableCards = new ArrayList<Card>();
+        for (Card c : player.tavern) {
+        	if (c.behaveAsCard().isCallableWhenTurnStarts()) {
+        		callableCards.add((Card) c);
+        	}
+        }
+        if (!callableCards.isEmpty()) {
+         	Collections.sort(callableCards, new Util.CardCostComparator());
+ 	        for (Card c : callableCards) {
+ 	        	if (c.behaveAsCard().equals(Cards.guide)
+ 	        		|| c.behaveAsCard().equals(Cards.ratcatcher)
+ 	        		|| c.behaveAsCard().equals(Cards.transmogrify)) {
+ 	        		allDurationAreSimple = false;
+ 	        	}
+ 	        }
+        }
         if (!allDurationAreSimple) {
         	// Add cards callable at start of turn
-        	 ArrayList<Card> callableCards = new ArrayList<Card>();
-             for (Card c : player.tavern) {
-             	if (c.behaveAsCard().isCallableWhenTurnStarts()) {
-             		callableCards.add((Card) c);
-             	}
-             }
-             if (!callableCards.isEmpty()) {
-             	Collections.sort(callableCards, new Util.CardCostComparator());
-     	        for (Card c : callableCards) {
-     	        	if (c.behaveAsCard().equals(Cards.guide)
-     	        		|| c.behaveAsCard().equals(Cards.ratcatcher)
-     	        		|| c.behaveAsCard().equals(Cards.transmogrify)) {
-     	        		allDurationAreSimple = false;
-     	        	}
-     	        	durationEffects.add(c);
-     	        	durationEffects.add(Cards.curse);
-     	        	durationEffectsAreCards.add(false);
-     	    		durationEffectsAreCards.add(false);
-     	        	numOptionalItems += 2;
-     	        }
-             }
+        	for (Card c : callableCards) {
+ 	        	durationEffects.add(c);
+ 	        	durationEffects.add(Cards.curse);
+ 	        	durationEffectsAreCards.add(false);
+ 	    		durationEffectsAreCards.add(false);
+ 	        	numOptionalItems += 2;
+ 	        }
         }
         
         while (durationEffects.size() > numOptionalItems) {
@@ -1072,7 +1074,7 @@ public class Game {
         
         //TODO: integrate this into the main action selection UI if possible to make it more seamless
         //check for start-of-turn callable cards
-        ArrayList<Card> callableCards = new ArrayList<Card>();
+        callableCards = new ArrayList<Card>();
         Card toCall = null;
         for (Card c : player.tavern) {
         	if (c.behaveAsCard().isCallableWhenTurnStarts()) {
