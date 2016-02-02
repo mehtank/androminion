@@ -2197,6 +2197,7 @@ public class Game {
                             s.equalsIgnoreCase(Cards.colony.getSafeName()) ) {
                     platColonyPassedIn = true;
                 } else if (s.equalsIgnoreCase("Shelter") ||
+                			s.equalsIgnoreCase("Shelters") ||
                            s.equalsIgnoreCase(Cards.hovel.getSafeName()) ||
                            s.equalsIgnoreCase(Cards.overgrownEstate.getSafeName()) ||
                            s.equalsIgnoreCase(Cards.necropolis.getSafeName()) ) {
