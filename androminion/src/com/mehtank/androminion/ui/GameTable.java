@@ -397,28 +397,25 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         }
 
         short nonSupplyCardsInPlay = 0;
+        boolean pageInPlay = false;
+        boolean peasantInPlay = false;
 
         for (MyCard c : cards)
         {
             // More types to check for eventually...
-            if (   c.originalSafeName.equals("Spoils")
-                || c.originalSafeName.equals("Mercenary")
-                || c.originalSafeName.equals("Madman")
-                || c.originalSafeName.equals("Soldier")
-                || c.originalSafeName.equals("Fugitive")
-                || c.originalSafeName.equals("Disciple")
-                || c.originalSafeName.equals("Teacher")
-                || c.originalSafeName.equals("TreasureHunter")
-                || c.originalSafeName.equals("Warrior")
-                || c.originalSafeName.equals("Hero")
-                || c.originalSafeName.equals("Champion")
-               )
-            {
+        	if (c.pile == MyCard.NON_SUPPLY_PILE) {
                 ++nonSupplyCardsInPlay;
+            }
+            if (c.originalSafeName.equals("Page")) {
+            	pageInPlay = true;
+            }
+            if (c.originalSafeName.equals("Peasant")) {
+            	peasantInPlay = true;
             }
         }
 
-        if (nonSupplyCardsInPlay <= 4 
+        if (nonSupplyCardsInPlay <= 4
+        		|| (pageInPlay && peasantInPlay)
         		|| nonSupplyCardsInPlay == 6
         		|| nonSupplyCardsInPlay == 7
         		|| nonSupplyCardsInPlay == 8)

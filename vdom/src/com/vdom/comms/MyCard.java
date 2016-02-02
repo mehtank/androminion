@@ -246,15 +246,15 @@ public class MyCard implements Serializable {
 		}
 
 		private int getCardNonSupplyGroup(MyCard c) {
-			if (c.equals(Cards.treasureHunter)
-					|| c.equals(Cards.warrior)
-					|| c.equals(Cards.hero)
-					|| c.equals(Cards.champion))
+			if (c.originalSafeName.equals("TreasureHunter")
+					|| c.originalSafeName.equals("Warrior")
+					|| c.originalSafeName.equals("Hero")
+					|| c.originalSafeName.equals("Champion"))
 				return 1;
-			if (c.equals(Cards.soldier)
-					|| c.equals(Cards.fugitive)
-					|| c.equals(Cards.disciple)
-					|| c.equals(Cards.teacher))
+			if (c.originalSafeName.equals("Soldier")
+					|| c.originalSafeName.equals("Fugitive")
+					|| c.originalSafeName.equals("Disciple")
+					|| c.originalSafeName.equals("Teacher"))
 				return 2;
 			return 3;
 		}
