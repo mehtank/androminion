@@ -150,8 +150,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         for (Card card : cards) {
         	boolean hasTokens = context.game.getPlayerSupplyTokens(card, context.getPlayer()).size() > 0;
-            if (   !(card.isEvent() && sco.cardResponsible != null && sco.cardResponsible.equals(Cards.contraband) )
-            	&& (sco.allowEmpty || !context.game.isPileEmpty(card))) {
+            if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
                 if (   sco.checkValid(card, card.getCost(context), card.isVictory(context), null)
                 	&& (!(sco.noTokens && hasTokens))
                     && (   (!context.cantBuy.contains(card) && (context.canBuyCards || card.isEvent()))
