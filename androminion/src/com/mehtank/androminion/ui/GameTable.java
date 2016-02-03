@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -83,6 +85,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     CardAnimator animator;
 
     ArrayList<ToggleButton> showCardsButtons = new ArrayList<ToggleButton>();
+    
+    long gameTime = 0;
+    long lastTimeClockStarted = 0;
+    boolean gameTimePaused = true;
 
     /**
      * Information about a selected card: group, position in that group, CardState
@@ -111,6 +117,18 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     double textScale = GameTableViews.textScale;
 
     private HelpView helpView;
+    
+    public void pauseGameTimer() {
+    	if (!gameTimePaused) {
+    		gameTime += System.currentTimeMillis() - lastTimeClockStarted;
+    		gameTimePaused = true;
+    	}
+    }
+    
+    public void resumeGameTimer() {
+    	lastTimeClockStarted = System.currentTimeMillis();
+    	gameTimePaused = false;
+    }
 
     /**
      * Initialize the card groups at the top of the screen, where the card piles go
@@ -431,6 +449,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         top.nosplash();
         // log start of game
         gameScroller.setGameEvent(top.getString(R.string.game_loaded), true, 0);
+        gameTime = 0;
+        lastTimeClockStarted = System.currentTimeMillis();
+        gameTimePaused = false;
     }
 
     /**
@@ -961,6 +982,16 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         fv.setLayoutParams(lp);
         showCardsButtons.add(fv.showCards);
         gameOver.addView(fv);
+        
+        if (gameOver.getChildCount() == gs.turnCounts.length) {
+        	TextView gameTimeText = new TextView(top);
+        	String timeString = DateUtils.formatElapsedTime(gameTime / 1000);
+        	gameTimeText.setText(String.format(getContext().getString(R.string.final_game_time), timeString));
+        	float dp = getResources().getDisplayMetrics().density;
+    		int pad = (int) Math.ceil(dp * 20);
+        	gameTimeText.setPadding(0, pad, 0, 0);
+        	gameOver.addView(gameTimeText);
+        }
     }
 
     void uncheckAllShowCardsButtons() {
@@ -999,7 +1030,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             supplyPile.updateCardName(gs.ruinsID, Cards.virtualRuins, -1, false);
             supplyPile.updateCardName(gs.knightsID, Cards.virtualKnight, -1, false);
             setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastTokens);
-            
+            pauseGameTimer();
             HapticFeedback.vibrate(getContext(),AlertType.FINAL);
             finalStatus(gs);
             return;

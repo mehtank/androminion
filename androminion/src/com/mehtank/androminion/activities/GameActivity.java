@@ -201,6 +201,13 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             Game.processUserPrefArgs(getUserPrefs().toArray(new String[0]));
         }
     }
+    
+    @Override
+    protected void onPause() {
+    	super.onPause();
+    	if (gameRunning)
+    		gt.pauseGameTimer();
+    }
 
     @Override
     public void onResume() {
@@ -216,6 +223,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         }
         if (gameRunning) {
             Game.processUserPrefArgs(getUserPrefs().toArray(new String[0]));
+            gt.resumeGameTimer();
         }
     }
 

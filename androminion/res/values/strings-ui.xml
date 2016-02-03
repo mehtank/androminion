@@ -177,6 +177,7 @@
     <string name="coins">(%1$s) coin</string>
     <string name="final_view_card_counts">Card counts</string>
     <string name="final_view_text">%1$s: %2$s VPs.\n%3$s turns, %4$s cards.</string>
+    <string name="final_game_time">Game time: %1$s</string>
     <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
     <string name="potion_single">%1$s potion</string>
     <string name="potion_multiple">%1$s potions</string>
