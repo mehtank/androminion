@@ -405,7 +405,7 @@ public class CardSet {
 		CardSetMap.put(GameType.DecisionsDecisions, new CardSet(new Card[]{Cards.merchantGuild, Cards.candlestickMaker, Cards.masterpiece, Cards.taxman, Cards.butcher, Cards.bridge, Cards.pawn, Cards.miningVillage, Cards.upgrade, Cards.duke}, null));
 
     /*frr18 AdventureTest*/
-		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.page, Cards.peasant, Cards.marauder, Cards.embargo, Cards.contraband, Cards.prince, Cards.deathCart, Cards.lostCity, Cards.apprentice, Cards.borrow, Cards.ferry, Cards.pathfinding, Cards.inheritance}, null));
+		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.page, Cards.peasant, Cards.university, Cards.watchTower, Cards.hermit, Cards.deathCart, Cards.marauder, Cards.urchin, Cards.tournament, Cards.borrow, Cards.ferry, Cards.youngWitch}, Cards.menagerie));
 		CardSetMap.put(GameType.GentleIntro, new CardSet(new Card[] { Cards.amulet, Cards.distantLands, Cards.dungeon, Cards.duplicate, Cards.giant, Cards.hireling, Cards.port, Cards.ranger, Cards.ratcatcher, Cards.treasureTrove, Cards.scoutingParty}, null));
 		CardSetMap.put(GameType.ExpertIntro, new CardSet(new Card[] { Cards.caravanGuard, Cards.coinOfTheRealm, Cards.hauntedWoods, Cards.lostCity, Cards.magpie, Cards.peasant, Cards.raze, Cards.swampHag, Cards.transmogrify, Cards.wineMerchant, Cards.mission, Cards.plan}, null));
 		CardSetMap.put(GameType.LevelUp, new CardSet(new Card[] { Cards.dungeon, Cards.gear, Cards.guide, Cards.lostCity, Cards.miser, Cards.market, Cards.militia, Cards.spy, Cards.throneRoom, Cards.workshop, Cards.training}, null));

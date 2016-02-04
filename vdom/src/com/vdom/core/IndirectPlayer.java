@@ -2947,7 +2947,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_ferry_actionCardPileToHaveToken(context)) {
             return super.ferry_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions()
+    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .isAction().setCardResponsible(Cards.ferry);
         return getFromTable(context, sco);
     }
@@ -2968,7 +2968,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_lostArts_actionCardPileToHaveToken(context)) {
             return super.lostArts_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions()
+    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .isAction().setCardResponsible(Cards.lostArts);
         return getFromTable(context, sco);
     }
@@ -2978,7 +2978,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_pathfinding_actionCardPileToHaveToken(context)) {
             return super.pathfinding_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions()
+    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .isAction().setCardResponsible(Cards.pathfinding);
         return getFromTable(context, sco);
     }
@@ -2999,7 +2999,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_plan_actionCardPileToHaveToken(context)) {
             return super.plan_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions()
+    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .isAction().setCardResponsible(Cards.plan);
         return getFromTable(context, sco);
     }
@@ -3090,7 +3090,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_training_actionCardPileToHaveToken(context)) {
             return super.training_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions()
+    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .isAction().setCardResponsible(Cards.training);
         return getFromTable(context, sco);
     }
