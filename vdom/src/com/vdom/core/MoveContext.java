@@ -370,18 +370,7 @@ public class MoveContext {
     }
 
     public int getPotionsForStatus(Player p) {
-        if(p.playedCards.size() > 0) {
-            return potions;
-        }
-
-        int count = 0;
-        for (Card card : player.getHand()) {
-            if (card.equals(Cards.potion)) {
-                count++;
-            }
-        }
-
-        return count;
+        return potions;
     }
 
     public void debug(String msg) {
