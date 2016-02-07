@@ -499,7 +499,7 @@ public class Strings {
                             + " (" + getCardName(((Card) options[i])) + ")";
                     } else if(((Card)options[i]).equals(Cards.horseTraders)) {
                         strings2[(i - startIndex)/2] = "\u261e" + getCardName((Card)options[i]) 
-                            + ", \u261e" + getString(R.string.pawn_one);
+                            + ", " + getString(R.string.pawn_one);
                     } else if(((Card)options[i]).isCallableWhenTurnStarts() || ((Card)options[i]).equals(Cards.estate)) {
                         strings2[(i - startIndex)/2] = format(R.string.call_optional, getCardName((Card)options[i]));
                     } else {
