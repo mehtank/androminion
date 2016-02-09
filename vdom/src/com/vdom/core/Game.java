@@ -970,6 +970,7 @@ public class Game {
                 }
                 context.freeActionInEffect--;
             } else if(card.behaveAsCard().equals(Cards.horseTraders)) {
+            	//BUG: this doesn't let you call estates inheriting horse trader differently
                 Card horseTrader = player.horseTraders.remove(0);
                 player.hand.add(horseTrader);
                 drawToHand(context, horseTrader, 1);

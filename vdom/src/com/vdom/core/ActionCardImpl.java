@@ -3412,9 +3412,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 context.actions++;
 
                 for (int i = 0; i < 3; i++) {
-                    if(!game.drawToHand(context, this, 3 - i)) {
-                        break;
-                    }
+                    game.drawToHand(context, this, 3 - i);
                 }
             }
         }
