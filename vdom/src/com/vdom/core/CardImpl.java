@@ -680,8 +680,8 @@ public class CardImpl implements Card {
     
     protected void attackPlayed(MoveContext context, Game game, Player currentPlayer) {
         // If an Urchin has been played, offer the player the option to trash it for a Mercenary
-        for (int i = currentPlayer.playedCards.size() - 1; i > 0 ; ) {
-            Card c = currentPlayer.playedCards.get(--i);
+        for (int i = currentPlayer.playedCards.size() - 1; i >= 0 ; --i) {
+            Card c = currentPlayer.playedCards.get(i);
             if (c.behaveAsCard().getType() == Cards.Type.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context)) {
                 currentPlayer.trash(c.getControlCard(), this, context);
                 currentPlayer.gainNewCard(Cards.mercenary, this, context);
