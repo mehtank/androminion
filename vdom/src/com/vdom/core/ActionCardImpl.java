@@ -2029,6 +2029,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
     private void watchTower(Game game, MoveContext context, Player currentPlayer) {
     	int cardsToDraw = 6 - currentPlayer.hand.size();
+    	if (cardsToDraw > 0 && currentPlayer.getMinusOneCardToken()) {
+        	game.drawToHand(context, this, -1);
+        }
     	for (int i = 0; i < cardsToDraw; ++i) {
     		if(!game.drawToHand(context, this, cardsToDraw - i))
                 break;
@@ -3524,6 +3527,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
         
         int cardsToDraw = 5 - currentPlayer.hand.size();
+        if (cardsToDraw > 0 && currentPlayer.getMinusOneCardToken()) {
+        	game.drawToHand(context, this, -1);
+        }
         for (int i = 0; i < cardsToDraw; ++i) {
         	if(!game.drawToHand(context, this, cardsToDraw - i)) {
                 break;

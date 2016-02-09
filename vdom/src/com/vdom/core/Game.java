@@ -1768,7 +1768,7 @@ public class Game {
     	Player player = context.player;
     	if (player.getMinusOneCardToken()) {
     		player.setMinusOneCardToken(false, context);
-    		return false;
+    		return true;
     	}
         Card card = draw(context, responsible, cardsLeftToDraw);
         if (card == null)
