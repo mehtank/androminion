@@ -261,7 +261,8 @@ public class CardImpl implements Card {
         costModifier -= 2 * context.countCardsInPlay(Cards.princess);
         //TODO: BUG if an inherited peddler is yours, its cost should lower during your buy phase 
         costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlayThisTurn()) : 0;
-        costModifier -= (context.game.isPlayerSupplyTokenOnPile(this, context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
+        costModifier -= (context.game.isPlayerSupplyTokenOnPile(this.controlCard.equals(Cards.estate) ? this.controlCard : this, 
+        		context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
         
         return Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);
     }

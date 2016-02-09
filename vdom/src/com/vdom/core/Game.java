@@ -2940,6 +2940,8 @@ public class Game {
     
     public List<PlayerSupplyToken> getPlayerSupplyTokens(Card card, Player player) {
     	card = card.getTemplateCard();
+    	if (card.isKnight(null)) card = Cards.virtualKnight;
+        if (card.isRuins(null)) card = Cards.virtualRuins;
     	if (player == null || !playerSupplyTokens.containsKey(card.getName()))
     		return new ArrayList<PlayerSupplyToken>();
     	
