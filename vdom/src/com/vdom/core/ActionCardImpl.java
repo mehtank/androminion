@@ -3893,7 +3893,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
 
         if (card != null) {
             hand(currentPlayer).remove(card);
-            haven(currentPlayer).add(card);
+            currentPlayer.haven.add(card);
             GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideHaven, (MoveContext) context);
             event.card = card;
             event.setPrivate(true);
@@ -4127,10 +4127,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     // TODO better way to do, possible security hole
     protected CardList hand(Player player) {
         return player.hand;
-    }
-
-    protected CardList haven(Player player) {
-        return player.haven;
     }
 
     protected void drawToHand(MoveContext context, Card responsible, int count) {
@@ -6023,16 +6019,20 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	cards = null;
         }
         if (cards != null) {
+        	ArrayList<Card> gearCards = new ArrayList<Card>();
             for (Card card : cards) {
                 if (card != null) {
                 	cardSetAside = true;
                     hand(currentPlayer).remove(card);
-                    haven(currentPlayer).add(card);
+                    gearCards.add(card);
                     GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideGear, (MoveContext) context);
                     event.card = card;
                     event.setPrivate(true);
                     context.game.broadcastEvent(event);
                 }
+            }
+            if (!gearCards.isEmpty()) {
+            	currentPlayer.gear.add(gearCards);
             }
         }
         if (!cardSetAside && this.getControlCard().cloneCount == 1) {

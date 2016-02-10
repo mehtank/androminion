@@ -53,6 +53,7 @@ public abstract class Player {
     protected CardList summon;
     protected CardList island;
     protected CardList haven;
+    protected ArrayList<ArrayList<Card>> gear;
     protected CardList horseTraders;
     protected Card inheritance;
     protected Card save;
@@ -248,6 +249,7 @@ public abstract class Player {
         playedByPrince = new CardList(this, "PlayedByPrince");
         island = new CardList(this, "Island");
         haven = new CardList(this, "Haven");
+        gear = new ArrayList<ArrayList<Card>>();
         horseTraders = new CardList(this, "Horse Traders");
         inheritance = null;
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Type,Integer>>();
@@ -645,6 +647,9 @@ public abstract class Player {
         }
         for (Card card : haven) {
             allCards.add(card);
+        }
+        for (ArrayList<Card> curGear : gear) {
+        	allCards.addAll(curGear);
         }
         for (Card card : tavern) {
             allCards.add(card);
@@ -1527,7 +1532,7 @@ public abstract class Player {
     public abstract Card island_cardToSetAside(MoveContext context);
 
     public abstract Card prince_cardToSetAside(MoveContext context);
-    public abstract int duration_cardToPlay(MoveContext context, Card[] cards);
+    public abstract int duration_cardToPlay(MoveContext context, Object[] cards);
     public abstract Card[] prince_cardCandidates(MoveContext context, ArrayList<Card> cardList, boolean onlyBest);
 
     public abstract Card blackMarket_chooseCard(MoveContext context, ArrayList<Card> cardList);

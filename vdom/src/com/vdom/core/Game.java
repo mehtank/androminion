@@ -789,7 +789,8 @@ public class Game {
         context.buyPhase = false;
     }
 
-    protected void playerBeginTurn(Player player, MoveContext context) {
+    @SuppressWarnings("unchecked")
+	protected void playerBeginTurn(Player player, MoveContext context) {
         if (context.game.possessionsToProcess > 0) {
             player.controlPlayer = context.game.possessingPlayer;
         } else {
@@ -818,7 +819,7 @@ public class Game {
          * other Durations like Wharf - (Curse)
          */
         boolean allDurationAreSimple = true;
-        ArrayList<Card> durationEffects = new ArrayList<Card>();
+        ArrayList<Object> durationEffects = new ArrayList<Object>();
         ArrayList<Boolean> durationEffectsAreCards = new ArrayList<Boolean>();
         for (Card card : player.nextTurnCards) {
             Card thisCard = card.behaveAsCard();
@@ -838,7 +839,7 @@ public class Game {
                        || thisCard.equals(Cards.dungeon)) {
                         allDurationAreSimple = false;
                     }
-                    if(thisCard.equals(Cards.haven) || thisCard.equals(Cards.gear)) {
+                    if(thisCard.equals(Cards.haven)) {
                     	if(player.haven != null && player.haven.size() > 0) {
                     		durationEffects.add(card);
                     		durationEffects.add(player.haven.remove(0));
@@ -846,6 +847,14 @@ public class Game {
                     				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
                     		durationEffectsAreCards.add(false);
                 		}
+                    } else if (thisCard.equals(Cards.gear)) {
+                    	if(player.gear.size() > 0) {
+                    		durationEffects.add(card);
+                    		durationEffects.add(player.gear.remove(0));
+                    		durationEffectsAreCards.add(clone == cloneCount 
+                    				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
+                    		durationEffectsAreCards.add(false);
+                    	}
                     } else {
                     	durationEffects.add(card);
                     	durationEffects.add(Cards.curse); /*dummy*/
@@ -926,16 +935,23 @@ public class Game {
             if(allDurationAreSimple) {
             	selection=0;
             } else {
-            	selection = 2*player.controlPlayer.duration_cardToPlay(context, durationEffects.toArray(new Card[durationEffects.size()]));
+            	selection = 2*player.controlPlayer.duration_cardToPlay(context, durationEffects.toArray(new Object[durationEffects.size()]));
             }
-            Card card = durationEffects.get(selection);
+            Card card = (Card) durationEffects.get(selection);
             boolean isRealCard = durationEffectsAreCards.get(selection);
             if (card == null) {
                 Util.log("ERROR: duration_cardToPlay returned " + selection);
                 selection=0;
-                card = durationEffects.get(selection);
+                card = (Card) durationEffects.get(selection);
             }
-            Card card2 = durationEffects.get(selection+1);
+            Card card2 = null;
+            if (durationEffects.get(selection+1) instanceof Card) {
+            	card2 = (Card) durationEffects.get(selection+1);
+            }
+            ArrayList<Card> gearCards = null;
+            if (durationEffects.get(selection+1) instanceof ArrayList<?>) {
+            	gearCards = (ArrayList<Card>) durationEffects.get(selection+1);
+            }
             if (card2 == null) {
                 Util.log("ERROR: duration_cardToPlay returned " + selection);
                 card2 = card;
@@ -975,9 +991,14 @@ public class Game {
                 player.hand.add(horseTrader);
                 drawToHand(context, horseTrader, 1);
             } else if(card.behaveAsCard().isDuration(player)) {
-                if(card.behaveAsCard().equals(Cards.haven) || card.behaveAsCard().equals(Cards.gear)) {
+                if(card.behaveAsCard().equals(Cards.haven)) {
                     player.hand.add(card2);
                 }
+                if(card.behaveAsCard().equals(Cards.gear)) {
+                	for (Card c : gearCards)
+                		player.hand.add(c);
+                }
+                
                 
                 Card thisCard = card.behaveAsCard();
                 

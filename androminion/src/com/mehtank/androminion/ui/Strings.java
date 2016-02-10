@@ -1,5 +1,6 @@
 package com.mehtank.androminion.ui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -489,19 +490,27 @@ public class Strings {
         if (card != null && getCardName(card).equals(getCardName(Cards.prince))) {
             String[] strings2 = new String[(options.length - startIndex)/2];
             for (int i = startIndex; i < options.length-1; i=i+2) {
-                if(options[i] != null && options[i+1] != null) {
-                    if(   ((Card)options[i]).equals(Cards.haven)
-                       || ((Card)options[i]).equals(Cards.gear) ) {
+                if (options[i] != null && options[i+1] != null) {
+                    if ( ((Card)options[i]).equals(Cards.haven) ) {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
                                 + " (" + "\u261e" + getCardName(((Card) options[i+1])) + ")";
-                    } else if(((Card)options[i]).equals(Cards.prince)
+                    } else if ( ((Card)options[i]).equals(Cards.gear) ) {
+                    	@SuppressWarnings("unchecked")
+						ArrayList<Card> gearCards = (ArrayList<Card>) options[i+1];
+                    	String cardsString = getCardName(gearCards.get(0));
+                    	if (gearCards.size() > 1) {
+                    		cardsString = " " + cardsString + ", " + getCardName(gearCards.get(1));
+                    	}
+                        strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
+                                + " (" + "\u261e" + cardsString + ")";
+                    } else if (((Card)options[i]).equals(Cards.prince)
                     		|| ((Card)options[i]).equals(Cards.summon)) {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i+1]) 
                             + " (" + getCardName(((Card) options[i])) + ")";
-                    } else if(((Card)options[i]).equals(Cards.horseTraders)) {
+                    } else if (((Card)options[i]).equals(Cards.horseTraders)) {
                         strings2[(i - startIndex)/2] = "\u261e" + getCardName((Card)options[i]) 
                             + ", " + getString(R.string.pawn_one);
-                    } else if(((Card)options[i]).isCallableWhenTurnStarts() || ((Card)options[i]).equals(Cards.estate)) {
+                    } else if (((Card)options[i]).isCallableWhenTurnStarts() || ((Card)options[i]).equals(Cards.estate)) {
                         strings2[(i - startIndex)/2] = format(R.string.call_optional, getCardName((Card)options[i]));
                     } else {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]);

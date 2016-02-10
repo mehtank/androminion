@@ -788,7 +788,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public int duration_cardToPlay(MoveContext context, Card[] cards) {
+    public int duration_cardToPlay(MoveContext context, Object[] cards) {
         /* includes cards on prince */
         if(context.isQuickPlay() && shouldAutoPlay_duration_cardToPlay(context)) {
             return super.duration_cardToPlay(context, cards);

@@ -1137,7 +1137,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public int duration_cardToPlay(MoveContext context, Card[] cards) {
+    public int duration_cardToPlay(MoveContext context, Object[] cards) {
         return 0;
     }
 
