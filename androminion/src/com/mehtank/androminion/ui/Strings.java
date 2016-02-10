@@ -297,7 +297,8 @@ public class Strings {
         } else if (event.gameEventType == GameEvent.Type.DeckPutIntoDiscardPile) {
             statusText += getString(R.string.DeckPutIntoDiscardPile);
         } else if (event.gameEventType == GameEvent.Type.TravellerExchanged) {
-        	statusText += getString(R.string.TravellerExchanged);
+        	String cardExchanged = getCardName((Card)extras[3]); // card being exchanged
+        	statusText += format(R.string.TravellerExchanged, cardExchanged);
         } else if (event.gameEventType == GameEvent.Type.TurnJourneyTokenFaceUp) {
             statusText += getString(R.string.TurnJourneyTokenFaceUp);
         } else if (event.gameEventType == GameEvent.Type.TurnJourneyTokenFaceDown) {

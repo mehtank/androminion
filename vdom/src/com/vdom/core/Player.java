@@ -1101,13 +1101,14 @@ public abstract class Player {
             GameEvent event;
         	if(exchange != null) {
         		event = new GameEvent(GameEvent.Type.TravellerExchanged, context);
-        		event.card = (exchange);
+        		event.card = exchange;
+        		event.responsible = card;
         	} else {
             	event = new GameEvent(GameEvent.Type.CardDiscarded, context);
             	event.card = (card);
+            	event.responsible = responsible;
         	}
             
-            event.responsible = responsible;
             event.setPlayer(this);
             context.game.broadcastEvent(event);
         }

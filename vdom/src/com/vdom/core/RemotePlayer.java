@@ -706,6 +706,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             if (event.getComment() != null) {
                 extras.add(event.getComment());
             }
+        } else if (event.getType() == Type.TravellerExchanged) {
+            extras.add(event.responsible);
         } else if (event.getType() == Type.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)
