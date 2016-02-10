@@ -2281,7 +2281,7 @@ public class Game {
                 blackMarketPile.add(Cards.knightsCards.get(Game.rand.nextInt(Cards.knightsCards.size())));
             }
             // sort
-            Collections.sort(blackMarketPile, new Util.CardCostComparator());
+            Collections.sort(blackMarketPile, new Util.CardCostNameComparator());
             // put all in piles
             cards.clear();
             for (int i = 0; i < blackMarketPile.size(); i++) {

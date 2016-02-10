@@ -1180,8 +1180,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                     if (context.game.playBuy(context, card).equals(Cards.silver)) {
                         // trader swapped card in silver
                         // Wiki: Put bought card on top of BlackMarket deck
-                        context.game.blackMarketPile.remove(card);
-                        context.game.blackMarketPile.add(0, card);
                         context.game.blackMarketPileShuffled.add(0, card);
                         cards.remove(card);
                     }
@@ -1192,6 +1190,8 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
             }
         }
+        
+        Collections.sort(context.game.blackMarketPile, new Util.CardCostNameComparator());
         
         // put rest back
         if (cards.size() > 0) {
