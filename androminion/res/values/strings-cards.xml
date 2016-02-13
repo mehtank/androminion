@@ -472,7 +472,7 @@
     <string name="Plaza_desc">You may discard a Treasure card. If you do, take a Coin token.</string>
     <string name="Soothsayer_name">Soothsayer</string>
     <string name="Soothsayer_desc">Gain a Gold. Each other player gains a Curse. Each player who did draws a card.</string>    
-    <string name="StoneMason_name">Stone Mason</string>
+    <string name="StoneMason_name">Stonemason</string>
     <string name="StoneMason_desc">Trash a card from your hand, Gain 2 cards each costing less than it. When you buy this, you may overpay for it. If you do, gain 2 Action cards each costing the amount you overpaid.</string>
     <string name="Taxman_name">Taxman</string>
     <string name="Taxman_desc">You may trash a Treasure from your hand. Each other player with 5 or more cards in hand discards a copy of it (or reveals a hand without it). Gain a Treasure card costing up to 3 Coins more than the trashed card, putting it on top of your deck.</string>
