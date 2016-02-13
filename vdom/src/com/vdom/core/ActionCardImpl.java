@@ -228,13 +228,14 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             context.actions--;
         }
         
-        if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneAction))
+        Card tokenPile = isInheritedAbility ? actualCard : this;
+        if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneAction))
         	context.actions += 1;
-        if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneBuy))
+        if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneBuy))
         	context.buys += 1;
-        if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneCoin))
+        if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCoin))
         	context.addCoins(1);
-        if (game.isPlayerSupplyTokenOnPile(actualCard, currentPlayer, PlayerSupplyToken.PlusOneCard))
+        if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCard))
         	game.drawToHand(context, actualCard, 1 + addCards);
 
         context.actions += addActions;
