@@ -449,7 +449,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
         if (card != null && card.isAction(null)) {
             if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card)) {
             	Card gainedCard = context.player.gainNewCard(card, this.controlCard, context);
-            	if (card.equals(gainedCard))
+            	if (card.equals(gainedCard)
+            			|| (card.isRuins(null) && gainedCard.isRuins(null))
+            			|| (card.isKnight(null) && gainedCard.isKnight(null)))
             		placeToken(context, card, PlayerSupplyToken.PlusOneBuy);
             }
         }
