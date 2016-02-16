@@ -20,7 +20,7 @@
 	<string name="statisticsactivity_title">Statistiken</string>
 	<string name="resetstatistics_menu">Statistiken zurücksetzen</string>
 	<string name="win_loss_menu">Siege/Verluste</string>
-	<string name="win_loss_playerwins">Spieler Spiele gewonnen</string>	
+	<string name="win_loss_playerwins">%1$s Spieler Spiele gewonnen</string>	
 	<string name="achievements_menu">Erfolge</string>
 	<string-array name="reset_choices">
 		<item>Statistik zurücksetzten</item>

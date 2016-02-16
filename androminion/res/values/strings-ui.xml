@@ -20,7 +20,7 @@
     <string name="statisticsactivity_title">Statistics</string>
     <string name="resetstatistics_menu">Reset Statistics</string>
     <string name="win_loss_menu">Win/Loss Record</string>
-    <string name="win_loss_playerwins">player game wins</string>
+    <string name="win_loss_playerwins">%1$s player game wins</string>
     <string name="achievements_menu">Achievements</string>
         <string-array name="reset_choices">
         <item>Reset statistic</item>
@@ -36,9 +36,8 @@
     <string name="connections">
 	<![CDATA[
         <h3>On network permissions and usage</h3>
-		This app functions by using a strictly local networking layer to talk between the player and the game -- currently <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.<br><br>
-		See also: <a href="https://code.google.com/p/androminion/issues/detail?id=522">https://code.google.com/p/androminion/issues/detail?id=522</a><br>
-    <h3>Steps to run a multiplayer game</h3>
+		This app functions by using a strictly local networking layer to talk between the player and the game -- currently, unless using multiplayer,  <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.<br><br>
+    	<h3>Steps to run a multiplayer game</h3>
       	<b><font color="red">You need the source code to compile the server vdom!</font></b> In the vdom\\ directory, type \'ant run\' (or just start com.vdom.core.Game with whatever arguments you want - the build file build.xml has some default arguments).  Be sure you know the host name or ip address for the machine that\'s running the game server, and that the player ports (by default 2255 and 2256) aren\'t blocked by your machine\'s firewall.<br>
       	Open the app on two separate devices.  Use the \"join game\" dialog to enter your name, the host name or ip address of the machine running the server, then the port that shows up in the terminal where you\'re running the server.  Once the first player connects, a second port will show up; enter that one in on the second device (should be 2255 and 2256). The interface for the first player that connects will be missing a lot of stuff until the second player connects, but once both players are there, things work fine.<br><br>
 		Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
@@ -49,9 +48,7 @@
     <string name="whatsnew">
 <![CDATA[
 		<h3>Please Read!</h3>
-		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will (probably) be the last major revision; Androminion will be removed from the market soon.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
-		On behalf of the Androminion team, it has been fun.<br>
-		-:ankur
+		By request of Rio Grande Games, the publisher of Dominion, we have removed Androminion from the Play Store. Please do not publish it in any public app store as there is an official Dominion app.<br><br>
 		<h3>Version 6.05</h3>
 		* Adventures Expansion! <br>
 		* Promo Cards: Stash, Summon

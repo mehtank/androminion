@@ -20,7 +20,7 @@
     <string name="statisticsactivity_title">Statistiques</string>
     <string name="resetstatistics_menu">Réinitialiser Statistiques</string>
     <string name="win_loss_menu">Gagnées/Perdues</string>
-    <string name="win_loss_playerwins">joueurs, parties gagnées</string>
+    <string name="win_loss_playerwins">%1$s joueurs, parties gagnées</string>
     <string name="achievements_menu">Achèvements</string>
         <string-array name="reset_choices">
         <item>Réinitialiser statistiques</item>

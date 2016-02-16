@@ -428,13 +428,18 @@ public class Strings {
                 ret = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
         }
         if (c instanceof TreasureCard) {
-            ret = Strings.format(R.string.coin_worth, "" + ((TreasureCard) c).getValue()) + "\n" + ret;
+        	int value = ((TreasureCard) c).getValue();
+        	if (value == 1)
+        		ret = Strings.format(R.string.coin_worth_single, "" + value) + "\n" + ret;
+        	else
+        		ret = Strings.format(R.string.coin_worth_multiple, "" + value) + "\n" + ret;
         }
         if (c instanceof ActionCard) {
             ActionCard ac = (ActionCard) c;
             if (c instanceof DurationCard) {
                 DurationCard dc = (DurationCard) c;
-                if (dc.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn, "" + dc.getAddGoldNextTurn()) + "\n" + ret;
+                if (dc.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_single, "" + dc.getAddGoldNextTurn()) + "\n" + ret;
+                else if (dc.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_multiple, "" + dc.getAddGoldNextTurn()) + "\n" + ret;
                 if (dc.getAddBuysNextTurn() > 1) ret = Strings.format(R.string.buys_next_turn_multiple, "" + dc.getAddBuysNextTurn()) + "\n" + ret;
                 else if (dc.getAddBuysNextTurn() > 0) ret = Strings.format(R.string.buy_next_turn_single, "" + dc.getAddBuysNextTurn()) + "\n" + ret;
                 if (dc.getAddActionsNextTurn() > 1) ret =  Strings.format(R.string.actions_next_turn_multiple, "" + dc.getAddActionsNextTurn()) + "\n" + ret;
@@ -444,7 +449,8 @@ public class Strings {
 
             }
 
-            if (ac.getAddGold() > 0) ret = Strings.format(R.string.card_coin, "" + ac.getAddGold()) + "\n" + ret;
+            if (ac.getAddGold() > 0) ret = Strings.format(R.string.card_coin_single, "" + ac.getAddGold()) + "\n" + ret;
+            else if (ac.getAddGold() > 0) ret = Strings.format(R.string.card_coin_multiple, "" + ac.getAddGold()) + "\n" + ret;
             if (ac.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + ret;
             else if (ac.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + ac.getAddBuys()) + "\n" + ret;
             if (ac.getAddActions() > 1) ret = Strings.format(R.string.card_actions_multiple, "" + ac.getAddActions()) + "\n" + ret;

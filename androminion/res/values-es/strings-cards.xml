@@ -115,7 +115,7 @@
     <string name="Upgrade_name">Mejora</string>
     <string name="Upgrade_desc">Elimina una carta de tu mano. Gana una carta que cueste exactamente +(1) más.</string>
     <string name="Tribute_name">Tributo</string>
-    <string name="Tribute_desc">El jugador de tu izquierda revela y descarta las 2 cartas superiores de su mazo. Por cada carta revelada con nombre diferente, tú ganas: si se trata de una carta... de Acción, +2 Acciones; de Tesoro, +(2); de Victoria, +2 Cartas.</string>
+    <string name="Tribute_desc">El jugador de tu izquierda revela y descarta las 2 cartas superiores de su mazo. Por cada carta revelada con nombre diferente, tú ganas: si se trata de una carta… de Acción, +2 Acciones; de Tesoro, +(2); de Victoria, +2 Cartas.</string>
     <string name="GreatHall_name">Gran Sala</string>
     <string name="GreatHall_desc"></string>
     <string name="Duke_name">Duque</string>
@@ -144,7 +144,7 @@
     <string name="Salvager_desc">Elimina una carta de tu mano. +() igual al coste de la carta eliminada.</string>
     <string name="PirateShip_name">Barco Pirata</string>
     <string name="PirateShip_desc">Elige una opción: cada jugador (menos tú) revela las 2 cartas superiores de su mazo, elimina el Tesoro revelado que tú decidas, descarta las demás cartas reveladas y tú ganas un marcador de Moneda (si alguien ha eliminado algún Tesoro); o bien, +(1) por cada marcador de Moneda que hayas conseguido en esta partida utilizando Barcos Piratas.</string>
-    <string name="NativeVillage_name">Poblado indígena</string>
+    <string name="NativeVillage_name">Poblado Indígena</string>
     <string name="NativeVillage_desc">Elige una opción: aparta, boca abajo, sobre tu tablero de Poblado Indígena, la carta superior de tu mazo, o bien coloca en tu mano todas las cartas que haya en dicho tablero. Puedes mira, en cualquier momento, las cartas que hay en tu tablero de Poblado Indígena. Al final de la partida, devuelve todas esas cartas a tu mazo.</string>
     <string name="Island_name">Isla</string>
     <string name="Island_desc">Aparta esta carta y otra cualquiera de tu mano. Al final de la partida devuélvelas a tu mazo. Al final de la partida, esta carta otorga 2 puntos de victoria.</string>
@@ -191,7 +191,7 @@
     <string name="ScryingPool_name">Hidromancia</string>
     <string name="ScryingPool_desc">Cada jugador (incluso tú) revela la carta superior de su mazo, para descartarla o ponerla de nuevo encima del mazo, lo que tú decidas. A continuación, levanta cartas de tu mazo hasta que reveles una carta que no sea de Acción. Pon todas las cartas reveladas en tu mano.</string>
     <string name="Transmute_name">Transmutar</string>
-    <string name="Transmute_desc">Elimina una carta de tu mano. Si se trata de una carta... de Acción, gana una carta de Ducado; de Tesoro, gana una carta Transmutar; de Victoria, gana una carta de Oro.</string>
+    <string name="Transmute_desc">Elimina una carta de tu mano. Si se trata de una carta… de Acción, gana una carta de Ducado; de Tesoro, gana una carta Transmutar; de Victoria, gana una carta de Oro.</string>
     <string name="University_name">Universidad</string>
     <string name="University_desc">Puedes ganar una carta de Acción que tenga un coste máximo de (5).</string>
     <string name="Vineyard_name">Viñedo</string>
@@ -369,9 +369,9 @@
     <string name="HuntingGrounds_name">Coto de Caza</string>
     <string name="HuntingGrounds_desc">Cuando elimines esta carta gana un Ducado o 3 Fincas.</string>
     <string name="Ironmonger_name">Ferretero</string>
-    <string name="Ironmonger_desc">Revela la carta superior de tu mazo y descártala si quieres. Tanto si la descartas como si no, si se trata de...\n una carta de Acción, +1 Acción; una carta de Tesoro, +1 Moneda; una carta de Victoria, +1 Carta</string>
+    <string name="Ironmonger_desc">Revela la carta superior de tu mazo y descártala si quieres. Tanto si la descartas como si no, si se trata de…\n una carta de Acción, +1 Acción; una carta de Tesoro, +1 Moneda; una carta de Victoria, +1 Carta</string>
     <string name="JunkDealer_name">Chatarrero</string>
-    <string name="JunkDealer_desc">Trash a card from your hand.</string>
+    <string name="JunkDealer_desc">Elimina una carta de tu mano.</string>
     <string name="MarketSquare_name">Plaza del Mercado</string>
     <string name="MarketSquare_desc">Cuando elimines una de tus cartas, puedes descartarte de esta carta de tu mano. Si lo haces, gana una carta de Oro.</string>
     <string name="Mystic_name">Pitonisa</string>
