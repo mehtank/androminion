@@ -21,7 +21,7 @@
     <string name="resetstatistics_menu">Reiniciar Estadisticas</string>
     <string name="win_loss_menu">Récord de Victorias/Derrotas</string>
     <string name="win_loss_playerwins">Victorias con %1$s jugadores</string>
-    <string name="achievements_menu">Logos</string>
+    <string name="achievements_menu">Logros</string>
 
     <string-array name="reset_choices">
         <item>Reiniciar estadisticas</item>
@@ -40,7 +40,7 @@
         <h3>Acerca de permisiones y uso del red</h3>
 		Esta aplicación funciona por usar una capa de red estrictamente local para transmitir entre el jugador y el juego -- al presente, excepto el uso del modo multijugador, <b>no hay datos transmitidos de o al dispositivo</b>. Sin embargo, esta red local todavía requiere permiso de red, y así datos transmitidos internamente pueden aparacer en el uso total de la aplicación.<br><br>
     <h3>Pasos para hacer una partida de multijugador</h3>
-      	<b><font color="red">Necesitas el código fuente para compilar el servidor de vdom!</font></b> En el directorio de vdom\\, tecla \'ant run\' (o bien inicia com.vdom.core.Game con los argumentos que quieras - el archivo build.xml tiene algunos argumentos de defecto). Asegúrate de que sepas el nobre de equipo o dirección IP para la máquina que está ejecutando el servidor del juego, y los puertos de jugador (de defecto 2255 and 2256) no están bloqueados por el firewall de tu máquina.<br>
+      	<b><font color="red">Necesitas el código fuente para compilar el servidor de vdom!</font></b> En el directorio de vdom\\, tecla \'ant run\' (o bien inicia com.vdom.core.Game con los argumentos que quieras - el archivo build.xml tiene algunos argumentos de defecto). Asegúrate de que sepas el nobre de equipo o dirección IP para la máquina que está ejecutando el servidor del juego, y los puertos de jugador (de defecto 2255 y 2256) no están bloqueados por el firewall de tu máquina.<br>
       	Abre la applicación en dos depositivos distintos. Usa el diálogo \"Unirse a un juego\" para introducir tu nombre, el nobre de equipo o dirección IP de la máquina que está ejecutando el servidor, entonces el puerto que aparace en terminal donde estás ejecutando el servidor. Una vez que el primer jugador conecte, un puerto segundo aparecerá; introduce ese en el segundo depositivo (deberían ser 2255 y 2256). La interfaz para el primer jugador que conecte faltará muchas cosas hasta que el segundo jugador conecte, pero un vez que ambos están, funcionará bien.<br><br>
 		Referencia: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
 	]]>
@@ -49,29 +49,29 @@
     <string name="whatsnew_title">Novedades: </string>
     <string name="whatsnew">
 <![CDATA[
-		<h3>Please Read!</h3>
-		Por la petición de Rio Grande Games, el Editor de Dominion, hemos sacado Androminion del Play Store. Por favor, no la publiques en cualquier tienda de apliciaciones publica ya que hay una aplicación oficial de Dominion.<br><br>
+		<h3>¡Lee por favor!</h3>
+		Por la petición de Rio Grande Games, el Editor de Dominion, hemos sacado Androminion del Play Store. Por favor, no la publiques en cualquier tienda de apliciaciones pública ya que hay una aplicación oficial de Dominion.<br><br>
 		<h3>Versión 6.05</h3>
 		* ¡Expansión de Aventuras! <br>
 		* Cartas de promoción: Alijo, Convocar
 		<h3>Versión 6.00</h3>
 		* Aventuras (beta)
-		<h3>Version 5.01</h3>
+		<h3>Versión 5.01</h3>
 		* ¡Carta de promoción Mercado Negro! <br>
 		* ¡Carta de promoción Príncipe! <br>
 		* Traducciones adicionales<br>
 		* Muchos arreglos y mejorías
 		<h3>Versión 5.00</h3>
-		* Includes Guilds expansion! <br>
-		* Additional language translations <br>
-		* Many bugfixes <br>
+		* ¡Incluye la expansión de Gremios! <br>
+		* Traducciones adicionales <br>
+		* Muchos arreglos <br>
 		<h3>Versión 4.02</h3>
 		* Banda de Rufianes ya implementada <br>
 		* Muchos arreglos
 		<h3>Versión 4.00</h3>
 		* ¡Edad Oscura! <br>
 		* Cartas de promoción:: Enviado, Gobernador, Pueblo Amurallado <br>
-		* Arreglos, mejorías, Bugfixes, enhancements, cambios, etc. 
+		* Arreglos, mejorías, cambios, etc. 
 		<h3>Versión 3.01</h3>
 	    * Arrlegar IU para pantallas más pequeñas <br>
 	    * Jugar de solitario <br>
@@ -82,8 +82,8 @@
 	    * Compatibilidad: Android 2.2+
 	    <h3>Versión 2.05</h3>
 	    * Muchos arreglos de jugabilidad <br>
-	    * Mentimos acerca de 2.04 -- de veras esta es la última versión para Android 1.5 - 2.1
-	    <h3>Version 2.04</h3>
+	    * Mentimos acerca de 2.04 -- de veras ésta es la última versión para Android 1.5 - 2.1
+	    <h3>Versión 2.04</h3>
 	    * Traducción a holandés<br>
 	    * Arreglos <br>
 	    * Última versión para Android 1.5 y 1.6
