@@ -133,7 +133,7 @@
 	<string name="PlayingCoin">Jugando</string>
 	<string name="BuyingCard">Comprando</string>
 	<string name="GuildsTokenObtained">Obtuvo marcador de Moneda</string>
-	<string name="GuildsTokenSpend">Pagó marcador de Moneda:</string>
+	<string name="GuildsTokenSpend">Pagó marcador de Moneda</string>
 	<string name="OverpayForCard">Sobrepagó para</string>
 	<string name="NoBuy">(Ninguna compra)</string>
 	<string name="DeckReplenished">Mazo rellenado</string>
