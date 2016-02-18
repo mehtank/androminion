@@ -474,7 +474,7 @@
     <string name="Soothsayer_desc">Gana una carta de Oro. Cada jugador (menos tú) gana una carta de Maldición. Cada jugador que lo hizo roba una carta.</string>    
     <string name="StoneMason_name">Albañil</string>
     <string name="StoneMason_desc">Elimina una carta de tu mano y gana 2 cartas que cuestan menos que ella. Cuando compres esta carta, puedes sobrepagar. Si lo haces, gana 2 cartas de Acción con un coste igual al valor que sobrepagaste.</string>
-    <string name="Taxman_name">Recaudador de Impuestos</string>
+    <string name="Taxman_name">Recaudador</string>
     <string name="Taxman_desc">Puedes elimiar una carta de Tesoro de tu mano. Cada jugador (menos tú) que tiene 5 cartas or más en su mano descarta una copia de ella (o revela la mano sin ella). Gana una carta de Tesoro que cuesta hasta 3 Monedas más de la carta eliminada, poniéndola encima de tu mazo.</string>
         
     <string name="Amulet_name">Amuleto</string>
@@ -584,7 +584,7 @@
     <string name="Raid_desc">Ganas una carta de Plata por cada carta de Plata que tienes en juego. Cada jugador (menos tú) pone su marcador de -1 Carta encima de su mazo.</string>
     <string name="Save_name">Ahorrar</string>
     <string name="Save_desc">Una vez por turno: Aparta una carta de tu mano y ponla en tu mano al final del turno (después de robar).</string>
-    <string name="ScoutingParty_name">Grupo de Exploración</string>
+    <string name="ScoutingParty_name">Avanzadilla</string>
     <string name="ScoutingParty_desc">Mira las 5 cartas superiores de tu mazo. Descarta 3 y devuelve las demás a tu mazo, en el orden que desees.</string>
     <string name="Seaway_name">Vía Marítima</string>
     <string name="Seaway_desc">Gana una carta de Acción con un coste máximo de 4 Monedas. Mueve tu marcador de +1 Compra a su mazo (cuando juegues una carta de ese mazo, primero obtén +1 Compra).</string>
