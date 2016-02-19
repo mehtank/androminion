@@ -20,6 +20,7 @@ import com.vdom.comms.Event.EType;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.comms.EventHandler;
 import com.vdom.comms.GameStatus;
+import com.vdom.comms.GameStatus.JourneyTokenState;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.NewGame;
 import com.vdom.comms.SelectCardOptions;
@@ -362,7 +363,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int pirates[] = new int[numPlayers];
         int victoryTokens[] = new int[numPlayers];
         int guildsCoinTokens[] = new int[numPlayers];
-        boolean journeyTokenFaceUp[] = new boolean[numPlayers];
+        JourneyTokenState journeyToken[] = new JourneyTokenState[numPlayers];
         boolean minusOneCoinTokenOn[] = new boolean[numPlayers];
         boolean minusOneCardTokenOn[] = new boolean[numPlayers];
         String realNames[] = new String[numPlayers];
@@ -383,7 +384,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             pirates[i] = p.getPirateShipTreasure();
             victoryTokens[i] = p.getVictoryTokens();
             guildsCoinTokens[i] = p.getGuildsCoinTokenCount();
-            journeyTokenFaceUp[i] = p.getJourneyToken();
+            journeyToken[i] = context.game.journeyTokenInPlay ? (p.getJourneyToken() ? JourneyTokenState.FACE_UP : JourneyTokenState.FACE_DOWN) : null;
             minusOneCoinTokenOn[i] = p.getMinusOneCoinToken();
             minusOneCardTokenOn[i] = p.getMinusOneCardToken();
             realNames[i] = p.getPlayerName(false);
@@ -440,7 +441,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setPirates(pirates)
                 .setVictoryTokens(victoryTokens)
                 .setGuildsCoinTokens(guildsCoinTokens)
-                .setJourneyToken(journeyTokenFaceUp)
+                .setJourneyToken(journeyToken)
                 .setMinusOneCoinToken(minusOneCoinTokenOn)
                 .setMinusOneCardToken(minusOneCardTokenOn)
                 .setSwampHagAttacks(game.swampHagAttacks(player))

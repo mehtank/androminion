@@ -2478,6 +2478,8 @@ public class Game {
             || piles.containsKey(Cards.pilgrimage.getName()))
         {
             journeyTokenInPlay = true;
+        } else {
+        	journeyTokenInPlay = false;
         }
 
         boolean oldDebug = debug;

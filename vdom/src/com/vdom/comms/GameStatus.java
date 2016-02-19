@@ -8,6 +8,10 @@ public class GameStatus implements Serializable {
     
 	private static final long serialVersionUID = -1192478381540599643L;
 	
+	public enum JourneyTokenState {
+		FACE_UP, FACE_DOWN
+	}
+	
 	public int whoseTurn;
     public String name;
     public String[] realNames;
@@ -37,7 +41,7 @@ public class GameStatus implements Serializable {
     public int[] pirates;
     public int[] victoryTokens;
     public int[] guildsCoinTokens;
-    public boolean[] journeyTokenFaceUp;
+    public JourneyTokenState[] journeyTokens;
     public boolean[] minusOneCoinTokenOn;
     public boolean[] minusOneCardTokenOn;
     public boolean hauntedWoodsAttacks;
@@ -77,7 +81,7 @@ public class GameStatus implements Serializable {
     public GameStatus setPirates(int[] is) {pirates = is; return this;}
     public GameStatus setVictoryTokens(int[] is) {victoryTokens = is; return this;}
     public GameStatus setGuildsCoinTokens(int[] is) {guildsCoinTokens = is; return this;}
-    public GameStatus setJourneyToken(boolean[] is) {journeyTokenFaceUp = is; return this;}
+    public GameStatus setJourneyToken(JourneyTokenState[] is) {journeyTokens = is; return this;}
     public GameStatus setMinusOneCoinToken(boolean[] is) {minusOneCoinTokenOn = is; return this;}
     public GameStatus setMinusOneCardToken(boolean[] is) {minusOneCardTokenOn = is; return this;}
     public GameStatus setHauntedWoodsAttacks(boolean i) {hauntedWoodsAttacks = i; return this;}

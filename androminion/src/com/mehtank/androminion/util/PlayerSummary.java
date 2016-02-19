@@ -1,5 +1,7 @@
 package com.mehtank.androminion.util;
 
+import com.vdom.comms.GameStatus.JourneyTokenState;
+
 /**
  * Information about one player
  * 
@@ -20,7 +22,7 @@ public class PlayerSummary {
 	public int pt;
 	public int vt;
 	public int gct; // Guilds Coin Tokens
-	public boolean journeyTokenFaceUp;
+	public JourneyTokenState journeyToken;
 	public boolean minusOneCoinTokenOn;
 	public boolean minusOneCardTokenOn;
 	public boolean highlight = false;
@@ -32,7 +34,7 @@ public class PlayerSummary {
 		this.name = name;
 	}
 	
-	public void set(String name, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, int pt, int vt, int gct, boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, boolean journeyTokenFaceUp, boolean highlight, boolean showColor, int color){
+	public void set(String name, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, int pt, int vt, int gct, boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyToken, boolean highlight, boolean showColor, int color){
 		this.name = name;
 		this.turns = turns;
 		this.deckSize = deckSize;
@@ -43,7 +45,7 @@ public class PlayerSummary {
 		this.pt = pt;
 		this.vt = vt;
 		this.gct = gct;
-		this.journeyTokenFaceUp = journeyTokenFaceUp;
+		this.journeyToken = journeyToken;
 		this.minusOneCoinTokenOn = minusOneCoinTokenOn;
 		this.minusOneCardTokenOn = minusOneCardTokenOn;
 		this.highlight = highlight;

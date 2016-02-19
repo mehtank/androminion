@@ -1054,7 +1054,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         for (int i=0; i<players.getCount(); i++) {
         	int color = GameTable.getPlayerTextBackgroundColor(getContext(), i);
         	boolean showColor = hasTokens(i, gs.tokens);
-            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.stashOnDeck[i], gs.handSizes[i], gs.stashesInHand[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.guildsCoinTokens[i], gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokenFaceUp[i], gs.whoseTurn == i, showColor, color);
+            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.stashOnDeck[i], gs.handSizes[i], gs.stashesInHand[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.guildsCoinTokens[i], gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokens[i], gs.whoseTurn == i, showColor, color);
         }
         players.notifyDataSetChanged();
 

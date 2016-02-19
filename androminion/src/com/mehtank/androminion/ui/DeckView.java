@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mehtank.androminion.R;
+import com.vdom.comms.GameStatus.JourneyTokenState;
 
 public class DeckView extends RelativeLayout {
 	@SuppressWarnings("unused")
@@ -73,7 +74,7 @@ public class DeckView extends RelativeLayout {
 
 	public void set(String nameStr, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, 
 			int pt, int vt, int gct, 
-			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, boolean journeyTokenFaceUp, 
+			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyTokenState, 
 			boolean highlight, boolean showColor, int color) {
 		String txt = nameStr + getContext().getString(R.string.turn_header) + turns;
 		name.setText(txt);
@@ -110,13 +111,12 @@ public class DeckView extends RelativeLayout {
         else
             guildsCoinTokens.setVisibility(INVISIBLE);
 
-//        journeyToken.setText(" \u26F5 "); /*sailboat*/
-        journeyToken.setText(" \uD83D\uDC5F "); /*shoe (U+1F45F) in UTF-16 Surrogates*/
-        if (journeyTokenFaceUp)
-            journeyToken.setVisibility(VISIBLE);
-        else
+        journeyToken.setTextColor(journeyTokenState == JourneyTokenState.FACE_UP ? Color.BLACK : Color.TRANSPARENT);
+        if (journeyTokenState == null)
             journeyToken.setVisibility(INVISIBLE);
-
+        else
+            journeyToken.setVisibility(VISIBLE);
+        
         minusOneCardToken.setText(" -1 ");
         if (minusOneCardTokenOn)
         	minusOneCardToken.setVisibility(VISIBLE);

@@ -185,6 +185,7 @@
     <string name="inheritance_header">Inherit:</string>
     <string name="img_download_title">%1$s card art</string>
 	<string name="img_download_desc">Downloading card art from %1$s</string>
+	<string name="journey_token_initial">\u0020\u0020J\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">B</string>
 	<string name="token_header">- Tokens -</string>
