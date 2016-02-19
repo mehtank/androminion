@@ -186,7 +186,7 @@
 	<string name="img_download_title">%1$s Bild</string>
 	<string name="img_download_desc">Lade Bild von %1$s</string>
 	<string name="token_plus_one_action_initial">A</string>
-	<string name="token_plus_one_buy_initial">B</string>
+	<string name="token_plus_one_buy_initial">K</string>
 	<string name="token_header">- Marker -</string>
 	<string name="token_plus_one_card">+1 Karte</string>
 	<string name="token_plus_one_action">+1 Aktion</string>
