@@ -119,7 +119,7 @@
     <string name="random_all_cards">Todas las cartas</string>
     <string name="include_platinum_colony">Platino/Colonia: </string>
     <string name="include_shelters">Cobijos: </string>
-    <string name="include_cards_random">Al azar</string>
+    <string name="include_cards_random">Por defecto</string>
     <string name="include_cards_yes">Usar</string>
     <string name="include_cards_no">No usar</string>
     <string name="include_cards_percent">%1$s %% chance</string>

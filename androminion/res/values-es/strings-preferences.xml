@@ -74,7 +74,7 @@
     <string name="userlang_pref">userlang</string>
 
     <string-array name="userlang_names">
-        <item>Defecto</item>
+        <item>Por defecto</item>
         <item>Inglés</item>
         <item>Alemán</item>
         <item>Español</item>

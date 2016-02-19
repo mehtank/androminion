@@ -117,7 +117,7 @@
     <string name="random_all_cards">All cards</string>
     <string name="include_platinum_colony">Platinum/Colony: </string>
     <string name="include_shelters">Shelters: </string>
-    <string name="include_cards_random">Random</string>
+    <string name="include_cards_random">Default</string>
     <string name="include_cards_yes">Use</string>
     <string name="include_cards_no">Don\'t use</string>
     <string name="include_cards_percent">%1$s%% chance</string>
