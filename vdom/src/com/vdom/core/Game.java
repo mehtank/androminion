@@ -2325,40 +2325,39 @@ public class Game {
 
         }
 
+        //determine shelters & plat/colony use
+        boolean alreadyCountedKnights = false;
+        int darkAgesCards = 0;
+        int prosperityCards = 0;
+        int kingdomCards = 0;
+        for (AbstractCardPile pile : piles.values()) {
+            if (pile != null &&
+            		pile.card() != null &&
+            		pile.card().getExpansion() != null &&
+            		Cards.isKingdomCard(pile.card())) {
+            	kingdomCards++;
+            	if (pile.card().isRuins(null) == false &&
+                        (pile.card().isKnight(null) == false || !alreadyCountedKnights) &&
+                        pile.card().getExpansion().equals("DarkAges")) {
+                    darkAgesCards++;
+                    if (pile.card().isKnight(null)) {
+                        alreadyCountedKnights = true;
+                    }
+                }
+            	if (pile.card().getExpansion().equals("Prosperity")) {
+                    prosperityCards++;
+                }
+            }
+        }
+
+        sheltersInPlay = false;
         if (sheltersPassedIn) {
             sheltersInPlay = true;
             chanceForShelters = 1;
         } else if (chanceForShelters > -0.0001) { 
         	sheltersInPlay = rand.nextDouble() < chanceForShelters;
         } else {
-        	chanceForShelters = 0.0;
-            sheltersInPlay = false;
-            boolean alreadyCountedKnights = false;
-
-            for (AbstractCardPile pile : piles.values())
-            {
-                if (pile != null &&
-                    pile.card() != null &&
-                    pile.card().getExpansion() != null &&
-                    pile.card().isShelter() == false &&
-                    pile.card().isRuins(null) == false &&
-                    (pile.card().isKnight(null) == false || !alreadyCountedKnights) &&
-                    pile.card().getExpansion().equals("DarkAges"))
-                {
-                    chanceForShelters += 0.1;
-                }
-
-                if (chanceForShelters >= 1.0)
-                {
-                    chanceForShelters = 1.0;
-                    break;
-                }
-
-                if (pile.card().isKnight(null))
-                {
-                    alreadyCountedKnights = true;
-                }
-            }
+            chanceForShelters = darkAgesCards / (double)kingdomCards;
 
             if (rand.nextDouble() < chanceForShelters)
             {
@@ -2380,15 +2379,10 @@ public class Game {
         } else if (chanceForPlatColony > -0.0001) {
             addPlatColony = rand.nextDouble() < chanceForPlatColony;
         } else {
-            chanceForPlatColony = 0;
-            for (AbstractCardPile pile : piles.values()) {
-                if (pile != null && pile.card() != null && pile.card().getExpansion() != null && pile.card().getExpansion().equals("Prosperity")) {
-                    chanceForPlatColony += 0.1;
-                }
-            }
-
+            chanceForPlatColony = prosperityCards / (double)kingdomCards;
+            
             if (rand.nextDouble() < chanceForPlatColony) {
-                addPlatColony= true;
+                addPlatColony = true;
             }
         }
 
@@ -2494,7 +2488,7 @@ public class Game {
         int cost = 0;
         while (cost < 10) {
             for (AbstractCardPile pile : piles.values()) {
-                if (!Cards.nonKingdomCards.contains(pile.card())) {
+                if (Cards.isKingdomCard(pile.card())) {
                     if (pile.card().getCost(null) == cost) {
                         Util.debug(Util.getShortText(pile.card()), true);
                         cardListText += Util.getShortText(pile.card()) + "\n";

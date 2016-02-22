@@ -1557,7 +1557,7 @@ public class Strings {
         // display victory cards from sets
 
         for(Card card : totals.keySet()) {
-            if(!Cards.nonKingdomCards.contains(card)) {
+            if(Cards.isKingdomCard(card)) {
                 sb.append(Strings.getCardText(counts, totals, card));
             }
         }

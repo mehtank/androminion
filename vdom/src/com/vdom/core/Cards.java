@@ -37,7 +37,7 @@ public class Cards {
     static final String TRAVELLERS_TEXT = "TRAVELLERS_TEXT.";
 
     public enum Type {
-        // Kingdom Cards
+        // Non-Kingdom Cards
         Platinum, Gold, Silver, Copper, Potion, Colony, Province, Duchy, Estate, Curse,
         // Base Set
         Gardens, Moat, Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom, Feast,
@@ -682,7 +682,7 @@ public class Cards {
         ruinsCards.add(ruinedVillage     = new ActionCardImpl.Builder(Cards.Type.RuinedVillage, 0).addActions(1).isRuins().expansion("DarkAges").build());
         ruinsCards.add(survivors         = new ActionCardImpl.Builder(Cards.Type.Survivors, 0).isRuins().description("Look at the top 2 cards of your deck. Discard them or put them back in any order.").expansion("DarkAges").build());
         nonKingdomCards.add(virtualRuins = new ActionCardImpl.Builder(Cards.Type.VirtualRuins, 0).isRuins().build());
-
+        
         // Knights
         knightsCards.add(dameAnna = new ActionCardImpl.Builder(Cards.Type.DameAnna, 5).isKnight().description("You may trash up to 2 cards from your hand. " + KNIGHTS_TEXT).expansion("DarkAges").build());
         knightsCards.add(dameJosephine = new ActionVictoryCardImpl.Builder(Cards.Type.DameJosephine, 5).isKnight().vp(2).description(KNIGHTS_TEXT).expansion("DarkAges").build());
@@ -790,6 +790,12 @@ public class Cards {
         
         for (Card card : eventCardsAdventures)  { eventsCards.add(card); }
         for (Card card : eventCardsPromo)  		{ eventsCards.add(card); }
+        
+        
+        for (Card card : nonSupplyCards)        { nonKingdomCards.add(card); };
+        for (Card card : prizeCards)            { nonKingdomCards.add(card); };
+        for (Card card : ruinsCards)            { nonKingdomCards.add(card); };
+        for (Card card : eventsCards)            { nonKingdomCards.add(card); };
         
 
         for (Card card : actionCards) { cardNameToCard.put(card.getName(), card); }
