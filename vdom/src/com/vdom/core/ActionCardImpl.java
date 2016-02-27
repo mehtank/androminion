@@ -6011,11 +6011,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     private void gear(MoveContext context, Player currentPlayer) {
     	boolean cardSetAside = false;
         Card[] cards = currentPlayer.getHand().size() == 0 ? null : currentPlayer.controlPlayer.gear_cardsToSetAside(context);
-        if (cards.length > 2) {
+        if (cards != null && cards.length > 2) {
         	Util.playerError(currentPlayer, "Gear: Tried to set aside too many cards. Setting aside zero.");
         	cards = null;
         }
-        if (!Util.areCardsInHand(cards, context)) {
+        if (cards != null && !Util.areCardsInHand(cards, context)) {
         	Util.playerError(currentPlayer, "Gear: Tried to set aside cards not in hand. Setting aside zero.");
         	cards = null;
         }
