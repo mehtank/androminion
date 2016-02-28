@@ -113,7 +113,7 @@
 	<string name="trash">Trash</string>
 	<string name="keep">Keep</string>
 	<string name="none">None</string>
-	<string name="card_revealed_from_player">From %1$s\n%2$s revealed %3$s</string>
+	<string name="card_revealed_from_player">%2$s revealed %3$s at %1$s</string>
 	<string name="GameStarting"></string>
 	<string name="GameOver">Game over</string>
 	<string name="Embargo">Embargo</string>
