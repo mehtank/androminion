@@ -182,7 +182,7 @@
 	<string name="game_over_status">Spiel — </string>
 	<string name="game_length_status">Spieldauer: </string>
 	<string name="end_turn">Zugende</string>
-	<string name="replace">Ersetze</string>
+	<string name="replace">Zurücklegen</string>
 	
 	<string name="trash_card_from_hand">Entsorge eine Handkarte</string>
 	<string name="gain_silver">Nimm dir ein Silber</string>
