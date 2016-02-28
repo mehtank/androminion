@@ -1,9 +1,10 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.vdom.api.Card;
-import com.vdom.core.MoveContext;
+import com.vdom.api.GameEvent;
 import com.vdom.api.VictoryCard;
 
 public class VictoryCardImpl extends CardImpl implements VictoryCard {
@@ -34,20 +35,102 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     }
     
     @Override
-    public void isTrashed(MoveContext context)
-    {
-    	switch (this.getType()) 
-    	{
-        case OvergrownEstate:
-        	context.game.drawToHand(context.player, this);
-        	break;
-        case Feodum:
-        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-        	context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-        	break;
-        default:
-        	break;
+    public void play(Game game, MoveContext context) {
+    	play(game, context, true);
+    }
+    
+    @Override
+    public void play(Game game, MoveContext context, boolean fromHand) {
+    	super.play(game, context, fromHand);
+    	Player currentPlayer = context.getPlayer();
+    	switch (this.getType()) {
+    	case Estate:
+    		Card inheritedCard = context.player.getInheritance();
+    		if (inheritedCard != null) {
+    	    	// TODO
+    			boolean newCard = false;
+    			 if (this.numberTimesAlreadyPlayed == 0) {
+		            newCard = true;
+		            this.movedToNextTurnPile = false;
+		            if (fromHand)
+		                currentPlayer.hand.remove(this);
+		           currentPlayer.playedCards.add(this);
+		        }
+    			
+			 	GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
+		 		event.card = this;
+		 		event.newCard = newCard;
+		 		game.broadcastEvent(event); 
+    			
+	 			context.actionsPlayedSoFar++;
+		        if (context.freeActionInEffect == 0) {
+		            context.actions--;
+		        }
+		        
+		        this.startInheritingCardAbilities(inheritedCard.getTemplateCard().instantiate());
+		        // Play the inheritance virtual card
+		        CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
+		        context.freeActionInEffect++;
+		        cardToPlay.play(game, context, false);
+		        context.freeActionInEffect--;
+
+		        // impersonated card stays in play until next turn?
+		        if (cardToPlay.trashOnUse) {
+		            int idx = currentPlayer.playedCards.lastIndexOf(this);
+		            if (idx >= 0) currentPlayer.playedCards.remove(idx);
+		            currentPlayer.trash(this, null, context);
+		        } else if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
+		            if (!this.controlCard.movedToNextTurnPile) {
+		                this.controlCard.movedToNextTurnPile = true;
+		                int idx = currentPlayer.playedCards.lastIndexOf(this);
+		                if (idx >= 0) {
+		                    currentPlayer.playedCards.remove(idx);
+		                    currentPlayer.nextTurnCards.add(this);
+		                }
+		            }
+		        }
+		        
+		        event = new GameEvent(GameEvent.Type.PlayedAction, (MoveContext) context);
+		        event.card = this;
+		        game.broadcastEvent(event);
+		        
+		        // test if any prince card left the play
+		        currentPlayer.princeCardLeftThePlay(currentPlayer);
+		        
+		        // check for cards to call after resolving action
+		        boolean isActionInPlay = isInPlay(currentPlayer);
+		        ArrayList<Card> callableCards = new ArrayList<Card>();
+		        Card toCall = null;
+		        for (Card c : currentPlayer.tavern) {
+		        	if (c.behaveAsCard().isCallableWhenActionResolved()) {
+		        		if (c.behaveAsCard().doesActionStillNeedToBeInPlayToCall() && !isActionInPlay) {
+		        			continue;
+		        		}
+		        		callableCards.add(c);
+		        	}
+		        }
+		        if (!callableCards.isEmpty()) {
+		        	Collections.sort(callableCards, new Util.CardCostComparator());
+			        do {
+			        	toCall = null;
+			        	// we want null entry at the end for None
+			        	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
+			        	//ask player which card to call
+			        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, this, cardsAsArray);
+			        	if (toCall != null && callableCards.contains(toCall)) {
+			        		callableCards.remove(toCall);
+			        		toCall.behaveAsCard().callWhenActionResolved(context, this);
+			        	}
+				        // loop while we still have cards to call
+				        // NOTE: we have a hack here to prevent asking for duplicate calls on an unused Royal Carriage
+				        //   since technically you can ask for more and action re-played by royal carriage will ask as well
+			        } while (toCall != null && toCall.equals(Cards.coinOfTheRealm) && !callableCards.isEmpty());
+		        }
+		 		
+    		}
+    		break;
+    	default:
+    		break;
     	}
     }
 
@@ -67,13 +150,17 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     }
 
     @Override
-    public void isBought(MoveContext context) {
-    	
-    	context.game.trashHovelsInHandOption(context.player, context, this);
-    	
-    	if (this.equals(Cards.farmland)) {
+    public void isBuying(MoveContext context) {
+        context.game.trashHovelsInHandOption(context.player, context, this);
+        
+        if (this.equals(Cards.estate)) {
+        	Card inheritance = context.getPlayer().getInheritance();
+        	if (inheritance != null) {
+        		inheritance.isBuying(context);
+        	}
+        } else if (this.equals(Cards.farmland)) {
             Player player = context.getPlayer();
-        	if(player.getHand().size() > 0) {
+            if(player.getHand().size() > 0) {
                 Card cardToTrash = player.controlPlayer.farmland_cardToTrash((MoveContext) context);
 
                 if (cardToTrash == null) {
@@ -104,7 +191,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
                     boolean validCard = false;
                     
                     for(Card c : context.getCardsInGame()) {
-                        if(c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeftInPile(c) > 0) {
+                        if(Cards.isSupplyCard(c) && c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeftInPile(c) > 0) {
                             validCard = true;
                             break;
                         }
@@ -119,7 +206,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
                             }
                             else
                             {
-                                if(!player.gainNewCard(card, this, (MoveContext) context)) {
+                                if(player.gainNewCard(card, this, (MoveContext) context) == null) {
                                     Util.playerError(player, "Farmland new card is invalid, ignoring.");
                                 }
                             }
@@ -129,7 +216,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
                         }
                     }
                 }
-        	}
-    	}
+            }
+        }
     }
 }

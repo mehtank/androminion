@@ -4,8 +4,8 @@ import com.vdom.api.ReactionCard;
 
 public class ReactionCardImpl extends CardImpl implements ReactionCard 
 {
-	public ReactionCardImpl(Cards.Type type, int cost) 
-	{
+    public ReactionCardImpl(Cards.Type type, int cost) 
+    {
         super(type, cost);
     }
 

@@ -98,7 +98,8 @@ public class WinLossView extends FrameLayout {
 //				textView.setTextColor(getResources().getColor(android.R.color.secondary_text_dark));
 //				textView.setTextSize(getResources().getDimension(R.dimen.winloss_detailed));
 
-				text = "     " + numPlayers + " " + top.getString(R.string.win_loss_playerwins) + " " + wins + "/" + (wins + losses) + " (" + percent + " %)";
+				//text = "     " + numPlayers + " " + top.getString(R.string.win_loss_playerwins) + " " + wins + "/" + (wins + losses) + " (" + percent + " %)";
+				text = "     " + String.format(top.getString(R.string.win_loss_playerwins), numPlayers) + " " + wins + "/" + (wins + losses) + " (" + percent + " %)";
 				textView.setText(text);
 				linearLayout.addView(textView);
 			}

@@ -13,6 +13,12 @@
     <string name="achievements_win10inarow">Gagner 10 parties de suite</string>
     <string name="achievements_overpayby10ormore">Surpayer une carte de 10 jetons Pièce ou plus</string>
     <string name="achievements_stockpile50tokens">Emmagasiner 50 jetons Pièce ou plus</string>
+
+    <string name="achievements_score100withoutProsperity">Gagner une partie avec 100 PV ou plus sans cartes Prospérité</string>
+    <string name="achievements_score500">Gagner une partie avec 500 PV ou plus</string>
+    <string name="achievements_2tacticians">Jouer deux Tacticiens dans le même tour, en défausant au moins une carte à chaque fois</string>
+    <string name="achievements_13curses">Gagner une partie avec exactement 13 Mélédictions dans votre deck</string>
+    <string name="achievements_allEmpty">Gagner une partie en ne laissant aucune carte dans chacune des piles de la réserve</string>
     
     <string name="currentWinStreak">Victoires consécutives: </string>
 

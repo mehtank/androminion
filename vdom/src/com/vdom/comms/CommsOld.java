@@ -12,15 +12,15 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 public class CommsOld implements Runnable {
-	final static int TIMEOUT = 15000; // 15 seconds in ms
-	final static boolean DEBUGGING = false;
-	
-	String host;
-	int port;
-	EventHandler parent;
+    final static int TIMEOUT = 15000; // 15 seconds in ms
+    final static boolean DEBUGGING = false;
 
-	private boolean isServer = true;
-	private ServerSocket pserver = null;
+    String host;
+    int port;
+    EventHandler parent;
+
+    private boolean isServer = true;
+    private ServerSocket pserver = null;
     private Socket pclient = null;
     private ObjectInputStream ois = null;
     private ObjectOutputStream oos = null;

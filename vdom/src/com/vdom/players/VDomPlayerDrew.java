@@ -3,6 +3,7 @@ package com.vdom.players;
 import com.vdom.api.Card;
 import com.vdom.api.GameType;
 import com.vdom.core.Cards;
+import com.vdom.core.Game;
 
 public class VDomPlayerDrew extends VDomPlayerSarah {
 
@@ -11,7 +12,8 @@ public class VDomPlayerDrew extends VDomPlayerSarah {
     }
     
     public void setupGameVariables(GameType gameType, Card[] cardsInPlay) {
-        trashCards = new Card[] { Cards.curse, Cards.estate, Cards.copper };
+        //trash in this order!
+        trashCards = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.hovel, Cards.estate, Cards.copper, Cards.masterpiece };
         valuedCards = new Card[] { Cards.torturer, Cards.bazaar, Cards.masquerade, Cards.ghostShip, Cards.wharf, Cards.smithy, Cards.harem, Cards.adventurer,
                 Cards.shantyTown, Cards.festival, Cards.moneyLender, Cards.platinum, Cards.gold, Cards.silver };
         improvise = false;
@@ -275,11 +277,11 @@ public class VDomPlayerDrew extends VDomPlayerSarah {
 
     @Override
     public String getPlayerName() {
-    	return getPlayerName(game.maskPlayerNames);
+        return getPlayerName(Game.maskPlayerNames);
     }
     
     @Override
     public String getPlayerName(boolean maskName) {
-    	return maskName ? "Player " + (playerNumber + 1) : "Drew";
+        return maskName ? "Player " + (playerNumber + 1) : "Drew";
     }
 }
