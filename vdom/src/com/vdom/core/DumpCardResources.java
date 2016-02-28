@@ -27,6 +27,9 @@ public class DumpCardResources {
         cards.addAll(Cards.actionCardsProsperity);
         cards.addAll(Cards.actionCardsCornucopia);
         cards.addAll(Cards.actionCardsHinterlands);
+        cards.addAll(Cards.actionCardsDarkAges);
+        cards.addAll(Cards.actionCardsGuilds);
+        cards.addAll(Cards.actionCardsAdventures);
         
         cards.add(Cards.princess);
         cards.add(Cards.bagOfGold);

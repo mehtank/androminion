@@ -2,6 +2,9 @@ package com.vdom.api;
 
 public enum GameType {
 
+    // Test frr18
+    AdventureTest("Adventure Test"),
+    
     // Base Game
     FirstGame("First Game (Base)"), BigMoney("Big Money (Base)"), Interaction("Interaction (Base)"), SizeDistortion("Size Distortion (Base)"), VillageSquare("Village Square (Base)"), RandomBaseGame("Random Base Game"),
 
@@ -91,11 +94,15 @@ public enum GameType {
     // Guilds + Intrigue
     NameThatCard("Name That Card (Guilds, Intr)"), TricksOfTheTrade("Tricks of the Trade (Guilds, Intr)"), DecisionsDecisions("Decisions, Decisions (Guilds, Intr)"),
     
+    // Adventures
+    RandomAdventures("Random Adventures"),
+    GentleIntro("Gentle Intro (Adv)"), ExpertIntro("Expert Intro (Adv)"), LevelUp("Level Up (Adv,Base)"), SonOfSizeDistortion("Son of Size Distortion (Adv,Base)"), RoyaltyFactory("Royalty Factory (Adv,Intr)"), MastersOfFinance("Masters of Finance (Adv,Intr)"), PrinceOfOrange("Prince of Orange (Adv,Sea)"), GiftsAndMathoms("Gifts and Mathoms (Adv,Sea)"), HastePotion("Haste Potion (Adv,Alch)"), Cursecatchers("Cursecatchers (Adv,Alch)"), LastWillAndMonument("Last Will and Monument (Adv,Prsp)"), ThinkBig("Think Big (Adv,Prsp)"), TheHerosReturn("The Hero's Return (Adv,Corn)"), SeacraftAndWitchcraft("Seacraft and Witchcraft (Adv,Corn)"), TradersAndRaiders("Traders and Raiders (Adv,Hntr)"), Journeys("Journeys (Adv,Hntr)"), CemeteryPolka("Cemetery Polka (Adv,DA)"), GroovyDecay("Groovy Decay (Adv,DA)"), Spendthrift("Spendthrift (Adv,Gld)"), QueenOfTan("Queen of Tan (Adv,Gld)"), 
+    
     // All Cards
     Random("Random"),
 
-	// Card set is specified from Dominion Shuffle
-	Specified("Specified");
+    // Card set is specified from Dominion Shuffle
+    Specified("Specified");
 
 
     private final String name;

@@ -1,4 +1,5 @@
 <resources>
+	<!-- Cartes communes -->
     <string name="Copper_name">Cuivre</string>
     <string name="Copper_desc"></string>
     <string name="Silver_name">Argent</string>
@@ -19,6 +20,9 @@
     <string name="Province_desc"></string>
     <string name="Colony_name">Colonie</string>
     <string name="Colony_desc"></string>
+    
+    
+	<!-- Base -->
     <string name="Workshop_name">Atelier</string>
     <string name="Workshop_desc">Recevez une carte coûtant jusqu\'à 4 Pièces.</string>
     <string name="Adventurer_name">Aventurier</string>
@@ -69,6 +73,7 @@
     <string name="Village_desc"></string>
     <string name="Thief_name">Voleur</string>
     <string name="Thief_desc">Tous vos adversaires dévoilent les 2 premières cartes de leur deck. S\'ils dévoilent des cartes Trésor, ils en écartent 1 de votre choix. Parmi ces cartes Trésor écartées, recevez celles de votre choix. Les autres cartes dévoilées sont défaussées.</string>
+	<!-- L'Intrigue -->
     <string name="Baron_name">Baron</string>
     <string name="Baron_desc">Vous pouvez défausser une carte Domaine. Dans ce cas, obtenez +4 Pièces. Sinon, recevez une carte Domaine.</string>
     <string name="Torturer_name">Bourreau</string>
@@ -119,6 +124,7 @@
     <string name="ShantyTown_desc">Dévoilez votre main. Si vous n\'avez aucune carte Action en main, +2 Cartes.</string>
     <string name="MiningVillage_name">Village Minier</string>
     <string name="MiningVillage_desc">Vous pouvez écarter immédiatement cette carte. Si vous l\'écartez, +2 Pièces.</string>
+	<!-- Rivages -->
     <string name="Ambassador_name">Ambassadeur</string>
     <string name="Ambassador_desc">Dévoilez une carte de votre main. Replacez, de votre main à la réserve, jusqu\'à 2 exemplaires de cette carte. Ensuite, tous vos adversaires reçoivent un exemplaire de cette carte.</string>
     <string name="Outpost_name">Avant-Poste</string>
@@ -171,6 +177,7 @@
     <string name="FishingVillage_desc"></string>
     <string name="NativeVillage_name">Village Indigène</string>
     <string name="NativeVillage_desc">Choisissez : Mettez de coté la première carte de votre deck, face cachée, sur votre plateau Village Indigène OU prenez dans votre main toutes les cartes placées sur votre plateau. Vous pouvez consulter les cartes placées sur votre plateau en tout temps. Replacez-les dans votre deck à la fin de la partie.</string>
+	<!-- Alchimie -->
     <string name="Alchemist_name">Alchimiste</string>
     <string name="Alchemist_desc">Lorsque vous défaussez cette carte de votre zone de jeu, vous pouvez la placer sur le dessus de votre deck si vous avez une Potion en jeu.</string>
     <string name="Apothecary_name">Apothicaire</string>
@@ -195,6 +202,7 @@
     <string name="University_desc">Vous pouvez recevoir une carte Action coûtant jusqu\'à 5 Pièces.</string>
     <string name="Vineyard_name">Vignoble</string>
     <string name="Vineyard_desc">Vaut 1 PV pour chaque 3 cartes Action dans votre deck (arrondi à l\'unité inférieure).</string>
+	<!-- Prospérité -->
     <string name="Expand_name">Agrandissement</string>
     <string name="Expand_desc">Écartez une carte de votre main. Recevez une carte coûtant jusqu\'à 3 Pièces de plus que la carte écartée.</string>
     <string name="Bank_name">Banque</string>
@@ -245,6 +253,7 @@
     <string name="WorkersVillage_desc"></string>
     <string name="City_name">Ville</string>
     <string name="City_desc">S\'il y a une pile ou plus de vide dans la réserve, +1 Carte. S\'il y a deux piles vides ou plus, +1 Pièce et +1 Achat.</string>
+	<!-- Abondance -->
     <string name="Jester_name">Bouffon</string>
     <string name="Jester_desc">Chacun de vos adversaires défausse la première carte de son deck. Si c\'est une carte Victoire, le joueur reçoit une carte Malédiction. Sinon, décidez qui reçoit un exemplaire de la carte défaussé entre vous et le joueur.</string>
     <string name="Fairgrounds_name">Champ de Foire</string>
@@ -274,13 +283,14 @@
     <string name="Diadem_name">Diadème</string>
     <string name="Diadem_desc">Lorsque vous jouez cette carte, +1 Pièce par Action inutilisée que vous avez (Action, et non carte Action).\n(Ne pas mettre dans la réserve.)</string>
     <string name="TrustySteed_name">Fidèle Destrier</string>
-    <string name="TrustySteed_desc">Choisissez deux options différentes :\n+2 Cartes;\n+2 Actions;\n+2 Pièces;\nrecevez 4 cartes Argent et défaussez votre deck.\n(Ne pas mettre dans la réserve.)</string>
+    <string name="TrustySteed_desc">Choisissez deux options différentes :\n+2 Cartes;\n+2 Actions;\n+2 Pièces;\nRecevez 4 cartes Argent et défaussez votre deck.\n(Ne pas mettre dans la réserve.)</string>
     <string name="Followers_name">Partisans</string>
     <string name="Followers_desc">Recevez une carte Domaine. Tous vos adversaires reçoivent une carte Malédiction et doivent défausser afin de n\'avoir que 3 cartes en main.\n(Ne pas mettre dans la réserve.)</string>
     <string name="Princess_name">Princesse</string>
     <string name="Princess_desc">Lorsque cette carte est en jeu, les cartes coûtent 2 Pièces de moins, au minimum 0.\n(Ne pas mettre dans la réserve.)</string>
     <string name="BagofGold_name">Sac d\'Or</string>
     <string name="BagofGold_desc">Recevez une carte Or que vous placez sur le dessus de votre deck.\n(Ne pas mettre dans la réserve.)</string>
+	<!-- L'Arrière-Pays -->
     <string name="Embassy_name">Ambassade</string>
     <string name="Embassy_desc">Défaussez 3 cartes.\n------\nLorsque vous recevez cette carte, tous vos adversaires reçoivent une carte Argent.</string>
     <string name="IllGottenGains_name">Argent Noir</string>
@@ -333,6 +343,7 @@
     <string name="Tunnel_desc">Lorsque vous défaussez cette carte à un autre moment que votre phase Ajustement, vous pouvez la dévoiler. Dans ce cas, recevez un Or.</string>
     <string name="BorderVillage_name">Village Frontalier</string>
     <string name="BorderVillage_desc">Lorsque vous recevez cette carte, recevez aussi une carte moins coûteuse.</string>
+    <!-- L'Age des Ténèbres -->
     <string name="Armory_name">Armurerie</string>
     <string name="Armory_desc">Recevez une carte coûtant jusqu\'à 4 Pièces et placez-la sur votre deck.</string>
     <string name="Altar_name">Autel</string>
@@ -407,6 +418,7 @@
     <string name="HuntingGrounds_desc">Lorsque cette carte est écartée, recevez 1 Duché ou 3 Domaine.</string>
     <string name="Vagrant_name">Vagabond</string>
     <string name="Vagrant_desc">Dévoilez la première carte de votre deck. S\'il s\'agit d\'une carte Malédiction, Ruines, Refuge ou Victoire, ajoutez-la à votre main.</string>
+    <!-- Guildes -->
     <string name="Spoils_name">Butin</string>
     <string name="Spoils_desc">Lorsque vous jouez cette carte, remettez-la sur la pile Butin (La pile Butin ne fait pas partie de la réserve).</string>
     <string name="RuinedLibrary_name">Bibliothèque en Ruines</string>
@@ -473,16 +485,17 @@
     <string name="Plaza_desc">Vous pouvez défaussez une carte Trésor et prendre un jeton Pièce en échange.</string>
     <string name="StoneMason_name">Tailleur de Pierre</string>
     <string name="StoneMason_desc">Ecartez une carte de votre main. Recevez 2 cartes, chacune coûtant moins que la carte écartée.\n------\nSi surcoût : recevez 2 cartes Action coûtant chacune le surcoût que vous avec dépensé.</string>
+    <!-- Promo -->
     <string name="Envoy_name">Délégué</string>
     <string name="Envoy_desc">Dévoilez les 5 premières cartes de votre deck. Le joueur à votre gauche choisit une de ces cartes que vous devez défausser. Piochez les autres cartes.</string>
     <string name="Governor_name">Gouverneur</string>
     <string name="Governor_desc">Choisissez (vous prenez la version entre parenthèse) : +1 (+3) Cartes pour chaque joueur; OU chaque joueur reçoit un Argent (Or); OU chaque joueur peut écarter une carte de sa main et recevoir une carte coûtant exactement 1 Pièce (2 Pièces) de plus.</string>
-    <string name="WalledVillage_name">Village Fortifié</string>
-    <string name="WalledVillage_desc">Au début de votre phase Ajustement, si vous avez cette carte et aucune autre carte Action en jeu, vous pouvez placez cette carte sur le dessus de votre deck.</string>
-	<!-- Not implemented
     <string name="BlackMarket_name">Marché Noir</string>
     <string name="BlackMarket_desc">Dévoilez les 3 premières cartes du deck Marché Noir. Vous pouvez immédiatement acheter une de ces cartes. Placez les cartes non achetées dans l\'ordre de votre choix sous le deck Marché Noir.\n\n(Avant la partie, constituez un deck Marché Noir avec un exemplaire de chaque carte Royaume qui n\'est pas dans la réserve.)</string>
+    <string name="Prince_name">Prince</string>
+    <string name="Prince_desc">Vous pouvez mettre de coté cette carte. Si vous le faites, mettez de coté une carte Action coûtant jusqu\'à 4 Pièces. Au début de chacun de vos tours, jouez cette carte Action, en la remettant de coté lorsque vous la défaussez du jeu. (Arrêtez de la jouer si vous ne pouvez pas la remettre de coté le même tour que vous l\'avez joué.)</string>
+    <string name="WalledVillage_name">Village Fortifié</string>
+    <string name="WalledVillage_desc">Au début de votre phase Ajustement, si vous avez cette carte et aucune autre carte Action en jeu, vous pouvez placez cette carte sur le dessus de votre deck.</string>
     <string name="Stash_name">Cachette</string>
     <string name="Stash_desc">Lorsque vous mélangez, vous pouvez placer cette carte où vous voulez dans votre deck.</string>
-    -->
 </resources>

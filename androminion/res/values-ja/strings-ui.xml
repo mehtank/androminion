@@ -19,7 +19,7 @@
     <string name="statisticsactivity_title">統計</string>
     <string name="resetstatistics_menu">統計のリセット</string>
     <string name="win_loss_menu">勝利/敗北 記録</string>
-    <string name="win_loss_playerwins">人ゲームの勝利</string>
+    <string name="win_loss_playerwins">%1$s 人ゲームの勝利</string>
     <string name="achievements_menu">業績</string>
         <string-array name="reset_choices">
         <item>統計のリセット</item>

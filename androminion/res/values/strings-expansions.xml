@@ -2,6 +2,7 @@
 <resources>
 
     <string name="Base"></string>
+    <string name="BaseSet">Base Set</string>
     <string name="Intrigue">Intrigue</string>
     <string name="Seaside">Seaside</string>
     <string name="Alchemy">Alchemy</string>
@@ -10,6 +11,7 @@
     <string name="Hinterlands">Hinterlands</string>
     <string name="DarkAges">Dark Ages</string>
     <string name="Guilds">Guilds</string>
+    <string name="Adventures">Adventures</string>
     <string name="Promo">Promo</string>
     
 </resources>

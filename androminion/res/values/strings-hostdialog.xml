@@ -7,4 +7,15 @@
     <string name="host_local">Local game</string>
     <string name="host_remote">Remote game</string>
 
+    <string name="enter_host_and_port">Enter host and port</string>
+    <string name="your_name">Your name:</string>
+    <string name="host">Host:</string>
+    <string name="port">Port:</string>
+
+    <string name="connection_failed">Connection failed!</string>
+    <string name="stream_corrupted">Stream Corrupted.</string>
+    <string name="unknown_host">Unknown Host.  Configure settings.</string>
+    <string name="network_unreachable">Network unreachable or server refused connection.</string>
+    <string name="io_error">IO Error.</string>
+    
 </resources>

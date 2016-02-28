@@ -19,13 +19,13 @@ public class SingleCardPile extends AbstractCardPile {
 
     @Override
     public SingleCardPile notInSupply() {
-    	this.isSupply = false;
-    	return this;
+        this.isSupply = false;
+        return this;
     }
     
     @Override
     public boolean isSupply() {
-    	return this.isSupply;
+        return this.isSupply;
     }
 
     @Override
@@ -45,9 +45,9 @@ public class SingleCardPile extends AbstractCardPile {
         }
     }
 
-	@Override
-	public Card card() {
-		return templateCard;
-	}
+    @Override
+    public Card card() {
+        return templateCard;
+    }
 
 }

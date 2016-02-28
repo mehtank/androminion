@@ -11,7 +11,7 @@ package com.vdom.comms;
  */
 
 public interface EventHandler {
-	public boolean handle(Event e);
-	public void debug(String s);
-	public void sendErrorHandler(Exception e); // is called upon an IOException from the socket when sending.
+    public boolean handle(Event e);
+    public void debug(String s);
+    public void sendErrorHandler(Exception e); // is called upon an IOException from the socket when sending.
 }
