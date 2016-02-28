@@ -113,7 +113,7 @@
 	<string name="trash">Entsorgen</string>
 	<string name="keep">Behalten</string>
 	<string name="none">Keine</string>
-	<string name="card_revealed_from_player">Von %1$s\n%2$s wurde gezogen: %3$s</string>
+	<string name="card_revealed_from_player">%2$s deckt %3$s bei %1$s auf</string>
 	<string name="GameStarting">Spielstart</string>
 	<string name="GameOver">Spielende</string>
 	<string name="Embargo">Embargo</string>
