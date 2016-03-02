@@ -110,12 +110,44 @@
   <string name="Expeditions_gametype">Expéditions (Age, ArrP)</string>
   
   <string name="RandomGuilds_gametype">Guildes</string>
-  <string name="ArtsAndCrafts_gametype">Artistes et artisants (Guildes, Base)</string>
+  <string name="ArtsAndCrafts_gametype">Artistes et artisans (Guildes, Base)</string>
   <string name="CleanLiving_gametype">Une vie saine (Guildes, Base)</string>
   <string name="GildingTheLily_gametype">Cage dorée (Guildes, Base)</string>
     
   <string name="NameThatCard_gametype">A la carte (Guildes, Intr)</string>
   <string name="TricksOfTheTrade_gametype">Les ficelles du commerce (Guildes, Intr)</string>
   <string name="DecisionsDecisions_gametype">Le temps des décisions (Guildes, Intr)</string>
+  
+  <string name="RandomAdventures_gametype">Aventures</string>
+  <string name="AdventureTest_gametype">Essai aventurier </string>
+  <string name="GentleIntro_gametype">Intro douce (Adv)</string>
+  <string name="ExpertIntro_gametype">Intro d\'expert (Adv)</string>
+   
+  <string name="LevelUp_gametype">Niveau supérieur (Adv,Base)</string>
+  <string name="SonOfSizeDistortion_gametype">Enfant du Gigantisme (Adv, Base)</string>
+   
+  <string name="RoyaltyFactory_gametype">Manufacture Royale (Adv, Intr)</string>
+  <string name="MastersOfFinance_gametype">Maîtres de la Finance (Adv, Intr)</string>
+   
+  <string name="PrinceOfOrange_gametype">Prince d\'Orange (Adv, Riv)</string>
+  <string name="GiftsAndMathoms_gametype">Présents et Babioles (Adv, Riv)</string>
+   
+  <string name="HastePotion_gametype">Potion de Rapidité (Adv, Alch)</string>
+  <string name="Cursecatchers_gametype">Attrapeurs de Malédictions (Adv,Alch)</string>
+   
+  <string name="LastWillAndMonument_gametype">Dernière Volonté et Monument (Adv, Prsp)</string>
+  <string name="ThinkBig_gametype">Voyez en Grand (Adv, Prsp)</string>
+   
+  <string name="TheHerosReturn_gametype">Le retour du Héro (Adv, Abon)</string>
+  <string name="SeacraftAndWitchcraft_gametype">Navigation et Sorcellerie (Adv, Abon)</string>
+   
+  <string name="TradersAndRaiders_gametype">Négociants et Pilleurs (Adv, Hntr)</string>
+  <string name="Journeys_gametype">Voyages (Adv, Hntr)</string>
+   
+  <string name="CemeteryPolka_gametype">Polka du Cimetière (Adv, Age</string>
+  <string name="GroovyDecay_gametype">Une Décomposition sympa (Adv, Age)</string>
+   
+  <string name="Spendthrift_gametype">Le Dépensier (Adv, Guildes)</string>
+  <string name="QueenOfTan_gametype">Reine du bronzage (Adv, Guildes)</string>
   
 </resources>
