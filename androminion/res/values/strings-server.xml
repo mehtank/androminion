@@ -152,9 +152,9 @@
 	<string name="CardDiscarded">Discarded</string>
 	<string name="CardAddedToHand">Card added to hand</string>
 	<string name="CardRemovedFromHand">Card removed from hand</string>
-    <string name="CardSetAsideOnTavernMat">Card put on tavern mat</string>
-    <string name="CallingCard">Calling</string>
-    <string name="CalledCard">Called</string>
+	<string name="CardSetAsideOnTavernMat">Card put on tavern mat</string>
+	<string name="CallingCard">Calling</string>
+	<string name="CalledCard">Called</string>
 	<string name="CardSetAside">Card set aside (Prince)</string>
 	<string name="CardSetAsideSummon">Card set aside (Summon)</string>
 	<string name="CardSetAsideHaven">Card set aside (Haven)</string>
@@ -166,15 +166,15 @@
 	<string name="TravellerExchanged">%1$s exchanged for</string>
 	<string name="TurnJourneyTokenFaceUp">Journey token turned face up</string>
 	<string name="TurnJourneyTokenFaceDown">Journey token turned face down</string>
-    <string name="MinusOneCoinTokenOn">-1 coin token placed</string>
-    <string name="MinusOneCoinTokenOff">-1 coin token removed</string>
+	<string name="MinusOneCoinTokenOn">-1 coin token placed</string>
+	<string name="MinusOneCoinTokenOff">-1 coin token removed</string>
 	<string name="MinusOneCardTokenOn">-1 card token put onto deck</string>
-    <string name="MinusOneCardTokenOff">-1 card token removed</string>
+	<string name="MinusOneCardTokenOff">-1 card token removed</string>
     
-    <string name="plus_one_card_token">+1 Card token</string>
-    <string name="plus_one_action_token">+1 Action token</string>
-    <string name="plus_one_buy_token">+1 Buy token</string>
-    <string name="plus_one_coin_token">+1 Coin token</string>
+	<string name="plus_one_card_token">+1 Card token</string>
+	<string name="plus_one_action_token">+1 Action token</string>
+	<string name="plus_one_buy_token">+1 Buy token</string>
+	<string name="plus_one_coin_token">+1 Coin token</string>
     		
 	<string name="use_for_money">use for money</string>
 	
@@ -345,8 +345,8 @@
 	
 	<string name="pirate_ship_option_one">Take +(%1$s) Coins</string>
 	<string name="pirate_ship_option_two">Attack</string>
-    <string name="miser_option_one">Take +(%1$s) Coins</string>
-    <string name="miser_option_two">Put a Copper onto Tavern mat</string>
+	<string name="miser_option_one">Take +(%1$s) Coins</string>
+	<string name="miser_option_two">Put a Copper onto Tavern mat</string>
         
 	<string name="top_of_deck">Top of deck</string>
 	
@@ -356,11 +356,11 @@
 	
 	<string name="bureaucrat_part">put on top of your deck</string>
 	
-  <string name="haven_part">put aside [Haven]</string>
+	<string name="haven_part">put aside [Haven]</string>
 	
-  <string name="gear_part">put aside [Gear]</string>
+	<string name="gear_part">put aside [Gear]</string>
   
-  <string name="save_part">put aside [Save]</string>
+	<string name="save_part">put aside [Save]</string>
 	
 	<string name="island_part">put on island mat</string>
 	
@@ -368,8 +368,8 @@
 	
 	<string name="mine_part">mine to</string>
 
-  <string name="throne_room_part">play 2 times</string>
-  <string name="kings_court_part">play 3 times</string>
+	<string name="throne_room_part">play 2 times</string>
+	<string name="kings_court_part">play 3 times</string>
    
 	<string name="militia_part">keep from Militia</string>
 	<string name="mercenary_part">keep from Mercenary</string>
@@ -392,11 +392,9 @@
 	<string name="governor_option_two">Each Player Gains a Silver (Gold)</string>
 	<string name="governor_option_three">Each Player Upgrades exactly 1 (2) more</string>
 		
-    <string name="prince_part">set aside with prince</string>
+	<string name="prince_part">set aside with prince</string>
 	
-		<!-- *** -->
 	<string name="university_part">gain [University]</string>
-	<!-- *** -->
 
 	<string name="putback_query">Select card to put back on deck</string>
 	<string name="putback_option_one">Treasure card (Herbalist)</string>
