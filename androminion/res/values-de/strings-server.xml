@@ -113,7 +113,7 @@
 	<string name="trash">Entsorgen</string>
 	<string name="keep">Behalten</string>
 	<string name="none">Keine</string>
-	<string name="card_revealed_from_player">Von %1$s\n%2$s wurde gezogen: %3$s</string>
+	<string name="card_revealed_from_player">%2$s deckt %3$s bei %1$s auf</string>
 	<string name="GameStarting">Spielstart</string>
 	<string name="GameOver">Spielende</string>
 	<string name="Embargo">Embargo</string>
@@ -182,7 +182,7 @@
 	<string name="game_over_status">Spiel — </string>
 	<string name="game_length_status">Spieldauer: </string>
 	<string name="end_turn">Zugende</string>
-	<string name="replace">Ersetze</string>
+	<string name="replace">Zurücklegen</string>
 	
 	<string name="trash_card_from_hand">Entsorge eine Handkarte</string>
 	<string name="gain_silver">Nimm dir ein Silber</string>
@@ -358,26 +358,26 @@
 	
 	<string name="haven_part">[Hafen]: Lege verdeckt zur Seite: Wähle</string>
 	
-	<string name="gear_part">[Ausrüstung]: Lege bis zu 2 Handkarten verdeckt zur Seite: Wähle</string>
+	<string name="gear_part">Ausrüstung zur Seite legen: Wähle</string>
 	
 	<string name="save_part">[Zuflucht]: Lege zur Seite</string>
 	
-	<string name="island_part">[Insel]: Lege auf die Insel</string>
+	<string name="island_part">Lege auf die Insel</string>
 	
 	<string name="masquerade_part">Gib Karte nach links: Wähle</string>
 	
-	<string name="mine_part">[Mine]: Wähle</string>
+	<string name="mine_part">Wähle</string>
 	
-	<string name="throne_room_part">[Thronsaal]: Wähle</string>
-	<string name="kings_court_part">[Königshof]: Wähle</string>
+	<string name="throne_room_part">Spiele 2 mal</string>
+	<string name="kings_court_part">Spiele 3 mal</string>
 	
 	<string name="militia_part">[Miliz]: Behalte</string>
 	<string name="mercenary_part">[Söldner]: Behalte</string>
 	<string name="sir_michael_part">[Sir Michael]: Behalte</string>
 	
-	<string name="bishop_part">[Bischof]: Entsorge</string>
+	<string name="bishop_part">Entsorge für Punktemarker</string>
 	
-	<string name="swindler_part">[Trickser]: Ersetze Karte im Wert bis zu (%1$s)</string>
+	<string name="swindler_part">Ersetze getrickste Karte im Wert bis zu (%1$s)</string>
 	
 	<string name="margrave_part">[Markgraf]: Behalte</string>
 	
@@ -392,11 +392,9 @@
 	<string name="governor_option_two">Nimm dir ein Gold (Silber)</string>
 	<string name="governor_option_three">Jeder Spieler darf um genau 2 (1) überbauen</string>
 	
-	<string name="prince_part">[Prinz]: Lege mit Prinz beiseite: Wähle</string>
+	<string name="prince_part">Lege mit Prinz beiseite: Wähle</string>
 	
-	<!-- *** -->
-	<string name="university_part">[Universität]: Nimm </string>
-	<!-- *** -->
+	<string name="university_part">Nimm </string>
 	
 	<string name="putback_query">Wähle Karte zum Zurücklegen</string>
 	<string name="putback_option_one">Geldkarte (Kräuterkundiger)</string>
