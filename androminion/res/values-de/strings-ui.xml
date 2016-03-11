@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
 	<!-- AndroidManifest -->
 	<string name="app_name">Androminion</string>
@@ -49,7 +49,7 @@
 		<![CDATA[
 		<h3>Bitte lesen!</h3>
 		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Verbreitung von Androminion im Play Store, da sie eine offizielle digitale Version ihres Spiels herausbringen. Bitte veröffentliche Anrdominion in keinem öffentlichen AppStore.<br><br>
-		<h3>Version 6.06</h3>
+		<h3>Version 6.07</h3>
 		* Jetzt mit Abenteuer! <br>
 		* Promokarten: Geldversteck, Einladung
 		<h3>Version 6.00</h3>
