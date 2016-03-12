@@ -43,20 +43,20 @@
 	<string name="card_options_header">%1$s Option</string>
 	<string name="part_play">Spiele</string>
 	<string name="part_buy">Kaufe</string>
-	<string name="part_move_token_minus_2_cost">lege Deinen -2 Kosten Marker auf</string>
-	<string name="part_move_token_plus_one_card">lege Deinen +1 Karte Marker auf</string>
-	<string name="part_move_token_plus_one_action">lege Deinen +1 Aktion Marker auf</string>
-	<string name="part_move_token_plus_one_buy">lege Deinen +1 Kauf Marker auf</string>
-	<string name="part_move_token_plus_one_coin">lege Deinen +1 Geld Marker auf</string>
-	<string name="part_move_token_trashing">lege Deinen Entsorgungsmarker auf</string>
+	<string name="part_move_token_minus_2_cost">für Deinen -2 Kosten Marker</string>
+	<string name="part_move_token_plus_one_card">für Deinen +1 Karte Marker</string>
+	<string name="part_move_token_plus_one_action">für Deinen +1 Aktion Marker</string>
+	<string name="part_move_token_plus_one_buy">für Deinen +1 Kauf Marker</string>
+	<string name="part_move_token_plus_one_coin">für Deinen +1 Geld Marker</string>
+	<string name="part_move_token_trashing">für Deinen Entsorgungsmarker</string>
 	
 	<string name="discardPile">Ablagestapel</string>
 	<string name="hand">Hand</string>
 	
 	<string name="select_from_table">%1$s eine Karte vom Tisch</string>
-	<string name="select_from_table_attack">%1$s eine Angriffskarte vom Tisch</string>
-	<string name="select_from_table_action">Wähle eine Aktionskarte aus dem Vorrat auf %1$s</string>
-	<string name="select_from_table_treasure">Wähle eine Geldkarte aus dem Vorrat auf %1$s</string>
+	<string name="select_from_table_attack">%1$s eine Angriffskarte aus dem Vorrat</string>
+	<string name="select_from_table_action">Wähle eine Aktionskarte aus dem Vorrat %1$s</string>
+	<string name="select_from_table_treasure">Wähle eine Geldkarte aus dem Vorrat %1$s</string>
 	<string name="select_from_table_exact">%2$s eine Karte vom Tisch, die genau (%1$s) kostet</string>
 	<string name="select_from_table_exact_action">%2$s eine Aktionskarte vom Tisch die genau (%1$s) kostet</string>
 	<string name="select_from_table_max">%2$s eine Karte vom Tisch, die höchstens (%1$s) kostet</string>
@@ -433,10 +433,10 @@
 	<string name="SwampHagAttacks_single">%1$s Sumpfhexe im Spiel</string>
 	<string name="SwampHagAttacks_multiple">%1$s Sumpfhexen im Spiel</string>
 	<string name="traveller_exchange">Tausche ein gegen %1$s</string>
-	<string name="teacher_move_token_plus_one_card">move your +1 Card token to (without your tokens on it). [Teacher]</string>
-	<string name="teacher_move_token_plus_one_action">move your +1 Action token to (without your tokens on it). [Teacher]</string>
-	<string name="teacher_move_token_plus_one_buy">move your +1 Buy token to (without your tokens on it). [Teacher]</string>
-	<string name="teacher_move_token_plus_one_coin">move your +1 Coin token to (without your tokens on it). [Teacher]</string>
+	<string name="teacher_move_token_plus_one_card">(ohne Marker) für Deinen +1 Karte Marker</string>
+	<string name="teacher_move_token_plus_one_action">(ohne Marker) für Deinen +1 Aktion Marker</string>
+	<string name="teacher_move_token_plus_one_buy">(ohne Marker) für Deinen +1 Kauf Marker</string>
+	<string name="teacher_move_token_plus_one_coin">(ohne Marker) für Deinen +1 Geld Marker</string>
 	<string name="wineMerchant_option_one">Vom Wirtshaus ablegen</string>
 	<string name="wineMerchant_query">Wähle Weinhändler, die du vom Wirtshaus ablegst</string>
 	<string name="wineMerchantEstate_query">Wähle Anwesen, die Du vom Wirtshaus ablegst</string>
