@@ -53,21 +53,21 @@
 	<string name="discardPile">Ablagestapel</string>
 	<string name="hand">Hand</string>
 	
-	<string name="select_from_table">%1$s eine Karte vom Tisch</string>
-	<string name="select_from_table_attack">%1$s eine Angriffskarte aus dem Vorrat</string>
-	<string name="select_from_table_action">Wähle eine Aktionskarte aus dem Vorrat %1$s</string>
-	<string name="select_from_table_treasure">Wähle eine Geldkarte aus dem Vorrat %1$s</string>
-	<string name="select_from_table_exact">%2$s eine Karte vom Tisch, die genau (%1$s) kostet</string>
-	<string name="select_from_table_exact_action">%2$s eine Aktionskarte vom Tisch die genau (%1$s) kostet</string>
-	<string name="select_from_table_max">%2$s eine Karte vom Tisch, die höchstens (%1$s) kostet</string>
-	<string name="select_from_table_max_events">%2$s ein Ereignis, das höchstens (%1$s) kostet</string>
-	<string name="select_from_table_max_cards_events">%2$s eine Karte oder Ereignis vom Tisch, das höchstens (%1$s) kostet</string>
-	<string name="select_from_table_max_non_vp">%2$s eine Nicht-Punktekarte vom Tisch die höchstens (%1$s) kostet</string>
-	<string name="select_from_table_max_non_vp_action">%2$s eine Aktionskarte vom Tisch die höchstens (%1$s) kostet und keine Punktekarte ist.</string>
-	<string name="select_from_table_max_vp">%2$s eine Punktekarte vom Tisch die höchstens (%1$s) kostet</string>
-	<string name="select_from_table_max_action">%2$s eine Aktionskarte vom Tisch die höchstens (%1$s) kostet</string>
-	<string name="select_from_table_between">%3$s eine Karte vom Tisch, die zwischen (%1$s) und (%2$s) kostet</string>
-	<string name="select_from_table_min">%2$s eine Karte vom Tisch, die mindestens (%1$s) kostet</string>
+	<string name="select_from_table">%1$s eine Karte vom Vorrat</string>
+	<string name="select_from_table_attack">%1$s eine Angriffskarte vom Vorrat</string>
+	<string name="select_from_table_action">Wähle eine Aktionskarte vom Vorrat %1$s</string>
+	<string name="select_from_table_treasure">Wähle eine Geldkarte vom Vorrat %1$s</string>
+	<string name="select_from_table_exact">%2$s eine Karte vom Vorrat, die genau (%1$s) kostet</string>
+	<string name="select_from_table_exact_action">%2$s eine Aktionskarte vom Vorrat die genau (%1$s) kostet</string>
+	<string name="select_from_table_max">%2$s eine Karte vom Vorrat, die bis zu (%1$s) kostet</string>
+	<string name="select_from_table_max_events">%2$s ein Ereignis, das bis zu (%1$s) kostet</string>
+	<string name="select_from_table_max_cards_events">%2$s eine Karte oder Ereignis vom Vorrat, das bis zu (%1$s) kostet</string>
+	<string name="select_from_table_max_non_vp">%2$s eine Nicht-Punktekarte vom Vorrat die bis zu (%1$s) kostet</string>
+	<string name="select_from_table_max_non_vp_action">%2$s eine Aktionskarte vom Vorrat die bis zu (%1$s) kostet und keine Punktekarte ist.</string>
+	<string name="select_from_table_max_vp">%2$s eine Punktekarte vom Vorrat die bis zu (%1$s) kostet</string>
+	<string name="select_from_table_max_action">%2$s eine Aktionskarte vom Vorrat die bis zu (%1$s) kostet</string>
+	<string name="select_from_table_between">%3$s eine Karte vom Vorrat, die zwischen (%1$s) und (%2$s) kostet</string>
+	<string name="select_from_table_min">%2$s eine Karte vom Vorrat, die mindestens (%1$s) kostet</string>
 	
 	<string name="select_one_card_from_hand">%1$s eine Karte aus deiner Hand</string>
 	<string name="select_up_to_x_cards_from_hand">%2$s bis zu %1$s Karten aus deiner Hand</string>
@@ -334,7 +334,7 @@
 	<string name="baron_option_one">Lege ein Anwesen für +(4) Geld ab</string>
 	<string name="baron_option_two">Nimm Anwesen</string>
 	
-	<string name="native_village_option_one">Nimm die Karten aus dem Eingeborenedorf auf die Hand</string>
+	<string name="native_village_option_one">Nimm die Karten vom Eingeborenedorf auf die Hand</string>
 	<string name="native_village_option_two">Lege oberste Karte des Nachziehstapels auf das Eingeborenendorf</string>
 	
 	<string name="ill_gotten_gains_option_one">Kupfer nehmen</string>
