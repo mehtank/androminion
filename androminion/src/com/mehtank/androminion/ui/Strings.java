@@ -449,8 +449,8 @@ public class Strings {
 
             }
 
-            if (ac.getAddGold() > 0) ret = Strings.format(R.string.card_coin_single, "" + ac.getAddGold()) + "\n" + ret;
-            else if (ac.getAddGold() > 0) ret = Strings.format(R.string.card_coin_multiple, "" + ac.getAddGold()) + "\n" + ret;
+            if (ac.getAddGold() > 1) ret = Strings.format(R.string.card_coin_multiple, "" + ac.getAddGold()) + "\n" + ret;
+            else if (ac.getAddGold() > 0) ret = Strings.format(R.string.card_coin_single, "" + ac.getAddGold()) + "\n" + ret;
             if (ac.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + ret;
             else if (ac.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + ac.getAddBuys()) + "\n" + ret;
             if (ac.getAddActions() > 1) ret = Strings.format(R.string.card_actions_multiple, "" + ac.getAddActions()) + "\n" + ret;
