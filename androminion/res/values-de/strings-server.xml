@@ -235,7 +235,7 @@
 	<string name="pearldiver_option_one">Nach oben</string>
 	<string name="pearldiver_option_two">Unten lassen</string>
 	
-	<string name="alchemist_option_one">Zurück auf Nachziehstapel</string>
+	<string name="alchemist_option_one">auf Nachziehstapel</string>
 	<string name="alchemist_option_two">Ablegen</string>
 	
 	<string name="navigator_header">Der Navigator deckt auf: %1$s</string>
@@ -320,8 +320,8 @@
 	<string name="spice_merchant_option_one">+2 Karten und +1 Aktion</string>
 	<string name="spice_merchant_option_two">+(2) Geld und +1 Kauf</string>
 	
-	<string name="watch_tower_option_one">Auf Ablagestapel</string>
-	<string name="watch_tower_option_three">Zurück auf Nachziehstapel</string>
+	<string name="watch_tower_option_one">Ablegen</string>
+	<string name="watch_tower_option_three">auf Nachziehstapel</string>
 	
 	<string name="jester_option_one">Karte mit gleichem Namen für dich</string>
 	<string name="jester_option_two">Gib Karte mit gleichem Namen an %1$s</string>
