@@ -5,7 +5,7 @@
 	<string name="pass">Passen</string>
 	<string name="card_revealed">%1$s deckt %2$s auf</string>
 	<string name="card_revealed_from_hand">%1$s deckt %2$s von der Hand auf</string>
-	<string name="select_from_table_max_treasure">%2$s eine Geldkarte die maximal (%1$s) kostet</string>
+	<string name="select_from_table_max_treasure">%2$s eine Geldkarte die bis zu (%1$s) kostet</string>
 	<string name="pawn_option_one">Handlanger (Option 1 von 2):</string>
 	<string name="pawn_option_two">Handlanger (Option 2 von 2):</string>
 	<string name="torturer_option_one">Nimm einen Fluch auf die Hand</string>
@@ -55,8 +55,8 @@
 	
 	<string name="select_from_table">%1$s eine Karte vom Vorrat</string>
 	<string name="select_from_table_attack">%1$s eine Angriffskarte vom Vorrat</string>
-	<string name="select_from_table_action">Wähle eine Aktionskarte vom Vorrat %1$s</string>
-	<string name="select_from_table_treasure">Wähle eine Geldkarte vom Vorrat %1$s</string>
+	<string name="select_from_table_action">%1$s eine Aktionskarte vom Vorrat</string>
+	<string name="select_from_table_treasure">%1$s eine Geldkarte vom Vorrat</string>
 	<string name="select_from_table_exact">%2$s eine Karte vom Vorrat, die genau (%1$s) kostet</string>
 	<string name="select_from_table_exact_action">%2$s eine Aktionskarte vom Vorrat die genau (%1$s) kostet</string>
 	<string name="select_from_table_max">%2$s eine Karte vom Vorrat, die bis zu (%1$s) kostet</string>
@@ -143,7 +143,7 @@
 	<string name="DeckReplenished">Nachziehstapel aufgefüllt</string>
 	<string name="PlayerAttacking">Greift an</string>
 	<string name="PlayerDefended">Verteidigt</string>
-	<string name="CardOnTopOfDeck">Lege Karte auf den Stapel</string>
+	<string name="CardOnTopOfDeck">Karte auf den Nachziehstapel</string>
 	<string name="CardObtained">Erhalten</string>
 	<string name="CardTrashed">Entsorgt</string>
 	<string name="CardRevealed">Aufgedeckt</string>
