@@ -27,21 +27,28 @@ public class CardGroup extends BaseAdapter {
     private ArrayList<CardState> cards = new ArrayList<CardState>();
     private Comparator<MyCard> cmp = new MyCard.CardCostNameComparator();
     private boolean sorted = false;
+    private PlayerAdapter players;
 
     // fix bug that lets item countLeft jump around
     int[] supplySizes = null;
     int[] embargos = null;
+    int[][][] tokens = null;
 
-    public void updateCounts(int[] supplySizes, int[] embargos) {
+    public void updateCounts(int[] supplySizes, int[] embargos, int[][][] tokens) {
         this.supplySizes = supplySizes;
         this.embargos = embargos;
+        this.tokens = tokens;
         notifyDataSetChanged();
     }
 
-
     public CardGroup(Context top, boolean onTable) {
+    	this(top, onTable, new MyCard.CardCostNameComparator());
+    }
+
+    public CardGroup(Context top, boolean onTable, Comparator<MyCard> comparator) {
         this.top = top;
         this.onTable = onTable;
+        this.cmp = comparator;
     }
 
     public void addCard(MyCard c) {
@@ -61,6 +68,10 @@ public class CardGroup extends BaseAdapter {
         } else
             cards.add(ci);
         notifyDataSetChanged();
+    }
+    
+    public void setPlayers(PlayerAdapter players) {
+    	this.players = players;
     }
 
     public void updateState(int pos, CardState cs){
@@ -108,6 +119,8 @@ public class CardGroup extends BaseAdapter {
                 cv.setCountLeft(supplySizes[cs.c.id]);
             if (embargos != null)
                 cv.setEmbargos(embargos[cs.c.id]);
+            if (tokens != null)
+            	cv.setTokens(tokens[cs.c.id], players);
         } catch (ArrayIndexOutOfBoundsException e) {
             // TODO See why this is happening?
             Log.w(TAG, "exception", e);

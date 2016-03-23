@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
 	<string name="Base">Basis</string>
+	<string name="BaseSet">Basis Satz</string>
 	<string name="Intrigue">Die Intrige</string>
 	<string name="Seaside">Seaside</string>
 	<string name="Alchemy">Die Alchemisten</string>
@@ -11,4 +13,5 @@
 	<string name="Guilds">Die Gilden</string>
 	<string name="Adventures">Abenteuer</string>
 	<string name="Promo">Promo</string>
+
 </resources>

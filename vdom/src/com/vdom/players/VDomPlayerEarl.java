@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
@@ -161,7 +160,7 @@ public class VDomPlayerEarl extends BasePlayer
      HashMap<Integer, Integer> victoryHelpers = getVictoryStat(historyItems);
  
      for (HistoryItem historyItem : historyItems) {
-       if ((historyItem.getAction() == HistoryItem.Action.BOUGHT) && (historyItem.getCard() instanceof ActionCard)) {
+       if ((historyItem.getAction() == HistoryItem.Action.BOUGHT) && (historyItem.getCard().isAction(this))) {
          debug(historyItem.toString() + ", was in hand " + inHand.get(historyItem.getCard().getId()) + " times, played " + 
            played.get(historyItem.getCard().getId()) + " times, and saw " + victoryHelpers.get(historyItem.getCard().getId()) + " vps");
        }
@@ -211,7 +210,7 @@ public class VDomPlayerEarl extends BasePlayer
  
      int actionCards = 0;
      for (Card card : hand) {
-       if (   card instanceof ActionCard
+       if (   card.isAction(context.player)
            && !card.equals(Cards.rats)
            && !(card.equals(Cards.tactician) && context.countCardsInPlay(Cards.tactician) > 0)
           ) {
@@ -274,7 +273,7 @@ public class VDomPlayerEarl extends BasePlayer
          return Cards.throneRoom;
        }
  
-       Card bestCard = getBestAddingAction(hasThroneRoom);
+       Card bestCard = getBestAddingAction(hasThroneRoom, context.player);
        if (bestCard != null) {
          return Cards.throneRoom;
        }
@@ -287,7 +286,7 @@ public class VDomPlayerEarl extends BasePlayer
        THRONE_ROOM_DUDS += 1;
      }
  
-     Card bestCard = getBestAddingAction(hasThroneRoom);
+     Card bestCard = getBestAddingAction(hasThroneRoom, context.player);
      if (bestCard != null) {
        return bestCard;
      }
@@ -320,12 +319,12 @@ public class VDomPlayerEarl extends BasePlayer
        if (card.equals(Cards.treasureMap)) {
          continue;
        }
-       if (card instanceof ActionCard) {
+       if (card.isAction(context.player)) {
          if (dontPlay.contains(card)) {
            continue;
          }
  
-         ActionCard action = (ActionCard)card;
+         Card action = card;
          if (context.canPlay(action)) {
            return action;
          }
@@ -334,13 +333,13 @@ public class VDomPlayerEarl extends BasePlayer
      return null;
    }
  
-   private ActionCard getBestAddActionAction(Card[] hand) {
-     ActionCard bestAction = null;
+   private Card getBestAddActionAction(Card[] hand, Player player) {
+     Card bestAction = null;
      int bestAddActions = 0;
  
      for (Card card : hand) {
-       if (card instanceof ActionCard) {
-         ActionCard action = (ActionCard)card;
+       if (card.isAction(player)) {
+         Card action = card;
          if (action.getAddActions() > 0) {
            int addCards = action.getAddCards();
  
@@ -357,13 +356,13 @@ public class VDomPlayerEarl extends BasePlayer
      return bestAction;
    }
  
-   private ActionCard getBestAddActionCard(Card[] hand) {
-     ActionCard bestAction = null;
+   private Card getBestAddActionCard(Card[] hand, Player player) {
+     Card bestAction = null;
      int bestAddCards = 0;
  
      for (Card card : hand) {
-       if (card instanceof ActionCard) {
-         ActionCard action = (ActionCard)card;
+       if (card.isAction(player)) {
+         Card action = card;
          int thisAddCards = action.getAddCards();
          if (thisAddCards > bestAddCards) {
            bestAction = action;
@@ -375,13 +374,13 @@ public class VDomPlayerEarl extends BasePlayer
      return bestAction;
    }
  
-   private Card getBestAddingAction(boolean hasThroneRoom) {
+   private Card getBestAddingAction(boolean hasThroneRoom, Player player) {
      Card[] hand = getHand().toArray();
  
-     Card bestAction = getBestAddActionAction(hand);
+     Card bestAction = getBestAddActionAction(hand, player);
  
      if (bestAction == null) {
-       bestAction = getBestAddActionCard(hand);
+       bestAction = getBestAddActionCard(hand, player);
      }
  
      if (bestAction != null) {
@@ -661,6 +660,9 @@ public class VDomPlayerEarl extends BasePlayer
          card = null;
        }
      }
+     
+     if (!context.canBuy(card))
+    	 card = null;
  
      return card;
    }
@@ -818,7 +820,7 @@ public class VDomPlayerEarl extends BasePlayer
        if (   !(card instanceof VictoryCard)
            && !(card instanceof CurseCard)
            && !(card.isShelter())
-           && !(card.isRuins())) {
+           && !(card.isRuins(this))) {
          cards.add(card);
        }
      }
@@ -995,13 +997,13 @@ public Card masquerade_cardToPass(MoveContext context)
         return c;
 }
  
-   private int nonNobleActionCardCount() {
+   private int nonNobleActionCardCount(Player player) {
      int count = 0;
      for (Card card : getHand()) {
        if (card.equals(Cards.nobles)) {
          continue;
        }
-       if (card instanceof ActionCard) {
+       if (card.isAction(player)) {
          ++count;
        }
      }
@@ -1017,7 +1019,7 @@ public Card masquerade_cardToPass(MoveContext context)
        return Player.NoblesOption.AddCards;
      if (inHandCount(Cards.nobles) == 2)
        return Player.NoblesOption.AddActions;
-     if (nonNobleActionCardCount() > 0) {
+     if (nonNobleActionCardCount(context.player) > 0) {
        return Player.NoblesOption.AddActions;
      }
      return Player.NoblesOption.AddCards;

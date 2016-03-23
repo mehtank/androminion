@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="showenglishnames_pref_title">Mostrar nombres en ingles</string>
-	<string name="showenglishnames_pref_summary">Mostrar los nombres en ingles en una ramificación(sin efecto si el idioma seleccionado es ingles)</string>
-    <string name="exitonback_pref_summary">Salir del juego pulsando el boton de atras</string>
-    <string name="exitonback_pref_title">Salir con el boton atras</string>
+    
+    <string name="userlang_pref_title">Idioma</string>
+    <string name="userlang_pref_summary">Eligir idioma (anula el idioma del sistema)</string>
+	<string name="showenglishnames_pref_title">Mostrar nombres en inglés</string>
+	<string name="showenglishnames_pref_summary">Mostrar los nombres en inglés en una ramificación (sin sentido si el idioma seleccionado es inglés)</string>
+    <string name="exitonback_pref_summary">Salir del juego pulsando el botón de atrás</string>
+    <string name="exitonback_pref_title">Salir con el botón atrás</string>
     <string name="vibescreen_pref_title">Configurar vibración…</string>
     <string name="gamevibeon_pref_summary">Vibrar cuando el juego termina</string>
     <string name="gamevibeon_pref_title">Se acabo el juego</string>
@@ -14,21 +17,85 @@
     <string name="clickvibeon_pref_summary">Vibrar cuando se seleccionan las cartas</string>
     <string name="clickvibeon_pref_title">Respuesta tactil</string>
     <string name="allvibes_pref_title">Habilitar vibración</string>
-    <string name="notif_pref_title">Notificationes</string>
+    <string name="notif_pref_title">Notificaciones</string>
+    <string name="show_statusbar_pref_title">Mostrar barra de estado</string>
+    <string name="show_statusbar_pref_summary">Mostrar la barra de estado del sistema durante el juego</string>
     <string name="game_play_pref_title">Jugar</string>
+    <string name="testing_pref_title">Modo de Prueba</string>
+    <string name="start_guilds_coin_tokens_pref_title">Marcadores de moneda</string>
+    <string name="start_guilds_coin_tokens_pref_summary">Empezar con marcadores de Moneda en vez de cartas</string>
+    <string name="less_provinces_pref_title">Menos Provincias</string>
+    <string name="less_provinces_pref_summary">Jugar con menos cartas de Provincia</string>
     <string name="quick_play_pref_title">Partida rápida</string>
-    <string name="quick_play_pref_summary">Muchas acciones se haran automaticamente (Tendra efecto en la proxima partida)</string>
-    <string name="action_chains_pref_title">Action Chains</string>
-    <string name="action_chains_pref_summary">Enable multiple action selections in play order  (will take effect next game)</string>
+    <string name="quick_play_pref_summary">Muchas acciones se haran automaticamente (tendrá efecto en la próxima partida)</string>
+    <string name="sort_cards_pref_title">Ordenar cartas</string>
+    <string name="sort_cards_pref_summary">Ordenar cartas en la mano por tipo: acción-tesoro-maldición-victoria</string>
+    <string name="action_chains_pref_title">Cadenas de acciones</string>
+    <string name="action_chains_pref_summary">Habilitar seleccionando acciones multiples en el orden de jugar (tendrá efecto en la próxima partida)</string>
+    <string name="suppress_redundant_reactions_pref_title">Reprimir la última reacción</string>
+    <string name="suppress_redundant_reactions_pref_summary">Reprimir que la carta de reacción que recién fue jugada aparezca en el diálogo otra vez</string>
+    <string name="equal_start_hands_pref_title">Manos iniciales iquales</string>
+    <string name="equal_start_hands_pref_summary">Todos los jugadores tienen la misma mano inicial (tendrá efecto en la próxima partida)</string>
     <string name="plat_colony_pref_title">Incluir Platino y Colonias</string>
-    <string name="plat_colony_pref_summary">Incluir siempre Cartas de Platino y Colonia(tendra efecto en la siguiente partida)</string>
+    <string name="plat_colony_pref_summary">Incluir siempre Cartas de Platino y Colonia (tendrá efecto en la próxima partida)</string>
+    <string name="black_market_count_pref_title">Cartas de Mercado Negro</string>
+    <string name="black_market_count_pref_summary">Número de cartas en el mazo de Mercado Negro si la carta de Mercado Negro está en el Suministro (se recomienda al menos 15 cartas)</string>
     <string name="ui_pref_title">Interfaz de usuario</string>
-    <string name="name_pref_summary">Introduzca su nombre</string>
-    <string name="name_pref_title">Nombre</string>
     <string name="personalization_pref_title">Personalización</string>
-
+    <string name="name_pref_summary">Introduce tu nombre</string>
+    <string name="name_pref_title">Nombre</string>
+    <string name="multiplayer_pref_title">Multijugador</string>
+    <string name="host_pref_summary">Servidor de defecto al cual conectarse al unirse a un juego</string>
+    <string name="host_pref_title">Equipo</string>
+    <string name="port_pref_summary">Puerto de jugador de defecto que usar al unirse a un juego (generalmente 2255)</string>
+    <string name="port_pref_title">Puerto</string>
+    <string name="mask_names_pref_title">Ocultar nombres de las IA</string>
+    <string name="mask_names_pref_summary"></string>
     <string name="hide_card_counts_pref_title">Ocultar numero de cartas</string>
-    <string name="hide_card_counts_pref_summary">(Tendra efecto en la proxima partida)</string>
+    <string name="hide_card_counts_pref_summary">(tendrá efecto en la próxima partida)</string>
     <string name="one_turn_logs_pref_title">Detalles del turno sencillo</string>
-    <string name="one_turn_logs_pref_summary">Solo mostrar el turno actual en el log del juego en la parte inferior de la pantalla (Tendra efecto en la proxima partida)</string>
+    <string name="one_turn_logs_pref_summary">Solo mostrar el turno actual en el registro del juego en la parte inferior de la pantalla (tendrá efecto en la próxima partida)</string>
+    <string name="logging_pref_title">Registros del juego</string>
+    <string name="logging_enable_pref_title">Activar registros</string>
+    <string name="logging_enable_pref_summary">Los registros se guardan en la tarjeta SD como archivos de texto.</string>
+    <string name="logging_dir_pref_title">Directorio de registro</string>
+    <string name="logging_dir_pref_summary">Directorio para guardar los registros (se creará si es necesario)</string>
+    <string name="pref_theme_title">Tema</string>
+    <string name="pref_theme_summary">Elegir el tema de la aplicación</string>
+    <string name="autodownload_pref_title">Auto-descargar imágenes</string>
+    <string name="autodownload_pref_summary">Imágenes de las cartas (en inglés) se descargan del internet y se almacenan en tu tarjeta SD</string>
+    
+    <string-array name="theme_names">
+        <item>Oscuro</item>
+        <item>Claro</item>
+        <item>Claro con barra de acción oscura</item>
+    </string-array>
+
+    <string name="userlang_pref">userlang</string>
+
+    <string-array name="userlang_names">
+        <item>Por defecto</item>
+        <item>Inglés</item>
+        <item>Alemán</item>
+        <item>Español</item>
+        <item>Francés</item>
+        <item>Japonés</item>
+        <item>Holandés</item>
+        <item>Ruso</item>
+    </string-array>
+
+    <string name="pref_viewstyle_title">Estilo de cartas</string>
+    <string name="pref_viewstyle_summary">Eligir el estilo de visualización de las cartas</string>
+
+    <string-array name="viewstyle_names">
+        <item>Clasico</item>
+        <item>Simple</item>
+        <item>Descriptivo</item>
+    </string-array>
+
+    <string name="pref_showactionbar_title">Mostrar la barra de acción</string>
+    <string name="pref_showactionbar_summary">Inhabilitar si tienes una pantalla pequeña; habilitar si no tienes botones físicas</string>
+        <string name="shelters_pref_title">Empezar con Cobijos</string>
+        <string name="shelters_pref_summary">Siempre usar cobijos (de Edad Oscura) en lugar de las Fincas iniciales</string>
+    
 </resources>

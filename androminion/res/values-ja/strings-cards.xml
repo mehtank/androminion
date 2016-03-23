@@ -449,4 +449,7 @@
     <string name="SirVander_desc">他のプレイヤーは全員、自分のデッキの上から2枚のカードを公開し、その中のコスト(3) コイン～(6) コインのカード1枚を廃棄し、残りを捨て札にする。このカードによって騎士が廃棄された場合、このカードを廃棄する。\n---\nあなたはこのカードを廃棄したとき、金貨1枚を獲得する。</string>
     <string name="VirtualKnight_name">騎士</string>
     <string name="VirtualKnight_desc"/>
+    
+    <string name="Stash_name">へそくり</string>
+    <string name="Stash_desc">When you shuffle, you may put this anywhere in your deck.</string>
 </resources>

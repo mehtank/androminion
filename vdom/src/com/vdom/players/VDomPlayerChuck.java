@@ -3,7 +3,6 @@ package com.vdom.players;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.TreasureCard;
 import com.vdom.core.BasePlayer;
@@ -64,10 +63,10 @@ public class VDomPlayerChuck extends BasePlayer  {
             princeCards = new Card[0];
         }
                 
-        ActionCard action;
+        Card action;
         for (final Card card : getHand()) {
             if (context.canPlay(card)) {
-                action = (ActionCard) card;
+                action = card;
                 if (action.getAddActions() > 0 && !isInCardArray(card, princeCards)) {
                     return action;
                 }
@@ -216,12 +215,12 @@ public class VDomPlayerChuck extends BasePlayer  {
                         card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= 2 ||
                         card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= 2 ||
                         card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= 2 ||
-                        !(card instanceof ActionCard) && !(card instanceof TreasureCard)
+                        !(card.isAction(context.getPlayer())) && !(card instanceof TreasureCard)
                    ) {
                     continue;
                 }
                 
-                if (card instanceof ActionCard && actionCardCount >= ACTION_CARDS_MAX) {
+                if (card.isAction(context.getPlayer()) && actionCardCount >= ACTION_CARDS_MAX) {
                     continue;
                 }
                 

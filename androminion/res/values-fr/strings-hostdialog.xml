@@ -2,7 +2,7 @@
 <resources>
 
     <string name="host_title">Connection à un serveur Dominion</string>
-    <string name="host_message">Choisir le tupe de serveur de jeu.</string>
+    <string name="host_message">Choisir le type de serveur de jeu.</string>
     <string name="host_prompt">Entrer le nom ou l\'adresse IP du serveur auquel vous voulez vous connecter.</string>
     <string name="host_local">Jeu local</string>
     <string name="host_remote">Jeu distant</string>
@@ -15,7 +15,7 @@
     <string name="connection_failed">Connexion échouée!</string>
     <string name="stream_corrupted">Flux Corrompu.</string>
     <string name="unknown_host">Serveur inconnu. Configurer les paramètres.</string>
-    <string name="network_unreachable">Reseau injoignable ou le serveur a refuser la connexion.</string>
+    <string name="network_unreachable">Réseau injoignable ou le serveur a refusé la connexion.</string>
     <string name="io_error">IO Error.</string>
     
 </resources>

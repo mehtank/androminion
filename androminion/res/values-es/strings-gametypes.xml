@@ -3,83 +3,150 @@
   <string name="FirstGame_gametype">Primera partida (Base)</string>
   <string name="BigMoney_gametype">Riqueza (Base)</string> 
   <string name="Interaction_gametype">Interacción (Base)</string> 
-  <string name="SizeDistortion_gametype">Distorsion de Tamaño (Base)</string> 
-  <string name="VillageSquare_gametype">Village Square (Base)</string>
+  <string name="SizeDistortion_gametype">Distorsion de tamaño (Base)</string> 
+  <string name="VillageSquare_gametype">Plaza del pueblo (Base)</string>
   <string name="RandomBaseGame_gametype">Aleatorio juego basico</string>
   
-  <string name="VictoryDance_gametype">Danza de Victoria (Intr)</string> 
-  <string name="SecretSchemes_gametype">Secret Schemes (Intr)</string> 
-  <string name="BestWishes_gametype">Los mejores deseos (Intr)</string> 
+  <string name="VictoryDance_gametype">Danza de victoria (Intr)</string> 
+  <string name="SecretSchemes_gametype">Planes secretos (Intr)</string> 
+  <string name="BestWishes_gametype">Mis mejores deseos (Intr)</string> 
   <string name="RandomIntrigue_gametype">Aleatorio intriga</string>
   
-  <string name="Deconstruction_gametype">Deconstruir (Base, Intr)</string> 
-  <string name="HandMadness_gametype">Hand Madness (Base, Intr)</string> 
-  <string name="Underlings_gametype">Underlings (Base, Intr)</string>
+  <string name="Deconstruction_gametype">Deconstrucción (Base, Intr)</string> 
+  <string name="HandMadness_gametype">Locura de mano (Base, Intr)</string> 
+  <string name="Underlings_gametype">Subalternos (Base, Intr)</string>
   
-  <string name="HighSeas_gametype">High Seas (Terra)</string> 
-  <string name="BuriedTreasure_gametype">Buried Treasure (Terra)</string> 
-  <string name="Shipwrecks_gametype">Shipwrecks (Terra)</string> 
+  <string name="HighSeas_gametype">Alta Mar (Terra)</string> 
+  <string name="BuriedTreasure_gametype">Tesoro enterrado (Terra)</string> 
+  <string name="Shipwrecks_gametype">Naufragios (Terra)</string> 
   <string name="RandomSeaside_gametype">Aleatorio Terramar</string>
+      
+  <string name="ReachForTomorrow_gametype">Tal vez mañana (Base, Terra)</string> 
+  <string name="Repetition_gametype">Repetitición (Base, Terra)</string> 
+  <string name="GiveAndTake_gametype">Dar y tomar (Base, Terra)</string>
   
   <string name="ForbiddenArts_gametype">Artes prohibidas (Base, Alq)</string> 
-  <string name="PotionMixers_gametype">Combinación de pociones (Base, Alq)</string> 
-  <string name="ChemistryLesson_gametype">Lección de quimica (Base, Alq)</string>
+  <string name="PotionMixers_gametype">Mezcladores de pociones (Base, Alq)</string> 
+  <string name="ChemistryLesson_gametype">Lección de química (Base, Alq)</string>
   <string name="RandomAlchemy_gametype">Aleatorio Alquimia</string>
   
   <string name="Servants_gametype">Sirvientes (Intr, Alq)</string> 
-  <string name="SecretResearch_gametype">Busqueda secreta (Intr, Alq)</string> 
-  <string name="PoolsToolsAndFools_gametype">Pools, Tools, and Fools (Intr, Alq)</string>
-  
-  <string name="ReachForTomorrow_gametype">Reach for Tomorrow (Base, Terra)</string> 
-  <string name="Repetition_gametype">Repetiticion (Base, Terra)</string> 
-  <string name="GiveAndTake_gametype">Da y toma (Base, Terra)</string>
+  <string name="SecretResearch_gametype">Investigación secreta (Intr, Alq)</string> 
+  <string name="PoolsToolsAndFools_gametype">Agua, herramientas y locos (Intr, Alq)</string>
 
-  <string name="Beginners_gametype">Princioiantes (Prosp)</string> 
-  <string name="FriendlyInteractive_gametype">Interacción amistosa (Prosp)</string> 
+  <string name="Beginners_gametype">Principiantes (Prosp)</string> 
+  <string name="FriendlyInteractive_gametype">Roce amistoso (Prosp)</string> 
   <string name="BigActions_gametype">Grandes acciones (Prosp)</string> 
-  <string name="RandomProsperity_gametype">Aleatorio Prosperidad</string>
+  <string name="RandomProsperity_gametype">Aleatorio prosperidad</string>
 
-  <string name="BiggestMoney_gametype">Biggest Money (Base, Prosp)</string> 
-  <string name="TheKingsArmy_gametype">El ejercito del rey (Base, Prosp)</string> 
+  <string name="BiggestMoney_gametype">Más dinero (Base, Prosp)</string> 
+  <string name="TheKingsArmy_gametype">El ejército del rey (Base, Prosp)</string> 
   <string name="TheGoodLife_gametype">La buena vida (Base, Prosp)</string>
 
-  <string name="PathToVictory_gametype">Camino a la victoria (Intr, Prsp)</string> 
-  <string name="AllAlongTheWatchtower_gametype">Todo sobre la torre de guardia (Intr, Prosp)</string> 
-  <string name="LuckySeven_gametype">Lucky Seven (Intr, Prosp)</string>
+  <string name="PathToVictory_gametype">Caminos a la victoria (Intr, Prsp)</string> 
+  <string name="AllAlongTheWatchtower_gametype">Desde la atalaya (Intr, Prosp)</string> 
+  <string name="LuckySeven_gametype">Que haya suerte (Intr, Prosp)</string>
 
   <string name="RandomCornucopia_gametype">Aleatorio Cornucopia</string>
 
-  <string name="BountyOfTheHunt_gametype">Bounty of the Hunt (Base, Corn)</string> 
-  <string name="BadOmens_gametype">Bad Omens (Base, Corn)</string> 
-  <string name="TheJestersWorkshop_gametype">The Jester\'s Workshop (Base, Corn)</string>
+  <string name="BountyOfTheHunt_gametype">Cacería con premio (Base, Corn)</string> 
+  <string name="BadOmens_gametype">Malos presagios (Base, Corn)</string> 
+  <string name="TheJestersWorkshop_gametype">El taller del bufón (Base, Corn)</string>
 
-  <string name="LastLaughs_gametype">Quien rie el último… (Intr, Corn)</string> 
-  <string name="TheSpiceOfLife_gametype">The Spice of Life (Intr, Corn)</string> 
+  <string name="LastLaughs_gametype">Quien ríe último (Intr, Corn)</string> 
+  <string name="TheSpiceOfLife_gametype">La salsa de la vida (Intr, Corn)</string> 
   <string name="SmallVictories_gametype">Pequeñas victorias (Intr, Corn)</string>
 
-  <string name="HinterlandsIntro_gametype">Introducción Hinterlands (Hntr)</string> 
-  <string name="FairTrades_gametype">Fair Trades (Hntr)</string> 
-  <string name="Bargains_gametype">Gangas (Hntr)</string> 
-  <string name="Gambits_gametype">Estrategias (Hntr)</string> 
-  <string name="RandomHinterlands_gametype">Aleatorio Hinterlands</string>
+  <string name="HinterlandsIntro_gametype">Introducción (Cmrc)</string> 
+  <string name="FairTrades_gametype">Comercio justo (Cmrc)</string> 
+  <string name="Bargains_gametype">Gangas (Cmrc)</string> 
+  <string name="Gambits_gametype">Tácticas (Cmrc)</string> 
+  <string name="RandomHinterlands_gametype">Aleatorio Comarcas</string>
     
-  <string name="HighwayRobbery_gametype">Highway Robbery (Base, Hntr)</string> 
-  <string name="AdventuresAbroad_gametype">Adventures Abroad (Base, Hntr)</string>
+  <string name="HighwayRobbery_gametype">Salteadores de caminos (Base, Cmrc)</string> 
+  <string name="AdventuresAbroad_gametype">Aventuras en el extranjero (Base, Cmrc)</string>
     
-  <string name="MoneyForNothing_gametype">Dinero para nada (Hntr, Intr)</string> 
-  <string name="TheDukesBall_gametype">La bola del duque (Hntr, Intr)</string>
+  <string name="MoneyForNothing_gametype">Dinero gratis (Cmrc, Intr)</string> 
+  <string name="TheDukesBall_gametype">El baile del duque (Cmrc, Intr)</string>
     
-  <string name="Travelers_gametype">Viajeros (Hntr, Terra)</string> 
-  <string name="Diplomacy_gametype">Diplomacia (Hntr, Terra)</string>
+  <string name="Travelers_gametype">Viajeros (Cmrc, Terra)</string> 
+  <string name="Diplomacy_gametype">Diplomacia (Cmrc, Terra)</string>
     
-  <string name="SchemesAndDreams_gametype">Schemes and Dreams (Hntr, Alq)</string> 
-  <string name="WineCountry_gametype">Tierra de vino (Hntr, Alq)</string>
+  <string name="SchemesAndDreams_gametype">Sueños y conspiraciones (Cmrc, Alq)</string> 
+  <string name="WineCountry_gametype">País del vino (Cmrc, Alq)</string>
 
-  <string name="InstantGratification_gametype">Gratificación inmediata (Hntr, Prosp)</string> 
-  <string name="TreasureTrove_gametype">Treasure Trove (Hntr, Prosp)</string>
+  <string name="InstantGratification_gametype">Beneficio instantáneo (Cmrc, Prosp)</string> 
+  <string name="TreasureTrove_gametype">Tesoro oculto (Cmrc, Prosp)</string>
    
-  <string name="BlueHarvest_gametype">Cosecha azul (Hntr, Corn)</string> 
-  <string name="TravelingCircus_gametype">Circo viajero (Hntr, Corn)</string>
+  <string name="BlueHarvest_gametype">Cosecha azul (Cmrc, Corn)</string> 
+  <string name="TravelingCircus_gametype">Circo itinerante (Cmrc, Corn)</string>
     
-  <string name="Random_gametype">Aleatorio</string>    
+  <string name="Random_gametype">Aleatorio</string>
+  <string name="RandomDarkAges_gametype">Aleatorio Edad Oscura</string>
+  
+  	<string name="GrimParade_gametype">El desfile macabro (Edad)</string>
+  	<string name="PlayingChessWithDeath_gametype">Una partida de ajedrez con la muerte (Edad)</string>
+    
+    <string name="HighAndLow_gametype">De todo pelaje (Edad, Base)</string>
+    <string name="ChivalryAndRevelry_gametype">Caballerosidad y jarana (Edad, Base)</string>
+    
+    <string name="Prophecy_gametype">Profecía (Edad, Intr)</string>
+    <string name="Invasion_gametype">Invasión (Edad, Intr)</string>
+    
+    <string name="WateryGraves_gametype">Tumbas saladas (Edad, Terra)</string>
+    <string name="Peasants_gametype">Campesinos (Edad, Terra)</string>
+    
+    <string name="Infestations_gametype">Infestations (Edad, Alq)</string>
+    <string name="Lamentations_gametype">Lamentations (Edad, Alq)</string>
+    
+    <string name="OneMansTrash_gametype">Todo se aprovecha (Edad, Prsp)</string>
+    <string name="HonorAmongThieves_gametype">Honor entre ladrones (Edad, Prsp)</string>
+    
+    <string name="DarkCarnival_gametype">Carnaval siniestro (Edad, Corn)</string>
+    <string name="ToTheVictor_gametype">Y de muestra un botín (Edad, Corn)</string>
+        
+   <string name="FarFromHome_gametype">Lejos de casa (Edad, Hntr)</string>
+   <string name="Expeditions_gametype">Expediciones (Edad, Hntr)</string>
+   
+   <string name="RandomGuilds_gametype">Aleatorio Gremios</string>
+   
+   <string name="ArtsAndCrafts_gametype">Artes y artesanías (Grm, Base)</string>
+   <string name="CleanLiving_gametype">La vida limpia (Grm, Base)</string>
+   <string name="GildingTheLily_gametype">Rizar el rizo (Grm, Base)</string>
+   
+   <string name="NameThatCard_gametype">Nombrar esa carta (Grm, Intr)</string>
+   <string name="TricksOfTheTrade_gametype">Truco del comerico (Grm, Intr)</string>
+   <string name="DecisionsDecisions_gametype">Decisiones difíciles (Grm, Intr)</string>
+
+   <string name="RandomAdventures_gametype">Aleatorio Aventuras</string>
+   <string name="AdventureTest_gametype">Prueba de Aventuras</string>
+   <string name="GentleIntro_gametype">Suave introducción (Avn)</string>
+   <string name="ExpertIntro_gametype">Introducción experto (Avn)</string>
+   
+   <string name="LevelUp_gametype">Subir de nivel (Avn, Base)</string>
+   <string name="SonOfSizeDistortion_gametype">Hijo de distorsion de tamaño (Avn, Base)</string>
+   
+   <string name="RoyaltyFactory_gametype">Fábrica de realeza (Avn, Intr)</string>
+   <string name="MastersOfFinance_gametype">Maestros de finanzas (Avn, Intr)</string>
+   
+   <string name="PrinceOfOrange_gametype">Príncipe de la naranja (Avn, Terra)</string>
+   <string name="GiftsAndMathoms_gametype">Regalos y baratijas (Adv, Terra)</string>
+   
+   <string name="HastePotion_gametype">Poción de prisa (Avn, Alq)</string>
+   <string name="Cursecatchers_gametype">Casadores de maldiciones (Avn, Alq)</string>
+   
+   <string name="LastWillAndMonument_gametype">Última voluntad y monumento (Avn, Prsp)</string>
+   <string name="ThinkBig_gametype">Pensar en grande (Avn, Prsp)</string>
+   
+   <string name="TheHerosReturn_gametype">El retorno de la heroína (Avn, Corn)</string>
+   <string name="SeacraftAndWitchcraft_gametype">Navío y brujería (Avn, Corn)</string>
+   
+   <string name="TradersAndRaiders_gametype">Comerciantes y invasores (Avn, Cmrc)</string>
+   <string name="Journeys_gametype">Viajes (Avn, Cmrc)</string>
+   
+   <string name="CemeteryPolka_gametype">Polca del cementerio (Avn, Edad)</string>
+   <string name="GroovyDecay_gametype">La decaimiento genial (Avn, Edad)</string>
+   
+   <string name="Spendthrift_gametype">Derrochador (Avn, Grm)</string>
+   <string name="QueenOfTan_gametype">Reina de bronce (Avn, Grm)</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -14,6 +15,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -27,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mehtank.androminion.R;
@@ -35,7 +39,9 @@ import com.mehtank.androminion.util.CardGroup;
 import com.mehtank.androminion.util.CheckableEx;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
+import com.mehtank.androminion.util.PlayerAdapter;
 import com.vdom.comms.MyCard;
+import com.vdom.core.PlayerSupplyToken;
 
 /**
  * Corresponds to a single card that is visible on the 'table'
@@ -47,15 +53,23 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private TextView name;
 	private View cardBox;
 	private TextView cost, countLeft, embargos;
+	private int numEmbargos;
+	private LinearLayout tokens;
 	private TextView checked;
 	private TextView cardDesc;
+	private PlayerAdapter players;
 
 	private String viewstyle;
 	private boolean autodownload;
 	private Context top;
+	private boolean hideCountLeft;
+	
+	private int[][] currentTokens;
+	private static final int MAX_TOKENS_ON_CARD = 4;
 
 	CardGroup parent;
 	private CardState state;
+
 /**
  * Information about a card type opened, onTable, indicator, order
  *
@@ -124,9 +138,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		cost = (TextView) findViewById(R.id.cost);
 		countLeft = (TextView) findViewById(R.id.countLeft);
 		embargos = (TextView) findViewById(R.id.embargos);
+		tokens = (LinearLayout) findViewById(R.id.tokens);
 		checked = (TextView) findViewById(R.id.checked);
 		cardDesc = (TextView) findViewById(R.id.cardDesc);
-
+		
 		state = new CardState(null);
 
 		if (c != null) {
@@ -156,23 +171,29 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else {
 			cost.setVisibility(VISIBLE);
 		}
+		
+		if (c.isEvent){
+			hideCountLeft = true;
+			countLeft.setVisibility(GONE);
+		}
 
 		// TODO: Merge this border with the color setting below, then get rid of cardBox.
 		if (viewstyle.equals("viewstyle-simple")) {
 			if (c.isBane) {
 				setBackgroundResource(R.drawable.thinbaneborder);
+			} else if (c.isStash) {
+				setBackgroundResource(R.drawable.thinstashborder);
 			} else {
 				setBackgroundResource(R.drawable.thinborder);
 			}
 		} else {
 			if (c.isBane) {
 				setBackgroundResource(R.drawable.baneborder);
-		} 
-		else if (c.isShelter)
-		{
-			setBackgroundResource(R.drawable.shelterborder);
-		}
-		else {
+			} else if (c.isStash) {
+				setBackgroundResource(R.drawable.stashborder);
+			} else if (c.isShelter) {
+				setBackgroundResource(R.drawable.shelterborder);
+			} else {
 				setBackgroundResource(R.drawable.cardborder);
 			}
 		}
@@ -193,6 +214,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		int textColor = cardStyle.getColor(2, R.color.cardDefaultTextColor);
         int nameBgColor = cardStyle.getColor(1, R.color.cardDefaultTextBackgroundColor);
 		int countColor = cardStyle.getColor(3, R.color.cardDefaultTextColor);
+		cardStyle.recycle();
 
 		cardBox.setBackgroundColor(bgColor);
 		name.setTextColor(textColor);
@@ -236,6 +258,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Treasure_Reaction;
 		} else if (c.isDuration && c.isReaction) {
 			return R.style.CardView_Duration_Reaction;
+		} else if (c.isShelter && c.isVictory) {
+			return R.style.CardView_Shelter_Victory;
+		} else if (c.isShelter && c.isReaction) {
+			return R.style.CardView_Shelter_Reaction;
 		} else if (c.isReaction) {
 			return R.style.CardView_Reaction;
 		} else if (c.isDuration && c.isAttack) {
@@ -244,6 +270,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Duration;
 		} else if (c.isReserve && c.isVictory) {
 			return R.style.CardView_Reserve_Victory;
+		} else if (c.isReserve && c.isTreasure) {
+			return R.style.CardView_Treasure_Reserve;
 		} else if (c.isReserve) {
 			return R.style.CardView_Reserve;
 		} else if (c.isRuins) {
@@ -277,6 +305,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Curse;
 		} else if (c.isVictory) {
 			return R.style.CardView_Victory;
+		} else if (c.isShelter) {
+			return R.style.CardView_Shelter;
 		} else if (c.isEvent) {
 			return R.style.CardView_Event;
 		} else {
@@ -323,7 +353,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	public void setCountLeft(int s) {
 		countLeft.setText(" " + s + " ");
-		countLeft.setVisibility(VISIBLE);
+		countLeft.setVisibility(hideCountLeft ? GONE : VISIBLE);
+		
 		if (s == 0)
 			shade(true);
 		else
@@ -340,6 +371,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	}
 
 	public void setEmbargos(int s) {
+		numEmbargos = s;
 		if (s != 0) {
 			embargos.setText(" " + s + " ");
 			embargos.setVisibility(VISIBLE);
@@ -347,7 +379,114 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			embargos.setVisibility(GONE);
 		}
 	}
+	
+	public void setTokens(int[][] newTokens, PlayerAdapter players) {
+		this.players = players;
+		if (Arrays.deepEquals(newTokens, currentTokens)) {
+			return;
+		}
+		currentTokens = newTokens;
+		tokens.removeAllViews();
+		int numTokens = countTokens(newTokens);
+		if (numTokens > MAX_TOKENS_ON_CARD) {
+			if (countPlayersWithTokens(newTokens) > MAX_TOKENS_ON_CARD) {
+				tokens.addView(getViewForToken(-1, -1, numTokens));
+				return;
+			}
+			for (int i = 0; i < newTokens.length; ++i) {
+				int numPlayerTokens = newTokens[i].length;
+				if (numPlayerTokens == 0)
+					continue;
+				tokens.addView(getViewForToken(i, -1, numPlayerTokens));
+			}
+			return;
+		}
+		
+		for (int i = 0; i < newTokens.length; ++i) {
+			int[] playerTokens = newTokens[i];
+			for (int tokenId : playerTokens) {
+				View tokenView = getViewForToken(i, tokenId, -1);
+				if (tokenView != null)
+					tokens.addView(tokenView);
+			}
+		}
+	}
+	
+	private int countPlayersWithTokens(int[][] tokensPerPlayer) {
+		int result = 0;
+		for (int[] tokens : tokensPerPlayer) {
+			if (tokens.length > 0)
+				result++;
+		}
+		return result;
+	}
 
+	private int countTokens(int[][] tokensPerPlayer) {
+		int result = 0;
+		for (int[] tokens : tokensPerPlayer) {
+			result += tokens.length;
+		}
+		return result;
+	}
+
+	@SuppressWarnings("deprecation")
+	private View getViewForToken(int player, int tokenId, int multiplier) {
+		int backgroundId = R.drawable.circulartoken;;
+		String text;
+		PlayerSupplyToken tokenType = PlayerSupplyToken.getById(tokenId);
+		if (tokenType != null) {
+			switch(tokenType) {
+				case PlusOneCard:
+					backgroundId = R.drawable.rectangulartoken;
+					text = "+1";
+					break;
+				case PlusOneAction:
+					text = "+" + getContext().getString(R.string.token_plus_one_action_initial); 
+					break;
+				case PlusOneBuy:
+					text = "+" + getContext().getString(R.string.token_plus_one_buy_initial);
+					break;
+				case PlusOneCoin:
+					text = "+1";
+					break;
+				case MinusTwoCost:
+					text = "-2";
+					break;
+				case Trashing:
+					text = "X";
+					break;
+				default:
+					return null;
+			}
+		} else {
+			text = "x" + multiplier;
+		}
+
+		float dp = getResources().getDisplayMetrics().density;
+		TextView token = new TextView(getContext());
+		if (player >= 0) {
+			GradientDrawable background = (GradientDrawable)getResources().getDrawable(backgroundId).mutate();
+			background.setColor(getPlayerColor(player));
+			background.setStroke((int)Math.ceil(2 * dp), getPlayerStrokeColor(player));
+			token.setBackgroundDrawable(background);
+		}
+		int pad = (int) Math.ceil(dp);
+		int padSides = (int) Math.ceil(dp * 2);
+		token.setTextAppearance(getContext(), R.style.style_cardview_count);
+		token.setTextColor(Color.BLACK);
+		token.setText(text);
+		token.setPadding(padSides, pad, padSides, pad);
+		return token;
+	}
+	
+	private int getPlayerColor(int playerIndex) {
+		return GameTable.getPlayerColor(getResources(), playerIndex);
+	}
+	
+	private int getPlayerStrokeColor(int playerIndex) {
+		return GameTable.getPlayerStrokeColor(getResources(), playerIndex);
+	}
+	
 	public void setCost(int newCost, boolean overpay) {
 		cost.setText(" " + newCost + (overpay ? "+" : "") + " ");
 	}
@@ -364,7 +503,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	}
 
 	void setOnTable(boolean onTable) {
-		countLeft.setVisibility(onTable ? VISIBLE : GONE);
+		countLeft.setVisibility(onTable && !hideCountLeft ? VISIBLE : GONE);
 		if (cardDesc != null)
 			cardDesc.setVisibility((onTable && "viewstyle-descriptive".equals(viewstyle)) ? VISIBLE : GONE);
 		if (onTable && "viewstyle-classic".equals(viewstyle)) {
@@ -407,6 +546,14 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		st = new StringTokenizer(str," ",false);
 		String exp = "";
 		while (st.hasMoreElements()) exp += st.nextElement();
+		if (exp.length() == 0)
+			exp = "common";
+		if (filename.equals("potion"))
+			exp = "alchemy";
+		else if (filename.equals("colony"))
+			exp = "prosperity";
+		else if (filename.equals("platinum"))
+			exp = "prosperity";
 		
 		View v;
 
@@ -441,7 +588,22 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			ImageView im = new ImageView(view.getContext());
             im.setImageURI(u);
             im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            v = im;
+            
+            String extraDesc = getExtraDescription();
+            if (!extraDesc.isEmpty()) {
+            	LinearLayout ll = new LinearLayout(view.getContext());
+            	ll.setOrientation(LinearLayout.VERTICAL);
+            	ll.addView(im);
+            	TextView textView = new TextView(view.getContext());
+    			textView.setPadding(15, 0, 15, 5);
+    			textView.setText(extraDesc);
+    			ll.addView(textView);
+            	v = ll;
+            } else {
+            	v = im;
+            }
+            
+            
 		} else {
 			TextView textView = new TextView(view.getContext());
 			textView.setPadding(15, 0, 15, 5);
@@ -455,6 +617,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			text += "\n";
 			
 			text += cardView.getCard().desc;
+			String extraDescription = getExtraDescription();
+			if (!extraDescription.isEmpty()) {
+				text += "\n\n" + extraDescription;
+			}
+			
 			textView.setText( text );
 			v = textView;
 		}
@@ -473,6 +640,69 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			.show();
 
 		return true;
+	}
+	
+	private String getExtraDescription() {
+		String text = "";
+		if (state.c.isBane) {
+			text += getContext().getString(R.string.bane_card);
+		}
+		boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
+		if (hasPlayerTokens || numEmbargos > 0) {
+			if (text.length() > 0)
+				text += "\n\n";
+			text += getContext().getString(R.string.token_header);
+			text += "\n";
+			if (numEmbargos > 0) {
+				text += getContext().getString(R.string.token_embargo) + getContext().getString(R.string.token_colon) + numEmbargos;
+				text += "\n";
+			}
+			if (hasPlayerTokens) {
+				for (int i = 0; i < currentTokens.length; ++i) {
+					int[] playerTokens = currentTokens[i];
+					if (playerTokens.length == 0)
+						continue;
+					text += players.getItem(i).name + getContext().getString(R.string.token_colon);
+					String separator = "";
+					boolean first = true;
+					for (int tokenId : playerTokens) {
+						PlayerSupplyToken tokenType = PlayerSupplyToken.getById(tokenId);
+						int tokenNameId;
+						if (tokenType != null) {
+							switch(tokenType) {
+								case PlusOneCard:
+									tokenNameId = R.string.token_plus_one_card;
+									break;
+								case PlusOneAction:
+									tokenNameId = R.string.token_plus_one_action; 
+									break;
+								case PlusOneBuy:
+									tokenNameId = R.string.token_plus_one_buy;
+									break;
+								case PlusOneCoin:
+									tokenNameId = R.string.token_plus_one_coin;
+									break;
+								case MinusTwoCost:
+									tokenNameId = R.string.token_minus_2_cost;
+									break;
+								case Trashing:
+									tokenNameId = R.string.token_trashing;
+									break;
+								default:
+									continue;
+							}
+							text += separator + getContext().getString(tokenNameId);
+							if (first) {
+								first = false;
+								separator = getContext().getString(R.string.token_separator);
+							}
+						}
+					}
+					text += "\n";
+				}
+			}
+		}
+		return text;
 	}
 	
 	public String GetCardTypeString(MyCard c)
@@ -547,6 +777,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             {
                 cardType += " - " + context.getString(R.string.type_attack);
             }
+
+            if (c.isReserve)
+            {
+                cardType += " - " + context.getString(R.string.type_reserve);
+            }
             
             if (c.isVictory)
             {
@@ -561,7 +796,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             if (c.isPrize)
             {
                 cardType += " - " + context.getString(R.string.type_prize);
-            }            
+            }
         }
         else if (c.isVictory)
         {
@@ -610,5 +845,4 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	        return false;
 	    }
 	}
-
 }

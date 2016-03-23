@@ -5,10 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
-import com.vdom.api.DurationCard;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
@@ -16,14 +14,11 @@ import com.vdom.api.TreasureCard;
 public class MoveContext {
     public int actions = 1;
     public int buys = 1;
-    public int addGold = 0;
-    public int addPotions = 0;
 
-    public int gold;
+    private int coins = 0;
     public int potions;
     public int actionsPlayedSoFar = 0;
     public int treasuresPlayedSoFar = 0; /* Doesn't work because of Spoils or Mint */
-    public int goldAvailable;
     public int coppersmithsPlayed = 0;
     public int schemesPlayed = 0;
 
@@ -39,11 +34,15 @@ public class MoveContext {
     public int totalCardsBoughtThisTurn = 0;
     public int totalEventsBoughtThisTurn = 0;
     public int totalExpeditionBoughtThisTurn = 0;
+    public boolean canBuyCards = true;
+    public boolean startOfTurn = false;
     public boolean buyPhase = false;
     public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't spend Guilds coin tokens)
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public int beggarSilverIsOnTop = 0;
     public boolean graverobberGainedCardOnTop = false;
+    public boolean travellingFairBought = false;
+    public boolean missionBought = false;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;
@@ -61,17 +60,26 @@ public class MoveContext {
     public Player attackedPlayer;
 
     public MoveContext(Game game, Player player) {
+    	this(game, player, true);
+    }
+    
+    public MoveContext(Game game, Player player, boolean canBuyCards) {
         this.game = game;
         this.player = player;
+        this.canBuyCards = canBuyCards;
+        if (player.getInheritance() != null)
+        	cantBuy.add(Cards.inheritance);
         //        this.playedCards = player.playedCards;
     }
 
     public MoveContext(MoveContext context, Game game, Player player) {
         this.actions = context.actions;
         this.buys = context.buys;
-        this.addGold = context.addGold;
+        this.coins = context.coins;
         this.game = game;
         this.player = player;
+        if (player.getInheritance() != null)
+        	cantBuy.add(Cards.inheritance);
     }
 
     public Player getPlayer() {
@@ -101,14 +109,14 @@ public class MoveContext {
                 cardsInPlay++;
             }
         }
-        return cardsInPlay;
+        return cardsInPlay + countCardsInNextTurn(card);
     }
 
     public CardList getCardsInNextTurn() {
         return player.nextTurnCards;
     }
 
-    public int countCardsInNextTurn(Card card) {
+    private int countCardsInNextTurn(Card card) {
         int cardsInNextTurn = 0;
         for(Card c : getCardsInNextTurn()) {
             if(c.behaveAsCard().equals(card)) {
@@ -123,7 +131,7 @@ public class MoveContext {
     }
 
     public int countGoonsInPlayThisTurn() {
-        return countCardsInPlay(Cards.goons);
+    	return countCardsInPlay(Cards.goons);
     }
 
     public int countTreasureCardsInPlayThisTurn() {
@@ -153,29 +161,22 @@ public class MoveContext {
     
     public int countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay type) {
         int actionsInPlay = 0;
-        for(Card c : getPlayedCards()) {
-            if(c.behaveAsCard() instanceof ActionCard) {
-            	if(   type == CardsInPlay.ACTION
-                   || type == CardsInPlay.ATTACK && ((ActionCard) c.behaveAsCard()).isAttack()
-                   || type == CardsInPlay.TRAVELLER && ((ActionCard) c.behaveAsCard()).isTraveller()
-            	  )
-            	{
-                    actionsInPlay++;
-            	}
-            }
+        for (Card c : getPlayedCards()) {
+        	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
+        			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
+        			|| (type == CardsInPlay.ACTION && c.isAction(player))) {
+    			actionsInPlay++;
+        	}
         }
-        for(Card c : player.nextTurnCards) {
-            if(c.behaveAsCard() instanceof DurationCard) {
-            	if(   type == CardsInPlay.ACTION
-                   || type == CardsInPlay.ATTACK && ((DurationCard) c.behaveAsCard()).isAttack()
-                   || type == CardsInPlay.TRAVELLER && ((DurationCard) c.behaveAsCard()).isTraveller()
-             	  )
-            	{
-                    actionsInPlay++;
-            	}
-            }
+        for (Card c : player.nextTurnCards) {
+        	if (c instanceof CardImpl && ((CardImpl)c).trashAfterPlay)
+        		continue;
+        	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
+        			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
+        			|| (type == CardsInPlay.ACTION && c.isAction(player))) {
+    			actionsInPlay++;
+        	}
         }
-
         return actionsInPlay;
     }
 
@@ -183,10 +184,18 @@ public class MoveContext {
         HashSet<String> distinctCardsInPlay = new HashSet<String>();
 
         for (Card cardInPlay : player.playedCards) {
-            distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
+        	if (cardInPlay.getControlCard().equals(Cards.estate)) {
+        		distinctCardsInPlay.add(cardInPlay.getName());
+        	} else {
+        		distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
+        	}
         }
         for (Card cardInPlay : player.nextTurnCards) {
-            distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
+        	if (cardInPlay.getControlCard().equals(Cards.estate)) {
+        		distinctCardsInPlay.add(cardInPlay.getName());
+        	} else {
+        		distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
+        	}
         }
 
         return distinctCardsInPlay.size();
@@ -279,8 +288,8 @@ public class MoveContext {
     }
 
     public boolean canPlay(Card card) {
-        if (card instanceof ActionCard) {
-            return game.isValidAction(this, (ActionCard) card);
+        if (card.isAction(player)) {
+            return game.isValidAction(this, card);
         } else {
             return false;
         }
@@ -301,9 +310,36 @@ public class MoveContext {
     public int getBuysLeft() {
         return buys;
     }
+    
+    public int getCoins() {
+    	return coins;
+    }
 
     public int getCoinAvailableForBuy() {
-        return gold + addGold;
+        return getCoins();
+    }
+    
+    public void addCoins(int coinsToAdd) {
+    	addCoins(coinsToAdd, null);
+    }
+    
+    public void addCoins(int coinsToAdd, Card responsible) {
+    	if (coinsToAdd == 0)
+    		return;
+    	if (coinsToAdd > 0) {
+    		if (getPlayer().getMinusOneCoinToken()) {
+    			--coinsToAdd;
+    			getPlayer().setMinusOneCoinToken(false, this);
+    		}
+    	}
+    	
+    	coins += coinsToAdd;
+    	if (coins < 0)
+    		coins = 0;
+    }
+    
+    public void spendCoins(int coinsToSpend) {
+    	coins -= coinsToSpend;
     }
 
     public int getCoinForStatus() {
@@ -334,18 +370,7 @@ public class MoveContext {
     }
 
     public int getPotionsForStatus(Player p) {
-        if(p.playedCards.size() > 0) {
-            return potions;
-        }
-
-        int count = 0;
-        for (Card card : player.getHand()) {
-            if (card.equals(Cards.potion)) {
-                count++;
-            }
-        }
-
-        return count;
+        return potions;
     }
 
     public void debug(String msg) {
@@ -411,6 +436,6 @@ public class MoveContext {
     }
 
     public int countMerchantGuildsInPlayThisTurn() {
-        return countCardsInPlay(Cards.merchantGuild);
+    	return countCardsInPlay(Cards.merchantGuild);
     }
 }

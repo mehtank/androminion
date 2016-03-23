@@ -40,15 +40,29 @@ public class GameEvent {
         CardAddedToHand, // A new card has been added to a player's hand
         CardRemovedFromHand, // A card has been removed from a player's hand        
         CardSetAside, // A card was set aside (prince)
+        CardSetAsideSummon, // A card was set aside (Summon)
+        CardSetAsideGear, // A card was set aside (gear)
+        CardSetAsideHaven, // A card was set aside (haven)
+        CardSetAsideSave, // A card was set aside (save)
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
+        CallingCard, // A card is about to be called from the tavern mat
+        CalledCard, // A card was called from the tavern mat
         CardSetAsideOnIslandMat, // A card was set aside on island mat
+        CardSetAsideInheritance, // A card was set aside with Inheritance
         DeckPutIntoDiscardPile, // Deck put into discard pile
+        TravellerExchanged, // traveller exchanged
         TurnJourneyTokenFaceUp, // journey token turned face up
         TurnJourneyTokenFaceDown, // journey token turned face down
-        MinusOneCoinTokenOn, // journey token turned face up
-        MinusOneCoinTokenOff, // journey token turned face down
-        MinusOneCardTokenOn, // journey token turned face up
-        MinusOneCardTokenOff, // journey token turned face down
+        MinusOneCoinTokenOn, // -1 Coin token placed
+        MinusOneCoinTokenOff, // -1 Coin token removed
+        MinusOneCardTokenOn, // -1 Card token put onto deck
+        MinusOneCardTokenOff, // -1 Card token drawn from deck
+        PlusOneCardTokenMoved, // +1 Card token moved to supply pile
+        PlusOneActionTokenMoved, // +1 Action token moved to supply pile
+        PlusOneBuyTokenMoved, // +1 Buy token moved to supply pile
+        PlusOneCoinTokenMoved, // +1 Coin token moved to supply pile
+        MinusTwoCostTokenMoved, // -2 Cost Token moved to supply pile
+        TrashingTokenMoved, // Trashing token moved to supply pile
     }
 
     public Type type;
@@ -61,6 +75,7 @@ public class GameEvent {
     // //////////////////////////////////////////////
 
     public Card card;
+    private boolean cardPrivate;
     public Card responsible;
     public Player attackedPlayer;
     public boolean newCard;
@@ -117,5 +132,12 @@ public class GameEvent {
         this.comment = comment;
     }
 
-
+    public boolean isCardPrivate() {
+    	return cardPrivate;
+    }
+    
+    public void setPrivate(boolean value) {
+    	cardPrivate = value;
+    }
+    
 }

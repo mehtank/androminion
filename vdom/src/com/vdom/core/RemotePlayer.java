@@ -3,14 +3,11 @@ package com.vdom.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
-import com.vdom.api.DurationCard;
 import com.vdom.api.EventCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.Type;
@@ -23,17 +20,10 @@ import com.vdom.comms.Event.EType;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.comms.EventHandler;
 import com.vdom.comms.GameStatus;
+import com.vdom.comms.GameStatus.JourneyTokenState;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.NewGame;
 import com.vdom.comms.SelectCardOptions;
-import com.vdom.core.CardList;
-import com.vdom.core.Cards;
-import com.vdom.core.ExitException;
-import com.vdom.core.Game;
-import com.vdom.core.IndirectPlayer;
-import com.vdom.core.MoveContext;
-import com.vdom.core.Player;
-import com.vdom.core.Util;
 
 /**
  * Class that you can use to play remotely.
@@ -122,24 +112,20 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.isBane = isBane;
         card.isShelter = c.isShelter();
         card.isLooter = c.isLooter();
-        card.isOverpay = c.isOverpay();
+        card.isOverpay = c.isOverpay(null);
         card.isEvent = c.isEvent();
-        card.isReserve = c.isReserve();
-        card.isTraveller = c.isTraveller();
+        card.isReserve = c.isReserve(null);
+        card.isTraveller = c.isTraveller(null);
+        card.isAttack = c.isAttack(null) || c.equals(Cards.virtualKnight);
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;
         else
-            card.isRuins = c.isRuins();
+            card.isRuins = c.isRuins(null);
 
 
         card.pile = MyCard.SUPPLYPILE;
 
-        if ((c.equals(Cards.bagOfGold)) ||
-            (c.equals(Cards.diadem)) ||
-            (c.equals(Cards.followers)) ||
-            (c.equals(Cards.princess)) ||
-            (c.equals(Cards.trustySteed))) {
-
+        if (c.isPrize()) {
             card.pile = MyCard.PRIZEPILE;
             card.isPrize = true;
         }
@@ -197,19 +183,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (c instanceof TreasureCard) {
         	TreasureCard tc = (TreasureCard) c;
             card.isTreasure = true;
-            card.gold = ((TreasureCard) c).getValue();
-            if (tc.isAttack()) {
-                card.isAttack = true;
-            }
+            card.gold = tc.getValue();
         }
-        if (c instanceof ActionCard) {
-            ActionCard ac = (ActionCard) c;
+        if (c.isAction(null)) {
             card.isAction = true;
-            if (c instanceof DurationCard) {
+            if (c.isDuration(null)) {
                 card.isDuration = true;
-            }
-            if (ac.isAttack() || c.equals(Cards.virtualKnight)) {
-                card.isAttack = true;
             }
         }
         if (Cards.isReaction(c))
@@ -221,6 +200,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (c instanceof EventCard) {
             EventCard ac = (EventCard) c;
             card.isEvent = true;
+            card.pile = MyCard.EVENTPILE;
+        }
+        if (c.equals(Cards.stash)) {
+        	card.isStash = true;
         }
 
         return card;
@@ -309,6 +292,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         int[] supplySizes = new int[cardsInPlay.size()];
         int[] embargos = new int[cardsInPlay.size()];
+        int[][][] tokens = new int[cardsInPlay.size()][][];
         int[] costs = new int[cardsInPlay.size()];
 
         int i_virtualRuins = -1;
@@ -329,7 +313,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 {
                    i_virtualRuins = i;
                 }
-                else if (cardsInPlay.get(i).isRuins())
+                else if (cardsInPlay.get(i).isRuins(null))
                 {
                    ruinsSize += player.getMyCardCount(cardsInPlay.get(i));
                 }
@@ -337,12 +321,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 {
                    i_virtualKnight = i;
                 }
-                else if (cardsInPlay.get(i).isKnight())
+                else if (cardsInPlay.get(i).isKnight(null))
                 {
                    knightSize += player.getMyCardCount(cardsInPlay.get(i));
                 }
             }
             embargos[i] = context.getEmbargos(intToCard(i));
+            
             costs[i] = intToCard(i).getCost(context);
         }
         if (isFinal)
@@ -371,12 +356,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int numCards[] = new int[numPlayers];
         int turnCounts[] = new int[numPlayers];
         int deckSizes[] = new int[numPlayers];
+        boolean stashOnDeck[] = new boolean[numPlayers];
         int discardSizes[] = new int[numPlayers];
         int handSizes[] = new int[numPlayers];
+        int stashesInHand[] = new int[numPlayers]; 
         int pirates[] = new int[numPlayers];
         int victoryTokens[] = new int[numPlayers];
         int guildsCoinTokens[] = new int[numPlayers];
-        boolean journeyTokenFaceUp[] = new boolean[numPlayers];
+        JourneyTokenState journeyToken[] = new JourneyTokenState[numPlayers];
         boolean minusOneCoinTokenOn[] = new boolean[numPlayers];
         boolean minusOneCardTokenOn[] = new boolean[numPlayers];
         String realNames[] = new String[numPlayers];
@@ -387,21 +374,40 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 handSizes[i] = p.getHand().size();
             else
                 handSizes[i] = p.getVPs();
+            stashesInHand[i] = p.getStashesInHand();
             turnCounts[i] = p.getTurnCount();
             deckSizes[i] = p.getDeckSize();
+            stashOnDeck[i] = p.isStashOnDeck();
             discardSizes[i] = p.getDiscardSize();
             numCards[i] = p.getAllCards().size();
 
             pirates[i] = p.getPirateShipTreasure();
             victoryTokens[i] = p.getVictoryTokens();
             guildsCoinTokens[i] = p.getGuildsCoinTokenCount();
-            journeyTokenFaceUp[i] = p.getJourneyToken();
+            journeyToken[i] = context.game.journeyTokenInPlay ? (p.getJourneyToken() ? JourneyTokenState.FACE_UP : JourneyTokenState.FACE_DOWN) : null;
             minusOneCoinTokenOn[i] = p.getMinusOneCoinToken();
             minusOneCardTokenOn[i] = p.getMinusOneCardToken();
             realNames[i] = p.getPlayerName(false);
         }
+        
+        for (int i = 0; i < cardsInPlay.size(); i++) {
+        	Card card = cardsInPlay.get(i);
+        	int[][] playersForCard = new int[numPlayers][];
+        	for (int j = 0; j < numPlayers; j++) {
+        		Player p = allPlayers.get(j);
+        		List<PlayerSupplyToken> playerTokensList = context.game.getPlayerSupplyTokens(card, p);
+            	int[] playerTokensOnCard = new int[playerTokensList.size()];
+            	for (int k = 0; k < playerTokensOnCard.length; ++k) {
+            		playerTokensOnCard[k] = playerTokensList.get(k).getId();
+            	}
+            	playersForCard[j] = playerTokensOnCard;
+        	}
+        	tokens[i] = playersForCard;
+        }
 
         GameStatus gs = new GameStatus();
+        
+        matchToCardsInPlay(context, playedCards, playedCardsNew);
 
         int[] playedArray = new int[playedCards.size()];
         for (int i = 0; i < playedCards.size(); i++) {
@@ -420,6 +426,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setTurnCounts(turnCounts)
                 .setSupplySizes(supplySizes)
                 .setEmbargos(embargos)
+                .setTokens(tokens)
                 .setCosts(costs)
                 .setHand(cardArrToIntArr(Game.sortCards ? shownHand.sort(new Util.CardHandComparator()) : shownHand.toArray()))
                 .setPlayedCards(playedArray)
@@ -427,22 +434,25 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setCurName(player.getPlayerName(!isFinal && Game.maskPlayerNames))
                 .setRealNames(realNames)
                 .setHandSizes(handSizes)
+                .setStashesInHand(stashesInHand)
                 .setDeckSizes(deckSizes)
+                .setStashOnDeck(stashOnDeck)
                 .setNumCards(numCards)
                 .setPirates(pirates)
                 .setVictoryTokens(victoryTokens)
                 .setGuildsCoinTokens(guildsCoinTokens)
-                .setJourneyToken(journeyTokenFaceUp)
+                .setJourneyToken(journeyToken)
                 .setMinusOneCoinToken(minusOneCoinTokenOn)
                 .setMinusOneCardToken(minusOneCardTokenOn)
                 .setSwampHagAttacks(game.swampHagAttacks(player))
                 .setHauntedWoodsAttacks(game.hauntedWoodsAttacks(player))
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
-                .setTavern(cardArrToIntArr(player.getTavern().toArray()))
+                .setTavern(cardArrToIntArr(player.getTavern().sort(new Util.CardTavernComparator())))
                 .setPrince(cardArrToIntArr(player.getPrince().toArray()))
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
                 .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)
+                .setInheritance(player.inheritance == null ? -1 : cardToInt(player.inheritance))
                 .setBlackMarket(arrayListToIntArr(player.game.GetBlackMarketPile()))
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
@@ -463,7 +473,53 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return p;
     }
 
-    @Override
+    private void matchToCardsInPlay(MoveContext context, ArrayList<Card> played, ArrayList<Boolean> playedReal) {
+    	if (context.startOfTurn)
+    		return;
+    	Map<Card, Integer> inPlayCounts = new HashMap<Card, Integer>();
+    	for (Card c : context.player.playedCards) {
+    		if (!inPlayCounts.containsKey(c)) {
+    			inPlayCounts.put(c, 1);
+    		} else {
+    			inPlayCounts.put(c, inPlayCounts.get(c)+1);
+    		}
+    	}
+    	for (Card c : context.player.nextTurnCards) {
+    		if (((CardImpl)c).trashAfterPlay)
+    			continue;
+			if (!inPlayCounts.containsKey(c)) {
+    			inPlayCounts.put(c, 1);
+    		} else {
+    			inPlayCounts.put(c, inPlayCounts.get(c)+1);
+    		}
+    	}
+    	Map<Card, Integer> playedCounts = new HashMap<Card, Integer>();
+    	for (int i = 0; i < played.size(); ++i) {
+    		if (!playedReal.get(i))
+    			continue;
+    		Card c = played.get(i);
+    		if (!playedCounts.containsKey(c)) {
+    			playedCounts.put(c, 1);
+    		} else {
+    			playedCounts.put(c, playedCounts.get(c)+1);
+    		}
+    	}
+    	
+    	for (Card c : playedCounts.keySet()) {
+    		int inPlayCount = (inPlayCounts.containsKey(c) ? inPlayCounts.get(c) : 0);
+    		if (playedCounts.get(c) > inPlayCount) {
+    			int extras = playedCounts.get(c) - inPlayCount;
+    			for (int i = played.size() - 1; extras > 0 && i >= 0; --i) {
+    				if (played.get(i).equals(c) && playedReal.get(i)) {
+    					playedReal.set(i, false);
+    					extras--;
+    				}
+    			}
+    		}
+    	}
+	}
+    
+	@Override
     public void newGame(MoveContext context) {
         hasJoinedMonitor = new Object(); // every game needs a different monitor, otherwise we wake up threads that are supposed to be dead.
         context.addGameListener(this);
@@ -623,18 +679,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(islandSize);
             int nativeVillageSize = event.player.nativeVillage.size();
             extras.add(nativeVillageSize);
-        } else if (event.getType() == Type.PlayingAction || event.getType() == Type.PlayingDurationAction) {
+        } else if (isPlayersTurn(event) && event.getType() == Type.PlayingAction || event.getType() == Type.PlayingDurationAction || event.getType() == Type.CallingCard) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
-        } else if (event.getType() == Type.PlayingCoin) {
+        } else if (isPlayersTurn(event) && event.getType() == Type.PlayingCoin) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
-        } else if (event.getType() == Type.CardObtained) {
-            if (event.responsible.equals(Cards.hornOfPlenty) && event.card instanceof VictoryCard) {
-                int index = playedCards.indexOf(event.responsible);
-                playedCards.remove(index);
-                playedCardsNew.remove(index);
-            }
         } else if (event.getType() == Type.GameOver) {
             curPlayer = event.getPlayer();
             curContext = context;
@@ -657,6 +707,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             if (event.getComment() != null) {
                 extras.add(event.getComment());
             }
+        } else if (event.getType() == Type.TravellerExchanged) {
+            extras.add(event.responsible);
         } else if (event.getType() == Type.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)
@@ -666,13 +718,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add("" + context.getBuysLeft());
             extras.add(coin);
         }
-
+        
+        boolean sendCard = (event.isCardPrivate() && event.getPlayer() != null && event.getPlayer() == this) || !event.isCardPrivate();
         // We need to wait until this point to actually create the event, because the logic above
         // modified some of these variables.
         Event status = fullStatusPacket(curContext == null ? context : curContext, curPlayer, isFinal)
                 .setGameEventType(event.getType())
                 .setString(playerName)
-                .setCard(event.getCard())
+                .setCard(sendCard ? event.getCard() : null)
                 .setBoolean(newTurn);
         status.o.os = extras.toArray();
         status.o.cs = cards;
@@ -706,7 +759,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
     }
 
-    private void checkForAchievements(MoveContext context, Type eventType) {
+    private boolean isPlayersTurn(GameEvent event) {
+		return event.context.game.getCurrentPlayer().equals(event.player);
+	}
+	private void checkForAchievements(MoveContext context, Type eventType) {
         if (eventType == Type.GameOver) {
             int provinces = 0;
             int curses = 0;

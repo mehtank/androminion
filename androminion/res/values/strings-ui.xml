@@ -20,7 +20,7 @@
     <string name="statisticsactivity_title">Statistics</string>
     <string name="resetstatistics_menu">Reset Statistics</string>
     <string name="win_loss_menu">Win/Loss Record</string>
-    <string name="win_loss_playerwins">player game wins</string>
+    <string name="win_loss_playerwins">%1$s player game wins</string>
     <string name="achievements_menu">Achievements</string>
         <string-array name="reset_choices">
         <item>Reset statistic</item>
@@ -36,9 +36,8 @@
     <string name="connections">
 	<![CDATA[
         <h3>On network permissions and usage</h3>
-		This app functions by using a strictly local networking layer to talk between the player and the game -- currently <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.<br><br>
-		See also: <a href="https://code.google.com/p/androminion/issues/detail?id=522">https://code.google.com/p/androminion/issues/detail?id=522</a><br>
-    <h3>Steps to run a multiplayer game</h3>
+		This app functions by using a strictly local networking layer to talk between the player and the game -- currently, unless using multiplayer,  <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.<br><br>
+    	<h3>Steps to run a multiplayer game</h3>
       	<b><font color="red">You need the source code to compile the server vdom!</font></b> In the vdom\\ directory, type \'ant run\' (or just start com.vdom.core.Game with whatever arguments you want - the build file build.xml has some default arguments).  Be sure you know the host name or ip address for the machine that\'s running the game server, and that the player ports (by default 2255 and 2256) aren\'t blocked by your machine\'s firewall.<br>
       	Open the app on two separate devices.  Use the \"join game\" dialog to enter your name, the host name or ip address of the machine running the server, then the port that shows up in the terminal where you\'re running the server.  Once the first player connects, a second port will show up; enter that one in on the second device (should be 2255 and 2256). The interface for the first player that connects will be missing a lot of stuff until the second player connects, but once both players are there, things work fine.<br><br>
 		Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
@@ -49,9 +48,10 @@
     <string name="whatsnew">
 <![CDATA[
 		<h3>Please Read!</h3>
-		Rio Grande Games, the publisher of Dominion, has asked us to discontinue Androminion as they launch their official digital version of the game.  As such, this will (probably) be the last major revision; Androminion will be removed from the market soon.  Thanks to all of you who have contributed to the project, submitted bug reports, or spread the word -- without you Androminion would not be as polished and popular as it is today.  <br><br>
-		On behalf of the Androminion team, it has been fun.<br>
-		-:ankur
+		By request of Rio Grande Games, the publisher of Dominion, we have removed Androminion from the Play Store. Please do not publish it in any public app store as there is an official Dominion app.<br><br>
+		<h3>Version 6.07</h3>
+		* Adventures Expansion! <br>
+		* Promo Cards: Stash, Summon
 		<h3>Version 6.00</h3>
 		* Adventures (beta)
 		<h3>Version 5.01</h3>
@@ -114,6 +114,17 @@
     <string name="game_type_preset">Preset</string>
     <string name="game_type_last">Last played</string>
     <string name="game_type_specified">Specified cards</string>
+    <string name="random_all_cards">All cards</string>
+    <string name="include_platinum_colony">Platinum/Colony: </string>
+    <string name="include_shelters">Shelters: </string>
+    <string name="include_cards_random">Default</string>
+    <string name="include_cards_yes">Use</string>
+    <string name="include_cards_no">Don\'t use</string>
+    <string name="include_cards_percent">%1$s%% chance</string>
+    <string name="random_include_events">Event cards: </string>
+    <string name="random_events_none">None</string>
+    <string name="random_events_random">Random</string>
+    <string name="random_include_cards">Include Kingdom cards from</string>
     <string name="select_players">Select players:</string>
     <string name="player">Player </string>
     <string name="currentplayer">Current Player</string>
@@ -130,6 +141,7 @@
     <string name="toast_loading">Loading game…</string>
     <string name="toast_quitconfirm">Click again to quit.</string>
     <string name="obtained">%1$s gained</string>
+    <string name="eventBought">%1$s bought</string>
     <string name="trashed">%1$s trashed</string>
     <string name="revealed">%1$s revealed</string>
     <string name="revealed_from_hand">%1$s revealed (from hand)</string>
@@ -162,6 +174,7 @@
     <string name="coins">(%1$s) coin</string>
     <string name="final_view_card_counts">Card counts</string>
     <string name="final_view_text">%1$s: %2$s VPs.\n%3$s turns, %4$s cards.</string>
+    <string name="final_game_time">Game time: %1$s</string>
     <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
     <string name="potion_single">%1$s potion</string>
     <string name="potion_multiple">%1$s potions</string>
@@ -169,7 +182,21 @@
     <string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>
     <string name="trash_header">Trash:</string>
     <string name="blackMarket_header">Bl. Market:</string>
+    <string name="inheritance_header">Inherit:</string>
     <string name="img_download_title">%1$s card art</string>
 	<string name="img_download_desc">Downloading card art from %1$s</string>
-		
+	<string name="journey_token_initial">\u0020\u0020J\u0020\u0020</string>
+	<string name="token_plus_one_action_initial">A</string>
+	<string name="token_plus_one_buy_initial">B</string>
+	<string name="token_header">- Tokens -</string>
+	<string name="token_plus_one_card">+1 Card</string>
+	<string name="token_plus_one_action">+1 Action</string>
+	<string name="token_plus_one_buy">+1 Buy</string>
+	<string name="token_plus_one_coin">+1 Coin</string>
+	<string name="token_minus_2_cost">-2 cost</string>
+	<string name="token_trashing">Trashing</string>
+	<string name="token_colon">:\u0020</string>
+	<string name="token_separator">,\u0020</string>
+	<string name="token_embargo">Embargoes</string>
+	<string name="bane_card">Bane card</string>
 </resources>

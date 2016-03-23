@@ -126,18 +126,6 @@
             android:summary="@string/equal_start_hands_pref_summary"
             android:title="@string/equal_start_hands_pref_title" >
         </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="plat_colony"
-            android:summary="@string/plat_colony_pref_summary"
-            android:title="@string/plat_colony_pref_title" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="use_shelters"
-            android:summary="@string/shelters_pref_summary"
-            android:title="@string/shelters_pref_title" >
-        </CheckBoxPreference>
         <EditTextPreference
             android:key="black_market_count"
             android:defaultValue="25"

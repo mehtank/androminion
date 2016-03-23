@@ -3,8 +3,11 @@ package com.mehtank.androminion.ui;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +38,6 @@ import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.Cards;
-import com.vdom.core.Player.SpiceMerchantOption;
-import com.vdom.core.Player.TorturerOption;
 
 public class GameTable extends LinearLayout implements OnItemClickListener, OnItemLongClickListener {
     @SuppressWarnings("unused")
@@ -50,14 +51,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         return players;
     }
 
-    GridView handGV, playedGV, tavernGV, princeGV, islandGV, villageGV, blackMarketGV, trashGV;
-    CardGroup hand, played, tavern, prince, island, village, blackMarket, trash;
-    View tavernColumn, princeColumn, islandColumn, villageColumn, blackMarketColumn, trashColumn;
+    GridView handGV, playedGV, tavernGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
+    CardGroup hand, played, tavern, prince, island, village, inheritance, blackMarket, trash;
+    View tavernColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
     TextView playedHeader;
     LinearLayout myCards;
 
-    GridView moneyPileGV, vpPileGV, supplyPileGV, prizePileGV, nonSupplyPileGV;
-    CardGroup moneyPile, vpPile, supplyPile, prizePile, nonSupplyPile;
+    GridView moneyPileGV, vpPileGV, supplyPileGV, prizePileGV, nonSupplyPileGV, eventPileGV;
+    CardGroup moneyPile, vpPile, supplyPile, prizePile, nonSupplyPile, eventPile;
 
     LinearLayout tr;
     LinearLayout gameOver;
@@ -84,6 +85,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     CardAnimator animator;
 
     ArrayList<ToggleButton> showCardsButtons = new ArrayList<ToggleButton>();
+    
+    long gameTime = 0;
+    long lastTimeClockStarted = 0;
+    boolean gameTimePaused = true;
 
     /**
      * Information about a selected card: group, position in that group, CardState
@@ -112,6 +117,18 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     double textScale = GameTableViews.textScale;
 
     private HelpView helpView;
+    
+    public void pauseGameTimer() {
+    	if (!gameTimePaused) {
+    		gameTime += System.currentTimeMillis() - lastTimeClockStarted;
+    		gameTimePaused = true;
+    	}
+    }
+    
+    public void resumeGameTimer() {
+    	lastTimeClockStarted = System.currentTimeMillis();
+    	gameTimePaused = false;
+    }
 
     /**
      * Initialize the card groups at the top of the screen, where the card piles go
@@ -135,7 +152,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         supplyPileGV.setOnItemClickListener(this);
         supplyPileGV.setOnItemLongClickListener(this);
 
-        nonSupplyPile = new CardGroup(top, true);
+        nonSupplyPile = new CardGroup(top, true, new MyCard.CardNonSupplyComparator());
         nonSupplyPileGV = (GridView) findViewById(R.id.nonSupplyPileGV);
         nonSupplyPileGV.setAdapter(nonSupplyPile);
         nonSupplyPileGV.setOnItemClickListener(this);
@@ -146,6 +163,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         prizePileGV.setAdapter(prizePile);
         prizePileGV.setOnItemClickListener(this);
         prizePileGV.setOnItemLongClickListener(this);
+        
+        eventPile = new CardGroup(top, true);
+        eventPileGV = (GridView) findViewById(R.id.eventPileGV);
+        eventPileGV.setAdapter(eventPile);
+        eventPileGV.setOnItemClickListener(this);
+        eventPileGV.setOnItemLongClickListener(this);
     }
 
     /**
@@ -187,7 +210,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         villageGV.setAdapter(village);
         villageGV.setOnItemLongClickListener(this);
         villageColumn = findViewById(R.id.villageColumn);
-
+        
+        inheritance = new CardGroup(top, false);
+        inheritanceGV = (GridView) findViewById(R.id.inheritanceGV);
+        inheritanceGV.setAdapter(inheritance);
+        inheritanceGV.setOnItemLongClickListener(this);
+        inheritanceColumn = findViewById(R.id.inheritanceColumn);
+        
         blackMarket = new CardGroup(top, false);
         blackMarketGV = (GridView) findViewById(R.id.blackMarketGV);
         blackMarketGV.setAdapter(blackMarket);
@@ -309,6 +338,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         vpPile.clear();
         supplyPile.clear();
         prizePile.clear();
+        eventPile.clear();
         nonSupplyPile.clear();
         hand.clear();
         played.clear();
@@ -318,6 +348,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         village.clear();
         trash.clear();
         blackMarket.clear();
+        inheritance.clear();
         this.players.clear();
 
         actionText.setText("");
@@ -332,6 +363,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             addCardToTable(c);
         for (String s : players)
             addPlayer(s);
+        vpPile.setPlayers(getPlayerAdapter());
+        supplyPile.setPlayers(getPlayerAdapter());
 
         boolean platInPlay = false;
         for (MyCard c : cards)
@@ -355,6 +388,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 potionInPlay = true;
                 break;
             }
+        
+        int numEvents = 0;
+        //count events
+        for (MyCard c : cards)
+            if(c.isEvent)
+            	numEvents++;
 
         // adjust size of pile table
         if(potionInPlay && platInPlay)
@@ -366,42 +405,53 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             vpPileGV.setNumColumns(4);
         else
             vpPileGV.setNumColumns(5);
+        
+        if (numEvents <= 3 || numEvents == 6) {
+        	eventPileGV.setNumColumns(3);
+        } else if (numEvents == 4 || numEvents == 7 || numEvents == 8 || numEvents == 11 || numEvents == 12) {
+        	eventPileGV.setNumColumns(4);
+        } else {
+        	eventPileGV.setNumColumns(5);
+        }
 
         short nonSupplyCardsInPlay = 0;
+        boolean pageInPlay = false;
+        boolean peasantInPlay = false;
 
         for (MyCard c : cards)
         {
             // More types to check for eventually...
-            if (   c.originalSafeName.equals("Spoils")
-                || c.originalSafeName.equals("Mercenary")
-                || c.originalSafeName.equals("Madman")
-                || c.originalSafeName.equals("Soldier")
-                || c.originalSafeName.equals("Fugitive")
-                || c.originalSafeName.equals("Disciple")
-                || c.originalSafeName.equals("Teacher")
-                || c.originalSafeName.equals("TreasureHunter")
-                || c.originalSafeName.equals("Warrior")
-                || c.originalSafeName.equals("Hero")
-                || c.originalSafeName.equals("Champion")
-               )
-            {
+        	if (c.pile == MyCard.NON_SUPPLY_PILE) {
                 ++nonSupplyCardsInPlay;
+            }
+            if (c.originalSafeName.equals("Page")) {
+            	pageInPlay = true;
+            }
+            if (c.originalSafeName.equals("Peasant")) {
+            	peasantInPlay = true;
             }
         }
 
-        if (nonSupplyCardsInPlay >= 4)
+        if (nonSupplyCardsInPlay <= 4
+        		|| (pageInPlay && peasantInPlay)
+        		|| nonSupplyCardsInPlay == 6
+        		|| nonSupplyCardsInPlay == 7
+        		|| nonSupplyCardsInPlay == 8)
         {
-            nonSupplyPileGV.setNumColumns(5);
+            nonSupplyPileGV.setNumColumns(4);
         }
         else
         {
-            nonSupplyPileGV.setNumColumns(4);
+            nonSupplyPileGV.setNumColumns(5);
         }
 
         // done setting up, remove splash screen
         top.nosplash();
         // log start of game
         gameScroller.setGameEvent(top.getString(R.string.game_loaded), true, 0);
+        gameTime = 0;
+        lastTimeClockStarted = System.currentTimeMillis();
+        gameTimePaused = false;
     }
 
     /**
@@ -426,6 +476,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             prizePile.addCard(c);
         else if (c.pile == MyCard.NON_SUPPLY_PILE)
             nonSupplyPile.addCard(c);
+        else if (c.pile == MyCard.EVENTPILE)
+        	eventPile.addCard(c);
     }
 
     /**
@@ -447,7 +499,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param parent which pile the card was selected from
      * @return
      */
-    boolean isAcceptable(MyCard c, CardGroup parent) {
+    boolean isAcceptable(CardState cs, CardGroup parent) {
+    	MyCard c = cs.c;
+    	if (cs.shade) return false;
         if (sco.fromHand && (parent != hand)) return false;
         else if (sco.fromPlayed && (parent != played)) return false;
         else if (sco.fromTable) {
@@ -464,7 +518,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             } else {
                 if ((parent != vpPile)
                     &&  (parent != moneyPile)
-                    &&  (parent != supplyPile)) return false;
+                    &&  (parent != supplyPile)
+                    &&  (parent != eventPile)) return false;
             }
         } else if (sco.fromPrizes) {
             if (parent != prizePile) return false;
@@ -488,6 +543,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     private int[] lastSupplySizes;
 
     private int[] lastEmbargos;
+    
+    private int[][][] lastTokens;
 
     void resetButtons() {
         CharSequence selectText = select.getText();
@@ -535,7 +592,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 int[] cards = new int[openedCards.size()];
                 for (int i = 0; i < openedCards.size(); i++) {
                     CardInfo ci = openedCards.get(i);
-                    if (!isAcceptable(ci.cs.c, ci.parent))
+                    if (!isAcceptable(ci.cs, ci.parent))
                         return;
                     cards[i] = ci.cs.c.id;
                 }
@@ -674,6 +731,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             s = Strings.getString(R.string.part_play);
         } else if (sco.isTreasurePhase) {
             s = Strings.getString(R.string.use_for_money);
+            if (sco.cardResponsible != null)
+            	s += " [" + Strings.getCardName(sco.cardResponsible) +"]";
         } else if (s == null) {
             // TODO(matt): maybe these methods could be named better...
             s = Strings.getActionCardText(sco);
@@ -846,13 +905,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * Display the numbers of pile sizes for the card piles on the 'table'
      * @param supplySizes Sizes of piles
      * @param embargos number of embargos
+     * @param tokens 
      */
-    public void setSupplySizes(int[] supplySizes, int[] embargos) {
-        moneyPile.updateCounts(supplySizes, embargos);
-        vpPile.updateCounts(supplySizes, embargos);
-        supplyPile.updateCounts(supplySizes, embargos);
-        prizePile.updateCounts(supplySizes, embargos);
-        nonSupplyPile.updateCounts(supplySizes, embargos);
+    public void setSupplySizes(int[] supplySizes, int[] embargos, int[][][] tokens) {
+        moneyPile.updateCounts(supplySizes, embargos, tokens);
+        vpPile.updateCounts(supplySizes, embargos, tokens);
+        supplyPile.updateCounts(supplySizes, embargos, tokens);
+        prizePile.updateCounts(supplySizes, embargos, tokens);
+        nonSupplyPile.updateCounts(supplySizes, embargos, tokens);
     }
 
     /**
@@ -916,18 +976,28 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         FinalView fv = new FinalView(top, this, gs.realNames[gs.whoseTurn], gs.turnCounts[gs.whoseTurn],
-                                     gs.embargos,
+                                     gs.embargos, gs.tokens,
                                      gs.numCards[gs.whoseTurn], gs.supplySizes,
                                      gs.handSizes[gs.whoseTurn], won);
         fv.setLayoutParams(lp);
         showCardsButtons.add(fv.showCards);
         gameOver.addView(fv);
+        
+        if (gameOver.getChildCount() == gs.turnCounts.length) {
+        	TextView gameTimeText = new TextView(top);
+        	String timeString = DateUtils.formatElapsedTime(gameTime / 1000);
+        	gameTimeText.setText(String.format(getContext().getString(R.string.final_game_time), timeString));
+        	float dp = getResources().getDisplayMetrics().density;
+    		int pad = (int) Math.ceil(dp * 20);
+        	gameTimeText.setPadding(0, pad, 0, 0);
+        	gameOver.addView(gameTimeText);
+        }
     }
 
     void uncheckAllShowCardsButtons() {
         for (ToggleButton t : showCardsButtons)
             t.setChecked(false);
-        setSupplySizes(this.lastSupplySizes, this.lastEmbargos);
+        setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastTokens);
     }
 
     /**
@@ -959,8 +1029,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             /*print ruins and not abandoned mine*/
             supplyPile.updateCardName(gs.ruinsID, Cards.virtualRuins, -1, false);
             supplyPile.updateCardName(gs.knightsID, Cards.virtualKnight, -1, false);
-            setSupplySizes(this.lastSupplySizes, this.lastEmbargos);
-            
+            setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastTokens);
+            pauseGameTimer();
             HapticFeedback.vibrate(getContext(),AlertType.FINAL);
             finalStatus(gs);
             return;
@@ -982,7 +1052,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         turnStatus.setStatus(gs.turnStatus, gs.potions, myTurn);
         for (int i=0; i<players.getCount(); i++) {
-            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.handSizes[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.guildsCoinTokens[i], gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokenFaceUp[i], gs.whoseTurn == i);
+        	int color = GameTable.getPlayerTextBackgroundColor(getContext(), i);
+        	boolean showColor = hasTokens(i, gs.tokens);
+            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.stashOnDeck[i], gs.handSizes[i], gs.stashesInHand[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.guildsCoinTokens[i], gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokens[i], gs.whoseTurn == i, showColor, color);
         }
         players.notifyDataSetChanged();
 
@@ -1026,13 +1098,20 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             villageColumn.setVisibility(GONE);
         }
 
+        GameTableViews.newSingleCardGroup(inheritance, gs.myInheritance);
+        if (gs.myInheritance >= 0) {
+            inheritanceColumn.setVisibility(VISIBLE);
+        } else {
+        	inheritanceColumn.setVisibility(GONE);
+        }
+        
         GameTableViews.newCardGroup(blackMarket, gs.blackMarketPile);
         if (gs.blackMarketPile.length > 0) {
         	blackMarketColumn.setVisibility(VISIBLE);
         } else {
         	blackMarketColumn.setVisibility(GONE);
         }
-
+        
         GameTableViews.newCardGroup(trash, gs.trashPile);
         if (gs.trashPile.length > 0) {
             trashColumn.setVisibility(VISIBLE);
@@ -1042,15 +1121,24 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         this.lastSupplySizes = gs.supplySizes;
         this.lastEmbargos = gs.embargos;
+        this.lastTokens = gs.tokens;
         costs = gs.costs;
 
         supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, -1, false);
         supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardCost, gs.knightsTopCardIsVictory);
-        setSupplySizes(gs.supplySizes, gs.embargos);
+        setSupplySizes(gs.supplySizes, gs.embargos, gs.tokens);
         setCardCosts(top.findViewById(android.R.id.content));
     }
 
-    static int getCardCost(MyCard c) {
+    private boolean hasTokens(int playerIndex, int[][][] tokens) {
+		for (int[][] playerTokensForCard : tokens) {
+			if (playerTokensForCard[playerIndex].length > 0)
+				return true;
+		}
+		return false;
+	}
+
+	static int getCardCost(MyCard c) {
         if (c == null)
             return 0;
         if (costs != null && c.id < costs.length)
@@ -1072,13 +1160,14 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     }
 
     /**
-     * A player obtained a card and we notify the user
+     * A player obtained a card/event and we notify the user
      * @param i card index
      * @param s player number, as a string
      * @return a message, either something like 'card obtained' from resources, or "&lt;playername&gt;: &lt;cardname&gt;"
      */
     public String cardObtained(int i, String s) {
-        return top.getString(R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
+    	boolean isEvent = GameTableViews.cardsInPlay.get(i).isEvent;
+        return top.getString(isEvent ? R.string.eventBought : R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
     }
 
     /**
@@ -1155,9 +1244,17 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 }
             }
         } else {
-            if (isAcceptable(clickedCard.getCard(), clickedCard.parent)) {
+            if (isAcceptable(clickedCard.getState(), clickedCard.parent)) {
                 HapticFeedback.vibrate(getContext(), AlertType.CLICK);
-                if (openedCards.size() >= maxOpened) {
+                if (sco.isDifferent() && hasDuplicate(openedCards, clickedCard.getState().c)) {
+                	int duplicateIndex = getFirstIndex(openedCards, clickedCard.getState().c);
+                	CardInfo ci = openedCards.get(duplicateIndex);
+                    ci.cs.opened = false;
+                    ci.cs.order = -1;
+                    ci.cs.indicator = sco.getPickType().indicator();
+                    ci.parent.updateState(ci.pos, ci.cs);
+                    openedCards.remove(duplicateIndex);
+                } else if (openedCards.size() >= maxOpened) {
                     CardInfo ci = openedCards.get(0);
                     ci.cs.opened = false;
                     ci.cs.order = -1;
@@ -1165,6 +1262,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                     ci.parent.updateState(ci.pos, ci.cs);
                     openedCards.remove(0);
                 }
+                
                 clickedCard.setChecked(true, sco.getPickType().indicator());
                 CardInfo ci = new CardInfo(clickedCard.getState(), (CardGroup) parent.getAdapter(), position);
                 openedCards.add(ci);
@@ -1181,9 +1279,86 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             }
     }
 
-    @Override
+	private boolean hasDuplicate(ArrayList<CardInfo> cards, MyCard c) {
+		return getFirstIndex(cards, c) != -1;
+	}
+
+	private int getFirstIndex(ArrayList<CardInfo> cards, MyCard c) {
+		for (int i = 0; i < cards.size(); ++i) {
+			if (cards.get(i).cs.c.originalSafeName.equals(c.originalSafeName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	@Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         CardView clickedCard = (CardView) view;
         return clickedCard.onLongClick(clickedCard);
     }
+	
+	public static int getPlayerColor(Resources resources, int playerIndex) {
+		switch(playerIndex) {
+			case 0:
+				return resources.getColor(R.color.player1Color);
+			case 1:
+				return resources.getColor(R.color.player2Color);
+			case 2:
+				return resources.getColor(R.color.player3Color);
+			case 3:
+				return resources.getColor(R.color.player4Color);
+			case 4:
+				return resources.getColor(R.color.player5Color);
+			case 5:
+			default:
+				return resources.getColor(R.color.player6Color);
+		}
+	}
+	
+	public static int getPlayerStrokeColor(Resources resources, int playerIndex) {
+		switch(playerIndex) {
+		case 0:
+			return resources.getColor(R.color.player1LineColor);
+		case 1:
+			return resources.getColor(R.color.player2LineColor);
+		case 2:
+			return resources.getColor(R.color.player3LineColor);
+		case 3:
+			return resources.getColor(R.color.player4LineColor);
+		case 4:
+			return resources.getColor(R.color.player5LineColor);
+		case 5:
+		default:
+			return resources.getColor(R.color.player6LineColor);
+		}
+	}
+	
+	public static int getPlayerTextBackgroundColor(Context context, int playerIndex) {
+		int attrId;
+		switch(playerIndex) {
+		case 0:
+			attrId = R.attr.player1TextBackgroundColor;
+			break;
+		case 1:
+			attrId = R.attr.player2TextBackgroundColor;
+			break;
+		case 2:
+			attrId = R.attr.player3TextBackgroundColor;
+			break;
+		case 3:
+			attrId = R.attr.player4TextBackgroundColor;
+			break;
+		case 4:
+			attrId = R.attr.player5TextBackgroundColor;
+			break;
+		case 5:
+		default:
+			attrId = R.attr.player6TextBackgroundColor;
+		}
+		TypedValue typedValue = new TypedValue();
+		context.getTheme().resolveAttribute(attrId, typedValue, true);
+		int color = typedValue.data;
+		return color;
+	}
 }
