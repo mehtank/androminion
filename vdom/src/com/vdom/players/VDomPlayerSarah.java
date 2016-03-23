@@ -374,11 +374,11 @@ public class VDomPlayerSarah extends BasePlayer {
 
     @Override
     public Card doAction(MoveContext context) {
-        ArrayList<ActionCard> actionCards = context.getPlayer().getActionsInHand();
+        ArrayList<Card> actionCards = context.getPlayer().getActionsInHand(context.player);
 
         // don't play rats
         if (game.isCardInGame(Cards.rats)) {
-            for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+            for (Iterator<Card> it = actionCards.iterator(); it.hasNext(); ) {
                 if (Cards.rats.equals(it.next())) {
                     it.remove();
                 }
@@ -387,7 +387,7 @@ public class VDomPlayerSarah extends BasePlayer {
         
         // Pair of Treasure Maps goes first
         int treasureMapCount = 0;
-        for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+        for (Iterator<Card> it = actionCards.iterator(); it.hasNext(); ) {
             if (Cards.treasureMap.equals(it.next())) {
                 treasureMapCount++;
                 it.remove();
@@ -413,7 +413,7 @@ public class VDomPlayerSarah extends BasePlayer {
         // don't play trashForced cards if no trash cards available (Apprentice, Ambassador, etc)
         Card[] trashableCards = pickOutCards(context.getPlayer().getHand(), 1, getTrashCards());
         if (trashableCards == null) {
-            for (Iterator<ActionCard> it = actionCards.iterator(); it.hasNext(); ) {
+            for (Iterator<Card> it = actionCards.iterator(); it.hasNext(); ) {
                 if (it.next().trashForced())
                     it.remove();
             }
@@ -422,7 +422,7 @@ public class VDomPlayerSarah extends BasePlayer {
         // play Action Cards that add more actions
         for (final Card card : actionCards) {
             if (context.canPlay(card)) {
-                ActionCard action = (ActionCard) card;
+                Card action = card;
                 if (action.getAddActions() > 0 && !isInCardArray(card, princeCards)) 
                     return action;
             }
@@ -479,7 +479,7 @@ public class VDomPlayerSarah extends BasePlayer {
     public boolean shouldPassOnBuy(MoveContext context, Card card) {
         return 
                 !context.canBuy(card) || 
-                card instanceof ActionCard && actionCardCount >= actionCardMax || 
+                card.isAction(context.player) && actionCardCount >= actionCardMax || 
                 !favorSilverGoldPlat && (card.equals(Cards.silver) || card.equals(Cards.masterpiece) || card.equals(Cards.gold) || card.equals(Cards.platinum)) ||
                 card.equals(Cards.curse) || 
                 card.equals(Cards.virtualRuins) ||
@@ -490,7 +490,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 context.getEmbargosIfCursesLeft(card) > 0 ||
-                !(card instanceof ActionCard) && !(card instanceof TreasureCard) && !(card instanceof EventCard);
+                !(card.isAction(context.player)) && !(card instanceof TreasureCard) && !(card instanceof EventCard);
     }
 
     @Override
@@ -588,13 +588,13 @@ public class VDomPlayerSarah extends BasePlayer {
         final double silverLine = .5d;
 
         if (favorSilverGoldPlat) {
-            if (game.pileSize(Cards.silver) > 0 && coinAvailableForBuy >= 3 && coinAvailableForBuy <= silverMax && rand.nextFloat() > silverLine) {
+            if (context.canBuy(Cards.silver) && game.pileSize(Cards.silver) > 0 && coinAvailableForBuy >= 3 && coinAvailableForBuy <= silverMax && rand.nextFloat() > silverLine) {
                 if(context.getEmbargosIfCursesLeft(Cards.silver) == 0) {
                     return Cards.silver;
                 }
             }
 
-            if (game.pileSize(Cards.gold) > 0 && coinAvailableForBuy >= 6 && coinAvailableForBuy <= 6 && rand.nextFloat() > silverLine) {
+            if (context.canBuy(Cards.gold) && game.pileSize(Cards.gold) > 0 && coinAvailableForBuy >= 6 && coinAvailableForBuy <= 6 && rand.nextFloat() > silverLine) {
                 if(context.getEmbargosIfCursesLeft(Cards.gold) == 0) {
                     return Cards.gold;
                 }
@@ -635,7 +635,7 @@ public class VDomPlayerSarah extends BasePlayer {
     }
     
     @Override
-    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards) {
+    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible) {
         if(context.cardInGame(Cards.grandMarket)) {
             final ArrayList<TreasureCard> cards = new ArrayList<TreasureCard>();
             int coinWithoutCopper = 0;
@@ -652,7 +652,7 @@ public class VDomPlayerSarah extends BasePlayer {
             }
         }
         
-        return super.treasureCardsToPlayInOrder(context, maxCards);
+        return super.treasureCardsToPlayInOrder(context, maxCards, responsible);
     }
     
 
@@ -683,7 +683,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 }
                 
                 final int currentCount = getMyCardCount(card);
-                if(isOnlyTreasure(card) || card instanceof VictoryCard || currentCount == 0 || rand.nextInt(MAX_OF_ONE_ACTION_CARD) < currentCount) {
+                if(isOnlyTreasure(card, context.getPlayer()) || card instanceof VictoryCard || currentCount == 0 || rand.nextInt(MAX_OF_ONE_ACTION_CARD) < currentCount) {
                     randList.add(card);
                 }
             }

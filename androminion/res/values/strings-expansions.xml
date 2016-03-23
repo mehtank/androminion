@@ -2,6 +2,7 @@
 <resources>
 
     <string name="Base"></string>
+    <string name="BaseSet">Base Set</string>
     <string name="Intrigue">Intrigue</string>
     <string name="Seaside">Seaside</string>
     <string name="Alchemy">Alchemy</string>

@@ -17,7 +17,9 @@ public class Cards {
     public static ArrayList<Card> actionCardsDarkAges = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsGuilds = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsAdventures = new ArrayList<Card>();
+    public static ArrayList<Card> eventCardsAdventures = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsPromo = new ArrayList<Card>();
+    public static ArrayList<Card> eventCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
     public static ArrayList<Card> prizeCards = new ArrayList<Card>();
     public static ArrayList<Card> nonSupplyCards = new ArrayList<Card>();
@@ -35,7 +37,7 @@ public class Cards {
     static final String TRAVELLERS_TEXT = "TRAVELLERS_TEXT.";
 
     public enum Type {
-        // Kingdom Cards
+        // Non-Kingdom Cards
         Platinum, Gold, Silver, Copper, Potion, Colony, Province, Duchy, Estate, Curse,
         // Base Set
         Gardens, Moat, Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom, Feast,
@@ -85,7 +87,7 @@ public class Cards {
         VirtualEvents,
         
         // Promo Cards
-        Envoy, Governor, WalledVillage, Prince, BlackMarket, Summon,
+        Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon,
         // Promo Cards (not yet implemented)
         // Stash
         // Victory Token card container
@@ -424,6 +426,7 @@ public class Cards {
     public static final Card envoy;
     public static final Card prince;
     public static final Card blackMarket;
+    public static final Card stash;
     public static final Card summon;
 
     static {
@@ -625,8 +628,8 @@ public class Cards {
         actionCardsDarkAges.add(catacombs = new ActionCardImpl.Builder(Cards.Type.Catacombs, 5).description("Look at the top 3 cards of your deck. Choose one: Put them into your hand; or discard them and +3 Cards. When you trash this, gain a cheaper card.").expansion("DarkAges").build());
         actionCardsDarkAges.add(count = new ActionCardImpl.Builder(Cards.Type.Count, 5).description("Choose one: Discard 2 cards; or put a card from your hand on top of your deck; or gain a Copper. Choose one: +3 coins; or trash your hand; or gain a Duchy.").expansion("DarkAges").build());
         actionCardsDarkAges.add(counterfeit = new TreasureCardImpl.Builder(Cards.Type.Counterfeit, 5, 1).description("+1 Buy\nWhen you play this, you may play a Treasure from your hand twice. If you do, trash that Treasure.").expansion("DarkAges").build());
-        actionCardsDarkAges.add(cultist = new ActionCardImpl.Builder(Cards.Type.Cultist, 5).looter().addCards(2).attack().description("Each other player gains a Ruins. You may play a Cultist from your hand. When you trash this, +3 Cards.").expansion("DarkAges").build());
-        actionCardsDarkAges.add(deathCart = new ActionCardImpl.Builder(Cards.Type.DeathCart, 4).addGold(5).looter().description("You may trash an Action card from your hand. If you don't, trash this. When you gain this, gain 2 Ruins.").expansion("DarkAges").build());
+        actionCardsDarkAges.add(cultist = new ActionCardImpl.Builder(Cards.Type.Cultist, 5).addCards(2).attack().isLooter().description("Each other player gains a Ruins. You may play a Cultist from your hand. When you trash this, +3 Cards.").expansion("DarkAges").build());
+        actionCardsDarkAges.add(deathCart = new ActionCardImpl.Builder(Cards.Type.DeathCart, 4).addGold(5).isLooter().description("You may trash an Action card from your hand. If you don't, trash this. When you gain this, gain 2 Ruins.").expansion("DarkAges").build());
         actionCardsDarkAges.add(feodum = new VictoryCardImpl.Builder(Cards.Type.Feodum, 4, 0).description("Worth 1 VP for every 3 Silvers in your deck (round down). When you trash this, gain 3 Silvers.").expansion("DarkAges").build());
         actionCardsDarkAges.add(forager = new ActionCardImpl.Builder(Cards.Type.Forager, 3).addActions(1).addBuys(1).trashForced().description("Trash a card from your hand. +1 coin per differently named Treasure in the trash.").expansion("DarkAges").build());
         actionCardsDarkAges.add(fortress = new ActionCardImpl.Builder(Cards.Type.Fortress, 4).addCards(1).addActions(2).description("When you trash this, put it into your hand.").expansion("DarkAges").build());
@@ -635,7 +638,7 @@ public class Cards {
         actionCardsDarkAges.add(huntingGrounds = new ActionCardImpl.Builder(Cards.Type.HuntingGrounds, 6).addCards(4).description("When you trash this, gain a Duchy or 3 Estates.").expansion("DarkAges").build());
         actionCardsDarkAges.add(ironmonger = new ActionCardImpl.Builder(Cards.Type.Ironmonger, 4).addCards(1).addActions(1).description("Reveal the top card of your deck; you may discard it. Either way, if it is an Action card, +1 Action; Treasure card, + 1 coin; Victory card, +1 Card.").expansion("DarkAges").build());
         actionCardsDarkAges.add(junkDealer = new ActionCardImpl.Builder(Cards.Type.JunkDealer, 5).addCards(1).addActions(1).addGold(1).trashForced().description("Trash a card from your hand.").expansion("DarkAges").build());
-        actionCardsDarkAges.add(marauder = new ActionCardImpl.Builder(Cards.Type.Marauder, 4).looter().attack().description("Gain a Spoils from the Spoils pile. Each other player gains a Ruins.").expansion("DarkAges").build());
+        actionCardsDarkAges.add(marauder = new ActionCardImpl.Builder(Cards.Type.Marauder, 4).attack().isLooter().description("Gain a Spoils from the Spoils pile. Each other player gains a Ruins.").expansion("DarkAges").build());
         actionCardsDarkAges.add(marketSquare = new ActionCardImpl.Builder(Cards.Type.MarketSquare, 3).addCards(1).addActions(1).addBuys(1).description("When one of your cards is trashed, you may discard this from your hand. If you do, gain a Gold.").expansion("DarkAges").build());
         actionCardsDarkAges.add(mystic = new ActionCardImpl.Builder(Cards.Type.Mystic, 5).addActions(1).addGold(2).description("Name a card. Reveal the top card of your deck. If it’s the named card, put it into your hand.").expansion("DarkAges").build());
         actionCardsDarkAges.add(pillage = new ActionCardImpl.Builder(Cards.Type.Pillage, 5).trashOnUse().attack().description("Trash this. Each other player with 5 or more cards in hand reveals his hand and discards a card that you choose. Gain 2 Spoils from the Spoils pile.").expansion("DarkAges").build());
@@ -668,9 +671,9 @@ public class Cards {
         actionCardsGuilds.add(herald           = new ActionCardImpl.Builder(Cards.Type.Herald, 4).addCards(1).addActions(1).isOverpay().description("Reveal the top card of your deck. If it is an Action, play it. When you buy this, you may overpay for it. For each $1 you overpaid, look through your discard pile and put a card from it on top of your deck.").expansion("Guilds").build());
 
         // Non-Supply Cards
-        nonSupplyCards.add(madman    = new ActionCardImpl.Builder(Cards.Type.Madman, 0).addActions(2).description("Return this to the Madman pile. If you do, +1 Card per card in your hand. (This is not in the supply)").expansion("DarkAges").build());
-        nonSupplyCards.add(mercenary = new ActionCardImpl.Builder(Cards.Type.Mercenary, 0).attack().description("You may trash 2 cards from your hand. If you do, +2 cards, +2 coins, and each other player discards down to 3 cards in hand. (This is not in the supply)").expansion("DarkAges").build());
-        nonSupplyCards.add(spoils    = new TreasureCardImpl.Builder(Cards.Type.Spoils, 0, 3).description("When you play this, return it to the Spoils pile (This is not in the Supply).").expansion("DarkAges").build());
+        nonSupplyCards.add(madman    = new ActionCardImpl.Builder(Cards.Type.Madman, 0).addActions(2).description("Return this to the Madman pile. If you do, +1 Card per card in your hand. (This is not in the Supply.)").expansion("DarkAges").build());
+        nonSupplyCards.add(mercenary = new ActionCardImpl.Builder(Cards.Type.Mercenary, 0).attack().description("You may trash 2 cards from your hand. If you do, +2 cards, +2 coins, and each other player discards down to 3 cards in hand. (This is not in the Supply.)").expansion("DarkAges").build());
+        nonSupplyCards.add(spoils    = new TreasureCardImpl.Builder(Cards.Type.Spoils, 0, 3).description("When you play this, return it to the Spoils pile. (This is not in the Supply.)").expansion("DarkAges").build());
 
         // Ruins
         ruinsCards.add(abandonedMine     = new ActionCardImpl.Builder(Cards.Type.AbandonedMine, 0).addGold(1).isRuins().expansion("DarkAges").build());
@@ -678,8 +681,8 @@ public class Cards {
         ruinsCards.add(ruinedMarket      = new ActionCardImpl.Builder(Cards.Type.RuinedMarket, 0).addBuys(1).isRuins().expansion("DarkAges").build());
         ruinsCards.add(ruinedVillage     = new ActionCardImpl.Builder(Cards.Type.RuinedVillage, 0).addActions(1).isRuins().expansion("DarkAges").build());
         ruinsCards.add(survivors         = new ActionCardImpl.Builder(Cards.Type.Survivors, 0).isRuins().description("Look at the top 2 cards of your deck. Discard them or put them back in any order.").expansion("DarkAges").build());
-        nonKingdomCards.add(virtualRuins = new CardImpl.Builder(Cards.Type.VirtualRuins, 0).isRuins().build());
-
+        nonKingdomCards.add(virtualRuins = new ActionCardImpl.Builder(Cards.Type.VirtualRuins, 0).isRuins().build());
+        
         // Knights
         knightsCards.add(dameAnna = new ActionCardImpl.Builder(Cards.Type.DameAnna, 5).isKnight().description("You may trash up to 2 cards from your hand. " + KNIGHTS_TEXT).expansion("DarkAges").build());
         knightsCards.add(dameJosephine = new ActionVictoryCardImpl.Builder(Cards.Type.DameJosephine, 5).isKnight().vp(2).description(KNIGHTS_TEXT).expansion("DarkAges").build());
@@ -701,15 +704,15 @@ public class Cards {
         // Adventures
         actionCardsAdventures.add(amulet          = new ActionDurationCardImpl.Builder(Cards.Type.Amulet, 3).description("Now and at the start of your next turn, choose one: +1 Coin; or trash a card from your hand; or gain a Silver.").expansion("Adventures").build());
         actionCardsAdventures.add(artificer       = new ActionCardImpl.Builder(Cards.Type.Artificer, 5).addCards(1).addActions(1).addGold(1).description("Discard any number of cards. You may gain a card costing exactly 1 Coin per card discarded, putting it on top of your deck.").expansion("Adventures").build());
-        actionCardsAdventures.add(bridgeTroll     = new ActionDurationCardImpl.Builder(Cards.Type.BridgeTroll, 3).addBuysNextTurn(1).addBuys(1).attack().description("Each other player takes his -1 Coin token. ~ While this is on play, cards cost 1 Coin less on your turns, but not less than 0 Coins.").expansion("Adventures").build());
-        actionCardsAdventures.add(caravanGuard    = new ActionDurationCardImpl.Builder(Cards.Type.CaravanGuard, 2).addGoldNextTurn(1).addCards(1).addActions(1).description("When another player plays an Attack card, you may play this from your hand. (+1 Action has no effect if it's not your turn.)").expansion("Adventures").build());
-        actionCardsAdventures.add(coinOfTheRealm  = new TreasureCardImpl.Builder(Cards.Type.CoinOfTheRealm, 5, 1).isReserve().description("When you play this, put it on your Tavern mat. ~ Directly after resolving an Action, you may call this, for +2 Actions.").expansion("Adventures").build());
+        actionCardsAdventures.add(bridgeTroll     = new ActionDurationCardImpl.Builder(Cards.Type.BridgeTroll, 5).addBuysNextTurn(1).addBuys(1).attack().description("Each other player takes his -1 Coin token. ~ While this is in play, cards cost 1 Coin less on your turns, but not less than 0 Coins.").expansion("Adventures").build());
+        actionCardsAdventures.add(caravanGuard    = new ActionDurationCardImpl.Builder(Cards.Type.CaravanGuard, 3).addGoldNextTurn(1).addCards(1).addActions(1).description("When another player plays an Attack card, you may play this from your hand. (+1 Action has no effect if it's not your turn.)").expansion("Adventures").build());
+        actionCardsAdventures.add(coinOfTheRealm  = new CallableTreasureCardImpl.Builder(Cards.Type.CoinOfTheRealm, 2, 1).callWhenActionResolved().isReserve().description("When you play this, put it on your Tavern mat. ~ Directly after resolving an Action, you may call this, for +2 Actions.").expansion("Adventures").build());
         actionCardsAdventures.add(distantLands    = new ActionVictoryCardImpl.Builder(Cards.Type.DistantLands, 5).isReserve().description("Put this on your Tavern mat. ~ Worth 4 VP if on your Tavern mat at the end of the game (otherwise worth 0 VP).").expansion("Adventures").build());
-        actionCardsAdventures.add(dungeon         = new ActionDurationCardImpl.Builder(Cards.Type.Dungeon, 4).addCards(2).addActions(1).description("Discard 2 cards. At the start of your next turn: +2 Cards, then discard 2 cards.").expansion("Adventures").build());
-        actionCardsAdventures.add(duplicate       = new ActionCardImpl.Builder(Cards.Type.Duplicate, 3).isReserve().description("Put this on your Tavern mat. ~ When you gain a card costing up to 6 Coins, you may call this, to gain a copy of that card.").expansion("Adventures").build());
+        actionCardsAdventures.add(dungeon         = new ActionDurationCardImpl.Builder(Cards.Type.Dungeon, 3).addCards(2).addActions(1).description("Discard 2 cards. At the start of your next turn: +2 Cards, then discard 2 cards.").expansion("Adventures").build());
+        actionCardsAdventures.add(duplicate       = new CallableActionCardImpl.Builder(Cards.Type.Duplicate, 4).callWhenGainCard(6).isReserve().description("Put this on your Tavern mat. ~ When you gain a card costing up to 6 Coins, you may call this, to gain a copy of that card.").expansion("Adventures").build());
         actionCardsAdventures.add(gear            = new ActionDurationCardImpl.Builder(Cards.Type.Gear, 3).addCards(2).description("Set aside up to 2 cards from your hand face down. At the start of your next turn, put them into your hand.").expansion("Adventures").build());
         actionCardsAdventures.add(giant           = new ActionCardImpl.Builder(Cards.Type.Giant, 5).attack().description("Turn your Journey token over (it starts face up). If it's face down, +1 Coin. If it's face up, +5 Coins, and each other player reveals the top card of his deck, trashes it if it costs from 3 to 6 Coins, and otherwise discards it and gains a Curse.").expansion("Adventures").build());
-        actionCardsAdventures.add(guide           = new ActionCardImpl.Builder(Cards.Type.Guide, 3).addCards(1).addActions(1).isReserve().description("Put this on your Tavern mat. ~ At the start of your turn, you may call this, to discard your hand and draw 5 cards.").expansion("Adventures").build());
+        actionCardsAdventures.add(guide           = new CallableActionCardImpl.Builder(Cards.Type.Guide, 3).callWhenTurnStarts().addCards(1).addActions(1).isReserve().description("Put this on your Tavern mat. ~ At the start of your turn, you may call this, to discard your hand and draw 5 cards.").expansion("Adventures").build());
         actionCardsAdventures.add(hauntedWoods    = new ActionDurationCardImpl.Builder(Cards.Type.HauntedWoods, 5).addCardsNextTurn(3).attack().description("Until your next turn, when any other player buys a card, he puts his hand on top of his deck in any order.").expansion("Adventures").build());
         actionCardsAdventures.add(hireling        = new ActionDurationCardImpl.Builder(Cards.Type.Hireling, 6).description("At the start of each of your turns for the rest of the game: +1 Card. (This stays in play.)").expansion("Adventures").build());
         actionCardsAdventures.add(lostCity        = new ActionCardImpl.Builder(Cards.Type.LostCity, 5).addCards(2).addActions(2).description("When you gain this, each other player draws a card.").expansion("Adventures").build());
@@ -720,48 +723,48 @@ public class Cards {
         actionCardsAdventures.add(peasant         = new ActionCardImpl.Builder(Cards.Type.Peasant, 2).addGold(1).addBuys(1).isTraveller().description("When you discard this from play, you may exchange it for a Soldier.").expansion("Adventures").build());
         actionCardsAdventures.add(port            = new ActionCardImpl.Builder(Cards.Type.Port, 4).addCards(1).addActions(2).description("When you buy this, gain another Port.").expansion("Adventures").build());
         actionCardsAdventures.add(ranger          = new ActionCardImpl.Builder(Cards.Type.Ranger, 4).addBuys(1).description("Turn your Journey token over (it starts face up). If it's face up, +5 Cards.").expansion("Adventures").build());
-        actionCardsAdventures.add(ratcatcher      = new ActionCardImpl.Builder(Cards.Type.Ratcatcher, 2).addCards(1).addActions(1).isReserve().description("Put this on your Tavern mat. ~ At the start of your turn, you may call this, to trash a card from your hand.").expansion("Adventures").build());
-        actionCardsAdventures.add(raze            = new ActionCardImpl.Builder(Cards.Type.Raze, 2).addActions(1).addBuys(1).description("Trash this or a card from your hand. Look at a number of cards from the top of your deck equal to the cost in Coins of the trashed card. Put one into your hand and discard the rest.").expansion("Adventures").build());
+        actionCardsAdventures.add(ratcatcher      = new CallableActionCardImpl.Builder(Cards.Type.Ratcatcher, 2).callWhenTurnStarts().addCards(1).addActions(1).isReserve().description("Put this on your Tavern mat. ~ At the start of your turn, you may call this, to trash a card from your hand.").expansion("Adventures").build());
+        actionCardsAdventures.add(raze            = new ActionCardImpl.Builder(Cards.Type.Raze, 2).addActions(1).description("Trash this or a card from your hand. Look at a number of cards from the top of your deck equal to the cost in Coins of the trashed card. Put one into your hand and discard the rest.").expansion("Adventures").build());
         actionCardsAdventures.add(relic           = new TreasureCardImpl.Builder(Cards.Type.Relic, 5, 2).attack().description("When you play this, each other player puts his -1 Card token on his deck.").expansion("Adventures").build());
-        actionCardsAdventures.add(royalCarriage   = new ActionCardImpl.Builder(Cards.Type.RoyalCarriage, 5).addActions(1).isReserve().description("Put this on your Tavern mat. ~ Directly after resolving an Action, if it's still in play, you may call this, to replay that Action.").expansion("Adventures").build());
+        actionCardsAdventures.add(royalCarriage   = new CallableActionCardImpl.Builder(Cards.Type.RoyalCarriage, 5).callWhenActionResolved(true).addActions(1).isReserve().description("Put this on your Tavern mat. ~ Directly after resolving an Action, if it's still in play, you may call this, to replay that Action.").expansion("Adventures").build());
         actionCardsAdventures.add(storyteller     = new ActionCardImpl.Builder(Cards.Type.Storyteller, 5).addGold(1).addActions(1).description("Play up to 3 Treasures from your hand. Pay all of your Coins; +1 Card per Coin paid.").expansion("Adventures").build());
         actionCardsAdventures.add(swampHag        = new ActionDurationCardImpl.Builder(Cards.Type.SwampHag, 5).addGoldNextTurn(3).attack().description("Until your next turn, when any other player buys a card, he gains a Curse.").expansion("Adventures").build());
-        actionCardsAdventures.add(transmogrify    = new ActionCardImpl.Builder(Cards.Type.Transmogrify, 4).addActions(1).isReserve().description("Put this on your Tavern mat. ~ At the start of your turn, you may call this, to trash a card from your hand, gain a card costing up to 1 Coin more than it, and put that card into your hand.").expansion("Adventures").build());
+        actionCardsAdventures.add(transmogrify    = new CallableActionCardImpl.Builder(Cards.Type.Transmogrify, 4).callWhenTurnStarts().addActions(1).isReserve().description("Put this on your Tavern mat. ~ At the start of your turn, you may call this, to trash a card from your hand, gain a card costing up to 1 Coin more than it, and put that card into your hand.").expansion("Adventures").build());
         actionCardsAdventures.add(treasureTrove   = new TreasureCardImpl.Builder(Cards.Type.TreasureTrove, 5, 2).description("When you play this, gain a Gold and a Copper.").expansion("Adventures").build());
         actionCardsAdventures.add(wineMerchant    = new ActionCardImpl.Builder(Cards.Type.WineMerchant, 5).addGold(4).addBuys(1).isReserve().description("Put this on your Tavern mat. ~ At the end of your Buy phase, if you have at least 2 Coins unspent, you may discard this from your Tavern mat.").expansion("Adventures").build());
         
         // events
-        eventsCards.add(alms              = new EventCardImpl.Builder(Cards.Type.Alms            , 0).isEvent().description("Once per turn: If you have no Treasures in play, gain a card costing up to 4 Coins.").expansion("Adventures").build());
-        eventsCards.add(ball              = new EventCardImpl.Builder(Cards.Type.Ball            , 5).isEvent().description("Take your -1 Coin token. Gain 2 cards each costing up to 4 Coins.").expansion("Adventures").build());
-        eventsCards.add(bonfire           = new EventCardImpl.Builder(Cards.Type.Bonfire         , 3).isEvent().description("Trash up to 2 cards you have in play.").expansion("Adventures").build());
-        eventsCards.add(borrow            = new EventCardImpl.Builder(Cards.Type.Borrow          , 0).addBuys(1).isEvent().description("Once per turn: If your -1 Card token isn't on your deck, put it there and +1 Coin.").expansion("Adventures").build());
-        eventsCards.add(expedition        = new EventCardImpl.Builder(Cards.Type.Expedition      , 3).isEvent().description("Draw 2 extra cards for your next hand.").expansion("Adventures").build());
-        eventsCards.add(ferry             = new EventCardImpl.Builder(Cards.Type.Ferry           , 3).isEvent().description("Move your -2 Coins cost token to an Action Supply pile (cards from that pile cost 2 Coins less on your turns, but not less than 0 Coins).").expansion("Adventures").build());
-        eventsCards.add(inheritance       = new EventCardImpl.Builder(Cards.Type.Inheritance     , 7).isEvent().description("Once per game: Set aside a non-Victory Action card from the Supply costing up to 4 Coins. Move your Estate token to it (your Estates gain the abilities and types of that card).").expansion("Adventures").build());
-        eventsCards.add(lostArts          = new EventCardImpl.Builder(Cards.Type.LostArts        , 6).isEvent().description("Move your +1 Action token to an Action Supply pile (when you play a card from that pile, you first get +1 Action).").expansion("Adventures").build());
-        eventsCards.add(mission           = new EventCardImpl.Builder(Cards.Type.Mission         , 4).isEvent().description("Once per turn: If the previous turn wasn't yours, take another turn after this one, in which you can't buy cards.").expansion("Adventures").build());
-        eventsCards.add(pathfinding       = new EventCardImpl.Builder(Cards.Type.Pathfinding     , 8).isEvent().description("Move your +1 Card token to an Action Supply pile (when you play a card from that pile, you first get +1 Card).").expansion("Adventures").build());
-        eventsCards.add(pilgrimage        = new EventCardImpl.Builder(Cards.Type.Pilgrimage      , 4).isEvent().description("Once per turn: Turn your Journey token over (it starts face up); then if it's face up, choose up to 3 differently named cards you have in play and gain a copy of each.").expansion("Adventures").build());
-        eventsCards.add(plan              = new EventCardImpl.Builder(Cards.Type.Plan            , 3).isEvent().description("Move your Trashing token to an Action Supply pile (when you buy a card from that pile, you may trash a card from your hand.)").expansion("Adventures").build());
-        eventsCards.add(quest             = new EventCardImpl.Builder(Cards.Type.Quest           , 0).isEvent().description("You may discard an Attack, two Curses, or six cards. If you do, gain a Gold.").expansion("Adventures").build());
-        eventsCards.add(raid              = new EventCardImpl.Builder(Cards.Type.Raid            , 5).isEvent().description("Gain a Silver per Silver you have in play. Each other player puts his -1 Card token on his deck.").expansion("Adventures").build());
-        eventsCards.add(save              = new EventCardImpl.Builder(Cards.Type.Save            , 1).addBuys(1).isEvent().description("Once per turn: Set aside a card from your hand, and put it into your hand at end of turn (after drawing).").expansion("Adventures").build());
-        eventsCards.add(scoutingParty     = new EventCardImpl.Builder(Cards.Type.ScoutingParty   , 2).addBuys(1).isEvent().description("Look at the top 5 cards of your deck. Discard 3 and put the rest back in any order.").expansion("Adventures").build());
-        eventsCards.add(seaway            = new EventCardImpl.Builder(Cards.Type.Seaway          , 5).isEvent().description("Gain an Action card costing up to 4 Coins. Move your +1 Buy token to its pile (when you play a card from that pile, you first get +1 Buy).").expansion("Adventures").build());
-        eventsCards.add(trade             = new EventCardImpl.Builder(Cards.Type.Trade           , 5).isEvent().description("Trash up to 2 cards from your hand. Gain a Silver per card you trashed.").expansion("Adventures").build());
-        eventsCards.add(training          = new EventCardImpl.Builder(Cards.Type.Training        , 6).isEvent().description("Move your +1 Coin token to an Action Supply pile (when you play a card from that pile, you first get +1 Coin).").expansion("Adventures").build());
-        eventsCards.add(travellingFair    = new EventCardImpl.Builder(Cards.Type.TravellingFair  , 2).addBuys(2).isEvent().description("When you gain a card this turn, you may put it on top of your deck.").expansion("Adventures").build());
+        eventCardsAdventures.add(alms              = new EventCardImpl.Builder(Cards.Type.Alms            , 0).isEvent().description("Once per turn: If you have no Treasures in play, gain a card costing up to 4 Coins.").expansion("Adventures").build());
+        eventCardsAdventures.add(ball              = new EventCardImpl.Builder(Cards.Type.Ball            , 5).isEvent().description("Take your -1 Coin token. Gain 2 cards each costing up to 4 Coins.").expansion("Adventures").build());
+        eventCardsAdventures.add(bonfire           = new EventCardImpl.Builder(Cards.Type.Bonfire         , 3).isEvent().description("Trash up to 2 cards you have in play.").expansion("Adventures").build());
+        eventCardsAdventures.add(borrow            = new EventCardImpl.Builder(Cards.Type.Borrow          , 0).addBuys(1).isEvent().description("Once per turn: If your -1 Card token isn't on your deck, put it there and +1 Coin.").expansion("Adventures").build());
+        eventCardsAdventures.add(expedition        = new EventCardImpl.Builder(Cards.Type.Expedition      , 3).isEvent().description("Draw 2 extra cards for your next hand.").expansion("Adventures").build());
+        eventCardsAdventures.add(ferry             = new EventCardImpl.Builder(Cards.Type.Ferry           , 3).isEvent().description("Move your -2 cost token to an Action Supply pile (cards from that pile cost 2 Coins less on your turns, but not less than 0 Coins).").expansion("Adventures").build());
+        eventCardsAdventures.add(inheritance       = new EventCardImpl.Builder(Cards.Type.Inheritance     , 7).isEvent().description("Once per game: Set aside a non-Victory Action card from the Supply costing up to 4 Coins. Move your Estate token to it (your Estates gain the abilities and types of that card).").expansion("Adventures").build());
+        eventCardsAdventures.add(lostArts          = new EventCardImpl.Builder(Cards.Type.LostArts        , 6).isEvent().description("Move your +1 Action token to an Action Supply pile (when you play a card from that pile, you first get +1 Action).").expansion("Adventures").build());
+        eventCardsAdventures.add(mission           = new EventCardImpl.Builder(Cards.Type.Mission         , 4).isEvent().description("Once per turn: If the previous turn wasn't yours, take another turn after this one, in which you can't buy cards.").expansion("Adventures").build());
+        eventCardsAdventures.add(pathfinding       = new EventCardImpl.Builder(Cards.Type.Pathfinding     , 8).isEvent().description("Move your +1 Card token to an Action Supply pile (when you play a card from that pile, you first get +1 Card).").expansion("Adventures").build());
+        eventCardsAdventures.add(pilgrimage        = new EventCardImpl.Builder(Cards.Type.Pilgrimage      , 4).isEvent().description("Once per turn: Turn your Journey token over (it starts face up); then if it's face up, choose up to 3 differently named cards you have in play and gain a copy of each.").expansion("Adventures").build());
+        eventCardsAdventures.add(plan              = new EventCardImpl.Builder(Cards.Type.Plan            , 3).isEvent().description("Move your Trashing token to an Action Supply pile (when you buy a card from that pile, you may trash a card from your hand.)").expansion("Adventures").build());
+        eventCardsAdventures.add(quest             = new EventCardImpl.Builder(Cards.Type.Quest           , 0).isEvent().description("You may discard an Attack, two Curses, or six cards. If you do, gain a Gold.").expansion("Adventures").build());
+        eventCardsAdventures.add(raid              = new EventCardImpl.Builder(Cards.Type.Raid            , 5).isEvent().description("Gain a Silver per Silver you have in play. Each other player puts his -1 Card token on his deck.").expansion("Adventures").build());
+        eventCardsAdventures.add(save              = new EventCardImpl.Builder(Cards.Type.Save            , 1).addBuys(1).isEvent().description("Once per turn: Set aside a card from your hand, and put it into your hand at end of turn (after drawing).").expansion("Adventures").build());
+        eventCardsAdventures.add(scoutingParty     = new EventCardImpl.Builder(Cards.Type.ScoutingParty   , 2).addBuys(1).isEvent().description("Look at the top 5 cards of your deck. Discard 3 and put the rest back in any order.").expansion("Adventures").build());
+        eventCardsAdventures.add(seaway            = new EventCardImpl.Builder(Cards.Type.Seaway          , 5).isEvent().description("Gain an Action card costing up to 4 Coins. Move your +1 Buy token to its pile (when you play a card from that pile, you first get +1 Buy).").expansion("Adventures").build());
+        eventCardsAdventures.add(trade             = new EventCardImpl.Builder(Cards.Type.Trade           , 5).isEvent().description("Trash up to 2 cards from your hand. Gain a Silver per card you trashed.").expansion("Adventures").build());
+        eventCardsAdventures.add(training          = new EventCardImpl.Builder(Cards.Type.Training        , 6).isEvent().description("Move your +1 Coin token to an Action Supply pile (when you play a card from that pile, you first get +1 Coin).").expansion("Adventures").build());
+        eventCardsAdventures.add(travellingFair    = new EventCardImpl.Builder(Cards.Type.TravellingFair  , 2).addBuys(2).isEvent().description("When you gain a card this turn, you may put it on top of your deck.").expansion("Adventures").build());
         nonKingdomCards.add(virtualEvents = new CardImpl.Builder(Cards.Type.VirtualEvents        , 0).isEvent().build());
 
         // Travellers
-        nonSupplyCards.add(champion        = new ActionDurationCardImpl.Builder(Cards.Type.Champion, 6).addActions(1).description("For the rest of the game, when another player plays an Attack, it doesn't affect you, and when you play an Action, +1 Action. (This stays in play.)").expansion("Adventures").build());
-        nonSupplyCards.add(disciple        = new ActionCardImpl.Builder(Cards.Type.Disciple        , 5).isTraveller().description("You may play an Action card from your hand twice. Gain a copy of it. ~ When you discard this from play, you may exchange it for a Teacher.").expansion("Adventures").build());
-        nonSupplyCards.add(fugitive        = new ActionCardImpl.Builder(Cards.Type.Fugitive        , 4).addCards(2).addActions(1).isTraveller().description("Discard a card. ~ When you discard this from play, you may exchange it for a Disciple.").expansion("Adventures").build());
-        nonSupplyCards.add(hero            = new ActionCardImpl.Builder(Cards.Type.Hero            , 5).addGold(2).isTraveller().description("Gain a Treasure - When you discard this from play, you may exchange it for a Champion.").expansion("Adventures").build());
-        nonSupplyCards.add(soldier         = new ActionCardImpl.Builder(Cards.Type.Soldier         , 3).addGold(2).isTraveller().attack().description("+1 Coin per other Attack you have in play. Each other player with 4 or more cards in hand discards a card. ~ When you discard this from play, you may exchange it for a Fugitive.").expansion("Adventures").build());
-        nonSupplyCards.add(teacher         = new ActionCardImpl.Builder(Cards.Type.Teacher         , 6).description("Put this on your Tavern mat. ~ At the start of your turn, you may call this, to move your +1 Card, +1 Action, +1 Buy, or +1 Coin token to an Action Supply pile you have no tokens on (when you play a card from that pile, you first get that bonus).").expansion("Adventures").build());
-        nonSupplyCards.add(treasureHunter  = new ActionCardImpl.Builder(Cards.Type.TreasureHunter  , 3).addGold(1).addActions(1).isTraveller().description("Gain a Silver per card the player to your right gained in his last turn. ~ When you discard this from play, you may exchange it for a Warrior.").expansion("Adventures").build());
-        nonSupplyCards.add(warrior         = new ActionCardImpl.Builder(Cards.Type.Warrior         , 4).addCards(2).isTraveller().attack().description("For each Traveller you have in play (including this), each other player discards the top card of his deck and trashes it if it costs 3 or 4 Coins. ~ When you discard this from play, you may exchange it for a Hero.").expansion("Adventures").build());
+        nonSupplyCards.add(champion        = new ActionDurationCardImpl.Builder(Cards.Type.Champion, 6).addActions(1).description("For the rest of the game, when another player plays an Attack, it doesn't affect you, and when you play an Action, +1 Action. (This stays in play. This is not in the Supply.)").expansion("Adventures").build());
+        nonSupplyCards.add(disciple        = new ActionCardImpl.Builder(Cards.Type.Disciple        , 5).isTraveller().description("You may play an Action card from your hand twice. Gain a copy of it. ~ When you discard this from play, you may exchange it for a Teacher. (This is not in the Supply.)").expansion("Adventures").build());
+        nonSupplyCards.add(fugitive        = new ActionCardImpl.Builder(Cards.Type.Fugitive        , 4).addCards(2).addActions(1).isTraveller().description("Discard a card. ~ When you discard this from play, you may exchange it for a Disciple. (This is not in the Supply.)").expansion("Adventures").build());
+        nonSupplyCards.add(hero            = new ActionCardImpl.Builder(Cards.Type.Hero            , 5).addGold(2).isTraveller().description("Gain a Treasure - When you discard this from play, you may exchange it for a Champion. (This is not in the Supply.)").expansion("Adventures").build());
+        nonSupplyCards.add(soldier         = new ActionCardImpl.Builder(Cards.Type.Soldier         , 3).addGold(2).isTraveller().attack().description("+1 Coin per other Attack you have in play. Each other player with 4 or more cards in hand discards a card. ~ When you discard this from play, you may exchange it for a Fugitive. (This is not in the Supply.)").expansion("Adventures").build());
+        nonSupplyCards.add(teacher         = new CallableActionCardImpl.Builder(Cards.Type.Teacher , 6).callWhenTurnStarts().isReserve().description("Put this on your Tavern mat. ~ At the start of your turn, you may call this, to move your +1 Card, +1 Action, +1 Buy, or +1 Coin token to an Action Supply pile you have no tokens on (when you play a card from that pile, you first get that bonus). (This is not in the Supply.)").expansion("Adventures").build());
+        nonSupplyCards.add(treasureHunter  = new ActionCardImpl.Builder(Cards.Type.TreasureHunter  , 3).addGold(1).addActions(1).isTraveller().description("Gain a Silver per card the player to your right gained in his last turn. ~ When you discard this from play, you may exchange it for a Warrior. (This is not in the Supply.)").expansion("Adventures").build());
+        nonSupplyCards.add(warrior         = new ActionCardImpl.Builder(Cards.Type.Warrior         , 4).addCards(2).isTraveller().attack().description("For each Traveller you have in play (including this), each other player discards the top card of his deck and trashes it if it costs 3 Coins or 4 Coins. ~ When you discard this from play, you may exchange it for a Hero. (This is not in the Supply.)").expansion("Adventures").build());
 
         // Promo Cards (Incomplete)
         actionCardsPromo.add(walledVillage = new ActionCardImpl.Builder(Cards.Type.WalledVillage, 4).addCards(1).addActions(2).description("At the start of Clean-up, if you have this and no more than one other Action card in play, you may put this on top of your deck.").expansion("Promo").build());
@@ -769,7 +772,8 @@ public class Cards {
         actionCardsPromo.add(envoy         = new ActionCardImpl.Builder(Cards.Type.Envoy, 4).description("Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.").expansion("Promo").build());
         actionCardsPromo.add(prince        = new ActionCardImpl.Builder(Cards.Type.Prince, 8).description("You may set this aside. If you do, set aside an Action card from your hand costing up to 4 Coins. At the start of each of your turns, play that Action, setting it aside again when you discard it from play. (Stop playing it if you fail to set it aside on a turn you play it.)").expansion("Promo").build());
         actionCardsPromo.add(blackMarket   = new ActionCardImpl.Builder(Cards.Type.BlackMarket, 3).addGold(2).description("Reveal the top 3 cards of the Black Market deck. You may buy one of them immediately. Put the unbought cards on the bottom of the Black Market deck in any order./n(Before the game, make a Black Market deck out of one copy of each Kingdom card not in the supply.)").expansion("Promo").build());
-        eventsCards     .add(summon        = new EventCardImpl.Builder(Cards.Type.Summon, 5).isEvent().description("Gain an Action card costing up to 4 Coins. Set it aside. If you do, then at the start of your next turn, play it.").expansion("Promo").build());
+        actionCardsPromo.add(stash         = new TreasureCardImpl.Builder(Cards.Type.Stash, 5, 2).description("When you shuffle, you may put this anywhere in your deck.").expansion("Promo").build());
+        eventCardsPromo.add(summon         = new EventCardImpl.Builder(Cards.Type.Summon, 5).isEvent().description("Gain an Action card costing up to 4 Coins. Set it aside. If you do, then at the start of your next turn, play it.").expansion("Promo").build());
 
         // Collect all Expansions
         for (Card card : actionCardsBaseGame)    { actionCards.add(card); }
@@ -783,6 +787,16 @@ public class Cards {
         for (Card card : actionCardsGuilds)      { actionCards.add(card); }
         for (Card card : actionCardsAdventures)  { actionCards.add(card); }
         for (Card card : actionCardsPromo)       { actionCards.add(card); }
+        
+        for (Card card : eventCardsAdventures)  { eventsCards.add(card); }
+        for (Card card : eventCardsPromo)  		{ eventsCards.add(card); }
+        
+        
+        for (Card card : nonSupplyCards)        { nonKingdomCards.add(card); };
+        for (Card card : prizeCards)            { nonKingdomCards.add(card); };
+        for (Card card : ruinsCards)            { nonKingdomCards.add(card); };
+        for (Card card : eventsCards)            { nonKingdomCards.add(card); };
+        
 
         for (Card card : actionCards) { cardNameToCard.put(card.getName(), card); }
         for (Card card : prizeCards) { cardNameToCard.put(card.getName(), card); }

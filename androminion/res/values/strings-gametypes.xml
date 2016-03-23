@@ -85,6 +85,7 @@
   <string name="Random_gametype">Random (all sets)</string>
   <string name="RandomDarkAges_gametype">Random Dark Ages</string>
   
+    <string name="GrimParade_gametype">Grim Parade (DA)</string>
   	<string name="PlayingChessWithDeath_gametype">Playing Chess With Death (DA)</string>
     
     <string name="HighAndLow_gametype">High And Low (DA, Base)</string>
@@ -102,33 +103,50 @@
     <string name="OneMansTrash_gametype">One Man\'s Trash (DA, Prsp)</string>
     <string name="HonorAmongThieves_gametype">Honor Among Thieves (DA, Prsp)</string>
     
-   <!--<string name="DarkCarnival_gametype">Dark Carnival (DA, Corn)</string> -->
+    <string name="DarkCarnival_gametype">Dark Carnival (DA, Corn)</string>
     <string name="ToTheVictor_gametype">To The Victor (DA, Corn)</string>
         
    <string name="FarFromHome_gametype">Far From Home (DA, Hntr)</string>
-   <string name="Expeditions_gametype">Expeditions (DA, Hntr)</string>    
-
+   <string name="Expeditions_gametype">Expeditions (DA, Hntr)</string>
+   
+   <string name="ArtsAndCrafts_gametype">Arts and Crafts (Gld, Base)</string>
+   <string name="CleanLiving_gametype">Clean Living (Gld, Base)</string>
+   <string name="GildingTheLily_gametype">Gilding the Lily (Gld, Base)</string>
+   
+   <string name="NameThatCard_gametype">Name that Card (Gld, Intr)</string>
+   <string name="TricksOfTheTrade_gametype">Tricks of the Trade (Gld, Intr)</string>
+   <string name="DecisionsDecisions_gametype">Decisions, Decisions (Gld, Intr)</string>
+   
    <string name="RandomAdventures_gametype">Random Adventures</string>
    <string name="AdventureTest_gametype">Adventures Test</string>
    <string name="GentleIntro_gametype">Gentle Intro (Adv)</string>
    <string name="ExpertIntro_gametype">Expert Intro (Adv)</string>
+   
    <string name="LevelUp_gametype">Level Up (Adv,Base)</string>
-   <string name="SonOfSizeDistortion_gametype">Son of Size Distortion (Adv,Base)</string>
-   <string name="RoyaltyFactory_gametype">Royalty Factory (Adv,Intr)</string>
-   <string name="MastersOfFinance_gametype">Masters of Finance (Adv,Intr)</string>
-   <string name="PrinceOfOrange_gametype">Prince of Orange (Adv,Sea)</string>
-   <string name="GiftsAndMathoms_gametype">Gifts and Mathoms (Adv,Sea)</string>
-   <string name="HastePotion_gametype">Haste Potion (Adv,Alch)</string>
+   <string name="SonOfSizeDistortion_gametype">Son of Size Distortion (Adv, Base)</string>
+   
+   <string name="RoyaltyFactory_gametype">Royalty Factory (Adv, Intr)</string>
+   <string name="MastersOfFinance_gametype">Masters of Finance (Adv, Intr)</string>
+   
+   <string name="PrinceOfOrange_gametype">Prince of Orange (Adv, Sea)</string>
+   <string name="GiftsAndMathoms_gametype">Gifts and Mathoms (Adv, Sea)</string>
+   
+   <string name="HastePotion_gametype">Haste Potion (Adv, Alch)</string>
    <string name="Cursecatchers_gametype">Cursecatchers (Adv,Alch)</string>
-   <string name="LastWillAndMonument_gametype">Last Will and Monument (Adv,Prsp)</string>
-   <string name="ThinkBig_gametype">Think Big (Adv,Prsp)</string>
-   <string name="TheHerosReturn_gametype">The Hero\'s Return (Adv,Corn)</string>
-   <string name="SeacraftAndWitchcraft_gametype">Seacraft and Witchcraft (Adv,Corn)</string>
-   <string name="TradersAndRaiders_gametype">Traders and Raiders (Adv,Hntr)</string>
-   <string name="Journeys_gametype">Journeys (Adv,Hntr)</string>
-   <string name="CemeteryPolka_gametype">Cemetery Polka (Adv,DA)</string>
-   <string name="GroovyDecay_gametype">Groovy Decay (Adv,DA)</string>
-   <string name="Spendthrift_gametype">Spendthrift (Adv,Gld)</string>
-   <string name="QueenOfTan_gametype">Queen of Tan (Adv,Gld)</string>
+   
+   <string name="LastWillAndMonument_gametype">Last Will and Monument (Adv, Prsp)</string>
+   <string name="ThinkBig_gametype">Think Big (Adv, Prsp)</string>
+   
+   <string name="TheHerosReturn_gametype">The Hero\'s Return (Adv, Corn)</string>
+   <string name="SeacraftAndWitchcraft_gametype">Seacraft and Witchcraft (Adv, Corn)</string>
+   
+   <string name="TradersAndRaiders_gametype">Traders and Raiders (Adv, Hntr)</string>
+   <string name="Journeys_gametype">Journeys (Adv, Hntr)</string>
+   
+   <string name="CemeteryPolka_gametype">Cemetery Polka (Adv, DA)</string>
+   <string name="GroovyDecay_gametype">Groovy Decay (Adv, DA)</string>
+   
+   <string name="Spendthrift_gametype">Spendthrift (Adv, Gld)</string>
+   <string name="QueenOfTan_gametype">Queen of Tan (Adv, Gld)</string>
 
 </resources>

@@ -201,6 +201,13 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             Game.processUserPrefArgs(getUserPrefs().toArray(new String[0]));
         }
     }
+    
+    @Override
+    protected void onPause() {
+    	super.onPause();
+    	if (gameRunning)
+    		gt.pauseGameTimer();
+    }
 
     @Override
     public void onResume() {
@@ -216,6 +223,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         }
         if (gameRunning) {
             Game.processUserPrefArgs(getUserPrefs().toArray(new String[0]));
+            gt.resumeGameTimer();
         }
     }
 
@@ -228,15 +236,6 @@ public class GameActivity extends SherlockActivity implements EventHandler {
     ArrayList<String> getUserPrefs() {
         ArrayList<String> strs = new ArrayList<String>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(top);
-
-        if(prefs.getBoolean("plat_colony", false)) {
-            strs.add("-platcolony");
-        }
-
-        if (prefs.getBoolean("use_shelters", false))
-        {
-            strs.add("-useshelters");
-        }
 
         strs.add("-blackmarketcount" + prefs.getString("black_market_count", "25"));
 

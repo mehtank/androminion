@@ -11,7 +11,6 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     private static final long serialVersionUID = 1L;
     int value;
     boolean providePotion;
-    protected boolean attack;
     
     public TreasureCardImpl(Cards.Type type, int cost, int value) {
         super(type, cost);
@@ -22,7 +21,6 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         super(builder);
         value = builder.value;
         providePotion = builder.providePotion;
-        attack = builder.attack;
     }
 
     public static class Builder extends CardImpl.Builder {
@@ -55,10 +53,6 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         return value;
     }
 
-    public boolean isAttack() {
-        return attack;
-    }
-
     @Override
     public CardImpl instantiate() {
         checkInstantiateOK();
@@ -75,7 +69,6 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         super.copyValues(c);
         c.value = value;
         c.providePotion = providePotion;
-        c.attack = attack;
     }
 
     @Override
@@ -90,22 +83,26 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         Player player = context.player;
         Game game = context.game;
 
+        if (this.numberTimesAlreadyPlayed == 0) {
+        	player.hand.remove(this);
+        	player.playedCards.add(this);
+        }
+        
         GameEvent event = new GameEvent(GameEvent.Type.PlayingCoin, (MoveContext) context);
         event.card = this;
         event.newCard = !isClone;
         game.broadcastEvent(event);
 
-        if (this.numberTimesAlreadyPlayed == 0) {
-        	player.hand.remove(this);
-        	player.playedCards.add(this);
-        }
+        
+        if (isAttack(player))
+            attackPlayed(context, game, player);
         
         if (!isClone)
         {
             context.treasuresPlayedSoFar++;
         }
         
-        context.gold += getValue();
+        context.addCoins(getValue());
         
         if (providePotion()) {
             context.potions++;
@@ -115,13 +112,13 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         if (equals(Cards.foolsGold)) {
             foolsGold(context);
         } else if (equals(Cards.philosophersStone)) {
-            context.gold += (player.getDeckSize() + player.getDiscardSize()) / 5;
+            context.addCoins((player.getDeckSize() + player.getDiscardSize()) / 5);
         } else if (equals(Cards.diadem)) {
-            context.gold += context.getActionsLeft();
+            context.addCoins(context.getActionsLeft());
         } else if (equals(Cards.copper)) {
-            context.gold += context.coppersmithsPlayed;
+            context.addCoins(context.coppersmithsPlayed);
         } else if (equals(Cards.bank)) {
-            context.gold += treasuresInPlay(player.playedCards);
+            context.addCoins(treasuresInPlay(player.playedCards));
         } else if (equals(Cards.contraband)) {
             reevaluateTreasures = contraband(context, game, reevaluateTreasures);
         } else if (equals(Cards.loan) || equals(Cards.venture)) {
@@ -131,14 +128,14 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         } else if (equals(Cards.illGottenGains)) {
             reevaluateTreasures = illGottenGains(context, player, reevaluateTreasures);
         } else if (equals(Cards.counterfeit)) {
-        	  reevaluateTreasures = counterfeit(context, game, reevaluateTreasures, player);
+        	reevaluateTreasures = counterfeit(context, game, reevaluateTreasures, player);
         } else if (equals(Cards.treasureTrove)) {
-        	  treasureTrove(context, player, game);
+        	treasureTrove(context, player, game);
         } else if (equals(Cards.relic)) {
-        	  relic(context, player, game);
-        }
-		else if (equals(Cards.spoils))
-        {
+        	relic(context, player, game);
+        } else if (equals(Cards.coinOfTheRealm)) {
+        	putOnTavern(game, context, player);
+        } else if (equals(Cards.spoils)) {
 			if (!isClone) {
 				// Return to the spoils pile
 	            AbstractCardPile pile = game.getPile(this);
@@ -162,7 +159,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     protected void foolsGold(MoveContext context) {
         context.foolsGoldPlayed++;
         if (context.foolsGoldPlayed > 1) {
-            context.gold += 3;
+            context.addCoins(3);
         }
     }
 
@@ -184,7 +181,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         GameEvent event = null;
 
         while (treasureCardFound == null) {
-            Card draw = game.draw(player, true);
+            Card draw = game.draw(context, this, -1);
             if (draw == null) {
                 break;
             }
@@ -277,7 +274,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             // A counterfeited card will not count in the calculations of future cards that care about the number of treasures played (such as Bank)
             context.treasuresPlayedSoFar--; 
             
-            if (!treasure.equals(Cards.spoils)) {
+            if (!(treasure.equals(Cards.spoils) || treasure.equals(Cards.coinOfTheRealm))) {
                 if (currentPlayer.playedCards.getLastCard().equals(treasure)) {
                 	currentPlayer.playedCards.remove(treasure);
                 	currentPlayer.trash(treasure, this, context);
@@ -316,21 +313,39 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     /*Adventures*/
     protected void treasureTrove(MoveContext context, Player player, Game game) {
         context.getPlayer().gainNewCard(Cards.gold, this.controlCard, context); 
-        context.getPlayer().gainNewCard(Cards.copper, this.controlCard, context); 
+        context.getPlayer().gainNewCard(Cards.copper, this.controlCard, context);
     }    
 
     protected void relic(MoveContext context, Player player, Game game) {
         ArrayList<Player> playersToAttack = new ArrayList<Player>();
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != player && !Util.isDefendedFromAttack(game, targetPlayer, this.controlCard)) {
+            if (targetPlayer != player && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 playersToAttack.add(targetPlayer);
-                targetPlayer.attacked(this.controlCard, context);
             }
         }
 
         for (Player targetPlayer : playersToAttack) {
+            targetPlayer.attacked(this.controlCard, context);
             MoveContext targetContext = new MoveContext(context.game, targetPlayer);
+            targetContext.attackedPlayer = targetPlayer;
         	targetPlayer.setMinusOneCardToken(true, targetContext);
         }
-    }    
+    }
+    
+    private void putOnTavern(Game game, MoveContext context, Player currentPlayer) {
+        // counterfeit has here no effect since card is already put on tavern
+        // Move to tavern mat
+        if (this.controlCard.numberTimesAlreadyPlayed == 0) {
+            currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.controlCard));
+            currentPlayer.tavern.add(this.controlCard);
+            this.controlCard.stopImpersonatingCard();
+
+            GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideOnTavernMat, (MoveContext) context);
+            event.card = this.controlCard;
+            game.broadcastEvent(event);
+        } else {
+            // reset clone count
+            this.controlCard.cloneCount = 1;
+        }
+    }
 }

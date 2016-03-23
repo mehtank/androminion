@@ -5,9 +5,14 @@ import java.io.Serializable;
 import com.vdom.api.Card;
 
 public class GameStatus implements Serializable {
-    private static final long serialVersionUID = -5928579898003313213L;
-
-    public int whoseTurn;
+    
+	private static final long serialVersionUID = -1192478381540599643L;
+	
+	public enum JourneyTokenState {
+		FACE_UP, FACE_DOWN
+	}
+	
+	public int whoseTurn;
     public String name;
     public String[] realNames;
     public boolean isFinal;
@@ -19,20 +24,24 @@ public class GameStatus implements Serializable {
     public int[] myPrince;
     public int[] myIsland;
     public int[] myVillage;
+    public int myInheritance = -1;
     public int[] trashPile;
     public int[] blackMarketPile;
     public int[] blackMarketPileShuffled;
     public int[] turnStatus;
     public int[] supplySizes;
     public int[] embargos;
+    public int[][][] tokens;
     public int[] costs;
     public int[] deckSizes;
+    public boolean[] stashOnDeck;
     public int[] handSizes;
+    public int[] stashesInHand;
     public int[] numCards;
     public int[] pirates;
     public int[] victoryTokens;
     public int[] guildsCoinTokens;
-    public boolean[] journeyTokenFaceUp;
+    public JourneyTokenState[] journeyTokens;
     public boolean[] minusOneCoinTokenOn;
     public boolean[] minusOneCardTokenOn;
     public boolean hauntedWoodsAttacks;
@@ -58,17 +67,21 @@ public class GameStatus implements Serializable {
     public GameStatus setPrince(int[] is) {myPrince = is; return this;};
     public GameStatus setIsland(int[] is) {myIsland = is; return this;};
     public GameStatus setVillage(int[] is) {myVillage = is; return this;};
+    public GameStatus setInheritance(int is) {myInheritance = is; return this;};
     public GameStatus setTurnStatus(int[] is) {turnStatus = is; return this;};
     public GameStatus setSupplySizes(int[] is) {supplySizes = is; return this;};
     public GameStatus setEmbargos(int[] is) {embargos = is; return this;};
+    public GameStatus setTokens(int[][][] is) {tokens = is; return this;};
     public GameStatus setCosts(int[] is) {costs = is; return this;};
     public GameStatus setDeckSizes(int[] is) {deckSizes = is; return this;};
+    public GameStatus setStashOnDeck(boolean[] is) {stashOnDeck = is; return this;};
     public GameStatus setHandSizes(int[] is) {handSizes = is; return this;};
+    public GameStatus setStashesInHand(int[] is) {stashesInHand = is; return this;};
     public GameStatus setNumCards(int[] is) {numCards = is; return this;}
     public GameStatus setPirates(int[] is) {pirates = is; return this;}
     public GameStatus setVictoryTokens(int[] is) {victoryTokens = is; return this;}
     public GameStatus setGuildsCoinTokens(int[] is) {guildsCoinTokens = is; return this;}
-    public GameStatus setJourneyToken(boolean[] is) {journeyTokenFaceUp = is; return this;}
+    public GameStatus setJourneyToken(JourneyTokenState[] is) {journeyTokens = is; return this;}
     public GameStatus setMinusOneCoinToken(boolean[] is) {minusOneCoinTokenOn = is; return this;}
     public GameStatus setMinusOneCardToken(boolean[] is) {minusOneCardTokenOn = is; return this;}
     public GameStatus setHauntedWoodsAttacks(boolean i) {hauntedWoodsAttacks = i; return this;}

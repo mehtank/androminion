@@ -11,14 +11,42 @@
         android:layout_alignParentTop="true"
         android:textSize="12sp" />
 
-    <TextView
+    <LinearLayout 
         android:id="@+id/counts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/name"
-        android:textSize="12sp" />
-
+        android:layout_below="@+id/name">
+    
+        <TextView
+	        android:id="@+id/countsPrefix"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+        <TextView
+	        android:id="@+id/countsDeck"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+        <TextView
+	        android:id="@+id/countsMiddle"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+        <TextView
+	        android:id="@+id/countsStashesInHand"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp"
+	        android:textColor="?attr/stashTextColor" />
+        <TextView
+	        android:id="@+id/countsSuffix"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+        
+    </LinearLayout>
+    
     <TextView
         android:id="@+id/pirates"
         android:layout_width="wrap_content"
@@ -60,7 +88,8 @@
         android:background="@drawable/journeytoken"
         android:textColor="#000000"
         android:textSize="12sp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:text="@string/journey_token_initial" />
 
     <TextView
         android:id="@+id/minusOneCardToken"

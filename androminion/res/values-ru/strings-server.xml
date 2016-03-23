@@ -20,14 +20,16 @@
 
         <string name="vp_single">Стоит %1$s ПО</string>
         <string name="vp_multiple">Стоит %1$s ПО</string>
-        <string name="coin_next_turn">+(%1$s) монета в след. ход</string>
+        <string name="coin_next_turn_single">+(%1$s) монета в след. ход</string>
+        <string name="coin_next_turn_multiple">+(%1$s) монета в след. ход</string>
         <string name="buy_next_turn_single">+%1$s покупок в след. ход</string>
         <string name="buys_next_turn_multiple">+%1$s покупок в след. ход</string>
         <string name="card_next_turn_single">+%1$s карта в след. ход</string>
         <string name="cards_next_turn_multiple">+%1$s карт(ы) в след. ход</string>
         <string name="action_next_turn_single">+%1$s действие в след. ход</string>
         <string name="actions_next_turn_multiple">+%1$s действия(й) в след. ход</string>
-        <string name="card_coin">+(%1$s) монета</string>
+        <string name="card_coin_single">+(%1$s) монета</string>
+        <string name="card_coin_multiple">+(%1$s) монета</string>
         <string name="card_buy_single">+%1$s покупка</string>
         <string name="card_buys_multiple">+%1$s покупок(-ки)</string>
         <string name="card_action_single">+%1$s действие</string>
@@ -261,7 +263,8 @@
 
   <string name="game_over_vps"> ПО</string>
 
-  <string name="coin_worth">Стоит (%1$s) монет</string>
+  <string name="coin_worth_single">Стоит (%1$s) монет</string>
+  <string name="coin_worth_multiple">Стоит (%1$s) монет</string>
   <string name="Cartographer_query">Выберите карту чтоб сбросить</string>
   <string name="cards">Карты</string>
   <string name="return_cards">Верните карты в колоду:</string>

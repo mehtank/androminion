@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import com.vdom.core.Cards;
 import com.vdom.core.Util.MultilevelComparator;
 
 public class MyCard implements Serializable {
-	private static final long serialVersionUID = -1367468781663470597L;
 
+	private static final long serialVersionUID = 4918045082221992494L;
+	
 	public int id;
 	public String name;
 	public String expansion;
@@ -42,6 +44,7 @@ public class MyCard implements Serializable {
 	public boolean isReserve   = false;
 	public boolean isTraveller = false;
 	public boolean isBlackMarket = false;
+	public boolean isStash    = false;
 	
 	public static final int SUPPLYPILE = 1;
 	public static final int MONEYPILE = 2;
@@ -52,6 +55,7 @@ public class MyCard implements Serializable {
 	public static final int RUINS_PILES = 7;
 	public static final int KNIGHTS_PILES = 8;
 	public static final int BLACKMARKET_PILE = 9;
+	public static final int EVENTPILE = 10;
 
 	public int pile;
 
@@ -235,6 +239,27 @@ public class MyCard implements Serializable {
 		}
 	}
 	
+	static private class CardNonSupplyGroupComparator implements Comparator<MyCard> {
+		@Override
+		public int compare(MyCard card0, MyCard card1) {
+			return getCardNonSupplyGroup(card0) - getCardNonSupplyGroup(card1);
+		}
+
+		private int getCardNonSupplyGroup(MyCard c) {
+			if (c.originalSafeName.equals("TreasureHunter")
+					|| c.originalSafeName.equals("Warrior")
+					|| c.originalSafeName.equals("Hero")
+					|| c.originalSafeName.equals("Champion"))
+				return 1;
+			if (c.originalSafeName.equals("Soldier")
+					|| c.originalSafeName.equals("Fugitive")
+					|| c.originalSafeName.equals("Disciple")
+					|| c.originalSafeName.equals("Teacher"))
+				return 2;
+			return 3;
+		}
+	}
+	
 	/**
 	 * Comparator for sorting cards by cost, potion and then by name
 	 * Used for sorting on table
@@ -263,6 +288,22 @@ public class MyCard implements Serializable {
 			cmps.add(new CardNameComparator());
 		}
 		public CardHandComparator() {
+			super(cmps);
+		}
+	}
+	
+	/**
+	 * Comparator for sorting cards in hand.
+	 * Sort by type then by cost and last by name
+	 */
+	static public class CardNonSupplyComparator extends MultilevelComparator<MyCard> {
+		private static final ArrayList<Comparator<MyCard>> cmps = new ArrayList<Comparator<MyCard>>();
+		static {
+			cmps.add(new CardNonSupplyGroupComparator());
+			cmps.add(new CardCostComparator());
+			cmps.add(new CardNameComparator());
+		}
+		public CardNonSupplyComparator() {
 			super(cmps);
 		}
 	}

@@ -9,8 +9,8 @@
     <string name="exitonback_pref_title">Quitter sur le bouton Retour</string>
     <string name="vibescreen_pref_title">Configurer les vibrations…</string>
     <string name="gamevibeon_pref_summary">Vibrer quand la partie est finie</string>
-    <string name="gamevibeon_pref_title">Game over</string>
-    <string name="actionvibeon_pref_summary">Vibrer quand votre saisie est nécesseraire</string>
+    <string name="gamevibeon_pref_title">Fin du jeu</string>
+    <string name="actionvibeon_pref_summary">Vibrer quand votre saisie est nécessaire</string>
     <string name="actionvibeon_pref_title">Indicateur d\'action</string>
     <string name="turnvibeon_pref_summary">Vibrer quand votre tour commence</string>
     <string name="turnvibeon_pref_title">Notification de tour</string>
@@ -21,6 +21,7 @@
     <string name="show_statusbar_pref_title">Afficher la barre de statut</string>
     <string name="show_statusbar_pref_summary">Afficher la barre de statut du système pendant le jeu</string>
     <string name="game_play_pref_title">Game Play</string>
+    <string name="testing_pref_title">Mode Test</string>
     <string name="start_guilds_coin_tokens_pref_title">Jetons Pièce Guildes</string>
     <string name="start_guilds_coin_tokens_pref_summary">Commencer avec des jetons Pièce Guildes au lieu de cartes</string>
     <string name="less_provinces_pref_title">Moins de provinces</string>
@@ -30,15 +31,15 @@
     <string name="sort_cards_pref_title">Tri des cartes</string>
     <string name="sort_cards_pref_summary">Trier les cartes en main par type action-trésor-malédiction-victoire</string>
     <string name="action_chains_pref_title">Chaînage d\'actions</string>
-    <string name="action_chains_pref_summary">Activer la sélections multiples d\'actions à jouer dans l\'ordre</string>
+    <string name="action_chains_pref_summary">Activer la sélection multiples d\'actions à jouer dans l\'ordre</string>
     <string name="suppress_redundant_reactions_pref_title">Supprimer la dernière Réaction</string>
-    <string name="suppress_redundant_reactions_pref_summary">Empêcher la carte réaction joué d\'apparaître une nouvelle fois</string>
-	<string name="equal_start_hands_pref_title">Même mains de départ</string>
+    <string name="suppress_redundant_reactions_pref_summary">Empêcher la carte réaction jouée d\'apparaître une nouvelle fois</string>
+	<string name="equal_start_hands_pref_title">Mêmes mains de départ</string>
     <string name="equal_start_hands_pref_summary">Tous les joueurs ont la même main de départ (prendra effet à la prochaine partie)</string>
     <string name="plat_colony_pref_title">Inclure Platine &amp; Colonie</string>
     <string name="plat_colony_pref_summary">Toujours inclure les cartes Platine et Colonie, quelque soit le type de la partie (prendra effet à la prochaine partie)</string>
-    <string name="black_market_count_pref_title">Cartes dans le deck Marché noir</string>
-    <string name="black_market_count_pref_summary">Nombre de cartes dans le deck Marché noir si le Marché noir est en jeu (au moins 25 recommandé)</string>
+    <string name="black_market_count_pref_title">Cartes dans le deck Marché Noir</string>
+    <string name="black_market_count_pref_summary">Nombre de cartes dans le deck Marché Noir si celui-ci est en jeu (au moins 25 recommandé)</string>
     <string name="ui_pref_title">Interface utilisateur</string>
     <string name="personalization_pref_title">Personnalisation</string>
     <string name="name_pref_summary">Entrer votre pseudo</string>
@@ -46,7 +47,7 @@
     <string name="multiplayer_pref_title">Multijoueur</string>
     <string name="host_pref_summary">Serveur par défaut auquel se connecter pour rejoindre une partie</string>
     <string name="host_pref_title">Serveur</string>
-    <string name="port_pref_summary">Port du joueur par défaut pour rejoindre une partie (générallement 2255)</string>
+    <string name="port_pref_summary">Port du joueur par défaut pour rejoindre une partie (généralement 2255)</string>
     <string name="port_pref_title">Port</string>
     <string name="mask_names_pref_title">Cacher le nom des IA</string>
     <string name="mask_names_pref_summary"></string>
@@ -56,18 +57,18 @@
     <string name="one_turn_logs_pref_summary">Afficher seulement le tour courant dans les logs de la partie en bas de l\'écran (prendra effet à la prochaine partie)</string>
     <string name="logging_pref_title">Logs du jeu</string>
     <string name="logging_enable_pref_title">Activer les logs du jeu</string>
-    <string name="logging_enable_pref_summary">Les logs seront enregistrés sur votre carte SD en tant que fichier texte</string>
+    <string name="logging_enable_pref_summary">Les logs seront enregistrées sur votre carte SD en tant que fichier texte</string>
     <string name="logging_dir_pref_title">Dossier log</string>
-    <string name="logging_dir_pref_summary">Dossiers où sont enregistrés les logs du jeux (sera créé si nécessaire)</string>
+    <string name="logging_dir_pref_summary">Dossier où sont enregistrées les logs du jeu (sera créé si nécessaire)</string>
     <string name="pref_theme_title">Thème</string>
-    <string name="pref_theme_summary">Défini le thème de l\'application</string>
-    <string name="autodownload_pref_title">Auto-download les images de cartes (Anglais seulement)</string>
-    <string name="autodownload_pref_summary">La images seront téléchargées sur internet et enregistrées sur votre carte SD</string>
+    <string name="pref_theme_summary">Définit le thème de l\'application</string>
+    <string name="autodownload_pref_title">Auto-téléchargement les images de cartes (Cartes en Anglais seulement)</string>
+    <string name="autodownload_pref_summary">Les images seront téléchargées sur internet et enregistrées sur votre carte SD</string>
     
     <string-array name="theme_names">
         <item>Sombre</item>
         <item>Clair</item>
-        <item>Clair avec une bar d\'action sombre</item>
+        <item>Clair avec une barre d\'action sombre</item>
     </string-array>
 
     <string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
@@ -84,7 +85,7 @@
     </string-array>
 
     <string name="pref_viewstyle_title">Style de l\'interface utilisateur</string>
-    <string name="pref_viewstyle_summary">Défini le style d\'affichage pour les cartes</string>
+    <string name="pref_viewstyle_summary">Définit le style d\'affichage pour les cartes</string>
 
     <string-array name="viewstyle_names">
         <item>Classique</item>
@@ -93,7 +94,7 @@
     </string-array>
 
     <string name="pref_showactionbar_title">Afficher la barre d\'action</string>
-    <string name="pref_showactionbar_summary">Désactiver si vous avez un petit écran, activer si vous n\'avez pas de boutons physiques</string>
+    <string name="pref_showactionbar_summary">Désactivez si vous avez un petit écran, activez si vous n\'avez pas de boutons physiques</string>
     <string name="shelters_pref_title">Commencer avec les Refuges</string>
     <string name="shelters_pref_summary">Toujours utiliser les refuges (de l\'Age des Ténèbres) au lieu des Domaines de départ</string>
     

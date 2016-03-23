@@ -13,7 +13,6 @@ import java.util.Map;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
-import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.core.Cards.Type;
@@ -215,8 +214,10 @@ public class Util {
             cost++;
         }
         log("");
-        log("Deck:" + player.getDeckSize() + " PirateShip:" + player.getPirateShipTreasure() + " NativeVillage:" + cardArrayToString(player.getNativeVillage())
-            + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()));
+        log("Deck:" + player.getDeckSize() + " PirateShip:" + player.getPirateShipTreasure() 
+        		+ " NativeVillage:" + cardArrayToString(player.getNativeVillage())
+            + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()) 
+            + " Summon:" + cardArrayToString(player.getSummon()) + " Inheritance:" + player.getInheritance());
         log("");
     }
 
@@ -270,20 +271,28 @@ public class Util {
         }
         
         Card reactionCard = null;
-        while ((reactionCard = player.controlPlayer.getAttackReaction(context, responsible, defended, reactionCard)) != null) {
+        Card reactionCardAbility = null;
+        while ((reactionCard = player.controlPlayer.getAttackReaction(context, responsible, defended, reactionCardAbility)) != null) {
+        	//TODO: error check reactionCard
+        	
             GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
             event.card = reactionCard;
             game.broadcastEvent(event);
 
-        	if (reactionCard.equals(Cards.secretChamber))
-                doSecretChamber(context, game, player, responsible);
-        	else if (reactionCard.equals(Cards.horseTraders))
-                doHorseTraders(context, game, player, responsible);
-        	else if (reactionCard.equals(Cards.beggar))
-                doBeggar(context, game, player, responsible);
-        	else if (reactionCard.equals(Cards.caravanGuard))
-                doCaravanGuard(context, game, player, responsible);
-        	else if (reactionCard.equals(Cards.moat)) {
+            reactionCardAbility = reactionCard;
+            if (reactionCard.equals(Cards.estate)) {
+            	reactionCardAbility = player.getInheritance();
+            }
+            
+        	if (reactionCardAbility.equals(Cards.secretChamber))
+                doSecretChamber(context, game, player, responsible, reactionCard);
+        	else if (reactionCardAbility.equals(Cards.horseTraders))
+                doHorseTraders(context, game, player, responsible, reactionCard);
+        	else if (reactionCardAbility.equals(Cards.beggar))
+                doBeggar(context, game, player, responsible, reactionCard);
+        	else if (reactionCardAbility.equals(Cards.caravanGuard))
+                doCaravanGuard(context, game, player, responsible, reactionCard);
+        	else if (reactionCardAbility.equals(Cards.moat)) {
                 defended = true;
                 
                 event = new GameEvent(GameEvent.Type.PlayerDefended, context);
@@ -295,26 +304,19 @@ public class Util {
         return defended;
     }
 
-    static boolean doSecretChamber(MoveContext context, Game game, Player player, Card responsible) {
+    private static boolean doSecretChamber(MoveContext context, Game game, Player player, Card responsible, Card reactionCard) {
 
         boolean found = false;
         for (Card card : player.hand) {
-            if (card.equals(Cards.secretChamber)) {
+            if (card.equals(reactionCard)) {
                 found = true;
             }
         }
 
         if (found) {
-//            GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, context);
-//            event.card = Cards.secretChamber;
-//            game.broadcastEvent(event);
-//
-//            event = new GameEvent(GameEvent.Type.CardRevealed, context);
-//            event.card = Cards.secretChamber;
-//            game.broadcastEvent(event);
 
-            game.drawToHand(player, responsible);
-            game.drawToHand(player, responsible);
+            game.drawToHand(context, Cards.secretChamber, 2);
+            game.drawToHand(context, Cards.secretChamber, 1);
 
             if (player.hand.size() > 0) {
                 Card[] cards = player.controlPlayer.secretChamber_cardsToPutOnDeck(context);
@@ -353,38 +355,32 @@ public class Util {
         return found;
     }
 
-    static boolean doHorseTraders(MoveContext context, Game game, Player player, Card responsible) {
+    private static boolean doHorseTraders(MoveContext context, Game game, Player player, Card responsible, Card reactionCard) {
 
         Card horseTraders = null;
         for (Card card : player.hand) {
-            if (card.equals(Cards.horseTraders)) {
+            if (card.equals(reactionCard)) {
                 horseTraders = card;
+                if (reactionCard.equals(Cards.estate)) {
+                	((CardImpl)card).startInheritingCardAbilities(Cards.horseTraders.getTemplateCard().instantiate());
+                }
             }
         }
 
         if (horseTraders != null) {
-//            GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, context);
-//            event.card = Cards.horseTraders;
-//            game.broadcastEvent(event);
-//
-//            event = new GameEvent(GameEvent.Type.CardRevealed, context);
-//            event.card = Cards.horseTraders;
-//            game.broadcastEvent(event);
-
             player.hand.remove(horseTraders);
             player.horseTraders.add(horseTraders);
-
             return true;
         }
 
         return false;
     }
 
-    static boolean doBeggar(MoveContext context, Game game, Player player, Card responsible) {
+    private static boolean doBeggar(MoveContext context, Game game, Player player, Card responsible, Card reactionCard) {
         Card beggar = null;
 
         for (Card card : player.hand) {
-            if (card.equals(Cards.beggar)) {
+            if (card.equals(reactionCard)) {
                 beggar = card;
             }
         }
@@ -403,19 +399,16 @@ public class Util {
         return false;
     }
 
-    static boolean doCaravanGuard(MoveContext context, Game game, Player player, Card responsible) {
+    private static boolean doCaravanGuard(MoveContext context, Game game, Player player, Card responsible, Card reactionCard) {
         Card caravanGuard = null;
         for (Card card : player.hand) {
-            if (card.equals(Cards.caravanGuard)) {
+            if (card.equals(reactionCard)) {
             	caravanGuard = card;
             }
         }
 
         if (caravanGuard != null) {
-            player.hand.remove(caravanGuard);
-            player.nextTurnCards.add((DurationCard) caravanGuard);
-            game.drawToHand(player, responsible);
-
+        	caravanGuard.play(game, context, true);
             return true;
         }
 
@@ -423,6 +416,19 @@ public class Util {
     }
 
     public static ArrayList<Card> copy(CardList cards) {
+        if (cards == null) {
+            return null;
+        }
+
+        ArrayList<Card> copy = new ArrayList<Card>();
+        for (Card card : cards) {
+            copy.add(card);
+        }
+
+        return copy;
+    }
+    
+    public static ArrayList<Card> copy(Iterable<Card> cards) {
         if (cards == null) {
             return null;
         }
@@ -457,6 +463,27 @@ public class Util {
         return count;
     }
     
+
+	public static boolean areCardsInHand(Card[] cards, MoveContext context) {
+		return areCardsInList(cards, context.getPlayer().getHand());
+	}
+	
+	public static boolean areCardsInList(Card[] cards, Iterable<Card> list) {
+		boolean bad = false;
+        if (cards == null) {
+            bad = true;
+        } else {
+            ArrayList<Card> handCopy = Util.copy(list);
+            for (Card card : cards) {
+                if (!handCopy.remove(card)) {
+                    bad = true;
+                    break;
+                }
+            }
+        }
+		return !bad;
+	}
+	    
     public static Card getLeastExpensiveCard(Card[] cards) {
         if (cards == null || cards.length == 0) {
             return null;
@@ -618,13 +645,13 @@ public class Util {
 	static public class CardTypeComparator implements Comparator<Card> {
 		@Override
 		public int compare(Card card0, Card card1) {
-			if(card0 instanceof ActionCard) {
-				if(card1 instanceof ActionCard) {
+			if(card0.isAction(null)) {
+				if(card1.isAction(null)) {
 					return 0;
 				} else {
 					return -1;
 				}
-			} else if(card1 instanceof ActionCard) {
+			} else if(card1.isAction(null)) {
 				return 1;
 			} else if(card0 instanceof TreasureCard || card0.getType() == Type.Potion) {
 				if(card1 instanceof TreasureCard || card1.getType() == Type.Potion) {
@@ -646,6 +673,61 @@ public class Util {
 				return 0;
 			}
 		}
+	}
+	
+	/**
+	 * Comparator for sorting cards.
+	 * Traveller cards first, rest unsortet
+	 */
+	static public class CardTravellerComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			if(card0.isTraveller(null)) {
+				if(card1.isTraveller(null)) {
+					if(card0.getCost(null) > card1.getCost(null)) {
+						return -1;
+					} else if(card0.getCost(null) < card1.getCost(null)) {
+						return 1;
+					} else {
+						return 0;
+					}
+				} else {
+					return -1;
+				}
+			} else if(card1.isTraveller(null)) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
+	/**
+	 * Comparator used for sorting cards into groups of utility on Tavern mat.
+	 * Cards you'll want to look at the most often end up first.
+	 */
+	public static class TavernCardTypeComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card card0, Card card1) {
+			return getTavernCompareVal(card0) - getTavernCompareVal(card1);
+		}
+	}
+	
+	private static int getTavernCompareVal(Card c) {
+		if (c == null) return Integer.MAX_VALUE;
+		if (c.equals(Cards.duplicate)) {
+			return 2;
+		}
+		if (c.equals(Cards.distantLands)) {
+			return 3;
+		}
+		if (c.isReserve(null)) {
+			return 1;
+		}
+		if (c.equals(Cards.copper)) {
+			return 4;
+		}
+		return 5;
 	}
 	
 	/**
@@ -676,6 +758,22 @@ public class Util {
 			cmps.add(new CardNameComparator());
 		}
 		public CardHandComparator() {
+			super(cmps);
+		}
+	}
+	
+	/**
+	 * Comparator for sorting cards on Tavern mat.
+	 * Sort by utility of looking at them on Tavern mat, then by cost, last by name;
+	 */
+	static public class CardTavernComparator extends MultilevelComparator<Card> {
+		private static final ArrayList<Comparator<Card>> cmps = new ArrayList<Comparator<Card>>();
+		static {
+			cmps.add(new TavernCardTypeComparator());
+			cmps.add(new CardCostComparatorDesc());
+			cmps.add(new CardNameComparator());
+		}
+		public CardTavernComparator() {
 			super(cmps);
 		}
 	}
