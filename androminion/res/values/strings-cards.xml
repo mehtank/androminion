@@ -383,7 +383,7 @@
     <string name="WanderingMinstrel_name">Wandering Minstrel</string>
     <string name="WanderingMinstrel_desc">Reveal the top 3 cards of your deck. Put the Actions back on top in any order and discard the rest.</string>
     <string name="Procession_name">Procession</string>
-    <string name="Procession_desc">You may play an Action card from your hand twice. Trash it. Gain an Action card costing exactly 1 more than it.</string>
+    <string name="Procession_desc">You may play an Action card from your hand twice. Trash it. Gain an Card costing exactly 1 more than it.</string>
     <string name="Rebuild_name">Rebuild</string>
     <string name="Rebuild_desc">Name a card. Reveal cards from the top of your deck until you reveal a Victory card that is not the named card. Discard the other cards. Trash the Victory card and gain a Victory card costing up to 3 more than it.</string>
     <string name="Rogue_name">Rogue</string>
