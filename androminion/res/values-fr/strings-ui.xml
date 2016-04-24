@@ -9,7 +9,7 @@
     <string name="join_game_menu">Rejoindre une partie</string>
     <string name="stats_menu">Statistiques</string>
     <string name="settings_menu">Paramètres</string>
-    <string name="about_menu">A propos</string>
+    <string name="about_menu">À propos</string>
     <string name="help_menu">Aide</string>
     <string name="quit_menu">Quitter</string>
 
@@ -29,17 +29,17 @@
     <string name="reset">Réinitialiser</string>
 
     <!-- About Activity -->
-    <string name="aboutactivity_title">A propos</string>
+    <string name="aboutactivity_title">À propos</string>
     <string name="version">Version %1$s</string>
     <string name="connections_menu">Connexions </string>
     <string name="connections_title">Connexions: </string>
     <string name="connections">
 	<![CDATA[
-        <h3>A propos des permissions réseau et leur utilisation</h3>
-		Cette app fonctionne en utilisant une couche réseau strictement locale pour les échanges entre le joueur et le jeu -- ainsi, sauf en mode multijoueur,  <b> aucune donnée n\'est envoyée dans ou en dehors du téléphone</b>.  Néanmoins, ce réseau local nécessite tout de même des permissions de type réseau, et ces échanges de données internes apparaitront en utilisation totale de l\'application.<br><br>
+        <h3>À propos des permissions réseau et leur utilisation</h3>
+		Cette application fonctionne en utilisant une couche réseau strictement locale pour les échanges entre le joueur et le jeu -- ainsi, sauf en mode multijoueur,  <b> aucune donnée n\'est envoyée dans ou en dehors du téléphone</b>.  Néanmoins, ce réseau local nécessite tout de même des permissions de type réseau, et ces échanges de données internes apparaitront dans la consommation totale de l\'application.<br><br>
     	<h3>Etapes pour lancer un jeu en multijoueurs</h3>
-      	<b><font color="red">Vous avez besoin du code source pour compiler le serveur vdom!</font></b> Dans le répertoire vdom\\ , tappez \'ant run\' (ou démarrez juste com.vdom.core.Game avec les arguments que vous souhaitez - le fichier de compilation build.xml a quelques arguments par défaut).  Assurez-vous de connaitre le nom d\'hôte (host name) ou l\'adresse IP de la machine sur laquelle tourne le serveur de jeu, et que les ports joueur (par défaut 2255 et 2256) ne sont pas bloqués par le pare-feu de votre machine.<br>
-      	Ouvrez l\'appli sur 2 appareils différents.  Utilisez le dialogue \"Rejoindre une partie\" pour entrer votre nom, le nom d\'hote ou l\'adresse IP de la machine sur laquelle tourne le serveur de jeu, ainsi que le port qui apparait dans le terminal où vous faites tourner le serveur.  Une fois que le premier joeur se connecte, un second port va apparaitre; entrez celui-ci dans le deuxième appareil (cela devrait être 2255 ou 2256). L\'interface pour le premier joueur à se connecter va manquer de beaucoup de choses jusqu\'à ce que le second joueur se connecte. Une fois que les deux joueurs sont branchés, tout fonctionnera correctement.<br><br>
+      	<b><font color="red">Vous avez besoin du code source pour compiler le serveur vdom!</font></b> Dans le répertoire vdom\\ , tappez \'ant run\' (ou démarrez juste com.vdom.core.Game avec les arguments que vous souhaitez - le fichier de compilation build.xml a quelques arguments par défaut).  Assurez-vous de connaître le nom d\'hôte (host name) ou l\'adresse IP de la machine sur laquelle tourne le serveur de jeu, et que les ports joueur (par défaut 2255 et 2256) ne sont pas bloqués par le pare-feu de votre machine.<br>
+      	Ouvrez l\'appli sur 2 appareils différents.  Utilisez le dialogue \"Rejoindre une partie\" pour entrer votre nom, le nom d\'hôte ou l\'adresse IP de la machine sur laquelle tourne le serveur de jeu, ainsi que le port qui apparaît dans le terminal où vous faites tourner le serveur.  Une fois que le premier joueur se connecte, un second port va apparaître; entrez celui-ci dans le deuxième appareil (cela devrait être 2255 ou 2256). L\'interface pour le premier joueur à se connecter va manquer de beaucoup de choses jusqu\'à ce que le second joueur se connecte. Une fois que les deux joueurs sont branchés, tout fonctionnera correctement.<br><br>
 		Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
 	]]>
         </string>
@@ -48,7 +48,7 @@
         <string name="whatsnew">
         <![CDATA[
 		<h3>Lisez SVP!</h3>
-		A la demande de Rio Grande Games, l\'éditeur de Dominion, nous avons retiré Androminion du Play Store. S\'il vous plait, ne le publiez dans aucun store public d\'applications car il y a déjà une application officielle.<br><br>
+		 À la demande de Rio Grande Games, l\'éditeur de Dominion, nous avons retiré Androminion du Play Store. S\'il vous plaît, ne le publiez dans aucun store public d\'applications car il y a déjà une application officielle.<br><br>
 		<h3>Version 6.07</h3>
 		* Extension Aventures! <br>
 		* Cartes Promo: Cachette, Invocation
@@ -61,13 +61,13 @@
 		* De nombreuses corrections et améliorations
 		<h3>Version 5.00</h3>
 		* Inclut l\'extension Guildes! <br>
-		* Traductions aupplémentaires <br>
+		* Traductions supplémentaires <br>
 		* De nombreuses corrections <br>
 		<h3>Version 4.02</h3>
 		* Malfaiteurs implémenté <br>
 		* De nombreuses corrections 
 		<h3>Version 4.00</h3>
-		* Age des ténèbres! <br>
+		* Âge des ténèbres! <br>
 		* Cartes promo: Délégué, Gouverneur, Village Fortifié <br>
 		* Corrections, améliorations, mises à jour, etc. 
 		<h3>Version 3.01</h3>
@@ -140,12 +140,12 @@
     <string name="toast_starting">Démarrage du jeu…</string> <!-- Unused -->
     <string name="toast_loading">Chargement du jeu…</string>
     <string name="toast_quitconfirm">Cliquer de nouveau pour quitter.</string>
-    <string name="obtained">%1$s reçu</string>
-    <string name="eventBought">%1$s acheté</string>
-    <string name="trashed">%1$s écarté</string>
-    <string name="revealed">%1$s révélé</string>
-    <string name="revealed_from_hand">%1$s révélé (de la main)</string>
-    <string name="confirmation">Etes vous sûr?</string>
+    <string name="obtained">Carte %1$s reçue</string>
+    <string name="eventBought">Carte %1$s achetée</string>
+    <string name="trashed">Carte %1$s écartée</string>
+    <string name="revealed">Carte %1$s révélée</string>
+    <string name="revealed_from_hand">Carte %1$s révélée (de la main)</string>
+    <string name="confirmation">Êtes-vous sûr?</string>
     <string name="confirm_no">Non</string>
     <string name="select_button">Sélectionner</string>
     <string name="buy_button">\ \ Achat\ \ </string>
@@ -153,15 +153,15 @@
     <string name="discard_button">Défausser</string>
     <string name="keep_button">Garder</string>
     <string name="give_button">Donner</string>
-    <string name="trash_button">Ecarter</string>
+    <string name="trash_button">Écarter</string>
     <string name="upgrade_button">Améliorer</string>
-    <string name="mint_button">Hôtel de la Monnaie</string>
+    <string name="mint_button">Battre monnaie</string>
     <string name="swindle_button">Escroquer</string>
     <string name="all_button">Tout</string>
     <string name="hand_header">Main:</string>
     <string name="played_header">Joué:</string>
     <string name="tavern_header">Taverne:</string>
-    <string name="island_header">Ile:</string>
+    <string name="island_header">Île:</string>
     <string name="village_header">Village:</string>
     <string name="prince_header">Prince:</string>
     <string name="turn_header">: Tour\u0020</string>
@@ -171,10 +171,11 @@
     <string name="action_multiple">%1$s actions</string>
     <string name="buy_single">%1$s achat</string>
     <string name="buy_multiple">%1$s achats</string>
-    <string name="coins">(%1$s) Pièces</string>
+    <string name="coins">(%1$s) Pièce(s)</string>
     <string name="final_view_card_counts">Décompte des cartes</string>
     <string name="final_view_text">%1$s: %2$s PVs.\n%3$s tours, %4$s cartes.</string>
     <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+    <string name="final_game_time">Durée de la partie: %1$s</string>
     <string name="potion_single">%1$s potion</string>
     <string name="potion_multiple">%1$s potions</string>
     <string name="accept">Accepter</string>
@@ -187,7 +188,7 @@
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">H</string>
         <string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
-	<string name="token_header">- Tokens -</string>
+	<string name="token_header">- Jetons -</string>
 	<string name="token_plus_one_card">+1 Carte</string>
 	<string name="token_plus_one_action">+1 Action</string>
 	<string name="token_plus_one_buy">+1 Achat</string>
