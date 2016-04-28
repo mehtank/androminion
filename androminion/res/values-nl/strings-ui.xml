@@ -31,11 +31,15 @@
 	<string name="game_loaded">Spel geladen!\nBeschikbare acties, aanschaffen en geld\nworden in de log getoond als a/a/(g)</string>
 
 	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+	<string name="action_zero">%1$s acties</string>
 	<string name="action_single">%1$s actie</string>
 	<string name="action_multiple">%1$s acties</string>
+	<string name="buy_zero">%1$s aanschaf</string>
 	<string name="buy_single">%1$s aanschaf</string>
 	<string name="buy_multiple">%1$s aanschaf</string>
-	<string name="coins">(%1$s) geld</string>
+	<string name="coin_zero">(%1$s) geld</string>
+    <string name="coin_single">(%1$s) geld</string>
+    <string name="coin_multiple">(%1$s) geld</string>
 
 	<string name="final_view_card_counts">Kaarten</string>		
 	<string name="final_view_text">%1$s: %2$s overwinningspunten.\n%3$s beurten, %4$s kaarten.</string>		
@@ -45,6 +49,7 @@
 	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
 	<string name="potion_single">%1$s drankje</string>
 	<string name="potion_multiple">%1$s drankjes</string>
+	<string name="potion_cost_initial">d</string>
 	<string name="start_new_game_on_server">Start nieuw spel op de server</string>
 	<string name="select_gametype">Speltype:</string>
 	<string name="select_players">Aantal spelers:</string>

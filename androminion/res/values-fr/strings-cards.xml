@@ -577,7 +577,7 @@
     <string name="Warrior_name">Guerrière</string>
     <string name="Warrior_desc">Pour chaque carte Itinérant (incluant celle-ci), chacun de vos adversaires défausse la carte du dessus de son deck et l\'écarte si elle coûte 3 ou 4 Pièces.\n ------\n Lorsque vous défaussez cette carte de votre zone de jeu, vous pouvez l\'échanger contre une carte Héroïne. (Cette pile ne fait pas partie de la réserve.)</string>
     <string name="WineMerchant_name">Marchand de Vin</string>
-    <string name="WineMerchant_desc">Placez cette carte dans votre Taverne.\n --------\n À la fin de votre phase d\'achat, s\'il vous reste au moins 2 Pièces non dépensées, vous pouvez défausser cette carte de votre Taverne. Sinon, il y reste coincé sans rien offrir, tant qu'il n\'y est pas délogé (reliquat de 2 Pièces après achat ou autre action permettant de vider le plateau Taverne).</string>
+    <string name="WineMerchant_desc">Placez cette carte dans votre Taverne.\n --------\n À la fin de votre phase d\'achat, s\'il vous reste au moins 2 Pièces non dépensées, vous pouvez défausser cette carte de votre Taverne. Sinon, il y reste coincé sans rien offrir, tant qu\'il n\'y est pas délogé (reliquat de 2 Pièces après achat ou autre action permettant de vider le plateau Taverne).</string>
     
     <string name="Alms_name">Aumône</string>
     <string name="Alms_desc">Une fois par tour: Si vous n\'avez aucune carte Trésor en jeu, vous recevez une carte coûtant 4 Pièces au maximum.</string>

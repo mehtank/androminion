@@ -167,17 +167,22 @@
     <string name="turn_header">: Tour\u0020</string>
     <string name="game_loaded" tools:ignore="TypographyOther">Jeu chargé!\nActions, achats et pièces\ndisponibles sont affichés\ndans le log comme a/b/(c)</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+    <string name="action_zero">%1$s action</string>
     <string name="action_single">%1$s action</string>
     <string name="action_multiple">%1$s actions</string>
+    <string name="buy_zero">%1$s achat</string>
     <string name="buy_single">%1$s achat</string>
     <string name="buy_multiple">%1$s achats</string>
-    <string name="coins">(%1$s) Pièce(s)</string>
+    <string name="coin_zero">(%1$s) Pièce</string>
+    <string name="coin_single">(%1$s) Pièce</string>
+    <string name="coin_multiple">(%1$s) Pièces</string>
     <string name="final_view_card_counts">Décompte des cartes</string>
     <string name="final_view_text">%1$s: %2$s PVs.\n%3$s tours, %4$s cartes.</string>
     <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
     <string name="final_game_time">Durée de la partie: %1$s</string>
     <string name="potion_single">%1$s potion</string>
     <string name="potion_multiple">%1$s potions</string>
+    <string name="potion_cost_initial">p</string>
     <string name="accept">Accepter</string>
     <string name="order_cards_summary">Glisser/déposer\nles cartes pour\nréarranger\nleur ordre.</string>
     <string name="trash_header">Rebut:</string>
