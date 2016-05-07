@@ -358,6 +358,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         gameOver.removeAllViews(); // FIX: After playing two games in a row, winners of both games are displayed without this fix.
         gameOverScroll.setVisibility(GONE);
         tr.setVisibility(VISIBLE);
+        finalStatsReported = false;
 
         for (MyCard c : cards)
             addCardToTable(c);
