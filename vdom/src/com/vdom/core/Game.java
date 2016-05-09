@@ -2285,21 +2285,26 @@ public class Game {
             // get 10 cards more then needed. Extract the cards in supply
             int count = Math.max(blackMarketCount - blackMarketPile.size(), 0);
             List<Card> allCards = CardSet.getCardSet(GameType.Random, count+10).getCards();
-            List<Card> cards = new ArrayList<Card>();
+            List<Card> remainingCards = new ArrayList<Card>();
             for (int i = 0; i < allCards.size(); i++) {
                 if (!piles.containsKey(allCards.get(i).getName())) {
-                    cards.add(allCards.get(i));
+                	remainingCards.add(allCards.get(i));
                 }
             }
             // take count cards from the rest
-            cards = CardSet.getRandomCardSet(cards, count).getCards();
+            List<Card> cards = CardSet.getRandomCardSet(remainingCards, count).getCards();
             for (int i = 0; i < cards.size(); i++) {
+            	remainingCards.remove(cards.get(i));
                 blackMarketPile.add(cards.get(i));
             }
             if (blackMarketPile.contains(Cards.virtualKnight)) {
                 // pick one real knight
                 blackMarketPile.remove(Cards.virtualKnight);
                 blackMarketPile.add(Cards.knightsCards.get(Game.rand.nextInt(Cards.knightsCards.size())));
+            }
+            if (this.baneCard == null && blackMarketPile.contains(Cards.youngWitch)) {
+            	this.baneCard = CardSet.getBaneCard(remainingCards);
+            	this.addPile(this.baneCard);
             }
             // sort
             Collections.sort(blackMarketPile, new Util.CardCostNameComparator());
