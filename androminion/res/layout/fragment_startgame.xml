@@ -230,17 +230,19 @@
 	        	android:orientation="horizontal">
 		        
 		        <ToggleButton 
+		            android:id="@+id/toggleButtonEmpires"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Empires"
+		            android:textOn="@string/Empires"/>
+		        <ToggleButton 
 		            android:id="@+id/toggleButtonPromo"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:layout_weight="1"
 		            android:textOff="@string/Promo"
 		            android:textOn="@string/Promo"/>
-		        <ToggleButton 
-		            android:visibility="invisible"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_weight="1"/>
 		        
 		    </LinearLayout>
 	    

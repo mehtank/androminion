@@ -595,6 +595,15 @@
     <string name="TravellingFair_name">Travelling Fair</string>
     <string name="TravellingFair_desc">When you gain a card this turn, you may put it on top of your deck.</string>
     
+    <string name="CityQuarter_name">City Quarter</string>
+    <string name="CityQuarter_desc">Reveal your hand. +1 Card per Action card revealed.</string>
+    <string name="RoyalBlacksmith_name">Royal Blacksmith</string>
+    <string name="RoyalBlacksmith_desc">Reveal your hand; discard the Coppers.</string>
+    <string name="Villa_name">Villa</string>
+    <string name="Villa_desc">When you gain this, put it into your hand, +1 Action, and if it\'s your Buy phase return to your Action phase.</string>
+    <string name="Capital_name">Capital</string>
+    <string name="Capital_desc">When you discard this from play, take 6 Debt tokens, and then you may pay off Debt tokens.</string>
+    
     <string name="Envoy_name">Envoy</string>
     <string name="Envoy_desc">Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.</string>
     <string name="Governor_name">Governor</string>

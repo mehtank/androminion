@@ -595,6 +595,15 @@
     <string name="TravellingFair_name">Circo Itinerante</string>
     <string name="TravellingFair_desc">Cuando ganes una carta durante este turno, puedes ponerla encima de tu mazo.</string>
     
+    <string name="CityQuarter_name">Cuartel de la Cuidad</string>
+    <string name="CityQuarter_desc">Revela tu mano. +1 Carta por cada carta de Acción revelada.</string>
+    <string name="RoyalBlacksmith_name">Herrero Real</string>
+    <string name="RoyalBlacksmith_desc">Revela tu mano; descarta las cartas de Cobre.</string>
+    <string name="Villa_name">Villa</string>
+    <string name="Villa_desc">Cuando ganes esta carta, ponla en tu mano, +1 Acción, y si es tu fase de Compra, vuelva a tu fase de Acción.</string>
+    <string name="Capital_name">Capital</string>
+    <string name="Capital_desc">Cuando descartes esta carta de tu zona de juego, toma 6 marcadores de Deuda, y entonces puedes pagar marcadores de Deuda.</string>
+    
     <string name="Envoy_name">Enviado</string>
     <string name="Envoy_desc">Revela las 5 cartas superiores de tu mazo. El jugador de tu izquierda eliga una para que la descartes y las demás van a tu mano.</string>
     <string name="Governor_name">Gobernador</string>

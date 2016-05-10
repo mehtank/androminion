@@ -18,6 +18,8 @@ public class Cards {
     public static ArrayList<Card> actionCardsGuilds = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsAdventures = new ArrayList<Card>();
     public static ArrayList<Card> eventCardsAdventures = new ArrayList<Card>();
+    public static ArrayList<Card> actionCardsEmpires = new ArrayList<Card>();
+    public static ArrayList<Card> eventCardsEmpires = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> eventCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
@@ -85,6 +87,9 @@ public class Cards {
         Soldier, TreasureHunter, Fugitive, Warrior, Disciple, Hero, Champion, Teacher, 
         Alms, Borrow, Quest, Save, ScoutingParty, TravellingFair, Bonfire, Expedition, Ferry, Plan, Mission, Pilgrimage, Ball, Raid, Seaway, Trade, LostArts, Training, Inheritance, Pathfinding,
         VirtualEvents,
+        
+        // Empires Expansion
+        CityQuarter, RoyalBlacksmith, Villa, Capital,
         
         // Promo Cards
         Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon,
@@ -419,8 +424,13 @@ public class Cards {
     public static final Card pathfinding;
     public static final Card virtualEvents;
     
-    // Promo Cards (Incomplete)
-    // TODO:Implement Rest of promo cards
+    // Empires expansion
+    public static final Card cityQuarter;
+    public static final Card royalBlacksmith;
+    public static final Card capital;
+    public static final Card villa;
+    
+    // Promo Cards
     public static final Card walledVillage;
     public static final Card governor;
     public static final Card envoy;
@@ -766,7 +776,13 @@ public class Cards {
         nonSupplyCards.add(treasureHunter  = new ActionCardImpl.Builder(Cards.Type.TreasureHunter  , 3).addGold(1).addActions(1).isTraveller().description("Gain a Silver per card the player to your right gained in his last turn. ~ When you discard this from play, you may exchange it for a Warrior. (This is not in the Supply.)").expansion("Adventures").build());
         nonSupplyCards.add(warrior         = new ActionCardImpl.Builder(Cards.Type.Warrior         , 4).addCards(2).isTraveller().attack().description("For each Traveller you have in play (including this), each other player discards the top card of his deck and trashes it if it costs 3 Coins or 4 Coins. ~ When you discard this from play, you may exchange it for a Hero. (This is not in the Supply.)").expansion("Adventures").build());
 
-        // Promo Cards (Incomplete)
+        // Empires
+        actionCardsEmpires.add(cityQuarter     = new ActionCardImpl.Builder(Cards.Type.CityQuarter, 0).addActions(2).costDebt(8).description("Reveal your hand. +1 Card per Action card revealed.").expansion("Empires").build());
+        actionCardsEmpires.add(royalBlacksmith = new ActionCardImpl.Builder(Cards.Type.RoyalBlacksmith, 0).addCards(5).costDebt(8).description("Reveal your hand; discard the Coppers.").expansion("Empires").build());
+        actionCardsEmpires.add(villa           = new ActionCardImpl.Builder(Cards.Type.Villa, 4).addActions(2).addBuys(1).addGold(1).description("When you gain this, put it into your hand, +1 Action, and if it's your Buy phase return to your Action phase.").expansion("Empires").build());
+        actionCardsEmpires.add(capital         = new TreasureCardImpl.Builder(Cards.Type.Capital, 5, 6).description("+1 Buy\nWhen you discard this from play, take 6 Debt tokens, and then you may pay off Debt tokens.").expansion("Empires").build());
+        
+        // Promo Cards
         actionCardsPromo.add(walledVillage = new ActionCardImpl.Builder(Cards.Type.WalledVillage, 4).addCards(1).addActions(2).description("At the start of Clean-up, if you have this and no more than one other Action card in play, you may put this on top of your deck.").expansion("Promo").build());
         actionCardsPromo.add(governor      = new ActionCardImpl.Builder(Cards.Type.Governor, 5).addActions(1).description("Choose one; you get the version in parentheses: Each player gets +1 (+3) Cards; or each player gains a Silver (Gold); or each player may trash a card from his hand and gain a card costing exactly 1 (2) more.").expansion("Promo").build());
         actionCardsPromo.add(envoy         = new ActionCardImpl.Builder(Cards.Type.Envoy, 4).description("Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.").expansion("Promo").build());
@@ -786,6 +802,7 @@ public class Cards {
         for (Card card : actionCardsDarkAges)    { actionCards.add(card); }
         for (Card card : actionCardsGuilds)      { actionCards.add(card); }
         for (Card card : actionCardsAdventures)  { actionCards.add(card); }
+        for (Card card : actionCardsEmpires)     { actionCards.add(card); }
         for (Card card : actionCardsPromo)       { actionCards.add(card); }
         
         for (Card card : eventCardsAdventures)  { eventsCards.add(card); }

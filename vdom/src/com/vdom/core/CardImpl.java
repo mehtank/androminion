@@ -12,6 +12,7 @@ public class CardImpl implements Card {
     String name;
     String safeName;
     int cost;
+    int debtCost;
     boolean costPotion = false;
 
     String description = "";
@@ -54,6 +55,7 @@ public class CardImpl implements Card {
     public CardImpl(Builder builder) {
         this(builder.type, builder.cost);
         costPotion = builder.costPotion;
+        debtCost = builder.debtCost;
         vp = builder.vp;
         description = builder.description;
         expansion   = builder.expansion;
@@ -74,6 +76,7 @@ public class CardImpl implements Card {
         protected Cards.Type type;
         protected String name;
         protected int cost;
+        protected int debtCost;
         protected int vp = 0;
 
         protected boolean costPotion = false;
@@ -113,6 +116,11 @@ public class CardImpl implements Card {
         public Builder costPotion() {
             costPotion = true;
             return this;
+        }
+        
+        public Builder costDebt(int val) {
+        	debtCost = val;
+        	return this;
         }
 
         public Builder vp(int val) {
@@ -208,6 +216,7 @@ public class CardImpl implements Card {
         c.name = name;
         c.cost = cost;
         c.costPotion = costPotion;
+        c.debtCost = debtCost;
         c.description = description;
         c.expansion = expansion;
         c.isAttack = isAttack;
@@ -355,7 +364,8 @@ public class CardImpl implements Card {
 
     public String getStats() {
         StringBuilder sb = new StringBuilder();
-            sb.append ("(" + cost + (costPotion ? "p)" : ") "));
+        	String costString = "(" + cost + (costPotion ? "p": "") + (debtCost > 0 ? "d" + debtCost : "") + ") ";
+            sb.append (costString);
         if (vp > 0) {
             sb.append(", " + vp + " victory point");
             if (vp > 1) {
@@ -387,6 +397,10 @@ public class CardImpl implements Card {
 
     public boolean costPotion() {
         return costPotion;
+    }
+    
+    public int debtCost() {
+    	return debtCost;
     }
     
     @Override
