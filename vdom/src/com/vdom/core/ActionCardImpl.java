@@ -837,6 +837,13 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case Warrior:
             	warrior(game, context, currentPlayer);
                 break;
+            /* Empires */
+            case CityQuarter:
+            	cityQuarter(game, context, currentPlayer);
+            	break;
+            case RoyalBlacksmith:
+            	royalBlacksmith(game, context, currentPlayer);
+            	break;
             default:
                 break;
         }
@@ -6284,4 +6291,41 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     		}
     	}
     }
+    
+    private void cityQuarter(Game game, MoveContext context, Player currentPlayer) {
+    	int actionCards = 0;
+
+        for (int i = 0; i < currentPlayer.hand.size(); i++) {
+            Card card = currentPlayer.hand.get(i);
+            currentPlayer.reveal(card, this.controlCard, context);
+            if (card.isAction(currentPlayer)) {
+            	actionCards++;
+            }
+        }
+        for (int i = 0; i < actionCards; ++i) {
+        	game.drawToHand(context, this, actionCards - i);
+        }
+    }
+    
+    private void royalBlacksmith(Game game, MoveContext context, Player currentPlayer) {
+    	int numCoppers = 0;
+    	for (int i = 0; i < currentPlayer.hand.size(); i++) {
+            Card card = currentPlayer.hand.get(i);
+            currentPlayer.reveal(card, this.controlCard, context);
+            if (card.equals(Cards.copper)) {
+            	numCoppers++;
+            }
+        }
+    	
+    	for (int i = 0; i < numCoppers; i++) {
+    		for (int j = 0; j < currentPlayer.hand.size(); j++) {
+    			Card card = currentPlayer.hand.get(j);
+    			if (card.equals(Cards.copper)) {
+                    currentPlayer.discard(currentPlayer.hand.remove(j), this.controlCard, context);
+                    break;
+    			}
+    		}
+        }
+    }
+    
 }
