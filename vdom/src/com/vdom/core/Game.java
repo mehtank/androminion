@@ -269,24 +269,26 @@ public class Game {
                 playerBeginTurn(player, context);
                 context.startOfTurn = false;
 
-                // /////////////////////////////////
-                // Actions
-                // /////////////////////////////////
-                playerAction(player, context);
-
-
-                // /////////////////////////////////
-                // Select Treasure for Buy
-                // /////////////////////////////////
-                playTreasures(player, context, -1, null);
-
-                // Spend Guilds coin tokens if applicable
-                playGuildsTokens(player, context);
-
-                // /////////////////////////////////
-                // Buy Phase
-                // /////////////////////////////////
-                playerBuy(player, context);
+                do {
+                	context.returnToActionPhase = false;
+                    // /////////////////////////////////
+                    // Actions
+                    // /////////////////////////////////
+	                playerAction(player, context);
+		
+	                // /////////////////////////////////
+	                // Select Treasure for Buy
+	                // /////////////////////////////////
+	                playTreasures(player, context, -1, null);
+	
+	                // Spend Guilds coin tokens if applicable
+	                playGuildsTokens(player, context);
+	
+	                // /////////////////////////////////
+	                // Buy Phase
+	                // /////////////////////////////////
+	                playerBuy(player, context);
+                } while (context.returnToActionPhase);
 
                 if (context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn == 0) {
                     GameEvent event = new GameEvent(GameEvent.Type.NoBuy, context);
@@ -729,14 +731,14 @@ public class Game {
                     broadcastEvent(statusEvent);
 
                     playBuy(context, buy);
-
+                    if (context.returnToActionPhase)
+                    	return;
                 } else {
                     // TODO report?
                     buy = null;
                 }
             }
         } while (context.buys > 0 && buy != null);
-        
 
         //Discard Wine Merchants from Tavern
         if(context.getCoinAvailableForBuy() >= 2) {
@@ -2669,6 +2671,12 @@ public class Game {
         					context.game.broadcastEvent(summonEvent);
                         } else if (gainedCardAbility.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);
+                        } else if (gainedCardAbility.equals(Cards.villa)) {
+                        	player.hand.add(event.card);
+                        	context.actions += 1;
+                        	if (context.buyPhase) {
+                        		context.returnToActionPhase = true;
+                        	}
                         } else if (event.responsible != null) {
                             Card r = event.responsible;
                             if (r.equals(Cards.estate) && player.getInheritance() != null) {

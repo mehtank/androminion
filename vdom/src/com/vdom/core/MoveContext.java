@@ -38,6 +38,7 @@ public class MoveContext {
     public boolean startOfTurn = false;
     public boolean buyPhase = false;
     public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't spend Guilds coin tokens)
+    public boolean returnToActionPhase = false;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public int beggarSilverIsOnTop = 0;
     public boolean graverobberGainedCardOnTop = false;
