@@ -146,7 +146,7 @@ public class TurnView extends LinearLayout {
 //            for(int i=0; i < potions; i++) {
 //                coinStr += "p";
 //            }
-            String coinsStr = top.getString(R.string.coins, coinStr);
+            String coinsStr = top.getString(R.string.coin_single, coinStr);
             String baseStr = top.getString(R.string.actions_buys_coins, actions, buys, coinsStr);
 		    String str = baseStr;
 //			String str = ((is[3] <= 0) ? "" :

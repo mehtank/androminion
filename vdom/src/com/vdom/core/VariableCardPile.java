@@ -56,21 +56,18 @@ public class VariableCardPile extends AbstractCardPile {
 
 	@Override
 	public void addCard(Card card) {
-		ActionCard ac = null;
-		if (card instanceof ActionCard) {
-			ac = (ActionCard) card;
-		} else return;
-		
+		if (!card.isAction(null)) return;
+
 		piles.get(card.getName()).addCard(card);
 
 		switch (type) {
 		case KnightsPile:
-			if (ac.isKnight()) {
+			if (card.isKnight(null)) {
 				cards.add(0, card);
 			}
 			break;
 		case RuinsPile:
-			if (ac.isRuins()) {
+			if (card.isRuins(null)) {
 				cards.add(0, card);
 			}
 			break;

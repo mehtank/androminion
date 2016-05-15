@@ -3,8 +3,18 @@
 
     <string name="host_title">Conectar a un Servidor de Dominion</string>
     <string name="host_message">Elegir el tipo de servidor.</string>
-    <string name="host_prompt">Introduce el host o la ip del servidor al que se quiere conectar.</string>
+    <string name="host_prompt">Introduce el nombre de equipo o la IP del servidor al que se quiere conectar.</string>
     <string name="host_local">Juego local</string>
-    <string name="host_remote">Juego online</string>
+    <string name="host_remote">Juego remoto</string>
 
+    <string name="enter_host_and_port">Introduce el equipo y puerto</string>
+    <string name="your_name">Tu nombre:</string>
+    <string name="host">Equipo:</string>
+    <string name="port">Puerto:</string>
+    
+    <string name="connection_failed">¡La conexión falló!</string>
+    <string name="stream_corrupted">Corriente corrompida</string>
+    <string name="unknown_host">Equipo desconocido. Configura los ajustes.</string>
+    <string name="network_unreachable">La red está inalcanzable o la conexión al servidor fue rehusado.</string>
+    <string name="io_error">Error de E/S.</string>
 </resources>

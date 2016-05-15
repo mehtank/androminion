@@ -4,6 +4,8 @@
     <string name="achievements_2players8provinces">Have all 8 Provinces at the end of a 2 player game</string>
     <string name="achievements_3or4players10provinces">Have 10 or more Provinces at the end of a 3 or 4 player game</string>
     <string name="achievements_score100">Win a game with 100 or more VP</string>
+    <string name="achievements_score100withoutProsperity">Win a game with 100 or more VP without any cards from Prosperity</string>
+    <string name="achievements_score500">Win a game with 500 or more VP</string>
     <string name="achievements_score1more">Win a game by exactly 1 VP</string>
     <string name="achievements_singlecard">Win a game buying no more than one unique Kingdom Card</string>
     <string name="achievements_score50more">Win a game by more than 50 VP</string>
@@ -13,6 +15,9 @@
     <string name="achievements_win10inarow">Win 10 games in a row</string>
     <string name="achievements_overpayby10ormore">Overpay for a card by 10 or more</string>
     <string name="achievements_stockpile50tokens">Stockpile 50 or more coin tokens</string>
+    <string name="achievements_2tacticians">Play two Tacticians in same turn, discarding at least one card each time</string>
+    <string name="achievements_13curses">Win a game with exactly 13 Curses in your deck</string>
+    <string name="achievements_allEmpty">Win a game with no cards left in the Supply in any pile</string>
     
     <string name="currentWinStreak">Current win streak: </string>
 

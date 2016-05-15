@@ -38,8 +38,8 @@ public class ActionVictoryCardImpl extends ActionCardImpl implements VictoryCard
     }
     
     @Override
-    public void isBought(MoveContext context) {
-    	context.game.trashHovelsInHandOption(context.player, context, this);
+    public void isBuying(MoveContext context) {
+        context.game.trashHovelsInHandOption(context.player, context, this);
     }
 
 }

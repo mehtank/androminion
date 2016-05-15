@@ -325,7 +325,7 @@ public class UI extends JFrame implements GameEventListener {
             sleep(GAME_END_SLEEP);
         }
 
-        if ((event.getType() == GameEvent.Type.PlayingAction || event.getType() == GameEvent.Type.PlayingDurationAction)
+        if ((event.getType() == GameEvent.Type.PlayingAction || event.getType() == GameEvent.Type.PlayingDurationAction || event.getType() == GameEvent.Type.CallingCard)
             && event.getPlayer() == Game.players[Game.playersTurn]) {
             // System.out.println("playing action:" + event.getCard().getName());
             showHand(Game.players[Game.playersTurn]);

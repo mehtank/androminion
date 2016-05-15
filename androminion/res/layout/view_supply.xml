@@ -44,6 +44,20 @@
         android:numColumns="4"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/margin_cards" />
+    
+    <GridView
+        android:id="@+id/eventPileGV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_supply"
+        android:layout_marginRight="@dimen/margin_supply"
+        android:layout_marginTop="@dimen/margin_cards"
+        android:layout_marginBottom="@dimen/margin_cards"
+        android:horizontalSpacing="@dimen/margin_cards"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/margin_cards" />
 
     <GridView
         android:id="@+id/nonSupplyPileGV"
