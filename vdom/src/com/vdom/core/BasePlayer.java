@@ -2530,7 +2530,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card procession_cardToGain(MoveContext context, int maxCost, boolean potion) {
-    return bestCardInPlay(context, maxCost, false, potion, true);
+		return bestCardInPlay(context, maxCost, false, potion, true, false, true);
 	}
 
 	@Override
@@ -3044,6 +3044,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
 
         return 0;        
+    }
+    
+    @Override
+    public int numDebtTokensToPayOff(MoveContext context) {
+    	return Math.min(context.getCoins(), context.getPlayer().getDebtTokenCount());
     }
     
     @Override

@@ -21,6 +21,7 @@ public class MyCard implements Serializable {
 	public String originalName;
 
 	public int cost = 0;
+	public int debtCost = 0;
 	public boolean costPotion = false;
 	public int vp = 0;
 	public int gold = 0;
@@ -43,6 +44,9 @@ public class MyCard implements Serializable {
 	public boolean isEvent     = false;
 	public boolean isReserve   = false;
 	public boolean isTraveller = false;
+	public boolean isCastle    = false;
+	public boolean isGathering = false;
+	public boolean isLandmark  = false;
 	public boolean isBlackMarket = false;
 	public boolean isStash    = false;
 	
@@ -197,6 +201,19 @@ public class MyCard implements Serializable {
 		}
 	}
 	
+	static public class CardDebtComparator implements Comparator<MyCard> {
+		@Override
+		public int compare(MyCard card0, MyCard card1) {
+			if(card0.debtCost < card1.debtCost) {
+				return -1;
+			} else if(card0.debtCost > card1.debtCost) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
 	static public class CardPotionComparator implements Comparator<MyCard> {
 		@Override
 		public int compare(MyCard card0, MyCard card1) {
@@ -268,6 +285,7 @@ public class MyCard implements Serializable {
 		private static final ArrayList<Comparator<MyCard>> cmps = new ArrayList<Comparator<MyCard>>();
 		static {
 			cmps.add(new CardCostComparator());
+			cmps.add(new CardDebtComparator());
 			cmps.add(new CardPotionComparator());
 			cmps.add(new CardNameComparator());
 		}

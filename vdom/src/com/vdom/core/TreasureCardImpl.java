@@ -135,6 +135,8 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         	relic(context, player, game);
         } else if (equals(Cards.coinOfTheRealm)) {
         	putOnTavern(game, context, player);
+        } else if (equals(Cards.capital)) {
+        	context.buys++;
         } else if (equals(Cards.spoils)) {
 			if (!isClone) {
 				// Return to the spoils pile

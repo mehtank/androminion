@@ -708,12 +708,33 @@ public class Game {
             }
         } while (context.actions > 0 && action != null);
     }
+    
+    public void playerPayOffDebt(Player player, MoveContext context) {
+    	if (player.getDebtTokenCount() > 0) {
+    		int payOffNum = player.controlPlayer.numDebtTokensToPayOff(context);
+    		if (payOffNum > context.getCoins() || payOffNum < 0) {
+    			payOffNum = 0;
+    		}
+    		if (payOffNum > player.getDebtTokenCount()) {
+    			payOffNum = player.getDebtTokenCount();
+    		}
+    		context.spendCoins(payOffNum);
+    		player.payOffDebtTokens(payOffNum);
+    		GameEvent event = new GameEvent(GameEvent.Type.DebtTokensPaidOff, context);
+        	event.setAmount(payOffNum);
+            context.game.broadcastEvent(event);
+    	}
+    }
 
     protected void playerBuy(Player player, MoveContext context) {
         Card buy = null;
         do {
+        	buy = null;
             try {
-                buy = player.controlPlayer.doBuy(context);
+            	playerPayOffDebt(player, context);
+            	if (player.getDebtTokenCount() == 0) {
+            		buy = player.controlPlayer.doBuy(context);
+            	}
             } catch (Throwable t) {
                 Util.playerError(player, t);
             }
@@ -1661,6 +1682,12 @@ public class Game {
 
         if (buy.costPotion()) {
             context.potions--;
+        } else if (buy.getDebtCost(context) > 0) {
+        	int debtCost = buy.getDebtCost(context);
+        	context.getPlayer().controlPlayer.gainDebtTokens(debtCost);
+        	GameEvent event = new GameEvent(GameEvent.Type.DebtTokensObtained, context);
+        	event.setAmount(debtCost);
+            context.game.broadcastEvent(event);
         } else if (!(buy instanceof VictoryCard) && !buy.isKnight(null) && cost < 5 && !buy.isEvent()) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
                 if (!buy.isRuins(null) || (card != null && card.equals(getTopRuinsCard()))) {
@@ -3233,7 +3260,7 @@ public class Game {
         }
         return getCardsObtainedByPlayer(playerOnRight);
     }
-
+    
     public Player getNextPlayer() {
         int next = playersTurn + 1;
         if (next >= numPlayers) {

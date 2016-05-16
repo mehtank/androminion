@@ -135,6 +135,8 @@
 	<string name="GuildsTokenObtained">Obtuvo marcador de Moneda</string>
 	<string name="GuildsTokenSpend">Pagó marcador de Moneda</string>
 	<string name="OverpayForCard">Sobrepagó para</string>
+	<string name="DebtTokensObtained">Deuda obtenida: %1$s</string>
+	<string name="DebtTokensPaidOff">Deuda pagada: %1$s</string>
 	<string name="NoBuy">(Ninguna compra)</string>
 	<string name="DeckReplenished">Mazo rellenado</string>
 	<string name="PlayerAttacking">Ataca</string>
@@ -423,6 +425,7 @@
   <string name="spend_guilds_coin_tokens">Pagar marcadores de Moneda</string>
   <string name="buy_overpay">¿Sobrepaga?</string>
   <string name="buy_overpay_by_potions">¿Sobrepaga con poción(es)?</string>
+  <string name="pay_off_debt">Pagar tu Deuda</string>
   <string name="possessed_by">poseído(a) por</string>
   
   <string name="countingHouse_query">Elige el número de cartas de Cobre para poner en tu mano</string>

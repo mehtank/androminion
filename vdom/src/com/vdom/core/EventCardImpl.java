@@ -71,6 +71,9 @@ public class EventCardImpl extends CardImpl implements EventCard {
 	        case Borrow:
 	        	borrow(context);
                 break;
+	        case Dominate:
+	        	dominate(context);
+	        	break;
 	        case Expedition:
 	        	context.totalExpeditionBoughtThisTurn += 2;
                 break;
@@ -119,8 +122,13 @@ public class EventCardImpl extends CardImpl implements EventCard {
             case Training:
             	training(context);
             	break;
+            case Triumph:
+            	triumph(context);
+            	break;
             case TravellingFair:
             	context.travellingFairBought = true;
+            case Windfall:
+            	windfall(context);
             default:
                 break;
         }
@@ -200,6 +208,13 @@ public class EventCardImpl extends CardImpl implements EventCard {
     		context.addCoins(1);
     	}
         context.cantBuy.add(this); //once per turn
+    }
+    
+    private void dominate(MoveContext context) {
+    	Card gainedCard = context.player.gainNewCard(Cards.province, this.controlCard, context);
+    	if (Cards.province.equals(gainedCard)) {
+    		context.getPlayer().controlPlayer.addVictoryTokens(context, 9);
+    	}
     }
     
     private void ferry(MoveContext context) {
@@ -473,6 +488,13 @@ public class EventCardImpl extends CardImpl implements EventCard {
     		placeToken(context, card, PlayerSupplyToken.PlusOneCoin);
     }
     
+    private void triumph(MoveContext context) {
+    	Card gainedCard = context.player.gainNewCard(Cards.estate, this.controlCard, context);
+    	if (Cards.estate.equals(gainedCard)) {
+    		context.getPlayer().controlPlayer.addVictoryTokens(context, context.getNumCardsGainedThisTurn());
+    	}
+    }
+    
     private void trade(MoveContext context) {
     	Card[] cards = context.player.controlPlayer.trade_cardsToTrash(context);
     	if (cards != null) {
@@ -492,5 +514,13 @@ public class EventCardImpl extends CardImpl implements EventCard {
     		}
     	}
 	}
+    
+    private void windfall(MoveContext context) {
+    	if (context.getPlayer().getDeckSize() == 0 && context.getPlayer().getDiscardSize() == 0) {
+    		for (int i = 0; i < 3; ++i) {
+    			context.player.gainNewCard(Cards.gold, this.controlCard, context);
+    		}
+    	}
+    }
     
 }

@@ -139,6 +139,8 @@
 	<string name="GuildsTokenObtained">Coin token obtained</string>
 	<string name="GuildsTokenSpend">Coin token spent</string>
 	<string name="OverpayForCard">Overpay for card</string>
+	<string name="DebtTokensObtained">Debt tokens obtained: %1$s</string>
+	<string name="DebtTokensPaidOff">Debt tokens paid off: %1$s</string>
 	<string name="NoBuy">(No buy)</string>
 	<string name="DeckReplenished">Deck replenished</string>
 	<string name="PlayerAttacking">Attacking</string>
@@ -425,6 +427,7 @@
   <string name="spend_guilds_coin_tokens">Spend Coin Tokens</string>
   <string name="buy_overpay">Overpay?</string>
   <string name="buy_overpay_by_potions">Overpay by Potion(s)?</string>
+  <string name="pay_off_debt">Pay off Debt</string>
   <string name="possessed_by">possessed by</string>
   
   <string name="countingHouse_query">Select number of Copper cards to put into your hand</string>

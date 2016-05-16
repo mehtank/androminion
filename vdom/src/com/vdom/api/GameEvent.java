@@ -63,6 +63,8 @@ public class GameEvent {
         PlusOneCoinTokenMoved, // +1 Coin token moved to supply pile
         MinusTwoCostTokenMoved, // -2 Cost Token moved to supply pile
         TrashingTokenMoved, // Trashing token moved to supply pile
+        DebtTokensObtained, // Obtained Debt tokens
+        DebtTokensPaidOff // Paid off Debt tokens
     }
 
     public Type type;
@@ -80,6 +82,8 @@ public class GameEvent {
     public Player attackedPlayer;
     public boolean newCard;
     private String comment;
+    private int amount;
+    
 
     // //////////////////////////////////////////////
     //
@@ -138,6 +142,14 @@ public class GameEvent {
     
     public void setPrivate(boolean value) {
     	cardPrivate = value;
+    }
+    
+    public int getAmount() {
+    	return amount;
+    }
+    
+    public void setAmount(int value) {
+    	amount = value;
     }
     
 }

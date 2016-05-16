@@ -1170,33 +1170,35 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         // play treasures 
         context.game.playTreasures(currentPlayer, context, -1, this.controlCard);
         
-        // get one buy from BlackMarkt pile
-        ArrayList<Card> canBuy = new ArrayList<Card>();
-        for (int i = 0; i < cards.size(); i++) {
-            if (context.game.isValidBuy(context, cards.get(i), context.getCoinAvailableForBuy())) {
-                canBuy.add(cards.get(i));
-            }
-        }
-        if (canBuy.size() > 0) {
-            Card card = currentPlayer.controlPlayer.blackMarket_chooseCard(context, canBuy);
-            if (card != null) {
-                //see playerBuy()
-                if (context.game.isValidBuy(context, card, context.getCoinAvailableForBuy())) {
-                    GameEvent statusEvent = new GameEvent(GameEvent.Type.Status, (MoveContext) context);
-                    context.game.broadcastEvent(statusEvent);
-
-                    if (context.game.playBuy(context, card).equals(Cards.silver)) {
-                        // trader swapped card in silver
-                        // Wiki: Put bought card on top of BlackMarket deck
-                        context.game.blackMarketPileShuffled.add(0, card);
-                        cards.remove(card);
-                    }
-                    else {
-                        cards.remove(card);
-                        context.game.blackMarketPile.remove(card);
-                    }
-                }
-            }
+        if (currentPlayer.getDebtTokenCount() == 0) {
+	        // get one buy from BlackMarkt pile
+	        ArrayList<Card> canBuy = new ArrayList<Card>();
+	        for (int i = 0; i < cards.size(); i++) {
+	            if (context.game.isValidBuy(context, cards.get(i), context.getCoinAvailableForBuy())) {
+	                canBuy.add(cards.get(i));
+	            }
+	        }
+	        if (canBuy.size() > 0) {
+	            Card card = currentPlayer.controlPlayer.blackMarket_chooseCard(context, canBuy);
+	            if (card != null) {
+	                //see playerBuy()
+	                if (context.game.isValidBuy(context, card, context.getCoinAvailableForBuy())) {
+	                    GameEvent statusEvent = new GameEvent(GameEvent.Type.Status, (MoveContext) context);
+	                    context.game.broadcastEvent(statusEvent);
+	
+	                    if (context.game.playBuy(context, card).equals(Cards.silver)) {
+	                        // trader swapped card in silver
+	                        // Wiki: Put bought card on top of BlackMarket deck
+	                        context.game.blackMarketPileShuffled.add(0, card);
+	                        cards.remove(card);
+	                    }
+	                    else {
+	                        cards.remove(card);
+	                        context.game.blackMarketPile.remove(card);
+	                    }
+	                }
+	            }
+	        }
         }
         
         Collections.sort(context.game.blackMarketPile, new Util.CardCostNameComparator());

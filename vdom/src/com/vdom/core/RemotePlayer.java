@@ -108,6 +108,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.expansion = c.getExpansion();
         card.originalExpansion = c.getExpansion();
         card.cost = c.getCost(null);
+        card.debtCost = c.getDebtCost(null);
         card.costPotion = c.costPotion();
         card.isBane = isBane;
         card.isShelter = c.isShelter();
@@ -116,6 +117,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.isEvent = c.isEvent();
         card.isReserve = c.isReserve(null);
         card.isTraveller = c.isTraveller(null);
+        card.isCastle = c.isCastle(null);
+        card.isGathering = c.isGathering(null);
+        card.isLandmark = c.isLandmark();
         card.isAttack = c.isAttack(null) || c.equals(Cards.virtualKnight);
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;
@@ -362,6 +366,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int stashesInHand[] = new int[numPlayers]; 
         int pirates[] = new int[numPlayers];
         int victoryTokens[] = new int[numPlayers];
+        int debtTokens[] = new int[numPlayers];
         int guildsCoinTokens[] = new int[numPlayers];
         JourneyTokenState journeyToken[] = new JourneyTokenState[numPlayers];
         boolean minusOneCoinTokenOn[] = new boolean[numPlayers];
@@ -383,6 +388,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
             pirates[i] = p.getPirateShipTreasure();
             victoryTokens[i] = p.getVictoryTokens();
+            debtTokens[i] = p.getDebtTokenCount();
             guildsCoinTokens[i] = p.getGuildsCoinTokenCount();
             journeyToken[i] = context.game.journeyTokenInPlay ? (p.getJourneyToken() ? JourneyTokenState.FACE_UP : JourneyTokenState.FACE_DOWN) : null;
             minusOneCoinTokenOn[i] = p.getMinusOneCoinToken();
@@ -440,6 +446,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setNumCards(numCards)
                 .setPirates(pirates)
                 .setVictoryTokens(victoryTokens)
+                .setDebtTokens(debtTokens)
                 .setGuildsCoinTokens(guildsCoinTokens)
                 .setJourneyToken(journeyToken)
                 .setMinusOneCoinToken(minusOneCoinTokenOn)
@@ -707,6 +714,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             if (event.getComment() != null) {
                 extras.add(event.getComment());
             }
+        } else if (event.getType() == Type.DebtTokensObtained) {
+            extras.add(event.getAmount());
+        } else if (event.getType() == Type.DebtTokensPaidOff) {
+            extras.add(event.getAmount());
         } else if (event.getType() == Type.TravellerExchanged) {
             extras.add(event.responsible);
         } else if (event.getType() == Type.Status) {

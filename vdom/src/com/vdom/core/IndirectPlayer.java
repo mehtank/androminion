@@ -37,6 +37,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public static final String OPTION_SPEND_GUILD_COINS = "GUILDCOINS";
     public static final String OPTION_OVERPAY = "OVERPAY";
     public static final String OPTION_OVERPAY_POTION = "OVERPAYP";
+    public static final String OPTION_PAY_DEBT = "PAYDEBT";
     public static final String OPTION_CALL_WHEN_GAIN = "CALLWHENGAIN";
     public static final String OPTION_CALL_RESOLVE_ACTION = "CALLAFTERACTION";
     public static final String OPTION_START_TURN_EFFECT = "STARTTURN";
@@ -153,7 +154,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
                 if (   sco.checkValid(card, card.getCost(context), card.isVictory(context), null)
                 	&& (!(sco.noTokens && hasTokens))
-                    && (   (!context.cantBuy.contains(card) && (context.canBuyCards || card.isEvent()))
+                    && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 &&(context.canBuyCards || card.isEvent())))
                         || !sco.pickType.equals(PickType.BUY))
                     && !(   !Cards.isSupplyCard(card)
                          && sco.actionType != null
@@ -2494,6 +2495,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public int numGuildsCoinTokensToSpend(MoveContext context, int coinTokenTotal, boolean butcher) {
         return selectInt(context, null, coinTokenTotal, OPTION_SPEND_GUILD_COINS);
+    }
+    
+    @Override
+    public int numDebtTokensToPayOff(MoveContext context) {
+    	return selectInt(context, null, Math.min(context.getCoins(), context.getPlayer().getDebtTokenCount()), OPTION_PAY_DEBT);
     }
 
     @Override

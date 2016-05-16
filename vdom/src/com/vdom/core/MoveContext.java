@@ -244,6 +244,10 @@ public class MoveContext {
     public ArrayList<Card> getCardsObtainedByLastPlayer() {
         return game.getCardsObtainedByLastPlayer();
     }
+    
+    public int getNumCardsGainedThisTurn() {
+    	return game.getCardsObtainedByPlayer().size();
+    }
 
     public HashMap<String, Integer> getCardCounts() {
         HashMap<String, Integer> cardCounts = new HashMap<String, Integer>();

@@ -383,6 +383,10 @@ public class Strings {
             }
         } else if (event.gameEventType == GameEvent.Type.OverpayForCard) {
             statusText += getString(R.string.OverpayForCard);
+        } else if (event.gameEventType == GameEvent.Type.DebtTokensObtained) {
+        	statusText += format(R.string.DebtTokensObtained, extras[3]);
+        } else if (event.gameEventType == GameEvent.Type.DebtTokensPaidOff) {
+        	statusText += format(R.string.DebtTokensPaidOff, extras[3]);
         } else if (event.gameEventType != null) {
             statusText += event.gameEventType.toString();
         }
@@ -570,6 +574,8 @@ public class Strings {
                 return 1;
             } else if (optionString.equals(IndirectPlayer.OPTION_OVERPAY_POTION)) {
                 return 1;
+            } else if (optionString.equals(IndirectPlayer.OPTION_PAY_DEBT)) {
+                return 1;
             } else if (optionString.equals(IndirectPlayer.OPTION_CALL_WHEN_GAIN)) {
 				return 1;
 			} else if (optionString.equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION)) {
@@ -622,6 +628,8 @@ public class Strings {
             return getString(R.string.buy_overpay);
         } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_OVERPAY_POTION)) {
             return getString(R.string.buy_overpay_by_potions);
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_PAY_DEBT)) {
+            return getString(R.string.pay_off_debt);
         } else if (extras[0] instanceof String && ((String) extras[0]).equals(IndirectPlayer.OPTION_CALL_WHEN_GAIN)) {
 			return format(R.string.call_when_gain_query, getCardName(card));
 		} else if (extras[0] instanceof String && ((String) extras[0]).equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION)) {

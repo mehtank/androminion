@@ -5,6 +5,8 @@
     <color name="cardDefaultBackgroundColor">#000</color>
     <color name="cardDefaultTextBackgroundColor">#0000</color>
     <color name="cardInverseTextColor">#000</color>
+    <color name="cardCostTextColor">#000</color>
+    <color name="cardDebtCostTextColor">#FFF</color>
     <color name="cardAttack">#FF8060</color>
     <color name="cardAttackInverse">#6F1F0D</color>
     <color name="cardReaction">#0070CC</color>

@@ -25,6 +25,8 @@ public interface Card extends Serializable {
     public int getCost(MoveContext context);
 
     public int getCost(MoveContext context, boolean buyPhase);
+    
+    public int getDebtCost(MoveContext context);
 
     public boolean isVictory(MoveContext context);
     
@@ -53,6 +55,12 @@ public interface Card extends Serializable {
     public boolean isReserve(Player player);
     
     public boolean isTraveller(Player player);
+    
+    public boolean isGathering(Player player);
+    
+    public boolean isCastle(Player player);
+    
+    public boolean isLandmark();
     
     public int getAddCards();
     

@@ -28,6 +28,9 @@ public class CardImpl implements Card {
     boolean isEvent = false;
     boolean isReserve = false;
     boolean isTraveller = false;
+    boolean isCastle = false;
+    boolean isGathering = false;
+    boolean isLandmark = false;
     
     boolean trashOnUse = false;
 
@@ -69,6 +72,9 @@ public class CardImpl implements Card {
         isEvent     = builder.isEvent;
         isReserve   = builder.isReserve;
         isTraveller = builder.isTraveller;
+        isCastle    = builder.isCastle;
+        isGathering = builder.isGathering;
+        isLandmark  = builder.isLandmark;
         trashOnUse   = builder.trashOnUse;
     }
 
@@ -93,6 +99,9 @@ public class CardImpl implements Card {
         protected boolean isEvent     = false;
         protected boolean isReserve   = false;
         protected boolean isTraveller = false;
+        protected boolean isGathering = false;
+        protected boolean isCastle    = false;
+        protected boolean isLandmark  = false;
         
         protected boolean trashOnUse  = false;
 
@@ -169,6 +178,21 @@ public class CardImpl implements Card {
             return this;
         }
         
+        public Builder isCastle() {
+            isCastle = true;
+            return this;
+        }
+        
+        public Builder isGathering() {
+            isGathering = true;
+            return this;
+        }
+        
+        public Builder isLandmark() {
+            isLandmark = true;
+            return this;
+        }
+        
         public Builder trashOnUse() {
             trashOnUse = true;
             return this;
@@ -229,6 +253,9 @@ public class CardImpl implements Card {
         c.isEvent = isEvent;
         c.isReserve = isReserve;
         c.isTraveller = isTraveller;
+        c.isCastle = isCastle;
+        c.isGathering = isGathering;
+        c.isLandmark = isLandmark;
         c.vp = vp;
         c.trashOnUse = trashOnUse;
     }
@@ -274,6 +301,10 @@ public class CardImpl implements Card {
         		context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
         
         return Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);
+    }
+    
+    public int getDebtCost(MoveContext context) {
+    	return debtCost;
     }
 
     public boolean isVictory(MoveContext context) {
@@ -476,6 +507,26 @@ public class CardImpl implements Card {
     	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return isTraveller;
     	return ((CardImpl)player.getInheritance()).isTraveller;
+    }
+    
+    @Override
+    public boolean isCastle(Player player)
+    {
+        return isCastle;
+    }
+    
+    @Override
+    public boolean isGathering(Player player)
+    {
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
+    		return isGathering;
+    	return ((CardImpl)player.getInheritance()).isGathering;
+    }
+    
+    @Override
+    public boolean isLandmark()
+    {
+        return isLandmark;
     }
     
     @Override

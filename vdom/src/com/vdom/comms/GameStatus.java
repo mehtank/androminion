@@ -40,6 +40,7 @@ public class GameStatus implements Serializable {
     public int[] numCards;
     public int[] pirates;
     public int[] victoryTokens;
+    public int[] debtTokens;
     public int[] guildsCoinTokens;
     public JourneyTokenState[] journeyTokens;
     public boolean[] minusOneCoinTokenOn;
@@ -80,6 +81,7 @@ public class GameStatus implements Serializable {
     public GameStatus setNumCards(int[] is) {numCards = is; return this;}
     public GameStatus setPirates(int[] is) {pirates = is; return this;}
     public GameStatus setVictoryTokens(int[] is) {victoryTokens = is; return this;}
+    public GameStatus setDebtTokens(int[] is) {debtTokens = is; return this;}
     public GameStatus setGuildsCoinTokens(int[] is) {guildsCoinTokens = is; return this;}
     public GameStatus setJourneyToken(JourneyTokenState[] is) {journeyTokens = is; return this;}
     public GameStatus setMinusOneCoinToken(boolean[] is) {minusOneCoinTokenOn = is; return this;}

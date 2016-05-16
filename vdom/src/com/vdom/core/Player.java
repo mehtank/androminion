@@ -35,6 +35,7 @@ public abstract class Player {
 
     // The number of coin tokens held by the player
     private int guildsCoinTokenCount;
+    private int debtTokenCount;
 
     private Card checkLeadCard;
     private int victoryTokens;
@@ -548,6 +549,11 @@ public abstract class Player {
     {
         return guildsCoinTokenCount;
     }
+    
+    public int getDebtTokenCount()
+    {
+        return debtTokenCount;
+    }
 
     public int getMiserTreasure() {
         return  Util.getCardCount(this.tavern, Cards.copper);
@@ -615,6 +621,19 @@ public abstract class Player {
         {
             Util.playerError(this, "spendGuildsCoinTokens() - Can't spend " + tokenCount + " coin tokens, only have " + guildsCoinTokenCount);
         }
+    }
+    
+    public void gainDebtTokens(int tokenCount)
+    {
+        debtTokenCount += tokenCount;
+    }
+    
+    public void payOffDebtTokens(int tokenCount) {
+    	if (tokenCount <= debtTokenCount) {
+    		debtTokenCount -= tokenCount;
+    	} else {
+    		Util.playerError(this, "payOffDebtTokens() - Can't pay off " + tokenCount + " debt tokens, only have " + debtTokenCount);
+    	}
     }
 
     public int getVictoryTokens() {
@@ -1061,6 +1080,14 @@ public abstract class Player {
         }
 
         if (willDiscard) {
+        	if (!commandedDiscard && cleanup && card.equals(Cards.capital)) {
+        		context.getPlayer().controlPlayer.gainDebtTokens(6);
+            	GameEvent event = new GameEvent(GameEvent.Type.DebtTokensObtained, context);
+            	event.setAmount(6);
+                context.game.broadcastEvent(event);
+        		context.game.playerPayOffDebt(this, context);
+        	}
+        	
             //if discarding during cleanup put the card back on prince
             if (!commandedDiscard && cleanup && playedByPrince.contains(card)) {
                 prince.add(card);
@@ -1891,6 +1918,12 @@ public abstract class Player {
     public abstract Card[] trade_cardsToTrash(MoveContext context);
     
     public abstract ExtraTurnOption extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options);
+    
+
+    // ////////////////////////////////////////////
+    // Card interactions - Empires Expansion
+    // ////////////////////////////////////////////
+    public abstract int numDebtTokensToPayOff(MoveContext context);
 
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

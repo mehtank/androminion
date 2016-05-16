@@ -52,9 +52,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/victoryTokens"
+        android:layout_toLeftOf="@+id/debtTokens"
         android:background="@drawable/pirates"
         android:textColor="#ffff00"
+        android:textSize="12sp"
+        android:visibility="invisible" />
+    
+     <TextView
+        android:id="@+id/debtTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/victorytokens"
+        android:background="@drawable/debttokens"
+        android:textColor="#FFF"
         android:textSize="12sp"
         android:visibility="invisible" />
 
