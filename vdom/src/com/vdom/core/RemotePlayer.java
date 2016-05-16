@@ -206,6 +206,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             card.isEvent = true;
             card.pile = MyCard.EVENTPILE;
         }
+        if (c.isLandmark()) {
+            card.isLandmark = true;
+            card.pile = MyCard.EVENTPILE;
+        }
         if (c.equals(Cards.stash)) {
         	card.isStash = true;
         }

@@ -242,7 +242,7 @@
     <string name="Vault_desc">Discard any number of cards. +1 coin per card discarded. Each other player may discard 2 cards. If he does, he draws a card.</string>
     <string name="Venture_name">Venture</string>
     <string name="Venture_desc">When you play this, reveal cards from your deck until you reveal a Treasure. Discard the other cards. Play that Treasure.</string>
-    <string name="WatchTower_name">Watch Tower</string>
+    <string name="WatchTower_name">Watchtower</string>
     <string name="WatchTower_desc">Draw until you have 6 cards in hand. When you gain a card, you may reveal this from your hand. If you do, either trash that card, or put it on top of your deck.</string>
     <string name="WorkersVillage_name">Worker\'s Village</string>
     <string name="WorkersVillage_desc"></string>

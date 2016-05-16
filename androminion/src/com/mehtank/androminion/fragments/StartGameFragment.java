@@ -38,8 +38,11 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     private static final String RANDOM_ALL_CARDS_PREF = "randomAllCards";
     private static final String RANDOM_NUM_EVENTS_PREF = "randomNumEvents";
     private static final String RANDOM_MAX_EVENTS_PREF = "randomMaxEvents";
+    private static final String RANDOM_NUM_LANDMARKS_PREF = "randomNumLandmarks";
+    private static final String RANDOM_MAX_LANDMARKS_PREF = "randomMaxLandmarks";
     private static final String RANDOM_USE_SET_PREFIX = "randomUse";
     private static final int DEFAULT_MAX_RANDOM_EVENTS = 2;
+    private static final int DEFAULT_MAX_RANDOM_LANDMARKS = 2;
     
 
     //Views
@@ -54,6 +57,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     Spinner mSheltersSpinner;
     LinearLayout mRandomEventsLayout;
     Spinner mRandomEventsSpinner;
+    LinearLayout mRandomLandmarksLayout;
+    Spinner mRandomLandmarksSpinner;
     LinearLayout mRandomOptionsLayout;
     ToggleButton mRandomBase;
     ToggleButton mRandomIntrigue;
@@ -119,6 +124,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mRandomOptionsLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomOptions);
         mRandomEventsLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomEvents);
         mRandomEventsSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomEvents);
+        mRandomLandmarksLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomLandmarks);
+        mRandomLandmarksSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomLandmarks);
         completeSets = new HashMap<Expansion, ToggleButton>();
         completeSets.put(Expansion.Base, mRandomBase = (ToggleButton) mView.findViewById(R.id.toggleButtonBaseSet));
         completeSets.put(Expansion.Intrigue, mRandomIntrigue = (ToggleButton) mView.findViewById(R.id.toggleButtonIntrigue));
@@ -246,6 +253,21 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         ArrayAdapter<String> numEventsAdapter = createArrayAdapter(eventsSpinnerList);
         mRandomEventsSpinner.setAdapter(numEventsAdapter);
         mRandomEventsSpinner.setSelection(numEventsToPos(numEvents));
+        
+        int numLandmarks = mPrefs.getInt(RANDOM_NUM_LANDMARKS_PREF, -1);
+        int totalLandmarks = Cards.landmarkCards.size();
+        numLandmarks = Math.min(totalLandmarks, numLandmarks);
+        numLandmarks = Math.max(numLandmarks, -1);
+                
+        ArrayList<String> landmarksSpinnerList = new ArrayList<String>();
+        landmarksSpinnerList.add(getResources().getString(R.string.random_landmarks_none));
+        landmarksSpinnerList.add(getResources().getString(R.string.random_landmarks_random));
+        for (int i = 0; i < totalLandmarks; ++i) {
+        	landmarksSpinnerList.add((i + 1) + "");
+        }
+        ArrayAdapter<String> numLandmarksAdapter = createArrayAdapter(landmarksSpinnerList);
+        mRandomLandmarksSpinner.setAdapter(numLandmarksAdapter);
+        mRandomLandmarksSpinner.setSelection(numLandmarksToPos(numLandmarks));
         
         for (Expansion set : completeSets.keySet()) {
         	completeSets.get(set).setChecked(mPrefs.getBoolean(RANDOM_USE_SET_PREFIX + set, set == Expansion.Base));
@@ -409,9 +431,30 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     	return pos;
 	}
     
+    private int posToNumLandmarks(int pos) {
+    	int numLandmarks = 0;
+    	if (pos == 1)
+        	numLandmarks = -mPrefs.getInt(RANDOM_MAX_LANDMARKS_PREF, DEFAULT_MAX_RANDOM_LANDMARKS);
+    	else if (pos > 1) {
+        	numLandmarks = pos - 1;
+        }
+    	return numLandmarks;
+	}
+    
+    private int numLandmarksToPos(int numLandmarks) {
+    	int pos = 0;
+    	if (numLandmarks < 0)
+        	pos = 1;
+    	else if (numLandmarks > 0) {
+        	pos = numLandmarks + 1;
+        }
+    	return pos;
+	}
+    
     private void updateVisibility() {
     	int randomVisibility = mGameType == TypeOptions.RANDOM ? View.VISIBLE : View.GONE;
     	mRandomEventsLayout.setVisibility(randomVisibility);
+    	mRandomLandmarksLayout.setVisibility(randomVisibility);
     	mRandomAllCheckbox.setVisibility(randomVisibility);
     	mRandomOptionsLayout.setVisibility(randomVisibility);
     	
@@ -480,9 +523,14 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 if (numEvents != 0) {
                 	strs.add("-eventcards" + numEvents);
                 }
+                int numLandmarks = posToNumLandmarks(mRandomLandmarksSpinner.getSelectedItemPosition());
+                if (numLandmarks != 0) {
+                	strs.add("-landmarkcards" + numLandmarks);
+                }
                 
                 edit.putBoolean(RANDOM_ALL_CARDS_PREF, mRandomAllCheckbox.isChecked());
                 edit.putInt(RANDOM_NUM_EVENTS_PREF, numEvents);
+                edit.putInt(RANDOM_NUM_LANDMARKS_PREF, numLandmarks);
                 for (Expansion set : completeSets.keySet()) {
                 	edit.putBoolean(RANDOM_USE_SET_PREFIX + set, completeSets.get(set).isChecked());
                 }

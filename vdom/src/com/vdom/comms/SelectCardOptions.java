@@ -192,6 +192,8 @@ public class SelectCardOptions implements Serializable {
     /* Note: This method must be synchrony with checkValid(MyCard c, int cost) */
     public boolean checkValid(Card c, int cost, boolean cardIsVictory, MoveContext context) {
     	
+    	if (c.isLandmark()) return false;
+    	
     	Player p = context != null ? context.player : null;
 
         if ((maxCost >= 0) && (cost > (c.costPotion() ? maxCost : maxCostWithoutPotion))) return false;

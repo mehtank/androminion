@@ -126,6 +126,10 @@
     <style name="CardView.Event" parent="@style/CardView.InverseText">
         <item name="cardBackgroundColor">@color/cardEvent</item>
     </style>
+    
+    <style name="CardView.Landmark" parent="@style/CardView.InverseText">
+        <item name="cardBackgroundColor">@color/cardLandmark</item>
+    </style>
 
     <style name="CardView.Reserve" parent="@style/CardView.InverseText">
         <item name="cardBackgroundColor">@color/cardReserve</item>

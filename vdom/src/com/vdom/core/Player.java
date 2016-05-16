@@ -22,6 +22,7 @@ public abstract class Player {
 
     public static final String RANDOM_AI = "Random AI";
     public static final String DISTINCT_CARDS = "Distinct Cards";
+    public static final String ONE_COPY_CARDS = "One Copy Cards";
     public static final String VICTORY_TOKENS = "Victory Tokens";
 
     // Only used by InteractivePlayer currently
@@ -699,6 +700,7 @@ public abstract class Player {
 
     public Map<Object, Integer> getVictoryCardCounts() {
         final HashSet<String> distinctCards = new HashSet<String>();
+        final Map<Object, Integer> allCardCounts = new HashMap<Object, Integer>();
         final Map<Object, Integer> cardCounts = new HashMap<Object, Integer>();
 
         // seed counts with all victory cards in play
@@ -719,9 +721,21 @@ public abstract class Player {
                     cardCounts.put(card, 1);
                 }
             }
+            if(allCardCounts.containsKey(card)) {
+            	allCardCounts.put(card, allCardCounts.get(card) + 1);
+            } else {
+            	allCardCounts.put(card, 1);
+            }
+        }
+        
+        int oneCopyCards = 0;
+        for (int copies : allCardCounts.values()) {
+        	if (copies == 1)
+        		oneCopyCards++;
         }
 
         cardCounts.put(DISTINCT_CARDS, distinctCards.size());
+        cardCounts.put(ONE_COPY_CARDS, oneCopyCards);
 
         return cardCounts;
     }
@@ -847,6 +861,15 @@ public abstract class Player {
             counts.put(Cards.distantLands, Util.getCardCount(this.tavern, Cards.distantLands));
             totals.put(Cards.distantLands, counts.get(Cards.distantLands) * 4);
         }
+        // landmarks
+        if (this.game.cardInGame(Cards.fountain)) {
+    		totals.put(Cards.fountain, (Util.getCardCount(getAllCards(), Cards.copper) >= 10) ? 15 : 0);
+        }
+        if (this.game.cardInGame(Cards.wolfDen)) {
+        	totals.put(Cards.wolfDen, counts.get(ONE_COPY_CARDS) * -3);
+        }
+        
+        // victory tokens
         totals.put(Cards.victoryTokens, this.getVictoryTokens());
 
         return totals;
@@ -1219,12 +1242,17 @@ public abstract class Player {
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
-
+        
         // Add to trash pile
         if (isPossessed()) {
             context.game.possessedTrashPile.add(card);
         } else {
             context.game.trashPile.add(card);
+        }
+        
+        //Add VP token if Tomb is in play
+        if (context.game.cardInGame(Cards.tomb)) {
+        	addVictoryTokens(context, 1);
         }
 
         // Execute special card logic when the trashing occurs

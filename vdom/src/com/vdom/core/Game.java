@@ -75,6 +75,9 @@ public class Game {
     
     public static boolean randomIncludesEvents = false;
     public static int numRandomEvents = 0;
+    public static boolean randomIncludesLandmarks = false;
+    public static int numRandomLandmarks = 0;
+    public static boolean splitMaxEventsAndLandmarks = true;
 
     public static boolean quickPlay = false;
     public static boolean sortCards = false;
@@ -1285,6 +1288,8 @@ public class Game {
         playerCache.clear();
         numRandomEvents = 0;
         randomIncludesEvents = false;
+        randomIncludesLandmarks = false;
+        splitMaxEventsAndLandmarks = false;
         randomExpansions = null;
         
         String gameCountArg = "-count";
@@ -1292,6 +1297,8 @@ public class Game {
         String showEventsArg = "-showevents";
         String gameTypeArg = "-type";
         String numRandomEventsArg = "-eventcards";
+        String numRandomLandmarksArg = "-landmarkcards";
+        String splitMaxEventsAndLandmarksArg = "-splitmaxeventslandmarks";
         String gameTypeStatsArg = "-test";
         String ignorePlayerErrorsArg = "-ignore";
         String showPlayersArg = "-showplayers";
@@ -1374,6 +1381,19 @@ public class Game {
                         Util.log(e);
                         throw new ExitException();
                     }
+                } else if (arg.toLowerCase().startsWith(numRandomLandmarksArg)) {
+                    try {
+                        int num = Integer.parseInt(arg.substring(numRandomLandmarksArg.length()));
+                        if (num != 0) {
+                        	randomIncludesLandmarks = true;
+                        	numRandomLandmarks = num;
+                        }
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
+                    }
+                } else if (arg.toLowerCase().equals(splitMaxEventsAndLandmarksArg)) {
+                    splitMaxEventsAndLandmarks = true;
                 } else if (arg.toLowerCase().startsWith(gameTypeArg)) {
                     try {
                         gameTypeStr = arg.substring(gameTypeArg.length());
@@ -2291,7 +2311,7 @@ public class Game {
 
             gameType = GameType.Specified;
         } else {
-            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomIncludesEvents, numRandomEvents, true);
+            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomIncludesEvents, numRandomEvents, randomIncludesLandmarks, numRandomLandmarks, !splitMaxEventsAndLandmarks, true);
             if(cardSet == null) {
                 cardSet = CardSet.getCardSet(CardSet.defaultGameType, -1);
             }

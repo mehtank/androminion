@@ -168,13 +168,13 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			cost.setBackgroundResource(R.drawable.coin);
 		}
 
-		if (c.isPrize) {
+		if (c.isPrize || c.isLandmark) {
 			cost.setVisibility(INVISIBLE);
 		} else {
 			cost.setVisibility(VISIBLE);
 		}
 		
-		if (c.isEvent){
+		if (c.isEvent || c.isLandmark){
 			hideCountLeft = true;
 			countLeft.setVisibility(GONE);
 		}
@@ -314,6 +314,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Shelter;
 		} else if (c.isEvent) {
 			return R.style.CardView_Event;
+		} else if (c.isLandmark) {
+			return R.style.CardView_Landmark;
 		} else {
 			return R.style.CardView;
 		}

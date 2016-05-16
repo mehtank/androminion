@@ -390,11 +390,11 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 break;
             }
         
-        int numEvents = 0;
+        int numEventsLandmarks = 0;
         //count events
         for (MyCard c : cards)
-            if(c.isEvent)
-            	numEvents++;
+            if(c.isEvent || c.isLandmark)
+            	numEventsLandmarks++;
 
         // adjust size of pile table
         if(potionInPlay && platInPlay)
@@ -407,9 +407,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         else
             vpPileGV.setNumColumns(5);
         
-        if (numEvents <= 3 || numEvents == 6) {
+        if (numEventsLandmarks <= 3 || numEventsLandmarks == 6) {
         	eventPileGV.setNumColumns(3);
-        } else if (numEvents == 4 || numEvents == 7 || numEvents == 8 || numEvents == 11 || numEvents == 12) {
+        } else if (numEventsLandmarks == 4 || numEventsLandmarks == 7 || numEventsLandmarks == 8 || numEventsLandmarks == 11 || numEventsLandmarks == 12) {
         	eventPileGV.setNumColumns(4);
         } else {
         	eventPileGV.setNumColumns(5);

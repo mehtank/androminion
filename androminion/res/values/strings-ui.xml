@@ -126,6 +126,9 @@
     <string name="random_include_events">Event cards: </string>
     <string name="random_events_none">None</string>
     <string name="random_events_random">Random</string>
+    <string name="random_include_landmarks">Landmarks: </string>
+    <string name="random_landmarks_none">None</string>
+    <string name="random_landmarks_random">Random</string>
     <string name="random_include_cards">Include Kingdom cards from</string>
     <string name="select_players">Select players:</string>
     <string name="player">Player </string>

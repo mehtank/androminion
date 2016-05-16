@@ -46,10 +46,14 @@ public class CardSet {
 	}
 	
 	public static CardSet getCardSet(final GameType type, int count) {
-		return getCardSet(type, count, null, false, -1, false);
+		return getCardSet(type, count, null, false, -1, false, -1, false, false);
 	}
 
-	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions, boolean randomIncludeEvents, int numRandomEvents, boolean adjustRandomForAlchemy) {
+	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions, 
+			boolean randomIncludeEvents, int numRandomEvents, 
+			boolean randomIncludeLandmarks, int numRandomLandmarks, 
+			boolean linkMaxEventsAndLandmarks, 
+			boolean adjustRandomForAlchemy) {
 		CardSet set = CardSet.CardSetMap.get(type);
 
 		if(set == null) {
@@ -69,18 +73,21 @@ public class CardSet {
 			if (randomIncludeEvents) {
 				cards.addAll(Cards.eventsCards);
 			}
-			set = CardSet.getRandomCardSet(cards, count, numRandomEvents, adjustRandomForAlchemy);
+			if (randomIncludeLandmarks) {
+				cards.addAll(Cards.landmarkCards);
+			}
+			set = CardSet.getRandomCardSet(cards, count, numRandomEvents, numRandomLandmarks, linkMaxEventsAndLandmarks, adjustRandomForAlchemy);
 		}
 
 		return set;
 	}
 	
 	public static CardSet getRandomCardSet(final List<Card> possibleCards) {
-		return getRandomCardSet(possibleCards, -1, 0, false);
+		return getRandomCardSet(possibleCards, -1, 0, 0, false, false);
 	}
 
 	public static CardSet getRandomCardSet(final List<Card> possibleCards, int count) {
-		return getRandomCardSet(possibleCards, count, 0, false);
+		return getRandomCardSet(possibleCards, count, 0, 0, false, false);
 	}
 	
 	/**
@@ -91,11 +98,16 @@ public class CardSet {
 	 *        of Kingdom piles and include a Bane card if needed.
 	 * @param eventCount number of Events to include in the result. Negative numbers mean to include
 	 *        at most that absolute value of Events using the selection method suggested in the rules 
+	 * @param landmarkCount number of Landmarks to include in the result. Negative numbers mean to include
+	 *        at most that absolute value of Landmarks using the selection method suggested in the rules
+	 * @param linkMaxEventsAndLandmarks true means to use the max of eventCount and landmarkCount if both are
+	 *        negative and use the combined total for where to stop
 	 * @return A random CardSet selected from the list of entered cards
 	 */
-	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount, boolean adjustForAlchemy) {
+	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount, int landmarkCount, boolean linkMaxEventsAndLandmarks, boolean adjustForAlchemy) {
 		final List<Card> cardSetList = new ArrayList<Card>();
 		final List<Card> eventList = new ArrayList<Card>();
+		final List<Card> landmarkList = new ArrayList<Card>();
 		
 		possibleCards = new ArrayList<Card>(possibleCards);
 		shuffle(possibleCards);
@@ -107,45 +119,67 @@ public class CardSet {
 			findBandIfNeeded = true;
 		}
 		
-		if (eventCount <= 0) {
-			//negative number means take events as they come up until abs(eventCount) events - as in Dominion Adventures rules
-			int maxEvents = Math.abs(eventCount);
-			int numEvents = countEvents(possibleCards);
-			count = Math.min(possibleCards.size() - numEvents, count);
-			for (Card c : possibleCards) {
-				if (c.isEvent()) {
-					if (eventList.size() < maxEvents) {
+		//negative number means take events as they come up until abs(eventCount) events - as in Dominion Adventures rules
+		boolean drawEvents = eventCount < 0;
+		boolean drawLandmarks = landmarkCount < 0;
+		int maxEvents = Math.abs(eventCount);
+		int maxLandmarks = Math.abs(landmarkCount);
+		if (drawEvents && drawLandmarks && linkMaxEventsAndLandmarks) {
+			maxEvents = maxLandmarks = Math.min(maxEvents, maxLandmarks);
+		} else {
+			linkMaxEventsAndLandmarks = false;
+		}
+		int numEvents = countEvents(possibleCards);
+		int numLandmarks = countLandmarks(possibleCards);
+		count = Math.min(possibleCards.size() - numEvents - numLandmarks, count);
+		for (Card c : possibleCards) {
+			if (c.isEvent() && drawEvents) {
+				if (linkMaxEventsAndLandmarks) {
+					if (eventList.size() + landmarkList.size() < maxEvents)
 						eventList.add(c);
-					}
-				} else {
-					cardSetList.add(c);
-					if (cardSetList.size() == count) {
-						break;
-					}
+				} else if (eventList.size() < maxEvents) {
+					eventList.add(c);
+				}
+			} else if (c.isLandmark() && drawLandmarks) {
+				if (linkMaxEventsAndLandmarks) {
+					if (eventList.size() + landmarkList.size() < maxEvents)
+						landmarkList.add(c);
+				} else if (landmarkList.size() < maxEvents) {
+					landmarkList.add(c);
+				}
+			} else {
+				cardSetList.add(c);
+				if (cardSetList.size() == count) {
+					break;
 				}
 			}
-			
-		} else {
-			//partition events into a separate list and pick them separately
+		}
+		
+		// if needed, partition events/landmarks into a separate list and pick them separately
+		if ((!drawEvents && eventCount > 0) || (!drawLandmarks && landmarkCount > 0)) {
 			List<Card> events = new ArrayList<Card>();
-			List<Card> cards = new ArrayList<Card>();
+			List<Card> landmarks = new ArrayList<Card>();
 			for (Card c : possibleCards) {
 				if (c.isEvent())
 					events.add(c);
-				else
-					cards.add(c);
+				else if (c.isLandmark())
+					landmarks.add(c);
 			}
-			
 			eventCount = Math.min(eventCount, events.size());
-			pick(cards, cardSetList, count);
-			pick(events, eventList, eventCount);
+			landmarkCount = Math.min(landmarkCount, landmarks.size());
+			if (eventCount > 0) {
+				pick(events, eventList, eventCount);
+			}
+			if (landmarkCount > 0) {
+				pick(landmarks, landmarkList, landmarkCount);
+			}
 		}
 		
 		// Do Alchemy recommendation - if at least one Alchemy card is in, use 3 to 5 at once
 		if (adjustForAlchemy)
 			performAlchemyRecommendation(cardSetList, possibleCards);
 		
-		// pick a band card if needed
+		// pick a bane card if needed
 		if (findBandIfNeeded && cardSetList.contains(Cards.youngWitch)) {
 			for (Card c : possibleCards) {
 				if (cardSetList.contains(c))
@@ -160,6 +194,7 @@ public class CardSet {
 		}
 		
 		cardSetList.addAll(eventList);
+		cardSetList.addAll(landmarkList);
 		
 		return new CardSet(cardSetList, baneCard);
 	}
@@ -292,6 +327,15 @@ public class CardSet {
 				numEvents++;
 		}
 		return numEvents;
+	}
+	
+	private static int countLandmarks(List<Card> allCards) {
+		int numLandmarks = 0;
+		for (Card c : allCards) {
+			if (c.isLandmark())
+				numLandmarks++;
+		}
+		return numLandmarks;
 	}
 
 	private static void shuffle(List<Card> cards) {

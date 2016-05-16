@@ -128,6 +128,9 @@
     <string name="random_include_events">Cartas de Evento: </string>
     <string name="random_events_none">Ninguna</string>
     <string name="random_events_random">Al azar</string>
+    <string name="random_include_landmarks">Marcas: </string>
+    <string name="random_landmarks_none">Ninguna</string>
+    <string name="random_landmarks_random">Al azar</string>
     <string name="random_include_cards">Incluir cartas de reino de</string>
     <string name="select_players">Seleccionar jugadores:</string>
     <string name="player">Jugador </string>

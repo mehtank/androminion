@@ -1571,6 +1571,18 @@ public class Strings {
         }
 
         sb.append(Strings.getCardText(counts, totals, Cards.curse));
+        
+        for(Card card : totals.keySet()) {
+            if(card.isLandmark()) {
+            	sb.append('\t')
+                .append(getCardName(card))
+                .append(": ")
+                .append(totals.get(card))
+                .append(" ")
+                .append(Strings.getString(R.string.game_over_vps))
+                .append('\n');
+            }
+        }
 
         sb.append("\t"+Strings.getString(R.string.victory_tokens)+": ")
                 .append(totals.get(Cards.victoryTokens))

@@ -101,6 +101,25 @@
 	            android:layout_height="wrap_content" />
 		    
 	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:id="@+id/linearLayoutRandomLandmarks"
+	        android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:orientation="horizontal"
+	       	android:visibility="gone">
+	    
+		    <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/random_include_landmarks" />
+		    
+		    <Spinner android:id="@+id/spinnerRandomLandmarks"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" />
+		    
+	    </LinearLayout>
 				    
 	    <LinearLayout
 	        android:id="@+id/linearLayoutRandomOptions"
