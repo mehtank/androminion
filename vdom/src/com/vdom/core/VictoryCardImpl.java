@@ -66,7 +66,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 		        if (context.freeActionInEffect == 0) {
 		            context.actions--;
 		        }
-		        
+		        boolean enchantressEffect = !context.enchantressAlreadyAffected && game.enchantressAttacks(currentPlayer);
 		        this.startInheritingCardAbilities(inheritedCard.getTemplateCard().instantiate());
 		        // Play the inheritance virtual card
 		        CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
@@ -74,20 +74,22 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 		        cardToPlay.play(game, context, false);
 		        context.freeActionInEffect--;
 
-		        // impersonated card stays in play until next turn?
-		        if (cardToPlay.trashOnUse) {
-		            int idx = currentPlayer.playedCards.lastIndexOf(this);
-		            if (idx >= 0) currentPlayer.playedCards.remove(idx);
-		            currentPlayer.trash(this, null, context);
-		        } else if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
-		            if (!this.controlCard.movedToNextTurnPile) {
-		                this.controlCard.movedToNextTurnPile = true;
-		                int idx = currentPlayer.playedCards.lastIndexOf(this);
-		                if (idx >= 0) {
-		                    currentPlayer.playedCards.remove(idx);
-		                    currentPlayer.nextTurnCards.add(this);
-		                }
-		            }
+		        if (!enchantressEffect) {
+			        // impersonated card stays in play until next turn?
+			        if (cardToPlay.trashOnUse) {
+			            int idx = currentPlayer.playedCards.lastIndexOf(this);
+			            if (idx >= 0) currentPlayer.playedCards.remove(idx);
+			            currentPlayer.trash(this, null, context);
+			        } else if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
+			            if (!this.controlCard.movedToNextTurnPile) {
+			                this.controlCard.movedToNextTurnPile = true;
+			                int idx = currentPlayer.playedCards.lastIndexOf(this);
+			                if (idx >= 0) {
+			                    currentPlayer.playedCards.remove(idx);
+			                    currentPlayer.nextTurnCards.add(this);
+			                }
+			            }
+			        }
 		        }
 		        
 		        event = new GameEvent(GameEvent.Type.PlayedAction, (MoveContext) context);

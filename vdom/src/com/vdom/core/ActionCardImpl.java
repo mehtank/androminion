@@ -193,7 +193,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         boolean newCard = false;
         Card actualCard = (this.getControlCard() != null ? this.getControlCard() : this);
         boolean isInheritedAbility = actualCard.equals(Cards.estate);
-        
+        boolean enchantressEffect = !context.enchantressAlreadyAffected && game.enchantressAttacks(currentPlayer);
+        if (enchantressEffect) context.enchantressAlreadyAffected = true;
+                
         context.actions += game.countChampionsInPlay(currentPlayer);
         
         if (isAttack(currentPlayer))
@@ -204,9 +206,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             this.movedToNextTurnPile = false;
             if (fromHand)
                 currentPlayer.hand.remove(this);
-            if (trashOnUse) {
+            if (!enchantressEffect && trashOnUse) {
                 currentPlayer.trash(this, null, context);
-            } else if (this.isDuration(currentPlayer)) {
+            } else if (!enchantressEffect && this.isDuration(currentPlayer)) {
                 currentPlayer.nextTurnCards.add(this);
             } else {
                 currentPlayer.playedCards.add(this);
@@ -237,18 +239,29 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         	context.addCoins(1);
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCard))
         	game.drawToHand(context, actualCard, 1 + addCards);
+        
+        if (enchantressEffect) {
+        	//allow reaction to playing an attack card with Enchantress effect
+        	if (isAttack(currentPlayer)) {
+        		 for (Player player : game.getPlayersInTurnOrder()) {
+    	            if (player != currentPlayer) Util.isDefendedFromAttack(game, player, this);
+	            }
+        	}
+        	context.actions += 1;
+        	game.drawToHand(context, this, 1);
+        } else {
+        	context.actions += addActions;
+            context.buys += addBuys;
+            context.addCoins(addGold);
+            currentPlayer.addVictoryTokens(context, addVictoryTokens);
 
-        context.actions += addActions;
-        context.buys += addBuys;
-        context.addCoins(addGold);
-        currentPlayer.addVictoryTokens(context, addVictoryTokens);
+            for (int i = 0; i < addCards; ++i) {
+            	game.drawToHand(context, this, addCards - i);
+            }
 
-        for (int i = 0; i < addCards; ++i) {
-        	game.drawToHand(context, this, addCards - i);
+            additionalCardActions(game, context, currentPlayer);
         }
-
-        additionalCardActions(game, context, currentPlayer);
-
+        
         if (!isInheritedAbility) {
 	        event = new GameEvent(GameEvent.Type.PlayedAction, (MoveContext) context);
 	        event.card = this;
@@ -802,7 +815,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 giant(game, context, currentPlayer);
                 break;
             case HauntedWoods:
-            	swampHagHauntedWoods(game, context, currentPlayer);
+            	durationAttack(game, context, currentPlayer);
             	break;
             case Hero:
                 hero(game, context, currentPlayer);
@@ -829,7 +842,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             	storyteller(game, context, currentPlayer);
                 break;
             case SwampHag:
-            	swampHagHauntedWoods(game, context, currentPlayer);
+            	durationAttack(game, context, currentPlayer);
             	break;
             case TreasureHunter:
             	treasureHunter(game, context, currentPlayer);
@@ -840,6 +853,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             /* Empires */
             case CityQuarter:
             	cityQuarter(game, context, currentPlayer);
+            	break;
+            case Enchantress:
+            	durationAttack(game, context, currentPlayer);
             	break;
             case RoyalBlacksmith:
             	royalBlacksmith(game, context, currentPlayer);
@@ -6248,7 +6264,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
     
-    private void swampHagHauntedWoods(Game game, MoveContext context, Player currentPlayer) {
+    private void durationAttack(Game game, MoveContext context, Player currentPlayer) {
         for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
         	if (targetPlayer != currentPlayer) {
         		if (!Util.isDefendedFromAttack(game, targetPlayer, this)) {

@@ -683,6 +683,13 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             		baseStr += ", ";
             	baseStr += top.getString(R.string.HauntedWoodsAttacks);
             }
+            if (gs.enchantressAttacks) {
+            	if (gs.swampHagAttacks == 0 && !gs.hauntedWoodsAttacks)
+            		baseStr += "\n";
+            	else
+            		baseStr += ", ";
+            	baseStr += top.getString(R.string.EnchantressAttacks);
+            }
             return baseStr;
         }
     };

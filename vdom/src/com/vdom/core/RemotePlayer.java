@@ -457,6 +457,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setMinusOneCardToken(minusOneCardTokenOn)
                 .setSwampHagAttacks(game.swampHagAttacks(player))
                 .setHauntedWoodsAttacks(game.hauntedWoodsAttacks(player))
+                .setEnchantressAttacks(!context.enchantressAlreadyAffected && game.enchantressAttacks(player))
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
                 .setTavern(cardArrToIntArr(player.getTavern().sort(new Util.CardTavernComparator())))

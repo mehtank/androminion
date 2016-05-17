@@ -44,6 +44,7 @@ public class MoveContext {
     public boolean graverobberGainedCardOnTop = false;
     public boolean travellingFairBought = false;
     public boolean missionBought = false;
+    public boolean enchantressAlreadyAffected = false;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;

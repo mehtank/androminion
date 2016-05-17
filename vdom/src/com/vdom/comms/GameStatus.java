@@ -31,6 +31,7 @@ public class GameStatus implements Serializable {
     public int[] turnStatus;
     public int[] supplySizes;
     public int[] embargos;
+    public int[] pileVpTokens;
     public int[][][] tokens;
     public int[] costs;
     public int[] deckSizes;
@@ -46,6 +47,7 @@ public class GameStatus implements Serializable {
     public boolean[] minusOneCoinTokenOn;
     public boolean[] minusOneCardTokenOn;
     public boolean hauntedWoodsAttacks;
+    public boolean enchantressAttacks;
     public int swampHagAttacks;
     public int cardCostModifier;
     public int potions;
@@ -87,6 +89,7 @@ public class GameStatus implements Serializable {
     public GameStatus setMinusOneCoinToken(boolean[] is) {minusOneCoinTokenOn = is; return this;}
     public GameStatus setMinusOneCardToken(boolean[] is) {minusOneCardTokenOn = is; return this;}
     public GameStatus setHauntedWoodsAttacks(boolean i) {hauntedWoodsAttacks = i; return this;}
+    public GameStatus setEnchantressAttacks(boolean i) {enchantressAttacks = i; return this;}
     public GameStatus setSwampHagAttacks(int i) {swampHagAttacks = i; return this;}
     public GameStatus setCardCostModifier(int i) {cardCostModifier = i; return this;}
     public GameStatus setPotions(int i) {potions = i; return this;}

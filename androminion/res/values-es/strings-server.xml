@@ -431,6 +431,7 @@
   <string name="countingHouse_query">Elige el número de cartas de Cobre para poner en tu mano</string>
 
   <string name="HauntedWoodsAttacks">Bosque Embrujado tiene efecto</string>
+  <string name="EnchantressAttacks">Encantadora tiene efecto</string>
   <string name="SwampHagAttacks_single">%1$s Bruja del Pantano tiene efecto</string>
   <string name="SwampHagAttacks_multiple">%1$s Brujas del Pantano tienen efecto</string>
   <string name="traveller_exchange">Intercambiarla por %1$s</string>

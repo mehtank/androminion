@@ -3430,11 +3430,22 @@ public class Game {
         }
     }
     
-    public boolean hauntedWoodsAttacks(Player player)
-    {
+    public boolean hauntedWoodsAttacks(Player player) {
         for (Player otherPlayer : players) {
             if (otherPlayer != null && otherPlayer != player) {
             	if (otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Type.HauntedWoods) > 0) {
+            		return true;
+            	}
+            }
+        }
+        return false;
+    }
+    
+    public boolean enchantressAttacks(Player player) {
+    	if (getCurrentPlayer() != player) return false;
+        for (Player otherPlayer : players) {
+            if (otherPlayer != null && otherPlayer != player) {
+            	if (otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Type.Enchantress) > 0) {
             		return true;
             	}
             }

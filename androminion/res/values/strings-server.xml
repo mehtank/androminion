@@ -433,6 +433,7 @@
   <string name="countingHouse_query">Select number of Copper cards to put into your hand</string>
 
   <string name="HauntedWoodsAttacks">Haunted Woods in effect</string>
+  <string name="EnchantressAttacks">Enchantress in effect</string>
   <string name="SwampHagAttacks_single">%1$s Swamp Hag in effect</string>
   <string name="SwampHagAttacks_multiple">%1$s Swamp Hags in effect</string>
   <string name="traveller_exchange">Exchange it for %1$s</string>
