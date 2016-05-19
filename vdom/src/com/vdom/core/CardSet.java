@@ -163,6 +163,13 @@ public class CardSet {
 		
 		return new CardSet(cardSetList, baneCard);
 	}
+	
+	public static Card getBaneCard(List<Card> cards) {
+		for (Card c : cards) {
+			if (isValidBane(c)) return c;
+		}
+		return null;
+	}
 
 	private static int MIN_RECOMMENDED_ALCHEMY = 3;
 	private static int MAX_RECOMMENDED_ALCHEMY = 5;

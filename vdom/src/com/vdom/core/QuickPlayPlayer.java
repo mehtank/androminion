@@ -368,7 +368,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     
     public boolean shouldAutoPlay_bishop_cardToTrashForVictoryTokens(MoveContext context) {
-        return true;
+        return false;
     }
 
     public boolean shouldAutoPlay_bishop_cardToTrash(MoveContext context) {

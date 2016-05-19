@@ -641,27 +641,39 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             String actions;
             if (gs.turnStatus[0] == 1)
                 actions = top.getString(R.string.action_single, "" + gs.turnStatus[0]);
+            else if (gs.turnStatus[0] == 0)
+            	actions = top.getString(R.string.action_zero, "" + gs.turnStatus[0]);
             else
                 actions = top.getString(R.string.action_multiple, "" + gs.turnStatus[0]);
             String buys;
             if (gs.turnStatus[1] == 1)
                 buys = top.getString(R.string.buy_single, "" + gs.turnStatus[1]);
+            else if (gs.turnStatus[1] == 0)
+                buys = top.getString(R.string.buy_zero, "" + gs.turnStatus[1]);
             else
                 buys = top.getString(R.string.buy_multiple, "" + gs.turnStatus[1]);
 
             String coinStr = "" + gs.turnStatus[2];
             if (gs.potions == 1) {
-                coinStr += "p";
+                coinStr += top.getString(R.string.potion_cost_initial); //"p"
             } else if (gs.potions > 1) {
-                coinStr += "p" + gs.potions;
+                coinStr += top.getString(R.string.potion_cost_initial) + gs.potions;
             }
-            String coinsStr = top.getString(R.string.coins, coinStr);
+            
+            String coinsStr;
+            if (gs.turnStatus[2] == 0)
+            	coinsStr = top.getString(R.string.coin_zero, "" + coinStr);
+            else if (gs.turnStatus[2] == 1)
+            	coinsStr = top.getString(R.string.coin_single, "" + coinStr);
+            else
+            	coinsStr = top.getString(R.string.coin_multiple, "" + coinStr);
+            
+            
             String baseStr = top.getString(R.string.actions_buys_coins, actions, buys, coinsStr);
 
             if (gs.swampHagAttacks == 1) {
             	baseStr += "\n" + top.getString(R.string.SwampHagAttacks_single, gs.swampHagAttacks);
-            }
-            if (gs.swampHagAttacks >= 2) {
+            } else if (gs.swampHagAttacks >= 2) {
             	baseStr += "\n" + top.getString(R.string.SwampHagAttacks_multiple, gs.swampHagAttacks);
             }
             if (gs.hauntedWoodsAttacks) {

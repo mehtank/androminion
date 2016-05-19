@@ -31,8 +31,8 @@
     <string name="sort_cards_pref_title">Tri des cartes</string>
     <string name="sort_cards_pref_summary">Trier les cartes en main par type action-trésor-malédiction-victoire</string>
     <string name="action_chains_pref_title">Chaînage d\'actions</string>
-    <string name="action_chains_pref_summary">Activer la sélection multiples d\'actions à jouer dans l\'ordre</string>
-    <string name="suppress_redundant_reactions_pref_title">Supprimer la dernière Réaction</string>
+    <string name="action_chains_pref_summary">Activer la sélection multiple d\'actions à jouer dans l\'ordre</string>
+    <string name="suppress_redundant_reactions_pref_title">Masquer la dernière Réaction</string>
     <string name="suppress_redundant_reactions_pref_summary">Empêcher la carte réaction jouée d\'apparaître une nouvelle fois</string>
 	<string name="equal_start_hands_pref_title">Mêmes mains de départ</string>
     <string name="equal_start_hands_pref_summary">Tous les joueurs ont la même main de départ (prendra effet à la prochaine partie)</string>
@@ -62,8 +62,8 @@
     <string name="logging_dir_pref_summary">Dossier où sont enregistrées les logs du jeu (sera créé si nécessaire)</string>
     <string name="pref_theme_title">Thème</string>
     <string name="pref_theme_summary">Définit le thème de l\'application</string>
-    <string name="autodownload_pref_title">Auto-téléchargement les images de cartes (Cartes en Anglais seulement)</string>
-    <string name="autodownload_pref_summary">Les images seront téléchargées sur internet et enregistrées sur votre carte SD</string>
+    <string name="autodownload_pref_title">Télécharger les images</string>
+    <string name="autodownload_pref_summary">Lorsque vous consultez une description de carte, l\'image en Anglais de celle-ci est automatiquement téléchargée depuis internet et enregistrée sur votre carte SD</string>
     
     <string-array name="theme_names">
         <item>Sombre</item>
