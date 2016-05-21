@@ -71,6 +71,7 @@ public abstract class Player {
     public Card achievementSingleCardFirstKingdomCardBought;
 
     public void addVictoryTokens(MoveContext context, int vt) {
+    	//TODO: possession option & new context for possessing player?
         victoryTokens += vt;
         context.vpsGainedThisTurn += vt;
     }

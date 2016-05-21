@@ -43,6 +43,16 @@
         android:textSize="10.5dp"
         android:visibility="gone" />
     
+    <TextView
+        android:id="@+id/pileVpTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_toLeftOf="@id/embargos"
+        android:background="@drawable/victorytokens"
+        android:textSize="10.5dp"
+        android:visibility="gone" />
+    
      <LinearLayout
         android:id="@+id/tokens"
         android:layout_width="wrap_content"

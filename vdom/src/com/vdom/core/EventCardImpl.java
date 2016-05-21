@@ -491,7 +491,7 @@ public class EventCardImpl extends CardImpl implements EventCard {
     private void triumph(MoveContext context) {
     	Card gainedCard = context.player.gainNewCard(Cards.estate, this.controlCard, context);
     	if (Cards.estate.equals(gainedCard)) {
-    		context.getPlayer().controlPlayer.addVictoryTokens(context, context.getNumCardsGainedThisTurn());
+    		context.getPlayer().addVictoryTokens(context, context.getNumCardsGainedThisTurn());
     	}
     }
     

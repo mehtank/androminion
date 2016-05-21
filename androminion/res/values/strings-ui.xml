@@ -208,5 +208,6 @@
 	<string name="token_colon">:\u0020</string>
 	<string name="token_separator">,\u0020</string>
 	<string name="token_embargo">Embargoes</string>
+	<string name="token_victory">Victory</string>
 	<string name="bane_card">Bane card</string>
 </resources>

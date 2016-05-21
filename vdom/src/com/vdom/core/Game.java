@@ -107,6 +107,7 @@ public class Game {
     public static Random rand = new Random(System.currentTimeMillis());
     public HashMap<String, AbstractCardPile> piles = new HashMap<String, AbstractCardPile>();
     public HashMap<String, Integer> embargos = new HashMap<String, Integer>();
+    public HashMap<String, Integer> pileVpTokens = new HashMap<String, Integer>();
     private HashMap<String, HashMap<Player, List<PlayerSupplyToken>>> playerSupplyTokens = new HashMap<String, HashMap<Player,List<PlayerSupplyToken>>>();
     public ArrayList<Card> trashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
@@ -2146,6 +2147,7 @@ public class Game {
     protected void initCards() {
         piles.clear();
         embargos.clear();
+        pileVpTokens.clear();
         playerSupplyTokens.clear();
         trashPile.clear();
         blackMarketPile.clear();
@@ -2519,6 +2521,11 @@ public class Game {
         {
             bakerInPlay = true;
         }
+        
+        // Setup for Battlefield
+        if (piles.containsKey(Cards.battlefield.getName())) {
+            addPileVpTokens(Cards.battlefield, 6 * numPlayers);
+        }
 
         // If Ranger, Giant or Pilgrimage are in play, each player starts with a journey token faced up
         if (   piles.containsKey(Cards.ranger.getName())
@@ -2786,6 +2793,17 @@ public class Game {
                     	}
                     }
                     
+                    if(event.card.isVictory(null)) {
+                    	if (isCardInGame(Cards.battlefield)) {
+                    		int tokensLeft = getPileVpTokens(Cards.battlefield);
+                    		if (tokensLeft > 0) {
+                    			int tokensToTake = Math.min(tokensLeft, 2);
+                    			removePileVpTokens(Cards.battlefield, tokensToTake);
+                    			player.addVictoryTokens(context, tokensToTake);
+                    		}
+                    	}
+                    }
+                    
                     if (gainedCardAbility.equals(Cards.illGottenGains)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
@@ -3005,6 +3023,19 @@ public class Game {
         }
         return null;
     }
+    
+    AbstractCardPile addPileVpTokens(Card card, int num) {
+        String name = card.getName();
+        pileVpTokens.put(name, getPileVpTokens(card) + 1);
+        return piles.get(name);
+    }
+    
+    AbstractCardPile removePileVpTokens(Card card, int num) {
+    	num = Math.min(num, getPileVpTokens(card));
+        String name = card.getName();
+        pileVpTokens.put(name, getPileVpTokens(card) - num);
+        return piles.get(name);
+    }
 
     public boolean isValidEmbargoPile(Card card) {
         return !(card == null || !cardInGame(card) || !Cards.isSupplyCard(card) );
@@ -3014,6 +3045,13 @@ public class Game {
         Integer count = embargos.get(card.getName());
         return (count == null) ? 0 : count;
     }
+    
+    public int getPileVpTokens(Card card) {
+        Integer count = pileVpTokens.get(card.getName());
+        return (count == null) ? 0 : count;
+    }
+    
+    
     
     public List<PlayerSupplyToken> getPlayerSupplyTokens(Card card, Player player) {
     	card = card.getTemplateCard();
