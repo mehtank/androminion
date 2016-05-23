@@ -807,6 +807,20 @@ public abstract class Player {
 
         return distinctCards.size();
     }
+    
+    public int getCastleCardCount(Player player) {
+    	return getCastleCardCount(getAllCards(), player);
+    }
+    
+    public int getCastleCardCount(ArrayList<Card> cards, Player player) {
+    	int cardCount = 0;
+        for (Card c : cards) {
+            if (c.isCastle(player)) {
+                cardCount++;
+            }
+        }
+        return cardCount;
+    }
 
     public int calculateLead(Card card) {
         checkLeadCard = card;
@@ -862,6 +876,10 @@ public abstract class Player {
             counts.put(Cards.distantLands, Util.getCardCount(this.tavern, Cards.distantLands));
             totals.put(Cards.distantLands, counts.get(Cards.distantLands) * 4);
         }
+        if (counts.containsKey(Cards.humbleCastle))
+        	totals.put(Cards.humbleCastle, counts.get(Cards.humbleCastle) * this.getCastleCardCount(this));
+        if (counts.containsKey(Cards.kingsCastle))
+        	totals.put(Cards.kingsCastle, counts.get(Cards.kingsCastle) * this.getCastleCardCount(this) * 2);
         // landmarks
         if (this.game.cardInGame(Cards.fountain)) {
     		totals.put(Cards.fountain, (Util.getCardCount(getAllCards(), Cards.copper) >= 10) ? 15 : 0);
