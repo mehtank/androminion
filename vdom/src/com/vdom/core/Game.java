@@ -2761,6 +2761,12 @@ public class Game {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);
+                            } else if (r.equals(Cards.rocks)) {
+                            	if (context.buyPhase) {
+                            		player.putOnTopOfDeck(event.card, context, true);
+                            	} else {
+                            		player.hand.add(event.card);
+                            	}
                             } else {
                                 player.discard(event.card, null, null, commandedDiscard, false);
                             }
@@ -2802,6 +2808,8 @@ public class Game {
                     			player.addVictoryTokens(context, tokensToTake);
                     		}
                     	}
+                    	int groundsKeepers = context.countCardsInPlay(Cards.groundskeeper);
+                    	player.addVictoryTokens(context, groundsKeepers);
                     }
                     
                     if (gainedCardAbility.equals(Cards.illGottenGains)) {
@@ -2884,7 +2892,7 @@ public class Game {
                             Card card = context.player.controlPlayer.borderVillage_cardToObtain(context, gainedCardCost - 1);
                             if (card != null) {
                                 if(card.getCost(context) < gainedCardCost && !card.costPotion()) {
-                                    player.controlPlayer.gainNewCard(card, event.card, (MoveContext) context);
+                                    player.gainNewCard(card, event.card, (MoveContext) context);
                                 }
                                 else {
                                     Util.playerError(player, "Border Village returned invalid card, ignoring.");
@@ -2923,6 +2931,13 @@ public class Game {
                                 drawToHand(new MoveContext(Game.this, targetPlayer), Cards.lostCity, 1, true);
                             }
                         }
+                    } else if (gainedCardAbility.equals(Cards.fortune)) {
+                    	int gladiators = context.countCardsInPlayByName(Cards.gladiator);
+                    	for (int i = 0; i < gladiators; ++i) {
+                    		player.gainNewCard(Cards.gold, event.card, context);
+                    	}
+                    } else if (gainedCardAbility.equals(Cards.rocks)) {
+                    	player.gainNewCard(Cards.silver, event.card, context);
                     }
                     
                     // Achievement check...

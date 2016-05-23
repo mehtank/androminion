@@ -676,6 +676,8 @@ public class CardImpl implements Card {
                 context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
                 context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
                 break;
+            case Rocks:
+            	context.player.gainNewCard(Cards.silver, this, context);
             default:
                 break;
         }

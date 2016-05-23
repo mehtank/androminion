@@ -137,6 +137,8 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         	putOnTavern(game, context, player);
         } else if (equals(Cards.capital)) {
         	context.buys++;
+        } else if (equals(Cards.fortune)) {
+        	fortune(context, player, game);
         } else if (equals(Cards.spoils)) {
 			if (!isClone) {
 				// Return to the spoils pile
@@ -349,5 +351,14 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             // reset clone count
             this.controlCard.cloneCount = 1;
         }
+    }
+    
+    private void fortune(MoveContext context, Player player, Game game) {
+    	context.buys++;
+    	if (!context.hasDoubledCoins) {
+    		//TODO?: is doubling coins affected by -1 coin token?
+    		context.addCoins(context.getCoins() * 2);
+    		context.hasDoubledCoins = true;
+    	}
     }
 }

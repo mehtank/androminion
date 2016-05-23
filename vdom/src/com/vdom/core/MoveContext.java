@@ -45,6 +45,7 @@ public class MoveContext {
     public boolean travellingFairBought = false;
     public boolean missionBought = false;
     public boolean enchantressAlreadyAffected = false;
+    public boolean hasDoubledCoins = false;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;
@@ -113,6 +114,16 @@ public class MoveContext {
         }
         return cardsInPlay + countCardsInNextTurn(card);
     }
+    
+    public int countCardsInPlayByName(Card card) {
+        int cardsInPlay = 0;
+        for(Card c : getPlayedCards()) {
+            if(!c.equals(Cards.estate) && c.behaveAsCard().equals(card)) {
+                cardsInPlay++;
+            }
+        }
+        return cardsInPlay + countCardsInNextTurnByName(card);
+    }
 
     public CardList getCardsInNextTurn() {
         return player.nextTurnCards;
@@ -122,6 +133,16 @@ public class MoveContext {
         int cardsInNextTurn = 0;
         for(Card c : getCardsInNextTurn()) {
             if(c.behaveAsCard().equals(card)) {
+            	cardsInNextTurn++;
+            }
+        }
+        return cardsInNextTurn;
+    }
+    
+    private int countCardsInNextTurnByName(Card card) {
+        int cardsInNextTurn = 0;
+        for(Card c : getCardsInNextTurn()) {
+            if(!c.equals(Cards.estate) && c.behaveAsCard().equals(card)) {
             	cardsInNextTurn++;
             }
         }
