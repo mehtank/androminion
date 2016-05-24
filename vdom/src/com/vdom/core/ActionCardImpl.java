@@ -857,6 +857,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case Enchantress:
             	durationAttack(game, context, currentPlayer);
             	break;
+            case FarmersMarket:
+            	farmersMarket(game, context, currentPlayer);
+            	break;
             case RoyalBlacksmith:
             	royalBlacksmith(game, context, currentPlayer);
             	break;
@@ -6323,6 +6326,19 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         for (int i = 0; i < actionCards; ++i) {
         	game.drawToHand(context, this, actionCards - i);
         }
+    }
+    
+    private void farmersMarket(Game game, MoveContext context, Player currentPlayer) {
+    	Card c = Cards.farmersMarket;
+    	if (game.getPileVpTokens(c) >= 4) {
+    		int numTokens = game.getPileVpTokens(c);
+    		game.removePileVpTokens(c, numTokens);
+    		currentPlayer.addVictoryTokens(context, numTokens);
+    		currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), this.getControlCard(), context);
+    	} else {
+    		game.addPileVpTokens(c, 1);
+    		context.addCoins(game.getPileVpTokens(c));
+    	}
     }
     
     private void royalBlacksmith(Game game, MoveContext context, Player currentPlayer) {
