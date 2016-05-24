@@ -449,6 +449,8 @@
   <string name="start_turn_query">Comienzo del turno. Elige una acción:</string>
   <string name="call_optional">%1$s (opcional)</string>
   
+  <string name="hauntedcastle_part">devolver al mazo [Castillo Embrujado]</string>
+  
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>
   <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>
   <string name="stash_on_top">Encima del mazo</string>

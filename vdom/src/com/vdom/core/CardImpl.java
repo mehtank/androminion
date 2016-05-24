@@ -678,6 +678,10 @@ public class CardImpl implements Card {
                 break;
             case Rocks:
             	context.player.gainNewCard(Cards.silver, this, context);
+            	break;
+            case CrumblingCastle:
+            	context.player.addVictoryTokens(context, 1);
+            	context.player.gainNewCard(Cards.silver, this, context);
             default:
                 break;
         }

@@ -1383,6 +1383,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.followers), getString(R.string.followers_part));
         actionStringMap.put(getCardName(Cards.ghostShip), getString(R.string.ghostship_part));
         actionStringMap.put(getCardName(Cards.goons), getString(R.string.goons_part));
+        actionStringMap.put(getCardName(Cards.hauntedCastle), getString(R.string.hauntedcastle_part));
         actionStringMap.put(getCardName(Cards.haven), getString(R.string.haven_part));
         actionStringMap.put(getCardName(Cards.gear), getString(R.string.gear_part));
         actionStringMap.put(getCardName(Cards.island), getString(R.string.island_part));

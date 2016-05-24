@@ -930,6 +930,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
     
+    public boolean shouldAutoPlay_hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
+    	return false;
+    }
+    
     public boolean shouldAutoPlay_alms_cardToObtain(MoveContext context) {
     	return false;
     }

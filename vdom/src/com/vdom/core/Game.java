@@ -2938,6 +2938,44 @@ public class Game {
                     	}
                     } else if (gainedCardAbility.equals(Cards.rocks)) {
                     	player.gainNewCard(Cards.silver, event.card, context);
+                    } else if (gainedCardAbility.equals(Cards.crumblingCastle)) {
+                    	player.addVictoryTokens(context, 1);
+                    	player.gainNewCard(Cards.silver, event.card, context);
+                    } else if (gainedCardAbility.equals(Cards.hauntedCastle) && context.game.getCurrentPlayer() == player) {
+                    	player.gainNewCard(Cards.gold, event.card, context);
+                    	for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
+                    		if (targetPlayer == player) continue;
+                    		if (player.hand.size() >= 5) {
+                    			MoveContext playerContext = new MoveContext(context.game, player);
+                                playerContext.attackedPlayer = player;
+                                Card[] cards = player.controlPlayer.hauntedCastle_gain_cardsToPutBackOnDeck(playerContext);
+                                boolean bad = false;
+                                if (cards == null || cards.length == 2) {
+                                    bad = true;
+                                } else {
+                                    ArrayList<Card> copy = Util.copy(player.hand);
+                                    for (Card card : cards) {
+                                        if (!copy.remove(card)) {
+                                            bad = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (bad) {
+                                    Util.playerError(player, "Haunted Castle put back cards error, putting back the first 2 cards.");
+                                    cards = new Card[2];
+                                    cards[0] = player.hand.get(0);
+                                    cards[1] = player.hand.get(1);
+                                }                                
+                                GameEvent topDeckEvent = new GameEvent(GameEvent.Type.CardOnTopOfDeck, context);
+                                topDeckEvent.setPlayer(player);
+                                for (int i = cards.length - 1; i >= 0; i--) {
+                                    player.hand.remove(cards[i]);
+                                    player.putOnTopOfDeck(cards[i]);
+                                    context.game.broadcastEvent(topDeckEvent);
+                                }
+                            }
+                    	}
                     }
                     
                     // Achievement check...

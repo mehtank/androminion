@@ -3641,6 +3641,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
+    	Card[] cards = new Card[2];
+    	cards[0] = context.player.getHand().get(0);
+    	cards[1] = context.player.getHand().get(1);
+        return cards;
+    }
+    
+    @Override
     public Card alms_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 4, true);
     }

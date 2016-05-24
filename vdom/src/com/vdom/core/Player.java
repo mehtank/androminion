@@ -1972,6 +1972,7 @@ public abstract class Player {
     // Card interactions - Empires Expansion
     // ////////////////////////////////////////////
     public abstract int numDebtTokensToPayOff(MoveContext context);
+    public abstract Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context);
 
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards
