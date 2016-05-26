@@ -2918,16 +2918,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
-    	if(context.isQuickPlay() && shouldAutoPlay_hauntedCastle_gain_cardsToPutBackOnDeck(context)) {
-            return super.hauntedCastle_gain_cardsToPutBackOnDeck(context);
-        }
-        SelectCardOptions sco = new SelectCardOptions().setCount(2).ordered()
-                .setCardResponsible(Cards.hauntedCastle);
-        return getFromHand(context, sco);
-    }
-    
-    @Override
     public Card alms_cardToObtain(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_alms_cardToObtain(context)) {
             return super.alms_cardToObtain(context);
@@ -3130,4 +3120,35 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return options[selectOption(context, null, options)];
     }
 
+    @Override
+    public Card catapult_cardToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_catapult_cardToTrash(context)) {
+            return super.catapult_cardToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.catapult);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card[] catapult_attack_cardsToKeep(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_catapult_attack_cardsToKeep(context)) {
+            return super.catapult_attack_cardsToKeep(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.KEEP).setCardResponsible(Cards.catapult);
+        return getFromHand(context, sco);
+    }
+
+    @Override
+    public Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_hauntedCastle_gain_cardsToPutBackOnDeck(context)) {
+            return super.hauntedCastle_gain_cardsToPutBackOnDeck(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setCount(2).ordered()
+                .setCardResponsible(Cards.hauntedCastle);
+        return getFromHand(context, sco);
+    }
+    
 }

@@ -851,6 +851,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             	warrior(game, context, currentPlayer);
                 break;
             /* Empires */
+            case Catapult:
+            	catapult(game, context, currentPlayer);
+            	break;
             case CityQuarter:
             	cityQuarter(game, context, currentPlayer);
             	break;
@@ -6332,6 +6335,48 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             
             //currentPlayer.putOnTopOfDeck(draw, context, true);
             
+        }
+    }
+    
+    private void catapult(Game game, MoveContext context, Player currentPlayer) {
+    	ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+    	
+    	if(currentPlayer.getHand().size() == 0) return;
+        Card cardToTrash = currentPlayer.controlPlayer.catapult_cardToTrash(context);
+        if (cardToTrash == null) {
+            Util.playerError(currentPlayer, "Catapult did not return a card to trash, trashing random card.");
+            cardToTrash = Util.randomCard(currentPlayer.getHand());
+        }
+        int coinCost = cardToTrash.getCost(context);
+        boolean isTreasure = cardToTrash instanceof TreasureCard;
+        currentPlayer.hand.remove(cardToTrash);
+        currentPlayer.trash(cardToTrash, this.controlCard, context);
+    	
+        if (coinCost >= 3) {
+	        for (Player player : attackedPlayers) {
+				player.attacked(this.controlCard, context);
+	            MoveContext playerContext = new MoveContext(game, player);
+	            playerContext.attackedPlayer = player;
+	            player.gainNewCard(Cards.curse, this.controlCard, playerContext);
+	        }
+        }
+        
+        if (isTreasure) {
+	        for (Player player : attackedPlayers) {
+				player.attacked(this.controlCard, context);
+	            MoveContext playerContext = new MoveContext(game, player);
+	            playerContext.attackedPlayer = player;
+	            int keepCardCount = 3;
+                if (player.hand.size() > keepCardCount) {
+                    Card[] cardsToKeep = player.controlPlayer.catapult_attack_cardsToKeep(playerContext);
+                    player.discardRemainingCardsFromHand(playerContext, cardsToKeep, this.controlCard, keepCardCount);
+                }
+	        }
         }
     }
     

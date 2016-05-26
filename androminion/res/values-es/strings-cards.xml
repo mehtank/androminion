@@ -600,7 +600,7 @@
     <string name="Capital_name">Capital</string>
     <string name="Capital_desc">Cuando descartes esta carta de tu zona de juego, toma 6 marcadores de Deuda, y entonces puedes pagar marcadores de Deuda.</string>
     <string name="Catapult_name">Catapulta</string>
-    <string name="Catapult_desc">Trash a card from your hand. If it costs (3) Coins or more, each other player gains a Curse. If it\'s a Treasure, each other player discards down to 3 cards in hand.</string>
+    <string name="Catapult_desc">Elimina una carta de tu mano. Si tiene un coste de (3) Monedas o más, cada jugador (menos tú) gana una carta de Maldición. Si es una carta de Tesoro, cada jugador (menos tú) se descarta hasta quedarse con 3 cartas en su mano.</string>
     <string name="CityQuarter_name">Cuartel de la Cuidad</string>
     <string name="CityQuarter_desc">Revela tu mano. +1 Carta por cada carta de Acción revelada.</string>
     <string name="ChariotRace_name">Carrera de Carros</string>

@@ -930,10 +930,6 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
     
-    public boolean shouldAutoPlay_hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
-    	return false;
-    }
-    
     public boolean shouldAutoPlay_alms_cardToObtain(MoveContext context) {
     	return false;
     }
@@ -1008,6 +1004,18 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     public boolean shouldAutoPlay_extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options) {
     	return true;
+    }
+    
+    public boolean shouldAutoPlay_catapult_cardToTrash(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_catapult_attack_cardsToKeep(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
+    	return false;
     }
 
 }

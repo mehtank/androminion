@@ -372,6 +372,7 @@
 	<string name="militia_part">guardar de Milicia</string>
 	<string name="mercenary_part">guardar de Mercenario</string>
 	<string name="sir_michael_part">guardar de Sir Michael</string>
+	<string name="catapult_part">guardar [Catapulta]</string>
 
 	<string name="bishop_part">eliminar para Puntos de Victoria</string>
 

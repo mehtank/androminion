@@ -376,6 +376,7 @@
 	<string name="militia_part">keep from Militia</string>
 	<string name="mercenary_part">keep from Mercenary</string>
 	<string name="sir_michael_part">keep from Sir Michael</string>
+	<string name="catapult_part">keep [Catapult]</string>
 	
 	<string name="bishop_part">trash for Victory Tokens</string>
 	

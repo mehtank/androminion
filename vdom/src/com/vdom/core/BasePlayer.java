@@ -22,6 +22,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate };
     protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate, Cards.copper, Cards.masterpiece };
     protected static final Card[] EASY_WHEN_TRASH_CARDS = new Card[] { Cards.cultist, Cards.rats, Cards.catacombs, Cards.fortress, Cards.huntingGrounds, Cards.sirVander, Cards.overgrownEstate};
+    protected static final Card[] CATAPULT_AMMO_CARDS = new Card[] { Cards.rocks, Cards.masterpiece, Cards.illGottenGains, Cards.silver, Cards.loan, Cards.rats, Cards.fortress, Cards.curse, Cards.estate, Cards.copper, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins};
     
     protected Random rand = new Random(System.currentTimeMillis());
     protected static final int COST_MAX = 11;
@@ -3641,14 +3642,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
-    	Card[] cards = new Card[2];
-    	cards[0] = context.player.getHand().get(0);
-    	cards[1] = context.player.getHand().get(1);
-        return cards;
-    }
-    
-    @Override
     public Card alms_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 4, true);
     }
@@ -3803,5 +3796,28 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card trashingToken_cardToTrash(MoveContext context) {
     	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+
+    @Override
+    public Card catapult_cardToTrash(MoveContext context) {
+    	Card c = pickOutCard(context.getPlayer().getHand(), CATAPULT_AMMO_CARDS);
+    	if (c == null) {
+    		//TODO: avoid cards we want to trash here (e.g. province) - favor low cost actions costing 3
+            c = Util.randomCard(context.getPlayer().getHand());
+        }
+    	return c;
+    }
+    
+    @Override
+    public Card[] catapult_attack_cardsToKeep(MoveContext context) {
+    	return militia_attack_cardsToKeep(context);
+    }
+    
+    @Override
+    public Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
+    	Card[] cards = new Card[2];
+    	cards[0] = context.player.getHand().get(0);
+    	cards[1] = context.player.getHand().get(1);
+        return cards;
     }
 }

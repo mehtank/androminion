@@ -1511,6 +1511,12 @@ public class Strings {
             } else if (sco.token == PlayerSupplyToken.PlusOneCoin) {
             	return getString(R.string.teacher_move_token_plus_one_coin);
             } 
+        } else if (cardName.equals(getCardName(Cards.catapult))) {
+            if (sco.actionType == ActionType.TRASH) {
+                return getActionString(sco);
+            } else {
+                return getString(R.string.catapult_part);
+            }
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
     }
