@@ -6313,6 +6313,28 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     	}
     }
     
+    private void chariotRace(Game game, MoveContext context, Player currentPlayer) {
+    	Card draw = game.draw(context, Cards.chariotRace, 1);
+        if (draw != null) {
+            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.hand.add(draw, true);
+            Player nextPlayer = game.getNextPlayer();
+            MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
+            Card nextPlayerCard = game.draw(nextPlayerContext, this.controlCard, 1);
+            if (nextPlayerCard != null) {
+            	nextPlayer.reveal(nextPlayerCard, this.controlCard, nextPlayerContext);
+            	nextPlayer.putOnTopOfDeck(nextPlayerCard, nextPlayerContext, false);
+            	//TODO: does draw cost more than nextPlayerCard?
+            	
+            }
+            
+                
+            
+            //currentPlayer.putOnTopOfDeck(draw, context, true);
+            
+        }
+    }
+    
     private void cityQuarter(Game game, MoveContext context, Player currentPlayer) {
     	int actionCards = 0;
 
