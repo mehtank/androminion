@@ -15,6 +15,8 @@
 	<string name="inn_option_two">Dejarla con las descartes</string>
 	<string name="tunnel_query">Descartando Túnel</string>
 	<string name="tunnel_option_one">Revela por Oro</string>
+	<string name="settlers_query">Poner Cobre de las descartes en tu mano</string>
+	<string name="bustlingVillage_query">Poner Colonos de las descartes en tu mano</string>
 
 	<string name="join_timed_out">Agotado el tiempo de espera para que se unan jugadores e iniciar la partida.</string>
 	<string name="response_timed_out">Tiempo de espera agotado para unirse el jugador y responder a la petición.</string>

@@ -851,6 +851,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             	warrior(game, context, currentPlayer);
                 break;
             /* Empires */
+            case BustlingVillage:
+            	bustlingVillage(game, context, currentPlayer);
+            	break;
             case Catapult:
             	catapult(game, context, currentPlayer);
             	break;
@@ -865,6 +868,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             	break;
             case RoyalBlacksmith:
             	royalBlacksmith(game, context, currentPlayer);
+            	break;
+            case Settlers:
+            	settlers(game, context, currentPlayer);
             	break;
             default:
                 break;
@@ -6338,6 +6344,32 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
     
+    private void bustlingVillage(Game game, MoveContext context, Player currentPlayer) {
+        if (currentPlayer.discard.isEmpty()) return;
+        int coppers = 0;
+        int settlers = 0;
+        for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
+            Card card = it.next();
+            if (Cards.copper.equals(card)) {
+                coppers++;
+            }
+            if (Cards.settlers.equals(card)) {
+                settlers++;
+            }
+        }
+        if (currentPlayer.controlPlayer.bustlingVillage_settlersIntoHand(context, coppers, settlers)) {
+        	for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
+                Card card = it.next();
+                if (Cards.settlers.equals(card)) {
+                    currentPlayer.reveal(card, this.controlCard, context);
+                    it.remove();
+                    currentPlayer.hand.add(card);
+                    break;
+                }
+            }
+        }
+    }
+    
     private void catapult(Game game, MoveContext context, Player currentPlayer) {
     	ArrayList<Player> attackedPlayers = new ArrayList<Player>();
     	for (Player player : context.game.getPlayersInTurnOrder()) {
@@ -6429,4 +6461,29 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
     
+    private void settlers(Game game, MoveContext context, Player currentPlayer) {
+        if (currentPlayer.discard.isEmpty()) return;
+        int coppers = 0;
+        int settlers = 0;
+        for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
+            Card card = it.next();
+            if (Cards.copper.equals(card)) {
+                coppers++;
+            }
+            if (Cards.settlers.equals(card)) {
+                settlers++;
+            }
+        }
+        if (currentPlayer.controlPlayer.settlers_copperIntoHand(context, coppers, settlers)) {
+        	for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
+                Card card = it.next();
+                if (Cards.copper.equals(card)) {
+                    currentPlayer.reveal(card, this.controlCard, context);
+                    it.remove();
+                    currentPlayer.hand.add(card);
+                    break;
+                }
+            }
+        }
+    }
 }

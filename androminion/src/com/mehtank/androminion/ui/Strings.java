@@ -1089,7 +1089,13 @@ public class Strings {
         		  ) {
             strings[1] = format(R.string.traveller_exchange, getCardName((Card)extras[0]));
             strings[2] = getString(R.string.pass);
-        }
+        } else if (cardName.equals(getCardName(Cards.settlers))) {
+	         strings[1] = getString(R.string.settlers_query);
+	         strings[2] = getString(R.string.pass);
+	    } else if (cardName.equals(getCardName(Cards.bustlingVillage))) {
+	         strings[1] = getString(R.string.bustlingVillage_query);
+	         strings[2] = getString(R.string.pass);
+	    }
         if (strings[1] != null) {
             return strings;
         }

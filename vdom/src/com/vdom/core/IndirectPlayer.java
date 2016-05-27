@@ -3119,6 +3119,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         return options[selectOption(context, null, options)];
     }
+    
+    @Override
+    public boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers) {
+    	if(context.isQuickPlay() && shouldAutoPlay_bustlingVillage_settlersIntoHand(context)) {
+            return super.bustlingVillage_settlersIntoHand(context, coppers, settlers);
+        }
+    	return selectBoolean(context, Cards.bustlingVillage);
+    }
 
     @Override
     public Card catapult_cardToTrash(MoveContext context) {
@@ -3149,6 +3157,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().setCount(2).ordered()
                 .setCardResponsible(Cards.hauntedCastle);
         return getFromHand(context, sco);
+    }
+    
+    @Override
+    public boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers) {
+    	if(context.isQuickPlay() && shouldAutoPlay_settlers_copperIntoHand(context)) {
+            return super.settlers_copperIntoHand(context, coppers, settlers);
+        }
+    	return selectBoolean(context, Cards.settlers);
     }
     
 }

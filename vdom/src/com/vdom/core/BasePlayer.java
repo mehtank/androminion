@@ -3797,6 +3797,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card trashingToken_cardToTrash(MoveContext context) {
     	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
     }
+        
+    @Override
+    public boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers) {
+    	return true;
+    }
 
     @Override
     public Card catapult_cardToTrash(MoveContext context) {
@@ -3819,5 +3824,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	cards[0] = context.player.getHand().get(0);
     	cards[1] = context.player.getHand().get(1);
         return cards;
+    }
+    
+    @Override
+    public boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers) {
+    	return true;
     }
 }
