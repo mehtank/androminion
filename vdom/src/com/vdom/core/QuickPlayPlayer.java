@@ -1022,6 +1022,14 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_gladiator_revealedCard(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_gladiator_revealCopy(MoveContext context, Card card) {
+    	return true;
+    }
+    
     public boolean shouldAutoPlay_opulentCastle_cardsToDiscard(MoveContext context) {
     	for(Card c: context.getPlayer().getHand()) {
     		if (c.isVictory(context) && c.isAction(context.getPlayer())) {

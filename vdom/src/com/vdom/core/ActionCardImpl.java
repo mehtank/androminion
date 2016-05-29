@@ -869,6 +869,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case FarmersMarket:
             	farmersMarket(game, context, currentPlayer);
             	break;
+            case Gladiator:
+            	gladiator(game, context, currentPlayer);
+            	break;
             case OpulentCastle:
             	opulentCastle(game, context, currentPlayer);
             	break;
@@ -6461,6 +6464,33 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     	} else {
     		game.addPileVpTokens(c, 1);
     		context.addCoins(game.getPileVpTokens(c));
+    	}
+    }
+    
+    private void gladiator(Game game, MoveContext context, Player currentPlayer) {
+    	boolean revealedCopy = false;
+    	if (currentPlayer.hand.size() > 0) {
+    		Card card = currentPlayer.controlPlayer.gladiator_revealedCard(context);
+            if (card == null) {
+                card = Util.randomCard(currentPlayer.hand);
+            } else if (!currentPlayer.hand.contains(card)) {
+                Util.playerError(currentPlayer, "Gladiator revealed card error, picking random card.");
+                card = Util.randomCard(currentPlayer.hand);
+            }
+            currentPlayer.reveal(card, this.controlCard, context);
+            Player nextPlayer = game.getNextPlayer();
+            if (nextPlayer.getHand().contains(card)) {
+            	MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
+            	revealedCopy = nextPlayer.controlPlayer.gladiator_revealCopy(nextPlayerContext, currentPlayer, card);
+            }
+    	}
+    	if (!revealedCopy) {
+    		context.addCoins(1);
+    		 AbstractCardPile pile = game.getPile(Cards.gladiator);
+    		 if (pile != null && pile.getCount() > 0 && pile.card() == Cards.gladiator) {
+    			 Card gladiator = pile.removeCard();
+    			 currentPlayer.trash(gladiator, this.controlCard, context);
+    		 }
     	}
     }
     

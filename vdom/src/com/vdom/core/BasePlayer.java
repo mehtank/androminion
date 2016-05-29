@@ -3827,6 +3827,28 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card gladiator_revealedCard(MoveContext context) {
+    	// TODO Make AI analyze next players deck composition to determine the least likely card they wouldn't have in hand that you do
+    	Card bestCard = null;
+    	int highestCost = -1;
+    	for (Card c : context.getPlayer().getHand()) {
+    		//TODO: always reveal a card bought from the black market deck
+    		if (c.isPrize() || c.isCastle(context.getPlayer())) return c;
+    		int cost = c.getCost(context);
+    		if (cost > highestCost) {
+    			highestCost = cost;
+    			bestCard = c;
+    		}
+    	}
+    	return bestCard;
+    }
+    
+    @Override
+    public boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card) {
+    	return true;
+    }
+    
+    @Override
     public Card[] opulentCastle_cardsToDiscard(MoveContext context) {
     	List<Card> result = new ArrayList<Card>();
     	for (Card c : context.getPlayer().getHand()) {

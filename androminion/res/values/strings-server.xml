@@ -17,6 +17,7 @@
 	<string name="tunnel_option_one">Reveal for Gold</string>
 	<string name="settlers_query">Put Copper from discard into hand</string>
 	<string name="bustlingVillage_query">Put Settlers from discard into hand</string>
+	<string name="reveal_copy">Reveal copy from hand</string>
 	
 	<string name="join_timed_out">Timed out waiting for player to join and start game.</string>
 	<string name="response_timed_out">Timed out waiting for player to join and respond to query.</string>

@@ -3160,6 +3160,28 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card gladiator_revealedCard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_gladiator_revealedCard(context)) {
+            return super.gladiator_revealedCard(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setActionType(ActionType.REVEAL)
+                .setCardResponsible(Cards.gladiator);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card) {
+    	if(context.isQuickPlay() && shouldAutoPlay_gladiator_revealCopy(context, card)) {
+            return super.gladiator_revealCopy(context, revealingPlayer, card);
+        }
+    	Object[] extras = new Object[3];
+        extras[0] = revealingPlayer.getPlayerName();
+        extras[1] = Cards.gladiator;
+        extras[2] = card;
+        return selectBoolean(context, Cards.gladiator, extras);
+    }
+    
+    @Override
     public Card[] opulentCastle_cardsToDiscard(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_opulentCastle_cardsToDiscard(context)) {
             return super.opulentCastle_cardsToDiscard(context);
