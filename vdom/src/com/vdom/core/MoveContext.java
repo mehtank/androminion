@@ -10,6 +10,7 @@ import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
+import com.vdom.api.VictoryCard;
 
 public class MoveContext {
     public int actions = 1;
@@ -168,7 +169,7 @@ public class MoveContext {
         return treasuresInPlay;
     }
 
-    public enum CardsInPlay {ACTION,ATTACK,TRAVELLER};
+    public enum CardsInPlay {ACTION,ATTACK,TRAVELLER,VICTORY};
     
     public int countActionCardsInPlayThisTurn() {
     	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.ACTION);
@@ -182,12 +183,17 @@ public class MoveContext {
     	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.TRAVELLER);
     }
     
+    public int countVictoryCardsInPlayThisTurn() {
+    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.VICTORY);
+    }
+    
     public int countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay type) {
         int actionsInPlay = 0;
         for (Card c : getPlayedCards()) {
         	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
         			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
-        			|| (type == CardsInPlay.ACTION && c.isAction(player))) {
+        			|| (type == CardsInPlay.ACTION && c.isAction(player))
+        			|| (type == CardsInPlay.VICTORY && c instanceof VictoryCard)) {
     			actionsInPlay++;
         	}
         }
@@ -196,7 +202,8 @@ public class MoveContext {
         		continue;
         	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
         			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
-        			|| (type == CardsInPlay.ACTION && c.isAction(player))) {
+        			|| (type == CardsInPlay.ACTION && c.isAction(player))
+        			|| (type == CardsInPlay.VICTORY && c instanceof VictoryCard)) {
     			actionsInPlay++;
         	}
         }

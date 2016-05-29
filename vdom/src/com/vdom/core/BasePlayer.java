@@ -3863,4 +3863,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers) {
     	return true;
     }
+    
+    @Override
+    public HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context) {
+    	return HuntingGroundsOption.GainDuchy;
+    }
 }

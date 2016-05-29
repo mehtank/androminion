@@ -3200,4 +3200,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	return selectBoolean(context, Cards.settlers);
     }
     
+    @Override
+    public HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context) {
+    	HuntingGroundsOption[] options = HuntingGroundsOption.values();
+        return options[selectOption(context, Cards.sprawlingCastle, options)];
+    }
 }

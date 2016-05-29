@@ -28,6 +28,7 @@ import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.ExtraTurnOption;
+import com.vdom.core.Player.HuntingGroundsOption;
 import com.vdom.core.Player.WatchTowerOption;
 
 public class Game {
@@ -2976,6 +2977,36 @@ public class Game {
                                 }
                             }
                     	}
+                    } else if (gainedCardAbility.equals(Cards.sprawlingCastle)) {
+                    	int duchyCount = context.game.getPile(Cards.duchy).getCount();
+                        int estateCount = context.game.getPile(Cards.estate).getCount();
+                    	if (duchyCount == 0 && estateCount == 0) return;
+                        
+                        Player.HuntingGroundsOption option = context.player.controlPlayer.sprawlingCastle_chooseOption(context);
+                        if (option == null) option = HuntingGroundsOption.GainEstates;
+                        switch (option) {
+                            case GainDuchy:
+                            	context.player.controlPlayer.gainNewCard(Cards.duchy, event.card, context);
+                                break;
+                            case GainEstates:
+                            	context.player.controlPlayer.gainNewCard(Cards.estate, event.card, context);
+                                context.player.controlPlayer.gainNewCard(Cards.estate, event.card, context);
+                                context.player.controlPlayer.gainNewCard(Cards.estate, event.card, context);
+                                break;
+                            default:
+                                break;
+                        }
+                    } else if (gainedCardAbility.equals(Cards.grandCastle)) {
+                    	int victoryCards = 0;
+                        for(Card c : player.getHand()) {
+                            player.reveal(c, event.card, context);
+                            if(c.isVictory(context)) {
+                                victoryCards++;
+                            }
+                        }
+                        victoryCards += context.countVictoryCardsInPlayThisTurn();
+
+                        player.addVictoryTokens(context, victoryCards);
                     }
                     
                     // Achievement check...
