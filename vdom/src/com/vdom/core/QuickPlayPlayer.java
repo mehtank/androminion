@@ -1022,6 +1022,15 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_opulentCastle_cardsToDiscard(MoveContext context) {
+    	for(Card c: context.getPlayer().getHand()) {
+    		if (c.isVictory(context) && c.isAction(context.getPlayer())) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
     public boolean shouldAutoPlay_settlers_copperIntoHand(MoveContext context) {
     	return true;
     }

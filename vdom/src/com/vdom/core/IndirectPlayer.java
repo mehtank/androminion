@@ -3160,6 +3160,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card[] opulentCastle_cardsToDiscard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_opulentCastle_cardsToDiscard(context)) {
+            return super.opulentCastle_cardsToDiscard(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isVictory().setPassable()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.opulentCastle);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
     public boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers) {
     	if(context.isQuickPlay() && shouldAutoPlay_settlers_copperIntoHand(context)) {
             return super.settlers_copperIntoHand(context, coppers, settlers);

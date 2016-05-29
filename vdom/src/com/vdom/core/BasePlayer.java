@@ -3827,6 +3827,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card[] opulentCastle_cardsToDiscard(MoveContext context) {
+    	List<Card> result = new ArrayList<Card>();
+    	for (Card c : context.getPlayer().getHand()) {
+    		if (c.isVictory(context)) {
+    			result.add(c);
+    		}
+    	}
+    	return result.toArray(new Card[0]);
+    }
+    
+    @Override
     public boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers) {
     	return true;
     }

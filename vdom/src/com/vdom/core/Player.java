@@ -1976,6 +1976,7 @@ public abstract class Player {
     public abstract Card catapult_cardToTrash(MoveContext context);
     public abstract Card[] catapult_attack_cardsToKeep(MoveContext context);
     public abstract Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context);
+    public abstract Card[] opulentCastle_cardsToDiscard(MoveContext context);
     public abstract boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers);
     
     // ////////////////////////////////////////////

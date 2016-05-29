@@ -1373,6 +1373,8 @@ public class Strings {
             getCardName(Cards.inheritance),
             getCardName(Cards.pilgrimage),
             getCardName(Cards.seaway),
+            /*Empires*/
+            getCardName(Cards.opulentCastle),
             /*Promo Events*/
             getCardName(Cards.summon)
             

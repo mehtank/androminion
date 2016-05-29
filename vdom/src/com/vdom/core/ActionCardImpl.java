@@ -857,6 +857,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case Catapult:
             	catapult(game, context, currentPlayer);
             	break;
+            case ChariotRace:
+            	chariotRace(game, context, currentPlayer);
+            	break;
             case CityQuarter:
             	cityQuarter(game, context, currentPlayer);
             	break;
@@ -865,6 +868,9 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             	break;
             case FarmersMarket:
             	farmersMarket(game, context, currentPlayer);
+            	break;
+            case OpulentCastle:
+            	opulentCastle(game, context, currentPlayer);
             	break;
             case RoyalBlacksmith:
             	royalBlacksmith(game, context, currentPlayer);
@@ -6321,29 +6327,7 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     		}
     	}
     }
-    
-    private void chariotRace(Game game, MoveContext context, Player currentPlayer) {
-    	Card draw = game.draw(context, Cards.chariotRace, 1);
-        if (draw != null) {
-            currentPlayer.reveal(draw, this.controlCard, context);
-            currentPlayer.hand.add(draw, true);
-            Player nextPlayer = game.getNextPlayer();
-            MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
-            Card nextPlayerCard = game.draw(nextPlayerContext, this.controlCard, 1);
-            if (nextPlayerCard != null) {
-            	nextPlayer.reveal(nextPlayerCard, this.controlCard, nextPlayerContext);
-            	nextPlayer.putOnTopOfDeck(nextPlayerCard, nextPlayerContext, false);
-            	//TODO: does draw cost more than nextPlayerCard?
-            	
-            }
-            
-                
-            
-            //currentPlayer.putOnTopOfDeck(draw, context, true);
-            
-        }
-    }
-    
+   
     private void bustlingVillage(Game game, MoveContext context, Player currentPlayer) {
         if (currentPlayer.discard.isEmpty()) return;
         int coppers = 0;
@@ -6412,6 +6396,46 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
         }
     }
     
+    private void chariotRace(Game game, MoveContext context, Player currentPlayer) {
+    	Card draw = game.draw(context, Cards.chariotRace, 1);
+        if (draw != null) {
+            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.hand.add(draw, true);
+            Player nextPlayer = game.getNextPlayer();
+            MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
+            Card nextPlayerCard = game.draw(nextPlayerContext, this.controlCard, 1);
+            if (nextPlayerCard != null) {
+            	nextPlayer.reveal(nextPlayerCard, this.controlCard, nextPlayerContext);
+            	nextPlayer.putOnTopOfDeck(nextPlayerCard, nextPlayerContext, false);
+            	int drawCoinCost = draw.getCost(context); 
+            	int nextPlayerCoinCost = nextPlayerCard.getCost(context);
+            	boolean drawHasCoinCost = drawCoinCost > 0;
+            	boolean nextPlayerHasCoinCost = nextPlayerCoinCost > 0;
+            	int drawDebtCost = draw.getDebtCost(context); 
+            	int nextPlayerDebtCost = nextPlayerCard.getDebtCost(context);
+            	boolean drawHasDebtCost = drawDebtCost > 0;
+            	boolean nextPlayerHasDebtCost = nextPlayerDebtCost > 0;
+            	boolean costMore = false;
+            	if (drawHasCoinCost && !nextPlayerHasCoinCost ||
+            			drawHasDebtCost && !nextPlayerHasDebtCost ||
+            			draw.costPotion() && !nextPlayerCard.costPotion())
+            		costMore = true;
+            	else if (!drawHasCoinCost && nextPlayerHasCoinCost ||
+            			!drawHasDebtCost && nextPlayerHasDebtCost ||
+            			!draw.costPotion() && nextPlayerCard.costPotion())
+            		costMore = false;
+            	else if ((drawHasCoinCost && drawCoinCost > nextPlayerCoinCost) ||
+            			(drawHasDebtCost && drawDebtCost > nextPlayerDebtCost)) {
+            		costMore = true;
+            	}
+            	if (costMore) {
+            		context.addCoins(1);
+            		currentPlayer.addVictoryTokens(context, 1);
+            	}
+            }
+        }
+    }
+    
     private void cityQuarter(Game game, MoveContext context, Player currentPlayer) {
     	int actionCards = 0;
 
@@ -6438,6 +6462,35 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     		game.addPileVpTokens(c, 1);
     		context.addCoins(game.getPileVpTokens(c));
     	}
+    }
+    
+    private void opulentCastle(Game game, MoveContext context, Player currentPlayer) {
+        Card[] cards = currentPlayer.controlPlayer.opulentCastle_cardsToDiscard(context);
+        for(Card card : cards) {
+        	if (!card.isVictory(context)) {
+        		Util.playerError(currentPlayer, "Opulent Castle choice error, trying to discard non-victory cards, ignoring.");
+        		cards = null;
+        	}
+        }
+        if (cards != null) {
+            int numberOfCards = 0;
+            for (Card card : cards) {
+                for (int i = 0; i < currentPlayer.hand.size(); i++) {
+                    Card playersCard = currentPlayer.hand.get(i);
+                    if (playersCard.equals(card)) {
+                        currentPlayer.discard(currentPlayer.hand.remove(i), this.controlCard, context);
+                        numberOfCards++;
+                        break;
+                    }
+                }
+            }
+
+            if (numberOfCards != cards.length) {
+                Util.playerError(currentPlayer, "Opulent Castle discard error, trying to discard cards not in hand, ignoring extra.");
+            }
+            
+            context.addCoins(2 * numberOfCards);
+        }
     }
     
     private void royalBlacksmith(Game game, MoveContext context, Player currentPlayer) {
