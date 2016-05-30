@@ -85,6 +85,7 @@ public class Game {
     public static boolean actionChains = false;
     public static boolean suppressRedundantReactions = false;
     public static boolean equalStartHands = false;
+    public static boolean errataPossessedTakesTokens = false; //Errata introduced May 2016 - true enables old behavior
     public static boolean startGuildsCoinTokens = false; //only for testing
     public static boolean lessProvinces = false; //only for testing
     public static boolean maskPlayerNames = false;
@@ -1466,6 +1467,7 @@ public class Game {
         chanceForPlatColony = -1;
         chanceForShelters = -1;
         equalStartHands = false;
+        errataPossessedTakesTokens = false;
         startGuildsCoinTokens = false; //only for testing
         lessProvinces = false; //only for testing
 
@@ -1478,6 +1480,7 @@ public class Game {
         String useSheltersArg = "-useshelters";
         String blackMarketCountArg = "-blackmarketcount";
         String equalStartHandsArg = "-equalstarthands";
+        String errataPossessionArg = "-erratapossessedtakestokens";
         String startGuildsCoinTokensArg = "-startguildscointokens"; //only for testing
         String lessProvincesArg = "-lessprovinces"; //only for testing
 
@@ -1513,6 +1516,8 @@ public class Game {
                     startGuildsCoinTokens = true; //only for testing
                 } else if (arg.toLowerCase().equals(lessProvincesArg)) {
                     lessProvinces = true; //only for testing
+                } else if (arg.toLowerCase().equals(errataPossessionArg)) {
+                	errataPossessedTakesTokens = true;
                 }
             }
         }

@@ -269,6 +269,9 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         if (prefs.getBoolean("less_provinces", false)) {
             strs.add("-lessprovinces");
         }
+        if (!prefs.getBoolean("errata_posessor_takes_tokens", true)) {
+        	strs.add("-erratapossessedtakestokens");
+        }
         
         return strs;
     }

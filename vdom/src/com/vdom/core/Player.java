@@ -73,9 +73,14 @@ public abstract class Player {
 
     public void addVictoryTokens(MoveContext context, int vt) {
     	if (vt == 0) return;
-    	//TODO: possession option & new context for possessing player?
-        victoryTokens += vt;
-        context.vpsGainedThisTurn += vt;
+    	if (Game.errataPossessedTakesTokens) {
+    		victoryTokens += vt;
+    	} else {
+    		controlPlayer.victoryTokens += vt;
+    	}
+    	//How to track vp gained in a turn by possessing player?
+    	if (!isPossessed())
+    		context.vpsGainedThisTurn += vt;
     }
 
     public int getTotalCardsBoughtThisTurn(MoveContext context) {
@@ -612,7 +617,12 @@ public abstract class Player {
 
     public void gainGuildsCoinTokens(int tokenCount)
     {
-        guildsCoinTokenCount += tokenCount;
+    	if (tokenCount == 0) return;
+    	if (Game.errataPossessedTakesTokens) {
+    		guildsCoinTokenCount += tokenCount;
+    	} else {
+    		controlPlayer.guildsCoinTokenCount += tokenCount;
+    	}
     }
 
     public void spendGuildsCoinTokens(int tokenCount)
@@ -629,7 +639,7 @@ public abstract class Player {
     
     public void gainDebtTokens(int tokenCount)
     {
-        debtTokenCount += tokenCount;
+        controlPlayer.debtTokenCount += tokenCount;
     }
     
     public void payOffDebtTokens(int tokenCount) {

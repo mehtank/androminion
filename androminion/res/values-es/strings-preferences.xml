@@ -64,6 +64,9 @@
     <string name="pref_theme_summary">Elegir el tema de la aplicación</string>
     <string name="autodownload_pref_title">Auto-descargar imágenes</string>
     <string name="autodownload_pref_summary">Imágenes de las cartas (en inglés) se descargan del internet y se almacenan en tu tarjeta SD</string>
+    <string name="errata_pref_title">Fe de erratas…</string>
+    <string name="errataposessiontokens_pref_title">Marcadores para Posesión</string>
+    <string name="errataposessiontokens_pref_summary">El jugador que posee es el que toma los marcadores (de Imperios)</string>
     
     <string-array name="theme_names">
         <item>Oscuro</item>
