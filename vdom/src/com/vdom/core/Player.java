@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -758,6 +759,27 @@ public abstract class Player {
         cardCounts.put(DISTINCT_CARDS, distinctCards.size());
         return cardCounts;
     }
+    
+    public Map<Card, Integer> getTreasureCardCounts() {
+    	final Map<Card, Integer> cardCounts = new HashMap<Card, Integer>();
+    	for (AbstractCardPile pile : this.game.piles.values()) {
+            Card card = pile.card();
+            if(card instanceof TreasureCard) {
+                cardCounts.put(card, 0);
+            }
+        }
+
+        for(Card card : this.getAllCards()) {
+            if (card instanceof TreasureCard) {
+                if(cardCounts.containsKey(card)) {
+                    cardCounts.put(card, cardCounts.get(card) + 1);
+                } else {
+                    cardCounts.put(card, 1);
+                }
+            }
+        }
+        return cardCounts;
+    }
 
     public int getCardCount(final Class<?> cardClass) {
         return this.getCardCount(cardClass, getAllCards());
@@ -887,6 +909,23 @@ public abstract class Player {
         }
         if (this.game.cardInGame(Cards.wolfDen)) {
         	totals.put(Cards.wolfDen, counts.get(ONE_COPY_CARDS) * -3);
+        }
+        if (this.game.cardInGame(Cards.keep)) {
+        	Map<Card, Integer> myWinningTreasures = getTreasureCardCounts();
+        	for (Iterator<Map.Entry<Card, Integer>> it = myWinningTreasures.entrySet().iterator(); it.hasNext(); ) {
+        		if (it.next().getValue() == 0)
+        			it.remove();
+        	}
+        	for(Player p : game.getPlayersInTurnOrder()) {
+        		if (p == this) continue;
+        		Map<Card, Integer> otherTreasureCounts = p.getTreasureCardCounts();
+        		for (Iterator<Map.Entry<Card, Integer>> it = myWinningTreasures.entrySet().iterator(); it.hasNext(); ) {
+        			Map.Entry<Card, Integer> entry = it.next();
+        			if (otherTreasureCounts.containsKey(entry.getKey()) && otherTreasureCounts.get(entry.getKey()) > entry.getValue())
+            			it.remove();
+            	}
+        	}
+        	totals.put(Cards.keep, myWinningTreasures.size() * 5);
         }
         
         // victory tokens
