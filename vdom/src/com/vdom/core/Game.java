@@ -2800,7 +2800,7 @@ public class Game {
                     	}
                     }
                     
-                    if(event.card.isVictory(null)) {
+                    if(event.card.isVictory(context)) {
                     	if (isCardInGame(Cards.battlefield)) {
                     		int tokensLeft = getPileVpTokens(Cards.battlefield);
                     		if (tokensLeft > 0) {
@@ -3114,7 +3114,7 @@ public class Game {
     
     AbstractCardPile addPileVpTokens(Card card, int num) {
         String name = card.getName();
-        pileVpTokens.put(name, getPileVpTokens(card) + 1);
+        pileVpTokens.put(name, getPileVpTokens(card) + num);
         return piles.get(name);
     }
     
