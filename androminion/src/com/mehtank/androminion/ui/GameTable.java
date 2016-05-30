@@ -110,6 +110,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     ArrayList<CardInfo> openedCards = new ArrayList<CardInfo>();
     int maxOpened = 0;
     boolean exactOpened = true;
+    int minOpened = 0;
     boolean myTurn;
 
     boolean finalStatsReported = false;
@@ -726,6 +727,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         this.maxOpened = maxOpened;
         this.exactOpened = exactOpened;
+        this.minOpened = sco.minCount;
 
         if (sco.isBuyPhase) {
             s = Strings.getString(R.string.part_buy);
@@ -820,7 +822,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             setSelectText(sco.pickType);
         }
 
-        if (exactOpened && (openedCards.size() != maxOpened)) {
+        if ((exactOpened && (openedCards.size() != maxOpened)) || (openedCards.size() < minOpened)) {
             cannotSelect();
         } else {
             canSelect();

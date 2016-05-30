@@ -2977,6 +2977,10 @@ public class Game {
                                 }
                             }
                     	}
+                    } else if (gainedCardAbility.equals(Cards.temple)) {
+                    	int numTokens = context.game.getPileVpTokens(Cards.temple);
+                    	context.game.removePileVpTokens(Cards.temple, numTokens);
+                    	player.addVictoryTokens(context, numTokens);
                     } else if (gainedCardAbility.equals(Cards.sprawlingCastle)) {
                     	int duchyCount = context.game.getPile(Cards.duchy).getCount();
                         int estateCount = context.game.getPile(Cards.estate).getCount();
@@ -3117,7 +3121,9 @@ public class Game {
     AbstractCardPile removePileVpTokens(Card card, int num) {
     	num = Math.min(num, getPileVpTokens(card));
         String name = card.getName();
-        pileVpTokens.put(name, getPileVpTokens(card) - num);
+        if (num > 0) {
+        	pileVpTokens.put(name, getPileVpTokens(card) - num);
+        }
         return piles.get(name);
     }
 

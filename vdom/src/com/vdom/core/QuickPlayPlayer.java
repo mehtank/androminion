@@ -1042,5 +1042,9 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_settlers_copperIntoHand(MoveContext context) {
     	return true;
     }
+    
+    public boolean shouldAutoPlay_temple_cardsToTrash(MoveContext context) {
+    	return false;
+    }
 
 }

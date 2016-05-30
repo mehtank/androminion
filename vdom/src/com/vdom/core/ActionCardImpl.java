@@ -881,6 +881,12 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
             case Settlers:
             	settlers(game, context, currentPlayer);
             	break;
+            case SmallCastle:
+            	smallCastle(game, context, currentPlayer);
+            	break;
+            case Temple:
+            	temple(game, context, currentPlayer);
+            	break;
             default:
                 break;
         }
@@ -6568,5 +6574,79 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
             }
         }
+    }
+    
+    private void smallCastle(Game game, MoveContext context, Player currentPlayer) {
+    	boolean didTrash = false;
+    	if (currentPlayer.controlPlayer.smallCastle_shouldTrashSmallCastlePlayed(context)) {
+    		if (!this.controlCard.movedToNextTurnPile) {
+                this.controlCard.movedToNextTurnPile = true;
+                currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.controlCard));
+                currentPlayer.trash(this.controlCard, this.controlCard, context);
+                didTrash = true;
+            }
+        } else if (currentPlayer.getHand().size() > 0) {
+        	int numCastles = 0;
+        	Card handCastle = null;
+        	for (Card c : currentPlayer.getHand()) {
+        		if (c.isCastle(currentPlayer)) {
+        			numCastles++;
+        			handCastle = c;
+        		}
+        	}
+        	if (numCastles == 1) {
+        		currentPlayer.getHand().remove(handCastle);
+        		currentPlayer.trash(handCastle, this.controlCard, context);
+        		didTrash = true;
+        	} else if (numCastles > 1) {
+        		Card cardToTrash = currentPlayer.controlPlayer.smallCastle_castleToTrash(context);
+            	if (cardToTrash == null || !currentPlayer.getHand().contains(cardToTrash) || !cardToTrash.isCastle(currentPlayer)) {
+                    Util.playerError(currentPlayer, "Small Castle trash error, trashing last castle.");
+                    cardToTrash = handCastle;
+                }
+            	currentPlayer.getHand().remove(cardToTrash);
+        		currentPlayer.trash(cardToTrash, this.controlCard, context);
+        		didTrash = true;
+        	}
+        }
+    	if (!didTrash)
+    		return;
+    	//Assuming gaining a gained castle can only from the castle pile
+    	currentPlayer.gainNewCard(Cards.virtualCastle, this.controlCard, context);
+    }
+    
+    private void temple(Game game, MoveContext context, Player currentPlayer) {
+    	if (currentPlayer.getHand().size() > 0) {
+    		Card[] cards = currentPlayer.controlPlayer.temple_cardsToTrash(context);
+    		if (cards == null || cards.length == 0) {
+                Util.playerError(currentPlayer, "Temple trash error, not trashing enough cards, trashing first.");
+                cards = new Card[]{currentPlayer.getHand().get(0)};
+    		}
+    		if (cards.length > 3) {
+    			Util.playerError(currentPlayer, "Temple trash error, trashing too many cards, trashing first.");
+                cards = new Card[]{currentPlayer.getHand().get(0)};
+    		}
+    		Set<Card> differentCards = new HashSet<Card>();
+    		for (Card c : cards) {
+    			if (differentCards.contains(c)) {
+    				Util.playerError(currentPlayer, "Temple trash error, trashing duplicate cards, trashing one.");
+                    cards = new Card[]{c};
+                    break;
+    			}
+    			differentCards.add(c);
+    		}
+    		
+    		for (Card card : cards) {
+                for (int i = 0; i < currentPlayer.hand.size(); i++) {
+                    Card playersCard = currentPlayer.hand.get(i);
+                    if (playersCard.equals(card)) {
+                        Card thisCard = currentPlayer.hand.remove(i, false);
+                        currentPlayer.trash(thisCard, this.controlCard, context);
+                        break;
+                    }
+                }
+            }
+    	}
+    	game.addPileVpTokens(Cards.temple, 1);
     }
 }

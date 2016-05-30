@@ -86,8 +86,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     		sco = sco.fromPlayed();
     	}
     	
+    	int totalKindsOfCards = 0;
+    	Card[] differentCards = new Card[0];
+    	if (sco.isDifferent()) {
+    		Set<String> cardNames = new HashSet<String>();
+    		Set<Card> cards = new HashSet<Card>();
+    		for (Card c : localHand) {
+    			cardNames.add(c.getName());
+    			cards.add(c);
+    		}
+    		totalKindsOfCards = cardNames.size();
+    		differentCards = cards.toArray(differentCards);
+    	}
+    	
         if (localHand.size() == 0) {
             return null;
+        } else if (localHand.size() == 1 && sco.minCount == 1) {
+        	return new Card[]{localHand.get(0)};
+        } else if (sco.isDifferent() && totalKindsOfCards <= sco.minCount) {
+        	return differentCards;
         } else if (sco.count == Integer.MAX_VALUE) {
             sco.setCount(localHand.size());
         } else if (sco.count < 0) {
@@ -3204,5 +3221,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context) {
     	HuntingGroundsOption[] options = HuntingGroundsOption.values();
         return options[selectOption(context, Cards.sprawlingCastle, options)];
+    }
+    
+    @Override
+    public Card[] temple_cardsToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_temple_cardsToTrash(context)) {
+            return super.temple_cardsToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setCount(3)
+                .setMinCount(1).setDifferent().setPickType(PickType.TRASH)
+                .setCardResponsible(Cards.temple).setActionType(ActionType.TRASH);
+        return getFromHand(context, sco);
     }
 }

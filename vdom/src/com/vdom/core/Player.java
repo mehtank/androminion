@@ -1980,7 +1980,10 @@ public abstract class Player {
     public abstract boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card);
     public abstract Card[] opulentCastle_cardsToDiscard(MoveContext context);
     public abstract boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers);
+    public abstract boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context);
+    public abstract Card smallCastle_castleToTrash(MoveContext context);
     public abstract HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context);
+    public abstract Card[] temple_cardsToTrash(MoveContext context);
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

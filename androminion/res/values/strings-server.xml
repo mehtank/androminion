@@ -75,6 +75,8 @@
 	<string name="select_one_card_from_hand">Pick a card from your hand to %1$s</string>
 	<string name="select_up_to_x_cards_from_hand">Pick up to %1$s cards from your hand to %2$s</string>
 	<string name="select_exactly_x_cards_from_hand">Pick exactly %1$s cards from your hand to %2$s</string>
+	<string name="select_from_x_to_y_cards_from_hand">Pick from %1$s to %2$s cards from your hand to %3$s</string>
+	<string name="select_from_x_to_y_different_cards_from_hand">Pick from %1$s to %2$s differently named cards from your hand to %3$s</string>
 	
 	<string name="select_one_card_from_trash">Pick a card from trash to %1$s</string>
 	<string name="select_up_to_x_cards_from_trash">Pick up to %1$s cards from trash to %2$s</string>
@@ -192,6 +194,7 @@
 	<string name="trash_card_from_hand">Trash card from hand</string>
 	<string name="gain_silver">Gain a Silver</string>
 	<string name="trash_this">Trash this card</string>
+	<string name="trash_castle_from_hand">Trash Castle from hand</string>
 	
 	<string name="secretchamber_part">put back on deck [Secret Chamber]</string>
 	<string name="secretchamber_query_discard">[Secret Chamber] Select cards to discard</string>

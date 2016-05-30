@@ -94,6 +94,7 @@ public class Cards {
         // Empires Expansion
         CityQuarter, RoyalBlacksmith, Settlers, Catapult, ChariotRace, Enchantress, FarmersMarket, Gladiator, Rocks, Temple, Villa, BustlingVillage, Capital, Crown, Groundskeeper, Fortune,
         HumbleCastle, CrumblingCastle, SmallCastle, HauntedCastle, OpulentCastle, SprawlingCastle, GrandCastle, KingsCastle,
+        VirtualCastle,
         Triumph, Windfall, Dominate,
         Battlefield, Fountain, Keep, Tomb, WolfDen,
         
@@ -456,6 +457,7 @@ public class Cards {
     public static final Card sprawlingCastle;
     public static final Card grandCastle;
     public static final Card kingsCastle;
+    public static final Card virtualCastle;
     
     public static final Card triumph;
     public static final Card windfall;
@@ -826,7 +828,7 @@ public class Cards {
         actionCardsEmpires.add(groundskeeper   = new ActionCardImpl.Builder(Cards.Type.Groundskeeper, 5).addCards(1).addActions(1).description("While this is in play, when you gain a Victory card, +1 Victory token.").expansion("Empires").build());
         actionCardsEmpires.add(royalBlacksmith = new ActionCardImpl.Builder(Cards.Type.RoyalBlacksmith, 0).addCards(5).costDebt(8).description("Reveal your hand; discard the Coppers.").expansion("Empires").build());
         //TODO: Settlers/BustlingVillage Virtual Card
-        actionCardsEmpires.add(temple          = new ActionCardImpl.Builder(Cards.Type.Temple, 4).addVictoryTokens(1).addBuys(1).isGathering().description("Trash from 1 to 3 differently named cards from your hand. Add 1 Victory Token to the Temple Supply pile. - When you gain this, take the Victory tokens from the Temple Supply pile.").expansion("Empires").build());
+        actionCardsEmpires.add(temple          = new ActionCardImpl.Builder(Cards.Type.Temple, 4).addVictoryTokens(1).isGathering().description("Trash from 1 to 3 differently named cards from your hand. Add 1 Victory Token to the Temple Supply pile. - When you gain this, take the Victory tokens from the Temple Supply pile.").expansion("Empires").build());
         actionCardsEmpires.add(villa           = new ActionCardImpl.Builder(Cards.Type.Villa, 4).addActions(2).addBuys(1).addGold(1).description("When you gain this, put it into your hand, +1 Action, and if it's your Buy phase return to your Action phase.").expansion("Empires").build());
                 
         //TODO: figure out how to do and surface split piles - maybe need virtual cards like knights?
@@ -845,6 +847,7 @@ public class Cards {
         splitPileCards.add(sprawlingCastle     = new VictoryCardImpl.Builder(Cards.Type.SprawlingCastle, 8, 4).isCastle().description("When you gain this, gain a Duchy or 3 Estates.").expansion("Empires").build());
         splitPileCards.add(grandCastle         = new VictoryCardImpl.Builder(Cards.Type.GrandCastle, 9, 5).isCastle().description("When you gain this, reveal your hand. +1 Victory token per Victory card in your hand and/or in play.").expansion("Empires").build());
         splitPileCards.add(kingsCastle         = new VictoryCardImpl.Builder(Cards.Type.KingsCastle, 10, 0).isCastle().description("Worth 2 VP per Castle you have.").expansion("Empires").build());
+        actionCardsEmpires.add(virtualCastle   = new ActionVictoryCardImpl.Builder(Cards.Type.VirtualCastle, 3).isCastle().build());
 
         eventCardsEmpires.add(triumph          = new EventCardImpl.Builder(Cards.Type.Triumph, 0).isEvent().costDebt(5).description("Gain an Estate. If you did, +1 Victory token per card you've gained this turn.").expansion("Empires").build());
         eventCardsEmpires.add(windfall         = new EventCardImpl.Builder(Cards.Type.Windfall, 5).isEvent().description("If your deck and discard pile are empty, gain 3 Golds.").expansion("Empires").build());

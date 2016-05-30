@@ -56,6 +56,7 @@ public class SelectCardOptions implements Serializable {
     public boolean fromHand = false;
     public boolean fromPlayed = false;
     public int count = Integer.MAX_VALUE;
+    public int minCount = 0;
     public boolean exactCount = false;
     public boolean ordered = false;
     public boolean isNonRats = false;
@@ -104,6 +105,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions isNonRats() {isNonRats = true; return this;}
     public SelectCardOptions ordered() {ordered = true; this.pickType = PickType.SELECT_IN_ORDER; return this;}
     public SelectCardOptions setCount(int c) {count = c; return this;}
+    public SelectCardOptions setMinCount(int c) {minCount = c; return this;}
     public SelectCardOptions exactCount() {exactCount = true; return this;}
 
     public SelectCardOptions fromTable() {fromTable = true;isNonShelter=true;count=1;exactCount=true; return this;}

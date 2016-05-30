@@ -3868,4 +3868,59 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context) {
     	return HuntingGroundsOption.GainDuchy;
     }
+    
+    @Override
+    public boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context) {
+    	for (Card c : context.getPlayer().getHand()) {
+    		if (c.equals(Cards.crumblingCastle)) {
+    			return true;
+    		}
+    		if (c.isCastle(context.getPlayer()) && c.getCost(context) < Cards.smallCastle.getCost(context)) {
+    				//TODO: && castle on pile is good enough, whatever that means...
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    @Override
+    public Card smallCastle_castleToTrash(MoveContext context) {
+    	Card worstCastle = null;
+    	for (Card c : context.getPlayer().getHand()) {
+    		if (c.equals(Cards.crumblingCastle)) {
+    			return c;
+    		}
+    		if (c.isCastle(context.getPlayer())) {
+    			if (worstCastle == null || c.getCost(context) < worstCastle.getCost(context)) {
+    				worstCastle = c;
+    			}
+    		}
+    	}
+    	return worstCastle;
+    }
+    
+    @Override
+    public Card[] temple_cardsToTrash(MoveContext context) {
+    	HashSet<Card> cardsToMatch = new HashSet<Card>();
+		for(Card card : context.getPlayer().getHand()) {
+			for(Card trash : getTrashCards()) {
+				if(card.equals(trash)) {
+					cardsToMatch.add(card);
+					break;
+				}
+			}
+		}
+		if (cardsToMatch.size() == 0) {
+			//pick worst card to trash if we have no trash cards left
+			ArrayList<Card> cards = new ArrayList<Card>(context.getPlayer().getHand().toArrayList());
+			Collections.sort(cards, new Util.CardCostComparator());
+			return new Card[]{cards.get(0)};
+		}
+		Card[] result = new Card[Math.min(3, cardsToMatch.size())];
+		Card[] trashCards = cardsToMatch.toArray(new Card[0]);
+		for (int i = 0; i < result.length; ++i) {
+			result[i] = trashCards[i];
+		}
+    	return result;
+    }
 }

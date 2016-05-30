@@ -75,6 +75,8 @@
 	<string name="select_one_card_from_hand">Elije una carta de tu mano para %1$s</string>
 	<string name="select_up_to_x_cards_from_hand">Elije hasta %1$s cartas de tu mano para %2$s</string>
 	<string name="select_exactly_x_cards_from_hand">Elije %1$s cartas de tu mano para %2$s</string>
+	<string name="select_from_x_to_y_cards_from_hand">Elije de %1$s a %2$s cartas de tu mano para %3$s</string>
+	<string name="select_from_x_to_y_different_cards_from_hand">Elija de %1$s a %2$s cartas con nombres distintos de tu mano para %3$s</string>
 
 	<string name="select_one_action_from_hand">Elije una carta de Acción de tu mano para %1$s</string>
 	<string name="select_up_to_x_actions_from_hand">Elije hasta %1$s cartas de Acción de tu mano para %2$s</string>
@@ -188,6 +190,7 @@
 	<string name="trash_card_from_hand">Eliminar una carta de tu mano</string>
 	<string name="gain_silver">Ganar una carta de Plata</string>
 	<string name="trash_this">Eliminar esta carta</string>
+	<string name="trash_castle_from_hand">Eliminar una carta de Castillo de tu mano</string>
 
 	<string name="secretchamber_part">devolver al mazo [Cámara Secreta]</string>
 	<string name="secretchamber_query_discard">[Cámara Secreta] Elige cartas para descartar</string>

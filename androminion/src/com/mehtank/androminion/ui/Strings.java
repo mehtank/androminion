@@ -1099,6 +1099,9 @@ public class Strings {
             strings[0] = getPlayerRevealedCardHeader(extras);
             strings[1] = getString(R.string.reveal_copy);
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.smallCastle))) {
+            strings[1] = getString(R.string.trash_this);
+            strings[2] = getString(R.string.trash_castle_from_hand);
         }
         if (strings[1] != null) {
             return strings;
@@ -1229,7 +1232,13 @@ public class Strings {
                     str = Strings.format(R.string.select_one_card_from_hand, header);
                 else if(sco.exactCount)
                     str = Strings.format(R.string.select_exactly_x_cards_from_hand, "" + sco.count, header);
-                else
+                else if (sco.minCount > 0) {
+                	if (sco.different) {
+                		str = Strings.format(R.string.select_from_x_to_y_different_cards_from_hand, "" + sco.minCount, "" + sco.count, header);
+                	} else {
+                		str = Strings.format(R.string.select_from_x_to_y_cards_from_hand, "" + sco.minCount, "" + sco.count, header);
+                	}
+                } else
                     str = Strings.format(R.string.select_up_to_x_cards_from_hand, "" + sco.count, header);
             }
             return str;
@@ -1380,6 +1389,7 @@ public class Strings {
             /*Empires*/
             getCardName(Cards.gladiator),
             getCardName(Cards.opulentCastle),
+            getCardName(Cards.temple),
             /*Promo Events*/
             getCardName(Cards.summon)
             
