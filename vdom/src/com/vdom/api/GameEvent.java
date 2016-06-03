@@ -64,7 +64,10 @@ public class GameEvent {
         MinusTwoCostTokenMoved, // -2 Cost Token moved to supply pile
         TrashingTokenMoved, // Trashing token moved to supply pile
         DebtTokensObtained, // Obtained Debt tokens
-        DebtTokensPaidOff // Paid off Debt tokens
+        DebtTokensPaidOff, // Paid off Debt tokens
+        VPTokensObtained, // VP tokens taken by a player
+        VPTokensPutOnPile, // VP tokens put on a card pile
+        VPTokensTakenFromPile, // VP tokens taken from a card pile
     }
 
     public Type type;

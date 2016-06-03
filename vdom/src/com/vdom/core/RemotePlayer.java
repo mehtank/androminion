@@ -722,9 +722,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             if (event.getComment() != null) {
                 extras.add(event.getComment());
             }
-        } else if (event.getType() == Type.DebtTokensObtained) {
-            extras.add(event.getAmount());
-        } else if (event.getType() == Type.DebtTokensPaidOff) {
+        } else if (event.getType() == Type.DebtTokensObtained || 
+        		event.getType() == Type.DebtTokensPaidOff ||
+        		event.getType() == Type.VPTokensObtained ||
+        		event.getType() == Type.VPTokensPutOnPile ||
+        		event.getType() == Type.VPTokensTakenFromPile) {
             extras.add(event.getAmount());
         } else if (event.getType() == Type.TravellerExchanged) {
             extras.add(event.responsible);

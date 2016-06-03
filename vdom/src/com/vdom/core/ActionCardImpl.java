@@ -6464,11 +6464,11 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
     	Card c = Cards.farmersMarket;
     	if (game.getPileVpTokens(c) >= 4) {
     		int numTokens = game.getPileVpTokens(c);
-    		game.removePileVpTokens(c, numTokens);
+    		game.removePileVpTokens(c, numTokens, context);
     		currentPlayer.addVictoryTokens(context, numTokens);
     		currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), this.getControlCard(), context);
     	} else {
-    		game.addPileVpTokens(c, 1);
+    		game.addPileVpTokens(c, 1, context);
     		context.addCoins(game.getPileVpTokens(c));
     	}
     }
@@ -6647,6 +6647,6 @@ public class ActionCardImpl extends CardImpl implements ActionCard {
                 }
             }
     	}
-    	game.addPileVpTokens(Cards.temple, 1);
+    	game.addPileVpTokens(Cards.temple, 1, context);
     }
 }

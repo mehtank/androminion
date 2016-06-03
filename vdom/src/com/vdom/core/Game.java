@@ -2530,7 +2530,7 @@ public class Game {
         
         // Setup for Battlefield
         if (piles.containsKey(Cards.battlefield.getName())) {
-            addPileVpTokens(Cards.battlefield, 6 * numPlayers);
+            addPileVpTokens(Cards.battlefield, 6 * numPlayers, null);
         }
 
         // If Ranger, Giant or Pilgrimage are in play, each player starts with a journey token faced up
@@ -2810,7 +2810,7 @@ public class Game {
                     		int tokensLeft = getPileVpTokens(Cards.battlefield);
                     		if (tokensLeft > 0) {
                     			int tokensToTake = Math.min(tokensLeft, 2);
-                    			removePileVpTokens(Cards.battlefield, tokensToTake);
+                    			removePileVpTokens(Cards.battlefield, tokensToTake, context);
                     			player.addVictoryTokens(context, tokensToTake);
                     		}
                     	}
@@ -2984,7 +2984,7 @@ public class Game {
                     	}
                     } else if (gainedCardAbility.equals(Cards.temple)) {
                     	int numTokens = context.game.getPileVpTokens(Cards.temple);
-                    	context.game.removePileVpTokens(Cards.temple, numTokens);
+                    	context.game.removePileVpTokens(Cards.temple, numTokens, context);
                     	player.addVictoryTokens(context, numTokens);
                     } else if (gainedCardAbility.equals(Cards.sprawlingCastle)) {
                     	int duchyCount = context.game.getPile(Cards.duchy).getCount();
@@ -3117,17 +3117,29 @@ public class Game {
         return null;
     }
     
-    AbstractCardPile addPileVpTokens(Card card, int num) {
+    AbstractCardPile addPileVpTokens(Card card, int num, MoveContext context) {
         String name = card.getName();
         pileVpTokens.put(name, getPileVpTokens(card) + num);
+        if (context != null) {
+        	GameEvent event = new GameEvent(GameEvent.Type.VPTokensPutOnPile, context);
+    		event.setAmount(num);
+    		event.card = card;
+            context.game.broadcastEvent(event);
+    	}
         return piles.get(name);
     }
     
-    AbstractCardPile removePileVpTokens(Card card, int num) {
+    AbstractCardPile removePileVpTokens(Card card, int num, MoveContext context) {
     	num = Math.min(num, getPileVpTokens(card));
         String name = card.getName();
         if (num > 0) {
         	pileVpTokens.put(name, getPileVpTokens(card) - num);
+        	if (context != null) {
+	        	GameEvent event = new GameEvent(GameEvent.Type.VPTokensTakenFromPile, context);
+	    		event.setAmount(num);
+	    		event.card = card;
+	            context.game.broadcastEvent(event);
+        	}
         }
         return piles.get(name);
     }

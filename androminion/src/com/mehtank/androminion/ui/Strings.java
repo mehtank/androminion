@@ -387,6 +387,12 @@ public class Strings {
         	statusText += format(R.string.DebtTokensObtained, extras[3]);
         } else if (event.gameEventType == GameEvent.Type.DebtTokensPaidOff) {
         	statusText += format(R.string.DebtTokensPaidOff, extras[3]);
+        } else if (event.gameEventType == GameEvent.Type.VPTokensObtained) {
+        	statusText += format(R.string.VPTokensObtained, extras[3]);
+        } else if (event.gameEventType == GameEvent.Type.VPTokensPutOnPile) {
+        	statusText += format(R.string.VPTokensPutOnPile, extras[3]);
+        } else if (event.gameEventType == GameEvent.Type.VPTokensTakenFromPile) {
+        	statusText += format(R.string.VPTokensTakenFromPile, extras[3]);
         } else if (event.gameEventType != null) {
             statusText += event.gameEventType.toString();
         }
@@ -394,7 +400,8 @@ public class Strings {
         // Then, if there's a card associated with the event, we display it here.
         if (event.c != null
                 && event.gameEventType != GameEvent.Type.CardAddedToHand
-                && event.gameEventType != GameEvent.Type.PlayerAttacking) {
+                && event.gameEventType != GameEvent.Type.PlayerAttacking
+                && event.gameEventType != GameEvent.Type.VPTokensObtained) {
             statusText += " " + getCardName(event.c) + " ";
         }
 

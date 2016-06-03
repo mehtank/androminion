@@ -75,8 +75,14 @@ public abstract class Player {
     	if (vt == 0) return;
     	if (Game.errataPossessedTakesTokens) {
     		victoryTokens += vt;
+    		GameEvent event = new GameEvent(GameEvent.Type.VPTokensObtained, context);
+    		event.setAmount(vt);
+            context.game.broadcastEvent(event);
     	} else {
     		controlPlayer.victoryTokens += vt;
+    		GameEvent event = new GameEvent(GameEvent.Type.VPTokensObtained, isPossessed() ? new MoveContext(context.game, controlPlayer) : context);
+        	event.setAmount(vt);
+            context.game.broadcastEvent(event);
     	}
     	//How to track vp gained in a turn by possessing player?
     	if (!isPossessed())

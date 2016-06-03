@@ -147,6 +147,9 @@
 	<string name="DebtTokensObtained">Debt tokens obtained: %1$s</string>
 	<string name="DebtTokensPaidOff">Debt tokens paid off: %1$s</string>
 	<string name="NoBuy">(No buy)</string>
+	<string name="VPTokensObtained">Victory Tokens taken: %1$s</string>
+	<string name="VPTokensPutOnPile">Victory Tokens placed: %1$s on</string>
+	<string name="VPTokensTakenFromPile">Victory Tokens removed: %1$s from</string>
 	<string name="DeckReplenished">Deck replenished</string>
 	<string name="PlayerAttacking">Attacking</string>
 	<string name="PlayerDefended">Defended</string>

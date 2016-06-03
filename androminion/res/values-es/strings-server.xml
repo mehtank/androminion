@@ -143,6 +143,9 @@
 	<string name="DebtTokensObtained">Deuda obtenida: %1$s</string>
 	<string name="DebtTokensPaidOff">Deuda pagada: %1$s</string>
 	<string name="NoBuy">(Ninguna compra)</string>
+	<string name="VPTokensObtained">Fichas de Victoria tomadas: %1$s</string>
+	<string name="VPTokensPutOnPile">Fichas de Victoria colocadas: %1$s en</string>
+	<string name="VPTokensTakenFromPile">Fichas de Victoria sacadas: %1$s de</string>
 	<string name="DeckReplenished">Mazo rellenado</string>
 	<string name="PlayerAttacking">Ataca</string>
 	<string name="PlayerDefended">Defiende</string>
