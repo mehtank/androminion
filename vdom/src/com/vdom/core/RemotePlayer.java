@@ -105,8 +105,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isBlackMarket){
         MyCard card = new MyCard(index, c.getName(), c.getSafeName(), c.getName());
         card.desc = c.getDescription();
-        card.expansion = c.getExpansion();
-        card.originalExpansion = c.getExpansion();
+        card.expansion = c.getExpansion() != null ? c.getExpansion().toString() : "";
+        card.originalExpansion = c.getExpansion() != null ? c.getExpansion().toString() : "";
         card.cost = c.getCost(null);
         card.debtCost = c.getDebtCost(null);
         card.costPotion = c.costPotion();
@@ -813,7 +813,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 else {
                     Card[] cards = context.getCardsInGame();
                     for (Card card : cards) {
-                        if (Cards.isSupplyCard(card) && card.getExpansion().equals("Prosperity")) {
+                        if (Cards.isSupplyCard(card) && card.getExpansion() == Expansion.Prosperity) {
                             prosperity = true;
                             break;
                         }

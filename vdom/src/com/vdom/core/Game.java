@@ -2400,13 +2400,13 @@ public class Game {
             	kingdomCards++;
             	if (pile.card().isRuins(null) == false &&
                         (pile.card().isKnight(null) == false || !alreadyCountedKnights) &&
-                        pile.card().getExpansion().equals("DarkAges")) {
+                        pile.card().getExpansion() == Expansion.DarkAges) {
                     darkAgesCards++;
                     if (pile.card().isKnight(null)) {
                         alreadyCountedKnights = true;
                     }
                 }
-            	if (pile.card().getExpansion().equals("Prosperity")) {
+            	if (pile.card().getExpansion() == Expansion.Prosperity) {
                     prosperityCards++;
                 }
             }

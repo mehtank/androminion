@@ -12,6 +12,7 @@ import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
+import com.vdom.core.Expansion;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
 
@@ -83,7 +84,7 @@ public class VDomPlayerSarah extends BasePlayer {
 
         int numCornucopia = 0;
         for (final Card card : cardsInPlay) {
-            if (card.getExpansion() != null && card.getExpansion().equals("Cornucopia") && !card.isPrize()) {
+            if (card.getExpansion() == Expansion.Cornucopia && !card.isPrize()) {
                 numCornucopia++;
             }
         }

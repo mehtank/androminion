@@ -3,6 +3,7 @@ package com.vdom.api;
 import java.io.Serializable;
 
 import com.vdom.core.CardImpl;
+import com.vdom.core.Expansion;
 import com.vdom.core.Game;
 import com.vdom.core.Cards.Type;
 import com.vdom.core.MoveContext;
@@ -16,7 +17,7 @@ public interface Card extends Serializable {
 
     public String getSafeName();
     
-    public String getExpansion();
+    public Expansion getExpansion();
 
     public String getStats();
 

@@ -214,7 +214,7 @@ public class CardSet {
 		
 		Set<Card> alchemyCardsUsed = new HashSet<Card>();
 		for (Card c : cardSetList) {
-			if (c.getExpansion().equals("Alchemy"))
+			if (c.getExpansion() == Expansion.Alchemy)
 				alchemyCardsUsed.add(c);
 		}
 		
@@ -229,7 +229,7 @@ public class CardSet {
 			if (!Cards.isKingdomCard(c))
 				continue;
 			numKindgomCardsAvailable++;
-			if (c.getExpansion().equals("Alchemy"))
+			if (c.getExpansion() == Expansion.Alchemy)
 				numAlchemyCardsAvailable++;
 		}
 		
@@ -250,13 +250,13 @@ public class CardSet {
 			for (Card c : possibleCards) {
 				if (!Cards.isKingdomCard(c) 
 						|| cardSetList.contains(c) 
-						|| c.getExpansion().equals("Alchemy"))
+						|| c.getExpansion() == Expansion.Alchemy)
 					continue;
 				cardsToPickFrom.add(c);
 			}
 			
 			for(int i = 0; i < cardSetList.size(); ++i) {
-				if (cardSetList.get(i).getExpansion().equals("Alchemy")) {
+				if (cardSetList.get(i).getExpansion() == Expansion.Alchemy) {
 					Card replacement = cardsToPickFrom.remove(rand.nextInt(cardsToPickFrom.size()));
 					cardSetList.set(i,  replacement);
 				}

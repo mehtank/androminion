@@ -16,7 +16,7 @@ public class CardImpl implements Card {
     boolean costPotion = false;
 
     String description = "";
-    String expansion = "";
+    Expansion expansion = null;
     protected int vp;
     boolean isAttack  = false;
     boolean isPrize   = false;
@@ -87,7 +87,7 @@ public class CardImpl implements Card {
 
         protected boolean costPotion = false;
         protected String description = "";
-        protected String expansion = "";
+        protected Expansion expansion = null;
 
         protected boolean attack      = false;
         protected boolean isPrize     = false;
@@ -117,7 +117,7 @@ public class CardImpl implements Card {
             return this;
         }
 
-        public Builder expansion(String val) {
+        public Builder expansion(Expansion val) {
             expansion = val;
             return this;
         }
@@ -406,7 +406,7 @@ public class CardImpl implements Card {
         return sb.toString();
     }
 
-    public String getExpansion() {
+    public Expansion getExpansion() {
         return expansion;
     }
 

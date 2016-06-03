@@ -110,18 +110,19 @@ public class Strings {
     }
 
     public static String getCardExpansion(Card c) {
-        if (c.getExpansion() == "") {
+    	String expansionString = c.getExpansion() != null ? c.getExpansion().toString() : ""; 
+        if (expansionString == "") {
             // Victory cards (e.g. "Duchy") don't have a single expansion;
             // they're both in Base and Intrigue.
             return "";
         }
 
-        String expansion = expansionCache.get(c.getExpansion());
+        String expansion = expansionCache.get(expansionString);
 
         if (expansion == null) {
             try {
                 Resources r = context.getResources();
-                int id = r.getIdentifier(c.getExpansion(), "string", context.getPackageName());
+                int id = r.getIdentifier(expansionString, "string", context.getPackageName());
                 expansion = r.getString(id);
             }
             catch(Exception e) {
@@ -130,10 +131,10 @@ public class Strings {
 
             if(expansion.equals(""))
             {
-                expansion = c.getExpansion();
+                expansion = expansionString;
             }
 
-            expansionCache.put(c.getExpansion(), expansion);
+            expansionCache.put(expansionString, expansion);
         }
         return expansion;
     }
