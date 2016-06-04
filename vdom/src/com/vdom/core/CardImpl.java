@@ -6,8 +6,9 @@ import com.vdom.api.DurationCard;
 import com.vdom.api.VictoryCard;
 
 public class CardImpl implements Card {
+	private static final long serialVersionUID = 1L;
     // Template (immutable)
-    Cards.Type type;
+    Cards.Kind kind;
     CardImpl templateCard;
     String name;
     String safeName;
@@ -18,6 +19,21 @@ public class CardImpl implements Card {
     String description = "";
     Expansion expansion = null;
     protected int vp;
+    private Type[] types;
+    protected int addActions;
+    protected int addBuys;
+    protected int addCards;
+    protected int addGold;
+    protected int addVictoryTokens;
+    boolean trashForced = false;
+    boolean providePotion;
+    protected int addActionsNextTurn;
+    protected int addBuysNextTurn;
+    protected int addCardsNextTurn;
+    protected int addGoldNextTurn;
+    protected boolean takeAnotherTurn;
+    protected int takeAnotherTurnCardCount;
+    
     boolean isAttack  = false;
     boolean isPrize   = false;
     boolean isShelter = false;
@@ -33,9 +49,15 @@ public class CardImpl implements Card {
     boolean isLandmark = false;
     
     boolean trashOnUse = false;
+    
+    protected boolean callableWhenCardGained;
+    protected boolean callableWhenActionResolved;
+    protected boolean actionStillNeedsToBeInPlay;
+    protected boolean callableWhenTurnStarts;
+    protected int callableWhenCardGainedMaxCost = -1;
 
     static int maxNameLen;    // across all cards
-
+    
     // Implementation (mutable)
     private Integer id;
     boolean movedToNextTurnPile = false;
@@ -46,9 +68,9 @@ public class CardImpl implements Card {
     CardImpl inheritingAbilitiesCard = null;
     CardImpl controlCard = this;
 
-    protected CardImpl(Cards.Type type, int cost) {
-        this.type = type;
-        this.name = type.toString();
+    protected CardImpl(Cards.Kind kind, int cost) {
+        this.kind = kind;
+        this.name = kind.toString();
         if (maxNameLen < name.length()) {
             maxNameLen = name.length();
         }
@@ -56,12 +78,26 @@ public class CardImpl implements Card {
     }
     
     public CardImpl(Builder builder) {
-        this(builder.type, builder.cost);
+        this(builder.kind, builder.cost);
         costPotion = builder.costPotion;
         debtCost = builder.debtCost;
         vp = builder.vp;
         description = builder.description;
         expansion   = builder.expansion;
+        types       = builder.types;
+        addActions       = builder.addActions;
+        addBuys          = builder.addBuys;
+        addCards         = builder.addCards;
+        addGold          = builder.addGold;
+        addVictoryTokens = builder.addVictoryTokens;
+        trashForced      = builder.trashForced;
+        providePotion = builder.providePotion;
+        addActionsNextTurn = builder.addActionsNextTurn;
+        addBuysNextTurn = builder.addBuysNextTurn;
+        addCardsNextTurn = builder.addCardsNextTurn;
+        addGoldNextTurn = builder.addGoldNextTurn;
+        takeAnotherTurn = builder.takeAnotherTurn;
+        takeAnotherTurnCardCount = builder.takeAnotherTurnCardCount;
         isAttack    = builder.attack;
         isPrize     = builder.isPrize;
         isShelter   = builder.isShelter;
@@ -76,10 +112,16 @@ public class CardImpl implements Card {
         isGathering = builder.isGathering;
         isLandmark  = builder.isLandmark;
         trashOnUse   = builder.trashOnUse;
+        
+        callableWhenCardGained = builder.callableWhenCardGained;
+        callableWhenActionResolved = builder.callableWhenActionResolved;
+        actionStillNeedsToBeInPlay = builder.actionStillNeedsToBeInPlay;
+        callableWhenTurnStarts = builder.callableWhenTurnStarts;
+        callableWhenCardGainedMaxCost = builder.callableWhenCardGainedMaxCost;
     }
 
     public static class Builder {
-        protected Cards.Type type;
+        protected Cards.Kind kind;
         protected String name;
         protected int cost;
         protected int debtCost;
@@ -88,7 +130,28 @@ public class CardImpl implements Card {
         protected boolean costPotion = false;
         protected String description = "";
         protected Expansion expansion = null;
-
+        protected Type[] types = null;
+        
+        protected int addActions;
+        protected int addBuys;
+        protected int addCards;
+        protected int addGold;
+        protected int addVictoryTokens;
+        protected boolean trashForced = false;
+        protected boolean providePotion = false;
+        protected int addActionsNextTurn;
+        protected int addBuysNextTurn;
+        protected int addCardsNextTurn;
+        protected int addGoldNextTurn;
+        protected boolean takeAnotherTurn;
+        protected int takeAnotherTurnCardCount;
+        
+        protected boolean callableWhenCardGained;
+        protected boolean callableWhenActionResolved;
+        protected boolean actionStillNeedsToBeInPlay;
+        protected boolean callableWhenTurnStarts;
+        protected int callableWhenCardGainedMaxCost;
+        
         protected boolean attack      = false;
         protected boolean isPrize     = false;
         protected boolean isShelter   = false;
@@ -106,10 +169,24 @@ public class CardImpl implements Card {
         protected boolean trashOnUse  = false;
 
 
-        public Builder(Cards.Type type, int cost) {
-            this.type = type;
-            this.name = type.toString();
+        public Builder(Cards.Kind kind, int cost) {
+            this.kind = kind;
+            this.name = kind.toString();
             this.cost = cost;
+        }
+        
+        public Builder(Cards.Kind kind, Type... type) {
+            this.kind = kind;
+            this.name = kind.toString();
+            this.cost = 0;
+            this.types = type;
+        }
+        
+        public Builder(Cards.Kind kind, int cost, Type... type) {
+            this.kind = kind;
+            this.name = kind.toString();
+            this.cost = cost;
+            this.types = type;
         }
 
         public Builder description(String val) {
@@ -136,32 +213,90 @@ public class CardImpl implements Card {
             vp = val;
             return this;
         }
-
-        public Builder attack() {
-            attack = true;
-            return this;
-        }
-
-        public Builder isPrize() {
-            isPrize = true;
-            return this;
-        }
         
-        public Builder isShelter() {
-            isShelter = true;
+        public Builder addActions(int val) {
+            addActions = val;
             return this;
         }
 
-        public Builder isRuins() {
-            isRuins = true;
+        public Builder addBuys(int val) {
+            addBuys = val;
+            return this;
+        }
+
+        public Builder addCards(int val) {
+            addCards = val;
+            return this;
+        }
+
+        public Builder addGold(int val) {
+            addGold = val;
+            return this;
+        }
+
+        public Builder addVictoryTokens(int val) {
+            addVictoryTokens = val;
+            return this;
+        }
+
+        public Builder trashForced() {
+            trashForced = true;
             return this;
         }
         
-        public Builder isLooter() {
-            isLooter = true;
+        public Builder providePotion() {
+            providePotion = true;
             return this;
         }
         
+        public Builder addActionsNextTurn(int val) {
+            addActionsNextTurn = val;
+            return this;
+        }
+
+        public Builder addBuysNextTurn(int val) {
+            addBuysNextTurn = val;
+            return this;
+        }
+
+        public Builder addCardsNextTurn(int val) {
+            addCardsNextTurn = val;
+            return this;
+        }
+
+        public Builder addGoldNextTurn(int val) {
+            addGoldNextTurn = val;
+            return this;
+        }
+
+        public Builder takeAnotherTurn(int val) {
+            takeAnotherTurn = true;
+            takeAnotherTurnCardCount = val;
+            return this;
+        }
+        
+        public Builder callWhenTurnStarts() {
+        	callableWhenTurnStarts = true;
+            return this;
+        }
+
+        public Builder callWhenActionResolved() {
+        	callableWhenActionResolved = true;
+            return this;
+        }
+        
+        public Builder callWhenActionResolved(boolean mustBeInPlay) {
+        	callableWhenActionResolved = true;
+        	actionStillNeedsToBeInPlay = mustBeInPlay;
+            return this;
+        }
+
+        public Builder callWhenGainCard(int maxCost) {
+            callableWhenCardGained = true;
+            callableWhenCardGainedMaxCost = maxCost;
+            return this;
+        }
+
         public Builder isOverpay()
         {
             isOverpay = true;
@@ -173,21 +308,6 @@ public class CardImpl implements Card {
             return this;
         }
 
-        public Builder isReserve() {
-            isReserve = true;
-            return this;
-        }
-        
-        public Builder isCastle() {
-            isCastle = true;
-            return this;
-        }
-        
-        public Builder isGathering() {
-            isGathering = true;
-            return this;
-        }
-        
         public Builder isLandmark() {
             isLandmark = true;
             return this;
@@ -199,7 +319,37 @@ public class CardImpl implements Card {
         }
 
         public CardImpl build() {
-            return new CardImpl(this);
+        	if (expansion == null) {
+        		return new CardImpl(this);
+        	}
+        	switch (expansion) {
+        	case Base:
+        		return new CardImplBase(this);
+        	case Intrigue:
+        		return new CardImplIntrigue(this);
+        	case Seaside:
+        		return new CardImplSeaside(this);
+        	case Alchemy:
+        		return new CardImplAlchemy(this);
+        	case Prosperity:
+        		return new CardImplProsperity(this);
+        	case Cornucopia:
+        		return new CardImplCornucopia(this);
+        	case Hinterlands:
+        		return new CardImplHinterlands(this);
+        	case DarkAges:
+        		return new CardImplDarkAges(this);
+        	case Guilds:
+        		return new CardImplGuilds(this);
+        	case Adventures:
+        		return new CardImplAdventures(this);
+        	case Empires:
+        		return new CardImplEmpires(this);
+        	case Promo:
+        		return new CardImplPromo(this);
+        	default:
+        		return new CardImpl(this);
+        	}
         }
 
     }
@@ -236,13 +386,27 @@ public class CardImpl implements Card {
         c.templateCard = this;
         c.id = Game.cardSequence++;
 
-        c.type = type;
+        c.kind = kind;
         c.name = name;
         c.cost = cost;
         c.costPotion = costPotion;
         c.debtCost = debtCost;
         c.description = description;
         c.expansion = expansion;
+        c.types = types;
+        c.providePotion = providePotion;
+        c.addActions = addActions;
+        c.addBuys = addBuys;
+        c.addCards = addCards;
+        c.addGold = addGold;
+        c.addVictoryTokens = addVictoryTokens;
+        c.trashForced = trashForced;
+        c.addActionsNextTurn = addActionsNextTurn;
+        c.addBuysNextTurn = addBuysNextTurn;
+        c.addCardsNextTurn = addCardsNextTurn;
+        c.addGoldNextTurn = addGoldNextTurn;
+        c.takeAnotherTurn = takeAnotherTurn;
+        c.takeAnotherTurnCardCount = takeAnotherTurnCardCount;
         c.isAttack = isAttack;
         c.isPrize = isPrize;
         c.isShelter = isShelter;
@@ -258,14 +422,33 @@ public class CardImpl implements Card {
         c.isLandmark = isLandmark;
         c.vp = vp;
         c.trashOnUse = trashOnUse;
+        
+        c.callableWhenCardGained = callableWhenCardGained;
+        c.callableWhenActionResolved = callableWhenActionResolved;
+        c.callableWhenTurnStarts = callableWhenTurnStarts;
+        c.callableWhenCardGainedMaxCost = callableWhenCardGainedMaxCost;
+        c.actionStillNeedsToBeInPlay = actionStillNeedsToBeInPlay;
     }
+    
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {}
+    
 
-    public Cards.Type getType() {
-        return type;
+    public Cards.Kind getKind() {
+        return kind;
     }
 
     public String getName() {
         return name;
+    }
+    
+    public boolean is(Type t, Player player) {
+    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
+	    	for (int i = 0; i < types.length; ++i) {
+	    		if (types[i] == t) return true;
+	    	}
+	    	return false;
+    	}
+    	return player.getInheritance().is(t, null);
     }
 
     public int getCost(MoveContext context) {
@@ -306,6 +489,11 @@ public class CardImpl implements Card {
     public int getDebtCost(MoveContext context) {
     	return debtCost;
     }
+    
+    @Override
+    public int getVictoryPoints() {
+    	return vp;
+    };
 
     public boolean isVictory(MoveContext context) {
         if (context == null)
@@ -319,63 +507,68 @@ public class CardImpl implements Card {
     }
     
     @Override
-    public int getAddCards() {
-    	return 0;
-    }
-    
-    @Override
     public int getAddActions() {
-    	return 0;
+        return addActions;
     }
-    
-    @Override
-    public int getAddGold() {
-    	return 0;
-    }
-    
+
     @Override
     public int getAddBuys() {
-    	return 0;
+        return addBuys;
     }
-    
+
+    @Override
+    public int getAddCards() {
+        return addCards;
+    }
+
+    @Override
+    public int getAddGold() {
+        return addGold;
+    }
+
     @Override
     public int getAddVictoryTokens() {
-    	return 0;
+        return addVictoryTokens;
+    }
+
+    @Override
+    public boolean trashForced() {
+        return trashForced;
     }
     
     @Override
-    public int getAddCardsNextTurn() {
-    	return 0;
+    public boolean providePotion() {
+        return providePotion;
     }
     
     @Override
     public int getAddActionsNextTurn() {
-    	return 0;
+        return addActionsNextTurn;
     }
-    
-    @Override
-    public int getAddGoldNextTurn() {
-    	return 0;
-    }
-    
+
     @Override
     public int getAddBuysNextTurn() {
-    	return 0;
+        return addBuysNextTurn;
     }
-    
+
+    @Override
+    public int getAddCardsNextTurn() {
+        return addCardsNextTurn;
+    }
+
+    @Override
+    public int getAddGoldNextTurn() {
+        return addGoldNextTurn;
+    }
+
     @Override
     public boolean takeAnotherTurn() {
-    	return false;
+        return takeAnotherTurn;
     }
-    
+
     @Override
     public int takeAnotherTurnCardCount() {
-    	return 0;
-    }
-    
-    @Override
-    public boolean trashForced() {
-    	return false;
+        return takeAnotherTurnCardCount;
     }
     
     /**
@@ -402,6 +595,100 @@ public class CardImpl implements Card {
             if (vp > 1) {
                 sb.append("s");
             }
+        }
+        if (addActions > 0 || addBuys > 0 || addCards > 0 || addGold > 0) {
+            sb.append(" ");
+
+            boolean start = true;
+            if (addActions > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addActions + " Action");
+                if (addActions > 1) {
+                    sb.append("s");
+                }
+            }
+            if (addBuys > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addBuys + " Buy");
+                if (addBuys > 1) {
+                    sb.append("s");
+                }
+            }
+            if (addGold > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addGold + " Coin");
+            }
+            if (addCards > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addCards + " Card");
+                if (addCards > 1) {
+                    sb.append("s");
+                }
+            }
+        }
+        if (addActionsNextTurn > 0 || addBuysNextTurn > 0 || addGoldNextTurn > 0 || addCardsNextTurn > 0) {
+            sb.append(" (");
+
+            boolean start = true;
+            if (addActionsNextTurn > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addActionsNextTurn + " Action");
+                if (addActionsNextTurn > 1) {
+                    sb.append("s");
+                }
+            }
+            if (addBuysNextTurn > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addBuysNextTurn + " Buy");
+                if (addBuysNextTurn > 1) {
+                    sb.append("s");
+                }
+            }
+            if (addGoldNextTurn > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addGoldNextTurn + " Coin");
+            }
+            if (addCardsNextTurn > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addCardsNextTurn + " Card");
+                if (addCardsNextTurn > 1) {
+                    sb.append("s");
+                }
+            }
+
+            sb.append(" next turn)");
         }
         return sb.toString();
     }
@@ -458,16 +745,7 @@ public class CardImpl implements Card {
     public boolean isPrize() {
         return isPrize;
     }
-    @Override
-    public boolean isShelter() {
-        return isShelter;
-    }
-    @Override
-    public boolean isRuins(Player player) {
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
-    		return isRuins;
-    	return ((CardImpl)player.getInheritance()).isRuins;
-    }
+
     @Override
     public boolean isKnight(Player player) {
     	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
@@ -528,9 +806,15 @@ public class CardImpl implements Card {
     {
         return isLandmark;
     }
-    
-    @Override
+
+	@Override
     public void isBuying(MoveContext context) {
+		if (is(Type.Victory, context.getPlayer())) {
+			context.game.trashHovelsInHandOption(context.player, context, this);
+		}
+		if (is(Type.Event, null)) {
+			context.buys += addBuys;
+		}
     }
     
     @Override
@@ -576,12 +860,12 @@ public class CardImpl implements Card {
     
     @Override
     public void isTrashed(MoveContext context) {
-    	Cards.Type trashType = this.controlCard.getType();
+    	Cards.Kind trashKind = this.controlCard.getKind();
     	if (this.controlCard.equals(Cards.estate) && context.player.getInheritance() != null) {
-    		trashType = context.player.getInheritance().getType();
+    		trashKind = context.player.getInheritance().getKind();
     	}
     	
-        switch (trashType) {
+        switch (trashKind) {
             case Rats:
                 context.game.drawToHand(context, this, 1, true);
                 break;
@@ -754,7 +1038,7 @@ public class CardImpl implements Card {
         // If an Urchin has been played, offer the player the option to trash it for a Mercenary
         for (int i = currentPlayer.playedCards.size() - 1; i >= 0 ; --i) {
             Card c = currentPlayer.playedCards.get(i);
-            if (c.behaveAsCard().getType() == Cards.Type.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context)) {
+            if (c.behaveAsCard().getKind() == Cards.Kind.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context)) {
                 currentPlayer.trash(c.getControlCard(), this, context);
                 currentPlayer.gainNewCard(Cards.mercenary, this, context);
                 currentPlayer.playedCards.remove(i);

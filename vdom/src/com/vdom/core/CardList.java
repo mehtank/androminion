@@ -86,7 +86,7 @@ public class CardList implements Iterable<Card> {
         Card card = a.remove(i);
         if (showUI && name.equals("Hand")) {
             MoveContext context = new MoveContext(player.game, player);
-            GameEvent event = new GameEvent(GameEvent.Type.CardRemovedFromHand, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardRemovedFromHand, context);
             event.card = card;
             player.game.broadcastEvent(event);
         }
@@ -115,7 +115,7 @@ public class CardList implements Iterable<Card> {
 
             if (showUI && name.equals("Hand")) {
                 MoveContext context = new MoveContext(player.game, player);
-                GameEvent event = new GameEvent(GameEvent.Type.CardAddedToHand, context);
+                GameEvent event = new GameEvent(GameEvent.EventType.CardAddedToHand, context);
                 event.card = card;
                 player.game.broadcastEvent(event);
             }

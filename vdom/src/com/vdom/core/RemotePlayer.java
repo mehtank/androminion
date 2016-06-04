@@ -7,10 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.vdom.api.Card;
-import com.vdom.api.CurseCard;
 import com.vdom.api.EventCard;
 import com.vdom.api.GameEvent;
-import com.vdom.api.GameEvent.Type;
+import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
@@ -111,7 +110,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.debtCost = c.getDebtCost(null);
         card.costPotion = c.costPotion();
         card.isBane = isBane;
-        card.isShelter = c.isShelter();
+        card.isShelter = c.is(Type.Shelter, null);
         card.isLooter = c.isLooter();
         card.isOverpay = c.isOverpay(null);
         card.isEvent = c.isEvent();
@@ -124,7 +123,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;
         else
-            card.isRuins = c.isRuins(null);
+            card.isRuins = c.is(com.vdom.core.Type.Ruins, null);
 
 
         card.pile = MyCard.SUPPLYPILE;
@@ -178,7 +177,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (c.equals(Cards.potion)) card.isPotion = true;
         if (c.equals(Cards.curse)) {
             card.isCurse = true;
-            card.vp = ((CurseCard) c).getVictoryPoints();
+            card.vp =  c.getVictoryPoints();
         }
         if (c instanceof VictoryCard) {
             card.isVictory = true;
@@ -195,7 +194,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 card.isDuration = true;
             }
         }
-        if (Cards.isReaction(c))
+        if (c.is(Type.Reaction, null))
             card.isReaction = true;
         if (isBlackMarket) {
             card.isBlackMarket = true;
@@ -322,7 +321,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 {
                    i_virtualRuins = i;
                 }
-                else if (cardsInPlay.get(i).isRuins(null))
+                else if (cardsInPlay.get(i).is(com.vdom.core.Type.Ruins, null))
                 {
                    ruinsSize += player.getMyCardCount(cardsInPlay.get(i));
                 }
@@ -660,9 +659,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
 
         // Now check for event-type-specific things that we should do.
-        if (event.getType() == Type.VictoryPoints) {
+        if (event.getType() == EventType.VictoryPoints) {
                 sendEvent = false;
-        } else if (event.getType() == Type.GameStarting) {
+        } else if (event.getType() == EventType.GameStarting) {
             if (event.getPlayer() == this) {
                 waitForJoin();
                 if (!hasJoined)
@@ -678,7 +677,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             if (playerNameIncluded) {
                 sendEvent = false;
             }
-        } else if (event.getType() == Type.TurnBegin) {
+        } else if (event.getType() == EventType.TurnBegin) {
             curPlayer = event.getPlayer();
             curContext = context;
             newTurn = true;
@@ -686,7 +685,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             playedCardsNew.clear();
             extras.add(game.swampHagAttacks(event.getPlayer()));
             extras.add(game.hauntedWoodsAttacks(event.getPlayer()));
-        } else if (event.getType() == Type.TurnEnd) {
+        } else if (event.getType() == EventType.TurnEnd) {
             playedCards.clear();
             playedCardsNew.clear();
             
@@ -694,13 +693,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(islandSize);
             int nativeVillageSize = event.player.nativeVillage.size();
             extras.add(nativeVillageSize);
-        } else if (isPlayersTurn(event) && event.getType() == Type.PlayingAction || event.getType() == Type.PlayingDurationAction || event.getType() == Type.CallingCard) {
+        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingAction || event.getType() == EventType.PlayingDurationAction || event.getType() == EventType.CallingCard) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
-        } else if (isPlayersTurn(event) && event.getType() == Type.PlayingCoin) {
+        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingTreasure) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
-        } else if (event.getType() == Type.GameOver) {
+        } else if (event.getType() == EventType.GameOver) {
             curPlayer = event.getPlayer();
             curContext = context;
             isFinal = true;
@@ -716,21 +715,21 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             } else {
                 extras.add(null);
             }
-        } else if (event.getType() == Type.CantBuy) {
+        } else if (event.getType() == EventType.CantBuy) {
             cards = context.getCantBuy().toArray(new Card[0]);
-        } else if (event.getType() == Type.GuildsTokenSpend) {
+        } else if (event.getType() == EventType.GuildsTokenSpend) {
             if (event.getComment() != null) {
                 extras.add(event.getComment());
             }
-        } else if (event.getType() == Type.DebtTokensObtained || 
-        		event.getType() == Type.DebtTokensPaidOff ||
-        		event.getType() == Type.VPTokensObtained ||
-        		event.getType() == Type.VPTokensPutOnPile ||
-        		event.getType() == Type.VPTokensTakenFromPile) {
+        } else if (event.getType() == EventType.DebtTokensObtained || 
+        		event.getType() == EventType.DebtTokensPaidOff ||
+        		event.getType() == EventType.VPTokensObtained ||
+        		event.getType() == EventType.VPTokensPutOnPile ||
+        		event.getType() == EventType.VPTokensTakenFromPile) {
             extras.add(event.getAmount());
-        } else if (event.getType() == Type.TravellerExchanged) {
+        } else if (event.getType() == EventType.TravellerExchanged) {
             extras.add(event.responsible);
-        } else if (event.getType() == Type.Status) {
+        } else if (event.getType() == EventType.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)
                 coin += "p";
@@ -783,8 +782,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private boolean isPlayersTurn(GameEvent event) {
 		return event.context.game.getCurrentPlayer().equals(event.player);
 	}
-	private void checkForAchievements(MoveContext context, Type eventType) {
-        if (eventType == Type.GameOver) {
+	private void checkForAchievements(MoveContext context, EventType eventType) {
+        if (eventType == EventType.GameOver) {
             int provinces = 0;
             int curses = 0;
             for(Card c : getAllCards()) {
@@ -881,7 +880,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 achievement(context, "allEmpty");
             }
 
-        } else if (eventType == Type.TurnEnd) {
+        } else if (eventType == EventType.TurnEnd) {
             if(context != null && context.getPlayer() == this && context.vpsGainedThisTurn > 30) {
                 achievement(context, "gainmorethan30inaturn");
             }
@@ -895,15 +894,15 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 if (tacticians >= 2)
                     achievement(context, "2tacticians");
             }
-        } else if (eventType == Type.OverpayForCard) {
+        } else if (eventType == EventType.OverpayForCard) {
             if (context != null && context.overpayAmount >= 10) {
                 achievement(context, "overpayby10ormore");
             }
-        } else if (eventType == Type.GuildsTokenObtained) {
+        } else if (eventType == EventType.GuildsTokenObtained) {
             if (context != null && getGuildsCoinTokenCount() >= 50) {
                 achievement(context, "stockpile50tokens");
             }
-        } else if (eventType == Type.CardTrashed) {
+        } else if (eventType == EventType.CardTrashed) {
             if(context != null && context.getPlayer() == this && context.cardsTrashedThisTurn > 5) {
                 achievement(context, "trash5inaturn");
             }

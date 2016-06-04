@@ -22,7 +22,7 @@ import com.vdom.api.EventCard;
 import com.vdom.api.FrameworkEvent;
 import com.vdom.api.FrameworkEventHelper;
 import com.vdom.api.GameEvent;
-import com.vdom.api.GameEvent.Type;
+import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.api.TreasureCard;
@@ -90,7 +90,7 @@ public class Game {
     public static boolean lessProvinces = false; //only for testing
     public static boolean maskPlayerNames = false;
 
-    public static final HashSet<GameEvent.Type> showEvents = new HashSet<GameEvent.Type>();
+    public static final HashSet<GameEvent.EventType> showEvents = new HashSet<GameEvent.EventType>();
     public static final HashSet<String> showPlayers = new HashSet<String>();
     static boolean test = false;
     static boolean ignoreAllPlayerErrors = false;
@@ -297,7 +297,7 @@ public class Game {
                 } while (context.returnToActionPhase);
 
                 if (context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn == 0) {
-                    GameEvent event = new GameEvent(GameEvent.Type.NoBuy, context);
+                    GameEvent event = new GameEvent(GameEvent.EventType.NoBuy, context);
                     broadcastEvent(event);
                     Util.debug(player.getPlayerName() + " did not buy a card with coins:" + context.getCoinAvailableForBuy());
                 }
@@ -439,7 +439,7 @@ public class Game {
                 context.addCoins(numTokensToSpend);
                 if(numTokensToSpend > 0)
                 {
-                    GameEvent event = new GameEvent(GameEvent.Type.GuildsTokenSpend, context);
+                    GameEvent event = new GameEvent(GameEvent.EventType.GuildsTokenSpend, context);
                     event.setComment(": " + numTokensToSpend);
                     context.game.broadcastEvent(event);
                 }
@@ -527,14 +527,14 @@ public class Game {
             player.vps = vps[i];
             player.win = !loss;
             MoveContext context = new MoveContext(this, player);
-            broadcastEvent(new GameEvent(GameEvent.Type.GameOver, context));
+            broadcastEvent(new GameEvent(GameEvent.EventType.GameOver, context));
 
         }
         int index = 0;
         for (Player player : players) {
             int vp = vps[index++];
             Util.debug(player.getPlayerName() + ":Victory Points=" + vp, true);
-            GameEvent event = new GameEvent(GameEvent.Type.VictoryPoints, null);
+            GameEvent event = new GameEvent(GameEvent.EventType.VictoryPoints, null);
             event.setPlayer(player);
             event.setComment(":" + vp);
             broadcastEvent(event);
@@ -629,7 +629,7 @@ public class Game {
         context.buys = 1;
         context.coppersmithsPlayed = 0;
         
-        GameEvent event = new GameEvent(GameEvent.Type.NewHand, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.NewHand, context);
         broadcastEvent(event);
         event = null;
 
@@ -645,7 +645,7 @@ public class Game {
             nextPossessionsToProcess = 0;
             nextPossessingPlayer = null;
         }
-        event = new GameEvent(GameEvent.Type.TurnEnd, context);
+        event = new GameEvent(GameEvent.EventType.TurnEnd, context);
         broadcastEvent(event);
         
         if (context.missionBought && consecutiveTurnCounter <= 1) {
@@ -698,7 +698,7 @@ public class Game {
                 action = actionCards.remove(0);
                 if (action != null) {
                     if (isValidAction(context, action)) {
-                        GameEvent event = new GameEvent(GameEvent.Type.Status, (MoveContext) context);
+                        GameEvent event = new GameEvent(GameEvent.EventType.Status, (MoveContext) context);
                         broadcastEvent(event);
 
                         try {
@@ -726,7 +726,7 @@ public class Game {
     		}
     		context.spendCoins(payOffNum);
     		player.payOffDebtTokens(payOffNum);
-    		GameEvent event = new GameEvent(GameEvent.Type.DebtTokensPaidOff, context);
+    		GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensPaidOff, context);
         	event.setAmount(payOffNum);
             context.game.broadcastEvent(event);
     	}
@@ -754,7 +754,7 @@ public class Game {
                 	{
                         context.totalCardsBoughtThisTurn++;
                 	}
-                    GameEvent statusEvent = new GameEvent(GameEvent.Type.Status, (MoveContext) context);
+                    GameEvent statusEvent = new GameEvent(GameEvent.EventType.Status, (MoveContext) context);
                     broadcastEvent(statusEvent);
 
                     playBuy(context, buy);
@@ -833,7 +833,7 @@ public class Game {
         
         player.clearDurationEffectsOnOtherPlayers();
         
-        GameEvent gevent = new GameEvent(GameEvent.Type.TurnBegin, context);
+        GameEvent gevent = new GameEvent(GameEvent.EventType.TurnBegin, context);
         broadcastEvent(gevent);
 
         /* Duration cards, horse traders, cards on prince*/
@@ -893,7 +893,7 @@ public class Game {
                     }
                 }
             } else if(isModifierCard(thisCard.behaveAsCard())) {
-                GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
+                GameEvent event = new GameEvent(GameEvent.EventType.PlayingDurationAction, context);
                 event.card = card;
                 event.newCard = true;
                 broadcastEvent(event);
@@ -1031,7 +1031,7 @@ public class Game {
                 
                 Card thisCard = card.behaveAsCard();
                 
-                GameEvent event = new GameEvent(GameEvent.Type.PlayingDurationAction, context);
+                GameEvent event = new GameEvent(GameEvent.EventType.PlayingDurationAction, context);
                 event.card = card;
                 event.newCard = isRealCard;
                 broadcastEvent(event);
@@ -1042,15 +1042,15 @@ public class Game {
                 int addCardsNextTurn = thisCard.getAddCardsNextTurn();
 
                 /* addCardsNextTurn are displayed like addCards but sometimes the text differs */
-                if (thisCard.getType() == Cards.Type.Tactician) {
+                if (thisCard.getKind() == Cards.Kind.Tactician) {
                     context.actions += 1;
                     context.buys += 1;
                     addCardsNextTurn = 5;
                 }
-                if (thisCard.getType() == Cards.Type.Dungeon) {
+                if (thisCard.getKind() == Cards.Kind.Dungeon) {
                     addCardsNextTurn = 2;
                 }
-                if (thisCard.getType() == Cards.Type.Hireling) {
+                if (thisCard.getKind() == Cards.Kind.Hireling) {
                     addCardsNextTurn = 1;
                 }
 
@@ -1058,8 +1058,8 @@ public class Game {
                     drawToHand(context, thisCard, addCardsNextTurn - i, true);
                 }
                 
-                if (   thisCard.getType() == Cards.Type.Amulet
-                	|| thisCard.getType() == Cards.Type.Dungeon ) {
+                if (   thisCard.getKind() == Cards.Kind.Amulet
+                	|| thisCard.getKind() == Cards.Kind.Dungeon ) {
                     context.freeActionInEffect++;
                     try {
                         ((ActionCardImpl) thisCard).additionalCardActions(context.game, context, player);
@@ -1321,14 +1321,14 @@ public class Game {
                 if (arg.toLowerCase().equals(debugArg)) {
                     debug = true;
                     if (showEvents.isEmpty()) {
-                        for (GameEvent.Type eventType : GameEvent.Type.values()) {
+                        for (GameEvent.EventType eventType : GameEvent.EventType.values()) {
                             showEvents.add(eventType);
                         }
                     }
                 } else if (arg.toLowerCase().startsWith(showEventsArg)) {
                     String showEventsString = arg.substring(showEventsArg.length() + 1);
                     for (String event : showEventsString.split(",")) {
-                        showEvents.add(GameEvent.Type.valueOf(event));
+                        showEvents.add(GameEvent.EventType.valueOf(event));
                     }
                 } else if (arg.toLowerCase().startsWith(showPlayersArg)) {
                     String showPlayersString = arg.substring(showPlayersArg.length() + 1);
@@ -1645,7 +1645,7 @@ public class Game {
 
             if (context.overpayAmount > 0 || context.overpayPotions > 0)
             {
-                GameEvent event = new GameEvent(GameEvent.Type.OverpayForCard, (MoveContext) context);
+                GameEvent event = new GameEvent(GameEvent.EventType.OverpayForCard, (MoveContext) context);
                 event.card = card;
                 event.newCard = true;
                 broadcastEvent(event);
@@ -1694,7 +1694,7 @@ public class Game {
         }
         
         if (card != null) {
-            GameEvent event = new GameEvent(GameEvent.Type.BuyingCard, (MoveContext) context);
+            GameEvent event = new GameEvent(GameEvent.EventType.BuyingCard, (MoveContext) context);
             event.card = card;
             event.newCard = true;
             broadcastEvent(event);
@@ -1712,12 +1712,12 @@ public class Game {
         } else if (buy.getDebtCost(context) > 0) {
         	int debtCost = buy.getDebtCost(context);
         	context.getPlayer().controlPlayer.gainDebtTokens(debtCost);
-        	GameEvent event = new GameEvent(GameEvent.Type.DebtTokensObtained, context);
+        	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
         	event.setAmount(debtCost);
             context.game.broadcastEvent(event);
         } else if (!(buy instanceof VictoryCard) && !buy.isKnight(null) && cost < 5 && !buy.isEvent()) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
-                if (!buy.isRuins(null) || (card != null && card.equals(getTopRuinsCard()))) {
+                if (!buy.is(com.vdom.core.Type.Ruins, null) || (card != null && card.equals(getTopRuinsCard()))) {
                     context.getPlayer().gainNewCard(buy, Cards.talisman, context);
                 }
             }
@@ -1730,7 +1730,7 @@ public class Game {
         if (!buy.isEvent() && context.countMerchantGuildsInPlayThisTurn() > 0)
         {
             player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn());
-            GameEvent event   = new GameEvent(GameEvent.Type.GuildsTokenObtained, context);
+            GameEvent event   = new GameEvent(GameEvent.EventType.GuildsTokenObtained, context);
             broadcastEvent(event);
         }
 
@@ -1876,7 +1876,7 @@ public class Game {
     public void replenishDeck(MoveContext context, Card responsible, int cardsLeftToDraw) {
         context.player.replenishDeck(context, responsible, cardsLeftToDraw);
         
-        GameEvent event = new GameEvent(GameEvent.Type.DeckReplenished, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.DeckReplenished, context);
         broadcastEvent(event);
     }
 
@@ -1888,7 +1888,7 @@ public class Game {
                 return;
             }
 
-            if (event.getType() == GameEvent.Type.TurnEnd) {
+            if (event.getType() == GameEvent.EventType.TurnEnd) {
                 Util.debug("");
                 return;
             }
@@ -1896,13 +1896,13 @@ public class Game {
             StringBuilder msg = new StringBuilder();
             msg.append(player.getPlayerName() + "::" + turnCount + ":" + event.getType());
 
-            if (event.getType() == GameEvent.Type.BuyingCard) {
+            if (event.getType() == GameEvent.EventType.BuyingCard) {
                 msg.append(":" + event.getContext().getCoinAvailableForBuy() + " gold");
                 if (event.getContext().getBuysLeft() > 0) {
                     msg.append(", buys remaining: " + event.getContext().getBuysLeft() + ")");
                 }
-            } else if (event.getType() == GameEvent.Type.PlayingAction || event.getType() == GameEvent.Type.TurnBegin
-                       || event.getType() == GameEvent.Type.NoBuy) {
+            } else if (event.getType() == GameEvent.EventType.PlayingAction || event.getType() == GameEvent.EventType.TurnBegin
+                       || event.getType() == GameEvent.EventType.NoBuy) {
                 msg.append(":" + getHandString(player));
             } else if (event.attackedPlayer != null) {
                 msg.append(":" + event.attackedPlayer.getPlayerName() + " with " + event.card.getName());
@@ -2072,7 +2072,7 @@ public class Game {
 
             s += unfoundCardText;
             context.message = s;
-            broadcastEvent(new GameEvent(GameEvent.Type.GameStarting, context));
+            broadcastEvent(new GameEvent(GameEvent.EventType.GameStarting, context));
 
         }
     }
@@ -2398,7 +2398,7 @@ public class Game {
             		pile.card().getExpansion() != null &&
             		Cards.isKingdomCard(pile.card())) {
             	kingdomCards++;
-            	if (pile.card().isRuins(null) == false &&
+            	if (pile.card().is(com.vdom.core.Type.Ruins, null) == false &&
                         (pile.card().isKnight(null) == false || !alreadyCountedKnights) &&
                         pile.card().getExpansion() == Expansion.DarkAges) {
                     darkAgesCards++;
@@ -2602,11 +2602,11 @@ public class Game {
             public void gameEvent(GameEvent event) {
                 handleShowEvent(event);
 
-                if (event.getType() == GameEvent.Type.GameStarting || event.getType() == GameEvent.Type.GameOver) {
+                if (event.getType() == GameEvent.EventType.GameStarting || event.getType() == GameEvent.EventType.GameOver) {
                     return;
                 }
 
-                if ((event.getType() == GameEvent.Type.CardObtained || event.getType() == GameEvent.Type.BuyingCard) &&
+                if ((event.getType() == GameEvent.EventType.CardObtained || event.getType() == GameEvent.EventType.BuyingCard) &&
                 		!event.card.isEvent()) {
                 	
                     MoveContext context = event.getContext();
@@ -2628,8 +2628,8 @@ public class Game {
 
                     // See rules explanation of Tunnel for what commandedDiscard means.
                     boolean commandedDiscard = true;
-                    if(event.getType() == GameEvent.Type.BuyingCard
-                       || event.getType() == GameEvent.Type.CardObtained) {
+                    if(event.getType() == GameEvent.EventType.BuyingCard
+                       || event.getType() == GameEvent.EventType.CardObtained) {
                         commandedDiscard = false;
                     } else if(event.responsible != null) {
                         Card r = event.responsible;
@@ -2691,7 +2691,7 @@ public class Game {
 
                         if (choice == WatchTowerOption.TopOfDeck) {
                             handled = true;
-                            GameEvent watchTowerEvent = new GameEvent(GameEvent.Type.CardRevealed, context);
+                            GameEvent watchTowerEvent = new GameEvent(GameEvent.EventType.CardRevealed, context);
                             watchTowerEvent.card = watchTowerCard;
                             watchTowerEvent.responsible = null;
                             context.game.broadcastEvent(watchTowerEvent);
@@ -2699,7 +2699,7 @@ public class Game {
                             player.putOnTopOfDeck(event.card, context, true);
                         } else if (choice == WatchTowerOption.Trash) {
                             handled = true;
-                            GameEvent watchTowerEvent = new GameEvent(GameEvent.Type.CardRevealed, context);
+                            GameEvent watchTowerEvent = new GameEvent(GameEvent.EventType.CardRevealed, context);
                             watchTowerEvent.card = watchTowerCard;
                             watchTowerEvent.responsible = null;
                             context.game.broadcastEvent(watchTowerEvent);
@@ -2726,7 +2726,7 @@ public class Game {
                             //TODO: figure out better way to handle not Summoning Death Cart or Border Village (or other cards) due to lose track rule
                         	//      may have missed some esoteric cases here (e.g. Inn's when-gain ability doesn't have to have Summon lose track)
                         	context.player.summon.add(event.card);
-        					GameEvent summonEvent = new GameEvent(GameEvent.Type.CardSetAsideSummon, context);
+        					GameEvent summonEvent = new GameEvent(GameEvent.EventType.CardSetAsideSummon, context);
         					summonEvent.card = event.card;
         					context.game.broadcastEvent(summonEvent);
                         } else if (gainedCardAbility.equals(Cards.nomadCamp)) {
@@ -2973,7 +2973,7 @@ public class Game {
                                     cards[0] = player.hand.get(0);
                                     cards[1] = player.hand.get(1);
                                 }                                
-                                GameEvent topDeckEvent = new GameEvent(GameEvent.Type.CardOnTopOfDeck, context);
+                                GameEvent topDeckEvent = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
                                 topDeckEvent.setPlayer(player);
                                 for (int i = cards.length - 1; i >= 0; i--) {
                                     player.hand.remove(cards[i]);
@@ -3019,7 +3019,7 @@ public class Game {
                     }
                     
                     // Achievement check...
-                    if(event.getType() == GameEvent.Type.BuyingCard && !player.achievementSingleCardFailed) {
+                    if(event.getType() == GameEvent.EventType.BuyingCard && !player.achievementSingleCardFailed) {
                         if (Cards.isKingdomCard(event.getCard())) {
                             if(player.achievementSingleCardFirstKingdomCardBought == null) {
                                 player.achievementSingleCardFirstKingdomCardBought = event.getCard();
@@ -3036,8 +3036,8 @@ public class Game {
 
                 boolean shouldShow = (debug || junit);
                 if (!shouldShow) {
-                    if (event.getType() != GameEvent.Type.TurnBegin && event.getType() != GameEvent.Type.TurnEnd
-                        && event.getType() != GameEvent.Type.DeckReplenished && event.getType() != GameEvent.Type.GameStarting) {
+                    if (event.getType() != GameEvent.EventType.TurnBegin && event.getType() != GameEvent.EventType.TurnEnd
+                        && event.getType() != GameEvent.EventType.DeckReplenished && event.getType() != GameEvent.EventType.GameStarting) {
                         shouldShow = true;
                     }
                 }
@@ -3054,14 +3054,14 @@ public class Game {
                             msg.append(" (as " + event.card.behaveAsCard().getName() + ")");
                         }
                     }
-                    if (event.getType() == GameEvent.Type.TurnBegin && event.getPlayer().isPossessed()) {
+                    if (event.getType() == GameEvent.EventType.TurnBegin && event.getPlayer().isPossessed()) {
                         msg.append(" possessed by " + event.getPlayer().controlPlayer.getPlayerName() + "!");
                     }
                     if (event.attackedPlayer != null) {
                         msg.append(", attacking:" + event.attackedPlayer.getPlayerName());
                     }
 
-                    if (event.getType() == GameEvent.Type.BuyingCard) {
+                    if (event.getType() == GameEvent.EventType.BuyingCard) {
                         msg.append(" (with gold: " + event.getContext().getCoinAvailableForBuy() + ", buys remaining: " + event.getContext().getBuysLeft());
                     }
                     Util.debug(msg.toString(), true);
@@ -3121,7 +3121,7 @@ public class Game {
         String name = card.getName();
         pileVpTokens.put(name, getPileVpTokens(card) + num);
         if (context != null) {
-        	GameEvent event = new GameEvent(GameEvent.Type.VPTokensPutOnPile, context);
+        	GameEvent event = new GameEvent(GameEvent.EventType.VPTokensPutOnPile, context);
     		event.setAmount(num);
     		event.card = card;
             context.game.broadcastEvent(event);
@@ -3135,7 +3135,7 @@ public class Game {
         if (num > 0) {
         	pileVpTokens.put(name, getPileVpTokens(card) - num);
         	if (context != null) {
-	        	GameEvent event = new GameEvent(GameEvent.Type.VPTokensTakenFromPile, context);
+	        	GameEvent event = new GameEvent(GameEvent.EventType.VPTokensTakenFromPile, context);
 	    		event.setAmount(num);
 	    		event.card = card;
 	            context.game.broadcastEvent(event);
@@ -3163,7 +3163,7 @@ public class Game {
     public List<PlayerSupplyToken> getPlayerSupplyTokens(Card card, Player player) {
     	card = card.getTemplateCard();
     	if (card.isKnight(null)) card = Cards.virtualKnight;
-        if (card.isRuins(null)) card = Cards.virtualRuins;
+        if (card.is(com.vdom.core.Type.Ruins, null)) card = Cards.virtualRuins;
     	if (player == null || !playerSupplyTokens.containsKey(card.getName()))
     		return new ArrayList<PlayerSupplyToken>();
     	
@@ -3182,19 +3182,19 @@ public class Game {
     	getPlayerSupplyTokens(card, player).add(token);
     	
         MoveContext context = new MoveContext(this, player);
-        GameEvent.Type eventType = null;
+        GameEvent.EventType eventType = null;
         if (token == PlayerSupplyToken.PlusOneCard) {
-        	eventType = Type.PlusOneCardTokenMoved;
+        	eventType = EventType.PlusOneCardTokenMoved;
         } else if (token == PlayerSupplyToken.PlusOneAction) {
-        	eventType = Type.PlusOneActionTokenMoved;
+        	eventType = EventType.PlusOneActionTokenMoved;
         } else if (token == PlayerSupplyToken.PlusOneBuy) {
-        	eventType = Type.PlusOneBuyTokenMoved;
+        	eventType = EventType.PlusOneBuyTokenMoved;
         } else if (token == PlayerSupplyToken.PlusOneCoin) {
-        	eventType = Type.PlusOneCoinTokenMoved;
+        	eventType = EventType.PlusOneCoinTokenMoved;
         } else if (token == PlayerSupplyToken.MinusTwoCost) {
-        	eventType = Type.MinusTwoCostTokenMoved;
+        	eventType = EventType.MinusTwoCostTokenMoved;
         } else if (token == PlayerSupplyToken.Trashing) {
-        	eventType = Type.TrashingTokenMoved;
+        	eventType = EventType.TrashingTokenMoved;
         }
         GameEvent event = new GameEvent(eventType, context);
         event.card = card;
@@ -3225,7 +3225,7 @@ public class Game {
     protected Card takeFromPile(Card card, MoveContext context) {
         if (context == null || !context.blackMarketBuyPhase) {
             if (card.isKnight(null)) card = Cards.virtualKnight;
-            if (card.isRuins(null)) card = Cards.virtualRuins;
+            if (card.is(com.vdom.core.Type.Ruins, null)) card = Cards.virtualRuins;
         }
         
         AbstractCardPile pile = getPile(card);
@@ -3559,7 +3559,7 @@ public class Game {
 
         for (Card c : player.hand)
         {
-            if (c.getType() == Cards.Type.Hovel && player.controlPlayer.hovel_shouldTrash(context))
+            if (c.getKind() == Cards.Kind.Hovel && player.controlPlayer.hovel_shouldTrash(context))
             {
                 hovelsToTrash.add(c);
             }
@@ -3578,7 +3578,7 @@ public class Game {
     public boolean hauntedWoodsAttacks(Player player) {
         for (Player otherPlayer : players) {
             if (otherPlayer != null && otherPlayer != player) {
-            	if (otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Type.HauntedWoods) > 0) {
+            	if (otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Kind.HauntedWoods) > 0) {
             		return true;
             	}
             }
@@ -3590,7 +3590,7 @@ public class Game {
     	if (getCurrentPlayer() != player) return false;
         for (Player otherPlayer : players) {
             if (otherPlayer != null && otherPlayer != player) {
-            	if (otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Type.Enchantress) > 0) {
+            	if (otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Kind.Enchantress) > 0) {
             		return true;
             	}
             }
@@ -3603,7 +3603,7 @@ public class Game {
     	int swampHags = 0;
         for (Player otherPlayer : players) {
             if (otherPlayer != null && otherPlayer != player) {
-            	swampHags += otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Type.SwampHag);
+            	swampHags += otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Kind.SwampHag);
             }
         }
         return swampHags;

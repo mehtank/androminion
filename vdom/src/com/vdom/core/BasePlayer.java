@@ -11,7 +11,6 @@ import java.util.Random;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
-import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.TreasureCard;
@@ -51,10 +50,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public void gameEvent(GameEvent event) {
         // There are quite a few event types, found in the GameEvent.Type enum, that
         // are broadcast.
-        if (event.getType() == GameEvent.Type.PlayingAction) {
+        if (event.getType() == GameEvent.EventType.PlayingAction) {
             reactedSet.clear();
         }
-        if(event.getPlayer() == this && (event.getType() == GameEvent.Type.CardObtained || event.getType() == GameEvent.Type.BuyingCard)) {
+        if(event.getPlayer() == this && (event.getType() == GameEvent.EventType.CardObtained || event.getType() == GameEvent.EventType.BuyingCard)) {
             if(event.getCard().isAction(event.getPlayer())) {
                 actionCardCount++;
             }
@@ -109,22 +108,22 @@ public abstract class BasePlayer extends Player implements GameEventListener {
        for (Card card : context.player.getHand()) {
            if (card instanceof TreasureCard) {
                coin += ((TreasureCard) card).getValue();
-               if (card.getType() != Cards.Type.Spoils) {
+               if (card.getKind() != Cards.Kind.Spoils) {
                    treasurecards++;
                }
-           if (card.getType() == Cards.Type.FoolsGold) {
+           if (card.getKind() == Cards.Kind.FoolsGold) {
                    foolsgoldcount++;
                    if (foolsgoldcount > 1) {
                        coin += 3;
                    }
                }
-               if (card.getType() == Cards.Type.PhilosophersStone) {
+               if (card.getKind() == Cards.Kind.PhilosophersStone) {
                    coin += (context.player.getDeckSize() + context.player.getDiscardSize()) / 5;
                }
-               if (card.getType() == Cards.Type.Bank) {
+               if (card.getKind() == Cards.Kind.Bank) {
                    bankcount++;
                }
-               if (card.getType() == Cards.Type.Venture) {
+               if (card.getKind() == Cards.Kind.Venture) {
                    venturecount++;
                    coin += 1; //estimate: could draw potion or hornOfPlenty but also platinum
                               //Patrick estimates in getCurrencyTotal(list) coin += 1
@@ -170,7 +169,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         ArrayList<Card> cardListBad = new ArrayList<Card>();
         for (int i = 0; i < cards.length; i++) {
             Card card = cards[i];
-            if (   card.isShelter()
+            if (   card.is(Type.Shelter, context.player)
                 || card.equals(Cards.abandonedMine) /*choose only virtualRuins*/
                 || card.equals(Cards.ruinedLibrary)
                 || card.equals(Cards.ruinedMarket)
@@ -537,7 +536,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         // Just add in the non-victory cards...
         for (Card card : context.attackedPlayer.getHand()) {
-            if (!shouldDiscard(card, context.attackedPlayer)) {
+            if (!shouldDiscard(card, new MoveContext(context.game, context.attackedPlayer))) {
                 keepers.add(card);
             } else {
                 discards.add(card);
@@ -679,7 +678,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             else if ((!(card.isAction(context.player)) && !(card instanceof TreasureCard)) || card.equals(Cards.cellar) || card.equals(Cards.copper)) {
                 cards.add(card);
             }
-            else if (shouldDiscard(card, context.player)) {
+            else if (shouldDiscard(card, context)) {
                 cards.add(card);
             }
         }
@@ -692,11 +691,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         if (context.getActionsLeft() == 0) {
             return false;
         }
-        if (action.isRuins(context.player)) {
+        if (action.is(Type.Ruins, context.player)) {
             return false;
         }
         for (Card card : context.getPlayer().getHand()) {
-            if (card.isAction(context.player) && !card.isRuins(context.player)) {
+            if (card.isAction(context.player) && !card.is(Type.Ruins, context.player)) {
                 return false;
             }
         }
@@ -710,8 +709,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         if (   isOnlyVictory(card, targetPlayer)
             || card.equals(Cards.copper)
             || card.equals(Cards.curse)
-            || card.isShelter()
-            || card.isRuins(targetPlayer))
+            || card.is(Type.Shelter, targetPlayer)
+            || card.is(Type.Ruins, targetPlayer))
             ret = false;
         else {
             ret = true;
@@ -737,7 +736,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         // Discard all victory cards
         ArrayList<Card> cards = new ArrayList<Card>();
         for (Card card : context.getPlayer().getHand()) {
-            if (shouldDiscard(card, context.player)) {
+            if (shouldDiscard(card, context)) {
                 cards.add(card);
             }
         }
@@ -778,7 +777,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         if (h.size() < 5) {
             int count = 0;
             for (Card c : h) {
-                if (shouldDiscard(c, context.attackedPlayer) || c.equals(Cards.copper)) {
+                if (shouldDiscard(c, new MoveContext(context.game, context.attackedPlayer)) || c.equals(Cards.copper)) {
                     count++;
                 }
             }
@@ -792,7 +791,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         else {
             int count = 0;
             for (Card c : h) {
-                if (shouldDiscard(c, context.attackedPlayer)) {
+                if (shouldDiscard(c, new MoveContext(context.game, context.attackedPlayer))) {
                     count++;
                 }
             }
@@ -1036,7 +1035,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
 
         for (Card card : context.getPlayer().getHand()) {
-            if (shouldDiscard(card, context.getPlayer())) {
+            if (shouldDiscard(card, context)) {
                 cardsToDiscard.add(card);
             }
 
@@ -1149,7 +1148,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         int maxCost = -1;
         for (Card card : cardList) {
             if (card.isAction(context.player) && card.getCost(context) <= 4 && !card.costPotion()) {
-                if (   !card.isRuins(context.player)
+                if (   !card.is(Type.Ruins, context.player)
                     && !card.equals(Cards.necropolis)
                     && !card.trashForced()
                     && !(card.isDuration(context.player))
@@ -1246,7 +1245,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         // Discard them if there is more than 2 victory cards
         int victoryCount = 0;
         for (Card card : cards) {
-            if (shouldDiscard(card, context.player)) {
+            if (shouldDiscard(card, context)) {
                 victoryCount++;
             }
         }
@@ -1287,7 +1286,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card ambassador_revealedCard(MoveContext context) {
         ArrayList<Card> ambassadorCards = new ArrayList<Card>();
         for(Card c : getTrashCards()) {
-            if (!c.isShelter()) {
+            if (!c.is(Type.Shelter, context.getPlayer())) {
                 ambassadorCards.add(c);
             }
         }
@@ -1786,14 +1785,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         if(actions > 1) {
             for (Card card : cards) {
-                if (card instanceof VictoryCard && !isOnlyVictory(card, context.player)) {
+                if (card instanceof VictoryCard && !isOnlyVictory(card, context.getPlayer())) {
                     return (VictoryCard) card;
                 }
             }
         }
         
         for (Card card : cards) {
-            if (card instanceof VictoryCard && isOnlyVictory(card, context.player)) {
+            if (card instanceof VictoryCard && isOnlyVictory(card, context.getPlayer())) {
                 return (VictoryCard) card;
             }
         }
@@ -1896,24 +1895,21 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return false;
     }
     
-    public boolean isOnlyVictory(Card card, Player player) {
+    public boolean isOnlyVictory(Card card, Player p) {
         if(!(card instanceof VictoryCard)) {
             return false;
         }
         
-        if(card.isAction(player) || card instanceof TreasureCard) {
+        if(card.isAction(p) || card instanceof TreasureCard) {
             return false;
         }
         
         return true;
     }
     
-    public boolean isCurse(Card card) {
-        return card instanceof CurseCard;
-    }
-    
-    public boolean shouldDiscard(Card card, Player player) {
-        return isCurse(card) || isOnlyVictory(card, player) || card.isShelter() || card.isRuins(player);
+    public boolean shouldDiscard(Card card, MoveContext context) {
+    	Player p = context.getPlayer();
+        return card.is(Type.Curse, p) || isOnlyVictory(card, p) || card.is(Type.Shelter, p) || card.is(Type.Ruins, p);
     }
     
     public boolean shouldBuyPotion() {
@@ -2111,7 +2107,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 copper = true;
             }
 
-            if(isTrashCard(c) || isOnlyVictory(c, player)) {
+            if(isTrashCard(c) || isOnlyVictory(c, context.getPlayer())) {
                 discard = false;
             }
             else if(   c.getCost(null) >= 5
@@ -2159,7 +2155,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
 
         for (Card card : context.getPlayer().getHand()) {
-            if (shouldDiscard(card, context.player)) {
+            if (shouldDiscard(card, context)) {
                 cardsToDiscard.add(card);
             }
 
@@ -2241,7 +2237,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             {
                 return c;
             }
-            else if (c.getType() != Cards.Type.Rats)
+            else if (c.getKind() != Cards.Kind.Rats)
             {
                 // Build a list of the cards we can trash
                 nonRatsChoices.add(c);
@@ -2324,7 +2320,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public boolean catacombs_shouldDiscardTopCards(MoveContext context, Card[] array) {
 		int discards = 0;
 		for (Card c : array) 
-			if (shouldDiscard(c, context.player))
+			if (shouldDiscard(c, context))
 				discards++;
 		
 		return (discards > 1);
@@ -2369,7 +2365,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	{
 		for (Card c : context.player.hand)
 		{
-			if (c.isRuins(context.player)) {
+			if (c.is(Type.Ruins, context.player)) {
 				return c;
 			}
 		}
@@ -2446,7 +2442,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		if (card.equals(Cards.copper) || card.equals(Cards.masterpiece)) {
 			return true;
 		}
-		return this.shouldDiscard(card, context.player);
+		return this.shouldDiscard(card, context);
 	}
 
 	@Override
@@ -2667,8 +2663,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	// build list of "good" cards
 		  boolean containsCopper = false;
     	CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
+    	Player p = context.getPlayer();
     	for(Card card : cards) {
-    		if (!isOnlyVictory(card, context.getPlayer()) && !isCurse(card) && !isTrashCard(card) && !(context.actions == 0 && (card.isAction(context.getPlayer())))) {
+    		if (!isOnlyVictory(card, p) && !card.is(Type.Curse, p) && !isTrashCard(card) && !(context.actions == 0 && (card.isAction(p)))) {
     			cl.add(card);
 			}
     		if (card.equals(Cards.copper)) {
@@ -2790,7 +2787,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         // Just add in the non-victory cards...
         for (Card card : context.attackedPlayer.getHand()) {
-            if (!shouldDiscard(card, context.attackedPlayer)) {
+            if (!shouldDiscard(card, new MoveContext(context.game, context.attackedPlayer))) {
                 keepers.add(card);
             } else {
             	discards.add(card);
@@ -3197,7 +3194,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     {
         DoctorOverpayOption doo = DoctorOverpayOption.PutItBack;
         
-        if (shouldDiscard(card, context.player)) {
+        if (shouldDiscard(card, context)) {
             doo = DoctorOverpayOption.DiscardIt;        
         }
             
@@ -3227,7 +3224,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         for (Card c : cardList)
         {
-            if (!shouldDiscard(c, context.player) && !c.equals(Cards.copper))
+            if (!shouldDiscard(c, context) && !c.equals(Cards.copper))
             {
                 cardToReturn = c;
                 break;
@@ -3604,7 +3601,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	
     	if (!context.game.isCardInGame(Cards.poorHouse)) {
     		for (Card c : hand) {
-        		if (c.isRuins(context.getPlayer()))
+        		if (c.is(Type.Ruins, context.getPlayer()))
         			return c;
         	}
     		if (hand.contains(Cards.copper)) return Cards.copper;

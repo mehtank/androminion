@@ -7,7 +7,6 @@ import java.util.Random;
 
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
-import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
@@ -17,6 +16,7 @@ import com.vdom.core.Cards;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
+import com.vdom.core.Type;
 import com.vdom.core.Util;
 
 /**
@@ -643,8 +643,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 			if (card instanceof VictoryCard) {
 				vps += ((VictoryCard) card).getVictoryPoints();
 			}
-			if (this.isCurse(card)) {
-				vps += ((CurseCard) card).getVictoryPoints();
+			if (card.is(Type.Curse, null)) {
+				vps += card.getVictoryPoints();
 			}
 			if (card.equals(Cards.duke)) {
 				vps += Util.getCardCount(list, Cards.duchy);
@@ -710,7 +710,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	 * @return				best candidate for discarding
 	 */
     @SuppressWarnings("unchecked")
-	private Card getCardToDiscard(ArrayList<Card> list, DiscardOption destructive, Player player) {
+	private Card getCardToDiscard(ArrayList<Card> list, DiscardOption destructive, MoveContext context) {
 		// Tunnel
 		if (list.contains(Cards.tunnel)) {
 			return list.get(list.indexOf(Cards.tunnel));
@@ -741,7 +741,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		// Victory cards with no other function
 		for (Card card : list) {
-			if (isOnlyVictory(card, player)) {
+			if (isOnlyVictory(card, context.getPlayer())) {
 				return card;
 			}
 		}
@@ -776,7 +776,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			{
 				StrategyOption saveStrategy = this.strategy;
 				this.strategy = StrategyOption.Nothing;
-	        	Card card = getCardToDiscard(cards2discard, destructive, player);
+	        	Card card = getCardToDiscard(cards2discard, destructive, context);
 	        	this.strategy = saveStrategy;
 	        	return card;
 			}
@@ -868,13 +868,13 @@ public class VDomPlayerPatrick extends BasePlayer {
 	 * @param destructive	discard is mandatory?
 	 * @return				list of cards that can be discarded
 	 */
-	private ArrayList<Card> getCardsToDiscard(ArrayList<Card> list, int number, DiscardOption destructive, Player player) {
+	private ArrayList<Card> getCardsToDiscard(ArrayList<Card> list, int number, DiscardOption destructive, MoveContext context) {
 		ArrayList<Card> ret = new ArrayList<Card>();
 		int discarded = 0;
 		Card dcard = null;
 		
 		while ((!list.isEmpty()) && (discarded < number)) {
-			dcard = this.getCardToDiscard(list, destructive, player);
+			dcard = this.getCardToDiscard(list, destructive, context);
 			if (dcard != null) {
 				ret.add(discarded, dcard);
 				list.remove(ret.get(discarded));
@@ -1005,7 +1005,7 @@ public class VDomPlayerPatrick extends BasePlayer {
         Card card2discard = null;
         
         while (cards2keep.size() > 3) {
-        	card2discard = getCardToDiscard(cards2keep, DiscardOption.Destructive, context.getPlayer());
+        	card2discard = getCardToDiscard(cards2keep, DiscardOption.Destructive, context);
         	cards2keep.remove(card2discard);
         }
         
@@ -1021,7 +1021,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	@Override
 	public Card[] torturer_attack_cardsToDiscard(MoveContext context) {
 		//TODO test
-		return this.getCardsToDiscard(this.hand.toArrayListClone(), 2, DiscardOption.Destructive, context.getPlayer()).toArray(new Card[2]);
+		return this.getCardsToDiscard(this.hand.toArrayListClone(), 2, DiscardOption.Destructive, context).toArray(new Card[2]);
 	}
 
 	@Override
@@ -1032,7 +1032,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		Card card = null;
 		
 		while (ret.size() < 2) {
-			card = this.getCardToDiscard(temphand, DiscardOption.SemiDestructive, context.getPlayer());
+			card = this.getCardToDiscard(temphand, DiscardOption.SemiDestructive, context);
 			if (card == null) {
 				break;
 			} 
@@ -1127,7 +1127,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		ArrayList<Card> temphand = this.hand.toArrayListClone();
 		
 		while (temphand.size() > 0) {
-			ret = getCardToDiscard(temphand, DiscardOption.Destructive, context.getPlayer());
+			ret = getCardToDiscard(temphand, DiscardOption.Destructive, context);
 			temphand.remove(ret);
 			if (this.isOnlyVictory(ret, context.getPlayer())) {
 				return ret;
@@ -1135,7 +1135,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		}
 		
         temphand = this.hand.toArrayListClone();
-	    return getCardToDiscard(temphand, DiscardOption.Destructive, context.getPlayer());
+	    return getCardToDiscard(temphand, DiscardOption.Destructive, context);
 	}
 
 	@Override
@@ -1168,7 +1168,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	    
 		ArrayList<Card> temphand = this.hand.toArrayListClone();
         int discarded = Math.min(2, temphand.size());
-        ArrayList<Card> toDiscard = this.getCardsToDiscard(temphand, discarded, DiscardOption.SemiDestructive, context.getPlayer());
+        ArrayList<Card> toDiscard = this.getCardsToDiscard(temphand, discarded, DiscardOption.SemiDestructive, context);
         if (toDiscard.size() >= discarded) {
         	return Player.TorturerOption.DiscardTwoCards;
         }
@@ -1227,10 +1227,10 @@ public class VDomPlayerPatrick extends BasePlayer {
 		return ret;
 	}
 
-	public boolean shouldDiscard(Card card, Player player) {
+	public boolean shouldDiscard(Card card, MoveContext context) {
 		ArrayList<Card> c = new ArrayList<Card>();
 		c.add(card);
-	    return (this.getCardToDiscard(c, DiscardOption.NonDestructive, player) != null);
+	    return (this.getCardToDiscard(c, DiscardOption.NonDestructive, context) != null);
 	}
 
 	public boolean shouldTrash(Card card) {
@@ -1980,7 +1980,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	public boolean jackOfAllTrades_shouldDiscardCardFromTopOfDeck(MoveContext context, Card card) {
 		ArrayList<Card> a = new ArrayList<Card>();
 		a.add(card);
-	    if(   card.equals(getCardToDiscard(a, DiscardOption.NonDestructive, context.getPlayer()))
+	    if(   card.equals(getCardToDiscard(a, DiscardOption.NonDestructive, context))
 	       && (jackOfAllTrades_nonTreasureToTrash(context) != null || (card instanceof TreasureCard))) {
 	        return true;
 	    }
@@ -2010,7 +2010,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		   }
 	   }
 
-	   if ((event.getType() == GameEvent.Type.BuyingCard) || (event.getType() == GameEvent.Type.CardObtained)) {
+	   if ((event.getType() == GameEvent.EventType.BuyingCard) || (event.getType() == GameEvent.EventType.CardObtained)) {
     	   Card card = event.getCard();
     	   
     	   if (card.isAction(event.player)) {
@@ -2031,7 +2031,7 @@ public class VDomPlayerPatrick extends BasePlayer {
     	   
        } 
 
-	   if (event.getType() == GameEvent.Type.CardTrashed) {
+	   if (event.getType() == GameEvent.EventType.CardTrashed) {
     	   Card card = event.getCard();
     	   
     	   if (card instanceof VictoryCard) {
@@ -2073,7 +2073,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 	@Override
 	public Card[] vault_cardsToDiscardForCard(MoveContext context) {
-		return this.getCardsToDiscard(hand.toArrayListClone(), 2, DiscardOption.SemiDestructive, context.getPlayer()).toArray(new Card[2]);
+		return this.getCardsToDiscard(hand.toArrayListClone(), 2, DiscardOption.SemiDestructive, context).toArray(new Card[2]);
 	}
 
 
@@ -2277,7 +2277,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		}
 		this.log("lookout_cardToDiscard: " + temp);
 		
-		return this.getCardToDiscard(temp, DiscardOption.Destructive, context.getPlayer());
+		return this.getCardToDiscard(temp, DiscardOption.Destructive, context);
 	}
 
 
@@ -2564,7 +2564,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	public boolean scryingPool_shouldDiscard(MoveContext context, Player targetPlayer, Card card) {
 		ArrayList<Card> c = new ArrayList<Card>();
 		c.add(card);
-		boolean discard = (this.getCardToDiscard(c, DiscardOption.SemiDestructive, targetPlayer) != null);
+		boolean discard = (this.getCardToDiscard(c, DiscardOption.SemiDestructive, new MoveContext(context.game, targetPlayer)) != null);
 	    
 	    if (targetPlayer == this) {
 	    	this.log("scryingPool_shouldDiscard: " + (discard ? "discard " : "keep ") + "my " + card );
@@ -2638,7 +2638,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 	@Override
 	public boolean duchess_shouldDiscardCardFromTopOfDeck(MoveContext context, Card card) {
-	    return this.shouldDiscard(card, context.getPlayer());
+	    return this.shouldDiscard(card, context);
 	}
 
 

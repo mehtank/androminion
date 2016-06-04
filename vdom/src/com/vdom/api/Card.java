@@ -5,19 +5,22 @@ import java.io.Serializable;
 import com.vdom.core.CardImpl;
 import com.vdom.core.Expansion;
 import com.vdom.core.Game;
-import com.vdom.core.Cards.Type;
+import com.vdom.core.Cards.Kind;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
+import com.vdom.core.Type;
 
 
 public interface Card extends Serializable {
-    public Type getType();
+    public Kind getKind();
 
     public String getName();
 
     public String getSafeName();
     
     public Expansion getExpansion();
+
+    public boolean is(Type t, Player player);
 
     public String getStats();
 
@@ -27,12 +30,14 @@ public interface Card extends Serializable {
 
     public int getCost(MoveContext context, boolean buyPhase);
     
+    public boolean costPotion();
+    
     public int getDebtCost(MoveContext context);
+    
+    public int getVictoryPoints();
 
     public boolean isVictory(MoveContext context);
     
-    public boolean costPotion();
-
     public boolean isAction(Player player);
     
     public boolean isDuration(Player player);
@@ -40,12 +45,8 @@ public interface Card extends Serializable {
     public boolean isAttack(Player player);
     
     public boolean isPrize();
-    
-    public boolean isShelter();
-    
+
     public boolean isLooter();
-    
-    public boolean isRuins(Player player);
     
     public boolean isKnight(Player player);
     
@@ -68,6 +69,8 @@ public interface Card extends Serializable {
     public int getAddActions();
     
     public int getAddGold();
+    
+    public boolean providePotion();
     
     public int getAddBuys();
     

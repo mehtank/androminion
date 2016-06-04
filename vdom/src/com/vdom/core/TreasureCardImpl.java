@@ -12,35 +12,15 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
     int value;
     boolean providePotion;
     
-    public TreasureCardImpl(Cards.Type type, int cost, int value) {
+    public TreasureCardImpl(Cards.Kind type, int cost, int value) {
         super(type, cost);
         this.value = value;
     }
 
     public TreasureCardImpl(Builder builder) {
         super(builder);
-        value = builder.value;
+        value = builder.addGold;
         providePotion = builder.providePotion;
-    }
-
-    public static class Builder extends CardImpl.Builder {
-        protected int value;
-        protected boolean providePotion = false;
-
-        public Builder(Cards.Type type, int cost, int value) {
-            super(type, cost);
-            this.value = value;
-        }
-
-        public Builder providePotion() {
-            providePotion = true;
-            return this;
-        }
-
-        public TreasureCardImpl build() {
-            return new TreasureCardImpl(this);
-        }
-
     }
 
     protected TreasureCardImpl() {
@@ -88,7 +68,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         	player.playedCards.add(this);
         }
         
-        GameEvent event = new GameEvent(GameEvent.Type.PlayingCoin, (MoveContext) context);
+        GameEvent event = new GameEvent(GameEvent.EventType.PlayingTreasure, (MoveContext) context);
         event.card = this;
         event.newCard = !isClone;
         game.broadcastEvent(event);
@@ -173,7 +153,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
 
         if (cantBuyCard != null && !context.cantBuy.contains(cantBuyCard)) {
             context.cantBuy.add(cantBuyCard);
-            GameEvent e = new GameEvent(GameEvent.Type.CantBuy, (MoveContext) context);
+            GameEvent e = new GameEvent(GameEvent.EventType.CantBuy, (MoveContext) context);
             game.broadcastEvent(e);
         }
         return true;
@@ -190,7 +170,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
                 break;
             }
 
-            event = new GameEvent(GameEvent.Type.CardRevealed, context);
+            event = new GameEvent(GameEvent.EventType.CardRevealed, context);
             event.card = draw;
             game.broadcastEvent(event);
 
@@ -242,7 +222,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
                 toObtain = game.takeFromPile(toObtain);
                 // could still be null here if the pile is empty.
                 if (toObtain != null) {
-                    event = new GameEvent(GameEvent.Type.CardObtained, context);
+                    event = new GameEvent(GameEvent.EventType.CardObtained, context);
                     event.card = toObtain;
                     event.responsible = this;
                     game.broadcastEvent(event);
@@ -250,7 +230,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
                     if (toObtain instanceof VictoryCard) {
                     	player.playedCards.remove(this);
                         player.trash(this, toObtain, context);
-                        event = new GameEvent(GameEvent.Type.CardTrashed, context);
+                        event = new GameEvent(GameEvent.EventType.CardTrashed, context);
                         event.card = this;
                         game.broadcastEvent(event);
                     }
@@ -289,30 +269,6 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
         return true;
 
     }
-    
-    @Override
-    public void isBuying(MoveContext context)
-    {
-        switch (this.controlCard.getType()) 
-        {
-        case Masterpiece:
-            masterpiece(context);
-            break;
-        default:
-            break;
-        }
-    }
-    
-    public void masterpiece(MoveContext context)
-    {
-        for (int i = 0; i < context.overpayAmount; ++i)
-        {
-            if(context.getPlayer().gainNewCard(Cards.silver, this.controlCard, context) == null) 
-            {
-                break;
-            }
-        }
-    }
 
     /*Adventures*/
     protected void treasureTrove(MoveContext context, Player player, Game game) {
@@ -344,7 +300,7 @@ public class TreasureCardImpl extends CardImpl implements TreasureCard {
             currentPlayer.tavern.add(this.controlCard);
             this.controlCard.stopImpersonatingCard();
 
-            GameEvent event = new GameEvent(GameEvent.Type.CardSetAsideOnTavernMat, (MoveContext) context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideOnTavernMat, (MoveContext) context);
             event.card = this.controlCard;
             game.broadcastEvent(event);
         } else {

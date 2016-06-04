@@ -4,7 +4,7 @@ import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
 
 public class GameEvent {
-    public enum Type {
+    public enum EventType {
         GameStarting, // A new game is starting, called at the start of each game when multiple are played
         GameOver, // Game completed
         Embargo, // Embargo added to card
@@ -20,7 +20,7 @@ public class GameEvent {
         PlayingAction, // Action card is about to be played by a player.
         PlayedAction, // Action card has just been played by a player.
         PlayingDurationAction, // Duration action card's next turn effects are about to occur for a player.
-        PlayingCoin, // Coin card is about to be played by a player.
+        PlayingTreasure, // Coin card is about to be played by a player.
         BuyingCard, // Buying a card in the buy phase.
         OverpayForCard, // Overpaying for a Guilds card.
         GuildsTokenObtained, // Recieve a Guilds token
@@ -70,7 +70,7 @@ public class GameEvent {
         VPTokensTakenFromPile, // VP tokens taken from a card pile
     }
 
-    public Type type;
+    public EventType type;
     public MoveContext context;
     public Player player;
 
@@ -92,13 +92,13 @@ public class GameEvent {
     //
     // //////////////////////////////////////////////
 
-    public GameEvent(Type type, MoveContext context) {
+    public GameEvent(EventType type, MoveContext context) {
         this.type = type;
         this.context = context;
         this.player = context == null ? null : context.getPlayer();
     }
 
-    public Type getType() {
+    public EventType getType() {
         return type;
     }
 

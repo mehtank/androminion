@@ -1,0 +1,419 @@
+package com.vdom.core;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import com.vdom.api.Card;
+import com.vdom.api.TreasureCard;
+
+public class CardImplEmpires extends ActionCardImpl {
+	private static final long serialVersionUID = 1L;
+
+	public CardImplEmpires(CardImpl.Builder builder) {
+		super(builder);
+	}
+
+	@Override
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+		switch(getKind()) {
+		case BustlingVillage:
+        	bustlingVillage(game, context, currentPlayer);
+        	break;
+        case Catapult:
+        	catapult(game, context, currentPlayer);
+        	break;
+        case ChariotRace:
+        	chariotRace(game, context, currentPlayer);
+        	break;
+        case CityQuarter:
+        	cityQuarter(game, context, currentPlayer);
+        	break;
+        case Enchantress:
+        	durationAttack(game, context, currentPlayer);
+        	break;
+        case FarmersMarket:
+        	farmersMarket(game, context, currentPlayer);
+        	break;
+        case Gladiator:
+        	gladiator(game, context, currentPlayer);
+        	break;
+        case OpulentCastle:
+        	opulentCastle(game, context, currentPlayer);
+        	break;
+        case RoyalBlacksmith:
+        	royalBlacksmith(game, context, currentPlayer);
+        	break;
+        case Settlers:
+        	settlers(game, context, currentPlayer);
+        	break;
+        case SmallCastle:
+        	smallCastle(game, context, currentPlayer);
+        	break;
+        case Temple:
+        	temple(game, context, currentPlayer);
+        	break;
+		default:
+			break;
+		}
+	}
+	
+	public void isBuying(MoveContext context) {
+		super.isBuying(context);
+        switch (this.controlCard.getKind()) {
+        //Events
+        case Dominate:
+        	dominate(context);
+        	break;
+        case Triumph:
+        	triumph(context);
+        	break;
+        case Windfall:
+        	windfall(context);
+        default:
+            break;
+        }
+        
+        // test if prince lost track of any cards
+        context.player.princeCardLeftThePlay(context.player);
+    }
+	
+	
+	private void bustlingVillage(Game game, MoveContext context, Player currentPlayer) {
+        if (currentPlayer.discard.isEmpty()) return;
+        int coppers = 0;
+        int settlers = 0;
+        for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
+            Card card = it.next();
+            if (Cards.copper.equals(card)) {
+                coppers++;
+            }
+            if (Cards.settlers.equals(card)) {
+                settlers++;
+            }
+        }
+        if (currentPlayer.controlPlayer.bustlingVillage_settlersIntoHand(context, coppers, settlers)) {
+        	for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
+                Card card = it.next();
+                if (Cards.settlers.equals(card)) {
+                    currentPlayer.reveal(card, this.controlCard, context);
+                    it.remove();
+                    currentPlayer.hand.add(card);
+                    break;
+                }
+            }
+        }
+    }
+    
+    private void catapult(Game game, MoveContext context, Player currentPlayer) {
+    	ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+    	
+    	if(currentPlayer.getHand().size() == 0) return;
+        Card cardToTrash = currentPlayer.controlPlayer.catapult_cardToTrash(context);
+        if (cardToTrash == null) {
+            Util.playerError(currentPlayer, "Catapult did not return a card to trash, trashing random card.");
+            cardToTrash = Util.randomCard(currentPlayer.getHand());
+        }
+        int coinCost = cardToTrash.getCost(context);
+        boolean isTreasure = cardToTrash instanceof TreasureCard;
+        currentPlayer.hand.remove(cardToTrash);
+        currentPlayer.trash(cardToTrash, this.controlCard, context);
+    	
+        if (coinCost >= 3) {
+	        for (Player player : attackedPlayers) {
+				player.attacked(this.controlCard, context);
+	            MoveContext playerContext = new MoveContext(game, player);
+	            playerContext.attackedPlayer = player;
+	            player.gainNewCard(Cards.curse, this.controlCard, playerContext);
+	        }
+        }
+        
+        if (isTreasure) {
+	        for (Player player : attackedPlayers) {
+				player.attacked(this.controlCard, context);
+	            MoveContext playerContext = new MoveContext(game, player);
+	            playerContext.attackedPlayer = player;
+	            int keepCardCount = 3;
+                if (player.hand.size() > keepCardCount) {
+                    Card[] cardsToKeep = player.controlPlayer.catapult_attack_cardsToKeep(playerContext);
+                    player.discardRemainingCardsFromHand(playerContext, cardsToKeep, this.controlCard, keepCardCount);
+                }
+	        }
+        }
+    }
+    
+    private void chariotRace(Game game, MoveContext context, Player currentPlayer) {
+    	Card draw = game.draw(context, Cards.chariotRace, 1);
+        if (draw != null) {
+            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.hand.add(draw, true);
+            Player nextPlayer = game.getNextPlayer();
+            MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
+            Card nextPlayerCard = game.draw(nextPlayerContext, this.controlCard, 1);
+            if (nextPlayerCard != null) {
+            	nextPlayer.reveal(nextPlayerCard, this.controlCard, nextPlayerContext);
+            	nextPlayer.putOnTopOfDeck(nextPlayerCard, nextPlayerContext, false);
+            	int drawCoinCost = draw.getCost(context); 
+            	int nextPlayerCoinCost = nextPlayerCard.getCost(context);
+            	boolean drawHasCoinCost = drawCoinCost > 0;
+            	boolean nextPlayerHasCoinCost = nextPlayerCoinCost > 0;
+            	int drawDebtCost = draw.getDebtCost(context); 
+            	int nextPlayerDebtCost = nextPlayerCard.getDebtCost(context);
+            	boolean drawHasDebtCost = drawDebtCost > 0;
+            	boolean nextPlayerHasDebtCost = nextPlayerDebtCost > 0;
+            	boolean costMore = false;
+            	if (drawHasCoinCost && !nextPlayerHasCoinCost ||
+            			drawHasDebtCost && !nextPlayerHasDebtCost ||
+            			draw.costPotion() && !nextPlayerCard.costPotion())
+            		costMore = true;
+            	else if (!drawHasCoinCost && nextPlayerHasCoinCost ||
+            			!drawHasDebtCost && nextPlayerHasDebtCost ||
+            			!draw.costPotion() && nextPlayerCard.costPotion())
+            		costMore = false;
+            	else if ((drawHasCoinCost && drawCoinCost > nextPlayerCoinCost) ||
+            			(drawHasDebtCost && drawDebtCost > nextPlayerDebtCost)) {
+            		costMore = true;
+            	}
+            	if (costMore) {
+            		context.addCoins(1);
+            		currentPlayer.addVictoryTokens(context, 1);
+            	}
+            }
+        }
+    }
+    
+    private void cityQuarter(Game game, MoveContext context, Player currentPlayer) {
+    	int actionCards = 0;
+
+        for (int i = 0; i < currentPlayer.hand.size(); i++) {
+            Card card = currentPlayer.hand.get(i);
+            currentPlayer.reveal(card, this.controlCard, context);
+            if (card.isAction(currentPlayer)) {
+            	actionCards++;
+            }
+        }
+        for (int i = 0; i < actionCards; ++i) {
+        	game.drawToHand(context, this, actionCards - i);
+        }
+    }
+    
+    private void farmersMarket(Game game, MoveContext context, Player currentPlayer) {
+    	Card c = Cards.farmersMarket;
+    	if (game.getPileVpTokens(c) >= 4) {
+    		int numTokens = game.getPileVpTokens(c);
+    		game.removePileVpTokens(c, numTokens, context);
+    		currentPlayer.addVictoryTokens(context, numTokens);
+    		currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), this.getControlCard(), context);
+    	} else {
+    		game.addPileVpTokens(c, 1, context);
+    		context.addCoins(game.getPileVpTokens(c));
+    	}
+    }
+    
+    private void gladiator(Game game, MoveContext context, Player currentPlayer) {
+    	boolean revealedCopy = false;
+    	if (currentPlayer.hand.size() > 0) {
+    		Card card = currentPlayer.controlPlayer.gladiator_revealedCard(context);
+            if (card == null) {
+                card = Util.randomCard(currentPlayer.hand);
+            } else if (!currentPlayer.hand.contains(card)) {
+                Util.playerError(currentPlayer, "Gladiator revealed card error, picking random card.");
+                card = Util.randomCard(currentPlayer.hand);
+            }
+            currentPlayer.reveal(card, this.controlCard, context);
+            Player nextPlayer = game.getNextPlayer();
+            if (nextPlayer.getHand().contains(card)) {
+            	MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
+            	revealedCopy = nextPlayer.controlPlayer.gladiator_revealCopy(nextPlayerContext, currentPlayer, card);
+            }
+    	}
+    	if (!revealedCopy) {
+    		context.addCoins(1);
+    		 AbstractCardPile pile = game.getPile(Cards.gladiator);
+    		 if (pile != null && pile.getCount() > 0 && pile.card() == Cards.gladiator) {
+    			 Card gladiator = pile.removeCard();
+    			 currentPlayer.trash(gladiator, this.controlCard, context);
+    		 }
+    	}
+    }
+    
+    private void opulentCastle(Game game, MoveContext context, Player currentPlayer) {
+        Card[] cards = currentPlayer.controlPlayer.opulentCastle_cardsToDiscard(context);
+        for(Card card : cards) {
+        	if (!card.isVictory(context)) {
+        		Util.playerError(currentPlayer, "Opulent Castle choice error, trying to discard non-victory cards, ignoring.");
+        		cards = null;
+        	}
+        }
+        if (cards != null) {
+            int numberOfCards = 0;
+            for (Card card : cards) {
+                for (int i = 0; i < currentPlayer.hand.size(); i++) {
+                    Card playersCard = currentPlayer.hand.get(i);
+                    if (playersCard.equals(card)) {
+                        currentPlayer.discard(currentPlayer.hand.remove(i), this.controlCard, context);
+                        numberOfCards++;
+                        break;
+                    }
+                }
+            }
+
+            if (numberOfCards != cards.length) {
+                Util.playerError(currentPlayer, "Opulent Castle discard error, trying to discard cards not in hand, ignoring extra.");
+            }
+            
+            context.addCoins(2 * numberOfCards);
+        }
+    }
+    
+    private void royalBlacksmith(Game game, MoveContext context, Player currentPlayer) {
+    	int numCoppers = 0;
+    	for (int i = 0; i < currentPlayer.hand.size(); i++) {
+            Card card = currentPlayer.hand.get(i);
+            currentPlayer.reveal(card, this.controlCard, context);
+            if (card.equals(Cards.copper)) {
+            	numCoppers++;
+            }
+        }
+    	
+    	for (int i = 0; i < numCoppers; i++) {
+    		for (int j = 0; j < currentPlayer.hand.size(); j++) {
+    			Card card = currentPlayer.hand.get(j);
+    			if (card.equals(Cards.copper)) {
+                    currentPlayer.discard(currentPlayer.hand.remove(j), this.controlCard, context);
+                    break;
+    			}
+    		}
+        }
+    }
+    
+    private void settlers(Game game, MoveContext context, Player currentPlayer) {
+        if (currentPlayer.discard.isEmpty()) return;
+        int coppers = 0;
+        int settlers = 0;
+        for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
+            Card card = it.next();
+            if (Cards.copper.equals(card)) {
+                coppers++;
+            }
+            if (Cards.settlers.equals(card)) {
+                settlers++;
+            }
+        }
+        if (currentPlayer.controlPlayer.settlers_copperIntoHand(context, coppers, settlers)) {
+        	for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
+                Card card = it.next();
+                if (Cards.copper.equals(card)) {
+                    currentPlayer.reveal(card, this.controlCard, context);
+                    it.remove();
+                    currentPlayer.hand.add(card);
+                    break;
+                }
+            }
+        }
+    }
+    
+    private void smallCastle(Game game, MoveContext context, Player currentPlayer) {
+    	boolean didTrash = false;
+    	if (currentPlayer.controlPlayer.smallCastle_shouldTrashSmallCastlePlayed(context)) {
+    		if (!this.controlCard.movedToNextTurnPile) {
+                this.controlCard.movedToNextTurnPile = true;
+                currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.controlCard));
+                currentPlayer.trash(this.controlCard, this.controlCard, context);
+                didTrash = true;
+            }
+        } else if (currentPlayer.getHand().size() > 0) {
+        	int numCastles = 0;
+        	Card handCastle = null;
+        	for (Card c : currentPlayer.getHand()) {
+        		if (c.isCastle(currentPlayer)) {
+        			numCastles++;
+        			handCastle = c;
+        		}
+        	}
+        	if (numCastles == 1) {
+        		currentPlayer.getHand().remove(handCastle);
+        		currentPlayer.trash(handCastle, this.controlCard, context);
+        		didTrash = true;
+        	} else if (numCastles > 1) {
+        		Card cardToTrash = currentPlayer.controlPlayer.smallCastle_castleToTrash(context);
+            	if (cardToTrash == null || !currentPlayer.getHand().contains(cardToTrash) || !cardToTrash.isCastle(currentPlayer)) {
+                    Util.playerError(currentPlayer, "Small Castle trash error, trashing last castle.");
+                    cardToTrash = handCastle;
+                }
+            	currentPlayer.getHand().remove(cardToTrash);
+        		currentPlayer.trash(cardToTrash, this.controlCard, context);
+        		didTrash = true;
+        	}
+        }
+    	if (!didTrash)
+    		return;
+    	//Assuming gaining a gained castle can only from the castle pile
+    	currentPlayer.gainNewCard(Cards.virtualCastle, this.controlCard, context);
+    }
+    
+    private void temple(Game game, MoveContext context, Player currentPlayer) {
+    	if (currentPlayer.getHand().size() > 0) {
+    		Card[] cards = currentPlayer.controlPlayer.temple_cardsToTrash(context);
+    		if (cards == null || cards.length == 0) {
+                Util.playerError(currentPlayer, "Temple trash error, not trashing enough cards, trashing first.");
+                cards = new Card[]{currentPlayer.getHand().get(0)};
+    		}
+    		if (cards.length > 3) {
+    			Util.playerError(currentPlayer, "Temple trash error, trashing too many cards, trashing first.");
+                cards = new Card[]{currentPlayer.getHand().get(0)};
+    		}
+    		Set<Card> differentCards = new HashSet<Card>();
+    		for (Card c : cards) {
+    			if (differentCards.contains(c)) {
+    				Util.playerError(currentPlayer, "Temple trash error, trashing duplicate cards, trashing one.");
+                    cards = new Card[]{c};
+                    break;
+    			}
+    			differentCards.add(c);
+    		}
+    		
+    		for (Card card : cards) {
+                for (int i = 0; i < currentPlayer.hand.size(); i++) {
+                    Card playersCard = currentPlayer.hand.get(i);
+                    if (playersCard.equals(card)) {
+                        Card thisCard = currentPlayer.hand.remove(i, false);
+                        currentPlayer.trash(thisCard, this.controlCard, context);
+                        break;
+                    }
+                }
+            }
+    	}
+    	game.addPileVpTokens(Cards.temple, 1, context);
+    }
+	
+    //Events
+    
+    private void dominate(MoveContext context) {
+    	Card gainedCard = context.player.gainNewCard(Cards.province, this.controlCard, context);
+    	if (Cards.province.equals(gainedCard)) {
+    		context.getPlayer().controlPlayer.addVictoryTokens(context, 9);
+    	}
+    }
+
+    private void triumph(MoveContext context) {
+    	Card gainedCard = context.player.gainNewCard(Cards.estate, this.controlCard, context);
+    	if (Cards.estate.equals(gainedCard)) {
+    		context.getPlayer().addVictoryTokens(context, context.getNumCardsGainedThisTurn());
+    	}
+    }
+
+    private void windfall(MoveContext context) {
+    	if (context.getPlayer().getDeckSize() == 0 && context.getPlayer().getDiscardSize() == 0) {
+    		for (int i = 0; i < 3; ++i) {
+    			context.player.gainNewCard(Cards.gold, this.controlCard, context);
+    		}
+    	}
+    }
+}

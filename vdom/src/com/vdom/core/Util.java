@@ -10,12 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
-import com.vdom.core.Cards.Type;
+import com.vdom.core.Cards.Kind;
 
 public class Util {
     public static String cardArrayToString(Card[] cards) {
@@ -258,14 +256,14 @@ public class Util {
         if (game.hasLighthouse(player)) {
             defended = true;
             
-            GameEvent event = new GameEvent(GameEvent.Type.PlayerDefended, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.PlayerDefended, context);
             event.card = Cards.lighthouse;
             game.broadcastEvent(event);
         }
         if (game.countChampionsInPlay(player) > 0) {
             defended = true;
             
-            GameEvent event = new GameEvent(GameEvent.Type.PlayerDefended, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.PlayerDefended, context);
             event.card = Cards.champion;
             game.broadcastEvent(event);
         }
@@ -275,7 +273,7 @@ public class Util {
         while ((reactionCard = player.controlPlayer.getAttackReaction(context, responsible, defended, reactionCardAbility)) != null) {
         	//TODO: error check reactionCard
         	
-            GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardRevealed, context);
             event.card = reactionCard;
             game.broadcastEvent(event);
 
@@ -295,7 +293,7 @@ public class Util {
         	else if (reactionCardAbility.equals(Cards.moat)) {
                 defended = true;
                 
-                event = new GameEvent(GameEvent.Type.PlayerDefended, context);
+                event = new GameEvent(GameEvent.EventType.PlayerDefended, context);
                 event.card = reactionCard;
                 game.broadcastEvent(event);
         	}
@@ -653,21 +651,21 @@ public class Util {
 				}
 			} else if(card1.isAction(null)) {
 				return 1;
-			} else if(card0 instanceof TreasureCard || card0.getType() == Type.Potion) {
-				if(card1 instanceof TreasureCard || card1.getType() == Type.Potion) {
+			} else if(card0 instanceof TreasureCard || card0.getKind() == Kind.Potion) {
+				if(card1 instanceof TreasureCard || card1.getKind() == Kind.Potion) {
 					return 0;
 				} else {
 					return -1;
 				}
-			} else if(card1 instanceof TreasureCard || card1.getType() == Type.Potion) {
+			} else if(card1 instanceof TreasureCard || card1.getKind() == Kind.Potion) {
 				return 1;
-			} else if(card0 instanceof CurseCard) {
-				if(card1 instanceof CurseCard) {
+			} else if(card0.is(Type.Curse, null)) {
+				if(card1.is(Type.Curse, null)) {
 					return 0;
 				} else {
 					return -1;
 				}
-			} else if(card1 instanceof CurseCard) {
+			} else if(card1.is(Type.Curse, null)) {
 				return 1;
 			} else {
 				return 0;

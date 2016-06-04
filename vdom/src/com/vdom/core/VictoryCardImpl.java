@@ -8,9 +8,8 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.VictoryCard;
 
 public class VictoryCardImpl extends CardImpl implements VictoryCard {
-    public VictoryCardImpl(Cards.Type type, int cost, int vp) {
+    public VictoryCardImpl(Cards.Kind type, int cost, int vp) {
         super(type, cost);
-        this.vp = vp;
     }
 
     protected VictoryCardImpl(Builder builder) {
@@ -18,9 +17,8 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     }
 
     public static class Builder extends CardImpl.Builder {
-        public Builder(Cards.Type type, int cost, int vp) {
+        public Builder(Cards.Kind type, int cost, int vp) {
             super(type, cost);
-            this.vp = vp;
         }
 
         public VictoryCardImpl build() {
@@ -30,11 +28,6 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     }
 
     @Override
-    public int getVictoryPoints() {
-        return vp;
-    }
-    
-    @Override
     public void play(Game game, MoveContext context) {
     	play(game, context, true);
     }
@@ -43,7 +36,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     public void play(Game game, MoveContext context, boolean fromHand) {
     	super.play(game, context, fromHand);
     	Player currentPlayer = context.getPlayer();
-    	switch (this.getType()) {
+    	switch (this.getKind()) {
     	case Estate:
     		Card inheritedCard = context.player.getInheritance();
     		if (inheritedCard != null) {
@@ -57,7 +50,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 		           currentPlayer.playedCards.add(this);
 		        }
     			
-			 	GameEvent event = new GameEvent(GameEvent.Type.PlayingAction, (MoveContext) context);
+			 	GameEvent event = new GameEvent(GameEvent.EventType.PlayingAction, (MoveContext) context);
 		 		event.card = this;
 		 		event.newCard = newCard;
 		 		game.broadcastEvent(event); 
@@ -92,7 +85,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 			        }
 		        }
 		        
-		        event = new GameEvent(GameEvent.Type.PlayedAction, (MoveContext) context);
+		        event = new GameEvent(GameEvent.EventType.PlayedAction, (MoveContext) context);
 		        event.card = this;
 		        game.broadcastEvent(event);
 		        

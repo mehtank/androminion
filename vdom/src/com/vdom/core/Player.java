@@ -12,7 +12,6 @@ import java.util.Random;
 import java.util.Set;
 
 import com.vdom.api.Card;
-import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
@@ -60,7 +59,7 @@ public abstract class Player {
     protected CardList horseTraders;
     protected Card inheritance;
     protected Card save;
-    protected Map<Player, Map<Cards.Type, Integer>> attackDurationEffectsOnOthers;
+    protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     public Game game;
     public Player controlPlayer = this;
 
@@ -75,12 +74,12 @@ public abstract class Player {
     	if (vt == 0) return;
     	if (Game.errataPossessedTakesTokens) {
     		victoryTokens += vt;
-    		GameEvent event = new GameEvent(GameEvent.Type.VPTokensObtained, context);
+    		GameEvent event = new GameEvent(GameEvent.EventType.VPTokensObtained, context);
     		event.setAmount(vt);
             context.game.broadcastEvent(event);
     	} else {
     		controlPlayer.victoryTokens += vt;
-    		GameEvent event = new GameEvent(GameEvent.Type.VPTokensObtained, isPossessed() ? new MoveContext(context.game, controlPlayer) : context);
+    		GameEvent event = new GameEvent(GameEvent.EventType.VPTokensObtained, isPossessed() ? new MoveContext(context.game, controlPlayer) : context);
         	event.setAmount(vt);
             context.game.broadcastEvent(event);
     	}
@@ -110,7 +109,7 @@ public abstract class Player {
         for (Card card : getAllCards()) {
             if (card instanceof TreasureCard) {
                 coin += ((TreasureCard) card).getValue();
-                if (card.getType() == Cards.Type.Bank) {
+                if (card.getKind() == Cards.Kind.Bank) {
                    coin += 1;
                 }
             }
@@ -268,7 +267,7 @@ public abstract class Player {
         gear = new ArrayList<ArrayList<Card>>();
         horseTraders = new CardList(this, "Horse Traders");
         inheritance = null;
-        attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Type,Integer>>();
+        attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
     }
 
     private List<PutBackOption> getPutBackOptions(MoveContext context, int actionsPlayed) {
@@ -584,7 +583,7 @@ public abstract class Player {
     	if(minusOneCoinTokenOn != state) {
 	    	minusOneCoinTokenOn = state;
 	        if (context != null) {
-	            GameEvent event = new GameEvent(state ? GameEvent.Type.MinusOneCoinTokenOn : GameEvent.Type.MinusOneCoinTokenOff , context);
+	            GameEvent event = new GameEvent(state ? GameEvent.EventType.MinusOneCoinTokenOn : GameEvent.EventType.MinusOneCoinTokenOff , context);
 	            context.game.broadcastEvent(event);
 	        }
     	}
@@ -600,7 +599,7 @@ public abstract class Player {
     	if(minusOneCardTokenOn != state) {
 	    	minusOneCardTokenOn = state;
 	        if (context != null) {
-	            GameEvent event = new GameEvent(state ? GameEvent.Type.MinusOneCardTokenOn : GameEvent.Type.MinusOneCardTokenOff , context);
+	            GameEvent event = new GameEvent(state ? GameEvent.EventType.MinusOneCardTokenOn : GameEvent.EventType.MinusOneCardTokenOff , context);
 	            context.game.broadcastEvent(event);
 	        }
     	}
@@ -615,7 +614,7 @@ public abstract class Player {
     {
         journeyTokenFaceUp = !journeyTokenFaceUp;
         if (context != null) {
-            GameEvent event = new GameEvent(journeyTokenFaceUp ? GameEvent.Type.TurnJourneyTokenFaceUp : GameEvent.Type.TurnJourneyTokenFaceDown , context);
+            GameEvent event = new GameEvent(journeyTokenFaceUp ? GameEvent.EventType.TurnJourneyTokenFaceUp : GameEvent.EventType.TurnJourneyTokenFaceDown , context);
             context.game.broadcastEvent(event);
         }
         return journeyTokenFaceUp;
@@ -726,14 +725,14 @@ public abstract class Player {
         for (AbstractCardPile pile : this.game.piles.values()) {
             Card card = pile.card();
 
-            if(card instanceof VictoryCard || card instanceof CurseCard) {
+            if(card instanceof VictoryCard || card.is(Type.Curse, null)) {
                 cardCounts.put(card, 0);
             }
         }
 
         for(Card card : this.getAllCards()) {
             distinctCards.add(card.getName());
-            if (card instanceof VictoryCard || card instanceof CurseCard) {
+            if (card instanceof VictoryCard || card.is(Type.Curse, null)) {
                 if(cardCounts.containsKey(card)) {
                     cardCounts.put(card, cardCounts.get(card) + 1);
                 } else {
@@ -892,8 +891,8 @@ public abstract class Player {
             if(entry.getKey() instanceof VictoryCard) {
                 VictoryCard victoryCard = (VictoryCard) entry.getKey();
                 totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
-            } else if(entry.getKey() instanceof CurseCard) {
-                CurseCard curseCard = (CurseCard) entry.getKey();
+            } else if((entry.getKey() instanceof Card) && ((Card)entry.getKey()).is(Type.Curse, null)) {
+                Card curseCard = (Card) entry.getKey();
                 totals.put(curseCard, curseCard.getVictoryPoints() * entry.getValue());
             }
         }
@@ -954,18 +953,18 @@ public abstract class Player {
     	attackDurationEffectsOnOthers.clear();
     }
     
-    public void addDurationEffectOnOtherPlayer(Player player, Cards.Type effectType) {
+    public void addDurationEffectOnOtherPlayer(Player player, Cards.Kind effectType) {
     	if (!attackDurationEffectsOnOthers.containsKey(player)) {
-    		attackDurationEffectsOnOthers.put(player, new HashMap<Cards.Type, Integer>());
+    		attackDurationEffectsOnOthers.put(player, new HashMap<Cards.Kind, Integer>());
     	}
-    	Map<Cards.Type, Integer> otherPlayerEffects = attackDurationEffectsOnOthers.get(player); 
+    	Map<Cards.Kind, Integer> otherPlayerEffects = attackDurationEffectsOnOthers.get(player); 
     	if (!otherPlayerEffects.containsKey(effectType)) {
     		otherPlayerEffects.put(effectType, 0);
     	}
     	otherPlayerEffects.put(effectType, otherPlayerEffects.get(effectType) + 1);
     }
     
-    public int getDurationEffectsOnOtherPlayer(Player player, Cards.Type effectType) {
+    public int getDurationEffectsOnOtherPlayer(Player player, Cards.Kind effectType) {
     	if (attackDurationEffectsOnOthers.containsKey(player)
 			&& attackDurationEffectsOnOthers.get(player).containsKey(effectType)) {
     		return attackDurationEffectsOnOthers.get(player).get(effectType);
@@ -984,7 +983,7 @@ public abstract class Player {
     public void putOnTopOfDeck(Card card, MoveContext context, boolean UI) {
         putOnTopOfDeck(card);
         if (UI) {
-            GameEvent event = new GameEvent(GameEvent.Type.CardOnTopOfDeck, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
             event.card = card;
             event.setPlayer(this);
             context.game.broadcastEvent(event);
@@ -1180,7 +1179,7 @@ public abstract class Player {
         if (willDiscard) {
         	if (!commandedDiscard && cleanup && card.equals(Cards.capital)) {
         		context.getPlayer().controlPlayer.gainDebtTokens(6);
-            	GameEvent event = new GameEvent(GameEvent.Type.DebtTokensObtained, context);
+            	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
             	event.setAmount(6);
                 context.game.broadcastEvent(event);
         		context.game.playerPayOffDebt(this, context);
@@ -1191,7 +1190,7 @@ public abstract class Player {
                 prince.add(card);
                 playedByPrince.remove(card);
                 if(context != null) {
-                    GameEvent event = new GameEvent(GameEvent.Type.CardSetAside, context);
+                    GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, context);
                     event.card = card;
                     context.game.broadcastEvent(event);
                 }
@@ -1230,11 +1229,11 @@ public abstract class Player {
         if(context != null && (commandedDiscard || exchange != null)) {
             GameEvent event;
         	if(exchange != null) {
-        		event = new GameEvent(GameEvent.Type.TravellerExchanged, context);
+        		event = new GameEvent(GameEvent.EventType.TravellerExchanged, context);
         		event.card = exchange;
         		event.responsible = card;
         	} else {
-            	event = new GameEvent(GameEvent.Type.CardDiscarded, context);
+            	event = new GameEvent(GameEvent.EventType.CardDiscarded, context);
             	event.card = (card);
             	event.responsible = responsible;
         	}
@@ -1247,7 +1246,7 @@ public abstract class Player {
     public Card gainNewCard(Card cardToGain, Card responsible, MoveContext context) {
         Card card = game.takeFromPileCheckTrader(cardToGain, context);
         if (card != null) {
-            GameEvent gainEvent = new GameEvent(GameEvent.Type.CardObtained, (MoveContext) context);
+            GameEvent gainEvent = new GameEvent(GameEvent.EventType.CardObtained, (MoveContext) context);
             gainEvent.card = card;
             gainEvent.responsible = responsible;
             gainEvent.newCard = true;
@@ -1268,7 +1267,7 @@ public abstract class Player {
 
     public void gainCardAlreadyInPlay(Card card, Card responsible, MoveContext context) {
         if (context != null) {
-            GameEvent event = new GameEvent(GameEvent.Type.CardObtained, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardObtained, context);
             event.card = card;
             event.responsible = responsible;
             event.newCard = false;
@@ -1313,7 +1312,7 @@ public abstract class Player {
             context.cardsTrashedThisTurn++;
         }
 
-        GameEvent event = new GameEvent(GameEvent.Type.CardTrashed, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.CardTrashed, context);
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
@@ -1340,7 +1339,7 @@ public abstract class Player {
             ArrayList<Card> marketSquaresInHand = new ArrayList<Card>();
 
             for (Card c : hand) {
-                if (c.getType() == Cards.Type.MarketSquare || (hasInheritedMarketSquare && c.equals(Cards.estate))) {
+                if (c.getKind() == Cards.Kind.MarketSquare || (hasInheritedMarketSquare && c.equals(Cards.estate))) {
                     marketSquaresInHand.add(c);
                 }
             }
@@ -1361,21 +1360,21 @@ public abstract class Player {
     public abstract Card catacombs_cardToObtain(MoveContext context, int maxCost);
 
     public void namedCard(Card card, Card responsible, MoveContext context) {
-        GameEvent event = new GameEvent(GameEvent.Type.CardNamed, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.CardNamed, context);
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
     }
 
     public void revealFromHand(Card card, Card responsible, MoveContext context) {
-        GameEvent event = new GameEvent(GameEvent.Type.CardRevealedFromHand, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.CardRevealedFromHand, context);
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
     }
 
     public void reveal(Card card, Card responsible, MoveContext context) {
-        GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.CardRevealed, context);
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
@@ -1383,7 +1382,7 @@ public abstract class Player {
 
     public void attacked(Card card, MoveContext context) {
         context.attackedPlayer = this;
-        GameEvent event = new GameEvent(GameEvent.Type.PlayerAttacking, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.PlayerAttacking, context);
         event.attackedPlayer = this;
         event.card = card.behaveAsCard();
         context.game.broadcastEvent(event);

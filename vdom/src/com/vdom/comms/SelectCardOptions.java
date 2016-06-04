@@ -12,6 +12,7 @@ import com.vdom.core.Cards;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
 import com.vdom.core.PlayerSupplyToken;
+import com.vdom.core.Type;
 
 /**
  * Gives information about cards that are selected by the player from the table (piles, hand, play)
@@ -201,7 +202,7 @@ public class SelectCardOptions implements Serializable {
         if ((maxCost >= 0) && (cost > (c.costPotion() ? maxCost : maxCostWithoutPotion))) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
         
-        if (isReaction && !(Cards.isReaction(c))) return false;
+        if (isReaction && !(c.is(Type.Reaction, p))) return false;
         if (isTreasure && !(c instanceof TreasureCard)) return false;
         if (isNonTreasure && (c instanceof TreasureCard)) return false;
         if (isVictory && !cardIsVictory) return false;
@@ -212,7 +213,7 @@ public class SelectCardOptions implements Serializable {
         if (maxCost == minCost && potionCost > 0 && !c.costPotion()) return false;
         if (isNonRats && c.equals(Cards.rats)) return false;
         if (c.equals(Cards.grandMarket) && copperCountInPlay > 0) return false;
-        if (isNonShelter && c.isShelter()) return false;
+        if (isNonShelter && c.is(Type.Shelter, p)) return false;
         if (isAttack && !c.isAttack(p)) return false;
         if (isAction && !c.isAction(p)) return false;
         if (!isBuyPhase && c.isEvent()) return false;

@@ -223,23 +223,23 @@ public class Strings {
         }
 
         // The first part of the text tells us what kind of event we're dealing with.
-        if (event.gameEventType == GameEvent.Type.Embargo) {
+        if (event.gameEventType == GameEvent.EventType.Embargo) {
             statusText += getString(R.string.Embargo);
-        } else if (event.gameEventType == GameEvent.Type.PlusOneCardTokenMoved) {
+        } else if (event.gameEventType == GameEvent.EventType.PlusOneCardTokenMoved) {
             statusText += getString(R.string.PlusOneCardTokenMoved);
-        } else if (event.gameEventType == GameEvent.Type.PlusOneActionTokenMoved) {
+        } else if (event.gameEventType == GameEvent.EventType.PlusOneActionTokenMoved) {
         	statusText += getString(R.string.PlusOneActionTokenMoved);
-        } else if (event.gameEventType == GameEvent.Type.PlusOneBuyTokenMoved) {
+        } else if (event.gameEventType == GameEvent.EventType.PlusOneBuyTokenMoved) {
         	statusText += getString(R.string.PlusOneBuyTokenMoved);
-        } else if (event.gameEventType == GameEvent.Type.PlusOneCoinTokenMoved) {
+        } else if (event.gameEventType == GameEvent.EventType.PlusOneCoinTokenMoved) {
         	statusText += getString(R.string.PlusOneCoinTokenMoved);
-        } else if (event.gameEventType == GameEvent.Type.MinusTwoCostTokenMoved) {
+        } else if (event.gameEventType == GameEvent.EventType.MinusTwoCostTokenMoved) {
         	statusText += getString(R.string.MinusTwoCostTokenMoved);
-        } else if (event.gameEventType == GameEvent.Type.TrashingTokenMoved) {
+        } else if (event.gameEventType == GameEvent.EventType.TrashingTokenMoved) {
         	statusText += getString(R.string.TrashingTokenMoved);
-        } else if (event.gameEventType == GameEvent.Type.GameStarting) {
+        } else if (event.gameEventType == GameEvent.EventType.GameStarting) {
             statusText += getString(R.string.GameStarting);
-        } else if (event.gameEventType == GameEvent.Type.GameOver) {
+        } else if (event.gameEventType == GameEvent.EventType.GameOver) {
             statusText += getGameTimeString((Long) extras[6]);
             if (extras[7] != null) {
                 statusText += getGameTypeName((GameType) extras[7]);
@@ -250,72 +250,72 @@ public class Strings {
                                      (Map<Object, Integer>) extras[4],
                                      (Map<Card, Integer>) extras[5]);
             statusText += getString(R.string.GameOver);
-        } else if (event.gameEventType == GameEvent.Type.CardRevealedFromHand) {
+        } else if (event.gameEventType == GameEvent.EventType.CardRevealedFromHand) {
             statusText += getString(R.string.CardRevealedFromHand);
-        } else if (event.gameEventType == GameEvent.Type.CardNamed) {
+        } else if (event.gameEventType == GameEvent.EventType.CardNamed) {
             statusText += getString(R.string.CardNamed);
-        } else if (event.gameEventType == GameEvent.Type.CardDiscarded) {
+        } else if (event.gameEventType == GameEvent.EventType.CardDiscarded) {
             statusText += getString(R.string.CardDiscarded);
-        } else if (event.gameEventType == GameEvent.Type.CardAddedToHand) {
+        } else if (event.gameEventType == GameEvent.EventType.CardAddedToHand) {
             statusText += getString(R.string.CardAddedToHand);
-        } else if (event.gameEventType == GameEvent.Type.CardRemovedFromHand) {
+        } else if (event.gameEventType == GameEvent.EventType.CardRemovedFromHand) {
             statusText += getString(R.string.CardRemovedFromHand);
-        } else if (event.gameEventType == GameEvent.Type.NoBuy) {
+        } else if (event.gameEventType == GameEvent.EventType.NoBuy) {
             statusText += getString(R.string.NoBuy);
-        } else if (event.gameEventType == GameEvent.Type.DeckReplenished) {
+        } else if (event.gameEventType == GameEvent.EventType.DeckReplenished) {
             statusText += getString(R.string.DeckReplenished);
-        } else if (event.gameEventType == GameEvent.Type.PlayerAttacking) {
+        } else if (event.gameEventType == GameEvent.EventType.PlayerAttacking) {
             statusText += getString(R.string.PlayerAttacking);
-        } else if (event.gameEventType == GameEvent.Type.PlayerDefended) {
+        } else if (event.gameEventType == GameEvent.EventType.PlayerDefended) {
             statusText += getString(R.string.PlayerDefended);
-        } else if (event.gameEventType == GameEvent.Type.CardOnTopOfDeck) {
+        } else if (event.gameEventType == GameEvent.EventType.CardOnTopOfDeck) {
             statusText += getString(R.string.CardOnTopOfDeck);
-        } else if (event.gameEventType == GameEvent.Type.PlayingAction) {
+        } else if (event.gameEventType == GameEvent.EventType.PlayingAction) {
             statusText += getString(R.string.PlayingAction);
-        } else if (event.gameEventType == GameEvent.Type.PlayedAction) {
+        } else if (event.gameEventType == GameEvent.EventType.PlayedAction) {
             statusText += getString(R.string.PlayedAction);
-        } else if (event.gameEventType == GameEvent.Type.PlayingDurationAction) {
+        } else if (event.gameEventType == GameEvent.EventType.PlayingDurationAction) {
             statusText += getString(R.string.PlayingDurationAction);
-        } else if (event.gameEventType == GameEvent.Type.CardSetAside) {
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAside) {
             statusText += getString(R.string.CardSetAside);
-        } else if (event.gameEventType == GameEvent.Type.CardSetAsideSummon) {
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideSummon) {
             statusText += getString(R.string.CardSetAsideSummon);
-        } else if (event.gameEventType == GameEvent.Type.CardSetAsideHaven) {
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideHaven) {
             statusText += getString(R.string.CardSetAsideHaven);
-        } else if (event.gameEventType == GameEvent.Type.CardSetAsideGear) {
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideGear) {
             statusText += getString(R.string.CardSetAsideGear);
-        } else if (event.gameEventType == GameEvent.Type.CardSetAsideSave) {
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideSave) {
             statusText += getString(R.string.CardSetAsideSave);
-        } else if (event.gameEventType == GameEvent.Type.CardSetAsideOnTavernMat) {
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideOnTavernMat) {
             statusText += getString(R.string.CardSetAsideOnTavernMat);
-        } else if (event.gameEventType == GameEvent.Type.CallingCard) {
+        } else if (event.gameEventType == GameEvent.EventType.CallingCard) {
 			statusText += getString(R.string.CallingCard);
-		} else if (event.gameEventType == GameEvent.Type.CalledCard) {
+		} else if (event.gameEventType == GameEvent.EventType.CalledCard) {
 			statusText += getString(R.string.CalledCard);
-        } else if (event.gameEventType == GameEvent.Type.CardSetAsideOnIslandMat) {
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideOnIslandMat) {
             statusText += getString(R.string.CardSetAsideOnIslandMat);
-        } else if (event.gameEventType == GameEvent.Type.CardSetAsideInheritance) {
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideInheritance) {
             statusText += getString(R.string.CardSetAsideInheritance);
-        } else if (event.gameEventType == GameEvent.Type.DeckPutIntoDiscardPile) {
+        } else if (event.gameEventType == GameEvent.EventType.DeckPutIntoDiscardPile) {
             statusText += getString(R.string.DeckPutIntoDiscardPile);
-        } else if (event.gameEventType == GameEvent.Type.TravellerExchanged) {
+        } else if (event.gameEventType == GameEvent.EventType.TravellerExchanged) {
         	String cardExchanged = getCardName((Card)extras[3]); // card being exchanged
         	statusText += format(R.string.TravellerExchanged, cardExchanged);
-        } else if (event.gameEventType == GameEvent.Type.TurnJourneyTokenFaceUp) {
+        } else if (event.gameEventType == GameEvent.EventType.TurnJourneyTokenFaceUp) {
             statusText += getString(R.string.TurnJourneyTokenFaceUp);
-        } else if (event.gameEventType == GameEvent.Type.TurnJourneyTokenFaceDown) {
+        } else if (event.gameEventType == GameEvent.EventType.TurnJourneyTokenFaceDown) {
             statusText += getString(R.string.TurnJourneyTokenFaceDown);
-        } else if (event.gameEventType == GameEvent.Type.MinusOneCoinTokenOn) {
+        } else if (event.gameEventType == GameEvent.EventType.MinusOneCoinTokenOn) {
             statusText += getString(R.string.MinusOneCoinTokenOn);
-        } else if (event.gameEventType == GameEvent.Type.MinusOneCoinTokenOff) {
+        } else if (event.gameEventType == GameEvent.EventType.MinusOneCoinTokenOff) {
             statusText += getString(R.string.MinusOneCoinTokenOff);
-        } else if (event.gameEventType == GameEvent.Type.MinusOneCardTokenOn) {
+        } else if (event.gameEventType == GameEvent.EventType.MinusOneCardTokenOn) {
             statusText += getString(R.string.MinusOneCardTokenOn);
-        } else if (event.gameEventType == GameEvent.Type.MinusOneCardTokenOff) {
+        } else if (event.gameEventType == GameEvent.EventType.MinusOneCardTokenOff) {
             statusText += getString(R.string.MinusOneCardTokenOff);
-        } else if (event.gameEventType == GameEvent.Type.PlayingCoin) {
+        } else if (event.gameEventType == GameEvent.EventType.PlayingTreasure) {
             statusText += getString(R.string.PlayingCoin);
-        } else if (event.gameEventType == GameEvent.Type.TurnEnd) {
+        } else if (event.gameEventType == GameEvent.EventType.TurnEnd) {
             /* end of turn: inform about cards on island and nativeVillage */
             String tmp = statusText;
             int islandSize = 0;
@@ -333,11 +333,11 @@ public class Strings {
                 statusText += getString(R.string.OnNativeVillageMat) + ": " + nativeVillageSize + "\n" + tmp;
             }
             statusText += getString(R.string.TurnEnd);
-        } else if (event.gameEventType == GameEvent.Type.VictoryPoints) {
+        } else if (event.gameEventType == GameEvent.EventType.VictoryPoints) {
             statusText += getString(R.string.VictoryPoints);
-        } else if (event.gameEventType == GameEvent.Type.NewHand) {
+        } else if (event.gameEventType == GameEvent.EventType.NewHand) {
             statusText += getString(R.string.NewHand);
-        } else if (event.gameEventType == GameEvent.Type.TurnBegin) {
+        } else if (event.gameEventType == GameEvent.EventType.TurnBegin) {
             /* begin of turn: inform about swampHag and hauntedWoods*/
             statusText += getString(R.string.TurnBegin);
             int swampHagAttacks = 0;
@@ -359,7 +359,7 @@ public class Strings {
             }
             if (swampHagAttacks > 0 || hauntedWoodsAttacks)
             	statusText += "\n";
-        } else if (event.gameEventType == GameEvent.Type.CantBuy) {
+        } else if (event.gameEventType == GameEvent.EventType.CantBuy) {
             Card[] cantBuy = event.o.cs;
             String cards = "";
             boolean first = true;
@@ -373,26 +373,26 @@ public class Strings {
                 cards += getCardName(card);
             }
             statusText += format(R.string.CantBuy, cards);
-        } else if (event.gameEventType == GameEvent.Type.Status) {
+        } else if (event.gameEventType == GameEvent.EventType.Status) {
             statusText += format(R.string.action_buys_coin, extras[3], extras[4], extras[5]);
-        } else if (event.gameEventType == GameEvent.Type.GuildsTokenObtained) {
+        } else if (event.gameEventType == GameEvent.EventType.GuildsTokenObtained) {
             statusText += getString(R.string.GuildsTokenObtained);
-        } else if (event.gameEventType == GameEvent.Type.GuildsTokenSpend) {
+        } else if (event.gameEventType == GameEvent.EventType.GuildsTokenSpend) {
             statusText += getString(R.string.GuildsTokenSpend);
             if (extras[3] != null) {
                 statusText += extras[3]; // number of coins
             }
-        } else if (event.gameEventType == GameEvent.Type.OverpayForCard) {
+        } else if (event.gameEventType == GameEvent.EventType.OverpayForCard) {
             statusText += getString(R.string.OverpayForCard);
-        } else if (event.gameEventType == GameEvent.Type.DebtTokensObtained) {
+        } else if (event.gameEventType == GameEvent.EventType.DebtTokensObtained) {
         	statusText += format(R.string.DebtTokensObtained, extras[3]);
-        } else if (event.gameEventType == GameEvent.Type.DebtTokensPaidOff) {
+        } else if (event.gameEventType == GameEvent.EventType.DebtTokensPaidOff) {
         	statusText += format(R.string.DebtTokensPaidOff, extras[3]);
-        } else if (event.gameEventType == GameEvent.Type.VPTokensObtained) {
+        } else if (event.gameEventType == GameEvent.EventType.VPTokensObtained) {
         	statusText += format(R.string.VPTokensObtained, extras[3]);
-        } else if (event.gameEventType == GameEvent.Type.VPTokensPutOnPile) {
+        } else if (event.gameEventType == GameEvent.EventType.VPTokensPutOnPile) {
         	statusText += format(R.string.VPTokensPutOnPile, extras[3]);
-        } else if (event.gameEventType == GameEvent.Type.VPTokensTakenFromPile) {
+        } else if (event.gameEventType == GameEvent.EventType.VPTokensTakenFromPile) {
         	statusText += format(R.string.VPTokensTakenFromPile, extras[3]);
         } else if (event.gameEventType != null) {
             statusText += event.gameEventType.toString();
@@ -400,9 +400,9 @@ public class Strings {
 
         // Then, if there's a card associated with the event, we display it here.
         if (event.c != null
-                && event.gameEventType != GameEvent.Type.CardAddedToHand
-                && event.gameEventType != GameEvent.Type.PlayerAttacking
-                && event.gameEventType != GameEvent.Type.VPTokensObtained) {
+                && event.gameEventType != GameEvent.EventType.CardAddedToHand
+                && event.gameEventType != GameEvent.EventType.PlayerAttacking
+                && event.gameEventType != GameEvent.EventType.VPTokensObtained) {
             statusText += " " + getCardName(event.c) + " ";
         }
 
@@ -411,7 +411,7 @@ public class Strings {
             return statusText;
         }
 
-        if (event.gameEventType == GameEvent.Type.TurnBegin && extras[0] != null) {
+        if (event.gameEventType == GameEvent.EventType.TurnBegin && extras[0] != null) {
             statusText += " " + getString(R.string.possessed_by) + " " + extras[0] + "!";
         }
         if (extras[1] != null) {
