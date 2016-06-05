@@ -983,7 +983,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		Card ret = Cards.colony;
 		for (Card c : list) {
-			if (c.getCost(null) < ret.getCost(null) && !c.isPrize()) {
+			if (c.getCost(null) < ret.getCost(null) && !c.is(Type.Prize, this)) {
 				ret = list.get(list.indexOf(c));
 			}
 		}
@@ -2479,7 +2479,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	@Override
 	public TournamentOption tournament_chooseOption(MoveContext context) {
 	    for(Card c : VDomPlayerPatrick.knownPrizeCards) {
-	        if(c.isPrize() && context.getPileSize(c) > 0) {
+	        if(c.is(Type.Prize, null) && context.getPileSize(c) > 0) {
 	        	this.log("tournament_chooseOption: prize");
 	            return TournamentOption.GainPrize;
 	        }
@@ -2493,7 +2493,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	@Override
 	public Card tournament_choosePrize(MoveContext context) {
 	    for(Card c : VDomPlayerPatrick.knownPrizeCards) {
-	        if(c.isPrize() && context.getPileSize(c) > 0) {
+	        if(c.is(Type.Prize, null) && context.getPileSize(c) > 0) {
 	        	this.log("tournament_choosePrize: " + c);
 	            return c;
 	        }

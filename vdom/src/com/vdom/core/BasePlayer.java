@@ -1167,7 +1167,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                     && !card.equals(Cards.prince)
                    ) {
                     actionCards.add(card);
-                    if (card.isPrize()) {
+                    if (card.is(Type.Prize, context.player)) {
                         maxCost = 99;
                     }
                     else {
@@ -1179,7 +1179,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         for (Card card : actionCards) {
             if (   !onlyBest
                 || card.getCost(context) == maxCost
-                || maxCost == 99 && card.isPrize() ) {
+                || maxCost == 99 && card.is(Type.Prize, context.player) ) {
                 randList.add(card);
             }
         }
@@ -1730,7 +1730,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public TournamentOption tournament_chooseOption(MoveContext context) {
         for(Card c : context.getCardsInGame()) {
-            if(c.isPrize() && context.getPileSize(c) > 0) {
+            if(c.is(Type.Prize, null) && context.getPileSize(c) > 0) {
                 return TournamentOption.GainPrize;
             }
         }
@@ -1740,7 +1740,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card tournament_choosePrize(MoveContext context) {
         for(Card c : context.getCardsInGame()) {
-            if(c.isPrize() && context.getPileSize(c) > 0) {
+            if(c.equals(Cards.followers) && context.getPileSize(c) > 0) {
+                return c;
+            } else if(c.equals(Cards.trustySteed) && context.getPileSize(c) > 0) {
+                return c;
+            } else if(c.equals(Cards.princess) && context.getPileSize(c) > 0) {
+                return c;
+            } else if(c.equals(Cards.diadem) && context.getPileSize(c) > 0) {
+                return c;
+            } else if(c.equals(Cards.bagOfGold) && context.getPileSize(c) > 0) {
                 return c;
             }
         }
@@ -2112,7 +2120,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
             else if(   c.getCost(null) >= 5
                     || c.costPotion()
-                    || c.isPrize()
+                    || c.is(Type.Prize, player)
                     || c.equals(Cards.madman)
                     || c.equals(Cards.mercenary)
                     || c.equals(Cards.spoils)) {
@@ -2701,7 +2709,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		}
 
     	for (Card card : cl) {
-			if (card.isPrize()) {
+			if (card.is(Type.Prize, context.player)) {
 				return card;
 			}
 		}
@@ -3828,7 +3836,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	int highestCost = -1;
     	for (Card c : context.getPlayer().getHand()) {
     		//TODO: always reveal a card bought from the black market deck
-    		if (c.isPrize() || c.isCastle(context.getPlayer())) return c;
+    		if (c.is(Type.Prize, context.getPlayer()) || c.is(Type.Castle, context.getPlayer())) return c;
     		int cost = c.getCost(context);
     		if (cost > highestCost) {
     			highestCost = cost;
@@ -3870,7 +3878,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		if (c.equals(Cards.crumblingCastle)) {
     			return true;
     		}
-    		if (c.isCastle(context.getPlayer()) && c.getCost(context) < Cards.smallCastle.getCost(context)) {
+    		if (c.is(Type.Castle, context.getPlayer()) && c.getCost(context) < Cards.smallCastle.getCost(context)) {
     				//TODO: && castle on pile is good enough, whatever that means...
     			return true;
     		}
@@ -3885,7 +3893,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		if (c.equals(Cards.crumblingCastle)) {
     			return c;
     		}
-    		if (c.isCastle(context.getPlayer())) {
+    		if (c.is(Type.Castle, context.getPlayer())) {
     			if (worstCastle == null || c.getCost(context) < worstCastle.getCost(context)) {
     				worstCastle = c;
     			}

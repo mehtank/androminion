@@ -44,10 +44,6 @@ public interface Card extends Serializable {
     
     public boolean isAttack(Player player);
     
-    public boolean isPrize();
-
-    public boolean isLooter();
-    
     public boolean isKnight(Player player);
     
     public boolean isOverpay(Player player);
@@ -57,12 +53,6 @@ public interface Card extends Serializable {
     public boolean isReserve(Player player);
     
     public boolean isTraveller(Player player);
-    
-    public boolean isGathering(Player player);
-    
-    public boolean isCastle(Player player);
-    
-    public boolean isLandmark();
     
     public int getAddCards();
     

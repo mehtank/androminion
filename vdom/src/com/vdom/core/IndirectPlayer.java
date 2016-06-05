@@ -776,7 +776,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         ArrayList<Card> options = new ArrayList<Card>();
         Card[] cards = context.getCardsObtainedByLastPlayer().toArray(new Card[0]);
         for (Card c : cards)
-            if (!c.costPotion() && c.getCost(context) <= 6 && !c.isPrize())
+            if (!c.costPotion() && c.getCost(context) <= 6 && !c.is(Type.Prize, null))
                 options.add(c);
 
         if (options.size() > 0) {

@@ -83,7 +83,7 @@ public class VDomPlayerSarah extends BasePlayer {
 
         int numCornucopia = 0;
         for (final Card card : cardsInPlay) {
-            if (card.getExpansion() == Expansion.Cornucopia && !card.isPrize()) {
+            if (card.getExpansion() == Expansion.Cornucopia && !card.is(Type.Prize, null)) {
                 numCornucopia++;
             }
         }

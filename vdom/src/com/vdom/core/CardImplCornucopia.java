@@ -362,7 +362,7 @@ public class CardImplCornucopia extends CardImpl {
 
             if (option == TournamentOption.GainPrize) {
                 Card prize = currentPlayer.controlPlayer.tournament_choosePrize(playerContext);
-                if (prize != null && prize.isPrize()) {
+                if (prize != null && prize.is(Type.Prize, null)) {
                     currentPlayer.gainNewCard(prize, this, playerContext);
                 } else {
                     Util.playerError(currentPlayer, "Tournament error, invalid prize");

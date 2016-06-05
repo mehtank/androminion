@@ -39,18 +39,13 @@ public class CardImpl implements Card {
     protected int takeAnotherTurnCardCount;
     
     boolean isAttack  = false;
-    boolean isPrize   = false;
     boolean isShelter = false;
     boolean isRuins   = false;
     boolean isKnight  = false;
-    boolean isLooter  = false;
     boolean isOverpay = false;  // can this card be overpaid for?
     boolean isEvent = false;
     boolean isReserve = false;
     boolean isTraveller = false;
-    boolean isCastle = false;
-    boolean isGathering = false;
-    boolean isLandmark = false;
     
     boolean trashOnUse = false;
     
@@ -103,18 +98,13 @@ public class CardImpl implements Card {
         takeAnotherTurn = builder.takeAnotherTurn;
         takeAnotherTurnCardCount = builder.takeAnotherTurnCardCount;
         isAttack    = builder.attack;
-        isPrize     = builder.isPrize;
         isShelter   = builder.isShelter;
         isRuins     = builder.isRuins;
         isKnight    = builder.isKnight;
-        isLooter    = builder.isLooter;
         isOverpay   = builder.isOverpay;
         isEvent     = builder.isEvent;
         isReserve   = builder.isReserve;
         isTraveller = builder.isTraveller;
-        isCastle    = builder.isCastle;
-        isGathering = builder.isGathering;
-        isLandmark  = builder.isLandmark;
         trashOnUse   = builder.trashOnUse;
         
         callableWhenCardGained = builder.callableWhenCardGained;
@@ -157,18 +147,13 @@ public class CardImpl implements Card {
         protected int callableWhenCardGainedMaxCost;
         
         protected boolean attack      = false;
-        protected boolean isPrize     = false;
         protected boolean isShelter   = false;
         protected boolean isRuins     = false;
         protected boolean isKnight    = false;
-        protected boolean isLooter    = false;
         protected boolean isOverpay   = false;
         protected boolean isEvent     = false;
         protected boolean isReserve   = false;
         protected boolean isTraveller = false;
-        protected boolean isGathering = false;
-        protected boolean isCastle    = false;
-        protected boolean isLandmark  = false;
         
         protected boolean trashOnUse  = false;
 
@@ -312,11 +297,6 @@ public class CardImpl implements Card {
             return this;
         }
 
-        public Builder isLandmark() {
-            isLandmark = true;
-            return this;
-        }
-        
         public Builder trashOnUse() {
             trashOnUse = true;
             return this;
@@ -412,18 +392,13 @@ public class CardImpl implements Card {
         c.takeAnotherTurn = takeAnotherTurn;
         c.takeAnotherTurnCardCount = takeAnotherTurnCardCount;
         c.isAttack = isAttack;
-        c.isPrize = isPrize;
         c.isShelter = isShelter;
         c.isRuins = isRuins;
         c.isKnight = isKnight;
-        c.isLooter = isLooter;
         c.isOverpay = isOverpay;
         c.isEvent = isEvent;
         c.isReserve = isReserve;
         c.isTraveller = isTraveller;
-        c.isCastle = isCastle;
-        c.isGathering = isGathering;
-        c.isLandmark = isLandmark;
         c.vp = vp;
         c.trashOnUse = trashOnUse;
         
@@ -876,21 +851,12 @@ public class CardImpl implements Card {
     		return isAttack;
     	return ((CardImpl)player.getInheritance()).isAttack;
     }    
-    @Override
-    public boolean isPrize() {
-        return isPrize;
-    }
 
     @Override
     public boolean isKnight(Player player) {
     	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return isKnight;
     	return ((CardImpl)player.getInheritance()).isKnight;
-    }
-    
-    @Override
-    public boolean isLooter() {
-        return isLooter;
     }
     
     @Override
@@ -920,26 +886,6 @@ public class CardImpl implements Card {
     	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return isTraveller;
     	return ((CardImpl)player.getInheritance()).isTraveller;
-    }
-    
-    @Override
-    public boolean isCastle(Player player)
-    {
-        return isCastle;
-    }
-    
-    @Override
-    public boolean isGathering(Player player)
-    {
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
-    		return isGathering;
-    	return ((CardImpl)player.getInheritance()).isGathering;
-    }
-    
-    @Override
-    public boolean isLandmark()
-    {
-        return isLandmark;
     }
 
 	@Override

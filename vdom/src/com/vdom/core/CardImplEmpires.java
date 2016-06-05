@@ -365,7 +365,7 @@ public class CardImplEmpires extends CardImpl {
         	int numCastles = 0;
         	Card handCastle = null;
         	for (Card c : currentPlayer.getHand()) {
-        		if (c.isCastle(currentPlayer)) {
+        		if (c.is(Type.Castle, currentPlayer)) {
         			numCastles++;
         			handCastle = c;
         		}
@@ -376,7 +376,7 @@ public class CardImplEmpires extends CardImpl {
         		didTrash = true;
         	} else if (numCastles > 1) {
         		Card cardToTrash = currentPlayer.controlPlayer.smallCastle_castleToTrash(context);
-            	if (cardToTrash == null || !currentPlayer.getHand().contains(cardToTrash) || !cardToTrash.isCastle(currentPlayer)) {
+            	if (cardToTrash == null || !currentPlayer.getHand().contains(cardToTrash) || !cardToTrash.is(Type.Castle, currentPlayer)) {
                     Util.playerError(currentPlayer, "Small Castle trash error, trashing last castle.");
                     cardToTrash = handCastle;
                 }

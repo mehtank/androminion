@@ -869,7 +869,7 @@ public abstract class Player {
     public int getCastleCardCount(ArrayList<Card> cards, Player player) {
     	int cardCount = 0;
         for (Card c : cards) {
-            if (c.isCastle(player)) {
+            if (c.is(Type.Castle, player)) {
                 cardCount++;
             }
         }

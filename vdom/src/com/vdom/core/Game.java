@@ -2462,7 +2462,7 @@ public class Game {
         // We have to add one "invisible" pile for each ruins card and a "virtual" visible pile
         boolean looter = false;
         for (AbstractCardPile pile : piles.values()) {
-            if (pile.card().isLooter()) {
+            if (pile.card().is(Type.Looter, null)) {
                 looter = true;
             }
         }

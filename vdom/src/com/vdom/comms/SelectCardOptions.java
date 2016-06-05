@@ -194,7 +194,7 @@ public class SelectCardOptions implements Serializable {
     /* Note: This method must be synchrony with checkValid(MyCard c, int cost) */
     public boolean checkValid(Card c, int cost, boolean cardIsVictory, MoveContext context) {
     	
-    	if (c.isLandmark()) return false;
+    	if (c.is(Type.Landmark, null)) return false;
     	
     	Player p = context != null ? context.player : null;
     	p = fromTable ? null : p;
@@ -207,8 +207,8 @@ public class SelectCardOptions implements Serializable {
         if (isNonTreasure && (c.is(Type.Treasure, p))) return false;
         if (isVictory && !cardIsVictory) return false;
         if (isNonVictory && cardIsVictory) return false;
-        if (fromPrizes && !c.isPrize()) return false;
-        if (fromTable && !fromPrizes && c.isPrize()) return false;
+        if (fromPrizes && !c.is(Type.Prize, null)) return false;
+        if (fromTable && !fromPrizes && c.is(Type.Prize, null)) return false;
         if (potionCost == 0 && c.costPotion()) return false;
         if (maxCost == minCost && potionCost > 0 && !c.costPotion()) return false;
         if (isNonRats && c.equals(Cards.rats)) return false;
