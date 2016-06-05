@@ -619,11 +619,11 @@ public class CardImplAdventures extends CardImpl {
         	cardToPlay.numberTimesAlreadyPlayed = 0; //TODO: not sure if this is always right
         context.freeActionInEffect--;
         // If the cardToPlay was a knight, and was trashed, reset clonecount
-        if (cardToPlay.isKnight(currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
+        if (cardToPlay.is(Type.Knight, currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
             cardToPlay.getControlCard().cloneCount = 1;
         }
 
-        if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
+        if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
             // Need to move royal carriage card to NextTurnCards first
             // (but does not play)
             if (!this.controlCard.movedToNextTurnPile) {
@@ -639,7 +639,7 @@ public class CardImplAdventures extends CardImpl {
 	}
 
     private void soldier(Game game, MoveContext context, Player currentPlayer) {       
-    	context.addCoins(context.countAttackCardsInPlayThisTurn() - 1); //without this soldier
+    	context.addCoins(context.countAttackCardsInPlay() - 1); //without this soldier
     	for (Player player : context.game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
                 player.attacked(this.controlCard, context);
@@ -756,7 +756,7 @@ public class CardImplAdventures extends CardImpl {
             	attackedPlayers.add(player);
             }
     	}
-    	int numTravellers = context.countTravellerCardsInPlayThisTurn();
+    	int numTravellers = context.countTravellerCardsInPlay();
     	for (int i = 0; i < numTravellers; i++) {
     		for (Player player : attackedPlayers) {
     			player.attacked(this.controlCard, context);
@@ -855,7 +855,7 @@ public class CardImplAdventures extends CardImpl {
                     for (int i = 0; i < context.player.nextTurnCards.size(); i++) {
                         Card nextTurnCard = context.player.nextTurnCards.get(i);
                         if (nextTurnCard.equals(card)) {
-                        	if (nextTurnCard.isDuration(context.player)) {
+                        	if (nextTurnCard.is(Type.Duration, context.player)) {
                         		((CardImpl)nextTurnCard).trashAfterPlay = true;
                                 context.player.trash(nextTurnCard, this.controlCard, context);
                         	} else {
@@ -955,7 +955,7 @@ public class CardImplAdventures extends CardImpl {
     	if (option == QuestOption.DiscardAttack) {
     		Set<Card> attackSet = new HashSet<Card>();
     		for (Card card : hand) {
-    			if (card.behaveAsCard().isAttack(player)) {
+    			if (card.behaveAsCard().is(Type.Attack, player)) {
     				attackSet.add(card);
     			}
     		}
@@ -1126,7 +1126,7 @@ public class CardImplAdventures extends CardImpl {
             	Card gainedCard = context.player.gainNewCard(card, this.controlCard, context);
             	if (card.equals(gainedCard)
             			|| (card.is(Type.Ruins, null) && gainedCard.is(Type.Ruins, null))
-            			|| (card.isKnight(null) && gainedCard.isKnight(null)))
+            			|| (card.is(Type.Knight, null) && gainedCard.is(Type.Knight, null)))
             		placeToken(context, card, PlayerSupplyToken.PlusOneBuy);
             }
         }

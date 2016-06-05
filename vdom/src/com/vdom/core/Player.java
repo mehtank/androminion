@@ -278,8 +278,8 @@ public abstract class Player {
         // Determine if criteria were met for certain action cards
         boolean victoryBought = context.getVictoryCardsBoughtThisTurn() > 0;
         boolean potionPlayed   = context.countCardsInPlay(Cards.potion) > 0;
-        boolean treasurePlayed = context.countTreasureCardsInPlayThisTurn() > 0;
-        int actionsInPlay = context.countActionCardsInPlayThisTurn();
+        boolean treasurePlayed = context.countTreasureCardsInPlay() > 0;
+        int actionsInPlay = context.countActionCardsInPlay();
 
         List<PutBackOption> options = new ArrayList<PutBackOption>();
 
@@ -354,7 +354,7 @@ public abstract class Player {
         // Check for return-to-deck options
         List<PutBackOption> putBackOptions;
         ArrayList<Card> putBackCards = new ArrayList<Card>();
-        int actionsPlayed = context.countActionCardsInPlayThisTurn();
+        int actionsPlayed = context.countActionCardsInPlay();
 
         while (!(putBackOptions = controlPlayer.getPutBackOptions(context, actionsPlayed)).isEmpty()) {
             PutBackOption putBackOption = controlPlayer.selectPutBackOption(context, putBackOptions);
@@ -1211,7 +1211,7 @@ public abstract class Player {
                     context.game.broadcastEvent(event);
                 }
             }
-            else if(!commandedDiscard && cleanup && card.isTraveller(this)) {
+            else if(!commandedDiscard && cleanup && card.is(Type.Traveller, this)) {
                 exchange = traveller_exchange(context, card);
                 if (exchange != null) {
     				// Return to the pile

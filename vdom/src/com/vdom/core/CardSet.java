@@ -133,7 +133,7 @@ public class CardSet {
 		int numLandmarks = countLandmarks(possibleCards);
 		count = Math.min(possibleCards.size() - numEvents - numLandmarks, count);
 		for (Card c : possibleCards) {
-			if (c.isEvent() && drawEvents) {
+			if (c.is(Type.Event, null) && drawEvents) {
 				if (linkMaxEventsAndLandmarks) {
 					if (eventList.size() + landmarkList.size() < maxEvents)
 						eventList.add(c);
@@ -160,7 +160,7 @@ public class CardSet {
 			List<Card> events = new ArrayList<Card>();
 			List<Card> landmarks = new ArrayList<Card>();
 			for (Card c : possibleCards) {
-				if (c.isEvent())
+				if (c.is(Type.Event, null))
 					events.add(c);
 				else if (c.is(Type.Landmark, null))
 					landmarks.add(c);
@@ -308,7 +308,7 @@ public class CardSet {
 	
 	private static boolean isValidBane(Card c) {
 		int cost = c.getCost(null);
-		return !c.costPotion() && (cost == 2 || cost == 3) && !c.isEvent();
+		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event, null);
 	}
 
 	private static void pick(List<Card> source, List<Card> target, int count) {
@@ -323,7 +323,7 @@ public class CardSet {
 	private static int countEvents(List<Card> allCards) {
 		int numEvents = 0;
 		for (Card c : allCards) {
-			if (c.isEvent())
+			if (c.is(Type.Event, null))
 				numEvents++;
 		}
 		return numEvents;

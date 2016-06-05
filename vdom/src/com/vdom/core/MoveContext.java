@@ -152,57 +152,50 @@ public class MoveContext {
         return (countCardsInPlay(Cards.royalSeal) > 0);
     }
 
-    public int countGoonsInPlayThisTurn() {
+    public int countGoonsInPlay() {
     	return countCardsInPlay(Cards.goons);
     }
 
     public enum CardsInPlay {ACTION,ATTACK,TRAVELLER,VICTORY,TREASURE};
     
-    public int countActionCardsInPlayThisTurn() {
-    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.ACTION);
+    public int countActionCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Action);
     }
     
-    public int countAttackCardsInPlayThisTurn() {
-    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.ATTACK);
+    public int countAttackCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Attack);
     }
     
-    public int countTreasureCardsInPlayThisTurn() {
-    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.TREASURE);
+    public int countTreasureCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Treasure);
     }
     
-    public int countTravellerCardsInPlayThisTurn() {
-    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.TRAVELLER);
+    public int countTravellerCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Traveller);
     }
     
-    public int countVictoryCardsInPlayThisTurn() {
-    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.VICTORY);
+    public int countVictoryCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Victory);
     }
     
-    public int countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay type) {
-        int actionsInPlay = 0;
+    public int countTypedCardsInPlay(Type type) {
+        int numInPlay = 0;
         for (Card c : getPlayedCards()) {
-        	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
-        			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
-        			|| (type == CardsInPlay.ACTION && c.isAction(player))
-        			|| (type == CardsInPlay.TREASURE && c.is(Type.Treasure, player))
-        			|| (type == CardsInPlay.VICTORY && c instanceof VictoryCard)) {
-    			actionsInPlay++;
+        	if (c.is(type, player)) {
+        		numInPlay++;
         	}
         }
         for (Card c : player.nextTurnCards) {
         	if (c instanceof CardImpl && ((CardImpl)c).trashAfterPlay)
         		continue;
-        	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
-        			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
-        			|| (type == CardsInPlay.ACTION && c.isAction(player))
-        			|| (type == CardsInPlay.VICTORY && c instanceof VictoryCard)) {
-    			actionsInPlay++;
+        	if (c.is(type, player)) {
+        		numInPlay++;
         	}
         }
-        return actionsInPlay;
+        return numInPlay;
     }
 
-    public int countUniqueCardsInPlayThisTurn() {
+    public int countUniqueCardsInPlay() {
         HashSet<String> distinctCardsInPlay = new HashSet<String>();
 
         for (Card cardInPlay : player.playedCards) {
@@ -261,7 +254,7 @@ public class MoveContext {
 
     public int getEmbargosIfCursesLeft(Card card) {
     	int embargos = game.getEmbargos(card);
-    	if (!card.isEvent())
+    	if (!card.is(Type.Event, null))
     		embargos += game.swampHagAttacks(player);
         return Math.min(embargos, game.pileSize(Cards.curse));
     }

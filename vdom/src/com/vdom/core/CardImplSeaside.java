@@ -92,7 +92,7 @@ public class CardImplSeaside extends CardImpl {
         Card virtCard = card;
 
         AbstractCardPile pile;
-        if (card.isKnight(null)) {
+        if (card.is(Type.Knight, null)) {
             virtCard = Cards.virtualKnight;
         } else if (card.is(Type.Ruins, null)) {
             virtCard = Cards.virtualRuins;

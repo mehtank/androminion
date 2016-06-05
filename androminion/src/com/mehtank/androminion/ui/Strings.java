@@ -14,11 +14,8 @@ import com.mehtank.androminion.R;
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
-import com.vdom.api.DurationCard;
-import com.vdom.api.EventCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameType;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.comms.Event;
 import com.vdom.comms.MyCard;
@@ -27,7 +24,6 @@ import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.Cards;
 import com.vdom.core.IndirectPlayer;
-import com.vdom.core.Type;
 import com.vdom.core.IndirectPlayer.StashOption;
 import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.CountFirstOption;
@@ -51,6 +47,7 @@ import com.vdom.core.Player.TournamentOption;
 import com.vdom.core.Player.TrustySteedOption;
 import com.vdom.core.Player.WatchTowerOption;
 import com.vdom.core.PlayerSupplyToken;
+import com.vdom.core.Type;
 
 public class Strings {
 
@@ -447,16 +444,15 @@ public class Strings {
         }
         if (c instanceof ActionCard) {
             ActionCard ac = (ActionCard) c;
-            if (c instanceof DurationCard) {
-                DurationCard dc = (DurationCard) c;
-                if (dc.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_single, "" + dc.getAddGoldNextTurn()) + "\n" + ret;
-                else if (dc.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_multiple, "" + dc.getAddGoldNextTurn()) + "\n" + ret;
-                if (dc.getAddBuysNextTurn() > 1) ret = Strings.format(R.string.buys_next_turn_multiple, "" + dc.getAddBuysNextTurn()) + "\n" + ret;
-                else if (dc.getAddBuysNextTurn() > 0) ret = Strings.format(R.string.buy_next_turn_single, "" + dc.getAddBuysNextTurn()) + "\n" + ret;
-                if (dc.getAddActionsNextTurn() > 1) ret =  Strings.format(R.string.actions_next_turn_multiple, "" + dc.getAddActionsNextTurn()) + "\n" + ret;
-                else if (dc.getAddActionsNextTurn() > 0) ret =  Strings.format(R.string.action_next_turn_single, "" + dc.getAddActionsNextTurn()) + "\n" + ret;
-                if (dc.getAddCardsNextTurn() > 1) ret = Strings.format(R.string.cards_next_turn_multiple, "" + dc.getAddCardsNextTurn()) + "\n" + ret;
-                else if (dc.getAddCardsNextTurn() > 0) ret = Strings.format(R.string.card_next_turn_single, "" + dc.getAddCardsNextTurn()) + "\n" + ret;
+            if (c.is(Type.Duration, null)) {
+                if (c.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_single, "" + c.getAddGoldNextTurn()) + "\n" + ret;
+                else if (c.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_multiple, "" + c.getAddGoldNextTurn()) + "\n" + ret;
+                if (c.getAddBuysNextTurn() > 1) ret = Strings.format(R.string.buys_next_turn_multiple, "" + c.getAddBuysNextTurn()) + "\n" + ret;
+                else if (c.getAddBuysNextTurn() > 0) ret = Strings.format(R.string.buy_next_turn_single, "" + c.getAddBuysNextTurn()) + "\n" + ret;
+                if (c.getAddActionsNextTurn() > 1) ret =  Strings.format(R.string.actions_next_turn_multiple, "" + c.getAddActionsNextTurn()) + "\n" + ret;
+                else if (c.getAddActionsNextTurn() > 0) ret =  Strings.format(R.string.action_next_turn_single, "" + c.getAddActionsNextTurn()) + "\n" + ret;
+                if (c.getAddCardsNextTurn() > 1) ret = Strings.format(R.string.cards_next_turn_multiple, "" + c.getAddCardsNextTurn()) + "\n" + ret;
+                else if (c.getAddCardsNextTurn() > 0) ret = Strings.format(R.string.card_next_turn_single, "" + c.getAddCardsNextTurn()) + "\n" + ret;
 
             }
 
@@ -472,10 +468,9 @@ public class Strings {
             else if (ac.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + ac.getAddVictoryTokens()) + "\n" + ret;
         }
 
-        if (c instanceof EventCard) {
-        	EventCard ac = (EventCard) c;
-            if (ac.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + ret;
-            else if (ac.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + ac.getAddBuys()) + "\n" + ret;
+        if (c.is(Type.Event, null)) {
+            if (c.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + c.getAddBuys()) + "\n" + ret;
+            else if (c.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + c.getAddBuys()) + "\n" + ret;
         }
         return ret;
     }
@@ -1610,7 +1605,7 @@ public class Strings {
         sb.append(Strings.getCardText(counts, totals, Cards.curse));
         
         for(Card card : totals.keySet()) {
-            if(card.isLandmark()) {
+            if(card.is(Type.Landmark, null)) {
             	sb.append('\t')
                 .append(getCardName(card))
                 .append(": ")

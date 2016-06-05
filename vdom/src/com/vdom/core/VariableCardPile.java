@@ -3,6 +3,7 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 
@@ -62,7 +63,7 @@ public class VariableCardPile extends AbstractCardPile {
 
 		switch (type) {
 		case KnightsPile:
-			if (card.isKnight(null)) {
+			if (card.is(Type.Knight, null)) {
 				cards.add(0, card);
 			}
 			break;

@@ -180,7 +180,7 @@ public class CardImplCornucopia extends CardImpl {
     
     private void hornOfPlenty(MoveContext context, Player player, Game game) {
         GameEvent event;
-        int maxCost = context.countUniqueCardsInPlayThisTurn();
+        int maxCost = context.countUniqueCardsInPlay();
         Card toObtain = player.controlPlayer.hornOfPlenty_cardToObtain(context, maxCost);
         if (toObtain != null) {
             // check cost
@@ -256,7 +256,7 @@ public class CardImplCornucopia extends CardImpl {
                 else if (Cards.isSupplyCard(draw))
                 {
                     AbstractCardPile pile;
-                    if (draw.isKnight(null)) {
+                    if (draw.is(Type.Knight, null)) {
                         virtCard = Cards.virtualKnight;
                     } else if (draw.is(Type.Ruins, null)) {
                         virtCard = Cards.virtualRuins;

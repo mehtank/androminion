@@ -2014,7 +2014,7 @@ public class VDomPlayerPatrick extends BasePlayer {
     	   if (card.isAction(event.player)) {
     		   Card ac = card;
     		   this.opponents.get(event.player.playerNumber).putActionCard(card);
-    		   if (ac.isAttack(event.player)) { 
+    		   if (ac.is(Type.Attack, event.player)) { 
 	    		   this.opponents.get(event.player.playerNumber).setAttacking(true);
 	    	   }
     	   }
@@ -2300,7 +2300,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			return true;
 		}
 		
-		if (this.opponents != null && this.opponents.getIsAttacking() && this.strategyCard != null && !this.strategyCard.isAttack(this)) {
+		if (this.opponents != null && this.opponents.getIsAttacking() && this.strategyCard != null && !this.strategyCard.is(Type.Attack, this)) {
 			return true;
 		}
 		

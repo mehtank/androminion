@@ -40,19 +40,7 @@ public interface Card extends Serializable {
     
     public boolean isAction(Player player);
     
-    public boolean isDuration(Player player);
-    
-    public boolean isAttack(Player player);
-    
-    public boolean isKnight(Player player);
-    
     public boolean isOverpay(Player player);
-    
-    public boolean isEvent();
-    
-    public boolean isReserve(Player player);
-    
-    public boolean isTraveller(Player player);
     
     public int getAddCards();
     

@@ -2,11 +2,8 @@ package com.vdom.comms;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.EnumSet;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.Cards;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
@@ -214,11 +211,11 @@ public class SelectCardOptions implements Serializable {
         if (isNonRats && c.equals(Cards.rats)) return false;
         if (c.equals(Cards.grandMarket) && copperCountInPlay > 0) return false;
         if (isNonShelter && c.is(Type.Shelter, p)) return false;
-        if (isAttack && !c.isAttack(p)) return false;
+        if (isAttack && !c.is(Type.Attack, p)) return false;
         if (isAction && !c.isAction(p)) return false;
-        if (!isBuyPhase && c.isEvent()) return false;
+        if (!isBuyPhase && c.is(Type.Event, null)) return false;
         
-        if (isBuyPhase && !Cards.isSupplyCard(c) && !c.isEvent()) return false;
+        if (isBuyPhase && !Cards.isSupplyCard(c) && !c.is(Type.Event, null)) return false;
         if (isSupplyCard && !Cards.isSupplyCard(c)) return false;
 
         return true;

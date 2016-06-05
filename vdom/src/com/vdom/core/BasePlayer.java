@@ -174,7 +174,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || card.equals(Cards.ruinedMarket)
                 || card.equals(Cards.ruinedVillage) 
                 || card.equals(Cards.survivors)
-                || (card.isKnight(null) && !card.equals(Cards.virtualKnight)) /*choose only virtualKnight*/
+                || (card.is(Type.Knight, null) && !card.equals(Cards.virtualKnight)) /*choose only virtualKnight*/
                 || !Cards.isSupplyCard(card)
                 || (actionOnly && !(card.isAction(null))) 
                 || (!victoryCardAllowed && (card instanceof VictoryCard) && !card.equals(Cards.curse))
@@ -416,7 +416,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	protected ArrayList<Card> getAttackCardsLeft() {
 		ArrayList<Card> options = new ArrayList<Card>();
 		for (AbstractCardPile pile : game.piles.values()) {
-			if (pile.getCount() > 0 && pile.card().isAttack(null)) {
+			if (pile.getCount() > 0 && pile.card().is(Type.Attack, null)) {
 				options.add(pile.card());
 			}
 		}
@@ -1150,9 +1150,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 if (   !card.is(Type.Ruins, context.player)
                     && !card.equals(Cards.necropolis)
                     && !card.trashForced()
-                    && !(card.isDuration(context.player))
-                    && !(card.isReserve(context.player))
-                    && !(card.isTraveller(context.player))
+                    && !(card.is(Type.Duration, context.player))
+                    && !(card.is(Type.Reserve, context.player))
+                    && !(card.is(Type.Traveller, context.player))
                     && !card.equals(Cards.feast)
                     && !card.equals(Cards.embargo)
                     && !card.equals(Cards.pillage)
@@ -2716,7 +2716,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	
     	if (!this.hand.contains(Cards.moat)) {
         	for (Card card : cl) {
-    			if (card.isAttack(context.player)) {
+    			if (card.is(Type.Attack, context.player)) {
 					return card;
 				}
     		}
@@ -3340,14 +3340,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     			//use guide to cycle faster if have Travellers in deck
     			boolean handHasTraveller = false;
     			for (Card handCard : hand) {
-    				if (handCard.isTraveller(context.getPlayer())) {
+    				if (handCard.is(Type.Traveller, context.getPlayer())) {
     					handHasTraveller = true;
     					break;
     				}
     			}
     			if (!handHasTraveller) {
     				for (Card card : context.getPlayer().getDistinctCards()) {
-    					if (card.isTraveller(context.getPlayer())) {
+    					if (card.is(Type.Traveller, context.getPlayer())) {
     						return c;
     					}
     				}

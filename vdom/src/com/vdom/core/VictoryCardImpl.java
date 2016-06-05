@@ -73,7 +73,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 			            int idx = currentPlayer.playedCards.lastIndexOf(this);
 			            if (idx >= 0) currentPlayer.playedCards.remove(idx);
 			            currentPlayer.trash(this, null, context);
-			        } else if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
+			        } else if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
 			            if (!this.controlCard.movedToNextTurnPile) {
 			                this.controlCard.movedToNextTurnPile = true;
 			                int idx = currentPlayer.playedCards.lastIndexOf(this);

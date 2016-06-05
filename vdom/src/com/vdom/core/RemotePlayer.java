@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.vdom.api.Card;
-import com.vdom.api.EventCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
@@ -112,13 +111,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.isShelter = c.is(Type.Shelter, null);
         card.isLooter = c.is(Type.Looter, null);
         card.isOverpay = c.isOverpay(null);
-        card.isEvent = c.isEvent();
-        card.isReserve = c.isReserve(null);
-        card.isTraveller = c.isTraveller(null);
+        card.isEvent = c.is(Type.Event, null);
+        card.isReserve = c.is(Type.Reserve, null);
+        card.isTraveller = c.is(Type.Traveller, null);
         card.isCastle = c.is(Type.Castle, null);
         card.isGathering = c.is(Type.Gathering, null);
         card.isLandmark = c.is(Type.Landmark, null);
-        card.isAttack = c.isAttack(null) || c.equals(Cards.virtualKnight);
+        card.isAttack = c.is(Type.Attack, null) || c.equals(Cards.virtualKnight);
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;
         else
@@ -188,7 +187,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
         if (c.isAction(null)) {
             card.isAction = true;
-            if (c.isDuration(null)) {
+            if (c.is(Type.Duration, null)) {
                 card.isDuration = true;
             }
         }
@@ -198,8 +197,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             card.isBlackMarket = true;
             card.pile = MyCard.BLACKMARKET_PILE;
         }
-        if (c instanceof EventCard) {
-            EventCard ac = (EventCard) c;
+        if (c.is(Type.Event, null)) {
             card.isEvent = true;
             card.pile = MyCard.EVENTPILE;
         }
@@ -327,7 +325,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 {
                    i_virtualKnight = i;
                 }
-                else if (cardsInPlay.get(i).isKnight(null))
+                else if (cardsInPlay.get(i).is(Type.Knight, null))
                 {
                    knightSize += player.getMyCardCount(cardsInPlay.get(i));
                 }

@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Random;
 
 import com.vdom.api.Card;
-import com.vdom.api.EventCard;
 import com.vdom.api.GameType;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
@@ -490,7 +489,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 context.getEmbargosIfCursesLeft(card) > 0 ||
-                !(card.isAction(context.player)) && !(card.is(Type.Treasure, null)) && !(card instanceof EventCard);
+                !(card.isAction(context.player)) && !(card.is(Type.Treasure, null)) && !(card.is(Type.Event, null));
     }
 
     @Override

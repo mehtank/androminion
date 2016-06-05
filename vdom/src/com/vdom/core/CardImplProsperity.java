@@ -18,7 +18,7 @@ public class CardImplProsperity extends CardImpl {
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {
 		case Bank:
-			context.addCoins(context.countTreasureCardsInPlayThisTurn());
+			context.addCoins(context.countTreasureCardsInPlay());
 			break;
         case Bishop:
             bishop(game, context, currentPlayer);

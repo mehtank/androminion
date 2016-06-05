@@ -170,7 +170,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
                 if (   sco.checkValid(card, card.getCost(context), card.isVictory(context), null)
                 	&& (!(sco.noTokens && hasTokens))
-                    && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 &&(context.canBuyCards || card.isEvent())))
+                    && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 &&(context.canBuyCards || card.is(Type.Event, null))))
                         || !sco.pickType.equals(PickType.BUY))
                     && !(   !Cards.isSupplyCard(card)
                          && sco.actionType != null

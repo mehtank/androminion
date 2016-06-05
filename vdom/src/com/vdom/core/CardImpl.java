@@ -5,7 +5,6 @@ import java.util.Collections;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.DurationCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.VictoryCard;
 
@@ -38,14 +37,7 @@ public class CardImpl implements Card {
     protected boolean takeAnotherTurn;
     protected int takeAnotherTurnCardCount;
     
-    boolean isAttack  = false;
-    boolean isShelter = false;
-    boolean isRuins   = false;
-    boolean isKnight  = false;
     boolean isOverpay = false;  // can this card be overpaid for?
-    boolean isEvent = false;
-    boolean isReserve = false;
-    boolean isTraveller = false;
     
     boolean trashOnUse = false;
     
@@ -97,14 +89,7 @@ public class CardImpl implements Card {
         addGoldNextTurn = builder.addGoldNextTurn;
         takeAnotherTurn = builder.takeAnotherTurn;
         takeAnotherTurnCardCount = builder.takeAnotherTurnCardCount;
-        isAttack    = builder.attack;
-        isShelter   = builder.isShelter;
-        isRuins     = builder.isRuins;
-        isKnight    = builder.isKnight;
         isOverpay   = builder.isOverpay;
-        isEvent     = builder.isEvent;
-        isReserve   = builder.isReserve;
-        isTraveller = builder.isTraveller;
         trashOnUse   = builder.trashOnUse;
         
         callableWhenCardGained = builder.callableWhenCardGained;
@@ -146,14 +131,7 @@ public class CardImpl implements Card {
         protected boolean callableWhenTurnStarts;
         protected int callableWhenCardGainedMaxCost;
         
-        protected boolean attack      = false;
-        protected boolean isShelter   = false;
-        protected boolean isRuins     = false;
-        protected boolean isKnight    = false;
         protected boolean isOverpay   = false;
-        protected boolean isEvent     = false;
-        protected boolean isReserve   = false;
-        protected boolean isTraveller = false;
         
         protected boolean trashOnUse  = false;
 
@@ -292,11 +270,6 @@ public class CardImpl implements Card {
             return this;
         }
 
-        public Builder isEvent() {
-            isEvent = true;
-            return this;
-        }
-
         public Builder trashOnUse() {
             trashOnUse = true;
             return this;
@@ -391,14 +364,7 @@ public class CardImpl implements Card {
         c.addGoldNextTurn = addGoldNextTurn;
         c.takeAnotherTurn = takeAnotherTurn;
         c.takeAnotherTurnCardCount = takeAnotherTurnCardCount;
-        c.isAttack = isAttack;
-        c.isShelter = isShelter;
-        c.isRuins = isRuins;
-        c.isKnight = isKnight;
         c.isOverpay = isOverpay;
-        c.isEvent = isEvent;
-        c.isReserve = isReserve;
-        c.isTraveller = isTraveller;
         c.vp = vp;
         c.trashOnUse = trashOnUse;
         
@@ -437,7 +403,7 @@ public class CardImpl implements Card {
     }
 
     public int getCost(MoveContext context, boolean buyPhase) {
-    	if (this.isEvent()) return cost; //Costs of Events are not affected by cards like Bridge Troll.
+    	if (this.is(Type.Event, null)) return cost; //Costs of Events are not affected by cards like Bridge Troll.
         if (this.equals(Cards.virtualKnight))
             if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
                 return context.game.getTopKnightCard().getCost(context,buyPhase); 
@@ -458,7 +424,7 @@ public class CardImpl implements Card {
         costModifier -= currentPlayerContext.countCardsInPlay(Cards.bridgeTroll);
         costModifier -= 2 * context.countCardsInPlay(Cards.princess);
         //TODO: BUG if an inherited peddler is yours, its cost should lower during your buy phase 
-        costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlayThisTurn()) : 0;
+        costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlay()) : 0;
         costModifier -= (context.game.isPlayerSupplyTokenOnPile(this.controlCard.equals(Cards.estate) ? this.controlCard : this, 
         		context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
         
@@ -577,7 +543,7 @@ public class CardImpl implements Card {
         if (!isInheritedAbility)
         	context.actions += game.countChampionsInPlay(currentPlayer);
         
-        if (isAttack(currentPlayer))
+        if (is(Type.Attack, currentPlayer))
             attackPlayed(context, game, currentPlayer);
         
         if (this.numberTimesAlreadyPlayed == 0 && this == actualCard) {
@@ -587,7 +553,7 @@ public class CardImpl implements Card {
                 currentPlayer.hand.remove(this);
             if (!enchantressEffect && trashOnUse) {
                 currentPlayer.trash(this, null, context);
-            } else if (!enchantressEffect && this.isDuration(currentPlayer)) {
+            } else if (!enchantressEffect && this.is(Type.Duration, currentPlayer)) {
                 currentPlayer.nextTurnCards.add(this);
             } else {
                 currentPlayer.playedCards.add(this);
@@ -621,7 +587,7 @@ public class CardImpl implements Card {
         
         if (enchantressEffect) {
         	//allow reaction to playing an attack card with Enchantress effect
-        	if (isAttack(currentPlayer)) {
+        	if (is(Type.Attack, currentPlayer)) {
         		 for (Player player : game.getPlayersInTurnOrder()) {
     	            if (player != currentPlayer) Util.isDefendedFromAttack(game, player, this);
 	            }
@@ -830,33 +796,12 @@ public class CardImpl implements Card {
     public int debtCost() {
     	return debtCost;
     }
-    
-    @Override
-    public boolean isDuration(Player player) {
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
-    		return this instanceof DurationCard;
-    	return player.getInheritance() instanceof DurationCard;
-    }
-    
+        
     @Override
     public boolean isAction(Player player) {
     	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
     		return this instanceof ActionCard;
     	return player.getInheritance() instanceof ActionCard;
-    }
-    
-    @Override
-    public boolean isAttack(Player player) {
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
-    		return isAttack;
-    	return ((CardImpl)player.getInheritance()).isAttack;
-    }    
-
-    @Override
-    public boolean isKnight(Player player) {
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
-    		return isKnight;
-    	return ((CardImpl)player.getInheritance()).isKnight;
     }
     
     @Override
@@ -866,28 +811,6 @@ public class CardImpl implements Card {
     	return ((CardImpl)player.getInheritance()).isOverpay;
     }
     
-    @Override
-    public boolean isEvent()
-    {
-        return isEvent;
-    }
-    
-    @Override
-    public boolean isReserve(Player player)
-    {
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
-    		return isReserve;
-    	return ((CardImpl)player.getInheritance()).isReserve;
-    }
-    
-    @Override
-    public boolean isTraveller(Player player)
-    {
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
-    		return isTraveller;
-    	return ((CardImpl)player.getInheritance()).isTraveller;
-    }
-
 	@Override
     public void isBuying(MoveContext context) {
 		if (is(Type.Victory, context.getPlayer())) {
@@ -1098,11 +1021,11 @@ public class CardImpl implements Card {
                     cardToPlay.numberTimesAlreadyPlayed = 0;
                     context.freeActionInEffect--;
                     // If the cardToPlay was a knight, and was trashed, reset clonecount
-                    if (cardToPlay.isKnight(currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
+                    if (cardToPlay.is(Type.Knight, currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
                         cardToPlay.cloneCount = 1;
                     }
 
-                    if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
+                    if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
                         // Need to move throning card to NextTurnCards first
                         // (but does not play)
                         if (!this.controlCard.movedToNextTurnPile) {

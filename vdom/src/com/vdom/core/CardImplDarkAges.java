@@ -171,7 +171,7 @@ public class CardImplDarkAges extends CardImpl {
 
             for (Card c : context.game.getCardsInGame())
             {
-                if (Cards.isSupplyCard(c) && c.isAttack(null) && context.game.getPile(c).getCount() > 0) {
+                if (Cards.isSupplyCard(c) && c.is(Type.Attack, null) && context.game.getPile(c).getCount() > 0) {
                     attackCardAvailable = true;
                     break;
                 }
@@ -334,7 +334,7 @@ public class CardImplDarkAges extends CardImpl {
             int idx = currentPlayer.playedCards.lastIndexOf(this);
             if (idx >= 0) currentPlayer.playedCards.remove(idx);
             currentPlayer.trash(this, null, context);
-        } else if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
+        } else if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
             if (!this.controlCard.movedToNextTurnPile) {
                 this.controlCard.movedToNextTurnPile = true;
                 int idx = currentPlayer.playedCards.lastIndexOf(this);
@@ -1330,7 +1330,7 @@ public class CardImplDarkAges extends CardImpl {
                     targetPlayer.trash(cardToTrash, this.controlCard, targetContext);
 
                     // If the card trashed was a knight, the attacking knight should be trashed as well
-                    if (cardToTrash.isKnight(targetPlayer) && currentPlayer.playedCards.contains(this.controlCard) && currentPlayer.playedCards.getLastCard() == this.controlCard) {
+                    if (cardToTrash.is(Type.Knight, targetPlayer) && currentPlayer.playedCards.contains(this.controlCard) && currentPlayer.playedCards.getLastCard() == this.controlCard) {
                         currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), cardToTrash, context);
                     }
                 }
