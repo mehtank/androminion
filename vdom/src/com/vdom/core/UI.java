@@ -325,7 +325,7 @@ public class UI extends JFrame implements GameEventListener {
             sleep(GAME_END_SLEEP);
         }
 
-        if ((event.getType() == GameEvent.EventType.PlayingAction || event.getType() == GameEvent.EventType.PlayingDurationAction || event.getType() == GameEvent.EventType.CallingCard)
+        if ((event.getType() == GameEvent.EventType.PlayingCard || event.getType() == GameEvent.EventType.PlayingDurationAction || event.getType() == GameEvent.EventType.CallingCard)
             && event.getPlayer() == Game.players[Game.playersTurn]) {
             // System.out.println("playing action:" + event.getCard().getName());
             showHand(Game.players[Game.playersTurn]);
@@ -333,7 +333,7 @@ public class UI extends JFrame implements GameEventListener {
             sleep(PLAYING_ACTION_SLEEP);
         }
 
-        if ((event.getType() == GameEvent.EventType.PlayedAction) && event.getPlayer() == Game.players[Game.playersTurn]) {
+        if ((event.getType() == GameEvent.EventType.PlayedCard) && event.getPlayer() == Game.players[Game.playersTurn]) {
             // System.out.println("played action:" + event.getCard().getName());
             showHand(Game.players[Game.playersTurn]);
             sleep(ACTION_PLAYED_SLEEP);
@@ -366,13 +366,6 @@ public class UI extends JFrame implements GameEventListener {
 
             showHand(Game.players[Game.playersTurn]);
             sleep(CARD_REMOVED_FROM_HAND_SLEEP);
-        }
-
-        if ((event.getType() == GameEvent.EventType.PlayingTreasure) && event.getPlayer() == Game.players[Game.playersTurn]) {
-            // System.out.println("playing coin:" + event.getCard().getName());
-            showHand(Game.players[Game.playersTurn]);
-            addCardToPlayedPanel(event.getCard());
-            sleep(COIN_PLAYED_SLEEP);
         }
     }
 

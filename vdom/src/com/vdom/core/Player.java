@@ -13,7 +13,6 @@ import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public abstract class Player {
@@ -107,8 +106,8 @@ public abstract class Player {
     public int getCurrencyTotal(MoveContext context) {
         int coin = 0;
         for (Card card : getAllCards()) {
-            if (card instanceof TreasureCard) {
-                coin += ((TreasureCard) card).getValue();
+            if (card.is(Type.Treasure, context.getPlayer())) {
+                coin += card.getAddGold();
                 if (card.getKind() == Cards.Kind.Bank) {
                    coin += 1;
                 }
@@ -210,6 +209,10 @@ public abstract class Player {
         }
 
         return false;
+    }
+    
+    public boolean inPlay(Card card) {
+    	return playedCards.contains(card) || nextTurnCards.contains(card); 
     }
 
     public boolean isInCardArray(Card card, Card[] list) {
@@ -394,18 +397,31 @@ public abstract class Player {
                     Card herbalist = findCard(context, Cards.herbalist);
                     playedCards.remove(herbalist);
                     discard(herbalist, null, null, false, true);
-                    ArrayList<TreasureCard> treasureCards = new ArrayList<TreasureCard>();
+                    ArrayList<Card> treasureCards = new ArrayList<Card>();
+                    //TODO: selecting card from right place - now there's a difference between treasures in play
+                    //      vs treasures that are in nextTurnCards (and a difference from next turn and permanent ones)
                     for(Card card : playedCards) {
-                        if(card instanceof TreasureCard) {
-                            treasureCards.add((TreasureCard) card);
+                        if(card.is(Type.Treasure, this)) {
+                            treasureCards.add(card);
+                        }
+                    }
+                    //TODO: make sure this works right with fake cards here and all
+                    for(Card card : nextTurnCards) {
+                        if(card.is(Type.Treasure, this)) {
+                            treasureCards.add(card);
                         }
                     }
 
                     if(treasureCards.size() > 0) {
-                        TreasureCard treasureCard = controlPlayer.herbalist_backOnDeck(context, treasureCards.toArray(new TreasureCard[0]));
-                        if(treasureCard != null && playedCards.contains(treasureCard)) {
-                            playedCards.remove(treasureCard);
-                            putBackCards.add(treasureCard);
+                        Card treasureCard = controlPlayer.herbalist_backOnDeck(context, treasureCards.toArray(new Card[0]));
+                        if(treasureCard != null && treasureCard.is(Type.Treasure, this)) {
+                        	if (nextTurnCards.contains(treasureCard)) {
+                        		nextTurnCards.remove(treasureCard);
+                        		putBackCards.add(treasureCard);
+                        	} else if (playedCards.contains(treasureCard)) {
+                        		playedCards.remove(treasureCard);
+                        		putBackCards.add(treasureCard);
+                        	}
                         }
                     }
                 } else if (putBackOption == PutBackOption.Action) {
@@ -779,13 +795,13 @@ public abstract class Player {
     	final Map<Card, Integer> cardCounts = new HashMap<Card, Integer>();
     	for (AbstractCardPile pile : this.game.piles.values()) {
             Card card = pile.card();
-            if(card instanceof TreasureCard) {
+            if(card.is(Type.Treasure, this)) {
                 cardCounts.put(card, 0);
             }
         }
 
         for(Card card : this.getAllCards()) {
-            if (card instanceof TreasureCard) {
+            if (card.is(Type.Treasure, this)) {
                 if(cardCounts.containsKey(card)) {
                     cardCounts.put(card, cardCounts.get(card) + 1);
                 } else {
@@ -796,15 +812,15 @@ public abstract class Player {
         return cardCounts;
     }
 
-    public int getCardCount(final Class<?> cardClass) {
-        return this.getCardCount(cardClass, getAllCards());
+    public int getCardCount(final Type cardType) {
+        return this.getCardCount(cardType, getAllCards());
     }
 
-    public int getCardCount(final Class<?> cardClass, ArrayList<Card> cards) {
+    public int getCardCount(final Type cardType, ArrayList<Card> cards) {
         int cardCount = 0;
 
         for (Card card : cards) {
-            if (cardClass.isInstance(card)) {
+            if (card.is(cardType, this)) {
                 cardCount++;
             }
         }
@@ -827,7 +843,7 @@ public abstract class Player {
     }
 
     public int getVictoryCardCount() {
-        return this.getCardCount(VictoryCard.class);
+        return this.getCardCount(Type.Victory);
     }
 
     public int getDistinctCardCount() {
@@ -1517,12 +1533,12 @@ public abstract class Player {
     public void newGame(MoveContext context) {
     }
 
-    public ArrayList<TreasureCard> getTreasuresInHand() {
-        ArrayList<TreasureCard> treasures = new ArrayList<TreasureCard>();
+    public ArrayList<Card> getTreasuresInHand() {
+        ArrayList<Card> treasures = new ArrayList<Card>();
 
         for (Card c : getHand())
-            if (c instanceof TreasureCard)
-                treasures.add((TreasureCard) c);
+            if (c.is(Type.Treasure, this))
+                treasures.add(c);
 
         return treasures;
     }
@@ -1571,15 +1587,15 @@ public abstract class Player {
 
     public abstract Card[] militia_attack_cardsToKeep(MoveContext context);
 
-    public abstract TreasureCard thief_treasureToTrash(MoveContext context, TreasureCard[] treasures);
+    public abstract Card thief_treasureToTrash(MoveContext context, Card[] treasures);
 
-    public abstract TreasureCard[] thief_treasuresToGain(MoveContext context, TreasureCard[] treasures);
+    public abstract Card[] thief_treasuresToGain(MoveContext context, Card[] treasures);
 
     public abstract boolean chancellor_shouldDiscardDeck(MoveContext context);
 
-    public abstract TreasureCard mine_treasureFromHandToUpgrade(MoveContext context);
+    public abstract Card mine_treasureFromHandToUpgrade(MoveContext context);
 
-    public abstract TreasureCard mine_treasureToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card mine_treasureToObtain(MoveContext context, int maxCost, boolean potion);
 
     public abstract Card[] chapel_cardsToTrash(MoveContext context);
 
@@ -1652,7 +1668,7 @@ public abstract class Player {
 
     public abstract boolean pirateShip_takeTreasure(MoveContext context);
 
-    public abstract TreasureCard pirateShip_treasureToTrash(MoveContext context, TreasureCard[] treasures);
+    public abstract Card pirateShip_treasureToTrash(MoveContext context, Card[] treasures);
 
     public abstract boolean nativeVillage_takeCards(MoveContext context);
 
@@ -1699,7 +1715,7 @@ public abstract class Player {
 
     public abstract boolean alchemist_backOnDeck(MoveContext context);
 
-    public abstract TreasureCard herbalist_backOnDeck(MoveContext context, TreasureCard[] cards);
+    public abstract Card herbalist_backOnDeck(MoveContext context, Card[] cards);
 
     public abstract Card apprentice_cardToTrash(MoveContext context);
 
@@ -1734,9 +1750,9 @@ public abstract class Player {
 
     public abstract Card throneRoom_cardToPlay(MoveContext context);
 
-    public abstract boolean loan_shouldTrashTreasure(MoveContext context, TreasureCard treasure);
+    public abstract boolean loan_shouldTrashTreasure(MoveContext context, Card treasure);
 
-    public abstract TreasureCard mint_treasureToMint(MoveContext context);
+    public abstract Card mint_treasureToMint(MoveContext context);
 
     public abstract boolean mountebank_attack_shouldDiscardCurse(MoveContext context);
 
@@ -1752,7 +1768,7 @@ public abstract class Player {
 
     public abstract WatchTowerOption watchTower_chooseOption(MoveContext context, Card card);
 
-    public abstract ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible);
+    public abstract ArrayList<Card> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Cornucopia
@@ -1792,7 +1808,7 @@ public abstract class Player {
 
     public abstract Card farmland_cardToObtain(MoveContext context, int cost, boolean potion);
 
-    public abstract TreasureCard stables_treasureToDiscard(MoveContext context);
+    public abstract Card stables_treasureToDiscard(MoveContext context);
 
     public abstract boolean duchess_shouldDiscardCardFromTopOfDeck(MoveContext context, Card card);
 
@@ -1810,13 +1826,13 @@ public abstract class Player {
 
     public abstract boolean foolsGold_shouldTrash(MoveContext context);
 
-    public abstract TreasureCard nobleBrigand_silverOrGoldToTrash(MoveContext context, TreasureCard[] silverOrGoldCards);
+    public abstract Card nobleBrigand_silverOrGoldToTrash(MoveContext context, Card[] silverOrGoldCards);
 
     public abstract boolean jackOfAllTrades_shouldDiscardCardFromTopOfDeck(MoveContext context, Card card);
 
     public abstract Card jackOfAllTrades_nonTreasureToTrash(MoveContext context);
 
-    public abstract TreasureCard spiceMerchant_treasureToTrash(MoveContext context);
+    public abstract Card spiceMerchant_treasureToTrash(MoveContext context);
 
     public abstract SpiceMerchantOption spiceMerchant_chooseOption(MoveContext context);
 
@@ -1921,7 +1937,7 @@ public abstract class Player {
 
     public abstract Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash);
 
-    public abstract TreasureCard counterfeit_cardToPlay(MoveContext context);
+    public abstract Card counterfeit_cardToPlay(MoveContext context);
 
     public abstract Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards);
 
@@ -1949,9 +1965,9 @@ public abstract class Player {
     public abstract int numGuildsCoinTokensToSpend(MoveContext context, int coinTokenTotal, boolean butcher);
     public abstract int amountToOverpay(MoveContext context, Card card, int cardCost);
     public abstract int overpayByPotions(MoveContext context, int availablePotions);
-    public abstract TreasureCard taxman_treasureToTrash(MoveContext context);
-    public abstract TreasureCard taxman_treasureToObtain(MoveContext context, int maxCost, boolean potion);
-    public abstract TreasureCard plaza_treasureToDiscard(MoveContext context);
+    public abstract Card taxman_treasureToTrash(MoveContext context);
+    public abstract Card taxman_treasureToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card plaza_treasureToDiscard(MoveContext context);
     public abstract Card butcher_cardToTrash(MoveContext context);
     public abstract Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion);
     public abstract Card advisor_cardToDiscard(MoveContext context, Card[] cards);
@@ -1978,7 +1994,7 @@ public abstract class Player {
     public abstract Card disciple_cardToPlay(MoveContext context);
     public abstract Card fugitive_cardToDiscard(MoveContext context);
     public abstract Card[] gear_cardsToSetAside(MoveContext context);
-    public abstract TreasureCard hero_treasureToObtain(MoveContext context);
+    public abstract Card hero_treasureToObtain(MoveContext context);
     public abstract boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange);
     public abstract Card messenger_cardToObtain(MoveContext context);
     public abstract boolean messenger_shouldDiscardDeck(MoveContext context);

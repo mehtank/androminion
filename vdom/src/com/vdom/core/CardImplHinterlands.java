@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.SpiceMerchantOption;
 
-public class CardImplHinterlands extends ActionCardImpl {
+public class CardImplHinterlands extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplHinterlands(CardImpl.Builder builder) {
@@ -33,6 +32,12 @@ public class CardImplHinterlands extends ActionCardImpl {
 		case Embassy:
             embassy(context, currentPlayer);
             break;
+		case FoolsGold:
+			foolsGold(context);
+			break;
+		case IllGottenGains:
+			illGottenGains(context, currentPlayer);
+			break;
 		case Inn:
             inn(context, currentPlayer);
             break;
@@ -78,6 +83,63 @@ public class CardImplHinterlands extends ActionCardImpl {
             case NobleBrigand:
                 nobleBrigandAttack(context, false);
                 break;
+            case Farmland:
+            	Player player = context.getPlayer();
+                if(player.getHand().size() > 0) {
+                    Card cardToTrash = player.controlPlayer.farmland_cardToTrash((MoveContext) context);
+
+                    if (cardToTrash == null) {
+                        Util.playerError(player, "Farmland did not return a card to trash, trashing random card.");
+                        cardToTrash = Util.randomCard(player.hand);
+                    }
+
+                    int cost = -1;
+                    boolean potion = false;
+                    for (int i = 0; i < player.hand.size(); i++) {
+                        Card playersCard = player.hand.get(i);
+                        if (playersCard.equals(cardToTrash)) {
+                            cost = playersCard.getCost(context);
+                            potion = playersCard.costPotion();
+                            playersCard = player.hand.remove(i);
+
+                            player.trash(playersCard, this, (MoveContext) context);
+                            break;
+                        }
+                    }
+
+                    if (cost == -1) {
+                        Util.playerError(player, "Farmland returned invalid card, ignoring.");
+                    } else {
+                        cost += 2;
+
+                        boolean validCard = false;
+                        
+                        for(Card c : context.getCardsInGame()) {
+                            if(Cards.isSupplyCard(c) && c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeftInPile(c) > 0) {
+                                validCard = true;
+                                break;
+                            }
+                        }
+
+                        if(validCard) {
+                            Card card = player.controlPlayer.farmland_cardToObtain((MoveContext) context, cost, potion);
+                            if (card != null) {
+                                // check cost
+                                if (card.getCost(context) != cost || card.costPotion() != potion) {
+                                    Util.playerError(player, "Farmland card to obtain returned an invalid card, ignoring.");
+                                } else {
+                                    if(player.gainNewCard(card, this, (MoveContext) context) == null) {
+                                        Util.playerError(player, "Farmland new card is invalid, ignoring.");
+                                    }
+                                }
+                            }
+                            else {
+                                //TODO: handle...
+                            }
+                        }
+                    }
+                }
+            	break;
             default:
                 break;
         }
@@ -345,6 +407,21 @@ public class CardImplHinterlands extends ActionCardImpl {
         }
     }
 	
+	protected void foolsGold(MoveContext context) {
+        context.foolsGoldPlayed++;
+        if (context.foolsGoldPlayed > 1) {
+            context.addCoins(3);
+        }
+    }
+	
+	private void illGottenGains(MoveContext context, Player player) {
+        if (context.getCardsLeftInPile(Cards.copper) > 0) {
+            if (player.controlPlayer.illGottenGains_gainCopper(context)) {
+                player.gainNewCard(Cards.copper, this, context);
+            }
+        }
+    }
+	
     private void inn(MoveContext context, Player currentPlayer) {
         Card[] cards;
         if (currentPlayer.hand.size() > 2) {
@@ -408,7 +485,7 @@ public class CardImplHinterlands extends ActionCardImpl {
         
         Card cardToTrash = currentPlayer.controlPlayer.jackOfAllTrades_nonTreasureToTrash(context);
         if(cardToTrash != null) {
-            if(!currentPlayer.hand.contains(cardToTrash) || cardToTrash instanceof TreasureCard) {
+            if(!currentPlayer.hand.contains(cardToTrash) || cardToTrash.is(Type.Treasure, currentPlayer)) {
                 Util.playerError(currentPlayer, "Jack of All Trades returned invalid card to trash from hand, ignoring.");
             }
             else {
@@ -453,7 +530,7 @@ public class CardImplHinterlands extends ActionCardImpl {
     private void nobleBrigandAttack(MoveContext moveContext, boolean defensible) {
         MoveContext context = moveContext;
         Player player = context.getPlayer();
-        ArrayList<TreasureCard> trashed = new ArrayList<TreasureCard>();
+        ArrayList<Card> trashed = new ArrayList<Card>();
         boolean[] gainCopper = new boolean[context.game.getPlayersInTurnOrder().length];
 
         int i = 0;
@@ -464,7 +541,7 @@ public class CardImplHinterlands extends ActionCardImpl {
                 MoveContext targetContext = new MoveContext(context.game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
                 boolean treasureRevealed = false;
-                ArrayList<TreasureCard> silverOrGold = new ArrayList<TreasureCard>();
+                ArrayList<Card> silverOrGold = new ArrayList<Card>();
 
                 List<Card> cardsToDiscard = new ArrayList<Card>();
                 for (int j = 0; j < 2; j++) {
@@ -474,12 +551,12 @@ public class CardImplHinterlands extends ActionCardImpl {
                     }
                     targetPlayer.reveal(card, this.controlCard, targetContext);
 
-                    if (card instanceof TreasureCard) {
+                    if (card.is(Type.Treasure, targetPlayer)) {
                         treasureRevealed = true;
                     }
 
                     if(card.equals(Cards.silver) || card.equals(Cards.gold)) {
-                        silverOrGold.add((TreasureCard) card);
+                        silverOrGold.add(card);
                     } else {
                         cardsToDiscard.add(card);
                     }
@@ -493,7 +570,7 @@ public class CardImplHinterlands extends ActionCardImpl {
                     gainCopper[i] = true;
                 }
 
-                TreasureCard cardToTrash = null;
+                Card cardToTrash = null;
 
                 if (silverOrGold.size() == 1) {
                     cardToTrash = silverOrGold.get(0);
@@ -502,8 +579,8 @@ public class CardImplHinterlands extends ActionCardImpl {
                         cardToTrash = silverOrGold.get(0);
                         targetPlayer.discard(silverOrGold.get(1), this.controlCard, targetContext);
                     } else {
-                        cardToTrash = (player).controlPlayer.nobleBrigand_silverOrGoldToTrash(moveContext, silverOrGold.toArray(new TreasureCard[] {}));
-                        for (TreasureCard c : silverOrGold) {
+                        cardToTrash = (player).controlPlayer.nobleBrigand_silverOrGoldToTrash(moveContext, silverOrGold.toArray(new Card[] {}));
+                        for (Card c : silverOrGold) {
                             if (!c.equals(cardToTrash)) {
                                 targetPlayer.discard(c, this.controlCard, targetContext);
                             }
@@ -614,16 +691,16 @@ public class CardImplHinterlands extends ActionCardImpl {
     private void spiceMerchant(Game game, MoveContext context, Player currentPlayer) {
         boolean handContainsTreasure = false;
         for(Card c : currentPlayer.hand) {
-            if(c instanceof TreasureCard) {
+            if(c.is(Type.Treasure, currentPlayer)) {
                 handContainsTreasure = true;
                 break;
             }
         }
 
         if(handContainsTreasure) {
-            TreasureCard treasure = currentPlayer.controlPlayer.spiceMerchant_treasureToTrash(context);
+            Card treasure = currentPlayer.controlPlayer.spiceMerchant_treasureToTrash(context);
             if(treasure != null) {
-                if(!currentPlayer.hand.contains(treasure)) {
+                if(!currentPlayer.hand.contains(treasure) || !treasure.is(Type.Treasure, currentPlayer)) {
                     Util.playerError(currentPlayer, "Spice Merchant returned invalid card to trash from hand, ignoring.");
                 }
                 else {
@@ -648,16 +725,16 @@ public class CardImplHinterlands extends ActionCardImpl {
     private void stables(Game game, MoveContext context, Player currentPlayer) {
         boolean valid = false;
         for(Card c : currentPlayer.hand) {
-            if(c instanceof TreasureCard) {
+            if(c.is(Type.Treasure, currentPlayer)) {
                 valid = true;
             }
         }
 
         if(valid) {
-            TreasureCard toDiscard = currentPlayer.controlPlayer.stables_treasureToDiscard(context);
+            Card toDiscard = currentPlayer.controlPlayer.stables_treasureToDiscard(context);
 
             // this.controlCard is optional, so ignore it if it's null or invalid
-            if (toDiscard != null && currentPlayer.hand.contains(toDiscard)) {
+            if (toDiscard != null && currentPlayer.hand.contains(toDiscard) && toDiscard.is(Type.Treasure, currentPlayer)) {
                 currentPlayer.hand.remove(toDiscard);
                 currentPlayer.reveal(toDiscard, this.controlCard, context);
                 currentPlayer.discard(toDiscard, this.controlCard, context);

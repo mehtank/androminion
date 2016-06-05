@@ -50,7 +50,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 		           currentPlayer.playedCards.add(this);
 		        }
     			
-			 	GameEvent event = new GameEvent(GameEvent.EventType.PlayingAction, (MoveContext) context);
+			 	GameEvent event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
 		 		event.card = this;
 		 		event.newCard = newCard;
 		 		game.broadcastEvent(event); 
@@ -85,7 +85,7 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
 			        }
 		        }
 		        
-		        event = new GameEvent(GameEvent.EventType.PlayedAction, (MoveContext) context);
+		        event = new GameEvent(GameEvent.EventType.PlayedCard, (MoveContext) context);
 		        event.card = this;
 		        game.broadcastEvent(event);
 		        
@@ -142,76 +142,5 @@ public class VictoryCardImpl extends CardImpl implements VictoryCard {
     }
 
     protected VictoryCardImpl() {
-    }
-
-    @Override
-    public void isBuying(MoveContext context) {
-        context.game.trashHovelsInHandOption(context.player, context, this);
-        
-        if (this.equals(Cards.estate)) {
-        	Card inheritance = context.getPlayer().getInheritance();
-        	if (inheritance != null) {
-        		inheritance.isBuying(context);
-        	}
-        } else if (this.equals(Cards.farmland)) {
-            Player player = context.getPlayer();
-            if(player.getHand().size() > 0) {
-                Card cardToTrash = player.controlPlayer.farmland_cardToTrash((MoveContext) context);
-
-                if (cardToTrash == null) {
-                    Util.playerError(player, "Farmland did not return a card to trash, trashing random card.");
-                    cardToTrash = Util.randomCard(player.hand);
-                }
-
-                int cost = -1;
-                boolean potion = false;
-                for (int i = 0; i < player.hand.size(); i++) {
-                    Card playersCard = player.hand.get(i);
-                    if (playersCard.equals(cardToTrash)) {
-                        cost = playersCard.getCost(context);
-                        potion = playersCard.costPotion();
-                        playersCard = player.hand.remove(i);
-
-                        player.trash(playersCard, this, (MoveContext) context);
-                        break;
-                    }
-                }
-
-                if (cost == -1) {
-                    Util.playerError(player, "Farmland returned invalid card, ignoring.");
-                }
-                else {
-                    cost += 2;
-
-                    boolean validCard = false;
-                    
-                    for(Card c : context.getCardsInGame()) {
-                        if(Cards.isSupplyCard(c) && c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeftInPile(c) > 0) {
-                            validCard = true;
-                            break;
-                        }
-                    }
-
-                    if(validCard) {
-                        Card card = player.controlPlayer.farmland_cardToObtain((MoveContext) context, cost, potion);
-                        if (card != null) {
-                            // check cost
-                            if (card.getCost(context) != cost || card.costPotion() != potion) {
-                                Util.playerError(player, "Farmland card to obtain returned an invalid card, ignoring.");
-                            }
-                            else
-                            {
-                                if(player.gainNewCard(card, this, (MoveContext) context) == null) {
-                                    Util.playerError(player, "Farmland new card is invalid, ignoring.");
-                                }
-                            }
-                        }
-                        else {
-                            //TODO: handle...
-                        }
-                    }
-                }
-            }
-        }
     }
 }

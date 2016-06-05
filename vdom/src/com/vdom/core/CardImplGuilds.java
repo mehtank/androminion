@@ -6,9 +6,8 @@ import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 
-public class CardImplGuilds extends ActionCardImpl {
+public class CardImplGuilds extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplGuilds(CardImpl.Builder builder) {
@@ -318,15 +317,15 @@ public class CardImplGuilds extends ActionCardImpl {
         boolean valid = false;
 
         for (Card c : currentPlayer.hand) {
-            if (c instanceof TreasureCard) {
+            if (c.is(Type.Treasure, currentPlayer)) {
                 valid = true;
             }
         }
 
         if (valid) {
-            TreasureCard toDiscard = currentPlayer.controlPlayer.plaza_treasureToDiscard(context);
+            Card toDiscard = currentPlayer.controlPlayer.plaza_treasureToDiscard(context);
 
-            if (toDiscard != null && currentPlayer.hand.contains(toDiscard)) {
+            if (toDiscard != null && currentPlayer.hand.contains(toDiscard) && toDiscard.is(Type.Treasure, currentPlayer)) {
                 currentPlayer.hand.remove(toDiscard);
                 currentPlayer.reveal(toDiscard, this.controlCard, context);
                 currentPlayer.discard(toDiscard, this.controlCard, context);
@@ -418,7 +417,7 @@ public class CardImplGuilds extends ActionCardImpl {
         if (currentPlayer.getHand().size() > 0) {
             Card card = currentPlayer.controlPlayer.taxman_treasureToTrash(context);
 
-            if (card != null) {
+            if (card != null && card.is(Type.Treasure, currentPlayer)) {
                 currentPlayer.hand.remove(card);
                 currentPlayer.trash(card, this.controlCard, context);
 
@@ -442,10 +441,10 @@ public class CardImplGuilds extends ActionCardImpl {
                     }
                 }
 
-                TreasureCard newCard = currentPlayer.controlPlayer.taxman_treasureToObtain(context, card.getCost(context) + 3, card.costPotion());
+                Card newCard = currentPlayer.controlPlayer.taxman_treasureToObtain(context, card.getCost(context) + 3, card.costPotion());
 
-                if (newCard != null && Cards.isSupplyCard(newCard) && newCard.getCost(context) <= card.getCost(context) + 3 && context.getCardsLeftInPile(newCard) > 0) {
-                    //context.player.putOnTopOfDeck(newCard);
+                if (newCard != null && Cards.isSupplyCard(newCard) && newCard.is(Type.Treasure, null) 
+                		&& newCard.getCost(context) <= card.getCost(context) + 3 && context.getCardsLeftInPile(newCard) > 0) {
                     currentPlayer.gainNewCard(newCard, this, context);
                 }
             }

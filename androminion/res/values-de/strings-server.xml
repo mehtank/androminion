@@ -131,10 +131,9 @@
 	<string name="NewHand">Neue Kartenhand</string>
 	<string name="TurnBegin">Zuganfang</string>
 	<string name="TurnEnd">Ende des Zuges</string>
-	<string name="PlayingAction">Spielt</string>
-	<string name="PlayedAction">Gespielt</string>
+	<string name="PlayingCard">Spielt</string>
+	<string name="PlayedCard">Gespielt</string>
 	<string name="PlayingDurationAction">Spielt Dauer</string>
-	<string name="PlayingCoin">Spielt</string>
 	<string name="BuyingCard">Kauft</string>
 	<string name="GuildsTokenObtained">Münze genommen</string>
 	<string name="GuildsTokenSpend">Münzen bezahlt</string>

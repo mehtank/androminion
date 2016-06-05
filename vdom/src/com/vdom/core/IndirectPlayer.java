@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.ActionType;
@@ -282,15 +281,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible) {
+    public ArrayList<Card> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible) {
     	// storyteller sets maxCards != -1
         if(context.isQuickPlay()) {
             return super.treasureCardsToPlayInOrder(context, maxCards, responsible);
         }
 
         int treasureCount = 0;
-        for (Card card : (context.player.isPossessed()) ? context.player.getHand() : getHand()) {
-            if (card instanceof TreasureCard) {
+        Player player = context.player.isPossessed() ? context.player : this;
+        for (Card card : player.getHand()) {
+            if (card.is(Type.Treasure, player)) {
                 treasureCount++;
             }
         }
@@ -309,10 +309,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         // Hack that tells us that "All" was selected
         if(cards.length == 0) {
         	if (maxCards != -1) { // storyteller
-                ArrayList<TreasureCard> treasures = new ArrayList<TreasureCard>();
+                ArrayList<Card> treasures = new ArrayList<Card>();
                 for (Card c : context.getPlayer().getHand()) {
-                    if(c instanceof TreasureCard) {
-                    	treasures.add((TreasureCard) c);
+                    if(c.is(Type.Treasure, context.getPlayer())) {
+                    	treasures.add(c);
                     }
                 }
                 return treasures;
@@ -320,9 +320,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 return super.treasureCardsToPlayInOrder(context, maxCards, responsible);
         }
 
-        ArrayList<TreasureCard> treasures = new ArrayList<TreasureCard>();
+        ArrayList<Card> treasures = new ArrayList<Card>();
         for (int i = 0; i < cards.length; i++) {
-            treasures.add((TreasureCard) cards[i]);
+            treasures.add(cards[i]);
         }
         return treasures;
     }
@@ -371,13 +371,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard mine_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
+    public Card mine_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
         if(context.isQuickPlay() && shouldAutoPlay_mine_treasureToObtain(context, maxCost, potion)) {
             return super.mine_treasureToObtain(context, maxCost, potion);
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost)
                 .potionCost(potion ? 1 : 0).setCardResponsible(Cards.mine);
-        return (TreasureCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
@@ -399,13 +399,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard mine_treasureFromHandToUpgrade(MoveContext context) {
+    public Card mine_treasureFromHandToUpgrade(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_mine_treasureFromHandToUpgrade(context)) {
             return super.mine_treasureFromHandToUpgrade(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure().setPickType(PickType.UPGRADE)
                 .setCardResponsible(Cards.mine);
-        return (TreasureCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -986,7 +986,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard herbalist_backOnDeck(MoveContext context, TreasureCard[] cards) {
+    public Card herbalist_backOnDeck(MoveContext context, Card[] cards) {
         if(context.isQuickPlay() && shouldAutoPlay_herbalist_backOnDeck(context, cards)) {
             return super.herbalist_backOnDeck(context, cards);
         }
@@ -1155,7 +1155,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean loan_shouldTrashTreasure(MoveContext context, TreasureCard treasure) {
+    public boolean loan_shouldTrashTreasure(MoveContext context, Card treasure) {
         if(context.isQuickPlay() && shouldAutoPlay_loan_shouldTrashTreasure(context, treasure)) {
             return super.loan_shouldTrashTreasure(context, treasure);
         }
@@ -1166,14 +1166,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard mint_treasureToMint(MoveContext context) {
+    public Card mint_treasureToMint(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_mint_treasureToMint(context)) {
             return super.mint_treasureToMint(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure().isSupplyCard()
                 .setPassable().setPickType(PickType.MINT)
                 .setCardResponsible(Cards.mint);
-        return (TreasureCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1408,7 +1408,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard thief_treasureToTrash(MoveContext context, TreasureCard[] treasures) {
+    public Card thief_treasureToTrash(MoveContext context, Card[] treasures) {
         if(context.isQuickPlay() && shouldAutoPlay_thief_treasureToTrash(context, treasures)) {
             return super.thief_treasureToTrash(context, treasures);
         }
@@ -1416,29 +1416,29 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard[] thief_treasuresToGain(MoveContext context, TreasureCard[] treasures) {
+    public Card[] thief_treasuresToGain(MoveContext context, Card[] treasures) {
         if(context.isQuickPlay() && shouldAutoPlay_thief_treasuresToGain(context, treasures)) {
             return super.thief_treasuresToGain(context, treasures);
         }
         ArrayList<Card> options = new ArrayList<Card>();
         options.add(null);
-        for (TreasureCard c : treasures)
+        for (Card c : treasures)
             options.add(c);
 
-        ArrayList<TreasureCard> toGain = new ArrayList<TreasureCard>();
+        ArrayList<Card> toGain = new ArrayList<Card>();
 
         while (options.size() > 1) {
             int o = selectOption(context, Cards.thief, options.toArray());
             if (o == 0) break;
-            toGain.add((TreasureCard) options.get(o));
+            toGain.add(options.get(o));
             options.remove(o);
         }
 
-        return toGain.toArray(new TreasureCard[0]);
+        return toGain.toArray(new Card[0]);
     }
 
     @Override
-    public TreasureCard pirateShip_treasureToTrash(MoveContext context, TreasureCard[] treasures) {
+    public Card pirateShip_treasureToTrash(MoveContext context, Card[] treasures) {
         if(context.isQuickPlay() && shouldAutoPlay_pirateShip_treasureToTrash(context, treasures)) {
             return super.pirateShip_treasureToTrash(context, treasures);
         }
@@ -1553,13 +1553,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard nobleBrigand_silverOrGoldToTrash(MoveContext context, TreasureCard[] silverOrGoldCards) {
+    public Card nobleBrigand_silverOrGoldToTrash(MoveContext context, Card[] silverOrGoldCards) {
         if(context.isQuickPlay() && shouldAutoPlay_nobleBrigand_silverOrGoldToTrash(context, silverOrGoldCards)) {
             return super.nobleBrigand_silverOrGoldToTrash(context, silverOrGoldCards);
         }
 
         if(silverOrGoldCards[0].getCost(context) >= silverOrGoldCards[1].getCost(context)) {
-            TreasureCard tmp = silverOrGoldCards[0];
+            Card tmp = silverOrGoldCards[0];
             silverOrGoldCards[0] = silverOrGoldCards[1];
             silverOrGoldCards[1] = tmp;
         }
@@ -1599,14 +1599,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard spiceMerchant_treasureToTrash(MoveContext context) {
+    public Card spiceMerchant_treasureToTrash(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_spiceMerchant_treasureToTrash(context)) {
             return super.spiceMerchant_treasureToTrash(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure()
                 .setPassable().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.spiceMerchant);
-        return (TreasureCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -1770,9 +1770,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard stables_treasureToDiscard(MoveContext context) {
+    public Card stables_treasureToDiscard(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_stables_treasureToDiscard(context)) {
-            TreasureCard card = super.stables_treasureToDiscard(context);
+            Card card = super.stables_treasureToDiscard(context);
             if (card != null) {
                 return card;
             }
@@ -1780,7 +1780,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isTreasure()
                 .setPassable().setPickType(PickType.DISCARD)
                 .setActionType(ActionType.DISCARD).setCardResponsible(Cards.stables);
-        return (TreasureCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -2197,14 +2197,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard counterfeit_cardToPlay(MoveContext context) {
+    public Card counterfeit_cardToPlay(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_masquerade_cardToTrash(context)) {
             return super.counterfeit_cardToPlay(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure()
                 .setPassable().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.counterfeit);
-        return (TreasureCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -2476,29 +2476,29 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public TreasureCard taxman_treasureToTrash(MoveContext context)
+    public Card taxman_treasureToTrash(MoveContext context)
     {
         SelectCardOptions sco = new SelectCardOptions().isTreasure()
                 .setPassable().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.taxman);
-        return (TreasureCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
-    public TreasureCard taxman_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
+    public Card taxman_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
         if(context.isQuickPlay() && shouldAutoPlay_taxman_treasureToObtain(context, maxCost, potion)) {
             return super.taxman_treasureToObtain(context, maxCost, potion);
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost)
                 .potionCost(potion ? 1 : 0)
                 .setCardResponsible(Cards.taxman);
-        return (TreasureCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
 
     @Override
-    public TreasureCard plaza_treasureToDiscard(MoveContext context) {
+    public Card plaza_treasureToDiscard(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_stables_treasureToDiscard(context)) {
-            TreasureCard card = super.plaza_treasureToDiscard(context);
+           Card card = super.plaza_treasureToDiscard(context);
             if (card != null) {
                 return card;
             }
@@ -2506,7 +2506,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isTreasure()
                 .setPassable().setPickType(PickType.DISCARD)
                 .setActionType(ActionType.DISCARD).setCardResponsible(Cards.plaza);
-        return (TreasureCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override
@@ -2771,14 +2771,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public TreasureCard hero_treasureToObtain(MoveContext context) {
+    public Card hero_treasureToObtain(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_hero_treasureToObtain(context)) {
             return super.hero_treasureToObtain(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure()
         		.setActionType(ActionType.GAIN)
         		.setCardResponsible(Cards.hero);
-        return (TreasureCard) getFromTable(context, sco);
+        return getFromTable(context, sco);
     }
     
     @Override

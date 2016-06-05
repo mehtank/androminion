@@ -9,7 +9,6 @@ import java.util.Random;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
@@ -75,7 +74,7 @@ public class VDomPlayerEarl extends BasePlayer
                     this.historyItems.add(new HistoryItem(this.turnCount, thisCard, card.getVictoryPoints(), HistoryItem.Action.VICTORY_HELPER));
        }
      }
-     else if (event.getType() == GameEvent.EventType.PlayingAction) {
+     else if (event.getType() == GameEvent.EventType.PlayingCard) {
        this.historyItems.add(new HistoryItem(this.turnCount, event.getCard(), 0, HistoryItem.Action.PLAYED));
      } else if (event.getType() == GameEvent.EventType.GameOver) {
        Player player = event.getContext().getPlayer();
@@ -847,20 +846,20 @@ public class VDomPlayerEarl extends BasePlayer
      return false;
    }
  
-   public TreasureCard mine_treasureFromHandToUpgrade(MoveContext context) {
+   public Card mine_treasureFromHandToUpgrade(MoveContext context) {
      Card[] hand = getHand().toArray();
      int silvers = 0;
  
      for (Card card : hand) {
        if (card.equals(Cards.copper))
-         return ((TreasureCard)card);
+         return card;
        if (card.equals(Cards.silver)) {
          ++silvers;
        }
      }
  
      if (silvers > 0) {
-       return ((TreasureCard)Cards.silver);
+       return Cards.silver;
      }
  
      return null;

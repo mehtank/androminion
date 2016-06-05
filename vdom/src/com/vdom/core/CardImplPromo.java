@@ -6,7 +6,7 @@ import java.util.Collections;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 
-public class CardImplPromo extends ActionCardImpl {
+public class CardImplPromo extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplPromo(CardImpl.Builder builder) {
@@ -176,14 +176,14 @@ public class CardImplPromo extends ActionCardImpl {
                 game.drawToHand(context, this, 3);
                 game.drawToHand(context, this, 2);
                 game.drawToHand(context, this, 1);
-                for (Player player : getAllPlayers()) {
+                for (Player player : game.getPlayersInTurnOrder()) {
                     if (player != context.getPlayer()) {
                         game.drawToHand(new MoveContext(game, player), this, 1);
                     }
                 }
             } else if (option == Player.GovernorOption.GainTreasure) {
                 currentPlayer.gainNewCard(Cards.gold, this.controlCard, context);
-                for (Player player : getAllPlayers()) {
+                for (Player player : game.getPlayersInTurnOrder()) {
                     if (player != context.getPlayer()) {
                         player.gainNewCard(Cards.silver, this.controlCard, new MoveContext(game, player));
                     }
@@ -211,7 +211,7 @@ public class CardImplPromo extends ActionCardImpl {
                        }
                     }
                 }
-                for (Player player : getAllPlayers()) {
+                for (Player player : game.getPlayersInTurnOrder()) {
                     if (player != context.getPlayer()) {
                         MoveContext playerContext = new MoveContext(game, player);
                         if (player.getHand().size() > 0) {

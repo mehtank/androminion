@@ -8,11 +8,10 @@ import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.MoveContext.PileSelection;
 
-public class CardImplDarkAges extends ActionCardImpl {
+public class CardImplDarkAges extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplDarkAges(CardImpl.Builder builder) {
@@ -43,6 +42,9 @@ public class CardImplDarkAges extends ActionCardImpl {
         case Count:
             count(currentPlayer, context);
             break;
+        case Counterfeit:
+        	counterfeit(context, game, currentPlayer);
+        	break;
         case Cultist:
             cultist(context, game, currentPlayer);
             break;
@@ -124,6 +126,9 @@ public class CardImplDarkAges extends ActionCardImpl {
         case SirVander:
             knight(context, currentPlayer);
             break;
+        case Spoils:
+        	spoils(game, currentPlayer);
+        	break;
         case Squire:
             squire(context, currentPlayer);
             break;            
@@ -146,6 +151,117 @@ public class CardImplDarkAges extends ActionCardImpl {
 			break;
         
 		}
+	}
+	
+	@Override
+	public void isTrashed(MoveContext context) {
+		Cards.Kind trashKind = this.controlCard.getKind();
+    	if (this.controlCard.equals(Cards.estate) && context.player.getInheritance() != null) {
+    		trashKind = context.player.getInheritance().getKind();
+    	}
+    	
+    	switch (trashKind) {
+        case Rats:
+            context.game.drawToHand(context, this, 1, true);
+            break;
+        case Squire:
+            // Need to ensure that there is at least one Attack card that can be gained,
+            // otherwise this.controlCard choice should be bypassed.
+            boolean attackCardAvailable = false;
+
+            for (Card c : context.game.getCardsInGame())
+            {
+                if (Cards.isSupplyCard(c) && c.isAttack(null) && context.game.getPile(c).getCount() > 0) {
+                    attackCardAvailable = true;
+                    break;
+                }
+            }
+
+            if (attackCardAvailable)
+            {
+                Card s = context.player.controlPlayer.squire_cardToObtain(context);
+
+                if (s != null) 
+                {
+                    context.player.controlPlayer.gainNewCard(s, this.controlCard, context);
+                }
+            }
+            break;
+        case Catacombs:
+        	int cost = this.controlCard.equals(Cards.estate) ? this.controlCard.getCost(context) : this.getCost(context);
+        	cost--;
+        	if (cost >= 0) {
+                Card c = context.player.controlPlayer.catacombs_cardToObtain(context, cost);
+                if (c != null) {
+                    context.player.controlPlayer.gainNewCard(c, this.controlCard, context);
+                }
+        	}
+            break;
+        case HuntingGrounds:
+              // Wiki: If you trash Hunting Grounds and the Duchy pile is empty,
+              // you can still choose Duchy (and gain nothing). 
+            int duchyCount      = context.game.getPile(Cards.duchy).getCount();
+            int estateCount     = context.game.getPile(Cards.estate).getCount();
+            boolean gainDuchy   = false;
+            boolean gainEstates = false;
+
+            if (duchyCount > 0 || estateCount > 0)
+            {
+                Player.HuntingGroundsOption option = context.player.controlPlayer.huntingGrounds_chooseOption(context);
+                if (option != null) {
+                    switch (option) {
+                        case GainDuchy:
+                            gainDuchy = true;
+                            break;
+                        case GainEstates:
+                            gainEstates = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            
+            if (gainDuchy)
+            {
+                context.player.controlPlayer.gainNewCard(Cards.duchy, this.controlCard, context);
+            }
+            else if (gainEstates)
+            {
+                context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
+                context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
+                context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
+            }
+
+            break;
+        case Fortress:
+        	//TODO: if Possessed, give choice of whether to put in hand or set aside card
+            context.game.trashPile.remove(this.controlCard);
+            context.player.hand.add(this.controlCard);
+            break;
+        case Cultist:
+            context.game.drawToHand(context, this, 3, false);
+            context.game.drawToHand(context, this, 2, false);
+            context.game.drawToHand(context, this, 1, false);
+            break;
+        case SirVander:
+            context.player.controlPlayer.gainNewCard(Cards.gold, this.controlCard, context);
+            break;
+        case OvergrownEstate:
+            context.game.drawToHand(context, controlCard, 1);
+            break;
+        case Feodum:
+            context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+            context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+            context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
+            break;
+        default:
+            break;
+	    }
+	    
+	    // card left play - stop any impersonations
+	    this.controlCard.stopImpersonatingCard();
+	    this.controlCard.stopInheritingCardAbilities();
 	}
 	
 	private void altar(Player currentPlayer, MoveContext context) {
@@ -354,9 +470,32 @@ public class CardImplDarkAges extends ActionCardImpl {
         }
     }
     
+    private void counterfeit(MoveContext context, Game game, Player currentPlayer) {
+        Card treasure = currentPlayer.controlPlayer.counterfeit_cardToPlay(context);
+    	
+    	if (treasure != null && treasure.is(Type.Treasure, currentPlayer)) {
+    		CardImpl cardToPlay = (CardImpl) treasure;
+            cardToPlay.cloneCount = 2;
+            for (int i = 0; i < cardToPlay.cloneCount;) {
+                cardToPlay.numberTimesAlreadyPlayed = i++;
+                cardToPlay.play(context.game, context);
+            }
+            
+            cardToPlay.cloneCount = 0;
+            cardToPlay.numberTimesAlreadyPlayed = 0;    		
+            
+            if (currentPlayer.inPlay(treasure)) {
+            	if (currentPlayer.playedCards.getLastCard().equals(treasure)) {
+                	currentPlayer.playedCards.remove(treasure);
+                	currentPlayer.trash(treasure, this, context);
+                }
+            }
+    	}
+    }
+    
     private void cultist(MoveContext context, Game game, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -448,7 +587,7 @@ public class CardImplDarkAges extends ActionCardImpl {
                 break;
             }
 
-            if (card instanceof TreasureCard) {
+            if (card.is(Type.Treasure, null)) {
                 cardNames.add(card.getName());
             }
         }
@@ -505,7 +644,7 @@ public class CardImplDarkAges extends ActionCardImpl {
 
         Set<Card> inDiscard = new HashSet<Card>();
         for (Card c : currentPlayer.discard) {
-            if (!(c instanceof TreasureCard)) {
+            if (!(c.is(Type.Treasure, currentPlayer))) {
                 inDiscard.add(c);
             }
         }
@@ -514,7 +653,7 @@ public class CardImplDarkAges extends ActionCardImpl {
 
         Set<Card> inHand = new HashSet<Card>();
         for (Card c: currentPlayer.hand) {
-            if (!(c instanceof TreasureCard)) {
+            if (!(c.is(Type.Treasure, currentPlayer))) {
                 inHand.add(c);
             }
         }
@@ -567,7 +706,7 @@ public class CardImplDarkAges extends ActionCardImpl {
             if (card.isAction(currentPlayer)) {
                 context.actions += 1;
             }
-            if (card instanceof TreasureCard) {
+            if (card.is(Type.Treasure, currentPlayer)) {
                 context.addCoins(1);
             }
             if (card instanceof VictoryCard) {
@@ -608,7 +747,7 @@ public class CardImplDarkAges extends ActionCardImpl {
 
         for (Player player : game.getPlayersInTurnOrder()) 
         {
-            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) 
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) 
             {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
@@ -735,7 +874,7 @@ public class CardImplDarkAges extends ActionCardImpl {
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card card = currentPlayer.hand.get(i);
             currentPlayer.reveal(card, this.controlCard, context);
-            if (card instanceof TreasureCard) {
+            if (card.is(Type.Treasure, currentPlayer)) {
                 treasures++;
             }
         }
@@ -953,6 +1092,13 @@ public class CardImplDarkAges extends ActionCardImpl {
         }
 
         knight(context, currentPlayer);
+    }
+    
+    private void spoils(Game game, Player currentPlayer) {
+    	if (isInPlay(currentPlayer)) {
+    		AbstractCardPile pile = game.getPile(this);
+            pile.addCard(currentPlayer.playedCards.remove(currentPlayer.playedCards.indexOf(this.getId())));
+    	}
     }
     
     private void squire(MoveContext context, Player currentPlayer) {

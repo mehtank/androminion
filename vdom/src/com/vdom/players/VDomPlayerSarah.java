@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.EventCard;
 import com.vdom.api.GameType;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
 import com.vdom.core.Expansion;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
+import com.vdom.core.Type;
 
 public class VDomPlayerSarah extends BasePlayer {
     protected Random rand = new Random(System.currentTimeMillis());
@@ -491,7 +490,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 context.getEmbargosIfCursesLeft(card) > 0 ||
-                !(card.isAction(context.player)) && !(card instanceof TreasureCard) && !(card instanceof EventCard);
+                !(card.isAction(context.player)) && !(card.is(Type.Treasure, null)) && !(card instanceof EventCard);
     }
 
     @Override
@@ -636,15 +635,14 @@ public class VDomPlayerSarah extends BasePlayer {
     }
     
     @Override
-    public ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible) {
+    public ArrayList<Card> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible) {
         if(context.cardInGame(Cards.grandMarket)) {
-            final ArrayList<TreasureCard> cards = new ArrayList<TreasureCard>();
+            final ArrayList<Card> cards = new ArrayList<Card>();
             int coinWithoutCopper = 0;
             for(final Card c : context.getPlayer().getHand()) {
-                if(c instanceof TreasureCard && !c.equals(Cards.copper)) {
-                    final TreasureCard tc = (TreasureCard) c;
-                    cards.add(tc);
-                    coinWithoutCopper += tc.getValue();
+                if(c.is(Type.Treasure, this) && !c.equals(Cards.copper)) {
+                    cards.add(c);
+                    coinWithoutCopper += c.getAddGold();
                 }
             }
             

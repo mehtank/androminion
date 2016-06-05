@@ -11,7 +11,6 @@ import com.vdom.api.EventCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
@@ -183,10 +182,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             card.isVictory = true;
             card.vp = ((VictoryCard) c).getVictoryPoints();
         }
-        if (c instanceof TreasureCard) {
-        	TreasureCard tc = (TreasureCard) c;
+        if (c.is(Type.Treasure, null)) {
             card.isTreasure = true;
-            card.gold = tc.getValue();
+            card.gold = c.getAddGold();
         }
         if (c.isAction(null)) {
             card.isAction = true;
@@ -693,10 +691,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(islandSize);
             int nativeVillageSize = event.player.nativeVillage.size();
             extras.add(nativeVillageSize);
-        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingAction || event.getType() == EventType.PlayingDurationAction || event.getType() == EventType.CallingCard) {
-            playedCards.add(event.getCard());
-            playedCardsNew.add(event.newCard);
-        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingTreasure) {
+        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingCard || event.getType() == EventType.PlayingDurationAction || event.getType() == EventType.CallingCard) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
         } else if (event.getType() == EventType.GameOver) {

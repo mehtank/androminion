@@ -6,12 +6,11 @@ import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.QuestOption;
 
-public class CardImplAdventures extends ActionCardImpl {
+public class CardImplAdventures extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplAdventures(CardImpl.Builder builder) {
@@ -30,6 +29,9 @@ public class CardImplAdventures extends ActionCardImpl {
         case BridgeTroll:
         	bridgeTroll(game, context, currentPlayer);
             break;
+        case CoinOfTheRealm:
+        	putOnTavern(game, context, currentPlayer);
+        	break;
         case Disciple:
         	disciple(game, context, currentPlayer);
             break;
@@ -76,6 +78,9 @@ public class CardImplAdventures extends ActionCardImpl {
         case Raze:
         	raze(game, context, currentPlayer);
         	break;
+        case Relic:
+        	relic(context, currentPlayer, game);
+        	break;
         case Soldier:
             soldier(game, context, currentPlayer);
             break;
@@ -88,6 +93,9 @@ public class CardImplAdventures extends ActionCardImpl {
         case TreasureHunter:
         	treasureHunter(game, context, currentPlayer);
             break;
+        case TreasureTrove:
+        	treasureTrove(context, currentPlayer, game);
+        	break;
         case Warrior:
         	warrior(game, context, currentPlayer);
             break;
@@ -296,7 +304,7 @@ public class CardImplAdventures extends ActionCardImpl {
         if (cards != null) {
             for (Card card : cards) {
                 if (card != null) {
-                	if (hand(currentPlayer).remove(card)) {
+                	if (currentPlayer.getHand().remove(card)) {
 	                    currentPlayer.discard(card, this.controlCard, context);
 	                    numberOfCards++;
                 	}
@@ -371,7 +379,7 @@ public class CardImplAdventures extends ActionCardImpl {
             for (Card card : cards) {
                 if (card != null) {
                 	cardSetAside = true;
-                    hand(currentPlayer).remove(card);
+                    currentPlayer.getHand().remove(card);
                     gearCards.add(card);
                     GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideGear, (MoveContext) context);
                     event.card = card;
@@ -446,13 +454,13 @@ public class CardImplAdventures extends ActionCardImpl {
     	if (numTreasuresAvailable == 0)
     		return;
     	
-    	TreasureCard newCard = currentPlayer.controlPlayer.hero_treasureToObtain(context);
+    	Card newCard = currentPlayer.controlPlayer.hero_treasureToObtain(context);
     	
-        if (!(newCard != null && Cards.isSupplyCard(newCard) && context.getCardsLeftInPile(newCard) > 0)) {
+        if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && context.getCardsLeftInPile(newCard) > 0)) {
             Util.playerError(currentPlayer, "Hero treasure to obtain was invalid, picking random treasure from table.");
             for (Card treasureCard : context.getTreasureCardsInGame()) {
                 if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0) {
-                    newCard = (TreasureCard) treasureCard;
+                    newCard = treasureCard;
                     break;
                 }
             }
@@ -466,7 +474,7 @@ public class CardImplAdventures extends ActionCardImpl {
         Card c = game.draw(context, Cards.magpie, 1);
         if (c != null) {
             currentPlayer.reveal(c, this.controlCard, context);
-            if (c instanceof TreasureCard) {
+            if (c.is(Type.Treasure, currentPlayer)) {
                 currentPlayer.hand.add(c);
             } else {
                 currentPlayer.putOnTopOfDeck(c, context, true);
@@ -512,7 +520,9 @@ public class CardImplAdventures extends ActionCardImpl {
 
     private void ranger(Game game, MoveContext context, Player currentPlayer) {
         if(currentPlayer.flipJourneyToken(context)) {
-            drawToHand(context, this, 5);
+        	for (int i=0; i < 5; i++) {
+                context.game.drawToHand(context, this, 5 - i);
+            }
         }
     }
     
@@ -578,6 +588,22 @@ public class CardImplAdventures extends ActionCardImpl {
 	            }
     		}
     	}
+    }
+    
+    protected void relic(MoveContext context, Player player, Game game) {
+        ArrayList<Player> playersToAttack = new ArrayList<Player>();
+        for (Player targetPlayer : game.getPlayersInTurnOrder()) {
+            if (targetPlayer != player && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
+                playersToAttack.add(targetPlayer);
+            }
+        }
+
+        for (Player targetPlayer : playersToAttack) {
+            targetPlayer.attacked(this.controlCard, context);
+            MoveContext targetContext = new MoveContext(context.game, targetPlayer);
+            targetContext.attackedPlayer = targetPlayer;
+        	targetPlayer.setMinusOneCardToken(true, targetContext);
+        }
     }
     
     private void royalCarriage(Card resolvedAction, MoveContext context, Game game, Player currentPlayer) {
@@ -718,6 +744,11 @@ public class CardImplAdventures extends ActionCardImpl {
         }
     }
     
+    protected void treasureTrove(MoveContext context, Player player, Game game) {
+        context.getPlayer().gainNewCard(Cards.gold, this.controlCard, context); 
+        context.getPlayer().gainNewCard(Cards.copper, this.controlCard, context);
+    }  
+    
     private void warrior(Game game, MoveContext context, Player currentPlayer) {
     	ArrayList<Player> attackedPlayers = new ArrayList<Player>();
     	for (Player player : context.game.getPlayersInTurnOrder()) {
@@ -770,7 +801,13 @@ public class CardImplAdventures extends ActionCardImpl {
     public void alms(MoveContext context) {
     	boolean noTreasureCard = true;
         for(Card card : context.player.playedCards) {
-            if (card instanceof TreasureCard) {
+            if (card.is(Type.Treasure, context.getPlayer())) {
+            	noTreasureCard = false;
+            	break;
+            }
+        }
+        for(Card card : context.player.nextTurnCards) {
+            if (card.is(Type.Treasure, context.getPlayer())) {
             	noTreasureCard = false;
             	break;
             }

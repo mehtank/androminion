@@ -27,6 +27,7 @@ import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
 import com.vdom.core.Cards;
 import com.vdom.core.IndirectPlayer;
+import com.vdom.core.Type;
 import com.vdom.core.IndirectPlayer.StashOption;
 import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.CountFirstOption;
@@ -270,10 +271,10 @@ public class Strings {
             statusText += getString(R.string.PlayerDefended);
         } else if (event.gameEventType == GameEvent.EventType.CardOnTopOfDeck) {
             statusText += getString(R.string.CardOnTopOfDeck);
-        } else if (event.gameEventType == GameEvent.EventType.PlayingAction) {
-            statusText += getString(R.string.PlayingAction);
-        } else if (event.gameEventType == GameEvent.EventType.PlayedAction) {
-            statusText += getString(R.string.PlayedAction);
+        } else if (event.gameEventType == GameEvent.EventType.PlayingCard) {
+            statusText += getString(R.string.PlayingCard);
+        } else if (event.gameEventType == GameEvent.EventType.PlayedCard) {
+            statusText += getString(R.string.PlayedCard);
         } else if (event.gameEventType == GameEvent.EventType.PlayingDurationAction) {
             statusText += getString(R.string.PlayingDurationAction);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAside) {
@@ -313,8 +314,6 @@ public class Strings {
             statusText += getString(R.string.MinusOneCardTokenOn);
         } else if (event.gameEventType == GameEvent.EventType.MinusOneCardTokenOff) {
             statusText += getString(R.string.MinusOneCardTokenOff);
-        } else if (event.gameEventType == GameEvent.EventType.PlayingTreasure) {
-            statusText += getString(R.string.PlayingCoin);
         } else if (event.gameEventType == GameEvent.EventType.TurnEnd) {
             /* end of turn: inform about cards on island and nativeVillage */
             String tmp = statusText;
@@ -439,8 +438,8 @@ public class Strings {
             else if (((VictoryCard) c).getVictoryPoints() < 0)
                 ret = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
         }
-        if (c instanceof TreasureCard) {
-        	int value = ((TreasureCard) c).getValue();
+        if (c.is(Type.Treasure, null)) {
+        	int value = c.getAddGold();
         	if (value == 1)
         		ret = Strings.format(R.string.coin_worth_single, "" + value) + "\n" + ret;
         	else

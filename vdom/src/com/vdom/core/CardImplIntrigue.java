@@ -6,10 +6,9 @@ import java.util.Collections;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
-public class CardImplIntrigue extends ActionCardImpl {
+public class CardImplIntrigue extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplIntrigue(CardImpl.Builder builder) {
@@ -141,7 +140,7 @@ public class CardImplIntrigue extends ActionCardImpl {
                 if (card.isAction(currentPlayer)) {
                     context.actions++;
                 }
-                if (card instanceof TreasureCard) {
+                if (card.is(Type.Treasure, currentPlayer)) {
                     context.addCoins(1);
                 }
                 if (card instanceof VictoryCard) {
@@ -661,7 +660,7 @@ public class CardImplIntrigue extends ActionCardImpl {
                 if (card.isAction(nextPlayer)) {
                     context.actions += 2;
                 }
-                if (card instanceof TreasureCard) {
+                if (card.is(Type.Treasure, nextPlayer)) {
                     context.addCoins(2);
                 }
                 if (card instanceof VictoryCard) {

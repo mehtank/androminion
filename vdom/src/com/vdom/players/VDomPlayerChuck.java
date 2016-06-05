@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
 import com.vdom.core.MoveContext;
+import com.vdom.core.Type;
 
 public class VDomPlayerChuck extends BasePlayer  {
     protected final Random rand = new Random(System.currentTimeMillis());
@@ -215,7 +215,7 @@ public class VDomPlayerChuck extends BasePlayer  {
                         card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= 2 ||
                         card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= 2 ||
                         card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= 2 ||
-                        !(card.isAction(context.getPlayer())) && !(card instanceof TreasureCard)
+                        !(card.isAction(context.getPlayer())) && !(card.is(Type.Treasure, null))
                    ) {
                     continue;
                 }

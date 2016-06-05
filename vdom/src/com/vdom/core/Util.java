@@ -12,7 +12,6 @@ import java.util.Map;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 import com.vdom.core.Cards.Kind;
 
 public class Util {
@@ -599,15 +598,11 @@ public class Util {
 	static public class CardValueComparator implements Comparator<Card> {
 		@Override
 		public int compare(Card card0, Card card1) {
-			if ( !(card0 instanceof TreasureCard) || !(card1 instanceof TreasureCard) ) 
+			if ( !(card0.is(Type.Treasure, null)) || !(card1.is(Type.Treasure, null)) ) 
 				return 0;
-
-			TreasureCard tcard0 = (TreasureCard) card0;
-			TreasureCard tcard1 = (TreasureCard) card1;
-			
-			if (tcard0.getValue() < tcard1.getValue()) {
+			if (card0.getAddGold() < card1.getAddGold()) {
 				return -1;
-			} else if(tcard0.getValue() > tcard1.getValue()) {
+			} else if(card0.getAddGold() > card1.getAddGold()) {
 				return 1;
 			} else {
 				return 0;
@@ -651,13 +646,13 @@ public class Util {
 				}
 			} else if(card1.isAction(null)) {
 				return 1;
-			} else if(card0 instanceof TreasureCard || card0.getKind() == Kind.Potion) {
-				if(card1 instanceof TreasureCard || card1.getKind() == Kind.Potion) {
+			} else if(card0.is(Type.Treasure, null) || card0.getKind() == Kind.Potion) {
+				if(card1.is(Type.Treasure, null) || card1.getKind() == Kind.Potion) {
 					return 0;
 				} else {
 					return -1;
 				}
-			} else if(card1 instanceof TreasureCard || card1.getKind() == Kind.Potion) {
+			} else if(card1.is(Type.Treasure, null) || card1.getKind() == Kind.Potion) {
 				return 1;
 			} else if(card0.is(Type.Curse, null)) {
 				if(card1.is(Type.Curse, null)) {

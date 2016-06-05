@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
+import com.vdom.api.GameEvent;
 
-public class CardImplProsperity extends ActionCardImpl {
+public class CardImplProsperity extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplProsperity(CardImpl.Builder builder) {
@@ -17,12 +17,18 @@ public class CardImplProsperity extends ActionCardImpl {
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {
+		case Bank:
+			context.addCoins(context.countTreasureCardsInPlayThisTurn());
+			break;
         case Bishop:
             bishop(game, context, currentPlayer);
             break;
         case City:
             city(game, context, currentPlayer);
             break;
+        case Contraband:
+        	contraband(context, game);
+        	break;
         case CountingHouse:
             countingHouse(context, currentPlayer);
             break;
@@ -38,6 +44,9 @@ public class CardImplProsperity extends ActionCardImpl {
         case KingsCourt:
             throneRoomKingsCourt(game, context, currentPlayer);
             break;
+        case Loan:
+        	loanVenture(context, currentPlayer, game);
+        	break;
         case Mint:
             mint(context, currentPlayer);
             break;
@@ -53,6 +62,9 @@ public class CardImplProsperity extends ActionCardImpl {
         case Vault:
             vault(game, context, currentPlayer);
             break;
+        case Venture:
+        	loanVenture(context, currentPlayer, game);
+        	break;
         case WatchTower:
             watchTower(game, context, currentPlayer);
             break;
@@ -68,7 +80,14 @@ public class CardImplProsperity extends ActionCardImpl {
             case Mint:
                 for (Iterator<Card> it = context.player.playedCards.iterator(); it.hasNext();) {
                     Card playedCard = it.next();
-                    if (playedCard instanceof TreasureCard) {
+                    if (playedCard.is(Type.Treasure, context.player)) {
+                        context.player.trash(playedCard, this.controlCard, context);
+                        it.remove();
+                    }
+                }
+                for (Iterator<Card> it = context.player.nextTurnCards.iterator(); it.hasNext();) {
+                    Card playedCard = it.next();
+                    if (playedCard.is(Type.Treasure, context.player)) {
                         context.player.trash(playedCard, this.controlCard, context);
                         it.remove();
                     }
@@ -113,6 +132,16 @@ public class CardImplProsperity extends ActionCardImpl {
         if (game.emptyPiles() > 1) {
             context.buys++;
             context.addCoins(1);
+        }
+    }
+	
+	private void contraband(MoveContext context, Game game) {
+        Card cantBuyCard = game.getNextPlayer().controlPlayer.contraband_cardPlayerCantBuy(context);
+
+        if (cantBuyCard != null && !context.cantBuy.contains(cantBuyCard)) {
+            context.cantBuy.add(cantBuyCard);
+            GameEvent e = new GameEvent(GameEvent.EventType.CantBuy, (MoveContext) context);
+            game.broadcastEvent(e);
         }
     }
 
@@ -221,10 +250,51 @@ public class CardImplProsperity extends ActionCardImpl {
         }
     }
     
-    private void mint(MoveContext context, Player currentPlayer) {
-        TreasureCard cardToMint = currentPlayer.controlPlayer.mint_treasureToMint(context);
+    private void loanVenture(MoveContext context, Player player, Game game) {
+        ArrayList<Card> toDiscard = new ArrayList<Card>();
+        Card treasureCardFound = null;
+        GameEvent event = null;
 
-        if (cardToMint != null && (!currentPlayer.hand.contains(cardToMint) || !Cards.isSupplyCard(cardToMint)) ) {
+        while (treasureCardFound == null) {
+            Card draw = game.draw(context, this, -1);
+            if (draw == null) {
+                break;
+            }
+
+            event = new GameEvent(GameEvent.EventType.CardRevealed, context);
+            event.card = draw;
+            game.broadcastEvent(event);
+
+            if (draw.is(Type.Treasure, player)) {
+                treasureCardFound = draw;
+            } else {
+                toDiscard.add(draw);
+            }
+        }
+
+        if (treasureCardFound != null) {
+            if (equals(Cards.loan)) {
+                if (player.controlPlayer.loan_shouldTrashTreasure(context, treasureCardFound)) {
+                    player.trash(treasureCardFound, this, context);
+                } else {
+                    player.discard(treasureCardFound, this, null);
+                }
+            } else if (equals(Cards.venture)) {
+                player.hand.add(treasureCardFound);
+                treasureCardFound.play(game, context);
+            }
+        }
+
+        while (!toDiscard.isEmpty()) {
+            player.discard(toDiscard.remove(0), this, null);
+        }
+    }
+    
+    private void mint(MoveContext context, Player currentPlayer) {
+        Card cardToMint = currentPlayer.controlPlayer.mint_treasureToMint(context);
+
+        if (cardToMint != null && (!currentPlayer.hand.contains(cardToMint) || 
+        		!Cards.isSupplyCard(cardToMint) || !cardToMint.is(Type.Treasure, currentPlayer)) ) {
             Util.playerError(currentPlayer, "Mint treasure selection error, not minting anything.");
         }
         else if (cardToMint != null) {
@@ -273,7 +343,7 @@ public class CardImplProsperity extends ActionCardImpl {
                     if (card != null) {
                         player.reveal(card, this.controlCard, playerContext);
 
-                        if (card instanceof TreasureCard || card.isAction(player)) {
+                        if (card.is(Type.Treasure, player) || card.isAction(player)) {
                             cardToDiscard.add(card);
                         } else {
                             topOfTheDeck.add(card);

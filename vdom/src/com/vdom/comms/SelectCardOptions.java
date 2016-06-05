@@ -6,7 +6,6 @@ import java.util.EnumSet;
 
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Cards;
 import com.vdom.core.MoveContext;
@@ -198,13 +197,14 @@ public class SelectCardOptions implements Serializable {
     	if (c.isLandmark()) return false;
     	
     	Player p = context != null ? context.player : null;
+    	p = fromTable ? null : p;
 
         if ((maxCost >= 0) && (cost > (c.costPotion() ? maxCost : maxCostWithoutPotion))) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
         
         if (isReaction && !(c.is(Type.Reaction, p))) return false;
-        if (isTreasure && !(c instanceof TreasureCard)) return false;
-        if (isNonTreasure && (c instanceof TreasureCard)) return false;
+        if (isTreasure && !(c.is(Type.Treasure, p))) return false;
+        if (isNonTreasure && (c.is(Type.Treasure, p))) return false;
         if (isVictory && !cardIsVictory) return false;
         if (isNonVictory && cardIsVictory) return false;
         if (fromPrizes && !c.isPrize()) return false;

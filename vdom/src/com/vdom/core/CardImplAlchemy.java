@@ -3,11 +3,10 @@ package com.vdom.core;
 import java.util.ArrayList;
 
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Cards.Kind;
 
-public class CardImplAlchemy extends ActionCardImpl {
+public class CardImplAlchemy extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplAlchemy(CardImpl.Builder builder) {
@@ -29,6 +28,9 @@ public class CardImplAlchemy extends ActionCardImpl {
         case Golem:
             golem(game, context, currentPlayer);
             break;
+        case PhilosophersStone:
+        	context.addCoins((currentPlayer.getDeckSize() + currentPlayer.getDiscardSize()) / 5);
+        	break;
         case Possession:
             possession(context);
             break;
@@ -174,7 +176,7 @@ public class CardImplAlchemy extends ActionCardImpl {
             if (cardToTrash.isAction(cardToTrash.getKind() == Kind.Fortress ? currentPlayer : null )) {
                 currentPlayer.gainNewCard(Cards.duchy, this.controlCard, context);
             }
-            if (cardToTrash instanceof TreasureCard) {
+            if (cardToTrash.is(Type.Treasure, currentPlayer)) {	
                 currentPlayer.gainNewCard(Cards.transmute, this.controlCard, context);
             }
             if (cardToTrash instanceof VictoryCard) {

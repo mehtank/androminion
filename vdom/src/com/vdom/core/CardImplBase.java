@@ -6,10 +6,9 @@ import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
-public class CardImplBase extends ActionCardImpl {
+public class CardImplBase extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplBase(CardImpl.Builder builder) {
@@ -86,7 +85,7 @@ public class CardImplBase extends ActionCardImpl {
             }
             currentPlayer.reveal(draw, this.controlCard, context);
 
-            if (draw instanceof TreasureCard) {
+            if (draw.is(Type.Treasure, currentPlayer)) {
                 treasureCardsRevealed++;
                 currentPlayer.hand.add(draw);
             } else {
@@ -205,7 +204,7 @@ public class CardImplBase extends ActionCardImpl {
     }
 	
     private void councilRoom(Game game, MoveContext context) {
-        for (Player player : getAllPlayers()) {
+        for (Player player : game.getPlayersInTurnOrder()) {
             if (player != context.getPlayer()) {
                 game.drawToHand(new MoveContext(game, player), this, 1);
             }
@@ -267,12 +266,12 @@ public class CardImplBase extends ActionCardImpl {
     }
     
     private void mine(MoveContext context, Player currentPlayer) {
-        TreasureCard cardToUpgrade = currentPlayer.controlPlayer.mine_treasureFromHandToUpgrade(context);
-        if (cardToUpgrade == null) {
+        Card cardToUpgrade = currentPlayer.controlPlayer.mine_treasureFromHandToUpgrade(context);
+        if (cardToUpgrade == null || !cardToUpgrade.is(Type.Treasure, currentPlayer)) {
             Card[] cards = currentPlayer.getTreasuresInHand().toArray(new Card[] {});
             if (cards.length != 0) {
                 Util.playerError(currentPlayer, "Mine card to upgrade was invalid, picking treasure from hand.");
-                cardToUpgrade = (TreasureCard) Util.randomCard(cards);
+                cardToUpgrade = Util.randomCard(cards);
             }
         }
 
@@ -282,16 +281,16 @@ public class CardImplBase extends ActionCardImpl {
                 Card card = hand.get(i);
 
                 if (cardToUpgrade.equals(card)) {
-                    Card thisCard = removeFromHand(currentPlayer, i);
+                    Card thisCard = currentPlayer.getHand().remove(i);
                     currentPlayer.trash(thisCard, this.controlCard, context);
 
-                    TreasureCard newCard = currentPlayer.controlPlayer.mine_treasureToObtain(context, card.getCost(context) + 3, card.costPotion());
-                    if (!(newCard != null && Cards.isSupplyCard(newCard) && newCard.getCost(context) <= card.getCost(context) + 3 && context.getCardsLeftInPile(newCard) > 0)) {
+                    Card newCard = currentPlayer.controlPlayer.mine_treasureToObtain(context, card.getCost(context) + 3, card.costPotion());
+                    if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && newCard.getCost(context) <= card.getCost(context) + 3 && context.getCardsLeftInPile(newCard) > 0)) {
                         Util.playerError(currentPlayer, "Mine treasure to obtain was invalid, picking random treasure from table.");
                         for (Card treasureCard : context.getTreasureCardsInGame()) {
                             if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0 && treasureCard.getCost(context) <= card.getCost(context) + 3)
                                 if (!treasureCard.costPotion() || card.costPotion())
-                                    newCard = (TreasureCard) treasureCard;
+                                    newCard = treasureCard;
                         }
                     }
 
@@ -365,14 +364,14 @@ public class CardImplBase extends ActionCardImpl {
     }
     
     private void thief(Game game, MoveContext context, Player currentPlayer) {
-        ArrayList<TreasureCard> trashed = new ArrayList<TreasureCard>();
+        ArrayList<Card> trashed = new ArrayList<Card>();
 
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 targetPlayer.attacked(this.controlCard, context);
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
-                ArrayList<TreasureCard> treasures = new ArrayList<TreasureCard>();
+                ArrayList<Card> treasures = new ArrayList<Card>();
 
                 List<Card> cardsToDiscard = new ArrayList<Card>();
                 for (int i = 0; i < 2; i++) {
@@ -381,8 +380,8 @@ public class CardImplBase extends ActionCardImpl {
                     if (card != null) {
                         targetPlayer.reveal(card, this.controlCard, targetContext);
 
-                        if (card instanceof TreasureCard) {
-                            treasures.add((TreasureCard) card);
+                        if (card.is(Type.Treasure, targetPlayer)) {
+                            treasures.add(card);
                         } else {
                             cardsToDiscard.add(card);
                         }
@@ -393,7 +392,7 @@ public class CardImplBase extends ActionCardImpl {
                     targetPlayer.discard(c, this.controlCard, targetContext);
                 }
 
-                TreasureCard cardToTrash = null;
+                Card cardToTrash = null;
 
                 if (treasures.size() == 1) {
                     cardToTrash = treasures.get(0);
@@ -402,10 +401,10 @@ public class CardImplBase extends ActionCardImpl {
                         cardToTrash = treasures.get(0);
                         targetPlayer.discard(treasures.remove(1), this.controlCard, targetContext);
                     } else {
-                        cardToTrash = currentPlayer.controlPlayer.thief_treasureToTrash(context, treasures.toArray(new TreasureCard[] {}));
+                        cardToTrash = currentPlayer.controlPlayer.thief_treasureToTrash(context, treasures.toArray(new Card[] {}));
                     }
 
-                    for (TreasureCard treasure : treasures) {
+                    for (Card treasure : treasures) {
                         if (!treasure.equals(cardToTrash)) {
                             targetPlayer.discard(treasure, this.controlCard, targetContext);
                         }
@@ -420,10 +419,10 @@ public class CardImplBase extends ActionCardImpl {
         }
 
         if (trashed.size() > 0) {
-            TreasureCard[] treasuresToGain = currentPlayer.controlPlayer.thief_treasuresToGain(context, trashed.toArray(new TreasureCard[] {}));
+            Card[] treasuresToGain = currentPlayer.controlPlayer.thief_treasuresToGain(context, trashed.toArray(new Card[] {}));
 
             if (treasuresToGain != null) {
-                for (TreasureCard treasure : treasuresToGain) {
+                for (Card treasure : treasuresToGain) {
                     currentPlayer.gainCardAlreadyInPlay(treasure, this.controlCard, context);
                     game.trashPile.remove(treasure);
                 }

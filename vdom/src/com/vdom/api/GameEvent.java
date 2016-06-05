@@ -17,10 +17,9 @@ public class GameEvent {
         TurnBegin, // Player begins a turn
         TurnEnd, // Player's turn ends
 
-        PlayingAction, // Action card is about to be played by a player.
-        PlayedAction, // Action card has just been played by a player.
+        PlayingCard, // Card is about to be played by a player.
+        PlayedCard, // Card has just been played by a player.
         PlayingDurationAction, // Duration action card's next turn effects are about to occur for a player.
-        PlayingTreasure, // Coin card is about to be played by a player.
         BuyingCard, // Buying a card in the buy phase.
         OverpayForCard, // Overpaying for a Guilds card.
         GuildsTokenObtained, // Recieve a Guilds token

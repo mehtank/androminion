@@ -132,10 +132,9 @@
 	<string name="NewHand">Nueva mano</string>
 	<string name="TurnBegin">Comienzo del turno</string>
 	<string name="TurnEnd">Final del turno</string>
-	<string name="PlayingAction">Jugando</string>
-	<string name="PlayedAction">Jugada</string>
+	<string name="PlayingCard">Jugando</string>
+	<string name="PlayedCard">Jugada</string>
 	<string name="PlayingDurationAction">Haciendo effecto de duración de</string>
-	<string name="PlayingCoin">Jugando</string>
 	<string name="BuyingCard">Comprando</string>
 	<string name="GuildsTokenObtained">Obtuvo marcador de Moneda</string>
 	<string name="GuildsTokenSpend">Pagó marcador de Moneda</string>

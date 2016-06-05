@@ -3,9 +3,7 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public abstract class QuickPlayPlayer extends BasePlayer {
@@ -357,7 +355,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_herbalist_backOnDeck(MoveContext context, TreasureCard[] cards) {
+    public boolean shouldAutoPlay_herbalist_backOnDeck(MoveContext context, Card[] cards) {
         return true;
     }
 
@@ -410,7 +408,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         int treasureCount = 0;
 
         for(Card c : getHand()) {
-            if(c instanceof TreasureCard && Cards.isSupplyCard(c)) {
+            if(c.is(Type.Treasure, this) && Cards.isSupplyCard(c)) {
                 treasureCount++;
             }
         }
@@ -420,7 +418,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         }
         
         for(Card c : getHand()) {
-            if(c instanceof TreasureCard && Cards.isSupplyCard(c) && !(c.equals(Cards.copper) || c.equals(Cards.silver) || c.equals(Cards.gold) || c.equals(Cards.platinum))) {
+            if(c.is(Type.Treasure, this) && Cards.isSupplyCard(c) && !(c.equals(Cards.copper) || c.equals(Cards.silver) || c.equals(Cards.gold) || c.equals(Cards.platinum))) {
                 return false;
             }
         }
@@ -586,15 +584,15 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_thief_treasureToTrash(MoveContext context, TreasureCard[] treasures) {
+    public boolean shouldAutoPlay_thief_treasureToTrash(MoveContext context, Card[] treasures) {
         return true;
     }
 
-    public boolean shouldAutoPlay_thief_treasuresToGain(MoveContext context, TreasureCard[] treasures) {
+    public boolean shouldAutoPlay_thief_treasuresToGain(MoveContext context, Card[] treasures) {
         return true;
     }
 
-    public boolean shouldAutoPlay_pirateShip_treasureToTrash(MoveContext context, TreasureCard[] treasures) {
+    public boolean shouldAutoPlay_pirateShip_treasureToTrash(MoveContext context, Card[] treasures) {
         return true;
     }
     
@@ -663,7 +661,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 //        return false;
     }
     
-    public boolean shouldAutoPlay_nobleBrigand_silverOrGoldToTrash(MoveContext context, TreasureCard[] silverOrGoldCards) {
+    public boolean shouldAutoPlay_nobleBrigand_silverOrGoldToTrash(MoveContext context, Card[] silverOrGoldCards) {
         return true;
     }
     
@@ -706,7 +704,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_spiceMerchant_treasureToTrash(MoveContext context) {
         for(Card card : getHand()) {
             for(Card trash : getTrashCards()) {
-                if(trash.equals(card) && (card instanceof TreasureCard)) {
+                if(trash.equals(card) && (card.is(Type.Treasure, this))) {
                     return true;
                 }
             }

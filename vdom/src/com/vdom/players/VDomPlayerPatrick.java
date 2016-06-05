@@ -8,7 +8,6 @@ import java.util.Random;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.AbstractCardPile;
 import com.vdom.core.BasePlayer;
@@ -560,8 +559,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int bankcount = 0;
 		
 		for (Card card : list) {
-			if (card instanceof TreasureCard) {
-				money += ((TreasureCard) card).getValue();
+			if (card.is(Type.Treasure, this)) {
+				money += card.getAddGold();
 			}
 			if (card.equals(Cards.venture)) {
 				money += 1;
@@ -598,8 +597,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int money = 0;
 		
 		for (Card card : list) {
-			if (card instanceof TreasureCard) {
-				money += ((TreasureCard) card).getValue();
+			if (card.is(Type.Treasure, this)) {
+				money += card.getAddGold();
 			}
 			money += card.getAddGold();
 			
@@ -659,7 +658,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 				vps += Math.round(this.getCardNameCount(list) / 5);
 			}
 			if (card.equals(Cards.silkRoad)) {
-				vps += Math.round(this.getCardCount(VictoryCard.class, list) / 4);
+				vps += Math.round(this.getCardCount(Type.Victory, list) / 4);
 			}
 			if (card.equals(Cards.feodum)) {
 				vps += Math.round(Util.getCardCount(list, Cards.silver) / 3);
@@ -679,7 +678,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	private int getTotalTreasureCards (ArrayList<Card> list) {
 		int moneycards = 0;
 		for (Card card : list) {
-			if (card instanceof TreasureCard) {
+			if (card.is(Type.Treasure, this)) {
 				moneycards++;
 			}
 		}
@@ -1060,7 +1059,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		while (ret.size() < 2) {
 			for (Card tCard : temphand) {
-				if (!(tCard instanceof TreasureCard)) {
+				if (!(tCard.is(Type.Treasure, this))) {
 					ret.add(tCard);
 				}
 			}
@@ -1240,7 +1239,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	}
 
 	@Override
-	public boolean loan_shouldTrashTreasure(MoveContext context, TreasureCard treasure) {
+	public boolean loan_shouldTrashTreasure(MoveContext context, Card treasure) {
 		if ((treasure.equals(Cards.copper)) || (treasure.equals(Cards.illGottenGains))) {
 			if ((getMoneyPerCard(getAllCards(), -1, -1) > 0.7) && (getCurrencyTotal(context) > 6)) {
 				return true;
@@ -1251,7 +1250,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			return true;
 		}
 		
-		if ((this.getMoneyPerCard(this.getAllCards(), (0 - treasure.getValue()), -1) > (Math.pow(treasure.getValue(), 2) * 0.7)) && (getCurrencyTotal(context) > 6)) {
+		if ((this.getMoneyPerCard(this.getAllCards(), (0 - treasure.getAddGold()), -1) > (Math.pow(treasure.getAddGold(), 2) * 0.7)) && (getCurrencyTotal(context) > 6)) {
 			return true;
 		}
 	
@@ -1286,7 +1285,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		double maxmpc = -1;
 		int maxvp = -1;
 
-		TreasureCard maxMPC_card = null;
+		Card maxMPC_card = null;
 		VictoryCard maxVP_card = null;
 		Card action_card = null;
 		ArrayList<Card> special_cards = new ArrayList<Card>();
@@ -1336,7 +1335,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 							vp += Util.getCardCount(deck, Cards.duke);
 						}
 						if (vc.equals(Cards.silkRoad)) {
-							vp += Math.floor(this.getCardCount(VictoryCard.class, deck) / 4);
+							vp += Math.floor(this.getCardCount(Type.Victory, deck) / 4);
 						}
 						if (vc.equals(Cards.feodum)) {
 							vp += Math.floor(Util.getCardCount(this.getAllCards(), Cards.silver) / 3);
@@ -1365,8 +1364,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 						continue;
 					}
 					
-					if ((card instanceof TreasureCard) && (!specialCards.contains(card))) {
-						TreasureCard tc = (TreasureCard) card;
+					if ((card.is(Type.Treasure, this)) && (!specialCards.contains(card))) {
+						Card tc = card;
 						ArrayList<Card> tempdeck = new ArrayList<Card>(deck);
 						tempdeck.add(tc);
 						
@@ -1498,7 +1497,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			scard = Cards.bank;
 			if (special_cards.contains(scard)) {
 				// TODO tpc counted badly, to check again
-				double tpc = (double) (this.getCardCount(TreasureCard.class) / getDeckSize(deck));
+				double tpc = (double) (this.getCardCount(Type.Treasure) / getDeckSize(deck));
 				if (tpc * 5.0 < 3.0) {
 					this.log("Bank not good, tpc is " + tpc);
 					special_cards.remove(scard);
@@ -1528,21 +1527,21 @@ public class VDomPlayerPatrick extends BasePlayer {
 			if (maxMPC_card != null) {
 				scard = Cards.venture;
 				if (special_cards.contains(scard)) {
-					if (maxMPC_card.getValue() > 2) {
+					if (maxMPC_card.getAddGold() > 2) {
 						special_cards.remove(scard);
 					} 
 				} 
 		
 				scard = Cards.royalSeal;
 				if (special_cards.contains(scard)) {
-					if (maxMPC_card.getValue() > 2) {
+					if (maxMPC_card.getAddGold() > 2) {
 						special_cards.remove(scard);
 					} 
 				} 
 		
 				scard = Cards.foolsGold;
 				if (special_cards.contains(scard)) {
-					if (maxMPC_card.getValue() > 1) {
+					if (maxMPC_card.getAddGold() > 1) {
 						special_cards.remove(scard);
 					} 
 				}
@@ -1587,21 +1586,21 @@ public class VDomPlayerPatrick extends BasePlayer {
 						switch (this.strategy) {
 						case SingleAction:
 							if ((Util.getCardCount(deck, Cards.potion) < 1) && (Util.getCardCount(deck, this.strategyCard) < 1)) {
-								maxMPC_card = (TreasureCard) c;
+								maxMPC_card = c;
 								scost = 1000;
 								svalue = 1000;
 							}
 							break;
 						case DoubleAction:
 							if ((Util.getCardCount(deck, Cards.potion) < 1) && (Util.getCardCount(deck, this.strategyCard) < 2)) {
-								maxMPC_card = (TreasureCard) c;
+								maxMPC_card = c;
 								scost = 1000;
 								svalue = 1000;
 							}
 							break;
 						case MultiAction:
 							if ((Util.getCardCount(deck, Cards.potion) * Math.max(10,(20 - (Util.getCardCount(deck, Cards.alchemist) * 2)))) < deck.size()) {
-								maxMPC_card = (TreasureCard) c;
+								maxMPC_card = c;
 								scost = 1000;
 								svalue = 1000;
 							}
@@ -1610,11 +1609,11 @@ public class VDomPlayerPatrick extends BasePlayer {
 							for (Card op : this.opponents.getActionCards()) {
 								if (op.costPotion()) {
 									if ((Util.getCardCount(deck, Cards.potion) * Math.max(10,(20 - (Util.getCardCount(deck, Cards.alchemist) * 2)))) < deck.size()) {
-										maxMPC_card = (TreasureCard) c;
+										maxMPC_card = c;
 										scost = 1000;
 										svalue = 1000;
 									} else if (Util.getCardCount(deck, Cards.potion) < 1) {
-										maxMPC_card = (TreasureCard) c;
+										maxMPC_card = c;
 										scost = 1000;
 										svalue = 1000;
 									}
@@ -1627,11 +1626,10 @@ public class VDomPlayerPatrick extends BasePlayer {
 					}
 				} // potion 
 				else if (specialTreasureCards.contains(c)) {
-					TreasureCard tc = (TreasureCard) c;
-					if ((tc.getValue() > svalue) && (tc.getCost(context) > scost)) {
-						scost = tc.getCost(context);
-						svalue = tc.getValue();
-						maxMPC_card = tc;
+					if ((c.getAddGold() > svalue) && (c.getCost(context) > scost)) {
+						scost = c.getCost(context);
+						svalue = c.getAddGold();
+						maxMPC_card = c;
 					} 
 				} else if (specialVictoryCards.contains(c)) {
 					if (c.equals(Cards.farmland)) {
@@ -1963,7 +1961,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			if (tcard == null) {
 				return null;
 			}
-			if (tcard instanceof TreasureCard) {
+			if (tcard.is(Type.Treasure, this)) {
 				tcard = null;
 			}
 			if (tcard != null) {
@@ -1981,7 +1979,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		ArrayList<Card> a = new ArrayList<Card>();
 		a.add(card);
 	    if(   card.equals(getCardToDiscard(a, DiscardOption.NonDestructive, context))
-	       && (jackOfAllTrades_nonTreasureToTrash(context) != null || (card instanceof TreasureCard))) {
+	       && (jackOfAllTrades_nonTreasureToTrash(context) != null || (card.is(Type.Treasure, this)))) {
 	        return true;
 	    }
 	    return false;

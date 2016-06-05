@@ -9,7 +9,6 @@ import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 
 public class MoveContext {
@@ -19,7 +18,6 @@ public class MoveContext {
     private int coins = 0;
     public int potions;
     public int actionsPlayedSoFar = 0;
-    public int treasuresPlayedSoFar = 0; /* Doesn't work because of Spoils or Mint */
     public int coppersmithsPlayed = 0;
     public int schemesPlayed = 0;
 
@@ -158,18 +156,7 @@ public class MoveContext {
     	return countCardsInPlay(Cards.goons);
     }
 
-    public int countTreasureCardsInPlayThisTurn() {
-        int treasuresInPlay = 0;
-        for(Card c : getPlayedCards()) {
-            if(c instanceof TreasureCard) {
-                treasuresInPlay++;
-            }
-        }
-
-        return treasuresInPlay;
-    }
-
-    public enum CardsInPlay {ACTION,ATTACK,TRAVELLER,VICTORY};
+    public enum CardsInPlay {ACTION,ATTACK,TRAVELLER,VICTORY,TREASURE};
     
     public int countActionCardsInPlayThisTurn() {
     	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.ACTION);
@@ -177,6 +164,10 @@ public class MoveContext {
     
     public int countAttackCardsInPlayThisTurn() {
     	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.ATTACK);
+    }
+    
+    public int countTreasureCardsInPlayThisTurn() {
+    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.TREASURE);
     }
     
     public int countTravellerCardsInPlayThisTurn() {
@@ -193,6 +184,7 @@ public class MoveContext {
         	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
         			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
         			|| (type == CardsInPlay.ACTION && c.isAction(player))
+        			|| (type == CardsInPlay.TREASURE && c.is(Type.Treasure, player))
         			|| (type == CardsInPlay.VICTORY && c instanceof VictoryCard)) {
     			actionsInPlay++;
         	}

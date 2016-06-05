@@ -15,7 +15,6 @@ import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.EventCard;
@@ -25,7 +24,6 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.ExtraTurnOption;
 import com.vdom.core.Player.HuntingGroundsOption;
@@ -408,14 +406,14 @@ public class Game {
 
         boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
         if (maxCards != -1) selectingCoins = true;// storyteller
-        ArrayList<TreasureCard> treasures = null;
+        ArrayList<Card> treasures = null;
         treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand();
 
         while (treasures != null && !treasures.isEmpty() && maxCards != 0) {
             while (!treasures.isEmpty() && maxCards != 0) {
-                TreasureCard card = treasures.remove(0);
+                Card card = treasures.remove(0);
                 if (player.hand.contains(card)) {// this is needed due to counterfeit which trashes cards during this loop
-                    card.playTreasure(context);
+                    card.play(context.game, context);
                     maxCards--;
                 }
             }
@@ -1062,7 +1060,7 @@ public class Game {
                 	|| thisCard.getKind() == Cards.Kind.Dungeon ) {
                     context.freeActionInEffect++;
                     try {
-                        ((ActionCardImpl) thisCard).additionalCardActions(context.game, context, player);
+                        ((CardImpl) thisCard).additionalCardActions(context.game, context, player);
                     } catch (RuntimeException e) {
                         e.printStackTrace();
                     }
@@ -1901,7 +1899,7 @@ public class Game {
                 if (event.getContext().getBuysLeft() > 0) {
                     msg.append(", buys remaining: " + event.getContext().getBuysLeft() + ")");
                 }
-            } else if (event.getType() == GameEvent.EventType.PlayingAction || event.getType() == GameEvent.EventType.TurnBegin
+            } else if (event.getType() == GameEvent.EventType.PlayingCard || event.getType() == GameEvent.EventType.TurnBegin
                        || event.getType() == GameEvent.EventType.NoBuy) {
                 msg.append(":" + getHandString(player));
             } else if (event.attackedPlayer != null) {
@@ -2906,11 +2904,17 @@ public class Game {
                             }
                         }
                     } else if (gainedCardAbility.equals(Cards.mandarin)) {
-                        CardList playedCards = ((MoveContext) context).getPlayedCards();
+                        CardList playedCards = context.getPlayedCards();
+                        CardList nextTurnCards = context.player.nextTurnCards;
                         ArrayList<Card> treasureCardsInPlay = new ArrayList<Card>();
 
                         for(Card c : playedCards) {
-                            if(c instanceof TreasureCard) {
+                            if(c.is(Type.Treasure, player)) {
+                                treasureCardsInPlay.add(c);
+                            }
+                        }
+                        for(Card c : nextTurnCards) {
+                            if(c.is(Type.Treasure, player)) {
                                 treasureCardsInPlay.add(c);
                             }
                         }
@@ -2925,7 +2929,8 @@ public class Game {
                             for (int i = order.length - 1; i >= 0; i--) {
                                 Card c = order[i];
                                 player.putOnTopOfDeck(c);
-                                playedCards.remove(c);
+                                if (!playedCards.remove(c)) 
+                                	nextTurnCards.remove(c);
                             }
                         }
                     } else if (gainedCardAbility.equals(Cards.deathCart)) {
@@ -3296,10 +3301,10 @@ public class Game {
         return getCardsInGame(null);
     }
 
-    public Card[] getCardsInGame(Class<?> c) {
+    public Card[] getCardsInGame(Type type) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (AbstractCardPile pile : piles.values()) {
-            if (c == null) {
+            if (type == null) {
                 if (pile.type.equals(AbstractCardPile.PileType.RuinsPile)) {
                     cards.add(Cards.virtualRuins);
                 } else if (pile.type.equals(AbstractCardPile.PileType.KnightsPile)) {
@@ -3307,7 +3312,7 @@ public class Game {
                 } else {
                     cards.add(pile.card());
                 }
-            } else if (c.isInstance(pile.card()) && pile.isSupply) {
+            } else if (pile.card().is(type, null) && pile.isSupply) {
                 cards.add(pile.card());
             }
         }
@@ -3315,7 +3320,7 @@ public class Game {
     }
 
     public Card[] getActionsInGame() {
-        return getCardsInGame(ActionCard.class);
+        return getCardsInGame(Type.Action);
     }
 
     public boolean cardInGame(Card c) {
@@ -3336,11 +3341,11 @@ public class Game {
     }
 
     public Card[] getTreasureCardsInGame() {
-        return getCardsInGame(TreasureCard.class);
+        return getCardsInGame(Type.Treasure);
     }
 
     public Card[] getVictoryCardsInGame() {
-        return getCardsInGame(VictoryCard.class);
+        return getCardsInGame(Type.Victory);
     }
 
     public Card[] getCardsInGameOrderByCost() {

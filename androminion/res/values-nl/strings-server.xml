@@ -90,10 +90,9 @@
 	<string name="NewHand">Nieuwe hand</string>
 	<string name="TurnBegin">Start beurt</string>
 	<string name="TurnEnd">Einde beurt</string>
-	<string name="PlayingAction">Speelt</string>
-	<string name="PlayedAction">Gespeeld</string>
+	<string name="PlayingCard">Speelt</string>
+	<string name="PlayedCard">Gespeeld</string>
 	<string name="PlayingDurationAction">Uit vorige beurt</string>
-	<string name="PlayingCoin">Speelt</string>
 	<string name="BuyingCard">Koopt</string>
 	<string name="NoBuy">(Geen Aanschaf)</string>
 	<string name="DeckReplenished">Trekstapel leeg</string>

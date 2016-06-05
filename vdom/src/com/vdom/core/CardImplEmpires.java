@@ -6,9 +6,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
 
-public class CardImplEmpires extends ActionCardImpl {
+public class CardImplEmpires extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplEmpires(CardImpl.Builder builder) {
@@ -35,6 +34,9 @@ public class CardImplEmpires extends ActionCardImpl {
         	break;
         case FarmersMarket:
         	farmersMarket(game, context, currentPlayer);
+        	break;
+        case Fortune:
+        	fortune(context, currentPlayer, game);
         	break;
         case Gladiator:
         	gladiator(game, context, currentPlayer);
@@ -79,6 +81,29 @@ public class CardImplEmpires extends ActionCardImpl {
         context.player.princeCardLeftThePlay(context.player);
     }
 	
+	@Override
+	public void isTrashed(MoveContext context) {
+		Cards.Kind trashKind = this.controlCard.getKind();
+    	if (this.controlCard.equals(Cards.estate) && context.player.getInheritance() != null) {
+    		trashKind = context.player.getInheritance().getKind();
+    	}
+    	
+    	switch (trashKind) {
+    	case CrumblingCastle:
+        	context.player.addVictoryTokens(context, 1);
+        	context.player.gainNewCard(Cards.silver, this, context);
+        case Rocks:
+        	context.player.gainNewCard(Cards.silver, this, context);
+        	break;
+        default:
+            break;
+	    }
+	    
+	    // card left play - stop any impersonations
+	    this.controlCard.stopImpersonatingCard();
+	    this.controlCard.stopInheritingCardAbilities();
+	}
+	
 	
 	private void bustlingVillage(Game game, MoveContext context, Player currentPlayer) {
         if (currentPlayer.discard.isEmpty()) return;
@@ -121,7 +146,7 @@ public class CardImplEmpires extends ActionCardImpl {
             cardToTrash = Util.randomCard(currentPlayer.getHand());
         }
         int coinCost = cardToTrash.getCost(context);
-        boolean isTreasure = cardToTrash instanceof TreasureCard;
+        boolean isTreasure = cardToTrash.is(Type.Treasure, null); //Assumes card will be in trash at time of check
         currentPlayer.hand.remove(cardToTrash);
         currentPlayer.trash(cardToTrash, this.controlCard, context);
     	
@@ -213,6 +238,14 @@ public class CardImplEmpires extends ActionCardImpl {
     	} else {
     		game.addPileVpTokens(c, 1, context);
     		context.addCoins(game.getPileVpTokens(c));
+    	}
+    }
+    
+    private void fortune(MoveContext context, Player player, Game game) {
+    	if (!context.hasDoubledCoins) {
+    		//TODO?: is doubling coins affected by -1 coin token?
+    		context.addCoins(context.getCoins() * 2);
+    		context.hasDoubledCoins = true;
     	}
     }
     

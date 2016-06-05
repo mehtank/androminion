@@ -90,10 +90,9 @@
         <string name="NewHand">Новая рука</string>
         <string name="TurnBegin">Ход начинается</string>
         <string name="TurnEnd">Конец хода</string>
-        <string name="PlayingAction">Играет</string>
-        <string name="PlayedAction">Сыграл</string>
+        <string name="PlayingCard">Играет</string>
+        <string name="PlayedCard">Сыграл</string>
         <string name="PlayingDurationAction">Длительность игры</string>
-        <string name="PlayingCoin">Играет</string>
         <string name="BuyingCard">Покупает</string>
         <string name="NoBuy">(Без покупок)</string>
         <string name="DeckReplenished">Колода восполнена</string>

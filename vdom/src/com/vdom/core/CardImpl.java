@@ -1,8 +1,12 @@
 package com.vdom.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.DurationCard;
+import com.vdom.api.GameEvent;
 import com.vdom.api.VictoryCard;
 
 public class CardImpl implements Card {
@@ -580,10 +584,141 @@ public class CardImpl implements Card {
 
     @Override
     public void play(Game game, MoveContext context) {
+    	play(game, context, true);
     }
     
     @Override
     public void play(Game game, MoveContext context, boolean fromHand) {
+        Player currentPlayer = context.getPlayer();
+        boolean newCard = false;
+        Card actualCard = (this.getControlCard() != null ? this.getControlCard() : this);
+        boolean isInheritedAbility = actualCard.equals(Cards.estate);
+        Card inheritedCard = isInheritedAbility ? context.player.getInheritance() : null;
+        Card playedCard = isInheritedAbility ? actualCard : this;
+        boolean isAction = playedCard.is(Type.Action, currentPlayer);
+        boolean enchantressEffect = isAction && !context.enchantressAlreadyAffected && game.enchantressAttacks(currentPlayer);
+        if (enchantressEffect) context.enchantressAlreadyAffected = true;
+                
+        if (!isInheritedAbility)
+        	context.actions += game.countChampionsInPlay(currentPlayer);
+        
+        if (isAttack(currentPlayer))
+            attackPlayed(context, game, currentPlayer);
+        
+        if (this.numberTimesAlreadyPlayed == 0 && this == actualCard) {
+            newCard = true;
+            this.movedToNextTurnPile = false;
+            if (fromHand)
+                currentPlayer.hand.remove(this);
+            if (!enchantressEffect && trashOnUse) {
+                currentPlayer.trash(this, null, context);
+            } else if (!enchantressEffect && this.isDuration(currentPlayer)) {
+                currentPlayer.nextTurnCards.add(this);
+            } else {
+                currentPlayer.playedCards.add(this);
+            }
+        }
+        
+        GameEvent event;
+        event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
+        event.card = playedCard;
+        event.newCard = newCard;
+        game.broadcastEvent(event);
+        
+        // playing an action
+        if (isAction) {
+	        if (this == actualCard) 
+	            context.actionsPlayedSoFar++;
+	        if (isAction && context.freeActionInEffect == 0) {
+	            context.actions--;
+	        }
+        }
+        
+        Card tokenPile = isInheritedAbility ? actualCard : this;
+        if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneAction))
+        	context.actions += 1;
+        if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneBuy))
+        	context.buys += 1;
+        if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCoin))
+        	context.addCoins(1);
+        if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCard))
+        	game.drawToHand(context, actualCard, 1 + addCards);
+        
+        if (enchantressEffect) {
+        	//allow reaction to playing an attack card with Enchantress effect
+        	if (isAttack(currentPlayer)) {
+        		 for (Player player : game.getPlayersInTurnOrder()) {
+    	            if (player != currentPlayer) Util.isDefendedFromAttack(game, player, this);
+	            }
+        	}
+        	context.actions += 1;
+        	game.drawToHand(context, this, 1);
+        } else {
+        	context.actions += addActions;
+            context.buys += addBuys;
+            if (this.equals(Cards.copper)) {
+            	context.addCoins(addGold + context.coppersmithsPlayed);
+            } else {
+            	context.addCoins(addGold);
+            }
+            currentPlayer.addVictoryTokens(context, addVictoryTokens);
+            if (providePotion()) {
+                context.potions++;
+            }
+            
+            for (int i = 0; i < addCards; ++i) {
+            	game.drawToHand(context, this, addCards - i);
+            }
+
+            if (inheritedCard == null) {
+            	additionalCardActions(game, context, currentPlayer);
+            } else {
+            	// Play the inheritance virtual card
+            	this.startInheritingCardAbilities(inheritedCard.getTemplateCard().instantiate());
+            	CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
+		        context.freeActionInEffect++;
+		        cardToPlay.play(game, context, false);
+		        context.freeActionInEffect--;
+            }
+        }
+    
+        event = new GameEvent(GameEvent.EventType.PlayedCard, (MoveContext) context);
+        event.card = playedCard;
+        game.broadcastEvent(event);
+        
+
+        // test if any prince card left the play
+        currentPlayer.princeCardLeftThePlay(currentPlayer);
+        
+        // check for cards to call after resolving action
+        boolean isActionInPlay = isInPlay(currentPlayer);
+        ArrayList<Card> callableCards = new ArrayList<Card>();
+        Card toCall = null;
+        for (Card c : currentPlayer.tavern) {
+        	if (c.behaveAsCard().isCallableWhenActionResolved()) {
+        		if (c.behaveAsCard().doesActionStillNeedToBeInPlayToCall() && !isActionInPlay) {
+        			continue;
+        		}
+        		callableCards.add(c);
+        	}
+        }
+        if (!callableCards.isEmpty()) {
+        	Collections.sort(callableCards, new Util.CardCostComparator());
+	        do {
+	        	toCall = null;
+	        	// we want null entry at the end for None
+	        	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
+	        	//ask player which card to call
+	        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, playedCard, cardsAsArray);
+	        	if (toCall != null && callableCards.contains(toCall)) {
+	        		callableCards.remove(toCall);
+	        		toCall.behaveAsCard().callWhenActionResolved(context, playedCard);
+	        	}
+		        // loop while we still have cards to call
+		        // NOTE: we have a hack here to prevent asking for duplicate calls on an unused Royal Carriage
+		        //   since technically you can ask for more and action re-played by royal carriage will ask as well
+	        } while (toCall != null && toCall.equals(Cards.coinOfTheRealm) && !callableCards.isEmpty());
+        }
     }
 
     public String getStats() {
@@ -815,6 +950,12 @@ public class CardImpl implements Card {
 		if (is(Type.Event, null)) {
 			context.buys += addBuys;
 		}
+		if (this.equals(Cards.estate)) {
+        	Card inheritance = context.getPlayer().getInheritance();
+        	if (inheritance != null) {
+        		inheritance.isBuying(context);
+        	}
+        }
     }
     
     @Override
@@ -859,121 +1000,7 @@ public class CardImpl implements Card {
     }
     
     @Override
-    public void isTrashed(MoveContext context) {
-    	Cards.Kind trashKind = this.controlCard.getKind();
-    	if (this.controlCard.equals(Cards.estate) && context.player.getInheritance() != null) {
-    		trashKind = context.player.getInheritance().getKind();
-    	}
-    	
-        switch (trashKind) {
-            case Rats:
-                context.game.drawToHand(context, this, 1, true);
-                break;
-            case Squire:
-                // Need to ensure that there is at least one Attack card that can be gained,
-                // otherwise this.controlCard choice should be bypassed.
-                boolean attackCardAvailable = false;
-
-                for (Card c : context.game.getCardsInGame())
-                {
-                    if (Cards.isSupplyCard(c) && c.isAttack(null) && context.game.getPile(c).getCount() > 0) {
-                        attackCardAvailable = true;
-                        break;
-                    }
-                }
-
-                if (attackCardAvailable)
-                {
-                    Card s = context.player.controlPlayer.squire_cardToObtain(context);
-
-                    if (s != null) 
-                    {
-                        context.player.controlPlayer.gainNewCard(s, this.controlCard, context);
-                    }
-                }
-                break;
-            case Catacombs:
-            	int cost = this.controlCard.equals(Cards.estate) ? this.controlCard.getCost(context) : this.getCost(context);
-            	cost--;
-            	if (cost >= 0) {
-	                Card c = context.player.controlPlayer.catacombs_cardToObtain(context, cost);
-	                if (c != null) {
-	                    context.player.controlPlayer.gainNewCard(c, this.controlCard, context);
-	                }
-            	}
-                break;
-            case HuntingGrounds:
-                  // Wiki: If you trash Hunting Grounds and the Duchy pile is empty,
-                  // you can still choose Duchy (and gain nothing). 
-                int duchyCount      = context.game.getPile(Cards.duchy).getCount();
-                int estateCount     = context.game.getPile(Cards.estate).getCount();
-                boolean gainDuchy   = false;
-                boolean gainEstates = false;
-
-                if (duchyCount > 0 || estateCount > 0)
-                {
-                    Player.HuntingGroundsOption option = context.player.controlPlayer.huntingGrounds_chooseOption(context);
-                    if (option != null) {
-                        switch (option) {
-                            case GainDuchy:
-                                gainDuchy = true;
-                                break;
-                            case GainEstates:
-                                gainEstates = true;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                
-                if (gainDuchy)
-                {
-                    context.player.controlPlayer.gainNewCard(Cards.duchy, this.controlCard, context);
-                }
-                else if (gainEstates)
-                {
-                    context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
-                    context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
-                    context.player.controlPlayer.gainNewCard(Cards.estate, this.controlCard, context);
-                }
-
-                break;
-            case Fortress:
-            	//TODO: if Possessed, give choice of whether to put in hand or set aside card
-                context.game.trashPile.remove(this.controlCard);
-                context.player.hand.add(this.controlCard);
-                break;
-            case Cultist:
-                context.game.drawToHand(context, this, 3, false);
-                context.game.drawToHand(context, this, 2, false);
-                context.game.drawToHand(context, this, 1, false);
-                break;
-            case SirVander:
-                context.player.controlPlayer.gainNewCard(Cards.gold, this.controlCard, context);
-                break;
-            case OvergrownEstate:
-                context.game.drawToHand(context, controlCard, 1);
-                break;
-            case Feodum:
-                context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-                context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-                context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
-                break;
-            case Rocks:
-            	context.player.gainNewCard(Cards.silver, this, context);
-            	break;
-            case CrumblingCastle:
-            	context.player.addVictoryTokens(context, 1);
-            	context.player.gainNewCard(Cards.silver, this, context);
-            default:
-                break;
-        }
-        
-        // card left play - stop any impersonations
-        this.controlCard.stopImpersonatingCard();
-        this.controlCard.stopInheritingCardAbilities();
-    }
+    public void isTrashed(MoveContext context) { }
 
     public boolean isImpersonatingAnotherCard() {
         return !(this.impersonatingCard == null);
@@ -1058,9 +1085,192 @@ public class CardImpl implements Card {
 		}
 		return false;
 	}
+    
+    protected void durationAttack(Game game, MoveContext context, Player currentPlayer) {
+        for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
+        	if (targetPlayer != currentPlayer) {
+        		if (!Util.isDefendedFromAttack(game, targetPlayer, this)) {
+        			targetPlayer.attacked(this.controlCard, context);
+        			currentPlayer.addDurationEffectOnOtherPlayer(targetPlayer, this.kind);
+        		}
+        	}
+        }
+    }
+    
+    protected void witchFamiliar(Game game, MoveContext context, Player currentPlayer) {
+        for (Player player : game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
+                player.attacked(this.controlCard, context);
+                MoveContext targetContext = new MoveContext(game, player);
+                targetContext.attackedPlayer = player;
+                player.gainNewCard(Cards.curse, this.controlCard, targetContext);
+            }
+        }
+    }
 
-    /*@Override
-    public void isGained(MoveContext context) {
+    protected Card throneRoomKingsCourt(Game game, MoveContext context, Player currentPlayer) {
+        ArrayList<Card> actionCards = new ArrayList<Card>();
+        CardImpl cardToPlay = null;
+        for (Card card : currentPlayer.hand) {
+            if (card.isAction(currentPlayer)) {
+                actionCards.add(card);
+            }
+        }
+
+        if (!actionCards.isEmpty()) {
+            switch (this.kind) {
+                case ThroneRoom:
+                    cardToPlay = (CardImpl) currentPlayer.controlPlayer.throneRoom_cardToPlay(context);
+                    break;
+                case Disciple:
+                    cardToPlay = (CardImpl) currentPlayer.controlPlayer.disciple_cardToPlay(context);
+                    break;
+                case KingsCourt:
+                    cardToPlay = (CardImpl) currentPlayer.controlPlayer.kingsCourt_cardToPlay(context);
+                    break;
+                case Procession:
+                    cardToPlay = (CardImpl) currentPlayer.controlPlayer.procession_cardToPlay(context);
+                    break;
+                default:
+                    break;
+            }
+
+            if (cardToPlay != null) {
+                if(!actionCards.contains(cardToPlay)) {
+                    Util.playerError(currentPlayer, this.controlCard.name.toString() + " card selection error, ignoring");
+                } else {
+                    context.freeActionInEffect++;
+
+                    cardToPlay.cloneCount = (equals(Cards.kingsCourt) ? 3 : 2);
+                    int cloneCount = cardToPlay.cloneCount;
+                    cardToPlay.numberTimesAlreadyPlayed = -1;
+                    for (int i = 0; i < cloneCount; ++i) {
+                        cardToPlay.numberTimesAlreadyPlayed++;
+                        cardToPlay.play(game, context, cardToPlay.numberTimesAlreadyPlayed == 0 ? true : false);
+                    }
+
+                    cardToPlay.numberTimesAlreadyPlayed = 0;
+                    context.freeActionInEffect--;
+                    // If the cardToPlay was a knight, and was trashed, reset clonecount
+                    if (cardToPlay.isKnight(currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
+                        cardToPlay.cloneCount = 1;
+                    }
+
+                    if (cardToPlay.isDuration(currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
+                        // Need to move throning card to NextTurnCards first
+                        // (but does not play)
+                        if (!this.controlCard.movedToNextTurnPile) {
+                            this.controlCard.movedToNextTurnPile = true;
+                            int idx = currentPlayer.playedCards.lastIndexOf(this.controlCard);
+                            int ntidx = currentPlayer.nextTurnCards.size() - 1;
+                            if (idx >= 0 && ntidx >= 0) {
+                                currentPlayer.playedCards.remove(idx);
+                                currentPlayer.nextTurnCards.add(ntidx, this.controlCard);
+                            }
+                        }
+                    }
+                }
+
+                if (this.kind == Cards.Kind.Procession) {
+                    if (!cardToPlay.trashOnUse) {
+                        currentPlayer.trash(cardToPlay, this.controlCard, context);
+                        if (currentPlayer.playedCards.getLastCard() == cardToPlay) { 
+                            currentPlayer.playedCards.remove(cardToPlay);
+                        } 
+                        if (currentPlayer.nextTurnCards.contains(cardToPlay)) { 
+                            ((CardImpl) cardToPlay).trashAfterPlay = true;
+                        }
+                    }
+
+                    Card cardToGain = currentPlayer.controlPlayer.procession_cardToGain(context, 1 + cardToPlay.getCost(context), cardToPlay.costPotion());
+                    if ((cardToGain != null) && (cardToPlay.getCost(context) + 1) == cardToGain.getCost(context)) {
+                        currentPlayer.gainNewCard(cardToGain, this.controlCard, context);
+                    }
+                }
+            }
+        }
+        return cardToPlay;
+    }
+
+    protected void horseTradersDungeon(MoveContext context, Player currentPlayer) {
+    	CardList hand = currentPlayer.getHand();
+    	if (hand.size() == 0)
+    		return;
+    	Card[] cardsToDiscard;
+    	if (hand.size() <= 2) {
+    		cardsToDiscard = new Card[currentPlayer.getHand().size()];
+    		for (int i = 0; i < cardsToDiscard.length; ++i) {
+    			cardsToDiscard[i] = hand.get(i);
+    		}
+    	} else {
+    		cardsToDiscard = currentPlayer.controlPlayer.horseTradersDungeon_cardsToDiscard(context, this);
+            if (cardsToDiscard == null || cardsToDiscard.length != 2 || !Util.areCardsInHand(cardsToDiscard, context)) {
+                if (currentPlayer.hand.size() >= 2) {
+                    Util.playerError(currentPlayer, "Horse Traders discard error, just discarding the first 2.");
+                }
+                cardsToDiscard = new Card[Math.min(2, currentPlayer.hand.size())];
+                for (int i = 0; i < cardsToDiscard.length; i++) {
+                    cardsToDiscard[i] = currentPlayer.hand.get(i);
+                }
+            }
+    	}
         
-    }*/
+        for (Card card : cardsToDiscard) {
+            currentPlayer.hand.remove(card);
+            currentPlayer.discard(card, this.controlCard, context);
+        }
+    }
+
+    protected void spyAndScryingPool(Game game, MoveContext context, Player currentPlayer) {
+        for (Player player : game.getPlayersInTurnOrder()) {
+            // Note that this.controlCard is the opposite check of other attacks, the spy/scrying pool lets
+            // the current player look at their own deck which is a good thing, so always
+            // allow that
+            if (player == currentPlayer || (!Util.isDefendedFromAttack(game, player, this))) {
+                if (player != currentPlayer) {
+                    player.attacked(this.controlCard, context);
+                }
+
+                MoveContext playerContext = new MoveContext(game, player);
+                playerContext.attackedPlayer = player;
+                Card card = game.draw(playerContext, this, 1);
+
+                if (card != null) {
+                    player.reveal(card, this.controlCard, playerContext);
+
+                    boolean discard = false;
+
+                    if(equals(Cards.spy)) {
+                        discard = currentPlayer.controlPlayer.spy_shouldDiscard(context, player, card);
+                    } else if (equals(Cards.scryingPool)) {
+                        discard = currentPlayer.controlPlayer.scryingPool_shouldDiscard(context, player, card);
+                    }
+
+                    if (discard) {
+                        player.discard(card, this.controlCard, playerContext);
+                    } else {
+                        // put it back
+                        player.putOnTopOfDeck(card, playerContext, true);
+                    }
+                }
+            }
+        }
+
+        if(equals(Cards.scryingPool)) {
+            ArrayList<Card> cardsToPutInHand = new ArrayList<Card>();
+
+            Card draw = null;
+            while ((draw = game.draw(context, Cards.scryingPool, -1)) != null) {
+                currentPlayer.reveal(draw, this.controlCard, new MoveContext(context, game, currentPlayer));
+                cardsToPutInHand.add(draw);
+                if(!(draw.isAction(currentPlayer))) {
+                    break;
+                }
+            }
+
+            for(Card card : cardsToPutInHand) {
+                currentPlayer.hand.add(card);
+            }
+        }
+    }
 }

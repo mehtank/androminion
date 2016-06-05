@@ -136,10 +136,9 @@
 	<string name="NewHand">New hand</string>
 	<string name="TurnBegin">Turn begin</string>
 	<string name="TurnEnd">Turn end</string>
-	<string name="PlayingAction">Playing</string>
-	<string name="PlayedAction">Played</string>
+	<string name="PlayingCard">Playing</string>
+	<string name="PlayedCard">Played</string>
 	<string name="PlayingDurationAction">Playing duration</string>
-	<string name="PlayingCoin">Playing</string>
 	<string name="BuyingCard">Buying</string>
 	<string name="GuildsTokenObtained">Coin token obtained</string>
 	<string name="GuildsTokenSpend">Coin token spent</string>

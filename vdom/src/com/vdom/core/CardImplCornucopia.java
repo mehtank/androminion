@@ -7,13 +7,12 @@ import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.TournamentOption;
 import com.vdom.core.Player.TrustySteedOption;
 
-public class CardImplCornucopia extends ActionCardImpl {
+public class CardImplCornucopia extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplCornucopia(CardImpl.Builder builder) {
@@ -26,6 +25,9 @@ public class CardImplCornucopia extends ActionCardImpl {
 		case BagofGold:
             currentPlayer.gainNewCard(Cards.gold, this.controlCard, context);
             break;
+		case Diadem:
+			context.addCoins(context.getActionsLeft());
+			break;
 		case FarmingVillage:
             farmingVillage(game, context, currentPlayer);
             break;
@@ -41,6 +43,9 @@ public class CardImplCornucopia extends ActionCardImpl {
         case Harvest:
             harvest(game, context, currentPlayer);
             break;
+        case HornofPlenty:
+        	hornOfPlenty(context, currentPlayer, game);
+        	break;
         case HorseTraders:
             horseTradersDungeon(context, currentPlayer);
             break;
@@ -76,7 +81,7 @@ public class CardImplCornucopia extends ActionCardImpl {
 
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
-        while ((draw = game.draw(context, Cards.farmingVillage, -1)) != null && !(draw.isAction(currentPlayer)) && !(draw instanceof TreasureCard)) {
+        while ((draw = game.draw(context, Cards.farmingVillage, -1)) != null && !(draw.isAction(currentPlayer)) && !(draw.is(Type.Treasure, currentPlayer))) {
             toDiscard.add(draw);
         }
 
@@ -96,7 +101,7 @@ public class CardImplCornucopia extends ActionCardImpl {
         currentPlayer.gainNewCard(Cards.estate, this.controlCard, context);
 
         for (Player player : game.getPlayersInTurnOrder()) {
-            if (player != currentPlayer && !isDefendedFromAttack(game, player, this)) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.controlCard, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
@@ -171,6 +176,33 @@ public class CardImplCornucopia extends ActionCardImpl {
         }
 
         context.addCoins(cardNames.size());
+    }
+    
+    private void hornOfPlenty(MoveContext context, Player player, Game game) {
+        GameEvent event;
+        int maxCost = context.countUniqueCardsInPlayThisTurn();
+        Card toObtain = player.controlPlayer.hornOfPlenty_cardToObtain(context, maxCost);
+        if (toObtain != null) {
+            // check cost
+            if (toObtain.getCost(context) <= maxCost) {
+                toObtain = game.takeFromPile(toObtain);
+                // could still be null here if the pile is empty.
+                if (toObtain != null) {
+                    event = new GameEvent(GameEvent.EventType.CardObtained, context);
+                    event.card = toObtain;
+                    event.responsible = this;
+                    game.broadcastEvent(event);
+                    
+                    if (toObtain instanceof VictoryCard) {
+                    	player.playedCards.remove(this);
+                        player.trash(this, toObtain, context);
+                        event = new GameEvent(GameEvent.EventType.CardTrashed, context);
+                        event.card = this;
+                        game.broadcastEvent(event);
+                    }
+                }
+            }
+        }
     }
     
     private void huntingParty(Game game, MoveContext context, Player currentPlayer) {
@@ -415,7 +447,7 @@ public class CardImplCornucopia extends ActionCardImpl {
         }
 
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
-            if (targetPlayer != currentPlayer && !isDefendedFromAttack(game, targetPlayer, this)) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 if (targetPlayer.hand.contains(game.baneCard) && game.pileSize(Cards.curse) > 0 && targetPlayer.revealBane(context)) {
                     targetPlayer.reveal(game.baneCard, this.controlCard, new MoveContext(game, targetPlayer));
                 } else {

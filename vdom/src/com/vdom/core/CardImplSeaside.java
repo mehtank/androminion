@@ -5,9 +5,8 @@ import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
 
-public class CardImplSeaside extends ActionCardImpl {
+public class CardImplSeaside extends CardImpl {
 	private static final long serialVersionUID = 1L;
 
 	public CardImplSeaside(CardImpl.Builder builder) {
@@ -246,13 +245,13 @@ public class CardImplSeaside extends ActionCardImpl {
     
     private void haven(MoveContext context, Player currentPlayer) {
         Card card = currentPlayer.getHand().size() == 0 ? null : currentPlayer.controlPlayer.haven_cardToSetAside(context);
-        if ((card == null && hand(currentPlayer).size() > 0) || (card != null && !hand(currentPlayer).contains(card))) {
+        if ((card == null && currentPlayer.getHand().size() > 0) || (card != null && !currentPlayer.getHand().contains(card))) {
             Util.playerError(currentPlayer, "Haven set aside card error, setting aside the first card in hand.");
-            card = hand(currentPlayer).get(0);
+            card = currentPlayer.getHand().get(0);
         }
 
         if (card != null) {
-            hand(currentPlayer).remove(card);
+            currentPlayer.getHand().remove(card);
             currentPlayer.haven.add(card);
             GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideHaven, (MoveContext) context);
             event.card = card;
@@ -443,7 +442,7 @@ public class CardImplSeaside extends ActionCardImpl {
             for (Player targetPlayer : playersToAttack) {
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
-                ArrayList<TreasureCard> treasures = new ArrayList<TreasureCard>();
+                ArrayList<Card> treasures = new ArrayList<Card>();
                 List<Card> cardToDiscard = new ArrayList<Card>();
 
                 for (int i = 0; i < 2; i++) {
@@ -452,8 +451,8 @@ public class CardImplSeaside extends ActionCardImpl {
                     if (card != null) {
                         targetPlayer.reveal(card, this.controlCard, targetContext);
 
-                        if (card instanceof TreasureCard) {
-                            treasures.add((TreasureCard) card);
+                        if (card.is(Type.Treasure, targetPlayer)) {
+                            treasures.add(card);
                         } else {
                             cardToDiscard.add(card);
                         }
@@ -463,7 +462,7 @@ public class CardImplSeaside extends ActionCardImpl {
                     targetPlayer.discard(c, this.controlCard, targetContext);
                 }
 
-                TreasureCard cardToTrash = null;
+                Card cardToTrash = null;
 
                 if (treasures.size() == 1) {
                     cardToTrash = treasures.get(0);
@@ -472,10 +471,10 @@ public class CardImplSeaside extends ActionCardImpl {
                         cardToTrash = treasures.get(0);
                         targetPlayer.discard(treasures.get(1), this.controlCard, targetContext);
                     } else {
-                        cardToTrash = currentPlayer.controlPlayer.pirateShip_treasureToTrash(context, treasures.toArray(new TreasureCard[] {}));
+                        cardToTrash = currentPlayer.controlPlayer.pirateShip_treasureToTrash(context, treasures.toArray(new Card[] {}));
                     }
 
-                    for (TreasureCard treasure : treasures) {
+                    for (Card treasure : treasures) {
                         if (!treasure.equals(cardToTrash)) {
                             targetPlayer.discard(treasure, this.controlCard, targetContext);
                         }
