@@ -6,7 +6,6 @@ import java.util.Random;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameType;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
 import com.vdom.core.Expansion;
@@ -478,7 +477,7 @@ public class VDomPlayerSarah extends BasePlayer {
     public boolean shouldPassOnBuy(MoveContext context, Card card) {
         return 
                 !context.canBuy(card) || 
-                card.isAction(context.player) && actionCardCount >= actionCardMax || 
+                card.is(Type.Action, context.player) && actionCardCount >= actionCardMax || 
                 !favorSilverGoldPlat && (card.equals(Cards.silver) || card.equals(Cards.masterpiece) || card.equals(Cards.gold) || card.equals(Cards.platinum)) ||
                 card.equals(Cards.curse) || 
                 card.equals(Cards.virtualRuins) ||
@@ -489,7 +488,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 context.getEmbargosIfCursesLeft(card) > 0 ||
-                !(card.isAction(context.player)) && !(card.is(Type.Treasure, null)) && !(card.is(Type.Event, null));
+                !(card.is(Type.Action, context.player)) && !(card.is(Type.Treasure, null)) && !(card.is(Type.Event, null));
     }
 
     @Override
@@ -681,7 +680,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 }
                 
                 final int currentCount = getMyCardCount(card);
-                if(isOnlyTreasure(card, context.getPlayer()) || card instanceof VictoryCard || currentCount == 0 || rand.nextInt(MAX_OF_ONE_ACTION_CARD) < currentCount) {
+                if(isOnlyTreasure(card, context.getPlayer()) || card.is(Type.Victory) || currentCount == 0 || rand.nextInt(MAX_OF_ONE_ACTION_CARD) < currentCount) {
                     randList.add(card);
                 }
             }

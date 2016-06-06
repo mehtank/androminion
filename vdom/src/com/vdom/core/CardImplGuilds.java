@@ -239,7 +239,7 @@ public class CardImplGuilds extends CardImpl {
         if (draw != null) {
             currentPlayer.reveal(draw, this.controlCard, context);
 
-            if (draw.isAction(currentPlayer)) {
+            if (draw.is(Type.Action, currentPlayer)) {
                 context.freeActionInEffect++;
                 draw.play(game, context, false);
                 context.freeActionInEffect--;

@@ -21,6 +21,7 @@ public interface Card extends Serializable {
     public Expansion getExpansion();
 
     public boolean is(Type t, Player player);
+    public boolean is(Type t);
 
     public String getStats();
 
@@ -36,10 +37,6 @@ public interface Card extends Serializable {
     
     public int getVictoryPoints();
 
-    public boolean isVictory(MoveContext context);
-    
-    public boolean isAction(Player player);
-    
     public boolean isOverpay(Player player);
     
     public int getAddCards();

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vdom.api.Card;
-import com.vdom.api.VictoryCard;
 
 public abstract class QuickPlayPlayer extends BasePlayer {
     //trash in this order!
@@ -62,7 +61,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         int total = 0;
         for (Card card : getHand()) {
             total++;
-            if (card instanceof VictoryCard) {
+            if (card.is(Type.Victory, context.getPlayer())) {
                 canDiscard++;
             }
             else {
@@ -494,7 +493,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         int actionCards = 0;
         int trashCards = 0;
         for(Card c : getHand()) {
-            if(c.isAction(context.player)) {
+            if(c.is(Type.Action, context.player)) {
                 actionCards++;
             }
             for(Card trash : getTrashCards()) {
@@ -1029,8 +1028,9 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_opulentCastle_cardsToDiscard(MoveContext context) {
-    	for(Card c: context.getPlayer().getHand()) {
-    		if (c.isVictory(context) && c.isAction(context.getPlayer())) {
+    	Player p = context.getPlayer();
+    	for(Card c: p.getHand()) {
+    		if (c.is(Type.Victory, p) && c.is(Type.Action, p)) {
     			return false;
     		}
     	}

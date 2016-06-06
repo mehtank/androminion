@@ -215,12 +215,12 @@ public class VDomPlayerChuck extends BasePlayer  {
                         card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= 2 ||
                         card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= 2 ||
                         card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= 2 ||
-                        !(card.isAction(context.getPlayer())) && !(card.is(Type.Treasure, null))
+                        !(card.is(Type.Action, context.getPlayer())) && !(card.is(Type.Treasure, null))
                    ) {
                     continue;
                 }
                 
-                if (card.isAction(context.getPlayer()) && actionCardCount >= ACTION_CARDS_MAX) {
+                if (card.is(Type.Action, context.getPlayer()) && actionCardCount >= ACTION_CARDS_MAX) {
                     continue;
                 }
                 

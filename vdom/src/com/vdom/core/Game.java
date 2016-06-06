@@ -23,7 +23,6 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.ExtraTurnOption;
 import com.vdom.core.Player.HuntingGroundsOption;
 import com.vdom.core.Player.WatchTowerOption;
@@ -658,6 +657,11 @@ public class Game {
 					break;
 				case OutpostFirst:
 					result.add(new ExtraTurnInfo(false));
+					break;
+				case PossessionFirst:
+					//TODO
+					break;
+				default:
 					break;
 				}
 			} else {
@@ -1525,7 +1529,7 @@ public class Game {
             return false;
         }
 
-        if (!(action.isAction(context.player))) {
+        if (!(action.is(Type.Action, context.player))) {
             return false;
         }
 
@@ -1712,7 +1716,7 @@ public class Game {
         	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
         	event.setAmount(debtCost);
             context.game.broadcastEvent(event);
-        } else if (!(buy instanceof VictoryCard) && !buy.is(Type.Knight, null) && cost < 5 && !buy.is(Type.Event, null)) {
+        } else if (!(buy.is(Type.Victory)) && !buy.is(Type.Knight) && cost < 5 && !buy.is(Type.Event)) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
                 if (!buy.is(com.vdom.core.Type.Ruins, null) || (card != null && card.equals(getTopRuinsCard()))) {
                     context.getPlayer().gainNewCard(buy, Cards.talisman, context);
@@ -1720,18 +1724,18 @@ public class Game {
             }
         }
 
-        if(!buy.is(Type.Event, null)) {
+        if(!buy.is(Type.Event)) {
             player.addVictoryTokens(context, context.countGoonsInPlay());
         }
 
-        if (!buy.is(Type.Event, null) && context.countMerchantGuildsInPlayThisTurn() > 0)
+        if (!buy.is(Type.Event) && context.countMerchantGuildsInPlayThisTurn() > 0)
         {
             player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn());
             GameEvent event   = new GameEvent(GameEvent.EventType.GuildsTokenObtained, context);
             broadcastEvent(event);
         }
 
-        if (buy instanceof VictoryCard) {
+        if (buy.is(Type.Victory)) {
             context.victoryCardsBoughtThisTurn++;
             for (int i = 1; i <= context.countCardsInPlay(Cards.hoard); i++) {
                 player.gainNewCard(Cards.gold, Cards.hoard, context);
@@ -1739,7 +1743,7 @@ public class Game {
         }
 
         buy.isBought(context);
-        if(!buy.is(Type.Event, null)) {
+        if(!buy.is(Type.Event)) {
         	haggler(context, buy);
         }
         
@@ -1758,7 +1762,7 @@ public class Game {
         for (int i = 0; i < hagglers; i++) {
             validCards.clear();
             for (Card card : getCardsInGame()) {
-                if (!(card instanceof VictoryCard) && Cards.isSupplyCard(card) && getCardsLeftInPile(card) > 0) {
+                if (!(card.is(Type.Victory)) && Cards.isSupplyCard(card) && getCardsLeftInPile(card) > 0) {
                     int gainCardCost = card.getCost(context);
                     boolean gainCardPotion = card.costPotion();
 
@@ -1999,6 +2003,7 @@ public class Game {
                     if (playerClass == null) {
                         URLClassLoader classLoader = new URLClassLoader(new URL[] { new URL(playerStartupInfo[1]) });
                         playerClass = classLoader.loadClass(playerStartupInfo[0]);
+                        classLoader.close();
                         cachedPlayerClasses.put(key, playerClass);
                     }
 
@@ -2139,7 +2144,7 @@ public class Game {
         tradeRouteValue = 0;
         if (isCardInGame(Cards.tradeRoute)) {
             for (AbstractCardPile pile : piles.values()) {
-                if ((pile.card() instanceof VictoryCard) && !pile.card().is(Type.Knight, null) && !pile.isBlackMarket()) {
+                if ((pile.card().is(Type.Victory)) && !pile.card().is(Type.Knight) && !pile.isBlackMarket()) {
                     pile.setTradeRouteToken();
                 }
             }
@@ -2616,8 +2621,8 @@ public class Game {
                         return;
                     }
 
-                    if (context != null && event.card instanceof VictoryCard) {
-                        context.vpsGainedThisTurn += ((VictoryCard) event.card).getVictoryPoints();
+                    if (context != null && event.card.is(Type.Victory)) {
+                        context.vpsGainedThisTurn += event.card.getVictoryPoints();
                     }
 
                     if (Cards.inn.equals(event.responsible))
@@ -2802,7 +2807,7 @@ public class Game {
                     	}
                     }
                     
-                    if(event.card.isVictory(context)) {
+                    if(event.card.is(Type.Victory, player)) {
                     	if (isCardInGame(Cards.battlefield)) {
                     		int tokensLeft = getPileVpTokens(Cards.battlefield);
                     		if (tokensLeft > 0) {
@@ -2865,7 +2870,7 @@ public class Game {
                         int actionCardsFound = 0;
                         for(int i=player.discard.size() - 1; i >= 0; i--) {
                             Card c = player.discard.get(i);
-                            if(c.isAction(player)) {
+                            if(c.is(Type.Action, player)) {
                                 actionCardsFound++;
                                 if(player.controlPlayer.inn_shuffleCardBackIntoDeck(event.getContext(), c)) {
                                     cards.add(c);
@@ -3013,7 +3018,7 @@ public class Game {
                     	int victoryCards = 0;
                         for(Card c : player.getHand()) {
                             player.reveal(c, event.card, context);
-                            if(c.isVictory(context)) {
+                            if(c.is(Type.Victory, player)) {
                                 victoryCards++;
                             }
                         }
@@ -3374,7 +3379,7 @@ public class Game {
 
     protected AbstractCardPile addPile(Card card) {
         int count = kingdomCardPileSize;
-        if(card instanceof VictoryCard) count = victoryCardPileSize;
+        if(card.is(Type.Victory)) count = victoryCardPileSize;
         if(card.equals(Cards.rats)) count = 20;
         if(card.equals(Cards.port)) count = 12;
         if(card.is(Type.Event, null)) count = 1;
@@ -3525,6 +3530,7 @@ public class Game {
                 } else {
                     URLClassLoader classLoader = new URLClassLoader(new URL[] { new URL(classAndJar[1]) });
                     player = (Player) classLoader.loadClass(classAndJar[0]).newInstance();
+                    classLoader.close();
                 }
                 if(classAndJar[2] != null) {
                     player.setName(classAndJar[2]);

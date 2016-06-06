@@ -3,10 +3,8 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.VictoryCard;
 
 public class CardImpl implements Card {
 	private static final long serialVersionUID = 1L;
@@ -386,6 +384,12 @@ public class CardImpl implements Card {
         return name;
     }
     
+    @Override
+    public boolean is(Type t) {
+    	return is(t, null);
+    }
+    
+    @Override
     public boolean is(Type t, Player player) {
     	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
 	    	for (int i = 0; i < types.length; ++i) {
@@ -419,7 +423,7 @@ public class CardImpl implements Card {
         
         int costModifier = 0;
         //TODO: BUG this isAction call for Quarry should be player-specific sometimes 
-        costModifier -= this.isAction(null) ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
+        costModifier -= this.is(Type.Action, null) ? (2 * context.countCardsInPlay(Cards.quarry)) : 0;
         costModifier -= context.countCardsInPlay(Cards.highway);
         costModifier -= currentPlayerContext.countCardsInPlay(Cards.bridgeTroll);
         costModifier -= 2 * context.countCardsInPlay(Cards.princess);
@@ -440,17 +444,6 @@ public class CardImpl implements Card {
     	return vp;
     };
 
-    public boolean isVictory(MoveContext context) {
-        if (context == null)
-            return false;
-        
-        if (this.equals(Cards.virtualKnight))
-            if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
-                return (context.game.getTopKnightCard() instanceof VictoryCard); 
-
-        return (this instanceof VictoryCard);
-    }
-    
     @Override
     public int getAddActions() {
         return addActions;
@@ -796,13 +789,6 @@ public class CardImpl implements Card {
     public int debtCost() {
     	return debtCost;
     }
-        
-    @Override
-    public boolean isAction(Player player) {
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
-    		return this instanceof ActionCard;
-    	return player.getInheritance() instanceof ActionCard;
-    }
     
     @Override
     public boolean isOverpay(Player player) {
@@ -981,7 +967,7 @@ public class CardImpl implements Card {
         ArrayList<Card> actionCards = new ArrayList<Card>();
         CardImpl cardToPlay = null;
         for (Card card : currentPlayer.hand) {
-            if (card.isAction(currentPlayer)) {
+            if (card.is(Type.Action, currentPlayer)) {
                 actionCards.add(card);
             }
         }
@@ -1132,7 +1118,7 @@ public class CardImpl implements Card {
             while ((draw = game.draw(context, Cards.scryingPool, -1)) != null) {
                 currentPlayer.reveal(draw, this.controlCard, new MoveContext(context, game, currentPlayer));
                 cardsToPutInHand.add(draw);
-                if(!(draw.isAction(currentPlayer))) {
+                if(!(draw.is(Type.Action, currentPlayer))) {
                     break;
                 }
             }

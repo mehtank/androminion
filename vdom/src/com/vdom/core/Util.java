@@ -638,13 +638,13 @@ public class Util {
 	static public class CardTypeComparator implements Comparator<Card> {
 		@Override
 		public int compare(Card card0, Card card1) {
-			if(card0.isAction(null)) {
-				if(card1.isAction(null)) {
+			if(card0.is(Type.Action, null)) {
+				if(card1.is(Type.Action, null)) {
 					return 0;
 				} else {
 					return -1;
 				}
-			} else if(card1.isAction(null)) {
+			} else if(card1.is(Type.Action, null)) {
 				return 1;
 			} else if(card0.is(Type.Treasure, null) || card0.getKind() == Kind.Potion) {
 				if(card1.is(Type.Treasure, null) || card1.getKind() == Kind.Potion) {

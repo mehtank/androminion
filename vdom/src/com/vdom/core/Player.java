@@ -13,7 +13,6 @@ import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.VictoryCard;
 
 public abstract class Player {
 
@@ -130,7 +129,7 @@ public abstract class Player {
     public ArrayList<Card> getActionCards(Card[] cards, Player player) {
         ArrayList<Card> actionCards = new ArrayList<Card>();
         for (Card card : cards) {
-            if (card.isAction(player)) {
+            if (card.is(Type.Action, player)) {
                 actionCards.add(card);
             }
         }
@@ -145,7 +144,7 @@ public abstract class Player {
     public int getMyAddActionCardCount() {
         int addActionsCards = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 if (card.getAddActions() > 0) {
                     addActionsCards++;
                 }
@@ -158,7 +157,7 @@ public abstract class Player {
     public int getMyAddCardCardCount() {
         int addCards = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 if (card.getAddCards() > 0) {
                     addCards++;
                 }
@@ -171,7 +170,7 @@ public abstract class Player {
     public int getMyAddActions() {
         int addActions = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 addActions += card.getAddActions();
             }
         }
@@ -182,7 +181,7 @@ public abstract class Player {
     public int getMyAddCards() {
         int addCards = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 addCards += card.getAddCards();
             }
         }
@@ -193,7 +192,7 @@ public abstract class Player {
     public int getMyAddBuys() {
         int addBuys = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 addBuys += card.getAddBuys();
             }
         }
@@ -428,7 +427,7 @@ public abstract class Player {
                     context.schemesPlayed --;
                     ArrayList<Card> actions = new ArrayList<Card>();
                     for(Card c : playedCards) {
-                        if(c.isAction(context.player)) {
+                        if(c.is(Type.Action, context.player)) {
                             actions.add(c);
                         }
                     }
@@ -741,14 +740,14 @@ public abstract class Player {
         for (AbstractCardPile pile : this.game.piles.values()) {
             Card card = pile.card();
 
-            if(card instanceof VictoryCard || card.is(Type.Curse, null)) {
+            if(card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
                 cardCounts.put(card, 0);
             }
         }
 
         for(Card card : this.getAllCards()) {
             distinctCards.add(card.getName());
-            if (card instanceof VictoryCard || card.is(Type.Curse, null)) {
+            if (card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
                 if(cardCounts.containsKey(card)) {
                     cardCounts.put(card, cardCounts.get(card) + 1);
                 } else {
@@ -835,7 +834,7 @@ public abstract class Player {
     public int getActionCardCount(ArrayList<Card> cards, Player player) {
     	int cardCount = 0;
         for (Card c : cards) {
-            if (c.isAction(player)) {
+            if (c.is(Type.Action, player)) {
                 cardCount++;
             }
         }
@@ -904,8 +903,8 @@ public abstract class Player {
         Map<Card, Integer> totals = new HashMap<Card, Integer>();
 
         for(Map.Entry<Object, Integer> entry : counts.entrySet()) {
-            if(entry.getKey() instanceof VictoryCard) {
-                VictoryCard victoryCard = (VictoryCard) entry.getKey();
+            if(entry.getKey() instanceof Card && ((Card)entry.getKey()).is(Type.Victory, this)) {
+                Card victoryCard = (Card) entry.getKey();
                 totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
             } else if((entry.getKey() instanceof Card) && ((Card)entry.getKey()).is(Type.Curse, null)) {
                 Card curseCard = (Card) entry.getKey();
@@ -1543,12 +1542,12 @@ public abstract class Player {
         return treasures;
     }
 
-    public ArrayList<VictoryCard> getVictoryInHand() {
-        ArrayList<VictoryCard> victory = new ArrayList<VictoryCard>();
+    public ArrayList<Card> getVictoryInHand() {
+        ArrayList<Card> victory = new ArrayList<Card>();
 
         for (Card c : getHand())
-            if (c instanceof VictoryCard)
-                victory.add((VictoryCard) c);
+            if (c.is(Type.Victory, this))
+                victory.add(c);
 
         return victory;
     }
@@ -1557,7 +1556,7 @@ public abstract class Player {
         ArrayList<Card> actions = new ArrayList<Card>();
 
         for (Card c : getHand())
-            if (c.isAction(player))
+            if (c.is(Type.Action, player))
                 actions.add(c);
 
         return actions;
@@ -1605,7 +1604,7 @@ public abstract class Player {
 
     public abstract boolean spy_shouldDiscard(MoveContext context, Player targetPlayer, Card card);
 
-    public abstract VictoryCard bureaucrat_cardToReplace(MoveContext context);
+    public abstract Card bureaucrat_cardToReplace(MoveContext context);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Intrigue

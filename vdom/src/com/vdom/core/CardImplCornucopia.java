@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.TournamentOption;
 import com.vdom.core.Player.TrustySteedOption;
@@ -81,7 +80,7 @@ public class CardImplCornucopia extends CardImpl {
 
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
-        while ((draw = game.draw(context, Cards.farmingVillage, -1)) != null && !(draw.isAction(currentPlayer)) && !(draw.is(Type.Treasure, currentPlayer))) {
+        while ((draw = game.draw(context, Cards.farmingVillage, -1)) != null && !(draw.is(Type.Action, currentPlayer)) && !(draw.is(Type.Treasure, currentPlayer))) {
             toDiscard.add(draw);
         }
 
@@ -125,7 +124,7 @@ public class CardImplCornucopia extends CardImpl {
                 ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
 
                 Card draw = null;
-                while ((draw = game.draw(playerContext, Cards.fortuneTeller, -1)) != null && !(draw instanceof VictoryCard) && !(draw.is(Type.Curse, context.getPlayer()))) {
+                while ((draw = game.draw(playerContext, Cards.fortuneTeller, -1)) != null && !(draw.is(Type.Victory, player)) && !(draw.is(Type.Curse, player))) {
                     player.reveal(draw, this.controlCard, playerContext);
                     cardsToDiscard.add(draw);
                 }
@@ -193,7 +192,7 @@ public class CardImplCornucopia extends CardImpl {
                     event.responsible = this;
                     game.broadcastEvent(event);
                     
-                    if (toObtain instanceof VictoryCard) {
+                    if (toObtain.is(Type.Victory, player)) {
                     	player.playedCards.remove(this);
                         player.trash(this, toObtain, context);
                         event = new GameEvent(GameEvent.EventType.CardTrashed, context);
@@ -250,7 +249,7 @@ public class CardImplCornucopia extends CardImpl {
                 targetPlayer.reveal(draw, this.controlCard, targetContext);
                 targetPlayer.discard(draw, this.controlCard, targetContext);
 
-                if (draw instanceof VictoryCard) {
+                if (draw.is(Type.Victory, targetPlayer)) {
                     targetPlayer.gainNewCard(Cards.curse, this.controlCard, targetContext);
                 }
                 else if (Cards.isSupplyCard(draw))

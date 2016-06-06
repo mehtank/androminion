@@ -9,7 +9,6 @@ import java.util.Random;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
@@ -65,10 +64,9 @@ public class VDomPlayerEarl extends BasePlayer
        Card card = event.getCard();
        this.historyItems.add(new HistoryItem(this.turnCount, card, 0, HistoryItem.Action.BOUGHT));
  
-       if (card instanceof VictoryCard) {
-         VictoryCard victoryCard = (VictoryCard)card;
+       if (card.is(Type.Victory)) {
          for (Card thisCard : HAND)
-           this.historyItems.add(new HistoryItem(this.turnCount, thisCard, victoryCard.getVictoryPoints(), HistoryItem.Action.VICTORY_HELPER));
+           this.historyItems.add(new HistoryItem(this.turnCount, thisCard, card.getVictoryPoints(), HistoryItem.Action.VICTORY_HELPER));
        } else if (card.is(Type.Curse, event.context.getPlayer())) {
            for (Card thisCard : HAND)
                     this.historyItems.add(new HistoryItem(this.turnCount, thisCard, card.getVictoryPoints(), HistoryItem.Action.VICTORY_HELPER));
@@ -99,8 +97,8 @@ public class VDomPlayerEarl extends BasePlayer
        else {
          count = Integer.valueOf(0);
        }
-       if (card instanceof VictoryCard)
-         stat.put(id, Integer.valueOf(count.intValue() + ((VictoryCard)card).getVictoryPoints()));
+       if (card.is(Type.Victory))
+         stat.put(id, Integer.valueOf(count.intValue() + card.getVictoryPoints()));
        else if (card.is(Type.Curse, null))
            stat.put(id, Integer.valueOf(count.intValue() + card.getVictoryPoints()));
        else {
@@ -122,8 +120,8 @@ public class VDomPlayerEarl extends BasePlayer
        else {
          count = Integer.valueOf(0);
        }
-       if (card instanceof VictoryCard)
-         stat.put(id, Integer.valueOf(count.intValue() + ((VictoryCard)card).getVictoryPoints()));
+       if (card.is(Type.Victory))
+         stat.put(id, Integer.valueOf(count.intValue() + card.getVictoryPoints()));
        else if (card.is(Type.Curse, null))
                 stat.put(id, Integer.valueOf(count.intValue() + card.getVictoryPoints()));
        else {
@@ -158,7 +156,7 @@ public class VDomPlayerEarl extends BasePlayer
      HashMap<Integer, Integer> victoryHelpers = getVictoryStat(historyItems);
  
      for (HistoryItem historyItem : historyItems) {
-       if ((historyItem.getAction() == HistoryItem.Action.BOUGHT) && (historyItem.getCard().isAction(this))) {
+       if ((historyItem.getAction() == HistoryItem.Action.BOUGHT) && (historyItem.getCard().is(Type.Action, this))) {
          debug(historyItem.toString() + ", was in hand " + inHand.get(historyItem.getCard().getId()) + " times, played " + 
            played.get(historyItem.getCard().getId()) + " times, and saw " + victoryHelpers.get(historyItem.getCard().getId()) + " vps");
        }
@@ -208,7 +206,7 @@ public class VDomPlayerEarl extends BasePlayer
  
      int actionCards = 0;
      for (Card card : hand) {
-       if (   card.isAction(context.player)
+       if (   card.is(Type.Action, context.player)
            && !card.equals(Cards.rats)
            && !(card.equals(Cards.tactician) && context.countCardsInPlay(Cards.tactician) > 0)
           ) {
@@ -317,7 +315,7 @@ public class VDomPlayerEarl extends BasePlayer
        if (card.equals(Cards.treasureMap)) {
          continue;
        }
-       if (card.isAction(context.player)) {
+       if (card.is(Type.Action, context.player)) {
          if (dontPlay.contains(card)) {
            continue;
          }
@@ -336,7 +334,7 @@ public class VDomPlayerEarl extends BasePlayer
      int bestAddActions = 0;
  
      for (Card card : hand) {
-       if (card.isAction(player)) {
+       if (card.is(Type.Action, player)) {
          Card action = card;
          if (action.getAddActions() > 0) {
            int addCards = action.getAddCards();
@@ -359,7 +357,7 @@ public class VDomPlayerEarl extends BasePlayer
      int bestAddCards = 0;
  
      for (Card card : hand) {
-       if (card.isAction(player)) {
+       if (card.is(Type.Action, player)) {
          Card action = card;
          int thisAddCards = action.getAddCards();
          if (thisAddCards > bestAddCards) {
@@ -815,7 +813,7 @@ public class VDomPlayerEarl extends BasePlayer
    public Card[] militia_attack_cardsToKeep(MoveContext context) {
      ArrayList<Card> cards = new ArrayList<Card>();
      for (Card card : getHand()) {
-       if (   !(card instanceof VictoryCard)
+       if (   !(card.is(Type.Victory, context.getPlayer()))
            && !(card.is(Type.Curse, context.getPlayer()))
            && !card.is(Type.Shelter, context.getPlayer())
            && !(card.is(Type.Ruins, context.getPlayer()))) {
@@ -894,7 +892,7 @@ public class VDomPlayerEarl extends BasePlayer
  
      Card[] hand = getHand().toArray();
      for (Card card : hand) {
-       if (card instanceof VictoryCard || card.is(Type.Curse, context.getPlayer())) {
+       if (card.is(Type.Victory, context.getPlayer()) || card.is(Type.Curse, context.getPlayer())) {
          cards.add(card);
        }
      }
@@ -940,7 +938,7 @@ public class VDomPlayerEarl extends BasePlayer
      }
  
      for (Card card : getHand()) {
-       if (card instanceof VictoryCard || card.is(Type.Curse, context.getPlayer())) {
+       if (card.is(Type.Victory, context.getPlayer()) || card.is(Type.Curse, context.getPlayer())) {
            if (h.remove(card))
                cards.add(card);
        }
@@ -1001,7 +999,7 @@ public Card masquerade_cardToPass(MoveContext context)
        if (card.equals(Cards.nobles)) {
          continue;
        }
-       if (card.isAction(player)) {
+       if (card.is(Type.Action, player)) {
          ++count;
        }
      }
@@ -1028,7 +1026,7 @@ public Card masquerade_cardToPass(MoveContext context)
    {
      ArrayList<Card> cards = new ArrayList<Card>();
      for (Card card : getHand()) {
-       if (card instanceof VictoryCard || card.is(Type.Curse, context.getPlayer())) {
+       if (card.is(Type.Victory, context.getPlayer()) || card.is(Type.Curse, context.getPlayer())) {
          cards.add(card);
        }
      }

@@ -3,7 +3,6 @@ package com.vdom.core;
 import java.util.ArrayList;
 
 import com.vdom.api.Card;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.Cards.Kind;
 
 public class CardImplAlchemy extends CardImpl {
@@ -103,7 +102,7 @@ public class CardImplAlchemy extends CardImpl {
 
             currentPlayer.reveal(draw, this.controlCard, context);
 
-            if (draw.isAction(currentPlayer) && !draw.equals(Cards.golem)) {
+            if (draw.is(Type.Action, currentPlayer) && !draw.equals(Cards.golem)) {
                 toOrder.add(draw);
                 // currentPlayer.hand.add(draw);
             } else {
@@ -173,13 +172,14 @@ public class CardImplAlchemy extends CardImpl {
         } else {
             currentPlayer.hand.remove(cardToTrash);
             currentPlayer.trash(cardToTrash, this.controlCard, context);
-            if (cardToTrash.isAction(cardToTrash.getKind() == Kind.Fortress ? currentPlayer : null )) {
+            if (cardToTrash.is(Type.Action, cardToTrash.getKind() == Kind.Fortress ? currentPlayer : null )) {
+            	//Condition is wrong for when player is being possessed and Fortress is set aside
                 currentPlayer.gainNewCard(Cards.duchy, this.controlCard, context);
             }
-            if (cardToTrash.is(Type.Treasure, currentPlayer)) {	
+            if (cardToTrash.is(Type.Treasure)) {	
                 currentPlayer.gainNewCard(Cards.transmute, this.controlCard, context);
             }
-            if (cardToTrash instanceof VictoryCard) {
+            if (cardToTrash.is(Type.Victory)) {
                 currentPlayer.gainNewCard(Cards.gold, this.controlCard, context);
             }
         }
@@ -187,7 +187,7 @@ public class CardImplAlchemy extends CardImpl {
     
     private void university(MoveContext context, Player currentPlayer) {
         Card cardToObtain = currentPlayer.controlPlayer.university_actionCardToObtain(context);
-        if (cardToObtain != null && cardToObtain.isAction(null) && cardToObtain.getCost(context) <= 5 && !cardToObtain.costPotion()) {
+        if (cardToObtain != null && cardToObtain.is(Type.Action, null) && cardToObtain.getCost(context) <= 5 && !cardToObtain.costPotion()) {
             currentPlayer.gainNewCard(cardToObtain, this.controlCard, context);
         }
     }

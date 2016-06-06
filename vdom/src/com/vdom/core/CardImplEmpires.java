@@ -145,10 +145,11 @@ public class CardImplEmpires extends CardImpl {
             Util.playerError(currentPlayer, "Catapult did not return a card to trash, trashing random card.");
             cardToTrash = Util.randomCard(currentPlayer.getHand());
         }
-        int coinCost = cardToTrash.getCost(context);
-        boolean isTreasure = cardToTrash.is(Type.Treasure, null); //Assumes card will be in trash at time of check
+        
         currentPlayer.hand.remove(cardToTrash);
         currentPlayer.trash(cardToTrash, this.controlCard, context);
+        boolean isTreasure = cardToTrash.is(Type.Treasure, null);
+        int coinCost = cardToTrash.getCost(context);
     	
         if (coinCost >= 3) {
 	        for (Player player : attackedPlayers) {
@@ -219,7 +220,7 @@ public class CardImplEmpires extends CardImpl {
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card card = currentPlayer.hand.get(i);
             currentPlayer.reveal(card, this.controlCard, context);
-            if (card.isAction(currentPlayer)) {
+            if (card.is(Type.Action, currentPlayer)) {
             	actionCards++;
             }
         }
@@ -279,7 +280,7 @@ public class CardImplEmpires extends CardImpl {
     private void opulentCastle(Game game, MoveContext context, Player currentPlayer) {
         Card[] cards = currentPlayer.controlPlayer.opulentCastle_cardsToDiscard(context);
         for(Card card : cards) {
-        	if (!card.isVictory(context)) {
+        	if (!card.is(Type.Victory, currentPlayer)) {
         		Util.playerError(currentPlayer, "Opulent Castle choice error, trying to discard non-victory cards, ignoring.");
         		cards = null;
         	}

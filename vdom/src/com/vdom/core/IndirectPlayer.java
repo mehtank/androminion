@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.vdom.api.Card;
-import com.vdom.api.VictoryCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
@@ -115,7 +114,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         ArrayList<Card> handList = new ArrayList<Card>();
 
         for (Card card : localHand) {
-            if (sco.checkValid(card, card.getCost(context), card.isVictory(context), context)) {
+            if (sco.checkValid(card, card.getCost(context), card.is(Type.Victory), context)) {
                 handList.add(card);
                 sco.addValidCard(cardToInt(card));
             }
@@ -168,7 +167,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (Card card : cards) {
         	boolean hasTokens = context.game.getPlayerSupplyTokens(card, context.getPlayer()).size() > 0;
             if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
-                if (   sco.checkValid(card, card.getCost(context), card.isVictory(context), null)
+                if (   sco.checkValid(card, card.getCost(context), context.game.getPile(card).card().is(Type.Victory), null)
                 	&& (!(sco.noTokens && hasTokens))
                     && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 &&(context.canBuyCards || card.is(Type.Event, null))))
                         || !sco.pickType.equals(PickType.BUY))
@@ -232,7 +231,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         int actionCount = 0;
         Card actionCard = null;
         for (Card card : (context.player.isPossessed()) ? context.player.getHand() : getHand()) {
-            if (card.isAction(context.player)) {
+            if (card.is(Type.Action, context.player)) {
                 actionCount++;
                 actionCard = card;
             }
@@ -592,13 +591,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public VictoryCard bureaucrat_cardToReplace(MoveContext context) {
+    public Card bureaucrat_cardToReplace(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_bureaucrat_cardToReplace(context)) {
             return super.bureaucrat_cardToReplace(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isVictory()
                 .setCardResponsible(Cards.bureaucrat);
-        return (VictoryCard) getCardFromHand(context, sco);
+        return getCardFromHand(context, sco);
     }
 
     @Override

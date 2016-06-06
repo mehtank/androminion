@@ -11,12 +11,10 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.mehtank.androminion.R;
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameType;
-import com.vdom.api.VictoryCard;
 import com.vdom.comms.Event;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
@@ -425,15 +423,15 @@ public class Strings {
         if (c.equals(Cards.curse)) {
             ret = Strings.format(R.string.vp_single, "" + ((CurseCard) c).getVictoryPoints()) + "\n" + ret;
         }
-        if (c instanceof VictoryCard) {
-            if (((VictoryCard) c).getVictoryPoints() > 1)
-                ret = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
-            else if (((VictoryCard) c).getVictoryPoints() > 0)
-                ret = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
-            else if (((VictoryCard) c).getVictoryPoints() < -1)
-                ret = Strings.format(R.string.vp_multiple, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
-            else if (((VictoryCard) c).getVictoryPoints() < 0)
-                ret = Strings.format(R.string.vp_single, "" + ((VictoryCard) c).getVictoryPoints()) + "\n" + ret;
+        if (c.is(Type.Victory)) {
+            if (c.getVictoryPoints() > 1)
+                ret = Strings.format(R.string.vp_multiple, "" + c.getVictoryPoints()) + "\n" + ret;
+            else if (c.getVictoryPoints() > 0)
+                ret = Strings.format(R.string.vp_single, "" + c.getVictoryPoints()) + "\n" + ret;
+            else if (c.getVictoryPoints() < -1)
+                ret = Strings.format(R.string.vp_multiple, "" + c.getVictoryPoints()) + "\n" + ret;
+            else if (c.getVictoryPoints() < 0)
+                ret = Strings.format(R.string.vp_single, "" + c.getVictoryPoints()) + "\n" + ret;
         }
         if (c.is(Type.Treasure, null)) {
         	int value = c.getAddGold();
@@ -442,8 +440,7 @@ public class Strings {
         	else
         		ret = Strings.format(R.string.coin_worth_multiple, "" + value) + "\n" + ret;
         }
-        if (c instanceof ActionCard) {
-            ActionCard ac = (ActionCard) c;
+        if (c.is(Type.Action, null)) {
             if (c.is(Type.Duration, null)) {
                 if (c.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_single, "" + c.getAddGoldNextTurn()) + "\n" + ret;
                 else if (c.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_multiple, "" + c.getAddGoldNextTurn()) + "\n" + ret;
@@ -456,16 +453,16 @@ public class Strings {
 
             }
 
-            if (ac.getAddGold() > 1) ret = Strings.format(R.string.card_coin_multiple, "" + ac.getAddGold()) + "\n" + ret;
-            else if (ac.getAddGold() > 0) ret = Strings.format(R.string.card_coin_single, "" + ac.getAddGold()) + "\n" + ret;
-            if (ac.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + ac.getAddBuys()) + "\n" + ret;
-            else if (ac.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + ac.getAddBuys()) + "\n" + ret;
-            if (ac.getAddActions() > 1) ret = Strings.format(R.string.card_actions_multiple, "" + ac.getAddActions()) + "\n" + ret;
-            else if (ac.getAddActions() > 0) ret = Strings.format(R.string.card_action_single, "" + ac.getAddActions()) + "\n" + ret;
-            if (ac.getAddCards() > 1) ret = Strings.format(R.string.card_cards_multiple, "" + ac.getAddCards()) + "\n" + ret;
-            else if (ac.getAddCards() > 0) ret = Strings.format(R.string.card_card_single, "" + ac.getAddCards()) + "\n" + ret;
-            if (ac.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + ac.getAddVictoryTokens()) + "\n" + ret;
-            else if (ac.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + ac.getAddVictoryTokens()) + "\n" + ret;
+            if (c.getAddGold() > 1) ret = Strings.format(R.string.card_coin_multiple, "" + c.getAddGold()) + "\n" + ret;
+            else if (c.getAddGold() > 0) ret = Strings.format(R.string.card_coin_single, "" + c.getAddGold()) + "\n" + ret;
+            if (c.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + c.getAddBuys()) + "\n" + ret;
+            else if (c.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + c.getAddBuys()) + "\n" + ret;
+            if (c.getAddActions() > 1) ret = Strings.format(R.string.card_actions_multiple, "" + c.getAddActions()) + "\n" + ret;
+            else if (c.getAddActions() > 0) ret = Strings.format(R.string.card_action_single, "" + c.getAddActions()) + "\n" + ret;
+            if (c.getAddCards() > 1) ret = Strings.format(R.string.card_cards_multiple, "" + c.getAddCards()) + "\n" + ret;
+            else if (c.getAddCards() > 0) ret = Strings.format(R.string.card_card_single, "" + c.getAddCards()) + "\n" + ret;
+            if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
+            else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }
 
         if (c.is(Type.Event, null)) {

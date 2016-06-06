@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import com.vdom.core.Cards;
 import com.vdom.core.Util.MultilevelComparator;
 
 public class MyCard implements Serializable {

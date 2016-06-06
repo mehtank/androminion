@@ -2,21 +2,16 @@ package com.vdom.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
-import com.vdom.api.GameType;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.comms.EventHandler;
-import com.vdom.core.ExitException;
-import com.vdom.core.Game;
-import com.vdom.core.Player;
 
 // TODO(matt): On second thought, it looks like this might be fine staying in the androminion code.
 // It looks like you don't need this to have a RemotePlayer talk to the Game; the point of this is

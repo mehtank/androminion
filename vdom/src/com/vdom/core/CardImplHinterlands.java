@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vdom.api.Card;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.SpiceMerchantOption;
 
 public class CardImplHinterlands extends CardImpl {
@@ -215,7 +214,7 @@ public class CardImplHinterlands extends CardImpl {
         int victoryCards = 0;
         for(Card c : currentPlayer.getHand()) {
             currentPlayer.reveal(c, this.controlCard, context);
-            if(c instanceof VictoryCard) {
+            if(c.is(Type.Victory, currentPlayer)) {
                 victoryCards++;
             }
         }

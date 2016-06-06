@@ -343,7 +343,7 @@ public class CardImplProsperity extends CardImpl {
                     if (card != null) {
                         player.reveal(card, this.controlCard, playerContext);
 
-                        if (card.is(Type.Treasure, player) || card.isAction(player)) {
+                        if (card.is(Type.Treasure, player) || card.is(Type.Action, player)) {
                             cardToDiscard.add(card);
                         } else {
                             topOfTheDeck.add(card);

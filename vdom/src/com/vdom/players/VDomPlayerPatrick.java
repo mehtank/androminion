@@ -8,7 +8,6 @@ import java.util.Random;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEvent;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.AbstractCardPile;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
@@ -639,8 +638,8 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int vps = this.getVictoryTokens();
 		
 		for (Card card : list) {
-			if (card instanceof VictoryCard) {
-				vps += ((VictoryCard) card).getVictoryPoints();
+			if (card.is(Type.Victory, player)) {
+				vps += card.getVictoryPoints();
 			}
 			if (card.is(Type.Curse, null)) {
 				vps += card.getVictoryPoints();
@@ -753,7 +752,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		switch (this.strategy) {
 		case NoAction:
 			for (Card card : list) {
-				if (card.isAction(this)) {
+				if (card.is(Type.Action, this)) {
 					return card;
 				}
 			}
@@ -813,7 +812,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		// Action cards
 		for (Card card : list) {
-			if (card.isAction(this)) {
+			if (card.is(Type.Action, this)) {
 				return card;
 			}
 		}
@@ -1042,7 +1041,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		while (ret.size() < 2) {
 			if (getMyAddActions() == 0) {
 				for (Card acard : temphand) {
-					if (acard.isAction(context.player)) {
+					if (acard.is(Type.Action, context.player)) {
 						ret.add(acard);
 					}
 				}
@@ -1051,7 +1050,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		while (ret.size() < 2) {
 			for (Card vCard : temphand) {
-				if (vCard instanceof VictoryCard) {
+				if (vCard.is(Type.Victory, context.player)) {
 					ret.add(vCard);
 				}
 			}
@@ -1286,7 +1285,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int maxvp = -1;
 
 		Card maxMPC_card = null;
-		VictoryCard maxVP_card = null;
+		Card maxVP_card = null;
 		Card action_card = null;
 		ArrayList<Card> special_cards = new ArrayList<Card>();
 		ArrayList<Card> deck = this.getAllCards();
@@ -1321,27 +1320,25 @@ public class VDomPlayerPatrick extends BasePlayer {
 			if (!exact || card.getCost(context) == gold) {
 				if (game.isValidBuy(context, card, gold)) {
 					
-					if ((card instanceof VictoryCard) && (!specialCards.contains(card))) {
-						VictoryCard vc = (VictoryCard) card;
-						
-						int vp = vc.getVictoryPoints();
-						if (vc.equals(Cards.gardens)) {
+					if ((card.is(Type.Victory)) && (!specialCards.contains(card))) {
+						int vp = card.getVictoryPoints();
+						if (card.equals(Cards.gardens)) {
 							vp += Math.floor(deck.size() / 10);
 						}
-						if (vc.equals(Cards.duke)) {
+						if (card.equals(Cards.duke)) {
 							vp += Util.getCardCount(deck, Cards.duchy);
 						}
-						if (vc.equals(Cards.duchy)) {
+						if (card.equals(Cards.duchy)) {
 							vp += Util.getCardCount(deck, Cards.duke);
 						}
-						if (vc.equals(Cards.silkRoad)) {
+						if (card.equals(Cards.silkRoad)) {
 							vp += Math.floor(this.getCardCount(Type.Victory, deck) / 4);
 						}
-						if (vc.equals(Cards.feodum)) {
+						if (card.equals(Cards.feodum)) {
 							vp += Math.floor(Util.getCardCount(this.getAllCards(), Cards.silver) / 3);
 						}
-						if (game.embargos.containsKey(vc.getName())) {
-							vp -= (game.embargos.get(vc.getName()) + this.guessReshufflesToEnd(context));
+						if (game.embargos.containsKey(card.getName())) {
+							vp -= (game.embargos.get(card.getName()) + this.guessReshufflesToEnd(context));
 						}
 						
 						// don't end the game if losing and the last card will not secure a win
@@ -1354,7 +1351,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 
 						if (vp >= maxvp) {
 							maxvp = vp;
-							maxVP_card = vc;
+							maxVP_card = card;
 						}
 					} // victory
 					
@@ -1634,7 +1631,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 				} else if (specialVictoryCards.contains(c)) {
 					if (c.equals(Cards.farmland)) {
 						if ((hand.contains(Cards.curse)) && (maxVP_card == null || maxVP_card.getVictoryPoints() <= 4)) {
-							maxVP_card = (VictoryCard) c;
+							maxVP_card = c;
 						}
 					}
 				}
@@ -2011,7 +2008,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	   if ((event.getType() == GameEvent.EventType.BuyingCard) || (event.getType() == GameEvent.EventType.CardObtained)) {
     	   Card card = event.getCard();
     	   
-    	   if (card.isAction(event.player)) {
+    	   if (card.is(Type.Action, event.player)) {
     		   Card ac = card;
     		   this.opponents.get(event.player.playerNumber).putActionCard(card);
     		   if (ac.is(Type.Attack, event.player)) { 
@@ -2019,12 +2016,12 @@ public class VDomPlayerPatrick extends BasePlayer {
 	    	   }
     	   }
     	   
-    	   if (card instanceof VictoryCard) {
-    		   this.opponents.get(event.player.playerNumber).addVP(((VictoryCard)card).getVictoryPoints());
+    	   if (card.is(Type.Victory, event.player)) {
+    		   this.opponents.get(event.player.playerNumber).addVP(card.getVictoryPoints());
     	   }
     	   
     	   if (card.equals(Cards.curse)) {
-    		   this.opponents.get(event.player.playerNumber).addVP(-1);
+    		   this.opponents.get(event.player.playerNumber).addVP(card.getVictoryPoints());
     	   }
     	   
        } 
@@ -2032,12 +2029,12 @@ public class VDomPlayerPatrick extends BasePlayer {
 	   if (event.getType() == GameEvent.EventType.CardTrashed) {
     	   Card card = event.getCard();
     	   
-    	   if (card instanceof VictoryCard) {
-    		   this.opponents.get(event.player.playerNumber).addVP(0-((VictoryCard)card).getVictoryPoints());
+    	   if (card.is(Type.Victory, event.player)) {
+    		   this.opponents.get(event.player.playerNumber).addVP(0-card.getVictoryPoints());
     	   }
     	   
     	   if (card.equals(Cards.curse)) {
-    		   this.opponents.get(event.player.playerNumber).addVP(1);
+    		   this.opponents.get(event.player.playerNumber).addVP(0-card.getVictoryPoints());
     	   }
        }
    }
@@ -2334,7 +2331,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		ArrayList<Card> ret = new ArrayList<Card>();
 		
 		for (Card card : getAllCards()) {
-			if (card.isAction(context.player)) {
+			if (card.is(Type.Action, context.player)) {
 				if (card.getAddActions() <= 0) {
 					ret.add(card);
 				}
@@ -2348,7 +2345,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int addcards = 0;
 		
 		for (Card card : getAllCards()) {
-			if (card.isAction(context.player)) {
+			if (card.is(Type.Action, context.player)) {
 				addcards += card.getAddCards();
 			}
 		}
@@ -2371,7 +2368,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		this.log("advisorPlayAction: " + hand);
 		ArrayList<Card> ac = new ArrayList<Card>();
 		for (Card card : hand) {
-			if (card.isAction(player)) {
+			if (card.is(Type.Action, player)) {
 				ac.add(card);
 			}
 		}

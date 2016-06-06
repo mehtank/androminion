@@ -6,7 +6,6 @@ import java.util.Collections;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
-import com.vdom.api.VictoryCard;
 
 public class CardImplIntrigue extends CardImpl {
 	private static final long serialVersionUID = 1L;
@@ -137,13 +136,14 @@ public class CardImplIntrigue extends CardImpl {
         Card card = currentPlayer.controlPlayer.ironworks_cardToObtain(context);
         if (card != null && card.getCost(context) <= 4 && !card.costPotion()) {
             if (currentPlayer.gainNewCard(card, this.controlCard, context).equals(card)) {
-                if (card.isAction(currentPlayer)) {
+                //note these could be wrong if Watchtower is used to trash a gained inherited Estate
+                if (card.is(Type.Action, currentPlayer)) {
                     context.actions++;
                 }
                 if (card.is(Type.Treasure, currentPlayer)) {
                     context.addCoins(1);
                 }
-                if (card instanceof VictoryCard) {
+                if (card.is(Type.Victory, currentPlayer)) {
                     game.drawToHand(context, this, 1);
                 }
             }
@@ -346,7 +346,7 @@ public class CardImplIntrigue extends CardImpl {
             if (card == null) {
                 break;
             }
-            if (card instanceof VictoryCard ) {
+            if (card.is(Type.Victory, currentPlayer)) {
                 currentPlayer.hand.add(card);
             } else {
                 cards.add(card);
@@ -415,7 +415,7 @@ public class CardImplIntrigue extends CardImpl {
         for (Card card : currentPlayer.hand) {
             currentPlayer.reveal(card, this.controlCard, context);
 
-            if (card.isAction(currentPlayer)) {
+            if (card.is(Type.Action, currentPlayer)) {
                 actions = true;
             }
         }
@@ -657,13 +657,13 @@ public class CardImplIntrigue extends CardImpl {
 
         for (Card card : revealedCards) {
             if (card != null && !card.equals(Cards.curse)) {
-                if (card.isAction(nextPlayer)) {
+                if (card.is(Type.Action, nextPlayer)) {
                     context.actions += 2;
                 }
                 if (card.is(Type.Treasure, nextPlayer)) {
                     context.addCoins(2);
                 }
-                if (card instanceof VictoryCard) {
+                if (card.is(Type.Victory, nextPlayer)) {
                     game.drawToHand(context, this, 2);
                     game.drawToHand(context, this, 1);
                 }

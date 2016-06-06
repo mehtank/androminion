@@ -10,7 +10,6 @@ import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
-import com.vdom.api.VictoryCard;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
@@ -177,15 +176,15 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             card.isCurse = true;
             card.vp =  c.getVictoryPoints();
         }
-        if (c instanceof VictoryCard) {
+        if (c.is(Type.Victory)) {
             card.isVictory = true;
-            card.vp = ((VictoryCard) c).getVictoryPoints();
+            card.vp =  c.getVictoryPoints();
         }
         if (c.is(Type.Treasure, null)) {
             card.isTreasure = true;
             card.gold = c.getAddGold();
         }
-        if (c.isAction(null)) {
+        if (c.is(Type.Action, null)) {
             card.isAction = true;
             if (c.is(Type.Duration, null)) {
                 card.isDuration = true;
@@ -475,7 +474,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (topKnight == null) {
             topKnight = Cards.virtualKnight;
         }
-        gs.setKnightTopCard(cardToInt(Cards.virtualKnight), topKnight, topKnight.getCost(context), topKnight.isVictory(context));
+        gs.setKnightTopCard(cardToInt(Cards.virtualKnight), topKnight, topKnight.getCost(context), topKnight.is(Type.Victory));
 
         Event p = new Event(EType.STATUS)
                 .setObject(new EventObject(gs));
@@ -990,7 +989,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (e.t == EType.CARDRANKING) {
             /*TODO frr*/
             //Goal: Sort cards by names in foreign language
-            MyCard[] cardranking = e.o.ng.cards;
+            //MyCard[] cardranking = e.o.ng.cards;
         }
         if (e.t == EType.HELLO) {
             name = (e.s == "" ? "Remote player" : e.s);

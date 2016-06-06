@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
 
 public class VariableCardPile extends AbstractCardPile {
@@ -57,7 +56,7 @@ public class VariableCardPile extends AbstractCardPile {
 
 	@Override
 	public void addCard(Card card) {
-		if (!card.isAction(null)) return;
+		if (!card.is(Type.Action, null)) return;
 
 		piles.get(card.getName()).addCard(card);
 

@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.VictoryCard;
 
 public class CardImplBase extends CardImpl {
 	private static final long serialVersionUID = 1L;
@@ -107,11 +106,11 @@ public class CardImplBase extends CardImpl {
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
 
-                ArrayList<VictoryCard> victoryCards = new ArrayList<VictoryCard>();
+                ArrayList<Card> victoryCards = new ArrayList<Card>();
 
                 for (Card card : player.hand) {
-                    if (card instanceof VictoryCard) {
-                        victoryCards.add((VictoryCard) card);
+                    if (card.is(Type.Victory, player)) {
+                        victoryCards.add(card);
                     }
                 }
 
@@ -121,7 +120,7 @@ public class CardImplBase extends CardImpl {
                         player.reveal(card, this.controlCard, playerContext);
                     }
                 } else {
-                    VictoryCard toTopOfDeck = null;
+                    Card toTopOfDeck = null;
 
                     if (victoryCards.size() == 1) {
                         toTopOfDeck = victoryCards.get(0);
@@ -131,7 +130,7 @@ public class CardImplBase extends CardImpl {
                     } else {
                         toTopOfDeck = (player).controlPlayer.bureaucrat_cardToReplace(playerContext);
 
-                        if (toTopOfDeck == null) {
+                        if (toTopOfDeck == null || !toTopOfDeck.is(Type.Victory, player)) {
                             Util.playerError(player, "No Victory Card selected for Bureaucrat, using first Victory Card in hand");
                             toTopOfDeck = victoryCards.get(0);
                         }
@@ -233,7 +232,7 @@ public class CardImplBase extends CardImpl {
             }
             
             boolean shouldKeep = true;
-            if (draw.isAction(currentPlayer)) {
+            if (draw.is(Type.Action, currentPlayer)) {
                 shouldKeep = currentPlayer.controlPlayer.library_shouldKeepAction(context, draw);
             }
 

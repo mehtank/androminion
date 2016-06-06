@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.QuestOption;
 
@@ -479,7 +478,7 @@ public class CardImplAdventures extends CardImpl {
             } else {
                 currentPlayer.putOnTopOfDeck(c, context, true);
             }
-            if ((c instanceof VictoryCard) || (c.isAction(currentPlayer))) {
+            if ((c.is(Type.Victory, currentPlayer)) || (c.is(Type.Action, currentPlayer))) {
                 currentPlayer.gainNewCard(Cards.magpie, this.controlCard, context);
             }
         }
@@ -678,7 +677,7 @@ public class CardImplAdventures extends CardImpl {
 		Card lastFreePile = null;
 		for (Card c : game.getCardsInGame()) {
 			if (game.getPile(c).isSupply() 
-					&& c.isAction(null)
+					&& c.is(Type.Action, null)
 					&& game.getPlayerSupplyTokens(c, currentPlayer).size() == 0) {
 				numFreePiles++;
 				lastFreePile = c;
@@ -879,14 +878,14 @@ public class CardImplAdventures extends CardImpl {
     
     private void ferry(MoveContext context) {
     	Card card = context.getPlayer().controlPlayer.ferry_actionCardPileToHaveToken(context);
-    	if (card.isAction(null))
+    	if (card.is(Type.Action, null))
     		placeToken(context, card, PlayerSupplyToken.MinusTwoCost);
     }
     
     private void inheritance(MoveContext context) {
     	Card card = context.getPlayer().controlPlayer.inheritance_actionCardTosetAside(context);
-    	if (card != null && card.isAction(null)) {
-            if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card) && !card.isVictory(context)) {
+    	if (card != null && card.is(Type.Action, null)) {
+            if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card) && !card.is(Type.Victory, null)) {
             	context.player.inheritance = context.game.takeFromPile(card, context);
             	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideInheritance, context);
                 event.card = card;
@@ -897,7 +896,7 @@ public class CardImplAdventures extends CardImpl {
     
     private void lostArts(MoveContext context) {
     	Card card = context.getPlayer().controlPlayer.lostArts_actionCardPileToHaveToken(context);
-    	if (card.isAction(null))
+    	if (card.is(Type.Action, null))
     		placeToken(context, card, PlayerSupplyToken.PlusOneAction);
     }
     
@@ -908,7 +907,7 @@ public class CardImplAdventures extends CardImpl {
     
     private void pathfinding(MoveContext context) {
     	Card card = context.getPlayer().controlPlayer.pathfinding_actionCardPileToHaveToken(context);
-    	if (card.isAction(null))
+    	if (card.is(Type.Action, null))
     		placeToken(context, card, PlayerSupplyToken.PlusOneCard);
     }
     
@@ -939,7 +938,7 @@ public class CardImplAdventures extends CardImpl {
     
     private void plan(MoveContext context) {
     	Card card = context.getPlayer().controlPlayer.plan_actionCardPileToHaveToken(context);
-    	if (card.isAction(null))
+    	if (card.is(Type.Action, null))
     		placeToken(context, card, PlayerSupplyToken.Trashing);
     }
     
@@ -1121,7 +1120,7 @@ public class CardImplAdventures extends CardImpl {
     
     private void seaway(MoveContext context) {
     	Card card = context.player.controlPlayer.seaway_cardToObtain(context);
-        if (card != null && card.isAction(null)) {
+        if (card != null && card.is(Type.Action, null)) {
             if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card)) {
             	Card gainedCard = context.player.gainNewCard(card, this.controlCard, context);
             	if (card.equals(gainedCard)
@@ -1135,7 +1134,7 @@ public class CardImplAdventures extends CardImpl {
     
     private void training(MoveContext context) {
     	Card card = context.getPlayer().controlPlayer.training_actionCardPileToHaveToken(context);
-    	if (card.isAction(null))
+    	if (card.is(Type.Action, null))
     		placeToken(context, card, PlayerSupplyToken.PlusOneCoin);
     }
     

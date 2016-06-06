@@ -9,7 +9,6 @@ import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
-import com.vdom.api.VictoryCard;
 
 public class MoveContext {
     public int actions = 1;
@@ -311,7 +310,7 @@ public class MoveContext {
     }
 
     public boolean canPlay(Card card) {
-        if (card.isAction(player)) {
+        if (card.is(Type.Action, player)) {
             return game.isValidAction(this, card);
         } else {
             return false;

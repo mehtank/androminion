@@ -13,7 +13,6 @@ import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
-import com.vdom.api.VictoryCard;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
@@ -53,7 +52,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             reactedSet.clear();
         }
         if(event.getPlayer() == this && (event.getType() == GameEvent.EventType.CardObtained || event.getType() == GameEvent.EventType.BuyingCard)) {
-            if(event.getCard().isAction(event.getPlayer())) {
+            if(event.getCard().is(Type.Action, event.getPlayer())) {
                 actionCardCount++;
             }
             
@@ -176,8 +175,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || card.equals(Cards.survivors)
                 || (card.is(Type.Knight, null) && !card.equals(Cards.virtualKnight)) /*choose only virtualKnight*/
                 || !Cards.isSupplyCard(card)
-                || (actionOnly && !(card.isAction(null))) 
-                || (!victoryCardAllowed && (card instanceof VictoryCard) && !card.equals(Cards.curse))
+                || (actionOnly && !(card.is(Type.Action, null))) 
+                || (!victoryCardAllowed && (card.is(Type.Victory)) && !card.equals(Cards.curse))
                 ) {
                 /*card not allowed*/
             } else if (   card.equals(Cards.curse) 
@@ -515,7 +514,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         for(int i=0; i < 3; i++) {
             Card c = Util.randomCard(context.getPlayer().getHand());
-            if(!(c instanceof VictoryCard)) {
+            if(!(c.is(Type.Victory, context.getPlayer()))) {
                 return c;
             }
         }
@@ -551,7 +550,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             int bestAction = -1;
             boolean removed = false;
             for (int i = 0; i < keepers.size(); i++) {
-                if (keepers.get(i).isAction(context.player)) {
+                if (keepers.get(i).is(Type.Action, context.player)) {
                     if (bestAction == -1) {
                         bestAction = i;
                     } else {
@@ -671,10 +670,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card[] cellar_cardsToDiscard(MoveContext context) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (Card card : context.getPlayer().getHand()) {
-            if (context.getActionsLeft() == 0 && card.isAction(context.player)) {
+            if (context.getActionsLeft() == 0 && card.is(Type.Action, context.player)) {
                 cards.add(card);
             }
-            else if ((!(card.isAction(context.player)) && !(card.is(Type.Treasure, context.player))) || card.equals(Cards.cellar) || card.equals(Cards.copper)) {
+            else if ((!(card.is(Type.Action, context.player)) && !(card.is(Type.Treasure, context.player))) || card.equals(Cards.cellar) || card.equals(Cards.copper)) {
                 cards.add(card);
             }
             else if (shouldDiscard(card, context)) {
@@ -694,7 +693,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return false;
         }
         for (Card card : context.getPlayer().getHand()) {
-            if (card.isAction(context.player) && !card.is(Type.Ruins, context.player)) {
+            if (card.is(Type.Action, context.player) && !card.is(Type.Ruins, context.player)) {
                 return false;
             }
         }
@@ -943,7 +942,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         int actionCards = 0;
 
         for (Card card : context.getPlayer().getHand()) {
-            if ((card.isAction(context.player))) {
+            if ((card.is(Type.Action, context.player))) {
                 actionCards++;
             }
         }
@@ -981,7 +980,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return card;
         }
         for (Card c : context.getPlayer().getHand()) {
-            if(c instanceof VictoryCard) {
+            if(c.is(Type.Victory, context.getPlayer())) {
                 continue;
             }
             
@@ -1146,7 +1145,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         ArrayList<Card> randList = new ArrayList<Card>();
         int maxCost = -1;
         for (Card card : cardList) {
-            if (card.isAction(context.player) && card.getCost(context) <= 4 && !card.costPotion()) {
+            if (card.is(Type.Action, context.player) && card.getCost(context) <= 4 && !card.costPotion()) {
                 if (   !card.is(Type.Ruins, context.player)
                     && !card.equals(Cards.necropolis)
                     && !card.trashForced()
@@ -1516,7 +1515,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card kingsCourt_cardToPlay(MoveContext context) {
         //TODO better logic
         for (Card c : context.getPlayer().getHand()) {
-            if(c.isAction(context.getPlayer())) {
+            if(c.is(Type.Action, context.getPlayer())) {
                 return c;
             }
         }
@@ -1645,7 +1644,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card hamlet_cardToDiscardForAction(MoveContext context) {
         int actionCards = 0;
         for (Card c : context.getPlayer().getHand()) {
-            if(c.isAction(context.getPlayer())) {
+            if(c.is(Type.Action, context.getPlayer())) {
                 actionCards++;
             }
         }
@@ -1779,35 +1778,35 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public VictoryCard bureaucrat_cardToReplace(MoveContext context) {
+    public Card bureaucrat_cardToReplace(MoveContext context) {
         // Not sure on this logic...
         Card[] cards = getVictoryInHand().toArray(new Card[] {});
         if (cards.length == 0) return null;
 
         int actions = 0;
         for (Card card : cards) {
-            if (card.isAction(context.player)) {
+            if (card.is(Type.Action, context.player)) {
                 actions++;
             }
         }
 
         if(actions > 1) {
             for (Card card : cards) {
-                if (card instanceof VictoryCard && !isOnlyVictory(card, context.getPlayer())) {
-                    return (VictoryCard) card;
+                if (card.is(Type.Victory, context.getPlayer()) && !isOnlyVictory(card, context.getPlayer())) {
+                    return card;
                 }
             }
         }
         
         for (Card card : cards) {
-            if (card instanceof VictoryCard && isOnlyVictory(card, context.getPlayer())) {
-                return (VictoryCard) card;
+            if (card.is(Type.Victory, context.getPlayer()) && isOnlyVictory(card, context.getPlayer())) {
+                return card;
             }
         }
         
         for (Card card : cards) {
-            if (card instanceof VictoryCard) {
-                return (VictoryCard) card;
+            if (card.is(Type.Victory, context.getPlayer())) {
+                return card;
             }
         }
         
@@ -1854,17 +1853,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return treasures[index];
     }
     
-    public VictoryCard getBestVictoryCard(MoveContext context) {
-    	ArrayList<VictoryCard> cards = new ArrayList<VictoryCard>();
+    public Card getBestVictoryCard(MoveContext context) {
+    	ArrayList<Card> cards = new ArrayList<Card>();
     	
     	for (Card c : context.getVictoryCardsInGame()) {
-    		cards.add((VictoryCard) c);
+    		cards.add(c);
     	}
     	
-    	return getBestVictoryCard(context, cards.toArray(new VictoryCard[0]));
+    	return getBestVictoryCard(context, cards.toArray(new Card[0]));
     }
     
-    public VictoryCard getBestVictoryCard(MoveContext context, VictoryCard[] cards) {
+    public Card getBestVictoryCard(MoveContext context, Card[] cards) {
         if(cards == null) {
             return null;
         }
@@ -1886,7 +1885,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return false;
         }
         
-        if(card.isAction(player) || card instanceof VictoryCard) {
+        if(card.is(Type.Action, player) || card.is(Type.Victory, player)) {
             return false;
         }
         
@@ -1904,11 +1903,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     public boolean isOnlyVictory(Card card, Player p) {
-        if(!(card instanceof VictoryCard)) {
+        if(!(card.is(Type.Victory, p))) {
             return false;
         }
         
-        if(card.isAction(p) || card.is(Type.Treasure, p)) {
+        if(card.is(Type.Action, p) || card.is(Type.Treasure, p)) {
             return false;
         }
         
@@ -2219,7 +2218,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card mandarin_cardToReplace(MoveContext context) {
         if (context.getActionsLeft() == 0) {
             for (Card card : context.getPlayer().getHand()) {
-                if (card.isAction(context.getPlayer())) {
+                if (card.is(Type.Action, context.getPlayer())) {
                     return card;
                 }
             }
@@ -2379,7 +2378,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		}
 		for (Card c : context.player.hand)
 		{
-			if (c.isAction(context.player) && c.getCost(context) <= Cards.deathCart.getCost(context)) {
+			if (c.is(Type.Action, context.player) && c.getCost(context) <= Cards.deathCart.getCost(context)) {
 				return c;
 			}
 		}
@@ -2420,7 +2419,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public Card graverobber_cardToTrash(MoveContext context) {
 		CardList ac = new CardList(controlPlayer, getPlayerName(false));
 		for (Card c : context.getPlayer().getHand()) {
-			if (c.isAction(context.getPlayer())) {
+			if (c.is(Type.Action, context.getPlayer())) {
 				ac.add(c);
 			}
 		}
@@ -2492,14 +2491,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public Card[] storeroom_cardsToDiscardForCards(MoveContext context) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (Card card : context.getPlayer().getHand()) {
-            if ((!(card.isAction(context.getPlayer())) && !(card.is(Type.Treasure, context.getPlayer()))) || card.equals(Cards.cellar) || card.equals(Cards.storeroom) || card.equals(Cards.copper)) {
+            if ((!(card.is(Type.Action, context.getPlayer())) && !(card.is(Type.Treasure, context.getPlayer()))) || card.equals(Cards.cellar) || card.equals(Cards.storeroom) || card.equals(Cards.copper)) {
                 cards.add(card);
             }
         }
 
         if (context.getActionsLeft() == 0) {
             for (Card c : context.getPlayer().getHand()) {
-                if ((c.isAction(context.getPlayer()))) {
+                if ((c.is(Type.Action, context.getPlayer()))) {
                     cards.add(c);
                 }
             }
@@ -2512,14 +2511,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	public Card[] storeroom_cardsToDiscardForCoins(MoveContext context) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (Card card : context.getPlayer().getHand()) {
-            if ((!(card.isAction(context.getPlayer())) && !(card.is(Type.Treasure, context.getPlayer()))) || card.equals(Cards.cellar) || card.equals(Cards.storeroom) || card.equals(Cards.copper)) {
+            if ((!(card.is(Type.Action, context.getPlayer())) && !(card.is(Type.Treasure, context.getPlayer()))) || card.equals(Cards.cellar) || card.equals(Cards.storeroom) || card.equals(Cards.copper)) {
                 cards.add(card);
             }
         }
 
         if (context.getActionsLeft() == 0) {
             for (Card c : context.getPlayer().getHand()) {
-                if ((c.isAction(context.getPlayer()))) {
+                if ((c.is(Type.Action, context.getPlayer()))) {
                     cards.add(c);
                 }
             }
@@ -2548,13 +2547,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion) {
-		ArrayList<VictoryCard> cards = new ArrayList<VictoryCard>();
+		ArrayList<Card> cards = new ArrayList<Card>();
 		for (Card c: context.getVictoryCardsInGame()) {
 			if (c.getCost(context) <= maxCost && !game.isPileEmpty(c) && Cards.isSupplyCard(c)) {
-				cards.add((VictoryCard) c);
+				cards.add(c);
 			}
 		}
-		return (cards.size() == 0) ? null : this.getBestVictoryCard(context, cards.toArray(new VictoryCard[0]));
+		return (cards.size() == 0) ? null : this.getBestVictoryCard(context, cards.toArray(new Card[0]));
 	}
 
 	@Override
@@ -2611,7 +2610,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 		ArrayList<Card> goodCards = new ArrayList<Card>();
     	for (Card c : handCards)
-    		if (c.is(Type.Treasure, context.getPlayer()) || c.isAction(context.getPlayer()))
+    		if (c.is(Type.Treasure, context.getPlayer()) || c.is(Type.Action, context.getPlayer()))
     			goodCards.add(c);
 
     	if (goodCards.size() > 0) {
@@ -2647,7 +2646,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return card;
         }
         for (Card c : context.getPlayer().getHand()) {
-            if(c instanceof VictoryCard) {
+            if(c.is(Type.Victory, context.getPlayer())) {
                 continue;
             }
             
@@ -2673,7 +2672,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
     	Player p = context.getPlayer();
     	for(Card card : cards) {
-    		if (!isOnlyVictory(card, p) && !card.is(Type.Curse, p) && !isTrashCard(card) && !(context.actions == 0 && (card.isAction(p)))) {
+    		if (!isOnlyVictory(card, p) && !card.is(Type.Curse, p) && !isTrashCard(card) && !(context.actions == 0 && (card.is(Type.Action, p)))) {
     			cl.add(card);
 			}
     		if (card.equals(Cards.copper)) {
@@ -2811,7 +2810,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             int bestAction = -1;
             boolean removed = false;
             for (int i = 0; i < keepers.size(); i++) {
-                if (keepers.get(i).isAction(context.getPlayer())) {
+                if (keepers.get(i).is(Type.Action, context.getPlayer())) {
                     if (bestAction == -1) {
                         bestAction = i;
                     } else {
@@ -2894,7 +2893,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	{	
 		CardList cl = new CardList(controlPlayer, getPlayerName(false));
 		for (Card c : cardList) {
-			if (c.isAction(context.getPlayer())) {
+			if (c.is(Type.Action, context.getPlayer())) {
 				cl.add(c);
 			}
 		}
@@ -3081,7 +3080,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         /*dead code???*/
         for (Card c : context.getPlayer().getHand()) {
-            if(c instanceof VictoryCard) {
+            if(c.is(Type.Victory, context.getPlayer())) {
                 continue;
             }
         }
@@ -3133,17 +3132,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card stonemason_cardToTrash(MoveContext context)
     {
-        if (context.getPlayer().getHand().size() == 0) {
+    	Player p = context.getPlayer();
+        if (p.getHand().size() == 0) {
             return null;
         }
         
-        if (context.getPlayer().getHand().size() == 1) {
-            return context.getPlayer().getHand().get(0);
+        if (p.getHand().size() == 1) {
+            return p.getHand().get(0);
         }
 
         //trash platinum to get 2 provinces
-        for (Card c : context.getPlayer().getHand()) {
-        	if(c.getCost(null) > 8 && !c.isVictory(context)) {
+        for (Card c : p.getHand()) {
+        	if(c.getCost(null) > 8 && !c.is(Type.Victory, p)) {
         		return c;
         	}
         }
@@ -3154,10 +3154,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         		trashCards.add(c);
         	}
         }
-        Card card = pickOutCard(context.getPlayer().getHand(), trashCards.toArray(new Card[0]));
+        Card card = pickOutCard(p.getHand(), trashCards.toArray(new Card[0]));
         
         if (card == null) {
-        	card = lowestCard(context, context.getPlayer().getHand(), false);
+        	card = lowestCard(context, p.getHand(), false);
         }
         
         return card;
@@ -3287,7 +3287,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	// Check coin of the Realm first
     	boolean hasMoreActionsLeft = false;
     	for (Card c : getHand()) {
-    		if (c.isAction(context.getPlayer())) {
+    		if (c.is(Type.Action, context.getPlayer())) {
     			hasMoreActionsLeft = true;
     		}
     	}
@@ -3377,7 +3377,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	int highestCost = -1;
     	Card bestCard = null;
 		for (Card c : getDistinctCards()) {
-			if (c.isAction(context.getPlayer())) {
+			if (c.is(Type.Action, context.getPlayer())) {
 				int cost = c.getCost(context);
 				if (cost > highestCost) {
 					highestCost = cost;
@@ -3392,7 +3392,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card disciple_cardToPlay(MoveContext context) {
     	//TODO better logic
         for (Card c : context.getPlayer().getHand()) {
-            if(c.isAction(context.getPlayer())) {
+            if(c.is(Type.Action, context.getPlayer())) {
                 return c;
             }
         }
@@ -3408,7 +3408,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card[] gear_cardsToSetAside(MoveContext context) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (Card card : context.getPlayer().getHand()) {
-            if (context.getActionsLeft() == 0 && card.isAction(context.getPlayer())) {
+            if (context.getActionsLeft() == 0 && card.is(Type.Action, context.getPlayer())) {
                 cards.add(card);
             }
         }
@@ -3512,7 +3512,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 		ArrayList<Card> goodCards = new ArrayList<Card>();
     	for (Card c : cards)
-    		if (c.is(Type.Treasure, context.getPlayer()) || c.isAction(context.getPlayer()))
+    		if (c.is(Type.Treasure, context.getPlayer()) || c.is(Type.Action, context.getPlayer()))
     			goodCards.add(c);
 
     	if (goodCards.size() > 0) {
@@ -3566,7 +3566,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	Card[] cards = context.game.getCardsInGame();
 		Arrays.sort(cards, new Util.CardCostComparatorDesc()); 
     	for (Card c : cards) {
-    		if (c.isAction(null) && 
+    		if (c.is(Type.Action, null) && 
     				Cards.isSupplyCard(c) && 
     				game.getPlayerSupplyTokens(c, this).size() == 0)
     			return c;
@@ -3854,8 +3854,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card[] opulentCastle_cardsToDiscard(MoveContext context) {
     	List<Card> result = new ArrayList<Card>();
-    	for (Card c : context.getPlayer().getHand()) {
-    		if (c.isVictory(context)) {
+    	Player p = context.getPlayer();
+    	for (Card c : p.getHand()) {
+    		if (c.is(Type.Victory, p)) {
     			result.add(c);
     		}
     	}

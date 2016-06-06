@@ -8,7 +8,6 @@ import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
-import com.vdom.api.VictoryCard;
 import com.vdom.core.MoveContext.PileSelection;
 
 public class CardImplDarkAges extends CardImpl {
@@ -306,7 +305,7 @@ public class CardImplDarkAges extends CardImpl {
             if (cardToImpersonate != null 
                 && !game.isPileEmpty(cardToImpersonate)
                 && Cards.isSupplyCard(cardToImpersonate)
-                && cardToImpersonate.isAction(null)
+                && cardToImpersonate.is(Type.Action, null)
                 && cardToImpersonate.getCost(context) < this.controlCard.getCost(context) 
                 && (context.golemInEffect == 0 || cardToImpersonate != Cards.golem)) {
                 GameEvent event = new GameEvent(GameEvent.EventType.CardNamed, (MoveContext) context);
@@ -621,7 +620,7 @@ public class CardImplDarkAges extends CardImpl {
             case TrashActionCard:
                 Card toTrash = currentPlayer.controlPlayer.graverobber_cardToTrash(context);
 
-                if (toTrash == null || !currentPlayer.hand.contains(toTrash) || !(toTrash.isAction(currentPlayer))) {
+                if (toTrash == null || !currentPlayer.hand.contains(toTrash) || !(toTrash.is(Type.Action, currentPlayer))) {
                     Util.playerError(currentPlayer, "Graverobber trash error, trashing nothing.");
                     return;
                 }
@@ -702,14 +701,14 @@ public class CardImplDarkAges extends CardImpl {
             } else {
                 currentPlayer.putOnTopOfDeck(card, context, true);
             }
-
-            if (card.isAction(currentPlayer)) {
+            
+            if (card.is(Type.Action, currentPlayer)) {
                 context.actions += 1;
             }
             if (card.is(Type.Treasure, currentPlayer)) {
                 context.addCoins(1);
             }
-            if (card instanceof VictoryCard) {
+            if (card.is(Type.Victory, currentPlayer)) {
                 game.drawToHand(context, this, 1);
             }
         }
@@ -913,7 +912,7 @@ public class CardImplDarkAges extends CardImpl {
         ArrayList<Card> allCards = new ArrayList<Card>(currentPlayer.getDistinctCards());
         ArrayList<Card> options = new ArrayList<Card>();
         for (Card c : allCards) {
-            if(c instanceof VictoryCard)
+            if(c.is(Type.Victory, currentPlayer))
                 options.add(c);
         }
         Collections.sort(options, new Util.CardNameComparator());
@@ -925,7 +924,7 @@ public class CardImplDarkAges extends CardImpl {
 
         // search for first Victory card that was not named
         while ((last = context.game.draw(context, Cards.rebuild, -1)) != null) {
-            if (last instanceof VictoryCard && !last.equals(named)) break;
+            if (last.is(Type.Victory, currentPlayer) && !last.equals(named)) break;
             cards.add(last);
             currentPlayer.reveal(last, this.controlCard, context);
         }
@@ -1239,7 +1238,7 @@ public class CardImplDarkAges extends CardImpl {
         Card c = game.draw(context, Cards.vagrant, 1);
         if (c != null) {
             currentPlayer.reveal(c, this.controlCard, context);
-            if (c.getKind() == Cards.Kind.Curse || c.is(Type.Shelter, currentPlayer) || (c instanceof VictoryCard) || (c.is(Type.Ruins, currentPlayer))) {
+            if (c.getKind() == Cards.Kind.Curse || c.is(Type.Shelter, currentPlayer) || (c.is(Type.Victory, currentPlayer)) || (c.is(Type.Ruins, currentPlayer))) {
                 currentPlayer.hand.add(c);
             } else {
                 currentPlayer.putOnTopOfDeck(c, context, true);
@@ -1254,7 +1253,7 @@ public class CardImplDarkAges extends CardImpl {
             if (card == null) {
                 break;
             }
-            if (!(card.isAction(currentPlayer)) ) {
+            if (!(card.is(Type.Action, currentPlayer)) ) {
                 currentPlayer.discard(card, this.controlCard, context);
             } else {
                 currentPlayer.reveal(card, this.controlCard, context);
