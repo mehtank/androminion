@@ -204,7 +204,7 @@
     <string name="City_name">Stadt</string>
     <string name="City_desc">Wenn im Vorrat genau ein Stapel leer ist: +1 Karte. Oder, wenn 2 oder mehr Stapel leer sind: +1 Karte, +1 Geld, +1 Kauf.</string>
     <string name="Contraband_name">Schmuggelware</string>
-    <string name="Contraband_desc">+1 Kauf\nWenn du diese Karte auslegst, benennt der Spieler links von dir eine Karte. Du darfst diese Karte nicht kaufen.</string>
+    <string name="Contraband_desc">Wenn du diese Karte auslegst, benennt der Spieler links von dir eine Karte. Du darfst diese Karte nicht kaufen.</string>
     <string name="CountingHouse_name">Leihhaus</string>
     <string name="CountingHouse_desc">Sieh deinen Ablagestapel durch, decke eine beliebige Anzahl Kupfer daraus auf und nimm diese auf die Hand.</string>
     <string name="Expand_name">Ausbau</string>
@@ -390,7 +390,7 @@
     <string name="Rogue_name">Schurke</string>
     <string name="Rogue_desc">Wenn im Müllstapel eine oder mehrere Karten sind, die 3 bis 6 Geld kosten, nimm dir eine davon. Wenn dies nicht der Fall ist, muss jeder Mitspieler die obersten beiden Karten seines Nachziehstapels aufdecken, eine solche Karte entsorgen und den Rest ablegen.</string>
     <string name="Counterfeit_name">Falschgeld</string>
-    <string name="Counterfeit_desc">+1 Kauf\nWenn du diese Karte ausspielst, darfst du eine Geldkarte aus deiner Hand wählen und zweimal ausspielen. Wenn du das machst: Entsorge die gewählte Geldkarte.</string>
+    <string name="Counterfeit_desc">Wenn du diese Karte ausspielst, darfst du eine Geldkarte aus deiner Hand wählen und zweimal ausspielen. Wenn du das machst: Entsorge die gewählte Geldkarte.</string>
     <string name="Pillage_name">Raubzug</string>
     <string name="Pillage_desc">Entsorge diese Karte. Jeder Mitspieler mit 5 oder mehr Karten auf der Hand muss seine Handkarten aufdecken. Du wählst von jedem Mitspieler eine Karte, die er ablegen muss. Nimm dir zwei Beute-Karten vom Beute-Stapel.</string>
     <string name="Spoils_name">Beute</string>

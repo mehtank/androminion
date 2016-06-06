@@ -203,7 +203,7 @@
     <string name="City_name">City</string>
     <string name="City_desc">If there are one or more empty Supply piles, +1 Card. If there are two or more, +1 Coin and +1 Buy.</string>
     <string name="Contraband_name">Contraband</string>
-    <string name="Contraband_desc">+1 Buy  When you play this, the player to your left names a card. You can\'t buy that card this turn.</string>
+    <string name="Contraband_desc">When you play this, the player to your left names a card. You can\'t buy that card this turn.</string>
     <string name="CountingHouse_name">Counting House</string>
     <string name="CountingHouse_desc">Look through your discard pile, reveal any number of Copper cards from it, and put them into your hand.</string>
     <string name="Expand_name">Expand</string>
@@ -389,7 +389,7 @@
     <string name="Rogue_name">Rogue</string>
     <string name="Rogue_desc">If there are any cards in the trash costing from 3 to 6 coins, gain one of them. Otherwise, each other player reveals the top 2 cards of his deck, trashes one of them costing from 3 to 6 coins, and discards the rest.</string>
     <string name="Counterfeit_name">Counterfeit</string>
-    <string name="Counterfeit_desc">+1 Buy\nWhen you play this, you may play a Treasure from your hand twice. If you do, trash that Treasure.</string>
+    <string name="Counterfeit_desc">When you play this, you may play a Treasure from your hand twice. If you do, trash that Treasure.</string>
     <string name="Pillage_name">Pillage</string>
     <string name="Pillage_desc">Trash this. Each other player with 5 or more cards in hand reveals his hand and discards a card that you choose. Gain 2 Spoils from the Spoils pile.</string>
     <string name="Spoils_name">Spoils</string>
@@ -612,7 +612,7 @@
     <string name="FarmersMarket_name">Farmers\' Market</string>
     <string name="FarmersMarket_desc">If there are 4 Victory Tokens or more on the Farmers\' Market Supply pile, take them and trash this. Otherwise, add 1 Victory token to the pile and then +(1) Coin per 1 Victory Token on the pile.</string>
     <string name="Fortune_name">Fortune</string>
-    <string name="Fortune_desc">+1 Buy\nWhen you play this, double your Coins if you haven\'t yet this turn. - When you gain this, gain a Gold per Gladiator you have in play.</string>
+    <string name="Fortune_desc">When you play this, double your Coins if you haven\'t yet this turn. - When you gain this, gain a Gold per Gladiator you have in play.</string>
     <string name="Gladiator_name">Gladiator</string>
     <string name="Gladiator_desc">Reveal a card from your hand. The player to your left may reveal a copy from their hand. If they do not, +(1) Coin and trash a Gladiator from the Supply.</string>
     <string name="Groundskeeper_name">Groundskeeper</string>

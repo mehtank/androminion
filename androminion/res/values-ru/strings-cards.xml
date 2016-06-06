@@ -203,7 +203,7 @@
     <string name="City_name">Город</string>
     <string name="City_desc">Если есть одна или более пустых стопок запаса, +1 карта. Если 2 или более, +1 монета и +1 покупка.</string>
     <string name="Contraband_name">Контрабанда</string>
-    <string name="Contraband_desc">+1 покупка. Когда эта карта играется, игрок слева от тебя называет карту. Вы не можете купить эту карту в этом ходу.</string>
+    <string name="Contraband_desc">Когда эта карта играется, игрок слева от тебя называет карту. Вы не можете купить эту карту в этом ходу.</string>
     <string name="CountingHouse_name">Бухгалтерия</string>
     <string name="CountingHouse_desc">Просмотрите свой сброс, возьмите из него в руку любое количество Меди</string>
     <string name="Expand_name">Расширение</string>
