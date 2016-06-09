@@ -645,13 +645,13 @@
     <string name="KingsCastle_name">Castillo del Rey</string>
     <string name="KingsCastle_desc">Vale 2 PV por cada carta de Castillo que tengas.</string>
     
+    <string name="Dominate_name">Dominar</string>
+    <string name="Dominate_desc">Gana una Provincia. Si lo haces, +9 puntos de Victoria.</string>
     <string name="Triumph_name">Triunfo</string>
     <string name="Triumph_desc">Gana una Finca. Si lo haces, +1 punto de Victory por cada carta que ganaste durante este turno.</string>
     <string name="Windfall_name">Ganancia Inesperada</string>
     <string name="Windfall_desc">Si tu mazo y tu pila de descartes están agotados, ganas 3 cartas de Oro.</string>
-    <string name="Dominate_name">Dominar</string>
-    <string name="Dominate_desc">Gana una Provincia. Si lo haces, +9 puntos de Victoria.</string>
-    
+        
     <string name="Battlefield_name">Campo de Batalla</string>
     <string name="Battlefield_desc">Cuando ganes una carta de Victoria, toma 2 fichas de Victoria de aquí. — Preparación: Pon 6 fichas de Victoria aquí por cada jugador.</string>
     <string name="Fountain_name">Fuente</string>
