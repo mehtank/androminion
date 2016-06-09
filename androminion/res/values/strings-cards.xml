@@ -718,7 +718,7 @@
     <string name="Keep_desc">When scoring, 5 VP per differently named Treasure you have, that you have more copies of than each other player, or tied for most.</string>
     <string name="Labyrinth_name">Labyrinth</string>
     <string name="Labyrinth_desc">When you gain a 2nd card in one of your turns, take 2 Victory tokens from here. - Setup: Put 6 Victory tokens here per player.</string>
-    <string name="MountainPass_name">MountainPass</string>
+    <string name="MountainPass_name">Mountain Pass</string>
     <string name="MountainPass_desc">When you are the first player to gain a Province, after that turn, each player bids once, up to 40 Debt tokens, ending with you. High bidder gets +8 Victory tokens and takes the Debt tokens they bid.</string>
     <string name="Museum_name">Museum</string>
     <string name="Museum_desc">When scoring, 2 VP per differently named card you have.</string>
