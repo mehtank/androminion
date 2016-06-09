@@ -937,6 +937,9 @@ public abstract class Player {
         if (this.game.cardInGame(Cards.fountain)) {
     		totals.put(Cards.fountain, (Util.getCardCount(getAllCards(), Cards.copper) >= 10) ? 15 : 0);
         }
+        if (this.game.cardInGame(Cards.museum)) {
+        	totals.put(Cards.museum, counts.get(DISTINCT_CARDS) * 2);
+        }
         if (this.game.cardInGame(Cards.wolfDen)) {
         	totals.put(Cards.wolfDen, counts.get(ONE_COPY_CARDS) * -3);
         }
