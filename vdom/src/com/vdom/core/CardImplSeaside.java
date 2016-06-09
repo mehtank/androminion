@@ -13,6 +13,8 @@ public class CardImplSeaside extends CardImpl {
 		super(builder);
 	}
 	
+	protected CardImplSeaside() { }
+
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {

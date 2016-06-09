@@ -17,6 +17,8 @@ public class CardImplDarkAges extends CardImpl {
 		super(builder);
 	}
 
+	protected CardImplDarkAges() { }
+
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {

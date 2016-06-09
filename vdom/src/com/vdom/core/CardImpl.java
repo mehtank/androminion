@@ -332,7 +332,52 @@ public class CardImpl implements Card {
 
     public CardImpl instantiate() {
         checkInstantiateOK();
-        CardImpl c = new CardImpl();
+        CardImpl c = null;
+        if (expansion == null) {
+    		c = new CardImpl();
+    	} else {
+	    	switch (expansion) {
+	    	case Base:
+	    		c = new CardImplBase();
+	    		break;
+	    	case Intrigue:
+	    		c = new CardImplIntrigue();
+	    		break;
+	    	case Seaside:
+	    		c = new CardImplSeaside();
+	    		break;
+	    	case Alchemy:
+	    		c = new CardImplAlchemy();
+	    		break;
+	    	case Prosperity:
+	    		c = new CardImplProsperity();
+	    		break;
+	    	case Cornucopia:
+	    		c = new CardImplCornucopia();
+	    		break;
+	    	case Hinterlands:
+	    		c = new CardImplHinterlands();
+	    		break;
+	    	case DarkAges:
+	    		c = new CardImplDarkAges();
+	    		break;
+	    	case Guilds:
+	    		c = new CardImplGuilds();
+	    		break;
+	    	case Adventures:
+	    		c = new CardImplAdventures();
+	    		break;
+	    	case Empires:
+	    		c = new CardImplEmpires();
+	    		break;
+	    	case Promo:
+	    		c = new CardImplPromo();
+	    		break;
+	    	default:
+	    		c = new CardImpl();
+	    		break;
+	    	}
+    	}
         copyValues(c);
         return c;
     }

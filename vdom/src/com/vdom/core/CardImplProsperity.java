@@ -14,6 +14,8 @@ public class CardImplProsperity extends CardImpl {
 		super(builder);
 	}
 	
+	protected CardImplProsperity() { }
+
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {

@@ -14,6 +14,8 @@ public class CardImplGuilds extends CardImpl {
 		super(builder);
 	}
 
+	protected CardImplGuilds() { }
+
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch (getKind()) {

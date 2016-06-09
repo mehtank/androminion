@@ -14,6 +14,8 @@ public class CardImplEmpires extends CardImpl {
 		super(builder);
 	}
 
+	protected CardImplEmpires() { }
+
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {

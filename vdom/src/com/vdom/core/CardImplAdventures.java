@@ -16,6 +16,8 @@ public class CardImplAdventures extends CardImpl {
 		super(builder);
 	}
 	
+	protected CardImplAdventures() { }
+
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {

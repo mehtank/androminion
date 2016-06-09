@@ -12,6 +12,8 @@ public class CardImplAlchemy extends CardImpl {
 		super(builder);
 	}
 
+	protected CardImplAlchemy() { }
+
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {

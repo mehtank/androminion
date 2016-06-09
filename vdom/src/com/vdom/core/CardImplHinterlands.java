@@ -13,6 +13,8 @@ public class CardImplHinterlands extends CardImpl {
 		super(builder);
 	}
 
+	protected CardImplHinterlands() { }
+
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {

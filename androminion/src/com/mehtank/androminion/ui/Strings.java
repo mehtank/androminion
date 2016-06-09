@@ -12,7 +12,6 @@ import android.content.res.Resources;
 
 import com.mehtank.androminion.R;
 import com.vdom.api.Card;
-import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameType;
 import com.vdom.comms.Event;
@@ -421,7 +420,7 @@ public class Strings {
         String ret = Strings.getCardDescription(c);
 
         if (c.equals(Cards.curse)) {
-            ret = Strings.format(R.string.vp_single, "" + ((CurseCard) c).getVictoryPoints()) + "\n" + ret;
+            ret = Strings.format(R.string.vp_single, "" + c.getVictoryPoints()) + "\n" + ret;
         }
         if (c.is(Type.Victory)) {
             if (c.getVictoryPoints() > 1)

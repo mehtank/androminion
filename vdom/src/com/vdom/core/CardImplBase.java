@@ -14,6 +14,8 @@ public class CardImplBase extends CardImpl {
 		super(builder);
 	}
 
+	protected CardImplBase() { }
+
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch (this.getKind()) {
