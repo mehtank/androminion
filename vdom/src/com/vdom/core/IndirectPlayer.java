@@ -3164,6 +3164,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setPickType(PickType.KEEP).setCardResponsible(Cards.catapult);
         return getFromHand(context, sco);
     }
+    
+    @Override
+    public EncampmentOption encampment_chooseOption(MoveContext context, EncampmentOption[] options) {
+    	if(context.isQuickPlay() && shouldAutoPlay_encampment_chooseOption(context, options)) {
+            return super.encampment_chooseOption(context, options);
+        }
+    	return options[selectOption(context, Cards.encampment, options)];
+    }
 
     @Override
     public Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {

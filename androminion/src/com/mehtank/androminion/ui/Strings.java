@@ -26,6 +26,7 @@ import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
 import com.vdom.core.Player.DoctorOverpayOption;
+import com.vdom.core.Player.EncampmentOption;
 import com.vdom.core.Player.ExtraTurnOption;
 import com.vdom.core.Player.GovernorOption;
 import com.vdom.core.Player.GraverobberOption;
@@ -875,6 +876,12 @@ public class Strings {
                 return getString(R.string.doctor_overpay_option_two);
             } else if (option == DoctorOverpayOption.PutItBack) {
                 return getString(R.string.doctor_overpay_option_three);
+            }
+        } else if (option instanceof EncampmentOption) {
+            if (option == EncampmentOption.RevealGold) {
+                return getString(R.string.reveal_gold);
+            } else if (option == EncampmentOption.RevealPlunder) {
+                return getString(R.string.reveal_plunder);
             }
         } else if (option instanceof StashOption) {
             if (option == StashOption.PlaceOnTop) {

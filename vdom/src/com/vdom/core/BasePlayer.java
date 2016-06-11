@@ -3822,6 +3822,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public EncampmentOption encampment_chooseOption(MoveContext context, EncampmentOption[] options) {
+    	return options[0];
+    }
+    
+    @Override
     public Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
     	Card[] cards = new Card[2];
     	cards[0] = context.player.getHand().get(0);

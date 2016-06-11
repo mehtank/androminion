@@ -458,6 +458,8 @@
   <string name="start_turn_query">Comienzo del turno. Elige una acción:</string>
   <string name="call_optional">%1$s (opcional)</string>
   
+  <string name="reveal_gold">Revelar Oro</string>
+  <string name="reveal_plunder">Revelar Saqueo</string>
   <string name="hauntedcastle_part">devolver al mazo [Castillo Embrujado]</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>

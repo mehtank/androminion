@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.core.Cards.Kind;
+import com.vdom.core.Player.EncampmentOption;
 
 public class CardImplEmpires extends CardImpl {
 	private static final long serialVersionUID = 1L;
@@ -31,6 +32,9 @@ public class CardImplEmpires extends CardImpl {
         	break;
         case CityQuarter:
         	cityQuarter(game, context, currentPlayer);
+        	break;
+        case Encampment:
+        	encampment(game, context, currentPlayer);
         	break;
         case Enchantress:
         	durationAttack(game, context, currentPlayer);
@@ -238,6 +242,35 @@ public class CardImplEmpires extends CardImpl {
         for (int i = 0; i < actionCards; ++i) {
         	game.drawToHand(context, this, actionCards - i);
         }
+    }
+    
+    private void encampment(Game game, MoveContext context, Player currentPlayer) {
+    	boolean revealedCard = false;
+    	CardList hand = currentPlayer.getHand();
+    	ArrayList<EncampmentOption> options = new ArrayList<Player.EncampmentOption>();
+    	if (hand.contains(Cards.gold))
+    		options.add(EncampmentOption.RevealGold);
+    	if (hand.contains(Cards.plunder))
+    		options.add(EncampmentOption.RevealPlunder);
+    	options.add(null);
+    	if (options.size() > 1) {
+    		EncampmentOption option = currentPlayer.controlPlayer.encampment_chooseOption(context, options.toArray(new EncampmentOption[0]));
+    		if (options.contains(EncampmentOption.RevealGold) && option.equals(EncampmentOption.RevealGold)) {
+    			Card c = hand.get(Cards.gold);
+    			currentPlayer.reveal(c, this.controlCard, context);
+    			revealedCard = true;
+    		}
+    		if (options.contains(EncampmentOption.RevealPlunder) && option.equals(EncampmentOption.RevealPlunder)) {
+    			Card c = hand.get(Cards.plunder);
+    			currentPlayer.reveal(c, this.controlCard, context);
+    			revealedCard = true;
+    		}
+    	}
+    	
+    	if (!revealedCard) {
+    		currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.controlCard));
+    		currentPlayer.encampment.add(this.controlCard);
+    	}
     }
     
     private void farmersMarket(Game game, MoveContext context, Player currentPlayer) {

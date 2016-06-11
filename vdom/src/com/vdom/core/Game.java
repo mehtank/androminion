@@ -3565,6 +3565,17 @@ public class Game {
     public AbstractCardPile getPile(Card card) {
         return piles.get(card.getName());
     }
+    
+    public AbstractCardPile getGamePile(Card card) {
+    	Card virtCard = card;
+    	//TODO: improve this to be generic for all piles
+        if (card.is(Type.Knight, null)) {
+            virtCard = Cards.virtualKnight;
+        } else if (card.is(Type.Ruins, null)) {
+            virtCard = Cards.virtualRuins;
+        }
+        return getPile(virtCard);
+    }
 
     public void trashHovelsInHandOption(Player player, MoveContext context, Card responsible)
     {

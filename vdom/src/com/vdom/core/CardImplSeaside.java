@@ -90,18 +90,10 @@ public class CardImplSeaside extends CardImpl {
             Util.playerError(currentPlayer, "Ambassador revealed card error, picking random card.");
             card = Util.randomCard(currentPlayer.hand);
         }
-        Card origCard = card;
-        Card virtCard = card;
 
-        AbstractCardPile pile;
-        if (card.is(Type.Knight, null)) {
-            virtCard = Cards.virtualKnight;
-        } else if (card.is(Type.Ruins, null)) {
-            virtCard = Cards.virtualRuins;
-        }
-        pile = game.getPile(virtCard);
+        AbstractCardPile pile = game.getGamePile(card);
 
-        currentPlayer.reveal(origCard, this.controlCard, context);
+        currentPlayer.reveal(card, this.controlCard, context);
         //Util.log("Ambassador revealed card:" + origCard.getName());
 
         int returnCount = -1;
@@ -109,12 +101,12 @@ public class CardImplSeaside extends CardImpl {
             // Wiki: If you reveal a card which is not in the Supply, such as Spoils, Madman Mercenary, or Shelters, Ambassador does nothing
             Util.playerError(currentPlayer, "Ambassador revealed card not in supply, returning 0.");
         } else {
-            returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, origCard);
+            returnCount = currentPlayer.controlPlayer.ambassador_returnToSupplyFromHand(context, card);
             if (returnCount > 2) {
                 Util.playerError(currentPlayer, "Ambassador return to supply error (more than 2 cards), returning 2.");
                 returnCount = 2;
             } else {
-                int inHandCount = currentPlayer.inHandCount(origCard);
+                int inHandCount = currentPlayer.inHandCount(card);
                 if (returnCount > inHandCount) {
                     Util.playerError(currentPlayer, "Ambassador return to supply error (more than cards in hand), returning " + inHandCount);
                     returnCount = inHandCount;
@@ -123,7 +115,7 @@ public class CardImplSeaside extends CardImpl {
         }
 
         for (int i = 0; i < returnCount; i++) {
-            int idx = currentPlayer.hand.indexOf(origCard);
+            int idx = currentPlayer.hand.indexOf(card);
             if (idx > -1) {
                 pile.addCard(currentPlayer.hand.remove(idx));
             } else {
@@ -138,8 +130,8 @@ public class CardImplSeaside extends CardImpl {
                 player.attacked(this.controlCard, context);
 
                 if (returnCount > -1) {
-                  if (pile.getType() == AbstractCardPile.PileType.SingleCardPile || origCard.equals(pile.card()) ) {
-                      player.gainNewCard(virtCard, this.controlCard, new MoveContext(game, player));
+                  if (pile.isSupply()) {
+                      player.gainNewCard(card, this.controlCard, new MoveContext(game, player));
                   }
                 }
             }

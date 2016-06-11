@@ -1015,6 +1015,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_encampment_chooseOption(MoveContext context, EncampmentOption[] options) {
+    	return true;
+    }
+    
     public boolean shouldAutoPlay_hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {
     	return false;
     }

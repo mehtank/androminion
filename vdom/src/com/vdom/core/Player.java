@@ -57,6 +57,7 @@ public abstract class Player {
     protected CardList horseTraders;
     protected Card inheritance;
     protected Card save;
+    protected CardList encampment;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     public Game game;
     public Player controlPlayer = this;
@@ -269,6 +270,7 @@ public abstract class Player {
         gear = new ArrayList<ArrayList<Card>>();
         horseTraders = new CardList(this, "Horse Traders");
         inheritance = null;
+        encampment = new CardList(this, "Encampment");
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
     }
 
@@ -354,6 +356,12 @@ public abstract class Player {
         List<PutBackOption> putBackOptions;
         ArrayList<Card> putBackCards = new ArrayList<Card>();
         int actionsPlayed = context.countActionCardsInPlay();
+        
+        //return Encampments
+        while (!encampment.isEmpty()) {
+        	Card toReturn = encampment.removeLastCard();
+            game.getGamePile(toReturn).addCard(toReturn);
+        }
 
         while (!(putBackOptions = controlPlayer.getPutBackOptions(context, actionsPlayed)).isEmpty()) {
             PutBackOption putBackOption = controlPlayer.selectPutBackOption(context, putBackOptions);
@@ -721,6 +729,9 @@ public abstract class Player {
         }
         if (inheritance != null)
         	allCards.add(inheritance);
+        for (Card card : encampment) {
+            allCards.add(card);
+        }
         if (checkLeadCard != null) {
             allCards.add(checkLeadCard);
         }
@@ -1529,6 +1540,11 @@ public abstract class Player {
     	DiscardTwoCurses,
     	DiscardSixCards
     }
+    
+    public static enum EncampmentOption {
+    	RevealGold,
+    	RevealPlunder
+    }
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
@@ -2047,6 +2063,7 @@ public abstract class Player {
     public abstract boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers);
     public abstract Card catapult_cardToTrash(MoveContext context);
     public abstract Card[] catapult_attack_cardsToKeep(MoveContext context);
+    public abstract EncampmentOption encampment_chooseOption(MoveContext context, EncampmentOption[] options);
     public abstract Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context);
     public abstract Card gladiator_revealedCard(MoveContext context);
     public abstract boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card);
