@@ -9,6 +9,7 @@ import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
+import com.vdom.core.Cards.Kind;
 
 public class MoveContext {
     public int actions = 1;
@@ -264,6 +265,16 @@ public class MoveContext {
     
     public int getNumCardsGainedThisTurn() {
     	return game.getCardsObtainedByPlayer().size();
+    }
+    
+    public int getNumCardsGainedThisTurn(Kind kind) {
+    	int result = 0;
+        for (Card c : game.getCardsObtainedByPlayer()) {
+        	if (c.getKind() == kind) {
+        		result++;
+        	}
+        }
+        return result;
     }
 
     public HashMap<String, Integer> getCardCounts() {

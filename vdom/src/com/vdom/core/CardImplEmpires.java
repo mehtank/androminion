@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.vdom.api.Card;
+import com.vdom.core.Cards.Kind;
 
 public class CardImplEmpires extends CardImpl {
 	private static final long serialVersionUID = 1L;
@@ -46,6 +47,9 @@ public class CardImplEmpires extends CardImpl {
         case OpulentCastle:
         	opulentCastle(game, context, currentPlayer);
         	break;
+        case Patrician:
+        	patrician(game, context, currentPlayer);
+        	break;
         case RoyalBlacksmith:
         	royalBlacksmith(game, context, currentPlayer);
         	break;
@@ -67,6 +71,12 @@ public class CardImplEmpires extends CardImpl {
 		super.isBuying(context);
         switch (this.controlCard.getKind()) {
         //Events
+        case Conquest:
+        	conquest(context);
+        	break;
+        case Delve:
+        	delve(context);
+        	break;
         case Dominate:
         	dominate(context);
         	break;
@@ -298,6 +308,18 @@ public class CardImplEmpires extends CardImpl {
         }
     }
     
+    private void patrician(Game game, MoveContext context, Player currentPlayer) {
+    	Card c = game.draw(context, Cards.patrician, 1);
+        if (c != null) {
+            currentPlayer.reveal(c, this.controlCard, context);
+            if (c.getCost(context) >= 5) {
+                currentPlayer.hand.add(c);
+            } else {
+                currentPlayer.putOnTopOfDeck(c, context, true);
+            }
+        }
+    }
+    
     private void royalBlacksmith(Game game, MoveContext context, Player currentPlayer) {
     	int numCoppers = 0;
     	for (int i = 0; i < currentPlayer.hand.size(); i++) {
@@ -420,6 +442,18 @@ public class CardImplEmpires extends CardImpl {
     }
 	
     //Events
+    
+    private void conquest(MoveContext context) {
+    	context.player.gainNewCard(Cards.silver, this.controlCard, context);
+    	context.player.gainNewCard(Cards.silver, this.controlCard, context);
+    	int silversGained = context.getNumCardsGainedThisTurn(Kind.Silver);
+    	if (silversGained > 0)
+    		context.player.addVictoryTokens(context, silversGained);
+    }
+    
+    private void delve(MoveContext context) {
+    	context.player.gainNewCard(Cards.silver, this.controlCard, context);
+    }
     
     private void dominate(MoveContext context) {
     	Card gainedCard = context.player.gainNewCard(Cards.province, this.controlCard, context);

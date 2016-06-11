@@ -2624,7 +2624,7 @@ public class Game {
                     if (context != null && event.card.is(Type.Victory)) {
                         context.vpsGainedThisTurn += event.card.getVictoryPoints();
                     }
-
+                    
                     if (Cards.inn.equals(event.responsible))
                         Util.debug((String.format("discard pile: %d", player.discard.size())), true);
 
@@ -2946,6 +2946,10 @@ public class Game {
                                 drawToHand(new MoveContext(Game.this, targetPlayer), Cards.lostCity, 1, true);
                             }
                         }
+                    } else if (gainedCardAbility.equals(Cards.emporium)) {
+                    	if (context.countActionCardsInPlay() >= 5) {
+                    		player.addVictoryTokens(context, 2);
+                    	}
                     } else if (gainedCardAbility.equals(Cards.fortune)) {
                     	int gladiators = context.countCardsInPlayByName(Cards.gladiator);
                     	for (int i = 0; i < gladiators; ++i) {
@@ -3426,7 +3430,7 @@ public class Game {
     public ArrayList<Card> getCardsObtainedByPlayer() {
         return getCardsObtainedByPlayer(playersTurn);
     }
-
+    
     public ArrayList<Card> getCardsObtainedByLastPlayer() {
         int playerOnRight = playersTurn - 1;
         if (playerOnRight < 0) {
