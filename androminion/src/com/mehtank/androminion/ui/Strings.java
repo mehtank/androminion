@@ -1385,8 +1385,11 @@ public class Strings {
             getCardName(Cards.pilgrimage),
             getCardName(Cards.seaway),
             /*Empires*/
+            getCardName(Cards.catapult),
+            getCardName(Cards.forum),
             getCardName(Cards.gladiator),
             getCardName(Cards.opulentCastle),
+            getCardName(Cards.sacrifice),
             getCardName(Cards.temple),
             /*Promo Events*/
             getCardName(Cards.summon)

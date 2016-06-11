@@ -1667,8 +1667,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card[] horseTradersDungeon_cardsToDiscard(MoveContext context, Card responsible) {
-        return lowestCards(context, context.getPlayer().getHand(), 2, true);
+    public Card[] discardMultiple_cardsToDiscard(MoveContext context, Card responsible, int numToDiscard) {
+        return lowestCards(context, context.getPlayer().getHand(), numToDiscard, true);
     }
 
     @Override
@@ -3861,6 +3861,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		}
     	}
     	return result.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card sacrifice_cardToTrash(MoveContext context) {
+    	Card c = pickOutCard(context.getPlayer().getHand(), EARLY_TRASH_CARDS);
+    	if (c == null) {
+    		//TODO: avoid cards we want to trash here (e.g. province) - action cards when it could continue the chain favorably
+            c = Util.randomCard(context.getPlayer().getHand());
+        }
+    	return c;
     }
     
     @Override

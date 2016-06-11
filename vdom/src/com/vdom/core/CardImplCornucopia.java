@@ -48,7 +48,7 @@ public class CardImplCornucopia extends CardImpl {
         	hornOfPlenty(context, currentPlayer, game);
         	break;
         case HorseTraders:
-            horseTradersDungeon(context, currentPlayer);
+            discardMultiple(context, currentPlayer, 2);
             break;
         case HuntingParty:
             huntingParty(game, context, currentPlayer);

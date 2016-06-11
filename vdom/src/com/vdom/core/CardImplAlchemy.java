@@ -174,7 +174,7 @@ public class CardImplAlchemy extends CardImpl {
         } else {
             currentPlayer.hand.remove(cardToTrash);
             currentPlayer.trash(cardToTrash, this.controlCard, context);
-            if (cardToTrash.is(Type.Action, cardToTrash.getKind() == Kind.Fortress ? currentPlayer : null )) {
+            if (cardToTrash.is(Type.Action, cardToTrash.behaveAsCard().getKind() == Kind.Fortress ? currentPlayer : null )) {
             	//Condition is wrong for when player is being possessed and Fortress is set aside
                 currentPlayer.gainNewCard(Cards.duchy, this.controlCard, context);
             }

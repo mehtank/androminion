@@ -525,8 +525,8 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_horseTradersDungeon_cardsToDiscard(MoveContext context) {
-        return true;
+    public boolean shouldAutoPlay_discardMultiple_cardsToDiscard(MoveContext context) {
+        return false;
     }
 
     
@@ -1025,6 +1025,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     
     public boolean shouldAutoPlay_gladiator_revealCopy(MoveContext context, Card card) {
     	return true;
+    }
+    
+    public boolean shouldAutoPlay_sacrifice_cardToTrash(MoveContext context) {
+    	return false;
     }
     
     public boolean shouldAutoPlay_opulentCastle_cardsToDiscard(MoveContext context) {

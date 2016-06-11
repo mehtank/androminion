@@ -47,7 +47,7 @@ public class CardImplAdventures extends CardImpl {
         	putOnTavern(game, context, currentPlayer);
             break;
         case Dungeon:
-            horseTradersDungeon(context, currentPlayer);
+            discardMultiple(context, currentPlayer, 2);
             break;
         case Fugitive:
             fugitive(context, currentPlayer);

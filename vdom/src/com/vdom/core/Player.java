@@ -1781,7 +1781,7 @@ public abstract class Player {
 
     public abstract Card hornOfPlenty_cardToObtain(MoveContext context, int maxCost);
 
-    public abstract Card[] horseTradersDungeon_cardsToDiscard(MoveContext context, Card responsible);
+    public abstract Card[] discardMultiple_cardsToDiscard(MoveContext context, Card responsible, int numToDiscard);
 
     public abstract JesterOption jester_chooseOption(MoveContext context, Player targetPlayer, Card card);
 
@@ -2051,6 +2051,7 @@ public abstract class Player {
     public abstract Card gladiator_revealedCard(MoveContext context);
     public abstract boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card);
     public abstract Card[] opulentCastle_cardsToDiscard(MoveContext context);
+    public abstract Card sacrifice_cardToTrash(MoveContext context);
     public abstract boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers);
     public abstract boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context);
     public abstract Card smallCastle_castleToTrash(MoveContext context);

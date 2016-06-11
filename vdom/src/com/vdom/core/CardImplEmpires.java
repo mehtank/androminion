@@ -41,6 +41,9 @@ public class CardImplEmpires extends CardImpl {
         case Fortune:
         	fortune(context, currentPlayer, game);
         	break;
+        case Forum:
+        	discardMultiple(context, currentPlayer, 2);
+        	break;
         case Gladiator:
         	gladiator(game, context, currentPlayer);
         	break;
@@ -52,6 +55,9 @@ public class CardImplEmpires extends CardImpl {
         	break;
         case RoyalBlacksmith:
         	royalBlacksmith(game, context, currentPlayer);
+        	break;
+        case Sacrifice:
+        	sacrifice(game, context, currentPlayer);
         	break;
         case Settlers:
         	settlers(game, context, currentPlayer);
@@ -70,6 +76,9 @@ public class CardImplEmpires extends CardImpl {
 	public void isBuying(MoveContext context) {
 		super.isBuying(context);
         switch (this.controlCard.getKind()) {
+        case Forum:
+        	context.buys++;
+        	break;
         //Events
         case Conquest:
         	conquest(context);
@@ -338,6 +347,33 @@ public class CardImplEmpires extends CardImpl {
                     break;
     			}
     		}
+        }
+    }
+    
+    private void sacrifice(Game game, MoveContext context, Player currentPlayer) {
+    	if(currentPlayer.getHand().size() == 0) return;
+        Card cardToTrash = currentPlayer.controlPlayer.sacrifice_cardToTrash(context);
+        if (cardToTrash == null) {
+            Util.playerError(currentPlayer, "Sacrifice did not return a card to trash, trashing random card.");
+            cardToTrash = Util.randomCard(currentPlayer.getHand());
+        }
+        
+        currentPlayer.hand.remove(cardToTrash);
+        currentPlayer.trash(cardToTrash, this.controlCard, context);
+        boolean isAction = cardToTrash.is(Type.Action, cardToTrash.behaveAsCard().getKind() == Kind.Fortress ? currentPlayer : null);
+        boolean isTreasure = cardToTrash.is(Type.Treasure);
+        boolean isVictory = cardToTrash.is(Type.Victory);
+        
+        if (isAction) {
+        	game.drawToHand(context, this, 2);
+        	game.drawToHand(context, this, 1);
+        	context.actions += 2;
+        }
+        if (isTreasure) {
+        	context.addCoins(2);
+        }
+        if (isVictory) {
+        	currentPlayer.addVictoryTokens(context, 2);
         }
     }
     

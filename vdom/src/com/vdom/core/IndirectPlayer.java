@@ -1288,11 +1288,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card[] horseTradersDungeon_cardsToDiscard(MoveContext context, Card responsible) {
-        if(context.isQuickPlay() && shouldAutoPlay_horseTradersDungeon_cardsToDiscard(context)) {
-            return super.horseTradersDungeon_cardsToDiscard(context, responsible);
+    public Card[] discardMultiple_cardsToDiscard(MoveContext context, Card responsible, int numToDiscard) {
+        if(context.isQuickPlay() && shouldAutoPlay_discardMultiple_cardsToDiscard(context)) {
+            return super.discardMultiple_cardsToDiscard(context, responsible, numToDiscard);
         }
-        SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount()
+        SelectCardOptions sco = new SelectCardOptions().setCount(numToDiscard).exactCount()
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
                 .setCardResponsible(responsible);
         return getFromHand(context, sco);
@@ -3206,6 +3206,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
                 .setCardResponsible(Cards.opulentCastle);
         return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card sacrifice_cardToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_sacrifice_cardToTrash(context)) {
+            return super.sacrifice_cardToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.sacrifice);
+        return getCardFromHand(context, sco);
     }
     
     @Override

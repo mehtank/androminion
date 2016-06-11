@@ -1092,23 +1092,23 @@ public class CardImpl implements Card {
         return cardToPlay;
     }
 
-    protected void horseTradersDungeon(MoveContext context, Player currentPlayer) {
+    protected void discardMultiple(MoveContext context, Player currentPlayer, int numToDiscard) {
     	CardList hand = currentPlayer.getHand();
     	if (hand.size() == 0)
     		return;
     	Card[] cardsToDiscard;
-    	if (hand.size() <= 2) {
+    	if (hand.size() <= numToDiscard) {
     		cardsToDiscard = new Card[currentPlayer.getHand().size()];
     		for (int i = 0; i < cardsToDiscard.length; ++i) {
     			cardsToDiscard[i] = hand.get(i);
     		}
     	} else {
-    		cardsToDiscard = currentPlayer.controlPlayer.horseTradersDungeon_cardsToDiscard(context, this);
-            if (cardsToDiscard == null || cardsToDiscard.length != 2 || !Util.areCardsInHand(cardsToDiscard, context)) {
-                if (currentPlayer.hand.size() >= 2) {
-                    Util.playerError(currentPlayer, "Horse Traders discard error, just discarding the first 2.");
+    		cardsToDiscard = currentPlayer.controlPlayer.discardMultiple_cardsToDiscard(context, this, numToDiscard);
+            if (cardsToDiscard == null || cardsToDiscard.length != numToDiscard || !Util.areCardsInHand(cardsToDiscard, context)) {
+                if (currentPlayer.hand.size() >= numToDiscard) {
+                    Util.playerError(currentPlayer, "Discard error, just discarding the first " + numToDiscard + ".");
                 }
-                cardsToDiscard = new Card[Math.min(2, currentPlayer.hand.size())];
+                cardsToDiscard = new Card[Math.min(numToDiscard, currentPlayer.hand.size())];
                 for (int i = 0; i < cardsToDiscard.length; i++) {
                     cardsToDiscard[i] = currentPlayer.hand.get(i);
                 }
