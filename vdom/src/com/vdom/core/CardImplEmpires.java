@@ -189,26 +189,16 @@ public class CardImplEmpires extends CardImpl {
             	nextPlayer.putOnTopOfDeck(nextPlayerCard, nextPlayerContext, false);
             	int drawCoinCost = draw.getCost(context); 
             	int nextPlayerCoinCost = nextPlayerCard.getCost(context);
-            	boolean drawHasCoinCost = drawCoinCost > 0;
-            	boolean nextPlayerHasCoinCost = nextPlayerCoinCost > 0;
             	int drawDebtCost = draw.getDebtCost(context); 
             	int nextPlayerDebtCost = nextPlayerCard.getDebtCost(context);
-            	boolean drawHasDebtCost = drawDebtCost > 0;
-            	boolean nextPlayerHasDebtCost = nextPlayerDebtCost > 0;
-            	boolean costMore = false;
-            	if (drawHasCoinCost && !nextPlayerHasCoinCost ||
-            			drawHasDebtCost && !nextPlayerHasDebtCost ||
-            			draw.costPotion() && !nextPlayerCard.costPotion())
-            		costMore = true;
-            	else if (!drawHasCoinCost && nextPlayerHasCoinCost ||
-            			!drawHasDebtCost && nextPlayerHasDebtCost ||
-            			!draw.costPotion() && nextPlayerCard.costPotion())
-            		costMore = false;
-            	else if ((drawHasCoinCost && drawCoinCost > nextPlayerCoinCost) ||
-            			(drawHasDebtCost && drawDebtCost > nextPlayerDebtCost)) {
-            		costMore = true;
-            	}
-            	if (costMore) {
+            	int drawPotionCost = draw.costPotion() ? 1 : 0;
+            	int nextPlayerPotionCost = nextPlayerCard.costPotion() ? 1 : 0;
+            	if ((drawCoinCost > nextPlayerCoinCost ||
+            			drawDebtCost > nextPlayerDebtCost ||
+            			drawPotionCost > nextPlayerPotionCost) && 
+            			(drawCoinCost >= nextPlayerCoinCost ||
+                    			drawDebtCost >= nextPlayerDebtCost ||
+                    			drawPotionCost >= nextPlayerPotionCost)) {
             		context.addCoins(1);
             		currentPlayer.addVictoryTokens(context, 1);
             	}
