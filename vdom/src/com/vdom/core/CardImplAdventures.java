@@ -113,7 +113,7 @@ public class CardImplAdventures extends CardImpl {
         	/* This buy is already in totalCardsBoughtThisTurn */
         	if(context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn == 1) {
                 Card card = context.getPlayer().controlPlayer.messenger_cardToObtain(context);
-                if (card != null) {
+                if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
                 	Card cardGained = context.getPlayer().gainNewCard(card, this.controlCard, context);
                 	if (cardGained.equals(card)) {
 	                    for (Player player : context.game.getPlayersInTurnOrder()) {
@@ -723,11 +723,12 @@ public class CardImplAdventures extends CardImpl {
         	}
         }
         int value = cardToTrash.getCost(context) + 1;
+        int debtValue = cardToTrash.getDebtCost(context);
         boolean potion = cardToTrash.costPotion();
         
-        Card card = currentPlayer.controlPlayer.transmogrify_cardToObtain(context, value, potion);
+        Card card = currentPlayer.controlPlayer.transmogrify_cardToObtain(context, value, debtValue, potion);
         if (card != null) {
-            if (card.getCost(context) > value || (card.costPotion() && !potion)) {
+            if (card.getCost(context) > value || card.getDebtCost(context) > cardToTrash.getDebtCost(context) || (card.costPotion() && !potion)) {
                 Util.playerError(currentPlayer, "Transmogrify error, new card does not cost value of the old card +1.");
             } else if (game.isPileEmpty(card)) {
             	Util.playerError(currentPlayer, "Transmogrify error, new card pile is empty.");
@@ -816,7 +817,7 @@ public class CardImplAdventures extends CardImpl {
         if (noTreasureCard) {
 	        Card card = context.player.controlPlayer.alms_cardToObtain(context);
 	        if (card != null) {
-	            if (card.getCost(context) <= 4) {
+	            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
 	            	context.player.gainNewCard(card, this.controlCard, context);
 	            }
 	        }
@@ -831,7 +832,7 @@ public class CardImplAdventures extends CardImpl {
 			Card card = player.controlPlayer.ball_cardToObtain(context);
 			if (card != null) {
 	            // check cost
-	            if (card.getCost(context) <= 4) {
+	            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
 	            	player.gainNewCard(card, this, context);
 	            }
 	        }

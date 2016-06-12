@@ -911,7 +911,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
-    public boolean shouldAutoPlay_transmogrify_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+    public boolean shouldAutoPlay_transmogrify_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
     	return false;
     }
 
@@ -1017,6 +1017,14 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     
     public boolean shouldAutoPlay_encampment_chooseOption(MoveContext context, EncampmentOption[] options) {
     	return true;
+    }
+    
+    public boolean shouldAutoPlay_engineer_cardToObtain(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_engineer_shouldTrashEngineerPlayed(MoveContext context) {
+    	return false;
     }
     
     public boolean shouldAutoPlay_hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context) {

@@ -185,7 +185,7 @@ public class CardImplCornucopia extends CardImpl {
         Card toObtain = player.controlPlayer.hornOfPlenty_cardToObtain(context, maxCost);
         if (toObtain != null) {
             // check cost
-            if (toObtain.getCost(context) <= maxCost) {
+            if (toObtain.getCost(context) <= maxCost && toObtain.getDebtCost(context) == 0 && !toObtain.costPotion()) {
                 toObtain = game.takeFromPile(toObtain);
                 // could still be null here if the pile is empty.
                 if (toObtain != null) {

@@ -2025,7 +2025,7 @@ public abstract class Player {
 	public abstract PlayerSupplyToken teacher_tokenTypeToMove(MoveContext context);
 	public abstract Card teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token);
 	public abstract Card transmogrify_cardToTrash(MoveContext context);
-	public abstract Card transmogrify_cardToObtain(MoveContext context, int maxCost, boolean potion);
+	public abstract Card transmogrify_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal);
     public abstract int cleanup_wineMerchantEstateToDiscard(MoveContext context, int wineMerchantTotal);
         
@@ -2064,6 +2064,8 @@ public abstract class Player {
     public abstract Card catapult_cardToTrash(MoveContext context);
     public abstract Card[] catapult_attack_cardsToKeep(MoveContext context);
     public abstract EncampmentOption encampment_chooseOption(MoveContext context, EncampmentOption[] options);
+    public abstract Card engineer_cardToObtain(MoveContext context);
+    public abstract boolean engineer_shouldTrashEngineerPlayed(MoveContext context);
     public abstract Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context);
     public abstract Card gladiator_revealedCard(MoveContext context);
     public abstract boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card);

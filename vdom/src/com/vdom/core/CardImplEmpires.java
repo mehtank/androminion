@@ -39,6 +39,9 @@ public class CardImplEmpires extends CardImpl {
         case Enchantress:
         	durationAttack(game, context, currentPlayer);
         	break;
+        case Engineer:
+        	engineer(game, context, currentPlayer);
+        	break;
         case FarmersMarket:
         	farmersMarket(game, context, currentPlayer);
         	break;
@@ -271,6 +274,29 @@ public class CardImplEmpires extends CardImpl {
     		currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.controlCard));
     		currentPlayer.encampment.add(this.controlCard);
     	}
+    }
+    
+    private void engineer(Game game, MoveContext context, Player currentPlayer) {
+    	Card card = currentPlayer.controlPlayer.engineer_cardToObtain(context);
+        if (card != null) {
+            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
+                currentPlayer.gainNewCard(card, this.controlCard, context);
+            }
+        }
+        if (!this.controlCard.movedToNextTurnPile) {
+        	if (currentPlayer.controlPlayer.engineer_shouldTrashEngineerPlayed(context)) {
+        	    this.controlCard.movedToNextTurnPile = true;
+                currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.controlCard));
+                currentPlayer.trash(this.controlCard, this.controlCard, context);
+                
+                card = currentPlayer.controlPlayer.engineer_cardToObtain(context);
+                if (card != null) {
+                    if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
+                        currentPlayer.gainNewCard(card, this.controlCard, context);
+                    }
+                }
+        	}
+        }
     }
     
     private void farmersMarket(Game game, MoveContext context, Player currentPlayer) {

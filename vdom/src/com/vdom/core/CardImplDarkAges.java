@@ -281,7 +281,7 @@ public class CardImplDarkAges extends CardImpl {
         Card card = currentPlayer.controlPlayer.altar_cardToObtain(context);
         if (card != null) {
             // check cost
-            if (card.getCost(context) <= 5) {
+            if (card.getCost(context) <= 5 && card.getDebtCost(context) == 0 && !card.costPotion()) {
                 currentPlayer.gainNewCard(card, this.controlCard, context);
             }
         }
@@ -291,7 +291,7 @@ public class CardImplDarkAges extends CardImpl {
         Card card = currentPlayer.controlPlayer.armory_cardToObtain(context);
         if (card != null) {
             // check cost
-            if (card.getCost(context) <= 5) {
+            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
                 currentPlayer.gainNewCard(card, this.controlCard, context);
             }
         }
@@ -543,7 +543,7 @@ public class CardImplDarkAges extends CardImpl {
         Card card = currentPlayer.controlPlayer.dameNatalie_cardToObtain(context);
         if (card != null) {
             // check cost
-            if (card.getCost(context) <= 3) {
+            if (card.getCost(context) <= 3 && card.getDebtCost(context) == 0 && !card.costPotion()) {
                 currentPlayer.gainNewCard(card, this.controlCard, context);
             } else {
                 Util.playerError(currentPlayer, "Dame Natalie error: chosen card that costs more then 3");
@@ -685,7 +685,7 @@ public class CardImplDarkAges extends CardImpl {
         // Gain a card costing up to 3 coins (no potion)
         Card c = currentPlayer.controlPlayer.hermit_cardToGain(context);
         if (c != null) {
-            if (c.getCost(context, false) > 3 || c.costPotion() || !Cards.isSupplyCard(c)) {
+            if (c.getCost(context, false) > 3 || c.getDebtCost(context) > 0 || c.costPotion() || !Cards.isSupplyCard(c)) {
                 Util.playerError(currentPlayer, "Hermit card selection error, picking card from table.");
                 c = (context.getCardsLeftInPile(Cards.silver) > 0) ? Cards.silver : Cards.copper; 
             }

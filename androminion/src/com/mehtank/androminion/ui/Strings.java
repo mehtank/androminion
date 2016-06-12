@@ -1100,7 +1100,10 @@ public class Strings {
 	    } else if (cardName.equals(getCardName(Cards.bustlingVillage))) {
 	         strings[1] = getString(R.string.bustlingVillage_query);
 	         strings[2] = getString(R.string.pass);
-	    } else if (cardName.equals(getCardName(Cards.gladiator))) {
+	    } else if (cardName.equals(getCardName(Cards.engineer))) {
+            strings[1] = getString(R.string.trash_this_gain_another);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.gladiator))) {
             strings[0] = getPlayerRevealedCardHeader(extras);
             strings[1] = getString(R.string.reveal_copy);
             strings[2] = getString(R.string.pass);
@@ -1393,6 +1396,7 @@ public class Strings {
             getCardName(Cards.seaway),
             /*Empires*/
             getCardName(Cards.catapult),
+            getCardName(Cards.engineer),
             getCardName(Cards.forum),
             getCardName(Cards.gladiator),
             getCardName(Cards.opulentCastle),

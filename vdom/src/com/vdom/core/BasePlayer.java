@@ -3617,8 +3617,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card transmogrify_cardToObtain(MoveContext context, int maxCost, boolean potion) {
-    	return bestCardInPlay(context, maxCost, false, potion, true);
+    public Card transmogrify_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	return bestCardInPlay(context, maxCost, false, potion, true);//TODO: add debt here
     }
 
 	@Override
@@ -3824,6 +3824,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public EncampmentOption encampment_chooseOption(MoveContext context, EncampmentOption[] options) {
     	return options[0];
+    }
+    
+    @Override
+    public Card engineer_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
+    }
+    
+    @Override
+    public boolean engineer_shouldTrashEngineerPlayed(MoveContext context) {
+    	return turnCount <= midGame;
     }
     
     @Override

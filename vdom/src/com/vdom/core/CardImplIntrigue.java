@@ -136,7 +136,7 @@ public class CardImplIntrigue extends CardImpl {
    
     private void ironworks(Game game, MoveContext context, Player currentPlayer) {
         Card card = currentPlayer.controlPlayer.ironworks_cardToObtain(context);
-        if (card != null && card.getCost(context) <= 4 && !card.costPotion()) {
+        if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
             if (currentPlayer.gainNewCard(card, this.controlCard, context).equals(card)) {
                 //note these could be wrong if Watchtower is used to trash a gained inherited Estate
                 if (card.is(Type.Action, currentPlayer)) {

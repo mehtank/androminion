@@ -216,7 +216,7 @@ public class CardImplBase extends CardImpl {
         Card card = currentPlayer.controlPlayer.feast_cardToObtain(context);
         if (card != null) {
             // check cost
-            if (card.getCost(context) <= 5) {
+            if (card.getCost(context) <= 5 && card.getDebtCost(context) == 0 && !card.costPotion()) {
                 currentPlayer.gainNewCard(card, this.controlCard, context);
             }
         }
@@ -435,7 +435,7 @@ public class CardImplBase extends CardImpl {
         Card card = currentPlayer.controlPlayer.workshop_cardToObtain(context);
         if (card != null) {
             // check cost
-            if (card.getCost(context) <= 4) {
+            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
                 currentPlayer.gainNewCard(card, this.controlCard, context);
             }
         }

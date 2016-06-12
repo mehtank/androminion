@@ -66,6 +66,7 @@ public class SelectCardOptions implements Serializable {
     public int minCost = Integer.MIN_VALUE;
     public int maxCost = Integer.MAX_VALUE;
     public int maxCostWithoutPotion = Integer.MAX_VALUE;
+    public int maxDebtCost = Integer.MAX_VALUE;
     public int copperCountInPlay = 0;
     public int potionCost = -1;
     public boolean fromPrizes = false;
@@ -115,6 +116,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions maxCost(int c) {maxCost = c; maxCostWithoutPotion = c; return this;}
     public SelectCardOptions exactCost(int c) {minCost = c; maxCost = c; maxCostWithoutPotion = c; return this;}
     public SelectCardOptions potionCost(int c) {potionCost = c; return this;}
+    public SelectCardOptions maxDebtCost(int c) {maxDebtCost = c; return this;}
     public SelectCardOptions maxCostWithoutPotion() {maxCostWithoutPotion = maxCost + (maxCost < Integer.MAX_VALUE && potionCost > 0 ? 1 : 0); return this;}
     public SelectCardOptions copperCountInPlay(int c) {copperCountInPlay = c; return this; }
 

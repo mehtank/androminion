@@ -2791,7 +2791,7 @@ public class Game {
                     for (Card c : player.tavern) {
                     	if (c.behaveAsCard().isCallableWhenCardGained()) {
                     		int callCost = c.behaveAsCard().getCallableWhenGainedMaxCost();
-                    		if (callCost == -1 || (event.card.getCost(context) <= callCost && !event.card.costPotion())) {
+                    		if (callCost == -1 || (event.card.getCost(context) <= callCost && event.card.getDebtCost(context) == 0 && !event.card.costPotion())) {
                     			callableCards.add(c);
                     		}
                     	}
