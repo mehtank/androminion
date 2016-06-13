@@ -3235,6 +3235,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card overlord_actionCardToImpersonate(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_overlord_actionCardToImpersonate(context)) {
+            return super.overlord_actionCardToImpersonate(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions()
+                .maxCost(5).maxDebtCost(0).maxPotionCost(0).isAction()
+                .setCardResponsible(Cards.overlord);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public Card sacrifice_cardToTrash(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_sacrifice_cardToTrash(context)) {
             return super.sacrifice_cardToTrash(context);

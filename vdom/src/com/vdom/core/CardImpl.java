@@ -849,6 +849,7 @@ public class CardImpl implements Card {
 		}
 		if (is(Type.Event, null)) {
 			context.buys += addBuys;
+			context.getPlayer().addVictoryTokens(context, addVictoryTokens);
 		}
 		if (this.equals(Cards.estate)) {
         	Card inheritance = context.getPlayer().getInheritance();

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.vdom.api.Card;
+import com.vdom.api.GameEvent;
 import com.vdom.core.Cards.Kind;
 import com.vdom.core.Player.EncampmentOption;
 
@@ -57,6 +58,9 @@ public class CardImplEmpires extends CardImpl {
         case OpulentCastle:
         	opulentCastle(game, context, currentPlayer);
         	break;
+        case Overlord:
+        	overlord(game, context, currentPlayer);
+        	break;
         case Patrician:
         	patrician(game, context, currentPlayer);
         	break;
@@ -98,6 +102,9 @@ public class CardImplEmpires extends CardImpl {
         	break;
         case Triumph:
         	triumph(context);
+        	break;
+        case Wedding:
+        	wedding(context);
         	break;
         case Windfall:
         	windfall(context);
@@ -376,6 +383,56 @@ public class CardImplEmpires extends CardImpl {
         }
     }
     
+    private void overlord(Game game, MoveContext context, Player currentPlayer) {
+        // Already impersonating another card?
+        if (!this.isImpersonatingAnotherCard()) {
+            // Get card to impersonate
+        	Card cardToImpersonate = currentPlayer.controlPlayer.overlord_actionCardToImpersonate(context);
+            if (cardToImpersonate != null 
+                && !game.isPileEmpty(cardToImpersonate)
+                && Cards.isSupplyCard(cardToImpersonate)
+                && cardToImpersonate.is(Type.Action, null)
+                && cardToImpersonate.getCost(context) < this.controlCard.getCost(context)
+                && cardToImpersonate.getDebtCost(context) == 0
+            	&& !cardToImpersonate.costPotion()
+                && (context.golemInEffect == 0 || cardToImpersonate != Cards.golem)) {
+                GameEvent event = new GameEvent(GameEvent.EventType.CardNamed, (MoveContext) context);
+                event.card = cardToImpersonate;
+                event.responsible = this;
+                game.broadcastEvent(event);
+                this.startImpersonatingCard(cardToImpersonate.getTemplateCard().instantiate());
+            } else {
+                Card[] cards = game.getActionsInGame();
+                if (cards.length != 0 && cardToImpersonate != null) {
+                    Util.playerError(currentPlayer, "Overlord returned invalid card (" + cardToImpersonate.getName() + "), ignoring.");
+                }
+                return;
+            }
+        }
+
+        // Play the impersonated card
+        CardImpl cardToPlay = (CardImpl) this.impersonatingCard;
+        context.freeActionInEffect++;
+        cardToPlay.play(game, context, false);
+        context.freeActionInEffect--;
+
+        // impersonated card stays in play until next turn?
+        if (cardToPlay.trashOnUse) {
+            int idx = currentPlayer.playedCards.lastIndexOf(this);
+            if (idx >= 0) currentPlayer.playedCards.remove(idx);
+            currentPlayer.trash(this, null, context);
+        } else if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
+            if (!this.controlCard.movedToNextTurnPile) {
+                this.controlCard.movedToNextTurnPile = true;
+                int idx = currentPlayer.playedCards.lastIndexOf(this);
+                if (idx >= 0) {
+                    currentPlayer.playedCards.remove(idx);
+                    currentPlayer.nextTurnCards.add(this);
+                }
+            }
+        }
+    }
+    
     private void patrician(Game game, MoveContext context, Player currentPlayer) {
     	Card c = game.draw(context, Cards.patrician, 1);
         if (c != null) {
@@ -562,6 +619,10 @@ public class CardImplEmpires extends CardImpl {
     	if (Cards.estate.equals(gainedCard)) {
     		context.getPlayer().addVictoryTokens(context, context.getNumCardsGainedThisTurn());
     	}
+    }
+    
+    private void wedding(MoveContext context) {
+    	context.player.gainNewCard(Cards.gold, this.controlCard, context);
     }
 
     private void windfall(MoveContext context) {

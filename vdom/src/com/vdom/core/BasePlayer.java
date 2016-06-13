@@ -3869,6 +3869,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card overlord_actionCardToImpersonate(MoveContext context) {
+    	if (context.getPlayer().getHand().contains(Cards.treasureMap) 
+    			&& !game.isPileEmpty(Cards.treasureMap)
+    			&& Cards.treasureMap.getCost(context) <= 5) {
+    		return Cards.treasureMap;
+    	}
+        return bestCardInPlay(context, 5, false, false, true, true, true);
+    }
+    
+    @Override
     public Card sacrifice_cardToTrash(MoveContext context) {
     	Card c = pickOutCard(context.getPlayer().getHand(), EARLY_TRASH_CARDS);
     	if (c == null) {

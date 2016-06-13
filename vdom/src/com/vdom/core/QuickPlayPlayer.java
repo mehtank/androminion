@@ -1053,6 +1053,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return true;
     }
     
+    public boolean shouldAutoPlay_overlord_actionCardToImpersonate(MoveContext context) {
+        return false;
+    }
+    
     public boolean shouldAutoPlay_settlers_copperIntoHand(MoveContext context) {
     	return true;
     }

@@ -1430,6 +1430,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.margrave), getString(R.string.margrave_part));
         actionStringMap.put(getCardName(Cards.militia), getString(R.string.militia_part));
         actionStringMap.put(getCardName(Cards.mint), getCardName(Cards.mint));
+        actionStringMap.put(getCardName(Cards.overlord), getString(R.string.part_play));
         actionStringMap.put(getCardName(Cards.saboteur), getString(R.string.saboteur_part));
         actionStringMap.put(getCardName(Cards.save), getString(R.string.save_part));
         actionStringMap.put(getCardName(Cards.sirMichael), getString(R.string.sir_michael_part));
