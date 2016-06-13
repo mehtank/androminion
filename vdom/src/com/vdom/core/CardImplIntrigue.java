@@ -312,12 +312,13 @@ public class CardImplIntrigue extends CardImpl {
                         }
 
                         boolean potion = draw.costPotion();
-
+                        int debt = draw.getDebtCost(context);
+                        
                         player.trash(draw, this.controlCard, playerContext);
 
-                        Card card = (player).controlPlayer.saboteur_cardToObtain(playerContext, value, potion);
+                        Card card = (player).controlPlayer.saboteur_cardToObtain(playerContext, value, debt, potion);
                         if (card != null) {
-                            if (card.getCost(context) > value || (card.costPotion() && !potion) || !Cards.isSupplyCard(card)) {
+                            if (card.getCost(context) > value || card.getDebtCost(context) > debt || (card.costPotion() && !potion) || !Cards.isSupplyCard(card)) {
                                 Util.playerError(currentPlayer, "Saboteur obtain error, ignoring.");
                             }
                             else {
@@ -495,18 +496,18 @@ public class CardImplIntrigue extends CardImpl {
                 if (draw != null) {
                     player.trash(draw, this.controlCard, playerContext);
 
-                    Card card = currentPlayer.controlPlayer.swindler_cardToSwitch(context, draw.getCost(context), draw.costPotion());
+                    Card card = currentPlayer.controlPlayer.swindler_cardToSwitch(context, draw.getCost(context), draw.getDebtCost(context), draw.costPotion());
 
                     boolean bad = false;
                     if (card == null) {
                         // Check that there are no cards that are possible to trade for...
                         for (Card thisCard : context.getCardsInGame()) {
-                            if (Cards.isSupplyCard(thisCard) && !game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.costPotion() == draw.costPotion()) {
+                            if (Cards.isSupplyCard(thisCard) && !game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.getDebtCost(context) == draw.getDebtCost(context) && thisCard.costPotion() == draw.costPotion()) {
                                 bad = true;
                                 break;
                             }
                         }
-                    } else if (!Cards.isSupplyCard(card) || game.isPileEmpty(card)  || card.getCost(context) != draw.getCost(context) || card.costPotion() != draw.costPotion()) {
+                    } else if (!Cards.isSupplyCard(card) || game.isPileEmpty(card) || card.getCost(context) != draw.getCost(context) || card.getDebtCost(context) != draw.getDebtCost(context) || card.costPotion() != draw.costPotion()) {
                         bad = true;
                     }
 
@@ -515,7 +516,7 @@ public class CardImplIntrigue extends CardImpl {
 
                         ArrayList<Card> possible = new ArrayList<Card>();
                         for (Card thisCard : context.getCardsInGame()) {
-                            if (Cards.isSupplyCard(thisCard) && !game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.costPotion() == draw.costPotion()) {
+                            if (Cards.isSupplyCard(thisCard) && !game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.getDebtCost(context) == draw.getDebtCost(context) && thisCard.costPotion() == draw.costPotion()) {
                                 possible.add(thisCard);
                             }
                         }
@@ -683,12 +684,13 @@ public class CardImplIntrigue extends CardImpl {
 
             int value = card.getCost(context) + 1;
             boolean potion = card.costPotion();
+            int debt = card.getDebtCost(context);
             currentPlayer.hand.remove(card);
             currentPlayer.trash(card, this.controlCard, context);
 
-            card = currentPlayer.controlPlayer.upgrade_cardToObtain(context, value, potion);
+            card = currentPlayer.controlPlayer.upgrade_cardToObtain(context, value, debt, potion);
             if (card != null) {
-                if (card.getCost(context) != value || card.costPotion() != potion) {
+                if (card.getCost(context) != value || card.getDebtCost(context) != value || card.costPotion() != potion) {
                     Util.playerError(currentPlayer, "Upgrade error, new card does not cost value of the old card +1.");
                 } else {
                     if(currentPlayer.gainNewCard(card, this.controlCard, context) == null) {

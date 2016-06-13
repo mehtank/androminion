@@ -52,7 +52,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
 
-    public boolean shouldAutoPlay_remodel_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+    public boolean shouldAutoPlay_remodel_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
         return false;
     }
     
@@ -148,7 +148,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_swindler_cardToSwitch(MoveContext context, int cost, boolean potion) {
+    public boolean shouldAutoPlay_swindler_cardToSwitch(MoveContext context, int cost, int debtCost, boolean potion) {
         return true;
     }
 
@@ -187,7 +187,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_saboteur_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+    public boolean shouldAutoPlay_saboteur_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
         return false;
     }
 
@@ -226,7 +226,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_upgrade_cardToObtain(MoveContext context, int exactCost, boolean potion) {
+    public boolean shouldAutoPlay_upgrade_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion) {
         return false;
     }
 
@@ -383,7 +383,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_expand_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+    public boolean shouldAutoPlay_expand_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
         return false;
     }
 
@@ -540,7 +540,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_remake_cardToObtain(MoveContext context, int exactCost, boolean potion) {
+    public boolean shouldAutoPlay_remake_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion) {
         return false;
     }
 
@@ -574,7 +574,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_mine_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
+    public boolean shouldAutoPlay_mine_treasureToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
         return true;
     }
 
@@ -676,11 +676,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_develop_lowCardToGain(MoveContext context, int cost, boolean potion) {
+    public boolean shouldAutoPlay_develop_lowCardToGain(MoveContext context, int cost, int debt, boolean potion) {
         return false;
     }
     
-    public boolean shouldAutoPlay_develop_highCardToGain(MoveContext context, int cost, boolean potion) {
+    public boolean shouldAutoPlay_develop_highCardToGain(MoveContext context, int cost, int debt, boolean potion) {
         return false;
     }
     
@@ -720,7 +720,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
     
-    public boolean shouldAutoPlay_haggler_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+    public boolean shouldAutoPlay_haggler_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
         return false;
     }
     
@@ -780,7 +780,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
-    public boolean shouldAutoPlay_governor_cardToObtain(MoveContext context, int exactCost, boolean potion) {
+    public boolean shouldAutoPlay_governor_cardToObtain(MoveContext context, int exactCost, int debt, boolean potion) {
     	return false;
     }
     
@@ -804,7 +804,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
 
-    public boolean shouldAutoPlay_procession_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+    public boolean shouldAutoPlay_procession_cardToObtain(MoveContext context, int maxCost, int debt, boolean potion) {
         return false;
     }
 
@@ -812,7 +812,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
-    public boolean shouldAutoPlay_taxman_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
+    public boolean shouldAutoPlay_taxman_treasureToObtain(MoveContext context, int maxCost, int debt, boolean potion) {
         return true;
     }
 

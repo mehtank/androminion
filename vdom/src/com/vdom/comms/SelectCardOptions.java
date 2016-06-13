@@ -65,10 +65,12 @@ public class SelectCardOptions implements Serializable {
     public boolean allowEmpty = false;
     public int minCost = Integer.MIN_VALUE;
     public int maxCost = Integer.MAX_VALUE;
-    public int maxCostWithoutPotion = Integer.MAX_VALUE;
+    public int minDebtCost = Integer.MIN_VALUE;
     public int maxDebtCost = Integer.MAX_VALUE;
     public int copperCountInPlay = 0;
-    public int potionCost = -1;
+    public int minPotionCost = Integer.MIN_VALUE;
+    public int maxPotionCost = Integer.MAX_VALUE;
+    public boolean lessThanMax = false;
     public boolean fromPrizes = false;
 
     public boolean isAction = false;
@@ -113,11 +115,16 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions allowEmpty() {allowEmpty = true; return this;}
     public SelectCardOptions fromPrizes() {fromPrizes = true; return this;}
     public SelectCardOptions minCost(int c) {minCost = c; return this;}
-    public SelectCardOptions maxCost(int c) {maxCost = c; maxCostWithoutPotion = c; return this;}
-    public SelectCardOptions exactCost(int c) {minCost = c; maxCost = c; maxCostWithoutPotion = c; return this;}
-    public SelectCardOptions potionCost(int c) {potionCost = c; return this;}
+    public SelectCardOptions maxCost(int c) {maxCost = c; return this;}
+    public SelectCardOptions exactCost(int coin, int debt, int potion) {
+    	minCost = coin; maxCost = coin;
+    	minDebtCost = debt; maxDebtCost = debt;
+    	minPotionCost = potion; maxPotionCost = potion;
+    	return this;
+    }
+    public SelectCardOptions maxPotionCost(int c) {maxPotionCost = c; return this;}
+    public SelectCardOptions lessThanMax() {lessThanMax = true; return this;}
     public SelectCardOptions maxDebtCost(int c) {maxDebtCost = c; return this;}
-    public SelectCardOptions maxCostWithoutPotion() {maxCostWithoutPotion = maxCost + (maxCost < Integer.MAX_VALUE && potionCost > 0 ? 1 : 0); return this;}
     public SelectCardOptions copperCountInPlay(int c) {copperCountInPlay = c; return this; }
 
     public SelectCardOptions isAction() {isAction = true; return this;}
@@ -161,26 +168,7 @@ public class SelectCardOptions implements Serializable {
         return checkValid(c, 0);
     }
 
-    /* Note: This method must be synchrony with checkValid(Card c, int cost, boolean cardIsVictory) */
     public boolean checkValid(MyCard c, int cost) {
-
-  /*  	if ((maxCost >= 0) && (cost > (c.costPotion ? maxCost : maxCostWithoutPotion))) return false;
-        if ((minCost >= 0) && (cost < minCost)) return false;
-
-        if (isAction && !c.isAction) return false;
-        if (isReaction && !c.isReaction) return false;
-        if (isTreasure && !c.isTreasure) return false;
-        if (isNonTreasure && c.isTreasure) return false;
-        if (isVictory && !c.isVictory) return false;
-        if (isNonVictory && c.isVictory) return false;
-        if (isAttack && !c.isAttack) return false;
-        if (isNonShelter && c.isShelter) return false;
-        if (isReaction && !c.isReaction) return false;
-        if (fromPrizes && !c.isPrize) return false;
-        if (fromTable && !fromPrizes && c.isPrize) return false;
-        //if (fromPrizes && !c.isPrize && !fromTable) return false;
-        if (potionCost == 0 && c.costPotion) return false;
-        if (maxCost == minCost && potionCost > 0 && !c.costPotion) return false; */
         if (!cardInList(c.id)) return false;
 
         return true;
@@ -190,17 +178,23 @@ public class SelectCardOptions implements Serializable {
         return checkValid(c, 0, cardIsVictory, context);
     }
 
-    /* Note: This method must be synchrony with checkValid(MyCard c, int cost) */
     public boolean checkValid(Card c, int cost, boolean cardIsVictory, MoveContext context) {
     	
     	if (c.is(Type.Landmark, null)) return false;
     	
     	Player p = context != null ? context.player : null;
     	p = fromTable ? null : p;
+    	int debtCost = c.getDebtCost(context); //TODO - incorporate this
+    	int potionCost = c.costPotion() ? 1 : 0;
 
-        if ((maxCost >= 0) && (cost > (c.costPotion() ? maxCost : maxCostWithoutPotion))) return false;
+        if ((maxCost >= 0) && (cost > maxCost)) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
-        
+        if ((maxDebtCost >= 0) && (debtCost > maxDebtCost)) return false;
+        if ((minDebtCost >= 0) && (debtCost < minDebtCost)) return false;
+        if ((maxPotionCost >= 0) && (potionCost > maxPotionCost)) return false;
+        if ((minPotionCost >= 0) && (potionCost < minPotionCost)) return false;
+        if ((minDebtCost >= 0) && (debtCost < minDebtCost)) return false;
+        if (lessThanMax && cost >= maxCost && debtCost >= maxDebtCost && potionCost >= maxPotionCost) return false;
         if (isReaction && !(c.is(Type.Reaction, p))) return false;
         if (isTreasure && !(c.is(Type.Treasure, p))) return false;
         if (isNonTreasure && (c.is(Type.Treasure, p))) return false;
@@ -208,8 +202,6 @@ public class SelectCardOptions implements Serializable {
         if (isNonVictory && cardIsVictory) return false;
         if (fromPrizes && !c.is(Type.Prize, null)) return false;
         if (fromTable && !fromPrizes && c.is(Type.Prize, null)) return false;
-        if (potionCost == 0 && c.costPotion()) return false;
-        if (maxCost == minCost && potionCost > 0 && !c.costPotion()) return false;
         if (isNonRats && c.equals(Cards.rats)) return false;
         if (c.equals(Cards.grandMarket) && copperCountInPlay > 0) return false;
         if (isNonShelter && c.is(Type.Shelter, p)) return false;
@@ -231,11 +223,15 @@ public class SelectCardOptions implements Serializable {
 
     public String potionString() {
         String potionString = "";
-        if (potionCost == 1) {
+        if (maxPotionCost == 1) {
             potionString = "p";
-        } else if (potionCost > 1) {
-            potionString = "p" + potionCost;
+        } else if (maxPotionCost > 1) {
+            potionString = "p" + maxPotionCost;
         }
         return potionString;
+    }
+    
+    public String debtString() {
+    	return (maxDebtCost >= 1) ? "d" + maxDebtCost : "";
     }
 }

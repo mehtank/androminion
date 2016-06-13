@@ -1155,7 +1155,7 @@ public class Strings {
     public static String getSelectCardText(SelectCardOptions sco, String header) {
         String minCostString = (sco.minCost <= 0) ? "" : "" + sco.minCost;
         String maxCostString = (sco.maxCost == Integer.MAX_VALUE) ?
-                "" : "" + sco.maxCost + sco.potionString();
+                "" : "" + sco.maxCost + sco.debtString() + sco.potionString();
         String selectString;
 
         if (sco.fromTable) {
@@ -1192,7 +1192,7 @@ public class Strings {
             } else if (sco.minCost > 0 && sco.maxCost < Integer.MAX_VALUE) {
                 selectString = Strings.format(R.string.select_from_table_between, minCostString, maxCostString, header);
             } else if (sco.minCost > 0) {
-                selectString = Strings.format(R.string.select_from_table_min, minCostString + sco.potionString(), header);
+                selectString = Strings.format(R.string.select_from_table_min, minCostString + sco.debtString() + sco.potionString(), header);
             } else {
                 if (sco.isAttack) {
                     selectString = Strings.format(R.string.select_from_table_attack, header);
@@ -1467,7 +1467,7 @@ public class Strings {
             }
         } else if (cardName.equals(getCardName(Cards.swindler))) {
             return Strings.format(R.string.swindler_part,
-                                  "" + sco.maxCost + (sco.potionCost == 0 ? "" : "p"));
+                                  "" + sco.maxCost + (sco.maxDebtCost == 0 ? "" : "d" + sco.maxDebtCost) + (sco.maxPotionCost == 0 ? "" : "p"));
         } else if (cardName.equals(getCardName(Cards.masquerade))) {
             if (sco.pickType == PickType.GIVE) {
                 return getString(R.string.masquerade_part);

@@ -1601,7 +1601,7 @@ public abstract class Player {
 
     public abstract Card remodel_cardToTrash(MoveContext context);
 
-    public abstract Card remodel_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card remodel_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] militia_attack_cardsToKeep(MoveContext context);
 
@@ -1613,7 +1613,7 @@ public abstract class Player {
 
     public abstract Card mine_treasureFromHandToUpgrade(MoveContext context);
 
-    public abstract Card mine_treasureToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card mine_treasureToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] chapel_cardsToTrash(MoveContext context);
 
@@ -1636,7 +1636,7 @@ public abstract class Player {
 
     public abstract StewardOption steward_chooseOption(MoveContext context);
 
-    public abstract Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion);
+    public abstract Card swindler_cardToSwitch(MoveContext context, int cost, int debtCost, boolean potion);
 
     public abstract Card[] steward_cardsToTrash(MoveContext context);
 
@@ -1654,7 +1654,7 @@ public abstract class Player {
 
     public abstract boolean miningVillage_shouldTrashMiningVillage(MoveContext context);
 
-    public abstract Card saboteur_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card saboteur_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] scout_orderCards(MoveContext context, Card[] cards);
 
@@ -1669,7 +1669,7 @@ public abstract class Player {
 
     public abstract Card upgrade_cardToTrash(MoveContext context);
 
-    public abstract Card upgrade_cardToObtain(MoveContext context, int exactCost, boolean potion);
+    public abstract Card upgrade_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion);
 
     public abstract MinionOption minion_chooseOption(MoveContext context);
 
@@ -1756,7 +1756,7 @@ public abstract class Player {
 
     public abstract Card expand_cardToTrash(MoveContext context);
 
-    public abstract Card expand_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card expand_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] forge_cardsToTrash(MoveContext context);
 
@@ -1803,7 +1803,7 @@ public abstract class Player {
 
     public abstract Card remake_cardToTrash(MoveContext context);
 
-    public abstract Card remake_cardToObtain(MoveContext context, int exactCost, boolean potion);
+    public abstract Card remake_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion);
 
     public abstract boolean tournament_shouldRevealProvince(MoveContext context);
 
@@ -1824,7 +1824,7 @@ public abstract class Player {
 
     public abstract Card farmland_cardToTrash(MoveContext context);
 
-    public abstract Card farmland_cardToObtain(MoveContext context, int cost, boolean potion);
+    public abstract Card farmland_cardToObtain(MoveContext context, int cost, int debt, boolean potion);
 
     public abstract Card stables_treasureToDiscard(MoveContext context);
 
@@ -1834,9 +1834,9 @@ public abstract class Player {
 
     public abstract Card develop_cardToTrash(MoveContext context);
 
-    public abstract Card develop_lowCardToGain(MoveContext context, int cost, boolean potion);
+    public abstract Card develop_lowCardToGain(MoveContext context, int cost, int debt, boolean potion);
 
-    public abstract Card develop_highCardToGain(MoveContext context, int cost, boolean potion);
+    public abstract Card develop_highCardToGain(MoveContext context, int cost, int debt, boolean potion);
 
     public abstract Card[] develop_orderCards(MoveContext context, Card[] cards);
 
@@ -1874,7 +1874,7 @@ public abstract class Player {
 
     public abstract boolean illGottenGains_gainCopper(MoveContext context);
 
-    public abstract Card haggler_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card haggler_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] inn_cardsToDiscard(MoveContext context);
 
@@ -1925,7 +1925,7 @@ public abstract class Player {
 
     public abstract Card graverobber_cardToTrash(MoveContext context);
 
-    public abstract Card graverobber_cardToReplace(MoveContext context, int maxCost, boolean potion);
+    public abstract Card graverobber_cardToReplace(MoveContext context, int maxCost, int maxDebt, boolean potion);
 
     public abstract boolean ironmonger_shouldDiscard(MoveContext context, Card card);
 
@@ -1945,11 +1945,11 @@ public abstract class Player {
 
     public abstract Card procession_cardToPlay(MoveContext context);
 
-    public abstract Card procession_cardToGain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card procession_cardToGain(MoveContext context, int exactCost, int debt, boolean potion);
 
     public abstract Card rebuild_cardToPick(MoveContext context, ArrayList<Card> cardList);
 
-    public abstract Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion);
+    public abstract Card rebuild_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean costPotion);
 
     public abstract Card rogue_cardToGain(MoveContext context);
 
@@ -1984,14 +1984,14 @@ public abstract class Player {
     public abstract int amountToOverpay(MoveContext context, Card card, int cardCost);
     public abstract int overpayByPotions(MoveContext context, int availablePotions);
     public abstract Card taxman_treasureToTrash(MoveContext context);
-    public abstract Card taxman_treasureToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card taxman_treasureToObtain(MoveContext context, int maxCost, int maxDebt, boolean potion);
     public abstract Card plaza_treasureToDiscard(MoveContext context);
     public abstract Card butcher_cardToTrash(MoveContext context);
-    public abstract Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card butcher_cardToObtain(MoveContext context, int maxCost, int maxDebt, boolean potion);
     public abstract Card advisor_cardToDiscard(MoveContext context, Card[] cards);
     public abstract Card journeyman_cardToPick(MoveContext context, List<Card> cardList);
     public abstract Card stonemason_cardToTrash(MoveContext context);
-    public abstract Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card stonemason_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean potion);
     public abstract Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion);
     public abstract Card doctor_cardToPick(MoveContext context, List<Card> cardList);
     public abstract ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards);
@@ -2084,7 +2084,7 @@ public abstract class Player {
 
     public abstract Card governor_cardToTrash(MoveContext context);
 
-    public abstract Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion);
+    public abstract Card governor_cardToObtain(MoveContext context, int exactCost, int debt, boolean potion);
 
     public abstract Card envoy_cardToDiscard(MoveContext context, Card[] revealedCards);
     

@@ -138,7 +138,8 @@ public class CardImplGuilds extends CardImpl {
                 currentPlayer.hand.remove(card);
                 currentPlayer.trash(card, this.controlCard, context);
 
-                int value      = card.getCost(context);
+                int value = card.getCost(context);
+                int debt = card.getDebtCost(context);
                 boolean potion = card.costPotion();
 
                 int coinTokenTotal = currentPlayer.getGuildsCoinTokenCount();
@@ -156,10 +157,10 @@ public class CardImplGuilds extends CardImpl {
                         }
                     }
 
-                    card = currentPlayer.controlPlayer.butcher_cardToObtain(context, value, potion);
+                    card = currentPlayer.controlPlayer.butcher_cardToObtain(context, value, debt, potion);
 
                     if (card != null) {
-                        if (card.getCost(context) > value) {
+                        if (card.getCost(context) > value || card.getDebtCost(context) > debt || (card.costPotion() && !potion)) {
                             Util.playerError(currentPlayer, "Butcher error, new card does not have appropriate cost");
                         }
                         else {
@@ -365,26 +366,18 @@ public class CardImplGuilds extends CardImpl {
                 currentPlayer.hand.remove(card);
                 currentPlayer.trash(card, this.controlCard, context);
 
-                int value      = card.getCost(context) - 1;
+                int value = card.getCost(context) - 1;
+                int debt = card.getDebtCost(context);
                 boolean potion = card.costPotion();
-                boolean cardGainError = false;
-
                 if (value >= 0) {
-                    card = currentPlayer.controlPlayer.stonemason_cardToGain(context, value, potion);
-
-                    if (card != null) {
-                        if (currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
-                            Util.playerError(currentPlayer, "Stone Mason card gain #1 error, pile is empty or card is not in the game.");
-                            cardGainError = true;
-                        }
-                    }
-
-                    if (!cardGainError) {
-                        card = currentPlayer.controlPlayer.stonemason_cardToGain(context, value, potion);
-
-                        if (card != null) {
+                    card = currentPlayer.controlPlayer.stonemason_cardToGain(context, value, debt, potion);
+                    for (int i = 1; i <= 2; ++i) {
+                    	if (card == null || !(card.getCost(context) < value || card.getDebtCost(context) < debt || (!card.costPotion() && potion) &&
+                        		card.getCost(context) <= value && card.getDebtCost(context) <= value && (!card.costPotion() || potion))) {
+                        	Util.playerError(currentPlayer, "Stone Mason card gain #" + i + " error, card does not cost less.");
+                        } else if (card != null) {
                             if (currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
-                                Util.playerError(currentPlayer, "Stone Mason card gain #2 error, pile is empty or card is not in the game.");
+                                Util.playerError(currentPlayer, "Stone Mason card gain #" + i + " error, pile is empty or card is not in the game.");
                             }
                         }
                     }
@@ -393,25 +386,20 @@ public class CardImplGuilds extends CardImpl {
         }
     }
     
-    private void stoneMasonOverpay(MoveContext context)
-    {
+    private void stoneMasonOverpay(MoveContext context) {
         if (context.overpayAmount > 0 || context.overpayPotions > 0) {
             // Gain two action cards each costing the amount overpaid
-            Card c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
-
-            if (c != null) {
-                if (context.player.gainNewCard(c, this.controlCard, context) == null) {
-                    Util.playerError(context.player, "Stone Mason overpay gain #1 error, pile is empty or card is not in the game.");
-                }
-
-                c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
-
-                if (c != null) {
-                    if (context.player.gainNewCard(c, this.controlCard, context) == null) {
-                        Util.playerError(context.player, "Stone Mason overpay gain #2 error, pile is empty or card is not in the game.");
-                    }
-                }
-            }
+        	for (int i = 1; i <= 2; ++i) {
+	            Card c = context.player.stonemason_cardToGainOverpay(context, context.overpayAmount, (context.overpayPotions > 0 ? true : false));
+	            if (c == null || c.getCost(context) != context.overpayAmount || c.getDebtCost(context) != 0 || (c.costPotion() || !(context.overpayPotions > 0))) {
+	            	Util.playerError(context.player, "Stone Mason overpay gain #" + i + " error, card is wrong cost.");
+	            }
+	            if (c != null) {
+		            if (context.player.gainNewCard(c, this.controlCard, context) == null) {
+		                Util.playerError(context.player, "Stone Mason overpay gain #" + i + " error, pile is empty or card is not in the game.");
+		            }
+	            }
+        	}
         }
     }
     
@@ -443,10 +431,13 @@ public class CardImplGuilds extends CardImpl {
                     }
                 }
 
-                Card newCard = currentPlayer.controlPlayer.taxman_treasureToObtain(context, card.getCost(context) + 3, card.costPotion());
+                Card newCard = currentPlayer.controlPlayer.taxman_treasureToObtain(context, card.getCost(context) + 3, card.getDebtCost(context), card.costPotion());
 
                 if (newCard != null && Cards.isSupplyCard(newCard) && newCard.is(Type.Treasure, null) 
-                		&& newCard.getCost(context) <= card.getCost(context) + 3 && context.getCardsLeftInPile(newCard) > 0) {
+                		&& newCard.getCost(context) <= card.getCost(context) + 3
+                		&& newCard.getDebtCost(context) <= card.getDebtCost(context)
+                		&& (!newCard.costPotion() || card.costPotion())
+                		&& context.getCardsLeftInPile(newCard) > 0) {
                     currentPlayer.gainNewCard(newCard, this, context);
                 }
             }

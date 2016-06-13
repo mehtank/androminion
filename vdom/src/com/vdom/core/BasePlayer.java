@@ -3,6 +3,7 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +23,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected static final Card[] CATAPULT_AMMO_CARDS = new Card[] { Cards.rocks, Cards.masterpiece, Cards.illGottenGains, Cards.silver, Cards.loan, Cards.rats, Cards.fortress, Cards.curse, Cards.estate, Cards.copper, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins};
     
     protected Random rand = new Random(System.currentTimeMillis());
-    protected static final int COST_MAX = 11;
+    protected static final int COST_MAX = 14;
     protected int actionCardCount = 0;
     protected int throneRoomAndKingsCourtCount = 0;
     protected int potionCount = 0;
@@ -142,32 +143,49 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean mustPick) {
         return bestCardInPlay(context, maxCost, false, false, mustPick);
     }
-    
+        
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean mustPick) {
         return bestCardInPlay(context, maxCost, exactCost, false, mustPick);
+    }
+    
+    protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean mustPick) {
+        return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, false, mustPick);
     }
 
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion, boolean mustPick) {
         return bestCardInPlay(context, maxCost, exactCost, potion, false, true, mustPick);
     }
     
+    protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean mustPick) {
+        return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, false, true, mustPick);
+    }
+    
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustPick) {
-        return bestCardInPlay(context, maxCost, exactCost, potion, actionOnly, victoryCardAllowed, maxCost, mustPick);
+        return bestCardInPlay(context, maxCost, exactCost, Integer.MAX_VALUE, potion, actionOnly, victoryCardAllowed, false, mustPick);
+    }
+    
+    protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustPick) {
+        return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, actionOnly, victoryCardAllowed, false, mustPick);
     }
 
-    protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, int maxCostWithoutPotion, boolean mustPick) {
+    protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
-            maxCost = maxCostWithoutPotion = COST_MAX;
+            maxCost = COST_MAX;
+            maxDebtCost = COST_MAX;
         }
         
         Card[] cards = context.getCardsInGame();
-        ArrayList<Card> cardList = new ArrayList<Card>();
         ArrayList<Card> cardListGood = new ArrayList<Card>();
         ArrayList<Card> cardListBad = new ArrayList<Card>();
+        int maxPotionCost = potion ? 1 : 0;
         for (int i = 0; i < cards.length; i++) {
             Card card = cards[i];
-            if (   card.is(Type.Shelter, context.player)
+            int cardCost = card.getCost(context);
+            int cardDebt = card.getDebtCost(context);
+            int cardPotion = card.costPotion() ? 1 : 0;
+            if (card.is(Type.Landmark, context.player) 
+            	|| card.is(Type.Shelter, context.player)
                 || card.equals(Cards.abandonedMine) /*choose only virtualRuins*/
                 || card.equals(Cards.ruinedLibrary)
                 || card.equals(Cards.ruinedMarket)
@@ -175,8 +193,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || card.equals(Cards.survivors)
                 || (card.is(Type.Knight, null) && !card.equals(Cards.virtualKnight)) /*choose only virtualKnight*/
                 || !Cards.isSupplyCard(card)
-                || (actionOnly && !(card.is(Type.Action, null))) 
+                || context.getCardsLeftInPile(card) == 0
+                || (actionOnly && !(card.is(Type.Action))) 
                 || (!victoryCardAllowed && (card.is(Type.Victory)) && !card.equals(Cards.curse))
+                || (exactCost && (cardCost != maxCost || cardDebt != maxDebtCost || maxPotionCost != cardPotion))
+                || (cardCost > maxCost || cardDebt > maxDebtCost || cardPotion > maxPotionCost)
+                || (mustCostLessThanMax && (cardCost == maxCost || cardDebt == maxDebtCost || maxPotionCost == cardPotion))
+                || (isBuy && !context.canBuy(card))
                 ) {
                 /*card not allowed*/
             } else if (   card.equals(Cards.curse) 
@@ -190,73 +213,41 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
         
-        /* two tries: first good cards, then (if forced) bad cards */
-        for (int i = 0; i < (mustPick ? 2:1); i++)
-        {
-            if (i==0)
-                cardList = cardListGood;
-            else
-                cardList = cardListBad;
-
-            if (cardList.isEmpty()) {
-                continue;
-            }
-            
-            int cost = maxCostWithoutPotion;
-            int highestCost = 0;
-            ArrayList<Card> randList = new ArrayList<Card>();
-            
-            while (cost >= 0) {
-                for (Card card : cardList) {
-                    int cardCost = card.getCost(context);
-                    if (cardCost == cost && Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0) {
-                        if ((!exactCost && potion) || (card.costPotion() && potion) || (!card.costPotion() && !potion)) {
-                            if ((cardCost <= maxCostWithoutPotion && !card.costPotion()) || (cardCost <= maxCost)) {
-                                if (!isBuy || context.canBuy(card)) {
-                                    if (highestCost == 0) {
-                                        highestCost = cardCost;
-                                    }
-                                }
-                                randList.add(card);
-                            }
-                        }
-                    }
-                }
-                
-                if(exactCost) {
-                    break;
-                }
-
-                // We return cards within 1 cost to add variety...
-                if(--cost < highestCost - 1) {
-                    break;
-                }
-            }
-            
-            if (randList.size() > 0) {
-                Card card = randList.get(this.rand.nextInt(randList.size()));
-
-                if (card.equals(Cards.virtualRuins) || card.equals(Cards.curse))
-                {
-                    if (!actionOnly) {
-                        if (randList.contains(Cards.estate) && victoryCardAllowed)
-                            card = Cards.estate;
-                        else if (randList.contains(Cards.masterpiece))
-                            card = Cards.masterpiece;
-                        else if (randList.contains(Cards.copper))
-                            card = Cards.copper;
-                        else if (randList.contains(Cards.poorHouse))
-                            card = Cards.poorHouse;
-                        else if (randList.contains(Cards.virtualRuins))
-                            card = Cards.virtualRuins;
-                    }
-                }
-
-                return card;
-            }
+        int variance = 1;
+        if (cardListGood.size() > 0) {
+        	return pickRandomBestCardFromList(cardListGood, variance);
+        }
+        
+        if (mustPick && cardListBad.size() > 0) {
+        	return pickRandomBestCardFromList(cardListBad, variance);
         }
         
         return null;
+    }
+    
+    private int cardIntValue(Card c) {
+    	return c.getCost(null) + c.getDebtCost(null) + (c.costPotion() ? 2 : 0);
+    }
+    
+    private Card pickRandomBestCardFromList(ArrayList<Card> list, int variance) {
+    	//Sort by cost
+    	list.sort(new Comparator<Card>() {
+			@Override
+			public int compare(Card a, Card b) {
+				Integer aValue = cardIntValue(a);
+				Integer bValue = cardIntValue(b);
+				return bValue.compareTo(aValue);
+			}
+		});
+    	// find all cards within range of max
+    	int i = 1;
+    	int highestValue = cardIntValue(list.get(0));
+    	for (; i < list.size(); ++i) {
+    		if (highestValue - cardIntValue(list.get(i)) > variance) {
+    			break;
+    		}
+    	}
+    	return list.get(this.rand.nextInt(i));
     }
     
 	
@@ -523,7 +514,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card remodel_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+    public Card remodel_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
         return bestCardInPlay(context, maxCost, false, potion, true);
     }
 
@@ -645,11 +636,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card mine_treasureToObtain(MoveContext context, int cost, boolean potion) {
+    public Card mine_treasureToObtain(MoveContext context, int cost, int maxDebtCost, boolean potion) {
         Card newCard = null;
         int newCost = -1;
         for (Card card : context.getTreasureCardsInGame()) {
-            if (Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0 && card.getCost(context) <= cost && card.getCost(context) >= newCost) {
+            if (Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0 && card.getCost(context) <= cost && card.getCost(context) >= newCost && card.getDebtCost(context) <= maxDebtCost) {
                 if (potion || (!potion && !card.costPotion())) {
                     newCard = (Card) card;
                     newCost = card.getCost(context);
@@ -827,11 +818,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion) {
+    public Card swindler_cardToSwitch(MoveContext context, int cost, int debtCost, boolean potion) {
         Card[] cards = context.getCardsInGame();
         ArrayList<Card> changeList = new ArrayList<Card>();
         for (Card card : cards) {
-            if (Cards.isSupplyCard(card) && card.getCost(context) == cost && context.getCardsLeftInPile(card) > 0 && card.costPotion() == potion) {
+            if (Cards.isSupplyCard(card) && card.getCost(context) == cost && context.getCardsLeftInPile(card) > 0 && card.costPotion() == potion && card.getDebtCost(context) == debtCost) {
                 changeList.add(card);
             }
         }
@@ -923,8 +914,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card saboteur_cardToObtain(MoveContext context, int maxCost, boolean potion) {
-        return bestCardInPlay(context, maxCost, false, potion, false);
+    public Card saboteur_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+        return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, false);
     }
 
     @Override
@@ -999,8 +990,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card upgrade_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-        return bestCardInPlay(context, exactCost, true, potion, true);
+    public Card upgrade_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion) {
+        return bestCardInPlay(context, exactCost, true, debtCost, potion, true);
     }
 
     @Override
@@ -1415,8 +1406,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card expand_cardToObtain(MoveContext context, int maxCost, boolean potion) {
-        return bestCardInPlay(context, maxCost, false, potion, true);
+    public Card expand_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+        return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, true);
     }
 
     @Override
@@ -1716,8 +1707,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card remake_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-        return bestCardInPlay(context, exactCost, true, potion, true);
+    public Card remake_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion) {
+        return bestCardInPlay(context, exactCost, true, debtCost, potion, true);
     }
 
     @Override
@@ -1954,13 +1945,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card develop_lowCardToGain(MoveContext context, int cost, boolean potion) {
-        return bestCardInPlay(context, cost, true, potion, true);
+    public Card develop_lowCardToGain(MoveContext context, int cost, int debt, boolean potion) {
+        return bestCardInPlay(context, cost, true, debt, potion, true);
     }
     
     @Override
-    public Card develop_highCardToGain(MoveContext context, int cost, boolean potion) {
-        return bestCardInPlay(context, cost, true, potion, true);
+    public Card develop_highCardToGain(MoveContext context, int cost, int debt, boolean potion) {
+        return bestCardInPlay(context, cost, true, debt, potion, true);
     }
     
     @Override
@@ -2151,10 +2142,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card haggler_cardToObtain(MoveContext context, int maxCost, boolean potion) {
+    public Card haggler_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
         if (maxCost < 0)
             return null;
-        return bestCardInPlay(context, maxCost, false, potion, false, false, potion ? maxCost + 1 : maxCost, true);
+        return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, false, false, true, true);
     }
     
     @Override
@@ -2205,8 +2196,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card farmland_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-        return bestCardInPlay(context, exactCost, true, potion, true);
+    public Card farmland_cardToObtain(MoveContext context, int exactCost, int debt, boolean potion) {
+        return bestCardInPlay(context, exactCost, true, debt, potion, true);
     }
 
     @Override
@@ -2435,8 +2426,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
 	@Override
-	public Card graverobber_cardToReplace(MoveContext context, int maxCost, boolean potion) {
-		return bestCardInPlay(context, maxCost, false, potion, true);
+	public Card graverobber_cardToReplace(MoveContext context, int maxCost, int maxDebt, boolean potion) {
+		return bestCardInPlay(context, maxCost, false, maxDebt, potion, true);
 	}
 
 	@Override
@@ -2533,8 +2524,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
 	@Override
-	public Card procession_cardToGain(MoveContext context, int maxCost, boolean potion) {
-		return bestCardInPlay(context, maxCost, false, potion, true, false, true);
+	public Card procession_cardToGain(MoveContext context, int exactCost, int debt, boolean potion) {
+		return bestCardInPlay(context, exactCost, true, debt, potion, true, false, true);
 	}
 
 	@Override
@@ -2546,10 +2537,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
 	@Override
-	public Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion) {
+	public Card rebuild_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean costPotion) {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		for (Card c: context.getVictoryCardsInGame()) {
-			if (c.getCost(context) <= maxCost && !game.isPileEmpty(c) && Cards.isSupplyCard(c)) {
+			if (c.getCost(context) <= maxCost && c.getDebtCost(context) <= maxDebt && (!c.costPotion() || costPotion) && !game.isPileEmpty(c) && Cards.isSupplyCard(c)) {
 				cards.add(c);
 			}
 		}
@@ -2661,8 +2652,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-    	return bestCardInPlay(context, exactCost, true, potion, true);
+    public Card governor_cardToObtain(MoveContext context, int exactCost, int debt, boolean potion) {
+    	return bestCardInPlay(context, exactCost, true, debt, potion, true);
     }
     
     @Override
@@ -2970,14 +2961,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card taxman_treasureToObtain(MoveContext context, int cost, boolean potion) {
+    public Card taxman_treasureToObtain(MoveContext context, int cost, int debt, boolean potion) {
         Card newCard = null;
-        int newCost = -1;
         for (Card card : context.getTreasureCardsInGame()) {
-            if (   Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0 && card.getCost(context) <= cost && card.getCost(context) >= newCost
-                && (potion || !card.costPotion())) {
-                    newCard = card;
-                    newCost = card.getCost(context);
+            if (Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0 
+            		&& card.getCost(context) <= cost && card.getDebtCost(context) <= debt
+            		&& (potion || !card.costPotion())) {
+                newCard = card;
             }
         }
 
@@ -3089,9 +3079,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion)
+    public Card butcher_cardToObtain(MoveContext context, int maxCost, int maxDebt, boolean potion)
     {
-        return bestCardInPlay(context, maxCost, false, potion, true);
+        return bestCardInPlay(context, maxCost, false, maxDebt, potion, true);
     }
     
     @Override
@@ -3164,9 +3154,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion)
+    public Card stonemason_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean potion)
     {
-        return bestCardInPlay(context, maxCost, false, potion, true);
+        return bestCardInPlay(context, maxCost, false, maxDebt, potion, false, true, true, true);
     }
     
     @Override
@@ -3267,7 +3257,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     public Card artificer_cardToObtain(MoveContext context, int cost) {
-        return bestCardInPlay(context, cost, true, false, false);
+        return bestCardInPlay(context, cost, true, 0, false, false);
     }
     
     public Card call_whenGainCardToCall(MoveContext context, Card gainedCard, Card[] possibleCards) {
@@ -3618,7 +3608,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card transmogrify_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
-    	return bestCardInPlay(context, maxCost, false, potion, true);//TODO: add debt here
+    	return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, true);
     }
 
 	@Override

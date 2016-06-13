@@ -192,13 +192,16 @@ public class CardImplProsperity extends CardImpl {
 
         int maxCost = card.getCost(context) + 3;
         boolean potion = card.costPotion();
+        int maxDebtCost = card.getDebtCost(context);
         currentPlayer.hand.remove(card);
         currentPlayer.trash(card, this.controlCard, context);
 
-        card = currentPlayer.controlPlayer.expand_cardToObtain(context, maxCost, potion);
+        card = currentPlayer.controlPlayer.expand_cardToObtain(context, maxCost, maxDebtCost, potion);
         if (card != null) {
             if (card.getCost(context) > maxCost) {
                 Util.playerError(currentPlayer, "Expand error, new card costs too much.");
+            } else if (card.getDebtCost(context) > maxDebtCost) {
+                Util.playerError(currentPlayer, "Expand error, new card costs too much debt.");
             } else if(card.costPotion() && !potion) {
                 Util.playerError(currentPlayer, "Expand error, new card costs potion and trashed card does not.");
             } else {
@@ -225,7 +228,7 @@ public class CardImplProsperity extends CardImpl {
 
         Card card = currentPlayer.controlPlayer.forge_cardToObtain(context, totalCost);
         if (card != null) {
-            if (card.getCost(context) != totalCost || card.costPotion() || !Cards.isSupplyCard(card)) {
+            if (card.getCost(context) != totalCost || card.getDebtCost(context) > 0 || card.costPotion() || !Cards.isSupplyCard(card)) {
                 Util.playerError(currentPlayer, "Forge returned invalid card, ignoring.");
             } else {
                 if(currentPlayer.gainNewCard(card, this.controlCard, context) == null) {

@@ -315,10 +315,10 @@ public class CardImplAdventures extends CardImpl {
                 Util.playerError(currentPlayer, "Artificer discard error, trying to discard cards not in hand, ignoring extra.");
             }
         }
-        Card toObtain = currentPlayer.controlPlayer.artificer_cardToObtain(context, numberOfCards/*cost*/);
+        Card toObtain = currentPlayer.controlPlayer.artificer_cardToObtain(context, numberOfCards);
         if (toObtain != null) {
             // check cost
-            if (toObtain.getCost(context) == numberOfCards) {
+            if (toObtain.getCost(context) == numberOfCards && toObtain.getDebtCost(context) == 0 && !toObtain.costPotion()) {
             	currentPlayer.gainNewCard(toObtain, this.controlCard, context);
             }
         }
@@ -728,8 +728,8 @@ public class CardImplAdventures extends CardImpl {
         
         Card card = currentPlayer.controlPlayer.transmogrify_cardToObtain(context, value, debtValue, potion);
         if (card != null) {
-            if (card.getCost(context) > value || card.getDebtCost(context) > cardToTrash.getDebtCost(context) || (card.costPotion() && !potion)) {
-                Util.playerError(currentPlayer, "Transmogrify error, new card does not cost value of the old card +1.");
+            if (card.getCost(context) > value || card.getDebtCost(context) > debtValue || (card.costPotion() && !potion)) {
+                Util.playerError(currentPlayer, "Transmogrify error, new card does not cost value of the old card +1 or less.");
             } else if (game.isPileEmpty(card)) {
             	Util.playerError(currentPlayer, "Transmogrify error, new card pile is empty.");
             } else if (!game.isCardInGame(card)) {
@@ -888,7 +888,8 @@ public class CardImplAdventures extends CardImpl {
     private void inheritance(MoveContext context) {
     	Card card = context.getPlayer().controlPlayer.inheritance_actionCardTosetAside(context);
     	if (card != null && card.is(Type.Action, null)) {
-            if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card) && !card.is(Type.Victory, null)) {
+            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && 
+            		!context.game.isPileEmpty(card) && !card.is(Type.Victory, null)) {
             	context.player.inheritance = context.game.takeFromPile(card, context);
             	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideInheritance, context);
                 event.card = card;
@@ -1124,7 +1125,7 @@ public class CardImplAdventures extends CardImpl {
     private void seaway(MoveContext context) {
     	Card card = context.player.controlPlayer.seaway_cardToObtain(context);
         if (card != null && card.is(Type.Action, null)) {
-            if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card)) {
+            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && !context.game.isPileEmpty(card)) {
             	Card gainedCard = context.player.gainNewCard(card, this.controlCard, context);
             	if (card.equals(gainedCard)
             			|| (card.is(Type.Ruins, null) && gainedCard.is(Type.Ruins, null))

@@ -285,13 +285,19 @@ public class CardImplBase extends CardImpl {
                     Card thisCard = currentPlayer.getHand().remove(i);
                     currentPlayer.trash(thisCard, this.controlCard, context);
 
-                    Card newCard = currentPlayer.controlPlayer.mine_treasureToObtain(context, card.getCost(context) + 3, card.costPotion());
-                    if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && newCard.getCost(context) <= card.getCost(context) + 3 && context.getCardsLeftInPile(newCard) > 0)) {
+                    Card newCard = currentPlayer.controlPlayer.mine_treasureToObtain(context, card.getCost(context) + 3, card.getDebtCost(context), card.costPotion());
+                    if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && 
+                    		newCard.getCost(context) <= card.getCost(context) + 3 && 
+                    		newCard.getDebtCost(context) <= card.getDebtCost(context) && 
+                    		(!newCard.costPotion() || card.costPotion()) 
+                    		&& context.getCardsLeftInPile(newCard) > 0)) {
                         Util.playerError(currentPlayer, "Mine treasure to obtain was invalid, picking random treasure from table.");
                         for (Card treasureCard : context.getTreasureCardsInGame()) {
-                            if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0 && treasureCard.getCost(context) <= card.getCost(context) + 3)
-                                if (!treasureCard.costPotion() || card.costPotion())
-                                    newCard = treasureCard;
+                            if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0 && 
+                            		treasureCard.getCost(context) <= card.getCost(context) + 3 &&
+                            		treasureCard.getDebtCost(context) <= card.getCost(context) &&
+                            		(!treasureCard.costPotion() || card.costPotion()))
+                                newCard = treasureCard;
                         }
                     }
 
@@ -325,11 +331,13 @@ public class CardImplBase extends CardImpl {
             }
 
             int cost = -1;
+            int debt = -1;
             boolean potion = false;
             for (int i = 0; i < currentPlayer.hand.size(); i++) {
                 Card playersCard = currentPlayer.hand.get(i);
                 if (playersCard.equals(cardToTrash)) {
                     cost = playersCard.getCost(context);
+                    debt = playersCard.getDebtCost(context);
                     potion = playersCard.costPotion();
                     playersCard = currentPlayer.hand.remove(i);
 
@@ -345,18 +353,18 @@ public class CardImplBase extends CardImpl {
 
             cost += 2;
 
-            Card card = currentPlayer.controlPlayer.remodel_cardToObtain(context, cost, potion);
+            Card card = currentPlayer.controlPlayer.remodel_cardToObtain(context, cost, debt, potion);
             if (card != null) {
                 // check cost
                 if (card.getCost(context) > cost) {
                     Util.playerError(currentPlayer, "Remodel new card costs too much, ignoring.");
                 }
-                else if (card.costPotion() && !potion) {
+                else if (card.getDebtCost(context) > debt) {
+                    Util.playerError(currentPlayer, "Remodel new card costs too much debt, ignoring.");
+                } else if (card.costPotion() && !potion) {
                     Util.playerError(currentPlayer, "Remodel new card costs potion, ignoring.");
-                }
-                else
-                {
-                    if(currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
+                } else {
+                    if (currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
                         Util.playerError(currentPlayer, "Remodel new card is invalid, ignoring.");
                     }
                 }

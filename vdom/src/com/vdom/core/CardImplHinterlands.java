@@ -95,11 +95,13 @@ public class CardImplHinterlands extends CardImpl {
                     }
 
                     int cost = -1;
+                    int debt = 0;
                     boolean potion = false;
                     for (int i = 0; i < player.hand.size(); i++) {
                         Card playersCard = player.hand.get(i);
                         if (playersCard.equals(cardToTrash)) {
                             cost = playersCard.getCost(context);
+                            debt = playersCard.getDebtCost(context);
                             potion = playersCard.costPotion();
                             playersCard = player.hand.remove(i);
 
@@ -123,10 +125,10 @@ public class CardImplHinterlands extends CardImpl {
                         }
 
                         if(validCard) {
-                            Card card = player.controlPlayer.farmland_cardToObtain((MoveContext) context, cost, potion);
+                            Card card = player.controlPlayer.farmland_cardToObtain((MoveContext) context, cost, debt, potion);
                             if (card != null) {
                                 // check cost
-                                if (card.getCost(context) != cost || card.costPotion() != potion) {
+                                if (card.getCost(context) != cost || card.getDebtCost(context) != debt || card.costPotion() != potion) {
                                     Util.playerError(player, "Farmland card to obtain returned an invalid card, ignoring.");
                                 } else {
                                     if(player.gainNewCard(card, this, (MoveContext) context) == null) {
@@ -249,20 +251,21 @@ public class CardImplHinterlands extends CardImpl {
             }
 
             int trashedCardCost = cardToTrash.getCost(context);
+            int trashedCardDebt = cardToTrash.getDebtCost(context);
             boolean trashedCardPotion = cardToTrash.costPotion();
 
             Card lowCardToGain = null;
             Card highCardToGain = null;
 
-            if(context.isNewCardAvailable(trashedCardCost - 1, trashedCardPotion)) {
-                lowCardToGain = currentPlayer.controlPlayer.develop_lowCardToGain(context, trashedCardCost - 1, trashedCardPotion);
+            if(context.isNewCardAvailable(trashedCardCost - 1, trashedCardDebt, trashedCardPotion)) {
+                lowCardToGain = currentPlayer.controlPlayer.develop_lowCardToGain(context, trashedCardCost - 1, trashedCardDebt, trashedCardPotion);
                 if (lowCardToGain == null) {
                     lowCardToGain = Util.randomCard(context.getAvailableCards(trashedCardCost - 1, trashedCardPotion));
                 }
             }
 
-            if(context.isNewCardAvailable(trashedCardCost + 1, trashedCardPotion)) {
-                highCardToGain = currentPlayer.controlPlayer.develop_highCardToGain(context, trashedCardCost + 1, trashedCardPotion);
+            if(context.isNewCardAvailable(trashedCardCost + 1, trashedCardDebt, trashedCardPotion)) {
+                highCardToGain = currentPlayer.controlPlayer.develop_highCardToGain(context, trashedCardCost + 1, trashedCardDebt, trashedCardPotion);
                 if (highCardToGain == null) {
                     highCardToGain = Util.randomCard(context.getAvailableCards(trashedCardCost + 1, trashedCardPotion));
                 }

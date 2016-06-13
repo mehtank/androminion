@@ -197,13 +197,14 @@ public class CardImplPromo extends CardImpl {
                     if (card != null)
                     {
                        int value = card.getCost(context) + 2;
+                       int debt = card.getDebtCost(context);
                        boolean potion = card.costPotion();
                        currentPlayer.hand.remove(card);
                        currentPlayer.trash(card, this.controlCard, context);
 
-                       card = currentPlayer.controlPlayer.governor_cardToObtain(context, value, potion);
+                       card = currentPlayer.controlPlayer.governor_cardToObtain(context, value, debt, potion);
                        if (card != null) {
-                           if (card.getCost(context) != value || card.costPotion() != potion) {
+                           if (card.getCost(context) != value || card.getDebtCost(context) != debt || card.costPotion() != potion) {
                                Util.playerError(currentPlayer, "Governor error, new card does not cost value of the old card +2.");
                            } else {
                                if(currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
@@ -222,13 +223,14 @@ public class CardImplPromo extends CardImpl {
                             if (card != null)
                             {
                                int value = card.getCost(playerContext) + 1;
+                               int debt = card.getDebtCost(playerContext);
                                boolean potion = card.costPotion();
                                player.hand.remove(card);
                                player.trash(card, this.controlCard, playerContext);
 
-                               card = player.controlPlayer.governor_cardToObtain(playerContext, value, potion);
+                               card = player.controlPlayer.governor_cardToObtain(playerContext, value, debt, potion);
                                if (card != null) {
-                                   if (card.getCost(playerContext) != value || card.costPotion() != potion) {
+                                   if (card.getCost(playerContext) != value || card.getDebtCost(playerContext) != debt || card.costPotion() != potion) {
                                        Util.playerError(player, "Governor error, new card does not cost value of the old card +1.");
                                    } else {
                                        if(player.gainNewCard(card, this.controlCard, playerContext) == null) {
@@ -276,7 +278,7 @@ public class CardImplPromo extends CardImpl {
 	private void summon(MoveContext context) {
     	Card card = context.player.controlPlayer.summon_cardToObtain(context);
         if (card != null && card.is(Type.Action, null)) {
-            if (card.getCost(context) <= 4 && !context.game.isPileEmpty(card)) {
+            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && !context.game.isPileEmpty(card)) {
             	context.player.gainNewCard(card, this.controlCard, context);
             }
         }

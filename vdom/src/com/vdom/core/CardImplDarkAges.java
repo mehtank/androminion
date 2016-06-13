@@ -193,7 +193,7 @@ public class CardImplDarkAges extends CardImpl {
         	cost--;
         	if (cost >= 0) {
                 Card c = context.player.controlPlayer.catacombs_cardToObtain(context, cost);
-                if (c != null) {
+                if (c != null && c.getCost(context) <= cost && c.getDebtCost(context) == 0 && !c.costPotion()) {
                     context.player.controlPlayer.gainNewCard(c, this.controlCard, context);
                 }
         	}
@@ -308,7 +308,9 @@ public class CardImplDarkAges extends CardImpl {
                 && !game.isPileEmpty(cardToImpersonate)
                 && Cards.isSupplyCard(cardToImpersonate)
                 && cardToImpersonate.is(Type.Action, null)
-                && cardToImpersonate.getCost(context) < this.controlCard.getCost(context) 
+                && cardToImpersonate.getCost(context) < this.controlCard.getCost(context)
+                && cardToImpersonate.getDebtCost(context) == 0
+            	&& !cardToImpersonate.costPotion()
                 && (context.golemInEffect == 0 || cardToImpersonate != Cards.golem)) {
                 GameEvent event = new GameEvent(GameEvent.EventType.CardNamed, (MoveContext) context);
                 event.card = cardToImpersonate;
@@ -631,8 +633,11 @@ public class CardImplDarkAges extends CardImpl {
                 currentPlayer.trash(toTrash, this.controlCard, context);
 
                 context.graverobberGainedCardOnTop = false;
-                toGain = currentPlayer.controlPlayer.graverobber_cardToReplace(context, 3 + toTrash.getCost(context), toTrash.costPotion());
-                if (toGain != null) {
+                toGain = currentPlayer.controlPlayer.graverobber_cardToReplace(context, 3 + toTrash.getCost(context), toTrash.getDebtCost(context), toTrash.costPotion());
+                if (toGain != null && toGain.getCost(context) <= toTrash.getCost(context) + 3 && 
+                		toGain.getDebtCost(context) <= toTrash.getDebtCost(context) && 
+                		(!toGain.costPotion() || toTrash.costPotion()) &&
+                		toGain.is(Type.Action)) {
                     currentPlayer.gainNewCard(toGain, this, context);
                 }
                 break;
@@ -941,8 +946,9 @@ public class CardImplDarkAges extends CardImpl {
             currentPlayer.trash(last, this.controlCard, context);
 
             // Gain Victory card that cost up to 3 more coins
-            Card toGain = currentPlayer.controlPlayer.rebuild_cardToGain(context, 3 + last.getCost(context), last.costPotion());
-            if (toGain != null) {
+            Card toGain = currentPlayer.controlPlayer.rebuild_cardToGain(context, 3 + last.getCost(context), last.getDebtCost(context), last.costPotion());
+            if (toGain != null && toGain.getCost(context) <= last.getCost(context) + 3 &&
+            		toGain.getDebtCost(context) <= last.getDebtCost(context) && (!toGain.costPotion() || last.costPotion())) {
                 currentPlayer.gainNewCard(toGain, this.controlCard, context);
             }
         }

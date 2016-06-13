@@ -1082,8 +1082,10 @@ public class CardImpl implements Card {
                         }
                     }
 
-                    Card cardToGain = currentPlayer.controlPlayer.procession_cardToGain(context, 1 + cardToPlay.getCost(context), cardToPlay.costPotion());
-                    if ((cardToGain != null) && (cardToPlay.getCost(context) + 1) == cardToGain.getCost(context)) {
+                    Card cardToGain = currentPlayer.controlPlayer.procession_cardToGain(context, 1 + cardToPlay.getCost(context), cardToPlay.getDebtCost(context), cardToPlay.costPotion());
+                    if ((cardToGain != null) && (cardToPlay.getCost(context) + 1) == cardToGain.getCost(context) && 
+                    		cardToPlay.getDebtCost(context) == cardToGain.getDebtCost(context) && 
+                    		cardToPlay.costPotion() == cardToGain.costPotion()) {
                         currentPlayer.gainNewCard(cardToGain, this.controlCard, context);
                     }
                 }

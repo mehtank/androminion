@@ -1561,6 +1561,9 @@ public class Game {
         if (thePile == null) {
             return false;
         }
+        if (context.getPlayer().getDebtTokenCount() > 0) {
+        	return false;
+        }
         if (!context.canBuyCards && !card.is(Type.Event, null)) {
         	return false;
         }
@@ -1756,7 +1759,9 @@ public class Game {
         int hagglers = context.countCardsInPlay(Cards.haggler);
 
         int cost = cardBought.getCost(context);
+        int debt = cardBought.getDebtCost(context);
         boolean potion = cardBought.costPotion();
+        int potionCost = potion ? 1 : 0;
         List<Card> validCards = new ArrayList<Card>();
 
         for (int i = 0; i < hagglers; i++) {
@@ -1764,16 +1769,18 @@ public class Game {
             for (Card card : getCardsInGame()) {
                 if (!(card.is(Type.Victory)) && Cards.isSupplyCard(card) && getCardsLeftInPile(card) > 0) {
                     int gainCardCost = card.getCost(context);
-                    boolean gainCardPotion = card.costPotion();
+                    int gainCardPotionCost = card.costPotion() ? 1 : 0;
+                    int gainCardDebt = card.getDebtCost(context);
 
-                    if (gainCardCost < cost || (gainCardCost == cost && !gainCardPotion && potion)) {
+                    if ((gainCardCost < cost || gainCardDebt < debt || gainCardPotionCost < potionCost) && 
+                    		(gainCardCost <= cost && gainCardDebt <= debt && gainCardPotionCost <= potionCost)) {
                         validCards.add(card);
                     }
                 }
             }
 
             if (validCards.size() > 0) {
-                Card toGain = context.getPlayer().controlPlayer.haggler_cardToObtain(context, cost - 1, potion);
+                Card toGain = context.getPlayer().controlPlayer.haggler_cardToObtain(context, cost, debt, potion);
                 if(toGain != null) {
                     if (!validCards.contains(toGain)) {
                         Util.playerError(context.getPlayer(), "Invalid card returned from Haggler, ignoring.");
@@ -2899,7 +2906,7 @@ public class Game {
                         if(validCard) {
                             Card card = context.player.controlPlayer.borderVillage_cardToObtain(context, gainedCardCost - 1);
                             if (card != null) {
-                                if(card.getCost(context) < gainedCardCost && !card.costPotion()) {
+                                if(card.getCost(context) < gainedCardCost && card.getDebtCost(context) == 0 && !card.costPotion()) {
                                     player.gainNewCard(card, event.card, (MoveContext) context);
                                 }
                                 else {

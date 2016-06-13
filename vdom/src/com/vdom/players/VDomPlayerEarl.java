@@ -1034,7 +1034,7 @@ public Card masquerade_cardToPass(MoveContext context)
    }
  
    @Override
-   public Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion)
+   public Card swindler_cardToSwitch(MoveContext context, int cost, int debt, boolean potion)
    {
      if (cost == 0 && !potion) {
        return Cards.curse;
@@ -1054,7 +1054,7 @@ public Card masquerade_cardToPass(MoveContext context)
      Card[] cards = context.getCardsInGame();
      ArrayList<Card> randList = new ArrayList<Card>();
      for (Card card : cards) {
-       if (Cards.isSupplyCard(card) && (card.getCost(context) == cost) && (context.getCardsLeftInPile(card) > 0) && card.costPotion() == potion) {
+       if (Cards.isSupplyCard(card) && (card.getCost(context) == cost) && (card.getDebtCost(context) == debt) && (context.getCardsLeftInPile(card) > 0) && card.costPotion() == potion) {
          randList.add(card);
        }
      }

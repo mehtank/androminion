@@ -273,7 +273,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isBuy()
                 .maxCost(context.getCoinAvailableForBuy())
                 .copperCountInPlay(context.countCardsInPlay(Cards.copper))
-                .potionCost(context.getPotions())
+                .maxPotionCost(context.getPotions())
                 .setPassable()
                 .setPickType(PickType.BUY);
         return getFromTable(context, sco);
@@ -334,7 +334,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
             return super.workshop_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).potionCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.workshop).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
@@ -344,7 +344,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
             return super.feast_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(5).maxDebtCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.feast).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
@@ -360,22 +360,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card remodel_cardToObtain(MoveContext context, int maxCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, maxCost, potion)) {
-            return super.remodel_cardToObtain(context, maxCost, potion);
+    public Card remodel_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, maxCost, maxDebtCost, potion)) {
+            return super.remodel_cardToObtain(context, maxCost, maxDebtCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(maxDebtCost).maxPotionCost(potion ? 1 : 0)
                 .setCardResponsible(Cards.remodel).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
 
     @Override
-    public Card mine_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_mine_treasureToObtain(context, maxCost, potion)) {
-            return super.mine_treasureToObtain(context, maxCost, potion);
+    public Card mine_treasureToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_mine_treasureToObtain(context, maxCost, maxDebtCost, potion)) {
+            return super.mine_treasureToObtain(context, maxCost, maxDebtCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost)
-                .potionCost(potion ? 1 : 0).setCardResponsible(Cards.mine);
+        SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost).maxDebtCost(maxDebtCost)
+                .maxPotionCost(potion ? 1 : 0).setCardResponsible(Cards.mine);
         return getFromTable(context, sco);
     }
 
@@ -521,11 +521,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_swindler_cardToSwitch(context, cost, potion)) {
-            return super.swindler_cardToSwitch(context, cost, potion);
+    public Card swindler_cardToSwitch(MoveContext context, int cost, int debtCost, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_swindler_cardToSwitch(context, cost, debtCost, potion)) {
+            return super.swindler_cardToSwitch(context, cost, debtCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(cost).potionCost(potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(cost, debtCost, potion ? 1 : 0)
                 .isSupplyCard()
                 .setCardResponsible(Cards.swindler);
         return getFromTable(context, sco);
@@ -575,7 +575,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_ironworks_cardToObtain(context)) {
             return super.ironworks_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(4).maxDebtCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxPotionCost(0).maxCost(4).maxDebtCost(0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.ironworks);
         return getFromTable(context, sco);
     }
@@ -620,12 +620,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card saboteur_cardToObtain(MoveContext context, int maxCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_saboteur_cardToObtain(context, maxCost, potion)) {
-            return super.saboteur_cardToObtain(context, maxCost, potion);
+    public Card saboteur_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_saboteur_cardToObtain(context, maxCost, maxDebtCost, potion)) {
+            return super.saboteur_cardToObtain(context, maxCost, maxDebtCost, potion);
         }
         SelectCardOptions sco = new SelectCardOptions().setPassable()
-                .maxCost(maxCost).potionCost(potion ? 1 : 0).setCardResponsible(Cards.saboteur);
+                .maxCost(maxCost).maxDebtCost(maxDebtCost).maxPotionCost(potion ? 1 : 0).setCardResponsible(Cards.saboteur);
         return getFromTable(context, sco);
     }
 
@@ -686,12 +686,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card upgrade_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_upgrade_cardToObtain(context, exactCost, potion)) {
-            return super.upgrade_cardToObtain(context, exactCost, potion);
+    public Card upgrade_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_upgrade_cardToObtain(context, exactCost, debtCost, potion)) {
+            return super.upgrade_cardToObtain(context, exactCost, debtCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost)
-                .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost, debtCost, potion ? 1 : 0)
+        		.setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.upgrade);
         return getFromTable(context, sco);
     }
@@ -799,7 +799,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_prince_cardToSetAside(context)) {
             return super.prince_cardToSetAside(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().isAction().potionCost(0).maxCost(4)
+        SelectCardOptions sco = new SelectCardOptions().isAction().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setPassable().setCardResponsible(Cards.prince);
         return getCardFromHand(context, sco);
     }
@@ -1007,7 +1007,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_university_actionCardToObtain(context)) {
             return super.university_actionCardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(5).isAction()
+        SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0).isAction()
                 .setPassable().setCardResponsible(Cards.university);
         return getFromTable(context, sco);
     }
@@ -1091,11 +1091,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card expand_cardToObtain(MoveContext context, int maxCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_expand_cardToObtain(context, maxCost, potion)) {
-            return super.expand_cardToObtain(context, maxCost, potion);
+    public Card expand_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_expand_cardToObtain(context, maxCost, maxDebtCost, potion)) {
+            return super.expand_cardToObtain(context, maxCost, maxDebtCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(maxDebtCost).maxPotionCost(potion ? 1 : 0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.expand);
         return getFromTable(context, sco);
     }
@@ -1116,7 +1116,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_forge_cardToObtain(context, exactCost)) {
             return super.forge_cardToObtain(context, exactCost);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).exactCost(exactCost)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost, 0, 0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.forge);
         return getFromTable(context, sco);
     }
@@ -1282,7 +1282,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_hornOfPlenty_cardToObtain(context, maxCost)) {
             return super.hornOfPlenty_cardToObtain(context, maxCost);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(maxCost).maxDebtCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(0).maxPotionCost(0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.hornOfPlenty);
         return getFromTable(context, sco);
     }
@@ -1324,12 +1324,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card remake_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_remake_cardToObtain(context, exactCost, potion)) {
-            return super.remake_cardToObtain(context, exactCost, potion);
+    public Card remake_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_remake_cardToObtain(context, exactCost, debtCost, potion)) {
+            return super.remake_cardToObtain(context, exactCost, debtCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost)
-                .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost, debtCost, potion ? 1 : 0)
+        		.setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.remake);
         return getFromTable(context, sco);
     }
@@ -1520,21 +1520,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card develop_lowCardToGain(MoveContext context, int cost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_develop_lowCardToGain(context, cost, potion)) {
-            return super.develop_lowCardToGain(context, cost, potion);
+    public Card develop_lowCardToGain(MoveContext context, int cost, int debt, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_develop_lowCardToGain(context, cost, debt, potion)) {
+            return super.develop_lowCardToGain(context, cost, debt, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(cost).potionCost(potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(cost, debt, potion ? 1 : 0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.develop);
         return getFromTable(context, sco);
     }
 
     @Override
-    public Card develop_highCardToGain(MoveContext context, int cost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_develop_highCardToGain(context, cost, potion)) {
-            return super.develop_highCardToGain(context, cost, potion);
+    public Card develop_highCardToGain(MoveContext context, int cost, int debt, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_develop_highCardToGain(context, cost, debt, potion)) {
+            return super.develop_highCardToGain(context, cost, debt, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(cost).potionCost(potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(cost, debt, potion ? 1 : 0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.develop);
         return getFromTable(context, sco);
     }
@@ -1703,12 +1703,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card haggler_cardToObtain(MoveContext context, int maxCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_haggler_cardToObtain(context, maxCost, potion)) {
-            return super.haggler_cardToObtain(context, maxCost, potion);
+    public Card haggler_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_haggler_cardToObtain(context, maxCost, maxDebtCost, potion)) {
+            return super.haggler_cardToObtain(context, maxCost, maxDebtCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(potion?1:0)
-                .maxCost(maxCost).maxCostWithoutPotion().isNonVictory()
+        SelectCardOptions sco = new SelectCardOptions().maxPotionCost(potion?1:0)
+                .maxCost(maxCost).maxDebtCost(maxDebtCost).lessThanMax().isNonVictory()
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.haggler);
         return getFromTable(context, sco);
     }
@@ -1741,8 +1741,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_borderVillage_cardToObtain(context, maxCost)) {
             return super.borderVillage_cardToObtain(context, maxCost);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0)
-                .maxCost(maxCost)
+        SelectCardOptions sco = new SelectCardOptions()
+                .maxCost(maxCost).maxDebtCost(0).maxPotionCost(0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.borderVillage);
         return getFromTable(context, sco);
     }
@@ -1758,12 +1758,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card farmland_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, exactCost, potion)) {
-            return super.remodel_cardToObtain(context, exactCost, potion);
+    public Card farmland_cardToObtain(MoveContext context, int exactCost, int debt, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, exactCost, debt, potion)) {
+            return super.remodel_cardToObtain(context, exactCost, debt, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost)
-                .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost, debt, potion ? 1 : 0)
+        		.setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.farmland);
         return getFromTable(context, sco);
     }
@@ -1888,7 +1888,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
             return super.armory_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(4).maxDebtCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.armory);
         return getFromTable(context, sco);
     }
@@ -1908,7 +1908,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
             return super.altar_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(5).maxDebtCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.altar);
         return getFromTable(context, sco);
     }
@@ -1946,7 +1946,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_feast_cardToObtain(context)) {
             return super.catacombs_cardToObtain(context, maxCost);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(maxCost)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(0).maxPotionCost(0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.catacombs);
         return getFromTable(context, sco);
     }
@@ -2035,11 +2035,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card graverobber_cardToReplace(MoveContext context, int maxCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_expand_cardToObtain(context, maxCost, potion)) {
-            return super.graverobber_cardToReplace(context, maxCost, potion);
+    public Card graverobber_cardToReplace(MoveContext context, int maxCost, int maxDebt, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_expand_cardToObtain(context, maxCost, maxDebt, potion)) {
+            return super.graverobber_cardToReplace(context, maxCost, maxDebt, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(maxDebt).maxPotionCost(potion ? 1 : 0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.graverobber);
         return getFromTable(context, sco);
     }
@@ -2139,12 +2139,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card procession_cardToGain(MoveContext context, int exactCost,   boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_procession_cardToObtain(context, exactCost, potion)) {
-            return super.procession_cardToGain(context, exactCost, potion);
+    public Card procession_cardToGain(MoveContext context, int exactCost, int debt, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_procession_cardToObtain(context, exactCost, debt, potion)) {
+            return super.procession_cardToGain(context, exactCost, debt, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().isAction().exactCost(exactCost)
-                .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
+        SelectCardOptions sco = new SelectCardOptions().isAction().exactCost(exactCost, debt, potion ? 1 : 0)
+        		.setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.procession);
         return getFromTable(context, sco);
     }
@@ -2163,12 +2163,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion) {
-        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, maxCost, costPotion)) {
-            return super.rebuild_cardToGain(context, maxCost, costPotion);
+    public Card rebuild_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean costPotion) {
+        if(context.isQuickPlay() && shouldAutoPlay_remodel_cardToObtain(context, maxCost, maxDebt, costPotion)) {
+            return super.rebuild_cardToGain(context, maxCost, maxDebt, costPotion);
         }
-        SelectCardOptions sco = new SelectCardOptions().isVictory().maxCost(maxCost)
-                .potionCost(costPotion ? 1 : 0).setActionType(ActionType.GAIN)
+        SelectCardOptions sco = new SelectCardOptions().isVictory().maxCost(maxCost).maxDebtCost(maxDebt)
+                .maxPotionCost(costPotion ? 1 : 0).setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.rebuild);
         return getFromTable(context, sco);
     }
@@ -2245,12 +2245,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion) {
-    	if(context.isQuickPlay() && shouldAutoPlay_governor_cardToObtain(context, exactCost, potion)) {
-            return super.governor_cardToObtain(context, exactCost, potion);
+    public Card governor_cardToObtain(MoveContext context, int exactCost, int debt, boolean potion) {
+    	if(context.isQuickPlay() && shouldAutoPlay_governor_cardToObtain(context, exactCost, debt, potion)) {
+            return super.governor_cardToObtain(context, exactCost, debt, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost)
-                .potionCost(potion ? 1 : 0).setActionType(ActionType.GAIN)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost, debt, potion ? 1 : 0)
+        		.setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.governor);
         return getFromTable(context, sco);
     }
@@ -2421,7 +2421,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card hermit_cardToGain(MoveContext context)  {
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(3).maxDebtCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(3).maxDebtCost(0).maxPotionCost(0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.hermit);
         return getFromTable(context, sco);
     }
@@ -2457,7 +2457,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
             return super.dameNatalie_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).maxCost(3).maxDebtCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(3).maxDebtCost(0).maxPotionCost(0)
                 .setPassable().setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.dameNatalie);
         return getFromTable(context, sco);
@@ -2468,8 +2468,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(context, maxCost)) {
             return super.bandOfMisfits_actionCardToImpersonate(context, maxCost);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0)
-                .maxCost(maxCost).isAction()
+        SelectCardOptions sco = new SelectCardOptions()
+                .maxCost(maxCost).maxDebtCost(0).maxPotionCost(0).isAction()
                 .setCardResponsible(Cards.bandOfMisfits);
         return getFromTable(context, sco);
     }
@@ -2484,12 +2484,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card taxman_treasureToObtain(MoveContext context, int maxCost, boolean potion) {
-        if(context.isQuickPlay() && shouldAutoPlay_taxman_treasureToObtain(context, maxCost, potion)) {
-            return super.taxman_treasureToObtain(context, maxCost, potion);
+    public Card taxman_treasureToObtain(MoveContext context, int maxCost, int debt, boolean potion) {
+        if(context.isQuickPlay() && shouldAutoPlay_taxman_treasureToObtain(context, maxCost, debt, potion)) {
+            return super.taxman_treasureToObtain(context, maxCost, debt, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost)
-                .potionCost(potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost).maxDebtCost(debt)
+                .maxPotionCost(potion ? 1 : 0)
                 .setCardResponsible(Cards.taxman);
         return getFromTable(context, sco);
     }
@@ -2548,8 +2548,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion) {
-        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).potionCost(potion ? 1 : 0)
+    public Card butcher_cardToObtain(MoveContext context, int maxCost, int maxDebt, boolean potion) {
+        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(maxDebt).maxPotionCost(potion ? 1 : 0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.butcher);
         return getFromTable(context, sco);
     }
@@ -2582,17 +2582,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion) {
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty().potionCost(potion?1:0)
-				.maxCost(maxCost).maxCostWithoutPotion()
+    public Card stonemason_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean potion) {
+    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+				.maxCost(maxCost).maxDebtCost(maxDebt).maxPotionCost(potion?1:0).lessThanMax()
 				.setActionType(ActionType.GAIN).setCardResponsible(Cards.stonemason);
         return getFromTable(context, sco);
     }
 
     @Override
     public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion) {
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty().exactCost(overpayAmount)
-                .isAction().potionCost(potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().allowEmpty().exactCost(overpayAmount, 0, potion ? 1 : 0)
+                .isAction()
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.stonemason);
         return getFromTable(context, sco);
     }
@@ -2691,7 +2691,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_artificer_cardToObtain(context, cost)) {
             return super.artificer_cardToObtain(context, cost);
         }
-        SelectCardOptions sco = new SelectCardOptions().potionCost(0).exactCost(cost).setPassable()
+        SelectCardOptions sco = new SelectCardOptions().exactCost(cost, 0, 0).setPassable()
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.artificer);
         return getFromTable(context, sco);
     }
@@ -2793,7 +2793,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_messenger_cardToObtain(context)) {
             return super.messenger_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.messenger).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
@@ -2894,7 +2894,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_transmogrify_cardToObtain(context, maxCost, maxDebtCost, potion)) {
             return super.transmogrify_cardToObtain(context, maxCost, maxDebtCost, potion);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(maxDebtCost).potionCost(potion?1:0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(maxDebtCost).maxPotionCost(potion?1:0)
                 .setCardResponsible(Cards.transmogrify).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
@@ -2938,7 +2938,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_alms_cardToObtain(context)) {
             return super.alms_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).potionCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.alms).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
@@ -2948,7 +2948,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_ball_cardToObtain(context)) {
             return super.ball_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).potionCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.ball).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
@@ -2980,7 +2980,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.inheritance_actionCardTosetAside(context);
         }
     	SelectCardOptions sco = new SelectCardOptions()
-                .isAction().isNonVictory().maxCost(4).potionCost(0)
+                .isAction().isNonVictory().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setActionType(ActionType.SETASIDE).setCardResponsible(Cards.inheritance);
         return getFromTable(context, sco);
     }
@@ -3081,7 +3081,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_seaway_cardToObtain(context)) {
             return super.seaway_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.seaway).isAction().setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
@@ -3091,7 +3091,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_summon_cardToObtain(context)) {
             return super.summon_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(4).potionCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.summon).isAction().setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
@@ -3178,7 +3178,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_engineer_cardToObtain(context)) {
             return super.engineer_cardToObtain(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).potionCost(0)
+        SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.engineer).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }

@@ -447,9 +447,9 @@ public class MoveContext {
         return game.getVictoryCardsInGame();
     }
 
-    protected boolean isNewCardAvailable(int cost, boolean potion) {
+    protected boolean isNewCardAvailable(int cost, int debt, boolean potion) {
         for(Card c : getCardsInGame()) {
-            if(Cards.isSupplyCard(c)&& c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+            if(Cards.isSupplyCard(c)&& c.getCost(this) == cost && c.getDebtCost(this) == debt && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
                 return true;
             }
         }

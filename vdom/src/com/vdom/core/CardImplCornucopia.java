@@ -307,13 +307,14 @@ public class CardImplCornucopia extends CardImpl {
             }
 
             int value = card.getCost(context) + 1;
+            int debt = card.getDebtCost(context);
             boolean potion = card.costPotion();
             currentPlayer.hand.remove(card);
             currentPlayer.trash(card, this.controlCard, context);
 
-            card = currentPlayer.controlPlayer.remake_cardToObtain(context, value, potion);
+            card = currentPlayer.controlPlayer.remake_cardToObtain(context, value, debt, potion);
             if (card != null) {
-                if (card.getCost(context) != value || card.costPotion() != potion) {
+                if (card.getCost(context) != value || card.getDebtCost(context) != debt || card.costPotion() != potion) {
                     Util.playerError(currentPlayer, "Remake error, new card must cost exactly " + value + ".");
                 } else {
                     if(currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
