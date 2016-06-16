@@ -3794,6 +3794,26 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card trashingToken_cardToTrash(MoveContext context) {
     	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
     }
+    
+    @Override
+    public Card advance_actionToTrash(MoveContext context) {
+    	ArrayList<Card> actionCards = new ArrayList<Card>();
+    	for (Card c : context.player.hand) {
+    		if (c.is(Type.Action, context.player)) {
+				actionCards.add(c);
+			}
+		}
+    	actionCards.sort(new Util.CardCostComparator());
+    	if (actionCards.get(0).getCost(context) <= 6) {
+    		return actionCards.get(0); 
+    	}
+    	return null;
+    }
+    
+    @Override
+    public Card advance_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 6, false, false, true, true, true);
+    }
         
     @Override
     public boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers) {

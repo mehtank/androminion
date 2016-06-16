@@ -1405,6 +1405,8 @@ public class Strings {
             getCardName(Cards.opulentCastle),
             getCardName(Cards.sacrifice),
             getCardName(Cards.temple),
+            /*Empires Events*/
+            getCardName(Cards.advance),
             /*Promo Events*/
             getCardName(Cards.summon)
             

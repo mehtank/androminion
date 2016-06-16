@@ -94,6 +94,9 @@ public class CardImplEmpires extends CardImpl {
         	context.buys++;
         	break;
         //Events
+        case Advance:
+        	advance(context);
+        	break;
         case Conquest:
         	conquest(context);
         	break;
@@ -622,6 +625,40 @@ public class CardImplEmpires extends CardImpl {
     }
 	
     //Events
+    
+    private void advance(MoveContext context) {
+    	Player player = context.getPlayer();
+    	boolean hasAction = false;
+    	for(Card c : player.getHand()) {
+    		if (c.is(Type.Action, player)) {
+    			hasAction = true;
+    			break;
+    		}
+    	}
+    	if (!hasAction) return;
+    	
+    	Card cardToTrash = player.controlPlayer.advance_actionToTrash(context);
+    	if(cardToTrash != null) {
+            if(!player.getHand().contains(cardToTrash) || !cardToTrash.is(Type.Action, player)) {
+                Util.playerError(player, "Advance returned invalid card to trash from hand, ignoring.");
+            } else {
+                player.hand.remove(cardToTrash);
+                player.trash(cardToTrash, this.controlCard, context);
+                //TODO: check if there is an action card to gain
+                Card cardToGain = player.controlPlayer.advance_cardToObtain(context);
+                if (cardToGain == null || 
+                		!cardToGain.is(Type.Action) || 
+                		cardToGain.getCost(context) > 6 || 
+                		cardToGain.getDebtCost(context) > 0 || 
+                		cardToGain.costPotion()) {
+                	Util.playerError(player, "Advance returned invalid card to gain, ignoring.");
+                	//TODO: pick some valid action card and gain that instead
+                } else {
+                	player.gainNewCard(cardToGain, this.controlCard, context);
+                }
+            }
+        }
+    }
     
     private void conquest(MoveContext context) {
     	context.player.gainNewCard(Cards.silver, this.controlCard, context);

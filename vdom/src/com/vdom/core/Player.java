@@ -2060,6 +2060,8 @@ public abstract class Player {
     // Card interactions - Empires Expansion
     // ////////////////////////////////////////////
     public abstract int numDebtTokensToPayOff(MoveContext context);
+    public abstract Card advance_actionToTrash(MoveContext context);
+    public abstract Card advance_cardToObtain(MoveContext context);
     public abstract boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers);
     public abstract Card catapult_cardToTrash(MoveContext context);
     public abstract Card[] catapult_attack_cardsToKeep(MoveContext context);

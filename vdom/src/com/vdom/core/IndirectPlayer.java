@@ -3137,6 +3137,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card advance_actionToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction()
+                .setPassable().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.advance);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card advance_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(6).maxDebtCost(0).maxPotionCost(0).isAction()
+                .setCardResponsible(Cards.advance);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers) {
     	if(context.isQuickPlay() && shouldAutoPlay_bustlingVillage_settlersIntoHand(context)) {
             return super.bustlingVillage_settlersIntoHand(context, coppers, settlers);
