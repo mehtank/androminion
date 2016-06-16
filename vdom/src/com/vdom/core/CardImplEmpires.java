@@ -55,6 +55,9 @@ public class CardImplEmpires extends CardImpl {
         case Gladiator:
         	gladiator(game, context, currentPlayer);
         	break;
+        case Legionary:
+        	legionary(game, context, currentPlayer);
+        	break;
         case OpulentCastle:
         	opulentCastle(game, context, currentPlayer);
         	break;
@@ -351,6 +354,31 @@ public class CardImplEmpires extends CardImpl {
     			 Card gladiator = pile.removeCard();
     			 currentPlayer.trash(gladiator, this.controlCard, context);
     		 }
+    	}
+    }
+    
+    private void legionary(Game game, MoveContext context, Player currentPlayer) {
+    	ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+    	if (currentPlayer.hand.size() == 0) {
+    		return;
+    	}
+    	if (currentPlayer.hand.contains(Cards.gold) && currentPlayer.controlPlayer.legionary_revealGold(context)) {
+    		for (Player player : attackedPlayers) {
+				player.attacked(this.controlCard, context);
+	            MoveContext playerContext = new MoveContext(game, player);
+	            playerContext.attackedPlayer = player;
+	            int keepCardCount = 2;
+                if (player.hand.size() > keepCardCount) {
+                    Card[] cardsToKeep = player.controlPlayer.legionary_attack_cardsToKeep(playerContext);
+                    player.discardRemainingCardsFromHand(playerContext, cardsToKeep, this.controlCard, keepCardCount);
+                    game.drawToHand(playerContext, this, 1);
+                }
+	        }
     	}
     }
     

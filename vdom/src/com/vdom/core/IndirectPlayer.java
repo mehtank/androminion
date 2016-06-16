@@ -3224,6 +3224,24 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean legionary_revealGold(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_legionary_revealGold(context)) {
+            return super.legionary_revealGold(context);
+        }
+    	return selectBoolean(context, Cards.legionary);
+    }
+    
+    @Override
+    public Card[] legionary_attack_cardsToKeep(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_legionary_attack_cardsToKeep(context)) {
+            return super.legionary_attack_cardsToKeep(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount()
+                .setPickType(PickType.KEEP).setCardResponsible(Cards.legionary);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
     public Card[] opulentCastle_cardsToDiscard(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_opulentCastle_cardsToDiscard(context)) {
             return super.opulentCastle_cardsToDiscard(context);

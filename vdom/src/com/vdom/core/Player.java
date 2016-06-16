@@ -2069,6 +2069,8 @@ public abstract class Player {
     public abstract Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context);
     public abstract Card gladiator_revealedCard(MoveContext context);
     public abstract boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card);
+    public abstract boolean legionary_revealGold(MoveContext context);
+    public abstract Card[] legionary_attack_cardsToKeep(MoveContext context);
     public abstract Card[] opulentCastle_cardsToDiscard(MoveContext context);
     public abstract Card overlord_actionCardToImpersonate(MoveContext context);
     public abstract Card sacrifice_cardToTrash(MoveContext context);

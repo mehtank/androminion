@@ -18,6 +18,7 @@
 	<string name="settlers_query">Put Copper from discard into hand</string>
 	<string name="bustlingVillage_query">Put Settlers from discard into hand</string>
 	<string name="reveal_copy">Reveal copy from hand</string>
+	<string name="legionary_reveal_gold">Reveal Gold to attack</string>
 	
 	<string name="join_timed_out">Timed out waiting for player to join and start game.</string>
 	<string name="response_timed_out">Timed out waiting for player to join and respond to query.</string>
@@ -386,6 +387,7 @@
 	<string name="mercenary_part">keep from Mercenary</string>
 	<string name="sir_michael_part">keep from Sir Michael</string>
 	<string name="catapult_part">keep [Catapult]</string>
+	<string name="legionary_part">keep [Legionary]</string>
 	
 	<string name="bishop_part">trash for Victory Tokens</string>
 	

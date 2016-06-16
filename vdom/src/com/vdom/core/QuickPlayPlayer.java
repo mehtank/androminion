@@ -1039,6 +1039,14 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return true;
     }
     
+    public boolean shouldAutoPlay_legionary_revealGold(MoveContext context) {
+    	return true;
+    }
+    
+    public boolean shouldAutoPlay_legionary_attack_cardsToKeep(MoveContext context) {
+    	return false;
+    }
+    
     public boolean shouldAutoPlay_sacrifice_cardToTrash(MoveContext context) {
     	return false;
     }

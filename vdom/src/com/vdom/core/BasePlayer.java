@@ -520,7 +520,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card[] militia_attack_cardsToKeep(MoveContext context) {
-        ArrayList<Card> keepers = new ArrayList<Card>();
+        return discardAttackCardsToKeep(context, 3);
+    }
+    
+    private Card[] discardAttackCardsToKeep(MoveContext context, int numToKeep) {
+    	ArrayList<Card> keepers = new ArrayList<Card>();
         ArrayList<Card> discards = new ArrayList<Card>();
         
         // Just add in the non-victory cards...
@@ -532,12 +536,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-        while (keepers.size() < 3) {
+        while (keepers.size() < numToKeep) {
             keepers.add(discards.remove(0));
         }
 
-        // Still more than 3? Remove all but one action...
-        while (keepers.size() > 3) {
+        // Still more than numToKeep? Remove all but one action...
+        while (keepers.size() > numToKeep) {
             int bestAction = -1;
             boolean removed = false;
             for (int i = 0; i < keepers.size(); i++) {
@@ -562,8 +566,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-        // Still more than 3? Start removing copper...
-        while (keepers.size() > 3) {
+        // Still more than numToKeep? Start removing copper...
+        while (keepers.size() > numToKeep) {
             boolean removed = false;
             for (int i = 0; i < keepers.size(); i++) {
                 if (keepers.get(i).equals(Cards.copper)) {
@@ -577,8 +581,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-        // Still more than 3? Start removing silver...
-        while (keepers.size() > 3) {
+        // Still more than numToKeep? Start removing silver...
+        while (keepers.size() > numToKeep) {
             boolean removed = false;
             for (int i = 0; i < keepers.size(); i++) {
                 if (keepers.get(i).equals(Cards.silver)) {
@@ -592,7 +596,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-        while (keepers.size() > 3) {
+        while (keepers.size() > numToKeep) {
             keepers.remove(0);
         }
 
@@ -3854,6 +3858,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card) {
     	return true;
+    }
+    
+    @Override
+    public boolean legionary_revealGold(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
+    public Card[] legionary_attack_cardsToKeep(MoveContext context) {
+    	return discardAttackCardsToKeep(context, 2);
     }
     
     @Override

@@ -1107,6 +1107,9 @@ public class Strings {
             strings[0] = getPlayerRevealedCardHeader(extras);
             strings[1] = getString(R.string.reveal_copy);
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.legionary))) {
+            strings[1] = getString(R.string.legionary_reveal_gold);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.smallCastle))) {
             strings[1] = getString(R.string.trash_this);
             strings[2] = getString(R.string.trash_castle_from_hand);
@@ -1425,6 +1428,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.pathfinding), getString(R.string.part_move_token_plus_one_card));
         actionStringMap.put(getCardName(Cards.prince), getString(R.string.prince_part));
         actionStringMap.put(getCardName(Cards.kingsCourt), getString(R.string.kings_court_part));
+        actionStringMap.put(getCardName(Cards.legionary), getString(R.string.legionary_part));
         actionStringMap.put(getCardName(Cards.lostArts), getString(R.string.part_move_token_plus_one_action));
         actionStringMap.put(getCardName(Cards.mandarin), getString(R.string.mandarin_part));
         actionStringMap.put(getCardName(Cards.margrave), getString(R.string.margrave_part));
