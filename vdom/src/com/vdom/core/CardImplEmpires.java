@@ -9,6 +9,7 @@ import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.core.Cards.Kind;
 import com.vdom.core.Player.EncampmentOption;
+import com.vdom.core.Player.WildHuntOption;
 
 public class CardImplEmpires extends CardImpl {
 	private static final long serialVersionUID = 1L;
@@ -82,6 +83,9 @@ public class CardImplEmpires extends CardImpl {
         case Temple:
         	temple(game, context, currentPlayer);
         	break;
+        case WildHunt:
+        	wildHunt(game, context, currentPlayer);
+        	break;
 		default:
 			break;
 		}
@@ -97,6 +101,9 @@ public class CardImplEmpires extends CardImpl {
         case Advance:
         	advance(context);
         	break;
+        case Banquet:
+        	banquet(context);
+        	break;
         case Conquest:
         	conquest(context);
         	break;
@@ -105,6 +112,9 @@ public class CardImplEmpires extends CardImpl {
         	break;
         case Dominate:
         	dominate(context);
+        	break;
+        case Donate:
+        	donate(context);
         	break;
         case Triumph:
         	triumph(context);
@@ -623,6 +633,19 @@ public class CardImplEmpires extends CardImpl {
     	}
     	game.addPileVpTokens(Cards.temple, 1, context);
     }
+    
+    private void wildHunt(Game game, MoveContext context, Player currentPlayer) {
+    	if (currentPlayer.controlPlayer.wildHunt_chooseOption(context) == WildHuntOption.Draw3AndPlaceToken) {
+    		context.game.drawToHand(context, this.controlCard, 3);
+    		context.game.drawToHand(context, this.controlCard, 2);
+    		context.game.drawToHand(context, this.controlCard, 1);
+    		context.game.addPileVpTokens(Cards.wildHunt, 1, context);
+    	} else {
+    		if (currentPlayer.gainNewCard(Cards.estate, this.controlCard, context) == Cards.estate) {
+    			context.game.removePileVpTokens(Cards.wildHunt, context.game.getPileVpTokens(Cards.wildHunt), context);
+    		}
+    	}
+    }
 	
     //Events
     
@@ -660,6 +683,12 @@ public class CardImplEmpires extends CardImpl {
         }
     }
     
+    private void banquet(MoveContext context) {
+    	context.player.gainNewCard(Cards.silver, this.controlCard, context);
+    	context.player.gainNewCard(Cards.silver, this.controlCard, context);
+    	context.player.controlPlayer.banquet_cardToObtain(context);
+    }
+    
     private void conquest(MoveContext context) {
     	context.player.gainNewCard(Cards.silver, this.controlCard, context);
     	context.player.gainNewCard(Cards.silver, this.controlCard, context);
@@ -677,6 +706,10 @@ public class CardImplEmpires extends CardImpl {
     	if (Cards.province.equals(gainedCard)) {
     		context.getPlayer().controlPlayer.addVictoryTokens(context, 9);
     	}
+    }
+    
+    private void donate(MoveContext context) {
+    	++context.donatesBought;
     }
 
     private void triumph(MoveContext context) {

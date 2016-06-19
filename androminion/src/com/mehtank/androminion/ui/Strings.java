@@ -44,6 +44,7 @@ import com.vdom.core.Player.TorturerOption;
 import com.vdom.core.Player.TournamentOption;
 import com.vdom.core.Player.TrustySteedOption;
 import com.vdom.core.Player.WatchTowerOption;
+import com.vdom.core.Player.WildHuntOption;
 import com.vdom.core.PlayerSupplyToken;
 import com.vdom.core.Type;
 
@@ -883,6 +884,12 @@ public class Strings {
             } else if (option == EncampmentOption.RevealPlunder) {
                 return getString(R.string.reveal_plunder);
             }
+        } else if (option instanceof WildHuntOption) {
+            if (option == WildHuntOption.Draw3AndPlaceToken) {
+                return getString(R.string.draw_three_add_token);
+            } else if (option == WildHuntOption.GainEstateAndTokens) {
+                return getString(R.string.gain_estate_and_tokens);
+            }
         } else if (option instanceof StashOption) {
             if (option == StashOption.PlaceOnTop) {
                 return getString(R.string.stash_on_top);
@@ -1407,6 +1414,8 @@ public class Strings {
             getCardName(Cards.temple),
             /*Empires Events*/
             getCardName(Cards.advance),
+            getCardName(Cards.banquet),
+            getCardName(Cards.donate),
             /*Promo Events*/
             getCardName(Cards.summon)
             

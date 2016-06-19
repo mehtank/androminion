@@ -490,13 +490,6 @@ public abstract class Player {
         
         playedByPrince.clear();
 
-        if (isPossessed()) {
-            while (!game.possessedTrashPile.isEmpty()) {
-                discard(game.possessedTrashPile.remove(0), null, null, false, false);
-            }
-            game.possessedBoughtPile.clear();
-        }
-
         // /////////////////////////////////
         // Discard hand
         // /////////////////////////////////
@@ -1545,6 +1538,11 @@ public abstract class Player {
     	RevealGold,
     	RevealPlunder
     }
+    
+    public static enum WildHuntOption {
+    	Draw3AndPlaceToken,
+    	GainEstateAndTokens
+    }
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
@@ -2062,9 +2060,11 @@ public abstract class Player {
     public abstract int numDebtTokensToPayOff(MoveContext context);
     public abstract Card advance_actionToTrash(MoveContext context);
     public abstract Card advance_cardToObtain(MoveContext context);
+    public abstract Card banquet_cardToObtain(MoveContext context);
     public abstract boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers);
     public abstract Card catapult_cardToTrash(MoveContext context);
     public abstract Card[] catapult_attack_cardsToKeep(MoveContext context);
+    public abstract Card[] donate_cardsToTrash(MoveContext context);
     public abstract EncampmentOption encampment_chooseOption(MoveContext context, EncampmentOption[] options);
     public abstract Card engineer_cardToObtain(MoveContext context);
     public abstract boolean engineer_shouldTrashEngineerPlayed(MoveContext context);
@@ -2081,6 +2081,7 @@ public abstract class Player {
     public abstract Card smallCastle_castleToTrash(MoveContext context);
     public abstract HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context);
     public abstract Card[] temple_cardsToTrash(MoveContext context);
+    public abstract WildHuntOption wildHunt_chooseOption(MoveContext context);
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

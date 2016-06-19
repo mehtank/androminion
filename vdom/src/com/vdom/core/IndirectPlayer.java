@@ -3152,6 +3152,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card banquet_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0).isNonVictory()
+                .setCardResponsible(Cards.banquet);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers) {
     	if(context.isQuickPlay() && shouldAutoPlay_bustlingVillage_settlersIntoHand(context)) {
             return super.bustlingVillage_settlersIntoHand(context, coppers, settlers);
@@ -3177,6 +3184,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
                 .setPickType(PickType.KEEP).setCardResponsible(Cards.catapult);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card[] donate_cardsToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.donate);
         return getFromHand(context, sco);
     }
     
@@ -3312,5 +3327,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setMinCount(1).setDifferent().setPickType(PickType.TRASH)
                 .setCardResponsible(Cards.temple).setActionType(ActionType.TRASH);
         return getFromHand(context, sco);
+    }
+    
+    @Override
+    public WildHuntOption wildHunt_chooseOption(MoveContext context) {
+    	WildHuntOption[] options = WildHuntOption.values();
+    	return options[selectOption(context, Cards.wildHunt, options)];
     }
 }

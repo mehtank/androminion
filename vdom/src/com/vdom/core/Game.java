@@ -632,6 +632,17 @@ public class Game {
         // /////////////////////////////////
         // Turn End
         // /////////////////////////////////
+        
+        event = new GameEvent(GameEvent.EventType.TurnEnd, context);
+        broadcastEvent(event);
+        
+        if (player.isPossessed()) {
+            while (!possessedTrashPile.isEmpty()) {
+                player.discard(possessedTrashPile.remove(0), null, null, false, false);
+            }
+            possessedBoughtPile.clear();
+        }
+        
         if (player.isPossessed()) {
             if (--possessionsToProcess == 0)
                 player.controlPlayer = player;
@@ -641,8 +652,36 @@ public class Game {
             nextPossessionsToProcess = 0;
             nextPossessingPlayer = null;
         }
-        event = new GameEvent(GameEvent.EventType.TurnEnd, context);
-        broadcastEvent(event);
+        
+        while (context.donatesBought-- > 0) {
+        	while(!player.deck.isEmpty()) {
+        		player.hand.add(player.deck.removeLastCard());
+        	}
+        	while(!player.discard.isEmpty()) {
+        		player.hand.add(player.discard.removeLastCard());
+        	}
+        	Card[] cardsToTrash = player.donate_cardsToTrash(context);
+        	if (cardsToTrash != null) {
+	        	for (Card c : cardsToTrash) {
+	        		Card toTrash = player.hand.get(c);
+	        		if (toTrash == null) {
+	        			Util.playerError(player, "Donate error, tried to trash card not in hand: " + c);
+	        		} else {
+	        			player.trash(toTrash, Cards.donate, context);
+	        		}
+	        	}
+	        	while(!player.hand.isEmpty()) {
+	        		player.deck.add(player.hand.removeLastCard());
+	        	}
+	        	player.shuffleDeck(context, Cards.donate);
+	        	for (int i = 0; i < 5; ++i) {
+	        		drawToHand(context, Cards.donate, 5 - i);
+	        	}
+        	}
+        }
+        
+        //TODO: Do Mountain Pass bidding
+        
         
         if (context.missionBought && consecutiveTurnCounter <= 1) {
 			if (!result.isEmpty()) {

@@ -464,6 +464,8 @@
   <string name="reveal_gold">Revelar Oro</string>
   <string name="reveal_plunder">Revelar Saqueo</string>
   <string name="hauntedcastle_part">devolver al mazo [Castillo Embrujado]</string>
+  <string name="draw_three_add_token">Robar 3 cartas y colocar una ficha de Victoria en el montón</string>
+  <string name="gain_estate_and_tokens">Ganar una Finca y tomar las fichas de Victoria del montón</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>
   <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>

@@ -14,6 +14,7 @@ import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
+import com.vdom.core.Player.WildHuntOption;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
@@ -3814,6 +3815,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card advance_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 6, false, false, true, true, true);
     }
+    
+    @Override
+    public Card banquet_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 5, false, false, false, false, true);
+    }
         
     @Override
     public boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers) {
@@ -3833,6 +3839,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card[] catapult_attack_cardsToKeep(MoveContext context) {
     	return militia_attack_cardsToKeep(context);
+    }
+    
+    @Override
+    public Card[] donate_cardsToTrash(MoveContext context) {
+    	ArrayList<Card> result = new ArrayList<Card>();
+    	for (Card c : context.getPlayer().getHand()) {
+    		for(Card trash : getTrashCards()) {
+				if(c.equals(trash)) {
+					result.add(c);
+					break;
+				}
+			}
+    	}
+    	return result.isEmpty() ? null : result.toArray(new Card[0]);
     }
     
     @Override
@@ -3985,5 +4005,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 			result[i] = trashCards[i];
 		}
     	return result;
+    }
+    
+    @Override
+    public WildHuntOption wildHunt_chooseOption(MoveContext context) {
+    	//TODO: more situational logic
+    	if (context.game.getPileVpTokens(Cards.wildHunt) >= 3 && !context.game.isPileEmpty(Cards.estate)) {
+    		return WildHuntOption.GainEstateAndTokens;
+    	}
+    	return WildHuntOption.Draw3AndPlaceToken;
     }
 }
