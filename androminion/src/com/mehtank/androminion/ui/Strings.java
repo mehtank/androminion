@@ -1416,6 +1416,8 @@ public class Strings {
             getCardName(Cards.advance),
             getCardName(Cards.banquet),
             getCardName(Cards.donate),
+            getCardName(Cards.ritual),
+            getCardName(Cards.saltTheEarth),
             /*Promo Events*/
             getCardName(Cards.summon)
             

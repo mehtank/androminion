@@ -116,6 +116,12 @@ public class CardImplEmpires extends CardImpl {
         case Donate:
         	donate(context);
         	break;
+        case Ritual:
+        	ritual(context);
+        	break;
+        case SaltTheEarth:
+        	saltTheEarth(context);
+        	break;
         case Triumph:
         	triumph(context);
         	break;
@@ -641,7 +647,7 @@ public class CardImplEmpires extends CardImpl {
     		context.game.drawToHand(context, this.controlCard, 1);
     		context.game.addPileVpTokens(Cards.wildHunt, 1, context);
     	} else {
-    		if (currentPlayer.gainNewCard(Cards.estate, this.controlCard, context) == Cards.estate) {
+    		if (Cards.estate.equals(currentPlayer.gainNewCard(Cards.estate, this.controlCard, context))) {
     			context.game.removePileVpTokens(Cards.wildHunt, context.game.getPileVpTokens(Cards.wildHunt), context);
     		}
     	}
@@ -710,6 +716,35 @@ public class CardImplEmpires extends CardImpl {
     
     private void donate(MoveContext context) {
     	++context.donatesBought;
+    }
+    
+    private void ritual(MoveContext context) {
+    	Player p = context.getPlayer();
+    	CardList hand = p.getHand();
+    	if (Cards.curse.equals(p.gainNewCard(Cards.curse, Cards.ritual, context))) {
+    		if (hand.size() == 0) return;
+    		Card toTrash = p.controlPlayer.ritual_cardToTrash(context);
+    		if (toTrash == null || !hand.contains(toTrash)) {
+    			Util.playerError(p, "Invalid card selected for Ritual, selecting first card");
+    			toTrash = hand.get(0);
+    		}
+    		int trashCost = toTrash.getCost(context);
+			toTrash = hand.get(toTrash);
+			hand.remove(toTrash);
+			p.trash(toTrash, this.controlCard, context);
+			p.addVictoryTokens(context, trashCost);
+    	}
+    }
+    
+    private void saltTheEarth(MoveContext context) {
+    	context.getPlayer().addVictoryTokens(context, 1);
+    	Card toTrash = context.getPlayer().controlPlayer.saltTheEarth_cardToTrash(context);
+    	AbstractCardPile pile = context.game.getPile(toTrash);
+    	if (toTrash == null || !toTrash.is(Type.Victory) || pile.isEmpty() || !pile.card().equals(toTrash)) {
+    		Util.playerError(context.getPlayer(), "Salt the Earth picked invalid card, picking province");
+    		toTrash = Cards.province;
+    	}
+    	context.getPlayer().trash(pile.removeCard(), this.controlCard, context);
     }
 
     private void triumph(MoveContext context) {

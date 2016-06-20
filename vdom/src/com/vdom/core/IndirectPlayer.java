@@ -3294,6 +3294,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card ritual_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.ritual);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public Card sacrifice_cardToTrash(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_sacrifice_cardToTrash(context)) {
             return super.sacrifice_cardToTrash(context);
@@ -3302,6 +3309,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
                 .setCardResponsible(Cards.sacrifice);
         return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card saltTheEarth_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isVictory()
+                .isSupplyCard()
+                .setCardResponsible(Cards.saltTheEarth);
+        return getFromTable(context, sco);
     }
     
     @Override

@@ -3933,6 +3933,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card ritual_cardToTrash(MoveContext context) {
+    	//TODO: better logic - needs to be more situational - maybe prefer non-VP high cards
+    	return highestCard(context, context.getPlayer().getHand());
+    }
+    
+    @Override
     public Card sacrifice_cardToTrash(MoveContext context) {
     	Card c = pickOutCard(context.getPlayer().getHand(), EARLY_TRASH_CARDS);
     	if (c == null) {
@@ -3940,6 +3946,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             c = Util.randomCard(context.getPlayer().getHand());
         }
     	return c;
+    }
+    
+    @Override
+    public Card saltTheEarth_cardToTrash(MoveContext context) {
+    	// TODO: more situational logic
+    	return context.game.cardInGame(Cards.colony) ? Cards.colony : Cards.province;
     }
     
     @Override
