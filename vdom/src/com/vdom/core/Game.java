@@ -1787,6 +1787,7 @@ public class Game {
         buy.isBought(context);
         if(!buy.is(Type.Event)) {
         	haggler(context, buy);
+        	charmWhenBuy(context, buy);
         }
         
         return card;
@@ -1831,6 +1832,43 @@ public class Game {
             }
         }
 
+    }
+    
+    private void charmWhenBuy(MoveContext context, Card buy) {
+    	Player player = context.getPlayer();
+    	if (context.charmsNextBuy > 0) {
+    		//is there another valid card to gain?
+    		boolean validCard = validCharmCardLeft(context, buy);
+    		while (context.charmsNextBuy-- > 0) {
+    			if (validCard) {
+	        		Card toGain = player.controlPlayer.charm_cardToObtain(context, buy);
+	        		if (!isValidCharmCard(context, buy, toGain)) {
+	        			Util.playerError(player, "Charm card to gain invalid, ignoring");
+	        		} else {
+	        			player.gainNewCard(toGain, Cards.charm, context);
+	        		}
+	        		validCard = validCharmCardLeft(context, buy);
+    			}
+        	}
+    	}
+    }
+    
+    private boolean validCharmCardLeft(MoveContext context, Card buy) {
+    	for (Card c : context.game.getCardsInGame()) {
+			if (isValidCharmCard(context, buy, c)) {
+				return true;
+			}
+		}
+    	return false;
+    }
+    
+    private boolean isValidCharmCard(MoveContext context, Card buy, Card c) {
+    	return c != buy && context.game.isCardInGame(c) && 
+				!context.game.isPileEmpty(c) &&
+				Cards.isSupplyCard(c) &&
+				buy.getCost(context) != c.getCost(context) ||
+				buy.getDebtCost(context) != c.getCost(context) ||
+				(buy.costPotion() != c.costPotion());
     }
 
     public boolean buyWouldEndGame(Card card) {

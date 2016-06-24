@@ -162,14 +162,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustPick) {
-        return bestCardInPlay(context, maxCost, exactCost, Integer.MAX_VALUE, potion, actionOnly, victoryCardAllowed, false, mustPick);
+        return bestCardInPlay(context, maxCost, exactCost, Integer.MAX_VALUE, potion, actionOnly, victoryCardAllowed, false, mustPick, null);
     }
     
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustPick) {
-        return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, actionOnly, victoryCardAllowed, false, mustPick);
+        return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, actionOnly, victoryCardAllowed, false, mustPick, null);
     }
 
-    protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick) {
+    protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
             maxCost = COST_MAX;
@@ -192,6 +192,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || card.equals(Cards.ruinedMarket)
                 || card.equals(Cards.ruinedVillage) 
                 || card.equals(Cards.survivors)
+                || (except != null && card.equals(except))
                 || (card.is(Type.Knight, null) && !card.equals(Cards.virtualKnight)) /*choose only virtualKnight*/
                 || !Cards.isSupplyCard(card)
                 || context.getCardsLeftInPile(card) == 0
@@ -2150,7 +2151,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card haggler_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
         if (maxCost < 0)
             return null;
-        return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, false, false, true, true);
+        return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, false, false, true, true, null);
     }
     
     @Override
@@ -3161,7 +3162,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card stonemason_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean potion)
     {
-        return bestCardInPlay(context, maxCost, false, maxDebt, potion, false, true, true, true);
+        return bestCardInPlay(context, maxCost, false, maxDebt, potion, false, true, true, true, null);
     }
     
     @Override
@@ -3839,6 +3840,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card[] catapult_attack_cardsToKeep(MoveContext context) {
     	return militia_attack_cardsToKeep(context);
+    }
+    
+    @Override
+    public CharmOption charm_chooseOption(MoveContext context) {
+    	//TODO: make sure there is a differently named card we want before choosing second option
+    	return (context.getCoins() > 5) ? CharmOption.OneBuyTwoCoins : CharmOption.NextBuyGainDifferentWithSameCost;
+    }
+    
+    @Override
+    public Card charm_cardToObtain(MoveContext context, Card boughtCard) {
+    	return bestCardInPlay(context,boughtCard.getCost(context), true, boughtCard.getDebtCost(context), boughtCard.costPotion(), false, true, false, false, boughtCard);
     }
     
     @Override

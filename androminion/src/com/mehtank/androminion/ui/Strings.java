@@ -23,6 +23,7 @@ import com.vdom.core.Cards;
 import com.vdom.core.IndirectPlayer;
 import com.vdom.core.IndirectPlayer.StashOption;
 import com.vdom.core.Player.AmuletOption;
+import com.vdom.core.Player.CharmOption;
 import com.vdom.core.Player.CountFirstOption;
 import com.vdom.core.Player.CountSecondOption;
 import com.vdom.core.Player.DoctorOverpayOption;
@@ -878,6 +879,12 @@ public class Strings {
             } else if (option == DoctorOverpayOption.PutItBack) {
                 return getString(R.string.doctor_overpay_option_three);
             }
+        } else if (option instanceof CharmOption) {
+            if (option == CharmOption.OneBuyTwoCoins) {
+                return getString(R.string.charm_option_one);
+            } else if (option == CharmOption.NextBuyGainDifferentWithSameCost) {
+                return getString(R.string.charm_option_two);
+            }
         } else if (option instanceof EncampmentOption) {
             if (option == EncampmentOption.RevealGold) {
                 return getString(R.string.reveal_gold);
@@ -1176,6 +1183,8 @@ public class Strings {
                     selectString = Strings.format(R.string.select_from_table_attack, maxCostString, header);
                 } else if (sco.isAction) {
                     selectString = Strings.format(R.string.select_from_table_exact_action, maxCostString, header);
+                } else if (sco.except != null) {
+                    selectString = Strings.format(R.string.select_from_table_exact_except, getCardName(sco.except), maxCostString, header);
                 } else {
                     selectString = Strings.format(R.string.select_from_table_exact, maxCostString, header);
                 }
@@ -1406,6 +1415,7 @@ public class Strings {
             getCardName(Cards.seaway),
             /*Empires*/
             getCardName(Cards.catapult),
+            getCardName(Cards.charm),
             getCardName(Cards.engineer),
             getCardName(Cards.forum),
             getCardName(Cards.gladiator),

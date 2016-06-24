@@ -3188,6 +3188,20 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public CharmOption charm_chooseOption(MoveContext context) {
+    	CharmOption[] options = CharmOption.values();
+    	return options[selectOption(context, Cards.charm, options)];
+    }
+    
+    @Override
+    public Card charm_cardToObtain(MoveContext context, Card boughtCard) {
+    	 SelectCardOptions sco = new SelectCardOptions()
+    	 	.exactCost(boughtCard.getCost(context), boughtCard.getDebtCost(context), boughtCard.costPotion()?1:0)
+    	 	.not(boughtCard).setPassable().setActionType(ActionType.GAIN).setCardResponsible(Cards.charm);
+         return getFromTable(context, sco);
+    }
+    
+    @Override
     public Card[] donate_cardsToTrash(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setPassable()
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)

@@ -63,6 +63,7 @@
 	<string name="select_from_table_treasure">Select a Treasure card from the table to %1$s</string>
 	<string name="select_from_table_exact">Select a card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_exact_action">Select an Action card from the table that costs exactly (%1$s) to %2$s</string>
+	<string name="select_from_table_exact_except">Select a card from the table, except %1$s, that costs exactly (%2$s) to %3$s</string>
 	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_events">Select an event from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_cards_events">Select a card or event from the table that costs at most (%1$s) to %2$s</string>
@@ -463,6 +464,8 @@
   <string name="start_turn_query">Start of turn. Pick action:</string>
   <string name="call_optional">%1$s (optional)</string>
   
+  <string name="charm_option_one">+1 Buy, +(2) Coins</string>
+  <string name="charm_option_two">After next card buy, gain different card with same cost</string>
   <string name="reveal_gold">Reveal Gold</string>
   <string name="reveal_plunder">Reveal Plunder</string>
   <string name="hauntedcastle_part">put back on deck [Haunted Castle]</string>

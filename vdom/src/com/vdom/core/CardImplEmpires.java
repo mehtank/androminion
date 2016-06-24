@@ -8,6 +8,7 @@ import java.util.Set;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.core.Cards.Kind;
+import com.vdom.core.Player.CharmOption;
 import com.vdom.core.Player.EncampmentOption;
 import com.vdom.core.Player.WildHuntOption;
 
@@ -31,6 +32,9 @@ public class CardImplEmpires extends CardImpl {
         	break;
         case ChariotRace:
         	chariotRace(game, context, currentPlayer);
+        	break;
+        case Charm:
+            charm(game, context, currentPlayer);
         	break;
         case CityQuarter:
         	cityQuarter(game, context, currentPlayer);
@@ -259,6 +263,15 @@ public class CardImplEmpires extends CardImpl {
             	}
             }
         }
+    }
+    
+    private void charm(Game game, MoveContext context, Player currentPlayer) {
+    	if (currentPlayer.controlPlayer.charm_chooseOption(context) == CharmOption.OneBuyTwoCoins) {
+    		context.buys++;
+    		context.addCoins(2);
+    	} else {
+    		context.charmsNextBuy++;
+    	}
     }
     
     private void cityQuarter(Game game, MoveContext context, Player currentPlayer) {

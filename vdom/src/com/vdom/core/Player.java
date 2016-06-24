@@ -1534,6 +1534,11 @@ public abstract class Player {
     	DiscardSixCards
     }
     
+    public static enum CharmOption {
+    	OneBuyTwoCoins,
+    	NextBuyGainDifferentWithSameCost
+    }
+    
     public static enum EncampmentOption {
     	RevealGold,
     	RevealPlunder
@@ -2064,6 +2069,8 @@ public abstract class Player {
     public abstract boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers);
     public abstract Card catapult_cardToTrash(MoveContext context);
     public abstract Card[] catapult_attack_cardsToKeep(MoveContext context);
+    public abstract CharmOption charm_chooseOption(MoveContext context);
+    public abstract Card charm_cardToObtain(MoveContext context, Card boughtCard);
     public abstract Card[] donate_cardsToTrash(MoveContext context);
     public abstract EncampmentOption encampment_chooseOption(MoveContext context, EncampmentOption[] options);
     public abstract Card engineer_cardToObtain(MoveContext context);

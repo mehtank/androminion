@@ -46,6 +46,7 @@ public class MoveContext {
     public boolean enchantressAlreadyAffected = false;
     public boolean hasDoubledCoins = false;
     public int donatesBought = 0;
+    public int charmsNextBuy = 0;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;

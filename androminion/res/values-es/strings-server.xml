@@ -63,6 +63,7 @@
 	<string name="select_from_table_treasure">Elije una carta de Tesoro de la mesa para %1$s</string>
 	<string name="select_from_table_exact">Elije una carta de la mesa que cueste exactamente (%1$s) para %2$s</string>
 	<string name="select_from_table_exact_action">Elije una carta de Acción de la mesa que cueste exactamente (%1$s) para %2$s</string>
+	<string name="select_from_table_exact_except">Elije una carta de la mesa, menos %1$s, que cueste exactamente (%2$s) para %3$s</string>
 	<string name="select_from_table_max">Elije una carta de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_max_events">Elije un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_max_cards_events">Elije una carta o un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
@@ -461,6 +462,8 @@
   <string name="start_turn_query">Comienzo del turno. Elige una acción:</string>
   <string name="call_optional">%1$s (opcional)</string>
   
+  <string name="charm_option_one">+1 Compra, +(2) Monedas</string>
+  <string name="charm_option_two">Al comprar la próxima carta, ganar otra carta con el mismo coste</string>
   <string name="reveal_gold">Revelar Oro</string>
   <string name="reveal_plunder">Revelar Saqueo</string>
   <string name="hauntedcastle_part">devolver al mazo [Castillo Embrujado]</string>
