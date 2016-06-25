@@ -106,6 +106,7 @@ public class Game {
     public HashMap<String, AbstractCardPile> piles = new HashMap<String, AbstractCardPile>();
     public HashMap<String, Integer> embargos = new HashMap<String, Integer>();
     public HashMap<String, Integer> pileVpTokens = new HashMap<String, Integer>();
+    public HashMap<String, Integer> pileDebtTokens = new HashMap<String, Integer>();
     private HashMap<String, HashMap<Player, List<PlayerSupplyToken>>> playerSupplyTokens = new HashMap<String, HashMap<Player,List<PlayerSupplyToken>>>();
     public ArrayList<Card> trashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
@@ -1657,7 +1658,17 @@ public class Game {
         int embargos = getEmbargos(buy);
         for (int i = 0; i < embargos; i++) {
             player.gainNewCard(Cards.curse, Cards.embargo, context);
-        }        
+        }
+        
+        // Tax Debt tokens
+        int numDebtTokensOnPile = getPileDebtTokens(buy); 
+        if (numDebtTokensOnPile > 0) {
+        	removePileDebtTokens(buy, numDebtTokensOnPile, context);
+        	context.getPlayer().controlPlayer.gainDebtTokens(numDebtTokensOnPile);
+        	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
+        	event.setAmount(numDebtTokensOnPile);
+            context.game.broadcastEvent(event);
+        }
         
         Card card = buy;
         if(!buy.is(Type.Event, null)) {
@@ -2618,6 +2629,16 @@ public class Game {
         if (piles.containsKey(Cards.battlefield.getName())) {
             addPileVpTokens(Cards.battlefield, 6 * numPlayers, null);
         }
+        
+        // Setup for Tax
+        if (piles.containsKey(Cards.tax.getName())) {
+        	for (String cardName : piles.keySet()) {
+        		Card c = piles.get(cardName).card();
+        		if (Cards.isSupplyCard(c)) {
+        			addPileDebtTokens(c, 1, null);
+        		}
+        	}
+        }
 
         // If Ranger, Giant or Pilgrimage are in play, each player starts with a journey token faced up
         if (   piles.containsKey(Cards.ranger.getName())
@@ -3240,6 +3261,33 @@ public class Game {
         }
         return piles.get(name);
     }
+    
+    AbstractCardPile addPileDebtTokens(Card card, int num, MoveContext context) {
+        String name = card.getName();
+        pileDebtTokens.put(name, getPileDebtTokens(card) + num);
+        if (context != null) {
+        	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensPutOnPile, context);
+    		event.setAmount(num);
+    		event.card = card;
+            context.game.broadcastEvent(event);
+    	}
+        return piles.get(name);
+    }
+    
+    AbstractCardPile removePileDebtTokens(Card card, int num, MoveContext context) {
+    	num = Math.min(num, getPileDebtTokens(card));
+        String name = card.getName();
+        if (num > 0) {
+        	pileDebtTokens.put(name, getPileDebtTokens(card) - num);
+        	if (context != null) {
+	        	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensTakenFromPile, context);
+	    		event.setAmount(num);
+	    		event.card = card;
+	            context.game.broadcastEvent(event);
+        	}
+        }
+        return piles.get(name);
+    }
 
     public boolean isValidEmbargoPile(Card card) {
         return !(card == null || !cardInGame(card) || !Cards.isSupplyCard(card) );
@@ -3252,6 +3300,11 @@ public class Game {
     
     public int getPileVpTokens(Card card) {
         Integer count = pileVpTokens.get(card.getName());
+        return (count == null) ? 0 : count;
+    }
+    
+    public int getPileDebtTokens(Card card) {
+        Integer count = pileDebtTokens.get(card.getName());
         return (count == null) ? 0 : count;
     }
     

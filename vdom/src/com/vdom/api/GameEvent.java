@@ -64,6 +64,8 @@ public class GameEvent {
         TrashingTokenMoved, // Trashing token moved to supply pile
         DebtTokensObtained, // Obtained Debt tokens
         DebtTokensPaidOff, // Paid off Debt tokens
+        DebtTokensPutOnPile, // Debt tokens put on a card pile
+        DebtTokensTakenFromPile, // Debt tokens taken from a card pile
         VPTokensObtained, // VP tokens taken by a player
         VPTokensPutOnPile, // VP tokens put on a card pile
         VPTokensTakenFromPile, // VP tokens taken from a card pile

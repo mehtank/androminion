@@ -52,9 +52,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	private TextView name;
 	private View cardBox;
-	private TextView cost, countLeft, embargos, pileVpTokens;
+	private TextView cost, countLeft, embargos, pileVpTokens, pileDebtTokens;
 	private int numEmbargos;
 	private int numPileVpTokens;
+	private int numPileDebtTokens;
 	private LinearLayout tokens;
 	private TextView checked;
 	private TextView cardDesc;
@@ -140,6 +141,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		countLeft = (TextView) findViewById(R.id.countLeft);
 		embargos = (TextView) findViewById(R.id.embargos);
 		pileVpTokens = (TextView) findViewById(R.id.pileVpTokens);
+		pileDebtTokens = (TextView) findViewById(R.id.pileDebtTokens);
 		tokens = (LinearLayout) findViewById(R.id.tokens);
 		checked = (TextView) findViewById(R.id.checked);
 		cardDesc = (TextView) findViewById(R.id.cardDesc);
@@ -396,6 +398,16 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			pileVpTokens.setVisibility(VISIBLE);
 		} else {
 			pileVpTokens.setVisibility(GONE);
+		}
+	}
+	
+	public void setPileDebtTokens(int val) {
+		numPileDebtTokens = val;
+		if (val != 0) {
+			pileDebtTokens.setText(" " + val + " ");
+			pileDebtTokens.setVisibility(VISIBLE);
+		} else {
+			pileDebtTokens.setVisibility(GONE);
 		}
 	}
 	
@@ -671,7 +683,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			text += getContext().getString(R.string.bane_card);
 		}
 		boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
-		if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0) {
+		if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0 || numPileDebtTokens > 0) {
 			if (text.length() > 0)
 				text += "\n\n";
 			text += getContext().getString(R.string.token_header);
@@ -682,6 +694,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			}
 			if (numPileVpTokens > 0) {
 				text += getContext().getString(R.string.token_victory) + getContext().getString(R.string.token_colon) + numPileVpTokens;
+				text += "\n";
+			}
+			if (numPileDebtTokens > 0) {
+				text += getContext().getString(R.string.token_debt) + getContext().getString(R.string.token_colon) + numPileDebtTokens;
 				text += "\n";
 			}
 			if (hasPlayerTokens) {

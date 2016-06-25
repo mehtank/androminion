@@ -33,12 +33,14 @@ public class CardGroup extends BaseAdapter {
     int[] supplySizes = null;
     int[] embargos = null;
     int[] pileVpTokens = null;
+    int[] pileDebtTokens = null;
     int[][][] tokens = null;
 
-    public void updateCounts(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[][][] tokens) {
+    public void updateCounts(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[][][] tokens) {
         this.supplySizes = supplySizes;
         this.embargos = embargos;
         this.pileVpTokens = pileVpTokens;
+        this.pileDebtTokens = pileDebtTokens;
         this.tokens = tokens;
         notifyDataSetChanged();
     }
@@ -123,6 +125,8 @@ public class CardGroup extends BaseAdapter {
                 cv.setEmbargos(embargos[cs.c.id]);
             if (pileVpTokens != null)
                 cv.setPileVpTokens(pileVpTokens[cs.c.id]);
+            if (pileDebtTokens != null)
+                cv.setPileDebtTokens(pileDebtTokens[cs.c.id]);
             if (tokens != null)
             	cv.setTokens(tokens[cs.c.id], players);
         } catch (ArrayIndexOutOfBoundsException e) {

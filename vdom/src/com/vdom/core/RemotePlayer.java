@@ -295,6 +295,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int[] supplySizes = new int[cardsInPlay.size()];
         int[] embargos = new int[cardsInPlay.size()];
         int[] pileVpTokens = new int[cardsInPlay.size()];
+        int[] pileDebtTokens = new int[cardsInPlay.size()];
         int[][][] tokens = new int[cardsInPlay.size()][][];
         int[] costs = new int[cardsInPlay.size()];
 
@@ -331,6 +332,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
             embargos[i] = context.getEmbargos(intToCard(i));
             pileVpTokens[i] = context.getPileVpTokens(intToCard(i));
+            pileDebtTokens[i] = context.getPileDebtTokens(intToCard(i));
             
             costs[i] = intToCard(i).getCost(context);
         }
@@ -433,6 +435,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setSupplySizes(supplySizes)
                 .setEmbargos(embargos)
                 .setPileVpTokens(pileVpTokens)
+                .setPileDebtTokens(pileDebtTokens)
                 .setTokens(tokens)
                 .setCosts(costs)
                 .setHand(cardArrToIntArr(Game.sortCards ? shownHand.sort(new Util.CardHandComparator()) : shownHand.toArray()))
@@ -715,6 +718,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
         } else if (event.getType() == EventType.DebtTokensObtained || 
         		event.getType() == EventType.DebtTokensPaidOff ||
+        		event.getType() == EventType.DebtTokensPutOnPile ||
+                event.getType() == EventType.DebtTokensTakenFromPile ||
         		event.getType() == EventType.VPTokensObtained ||
         		event.getType() == EventType.VPTokensPutOnPile ||
         		event.getType() == EventType.VPTokensTakenFromPile) {

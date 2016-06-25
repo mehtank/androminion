@@ -3348,6 +3348,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card tax_supplyToTax(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+            .setCardResponsible(Cards.tax);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public Card[] temple_cardsToTrash(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_temple_cardsToTrash(context)) {
             return super.temple_cardsToTrash(context);

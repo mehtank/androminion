@@ -14,7 +14,6 @@ import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
-import com.vdom.core.Player.WildHuntOption;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
@@ -4005,6 +4004,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	return worstCastle;
     }
+    
+	@Override
+	public Card tax_supplyToTax(MoveContext context) {
+		// TODO: provide more situational logic
+		// Tax a random card
+        Card card;
+        ArrayList<Card> cardList = new ArrayList<Card> (Arrays.asList(context.getCardsInGame()));
+        do {
+            card = cardList.remove(rand.nextInt(cardList.size() - 1));
+        } while (!game.isValidEmbargoPile(card));
+        return card;
+	}
     
     @Override
     public Card[] temple_cardsToTrash(MoveContext context) {

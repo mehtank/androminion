@@ -58,6 +58,16 @@
         android:background="@drawable/victorytokens"
         android:visibility="gone" />
     
+    <TextView
+        android:id="@+id/pileDebtTokens"
+        style="@style/style_cardview_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/countLeft"
+        android:layout_toLeftOf="@id/embargos"
+        android:background="@drawable/debttokens"
+        android:visibility="gone" />
+    
     <LinearLayout
         android:id="@+id/tokens"
         android:layout_width="wrap_content"

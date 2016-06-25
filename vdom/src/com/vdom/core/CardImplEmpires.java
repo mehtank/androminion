@@ -126,6 +126,9 @@ public class CardImplEmpires extends CardImpl {
         case SaltTheEarth:
         	saltTheEarth(context);
         	break;
+        case Tax:
+        	tax(context);
+        	break;
         case Triumph:
         	triumph(context);
         	break;
@@ -758,6 +761,20 @@ public class CardImplEmpires extends CardImpl {
     		toTrash = Cards.province;
     	}
     	context.getPlayer().trash(pile.removeCard(), this.controlCard, context);
+    }
+    
+    private void tax(MoveContext context) {
+    	Card card = context.getPlayer().controlPlayer.tax_supplyToTax(context);
+        if (card == null || !context.game.isCardInGame(card)) {
+            Util.playerError(context.getPlayer(), "Tax error, choosing arbitrary Supply.");
+            for (Card c : context.game.getCardsInGame()) {
+            	if (Cards.isSupplyCard(c)) {
+            		card = c;
+            		break;
+            	}
+            }
+        }
+        context.game.addPileDebtTokens(card, 2, context);
     }
 
     private void triumph(MoveContext context) {

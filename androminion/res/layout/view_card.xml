@@ -58,7 +58,18 @@
         android:background="@drawable/victorytokens"
         android:textColor="@android:color/black"
         android:visibility="gone" />
-
+    
+    <TextView
+        android:id="@+id/pileDebtTokens"
+        style="@style/style_cardview_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/countLeft"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/debttokens"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+    
     <LinearLayout
         android:id="@+id/tokens"
         android:layout_width="wrap_content"

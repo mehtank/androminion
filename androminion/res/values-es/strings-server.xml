@@ -143,6 +143,8 @@
 	<string name="OverpayForCard">Sobrepagó para</string>
 	<string name="DebtTokensObtained">Deuda obtenida: %1$s</string>
 	<string name="DebtTokensPaidOff">Deuda pagada: %1$s</string>
+	<string name="DebtTokensPutOnPile">Marcadores de Deuda colocadas: %1$s en</string>
+	<string name="DebtTokensTakenFromPile">Marcadores de Deuda sacadas: %1$s de</string>
 	<string name="NoBuy">(Ninguna compra)</string>
 	<string name="VPTokensObtained">Fichas de Victoria tomadas: %1$s</string>
 	<string name="VPTokensPutOnPile">Fichas de Victoria colocadas: %1$s en</string>
@@ -469,6 +471,7 @@
   <string name="hauntedcastle_part">devolver al mazo [Castillo Embrujado]</string>
   <string name="draw_three_add_token">Robar 3 cartas y colocar una ficha de Victoria en el montón</string>
   <string name="gain_estate_and_tokens">Ganar una Finca y tomar las fichas de Victoria del montón</string>
+  <string name="tax_part">ponerle 2 marcadores de Deuda [Impuesto]</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>
   <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>

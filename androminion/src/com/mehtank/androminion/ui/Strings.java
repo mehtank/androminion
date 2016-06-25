@@ -384,6 +384,10 @@ public class Strings {
         	statusText += format(R.string.DebtTokensObtained, extras[3]);
         } else if (event.gameEventType == GameEvent.EventType.DebtTokensPaidOff) {
         	statusText += format(R.string.DebtTokensPaidOff, extras[3]);
+        } else if (event.gameEventType == GameEvent.EventType.DebtTokensPutOnPile) {
+        	statusText += format(R.string.DebtTokensPutOnPile, extras[3]);
+        } else if (event.gameEventType == GameEvent.EventType.DebtTokensTakenFromPile) {
+        	statusText += format(R.string.DebtTokensTakenFromPile, extras[3]);
         } else if (event.gameEventType == GameEvent.EventType.VPTokensObtained) {
         	statusText += format(R.string.VPTokensObtained, extras[3]);
         } else if (event.gameEventType == GameEvent.EventType.VPTokensPutOnPile) {
@@ -1461,6 +1465,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.saboteur), getString(R.string.saboteur_part));
         actionStringMap.put(getCardName(Cards.save), getString(R.string.save_part));
         actionStringMap.put(getCardName(Cards.sirMichael), getString(R.string.sir_michael_part));
+        actionStringMap.put(getCardName(Cards.tax), getString(R.string.tax_part));
         actionStringMap.put(getCardName(Cards.throneRoom), getString(R.string.throne_room_part));
         actionStringMap.put(getCardName(Cards.disciple), getString(R.string.throne_room_part));
         actionStringMap.put(getCardName(Cards.tournament), getString(R.string.select_prize));

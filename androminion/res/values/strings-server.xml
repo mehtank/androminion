@@ -147,6 +147,8 @@
 	<string name="OverpayForCard">Overpay for card</string>
 	<string name="DebtTokensObtained">Debt tokens obtained: %1$s</string>
 	<string name="DebtTokensPaidOff">Debt tokens paid off: %1$s</string>
+	<string name="DebtTokensPutOnPile">Debt Tokens placed: %1$s on</string>
+	<string name="DebtTokensTakenFromPile">Debt Tokens removed: %1$s from</string>
 	<string name="NoBuy">(No buy)</string>
 	<string name="VPTokensObtained">Victory Tokens taken: %1$s</string>
 	<string name="VPTokensPutOnPile">Victory Tokens placed: %1$s on</string>
@@ -471,6 +473,7 @@
   <string name="hauntedcastle_part">put back on deck [Haunted Castle]</string>
   <string name="draw_three_add_token">Draw 3 and add VP token to pile</string>
   <string name="gain_estate_and_tokens">Gain Estate and take VP tokens from pile</string>
+  <string name="tax_part">put 2 debt tokens on [Tax]</string>
       
   <string name="place_stash_query">Place Stash in deck</string>
   <string name="place_stashes_query">Place %1$s Stash cards in deck</string>

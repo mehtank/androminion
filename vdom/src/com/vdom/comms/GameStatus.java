@@ -32,6 +32,7 @@ public class GameStatus implements Serializable {
     public int[] supplySizes;
     public int[] embargos;
     public int[] pileVpTokens;
+    public int[] pileDebtTokens;
     public int[][][] tokens;
     public int[] costs;
     public int[] deckSizes;
@@ -75,6 +76,7 @@ public class GameStatus implements Serializable {
     public GameStatus setSupplySizes(int[] is) {supplySizes = is; return this;};
     public GameStatus setEmbargos(int[] is) {embargos = is; return this;};
     public GameStatus setPileVpTokens(int[] is) {pileVpTokens = is; return this;};
+    public GameStatus setPileDebtTokens(int[] is) {pileDebtTokens = is; return this;};
     public GameStatus setTokens(int[][][] is) {tokens = is; return this;};
     public GameStatus setCosts(int[] is) {costs = is; return this;};
     public GameStatus setDeckSizes(int[] is) {deckSizes = is; return this;};
