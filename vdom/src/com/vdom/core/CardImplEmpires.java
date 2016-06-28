@@ -8,6 +8,7 @@ import java.util.Set;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.core.Cards.Kind;
+import com.vdom.core.MoveContext.TurnPhase;
 import com.vdom.core.Player.CharmOption;
 import com.vdom.core.Player.EncampmentOption;
 import com.vdom.core.Player.WildHuntOption;
@@ -38,6 +39,9 @@ public class CardImplEmpires extends CardImpl {
         	break;
         case CityQuarter:
         	cityQuarter(game, context, currentPlayer);
+        	break;
+        case Crown:
+        	crown(game, context, currentPlayer);
         	break;
         case Encampment:
         	encampment(game, context, currentPlayer);
@@ -290,6 +294,14 @@ public class CardImplEmpires extends CardImpl {
         for (int i = 0; i < actionCards; ++i) {
         	game.drawToHand(context, this, actionCards - i);
         }
+    }
+    
+    private void crown(Game game, MoveContext context, Player currentPlayer) {
+    	if (context.phase == TurnPhase.Action) {
+    		throneRoomKingsCourt(game, context, currentPlayer);
+    	} else if (context.phase == TurnPhase.Buy) {
+    		multiPlayTreasure(context, game, currentPlayer);
+    	}
     }
     
     private void encampment(Game game, MoveContext context, Player currentPlayer) {

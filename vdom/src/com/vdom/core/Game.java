@@ -23,6 +23,7 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
+import com.vdom.core.MoveContext.TurnPhase;
 import com.vdom.core.Player.ExtraTurnOption;
 import com.vdom.core.Player.HuntingGroundsOption;
 import com.vdom.core.Player.WatchTowerOption;
@@ -268,31 +269,35 @@ public class Game {
                 Player player = players[playersTurn];
                 boolean canBuyCards = extraTurnsInfo.isEmpty() ? true : extraTurnsInfo.remove().canBuyCards;
                 MoveContext context = new MoveContext(this, player, canBuyCards);
+                context.phase = TurnPhase.Action;
                 context.startOfTurn = true;
                 playerBeginTurn(player, context);
                 context.startOfTurn = false;
 
                 do {
+                	context.phase = TurnPhase.Action;
                 	context.returnToActionPhase = false;
+                	
                     // /////////////////////////////////
                     // Actions
                     // /////////////////////////////////
 	                playerAction(player, context);
 		
 	                // /////////////////////////////////
-	                // Select Treasure for Buy
+	                // Buy Phase
 	                // /////////////////////////////////
+	                context.phase = TurnPhase.Buy;
 	                playTreasures(player, context, -1, null);
 	
 	                // Spend Guilds coin tokens if applicable
 	                playGuildsTokens(player, context);
 	
 	                // /////////////////////////////////
-	                // Buy Phase
+	                // Buying cards
 	                // /////////////////////////////////
 	                playerBuy(player, context);
                 } while (context.returnToActionPhase);
-
+                
                 if (context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn == 0) {
                     GameEvent event = new GameEvent(GameEvent.EventType.NoBuy, context);
                     broadcastEvent(event);
@@ -302,6 +307,7 @@ public class Game {
                 // /////////////////////////////////
                 // Discard, draw new hand
                 // /////////////////////////////////
+                context.phase = TurnPhase.CleanUp;
                 player.cleanup(context);
                 
                 //clean up other players cards in play without future duration effects, e.g. Duplicate
@@ -399,11 +405,8 @@ public class Game {
 
     protected void playTreasures(Player player, MoveContext context, int maxCards, Card responsible) {
     	// storyteller sets maxCards != -1
-        if (!context.blackMarketBuyPhase && maxCards == -1) {
-            context.buyPhase = true;
-        }
-
-        boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
+        
+    	boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
         if (maxCards != -1) selectingCoins = true;// storyteller
         ArrayList<Card> treasures = null;
         treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand();
@@ -855,8 +858,6 @@ public class Game {
 	            }
             }
         }
-        
-        context.buyPhase = false;
     }
 
     @SuppressWarnings("unchecked")
@@ -1190,6 +1191,32 @@ public class Game {
         }
     }
 
+    protected void playerBeginBuy(Player player, MoveContext context) {
+    	if (isCardInGame(Cards.arena)) {
+    		arena(player, context);
+    	}
+    }
+    
+    private void arena(Player player, MoveContext context) {
+    	boolean hasAction = false;
+		for (Card c : player.getHand()) {
+			if (c.is(Type.Action, player)) {
+				hasAction = true;
+				break;
+			}
+		}
+		if (!hasAction) return;
+		Card toDiscard = player.controlPlayer.arena_cardToDiscard(context);
+		if (toDiscard != null && (!player.getHand().contains(toDiscard) || toDiscard.is(Type.Action, player))) {
+			Util.playerError(player, "Arena - invalid card specified, ignoring.");
+		}
+		if (toDiscard == null) return;
+		player.discard(player.getHand().remove(player.getHand().indexOf(toDiscard)), Cards.arena, context);
+		int tokensToTake = Math.min(getPileVpTokens(Cards.arena), 2);
+		removePileVpTokens(Cards.arena, tokensToTake, context);
+		player.addVictoryTokens(context, tokensToTake);
+    }
+    
     public static boolean isModifierCard(Card card) {
 		return card.equals(Cards.throneRoom)
 	               || card.equals(Cards.disciple)
@@ -1615,7 +1642,7 @@ public class Game {
                 return false;
             }
         }
-        else if (card.is(Type.Event, null) && !context.buyPhase) {
+        else if (card.is(Type.Event, null) && context.phase != TurnPhase.Buy) {
         	return false;
         }
         else if (!card.is(Type.Event, null)) {
@@ -2838,10 +2865,10 @@ public class Game {
         					context.game.broadcastEvent(summonEvent);
                         } else if (gainedCardAbility.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);
-                        } else if (gainedCardAbility.equals(Cards.villa)) {
+                        } else if (gainedCardAbility.equals(Cards.villa) && context.game.getCurrentPlayer() == player) {
                         	player.hand.add(event.card);
                         	context.actions += 1;
-                        	if (context.buyPhase) {
+                        	if (context.phase == TurnPhase.Buy) {
                         		context.returnToActionPhase = true;
                         	}
                         } else if (event.responsible != null) {
@@ -2875,7 +2902,7 @@ public class Game {
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.rocks)) {
-                            	if (context.buyPhase) {
+                            	if (context.phase == TurnPhase.Buy && context.game.getCurrentPlayer() == player) {
                             		player.putOnTopOfDeck(event.card, context, true);
                             	} else {
                             		player.hand.add(event.card);

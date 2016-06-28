@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
+import com.vdom.core.MoveContext.TurnPhase;
 
 public class CardImpl implements Card {
 	private static final long serialVersionUID = 1L;
@@ -448,7 +449,7 @@ public class CardImpl implements Card {
     public int getCost(MoveContext context) {
         if (context == null)
             return cost;
-        return getCost(context, context.buyPhase);
+        return getCost(context, context.phase == TurnPhase.Buy);
     }
 
     public int getCost(MoveContext context, boolean buyPhase) {
@@ -1032,6 +1033,9 @@ public class CardImpl implements Card {
                 case Procession:
                     cardToPlay = (CardImpl) currentPlayer.controlPlayer.procession_cardToPlay(context);
                     break;
+                case Crown:
+                	cardToPlay = (CardImpl) currentPlayer.controlPlayer.crown_actionToPlay(context);
+                    break;
                 default:
                     break;
             }
@@ -1102,6 +1106,40 @@ public class CardImpl implements Card {
         return cardToPlay;
     }
 
+    protected void multiPlayTreasure(MoveContext context, Game game, Player currentPlayer) {
+    	Card treasure = null;
+    	
+    	switch (this.kind) {
+        case Counterfeit:
+            treasure = currentPlayer.controlPlayer.counterfeit_cardToPlay(context);
+            break;
+        case Crown:
+            treasure = currentPlayer.controlPlayer.crown_treasureToPlay(context);
+            break;
+        default:
+        	break;
+    	}
+        
+    	if (treasure != null && treasure.is(Type.Treasure, currentPlayer) && currentPlayer.getHand().contains(treasure)) {
+    		CardImpl cardToPlay = (CardImpl) treasure;
+            cardToPlay.cloneCount = 2;
+            for (int i = 0; i < cardToPlay.cloneCount;) {
+                cardToPlay.numberTimesAlreadyPlayed = i++;
+                cardToPlay.play(context.game, context);
+            }
+            
+            cardToPlay.cloneCount = 0;
+            cardToPlay.numberTimesAlreadyPlayed = 0;    		
+            
+            if (this.kind == Cards.Kind.Counterfeit && currentPlayer.inPlay(treasure)) {
+            	if (currentPlayer.playedCards.getLastCard().equals(treasure)) {
+                	currentPlayer.playedCards.remove(treasure);
+                	currentPlayer.trash(treasure, this, context);
+                }
+            }
+    	}
+    }
+    
     protected void discardMultiple(MoveContext context, Player currentPlayer, int numToDiscard) {
     	CardList hand = currentPlayer.getHand();
     	if (hand.size() == 0)

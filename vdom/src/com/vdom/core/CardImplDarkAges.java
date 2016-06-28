@@ -44,7 +44,7 @@ public class CardImplDarkAges extends CardImpl {
             count(currentPlayer, context);
             break;
         case Counterfeit:
-        	counterfeit(context, game, currentPlayer);
+        	multiPlayTreasure(context, game, currentPlayer);
         	break;
         case Cultist:
             cultist(context, game, currentPlayer);
@@ -471,29 +471,6 @@ public class CardImplDarkAges extends CardImpl {
                     break;
             }
         }
-    }
-    
-    private void counterfeit(MoveContext context, Game game, Player currentPlayer) {
-        Card treasure = currentPlayer.controlPlayer.counterfeit_cardToPlay(context);
-    	
-    	if (treasure != null && treasure.is(Type.Treasure, currentPlayer)) {
-    		CardImpl cardToPlay = (CardImpl) treasure;
-            cardToPlay.cloneCount = 2;
-            for (int i = 0; i < cardToPlay.cloneCount;) {
-                cardToPlay.numberTimesAlreadyPlayed = i++;
-                cardToPlay.play(context.game, context);
-            }
-            
-            cardToPlay.cloneCount = 0;
-            cardToPlay.numberTimesAlreadyPlayed = 0;    		
-            
-            if (currentPlayer.inPlay(treasure)) {
-            	if (currentPlayer.playedCards.getLastCard().equals(treasure)) {
-                	currentPlayer.playedCards.remove(treasure);
-                	currentPlayer.trash(treasure, this, context);
-                }
-            }
-    	}
     }
     
     private void cultist(MoveContext context, Game game, Player currentPlayer) {

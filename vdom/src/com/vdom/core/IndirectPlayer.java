@@ -3152,6 +3152,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card arena_cardToDiscard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_arena_cardToDiscard(context)) {
+            return super.arena_cardToDiscard(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.arena);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public Card banquet_cardToObtain(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0).isNonVictory()
                 .setCardResponsible(Cards.banquet);
@@ -3199,6 +3210,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	 	.exactCost(boughtCard.getCost(context), boughtCard.getDebtCost(context), boughtCard.costPotion()?1:0)
     	 	.not(boughtCard).setPassable().setActionType(ActionType.GAIN).setCardResponsible(Cards.charm);
          return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card crown_actionToPlay(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().isAction()
+                .setPassable().setPickType(PickType.PLAY)
+                .setCardResponsible(Cards.crown);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card crown_treasureToPlay(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isTreasure()
+                .setPassable().setPickType(PickType.PLAY)
+                .setCardResponsible(Cards.crown);
+        return getCardFromHand(context, sco);
     }
     
     @Override

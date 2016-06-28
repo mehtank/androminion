@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vdom.api.Card;
+import com.vdom.core.MoveContext.TurnPhase;
 
 public abstract class QuickPlayPlayer extends BasePlayer {
     //trash in this order!
@@ -789,7 +790,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_stash_chooseDeckPosition(MoveContext context, int deckSize, int numStashes, int cardsToDraw) {
-    	return context.buyPhase;
+    	return context.phase == TurnPhase.Buy;
     }
 
     public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
@@ -1001,6 +1002,15 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     public boolean shouldAutoPlay_extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options) {
     	return true;
+    }
+    
+    public boolean shouldAutoPlay_arena_cardToDiscard(MoveContext context) {
+    	for (Card c : context.getPlayer().getHand()) {
+    		if (c.is(Type.Action, context.getPlayer()) && !c.is(Type.Treasure, context.getPlayer())) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
     
     public boolean shouldAutoPlay_bustlingVillage_settlersIntoHand(MoveContext context) {

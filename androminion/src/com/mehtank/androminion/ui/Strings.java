@@ -1432,6 +1432,8 @@ public class Strings {
             getCardName(Cards.donate),
             getCardName(Cards.ritual),
             getCardName(Cards.saltTheEarth),
+            /*Empires Landmarks*/
+            getCardName(Cards.arena),
             /*Promo Events*/
             getCardName(Cards.summon)
             
@@ -1468,6 +1470,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.tax), getString(R.string.tax_part));
         actionStringMap.put(getCardName(Cards.throneRoom), getString(R.string.throne_room_part));
         actionStringMap.put(getCardName(Cards.disciple), getString(R.string.throne_room_part));
+        actionStringMap.put(getCardName(Cards.crown), getString(R.string.throne_room_part));
         actionStringMap.put(getCardName(Cards.tournament), getString(R.string.select_prize));
         actionStringMap.put(getCardName(Cards.training), getString(R.string.part_move_token_plus_one_coin));
         actionStringMap.put(getCardName(Cards.university), getString(R.string.university_part));

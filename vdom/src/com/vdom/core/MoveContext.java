@@ -35,7 +35,12 @@ public class MoveContext {
     public int totalExpeditionBoughtThisTurn = 0;
     public boolean canBuyCards = true;
     public boolean startOfTurn = false;
-    public boolean buyPhase = false;
+    
+    public enum TurnPhase {
+    	Action, Buy, CleanUp
+    }
+    
+    public TurnPhase phase = TurnPhase.Action;  
     public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't spend Guilds coin tokens)
     public boolean returnToActionPhase = false;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();

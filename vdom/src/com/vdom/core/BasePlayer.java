@@ -59,7 +59,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             
             if(   event.getCard().equals(Cards.throneRoom)
                || event.getCard().equals(Cards.disciple)
-               || event.getCard().equals(Cards.kingsCourt)) {
+               || event.getCard().equals(Cards.kingsCourt)
+               || event.getCard().equals(Cards.crown)) {
                 throneRoomAndKingsCourtCount++;
             }
             if(event.getCard().equals(Cards.potion)) {
@@ -3817,6 +3818,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card arena_cardToDiscard(MoveContext context) {
+    	for (Card c : context.getPlayer().getHand()) {
+    		if (c.is(Type.Action, context.getPlayer()) && !c.is(Type.Treasure, context.getPlayer())) {
+    			return c;
+    		}
+    	}
+    	return null;
+    }
+    
+    @Override
     public Card banquet_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 5, false, false, false, false, true);
     }
@@ -3850,6 +3861,68 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card charm_cardToObtain(MoveContext context, Card boughtCard) {
     	return bestCardInPlay(context,boughtCard.getCost(context), true, boughtCard.getDebtCost(context), boughtCard.costPotion(), false, true, false, false, boughtCard);
+    }
+    
+    @Override
+    public Card crown_actionToPlay(MoveContext context) {
+    	return disciple_cardToPlay(context);
+    }
+    
+    @Override
+    public Card crown_treasureToPlay(MoveContext context) {
+    	Player player = context.getPlayer();
+    	int highestValue = -1;
+    	Card highestValueCard = null;
+    	for (Card c : player.getHand()) {
+    		if (c.is(Type.Treasure, player)) {
+    			int value = c.getAddGold();
+    			value *= 2;
+    			switch (c.getKind()) {
+    			case FoolsGold:
+    				value = context.foolsGoldPlayed == 0 ? 5 : 8;
+    				break;
+    			case PhilosophersStone:
+    				value = (player.deck.size() + player.discard.size()) * 2;
+    				break;
+    			case Contraband:
+    				value = 4; // Not true value, but extra can't buy card is bad
+    				break;
+    			case Venture:
+    				value = 5; // Just a guess - could be more or less
+    				break;
+    			case HornofPlenty:
+    				value = 0; // TODO: Depends on number of unique cards in play
+    				break;
+    			case Counterfeit:
+    				//TODO: depends on number of treasures in hand we want to trash
+    				break;
+    			case Plunder:
+    				value = 7; // Not true value, but VP tokens are worth a lot
+    				break;
+    			case Charm:
+    				value = 5; // Not true value, but worth at least 4 coins
+    				break;
+    			case Bank:
+    				value = (context.countTreasureCardsInPlay() + 2) * 2;
+    				break;
+    			case Fortune:
+    				value = 0; // Only worth it for the extra buy in certain cases
+    				break;
+    			case Diadem:
+    				value = 4 + (2 * context.actions);
+    				break;
+    			default:
+    				break;
+    			}
+    			
+    			if (value > highestValue) {
+    				highestValue = value;
+    				highestValueCard = c;
+    			}
+    		}
+    	}
+    	
+    	return highestValueCard;
     }
     
     @Override
