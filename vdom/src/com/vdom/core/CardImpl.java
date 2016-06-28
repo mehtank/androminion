@@ -1057,10 +1057,17 @@ public class CardImpl implements Card {
                         cardToPlay.cloneCount = 1;
                     }
 
-                    if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
+                    if (cardToPlay.is(Type.Duration, currentPlayer)) {
+                    	boolean playingCardIsInNextTurn = false;
+                    	for (Card c : currentPlayer.nextTurnCards) {
+                    		if (c == cardToPlay) {
+                    			playingCardIsInNextTurn = true;
+                    			break;
+                    		}
+                    	}
                         // Need to move throning card to NextTurnCards first
                         // (but does not play)
-                        if (!this.controlCard.movedToNextTurnPile) {
+                        if (playingCardIsInNextTurn && !this.controlCard.movedToNextTurnPile) {
                             this.controlCard.movedToNextTurnPile = true;
                             int idx = currentPlayer.playedCards.lastIndexOf(this.controlCard);
                             int ntidx = currentPlayer.nextTurnCards.size() - 1;
