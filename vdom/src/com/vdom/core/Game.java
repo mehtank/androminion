@@ -641,6 +641,15 @@ public class Game {
         event = new GameEvent(GameEvent.EventType.TurnEnd, context);
         broadcastEvent(event);
         
+        if (cardsObtainedLastTurn[playersTurn].size() == 0 && isCardInGame(Cards.baths)) {
+        	int tokensLeft = getPileVpTokens(Cards.baths);
+    		if (tokensLeft > 0) {
+    			int tokensToTake = Math.min(tokensLeft, 2);
+    			removePileVpTokens(Cards.baths, tokensToTake, context);
+    			player.addVictoryTokens(context, tokensToTake);
+    		}
+        }
+        
         if (player.isPossessed()) {
             while (!possessedTrashPile.isEmpty()) {
                 player.discard(possessedTrashPile.remove(0), null, null, false, false);
@@ -1828,6 +1837,7 @@ public class Game {
         	haggler(context, buy);
         	charmWhenBuy(context, buy);
         	basilicaWhenBuy(context);
+        	colonnadeWhenBuy(context, buy);
         	defiledShrineWhenBuy(context, buy);
         }
         
@@ -1922,6 +1932,22 @@ public class Game {
     			context.getPlayer().addVictoryTokens(context, tokensToTake);
     		}
     	}
+    }
+    
+    private void colonnadeWhenBuy(MoveContext context, Card buy) {
+    	 if(buy.is(Type.Action, context.getPlayer())) {
+	    	if (isCardInGame(Cards.colonnade)) {
+	    		Player player = context.getPlayer();
+	    		if (player.playedCards.contains(buy) || player.nextTurnCards.contains(buy)) {
+	    			int tokensLeft = getPileVpTokens(Cards.colonnade);
+            		if (tokensLeft > 0) {
+            			int tokensToTake = Math.min(tokensLeft, 2);
+            			removePileVpTokens(Cards.colonnade, tokensToTake, context);
+            			player.addVictoryTokens(context, tokensToTake);
+            		}
+	    		}
+	    	}
+	    }
     }
     
     private void defiledShrineWhenBuy(MoveContext context, Card buy) {
@@ -2877,6 +2903,17 @@ public class Game {
 
                     if (event.getPlayer() == players[playersTurn]) {
                         cardsObtainedLastTurn[playersTurn].add(event.card);
+                    }
+                    
+                    if (cardsObtainedLastTurn[playersTurn].size() == 2) {
+                    	if (isCardInGame(Cards.labyrinth)) {
+                    		int tokensLeft = getPileVpTokens(Cards.labyrinth);
+                    		if (tokensLeft > 0) {
+                    			int tokensToTake = Math.min(tokensLeft, 2);
+                    			removePileVpTokens(Cards.labyrinth, tokensToTake, context);
+                    			player.addVictoryTokens(context, tokensToTake);
+                    		}
+                    	}
                     }
                     
                     boolean hasInheritedWatchtower = Cards.watchTower.equals(player.getInheritance()) && player.hand.contains(Cards.estate);

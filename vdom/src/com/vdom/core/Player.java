@@ -21,6 +21,9 @@ public abstract class Player {
     public static final String RANDOM_AI = "Random AI";
     public static final String DISTINCT_CARDS = "Distinct Cards";
     public static final String ONE_COPY_CARDS = "One Copy Cards";
+    public static final String THREE_PLUS_COPY_ACTION_CARDS = "Three Plus Copy Action Cards";
+    public static final String NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS = "Non Victory Empty Supply Pile Cards";
+    public static final String SECOND_MOST_COMMON_ACTION_CARDS = "Second Most Common Action Cards";
     public static final String VICTORY_TOKENS = "Victory Tokens";
 
     // Only used by InteractivePlayer currently
@@ -770,10 +773,35 @@ public abstract class Player {
         	if (copies == 1)
         		oneCopyCards++;
         }
+        
+        int threePlusCopyActionCards = 0;
+        int highestActionCardCount = 0;
+        int secondHighestActionCardCount = 0;
+        int nonVictoryEmptySupplyPileCards = 0;
+        for (Object o : allCardCounts.keySet()) {
+        	if (!(o instanceof Card)) continue;
+        	Card c = (Card)o;
+        	if (c.is(Type.Action, this)) {
+        		int actionCount = allCardCounts.get(c); 
+        		if (actionCount >= 3) {
+        			threePlusCopyActionCards++;
+        		}
+        		if (actionCount > highestActionCardCount) {
+        			secondHighestActionCardCount = highestActionCardCount;
+        			highestActionCardCount = actionCount;
+        		}
+        	}
+        	if ((!c.is(Type.Victory, this)) && Cards.isSupplyCard(c) && this.game.isPileEmpty(c)) {
+        		nonVictoryEmptySupplyPileCards++;
+        	}
+        }
 
         cardCounts.put(DISTINCT_CARDS, distinctCards.size());
         cardCounts.put(ONE_COPY_CARDS, oneCopyCards);
-
+        cardCounts.put(THREE_PLUS_COPY_ACTION_CARDS, threePlusCopyActionCards);
+        cardCounts.put(SECOND_MOST_COMMON_ACTION_CARDS, secondHighestActionCardCount);
+        cardCounts.put(NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS, threePlusCopyActionCards);
+        
         return cardCounts;
     }
 
@@ -952,9 +980,21 @@ public abstract class Player {
         if (this.game.cardInGame(Cards.obelisk) && this.game.obeliskCard != null) {
     		totals.put(Cards.obelisk, Util.getCardCount(allCards, this.game.obeliskCard) * 2);
         }
+        if (this.game.cardInGame(Cards.orchard)) {
+        	totals.put(Cards.orchard, counts.get(THREE_PLUS_COPY_ACTION_CARDS) * 4);
+        }
         if (this.game.cardInGame(Cards.palace)) {
     		totals.put(Cards.palace, (Math.min(Util.getCardCount(allCards, Cards.copper), 
     				Math.min(Util.getCardCount(allCards, Cards.silver), Util.getCardCount(allCards, Cards.gold)))) * 3);
+        }
+        if (this.game.cardInGame(Cards.tower)) {
+        	totals.put(Cards.tower, counts.get(NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS));
+        }
+        if (this.game.cardInGame(Cards.triumphalArch)) {
+        	totals.put(Cards.triumphalArch, counts.get(SECOND_MOST_COMMON_ACTION_CARDS) * 3);
+        }
+        if (this.game.cardInGame(Cards.wall)) {
+        	totals.put(Cards.wall, allCards.size() > 15 ? 15 - allCards.size() : 0);
         }
         if (this.game.cardInGame(Cards.wolfDen)) {
         	totals.put(Cards.wolfDen, counts.get(ONE_COPY_CARDS) * -3);
