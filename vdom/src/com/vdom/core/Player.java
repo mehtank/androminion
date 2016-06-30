@@ -915,9 +915,11 @@ public abstract class Player {
                 totals.put(curseCard, curseCard.getVictoryPoints() * entry.getValue());
             }
         }
+        
+        ArrayList<Card> allCards = this.getAllCards();
 
         if(counts.containsKey(Cards.gardens))
-            totals.put(Cards.gardens, counts.get(Cards.gardens) * (this.getAllCards().size() / 10));
+            totals.put(Cards.gardens, counts.get(Cards.gardens) * (allCards.size() / 10));
         if(counts.containsKey(Cards.duke))
             totals.put(Cards.duke, counts.get(Cards.duke) * counts.get(Cards.duchy));
         if(counts.containsKey(Cards.fairgrounds))
@@ -927,7 +929,7 @@ public abstract class Player {
         if(counts.containsKey(Cards.silkRoad))
             totals.put(Cards.silkRoad, counts.get(Cards.silkRoad) * (this.getVictoryCardCount() / 4));
         if(counts.containsKey(Cards.feodum))
-            totals.put(Cards.feodum, counts.get(Cards.feodum) * (Util.getCardCount(getAllCards(), Cards.silver)  / 3));
+            totals.put(Cards.feodum, counts.get(Cards.feodum) * (Util.getCardCount(allCards, Cards.silver)  / 3));
         if(counts.containsKey(Cards.distantLands)) {
         	// counts only if on tavern
             counts.put(Cards.distantLands, Util.getCardCount(this.tavern, Cards.distantLands));
@@ -938,11 +940,21 @@ public abstract class Player {
         if (counts.containsKey(Cards.kingsCastle))
         	totals.put(Cards.kingsCastle, counts.get(Cards.kingsCastle) * this.getCastleCardCount(this) * 2);
         // landmarks
+        if (this.game.cardInGame(Cards.banditFort)) {
+    		totals.put(Cards.banditFort, (Util.getCardCount(allCards, Cards.silver) + Util.getCardCount(allCards, Cards.gold) * -2));
+        }
         if (this.game.cardInGame(Cards.fountain)) {
-    		totals.put(Cards.fountain, (Util.getCardCount(getAllCards(), Cards.copper) >= 10) ? 15 : 0);
+    		totals.put(Cards.fountain, (Util.getCardCount(allCards, Cards.copper) >= 10) ? 15 : 0);
         }
         if (this.game.cardInGame(Cards.museum)) {
         	totals.put(Cards.museum, counts.get(DISTINCT_CARDS) * 2);
+        }
+        if (this.game.cardInGame(Cards.obelisk) && this.game.obeliskCard != null) {
+    		totals.put(Cards.obelisk, Util.getCardCount(allCards, this.game.obeliskCard) * 2);
+        }
+        if (this.game.cardInGame(Cards.palace)) {
+    		totals.put(Cards.palace, (Math.min(Util.getCardCount(allCards, Cards.copper), 
+    				Math.min(Util.getCardCount(allCards, Cards.silver), Util.getCardCount(allCards, Cards.gold)))) * 3);
         }
         if (this.game.cardInGame(Cards.wolfDen)) {
         	totals.put(Cards.wolfDen, counts.get(ONE_COPY_CARDS) * -3);

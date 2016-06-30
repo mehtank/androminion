@@ -117,6 +117,7 @@ public class Game {
 
     public int tradeRouteValue = 0;
     public Card baneCard = null;
+    public Card obeliskCard = null;
 
     public boolean bakerInPlay = false;
     public boolean journeyTokenInPlay = false;
@@ -1826,6 +1827,8 @@ public class Game {
         if(!buy.is(Type.Event)) {
         	haggler(context, buy);
         	charmWhenBuy(context, buy);
+        	basilicaWhenBuy(context);
+        	defiledShrineWhenBuy(context, buy);
         }
         
         return card;
@@ -1908,7 +1911,32 @@ public class Game {
 				buy.getDebtCost(context) != c.getCost(context) ||
 				(buy.costPotion() != c.costPotion());
     }
-
+    
+    private void basilicaWhenBuy(MoveContext context) {
+    	//TODO?: Can resolve Basilica before overpay to not get tokens in some cases (would matter with old Possession rules)
+    	if (isCardInGame(Cards.basilica) && (context.getCoins() + context.overpayAmount) >= 2) {
+    		int tokensLeft = getPileVpTokens(Cards.basilica);
+    		if (tokensLeft > 0) {
+    			int tokensToTake = Math.min(tokensLeft, 2);
+    			removePileVpTokens(Cards.basilica, tokensToTake, context);
+    			context.getPlayer().addVictoryTokens(context, tokensToTake);
+    		}
+    	}
+    }
+    
+    private void defiledShrineWhenBuy(MoveContext context, Card buy) {
+    	//TODO?: Can resolve Basilica before overpay to not get tokens in some cases (would matter with old Possession rules)
+    	 if(buy.equals(Cards.curse)) {
+	    	if (isCardInGame(Cards.defiledShrine)) {
+	    		int tokensLeft = getPileVpTokens(Cards.defiledShrine);
+	    		if (tokensLeft > 0) {
+	    			removePileVpTokens(Cards.defiledShrine, tokensLeft, context);
+	    			context.getPlayer().addVictoryTokens(context, tokensLeft);
+	    		}
+	    	}
+	    }
+    }
+    
     public boolean buyWouldEndGame(Card card) {
         if (isColonyInGame() && card.equals(Cards.colony)) {
             if (pileSize(card) <= 1) {
@@ -2652,9 +2680,43 @@ public class Game {
             bakerInPlay = true;
         }
         
-        // Setup for Battlefield
-        if (piles.containsKey(Cards.battlefield.getName())) {
-            addPileVpTokens(Cards.battlefield, 6 * numPlayers, null);
+        // Setup for Landmarks starting with tokens
+        Card[] landmarksWithTokens = {Cards.arena, Cards.basilica, Cards.battlefield, Cards.baths, Cards.colonnade, Cards.labyrinth};
+        for (Card c : landmarksWithTokens) {
+        	if (piles.containsKey(c.getName())) {
+                addPileVpTokens(c, 6 * numPlayers, null);
+            }
+        }
+        
+        // Setup for Aqueduct
+        if (piles.containsKey(Cards.aqueduct.getName())) {
+        	addPileVpTokens(Cards.silver, 8, null);
+            addPileVpTokens(Cards.gold, 8, null);
+        }
+        
+        // Setup for Defiled Shrine
+        if (piles.containsKey(Cards.defiledShrine.getName())) {
+        	for (String pile : piles.keySet()) {
+        		Card c = piles.get(pile).card();
+        		if (piles.get(pile).isSupply() && c.is(Type.Action) && !c.is(Type.Gathering)) {
+        			addPileVpTokens(c, 2, null);
+        		}
+        	}
+        }
+        
+        // Setup for Obelisk
+        if (piles.containsKey(Cards.obelisk.getName())) {
+        	if (obeliskCard == null) {
+        		ArrayList<Card> validObeliskCards = new ArrayList<Card>();
+            	for (String pile : piles.keySet()) {
+            		if (piles.get(pile).isSupply() && piles.get(pile).card().is(Type.Action)) {
+            			validObeliskCards.add(piles.get(pile).card());
+            		}
+            	}
+            	if (validObeliskCards.size() > 0) {
+            		obeliskCard = validObeliskCards.get(rand.nextInt(validObeliskCards.size()));
+            	}
+        	}
         }
         
         // Setup for Tax
@@ -2939,6 +3001,17 @@ public class Game {
                     	}
                     }
                     
+                    if(event.card.is(Type.Treasure, player)) {
+                    	if (isCardInGame(Cards.aqueduct)) {
+                    		//TODO?: you can technically choose the order of resolution for moving the VP
+                    		//       tokens from the treasure after taking the tokens, but why would you ever do this?
+                    		int tokensLeft = getPileVpTokens(event.card);
+                    		if (tokensLeft > 0) {
+                    			removePileVpTokens(event.card, 1, context);
+                    			addPileVpTokens(Cards.aqueduct, 1, context);
+                    		}
+                    	}
+                    }
                     if(event.card.is(Type.Victory, player)) {
                     	if (isCardInGame(Cards.battlefield)) {
                     		int tokensLeft = getPileVpTokens(Cards.battlefield);
@@ -2946,6 +3019,13 @@ public class Game {
                     			int tokensToTake = Math.min(tokensLeft, 2);
                     			removePileVpTokens(Cards.battlefield, tokensToTake, context);
                     			player.addVictoryTokens(context, tokensToTake);
+                    		}
+                    	}
+                    	if (isCardInGame(Cards.aqueduct)) {
+                    		int tokensLeft = getPileVpTokens(Cards.aqueduct);
+                    		if (tokensLeft > 0) {
+                    			removePileVpTokens(Cards.aqueduct, tokensLeft, context);
+                    			player.addVictoryTokens(context, tokensLeft);
                     		}
                     	}
                     	int groundsKeepers = context.countCardsInPlay(Cards.groundskeeper);
@@ -3162,6 +3242,20 @@ public class Game {
 
                         player.addVictoryTokens(context, victoryCards);
                     }
+                    
+                    if(event.card.is(Type.Action, player)) {
+                    	if (isCardInGame(Cards.defiledShrine)) {
+                    		//TODO?: you can technically choose the order of resolution for moving the VP
+                    		//       tokens from the action to before taking the ones from Temple when it, 
+                    		//       but why would you ever do this outside of old possession rules?
+                    		int tokensLeft = getPileVpTokens(event.card);
+                    		if (tokensLeft > 0) {
+                    			removePileVpTokens(event.card, 1, context);
+                    			addPileVpTokens(Cards.defiledShrine, 1, context);
+                    		}
+                    	}
+                    }
+                    
                     
                     // Achievement check...
                     if(event.getType() == GameEvent.EventType.BuyingCard && !player.achievementSingleCardFailed) {
