@@ -394,6 +394,13 @@ public class Strings {
         	statusText += format(R.string.VPTokensPutOnPile, extras[3]);
         } else if (event.gameEventType == GameEvent.EventType.VPTokensTakenFromPile) {
         	statusText += format(R.string.VPTokensTakenFromPile, extras[3]);
+        } else if (event.gameEventType == GameEvent.EventType.MountainPassBid) {
+        	Integer bid = (Integer) extras[3];
+        	if (bid == 0) {
+        		statusText += getString(R.string.MountainPassBidPass);
+        	} else {
+        		statusText += format(R.string.MountainPassBid, bid);
+        	}
         } else if (event.gameEventType != null) {
             statusText += event.gameEventType.toString();
         }
@@ -558,6 +565,14 @@ public class Strings {
         	return strings;
         }
         
+        if (card != null && getCardName(card).equals(getCardName(Cards.mountainPass))) {
+        	strings[0] = getString(R.string.pass);
+        	for (int i = startIndex + 1; i < options.length; i++) {
+                strings[i - startIndex] = options[i] + "";
+            }
+        	return strings;
+        }
+        
         for (int i = startIndex; i < options.length; i++) {
             strings[i - startIndex] = Strings.getOptionText(options[i], options);
         }
@@ -567,6 +582,10 @@ public class Strings {
     private static int getOptionStartIndex(Card card, Object[] options) {
         // TODO(matt): it'd be cleaner to make this an enum, or something, instead of using these
         // strings.
+    	if (card != null && getCardName(card).equals(getCardName(Cards.mountainPass))) {
+    		return 1;
+    	}
+    	
         if (options[0] instanceof String) {
             String optionString = (String) options[0];
             if (optionString.equals(IndirectPlayer.OPTION_REACTION)) {
@@ -713,6 +732,12 @@ public class Strings {
             return getString(R.string.wineMerchant_query);
         } else if (cardName.equals(getCardName(Cards.estate))) {
             return getString(R.string.wineMerchantEstate_query);
+        } else if (cardName.equals(getCardName(Cards.mountainPass))) {
+        	if (extras[0] == null) {
+        		return getString(R.string.mountainPass_query);
+        	} else {
+        		return format(R.string.mountainPass_high_bid_query, extras[0]);
+        	}
         }
         return cardName;
     }

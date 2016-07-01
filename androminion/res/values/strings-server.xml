@@ -153,6 +153,8 @@
 	<string name="VPTokensObtained">Victory Tokens taken: %1$s</string>
 	<string name="VPTokensPutOnPile">Victory Tokens placed: %1$s on</string>
 	<string name="VPTokensTakenFromPile">Victory Tokens removed: %1$s from</string>
+	<string name="MountainPassBidPass">Passed bid for</string>
+	<string name="MountainPassBid">Bid %1$s for</string>
 	<string name="DeckReplenished">Deck replenished</string>
 	<string name="PlayerAttacking">Attacking</string>
 	<string name="PlayerDefended">Defended</string>
@@ -474,7 +476,9 @@
   <string name="draw_three_add_token">Draw 3 and add VP token to pile</string>
   <string name="gain_estate_and_tokens">Gain Estate and take VP tokens from pile</string>
   <string name="tax_part">put 2 debt tokens on [Tax]</string>
-      
+  <string name="mountainPass_query">Bid of Debt to take for 8 VP tokens [Mountain Pass]</string>
+  <string name="mountainPass_high_bid_query">Bid of Debt to take for 8 VP tokens (High bid: %1$s) [Mountain Pass]</string>
+  
   <string name="place_stash_query">Place Stash in deck</string>
   <string name="place_stashes_query">Place %1$s Stash cards in deck</string>
   <string name="stash_on_top">On top</string>

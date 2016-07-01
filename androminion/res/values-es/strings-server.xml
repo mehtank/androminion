@@ -149,6 +149,8 @@
 	<string name="VPTokensObtained">Fichas de Victoria tomadas: %1$s</string>
 	<string name="VPTokensPutOnPile">Fichas de Victoria colocadas: %1$s en</string>
 	<string name="VPTokensTakenFromPile">Fichas de Victoria sacadas: %1$s de</string>
+	<string name="MountainPassBidPass">Pasó la oferta por</string>
+	<string name="MountainPassBid">Hizo oferta de %1$s por</string>
 	<string name="DeckReplenished">Mazo rellenado</string>
 	<string name="PlayerAttacking">Ataca</string>
 	<string name="PlayerDefended">Defiende</string>
@@ -472,6 +474,8 @@
   <string name="draw_three_add_token">Robar 3 cartas y colocar una ficha de Victoria en el montón</string>
   <string name="gain_estate_and_tokens">Ganar una Finca y tomar las fichas de Victoria del montón</string>
   <string name="tax_part">ponerle 2 marcadores de Deuda [Impuesto]</string>
+  <string name="mountainPass_query">Oferta de Deuda para tomar para 8 fichas de Victoria [Puerto de Montaña]</string>
+  <string name="mountainPass_high_bid_query">Oferta de Deuda para tomar para 8 fichas de Victoria (Oferta más alta: %1$s) [Puerto de Montaña]</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>
   <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>

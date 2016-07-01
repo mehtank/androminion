@@ -3313,6 +3313,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public int mountainPass_getBid(MoveContext context, Player highestBidder, int highestBid, int playersLeftToBid) {
+    	Object[] options = new Object[42 - highestBid];
+    	options[0] = highestBidder.getPlayerName();
+    	options[1] = null;
+    	for (int i = 2 + 1; i < options.length; ++i) {
+    		options[i] = highestBid + i - 1;
+    	}
+    	int idx = selectOption(context, Cards.mountainPass, options);
+    	if (idx < 1) idx = 1;
+    	Integer bid = (Integer) options[idx]; 
+    	if (bid == null) bid = 0;
+        return bid;
+    }
+    
+    @Override
     public Card[] opulentCastle_cardsToDiscard(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_opulentCastle_cardsToDiscard(context)) {
             return super.opulentCastle_cardsToDiscard(context);

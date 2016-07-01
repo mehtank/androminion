@@ -977,8 +977,8 @@ public abstract class Player {
         if (this.game.cardInGame(Cards.museum)) {
         	totals.put(Cards.museum, counts.get(DISTINCT_CARDS) * 2);
         }
-        if (this.game.cardInGame(Cards.obelisk) && this.game.obeliskCard != null) {
-    		totals.put(Cards.obelisk, Util.getCardCount(allCards, this.game.obeliskCard) * 2);
+        if (this.game.cardInGame(Cards.obelisk)) {
+        	totals.put(Cards.obelisk, game.obeliskCard != null ? Util.getCardCount(allCards, game.obeliskCard) * 2 : 0);
         }
         if (this.game.cardInGame(Cards.orchard)) {
         	totals.put(Cards.orchard, counts.get(THREE_PLUS_COPY_ACTION_CARDS) * 4);
@@ -2135,6 +2135,7 @@ public abstract class Player {
     public abstract boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card);
     public abstract boolean legionary_revealGold(MoveContext context);
     public abstract Card[] legionary_attack_cardsToKeep(MoveContext context);
+    public abstract int mountainPass_getBid(MoveContext context, Player highestBidder, int highestBid, int playersLeftToBid);
     public abstract Card[] opulentCastle_cardsToDiscard(MoveContext context);
     public abstract Card overlord_actionCardToImpersonate(MoveContext context);
     public abstract Card ritual_cardToTrash(MoveContext context);

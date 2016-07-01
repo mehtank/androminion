@@ -118,6 +118,9 @@ public class Game {
     public int tradeRouteValue = 0;
     public Card baneCard = null;
     public Card obeliskCard = null;
+    public boolean firstProvinceWasGained = false;
+    public boolean doMountainPassAfterThisTurn = false;
+    public int firstProvinceGainedBy;
 
     public boolean bakerInPlay = false;
     public boolean journeyTokenInPlay = false;
@@ -322,6 +325,7 @@ public class Game {
                 gameOver = checkGameOver();
 
                 if (!gameOver) {
+                	playerAfterTurn(player, context);
                     setPlayersTurn(!extraTurnsInfo.isEmpty());
                 }
             }
@@ -667,36 +671,6 @@ public class Game {
             nextPossessingPlayer = null;
         }
         
-        while (context.donatesBought-- > 0) {
-        	while(!player.deck.isEmpty()) {
-        		player.hand.add(player.deck.removeLastCard());
-        	}
-        	while(!player.discard.isEmpty()) {
-        		player.hand.add(player.discard.removeLastCard());
-        	}
-        	Card[] cardsToTrash = player.donate_cardsToTrash(context);
-        	if (cardsToTrash != null) {
-	        	for (Card c : cardsToTrash) {
-	        		Card toTrash = player.hand.get(c);
-	        		if (toTrash == null) {
-	        			Util.playerError(player, "Donate error, tried to trash card not in hand: " + c);
-	        		} else {
-	        			player.trash(toTrash, Cards.donate, context);
-	        		}
-	        	}
-	        	while(!player.hand.isEmpty()) {
-	        		player.deck.add(player.hand.removeLastCard());
-	        	}
-	        	player.shuffleDeck(context, Cards.donate);
-	        	for (int i = 0; i < 5; ++i) {
-	        		drawToHand(context, Cards.donate, 5 - i);
-	        	}
-        	}
-        }
-        
-        //TODO: Do Mountain Pass bidding
-        
-        
         if (context.missionBought && consecutiveTurnCounter <= 1) {
 			if (!result.isEmpty()) {
 				//ask player if they want to do mission turn with three cards or do outpost turn first then mission turn
@@ -725,6 +699,66 @@ public class Game {
         return result;
     }
 
+    protected void playerAfterTurn(Player player, MoveContext context) {
+    	while (context.donatesBought-- > 0) {
+        	while(!player.deck.isEmpty()) {
+        		player.hand.add(player.deck.removeLastCard());
+        	}
+        	while(!player.discard.isEmpty()) {
+        		player.hand.add(player.discard.removeLastCard());
+        	}
+        	Card[] cardsToTrash = player.donate_cardsToTrash(context);
+        	if (cardsToTrash != null) {
+	        	for (Card c : cardsToTrash) {
+	        		Card toTrash = player.hand.get(c);
+	        		if (toTrash == null) {
+	        			Util.playerError(player, "Donate error, tried to trash card not in hand: " + c);
+	        		} else {
+	        			player.trash(toTrash, Cards.donate, context);
+	        		}
+	        	}
+	        	while(!player.hand.isEmpty()) {
+	        		player.deck.add(player.hand.removeLastCard());
+	        	}
+	        	player.shuffleDeck(context, Cards.donate);
+	        	for (int i = 0; i < 5; ++i) {
+	        		drawToHand(context, Cards.donate, 5 - i);
+	        	}
+        	}
+        }
+        
+        // Mountain Pass bidding
+    	if (cardInGame(Cards.mountainPass) && doMountainPassAfterThisTurn) {
+    		doMountainPassAfterThisTurn = false;
+    		
+    		int highestBid = 0;
+    		Player highestBidder = null;
+    		final int MAX_BID = 40;
+    		int playersLeftToBid = numPlayers;
+    		for (Player biddingPlayer : getPlayersInTurnOrder(firstProvinceGainedBy)) {
+    			MoveContext bidContext = new MoveContext(this, biddingPlayer);
+    			int bid = biddingPlayer.mountainPass_getBid(context, highestBidder, highestBid, --playersLeftToBid);
+    			if (bid > MAX_BID) bid = MAX_BID;
+    			if (bid < 0) bid = 0;
+    			if (bid != 0 && bid > highestBid) {
+    				highestBid = bid;
+    				highestBidder = biddingPlayer;
+    			}
+    			GameEvent event = new GameEvent(GameEvent.EventType.MountainPassBid, bidContext);
+	        	event.setAmount(bid);
+	            context.game.broadcastEvent(event);
+    			if (bid == MAX_BID) {
+    				break;
+    			}
+    		}
+    		if (highestBidder != null) {
+    			MoveContext bidContext = new MoveContext(this, highestBidder);
+    			highestBidder.addVictoryTokens(bidContext, 8);
+    			highestBidder.gainDebtTokens(highestBid);
+    		}
+    	}
+    }
+    
     protected void playerAction(Player player, MoveContext context) {
         // TODO move this check to action and buy (and others?)
         // if(player.hand.size() > 0)
@@ -2123,6 +2157,8 @@ public class Game {
     void initGameBoard() throws ExitException {
         cardSequence = 1;
         baneCard = null;
+        firstProvinceWasGained = false;
+        doMountainPassAfterThisTurn = false;
 
         initGameListener();
 
@@ -3038,6 +3074,12 @@ public class Game {
                     	}
                     }
                     
+                    if (event.card.equals(Cards.province) && !firstProvinceWasGained) {
+                    	doMountainPassAfterThisTurn = true;
+                    	firstProvinceWasGained = true;
+                    	firstProvinceGainedBy = playersTurn;
+                    }
+                    
                     if(event.card.is(Type.Treasure, player)) {
                     	if (isCardInGame(Cards.aqueduct)) {
                     		//TODO?: you can technically choose the order of resolution for moving the VP
@@ -3748,9 +3790,24 @@ public class Game {
     }
 
     public Player[] getPlayersInTurnOrder() {
+    	return getPlayersInTurnOrder(playersTurn);
+    }
+    
+    public Player[] getPlayersInTurnOrder(Player startingPlayer) {
+        int at = 0;
+        for (int i = 0; i < numPlayers; i++) {
+        	if (players[i] == startingPlayer) {
+        		at = i;
+        		break;
+        	}
+        }
+        return getPlayersInTurnOrder(at);
+    }
+    
+    public Player[] getPlayersInTurnOrder(int startingPlayerIdx) {
         Player[] ordered = new Player[numPlayers];
 
-        int at = playersTurn;
+        int at = startingPlayerIdx;
         for (int i = 0; i < numPlayers; i++) {
             ordered[i] = players[at];
             at++;

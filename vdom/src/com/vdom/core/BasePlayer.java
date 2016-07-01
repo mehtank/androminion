@@ -3995,6 +3995,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public int mountainPass_getBid(MoveContext context, Player highestBidder, int highestBid, int playersLeftToBid) {
+    	//TODO: better bidding logic
+    	if (playersLeftToBid > 0 && highestBid == 0) {
+    		return 12;
+    	}
+    	if (highestBid > 20) { 
+    		return 0;
+    	}
+    	return highestBid + 1;
+    }
+    
+    @Override
     public Card[] opulentCastle_cardsToDiscard(MoveContext context) {
     	List<Card> result = new ArrayList<Card>();
     	Player p = context.getPlayer();
