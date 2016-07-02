@@ -37,6 +37,7 @@ public class Game {
     public static HashMap<String, Integer> winStats = new HashMap<String, Integer>();
     public static final String QUICK_PLAY = "(QuickPlay)";
     public static final String BANE = "bane+";
+    public static final String OBELISK = "obelisk+";
     public static final String BLACKMARKET = "blackMarket+";
 
     public static String[] cardsSpecifiedAtLaunch;
@@ -2436,11 +2437,16 @@ public class Game {
             for(String cardName : cardsSpecifiedAtLaunch) {
                 Card card = null;
                 boolean bane = false;
+                boolean obelisk = false;
                 boolean blackMarket = false;
 
                 if(cardName.startsWith(BANE)) {
                     bane = true;
                     cardName = cardName.substring(BANE.length());
+                }
+                if(cardName.startsWith(OBELISK)) {
+                    obelisk = true;
+                    cardName = cardName.substring(OBELISK.length());
                 }
                 if(cardName.startsWith(BLACKMARKET)) {
                     blackMarket = true;
@@ -2459,8 +2465,17 @@ public class Game {
                         break;
                     }
                 }
+                for (Card c : Cards.landmarkCards) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                        card = c;
+                        break;
+                    }
+                }
                 if(card != null && bane) {
                     baneCard = card;
+                }
+                if(card != null && obelisk) {
+                    obeliskCard = card;
                 }
                 if(card != null && blackMarket) {
                     blackMarketPile.add(card);
@@ -2500,7 +2515,7 @@ public class Game {
                     Util.debug("ERROR::Could not find card:" + s);
                 }
             }
-
+            
             for(String s : unfoundCards) {
                 if (added >= 10)
                     break;
@@ -2590,15 +2605,17 @@ public class Game {
             while (cards.size() > 0) {
                 blackMarketPileShuffled.add(cards.remove(Game.rand.nextInt(cards.size())));
             }
-        }        
+        }
+        
+        if (obeliskCard != null && !piles.containsKey(Cards.obelisk.getName())) {
+        	addPile(Cards.obelisk);
+        }
         
         if (piles.containsKey(Cards.virtualKnight.getName())) {
             VariableCardPile kp = (VariableCardPile) this.getPile(Cards.virtualKnight);
             for (Card k : Cards.knightsCards) {
                 kp.addLinkedPile((SingleCardPile) addPile(k, 1, false));
             }
-
-
         }
 
         //determine shelters & plat/colony use
@@ -3723,7 +3740,8 @@ public class Game {
         if(card.is(Type.Victory)) count = victoryCardPileSize;
         if(card.equals(Cards.rats)) count = 20;
         if(card.equals(Cards.port)) count = 12;
-        if(card.is(Type.Event, null)) count = 1;
+        if(card.is(Type.Event)) count = 1;
+        if(card.is(Type.Landmark)) count = 1;
         return addPile(card, count);
     }
 
