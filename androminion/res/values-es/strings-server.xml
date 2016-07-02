@@ -173,6 +173,7 @@
 	<string name="CardSetAsideSave">Carta apartada (Ahorrar)</string>
 	<string name="CardSetAsideOnIslandMat">Carta apartada sobre el tablero de Isla</string>
 	<string name="CardSetAsideInheritance">Carta apartada (Herencia)</string>
+	<string name="CardSetAsideArchive">Carta apartada (Archivo)</string>
 	<string name="DeckPutIntoDiscardPile">Mazo puesto en la pila de descartes</string>
 	<string name="TravellerExchanged">%1$s intercambaida para</string>
 	<string name="TurnJourneyTokenFaceUp">Marcador de Viajes con boca arriba</string>
@@ -466,6 +467,7 @@
   <string name="start_turn_query">Comienzo del turno. Elige una acción:</string>
   <string name="call_optional">%1$s (opcional)</string>
   
+  <string name="archive_query">Elije una carta para poner en tu mano [Archivo]</string>
   <string name="charm_option_one">+1 Compra, +(2) Monedas</string>
   <string name="charm_option_two">Al comprar la próxima carta, ganar otra carta con el mismo coste</string>
   <string name="reveal_gold">Revelar Oro</string>

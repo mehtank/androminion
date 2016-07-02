@@ -3152,6 +3152,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card archive_cardIntoHand(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.archive, cards)];
+    }
+    
+    @Override
     public Card arena_cardToDiscard(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_arena_cardToDiscard(context)) {
             return super.arena_cardToDiscard(context);

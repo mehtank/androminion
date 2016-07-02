@@ -25,6 +25,9 @@ public class CardImplEmpires extends CardImpl {
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {
+		case Archive:
+			archive(game, context, currentPlayer);
+			break;
 		case BustlingVillage:
         	bustlingVillage(game, context, currentPlayer);
         	break;
@@ -172,6 +175,55 @@ public class CardImplEmpires extends CardImpl {
 	    this.controlCard.stopInheritingCardAbilities();
 	}
 	
+	private void archive(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
+		boolean setAsideCards = false;
+        for (int i = 0; i < 3; i++) {
+            Card card = game.draw(context, Cards.archive, 3 - i);
+            if (card != null) {
+                topOfTheDeck.add(card);
+                if (!setAsideCards) {
+                	currentPlayer.archive.add(topOfTheDeck);
+                	setAsideCards = true;
+                }
+                GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideArchive, context);
+    	        event.card = card;
+    	        event.setPrivate(true);
+    	        context.game.broadcastEvent(event);
+            }
+        }
+        
+        archiveSelect(game, context, currentPlayer, topOfTheDeck);
+        
+        if (topOfTheDeck.size() == 0) {
+        	for (int i = 0; i < currentPlayer.nextTurnCards.size(); ++i) {
+        		if (currentPlayer.nextTurnCards.get(i) == this.controlCard) {
+        			currentPlayer.nextTurnCards.remove(i);
+        			break;
+        		}
+        	}
+            currentPlayer.playedCards.add(this.controlCard);
+        	return;
+        }
+	}
+	
+	public static void archiveSelect(Game game, MoveContext context, Player currentPlayer, ArrayList<Card> cards) {
+		if (cards.size() == 0) {
+        	return;
+        }
+        
+        Card toHand = cards.get(0);
+        if (cards.size() > 1) {
+        	toHand = currentPlayer.controlPlayer.archive_cardIntoHand(context, cards.toArray(new Card[0]));
+        	if (!cards.contains(toHand)) {
+        		Util.playerError(currentPlayer, "Archive - invalid card selected.");
+        		toHand = cards.get(0);
+        	}
+        }
+        
+        cards.remove(toHand);
+        currentPlayer.hand.add(toHand);
+	}
 	
 	private void bustlingVillage(Game game, MoveContext context, Player currentPlayer) {
         if (currentPlayer.discard.isEmpty()) return;

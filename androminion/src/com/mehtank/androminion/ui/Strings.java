@@ -286,6 +286,8 @@ public class Strings {
             statusText += getString(R.string.CardSetAsideSave);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAsideOnTavernMat) {
             statusText += getString(R.string.CardSetAsideOnTavernMat);
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideArchive) {
+            statusText += getString(R.string.CardSetAsideArchive);
         } else if (event.gameEventType == GameEvent.EventType.CallingCard) {
 			statusText += getString(R.string.CallingCard);
 		} else if (event.gameEventType == GameEvent.EventType.CalledCard) {
@@ -525,6 +527,15 @@ public class Strings {
                     	}
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
                                 + " (" + "\u261e" + cardsString + ")";
+                    } else if ( ((Card)options[i]).equals(Cards.archive) ) {
+                    	@SuppressWarnings("unchecked")
+						ArrayList<Card> archiveCards = (ArrayList<Card>) options[i+1];
+                    	String cardsString = getCardName(archiveCards.get(0));
+                    	if (archiveCards.size() > 1) {
+                    		cardsString += ", " + getCardName(archiveCards.get(1));
+                    	}
+                        strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
+                                + " (" + cardsString + ")";
                     } else if (((Card)options[i]).equals(Cards.prince)
                     		|| ((Card)options[i]).equals(Cards.summon)) {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i+1]) 
@@ -738,6 +749,8 @@ public class Strings {
         	} else {
         		return format(R.string.mountainPass_high_bid_query, extras[0]);
         	}
+        } else if (cardName.equals(getCardName(Cards.archive))) {
+            return getString(R.string.archive_query);
         }
         return cardName;
     }

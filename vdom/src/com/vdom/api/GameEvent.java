@@ -44,6 +44,7 @@ public class GameEvent {
         CardSetAsideHaven, // A card was set aside (haven)
         CardSetAsideSave, // A card was set aside (save)
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
+        CardSetAsideArchive, // A card was set aside (archive)
         CallingCard, // A card is about to be called from the tavern mat
         CalledCard, // A card was called from the tavern mat
         CardSetAsideOnIslandMat, // A card was set aside on island mat

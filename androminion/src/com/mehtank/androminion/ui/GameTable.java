@@ -50,9 +50,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         return players;
     }
 
-    GridView handGV, playedGV, tavernGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
-    CardGroup hand, played, tavern, prince, island, village, inheritance, blackMarket, trash;
-    View tavernColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
+    GridView handGV, playedGV, tavernGV, archiveGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
+    CardGroup hand, played, tavern, archive, prince, island, village, inheritance, blackMarket, trash;
+    View tavernColumn, archiveColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
     TextView playedHeader;
     LinearLayout myCards;
 
@@ -192,6 +192,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         tavernGV.setAdapter(tavern);
         tavernGV.setOnItemLongClickListener(this);
         tavernColumn = findViewById(R.id.tavernColumn);
+        
+        archive = new CardGroup(top, false);
+        archiveGV = (GridView) findViewById(R.id.archiveGV);
+        archiveGV.setAdapter(archive);
+        archiveGV.setOnItemLongClickListener(this);
+        archiveColumn = findViewById(R.id.archiveColumn);
 
         prince = new CardGroup(top, false);
         princeGV = (GridView) findViewById(R.id.princeGV);
@@ -343,6 +349,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         hand.clear();
         played.clear();
         tavern.clear();
+        archive.clear();
         prince.clear();
         island.clear();
         village.clear();
@@ -1080,6 +1087,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         	tavernColumn.setVisibility(VISIBLE);
         } else {
         	tavernColumn.setVisibility(GONE);
+        }
+        
+        GameTableViews.newCardGroup(archive, gs.myArchive);
+        if (gs.myArchive.length > 0) {
+        	archiveColumn.setVisibility(VISIBLE);
+        } else {
+        	archiveColumn.setVisibility(GONE);
         }
         
         GameTableViews.newCardGroup(prince, gs.myPrince);

@@ -177,6 +177,7 @@
 	<string name="CardSetAsideSave">Card set aside (Save)</string>
 	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>
 	<string name="CardSetAsideInheritance">Card set aside (Inheritance)</string>
+	<string name="CardSetAsideArchive">Card set aside (Archive)</string>
 	<string name="DeckPutIntoDiscardPile">Deck put into discard pile</string>
 	<string name="TravellerExchanged">%1$s exchanged for</string>
 	<string name="TurnJourneyTokenFaceUp">Journey token turned face up</string>
@@ -468,6 +469,7 @@
   <string name="start_turn_query">Start of turn. Pick action:</string>
   <string name="call_optional">%1$s (optional)</string>
   
+  <string name="archive_query">Select card to put in hand [Archive]</string>
   <string name="charm_option_one">+1 Buy, +(2) Coins</string>
   <string name="charm_option_two">After next card buy, gain different card with same cost</string>
   <string name="reveal_gold">Reveal Gold</string>

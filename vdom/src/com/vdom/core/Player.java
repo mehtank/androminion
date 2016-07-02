@@ -57,6 +57,7 @@ public abstract class Player {
     protected CardList island;
     protected CardList haven;
     protected ArrayList<ArrayList<Card>> gear;
+    protected ArrayList<ArrayList<Card>> archive;
     protected CardList horseTraders;
     protected Card inheritance;
     protected Card save;
@@ -271,6 +272,7 @@ public abstract class Player {
         island = new CardList(this, "Island");
         haven = new CardList(this, "Haven");
         gear = new ArrayList<ArrayList<Card>>();
+        archive = new ArrayList<ArrayList<Card>>();
         horseTraders = new CardList(this, "Horse Traders");
         inheritance = null;
         encampment = new CardList(this, "Encampment");
@@ -708,6 +710,9 @@ public abstract class Player {
         for (ArrayList<Card> curGear : gear) {
         	allCards.addAll(curGear);
         }
+        for (ArrayList<Card> curArchive : archive) {
+        	allCards.addAll(curArchive);
+        }
         for (Card card : tavern) {
             allCards.add(card);
         }
@@ -800,7 +805,7 @@ public abstract class Player {
         cardCounts.put(ONE_COPY_CARDS, oneCopyCards);
         cardCounts.put(THREE_PLUS_COPY_ACTION_CARDS, threePlusCopyActionCards);
         cardCounts.put(SECOND_MOST_COMMON_ACTION_CARDS, secondHighestActionCardCount);
-        cardCounts.put(NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS, threePlusCopyActionCards);
+        cardCounts.put(NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS, nonVictoryEmptySupplyPileCards);
         
         return cardCounts;
     }
@@ -2117,6 +2122,7 @@ public abstract class Player {
     public abstract int numDebtTokensToPayOff(MoveContext context);
     public abstract Card advance_actionToTrash(MoveContext context);
     public abstract Card advance_cardToObtain(MoveContext context);
+    public abstract Card archive_cardIntoHand(MoveContext context, Card[] cards);
     public abstract Card arena_cardToDiscard(MoveContext context);
     public abstract Card banquet_cardToObtain(MoveContext context);
     public abstract boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers);

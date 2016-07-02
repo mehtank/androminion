@@ -3818,6 +3818,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card archive_cardIntoHand(MoveContext context, Card[] cards) {
+    	//TODO: pick best card for this hand, whatever that means
+    	return cards[0];
+    }
+    
+    @Override
     public Card arena_cardToDiscard(MoveContext context) {
     	for (Card c : context.getPlayer().getHand()) {
     		if (c.is(Type.Action, context.getPlayer()) && !c.is(Type.Treasure, context.getPlayer())) {

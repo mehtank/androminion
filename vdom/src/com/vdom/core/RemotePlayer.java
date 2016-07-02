@@ -465,6 +465,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
                 .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)
                 .setInheritance(player.inheritance == null ? -1 : cardToInt(player.inheritance))
+                .setArchive(getArchiveColumnCardInts(player.archive))
                 .setBlackMarket(arrayListToIntArr(player.game.GetBlackMarketPile()))
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
@@ -485,7 +486,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return p;
     }
 
-    private void matchToCardsInPlay(MoveContext context, ArrayList<Card> played, ArrayList<Boolean> playedReal) {
+	private void matchToCardsInPlay(MoveContext context, ArrayList<Card> played, ArrayList<Boolean> playedReal) {
     	if (context.startOfTurn)
     		return;
     	Map<Card, Integer> inPlayCounts = new HashMap<Card, Integer>();
@@ -529,6 +530,22 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     			}
     		}
     	}
+	}
+	
+    private int[] getArchiveColumnCardInts(ArrayList<ArrayList<Card>> archives) {
+    	ArrayList<Integer> cardInts = new ArrayList<Integer>(); 
+		for(ArrayList<Card> archive : archives) {
+			cardInts.add(-cardToInt(Cards.archive));
+			for(Card c : archive) {
+				cardInts.add(cardToInt(c));
+			}
+		}
+		int[] result = new int[cardInts.size()];
+		int i = 0;
+		for (int c : cardInts) {
+			result[i++] = c;
+		}
+		return result;
 	}
     
 	@Override

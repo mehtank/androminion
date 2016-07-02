@@ -929,14 +929,16 @@ public class Game {
          * We put 2 cards in list durationEffects to differentiate:
          * Examples (Curse is here a dummy card):
          * HorseTrader - (Curse)
-         * Haven - Card set aside by haven or gear
-         * Gear - Card set aside by haven or gear
+         * Haven - Card set aside by haven
+         * Gear - List of Cards set aside by gear
+         * Archive - List of Cards set aside by archive
          * Prince - Card set aside by prince
          * other Durations like Wharf - (Curse)
          */
         boolean allDurationAreSimple = true;
         ArrayList<Object> durationEffects = new ArrayList<Object>();
         ArrayList<Boolean> durationEffectsAreCards = new ArrayList<Boolean>();
+        int archiveNum = 0;
         for (Card card : player.nextTurnCards) {
             Card thisCard = card.behaveAsCard();
             if (thisCard.is(Type.Duration, player)) {
@@ -967,6 +969,14 @@ public class Game {
                     	if(player.gear.size() > 0) {
                     		durationEffects.add(card);
                     		durationEffects.add(player.gear.remove(0));
+                    		durationEffectsAreCards.add(clone == cloneCount 
+                    				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
+                    		durationEffectsAreCards.add(false);
+                    	}
+                    } else if (thisCard.equals(Cards.archive)) {
+                    	if(player.archive.size() > 0) {
+                    		durationEffects.add(card);
+                    		durationEffects.add(player.archive.get(archiveNum++));
                     		durationEffectsAreCards.add(clone == cloneCount 
                     				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
                     		durationEffectsAreCards.add(false);
@@ -1011,10 +1021,14 @@ public class Game {
             }
         }
         while (!player.haven.isEmpty()) {
-        	/*gear could set 2 cards aside*/
-        	// BUG: both cards set aside by Gear need to be added to hand at the same time
-            durationEffects.add(Cards.gear);
+            durationEffects.add(Cards.haven);
             durationEffects.add(player.haven.remove(0));
+            durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+        }
+        while (archiveNum < player.archive.size()) {
+            durationEffects.add(Cards.archive);
+            durationEffects.add(player.archive.get(archiveNum++));
             durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
@@ -1064,9 +1078,9 @@ public class Game {
             if (durationEffects.get(selection+1) instanceof Card) {
             	card2 = (Card) durationEffects.get(selection+1);
             }
-            ArrayList<Card> gearCards = null;
+            ArrayList<Card> setAsideCards = null;
             if (durationEffects.get(selection+1) instanceof ArrayList<?>) {
-            	gearCards = (ArrayList<Card>) durationEffects.get(selection+1);
+            	setAsideCards = (ArrayList<Card>) durationEffects.get(selection+1);
             }
             if (card2 == null) {
                 Util.log("ERROR: duration_cardToPlay returned " + selection);
@@ -1111,10 +1125,12 @@ public class Game {
                     player.hand.add(card2);
                 }
                 if(card.behaveAsCard().equals(Cards.gear)) {
-                	for (Card c : gearCards)
+                	for (Card c : setAsideCards)
                 		player.hand.add(c);
                 }
-                
+                if (card.behaveAsCard().equals(Cards.archive)) {
+                	CardImplEmpires.archiveSelect(this, context, player, setAsideCards);
+                }
                 
                 Card thisCard = card.behaveAsCard();
                 
@@ -1164,6 +1180,7 @@ public class Game {
         }
         
         ArrayList<Card> staysInPlayCards = new ArrayList<Card>();
+        archiveNum = 0;
         while (!player.nextTurnCards.isEmpty()) {
             Card card = player.nextTurnCards.remove(0);
         	if(isModifierCard(card.behaveAsCard())) {
@@ -1177,7 +1194,8 @@ public class Game {
                   		else
                   			nextCard = null;
                   	}
-                    if(nextCard != null && (nextCard.behaveAsCard().equals(Cards.hireling) || nextCard.behaveAsCard().equals(Cards.champion))) {
+                    if(nextCard != null && (nextCard.behaveAsCard().equals(Cards.hireling) || nextCard.behaveAsCard().equals(Cards.champion) ||
+                    		(nextCard.behaveAsCard().equals(Cards.archive) && player.archive.get(archiveNum++).size() > 0))) {
                     	staysInPlayCards.add(card);
                     	for (int i = 0; i < additionalModifierCards; ++i) {
                     		staysInPlayCards.add(player.nextTurnCards.remove(0));
@@ -1189,7 +1207,8 @@ public class Game {
                 }
             }
         	
-        	if(card.behaveAsCard().equals(Cards.hireling) || card.behaveAsCard().equals(Cards.champion)) {
+        	if(card.behaveAsCard().equals(Cards.hireling) || card.behaveAsCard().equals(Cards.champion) || 
+        			(card.behaveAsCard().equals(Cards.archive) && player.archive.get(archiveNum++).size() > 0)) {
         		staysInPlayCards.add(card);
             } else {
 	            CardImpl behaveAsCard = (CardImpl) card.behaveAsCard();
@@ -1205,6 +1224,12 @@ public class Game {
         }
         while (!staysInPlayCards.isEmpty()) {
             player.nextTurnCards.add(staysInPlayCards.remove(0));
+        }
+        //Clean up empty Archive lists
+        Iterator<ArrayList<Card>> it = player.archive.iterator();
+        while (it.hasNext()) {
+        	if (it.next().isEmpty()) 
+        		it.remove();
         }
         
         //TODO: Dominionator - Will require tracking duration effects independent of cards
@@ -1267,7 +1292,8 @@ public class Game {
 	               || card.equals(Cards.disciple)
 	               || card.equals(Cards.kingsCourt)
 	               || card.equals(Cards.procession)
-	               || card.equals(Cards.royalCarriage);
+	               || card.equals(Cards.royalCarriage)
+	               || card.equals(Cards.crown);
 	}
 
 	private static void printStats(HashMap<String, Double> wins, int gameCount, String gameType) {
@@ -2542,6 +2568,7 @@ public class Game {
                     }
                 }
 
+                Util.debug("Adding replacement for " + s + ": " + c);
                 addPile(c);
                 added += 1;
             }
