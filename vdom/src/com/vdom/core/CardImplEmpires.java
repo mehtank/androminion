@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -111,6 +112,9 @@ public class CardImplEmpires extends CardImpl {
         //Events
         case Advance:
         	advance(context);
+        	break;
+        case Annex:
+        	annex(context);
         	break;
         case Banquet:
         	banquet(context);
@@ -769,10 +773,46 @@ public class CardImplEmpires extends CardImpl {
         }
     }
     
+    private void annex(MoveContext context) {
+    	Player player = context.getPlayer();
+    	ArrayList<Card> toKeepInDiscard = new ArrayList<Card>();
+    	Card card = null;
+    	final int MAX_CARDS_TO_KEEP = 5;
+    	do {
+    		if (player.discard.size() == 0)
+    			break;
+    		Card[] sortedCards = player.discard.toArrayListClone().toArray(new Card[0]);
+    		Arrays.sort(sortedCards, new Util.CardCostComparator());
+    		card = player.controlPlayer.annex_cardToKeepInDiscard(context, sortedCards, MAX_CARDS_TO_KEEP - toKeepInDiscard.size());
+    		if (!player.discard.contains(card)) card = null;
+    		if (card != null) {
+    			player.discard.remove(card);
+    			toKeepInDiscard.add(card);
+    		}
+    		
+    	} while (card != null && toKeepInDiscard.size() < MAX_CARDS_TO_KEEP);
+    	
+    	while(!player.discard.isEmpty()) {
+    		player.deck.add(player.discard.removeLastCard());
+    	}
+    	while(!toKeepInDiscard.isEmpty()) {
+    		player.discard.add(toKeepInDiscard.remove(0));
+    	}
+    	player.shuffleDeck(context, this.controlCard);
+    	player.gainNewCard(Cards.duchy, this.controlCard, context);
+    }
+    
     private void banquet(MoveContext context) {
     	context.player.gainNewCard(Cards.silver, this.controlCard, context);
     	context.player.gainNewCard(Cards.silver, this.controlCard, context);
-    	context.player.controlPlayer.banquet_cardToObtain(context);
+    	Card toGain = context.player.controlPlayer.banquet_cardToObtain(context);
+    	if (toGain == null || toGain.getCost(context) > 5 || toGain.getDebtCost(context) > 0 || 
+    			toGain.costPotion() || toGain.is(Type.Victory) ||
+    			!context.game.isCardInGame(toGain) || context.game.isPileEmpty(toGain) || !Cards.isSupplyCard(toGain)) {
+    		Util.playerError(context.player, "Annex - selected invalid card");
+    		return;
+    	}
+    	context.player.gainNewCard(toGain, this.controlCard, context);
     }
     
     private void conquest(MoveContext context) {

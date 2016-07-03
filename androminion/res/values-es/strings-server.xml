@@ -468,6 +468,7 @@
   <string name="call_optional">%1$s (opcional)</string>
   
   <string name="archive_query">Elije una carta para poner en tu mano [Archivo]</string>
+  <string name="annex_query">Elije cartas para quedar en tu pila de descartes (hasta %1$s más) [Anexar]</string>
   <string name="charm_option_one">+1 Compra, +(2) Monedas</string>
   <string name="charm_option_two">Al comprar la próxima carta, ganar otra carta con el mismo coste</string>
   <string name="reveal_gold">Revelar Oro</string>

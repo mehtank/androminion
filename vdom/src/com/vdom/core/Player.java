@@ -2122,6 +2122,7 @@ public abstract class Player {
     public abstract int numDebtTokensToPayOff(MoveContext context);
     public abstract Card advance_actionToTrash(MoveContext context);
     public abstract Card advance_cardToObtain(MoveContext context);
+    public abstract Card annex_cardToKeepInDiscard(MoveContext context, Card[] cards, int cardsLeft);
     public abstract Card archive_cardIntoHand(MoveContext context, Card[] cards);
     public abstract Card arena_cardToDiscard(MoveContext context);
     public abstract Card banquet_cardToObtain(MoveContext context);

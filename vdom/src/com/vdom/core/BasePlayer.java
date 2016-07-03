@@ -3818,6 +3818,25 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card annex_cardToKeepInDiscard(MoveContext context, Card[] cards, int cardsLeft) {
+    	for (Card c : cards) {
+    		if (arrayContains(EARLY_TRASH_CARDS, c) || isOnlyVictory(c, context.getPlayer())) {
+    			return c;
+    		}
+    	}
+    	return null;
+    }
+    
+    private boolean arrayContains(Card[] cardArray, Card card) {
+		for (Card c : cardArray) {
+			if (card.equals(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
     public Card archive_cardIntoHand(MoveContext context, Card[] cards) {
     	//TODO: pick best card for this hand, whatever that means
     	return cards[0];

@@ -470,6 +470,7 @@
   <string name="call_optional">%1$s (optional)</string>
   
   <string name="archive_query">Select card to put in hand [Archive]</string>
+  <string name="annex_query">Select cards to keep in discard (up to %1$s more) [Annex]</string>
   <string name="charm_option_one">+1 Buy, +(2) Coins</string>
   <string name="charm_option_two">After next card buy, gain different card with same cost</string>
   <string name="reveal_gold">Reveal Gold</string>

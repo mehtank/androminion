@@ -3152,6 +3152,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card annex_cardToKeepInDiscard(MoveContext context, Card[] cards, int cardsLeft) {
+    	List<Object> options = new ArrayList<Object>();
+    	options.add(cardsLeft);
+        for (Card c : cards) {
+            options.add(c);
+        }
+        options.add(null);
+        return (Card) options.get(selectOption(context, Cards.annex, options.toArray(new Card[0])));
+    }
+    
+    @Override
     public Card archive_cardIntoHand(MoveContext context, Card[] cards) {
     	return cards[selectOption(context, Cards.archive, cards)];
     }

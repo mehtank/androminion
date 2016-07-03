@@ -648,6 +648,8 @@ public class Strings {
             return 1;
         } else if (cardName.equals(getCardName(Cards.watchTower))) {
             return 1;
+        } else if (cardName.equals(getCardName(Cards.annex))) {
+            return 1;
         }
         return 0;
     }
@@ -751,6 +753,8 @@ public class Strings {
         	}
         } else if (cardName.equals(getCardName(Cards.archive))) {
             return getString(R.string.archive_query);
+        } else if (cardName.equals(getCardName(Cards.annex))) {
+            return format(R.string.annex_query, extras[0]);
         }
         return cardName;
     }
