@@ -235,6 +235,6 @@ public class SelectCardOptions implements Serializable {
     }
     
     public String debtString() {
-    	return (maxDebtCost >= 1) ? "d" + maxDebtCost : "";
+    	return (maxDebtCost >= 1 && maxDebtCost != Integer.MAX_VALUE) ? "d" + maxDebtCost : "";
     }
 }

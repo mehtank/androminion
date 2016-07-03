@@ -65,6 +65,7 @@ public class CardImpl implements Card {
             maxNameLen = name.length();
         }
         this.cost = cost;
+        this.types = new Type[0];
     }
     
     public CardImpl(Builder builder) {
@@ -74,7 +75,7 @@ public class CardImpl implements Card {
         vp = builder.vp;
         description = builder.description;
         expansion   = builder.expansion;
-        types       = builder.types;
+        types       = builder.types != null ? builder.types : new Type[0];
         addActions       = builder.addActions;
         addBuys          = builder.addBuys;
         addCards         = builder.addCards;

@@ -1693,7 +1693,7 @@ public class Strings {
         sb.append(Strings.getCardText(counts, totals, Cards.curse));
         
         for(Card card : totals.keySet()) {
-            if(card.is(Type.Landmark, null)) {
+            if(card.is(Type.Landmark)) {
             	sb.append('\t')
                 .append(getCardName(card))
                 .append(": ")
