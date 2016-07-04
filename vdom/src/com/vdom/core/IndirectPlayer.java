@@ -3159,7 +3159,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             options.add(c);
         }
         options.add(null);
-        return (Card) options.get(selectOption(context, Cards.annex, options.toArray()));
+        return (Card) options.get(selectOption(context, Cards.annex, options.toArray()) + 1);
     }
     
     @Override
@@ -3331,13 +3331,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public int mountainPass_getBid(MoveContext context, Player highestBidder, int highestBid, int playersLeftToBid) {
     	Object[] options = new Object[42 - highestBid];
-    	options[0] = highestBidder.getPlayerName();
+    	options[0] = highestBidder != null ? highestBidder.getPlayerName() : null;
     	options[1] = null;
-    	for (int i = 2 + 1; i < options.length; ++i) {
+    	for (int i = 2; i < options.length; ++i) {
     		options[i] = highestBid + i - 1;
     	}
-    	int idx = selectOption(context, Cards.mountainPass, options);
-    	if (idx < 1) idx = 1;
+    	int idx = selectOption(context, Cards.mountainPass, options) + 1;
     	Integer bid = (Integer) options[idx]; 
     	if (bid == null) bid = 0;
         return bid;

@@ -736,7 +736,7 @@ public class Game {
     		Player highestBidder = null;
     		final int MAX_BID = 40;
     		int playersLeftToBid = numPlayers;
-    		for (Player biddingPlayer : getPlayersInTurnOrder(firstProvinceGainedBy)) {
+    		for (Player biddingPlayer : getPlayersInTurnOrder((firstProvinceGainedBy + 1) % numPlayers)) {
     			MoveContext bidContext = new MoveContext(this, biddingPlayer);
     			int bid = biddingPlayer.mountainPass_getBid(context, highestBidder, highestBid, --playersLeftToBid);
     			if (bid > MAX_BID) bid = MAX_BID;
@@ -747,6 +747,7 @@ public class Game {
     			}
     			GameEvent event = new GameEvent(GameEvent.EventType.MountainPassBid, bidContext);
 	        	event.setAmount(bid);
+	        	event.card = Cards.mountainPass;
 	            context.game.broadcastEvent(event);
     			if (bid == MAX_BID) {
     				break;
@@ -756,6 +757,9 @@ public class Game {
     			MoveContext bidContext = new MoveContext(this, highestBidder);
     			highestBidder.addVictoryTokens(bidContext, 8);
     			highestBidder.gainDebtTokens(highestBid);
+    			GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
+            	event.setAmount(highestBid);
+                context.game.broadcastEvent(event);
     		}
     	}
     }

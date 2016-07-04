@@ -663,9 +663,12 @@ public class CardImpl implements Card {
             }
         }
     
-        event = new GameEvent(GameEvent.EventType.PlayedCard, (MoveContext) context);
-        event.card = playedCard;
-        game.broadcastEvent(event);
+        if (!playedCard.is(Type.Treasure, currentPlayer) || playedCard.is(Type.Action, currentPlayer)) {
+        	// Don't broadcast card played event for only treasures	
+	        event = new GameEvent(GameEvent.EventType.PlayedCard, (MoveContext) context);
+	        event.card = playedCard;
+	        game.broadcastEvent(event);
+        }
         
 
         // test if any prince card left the play
