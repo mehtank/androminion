@@ -61,6 +61,7 @@
 	<string name="select_from_table_attack">Select an Attack card from the table to %1$s</string>
 	<string name="select_from_table_action">Select an Action card from the table to %1$s</string>
 	<string name="select_from_table_treasure">Select a Treasure card from the table to %1$s</string>
+	<string name="select_from_table_victory">Select a Victory card from the table to %1$s</string>
 	<string name="select_from_table_exact">Select a card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_exact_action">Select an Action card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_exact_except">Select a card from the table, except %1$s, that costs exactly (%2$s) to %3$s</string>

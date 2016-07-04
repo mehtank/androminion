@@ -61,6 +61,7 @@
 	<string name="select_from_table_attack">Elije una carta de Ataque de la mesa para %1$s</string>
 	<string name="select_from_table_action">Elije una carta de Acción de la mesa para %1$s</string>
 	<string name="select_from_table_treasure">Elije una carta de Tesoro de la mesa para %1$s</string>
+	<string name="select_from_table_victory">Elije una carta de Victoria de la mesa para %1$s</string>
 	<string name="select_from_table_exact">Elije una carta de la mesa que cueste exactamente (%1$s) para %2$s</string>
 	<string name="select_from_table_exact_action">Elije una carta de Acción de la mesa que cueste exactamente (%1$s) para %2$s</string>
 	<string name="select_from_table_exact_except">Elije una carta de la mesa, menos %1$s, que cueste exactamente (%2$s) para %3$s</string>

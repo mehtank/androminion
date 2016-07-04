@@ -3147,7 +3147,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card advance_cardToObtain(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().maxCost(6).maxDebtCost(0).maxPotionCost(0).isAction()
-                .setCardResponsible(Cards.advance);
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.advance);
         return getFromTable(context, sco);
     }
     
@@ -3159,7 +3159,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             options.add(c);
         }
         options.add(null);
-        return (Card) options.get(selectOption(context, Cards.annex, options.toArray(new Card[0])));
+        return (Card) options.get(selectOption(context, Cards.annex, options.toArray()));
     }
     
     @Override
@@ -3386,7 +3386,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card saltTheEarth_cardToTrash(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().isVictory()
-                .isSupplyCard()
+                .isSupplyCard().setActionType(ActionType.TRASH).setPickType(PickType.TRASH)
                 .setCardResponsible(Cards.saltTheEarth);
         return getFromTable(context, sco);
     }

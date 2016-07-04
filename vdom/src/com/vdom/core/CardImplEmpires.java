@@ -732,7 +732,9 @@ public class CardImplEmpires extends CardImpl {
     		context.game.addPileVpTokens(Cards.wildHunt, 1, context);
     	} else {
     		if (Cards.estate.equals(currentPlayer.gainNewCard(Cards.estate, this.controlCard, context))) {
-    			context.game.removePileVpTokens(Cards.wildHunt, context.game.getPileVpTokens(Cards.wildHunt), context);
+    			int numTokens = context.game.getPileVpTokens(Cards.wildHunt);
+    			context.game.removePileVpTokens(Cards.wildHunt, numTokens, context);
+    			currentPlayer.addVictoryTokens(context, numTokens);
     		}
     	}
     }
@@ -857,7 +859,6 @@ public class CardImplEmpires extends CardImpl {
     }
     
     private void saltTheEarth(MoveContext context) {
-    	context.getPlayer().addVictoryTokens(context, 1);
     	Card toTrash = context.getPlayer().controlPlayer.saltTheEarth_cardToTrash(context);
     	AbstractCardPile pile = context.game.getPile(toTrash);
     	if (toTrash == null || !toTrash.is(Type.Victory) || pile.isEmpty() || !pile.card().equals(toTrash)) {

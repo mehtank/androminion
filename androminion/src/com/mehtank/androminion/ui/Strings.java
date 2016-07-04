@@ -1265,6 +1265,8 @@ public class Strings {
                 	selectString = Strings.format(R.string.select_from_table_action, header);
                 } else if (sco.isTreasure) {
                 	selectString = Strings.format(R.string.select_from_table_treasure, header);
+                } else if (sco.isVictory) {
+                	selectString = Strings.format(R.string.select_from_table_victory, header);
                 } else {
                     selectString = Strings.format(R.string.select_from_table, header);
                 }

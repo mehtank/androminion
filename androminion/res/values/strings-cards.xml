@@ -703,7 +703,7 @@
     <string name="BanditFort_name">Bandit Fort</string>
     <string name="BanditFort_desc">When scoring, -2 VP for each Silver and each Gold you have.</string>
     <string name="Basilica_name">Basilica</string>
-    <string name="Basilica_desc">Gain a Silver.</string>
+    <string name="Basilica_desc">When you buy a card, if you have (2) Coins or more left, take 2 Victory tokens from here. - Setup: Put 6 Victory tokens here per player.</string>
     <string name="Baths_name">Baths</string>
     <string name="Baths_desc">When you end your turn without having gained a card, take 2 Victory tokens from here. - Setup: Put 6 Victory tokens here per player.</string>
     <string name="Battlefield_name">Battlefield</string>

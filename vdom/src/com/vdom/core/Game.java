@@ -847,6 +847,7 @@ public class Game {
                     broadcastEvent(statusEvent);
 
                     playBuy(context, buy);
+                    playerPayOffDebt(player, context);
                     if (context.returnToActionPhase)
                     	return;
                 } else {
@@ -1954,10 +1955,12 @@ public class Game {
     		while (context.charmsNextBuy-- > 0) {
     			if (validCard) {
 	        		Card toGain = player.controlPlayer.charm_cardToObtain(context, buy);
-	        		if (!isValidCharmCard(context, buy, toGain)) {
-	        			Util.playerError(player, "Charm card to gain invalid, ignoring");
-	        		} else {
-	        			player.gainNewCard(toGain, Cards.charm, context);
+	        		if (toGain != null) {
+		        		if (!isValidCharmCard(context, buy, toGain)) {
+		        			Util.playerError(player, "Charm card to gain invalid, ignoring");
+		        		} else {
+		        			player.gainNewCard(toGain, Cards.charm, context);
+		        		}
 	        		}
 	        		validCard = validCharmCardLeft(context, buy);
     			}
@@ -1975,12 +1978,12 @@ public class Game {
     }
     
     private boolean isValidCharmCard(MoveContext context, Card buy, Card c) {
-    	return c != buy && context.game.isCardInGame(c) && 
+    	return !buy.equals(c) && context.game.isCardInGame(c) && 
 				!context.game.isPileEmpty(c) &&
 				Cards.isSupplyCard(c) &&
-				buy.getCost(context) != c.getCost(context) ||
-				buy.getDebtCost(context) != c.getCost(context) ||
-				(buy.costPotion() != c.costPotion());
+				buy.getCost(context) == c.getCost(context) &&
+				buy.getDebtCost(context) == c.getCost(context) &&
+				(buy.costPotion() == c.costPotion());
     }
     
     private void basilicaWhenBuy(MoveContext context) {
