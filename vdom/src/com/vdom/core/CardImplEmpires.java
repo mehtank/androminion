@@ -523,7 +523,7 @@ public class CardImplEmpires extends CardImpl {
                 && !game.isPileEmpty(cardToImpersonate)
                 && Cards.isSupplyCard(cardToImpersonate)
                 && cardToImpersonate.is(Type.Action, null)
-                && cardToImpersonate.getCost(context) < this.controlCard.getCost(context)
+                && cardToImpersonate.getCost(context) < 5
                 && cardToImpersonate.getDebtCost(context) == 0
             	&& !cardToImpersonate.costPotion()
                 && (context.golemInEffect == 0 || cardToImpersonate != Cards.golem)) {

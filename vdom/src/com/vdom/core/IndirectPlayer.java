@@ -3172,7 +3172,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_arena_cardToDiscard(context)) {
             return super.arena_cardToDiscard(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+    	SelectCardOptions sco = new SelectCardOptions().setPassable().isAction()
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
                 .setCardResponsible(Cards.arena);
         return getCardFromHand(context, sco);

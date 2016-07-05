@@ -454,6 +454,8 @@ public class Strings {
         		ret = Strings.format(R.string.coin_worth_single, "" + value) + "\n" + ret;
         	else
         		ret = Strings.format(R.string.coin_worth_multiple, "" + value) + "\n" + ret;
+        	if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
+            else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }
         if (c.is(Type.Action, null)) {
             if (c.is(Type.Duration, null)) {
@@ -483,6 +485,8 @@ public class Strings {
         if (c.is(Type.Event, null)) {
             if (c.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + c.getAddBuys()) + "\n" + ret;
             else if (c.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + c.getAddBuys()) + "\n" + ret;
+            if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
+            else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }
         return ret;
     }

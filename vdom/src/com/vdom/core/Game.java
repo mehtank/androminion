@@ -292,6 +292,7 @@ public class Game {
 	                // Buy Phase
 	                // /////////////////////////////////
 	                context.phase = TurnPhase.Buy;
+	                playerBeginBuy(player, context);
 	                playTreasures(player, context, -1, null);
 	
 	                // Spend Guilds coin tokens if applicable
@@ -809,7 +810,7 @@ public class Game {
     }
     
     public void playerPayOffDebt(Player player, MoveContext context) {
-    	if (player.getDebtTokenCount() > 0) {
+    	if (player.getDebtTokenCount() > 0 && context.getCoins() > 0) {
     		int payOffNum = player.controlPlayer.numDebtTokensToPayOff(context);
     		if (payOffNum > context.getCoins() || payOffNum < 0) {
     			payOffNum = 0;
@@ -817,11 +818,13 @@ public class Game {
     		if (payOffNum > player.getDebtTokenCount()) {
     			payOffNum = player.getDebtTokenCount();
     		}
-    		context.spendCoins(payOffNum);
-    		player.payOffDebtTokens(payOffNum);
-    		GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensPaidOff, context);
-        	event.setAmount(payOffNum);
-            context.game.broadcastEvent(event);
+    		if (payOffNum > 0) {
+	    		context.spendCoins(payOffNum);
+	    		player.payOffDebtTokens(payOffNum);
+	    		GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensPaidOff, context);
+	        	event.setAmount(payOffNum);
+	            context.game.broadcastEvent(event);
+    		}
     	}
     }
 
