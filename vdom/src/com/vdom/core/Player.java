@@ -974,7 +974,7 @@ public abstract class Player {
         	totals.put(Cards.kingsCastle, counts.get(Cards.kingsCastle) * this.getCastleCardCount(this) * 2);
         // landmarks
         if (this.game.cardInGame(Cards.banditFort)) {
-    		totals.put(Cards.banditFort, (Util.getCardCount(allCards, Cards.silver) + Util.getCardCount(allCards, Cards.gold) * -2));
+    		totals.put(Cards.banditFort, (Util.getCardCount(allCards, Cards.silver) + Util.getCardCount(allCards, Cards.gold)) * -2);
         }
         if (this.game.cardInGame(Cards.fountain)) {
     		totals.put(Cards.fountain, (Util.getCardCount(allCards, Cards.copper) >= 10) ? 15 : 0);
