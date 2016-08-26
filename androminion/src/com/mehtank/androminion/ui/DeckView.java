@@ -95,47 +95,61 @@ public class DeckView extends RelativeLayout {
 			name.setBackgroundColor(Color.TRANSPARENT);
 		}
 
-		pirates.setText(" " + pt + " ");
-		if (pt != 0)
+		
+		if (pt != 0) {
+			pirates.setText(" " + pt + " ");
 			pirates.setVisibility(VISIBLE);
-		else
-			pirates.setVisibility(INVISIBLE);
-
-        victoryTokens.setText(" " + vt + " ");
-        if (vt != 0)
+		} else {
+			pirates.setText("");
+			pirates.setVisibility(GONE);
+		}
+        
+        if (vt != 0) {
+        	victoryTokens.setText(" " + vt + " ");
             victoryTokens.setVisibility(VISIBLE);
-        else
-            victoryTokens.setVisibility(INVISIBLE);
+        } else {
+        	victoryTokens.setText("");
+            victoryTokens.setVisibility(GONE);
+        }
         
-        debtTokens.setText(" " + dt + " ");
-        if (dt != 0)
+        if (dt != 0) {
+        	debtTokens.setText(" " + dt + " ");
         	debtTokens.setVisibility(VISIBLE);
-        else
-        	debtTokens.setVisibility(INVISIBLE);
+        } else {
+        	debtTokens.setText("");
+        	debtTokens.setVisibility(GONE);
+        }
         
-        guildsCoinTokens.setText(" " + gct + " ");
-        if (gct != 0)
+        if (gct != 0) {
+        	guildsCoinTokens.setText(" " + gct + " ");
             guildsCoinTokens.setVisibility(VISIBLE);
-        else
-            guildsCoinTokens.setVisibility(INVISIBLE);
+        } else {
+        	guildsCoinTokens.setText("");
+            guildsCoinTokens.setVisibility(GONE);
+        }
 
         journeyToken.setTextColor(journeyTokenState == JourneyTokenState.FACE_UP ? Color.BLACK : Color.TRANSPARENT);
         if (journeyTokenState == null)
-            journeyToken.setVisibility(INVISIBLE);
+            journeyToken.setVisibility(GONE);
         else
             journeyToken.setVisibility(VISIBLE);
         
-        minusOneCardToken.setText(" -1 ");
-        if (minusOneCardTokenOn)
-        	minusOneCardToken.setVisibility(VISIBLE);
-        else
-        	minusOneCardToken.setVisibility(INVISIBLE);
         
-        minusOneCoinToken.setText(" -1 ");
-        if (minusOneCoinTokenOn)
+        if (minusOneCardTokenOn) {
+        	minusOneCardToken.setText(" -1 ");
+        	minusOneCardToken.setVisibility(VISIBLE);
+        } else {
+        	minusOneCardToken.setText("");
+        	minusOneCardToken.setVisibility(GONE);
+        }
+        
+        if (minusOneCoinTokenOn) {
+			minusOneCoinToken.setText(" -1 ");
         	minusOneCoinToken.setVisibility(VISIBLE);
-        else
-        	minusOneCoinToken.setVisibility(INVISIBLE);
+		} else {
+			minusOneCoinToken.setText("");
+        	minusOneCoinToken.setVisibility(GONE);
+		}
         
         if(showCardCounts) {
         	countsPrefix.setText("{ ");
