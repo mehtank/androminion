@@ -622,7 +622,7 @@
     <string name="FarmersMarket_name">Farmers\' Market</string>
     <string name="FarmersMarket_desc">If there are 4 Victory tokens or more on the Farmers\' Market Supply pile, take them and trash this. Otherwise, add 1 Victory token to the pile and then +(1) Coin per 1 Victory token on the pile.</string>
     <string name="Forum_name">Forum</string>
-    <string name="Forum_desc">Discard 2 cards. - When you buy this, +1 Buy..</string>
+    <string name="Forum_desc">Discard 2 cards. - When you buy this, +1 Buy.</string>
     <string name="Fortune_name">Fortune</string>
     <string name="Fortune_desc">When you play this, double your Coins if you haven\'t yet this turn. - When you gain this, gain a Gold per Gladiator you have in play.</string>
     <string name="Gladiator_name">Gladiator</string>
