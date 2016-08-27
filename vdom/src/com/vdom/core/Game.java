@@ -716,6 +716,7 @@ public class Game {
 	        		if (toTrash == null) {
 	        			Util.playerError(player, "Donate error, tried to trash card not in hand: " + c);
 	        		} else {
+	        			player.hand.remove(toTrash);
 	        			player.trash(toTrash, Cards.donate, context);
 	        		}
 	        	}
