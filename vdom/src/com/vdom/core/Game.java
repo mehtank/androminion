@@ -1990,7 +1990,7 @@ public class Game {
 				!context.game.isPileEmpty(c) &&
 				Cards.isSupplyCard(c) &&
 				buy.getCost(context) == c.getCost(context) &&
-				buy.getDebtCost(context) == c.getCost(context) &&
+				buy.getDebtCost(context) == c.getDebtCost(context) &&
 				(buy.costPotion() == c.costPotion());
     }
     
