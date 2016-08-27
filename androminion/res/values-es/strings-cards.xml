@@ -719,13 +719,13 @@
     <string name="Labyrinth_name">Laberinto</string>
     <string name="Labyrinth_desc">Cuando ganes una segunda carta en uno de tus turnos, toma 2 fichas de Victoria de aquí. - Preparación: Se ponen 6 fichas de Victoria aquí por cada jugador.</string>
     <string name="MountainPass_name">Puerto de Montaña</string>
-    <string name="MountainPass_desc">When you are the first player to gain a Province, after that turn, each player bids once, up to 40 Debt tokens, ending with you. High bidder gets +8 Victory tokens and takes the Debt tokens they bid.</string>
+    <string name="MountainPass_desc">Cuando eres el primer jugador para ganar una Provincia, después de este turno, cada jugador hace oferta una vez, hasta 40 marcadores de Deuda, terminando contigo. El que hizo la oferta más grande consigue +8 puntos de Victoria y toma marcadores de Deuda igual a su oferta.</string>
     <string name="Museum_name">Museo</string>
     <string name="Museum_desc">Al puntuar, 2 PV por cada carta con nombre diferente que tengas.</string>
     <string name="Obelisk_name">Obelisco</string>
     <string name="Obelisk_desc">Al puntuar, 2 PV por cada carta que tengas del montón elegido. - Preparación: Se elige un montón de Acción del Suministro al azar.</string>
     <string name="Orchard_name">Huerta</string>
-    <string name="Orchard_desc">When scoring, 4 VP per differently named Action card you have 3 or more copies of.</string>
+    <string name="Orchard_desc">Al puntuar, 4 PV por cada carta de Acción con nombre diferente de lo cual tengas 3 o más copias.</string>
     <string name="Palace_name">Palacio</string>
     <string name="Palace_desc">Al puntuar, 3 PV por cada group que tienes de Cobre - Plata - Oro.</string>
     <string name="Tomb_name">Tumba</string>
@@ -733,7 +733,7 @@
     <string name="Tower_name">Torre</string>
     <string name="Tower_desc">Al puntuar, 1 PV por cada carta que tienes que no sea de Victoria y que es de un montón del Suministro gastado.</string>
     <string name="TriumphalArch_name">Arco de Triunfo</string>
-    <string name="TriumphalArch_desc">When scoring, 3 VP per copy you have of the 2nd most common Action card among your cards (if it’s a tie, count either).</string>
+    <string name="TriumphalArch_desc">Al puntuar, 3 PV por cada copia que tengas de la segunda carta más común de tus cartas (si hay empata, conta cualquier de los 2).</string>
     <string name="Wall_name">Muralla</string>
     <string name="Wall_desc">Al puntuar, -1 PV por cada carta que tienes además de 15.</string>
     <string name="WolfDen_name">Guarida de los Lobos</string>
