@@ -98,7 +98,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return hasJoined;
     }
 
-    public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isBlackMarket){
+    public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isObeliskCard, boolean isBlackMarket){
         MyCard card = new MyCard(index, c.getName(), c.getSafeName(), c.getName());
         card.desc = c.getDescription();
         card.expansion = c.getExpansion() != null ? c.getExpansion().toString() : "";
@@ -107,6 +107,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.debtCost = c.getDebtCost(null);
         card.costPotion = c.costPotion();
         card.isBane = isBane;
+        card.isObeliskCard = isObeliskCard;
         card.isShelter = c.is(Type.Shelter, null);
         card.isLooter = c.is(Type.Looter, null);
         card.isOverpay = c.isOverpay(null);
@@ -258,7 +259,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         // ensure card #0 is a card not to shade, e.g. Curse. See Rev r581
         Card curse = Cards.curse;
-        MyCard mc = makeMyCard(curse, index, false, false);
+        MyCard mc = makeMyCard(curse, index, false, false, false);
         myCardsInPlayList.add(mc);
         cardNamesInPlay.put(curse.getName(), index);
         cardsInPlay.add(index, curse);
@@ -274,11 +275,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     isBlackMarket = true;
                 }
             }
-            if (context.game.baneCard == null) {
-                mc = makeMyCard(c, index, false, isBlackMarket);
-            } else {
-                mc = makeMyCard(c, index, c.getSafeName().equals(context.game.baneCard.getSafeName()), isBlackMarket);
-            }
+            boolean isBane = context.game.baneCard != null ? c.getSafeName().equals(context.game.baneCard.getSafeName()) : false;
+            boolean isObelisk = context.game.obeliskCard != null ? c.getSafeName().equals(context.game.obeliskCard.getSafeName()) : false;
+            mc = makeMyCard(c, index, isBane, isObelisk, isBlackMarket);
             myCardsInPlayList.add(mc);
 
             cardNamesInPlay.put(c.getName(), index);

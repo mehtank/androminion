@@ -212,4 +212,5 @@
 	<string name="token_victory">Victory</string>
 	<string name="token_debt">Debt</string>
 	<string name="bane_card">Bane card</string>
+	<string name="obelisk_card">Obelisk card (worth 2 VP)</string>
 </resources>

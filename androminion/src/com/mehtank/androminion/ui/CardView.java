@@ -192,6 +192,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		if (viewstyle.equals("viewstyle-simple")) {
 			if (c.isBane) {
 				setBackgroundResource(R.drawable.thinbaneborder);
+			} else if (c.isObeliskCard) {
+				setBackgroundResource(R.drawable.thinobeliskborder);
 			} else if (c.isStash) {
 				setBackgroundResource(R.drawable.thinstashborder);
 			} else {
@@ -200,6 +202,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else {
 			if (c.isBane) {
 				setBackgroundResource(R.drawable.baneborder);
+			} else if (c.isObeliskCard) {
+				setBackgroundResource(R.drawable.obeliskborder);
 			} else if (c.isStash) {
 				setBackgroundResource(R.drawable.stashborder);
 			} else if (c.isShelter) {
@@ -685,6 +689,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		String text = "";
 		if (state.c.isBane) {
 			text += getContext().getString(R.string.bane_card);
+		}
+		if (state.c.isObeliskCard) {
+			if (text.length() > 0)
+				text += "\n";
+			text += getContext().getString(R.string.obelisk_card);
 		}
 		boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
 		if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0 || numPileDebtTokens > 0) {

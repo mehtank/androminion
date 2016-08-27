@@ -7,6 +7,7 @@ import java.util.Map;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -641,6 +642,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                     sb.append("-");
                 sb.append(card);
             }
+            Log.d("Cards specified",sb.toString());
             strs.add(sb.toString());
         }
         edit.commit();

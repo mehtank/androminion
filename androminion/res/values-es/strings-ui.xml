@@ -214,4 +214,5 @@
 	<string name="token_victory">Victoria</string>
 	<string name="token_debt">Deuda</string>
 	<string name="bane_card">Carta de Perdición</string>
+	<string name="obelisk_card">Carta de Obelisco (vale 2 PV)</string>
 </resources>
