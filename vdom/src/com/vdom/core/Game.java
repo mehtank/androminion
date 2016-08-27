@@ -2867,22 +2867,39 @@ public class Game {
         Util.debug("---------------", true);
         cardListText += "Cards in play\n---------------\n";
 
-        int cost = 0;
-        while (cost < 10) {
-            for (AbstractCardPile pile : piles.values()) {
-                if (Cards.isKingdomCard(pile.card())) {
-                    if (pile.card().getCost(null) == cost) {
-                        Util.debug(Util.getShortText(pile.card()), true);
-                        cardListText += Util.getShortText(pile.card()) + "\n";
-                    }
-                }
+        ArrayList<Card> cards = new ArrayList<Card>();
+        ArrayList<Card> events = new ArrayList<Card>();
+        ArrayList<Card> landmarks = new ArrayList<Card>();
+        for (AbstractCardPile pile : piles.values()) {
+        	Card c = pile.card();
+        	if (Cards.isKingdomCard(c)) {
+        		cards.add(c);
+        	} else if (Cards.eventsCards.contains(c)) {
+        		events.add(c);
+        	} else if (Cards.landmarkCards.contains(c)) {
+        		landmarks.add(c);
+        	}
+        }
+        Collections.sort(cards, new Util.CardCostNameComparator());
+        Collections.sort(events, new Util.CardCostNameComparator());
+        Collections.sort(landmarks, new Util.CardCostNameComparator());
+        
+        for (Card c : cards) {
+        	cardListText += Util.getShortText(c) + ((baneCard != null && c.equals(baneCard)) ? " (Bane)" + baneCard.getName() : "") + "\n";
+        }
+        if (!events.isEmpty()) {
+        	 cardListText += "\nEvents in play\n---------------\n";
+        	for (Card c : events) {
+            	cardListText += Util.getShortText(c) + "\n";
             }
+        }
+        if (!landmarks.isEmpty()) {
+        	cardListText += "\nLandmarks in play\n---------------\n";
+        	for (Card c : landmarks) {
+            	cardListText += c.getName() + (c.equals(Cards.obelisk) && obeliskCard != null ? " (" + obeliskCard.getName() + ")" : "") +  "\n";
+            }
+        }
 
-            cost++;
-        }
-        if (baneCard != null) {
-            Util.debug("(Bane) " + Util.getShortText(baneCard), true);
-        }
         Util.debug("");
         debug = oldDebug;
 

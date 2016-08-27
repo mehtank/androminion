@@ -215,4 +215,19 @@
 	<string name="token_debt">Deuda</string>
 	<string name="bane_card">Carta de Perdición</string>
 	<string name="obelisk_card">Carta de Obelisco (vale 2 PV)</string>
+	<string name="status_turn_number">Turno %1$s%2$s</string>
+	<string name="status_current_turn"> (Turno actual)</string>
+	<string name="status_deck_size">Cartas en mazo: %1$s%2$s</string>
+	<string name="status_stash_on_deck"> (Alijo está encima)</string>
+	<string name="status_hand_size">Cartas en mano: %1$s</string>
+	<string name="status_hand_stashes">Cartas de Alijo en mano: %1$s</string>
+	<string name="status_total_cards">Total de cartas: %1$s</string>
+	<string name="status_has_minus_coin_token">Tiene marcador de -1 Moneda</string>
+	<string name="status_has_minus_card_token">Tiene marcador de -1 Carta</string>
+	<string name="status_journey_token_up">Marcador de Viaje está boca arriba</string>
+	<string name="status_journey_token_down">Marcador de Viaje está boca abajo</string>
+	<string name="status_coin_tokens">Marcadores de Moneda: %1$s</string>
+	<string name="status_pirate_tokens">Marcadores de Moneda conseguidos por Barcos Piratas: %1$s</string>
+	<string name="status_debt_tokens">Marcadores de Deuda: %1$s</string>
+	<string name="status_victory_tokens">Fichas de Victoria: %1$s</string>
 </resources>

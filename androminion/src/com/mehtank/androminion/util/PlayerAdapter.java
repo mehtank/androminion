@@ -46,6 +46,7 @@ public class PlayerAdapter extends ArrayAdapter<PlayerSummary> {
 		PlayerSummary ps;
 		if(origView == null) {
 			dv = new DeckView(getContext());
+			dv.setLongClickable(true);
 		} else {
 			dv = (DeckView) origView;
 		}

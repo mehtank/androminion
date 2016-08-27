@@ -1,5 +1,6 @@
 package com.mehtank.androminion.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -7,14 +8,18 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.util.HapticFeedback;
+import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.vdom.comms.GameStatus.JourneyTokenState;
 
-public class DeckView extends RelativeLayout {
+public class DeckView extends RelativeLayout implements OnLongClickListener {
 	@SuppressWarnings("unused")
 	private static final String TAG = "DeckView";
 	
@@ -33,10 +38,28 @@ public class DeckView extends RelativeLayout {
 	private TextView countsStashesInHand;
 	private TextView countsSuffix;
 	
+	private String nameStr;
+	private int turns;
+	private int deckSize;
+	private boolean stashOnDeck;
+	private int handSize;
+	private int stashesInHand;
+	private int numCards;
+	private int numPirateTokens;
+	private int numVictoryTokens;
+	private int numDebtTokens;
+	private int numCoinTokens;
+	private boolean hasMinusOneCardToken;
+	private boolean hasMinusOneCoinToken;
+	private JourneyTokenState journeyTokenState;
+	private boolean isCurrentTurn;
+	
 	private int textColor;
 	private int stashColor;
 
 	private boolean showCardCounts = true;
+
+	
 
 	public DeckView(Context context) {
 		this(context, null);
@@ -71,13 +94,29 @@ public class DeckView extends RelativeLayout {
 		stashColor = typedValue.data;
 		
 		textColor = new TextView(context).getTextColors().getDefaultColor();
-
+		
+		setOnLongClickListener(this);
 	}
 
 	public void set(String nameStr, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, 
 			int pt, int vt, int dt, int gct, 
 			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyTokenState, 
 			boolean highlight, boolean showColor, int color) {
+		this.nameStr = nameStr;
+		this.turns = turns;
+		this.deckSize = deckSize;
+		this.stashOnDeck = stashOnDeck;
+		this.handSize = handSize;
+		this.stashesInHand = stashesInHand;
+		this.numCards = numCards;
+		this.hasMinusOneCardToken = minusOneCardTokenOn;
+		this.hasMinusOneCoinToken = minusOneCoinTokenOn;
+		this.journeyTokenState = journeyTokenState;
+		this.numPirateTokens = pt;
+		this.numVictoryTokens = vt;
+		this.numDebtTokens = dt;
+		this.numCoinTokens = gct;
+		this.isCurrentTurn = highlight;
 		String txt = nameStr + getContext().getString(R.string.turn_header) + turns;
 		name.setText(txt);
 		if (highlight) {
@@ -159,5 +198,52 @@ public class DeckView extends RelativeLayout {
         	countsStashesInHand.setText(stashesInHand == 0 ? "" : " (" + stashesInHand + ")");
         	countsSuffix.setText("    \u03a3 " + numCards + " }");
         }
+	}
+	
+	@Override
+	public boolean onLongClick(View view) {
+		HapticFeedback.vibrate(getContext(),AlertType.LONGCLICK);
+		
+		TextView textView = new TextView(view.getContext());
+		textView.setPadding(15, 0, 15, 5);
+		textView.setText(getDescription());
+		new AlertDialog.Builder(view.getContext())
+		.setTitle(nameStr)
+		.setView(textView)
+		.setPositiveButton(android.R.string.ok, null)
+		.show();
+
+	return true;
+	}
+	
+	private String getDescription() {
+		Context c = getContext();
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format(c.getString(R.string.status_turn_number), turns, (isCurrentTurn ? c.getString(R.string.status_current_turn) : "")));
+		sb.append("\n\n");
+		sb.append(String.format(c.getString(R.string.status_deck_size), deckSize, (this.stashOnDeck ? c.getString(R.string.status_stash_on_deck) : "")) + "\n");
+		sb.append(String.format(c.getString(R.string.status_hand_size), handSize) + "\n");
+		if (stashesInHand > 0) {
+			sb.append(String.format(c.getString(R.string.status_hand_stashes), stashesInHand) + "\n");
+		}
+		sb.append(String.format(c.getString(R.string.status_total_cards), numCards) + "\n\n");
+		
+		if (hasMinusOneCoinToken)
+			sb.append(c.getString(R.string.status_has_minus_coin_token) + "\n");
+		if (hasMinusOneCardToken)
+			sb.append(c.getString(R.string.status_has_minus_card_token) + "\n");
+		if (journeyTokenState != null) {
+			sb.append(c.getString(journeyTokenState == JourneyTokenState.FACE_UP ? R.string.status_journey_token_up : R.string.status_journey_token_down) + "\n");
+		}
+		if (numCoinTokens > 0)
+			sb.append(String.format(c.getString(R.string.status_coin_tokens), numCoinTokens) + "\n");
+		if (numPirateTokens > 0)
+			sb.append(String.format(c.getString(R.string.status_pirate_tokens), numPirateTokens) + "\n");
+		if (numDebtTokens > 0)
+			sb.append(String.format(c.getString(R.string.status_debt_tokens), numDebtTokens) + "\n");
+		if (numVictoryTokens > 0)
+			sb.append(String.format(c.getString(R.string.status_victory_tokens), numVictoryTokens) + "\n");
+		
+		return sb.toString();
 	}
 }
