@@ -52,7 +52,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	private TextView name;
 	private View cardBox;
-	private TextView cost, countLeft, embargos, pileVpTokens, pileDebtTokens;
+	private TextView cost, debtCost, countLeft, embargos, pileVpTokens, pileDebtTokens;
 	private int numEmbargos;
 	private int numPileVpTokens;
 	private int numPileDebtTokens;
@@ -138,6 +138,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		name = (TextView) findViewById(R.id.name);
 		cardBox = findViewById(R.id.cardBox);
 		cost = (TextView) findViewById(R.id.cost);
+		debtCost = (TextView) findViewById(R.id.debtCost);
 		countLeft = (TextView) findViewById(R.id.countLeft);
 		embargos = (TextView) findViewById(R.id.embargos);
 		pileVpTokens = (TextView) findViewById(R.id.pileVpTokens);
@@ -166,14 +167,18 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		if (c.costPotion) {
 			cost.setBackgroundResource(R.drawable.coinpotion);
-		} else if (c.debtCost > 0) {
-			cost.setBackgroundResource(R.drawable.coindebt);
 		} else {
 			cost.setBackgroundResource(R.drawable.coin);
 		}
+		
+		if (c.debtCost > 0) {
+			debtCost.setVisibility(VISIBLE);			
+		} else {
+			debtCost.setVisibility(GONE);
+		}
 
-		if (c.isPrize || c.isLandmark) {
-			cost.setVisibility(INVISIBLE);
+		if (c.isPrize || c.isLandmark || (c.debtCost > 0 && !c.costPotion && c.cost == 0)) {
+			cost.setVisibility(GONE);
 		} else {
 			cost.setVisibility(VISIBLE);
 		}
@@ -520,11 +525,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		return GameTable.getPlayerStrokeColor(getResources(), playerIndex);
 	}
 	
-	public void setCost(int newCost, boolean overpay, int debtCost) {
-		if (debtCost > 0) {
-			cost.setText(" " + debtCost + " ");
-			return;
-		}
+	public void setCost(int newCost, boolean overpay, int newDebtCost) {
+		debtCost.setText(" " + newDebtCost + " ");
 		cost.setText(" " + newCost + (overpay ? "+" : "") + " ");
 	}
 

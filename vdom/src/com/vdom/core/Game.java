@@ -1761,6 +1761,18 @@ public class Game {
         if (!context.blackMarketBuyPhase) {
             context.buys--;
         }
+        
+        context.spendCoins(buy.getCost(context) + context.overpayAmount);
+
+        if (buy.costPotion()) {
+            context.potions--;
+        } else if (buy.getDebtCost(context) > 0) {
+        	int debtCost = buy.getDebtCost(context);
+        	context.getPlayer().controlPlayer.gainDebtTokens(debtCost);
+        	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
+        	event.setAmount(debtCost);
+            context.game.broadcastEvent(event);
+        }
 
         int embargos = getEmbargos(buy);
         for (int i = 0; i < embargos; i++) {
@@ -1866,17 +1878,7 @@ public class Game {
             }
         }
 
-        context.spendCoins(buy.getCost(context) + context.overpayAmount);
-
-        if (buy.costPotion()) {
-            context.potions--;
-        } else if (buy.getDebtCost(context) > 0) {
-        	int debtCost = buy.getDebtCost(context);
-        	context.getPlayer().controlPlayer.gainDebtTokens(debtCost);
-        	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
-        	event.setAmount(debtCost);
-            context.game.broadcastEvent(event);
-        } else if (!(buy.is(Type.Victory)) && !buy.is(Type.Knight) && cost < 5 && !buy.is(Type.Event)) {
+        if (!buy.costPotion() && buy.getDebtCost(context) == 0 && !(buy.is(Type.Victory)) && !buy.is(Type.Knight) && cost < 5 && !buy.is(Type.Event)) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
                 if (!buy.is(com.vdom.core.Type.Ruins, null) || (card != null && card.equals(getTopRuinsCard()))) {
                     context.getPlayer().gainNewCard(buy, Cards.talisman, context);
