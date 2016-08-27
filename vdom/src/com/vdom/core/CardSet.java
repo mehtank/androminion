@@ -133,19 +133,23 @@ public class CardSet {
 		int numLandmarks = countLandmarks(possibleCards);
 		count = Math.min(possibleCards.size() - numEvents - numLandmarks, count);
 		for (Card c : possibleCards) {
-			if (c.is(Type.Event, null) && drawEvents) {
-				if (linkMaxEventsAndLandmarks) {
-					if (eventList.size() + landmarkList.size() < maxEvents)
+			if (c.is(Type.Event, null)) { 
+				if(drawEvents) {
+					if (linkMaxEventsAndLandmarks) {
+						if (eventList.size() + landmarkList.size() < maxEvents)
+							eventList.add(c);
+					} else if (eventList.size() < maxEvents) {
 						eventList.add(c);
-				} else if (eventList.size() < maxEvents) {
-					eventList.add(c);
+					}
 				}
-			} else if (c.is(Type.Landmark, null) && drawLandmarks) {
-				if (linkMaxEventsAndLandmarks) {
-					if (eventList.size() + landmarkList.size() < maxEvents)
+			} else if (c.is(Type.Landmark, null)) { 
+				if (drawLandmarks) {
+					if (linkMaxEventsAndLandmarks) {
+						if (eventList.size() + landmarkList.size() < maxEvents)
+							landmarkList.add(c);
+					} else if (landmarkList.size() < maxEvents) {
 						landmarkList.add(c);
-				} else if (landmarkList.size() < maxEvents) {
-					landmarkList.add(c);
+					}
 				}
 			} else {
 				cardSetList.add(c);

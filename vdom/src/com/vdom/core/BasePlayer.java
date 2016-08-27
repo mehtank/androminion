@@ -233,7 +233,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     private Card pickRandomBestCardFromList(ArrayList<Card> list, int variance) {
     	//Sort by cost
-    	list.sort(new Comparator<Card>() {
+    	Collections.sort(list, new Comparator<Card>() {
 			@Override
 			public int compare(Card a, Card b) {
 				Integer aValue = cardIntValue(a);
