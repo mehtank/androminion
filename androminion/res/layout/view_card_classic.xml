@@ -51,12 +51,29 @@
 
     <!-- Embargos can only happen on supply piles (where countLeft is also shown) -->
 
+	<LinearLayout 
+        android:id="@+id/tokensLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical">
+
     <TextView
         android:id="@+id/embargos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
         android:background="@drawable/embargos"
+        android:textColor="@android:color/white"
+        android:textSize="10.5dp"
+        android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/pileDebtTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_toLeftOf="@id/embargos"
+        android:background="@drawable/debttokens"
         android:textColor="@android:color/white"
         android:textSize="10.5dp"
         android:visibility="gone" />
@@ -72,17 +89,7 @@
         android:textSize="10.5dp"
         android:visibility="gone" />
     
-    <TextView
-        android:id="@+id/pileDebtTokens"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical"
-        android:layout_toLeftOf="@id/embargos"
-        android:background="@drawable/debttokens"
-        android:textColor="@android:color/white"
-        android:textSize="10.5dp"
-        android:visibility="gone" />
-    
+    </LinearLayout>
     
      <LinearLayout
         android:id="@+id/tokens"

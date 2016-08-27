@@ -56,14 +56,31 @@
 
     <!-- Embargos can only happen on supply piles (where countLeft is also shown) -->
 
+	<LinearLayout 
+        android:id="@+id/tokensLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/countLeft"
+        android:layout_alignParentRight="true"
+        android:gravity="right">
+
     <TextView
         android:id="@+id/embargos"
         style="@style/style_cardview_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/countLeft"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/embargos"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/pileDebtTokens"
+        style="@style/style_cardview_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/debttokens"
         android:textColor="@android:color/white"
         android:visibility="gone" />
     
@@ -72,22 +89,12 @@
         style="@style/style_cardview_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/countLeft"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/victorytokens"
         android:textColor="@android:color/black"
         android:visibility="gone" />
-    
-    <TextView
-        android:id="@+id/pileDebtTokens"
-        style="@style/style_cardview_cost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/countLeft"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/debttokens"
-        android:textColor="@android:color/white"
-        android:visibility="gone" />
+            
+    </LinearLayout>
     
     <LinearLayout
         android:id="@+id/tokens"
