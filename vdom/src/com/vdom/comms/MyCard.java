@@ -277,6 +277,18 @@ public class MyCard implements Serializable {
 		}
 	}
 	
+	static private class CardEventLandmarkTypeComparator implements Comparator<MyCard> {
+		@Override
+		public int compare(MyCard a, MyCard b) {
+			return getCardTypeOrder(a) - getCardTypeOrder(b);
+		}
+
+		private int getCardTypeOrder(MyCard c) {
+			if (c.isEvent) return 1;
+			return 2;
+		}
+	}
+	
 	/**
 	 * Comparator for sorting cards by cost, potion and then by name
 	 * Used for sorting on table
@@ -322,6 +334,22 @@ public class MyCard implements Serializable {
 			cmps.add(new CardNameComparator());
 		}
 		public CardNonSupplyComparator() {
+			super(cmps);
+		}
+	}
+	
+	/**
+	 * Comparator for sorting cards in event/landmark pile.
+	 * Sort by type then by cost and last by name
+	 */
+	static public class CardEventLandmarkComparator extends MultilevelComparator<MyCard> {
+		private static final ArrayList<Comparator<MyCard>> cmps = new ArrayList<Comparator<MyCard>>();
+		static {
+			cmps.add(new CardEventLandmarkTypeComparator());
+			cmps.add(new CardCostComparator());
+			cmps.add(new CardNameComparator());
+		}
+		public CardEventLandmarkComparator() {
 			super(cmps);
 		}
 	}

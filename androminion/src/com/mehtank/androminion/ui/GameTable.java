@@ -164,7 +164,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         prizePileGV.setOnItemClickListener(this);
         prizePileGV.setOnItemLongClickListener(this);
         
-        eventPile = new CardGroup(top, true);
+        eventPile = new CardGroup(top, true, new MyCard.CardEventLandmarkComparator());
         eventPileGV = (GridView) findViewById(R.id.eventPileGV);
         eventPileGV.setAdapter(eventPile);
         eventPileGV.setOnItemClickListener(this);
