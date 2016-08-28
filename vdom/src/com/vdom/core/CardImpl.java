@@ -875,27 +875,27 @@ public class CardImpl implements Card {
     
     @Override
     public boolean isCallableWhenCardGained() {
-    	return false;
+    	return callableWhenCardGained;
     }
     
     @Override
     public int getCallableWhenGainedMaxCost() {
-    	return 6;
+    	return callableWhenCardGainedMaxCost;
     }
     
     @Override
     public boolean isCallableWhenActionResolved() {
-    	return false;
+    	return callableWhenActionResolved;
     }
     
     @Override
     public boolean doesActionStillNeedToBeInPlayToCall() {
-    	return false;
+    	return actionStillNeedsToBeInPlay;
     }
     
     @Override
     public boolean isCallableWhenTurnStarts() {
-    	return false;
+    	return callableWhenTurnStarts;
     }
     
     @Override
