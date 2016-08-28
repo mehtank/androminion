@@ -651,7 +651,20 @@
     <string name="Villa_desc">When you gain this, put it into your hand, +1 Action, and if it\'s your Buy phase return to your Action phase.</string>
     <string name="WildHunt_name">Wild Hunt</string>
     <string name="WildHunt_desc">Choose one: +3 Cards and add 1 Victory token to the Wild Hunt Supply pile; or gain an Estate, and if you do, take the Victory tokens from the pile.</string>
-    
+        
+    <string name="CatapultRocks_name">Catapult/Rocks</string>
+    <string name="CatapultRocks_desc">This pile starts the game with 5 copies of Catapult on top, then 5 copies of Rocks. Only the top card of the pile can be gained or bought.</string>
+    <string name="EncampmentPlunder_name">Encampment/Plunder</string>
+    <string name="EncampmentPlunder_desc">This pile starts the game with 5 copies of Encampment on top, then 5 copies of Plunder. Only the top card of the pile can be gained or bought.</string>
+    <string name="GladiatorFortune_name">Gladiator/Fortune</string>
+    <string name="GladiatorFortune_desc">This pile starts the game with 5 copies of Gladiator on top, then 5 copies of Fortune. Only the top card of the pile can be gained or bought.</string>
+    <string name="PatricianEmporium_name">Patrician/Emporium</string>
+    <string name="PatricianEmporium_desc">This pile starts the game with 5 copies of Patrician on top, then 5 copies of Emporium. Only the top card of the pile can be gained or bought.</string>
+    <string name="SettlersBustlingVillage_name">Settlers/Bustling Village</string>
+    <string name="SettlersBustlingVillage_desc">This pile starts the game with 5 copies of Settlers on top, then 5 copies of Bustling Village. Only the top card of the pile can be gained or bought.</string>
+    <string name="Castles_name">Castles</string>
+    <string name="Castles_desc">Sort the Castle pile by cost, putting the more expensive Castles on the bottom. For a 2-player game, use only one of each Castle. Only the top card of the pile can be gained or bought.</string>
+        
     <string name="HumbleCastle_name">Humble Castle</string>
     <string name="HumbleCastle_desc">Worth 1 VP per Castle you have.</string>
     <string name="CrumblingCastle_name">Crumbling Castle</string>

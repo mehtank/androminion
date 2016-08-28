@@ -101,7 +101,7 @@ public class Cards {
         RoyalBlacksmith, Sacrifice, Settlers, Temple, Villa, WildHunt,
         HumbleCastle, CrumblingCastle, SmallCastle, HauntedCastle, OpulentCastle, SprawlingCastle, GrandCastle, KingsCastle,
         
-        CatapultRocks, VirtualCastles, EncampmentPlunder, GladiatorFortune, PatricianEmporium, SettlersBustlingVillage,
+        CatapultRocks, Castles, EncampmentPlunder, GladiatorFortune, PatricianEmporium, SettlersBustlingVillage,
         
         Advance, Annex, Banquet, Conquest, Dominate, Delve, Donate, Ritual, SaltTheEarth, Tax, Triumph, Wedding, Windfall,
         Aqueduct, Arena, BanditFort, Basilica, Baths, Battlefield, Colonnade, DefiledShrine, Fountain, Keep, Labyrinth, MountainPass, Museum, Obelisk, Orchard, Palace, Tomb, Tower, TriumphalArch, Wall, WolfDen,
@@ -910,7 +910,7 @@ public class Cards {
         splitPileCards.add(sprawlingCastle     = new CardImpl.Builder(Cards.Kind.SprawlingCastle, 8, Type.Victory, Type.Castle).vp(4).description("When you gain this, gain a Duchy or 3 Estates.").expansion(Expansion.Empires).build());
         splitPileCards.add(grandCastle         = new CardImpl.Builder(Cards.Kind.GrandCastle, 9, Type.Victory, Type.Castle).vp(5).description("When you gain this, reveal your hand. +1 Victory token per Victory card in your hand and/or in play.").expansion(Expansion.Empires).build());
         splitPileCards.add(kingsCastle         = new CardImpl.Builder(Cards.Kind.KingsCastle, 10, Type.Victory, Type.Castle).description("Worth 2 VP per Castle you have.").expansion(Expansion.Empires).build());
-        virtualCastle   = new CardImpl.Builder(Cards.Kind.VirtualCastles, 3, Type.Victory, Type.Castle).description("Sort the Castle pile by cost, putting the more expensive Castles on the bottom. For a 2-player game, use only one of each Castle. Only the top card of the pile can be gained or bought.").build();
+        virtualCastle   = new CardImpl.Builder(Cards.Kind.Castles, 3, Type.Victory, Type.Castle).description("Sort the Castle pile by cost, putting the more expensive Castles on the bottom. For a 2-player game, use only one of each Castle. Only the top card of the pile can be gained or bought.").build();
 
         // events
         eventCardsEmpires.add(advance          = new CardImpl.Builder(Cards.Kind.Advance, 0, Type.Event).description("You may trash an Action card from your hand. If you do, gain an Action card costing up to (6) Coins.").expansion(Expansion.Empires).build());

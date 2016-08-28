@@ -651,7 +651,20 @@
     <string name="Villa_desc">Cuando ganes esta carta, ponla en tu mano, +1 Acción, y si es tu fase de Compra, vuelva a tu fase de Acción.</string>
     <string name="WildHunt_name">Cacería Salvaje</string>
     <string name="WildHunt_desc">Elige una opción: +3 Cartas y añadir una ficha de Victoria al montón de Cacería Salvaje del Suministro; o bien ganar una Finca, y si lo haces, toma las fichas de Victoria del montón.</string>
-    
+        
+    <string name="CatapultRocks_name">Catapulta/Rocas</string>
+    <string name="CatapultRocks_desc">Al comienzo del juego, este montón tiene 5 copias de Catapulta encima, y entonces 5 copias de Rocas. Sólo la carta encima del montón se puede ganar o comprar.</string>
+    <string name="EncampmentPlunder_name">Campamento/Saqueo</string>
+    <string name="EncampmentPlunder_desc">Al comienzo del juego, este montón tiene 5 copias de Campamento encima, y entonces 5 copias de Saqueo. Sólo la carta encima del montón se puede ganar o comprar.</string>
+    <string name="GladiatorFortune_name">Gladiador/Fortuna</string>
+    <string name="GladiatorFortune_desc">Al comienzo del juego, este montón tiene 5 copias de Gladiador encima, y entonces 5 copias de Fortuna. Sólo la carta encima del montón se puede ganar o comprar.</string>
+    <string name="PatricianEmporium_name">Patricio/Emporio</string>
+    <string name="PatricianEmporium_desc">Al comienzo del juego, este montón tiene 5 copias de Patricio encima, y entonces 5 copias de Emporio. Sólo la carta encima del montón se puede ganar o comprar.</string>
+    <string name="SettlersBustlingVillage_name">Colonos/Pueblo Bullicioso</string>
+    <string name="SettlersBustlingVillage_desc">Al comienzo del juego, este montón tiene 5 copias de Colonos encima, y entonces 5 copias de Pueblo Bullicioso. Sólo la carta encima del montón se puede ganar o comprar.</string>
+    <string name="Castles_name">Castillos</string>
+    <string name="Castles_desc">Se ordena el montón de Castillo por coste, con los Castillos más caros debajo. Por un juego de 2 jugadores, se usa sólo una copia de cada Castillo. Sólo la carta encima del montón se puede ganar o comprar.</string>
+          
     <string name="HumbleCastle_name">Castillo Humilde</string>
     <string name="HumbleCastle_desc">Vale 1 PV por cada carta de Castillo que tengas.</string>
     <string name="CrumblingCastle_name">Castillo Desmoronado</string>
