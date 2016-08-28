@@ -221,13 +221,14 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(c.getString(R.string.status_turn_number), turns, (isCurrentTurn ? c.getString(R.string.status_current_turn) : "")));
 		sb.append("\n\n");
-		sb.append(String.format(c.getString(R.string.status_deck_size), deckSize, (this.stashOnDeck ? c.getString(R.string.status_stash_on_deck) : "")) + "\n");
-		sb.append(String.format(c.getString(R.string.status_hand_size), handSize) + "\n");
-		if (stashesInHand > 0) {
-			sb.append(String.format(c.getString(R.string.status_hand_stashes), stashesInHand) + "\n");
+		if(showCardCounts) {
+			sb.append(String.format(c.getString(R.string.status_deck_size), deckSize, (this.stashOnDeck ? c.getString(R.string.status_stash_on_deck) : "")) + "\n");
+			sb.append(String.format(c.getString(R.string.status_hand_size), handSize) + "\n");
+			if (stashesInHand > 0) {
+				sb.append(String.format(c.getString(R.string.status_hand_stashes), stashesInHand) + "\n");
+			}
+			sb.append(String.format(c.getString(R.string.status_total_cards), numCards) + "\n\n");
 		}
-		sb.append(String.format(c.getString(R.string.status_total_cards), numCards) + "\n\n");
-		
 		if (hasMinusOneCoinToken)
 			sb.append(c.getString(R.string.status_has_minus_coin_token) + "\n");
 		if (hasMinusOneCardToken)

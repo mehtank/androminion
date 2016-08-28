@@ -286,7 +286,7 @@ public class CardImplProsperity extends CardImpl {
                 }
             } else if (equals(Cards.venture)) {
                 player.hand.add(treasureCardFound);
-                treasureCardFound.play(game, context);
+                treasureCardFound.play(game, context, true, true);
             }
         }
 

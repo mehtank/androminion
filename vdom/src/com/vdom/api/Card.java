@@ -89,6 +89,8 @@ public interface Card extends Serializable {
     
     public void play(Game game, MoveContext context, boolean fromHand);
     
+    public void play(Game game, MoveContext context, boolean fromHand, boolean treasurePlay);
+    
     public Integer getId();
     
     public void isBuying(MoveContext context);

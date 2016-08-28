@@ -570,6 +570,11 @@ public class CardImpl implements Card {
     
     @Override
     public void play(Game game, MoveContext context, boolean fromHand) {
+    	play(game, context, true, false);
+    }
+    
+    @Override
+    public void play(Game game, MoveContext context, boolean fromHand, boolean treasurePlay) {
         Player currentPlayer = context.getPlayer();
         boolean newCard = false;
         Card actualCard = (this.getControlCard() != null ? this.getControlCard() : this);
@@ -610,7 +615,7 @@ public class CardImpl implements Card {
         if (isAction) {
 	        if (this == actualCard) 
 	            context.actionsPlayedSoFar++;
-	        if (isAction && context.freeActionInEffect == 0) {
+	        if (!treasurePlay && context.freeActionInEffect == 0) {
 	            context.actions--;
 	        }
         }
@@ -1129,7 +1134,7 @@ public class CardImpl implements Card {
             cardToPlay.cloneCount = 2;
             for (int i = 0; i < cardToPlay.cloneCount;) {
                 cardToPlay.numberTimesAlreadyPlayed = i++;
-                cardToPlay.play(context.game, context);
+                cardToPlay.play(context.game, context, true, true);
             }
             
             cardToPlay.cloneCount = 0;
