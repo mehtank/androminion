@@ -236,7 +236,7 @@
     <string name="RoyalSeal_desc">Mientras esta carta esté en juego, cada vez que ganes una carta, puedes ponerla encima de tu mazo.</string>
     <string name="Talisman_name">Talismán</string>
     <string name="Talisman_desc">Mientras esta carta esté en juego, cada vez que compres una carta con un coste de (4) o menos y que no sea de Victoria, ganas otra copia de dicha carta.</string>
-    <string name="TradeRoute_name">Ruta comercial</string>
+    <string name="TradeRoute_name">Ruta Comercial</string>
     <string name="TradeRoute_desc">+(1) por cada Moneda que haya en el tablero de Ruta Comercial. Elimina una carta de tu mano. Preparación: Coloca un marcador de Moneda en cada mazo de cartas de Victoria del Suministro. Cuando se gane tu primera carta de un montón, se mueve la Moneda a Tablero de Ruta Comercial.</string>
     <string name="Vault_name">Cripta</string>
     <string name="Vault_desc">Descarta cualquier número de cartas. +(1) por cada carta descartada. Los demás jugadores pueden descartar 2 cartas cada uno. Quien lo haga, roba una carta.</string>

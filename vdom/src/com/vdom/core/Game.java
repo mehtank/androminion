@@ -3582,7 +3582,9 @@ public class Game {
         return (count == null) ? 0 : count;
     }
     
-    
+    public int getPileTradeRouteTokens(Card card) {
+    	return piles.get(card.getName()).hasTradeRouteToken() ? 1 : 0;
+    }
     
     public List<PlayerSupplyToken> getPlayerSupplyTokens(Card card, Player player) {
     	card = card.getTemplateCard();

@@ -52,10 +52,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	private TextView name;
 	private View cardBox;
-	private TextView cost, debtCost, countLeft, embargos, pileVpTokens, pileDebtTokens;
+	private TextView cost, debtCost, countLeft, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens;
 	private int numEmbargos;
 	private int numPileVpTokens;
 	private int numPileDebtTokens;
+	private int numPileTradeRouteTokens;
 	private LinearLayout tokens;
 	private TextView checked;
 	private TextView cardDesc;
@@ -143,6 +144,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		embargos = (TextView) findViewById(R.id.embargos);
 		pileVpTokens = (TextView) findViewById(R.id.pileVpTokens);
 		pileDebtTokens = (TextView) findViewById(R.id.pileDebtTokens);
+		pileTradeRouteTokens = (TextView) findViewById(R.id.pileTradeRouteTokens);
 		tokens = (LinearLayout) findViewById(R.id.tokens);
 		checked = (TextView) findViewById(R.id.checked);
 		cardDesc = (TextView) findViewById(R.id.cardDesc);
@@ -422,6 +424,16 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 	}
 	
+	public void setPileTradeRouteTokens(int val) {
+		numPileTradeRouteTokens = val;
+		if (val != 0) {
+			pileTradeRouteTokens.setText("     ");
+			pileTradeRouteTokens.setVisibility(VISIBLE);
+		} else {
+			pileTradeRouteTokens.setVisibility(GONE);
+		}
+	}
+	
 	public void setTokens(int[][] newTokens, PlayerAdapter players) {
 		this.players = players;
 		if (Arrays.deepEquals(newTokens, currentTokens)) {
@@ -696,7 +708,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			text += getContext().getString(R.string.obelisk_card);
 		}
 		boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
-		if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0 || numPileDebtTokens > 0) {
+		if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0 || numPileDebtTokens > 0 || numPileTradeRouteTokens > 0) {
 			if (text.length() > 0)
 				text += "\n\n";
 			text += getContext().getString(R.string.token_header);
@@ -711,6 +723,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			}
 			if (numPileDebtTokens > 0) {
 				text += getContext().getString(R.string.token_debt) + getContext().getString(R.string.token_colon) + numPileDebtTokens;
+				text += "\n";
+			}
+			if (numPileTradeRouteTokens > 0) {
+				text += getContext().getString(R.string.token_trade_route) + getContext().getString(R.string.token_colon) + numPileTradeRouteTokens;
 				text += "\n";
 			}
 			if (hasPlayerTokens) {

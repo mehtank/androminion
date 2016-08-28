@@ -63,6 +63,16 @@
         android:layout_alignBottom="@id/countLeft"
         android:layout_alignParentRight="true"
         android:gravity="right">
+	    
+	<TextView
+        android:id="@+id/pileTradeRouteTokens"
+        style="@style/style_cardview_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/coin"
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/embargos"

@@ -262,6 +262,10 @@ public class MoveContext {
     public int getPileDebtTokens(Card card) {
     	return game.getPileDebtTokens(card);
     }
+    
+    public int getPileTradeRouteTokens(Card card) {
+    	return game.getPileTradeRouteTokens(card);
+    }
 
     public int getEmbargosIfCursesLeft(Card card) {
     	int embargos = game.getEmbargos(card);

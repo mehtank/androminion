@@ -213,6 +213,7 @@
 	<string name="token_embargo">Embargos</string>
 	<string name="token_victory">Victoria</string>
 	<string name="token_debt">Deuda</string>
+	<string name="token_trade_route">Ruta Comercial</string>
 	<string name="bane_card">Carta de Perdición</string>
 	<string name="obelisk_card">Carta de Obelisco (vale 2 PV)</string>
 	<string name="status_turn_number">Turno %1$s%2$s</string>

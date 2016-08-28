@@ -203,5 +203,6 @@
 	<string name="token_colon">:\u0020</string>
 	<string name="token_separator">,\u0020</string>
 	<string name="token_embargo">Embargos</string>
+	<string name="token_trade_route">Handelsroute</string>
 	<string name="bane_card">Bannkarte</string>
 </resources>

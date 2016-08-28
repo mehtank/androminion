@@ -295,6 +295,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int[] embargos = new int[cardsInPlay.size()];
         int[] pileVpTokens = new int[cardsInPlay.size()];
         int[] pileDebtTokens = new int[cardsInPlay.size()];
+        int[] pileTradeRouteTokens = new int[cardsInPlay.size()];
         int[][][] tokens = new int[cardsInPlay.size()][][];
         int[] costs = new int[cardsInPlay.size()];
 
@@ -332,6 +333,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             embargos[i] = context.getEmbargos(intToCard(i));
             pileVpTokens[i] = context.getPileVpTokens(intToCard(i));
             pileDebtTokens[i] = context.getPileDebtTokens(intToCard(i));
+            pileTradeRouteTokens[i] = context.getPileTradeRouteTokens(intToCard(i));
             
             costs[i] = intToCard(i).getCost(context);
         }
@@ -435,6 +437,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setEmbargos(embargos)
                 .setPileVpTokens(pileVpTokens)
                 .setPileDebtTokens(pileDebtTokens)
+                .setPileTradeRouteTokens(pileTradeRouteTokens)
                 .setTokens(tokens)
                 .setCosts(costs)
                 .setHand(cardArrToIntArr(Game.sortCards ? shownHand.sort(new Util.CardHandComparator()) : shownHand.toArray()))

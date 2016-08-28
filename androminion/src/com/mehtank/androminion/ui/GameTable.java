@@ -553,6 +553,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     private int[] lastEmbargos;
     private int[] lastPileVpTokens;
     private int[] lastPileDebtTokens;
+    private int[] lastPileTradeRouteTokens;
     
     private int[][][] lastTokens;
 
@@ -918,13 +919,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param embargos number of embargos
      * @param tokens 
      */
-    public void setSupplySizes(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[][][] tokens) {
-        moneyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, tokens);
-        vpPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, tokens);
-        supplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, tokens);
-        prizePile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, tokens);
-        nonSupplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, tokens);
-        eventPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, tokens);
+    public void setSupplySizes(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[] pileTradeRouteTokens, int[][][] tokens) {
+        moneyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        vpPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        supplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        prizePile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        nonSupplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        eventPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
     }
 
     /**
@@ -988,7 +989,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         FinalView fv = new FinalView(top, this, gs.realNames[gs.whoseTurn], gs.turnCounts[gs.whoseTurn],
-                                     gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.tokens,
+                                     gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.pileTradeRouteTokens, gs.tokens,
                                      gs.numCards[gs.whoseTurn], gs.supplySizes,
                                      gs.handSizes[gs.whoseTurn], won);
         fv.setLayoutParams(lp);
@@ -1009,7 +1010,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     void uncheckAllShowCardsButtons() {
         for (ToggleButton t : showCardsButtons)
             t.setChecked(false);
-        setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastTokens);
+        setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastPileTradeRouteTokens, this.lastTokens);
     }
 
     /**
@@ -1041,7 +1042,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             /*print ruins and not abandoned mine*/
             supplyPile.updateCardName(gs.ruinsID, Cards.virtualRuins, -1, false);
             supplyPile.updateCardName(gs.knightsID, Cards.virtualKnight, -1, false);
-            setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastTokens);
+            setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastPileTradeRouteTokens, this.lastTokens);
             pauseGameTimer();
             HapticFeedback.vibrate(getContext(),AlertType.FINAL);
             finalStatus(gs);
@@ -1142,12 +1143,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         this.lastEmbargos = gs.embargos;
         this.lastPileVpTokens = gs.pileVpTokens;
         this.lastPileDebtTokens = gs.pileDebtTokens;
+        this.lastPileTradeRouteTokens = gs.pileTradeRouteTokens;
         this.lastTokens = gs.tokens;
         costs = gs.costs;
 
         supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, -1, false);
         supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardCost, gs.knightsTopCardIsVictory);
-        setSupplySizes(gs.supplySizes, gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.tokens);
+        setSupplySizes(gs.supplySizes, gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.pileTradeRouteTokens, gs.tokens);
         setCardCosts(top.findViewById(android.R.id.content));
     }
 
