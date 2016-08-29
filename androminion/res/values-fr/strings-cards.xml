@@ -220,7 +220,7 @@
     <string name="Peddler_name">Colporteur</string>
     <string name="Peddler_desc">Lors de votre phase Achat, cette carte coûte 2 Pièces de moins par carte Action que vous avez en jeu, au minimum 0.</string>
     <string name="Contraband_name">Contrebande</string>
-    <string name="Contraband_desc">+1 Achat\nLorsque vous jouez cette carte, le joueur de votre gauche nomme une carte. Vous ne pouvez pas acheter cette carte ce tour-ci.</string>
+    <string name="Contraband_desc">Lorsque vous jouez cette carte, le joueur de votre gauche nomme une carte. Vous ne pouvez pas acheter cette carte ce tour-ci.</string>
     <string name="KingsCourt_name">Cour du Roi</string>
     <string name="KingsCourt_desc">Vous pouvez choisir une carte Action de votre main. Jouez-la trois fois.</string>
     <string name="Venture_name">Entreprise Risquée</string>
@@ -365,7 +365,7 @@
     <string name="Count_name">Comte</string>
     <string name="Count_desc">Choisissez : Défaussez 2 cartes, OU placez une carte de votre main sur le dessus de votre deck, OU recevez un Cuivre.\n\nET\n\nChoisissez : +3 Pièces, OU écartez votre main, OU recevez un Duché.</string>
     <string name="Counterfeit_name">Contrefaçon</string>
-    <string name="Counterfeit_desc">+1 Achat\nLorsque vous jouez cette carte-ci, vous pouvez jouer une carte Trésor de votre main deux fois. Dans ce cas, écartez cette dernière.</string>
+    <string name="Counterfeit_desc">Lorsque vous jouez cette carte-ci, vous pouvez jouer une carte Trésor de votre main deux fois. Dans ce cas, écartez cette dernière.</string>
     <string name="Forager_name">Cueilleur</string>
     <string name="Forager_desc">Écartez une carte de votre main. +1 Pièce par carte Trésor ayant un nom différent dans le Rebut.</string>
     <string name="Cultist_name">Cultiste</string>

@@ -61,7 +61,7 @@
     <style name="CardView.Treasure" parent="@style/CardView.InverseText">
         <item name="cardBackgroundColor">@color/cardTreasure</item>
     </style>
-
+    
     <style name="CardView.Treasure.Copper">
         <item name="cardBackgroundColor">@color/cardCopper</item>
     </style>
@@ -96,6 +96,12 @@
         <item name="cardTextColor">@color/cardAttackInverse</item>
         <item name="cardCountColor">@color/cardAttackInverse</item>
     </style>
+    
+    <style name="CardView.Treasure.Action">
+        <item name="cardTextColor">@color/cardDefaultTextColor</item>
+        <item name="cardNameBackgroundColor">@color/cardDefaultBackgroundColor</item>
+    </style>
+    
 
     <style name="CardView.Victory" parent="@style/CardView.InverseText">
         <item name="cardBackgroundColor">@color/cardVictory</item>
@@ -125,6 +131,10 @@
 
     <style name="CardView.Event" parent="@style/CardView.InverseText">
         <item name="cardBackgroundColor">@color/cardEvent</item>
+    </style>
+    
+    <style name="CardView.Landmark" parent="@style/CardView.InverseText">
+        <item name="cardBackgroundColor">@color/cardLandmark</item>
     </style>
 
     <style name="CardView.Reserve" parent="@style/CardView.InverseText">

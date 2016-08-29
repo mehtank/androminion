@@ -52,8 +52,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	private TextView name;
 	private View cardBox;
-	private TextView cost, countLeft, embargos;
+	private TextView cost, debtCost, countLeft, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens;
 	private int numEmbargos;
+	private int numPileVpTokens;
+	private int numPileDebtTokens;
+	private int numPileTradeRouteTokens;
 	private LinearLayout tokens;
 	private TextView checked;
 	private TextView cardDesc;
@@ -136,8 +139,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		name = (TextView) findViewById(R.id.name);
 		cardBox = findViewById(R.id.cardBox);
 		cost = (TextView) findViewById(R.id.cost);
+		debtCost = (TextView) findViewById(R.id.debtCost);
 		countLeft = (TextView) findViewById(R.id.countLeft);
 		embargos = (TextView) findViewById(R.id.embargos);
+		pileVpTokens = (TextView) findViewById(R.id.pileVpTokens);
+		pileDebtTokens = (TextView) findViewById(R.id.pileDebtTokens);
+		pileTradeRouteTokens = (TextView) findViewById(R.id.pileTradeRouteTokens);
 		tokens = (LinearLayout) findViewById(R.id.tokens);
 		checked = (TextView) findViewById(R.id.checked);
 		cardDesc = (TextView) findViewById(R.id.cardDesc);
@@ -165,14 +172,20 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else {
 			cost.setBackgroundResource(R.drawable.coin);
 		}
+		
+		if (c.debtCost > 0) {
+			debtCost.setVisibility(VISIBLE);			
+		} else {
+			debtCost.setVisibility(GONE);
+		}
 
-		if (c.isPrize) {
-			cost.setVisibility(INVISIBLE);
+		if (c.isPrize || c.isLandmark || (c.debtCost > 0 && !c.costPotion && c.cost == 0)) {
+			cost.setVisibility(GONE);
 		} else {
 			cost.setVisibility(VISIBLE);
 		}
 		
-		if (c.isEvent){
+		if (c.isEvent || c.isLandmark){
 			hideCountLeft = true;
 			countLeft.setVisibility(GONE);
 		}
@@ -181,6 +194,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		if (viewstyle.equals("viewstyle-simple")) {
 			if (c.isBane) {
 				setBackgroundResource(R.drawable.thinbaneborder);
+			} else if (c.isObeliskCard) {
+				setBackgroundResource(R.drawable.thinobeliskborder);
 			} else if (c.isStash) {
 				setBackgroundResource(R.drawable.thinstashborder);
 			} else {
@@ -189,6 +204,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else {
 			if (c.isBane) {
 				setBackgroundResource(R.drawable.baneborder);
+			} else if (c.isObeliskCard) {
+				setBackgroundResource(R.drawable.obeliskborder);
 			} else if (c.isStash) {
 				setBackgroundResource(R.drawable.stashborder);
 			} else if (c.isShelter) {
@@ -200,7 +217,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		name.setText(c.name, TextView.BufferType.SPANNABLE);
 		if(cost != null) {
-			setCost(GameTable.getCardCost(c), c.isOverpay);
+			setCost(GameTable.getCardCost(c), c.isOverpay, c.debtCost);
+			int costTextColor = (c.debtCost > 0) ? R.color.cardDebtCostTextColor : R.color.cardCostTextColor;
+			cost.setTextColor(costTextColor);
 		}
 
 		int cardStyleId = getStyleForCard(c);
@@ -215,11 +234,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
         int nameBgColor = cardStyle.getColor(1, R.color.cardDefaultTextBackgroundColor);
 		int countColor = cardStyle.getColor(3, R.color.cardDefaultTextColor);
 		cardStyle.recycle();
-
+		
 		cardBox.setBackgroundColor(bgColor);
 		name.setTextColor(textColor);
         name.setBackgroundColor(nameBgColor);
 		countLeft.setTextColor(countColor);
+		
 		if (cardDesc != null) {
 			cardDesc.setTextColor(countColor);
 			if (c.pile == MyCard.MONEYPILE || c.pile == MyCard.VPPILE) {
@@ -288,6 +308,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Victory_Action;
 		} else if (c.isTreasure && c.isPotion) {
 			return R.style.CardView_Treasure_Potion;
+		} else if (c.isTreasure && c.isAction) {
+			return R.style.CardView_Treasure_Action;
 		} else if (c.isTreasure) {
 			switch (c.gold) {
 			case 1:
@@ -309,6 +331,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Shelter;
 		} else if (c.isEvent) {
 			return R.style.CardView_Event;
+		} else if (c.isLandmark) {
+			return R.style.CardView_Landmark;
 		} else {
 			return R.style.CardView;
 		}
@@ -377,6 +401,36 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			embargos.setVisibility(VISIBLE);
 		} else {
 			embargos.setVisibility(GONE);
+		}
+	}
+	
+	public void setPileVpTokens(int val) {
+		numPileVpTokens = val;
+		if (val != 0) {
+			pileVpTokens.setText(" " + val + " ");
+			pileVpTokens.setVisibility(VISIBLE);
+		} else {
+			pileVpTokens.setVisibility(GONE);
+		}
+	}
+	
+	public void setPileDebtTokens(int val) {
+		numPileDebtTokens = val;
+		if (val != 0) {
+			pileDebtTokens.setText(" " + val + " ");
+			pileDebtTokens.setVisibility(VISIBLE);
+		} else {
+			pileDebtTokens.setVisibility(GONE);
+		}
+	}
+	
+	public void setPileTradeRouteTokens(int val) {
+		numPileTradeRouteTokens = val;
+		if (val != 0) {
+			pileTradeRouteTokens.setText("     ");
+			pileTradeRouteTokens.setVisibility(VISIBLE);
+		} else {
+			pileTradeRouteTokens.setVisibility(GONE);
 		}
 	}
 	
@@ -487,7 +541,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		return GameTable.getPlayerStrokeColor(getResources(), playerIndex);
 	}
 	
-	public void setCost(int newCost, boolean overpay) {
+	public void setCost(int newCost, boolean overpay, int newDebtCost) {
+		debtCost.setText(" " + newDebtCost + " ");
 		cost.setText(" " + newCost + (overpay ? "+" : "") + " ");
 	}
 
@@ -647,14 +702,31 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		if (state.c.isBane) {
 			text += getContext().getString(R.string.bane_card);
 		}
+		if (state.c.isObeliskCard) {
+			if (text.length() > 0)
+				text += "\n";
+			text += getContext().getString(R.string.obelisk_card);
+		}
 		boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
-		if (hasPlayerTokens || numEmbargos > 0) {
+		if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0 || numPileDebtTokens > 0 || numPileTradeRouteTokens > 0) {
 			if (text.length() > 0)
 				text += "\n\n";
 			text += getContext().getString(R.string.token_header);
 			text += "\n";
 			if (numEmbargos > 0) {
 				text += getContext().getString(R.string.token_embargo) + getContext().getString(R.string.token_colon) + numEmbargos;
+				text += "\n";
+			}
+			if (numPileVpTokens > 0) {
+				text += getContext().getString(R.string.token_victory) + getContext().getString(R.string.token_colon) + numPileVpTokens;
+				text += "\n";
+			}
+			if (numPileDebtTokens > 0) {
+				text += getContext().getString(R.string.token_debt) + getContext().getString(R.string.token_colon) + numPileDebtTokens;
+				text += "\n";
+			}
+			if (numPileTradeRouteTokens > 0) {
+				text += getContext().getString(R.string.token_trade_route) + getContext().getString(R.string.token_colon) + numPileTradeRouteTokens;
 				text += "\n";
 			}
 			if (hasPlayerTokens) {
@@ -714,6 +786,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
         {
             cardType += context.getString(R.string.type_action);
             
+            if (c.isTreasure)
+            {
+                cardType += " - " + context.getString(R.string.type_treasure);
+            }
+            
             if (c.isAttack)
             {
                 cardType += " - " + context.getString(R.string.type_attack);
@@ -768,6 +845,16 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             {
                 cardType += " - " + context.getString(R.string.type_shelter);
             }
+            
+            if (c.isCastle)
+            {
+                cardType += " - " + context.getString(R.string.type_castle);
+            }
+            
+            if (c.isGathering)
+            {
+                cardType += " - " + context.getString(R.string.type_gathering);
+            }
         }
         else if (c.isTreasure)
         {
@@ -797,6 +884,11 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             {
                 cardType += " - " + context.getString(R.string.type_prize);
             }
+            
+            if (c.isCastle)
+            {
+                cardType += " - " + context.getString(R.string.type_castle);
+            }
         }
         else if (c.isVictory)
         {
@@ -811,10 +903,19 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             {
                 cardType += " - " + context.getString(R.string.type_reaction);
             }
+            
+            if (c.isCastle)
+            {
+                cardType += " - " + context.getString(R.string.type_castle);
+            }
         }
         else if (c.isEvent)
         {
             cardType += context.getString(R.string.type_event);
+        }
+        else if (c.isLandmark)
+        {
+            cardType += context.getString(R.string.type_landmark);
         }
         else if (c.name.equalsIgnoreCase("hovel"))
         {

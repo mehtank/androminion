@@ -97,10 +97,9 @@
 	<string name="NewHand">新しい手札</string>
 	<string name="TurnBegin">ターン開始</string>
 	<string name="TurnEnd">ターン終了</string>
-	<string name="PlayingAction">プレイ中</string>
-	<string name="PlayedAction">プレイ完了</string>
+	<string name="PlayingCard">プレイ中</string>
+	<string name="PlayedCard">プレイ完了</string>
 	<string name="PlayingDurationAction">持続プレイ中</string>
-	<string name="PlayingCoin">プレイ中</string>
 	<string name="BuyingCard">購入中</string>
 	<string name="NoBuy">(購入しない)</string>
 	<string name="DeckReplenished">山札が補充された</string>

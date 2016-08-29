@@ -7,13 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.vdom.api.Card;
-import com.vdom.api.CurseCard;
-import com.vdom.api.EventCard;
 import com.vdom.api.GameEvent;
-import com.vdom.api.GameEvent.Type;
+import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
-import com.vdom.api.TreasureCard;
-import com.vdom.api.VictoryCard;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
@@ -102,30 +98,35 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return hasJoined;
     }
 
-    public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isBlackMarket){
+    public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isObeliskCard, boolean isBlackMarket){
         MyCard card = new MyCard(index, c.getName(), c.getSafeName(), c.getName());
         card.desc = c.getDescription();
-        card.expansion = c.getExpansion();
-        card.originalExpansion = c.getExpansion();
+        card.expansion = c.getExpansion() != null ? c.getExpansion().toString() : "";
+        card.originalExpansion = c.getExpansion() != null ? c.getExpansion().toString() : "";
         card.cost = c.getCost(null);
+        card.debtCost = c.getDebtCost(null);
         card.costPotion = c.costPotion();
         card.isBane = isBane;
-        card.isShelter = c.isShelter();
-        card.isLooter = c.isLooter();
+        card.isObeliskCard = isObeliskCard;
+        card.isShelter = c.is(Type.Shelter, null);
+        card.isLooter = c.is(Type.Looter, null);
         card.isOverpay = c.isOverpay(null);
-        card.isEvent = c.isEvent();
-        card.isReserve = c.isReserve(null);
-        card.isTraveller = c.isTraveller(null);
-        card.isAttack = c.isAttack(null) || c.equals(Cards.virtualKnight);
+        card.isEvent = c.is(Type.Event, null);
+        card.isReserve = c.is(Type.Reserve, null);
+        card.isTraveller = c.is(Type.Traveller, null);
+        card.isCastle = c.is(Type.Castle, null);
+        card.isGathering = c.is(Type.Gathering, null);
+        card.isLandmark = c.is(Type.Landmark, null);
+        card.isAttack = c.is(Type.Attack, null) || c.equals(Cards.virtualKnight);
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;
         else
-            card.isRuins = c.isRuins(null);
+            card.isRuins = c.is(com.vdom.core.Type.Ruins, null);
 
 
         card.pile = MyCard.SUPPLYPILE;
 
-        if (c.isPrize()) {
+        if (c.is(Type.Prize, null)) {
             card.pile = MyCard.PRIZEPILE;
             card.isPrize = true;
         }
@@ -174,32 +175,34 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (c.equals(Cards.potion)) card.isPotion = true;
         if (c.equals(Cards.curse)) {
             card.isCurse = true;
-            card.vp = ((CurseCard) c).getVictoryPoints();
+            card.vp =  c.getVictoryPoints();
         }
-        if (c instanceof VictoryCard) {
+        if (c.is(Type.Victory)) {
             card.isVictory = true;
-            card.vp = ((VictoryCard) c).getVictoryPoints();
+            card.vp =  c.getVictoryPoints();
         }
-        if (c instanceof TreasureCard) {
-        	TreasureCard tc = (TreasureCard) c;
+        if (c.is(Type.Treasure, null)) {
             card.isTreasure = true;
-            card.gold = tc.getValue();
+            card.gold = c.getAddGold();
         }
-        if (c.isAction(null)) {
+        if (c.is(Type.Action, null)) {
             card.isAction = true;
-            if (c.isDuration(null)) {
+            if (c.is(Type.Duration, null)) {
                 card.isDuration = true;
             }
         }
-        if (Cards.isReaction(c))
+        if (c.is(Type.Reaction, null))
             card.isReaction = true;
         if (isBlackMarket) {
             card.isBlackMarket = true;
             card.pile = MyCard.BLACKMARKET_PILE;
         }
-        if (c instanceof EventCard) {
-            EventCard ac = (EventCard) c;
+        if (c.is(Type.Event, null)) {
             card.isEvent = true;
+            card.pile = MyCard.EVENTPILE;
+        }
+        if (c.is(Type.Landmark, null)) {
+            card.isLandmark = true;
             card.pile = MyCard.EVENTPILE;
         }
         if (c.equals(Cards.stash)) {
@@ -256,7 +259,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         // ensure card #0 is a card not to shade, e.g. Curse. See Rev r581
         Card curse = Cards.curse;
-        MyCard mc = makeMyCard(curse, index, false, false);
+        MyCard mc = makeMyCard(curse, index, false, false, false);
         myCardsInPlayList.add(mc);
         cardNamesInPlay.put(curse.getName(), index);
         cardsInPlay.add(index, curse);
@@ -272,11 +275,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     isBlackMarket = true;
                 }
             }
-            if (context.game.baneCard == null) {
-                mc = makeMyCard(c, index, false, isBlackMarket);
-            } else {
-                mc = makeMyCard(c, index, c.getSafeName().equals(context.game.baneCard.getSafeName()), isBlackMarket);
-            }
+            boolean isBane = context.game.baneCard != null ? c.getSafeName().equals(context.game.baneCard.getSafeName()) : false;
+            boolean isObelisk = context.game.obeliskCard != null ? c.getSafeName().equals(context.game.obeliskCard.getSafeName()) : false;
+            mc = makeMyCard(c, index, isBane, isObelisk, isBlackMarket);
             myCardsInPlayList.add(mc);
 
             cardNamesInPlay.put(c.getName(), index);
@@ -292,6 +293,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         int[] supplySizes = new int[cardsInPlay.size()];
         int[] embargos = new int[cardsInPlay.size()];
+        int[] pileVpTokens = new int[cardsInPlay.size()];
+        int[] pileDebtTokens = new int[cardsInPlay.size()];
+        int[] pileTradeRouteTokens = new int[cardsInPlay.size()];
         int[][][] tokens = new int[cardsInPlay.size()][][];
         int[] costs = new int[cardsInPlay.size()];
 
@@ -313,7 +317,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 {
                    i_virtualRuins = i;
                 }
-                else if (cardsInPlay.get(i).isRuins(null))
+                else if (cardsInPlay.get(i).is(com.vdom.core.Type.Ruins, null))
                 {
                    ruinsSize += player.getMyCardCount(cardsInPlay.get(i));
                 }
@@ -321,12 +325,15 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 {
                    i_virtualKnight = i;
                 }
-                else if (cardsInPlay.get(i).isKnight(null))
+                else if (cardsInPlay.get(i).is(Type.Knight, null))
                 {
                    knightSize += player.getMyCardCount(cardsInPlay.get(i));
                 }
             }
             embargos[i] = context.getEmbargos(intToCard(i));
+            pileVpTokens[i] = context.getPileVpTokens(intToCard(i));
+            pileDebtTokens[i] = context.getPileDebtTokens(intToCard(i));
+            pileTradeRouteTokens[i] = context.getPileTradeRouteTokens(intToCard(i));
             
             costs[i] = intToCard(i).getCost(context);
         }
@@ -362,6 +369,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int stashesInHand[] = new int[numPlayers]; 
         int pirates[] = new int[numPlayers];
         int victoryTokens[] = new int[numPlayers];
+        int debtTokens[] = new int[numPlayers];
         int guildsCoinTokens[] = new int[numPlayers];
         JourneyTokenState journeyToken[] = new JourneyTokenState[numPlayers];
         boolean minusOneCoinTokenOn[] = new boolean[numPlayers];
@@ -383,6 +391,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
             pirates[i] = p.getPirateShipTreasure();
             victoryTokens[i] = p.getVictoryTokens();
+            debtTokens[i] = p.getDebtTokenCount();
             guildsCoinTokens[i] = p.getGuildsCoinTokenCount();
             journeyToken[i] = context.game.journeyTokenInPlay ? (p.getJourneyToken() ? JourneyTokenState.FACE_UP : JourneyTokenState.FACE_DOWN) : null;
             minusOneCoinTokenOn[i] = p.getMinusOneCoinToken();
@@ -426,6 +435,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setTurnCounts(turnCounts)
                 .setSupplySizes(supplySizes)
                 .setEmbargos(embargos)
+                .setPileVpTokens(pileVpTokens)
+                .setPileDebtTokens(pileDebtTokens)
+                .setPileTradeRouteTokens(pileTradeRouteTokens)
                 .setTokens(tokens)
                 .setCosts(costs)
                 .setHand(cardArrToIntArr(Game.sortCards ? shownHand.sort(new Util.CardHandComparator()) : shownHand.toArray()))
@@ -440,12 +452,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setNumCards(numCards)
                 .setPirates(pirates)
                 .setVictoryTokens(victoryTokens)
+                .setDebtTokens(debtTokens)
                 .setGuildsCoinTokens(guildsCoinTokens)
                 .setJourneyToken(journeyToken)
                 .setMinusOneCoinToken(minusOneCoinTokenOn)
                 .setMinusOneCardToken(minusOneCardTokenOn)
                 .setSwampHagAttacks(game.swampHagAttacks(player))
                 .setHauntedWoodsAttacks(game.hauntedWoodsAttacks(player))
+                .setEnchantressAttacks(!context.enchantressAlreadyAffected && game.enchantressAttacks(player))
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
                 .setTavern(cardArrToIntArr(player.getTavern().sort(new Util.CardTavernComparator())))
@@ -453,6 +467,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
                 .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)
                 .setInheritance(player.inheritance == null ? -1 : cardToInt(player.inheritance))
+                .setArchive(getArchiveColumnCardInts(player.archive))
                 .setBlackMarket(arrayListToIntArr(player.game.GetBlackMarketPile()))
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
@@ -465,7 +480,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (topKnight == null) {
             topKnight = Cards.virtualKnight;
         }
-        gs.setKnightTopCard(cardToInt(Cards.virtualKnight), topKnight, topKnight.getCost(context), topKnight.isVictory(context));
+        gs.setKnightTopCard(cardToInt(Cards.virtualKnight), topKnight, topKnight.getCost(context), topKnight.is(Type.Victory));
 
         Event p = new Event(EType.STATUS)
                 .setObject(new EventObject(gs));
@@ -473,7 +488,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return p;
     }
 
-    private void matchToCardsInPlay(MoveContext context, ArrayList<Card> played, ArrayList<Boolean> playedReal) {
+	private void matchToCardsInPlay(MoveContext context, ArrayList<Card> played, ArrayList<Boolean> playedReal) {
     	if (context.startOfTurn)
     		return;
     	Map<Card, Integer> inPlayCounts = new HashMap<Card, Integer>();
@@ -517,6 +532,22 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     			}
     		}
     	}
+	}
+	
+    private int[] getArchiveColumnCardInts(ArrayList<ArrayList<Card>> archives) {
+    	ArrayList<Integer> cardInts = new ArrayList<Integer>(); 
+		for(ArrayList<Card> archive : archives) {
+			cardInts.add(-cardToInt(Cards.archive));
+			for(Card c : archive) {
+				cardInts.add(cardToInt(c));
+			}
+		}
+		int[] result = new int[cardInts.size()];
+		int i = 0;
+		for (int c : cardInts) {
+			result[i++] = c;
+		}
+		return result;
 	}
     
 	@Override
@@ -645,9 +676,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
 
         // Now check for event-type-specific things that we should do.
-        if (event.getType() == Type.VictoryPoints) {
+        if (event.getType() == EventType.VictoryPoints) {
                 sendEvent = false;
-        } else if (event.getType() == Type.GameStarting) {
+        } else if (event.getType() == EventType.GameStarting) {
             if (event.getPlayer() == this) {
                 waitForJoin();
                 if (!hasJoined)
@@ -663,7 +694,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             if (playerNameIncluded) {
                 sendEvent = false;
             }
-        } else if (event.getType() == Type.TurnBegin) {
+        } else if (event.getType() == EventType.TurnBegin) {
             curPlayer = event.getPlayer();
             curContext = context;
             newTurn = true;
@@ -671,7 +702,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             playedCardsNew.clear();
             extras.add(game.swampHagAttacks(event.getPlayer()));
             extras.add(game.hauntedWoodsAttacks(event.getPlayer()));
-        } else if (event.getType() == Type.TurnEnd) {
+        } else if (event.getType() == EventType.TurnEnd) {
             playedCards.clear();
             playedCardsNew.clear();
             
@@ -679,13 +710,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(islandSize);
             int nativeVillageSize = event.player.nativeVillage.size();
             extras.add(nativeVillageSize);
-        } else if (isPlayersTurn(event) && event.getType() == Type.PlayingAction || event.getType() == Type.PlayingDurationAction || event.getType() == Type.CallingCard) {
+        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingCard || event.getType() == EventType.PlayingDurationAction || event.getType() == EventType.CallingCard) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
-        } else if (isPlayersTurn(event) && event.getType() == Type.PlayingCoin) {
-            playedCards.add(event.getCard());
-            playedCardsNew.add(event.newCard);
-        } else if (event.getType() == Type.GameOver) {
+        } else if (event.getType() == EventType.GameOver) {
             curPlayer = event.getPlayer();
             curContext = context;
             isFinal = true;
@@ -701,15 +729,24 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             } else {
                 extras.add(null);
             }
-        } else if (event.getType() == Type.CantBuy) {
+        } else if (event.getType() == EventType.CantBuy) {
             cards = context.getCantBuy().toArray(new Card[0]);
-        } else if (event.getType() == Type.GuildsTokenSpend) {
+        } else if (event.getType() == EventType.GuildsTokenSpend) {
             if (event.getComment() != null) {
                 extras.add(event.getComment());
             }
-        } else if (event.getType() == Type.TravellerExchanged) {
+        } else if (event.getType() == EventType.DebtTokensObtained || 
+        		event.getType() == EventType.DebtTokensPaidOff ||
+        		event.getType() == EventType.DebtTokensPutOnPile ||
+                event.getType() == EventType.DebtTokensTakenFromPile ||
+        		event.getType() == EventType.VPTokensObtained ||
+        		event.getType() == EventType.VPTokensPutOnPile ||
+        		event.getType() == EventType.VPTokensTakenFromPile ||
+        		event.getType() == EventType.MountainPassBid) {
+            extras.add(event.getAmount());
+        } else if (event.getType() == EventType.TravellerExchanged) {
             extras.add(event.responsible);
-        } else if (event.getType() == Type.Status) {
+        } else if (event.getType() == EventType.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)
                 coin += "p";
@@ -762,8 +799,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private boolean isPlayersTurn(GameEvent event) {
 		return event.context.game.getCurrentPlayer().equals(event.player);
 	}
-	private void checkForAchievements(MoveContext context, Type eventType) {
-        if (eventType == Type.GameOver) {
+	private void checkForAchievements(MoveContext context, EventType eventType) {
+        if (eventType == EventType.GameOver) {
             int provinces = 0;
             int curses = 0;
             for(Card c : getAllCards()) {
@@ -792,7 +829,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 else {
                     Card[] cards = context.getCardsInGame();
                     for (Card card : cards) {
-                        if (Cards.isSupplyCard(card) && card.getExpansion().equals("Prosperity")) {
+                        if (Cards.isSupplyCard(card) && card.getExpansion() == Expansion.Prosperity) {
                             prosperity = true;
                             break;
                         }
@@ -860,7 +897,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 achievement(context, "allEmpty");
             }
 
-        } else if (eventType == Type.TurnEnd) {
+        } else if (eventType == EventType.TurnEnd) {
             if(context != null && context.getPlayer() == this && context.vpsGainedThisTurn > 30) {
                 achievement(context, "gainmorethan30inaturn");
             }
@@ -874,15 +911,15 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 if (tacticians >= 2)
                     achievement(context, "2tacticians");
             }
-        } else if (eventType == Type.OverpayForCard) {
+        } else if (eventType == EventType.OverpayForCard) {
             if (context != null && context.overpayAmount >= 10) {
                 achievement(context, "overpayby10ormore");
             }
-        } else if (eventType == Type.GuildsTokenObtained) {
+        } else if (eventType == EventType.GuildsTokenObtained) {
             if (context != null && getGuildsCoinTokenCount() >= 50) {
                 achievement(context, "stockpile50tokens");
             }
-        } else if (eventType == Type.CardTrashed) {
+        } else if (eventType == EventType.CardTrashed) {
             if(context != null && context.getPlayer() == this && context.cardsTrashedThisTurn > 5) {
                 achievement(context, "trash5inaturn");
             }
@@ -977,7 +1014,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (e.t == EType.CARDRANKING) {
             /*TODO frr*/
             //Goal: Sort cards by names in foreign language
-            MyCard[] cardranking = e.o.ng.cards;
+            //MyCard[] cardranking = e.o.ng.cards;
         }
         if (e.t == EType.HELLO) {
             name = (e.s == "" ? "Remote player" : e.s);

@@ -32,11 +32,17 @@ public class CardGroup extends BaseAdapter {
     // fix bug that lets item countLeft jump around
     int[] supplySizes = null;
     int[] embargos = null;
+    int[] pileVpTokens = null;
+    int[] pileDebtTokens = null;
+    int[] pileTradeRouteTokens = null;
     int[][][] tokens = null;
 
-    public void updateCounts(int[] supplySizes, int[] embargos, int[][][] tokens) {
+    public void updateCounts(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[] pileTradeRouteTokens, int[][][] tokens) {
         this.supplySizes = supplySizes;
         this.embargos = embargos;
+        this.pileVpTokens = pileVpTokens;
+        this.pileDebtTokens = pileDebtTokens;
+        this.pileTradeRouteTokens = pileTradeRouteTokens;
         this.tokens = tokens;
         notifyDataSetChanged();
     }
@@ -119,6 +125,12 @@ public class CardGroup extends BaseAdapter {
                 cv.setCountLeft(supplySizes[cs.c.id]);
             if (embargos != null)
                 cv.setEmbargos(embargos[cs.c.id]);
+            if (pileVpTokens != null)
+                cv.setPileVpTokens(pileVpTokens[cs.c.id]);
+            if (pileDebtTokens != null)
+                cv.setPileDebtTokens(pileDebtTokens[cs.c.id]);
+            if (pileTradeRouteTokens != null)
+                cv.setPileTradeRouteTokens(pileTradeRouteTokens[cs.c.id]);
             if (tokens != null)
             	cv.setTokens(tokens[cs.c.id], players);
         } catch (ArrayIndexOutOfBoundsException e) {

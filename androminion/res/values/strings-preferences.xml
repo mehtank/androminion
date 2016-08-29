@@ -64,6 +64,9 @@
     <string name="pref_theme_summary">Sets the application theme</string>
     <string name="autodownload_pref_title">Auto-download card images (English only)</string>
     <string name="autodownload_pref_summary">Images will be downloaded from the internet and stored on your SD card</string>
+    <string name="errata_pref_title">Errata…</string>
+    <string name="errataposessiontokens_pref_title">Possession turn tokens</string>
+    <string name="errataposessiontokens_pref_summary">Possessing player takes tokens (from Empires)</string>
     
     <string-array name="theme_names">
         <item>Dark</item>

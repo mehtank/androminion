@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import com.vdom.core.Cards;
 import com.vdom.core.Util.MultilevelComparator;
 
 public class MyCard implements Serializable {
@@ -21,6 +20,7 @@ public class MyCard implements Serializable {
 	public String originalName;
 
 	public int cost = 0;
+	public int debtCost = 0;
 	public boolean costPotion = false;
 	public int vp = 0;
 	public int gold = 0;
@@ -35,6 +35,7 @@ public class MyCard implements Serializable {
 	public boolean isPrize    = false;
 	public boolean isPotion   = false;
 	public boolean isBane     = false;
+	public boolean isObeliskCard  = false;
 	public boolean isShelter  = false;
 	public boolean isRuins    = false;
 	public boolean isLooter   = false;
@@ -43,6 +44,9 @@ public class MyCard implements Serializable {
 	public boolean isEvent     = false;
 	public boolean isReserve   = false;
 	public boolean isTraveller = false;
+	public boolean isCastle    = false;
+	public boolean isGathering = false;
+	public boolean isLandmark  = false;
 	public boolean isBlackMarket = false;
 	public boolean isStash    = false;
 	
@@ -197,6 +201,19 @@ public class MyCard implements Serializable {
 		}
 	}
 	
+	static public class CardDebtComparator implements Comparator<MyCard> {
+		@Override
+		public int compare(MyCard card0, MyCard card1) {
+			if(card0.debtCost < card1.debtCost) {
+				return -1;
+			} else if(card0.debtCost > card1.debtCost) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
 	static public class CardPotionComparator implements Comparator<MyCard> {
 		@Override
 		public int compare(MyCard card0, MyCard card1) {
@@ -260,6 +277,18 @@ public class MyCard implements Serializable {
 		}
 	}
 	
+	static private class CardEventLandmarkTypeComparator implements Comparator<MyCard> {
+		@Override
+		public int compare(MyCard a, MyCard b) {
+			return getCardTypeOrder(a) - getCardTypeOrder(b);
+		}
+
+		private int getCardTypeOrder(MyCard c) {
+			if (c.isEvent) return 1;
+			return 2;
+		}
+	}
+	
 	/**
 	 * Comparator for sorting cards by cost, potion and then by name
 	 * Used for sorting on table
@@ -268,6 +297,7 @@ public class MyCard implements Serializable {
 		private static final ArrayList<Comparator<MyCard>> cmps = new ArrayList<Comparator<MyCard>>();
 		static {
 			cmps.add(new CardCostComparator());
+			cmps.add(new CardDebtComparator());
 			cmps.add(new CardPotionComparator());
 			cmps.add(new CardNameComparator());
 		}
@@ -304,6 +334,22 @@ public class MyCard implements Serializable {
 			cmps.add(new CardNameComparator());
 		}
 		public CardNonSupplyComparator() {
+			super(cmps);
+		}
+	}
+	
+	/**
+	 * Comparator for sorting cards in event/landmark pile.
+	 * Sort by type then by cost and last by name
+	 */
+	static public class CardEventLandmarkComparator extends MultilevelComparator<MyCard> {
+		private static final ArrayList<Comparator<MyCard>> cmps = new ArrayList<Comparator<MyCard>>();
+		static {
+			cmps.add(new CardEventLandmarkTypeComparator());
+			cmps.add(new CardCostComparator());
+			cmps.add(new CardNameComparator());
+		}
+		public CardEventLandmarkComparator() {
 			super(cmps);
 		}
 	}

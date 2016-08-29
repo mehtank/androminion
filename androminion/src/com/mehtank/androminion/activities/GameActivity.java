@@ -269,6 +269,9 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         if (prefs.getBoolean("less_provinces", false)) {
             strs.add("-lessprovinces");
         }
+        if (!prefs.getBoolean("errata_posessor_takes_tokens", true)) {
+        	strs.add("-erratapossessedtakestokens");
+        }
         
         return strs;
     }
@@ -682,6 +685,13 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             	else
             		baseStr += ", ";
             	baseStr += top.getString(R.string.HauntedWoodsAttacks);
+            }
+            if (gs.enchantressAttacks) {
+            	if (gs.swampHagAttacks == 0 && !gs.hauntedWoodsAttacks)
+            		baseStr += "\n";
+            	else
+            		baseStr += ", ";
+            	baseStr += top.getString(R.string.EnchantressAttacks);
             }
             return baseStr;
         }

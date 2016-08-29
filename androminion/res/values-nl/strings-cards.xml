@@ -203,7 +203,7 @@
     <string name="City_name">Stad</string>
     <string name="City_desc">Als er 1 of meer lege voorraadstapels zijn, +1 Kaart. Als er 2 of meer lege voorraadstapels zijn, +1 Geld en +1 Aanschaf.</string>
     <string name="Contraband_name">Smokkelaar</string>
-    <string name="Contraband_desc">+1 Aanschaf wanneer je deze speelt, je linkerbuurman noemt een kaart. Je kan deze kaart deze beurt niet aanschaffen.</string>
+    <string name="Contraband_desc">Wanneer je deze speelt, je linkerbuurman noemt een kaart. Je kan deze kaart deze beurt niet aanschaffen.</string>
     <string name="CountingHouse_name">Kantoor</string>
     <string name="CountingHouse_desc">Bekijk je aflegstapel, toon een aantal Koperkaarten hieruit en neem deze op je hand.</string>
     <string name="Expand_name">Uitbreiding</string>

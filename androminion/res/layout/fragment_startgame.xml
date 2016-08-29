@@ -101,6 +101,25 @@
 	            android:layout_height="wrap_content" />
 		    
 	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:id="@+id/linearLayoutRandomLandmarks"
+	        android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:orientation="horizontal"
+	       	android:visibility="gone">
+	    
+		    <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/random_include_landmarks" />
+		    
+		    <Spinner android:id="@+id/spinnerRandomLandmarks"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" />
+		    
+	    </LinearLayout>
 				    
 	    <LinearLayout
 	        android:id="@+id/linearLayoutRandomOptions"
@@ -230,17 +249,19 @@
 	        	android:orientation="horizontal">
 		        
 		        <ToggleButton 
+		            android:id="@+id/toggleButtonEmpires"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Empires"
+		            android:textOn="@string/Empires"/>
+		        <ToggleButton 
 		            android:id="@+id/toggleButtonPromo"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:layout_weight="1"
 		            android:textOff="@string/Promo"
 		            android:textOn="@string/Promo"/>
-		        <ToggleButton 
-		            android:visibility="invisible"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_weight="1"/>
 		        
 		    </LinearLayout>
 	    

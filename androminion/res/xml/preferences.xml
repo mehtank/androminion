@@ -133,6 +133,15 @@
             android:dialogTitle="@string/black_market_count_pref_title"
             android:title="@string/black_market_count_pref_title" >
         </EditTextPreference>
+        <PreferenceScreen
+            android:title="@string/errata_pref_title" >
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_posessor_takes_tokens"
+                android:summary="@string/errataposessiontokens_pref_summary"
+                android:title="@string/errataposessiontokens_pref_title" >
+            </CheckBoxPreference>
+        </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notif_pref_title" >
         <CheckBoxPreference

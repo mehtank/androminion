@@ -51,6 +51,8 @@
 <![CDATA[
 		<h3>¡Lee por favor!</h3>
 		Por la petición de Rio Grande Games, el Editor de Dominion, hemos sacado Androminion del Play Store. Por favor, no la publiques en cualquier tienda de apliciaciones pública ya que hay una aplicación oficial de Dominion.<br><br>
+		<h3>Versión 7.01</h3>
+		* ¡Expansión de Imperios!
 		<h3>Versión 6.07</h3>
 		* ¡Expansión de Aventuras! <br>
 		* Cartas de promoción: Alijo, Convocar
@@ -126,6 +128,9 @@
     <string name="random_include_events">Cartas de Evento: </string>
     <string name="random_events_none">Ninguna</string>
     <string name="random_events_random">Al azar</string>
+    <string name="random_include_landmarks">Marcas: </string>
+    <string name="random_landmarks_none">Ninguna</string>
+    <string name="random_landmarks_random">Al azar</string>
     <string name="random_include_cards">Incluir cartas de reino de</string>
     <string name="select_players">Seleccionar jugadores:</string>
     <string name="player">Jugador </string>
@@ -163,6 +168,7 @@
     <string name="hand_header">Mano:</string>
     <string name="played_header">En juego:</string>
     <string name="tavern_header">Taberna:</string>
+    <string name="archive_header">Archivo:</string>
     <string name="island_header">Isla:</string>
     <string name="village_header">Poblado:</string>
     <string name="prince_header">Príncipe:</string>
@@ -205,5 +211,24 @@
 	<string name="token_colon">:\u0020</string>
 	<string name="token_separator">,\u0020</string>
 	<string name="token_embargo">Embargos</string>
+	<string name="token_victory">Victoria</string>
+	<string name="token_debt">Deuda</string>
+	<string name="token_trade_route">Ruta Comercial</string>
 	<string name="bane_card">Carta de Perdición</string>
+	<string name="obelisk_card">Carta de Obelisco (vale 2 PV)</string>
+	<string name="status_turn_number">Turno %1$s%2$s</string>
+	<string name="status_current_turn"> (Turno actual)</string>
+	<string name="status_deck_size">Cartas en mazo: %1$s%2$s</string>
+	<string name="status_stash_on_deck"> (Alijo está encima)</string>
+	<string name="status_hand_size">Cartas en mano: %1$s</string>
+	<string name="status_hand_stashes">Cartas de Alijo en mano: %1$s</string>
+	<string name="status_total_cards">Total de cartas: %1$s</string>
+	<string name="status_has_minus_coin_token">Tiene marcador de -1 Moneda</string>
+	<string name="status_has_minus_card_token">Tiene marcador de -1 Carta</string>
+	<string name="status_journey_token_up">Marcador de Viaje está boca arriba</string>
+	<string name="status_journey_token_down">Marcador de Viaje está boca abajo</string>
+	<string name="status_coin_tokens">Marcadores de Moneda: %1$s</string>
+	<string name="status_pirate_tokens">Marcadores de Moneda conseguidos por Barcos Piratas: %1$s</string>
+	<string name="status_debt_tokens">Marcadores de Deuda: %1$s</string>
+	<string name="status_victory_tokens">Fichas de Victoria: %1$s</string>
 </resources>

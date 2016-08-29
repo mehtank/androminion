@@ -4,7 +4,7 @@ import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
 
 public class GameEvent {
-    public enum Type {
+    public enum EventType {
         GameStarting, // A new game is starting, called at the start of each game when multiple are played
         GameOver, // Game completed
         Embargo, // Embargo added to card
@@ -17,10 +17,9 @@ public class GameEvent {
         TurnBegin, // Player begins a turn
         TurnEnd, // Player's turn ends
 
-        PlayingAction, // Action card is about to be played by a player.
-        PlayedAction, // Action card has just been played by a player.
+        PlayingCard, // Card is about to be played by a player.
+        PlayedCard, // Card has just been played by a player.
         PlayingDurationAction, // Duration action card's next turn effects are about to occur for a player.
-        PlayingCoin, // Coin card is about to be played by a player.
         BuyingCard, // Buying a card in the buy phase.
         OverpayForCard, // Overpaying for a Guilds card.
         GuildsTokenObtained, // Recieve a Guilds token
@@ -45,6 +44,7 @@ public class GameEvent {
         CardSetAsideHaven, // A card was set aside (haven)
         CardSetAsideSave, // A card was set aside (save)
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
+        CardSetAsideArchive, // A card was set aside (archive)
         CallingCard, // A card is about to be called from the tavern mat
         CalledCard, // A card was called from the tavern mat
         CardSetAsideOnIslandMat, // A card was set aside on island mat
@@ -63,9 +63,17 @@ public class GameEvent {
         PlusOneCoinTokenMoved, // +1 Coin token moved to supply pile
         MinusTwoCostTokenMoved, // -2 Cost Token moved to supply pile
         TrashingTokenMoved, // Trashing token moved to supply pile
+        DebtTokensObtained, // Obtained Debt tokens
+        DebtTokensPaidOff, // Paid off Debt tokens
+        DebtTokensPutOnPile, // Debt tokens put on a card pile
+        DebtTokensTakenFromPile, // Debt tokens taken from a card pile
+        VPTokensObtained, // VP tokens taken by a player
+        VPTokensPutOnPile, // VP tokens put on a card pile
+        VPTokensTakenFromPile, // VP tokens taken from a card pile
+        MountainPassBid, // Someone placed a bid for Mountain Pass (or passed their bid)
     }
 
-    public Type type;
+    public EventType type;
     public MoveContext context;
     public Player player;
 
@@ -80,18 +88,20 @@ public class GameEvent {
     public Player attackedPlayer;
     public boolean newCard;
     private String comment;
+    private int amount;
+    
 
     // //////////////////////////////////////////////
     //
     // //////////////////////////////////////////////
 
-    public GameEvent(Type type, MoveContext context) {
+    public GameEvent(EventType type, MoveContext context) {
         this.type = type;
         this.context = context;
         this.player = context == null ? null : context.getPlayer();
     }
 
-    public Type getType() {
+    public EventType getType() {
         return type;
     }
 
@@ -138,6 +148,14 @@ public class GameEvent {
     
     public void setPrivate(boolean value) {
     	cardPrivate = value;
+    }
+    
+    public int getAmount() {
+    	return amount;
+    }
+    
+    public void setAmount(int value) {
+    	amount = value;
     }
     
 }

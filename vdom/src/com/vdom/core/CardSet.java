@@ -46,10 +46,14 @@ public class CardSet {
 	}
 	
 	public static CardSet getCardSet(final GameType type, int count) {
-		return getCardSet(type, count, null, false, -1, false);
+		return getCardSet(type, count, null, false, -1, false, -1, false, false);
 	}
 
-	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions, boolean randomIncludeEvents, int numRandomEvents, boolean adjustRandomForAlchemy) {
+	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions, 
+			boolean randomIncludeEvents, int numRandomEvents, 
+			boolean randomIncludeLandmarks, int numRandomLandmarks, 
+			boolean linkMaxEventsAndLandmarks, 
+			boolean adjustRandomForAlchemy) {
 		CardSet set = CardSet.CardSetMap.get(type);
 
 		if(set == null) {
@@ -69,18 +73,21 @@ public class CardSet {
 			if (randomIncludeEvents) {
 				cards.addAll(Cards.eventsCards);
 			}
-			set = CardSet.getRandomCardSet(cards, count, numRandomEvents, adjustRandomForAlchemy);
+			if (randomIncludeLandmarks) {
+				cards.addAll(Cards.landmarkCards);
+			}
+			set = CardSet.getRandomCardSet(cards, count, numRandomEvents, numRandomLandmarks, linkMaxEventsAndLandmarks, adjustRandomForAlchemy);
 		}
 
 		return set;
 	}
 	
 	public static CardSet getRandomCardSet(final List<Card> possibleCards) {
-		return getRandomCardSet(possibleCards, -1, 0, false);
+		return getRandomCardSet(possibleCards, -1, 0, 0, false, false);
 	}
 
 	public static CardSet getRandomCardSet(final List<Card> possibleCards, int count) {
-		return getRandomCardSet(possibleCards, count, 0, false);
+		return getRandomCardSet(possibleCards, count, 0, 0, false, false);
 	}
 	
 	/**
@@ -91,11 +98,16 @@ public class CardSet {
 	 *        of Kingdom piles and include a Bane card if needed.
 	 * @param eventCount number of Events to include in the result. Negative numbers mean to include
 	 *        at most that absolute value of Events using the selection method suggested in the rules 
+	 * @param landmarkCount number of Landmarks to include in the result. Negative numbers mean to include
+	 *        at most that absolute value of Landmarks using the selection method suggested in the rules
+	 * @param linkMaxEventsAndLandmarks true means to use the max of eventCount and landmarkCount if both are
+	 *        negative and use the combined total for where to stop
 	 * @return A random CardSet selected from the list of entered cards
 	 */
-	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount, boolean adjustForAlchemy) {
+	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount, int landmarkCount, boolean linkMaxEventsAndLandmarks, boolean adjustForAlchemy) {
 		final List<Card> cardSetList = new ArrayList<Card>();
 		final List<Card> eventList = new ArrayList<Card>();
+		final List<Card> landmarkList = new ArrayList<Card>();
 		
 		possibleCards = new ArrayList<Card>(possibleCards);
 		shuffle(possibleCards);
@@ -107,45 +119,71 @@ public class CardSet {
 			findBandIfNeeded = true;
 		}
 		
-		if (eventCount <= 0) {
-			//negative number means take events as they come up until abs(eventCount) events - as in Dominion Adventures rules
-			int maxEvents = Math.abs(eventCount);
-			int numEvents = countEvents(possibleCards);
-			count = Math.min(possibleCards.size() - numEvents, count);
-			for (Card c : possibleCards) {
-				if (c.isEvent()) {
-					if (eventList.size() < maxEvents) {
+		//negative number means take events as they come up until abs(eventCount) events - as in Dominion Adventures rules
+		boolean drawEvents = eventCount < 0;
+		boolean drawLandmarks = landmarkCount < 0;
+		int maxEvents = Math.abs(eventCount);
+		int maxLandmarks = Math.abs(landmarkCount);
+		if (drawEvents && drawLandmarks && linkMaxEventsAndLandmarks) {
+			maxEvents = maxLandmarks = Math.min(maxEvents, maxLandmarks);
+		} else {
+			linkMaxEventsAndLandmarks = false;
+		}
+		int numEvents = countEvents(possibleCards);
+		int numLandmarks = countLandmarks(possibleCards);
+		count = Math.min(possibleCards.size() - numEvents - numLandmarks, count);
+		for (Card c : possibleCards) {
+			if (c.is(Type.Event, null)) { 
+				if(drawEvents) {
+					if (linkMaxEventsAndLandmarks) {
+						if (eventList.size() + landmarkList.size() < maxEvents)
+							eventList.add(c);
+					} else if (eventList.size() < maxEvents) {
 						eventList.add(c);
 					}
-				} else {
-					cardSetList.add(c);
-					if (cardSetList.size() == count) {
-						break;
+				}
+			} else if (c.is(Type.Landmark, null)) { 
+				if (drawLandmarks) {
+					if (linkMaxEventsAndLandmarks) {
+						if (eventList.size() + landmarkList.size() < maxEvents)
+							landmarkList.add(c);
+					} else if (landmarkList.size() < maxEvents) {
+						landmarkList.add(c);
 					}
 				}
+			} else {
+				cardSetList.add(c);
+				if (cardSetList.size() == count) {
+					break;
+				}
 			}
-			
-		} else {
-			//partition events into a separate list and pick them separately
+		}
+		
+		// if needed, partition events/landmarks into a separate list and pick them separately
+		if ((!drawEvents && eventCount > 0) || (!drawLandmarks && landmarkCount > 0)) {
 			List<Card> events = new ArrayList<Card>();
-			List<Card> cards = new ArrayList<Card>();
+			List<Card> landmarks = new ArrayList<Card>();
 			for (Card c : possibleCards) {
-				if (c.isEvent())
+				if (c.is(Type.Event, null))
 					events.add(c);
-				else
-					cards.add(c);
+				else if (c.is(Type.Landmark, null))
+					landmarks.add(c);
 			}
-			
 			eventCount = Math.min(eventCount, events.size());
-			pick(cards, cardSetList, count);
-			pick(events, eventList, eventCount);
+			landmarkCount = Math.min(landmarkCount, landmarks.size());
+			if (eventCount > 0) {
+				pick(events, eventList, eventCount);
+			}
+			if (landmarkCount > 0) {
+				pick(landmarks, landmarkList, landmarkCount);
+			}
 		}
 		
 		// Do Alchemy recommendation - if at least one Alchemy card is in, use 3 to 5 at once
 		if (adjustForAlchemy)
 			performAlchemyRecommendation(cardSetList, possibleCards);
 		
-		// pick a band card if needed
+		// pick a bane card if needed
 		if (findBandIfNeeded && cardSetList.contains(Cards.youngWitch)) {
 			for (Card c : possibleCards) {
 				if (cardSetList.contains(c))
@@ -160,6 +198,7 @@ public class CardSet {
 		}
 		
 		cardSetList.addAll(eventList);
+		cardSetList.addAll(landmarkList);
 		
 		return new CardSet(cardSetList, baneCard);
 	}
@@ -179,7 +218,7 @@ public class CardSet {
 		
 		Set<Card> alchemyCardsUsed = new HashSet<Card>();
 		for (Card c : cardSetList) {
-			if (c.getExpansion().equals("Alchemy"))
+			if (c.getExpansion() == Expansion.Alchemy)
 				alchemyCardsUsed.add(c);
 		}
 		
@@ -194,7 +233,7 @@ public class CardSet {
 			if (!Cards.isKingdomCard(c))
 				continue;
 			numKindgomCardsAvailable++;
-			if (c.getExpansion().equals("Alchemy"))
+			if (c.getExpansion() == Expansion.Alchemy)
 				numAlchemyCardsAvailable++;
 		}
 		
@@ -215,13 +254,13 @@ public class CardSet {
 			for (Card c : possibleCards) {
 				if (!Cards.isKingdomCard(c) 
 						|| cardSetList.contains(c) 
-						|| c.getExpansion().equals("Alchemy"))
+						|| c.getExpansion() == Expansion.Alchemy)
 					continue;
 				cardsToPickFrom.add(c);
 			}
 			
 			for(int i = 0; i < cardSetList.size(); ++i) {
-				if (cardSetList.get(i).getExpansion().equals("Alchemy")) {
+				if (cardSetList.get(i).getExpansion() == Expansion.Alchemy) {
 					Card replacement = cardsToPickFrom.remove(rand.nextInt(cardsToPickFrom.size()));
 					cardSetList.set(i,  replacement);
 				}
@@ -273,7 +312,7 @@ public class CardSet {
 	
 	private static boolean isValidBane(Card c) {
 		int cost = c.getCost(null);
-		return !c.costPotion() && (cost == 2 || cost == 3) && !c.isEvent();
+		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event, null);
 	}
 
 	private static void pick(List<Card> source, List<Card> target, int count) {
@@ -288,10 +327,19 @@ public class CardSet {
 	private static int countEvents(List<Card> allCards) {
 		int numEvents = 0;
 		for (Card c : allCards) {
-			if (c.isEvent())
+			if (c.is(Type.Event, null))
 				numEvents++;
 		}
 		return numEvents;
+	}
+	
+	private static int countLandmarks(List<Card> allCards) {
+		int numLandmarks = 0;
+		for (Card c : allCards) {
+			if (c.is(Type.Landmark, null))
+				numLandmarks++;
+		}
+		return numLandmarks;
 	}
 
 	private static void shuffle(List<Card> cards) {
@@ -412,7 +460,7 @@ public class CardSet {
 		CardSetMap.put(GameType.DecisionsDecisions, new CardSet(new Card[]{Cards.merchantGuild, Cards.candlestickMaker, Cards.masterpiece, Cards.taxman, Cards.butcher, Cards.bridge, Cards.pawn, Cards.miningVillage, Cards.upgrade, Cards.duke}, null));
 
     /*frr18 AdventureTest*/
-		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.page, Cards.peasant, Cards.university, Cards.watchTower, Cards.hermit, Cards.deathCart, Cards.marauder, Cards.urchin, Cards.tournament, Cards.borrow, Cards.ferry, Cards.youngWitch}, Cards.menagerie));
+		CardSetMap.put(GameType.AdventureTest, new CardSet(new Card[]{Cards.enchantress, Cards.urchin, Cards.temple, Cards.villa, Cards.youngWitch, Cards.battlefield, Cards.keep, Cards.tax, Cards.defiledShrine, Cards.aqueduct, Cards.embargo}, null));
 		CardSetMap.put(GameType.GentleIntro, new CardSet(new Card[] { Cards.amulet, Cards.distantLands, Cards.dungeon, Cards.duplicate, Cards.giant, Cards.hireling, Cards.port, Cards.ranger, Cards.ratcatcher, Cards.treasureTrove, Cards.scoutingParty}, null));
 		CardSetMap.put(GameType.ExpertIntro, new CardSet(new Card[] { Cards.caravanGuard, Cards.coinOfTheRealm, Cards.hauntedWoods, Cards.lostCity, Cards.magpie, Cards.peasant, Cards.raze, Cards.swampHag, Cards.transmogrify, Cards.wineMerchant, Cards.mission, Cards.plan}, null));
 		CardSetMap.put(GameType.LevelUp, new CardSet(new Card[] { Cards.dungeon, Cards.gear, Cards.guide, Cards.lostCity, Cards.miser, Cards.market, Cards.militia, Cards.spy, Cards.throneRoom, Cards.workshop, Cards.training}, null));
@@ -434,6 +482,27 @@ public class CardSet {
 		CardSetMap.put(GameType.Spendthrift, new CardSet(new Card[] { Cards.artificer, Cards.gear, Cards.magpie, Cards.miser, Cards.storyteller, Cards.doctor, Cards.masterpiece, Cards.merchantGuild, Cards.soothsayer, Cards.stonemason, Cards.lostArts}, null));
 		CardSetMap.put(GameType.QueenOfTan, new CardSet(new Card[] { Cards.coinOfTheRealm, Cards.duplicate, Cards.guide, Cards.ratcatcher, Cards.royalCarriage, Cards.advisor, Cards.butcher, Cards.candlestickMaker, Cards.herald, Cards.journeyman, Cards.pathfinding, Cards.save}, null));
 
+		CardSetMap.put(GameType.BasicIntro, new CardSet(new Card[] { Cards.virtualCastle, Cards.chariotRace, Cards.cityQuarter, Cards.engineer, Cards.farmersMarket, Cards.forum, Cards.legionary, Cards.patrician, Cards.sacrifice, Cards.villa, Cards.wedding, Cards.tower}, null));
+		CardSetMap.put(GameType.AdvancedIntro, new CardSet(new Card[] { Cards.archive, Cards.capital, Cards.virtualCatapultRocks, Cards.crown, Cards.enchantress, Cards.virtualGladiatorFortune, Cards.groundskeeper, Cards.royalBlacksmith, Cards.virtualSettlersBustlingVillage, Cards.temple, Cards.arena, Cards.triumphalArch}, null));
+		CardSetMap.put(GameType.EverythingInModeration, new CardSet(new Card[] { Cards.enchantress, Cards.forum, Cards.legionary, Cards.overlord, Cards.temple, Cards.cellar, Cards.library, Cards.remodel, Cards.village, Cards.workshop, Cards.orchard, Cards.windfall}, null));
+		CardSetMap.put(GameType.SilverBullets, new CardSet(new Card[] { Cards.virtualCatapultRocks, Cards.charm, Cards.farmersMarket, Cards.groundskeeper, Cards.virtualPatricianEmporium, Cards.bureaucrat, Cards.gardens, Cards.laboratory, Cards.market, Cards.moneyLender, Cards.aqueduct, Cards.conquest}, null));
+		CardSetMap.put(GameType.DeliciousTorture, new CardSet(new Card[] { Cards.virtualCastle, Cards.crown, Cards.enchantress, Cards.sacrifice, Cards.virtualSettlersBustlingVillage, Cards.baron, Cards.bridge, Cards.harem, Cards.ironworks, Cards.torturer, Cards.arena, Cards.banquet}, null));
+		CardSetMap.put(GameType.BuddySystem, new CardSet(new Card[] { Cards.archive, Cards.capital, Cards.virtualCatapultRocks, Cards.engineer, Cards.forum, Cards.masquerade, Cards.miningVillage, Cards.nobles, Cards.pawn, Cards.tradingPost, Cards.saltTheEarth, Cards.wolfDen}, null));
+		CardSetMap.put(GameType.BoxedIn, new CardSet(new Card[] { Cards.virtualCastle, Cards.chariotRace, Cards.virtualEncampmentPlunder, Cards.enchantress, Cards.virtualGladiatorFortune, Cards.salvager, Cards.smugglers, Cards.tactician, Cards.warehouse, Cards.wharf, Cards.wall, Cards.tax}, null));
+		CardSetMap.put(GameType.KingOfTheSea, new CardSet(new Card[] { Cards.archive, Cards.farmersMarket, Cards.overlord, Cards.temple, Cards.wildHunt, Cards.explorer, Cards.haven, Cards.nativeVillage, Cards.pirateShip, Cards.seaHag, Cards.delve, Cards.fountain}, null));
+		CardSetMap.put(GameType.Collectors, new CardSet(new Card[] { Cards.cityQuarter, Cards.crown, Cards.virtualEncampmentPlunder, Cards.enchantress, Cards.farmersMarket, Cards.apothecary, Cards.apprentice, Cards.herbalist, Cards.transmute, Cards.university, Cards.colonnade, Cards.museum}, null));
+		//TODO: way to specify we have to use Platium/Colony here
+		CardSetMap.put(GameType.BigTime, new CardSet(new Card[] { Cards.capital, Cards.virtualGladiatorFortune, Cards.virtualPatricianEmporium, Cards.royalBlacksmith, Cards.villa, Cards.bank, Cards.forge, Cards.grandMarket, Cards.loan, Cards.royalSeal, Cards.dominate, Cards.obelisk}, null));
+		CardSetMap.put(GameType.GildedGates, new CardSet(new Card[] { Cards.chariotRace, Cards.cityQuarter, Cards.virtualEncampmentPlunder, Cards.groundskeeper, Cards.wildHunt, Cards.bishop, Cards.monument, Cards.mint, Cards.peddler, Cards.talisman, Cards.basilica, Cards.palace}, null));
+		CardSetMap.put(GameType.Zookeepers, new CardSet(new Card[] { Cards.overlord, Cards.sacrifice, Cards.virtualSettlersBustlingVillage, Cards.villa, Cards.wildHunt, Cards.fairgrounds, Cards.horseTraders, Cards.menagerie, Cards.jester, Cards.tournament, Cards.annex, Cards.colonnade}, null));
+		CardSetMap.put(GameType.CashFlow, new CardSet(new Card[] { Cards.virtualCastle, Cards.cityQuarter, Cards.engineer, Cards.virtualGladiatorFortune, Cards.royalBlacksmith, Cards.baker, Cards.butcher, Cards.doctor, Cards.herald, Cards.soothsayer, Cards.baths, Cards.mountainPass}, null));
+		CardSetMap.put(GameType.SimplePlans, new CardSet(new Card[] { Cards.virtualCatapultRocks, Cards.forum, Cards.virtualPatricianEmporium, Cards.temple, Cards.villa, Cards.borderVillage, Cards.develop, Cards.haggler, Cards.illGottenGains, Cards.stables, Cards.donate, Cards.labyrinth}, null));
+		CardSetMap.put(GameType.Expansion, new CardSet(new Card[] { Cards.virtualCastle, Cards.charm, Cards.virtualEncampmentPlunder, Cards.engineer, Cards.legionary, Cards.cache, Cards.farmland, Cards.highway, Cards.spiceMerchant, Cards.tunnel, Cards.battlefield, Cards.fountain}, null));
+		//TODO: way to specify we have to use Shelters here
+		CardSetMap.put(GameType.TombOfTheRatKing, new CardSet(new Card[] { Cards.virtualCastle, Cards.chariotRace, Cards.cityQuarter, Cards.legionary, Cards.sacrifice, Cards.deathCart, Cards.fortress, Cards.pillage, Cards.rats, Cards.storeroom, Cards.advance, Cards.tomb}, null));
+		CardSetMap.put(GameType.TriumphOfTheBanditKing, new CardSet(new Card[] { Cards.capital, Cards.charm, Cards.engineer, Cards.groundskeeper, Cards.legionary, Cards.banditCamp, Cards.catacombs, Cards.huntingGrounds, Cards.marketSquare, Cards.procession, Cards.defiledShrine, Cards.triumph}, null));
+		CardSetMap.put(GameType.TheSquiresRitual, new CardSet(new Card[] { Cards.archive, Cards.virtualCatapultRocks, Cards.crown, Cards.virtualPatricianEmporium, Cards.virtualSettlersBustlingVillage, Cards.feodum, Cards.hermit, Cards.ironmonger, Cards.rogue, Cards.squire, Cards.museum, Cards.ritual}, null));
+		CardSetMap.put(GameType.AreaControl, new CardSet(new Card[] { Cards.capital, Cards.virtualCatapultRocks, Cards.charm, Cards.crown, Cards.farmersMarket, Cards.coinOfTheRealm, Cards.page, Cards.relic, Cards.treasureTrove, Cards.wineMerchant, Cards.banquet, Cards.keep}, null));
+		CardSetMap.put(GameType.NoMoneyNoProblems, new CardSet(new Card[] { Cards.archive, Cards.virtualEncampmentPlunder, Cards.royalBlacksmith, Cards.temple, Cards.villa, Cards.dungeon, Cards.duplicate, Cards.hireling, Cards.peasant, Cards.transmogrify, Cards.banditFort, Cards.mission}, null));
 	}
-
 }

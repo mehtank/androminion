@@ -130,10 +130,9 @@
 	<string name="NewHand">Nouvelle main</string>        
 	<string name="TurnBegin">Début du tour</string>
 	<string name="TurnEnd">Fin du tour</string>
-	<string name="PlayingAction">Joue</string>
-	<string name="PlayedAction">A joué</string>
+	<string name="PlayingCard">Joue</string>
+	<string name="PlayedCard">A joué</string>
 	<string name="PlayingDurationAction">Résolution Action-Durée</string>
-	<string name="PlayingCoin">Joue</string>
 	<string name="BuyingCard">Achète</string>
         <string name="GuildsTokenObtained">Jeton Guildes obtenu</string>
 	<string name="GuildsTokenSpend">Jeton Guildes dépensé</string>

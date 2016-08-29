@@ -5,16 +5,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
 import com.vdom.api.Card;
-import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
-import com.vdom.api.VictoryCard;
 
 public abstract class Player {
 
@@ -22,6 +20,10 @@ public abstract class Player {
 
     public static final String RANDOM_AI = "Random AI";
     public static final String DISTINCT_CARDS = "Distinct Cards";
+    public static final String ONE_COPY_CARDS = "One Copy Cards";
+    public static final String THREE_PLUS_COPY_ACTION_CARDS = "Three Plus Copy Action Cards";
+    public static final String NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS = "Non Victory Empty Supply Pile Cards";
+    public static final String SECOND_MOST_COMMON_ACTION_CARDS = "Second Most Common Action Cards";
     public static final String VICTORY_TOKENS = "Victory Tokens";
 
     // Only used by InteractivePlayer currently
@@ -35,6 +37,7 @@ public abstract class Player {
 
     // The number of coin tokens held by the player
     private int guildsCoinTokenCount;
+    private int debtTokenCount;
 
     private Card checkLeadCard;
     private int victoryTokens;
@@ -54,10 +57,12 @@ public abstract class Player {
     protected CardList island;
     protected CardList haven;
     protected ArrayList<ArrayList<Card>> gear;
+    protected ArrayList<ArrayList<Card>> archive;
     protected CardList horseTraders;
     protected Card inheritance;
     protected Card save;
-    protected Map<Player, Map<Cards.Type, Integer>> attackDurationEffectsOnOthers;
+    protected CardList encampment;
+    protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     public Game game;
     public Player controlPlayer = this;
 
@@ -69,8 +74,21 @@ public abstract class Player {
     public Card achievementSingleCardFirstKingdomCardBought;
 
     public void addVictoryTokens(MoveContext context, int vt) {
-        victoryTokens += vt;
-        context.vpsGainedThisTurn += vt;
+    	if (vt == 0) return;
+    	if (Game.errataPossessedTakesTokens) {
+    		victoryTokens += vt;
+    		GameEvent event = new GameEvent(GameEvent.EventType.VPTokensObtained, context);
+    		event.setAmount(vt);
+            context.game.broadcastEvent(event);
+    	} else {
+    		controlPlayer.victoryTokens += vt;
+    		GameEvent event = new GameEvent(GameEvent.EventType.VPTokensObtained, isPossessed() ? new MoveContext(context.game, controlPlayer) : context);
+        	event.setAmount(vt);
+            context.game.broadcastEvent(event);
+    	}
+    	//How to track vp gained in a turn by possessing player?
+    	if (!isPossessed())
+    		context.vpsGainedThisTurn += vt;
     }
 
     public int getTotalCardsBoughtThisTurn(MoveContext context) {
@@ -92,9 +110,9 @@ public abstract class Player {
     public int getCurrencyTotal(MoveContext context) {
         int coin = 0;
         for (Card card : getAllCards()) {
-            if (card instanceof TreasureCard) {
-                coin += ((TreasureCard) card).getValue();
-                if (card.getType() == Cards.Type.Bank) {
+            if (card.is(Type.Treasure, context.getPlayer())) {
+                coin += card.getAddGold();
+                if (card.getKind() == Cards.Kind.Bank) {
                    coin += 1;
                 }
             }
@@ -116,7 +134,7 @@ public abstract class Player {
     public ArrayList<Card> getActionCards(Card[] cards, Player player) {
         ArrayList<Card> actionCards = new ArrayList<Card>();
         for (Card card : cards) {
-            if (card.isAction(player)) {
+            if (card.is(Type.Action, player)) {
                 actionCards.add(card);
             }
         }
@@ -131,7 +149,7 @@ public abstract class Player {
     public int getMyAddActionCardCount() {
         int addActionsCards = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 if (card.getAddActions() > 0) {
                     addActionsCards++;
                 }
@@ -144,7 +162,7 @@ public abstract class Player {
     public int getMyAddCardCardCount() {
         int addCards = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 if (card.getAddCards() > 0) {
                     addCards++;
                 }
@@ -157,7 +175,7 @@ public abstract class Player {
     public int getMyAddActions() {
         int addActions = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 addActions += card.getAddActions();
             }
         }
@@ -168,7 +186,7 @@ public abstract class Player {
     public int getMyAddCards() {
         int addCards = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 addCards += card.getAddCards();
             }
         }
@@ -179,7 +197,7 @@ public abstract class Player {
     public int getMyAddBuys() {
         int addBuys = 0;
         for (Card card : getAllCards()) {
-            if (card.isAction(this)) {
+            if (card.is(Type.Action, this)) {
                 addBuys += card.getAddBuys();
             }
         }
@@ -195,6 +213,10 @@ public abstract class Player {
         }
 
         return false;
+    }
+    
+    public boolean inPlay(Card card) {
+    	return playedCards.contains(card) || nextTurnCards.contains(card); 
     }
 
     public boolean isInCardArray(Card card, Card[] list) {
@@ -250,9 +272,11 @@ public abstract class Player {
         island = new CardList(this, "Island");
         haven = new CardList(this, "Haven");
         gear = new ArrayList<ArrayList<Card>>();
+        archive = new ArrayList<ArrayList<Card>>();
         horseTraders = new CardList(this, "Horse Traders");
         inheritance = null;
-        attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Type,Integer>>();
+        encampment = new CardList(this, "Encampment");
+        attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
     }
 
     private List<PutBackOption> getPutBackOptions(MoveContext context, int actionsPlayed) {
@@ -260,8 +284,8 @@ public abstract class Player {
         // Determine if criteria were met for certain action cards
         boolean victoryBought = context.getVictoryCardsBoughtThisTurn() > 0;
         boolean potionPlayed   = context.countCardsInPlay(Cards.potion) > 0;
-        boolean treasurePlayed = context.countTreasureCardsInPlayThisTurn() > 0;
-        int actionsInPlay = context.countActionCardsInPlayThisTurn();
+        boolean treasurePlayed = context.countTreasureCardsInPlay() > 0;
+        int actionsInPlay = context.countActionCardsInPlay();
 
         List<PutBackOption> options = new ArrayList<PutBackOption>();
 
@@ -336,7 +360,13 @@ public abstract class Player {
         // Check for return-to-deck options
         List<PutBackOption> putBackOptions;
         ArrayList<Card> putBackCards = new ArrayList<Card>();
-        int actionsPlayed = context.countActionCardsInPlayThisTurn();
+        int actionsPlayed = context.countActionCardsInPlay();
+        
+        //return Encampments
+        while (!encampment.isEmpty()) {
+        	Card toReturn = encampment.removeLastCard();
+            game.getGamePile(toReturn).addCard(toReturn);
+        }
 
         while (!(putBackOptions = controlPlayer.getPutBackOptions(context, actionsPlayed)).isEmpty()) {
             PutBackOption putBackOption = controlPlayer.selectPutBackOption(context, putBackOptions);
@@ -379,25 +409,38 @@ public abstract class Player {
                     Card herbalist = findCard(context, Cards.herbalist);
                     playedCards.remove(herbalist);
                     discard(herbalist, null, null, false, true);
-                    ArrayList<TreasureCard> treasureCards = new ArrayList<TreasureCard>();
+                    ArrayList<Card> treasureCards = new ArrayList<Card>();
+                    //TODO: selecting card from right place - now there's a difference between treasures in play
+                    //      vs treasures that are in nextTurnCards (and a difference from next turn and permanent ones)
                     for(Card card : playedCards) {
-                        if(card instanceof TreasureCard) {
-                            treasureCards.add((TreasureCard) card);
+                        if(card.is(Type.Treasure, this)) {
+                            treasureCards.add(card);
+                        }
+                    }
+                    //TODO: make sure this works right with fake cards here and all
+                    for(Card card : nextTurnCards) {
+                        if(card.is(Type.Treasure, this)) {
+                            treasureCards.add(card);
                         }
                     }
 
                     if(treasureCards.size() > 0) {
-                        TreasureCard treasureCard = controlPlayer.herbalist_backOnDeck(context, treasureCards.toArray(new TreasureCard[0]));
-                        if(treasureCard != null && playedCards.contains(treasureCard)) {
-                            playedCards.remove(treasureCard);
-                            putBackCards.add(treasureCard);
+                        Card treasureCard = controlPlayer.herbalist_backOnDeck(context, treasureCards.toArray(new Card[0]));
+                        if(treasureCard != null && treasureCard.is(Type.Treasure, this)) {
+                        	if (nextTurnCards.contains(treasureCard)) {
+                        		nextTurnCards.remove(treasureCard);
+                        		putBackCards.add(treasureCard);
+                        	} else if (playedCards.contains(treasureCard)) {
+                        		playedCards.remove(treasureCard);
+                        		putBackCards.add(treasureCard);
+                        	}
                         }
                     }
                 } else if (putBackOption == PutBackOption.Action) {
                     context.schemesPlayed --;
                     ArrayList<Card> actions = new ArrayList<Card>();
                     for(Card c : playedCards) {
-                        if(c.isAction(context.player)) {
+                        if(c.is(Type.Action, context.player)) {
                             actions.add(c);
                         }
                     }
@@ -451,13 +494,6 @@ public abstract class Player {
         }
         
         playedByPrince.clear();
-
-        if (isPossessed()) {
-            while (!game.possessedTrashPile.isEmpty()) {
-                discard(game.possessedTrashPile.remove(0), null, null, false, false);
-            }
-            game.possessedBoughtPile.clear();
-        }
 
         // /////////////////////////////////
         // Discard hand
@@ -548,6 +584,11 @@ public abstract class Player {
     {
         return guildsCoinTokenCount;
     }
+    
+    public int getDebtTokenCount()
+    {
+        return debtTokenCount;
+    }
 
     public int getMiserTreasure() {
         return  Util.getCardCount(this.tavern, Cards.copper);
@@ -563,7 +604,7 @@ public abstract class Player {
     	if(minusOneCoinTokenOn != state) {
 	    	minusOneCoinTokenOn = state;
 	        if (context != null) {
-	            GameEvent event = new GameEvent(state ? GameEvent.Type.MinusOneCoinTokenOn : GameEvent.Type.MinusOneCoinTokenOff , context);
+	            GameEvent event = new GameEvent(state ? GameEvent.EventType.MinusOneCoinTokenOn : GameEvent.EventType.MinusOneCoinTokenOff , context);
 	            context.game.broadcastEvent(event);
 	        }
     	}
@@ -579,7 +620,7 @@ public abstract class Player {
     	if(minusOneCardTokenOn != state) {
 	    	minusOneCardTokenOn = state;
 	        if (context != null) {
-	            GameEvent event = new GameEvent(state ? GameEvent.Type.MinusOneCardTokenOn : GameEvent.Type.MinusOneCardTokenOff , context);
+	            GameEvent event = new GameEvent(state ? GameEvent.EventType.MinusOneCardTokenOn : GameEvent.EventType.MinusOneCardTokenOff , context);
 	            context.game.broadcastEvent(event);
 	        }
     	}
@@ -594,7 +635,7 @@ public abstract class Player {
     {
         journeyTokenFaceUp = !journeyTokenFaceUp;
         if (context != null) {
-            GameEvent event = new GameEvent(journeyTokenFaceUp ? GameEvent.Type.TurnJourneyTokenFaceUp : GameEvent.Type.TurnJourneyTokenFaceDown , context);
+            GameEvent event = new GameEvent(journeyTokenFaceUp ? GameEvent.EventType.TurnJourneyTokenFaceUp : GameEvent.EventType.TurnJourneyTokenFaceDown , context);
             context.game.broadcastEvent(event);
         }
         return journeyTokenFaceUp;
@@ -602,7 +643,12 @@ public abstract class Player {
 
     public void gainGuildsCoinTokens(int tokenCount)
     {
-        guildsCoinTokenCount += tokenCount;
+    	if (tokenCount == 0) return;
+    	if (Game.errataPossessedTakesTokens) {
+    		guildsCoinTokenCount += tokenCount;
+    	} else {
+    		controlPlayer.guildsCoinTokenCount += tokenCount;
+    	}
     }
 
     public void spendGuildsCoinTokens(int tokenCount)
@@ -615,6 +661,19 @@ public abstract class Player {
         {
             Util.playerError(this, "spendGuildsCoinTokens() - Can't spend " + tokenCount + " coin tokens, only have " + guildsCoinTokenCount);
         }
+    }
+    
+    public void gainDebtTokens(int tokenCount)
+    {
+        controlPlayer.debtTokenCount += tokenCount;
+    }
+    
+    public void payOffDebtTokens(int tokenCount) {
+    	if (tokenCount <= debtTokenCount) {
+    		debtTokenCount -= tokenCount;
+    	} else {
+    		Util.playerError(this, "payOffDebtTokens() - Can't pay off " + tokenCount + " debt tokens, only have " + debtTokenCount);
+    	}
     }
 
     public int getVictoryTokens() {
@@ -651,6 +710,9 @@ public abstract class Player {
         for (ArrayList<Card> curGear : gear) {
         	allCards.addAll(curGear);
         }
+        for (ArrayList<Card> curArchive : archive) {
+        	allCards.addAll(curArchive);
+        }
         for (Card card : tavern) {
             allCards.add(card);
         }
@@ -668,6 +730,9 @@ public abstract class Player {
         }
         if (inheritance != null)
         	allCards.add(inheritance);
+        for (Card card : encampment) {
+            allCards.add(card);
+        }
         if (checkLeadCard != null) {
             allCards.add(checkLeadCard);
         }
@@ -680,30 +745,68 @@ public abstract class Player {
 
     public Map<Object, Integer> getVictoryCardCounts() {
         final HashSet<String> distinctCards = new HashSet<String>();
+        final Map<Object, Integer> allCardCounts = new HashMap<Object, Integer>();
         final Map<Object, Integer> cardCounts = new HashMap<Object, Integer>();
 
         // seed counts with all victory cards in play
         for (AbstractCardPile pile : this.game.piles.values()) {
             Card card = pile.card();
 
-            if(card instanceof VictoryCard || card instanceof CurseCard) {
+            if(card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
                 cardCounts.put(card, 0);
             }
         }
 
         for(Card card : this.getAllCards()) {
             distinctCards.add(card.getName());
-            if (card instanceof VictoryCard || card instanceof CurseCard) {
+            if (card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
                 if(cardCounts.containsKey(card)) {
                     cardCounts.put(card, cardCounts.get(card) + 1);
                 } else {
                     cardCounts.put(card, 1);
                 }
             }
+            if(allCardCounts.containsKey(card)) {
+            	allCardCounts.put(card, allCardCounts.get(card) + 1);
+            } else {
+            	allCardCounts.put(card, 1);
+            }
+        }
+        
+        int oneCopyCards = 0;
+        for (int copies : allCardCounts.values()) {
+        	if (copies == 1)
+        		oneCopyCards++;
+        }
+        
+        int threePlusCopyActionCards = 0;
+        int highestActionCardCount = 0;
+        int secondHighestActionCardCount = 0;
+        int nonVictoryEmptySupplyPileCards = 0;
+        for (Object o : allCardCounts.keySet()) {
+        	if (!(o instanceof Card)) continue;
+        	Card c = (Card)o;
+        	if (c.is(Type.Action, this)) {
+        		int actionCount = allCardCounts.get(c); 
+        		if (actionCount >= 3) {
+        			threePlusCopyActionCards++;
+        		}
+        		if (actionCount > highestActionCardCount) {
+        			secondHighestActionCardCount = highestActionCardCount;
+        			highestActionCardCount = actionCount;
+        		}
+        	}
+        	if ((!c.is(Type.Victory, this)) && Cards.isSupplyCard(c) && this.game.isPileEmpty(c)) {
+        		nonVictoryEmptySupplyPileCards++;
+        	}
         }
 
         cardCounts.put(DISTINCT_CARDS, distinctCards.size());
-
+        cardCounts.put(ONE_COPY_CARDS, oneCopyCards);
+        cardCounts.put(THREE_PLUS_COPY_ACTION_CARDS, threePlusCopyActionCards);
+        cardCounts.put(SECOND_MOST_COMMON_ACTION_CARDS, secondHighestActionCardCount);
+        cardCounts.put(NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS, nonVictoryEmptySupplyPileCards);
+        
         return cardCounts;
     }
 
@@ -723,16 +826,37 @@ public abstract class Player {
         cardCounts.put(DISTINCT_CARDS, distinctCards.size());
         return cardCounts;
     }
+    
+    public Map<Card, Integer> getTreasureCardCounts() {
+    	final Map<Card, Integer> cardCounts = new HashMap<Card, Integer>();
+    	for (AbstractCardPile pile : this.game.piles.values()) {
+            Card card = pile.card();
+            if(card.is(Type.Treasure, this)) {
+                cardCounts.put(card, 0);
+            }
+        }
 
-    public int getCardCount(final Class<?> cardClass) {
-        return this.getCardCount(cardClass, getAllCards());
+        for(Card card : this.getAllCards()) {
+            if (card.is(Type.Treasure, this)) {
+                if(cardCounts.containsKey(card)) {
+                    cardCounts.put(card, cardCounts.get(card) + 1);
+                } else {
+                    cardCounts.put(card, 1);
+                }
+            }
+        }
+        return cardCounts;
     }
 
-    public int getCardCount(final Class<?> cardClass, ArrayList<Card> cards) {
+    public int getCardCount(final Type cardType) {
+        return this.getCardCount(cardType, getAllCards());
+    }
+
+    public int getCardCount(final Type cardType, ArrayList<Card> cards) {
         int cardCount = 0;
 
         for (Card card : cards) {
-            if (cardClass.isInstance(card)) {
+            if (card.is(cardType, this)) {
                 cardCount++;
             }
         }
@@ -747,7 +871,7 @@ public abstract class Player {
     public int getActionCardCount(ArrayList<Card> cards, Player player) {
     	int cardCount = 0;
         for (Card c : cards) {
-            if (c.isAction(player)) {
+            if (c.is(Type.Action, player)) {
                 cardCount++;
             }
         }
@@ -755,7 +879,7 @@ public abstract class Player {
     }
 
     public int getVictoryCardCount() {
-        return this.getCardCount(VictoryCard.class);
+        return this.getCardCount(Type.Victory);
     }
 
     public int getDistinctCardCount() {
@@ -772,6 +896,20 @@ public abstract class Player {
         }
 
         return distinctCards.size();
+    }
+    
+    public int getCastleCardCount(Player player) {
+    	return getCastleCardCount(getAllCards(), player);
+    }
+    
+    public int getCastleCardCount(ArrayList<Card> cards, Player player) {
+    	int cardCount = 0;
+        for (Card c : cards) {
+            if (c.is(Type.Castle, player)) {
+                cardCount++;
+            }
+        }
+        return cardCount;
     }
 
     public int calculateLead(Card card) {
@@ -802,17 +940,19 @@ public abstract class Player {
         Map<Card, Integer> totals = new HashMap<Card, Integer>();
 
         for(Map.Entry<Object, Integer> entry : counts.entrySet()) {
-            if(entry.getKey() instanceof VictoryCard) {
-                VictoryCard victoryCard = (VictoryCard) entry.getKey();
+            if(entry.getKey() instanceof Card && ((Card)entry.getKey()).is(Type.Victory, this)) {
+                Card victoryCard = (Card) entry.getKey();
                 totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
-            } else if(entry.getKey() instanceof CurseCard) {
-                CurseCard curseCard = (CurseCard) entry.getKey();
+            } else if((entry.getKey() instanceof Card) && ((Card)entry.getKey()).is(Type.Curse, null)) {
+                Card curseCard = (Card) entry.getKey();
                 totals.put(curseCard, curseCard.getVictoryPoints() * entry.getValue());
             }
         }
+        
+        ArrayList<Card> allCards = this.getAllCards();
 
         if(counts.containsKey(Cards.gardens))
-            totals.put(Cards.gardens, counts.get(Cards.gardens) * (this.getAllCards().size() / 10));
+            totals.put(Cards.gardens, counts.get(Cards.gardens) * (allCards.size() / 10));
         if(counts.containsKey(Cards.duke))
             totals.put(Cards.duke, counts.get(Cards.duke) * counts.get(Cards.duchy));
         if(counts.containsKey(Cards.fairgrounds))
@@ -822,12 +962,67 @@ public abstract class Player {
         if(counts.containsKey(Cards.silkRoad))
             totals.put(Cards.silkRoad, counts.get(Cards.silkRoad) * (this.getVictoryCardCount() / 4));
         if(counts.containsKey(Cards.feodum))
-            totals.put(Cards.feodum, counts.get(Cards.feodum) * (Util.getCardCount(getAllCards(), Cards.silver)  / 3));
+            totals.put(Cards.feodum, counts.get(Cards.feodum) * (Util.getCardCount(allCards, Cards.silver)  / 3));
         if(counts.containsKey(Cards.distantLands)) {
         	// counts only if on tavern
             counts.put(Cards.distantLands, Util.getCardCount(this.tavern, Cards.distantLands));
             totals.put(Cards.distantLands, counts.get(Cards.distantLands) * 4);
         }
+        if (counts.containsKey(Cards.humbleCastle))
+        	totals.put(Cards.humbleCastle, counts.get(Cards.humbleCastle) * this.getCastleCardCount(this));
+        if (counts.containsKey(Cards.kingsCastle))
+        	totals.put(Cards.kingsCastle, counts.get(Cards.kingsCastle) * this.getCastleCardCount(this) * 2);
+        // landmarks
+        if (this.game.cardInGame(Cards.banditFort)) {
+    		totals.put(Cards.banditFort, (Util.getCardCount(allCards, Cards.silver) + Util.getCardCount(allCards, Cards.gold)) * -2);
+        }
+        if (this.game.cardInGame(Cards.fountain)) {
+    		totals.put(Cards.fountain, (Util.getCardCount(allCards, Cards.copper) >= 10) ? 15 : 0);
+        }
+        if (this.game.cardInGame(Cards.museum)) {
+        	totals.put(Cards.museum, counts.get(DISTINCT_CARDS) * 2);
+        }
+        if (this.game.cardInGame(Cards.obelisk)) {
+        	totals.put(Cards.obelisk, game.obeliskCard != null ? Util.getCardCount(allCards, game.obeliskCard) * 2 : 0);
+        }
+        if (this.game.cardInGame(Cards.orchard)) {
+        	totals.put(Cards.orchard, counts.get(THREE_PLUS_COPY_ACTION_CARDS) * 4);
+        }
+        if (this.game.cardInGame(Cards.palace)) {
+    		totals.put(Cards.palace, (Math.min(Util.getCardCount(allCards, Cards.copper), 
+    				Math.min(Util.getCardCount(allCards, Cards.silver), Util.getCardCount(allCards, Cards.gold)))) * 3);
+        }
+        if (this.game.cardInGame(Cards.tower)) {
+        	totals.put(Cards.tower, counts.get(NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS));
+        }
+        if (this.game.cardInGame(Cards.triumphalArch)) {
+        	totals.put(Cards.triumphalArch, counts.get(SECOND_MOST_COMMON_ACTION_CARDS) * 3);
+        }
+        if (this.game.cardInGame(Cards.wall)) {
+        	totals.put(Cards.wall, allCards.size() > 15 ? 15 - allCards.size() : 0);
+        }
+        if (this.game.cardInGame(Cards.wolfDen)) {
+        	totals.put(Cards.wolfDen, counts.get(ONE_COPY_CARDS) * -3);
+        }
+        if (this.game.cardInGame(Cards.keep)) {
+        	Map<Card, Integer> myWinningTreasures = getTreasureCardCounts();
+        	for (Iterator<Map.Entry<Card, Integer>> it = myWinningTreasures.entrySet().iterator(); it.hasNext(); ) {
+        		if (it.next().getValue() == 0)
+        			it.remove();
+        	}
+        	for(Player p : game.getPlayersInTurnOrder()) {
+        		if (p == this) continue;
+        		Map<Card, Integer> otherTreasureCounts = p.getTreasureCardCounts();
+        		for (Iterator<Map.Entry<Card, Integer>> it = myWinningTreasures.entrySet().iterator(); it.hasNext(); ) {
+        			Map.Entry<Card, Integer> entry = it.next();
+        			if (otherTreasureCounts.containsKey(entry.getKey()) && otherTreasureCounts.get(entry.getKey()) > entry.getValue())
+            			it.remove();
+            	}
+        	}
+        	totals.put(Cards.keep, myWinningTreasures.size() * 5);
+        }
+        
+        // victory tokens
         totals.put(Cards.victoryTokens, this.getVictoryTokens());
 
         return totals;
@@ -837,18 +1032,18 @@ public abstract class Player {
     	attackDurationEffectsOnOthers.clear();
     }
     
-    public void addDurationEffectOnOtherPlayer(Player player, Cards.Type effectType) {
+    public void addDurationEffectOnOtherPlayer(Player player, Cards.Kind effectType) {
     	if (!attackDurationEffectsOnOthers.containsKey(player)) {
-    		attackDurationEffectsOnOthers.put(player, new HashMap<Cards.Type, Integer>());
+    		attackDurationEffectsOnOthers.put(player, new HashMap<Cards.Kind, Integer>());
     	}
-    	Map<Cards.Type, Integer> otherPlayerEffects = attackDurationEffectsOnOthers.get(player); 
+    	Map<Cards.Kind, Integer> otherPlayerEffects = attackDurationEffectsOnOthers.get(player); 
     	if (!otherPlayerEffects.containsKey(effectType)) {
     		otherPlayerEffects.put(effectType, 0);
     	}
     	otherPlayerEffects.put(effectType, otherPlayerEffects.get(effectType) + 1);
     }
     
-    public int getDurationEffectsOnOtherPlayer(Player player, Cards.Type effectType) {
+    public int getDurationEffectsOnOtherPlayer(Player player, Cards.Kind effectType) {
     	if (attackDurationEffectsOnOthers.containsKey(player)
 			&& attackDurationEffectsOnOthers.get(player).containsKey(effectType)) {
     		return attackDurationEffectsOnOthers.get(player).get(effectType);
@@ -867,7 +1062,7 @@ public abstract class Player {
     public void putOnTopOfDeck(Card card, MoveContext context, boolean UI) {
         putOnTopOfDeck(card);
         if (UI) {
-            GameEvent event = new GameEvent(GameEvent.Type.CardOnTopOfDeck, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
             event.card = card;
             event.setPlayer(this);
             context.game.broadcastEvent(event);
@@ -1061,17 +1256,25 @@ public abstract class Player {
         }
 
         if (willDiscard) {
+        	if (!commandedDiscard && cleanup && card.equals(Cards.capital)) {
+        		context.getPlayer().controlPlayer.gainDebtTokens(6);
+            	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
+            	event.setAmount(6);
+                context.game.broadcastEvent(event);
+        		context.game.playerPayOffDebt(this, context);
+        	}
+        	
             //if discarding during cleanup put the card back on prince
             if (!commandedDiscard && cleanup && playedByPrince.contains(card)) {
                 prince.add(card);
                 playedByPrince.remove(card);
                 if(context != null) {
-                    GameEvent event = new GameEvent(GameEvent.Type.CardSetAside, context);
+                    GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, context);
                     event.card = card;
                     context.game.broadcastEvent(event);
                 }
             }
-            else if(!commandedDiscard && cleanup && card.isTraveller(this)) {
+            else if(!commandedDiscard && cleanup && card.is(Type.Traveller, this)) {
                 exchange = traveller_exchange(context, card);
                 if (exchange != null) {
     				// Return to the pile
@@ -1105,11 +1308,11 @@ public abstract class Player {
         if(context != null && (commandedDiscard || exchange != null)) {
             GameEvent event;
         	if(exchange != null) {
-        		event = new GameEvent(GameEvent.Type.TravellerExchanged, context);
+        		event = new GameEvent(GameEvent.EventType.TravellerExchanged, context);
         		event.card = exchange;
         		event.responsible = card;
         	} else {
-            	event = new GameEvent(GameEvent.Type.CardDiscarded, context);
+            	event = new GameEvent(GameEvent.EventType.CardDiscarded, context);
             	event.card = (card);
             	event.responsible = responsible;
         	}
@@ -1122,7 +1325,7 @@ public abstract class Player {
     public Card gainNewCard(Card cardToGain, Card responsible, MoveContext context) {
         Card card = game.takeFromPileCheckTrader(cardToGain, context);
         if (card != null) {
-            GameEvent gainEvent = new GameEvent(GameEvent.Type.CardObtained, (MoveContext) context);
+            GameEvent gainEvent = new GameEvent(GameEvent.EventType.CardObtained, (MoveContext) context);
             gainEvent.card = card;
             gainEvent.responsible = responsible;
             gainEvent.newCard = true;
@@ -1143,7 +1346,7 @@ public abstract class Player {
 
     public void gainCardAlreadyInPlay(Card card, Card responsible, MoveContext context) {
         if (context != null) {
-            GameEvent event = new GameEvent(GameEvent.Type.CardObtained, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardObtained, context);
             event.card = card;
             event.responsible = responsible;
             event.newCard = false;
@@ -1188,16 +1391,21 @@ public abstract class Player {
             context.cardsTrashedThisTurn++;
         }
 
-        GameEvent event = new GameEvent(GameEvent.Type.CardTrashed, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.CardTrashed, context);
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
-
+        
         // Add to trash pile
         if (isPossessed()) {
             context.game.possessedTrashPile.add(card);
         } else {
             context.game.trashPile.add(card);
+        }
+        
+        //Add VP token if Tomb is in play
+        if (context.game.cardInGame(Cards.tomb)) {
+        	addVictoryTokens(context, 1);
         }
 
         // Execute special card logic when the trashing occurs
@@ -1210,7 +1418,7 @@ public abstract class Player {
             ArrayList<Card> marketSquaresInHand = new ArrayList<Card>();
 
             for (Card c : hand) {
-                if (c.getType() == Cards.Type.MarketSquare || (hasInheritedMarketSquare && c.equals(Cards.estate))) {
+                if (c.getKind() == Cards.Kind.MarketSquare || (hasInheritedMarketSquare && c.equals(Cards.estate))) {
                     marketSquaresInHand.add(c);
                 }
             }
@@ -1231,21 +1439,21 @@ public abstract class Player {
     public abstract Card catacombs_cardToObtain(MoveContext context, int maxCost);
 
     public void namedCard(Card card, Card responsible, MoveContext context) {
-        GameEvent event = new GameEvent(GameEvent.Type.CardNamed, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.CardNamed, context);
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
     }
 
     public void revealFromHand(Card card, Card responsible, MoveContext context) {
-        GameEvent event = new GameEvent(GameEvent.Type.CardRevealedFromHand, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.CardRevealedFromHand, context);
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
     }
 
     public void reveal(Card card, Card responsible, MoveContext context) {
-        GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.CardRevealed, context);
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
@@ -1253,7 +1461,7 @@ public abstract class Player {
 
     public void attacked(Card card, MoveContext context) {
         context.attackedPlayer = this;
-        GameEvent event = new GameEvent(GameEvent.Type.PlayerAttacking, context);
+        GameEvent event = new GameEvent(GameEvent.EventType.PlayerAttacking, context);
         event.attackedPlayer = this;
         event.card = card.behaveAsCard();
         context.game.broadcastEvent(event);
@@ -1382,28 +1590,43 @@ public abstract class Player {
     	DiscardTwoCurses,
     	DiscardSixCards
     }
+    
+    public static enum CharmOption {
+    	OneBuyTwoCoins,
+    	NextBuyGainDifferentWithSameCost
+    }
+    
+    public static enum EncampmentOption {
+    	RevealGold,
+    	RevealPlunder
+    }
+    
+    public static enum WildHuntOption {
+    	Draw3AndPlaceToken,
+    	GainEstateAndTokens
+    }
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
     public void newGame(MoveContext context) {
     }
 
-    public ArrayList<TreasureCard> getTreasuresInHand() {
-        ArrayList<TreasureCard> treasures = new ArrayList<TreasureCard>();
+    public ArrayList<Card> getTreasuresInHand() {
+        ArrayList<Card> treasures = new ArrayList<Card>();
 
         for (Card c : getHand())
-            if (c instanceof TreasureCard)
-                treasures.add((TreasureCard) c);
+            if (c.is(Type.Treasure, this))
+                treasures.add(c);
 
         return treasures;
     }
 
-    public ArrayList<VictoryCard> getVictoryInHand() {
-        ArrayList<VictoryCard> victory = new ArrayList<VictoryCard>();
+    public ArrayList<Card> getVictoryInHand() {
+        ArrayList<Card> victory = new ArrayList<Card>();
 
         for (Card c : getHand())
-            if (c instanceof VictoryCard)
-                victory.add((VictoryCard) c);
+            if (c.is(Type.Victory, this))
+                victory.add(c);
 
         return victory;
     }
@@ -1412,7 +1635,7 @@ public abstract class Player {
         ArrayList<Card> actions = new ArrayList<Card>();
 
         for (Card c : getHand())
-            if (c.isAction(player))
+            if (c.is(Type.Action, player))
                 actions.add(c);
 
         return actions;
@@ -1438,19 +1661,19 @@ public abstract class Player {
 
     public abstract Card remodel_cardToTrash(MoveContext context);
 
-    public abstract Card remodel_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card remodel_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] militia_attack_cardsToKeep(MoveContext context);
 
-    public abstract TreasureCard thief_treasureToTrash(MoveContext context, TreasureCard[] treasures);
+    public abstract Card thief_treasureToTrash(MoveContext context, Card[] treasures);
 
-    public abstract TreasureCard[] thief_treasuresToGain(MoveContext context, TreasureCard[] treasures);
+    public abstract Card[] thief_treasuresToGain(MoveContext context, Card[] treasures);
 
     public abstract boolean chancellor_shouldDiscardDeck(MoveContext context);
 
-    public abstract TreasureCard mine_treasureFromHandToUpgrade(MoveContext context);
+    public abstract Card mine_treasureFromHandToUpgrade(MoveContext context);
 
-    public abstract TreasureCard mine_treasureToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card mine_treasureToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] chapel_cardsToTrash(MoveContext context);
 
@@ -1460,7 +1683,7 @@ public abstract class Player {
 
     public abstract boolean spy_shouldDiscard(MoveContext context, Player targetPlayer, Card card);
 
-    public abstract VictoryCard bureaucrat_cardToReplace(MoveContext context);
+    public abstract Card bureaucrat_cardToReplace(MoveContext context);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Intrigue
@@ -1473,7 +1696,7 @@ public abstract class Player {
 
     public abstract StewardOption steward_chooseOption(MoveContext context);
 
-    public abstract Card swindler_cardToSwitch(MoveContext context, int cost, boolean potion);
+    public abstract Card swindler_cardToSwitch(MoveContext context, int cost, int debtCost, boolean potion);
 
     public abstract Card[] steward_cardsToTrash(MoveContext context);
 
@@ -1491,7 +1714,7 @@ public abstract class Player {
 
     public abstract boolean miningVillage_shouldTrashMiningVillage(MoveContext context);
 
-    public abstract Card saboteur_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card saboteur_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] scout_orderCards(MoveContext context, Card[] cards);
 
@@ -1506,7 +1729,7 @@ public abstract class Player {
 
     public abstract Card upgrade_cardToTrash(MoveContext context);
 
-    public abstract Card upgrade_cardToObtain(MoveContext context, int exactCost, boolean potion);
+    public abstract Card upgrade_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion);
 
     public abstract MinionOption minion_chooseOption(MoveContext context);
 
@@ -1523,7 +1746,7 @@ public abstract class Player {
 
     public abstract boolean pirateShip_takeTreasure(MoveContext context);
 
-    public abstract TreasureCard pirateShip_treasureToTrash(MoveContext context, TreasureCard[] treasures);
+    public abstract Card pirateShip_treasureToTrash(MoveContext context, Card[] treasures);
 
     public abstract boolean nativeVillage_takeCards(MoveContext context);
 
@@ -1570,7 +1793,7 @@ public abstract class Player {
 
     public abstract boolean alchemist_backOnDeck(MoveContext context);
 
-    public abstract TreasureCard herbalist_backOnDeck(MoveContext context, TreasureCard[] cards);
+    public abstract Card herbalist_backOnDeck(MoveContext context, Card[] cards);
 
     public abstract Card apprentice_cardToTrash(MoveContext context);
 
@@ -1593,7 +1816,7 @@ public abstract class Player {
 
     public abstract Card expand_cardToTrash(MoveContext context);
 
-    public abstract Card expand_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card expand_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] forge_cardsToTrash(MoveContext context);
 
@@ -1605,9 +1828,9 @@ public abstract class Player {
 
     public abstract Card throneRoom_cardToPlay(MoveContext context);
 
-    public abstract boolean loan_shouldTrashTreasure(MoveContext context, TreasureCard treasure);
+    public abstract boolean loan_shouldTrashTreasure(MoveContext context, Card treasure);
 
-    public abstract TreasureCard mint_treasureToMint(MoveContext context);
+    public abstract Card mint_treasureToMint(MoveContext context);
 
     public abstract boolean mountebank_attack_shouldDiscardCurse(MoveContext context);
 
@@ -1623,7 +1846,7 @@ public abstract class Player {
 
     public abstract WatchTowerOption watchTower_chooseOption(MoveContext context, Card card);
 
-    public abstract ArrayList<TreasureCard> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible);
+    public abstract ArrayList<Card> treasureCardsToPlayInOrder(MoveContext context, int maxCards, Card responsible);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Cornucopia
@@ -1634,13 +1857,13 @@ public abstract class Player {
 
     public abstract Card hornOfPlenty_cardToObtain(MoveContext context, int maxCost);
 
-    public abstract Card[] horseTradersDungeon_cardsToDiscard(MoveContext context, Card responsible);
+    public abstract Card[] discardMultiple_cardsToDiscard(MoveContext context, Card responsible, int numToDiscard);
 
     public abstract JesterOption jester_chooseOption(MoveContext context, Player targetPlayer, Card card);
 
     public abstract Card remake_cardToTrash(MoveContext context);
 
-    public abstract Card remake_cardToObtain(MoveContext context, int exactCost, boolean potion);
+    public abstract Card remake_cardToObtain(MoveContext context, int exactCost, int debtCost, boolean potion);
 
     public abstract boolean tournament_shouldRevealProvince(MoveContext context);
 
@@ -1661,9 +1884,9 @@ public abstract class Player {
 
     public abstract Card farmland_cardToTrash(MoveContext context);
 
-    public abstract Card farmland_cardToObtain(MoveContext context, int cost, boolean potion);
+    public abstract Card farmland_cardToObtain(MoveContext context, int cost, int debt, boolean potion);
 
-    public abstract TreasureCard stables_treasureToDiscard(MoveContext context);
+    public abstract Card stables_treasureToDiscard(MoveContext context);
 
     public abstract boolean duchess_shouldDiscardCardFromTopOfDeck(MoveContext context, Card card);
 
@@ -1671,9 +1894,9 @@ public abstract class Player {
 
     public abstract Card develop_cardToTrash(MoveContext context);
 
-    public abstract Card develop_lowCardToGain(MoveContext context, int cost, boolean potion);
+    public abstract Card develop_lowCardToGain(MoveContext context, int cost, int debt, boolean potion);
 
-    public abstract Card develop_highCardToGain(MoveContext context, int cost, boolean potion);
+    public abstract Card develop_highCardToGain(MoveContext context, int cost, int debt, boolean potion);
 
     public abstract Card[] develop_orderCards(MoveContext context, Card[] cards);
 
@@ -1681,13 +1904,13 @@ public abstract class Player {
 
     public abstract boolean foolsGold_shouldTrash(MoveContext context);
 
-    public abstract TreasureCard nobleBrigand_silverOrGoldToTrash(MoveContext context, TreasureCard[] silverOrGoldCards);
+    public abstract Card nobleBrigand_silverOrGoldToTrash(MoveContext context, Card[] silverOrGoldCards);
 
     public abstract boolean jackOfAllTrades_shouldDiscardCardFromTopOfDeck(MoveContext context, Card card);
 
     public abstract Card jackOfAllTrades_nonTreasureToTrash(MoveContext context);
 
-    public abstract TreasureCard spiceMerchant_treasureToTrash(MoveContext context);
+    public abstract Card spiceMerchant_treasureToTrash(MoveContext context);
 
     public abstract SpiceMerchantOption spiceMerchant_chooseOption(MoveContext context);
 
@@ -1711,7 +1934,7 @@ public abstract class Player {
 
     public abstract boolean illGottenGains_gainCopper(MoveContext context);
 
-    public abstract Card haggler_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card haggler_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
     public abstract Card[] inn_cardsToDiscard(MoveContext context);
 
@@ -1762,7 +1985,7 @@ public abstract class Player {
 
     public abstract Card graverobber_cardToTrash(MoveContext context);
 
-    public abstract Card graverobber_cardToReplace(MoveContext context, int maxCost, boolean potion);
+    public abstract Card graverobber_cardToReplace(MoveContext context, int maxCost, int maxDebt, boolean potion);
 
     public abstract boolean ironmonger_shouldDiscard(MoveContext context, Card card);
 
@@ -1782,17 +2005,17 @@ public abstract class Player {
 
     public abstract Card procession_cardToPlay(MoveContext context);
 
-    public abstract Card procession_cardToGain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card procession_cardToGain(MoveContext context, int exactCost, int debt, boolean potion);
 
     public abstract Card rebuild_cardToPick(MoveContext context, ArrayList<Card> cardList);
 
-    public abstract Card rebuild_cardToGain(MoveContext context, int maxCost, boolean costPotion);
+    public abstract Card rebuild_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean costPotion);
 
     public abstract Card rogue_cardToGain(MoveContext context);
 
     public abstract Card rogue_cardToTrash(MoveContext context, ArrayList<Card> canTrash);
 
-    public abstract TreasureCard counterfeit_cardToPlay(MoveContext context);
+    public abstract Card counterfeit_cardToPlay(MoveContext context);
 
     public abstract Card pillage_opponentCardToDiscard(MoveContext context, ArrayList<Card> handCards);
 
@@ -1820,15 +2043,15 @@ public abstract class Player {
     public abstract int numGuildsCoinTokensToSpend(MoveContext context, int coinTokenTotal, boolean butcher);
     public abstract int amountToOverpay(MoveContext context, Card card, int cardCost);
     public abstract int overpayByPotions(MoveContext context, int availablePotions);
-    public abstract TreasureCard taxman_treasureToTrash(MoveContext context);
-    public abstract TreasureCard taxman_treasureToObtain(MoveContext context, int maxCost, boolean potion);
-    public abstract TreasureCard plaza_treasureToDiscard(MoveContext context);
+    public abstract Card taxman_treasureToTrash(MoveContext context);
+    public abstract Card taxman_treasureToObtain(MoveContext context, int maxCost, int maxDebt, boolean potion);
+    public abstract Card plaza_treasureToDiscard(MoveContext context);
     public abstract Card butcher_cardToTrash(MoveContext context);
-    public abstract Card butcher_cardToObtain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card butcher_cardToObtain(MoveContext context, int maxCost, int maxDebt, boolean potion);
     public abstract Card advisor_cardToDiscard(MoveContext context, Card[] cards);
     public abstract Card journeyman_cardToPick(MoveContext context, List<Card> cardList);
     public abstract Card stonemason_cardToTrash(MoveContext context);
-    public abstract Card stonemason_cardToGain(MoveContext context, int maxCost, boolean potion);
+    public abstract Card stonemason_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean potion);
     public abstract Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion);
     public abstract Card doctor_cardToPick(MoveContext context, List<Card> cardList);
     public abstract ArrayList<Card> doctor_cardsForDeck(MoveContext context, ArrayList<Card> cards);
@@ -1849,7 +2072,7 @@ public abstract class Player {
     public abstract Card disciple_cardToPlay(MoveContext context);
     public abstract Card fugitive_cardToDiscard(MoveContext context);
     public abstract Card[] gear_cardsToSetAside(MoveContext context);
-    public abstract TreasureCard hero_treasureToObtain(MoveContext context);
+    public abstract Card hero_treasureToObtain(MoveContext context);
     public abstract boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange);
     public abstract Card messenger_cardToObtain(MoveContext context);
     public abstract boolean messenger_shouldDiscardDeck(MoveContext context);
@@ -1862,7 +2085,7 @@ public abstract class Player {
 	public abstract PlayerSupplyToken teacher_tokenTypeToMove(MoveContext context);
 	public abstract Card teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token);
 	public abstract Card transmogrify_cardToTrash(MoveContext context);
-	public abstract Card transmogrify_cardToObtain(MoveContext context, int maxCost, boolean potion);
+	public abstract Card transmogrify_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal);
     public abstract int cleanup_wineMerchantEstateToDiscard(MoveContext context, int wineMerchantTotal);
         
@@ -1891,7 +2114,48 @@ public abstract class Player {
     public abstract Card[] trade_cardsToTrash(MoveContext context);
     
     public abstract ExtraTurnOption extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options);
+    
 
+    // ////////////////////////////////////////////
+    // Card interactions - Empires Expansion
+    // ////////////////////////////////////////////
+    public abstract int numDebtTokensToPayOff(MoveContext context);
+    public abstract Card advance_actionToTrash(MoveContext context);
+    public abstract Card advance_cardToObtain(MoveContext context);
+    public abstract Card annex_cardToKeepInDiscard(MoveContext context, Card[] cards, int cardsLeft);
+    public abstract Card archive_cardIntoHand(MoveContext context, Card[] cards);
+    public abstract Card arena_cardToDiscard(MoveContext context);
+    public abstract Card banquet_cardToObtain(MoveContext context);
+    public abstract boolean bustlingVillage_settlersIntoHand(MoveContext context, int coppers, int settlers);
+    public abstract Card catapult_cardToTrash(MoveContext context);
+    public abstract Card[] catapult_attack_cardsToKeep(MoveContext context);
+    public abstract CharmOption charm_chooseOption(MoveContext context);
+    public abstract Card charm_cardToObtain(MoveContext context, Card boughtCard);
+    public abstract Card crown_actionToPlay(MoveContext context);
+    public abstract Card crown_treasureToPlay(MoveContext context);
+    public abstract Card[] donate_cardsToTrash(MoveContext context);
+    public abstract EncampmentOption encampment_chooseOption(MoveContext context, EncampmentOption[] options);
+    public abstract Card engineer_cardToObtain(MoveContext context);
+    public abstract boolean engineer_shouldTrashEngineerPlayed(MoveContext context);
+    public abstract Card[] hauntedCastle_gain_cardsToPutBackOnDeck(MoveContext context);
+    public abstract Card gladiator_revealedCard(MoveContext context);
+    public abstract boolean gladiator_revealCopy(MoveContext context, Player revealingPlayer, Card card);
+    public abstract boolean legionary_revealGold(MoveContext context);
+    public abstract Card[] legionary_attack_cardsToKeep(MoveContext context);
+    public abstract int mountainPass_getBid(MoveContext context, Player highestBidder, int highestBid, int playersLeftToBid);
+    public abstract Card[] opulentCastle_cardsToDiscard(MoveContext context);
+    public abstract Card overlord_actionCardToImpersonate(MoveContext context);
+    public abstract Card ritual_cardToTrash(MoveContext context);
+    public abstract Card sacrifice_cardToTrash(MoveContext context);
+    public abstract Card saltTheEarth_cardToTrash(MoveContext context);
+    public abstract boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers);
+    public abstract boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context);
+    public abstract Card smallCastle_castleToTrash(MoveContext context);
+    public abstract HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context);
+    public abstract Card tax_supplyToTax(MoveContext context);
+    public abstract Card[] temple_cardsToTrash(MoveContext context);
+    public abstract WildHuntOption wildHunt_chooseOption(MoveContext context);
+    
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards
     // ////////////////////////////////////////////
@@ -1899,7 +2163,7 @@ public abstract class Player {
 
     public abstract Card governor_cardToTrash(MoveContext context);
 
-    public abstract Card governor_cardToObtain(MoveContext context, int exactCost, boolean potion);
+    public abstract Card governor_cardToObtain(MoveContext context, int exactCost, int debt, boolean potion);
 
     public abstract Card envoy_cardToDiscard(MoveContext context, Card[] revealedCards);
     

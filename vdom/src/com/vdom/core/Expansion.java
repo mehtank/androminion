@@ -15,6 +15,7 @@ public enum Expansion {
 	DarkAges(Cards.actionCardsDarkAges),
 	Guilds(Cards.actionCardsGuilds),
 	Adventures(Cards.actionCardsAdventures, Cards.eventCardsAdventures),
+	Empires(Cards.actionCardsEmpires, Cards.eventCardsEmpires),
 	Promo(Cards.actionCardsPromo, Cards.eventCardsPromo);
 	
 	private List<Card> kingdomCards;

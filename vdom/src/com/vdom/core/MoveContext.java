@@ -9,7 +9,7 @@ import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
-import com.vdom.api.TreasureCard;
+import com.vdom.core.Cards.Kind;
 
 public class MoveContext {
     public int actions = 1;
@@ -18,7 +18,6 @@ public class MoveContext {
     private int coins = 0;
     public int potions;
     public int actionsPlayedSoFar = 0;
-    public int treasuresPlayedSoFar = 0; /* Doesn't work because of Spoils or Mint */
     public int coppersmithsPlayed = 0;
     public int schemesPlayed = 0;
 
@@ -36,13 +35,23 @@ public class MoveContext {
     public int totalExpeditionBoughtThisTurn = 0;
     public boolean canBuyCards = true;
     public boolean startOfTurn = false;
-    public boolean buyPhase = false;
+    
+    public enum TurnPhase {
+    	Action, Buy, CleanUp
+    }
+    
+    public TurnPhase phase = TurnPhase.Action;  
     public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't spend Guilds coin tokens)
+    public boolean returnToActionPhase = false;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public int beggarSilverIsOnTop = 0;
     public boolean graverobberGainedCardOnTop = false;
     public boolean travellingFairBought = false;
     public boolean missionBought = false;
+    public boolean enchantressAlreadyAffected = false;
+    public boolean hasDoubledCoins = false;
+    public int donatesBought = 0;
+    public int charmsNextBuy = 0;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;
@@ -111,6 +120,16 @@ public class MoveContext {
         }
         return cardsInPlay + countCardsInNextTurn(card);
     }
+    
+    public int countCardsInPlayByName(Card card) {
+        int cardsInPlay = 0;
+        for(Card c : getPlayedCards()) {
+            if(!c.equals(Cards.estate) && c.behaveAsCard().equals(card)) {
+                cardsInPlay++;
+            }
+        }
+        return cardsInPlay + countCardsInNextTurnByName(card);
+    }
 
     public CardList getCardsInNextTurn() {
         return player.nextTurnCards;
@@ -125,62 +144,65 @@ public class MoveContext {
         }
         return cardsInNextTurn;
     }
+    
+    private int countCardsInNextTurnByName(Card card) {
+        int cardsInNextTurn = 0;
+        for(Card c : getCardsInNextTurn()) {
+            if(!c.equals(Cards.estate) && c.behaveAsCard().equals(card)) {
+            	cardsInNextTurn++;
+            }
+        }
+        return cardsInNextTurn;
+    }
 
     public boolean isRoyalSealInPlay() {
         return (countCardsInPlay(Cards.royalSeal) > 0);
     }
 
-    public int countGoonsInPlayThisTurn() {
+    public int countGoonsInPlay() {
     	return countCardsInPlay(Cards.goons);
     }
 
-    public int countTreasureCardsInPlayThisTurn() {
-        int treasuresInPlay = 0;
-        for(Card c : getPlayedCards()) {
-            if(c instanceof TreasureCard) {
-                treasuresInPlay++;
-            }
-        }
-
-        return treasuresInPlay;
-    }
-
-    public enum CardsInPlay {ACTION,ATTACK,TRAVELLER};
+    public enum CardsInPlay {ACTION,ATTACK,TRAVELLER,VICTORY,TREASURE};
     
-    public int countActionCardsInPlayThisTurn() {
-    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.ACTION);
+    public int countActionCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Action);
     }
     
-    public int countAttackCardsInPlayThisTurn() {
-    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.ATTACK);
+    public int countAttackCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Attack);
     }
     
-    public int countTravellerCardsInPlayThisTurn() {
-    	return countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay.TRAVELLER);
+    public int countTreasureCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Treasure);
     }
     
-    public int countActionAttackTravellerCardsInPlayThisTurn(CardsInPlay type) {
-        int actionsInPlay = 0;
+    public int countTravellerCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Traveller);
+    }
+    
+    public int countVictoryCardsInPlay() {
+    	return countTypedCardsInPlay(Type.Victory);
+    }
+    
+    public int countTypedCardsInPlay(Type type) {
+        int numInPlay = 0;
         for (Card c : getPlayedCards()) {
-        	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
-        			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
-        			|| (type == CardsInPlay.ACTION && c.isAction(player))) {
-    			actionsInPlay++;
+        	if (c.is(type, player)) {
+        		numInPlay++;
         	}
         }
         for (Card c : player.nextTurnCards) {
         	if (c instanceof CardImpl && ((CardImpl)c).trashAfterPlay)
         		continue;
-        	if ((type == CardsInPlay.ATTACK && c.isAttack(player))
-        			|| (type == CardsInPlay.TRAVELLER && c.isTraveller(player))
-        			|| (type == CardsInPlay.ACTION && c.isAction(player))) {
-    			actionsInPlay++;
+        	if (c.is(type, player)) {
+        		numInPlay++;
         	}
         }
-        return actionsInPlay;
+        return numInPlay;
     }
 
-    public int countUniqueCardsInPlayThisTurn() {
+    public int countUniqueCardsInPlay() {
         HashSet<String> distinctCardsInPlay = new HashSet<String>();
 
         for (Card cardInPlay : player.playedCards) {
@@ -232,16 +254,42 @@ public class MoveContext {
     public int getEmbargos(Card card) {
         return game.getEmbargos(card);
     }
+    
+    public int getPileVpTokens(Card card) {
+    	return game.getPileVpTokens(card);
+    }
+    
+    public int getPileDebtTokens(Card card) {
+    	return game.getPileDebtTokens(card);
+    }
+    
+    public int getPileTradeRouteTokens(Card card) {
+    	return game.getPileTradeRouteTokens(card);
+    }
 
     public int getEmbargosIfCursesLeft(Card card) {
     	int embargos = game.getEmbargos(card);
-    	if (!card.isEvent())
+    	if (!card.is(Type.Event, null))
     		embargos += game.swampHagAttacks(player);
         return Math.min(embargos, game.pileSize(Cards.curse));
     }
 
     public ArrayList<Card> getCardsObtainedByLastPlayer() {
         return game.getCardsObtainedByLastPlayer();
+    }
+    
+    public int getNumCardsGainedThisTurn() {
+    	return game.getCardsObtainedByPlayer().size();
+    }
+    
+    public int getNumCardsGainedThisTurn(Kind kind) {
+    	int result = 0;
+        for (Card c : game.getCardsObtainedByPlayer()) {
+        	if (c.getKind() == kind) {
+        		result++;
+        	}
+        }
+        return result;
     }
 
     public HashMap<String, Integer> getCardCounts() {
@@ -288,7 +336,7 @@ public class MoveContext {
     }
 
     public boolean canPlay(Card card) {
-        if (card.isAction(player)) {
+        if (card.is(Type.Action, player)) {
             return game.isValidAction(this, card);
         } else {
             return false;
@@ -414,9 +462,9 @@ public class MoveContext {
         return game.getVictoryCardsInGame();
     }
 
-    protected boolean isNewCardAvailable(int cost, boolean potion) {
+    protected boolean isNewCardAvailable(int cost, int debt, boolean potion) {
         for(Card c : getCardsInGame()) {
-            if(Cards.isSupplyCard(c)&& c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+            if(Cards.isSupplyCard(c)&& c.getCost(this) == cost && c.getDebtCost(this) == debt && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
                 return true;
             }
         }

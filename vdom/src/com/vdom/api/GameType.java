@@ -98,6 +98,9 @@ public enum GameType {
     RandomAdventures("Random Adventures"),
     GentleIntro("Gentle Intro (Adv)"), ExpertIntro("Expert Intro (Adv)"), LevelUp("Level Up (Adv,Base)"), SonOfSizeDistortion("Son of Size Distortion (Adv,Base)"), RoyaltyFactory("Royalty Factory (Adv,Intr)"), MastersOfFinance("Masters of Finance (Adv,Intr)"), PrinceOfOrange("Prince of Orange (Adv,Sea)"), GiftsAndMathoms("Gifts and Mathoms (Adv,Sea)"), HastePotion("Haste Potion (Adv,Alch)"), Cursecatchers("Cursecatchers (Adv,Alch)"), LastWillAndMonument("Last Will and Monument (Adv,Prsp)"), ThinkBig("Think Big (Adv,Prsp)"), TheHerosReturn("The Hero's Return (Adv,Corn)"), SeacraftAndWitchcraft("Seacraft and Witchcraft (Adv,Corn)"), TradersAndRaiders("Traders and Raiders (Adv,Hntr)"), Journeys("Journeys (Adv,Hntr)"), CemeteryPolka("Cemetery Polka (Adv,DA)"), GroovyDecay("Groovy Decay (Adv,DA)"), Spendthrift("Spendthrift (Adv,Gld)"), QueenOfTan("Queen of Tan (Adv,Gld)"), 
     
+    // Empires
+    BasicIntro("Basic Intro (Emp)"), AdvancedIntro("Advanced Intro (Emp)"), EverythingInModeration("Everything in Moderation (Emp,Base)"), SilverBullets("Silver Bullets (Emp,Base)"), DeliciousTorture("Delicious Torture (Emp,Intr)"), BuddySystem("Buddy System (Emp,Intr)"), BoxedIn("Boxed In (Emp,Sea)"), KingOfTheSea("King of the Sea (Emp,Sea"), Collectors("Collectors (Emp,Alch)"), BigTime("Big Time (Emp,Prsp"), GildedGates("GildedGates (Emp,Prsp)"), Zookeepers("Zookeepers (Emp,Corn"), SimplePlans("Simple Plans (Emp,Hntr)"), Expansion("Expansion (Emp,Hntr)"), TombOfTheRatKing("Tomb of the Rat King (Emp,DA)"), TriumphOfTheBanditKing("Triumph of the Bandit King (Emp,DA)"), TheSquiresRitual("The Squire's Ritual (Emp,DA"), CashFlow("Cash Flow (Emp, Gld"), AreaControl("Area Control (Emp,Adv)"), NoMoneyNoProblems("No Money No Problems (Emp,Adv)"),
+    
     // All Cards
     Random("Random"),
 

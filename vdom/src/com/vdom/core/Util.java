@@ -10,12 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.CurseCard;
 import com.vdom.api.GameEvent;
-import com.vdom.api.TreasureCard;
-import com.vdom.core.Cards.Type;
+import com.vdom.core.Cards.Kind;
 
 public class Util {
     public static String cardArrayToString(Card[] cards) {
@@ -258,14 +255,14 @@ public class Util {
         if (game.hasLighthouse(player)) {
             defended = true;
             
-            GameEvent event = new GameEvent(GameEvent.Type.PlayerDefended, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.PlayerDefended, context);
             event.card = Cards.lighthouse;
             game.broadcastEvent(event);
         }
         if (game.countChampionsInPlay(player) > 0) {
             defended = true;
             
-            GameEvent event = new GameEvent(GameEvent.Type.PlayerDefended, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.PlayerDefended, context);
             event.card = Cards.champion;
             game.broadcastEvent(event);
         }
@@ -275,7 +272,7 @@ public class Util {
         while ((reactionCard = player.controlPlayer.getAttackReaction(context, responsible, defended, reactionCardAbility)) != null) {
         	//TODO: error check reactionCard
         	
-            GameEvent event = new GameEvent(GameEvent.Type.CardRevealed, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardRevealed, context);
             event.card = reactionCard;
             game.broadcastEvent(event);
 
@@ -295,7 +292,7 @@ public class Util {
         	else if (reactionCardAbility.equals(Cards.moat)) {
                 defended = true;
                 
-                event = new GameEvent(GameEvent.Type.PlayerDefended, context);
+                event = new GameEvent(GameEvent.EventType.PlayerDefended, context);
                 event.card = reactionCard;
                 game.broadcastEvent(event);
         	}
@@ -601,15 +598,11 @@ public class Util {
 	static public class CardValueComparator implements Comparator<Card> {
 		@Override
 		public int compare(Card card0, Card card1) {
-			if ( !(card0 instanceof TreasureCard) || !(card1 instanceof TreasureCard) ) 
+			if ( !(card0.is(Type.Treasure, null)) || !(card1.is(Type.Treasure, null)) ) 
 				return 0;
-
-			TreasureCard tcard0 = (TreasureCard) card0;
-			TreasureCard tcard1 = (TreasureCard) card1;
-			
-			if (tcard0.getValue() < tcard1.getValue()) {
+			if (card0.getAddGold() < card1.getAddGold()) {
 				return -1;
-			} else if(tcard0.getValue() > tcard1.getValue()) {
+			} else if(card0.getAddGold() > card1.getAddGold()) {
 				return 1;
 			} else {
 				return 0;
@@ -645,29 +638,29 @@ public class Util {
 	static public class CardTypeComparator implements Comparator<Card> {
 		@Override
 		public int compare(Card card0, Card card1) {
-			if(card0.isAction(null)) {
-				if(card1.isAction(null)) {
+			if(card0.is(Type.Action, null)) {
+				if(card1.is(Type.Action, null)) {
 					return 0;
 				} else {
 					return -1;
 				}
-			} else if(card1.isAction(null)) {
+			} else if(card1.is(Type.Action, null)) {
 				return 1;
-			} else if(card0 instanceof TreasureCard || card0.getType() == Type.Potion) {
-				if(card1 instanceof TreasureCard || card1.getType() == Type.Potion) {
+			} else if(card0.is(Type.Treasure, null) || card0.getKind() == Kind.Potion) {
+				if(card1.is(Type.Treasure, null) || card1.getKind() == Kind.Potion) {
 					return 0;
 				} else {
 					return -1;
 				}
-			} else if(card1 instanceof TreasureCard || card1.getType() == Type.Potion) {
+			} else if(card1.is(Type.Treasure, null) || card1.getKind() == Kind.Potion) {
 				return 1;
-			} else if(card0 instanceof CurseCard) {
-				if(card1 instanceof CurseCard) {
+			} else if(card0.is(Type.Curse, null)) {
+				if(card1.is(Type.Curse, null)) {
 					return 0;
 				} else {
 					return -1;
 				}
-			} else if(card1 instanceof CurseCard) {
+			} else if(card1.is(Type.Curse, null)) {
 				return 1;
 			} else {
 				return 0;
@@ -682,8 +675,8 @@ public class Util {
 	static public class CardTravellerComparator implements Comparator<Card> {
 		@Override
 		public int compare(Card card0, Card card1) {
-			if(card0.isTraveller(null)) {
-				if(card1.isTraveller(null)) {
+			if(card0.is(Type.Traveller, null)) {
+				if(card1.is(Type.Traveller, null)) {
 					if(card0.getCost(null) > card1.getCost(null)) {
 						return -1;
 					} else if(card0.getCost(null) < card1.getCost(null)) {
@@ -694,7 +687,7 @@ public class Util {
 				} else {
 					return -1;
 				}
-			} else if(card1.isTraveller(null)) {
+			} else if(card1.is(Type.Traveller, null)) {
 				return 1;
 			} else {
 				return 0;
@@ -721,7 +714,7 @@ public class Util {
 		if (c.equals(Cards.distantLands)) {
 			return 3;
 		}
-		if (c.isReserve(null)) {
+		if (c.is(Type.Reserve, null)) {
 			return 1;
 		}
 		if (c.equals(Cards.copper)) {

@@ -49,6 +49,8 @@
 <![CDATA[
 		<h3>Please Read!</h3>
 		By request of Rio Grande Games, the publisher of Dominion, we have removed Androminion from the Play Store. Please do not publish it in any public app store as there is an official Dominion app.<br><br>
+		<h3>Version 7.01</h3>
+		* Empires Expansion!
 		<h3>Version 6.07</h3>
 		* Adventures Expansion! <br>
 		* Promo Cards: Stash, Summon
@@ -124,6 +126,9 @@
     <string name="random_include_events">Event cards: </string>
     <string name="random_events_none">None</string>
     <string name="random_events_random">Random</string>
+    <string name="random_include_landmarks">Landmarks: </string>
+    <string name="random_landmarks_none">None</string>
+    <string name="random_landmarks_random">Random</string>
     <string name="random_include_cards">Include Kingdom cards from</string>
     <string name="select_players">Select players:</string>
     <string name="player">Player </string>
@@ -161,6 +166,7 @@
     <string name="hand_header">Hand:</string>
     <string name="played_header">Played:</string>
     <string name="tavern_header">Tavern:</string>
+    <string name="archive_header">Archive:</string>
     <string name="island_header">Island:</string>
     <string name="village_header">Village:</string>
     <string name="prince_header">Prince:</string>
@@ -203,5 +209,25 @@
 	<string name="token_colon">:\u0020</string>
 	<string name="token_separator">,\u0020</string>
 	<string name="token_embargo">Embargoes</string>
+	<string name="token_victory">Victory</string>
+	<string name="token_debt">Debt</string>
+	<string name="token_trade_route">Trade Route</string>
 	<string name="bane_card">Bane card</string>
+	<string name="obelisk_card">Obelisk card (worth 2 VP)</string>
+	<string name="status_turn_number">Turn %1$s%2$s</string>
+	<string name="status_current_turn"> (Current turn)</string>
+	<string name="status_deck_size">Cards in deck: %1$s%2$s</string>
+	<string name="status_stash_on_deck"> (Stash on top)</string>
+	<string name="status_hand_size">Cards in hand: %1$s</string>
+	<string name="status_hand_stashes">Stash cards in hand: %1$s</string>
+	<string name="status_total_cards">Total cards: %1$s</string>
+	<string name="status_has_minus_coin_token">Has -1 Coin token</string>
+	<string name="status_has_minus_card_token">Has -1 Card token</string>
+	<string name="status_journey_token_up">Journey token is face up</string>
+	<string name="status_journey_token_down">Journey token is face down</string>
+	<string name="status_coin_tokens">Coin tokens: %1$s</string>
+	<string name="status_pirate_tokens">Pirate Ship Coin tokens: %1$s</string>
+	<string name="status_debt_tokens">Debt tokens: %1$s</string>
+	<string name="status_victory_tokens">Victory tokens: %1$s</string>
+	
 </resources>

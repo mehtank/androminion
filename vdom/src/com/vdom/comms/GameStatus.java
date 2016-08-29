@@ -25,12 +25,16 @@ public class GameStatus implements Serializable {
     public int[] myIsland;
     public int[] myVillage;
     public int myInheritance = -1;
+    public int[] myArchive;
     public int[] trashPile;
     public int[] blackMarketPile;
     public int[] blackMarketPileShuffled;
     public int[] turnStatus;
     public int[] supplySizes;
     public int[] embargos;
+    public int[] pileVpTokens;
+    public int[] pileDebtTokens;
+    public int[] pileTradeRouteTokens;
     public int[][][] tokens;
     public int[] costs;
     public int[] deckSizes;
@@ -40,11 +44,13 @@ public class GameStatus implements Serializable {
     public int[] numCards;
     public int[] pirates;
     public int[] victoryTokens;
+    public int[] debtTokens;
     public int[] guildsCoinTokens;
     public JourneyTokenState[] journeyTokens;
     public boolean[] minusOneCoinTokenOn;
     public boolean[] minusOneCardTokenOn;
     public boolean hauntedWoodsAttacks;
+    public boolean enchantressAttacks;
     public int swampHagAttacks;
     public int cardCostModifier;
     public int potions;
@@ -68,9 +74,13 @@ public class GameStatus implements Serializable {
     public GameStatus setIsland(int[] is) {myIsland = is; return this;};
     public GameStatus setVillage(int[] is) {myVillage = is; return this;};
     public GameStatus setInheritance(int is) {myInheritance = is; return this;};
+    public GameStatus setArchive(int[] is) {myArchive = is; return this;};
     public GameStatus setTurnStatus(int[] is) {turnStatus = is; return this;};
     public GameStatus setSupplySizes(int[] is) {supplySizes = is; return this;};
     public GameStatus setEmbargos(int[] is) {embargos = is; return this;};
+    public GameStatus setPileVpTokens(int[] is) {pileVpTokens = is; return this;};
+    public GameStatus setPileDebtTokens(int[] is) {pileDebtTokens = is; return this;};
+    public GameStatus setPileTradeRouteTokens(int[] is) {pileTradeRouteTokens = is; return this;};
     public GameStatus setTokens(int[][][] is) {tokens = is; return this;};
     public GameStatus setCosts(int[] is) {costs = is; return this;};
     public GameStatus setDeckSizes(int[] is) {deckSizes = is; return this;};
@@ -80,11 +90,13 @@ public class GameStatus implements Serializable {
     public GameStatus setNumCards(int[] is) {numCards = is; return this;}
     public GameStatus setPirates(int[] is) {pirates = is; return this;}
     public GameStatus setVictoryTokens(int[] is) {victoryTokens = is; return this;}
+    public GameStatus setDebtTokens(int[] is) {debtTokens = is; return this;}
     public GameStatus setGuildsCoinTokens(int[] is) {guildsCoinTokens = is; return this;}
     public GameStatus setJourneyToken(JourneyTokenState[] is) {journeyTokens = is; return this;}
     public GameStatus setMinusOneCoinToken(boolean[] is) {minusOneCoinTokenOn = is; return this;}
     public GameStatus setMinusOneCardToken(boolean[] is) {minusOneCardTokenOn = is; return this;}
     public GameStatus setHauntedWoodsAttacks(boolean i) {hauntedWoodsAttacks = i; return this;}
+    public GameStatus setEnchantressAttacks(boolean i) {enchantressAttacks = i; return this;}
     public GameStatus setSwampHagAttacks(int i) {swampHagAttacks = i; return this;}
     public GameStatus setCardCostModifier(int i) {cardCostModifier = i; return this;}
     public GameStatus setPotions(int i) {potions = i; return this;}

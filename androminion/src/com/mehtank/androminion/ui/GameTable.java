@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.GradientDrawable;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -51,9 +50,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         return players;
     }
 
-    GridView handGV, playedGV, tavernGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
-    CardGroup hand, played, tavern, prince, island, village, inheritance, blackMarket, trash;
-    View tavernColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
+    GridView handGV, playedGV, tavernGV, archiveGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
+    CardGroup hand, played, tavern, archive, prince, island, village, inheritance, blackMarket, trash;
+    View tavernColumn, archiveColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
     TextView playedHeader;
     LinearLayout myCards;
 
@@ -110,6 +109,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     ArrayList<CardInfo> openedCards = new ArrayList<CardInfo>();
     int maxOpened = 0;
     boolean exactOpened = true;
+    int minOpened = 0;
     boolean myTurn;
 
     boolean finalStatsReported = false;
@@ -164,7 +164,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         prizePileGV.setOnItemClickListener(this);
         prizePileGV.setOnItemLongClickListener(this);
         
-        eventPile = new CardGroup(top, true);
+        eventPile = new CardGroup(top, true, new MyCard.CardEventLandmarkComparator());
         eventPileGV = (GridView) findViewById(R.id.eventPileGV);
         eventPileGV.setAdapter(eventPile);
         eventPileGV.setOnItemClickListener(this);
@@ -192,6 +192,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         tavernGV.setAdapter(tavern);
         tavernGV.setOnItemLongClickListener(this);
         tavernColumn = findViewById(R.id.tavernColumn);
+        
+        archive = new CardGroup(top, false);
+        archiveGV = (GridView) findViewById(R.id.archiveGV);
+        archiveGV.setAdapter(archive);
+        archiveGV.setOnItemLongClickListener(this);
+        archiveColumn = findViewById(R.id.archiveColumn);
 
         prince = new CardGroup(top, false);
         princeGV = (GridView) findViewById(R.id.princeGV);
@@ -343,6 +349,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         hand.clear();
         played.clear();
         tavern.clear();
+        archive.clear();
         prince.clear();
         island.clear();
         village.clear();
@@ -390,11 +397,11 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 break;
             }
         
-        int numEvents = 0;
+        int numEventsLandmarks = 0;
         //count events
         for (MyCard c : cards)
-            if(c.isEvent)
-            	numEvents++;
+            if(c.isEvent || c.isLandmark)
+            	numEventsLandmarks++;
 
         // adjust size of pile table
         if(potionInPlay && platInPlay)
@@ -407,9 +414,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         else
             vpPileGV.setNumColumns(5);
         
-        if (numEvents <= 3 || numEvents == 6) {
+        if (numEventsLandmarks <= 3 || numEventsLandmarks == 6) {
         	eventPileGV.setNumColumns(3);
-        } else if (numEvents == 4 || numEvents == 7 || numEvents == 8 || numEvents == 11 || numEvents == 12) {
+        } else if (numEventsLandmarks == 4 || numEventsLandmarks == 7 || numEventsLandmarks == 8 || numEventsLandmarks == 11 || numEventsLandmarks == 12) {
         	eventPileGV.setNumColumns(4);
         } else {
         	eventPileGV.setNumColumns(5);
@@ -544,6 +551,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     private int[] lastSupplySizes;
 
     private int[] lastEmbargos;
+    private int[] lastPileVpTokens;
+    private int[] lastPileDebtTokens;
+    private int[] lastPileTradeRouteTokens;
     
     private int[][][] lastTokens;
 
@@ -725,6 +735,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         this.maxOpened = maxOpened;
         this.exactOpened = exactOpened;
+        this.minOpened = sco.minCount;
 
         if (sco.isBuyPhase) {
             s = Strings.getString(R.string.part_buy);
@@ -819,7 +830,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             setSelectText(sco.pickType);
         }
 
-        if (exactOpened && (openedCards.size() != maxOpened)) {
+        if ((exactOpened && (openedCards.size() != maxOpened)) || (openedCards.size() < minOpened)) {
             cannotSelect();
         } else {
             canSelect();
@@ -908,12 +919,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param embargos number of embargos
      * @param tokens 
      */
-    public void setSupplySizes(int[] supplySizes, int[] embargos, int[][][] tokens) {
-        moneyPile.updateCounts(supplySizes, embargos, tokens);
-        vpPile.updateCounts(supplySizes, embargos, tokens);
-        supplyPile.updateCounts(supplySizes, embargos, tokens);
-        prizePile.updateCounts(supplySizes, embargos, tokens);
-        nonSupplyPile.updateCounts(supplySizes, embargos, tokens);
+    public void setSupplySizes(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[] pileTradeRouteTokens, int[][][] tokens) {
+        moneyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        vpPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        supplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        prizePile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        nonSupplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+        eventPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
     }
 
     /**
@@ -977,7 +989,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         FinalView fv = new FinalView(top, this, gs.realNames[gs.whoseTurn], gs.turnCounts[gs.whoseTurn],
-                                     gs.embargos, gs.tokens,
+                                     gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.pileTradeRouteTokens, gs.tokens,
                                      gs.numCards[gs.whoseTurn], gs.supplySizes,
                                      gs.handSizes[gs.whoseTurn], won);
         fv.setLayoutParams(lp);
@@ -998,7 +1010,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     void uncheckAllShowCardsButtons() {
         for (ToggleButton t : showCardsButtons)
             t.setChecked(false);
-        setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastTokens);
+        setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastPileTradeRouteTokens, this.lastTokens);
     }
 
     /**
@@ -1030,7 +1042,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             /*print ruins and not abandoned mine*/
             supplyPile.updateCardName(gs.ruinsID, Cards.virtualRuins, -1, false);
             supplyPile.updateCardName(gs.knightsID, Cards.virtualKnight, -1, false);
-            setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastTokens);
+            setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastPileTradeRouteTokens, this.lastTokens);
             pauseGameTimer();
             HapticFeedback.vibrate(getContext(),AlertType.FINAL);
             finalStatus(gs);
@@ -1055,7 +1067,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         for (int i=0; i<players.getCount(); i++) {
         	int color = GameTable.getPlayerTextBackgroundColor(getContext(), i);
         	boolean showColor = hasTokens(i, gs.tokens);
-            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.stashOnDeck[i], gs.handSizes[i], gs.stashesInHand[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.guildsCoinTokens[i], gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokens[i], gs.whoseTurn == i, showColor, color);
+            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.stashOnDeck[i], gs.handSizes[i], gs.stashesInHand[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.debtTokens[i], gs.guildsCoinTokens[i], gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokens[i], gs.whoseTurn == i, showColor, color);
         }
         players.notifyDataSetChanged();
 
@@ -1076,6 +1088,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         	tavernColumn.setVisibility(VISIBLE);
         } else {
         	tavernColumn.setVisibility(GONE);
+        }
+        
+        GameTableViews.newCardGroup(archive, gs.myArchive);
+        if (gs.myArchive.length > 0) {
+        	archiveColumn.setVisibility(VISIBLE);
+        } else {
+        	archiveColumn.setVisibility(GONE);
         }
         
         GameTableViews.newCardGroup(prince, gs.myPrince);
@@ -1122,12 +1141,15 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         this.lastSupplySizes = gs.supplySizes;
         this.lastEmbargos = gs.embargos;
+        this.lastPileVpTokens = gs.pileVpTokens;
+        this.lastPileDebtTokens = gs.pileDebtTokens;
+        this.lastPileTradeRouteTokens = gs.pileTradeRouteTokens;
         this.lastTokens = gs.tokens;
         costs = gs.costs;
 
         supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, -1, false);
         supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardCost, gs.knightsTopCardIsVictory);
-        setSupplySizes(gs.supplySizes, gs.embargos, gs.tokens);
+        setSupplySizes(gs.supplySizes, gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.pileTradeRouteTokens, gs.tokens);
         setCardCosts(top.findViewById(android.R.id.content));
     }
 
@@ -1149,7 +1171,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
     private void setCardCosts(View v) {
         if (v instanceof CardView) {
-            ((CardView) v).setCost(getCardCost(((CardView) v).getCard()), ((CardView) v).getCard().isOverpay);
+            ((CardView) v).setCost(getCardCost(((CardView) v).getCard()), ((CardView) v).getCard().isOverpay, ((CardView) v).getCard().debtCost);
         } else if (v instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++)
                 setCardCosts(((ViewGroup) v).getChildAt(i));
