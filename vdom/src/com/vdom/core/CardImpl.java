@@ -680,33 +680,35 @@ public class CardImpl implements Card {
         currentPlayer.princeCardLeftThePlay(currentPlayer);
         
         // check for cards to call after resolving action
-        boolean isActionInPlay = isInPlay(currentPlayer);
-        ArrayList<Card> callableCards = new ArrayList<Card>();
-        Card toCall = null;
-        for (Card c : currentPlayer.tavern) {
-        	if (c.behaveAsCard().isCallableWhenActionResolved()) {
-        		if (c.behaveAsCard().doesActionStillNeedToBeInPlayToCall() && !isActionInPlay) {
-        			continue;
-        		}
-        		callableCards.add(c);
-        	}
-        }
-        if (!callableCards.isEmpty()) {
-        	Collections.sort(callableCards, new Util.CardCostComparator());
-	        do {
-	        	toCall = null;
-	        	// we want null entry at the end for None
-	        	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
-	        	//ask player which card to call
-	        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, playedCard, cardsAsArray);
-	        	if (toCall != null && callableCards.contains(toCall)) {
-	        		callableCards.remove(toCall);
-	        		toCall.behaveAsCard().callWhenActionResolved(context, playedCard);
+        if (is(Type.Action)) {
+	        boolean isActionInPlay = isInPlay(currentPlayer);
+	        ArrayList<Card> callableCards = new ArrayList<Card>();
+	        Card toCall = null;
+	        for (Card c : currentPlayer.tavern) {
+	        	if (c.behaveAsCard().isCallableWhenActionResolved()) {
+	        		if (c.behaveAsCard().doesActionStillNeedToBeInPlayToCall() && !isActionInPlay) {
+	        			continue;
+	        		}
+	        		callableCards.add(c);
 	        	}
-		        // loop while we still have cards to call
-		        // NOTE: we have a hack here to prevent asking for duplicate calls on an unused Royal Carriage
-		        //   since technically you can ask for more and action re-played by royal carriage will ask as well
-	        } while (toCall != null && toCall.equals(Cards.coinOfTheRealm) && !callableCards.isEmpty());
+	        }
+	        if (!callableCards.isEmpty()) {
+	        	Collections.sort(callableCards, new Util.CardCostComparator());
+		        do {
+		        	toCall = null;
+		        	// we want null entry at the end for None
+		        	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
+		        	//ask player which card to call
+		        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, playedCard, cardsAsArray);
+		        	if (toCall != null && callableCards.contains(toCall)) {
+		        		callableCards.remove(toCall);
+		        		toCall.behaveAsCard().callWhenActionResolved(context, playedCard);
+		        	}
+			        // loop while we still have cards to call
+			        // NOTE: we have a hack here to prevent asking for duplicate calls on an unused Royal Carriage
+			        //   since technically you can ask for more and action re-played by royal carriage will ask as well
+		        } while (toCall != null && toCall.equals(Cards.coinOfTheRealm) && !callableCards.isEmpty());
+	        }
         }
     }
 
