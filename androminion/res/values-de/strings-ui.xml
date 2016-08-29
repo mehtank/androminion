@@ -49,6 +49,8 @@
 		<![CDATA[
 		<h3>Bitte lesen!</h3>
 		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Verbreitung von Androminion im Play Store, da sie eine offizielle digitale Version ihres Spiels herausbringen. Bitte veröffentliche Anrdominion in keinem öffentlichen AppStore.<br><br>
+		<h3>Version 7.00</h3>
+		* Empires Erweterung
 		<h3>Version 6.07</h3>
 		* Jetzt mit Abenteuer! <br>
 		* Promokarten: Geldversteck, Einladung
@@ -124,6 +126,9 @@
 	<string name="random_include_events">Ereignisse: </string>
 	<string name="random_events_none">Keine</string>
 	<string name="random_events_random">Zufällig</string>
+	<string name="random_include_landmarks">Sehenswürdigkeit: </string>
+	<string name="random_landmarks_none">Keine</string>
+	<string name="random_landmarks_random">Zufällig</string>
 	<string name="random_include_cards">Mit Königreichkarten aus</string>
 	<string name="select_players">Spieler wählen:</string>
 	<string name="player">Spieler </string>
@@ -161,6 +166,7 @@
 	<string name="hand_header">Hand:</string>
 	<string name="played_header">Gespielt:</string>
 	<string name="tavern_header">Wirtshaus:</string>
+	<string name="archive_header">Archiv:</string>
 	<string name="island_header">Insel:</string>
 	<string name="village_header">Eing. Dorf:</string>
 	<string name="prince_header">Prinz:</string>
@@ -174,8 +180,8 @@
 	<string name="buy_single">%1$s Kauf</string>
 	<string name="buy_multiple">%1$s Käufe</string>
 	<string name="coin_zero">(%1$s) Geld</string>
-    <string name="coin_single">(%1$s) Geld</string>
-    <string name="coin_multiple">(%1$s) Geld</string>
+	<string name="coin_single">(%1$s) Geld</string>
+	<string name="coin_multiple">(%1$s) Geld</string>
 	<string name="final_view_card_counts">Kartenanzahl</string>
 	<string name="final_view_text">%1$s: %2$s SP.\n%3$s Züge, %4$s Karten.</string>
 	<string name="final_game_time">Dauer des Spiels: %1$s</string>
@@ -203,6 +209,24 @@
 	<string name="token_colon">:\u0020</string>
 	<string name="token_separator">,\u0020</string>
 	<string name="token_embargo">Embargos</string>
-	<string name="token_trade_route">Handelsroute</string>
+	<string name="token_victory">Sieg</string>
+	<string name="token_debt">Schulden</string>
 	<string name="bane_card">Bannkarte</string>
+	<string name="obelisk_card">Obelisk Karte (2 Siegpunkte)</string>
+	<string name="status_turn_number">Zug %1$s%2$s</string>
+	<string name="status_current_turn"> (aktueller Zug)</string>
+	<string name="status_deck_size">Karten im Nachziehstapel: %1$s%2$s</string>
+	<string name="status_stash_on_deck"> (Geheimversteck ganz oben)</string>
+	<string name="status_hand_size">Karten auf der Hand: %1$s</string>
+	<string name="status_hand_stashes">Geldverstecke auf der Hand: %1$s</string>
+	<string name="status_total_cards">Karten insgesammt: %1$s</string>
+	<string name="status_has_minus_coin_token">Hat -1 Geld Marker</string>
+	<string name="status_has_minus_card_token">Hat -1 Karte Marker</string>
+	<string name="status_journey_token_up">Reisemarker zeigt Vorderseite</string>
+	<string name="status_journey_token_down">Reisemarker zeigt Rückseite</string>
+	<string name="status_coin_tokens">Geldmarker: %1$s</string>
+	<string name="status_pirate_tokens">Piratenschiff Marken: %1$s</string>
+	<string name="status_debt_tokens">Schuldenmarker: %1$s</string>
+	<string name="status_victory_tokens">Punktemarker: %1$s</string>
+
 </resources>
