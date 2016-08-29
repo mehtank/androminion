@@ -355,7 +355,14 @@ public class Strings {
             if (hauntedWoodsAttacks) {
                 statusText += "\n" + getString(R.string.HauntedWoodsAttacks);
             }
-            if (swampHagAttacks > 0 || hauntedWoodsAttacks)
+            boolean enchantressAttacks = false;
+            if (extras[5] != null) {
+            	enchantressAttacks = (Boolean) extras[5];
+            }
+            if (enchantressAttacks) {
+                statusText += "\n" + getString(R.string.EnchantressAttacks);
+            }
+            if (swampHagAttacks > 0 || hauntedWoodsAttacks || enchantressAttacks)
             	statusText += "\n";
         } else if (event.gameEventType == GameEvent.EventType.CantBuy) {
             Card[] cantBuy = event.o.cs;

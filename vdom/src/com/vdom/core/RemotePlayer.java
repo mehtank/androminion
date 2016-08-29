@@ -702,6 +702,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             playedCardsNew.clear();
             extras.add(game.swampHagAttacks(event.getPlayer()));
             extras.add(game.hauntedWoodsAttacks(event.getPlayer()));
+            extras.add(game.enchantressAttacks(event.getPlayer()));
         } else if (event.getType() == EventType.TurnEnd) {
             playedCards.clear();
             playedCardsNew.clear();
