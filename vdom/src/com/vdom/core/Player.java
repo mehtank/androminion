@@ -797,7 +797,7 @@ public abstract class Player {
         		}
         	}
         	if ((!c.is(Type.Victory, this)) && Cards.isSupplyCard(c) && this.game.isPileEmpty(c)) {
-        		nonVictoryEmptySupplyPileCards++;
+        		nonVictoryEmptySupplyPileCards += allCardCounts.get(c);
         	}
         }
 
