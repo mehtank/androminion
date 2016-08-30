@@ -3510,6 +3510,9 @@ public class Game {
     }
     
     AbstractCardPile addPileVpTokens(Card card, int num, MoveContext context) {
+    	if (!Cards.isSupplyCard(card)) {
+    		return null;
+    	}
         String name = card.getName();
         pileVpTokens.put(name, getPileVpTokens(card) + num);
         if (context != null) {
@@ -3522,6 +3525,9 @@ public class Game {
     }
     
     AbstractCardPile removePileVpTokens(Card card, int num, MoveContext context) {
+    	if (!Cards.isSupplyCard(card)) {
+    		return null;
+    	}
     	num = Math.min(num, getPileVpTokens(card));
         String name = card.getName();
         if (num > 0) {
@@ -3573,6 +3579,9 @@ public class Game {
     }
     
     public int getPileVpTokens(Card card) {
+    	if (!Cards.isSupplyCard(card)) {
+    		return 0;
+    	}
         Integer count = pileVpTokens.get(card.getName());
         return (count == null) ? 0 : count;
     }
