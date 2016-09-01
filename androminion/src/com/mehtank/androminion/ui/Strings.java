@@ -455,7 +455,9 @@ public class Strings {
             else if (c.getVictoryPoints() < 0)
                 ret = Strings.format(R.string.vp_single, "" + c.getVictoryPoints()) + "\n" + ret;
         }
-        if (c.is(Type.Treasure, null)) {
+        if (c.is(Type.Treasure)) {
+        	if (c.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + c.getAddBuys()) + "\n" + ret;
+            else if (c.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + c.getAddBuys()) + "\n" + ret;
         	int value = c.getAddGold();
         	if (value == 1)
         		ret = Strings.format(R.string.coin_worth_single, "" + value) + "\n" + ret;
@@ -464,8 +466,8 @@ public class Strings {
         	if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
             else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }
-        if (c.is(Type.Action, null)) {
-            if (c.is(Type.Duration, null)) {
+        if (c.is(Type.Action)) {
+            if (c.is(Type.Duration)) {
                 if (c.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_single, "" + c.getAddGoldNextTurn()) + "\n" + ret;
                 else if (c.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_multiple, "" + c.getAddGoldNextTurn()) + "\n" + ret;
                 if (c.getAddBuysNextTurn() > 1) ret = Strings.format(R.string.buys_next_turn_multiple, "" + c.getAddBuysNextTurn()) + "\n" + ret;
@@ -489,7 +491,7 @@ public class Strings {
             else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }
 
-        if (c.is(Type.Event, null)) {
+        if (c.is(Type.Event)) {
             if (c.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + c.getAddBuys()) + "\n" + ret;
             else if (c.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + c.getAddBuys()) + "\n" + ret;
             if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
