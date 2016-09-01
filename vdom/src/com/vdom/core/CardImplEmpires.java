@@ -301,30 +301,32 @@ public class CardImplEmpires extends CardImpl {
     private void chariotRace(Game game, MoveContext context, Player currentPlayer) {
     	Card draw = game.draw(context, Cards.chariotRace, 1);
         if (draw != null) {
-            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.reveal(draw, Cards.chariotRace, context);
             currentPlayer.hand.add(draw, true);
-            Player nextPlayer = game.getNextPlayer();
-            MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
-            Card nextPlayerCard = game.draw(nextPlayerContext, this.controlCard, 1);
-            if (nextPlayerCard != null) {
-            	nextPlayer.reveal(nextPlayerCard, this.controlCard, nextPlayerContext);
-            	nextPlayer.putOnTopOfDeck(nextPlayerCard, nextPlayerContext, false);
-            	int drawCoinCost = draw.getCost(context); 
-            	int nextPlayerCoinCost = nextPlayerCard.getCost(context);
-            	int drawDebtCost = draw.getDebtCost(context); 
-            	int nextPlayerDebtCost = nextPlayerCard.getDebtCost(context);
-            	int drawPotionCost = draw.costPotion() ? 1 : 0;
-            	int nextPlayerPotionCost = nextPlayerCard.costPotion() ? 1 : 0;
-            	if ((drawCoinCost > nextPlayerCoinCost ||
-            			drawDebtCost > nextPlayerDebtCost ||
-            			drawPotionCost > nextPlayerPotionCost) && 
-            			(drawCoinCost >= nextPlayerCoinCost ||
-                    			drawDebtCost >= nextPlayerDebtCost ||
-                    			drawPotionCost >= nextPlayerPotionCost)) {
-            		context.addCoins(1);
-            		currentPlayer.addVictoryTokens(context, 1);
-            	}
-            }
+        }
+        Player nextPlayer = game.getNextPlayer();
+        MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
+        Card nextPlayerCard = game.draw(nextPlayerContext, Cards.chariotRace, 1);
+        if (nextPlayerCard != null) {
+        	nextPlayer.reveal(nextPlayerCard, Cards.chariotRace, nextPlayerContext);
+        	nextPlayer.putOnTopOfDeck(nextPlayerCard, nextPlayerContext, false);
+        }
+        if (draw != null && nextPlayerCard != null) {
+        	int drawCoinCost = draw.getCost(context); 
+        	int nextPlayerCoinCost = nextPlayerCard.getCost(context);
+        	int drawDebtCost = draw.getDebtCost(context); 
+        	int nextPlayerDebtCost = nextPlayerCard.getDebtCost(context);
+        	int drawPotionCost = draw.costPotion() ? 1 : 0;
+        	int nextPlayerPotionCost = nextPlayerCard.costPotion() ? 1 : 0;
+        	if ((drawCoinCost > nextPlayerCoinCost ||
+        			drawDebtCost > nextPlayerDebtCost ||
+        			drawPotionCost > nextPlayerPotionCost) && 
+        			(drawCoinCost >= nextPlayerCoinCost ||
+                			drawDebtCost >= nextPlayerDebtCost ||
+                			drawPotionCost >= nextPlayerPotionCost)) {
+        		context.addCoins(1);
+        		currentPlayer.addVictoryTokens(context, 1);
+        	}
         }
     }
     
