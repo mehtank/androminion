@@ -2041,7 +2041,7 @@ public abstract class Player {
     // Card interactions - Guilds Expansion
     // ////////////////////////////////////////////
     public abstract int numGuildsCoinTokensToSpend(MoveContext context, int coinTokenTotal, boolean butcher);
-    public abstract int amountToOverpay(MoveContext context, Card card, int cardCost);
+    public abstract int amountToOverpay(MoveContext context, Card card);
     public abstract int overpayByPotions(MoveContext context, int availablePotions);
     public abstract Card taxman_treasureToTrash(MoveContext context);
     public abstract Card taxman_treasureToObtain(MoveContext context, int maxCost, int maxDebt, boolean potion);

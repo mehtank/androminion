@@ -1762,7 +1762,7 @@ public class Game {
             context.buys--;
         }
         
-        context.spendCoins(buy.getCost(context) + context.overpayAmount);
+        context.spendCoins(buy.getCost(context));
 
         if (buy.costPotion()) {
             context.potions--;
@@ -1788,24 +1788,26 @@ public class Game {
         	event.setAmount(numDebtTokensOnPile);
             context.game.broadcastEvent(event);
         }
+
+        /* GameEvent.Type.BuyingCard must be after overpaying! */
+        
+        // cost adjusted based on any cards played or card being bought
+        int cost = buy.getCost(context);
         
         Card card = buy;
         if(!buy.is(Type.Event, null)) {
             card = takeFromPileCheckTrader(buy, context);
         }
 
-        /* GameEvent.Type.BuyingCard must be after overpaying! */
-        
-        // cost adjusted based on any cards played or card being bought
-        int cost = buy.getCost(context);
-
         // If card can be overpaid for, do so now
         if (buy.isOverpay(player))
         {
-            int coinOverpay = player.amountToOverpay(context, buy, cost);
+            int coinOverpay = player.amountToOverpay(context, buy);
             coinOverpay = Math.max(0,  coinOverpay);
             coinOverpay = Math.min(coinOverpay, context.getCoinAvailableForBuy());
             context.overpayAmount = coinOverpay;
+            
+            context.spendCoins(context.overpayAmount);
 
             if (context.potions > 0)
             {
@@ -1818,7 +1820,7 @@ public class Game {
 
             if (context.overpayAmount > 0 || context.overpayPotions > 0)
             {
-                GameEvent event = new GameEvent(GameEvent.EventType.OverpayForCard, (MoveContext) context);
+            	GameEvent event = new GameEvent(GameEvent.EventType.OverpayForCard, (MoveContext) context);
                 event.card = card;
                 event.newCard = true;
                 broadcastEvent(event);
@@ -1829,7 +1831,7 @@ public class Game {
             context.overpayAmount  = 0;
             context.overpayPotions = 0;
         }
-        
+                
         buy.isBuying(context);
         
         if(!buy.is(Type.Event, null)) {
@@ -3329,15 +3331,15 @@ public class Game {
                     	player.gainNewCard(Cards.gold, event.card, context);
                     	for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
                     		if (targetPlayer == player) continue;
-                    		if (player.hand.size() >= 5) {
-                    			MoveContext playerContext = new MoveContext(context.game, player);
-                                playerContext.attackedPlayer = player;
-                                Card[] cards = player.controlPlayer.hauntedCastle_gain_cardsToPutBackOnDeck(playerContext);
+                    		if (targetPlayer.hand.size() >= 5) {
+                    			MoveContext playerContext = new MoveContext(context.game, targetPlayer);
+                                playerContext.attackedPlayer = targetPlayer;
+                                Card[] cards = targetPlayer.controlPlayer.hauntedCastle_gain_cardsToPutBackOnDeck(playerContext);
                                 boolean bad = false;
                                 if (cards == null || cards.length == 2) {
                                     bad = true;
                                 } else {
-                                    ArrayList<Card> copy = Util.copy(player.hand);
+                                    ArrayList<Card> copy = Util.copy(targetPlayer.hand);
                                     for (Card card : cards) {
                                         if (!copy.remove(card)) {
                                             bad = true;
@@ -3346,17 +3348,17 @@ public class Game {
                                     }
                                 }
                                 if (bad) {
-                                    Util.playerError(player, "Haunted Castle put back cards error, putting back the first 2 cards.");
+                                    Util.playerError(targetPlayer, "Haunted Castle put back cards error, putting back the first 2 cards.");
                                     cards = new Card[2];
-                                    cards[0] = player.hand.get(0);
-                                    cards[1] = player.hand.get(1);
+                                    cards[0] = targetPlayer.hand.get(0);
+                                    cards[1] = targetPlayer.hand.get(1);
                                 }                                
-                                GameEvent topDeckEvent = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
-                                topDeckEvent.setPlayer(player);
+                                GameEvent topDeckEvent = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, playerContext);
+                                topDeckEvent.setPlayer(targetPlayer);
                                 for (int i = cards.length - 1; i >= 0; i--) {
-                                    player.hand.remove(cards[i]);
-                                    player.putOnTopOfDeck(cards[i]);
-                                    context.game.broadcastEvent(topDeckEvent);
+                                	targetPlayer.hand.remove(cards[i]);
+                                	targetPlayer.putOnTopOfDeck(cards[i]);
+                                	playerContext.game.broadcastEvent(topDeckEvent);
                                 }
                             }
                     	}

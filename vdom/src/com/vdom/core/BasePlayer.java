@@ -3111,9 +3111,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public int amountToOverpay(MoveContext context, Card card, int cardCost)
+    public int amountToOverpay(MoveContext context, Card card)
     {
-        int availableAmount = context.getCoinAvailableForBuy() - cardCost;
+        int availableAmount = context.getCoinAvailableForBuy();
         if (availableAmount <= 0) {
             return 0;
         }

@@ -2519,8 +2519,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public int amountToOverpay(MoveContext context, Card card, int cardCost) {
-        int availableAmount = context.getCoinAvailableForBuy() - cardCost;
+    public int amountToOverpay(MoveContext context, Card card) {
+        int availableAmount = context.getCoinAvailableForBuy();
         if (availableAmount <= 0) {
             return 0;
         }
