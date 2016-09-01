@@ -794,8 +794,7 @@ public abstract class Player {
 			if (actionCount >= highestActionCardCount) {
 				secondHighestActionCardCount = highestActionCardCount;
 				highestActionCardCount = actionCount;
-			}
-			if (actionCount > secondHighestActionCardCount) {
+			} else if (actionCount > secondHighestActionCardCount) {
 				secondHighestActionCardCount = actionCount;
 			}
         	}
