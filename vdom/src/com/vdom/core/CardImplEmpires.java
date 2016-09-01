@@ -810,13 +810,15 @@ public class CardImplEmpires extends CardImpl {
     	context.player.gainNewCard(Cards.copper, this.controlCard, context);
     	context.player.gainNewCard(Cards.copper, this.controlCard, context);
     	Card toGain = context.player.controlPlayer.banquet_cardToObtain(context);
-    	if (toGain == null || toGain.getCost(context) > 5 || toGain.getDebtCost(context) > 0 || 
+    	if (toGain != null && (toGain.getCost(context) > 5 || toGain.getDebtCost(context) > 0 || 
     			toGain.costPotion() || toGain.is(Type.Victory) ||
-    			!context.game.isCardInGame(toGain) || context.game.isPileEmpty(toGain) || !Cards.isSupplyCard(toGain)) {
-    		Util.playerError(context.player, "Annex - selected invalid card");
+    			!context.game.isCardInGame(toGain) || context.game.isPileEmpty(toGain) || !Cards.isSupplyCard(toGain))) {
+    		Util.playerError(context.player, "Banquet - selected invalid card");
     		return;
     	}
-    	context.player.gainNewCard(toGain, this.controlCard, context);
+    	//TODO: check for no 5 non-victory cards left in game first
+    	if (toGain != null)
+    		context.player.gainNewCard(toGain, this.controlCard, context);
     }
     
     private void conquest(MoveContext context) {

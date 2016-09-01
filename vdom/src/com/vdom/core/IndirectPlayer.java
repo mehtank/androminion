@@ -3181,7 +3181,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card banquet_cardToObtain(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0).isNonVictory()
-                .setCardResponsible(Cards.banquet);
+    			.setActionType(ActionType.GAIN).setCardResponsible(Cards.banquet);
         return getFromTable(context, sco);
     }
     
