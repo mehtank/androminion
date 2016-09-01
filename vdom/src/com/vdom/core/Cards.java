@@ -717,7 +717,7 @@ public class Cards {
         actionCardsHinterlands.add(spiceMerchant = new CardImpl.Builder(Cards.Kind.SpiceMerchant, 4, Type.Action).trashForced().description("You may trash a Treasure from your hand. If you do, choose one: +2 Cards and +1 Action; or +2 Coin and +1 Buy.").expansion(Expansion.Hinterlands).build());
         actionCardsHinterlands.add(stables = new CardImpl.Builder(Cards.Kind.Stables, 5, Type.Action).description("You may discard a Treasure. If you do, +3 Cards and +1 Action.").expansion(Expansion.Hinterlands).build());
         actionCardsHinterlands.add(trader = new CardImpl.Builder(Cards.Kind.Trader, 4, Type.Action, Type.Reaction).trashForced().description("Trash a card from your hand. Gain a number of Silvers equal to its cost in coins - When you would gain a card, you may reveal this from your hand. If you do, instead, gain a silver.").expansion(Expansion.Hinterlands).build());
-        actionCardsHinterlands.add(tunnel = new CardImpl.Builder(Cards.Kind.Tunnel, 3, Type.Victory).vp(2).description("When you discard this other than during a Clean-up phase, you may reveal it. If you do, gain a Gold.").expansion(Expansion.Hinterlands).build());
+        actionCardsHinterlands.add(tunnel = new CardImpl.Builder(Cards.Kind.Tunnel, 3, Type.Victory, Type.Reaction).vp(2).description("When you discard this other than during a Clean-up phase, you may reveal it. If you do, gain a Gold.").expansion(Expansion.Hinterlands).build());
 
         // Dark Ages
         actionCardsDarkAges.add(altar = new CardImpl.Builder(Cards.Kind.Altar, 6, Type.Action).trashForced().description("Trash a card from your hand. Gain a card costing up to 5 coins.").expansion(Expansion.DarkAges).build());
