@@ -791,10 +791,12 @@ public abstract class Player {
         		if (actionCount >= 3) {
         			threePlusCopyActionCards++;
         		}
-        		if (actionCount > highestActionCardCount) {
-        			secondHighestActionCardCount = highestActionCardCount;
-        			highestActionCardCount = actionCount;
-        		}
+			if (actionCount >= highestActionCardCount) {
+				secondHighestActionCardCount = highestActionCardCount;
+				highestActionCardCount = actionCount;
+			} else if (actionCount > secondHighestActionCardCount) {
+				secondHighestActionCardCount = actionCount;
+			}
         	}
         	if ((!c.is(Type.Victory, this)) && Cards.isSupplyCard(c) && this.game.isPileEmpty(c)) {
         		nonVictoryEmptySupplyPileCards += allCardCounts.get(c);
