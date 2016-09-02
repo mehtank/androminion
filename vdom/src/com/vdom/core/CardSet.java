@@ -302,7 +302,7 @@ public class CardSet {
 		
 		swapFrom.remove(bane);
 		for (Card c : replaceFrom) {
-			if (!c.equals(bane) && !swapFrom.contains(c)) {
+			if (!c.equals(bane) && !swapFrom.contains(c) && !c.is(Type.Event) && !c.is(Type.Landmark)) {
 				swapFrom.add(c);
 				break;
 			}
@@ -312,7 +312,7 @@ public class CardSet {
 	
 	private static boolean isValidBane(Card c) {
 		int cost = c.getCost(null);
-		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event, null);
+		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event, null) && !c.is(Type.Landmark, null);
 	}
 
 	private static void pick(List<Card> source, List<Card> target, int count) {

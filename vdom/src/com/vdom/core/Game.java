@@ -3087,6 +3087,8 @@ public class Game {
                             if (r.equals(Cards.estate) && player.getInheritance() != null) {
                             	r = player.getInheritance();
                             }
+
+                            r = r.behaveAsCard(); //Get impersonated card
                             
                             if (r.equals(Cards.armory)
                                 || r.equals(Cards.artificer)
