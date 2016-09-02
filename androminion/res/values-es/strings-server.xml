@@ -74,6 +74,8 @@
 	<string name="select_from_table_max_action">Elije una carta de Acción de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_between">Elije una carta de la mesa que cueste entre (%1$s) y (%2$s) para %3$s</string>
 	<string name="select_from_table_min">Elije una carta de la mesa que cueste como mínimo (%1$s) para %2$s</string>
+	<string name="select_from_table_less">Elije una carta de la mesa que cueste menos de (%1$s) para %2$s</string>
+	<string name="select_from_table_less_non_vp">Elije una carta que no sea de Victoria de la mesa que cueste menos de (%1$s) para %2$s</string>
 
 	<string name="select_one_card_from_hand">Elije una carta de tu mano para %1$s</string>
 	<string name="select_up_to_x_cards_from_hand">Elije hasta %1$s cartas de tu mano para %2$s</string>
