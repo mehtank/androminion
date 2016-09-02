@@ -2583,7 +2583,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card stonemason_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean potion) {
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+    	SelectCardOptions sco = new SelectCardOptions()
 				.maxCost(maxCost).maxDebtCost(maxDebt).maxPotionCost(potion?1:0).lessThanMax()
 				.setActionType(ActionType.GAIN).setCardResponsible(Cards.stonemason);
         return getFromTable(context, sco);
@@ -2591,7 +2591,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion) {
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty().exactCost(overpayAmount, 0, potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(overpayAmount, 0, potion ? 1 : 0)
                 .isAction()
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.stonemason);
         return getFromTable(context, sco);

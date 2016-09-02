@@ -1253,6 +1253,8 @@ public class Strings {
                 } else if (sco.isNonVictory) {
                 	if (sco.isAction) {
                 		selectString = Strings.format(R.string.select_from_table_max_non_vp_action, maxCostString, header);
+                	} else if (sco.lessThanMax) {
+                		selectString = Strings.format(R.string.select_from_table_less_non_vp, maxCostString, header);
                 	} else {
                 		selectString = Strings.format(R.string.select_from_table_max_non_vp, maxCostString, header);
                 	}
@@ -1263,7 +1265,11 @@ public class Strings {
                 } else if (containsOnlyEvents(sco)) {
                     selectString = Strings.format(R.string.select_from_table_max_events, maxCostString, header);
                 } else if (containsOnlyCards(sco)) {
-                    selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
+                	if (sco.lessThanMax) {
+                		selectString = Strings.format(R.string.select_from_table_less, maxCostString, header);
+                	} else {
+                		selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
+                	}
                 } else {
                     selectString = Strings.format(R.string.select_from_table_max_cards_events, maxCostString, header);
                 }
