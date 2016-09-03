@@ -6,17 +6,13 @@ import com.vdom.api.Card;
 
 public abstract class AbstractCardPile {
 
-    protected ArrayList<Card> cards;
+	protected ArrayList<Card> cards;
+	protected ArrayList<Card> templateCards;
     protected boolean isSupply = true;
     protected boolean isBlackMarket = false;
     protected boolean tradeRouteToken = false;
-    
-	static enum PileType {
-		RuinsPile, KnightsPile, SingleCardPile
-	}
-	
-	protected PileType type;
 
+	protected boolean allCardsVisible = true;
 
 	public boolean isEmpty() {
         return cards.isEmpty();
@@ -43,17 +39,25 @@ public abstract class AbstractCardPile {
 	public int getCount() {
         return cards.size();
     }
-	
-	public PileType getType() {
-		return type;
-	}
 
 	@Override
 	public String toString() {
 		return cards.toString();
 	}
 	
-	public abstract Card card();
+	public abstract Card topCard();
+	public abstract Card placeholderCard();
+
+	public boolean cardAllowedOnPile(Card card) {
+		if (card.isTemplateCard()) return false; //No template card allowed on the pile
+
+		for (Card template : this.templateCards) {
+			if (template.getSafeName().equals(card.getSafeName())) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
     public void setTradeRouteToken() {
         tradeRouteToken = true;
@@ -71,8 +75,15 @@ public abstract class AbstractCardPile {
     	return 0;
     }
 
-	public abstract void addCard(Card card);
+	public boolean isAllCardsVisible() { return this.allCardsVisible; }
+
+	public void addCard(Card card) {
+		if (cardAllowedOnPile(card)) {
+				cards.add(0, card);
+		}
+	}
 
 	public abstract Card removeCard();
+
 
 }

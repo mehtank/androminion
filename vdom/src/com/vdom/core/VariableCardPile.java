@@ -3,78 +3,32 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.vdom.api.Card;
 
 public class VariableCardPile extends AbstractCardPile {
-	
-	HashMap<String, SingleCardPile> piles;
-	
-	public VariableCardPile(PileType piletype, int count) {
-		this.type = piletype;
+
+	private Card placeholderCard = null;
+
+	public VariableCardPile(Card placeholder, Map<Card, Integer> cardList, boolean ordered, boolean allCardsVisible) {
 		this.cards = new ArrayList<Card>();
-		this.piles = new HashMap<String, SingleCardPile>();
-
-		// TODO: put in checks to make sure template card is never
-        // "put into play".
-		switch (this.type) {
-		case RuinsPile:
-			cards = this.generateRuinsPile(count);
-			break;
-		case KnightsPile:
-			for (Card c: Cards.knightsCards) {
-				cards.add(c);
+		this.templateCards = new ArrayList<Card>();
+		for (Map.Entry<Card, Integer> entry : cardList.entrySet())
+		{
+			Card card = entry.getKey();
+			Integer count = entry.getValue();
+			if (!templateCards.contains(card)) {
+				templateCards.add(card);
 			}
+			for (int i = 0; i < count; i++) {
+				cards.add(card.instantiate());
+			}
+		}
+
+		if (!ordered) {
 			Collections.shuffle(cards);
-			break;
-		default:
-			break;
 		}
-	}
-
-	@Override
-	public Card card() {
-		if (cards.isEmpty()) {
-			switch (type) {
-			case RuinsPile:
-				return Cards.virtualRuins;
-			case KnightsPile:
-				return Cards.virtualKnight;
-			default:
-				return null;
-			}
-		}
-		if (piles.isEmpty()) {
-			return null;
-		}
-		return piles.get(topCard().getName()).card();
-	}
-	
-	public void addLinkedPile(SingleCardPile p) {
-		this.piles.put(p.card().getName(), p);
-	}
-
-	@Override
-	public void addCard(Card card) {
-		if (!card.is(Type.Action, null)) return;
-
-		piles.get(card.getName()).addCard(card);
-
-		switch (type) {
-		case KnightsPile:
-			if (card.is(Type.Knight, null)) {
-				cards.add(0, card);
-			}
-			break;
-		case RuinsPile:
-			if (card.is(Type.Ruins, null)) {
-				cards.add(0, card);
-			}
-			break;
-		default:
-			break;
-		}
-		
 	}
 
 	@Override
@@ -107,15 +61,14 @@ public class VariableCardPile extends AbstractCardPile {
     	return ret;
     }
 
-	public SingleCardPile getTopLinkedPile() {
-		if (topCard() == null) return null;
-		return piles.get(topCard().getName());
-	}
-	
-	private Card topCard() {
+	@Override
+	public Card topCard() {
 		if (cards.isEmpty()) return null;
 		return cards.get(0);
 	}
 
-
+	@Override
+	public Card placeholderCard() {
+		return placeholderCard;
+	}
 }
