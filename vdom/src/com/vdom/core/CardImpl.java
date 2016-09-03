@@ -578,8 +578,8 @@ public class CardImpl implements Card {
         Player currentPlayer = context.getPlayer();
         boolean newCard = false;
         Card actualCard = (this.getControlCard() != null ? this.getControlCard() : this);
-        boolean isInheritedAbility = actualCard.equals(Cards.estate);
-        Card inheritedCard = isInheritedAbility ? context.player.getInheritance() : null;
+        boolean isInheritedAbility = actualCard.equals(Cards.estate) && !this.equals(actualCard);
+        Card inheritedCard = this.equals(Cards.estate) ? context.player.getInheritance() : null;
         Card playedCard = isInheritedAbility ? actualCard : this;
         boolean isAction = playedCard.is(Type.Action, currentPlayer);
         boolean enchantressEffect = isAction && !context.enchantressAlreadyAffected && game.enchantressAttacks(currentPlayer);
@@ -605,11 +605,13 @@ public class CardImpl implements Card {
             }
         }
         
-        GameEvent event;
-        event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
-        event.card = playedCard;
-        event.newCard = newCard;
-        game.broadcastEvent(event);
+        if (!isInheritedAbility) {
+	        GameEvent event;
+	        event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
+	        event.card = this;
+	        event.newCard = newCard;
+	        game.broadcastEvent(event);
+        }
         
         // playing an action
         if (isAction) {
@@ -668,11 +670,14 @@ public class CardImpl implements Card {
             }
         }
     
-        if (!playedCard.is(Type.Treasure, currentPlayer) || playedCard.is(Type.Action, currentPlayer)) {
+        if (!isInheritedAbility && !playedCard.is(Type.Treasure, currentPlayer) || playedCard.is(Type.Action, currentPlayer)) {
         	// Don't broadcast card played event for only treasures	
+        	GameEvent event;
 	        event = new GameEvent(GameEvent.EventType.PlayedCard, (MoveContext) context);
 	        event.card = playedCard;
 	        game.broadcastEvent(event);
+        } else {
+        	return;
         }
         
 
