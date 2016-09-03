@@ -217,9 +217,9 @@
 	<string name="bane_card">Carta de Perdición</string>
 	<string name="obelisk_card">Carta de Obelisco (vale 2 PV)</string>
 	<string name="status_turn_number">Turno %1$s%2$s</string>
-	<string name="status_current_turn"> (Turno actual)</string>
+	<string name="status_current_turn">\u0020(Turno actual)</string>
 	<string name="status_deck_size">Cartas en mazo: %1$s%2$s</string>
-	<string name="status_stash_on_deck"> (Alijo está encima)</string>
+	<string name="status_stash_on_deck">\u0020(Alijo está encima)</string>
 	<string name="status_hand_size">Cartas en mano: %1$s</string>
 	<string name="status_hand_stashes">Cartas de Alijo en mano: %1$s</string>
 	<string name="status_total_cards">Total de cartas: %1$s</string>
