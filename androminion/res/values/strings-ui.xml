@@ -49,7 +49,7 @@
 <![CDATA[
 		<h3>Please Read!</h3>
 		By request of Rio Grande Games, the publisher of Dominion, we have removed Androminion from the Play Store. Please do not publish it in any public app store as there is an official Dominion app.<br><br>
-		<h3>Version 7.01</h3>
+		<h3>Version 7.02</h3>
 		* Empires Expansion!
 		<h3>Version 6.07</h3>
 		* Adventures Expansion! <br>
@@ -215,9 +215,9 @@
 	<string name="bane_card">Bane card</string>
 	<string name="obelisk_card">Obelisk card (worth 2 VP)</string>
 	<string name="status_turn_number">Turn %1$s%2$s</string>
-	<string name="status_current_turn"> (Current turn)</string>
+	<string name="status_current_turn">\u0020(Current turn)</string>
 	<string name="status_deck_size">Cards in deck: %1$s%2$s</string>
-	<string name="status_stash_on_deck"> (Stash on top)</string>
+	<string name="status_stash_on_deck">\u0020(Stash on top)</string>
 	<string name="status_hand_size">Cards in hand: %1$s</string>
 	<string name="status_hand_stashes">Stash cards in hand: %1$s</string>
 	<string name="status_total_cards">Total cards: %1$s</string>
