@@ -1186,6 +1186,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.smallCastle))) {
             strings[1] = getString(R.string.trash_this);
             strings[2] = getString(R.string.trash_castle_from_hand);
+        } else if ( cardName.equals(getCardName(Cards.sprawlingCastle))) {
+            strings[1] = getString(R.string.sprawlingcastle_gain_duchy);
+            strings[2] = getString(R.string.sprawlingcastle_gain_estates);
         }
         if (strings[1] != null) {
             return strings;
@@ -1488,6 +1491,7 @@ public class Strings {
             getCardName(Cards.gladiator),
             getCardName(Cards.opulentCastle),
             getCardName(Cards.sacrifice),
+            getCardName(Cards.smallCastle),
             getCardName(Cards.temple),
             /*Empires Events*/
             getCardName(Cards.advance),
@@ -1651,6 +1655,8 @@ public class Strings {
             } else {
                 return getString(R.string.catapult_part);
             }
+        } else if (cardName.equals(getCardName(Cards.opulentCastle))) {
+            return getString(R.string.opulent_castle_ask_discard);
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
     }

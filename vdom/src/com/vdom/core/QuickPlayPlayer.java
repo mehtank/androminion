@@ -1083,4 +1083,9 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
 
+    public boolean shouldAutoPlay_smallCastle__shouldTrashSmallCastlePlayed(MoveContext context) { return false; }
+    public boolean shouldAutoPlay_smallCastle_castleToTrash(MoveContext context) { return false; }
+
+    public boolean shouldAutoPlay_sprawlingCastle_chooseOption(MoveContext context) { return true; }
+
 }

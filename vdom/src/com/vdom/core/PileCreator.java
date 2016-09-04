@@ -2,6 +2,7 @@ package com.vdom.core;
 
 import com.vdom.api.Card;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
-public abstract class PileCreator {
+public abstract class PileCreator implements Serializable {
     public abstract AbstractCardPile create(Card template, int count);
 }
 
@@ -68,7 +69,7 @@ class CastlesPileCreator extends PileCreator {
         int multiCastles = (count == 8 ? 1 : 2);
         boolean multi = true;
         for (Card c: Cards.castleCards) {
-            cards.put(c, multi ? multiCastles : 1);
+            cards.put(c, multi ? multiCastles : 1); //if there are 12 cards, add two for every second card (start at first)
             multi = !multi;
         }
 

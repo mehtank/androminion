@@ -27,7 +27,8 @@
     <color name="stashBorder">#E84C4C</color>
     <color name="stashTextLight">#E84C4C</color>
     <color name="stashTextDark">#E84C4C</color>
-    
+    <color name="castleBorder">#4C4CE8</color>
+
     <color name="player1Color">#d9562b</color>
     <color name="player2Color">#508db9</color>
     <color name="player3Color">#e5d63a</color>

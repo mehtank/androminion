@@ -476,8 +476,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             AbstractCardPile pile = game.getPile(card);
             Card placeholder = pile.placeholderCard();
             Card topCard = pile.topCard();
+            if (topCard == null) topCard = placeholder; //If pile is empty show placeholder card
             if (!placeholder.equals(topCard)) {
-                gs.addUpdatedCard(cardToInt(placeholder), topCard, topCard.getCost(context), -1);
+                gs.addUpdatedCard(cardToInt(placeholder), topCard, topCard.getCost(context), -1); //TODO SPLITPILES if pile is emtpy don't reduce cost (pass null instead of context on getcost)
             }
 
 

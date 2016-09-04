@@ -1128,7 +1128,7 @@ public class CardImplAdventures extends CardImpl {
             if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && !context.game.isPileEmpty(card)) {
             	Card gainedCard = context.player.gainNewCard(card, this.controlCard, context);
             	if (card.equals(gainedCard)
-            			|| (card.is(Type.Ruins, null) && gainedCard.is(Type.Ruins, null))
+            			|| (card.is(Type.Ruins, null) && gainedCard.is(Type.Ruins, null)) //TODO SPLITPILES make this work for all variablecardpiles
             			|| (card.is(Type.Knight, null) && gainedCard.is(Type.Knight, null)))
             		placeToken(context, card, PlayerSupplyToken.PlusOneBuy);
             }

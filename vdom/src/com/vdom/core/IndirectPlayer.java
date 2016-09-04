@@ -3397,9 +3397,30 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
     	return selectBoolean(context, Cards.settlers);
     }
+
+    @Override
+    public boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context) {
+        if (context.isQuickPlay() && shouldAutoPlay_smallCastle__shouldTrashSmallCastlePlayed(context)) {
+            return super.smallCastle_shouldTrashSmallCastlePlayed(context);
+        }
+        return selectBoolean(context, Cards.smallCastle);
+    }
+
+    @Override
+    public Card smallCastle_castleToTrash(MoveContext context) {
+        if (context.isQuickPlay() && shouldAutoPlay_smallCastle_castleToTrash(context)) {
+            return super.smallCastle_castleToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isCastle().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.smallCastle);
+        return getCardFromHand(context, sco);
+    }
     
     @Override
     public HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_sprawlingCastle_chooseOption(context)) {
+            return super.sprawlingCastle_chooseOption(context);
+        }
     	HuntingGroundsOption[] options = HuntingGroundsOption.values();
         return options[selectOption(context, Cards.sprawlingCastle, options)];
     }

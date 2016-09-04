@@ -198,6 +198,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				setBackgroundResource(R.drawable.thinobeliskborder);
 			} else if (c.isStash) {
 				setBackgroundResource(R.drawable.thinstashborder);
+			} else if (c.isCastle) {
+				setBackgroundResource(R.drawable.thincastleborder);
 			} else {
 				setBackgroundResource(R.drawable.thinborder);
 			}
@@ -208,6 +210,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				setBackgroundResource(R.drawable.obeliskborder);
 			} else if (c.isStash) {
 				setBackgroundResource(R.drawable.stashborder);
+			} else if (c.isCastle) {
+				setBackgroundResource(R.drawable.castleborder);
 			} else if (c.isShelter) {
 				setBackgroundResource(R.drawable.shelterborder);
 			} else {
@@ -302,6 +306,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Treasure_Attack;
 		} else if (c.isAttack) {
 			return R.style.CardView_Attack;
+		} else if (c.isTreasure && c.isVictory && c.isCastle) {
+			return R.style.CardView_Treasure_Victory_Castle;
 		} else if (c.isTreasure && c.isVictory) {
 			return R.style.CardView_Treasure_Victory;
 		} else if (c.isAction && c.isVictory) {

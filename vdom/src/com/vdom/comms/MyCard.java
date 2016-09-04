@@ -168,6 +168,10 @@ public class MyCard implements Serializable {
         {
             cardType += "Reaction - Shelter";
         }
+
+		if (isCastle) {
+			cardType += "- Castle";
+		}
         
         return cardType;
     }

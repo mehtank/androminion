@@ -106,6 +106,7 @@ public class Game {
 
     public static Random rand = new Random(System.currentTimeMillis());
     public HashMap<String, AbstractCardPile> piles = new HashMap<String, AbstractCardPile>();
+    public HashMap<String, AbstractCardPile> placeholderPiles = new HashMap<String, AbstractCardPile>();
     public HashMap<String, Integer> embargos = new HashMap<String, Integer>();
     public HashMap<String, Integer> pileVpTokens = new HashMap<String, Integer>();
     public HashMap<String, Integer> pileDebtTokens = new HashMap<String, Integer>();
@@ -1874,7 +1875,7 @@ public class Game {
             event.newCard = true;
             broadcastEvent(event);
 
-            //TODO SPLITPILES Swap before event?
+            //TODO SPLITPILES do the swap? Swap before event?
 
             // Swap in the real knight
             if (buy.equals(Cards.virtualKnight)) {
@@ -2666,19 +2667,14 @@ public class Game {
         int darkAgesCards = 0;
         int prosperityCards = 0;
         int kingdomCards = 0;
-        for (AbstractCardPile pile : piles.values()) {
+        for (AbstractCardPile pile : placeholderPiles.values()) {
             if (pile != null &&
-            		pile.topCard() != null &&
-            		pile.topCard().getExpansion() != null &&
-            		Cards.isKingdomCard(pile.topCard())) {
+            		pile.placeholderCard() != null &&
+            		pile.placeholderCard().getExpansion() != null &&
+            		Cards.isKingdomCard(pile.placeholderCard())) {
             	kingdomCards++;
-            	if (pile.topCard().is(com.vdom.core.Type.Ruins, null) == false &&
-                        (pile.topCard().is(Type.Knight, null) == false || !alreadyCountedKnights) &&
-                        pile.topCard().getExpansion() == Expansion.DarkAges) {
+            	if (pile.placeholderCard.getExpansion() == Expansion.DarkAges) {
                     darkAgesCards++;
-                    if (pile.topCard().is(Type.Knight, null)) {
-                        alreadyCountedKnights = true;
-                    }
                 }
             	if (pile.topCard().getExpansion() == Expansion.Prosperity) {
                     prosperityCards++;
@@ -3611,7 +3607,7 @@ public class Game {
     
     public List<PlayerSupplyToken> getPlayerSupplyTokens(Card card, Player player) {
     	card = card.getTemplateCard();
-    	if (card.is(Type.Knight, null)) card = Cards.virtualKnight;
+    	if (card.is(Type.Knight, null)) card = Cards.virtualKnight; //TODO make this generic
         if (card.is(com.vdom.core.Type.Ruins, null)) card = Cards.virtualRuins;
     	if (player == null || !playerSupplyTokens.containsKey(card.getName()))
     		return new ArrayList<PlayerSupplyToken>();
@@ -3709,9 +3705,11 @@ public class Game {
 
     public int emptyPiles() {
         int emptyPiles = 0;
+        ArrayList<AbstractCardPile> alreadyCounted = new ArrayList<AbstractCardPile>();
         for (AbstractCardPile pile : piles.values()) {
-            if (pile.getCount() <= 0 && pile.isSupply()) {
+            if (pile.getCount() <= 0 && pile.isSupply() && !alreadyCounted.contains(pile)) {
                 emptyPiles++;
+                alreadyCounted.add(pile);
             }
         }
         return emptyPiles;
@@ -3832,6 +3830,7 @@ public class Game {
         }
 
         piles.put(card.getName(), pile);
+        placeholderPiles.put(card.getName(), pile);
 
         //Add the to the list for each templateCard used (this replaces addLinkedPile
         for (Card templateCard : pile.templateCards) {
