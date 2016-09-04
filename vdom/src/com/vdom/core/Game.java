@@ -3673,6 +3673,8 @@ public class Game {
             return null;
         }
 
+        tradeRouteValue += pile.takeTradeRouteToken();
+
         return pile.removeCard();
     }
 
