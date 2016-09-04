@@ -2842,8 +2842,8 @@ public class Game {
         
         // Setup for Tax
         if (piles.containsKey(Cards.tax.getName())) {
-        	for (String cardName : piles.keySet()) {
-        		Card c = piles.get(cardName).topCard();
+        	for (String cardName : placeholderPiles.keySet()) {
+        		Card c = piles.get(cardName).placeholderCard();
         		if (Cards.isSupplyCard(c)) {
         			addPileDebtTokens(c, 1, null);
         		}
@@ -3555,6 +3555,7 @@ public class Game {
     }
     
     AbstractCardPile addPileDebtTokens(Card card, int num, MoveContext context) {
+        card = getPile(card).placeholderCard();
         String name = card.getName();
         pileDebtTokens.put(name, getPileDebtTokens(card) + num);
         if (context != null) {
@@ -3567,6 +3568,7 @@ public class Game {
     }
     
     AbstractCardPile removePileDebtTokens(Card card, int num, MoveContext context) {
+        card = getPile(card).placeholderCard();
     	num = Math.min(num, getPileDebtTokens(card));
         String name = card.getName();
         if (num > 0) {
@@ -3599,6 +3601,7 @@ public class Game {
     }
     
     public int getPileDebtTokens(Card card) {
+        card = getPile(card).placeholderCard();
         Integer count = pileDebtTokens.get(card.getName());
         return (count == null) ? 0 : count;
     }
