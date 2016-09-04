@@ -952,6 +952,8 @@ public abstract class Player {
                 Card victoryCard = (Card) entry.getKey();
                 if (victoryCard.is(Type.Castle, null)) {
                     int alreadyCounted = 0;
+                    if (totals.containsKey(Cards.virtualCastle)) alreadyCounted = totals.get(Cards.virtualCastle);
+                    totals.put(Cards.virtualCastle, victoryCard.getVictoryPoints() * entry.getValue() + alreadyCounted);
                 } else {
                     totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
                 }
@@ -984,10 +986,12 @@ public abstract class Player {
         if (counts.containsKey(Cards.humbleCastle)) {
             int alreadyCounted = 0;
             if (totals.containsKey(Cards.virtualCastle)) alreadyCounted = totals.get(Cards.virtualCastle);
+            totals.put(Cards.virtualCastle, counts.get(Cards.humbleCastle) * counts.get(CASTLE_CARDS) + alreadyCounted);
         }
         if (counts.containsKey(Cards.kingsCastle)) {
             int alreadyCounted = 0;
             if (totals.containsKey(Cards.virtualCastle)) alreadyCounted = totals.get(Cards.virtualCastle);
+            totals.put(Cards.virtualCastle, counts.get(Cards.kingsCastle) * counts.get(CASTLE_CARDS) * 2 + alreadyCounted);
         }
 
         // landmarks
