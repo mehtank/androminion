@@ -408,8 +408,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	protected ArrayList<Card> getAttackCardsLeft() {
 		ArrayList<Card> options = new ArrayList<Card>();
 		for (AbstractCardPile pile : game.piles.values()) {
-			if (pile.getCount() > 0 && pile.card().is(Type.Attack, null)) {
-				options.add(pile.card());
+			if (pile.getCount() > 0 && pile.topCard().is(Type.Attack, null)) {
+				options.add(pile.topCard());
 			}
 		}
 		return options;

@@ -750,7 +750,7 @@ public abstract class Player {
 
         // seed counts with all victory cards in play
         for (AbstractCardPile pile : this.game.piles.values()) {
-            Card card = pile.card();
+            Card card = pile.topCard();
 
             if(card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
                 cardCounts.put(card, 0);
@@ -832,7 +832,7 @@ public abstract class Player {
     public Map<Card, Integer> getTreasureCardCounts() {
     	final Map<Card, Integer> cardCounts = new HashMap<Card, Integer>();
     	for (AbstractCardPile pile : this.game.piles.values()) {
-            Card card = pile.card();
+            Card card = pile.topCard();
             if(card.is(Type.Treasure, this)) {
                 cardCounts.put(card, 0);
             }

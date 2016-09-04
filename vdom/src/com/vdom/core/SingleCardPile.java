@@ -9,6 +9,9 @@ public class SingleCardPile extends AbstractCardPile {
     public SingleCardPile(Card card, int count) {
         this.cards = new ArrayList<Card>();
         this.templateCards = new ArrayList<Card>();
+
+        this.placeholderCard = card.instantiate();
+        this.placeholderCard.setPlaceholderCard();
         templateCards.add(card);
 
         for (int i = 0; i < count; i++) {
@@ -30,14 +33,5 @@ public class SingleCardPile extends AbstractCardPile {
         if (templateCards.size() > 0) return templateCards.get(0);
         return null;
     }
-
-    @Override
-    public Card placeholderCard() {
-        if (templateCards.size() > 0) return templateCards.get(0);
-        return null;
-    }
-
-    public static AbstractCardPile CreateCardPile() //TODO SPLITPILE is createcardpile better in Game class?
-                                                    //TODO SPLITPILE what about count
 
 }

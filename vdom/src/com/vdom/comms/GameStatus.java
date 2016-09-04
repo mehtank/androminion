@@ -1,6 +1,7 @@
 package com.vdom.comms;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import com.vdom.api.Card;
 
@@ -11,6 +12,22 @@ public class GameStatus implements Serializable {
 	public enum JourneyTokenState {
 		FACE_UP, FACE_DOWN
 	}
+
+    public class UpdateCardInfo implements Serializable {
+
+        private static final long serialVersionUID = 2604750358881809284L;
+
+        public UpdateCardInfo(int cardId, Card card, int cost, int count) {
+            this.cardId = cardId;
+            this.card = card;
+            this.cost = cost;
+            this.count = count;
+        }
+        public int cardId;
+        public Card card;
+        public int cost;
+        public int count;
+    }
 	
 	public int whoseTurn;
     public String name;
@@ -54,12 +71,8 @@ public class GameStatus implements Serializable {
     public int swampHagAttacks;
     public int cardCostModifier;
     public int potions;
-    public Card ruinsTopCard;
-    public int ruinsID;
-    public Card knightsTopCard;
-    public int knightsTopCardCost;
-    public boolean knightsTopCardIsVictory;
-    public int knightsID;
+
+    public ArrayList<UpdateCardInfo> cardUpdates = new ArrayList<UpdateCardInfo>();
 
     public GameStatus setFinal(boolean b) {isFinal = b; return this;}
     public GameStatus setPossessed(boolean b) {isPossessed = b; return this;}
@@ -102,9 +115,11 @@ public class GameStatus implements Serializable {
     public GameStatus setPotions(int i) {potions = i; return this;}
     public GameStatus setTrash(int[] is) {trashPile = is; return this;}
     public GameStatus setBlackMarket(int[] is) {blackMarketPile = is; return this;}
-    public GameStatus setRuinsTopCard(int i, Card c) {ruinsTopCard = c; ruinsID = i; return this;}
-    public GameStatus setKnightTopCard(int i, Card c, int cost, boolean isVictory) {knightsTopCard = c; knightsID = i; knightsTopCardCost = cost; knightsTopCardIsVictory = isVictory; return this;}
 
+    public GameStatus addUpdatedCard(int cardId, Card card, int cost, int count) {
+        cardUpdates.add(new UpdateCardInfo(cardId, card, cost, count));
+        return this;
+    }
     public String toString() {
         String str = name + "(" + whoseTurn + ")";
         return str;

@@ -241,7 +241,6 @@ public class CardImplCornucopia extends CardImpl {
                 targetContext.attackedPlayer = targetPlayer;
 
                 Card draw = game.draw(targetContext, Cards.jester, 1);
-                Card virtCard = draw;
 
                 if (draw == null) 
                 {
@@ -257,17 +256,12 @@ public class CardImplCornucopia extends CardImpl {
                 else if (Cards.isSupplyCard(draw))
                 {
                     AbstractCardPile pile;
-                    if (draw.is(Type.Knight, null)) {
-                        virtCard = Cards.virtualKnight;
-                    } else if (draw.is(Type.Ruins, null)) {
-                        virtCard = Cards.virtualRuins;
-                    }
-                    pile = game.getPile(virtCard);
+                    pile = game.getPile(draw);
 
                     MoveContext toGainContext = null;
 
                     if (!game.isPileEmpty(draw) &&
-                        (pile.getType() == AbstractCardPile.PileType.SingleCardPile || draw.equals(pile.card()))) 
+                        (draw.equals(pile.topCard())))
                     {
                         JesterOption option = currentPlayer.controlPlayer.controlPlayer.jester_chooseOption(context, targetPlayer, draw);
                         toGainContext = JesterOption.GainCopy.equals(option) ? context : targetContext;

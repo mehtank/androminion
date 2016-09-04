@@ -14,6 +14,8 @@ public abstract class AbstractCardPile {
 
 	protected boolean allCardsVisible = true;
 
+	protected Card placeholderCard = null;
+
 	public boolean isEmpty() {
         return cards.isEmpty();
     }
@@ -46,13 +48,15 @@ public abstract class AbstractCardPile {
 	}
 	
 	public abstract Card topCard();
-	public abstract Card placeholderCard();
+	public Card placeholderCard() {
+		return placeholderCard;
+	}
 
 	public boolean cardAllowedOnPile(Card card) {
 		if (card.isTemplateCard()) return false; //No template card allowed on the pile
 
 		for (Card template : this.templateCards) {
-			if (template.getSafeName().equals(card.getSafeName())) {
+			if (template.equals(card)) {
 				return true;
 			}
 		}
@@ -84,6 +88,5 @@ public abstract class AbstractCardPile {
 	}
 
 	public abstract Card removeCard();
-
 
 }

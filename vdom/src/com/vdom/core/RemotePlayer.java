@@ -98,7 +98,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return hasJoined;
     }
 
-    public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isObeliskCard, boolean isBlackMarket){
+    public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isObeliskCard, boolean isBlackMarket, boolean uniqueCardPile){
         MyCard card = new MyCard(index, c.getName(), c.getSafeName(), c.getName());
         card.desc = c.getDescription();
         card.expansion = c.getExpansion() != null ? c.getExpansion().toString() : "";
@@ -124,7 +124,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             card.isRuins = c.is(com.vdom.core.Type.Ruins, null);
 
 
-        card.pile = MyCard.SUPPLYPILE;
+        if (uniqueCardPile) {
+            card.pile = MyCard.SUPPLYPILE;
+        } else {
+            card.pile = MyCard.VARIABLE_CARDS_PILE;
+        }
 
         if (c.is(Type.Prize, null)) {
             card.pile = MyCard.PRIZEPILE;
@@ -166,11 +170,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             (c.equals(Cards.colony)) ||
             (c.equals(Cards.curse))) card.pile = MyCard.VPPILE;
 
-        if (Cards.ruinsCards.contains(c))
-            card.pile = MyCard.RUINS_PILES;
-
-        if (Cards.knightsCards.contains(c))
-            card.pile = MyCard.KNIGHTS_PILES;
 
         if (c.equals(Cards.potion)) card.isPotion = true;
         if (c.equals(Cards.curse)) {
@@ -259,7 +258,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         // ensure card #0 is a card not to shade, e.g. Curse. See Rev r581
         Card curse = Cards.curse;
-        MyCard mc = makeMyCard(curse, index, false, false, false);
+        MyCard mc = makeMyCard(curse, index, false, false, false, true);
         myCardsInPlayList.add(mc);
         cardNamesInPlay.put(curse.getName(), index);
         cardsInPlay.add(index, curse);
@@ -277,7 +276,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
             boolean isBane = context.game.baneCard != null ? c.getSafeName().equals(context.game.baneCard.getSafeName()) : false;
             boolean isObelisk = context.game.obeliskCard != null ? c.getSafeName().equals(context.game.obeliskCard.getSafeName()) : false;
-            mc = makeMyCard(c, index, isBane, isObelisk, isBlackMarket);
+            boolean uniqueCardPile = context.game.getPile(c).placeholderCard().equals(c);
+            mc = makeMyCard(c, index, isBane, isObelisk, isBlackMarket, uniqueCardPile);
             myCardsInPlayList.add(mc);
 
             cardNamesInPlay.put(c.getName(), index);
@@ -312,6 +312,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             else
             {
                 supplySizes[i] = player.getMyCardCount(cardsInPlay.get(i));
+                //TODO SPLITPILES count cards of variablepile for player and supply?
                 /* at end: count ruins and knights for each player */
                 if (cardsInPlay.get(i).equals(Cards.virtualRuins))
                 {
@@ -471,6 +472,18 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setBlackMarket(arrayListToIntArr(player.game.GetBlackMarketPile()))
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
+        for (Card card : game.getCardsInGame()) {
+            AbstractCardPile pile = game.getPile(card);
+            Card placeholder = pile.placeholderCard();
+            Card topCard = pile.topCard();
+            if (!placeholder.equals(topCard)) {
+                gs.addUpdatedCard(cardToInt(placeholder), topCard, topCard.getCost(context), -1);
+            }
+
+
+        }
+
+        /*TODO SPLITPILES remove this and add generic splitpiletopcard handler
         Card topRuins = game.getTopRuinsCard();
         if (topRuins == null) {
             topRuins = Cards.virtualRuins;
@@ -481,7 +494,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             topKnight = Cards.virtualKnight;
         }
         gs.setKnightTopCard(cardToInt(Cards.virtualKnight), topKnight, topKnight.getCost(context), topKnight.is(Type.Victory));
-
+        */
         Event p = new Event(EType.STATUS)
                 .setObject(new EventObject(gs));
 
