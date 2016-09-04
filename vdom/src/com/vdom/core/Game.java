@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
@@ -3608,8 +3609,6 @@ public class Game {
     
     public List<PlayerSupplyToken> getPlayerSupplyTokens(Card card, Player player) {
     	card = card.getTemplateCard();
-    	if (card.is(Type.Knight, null)) card = Cards.virtualKnight; //TODO make this generic
-        if (card.is(com.vdom.core.Type.Ruins, null)) card = Cards.virtualRuins;
     	if (player == null || !playerSupplyTokens.containsKey(card.getName()))
     		return new ArrayList<PlayerSupplyToken>();
     	
@@ -3832,14 +3831,20 @@ public class Game {
 
         piles.put(card.getName(), pile);
         placeholderPiles.put(card.getName(), pile);
+        HashMap<Player, List<PlayerSupplyToken>> tokenMap = new HashMap<Player, List<PlayerSupplyToken>>();
+        playerSupplyTokens.put(card.getName(), tokenMap);
 
-        //Add the to the list for each templateCard used (this replaces addLinkedPile
+        //Add the to the list for each templateCard used (this replaces addLinkedPile)
+        //Also add the an entry for each templateCardName to the playerSupplyTokens because at some places in the code
+        //the token is checked with the actual card and not the placeholder.
         for (Card templateCard : pile.templateCards) {
             if (!piles.containsKey(templateCard.getName())) {
                 piles.put(templateCard.getName(), pile);
             }
+            if (!playerSupplyTokens.containsKey(templateCard.getName())) {
+                playerSupplyTokens.put(templateCard.getName(), tokenMap);
+            }
         }
-        playerSupplyTokens.put(card.getName(), new HashMap<Player, List<PlayerSupplyToken>>());
         
 
         return pile;
