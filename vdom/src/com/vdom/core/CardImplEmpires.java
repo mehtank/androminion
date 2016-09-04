@@ -432,7 +432,7 @@ public class CardImplEmpires extends CardImpl {
     private void fortune(MoveContext context, Player player, Game game) {
     	if (!context.hasDoubledCoins) {
     		//TODO?: is doubling coins affected by -1 coin token?
-    		context.addCoins(context.getCoins() * 2);
+    		context.addCoins(context.getCoins());
     		context.hasDoubledCoins = true;
     	}
     }
