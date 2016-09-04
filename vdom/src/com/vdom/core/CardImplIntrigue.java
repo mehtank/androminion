@@ -690,7 +690,7 @@ public class CardImplIntrigue extends CardImpl {
 
             card = currentPlayer.controlPlayer.upgrade_cardToObtain(context, value, debt, potion);
             if (card != null) {
-                if (card.getCost(context) != value || card.getDebtCost(context) != value || card.costPotion() != potion) {
+                if (card.getCost(context) != value || card.getDebtCost(context) != debt || card.costPotion() != potion) {
                     Util.playerError(currentPlayer, "Upgrade error, new card does not cost value of the old card +1.");
                 } else {
                     if(currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
