@@ -494,4 +494,8 @@
   <string name="stash_x_cards_down">%1$s cards down</string>
   <string name="stash_after_cards_to_draw">After cards to be drawn (%1$s)</string>
   <string name="stash_more_options">Other&#8230;</string>
+
+  <string name="opulent_castle_ask_discard">discard for +2 Coins each</string>
+  <string name="sprawlingcastle_gain_duchy">Gain Duchy</string>
+  <string name="sprawlingcastle_gain_estates">Gain 3 Estates</string>
 </resources>

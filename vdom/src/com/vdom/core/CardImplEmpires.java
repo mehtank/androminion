@@ -373,16 +373,18 @@ public class CardImplEmpires extends CardImpl {
     	options.add(null);
     	if (options.size() > 1) {
     		EncampmentOption option = currentPlayer.controlPlayer.encampment_chooseOption(context, options.toArray(new EncampmentOption[0]));
-    		if (options.contains(EncampmentOption.RevealGold) && option.equals(EncampmentOption.RevealGold)) {
-    			Card c = hand.get(Cards.gold);
-    			currentPlayer.reveal(c, this.controlCard, context);
-    			revealedCard = true;
-    		}
-    		if (options.contains(EncampmentOption.RevealPlunder) && option.equals(EncampmentOption.RevealPlunder)) {
-    			Card c = hand.get(Cards.plunder);
-    			currentPlayer.reveal(c, this.controlCard, context);
-    			revealedCard = true;
-    		}
+			if (option != null) {
+				if (options.contains(EncampmentOption.RevealGold) && option.equals(EncampmentOption.RevealGold)) {
+					Card c = hand.get(Cards.gold);
+					currentPlayer.reveal(c, this.controlCard, context);
+					revealedCard = true;
+				}
+				if (options.contains(EncampmentOption.RevealPlunder) && option.equals(EncampmentOption.RevealPlunder)) {
+					Card c = hand.get(Cards.plunder);
+					currentPlayer.reveal(c, this.controlCard, context);
+					revealedCard = true;
+				}
+			}
     	}
     	
     	if (!revealedCard) {
@@ -430,7 +432,7 @@ public class CardImplEmpires extends CardImpl {
     private void fortune(MoveContext context, Player player, Game game) {
     	if (!context.hasDoubledCoins) {
     		//TODO?: is doubling coins affected by -1 coin token?
-    		context.addCoins(context.getCoins() * 2);
+    		context.addCoins(context.getCoins());
     		context.hasDoubledCoins = true;
     	}
     }
@@ -455,7 +457,7 @@ public class CardImplEmpires extends CardImpl {
     	if (!revealedCopy) {
     		context.addCoins(1);
     		 AbstractCardPile pile = game.getPile(Cards.gladiator);
-    		 if (pile != null && pile.getCount() > 0 && pile.card() == Cards.gladiator) {
+    		 if (pile != null && pile.getCount() > 0 && pile.topCard() == Cards.gladiator) {
     			 Card gladiator = pile.removeCard();
     			 currentPlayer.trash(gladiator, this.controlCard, context);
     		 }
@@ -864,8 +866,11 @@ public class CardImplEmpires extends CardImpl {
     
     private void saltTheEarth(MoveContext context) {
     	Card toTrash = context.getPlayer().controlPlayer.saltTheEarth_cardToTrash(context);
-    	AbstractCardPile pile = context.game.getPile(toTrash);
-    	if (toTrash == null || !toTrash.is(Type.Victory) || pile.isEmpty() || !pile.card().equals(toTrash)) {
+		AbstractCardPile pile = context.game.getPile(toTrash);
+		if (toTrash.isPlaceholderCard()) {
+			toTrash = pile.topCard();
+		}
+    	if (toTrash == null || !toTrash.is(Type.Victory) || pile.isEmpty() || !pile.topCard().equals(toTrash)) {
     		Util.playerError(context.getPlayer(), "Salt the Earth picked invalid card, picking province");
     		toTrash = Cards.province;
     	}

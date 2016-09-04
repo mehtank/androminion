@@ -81,6 +81,7 @@ public class SelectCardOptions implements Serializable {
     public boolean isVictory = false;
     public boolean isNonVictory = false;
     public boolean isAttack = false;
+    public boolean isCastle = false;
     public boolean isNonShelter = false;
     public boolean isSupplyCard = false;
     public boolean different = false;
@@ -138,6 +139,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions isAttack() {isAttack = true; return this;}
     public SelectCardOptions isSupplyCard() {isSupplyCard = true; return this;}
     public SelectCardOptions noTokens() {noTokens = true; return this;}
+    public SelectCardOptions isCastle() {isCastle = true; return this;}
     
     public SelectCardOptions token(PlayerSupplyToken c) {token = c; return this;}
 
@@ -211,6 +213,7 @@ public class SelectCardOptions implements Serializable {
         if (isAttack && !c.is(Type.Attack, p)) return false;
         if (isAction && !c.is(Type.Action, p)) return false;
         if (!isBuyPhase && c.is(Type.Event, null)) return false;
+        if (isCastle && !c.is(Type.Castle, null)) return false;
         
         if (isBuyPhase && !Cards.isSupplyCard(c) && !c.is(Type.Event, null)) return false;
         if (isSupplyCard && !Cards.isSupplyCard(c)) return false;

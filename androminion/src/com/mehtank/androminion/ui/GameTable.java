@@ -1039,9 +1039,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
 
         if (gs.isFinal) {
-            /*print ruins and not abandoned mine*/
-            supplyPile.updateCardName(gs.ruinsID, Cards.virtualRuins, -1, false);
-            supplyPile.updateCardName(gs.knightsID, Cards.virtualKnight, -1, false);
+            // Print Placeholder Card in the end
+            for (GameStatus.UpdateCardInfo uci : gs.cardUpdates) {
+                supplyPile.updateCardInfo(uci);
+            }
             setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastPileTradeRouteTokens, this.lastTokens);
             pauseGameTimer();
             HapticFeedback.vibrate(getContext(),AlertType.FINAL);
@@ -1147,10 +1148,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         this.lastTokens = gs.tokens;
         costs = gs.costs;
 
-        supplyPile.updateCardName(gs.ruinsID, gs.ruinsTopCard, -1, false);
-        supplyPile.updateCardName(gs.knightsID, gs.knightsTopCard, gs.knightsTopCardCost, gs.knightsTopCardIsVictory);
+
+        for (GameStatus.UpdateCardInfo uci : gs.cardUpdates) {
+            supplyPile.updateCardInfo(uci);
+        }
+
         setSupplySizes(gs.supplySizes, gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.pileTradeRouteTokens, gs.tokens);
-        setCardCosts(top.findViewById(android.R.id.content));
+        setCardStates(top.findViewById(android.R.id.content));
     }
 
     private boolean hasTokens(int playerIndex, int[][][] tokens) {
@@ -1167,6 +1171,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         if (costs != null && c.id < costs.length)
             return costs[c.id];
         return c.cost;
+    }
+
+    private void setCardStates(View v) {
+        setCardCosts(top.findViewById(android.R.id.content));
     }
 
     private void setCardCosts(View v) {

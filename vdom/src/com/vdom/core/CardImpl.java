@@ -18,6 +18,8 @@ public class CardImpl implements Card {
     int debtCost;
     boolean costPotion = false;
 
+    boolean isPlaceholderCard = false;
+
     String description = "";
     Expansion expansion = null;
     protected int vp;
@@ -45,6 +47,8 @@ public class CardImpl implements Card {
     protected boolean actionStillNeedsToBeInPlay;
     protected boolean callableWhenTurnStarts;
     protected int callableWhenCardGainedMaxCost = -1;
+
+    protected PileCreator pileCreator = null;
 
     static int maxNameLen;    // across all cards
     
@@ -97,6 +101,8 @@ public class CardImpl implements Card {
         actionStillNeedsToBeInPlay = builder.actionStillNeedsToBeInPlay;
         callableWhenTurnStarts = builder.callableWhenTurnStarts;
         callableWhenCardGainedMaxCost = builder.callableWhenCardGainedMaxCost;
+
+        pileCreator = builder.pileCreator;
     }
 
     public static class Builder {
@@ -130,6 +136,8 @@ public class CardImpl implements Card {
         protected boolean actionStillNeedsToBeInPlay;
         protected boolean callableWhenTurnStarts;
         protected int callableWhenCardGainedMaxCost;
+
+        protected PileCreator  pileCreator = null;
         
         protected boolean isOverpay   = false;
         
@@ -275,6 +283,11 @@ public class CardImpl implements Card {
             return this;
         }
 
+        public Builder pileCreator(PileCreator creator) {
+            pileCreator = creator;
+            return this;
+        }
+
         public CardImpl build() {
         	if (expansion == null) {
         		return new CardImpl(this);
@@ -324,6 +337,9 @@ public class CardImpl implements Card {
     public CardImpl getTemplateCard() {
         return templateCard == null ? this : templateCard;
     }
+
+    public boolean isPlaceholderCard() {return isPlaceholderCard; }
+    public void setPlaceholderCard() { isPlaceholderCard = true; }
 
     protected void checkInstantiateOK() {
         if (!isTemplateCard()) {
@@ -455,9 +471,14 @@ public class CardImpl implements Card {
 
     public int getCost(MoveContext context, boolean buyPhase) {
     	if (this.is(Type.Event, null)) return cost; //Costs of Events are not affected by cards like Bridge Troll.
-        if (this.equals(Cards.virtualKnight))
-            if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
-                return context.game.getTopKnightCard().getCost(context,buyPhase); 
+
+        //If it's a variable card pile, and it's not empty, return the cost of the top card
+        if (this.isPlaceholderCard()) {
+            AbstractCardPile pile = context.game.getPile(this);
+            if (!pile.isEmpty()) {
+                return context.game.getPile(this).topCard().getCost(context, buyPhase);
+            }
+        }
 
         if (controlCard != null && controlCard != this && controlCard.inheritingAbilitiesCard != null) {
         	return controlCard.getCost(context, buyPhase);
@@ -1237,4 +1258,13 @@ public class CardImpl implements Card {
             }
         }
     }
+
+    public PileCreator getPileCreator() {
+        if (pileCreator == null) {
+            return new DefaultCardPileCreator();
+        } else {
+            return this.pileCreator;
+        }
+    }
+
 }

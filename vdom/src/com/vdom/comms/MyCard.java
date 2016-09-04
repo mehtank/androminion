@@ -56,10 +56,9 @@ public class MyCard implements Serializable {
 	public static final int PRIZEPILE = 4;
 	public static final int NON_SUPPLY_PILE = 5;	// Used for DA cards (for now)
 	public static final int SHELTER_PILES = 6;
-	public static final int RUINS_PILES = 7;
-	public static final int KNIGHTS_PILES = 8;
-	public static final int BLACKMARKET_PILE = 9;
-	public static final int EVENTPILE = 10;
+	public static final int VARIABLE_CARDS_PILE = 7;
+	public static final int BLACKMARKET_PILE = 8;
+	public static final int EVENTPILE = 9;
 
 	public int pile;
 
@@ -169,6 +168,10 @@ public class MyCard implements Serializable {
         {
             cardType += "Reaction - Shelter";
         }
+
+		if (isCastle) {
+			cardType += "- Castle";
+		}
         
         return cardType;
     }
