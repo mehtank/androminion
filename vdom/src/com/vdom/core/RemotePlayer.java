@@ -312,24 +312,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             else
             {
                 supplySizes[i] = player.getMyCardCount(cardsInPlay.get(i));
-                //TODO SPLITPILES count cards of variablepile for player and supply?
-                /* at end: count ruins and knights for each player */
-                if (cardsInPlay.get(i).equals(Cards.virtualRuins))
-                {
-                   i_virtualRuins = i;
-                }
-                else if (cardsInPlay.get(i).is(com.vdom.core.Type.Ruins, null))
-                {
-                   ruinsSize += player.getMyCardCount(cardsInPlay.get(i));
-                }
-                if (cardsInPlay.get(i).equals(Cards.virtualKnight))
-                {
-                   i_virtualKnight = i;
-                }
-                else if (cardsInPlay.get(i).is(Type.Knight, null))
-                {
-                   knightSize += player.getMyCardCount(cardsInPlay.get(i));
-                }
             }
             embargos[i] = context.getEmbargos(intToCard(i));
             pileVpTokens[i] = context.getPileVpTokens(intToCard(i));
@@ -337,17 +319,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             pileTradeRouteTokens[i] = context.getPileTradeRouteTokens(intToCard(i));
             
             costs[i] = intToCard(i).getCost(context);
-        }
-        if (isFinal)
-        {
-            if(i_virtualRuins != -1)
-            {
-                supplySizes[i_virtualRuins] = ruinsSize;
-            }
-            if(i_virtualKnight != -1)
-            {
-                supplySizes[i_virtualKnight] = knightSize;
-            }
         }
 
         // show opponent hand if possessed
@@ -476,13 +447,20 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             AbstractCardPile pile = game.getPile(card);
             Card placeholder = pile.placeholderCard();
             Card topCard = pile.topCard();
-            boolean empty = false;
+            int count = -1; //Don't change count unless it's final game view
+            boolean showPlaceHolder = false;
+            if (isFinal) {
+                topCard = placeholder;
+                showPlaceHolder = true;
+                count = pile.getCount();
+            }
             if (topCard == null) {
                 topCard = placeholder; //If pile is empty show placeholder card
-                empty = true;
+                showPlaceHolder = true;
             }
-            if (!placeholder.equals(topCard) || empty) {
-                gs.addUpdatedCard(cardToInt(placeholder), topCard, topCard.getCost(empty ? null : context), topCard.getDebtCost(empty ? null : context), -1); //Don't calculate cost reduction if placeholder card is shown
+
+            if (!placeholder.equals(topCard) || showPlaceHolder) {
+                gs.addUpdatedCard(cardToInt(placeholder), topCard, topCard.getCost(showPlaceHolder ? null : context), topCard.getDebtCost(showPlaceHolder ? null : context), count); //Don't calculate cost reduction if placeholder card is shown
             }
         }
 

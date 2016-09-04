@@ -122,6 +122,13 @@ public abstract class Player {
     }
 
     public int getMyCardCount(Card card) {
+        if (card.isPlaceholderCard()) {
+            int count = 0;
+            for (Card template : game.getPile(card).templateCards) {
+                count += Util.getCardCount(getAllCards(), template);
+            }
+            return count;
+        }
         return Util.getCardCount(getAllCards(), card);
     }
     public int getTurnCount() {
