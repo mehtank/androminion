@@ -17,15 +17,17 @@ public class GameStatus implements Serializable {
 
         private static final long serialVersionUID = 2604750358881809284L;
 
-        public UpdateCardInfo(int cardId, Card card, int cost, int count) {
+        public UpdateCardInfo(int cardId, Card card, int cost, int debtCost, int count) {
             this.cardId = cardId;
             this.card = card;
             this.cost = cost;
+            this.debtCost = debtCost;
             this.count = count;
         }
         public int cardId;
         public Card card;
         public int cost;
+        public int debtCost;
         public int count;
     }
 	
@@ -116,8 +118,8 @@ public class GameStatus implements Serializable {
     public GameStatus setTrash(int[] is) {trashPile = is; return this;}
     public GameStatus setBlackMarket(int[] is) {blackMarketPile = is; return this;}
 
-    public GameStatus addUpdatedCard(int cardId, Card card, int cost, int count) {
-        cardUpdates.add(new UpdateCardInfo(cardId, card, cost, count));
+    public GameStatus addUpdatedCard(int cardId, Card card, int cost, int debtCost, int count) {
+        cardUpdates.add(new UpdateCardInfo(cardId, card, cost, debtCost, count));
         return this;
     }
     public String toString() {

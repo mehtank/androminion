@@ -838,6 +838,7 @@ public class Game {
             	playerPayOffDebt(player, context);
             	if (player.getDebtTokenCount() == 0) {
             		buy = player.controlPlayer.doBuy(context);
+                    buy = getPile(buy).topCard(); //Swap in the actual top card of the pile
             	}
             } catch (Throwable t) {
                 Util.playerError(player, t);

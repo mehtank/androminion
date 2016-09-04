@@ -476,26 +476,16 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             AbstractCardPile pile = game.getPile(card);
             Card placeholder = pile.placeholderCard();
             Card topCard = pile.topCard();
-            if (topCard == null) topCard = placeholder; //If pile is empty show placeholder card
-            if (!placeholder.equals(topCard)) {
-                gs.addUpdatedCard(cardToInt(placeholder), topCard, topCard.getCost(context), -1); //TODO SPLITPILES if pile is emtpy don't reduce cost (pass null instead of context on getcost)
+            boolean empty = false;
+            if (topCard == null) {
+                topCard = placeholder; //If pile is empty show placeholder card
+                empty = true;
             }
-
-
+            if (!placeholder.equals(topCard) || empty) {
+                gs.addUpdatedCard(cardToInt(placeholder), topCard, topCard.getCost(empty ? null : context), topCard.getDebtCost(empty ? null : context), -1); //Don't calculate cost reduction if placeholder card is shown
+            }
         }
 
-        /*TODO SPLITPILES remove this and add generic splitpiletopcard handler
-        Card topRuins = game.getTopRuinsCard();
-        if (topRuins == null) {
-            topRuins = Cards.virtualRuins;
-        }
-        gs.setRuinsTopCard(cardToInt(Cards.virtualRuins), topRuins);
-        Card topKnight = game.getTopKnightCard();
-        if (topKnight == null) {
-            topKnight = Cards.virtualKnight;
-        }
-        gs.setKnightTopCard(cardToInt(Cards.virtualKnight), topKnight, topKnight.getCost(context), topKnight.is(Type.Victory));
-        */
         Event p = new Event(EType.STATUS)
                 .setObject(new EventObject(gs));
 

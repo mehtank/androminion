@@ -212,7 +212,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 options[i + 1] = int_options[i];
             }
         }
-        return int_options[selectOption(context, responsible, options)];
+        int choice = selectOption(context, responsible, options);
+        if (choice >= 0 && choice < int_options.length) {
+            return int_options[choice];
+        } else {
+            return int_options[0];
+        }
+
     }
 
     @Override

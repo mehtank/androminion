@@ -159,12 +159,16 @@ public class CardGroup extends BaseAdapter {
                 cs.c.name = Strings.getCardName(uci.card);
                 cs.c.desc = Strings.getFullCardDescription(uci.card);
                 if (uci.cost >= 0) cs.c.cost = uci.cost;
+                if (uci.debtCost >= 0) cs.c.debtCost = uci.debtCost;
                 if (uci.count >= 0) supplySizes[cs.c.id] = uci.count;
-                cs.c.isVictory  = uci.card.is(Type.Victory);
+                cs.c.gold = uci.card.getAddGold();
+                cs.c.vp = uci.card.getAddVictoryTokens();
+                cs.c.isVictory = uci.card.is(Type.Victory);
                 cs.c.isTreasure = uci.card.is(Type.Treasure);
-                cs.c.isAction   = uci.card.is(Type.Action);
-                cs.c.isAttack   = uci.card.is(Type.Attack);
-                cs.c.isCastle   = uci.card.is(Type.Castle);
+                cs.c.isAction = uci.card.is(Type.Action);
+                cs.c.isAttack = uci.card.is(Type.Attack);
+                cs.c.isCastle = uci.card.is(Type.Castle);
+
             }
         }
     }
