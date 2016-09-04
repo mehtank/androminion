@@ -1876,16 +1876,9 @@ public class Game {
             event.card = card;
             event.newCard = true;
             broadcastEvent(event);
-
-            //TODO SPLITPILES do the swap? Swap before event?
-
-            // Swap in the real knight
-            if (buy.equals(Cards.virtualKnight)) {
-                buy = card;
-            }
         }
 
-        if (!buy.costPotion() && buy.getDebtCost(context) == 0 && !(buy.is(Type.Victory)) && !buy.is(Type.Knight) && cost < 5 && !buy.is(Type.Event)) {
+        if (!buy.costPotion() && buy.getDebtCost(context) == 0 && !(buy.is(Type.Victory)) && cost < 5 && !buy.is(Type.Event)) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
                 if (card.equals(getPile(card).topCard())) {
                     context.getPlayer().gainNewCard(buy, Cards.talisman, context);
@@ -2529,6 +2522,9 @@ public class Game {
                     card = Cards.virtualKnight;
                 }
 
+                //TODO SPLITPILES add names for SplitPiles
+
+
                 if(card != null) {
                     addPile(card);
                     added += 1;
@@ -2656,13 +2652,6 @@ public class Game {
         if (obeliskCard != null && !piles.containsKey(Cards.obelisk.getName())) {
         	addPile(Cards.obelisk);
         }
-        
-        if (piles.containsKey(Cards.virtualKnight.getName())) {
-            VariableCardPile kp = (VariableCardPile) this.getPile(Cards.virtualKnight);
-            for (Card k : Cards.knightsCards) {
-                //TODO SPLITPILES what to do here? kp.addLinkedPile((SingleCardPile) addPile(k, 1, false));
-            }
-        }
 
         //determine shelters & plat/colony use
         boolean alreadyCountedKnights = false;
@@ -2733,7 +2722,6 @@ public class Game {
             }
         }
 
-        // We have to add one "invisible" pile for each ruins card and a "virtual" visible pile
         boolean looter = false;
         for (AbstractCardPile pile : piles.values()) {
             if (pile.topCard().is(Type.Looter, null)) {
@@ -2742,9 +2730,6 @@ public class Game {
         }
         if (looter) {
             VariableCardPile rp = (VariableCardPile) this.addPile(Cards.virtualRuins, Math.max(10, (numPlayers * 10) - 10));
-            for (Card r : Cards.ruinsCards) {
-                //TODO SPLITPILES what to do here? rp.addLinkedPile((SingleCardPile) this.addPile(r, 10, false));
-            }
         }
 
 
@@ -3737,14 +3722,14 @@ public class Game {
         for (AbstractCardPile pile : piles.values()) {
             if (type == null) {
                 if (!cards.contains(pile.placeholderCard()))
-                    cards.add(pile.placeholderCard()); //TODO SPLITPILES is this correct, old code did change it to virtualRuins/virtual Knights here
+                    cards.add(pile.placeholderCard());
                 for (Card template : pile.templateCards) {
                     if (!pile.placeholderCard().equals(template) && !cards.contains(template)) {
                         cards.add(template);
                     }
                 }
             } else if (pile.topCard().is(type, null) && pile.isSupply) {
-                cards.add(pile.topCard());         //TODO SPLITPILES but not here
+                cards.add(pile.topCard());
             }
         }
         return cards.toArray(new Card[0]);
@@ -3993,20 +3978,7 @@ public class Game {
         return false;
     }
 
-    /**
-     * @return Card on top of the Ruins pile
-     */
-    /*public Card getTopRuinsCard() {
-        AbstractCardPile p = getPile(Cards.virtualRuins);
-        if (p == null) return null;
-        return p.topCard();
-    }
 
-    public Card getTopKnightCard() {
-        AbstractCardPile p = getPile(Cards.virtualKnight);
-        if (p == null) return null;
-        return p.topCard();
-    }*/
 
     public AbstractCardPile getPile(Card card) {
         return piles.get(card.getName());
