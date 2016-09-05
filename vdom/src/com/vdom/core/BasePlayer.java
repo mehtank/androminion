@@ -4093,7 +4093,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || context.player.getInheritance() != null                          //player has inherited card
                 || context.player.getAllCards().contains(Cards.baron)               //player has baron
                 || context.player.getAllCards().contains(Cards.silkRoad)            //player has silkroad
-                || context.player.getAllCards().contains(Cards.gardens);            //player has garden
+                || context.player.getAllCards().contains(Cards.gardens)             //player has garden
+                || context.player.getAllCards().contains(Cards.opulentCastle);      //player has opulent castle
         if (getEstates) return HuntingGroundsOption.GainEstates;
         return HuntingGroundsOption.GainDuchy;
     }

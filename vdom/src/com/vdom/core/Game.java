@@ -2395,7 +2395,7 @@ public class Game {
         tradeRouteValue = 0;
         if (isCardInGame(Cards.tradeRoute)) {
             for (AbstractCardPile pile : piles.values()) {
-                if ((pile.topCard().is(Type.Victory)) && !pile.topCard().is(Type.Knight) && !pile.isBlackMarket()) {
+                if ((pile.placeholderCard().is(Type.Victory)) && pile.isSupply()) {
                     pile.setTradeRouteToken();
                 }
             }
@@ -2521,9 +2521,6 @@ public class Game {
                 if (cardName.equalsIgnoreCase("Knights")) {
                     card = Cards.virtualKnight;
                 }
-
-                //TODO SPLITPILES add names for SplitPiles
-
 
                 if(card != null) {
                     addPile(card);
@@ -2813,10 +2810,11 @@ public class Game {
         if (piles.containsKey(Cards.obelisk.getName())) {
         	if (obeliskCard == null) {
         		ArrayList<Card> validObeliskCards = new ArrayList<Card>();
-            	for (String pile : piles.keySet()) {
-                    //TODO SPLIT PILES set obelistk to whole pile, and placeholder
-            		if (piles.get(pile).isSupply() && piles.get(pile).topCard().is(Type.Action)  && !validObeliskCards.contains(piles.get(pile).topCard())) {
-            			validObeliskCards.add(piles.get(pile).topCard());
+            	for (String p : placeholderPiles.keySet()) {
+                    AbstractCardPile pile = placeholderPiles.get(p);
+                    Card placeholder = pile.placeholderCard();
+            		if (pile.isSupply() && placeholder.is(Type.Action)  && !validObeliskCards.contains(placeholder)) {
+            			validObeliskCards.add(placeholder);
             		}
             	}
             	if (validObeliskCards.size() > 0) {
@@ -3992,6 +3990,10 @@ public class Game {
     
     public AbstractCardPile getGamePile(Card card) {
         return getPile(card);
+    }
+
+    public boolean cardsInSamePile(Card first, Card second) {
+        return getPile(first).equals(getPile(second));
     }
 
     public void trashHovelsInHandOption(Player player, MoveContext context, Card responsible)

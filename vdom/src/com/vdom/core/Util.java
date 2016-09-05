@@ -459,6 +459,16 @@ public class Util {
 
         return count;
     }
+
+    public static int countCardsOfSamePile(Game game, ArrayList<Card> cards, Card card) {
+        int count = 0;
+        for (Card thisCard : cards) {
+            if (game.cardsInSamePile(thisCard, card)) {
+                count++;
+            }
+        }
+        return count;
+    }
     
 
 	public static boolean areCardsInHand(Card[] cards, MoveContext context) {

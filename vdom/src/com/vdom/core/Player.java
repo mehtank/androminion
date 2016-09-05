@@ -844,10 +844,11 @@ public abstract class Player {
     
     public Map<Card, Integer> getTreasureCardCounts() {
     	final Map<Card, Integer> cardCounts = new HashMap<Card, Integer>();
-    	for (AbstractCardPile pile : this.game.piles.values()) {
-            Card card = pile.topCard();
-            if(card.is(Type.Treasure, this)) {
-                cardCounts.put(card, 0);
+    	for (AbstractCardPile pile : this.game.placeholderPiles.values()) {
+            for (Card card : pile.templateCards) {
+                if (card.is(Type.Treasure, this)) {
+                    cardCounts.put(card, 0);
+                }
             }
         }
 
@@ -1012,7 +1013,7 @@ public abstract class Player {
         	totals.put(Cards.museum, counts.get(DISTINCT_CARDS) * 2);
         }
         if (this.game.cardInGame(Cards.obelisk)) {
-        	totals.put(Cards.obelisk, game.obeliskCard != null ? Util.getCardCount(allCards, game.obeliskCard) * 2 : 0);
+        	totals.put(Cards.obelisk, game.obeliskCard != null ? Util.countCardsOfSamePile(game, allCards, game.obeliskCard) * 2 : 0);
         }
         if (this.game.cardInGame(Cards.orchard)) {
         	totals.put(Cards.orchard, counts.get(THREE_PLUS_COPY_ACTION_CARDS) * 4);

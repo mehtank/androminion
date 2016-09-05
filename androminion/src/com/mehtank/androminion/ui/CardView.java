@@ -198,8 +198,6 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				setBackgroundResource(R.drawable.thinobeliskborder);
 			} else if (c.isStash) {
 				setBackgroundResource(R.drawable.thinstashborder);
-			} else if (c.isCastle) {
-				setBackgroundResource(R.drawable.thincastleborder);
 			} else {
 				setBackgroundResource(R.drawable.thinborder);
 			}
@@ -210,8 +208,6 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				setBackgroundResource(R.drawable.obeliskborder);
 			} else if (c.isStash) {
 				setBackgroundResource(R.drawable.stashborder);
-			} else if (c.isCastle) {
-				setBackgroundResource(R.drawable.castleborder);
 			} else if (c.isShelter) {
 				setBackgroundResource(R.drawable.shelterborder);
 			} else {

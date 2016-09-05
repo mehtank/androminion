@@ -66,12 +66,15 @@ class CastlesPileCreator extends PileCreator {
             if (count < 8) count = 8;
             if (count > 8) count = 12;
         }
-        int multiCastles = (count == 8 ? 1 : 2);
-        boolean multi = true;
-        for (Card c: Cards.castleCards) {
-            cards.put(c, multi ? multiCastles : 1); //if there are 12 cards, add two for every second card (start at first)
-            multi = !multi;
-        }
+
+        cards.put(Cards.humbleCastle,    count == 8 ? 1 : 2);
+        cards.put(Cards.crumblingCastle, 1);
+        cards.put(Cards.smallCastle,     count == 8 ? 1 : 2);
+        cards.put(Cards.hauntedCastle,   1);
+        cards.put(Cards.opulentCastle,   count == 8 ? 1 : 2);
+        cards.put(Cards.sprawlingCastle, 1);
+        cards.put(Cards.grandCastle,     1);
+        cards.put(Cards.kingsCastle,     count == 8 ? 1 : 2);
 
         return new VariableCardPile(template, cards, true, true);
 
