@@ -591,7 +591,7 @@ public class CardImpl implements Card {
     
     @Override
     public void play(Game game, MoveContext context, boolean fromHand) {
-    	play(game, context, true, false);
+    	play(game, context, fromHand, false);
     }
     
     @Override
