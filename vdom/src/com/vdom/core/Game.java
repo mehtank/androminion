@@ -3667,6 +3667,12 @@ public class Game {
     }
 
     protected Card takeFromPileCheckTrader(Card cardToGain, MoveContext context) {
+
+        //If the desired card is not on top of the pile, don't take a card
+        if (!getPile(cardToGain).topCard().equals(cardToGain)) {
+            return null;
+        }
+
     	boolean hasInheritedTrader = Cards.trader.equals(context.getPlayer().getInheritance()) && context.getPlayer().hand.contains(Cards.estate);
         boolean hasTrader = context.getPlayer().hand.contains(Cards.trader);
         Card traderCard = hasTrader ? Cards.trader : Cards.estate;

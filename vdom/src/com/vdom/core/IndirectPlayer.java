@@ -175,6 +175,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                          && sco.actionType != null
                          && sco.actionType.equals(ActionType.GAIN) ) )
                 {
+                    //TODO SPLITPILES When the variablecardpile syncing to the UI is refactored this should not be necessary anymore.
+                    //Swap cards for the placeholdercards because on UI side piles always have the id of the placeholder, not the actual top card
+                    if (!card.isPlaceholderCard()) {
+                        AbstractCardPile pile = game.getPile(card);
+                        if (pile.topCard().equals(card)) {
+                            card = game.getPile(card).placeholderCard();
+                        }
+                    }
                     sco.addValidCard(cardToInt(card));
                     /*For Swindler: Default=Curse if Cost=0 */
                     if(card.equals(Cards.curse))
@@ -193,7 +201,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             // Only one card available and player can't pass...go ahead and return
             return intToCard(sco.allowedCards.get(0));
         }
-        return pickACard(context, sco);
+
+        //TODO SPLITPILES When the variablecardpile syncing to the UI is refactored this should not be necessary anymore.
+        //Swap the placeholder for the actual topCard
+        Card pickedCard = pickACard(context, sco);
+        if (pickedCard.isPlaceholderCard()) {
+            pickedCard = game.getPile(pickedCard).topCard();
+        }
+        return pickedCard;
     }
 
     public int selectInt(MoveContext context, Card responsible, int maxInt) {
