@@ -167,6 +167,7 @@ public class CardImplEmpires extends CardImpl {
     	case CrumblingCastle:
         	context.player.addVictoryTokens(context, 1);
         	context.player.gainNewCard(Cards.silver, this, context);
+			break;
         case Rocks:
         	context.player.gainNewCard(Cards.silver, this, context);
         	break;
