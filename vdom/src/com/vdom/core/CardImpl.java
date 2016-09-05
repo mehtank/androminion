@@ -460,7 +460,7 @@ public class CardImpl implements Card {
 	    	}
 	    	return false;
     	}
-    	return player.getInheritance().is(t, null);
+    	return player.getInheritance().is(t) || this.is(t);
     }
 
     public int getCost(MoveContext context) {

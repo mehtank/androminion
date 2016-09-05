@@ -759,11 +759,11 @@ public abstract class Player {
 
         // seed counts with all victory cards in play
         for (AbstractCardPile pile : this.game.piles.values()) {
-            Card card = pile.placeholderCard();
-
-            if(card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
-                cardCounts.put(card, 0);
-            }
+        	for(Card card : pile.templateCards) {
+        		if(card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
+                    cardCounts.put(card, 0);
+                }
+        	}
         }
 
         for(Card card : this.getAllCards()) {
