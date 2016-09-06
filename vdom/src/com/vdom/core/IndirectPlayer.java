@@ -905,7 +905,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_embargo_supplyToEmbargo(context)) {
             return super.embargo_supplyToEmbargo(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+        SelectCardOptions sco = new SelectCardOptions().applyOptionsToPile().allowEmpty()
                 .setCardResponsible(Cards.embargo);
         return getFromTable(context, sco, true);
     }
@@ -3455,9 +3455,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     
     @Override
     public Card tax_supplyToTax(MoveContext context) {
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+    	SelectCardOptions sco = new SelectCardOptions().applyOptionsToPile().allowEmpty()
             .setCardResponsible(Cards.tax);
-        return getFromTable(context, sco);
+        return getFromTable(context, sco, true);
     }
     
     @Override
