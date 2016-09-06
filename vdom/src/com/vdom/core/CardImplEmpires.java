@@ -458,7 +458,7 @@ public class CardImplEmpires extends CardImpl {
     	if (!revealedCopy) {
     		context.addCoins(1);
 			CardPile pile = game.getPile(Cards.gladiator);
-    		 if (pile != null && pile.getCount() > 0 && pile.topCard() == Cards.gladiator) {
+    		 if (pile != null && pile.getCount() > 0 && pile.topCard().equals(Cards.gladiator)) {
     			 Card gladiator = pile.removeCard();
     			 currentPlayer.trash(gladiator, this.controlCard, context);
     		 }
