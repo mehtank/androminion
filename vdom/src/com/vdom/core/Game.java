@@ -362,7 +362,7 @@ public class Game {
             // System.out.println();
             ArrayList<Card> gameCards = new ArrayList<Card>();
             for (AbstractCardPile pile : piles.values()) {
-                Card card = pile.topCard();
+                Card card = pile.placeholderCard();
                 if (!card.equals(Cards.copper) && !card.equals(Cards.silver) && !card.equals(Cards.gold) && !card.equals(Cards.platinum)
                     && !card.equals(Cards.estate) && !card.equals(Cards.duchy) && !card.equals(Cards.province) && !card.equals(Cards.colony)
                     && !card.equals(Cards.curse)) {
@@ -401,7 +401,7 @@ public class Game {
         int[] ips = new int[piles.size() - 1 - (isColonyInGame() ? 1 : 0)];
         int count = 0;
         for (AbstractCardPile pile : piles.values()) {
-            if (pile.topCard() != Cards.province && pile.topCard() != Cards.colony)
+            if (pile.placeholderCard() != Cards.province && pile.topCard() != Cards.colony)
                 ips[count++] = pile.getCount();
         }
         Arrays.sort(ips);
@@ -2664,7 +2664,7 @@ public class Game {
             	if (pile.placeholderCard.getExpansion() == Expansion.DarkAges) {
                     darkAgesCards++;
                 }
-            	if (pile.topCard().getExpansion() == Expansion.Prosperity) {
+            	if (pile.placeholderCard().getExpansion() == Expansion.Prosperity) {
                     prosperityCards++;
                 }
             }
@@ -2712,17 +2712,22 @@ public class Game {
         }
 
         // Add the potion if there are any cards that need them.
+        outerloop:
         for (AbstractCardPile pile : piles.values()) {
-            if (pile.topCard().costPotion()) {
-                addPile(Cards.potion, 16);
-                break;
+            for (Card cardInPile : pile.templateCards) {
+                if (cardInPile.costPotion()) {
+                    addPile(Cards.potion, 16);
+                    break outerloop;
+                }
             }
         }
 
         boolean looter = false;
         for (AbstractCardPile pile : piles.values()) {
-            if (pile.topCard().is(Type.Looter, null)) {
-                looter = true;
+            for (Card cardInPile : pile.templateCards) {
+                if (cardInPile.is(Type.Looter, null)) {
+                    looter = true;
+                }
             }
         }
         if (looter) {
@@ -2798,9 +2803,9 @@ public class Game {
         
         // Setup for Defiled Shrine
         if (piles.containsKey(Cards.defiledShrine.getName())) {
-        	for (String pile : piles.keySet()) {
-        		Card c = piles.get(pile).topCard();
-        		if (piles.get(pile).isSupply() && c.is(Type.Action) && !c.is(Type.Gathering)) {
+            for (AbstractCardPile pile : placeholderPiles.values()) {
+                Card c = pile.placeholderCard();
+        		if (pile.isSupply() && c.is(Type.Action) && !c.is(Type.Gathering)) {
         			addPileVpTokens(c, 2, null);
         		}
         	}
@@ -2855,8 +2860,8 @@ public class Game {
         ArrayList<Card> cards = new ArrayList<Card>();
         ArrayList<Card> events = new ArrayList<Card>();
         ArrayList<Card> landmarks = new ArrayList<Card>();
-        for (AbstractCardPile pile : piles.values()) {
-        	Card c = pile.topCard();
+        for (AbstractCardPile pile : placeholderPiles.values()) {
+        	Card c = pile.placeholderCard();
         	if (Cards.isKingdomCard(c)) {
         		cards.add(c);
         	} else if (Cards.eventsCards.contains(c)) {
