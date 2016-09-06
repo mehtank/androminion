@@ -982,17 +982,13 @@ public class Cards {
         for (Card card : eventCardsPromo)  		{ eventsCards.add(card); }
         
         for (Card card : landmarkCardsEmpires) { landmarkCards.add(card); }
-        
-        
+
+
         for (Card card : nonSupplyCards)        { nonKingdomCards.add(card); };
         for (Card card : prizeCards)            { nonKingdomCards.add(card); };
-        for (Card card : knightsCards)          { nonKingdomCards.add(card); };
-        for (Card card : ruinsCards)            { nonKingdomCards.add(card); };
-        for (Card card : castleCards)           { nonKingdomCards.add(card); };
-        for (Card card : variablePileCards)     { nonKingdomCards.add(card); };
         for (Card card : eventsCards)           { nonKingdomCards.add(card); };
         for (Card card : landmarkCards)         { nonKingdomCards.add(card); };
-        
+
 
         for (Card card : actionCards)       { cardNameToCard.put(card.getName(), card); }
         for (Card card : prizeCards)        { cardNameToCard.put(card.getName(), card); }

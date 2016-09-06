@@ -24,7 +24,6 @@ public abstract class Player {
     public static final String THREE_PLUS_COPY_ACTION_CARDS = "Three Plus Copy Action Cards";
     public static final String NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS = "Non Victory Empty Supply Pile Cards";
     public static final String SECOND_MOST_COMMON_ACTION_CARDS = "Second Most Common Action Cards";
-    public static final String CASTLE_CARDS = "Castle Cards";
     public static final String VICTORY_TOKENS = "Victory Tokens";
 
     // Only used by InteractivePlayer currently
@@ -755,21 +754,20 @@ public abstract class Player {
         final HashSet<String> distinctCards = new HashSet<String>();
         final Map<Object, Integer> allCardCounts = new HashMap<Object, Integer>();
         final Map<Object, Integer> cardCounts = new HashMap<Object, Integer>();
-        int castleCount = 0;
 
         // seed counts with all victory cards in play
         for (CardPile pile : this.game.piles.values()) {
-            Card card = pile.placeholderCard();
+            for (Card cardInPile : pile.getTemplateCards()) {
 
-            if(card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
-                cardCounts.put(card, 0);
+                if (cardInPile.is(Type.Victory, this) || cardInPile.is(Type.Curse, this)) {
+                    cardCounts.put(cardInPile, 0);
+                }
             }
         }
 
         for(Card card : this.getAllCards()) {
             distinctCards.add(card.getName());
             if (card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
-                if (card.is(Type.Castle, this)) castleCount++;
                 if(cardCounts.containsKey(card)) {
                     cardCounts.put(card, cardCounts.get(card) + 1);
                 } else {
@@ -818,9 +816,6 @@ public abstract class Player {
         cardCounts.put(THREE_PLUS_COPY_ACTION_CARDS, threePlusCopyActionCards);
         cardCounts.put(SECOND_MOST_COMMON_ACTION_CARDS, secondHighestActionCardCount);
         cardCounts.put(NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS, nonVictoryEmptySupplyPileCards);
-
-        if (castleCount > 0) cardCounts.put(Cards.virtualCastle, castleCount);
-        cardCounts.put(CASTLE_CARDS, castleCount);
 
         return cardCounts;
     }
@@ -958,13 +953,7 @@ public abstract class Player {
         for(Map.Entry<Object, Integer> entry : counts.entrySet()) {
             if(entry.getKey() instanceof Card && ((Card)entry.getKey()).is(Type.Victory, this)) {
                 Card victoryCard = (Card) entry.getKey();
-                if (victoryCard.is(Type.Castle, null)) {
-                    int alreadyCounted = 0;
-                    if (totals.containsKey(Cards.virtualCastle)) alreadyCounted = totals.get(Cards.virtualCastle);
-                    totals.put(Cards.virtualCastle, victoryCard.getVictoryPoints() * entry.getValue() + alreadyCounted);
-                } else {
-                    totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
-                }
+                totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
             } else if((entry.getKey() instanceof Card) && ((Card)entry.getKey()).is(Type.Curse, null)) {
                 Card curseCard = (Card) entry.getKey();
                 totals.put(curseCard, curseCard.getVictoryPoints() * entry.getValue());
@@ -990,17 +979,10 @@ public abstract class Player {
             counts.put(Cards.distantLands, Util.getCardCount(this.tavern, Cards.distantLands));
             totals.put(Cards.distantLands, counts.get(Cards.distantLands) * 4);
         }
-
-        if (counts.containsKey(Cards.humbleCastle)) {
-            int alreadyCounted = 0;
-            if (totals.containsKey(Cards.virtualCastle)) alreadyCounted = totals.get(Cards.virtualCastle);
-            totals.put(Cards.virtualCastle, counts.get(Cards.humbleCastle) * counts.get(CASTLE_CARDS) + alreadyCounted);
-        }
-        if (counts.containsKey(Cards.kingsCastle)) {
-            int alreadyCounted = 0;
-            if (totals.containsKey(Cards.virtualCastle)) alreadyCounted = totals.get(Cards.virtualCastle);
-            totals.put(Cards.virtualCastle, counts.get(Cards.kingsCastle) * counts.get(CASTLE_CARDS) * 2 + alreadyCounted);
-        }
+        if (counts.containsKey(Cards.humbleCastle))
+            totals.put(Cards.humbleCastle, counts.get(Cards.humbleCastle) * this.getCastleCardCount(this));
+        if (counts.containsKey(Cards.kingsCastle))
+            totals.put(Cards.kingsCastle, counts.get(Cards.kingsCastle) * this.getCastleCardCount(this) * 2);
 
         // landmarks
         if (this.game.cardInGame(Cards.banditFort)) {
