@@ -444,7 +444,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
         for (Card card : game.getCardsInGame()) {
-            AbstractCardPile pile = game.getPile(card);
+            CardPile pile = game.getPile(card);
             Card placeholder = pile.placeholderCard();
             Card topCard = pile.topCard();
             int count = -1; //Don't change count unless it's final game view

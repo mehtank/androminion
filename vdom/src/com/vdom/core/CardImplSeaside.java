@@ -91,7 +91,7 @@ public class CardImplSeaside extends CardImpl {
             card = Util.randomCard(currentPlayer.hand);
         }
 
-        AbstractCardPile pile = game.getGamePile(card);
+        CardPile pile = game.getGamePile(card);
 
         currentPlayer.reveal(card, this.controlCard, context);
         //Util.log("Ambassador revealed card:" + origCard.getName());

@@ -124,7 +124,7 @@ public abstract class Player {
     public int getMyCardCount(Card card) {
         if (card.isPlaceholderCard()) {
             int count = 0;
-            for (Card template : game.getPile(card).templateCards) {
+            for (Card template : game.getPile(card).getTemplateCards()) {
                 count += Util.getCardCount(getAllCards(), template);
             }
             return count;
@@ -758,7 +758,7 @@ public abstract class Player {
         int castleCount = 0;
 
         // seed counts with all victory cards in play
-        for (AbstractCardPile pile : this.game.piles.values()) {
+        for (CardPile pile : this.game.piles.values()) {
             Card card = pile.placeholderCard();
 
             if(card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
@@ -844,8 +844,8 @@ public abstract class Player {
     
     public Map<Card, Integer> getTreasureCardCounts() {
     	final Map<Card, Integer> cardCounts = new HashMap<Card, Integer>();
-    	for (AbstractCardPile pile : this.game.placeholderPiles.values()) {
-            for (Card card : pile.templateCards) {
+    	for (CardPile pile : this.game.placeholderPiles.values()) {
+            for (Card card : pile.getTemplateCards()) {
                 if (card.is(Type.Treasure, this)) {
                     cardCounts.put(card, 0);
                 }

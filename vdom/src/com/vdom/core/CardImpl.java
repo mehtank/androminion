@@ -474,7 +474,7 @@ public class CardImpl implements Card {
 
         //If it's a variable card pile, and it's not empty, return the cost of the top card
         if (this.isPlaceholderCard()) {
-            AbstractCardPile pile = context.game.getPile(this);
+            CardPile pile = context.game.getPile(this);
             if (!pile.isEmpty()) {
                 return context.game.getPile(this).topCard().getCost(context, buyPhase);
             }
@@ -1261,7 +1261,7 @@ public class CardImpl implements Card {
 
     public PileCreator getPileCreator() {
         if (pileCreator == null) {
-            return new DefaultCardPileCreator();
+            return new DefaultPileCreator();
         } else {
             return this.pileCreator;
         }

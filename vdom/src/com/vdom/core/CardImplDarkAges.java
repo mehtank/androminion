@@ -714,7 +714,7 @@ public class CardImplDarkAges extends CardImpl {
         if (currentPlayer.playedCards.contains(this.controlCard)) {
             // Return to the Madman pile
             currentPlayer.playedCards.remove(this.controlCard);
-            SingleCardPile pile = (SingleCardPile) game.getPile(this.controlCard);
+            CardPile pile = game.getPile(this.controlCard);
             pile.addCard(this.controlCard);
 
             int handSize = currentPlayer.hand.size();
@@ -1080,7 +1080,7 @@ public class CardImplDarkAges extends CardImpl {
     
     private void spoils(Game game, Player currentPlayer) {
     	if (isInPlay(currentPlayer)) {
-    		AbstractCardPile pile = game.getPile(this);
+            CardPile pile = game.getPile(this);
             pile.addCard(currentPlayer.playedCards.remove(currentPlayer.playedCards.indexOf(this.getId())));
     	}
     }

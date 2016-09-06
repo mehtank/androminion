@@ -8,7 +8,7 @@ import java.util.Random;
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEvent;
-import com.vdom.core.AbstractCardPile;
+import com.vdom.core.CardPile;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
@@ -441,7 +441,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int min2 = 1000;
 		int min3 = 1000;
 		
-		for (AbstractCardPile pile : game.piles.values()) {
+		for (CardPile pile : game.piles.values()) {
 			if ((pile.topCard().equals(Cards.province)) || (pile.topCard().equals(Cards.colony))) {
 				if (pile.getCount() < prov_col) {
 					prov_col = pile.getCount();
@@ -1314,7 +1314,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		// here we check each card available for buy
 		// the goal is to find the best VP card, best treasure and best action card
-		for (AbstractCardPile pile : game.piles.values()) {
+		for (CardPile pile : game.piles.values()) {
 			Card card = pile.topCard();
 			
 			if (!exact || card.getCost(context) == gold) {
@@ -1714,7 +1714,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		
 		if (mandatory) {
 			this.log("must choose a card");
-			for (AbstractCardPile pile : game.piles.values()) {
+			for (CardPile pile : game.piles.values()) {
 				Card card = pile.topCard();
 				if (!exact || card.getCost(context) == gold) {
 					if ((game.isValidBuy(context, card, gold)) && !(card.equals(Cards.curse))) {
@@ -1858,7 +1858,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			}
 		}
 		
-		for (AbstractCardPile pile : game.piles.values()) {
+		for (CardPile pile : game.piles.values()) {
 			if ((knownActionCards.contains(pile.topCard())) && (pile.getCount() > 2)) {
 				if ((knownCursingCards.contains(pile.topCard())) || (!shouldReCurse)) {
 					if (!game.embargos.containsKey(pile.topCard().getName())) {
@@ -1906,12 +1906,12 @@ public class VDomPlayerPatrick extends BasePlayer {
 				this.strategy = StrategyOption.MultiAction;
 				this.log("advisorAction: multiple cantrips and combo cards (via " + this.strategyCard + ")");
 
-				for (AbstractCardPile pile : game.piles.values()) {
+				for (CardPile pile : game.piles.values()) {
 					if (VDomPlayerPatrick.knownMultiActionCards.contains(pile.topCard())) {
 						this.strategyPossibleCards.add(pile.topCard());
 					}
 				}
-				for (AbstractCardPile pile : game.piles.values()) {
+				for (CardPile pile : game.piles.values()) {
 					if (VDomPlayerPatrick.knownComboActionCards.contains(pile.topCard())) {
 						this.strategyPossibleCards.add(pile.topCard());
 					}

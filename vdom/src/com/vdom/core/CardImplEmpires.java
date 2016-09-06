@@ -457,7 +457,7 @@ public class CardImplEmpires extends CardImpl {
     	}
     	if (!revealedCopy) {
     		context.addCoins(1);
-    		 AbstractCardPile pile = game.getPile(Cards.gladiator);
+			CardPile pile = game.getPile(Cards.gladiator);
     		 if (pile != null && pile.getCount() > 0 && pile.topCard() == Cards.gladiator) {
     			 Card gladiator = pile.removeCard();
     			 currentPlayer.trash(gladiator, this.controlCard, context);
@@ -867,7 +867,7 @@ public class CardImplEmpires extends CardImpl {
     
     private void saltTheEarth(MoveContext context) {
     	Card toTrash = context.getPlayer().controlPlayer.saltTheEarth_cardToTrash(context);
-		AbstractCardPile pile = context.game.getPile(toTrash);
+		CardPile pile = context.game.getPile(toTrash);
 		if (toTrash.isPlaceholderCard()) {
 			toTrash = pile.topCard();
 		}

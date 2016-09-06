@@ -255,7 +255,7 @@ public class CardImplCornucopia extends CardImpl {
                 }
                 else if (Cards.isSupplyCard(draw))
                 {
-                    AbstractCardPile pile;
+                    CardPile pile;
                     pile = game.getPile(draw);
 
                     MoveContext toGainContext = null;

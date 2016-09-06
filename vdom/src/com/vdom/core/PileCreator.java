@@ -8,20 +8,21 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Random;
 
 public abstract class PileCreator implements Serializable {
-    public abstract AbstractCardPile create(Card template, int count);
+    public abstract CardPile create(Card template, int count);
 }
 
-class DefaultCardPileCreator extends PileCreator {
-    public AbstractCardPile create(Card template, int count) {
-        return new SingleCardPile(template, count);
+class DefaultPileCreator extends PileCreator {
+    public CardPile create(Card template, int count) {
+        HashMap<Card, Integer>cards = new HashMap<Card, Integer>();
+        cards.put(template, count);
+        return new CardPile(template, cards, true, true);
     }
 }
 
 class RuinsPileCreator extends PileCreator {
-    public AbstractCardPile create(Card template, int count) {
+    public CardPile create(Card template, int count) {
         Map<Card, Integer> cards = new HashMap<Card, Integer>();
         for (Card ruin : Cards.ruinsCards) {
             cards.put(ruin, 0);
@@ -44,25 +45,25 @@ class RuinsPileCreator extends PileCreator {
                 break;
             }
         }
-        return new VariableCardPile(template, cards, false, false);
+        return new CardPile(template, cards, false, false);
     }
 }
 
 class KnightsPileCreator extends PileCreator {
 
-    public AbstractCardPile create(Card template, int count) {
+    public CardPile create(Card template, int count) {
         Map<Card, Integer> cards = new HashMap<Card, Integer>();
         //Currently count is ignored because there should always be ten knights.
         for (Card c: Cards.knightsCards) {
             cards.put(c, 1);
         }
-        return new VariableCardPile(template, cards, false, false);
+        return new CardPile(template, cards, false, false);
 
     }
 }
 
 class CastlesPileCreator extends PileCreator {
-    public AbstractCardPile create(Card template, int count) {
+    public CardPile create(Card template, int count) {
         Map<Card, Integer> cards = new LinkedHashMap<Card, Integer>(); //LinkedHashMap preserves insertion order when iterating
         if (count != 8 && count != 12) {
             //TODO SPLITPILES What to do now?
@@ -79,7 +80,7 @@ class CastlesPileCreator extends PileCreator {
         cards.put(Cards.grandCastle,     1);
         cards.put(Cards.kingsCastle,     count == 8 ? 1 : 2);
 
-        return new VariableCardPile(template, cards, true, true);
+        return new CardPile(template, cards, true, true);
     }
 }
 
@@ -92,11 +93,11 @@ class SplitPileCreator extends PileCreator {
         this.bottomCard = bottomCard;
     }
 
-    public AbstractCardPile create(Card template, int count) {
+    public CardPile create(Card template, int count) {
         Map<Card, Integer> cards = new LinkedHashMap<Card, Integer>();
         cards.put(topCard, count / 2);
         cards.put(bottomCard, count / 2 + (count % 2 == 1 ? 1 : 0)); //If count is not even put the extra card on bottom
-        return new VariableCardPile(template, cards, true, true);
+        return new CardPile(template, cards, true, true);
 
     }
 }

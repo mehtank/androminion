@@ -183,7 +183,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                     //TODO SPLITPILES When the variablecardpile syncing to the UI is refactored this should not be necessary anymore.
                     //Swap cards for the placeholdercards because on UI side piles always have the id of the placeholder, not the actual top card
                     if (!card.isPlaceholderCard()) {
-                        AbstractCardPile pile = game.getPile(card);
+                        CardPile pile = game.getPile(card);
                         if (pile.topCard().equals(card)) {
                             card = game.getPile(card).placeholderCard();
                         }
