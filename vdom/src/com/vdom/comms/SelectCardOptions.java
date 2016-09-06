@@ -169,9 +169,8 @@ public class SelectCardOptions implements Serializable {
     }
 
     public void addValidCard(int card) {
-        if (!allowedCards.contains(card)) {
-            allowedCards.add(new Integer(card));
-        }
+        allowedCards.add(new Integer(card));
+
     }
 
     public boolean checkValid(MyCard c) {
