@@ -22,25 +22,28 @@ class DefaultCardPileCreator extends PileCreator {
 
 class RuinsPileCreator extends PileCreator {
     public AbstractCardPile create(Card template, int count) {
-
         Map<Card, Integer> cards = new HashMap<Card, Integer>();
-
-        Random rand = new Random();
-        ArrayList<Integer> counts = new ArrayList<Integer>();
-
-        //Generate n-1 numbers between 0 and count
-        for (int i = 0; i < Cards.ruinsCards.size()-1; i++) {
-            counts.add(rand.nextInt(count));
-        }
-        // Add 0 and count. Then sort the list.
-        counts.add(0);
-        counts.add(count);
-        Collections.sort(counts);
-        //Then sort the list and use the adjacent numbers difference as counts for the particular ruins.
-        for (int i = 0; i < Cards.ruinsCards.size(); i++) {
-            cards.put(Cards.ruinsCards.get(i), counts.get(i+1) - counts.get(i));
+        for (Card ruin : Cards.ruinsCards) {
+            cards.put(ruin, 0);
         }
 
+        ArrayList<Card> ruins = new ArrayList<Card>();
+        for (int i = 0; i < 10; i++) {
+            ruins.add(Cards.abandonedMine);
+            ruins.add(Cards.ruinedLibrary);
+            ruins.add(Cards.ruinedMarket);
+            ruins.add(Cards.ruinedVillage);
+            ruins.add(Cards.survivors);
+        }
+        Collections.shuffle(ruins);
+
+        int i = 0;
+        for (Card c : ruins) {
+            cards.put(c, cards.get(c) + 1);
+            if (++i >= count) {
+                break;
+            }
+        }
         return new VariableCardPile(template, cards, false, false);
     }
 }
@@ -77,7 +80,6 @@ class CastlesPileCreator extends PileCreator {
         cards.put(Cards.kingsCastle,     count == 8 ? 1 : 2);
 
         return new VariableCardPile(template, cards, true, true);
-
     }
 }
 
