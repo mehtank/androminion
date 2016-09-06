@@ -3671,8 +3671,13 @@ public class Game {
 
     protected Card takeFromPileCheckTrader(Card cardToGain, MoveContext context) {
 
+        //If the pile was specified instead of a card, take the top card from that pile.
+        if (cardToGain.isPlaceholderCard() || cardToGain.isTemplateCard()) {
+            cardToGain = getPile(cardToGain).topCard();
+
+
         //If the desired card is not on top of the pile, don't take a card
-        if (!getPile(cardToGain).topCard().equals(cardToGain)) {
+        } else if (!getPile(cardToGain).topCard().equals(cardToGain)) {
             return null;
         }
 
