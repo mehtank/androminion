@@ -87,6 +87,8 @@ public class SelectCardOptions implements Serializable {
     public boolean different = false;
     public boolean noTokens = false;
     public boolean passable = false;
+
+    public boolean applyOptionsToPile = false;
     
     public PlayerSupplyToken token = null;
     
@@ -140,6 +142,8 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions isSupplyCard() {isSupplyCard = true; return this;}
     public SelectCardOptions noTokens() {noTokens = true; return this;}
     public SelectCardOptions isCastle() {isCastle = true; return this;}
+
+    public SelectCardOptions applyOptionsToPile() {applyOptionsToPile = true; return this;}
     
     public SelectCardOptions token(PlayerSupplyToken c) {token = c; return this;}
 
@@ -165,7 +169,9 @@ public class SelectCardOptions implements Serializable {
     }
 
     public void addValidCard(int card) {
-        allowedCards.add(new Integer(card));
+        if (!allowedCards.contains(card)) {
+            allowedCards.add(new Integer(card));
+        }
     }
 
     public boolean checkValid(MyCard c) {
@@ -214,6 +220,7 @@ public class SelectCardOptions implements Serializable {
         if (isAction && !c.is(Type.Action, p)) return false;
         if (!isBuyPhase && c.is(Type.Event, null)) return false;
         if (isCastle && !c.is(Type.Castle, null)) return false;
+        if (applyOptionsToPile && !c.isPlaceholderCard()) return false;
         
         if (isBuyPhase && !Cards.isSupplyCard(c) && !c.is(Type.Event, null)) return false;
         if (isSupplyCard && !Cards.isSupplyCard(c)) return false;

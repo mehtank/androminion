@@ -3567,11 +3567,12 @@ public class Game {
     }
 
     public boolean isValidEmbargoPile(Card card) {
-        return !(card == null || !cardInGame(card) || !Cards.isSupplyCard(card) );
+        return !(card == null || !pileInGame(getPile(card)) || !Cards.isSupplyCard(card) );
     }
 
     public int getEmbargos(Card card) {
-        Integer count = embargos.get(card.getName());
+
+        Integer count = embargos.get(getPile(card).placeholderCard().getName());
         return (count == null) ? 0 : count;
     }
     
@@ -3746,6 +3747,15 @@ public class Game {
     public boolean cardInGame(Card c) {
         for (AbstractCardPile pile : piles.values()) {
             if(c.equals(pile.topCard())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean pileInGame(AbstractCardPile p) {
+        for (AbstractCardPile pile : piles.values()) {
+            if(pile.equals(p)) {
                 return true;
             }
         }

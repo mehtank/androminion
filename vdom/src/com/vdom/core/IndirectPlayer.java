@@ -160,7 +160,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return tempCards;
     }
 
+
     private Card getFromTable(MoveContext context, SelectCardOptions sco) {
+        return getFromTable(context, sco, false);
+    }
+
+    private Card getFromTable(MoveContext context, SelectCardOptions sco, boolean getPlaceholder) {
         sco.fromTable();
         Card[] cards = context.getCardsInGame();
 
@@ -205,8 +210,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         //TODO SPLITPILES When the variablecardpile syncing to the UI is refactored this should not be necessary anymore.
         //Swap the placeholder for the actual topCard
         Card pickedCard = pickACard(context, sco);
-        if (pickedCard.isPlaceholderCard()) {
+        if (pickedCard.isPlaceholderCard() && !getPlaceholder) {
             pickedCard = game.getPile(pickedCard).topCard();
+        } else if (!pickedCard.isPlaceholderCard() && getPlaceholder) {
+            pickedCard = game.getPile(pickedCard).placeholderCard();
         }
         return pickedCard;
     }
@@ -900,7 +907,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().allowEmpty()
                 .setCardResponsible(Cards.embargo);
-        return getFromTable(context, sco);
+        return getFromTable(context, sco, true);
     }
 
     // Will be passed all three cards
@@ -2895,9 +2902,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_teacher_actionCardPileToHaveToken(context, token)) {
             return super.teacher_actionCardPileToHaveToken(context, token);
         }
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty().token(token)
+    	SelectCardOptions sco = new SelectCardOptions().applyOptionsToPile().allowEmpty().token(token)
                 .isAction().noTokens().setCardResponsible(Cards.teacher);
-        return getFromTable(context, sco);
+        return getFromTable(context, sco, true);
     }
     
     @Override
@@ -2990,9 +2997,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_ferry_actionCardPileToHaveToken(context)) {
             return super.ferry_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+    	SelectCardOptions sco = new SelectCardOptions().applyOptionsToPile().allowEmpty()
                 .isAction().setCardResponsible(Cards.ferry);
-        return getFromTable(context, sco);
+        return getFromTable(context, sco, true);
     }
     
     @Override
@@ -3011,9 +3018,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_lostArts_actionCardPileToHaveToken(context)) {
             return super.lostArts_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+    	SelectCardOptions sco = new SelectCardOptions().applyOptionsToPile().allowEmpty()
                 .isAction().setCardResponsible(Cards.lostArts);
-        return getFromTable(context, sco);
+        return getFromTable(context, sco, true);
     }
     
     @Override
@@ -3021,9 +3028,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_pathfinding_actionCardPileToHaveToken(context)) {
             return super.pathfinding_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+    	SelectCardOptions sco = new SelectCardOptions().applyOptionsToPile().allowEmpty()
                 .isAction().setCardResponsible(Cards.pathfinding);
-        return getFromTable(context, sco);
+        return getFromTable(context, sco, true);
     }
     
     @Override
@@ -3042,9 +3049,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_plan_actionCardPileToHaveToken(context)) {
             return super.plan_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+    	SelectCardOptions sco = new SelectCardOptions().applyOptionsToPile().allowEmpty()
                 .isAction().setCardResponsible(Cards.plan);
-        return getFromTable(context, sco);
+        return getFromTable(context, sco, true);
     }
     
     @Override
@@ -3133,9 +3140,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_training_actionCardPileToHaveToken(context)) {
             return super.training_actionCardPileToHaveToken(context);
         }
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+    	SelectCardOptions sco = new SelectCardOptions().applyOptionsToPile().allowEmpty()
                 .isAction().setCardResponsible(Cards.training);
-        return getFromTable(context, sco);
+        return getFromTable(context, sco, true);
     }
     
     @Override
