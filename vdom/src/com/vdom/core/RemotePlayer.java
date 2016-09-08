@@ -264,7 +264,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         cardsInPlay.add(index, curse);
         index++;
 
-        for (Card c : context.getCardsInGame()) {
+        for (Card c : context.getCardsInGame(GetCardsInGameOptions.All)) {
             if (c.getSafeName().equals(Cards.curse.getSafeName()))
                 continue;
 
@@ -443,7 +443,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setBlackMarket(arrayListToIntArr(player.game.GetBlackMarketPile()))
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
-        for (Card card : game.getCardsInGame()) {
+        for (Card card : game.getCardsInGame(GetCardsInGameOptions.Placeholders, false)) {
             CardPile pile = game.getPile(card);
             Card placeholder = pile.placeholderCard();
             Card topCard = pile.topCard();
@@ -810,7 +810,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     prosperity = true;
                 }
                 else {
-                    Card[] cards = context.getCardsInGame();
+                    Card[] cards = context.getCardsInGame(GetCardsInGameOptions.Placeholders, false);
                     for (Card card : cards) {
                         if (Cards.isSupplyCard(card) && card.getExpansion() == Expansion.Prosperity) {
                             prosperity = true;
@@ -869,7 +869,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
             // no cards left in the Supply
             boolean allEmpty = true;
-            Card[] cards = context.getCardsInGame();
+            Card[] cards = context.getCardsInGame(GetCardsInGameOptions.Placeholders, true);
             for (Card card : cards) {
                 if (Cards.isSupplyCard(card) && !context.game.isPileEmpty(card)) {
                     allEmpty = false;

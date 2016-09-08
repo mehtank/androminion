@@ -164,7 +164,7 @@ public class CardImplSeaside extends CardImpl {
         while (game.addEmbargo(card) == null) {
             Util.playerError(currentPlayer, "Embargo error, adding embargo to random card.");
             while (true) {
-                card = Util.randomCard(context.getCardsInGame());
+                card = Util.randomCard(context.getCardsInGame(GetCardsInGameOptions.Placeholders, true));
                 if (game.isValidEmbargoPile(card)) break;
             }
         }

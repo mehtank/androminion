@@ -117,7 +117,7 @@ public class CardImplHinterlands extends CardImpl {
 
                         boolean validCard = false;
                         
-                        for(Card c : context.getCardsInGame()) {
+                        for(Card c : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
                             if(Cards.isSupplyCard(c) && c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeftInPile(c) > 0) {
                                 validCard = true;
                                 break;
@@ -298,7 +298,7 @@ public class CardImplHinterlands extends CardImpl {
             boolean bad = false;
 
             if(cardsToGain.length == 0) {
-                for(Card c : context.getCardsInGame()) {
+                for(Card c : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
                     if(Cards.isSupplyCard(c) && (c.getCost(context) == trashedCardCost - 1 || c.getCost(context) == trashedCardCost + 1) && context.getCardsLeftInPile(c) > 0) {
                         bad = true;
                     }
@@ -317,7 +317,7 @@ public class CardImplHinterlands extends CardImpl {
                         costToCheck = trashedCardCost - 1;
                     }
 
-                    for(Card c : context.getCardsInGame()) {
+                    for(Card c : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
                         if(Cards.isSupplyCard(c) && c.getCost(context) == costToCheck && context.getCardsLeftInPile(c) > 0) {
                             bad = true;
                         }

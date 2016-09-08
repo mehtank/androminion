@@ -501,8 +501,8 @@ public class CardImplIntrigue extends CardImpl {
                     boolean bad = false;
                     if (card == null) {
                         // Check that there are no cards that are possible to trade for...
-                        for (Card thisCard : context.getCardsInGame()) {
-                            if (Cards.isSupplyCard(thisCard) && !game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.getDebtCost(context) == draw.getDebtCost(context) && thisCard.costPotion() == draw.costPotion()) {
+                        for (Card thisCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+                            if (!game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.getDebtCost(context) == draw.getDebtCost(context) && thisCard.costPotion() == draw.costPotion()) {
                                 bad = true;
                                 break;
                             }
@@ -515,8 +515,8 @@ public class CardImplIntrigue extends CardImpl {
                         Util.playerError(currentPlayer, "Swindler swap card error, picking a random card.");
 
                         ArrayList<Card> possible = new ArrayList<Card>();
-                        for (Card thisCard : context.getCardsInGame()) {
-                            if (Cards.isSupplyCard(thisCard) && !game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.getDebtCost(context) == draw.getDebtCost(context) && thisCard.costPotion() == draw.costPotion()) {
+                        for (Card thisCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+                            if (!game.isPileEmpty(thisCard) && thisCard.getCost(context) == draw.getCost(context) && thisCard.getDebtCost(context) == draw.getDebtCost(context) && thisCard.costPotion() == draw.costPotion()) {
                                 possible.add(thisCard);
                             }
                         }

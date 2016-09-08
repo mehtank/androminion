@@ -198,7 +198,7 @@ public class Util {
         Player player = context.getPlayer();
         log("");
 
-        Card[] cards = context.getCardsInGame();
+        Card[] cards = context.getCardsInGame(GetCardsInGameOptions.Placeholders, true);
         int cost = 0;
         while (cost < 10) {
             for (Card card : cards) {

@@ -447,7 +447,7 @@ public class CardImplAdventures extends CardImpl {
     private void hero(Game game, MoveContext context, Player currentPlayer)
     {
     	int numTreasuresAvailable = 0;
-    	for (Card treasureCard : context.getTreasureCardsInGame()) {
+    	for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
     		if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0) {
     			numTreasuresAvailable++;
     		}
@@ -459,7 +459,7 @@ public class CardImplAdventures extends CardImpl {
     	
         if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && context.getCardsLeftInPile(newCard) > 0)) {
             Util.playerError(currentPlayer, "Hero treasure to obtain was invalid, picking random treasure from table.");
-            for (Card treasureCard : context.getTreasureCardsInGame()) {
+            for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
                 if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0) {
                     newCard = treasureCard;
                     break;
@@ -677,10 +677,8 @@ public class CardImplAdventures extends CardImpl {
 		//look to see if we have a free pile
 		int numFreePiles = 0;
 		Card lastFreePile = null;
-		for (Card c : game.getCardsInGame()) {
-			if (game.getPile(c).isSupply() 
-					&& c.is(Type.Action, null)
-					&& game.getPlayerSupplyTokens(c, currentPlayer).size() == 0) {
+		for (Card c : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles.Placeholders, true, Type.Action)) {
+			if (game.getPlayerSupplyTokens(c, currentPlayer).size() == 0) {
 				numFreePiles++;
 				lastFreePile = c;
 			}

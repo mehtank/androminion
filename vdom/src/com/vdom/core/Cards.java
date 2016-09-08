@@ -102,7 +102,8 @@ public class Cards {
         RoyalBlacksmith, Sacrifice, Settlers, Temple, Villa, WildHunt,
         HumbleCastle, CrumblingCastle, SmallCastle, HauntedCastle, OpulentCastle, SprawlingCastle, GrandCastle, KingsCastle,
         
-        CatapultRocks, Castles, EncampmentPlunder, GladiatorFortune, PatricianEmporium, SettlersBustlingVillage,
+        CatapultRocks, Castles, EncampmentPlunder, GladiatorFortune
+        , PatricianEmporium, SettlersBustlingVillage,
         
         Advance, Annex, Banquet, Conquest, Dominate, Delve, Donate, Ritual, SaltTheEarth, Tax, Triumph, Wedding, Windfall,
         Aqueduct, Arena, BanditFort, Basilica, Baths, Battlefield, Colonnade, DefiledShrine, Fountain, Keep, Labyrinth, MountainPass, Museum, Obelisk, Orchard, Palace, Tomb, Tower, TriumphalArch, Wall, WolfDen,

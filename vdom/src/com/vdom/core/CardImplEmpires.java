@@ -538,7 +538,7 @@ public class CardImplEmpires extends CardImpl {
                 game.broadcastEvent(event);
                 this.startImpersonatingCard(cardToImpersonate.getTemplateCard().instantiate());
             } else {
-                Card[] cards = game.getActionsInGame();
+                Card[] cards = game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Action);
                 if (cards.length != 0 && cardToImpersonate != null) {
                     Util.playerError(currentPlayer, "Overlord returned invalid card (" + cardToImpersonate.getName() + "), ignoring.");
                 }
@@ -882,7 +882,7 @@ public class CardImplEmpires extends CardImpl {
     	Card card = context.getPlayer().controlPlayer.tax_supplyToTax(context);
         if (card == null || !context.game.isCardInGame(card)) {
             Util.playerError(context.getPlayer(), "Tax error, choosing arbitrary Supply.");
-            for (Card c : context.game.getCardsInGame()) {
+            for (Card c : context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true)) {
             	if (Cards.isSupplyCard(c)) {
             		card = c;
             		break;

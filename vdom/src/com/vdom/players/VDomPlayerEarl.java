@@ -12,6 +12,7 @@ import com.vdom.api.GameEvent;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
+import com.vdom.core.GetCardsInGameOptions;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Player;
 import com.vdom.core.Type;
@@ -576,7 +577,7 @@ public class VDomPlayerEarl extends BasePlayer
  
    private int attackingCardsInPlay(MoveContext context) {
      int attackingCardsInPlay = 0;
-     for (Card card : context.getCardsInGame()) {
+     for (Card card : context.getCardsInGame(GetCardsInGameOptions.Templates, false)) {
        if (Cards.isSupplyCard(card) && DEFENDABLE_ATTACK_CARDS.contains(card)) {
          ++attackingCardsInPlay;
        }
@@ -665,7 +666,7 @@ public class VDomPlayerEarl extends BasePlayer
  
    private boolean cardInPlay(MoveContext context, Card card) {
      boolean cardInPlay = false;
-     for (Card thisCard : context.getCardsInGame()) {
+     for (Card thisCard : context.getCardsInGame(GetCardsInGameOptions.Templates, true)) {
        if (thisCard.equals(card) && Cards.isSupplyCard(thisCard)) {
          cardInPlay = true;
          break;
@@ -688,7 +689,7 @@ public class VDomPlayerEarl extends BasePlayer
    }
  
    private Card calculateBuy(MoveContext context, int goldAvailable) {
-     Card[] cards = context.getCardsInGame();
+     Card[] cards = context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true);
  
      if (shouldBuyChapel(context)) {
        return Cards.chapel;
@@ -1051,7 +1052,7 @@ public Card masquerade_cardToPass(MoveContext context)
        return Cards.duchy;
      }
  
-     Card[] cards = context.getCardsInGame();
+     Card[] cards = context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true);
      ArrayList<Card> randList = new ArrayList<Card>();
      for (Card card : cards) {
        if (Cards.isSupplyCard(card) && (card.getCost(context) == cost) && (card.getDebtCost(context) == debt) && (context.getCardsLeftInPile(card) > 0) && card.costPotion() == potion) {

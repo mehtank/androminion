@@ -47,6 +47,7 @@ public class Game {
     int totalCardCountGameBegin = 0;
     int totalCardCountGameEnd = 0;
 
+
     /**
      * Player classes and optionally the url to the jar on the web that the class is located in. Player class
      * is in index [0] of the array and the jar is in index [1]. Index [1] is null (but still there) if the
@@ -281,6 +282,7 @@ public class Game {
                 context.startOfTurn = false;
 
                 do {
+
                 	context.phase = TurnPhase.Action;
                 	context.returnToActionPhase = false;
                 	
@@ -838,7 +840,9 @@ public class Game {
             	playerPayOffDebt(player, context);
             	if (player.getDebtTokenCount() == 0) {
             		buy = player.controlPlayer.doBuy(context);
-                    buy = getPile(buy).topCard(); //Swap in the actual top card of the pile
+                    if (buy != null) {
+                        buy = getPile(buy).topCard(); //Swap in the actual top card of the pile
+                    }
             	}
             } catch (Throwable t) {
                 Util.playerError(player, t);
@@ -1928,7 +1932,7 @@ public class Game {
 
         for (int i = 0; i < hagglers; i++) {
             validCards.clear();
-            for (Card card : getCardsInGame()) {
+            for (Card card : getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
                 if (!(card.is(Type.Victory)) && Cards.isSupplyCard(card) && getCardsLeftInPile(card) > 0) {
                     int gainCardCost = card.getCost(context);
                     int gainCardPotionCost = card.costPotion() ? 1 : 0;
@@ -1978,7 +1982,7 @@ public class Game {
     }
     
     private boolean validCharmCardLeft(MoveContext context, Card buy) {
-    	for (Card c : context.game.getCardsInGame()) {
+    	for (Card c : context.game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
 			if (isValidCharmCard(context, buy, c)) {
 				return true;
 			}
@@ -3253,7 +3257,7 @@ public class Game {
                     } else if (gainedCardAbility.equals(Cards.borderVillage)) {
                         boolean validCard = false;
                         int gainedCardCost = event.card.getCost(context);
-                        for(Card c : event.context.getCardsInGame()) {
+                        for(Card c : event.context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
                             if(Cards.isSupplyCard(c) && c.getCost(context) < gainedCardCost && !c.costPotion() && event.context.getCardsLeftInPile(c) > 0) {
                                 validCard = true;
                                 break;
@@ -3727,30 +3731,42 @@ public class Game {
         return true;
     }
 
-    public Card[] getCardsInGame() {
-        return getCardsInGame(null);
+    public Card[] getCardsInGame(GetCardsInGameOptions opt) {
+        return getCardsInGame(opt, false);
     }
 
-    public Card[] getCardsInGame(Type type) {
+    public Card[] getCardsInGame(GetCardsInGameOptions opt, boolean supplyOnly) {
+        return getCardsInGame(opt, supplyOnly, null);
+    }
+
+    public Card[] getCardsInGame(GetCardsInGameOptions opt, boolean supplyOnly, Type type) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (CardPile pile : piles.values()) {
-            if (type == null) {
-                if (!cards.contains(pile.placeholderCard()))
+
+            if (supplyOnly && !pile.isSupply) continue;
+
+            if (opt == GetCardsInGameOptions.All || opt == GetCardsInGameOptions.Placeholders)
+            {
+                if ((type == null || pile.placeholderCard().is(type, null))
+                        && !cards.contains(pile.placeholderCard()))
                     cards.add(pile.placeholderCard());
-                for (Card template : pile.getTemplateCards()) {
-                    if (!pile.placeholderCard().equals(template) && !cards.contains(template)) {
-                        cards.add(template);
+            }
+            if (opt == GetCardsInGameOptions.All || opt == GetCardsInGameOptions.Templates) {
+                for (Card c : pile.getTemplateCards()) {
+                    if ((type == null || c.is(type, null))
+                            && !cards.contains(c)) {
+                        cards.add(c);
                     }
                 }
-            } else if (pile.topCard().is(type, null) && pile.isSupply) {
-                cards.add(pile.topCard());
+            }
+            if (opt == GetCardsInGameOptions.TopOfPiles) {
+                if (pile.topCard() != null && (type == null || pile.topCard().is(type, null))
+                        && !cards.contains(pile.topCard())) {
+                    cards.add(pile.topCard());
+                }
             }
         }
         return cards.toArray(new Card[0]);
-    }
-
-    public Card[] getActionsInGame() {
-        return getCardsInGame(Type.Action);
     }
 
     public boolean cardInGame(Card c) {
@@ -3777,20 +3793,6 @@ public class Game {
 
     public boolean isColonyInGame() {
         return cardInGame(Cards.colony);
-    }
-
-    public Card[] getTreasureCardsInGame() {
-        return getCardsInGame(Type.Treasure);
-    }
-
-    public Card[] getVictoryCardsInGame() {
-        return getCardsInGame(Type.Victory);
-    }
-
-    public Card[] getCardsInGameOrderByCost() {
-        Card[] cardsInGame = getCardsInGame();
-        Arrays.sort(cardsInGame, new CardCostComparator());
-        return cardsInGame;
     }
 
     public int getCardsLeftInPile(Card card) {

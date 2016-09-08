@@ -986,14 +986,13 @@ public class CardImpl implements Card {
     
     protected void placeToken(MoveContext context, Card card, PlayerSupplyToken token) {
     	if (card == null) {
-    		Card[] cards = context.game.getActionsInGame();
+    		Card[] cards = context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true, Type.Action);
     		if (cards.length != 0) {
                 Util.playerError(context.getPlayer(), getName() + " error: did not pick a valid pile, ignoring.");
             }
             return;
     	}
-    	if (!context.game.cardInGame(card) ||
-    			!Cards.isSupplyCard(card)) {
+    	if (!Cards.isSupplyCard(card)) {
     		Util.playerError(context.getPlayer(), getName() + " error: Invalid pile chosen, ignoring");
     	}
     	

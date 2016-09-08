@@ -167,7 +167,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     private Card getFromTable(MoveContext context, SelectCardOptions sco, boolean getPlaceholder) {
         sco.fromTable();
-        Card[] cards = context.getCardsInGame();
+        Card[] cards = context.getCardsInGame(sco.applyOptionsToPile ? GetCardsInGameOptions.Placeholders : GetCardsInGameOptions.TopOfPiles);
 
         for (Card card : cards) {
         	boolean hasTokens = context.game.getPlayerSupplyTokens(card, context.getPlayer()).size() > 0;
@@ -210,6 +210,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         //TODO SPLITPILES When the variablecardpile syncing to the UI is refactored this should not be necessary anymore.
         //Swap the placeholder for the actual topCard
         Card pickedCard = pickACard(context, sco);
+        if (pickedCard == null) {
+            return pickedCard;
+        }
         if (pickedCard.isPlaceholderCard() && !getPlaceholder) {
             pickedCard = game.getPile(pickedCard).topCard();
         } else if (!pickedCard.isPlaceholderCard() && getPlaceholder) {
@@ -2497,7 +2500,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.bandOfMisfits_actionCardToImpersonate(context, maxCost);
         }
         SelectCardOptions sco = new SelectCardOptions()
-                .maxCost(maxCost).maxDebtCost(0).maxPotionCost(0).isAction()
+                .maxCost(maxCost).maxDebtCost(0).maxPotionCost(0).isAction().isSupplyCard()
                 .setCardResponsible(Cards.bandOfMisfits);
         return getFromTable(context, sco);
     }
@@ -3387,7 +3390,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.overlord_actionCardToImpersonate(context);
         }
         SelectCardOptions sco = new SelectCardOptions()
-                .maxCost(5).maxDebtCost(0).maxPotionCost(0).isAction()
+                .maxCost(5).maxDebtCost(0).maxPotionCost(0).isAction().isSupplyCard()
                 .setCardResponsible(Cards.overlord);
         return getFromTable(context, sco);
     }

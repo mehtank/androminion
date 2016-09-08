@@ -292,7 +292,7 @@ public class CardImplBase extends CardImpl {
                     		(!newCard.costPotion() || card.costPotion()) 
                     		&& context.getCardsLeftInPile(newCard) > 0)) {
                         Util.playerError(currentPlayer, "Mine treasure to obtain was invalid, picking random treasure from table.");
-                        for (Card treasureCard : context.getTreasureCardsInGame()) {
+                        for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
                             if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0 && 
                             		treasureCard.getCost(context) <= card.getCost(context) + 3 &&
                             		treasureCard.getDebtCost(context) <= card.getCost(context) &&

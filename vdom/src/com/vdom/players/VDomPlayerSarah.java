@@ -10,6 +10,7 @@ import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
 import com.vdom.core.Expansion;
 import com.vdom.core.Game;
+import com.vdom.core.GetCardsInGameOptions;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Type;
 
@@ -608,7 +609,7 @@ public class VDomPlayerSarah extends BasePlayer {
             }
         }
 
-        ret = bestBuy(coinAvailableForBuy, context, context.getCardsInGame());
+        ret = bestBuy(coinAvailableForBuy, context, context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true));
         if(ret != null) {
             return ret;
         }
@@ -657,7 +658,7 @@ public class VDomPlayerSarah extends BasePlayer {
     public void newGame(MoveContext context) {
         super.newGame(context);
         earlyCardBuyCount = 0;
-        setupGameVariables(context.getGameType(), context.getCardsInGame());
+        setupGameVariables(context.getGameType(), context.getCardsInGame(GetCardsInGameOptions.All));
     }        
         
     @Override

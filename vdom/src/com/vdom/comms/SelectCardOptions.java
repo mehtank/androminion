@@ -220,6 +220,7 @@ public class SelectCardOptions implements Serializable {
         if (!isBuyPhase && c.is(Type.Event, null)) return false;
         if (isCastle && !c.is(Type.Castle, null)) return false;
         if (applyOptionsToPile && !c.isPlaceholderCard()) return false;
+        if (!applyOptionsToPile && c.isPlaceholderCard()) return false;
         
         if (isBuyPhase && !Cards.isSupplyCard(c) && !c.is(Type.Event, null)) return false;
         if (isSupplyCard && !Cards.isSupplyCard(c)) return false;
