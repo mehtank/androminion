@@ -210,6 +210,12 @@
             android:summary="@string/less_provinces_pref_summary"
             android:title="@string/less_provinces_pref_title" >
         </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="god_mode"
+            android:summary="@string/god_mode_pref_summary"
+            android:title="@string/god_mode_pref_title" >
+        </CheckBoxPreference>
     </PreferenceCategory>
 <!-- only for testing frr1-->  
 

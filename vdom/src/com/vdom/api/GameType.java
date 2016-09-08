@@ -4,6 +4,7 @@ public enum GameType {
 
     // Test frr18
     AdventureTest("Adventure Test"),
+    EmpiresTest("Empires Test"),
     
     // Base Game
     FirstGame("First Game (Base)"), BigMoney("Big Money (Base)"), Interaction("Interaction (Base)"), SizeDistortion("Size Distortion (Base)"), VillageSquare("Village Square (Base)"), RandomBaseGame("Random Base Game"),

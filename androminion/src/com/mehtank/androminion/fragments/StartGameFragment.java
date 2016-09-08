@@ -630,6 +630,9 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         if (mPrefs.getBoolean("less_provinces", false)) {
             strs.add("-lessprovinces");
         }
+        if (mPrefs.getBoolean("god_mode", false)) {
+            strs.add("-godmode");
+        }
         
         if(cardsSpecified != null) {
             StringBuilder sb = new StringBuilder();

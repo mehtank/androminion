@@ -87,6 +87,7 @@ public class Game {
     public static boolean errataPossessedTakesTokens = false; //Errata introduced May 2016 - true enables old behavior
     public static boolean startGuildsCoinTokens = false; //only for testing
     public static boolean lessProvinces = false; //only for testing
+    public static boolean godMode = false; //only for testing
     public static boolean maskPlayerNames = false;
 
     public static final HashSet<GameEvent.EventType> showEvents = new HashSet<GameEvent.EventType>();
@@ -282,6 +283,13 @@ public class Game {
                 context.startOfTurn = false;
 
                 do {
+                    if (godMode && !player.isAi())
+                    {
+                        context.buys = 999;
+                        context.addCoins(999);
+                        context.actions = 999;
+                    }
+
 
                 	context.phase = TurnPhase.Action;
                 	context.returnToActionPhase = false;
@@ -1624,6 +1632,7 @@ public class Game {
         errataPossessedTakesTokens = false;
         startGuildsCoinTokens = false; //only for testing
         lessProvinces = false; //only for testing
+        godMode = false; //only for testing
 
         String quickPlayArg = "-quickplay";
         String maskPlayerNamesArg = "-masknames";
@@ -1637,6 +1646,7 @@ public class Game {
         String errataPossessionArg = "-erratapossessedtakestokens";
         String startGuildsCoinTokensArg = "-startguildscointokens"; //only for testing
         String lessProvincesArg = "-lessprovinces"; //only for testing
+        String godModeArg = "-godmode";
 
         for (String arg : args) {
             if (arg == null) {
@@ -1668,6 +1678,8 @@ public class Game {
                     equalStartHands = true;
                 } else if (arg.toLowerCase().equals(startGuildsCoinTokensArg)) {
                     startGuildsCoinTokens = true; //only for testing
+                } else if (arg.toLowerCase().equals(godModeArg)) {
+                    godMode = true; //only for testing
                 } else if (arg.toLowerCase().equals(lessProvincesArg)) {
                     lessProvinces = true; //only for testing
                 } else if (arg.toLowerCase().equals(errataPossessionArg)) {
@@ -2380,7 +2392,7 @@ public class Game {
             }
         }
 
-        if (startGuildsCoinTokens) //only for testing
+        if (startGuildsCoinTokens || godMode) //only for testing
         {
             for (int i = 0; i < numPlayers; i++) {
                 player = players[i];

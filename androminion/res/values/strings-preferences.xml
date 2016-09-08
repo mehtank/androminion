@@ -26,6 +26,8 @@
     <string name="start_guilds_coin_tokens_pref_summary">Start with Coin tokens instead of cards</string>
     <string name="less_provinces_pref_title">Less provinces</string>
     <string name="less_provinces_pref_summary">Play with less provinces</string>
+    <string name="god_mode_pref_title">God Mode</string>
+    <string name="god_mode_pref_summary">Start each turn with 999 Coins, 100 Buys, 100 Actions</string>
     <string name="quick_play_pref_title">Quick play</string>
     <string name="quick_play_pref_summary">Most card interactions will be played automatically</string>
     <string name="sort_cards_pref_title">Sort Cards</string>
