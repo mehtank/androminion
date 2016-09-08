@@ -799,9 +799,9 @@ public class Cards {
         actionCardsDarkAges.add(virtualKnight = new CardImpl.Builder(Kind.VirtualKnight, 5, Type.Action, Type.Attack, Type.Knight).pileCreator(new KnightsPileCreator()).build());
 
         // Shelters
-        nonKingdomCards.add(necropolis = new CardImpl.Builder(Cards.Kind.Necropolis, 1, Type.Action, Type.Shelter).addActions(2).expansion(Expansion.DarkAges).build());
-        nonKingdomCards.add(overgrownEstate = new CardImpl.Builder(Cards.Kind.OvergrownEstate, 1, Type.Victory, Type.Shelter).description("When you trash this, +1 Card").expansion(Expansion.DarkAges).build());
-        nonKingdomCards.add(hovel = new CardImpl.Builder(Cards.Kind.Hovel, 1, Type.Reaction, Type.Shelter).description("When you buy a Victory card, you may trash this from your hand").expansion(Expansion.DarkAges).build());
+        nonSupplyCards.add(necropolis = new CardImpl.Builder(Cards.Kind.Necropolis, 1, Type.Action, Type.Shelter).addActions(2).expansion(Expansion.DarkAges).build());
+        nonSupplyCards.add(overgrownEstate = new CardImpl.Builder(Cards.Kind.OvergrownEstate, 1, Type.Victory, Type.Shelter).description("When you trash this, +1 Card").expansion(Expansion.DarkAges).build());
+        nonSupplyCards.add(hovel = new CardImpl.Builder(Cards.Kind.Hovel, 1, Type.Reaction, Type.Shelter).description("When you buy a Victory card, you may trash this from your hand").expansion(Expansion.DarkAges).build());
 
         // Adventures
         actionCardsAdventures.add(amulet          = new CardImpl.Builder(Cards.Kind.Amulet, 3, Type.Action, Type.Duration).description("Now and at the start of your next turn, choose one: +1 Coin; or trash a card from your hand; or gain a Silver.").expansion(Expansion.Adventures).build());
