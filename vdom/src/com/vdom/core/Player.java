@@ -1226,7 +1226,7 @@ public abstract class Player {
     	if (card.equals(Cards.treasureHunter)) exchange = Cards.warrior;
     	if (card.equals(Cards.warrior)) exchange = Cards.hero;
     	if (card.equals(Cards.hero)) exchange = Cards.champion;
-    	if (context.isCardOnTop(exchange))
+    	if (!context.isCardOnTop(exchange))
     		exchange = null;
     	if (exchange != null) {
             if(!controlPlayer.traveller_shouldExchange(context, card.behaveAsCard(), exchange))
