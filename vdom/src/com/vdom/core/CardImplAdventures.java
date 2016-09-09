@@ -730,7 +730,7 @@ public class CardImplAdventures extends CardImpl {
                 Util.playerError(currentPlayer, "Transmogrify error, new card does not cost value of the old card +1 or less.");
             } else if (game.isPileEmpty(card)) {
             	Util.playerError(currentPlayer, "Transmogrify error, new card pile is empty.");
-            } else if (!game.isCardInGame(card)) {
+            } else if (!game.isCardOnTop(card)) {
             	Util.playerError(currentPlayer, "Transmogrify error, new card not in game.");
             } else {
             	currentPlayer.gainNewCard(card, this.controlCard, context);

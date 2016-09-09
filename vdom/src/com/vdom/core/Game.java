@@ -658,7 +658,7 @@ public class Game {
         event = new GameEvent(GameEvent.EventType.TurnEnd, context);
         broadcastEvent(event);
         
-        if (cardsObtainedLastTurn[playersTurn].size() == 0 && isCardInGame(Cards.baths)) {
+        if (cardsObtainedLastTurn[playersTurn].size() == 0 && cardInGame(Cards.baths)) {
         	int tokensLeft = getPileVpTokens(Cards.baths);
     		if (tokensLeft > 0) {
     			int tokensToTake = Math.min(tokensLeft, 2);
@@ -1285,7 +1285,7 @@ public class Game {
     }
 
     protected void playerBeginBuy(Player player, MoveContext context) {
-    	if (isCardInGame(Cards.arena)) {
+    	if (cardInGame(Cards.arena)) {
     		arena(player, context);
     	}
     }
@@ -2003,7 +2003,7 @@ public class Game {
     }
     
     private boolean isValidCharmCard(MoveContext context, Card buy, Card c) {
-    	return !buy.equals(c) && context.game.isCardInGame(c) && 
+    	return !buy.equals(c) && context.game.isCardOnTop(c) &&
 				!context.game.isPileEmpty(c) &&
 				Cards.isSupplyCard(c) &&
 				buy.getCost(context) == c.getCost(context) &&
@@ -2013,7 +2013,7 @@ public class Game {
     
     private void basilicaWhenBuy(MoveContext context) {
     	//TODO?: Can resolve Basilica before overpay to not get tokens in some cases (would matter with old Possession rules)
-    	if (isCardInGame(Cards.basilica) && (context.getCoins() + context.overpayAmount) >= 2) {
+    	if (cardInGame(Cards.basilica) && (context.getCoins() + context.overpayAmount) >= 2) {
     		int tokensLeft = getPileVpTokens(Cards.basilica);
     		if (tokensLeft > 0) {
     			int tokensToTake = Math.min(tokensLeft, 2);
@@ -2025,7 +2025,7 @@ public class Game {
     
     private void colonnadeWhenBuy(MoveContext context, Card buy) {
     	 if(buy.is(Type.Action, context.getPlayer())) {
-	    	if (isCardInGame(Cards.colonnade)) {
+	    	if (cardInGame(Cards.colonnade)) {
 	    		Player player = context.getPlayer();
 	    		if (player.playedCards.contains(buy) || player.nextTurnCards.contains(buy)) {
 	    			int tokensLeft = getPileVpTokens(Cards.colonnade);
@@ -2042,7 +2042,7 @@ public class Game {
     private void defiledShrineWhenBuy(MoveContext context, Card buy) {
     	//TODO?: Can resolve Basilica before overpay to not get tokens in some cases (would matter with old Possession rules)
     	 if(buy.equals(Cards.curse)) {
-	    	if (isCardInGame(Cards.defiledShrine)) {
+	    	if (cardInGame(Cards.defiledShrine)) {
 	    		int tokensLeft = getPileVpTokens(Cards.defiledShrine);
 	    		if (tokensLeft > 0) {
 	    			removePileVpTokens(Cards.defiledShrine, tokensLeft, context);
@@ -2408,7 +2408,7 @@ public class Game {
         
         // Add tradeRoute tokens if tradeRoute in play
         tradeRouteValue = 0;
-        if (isCardInGame(Cards.tradeRoute)) {
+        if (cardInGame(Cards.tradeRoute)) {
             for (CardPile pile : piles.values()) {
                 if ((pile.placeholderCard().is(Type.Victory)) && pile.isSupply()) {
                     pile.setTradeRouteToken();
@@ -3029,7 +3029,7 @@ public class Game {
                     }
                     
                     if (cardsObtainedLastTurn[playersTurn].size() == 2) {
-                    	if (isCardInGame(Cards.labyrinth)) {
+                    	if (cardInGame(Cards.labyrinth)) {
                     		int tokensLeft = getPileVpTokens(Cards.labyrinth);
                     		if (tokensLeft > 0) {
                     			int tokensToTake = Math.min(tokensLeft, 2);
@@ -3170,7 +3170,7 @@ public class Game {
                     }
                     
                     if(event.card.is(Type.Treasure, player)) {
-                    	if (isCardInGame(Cards.aqueduct)) {
+                    	if (cardInGame(Cards.aqueduct)) {
                     		//TODO?: you can technically choose the order of resolution for moving the VP
                     		//       tokens from the treasure after taking the tokens, but why would you ever do this?
                     		int tokensLeft = getPileVpTokens(event.card);
@@ -3181,7 +3181,7 @@ public class Game {
                     	}
                     }
                     if(event.card.is(Type.Victory, player)) {
-                    	if (isCardInGame(Cards.battlefield)) {
+                    	if (cardInGame(Cards.battlefield)) {
                     		int tokensLeft = getPileVpTokens(Cards.battlefield);
                     		if (tokensLeft > 0) {
                     			int tokensToTake = Math.min(tokensLeft, 2);
@@ -3189,7 +3189,7 @@ public class Game {
                     			player.addVictoryTokens(context, tokensToTake);
                     		}
                     	}
-                    	if (isCardInGame(Cards.aqueduct)) {
+                    	if (cardInGame(Cards.aqueduct)) {
                     		int tokensLeft = getPileVpTokens(Cards.aqueduct);
                     		if (tokensLeft > 0) {
                     			removePileVpTokens(Cards.aqueduct, tokensLeft, context);
@@ -3412,7 +3412,7 @@ public class Game {
                     }
                     
                     if(event.card.is(Type.Action, player)) {
-                    	if (isCardInGame(Cards.defiledShrine)) {
+                    	if (cardInGame(Cards.defiledShrine)) {
                     		//TODO?: you can technically choose the order of resolution for moving the VP
                     		//       tokens from the action to before taking the ones from Temple when it, 
                     		//       but why would you ever do this outside of old possession rules?
@@ -3735,14 +3735,6 @@ public class Game {
         return emptyPiles;
     }
 
-    public boolean isCardInGame(Card card) {
-        CardPile pile = getPile(card);
-        if (pile == null) {
-            return false;
-        }
-        return true;
-    }
-
     public Card[] getCardsInGame(GetCardsInGameOptions opt) {
         return getCardsInGame(opt, false);
     }
@@ -3783,8 +3775,13 @@ public class Game {
 
     public boolean cardInGame(Card c) {
         for (CardPile pile : piles.values()) {
-            if(c.equals(pile.topCard())) {
+            if(c.equals(pile.placeholderCard())) {
                 return true;
+            }
+            for (Card template : pile.getTemplateCards()) {
+                if (c.equals(template)) {
+                    return true;
+                }
             }
         }
         return false;

@@ -376,7 +376,7 @@ public class VDomPlayerSarah extends BasePlayer {
         ArrayList<Card> actionCards = context.getPlayer().getActionsInHand(context.player);
 
         // don't play rats
-        if (game.isCardInGame(Cards.rats)) {
+        if (game.cardInGame(Cards.rats)) {
             for (Iterator<Card> it = actionCards.iterator(); it.hasNext(); ) {
                 if (Cards.rats.equals(it.next())) {
                     it.remove();

@@ -3606,7 +3606,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	//if not any, trash a curse, ruins or copper
     	if (hand.contains(Cards.curse)) return Cards.curse;
     	
-    	if (!context.game.isCardInGame(Cards.poorHouse)) {
+    	if (!context.game.cardInGame(Cards.poorHouse)) {
     		for (Card c : hand) {
         		if (c.is(Type.Ruins, context.getPlayer()))
         			return c;
