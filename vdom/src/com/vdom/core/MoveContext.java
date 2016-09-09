@@ -457,13 +457,15 @@ public class MoveContext {
         return game.cardInGame(card);
     }
 
+    public boolean isCardOnTop(Card card) { return game.isCardOnTop(card); }
+
     public int getCardsLeftInPile(Card card) {
         return game.getCardsLeftInPile(card);
     }
 
     protected boolean isNewCardAvailable(int cost, int debt, boolean potion) {
         for(Card c : getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, null)) {
-            if(Cards.isSupplyCard(c)&& c.getCost(this) == cost && c.getDebtCost(this) == debt && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+            if(Cards.isSupplyCard(c)&& c.getCost(this) == cost && c.getDebtCost(this) == debt && c.costPotion() == potion && isCardOnTop(c)) {
                 return true;
             }
         }
@@ -474,7 +476,7 @@ public class MoveContext {
     protected Card[] getAvailableCards(int cost, boolean potion) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for(Card c : getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, null)) {
-            if(Cards.isSupplyCard(c) && c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+            if(Cards.isSupplyCard(c) && c.getCost(this) == cost && c.costPotion() == potion && isCardOnTop(c)) {
                 cards.add(c);
             }
         }

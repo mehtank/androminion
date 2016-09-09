@@ -437,7 +437,7 @@ public class CardImplGuilds extends CardImpl {
                 		&& newCard.getCost(context) <= card.getCost(context) + 3
                 		&& newCard.getDebtCost(context) <= card.getDebtCost(context)
                 		&& (!newCard.costPotion() || card.costPotion())
-                		&& context.getCardsLeftInPile(newCard) > 0) {
+                		&& context.isCardOnTop(newCard)) {
                     currentPlayer.gainNewCard(newCard, this, context);
                 }
             }

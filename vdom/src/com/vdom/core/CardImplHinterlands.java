@@ -118,7 +118,7 @@ public class CardImplHinterlands extends CardImpl {
                         boolean validCard = false;
                         
                         for(Card c : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
-                            if(Cards.isSupplyCard(c) && c.getCost(context) == cost && c.costPotion() == potion && context.getCardsLeftInPile(c) > 0) {
+                            if(Cards.isSupplyCard(c) && c.getCost(context) == cost && c.costPotion() == potion && context.isCardOnTop(c)) {
                                 validCard = true;
                                 break;
                             }
@@ -299,7 +299,7 @@ public class CardImplHinterlands extends CardImpl {
 
             if(cardsToGain.length == 0) {
                 for(Card c : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
-                    if(Cards.isSupplyCard(c) && (c.getCost(context) == trashedCardCost - 1 || c.getCost(context) == trashedCardCost + 1) && context.getCardsLeftInPile(c) > 0) {
+                    if(Cards.isSupplyCard(c) && (c.getCost(context) == trashedCardCost - 1 || c.getCost(context) == trashedCardCost + 1) && context.isCardOnTop(c)) {
                         bad = true;
                     }
                 }
@@ -318,7 +318,7 @@ public class CardImplHinterlands extends CardImpl {
                     }
 
                     for(Card c : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
-                        if(Cards.isSupplyCard(c) && c.getCost(context) == costToCheck && context.getCardsLeftInPile(c) > 0) {
+                        if(Cards.isSupplyCard(c) && c.getCost(context) == costToCheck && context.isCardOnTop(c)) {
                             bad = true;
                         }
                     }
@@ -336,7 +336,7 @@ public class CardImplHinterlands extends CardImpl {
             }
 
             for(Card c : cardsToGain) {
-                if(!Cards.isSupplyCard(c) || context.getCardsLeftInPile(c) == 0) {
+                if(!Cards.isSupplyCard(c) || !context.isCardOnTop(c)) {
                     bad = true;
                 }
             }

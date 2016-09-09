@@ -1945,7 +1945,7 @@ public class Game {
         for (int i = 0; i < hagglers; i++) {
             validCards.clear();
             for (Card card : getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
-                if (!(card.is(Type.Victory)) && Cards.isSupplyCard(card) && getCardsLeftInPile(card) > 0) {
+                if (!(card.is(Type.Victory)) && Cards.isSupplyCard(card) && isCardOnTop(card)) {
                     int gainCardCost = card.getCost(context);
                     int gainCardPotionCost = card.costPotion() ? 1 : 0;
                     int gainCardDebt = card.getDebtCost(context);
@@ -3229,7 +3229,7 @@ public class Game {
                             }
                         }
                     } else if(event.card.equals(Cards.duchy)) {
-                        if (Cards.isSupplyCard(Cards.duchess) && getCardsLeftInPile(Cards.duchess) > 0) {
+                        if (Cards.isSupplyCard(Cards.duchess) && isCardOnTop(Cards.duchess)) {
                             if(player.controlPlayer.duchess_shouldGainBecauseOfDuchy((MoveContext) context)) {
                                 player.gainNewCard(Cards.duchess, Cards.duchess, context);
                             }
@@ -3270,7 +3270,7 @@ public class Game {
                         boolean validCard = false;
                         int gainedCardCost = event.card.getCost(context);
                         for(Card c : event.context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
-                            if(Cards.isSupplyCard(c) && c.getCost(context) < gainedCardCost && !c.costPotion() && event.context.getCardsLeftInPile(c) > 0) {
+                            if(Cards.isSupplyCard(c) && c.getCost(context) < gainedCardCost && !c.costPotion() && c.getDebtCost(context) <= 0 && event.context.isCardOnTop(c)) {
                                 validCard = true;
                                 break;
                             }
@@ -3693,7 +3693,7 @@ public class Game {
 
 
         //If the desired card is not on top of the pile, don't take a card
-        } else if (!getPile(cardToGain).topCard().equals(cardToGain)) {
+        } else if (!isCardOnTop(cardToGain)) {
             return null;
         }
 
@@ -3788,6 +3788,13 @@ public class Game {
             }
         }
         return false;
+    }
+
+    public boolean isCardOnTop(Card card) {
+        CardPile pile = getPile(card);
+        if (pile == null) return false;
+        Card top = pile.topCard();
+        return top != null && top.equals(card);
     }
 
     public boolean pileInGame(CardPile p) {

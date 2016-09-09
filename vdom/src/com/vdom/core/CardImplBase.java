@@ -290,10 +290,10 @@ public class CardImplBase extends CardImpl {
                     		newCard.getCost(context) <= card.getCost(context) + 3 && 
                     		newCard.getDebtCost(context) <= card.getDebtCost(context) && 
                     		(!newCard.costPotion() || card.costPotion()) 
-                    		&& context.getCardsLeftInPile(newCard) > 0)) {
+                    		&& context.isCardOnTop(newCard))) {
                         Util.playerError(currentPlayer, "Mine treasure to obtain was invalid, picking random treasure from table.");
                         for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
-                            if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0 && 
+                            if (Cards.isSupplyCard(treasureCard) && context.isCardOnTop(treasureCard) &&
                             		treasureCard.getCost(context) <= card.getCost(context) + 3 &&
                             		treasureCard.getDebtCost(context) <= card.getCost(context) &&
                             		(!treasureCard.costPotion() || card.costPotion()))
@@ -301,7 +301,7 @@ public class CardImplBase extends CardImpl {
                         }
                     }
 
-                    if (newCard != null && newCard.getCost(context) <= card.getCost(context) + 3 && Cards.isSupplyCard(newCard) && context.getCardsLeftInPile(newCard) > 0)
+                    if (newCard != null && newCard.getCost(context) <= card.getCost(context) + 3 && Cards.isSupplyCard(newCard) && context.isCardOnTop(newCard))
                         currentPlayer.gainNewCard(newCard, this.controlCard, context);
                     break;
                 }

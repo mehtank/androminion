@@ -448,7 +448,7 @@ public class CardImplAdventures extends CardImpl {
     {
     	int numTreasuresAvailable = 0;
     	for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
-    		if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0) {
+    		if (Cards.isSupplyCard(treasureCard) && context.isCardOnTop(treasureCard)) {
     			numTreasuresAvailable++;
     		}
     	}
@@ -457,7 +457,7 @@ public class CardImplAdventures extends CardImpl {
     	
     	Card newCard = currentPlayer.controlPlayer.hero_treasureToObtain(context);
     	
-        if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && context.getCardsLeftInPile(newCard) > 0)) {
+        if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && context.isCardOnTop(newCard))) {
             Util.playerError(currentPlayer, "Hero treasure to obtain was invalid, picking random treasure from table.");
             for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
                 if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0) {
