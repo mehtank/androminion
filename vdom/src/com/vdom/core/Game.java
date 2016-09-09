@@ -4022,6 +4022,7 @@ public class Game {
 
 
     public CardPile getPile(Card card) {
+        if (card == null) return null;
         return piles.get(card.getName());
     }
     
