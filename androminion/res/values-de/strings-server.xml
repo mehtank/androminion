@@ -342,8 +342,8 @@
 	<string name="watch_tower_option_one">Ablegen</string>
 	<string name="watch_tower_option_three">auf Nachziehstapel</string>
 	
-	<string name="jester_option_one">Karte mit gleichem Namen für dich</string>
-	<string name="jester_option_two">Gib Karte mit gleichem Namen an %1$s</string>
+	<string name="jester_option_one">gleiche Karte für dich</string>
+	<string name="jester_option_two">gleiche Karte für %1$s</string>
 	
 	<string name="trader_gain">Nimm %1$s</string>
 	<string name="trader_gain_instead_of">Nimm %1$s anstatt %2$s</string>
