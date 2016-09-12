@@ -350,7 +350,7 @@ public class CardImplGuilds extends CardImpl {
 
                 Card curseGained = player.gainNewCard(Cards.curse, this.controlCard, playerContext);
 
-                if (curseGained.equals(Cards.curse)) {
+                if (Cards.curse.equals(curseGained)) {
                     game.drawToHand(playerContext, this, 1);
                 }
             }

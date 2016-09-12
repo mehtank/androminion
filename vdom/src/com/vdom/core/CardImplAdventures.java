@@ -115,7 +115,7 @@ public class CardImplAdventures extends CardImpl {
                 Card card = context.getPlayer().controlPlayer.messenger_cardToObtain(context);
                 if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
                 	Card cardGained = context.getPlayer().gainNewCard(card, this.controlCard, context);
-                	if (cardGained.equals(card)) {
+                	if (cardGained != null && cardGained.equals(card)) {
 	                    for (Player player : context.game.getPlayersInTurnOrder()) {
 	                        if (player != context.getPlayer()) {
 	                            player.gainNewCard(card, this.controlCard, new MoveContext(context.game, player));
