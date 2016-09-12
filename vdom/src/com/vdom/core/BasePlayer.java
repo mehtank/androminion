@@ -200,7 +200,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || (!victoryCardAllowed && (card.is(Type.Victory)) && !card.equals(Cards.curse))
                 || (exactCost && (cardCost != maxCost || cardDebt != maxDebtCost || maxPotionCost != cardPotion))
                 || (cardCost > maxCost || cardDebt > maxDebtCost || cardPotion > maxPotionCost)
-                || (mustCostLessThanMax && (cardCost == maxCost || cardDebt == maxDebtCost || maxPotionCost == cardPotion))
+                || (mustCostLessThanMax && (cardCost == maxCost && cardDebt == maxDebtCost && maxPotionCost == cardPotion))
                 || (isBuy && !context.canBuy(card))
                 ) {
                 /*card not allowed*/
