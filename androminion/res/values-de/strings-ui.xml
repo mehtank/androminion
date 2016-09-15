@@ -49,7 +49,7 @@
 		<![CDATA[
 		<h3>Bitte lesen!</h3>
 		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Verbreitung von Androminion im Play Store, da sie eine offizielle digitale Version ihres Spiels herausbringen. Bitte veröffentliche Anrdominion in keinem öffentlichen AppStore.<br><br>
-		<h3>Version 7.00</h3>
+		<h3>Version 7.02</h3>
 		* Empires Erweterung
 		<h3>Version 6.07</h3>
 		* Jetzt mit Abenteuer! <br>
@@ -211,6 +211,7 @@
 	<string name="token_embargo">Embargos</string>
 	<string name="token_victory">Sieg</string>
 	<string name="token_debt">Schulden</string>
+	<string name="token_trade_route">Handelsroute</string>
 	<string name="bane_card">Bannkarte</string>
 	<string name="obelisk_card">Obelisk Karte (2 Siegpunkte)</string>
 	<string name="status_turn_number">Zug %1$s%2$s</string>
