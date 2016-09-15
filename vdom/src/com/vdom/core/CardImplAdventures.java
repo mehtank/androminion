@@ -1127,9 +1127,7 @@ public class CardImplAdventures extends CardImpl {
         if (card != null && card.is(Type.Action, null)) {
             if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && !context.game.isPileEmpty(card)) {
             	Card gainedCard = context.player.gainNewCard(card, this.controlCard, context);
-            	if (card.equals(gainedCard)
-            			|| (card.is(Type.Ruins, null) && gainedCard.is(Type.Ruins, null))
-            			|| (card.is(Type.Knight, null) && gainedCard.is(Type.Knight, null)))
+                if (context.game.getPile(card).equals(context.game.getPile(gainedCard))) //check that the placeholdercard is from the same pile as the gained card.
             		placeToken(context, card, PlayerSupplyToken.PlusOneBuy);
             }
         }

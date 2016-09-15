@@ -442,7 +442,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int min3 = 1000;
 		
 		for (AbstractCardPile pile : game.piles.values()) {
-			if ((pile.card().equals(Cards.province)) || (pile.card().equals(Cards.colony))) {
+			if ((pile.topCard().equals(Cards.province)) || (pile.topCard().equals(Cards.colony))) {
 				if (pile.getCount() < prov_col) {
 					prov_col = pile.getCount();
 				}
@@ -1315,7 +1315,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		// here we check each card available for buy
 		// the goal is to find the best VP card, best treasure and best action card
 		for (AbstractCardPile pile : game.piles.values()) {
-			Card card = pile.card();
+			Card card = pile.topCard();
 			
 			if (!exact || card.getCost(context) == gold) {
 				if (game.isValidBuy(context, card, gold)) {
@@ -1715,7 +1715,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		if (mandatory) {
 			this.log("must choose a card");
 			for (AbstractCardPile pile : game.piles.values()) {
-				Card card = pile.card();
+				Card card = pile.topCard();
 				if (!exact || card.getCost(context) == gold) {
 					if ((game.isValidBuy(context, card, gold)) && !(card.equals(Cards.curse))) {
 						return card;
@@ -1859,12 +1859,12 @@ public class VDomPlayerPatrick extends BasePlayer {
 		}
 		
 		for (AbstractCardPile pile : game.piles.values()) {
-			if ((knownActionCards.contains(pile.card())) && (pile.getCount() > 2)) {
-				if ((knownCursingCards.contains(pile.card())) || (!shouldReCurse)) {
-					if (!game.embargos.containsKey(pile.card().getName())) {
-						cards.add(pile.card());
+			if ((knownActionCards.contains(pile.topCard())) && (pile.getCount() > 2)) {
+				if ((knownCursingCards.contains(pile.topCard())) || (!shouldReCurse)) {
+					if (!game.embargos.containsKey(pile.topCard().getName())) {
+						cards.add(pile.topCard());
 					} else {
-						this.log("advisorAction: skipped " + pile.card() + " due to embargo");
+						this.log("advisorAction: skipped " + pile.topCard() + " due to embargo");
 					}
 				}
 			}
@@ -1907,13 +1907,13 @@ public class VDomPlayerPatrick extends BasePlayer {
 				this.log("advisorAction: multiple cantrips and combo cards (via " + this.strategyCard + ")");
 
 				for (AbstractCardPile pile : game.piles.values()) {
-					if (VDomPlayerPatrick.knownMultiActionCards.contains(pile.card())) {
-						this.strategyPossibleCards.add(pile.card());
+					if (VDomPlayerPatrick.knownMultiActionCards.contains(pile.topCard())) {
+						this.strategyPossibleCards.add(pile.topCard());
 					}
 				}
 				for (AbstractCardPile pile : game.piles.values()) {
-					if (VDomPlayerPatrick.knownComboActionCards.contains(pile.card())) {
-						this.strategyPossibleCards.add(pile.card());
+					if (VDomPlayerPatrick.knownComboActionCards.contains(pile.topCard())) {
+						this.strategyPossibleCards.add(pile.topCard());
 					}
 				}
 			} else if (knownDoubleActionCards.contains(this.strategyCard)) {

@@ -366,12 +366,12 @@ public class CardImplGuilds extends CardImpl {
                 currentPlayer.hand.remove(card);
                 currentPlayer.trash(card, this.controlCard, context);
 
-                int value = card.getCost(context) - 1;
+                int value = card.getCost(context);
                 int debt = card.getDebtCost(context);
                 boolean potion = card.costPotion();
-                if (value >= 0) {
-                    card = currentPlayer.controlPlayer.stonemason_cardToGain(context, value, debt, potion);
-                    for (int i = 1; i <= 2; ++i) {
+                if (value >= 0 || debt >= 0 || potion) {
+                    for (int i = 0; i < 2; ++i) {
+                    	card = currentPlayer.controlPlayer.stonemason_cardToGain(context, value, debt, potion);
                     	if (card == null || !(card.getCost(context) < value || card.getDebtCost(context) < debt || (!card.costPotion() && potion) &&
                         		card.getCost(context) <= value && card.getDebtCost(context) <= value && (!card.costPotion() || potion))) {
                         	Util.playerError(currentPlayer, "Stone Mason card gain #" + i + " error, card does not cost less.");

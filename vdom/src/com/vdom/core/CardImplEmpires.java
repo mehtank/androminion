@@ -301,30 +301,32 @@ public class CardImplEmpires extends CardImpl {
     private void chariotRace(Game game, MoveContext context, Player currentPlayer) {
     	Card draw = game.draw(context, Cards.chariotRace, 1);
         if (draw != null) {
-            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.reveal(draw, Cards.chariotRace, context);
             currentPlayer.hand.add(draw, true);
-            Player nextPlayer = game.getNextPlayer();
-            MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
-            Card nextPlayerCard = game.draw(nextPlayerContext, this.controlCard, 1);
-            if (nextPlayerCard != null) {
-            	nextPlayer.reveal(nextPlayerCard, this.controlCard, nextPlayerContext);
-            	nextPlayer.putOnTopOfDeck(nextPlayerCard, nextPlayerContext, false);
-            	int drawCoinCost = draw.getCost(context); 
-            	int nextPlayerCoinCost = nextPlayerCard.getCost(context);
-            	int drawDebtCost = draw.getDebtCost(context); 
-            	int nextPlayerDebtCost = nextPlayerCard.getDebtCost(context);
-            	int drawPotionCost = draw.costPotion() ? 1 : 0;
-            	int nextPlayerPotionCost = nextPlayerCard.costPotion() ? 1 : 0;
-            	if ((drawCoinCost > nextPlayerCoinCost ||
-            			drawDebtCost > nextPlayerDebtCost ||
-            			drawPotionCost > nextPlayerPotionCost) && 
-            			(drawCoinCost >= nextPlayerCoinCost ||
-                    			drawDebtCost >= nextPlayerDebtCost ||
-                    			drawPotionCost >= nextPlayerPotionCost)) {
-            		context.addCoins(1);
-            		currentPlayer.addVictoryTokens(context, 1);
-            	}
-            }
+        }
+        Player nextPlayer = game.getNextPlayer();
+        MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
+        Card nextPlayerCard = game.draw(nextPlayerContext, Cards.chariotRace, 1);
+        if (nextPlayerCard != null) {
+        	nextPlayer.reveal(nextPlayerCard, Cards.chariotRace, nextPlayerContext);
+        	nextPlayer.putOnTopOfDeck(nextPlayerCard, nextPlayerContext, false);
+        }
+        if (draw != null && nextPlayerCard != null) {
+        	int drawCoinCost = draw.getCost(context); 
+        	int nextPlayerCoinCost = nextPlayerCard.getCost(context);
+        	int drawDebtCost = draw.getDebtCost(context); 
+        	int nextPlayerDebtCost = nextPlayerCard.getDebtCost(context);
+        	int drawPotionCost = draw.costPotion() ? 1 : 0;
+        	int nextPlayerPotionCost = nextPlayerCard.costPotion() ? 1 : 0;
+        	if ((drawCoinCost > nextPlayerCoinCost ||
+        			drawDebtCost > nextPlayerDebtCost ||
+        			drawPotionCost > nextPlayerPotionCost) && 
+        			(drawCoinCost >= nextPlayerCoinCost ||
+                			drawDebtCost >= nextPlayerDebtCost ||
+                			drawPotionCost >= nextPlayerPotionCost)) {
+        		context.addCoins(1);
+        		currentPlayer.addVictoryTokens(context, 1);
+        	}
         }
     }
     
@@ -371,16 +373,18 @@ public class CardImplEmpires extends CardImpl {
     	options.add(null);
     	if (options.size() > 1) {
     		EncampmentOption option = currentPlayer.controlPlayer.encampment_chooseOption(context, options.toArray(new EncampmentOption[0]));
-    		if (options.contains(EncampmentOption.RevealGold) && option.equals(EncampmentOption.RevealGold)) {
-    			Card c = hand.get(Cards.gold);
-    			currentPlayer.reveal(c, this.controlCard, context);
-    			revealedCard = true;
-    		}
-    		if (options.contains(EncampmentOption.RevealPlunder) && option.equals(EncampmentOption.RevealPlunder)) {
-    			Card c = hand.get(Cards.plunder);
-    			currentPlayer.reveal(c, this.controlCard, context);
-    			revealedCard = true;
-    		}
+			if (option != null) {
+				if (options.contains(EncampmentOption.RevealGold) && option.equals(EncampmentOption.RevealGold)) {
+					Card c = hand.get(Cards.gold);
+					currentPlayer.reveal(c, this.controlCard, context);
+					revealedCard = true;
+				}
+				if (options.contains(EncampmentOption.RevealPlunder) && option.equals(EncampmentOption.RevealPlunder)) {
+					Card c = hand.get(Cards.plunder);
+					currentPlayer.reveal(c, this.controlCard, context);
+					revealedCard = true;
+				}
+			}
     	}
     	
     	if (!revealedCard) {
@@ -428,7 +432,7 @@ public class CardImplEmpires extends CardImpl {
     private void fortune(MoveContext context, Player player, Game game) {
     	if (!context.hasDoubledCoins) {
     		//TODO?: is doubling coins affected by -1 coin token?
-    		context.addCoins(context.getCoins() * 2);
+    		context.addCoins(context.getCoins());
     		context.hasDoubledCoins = true;
     	}
     }
@@ -453,7 +457,7 @@ public class CardImplEmpires extends CardImpl {
     	if (!revealedCopy) {
     		context.addCoins(1);
     		 AbstractCardPile pile = game.getPile(Cards.gladiator);
-    		 if (pile != null && pile.getCount() > 0 && pile.card() == Cards.gladiator) {
+    		 if (pile != null && pile.getCount() > 0 && pile.topCard() == Cards.gladiator) {
     			 Card gladiator = pile.removeCard();
     			 currentPlayer.trash(gladiator, this.controlCard, context);
     		 }
@@ -808,13 +812,15 @@ public class CardImplEmpires extends CardImpl {
     	context.player.gainNewCard(Cards.copper, this.controlCard, context);
     	context.player.gainNewCard(Cards.copper, this.controlCard, context);
     	Card toGain = context.player.controlPlayer.banquet_cardToObtain(context);
-    	if (toGain == null || toGain.getCost(context) > 5 || toGain.getDebtCost(context) > 0 || 
+    	if (toGain != null && (toGain.getCost(context) > 5 || toGain.getDebtCost(context) > 0 || 
     			toGain.costPotion() || toGain.is(Type.Victory) ||
-    			!context.game.isCardInGame(toGain) || context.game.isPileEmpty(toGain) || !Cards.isSupplyCard(toGain)) {
-    		Util.playerError(context.player, "Annex - selected invalid card");
+    			!context.game.isCardInGame(toGain) || context.game.isPileEmpty(toGain) || !Cards.isSupplyCard(toGain))) {
+    		Util.playerError(context.player, "Banquet - selected invalid card");
     		return;
     	}
-    	context.player.gainNewCard(toGain, this.controlCard, context);
+    	//TODO: check for no 5 non-victory cards left in game first
+    	if (toGain != null)
+    		context.player.gainNewCard(toGain, this.controlCard, context);
     }
     
     private void conquest(MoveContext context) {
@@ -860,8 +866,11 @@ public class CardImplEmpires extends CardImpl {
     
     private void saltTheEarth(MoveContext context) {
     	Card toTrash = context.getPlayer().controlPlayer.saltTheEarth_cardToTrash(context);
-    	AbstractCardPile pile = context.game.getPile(toTrash);
-    	if (toTrash == null || !toTrash.is(Type.Victory) || pile.isEmpty() || !pile.card().equals(toTrash)) {
+		AbstractCardPile pile = context.game.getPile(toTrash);
+		if (toTrash.isPlaceholderCard()) {
+			toTrash = pile.topCard();
+		}
+    	if (toTrash == null || !toTrash.is(Type.Victory) || pile.isEmpty() || !pile.topCard().equals(toTrash)) {
     		Util.playerError(context.getPlayer(), "Salt the Earth picked invalid card, picking province");
     		toTrash = Cards.province;
     	}

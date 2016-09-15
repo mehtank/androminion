@@ -18,6 +18,8 @@ public class CardImpl implements Card {
     int debtCost;
     boolean costPotion = false;
 
+    boolean isPlaceholderCard = false;
+
     String description = "";
     Expansion expansion = null;
     protected int vp;
@@ -45,6 +47,8 @@ public class CardImpl implements Card {
     protected boolean actionStillNeedsToBeInPlay;
     protected boolean callableWhenTurnStarts;
     protected int callableWhenCardGainedMaxCost = -1;
+
+    protected PileCreator pileCreator = null;
 
     static int maxNameLen;    // across all cards
     
@@ -97,6 +101,8 @@ public class CardImpl implements Card {
         actionStillNeedsToBeInPlay = builder.actionStillNeedsToBeInPlay;
         callableWhenTurnStarts = builder.callableWhenTurnStarts;
         callableWhenCardGainedMaxCost = builder.callableWhenCardGainedMaxCost;
+
+        pileCreator = builder.pileCreator;
     }
 
     public static class Builder {
@@ -130,6 +136,8 @@ public class CardImpl implements Card {
         protected boolean actionStillNeedsToBeInPlay;
         protected boolean callableWhenTurnStarts;
         protected int callableWhenCardGainedMaxCost;
+
+        protected PileCreator  pileCreator = null;
         
         protected boolean isOverpay   = false;
         
@@ -275,6 +283,11 @@ public class CardImpl implements Card {
             return this;
         }
 
+        public Builder pileCreator(PileCreator creator) {
+            pileCreator = creator;
+            return this;
+        }
+
         public CardImpl build() {
         	if (expansion == null) {
         		return new CardImpl(this);
@@ -324,6 +337,9 @@ public class CardImpl implements Card {
     public CardImpl getTemplateCard() {
         return templateCard == null ? this : templateCard;
     }
+
+    public boolean isPlaceholderCard() {return isPlaceholderCard; }
+    public void setPlaceholderCard() { isPlaceholderCard = true; }
 
     protected void checkInstantiateOK() {
         if (!isTemplateCard()) {
@@ -444,7 +460,7 @@ public class CardImpl implements Card {
 	    	}
 	    	return false;
     	}
-    	return player.getInheritance().is(t, null);
+    	return player.getInheritance().is(t) || this.is(t);
     }
 
     public int getCost(MoveContext context) {
@@ -455,9 +471,14 @@ public class CardImpl implements Card {
 
     public int getCost(MoveContext context, boolean buyPhase) {
     	if (this.is(Type.Event, null)) return cost; //Costs of Events are not affected by cards like Bridge Troll.
-        if (this.equals(Cards.virtualKnight))
-            if(context.game.getTopKnightCard() != null && !context.game.getTopKnightCard().equals(Cards.virtualKnight))
-                return context.game.getTopKnightCard().getCost(context,buyPhase); 
+
+        //If it's a variable card pile, and it's not empty, return the cost of the top card
+        if (this.isPlaceholderCard()) {
+            AbstractCardPile pile = context.game.getPile(this);
+            if (!pile.isEmpty()) {
+                return context.game.getPile(this).topCard().getCost(context, buyPhase);
+            }
+        }
 
         if (controlCard != null && controlCard != this && controlCard.inheritingAbilitiesCard != null) {
         	return controlCard.getCost(context, buyPhase);
@@ -570,7 +591,7 @@ public class CardImpl implements Card {
     
     @Override
     public void play(Game game, MoveContext context, boolean fromHand) {
-    	play(game, context, true, false);
+    	play(game, context, fromHand, false);
     }
     
     @Override
@@ -578,8 +599,8 @@ public class CardImpl implements Card {
         Player currentPlayer = context.getPlayer();
         boolean newCard = false;
         Card actualCard = (this.getControlCard() != null ? this.getControlCard() : this);
-        boolean isInheritedAbility = actualCard.equals(Cards.estate);
-        Card inheritedCard = isInheritedAbility ? context.player.getInheritance() : null;
+        boolean isInheritedAbility = actualCard.equals(Cards.estate) && !this.equals(actualCard);
+        Card inheritedCard = this.equals(Cards.estate) ? context.player.getInheritance() : null;
         Card playedCard = isInheritedAbility ? actualCard : this;
         boolean isAction = playedCard.is(Type.Action, currentPlayer);
         boolean enchantressEffect = isAction && !context.enchantressAlreadyAffected && game.enchantressAttacks(currentPlayer);
@@ -605,11 +626,13 @@ public class CardImpl implements Card {
             }
         }
         
-        GameEvent event;
-        event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
-        event.card = playedCard;
-        event.newCard = newCard;
-        game.broadcastEvent(event);
+        if (!isInheritedAbility) {
+	        GameEvent event;
+	        event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
+	        event.card = this;
+	        event.newCard = newCard;
+	        game.broadcastEvent(event);
+        }
         
         // playing an action
         if (isAction) {
@@ -668,11 +691,14 @@ public class CardImpl implements Card {
             }
         }
     
-        if (!playedCard.is(Type.Treasure, currentPlayer) || playedCard.is(Type.Action, currentPlayer)) {
+        if (!isInheritedAbility && !playedCard.is(Type.Treasure, currentPlayer) || playedCard.is(Type.Action, currentPlayer)) {
         	// Don't broadcast card played event for only treasures	
+        	GameEvent event;
 	        event = new GameEvent(GameEvent.EventType.PlayedCard, (MoveContext) context);
 	        event.card = playedCard;
 	        game.broadcastEvent(event);
+        } else {
+        	return;
         }
         
 
@@ -680,33 +706,35 @@ public class CardImpl implements Card {
         currentPlayer.princeCardLeftThePlay(currentPlayer);
         
         // check for cards to call after resolving action
-        boolean isActionInPlay = isInPlay(currentPlayer);
-        ArrayList<Card> callableCards = new ArrayList<Card>();
-        Card toCall = null;
-        for (Card c : currentPlayer.tavern) {
-        	if (c.behaveAsCard().isCallableWhenActionResolved()) {
-        		if (c.behaveAsCard().doesActionStillNeedToBeInPlayToCall() && !isActionInPlay) {
-        			continue;
-        		}
-        		callableCards.add(c);
-        	}
-        }
-        if (!callableCards.isEmpty()) {
-        	Collections.sort(callableCards, new Util.CardCostComparator());
-	        do {
-	        	toCall = null;
-	        	// we want null entry at the end for None
-	        	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
-	        	//ask player which card to call
-	        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, playedCard, cardsAsArray);
-	        	if (toCall != null && callableCards.contains(toCall)) {
-	        		callableCards.remove(toCall);
-	        		toCall.behaveAsCard().callWhenActionResolved(context, playedCard);
+        if (is(Type.Action)) {
+	        boolean isActionInPlay = isInPlay(currentPlayer);
+	        ArrayList<Card> callableCards = new ArrayList<Card>();
+	        Card toCall = null;
+	        for (Card c : currentPlayer.tavern) {
+	        	if (c.behaveAsCard().isCallableWhenActionResolved()) {
+	        		if (c.behaveAsCard().doesActionStillNeedToBeInPlayToCall() && !isActionInPlay) {
+	        			continue;
+	        		}
+	        		callableCards.add(c);
 	        	}
-		        // loop while we still have cards to call
-		        // NOTE: we have a hack here to prevent asking for duplicate calls on an unused Royal Carriage
-		        //   since technically you can ask for more and action re-played by royal carriage will ask as well
-	        } while (toCall != null && toCall.equals(Cards.coinOfTheRealm) && !callableCards.isEmpty());
+	        }
+	        if (!callableCards.isEmpty()) {
+	        	Collections.sort(callableCards, new Util.CardCostComparator());
+		        do {
+		        	toCall = null;
+		        	// we want null entry at the end for None
+		        	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
+		        	//ask player which card to call
+		        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, playedCard, cardsAsArray);
+		        	if (toCall != null && callableCards.contains(toCall)) {
+		        		callableCards.remove(toCall);
+		        		toCall.behaveAsCard().callWhenActionResolved(context, playedCard);
+		        	}
+			        // loop while we still have cards to call
+			        // NOTE: we have a hack here to prevent asking for duplicate calls on an unused Royal Carriage
+			        //   since technically you can ask for more and action re-played by royal carriage will ask as well
+		        } while (toCall != null && toCall.equals(Cards.coinOfTheRealm) && !callableCards.isEmpty());
+	        }
         }
     }
 
@@ -1230,4 +1258,13 @@ public class CardImpl implements Card {
             }
         }
     }
+
+    public PileCreator getPileCreator() {
+        if (pileCreator == null) {
+            return new DefaultCardPileCreator();
+        } else {
+            return this.pileCreator;
+        }
+    }
+
 }

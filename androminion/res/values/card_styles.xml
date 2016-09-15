@@ -27,6 +27,11 @@
         <item name="cardNameBackgroundColor">@color/cardVictory</item>
         <item name="cardTextColor">@color/cardInverseTextColor</item>
     </style>
+
+    <style name="CardView.Treasure.Victory.Castle">
+        <item name="cardBackgroundColor">@color/cardCopper</item>
+        <item name="cardNameBackgroundColor">@color/cardVictory</item>
+    </style>
     
     <style name="CardView.Duration" parent="@style/CardView.InverseText">
         <item name="cardBackgroundColor">@color/cardDuration</item>

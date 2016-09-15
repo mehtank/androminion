@@ -355,7 +355,14 @@ public class Strings {
             if (hauntedWoodsAttacks) {
                 statusText += "\n" + getString(R.string.HauntedWoodsAttacks);
             }
-            if (swampHagAttacks > 0 || hauntedWoodsAttacks)
+            boolean enchantressAttacks = false;
+            if (extras[5] != null) {
+            	enchantressAttacks = (Boolean) extras[5];
+            }
+            if (enchantressAttacks) {
+                statusText += "\n" + getString(R.string.EnchantressAttacks);
+            }
+            if (swampHagAttacks > 0 || hauntedWoodsAttacks || enchantressAttacks)
             	statusText += "\n";
         } else if (event.gameEventType == GameEvent.EventType.CantBuy) {
             Card[] cantBuy = event.o.cs;
@@ -448,7 +455,9 @@ public class Strings {
             else if (c.getVictoryPoints() < 0)
                 ret = Strings.format(R.string.vp_single, "" + c.getVictoryPoints()) + "\n" + ret;
         }
-        if (c.is(Type.Treasure, null)) {
+        if (c.is(Type.Treasure)) {
+        	if (c.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + c.getAddBuys()) + "\n" + ret;
+            else if (c.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + c.getAddBuys()) + "\n" + ret;
         	int value = c.getAddGold();
         	if (value == 1)
         		ret = Strings.format(R.string.coin_worth_single, "" + value) + "\n" + ret;
@@ -457,8 +466,8 @@ public class Strings {
         	if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
             else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }
-        if (c.is(Type.Action, null)) {
-            if (c.is(Type.Duration, null)) {
+        if (c.is(Type.Action)) {
+            if (c.is(Type.Duration)) {
                 if (c.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_single, "" + c.getAddGoldNextTurn()) + "\n" + ret;
                 else if (c.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_multiple, "" + c.getAddGoldNextTurn()) + "\n" + ret;
                 if (c.getAddBuysNextTurn() > 1) ret = Strings.format(R.string.buys_next_turn_multiple, "" + c.getAddBuysNextTurn()) + "\n" + ret;
@@ -482,7 +491,7 @@ public class Strings {
             else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }
 
-        if (c.is(Type.Event, null)) {
+        if (c.is(Type.Event)) {
             if (c.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + c.getAddBuys()) + "\n" + ret;
             else if (c.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + c.getAddBuys()) + "\n" + ret;
             if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
@@ -1177,6 +1186,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.smallCastle))) {
             strings[1] = getString(R.string.trash_this);
             strings[2] = getString(R.string.trash_castle_from_hand);
+        } else if ( cardName.equals(getCardName(Cards.sprawlingCastle))) {
+            strings[1] = getString(R.string.sprawlingcastle_gain_duchy);
+            strings[2] = getString(R.string.sprawlingcastle_gain_estates);
         }
         if (strings[1] != null) {
             return strings;
@@ -1244,6 +1256,8 @@ public class Strings {
                 } else if (sco.isNonVictory) {
                 	if (sco.isAction) {
                 		selectString = Strings.format(R.string.select_from_table_max_non_vp_action, maxCostString, header);
+                	} else if (sco.lessThanMax) {
+                		selectString = Strings.format(R.string.select_from_table_less_non_vp, maxCostString, header);
                 	} else {
                 		selectString = Strings.format(R.string.select_from_table_max_non_vp, maxCostString, header);
                 	}
@@ -1254,7 +1268,11 @@ public class Strings {
                 } else if (containsOnlyEvents(sco)) {
                     selectString = Strings.format(R.string.select_from_table_max_events, maxCostString, header);
                 } else if (containsOnlyCards(sco)) {
-                    selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
+                	if (sco.lessThanMax) {
+                		selectString = Strings.format(R.string.select_from_table_less, maxCostString, header);
+                	} else {
+                		selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
+                	}
                 } else {
                     selectString = Strings.format(R.string.select_from_table_max_cards_events, maxCostString, header);
                 }
@@ -1473,6 +1491,7 @@ public class Strings {
             getCardName(Cards.gladiator),
             getCardName(Cards.opulentCastle),
             getCardName(Cards.sacrifice),
+            getCardName(Cards.smallCastle),
             getCardName(Cards.temple),
             /*Empires Events*/
             getCardName(Cards.advance),
@@ -1636,6 +1655,8 @@ public class Strings {
             } else {
                 return getString(R.string.catapult_part);
             }
+        } else if (cardName.equals(getCardName(Cards.opulentCastle))) {
+            return getString(R.string.opulent_castle_ask_discard);
         }
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
     }

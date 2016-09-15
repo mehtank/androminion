@@ -193,7 +193,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || card.equals(Cards.ruinedVillage) 
                 || card.equals(Cards.survivors)
                 || (except != null && card.equals(except))
-                || (card.is(Type.Knight, null) && !card.equals(Cards.virtualKnight)) /*choose only virtualKnight*/
+                || (card.is(Type.Knight, null) && !card.equals(Cards.virtualKnight)) /*choose only virtualKnight*/ //TODO SPLITPILES what here?
                 || !Cards.isSupplyCard(card)
                 || context.getCardsLeftInPile(card) == 0
                 || (actionOnly && !(card.is(Type.Action))) 
@@ -408,8 +408,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	protected ArrayList<Card> getAttackCardsLeft() {
 		ArrayList<Card> options = new ArrayList<Card>();
 		for (AbstractCardPile pile : game.piles.values()) {
-			if (pile.getCount() > 0 && pile.card().is(Type.Attack, null)) {
-				options.add(pile.card());
+			if (pile.getCount() > 0 && pile.topCard().is(Type.Attack, null)) {
+				options.add(pile.topCard());
 			}
 		}
 		return options;
@@ -3111,9 +3111,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public int amountToOverpay(MoveContext context, Card card, int cardCost)
+    public int amountToOverpay(MoveContext context, Card card)
     {
-        int availableAmount = context.getCoinAvailableForBuy() - cardCost;
+        int availableAmount = context.getCoinAvailableForBuy();
         if (availableAmount <= 0) {
             return 0;
         }
@@ -4089,7 +4089,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context) {
-    	return HuntingGroundsOption.GainDuchy;
+        boolean getEstates = context.game.piles.get(Cards.duchy.getName()).getCount() == 0    //no duchies left
+                || context.player.getInheritance() != null                          //player has inherited card
+                || context.player.getAllCards().contains(Cards.baron)               //player has baron
+                || context.player.getAllCards().contains(Cards.silkRoad)            //player has silkroad
+                || context.player.getAllCards().contains(Cards.gardens);            //player has garden
+        if (getEstates) return HuntingGroundsOption.GainEstates;
+        return HuntingGroundsOption.GainDuchy;
     }
     
     @Override

@@ -74,6 +74,8 @@
 	<string name="select_from_table_max_action">Select an Action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_between">Select a card from the table that costs between (%1$s) and (%2$s) to %3$s</string>
 	<string name="select_from_table_min">Select a card from the table that costs at least (%1$s) to %2$s</string>
+	<string name="select_from_table_less">Select a card from the table that less than (%1$s) to %2$s</string>
+	<string name="select_from_table_less_non_vp">Select a non-victory card from the table that less than (%1$s) to %2$s</string>
 	
 	<string name="select_one_card_from_hand">Pick a card from your hand to %1$s</string>
 	<string name="select_up_to_x_cards_from_hand">Pick up to %1$s cards from your hand to %2$s</string>
@@ -492,4 +494,8 @@
   <string name="stash_x_cards_down">%1$s cards down</string>
   <string name="stash_after_cards_to_draw">After cards to be drawn (%1$s)</string>
   <string name="stash_more_options">Other&#8230;</string>
+
+  <string name="opulent_castle_ask_discard">discard for +2 Coins each</string>
+  <string name="sprawlingcastle_gain_duchy">Gain Duchy</string>
+  <string name="sprawlingcastle_gain_estates">Gain 3 Estates</string>
 </resources>

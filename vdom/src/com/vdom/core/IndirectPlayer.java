@@ -167,7 +167,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (Card card : cards) {
         	boolean hasTokens = context.game.getPlayerSupplyTokens(card, context.getPlayer()).size() > 0;
             if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
-                if (   sco.checkValid(card, card.getCost(context), context.game.getPile(card).card().is(Type.Victory), null)
+                if (   sco.checkValid(card, card.getCost(context), context.game.getPile(card).topCard().is(Type.Victory), null)
                 	&& (!(sco.noTokens && hasTokens))
                     && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 &&(context.canBuyCards || card.is(Type.Event, null))))
                         || !sco.pickType.equals(PickType.BUY))
@@ -212,7 +212,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 options[i + 1] = int_options[i];
             }
         }
-        return int_options[selectOption(context, responsible, options)];
+        int choice = selectOption(context, responsible, options);
+        if (choice >= 0 && choice < int_options.length) {
+            return int_options[choice];
+        } else {
+            return int_options[0];
+        }
+
     }
 
     @Override
@@ -2519,8 +2525,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public int amountToOverpay(MoveContext context, Card card, int cardCost) {
-        int availableAmount = context.getCoinAvailableForBuy() - cardCost;
+    public int amountToOverpay(MoveContext context, Card card) {
+        int availableAmount = context.getCoinAvailableForBuy();
         if (availableAmount <= 0) {
             return 0;
         }
@@ -2583,7 +2589,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card stonemason_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean potion) {
-    	SelectCardOptions sco = new SelectCardOptions().allowEmpty()
+    	SelectCardOptions sco = new SelectCardOptions()
 				.maxCost(maxCost).maxDebtCost(maxDebt).maxPotionCost(potion?1:0).lessThanMax()
 				.setActionType(ActionType.GAIN).setCardResponsible(Cards.stonemason);
         return getFromTable(context, sco);
@@ -2591,7 +2597,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card stonemason_cardToGainOverpay(MoveContext context, int overpayAmount, boolean potion) {
-        SelectCardOptions sco = new SelectCardOptions().allowEmpty().exactCost(overpayAmount, 0, potion ? 1 : 0)
+        SelectCardOptions sco = new SelectCardOptions().exactCost(overpayAmount, 0, potion ? 1 : 0)
                 .isAction()
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.stonemason);
         return getFromTable(context, sco);
@@ -3181,7 +3187,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card banquet_cardToObtain(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0).isNonVictory()
-                .setCardResponsible(Cards.banquet);
+    			.setActionType(ActionType.GAIN).setCardResponsible(Cards.banquet);
         return getFromTable(context, sco);
     }
     
@@ -3397,9 +3403,30 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
     	return selectBoolean(context, Cards.settlers);
     }
+
+    @Override
+    public boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context) {
+        if (context.isQuickPlay() && shouldAutoPlay_smallCastle__shouldTrashSmallCastlePlayed(context)) {
+            return super.smallCastle_shouldTrashSmallCastlePlayed(context);
+        }
+        return selectBoolean(context, Cards.smallCastle);
+    }
+
+    @Override
+    public Card smallCastle_castleToTrash(MoveContext context) {
+        if (context.isQuickPlay() && shouldAutoPlay_smallCastle_castleToTrash(context)) {
+            return super.smallCastle_castleToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isCastle().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.smallCastle);
+        return getCardFromHand(context, sco);
+    }
     
     @Override
     public HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_sprawlingCastle_chooseOption(context)) {
+            return super.sprawlingCastle_chooseOption(context);
+        }
     	HuntingGroundsOption[] options = HuntingGroundsOption.values();
         return options[selectOption(context, Cards.sprawlingCastle, options)];
     }

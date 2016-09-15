@@ -7,6 +7,7 @@ import com.vdom.core.Expansion;
 import com.vdom.core.Game;
 import com.vdom.core.Cards.Kind;
 import com.vdom.core.MoveContext;
+import com.vdom.core.PileCreator;
 import com.vdom.core.Player;
 import com.vdom.core.Type;
 
@@ -105,7 +106,12 @@ public interface Card extends Serializable {
     public boolean isTemplateCard();
     public CardImpl getTemplateCard();
 
+    public boolean isPlaceholderCard();
+    public void setPlaceholderCard();
+
     public CardImpl instantiate();
-    
+
+    public PileCreator getPileCreator();
+
     //public void isGained(MoveContext context);
 }
