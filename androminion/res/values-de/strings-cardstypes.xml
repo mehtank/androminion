@@ -14,4 +14,7 @@
     <string name="type_event">Ereignis</string>
     <string name="type_reserve">Reserve</string>
     <string name="type_traveller">Reisender</string>
+    <string name="type_castle">Schloss</string>
+    <string name="type_gathering">Sammlung</string>
+    <string name="type_landmark">Landmarke</string>
 </resources>
