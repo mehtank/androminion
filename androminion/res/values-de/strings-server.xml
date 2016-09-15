@@ -63,17 +63,19 @@
 	<string name="select_from_table_treasure">%1$s eine Geldkarte vom Vorrat</string>
 	<string name="select_from_table_victory">%1s eine Punktekarte vom Vorrat</string>
 	<string name="select_from_table_exact">%2$s eine Karte vom Vorrat, die genau (%1$s) kostet</string>
-	<string name="select_from_table_exact_action">%2$s eine Aktionskarte vom Vorrat die genau (%1$s) kostet</string>
+	<string name="select_from_table_exact_action">%2$s eine Aktionskarte vom Vorrat, die genau (%1$s) kostet</string>
 	<string name="select_from_table_exact_except">%3$s eine Karte vom Vorrat, die genau (%2$s) kostet, ausser %1$s</string>
 	<string name="select_from_table_max">%2$s eine Karte vom Vorrat, die bis zu (%1$s) kostet</string>
 	<string name="select_from_table_max_events">%2$s ein Ereignis, das bis zu (%1$s) kostet</string>
 	<string name="select_from_table_max_cards_events">%2$s eine Karte oder Ereignis vom Vorrat, das bis zu (%1$s) kostet</string>
-	<string name="select_from_table_max_non_vp">%2$s eine Nicht-Punktekarte vom Vorrat die bis zu (%1$s) kostet</string>
-	<string name="select_from_table_max_non_vp_action">%2$s eine Aktionskarte vom Vorrat die bis zu (%1$s) kostet und keine Punktekarte ist.</string>
-	<string name="select_from_table_max_vp">%2$s eine Punktekarte vom Vorrat die bis zu (%1$s) kostet</string>
-	<string name="select_from_table_max_action">%2$s eine Aktionskarte vom Vorrat die bis zu (%1$s) kostet</string>
+	<string name="select_from_table_max_non_vp">%2$s eine Nicht-Punktekarte vom Vorrat, die bis zu (%1$s) kostet</string>
+	<string name="select_from_table_max_non_vp_action">%2$s eine Aktionskarte vom Vorrat, die bis zu (%1$s) kostet und keine Punktekarte ist.</string>
+	<string name="select_from_table_max_vp">%2$s eine Punktekarte vom Vorrat, die bis zu (%1$s) kostet</string>
+	<string name="select_from_table_max_action">%2$s eine Aktionskarte vom Vorrat, die bis zu (%1$s) kostet</string>
 	<string name="select_from_table_between">%3$s eine Karte vom Vorrat, die zwischen (%1$s) und (%2$s) kostet</string>
 	<string name="select_from_table_min">%2$s eine Karte vom Vorrat, die mindestens (%1$s) kostet</string>	
+	<string name="select_from_table_less">%2$s eine Karte vom Vorrat, die weniger als (%1$s) kostet</string>
+	<string name="select_from_table_less_non_vp">%2$s eine Nicht-Punktekarte vom Vorrat, die weniger als (%1$s) kostet</string>
 
 	<string name="select_one_card_from_hand">%1$s eine Karte aus deiner Hand</string>
 	<string name="select_up_to_x_cards_from_hand">%2$s bis zu %1$s Karten aus deiner Hand</string>
@@ -422,7 +424,7 @@
 	<string name="putback_option_two">Aktionskarte (Komplott)</string>
 	<string name="putback_option_all">Alle zurücklegen</string>
 	
-	<string name="game_over_vps"> SP</string>
+	<string name="game_over_vps">SP</string>
 	<string name="victory_tokens">Punktemarker</string>
 	
 	<string name="coin_worth_single">Wert: (%1$s) Geld</string>
@@ -471,7 +473,7 @@
 	<string name="call_optional">%1$s (optional)</string>
 	
 	<string name="archive_query">[Archiv]: Wähle eine Karte zum auf die Hand nehmen</string>
-	<string name="annex_query">[Annex]: Wähle Karten die im Ablagestapel bleiben (bis zu %1$s weitere) </string>
+	<string name="annex_query">[Schlacht]: Wähle Karten die im Ablagestapel bleiben (bis zu %1$s weitere) </string>
 	<string name="charm_option_one">+1 Kauf, +(2) Geld</string>
 	<string name="charm_option_two">Nimm nach dem nächsten Kauf eine Karte mit unterschiedlichem Namen und gleichen Kosten</string>
 	<string name="reveal_gold">Gold aufdecken</string>
@@ -492,4 +494,8 @@
 	<string name="stash_x_cards_down">%1$s Karten tiefer</string>
 	<string name="stash_after_cards_to_draw">Nachdem Karten gezogen wurden (%1$s)</string>
 	<string name="stash_more_options">Anders</string>
+
+	<string name="opulent_castle_ask_discard">Entsorge für je +2 Münzen</string>
+	<string name="sprawlingcastle_gain_duchy">Nehme ein Herzogtum</string>
+	<string name="sprawlingcastle_gain_estates">Nehme 3 Anwesen</string>
 </resources>
