@@ -1328,7 +1328,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card university_actionCardToObtain(MoveContext context) {
         //TODO: better logic
-        return bestCardInPlay(context, 5, false, false, true, false, false);
+        return bestCardInPlay(context, 5, false, 0, false, true, true, false);
     }
 
     @Override
