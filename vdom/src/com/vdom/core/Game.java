@@ -843,6 +843,7 @@ public class Game {
     protected void playerBuy(Player player, MoveContext context) {
         Card buy = null;
         do {
+            if (context.buys <= 0) break; //Player can enter buy phase with 0 or less buys after buying but not playing Villa
         	buy = null;
             try {
             	playerPayOffDebt(player, context);
