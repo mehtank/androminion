@@ -1484,7 +1484,6 @@ public class Strings {
             getCardName(Cards.pilgrimage),
             getCardName(Cards.seaway),
             /*Empires*/
-            getCardName(Cards.catapult),
             getCardName(Cards.charm),
             getCardName(Cards.engineer),
             getCardName(Cards.forum),
