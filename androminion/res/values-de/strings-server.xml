@@ -207,7 +207,7 @@
 	<string name="gain_silver">Nimm dir ein Silber</string>
 	<string name="trash_this">Entsorge diese Karte</string>
 	<string name="trash_this_gain_another">Entsorge diese Karte um eine weitere zu Nehmen</string>
-	<string name="trash_castle_from_hand">Entsorge Burg aus der Hand</string>
+	<string name="trash_castle_from_hand">Entsorge Schloss aus der Hand</string>
 	
 	<string name="secretchamber_part">[Geheimkammer]: Lege oben auf den Nachziehstapel: Wähle</string>
 	<string name="secretchamber_query_discard">[Geheimkammer]: Lege ab: Wähle</string>
@@ -477,8 +477,8 @@
 	<string name="charm_option_one">+1 Kauf, +(2) Geld</string>
 	<string name="charm_option_two">Nimm nach dem nächsten Kauf eine Karte mit unterschiedlichem Namen und gleichen Kosten</string>
 	<string name="reveal_gold">Gold aufdecken</string>
-	<string name="reveal_plunder">Plünderung aufdecken</string>
-	<string name="hauntedcastle_part">[Haunted Castle]: Auf den Ablagestapel zurücklegen</string>
+	<string name="reveal_plunder">Diebesgut aufdecken</string>
+	<string name="hauntedcastle_part">[Spukschloss]: Auf den Ablagestapel zurücklegen</string>
 	<string name="draw_three_add_token">Ziehe 3 Karten und lege Punktemarker auf den Stapel</string>
 	<string name="gain_estate_and_tokens">Nehme Anwesen und erhalte Punktemarker vom Stapel</string>
 	<string name="tax_part">[Steuer]: Lege 2 Schuldenmarker auf</string>
@@ -495,7 +495,7 @@
 	<string name="stash_after_cards_to_draw">Nachdem Karten gezogen wurden (%1$s)</string>
 	<string name="stash_more_options">Anders</string>
 
-	<string name="opulent_castle_ask_discard">Entsorge für je +2 Münzen</string>
-	<string name="sprawlingcastle_gain_duchy">Nehme ein Herzogtum</string>
-	<string name="sprawlingcastle_gain_estates">Nehme 3 Anwesen</string>
+	<string name="opulent_castle_ask_discard">Punktekarten für +(2) Geld ablegen</string>
+	<string name="sprawlingcastle_gain_duchy">Nimm ein Herzogtum</string>
+	<string name="sprawlingcastle_gain_estates">Nimm 3 Anwesen</string>
 </resources>

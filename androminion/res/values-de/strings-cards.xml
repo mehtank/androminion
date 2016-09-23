@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="Copper_name">Kupfer</string>
@@ -711,11 +710,11 @@
     <string name="Windfall_desc">Wenn Dein Nachzieh- und Dein Ablagestapel leer sind: Nimm 3 Gold.</string>
         
     <string name="Aqueduct_name">Aquädukt</string>
-    <string name="Aqueduct_desc">Wenn Du eine Geldkarte nimmst, nimm 1 Punktemarker von jenem Stapel und lege ihn auf diese Karte. Wenn Du eine Punktekarte kaufst, nimm alle Punktemarker vom Aquädukt. Spielvorbereitung: Lege je 8 Punktemarker auf den Silber und Gold Vorratsstapel.</string>
+    <string name="Aqueduct_desc">Wenn du ein Geld nimmst, nimm 1 Punktemarker von jenem Stapel und lege ihn auf diese Karte. Wenn du eine Punktekarte nimmst, nimm alle Punktemarker von dieser Karte. Spielvorbereitung: Legt je 8-Marker auf den Silber- und Gold-Vorratsstapel.</string>
     <string name="Arena_name">Arena</string>
     <string name="Arena_desc">Zu Beginn deiner Kaufphase darfst Du eine Aktionskarte aus deiner Hand ablegen. Wenn Du das tust: Nimm dir 2 Punktemarker von der Arena. Spielvorbereitung: Lege pro Spieler 6 Punktemarker auf die Arena.</string>
     <string name="BanditFort_name">Räuberfestung</string>
-    <string name="BanditFort_desc">Beim Zählen der Siepunkte: +2 Siegpunkte pro Gold und pro Silber dass Du besitzt.</string>
+    <string name="BanditFort_desc">Beim Zählen der Siepunkte: -2 Siegpunkte pro Gold und pro Silber dass Du besitzt.</string>
     <string name="Basilica_name">Basilika</string>
     <string name="Basilica_desc">Wenn Du eine Karte kaufst und Du (2) oder mehr Geld übrig hast: Nimm 2 Punktemarker von der Basilika. Spielvorbereitung: Lege pro Spieler 6 Punktemarker auf die Basilika.</string>
     <string name="Baths_name">Badehaus</string>
@@ -733,25 +732,25 @@
     <string name="Labyrinth_name">Labyrinth</string>
     <string name="Labyrinth_desc">Wenn Du in deinem Zug die 2. Karte nimmst: nimm 2 Punktemarker vom Labyrinth. Spielvorbereitung: Lege pro Spieler 6 Punktemarker auf das Labyrinth</string>
     <string name="MountainPass_name">Gebirgspass</string>
-    <string name="MountainPass_desc"></string>
+    <string name="MountainPass_desc">Nach dem Zug, in dem ein Spieler die erste Provinz genommen hat, bietet jeder Spieler reihum (beginnend beim linken Mitspieler) einmal bis zu 40 Schuldenmarker. Der Spieler mit dem höchsten Gebot erhält +8 Punktemarker und nimmt die gebotene Menge Schuldenmarker.</string>
     <string name="Museum_name">Museum</string>
-    <string name="Museum_desc">When scoring, 2 VP per differently named card you have.</string>
+    <string name="Museum_desc">Beim Zählen der Siegpunkte: 2 Siegpunkte pro Karte mit unterschiedlichem Namen, die du besitzt.</string>
     <string name="Obelisk_name">Obelisk</string>
-    <string name="Obelisk_desc">When scoring, 2 VP per card you have from the chosen pile. - Setup: Choose a random Action Supply pile.</string>
-    <string name="Orchard_name">Orchard</string>
-    <string name="Orchard_desc">When scoring, 4 VP per differently named Action card you have 3 or more copies of.</string>
-    <string name="Palace_name">Palace</string>
-    <string name="Palace_desc">When scoring, 3 VP per set you have of Copper - Silver - Gold.</string>
-    <string name="Tomb_name">Tomb</string>
-    <string name="Tomb_desc">When you trash a card, +1 Victory token.</string>
-    <string name="Tower_name">Tower</string>
-    <string name="Tower_desc">When scoring, 1 VP per non-Victory card you have from an empty Supply pile.</string>
-    <string name="TriumphalArch_name">Triumphal Arch</string>
-    <string name="TriumphalArch_desc">When scoring, 3 VP per copy you have of the 2nd most common Action card among your cards (if it’s a tie, count either).</string>
-    <string name="Wall_name">Wall</string>
-    <string name="Wall_desc">When scoring, -1VP per card you have after the first 15.</string>
-    <string name="WolfDen_name">Wolf Den</string>
-    <string name="WolfDen_desc">When scoring, -3 VP per card you have exactly one copy of.</string>
+    <string name="Obelisk_desc">Beim Zählen der Siegpunkte: 2 Siegpunkte pro Karte, die du von dem gewählten Stapel besitzt. Spielvorbereitung: Ermittelt einen zufälligen Aktions-Vorratsstapel.</string>
+    <string name="Orchard_name">Obstgarten</string>
+    <string name="Orchard_desc">Beim Zählen der Siegpunkte: 4 Siegpunkte pro Aktionskarte mit unterschiedlichem Namen, von der du mindestens 3 Stück besitzt.</string>
+    <string name="Palace_name">Palast</string>
+    <string name="Palace_desc">Beim Zählen der Siegpunkte: 3 Siegpunkte pro Satz 'Gold - Silber - Kupfer', den du besitzt.</string>
+    <string name="Tomb_name">Grabmal</string>
+    <string name="Tomb_desc">Wenn du eine Karte entsorgst: + 1 Punktemarker</string>
+    <string name="Tower_name">Turm</string>
+    <string name="Tower_desc">Beim Zählen der Siegpunkte: 1 Siegpunkt pro Nicht-Punktekarte, die du von einem leeren Vorratsstapel besitzt.</string>
+    <string name="TriumphalArch_name">Triumpfbogen</string>
+    <string name="TriumphalArch_desc">Beim Zählen der Siegpunkte: 3 Siegpunkte pro Karte, die du von der zweithäufigsten Aktionskarte unter deinen Karten besitzt - bei Gleichstand zählen beide.</string>
+    <string name="Wall_name">Mauer</string>
+    <string name="Wall_desc">Beim Zählen der Siegpunkte: besitzt du mehr als 15 Karten: -1 Siegpunkt für jede weitere Karte über die 15. hinaus.</string>
+    <string name="WolfDen_name">Wolfsbau</string>
+    <string name="WolfDen_desc">Beim Zählen der Siegpunkte: -3 Siegpunkte pro Karte, von der du genau 1 Exemplar besitzt.</string>
 
     <string name="Envoy_name">Gesandter</string>
     <string name="Envoy_desc">Decke die obersten 5 Karten von deinem Nachziehstapel auf. Der Spieler links von dir wählt eine der aufgedeckten Karten aus. Lege die gewählte Karte ab. Nimm die übrigen Karten auf die Hand.</string>
