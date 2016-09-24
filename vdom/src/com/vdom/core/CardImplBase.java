@@ -49,7 +49,7 @@ public class CardImplBase extends CardImpl {
 			case Mine:
                 mine(context, currentPlayer);
                 break;
-			case MoneyLender:
+			case Moneylender:
 	            moneyLender(context, currentPlayer);
 	            break;
 			case Remodel:
@@ -268,7 +268,7 @@ public class CardImplBase extends CardImpl {
     
     private void mine(MoveContext context, Player currentPlayer) {
         Card cardToUpgrade = currentPlayer.controlPlayer.mine_treasureFromHandToUpgrade(context);
-        if (cardToUpgrade == null || !cardToUpgrade.is(Type.Treasure, currentPlayer)) {
+        if ((Game.errataMineForced && cardToUpgrade == null) || !cardToUpgrade.is(Type.Treasure, currentPlayer)) {
             Card[] cards = currentPlayer.getTreasuresInHand().toArray(new Card[] {});
             if (cards.length != 0) {
                 Util.playerError(currentPlayer, "Mine card to upgrade was invalid, picking treasure from hand.");
@@ -313,10 +313,15 @@ public class CardImplBase extends CardImpl {
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card card = currentPlayer.hand.get(i);
             if (card.equals(Cards.copper)) {
-                Card thisCard = currentPlayer.hand.remove(i);
-                context.addCoins(3);
-                currentPlayer.trash(thisCard, this.controlCard, context);
-                break;
+            	boolean choseTrash = false;
+            	if (Game.errataMoneylenderForced || (choseTrash = currentPlayer.controlPlayer.moneylender_shouldTrashCopper(context))) {
+	                Card thisCard = currentPlayer.hand.remove(i);
+	                context.addCoins(3);
+	                currentPlayer.trash(thisCard, this.controlCard, context);
+	                break;
+            	}
+            	if (!choseTrash)
+            		break;
             }
         }
     }

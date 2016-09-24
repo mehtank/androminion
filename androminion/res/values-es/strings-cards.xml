@@ -48,8 +48,8 @@
     <string name="Militia_desc">Los demás jugadores se descartan hasta quedarse con 3 cartas en la mano.</string>
     <string name="Mine_name">Mina</string>
     <string name="Mine_desc">Elimina una carta de Tesoro de tu mano. Gana una carta de Tesoro que cueste (3) monedas más. La carta ganada va directamente a tu mano.</string>
-    <string name="MoneyLender_name">Prestamista</string>
-    <string name="MoneyLender_desc">Elimina una carta de Cobre de tu mano. Si lo haces, +(3) monedas.</string>
+    <string name="Moneylender_name">Prestamista</string>
+    <string name="Moneylender_desc">Elimina una carta de Cobre de tu mano. Si lo haces, +(3) monedas.</string>
     <string name="Remodel_name">Remodelar</string>
     <string name="Remodel_desc">Elimina una carta de tu mano. Gana una carta que cueste hasta +(2) monedas más que la carta eliminada.</string>
     <string name="Smithy_name">Herrería</string>

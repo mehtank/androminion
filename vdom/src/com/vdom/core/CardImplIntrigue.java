@@ -2,6 +2,7 @@ package com.vdom.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
@@ -153,60 +154,66 @@ public class CardImplIntrigue extends CardImpl {
     }
 
     private void masquerade(Game game, MoveContext context, Player currentPlayer) {
-        Card[] passedCards = new Card[Game.players.length];
-
-        for (int i = 0; i < Game.players.length; i++) {
-            Player player = Game.players[i];
-            if (player.getHand().size() == 0) {
-                continue;
-            }
-            Card card = player.controlPlayer.masquerade_cardToPass(new MoveContext(context, game, player));
-            if (card == null || !(player).hand.contains(card)) {
-                Util.playerError(player, "Masquerade pass card error, picking random card to pass.");
-                card = Util.randomCard(player.getHand());
-            }
-
-            // TODO Should this.controlCard send some new type of event, not trashed, but passed maybe?
-            if (card != null) {
-                (player).hand.remove(card);
+    	List<Player> passingPlayers = new ArrayList<Player>(Game.players.length);
+    	for (int i = 0; i < Game.players.length; ++i) {
+    		if (Game.errataMasqueradeAlwaysAffects || !Game.players[i].getHand().isEmpty()) {
+    			passingPlayers.add(Game.players[i]);
+    		}
+    	}
+    	if (passingPlayers.size() > 1) {
+	        Card[] passedCards = new Card[passingPlayers.size()];
+	
+	        for (int i = 0; i < passingPlayers.size(); i++) {
+	            Player player = passingPlayers.get(i);
+	            if (player.getHand().size() == 0) {
+	                continue;
+	            }
+	            Card card = player.controlPlayer.masquerade_cardToPass(new MoveContext(context, game, player));
+	            if (card == null || !(player).hand.contains(card)) {
+	                Util.playerError(player, "Masquerade pass card error, picking random card to pass.");
+	                card = Util.randomCard(player.getHand());
+	            }
+                player.hand.remove(card);
                 passedCards[i] = card;
-            }
-        }
+	        }
+	
+	        for (int i = 0; i < passingPlayers.size(); i++) {
+	            int next = i + 1;
+	            if (next >= passingPlayers.size()) {
+	                next = 0;
+	            }
+	
+	            Player nextPlayer = passingPlayers.get(next);
+	
+	            Card card = passedCards[i];
+	            if (card != null) {
+	            	((CardImpl)card).stopInheritingCardAbilities();
+	                nextPlayer.hand.add(card);
+	                if (nextPlayer instanceof GameEventListener) {
+	                    GameEvent event = new GameEvent(GameEvent.EventType.CardObtained, new MoveContext(context, game, nextPlayer));
+	                    event.card = card;
+	                    event.responsible = this.controlCard;
+	                    event.newCard = false;
+	                    ((GameEventListener) nextPlayer).gameEvent(event);
+	                }
+	
+	                // nextPlayer.gainCardAlreadyInPlay(card, this.controlCard, new MoveContext(game, nextPlayer));
+	            }
+	        }
+    	}
 
-        for (int i = 0; i < Game.players.length; i++) {
-            int next = i + 1;
-            if (next >= Game.players.length) {
-                next = 0;
-            }
-
-            Player nextPlayer = Game.players[next];
-
-            Card card = passedCards[i];
-            if (card != null) {
-            	((CardImpl)card).stopInheritingCardAbilities();
-                nextPlayer.hand.add(card);
-                if (nextPlayer instanceof GameEventListener) {
-                    GameEvent event = new GameEvent(GameEvent.EventType.CardObtained, new MoveContext(context, game, nextPlayer));
-                    event.card = card;
-                    event.responsible = this.controlCard;
-                    event.newCard = false;
-                    ((GameEventListener) nextPlayer).gameEvent(event);
-                }
-
-                // nextPlayer.gainCardAlreadyInPlay(card, this.controlCard, new MoveContext(game, nextPlayer));
-            }
-        }
-
-        Card toTrash = currentPlayer.controlPlayer.masquerade_cardToTrash(context);
-        if (toTrash != null) {
-            if (currentPlayer.hand.contains(toTrash)) {
-                currentPlayer.hand.remove(toTrash);
-
-                currentPlayer.trash(toTrash, this.controlCard, context);
-            } else {
-                Util.playerError(currentPlayer, "Masquerade trash error, card not in hand, ignoring.");
-            }
-        }
+    	if (!currentPlayer.getHand().isEmpty()) {
+	        Card toTrash = currentPlayer.controlPlayer.masquerade_cardToTrash(context);
+	        if (toTrash != null) {
+	            if (currentPlayer.hand.contains(toTrash)) {
+	                currentPlayer.hand.remove(toTrash);
+	
+	                currentPlayer.trash(toTrash, this.controlCard, context);
+	            } else {
+	                Util.playerError(currentPlayer, "Masquerade trash error, card not in hand, ignoring.");
+	            }
+	        }
+    	}
     }
 
     private void miningVillage(MoveContext context, Player currentPlayer) {

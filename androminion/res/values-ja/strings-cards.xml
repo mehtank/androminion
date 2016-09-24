@@ -48,8 +48,8 @@
     <string name="Militia_desc">他のプレイヤーは全員、自分の手札が3枚になるまで捨て札をする。</string>
     <string name="Mine_name">鉱山</string>
     <string name="Mine_desc">あなたの手札の財宝カード1枚を廃棄する。\n廃棄した財宝よりもコストが最大(3) コイン多い財宝カード1枚を獲得し、あなたの手札に加える。</string>
-    <string name="MoneyLender_name">金貸し</string>
-    <string name="MoneyLender_desc">あなたの手札から銅貨1枚を廃棄する。\nそうした場合、+(3) コインを使用できる。</string>
+    <string name="Moneylender_name">金貸し</string>
+    <string name="Moneylender_desc">あなたの手札から銅貨1枚を廃棄する。\nそうした場合、+(3) コインを使用できる。</string>
     <string name="Remodel_name">改築</string>
     <string name="Remodel_desc">あなたの手札のカード1枚を廃棄する。\n廃棄したカードよりコストが最大(2) コイン多いカード1枚を獲得する。</string>
     <string name="Smithy_name">鍛冶屋</string>

@@ -137,9 +137,33 @@
             android:title="@string/errata_pref_title" >
             <CheckBoxPreference
                 android:defaultValue="true"
+                android:key="errata_masquerade"
+                android:summary="@string/erratamasquerade_pref_summary"
+                android:title="@string/erratamasquerade_pref_title" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_mine"
+                android:summary="@string/erratamine_pref_summary"
+                android:title="@string/erratamine_pref_title" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_moneylender"
+                android:summary="@string/erratamoneylender_pref_summary"
+                android:title="@string/erratamoneylender_pref_title" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
                 android:key="errata_posessor_takes_tokens"
                 android:summary="@string/errataposessiontokens_pref_summary"
                 android:title="@string/errataposessiontokens_pref_title" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_throneroom"
+                android:summary="@string/erratathroneroom_pref_summary"
+                android:title="@string/erratathroneroom_pref_title" >
             </CheckBoxPreference>
         </PreferenceScreen>
     </PreferenceCategory>

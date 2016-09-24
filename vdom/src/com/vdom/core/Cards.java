@@ -47,7 +47,7 @@ public class Cards {
         Platinum, Gold, Silver, Copper, Potion, Colony, Province, Duchy, Estate, Curse,
         // Base Set
         Gardens, Moat, Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom, Feast,
-        Festival, Laboratory, Library, Market, Militia, Mine, MoneyLender, Remodel, Smithy, Spy,
+        Festival, Laboratory, Library, Market, Militia, Mine, Moneylender, Remodel, Smithy, Spy,
         Thief, ThroneRoom, Village, Witch, Woodcutter, Workshop,
         // Intrigue Expansion
         Duke, SecretChamber, Nobles, Coppersmith, Courtyard, Torturer, Harem, Baron, Bridge,
@@ -569,7 +569,7 @@ public class Cards {
         actionCardsBaseGame.add(militia = new CardImpl.Builder(Cards.Kind.Militia, 4, Type.Action, Type.Attack).addGold(2).description("Each other player discards down to 3 cards in his hand.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(mine = new CardImpl.Builder(Cards.Kind.Mine, 5, Type.Action).description("Trash a Treasure card from your hand. Gain a Treasure card costing up to 3 Coins more; put it into your hand.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(moat = new CardImpl.Builder(Cards.Kind.Moat, 2, Type.Action, Type.Reaction).addCards(2).description("When another player plays an Attack card, you may reveal this from your hand. If you do, you are unaffected by that Attack.").description("When another player plays an Attack card, you may reveal this from your hand. If you do, you are unaffected by that Attack.").expansion(Expansion.Base).build());
-        actionCardsBaseGame.add(moneyLender = new CardImpl.Builder(Cards.Kind.MoneyLender, 4, Type.Action).description("Trash a Copper card from your hand. If you do, +3 Coins.").expansion(Expansion.Base).build());
+        actionCardsBaseGame.add(moneyLender = new CardImpl.Builder(Cards.Kind.Moneylender, 4, Type.Action).description("Trash a Copper card from your hand. If you do, +3 Coins.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(remodel = new CardImpl.Builder(Cards.Kind.Remodel, 4, Type.Action).trashForced().description("Trash a card from your hand. Gain a card costing up to 2 Coins more than the trashed card.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(smithy = new CardImpl.Builder(Cards.Kind.Smithy, 4, Type.Action).addCards(3).expansion(Expansion.Base).build());
         actionCardsBaseGame.add(spy = new CardImpl.Builder(Cards.Kind.Spy, 4, Type.Action, Type.Attack).addCards(1).addActions(1).description("Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.").expansion(Expansion.Base).build());

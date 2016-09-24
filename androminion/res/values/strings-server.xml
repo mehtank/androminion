@@ -248,6 +248,8 @@
 	
 	<string name="lookout_query_trash">Select card to trash</string>
 	<string name="lookout_query_discard">Select card to discard</string>
+
+	<string name="moneylender_trash_copper">Trash Copper from hand for +(3) Coins</string>
 	
 	<string name="mountebank_query">Mountebank played</string>
 	<string name="mountebank_option_one">Discard Curse</string>

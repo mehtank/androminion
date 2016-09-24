@@ -1685,6 +1685,8 @@ public abstract class Player {
     public abstract Card mine_treasureFromHandToUpgrade(MoveContext context);
 
     public abstract Card mine_treasureToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
+    
+    public abstract boolean moneylender_shouldTrashCopper(MoveContext context);
 
     public abstract Card[] chapel_cardsToTrash(MoveContext context);
 

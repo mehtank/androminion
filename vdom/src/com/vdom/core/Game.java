@@ -84,7 +84,11 @@ public class Game {
     public static boolean actionChains = false;
     public static boolean suppressRedundantReactions = false;
     public static boolean equalStartHands = false;
+    public static boolean errataMasqueradeAlwaysAffects = false; //Errata introduced Sept 2016 - true enables old behavior
+    public static boolean errataMineForced = false; //Errata introduced Sept 2016 - true enables old behavior
+    public static boolean errataMoneylenderForced = false; //Errata introduced Sept 2016 - true enables old behavior
     public static boolean errataPossessedTakesTokens = false; //Errata introduced May 2016 - true enables old behavior
+    public static boolean errataThroneRoomForced = false; //Errata introduced Sept 2016 - true enables old behavior
     public static boolean startGuildsCoinTokens = false; //only for testing
     public static boolean lessProvinces = false; //only for testing
     public static boolean godMode = false; //only for testing
@@ -1630,7 +1634,11 @@ public class Game {
         chanceForPlatColony = -1;
         chanceForShelters = -1;
         equalStartHands = false;
+        errataMasqueradeAlwaysAffects = false;
+        errataMineForced = false;
+        errataMoneylenderForced = false;
         errataPossessedTakesTokens = false;
+        errataThroneRoomForced = false;
         startGuildsCoinTokens = false; //only for testing
         lessProvinces = false; //only for testing
         godMode = false; //only for testing
@@ -1644,6 +1652,10 @@ public class Game {
         String useSheltersArg = "-useshelters";
         String blackMarketCountArg = "-blackmarketcount";
         String equalStartHandsArg = "-equalstarthands";
+        String errataThroneRoomForcedArg = "-erratathroneroomforced";
+        String errataMasqueradeAlwaysAffectsArg = "-erratamasqueradealwaysaffects";
+        String errataMineForcedArg = "-erratamineforced";
+        String errataMoneylenderForcedArg = "-erratamoneylenderforced";
         String errataPossessionArg = "-erratapossessedtakestokens";
         String startGuildsCoinTokensArg = "-startguildscointokens"; //only for testing
         String lessProvincesArg = "-lessprovinces"; //only for testing
@@ -1683,8 +1695,16 @@ public class Game {
                     godMode = true; //only for testing
                 } else if (arg.toLowerCase().equals(lessProvincesArg)) {
                     lessProvinces = true; //only for testing
+                } else if (arg.toLowerCase().equals(errataMasqueradeAlwaysAffectsArg)) {
+                	errataMasqueradeAlwaysAffects = true;
+                } else if (arg.toLowerCase().equals(errataMineForcedArg)) {
+                	errataMineForced = true;
+                } else if (arg.toLowerCase().equals(errataMoneylenderForcedArg)) {
+                	errataMoneylenderForced = true;
                 } else if (arg.toLowerCase().equals(errataPossessionArg)) {
                 	errataPossessedTakesTokens = true;
+                } else if (arg.toLowerCase().equals(errataThroneRoomForcedArg)) {
+                	errataThroneRoomForced = true;
                 }
             }
         }

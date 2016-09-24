@@ -90,8 +90,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_mine_treasureFromHandToUpgrade(MoveContext context) {
         return true;
     }
-
     
+    public boolean shouldAutoPlay_moneylender_shouldTrashCopper(MoveContext context) {
+        return true;
+    }
+
     public boolean shouldAutoPlay_chapel_cardsToTrash(MoveContext context) {
         return false;
     }

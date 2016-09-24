@@ -634,8 +634,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         if (handCards.size() > 0)
             return handCards.get(0);
         
-        // mine: you MUST trash a treasure
-        if (hasSpoils)
+        // mine: you MUST trash a treasure if not using errata
+        if (hasSpoils && Game.errataMineForced)
             return Cards.spoils;
 
         return null;
@@ -656,7 +656,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         return newCard;
     }
-
+    
+    @Override
+    public boolean moneylender_shouldTrashCopper(MoveContext context) {
+    	return true;
+    }
     
     @Override
     public Card[] chapel_cardsToTrash(MoveContext context) {

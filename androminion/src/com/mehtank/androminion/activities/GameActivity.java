@@ -272,8 +272,20 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         if (prefs.getBoolean("god_mode", false)) {
             strs.add("-godmode");
         }
+        if (!prefs.getBoolean("errata_masquerade", true)) {
+        	strs.add("-erratamasqueradealwaysaffects");
+        }
+        if (!prefs.getBoolean("errata_mine", true)) {
+        	strs.add("-erratamineforced");
+        }
+        if (!prefs.getBoolean("errata_moneylender", true)) {
+        	strs.add("-erratamoneylenderforced");
+        }
         if (!prefs.getBoolean("errata_posessor_takes_tokens", true)) {
         	strs.add("-erratapossessedtakestokens");
+        }
+        if (!prefs.getBoolean("errata_throneroom", true)) {
+        	strs.add("-erratathroneroomforced");
         }
         
         return strs;

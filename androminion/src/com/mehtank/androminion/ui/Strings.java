@@ -1084,6 +1084,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.miningVillage))) {
             strings[1] = getString(R.string.mining_village_option_one);
             strings[2] = getString(R.string.keep);
+        } else if (cardName.equals(getCardName(Cards.moneyLender))) {
+            strings[1] = getString(R.string.moneylender_trash_copper);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.mountebank))) {
             strings[0] = getString(R.string.mountebank_query);
             strings[1] = getString(R.string.mountebank_option_one);

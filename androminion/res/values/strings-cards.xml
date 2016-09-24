@@ -48,8 +48,8 @@
     <string name="Militia_desc">Each other player discards down to 3 cards in his hand.</string>
     <string name="Mine_name">Mine</string>
     <string name="Mine_desc">Trash a Treasure card from your hand. Gain a Treasure card costing up to 3 Coins more; put it into your hand.</string>
-    <string name="MoneyLender_name">Money Lender</string>
-    <string name="MoneyLender_desc">Trash a Copper card from your hand. If you do, +3 Coins.</string>
+    <string name="Moneylender_name">Moneylender</string>
+    <string name="Moneylender_desc">Trash a Copper card from your hand. If you do, +3 Coins.</string>
     <string name="Remodel_name">Remodel</string>
     <string name="Remodel_desc">Trash a card from your hand. Gain a card costing up to 2 Coins more than the trashed card.</string>
     <string name="Smithy_name">Smithy</string>

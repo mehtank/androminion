@@ -633,6 +633,21 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         if (mPrefs.getBoolean("god_mode", false)) {
             strs.add("-godmode");
         }
+        if (!mPrefs.getBoolean("errata_masquerade", true)) {
+        	strs.add("-erratamasqueradealwaysaffects");
+        }
+        if (!mPrefs.getBoolean("errata_mine", true)) {
+        	strs.add("-erratamineforced");
+        }
+        if (!mPrefs.getBoolean("errata_moneylender", true)) {
+        	strs.add("-erratamoneylenderforced");
+        }
+        if (!mPrefs.getBoolean("errata_posessor_takes_tokens", true)) {
+        	strs.add("-erratapossessedtakestokens");
+        }
+        if (!mPrefs.getBoolean("errata_throneroom", true)) {
+        	strs.add("-erratathroneroomforced");
+        }
         
         if(cardsSpecified != null) {
             StringBuilder sb = new StringBuilder();

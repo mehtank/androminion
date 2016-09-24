@@ -51,8 +51,8 @@
     <string name="Militia_desc">Tous vos adversaires défaussent leurs cartes de façon à n\'avoir que 3 cartes en main.</string>
     <string name="Mine_name">Mine</string>
     <string name="Mine_desc">Écartez une carte Trésor de votre main. Recevez une carte Trésor coûtant jusqu\'à 3 Pièces de plus; ajoutez cette carte à votre main.</string>
-    <string name="MoneyLender_name">Prêteur sur Gages</string>
-    <string name="MoneyLender_desc">Écartez une carte Cuivre de votre main. Dans ce cas, +3 Pièces.</string>
+    <string name="Moneylender_name">Prêteur sur Gages</string>
+    <string name="Moneylender_desc">Écartez une carte Cuivre de votre main. Dans ce cas, +3 Pièces.</string>
     <string name="Remodel_name">Rénovation</string>
     <string name="Remodel_desc">Écartez une carte de votre main. Recevez une carte coûtant jusqu\'à 2 Pièces de plus que la carte écartée.</string>
     <string name="Smithy_name">Forgeron</string>

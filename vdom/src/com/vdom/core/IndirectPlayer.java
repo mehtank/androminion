@@ -435,7 +435,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure().setPickType(PickType.UPGRADE)
                 .setCardResponsible(Cards.mine);
+        if (!Game.errataMineForced) {
+        	sco.setPassable();
+        }
         return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public boolean moneylender_shouldTrashCopper(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_moneylender_shouldTrashCopper(context)) {
+            return super.moneylender_shouldTrashCopper(context);
+        }
+    	return selectBoolean(context, Cards.moneyLender);
     }
 
     @Override
@@ -1181,6 +1192,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         SelectCardOptions sco = new SelectCardOptions().isAction()
                 .setPickType(PickType.PLAY)
                 .setCardResponsible(Cards.throneRoom);
+        if (!Game.errataThroneRoomForced) {
+        	sco.setPassable();
+        }
         return getCardFromHand(context, sco);
     }
 

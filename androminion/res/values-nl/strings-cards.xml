@@ -48,8 +48,8 @@
     <string name="Militia_desc">Elke andere speler legt kaarten af totdat hij er nog maar 3 in zijn hand heeft.</string>
     <string name="Mine_name">Mijn</string>
     <string name="Mine_desc">Vernietig een Geldkaart uit je hand. Pak een Geldkaart die ten hoogste 3 Geld meer kost; Neem deze op hand.</string>
-    <string name="MoneyLender_name">Geldschieter</string>
-    <string name="MoneyLender_desc">Vernietig een Koper uit je hand. Als je dit doet: +3 Geld.</string>
+    <string name="Moneylender_name">Geldschieter</string>
+    <string name="Moneylender_desc">Vernietig een Koper uit je hand. Als je dit doet: +3 Geld.</string>
     <string name="Remodel_name">Verbouwing</string>
     <string name="Remodel_desc">Vernietig een kaart uit je hand. Pak een kaart die ten hoogste 2 Geld meer kost dan de zojuist vernietigde kaart.</string>
     <string name="Smithy_name">Smidse</string>

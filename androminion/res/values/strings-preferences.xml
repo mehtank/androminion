@@ -67,8 +67,16 @@
     <string name="autodownload_pref_title">Auto-download card images (English only)</string>
     <string name="autodownload_pref_summary">Images will be downloaded from the internet and stored on your SD card</string>
     <string name="errata_pref_title">Errata…</string>
+    <string name="erratamasquerade_pref_title">Masquerade</string>
+    <string name="erratamasquerade_pref_summary">Players without cards don\'t pass (from Intrigue, 2E)</string>
+    <string name="erratamine_pref_title">Mine</string>
+    <string name="erratamine_pref_summary">Trashing Optional (from Dominion, 2E)</string>
+    <string name="erratamoneylender_pref_title">Moneylender</string>
+    <string name="erratamoneylender_pref_summary">Trashing optional (from Dominion, 2E)</string>
     <string name="errataposessiontokens_pref_title">Possession turn tokens</string>
     <string name="errataposessiontokens_pref_summary">Possessing player takes tokens (from Empires)</string>
+    <string name="erratathroneroom_pref_title">Throne Room</string>
+    <string name="erratathroneroom_pref_summary">Playing Action optional (from Dominion, 2E)</string>
     
     <string-array name="theme_names">
         <item>Dark</item>

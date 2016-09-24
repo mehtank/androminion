@@ -848,17 +848,24 @@ public class VDomPlayerEarl extends BasePlayer
    public Card mine_treasureFromHandToUpgrade(MoveContext context) {
      Card[] hand = getHand().toArray();
      int silvers = 0;
- 
+     int golds = 0;
+     
      for (Card card : hand) {
        if (card.equals(Cards.copper))
          return card;
        if (card.equals(Cards.silver)) {
          ++silvers;
        }
+       if (card.equals(Cards.gold)) {
+           ++golds;
+       }
      }
  
      if (silvers > 0) {
        return Cards.silver;
+     }
+     if (golds > 0 && context.cardInGame(Cards.platinum)) {
+    	 return Cards.gold;
      }
  
      return null;

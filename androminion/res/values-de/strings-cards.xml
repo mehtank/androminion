@@ -49,8 +49,8 @@
     <string name="Militia_desc">Jeder Mitspieler muss Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
     <string name="Mine_name">Mine</string>
     <string name="Mine_desc">Entsorge eine Geldkarte aus deiner Hand. Nimm dir eine Geldkarte, die bis zu 3 mehr kostet. Nimm diese Geldkarte sofort auf die Hand.</string>
-    <string name="MoneyLender_name">Geldverleiher</string>
-    <string name="MoneyLender_desc">Entsorge ein Kupfer aus deiner Hand. Wenn du das machst, + 3 Geld.</string>
+    <string name="Moneylender_name">Geldverleiher</string>
+    <string name="Moneylender_desc">Entsorge ein Kupfer aus deiner Hand. Wenn du das machst, + 3 Geld.</string>
     <string name="Remodel_name">Umbau</string>
     <string name="Remodel_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte die bis zu 2 mehr kostet als die entsorgte Karte.</string>
     <string name="Smithy_name">Schmiede</string>

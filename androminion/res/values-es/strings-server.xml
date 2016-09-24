@@ -244,6 +244,8 @@
 
 	<string name="lookout_query_trash">Elije una carta para eliminar</string>
 	<string name="lookout_query_discard">Elije una carta para descartar</string>
+	
+	<string name="moneylender_trash_copper">Eliminar Cobre de tu mano para +(3) Monedas</string>
 
 	<string name="mountebank_query">Charlatán jugado</string>
 	<string name="mountebank_option_one">Descartar una Maldición</string>
