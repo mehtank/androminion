@@ -634,6 +634,10 @@ public class CardImpl implements Card {
 	        game.broadcastEvent(event);
         }
         
+        if (equals(Cards.silver)) {
+        	silverPlayed(context, game, currentPlayer);
+        }
+        
         // playing an action
         if (isAction) {
 	        if (this == actualCard) 
@@ -1010,6 +1014,26 @@ public class CardImpl implements Card {
                 currentPlayer.playedCards.remove(i);
             }
         }
+    }
+    
+    protected void silverPlayed(MoveContext context, Game game, Player player) {
+    	int saunasInPlay = context.countCardsInPlay(Cards.sauna);
+    	for (int i = 0; i < saunasInPlay; ++i) {
+    		if (player.getHand().size() > 0) {
+                Card cardToTrash = player.controlPlayer.sauna_cardToTrash(context);
+                if (cardToTrash != null) {
+                	if (!player.getHand().contains(cardToTrash)) {
+                		Util.playerError(player, "Sauna error, invalid card to trash, ignoring.");
+                	} else {
+                		cardToTrash = player.hand.get(cardToTrash);
+                		player.hand.remove(cardToTrash);
+                		player.trash(cardToTrash, Cards.sauna, context);
+                	}
+                } else {
+                	break;
+                }
+        	}
+    	}
     }
     
     protected boolean isInPlay(Player currentPlayer) {

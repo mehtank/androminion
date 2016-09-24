@@ -2329,6 +2329,33 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
+    public boolean sauna_shouldPlayAvanto(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_sauna_shouldPlayAvanto(context)) {
+            return super.sauna_shouldPlayAvanto(context);
+        }
+        return selectBoolean(context, Cards.sauna);
+    }
+    
+    @Override
+    public Card sauna_cardToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_sauna_cardToTrash(context)) {
+            return super.sauna_cardToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.sauna);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public boolean avanto_shouldPlaySauna(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_avanto_shouldPlaySauna(context)) {
+            return super.avanto_shouldPlaySauna(context);
+        }
+        return selectBoolean(context, Cards.avanto);
+    }
+
+    @Override
     public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] cards) {
         if(context.isQuickPlay() && shouldAutoPlay_navigator_shouldDiscardTopCards(context, cards)) {
             return super.survivors_shouldDiscardTopCards(context, cards);

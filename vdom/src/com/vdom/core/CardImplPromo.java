@@ -18,6 +18,9 @@ public class CardImplPromo extends CardImpl {
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {
+		case Avanto:
+			avanto(game, context, currentPlayer);
+			break;
 		case BlackMarket:
             blackMarket(game, context, currentPlayer);
             break;
@@ -30,6 +33,9 @@ public class CardImplPromo extends CardImpl {
 		case Prince:
             prince(game, context, currentPlayer);
             break;
+		case Sauna:
+			sauna(game, context, currentPlayer);
+			break;
 		default:
 			break;
 		}
@@ -46,6 +52,17 @@ public class CardImplPromo extends CardImpl {
             break;
         }
     }
+	
+	private void avanto(Game game, MoveContext context, Player currentPlayer) {
+		if (currentPlayer.hand.contains(Cards.sauna) && currentPlayer.controlPlayer.avanto_shouldPlaySauna(context)) {
+            Card next = currentPlayer.hand.get(Cards.sauna);
+            if (next != null) {
+                context.freeActionInEffect++;
+                next.play(game, context, true);
+                context.freeActionInEffect--;
+            }
+        }
+	}
 	
 	private void blackMarket(Game game, MoveContext context, Player currentPlayer) {
         context.blackMarketBuyPhase = true;
@@ -271,6 +288,17 @@ public class CardImplPromo extends CardImpl {
             this.getControlCard().cloneCount = 1;
         }
     }
+	
+	private void sauna(Game game, MoveContext context, Player currentPlayer) {
+		if (currentPlayer.hand.contains(Cards.avanto) && currentPlayer.controlPlayer.sauna_shouldPlayAvanto(context)) {
+            Card next = currentPlayer.hand.get(Cards.avanto);
+            if (next != null) {
+                context.freeActionInEffect++;
+                next.play(game, context, true);
+                context.freeActionInEffect--;
+            }
+        }
+	}
 
 
 	//Events

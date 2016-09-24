@@ -2198,6 +2198,12 @@ public abstract class Player {
     
     public abstract int stash_chooseDeckPosition(MoveContext context, Card responsible, int deckSize, int numStashes, int cardsToDraw);
     
+    public abstract boolean sauna_shouldPlayAvanto(MoveContext context);
+    
+    public abstract Card sauna_cardToTrash(MoveContext context);
+    
+    public abstract boolean avanto_shouldPlaySauna(MoveContext context);
+    
     public abstract boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array);
 
     public abstract Card[] survivors_cardOrder(MoveContext context, Card[] array);

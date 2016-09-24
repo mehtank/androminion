@@ -1603,6 +1603,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             Card card = cardArray.get(i);
+            if(card.equals(Cards.silver)) {
+                ret.add(0, cardArray.remove(i));
+            }
+        }
+        
+        for (int i = cardArray.size() - 1; i >= 0; i--) {
+            Card card = cardArray.get(i);
             if(!card.equals(Cards.bank) && !card.equals(Cards.venture) && !card.equals(Cards.hornOfPlenty) && !card.equals(Cards.illGottenGains)) {
                 ret.add(cardArray.remove(i));
             }
@@ -2755,6 +2762,21 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     		
     	return 0;
+    }
+    
+    @Override
+    public boolean sauna_shouldPlayAvanto(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
+    public Card sauna_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+    
+    @Override
+    public boolean avanto_shouldPlaySauna(MoveContext context) {
+    	return true;
     }
 
 	@Override

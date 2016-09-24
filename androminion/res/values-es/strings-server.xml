@@ -492,5 +492,8 @@
   <string name="stash_x_cards_down">%1$s cartas desde la parte superior</string>
   <string name="stash_after_cards_to_draw">Después de las cartas para robar (%1$s)</string>
   <string name="stash_more_options">Más opciones&#8230;</string>
+  
+  <string name="sauna_play_avanto">Jugar Avanto de la mano</string>
+  <string name="avanto_play_sauna">Jugar Sauna de la mano</string>
 
 </resources>

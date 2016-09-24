@@ -792,6 +792,18 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_stash_chooseDeckPosition(MoveContext context, int deckSize, int numStashes, int cardsToDraw) {
     	return context.phase == TurnPhase.Buy;
     }
+        
+    public boolean shouldAutoPlay_sauna_shouldPlayAvanto(MoveContext context) {
+        return true;
+    }
+    
+    public boolean shouldAutoPlay_sauna_cardToTrash(MoveContext context) {
+        return false;
+    }
+    
+    public boolean shouldAutoPlay_avanto_shouldPlaySauna(MoveContext context) {
+        return true;
+    }
 
     public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
         return true;
