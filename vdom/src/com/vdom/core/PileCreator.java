@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class PileCreator implements Serializable {
@@ -15,17 +16,18 @@ public abstract class PileCreator implements Serializable {
 
 class DefaultPileCreator extends PileCreator {
     public CardPile create(Card template, int count) {
-        HashMap<Card, Integer>cards = new HashMap<Card, Integer>();
-        cards.put(template, count);
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
+        cards.add(new CardPile.CardMultiplicity(template, count));
         return new CardPile(template, cards, true, true);
     }
 }
 
 class RuinsPileCreator extends PileCreator {
     public CardPile create(Card template, int count) {
-        Map<Card, Integer> cards = new HashMap<Card, Integer>();
+        Map<Card, Integer> cardShuffle = new HashMap<Card, Integer>();
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
         for (Card ruin : Cards.ruinsCards) {
-            cards.put(ruin, 0);
+            cardShuffle.put(ruin, 0);
         }
 
         ArrayList<Card> ruins = new ArrayList<Card>();
@@ -40,10 +42,13 @@ class RuinsPileCreator extends PileCreator {
 
         int i = 0;
         for (Card c : ruins) {
-            cards.put(c, cards.get(c) + 1);
+            cardShuffle.put(c, cardShuffle.get(c) + 1);
             if (++i >= count) {
                 break;
             }
+        }
+        for (Map.Entry<Card, Integer> entry : cardShuffle.entrySet()) {
+            cards.add(new CardPile.CardMultiplicity(entry.getKey(), entry.getValue()));
         }
         return new CardPile(template, cards, false, false);
     }
@@ -52,10 +57,10 @@ class RuinsPileCreator extends PileCreator {
 class KnightsPileCreator extends PileCreator {
 
     public CardPile create(Card template, int count) {
-        Map<Card, Integer> cards = new HashMap<Card, Integer>();
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
         //Currently count is ignored because there should always be ten knights.
         for (Card c: Cards.knightsCards) {
-            cards.put(c, 1);
+            cards.add(new CardPile.CardMultiplicity(c, 1));
         }
         return new CardPile(template, cards, false, false);
 
@@ -64,21 +69,21 @@ class KnightsPileCreator extends PileCreator {
 
 class CastlesPileCreator extends PileCreator {
     public CardPile create(Card template, int count) {
-        Map<Card, Integer> cards = new LinkedHashMap<Card, Integer>(); //LinkedHashMap preserves insertion order when iterating
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
         if (count != 8 && count != 12) {
             //TODO SPLITPILES What to do now?
             if (count < 8) count = 8;
             if (count > 8) count = 12;
         }
 
-        cards.put(Cards.humbleCastle,    count == 8 ? 1 : 2);
-        cards.put(Cards.crumblingCastle, 1);
-        cards.put(Cards.smallCastle,     count == 8 ? 1 : 2);
-        cards.put(Cards.hauntedCastle,   1);
-        cards.put(Cards.opulentCastle,   count == 8 ? 1 : 2);
-        cards.put(Cards.sprawlingCastle, 1);
-        cards.put(Cards.grandCastle,     1);
-        cards.put(Cards.kingsCastle,     count == 8 ? 1 : 2);
+        cards.add(new CardPile.CardMultiplicity(Cards.humbleCastle,    count == 8 ? 1 : 2));
+        cards.add(new CardPile.CardMultiplicity(Cards.crumblingCastle, 1));
+        cards.add(new CardPile.CardMultiplicity(Cards.smallCastle,     count == 8 ? 1 : 2));
+        cards.add(new CardPile.CardMultiplicity(Cards.hauntedCastle,   1));
+        cards.add(new CardPile.CardMultiplicity(Cards.opulentCastle,   count == 8 ? 1 : 2));
+        cards.add(new CardPile.CardMultiplicity(Cards.sprawlingCastle, 1));
+        cards.add(new CardPile.CardMultiplicity(Cards.grandCastle,     1));
+        cards.add(new CardPile.CardMultiplicity(Cards.kingsCastle,     count == 8 ? 1 : 2));
 
         return new CardPile(template, cards, true, true);
     }
@@ -94,9 +99,9 @@ class SplitPileCreator extends PileCreator {
     }
 
     public CardPile create(Card template, int count) {
-        Map<Card, Integer> cards = new LinkedHashMap<Card, Integer>();
-        cards.put(topCard, count / 2);
-        cards.put(bottomCard, count / 2 + (count % 2 == 1 ? 1 : 0)); //If count is not even put the extra card on bottom
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
+        cards.add(new CardPile.CardMultiplicity(topCard, count / 2));
+        cards.add(new CardPile.CardMultiplicity(bottomCard, count / 2 + (count % 2 == 1 ? 1 : 0))); //If count is not even put the extra card on bottom
         return new CardPile(template, cards, true, true);
 
     }

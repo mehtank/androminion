@@ -3,6 +3,7 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.vdom.api.Card;
@@ -18,7 +19,13 @@ public class CardPile  {
 	protected boolean isBlackMarket = false;
 	protected boolean tradeRouteToken = false;
 
-	public CardPile(Card placeholder, Map<Card, Integer> cardList, boolean ordered, boolean allCardsVisible) {
+	public static class CardMultiplicity {
+		public Card card;
+		public int count;
+		CardMultiplicity(Card card, int count) { this.card = card; this.count = count; }
+	}
+
+	public CardPile(Card placeholder, List<CardMultiplicity> cardList, boolean ordered, boolean allCardsVisible) {
 		this.cards = new ArrayList<Card>();
 		this.templateCards = new ArrayList<Card>();
 
@@ -27,15 +34,13 @@ public class CardPile  {
 
 		this.allCardsVisible = allCardsVisible;
 
-		for (Map.Entry<Card, Integer> entry : cardList.entrySet())
+		for (CardMultiplicity entry : cardList)
 		{
-			Card card = entry.getKey();
-			Integer count = entry.getValue();
-			if (!templateCards.contains(card)) {
-				templateCards.add(card);
+			if (!templateCards.contains(entry.card)) {
+				templateCards.add(entry.card);
 			}
-			for (int i = 0; i < count; i++) {
-				cards.add(card.instantiate());
+			for (int i = 0; i < entry.count; i++) {
+				cards.add(entry.card.instantiate());
 			}
 		}
 
