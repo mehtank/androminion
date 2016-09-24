@@ -56,7 +56,7 @@
     <style name="CardView.Attack.Victory">
         <item name="cardNameBackgroundColor">@color/cardVictory</item>
         <item name="cardCountColor">@color/cardDefaultTextColor</item>
-        <item name="cardBackgroundColor">@color/cardDefaultTextBackgroundColor</item>
+        <item name="cardBackgroundColor">@color/cardDefaultBackgroundColor</item>
     </style>
 
     <style name="CardView.Curse">
@@ -115,7 +115,7 @@
     <style name="CardView.Victory.Action">
         <item name="cardNameBackgroundColor">@color/cardVictory</item>
         <item name="cardCountColor">@color/cardDefaultTextColor</item>
-        <item name="cardBackgroundColor">@color/cardDefaultTextBackgroundColor</item>
+        <item name="cardBackgroundColor">@color/cardDefaultBackgroundColor</item>
     </style>
     
     <style name="CardView.Ruins">
