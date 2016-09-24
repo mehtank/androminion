@@ -24,7 +24,6 @@ public abstract class Player {
     public static final String THREE_PLUS_COPY_ACTION_CARDS = "Three Plus Copy Action Cards";
     public static final String NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS = "Non Victory Empty Supply Pile Cards";
     public static final String SECOND_MOST_COMMON_ACTION_CARDS = "Second Most Common Action Cards";
-    public static final String CASTLE_CARDS = "Castle Cards";
     public static final String VICTORY_TOKENS = "Victory Tokens";
 
     // Only used by InteractivePlayer currently
@@ -124,7 +123,7 @@ public abstract class Player {
     public int getMyCardCount(Card card) {
         if (card.isPlaceholderCard()) {
             int count = 0;
-            for (Card template : game.getPile(card).templateCards) {
+            for (Card template : game.getPile(card).getTemplateCards()) {
                 count += Util.getCardCount(getAllCards(), template);
             }
             return count;
@@ -755,11 +754,10 @@ public abstract class Player {
         final HashSet<String> distinctCards = new HashSet<String>();
         final Map<Object, Integer> allCardCounts = new HashMap<Object, Integer>();
         final Map<Object, Integer> cardCounts = new HashMap<Object, Integer>();
-        int castleCount = 0;
 
         // seed counts with all victory cards in play
-        for (AbstractCardPile pile : this.game.piles.values()) {
-        	for(Card card : pile.templateCards) {
+        for (CardPile pile : this.game.piles.values()) {
+        	for(Card card : pile.getTemplateCards()) {
         		if(card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
                     cardCounts.put(card, 0);
                 }
@@ -769,7 +767,6 @@ public abstract class Player {
         for(Card card : this.getAllCards()) {
             distinctCards.add(card.getName());
             if (card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
-                if (card.is(Type.Castle, this)) castleCount++;
                 if(cardCounts.containsKey(card)) {
                     cardCounts.put(card, cardCounts.get(card) + 1);
                 } else {
@@ -819,9 +816,6 @@ public abstract class Player {
         cardCounts.put(SECOND_MOST_COMMON_ACTION_CARDS, secondHighestActionCardCount);
         cardCounts.put(NON_VICTORY_EMPTY_SUPPLY_PILE_CARDS, nonVictoryEmptySupplyPileCards);
 
-        if (castleCount > 0) cardCounts.put(Cards.virtualCastle, castleCount);
-        cardCounts.put(CASTLE_CARDS, castleCount);
-
         return cardCounts;
     }
 
@@ -844,10 +838,11 @@ public abstract class Player {
     
     public Map<Card, Integer> getTreasureCardCounts() {
     	final Map<Card, Integer> cardCounts = new HashMap<Card, Integer>();
-    	for (AbstractCardPile pile : this.game.piles.values()) {
-            Card card = pile.topCard();
-            if(card.is(Type.Treasure, this)) {
-                cardCounts.put(card, 0);
+    	for (CardPile pile : this.game.placeholderPiles.values()) {
+            for (Card card : pile.getTemplateCards()) {
+                if (card.is(Type.Treasure, this)) {
+                    cardCounts.put(card, 0);
+                }
             }
         }
 
@@ -957,13 +952,7 @@ public abstract class Player {
         for(Map.Entry<Object, Integer> entry : counts.entrySet()) {
             if(entry.getKey() instanceof Card && ((Card)entry.getKey()).is(Type.Victory, this)) {
                 Card victoryCard = (Card) entry.getKey();
-                if (victoryCard.is(Type.Castle, null)) {
-                    int alreadyCounted = 0;
-                    if (totals.containsKey(Cards.virtualCastle)) alreadyCounted = totals.get(Cards.virtualCastle);
-                    totals.put(Cards.virtualCastle, victoryCard.getVictoryPoints() * entry.getValue() + alreadyCounted);
-                } else {
-                    totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
-                }
+                totals.put(victoryCard, victoryCard.getVictoryPoints() * entry.getValue());
             } else if((entry.getKey() instanceof Card) && ((Card)entry.getKey()).is(Type.Curse, null)) {
                 Card curseCard = (Card) entry.getKey();
                 totals.put(curseCard, curseCard.getVictoryPoints() * entry.getValue());
@@ -989,17 +978,10 @@ public abstract class Player {
             counts.put(Cards.distantLands, Util.getCardCount(this.tavern, Cards.distantLands));
             totals.put(Cards.distantLands, counts.get(Cards.distantLands) * 4);
         }
-
-        if (counts.containsKey(Cards.humbleCastle)) {
-            int alreadyCounted = 0;
-            if (totals.containsKey(Cards.virtualCastle)) alreadyCounted = totals.get(Cards.virtualCastle);
-            totals.put(Cards.virtualCastle, counts.get(Cards.humbleCastle) * counts.get(CASTLE_CARDS) + alreadyCounted);
-        }
-        if (counts.containsKey(Cards.kingsCastle)) {
-            int alreadyCounted = 0;
-            if (totals.containsKey(Cards.virtualCastle)) alreadyCounted = totals.get(Cards.virtualCastle);
-            totals.put(Cards.virtualCastle, counts.get(Cards.kingsCastle) * counts.get(CASTLE_CARDS) * 2 + alreadyCounted);
-        }
+        if (counts.containsKey(Cards.humbleCastle))
+            totals.put(Cards.humbleCastle, counts.get(Cards.humbleCastle) * this.getCastleCardCount(this));
+        if (counts.containsKey(Cards.kingsCastle))
+            totals.put(Cards.kingsCastle, counts.get(Cards.kingsCastle) * this.getCastleCardCount(this) * 2);
 
         // landmarks
         if (this.game.cardInGame(Cards.banditFort)) {
@@ -1012,7 +994,7 @@ public abstract class Player {
         	totals.put(Cards.museum, counts.get(DISTINCT_CARDS) * 2);
         }
         if (this.game.cardInGame(Cards.obelisk)) {
-        	totals.put(Cards.obelisk, game.obeliskCard != null ? Util.getCardCount(allCards, game.obeliskCard) * 2 : 0);
+        	totals.put(Cards.obelisk, game.obeliskCard != null ? Util.countCardsOfSamePile(game, allCards, game.obeliskCard) * 2 : 0);
         }
         if (this.game.cardInGame(Cards.orchard)) {
         	totals.put(Cards.orchard, counts.get(THREE_PLUS_COPY_ACTION_CARDS) * 4);
@@ -1243,7 +1225,7 @@ public abstract class Player {
     	if (card.equals(Cards.treasureHunter)) exchange = Cards.warrior;
     	if (card.equals(Cards.warrior)) exchange = Cards.hero;
     	if (card.equals(Cards.hero)) exchange = Cards.champion;
-    	if (context.getCardsLeftInPile(exchange) <= 0)
+    	if (!context.isCardOnTop(exchange))
     		exchange = null;
     	if (exchange != null) {
             if(!controlPlayer.traveller_shouldExchange(context, card.behaveAsCard(), exchange))

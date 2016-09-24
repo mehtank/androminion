@@ -102,7 +102,8 @@ public class Cards {
         RoyalBlacksmith, Sacrifice, Settlers, Temple, Villa, WildHunt,
         HumbleCastle, CrumblingCastle, SmallCastle, HauntedCastle, OpulentCastle, SprawlingCastle, GrandCastle, KingsCastle,
         
-        CatapultRocks, Castles, EncampmentPlunder, GladiatorFortune, PatricianEmporium, SettlersBustlingVillage,
+        CatapultRocks, Castles, EncampmentPlunder, GladiatorFortune
+        , PatricianEmporium, SettlersBustlingVillage,
         
         Advance, Annex, Banquet, Conquest, Dominate, Delve, Donate, Ritual, SaltTheEarth, Tax, Triumph, Wedding, Windfall,
         Aqueduct, Arena, BanditFort, Basilica, Baths, Battlefield, Colonnade, DefiledShrine, Fountain, Keep, Labyrinth, MountainPass, Museum, Obelisk, Orchard, Palace, Tomb, Tower, TriumphalArch, Wall, WolfDen,
@@ -803,9 +804,9 @@ public class Cards {
         actionCardsDarkAges.add(virtualKnight = new CardImpl.Builder(Kind.VirtualKnight, 5, Type.Action, Type.Attack, Type.Knight).pileCreator(new KnightsPileCreator()).build());
 
         // Shelters
-        nonKingdomCards.add(necropolis = new CardImpl.Builder(Cards.Kind.Necropolis, 1, Type.Action, Type.Shelter).addActions(2).expansion(Expansion.DarkAges).build());
-        nonKingdomCards.add(overgrownEstate = new CardImpl.Builder(Cards.Kind.OvergrownEstate, 1, Type.Victory, Type.Shelter).description("When you trash this, +1 Card").expansion(Expansion.DarkAges).build());
-        nonKingdomCards.add(hovel = new CardImpl.Builder(Cards.Kind.Hovel, 1, Type.Reaction, Type.Shelter).description("When you buy a Victory card, you may trash this from your hand").expansion(Expansion.DarkAges).build());
+        nonSupplyCards.add(necropolis = new CardImpl.Builder(Cards.Kind.Necropolis, 1, Type.Action, Type.Shelter).addActions(2).expansion(Expansion.DarkAges).build());
+        nonSupplyCards.add(overgrownEstate = new CardImpl.Builder(Cards.Kind.OvergrownEstate, 1, Type.Victory, Type.Shelter).description("When you trash this, +1 Card").expansion(Expansion.DarkAges).build());
+        nonSupplyCards.add(hovel = new CardImpl.Builder(Cards.Kind.Hovel, 1, Type.Reaction, Type.Shelter).description("When you buy a Victory card, you may trash this from your hand").expansion(Expansion.DarkAges).build());
 
         // Adventures
         actionCardsAdventures.add(amulet          = new CardImpl.Builder(Cards.Kind.Amulet, 3, Type.Action, Type.Duration).description("Now and at the start of your next turn, choose one: +1 Coin; or trash a card from your hand; or gain a Silver.").expansion(Expansion.Adventures).build());
@@ -992,17 +993,13 @@ public class Cards {
         for (Card card : eventCardsPromo)  		{ eventsCards.add(card); }
         
         for (Card card : landmarkCardsEmpires) { landmarkCards.add(card); }
-        
-        
+
+
         for (Card card : nonSupplyCards)        { nonKingdomCards.add(card); };
         for (Card card : prizeCards)            { nonKingdomCards.add(card); };
-        for (Card card : knightsCards)          { nonKingdomCards.add(card); };
-        for (Card card : ruinsCards)            { nonKingdomCards.add(card); };
-        for (Card card : castleCards)           { nonKingdomCards.add(card); };
-        for (Card card : variablePileCards)     { nonKingdomCards.add(card); };
         for (Card card : eventsCards)           { nonKingdomCards.add(card); };
         for (Card card : landmarkCards)         { nonKingdomCards.add(card); };
-        
+
 
         for (Card card : actionCards)       { cardNameToCard.put(card.getName(), card); }
         for (Card card : prizeCards)        { cardNameToCard.put(card.getName(), card); }

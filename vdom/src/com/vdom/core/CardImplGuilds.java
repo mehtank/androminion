@@ -350,7 +350,7 @@ public class CardImplGuilds extends CardImpl {
 
                 Card curseGained = player.gainNewCard(Cards.curse, this.controlCard, playerContext);
 
-                if (curseGained.equals(Cards.curse)) {
+                if (Cards.curse.equals(curseGained)) {
                     game.drawToHand(playerContext, this, 1);
                 }
             }
@@ -437,7 +437,7 @@ public class CardImplGuilds extends CardImpl {
                 		&& newCard.getCost(context) <= card.getCost(context) + 3
                 		&& newCard.getDebtCost(context) <= card.getDebtCost(context)
                 		&& (!newCard.costPotion() || card.costPotion())
-                		&& context.getCardsLeftInPile(newCard) > 0) {
+                		&& context.isCardOnTop(newCard)) {
                     currentPlayer.gainNewCard(newCard, this, context);
                 }
             }

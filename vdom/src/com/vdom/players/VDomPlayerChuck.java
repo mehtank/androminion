@@ -7,6 +7,7 @@ import com.vdom.api.Card;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
+import com.vdom.core.GetCardsInGameOptions;
 import com.vdom.core.MoveContext;
 import com.vdom.core.Type;
 
@@ -203,7 +204,7 @@ public class VDomPlayerChuck extends BasePlayer  {
         final ArrayList<Card> randList = new ArrayList<Card>();
 
         while (cost >= 0) {
-            for (final Card card : context.getCardsInGame()) {
+            for (final Card card : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
                 if (
                         card.getCost(context) != cost || 
                         !context.canBuy(card) || 

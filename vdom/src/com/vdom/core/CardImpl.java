@@ -474,7 +474,7 @@ public class CardImpl implements Card {
 
         //If it's a variable card pile, and it's not empty, return the cost of the top card
         if (this.isPlaceholderCard()) {
-            AbstractCardPile pile = context.game.getPile(this);
+            CardPile pile = context.game.getPile(this);
             if (!pile.isEmpty()) {
                 return context.game.getPile(this).topCard().getCost(context, buyPhase);
             }
@@ -990,14 +990,13 @@ public class CardImpl implements Card {
     
     protected void placeToken(MoveContext context, Card card, PlayerSupplyToken token) {
     	if (card == null) {
-    		Card[] cards = context.game.getActionsInGame();
+    		Card[] cards = context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true, Type.Action);
     		if (cards.length != 0) {
                 Util.playerError(context.getPlayer(), getName() + " error: did not pick a valid pile, ignoring.");
             }
             return;
     	}
-    	if (!context.game.cardInGame(card) ||
-    			!Cards.isSupplyCard(card)) {
+    	if (!Cards.isSupplyCard(card)) {
     		Util.playerError(context.getPlayer(), getName() + " error: Invalid pile chosen, ignoring");
     	}
     	
@@ -1285,7 +1284,7 @@ public class CardImpl implements Card {
 
     public PileCreator getPileCreator() {
         if (pileCreator == null) {
-            return new DefaultCardPileCreator();
+            return new DefaultPileCreator();
         } else {
             return this.pileCreator;
         }

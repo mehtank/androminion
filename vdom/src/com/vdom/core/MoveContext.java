@@ -305,7 +305,7 @@ public class MoveContext {
 
     public Card[] getBuyableCards() {
         ArrayList<Card> buyableCards = new ArrayList<Card>();
-        for (Card card : getCardsInGame()) {
+        for (Card card : getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
             if (canBuy(card)) {
                 buyableCards.add(card);
             }
@@ -442,29 +442,30 @@ public class MoveContext {
     }
 
     // Delegate Cards in play to game
-    public Card[] getCardsInGame() {
-        return game.getCardsInGame();
+
+    public Card[] getCardsInGame(GetCardsInGameOptions opt) {
+        return getCardsInGame(opt, false);
+    }
+    public Card[] getCardsInGame(GetCardsInGameOptions opt, boolean supplyOnly) {
+        return getCardsInGame(opt, supplyOnly, null);
+    }
+    public Card[] getCardsInGame(GetCardsInGameOptions opt, boolean supplyOnly, Type type) {
+        return game.getCardsInGame(opt, supplyOnly, type);
     }
 
     public boolean cardInGame(Card card) {
         return game.cardInGame(card);
     }
 
+    public boolean isCardOnTop(Card card) { return game.isCardOnTop(card); }
+
     public int getCardsLeftInPile(Card card) {
         return game.getCardsLeftInPile(card);
     }
 
-    public Card[] getTreasureCardsInGame() {
-        return game.getTreasureCardsInGame();
-    }
-
-    public Card[] getVictoryCardsInGame() {
-        return game.getVictoryCardsInGame();
-    }
-
     protected boolean isNewCardAvailable(int cost, int debt, boolean potion) {
-        for(Card c : getCardsInGame()) {
-            if(Cards.isSupplyCard(c)&& c.getCost(this) == cost && c.getDebtCost(this) == debt && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+        for(Card c : getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, null)) {
+            if(Cards.isSupplyCard(c)&& c.getCost(this) == cost && c.getDebtCost(this) == debt && c.costPotion() == potion && isCardOnTop(c)) {
                 return true;
             }
         }
@@ -474,8 +475,8 @@ public class MoveContext {
 
     protected Card[] getAvailableCards(int cost, boolean potion) {
         ArrayList<Card> cards = new ArrayList<Card>();
-        for(Card c : getCardsInGame()) {
-            if(Cards.isSupplyCard(c) && c.getCost(this) == cost && c.costPotion() == potion && getCardsLeftInPile(c) > 0) {
+        for(Card c : getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, null)) {
+            if(Cards.isSupplyCard(c) && c.getCost(this) == cost && c.costPotion() == potion && isCardOnTop(c)) {
                 cards.add(c);
             }
         }

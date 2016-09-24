@@ -170,9 +170,9 @@ public class CardImplDarkAges extends CardImpl {
             // otherwise this.controlCard choice should be bypassed.
             boolean attackCardAvailable = false;
 
-            for (Card c : context.game.getCardsInGame())
+            for (Card c : context.game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Attack))
             {
-                if (Cards.isSupplyCard(c) && c.is(Type.Attack, null) && context.game.getPile(c).getCount() > 0) {
+                if (context.game.getPile(c).getCount() > 0) {
                     attackCardAvailable = true;
                     break;
                 }
@@ -318,7 +318,7 @@ public class CardImplDarkAges extends CardImpl {
                 game.broadcastEvent(event);
                 this.startImpersonatingCard(cardToImpersonate.getTemplateCard().instantiate());
             } else {
-                Card[] cards = game.getActionsInGame();
+                Card[] cards = game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Action);
                 if (cards.length != 0 && cardToImpersonate != null) {
                     Util.playerError(currentPlayer, "Band of Misfits returned invalid card (" + cardToImpersonate.getName() + "), ignoring.");
                 }
@@ -714,7 +714,7 @@ public class CardImplDarkAges extends CardImpl {
         if (currentPlayer.playedCards.contains(this.controlCard)) {
             // Return to the Madman pile
             currentPlayer.playedCards.remove(this.controlCard);
-            SingleCardPile pile = (SingleCardPile) game.getPile(this.controlCard);
+            CardPile pile = game.getPile(this.controlCard);
             pile.addCard(this.controlCard);
 
             int handSize = currentPlayer.hand.size();
@@ -1080,7 +1080,7 @@ public class CardImplDarkAges extends CardImpl {
     
     private void spoils(Game game, Player currentPlayer) {
     	if (isInPlay(currentPlayer)) {
-    		AbstractCardPile pile = game.getPile(this);
+            CardPile pile = game.getPile(this);
             pile.addCard(currentPlayer.playedCards.remove(currentPlayer.playedCards.indexOf(this.getId())));
     	}
     }

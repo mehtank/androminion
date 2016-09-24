@@ -198,7 +198,7 @@ public class Util {
         Player player = context.getPlayer();
         log("");
 
-        Card[] cards = context.getCardsInGame();
+        Card[] cards = context.getCardsInGame(GetCardsInGameOptions.Placeholders, true);
         int cost = 0;
         while (cost < 10) {
             for (Card card : cards) {
@@ -457,6 +457,16 @@ public class Util {
             }
         }
 
+        return count;
+    }
+
+    public static int countCardsOfSamePile(Game game, ArrayList<Card> cards, Card card) {
+        int count = 0;
+        for (Card thisCard : cards) {
+            if (game.cardsInSamePile(thisCard, card)) {
+                count++;
+            }
+        }
         return count;
     }
     

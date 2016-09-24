@@ -115,7 +115,7 @@ public class CardImplAdventures extends CardImpl {
                 Card card = context.getPlayer().controlPlayer.messenger_cardToObtain(context);
                 if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
                 	Card cardGained = context.getPlayer().gainNewCard(card, this.controlCard, context);
-                	if (cardGained.equals(card)) {
+                	if (cardGained != null && cardGained.equals(card)) {
 	                    for (Player player : context.game.getPlayersInTurnOrder()) {
 	                        if (player != context.getPlayer()) {
 	                            player.gainNewCard(card, this.controlCard, new MoveContext(context.game, player));
@@ -447,8 +447,8 @@ public class CardImplAdventures extends CardImpl {
     private void hero(Game game, MoveContext context, Player currentPlayer)
     {
     	int numTreasuresAvailable = 0;
-    	for (Card treasureCard : context.getTreasureCardsInGame()) {
-    		if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0) {
+    	for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+    		if (Cards.isSupplyCard(treasureCard) && context.isCardOnTop(treasureCard)) {
     			numTreasuresAvailable++;
     		}
     	}
@@ -457,9 +457,9 @@ public class CardImplAdventures extends CardImpl {
     	
     	Card newCard = currentPlayer.controlPlayer.hero_treasureToObtain(context);
     	
-        if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && context.getCardsLeftInPile(newCard) > 0)) {
+        if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && context.isCardOnTop(newCard))) {
             Util.playerError(currentPlayer, "Hero treasure to obtain was invalid, picking random treasure from table.");
-            for (Card treasureCard : context.getTreasureCardsInGame()) {
+            for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
                 if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0) {
                     newCard = treasureCard;
                     break;
@@ -677,10 +677,8 @@ public class CardImplAdventures extends CardImpl {
 		//look to see if we have a free pile
 		int numFreePiles = 0;
 		Card lastFreePile = null;
-		for (Card c : game.getCardsInGame()) {
-			if (game.getPile(c).isSupply() 
-					&& c.is(Type.Action, null)
-					&& game.getPlayerSupplyTokens(c, currentPlayer).size() == 0) {
+		for (Card c : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles.Placeholders, true, Type.Action)) {
+			if (game.getPlayerSupplyTokens(c, currentPlayer).size() == 0) {
 				numFreePiles++;
 				lastFreePile = c;
 			}
@@ -732,7 +730,7 @@ public class CardImplAdventures extends CardImpl {
                 Util.playerError(currentPlayer, "Transmogrify error, new card does not cost value of the old card +1 or less.");
             } else if (game.isPileEmpty(card)) {
             	Util.playerError(currentPlayer, "Transmogrify error, new card pile is empty.");
-            } else if (!game.isCardInGame(card)) {
+            } else if (!game.isCardOnTop(card)) {
             	Util.playerError(currentPlayer, "Transmogrify error, new card not in game.");
             } else {
             	currentPlayer.gainNewCard(card, this.controlCard, context);

@@ -91,7 +91,7 @@ public class CardImplSeaside extends CardImpl {
             card = Util.randomCard(currentPlayer.hand);
         }
 
-        AbstractCardPile pile = game.getGamePile(card);
+        CardPile pile = game.getGamePile(card);
 
         currentPlayer.reveal(card, this.controlCard, context);
         //Util.log("Ambassador revealed card:" + origCard.getName());
@@ -160,10 +160,11 @@ public class CardImplSeaside extends CardImpl {
 	
     private void embargo(Game game, MoveContext context, Player currentPlayer) {
         Card card = currentPlayer.controlPlayer.embargo_supplyToEmbargo(context);
+
         while (game.addEmbargo(card) == null) {
             Util.playerError(currentPlayer, "Embargo error, adding embargo to random card.");
             while (true) {
-                card = Util.randomCard(context.getCardsInGame());
+                card = Util.randomCard(context.getCardsInGame(GetCardsInGameOptions.Placeholders, true));
                 if (game.isValidEmbargoPile(card)) break;
             }
         }

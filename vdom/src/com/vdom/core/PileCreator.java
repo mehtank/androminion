@@ -7,74 +7,85 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public abstract class PileCreator implements Serializable {
-    public abstract AbstractCardPile create(Card template, int count);
+    public abstract CardPile create(Card template, int count);
 }
 
-class DefaultCardPileCreator extends PileCreator {
-    public AbstractCardPile create(Card template, int count) {
-        return new SingleCardPile(template, count);
+class DefaultPileCreator extends PileCreator {
+    public CardPile create(Card template, int count) {
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
+        cards.add(new CardPile.CardMultiplicity(template, count));
+        return new CardPile(template, cards, true, true);
     }
 }
 
 class RuinsPileCreator extends PileCreator {
-    public AbstractCardPile create(Card template, int count) {
-
-        Map<Card, Integer> cards = new HashMap<Card, Integer>();
-
-        Random rand = new Random();
-        ArrayList<Integer> counts = new ArrayList<Integer>();
-
-        //Generate n-1 numbers between 0 and count
-        for (int i = 0; i < Cards.ruinsCards.size()-1; i++) {
-            counts.add(rand.nextInt(count));
-        }
-        // Add 0 and count. Then sort the list.
-        counts.add(0);
-        counts.add(count);
-        Collections.sort(counts);
-        //Then sort the list and use the adjacent numbers difference as counts for the particular ruins.
-        for (int i = 0; i < Cards.ruinsCards.size(); i++) {
-            cards.put(Cards.ruinsCards.get(i), counts.get(i+1) - counts.get(i));
+    public CardPile create(Card template, int count) {
+        Map<Card, Integer> cardShuffle = new HashMap<Card, Integer>();
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
+        for (Card ruin : Cards.ruinsCards) {
+            cardShuffle.put(ruin, 0);
         }
 
-        return new VariableCardPile(template, cards, false, false);
+        ArrayList<Card> ruins = new ArrayList<Card>();
+        for (int i = 0; i < 10; i++) {
+            ruins.add(Cards.abandonedMine);
+            ruins.add(Cards.ruinedLibrary);
+            ruins.add(Cards.ruinedMarket);
+            ruins.add(Cards.ruinedVillage);
+            ruins.add(Cards.survivors);
+        }
+        Collections.shuffle(ruins);
+
+        int i = 0;
+        for (Card c : ruins) {
+            cardShuffle.put(c, cardShuffle.get(c) + 1);
+            if (++i >= count) {
+                break;
+            }
+        }
+        for (Map.Entry<Card, Integer> entry : cardShuffle.entrySet()) {
+            cards.add(new CardPile.CardMultiplicity(entry.getKey(), entry.getValue()));
+        }
+        return new CardPile(template, cards, false, false);
     }
 }
 
 class KnightsPileCreator extends PileCreator {
 
-    public AbstractCardPile create(Card template, int count) {
-        Map<Card, Integer> cards = new HashMap<Card, Integer>();
+    public CardPile create(Card template, int count) {
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
         //Currently count is ignored because there should always be ten knights.
         for (Card c: Cards.knightsCards) {
-            cards.put(c, 1);
+            cards.add(new CardPile.CardMultiplicity(c, 1));
         }
-        return new VariableCardPile(template, cards, false, false);
+        return new CardPile(template, cards, false, false);
 
     }
 }
 
 class CastlesPileCreator extends PileCreator {
-    public AbstractCardPile create(Card template, int count) {
-        Map<Card, Integer> cards = new LinkedHashMap<Card, Integer>(); //LinkedHashMap preserves insertion order when iterating
+    public CardPile create(Card template, int count) {
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
         if (count != 8 && count != 12) {
             //TODO SPLITPILES What to do now?
             if (count < 8) count = 8;
             if (count > 8) count = 12;
         }
-        int multiCastles = (count == 8 ? 1 : 2);
-        boolean multi = true;
-        for (Card c: Cards.castleCards) {
-            cards.put(c, multi ? multiCastles : 1); //if there are 12 cards, add two for every second card (start at first)
-            multi = !multi;
-        }
 
-        return new VariableCardPile(template, cards, true, true);
+        cards.add(new CardPile.CardMultiplicity(Cards.humbleCastle,    count == 8 ? 1 : 2));
+        cards.add(new CardPile.CardMultiplicity(Cards.crumblingCastle, 1));
+        cards.add(new CardPile.CardMultiplicity(Cards.smallCastle,     count == 8 ? 1 : 2));
+        cards.add(new CardPile.CardMultiplicity(Cards.hauntedCastle,   1));
+        cards.add(new CardPile.CardMultiplicity(Cards.opulentCastle,   count == 8 ? 1 : 2));
+        cards.add(new CardPile.CardMultiplicity(Cards.sprawlingCastle, 1));
+        cards.add(new CardPile.CardMultiplicity(Cards.grandCastle,     1));
+        cards.add(new CardPile.CardMultiplicity(Cards.kingsCastle,     count == 8 ? 1 : 2));
 
+        return new CardPile(template, cards, true, true);
     }
 }
 
@@ -87,11 +98,11 @@ class SplitPileCreator extends PileCreator {
         this.bottomCard = bottomCard;
     }
 
-    public AbstractCardPile create(Card template, int count) {
-        Map<Card, Integer> cards = new LinkedHashMap<Card, Integer>();
-        cards.put(topCard, count / 2);
-        cards.put(bottomCard, count / 2 + (count % 2 == 1 ? 1 : 0)); //If count is not even put the extra card on bottom
-        return new VariableCardPile(template, cards, true, true);
+    public CardPile create(Card template, int count) {
+        List<CardPile.CardMultiplicity> cards = new ArrayList<CardPile.CardMultiplicity>();
+        cards.add(new CardPile.CardMultiplicity(topCard, count / 2));
+        cards.add(new CardPile.CardMultiplicity(bottomCard, count / 2 + (count % 2 == 1 ? 1 : 0))); //If count is not even put the extra card on bottom
+        return new CardPile(template, cards, true, true);
 
     }
 }

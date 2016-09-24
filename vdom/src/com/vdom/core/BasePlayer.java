@@ -176,7 +176,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             maxDebtCost = COST_MAX;
         }
         
-        Card[] cards = context.getCardsInGame();
+        Card[] cards = context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true);
         ArrayList<Card> cardListGood = new ArrayList<Card>();
         ArrayList<Card> cardListBad = new ArrayList<Card>();
         int maxPotionCost = potion ? 1 : 0;
@@ -195,12 +195,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || (except != null && card.equals(except))
                 || (card.is(Type.Knight, null) && !card.equals(Cards.virtualKnight)) /*choose only virtualKnight*/ //TODO SPLITPILES what here?
                 || !Cards.isSupplyCard(card)
-                || context.getCardsLeftInPile(card) == 0
+                || !context.isCardOnTop(card)
                 || (actionOnly && !(card.is(Type.Action))) 
                 || (!victoryCardAllowed && (card.is(Type.Victory)) && !card.equals(Cards.curse))
                 || (exactCost && (cardCost != maxCost || cardDebt != maxDebtCost || maxPotionCost != cardPotion))
                 || (cardCost > maxCost || cardDebt > maxDebtCost || cardPotion > maxPotionCost)
-                || (mustCostLessThanMax && (cardCost == maxCost || cardDebt == maxDebtCost || maxPotionCost == cardPotion))
+                || (mustCostLessThanMax && (cardCost == maxCost && cardDebt == maxDebtCost && maxPotionCost == cardPotion))
                 || (isBuy && !context.canBuy(card))
                 ) {
                 /*card not allowed*/
@@ -407,7 +407,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	protected ArrayList<Card> getAttackCardsLeft() {
 		ArrayList<Card> options = new ArrayList<Card>();
-		for (AbstractCardPile pile : game.piles.values()) {
+		for (CardPile pile : game.piles.values()) {
 			if (pile.getCount() > 0 && pile.topCard().is(Type.Attack, null)) {
 				options.add(pile.topCard());
 			}
@@ -620,8 +620,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
 
         HashSet<Integer> treasureCardValues = new HashSet<Integer>();
-        for (Card card : context.getTreasureCardsInGame()) {
-            if (Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0)
+        for (Card card : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+            if (Cards.isSupplyCard(card) && context.isCardOnTop(card))
                 treasureCardValues.add(card.getCost(context));
         }
 
@@ -645,8 +645,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card mine_treasureToObtain(MoveContext context, int cost, int maxDebtCost, boolean potion) {
         Card newCard = null;
         int newCost = -1;
-        for (Card card : context.getTreasureCardsInGame()) {
-            if (Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0 && card.getCost(context) <= cost && card.getCost(context) >= newCost && card.getDebtCost(context) <= maxDebtCost) {
+        for (Card card : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+            if (Cards.isSupplyCard(card) && context.isCardOnTop(card) && card.getCost(context) <= cost && card.getCost(context) >= newCost && card.getDebtCost(context) <= maxDebtCost) {
                 if (potion || (!potion && !card.costPotion())) {
                     newCard = (Card) card;
                     newCost = card.getCost(context);
@@ -825,10 +825,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card swindler_cardToSwitch(MoveContext context, int cost, int debtCost, boolean potion) {
-        Card[] cards = context.getCardsInGame();
+        Card[] cards = context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true);
         ArrayList<Card> changeList = new ArrayList<Card>();
         for (Card card : cards) {
-            if (Cards.isSupplyCard(card) && card.getCost(context) == cost && context.getCardsLeftInPile(card) > 0 && card.costPotion() == potion && card.getDebtCost(context) == debtCost) {
+            if (card.getCost(context) == cost && context.isCardOnTop(card) && card.costPotion() == potion && card.getDebtCost(context) == debtCost) {
                 changeList.add(card);
             }
         }
@@ -981,8 +981,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 continue;
             }
             
-            for(Card avail : context.getCardsInGame()) {
-                if(Cards.isSupplyCard(avail) && avail.getCost(context) == c.getCost(context) + 1 && context.getCardsLeftInPile(avail) > 0 && !avail.costPotion()) {
+            for(Card avail : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+                if(avail.getCost(context) == c.getCost(context) + 1 && context.isCardOnTop(avail) && !avail.costPotion()) {
                     return c;
                 }
             }
@@ -1098,7 +1098,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         // Find the most expensive card that is still 6 or less
         Card bestCard = null;
         for (Card card : context.getCardsObtainedByLastPlayer()) {
-            if (Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0 && card.getCost(context) < 7 && (card.getCost(context) < 6 || !card.costPotion())) {
+            if (Cards.isSupplyCard(card) && context.isCardOnTop(card) && card.getCost(context) < 7 && (card.getCost(context) < 6 || !card.costPotion()) && card.getDebtCost(context) <= 0) {
                 if (bestCard == null || card.getCost(context) > bestCard.getCost(context)) {
                     bestCard = card;
                 }
@@ -1256,7 +1256,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card embargo_supplyToEmbargo(MoveContext context) {
         // Embargo a random card
         Card card;
-        ArrayList<Card> cardList = new ArrayList<Card> (Arrays.asList(context.getCardsInGame()));
+        ArrayList<Card> cardList = new ArrayList<Card> (Arrays.asList(context.getCardsInGame(GetCardsInGameOptions.Placeholders, true)));
         do {
             card = cardList.remove(rand.nextInt(cardList.size() - 1));
         } while (!game.isValidEmbargoPile(card));
@@ -1328,7 +1328,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card university_actionCardToObtain(MoveContext context) {
         //TODO: better logic
-        return bestCardInPlay(context, 5, false, false, true, false, false);
+        return bestCardInPlay(context, 5, false, 0, false, true, true, false);
     }
 
     @Override
@@ -1635,10 +1635,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 ret.add(cardArray.remove(i));
             }
         }
-        
+
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             Card card = cardArray.get(i);
             if(card.equals(Cards.bank)) {
+                ret.add(cardArray.remove(i));
+            }
+        }
+
+        //TODO in some cases it's better to play some fortunes before bank (for example if hand is FFFFB, best play would be FFFBF)
+        for (int i = cardArray.size() - 1; i >= 0; i--) {
+            Card card = cardArray.get(i);
+            if(card.equals(Cards.fortune)) {
                 ret.add(cardArray.remove(i));
             }
         }
@@ -1739,7 +1747,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public TournamentOption tournament_chooseOption(MoveContext context) {
-        for(Card c : context.getCardsInGame()) {
+        for(Card c : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, false, Type.Prize)) {
             if(c.is(Type.Prize, null) && context.getPileSize(c) > 0) {
                 return TournamentOption.GainPrize;
             }
@@ -1749,7 +1757,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card tournament_choosePrize(MoveContext context) {
-        for(Card c : context.getCardsInGame()) {
+        for(Card c : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, false, Type.Prize)) {
             if(c.equals(Cards.followers) && context.getPileSize(c) > 0) {
                 return c;
             } else if(c.equals(Cards.trustySteed) && context.getPileSize(c) > 0) {
@@ -1867,7 +1875,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card getBestVictoryCard(MoveContext context) {
     	ArrayList<Card> cards = new ArrayList<Card>();
     	
-    	for (Card c : context.getVictoryCardsInGame()) {
+    	for (Card c : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Victory)) {
     		cards.add(c);
     	}
     	
@@ -2559,7 +2567,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	@Override
 	public Card rebuild_cardToGain(MoveContext context, int maxCost, int maxDebt, boolean costPotion) {
 		ArrayList<Card> cards = new ArrayList<Card>();
-		for (Card c: context.getVictoryCardsInGame()) {
+		for (Card c: context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Victory)) {
 			if (c.getCost(context) <= maxCost && c.getDebtCost(context) <= maxDebt && (!c.costPotion() || costPotion) && !game.isPileEmpty(c) && Cards.isSupplyCard(c)) {
 				cards.add(c);
 			}
@@ -2661,8 +2669,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 continue;
             }
             
-            for(Card avail : context.getCardsInGame()) {
-                if(Cards.isSupplyCard(avail) && avail.getCost(context) == c.getCost(context) + 1 && context.getCardsLeftInPile(avail) > 0 && !avail.costPotion()) {
+            for(Card avail : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+                if(avail.getCost(context) == c.getCost(context) + 1 && context.isCardOnTop(avail) && !avail.costPotion()) {
                     return c;
                 }
             }
@@ -2975,8 +2983,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         while (handCards.remove(Cards.spoils));
 
         HashSet<Integer> treasureCardValues = new HashSet<Integer>();
-        for (Card card : context.getTreasureCardsInGame()) {
-            if (Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0)
+        for (Card card : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+            if (Cards.isSupplyCard(card) && context.isCardOnTop(card))
                 treasureCardValues.add(card.getCost(context));
         }
 
@@ -2998,8 +3006,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card taxman_treasureToObtain(MoveContext context, int cost, int debt, boolean potion) {
         Card newCard = null;
-        for (Card card : context.getTreasureCardsInGame()) {
-            if (Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0 
+        for (Card card : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+            if (Cards.isSupplyCard(card) && context.isCardOnTop(card)
             		&& card.getCost(context) <= cost && card.getDebtCost(context) <= debt
             		&& (potion || !card.costPotion())) {
                 newCard = card;
@@ -3446,10 +3454,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		Card newCard = null;
         float highestUtility = -1;
         float potionUtility = 2.5f;
-        for (Card card : context.getTreasureCardsInGame()) {
+        for (Card card : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
         	float utility = card.getCost(context) + (card.costPotion() ? potionUtility : 0);
             if (Cards.isSupplyCard(card) 
-            		&& context.getCardsLeftInPile(card) > 0 
+            		&& context.isCardOnTop(card)
             		&& utility >= highestUtility) {
                 newCard = card;
                 highestUtility = utility;
@@ -3574,7 +3582,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	validTokens.add(PlayerSupplyToken.PlusOneBuy);
     	
     	for (PlayerSupplyToken token : validTokens) {
-    		for (Card c : context.game.getCardsInGame()) {
+    		for (Card c : context.game.getCardsInGame(GetCardsInGameOptions.Placeholders)) {
     			if (context.game.isPlayerSupplyTokenOnPile(c, context.getPlayer(), token))
     				unavailableTokens.add(token);
     		}
@@ -3588,12 +3596,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card teacher_actionCardPileToHaveToken(MoveContext context, PlayerSupplyToken token) {
     	// TODO: better logic based on token type and how many cards we have or want to have of the augmented card
-    	Card[] cards = context.game.getCardsInGame();
+    	Card[] cards = context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true, Type.Action);
 		Arrays.sort(cards, new Util.CardCostComparatorDesc()); 
     	for (Card c : cards) {
-    		if (c.is(Type.Action, null) && 
-    				Cards.isSupplyCard(c) && 
-    				game.getPlayerSupplyTokens(c, this).size() == 0)
+    		if (game.getPlayerSupplyTokens(c, this).size() == 0)
     			return c;
     	}
     	return null;
@@ -3630,7 +3636,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	//if not any, trash a curse, ruins or copper
     	if (hand.contains(Cards.curse)) return Cards.curse;
     	
-    	if (!context.game.isCardInGame(Cards.poorHouse)) {
+    	if (!context.game.cardInGame(Cards.poorHouse)) {
     		for (Card c : hand) {
         		if (c.is(Type.Ruins, context.getPlayer()))
         			return c;
@@ -3717,7 +3723,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	HashSet<Card> cardsToMatch = new HashSet<Card>();
     	for(int i = 0; i < 2; i++) {
     		for(Card card : (i==0 ? context.getPlayer().playedCards : context.getPlayer().nextTurnCards)) {
-    			if(Cards.isSupplyCard(card) && context.getCardsLeftInPile(card) > 0) {
+    			if(Cards.isSupplyCard(card) && context.isCardOnTop(card)) {
     				boolean good = true;
     				for(Card trash : getTrashCards()) {
     					if(card.equals(trash)) {
@@ -3834,7 +3840,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 				actionCards.add(c);
 			}
 		}
-    	actionCards.sort(new Util.CardCostComparator());
+        Collections.sort(actionCards, new Util.CardCostComparator());
     	if (actionCards.get(0).getCost(context) <= 6) {
     		return actionCards.get(0); 
     	}
@@ -4115,7 +4121,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || context.player.getInheritance() != null                          //player has inherited card
                 || context.player.getAllCards().contains(Cards.baron)               //player has baron
                 || context.player.getAllCards().contains(Cards.silkRoad)            //player has silkroad
-                || context.player.getAllCards().contains(Cards.gardens);            //player has garden
+                || context.player.getAllCards().contains(Cards.gardens)             //player has garden
+                || context.player.getAllCards().contains(Cards.opulentCastle);      //player has opulent castle
         if (getEstates) return HuntingGroundsOption.GainEstates;
         return HuntingGroundsOption.GainDuchy;
     }
@@ -4155,7 +4162,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		// TODO: provide more situational logic
 		// Tax a random card
         Card card;
-        ArrayList<Card> cardList = new ArrayList<Card> (Arrays.asList(context.getCardsInGame()));
+        ArrayList<Card> cardList = new ArrayList<Card> (Arrays.asList(context.getCardsInGame(GetCardsInGameOptions.Placeholders, true)));
         do {
             card = cardList.remove(rand.nextInt(cardList.size() - 1));
         } while (!game.isValidEmbargoPile(card));

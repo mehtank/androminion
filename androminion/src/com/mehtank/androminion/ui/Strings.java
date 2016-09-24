@@ -1490,7 +1490,6 @@ public class Strings {
             getCardName(Cards.pilgrimage),
             getCardName(Cards.seaway),
             /*Empires*/
-            getCardName(Cards.catapult),
             getCardName(Cards.charm),
             getCardName(Cards.engineer),
             getCardName(Cards.forum),
@@ -1719,10 +1718,41 @@ public class Strings {
 
         // display victory cards from sets
 
+
+        boolean hasCastle = false;
         for(Card card : totals.keySet()) {
             if(Cards.isKingdomCard(card)) {
-                sb.append(Strings.getCardText(counts, totals, card));
+                if (!card.is(Type.Castle)) {
+                    sb.append("  " + Strings.getCardText(counts, totals, card));
+                } else {
+                    hasCastle = true;
+                }
             }
+        }
+
+        //Add the castles separately so they are ordered.
+        if (hasCastle) {
+            StringBuilder castleDetails = new StringBuilder();
+            int castleTotals = 0;
+            int castleVpCount = 0;
+            for (Card card : Cards.castleCards) {
+                if (totals.containsKey(card)) {
+                    if (counts.get(card) > 0) {
+                        castleDetails.append("\t" + Strings.getCardText(counts, totals, card));
+                        castleVpCount += totals.get(card);
+                        castleTotals += counts.get(card);
+                    }
+                }
+            }
+
+            //Add Castle Total count and VP summary
+            Map<Object, Integer> castlecnt = new HashMap<Object, Integer>();
+            Map<Card, Integer> castletot = new HashMap<Card, Integer>();
+            castlecnt.put(Cards.virtualCastle, castleTotals);
+            castletot.put(Cards.virtualCastle, castleVpCount);
+            sb.append(Strings.getCardText(castlecnt, castletot, Cards.virtualCastle));
+
+            sb.append(castleDetails);
         }
 
         sb.append(Strings.getCardText(counts, totals, Cards.curse));
