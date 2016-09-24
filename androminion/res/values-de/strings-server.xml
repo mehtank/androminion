@@ -492,4 +492,7 @@
 	<string name="stash_x_cards_down">%1$s Karten tiefer</string>
 	<string name="stash_after_cards_to_draw">Nachdem Karten gezogen wurden (%1$s)</string>
 	<string name="stash_more_options">Anders</string>
+	
+	<string name="sauna_play_avanto">Spiele Eisloch aus deiner Hand</string>
+  	<string name="avanto_play_sauna">Spiele Sauna aus deiner Hand</string>
 </resources>

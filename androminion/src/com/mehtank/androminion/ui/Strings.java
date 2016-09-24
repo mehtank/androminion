@@ -1189,6 +1189,12 @@ public class Strings {
         } else if ( cardName.equals(getCardName(Cards.sprawlingCastle))) {
             strings[1] = getString(R.string.sprawlingcastle_gain_duchy);
             strings[2] = getString(R.string.sprawlingcastle_gain_estates);
+        } else if (cardName.equals(getCardName(Cards.sauna))) {
+            strings[1] = getString(R.string.sauna_play_avanto);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.avanto))) {
+            strings[1] = getString(R.string.avanto_play_sauna);
+            strings[2] = getString(R.string.pass);
         }
         if (strings[1] != null) {
             return strings;
@@ -1500,6 +1506,8 @@ public class Strings {
             getCardName(Cards.saltTheEarth),
             /*Empires Landmarks*/
             getCardName(Cards.arena),
+            /*Promo*/
+            getCardName(Cards.sauna),
             /*Promo Events*/
             getCardName(Cards.summon)
             

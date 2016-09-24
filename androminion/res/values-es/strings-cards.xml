@@ -764,6 +764,14 @@
     <string name="BlackMarket_desc">Revela las 3 cartas superiores del mazo de Mercado Negro. Puedes comprar una de ellas inmediatamente. Coloca las cartas no compradas en la parte de abajo del mazo en cualquier orden.\n(Antes de comenzar el juego, forma un mazo de Mercado Negro con una copia de cada carta de Reino que no esté en el Suministro.)</string>
     <string name="Stash_name">Alijo</string>
     <string name="Stash_desc">Al barajar, puedes colocar esta carta en cualquier posición de tu mazo.</string>
+    <string name="Sauna_name">Sauna</string>
+    <string name="Sauna_desc">Puedes jugar una carta de Avanto de tu mano. - Mientras esta carta esté en juego, cuando juegues una carta de Plata, puedes eliminar una carta de tu mano.</string>
+    <string name="Avanto_name">Avanto</string>
+    <string name="Avanto_desc">Puedes jugar una carta de Sauna de tu mano.</string>
+    
+    <string name="SaunaAvanto_name">Sauna/Avanto</string>
+    <string name="SaunaAvanto_desc">Al comienzo del juego, este montón tiene 5 copias de Sauna encima, y entonces 5 copias de Avanto. Sólo la carta encima del montón se puede ganar o comprar.</string>
+    
     <string name="Summon_name">Convocar</string>
     <string name="Summon_desc">Ganas una carta de Acción con un coste máximo de 4 Monedas. Apártala. Si lo haces, al comienzo de tu próximo turno, juégala.</string>
 </resources>

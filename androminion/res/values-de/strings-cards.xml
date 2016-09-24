@@ -608,6 +608,14 @@
     <string name="BlackMarket_desc">Decke die obersten 3 Karten vom Schwarzmarkt-Stapel auf. Du darfst sofort eine der aufgedeckten Karten kaufen. Lege die nicht gekauften Karten in beliebiger Reihenfolge unter den Schwarzmarkt-Stapel zurück.\nSpielvorbereitung: Vor Spielbeginn wird ein Schwarzmarkt-Stapel gebildet. Dieser enthält jeweils eine Karte aller Königreichkarten, die nicht im Vorrat sind.</string>
     <string name="Stash_name">Geldversteck</string>
     <string name="Stash_desc">Nachdem du deinen Ablagestapel gemischt hast, darfst du diese Karte an eine beliebige Stelle in deinen Nachziehstapel einsortieren.</string>
+    <string name="Sauna_name">Sauna</string>
+    <string name="Sauna_desc">Du darfst ein Eisloch aus deiner Hand ausspielen. - Solange diese Karte im Spiel ist: Wenn du ein Silber ausspielst, darfst du eine Handkarte entsorgen.</string>
+    <string name="Avanto_name">Eisloch</string>
+    <string name="Avanto_desc">Du darfst eine Sauna aus diener Hand ausspielen.</string>
+    
+    <string name="SaunaAvanto_name">Sauna/Eisloch</string>
+    <string name="SaunaAvanto_desc">Spielvorbereitung: Legt auf diese Karte 5 Eisloch und oben darauf 5 Sauna. Es darf immer nur die oberste Karte des Stapels genommen oder gekauft werden.</string>
+    
     <string name="Summon_name">Einladung</string>
     <string name="Summon_desc">Nimm eine Aktionskarte, die bis zu 4 Geld kostet und lege sie zur Seite. Spiele sie zu Beginn deines nächsten Zuges.</string>
 </resources>

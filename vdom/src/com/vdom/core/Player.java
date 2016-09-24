@@ -757,12 +757,11 @@ public abstract class Player {
 
         // seed counts with all victory cards in play
         for (CardPile pile : this.game.piles.values()) {
-            for (Card cardInPile : pile.getTemplateCards()) {
-
-                if (cardInPile.is(Type.Victory, this) || cardInPile.is(Type.Curse, this)) {
-                    cardCounts.put(cardInPile, 0);
+        	for(Card card : pile.getTemplateCards()) {
+        		if(card.is(Type.Victory, this) || card.is(Type.Curse, this)) {
+                    cardCounts.put(card, 0);
                 }
-            }
+        	}
         }
 
         for(Card card : this.getAllCards()) {
@@ -2180,6 +2179,12 @@ public abstract class Player {
     public abstract Card envoy_cardToDiscard(MoveContext context, Card[] revealedCards);
     
     public abstract int stash_chooseDeckPosition(MoveContext context, Card responsible, int deckSize, int numStashes, int cardsToDraw);
+    
+    public abstract boolean sauna_shouldPlayAvanto(MoveContext context);
+    
+    public abstract Card sauna_cardToTrash(MoveContext context);
+    
+    public abstract boolean avanto_shouldPlaySauna(MoveContext context);
     
     public abstract boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array);
 
