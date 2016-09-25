@@ -1478,6 +1478,18 @@ public abstract class Player {
         context.game.broadcastEvent(event);
     }
 
+    public static enum CourtierOption {
+        AddAction,
+        AddBuy,
+        AddCoins,
+        GainGold
+    }
+
+    public static enum LurkerOption {
+        TrashActionFromSupply,
+        GainFromTrash
+    }
+
     public static enum NoblesOption {
         AddCards,
         AddActions
@@ -1729,7 +1741,15 @@ public abstract class Player {
 
     public abstract Card saboteur_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
-    public abstract Card[] scout_orderCards(MoveContext context, Card[] cards);
+    public abstract Card[] scoutPatrol_orderCards(MoveContext context, Card[] cards);
+
+    public abstract Card replace_cardToTrash(MoveContext context);
+
+    public abstract Card replace_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
+
+    public abstract Card secretPassage_cardToPutInDeck(MoveContext context);
+
+    public abstract int secretPassage_positionToPutCard(MoveContext context, Card card);
 
     public abstract Card[] mandarin_orderCards(MoveContext context, Card[] cards);
 
@@ -1747,6 +1767,20 @@ public abstract class Player {
     public abstract MinionOption minion_chooseOption(MoveContext context);
 
     public abstract Card[] secretChamber_cardsToPutOnDeck(MoveContext context);
+
+    public abstract Card courtier_cardToReveal(MoveContext context);
+
+    public abstract CourtierOption[] courtier_chooseOptions(MoveContext context, int numOptions);
+
+    public abstract Card[] diplomat_cardsToDiscard(MoveContext context);
+
+    public abstract LurkerOption lurker_selectChoice(MoveContext context);
+
+    public abstract Card lurker_cardToTrash(MoveContext context);
+
+    public abstract Card lurker_cardToGainFromTrash(MoveContext context);
+
+    public abstract Card[] mill_cardsToDiscard(MoveContext context);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Seaside

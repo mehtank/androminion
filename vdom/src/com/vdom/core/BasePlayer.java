@@ -447,6 +447,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             } else if (   a.equals(Cards.horseTraders)
             		   || a.equals(Cards.beggar)
             		   || a.equals(Cards.caravanGuard)
+                       || a.equals(Cards.diplomat) && getHand().size() >= 5
             		  ) {
                 reactionCards.add(c);
             }
@@ -929,8 +930,70 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card[] scout_orderCards(MoveContext context, Card[] cards) {
+    public Card[] scoutPatrol_orderCards(MoveContext context, Card[] cards) {
         return cards;
+    }
+
+    @Override
+    public Card replace_cardToTrash(MoveContext context) {
+        return controlPlayer.remodel_cardToTrash(context);
+    }
+
+    @Override
+    public Card replace_cardToObtain(MoveContext context, int exactCost, int debt, boolean potion) {
+        return bestCardInPlay(context, exactCost, true, debt, potion, true);
+    }
+
+    @Override
+    public Card secretPassage_cardToPutInDeck(MoveContext context) {
+        return lowestCard(context,context.getPlayer().getHand(), true); //TODO make some smart choice here
+    }
+
+    @Override
+    public int secretPassage_positionToPutCard(MoveContext context, Card card) {
+        return 0;
+    }
+
+    @Override
+    public LurkerOption lurker_selectChoice(MoveContext context) {
+        boolean trashContainsValidCard = false;
+
+        for (Card c : context.game.trashPile) {
+            if (c.is(Type.Action) && !c.is(Type.Shelter) && !c.is(Type.Ruins)) {
+                trashContainsValidCard = true;
+                break;
+            }
+        }
+
+        if (trashContainsValidCard) {
+            return LurkerOption.GainFromTrash;
+        } else {
+            return LurkerOption.TrashActionFromSupply;
+        }
+    }
+
+    @Override
+    public Card lurker_cardToTrash(MoveContext context) {
+        return bestCardInPlay(context, Integer.MAX_VALUE, false, true, true, true, true);
+    }
+
+    @Override
+    public Card lurker_cardToGainFromTrash(MoveContext context) {
+        ArrayList<Card> good_options = new ArrayList<Card>();
+        ArrayList<Card> bad_options = new ArrayList<Card>();
+        for (Card c : game.trashPile) {
+            if (c.is(Type.Action)) {
+                if (c.is(Type.Shelter) || c.is(Type.Ruins)) {
+                    bad_options.add(c);
+                } else {
+                    good_options.add(c);
+                }
+
+            }
+        }
+        if (good_options.size() > 0) return Util.randomCard(good_options);
+        if (bad_options.size() > 0) return Util.randomCard(bad_options);
+        return null;
     }
 
     @Override
@@ -1014,6 +1077,52 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return Player.MinionOption.RolloverCards;
         }
         return Player.MinionOption.AddGold;
+    }
+
+
+    @Override
+    public Card courtier_cardToReveal(MoveContext context) {
+        int maxTypes = 0;
+        Card cardToReveal = null;
+        for (Card card : context.getPlayer().getHand()) {
+            if (card.getNumberOfTypes(context.getPlayer()) > maxTypes) {
+                maxTypes = card.getNumberOfTypes(context.getPlayer());
+                cardToReveal = card;
+            }
+        }
+        return cardToReveal;
+    }
+
+    @Override
+    public CourtierOption[] courtier_chooseOptions(MoveContext context, int numOptions) {
+        if (numOptions <= 0) return null;
+        if (numOptions >= 4) return CourtierOption.values();
+
+        CourtierOption[] ret = new CourtierOption[numOptions];
+        List<CourtierOption> options = new ArrayList<CourtierOption>(Arrays.asList(CourtierOption.values()));
+        for (int i = 0; i < numOptions; i++) {
+            ret[i] = options.remove(rand.nextInt(options.size()));
+        }
+
+        return ret;
+    }
+
+    @Override
+    public Card[] diplomat_cardsToDiscard(MoveContext context) {
+        return lowestCards(context, context.player.getHand(), 3, true);
+    }
+
+    @Override
+    public Card[] mill_cardsToDiscard(MoveContext context) {
+        Card[] cards = lowestCards(context, context.player.getHand(), 2, true);
+        if (cards.length != 2) return null;
+
+        //Only discard two cards if they aren't worth more money than 2 coins.
+        int numCoins = 0;
+        numCoins += context.getActionsLeft() > 0 && cards[0].is(Type.Action) || cards[0].is(Type.Treasure) ? cards[0].getAddGold() : 0;
+        numCoins += context.getActionsLeft() > 0 && cards[1].is(Type.Action) || cards[1].is(Type.Treasure) ? cards[1].getAddGold() : 0;
+
+        return numCoins < 2 ? cards : null;
     }
 
     // ////////////////////////////////////////////

@@ -463,6 +463,13 @@ public class CardImpl implements Card {
     	return player.getInheritance().is(t) || this.is(t);
     }
 
+    public int getNumberOfTypes(Player player) {
+        if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
+            return types.length;
+        }
+        return player.getInheritance().getNumberOfTypes(player);
+    }
+
     public int getCost(MoveContext context) {
         if (context == null)
             return cost;

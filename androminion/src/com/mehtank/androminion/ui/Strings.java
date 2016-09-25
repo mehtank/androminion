@@ -47,6 +47,8 @@ import com.vdom.core.Player.TrustySteedOption;
 import com.vdom.core.Player.WatchTowerOption;
 import com.vdom.core.Player.WildHuntOption;
 import com.vdom.core.PlayerSupplyToken;
+import com.vdom.core.Player.CourtierOption;
+import com.vdom.core.Player.LurkerOption;
 import com.vdom.core.Type;
 
 public class Strings {
@@ -588,6 +590,15 @@ public class Strings {
         	}
         	return strings;
         }
+
+        if (card != null && card.equals(Cards.secretPassage)) {
+            if (strings.length > 0) strings[0] = getString(R.string.stash_on_top);
+            for (int i = 1; i < strings.length - 1; ++i) {
+                strings[i] = format(i == 1 ? R.string.stash_1_card_down : R.string.stash_x_cards_down, i);
+            }
+            if (strings.length > 1) strings[strings.length-1] = getString(R.string.stash_on_bottom);
+            return strings;
+        }
         
         if (card != null && getCardName(card).equals(getCardName(Cards.mountainPass))) {
         	strings[0] = getString(R.string.pass);
@@ -663,6 +674,8 @@ public class Strings {
             return 1;
         } else if (cardName.equals(getCardName(Cards.annex))) {
             return 1;
+        } else if (cardName.equals(getCardName(Cards.secretPassage))) {
+            return 1;
         }
         return 0;
     }
@@ -698,6 +711,8 @@ public class Strings {
         String cardName = getCardName(card);
         if (cardName.equals(getCardName(Cards.advisor))) {
             return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
+        } else if (cardName.equals(getCardName(Cards.secretPassage))) {
+            return format(R.string.secretPassage_query, getCardName((Card)extras[0]));
         } else if (cardName.equals(getCardName(Cards.ambassador))) {
             return format(R.string.ambassador_query, getCardName((Card)extras[0]));
         } else if (cardName.equals(getCardName(Cards.cartographer))) {
@@ -985,6 +1000,22 @@ public class Strings {
                 return getCardName(Cards.treasury);
             } else if (option == PutBackOption.WalledVillage) {
                 return getCardName(Cards.walledVillage);
+            }
+        } else if (option instanceof CourtierOption) {
+            if (option == CourtierOption.AddAction) {
+                return getString(R.string.courtier_option_add_action);
+            } else if (option == CourtierOption.AddBuy) {
+                return getString(R.string.courtier_option_add_buy);
+            } else if (option == CourtierOption.AddCoins) {
+                return getString(R.string.courtier_option_add_coins);
+            } else if (option == CourtierOption.GainGold) {
+                return getString(R.string.courtier_option_gain_gold);
+            }
+        } else if (option instanceof LurkerOption) {
+            if (option == LurkerOption.GainFromTrash) {
+                return getString(R.string.lurker_gainFromTrash);
+            } else if (option == LurkerOption.TrashActionFromSupply) {
+                return getString(R.string.lurker_trashActionFromSupply);
             }
         } else if (option instanceof Card) {
             return getCardName((Card) option);
@@ -1430,6 +1461,7 @@ public class Strings {
             getCardName(Cards.dameNatalie),
             getCardName(Cards.deathCart),
             getCardName(Cards.develop),
+            getCardName(Cards.diplomat),
             getCardName(Cards.doctor),
             getCardName(Cards.embassy),
             getCardName(Cards.expand),
@@ -1449,6 +1481,7 @@ public class Strings {
             getCardName(Cards.journeyman),
             getCardName(Cards.junkDealer),
             getCardName(Cards.messenger),
+            getCardName(Cards.mill),
             getCardName(Cards.oasis),
             getCardName(Cards.plaza),
             getCardName(Cards.quest),
@@ -1456,6 +1489,7 @@ public class Strings {
             getCardName(Cards.rebuild),
             getCardName(Cards.remake),
             getCardName(Cards.remodel),
+            getCardName(Cards.replace),
             getCardName(Cards.salvager),
             /* secretChamber isn't simple, causes error in getActionString() */
             getCardName(Cards.spiceMerchant),
@@ -1587,6 +1621,12 @@ public class Strings {
             } else {
                 return getActionString(sco);
             }
+        } else if (cardName.equals(getCardName(Cards.courtier))) {
+            return getString(R.string.courtier_ask_reveal);
+        } else if (cardName.equals(getCardName(Cards.secretPassage))) {
+            return getString(R.string.secretPassage_cardToPutInDeck);
+        } else if (cardName.equals(getCardName(Cards.lurker))) {
+            return getString(R.string.lurker_cardToTrashFromSupply);
         } else if (cardName.equals(getCardName(Cards.bishop))) {
             if (sco.actionType == ActionType.TRASH) {
                 return getActionString(sco);
