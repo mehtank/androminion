@@ -2526,7 +2526,7 @@ public class Game {
                     blackMarket = true;
                     cardName = cardName.substring(BLACKMARKET.length());
                 }
-                String s = cardName.replace("/", "");
+                String s = cardName.replace("/", "").replace(" ", "");
                 for (Card c : Cards.actionCards) {
                     if(c.getSafeName().equalsIgnoreCase(s)) {
                         card = c;
