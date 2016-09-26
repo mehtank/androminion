@@ -955,7 +955,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public LurkerOption lurker_selectChoice(MoveContext context) {
+    public LurkerOption lurker_selectChoice(MoveContext context, LurkerOption[] options) {
         boolean trashContainsValidCard = false;
 
         for (Card c : context.game.trashPile) {
@@ -1094,14 +1094,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public CourtierOption[] courtier_chooseOptions(MoveContext context, int numOptions) {
+    public CourtierOption[] courtier_chooseOptions(MoveContext context, CourtierOption[] options, int numOptions) {
         if (numOptions <= 0) return null;
         if (numOptions >= 4) return CourtierOption.values();
 
         CourtierOption[] ret = new CourtierOption[numOptions];
-        List<CourtierOption> options = new ArrayList<CourtierOption>(Arrays.asList(CourtierOption.values()));
+        List<CourtierOption> optionList = new ArrayList<CourtierOption>(Arrays.asList(CourtierOption.values()));
         for (int i = 0; i < numOptions; i++) {
-            ret[i] = options.remove(rand.nextInt(options.size()));
+            ret[i] = optionList.remove(rand.nextInt(optionList.size()));
         }
 
         return ret;

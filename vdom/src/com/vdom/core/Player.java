@@ -1770,11 +1770,11 @@ public abstract class Player {
 
     public abstract Card courtier_cardToReveal(MoveContext context);
 
-    public abstract CourtierOption[] courtier_chooseOptions(MoveContext context, int numOptions);
+    public abstract CourtierOption[] courtier_chooseOptions(MoveContext context, CourtierOption[] options, int numOptions);
 
     public abstract Card[] diplomat_cardsToDiscard(MoveContext context);
 
-    public abstract LurkerOption lurker_selectChoice(MoveContext context);
+    public abstract LurkerOption lurker_selectChoice(MoveContext context, LurkerOption[] options);
 
     public abstract Card lurker_cardToTrash(MoveContext context);
 

@@ -114,5 +114,7 @@ public interface Card extends Serializable {
 
     public PileCreator getPileCreator();
 
+    public Type[] getTypes();
+
     //public void isGained(MoveContext context);
 }

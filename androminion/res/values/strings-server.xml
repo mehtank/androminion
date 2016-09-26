@@ -395,7 +395,7 @@
 
 	<string name="courtier_option_add_action">+1 Action</string>
 	<string name="courtier_option_add_buy">+1 Buy</string>
-	<string name="courtier_option_add_coins">+3 Coins</string>
+	<string name="courtier_option_add_coins">+(3) Coins</string>
 	<string name="courtier_option_gain_gold">Gain Gold</string>
 	<string name="lurker_gainFromTrash">Gain an Action card from the trash</string>
 	<string name="lurker_trashActionFromSupply">Trash an Action card from the Supply</string>

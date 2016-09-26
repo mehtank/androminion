@@ -454,7 +454,7 @@ public class Util {
                 }
 
                 for (int i = cards.length - 1; i >= 0; i--) {
-                    player.putOnTopOfDeck(cards[i]);
+                    player.discard(cards[i], reactionCard.getControlCard(), context);
                     player.hand.remove(cards[i]);
                 }
             }

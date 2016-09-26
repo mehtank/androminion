@@ -668,12 +668,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public LurkerOption lurker_selectChoice(MoveContext context) {
-        if(context.isQuickPlay() && shouldAutoPlay_lurker_selectChoice(context)) {
-            return super.lurker_selectChoice(context);
+    public LurkerOption lurker_selectChoice(MoveContext context, LurkerOption[] options) {
+        if(context.isQuickPlay() && shouldAutoPlay_lurker_selectChoice(context, options)) {
+            return super.lurker_selectChoice(context, options);
         }
-
-        LurkerOption[] options = LurkerOption.values();
         return options[selectOption(context, Cards.lurker, options)];
     }
 
@@ -856,20 +854,20 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public CourtierOption[] courtier_chooseOptions(MoveContext context, int numOptions) {
+    public CourtierOption[] courtier_chooseOptions(MoveContext context,  CourtierOption[] options, int numOptions) {
         if (numOptions <= 0) return null;
         if (numOptions >= 4) return CourtierOption.values();
 
-        if(context.isQuickPlay() && shouldAutoPlay_courtier_chooseOptions(context, numOptions)) {
-            return super.courtier_chooseOptions(context, numOptions);
+        if(context.isQuickPlay() && shouldAutoPlay_courtier_chooseOptions(context, options, numOptions)) {
+            return super.courtier_chooseOptions(context, options, numOptions);
         }
 
         CourtierOption[] ret = new CourtierOption[numOptions];
-        List<CourtierOption> options = new ArrayList<CourtierOption>(Arrays.asList(CourtierOption.values()));
+        List<CourtierOption> optionList = new ArrayList<CourtierOption>(Arrays.asList(CourtierOption.values()));
 
         for (int i = 0; i < numOptions; i++) {
-            int choice = selectOption(context, Cards.courtier, options.toArray());
-            ret[i] = options.remove(choice);
+            int choice = selectOption(context, Cards.courtier, optionList.toArray());
+            ret[i] = optionList.remove(choice);
         }
         return ret;
     }

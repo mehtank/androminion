@@ -152,9 +152,18 @@ public class CardImplIntrigue extends CardImpl {
             card = Util.randomCard(currentPlayer.hand);
         }
 
+        currentPlayer.reveal(card, this.controlCard, context);
+
         int numTypes = card.getNumberOfTypes(currentPlayer);
         if (numTypes > 0) {
-            CourtierOption[] options = currentPlayer.controlPlayer.courtier_chooseOptions(context, numTypes);
+            CourtierOption[] options = null;
+
+            if (numTypes >= 4) {
+                options = CourtierOption.values();
+            } else {
+                options = currentPlayer.controlPlayer.courtier_chooseOptions(context, CourtierOption.values(), numTypes);
+            }
+
             if (options == null || options.length != numTypes /*TODO CHECK THAT THERE ARE NO DUPLICATES */) {
                 Util.playerError(currentPlayer, "Courtier Erro, Ignoring");
 
@@ -218,7 +227,7 @@ public class CardImplIntrigue extends CardImpl {
     }
 
     private void lurker(Game game, MoveContext context, Player currentPlayer) {
-        Player.LurkerOption option = currentPlayer.controlPlayer.lurker_selectChoice(context);
+        Player.LurkerOption option = currentPlayer.controlPlayer.lurker_selectChoice(context, Player.LurkerOption.values());
         if (option == null) {
             Util.playerError(currentPlayer, "Lurker option error, choosing automatically");
             option = Player.LurkerOption.GainFromTrash;
@@ -316,12 +325,12 @@ public class CardImplIntrigue extends CardImpl {
     }
 
     private void mill(Game game, MoveContext context, Player currentPlayer) {
-        if (currentPlayer.getHand().size() <= 1) {
+        if (currentPlayer.getHand().size() == 0) {
             return;
         }
         ArrayList<Card> handCopy = Util.copy(currentPlayer.getHand());
         Card[] cardsToDiscard = currentPlayer.controlPlayer.mill_cardsToDiscard(context);
-        if (cardsToDiscard == null || cardsToDiscard.length != 2) {
+        if (cardsToDiscard == null || !(cardsToDiscard.length == 2 || cardsToDiscard.length == 1 && currentPlayer.getHand().size() == 1)) {
             return;
         }
 
@@ -333,10 +342,13 @@ public class CardImplIntrigue extends CardImpl {
         }
 
         for (Card card : cardsToDiscard) {
-            currentPlayer.discard(card, this.controlCard, null);
+
+            currentPlayer.discard(card, this.controlCard, context);
             currentPlayer.hand.remove(card);
         }
-        context.addCoins(2, this.controlCard);
+        if (cardsToDiscard.length == 2) {
+            context.addCoins(2, this.controlCard);
+        }
     }
 
     private void miningVillage(MoveContext context, Player currentPlayer) {
@@ -437,14 +449,15 @@ public class CardImplIntrigue extends CardImpl {
 
         Card cardToTrash = currentPlayer.controlPlayer.replace_cardToTrash(context);
 
-        if (cardToTrash == null) {
-            Util.playerError(currentPlayer, "Remodel did not return a card to trash, trashing random card.");
+        if (cardToTrash == null || !currentPlayer.inHand(cardToTrash)) {
+            Util.playerError(currentPlayer, "Replace did not return a card to trash, trashing random card.");
             cardToTrash = Util.randomCard(currentPlayer.getHand());
         }
 
         int cost = -1;
         int debt = -1;
         boolean potion = false;
+
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card playersCard = currentPlayer.hand.get(i);
             if (playersCard.equals(cardToTrash)) {
@@ -459,7 +472,7 @@ public class CardImplIntrigue extends CardImpl {
         }
 
         if (cost == -1) {
-            Util.playerError(currentPlayer, "Replace returned invalid card, ignoring.");
+            Util.playerError(currentPlayer, "");
             return;
         }
 
@@ -486,7 +499,7 @@ public class CardImplIntrigue extends CardImpl {
 
         if (cardOk) {
             Card gained = currentPlayer.gainNewCard(card, this.controlCard, context);
-            if (gained != null) {
+            if (gained != null && gained.equals(card)) {
                 if (gained.is(Type.Victory)) { //Topdecking if it's an Action or Treasure is already handled in the gameEvent handler
                     for (Player player : playersToAttack) {
                         MoveContext playerContext = new MoveContext(game, player);

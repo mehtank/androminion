@@ -133,11 +133,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     public boolean shouldAutoPlay_courtier_cardToReveal(MoveContext context) { return true; }
 
-    public boolean shouldAutoPlay_courtier_chooseOptions(MoveContext context, int numberOfChoices) { return false; }
+    public boolean shouldAutoPlay_courtier_chooseOptions(MoveContext context, CourtierOption[] options, int numberOfChoices) { return false; }
 
     public boolean shouldAutoPlay_diplomat_cardsToDiscard(MoveContext context) { return true; }
 
-    public boolean shouldAutoPlay_lurker_selectChoice(MoveContext context) {return false; }
+    public boolean shouldAutoPlay_lurker_selectChoice(MoveContext context, LurkerOption[] options) {return false; }
 
     public boolean shouldAutoPlay_lurker_cardToTrash(MoveContext context) {return false; }
 
