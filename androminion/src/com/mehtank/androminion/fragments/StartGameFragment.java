@@ -127,9 +127,13 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mRandomEventsSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomEvents);
         mRandomLandmarksLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomLandmarks);
         mRandomLandmarksSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomLandmarks);
+        
+        //Init prefs
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        
         completeSets = new HashMap<Expansion, ToggleButton>();
-        completeSets.put(Expansion.Base, mRandomBase = (ToggleButton) mView.findViewById(R.id.toggleButtonBaseSet));
-        completeSets.put(Expansion.Intrigue, mRandomIntrigue = (ToggleButton) mView.findViewById(R.id.toggleButtonIntrigue));
+        completeSets.put(getBaseEdition(), mRandomBase = (ToggleButton) mView.findViewById(R.id.toggleButtonBaseSet));
+        completeSets.put(getIntrigueEdition(), mRandomIntrigue = (ToggleButton) mView.findViewById(R.id.toggleButtonIntrigue));
         completeSets.put(Expansion.Seaside, mRandomSeaside = (ToggleButton) mView.findViewById(R.id.toggleButtonSeaside));
         completeSets.put(Expansion.Alchemy, mRandomAlchemy = (ToggleButton) mView.findViewById(R.id.toggleButtonAlchemy));
         completeSets.put(Expansion.Prosperity, mRandomProsperity = (ToggleButton) mView.findViewById(R.id.toggleButtonProsperity));
@@ -152,8 +156,6 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mStartGame = (Button) mView.findViewById(R.id.butStart);
         mStartGame.setOnClickListener(this);
 
-        //Init prefs
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         getLastCards();
 
         // Fill cardset spinner with values
@@ -339,7 +341,15 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         return mView;
     }
     
-    private void initListeners() {
+    private Expansion getBaseEdition() {
+		return Expansion.valueOf(mPrefs.getString("base_set_edition", "Base2E"));
+	}
+    
+    private Expansion getIntrigueEdition() {
+		return Expansion.valueOf(mPrefs.getString("intrigue_edition", "Intrigue2E"));
+	}
+
+	private void initListeners() {
     	mRandomAllCheckbox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

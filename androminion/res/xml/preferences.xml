@@ -96,6 +96,53 @@
         <CheckBoxPreference android:summary="@string/autodownload_pref_summary" android:title="@string/autodownload_pref_title" android:key="autodownload"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/game_play_pref_title" >
+        <PreferenceScreen
+            android:title="@string/errata_pref_title" >
+            <ListPreference
+	            android:defaultValue="@string/pref_base_set_cards_default"
+	            android:entries="@array/pref_base_set_editions"
+	            android:entryValues="@array/pref_base_set_edition_keys"
+	            android:key="base_set_edition"
+	            android:title="@string/pref_base_set_edtion_title"
+	            android:summary="%s" />
+            <ListPreference
+	            android:defaultValue="@string/pref_intrigue_cards_default"
+	            android:entries="@array/pref_intrigue_editions"
+	            android:entryValues="@array/pref_intrigue_edition_keys"
+	            android:key="intrigue_edition"
+	            android:title="@string/pref_intrigue_edtion_title"
+	            android:summary="%s" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_masquerade"
+                android:summary="@string/erratamasquerade_pref_summary"
+                android:title="@string/erratamasquerade_pref_title" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_mine"
+                android:summary="@string/erratamine_pref_summary"
+                android:title="@string/erratamine_pref_title" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_moneylender"
+                android:summary="@string/erratamoneylender_pref_summary"
+                android:title="@string/erratamoneylender_pref_title" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_posessor_takes_tokens"
+                android:summary="@string/errataposessiontokens_pref_summary"
+                android:title="@string/errataposessiontokens_pref_title" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_throneroom"
+                android:summary="@string/erratathroneroom_pref_summary"
+                android:title="@string/erratathroneroom_pref_title" >
+            </CheckBoxPreference>
+        </PreferenceScreen>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="quick_play"
@@ -131,41 +178,9 @@
             android:defaultValue="25"
             android:dialogMessage="@string/black_market_count_pref_summary"
             android:dialogTitle="@string/black_market_count_pref_title"
-            android:title="@string/black_market_count_pref_title" >
+            android:title="@string/black_market_count_pref_title"
+            android:numeric="integer" >
         </EditTextPreference>
-        <PreferenceScreen
-            android:title="@string/errata_pref_title" >
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="errata_masquerade"
-                android:summary="@string/erratamasquerade_pref_summary"
-                android:title="@string/erratamasquerade_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="errata_mine"
-                android:summary="@string/erratamine_pref_summary"
-                android:title="@string/erratamine_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="errata_moneylender"
-                android:summary="@string/erratamoneylender_pref_summary"
-                android:title="@string/erratamoneylender_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="errata_posessor_takes_tokens"
-                android:summary="@string/errataposessiontokens_pref_summary"
-                android:title="@string/errataposessiontokens_pref_title" >
-            </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="errata_throneroom"
-                android:summary="@string/erratathroneroom_pref_summary"
-                android:title="@string/erratathroneroom_pref_title" >
-            </CheckBoxPreference>
-        </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notif_pref_title" >
         <CheckBoxPreference

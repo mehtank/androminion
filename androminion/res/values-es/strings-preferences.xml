@@ -27,7 +27,7 @@
     <string name="less_provinces_pref_title">Menos Provincias</string>
     <string name="less_provinces_pref_summary">Jugar con menos cartas de Provincia</string>
     <string name="quick_play_pref_title">Partida rápida</string>
-    <string name="quick_play_pref_summary">Muchas acciones se haran automaticamente (tendrá efecto en la próxima partida)</string>
+    <string name="quick_play_pref_summary">Algunas acciones se haran automaticamente (tendrá efecto en la próxima partida)</string>
     <string name="sort_cards_pref_title">Ordenar cartas</string>
     <string name="sort_cards_pref_summary">Ordenar cartas en la mano por tipo: acción-tesoro-maldición-victoria</string>
     <string name="action_chains_pref_title">Cadenas de acciones</string>
@@ -64,7 +64,7 @@
     <string name="pref_theme_summary">Elegir el tema de la aplicación</string>
     <string name="autodownload_pref_title">Auto-descargar imágenes</string>
     <string name="autodownload_pref_summary">Imágenes de las cartas (en inglés) se descargan del internet y se almacenan en tu tarjeta SD</string>
-    <string name="errata_pref_title">Fe de erratas…</string>
+    <string name="errata_pref_title">Ediciones y fe de erratas…</string>
     <string name="errataposessiontokens_pref_title">Marcadores para Posesión</string>
     <string name="errataposessiontokens_pref_summary">El jugador que posee es el que toma los marcadores (de Imperios)</string>
     
@@ -100,5 +100,18 @@
     <string name="pref_showactionbar_summary">Inhabilitar si tienes una pantalla pequeña; habilitar si no tienes botones físicas</string>
         <string name="shelters_pref_title">Empezar con Cobijos</string>
         <string name="shelters_pref_summary">Siempre usar cobijos (de Edad Oscura) en lugar de las Fincas iniciales</string>
+        
+    <string name="pref_base_set_edtion_title">Edición de Dominion (básico)</string>
+    <string-array name="pref_base_set_editions">
+        <item>Primera edición (2008)</item>
+        <item>Segunda edición (2016)</item>
+        <item>Utilizar ambos</item>
+    </string-array>
     
+    <string name="pref_intrigue_edtion_title">Edición de Intriga</string>
+    <string-array name="pref_intrigue_editions">
+        <item>Primera edición (2009)</item>
+        <item>Segunda edición (2016)</item>
+        <item>Utilizar ambos</item>
+    </string-array>
 </resources>

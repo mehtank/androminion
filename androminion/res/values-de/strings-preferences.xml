@@ -64,7 +64,7 @@
     <string name="pref_theme_summary">Wähle unterschiedliche Designs</string>
     <string name="autodownload_pref_title">Kartenbilder herunterladen (nur Englisch)</string>
     <string name="autodownload_pref_summary">Die Bilder der Karten werden aus dem Internet heruntergeladen und auf der SD-Karte gespeichert.</string>
-    <string name="errata_pref_title">Druckfehler...</string>
+    <string name="errata_pref_title">Ausgaben und Druckfehler…</string>
     <string name="errataposessiontokens_pref_title">Besessenheit Extrazug Marken</string>
     <string name="errataposessiontokens_pref_summary">Der Besessende Spieler erhält die Marken (aus Empires)</string>
 

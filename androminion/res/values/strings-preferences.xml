@@ -29,7 +29,7 @@
     <string name="god_mode_pref_title">God Mode</string>
     <string name="god_mode_pref_summary">Start each turn with 999 Coins, 100 Buys, 100 Actions</string>
     <string name="quick_play_pref_title">Quick play</string>
-    <string name="quick_play_pref_summary">Most card interactions will be played automatically</string>
+    <string name="quick_play_pref_summary">Some card interactions will be played automatically</string>
     <string name="sort_cards_pref_title">Sort Cards</string>
     <string name="sort_cards_pref_summary">Sort cards in hand by type action-treasure-curse-victory</string>
     <string name="action_chains_pref_title">Action Chains</string>
@@ -66,11 +66,11 @@
     <string name="pref_theme_summary">Sets the application theme</string>
     <string name="autodownload_pref_title">Auto-download card images (English only)</string>
     <string name="autodownload_pref_summary">Images will be downloaded from the internet and stored on your SD card</string>
-    <string name="errata_pref_title">Errata…</string>
+    <string name="errata_pref_title">Editions and errata…</string>
     <string name="erratamasquerade_pref_title">Masquerade</string>
     <string name="erratamasquerade_pref_summary">Players without cards don\'t pass (from Intrigue, 2E)</string>
     <string name="erratamine_pref_title">Mine</string>
-    <string name="erratamine_pref_summary">Trashing Optional (from Dominion, 2E)</string>
+    <string name="erratamine_pref_summary">Trashing optional (from Dominion, 2E)</string>
     <string name="erratamoneylender_pref_title">Moneylender</string>
     <string name="erratamoneylender_pref_summary">Trashing optional (from Dominion, 2E)</string>
     <string name="errataposessiontokens_pref_title">Possession turn tokens</string>
@@ -110,5 +110,19 @@
     <string name="pref_showactionbar_summary">Disable if you have a small screen, enable if you lack hard buttons</string>
         <string name="shelters_pref_title">Start with Shelters</string>
         <string name="shelters_pref_summary">Always use Shelters (from Dark Ages) in place of starting Estates</string>
+    
+    <string name="pref_base_set_edtion_title">Dominion (base set) edition</string>
+    <string-array name="pref_base_set_editions">
+        <item>First edition (2008)</item>
+        <item>Second edition (2016)</item>
+        <item>Use both</item>
+    </string-array>
+    
+    <string name="pref_intrigue_edtion_title">Intrigue edition</string>
+    <string-array name="pref_intrigue_editions">
+        <item>First edition (2009)</item>
+        <item>Second edition (2016)</item>
+        <item>Use both</item>
+    </string-array>
     
 </resources>

@@ -8,7 +8,11 @@ import com.vdom.api.Card;
 
 public class Cards {
     public static ArrayList<Card> actionCardsBaseGame = new ArrayList<Card>();
+    public static ArrayList<Card> actionCardsBaseGame2E = new ArrayList<Card>();
+    public static ArrayList<Card> actionCardsBaseGameAll = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsIntrigue = new ArrayList<Card>();
+    public static ArrayList<Card> actionCardsIntrigue2E = new ArrayList<Card>();
+    public static ArrayList<Card> actionCardsIntrigueAll = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsSeaside = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsAlchemy = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsProsperity = new ArrayList<Card>();
@@ -49,10 +53,14 @@ public class Cards {
         Gardens, Moat, Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom, Feast,
         Festival, Laboratory, Library, Market, Militia, Mine, Moneylender, Remodel, Smithy, Spy,
         Thief, ThroneRoom, Village, Witch, Woodcutter, Workshop,
+        // Base Set Second Edition
+        Artisan, Bandit, Harbinger, Merchant, Poacher, Sentry, Vassal,
         // Intrigue Expansion
         Duke, SecretChamber, Nobles, Coppersmith, Courtyard, Torturer, Harem, Baron, Bridge,
         Conspirator, Ironworks, Masquerade, MiningVillage, Minion, Pawn, Saboteur, ShantyTown,
         Scout, Steward, Swindler, TradingPost, WishingWell, Upgrade, Tribute, GreatHall,
+        // Intrigue Second Edition
+        Courtier, Diplomat, Lurker, Mill, Patrol, Replace, SecretPassage,
         // Seaside Expansion
         Haven, SeaHag, Tactician, Caravan, Lighthouse, FishingVillage, Wharf, MerchantShip,
         Outpost, GhostShip, Salvager, PirateShip, NativeVillage, Island, Cutpurse, Bazaar,
@@ -157,6 +165,15 @@ public class Cards {
     public static final Card witch;
     public static final Card woodcutter;
     public static final Card workshop;
+    
+    // Dominion base, second edition
+    public static final Card artisan;
+    public static final Card bandit;
+    public static final Card harbinger;
+    public static final Card merchant;
+    public static final Card poacher;
+    public static final Card sentry;
+    public static final Card vassal;
 
     // Intrigue expansion
     public static final Card duke;
@@ -184,6 +201,15 @@ public class Cards {
     public static final Card upgrade;
     public static final Card tribute;
     public static final Card greatHall;
+    
+    // Intrigue, second edition
+    public static final Card courtier;
+    public static final Card diplomat;
+    public static final Card lurker;
+    public static final Card mill;
+    public static final Card patrol;
+    public static final Card replace;
+    public static final Card secretPassage;
 
     // Seaside expansion
     public static final Card haven;
@@ -554,13 +580,10 @@ public class Cards {
         nonKingdomCards.add(estate = new CardImpl.Builder(Cards.Kind.Estate, 2, Type.Victory).vp(1).build());
         
         // Base Game
-        actionCardsBaseGame.add(adventurer = new CardImpl.Builder(Cards.Kind.Adventurer, 6, Type.Action).description("Reveal cards from your deck until you reveal 2 Treasure cards. Put those Treasure cards into your hand and discard the other revealed cards.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(bureaucrat = new CardImpl.Builder(Cards.Kind.Bureaucrat, 4, Type.Action, Type.Attack).description("Gain a Silver card; put it on top of your deck. Each other player reveals a Victory card from his hand and puts it on his deck (or reveals a hand with no Victory cards).").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(cellar = new CardImpl.Builder(Cards.Kind.Cellar, 2, Type.Action).addActions(1).description("Discard any number of cards. +1 Card per card discarded.").expansion(Expansion.Base).build());
-        actionCardsBaseGame.add(chancellor = new CardImpl.Builder(Cards.Kind.Chancellor, 3, Type.Action).addGold(2).description("You may immediately put your deck into your discard pile.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(chapel = new CardImpl.Builder(Cards.Kind.Chapel, 2, Type.Action).description("Trash up to 4 cards from your hand.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(councilRoom = new CardImpl.Builder(Cards.Kind.CouncilRoom, 5, Type.Action).addCards(4).addBuys(1).description("Each other player draws a card.").expansion(Expansion.Base).build());
-        actionCardsBaseGame.add(feast = new CardImpl.Builder(Cards.Kind.Feast, 4, Type.Action).trashOnUse().description("Trash this card. Gain a card costing up to 5 coin.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(festival = new CardImpl.Builder(Cards.Kind.Festival, 5, Type.Action).addActions(2).addBuys(1).addGold(2).expansion(Expansion.Base).build());
         actionCardsBaseGame.add(gardens = new CardImpl.Builder(Cards.Kind.Gardens, 4, Type.Victory).description("Worth 1 Victory Point for every 10 cards in your deck (rounded down).").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(laboratory = new CardImpl.Builder(Cards.Kind.Laboratory, 5, Type.Action).addActions(1).addCards(2).expansion(Expansion.Base).build());
@@ -572,22 +595,36 @@ public class Cards {
         actionCardsBaseGame.add(moneyLender = new CardImpl.Builder(Cards.Kind.Moneylender, 4, Type.Action).description("Trash a Copper card from your hand. If you do, +3 Coins.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(remodel = new CardImpl.Builder(Cards.Kind.Remodel, 4, Type.Action).trashForced().description("Trash a card from your hand. Gain a card costing up to 2 Coins more than the trashed card.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(smithy = new CardImpl.Builder(Cards.Kind.Smithy, 4, Type.Action).addCards(3).expansion(Expansion.Base).build());
-        actionCardsBaseGame.add(spy = new CardImpl.Builder(Cards.Kind.Spy, 4, Type.Action, Type.Attack).addCards(1).addActions(1).description("Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.").expansion(Expansion.Base).build());
-        actionCardsBaseGame.add(thief = new CardImpl.Builder(Cards.Kind.Thief, 4, Type.Action, Type.Attack).description("Each other player reveals the top 2 cards of his deck. If they revelaed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(throneRoom = new CardImpl.Builder(Cards.Kind.ThroneRoom, 4, Type.Action).description("Choose an Action card in your hand. Play it twice.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(village = new CardImpl.Builder(Cards.Kind.Village, 3, Type.Action).addCards(1).addActions(2).expansion(Expansion.Base).build());
         actionCardsBaseGame.add(witch = new CardImpl.Builder(Cards.Kind.Witch, 5, Type.Action, Type.Attack).addCards(2).description("Each other player gains a Curse card.").expansion(Expansion.Base).build());
-        actionCardsBaseGame.add(woodcutter = new CardImpl.Builder(Cards.Kind.Woodcutter, 3, Type.Action).addBuys(1).addGold(2).expansion(Expansion.Base).build());
         actionCardsBaseGame.add(workshop = new CardImpl.Builder(Cards.Kind.Workshop, 3, Type.Action).description("Gain a card costing up to 4 Coins.").expansion(Expansion.Base).build());
 
+        actionCardsBaseGame2E.add(artisan = new CardImpl.Builder(Cards.Kind.Artisan, 6, Type.Action).description("Gain a card to your hand costing up to (5) Coins. Put a card from your hand onto your deck.").expansion(Expansion.Base).build());
+        actionCardsBaseGame2E.add(bandit = new CardImpl.Builder(Cards.Kind.Bandit, 5, Type.Action, Type.Attack).description("Gain a Gold. Each other player reveals the top two cards of their deck, trashes a revealed Treasure other than Copper, and discards the rest.").expansion(Expansion.Base).build());
+        actionCardsBaseGame2E.add(harbinger = new CardImpl.Builder(Cards.Kind.Harbinger, 3, Type.Action).addCards(1).addActions(1).description("Look through your discard pile. You may put a card from it onto your deck.").expansion(Expansion.Base).build());
+        actionCardsBaseGame2E.add(merchant = new CardImpl.Builder(Cards.Kind.Merchant, 3, Type.Action).addCards(1).addActions(1).description("The first time you play a Silver this turn, +(1) Coin.").expansion(Expansion.Base).build());
+        actionCardsBaseGame2E.add(poacher = new CardImpl.Builder(Cards.Kind.Poacher, 4, Type.Action).addCards(1).addActions(1).addGold(1).description("Discard a card per empty Supply pile.").expansion(Expansion.Base).build());
+        actionCardsBaseGame2E.add(sentry = new CardImpl.Builder(Cards.Kind.Sentry, 5, Type.Action).addCards(1).addActions(1).description("Look at the top 2 cards of your deck. Trash and/or discard any number of them. Put the rest back on top on any order.").expansion(Expansion.Base).build());
+        actionCardsBaseGame2E.add(vassal = new CardImpl.Builder(Cards.Kind.Vassal, 3, Type.Action).addGold(2).description("Discard the top card of your deck. If it's an Action card, you may play it.").expansion(Expansion.Base).build());
+        actionCardsBaseGameAll.addAll(actionCardsBaseGame2E);
+        actionCardsBaseGame2E.addAll(actionCardsBaseGame);
+        
+        actionCardsBaseGame.add(adventurer = new CardImpl.Builder(Cards.Kind.Adventurer, 6, Type.Action).description("Reveal cards from your deck until you reveal 2 Treasure cards. Put those Treasure cards into your hand and discard the other revealed cards.").expansion(Expansion.Base).build());
+        actionCardsBaseGame.add(chancellor = new CardImpl.Builder(Cards.Kind.Chancellor, 3, Type.Action).addGold(2).description("You may immediately put your deck into your discard pile.").expansion(Expansion.Base).build());
+        actionCardsBaseGame.add(feast = new CardImpl.Builder(Cards.Kind.Feast, 4, Type.Action).trashOnUse().description("Trash this card. Gain a card costing up to 5 coin.").expansion(Expansion.Base).build());
+        actionCardsBaseGame.add(spy = new CardImpl.Builder(Cards.Kind.Spy, 4, Type.Action, Type.Attack).addCards(1).addActions(1).description("Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.").expansion(Expansion.Base).build());
+        actionCardsBaseGame.add(thief = new CardImpl.Builder(Cards.Kind.Thief, 4, Type.Action, Type.Attack).description("Each other player reveals the top 2 cards of his deck. If they revelaed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.").expansion(Expansion.Base).build());
+        actionCardsBaseGame.add(woodcutter = new CardImpl.Builder(Cards.Kind.Woodcutter, 3, Type.Action).addBuys(1).addGold(2).expansion(Expansion.Base).build());
+        
+        actionCardsBaseGameAll.addAll(actionCardsBaseGame);
+        
         // Intrigue
         actionCardsIntrigue.add(baron = new CardImpl.Builder(Cards.Kind.Baron, 4, Type.Action).addBuys(1).description("You may discard an Estate card. If you do, +4 Coins. Otherwise, gain an Estate card.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(bridge = new CardImpl.Builder(Cards.Kind.Bridge, 4, Type.Action).addBuys(1).addGold(1).description("All cards (including cards in players' hands) cost 1 Coin less this turn, but not less than 0.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(conspirator = new CardImpl.Builder(Cards.Kind.Conspirator, 4, Type.Action).addGold(2).description("If you've played 3 or more Actions this turn (counting this): +1 Card, +1 Action.").expansion(Expansion.Intrigue).build());
-        actionCardsIntrigue.add(coppersmith = new CardImpl.Builder(Cards.Kind.Coppersmith, 4, Type.Action).description("Copper produces an extra 1 coin this turn.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(courtyard = new CardImpl.Builder(Cards.Kind.Courtyard, 2, Type.Action).addCards(3).description("Put a card from your hand on top of your deck.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(duke = new CardImpl.Builder(Cards.Kind.Duke, 5, Type.Victory).description("Worth 1 Victory Point per Duchy you have.").expansion(Expansion.Intrigue).build());
-        actionCardsIntrigue.add(greatHall = new CardImpl.Builder(Cards.Kind.GreatHall, 3, Type.Action, Type.Victory).addCards(1).addActions(1).vp(1).expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(harem = new CardImpl.Builder(Cards.Kind.Harem, 6, Type.Treasure, Type.Victory).addGold(2).vp(2).expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(ironworks = new CardImpl.Builder(Cards.Kind.Ironworks, 4, Type.Action).description("Gain a card costing up to 4 Coins. If it is an... Action card, +1 Action. Treasure card, +1 Coin. Victory card, +1 Card.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(masquerade = new CardImpl.Builder(Cards.Kind.Masquerade, 3, Type.Action).addCards(2).description("Each player passes a card from his hand to the left at once. Then you may trash a card from your hand.").expansion(Expansion.Intrigue).build());
@@ -595,18 +632,33 @@ public class Cards {
         actionCardsIntrigue.add(minion = new CardImpl.Builder(Cards.Kind.Minion, 5, Type.Action, Type.Attack).addActions(1).description("Choose one: +2 Coins; or discard your hand, +4 Cards, and each other player with at least 5 cards in hand discards his hand and draws 4 cards.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(nobles = new CardImpl.Builder(Cards.Kind.Nobles, 6, Type.Action, Type.Victory).vp(2).description("Choose one: +3 Cards; or +2 Actions.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(pawn = new CardImpl.Builder(Cards.Kind.Pawn, 2, Type.Action).description("Choose two: +1 Card; +1 Action; +1 Buy; +1 Coin. (The choices must be different.)").expansion(Expansion.Intrigue).build());
-        actionCardsIntrigue.add(saboteur = new CardImpl.Builder(Cards.Kind.Saboteur, 5, Type.Action, Type.Attack).description("Each other player reveals cards from the top of his deck until revealing one costing 3 Coins or more. He trashes that card and may gain a card costing at most 2 Coins less than it. He discards the other revealed cards.").expansion(Expansion.Intrigue).build());
-        actionCardsIntrigue.add(scout = new CardImpl.Builder(Cards.Kind.Scout, 4, Type.Action).addActions(1).description("Reveal the top 4 cards of your deck. Put the revealed Victory cards into your hand. Put the other cards on top of your deck in any order.").expansion(Expansion.Intrigue).build());
-        actionCardsIntrigue.add(secretChamber = new CardImpl.Builder(Cards.Kind.SecretChamber, 2, Type.Action, Type.Reaction).description("Discard any number of cards. +1 Coin per card discarded. When another player plays an Attack card, you may reveal this from your hand. If you do, +2 Cards, then put 2 cards from your hand on top of your deck.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(shantyTown = new CardImpl.Builder(Cards.Kind.ShantyTown, 3, Type.Action).addActions(2).description("Reveal you hand. If you have no Action cards in hand, +2 Cards.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(steward = new CardImpl.Builder(Cards.Kind.Steward, 3, Type.Action).description("Choose one: +2 Cards; or +2 Coins; or trash 2 cards from your hand.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(swindler = new CardImpl.Builder(Cards.Kind.Swindler, 3, Type.Action, Type.Attack).addGold(2).description("Each other player trashes the top card of his deck and gains a card with the same cost that you choose.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(torturer = new CardImpl.Builder(Cards.Kind.Torturer, 5, Type.Action, Type.Attack).addCards(3).description("Each other player chooses one: he discards 2 cards; or he gains a Curse card, putting it in his hand.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(tradingPost = new CardImpl.Builder(Cards.Kind.TradingPost, 5, Type.Action).trashForced().description("Trash 2 cards from your hand. If you do, gain a Silver card; put it into your hand.").expansion(Expansion.Intrigue).build());
-        actionCardsIntrigue.add(tribute = new CardImpl.Builder(Cards.Kind.Tribute, 5, Type.Action).description("The player to your left reveals then discards the top 2 cards of his deck. For each differently named card revealed, if it is an... Action Card, +2 Actions. Treasure Card, +2 Coins. Victory Card, +2 Cards.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(upgrade = new CardImpl.Builder(Cards.Kind.Upgrade, 5, Type.Action).trashForced().addCards(1).addActions(1).description("Trash a card from your hand. Gain a card costing exactly 1 Coin more than it.").expansion(Expansion.Intrigue).build());
         actionCardsIntrigue.add(wishingWell = new CardImpl.Builder(Cards.Kind.WishingWell, 3, Type.Action).addCards(1).addActions(1).description("Name a card. Reveal the top card of your deck. If it's the named card, put it into your hand.").expansion(Expansion.Intrigue).build());
 
+        actionCardsIntrigue2E.add(courtier = new CardImpl.Builder(Cards.Kind.Courtier, 5, Type.Action).description("Reveal a card from your hand.  For each type it has (Action, Attack, etc.), choose one: +1 Action, or +1 Buy, or +, or gain a Gold.  The choices must be different.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue2E.add(patrol = new CardImpl.Builder(Cards.Kind.Patrol, 5, Type.Action).addCards(3).description("Reveal the top 4 cards of your deck. Put the Victory cards and Curse cards into your hand. Put the rest back in any order.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue2E.add(replace = new CardImpl.Builder(Cards.Kind.Replace, 5, Type.Action, Type.Attack).description("Trash a card from your hand. Gain a card costing up to 2 Coins more than the trashed card. If the gained card is an Action or Treasure, put it onto your deck. If it's a Victory card, each other player gains a Curse.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue2E.add(diplomat = new CardImpl.Builder(Cards.Kind.Diplomat, 4, Type.Action, Type.Reaction).addCards(2).description("If you have 5 or fewer cards in hand (after drawing), +2 Actions.  When another player plays an Attack card, you may first reveal this from a hand of 5 or more cards, to draw 2 cards then discard 3.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue2E.add(mill = new CardImpl.Builder(Cards.Kind.Mill, 4, Type.Action, Type.Victory).addActions(1).addCards(1).vp(1).description("You may discard 2 cards for 2 Coins.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue2E.add(secretPassage = new CardImpl.Builder(Kind.SecretPassage, 4, Type.Action).addCards(2).addActions(1).description("Take a card from your hand and put it anywhere in your deck.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue2E.add(lurker = new CardImpl.Builder(Cards.Kind.Lurker, 2, Type.Action).addActions(1).description("Choose one: Trash an Action card from the Supply, or gain an Action card from the trash.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigueAll.addAll(actionCardsIntrigue2E);
+        actionCardsIntrigue2E.addAll(actionCardsIntrigue);
+        
+        actionCardsIntrigue.add(coppersmith = new CardImpl.Builder(Cards.Kind.Coppersmith, 4, Type.Action).description("Copper produces an extra 1 coin this turn.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue.add(greatHall = new CardImpl.Builder(Cards.Kind.GreatHall, 3, Type.Action, Type.Victory).addCards(1).addActions(1).vp(1).expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue.add(saboteur = new CardImpl.Builder(Cards.Kind.Saboteur, 5, Type.Action, Type.Attack).description("Each other player reveals cards from the top of his deck until revealing one costing 3 Coins or more. He trashes that card and may gain a card costing at most 2 Coins less than it. He discards the other revealed cards.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue.add(scout = new CardImpl.Builder(Cards.Kind.Scout, 4, Type.Action).addActions(1).description("Reveal the top 4 cards of your deck. Put the revealed Victory cards into your hand. Put the other cards on top of your deck in any order.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue.add(secretChamber = new CardImpl.Builder(Cards.Kind.SecretChamber, 2, Type.Action, Type.Reaction).description("Discard any number of cards. +1 Coin per card discarded. When another player plays an Attack card, you may reveal this from your hand. If you do, +2 Cards, then put 2 cards from your hand on top of your deck.").expansion(Expansion.Intrigue).build());
+        actionCardsIntrigue.add(tribute = new CardImpl.Builder(Cards.Kind.Tribute, 5, Type.Action).description("The player to your left reveals then discards the top 2 cards of his deck. For each differently named card revealed, if it is an... Action Card, +2 Actions. Treasure Card, +2 Coins. Victory Card, +2 Cards.").expansion(Expansion.Intrigue).build());
+        
+        actionCardsIntrigueAll.addAll(actionCardsIntrigue);
+        
         // Seaside
         actionCardsSeaside.add(ambassador = new CardImpl.Builder(Cards.Kind.Ambassador, 3, Type.Action, Type.Attack).trashForced().description("Reveal a card from your hand. Return up to 2 copies of it from your hand to the Supply. Then each other player gains a copy of it.").expansion(Expansion.Seaside).build());
         actionCardsSeaside.add(bazaar = new CardImpl.Builder(Cards.Kind.Bazaar, 5, Type.Action).addCards(1).addActions(2).addGold(1).expansion(Expansion.Seaside).build());
@@ -975,8 +1027,8 @@ public class Cards {
         eventCardsPromo.add(summon         = new CardImpl.Builder(Cards.Kind.Summon, 5, Type.Event).description("Gain an Action card costing up to 4 Coins. Set it aside. If you do, then at the start of your next turn, play it.").expansion(Expansion.Promo).build());
 
         // Collect all Expansions
-        for (Card card : actionCardsBaseGame)    { actionCards.add(card); }
-        for (Card card : actionCardsIntrigue)    { actionCards.add(card); }
+        for (Card card : actionCardsBaseGameAll) { actionCards.add(card); }
+        for (Card card : actionCardsIntrigueAll) { actionCards.add(card); }
         for (Card card : actionCardsSeaside)     { actionCards.add(card); }
         for (Card card : actionCardsAlchemy)     { actionCards.add(card); }
         for (Card card : actionCardsProsperity)  { actionCards.add(card); }

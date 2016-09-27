@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="pref_base_set_edition_keys" tools:ignore="MissingTranslation">
+        <item>Base</item>
+        <item>Base2E</item>
+        <item>BaseAll</item>
+    </string-array>
+    <string-array name="pref_intrigue_edition_keys" tools:ignore="MissingTranslation">
+        <item>Intrigue</item>
+        <item>Intrigue2E</item>
+        <item>IntrigueAll</item>
+    </string-array>
+</resources>

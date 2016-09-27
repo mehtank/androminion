@@ -2,9 +2,9 @@
 <resources>
 	<string name="Base"></string>
 	<string name="BaseSet">Básico</string>
-	<string name="Intrigue">Intriga</string>    
-	<string name="Seaside">Terramar</string>    
-	<string name="Alchemy">Alquimia</string>    
+	<string name="Intrigue">Intriga</string>
+	<string name="Seaside">Terramar</string>
+	<string name="Alchemy">Alquimia</string>
 	<string name="Prosperity">Prosperidad</string>    
 	<string name="Cornucopia">Cornucopia</string>    
 	<string name="Hinterlands">Comarcas</string>

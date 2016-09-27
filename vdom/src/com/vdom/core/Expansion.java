@@ -6,7 +6,11 @@ import com.vdom.api.Card;
 
 public enum Expansion {
 	Base(Cards.actionCardsBaseGame),
+	Base2E(Cards.actionCardsBaseGame2E),
+	BaseAll(Cards.actionCardsBaseGameAll),
 	Intrigue(Cards.actionCardsIntrigue),
+	Intrigue2E(Cards.actionCardsIntrigue2E),
+	IntrigueAll(Cards.actionCardsIntrigueAll),
 	Seaside(Cards.actionCardsSeaside),
 	Alchemy(Cards.actionCardsAlchemy),
 	Prosperity(Cards.actionCardsProsperity),
