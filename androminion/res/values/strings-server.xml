@@ -386,8 +386,20 @@
 	<string name="save_part">put aside [Save]</string>
 	
 	<string name="island_part">put on island mat</string>
-	
+
 	<string name="masquerade_part">pass to your left</string>
+
+	<string name="courtier_ask_reveal">reveal</string>
+	<string name="secretPassage_cardToPutInDeck">put into deck</string>
+	<string name="secretPassage_query">Place %1$s in deck [Secret Passage]</string>
+
+	<string name="courtier_option_add_action">+1 Action</string>
+	<string name="courtier_option_add_buy">+1 Buy</string>
+	<string name="courtier_option_add_coins">+(3) Coins</string>
+	<string name="courtier_option_gain_gold">Gain Gold</string>
+	<string name="lurker_gainFromTrash">Gain an Action card from the trash</string>
+	<string name="lurker_trashActionFromSupply">Trash an Action card from the Supply</string>
+	<string name="lurker_cardToTrashFromSupply">trash</string>
 	
 	<string name="mine_part">mine to</string>
 

@@ -287,8 +287,10 @@ public class Util {
                 doHorseTraders(context, game, player, responsible, reactionCard);
         	else if (reactionCardAbility.equals(Cards.beggar))
                 doBeggar(context, game, player, responsible, reactionCard);
-        	else if (reactionCardAbility.equals(Cards.caravanGuard))
+            else if (reactionCardAbility.equals(Cards.caravanGuard))
                 doCaravanGuard(context, game, player, responsible, reactionCard);
+            else if (reactionCardAbility.equals(Cards.diplomat))
+                doDiplomat(context, game, player, responsible, reactionCard);
         	else if (reactionCardAbility.equals(Cards.moat)) {
                 defended = true;
                 
@@ -410,6 +412,55 @@ public class Util {
         }
 
         return false;
+    }
+
+    private static boolean doDiplomat(MoveContext context, Game game, Player player, Card responsible, Card reactionCard) {
+        boolean found = false;
+        for (Card card : player.hand) {
+            if (card.equals(reactionCard)) {
+                found = true;
+            }
+        }
+
+        if (found) {
+            game.drawToHand(context, reactionCard, 2);
+            game.drawToHand(context, reactionCard, 1);
+
+            if (player.hand.size() > 0) {
+                Card[] cards = player.controlPlayer.diplomat_cardsToDiscard(context);
+                boolean bad = false;
+                if (cards == null || cards.length > 3 || (cards.length < 3 && cards.length != player.hand.size())) {
+                    bad = true;
+                } else {
+                    ArrayList<Card> copy = copy(player.hand);
+                    for (Card card : cards) {
+                        if (card == null || !copy.remove(card)) {
+                            bad = true;
+                        }
+                    }
+                }
+
+                if (bad) {
+                    playerError(player, "Diplomat cards to discard error, discarding first three cards in hand.", false);
+                    if (player.hand.size() < 3) {
+                        cards = new Card[player.hand.size()];
+                    } else {
+                        cards = new Card[3];
+                    }
+
+                    for (int i = 0; i < cards.length; i++) {
+                        cards[i] = player.hand.get(i);
+                    }
+                }
+
+                for (int i = cards.length - 1; i >= 0; i--) {
+                    player.discard(cards[i], reactionCard.getControlCard(), context);
+                    player.hand.remove(cards[i]);
+                }
+            }
+        }
+
+        return found;
     }
 
     public static ArrayList<Card> copy(CardList cards) {

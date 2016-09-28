@@ -1,7 +1,10 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
@@ -461,6 +464,21 @@ public class CardImpl implements Card {
 	    	return false;
     	}
     	return player.getInheritance().is(t) || this.is(t);
+    }
+
+    @Override
+    public Type[] getTypes() {
+        return types.clone();
+    }
+
+    public int getNumberOfTypes(Player player) {
+        if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
+            return types.length;
+        }
+        Set<Type> typeSet = new HashSet<Type>();
+        typeSet.addAll(Arrays.asList(player.getInheritance().getTypes()));
+        typeSet.addAll(Arrays.asList(types));
+        return typeSet.size();
     }
 
     public int getCost(MoveContext context) {

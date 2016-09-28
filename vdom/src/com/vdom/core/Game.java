@@ -3132,7 +3132,8 @@ public class Game {
                                 || r.equals(Cards.seaHag)
                                 || r.equals(Cards.taxman)
                                 || r.equals(Cards.tournament)
-                                || r.equals(Cards.treasureMap)) {
+                                || r.equals(Cards.treasureMap)
+                                || r.equals(Cards.replace) && context.attackedPlayer != player && (gainedCardAbility.is(Type.Action) || gainedCardAbility.is(Type.Treasure))) {
                                 player.putOnTopOfDeck(event.card, context, true);
                             } else if (r.equals(Cards.beggar)) {
                                 if (event.card.equals(Cards.copper)) {

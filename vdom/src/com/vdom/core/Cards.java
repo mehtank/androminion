@@ -55,12 +55,14 @@ public class Cards {
         Thief, ThroneRoom, Village, Witch, Woodcutter, Workshop,
         // Base Set Second Edition
         Artisan, Bandit, Harbinger, Merchant, Poacher, Sentry, Vassal,
+		
         // Intrigue Expansion
         Duke, SecretChamber, Nobles, Coppersmith, Courtyard, Torturer, Harem, Baron, Bridge,
         Conspirator, Ironworks, Masquerade, MiningVillage, Minion, Pawn, Saboteur, ShantyTown,
         Scout, Steward, Swindler, TradingPost, WishingWell, Upgrade, Tribute, GreatHall,
         // Intrigue Second Edition
         Courtier, Diplomat, Lurker, Mill, Patrol, Replace, SecretPassage,
+
         // Seaside Expansion
         Haven, SeaHag, Tactician, Caravan, Lighthouse, FishingVillage, Wharf, MerchantShip,
         Outpost, GhostShip, Salvager, PirateShip, NativeVillage, Island, Cutpurse, Bazaar,
@@ -177,9 +179,7 @@ public class Cards {
 
     // Intrigue expansion
     public static final Card duke;
-    public static final Card secretChamber;
     public static final Card nobles;
-    public static final Card coppersmith;
     public static final Card courtyard;
     public static final Card torturer;
     public static final Card harem;
@@ -191,18 +191,22 @@ public class Cards {
     public static final Card miningVillage;
     public static final Card minion;
     public static final Card pawn;
-    public static final Card saboteur;
     public static final Card shantyTown;
-    public static final Card scout;
     public static final Card steward;
     public static final Card swindler;
     public static final Card tradingPost;
     public static final Card wishingWell;
     public static final Card upgrade;
-    public static final Card tribute;
+
+    // Intrigue first Edition (removed in second Edition)
+    public static final Card coppersmith;
     public static final Card greatHall;
-    
-    // Intrigue, second edition
+    public static final Card saboteur;
+    public static final Card scout;
+    public static final Card secretChamber;
+    public static final Card tribute;
+
+    // Intrigue second Edition
     public static final Card courtier;
     public static final Card diplomat;
     public static final Card lurker;
@@ -972,7 +976,6 @@ public class Cards {
         actionCardsEmpires.add(temple                         = new CardImpl.Builder(Cards.Kind.Temple, 4, Type.Action, Type.Gathering).addVictoryTokens(1).trashForced().description("Trash from 1 to 3 differently named cards from your hand. Add 1 Victory token to the Temple Supply pile. - When you gain this, take the Victory tokens from the Temple Supply pile.").expansion(Expansion.Empires).build());
         actionCardsEmpires.add(villa                          = new CardImpl.Builder(Cards.Kind.Villa, 4, Type.Action).addActions(2).addBuys(1).addGold(1).description("When you gain this, put it into your hand, +1 Action, and if it's your Buy phase return to your Action phase.").expansion(Expansion.Empires).build());
         actionCardsEmpires.add(wildHunt                       = new CardImpl.Builder(Cards.Kind.WildHunt, 5, Type.Action, Type.Gathering).description("Choose one: +3 Cards and add 1 Victory token to the Wild Hunt Supply pile; or gain an Estate, and if you do, take the Victory tokens from the pile.").expansion(Expansion.Empires).build());
-
 
         // events
         eventCardsEmpires.add(advance          = new CardImpl.Builder(Cards.Kind.Advance, 0, Type.Event).description("You may trash an Action card from your hand. If you do, gain an Action card costing up to (6) Coins.").expansion(Expansion.Empires).build());

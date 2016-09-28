@@ -23,6 +23,7 @@ public interface Card extends Serializable {
 
     public boolean is(Type t, Player player);
     public boolean is(Type t);
+    public int getNumberOfTypes(Player player);
 
     public String getStats();
 
@@ -112,6 +113,8 @@ public interface Card extends Serializable {
     public CardImpl instantiate();
 
     public PileCreator getPileCreator();
+
+    public Type[] getTypes();
 
     //public void isGained(MoveContext context);
 }
