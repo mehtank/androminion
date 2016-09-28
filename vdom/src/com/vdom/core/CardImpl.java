@@ -1029,6 +1029,10 @@ public class CardImpl implements Card {
     }
     
     protected void silverPlayed(MoveContext context, Game game, Player player) {
+    	context.silversPlayed += 1;
+    	if (context.silversPlayed == 1) {
+    		context.addCoins(context.merchantsPlayed);
+    	}
     	int saunasInPlay = context.countCardsInPlay(Cards.sauna);
     	for (int i = 0; i < saunasInPlay; ++i) {
     		if (player.getHand().size() > 0) {

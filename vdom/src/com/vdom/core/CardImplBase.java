@@ -43,6 +43,9 @@ public class CardImplBase extends CardImpl {
 			case Library:
                 library(game, context, currentPlayer);
                 break;
+			case Merchant:
+				merchant(game, context, currentPlayer);
+				break;
 			case Militia:
                 militia(game, context, currentPlayer);
                 break;
@@ -248,6 +251,10 @@ public class CardImplBase extends CardImpl {
         while (!toDiscard.isEmpty()) {
             currentPlayer.discard(toDiscard.remove(0), this.controlCard, null);
         }
+    }
+    
+    private void merchant(Game game, MoveContext context, Player currentPlayer) {
+        context.merchantsPlayed++;
     }
     
     private void militia(Game game, MoveContext context, Player currentPlayer) {
