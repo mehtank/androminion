@@ -797,7 +797,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_replace_cardToTrash(context)) {
             return super.replace_cardToTrash(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.UPGRADE)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.replace);
         return getCardFromHand(context, sco);
     }
