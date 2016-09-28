@@ -466,17 +466,12 @@ public class CardImpl implements Card {
     	return player.getInheritance().is(t) || this.is(t);
     }
 
-    @Override
-    public Type[] getTypes() {
-        return types.clone();
-    }
-
     public int getNumberOfTypes(Player player) {
         if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
             return types.length;
         }
         Set<Type> typeSet = new HashSet<Type>();
-        typeSet.addAll(Arrays.asList(player.getInheritance().getTypes()));
+        typeSet.addAll(Arrays.asList(((CardImpl)player.getInheritance()).types));
         typeSet.addAll(Arrays.asList(types));
         return typeSet.size();
     }
