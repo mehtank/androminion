@@ -22,6 +22,9 @@ public class CardImplBase extends CardImpl {
 			case Adventurer:
 	            adventurer(game, context, currentPlayer);
 	            break;
+			case Artisan:
+				artisan(game, context, currentPlayer);
+				break;
 			case Bureaucrat:
                 bureaucrat(game, context, currentPlayer);
                 break;
@@ -104,6 +107,31 @@ public class CardImplBase extends CardImpl {
             currentPlayer.discard(toDiscard.remove(0), this.controlCard, context);
         }
     }
+	
+	private void artisan(Game game, MoveContext context, Player currentPlayer) {
+		Card card = currentPlayer.controlPlayer.artisan_cardToObtain(context);
+        if (card != null) {
+            if (card.getCost(context) <= 5 && card.getDebtCost(context) == 0 && !card.costPotion()) {
+                currentPlayer.gainNewCard(card, this.controlCard, context);
+            }
+        }
+        CardList hand = currentPlayer.getHand();
+        if(hand.size() > 0) {
+            Card toTopOfDeck = currentPlayer.controlPlayer.artisan_cardToReplace(context);
+            if (toTopOfDeck == null || !hand.contains(toTopOfDeck)) {
+                Util.playerError(currentPlayer, "No valid card selected for Artisan, returning random card to the top of the deck.");
+                toTopOfDeck = Util.randomCard(hand);
+            }
+            for (int i = 0; i < hand.size(); ++i) {
+            	Card c = hand.get(i);
+            	if (c.equals(toTopOfDeck)) {
+            		hand.remove(i);
+            		currentPlayer.putOnTopOfDeck(c);
+            		break;
+            	}
+            }
+        }
+	}
 	
 	private void bureaucrat(Game game, MoveContext context, Player currentPlayer) {
         currentPlayer.gainNewCard(Cards.silver, this, context);

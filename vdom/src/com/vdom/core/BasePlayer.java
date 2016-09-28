@@ -729,6 +729,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card artisan_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 5, true);
+    }
+    
+    @Override
+    public Card artisan_cardToReplace(MoveContext context) {
+    	return mandarin_cardToReplace(context);
+    }
+    
+    @Override
     public Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard) {
     	return lowestCards(context, context.getPlayer().getHand(), numToDiscard, true);
     }

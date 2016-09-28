@@ -1710,6 +1710,10 @@ public abstract class Player {
 
     public abstract Card bureaucrat_cardToReplace(MoveContext context);
     
+    public abstract Card artisan_cardToObtain(MoveContext context);
+    
+    public abstract Card artisan_cardToReplace(MoveContext context);
+    
     public abstract Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard);
 
     // ////////////////////////////////////////////

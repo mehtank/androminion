@@ -1613,6 +1613,12 @@ public class Strings {
             } else {
                 return getString(R.string.mine_part);
             }
+        } else if (cardName.equals(getCardName(Cards.artisan))) {
+        	if (sco.actionType == ActionType.GAIN) {
+                return getActionString(sco);
+            } else {
+                return getString(R.string.mandarin_part);
+            }
         } else if (cardName.equals(getCardName(Cards.swindler))) {
             return Strings.format(R.string.swindler_part,
                                   "" + sco.maxCost + (sco.maxDebtCost == 0 ? "" : "d" + sco.maxDebtCost) + (sco.maxPotionCost == 0 ? "" : "p"));

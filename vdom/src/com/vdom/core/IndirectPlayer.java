@@ -496,6 +496,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card artisan_cardToObtain(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_workshop_cardToObtain(context)) {
+            return super.artisan_cardToObtain(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.artisan).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card artisan_cardToReplace(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_mandarin_cardToReplace(context)) {
+            return super.artisan_cardToReplace(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setCardResponsible(Cards.artisan);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard) {
     	if(context.isQuickPlay() && shouldAutoPlay_poacher_cardsToDiscard(context, numToDiscard)) {
             return super.poacher_cardsToDiscard(context, numToDiscard);
