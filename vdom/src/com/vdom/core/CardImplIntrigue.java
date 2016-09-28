@@ -471,11 +471,6 @@ public class CardImplIntrigue extends CardImpl {
             }
         }
 
-        if (cost == -1) {
-            Util.playerError(currentPlayer, "");
-            return;
-        }
-
         cost += 2;
 
         Card card = currentPlayer.controlPlayer.replace_cardToObtain(context, cost, debt, potion);
