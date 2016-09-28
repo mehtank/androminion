@@ -515,6 +515,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card harbinger_cardToPutBackOnDeck(MoveContext context) {
+    	CardList localDiscard = (context.player.isPossessed()) ? context.player.getDiscard() : getDiscard();
+        if (localDiscard.isEmpty())
+            return null;
+        Set<Card> uniqueCards = new HashSet<Card>(localDiscard.toArrayList());
+        List<Card> options = new ArrayList<Card>(uniqueCards);
+        Collections.sort(options, new Util.CardCostNameComparator());
+        options.add(null);
+
+        return options.get(selectOption(context, Cards.harbinger, options.toArray()));
+    }
+    
+    @Override
     public Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard) {
     	if(context.isQuickPlay() && shouldAutoPlay_poacher_cardsToDiscard(context, numToDiscard)) {
             return super.poacher_cardsToDiscard(context, numToDiscard);

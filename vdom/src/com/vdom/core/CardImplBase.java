@@ -43,6 +43,9 @@ public class CardImplBase extends CardImpl {
 			case Feast:
 				feast(context, currentPlayer);
 				break;
+			case Harbinger:
+				harbinger(game, context, currentPlayer);
+				break;
 			case Library:
                 library(game, context, currentPlayer);
                 break;
@@ -127,6 +130,8 @@ public class CardImplBase extends CardImpl {
             	if (c.equals(toTopOfDeck)) {
             		hand.remove(i);
             		currentPlayer.putOnTopOfDeck(c);
+            		GameEvent event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+                    game.broadcastEvent(event);
             		break;
             	}
             }
@@ -255,6 +260,25 @@ public class CardImplBase extends CardImpl {
             }
         }
     }
+	
+	private void harbinger(Game game, MoveContext context, Player currentPlayer) {
+		if (currentPlayer.getDiscardSize() > 0)
+        {
+            Card card = currentPlayer.controlPlayer.harbinger_cardToPutBackOnDeck(context);
+
+            if (card != null) {
+            	int idx = currentPlayer.discard.indexOf(card);
+                if (idx >= 0) {
+                	card = currentPlayer.discard.remove(idx);
+                	currentPlayer.putOnTopOfDeck(card);
+                	GameEvent event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+                    game.broadcastEvent(event);
+                } else {
+                	Util.playerError(currentPlayer, "Harbinger card not in discard, ignoring.");
+                }
+            }
+        }
+	}
 
     private void library(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> toDiscard = new ArrayList<Card>();

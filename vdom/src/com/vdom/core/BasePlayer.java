@@ -739,6 +739,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card harbinger_cardToPutBackOnDeck(MoveContext context) {
+    	return scavenger_cardToPutBackOnDeck(context);
+    }
+    
+    @Override
     public Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard) {
     	return lowestCards(context, context.getPlayer().getHand(), numToDiscard, true);
     }
@@ -2631,7 +2636,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card scavenger_cardToPutBackOnDeck(MoveContext context) {
-		return Util.randomCard(discard);
+		ArrayList<Card> localDiscard = Util.copy(discard);
+		Iterator<Card> it = localDiscard.iterator();
+		while (it.hasNext()) {
+			Card c = it.next();
+			if (isOnlyVictory(c, this))
+				it.remove();
+		}
+		return highestCard(context, localDiscard);
 	}
 
 	@Override
