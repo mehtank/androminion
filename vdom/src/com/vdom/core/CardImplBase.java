@@ -55,6 +55,9 @@ public class CardImplBase extends CardImpl {
 			case Moneylender:
 	            moneyLender(context, currentPlayer);
 	            break;
+			case Poacher:
+				poacher(game, context, currentPlayer);
+				break;
 			case Remodel:
                 remodel(context, currentPlayer);
                 break;
@@ -329,6 +332,35 @@ public class CardImplBase extends CardImpl {
             	}
             	if (!choseTrash)
             		break;
+            }
+        }
+    }
+    
+    private void poacher(Game game, MoveContext context, Player currentPlayer) {
+    	if (currentPlayer.getHand().isEmpty()) return;
+    	int numToDiscard = game.emptyPiles();
+    	if (numToDiscard == 0) return;
+    	CardList hand = currentPlayer.getHand(); 
+    	Card[] cards = null;
+    	if (hand.size() <= numToDiscard) {
+    		cards = hand.toArray();
+    	} else {
+    		cards = currentPlayer.controlPlayer.poacher_cardsToDiscard(context, numToDiscard);
+    		if (!(cards != null && cards.length == numToDiscard && Util.areCardsInHand(cards, context))) {
+    			Util.playerError(currentPlayer, "Poacher discard error, picking first cards");
+    			cards = new Card[numToDiscard];
+    			for (int i = 0; i < numToDiscard; ++i) {
+    				cards[i] = hand.get(i);
+    			}
+    		}
+    	}
+        for (Card card : cards) {
+            for (int i = 0; i < currentPlayer.hand.size(); i++) {
+                Card playersCard = currentPlayer.hand.get(i);
+                if (playersCard.equals(card)) {
+                    currentPlayer.discard(currentPlayer.hand.remove(i), this.controlCard, context);
+                    break;
+                }
             }
         }
     }

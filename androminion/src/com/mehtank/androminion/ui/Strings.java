@@ -1484,6 +1484,7 @@ public class Strings {
             getCardName(Cards.mill),
             getCardName(Cards.oasis),
             getCardName(Cards.plaza),
+            getCardName(Cards.poacher),
             getCardName(Cards.quest),
             getCardName(Cards.rats),
             getCardName(Cards.rebuild),

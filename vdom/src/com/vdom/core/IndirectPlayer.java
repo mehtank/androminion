@@ -494,6 +494,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         extras[2] = card;
         return selectBoolean(context, Cards.spy, extras);
     }
+    
+    @Override
+    public Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard) {
+    	if(context.isQuickPlay() && shouldAutoPlay_poacher_cardsToDiscard(context, numToDiscard)) {
+            return super.poacher_cardsToDiscard(context, numToDiscard);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setCount(numToDiscard).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.poacher);
+        return getFromHand(context, sco);
+    }
 
     // ////////////////////////////////////////////
     // Card interactions - cards from the Intrigue

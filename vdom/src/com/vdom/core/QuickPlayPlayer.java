@@ -121,7 +121,11 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_scryingPool_shouldDiscard(MoveContext context, Player targetPlayer, Card card) {
         return true;
     }
-
+    
+    public boolean shouldAutoPlay_poacher_cardsToDiscard(MoveContext context, int numToDiscard) {
+        return false;
+    }
+    
     public boolean shouldAutoPlay_secretChamber_cardsToDiscard(MoveContext context) {
         return true;
     }

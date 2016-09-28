@@ -1709,6 +1709,8 @@ public abstract class Player {
     public abstract boolean spy_shouldDiscard(MoveContext context, Player targetPlayer, Card card);
 
     public abstract Card bureaucrat_cardToReplace(MoveContext context);
+    
+    public abstract Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Intrigue

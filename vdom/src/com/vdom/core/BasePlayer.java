@@ -727,6 +727,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public boolean scryingPool_shouldDiscard(MoveContext context, Player targetPlayer, Card card) {
         return controlPlayer.spy_shouldDiscard(context,  targetPlayer, card);
     }
+    
+    @Override
+    public Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard) {
+    	return lowestCards(context, context.getPlayer().getHand(), numToDiscard, true);
+    }
 
     // ////////////////////////////////////////////
     // Card interactions - cards from the Intrigue
