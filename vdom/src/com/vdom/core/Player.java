@@ -1714,6 +1714,8 @@ public abstract class Player {
     
     public abstract Card artisan_cardToReplace(MoveContext context);
     
+    public abstract Card bandit_treasureToTrash(MoveContext context, Card[] treasures);
+    
     public abstract Card harbinger_cardToPutBackOnDeck(MoveContext context);
     
     public abstract Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard);

@@ -122,6 +122,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
     
+    public boolean shouldAutoPlay_bandit_treasureToTrash(MoveContext context, Card[] treasures) {
+        return false;
+    }
+    
     public boolean shouldAutoPlay_poacher_cardsToDiscard(MoveContext context, int numToDiscard) {
         return false;
     }

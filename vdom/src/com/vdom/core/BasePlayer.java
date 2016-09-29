@@ -739,6 +739,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card bandit_treasureToTrash(MoveContext context, Card[] treasures) {
+    	return getWostTreasureCard(context, treasures);
+    }
+    
+    @Override
     public Card harbinger_cardToPutBackOnDeck(MoveContext context) {
     	return scavenger_cardToPutBackOnDeck(context);
     }
@@ -2000,6 +2005,30 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             if(treasures[i].getCost(context) > cost) {
                 index = i;
                 cost = treasures[i].getCost(context);
+            }
+        }
+        return treasures[index];
+    }
+    
+    public Card getWostTreasureCard(MoveContext context, Card[] treasures) {
+        if(treasures == null) {
+            return null;
+        }
+        if(treasures.length == 1) {
+            return treasures[0];
+        }
+        int index = 0;
+        int cost = Integer.MAX_VALUE;
+        for(int i = 0; i < treasures.length; i++) {
+        	Card treasure = treasures[i];
+        	int treasureValue = treasure.getCost(context);
+        	if (treasure.equals(Cards.spoils)) treasureValue = 4;
+        	if (treasure.equals(Cards.diadem)) treasureValue = 7;
+        	if (treasure.getDebtCost(context) > 0) treasureValue += treasure.getDebtCost(context);
+        	if (treasure.costPotion()) treasureValue += 2;
+            if(treasureValue < cost) {
+                index = i;
+                cost = treasureValue;
             }
         }
         return treasures[index];

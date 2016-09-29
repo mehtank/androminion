@@ -515,6 +515,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card bandit_treasureToTrash(MoveContext context, Card[] treasures) {
+    	if(context.isQuickPlay() && shouldAutoPlay_bandit_treasureToTrash(context, treasures)) {
+            return super.bandit_treasureToTrash(context, treasures);
+        }
+        return treasures[selectOption(context, Cards.bandit, treasures)];
+    }
+    
+    @Override
     public Card harbinger_cardToPutBackOnDeck(MoveContext context) {
     	CardList localDiscard = (context.player.isPossessed()) ? context.player.getDiscard() : getDiscard();
         if (localDiscard.isEmpty())

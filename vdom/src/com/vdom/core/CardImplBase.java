@@ -25,6 +25,9 @@ public class CardImplBase extends CardImpl {
 			case Artisan:
 				artisan(game, context, currentPlayer);
 				break;
+			case Bandit:
+				bandit(game, context, currentPlayer);
+				break;
 			case Bureaucrat:
                 bureaucrat(game, context, currentPlayer);
                 break;
@@ -134,6 +137,54 @@ public class CardImplBase extends CardImpl {
                     game.broadcastEvent(event);
             		break;
             	}
+            }
+        }
+	}
+	
+	private void bandit(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+		for (Player targetPlayer : game.getPlayersInTurnOrder()) {
+            if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
+            	attackedPlayers.add(targetPlayer);
+            }
+        }
+		currentPlayer.gainNewCard(Cards.gold, this, context);
+		for(Player targetPlayer : attackedPlayers) {
+			targetPlayer.attacked(this.controlCard, context);
+			MoveContext targetContext = new MoveContext(game, targetPlayer);
+            targetContext.attackedPlayer = targetPlayer;
+            ArrayList<Card> treasures = new ArrayList<Card>();
+            List<Card> cardsToDiscard = new ArrayList<Card>();
+            for (int i = 0; i < 2; i++) {
+                Card card = game.draw(targetContext, Cards.bandit, 2 - i);
+                if (card != null) {
+                    targetPlayer.reveal(card, this.controlCard, targetContext);
+                    if (card.is(Type.Treasure, targetPlayer) && !Cards.copper.equals(card)) {
+                        treasures.add(card);
+                    } else {
+                        cardsToDiscard.add(card);
+                    }
+                }
+            }
+            
+            Card cardToTrash = null;
+            if (treasures.size() == 1) {
+                cardToTrash = treasures.get(0);
+            } else if (treasures.size() == 2) {
+                if (treasures.get(0).equals(treasures.get(1))) {
+                    cardToTrash = treasures.get(0);
+                    cardsToDiscard.add(treasures.remove(1));
+                } else {
+                    cardToTrash = targetPlayer.controlPlayer.bandit_treasureToTrash(context, treasures.toArray(new Card[]{}));
+                    cardToTrash = treasures.get(0).equals(cardToTrash) ? treasures.get(0) : treasures.get(1);
+                    cardsToDiscard.add(treasures.get(0).equals(cardToTrash) ? treasures.get(1) : treasures.get(0));
+                }
+            }
+            if (cardToTrash != null) {
+                targetPlayer.trash(cardToTrash, this.controlCard, targetContext);
+            }
+            for (Card c: cardsToDiscard) {
+                targetPlayer.discard(c, this.controlCard, targetContext);
             }
         }
 	}

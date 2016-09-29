@@ -767,6 +767,8 @@ public class Strings {
                 // And in this case we're deciding which of two treasures we should trash.
                 return getString(R.string.treasure_to_trash);
             }
+        } else if (cardName.equals(getCardName(Cards.bandit))) {
+            return getString(R.string.bandit_treasure_to_trash);
         } else if (cardName.equals(getCardName(Cards.watchTower))) {
             return format(R.string.watch_tower_query, getCardName((Card)extras[0]));
         } else if (cardName.equals(getCardName(Cards.wineMerchant))) {
