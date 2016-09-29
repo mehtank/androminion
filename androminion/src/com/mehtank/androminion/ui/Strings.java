@@ -1183,6 +1183,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.urchin))) {
             strings[1] = getString(R.string.urchin_trash_for_mercenary);
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.vassal))) {
+            strings[1] = format(R.string.vassal_option_play, getCardName((Card)extras[0]));
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.walledVillage))) {
             strings[1] = getString(R.string.walledVillage_option_one);
             strings[2] = getString(R.string.walledVillage_option_two);

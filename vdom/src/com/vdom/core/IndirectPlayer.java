@@ -545,6 +545,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setCardResponsible(Cards.poacher);
         return getFromHand(context, sco);
     }
+    
+    @Override
+    public boolean vassal_shouldPlayCard(MoveContext context, Card card) {
+    	if(context.isQuickPlay() && shouldAutoPlay_vassal_shouldPlayCard(context, card)) {
+            return super.vassal_shouldPlayCard(context, card);
+        }
+        return selectBoolean(context, Cards.vassal, new Object[]{card});
+    }
 
     // ////////////////////////////////////////////
     // Card interactions - cards from the Intrigue

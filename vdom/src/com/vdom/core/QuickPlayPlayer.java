@@ -130,6 +130,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
+    public boolean shouldAutoPlay_vassal_shouldPlayCard(MoveContext context, Card card) {
+    	return false;
+    }
+    
     public boolean shouldAutoPlay_secretChamber_cardsToDiscard(MoveContext context) {
         return true;
     }

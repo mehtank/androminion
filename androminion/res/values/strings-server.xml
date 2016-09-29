@@ -226,6 +226,8 @@
 	
 	<string name="bandit_treasure_to_trash">Select treasure to trash from your deck [Bandit]</string>
 	
+	<string name="vassal_option_play">Play %1$s</string>
+	
 	<string name="scheme_query">Select action card to put back on deck</string>
 	
 	<string name="raze_query">Select card to put in hand</string>

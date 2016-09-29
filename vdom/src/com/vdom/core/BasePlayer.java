@@ -752,6 +752,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard) {
     	return lowestCards(context, context.getPlayer().getHand(), numToDiscard, true);
     }
+    
+    @Override
+    public boolean vassal_shouldPlayCard(MoveContext context, Card card) {
+    	CardList playerHand = context.getPlayer().getHand();
+    	if (playerHand.size() > 0 && card.trashForced()) {
+    		return pickOutCard(playerHand, getTrashCards()) != null;
+    	}
+    	return true;
+    }
 
     // ////////////////////////////////////////////
     // Card interactions - cards from the Intrigue

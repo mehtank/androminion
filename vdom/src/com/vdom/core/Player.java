@@ -1719,6 +1719,8 @@ public abstract class Player {
     public abstract Card harbinger_cardToPutBackOnDeck(MoveContext context);
     
     public abstract Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard);
+    
+    public abstract boolean vassal_shouldPlayCard(MoveContext context, Card card);
 
     // ////////////////////////////////////////////
     // Card interactions - cards from Intrigue

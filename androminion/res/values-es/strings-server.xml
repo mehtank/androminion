@@ -221,6 +221,8 @@
 	<string name="treasure_to_trash">Elije una carta Tesoro para eliminar</string>
 	
 	<string name="bandit_treasure_to_trash">Elige una carta de Tesoro para eliminar de tu mazo [Bandida]</string>
+	
+	<string name="vassal_option_play">Jugar %1$s</string>
 
 	<string name="scheme_query">Elije una carta de Acción para devolver al mazo</string>
 	

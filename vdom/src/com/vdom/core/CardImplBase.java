@@ -79,6 +79,9 @@ public class CardImplBase extends CardImpl {
             case ThroneRoom:
                 throneRoomKingsCourt(game, context, currentPlayer);
                 break;
+            case Vassal:
+            	vassal(game, context, currentPlayer);
+            	break;
             case Witch:
                 witchFamiliar(game, context, currentPlayer);
                 break;
@@ -583,6 +586,23 @@ public class CardImplBase extends CardImpl {
                     game.trashPile.remove(treasure);
                 }
             }
+        }
+    }
+    
+    private void vassal(Game game, MoveContext context, Player player) {
+    	Card draw = game.draw(context, Cards.warrior, 1);
+        if (draw != null) {
+        	player.discard(draw, this.controlCard, context);
+        	int discardIndex = player.discard.size() - 1;
+        	if (draw.is(Type.Action, player) && player.controlPlayer.vassal_shouldPlayCard(context, draw)) {
+        		//TODO: doesn't apply with current cards, 
+        		//      but future card could trigger lose track rule and prevent moving to play area
+        		//      but not prevent from playing
+        		player.discard.remove(discardIndex);
+        		context.freeActionInEffect++;
+                draw.play(game, context, false);
+                context.freeActionInEffect--;
+        	}
         }
     }
 
