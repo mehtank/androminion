@@ -19,6 +19,7 @@
 	<string name="bustlingVillage_query">Put Settlers from discard into hand</string>
 	<string name="reveal_copy">Reveal copy from hand</string>
 	<string name="legionary_reveal_gold">Reveal Gold to attack</string>
+	<string name="sentry_look_at">%1$s looking at %2$s (from %3$s)</string>
 	
 	<string name="join_timed_out">Timed out waiting for player to join and start game.</string>
 	<string name="response_timed_out">Timed out waiting for player to join and respond to query.</string>

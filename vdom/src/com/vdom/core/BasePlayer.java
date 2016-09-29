@@ -754,6 +754,22 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public SentryOption sentry_chooseOption(MoveContext context, Card card, Card[] cards) {
+    	if (arrayContains(getTrashCards(), card)) {
+    		return SentryOption.Trash;
+    	}
+    	if (isOnlyVictory(card, context.getPlayer()) || Cards.tunnel.equals(card)) {
+    		return SentryOption.Discard;
+    	}
+    	return SentryOption.PutBack;
+    }
+    
+    @Override
+    public Card[] sentry_cardOrder(MoveContext context, Card[] cards) {
+    	return cards;
+    }
+    
+    @Override
     public boolean vassal_shouldPlayCard(MoveContext context, Card card) {
     	CardList playerHand = context.getPlayer().getHand();
     	if (playerHand.size() > 0 && card.trashForced()) {

@@ -38,6 +38,7 @@ import com.vdom.core.Player.NoblesOption;
 import com.vdom.core.Player.PawnOption;
 import com.vdom.core.Player.PutBackOption;
 import com.vdom.core.Player.QuestOption;
+import com.vdom.core.Player.SentryOption;
 import com.vdom.core.Player.SpiceMerchantOption;
 import com.vdom.core.Player.SquireOption;
 import com.vdom.core.Player.StewardOption;
@@ -674,6 +675,8 @@ public class Strings {
             return 1;
         } else if (cardName.equals(getCardName(Cards.annex))) {
             return 1;
+        } else if (cardName.equals(getCardName(Cards.sentry))) {
+            return 2;
         } else if (cardName.equals(getCardName(Cards.secretPassage))) {
             return 1;
         }
@@ -755,6 +758,10 @@ public class Strings {
             return getString(R.string.raze_query);
         } else if (cardName.equals(getCardName(Cards.scheme))) {
             return getString(R.string.scheme_query);
+        } else if (cardName.equals(getCardName(Cards.sentry))) {
+        	Card currentCard = (Card)extras[0];
+        	Card[] cards = (Card[])extras[1];
+            return format(R.string.sentry_look_at, cardName, getCardName(currentCard), combineCardNames(cards));
         } else if (cardName.equals(getCardName(Cards.smugglers))) {
             return getString(R.string.smuggle_query);
         } else if (cardName.equals(getCardName(Cards.teacher))) {
@@ -1018,6 +1025,14 @@ public class Strings {
                 return getString(R.string.lurker_gainFromTrash);
             } else if (option == LurkerOption.TrashActionFromSupply) {
                 return getString(R.string.lurker_trashActionFromSupply);
+            }
+        } else if (option instanceof SentryOption) {
+            if (option == SentryOption.Trash) {
+                return getString(R.string.trash);
+            } else if (option == SentryOption.Discard) {
+                return getString(R.string.discard);
+            } else if (option == SentryOption.PutBack) {
+                return getString(R.string.doctor_overpay_option_three);
             }
         } else if (option instanceof Card) {
             return getCardName((Card) option);

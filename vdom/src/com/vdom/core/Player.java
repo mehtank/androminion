@@ -1477,6 +1477,12 @@ public abstract class Player {
         event.card = card.behaveAsCard();
         context.game.broadcastEvent(event);
     }
+    
+    public static enum SentryOption {
+    	Trash,
+    	Discard,
+    	PutBack
+    }
 
     public static enum CourtierOption {
         AddAction,
@@ -1719,6 +1725,10 @@ public abstract class Player {
     public abstract Card harbinger_cardToPutBackOnDeck(MoveContext context);
     
     public abstract Card[] poacher_cardsToDiscard(MoveContext context, int numToDiscard);
+    
+    public abstract SentryOption sentry_chooseOption(MoveContext context, Card card, Card[] cards);
+    
+    public abstract Card[] sentry_cardOrder(MoveContext context, Card[] cards);
     
     public abstract boolean vassal_shouldPlayCard(MoveContext context, Card card);
 

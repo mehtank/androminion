@@ -547,6 +547,33 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public SentryOption sentry_chooseOption(MoveContext context, Card card, Card[] cards) {
+    	if(context.isQuickPlay() && shouldAutoPlay_sentry_chooseOption(context, card, cards)) {
+            return super.sentry_chooseOption(context, card, cards);
+        }
+    	SentryOption[] sentryOptions = SentryOption.values();
+    	Object[] options = new Object[2 + sentryOptions.length];
+        options[0] = card;
+        options[1] = cards;
+        for (int i = 0; i < sentryOptions.length; i++) {
+            options[i + 2] = sentryOptions[i];
+        }
+        return sentryOptions[selectOption(context, Cards.sentry, options)];
+    }
+    
+    @Override
+    public Card[] sentry_cardOrder(MoveContext context, Card[] cards) {
+    	if(context.isQuickPlay() && shouldAutoPlay_sentry_cardOrder(context, cards)) {
+            return super.sentry_cardOrder(context, cards);
+        }
+        ArrayList<Card> orderedCards = new ArrayList<Card>();
+        int[] order = orderCards(context, cardArrToIntArr(cards));
+        for (int i : order)
+            orderedCards.add(cards[i]);
+        return orderedCards.toArray(new Card[0]);
+    }
+    
+    @Override
     public boolean vassal_shouldPlayCard(MoveContext context, Card card) {
     	if(context.isQuickPlay() && shouldAutoPlay_vassal_shouldPlayCard(context, card)) {
             return super.vassal_shouldPlayCard(context, card);

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
+import com.vdom.core.Player.SentryOption;
 
 public class CardImplBase extends CardImpl {
 	private static final long serialVersionUID = 1L;
@@ -70,6 +71,9 @@ public class CardImplBase extends CardImpl {
 			case Remodel:
                 remodel(context, currentPlayer);
                 break;
+			case Sentry:
+				sentry(game, context, currentPlayer);
+				break;
 			case Spy:
                 spyAndScryingPool(game, context, currentPlayer);
                 break;
@@ -519,6 +523,66 @@ public class CardImplBase extends CardImpl {
                     }
                 }
             }
+        }
+    }
+    
+    private void sentry(Game game, MoveContext context, Player currentPlayer) {
+    	ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
+        for (int i = 0; i < 2; i++) {
+            Card card = game.draw(context, Cards.sentry, 2 - i);
+            if (card != null) {
+                topOfTheDeck.add(card);
+            }
+        }
+
+        ArrayList<Card> toTrash = new ArrayList<Card>();
+        ArrayList<Card> toDiscard = new ArrayList<Card>();
+        ArrayList<Card> toReplace = new ArrayList<Card>();
+        if (topOfTheDeck.size() > 0) {
+        	for (Card c : topOfTheDeck) {
+        		SentryOption option = currentPlayer.controlPlayer.sentry_chooseOption(context, c, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]));
+        		if (option == null) {
+        			Util.playerError(currentPlayer, "Sentry chose null option - trashing card");
+        			option = SentryOption.Trash;
+        		}
+        		switch (option) {
+	        		case Trash:
+	        			toTrash.add(c);
+	        			break;
+	        		case Discard:
+	        			toDiscard.add(c);
+	        			break;
+	        		case PutBack:
+	        			toReplace.add(c);
+	        			break;
+	        		default:
+	        			toTrash.add(c);
+	        			break;
+        		}
+        	}
+        	for (Card c : toTrash) {
+        		currentPlayer.trash(c, this.getControlCard(), context);
+        	}
+        	for (Card c : toDiscard) {
+        		currentPlayer.discard(c, this.getControlCard(), context);
+        	}
+        	if (toReplace.size() > 0) {
+	        	Card[] order;
+	            if(toReplace.size() == 1) {
+	                order = toReplace.toArray(new Card[toReplace.size()]);
+	            } else {
+	                order = currentPlayer.controlPlayer.sentry_cardOrder(context, toReplace.toArray(new Card[toReplace.size()]));
+	                if (!Util.areCardsInList(order, toReplace)) {
+	                	Util.playerError(currentPlayer, "Sentry order cards error, ignoring.");
+	                	order = toReplace.toArray(new Card[toReplace.size()]);
+	                }
+	            }
+	
+	            // Put the cards back on the deck
+	            for (int i = order.length - 1; i >= 0; i--) {
+	                currentPlayer.putOnTopOfDeck(order[i]);
+	            }
+        	}
         }
     }
     

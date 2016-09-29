@@ -130,6 +130,14 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
+    public boolean shouldAutoPlay_sentry_chooseOption(MoveContext context, Card card, Card[] cards) {
+        return false;
+    }
+    
+    public boolean shouldAutoPlay_sentry_cardOrder(MoveContext context, Card[] cards) {
+        return false;
+    }
+        
     public boolean shouldAutoPlay_vassal_shouldPlayCard(MoveContext context, Card card) {
     	return false;
     }
@@ -739,7 +747,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_cartographer_cardOrder(MoveContext context, Card[] cards) {
         return true;
     }
-    
+        
     public boolean shouldAutoPlay_spiceMerchant_chooseOption(MoveContext context) {
         return false;
     }
