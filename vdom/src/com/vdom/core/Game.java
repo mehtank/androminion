@@ -3429,6 +3429,17 @@ public class Game {
                                 victoryCards++;
                             }
                         }
+
+                        for (Player opponent : context.game.getPlayersInTurnOrder()) {
+                            if (opponent != player) {
+                                for (Card c : opponent.nextTurnCards) {
+                                    if (c.is(Type.Victory, opponent)) {
+                                        victoryCards++;
+                                    }
+                                }
+                            }
+                        }
+
                         victoryCards += context.countVictoryCardsInPlay();
 
                         player.addVictoryTokens(context, victoryCards);
