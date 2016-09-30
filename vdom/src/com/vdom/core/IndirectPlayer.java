@@ -2810,6 +2810,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     
     @Override
     public int numDebtTokensToPayOff(MoveContext context) {
+        if (context.isQuickPlay() && shoudlAutoPlay_payoffDebt(context)) {
+            return super.numDebtTokensToPayOff(context);
+        }
     	return selectInt(context, null, Math.min(context.getCoins(), context.getPlayer().getDebtTokenCount()), OPTION_PAY_DEBT);
     }
 

@@ -682,6 +682,7 @@ public class Game {
         
         if (player.isPossessed()) {
             if (--possessionsToProcess == 0)
+                possessingPlayer = null;
                 player.controlPlayer = player;
         } else if (nextPossessionsToProcess > 0) {
             possessionsToProcess = nextPossessionsToProcess;
