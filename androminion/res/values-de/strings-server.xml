@@ -111,14 +111,14 @@
 	<string name="reaction_query">Wähle Reaktionskarte zum Zeigen</string>
 	<string name="bane_option_one">Zeige Bannkarte (%1$s)</string>
 	
-	<string name="card_to_reveal">[%1$s]: Zeige</string>
-	<string name="card_to_gain">[%1$s]: Nimm</string>
-	<string name="card_to_trash">[%1$s]: Entsorge</string>
-	<string name="card_to_discard">[%1$s]: Lege ab</string>
-	<string name="card_to_discard_for_card">[%1$s]: Lege ab für +Karten</string>
-	<string name="card_to_discard_for_coin">[%1$s]: Lege ab für +Geld</string>
-	<string name="card_to_name">[%1$s]: Nenne</string>
-	<string name="card_to_set_aside">[%1$s]: Lege zur Seite</string>
+	<string name="card_to_reveal">%1$s: Zeige</string>
+	<string name="card_to_gain">%1$s: Nimm</string>
+	<string name="card_to_trash">%1$s: Entsorge</string>
+	<string name="card_to_discard">%1$s: Lege ab</string>
+	<string name="card_to_discard_for_card">%1$s: Lege ab für +Karten</string>
+	<string name="card_to_discard_for_coin">%1$s: Lege ab für +Geld</string>
+	<string name="card_to_name">%1$s: Nenne</string>
+	<string name="card_to_set_aside">%1$s: Lege zur Seite</string>
 	<string name="discard">Abwerfen</string>
 	<string name="trash">Entsorgen</string>
 	<string name="keep">Behalten</string>
@@ -209,18 +209,18 @@
 	<string name="trash_this_gain_another">Entsorge diese Karte um eine weitere zu Nehmen</string>
 	<string name="trash_castle_from_hand">Entsorge Schloss aus der Hand</string>
 	
-	<string name="secretchamber_part">[Geheimkammer]: Lege oben auf den Nachziehstapel: Wähle</string>
-	<string name="secretchamber_query_discard">[Geheimkammer]: Lege ab: Wähle</string>
+	<string name="secretchamber_part">Geheimkammer: Lege oben auf den Nachziehstapel: Wähle</string>
+	<string name="secretchamber_query_discard">Geheimkammer: Lege ab: Wähle</string>
 	
-	<string name="ghostship_part">[Geisterschiff]: Lege oben auf den Nachziehstapel: Wähle</string>
+	<string name="ghostship_part">Geisterschiff: Lege oben auf den Nachziehstapel: Wähle</string>
 	
-	<string name="ambassador_query">Anzahl %1$s zurück in den Vorrat [Botschafter]:</string>
+	<string name="ambassador_query">Botschafter: Wie viele %1$s zurück in den Vorrat legen:</string>
 	
-	<string name="goons_part">[Halsabschneider]: Behalte</string>
+	<string name="goons_part">Halsabschneider: Behalte</string>
 	
 	<string name="watch_tower_query">Wachturm (%1$s erhalten):</string>
 	
-	<string name="followers_part">[Gefolge]: Behalte</string>
+	<string name="followers_part">Gefolge: Behalte</string>
 	
 	<string name="treasure_to_trash">Wähle eine Geldkarte zum Entsorgen</string>
 	
@@ -238,7 +238,7 @@
 	
 	<string name="teacher_query">Wähle einen Marker</string>
 	
-	<string name="courtyard_part_top_of_deck"> [%1$s]: Lege oben auf den Nachziehstapel: Wähle</string>
+	<string name="courtyard_part_top_of_deck">%1$s: Lege oben auf den Nachziehstapel: Wähle</string>
 	
 	<string name="hamlet_part_discard_for_action">Abwerfen für +1 Aktion: Wähle</string>
 	<string name="hamlet_part_discard_for_buy">Abwerfen für +1 Kauf: Wähle</string>
@@ -288,7 +288,7 @@
 	
 	<string name="duchess_play_option_one">Zurück auf Nachziehstapel</string>
 	
-	<string name="noble_brigand_query">Erhalte neue Karte %1$s [Edler Räuber]</string>
+	<string name="noble_brigand_query">Edler Räuber: Erhalte neue Karte %1$s</string>
 	
 	<string name="steward_option_one">+2 Karten</string>
 	<string name="steward_option_two">+(2) Geld</string>
@@ -315,7 +315,7 @@
 	<string name="count_secondoption_one">+(3) Geld</string>
 	<string name="count_secondoption_two">Entsorge alle deine Handkarten</string>
 	<string name="count_secondoption_three">Nimm dir ein Herzogtum</string>
-	<string name="count_part_top_of_deck">[%1$s]: Lege zurück auf den Nachziehstapel</string>
+	<string name="count_part_top_of_deck">%1$s: Lege zurück auf den Nachziehstapel</string>
 	
 	<string name="graverobber_option_one">Nimm dir eine Karte vom Müllstapel</string>
 	<string name="graverobber_option_two">Entsorge eine Aktionskarte aus deiner Hand</string>
@@ -373,15 +373,15 @@
 	
 	<string name="saboteur_part">Ersetze die sabotierte Karte: Wähle</string>
 	
-	<string name="mandarin_part">[Mandarin]: Lege oben auf den Nachziehstapel</string>
+	<string name="mandarin_part">Mandarin: Lege oben auf den Nachziehstapel</string>
 	
-	<string name="bureaucrat_part">[Bürokrat]: Lege oben auf den Nachziehstapel: Wähle</string>
+	<string name="bureaucrat_part">Bürokrat: Lege oben auf den Nachziehstapel: Wähle</string>
 	
-	<string name="haven_part">[Hafen]: Lege verdeckt zur Seite: Wähle</string>
+	<string name="haven_part">Hafen: Lege verdeckt zur Seite: Wähle</string>
 	
 	<string name="gear_part">Ausrüstung zur Seite legen: Wähle</string>
 	
-	<string name="save_part">[Zuflucht]: Lege zur Seite</string>
+	<string name="save_part">Zuflucht: Lege zur Seite</string>
 	
 	<string name="island_part">Lege auf die Insel</string>
 	
@@ -392,17 +392,17 @@
 	<string name="throne_room_part">Spiele 2 mal</string>
 	<string name="kings_court_part">Spiele 3 mal</string>
 	
-	<string name="militia_part">[Miliz]: Behalte</string>
-	<string name="mercenary_part">[Söldner]: Behalte</string>
-	<string name="sir_michael_part">[Sir Michael]: Behalte</string>
-	<string name="catapult_part">[Katapult]: Behalte</string>
-	<string name="legionary_part">[Legionär]: Behalte</string>
+	<string name="militia_part">Miliz: Behalte</string>
+	<string name="mercenary_part">Söldner: Behalte</string>
+	<string name="sir_michael_part">Sir Michael: Behalte</string>
+	<string name="catapult_part">Katapult: Behalte</string>
+	<string name="legionary_part">Legionär: Behalte</string>
 	
 	<string name="bishop_part">Entsorge für Punktemarker</string>
 	
 	<string name="swindler_part">Ersetze getrickste Karte im Wert bis zu (%1$s)</string>
 	
-	<string name="margrave_part">[Markgraf]: Behalte</string>
+	<string name="margrave_part">Markgraf: Behalte</string>
 	
 	<string name="wishing_well_part">Errate die oberste Karte: Wähle</string>
 	
@@ -433,10 +433,10 @@
 	<string name="cards">Karten</string>
 	<string name="return_cards">Auf den Nachziehstapel zurücklegen:</string>
 	<string name="take_normal">Nimm normal</string>
-	<string name="opponent_discard">Wähle eine Karte von %1$s, die diese(r) ablegen muss (%2$s)</string>
+	<string name="opponent_discard">%2$s: Wähle eine Karte, die %1$s ablegen muss:</string>
 	<string name="survivors_header">Die Überlebenden haben aufgedeckt: %1$s</string>
 	<string name="cultist_play_next">Spiele einen weiteren Kultisten aus deiner Hand</string>
-	<string name="urchin_keep">[Gassenjunge]: Behalte</string>
+	<string name="urchin_keep">Gassenjunge: Behalte</string>
 	<string name="urchin_trash_for_mercenary">Entsorge diese Karte und nimm dir einen Söldner</string>
 	<string name="madman_option">Lege diese Karte zurück auf den Verrückten-Stapel.</string>
 	
@@ -472,18 +472,18 @@
 	<string name="start_turn_query">Beginn deines Zuges: Wähle Aktion:</string>
 	<string name="call_optional">%1$s (optional)</string>
 	
-	<string name="archive_query">[Archiv]: Wähle eine Karte zum auf die Hand nehmen</string>
-	<string name="annex_query">[Schlacht]: Wähle Karten die im Ablagestapel bleiben (bis zu %1$s weitere) </string>
+	<string name="archive_query">Archiv: Wähle eine Karte zum auf die Hand nehmen</string>
+	<string name="annex_query">Schlacht: Wähle Karten die im Ablagestapel bleiben (bis zu %1$s weitere) </string>
 	<string name="charm_option_one">+1 Kauf, +(2) Geld</string>
 	<string name="charm_option_two">Nimm nach dem nächsten Kauf eine Karte mit unterschiedlichem Namen und gleichen Kosten</string>
 	<string name="reveal_gold">Gold aufdecken</string>
 	<string name="reveal_plunder">Diebesgut aufdecken</string>
-	<string name="hauntedcastle_part">[Spukschloss]: Auf den Ablagestapel zurücklegen</string>
+	<string name="hauntedcastle_part">Spukschloss: Auf den Ablagestapel zurücklegen</string>
 	<string name="draw_three_add_token">Ziehe 3 Karten und lege Punktemarker auf den Stapel</string>
 	<string name="gain_estate_and_tokens">Nehme Anwesen und erhalte Punktemarker vom Stapel</string>
-	<string name="tax_part">[Steuer]: Lege 2 Schuldenmarker auf</string>
-	<string name="mountainPass_query">[Bergpass]: Biete Schuldenmarker zu nehmen für 8 Punktemarker</string>
-	<string name="mountainPass_high_bid_query">[Bergpass]: Biete Schuldenmarker zu nehmen für 8 Punktemarker (Höchstgebot: %1$s)</string>
+	<string name="tax_part">Steuer: Lege 2 Schuldenmarker auf</string>
+	<string name="mountainPass_query">Bergpass: Biete Schuldenmarker zu nehmen für 8 Punktemarker</string>
+	<string name="mountainPass_high_bid_query">Bergpass: Biete Schuldenmarker zu nehmen für 8 Punktemarker (Höchstgebot: %1$s)</string>
 
 	<string name="place_stash_query">Geheimversteck einsortieren</string>
 	<string name="place_stashes_query">Sortiere %1$s Geheimverstecke in deinen Nachziehstapel</string>
