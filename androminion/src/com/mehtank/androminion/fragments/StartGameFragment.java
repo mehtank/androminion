@@ -717,7 +717,15 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         }
 
         strs.add("-blackmarketcount" + mPrefs.getString("black_market_count", "25"));
-        
+
+        if (mPrefs.getBoolean("bmlAllowMultpileCardsFromPile", false)) {
+            strs.add("-blackmarketallowmultiplecardsfrompile");
+        }
+
+        if (mPrefs.getBoolean("bmOnlyCardsFromUsedExpansions", false)) {
+            strs.add("-blackmarketonlycardsfromusedexpansions");
+        }
+
         if(mPrefs.getBoolean("quick_play", false)) {
             strs.add("-quickplay");
         }

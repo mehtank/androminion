@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
@@ -71,8 +72,10 @@ public class Game {
     public static boolean platColonyPassedIn = false;
     public static double chanceForPlatColony = -1;
     public static double chanceForShelters = 0.0;
-    
+
     public static int blackMarketCount = 25;
+    public static boolean blackMarketAllowMultipleCardsFromPile = false;
+    public static boolean blackMarketOnlyCardsFromUsedExpansions = false;
     
     public static boolean randomIncludesEvents = false;
     public static int numRandomEvents = 0;
@@ -1465,7 +1468,7 @@ public class Game {
         splitMaxEventsAndLandmarks = false;
         randomExpansions = null;
         randomExcludedExpansions = null;
-        
+
         String gameCountArg = "-count";
         String debugArg = "-debug";
         String showEventsArg = "-showevents";
@@ -1650,6 +1653,8 @@ public class Game {
         chanceForPlatColony = -1;
         chanceForShelters = -1;
         equalStartHands = false;
+        blackMarketAllowMultipleCardsFromPile = false;
+        blackMarketOnlyCardsFromUsedExpansions = false;
         errataMasqueradeAlwaysAffects = false;
         errataMineForced = false;
         errataMoneylenderForced = false;
@@ -1668,6 +1673,8 @@ public class Game {
         String platColonyArg = "-platcolony";
         String useSheltersArg = "-useshelters";
         String blackMarketCountArg = "-blackmarketcount";
+        String bmMultiCardsArg = "-blackmarketallowmultiplecardsfrompile";
+        String bmOnlyUsedExpArg = "-blackmarketonlycardsfromusedexpansions";
         String equalStartHandsArg = "-equalstarthands";
         String errataThroneRoomForcedArg = "-erratathroneroomforced";
         String errataMasqueradeAlwaysAffectsArg = "-erratamasqueradealwaysaffects";
@@ -1705,6 +1712,10 @@ public class Game {
                 	chanceForShelters = Integer.parseInt(arg.toLowerCase().substring(useSheltersArg.length())) / 100.0;
                 } else if (arg.toLowerCase().startsWith(blackMarketCountArg)) {
                     blackMarketCount = Integer.parseInt(arg.toLowerCase().substring(blackMarketCountArg.length()));
+                } else if (arg.toLowerCase().startsWith(bmMultiCardsArg)) {
+                    blackMarketAllowMultipleCardsFromPile = true;
+                } else if (arg.toLowerCase().startsWith(bmOnlyUsedExpArg)) {
+                    blackMarketOnlyCardsFromUsedExpansions = true;
                 } else if (arg.toLowerCase().equals(equalStartHandsArg)) {
                     equalStartHands = true;
                 } else if (arg.toLowerCase().equals(startGuildsCoinTokensArg)) {
@@ -2688,29 +2699,50 @@ public class Game {
         Cards.blackMarketCards.clear();
         if (piles.containsKey(Cards.blackMarket.getName()))
         {
+            List<Card> allCards;
+
             // get 10 cards more then needed. Extract the cards in supply
             int count = Math.max(blackMarketCount - blackMarketPile.size(), 0);
-            List<Card> allCards = CardSet.getCardSet(GameType.Random, count+10).getCards();
+            if (blackMarketOnlyCardsFromUsedExpansions) {
+                Set<Expansion> expansions = new HashSet<Expansion>();
+                for (CardPile pile : placeholderPiles.values()) {
+                    if (pile != null &&
+                            pile.placeholderCard() != null &&
+                            pile.placeholderCard().getExpansion() != null &&
+                            Cards.isKingdomCard(pile.placeholderCard())) {
+                        expansions.add(pile.placeholderCard().getExpansion());
+                    }
+                }
+                allCards = CardSet.getCardSet(GameType.Random, count+10, new ArrayList<Expansion>(expansions), false, 0, false, 0, false, false).getCards();
+            } else {
+                allCards = CardSet.getCardSet(GameType.Random, count+10).getCards();
+            }
+
             List<Card> remainingCards = new ArrayList<Card>();
             for (int i = 0; i < allCards.size(); i++) {
                 if (!piles.containsKey(allCards.get(i).getName())) {
-                	remainingCards.add(allCards.get(i));
+                    ArrayList<Card> templates = allCards.get(i).getPileCreator().create(allCards.get(i), 12).getTemplateCards(); //count doesn't matter as we only need templates
+                    if (blackMarketAllowMultipleCardsFromPile) {
+                        for (Card card : templates) {
+                            remainingCards.add(card);
+                        }
+                    } else {
+                        remainingCards.add(Util.randomCard(templates));
+                    }
                 }
             }
             // take count cards from the rest
             List<Card> cards = CardSet.getRandomCardSet(remainingCards, count).getCards();
             for (int i = 0; i < cards.size(); i++) {
             	remainingCards.remove(cards.get(i));
-                blackMarketPile.add(cards.get(i));
+                blackMarketPile.add(cards.get(i).instantiate());
             }
-            if (blackMarketPile.contains(Cards.virtualKnight)) {
-                // pick one real knight
-                blackMarketPile.remove(Cards.virtualKnight);
-                blackMarketPile.add(Cards.knightsCards.get(Game.rand.nextInt(Cards.knightsCards.size())));
-            }
+
             if (this.baneCard == null && blackMarketPile.contains(Cards.youngWitch)) {
             	this.baneCard = CardSet.getBaneCard(remainingCards);
-            	this.addPile(this.baneCard);
+                if (this.baneCard != null) {
+                    this.addPile(this.baneCard);
+                }
             }
             // sort
             Collections.sort(blackMarketPile, new Util.CardCostNameComparator());

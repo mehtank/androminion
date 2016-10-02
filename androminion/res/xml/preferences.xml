@@ -179,14 +179,31 @@
             android:summary="@string/equal_start_hands_pref_summary"
             android:title="@string/equal_start_hands_pref_title" >
         </CheckBoxPreference>
-        <EditTextPreference
-            android:key="black_market_count"
-            android:defaultValue="25"
-            android:dialogMessage="@string/black_market_count_pref_summary"
-            android:dialogTitle="@string/black_market_count_pref_title"
-            android:title="@string/black_market_count_pref_title"
-            android:numeric="integer" >
-        </EditTextPreference>
+        <PreferenceScreen
+            android:title="@string/black_market_title"
+            android:summary="@string/black_market_summary" >
+            <EditTextPreference
+                android:key="black_market_count"
+                android:defaultValue="25"
+                android:dialogMessage="@string/black_market_count_pref_summary"
+                android:dialogTitle="@string/black_market_count_pref_title"
+                android:summary="@string/black_market_count_pref_summary"
+                android:title="@string/black_market_count_pref_title"
+                android:numeric="integer" >
+            </EditTextPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="bmlAllowMultpileCardsFromPile"
+                android:summary="@string/bm_multiple_cards_pile_pref_summary"
+                android:title="@string/bm_multiple_cards_pile_pref_title" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="bmOnlyCardsFromUsedExpansions"
+                android:summary="@string/bm_only_cards_from_used_exp_pref_summary"
+                android:title="@string/bm_only_cards_from_used_exp_pref_title" >
+            </CheckBoxPreference>
+        </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notif_pref_title" >
         <CheckBoxPreference
