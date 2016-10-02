@@ -19,7 +19,8 @@
 	<string name="bustlingVillage_query">Nimm Siedler vom Ablagestapel auf die Hand</string>
 	<string name="reveal_copy">Decke Kopie aus der Hand auf</string>
 	<string name="legionary_reveal_gold">Gold aufdeken zum Angreifen</string>
-	
+	<string name="sentry_look_at">%1$s looking at %2$s (from %3$s)</string>
+
 	<string name="join_timed_out">Time out während des Wartens auf andere Mitspieler.</string>
 	<string name="response_timed_out">Time out während des Wartens auf eine Anfrage nach Mitspieler.</string>
 	
@@ -224,6 +225,10 @@
 	
 	<string name="treasure_to_trash">Wähle eine Geldkarte zum Entsorgen</string>
 	
+	<string name="bandit_treasure_to_trash">Wähle eine Geldkarte aus deinem Nachziehstapel zum Entsorgen</string>
+	
+	<string name="vassal_option_play">Spiele %1$s</string>
+	
 	<string name="scheme_query">Wähle Karte, die auf Nachziehstapel zurückgelegt werden soll</string>
 	
 	<string name="raze_query">Wähle Karte, die auf die Hand genommen werden soll</string>
@@ -249,6 +254,8 @@
 	<string name="lookout_query_trash">Wähle eine Karte zum Entsorgen</string>
 	<string name="lookout_query_discard">Wähle eine Karte zum Ablegen</string>
 	
+	<string name="moneylender_trash_copper">Entsorge ein Kupfer aus deiner Hand für +(3) Geld</string>
+
 	<string name="mountebank_query">Quacksalber</string>
 	<string name="mountebank_option_one">Lege Fluch ab</string>
 	<string name="mountebank_option_two">Nimm Fluch und Kupfer</string>
@@ -386,6 +393,18 @@
 	<string name="island_part">Lege auf die Insel</string>
 	
 	<string name="masquerade_part">Gib Karte nach links: Wähle</string>
+	
+	<string name="courtier_ask_reveal">aufdecken</string>
+	<string name="secretPassage_cardToPutInDeck">in den Nachziehstapel zu legen</string>
+	<string name="secretPassage_query">Lege %1$s in den Nachziehstapel</string>
+
+	<string name="courtier_option_add_action">+1 Aktion</string>
+	<string name="courtier_option_add_buy">+1 Kauf</string>
+	<string name="courtier_option_add_coins">+(3) Geld</string>
+	<string name="courtier_option_gain_gold">Nimm ein Gold</string>
+	<string name="lurker_gainFromTrash">Nehme eine Aktionskarte vom Müll</string>
+	<string name="lurker_trashActionFromSupply">Entsorge eine Aktionskarte vom Vorrat</string>
+	<string name="lurker_cardToTrashFromSupply">entsorge</string>
 	
 	<string name="mine_part">Wähle</string>
 	
