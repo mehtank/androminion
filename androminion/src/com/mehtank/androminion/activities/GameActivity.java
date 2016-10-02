@@ -239,6 +239,15 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 
         strs.add("-blackmarketcount" + prefs.getString("black_market_count", "25"));
 
+
+        if (prefs.getBoolean("bmlAllowMultpileCardsFromPile", true)) {
+            strs.add("-blackmarketallowmultiplecardsfrompile");
+        }
+
+        if (prefs.getBoolean("bmOnlyCardsFromUsedExpansions", false)) {
+            strs.add("-blackmarketonlycardsfromusedexpansions");
+        }
+
         if(prefs.getBoolean("quick_play", false)) {
             strs.add("-quickplay");
         }

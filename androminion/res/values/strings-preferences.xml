@@ -40,8 +40,14 @@
     <string name="equal_start_hands_pref_summary">All players have the same starting hand (will take effect next game)</string>
     <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
     <string name="plat_colony_pref_summary">Always include platinum and colony cards, regardless of game type (will take effect next game)</string>
-    <string name="black_market_count_pref_title">Cards in Black Market deck</string>
+    <string name="black_market_title">Black Market</string>
+    <string name="black_market_summary">Specify how the Black Market deck is chosen</string>
+    <string name="black_market_count_pref_title">Black Market deck size</string>
     <string name="black_market_count_pref_summary">Number of cards in Black Market deck if Black Market is in play (at least 15 recommended)</string>
+    <string name="bm_multiple_cards_pile_pref_title">Allow multiple cards from the same card Pile</string>
+    <string name="bm_multiple_cards_pile_pref_summary">This affects only cards from split piles, Knights and Castles</string>
+    <string name="bm_only_cards_from_used_exp_pref_title">Use only cards from included expansions</string>
+    <string name="bm_only_cards_from_used_exp_pref_summary">Create the black market deck using only cards from expansions that are included in the kingdom</string>
     <string name="ui_pref_title">User Interface</string>
     <string name="personalization_pref_title">Personalization</string>
     <string name="name_pref_summary">Enter your nickname</string>
