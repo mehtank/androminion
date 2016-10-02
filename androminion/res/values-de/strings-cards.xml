@@ -64,6 +64,10 @@
     <string name="Village_desc"></string>
     <string name="Witch_name">Hexe</string>
     <string name="Witch_desc">Jeder Mitspieler muss sich eine Fluchkarte nehmen.</string>
+    <string name="Woodcutter_name">Holzfäller</string>
+    <string name="Woodcutter_desc"></string>
+    <string name="Workshop_name">Werkstatt</string>
+    <string name="Workshop_desc">Nimm dir eine Karte, die bis zu 4 kostet.</string>
     <string name="Gardens_name">Gärten</string>
     <string name="Gardens_desc">Wert 1 Siegpunkt für je 10 Karten im eigenen Kartensatz (abgerundet).</string>
     <string name="Artisan_name">Artisan</string>
@@ -80,10 +84,6 @@
     <string name="Sentry_desc">Look at the top 2 cards of your deck. Trash and/or discard any number of them. Put the rest back in any order.</string>
     <string name="Vassal_name">Vassal</string>
     <string name="Vassal_desc">Discard the top card of your deck. If it is an Action card, you may play it.</string>
-    <string name="Woodcutter_name">Holzfäller</string>
-    <string name="Woodcutter_desc"></string>
-    <string name="Workshop_name">Werkstatt</string>
-    <string name="Workshop_desc">Nimm dir eine Karte, die bis zu 4 kostet.</string>
     <string name="Torturer_name">Kerkermeister</string>
     <string name="Torturer_desc">Jeder Mitspieler muss eins wählen: 2 Karten ablegen oder eine Fluchkarte auf die Hand nehmen.</string>
     <string name="SecretChamber_name">Geheimkammer</string>
