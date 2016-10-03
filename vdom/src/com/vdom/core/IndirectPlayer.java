@@ -3635,7 +3635,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     		options[i] = highestBid + i - 1;
     	}
     	int idx = selectOption(context, Cards.mountainPass, options) + 1;
-    	Integer bid = (Integer) options[idx]; 
+        Integer bid = 0;
+    	try {
+            bid = (Integer) options[idx];
+        } catch (ClassCastException e) {
+            bid = 0;
+        }
     	if (bid == null) bid = 0;
         return bid;
     }
