@@ -64,6 +64,10 @@
     <string name="Village_desc"></string>
     <string name="Witch_name">Witch</string>
     <string name="Witch_desc">Each other player gains a Curse.</string>
+    <string name="Woodcutter_name">Woodcutter</string>
+    <string name="Woodcutter_desc"></string>
+    <string name="Workshop_name">Workshop</string>
+    <string name="Workshop_desc">Gain a card costing up to (4) Coins.</string>
     <string name="Gardens_name">Gardens</string>
     <string name="Gardens_desc">Worth 1 Victory Point for every 10 cards in your deck (rounded down).</string>
     <string name="Artisan_name">Artisan</string>
