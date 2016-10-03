@@ -133,7 +133,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			LayoutInflater.from(context).inflate(R.layout.view_card_classic, this, true);
 		else if (viewstyle.equals("viewstyle-descriptive"))
 			LayoutInflater.from(context).inflate(R.layout.view_card_descriptive, this, true);
-		else
+		else if (viewstyle.equals("viewstyle-condensed"))
+			LayoutInflater.from(context).inflate(R.layout.view_card_condensed, this, true);
+		else /*if (viewstyle.equals("viewstyle-simple"))*/
 			LayoutInflater.from(context).inflate(R.layout.view_card, this, true);
 
 		name = (TextView) findViewById(R.id.name);
@@ -244,7 +246,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			cardDesc.setTextColor(countColor);
 			if (c.pile == MyCard.MONEYPILE || c.pile == MyCard.VPPILE) {
 				ViewGroup.LayoutParams params = cardDesc.getLayoutParams();
-				int pixels = (int) (0.5f + 20 * getContext().getResources().getDisplayMetrics().density);
+				int pixels = (int) (0.5f + (viewstyle.equals("viewstyle-condensed") ? 15 : 20) * getContext().getResources().getDisplayMetrics().density);
 				params.height = pixels;
 				cardDesc.setLayoutParams(params);
 			}
@@ -562,7 +564,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	void setOnTable(boolean onTable) {
 		countLeft.setVisibility(onTable && !hideCountLeft ? VISIBLE : GONE);
 		if (cardDesc != null)
-			cardDesc.setVisibility((onTable && "viewstyle-descriptive".equals(viewstyle)) ? VISIBLE : GONE);
+			cardDesc.setVisibility((onTable && ("viewstyle-descriptive".equals(viewstyle) || "viewstyle-condensed".equals(viewstyle))) ? VISIBLE : GONE);
 		if (onTable && "viewstyle-classic".equals(viewstyle)) {
 			FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
 					FrameLayout.LayoutParams.WRAP_CONTENT,
