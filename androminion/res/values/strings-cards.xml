@@ -47,7 +47,7 @@
     <string name="Militia_name">Militia</string>
     <string name="Militia_desc">Each other player discards down to 3 cards in hand.</string>
     <string name="Mine_name">Mine</string>
-    <string name="Mine_desc">Trash a Treasure card from your hand. Gain a Treasure card costing up to 3 Coins more; put it into your hand.</string>
+    <string name="Mine_desc">You may trash a Treasure from your hand. Gain a Treasure to your hand costing up to (3) Coins more than it.</string>
     <string name="Moneylender_name">Moneylender</string>
     <string name="Moneylender_desc">You may trash a Copper from your hand for +(3) Coins.</string>
     <string name="Remodel_name">Remodel</string>
@@ -81,7 +81,7 @@
     <string name="Vassal_name">Vassal</string>
     <string name="Vassal_desc">Discard the top card of your deck. If it is an Action card, you may play it.</string>
     <string name="Torturer_name">Torturer</string>
-    <string name="Torturer_desc">Each other player either discards 2 cards or gains a Curse to their hand, their choice. (They may pick an option they can't do.)</string>
+    <string name="Torturer_desc">Each other player either discards 2 cards or gains a Curse to their hand, their choice. (They may pick an option they can\'t do.)</string>
     <string name="SecretChamber_name">Secret Chamber</string>
     <string name="SecretChamber_desc">Discard any number of cards. +1 Coin per card discarded. When another player plays an Attack card, you may reveal this from your hand. If you do, +2 Cards, then put 2 cards from your hand on top of your deck.</string>
     <string name="Nobles_name">Nobles</string>
@@ -93,7 +93,7 @@
     <string name="Harem_name">Harem</string>
     <string name="Harem_desc"></string>
     <string name="Baron_name">Baron</string>
-    <string name="Baron_desc">You may discard an Estate for +(4) Coins. If you don't, gain an Estate.</string>
+    <string name="Baron_desc">You may discard an Estate for +(4) Coins. If you don\'t, gain an Estate.</string>
     <string name="Bridge_name">Bridge</string>
     <string name="Bridge_desc">This turn, cards (everywhere) cost (1) Coin less, but not less than (0) Coins.</string>
     <string name="Conspirator_name">Conspirator</string>
