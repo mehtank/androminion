@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="userlang_pref_title">Sprache</string>
     <string name="userlang_pref_summary">Sprache wählen (überschreibt Systemsprache)</string>
@@ -26,6 +26,8 @@
     <string name="start_guilds_coin_tokens_pref_summary">Starte mit Münzen und ohne Karten</string>
     <string name="less_provinces_pref_title">Weniger Provinzen</string>
     <string name="less_provinces_pref_summary">Spiele mit weniger Provinzen</string>
+    <string name="god_mode_pref_title">Testmodus</string>
+    <string name="god_mode_pref_summary">Jeder Zug beginnt mit 100 Aktionen, 999 Geld und 100 Käufen.</string>
     <string name="quick_play_pref_title">Schnelles Spiel</string>
     <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt (Neustart des Spiels erforderlich)</string>
     <string name="sort_cards_pref_title">Karten sortieren</string>
@@ -65,8 +67,16 @@
     <string name="autodownload_pref_title">Kartenbilder herunterladen (nur Englisch)</string>
     <string name="autodownload_pref_summary">Die Bilder der Karten werden aus dem Internet heruntergeladen und auf der SD-Karte gespeichert.</string>
     <string name="errata_pref_title">Ausgaben und Druckfehler…</string>
+    <string name="erratamasquerade_pref_title">Maskerade</string>
+    <string name="erratamasquerade_pref_summary">Spieler ohne Karten setzen aus. (Intrige 2. Edition)</string>
+    <string name="erratamine_pref_title">Mine</string>
+    <string name="erratamine_pref_summary">Entsorgen ist optional (Basisspiel 2. Edition)</string>
+    <string name="erratamoneylender_pref_title">Geldverleiher</string>
+    <string name="erratamoneylender_pref_summary">Entsorgen ist optional (Basisspiel 2. Edition)</string>
     <string name="errataposessiontokens_pref_title">Besessenheit Extrazug Marken</string>
-    <string name="errataposessiontokens_pref_summary">Der Besessende Spieler erhält die Marken (aus Empires)</string>
+    <string name="errataposessiontokens_pref_summary">Der Spieler, der die Bessessenheit gespielt hat, erhält die Marken (Empires)</string>
+    <string name="erratathroneroom_pref_title">Thronsaal</string>
+    <string name="erratathroneroom_pref_summary">Ausspielen ist optional (Basisspiel 2. Edition)</string>
 
     <string-array name="theme_names">
         <item>Dunkel</item>
@@ -100,5 +110,18 @@
     <string name="pref_showactionbar_summary">Deaktivieren auf Geräten mit kleinem Bildschirm, aktivieren bei Geräten ohne Hardware-Tasten</string>
     <string name="shelters_pref_title">Unterschlupf-Karten</string>
     <string name="shelters_pref_summary">Verwende immer Unterschlupf-Karten (aus Dark Ages) anstelle der Anwesen</string>
+    <string name="pref_base_set_edtion_title">Basisspiel Edition</string>
+    <string-array name="pref_base_set_editions">
+        <item>1. Edition (2008)</item>
+        <item>2. Edition (2016)</item>
+        <item>beide</item>
+    </string-array>
+    
+    <string name="pref_intrigue_edtion_title">Intrige Edition</string>
+    <string-array name="pref_intrigue_editions">
+        <item>1. Edition (2009)</item>
+        <item>2. Edition (2016)</item>
+        <item>beide</item>
+    </string-array>
 
 </resources>

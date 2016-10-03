@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
 	<!-- AndroidManifest -->
 	<string name="app_name">Androminion</string>
@@ -212,6 +212,7 @@
 	<string name="token_embargo">Embargos</string>
 	<string name="token_victory">Sieg</string>
 	<string name="token_debt">Schulden</string>
+	<string name="token_trade_route">Handelsroute</string>
 	<string name="bane_card">Bannkarte</string>
 	<string name="obelisk_card">Obelisk Karte (2 Siegpunkte)</string>
 	<string name="status_turn_number">Zug %1$s%2$s</string>
