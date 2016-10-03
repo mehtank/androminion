@@ -2704,16 +2704,21 @@ public class Game {
             // get 10 cards more then needed. Extract the cards in supply
             int count = Math.max(blackMarketCount - blackMarketPile.size(), 0);
             if (blackMarketOnlyCardsFromUsedExpansions) {
-                Set<Expansion> expansions = new HashSet<Expansion>();
-                for (CardPile pile : placeholderPiles.values()) {
-                    if (pile != null &&
-                            pile.placeholderCard() != null &&
-                            pile.placeholderCard().getExpansion() != null &&
-                            Cards.isKingdomCard(pile.placeholderCard())) {
-                        expansions.add(pile.placeholderCard().getExpansion());
+                List<Expansion> expansions = new ArrayList<Expansion>();
+                if (randomExpansions != null && randomExpansions.size() > 0) {
+                    expansions.addAll(randomExpansions);
+                } else {
+                    for (CardPile pile : placeholderPiles.values()) {
+                        if (pile != null &&
+                                pile.placeholderCard() != null &&
+                                pile.placeholderCard().getExpansion() != null &&
+                                Cards.isKingdomCard(pile.placeholderCard()) &&
+                                !expansions.contains(pile.placeholderCard().getExpansion())) {
+                            expansions.add(pile.placeholderCard().getExpansion());
+                        }
                     }
                 }
-                allCards = CardSet.getCardSet(GameType.Random, count+10, new ArrayList<Expansion>(expansions), false, 0, false, 0, false, false).getCards();
+                allCards = CardSet.getCardSet(GameType.Random, count+10, expansions, randomExcludedExpansions, false, 0, false, 0, false, false).getCards();
             } else {
                 allCards = CardSet.getCardSet(GameType.Random, count+10).getCards();
             }
