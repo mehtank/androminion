@@ -1587,6 +1587,7 @@ public class Game {
                         Util.log(e);
                         throw new ExitException();
                     }
+
                 } else if (arg.toLowerCase().startsWith(randomExcludesArg)) {
                     try {
                         String exclusions = arg.substring(randomExcludesArg.length());
