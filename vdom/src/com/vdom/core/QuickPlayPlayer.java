@@ -1151,4 +1151,18 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     public boolean shouldAutoPlay_sprawlingCastle_chooseOption(MoveContext context) { return false; }
 
+    public boolean shoudlAutoPlay_payoffDebt(MoveContext context) {
+        //Player might not want to payoff debt for the player he is possessing.
+        if (context.game.possessingPlayer == this && context.game.getCurrentPlayer() != this) {
+            return false;
+        }
+
+        //Player might want to call back the wine merchant from the tavern mat.
+        if (context.player.getTavern().contains(Cards.wineMerchant) && context.getCoins() >= 2 && context.getCoins() - getDebtTokenCount() < 2) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

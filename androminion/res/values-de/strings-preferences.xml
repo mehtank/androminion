@@ -27,7 +27,7 @@
     <string name="less_provinces_pref_title">Weniger Provinzen</string>
     <string name="less_provinces_pref_summary">Spiele mit weniger Provinzen</string>
     <string name="god_mode_pref_title">Testmodus</string>
-    <string name="god_mode_pref_summary">Jeder Zug beginnt mit 100 Aktionen, 999 Geld und 100 Käufen.</string>
+    <string name="god_mode_pref_summary">Jeder Zug beginnt mit 999 Aktionen, 999 Geld und 999 Käufen.</string>
     <string name="quick_play_pref_title">Schnelles Spiel</string>
     <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt (Neustart des Spiels erforderlich)</string>
     <string name="sort_cards_pref_title">Karten sortieren</string>
@@ -40,8 +40,14 @@
     <string name="equal_start_hands_pref_summary">Alle Spieler starten mit den gleichen Karten (wirksam mit nächstem Spiel)</string>
     <string name="plat_colony_pref_title">Platin und Kolonien</string>
     <string name="plat_colony_pref_summary">Immer mit den Karten Platin und Kolonien spielen, egal welche Art von Erweiterung gewählt ist</string>
+    <string name="black_market_title">Schwarzmarkt</string>
+    <string name="black_market_summary">Wähle wie der Schwarzmarktstapel zusammengestellt wird</string>
     <string name="black_market_count_pref_title">Karten im Schwarzmarkt-Stapel</string>
     <string name="black_market_count_pref_summary">Anzahl der Karten im Schwarzmarkt-Stapel, falls der Schwarzmarkt im Spiel ist (Empfehlung: Mindestens 15)</string>
+    <string name="bm_multiple_cards_pile_pref_title">Erlaube mehrere Karten des selben Stapels</string>
+    <string name="bm_multiple_cards_pile_pref_summary">Dies betrifft nur Karten von gemischten Stapeln, Schlösser und Ritter</string>
+    <string name="bm_only_cards_from_used_exp_pref_title">Nur Karten von verwendeten Erweiterungen</string>
+    <string name="bm_only_cards_from_used_exp_pref_summary">Erstelle den Schwarzmarktstapel nur aus Karten von Erweiterungen die im Köngigreich erhalten sind</string>
     <string name="ui_pref_title">Oberfläche</string>
     <string name="personalization_pref_title">Personalisierung</string>
     <string name="name_pref_summary">Spitznamen wählen</string>
