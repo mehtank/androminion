@@ -142,6 +142,12 @@
                 android:summary="@string/erratathroneroom_pref_summary"
                 android:title="@string/erratathroneroom_pref_title" >
             </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="errata_shuffling"
+                android:summary="@string/erratashuffling_pref_summary"
+                android:title="@string/erratashuffling_pref_title" >
+            </CheckBoxPreference>
         </PreferenceScreen>
         <CheckBoxPreference
             android:defaultValue="false"

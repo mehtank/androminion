@@ -766,6 +766,9 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         if (!mPrefs.getBoolean("errata_throneroom", true)) {
         	strs.add("-erratathroneroomforced");
         }
+        if (!mPrefs.getBoolean("errata_shuffling", true)) {
+        	strs.add("-erratashuffledeckemptyonly");
+        }
         
         if(cardsSpecified != null) {
             StringBuilder sb = new StringBuilder();

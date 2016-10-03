@@ -287,6 +287,9 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         if (!prefs.getBoolean("errata_throneroom", true)) {
         	strs.add("-erratathroneroomforced");
         }
+        if (!prefs.getBoolean("errata_shuffling", true)) {
+        	strs.add("-erratashuffledeckemptyonly");
+        }
         
         return strs;
     }

@@ -65,8 +65,18 @@
     <string name="autodownload_pref_title">Auto-descargar imágenes</string>
     <string name="autodownload_pref_summary">Imágenes de las cartas (en inglés) se descargan del internet y se almacenan en tu tarjeta SD</string>
     <string name="errata_pref_title">Ediciones y fe de erratas…</string>
+    <string name="erratamasquerade_pref_title">Mascarada</string>
+    <string name="erratamasquerade_pref_summary">Jugadores sin cartas no pasan (de Intriga 2E)</string>
+    <string name="erratamine_pref_title">Mina</string>
+    <string name="erratamine_pref_summary">Eliminar es opcional (de Dominion 2E)</string>
+    <string name="erratamoneylender_pref_title">Prestamista</string>
+    <string name="erratamoneylender_pref_summary">Eliminar es opcional (de Dominion, 2E)</string>
     <string name="errataposessiontokens_pref_title">Marcadores para Posesión</string>
     <string name="errataposessiontokens_pref_summary">El jugador que posee es el que toma los marcadores (de Imperios)</string>
+    <string name="erratathroneroom_pref_title">Salón del trono</string>
+    <string name="erratathroneroom_pref_summary">Jugar una carta de Acción es opcional (de Dominion 2E)</string>
+    <string name="erratashuffling_pref_title">Barajar</string>
+    <string name="erratashuffling_pref_summary">Barajar antes de acceder más cartas que hay en el mazo (de Dominion 2E)</string>
     
     <string-array name="theme_names">
         <item>Oscuro</item>
