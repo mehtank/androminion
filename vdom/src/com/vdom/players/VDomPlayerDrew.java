@@ -141,7 +141,7 @@ public class VDomPlayerDrew extends VDomPlayerSarah {
             // addPile(Cards.gardens);
             // addPile(Cards.village);
             improvise = true;
-        } else if (gameType == GameType.PathToVictory) {
+        } else if (gameType == GameType.PathsToVictory) {
             // addPile(Cards.bishop);
             // addPile(Cards.countingHouse);
             // addPile(Cards.goons);

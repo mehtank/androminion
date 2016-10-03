@@ -2,6 +2,7 @@ package com.mehtank.androminion.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -19,7 +20,10 @@ import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.ActionType;
 import com.vdom.comms.SelectCardOptions.PickType;
+import com.vdom.core.CardSet;
+import com.vdom.core.CardSet.UseOptionalCards;
 import com.vdom.core.Cards;
+import com.vdom.core.Expansion;
 import com.vdom.core.IndirectPlayer;
 import com.vdom.core.IndirectPlayer.StashOption;
 import com.vdom.core.Player.AmuletOption;
@@ -51,6 +55,7 @@ import com.vdom.core.PlayerSupplyToken;
 import com.vdom.core.Player.CourtierOption;
 import com.vdom.core.Player.LurkerOption;
 import com.vdom.core.Type;
+import com.vdom.core.Util;
 
 public class Strings {
 
@@ -59,7 +64,7 @@ public class Strings {
 
     static HashMap<Card, String> nameCache = new HashMap<Card, String>();
     static HashMap<Card, String> descriptionCache = new HashMap<Card, String>();
-    static HashMap<String, String> expansionCache = new HashMap<String, String>();
+    static HashMap<Expansion, String> expansionCache = new HashMap<Expansion, String>();
     static HashMap<GameType, String> gametypeCache = new HashMap<GameType, String>();
     private static Map<String, String> actionStringMap;
     private static Set<String> simpleActionStrings;
@@ -117,27 +122,7 @@ public class Strings {
             // they're both in Base and Intrigue.
             return "";
         }
-
-        String expansion = expansionCache.get(expansionString);
-
-        if (expansion == null) {
-            try {
-                Resources r = context.getResources();
-                int id = r.getIdentifier(expansionString, "string", context.getPackageName());
-                expansion = r.getString(id);
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-            }
-
-            if(expansion.equals(""))
-            {
-                expansion = expansionString;
-            }
-
-            expansionCache.put(expansionString, expansion);
-        }
-        return expansion;
+        return getExpansionName(c.getExpansion());
     }
 
     public static void localizeMyCard(MyCard c) {
@@ -152,8 +137,12 @@ public class Strings {
         String gametype = gametypeCache.get(g);
         if (gametype==null){
             try {
+            	String idPrefix = g.toString();
+            	if (idPrefix.endsWith("2")) {
+            		idPrefix = idPrefix.substring(0, idPrefix.length() - 1);
+            	}
                 Resources r = context.getResources();
-                int id = r.getIdentifier(g.name() + "_gametype", "string", context.getPackageName());
+                int id = r.getIdentifier(idPrefix + "_gametype", "string", context.getPackageName());
                 gametype = r.getString(id);
             }
             catch(Exception e) {
@@ -176,6 +165,29 @@ public class Strings {
             { return g; }
         }
         return null;
+    }
+    
+    public static String getExpansionName(Expansion expansion) {
+
+    	String expansionStr = expansionCache.get(expansion);
+    	if (expansionStr == null) {
+            try {
+                Resources r = context.getResources();
+                int id = r.getIdentifier(expansion.toString(), "string", context.getPackageName());
+                expansionStr = r.getString(id);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+
+            if(expansionStr.equals(""))
+            {
+                expansionStr = expansion.toString();
+            }
+
+            expansionCache.put(expansion, expansionStr);
+        }
+    	return expansionStr;
     }
 
 
@@ -1858,4 +1870,64 @@ public class Strings {
         time += (duration / (1000)) + "s.\n";
         return time;
     }
+
+	public static String getCardSetDescription(CardSet cardSet) {
+		ArrayList<String> events = new ArrayList<String>();
+		ArrayList<String> landmarks = new ArrayList<String>();
+		ArrayList<String> kingdomCards = new ArrayList<String>();
+		boolean hasDarkAges = false;
+		boolean hasProsperity = false;
+		for (Card c : cardSet.getCards()) {
+			if (c.is(Type.Event)) {
+				events.add(getCardName(c));
+			} else if (c.is(Type.Landmark)) {
+				landmarks.add(getCardName(c));
+			} else {
+				kingdomCards.add(getCardName(c));
+				if (c.getExpansion() == Expansion.DarkAges) {
+					hasDarkAges = true;
+				}
+				if (c.getExpansion() == Expansion.Prosperity) {
+					hasProsperity = true;
+				}
+			}
+		}
+		Collections.sort(events);
+		Collections.sort(landmarks);
+		Collections.sort(kingdomCards);
+		
+		ArrayList<String> cardSetParts = new ArrayList<String>();
+		cardSetParts.add(joinList(kingdomCards, ", "));
+		if (cardSet.getBaneCard() != null) {
+			cardSetParts.add(format(R.string.card_set_bane, getCardName(cardSet.getBaneCard())));
+		}
+		if (events.size() > 0) {
+			cardSetParts.add(format(R.string.card_set_events, joinList(events, ", ")));
+		}
+		if (landmarks.size() > 0) {
+			cardSetParts.add(format(R.string.card_set_landmarks, joinList(landmarks, ", ")));
+		}
+		if (cardSet.getUsePlatColony() == UseOptionalCards.Use) {
+			cardSetParts.add(getString(R.string.card_set_plat_colony));
+		} else if (hasProsperity && cardSet.getUsePlatColony() == UseOptionalCards.DontUse) {
+			cardSetParts.add(getString(R.string.card_set_no_plat_colony));
+		}
+		if (cardSet.getUseShelters() == UseOptionalCards.Use) {
+			cardSetParts.add(getString(R.string.card_set_shelters));
+		} else if (hasDarkAges && cardSet.getUseShelters() == UseOptionalCards.DontUse) {
+			cardSetParts.add(getString(R.string.card_set_no_shelters));
+		}
+		return joinList(cardSetParts, ". ");
+	}
+	
+	private static String joinList(ArrayList<String> strings, String separator) {
+		String sep = "";
+		StringBuilder result = new StringBuilder();
+		for (String str : strings) {
+			result.append(sep);
+			result.append(str);
+			sep = separator;
+		}
+		return result.toString();
+	}
 }

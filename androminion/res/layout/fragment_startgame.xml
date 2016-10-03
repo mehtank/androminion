@@ -30,13 +30,6 @@
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1" />
-	
-	        <Spinner
-	            android:id="@+id/spinnerPreset"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:visibility="gone" />
 	        
 	        <CheckBox
 	            android:id="@+id/checkboxRandomAll"
@@ -46,6 +39,20 @@
 	            android:text="@string/random_all_cards"
 	            android:visibility="gone" />
 	    </LinearLayout>
+	    	
+        <Spinner
+            android:id="@+id/spinnerPreset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone" />
+        
+        <TextView
+            android:id="@+id/gameCards"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:visibility="gone"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
 	    
 	    <LinearLayout
 	        android:id="@+id/linearLayoutPlatinumColony"

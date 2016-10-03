@@ -53,6 +53,7 @@
 		Por la petición de Rio Grande Games, el Editor de Dominion, hemos sacado Androminion del Play Store. Por favor, no la publiques en cualquier tienda de apliciaciones pública ya que hay una aplicación oficial de Dominion.<br><br>
 		<h3>Versión 7.02</h3>
 		* ¡Expansión de Imperios! <br>
+		* Segunda edición de Dominion y Intriga! <br>
 		* Carta de promoción: Sauna/Avanto
 		<h3>Versión 6.07</h3>
 		* ¡Expansión de Aventuras! <br>
@@ -138,6 +139,14 @@
     <string name="currentplayer">Jugador actual</string>
     <string name="you">Tú</string>
     <string name="start_game">Iniciar Juego!</string>
+    <string name="card_set_cards">Cartas: %1$s</string>
+    <string name="card_set_bane">Perdición: %1$s</string>
+    <string name="card_set_events">Eventos: %1$s</string>
+    <string name="card_set_landmarks">Marcas: %1$s</string>
+    <string name="card_set_plat_colony">Platino/Colonia</string>
+    <string name="card_set_no_plat_colony">Sin Platino/Colonia</string>
+    <string name="card_set_shelters">Cobijos</string>
+    <string name="card_set_no_shelters">Sin Cobijos</string>
     <string name="none_game_start">Ninguno</string> <!-- Unused -->
     <string name="start_new_game_on_server">Iniciar un nuevo juego en el servidor</string> <!-- Unused -->
 

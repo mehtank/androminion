@@ -61,6 +61,7 @@ public class Game {
      */
     public static GameType gameType = GameType.Random;
     public static List<Expansion> randomExpansions = null;
+    public static List<Expansion> randomExcludedExpansions = null;
     public static String gameTypeStr = null;
     public static boolean showUsage = false;
 
@@ -84,11 +85,12 @@ public class Game {
     public static boolean actionChains = false;
     public static boolean suppressRedundantReactions = false;
     public static boolean equalStartHands = false;
-    public static boolean errataMasqueradeAlwaysAffects = false; //Errata introduced Sept 2016 - true enables old behavior
-    public static boolean errataMineForced = false; //Errata introduced Sept 2016 - true enables old behavior
-    public static boolean errataMoneylenderForced = false; //Errata introduced Sept 2016 - true enables old behavior
+    public static boolean errataMasqueradeAlwaysAffects = false; //Errata introduced Oct 2016 - true enables old behavior
+    public static boolean errataMineForced = false; //Errata introduced Oct 2016 - true enables old behavior
+    public static boolean errataMoneylenderForced = false; //Errata introduced Oct 2016 - true enables old behavior
     public static boolean errataPossessedTakesTokens = false; //Errata introduced May 2016 - true enables old behavior
-    public static boolean errataThroneRoomForced = false; //Errata introduced Sept 2016 - true enables old behavior
+    public static boolean errataThroneRoomForced = false; //Errata introduced Oct 2016 - true enables old behavior
+    public static boolean errataShuffleDeckEmptyOnly = false; //Errata introduced Oct 2016 - true enables old behavior
     public static boolean startGuildsCoinTokens = false; //only for testing
     public static boolean lessProvinces = false; //only for testing
     public static boolean godMode = false; //only for testing
@@ -181,7 +183,7 @@ public class Game {
 
         // Start game(s)
         if (gameTypeStr != null) {
-            gameType = GameType.fromName(gameTypeStr);            
+            gameType = GameType.valueOf(gameTypeStr);            
             new Game().start();
         } else {
             for (String[] className : playerClassesAndJars) {
@@ -1461,6 +1463,7 @@ public class Game {
         randomIncludesLandmarks = false;
         splitMaxEventsAndLandmarks = false;
         randomExpansions = null;
+        randomExcludedExpansions = null;
         
         String gameCountArg = "-count";
         String debugArg = "-debug";
@@ -1468,6 +1471,7 @@ public class Game {
         String gameTypeArg = "-type";
         String numRandomEventsArg = "-eventcards";
         String numRandomLandmarksArg = "-landmarkcards";
+        String randomExcludesArg = "-randomexcludes";
         String splitMaxEventsAndLandmarksArg = "-splitmaxeventslandmarks";
         String gameTypeStatsArg = "-test";
         String ignorePlayerErrorsArg = "-ignore";
@@ -1579,10 +1583,21 @@ public class Game {
                         Util.log(e);
                         throw new ExitException();
                     }
-                    //                } else {
-                    //                    Util.log("Invalid arg:" + arg);
-                    //                    showUsage = true;
-            }
+                } else if (arg.toLowerCase().startsWith(randomExcludesArg)) {
+                    try {
+                        String exclusions = arg.substring(randomExcludesArg.length());
+                        String[] parts = exclusions.split("-");
+                        if (parts.length > 0) {
+                        	randomExcludedExpansions = new ArrayList<Expansion>();
+                    		for (int i = 1; i < parts.length; ++i) {
+                        		randomExcludedExpansions.add(Expansion.valueOf(parts[i]));
+                        	}
+                        }
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
+                    }
+                }
             } else {
                 String options = "";
                 String name = null;
@@ -1639,6 +1654,7 @@ public class Game {
         errataMoneylenderForced = false;
         errataPossessedTakesTokens = false;
         errataThroneRoomForced = false;
+        errataShuffleDeckEmptyOnly = false;
         startGuildsCoinTokens = false; //only for testing
         lessProvinces = false; //only for testing
         godMode = false; //only for testing
@@ -1657,6 +1673,7 @@ public class Game {
         String errataMineForcedArg = "-erratamineforced";
         String errataMoneylenderForcedArg = "-erratamoneylenderforced";
         String errataPossessionArg = "-erratapossessedtakestokens";
+        String errataShuffleDeckEmptyOnlyArg = "-erratashuffledeckemptyonly";
         String startGuildsCoinTokensArg = "-startguildscointokens"; //only for testing
         String lessProvincesArg = "-lessprovinces"; //only for testing
         String godModeArg = "-godmode";
@@ -1705,6 +1722,8 @@ public class Game {
                 	errataPossessedTakesTokens = true;
                 } else if (arg.toLowerCase().equals(errataThroneRoomForcedArg)) {
                 	errataThroneRoomForced = true;
+                } else if (arg.toLowerCase().equals(errataShuffleDeckEmptyOnlyArg)) {
+                	errataShuffleDeckEmptyOnly = true;
                 }
             }
         }
@@ -2149,14 +2168,39 @@ public class Game {
 
     // Use draw when removing a card from the top of the deck without "drawing" it (e.g. look at or reveal)
     Card draw(MoveContext context, Card responsible, int cardsLeftToDraw) {
-    	if (context.player.deck.isEmpty()) {
-            if (context.player.discard.isEmpty()) {
-                return null;
-            } else {
-                replenishDeck(context, responsible, cardsLeftToDraw);
-            }
-        }
-
+    	if (errataShuffleDeckEmptyOnly) {
+	    	if (context.player.deck.isEmpty()) {
+	            if (context.player.discard.isEmpty()) {
+	                return null;
+	            } else {
+	                replenishDeck(context, responsible, cardsLeftToDraw);
+	            }
+	        }
+    	} else {
+    		if (cardsLeftToDraw > 0 && context.player.deck.size() < cardsLeftToDraw) {
+    			ArrayList<Card> cardsToDraw = new ArrayList<Card>();
+    			for (Card c : context.player.deck) {
+    				cardsToDraw.add(c);
+    			}
+    			context.player.deck.clear();
+    			if (!context.player.discard.isEmpty()) {
+    				replenishDeck(context, responsible, cardsLeftToDraw - cardsToDraw.size());
+    			}
+    			if (context.player.deck.isEmpty() && cardsToDraw.isEmpty()) {
+    				return null;
+    			}
+    			Collections.reverse(cardsToDraw);
+    			for (Card c : cardsToDraw) {
+    				context.player.deck.add(0, c);
+    			}
+    		} else if (context.player.deck.isEmpty()) {
+	            if (context.player.discard.isEmpty()) {
+	                return null;
+	            } else {
+	                replenishDeck(context, responsible, cardsLeftToDraw);
+	            }
+	        }
+    	}
         return context.player.deck.remove(0);
     }
 
@@ -2623,7 +2667,7 @@ public class Game {
 
             gameType = GameType.Specified;
         } else {
-            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomIncludesEvents, numRandomEvents, randomIncludesLandmarks, numRandomLandmarks, !splitMaxEventsAndLandmarks, true);
+            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomExcludedExpansions, randomIncludesEvents, numRandomEvents, randomIncludesLandmarks, numRandomLandmarks, !splitMaxEventsAndLandmarks, true);
             if(cardSet == null) {
                 cardSet = CardSet.getCardSet(CardSet.defaultGameType, -1);
             }

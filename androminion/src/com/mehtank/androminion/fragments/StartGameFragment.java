@@ -2,6 +2,7 @@ package com.mehtank.androminion.fragments;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.SharedPreferences;
@@ -26,9 +27,12 @@ import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.mehtank.androminion.R;
+import com.mehtank.androminion.ui.Strings;
 import com.vdom.api.GameType;
+import com.vdom.core.CardSet;
 import com.vdom.core.Cards;
 import com.vdom.core.Expansion;
+import com.vdom.core.CardSet.UseOptionalCards;
 
 public class StartGameFragment extends SherlockFragment implements OnClickListener, OnItemSelectedListener {
     @SuppressWarnings("unused")
@@ -52,6 +56,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     Spinner mCardsetSpinner;
     Spinner mPresetSpinner;
     CheckBox mRandomAllCheckbox;
+    TextView mGameCards;
     LinearLayout mPlatColonyLayout;
     Spinner mPlatColonySpinner;
     LinearLayout mSheltersLayout;
@@ -107,6 +112,36 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     };
 
     TypeOptions mGameType;
+    
+    private static class GameTypeItem {
+    	private final GameType gameType;
+    	private final String displayString;
+    	
+    	public GameTypeItem(GameType gameType, String displayString) {
+    		this.gameType = gameType;
+    		this.displayString = displayString;
+    	}
+    	
+    	public GameType getGameType() {
+    		return gameType;
+    	}
+    	
+    	public String getDisplayString() {
+    		return displayString;
+    	}
+    	
+    	@Override
+    	public boolean equals(Object o) {
+    		if (!(o instanceof GameTypeItem))
+    			return false;
+    		return gameType.equals(((GameTypeItem)o).getGameType());
+    	}
+    	
+    	@Override
+    	public String toString() {
+    		return displayString;
+    	}
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,7 +150,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mView = inflater.inflate(R.layout.fragment_startgame, null);
 
         mCardsetSpinner = (Spinner) mView.findViewById(R.id.spinnerCardset);
-        mCardsetSpinner.setOnItemSelectedListener(this);        
+        mCardsetSpinner.setOnItemSelectedListener(this);  
         mPresetSpinner = (Spinner) mView.findViewById(R.id.spinnerPreset);
         mRandomAllCheckbox = (CheckBox) mView.findViewById(R.id.checkboxRandomAll);
         mPlatColonyLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutPlatinumColony);
@@ -127,6 +162,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mRandomEventsSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomEvents);
         mRandomLandmarksLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomLandmarks);
         mRandomLandmarksSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomLandmarks);
+        mGameCards = (TextView) mView.findViewById(R.id.gameCards);
         
         //Init prefs
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -193,26 +229,84 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         }
 
         //Fill card set spinners
-        ArrayList<String> presets = new ArrayList<String>();
-        ArrayList<String> randoms = new ArrayList<String>();
-
-        GameType[] types = GameType.values();
-        String type;
-        for (int i = 0; i < types.length; i++) {
-            if (types[i] == GameType.Specified) {
-                continue;
-            }
-            type = com.mehtank.androminion.ui.Strings.getGameTypeName(types[i]);
-            if (types[i].name().startsWith("Random")) {
-                randoms.add(type);
-            } else {
-                presets.add(type);
-            }
+        ArrayList<GameTypeItem> presets = new ArrayList<GameTypeItem>();
+        ArrayList<GameTypeItem> randoms = new ArrayList<GameTypeItem>();
+        ArrayList<Expansion> blackListedExpansions = new ArrayList<Expansion>();
+        switch (getBaseEdition()) {
+        case Base:
+        	blackListedExpansions.add(Expansion.Base2E);
+        	break;
+        case Base2E:
+        	blackListedExpansions.add(Expansion.Base);
+        	break;
+        default:
+        	break;
+        }
+        switch (getIntrigueEdition()) {
+        case Intrigue:
+        	blackListedExpansions.add(Expansion.Intrigue2E);
+        	break;
+        case Intrigue2E:
+        	blackListedExpansions.add(Expansion.Intrigue);
+        	break;
+        default:
+        	break;
         }
 
-        ArrayAdapter<String> adapter = createArrayAdapter(presets);
-        mPresetSpinner.setAdapter(adapter);
-        mPresetSpinner.setSelection(adapter.getPosition(mPrefs.getString("presetPref", "First Game (Base)")));
+        GameTypeLoop: for (GameType type : GameType.values()) {
+        	if (type == GameType.Specified) {
+                continue;
+            }
+            String typeName = com.mehtank.androminion.ui.Strings.getGameTypeName(type);
+            if (type.name().startsWith("Random")) {
+                randoms.add(new GameTypeItem(type, typeName));
+            } else {
+            	for (Expansion expansion : type.getExpansions()) {
+            		if (blackListedExpansions.contains(expansion))
+            			continue GameTypeLoop;
+            	}
+            	String suffix = "";
+            	if (type.getExpansions().size() > 0) {
+	            	suffix = " (";
+	            	String separator = "";
+	            	for (Expansion expansion : type.getExpansions()) {
+	            		suffix += separator;
+	            		suffix += com.mehtank.androminion.ui.Strings.getExpansionName(expansion);
+	            		separator = ", ";
+	            	}
+	            	suffix += ")";
+            	}
+            	presets.add(new GameTypeItem(type, typeName + suffix));
+            }
+        }
+        
+        ArrayAdapter<GameTypeItem> gameTypeAdapter = createArrayAdapter(presets);
+        mPresetSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				GameType g = ((GameTypeItem)mPresetSpinner.getSelectedItem()).gameType;
+				CardSet cardSet = CardSet.getCardSetMap().get(g);
+				mGameCards.setText(Strings.format(R.string.card_set_cards, Strings.getCardSetDescription(cardSet)));
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) { }
+        	
+		});
+        mPresetSpinner.setAdapter(gameTypeAdapter);
+        String defaultGameType = getBaseEdition().equals(Expansion.Base) ? "FirstGame" : "FirstGame2";
+        GameType gameType;
+        try {
+        	gameType = GameType.valueOf(mPrefs.getString("presetPref", defaultGameType));
+        } catch (IllegalArgumentException e) {
+        	gameType = GameType.valueOf(defaultGameType);
+        }
+        
+        int idx = gameTypeAdapter.getPosition(new GameTypeItem(gameType, ""));
+        if (idx == -1)
+        	idx = 0;
+        mPresetSpinner.setSelection(idx);
         
         // Fill platinum/colony & shelters spinners
         int platColonyChance = mPrefs.getInt(PLAT_COLONY_PREF, -1);
@@ -297,7 +391,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
             players.remove("Human Player");
         }
         String player = getString(R.string.player);
-        adapter = createArrayAdapter(players);
+        ArrayAdapter<String> adapter = createArrayAdapter(players);
 
         ((TextView) mView.findViewById(R.id.txtPlayer1))
                 .setText(player + "1:  ");
@@ -479,6 +573,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     	
     	int presetVisibility = mGameType == TypeOptions.PRESET ? View.VISIBLE : View.GONE;
     	mPresetSpinner.setVisibility(presetVisibility);
+    	mGameCards.setVisibility(presetVisibility);
     	
     	int includeCardsVisibility = mGameType == TypeOptions.PRESET || mGameType == TypeOptions.RANDOM ? View.VISIBLE : View.GONE;
     	mPlatColonyLayout.setVisibility(includeCardsVisibility);
@@ -509,7 +604,6 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 
         String[] cardsSpecified = null;
         ArrayList<String> strs = new ArrayList<String>();
-        String spinnerStr;
         GameType g;
 
         switch (mGameType) {
@@ -517,7 +611,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 edit.putString("gameType", TypeOptions.RANDOM.name());
 
                 g = GameType.Random;
-                String gameTypeString = g.getName();
+                String gameTypeString = g.toString();
                 if (!mRandomAllCheckbox.isChecked()) {
 	                for (Expansion set : completeSets.keySet()) {
 	                	if (completeSets.get(set).isChecked()) {
@@ -529,6 +623,22 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 	                }
                 }
                 strs.add(gameTypeString);
+                if (mRandomAllCheckbox.isChecked()) {
+                	String exclusions = "";
+                	if (getBaseEdition() == Expansion.Base) {
+                		exclusions += "-" + Expansion.Base2E;
+                	} else if (getBaseEdition() == Expansion.Base2E) {
+                		exclusions += "-" + Expansion.Base;
+                	}
+                	if (getIntrigueEdition() == Expansion.Intrigue) {
+                		exclusions += "-" + Expansion.Intrigue2E;
+                	} else if (getIntrigueEdition() == Expansion.Intrigue2E) {
+                		exclusions += "-" + Expansion.Intrigue;
+                	}
+                	if (exclusions.length() > 0) {
+                		strs.add("-randomexcludes" + exclusions);
+                	}
+                }
                 
                 int numEvents = posToNumEvents(mRandomEventsSpinner.getSelectedItemPosition());
                 if (numEvents != 0) {
@@ -550,12 +660,10 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 break;
             case PRESET:
                 edit.putString("gameType", TypeOptions.PRESET.name());
-
-                spinnerStr = (String) mPresetSpinner.getSelectedItem();
-                g = com.mehtank.androminion.ui.Strings.getGameTypefromName(spinnerStr);
+                g = ((GameTypeItem) mPresetSpinner.getSelectedItem()).getGameType();
                 if (g != null)
-                    strs.add(g.getName());
-                edit.putString("presetPref", spinnerStr);
+                    strs.add(g.toString());
+                edit.putString("presetPref", g.toString());
                 break;
             case LAST:
                 edit.putString("gameType", TypeOptions.LAST.name());
@@ -695,6 +803,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         }
         updateVisibility();
     }
+	
+	
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

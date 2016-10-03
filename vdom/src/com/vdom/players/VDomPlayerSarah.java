@@ -219,7 +219,7 @@ public class VDomPlayerSarah extends BasePlayer {
             actionCardMax = 6;
             valuedCards = new Card[] { Cards.countingHouse, Cards.contraband, Cards.bureaucrat, Cards.chancellor, Cards.mountebank, Cards.platinum, Cards.gold, Cards.silver, Cards.copper };
             trashCards = new Card[] { Cards.curse, Cards.estate };
-        } else if (gameType == GameType.PathToVictory) {
+        } else if (gameType == GameType.PathsToVictory) {
             // bishop
             // countingHouse
             // goons

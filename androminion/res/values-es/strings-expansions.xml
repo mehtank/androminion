@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="Base"></string>
-	<string name="BaseSet">Básico</string>
+	<string name="Base">Básico</string>
+	<string name="Base2E">Básico 2E</string>
 	<string name="Intrigue">Intriga</string>
+	<string name="Intrigue2E">Intriga 2E</string>
 	<string name="Seaside">Terramar</string>
 	<string name="Alchemy">Alquimia</string>
 	<string name="Prosperity">Prosperidad</string>    
