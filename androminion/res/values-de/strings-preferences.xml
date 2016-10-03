@@ -27,7 +27,7 @@
     <string name="less_provinces_pref_title">Weniger Provinzen</string>
     <string name="less_provinces_pref_summary">Spiele mit weniger Provinzen</string>
     <string name="god_mode_pref_title">Testmodus</string>
-    <string name="god_mode_pref_summary">Jeder Zug beginnt mit 100 Aktionen, 999 Geld und 100 Käufen.</string>
+    <string name="god_mode_pref_summary">Jeder Zug beginnt mit 999 Aktionen, 999 Geld und 999 Käufen.</string>
     <string name="quick_play_pref_title">Schnelles Spiel</string>
     <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt (Neustart des Spiels erforderlich)</string>
     <string name="sort_cards_pref_title">Karten sortieren</string>

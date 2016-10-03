@@ -295,6 +295,9 @@ public class Game {
                     if (godMode && !player.isAi())
                     {
                         context.buys = 999;
+                        if (placeholderPiles.containsKey(Cards.potion.getName())) {
+                            context.potions = 999;
+                        }
                         context.addCoins(999);
                         context.actions = 999;
                     }
