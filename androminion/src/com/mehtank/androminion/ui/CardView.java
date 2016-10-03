@@ -66,6 +66,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private boolean autodownload;
 	private Context top;
 	private boolean hideCountLeft;
+	private String showimages;
 	
 	private int[][] currentTokens;
 	private static final int MAX_TOKENS_ON_CARD = 4;
@@ -128,6 +129,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		viewstyle = prefs.getString("viewstyle", context.getString(R.string.pref_viewstyle_default));
 		autodownload = prefs.getBoolean("autodownload", false);
+		showimages = prefs.getString("showimages", context.getString(R.string.showimages_pref_default));
 
 		if (viewstyle.equals("viewstyle-classic"))
 			LayoutInflater.from(context).inflate(R.layout.view_card_classic, this, true);
@@ -218,7 +220,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 
 		name.setText(c.name, TextView.BufferType.SPANNABLE);
-		if(cost != null) {
+		if (cost != null) {
 			setCost(GameTable.getCardCost(c), c.isOverpay, c.debtCost);
 			int costTextColor = (c.debtCost > 0) ? R.color.cardDebtCostTextColor : R.color.cardCostTextColor;
 			cost.setTextColor(costTextColor);
@@ -489,7 +491,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	@SuppressWarnings("deprecation")
 	private View getViewForToken(int player, int tokenId, int multiplier) {
-		int backgroundId = R.drawable.circulartoken;;
+		int backgroundId = R.drawable.circulartoken;
 		String text;
 		PlayerSupplyToken tokenType = PlayerSupplyToken.getById(tokenId);
 		if (tokenType != null) {
@@ -588,31 +590,35 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	@Override
 	public boolean onLongClick(View view) {
 		CardView cardView = (CardView) view;
-		if(cardView.getCard() == null) {
+		if (cardView.getCard() == null) {
 			return false;
 		}
 
-		HapticFeedback.vibrate(getContext(),AlertType.LONGCLICK);
+		HapticFeedback.vibrate(getContext(), AlertType.LONGCLICK);
 
 		String str = cardView.getCard().originalSafeName;
 		str = str.toLowerCase(Locale.US);
-		StringTokenizer st = new StringTokenizer(str," ",false);
+		StringTokenizer st = new StringTokenizer(str, " ", false);
 		String filename = "";
-		while (st.hasMoreElements()) filename += st.nextElement();
+		while (st.hasMoreElements())
+			filename += st.nextElement();
 
 		str = cardView.getCard().originalExpansion;
 		str = str.toLowerCase(Locale.US);
-		st = new StringTokenizer(str," ",false);
+		st = new StringTokenizer(str, " ", false);
 		String exp = "";
-		while (st.hasMoreElements()) exp += st.nextElement();
-		if (exp.length() == 0)
+		while (st.hasMoreElements())
+			exp += st.nextElement();
+		/*if (exp.length() == 0)
 			exp = "common";
 		if (filename.equals("potion"))
 			exp = "alchemy";
 		else if (filename.equals("colony"))
 			exp = "prosperity";
 		else if (filename.equals("platinum"))
-			exp = "prosperity";
+			exp = "prosperity";*/
+		if (exp.length() == 0)
+			exp = "basecards";
 		
 		View v;
 
@@ -642,61 +648,75 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			}
 		}
 
-		if (f.exists()) {
+		//float dp = getResources().getDisplayMetrics().density;
+		float wp = getResources().getDisplayMetrics().widthPixels;
+		float hp = getResources().getDisplayMetrics().heightPixels;
+
+		LinearLayout ll = new LinearLayout(view.getContext());
+		ll.setOrientation(LinearLayout.VERTICAL);
+		ll.setGravity(Gravity.CENTER);
+
+		TextView textView = new TextView(view.getContext());
+		//textView.setPadding(15, 0, 15, 5);
+		textView.setPadding(30, 10, 30, 5);
+		textView.setGravity(Gravity.CENTER);
+		String text = GetCardTypeString(cardView.getCard());
+
+		if (cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) {
+			text += " (" + cardView.getCard().expansion + ")";
+		}
+
+		text += "\n";
+		text += cardView.getCard().desc;
+		String extraDescription = getExtraDescription();
+		if (!extraDescription.isEmpty()) {
+			text += "\n\n" + extraDescription;
+		}
+		textView.setText(text);
+
+
+		if (f.exists() && (showimages.equals("Image") || showimages.equals("Both"))) {
 			Uri u = Uri.parse(str);
 			ImageView im = new ImageView(view.getContext());
-            im.setImageURI(u);
-            im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            
-            String extraDesc = getExtraDescription();
-            if (!extraDesc.isEmpty()) {
-            	LinearLayout ll = new LinearLayout(view.getContext());
-            	ll.setOrientation(LinearLayout.VERTICAL);
-            	ll.addView(im);
-            	TextView textView = new TextView(view.getContext());
-    			textView.setPadding(15, 0, 15, 5);
-    			textView.setText(extraDesc);
-    			ll.addView(textView);
-            	v = ll;
-            } else {
-            	v = im;
-            }
-            
-            
-		} else {
-			TextView textView = new TextView(view.getContext());
-			textView.setPadding(15, 0, 15, 5);
-			String text = GetCardTypeString(cardView.getCard());
-			
-			if(cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) 
-			{
-                text += " (" + cardView.getCard().expansion + ")";
-            }
-			
-			text += "\n";
-			
-			text += cardView.getCard().desc;
-			String extraDescription = getExtraDescription();
-			if (!extraDescription.isEmpty()) {
-				text += "\n\n" + extraDescription;
-			}
-			
-			textView.setText( text );
-			v = textView;
+			im.setImageURI(u);
+
+			// Calculate how to best fit the card graphics
+			float zoom = wp / im.getDrawable().getIntrinsicWidth() / 1.3f;
+			if (im.getDrawable().getIntrinsicHeight() * zoom > hp / 2)
+				zoom = hp / im.getDrawable().getIntrinsicHeight() / 2;
+
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+					(int)(im.getDrawable().getIntrinsicWidth() * zoom), (int)(im.getDrawable().getIntrinsicHeight() * zoom));
+			//LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int)(296 * 3.0), (int)(473 * 3.0));
+			im.setLayoutParams(params);
+			im.setScaleType(ImageView.ScaleType.FIT_CENTER);
+			ll.addView(im);
 		}
+		if (!f.exists() || !showimages.equals("Image"))
+			ll.addView(textView);
+
+		v = ll;
 
 		String title = cardView.getCard().name;
 		Log.d(TAG, "card title = " + title);
-		if(PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
+		if (PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
 			title += " (" + cardView.getCard().originalName + ")";
 			Log.d(TAG, "card title now: " + title);
 		}
-		
-		new AlertDialog.Builder(view.getContext())
-			.setTitle(title)
+
+		TextView titlev = new TextView(view.getContext());
+		titlev.setText(title);
+		titlev.setPadding(10, 10, 10, 10);
+		titlev.setTextSize(20);
+		titlev.setGravity(Gravity.CENTER);
+
+		AlertDialog ad = new AlertDialog.Builder(view.getContext())
+			//.setTitle(title)
+			.setCustomTitle(titlev)
 			.setView(v)
 			.setPositiveButton(android.R.string.ok, null)
 			.show();
+		ad.getButton(AlertDialog.BUTTON_POSITIVE).setGravity(Gravity.CENTER);
 
 		return true;
 	}
@@ -781,148 +801,118 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		return text;
 	}
 	
-	public String GetCardTypeString(MyCard c)
-    {
+	public String GetCardTypeString(MyCard c) {
 	    String cardType = "";
 	    Context context = getContext();
         
-        if (c.isAction)
-        {
+        if (c.isAction) {
             cardType += context.getString(R.string.type_action);
             
-            if (c.isTreasure)
-            {
+            if (c.isTreasure) {
                 cardType += " - " + context.getString(R.string.type_treasure);
             }
             
-            if (c.isAttack)
-            {
+            if (c.isAttack) {
                 cardType += " - " + context.getString(R.string.type_attack);
             }
             
-            if (c.isLooter)
-            {
+            if (c.isLooter) {
                 cardType += " - " + context.getString(R.string.type_looter);
             }
             
-            if (c.isRuins)
-            {
+            if (c.isRuins) {
                 cardType += " - " + context.getString(R.string.type_ruins);
             }
             
-            if (c.isPrize)
-            {
+            if (c.isPrize) {
                 cardType += " - " + context.getString(R.string.type_prize);
             }
             
-            if (c.isTraveller)
-            {
+            if (c.isTraveller) {
                 cardType += " - " + context.getString(R.string.type_traveller);
             }
             
-            if (c.isReserve)
-            {
+            if (c.isReserve) {
                 cardType += " - " + context.getString(R.string.type_reserve);
             }
             
-            if (c.isDuration)
-            {
+            if (c.isDuration) {
                 cardType += " - " + context.getString(R.string.type_duration);
             }
             
-            if (c.isReaction)
-            {
+            if (c.isReaction) {
                 cardType += " - " + context.getString(R.string.type_reaction);
             }
             
-            if (c.isVictory)
-            {
+            if (c.isVictory) {
                 cardType += " - " + context.getString(R.string.type_victory);
             }
             
-            if (c.isKnight)
-            {
+            if (c.isKnight) {
                 cardType += " - " + context.getString(R.string.type_knight);
             }
             
-            if (c.isShelter)
-            {
+            if (c.isShelter) {
                 cardType += " - " + context.getString(R.string.type_shelter);
             }
             
-            if (c.isCastle)
-            {
+            if (c.isCastle) {
                 cardType += " - " + context.getString(R.string.type_castle);
             }
             
-            if (c.isGathering)
-            {
+            if (c.isGathering) {
                 cardType += " - " + context.getString(R.string.type_gathering);
             }
         }
-        else if (c.isTreasure)
-        {
+        else if (c.isTreasure) {
             cardType += context.getString(R.string.type_treasure);
             
-            if (c.isAttack)
-            {
+            if (c.isAttack) {
                 cardType += " - " + context.getString(R.string.type_attack);
             }
 
-            if (c.isReserve)
-            {
+            if (c.isReserve) {
                 cardType += " - " + context.getString(R.string.type_reserve);
             }
             
-            if (c.isVictory)
-            {
+            if (c.isVictory) {
                 cardType += " - " + context.getString(R.string.type_victory);
             }
             
-            if (c.isReaction)
-            {
+            if (c.isReaction) {
                 cardType += " - " + context.getString(R.string.type_reaction);
             }
             
-            if (c.isPrize)
-            {
+            if (c.isPrize) {
                 cardType += " - " + context.getString(R.string.type_prize);
             }
             
-            if (c.isCastle)
-            {
+            if (c.isCastle) {
                 cardType += " - " + context.getString(R.string.type_castle);
             }
         }
-        else if (c.isVictory)
-        {
+        else if (c.isVictory) {
             cardType += context.getString(R.string.type_victory);
             
-            if (c.isShelter)
-            {
+            if (c.isShelter) {
                 cardType += " - " + context.getString(R.string.type_shelter);
             }
             
-            if (c.isReaction)
-            {
+            if (c.isReaction) {
                 cardType += " - " + context.getString(R.string.type_reaction);
             }
             
-            if (c.isCastle)
-            {
+            if (c.isCastle) {
                 cardType += " - " + context.getString(R.string.type_castle);
             }
         }
-        else if (c.isEvent)
-        {
+        else if (c.isEvent) {
             cardType += context.getString(R.string.type_event);
         }
-        else if (c.isLandmark)
-        {
+        else if (c.isLandmark) {
             cardType += context.getString(R.string.type_landmark);
         }
-        else if (c.name.equalsIgnoreCase("hovel"))
-        {
+        else if (c.name.equalsIgnoreCase("hovel")) {
             cardType += context.getString(R.string.type_reaction) + " - " + context.getString(R.string.type_shelter);
         }
         

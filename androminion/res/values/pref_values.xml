@@ -10,4 +10,9 @@
         <item>Intrigue2E</item>
         <item>IntrigueAll</item>
     </string-array>
+    <string-array name="showimages_keys" tools:ignore="MissingTranslation">
+        <item>Desc</item>
+        <item>Image</item>
+        <item>Both</item>
+    </string-array>
 </resources>
