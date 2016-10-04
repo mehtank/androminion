@@ -768,7 +768,7 @@
     <string name="Orchard_name">Obstgarten</string>
     <string name="Orchard_desc">Beim Zählen der Siegpunkte: 4 Siegpunkte pro Aktionskarte mit unterschiedlichem Namen, von der du mindestens 3 Stück besitzt.</string>
     <string name="Palace_name">Palast</string>
-    <string name="Palace_desc">Beim Zählen der Siegpunkte: 3 Siegpunkte pro Satz \'Gold - Silber - Kupfer\', den du besitzt.</string>
+    <string name="Palace_desc">Beim Zählen der Siegpunkte: 3 Siegpunkte pro Satz 'Gold - Silber - Kupfer', den du besitzt.</string>
     <string name="Tomb_name">Grabmal</string>
     <string name="Tomb_desc">Wenn du eine Karte entsorgst: + 1 Punktemarker</string>
     <string name="Tower_name">Turm</string>
