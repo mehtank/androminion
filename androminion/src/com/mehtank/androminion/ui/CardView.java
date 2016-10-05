@@ -926,18 +926,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	 * from: http://stackoverflow.com/questions/3028306/download-a-file-with-android-and-showing-the-progress-in-a-progressdialog
 	 */
 	public static boolean isDownloadManagerAvailable(Context context) {
-	    try {
-	        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-	            return false;
-	        }
-	        Intent intent = new Intent(Intent.ACTION_MAIN);
-	        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-	        intent.setClassName("com.android.providers.downloads.ui", "com.android.providers.downloads.ui.DownloadList");
-	        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent,
-	                PackageManager.MATCH_DEFAULT_ONLY);
-	        return list.size() > 0;
-	    } catch (Exception e) {
-	        return false;
-	    }
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+			return true;
+		}
+		return false;
 	}
 }
