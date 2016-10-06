@@ -1766,14 +1766,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             Card card = cardArray.get(i);
-            if(card.equals(Cards.silver)) {
-                ret.add(0, cardArray.remove(i));
-            }
-        }
-        
-        for (int i = cardArray.size() - 1; i >= 0; i--) {
-            Card card = cardArray.get(i);
-            if(!card.equals(Cards.bank) && !card.equals(Cards.venture) && !card.equals(Cards.hornOfPlenty) && !card.equals(Cards.illGottenGains)) {
+            if(!card.equals(Cards.bank) && !card.equals(Cards.venture) && !card.equals(Cards.hornOfPlenty) && !card.equals(Cards.illGottenGains) && !card.equals(Cards.fortune)) {
                 ret.add(cardArray.remove(i));
             }
         }
@@ -1806,7 +1799,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-        //TODO in some cases it's better to play some fortunes before bank (for example if hand is FFFFB, best play would be FFFBF)
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             Card card = cardArray.get(i);
             if(card.equals(Cards.fortune)) {
