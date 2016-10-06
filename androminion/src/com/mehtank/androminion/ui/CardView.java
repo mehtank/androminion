@@ -2,7 +2,6 @@ package com.mehtank.androminion.ui;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
@@ -10,10 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -600,6 +596,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		str = str.toLowerCase(Locale.US);
 		StringTokenizer st = new StringTokenizer(str, " ", false);
 		String filename = "";
+		String titlename = cardView.getCard().name.replace(" ", "_").replace("'", "");
 		while (st.hasMoreElements())
 			filename += st.nextElement();
 
@@ -623,8 +620,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		View v;
 
 		String subdir = "/images/full/";
-		str = GameActivity.BASEDIR + subdir + filename + ".jpg";
+		str = GameActivity.BASEDIR + subdir + titlename + ".jpg";
 		File f = new File(str);
+		if (!f.exists()) {
+			str = GameActivity.BASEDIR + subdir + filename + ".jpg";
+			f = new File(str);
+		}
 		
 		if (!f.exists() && autodownload) {
 			if (isDownloadManagerAvailable(top)) {
