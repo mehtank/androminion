@@ -112,6 +112,7 @@
         <item>Classic</item>
         <item>Simple</item>
         <item>Descriptive</item>
+		<item>Condensed</item>
     </string-array>
 
     <string name="pref_showactionbar_title">Show action bar</string>
@@ -133,4 +134,12 @@
         <item>Use both</item>
     </string-array>
     
+	<string name="showimages_pref_title">Show Card Images/Text</string>
+    <string name="showimages_pref_summary">If your downloaded card images will be shown, and if you also want to see the card description.</string>
+    <string-array name="showimages_names">
+        <item>Description only</item>
+        <item>Image only</item>
+        <item>Both description and Image</item>
+    </string-array>
+
 </resources>
