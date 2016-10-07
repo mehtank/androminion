@@ -9,4 +9,5 @@
     <string name="pref_intrigue_cards_default">Intrigue2E</string>
 
 	<string name="showimages_pref_default">Desc</string>
+	<string name="wikilink_pref_default">false</string>
 </resources>

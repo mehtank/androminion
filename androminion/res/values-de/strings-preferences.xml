@@ -110,6 +110,7 @@
         <item>Klassisch</item>
         <item>Modern</item>
         <item>Ausführlich</item>
+		<item>Verdichtet</item>
     </string-array>
 
     <string name="pref_showactionbar_title">Actionbar anzeigen</string>
