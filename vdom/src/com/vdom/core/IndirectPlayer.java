@@ -2100,6 +2100,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                         || a.equals(Cards.horseTraders)
                         || a.equals(Cards.beggar)
                         || a.equals(Cards.caravanGuard)
+                        || a.equals(Cards.diplomat)
                         ) {
                     cards.add(c);
                 }
