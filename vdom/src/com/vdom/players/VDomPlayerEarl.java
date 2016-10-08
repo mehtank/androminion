@@ -689,7 +689,7 @@ public class VDomPlayerEarl extends BasePlayer
    }
  
    private Card calculateBuy(MoveContext context, int goldAvailable) {
-     Card[] cards = context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true);
+     Card[] cards = context.getCardsInGame(GetCardsInGameOptions.Buyables);
  
      if (shouldBuyChapel(context)) {
        return Cards.chapel;

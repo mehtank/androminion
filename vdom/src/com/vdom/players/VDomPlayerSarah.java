@@ -609,7 +609,7 @@ public class VDomPlayerSarah extends BasePlayer {
             }
         }
 
-        ret = bestBuy(coinAvailableForBuy, context, context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true));
+        ret = bestBuy(coinAvailableForBuy, context, context.getCardsInGame(GetCardsInGameOptions.Buyables));
         if(ret != null) {
             return ret;
         }

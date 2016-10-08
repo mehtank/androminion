@@ -3883,8 +3883,14 @@ public class Game {
                 }
             }
             if (opt == GetCardsInGameOptions.TopOfPiles) {
-                if (pile.topCard() != null && (type == null || pile.topCard().is(type, null))
+                if (pile.topCard() != null && (type == null || pile.topCard().is(type))
                         && !cards.contains(pile.topCard())) {
+                    cards.add(pile.topCard());
+                }
+            }
+            if (opt == GetCardsInGameOptions.Buyables) {
+                if (pile.topCard() != null && (type == null || pile.topCard().is(type))
+                        && !cards.contains(pile.topCard()) && (pile.isSupply() || pile.topCard().is(Type.Event))) {
                     cards.add(pile.topCard());
                 }
             }
@@ -3950,13 +3956,16 @@ public class Game {
     }
 
     protected CardPile addPile(Card card) {
+    	boolean isSupply = true;
         int count = kingdomCardPileSize;
         if(card.is(Type.Victory)) count = victoryCardPileSize;
         if(card.equals(Cards.rats)) count = 20;
         if(card.equals(Cards.port)) count = 12;
-        if(card.is(Type.Event)) count = 1;
-        if(card.is(Type.Landmark)) count = 1;
-        return addPile(card, count);
+        if(card.is(Type.Event) || card.is(Type.Landmark)) {
+        	count = 1;
+        	isSupply = false;
+        }
+        return addPile(card, count, isSupply);
     }
 
     protected CardPile addPile(Card card, int count) {
