@@ -82,6 +82,11 @@
             android:title="@string/exitonback_pref_title" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="sort_cards"
+            android:summary="@string/sort_cards_pref_summary"
+            android:title="@string/sort_cards_pref_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:summary="@string/autodownload_pref_summary"
             android:title="@string/autodownload_pref_title"
             android:key="autodownload"/>
@@ -92,10 +97,21 @@
             android:key="showimages"
             android:summary="@string/showimages_pref_summary"
             android:title="@string/showimages_pref_title" />
+        <CheckBoxPreference
+            android:defaultValue="@string/wikilink_pref_default"
+            android:key="wikilink"
+            android:summary="@string/wikilink_pref_summary"
+            android:title="@string/wikilink_pref_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/game_play_pref_title" >
         <PreferenceScreen
             android:title="@string/errata_pref_title" >
+            <Preference
+                android:key="pref_static_field_key"
+                android:selectable="false"
+                android:persistent="false"
+                android:title=""
+                android:summary="@string/errata_pref_summary"/>
             <ListPreference
 	            android:defaultValue="@string/pref_base_set_cards_default"
 	            android:entries="@array/pref_base_set_editions"
@@ -148,11 +164,6 @@
             android:title="@string/quick_play_pref_title" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="sort_cards"
-            android:summary="@string/sort_cards_pref_summary"
-            android:title="@string/sort_cards_pref_title" />
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="action_chains"
             android:summary="@string/action_chains_pref_summary"
             android:title="@string/action_chains_pref_title" />
@@ -194,7 +205,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notif_pref_title" >
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="allvibeson"
             android:title="@string/allvibes_pref_title" />
         <PreferenceScreen

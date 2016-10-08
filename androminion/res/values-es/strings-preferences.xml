@@ -104,6 +104,7 @@
         <item>Clasico</item>
         <item>Simple</item>
         <item>Descriptivo</item>
+		<item>Condensado</item>
     </string-array>
 
     <string name="pref_showactionbar_title">Mostrar la barra de acción</string>

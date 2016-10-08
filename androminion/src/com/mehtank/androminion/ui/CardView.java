@@ -28,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.text.method.LinkMovementMethod;
 
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.activities.GameActivity;
@@ -63,6 +64,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private Context top;
 	private boolean hideCountLeft;
 	private String showimages;
+	private boolean wikilink;
 	
 	private int[][] currentTokens;
 	private static final int MAX_TOKENS_ON_CARD = 4;
@@ -126,6 +128,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		viewstyle = prefs.getString("viewstyle", context.getString(R.string.pref_viewstyle_default));
 		autodownload = prefs.getBoolean("autodownload", false);
 		showimages = prefs.getString("showimages", context.getString(R.string.showimages_pref_default));
+		wikilink = prefs.getBoolean("wikilink", false);
 
 		if (viewstyle.equals("viewstyle-classic"))
 			LayoutInflater.from(context).inflate(R.layout.view_card_classic, this, true);
@@ -695,7 +698,16 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 		if (!f.exists() || !showimages.equals("Image"))
 			ll.addView(textView);
-
+		if (wikilink) {
+			TextView linkView = new TextView(view.getContext());
+			String str2 = cardView.getCard().name.replace(" ", "_");
+			text = "<a href=\"http://wiki.dominionstrategy.com/index.php/" + str2 + "\"> More Info </a>";
+			linkView.setClickable(true);
+			linkView.setMovementMethod(LinkMovementMethod.getInstance());
+			linkView.setText(android.text.Html.fromHtml(text));
+			linkView.setGravity(Gravity.CENTER);
+			ll.addView(linkView);
+		}
 		v = ll;
 
 		String title = cardView.getCard().name;
