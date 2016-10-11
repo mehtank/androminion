@@ -453,6 +453,7 @@ public class CardImplEmpires extends CardImpl {
             if (nextPlayer.getHand().contains(card)) {
             	MoveContext nextPlayerContext = new MoveContext(game, nextPlayer);
             	revealedCopy = nextPlayer.controlPlayer.gladiator_revealCopy(nextPlayerContext, currentPlayer, card);
+            	nextPlayer.reveal(card, this.controlCard, nextPlayerContext);
             }
     	}
     	if (!revealedCopy) {
