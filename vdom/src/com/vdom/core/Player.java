@@ -2094,7 +2094,7 @@ public abstract class Player {
 
     public abstract Card[] urchin_attack_cardsToKeep(MoveContext context);
 
-    public abstract boolean urchin_shouldTrashForMercenary(MoveContext context);
+    public abstract boolean urchin_shouldTrashForMercenary(MoveContext context, Card responsible);
 
     public abstract Card[] mercenary_cardsToTrash(MoveContext context);
     public abstract Card[] mercenary_attack_cardsToKeep(MoveContext context);

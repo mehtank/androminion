@@ -457,6 +457,7 @@
   <string name="cultist_play_next">Play another Cultist from hand</string>
   <string name="urchin_keep">keep from Urchin</string>
   <string name="urchin_trash_for_mercenary">Trash Urchin for Mercenary</string>
+  <string name="urchin_trash_for_mercenary_impersonated">Trash %1$s (played as Urchin) for Mercenary</string>
   <string name="madman_option">Return Madman</string>
   
   <string name="taxman_part">gain</string>

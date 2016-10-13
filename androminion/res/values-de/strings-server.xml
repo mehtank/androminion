@@ -456,7 +456,8 @@
 	<string name="survivors_header">Die Überlebenden haben aufgedeckt: %1$s</string>
 	<string name="cultist_play_next">Spiele einen weiteren Kultisten aus deiner Hand</string>
 	<string name="urchin_keep">Gassenjunge: Behalte</string>
-	<string name="urchin_trash_for_mercenary">Entsorge diese Karte und nimm dir einen Söldner</string>
+	<string name="urchin_trash_for_mercenary">Entsorge den Gassenjungen und nimm dir einen Söldner</string>
+	<string name="urchin_trash_for_mercenary_impersonated">Entsorge die Karte %1$s (gespielt als Gassenjunge) und nimm dir einen Söldner</string>
 	<string name="madman_option">Lege diese Karte zurück auf den Verrückten-Stapel.</string>
 	
 	<string name="taxman_part">Nimm</string>

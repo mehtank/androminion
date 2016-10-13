@@ -2657,11 +2657,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean urchin_shouldTrashForMercenary(MoveContext context) {
-        if(context.isQuickPlay() && shouldAutoPlay_urchin_shouldTrashForMercenary(context)) {
-            return super.urchin_shouldTrashForMercenary(context);
+    public boolean urchin_shouldTrashForMercenary(MoveContext context, Card responsible) {
+        if(context.isQuickPlay() && shouldAutoPlay_urchin_shouldTrashForMercenary(context, responsible)) {
+            return super.urchin_shouldTrashForMercenary(context, responsible);
         }
-        return selectBoolean(context, Cards.urchin);
+        Object[] extras = {null};
+        if (!responsible.equals(Cards.urchin)) extras[0] = responsible;
+        return selectBoolean(context, Cards.urchin, extras);
     }
 
     @Override

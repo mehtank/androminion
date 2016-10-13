@@ -860,7 +860,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
 
-    public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context) {
+    public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context, Card responsible) {
         return true;
     }
 

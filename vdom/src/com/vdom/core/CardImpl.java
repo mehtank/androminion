@@ -61,7 +61,7 @@ public class CardImpl implements Card {
     boolean trashAfterPlay = false;
     int numberTimesAlreadyPlayed = 0;
     int cloneCount = 1;
-    CardImpl impersonatingCard = null;
+    protected CardImpl impersonatingCard = null;
     CardImpl inheritingAbilitiesCard = null;
     CardImpl controlCard = this;
 
@@ -1020,7 +1020,7 @@ public class CardImpl implements Card {
         // If an Urchin has been played, offer the player the option to trash it for a Mercenary
         for (int i = currentPlayer.playedCards.size() - 1; i >= 0 ; --i) {
             Card c = currentPlayer.playedCards.get(i);
-            if (c.behaveAsCard().getKind() == Cards.Kind.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context)) {
+            if (!(c.behaveAsCard() == this) && c.behaveAsCard().getKind() == Cards.Kind.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context, c.getControlCard())) {
                 currentPlayer.trash(c.getControlCard(), this, context);
                 currentPlayer.gainNewCard(Cards.mercenary, this, context);
                 currentPlayer.playedCards.remove(i);

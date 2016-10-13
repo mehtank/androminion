@@ -3089,7 +3089,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 	
 	@Override
-	public boolean urchin_shouldTrashForMercenary(MoveContext context)
+	public boolean urchin_shouldTrashForMercenary(MoveContext context, Card responsible)
 	{
     	/* don't trash prince cards */    	
     	if (context.getPlayer().getPlayedByPrince().contains(Cards.urchin)) {
