@@ -459,6 +459,9 @@ public class CardImpl implements Card {
     @Override
     public boolean is(Type t, Player player) {
     	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
+            if (!behaveAsCard().equals(this)) {
+                return behaveAsCard().is(t, player);
+            }
 	    	for (int i = 0; i < types.length; ++i) {
 	    		if (types[i] == t) return true;
 	    	}
