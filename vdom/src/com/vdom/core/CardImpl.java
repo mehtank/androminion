@@ -968,10 +968,14 @@ public class CardImpl implements Card {
     }
 
     public Card behaveAsCard() {
+        return behaveAsCard(true);
+    }
+
+    public Card behaveAsCard(boolean recursive) {
         if (impersonatingCard != null && impersonatingCard != this)
-        	return impersonatingCard.behaveAsCard();
+            return recursive ? impersonatingCard.behaveAsCard() : impersonatingCard;
         if (inheritingAbilitiesCard != null && inheritingAbilitiesCard != this)
-        	return inheritingAbilitiesCard.behaveAsCard();
+        	return recursive ? inheritingAbilitiesCard.behaveAsCard() : inheritingAbilitiesCard;
         return this;
     }
 
@@ -990,6 +994,14 @@ public class CardImpl implements Card {
     }
 
     void stopImpersonatingCard() {
+        stopImpersonatingCard(true);
+    }
+
+
+    void stopImpersonatingCard(boolean recursive) {
+        if (recursive)
+            if (this.inheritingAbilitiesCard != null) this.inheritingAbilitiesCard.stopImpersonatingCard(recursive);
+            if (this.impersonatingCard != null) this.impersonatingCard.stopImpersonatingCard(recursive);
         this.impersonatingCard = null;
     }
     
@@ -999,8 +1011,12 @@ public class CardImpl implements Card {
 
     @Override
     public CardImpl getControlCard() {
+        return getControlCard(true);
+    }
+
+    public CardImpl getControlCard(boolean recursive) {
         if (controlCard == this) return this;
-        return controlCard.getControlCard();
+        return recursive ? controlCard.getControlCard(recursive) : controlCard;
     }
 
     void setControlCard(CardImpl controlCard) {

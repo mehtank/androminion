@@ -563,16 +563,16 @@ public class CardImplEmpires extends CardImpl {
 
         // impersonated card stays in play until next turn?
         if (cardToPlay.trashOnUse) {
-            int idx = currentPlayer.playedCards.lastIndexOf(this);
+            int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
             if (idx >= 0) currentPlayer.playedCards.remove(idx);
-            currentPlayer.trash(this, null, context);
+            currentPlayer.trash(this.getControlCard(), null, context);
         } else if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
             if (!this.getControlCard().movedToNextTurnPile) {
-                this.getControlCard().movedToNextTurnPile = true;
-                int idx = currentPlayer.playedCards.lastIndexOf(this);
+				this.getControlCard().movedToNextTurnPile = true;
+                int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
                 if (idx >= 0) {
                     currentPlayer.playedCards.remove(idx);
-                    currentPlayer.nextTurnCards.add(this);
+                    currentPlayer.nextTurnCards.add(this.getControlCard());
                 }
             }
         }

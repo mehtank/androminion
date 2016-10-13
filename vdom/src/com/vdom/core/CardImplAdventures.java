@@ -784,7 +784,7 @@ public class CardImplAdventures extends CardImpl {
         if (this.getControlCard().numberTimesAlreadyPlayed == 0) {
             currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.getControlCard()));
             currentPlayer.tavern.add(this.getControlCard());
-            this.getControlCard().stopImpersonatingCard();
+            this.getControlCard().stopImpersonatingCard(true);
 
             GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideOnTavernMat, (MoveContext) context);
             event.card = this.getControlCard();

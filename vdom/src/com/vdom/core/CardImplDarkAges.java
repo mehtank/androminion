@@ -156,7 +156,7 @@ public class CardImplDarkAges extends CardImpl {
 	
 	@Override
 	public void isTrashed(MoveContext context) {
-		Cards.Kind trashKind = this.getControlCard().getKind();
+		Cards.Kind trashKind = this.getKind();
     	if (this.getControlCard().equals(Cards.estate) && context.player.getInheritance() != null) {
     		trashKind = context.player.getInheritance().getKind();
     	}
@@ -337,16 +337,16 @@ public class CardImplDarkAges extends CardImpl {
 
         // impersonated card stays in play until next turn?
         if (cardToPlay.trashOnUse) {
-            int idx = currentPlayer.playedCards.lastIndexOf(this);
+            int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
             if (idx >= 0) currentPlayer.playedCards.remove(idx);
-            currentPlayer.trash(this, null, context);
+            currentPlayer.trash(this.getControlCard(), null, context);
         } else if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
             if (!this.getControlCard().movedToNextTurnPile) {
                 this.getControlCard().movedToNextTurnPile = true;
-                int idx = currentPlayer.playedCards.lastIndexOf(this);
+                int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
                 if (idx >= 0) {
                     currentPlayer.playedCards.remove(idx);
-                    currentPlayer.nextTurnCards.add(this);
+                    currentPlayer.nextTurnCards.add(this.getControlCard());
                 }
             }
         }
