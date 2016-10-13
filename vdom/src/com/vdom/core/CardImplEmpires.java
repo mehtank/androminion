@@ -389,8 +389,16 @@ public class CardImplEmpires extends CardImpl {
     	}
     	
     	if (!revealedCard) {
-    		currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.controlCard));
-    		currentPlayer.encampment.add(this.controlCard);
+			CardList playedCards = currentPlayer.playedCards;
+			for (int i = playedCards.size() - 1; i >= 0; i--) {
+				Card c = playedCards.get(i);
+				if (c.behaveAsCard() == this) {
+					playedCards.remove(i);
+					currentPlayer.encampment.add(this.controlCard);
+					break;
+				}
+			}
+
     	}
     }
     
