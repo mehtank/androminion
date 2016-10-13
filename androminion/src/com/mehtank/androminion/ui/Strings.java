@@ -1208,7 +1208,11 @@ public class Strings {
             strings[1] = getString(R.string.tunnel_option_one);
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.urchin))) {
-            strings[1] = getString(R.string.urchin_trash_for_mercenary);
+            if (extras[0] != null) {
+                strings[1] = format(getString(R.string.urchin_trash_for_mercenary_impersonated), getCardName((Card)extras[0]));
+            } else {
+                strings[1] = getString(R.string.urchin_trash_for_mercenary);
+            }
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.vassal))) {
             strings[1] = format(R.string.vassal_option_play, getCardName((Card)extras[0]));
