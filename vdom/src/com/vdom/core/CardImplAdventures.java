@@ -108,17 +108,17 @@ public class CardImplAdventures extends CardImpl {
 	@Override
     public void isBuying(MoveContext context) {
 		super.isBuying(context);
-        switch (this.controlCard.getKind()) {
+        switch (this.getControlCard().getKind()) {
         case Messenger:
         	/* This buy is already in totalCardsBoughtThisTurn */
         	if(context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn == 1) {
                 Card card = context.getPlayer().controlPlayer.messenger_cardToObtain(context);
                 if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
-                	Card cardGained = context.getPlayer().gainNewCard(card, this.controlCard, context);
+                	Card cardGained = context.getPlayer().gainNewCard(card, this.getControlCard(), context);
                 	if (cardGained != null && cardGained.equals(card)) {
 	                    for (Player player : context.game.getPlayersInTurnOrder()) {
 	                        if (player != context.getPlayer()) {
-	                            player.gainNewCard(card, this.controlCard, new MoveContext(context.game, player));
+	                            player.gainNewCard(card, this.getControlCard(), new MoveContext(context.game, player));
 	                        }
 	                    }
                 	}
@@ -198,12 +198,12 @@ public class CardImplAdventures extends CardImpl {
 	
     private boolean call(MoveContext context) {
     	Player currentPlayer = context.getPlayer();
-		if (!currentPlayer.tavern.remove(this.controlCard)) {
+		if (!currentPlayer.tavern.remove(this.getControlCard())) {
 			return false;
 		}
-        currentPlayer.playedCards.add(this.controlCard);
+        currentPlayer.playedCards.add(this.getControlCard());
        	GameEvent event = new GameEvent(GameEvent.EventType.CallingCard, (MoveContext) context);
-        event.card = this.controlCard;
+        event.card = this.getControlCard();
         event.newCard = true;
         context.game.broadcastEvent(event);
         return true;
@@ -211,7 +211,7 @@ public class CardImplAdventures extends CardImpl {
     
     private void finishCall(MoveContext context) {
     	GameEvent event = new GameEvent(GameEvent.EventType.CalledCard, (MoveContext) context);
-        event.card = this.controlCard;
+        event.card = this.getControlCard();
         context.game.broadcastEvent(event);
 	}
     
@@ -282,7 +282,7 @@ public class CardImplAdventures extends CardImpl {
         if (option == Player.AmuletOption.AddGold) {
             context.addCoins(1);
         } else if (option == Player.AmuletOption.GainSilver) {
-            currentPlayer.gainNewCard(Cards.silver, this.controlCard, context);
+            currentPlayer.gainNewCard(Cards.silver, this.getControlCard(), context);
         } else if (option == Player.AmuletOption.TrashCard) {
             CardList hand = currentPlayer.getHand();
             if (hand.size() == 0) {
@@ -295,7 +295,7 @@ public class CardImplAdventures extends CardImpl {
                 cardToTrash = Util.randomCard(currentPlayer.getHand());
             }
             currentPlayer.hand.remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.controlCard, context);
+            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
         }
     }
 
@@ -306,7 +306,7 @@ public class CardImplAdventures extends CardImpl {
             for (Card card : cards) {
                 if (card != null) {
                 	if (currentPlayer.getHand().remove(card)) {
-	                    currentPlayer.discard(card, this.controlCard, context);
+	                    currentPlayer.discard(card, this.getControlCard(), context);
 	                    numberOfCards++;
                 	}
                 }
@@ -319,7 +319,7 @@ public class CardImplAdventures extends CardImpl {
         if (toObtain != null) {
             // check cost
             if (toObtain.getCost(context) == numberOfCards && toObtain.getDebtCost(context) == 0 && !toObtain.costPotion()) {
-            	currentPlayer.gainNewCard(toObtain, this.controlCard, context);
+            	currentPlayer.gainNewCard(toObtain, this.getControlCard(), context);
             }
         }
     }
@@ -330,7 +330,7 @@ public class CardImplAdventures extends CardImpl {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 MoveContext targetContext = new MoveContext(context.game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
-                targetPlayer.attacked(this.controlCard, context);
+                targetPlayer.attacked(this.getControlCard(), context);
                 targetPlayer.setMinusOneCoinToken(true, targetContext);
             }
         }
@@ -344,11 +344,11 @@ public class CardImplAdventures extends CardImpl {
     private void disciple(Game game, MoveContext context, Player currentPlayer) {    	
     	Card card = throneRoomKingsCourt(game, context, currentPlayer);
     	if(card != null && Cards.isSupplyCard(card))
-            currentPlayer.gainNewCard(card, this.controlCard, context);
+            currentPlayer.gainNewCard(card, this.getControlCard(), context);
     }
     
     private void duplicate(Card cardToGain, MoveContext context, Game game, Player currentPlayer) {
-		currentPlayer.gainNewCard(cardToGain, this.controlCard, context);
+		currentPlayer.gainNewCard(cardToGain, this.getControlCard(), context);
 	}
 	    
     private void fugitive(MoveContext context, Player currentPlayer) {
@@ -360,7 +360,7 @@ public class CardImplAdventures extends CardImpl {
             }
 
             currentPlayer.hand.remove(cardToDiscard);
-            currentPlayer.discard(cardToDiscard, this.controlCard, context);
+            currentPlayer.discard(cardToDiscard, this.getControlCard(), context);
         }
     }
     
@@ -393,8 +393,8 @@ public class CardImplAdventures extends CardImpl {
             }
         }
         if (!cardSetAside && this.getControlCard().cloneCount == 1) {
-            currentPlayer.nextTurnCards.remove(this.controlCard);
-            currentPlayer.playedCards.add(this.controlCard);
+            currentPlayer.nextTurnCards.remove(this.getControlCard());
+            currentPlayer.playedCards.add(this.getControlCard());
         }
     }
     
@@ -410,20 +410,20 @@ public class CardImplAdventures extends CardImpl {
             context.addCoins(5);
             
             for (Player targetPlayer : playersToAttack) {
-            	targetPlayer.attacked(this.controlCard, context);
+            	targetPlayer.attacked(this.getControlCard(), context);
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
 
                 Card card = game.draw(targetContext, Cards.giant, 1);
                 if (card != null) {
-                    targetPlayer.reveal(card, this.controlCard, targetContext);
+                    targetPlayer.reveal(card, this.getControlCard(), targetContext);
                     int cardCost = card.getCost(context);
 
                     if (!card.costPotion() && cardCost >= 3 && cardCost <= 6) {
-                        targetPlayer.trash(card, this.controlCard, targetContext);
+                        targetPlayer.trash(card, this.getControlCard(), targetContext);
                     } else {
-                        targetPlayer.discard(card, this.controlCard, targetContext);
-                        targetPlayer.gainNewCard(Cards.curse, this.controlCard, targetContext);
+                        targetPlayer.discard(card, this.getControlCard(), targetContext);
+                        targetPlayer.gainNewCard(Cards.curse, this.getControlCard(), targetContext);
                     }
                 }
             }
@@ -435,11 +435,11 @@ public class CardImplAdventures extends CardImpl {
     private void guide(MoveContext context, Game game, Player currentPlayer) {
 		if (currentPlayer.getHand().size() > 0) {
             while (!currentPlayer.getHand().isEmpty()) {
-                currentPlayer.discard(currentPlayer.getHand().remove(0), this.controlCard, context);
+                currentPlayer.discard(currentPlayer.getHand().remove(0), this.getControlCard(), context);
             }
         }
 		for (int i = 0; i < 5; ++i) {
-			game.drawToHand(context, this.controlCard, 5 - i);
+			game.drawToHand(context, this.getControlCard(), 5 - i);
 		}
 		
 	}
@@ -467,21 +467,21 @@ public class CardImplAdventures extends CardImpl {
             }
         }
         
-        currentPlayer.gainNewCard(newCard, this.controlCard, context);
+        currentPlayer.gainNewCard(newCard, this.getControlCard(), context);
     }
     
     private void magpie(Game game, MoveContext context, Player currentPlayer)
     {
         Card c = game.draw(context, Cards.magpie, 1);
         if (c != null) {
-            currentPlayer.reveal(c, this.controlCard, context);
+            currentPlayer.reveal(c, this.getControlCard(), context);
             if (c.is(Type.Treasure, currentPlayer)) {
                 currentPlayer.hand.add(c);
             } else {
                 currentPlayer.putOnTopOfDeck(c, context, true);
             }
             if ((c.is(Type.Victory, currentPlayer)) || (c.is(Type.Action, currentPlayer))) {
-                currentPlayer.gainNewCard(Cards.magpie, this.controlCard, context);
+                currentPlayer.gainNewCard(Cards.magpie, this.getControlCard(), context);
             }
         }
     }
@@ -494,7 +494,7 @@ public class CardImplAdventures extends CardImpl {
             GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
             game.broadcastEvent(event);
             while (currentPlayer.getDeckSize() > 0) {
-                currentPlayer.discard(game.draw(context, Cards.messenger, 0), this.controlCard, null, false, false);
+                currentPlayer.discard(game.draw(context, Cards.messenger, 0), this.getControlCard(), null, false, false);
             }
         }
     }
@@ -538,7 +538,7 @@ public class CardImplAdventures extends CardImpl {
         		cardToTrash = Util.randomCard(currentPlayer.getHand());
         	} else {
         		currentPlayer.hand.remove(cardToTrash);
-        		currentPlayer.trash(cardToTrash, this.controlCard, context);
+        		currentPlayer.trash(cardToTrash, this.getControlCard(), context);
         	}
         }
 	}
@@ -546,11 +546,11 @@ public class CardImplAdventures extends CardImpl {
     private void raze(Game game, MoveContext context, Player currentPlayer) {
     	int trashCost = 0;
     	if (currentPlayer.controlPlayer.raze_shouldTrashRazePlayed(context)) {
-    		if (!this.controlCard.movedToNextTurnPile) {
-                this.controlCard.movedToNextTurnPile = true;
-                trashCost = this.controlCard.getCost(context);
-                currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.controlCard));
-                currentPlayer.trash(this.controlCard, this.controlCard, context);
+    		if (!this.getControlCard().movedToNextTurnPile) {
+                this.getControlCard().movedToNextTurnPile = true;
+                trashCost = this.getControlCard().getCost(context);
+                currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.getControlCard()));
+                currentPlayer.trash(this.getControlCard(), this.getControlCard(), context);
             }
         } else if (currentPlayer.getHand().size() > 0) {
         	Card cardToTrash = currentPlayer.controlPlayer.raze_cardToTrash(context);
@@ -560,7 +560,7 @@ public class CardImplAdventures extends CardImpl {
             }
         	trashCost = cardToTrash.getCost(context);
         	currentPlayer.getHand().remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.controlCard, context);
+            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
         }
     	if (trashCost == 0)
     		return;
@@ -585,7 +585,7 @@ public class CardImplAdventures extends CardImpl {
 	    		lookAtCards.remove(cardToKeep);
 	    		currentPlayer.getHand().add(cardToKeep);
 	    		for (Card c : lookAtCards) {
-	                currentPlayer.discard(c, this.controlCard, context);
+	                currentPlayer.discard(c, this.getControlCard(), context);
 	            }
     		}
     	}
@@ -600,7 +600,7 @@ public class CardImplAdventures extends CardImpl {
         }
 
         for (Player targetPlayer : playersToAttack) {
-            targetPlayer.attacked(this.controlCard, context);
+            targetPlayer.attacked(this.getControlCard(), context);
             MoveContext targetContext = new MoveContext(context.game, targetPlayer);
             targetContext.attackedPlayer = targetPlayer;
         	targetPlayer.setMinusOneCardToken(true, targetContext);
@@ -627,13 +627,13 @@ public class CardImplAdventures extends CardImpl {
         if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
             // Need to move royal carriage card to NextTurnCards first
             // (but does not play)
-            if (!this.controlCard.movedToNextTurnPile) {
-                this.controlCard.movedToNextTurnPile = true;
-                int idx = currentPlayer.playedCards.lastIndexOf(this.controlCard);
+            if (!this.getControlCard().movedToNextTurnPile) {
+                this.getControlCard().movedToNextTurnPile = true;
+                int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
                 int ntidx = currentPlayer.nextTurnCards.size() - 1;
                 if (idx >= 0 && ntidx >= 0) {
                     currentPlayer.playedCards.remove(idx);
-                    currentPlayer.nextTurnCards.add(ntidx, this.controlCard);
+                    currentPlayer.nextTurnCards.add(ntidx, this.getControlCard());
                 }
             }
         }
@@ -643,7 +643,7 @@ public class CardImplAdventures extends CardImpl {
     	context.addCoins(context.countAttackCardsInPlay() - 1); //without this soldier
     	for (Player player : context.game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
 
@@ -655,7 +655,7 @@ public class CardImplAdventures extends CardImpl {
                     }
 
                     player.hand.remove(cardToDiscard);
-                    player.discard(cardToDiscard, this.controlCard, playerContext);
+                    player.discard(cardToDiscard, this.getControlCard(), playerContext);
                 }
             }
         }
@@ -663,7 +663,7 @@ public class CardImplAdventures extends CardImpl {
 
     private void storyteller(Game game, MoveContext context, Player currentPlayer) {
         // play up to 3 treasures
-        context.game.playTreasures(currentPlayer, context, 3, this.controlCard);
+        context.game.playTreasures(currentPlayer, context, 3, this.getControlCard());
         
         int coins = context.getCoins();
         context.spendCoins(coins);
@@ -733,7 +733,7 @@ public class CardImplAdventures extends CardImpl {
             } else if (!game.isCardOnTop(card)) {
             	Util.playerError(currentPlayer, "Transmogrify error, new card not in game.");
             } else {
-            	currentPlayer.gainNewCard(card, this.controlCard, context);
+            	currentPlayer.gainNewCard(card, this.getControlCard(), context);
             }
         }
 	}
@@ -745,8 +745,8 @@ public class CardImplAdventures extends CardImpl {
     }
     
     protected void treasureTrove(MoveContext context, Player player, Game game) {
-        context.getPlayer().gainNewCard(Cards.gold, this.controlCard, context); 
-        context.getPlayer().gainNewCard(Cards.copper, this.controlCard, context);
+        context.getPlayer().gainNewCard(Cards.gold, this.getControlCard(), context);
+        context.getPlayer().gainNewCard(Cards.copper, this.getControlCard(), context);
     }  
     
     private void warrior(Game game, MoveContext context, Player currentPlayer) {
@@ -759,7 +759,7 @@ public class CardImplAdventures extends CardImpl {
     	int numTravellers = context.countTravellerCardsInPlay();
     	for (int i = 0; i < numTravellers; i++) {
     		for (Player player : attackedPlayers) {
-    			player.attacked(this.controlCard, context);
+    			player.attacked(this.getControlCard(), context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
                 Card draw = game.draw(playerContext, Cards.warrior, numTravellers - i);
@@ -767,11 +767,11 @@ public class CardImplAdventures extends CardImpl {
                 	int cost = draw.getCost(context);
                 	if (draw.costPotion()) 
                 		cost = 0;
-                	player.discard(draw, this.controlCard, playerContext);
+                	player.discard(draw, this.getControlCard(), playerContext);
                 	int discardIndex = player.discard.size() - 1;
                 	if (player.discard.getLastCard() == draw && (cost == 3 || cost == 4)) {
                 		player.discard.remove(discardIndex);
-                		player.trash(draw, this.controlCard, playerContext);
+                		player.trash(draw, this.getControlCard(), playerContext);
                 	}
                 }
     		}
@@ -781,13 +781,13 @@ public class CardImplAdventures extends CardImpl {
     private void putOnTavern(Game game, MoveContext context, Player currentPlayer) {
         // throneroom has here no effect since card is already put on tavern
         // Move to tavern mat
-        if (this.controlCard.numberTimesAlreadyPlayed == 0) {
-            currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.controlCard));
-            currentPlayer.tavern.add(this.controlCard);
-            this.controlCard.stopImpersonatingCard();
+        if (this.getControlCard().numberTimesAlreadyPlayed == 0) {
+            currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.getControlCard()));
+            currentPlayer.tavern.add(this.getControlCard());
+            this.getControlCard().stopImpersonatingCard();
 
             GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideOnTavernMat, (MoveContext) context);
-            event.card = this.controlCard;
+            event.card = this.getControlCard();
             game.broadcastEvent(event);
         } else {
             // reset clone count
@@ -816,7 +816,7 @@ public class CardImplAdventures extends CardImpl {
 	        Card card = context.player.controlPlayer.alms_cardToObtain(context);
 	        if (card != null) {
 	            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
-	            	context.player.gainNewCard(card, this.controlCard, context);
+	            	context.player.gainNewCard(card, this.getControlCard(), context);
 	            }
 	        }
         }
@@ -848,7 +848,7 @@ public class CardImplAdventures extends CardImpl {
                     for (int i = 0; i < context.player.playedCards.size(); i++) {
                         Card playedCard = context.player.playedCards.get(i);
                         if (playedCard.equals(card)) {
-                            context.player.trash(context.player.playedCards.remove(i, false), this.controlCard, context);
+                            context.player.trash(context.player.playedCards.remove(i, false), this.getControlCard(), context);
                             continue cardLoop;
                         }
                     }
@@ -857,9 +857,9 @@ public class CardImplAdventures extends CardImpl {
                         if (nextTurnCard.equals(card)) {
                         	if (nextTurnCard.is(Type.Duration, context.player)) {
                         		((CardImpl)nextTurnCard).trashAfterPlay = true;
-                                context.player.trash(nextTurnCard, this.controlCard, context);
+                                context.player.trash(nextTurnCard, this.getControlCard(), context);
                         	} else {
-                        		context.player.trash(context.player.nextTurnCards.remove(i, false), this.controlCard, context);
+                        		context.player.trash(context.player.nextTurnCards.remove(i, false), this.getControlCard(), context);
                         	}
                         	continue cardLoop;
                         }
@@ -927,7 +927,7 @@ public class CardImplAdventures extends CardImpl {
     				for (Card card : differentCards) {
     					if(context.player.playedCards.contains(card) || 
     							context.player.nextTurnCards.contains(card)) {
-    						context.player.gainNewCard(card, this.controlCard, context);
+    						context.player.gainNewCard(card, this.getControlCard(), context);
     					} else {
     						Util.playerError(context.player, "Pilgrimage gain error, card not in play, ignoring.");
     					}
@@ -1076,7 +1076,7 @@ public class CardImplAdventures extends CardImpl {
 		            toDiscard = cards.get(0);
 		        }
 		
-		        context.player.discard(toDiscard, this.controlCard, context);
+		        context.player.discard(toDiscard, this.getControlCard(), context);
 		
 		        cards.remove(toDiscard);
         	}
@@ -1124,7 +1124,7 @@ public class CardImplAdventures extends CardImpl {
     	Card card = context.player.controlPlayer.seaway_cardToObtain(context);
         if (card != null && card.is(Type.Action, null)) {
             if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && !context.game.isPileEmpty(card)) {
-            	Card gainedCard = context.player.gainNewCard(card, this.controlCard, context);
+            	Card gainedCard = context.player.gainNewCard(card, this.getControlCard(), context);
                 if (context.game.getPile(card).equals(context.game.getPile(gainedCard))) //check that the placeholdercard is from the same pile as the gained card.
             		placeToken(context, card, PlayerSupplyToken.PlusOneBuy);
             }
@@ -1148,7 +1148,7 @@ public class CardImplAdventures extends CardImpl {
     				for (int i = 0; i < context.player.hand.size(); i++) {
     					Card inHand = context.player.hand.get(i);
     					if (inHand.equals(card)) {
-    						context.player.trash(context.player.hand.remove(i, false), this.controlCard, context);
+    						context.player.trash(context.player.hand.remove(i, false), this.getControlCard(), context);
     						context.player.gainNewCard(Cards.silver, this, context);
     						break;
     					}

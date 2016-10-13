@@ -988,7 +988,7 @@ public class Game {
                  * that Silver), and then choose to trash a card from the second Amulet play,
                  * now that you have more cards to choose from. 
                  */
-            	int cloneCount = ((CardImpl) card).controlCard.cloneCount;
+            	int cloneCount = ((CardImpl) card).getControlCard().cloneCount;
                 for (int clone = cloneCount; clone > 0; clone--) {
                     if(   thisCard.equals(Cards.amulet)
                        || thisCard.equals(Cards.dungeon)) {

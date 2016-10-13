@@ -63,7 +63,8 @@ public class CardImpl implements Card {
     int cloneCount = 1;
     protected CardImpl impersonatingCard = null;
     CardImpl inheritingAbilitiesCard = null;
-    CardImpl controlCard = this;
+    private CardImpl controlCard = this;
+
 
     protected CardImpl(Cards.Kind kind, int cost) {
         this.kind = kind;
@@ -493,6 +494,7 @@ public class CardImpl implements Card {
             }
         }
 
+        CardImpl controlCard = getControlCard();
         if (controlCard != null && controlCard != this && controlCard.inheritingAbilitiesCard != null) {
         	return controlCard.getCost(context, buyPhase);
         }
@@ -510,7 +512,7 @@ public class CardImpl implements Card {
         costModifier -= 2 * context.countCardsInPlay(Cards.princess);
         //TODO: BUG if an inherited peddler is yours, its cost should lower during your buy phase 
         costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlay()) : 0;
-        costModifier -= (context.game.isPlayerSupplyTokenOnPile(this.controlCard.equals(Cards.estate) ? this.controlCard : this, 
+        costModifier -= (context.game.isPlayerSupplyTokenOnPile(this.getControlCard().equals(Cards.estate) ? this.getControlCard() : this,
         		context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
         
         return Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);
@@ -963,10 +965,10 @@ public class CardImpl implements Card {
     }
 
     public Card behaveAsCard() {
-        if (impersonatingCard != null)
-        	return impersonatingCard;
-        if (inheritingAbilitiesCard != null)
-        	return inheritingAbilitiesCard;
+        if (impersonatingCard != null && impersonatingCard != this)
+        	return impersonatingCard.behaveAsCard();
+        if (inheritingAbilitiesCard != null && inheritingAbilitiesCard != this)
+        	return inheritingAbilitiesCard.behaveAsCard();
         return this;
     }
 
@@ -994,7 +996,8 @@ public class CardImpl implements Card {
 
     @Override
     public CardImpl getControlCard() {
-        return controlCard;
+        if (controlCard == this) return this;
+        return controlCard.getControlCard();
     }
 
     void setControlCard(CardImpl controlCard) {
@@ -1069,7 +1072,7 @@ public class CardImpl implements Card {
         for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
         	if (targetPlayer != currentPlayer) {
         		if (!Util.isDefendedFromAttack(game, targetPlayer, this)) {
-        			targetPlayer.attacked(this.controlCard, context);
+        			targetPlayer.attacked(this.getControlCard(), context);
         			currentPlayer.addDurationEffectOnOtherPlayer(targetPlayer, this.kind);
         		}
         	}
@@ -1079,10 +1082,10 @@ public class CardImpl implements Card {
     protected void witchFamiliar(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
                 MoveContext targetContext = new MoveContext(game, player);
                 targetContext.attackedPlayer = player;
-                player.gainNewCard(Cards.curse, this.controlCard, targetContext);
+                player.gainNewCard(Cards.curse, this.getControlCard(), targetContext);
             }
         }
     }
@@ -1119,7 +1122,7 @@ public class CardImpl implements Card {
 
             if (cardToPlay != null) {
                 if(!actionCards.contains(cardToPlay)) {
-                    Util.playerError(currentPlayer, this.controlCard.name.toString() + " card selection error, ignoring");
+                    Util.playerError(currentPlayer, this.getControlCard().name.toString() + " card selection error, ignoring");
                 } else {
                     context.freeActionInEffect++;
 
@@ -1148,13 +1151,13 @@ public class CardImpl implements Card {
                     	}
                         // Need to move throning card to NextTurnCards first
                         // (but does not play)
-                        if (playingCardIsInNextTurn && !this.controlCard.movedToNextTurnPile) {
-                            this.controlCard.movedToNextTurnPile = true;
-                            int idx = currentPlayer.playedCards.lastIndexOf(this.controlCard);
+                        if (playingCardIsInNextTurn && !this.getControlCard().movedToNextTurnPile) {
+                            this.getControlCard().movedToNextTurnPile = true;
+                            int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
                             int ntidx = currentPlayer.nextTurnCards.size() - 1;
                             if (idx >= 0 && ntidx >= 0) {
                                 currentPlayer.playedCards.remove(idx);
-                                currentPlayer.nextTurnCards.add(ntidx, this.controlCard);
+                                currentPlayer.nextTurnCards.add(ntidx, this.getControlCard());
                             }
                         }
                     }
@@ -1162,7 +1165,7 @@ public class CardImpl implements Card {
 
                 if (this.kind == Cards.Kind.Procession) {
                     if (!cardToPlay.trashOnUse) {
-                        currentPlayer.trash(cardToPlay, this.controlCard, context);
+                        currentPlayer.trash(cardToPlay, this.getControlCard(), context);
                         if (currentPlayer.playedCards.getLastCard() == cardToPlay) { 
                             currentPlayer.playedCards.remove(cardToPlay);
                         } 
@@ -1175,7 +1178,7 @@ public class CardImpl implements Card {
                     if ((cardToGain != null) && (cardToPlay.getCost(context) + 1) == cardToGain.getCost(context) && 
                     		cardToPlay.getDebtCost(context) == cardToGain.getDebtCost(context) && 
                     		cardToPlay.costPotion() == cardToGain.costPotion()) {
-                        currentPlayer.gainNewCard(cardToGain, this.controlCard, context);
+                        currentPlayer.gainNewCard(cardToGain, this.getControlCard(), context);
                     }
                 }
             }
@@ -1242,7 +1245,7 @@ public class CardImpl implements Card {
         
         for (Card card : cardsToDiscard) {
             currentPlayer.hand.remove(card);
-            currentPlayer.discard(card, this.controlCard, context);
+            currentPlayer.discard(card, this.getControlCard(), context);
         }
     }
 
@@ -1253,7 +1256,7 @@ public class CardImpl implements Card {
             // allow that
             if (player == currentPlayer || (!Util.isDefendedFromAttack(game, player, this))) {
                 if (player != currentPlayer) {
-                    player.attacked(this.controlCard, context);
+                    player.attacked(this.getControlCard(), context);
                 }
 
                 MoveContext playerContext = new MoveContext(game, player);
@@ -1261,7 +1264,7 @@ public class CardImpl implements Card {
                 Card card = game.draw(playerContext, this, 1);
 
                 if (card != null) {
-                    player.reveal(card, this.controlCard, playerContext);
+                    player.reveal(card, this.getControlCard(), playerContext);
 
                     boolean discard = false;
 
@@ -1272,7 +1275,7 @@ public class CardImpl implements Card {
                     }
 
                     if (discard) {
-                        player.discard(card, this.controlCard, playerContext);
+                        player.discard(card, this.getControlCard(), playerContext);
                     } else {
                         // put it back
                         player.putOnTopOfDeck(card, playerContext, true);
@@ -1286,7 +1289,7 @@ public class CardImpl implements Card {
 
             Card draw = null;
             while ((draw = game.draw(context, Cards.scryingPool, -1)) != null) {
-                currentPlayer.reveal(draw, this.controlCard, new MoveContext(context, game, currentPlayer));
+                currentPlayer.reveal(draw, this.getControlCard(), new MoveContext(context, game, currentPlayer));
                 cardsToPutInHand.add(draw);
                 if(!(draw.is(Type.Action, currentPlayer))) {
                     break;
