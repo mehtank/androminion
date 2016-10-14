@@ -84,7 +84,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		countsStashesInHand = (TextView) findViewById(R.id.countsStashesInHand);
 		countsSuffix = (TextView) findViewById(R.id.countsSuffix);
 
-        if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("hide_card_counts", false)) {
+        if(!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("card_counts", true)) {
             showCardCounts = false;
             counts.setVisibility(INVISIBLE);
         }

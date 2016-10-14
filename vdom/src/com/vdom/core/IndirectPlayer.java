@@ -71,7 +71,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     private Card[] getFromHandOrPlayed(boolean fromTheHand, MoveContext context, SelectCardOptions sco) {
-        CardList localHand = (context.player.isPossessed()) ? context.player.getHand() : getHand();
+        CardList localHand = context.player.getHand();
     	if (fromTheHand) {
             sco = sco.fromHand();
     	} else {
@@ -262,7 +262,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     private Card[] doAction(MoveContext context, boolean singleCard) {
         int actionCount = 0;
         Card actionCard = null;
-        for (Card card : (context.player.isPossessed()) ? context.player.getHand() : getHand()) {
+        for (Card card : context.player.getHand()) {
             if (card.is(Type.Action, context.player)) {
                 actionCount++;
                 actionCard = card;
@@ -319,7 +319,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
 
         int treasureCount = 0;
-        Player player = context.player.isPossessed() ? context.player : this;
+        Player player = context.player;
         for (Card card : player.getHand()) {
             if (card.is(Type.Treasure, player)) {
                 treasureCount++;
@@ -524,7 +524,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     
     @Override
     public Card harbinger_cardToPutBackOnDeck(MoveContext context) {
-    	CardList localDiscard = (context.player.isPossessed()) ? context.player.getDiscard() : getDiscard();
+    	CardList localDiscard = context.player.getDiscard();
         if (localDiscard.isEmpty())
             return null;
         Set<Card> uniqueCards = new HashSet<Card>(localDiscard.toArrayList());
@@ -1191,7 +1191,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.ambassador_returnToSupplyFromHand(context, card);
         }
         int numCards = 0;
-        for (Card c : (context.player.isPossessed()) ? context.player.getHand() : getHand())
+        for (Card c : context.player.getHand())
             if (c.equals(card))
                 numCards++;
 
@@ -2365,7 +2365,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
     @Override
     public Card scavenger_cardToPutBackOnDeck(MoveContext context) {
-        CardList localDiscard = (context.player.isPossessed()) ? context.player.getDiscard() : getDiscard();
+        CardList localDiscard = context.player.getDiscard();
         if (localDiscard.isEmpty())
             return null;
         Set<Card> uniqueCards = new HashSet<Card>(localDiscard.toArrayList());

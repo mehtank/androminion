@@ -72,9 +72,13 @@ public class Game {
     public static boolean platColonyPassedIn = false;
     public static double chanceForPlatColony = -1;
     public static double chanceForShelters = 0.0;
+    
+    public static enum BlackMarketSplitPileOptions {
+    	NONE, ONE, ANY, ALL
+    }
 
     public static int blackMarketCount = 25;
-    public static boolean blackMarketAllowMultipleCardsFromPile = false;
+    public static BlackMarketSplitPileOptions blackMarketSplitPileOptions = BlackMarketSplitPileOptions.NONE;
     public static boolean blackMarketOnlyCardsFromUsedExpansions = false;
     
     public static boolean randomIncludesEvents = false;
@@ -96,7 +100,10 @@ public class Game {
     public static boolean errataShuffleDeckEmptyOnly = false; //Errata introduced Oct 2016 - true enables old behavior
     public static boolean startGuildsCoinTokens = false; //only for testing
     public static boolean lessProvinces = false; //only for testing
+    public static boolean noCards = false; //only for testing
     public static boolean godMode = false; //only for testing
+    public static boolean disableAi = false; //only for testing
+    public static boolean controlAi = false; //only for testing
     public static boolean maskPlayerNames = false;
 
     public static final HashSet<GameEvent.EventType> showEvents = new HashSet<GameEvent.EventType>();
@@ -351,6 +358,9 @@ public class Game {
 
                 if (!gameOver) {
                 	playerAfterTurn(player, context);
+                	if (player.isControlled()) {
+                		player.stopBeingControlled();
+                	}
                     setPlayersTurn(!extraTurnsInfo.isEmpty());
                 }
             }
@@ -435,7 +445,8 @@ public class Game {
 
     protected void playTreasures(Player player, MoveContext context, int maxCards, Card responsible) {
     	// storyteller sets maxCards != -1
-        
+    	if (disableAi && player.isAi()) return;
+    	
     	boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
         if (maxCards != -1) selectingCoins = true;// storyteller
         ArrayList<Card> treasures = null;
@@ -456,6 +467,7 @@ public class Game {
 
     protected void playGuildsTokens(Player player, MoveContext context)
     {
+    	if (disableAi && player.isAi()) return;
         int coinTokenTotal = player.getGuildsCoinTokenCount();
 
         if (coinTokenTotal > 0)
@@ -797,6 +809,7 @@ public class Game {
         do {
             action = null;
             ArrayList<Card> actionCards = null;
+            if (disableAi && player.isAi()) continue;
             if (!actionChains || player.controlPlayer.isAi()) {
                 action = player.controlPlayer.doAction(context);
                 if (action != null) {
@@ -856,6 +869,7 @@ public class Game {
     protected void playerBuy(Player player, MoveContext context) {
         Card buy = null;
         do {
+        	if (disableAi && player.isAi()) continue;
             if (context.buys <= 0) break; //Player can enter buy phase with 0 or less buys after buying but not playing Villa
         	buy = null;
             try {
@@ -949,6 +963,13 @@ public class Game {
         } else {
             player.controlPlayer = player;
             consecutiveTurnCounter++;
+        }
+        if (controlAi && player.isAi()) {
+        	for (Player curPlayer : players) {
+        		if (curPlayer.isAi()) continue;
+        		player.startBeingControlled(curPlayer);
+        		break;
+        	}
         }
         
         cardsObtainedLastTurn[playersTurn].clear();
@@ -1657,8 +1678,8 @@ public class Game {
         chanceForPlatColony = -1;
         chanceForShelters = -1;
         equalStartHands = false;
-        blackMarketAllowMultipleCardsFromPile = false;
         blackMarketOnlyCardsFromUsedExpansions = false;
+        blackMarketSplitPileOptions = BlackMarketSplitPileOptions.NONE;
         errataMasqueradeAlwaysAffects = false;
         errataMineForced = false;
         errataMoneylenderForced = false;
@@ -1667,7 +1688,10 @@ public class Game {
         errataShuffleDeckEmptyOnly = false;
         startGuildsCoinTokens = false; //only for testing
         lessProvinces = false; //only for testing
+        noCards = false;
         godMode = false; //only for testing
+        controlAi = false; //only for testing
+        disableAi = false;
 
         String quickPlayArg = "-quickplay";
         String maskPlayerNamesArg = "-masknames";
@@ -1677,7 +1701,7 @@ public class Game {
         String platColonyArg = "-platcolony";
         String useSheltersArg = "-useshelters";
         String blackMarketCountArg = "-blackmarketcount";
-        String bmMultiCardsArg = "-blackmarketallowmultiplecardsfrompile";
+        String bmSplitPileArg = "-blackmarketsplitpiles-";
         String bmOnlyUsedExpArg = "-blackmarketonlycardsfromusedexpansions";
         String equalStartHandsArg = "-equalstarthands";
         String errataThroneRoomForcedArg = "-erratathroneroomforced";
@@ -1688,7 +1712,10 @@ public class Game {
         String errataShuffleDeckEmptyOnlyArg = "-erratashuffledeckemptyonly";
         String startGuildsCoinTokensArg = "-startguildscointokens"; //only for testing
         String lessProvincesArg = "-lessprovinces"; //only for testing
+        String noCardsArg = "-nocards";
         String godModeArg = "-godmode";
+        String disableAiArg = "-disableai";
+        String controlAiArg = "-controlai";
 
         for (String arg : args) {
             if (arg == null) {
@@ -1716,16 +1743,22 @@ public class Game {
                 	chanceForShelters = Integer.parseInt(arg.toLowerCase().substring(useSheltersArg.length())) / 100.0;
                 } else if (arg.toLowerCase().startsWith(blackMarketCountArg)) {
                     blackMarketCount = Integer.parseInt(arg.toLowerCase().substring(blackMarketCountArg.length()));
-                } else if (arg.toLowerCase().startsWith(bmMultiCardsArg)) {
-                    blackMarketAllowMultipleCardsFromPile = true;
+                } else if (arg.toLowerCase().startsWith(bmSplitPileArg)) {
+                    blackMarketSplitPileOptions = BlackMarketSplitPileOptions.valueOf(arg.substring(bmSplitPileArg.length()).toUpperCase());
                 } else if (arg.toLowerCase().startsWith(bmOnlyUsedExpArg)) {
                     blackMarketOnlyCardsFromUsedExpansions = true;
                 } else if (arg.toLowerCase().equals(equalStartHandsArg)) {
                     equalStartHands = true;
                 } else if (arg.toLowerCase().equals(startGuildsCoinTokensArg)) {
                     startGuildsCoinTokens = true; //only for testing
+                } else if (arg.toLowerCase().equals(noCardsArg)) {
+                    noCards = true; //only for testing
                 } else if (arg.toLowerCase().equals(godModeArg)) {
                     godMode = true; //only for testing
+                } else if (arg.toLowerCase().equals(disableAiArg)) {
+                    disableAi = true; //only for testing
+                } else if (arg.toLowerCase().equals(controlAiArg)) {
+                    controlAi = true; //only for testing
                 } else if (arg.toLowerCase().equals(lessProvincesArg)) {
                     lessProvinces = true; //only for testing
                 } else if (arg.toLowerCase().equals(errataMasqueradeAlwaysAffectsArg)) {
@@ -2473,7 +2506,7 @@ public class Game {
             }
         }
 
-        if (startGuildsCoinTokens || godMode) //only for testing
+        if (noCards) //only for testing
         {
             for (int i = 0; i < numPlayers; i++) {
                 player = players[i];
@@ -2717,7 +2750,8 @@ public class Game {
                                 pile.placeholderCard() != null &&
                                 pile.placeholderCard().getExpansion() != null &&
                                 Cards.isKingdomCard(pile.placeholderCard()) &&
-                                !expansions.contains(pile.placeholderCard().getExpansion())) {
+                                !expansions.contains(pile.placeholderCard().getExpansion()) &&
+                                pile.placeholderCard().getExpansion() != Expansion.Promo) {
                             expansions.add(pile.placeholderCard().getExpansion());
                         }
                     }
@@ -2730,18 +2764,54 @@ public class Game {
             List<Card> remainingCards = new ArrayList<Card>();
             for (int i = 0; i < allCards.size(); i++) {
                 if (!piles.containsKey(allCards.get(i).getName())) {
-                    ArrayList<Card> templates = allCards.get(i).getPileCreator().create(allCards.get(i), 12).getTemplateCards(); //count doesn't matter as we only need templates
-                    if (blackMarketAllowMultipleCardsFromPile) {
-                        for (Card card : templates) {
-                            remainingCards.add(card);
+                	CardPile tempPile = allCards.get(i).getPileCreator().create(allCards.get(i), 12); //count doesn't matter as we only need templates
+                    ArrayList<Card> templates = tempPile.getTemplateCards();
+                	if (Cards.variablePileCards.contains(templates.get(0)) || Cards.castleCards.contains(templates.get(0))) {
+                		if (blackMarketSplitPileOptions == BlackMarketSplitPileOptions.ANY) {
+                            for (Card card : templates) {
+                                remainingCards.add(card);
+                            }
+                    	} else if (blackMarketSplitPileOptions == BlackMarketSplitPileOptions.ONE) {
+                            remainingCards.add(Util.randomCard(templates));
+                        } else if (blackMarketSplitPileOptions == BlackMarketSplitPileOptions.ALL) {
+                            remainingCards.add(allCards.get(i));
                         }
-                    } else {
-                        remainingCards.add(Util.randomCard(templates));
+                	} else {
+                    	remainingCards.add(Util.randomCard(templates));
                     }
                 }
             }
             // take count cards from the rest
             List<Card> cards = CardSet.getRandomCardSet(remainingCards, count).getCards();
+            
+            //Force remaining split pile cards into black market deck if one from a split pile is in
+            if (blackMarketSplitPileOptions == BlackMarketSplitPileOptions.ALL) {
+            	ArrayList<Card> extraCards = new ArrayList<Card>();
+            	for (int i = 0; i < cards.size(); ++i) {
+            		Card c = cards.get(i);
+            		ArrayList<Card> templates = c.getPileCreator().create(allCards.get(i), 12).getTemplateCards(); //count doesn't matter as we only need templates
+            		if (templates.size() > 1) {
+            			cards.set(i, templates.get(0));
+            			for (int j = 1; j < templates.size(); ++j) {
+            				extraCards.add(templates.get(j));
+            			}
+            		}
+            	}
+            	int cardsToRemove = extraCards.size() - (count - cards.size());
+            	for (int n = 0; n < cardsToRemove; ++n) {
+            		for (int i = 0; i < cards.size(); ++i) {
+            			if (!Cards.variablePileCards.contains(cards.get(i)) && !Cards.castleCards.contains(cards.get(i))) {
+            				cards.remove(i);
+            				break;
+            			}
+            		}
+            	}
+            	for (Card c : extraCards) {
+            		if (cards.size() < count)
+            			cards.add(c);
+            	}
+            }
+            
             for (int i = 0; i < cards.size(); i++) {
             	remainingCards.remove(cards.get(i));
                 blackMarketPile.add(cards.get(i).instantiate());
@@ -2759,7 +2829,7 @@ public class Game {
             cards.clear();
             for (int i = 0; i < blackMarketPile.size(); i++) {
                 cards.add(blackMarketPile.get(i));
-                addPile(blackMarketPile.get(i), 1, false, true);
+                addPile(blackMarketPile.get(i).getTemplateCard(), 1, false, true);
                 Cards.blackMarketCards.add(blackMarketPile.get(i));
             }
             // shuffle

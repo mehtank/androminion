@@ -65,9 +65,24 @@ public abstract class Player {
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     public Game game;
     public Player controlPlayer = this;
+    public boolean controlled = false;
 
     public boolean isPossessed() {
-        return !this.equals(controlPlayer);
+        return !controlled && !this.equals(controlPlayer);
+    }
+    
+    public boolean isControlled() {
+    	return controlled;
+    }
+    
+    public void stopBeingControlled() {
+    	controlPlayer = this;
+    	controlled = false;
+    }
+    
+    public void startBeingControlled(Player player) {
+    	controlPlayer = player;
+    	controlled = true;
     }
 
     public boolean achievementSingleCardFailed;
@@ -81,7 +96,10 @@ public abstract class Player {
     		event.setAmount(vt);
             context.game.broadcastEvent(event);
     	} else {
-    		controlPlayer.victoryTokens += vt;
+    		if (isPossessed())
+    			controlPlayer.victoryTokens += vt;
+    		else 
+    			victoryTokens += vt;
     		GameEvent event = new GameEvent(GameEvent.EventType.VPTokensObtained, isPossessed() ? new MoveContext(context.game, controlPlayer) : context);
         	event.setAmount(vt);
             context.game.broadcastEvent(event);

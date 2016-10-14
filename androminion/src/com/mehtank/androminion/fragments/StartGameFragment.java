@@ -718,8 +718,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 
         strs.add("-blackmarketcount" + mPrefs.getString("black_market_count", "25"));
 
-        if (mPrefs.getBoolean("bmlAllowMultpileCardsFromPile", false)) {
-            strs.add("-blackmarketallowmultiplecardsfrompile");
+        if (!mPrefs.getString("bm_split_piles", "None").equals("None")) {
+            strs.add("-blackmarketsplitpiles-" + mPrefs.getString("bm_split_piles", "None"));
         }
 
         if (mPrefs.getBoolean("bmOnlyCardsFromUsedExpansions", false)) {
@@ -753,11 +753,20 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         if (mPrefs.getBoolean("start_guilds_coin_tokens", false)) {
             strs.add("-startguildscointokens");
         }
+        if (mPrefs.getBoolean("no_cards", false)) {
+            strs.add("-nocards");
+        }
         if (mPrefs.getBoolean("less_provinces", false)) {
             strs.add("-lessprovinces");
         }
         if (mPrefs.getBoolean("god_mode", false)) {
             strs.add("-godmode");
+        }
+        if (mPrefs.getBoolean("disable_ai", false)) {
+            strs.add("-disableai");
+        }
+        if (mPrefs.getBoolean("control_ai", false)) {
+            strs.add("-controlai");
         }
         if (!mPrefs.getBoolean("errata_masquerade", true)) {
         	strs.add("-erratamasqueradealwaysaffects");

@@ -322,7 +322,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
 
         // show opponent hand if possessed
-        CardList shownHand = (player.isPossessed()) ? player.getHand() : getHand();
+        CardList shownHand = (player.isPossessed() || player.isControlled()) ? player.getHand() : getHand();
 
         // ArrayList<Card> playedCards = context.getPlayedCards();
 
@@ -640,7 +640,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         // create the "extras" object that gives the client enough information to know what exactly
         // the event is.  This part of the "extras" object applies to all event types.
         List<Object> extras = new ArrayList<Object>();
-        if (event.getPlayer().isPossessed()) {
+        if (event.getPlayer().isPossessed() || event.getPlayer().isControlled()) {
             extras.add(event.getPlayer().controlPlayer.getPlayerName());
         } else {
             extras.add(null);

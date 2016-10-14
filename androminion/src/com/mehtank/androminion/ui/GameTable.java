@@ -3,7 +3,9 @@ package com.mehtank.androminion.ui;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -361,6 +363,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         actionText.setText("");
         gameScroller.clear();
         gameScroller.setNumPlayers(players.length);
+        setGameScrollerVisibilityFromPrefs();        
         gameOver.setVisibility(GONE);
         gameOver.removeAllViews(); // FIX: After playing two games in a row, winners of both games are displayed without this fix.
         gameOverScroll.setVisibility(GONE);
@@ -462,7 +465,17 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         gameTimePaused = false;
     }
 
-    /**
+    public void setGameScrollerVisibilityFromPrefs() {
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(top);
+    	if (prefs.getBoolean("show_game_log", true)) {
+    		gameScroller.setVisibility(VISIBLE);
+    	} else {
+    		gameScroller.setVisibility(GONE);
+    	}
+				
+	}
+
+	/**
      * initialize a card pile for the table
      *
      * This is called upon setup from within newGame

@@ -712,7 +712,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		String title = cardView.getCard().name;
 		Log.d(TAG, "card title = " + title);
-		if (PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
+		boolean isEnglish = "en".equals(getResources().getConfiguration().locale.getLanguage());
+		if (!isEnglish && PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
 			title += " (" + cardView.getCard().originalName + ")";
 			Log.d(TAG, "card title now: " + title);
 		}

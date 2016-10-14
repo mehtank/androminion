@@ -92,6 +92,7 @@ public class WinLossView extends FrameLayout {
 			for (int numPlayers = 2; numPlayers <= 6; numPlayers++) {
 				wins = achievements.getPlayerWins(player, numPlayers);
 				losses = achievements.getPlayerLosses(player, numPlayers);
+				if (wins + losses == 0) continue;
 				percent = (int) ((float) wins / (wins + losses) * 100);
 				
 				textView = new TextView(top);
