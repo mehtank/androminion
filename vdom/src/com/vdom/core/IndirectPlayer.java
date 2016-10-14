@@ -806,11 +806,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean miningVillage_shouldTrashMiningVillage(MoveContext context) {
-        if(context.isQuickPlay() && shouldAutoPlay_miningVillage_shouldTrashMiningVillage(context)) {
-            return super.miningVillage_shouldTrashMiningVillage(context);
+    public boolean miningVillage_shouldTrashMiningVillage(MoveContext context, Card responsible) {
+        if(context.isQuickPlay() && shouldAutoPlay_miningVillage_shouldTrashMiningVillage(context, responsible)) {
+            return super.miningVillage_shouldTrashMiningVillage(context, responsible);
         }
-        return selectBoolean(context, Cards.miningVillage);
+        return selectBoolean(context, responsible.behaveAsCard());
     }
 
     @Override
@@ -2661,9 +2661,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_urchin_shouldTrashForMercenary(context, responsible)) {
             return super.urchin_shouldTrashForMercenary(context, responsible);
         }
-        Object[] extras = {null};
-        if (!responsible.equals(Cards.urchin)) extras[0] = responsible;
-        return selectBoolean(context, Cards.urchin, extras);
+        return selectBoolean(context, responsible.behaveAsCard());
     }
 
     @Override
@@ -3120,11 +3118,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public boolean raze_shouldTrashRazePlayed(MoveContext context) {
-    	if(context.isQuickPlay() && shouldAutoPlay_raze_shouldTrashRazePlayed(context)) {
-            return super.raze_shouldTrashRazePlayed(context);
+    public boolean raze_shouldTrashRazePlayed(MoveContext context, Card responsible) {
+    	if(context.isQuickPlay() && shouldAutoPlay_raze_shouldTrashRazePlayed(context, responsible)) {
+            return super.raze_shouldTrashRazePlayed(context, responsible);
         }
-    	return selectBoolean(context, Cards.raze);
+    	return selectBoolean(context, responsible.behaveAsCard());
     }
     
     @Override
@@ -3207,7 +3205,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         Object[] extras = new Object[1];
         extras[0] = exchange;
-        return selectBoolean(context, traveller, extras);
+        return selectBoolean(context, traveller.behaveAsCard(), extras);
     }
 
     @Override
@@ -3705,11 +3703,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context) {
-        if (context.isQuickPlay() && shouldAutoPlay_smallCastle__shouldTrashSmallCastlePlayed(context)) {
-            return super.smallCastle_shouldTrashSmallCastlePlayed(context);
+    public boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context, Card responsible) {
+        if (context.isQuickPlay() && shouldAutoPlay_smallCastle__shouldTrashSmallCastlePlayed(context, responsible)) {
+            return super.smallCastle_shouldTrashSmallCastlePlayed(context, responsible);
         }
-        return selectBoolean(context, Cards.smallCastle);
+        return selectBoolean(context, responsible.behaveAsCard());
     }
 
     @Override

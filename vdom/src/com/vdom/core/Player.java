@@ -1763,7 +1763,7 @@ public abstract class Player {
 
     public abstract Card masquerade_cardToTrash(MoveContext context);
 
-    public abstract boolean miningVillage_shouldTrashMiningVillage(MoveContext context);
+    public abstract boolean miningVillage_shouldTrashMiningVillage(MoveContext context, Card responsible);
 
     public abstract Card saboteur_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
@@ -2151,7 +2151,7 @@ public abstract class Player {
     public abstract boolean messenger_shouldDiscardDeck(MoveContext context);
     public abstract boolean miser_shouldTakeTreasure(MoveContext context);
     public abstract Card ratcatcher_cardToTrash(MoveContext context);
-    public abstract boolean raze_shouldTrashRazePlayed(MoveContext context);
+    public abstract boolean raze_shouldTrashRazePlayed(MoveContext context, Card responsible);
     public abstract Card raze_cardToTrash(MoveContext context);
 	public abstract Card raze_cardToKeep(MoveContext context, Card[] cards);
 	public abstract Card soldier_cardToDiscard(MoveContext context);
@@ -2222,7 +2222,7 @@ public abstract class Player {
     public abstract Card sacrifice_cardToTrash(MoveContext context);
     public abstract Card saltTheEarth_cardToTrash(MoveContext context);
     public abstract boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers);
-    public abstract boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context);
+    public abstract boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context, Card responsible);
     public abstract Card smallCastle_castleToTrash(MoveContext context);
     public abstract HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context);
     public abstract Card tax_supplyToTax(MoveContext context);

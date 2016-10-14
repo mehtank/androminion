@@ -666,7 +666,7 @@ public class CardImplEmpires extends CardImpl {
     
     private void smallCastle(Game game, MoveContext context, Player currentPlayer) {
     	boolean didTrash = false;
-    	if (currentPlayer.controlPlayer.smallCastle_shouldTrashSmallCastlePlayed(context)) {
+    	if (currentPlayer.controlPlayer.smallCastle_shouldTrashSmallCastlePlayed(context, this.getControlCard())) {
     		if (!this.getControlCard().movedToNextTurnPile) {
                 this.getControlCard().movedToNextTurnPile = true;
                 currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.getControlCard()));

@@ -1067,7 +1067,9 @@ public class Strings {
     public static String[] getBooleanStrings(Card cardResponsible, Object[] extras) {
         // See note below under getActionCardText for why we can't test for object equality here,
         // and instead use string equality.
-        String cardName = getCardName(cardResponsible);
+        String cardName = getCardName(cardResponsible.behaveAsCard());
+        String controlName = getCardName(cardResponsible.getControlCard());
+
         String[] strings = new String[3];
         strings[0] = cardName;  // common enough to set this as a default; override if necessary.
         if (cardName.equals(getCardName(Cards.alchemist))) {
@@ -1142,6 +1144,7 @@ public class Strings {
             strings[1] = getString(R.string.discard);
             strings[2] = getString(R.string.keep);
         } else if (cardName.equals(getCardName(Cards.miningVillage))) {
+            if (!controlName.equals(cardName)) strings[0] = Strings.format(getString(R.string.card_played_as_card), controlName, cardName);
             strings[1] = getString(R.string.mining_village_option_one);
             strings[2] = getString(R.string.keep);
         } else if (cardName.equals(getCardName(Cards.moneyLender))) {
@@ -1178,6 +1181,7 @@ public class Strings {
             strings[1] = getString(R.string.top_of_deck);
             strings[2] = getString(R.string.discard);
         } else if (cardName.equals(getCardName(Cards.raze))) {
+            if (!controlName.equals(cardName)) strings[0] = Strings.format(getString(R.string.card_played_as_card), controlName, cardName);
             strings[1] = getString(R.string.trash_this);
             strings[2] = getString(R.string.trash_card_from_hand);
         } else if (cardName.equals(getCardName(Cards.royalSeal)) || cardName.equals(getCardName(Cards.travellingFair))) {
@@ -1208,11 +1212,8 @@ public class Strings {
             strings[1] = getString(R.string.tunnel_option_one);
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.urchin))) {
-            if (extras[0] != null) {
-                strings[1] = format(getString(R.string.urchin_trash_for_mercenary_impersonated), getCardName((Card)extras[0]));
-            } else {
-                strings[1] = getString(R.string.urchin_trash_for_mercenary);
-            }
+            if (!controlName.equals(cardName)) strings[0] = Strings.format(getString(R.string.card_played_as_card), controlName, cardName);
+            strings[1] = getString(R.string.urchin_trash_for_mercenary);
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.vassal))) {
             strings[1] = format(R.string.vassal_option_play, getCardName((Card)extras[0]));
@@ -1235,6 +1236,7 @@ public class Strings {
     		       || cardName.equals(getCardName(Cards.warrior))
     		       || cardName.equals(getCardName(Cards.hero))
         		  ) {
+            if (!controlName.equals(cardName)) strings[0] = Strings.format(getString(R.string.card_played_as_card), controlName, cardName);
             strings[1] = format(R.string.traveller_exchange, getCardName((Card)extras[0]));
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.settlers))) {
@@ -1254,6 +1256,7 @@ public class Strings {
             strings[1] = getString(R.string.legionary_reveal_gold);
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.smallCastle))) {
+            if (!controlName.equals(cardName)) strings[0] = Strings.format(getString(R.string.card_played_as_card), controlName, cardName);
             strings[1] = getString(R.string.trash_this);
             strings[2] = getString(R.string.trash_castle_from_hand);
         } else if ( cardName.equals(getCardName(Cards.sprawlingCastle))) {

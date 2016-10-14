@@ -962,7 +962,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public boolean miningVillage_shouldTrashMiningVillage(MoveContext context) {
+    public boolean miningVillage_shouldTrashMiningVillage(MoveContext context, Card responsible) {
         /* don't trash prince cards */
         if (context.getPlayer().getPlayedByPrince().contains(Cards.miningVillage)) {
             return false;
@@ -3690,7 +3690,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public boolean raze_shouldTrashRazePlayed(MoveContext context) {
+    public boolean raze_shouldTrashRazePlayed(MoveContext context, Card responsible) {
     	if (getHand().size() == 0) {
     		return true;
     	}
@@ -4314,7 +4314,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context) {
+    public boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context, Card responsible) {
     	for (Card c : context.getPlayer().getHand()) {
     		if (c.equals(Cards.crumblingCastle)) {
     			return true;

@@ -353,7 +353,7 @@ public class CardImplIntrigue extends CardImpl {
 
     private void miningVillage(MoveContext context, Player currentPlayer) {
         if (!this.getControlCard().movedToNextTurnPile) {
-            if (currentPlayer.controlPlayer.miningVillage_shouldTrashMiningVillage(context)) {
+            if (currentPlayer.controlPlayer.miningVillage_shouldTrashMiningVillage(context, this.behaveAsCard())) {
                 context.addCoins(2);
                 this.getControlCard().movedToNextTurnPile = true;
                 currentPlayer.trash(this.getControlCard(), null, context);

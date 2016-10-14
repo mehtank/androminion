@@ -545,7 +545,7 @@ public class CardImplAdventures extends CardImpl {
     
     private void raze(Game game, MoveContext context, Player currentPlayer) {
     	int trashCost = 0;
-    	if (currentPlayer.controlPlayer.raze_shouldTrashRazePlayed(context)) {
+    	if (currentPlayer.controlPlayer.raze_shouldTrashRazePlayed(context, this.getControlCard())) {
     		if (!this.getControlCard().movedToNextTurnPile) {
                 this.getControlCard().movedToNextTurnPile = true;
                 trashCost = this.getControlCard().getCost(context);
