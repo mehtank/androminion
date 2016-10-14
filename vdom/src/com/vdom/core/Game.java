@@ -3736,6 +3736,9 @@ public class Game {
     	if (Cards.isBlackMarketCard(card)) {
     		return null;
     	}
+        if (getPile(card) != null)
+            card = getPile(card).placeholderCard();
+
     	num = Math.min(num, getPileVpTokens(card));
         String name = card.getName();
         if (num > 0) {
@@ -3793,6 +3796,9 @@ public class Game {
     	if (Cards.isBlackMarketCard(card)) {
     		return 0;
     	}
+        if (getPile(card) != null)
+            card = getPile(card).placeholderCard();
+
         Integer count = pileVpTokens.get(card.getName());
         return (count == null) ? 0 : count;
     }
