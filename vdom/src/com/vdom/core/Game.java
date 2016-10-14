@@ -1017,7 +1017,7 @@ public class Game {
                     }
                     if(thisCard.equals(Cards.haven)) {
                     	if(player.haven != null && player.haven.size() > 0) {
-                    		durationEffects.add(card);
+                    		durationEffects.add(thisCard);
                     		durationEffects.add(player.haven.remove(0));
                     		durationEffectsAreCards.add(clone == cloneCount 
                     				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
@@ -1025,7 +1025,7 @@ public class Game {
                 		}
                     } else if (thisCard.equals(Cards.gear)) {
                     	if(player.gear.size() > 0) {
-                    		durationEffects.add(card);
+                    		durationEffects.add(thisCard);
                     		durationEffects.add(player.gear.remove(0));
                     		durationEffectsAreCards.add(clone == cloneCount 
                     				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
@@ -1033,14 +1033,14 @@ public class Game {
                     	}
                     } else if (thisCard.equals(Cards.archive)) {
                     	if(player.archive.size() > 0) {
-                    		durationEffects.add(card);
+                    		durationEffects.add(thisCard);
                     		durationEffects.add(player.archive.get(archiveNum++));
                     		durationEffectsAreCards.add(clone == cloneCount 
                     				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
                     		durationEffectsAreCards.add(false);
                     	}
                     } else {
-                    	durationEffects.add(card);
+                    	durationEffects.add(thisCard);
                     	durationEffects.add(Cards.curse); /*dummy*/
                     	durationEffectsAreCards.add(clone == cloneCount
                     			&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
