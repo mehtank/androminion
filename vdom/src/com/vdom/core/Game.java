@@ -1061,7 +1061,7 @@ public class Game {
     		durationEffectsAreCards.add(false);
         }
         for (Card card : player.prince) {
-            if (!card.equals(Cards.prince) && !card.equals(Cards.estate)) {
+            if (!card.equals(Cards.prince)) {
                 allDurationAreSimple = false;
                 durationEffects.add(Cards.prince);
                 durationEffects.add(card);
@@ -1155,6 +1155,10 @@ public class Game {
                     player.playedByPrince.add(card2);
                 }
                 player.prince.remove(card2);
+                if (card2.equals(Cards.estate) && player.getInheritance() != null) {
+                    ((CardImpl)card2).startInheritingCardAbilities(player.getInheritance().getTemplateCard().instantiate());
+
+                }
                 
                 context.freeActionInEffect++;
                 try {
