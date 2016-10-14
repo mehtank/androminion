@@ -65,7 +65,6 @@ public class CardImpl implements Card {
     CardImpl inheritingAbilitiesCard = null;
     private CardImpl controlCard = this;
 
-
     protected CardImpl(Cards.Kind kind, int cost) {
         this.kind = kind;
         this.name = kind.toString();
@@ -967,15 +966,12 @@ public class CardImpl implements Card {
         return !(this.impersonatingCard == null);
     }
 
+    @Override
     public Card behaveAsCard() {
-        return behaveAsCard(true);
-    }
-
-    public Card behaveAsCard(boolean recursive) {
         if (impersonatingCard != null && impersonatingCard != this)
-            return recursive ? impersonatingCard.behaveAsCard() : impersonatingCard;
+            return impersonatingCard.behaveAsCard();
         if (inheritingAbilitiesCard != null && inheritingAbilitiesCard != this)
-        	return recursive ? inheritingAbilitiesCard.behaveAsCard() : inheritingAbilitiesCard;
+        	return inheritingAbilitiesCard.behaveAsCard();
         return this;
     }
 
@@ -993,15 +989,10 @@ public class CardImpl implements Card {
         this.impersonatingCard = impersonatingCard;
     }
 
+
     void stopImpersonatingCard() {
-        stopImpersonatingCard(true);
-    }
-
-
-    void stopImpersonatingCard(boolean recursive) {
-        if (recursive)
-            if (this.inheritingAbilitiesCard != null) this.inheritingAbilitiesCard.stopImpersonatingCard(recursive);
-            if (this.impersonatingCard != null) this.impersonatingCard.stopImpersonatingCard(recursive);
+        if (this.inheritingAbilitiesCard != null) this.inheritingAbilitiesCard.stopImpersonatingCard();
+        if (this.impersonatingCard != null) this.impersonatingCard.stopImpersonatingCard();
         this.impersonatingCard = null;
     }
     
@@ -1011,12 +1002,8 @@ public class CardImpl implements Card {
 
     @Override
     public CardImpl getControlCard() {
-        return getControlCard(true);
-    }
-
-    public CardImpl getControlCard(boolean recursive) {
         if (controlCard == this) return this;
-        return recursive ? controlCard.getControlCard(recursive) : controlCard;
+        return controlCard.getControlCard();
     }
 
     void setControlCard(CardImpl controlCard) {

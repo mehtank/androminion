@@ -102,9 +102,7 @@ public interface Card extends Serializable {
     
     public boolean isImpersonatingAnotherCard();
     public Card behaveAsCard();
-    public Card behaveAsCard(boolean recursive);
     public CardImpl getControlCard();
-    public CardImpl getControlCard(boolean recursive);
 
     public boolean isTemplateCard();
     public CardImpl getTemplateCard();
