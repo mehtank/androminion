@@ -15,4 +15,10 @@
         <item>Image</item>
         <item>Both</item>
     </string-array>
+    <string-array name="bm_split_piles_pref_keys" tools:ignore="MissingTranslation">
+        <item>None</item>
+        <item>One</item>
+        <item>Any</item>
+        <item>All</item>
+    </string-array>
 </resources>

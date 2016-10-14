@@ -41,10 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:onClick="onClickJoinGame"
-            android:paddingBottom="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="20dp"
             android:text="@string/join_game_menu" />
 
         <Button

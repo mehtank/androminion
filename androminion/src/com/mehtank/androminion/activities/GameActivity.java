@@ -223,6 +223,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         }
         if (gameRunning) {
             Game.processUserPrefArgs(getUserPrefs().toArray(new String[0]));
+            gt.setGameScrollerVisibilityFromPrefs();
             gt.resumeGameTimer();
         }
     }
@@ -240,8 +241,8 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         strs.add("-blackmarketcount" + prefs.getString("black_market_count", "25"));
 
 
-        if (prefs.getBoolean("bmlAllowMultpileCardsFromPile", true)) {
-            strs.add("-blackmarketallowmultiplecardsfrompile");
+        if (!prefs.getString("bm_split_piles", "None").equals("None")) {
+            strs.add("-blackmarketsplitpiles-" + prefs.getString("bm_split_piles", "None"));
         }
 
         if (prefs.getBoolean("bmOnlyCardsFromUsedExpansions", false)) {
@@ -275,11 +276,20 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         if (prefs.getBoolean("start_guilds_coin_tokens", false)) {
             strs.add("-startguildscointokens");
         }
+        if (prefs.getBoolean("no_cards", false)) {
+            strs.add("-nocards");
+        }
         if (prefs.getBoolean("less_provinces", false)) {
             strs.add("-lessprovinces");
         }
         if (prefs.getBoolean("god_mode", false)) {
             strs.add("-godmode");
+        }
+        if (prefs.getBoolean("disable_ai", false)) {
+            strs.add("-disableai");
+        }
+        if (prefs.getBoolean("control_ai", false)) {
+            strs.add("-controlai");
         }
         if (!prefs.getBoolean("errata_masquerade", true)) {
         	strs.add("-erratamasqueradealwaysaffects");
@@ -341,7 +351,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             // Code from somewhere above, redundant
-            if (getPref("exitonback")) {
+            if (getPref("exitonback") || !getPref("show_action_bar")) {
                 long now = System.currentTimeMillis();
                 if (now - lastBackClick < 3000) // 3 seconds
                     finish();
@@ -379,7 +389,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (getPref("exitonback")) {
+            if (getPref("exitonback") || !getPref("show_action_bar")) {
                 long now = System.currentTimeMillis();
                 if (now - lastBackClick < 3000) // 3 seconds
                     finish();
