@@ -1420,7 +1420,11 @@ public abstract class Player {
         }
 
         // Execute special card logic when the trashing occurs
-        card.isTrashed(context);
+        if (card.equals(Cards.estate) && getInheritance() != null) {
+            getInheritance().behaveAsCard().isTrashed(context);
+        } else {
+            card.behaveAsCard().isTrashed(context);
+        }
 
         // Market Square trashing reaction
         boolean hasInheritedMarketSquare = Cards.marketSquare.equals(context.getPlayer().getInheritance()) && context.getPlayer().hand.contains(Cards.estate);
