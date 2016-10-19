@@ -60,7 +60,7 @@ public class CardImplGuilds extends CardImpl {
 	@Override
     public void isBuying(MoveContext context) {
 		super.isBuying(context);
-        switch (this.controlCard.getKind()) {
+        switch (this.getControlCard().getKind()) {
         case Doctor:
             doctorOverpay(context);
             break;
@@ -88,7 +88,7 @@ public class CardImplGuilds extends CardImpl {
             if (card != null) 
             {
                 cards.add(card);
-                currentPlayer.reveal(card, this.controlCard, context);
+                currentPlayer.reveal(card, this.getControlCard(), context);
             }
         }
 
@@ -109,7 +109,7 @@ public class CardImplGuilds extends CardImpl {
             toDiscard = cards.get(0);
         }
 
-        currentPlayer.discard(toDiscard, this.controlCard, context);
+        currentPlayer.discard(toDiscard, this.getControlCard(), context);
 
         cards.remove(toDiscard);
 
@@ -136,7 +136,7 @@ public class CardImplGuilds extends CardImpl {
 
             if (card != null) {
                 currentPlayer.hand.remove(card);
-                currentPlayer.trash(card, this.controlCard, context);
+                currentPlayer.trash(card, this.getControlCard(), context);
 
                 int value = card.getCost(context);
                 int debt = card.getDebtCost(context);
@@ -164,7 +164,7 @@ public class CardImplGuilds extends CardImpl {
                             Util.playerError(currentPlayer, "Butcher error, new card does not have appropriate cost");
                         }
                         else {
-                            if (currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
+                            if (currentPlayer.gainNewCard(card, this.getControlCard(), context) == null) {
                                 Util.playerError(currentPlayer, "Butcher error, pile is empty or card is not in the game.");
                             }
                         }
@@ -184,17 +184,17 @@ public class CardImplGuilds extends CardImpl {
         List<Card> options = new ArrayList<Card>(currentPlayer.getDistinctCards());
         Collections.sort(options, new Util.CardNameComparator());
         Card named = currentPlayer.controlPlayer.doctor_cardToPick(context, options);
-        currentPlayer.controlPlayer.namedCard(named, this.controlCard, context);
+        currentPlayer.controlPlayer.namedCard(named, this.getControlCard(), context);
 
         ArrayList<Card> revealedCards = new ArrayList<Card>();
 
         for (int i = 0; i < 3; ++i) {
             Card card = game.draw(context, Cards.doctor, 3 - i);
             if (card != null) {
-                currentPlayer.reveal(card, this.controlCard, context);
+                currentPlayer.reveal(card, this.getControlCard(), context);
 
                 if (card.equals(named)) {
-                    currentPlayer.trash(card, this.controlCard, context);
+                    currentPlayer.trash(card, this.getControlCard(), context);
                 }
                 else {
                     revealedCards.add(card);
@@ -214,17 +214,17 @@ public class CardImplGuilds extends CardImpl {
     
     private void doctorOverpay(MoveContext context) {
         for (int i = 0; i < context.overpayAmount; ++i) {
-            Card card = context.game.draw(context, controlCard, context.overpayAmount - i);
+            Card card = context.game.draw(context, this.getControlCard(), context.overpayAmount - i);
 
             if (card != null) {
                 Player.DoctorOverpayOption doo = context.player.doctor_chooseOption(context, card);
 
                 switch(doo) {
                     case TrashIt:
-                        context.player.trash(card, this.controlCard, context);
+                        context.player.trash(card, this.getControlCard(), context);
                         break;
                     case DiscardIt:
-                        context.player.discard(card, this.controlCard, context);
+                        context.player.discard(card, this.getControlCard(), context);
                         break;
                     case PutItBack:
                         context.player.putOnTopOfDeck(card);
@@ -240,7 +240,7 @@ public class CardImplGuilds extends CardImpl {
         Card draw = game.draw(context, Cards.herald, 1);
 
         if (draw != null) {
-            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.reveal(draw, this.getControlCard(), context);
 
             if (draw.is(Type.Action, currentPlayer)) {
                 context.freeActionInEffect++;
@@ -277,7 +277,7 @@ public class CardImplGuilds extends CardImpl {
         List<Card> options = new ArrayList<Card>(currentPlayer.getDistinctCards());
         Collections.sort(options, new Util.CardNameComparator());
         Card named = currentPlayer.controlPlayer.journeyman_cardToPick(context, options);
-        currentPlayer.controlPlayer.namedCard(named, this.controlCard, context);
+        currentPlayer.controlPlayer.namedCard(named, this.getControlCard(), context);
 
         ArrayList<Card> cardsToKeep = new ArrayList<Card>();
         ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
@@ -294,12 +294,12 @@ public class CardImplGuilds extends CardImpl {
                 cardsToDiscard.add(last);
             }
 
-            currentPlayer.reveal(last, this.controlCard, context);
+            currentPlayer.reveal(last, this.getControlCard(), context);
         }
 
         // Discard all matches
         for (Card c : cardsToDiscard) {
-            currentPlayer.discard(c, this.controlCard, context);
+            currentPlayer.discard(c, this.getControlCard(), context);
         }
 
         // Place all other cards into the Player's hand
@@ -310,7 +310,7 @@ public class CardImplGuilds extends CardImpl {
     
     public void masterpiece(MoveContext context) {
         for (int i = 0; i < context.overpayAmount; ++i) {
-            if(context.getPlayer().gainNewCard(Cards.silver, this.controlCard, context) == null)  {
+            if(context.getPlayer().gainNewCard(Cards.silver, this.getControlCard(), context) == null)  {
                 break;
             }
         }
@@ -330,8 +330,8 @@ public class CardImplGuilds extends CardImpl {
 
             if (toDiscard != null && currentPlayer.hand.contains(toDiscard) && toDiscard.is(Type.Treasure, currentPlayer)) {
                 currentPlayer.hand.remove(toDiscard);
-                currentPlayer.reveal(toDiscard, this.controlCard, context);
-                currentPlayer.discard(toDiscard, this.controlCard, context);
+                currentPlayer.reveal(toDiscard, this.getControlCard(), context);
+                currentPlayer.discard(toDiscard, this.getControlCard(), context);
                 currentPlayer.gainGuildsCoinTokens(1);
                 sendGuildsTokenObtainedEvent(game, context);
                 Util.debug(currentPlayer, "Gained a Guild coin token via Plaza");
@@ -340,15 +340,15 @@ public class CardImplGuilds extends CardImpl {
     }
     
     private void soothsayer(Game game, MoveContext context, Player currentPlayer) {
-        currentPlayer.gainNewCard(Cards.gold, this.controlCard, context);
+        currentPlayer.gainNewCard(Cards.gold, this.getControlCard(), context);
 
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
 
-                Card curseGained = player.gainNewCard(Cards.curse, this.controlCard, playerContext);
+                Card curseGained = player.gainNewCard(Cards.curse, this.getControlCard(), playerContext);
 
                 if (Cards.curse.equals(curseGained)) {
                     game.drawToHand(playerContext, this, 1);
@@ -364,7 +364,7 @@ public class CardImplGuilds extends CardImpl {
 
             if (card != null) {
                 currentPlayer.hand.remove(card);
-                currentPlayer.trash(card, this.controlCard, context);
+                currentPlayer.trash(card, this.getControlCard(), context);
 
                 int value = card.getCost(context);
                 int debt = card.getDebtCost(context);
@@ -376,7 +376,7 @@ public class CardImplGuilds extends CardImpl {
                         		card.getCost(context) <= value && card.getDebtCost(context) <= value && (!card.costPotion() || potion))) {
                         	Util.playerError(currentPlayer, "Stone Mason card gain #" + i + " error, card does not cost less.");
                         } else if (card != null) {
-                            if (currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
+                            if (currentPlayer.gainNewCard(card, this.getControlCard(), context) == null) {
                                 Util.playerError(currentPlayer, "Stone Mason card gain #" + i + " error, pile is empty or card is not in the game.");
                             }
                         }
@@ -395,7 +395,7 @@ public class CardImplGuilds extends CardImpl {
 	            	Util.playerError(context.player, "Stone Mason overpay gain #" + i + " error, card is wrong cost.");
 	            }
 	            if (c != null) {
-		            if (context.player.gainNewCard(c, this.controlCard, context) == null) {
+		            if (context.player.gainNewCard(c, this.getControlCard(), context) == null) {
 		                Util.playerError(context.player, "Stone Mason overpay gain #" + i + " error, pile is empty or card is not in the game.");
 		            }
 	            }
@@ -409,11 +409,11 @@ public class CardImplGuilds extends CardImpl {
 
             if (card != null && card.is(Type.Treasure, currentPlayer)) {
                 currentPlayer.hand.remove(card);
-                currentPlayer.trash(card, this.controlCard, context);
+                currentPlayer.trash(card, this.getControlCard(), context);
 
                 for (Player player : game.getPlayersInTurnOrder()) {
                     if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                        player.attacked(this.controlCard, context);
+                        player.attacked(this.getControlCard(), context);
                         MoveContext playerContext = new MoveContext(game, player);
                         playerContext.attackedPlayer = player;
 
@@ -421,10 +421,10 @@ public class CardImplGuilds extends CardImpl {
                             if (player.hand.contains(card)) {
                                 Card c2 = player.hand.get(card);
                                 player.hand.remove(c2);
-                                player.discard(c2, this.controlCard, playerContext);
+                                player.discard(c2, this.getControlCard(), playerContext);
                             } else {
                                 for (Card c : player.getHand()) {
-                                    player.reveal(c, this.controlCard, playerContext);
+                                    player.reveal(c, this.getControlCard(), playerContext);
                                 }   
                             }
                         }

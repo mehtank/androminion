@@ -80,7 +80,7 @@ public class CardImplHinterlands extends CardImpl {
 	@Override
     public void isBuying(MoveContext context) {
 		super.isBuying(context);
-        switch (this.controlCard.getKind()) {
+        switch (this.getControlCard().getKind()) {
             case NobleBrigand:
                 nobleBrigandAttack(context, false);
                 break;
@@ -162,7 +162,7 @@ public class CardImplHinterlands extends CardImpl {
             if(cardsToDiscard != null) {
                 for(Card toDiscard : cardsToDiscard) {
                     if(topOfTheDeck.remove(toDiscard)) {
-                        currentPlayer.discard(toDiscard, this.controlCard, null);
+                        currentPlayer.discard(toDiscard, this.getControlCard(), null);
                     }
                     else {
                         Util.playerError(currentPlayer, "Cartographer returned invalid card to discard, ignoring");
@@ -217,7 +217,7 @@ public class CardImplHinterlands extends CardImpl {
 	private void crossroads(Game game, MoveContext context, Player currentPlayer) {
         int victoryCards = 0;
         for(Card c : currentPlayer.getHand()) {
-            currentPlayer.reveal(c, this.controlCard, context);
+            currentPlayer.reveal(c, this.getControlCard(), context);
             if(c.is(Type.Victory, currentPlayer)) {
                 victoryCards++;
             }
@@ -227,8 +227,8 @@ public class CardImplHinterlands extends CardImpl {
             game.drawToHand(context, this, victoryCards - i);
         }
 
-        if (!this.controlCard.equals(Cards.estate)) {
-	        int crossroadsPlayed = this.controlCard.numberTimesAlreadyPlayed;
+        if (!this.getControlCard().equals(Cards.estate)) {
+	        int crossroadsPlayed = this.getControlCard().numberTimesAlreadyPlayed;
 	        for(Card c : context.getPlayedCards()) {
 	            if(c.equals(Cards.crossroads)) {
 	                crossroadsPlayed++;
@@ -293,7 +293,7 @@ public class CardImplHinterlands extends CardImpl {
             }
 
             currentPlayer.hand.remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.controlCard, context);
+            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
 
             boolean bad = false;
 
@@ -361,7 +361,7 @@ public class CardImplHinterlands extends CardImpl {
             if(c != null) {
                 boolean discard = (targetPlayer).controlPlayer.duchess_shouldDiscardCardFromTopOfDeck(targetPlayerContext, c);
                 if(discard) {
-                    targetPlayer.discard(c, this.controlCard, targetPlayerContext);
+                    targetPlayer.discard(c, this.getControlCard(), targetPlayerContext);
                 } else {
                     targetPlayer.putOnTopOfDeck(c);
                 }
@@ -406,8 +406,8 @@ public class CardImplHinterlands extends CardImpl {
 
         for (int i = 0; i < cards.length; i++) {
             currentPlayer.hand.remove(cards[i]);
-            currentPlayer.reveal(cards[i], this.controlCard, context);
-            currentPlayer.discard(cards[i], this.controlCard, null);
+            currentPlayer.reveal(cards[i], this.getControlCard(), context);
+            currentPlayer.discard(cards[i], this.getControlCard(), null);
         }
     }
 	
@@ -459,19 +459,19 @@ public class CardImplHinterlands extends CardImpl {
 
         for (int i = 0; i < cards.length; i++) {
             currentPlayer.hand.remove(cards[i]);
-            currentPlayer.reveal(cards[i], this.controlCard, context);
-            currentPlayer.discard(cards[i], this.controlCard, context);
+            currentPlayer.reveal(cards[i], this.getControlCard(), context);
+            currentPlayer.discard(cards[i], this.getControlCard(), context);
         }
     }
     
     private void jackOfAllTrades(Game game, MoveContext context, Player currentPlayer) {
-        currentPlayer.gainNewCard(Cards.silver, this.controlCard, context);
+        currentPlayer.gainNewCard(Cards.silver, this.getControlCard(), context);
 
         Card c = game.draw(context, Cards.jackOfAllTrades, 1);
         if(c != null) {
             boolean discard = currentPlayer.controlPlayer.jackOfAllTrades_shouldDiscardCardFromTopOfDeck(context, c);
             if(discard) {
-                currentPlayer.discard(c, this.controlCard, context);
+                currentPlayer.discard(c, this.getControlCard(), context);
             } else {
                 currentPlayer.putOnTopOfDeck(c);
             }
@@ -494,7 +494,7 @@ public class CardImplHinterlands extends CardImpl {
             }
             else {
                 currentPlayer.hand.remove(cardToTrash);
-                currentPlayer.trash(cardToTrash, this.controlCard, context);
+                currentPlayer.trash(cardToTrash, this.getControlCard(), context);
             }
         }
     }
@@ -508,7 +508,7 @@ public class CardImplHinterlands extends CardImpl {
                 toTopOfDeck = Util.randomCard(currentPlayer.hand);
             }
 
-            currentPlayer.reveal(toTopOfDeck, this.controlCard, context);
+            currentPlayer.reveal(toTopOfDeck, this.getControlCard(), context);
             currentPlayer.hand.remove(toTopOfDeck);
             currentPlayer.putOnTopOfDeck(toTopOfDeck);
         }
@@ -517,15 +517,15 @@ public class CardImplHinterlands extends CardImpl {
     private void margrave(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
-                game.drawToHand(playerContext, this.controlCard, 1);
+                game.drawToHand(playerContext, this.getControlCard(), 1);
 
                 int keepCardCount = 3;
                 if (player.hand.size() > keepCardCount) {
                     Card[] cardsToKeep = player.controlPlayer.margrave_attack_cardsToKeep(playerContext);
-                    player.discardRemainingCardsFromHand(playerContext, cardsToKeep, this.controlCard, keepCardCount);
+                    player.discardRemainingCardsFromHand(playerContext, cardsToKeep, this.getControlCard(), keepCardCount);
                 }
             }
         }
@@ -541,7 +541,7 @@ public class CardImplHinterlands extends CardImpl {
         for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
             // Hinterlands card details in the rules states that noble brigand is not defensible when triggered from a buy
             if (targetPlayer != player && (!defensible || !Util.isDefendedFromAttack(context.game, targetPlayer, this))) {
-                targetPlayer.attacked(this.controlCard, moveContext);
+                targetPlayer.attacked(this.getControlCard(), moveContext);
                 MoveContext targetContext = new MoveContext(context.game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
                 boolean treasureRevealed = false;
@@ -553,7 +553,7 @@ public class CardImplHinterlands extends CardImpl {
                     if(card == null) {
                         break;
                     }
-                    targetPlayer.reveal(card, this.controlCard, targetContext);
+                    targetPlayer.reveal(card, this.getControlCard(), targetContext);
 
                     if (card.is(Type.Treasure, targetPlayer)) {
                         treasureRevealed = true;
@@ -567,7 +567,7 @@ public class CardImplHinterlands extends CardImpl {
                 }
 
                 for (Card c: cardsToDiscard) {
-                    targetPlayer.discard(c, this.controlCard, targetContext);
+                    targetPlayer.discard(c, this.getControlCard(), targetContext);
                 }
 
                 if(!treasureRevealed) {
@@ -581,19 +581,19 @@ public class CardImplHinterlands extends CardImpl {
                 } else if (silverOrGold.size() == 2) {
                     if (silverOrGold.get(0).equals(silverOrGold.get(1))) {
                         cardToTrash = silverOrGold.get(0);
-                        targetPlayer.discard(silverOrGold.get(1), this.controlCard, targetContext);
+                        targetPlayer.discard(silverOrGold.get(1), this.getControlCard(), targetContext);
                     } else {
                         cardToTrash = (player).controlPlayer.nobleBrigand_silverOrGoldToTrash(moveContext, silverOrGold.toArray(new Card[] {}));
                         for (Card c : silverOrGold) {
                             if (!c.equals(cardToTrash)) {
-                                targetPlayer.discard(c, this.controlCard, targetContext);
+                                targetPlayer.discard(c, this.getControlCard(), targetContext);
                             }
                         }
                     }
                 }
 
                 if (cardToTrash != null) {
-                    targetPlayer.trash(cardToTrash, this.controlCard, targetContext);
+                    targetPlayer.trash(cardToTrash, this.getControlCard(), targetContext);
                     trashed.add(cardToTrash);
                 }
             }
@@ -604,14 +604,14 @@ public class CardImplHinterlands extends CardImpl {
         for(Player targetPlayer : context.game.getPlayersInTurnOrder()) {
             if(gainCopper[i]) {
                 MoveContext targetContext = new MoveContext(context.game, targetPlayer);
-                targetPlayer.gainNewCard(Cards.copper, this.controlCard, targetContext);
+                targetPlayer.gainNewCard(Cards.copper, this.getControlCard(), targetContext);
             }
             i++;
         }
 
         if (trashed.size() > 0) {
             for (Card c : trashed) {
-                player.controlPlayer.gainCardAlreadyInPlay(c, this.controlCard, moveContext);
+                player.controlPlayer.gainCardAlreadyInPlay(c, this.getControlCard(), moveContext);
                 context.game.trashPile.remove(c);
             }
         }
@@ -626,15 +626,15 @@ public class CardImplHinterlands extends CardImpl {
             }
 
             currentPlayer.hand.remove(cardToDiscard);
-            currentPlayer.reveal(cardToDiscard, this.controlCard, context);
-            currentPlayer.discard(cardToDiscard, this.controlCard, null);
+            currentPlayer.reveal(cardToDiscard, this.getControlCard(), context);
+            currentPlayer.discard(cardToDiscard, this.getControlCard(), null);
         }
     }
     
     private void oracle(Game game, MoveContext context, Player currentPlayer) {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer == currentPlayer || !Util.isDefendedFromAttack(game, targetPlayer, this)) {
-                targetPlayer.attacked(this.controlCard, context);
+                targetPlayer.attacked(this.getControlCard(), context);
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
                 ArrayList<Card> cards = new ArrayList<Card>();
@@ -643,14 +643,14 @@ public class CardImplHinterlands extends CardImpl {
                     if(c == null) {
                         break;
                     }
-                    targetPlayer.reveal(c, this.controlCard, targetContext);
+                    targetPlayer.reveal(c, this.getControlCard(), targetContext);
                     cards.add(c);
                 }
 
                 if(cards.size() > 0) {
                     if(currentPlayer.controlPlayer.oracle_shouldDiscard(context, targetPlayer, cards)) {
                         for(Card c : cards) {
-                            targetPlayer.discard(c, this.controlCard, targetContext);
+                            targetPlayer.discard(c, this.getControlCard(), targetContext);
                         }
                     }
                     else {
@@ -709,7 +709,7 @@ public class CardImplHinterlands extends CardImpl {
                 }
                 else {
                     currentPlayer.hand.remove(treasure);
-                    currentPlayer.trash(treasure, this.controlCard, context);
+                    currentPlayer.trash(treasure, this.getControlCard(), context);
 
                     SpiceMerchantOption option = currentPlayer.controlPlayer.spiceMerchant_chooseOption(context);
                     if(option == SpiceMerchantOption.AddCardsAndAction) {
@@ -737,11 +737,11 @@ public class CardImplHinterlands extends CardImpl {
         if(valid) {
             Card toDiscard = currentPlayer.controlPlayer.stables_treasureToDiscard(context);
 
-            // this.controlCard is optional, so ignore it if it's null or invalid
+            // this.getControlCard() is optional, so ignore it if it's null or invalid
             if (toDiscard != null && currentPlayer.hand.contains(toDiscard) && toDiscard.is(Type.Treasure, currentPlayer)) {
                 currentPlayer.hand.remove(toDiscard);
-                currentPlayer.reveal(toDiscard, this.controlCard, context);
-                currentPlayer.discard(toDiscard, this.controlCard, context);
+                currentPlayer.reveal(toDiscard, this.getControlCard(), context);
+                currentPlayer.discard(toDiscard, this.getControlCard(), context);
                 context.actions++;
 
                 for (int i = 0; i < 3; i++) {
@@ -761,9 +761,9 @@ public class CardImplHinterlands extends CardImpl {
 
             int cost = card.getCost(context);
             currentPlayer.hand.remove(card);
-            currentPlayer.trash(card, this.controlCard, context);
+            currentPlayer.trash(card, this.getControlCard(), context);
             for(int i=0; i < cost; i++) {
-                if(currentPlayer.gainNewCard(Cards.silver, this.controlCard, context) == null) {
+                if(currentPlayer.gainNewCard(Cards.silver, this.getControlCard(), context) == null) {
                     break;
                 }
             }

@@ -1104,7 +1104,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 	}
 
 	@Override
-	public boolean miningVillage_shouldTrashMiningVillage(MoveContext context) {
+	public boolean miningVillage_shouldTrashMiningVillage(MoveContext context, Card responsible) {
 		this.log("miningVillage_shouldTrashMiningVillage: keep");
 		Card normal = advisorGeneral(context, getCurrencyTotal(hand.toArrayListClone()), false, true);
 		

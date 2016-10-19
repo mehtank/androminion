@@ -217,7 +217,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
 
     
-    public boolean shouldAutoPlay_miningVillage_shouldTrashMiningVillage(MoveContext context) {
+    public boolean shouldAutoPlay_miningVillage_shouldTrashMiningVillage(MoveContext context, Card responsible) {
         return false;
     }
 
@@ -860,7 +860,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
 
-    public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context) {
+    public boolean shouldAutoPlay_urchin_shouldTrashForMercenary(MoveContext context, Card responsible) {
         return true;
     }
 
@@ -944,7 +944,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
-    public boolean shouldAutoPlay_raze_shouldTrashRazePlayed(MoveContext context) {
+    public boolean shouldAutoPlay_raze_shouldTrashRazePlayed(MoveContext context, Card responsible) {
     	if (getHand().size() == 0) {
     		return true;
     	}
@@ -1146,7 +1146,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
 
-    public boolean shouldAutoPlay_smallCastle__shouldTrashSmallCastlePlayed(MoveContext context) { return false; }
+    public boolean shouldAutoPlay_smallCastle__shouldTrashSmallCastlePlayed(MoveContext context, Card responsible) { return false; }
     public boolean shouldAutoPlay_smallCastle_castleToTrash(MoveContext context) { return false; }
 
     public boolean shouldAutoPlay_sprawlingCastle_chooseOption(MoveContext context) { return false; }

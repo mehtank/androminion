@@ -1009,7 +1009,7 @@ public class Game {
                  * that Silver), and then choose to trash a card from the second Amulet play,
                  * now that you have more cards to choose from. 
                  */
-            	int cloneCount = ((CardImpl) card).controlCard.cloneCount;
+            	int cloneCount = ((CardImpl) card).getControlCard().cloneCount;
                 for (int clone = cloneCount; clone > 0; clone--) {
                     if(   thisCard.equals(Cards.amulet)
                        || thisCard.equals(Cards.dungeon)) {
@@ -1017,7 +1017,7 @@ public class Game {
                     }
                     if(thisCard.equals(Cards.haven)) {
                     	if(player.haven != null && player.haven.size() > 0) {
-                    		durationEffects.add(card);
+                    		durationEffects.add(thisCard);
                     		durationEffects.add(player.haven.remove(0));
                     		durationEffectsAreCards.add(clone == cloneCount 
                     				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
@@ -1025,7 +1025,7 @@ public class Game {
                 		}
                     } else if (thisCard.equals(Cards.gear)) {
                     	if(player.gear.size() > 0) {
-                    		durationEffects.add(card);
+                    		durationEffects.add(thisCard);
                     		durationEffects.add(player.gear.remove(0));
                     		durationEffectsAreCards.add(clone == cloneCount 
                     				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
@@ -1033,14 +1033,14 @@ public class Game {
                     	}
                     } else if (thisCard.equals(Cards.archive)) {
                     	if(player.archive.size() > 0) {
-                    		durationEffects.add(card);
+                    		durationEffects.add(thisCard);
                     		durationEffects.add(player.archive.get(archiveNum++));
                     		durationEffectsAreCards.add(clone == cloneCount 
                     				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
                     		durationEffectsAreCards.add(false);
                     	}
                     } else {
-                    	durationEffects.add(card);
+                    	durationEffects.add(thisCard);
                     	durationEffects.add(Cards.curse); /*dummy*/
                     	durationEffectsAreCards.add(clone == cloneCount
                     			&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
@@ -1061,7 +1061,7 @@ public class Game {
     		durationEffectsAreCards.add(false);
         }
         for (Card card : player.prince) {
-            if (!card.equals(Cards.prince) && !card.equals(Cards.estate)) {
+            if (!card.equals(Cards.prince)) {
                 allDurationAreSimple = false;
                 durationEffects.add(Cards.prince);
                 durationEffects.add(card);
@@ -1155,6 +1155,10 @@ public class Game {
                     player.playedByPrince.add(card2);
                 }
                 player.prince.remove(card2);
+                if (card2.equals(Cards.estate) && player.getInheritance() != null) {
+                    ((CardImpl)card2).startInheritingCardAbilities(player.getInheritance().getTemplateCard().instantiate());
+
+                }
                 
                 context.freeActionInEffect++;
                 try {
@@ -3755,6 +3759,9 @@ public class Game {
     	if (Cards.isBlackMarketCard(card)) {
     		return null;
     	}
+        if (getPile(card) != null)
+            card = getPile(card).placeholderCard();
+
     	num = Math.min(num, getPileVpTokens(card));
         String name = card.getName();
         if (num > 0) {
@@ -3812,6 +3819,9 @@ public class Game {
     	if (Cards.isBlackMarketCard(card)) {
     		return 0;
     	}
+        if (getPile(card) != null)
+            card = getPile(card).placeholderCard();
+
         Integer count = pileVpTokens.get(card.getName());
         return (count == null) ? 0 : count;
     }

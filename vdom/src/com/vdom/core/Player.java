@@ -1438,7 +1438,11 @@ public abstract class Player {
         }
 
         // Execute special card logic when the trashing occurs
-        card.isTrashed(context);
+        if (card.equals(Cards.estate) && getInheritance() != null) {
+            getInheritance().behaveAsCard().isTrashed(context);
+        } else {
+            card.behaveAsCard().isTrashed(context);
+        }
 
         // Market Square trashing reaction
         boolean hasInheritedMarketSquare = Cards.marketSquare.equals(context.getPlayer().getInheritance()) && context.getPlayer().hand.contains(Cards.estate);
@@ -1777,7 +1781,7 @@ public abstract class Player {
 
     public abstract Card masquerade_cardToTrash(MoveContext context);
 
-    public abstract boolean miningVillage_shouldTrashMiningVillage(MoveContext context);
+    public abstract boolean miningVillage_shouldTrashMiningVillage(MoveContext context, Card responsible);
 
     public abstract Card saboteur_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
 
@@ -2112,7 +2116,7 @@ public abstract class Player {
 
     public abstract Card[] urchin_attack_cardsToKeep(MoveContext context);
 
-    public abstract boolean urchin_shouldTrashForMercenary(MoveContext context);
+    public abstract boolean urchin_shouldTrashForMercenary(MoveContext context, Card responsible);
 
     public abstract Card[] mercenary_cardsToTrash(MoveContext context);
     public abstract Card[] mercenary_attack_cardsToKeep(MoveContext context);
@@ -2165,7 +2169,7 @@ public abstract class Player {
     public abstract boolean messenger_shouldDiscardDeck(MoveContext context);
     public abstract boolean miser_shouldTakeTreasure(MoveContext context);
     public abstract Card ratcatcher_cardToTrash(MoveContext context);
-    public abstract boolean raze_shouldTrashRazePlayed(MoveContext context);
+    public abstract boolean raze_shouldTrashRazePlayed(MoveContext context, Card responsible);
     public abstract Card raze_cardToTrash(MoveContext context);
 	public abstract Card raze_cardToKeep(MoveContext context, Card[] cards);
 	public abstract Card soldier_cardToDiscard(MoveContext context);
@@ -2236,7 +2240,7 @@ public abstract class Player {
     public abstract Card sacrifice_cardToTrash(MoveContext context);
     public abstract Card saltTheEarth_cardToTrash(MoveContext context);
     public abstract boolean settlers_copperIntoHand(MoveContext context, int coppers, int settlers);
-    public abstract boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context);
+    public abstract boolean smallCastle_shouldTrashSmallCastlePlayed(MoveContext context, Card responsible);
     public abstract Card smallCastle_castleToTrash(MoveContext context);
     public abstract HuntingGroundsOption sprawlingCastle_chooseOption(MoveContext context);
     public abstract Card tax_supplyToTax(MoveContext context);

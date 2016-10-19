@@ -93,7 +93,7 @@ public class CardImplSeaside extends CardImpl {
 
         CardPile pile = game.getGamePile(card);
 
-        currentPlayer.reveal(card, this.controlCard, context);
+        currentPlayer.reveal(card, this.getControlCard(), context);
         //Util.log("Ambassador revealed card:" + origCard.getName());
 
         int returnCount = -1;
@@ -127,11 +127,11 @@ public class CardImplSeaside extends CardImpl {
         /* Even if revealed Shelters, opponents may react */
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
 
                 if (returnCount > -1) {
                   if (pile.isSupply()) {
-                      player.gainNewCard(card, this.controlCard, new MoveContext(game, player));
+                      player.gainNewCard(card, this.getControlCard(), new MoveContext(game, player));
                   }
                 }
             }
@@ -141,17 +141,17 @@ public class CardImplSeaside extends CardImpl {
 	private void cutpurse(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
 
                 if (player.hand.contains(Cards.copper)) {
                     Card card = player.hand.get(Cards.copper);
                     player.hand.remove(Cards.copper);
-                    player.discard(card, this.controlCard, playerContext);
+                    player.discard(card, this.getControlCard(), playerContext);
                 } else {
                     for (Card card : player.getHand()) {
-                        player.reveal(card, this.controlCard, playerContext);
+                        player.reveal(card, this.getControlCard(), playerContext);
                     }
                 }
             }
@@ -185,19 +185,19 @@ public class CardImplSeaside extends CardImpl {
 
         Card treasure;
         if (province != null && currentPlayer.controlPlayer.explorer_shouldRevealProvince(context)) {
-            currentPlayer.reveal(province, this.controlCard, context);
+            currentPlayer.reveal(province, this.getControlCard(), context);
             treasure = Cards.gold;
         } else {
             treasure = Cards.silver;
         }
 
-        currentPlayer.gainNewCard(treasure, this.controlCard, context);
+        currentPlayer.gainNewCard(treasure, this.getControlCard(), context);
     }
 
     private void ghostShip(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
 
@@ -253,8 +253,8 @@ public class CardImplSeaside extends CardImpl {
             event.setPrivate(true);
             context.game.broadcastEvent(event);
         } else if (this.getControlCard().cloneCount == 1) {
-            currentPlayer.nextTurnCards.remove(this.controlCard);
-            currentPlayer.playedCards.add(this.controlCard);
+            currentPlayer.nextTurnCards.remove(this.getControlCard());
+            currentPlayer.playedCards.add(this.getControlCard());
         }
     }
 
@@ -266,13 +266,13 @@ public class CardImplSeaside extends CardImpl {
         }
 
         // Move to island mat if not already played
-        if (this.controlCard.numberTimesAlreadyPlayed == 0) {
-            currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.controlCard));
-            currentPlayer.island.add(this.controlCard);
-            this.controlCard.stopImpersonatingCard();
+        if (this.getControlCard().numberTimesAlreadyPlayed == 0) {
+            currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.getControlCard()));
+            currentPlayer.island.add(this.getControlCard());
+            this.getControlCard().stopImpersonatingCard();
 
             GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideOnIslandMat, (MoveContext) context);
-            event.card = this.controlCard;
+            event.card = this.getControlCard();
             game.broadcastEvent(event);
         }
 
@@ -312,7 +312,7 @@ public class CardImplSeaside extends CardImpl {
             toTrash = cards.get(0);
         }
 
-        currentPlayer.trash(toTrash, this.controlCard, context);
+        currentPlayer.trash(toTrash, this.getControlCard(), context);
 
         cards.remove(toTrash);
         if (cards.size() == 0) {
@@ -331,7 +331,7 @@ public class CardImplSeaside extends CardImpl {
             toDiscard = cards.get(0);
         }
 
-        currentPlayer.discard(toDiscard, this.controlCard, context);
+        currentPlayer.discard(toDiscard, this.getControlCard(), context);
 
         cards.remove(toDiscard);
 
@@ -366,7 +366,7 @@ public class CardImplSeaside extends CardImpl {
         if (topOfTheDeck.size() > 0) {
             if (currentPlayer.controlPlayer.navigator_shouldDiscardTopCards(context, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]))) {
                 while (!topOfTheDeck.isEmpty()) {
-                    currentPlayer.discard(topOfTheDeck.remove(0), this.controlCard, context);
+                    currentPlayer.discard(topOfTheDeck.remove(0), this.getControlCard(), context);
                 }
             } else {
                 Card[] order = currentPlayer.controlPlayer.navigator_cardOrder(context, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]));
@@ -426,7 +426,7 @@ public class CardImplSeaside extends CardImpl {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 playersToAttack.add(targetPlayer);
-                targetPlayer.attacked(this.controlCard, context);
+                targetPlayer.attacked(this.getControlCard(), context);
             }
         }
 
@@ -444,7 +444,7 @@ public class CardImplSeaside extends CardImpl {
                     Card card = game.draw(targetContext, Cards.pirateShip, 2 - i);
 
                     if (card != null) {
-                        targetPlayer.reveal(card, this.controlCard, targetContext);
+                        targetPlayer.reveal(card, this.getControlCard(), targetContext);
 
                         if (card.is(Type.Treasure, targetPlayer)) {
                             treasures.add(card);
@@ -454,7 +454,7 @@ public class CardImplSeaside extends CardImpl {
                     }
                 }
                 for (Card c: cardToDiscard) {
-                    targetPlayer.discard(c, this.controlCard, targetContext);
+                    targetPlayer.discard(c, this.getControlCard(), targetContext);
                 }
 
                 Card cardToTrash = null;
@@ -464,20 +464,20 @@ public class CardImplSeaside extends CardImpl {
                 } else if (treasures.size() == 2) {
                     if (treasures.get(0).equals(treasures.get(1))) {
                         cardToTrash = treasures.get(0);
-                        targetPlayer.discard(treasures.get(1), this.controlCard, targetContext);
+                        targetPlayer.discard(treasures.get(1), this.getControlCard(), targetContext);
                     } else {
                         cardToTrash = currentPlayer.controlPlayer.pirateShip_treasureToTrash(context, treasures.toArray(new Card[] {}));
                     }
 
                     for (Card treasure : treasures) {
                         if (!treasure.equals(cardToTrash)) {
-                            targetPlayer.discard(treasure, this.controlCard, targetContext);
+                            targetPlayer.discard(treasure, this.getControlCard(), targetContext);
                         }
                     }
                 }
 
                 if (cardToTrash != null) {
-                    targetPlayer.trash(cardToTrash, this.controlCard, targetContext);
+                    targetPlayer.trash(cardToTrash, this.getControlCard(), targetContext);
                     treasureFound = true;
                 }
             }
@@ -502,19 +502,19 @@ public class CardImplSeaside extends CardImpl {
 
         context.addCoins(card.getCost(context));
         currentPlayer.hand.remove(card);
-        currentPlayer.trash(card, this.controlCard, context);
+        currentPlayer.trash(card, this.getControlCard(), context);
     }
     
     private void seaHag(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
 
                 Card draw = game.draw(playerContext, Cards.seaHag, 1);
                 if (draw != null) {
-                    player.discard(draw, this.controlCard, playerContext);
+                    player.discard(draw, this.getControlCard(), playerContext);
                 }
 
                 player.gainNewCard(Cards.curse, this, playerContext);
@@ -546,7 +546,7 @@ public class CardImplSeaside extends CardImpl {
         }
 
         if (card != null) {
-            if (currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
+            if (currentPlayer.gainNewCard(card, this.getControlCard(), context) == null) {
                 // TODO do this.controlCard error output everywhere
                 Util.playerError(currentPlayer, "Smugglers card error, no more cards left of that type, ignoring.");
             }
@@ -555,19 +555,19 @@ public class CardImplSeaside extends CardImpl {
     
     private void tactician(MoveContext context, Player currentPlayer) {
         // throneroom has no effect since hand is already empty
-        if (this.controlCard.numberTimesAlreadyPlayed == 0) {
+        if (this.getControlCard().numberTimesAlreadyPlayed == 0) {
             // Only works if at least one card discarded
             if (currentPlayer.hand.size() > 0) {
                 while (!currentPlayer.hand.isEmpty()) {
-                    currentPlayer.discard(currentPlayer.hand.remove(0), this.controlCard, context);
+                    currentPlayer.discard(currentPlayer.hand.remove(0), this.getControlCard(), context);
                 }
             } else {
-                currentPlayer.nextTurnCards.remove(this.controlCard);
-                currentPlayer.playedCards.add(this.controlCard);
+                currentPlayer.nextTurnCards.remove(this.getControlCard());
+                currentPlayer.playedCards.add(this.getControlCard());
             }
         } else {
             // reset clone count
-            this.controlCard.cloneCount = 1;
+            this.getControlCard().cloneCount = 1;
         }
     }
     
@@ -585,7 +585,7 @@ public class CardImplSeaside extends CardImpl {
         if (this.numberTimesAlreadyPlayed == 0) {
             if (anotherMap != null && !this.getControlCard().equals(Cards.estate)) {
                 // going to get the gold so trash map played and map from hand
-                currentPlayer.trash(currentPlayer.playedCards.removeCard(this.controlCard), null, context);
+                currentPlayer.trash(currentPlayer.playedCards.removeCard(this.getControlCard()), null, context);
                 currentPlayer.trash(currentPlayer.hand.removeCard(anotherMap), null, context);
                 for (int i = 0; i < 4; i++) {
                     currentPlayer.gainNewCard(Cards.gold, this, context);
@@ -594,7 +594,7 @@ public class CardImplSeaside extends CardImpl {
             } else {
                 // Send notification that the map played was trashed (as per rules
                 // when a single map is played)
-                currentPlayer.trash(currentPlayer.playedCards.removeCard(this.controlCard), null, context);
+                currentPlayer.trash(currentPlayer.playedCards.removeCard(this.getControlCard()), null, context);
             }
         } else {
             if (anotherMap != null) {
@@ -641,7 +641,7 @@ public class CardImplSeaside extends CardImpl {
 
         for (int i = 0; i < cards.length; i++) {
             currentPlayer.hand.remove(cards[i]);
-            currentPlayer.discard(cards[i], this.controlCard, context);
+            currentPlayer.discard(cards[i], this.getControlCard(), context);
         }
     }
     

@@ -520,4 +520,8 @@
 	<string name="opulent_castle_ask_discard">Punktekarten für +(2) Geld ablegen</string>
 	<string name="sprawlingcastle_gain_duchy">Nimm ein Herzogtum</string>
 	<string name="sprawlingcastle_gain_estates">Nimm 3 Anwesen</string>
+
+
+
+	<string name="card_played_as_card">%1$s (gespielt als %2$s)</string>
 </resources>

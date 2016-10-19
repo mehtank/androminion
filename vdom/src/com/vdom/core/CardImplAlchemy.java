@@ -54,7 +54,7 @@ public class CardImplAlchemy extends CardImpl {
         for (int i = 1; i <= 4; i++) {
             Card card = game.draw(context, Cards.apothecary, 4 - i);
             if (card != null) {
-                currentPlayer.reveal(card, this.controlCard, context);
+                currentPlayer.reveal(card, this.getControlCard(), context);
                 if (card.equals(Cards.copper) || card.equals(Cards.potion)) {
                     currentPlayer.hand.add(card);
                 } else {
@@ -83,7 +83,7 @@ public class CardImplAlchemy extends CardImpl {
                 cardToTrash = Util.randomCard(currentPlayer.hand);
             }
             currentPlayer.hand.remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.controlCard, context);
+            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
 
             int cardsToDraw = (cardToTrash.getCost(context) + (cardToTrash.costPotion() ? 2 : 0));
             for (int i = 1; i <= cardsToDraw; i++) {
@@ -102,7 +102,7 @@ public class CardImplAlchemy extends CardImpl {
                 break;
             }
 
-            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.reveal(draw, this.getControlCard(), context);
 
             if (draw.is(Type.Action, currentPlayer) && !draw.equals(Cards.golem)) {
                 toOrder.add(draw);
@@ -113,7 +113,7 @@ public class CardImplAlchemy extends CardImpl {
         }
 
         while (!toDiscard.isEmpty()) {
-            currentPlayer.discard(toDiscard.remove(0), this.controlCard, null);
+            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
         }
 
         if (!toOrder.isEmpty()) {
@@ -173,16 +173,16 @@ public class CardImplAlchemy extends CardImpl {
             Util.playerError(currentPlayer, "Transmute card to trash is not in your hand, not trashing anything.");
         } else {
             currentPlayer.hand.remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.controlCard, context);
+            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
             if (cardToTrash.is(Type.Action, cardToTrash.behaveAsCard().getKind() == Kind.Fortress ? currentPlayer : null )) {
             	//Condition is wrong for when player is being possessed and Fortress is set aside
-                currentPlayer.gainNewCard(Cards.duchy, this.controlCard, context);
+                currentPlayer.gainNewCard(Cards.duchy, this.getControlCard(), context);
             }
             if (cardToTrash.is(Type.Treasure)) {	
-                currentPlayer.gainNewCard(Cards.transmute, this.controlCard, context);
+                currentPlayer.gainNewCard(Cards.transmute, this.getControlCard(), context);
             }
             if (cardToTrash.is(Type.Victory)) {
-                currentPlayer.gainNewCard(Cards.gold, this.controlCard, context);
+                currentPlayer.gainNewCard(Cards.gold, this.getControlCard(), context);
             }
         }
     }
@@ -190,7 +190,7 @@ public class CardImplAlchemy extends CardImpl {
     private void university(MoveContext context, Player currentPlayer) {
         Card cardToObtain = currentPlayer.controlPlayer.university_actionCardToObtain(context);
         if (cardToObtain != null && cardToObtain.is(Type.Action, null) && cardToObtain.getCost(context) <= 5 && !cardToObtain.costPotion()) {
-            currentPlayer.gainNewCard(cardToObtain, this.controlCard, context);
+            currentPlayer.gainNewCard(cardToObtain, this.getControlCard(), context);
         }
     }
 }

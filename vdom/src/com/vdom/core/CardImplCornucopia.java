@@ -24,7 +24,7 @@ public class CardImplCornucopia extends CardImpl {
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {
 		case BagofGold:
-            currentPlayer.gainNewCard(Cards.gold, this.controlCard, context);
+            currentPlayer.gainNewCard(Cards.gold, this.getControlCard(), context);
             break;
 		case Diadem:
 			context.addCoins(context.getActionsLeft());
@@ -88,30 +88,30 @@ public class CardImplCornucopia extends CardImpl {
 
         while (!toDiscard.isEmpty()) {
             Card c = toDiscard.remove(0);
-            currentPlayer.reveal(c, this.controlCard, context);
-            currentPlayer.discard(c, this.controlCard, context);
+            currentPlayer.reveal(c, this.getControlCard(), context);
+            currentPlayer.discard(c, this.getControlCard(), context);
         }
 
         if (draw != null) {
-            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.reveal(draw, this.getControlCard(), context);
             currentPlayer.hand.add(draw);
         }
     }
 	
 	private void followers(Game game, MoveContext context, Player currentPlayer) {
-        currentPlayer.gainNewCard(Cards.estate, this.controlCard, context);
+        currentPlayer.gainNewCard(Cards.estate, this.getControlCard(), context);
 
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
-                player.gainNewCard(Cards.curse, this.controlCard, playerContext);
+                player.gainNewCard(Cards.curse, this.getControlCard(), playerContext);
 
                 int keepCardCount = 3;
                 if (player.hand.size() > keepCardCount) {
                     Card[] cardsToKeep = player.controlPlayer.followers_attack_cardsToKeep(context);
-                    player.discardRemainingCardsFromHand(context, cardsToKeep, this.controlCard, keepCardCount);
+                    player.discardRemainingCardsFromHand(context, cardsToKeep, this.getControlCard(), keepCardCount);
                 }
             }
         }
@@ -120,24 +120,24 @@ public class CardImplCornucopia extends CardImpl {
     private void fortuneTeller(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.controlCard, context);
+                player.attacked(this.getControlCard(), context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
                 ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
 
                 Card draw = null;
                 while ((draw = game.draw(playerContext, Cards.fortuneTeller, -1)) != null && !(draw.is(Type.Victory, player)) && !(draw.is(Type.Curse, player))) {
-                    player.reveal(draw, this.controlCard, playerContext);
+                    player.reveal(draw, this.getControlCard(), playerContext);
                     cardsToDiscard.add(draw);
                 }
 
                 if (draw != null) {
-                    player.reveal(draw, this.controlCard, playerContext);
+                    player.reveal(draw, this.getControlCard(), playerContext);
                     player.putOnTopOfDeck(draw, playerContext, true);
                 }
 
                 for(Card card : cardsToDiscard) {
-                    player.discard(card, this.controlCard, playerContext);
+                    player.discard(card, this.getControlCard(), playerContext);
                 }
             }
         }
@@ -147,14 +147,14 @@ public class CardImplCornucopia extends CardImpl {
         Card forAction = currentPlayer.controlPlayer.hamlet_cardToDiscardForAction(context);
         if (forAction != null) {
             currentPlayer.hand.remove(forAction);
-            currentPlayer.discard(forAction, this.controlCard, context);
+            currentPlayer.discard(forAction, this.getControlCard(), context);
             context.actions++;
         }
 
         Card forBuy = currentPlayer.controlPlayer.hamlet_cardToDiscardForBuy(context);
         if (forBuy != null) {
             currentPlayer.hand.remove(forBuy);
-            currentPlayer.discard(forBuy, this.controlCard, context);
+            currentPlayer.discard(forBuy, this.getControlCard(), context);
             context.buys++;
         }
     }
@@ -169,11 +169,11 @@ public class CardImplCornucopia extends CardImpl {
             }
 
             cardNames.add(draw.getName());
-            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.reveal(draw, this.getControlCard(), context);
             cardToDiscard.add(draw);
         }
         for (Card c: cardToDiscard) {
-            currentPlayer.discard(c, this.controlCard, context);
+            currentPlayer.discard(c, this.getControlCard(), context);
         }
 
         context.addCoins(cardNames.size());
@@ -212,31 +212,31 @@ public class CardImplCornucopia extends CardImpl {
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card card = currentPlayer.hand.get(i);
             cardNames.add(card.getName());
-            currentPlayer.revealFromHand(card, this.controlCard, context);
+            currentPlayer.revealFromHand(card, this.getControlCard(), context);
         }
 
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
         Card draw = null;
         while ((draw = game.draw(context, Cards.huntingParty, -1)) != null && cardNames.contains(draw.getName())) {
-            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.reveal(draw, this.getControlCard(), context);
             toDiscard.add(draw);
         }
 
         if (draw != null) {
-            currentPlayer.reveal(draw, this.controlCard, context);
+            currentPlayer.reveal(draw, this.getControlCard(), context);
             currentPlayer.hand.add(draw);
         }
 
         while (!toDiscard.isEmpty()) {
-            currentPlayer.discard(toDiscard.remove(0), this.controlCard, null);
+            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
         }
     }
 
     private void jester(Game game, MoveContext context, Player currentPlayer) {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
-                targetPlayer.attacked(this.controlCard, context);
+                targetPlayer.attacked(this.getControlCard(), context);
                 MoveContext targetContext = new MoveContext(game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
 
@@ -247,11 +247,11 @@ public class CardImplCornucopia extends CardImpl {
                     continue;
                 }
                 
-                targetPlayer.reveal(draw, this.controlCard, targetContext);
-                targetPlayer.discard(draw, this.controlCard, targetContext);
+                targetPlayer.reveal(draw, this.getControlCard(), targetContext);
+                targetPlayer.discard(draw, this.getControlCard(), targetContext);
 
                 if (draw.is(Type.Victory, targetPlayer)) {
-                    targetPlayer.gainNewCard(Cards.curse, this.controlCard, targetContext);
+                    targetPlayer.gainNewCard(Cards.curse, this.getControlCard(), targetContext);
                 }
                 else if (Cards.isSupplyCard(draw))
                 {
@@ -265,7 +265,7 @@ public class CardImplCornucopia extends CardImpl {
                     {
                         JesterOption option = currentPlayer.controlPlayer.controlPlayer.jester_chooseOption(context, targetPlayer, draw);
                         toGainContext = JesterOption.GainCopy.equals(option) ? context : targetContext;
-                        toGainContext.getPlayer().gainNewCard(draw, this.controlCard, toGainContext);
+                        toGainContext.getPlayer().gainNewCard(draw, this.getControlCard(), toGainContext);
                     }
                 }
             }
@@ -278,7 +278,7 @@ public class CardImplCornucopia extends CardImpl {
 
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card card = currentPlayer.hand.get(i);
-            currentPlayer.reveal(card, this.controlCard, context);
+            currentPlayer.reveal(card, this.getControlCard(), context);
             distinct &= cardNames.add(card.getName());
         }
 
@@ -304,14 +304,14 @@ public class CardImplCornucopia extends CardImpl {
             int debt = card.getDebtCost(context);
             boolean potion = card.costPotion();
             currentPlayer.hand.remove(card);
-            currentPlayer.trash(card, this.controlCard, context);
+            currentPlayer.trash(card, this.getControlCard(), context);
 
             card = currentPlayer.controlPlayer.remake_cardToObtain(context, value, debt, potion);
             if (card != null) {
                 if (card.getCost(context) != value || card.getDebtCost(context) != debt || card.costPotion() != potion) {
                     Util.playerError(currentPlayer, "Remake error, new card must cost exactly " + value + ".");
                 } else {
-                    if(currentPlayer.gainNewCard(card, this.controlCard, context) == null) {
+                    if(currentPlayer.gainNewCard(card, this.getControlCard(), context) == null) {
                         Util.playerError(currentPlayer, "Remake error, pile is empty or card is not in the game.");
                     }
                 }
@@ -338,13 +338,13 @@ public class CardImplCornucopia extends CardImpl {
                 if (player == currentPlayer) {
                     currentPlayerRevealed = currentPlayer.controlPlayer.tournament_shouldRevealProvince(playerContext);
                     if (currentPlayerRevealed) {
-                        currentPlayer.reveal(province, this.controlCard, playerContext);
+                        currentPlayer.reveal(province, this.getControlCard(), playerContext);
                         player.hand.remove(province);
-                        currentPlayer.discard(province, this.controlCard, playerContext);
+                        currentPlayer.discard(province, this.getControlCard(), playerContext);
                     }
                 } else {
                     if (player.controlPlayer.tournament_shouldRevealProvince(playerContext)) {
-                        player.reveal(province, this.controlCard, playerContext);
+                        player.reveal(province, this.getControlCard(), playerContext);
                         opponentsRevealedProvince = true;
                     }
                 }
@@ -392,7 +392,7 @@ public class CardImplCornucopia extends CardImpl {
                     context.addCoins(2);
                 } else if (option == TrustySteedOption.GainSilvers) {
                     for (int i = 0; i < 4; i++) {
-                        if(currentPlayer.gainNewCard(Cards.silver, this.controlCard, context) == null) {
+                        if(currentPlayer.gainNewCard(Cards.silver, this.getControlCard(), context) == null) {
                             break;
                         }
                     }
@@ -400,7 +400,7 @@ public class CardImplCornucopia extends CardImpl {
                     game.broadcastEvent(event);
 
                     while (currentPlayer.getDeckSize() > 0) {
-                        currentPlayer.discard(currentPlayer.deck.remove(0), this.controlCard, null);
+                        currentPlayer.discard(currentPlayer.deck.remove(0), this.getControlCard(), null);
                     }
                 }
             }
@@ -438,19 +438,19 @@ public class CardImplCornucopia extends CardImpl {
         }
 
         for (Card card : cardsToDiscard) {
-            currentPlayer.discard(card, this.controlCard, null);
+            currentPlayer.discard(card, this.getControlCard(), null);
             currentPlayer.hand.remove(card);
         }
 
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 if (targetPlayer.hand.contains(game.baneCard) && game.pileSize(Cards.curse) > 0 && targetPlayer.revealBane(context)) {
-                    targetPlayer.reveal(game.baneCard, this.controlCard, new MoveContext(game, targetPlayer));
+                    targetPlayer.reveal(game.baneCard, this.getControlCard(), new MoveContext(game, targetPlayer));
                 } else {
-                    targetPlayer.attacked(this.controlCard, context);
+                    targetPlayer.attacked(this.getControlCard(), context);
                     MoveContext targetContext = new MoveContext(game, targetPlayer);
                     targetContext.attackedPlayer = targetPlayer;
-                    targetPlayer.gainNewCard(Cards.curse, this.controlCard, targetContext);
+                    targetPlayer.gainNewCard(Cards.curse, this.getControlCard(), targetContext);
                 }
             }
         }
