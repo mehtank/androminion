@@ -40,6 +40,7 @@ public class Cards {
     public static HashSet<Card> nonKingdomCards = new HashSet<Card>();
 
     public static HashMap<String, Card> cardNameToCard = new HashMap<String, Card>();
+    public static HashMap<Card, Card> variablePileCardToRandomizer = new HashMap<Card, Card>();
 
     static final String KNIGHTS_TEXT = "Each other player reveals the top 2 cards of his deck, " +
             "trashes one of them costing from 3 to 6 coins, and discards the rest. If a Knight " +
@@ -1029,6 +1030,22 @@ public class Cards {
         
         eventCardsPromo.add(summon         = new CardImpl.Builder(Cards.Kind.Summon, 5, Type.Event).description("Gain an Action card costing up to 4 Coins. Set it aside. If you do, then at the start of your next turn, play it.").expansion(Expansion.Promo).build());
 
+        // Create map for from variable pile card to randomizer
+        for (Card card : knightsCards) { variablePileCardToRandomizer.put(card, virtualKnight); }
+        for (Card card : castleCards) { variablePileCardToRandomizer.put(card, virtualCastle); }
+        variablePileCardToRandomizer.put(catapult, virtualCatapultRocks);
+        variablePileCardToRandomizer.put(rocks, virtualCatapultRocks);
+        variablePileCardToRandomizer.put(encampment, virtualEncampmentPlunder);
+        variablePileCardToRandomizer.put(plunder, virtualEncampmentPlunder);
+        variablePileCardToRandomizer.put(gladiator, virtualGladiatorFortune);
+        variablePileCardToRandomizer.put(fortune, virtualGladiatorFortune);
+        variablePileCardToRandomizer.put(patrician, virtualPatricianEmporium);
+        variablePileCardToRandomizer.put(emporium, virtualPatricianEmporium);
+        variablePileCardToRandomizer.put(settlers, virtualSettlersBustlingVillage);
+        variablePileCardToRandomizer.put(bustlingVillage, virtualSettlersBustlingVillage);
+        variablePileCardToRandomizer.put(sauna, virtualSaunaAvanto);
+        variablePileCardToRandomizer.put(avanto, virtualSaunaAvanto);
+        
         // Collect all Expansions
         for (Card card : actionCardsBaseGameAll) { actionCards.add(card); }
         for (Card card : actionCardsIntrigueAll) { actionCards.add(card); }

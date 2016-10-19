@@ -2638,6 +2638,29 @@ public class Game {
                         break;
                     }
                 }
+                // Handle split pile / knights cards being passed in incorrectly
+                for (Card c : Cards.variablePileCards) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                        card = c;
+                        break;
+                    }
+                }
+                for (Card c : Cards.castleCards) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                        card = c;
+                        break;
+                    }
+                }
+                for (Card c : Cards.knightsCards) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                        card = c;
+                        break;
+                    }
+                }
+                if (card != null && Cards.variablePileCardToRandomizer.containsKey(card)) {
+                	card = Cards.variablePileCardToRandomizer.get(card);
+                }
+                
                 if(card != null && bane) {
                     baneCard = card;
                 }
@@ -2651,7 +2674,7 @@ public class Game {
                     card = Cards.virtualKnight;
                 }
 
-                if(card != null) {
+                if(card != null && !piles.containsKey(card.getName())) {
                     addPile(card);
                     added += 1;
                 } else if ( s.equalsIgnoreCase(Cards.curse.getSafeName()) ||
