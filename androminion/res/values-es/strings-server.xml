@@ -442,7 +442,7 @@
   <string name="survivors_header">Supervivientes reveló: %1$s</string>
   <string name="cultist_play_next">Jugar otro Sectario de la mano</string>
   <string name="urchin_keep">guardar de Pillastre</string>
-  <string name="urchin_trash_for_mercenary">Eliminar Pillastre por Mercenario</string>
+  <string name="urchin_trash_for_mercenary">Eliminarla por Mercenario</string>
   <string name="madman_option">Devolver Loco</string>
   
   <string name="taxman_part">ganar</string>
@@ -503,4 +503,9 @@
   <string name="sauna_play_avanto">Jugar Avanto de la mano</string>
   <string name="avanto_play_sauna">Jugar Sauna de la mano</string>
 
+  <string name="opulent_castle_ask_discard">descartar para +(2) Monedas por cada una</string>
+  <string name="sprawlingcastle_gain_duchy">Ganar Ducado</string>
+  <string name="sprawlingcastle_gain_estates">Ganar 3 Fincas</string>
+
+  <string name="card_played_as_card">%1$s (jugado como %2$s)</string>
 </resources>
