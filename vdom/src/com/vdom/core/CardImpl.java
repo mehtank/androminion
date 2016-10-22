@@ -623,8 +623,9 @@ public class CardImpl implements Card {
         boolean enchantressEffect = isAction && !context.enchantressAlreadyAffected && game.enchantressAttacks(currentPlayer);
         if (enchantressEffect) context.enchantressAlreadyAffected = true;
                 
-        if (!isInheritedAbility)
+        if (!isInheritedAbility && isAction) {
         	context.actions += game.countChampionsInPlay(currentPlayer);
+        }
         
         if (is(Type.Attack, currentPlayer))
             attackPlayed(context, game, currentPlayer);
