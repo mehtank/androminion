@@ -2893,14 +2893,15 @@ public class Game {
         if (sheltersPassedIn) {
             sheltersInPlay = true;
             chanceForShelters = 1;
-        } else if (chanceForShelters > -0.0001) { 
-        	sheltersInPlay = rand.nextDouble() < chanceForShelters;
-        } else {
-            chanceForShelters = darkAgesCards / (double)kingdomCards;
+        } else if (!(sheltersNotPassedIn && cardsSpecifiedAtLaunch != null)) {
+            if (chanceForShelters > -0.0001) {
+                sheltersInPlay = rand.nextDouble() < chanceForShelters;
+            } else {
+                chanceForShelters = darkAgesCards / (double) kingdomCards;
 
-            if (rand.nextDouble() < chanceForShelters)
-            {
-                sheltersInPlay = true;
+                if (rand.nextDouble() < chanceForShelters) {
+                    sheltersInPlay = true;
+                }
             }
         }
 
@@ -2915,13 +2916,15 @@ public class Game {
         boolean addPlatColony = false;
         if (platColonyPassedIn) {
             addPlatColony = true;
-        } else if (chanceForPlatColony > -0.0001) {
-            addPlatColony = rand.nextDouble() < chanceForPlatColony;
-        } else {
-            chanceForPlatColony = prosperityCards / (double)kingdomCards;
-            
-            if (rand.nextDouble() < chanceForPlatColony) {
-                addPlatColony = true;
+        } else if (!(platColonyNotPassedIn && cardsSpecifiedAtLaunch != null)) {
+            if (chanceForPlatColony > -0.0001) {
+                addPlatColony = rand.nextDouble() < chanceForPlatColony;
+            } else {
+                chanceForPlatColony = prosperityCards / (double) kingdomCards;
+
+                if (rand.nextDouble() < chanceForPlatColony) {
+                    addPlatColony = true;
+                }
             }
         }
 
