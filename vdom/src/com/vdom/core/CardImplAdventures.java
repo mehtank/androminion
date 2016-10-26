@@ -648,7 +648,7 @@ public class CardImplAdventures extends CardImpl {
                 playerContext.attackedPlayer = player;
 
                 if (player.hand.size() >= 4) {
-                    Card cardToDiscard = player.controlPlayer.soldier_cardToDiscard(context);
+                    Card cardToDiscard = player.controlPlayer.soldier_cardToDiscard(playerContext);
                     if(cardToDiscard == null || !player.hand.contains(cardToDiscard)) {
                         Util.playerError(player, "Returned an invalid card to discard with Soldier, picking one for you.");
                         cardToDiscard = player.hand.get(0);
