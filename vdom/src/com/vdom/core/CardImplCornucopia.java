@@ -110,7 +110,7 @@ public class CardImplCornucopia extends CardImpl {
 
                 int keepCardCount = 3;
                 if (player.hand.size() > keepCardCount) {
-                    Card[] cardsToKeep = player.controlPlayer.followers_attack_cardsToKeep(context);
+                    Card[] cardsToKeep = player.controlPlayer.followers_attack_cardsToKeep(playerContext);
                     player.discardRemainingCardsFromHand(context, cardsToKeep, this.getControlCard(), keepCardCount);
                 }
             }
