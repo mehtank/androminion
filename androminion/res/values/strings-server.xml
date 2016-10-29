@@ -27,7 +27,7 @@
 	<string name="vp_single">Worth %1$s VP</string>
 	<string name="vp_multiple">Worth %1$s VPs</string>
 	<string name="coin_next_turn_single">+(%1$s) Coin next turn</string>
-	<string name="coin_next_turn_multiple">+(%1$s) Coin next turn</string>
+	<string name="coin_next_turn_multiple">+(%1$s) Coins next turn</string>
 	<string name="buy_next_turn_single">+%1$s Buy next turn</string>
 	<string name="buys_next_turn_multiple">+%1$s Buys next turn</string>
 	<string name="card_next_turn_single">+%1$s Card next turn</string>
@@ -35,7 +35,7 @@
 	<string name="action_next_turn_single">+%1$s Action next turn</string>
 	<string name="actions_next_turn_multiple">+%1$s Actions next turn</string>
 	<string name="card_coin_single">+(%1$s) Coin</string>
-	<string name="card_coin_multiple">+(%1$s) Coin</string>
+	<string name="card_coin_multiple">+(%1$s) Coins</string>
 	<string name="card_buy_single">+%1$s Buy</string>
 	<string name="card_buys_multiple">+%1$s Buys</string>
 	<string name="card_action_single">+%1$s Action</string>

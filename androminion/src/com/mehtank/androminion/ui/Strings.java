@@ -483,8 +483,8 @@ public class Strings {
         }
         if (c.is(Type.Action)) {
             if (c.is(Type.Duration)) {
-                if (c.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_single, "" + c.getAddGoldNextTurn()) + "\n" + ret;
-                else if (c.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_multiple, "" + c.getAddGoldNextTurn()) + "\n" + ret;
+                if (c.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_multiple, "" + c.getAddGoldNextTurn()) + "\n" + ret;
+                else if (c.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_single, "" + c.getAddGoldNextTurn()) + "\n" + ret;
                 if (c.getAddBuysNextTurn() > 1) ret = Strings.format(R.string.buys_next_turn_multiple, "" + c.getAddBuysNextTurn()) + "\n" + ret;
                 else if (c.getAddBuysNextTurn() > 0) ret = Strings.format(R.string.buy_next_turn_single, "" + c.getAddBuysNextTurn()) + "\n" + ret;
                 if (c.getAddActionsNextTurn() > 1) ret =  Strings.format(R.string.actions_next_turn_multiple, "" + c.getAddActionsNextTurn()) + "\n" + ret;
