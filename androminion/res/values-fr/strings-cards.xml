@@ -724,7 +724,7 @@
     <string name="Advance_name">Adoubement</string>
     <string name="Advance_desc">Vous pouvez écarter une carte Action de votre main. Si vous le faites, recevez une carte Action coûtant (6) Pièces ou moins.</string>
     <string name="Annex_name">Annexion</string>
-    <string name="Annex_desc">Regardez dans votre pile de Défausse. Mélangez les cartes de la défausse à votre deck à l'exception de 0 à 5 cartes de votre choix qui restent dans la défausse. Gagnez une carte Duché.</string>
+    <string name="Annex_desc">Regardez dans votre pile de Défausse. Mélangez les cartes de la défausse à votre deck à l\'exception de 0 à 5 cartes de votre choix qui restent dans la défausse. Gagnez une carte Duché.</string>
     <string name="Banquet_name">Banquet</string>
     <string name="Banquet_desc">Recevez 2 cartes Cuivre et une carte non-Victoire coûtant au plus (5) Pièces.</string>
     <string name="Conquest_name">Conquête</string>
@@ -749,9 +749,9 @@
     <string name="Windfall_desc">Si votre deck et votre défausse sont vides, recevez 3 cartes Or.</string>
         
     <string name="Aqueduct_name">Aqueduc</string>
-    <string name="Aqueduct_desc">Lorsque vous recevez une carte Trésor, déplacez 2 Jeton Victoire de sa pile vers l'Aqueduc. Lorsque vous recevez une carte Victoire, prenez les Jetons Victoire situés sur l'Aqueduc.\n --------------\n Mise en place: Placez 8 Jetons Victoire sur les piles de cartes Or et Argent.</string>
+    <string name="Aqueduct_desc">Lorsque vous recevez une carte Trésor, déplacez 2 Jeton Victoire de sa pile vers l\'Aqueduc. Lorsque vous recevez une carte Victoire, prenez les Jetons Victoire situés sur l\'Aqueduc.\n --------------\n Mise en place: Placez 8 Jetons Victoire sur les piles de cartes Or et Argent.</string>
     <string name="Arena_name">Arène</string>
-    <string name="Arena_desc">Au début de votre phase Achat, vous pouvez défausser une carte Action. Si vous le faites, prenez 2 Jetons Victoire de l'Arène.\n -------------\n Mise en place: Placez 6 Jetons Victoire par joueur sur l\'Arène.</string>
+    <string name="Arena_desc">Au début de votre phase Achat, vous pouvez défausser une carte Action. Si vous le faites, prenez 2 Jetons Victoire de l\'Arène.\n -------------\n Mise en place: Placez 6 Jetons Victoire par joueur sur l\'Arène.</string>
     <string name="BanditFort_name">Fortin de Bandits</string>
     <string name="BanditFort_desc">Au décompte des scores, -2 PV pour chaque carte Or et chaque carte Argent que vous possédez.</string>
     <string name="Basilica_name">Basilique</string>
@@ -771,7 +771,7 @@
     <string name="Labyrinth_name">Labyrinthe</string>
     <string name="Labyrinth_desc">Lorsque vous recevez une deuxième carte durant un de vos tours, prenez 2 Jetons Victoire du Labyrinthe.\n ------------\n Mise en place: Placez 6 Jetons Victoire par joueur sur le Labyrinthe.</string>
     <string name="MountainPass_name">Gorge</string>
-    <string name="MountainPass_desc">Après le tour où vous êtes le premier à recevoir une carte Province, chaque joueur fait une fois une offre d\'endettement, allant de 0 à 40 Jetons Dette, en commençant par le joueur à votre gauche et en finissant par vous. L'enchérisseur avec l\'offre la plus haute, remporte 8 Jetons Victoire et reçoit les Jetons Dette correspondant à son offre.</string>
+    <string name="MountainPass_desc">Après le tour où vous êtes le premier à recevoir une carte Province, chaque joueur fait une fois une offre d\'endettement, allant de 0 à 40 Jetons Dette, en commençant par le joueur à votre gauche et en finissant par vous. L\'enchérisseur avec l\'offre la plus haute, remporte 8 Jetons Victoire et reçoit les Jetons Dette correspondant à son offre.</string>
     <string name="Museum_name">Musée</string>
     <string name="Museum_desc">Au décompte des scores, 2 PV par carte nommée différemment que vous possédez.</string>
     <string name="Obelisk_name">Obélisque</string>
