@@ -49,6 +49,10 @@
         <![CDATA[
 		<h3>Lisez SVP!</h3>
 		 À la demande de Rio Grande Games, l\'éditeur de Dominion, nous avons retiré Androminion du Play Store. S\'il vous plaît, ne le publiez dans aucun store public d\'applications car il y a déjà une application officielle.<br><br>
+		<h3>Version 7.04</h3>
+		* Extension Empires! <br>
+		* Seconde édition de Dominion et L\'Intrigue! <br>
+		* Cartes Promo: Sauna/Avanto
 		<h3>Version 6.07</h3>
 		* Extension Aventures! <br>
 		* Cartes Promo: Cachette, Invocation
@@ -124,13 +128,25 @@
     <string name="random_include_events">Cartes événements: </string>
     <string name="random_events_none">Aucune</string>
     <string name="random_events_random">Aléatoire</string>
+	<string name="random_include_landmarks">Sites: </string>
+    <string name="random_landmarks_none">Aucun</string>
+    <string name="random_landmarks_random">Aléatoire</string>
     <string name="random_include_cards">Inclure les cartes Royaume de</string>
     <string name="select_players">Sélectionner les joueurs:</string>
     <string name="player">Joueur </string>
     <string name="currentplayer">Joueur actuel</string>
     <string name="you">Vous</string>
     <string name="start_game">Jouer!</string>
+    <string name="card_set_cards">Cartes: %1$s</string>
+    <string name="card_set_bane">Fléau: %1$s</string>
+    <string name="card_set_events">Événements: %1$s</string>
+    <string name="card_set_landmarks">Sites: %1$s</string>
+    <string name="card_set_plat_colony">Platine/Colonie</string>
+    <string name="card_set_no_plat_colony">Pas de Platine/Colonie</string>
+    <string name="card_set_shelters">Refuges</string>
+    <string name="card_set_no_shelters">Pas de Refuge</string>
     <string name="none_game_start">Aucun</string> <!-- Unused -->
+	
     <string name="start_new_game_on_server">Démarrer un nouveau jeu sur le serveur</string> <!-- Unused -->
     
     <!-- Game Activity: Splash Screen -->
@@ -140,14 +156,14 @@
     <string name="toast_starting">Démarrage du jeu…</string> <!-- Unused -->
     <string name="toast_loading">Chargement du jeu…</string>
     <string name="toast_quitconfirm">Cliquer de nouveau pour quitter.</string>
-    <string name="obtained">Carte %1$s reçue</string>
-    <string name="eventBought">Carte %1$s achetée</string>
-    <string name="trashed">Carte %1$s écartée</string>
-    <string name="revealed">Carte %1$s révélée</string>
-    <string name="revealed_from_hand">Carte %1$s révélée (de la main)</string>
+    <string name="obtained">%1$s, carte reçue</string>
+    <string name="eventBought">%1$s, carte achetée</string>
+    <string name="trashed">%1$s, carte écartée</string>
+    <string name="revealed">%1$s, carte révélée</string>
+    <string name="revealed_from_hand">%1$s, carte révélée (de la main)</string>
     <string name="confirmation">Êtes-vous sûr?</string>
     <string name="confirm_no">Non</string>
-    <string name="select_button">Sélectionner</string>
+    <string name="select_button">Choisir</string>
     <string name="buy_button">\ \ Achat\ \ </string>
     <string name="play_button">\ Jouer\ </string>
     <string name="discard_button">Défausser</string>
@@ -155,17 +171,18 @@
     <string name="give_button">Donner</string>
     <string name="trash_button">Écarter</string>
     <string name="upgrade_button">Améliorer</string>
-    <string name="mint_button">Battre monnaie</string>
+    <string name="mint_button">Copier</string>
     <string name="swindle_button">Escroquer</string>
     <string name="all_button">Tout</string>
     <string name="hand_header">Main:</string>
     <string name="played_header">Joué:</string>
     <string name="tavern_header">Taverne:</string>
+    <string name="archive_header">Archives:</string>
     <string name="island_header">Île:</string>
     <string name="village_header">Village:</string>
     <string name="prince_header">Prince:</string>
     <string name="turn_header">: Tour\u0020</string>
-    <string name="game_loaded" tools:ignore="TypographyOther">Jeu chargé!\nActions, achats et pièces\ndisponibles sont affichés\ndans le log comme a/b/(c)</string>
+    <string name="game_loaded" tools:ignore="TypographyOther">Jeu chargé!\nActions, achats et pièces\ndisponibles sont affichés\ndans la log comme a/b/(c)</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
     <string name="action_zero">%1$s action</string>
     <string name="action_single">%1$s action</string>
@@ -178,8 +195,8 @@
     <string name="coin_multiple">(%1$s) Pièces</string>
     <string name="final_view_card_counts">Décompte des cartes</string>
     <string name="final_view_text">%1$s: %2$s PVs.\n%3$s tours, %4$s cartes.</string>
+	<string name="final_game_time">Durée de la partie: %1$s</string>
     <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-    <string name="final_game_time">Durée de la partie: %1$s</string>
     <string name="potion_single">%1$s potion</string>
     <string name="potion_multiple">%1$s potions</string>
     <string name="potion_cost_initial">p</string>
@@ -190,9 +207,9 @@
     <string name="inheritance_header">Héritage:</string>
     <string name="img_download_title">Image de la carte %1$s</string>
 	<string name="img_download_desc">Téléchargement de l\'image de la carte depuis %1$s</string>
+    <string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">H</string>
-        <string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="token_header">- Jetons -</string>
 	<string name="token_plus_one_card">+1 Carte</string>
 	<string name="token_plus_one_action">+1 Action</string>
@@ -203,6 +220,24 @@
 	<string name="token_colon">:\u0020</string>
 	<string name="token_separator">,\u0020</string>
 	<string name="token_embargo">Embargos</string>
+	<string name="token_victory">Victoire</string>
+	<string name="token_debt">Dette</string>
 	<string name="token_trade_route">Route Commerciale</string>
 	<string name="bane_card">Carte Fléau</string>
+	<string name="obelisk_card">Carte Obélisque (vaut 2 PV)</string>
+	<string name="status_turn_number">Tour %1$s%2$s</string>
+	<string name="status_current_turn">\u0020(Tour en cours)</string>
+	<string name="status_deck_size">Cartes dans le deck: %1$s%2$s</string>
+	<string name="status_stash_on_deck">\u0020(Cachette sur le dessus)</string>
+	<string name="status_hand_size">Cartes en main: %1$s</string>
+	<string name="status_hand_stashes">Cartes Cachette en main: %1$s</string>
+	<string name="status_total_cards">Total de cartes: %1$s</string>
+	<string name="status_has_minus_coin_token">A un jeton -1 Pièce</string>
+	<string name="status_has_minus_card_token">A un jeton -1 Carte</string>
+	<string name="status_journey_token_up">Le jeton Voyage est face visible</string>
+	<string name="status_journey_token_down">Le jeton Voyage est face cachée</string>
+	<string name="status_coin_tokens">Jetons Pièce: %1$s</string>
+	<string name="status_pirate_tokens">Jetons Pièces du Bateau Pirate: %1$s</string>
+	<string name="status_debt_tokens">Jetons Dette: %1$s</string>
+	<string name="status_victory_tokens">Jetons Victoire: %1$s</string>
 </resources>

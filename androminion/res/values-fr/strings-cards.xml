@@ -22,8 +22,6 @@
     <string name="Colony_desc"></string>
     <string name="Moat_name">Douves</string>
     <string name="Moat_desc">Lorsqu\'un adversaire joue une carte Attaque, vous pouvez dévoiler cette carte de votre main. Dans ce cas, l\'Attaque n\'a pas d\'effet sur vous.</string>
-   
-    
 	<!-- Base -->
     <string name="Adventurer_name">Aventurier</string>
     <string name="Adventurer_desc">Dévoilez des cartes de votre deck jusqu\'à ce que 2 cartes Trésor soient dévoilées. Ajoutez ces cartes Trésor à votre main et défaussez les autres cartes dévoilées.</string>
@@ -50,9 +48,9 @@
     <string name="Militia_name">Milice</string>
     <string name="Militia_desc">Tous vos adversaires défaussent leurs cartes de façon à n\'avoir que 3 cartes en main.</string>
     <string name="Mine_name">Mine</string>
-    <string name="Mine_desc">Écartez une carte Trésor de votre main. Recevez une carte Trésor coûtant jusqu\'à 3 Pièces de plus; ajoutez cette carte à votre main.</string>
+    <string name="Mine_desc">Vous pouvez écartez une carte Trésor de votre main. Recevez une carte Trésor coûtant jusqu\'à 3 Pièces de plus; ajoutez cette carte à votre main.</string>
     <string name="Moneylender_name">Prêteur sur Gages</string>
-    <string name="Moneylender_desc">Écartez une carte Cuivre de votre main. Dans ce cas, +3 Pièces.</string>
+    <string name="Moneylender_desc">Vous pouvez écartez une carte Cuivre de votre main pour +3 Pièces.</string>
     <string name="Remodel_name">Rénovation</string>
     <string name="Remodel_desc">Écartez une carte de votre main. Recevez une carte coûtant jusqu\'à 2 Pièces de plus que la carte écartée.</string>
     <string name="Smithy_name">Forgeron</string>
@@ -62,7 +60,7 @@
     <string name="Thief_name">Voleur</string>
     <string name="Thief_desc">Tous vos adversaires dévoilent les 2 premières cartes de leur deck. S\'ils dévoilent des cartes Trésor, ils en écartent 1 de votre choix. Parmi ces cartes Trésor écartées, recevez celles de votre choix. Les autres cartes dévoilées sont défaussées.</string>
     <string name="ThroneRoom_name">Salle du Trône</string>
-    <string name="ThroneRoom_desc">Choisissez 1 carte Action de votre main. Jouez-la deux fois.</string>
+    <string name="ThroneRoom_desc">Vous pouvez jouer une carte Action de votre main deux fois.</string>
     <string name="Village_name">Village</string>
     <string name="Village_desc"></string>
     <string name="Witch_name">Sorcière</string>
@@ -73,11 +71,23 @@
     <string name="Workshop_desc">Recevez une carte coûtant jusqu\'à 4 Pièces.</string>
     <string name="Gardens_name">Jardins</string>
     <string name="Gardens_desc">Vaut 1 PV pour chaque 10 cartes dans votre deck (arrondi à l\'unité inférieure).</string>
-
+    <string name="Artisan_name">Artisan</string>
+    <string name="Artisan_desc">Recevez une carte dans votre main coûtant un maximum de (5) Pièces. Placez une carte de votre main sur votre deck.</string>
+    <string name="Bandit_name">Bandit</string>
+    <string name="Bandit_desc">Recevez une carte Or. Vos adversaires révèlent chacun les 2 premières cartes de leur deck, écartent une carte Trésor révélée autre que Cuivre, et défaussent le reste.</string>
+    <string name="Harbinger_name">Présage</string>
+    <string name="Harbinger_desc">Regardez dans votre Défausse. Vous pouvez replacer une carte de celle-ci sur votre deck.</string>
+    <string name="Merchant_name">Marchand</string>
+    <string name="Merchant_desc">La première fois que vous jouez une carte Argent durant ce tour, +(1) Pièce.</string>
+    <string name="Poacher_name">Braconnier</string>
+    <string name="Poacher_desc">Défaussez une carte par pile vide de la réserve.</string>
+    <string name="Sentry_name">Sentinelle</string>
+    <string name="Sentry_desc">Regardez les 2 premières cartes de votre deck. Écartez et/ou défaussez-en autant que vous le souhaitez. Replacez le reste sur votre deck dans l\'ordre de votre choix.</string>
+    <string name="Vassal_name">Vassal</string>
+    <string name="Vassal_desc">Défaussez la première carte de votre deck. Si c\'est une carte Action, vous pouvez la jouer.</string>
 
 	<!-- L'Intrigue -->
-    <string name="Baron_name">Baron</string>
-    <string name="Baron_desc">Vous pouvez défausser une carte Domaine. Dans ce cas, obtenez +4 Pièces. Sinon, recevez une carte Domaine.</string>
+
     <string name="Torturer_name">Bourreau</string>
     <string name="Torturer_desc">Chacun de vos adversaires choisit : défausser 2 cartes OU recevoir une carte Malédiction qui est ajoutée à sa main.</string>
     <string name="SecretChamber_name">Chambre Secrète</string>
@@ -86,10 +96,16 @@
     <string name="Coppersmith_desc">Les cartes Cuivre donnent 1 Pièce de plus ce tour-ci.</string>
     <string name="TradingPost_name">Comptoir</string>
     <string name="TradingPost_desc">Écartez 2 cartes de votre main. Dans ce cas, recevez une carte Argent; ajoutez cette carte à votre main.</string>
-    <string name="Conspirator_name">Conspirateur</string>
-    <string name="Conspirator_desc">Si vous avez joué 3 cartes Action ou plus ce tour-ci (en comptant cette carte): +1 Carte, +1 Action.</string>
     <string name="Courtyard_name">Cour</string>
     <string name="Courtyard_desc">Placez une carte de votre main sur le dessus de votre deck.</string>
+    <string name="Harem_name">Harem</string>
+    <string name="Harem_desc"></string>
+	<string name="Baron_name">Baron</string>
+    <string name="Baron_desc">Vous pouvez défausser une carte Domaine. Dans ce cas, obtenez +4 Pièces. Sinon, recevez une carte Domaine.</string>
+    <string name="Bridge_name">Pont</string>
+    <string name="Bridge_desc">Toutes les cartes (incluant celles dans la main des joueurs) coûtent 1 Pièce de moins pour le reste de votre tour. Les cartes ne peuvent pas coûter moins de 0 Pièce.</string>
+    <string name="Conspirator_name">Conspirateur</string>
+    <string name="Conspirator_desc">Si vous avez joué 3 cartes Action ou plus ce tour-ci (en comptant cette carte): +1 Carte, +1 Action.</string>
     <string name="Duke_name">Duc</string>
     <string name="Duke_desc">Vaut 1 PV pour chaque Duché dans votre deck.</string>
     <string name="Scout_name">Éclaireur</string>
@@ -100,8 +116,6 @@
     <string name="Ironworks_desc">Recevez une carte coûtant jusqu\'à 4 Pièces. Si celle-ci est une :\n- carte Action: +1 Action;\n- carte Trésor: +1 Pièce;\n- carte Victoire: +1 Carte.</string>
     <string name="GreatHall_name">Grand Hall</string>
     <string name="GreatHall_desc"></string>
-    <string name="Harem_name">Harem</string>
-    <string name="Harem_desc"></string>
     <string name="Tribute_name">Hommage</string>
     <string name="Tribute_desc">Le joueur à votre gauche dévoile et défausse les 2 premières cartes de son deck. Pour chaque carte dévoilée ayant un nom différent, recevez pour une :\n- carte Action: +2 Actions;\n- carte Trésor: +2 Pièces;\n- carte Victoire: +2 Cartes.</string>
     <string name="Steward_name">Intendant</string>
@@ -109,15 +123,13 @@
     <string name="Minion_name">Larbin</string>
     <string name="Minion_desc">Choisissez:\n- +2 Pièces OU,\n- défaussez votre main, +4 Cartes, et tous les autres joueurs qui ont au moins 5 cartes en main défaussent leur main et piochent 4 cartes.</string>
     <string name="Masquerade_name">Mascarade</string>
-    <string name="Masquerade_desc">Chaque joueur passe simultanément une carte de sa main au joueur à sa gauche. Vous pouvez ensuite écarter une carte de votre main.</string>
+    <string name="Masquerade_desc">Simultanément, chaque joueur ayant au moins une carte en main en passe une au prochain joueur dans le même cas à sa gauche. Vous pouvez ensuite écarter une carte de votre main.</string>
     <string name="Upgrade_name">Mise à Niveau</string>
     <string name="Upgrade_desc">Écartez une carte de votre main. Recevez une carte coûtant exactement 1 Pièce de plus.</string>
     <string name="Nobles_name">Nobles</string>
     <string name="Nobles_desc">Choisissez: +3 Cartes OU +2 Actions.</string>
     <string name="Pawn_name">Pion</string>
     <string name="Pawn_desc">Choisissez deux options différentes: +1 Carte; +1 Action; +1 Achat; +1 Pièce.</string>
-    <string name="Bridge_name">Pont</string>
-    <string name="Bridge_desc">Toutes les cartes (incluant celles dans la main des joueurs) coûtent 1 Pièce de moins pour le reste de votre tour. Les cartes ne peuvent pas coûter moins de 0 Pièce.</string>
     <string name="WishingWell_name">Puits aux Souhaits</string>
     <string name="WishingWell_desc">Nommez une carte. Dévoilez la première carte de votre deck. Si c\'est la carte nommée, prenez-la dans votre main.</string>
     <string name="Saboteur_name">Saboteur</string>
@@ -126,6 +138,20 @@
     <string name="ShantyTown_desc">Dévoilez votre main. Si vous n\'avez aucune carte Action en main, +2 Cartes.</string>
     <string name="MiningVillage_name">Village Minier</string>
     <string name="MiningVillage_desc">Vous pouvez écarter immédiatement cette carte. Si vous l\'écartez, +2 Pièces.</string>
+    <string name="Courtier_name">Courtisan</string>
+    <string name="Courtier_desc">Révélez une carte de votre main. Pour chaque type dont elle fait partie (Action, Attaque, etc.), choisissez un effet: +1 Action; ou +1 Achat; ou +(3) Pièces; ou recevez une carte Or. Les choix doivent être différents.</string>
+    <string name="Patrol_name">Patrouille</string>
+    <string name="Patrol_desc">Révélez les 4 premières cartes de votre deck. Placez les cartes Victoire et Malédiction dans votre main. Replacez le reste dans n\'importe quel ordre sur votre deck.</string>
+    <string name="Replace_name">Substitution</string>
+    <string name="Replace_desc">Écartez une carte de votre main. Recevez une carte coûtant jusqu\'à (2) Pièces de plus que la carte écartée. Si la carte reçue est une Action ou un Trésor, placez-la sur votre deck. Si c\'est une carte Victoire, vos adversaires reçoivent une Malédiction chacun.</string>
+    <string name="Diplomat_name">Diplomate</string>
+    <string name="Diplomat_desc">Si vous avez 5 cartes ou moins dans votre main (après tirage), +2 Actions.  Quand un autre joueur joue une carte Attaque, vous pouvez d\'abord révéler ceci d\'une main de 5 cartes ou plus pour piocher 2 cartes et en défausser 3 de votre main.</string>
+    <string name="Mill_name">Moulin</string>
+    <string name="Mill_desc">Vous pouvez défausser 2 cartes pour +(2) Pièces.</string>
+	<string name="SecretPassage_name">Passage Secret</string>
+    <string name="SecretPassage_desc">Prenez une carte de votre main et placez-la n\'importe où dans votre deck.</string>
+    <string name="Lurker_name">Observateur</string>
+    <string name="Lurker_desc">Choisissez un effet: Écartez une carte Action de la réserve, ou recevez une carte Action du Rebut.</string>
 	<!-- Rivages -->
     <string name="Ambassador_name">Ambassadeur</string>
     <string name="Ambassador_desc">Dévoilez une carte de votre main. Replacez, de votre main à la réserve, jusqu\'à 2 exemplaires de cette carte. Ensuite, tous vos adversaires reçoivent un exemplaire de cette carte.</string>
@@ -464,7 +490,7 @@
     <string name="Butcher_name">Boucher</string>
     <string name="Butcher_desc">Prenez 2 jetons Pièce. Vous pouvez écarter une carte de votre main puis payer des jetons Pièce de votre réserve. Si vous avez écarté une carte, recevez une carte coûtant jusqu\'à la valeur de la carte écartée plus les jetons Pièce dépensés.</string>
     <string name="Baker_name">Boulanger</string>
-    <string name="Baker_desc">Prenez un jeton Pièce.\n------\nMise en place : chaque joueur prend un jeton Pièce.</string>
+    <string name="Baker_desc">Prenez un jeton Pièce.\n--------\nMise en place : chaque joueur prend un jeton Pièce.</string>
     <string name="Masterpiece_name">Chef d\'OEuvre</string>
     <string name="Masterpiece_desc">Si surcoût, vous recevez un Argent pour chaque Pièce que vous payez en plus.</string>
     <string name="CandlestickMaker_name">Cirier</string>
@@ -487,19 +513,6 @@
     <string name="Plaza_desc">Vous pouvez défausser une carte Trésor et prendre un jeton Pièce en échange.</string>
     <string name="StoneMason_name">Tailleur de Pierre</string>
     <string name="StoneMason_desc">Ecartez une carte de votre main. Recevez 2 cartes, chacune coûtant moins que la carte écartée.\n------\nSi surcoût : recevez 2 cartes Action coûtant chacune le surcoût que vous avec dépensé.</string>
-    <!-- Promo -->
-    <string name="Envoy_name">Délégué</string>
-    <string name="Envoy_desc">Dévoilez les 5 premières cartes de votre deck. Le joueur à votre gauche choisit une de ces cartes que vous devez défausser. Piochez les autres cartes.</string>
-    <string name="Governor_name">Gouverneur</string>
-    <string name="Governor_desc">Choisissez (vous prenez la version entre parenthèse) : +1 (+3) Cartes pour chaque joueur; OU chaque joueur reçoit un Argent (Or); OU chaque joueur peut écarter une carte de sa main et recevoir une carte coûtant exactement 1 Pièce (2 Pièces) de plus.</string>
-    <string name="BlackMarket_name">Marché Noir</string>
-    <string name="BlackMarket_desc">Dévoilez les 3 premières cartes du deck Marché Noir. Vous pouvez immédiatement acheter une de ces cartes. Placez les cartes non achetées dans l\'ordre de votre choix sous le deck Marché Noir.\n\n(Avant la partie, constituez un deck Marché Noir avec un exemplaire de chaque carte Royaume qui n\'est pas dans la réserve.)</string>
-    <string name="Prince_name">Prince</string>
-    <string name="Prince_desc">Vous pouvez mettre de côté cette carte. Dans ce cas, mettez aussi de côté une carte Action coûtant jusqu\'à 4 Pièces. Au début de chacun de vos tours, jouez cette carte Action, en la remettant de côté au lieu de la défausser en phase d\'ajustement (stoppez si vous ne pouvez pas remettre la carte de côté le même tour où vous l\'avez jouée).</string>
-    <string name="WalledVillage_name">Village Fortifié</string>
-    <string name="WalledVillage_desc">Au début de votre phase Ajustement, si vous avez cette carte et aucune autre carte Action en jeu, vous pouvez placez cette carte sur le dessus de votre deck.</string>
-    <string name="Stash_name">Cachette</string>
-    <string name="Stash_desc">Lorsque vous mélangez, vous pouvez placer cette carte où vous voulez dans votre deck.</string>
     
     <!-- Aventures -->
     <string name="Amulet_name">Amulette</string>
@@ -599,7 +612,7 @@
     <string name="Mission_desc">Une fois par tour: Si le tour précédent n\'était pas le vôtre, bénéficiez d\'un nouveau tour après celui-ci durant lequel vous ne pouvez acheter aucune carte.</string>
     <string name="Pathfinding_name">Reconnaissance</string>
     <string name="Pathfinding_desc">Placez votre jeton +1 Carte sur une pile de cartes Action de la Réserve (désormais, dès que vous jouez une carte de cette pile: +1 Carte).</string>
-    <string name="Pilgrimage_name">Pélerinage</string>
+    <string name="Pilgrimage_name">Pèlerinage</string>
     <string name="Pilgrimage_desc">Une fois par tour: Retournez votre jeton Voyage (face visible en début de partie). S\'il se retrouve face visible, choisissez jusqu\'à 3 cartes nommées différemment que vous avez dans votre zone de jeu et recevez un exemplaire de chaque.</string>
     <string name="Plan_name">Plan de Bataille</string>
     <string name="Plan_desc">Placez votre jeton Mise au Rebut sur une pile de cartes Action de la Réserve (désormais, lorsque vous achetez une carte de cette pile, vous pouvez écarter une carte de votre main).</string>
@@ -619,6 +632,187 @@
     <string name="Training_desc">Placez votre jeton +1 Pièce sur une pile de cartes Action de la Réserve (désormais, lorsque vous jouez une carte de cette pile, recevez +1 Pièce).</string>
     <string name="TravellingFair_name">Forains</string>
     <string name="TravellingFair_desc">À partir de maintenant et pour le reste de ce tour, vous pouvez placer toute carte reçue au dessus de votre deck.</string>
+
+    <!-- Empires -->	
+	<string name="Archive_name">Archives</string>
+    <string name="Archive_desc">Mettez de côté les 3 premières cartes de votre deck face cachée (vous pouvez les regarder). Immédiatement et au début de vos deux prochains tours, prenez-en une dans votre main.</string>
+    <string name="BustlingVillage_name">Village Florissant</string>
+    <string name="BustlingVillage_desc">Regardez dans votre pile de défausse. Vous pouvez y révéler une carte Colons et la prendre dans votre main.</string>
+    <string name="Capital_name">Capital</string>
+    <string name="Capital_desc">Lorsque vous défaussez cette carte de votre zone de jeu, vous prenez 6 jetons Dette, et vous pouvez rembourser des jetons Dette.</string>
+    <string name="Catapult_name">Catapulte</string>
+    <string name="Catapult_desc">Écartez une carte de votre main. Si elle coûte (3) Pièces ou plus, vos adversaires reçoivent chacun une Malédiction. Si c\'est une carte Trésor, chaque autre joueur défausse jusqu\'à ne conserver que 3 cartes dans sa main.</string>
+    <string name="ChariotRace_name">Course de Chars</string>
+    <string name="ChariotRace_desc">Révélez la première carte de votre deck et prenez-la dans votre main. Le joueur à votre gauche révèle la première carte de son deck. Si votre carte coûte plus, +(1) Pièce et +1 Jeton Victoire.</string>
+    <string name="Charm_name">Charme</string>
+    <string name="Charm_desc">Lorsque vous jouez cette carte, choisissez un effet:\n - +1 Achat et +(2) Pièces; OU\n - la prochaine fois que vous achetez une carte ce tour, vous pourrez aussi recevoir une carte nommée différemment et de même coût.</string>
+    <string name="CityQuarter_name">Quartier de Ville</string>
+    <string name="CityQuarter_desc">Révélez votre main. +1 Carte par carte Action révélée.</string>
+    <string name="Crown_name">Couronne</string>
+    <string name="Crown_desc">Si c\'est votre phase Action, vous pouvez jouer une carte Action de votre main deux fois. Si c\'est votre phase Achat, vous pouvez jouer une carte Trésor de votre main deux fois.</string>
+    <string name="Emporium_name">Halles</string>
+    <string name="Emporium_desc">Lorsque vous jouez cette carte, si vous avez au moins 5 cartes Action en jeu, +2 Jetons Victoire.</string>
+    <string name="Encampment_name">Campement</string>
+    <string name="Encampment_desc">Vous pouvez révéler une carte Or ou Rapine de votre main. Si vous ne le faites pas, mettez-la de côté, et remettez-la dans la Réserve au début de la phase Ajustement.</string>
+    <string name="Enchantress_name">Enchanteresse</string>
+    <string name="Enchantress_desc">Jusqu\'à votre prochain tour, la première fois que chaque autre joueur joue une carte Action à son tour, il obtient +1 carte et +1 Action au lieu d\'en suivre les instructions.</string>
+    <string name="Engineer_name">Ingénieur</string>
+    <string name="Engineer_desc">Recevez une carte coûtant jusqu\'à (4) Pièces. Vous pouvez écarter ceci. Si vous le faites, recevez une carte supplémentaire de coût supérieur ou égal à (4) Pièces.</string>
+    <string name="FarmersMarket_name">Marché Fermier</string>
+    <string name="FarmersMarket_desc">S\'il y a 4 Jetons Victoire ou plus sur la pile de réserve du Marché Fermier, prenez-les et écartez cette carte. Sinon, ajoutez un Jeton Victoire sur la pile et ensuite recevez +(1) Pièce par Jeton Victoire sur la pile.</string>
+    <string name="Forum_name">Forum</string>
+    <string name="Forum_desc">Défaussez 2 cartes.\n ----------------\n Quand vous achetez ceci, +1 Achat.</string>
+    <string name="Fortune_name">Fortune</string>
+    <string name="Fortune_desc">Quand vous jouez cette carte, doublez votre total de Pièces si vous ne l\'avez pas déjà fait ce tour.\n ---------------\n Lorsque vous recevez cette carte, gagnez une carte Or par carte Gladiateur que vous avez en jeu.</string>
+    <string name="Gladiator_name">Gladiateur</string>
+    <string name="Gladiator_desc">Révélez une carte de votre main. Le joueur à votre gauche peut en révéler un exemplaire provenant de sa main. S\'il ne le fait pas, +(1) Pièce et écartez une carte Gladiateur de la réserve.</string>
+    <string name="Groundskeeper_name">Gardien</string>
+    <string name="Groundskeeper_desc">Lorsque cette carte est en jeu, quand vous recevez une carte Victoire, +1 Jeton Victoire.</string>
+    <string name="Legionary_name">Légionnaire</string>
+    <string name="Legionary_desc">Vous pouvez révéler une carte Or de votre main. Si vous le faites, chaque autre joueur défausse jusqu\'à ne laisser que 2 cartes dans sa main, puis pioche une carte.</string>
+    <string name="Overlord_name">Suzerain</string>
+    <string name="Overlord_desc">Joué, le Suzerain se comporte comme une des cartes Action de la réserve coûtant au plus 5 Pièces. Il est cette carte Action jusqu\'à ce qu\'il quitte la zone de jeu.</string>
+    <string name="Patrician_name">Patricien</string>
+    <string name="Patrician_desc">Révélez la première carte de votre deck. Si elle coûte (5) Pièces ou plus, prenez-la dans votre main.</string>
+    <string name="Plunder_name">Rapine</string>
+    <string name="Plunder_desc"></string>
+    <string name="Rocks_name">Rocs</string>
+    <string name="Rocks_desc">Lorsque vous recevez ou écartez cette carte, vous recevez une carte Argent; si c\'est votre phase Achat, mettez cet Argent sur votre deck, sinon prenez-le en main.</string>
+    <string name="RoyalBlacksmith_name">Forgeron Royal</string>
+    <string name="RoyalBlacksmith_desc">Révélez votre main; défaussez les cartes Cuivre.</string>
+    <string name="Sacrifice_name">Sacrifice</string>
+    <string name="Sacrifice_desc">Écartez une carte de votre main.Si c\'est an&#8230; une carte Action, +2 Cartes et +2 Actions; une carte Trésor, +(2) Pièces; une carte Victoire et +2 Jetons Victoire</string>
+    <string name="Settlers_name">Colons</string>
+    <string name="Settlers_desc">Regardez dans votre pile de Défausse. Vous pouvez y révéler une carte Cuivre et la prendre dans votre main.</string>
+    <string name="Temple_name">Temple</string>
+    <string name="Temple_desc">Écartez 1 à 3 cartes nommées différemment de votre main. Ajoutez 1 Jeton Victoire à la pile Temple de la réserve.\n ------------\n Quand vous recevez cette carte, prenez les Jetons Victoire situés sur la pile Temple de la réserve.</string>
+    <string name="Villa_name">Villa</string>
+    <string name="Villa_desc">Lorsque vous recevez cette carte, mettez-la dans votre main, +1 Action, et si c\'est votre phase Achat, retournez à votre phase Action.</string>
+    <string name="WildHunt_name">Chasse Fantastique</string>
+    <string name="WildHunt_desc">Choisissez un effet: +3 Cartes et ajoutez un Jeton Victoire à la pile Chasse Fantastique de la réserve; OU recevez une carte Domaine, et si vous le faites, prenez les Jetons Victoire situés sur la pile.</string>
+        
+    <string name="CatapultRocks_name">Catapulte/Rocs</string>
+    <string name="CatapultRocks_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Catapulte sur le dessus, puis 5 exemplaires de la carte Roc. Seule la carte du dessus de la pile peut être reçue ou achetée.</string>
+    <string name="EncampmentPlunder_name">Campement/Rapine</string>
+    <string name="EncampmentPlunder_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Campement sur le dessus, puis 5 exemplaires de la carte Rapine. Seule la carte du dessus de la pile peut être reçue ou achetée.</string>
+    <string name="GladiatorFortune_name">Gladiateur/Fortune</string>
+    <string name="GladiatorFortune_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Gladiateur sur le dessus, puis 5 exemplaires de la carte Fortune. Seule la carte du dessus de la pile peut être reçue ou achetée.</string>
+    <string name="PatricianEmporium_name">Patricien/Halles</string>
+    <string name="PatricianEmporium_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Patricien sur le dessus, puis 5 exemplaires de la carte Halles. Seule la carte du dessus de la pile peut être reçue ou achetée.</string>
+    <string name="SettlersBustlingVillage_name">Colons/Village Florissant</string>
+    <string name="SettlersBustlingVillage_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Colons sur le dessus, puis 5 exemplaires de la carte Village Florissant. Seule la carte du dessus de la pile peut être reçue ou achetée.</string>
+    <string name="Castles_name">Châteaux</string>
+    <string name="Castles_desc">Triez la pile Châteaux par coût, en mettant les cartes les plus coûteuses en dessous. Pour un jeu à 2 joueurs, utilisez seulement un exemplaire de chaque Château. Seule la carte du dessus de la pile peut être reçue ou achetée.</string>
+        
+    <string name="HumbleCastle_name">Humble Château</string>
+    <string name="HumbleCastle_desc">Vaut 1 PV par Château que vous possédez.</string>
+    <string name="CrumblingCastle_name">Château Délabré</string>
+    <string name="CrumblingCastle_desc">Lorsque vous recevez ou écartez cette carte, +1 Jeton Victoire et recevez une carte Argent.</string>
+    <string name="SmallCastle_name">Petit Château</string>
+    <string name="SmallCastle_desc">Écartez cette carte ou un Château de votre main. Si vous le faites, vous recevez une carte Château.</string>
+    <string name="HauntedCastle_name">Château Hanté</string>
+    <string name="HauntedCastle_desc">Lorsque vous recevez cette carte pendant votre tour, gagnez une carte Or, et chaque adversaire avec 5 cartes ou plus en main met 2 cartes de sa main sur son deck.</string>
+    <string name="OpulentCastle_name">Château Opulent</string>
+    <string name="OpulentCastle_desc">Défaussez autant de cartes Victoire que vous le souhaitez. +(2) Pièces par carte défaussée.</string>
+    <string name="SprawlingCastle_name">Vaste Château</string>
+    <string name="SprawlingCastle_desc">Lorsque vous recevez cette carte, recevez également une carte Duché ou 3 cartes Domaine.</string>
+    <string name="GrandCastle_name">Château Grandiose</string>
+    <string name="GrandCastle_desc">Lorsque vous recevez cette carte, révélez votre main. +1 Jeton Victoire par carte Victoire dans votre main et/ou en jeu.</string>
+    <string name="KingsCastle_name">Château Royal</string>
+    <string name="KingsCastle_desc">Vaut 2 PV par château que vous possédez.</string>
+    
+    <string name="Advance_name">Adoubement</string>
+    <string name="Advance_desc">Vous pouvez écarter une carte Action de votre main. Si vous le faites, recevez une carte Action coûtant (6) Pièces ou moins.</string>
+    <string name="Annex_name">Annexion</string>
+    <string name="Annex_desc">Regardez dans votre pile de Défausse. Mélangez les cartes de la défausse à votre deck à l'exception de 0 à 5 cartes de votre choix qui restent dans la défausse. Gagnez une carte Duché.</string>
+    <string name="Banquet_name">Banquet</string>
+    <string name="Banquet_desc">Recevez 2 cartes Cuivre et une carte non-Victoire coûtant au plus (5) Pièces.</string>
+    <string name="Conquest_name">Conquête</string>
+    <string name="Conquest_desc">Recevez 2 cartes Argent. +1 Jeton Victoire par carte Argent que vous avez reçue durant ce tour.</string>
+    <string name="Delve_name">Fouille</string>
+    <string name="Delve_desc">Recevez une carte Argent.</string>
+    <string name="Dominate_name">Domination</string>
+    <string name="Dominate_desc">Recevez une carte Province. Si c\'est le cas, +9 Jetons Victoire.</string>
+    <string name="Donate_name">Donation</string>
+    <string name="Donate_desc">Après ce tour, prenez toutes les cartes de votre deck et de la défausse dans votre main, écartez-en autant que vous le souhaitez, mélangez le reste de votre main pour reconstituer le deck, puis piochez 5 cartes.</string>
+    <string name="Ritual_name">Rituel</string>
+    <string name="Ritual_desc">Recevez une carte Malédiction. Si c\'est le cas, écartez une carte de votre main. +1 Jeton Victoire par Pièce qu\'elle coûte.</string>
+    <string name="SaltTheEarth_name">Salage de la Terre</string>
+    <string name="SaltTheEarth_desc">Écartez une carte Victoire de la réserve.</string>
+    <string name="Tax_name">Taxe</string>
+    <string name="Tax_desc">Ajoutez 2 Jetons Dette à une pile de la réserve.\n -----------------\n Mise en place: Ajoutez 1 Jeton Dette à chaque pile de la Réserve. Quand un joueur achète une carte, il prend les Jetons Dette de sa pile.</string>
+    <string name="Triumph_name">Triomphe</string>
+    <string name="Triumph_desc">Recevez une carte Domaine. Si c\'est le cas, +1 Jeton Victoire par carte que vous avez reçue durant ce tour.</string>
+    <string name="Wedding_name">Noces</string>
+    <string name="Wedding_desc">Recevez une carte Or.</string>
+    <string name="Windfall_name">Aubaine</string>
+    <string name="Windfall_desc">Si votre deck et votre défausse sont vides, recevez 3 cartes Or.</string>
+        
+    <string name="Aqueduct_name">Aqueduc</string>
+    <string name="Aqueduct_desc">Lorsque vous recevez une carte Trésor, déplacez 2 Jeton Victoire de sa pile vers l'Aqueduc. Lorsque vous recevez une carte Victoire, prenez les Jetons Victoire situés sur l'Aqueduc.\n --------------\n Mise en place: Placez 8 Jetons Victoire sur les piles de cartes Or et Argent.</string>
+    <string name="Arena_name">Arène</string>
+    <string name="Arena_desc">Au début de votre phase Achat, vous pouvez défausser une carte Action. Si vous le faites, prenez 2 Jetons Victoire de l'Arène.\n -------------\n Mise en place: Placez 6 Jetons Victoire par joueur sur l\'Arène.</string>
+    <string name="BanditFort_name">Fortin de Bandits</string>
+    <string name="BanditFort_desc">Au décompte des scores, -2 PV pour chaque carte Or et chaque carte Argent que vous possédez.</string>
+    <string name="Basilica_name">Basilique</string>
+    <string name="Basilica_desc">Lorsque vous achetez une carte, s\'il vous reste (2) Pièces ou plus, prenez 2 Jetons Victoire de la Basilique.\n ------------\n Mise en place: Placez 6 Jetons Victoire par joueur sur la Basilique.</string>
+    <string name="Baths_name">Bains</string>
+    <string name="Baths_desc">Lorsque vous finissez votre tour sans avoir reçu la moindre carte, prenez 2 Jetons Victoire des Bains.\n -----------\n Mise en place: Placez 6 Jetons Victoire par joueur sur les Bains.</string>
+    <string name="Battlefield_name">Champ de Bataille</string>
+    <string name="Battlefield_desc">Lorsque vous recevez une carte Victoire, prenez 2 Jetons Victoire du Champ de Bataille.\n ------------\n Mise en place: Mettez 6 Jetons Victoire par joueur sur le Champ de Bataille.</string>
+    <string name="Colonnade_name">Colonnade</string>
+    <string name="Colonnade_desc">Lorsque vous achetez une carte Action, si vous avez un exemplaire de celle-ci en jeu, prenez 2 Jetons Victoire de la Colonnade.\n ------------\n Mise en place: Placez 6 Jetons Victoire par joueur sur la Colonnade.</string>
+    <string name="DefiledShrine_name">Sanctuaire Souillé</string>
+    <string name="DefiledShrine_desc">Lorsque vous recevez une carte Action, déplacez 1 Jeton Victoire de sa pile vers le Sanctuaire Souillé. Lorsque vous achetez une carte Malédiction, prenez les Jetons Victoire du Sanctuaire Souillé.\n ----------\n Mise en place: Placez 2 Jetons Victoire sur chaque pile de cartes hors Collecte de la réserve.</string>
+    <string name="Fountain_name">Fontaine</string>
+    <string name="Fountain_desc">Au décompte des scores, 15 PV si vous avez au moins 10 cartes Cuivre.</string>
+    <string name="Keep_name">Bastion</string>
+    <string name="Keep_desc">Au décompte des scores, le joueur ayant le plus grand nombre de types différents de cartes Trésor reçoit 5 PV pour chaque type de Trésor qu\'il possède. Si il y a des ex aequos, chacun d\'eux reçoit le bonus.</string>
+    <string name="Labyrinth_name">Labyrinthe</string>
+    <string name="Labyrinth_desc">Lorsque vous recevez une deuxième carte durant un de vos tours, prenez 2 Jetons Victoire du Labyrinthe.\n ------------\n Mise en place: Placez 6 Jetons Victoire par joueur sur le Labyrinthe.</string>
+    <string name="MountainPass_name">Gorge</string>
+    <string name="MountainPass_desc">Après le tour où vous êtes le premier à recevoir une carte Province, chaque joueur fait une fois une offre d\'endettement, allant de 0 à 40 Jetons Dette, en commençant par le joueur à votre gauche et en finissant par vous. L'enchérisseur avec l\'offre la plus haute, remporte 8 Jetons Victoire et reçoit les Jetons Dette correspondant à son offre.</string>
+    <string name="Museum_name">Musée</string>
+    <string name="Museum_desc">Au décompte des scores, 2 PV par carte nommée différemment que vous possédez.</string>
+    <string name="Obelisk_name">Obélisque</string>
+    <string name="Obelisk_desc">Au décompte des scores, 2 PV par carte que vous possédez de la Pile sélectionnée.\n -------------\n Mise en place: Désignez aléatoirement une pile de cartes Action de la réserve.</string>
+    <string name="Orchard_name">Verger</string>
+    <string name="Orchard_desc">Au décompte des scores, 4 PV pour chaque carte Action nommée différemment dont vous avez 3 ou plus exemplaires.</string>
+    <string name="Palace_name">Palace</string>
+    <string name="Palace_desc">Au décompte des scores, 3 PV par trio de cartes Cuivre - Argent - Or que vous possédez.</string>
+    <string name="Tomb_name">Tombe</string>
+    <string name="Tomb_desc">Lorsque vous écartez une carte, +1 Jeton Victoire.</string>
+    <string name="Tower_name">Tour</string>
+    <string name="Tower_desc">Au décompte des scores, 1 PV par carte non-Victoire dont la pile en réserve est vide et que vous possédez.</string>
+    <string name="TriumphalArch_name">Arc de Triomphe</string>
+    <string name="TriumphalArch_desc">Au décompte des scores, 3 PV par exemplaire que vous possédez de la deuxième carte Action la plus fréquente parmi vos cartes (si il y a une égalité, choisissez).</string>
+    <string name="Wall_name">Enceinte</string>
+    <string name="Wall_desc">Au décompte des scores, -1 PV par carte que vous possédez au-delà des 15 premières.</string>
+    <string name="WolfDen_name">Tanière de Loup</string>
+    <string name="WolfDen_desc">Au décompte des scores, -3 PV par carte dont vous possédez exactement 1 exemplaire.</string>
+    
+ 
+    <!-- Promo -->
+    <string name="Envoy_name">Délégué</string>
+    <string name="Envoy_desc">Dévoilez les 5 premières cartes de votre deck. Le joueur à votre gauche choisit une de ces cartes que vous devez défausser. Piochez les autres cartes.</string>
+    <string name="Governor_name">Gouverneur</string>
+    <string name="Governor_desc">Choisissez (vous prenez la version entre parenthèses) : +1 (+3) Cartes pour chaque joueur; OU chaque joueur reçoit un Argent (Or); OU chaque joueur peut écarter une carte de sa main et recevoir une carte coûtant exactement 1 Pièce (2 Pièces) de plus.</string>
+    <string name="WalledVillage_name">Village Fortifié</string>
+    <string name="WalledVillage_desc">Au début de votre phase Ajustement, si vous avez cette carte et aucune autre carte Action en jeu, vous pouvez placez cette carte sur le dessus de votre deck.</string>
+    <string name="BlackMarket_name">Marché Noir</string>
+    <string name="BlackMarket_desc">Dévoilez les 3 premières cartes du deck Marché Noir. Vous pouvez immédiatement acheter une de ces cartes. Placez les cartes non achetées dans l\'ordre de votre choix sous le deck Marché Noir.\n\n(Avant la partie, constituez un deck Marché Noir avec un exemplaire de chaque carte Royaume qui n\'est pas dans la réserve.)</string>
+    <string name="Prince_name">Prince</string>
+    <string name="Prince_desc">Vous pouvez mettre de côté cette carte. Dans ce cas, mettez aussi de côté une carte Action coûtant jusqu\'à 4 Pièces. Au début de chacun de vos tours, jouez cette carte Action, en la remettant de côté au lieu de la défausser en phase d\'ajustement (stoppez si vous ne pouvez pas remettre la carte de côté le même tour où vous l\'avez jouée).</string>
+    <string name="Stash_name">Cachette</string>
+    <string name="Stash_desc">Lorsque vous mélangez, vous pouvez placer cette carte où vous voulez dans votre deck.</string> 
+    <string name="Sauna_name">Sauna</string>
+    <string name="Sauna_desc">Vous pouvez jouer une carte Avanto de votre main.\n -----------\n Lorsque cette carte est en jeu, quand vous jouez une carte Argent, vous pouvez écarter une carte de votre main.</string>
+    <string name="Avanto_name">Avanto</string>
+    <string name="Avanto_desc">Vous pouvez jouer une carte Sauna de votre main.</string>
+
+    <string name="SaunaAvanto_name">Sauna/Avanto</string>
+    <string name="SaunaAvanto_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Sauna sur le dessus, puis 5 exemplaires de la carte Avanto. Seule la carte du dessus peut être reçue ou achetée.</string>
+    
     <string name="Summon_name">Invocation</string>
     <string name="Summon_desc">Recevez une carte Action coûtant au maximum 4 Pièces et placez-la de côté. Si elle y est toujours au début de votre prochain tour, jouez-la.</string>
     
