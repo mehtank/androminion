@@ -407,7 +407,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.mine_treasureToObtain(context, maxCost, maxDebtCost, potion);
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure().maxCost(maxCost).maxDebtCost(maxDebtCost)
-                .maxPotionCost(potion ? 1 : 0).setCardResponsible(Cards.mine);
+                .maxPotionCost(potion ? 1 : 0).setActionType(ActionType.GAIN).setCardResponsible(Cards.mine);
         return getFromTable(context, sco);
     }
 

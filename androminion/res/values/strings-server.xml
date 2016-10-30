@@ -406,7 +406,10 @@
 	<string name="lurker_trashActionFromSupply">Trash an Action card from the Supply</string>
 	<string name="lurker_cardToTrashFromSupply">trash</string>
 	
-	<string name="mine_part">mine to</string>
+	<string name="mine_part">upgrade [Mine]</string>
+	<string name="mint_part">gain a copy [Mint]</string>	
+	<string name="contraband_part">not be bought this turn [Contraband]</string>
+	<string name="embargo_part">embargo</string>
 
 	<string name="throne_room_part">play 2 times</string>
 	<string name="kings_court_part">play 3 times</string>

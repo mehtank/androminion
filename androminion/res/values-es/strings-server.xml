@@ -389,8 +389,23 @@
 	<string name="island_part">poner sobre el tablero de Isla</string>
 
 	<string name="masquerade_part">pasar a tu izquierda</string>
+	
+	<string name="courtier_ask_reveal">revelar</string>
+	<string name="secretPassage_cardToPutInDeck">colocar en tu mazo</string>
+	<string name="secretPassage_query">Ponerla %1$s en tu mazo [Pasaje Secreto]</string>
 
-	<string name="mine_part">minar</string>
+	<string name="courtier_option_add_action">+1 Acción</string>
+	<string name="courtier_option_add_buy">+1 Compra</string>
+	<string name="courtier_option_add_coins">+(3) Monedas</string>
+	<string name="courtier_option_gain_gold">Ganar una carta de Oro</string>
+	<string name="lurker_gainFromTrash">Ganar una carta de Acción de entre las eliminadas</string>
+	<string name="lurker_trashActionFromSupply">Eliminar una carta de Acción del Suministro</string>
+	<string name="lurker_cardToTrashFromSupply">eliminar</string>
+
+	<string name="mine_part">mejorar [Mina]</string>
+	<string name="mint_part">ganar una copia [Acuñador]</string>	
+	<string name="contraband_part">no ser comprada en este turno [Contrabando]</string>
+	<string name="embargo_part">ponerle un marcador de Embargo</string>
 	
 	<string name="throne_room_part">jugar 2 veces</string>
   	<string name="kings_court_part">jugar 3 veces</string>

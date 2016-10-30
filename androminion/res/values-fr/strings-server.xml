@@ -347,9 +347,7 @@
 	<!-- Marchand d\'Épices -->
 	<string name="spice_merchant_option_one">+2 Cartes et +1 Action</string>
 	<string name="spice_merchant_option_two">+(2) Pièces et +1 Achat</string>
-	
-	<string name="watch_tower_option_one">Ne pas révéler</string>
-	<string name="watch_tower_option_three">Dessus du deck</string>
+
 	<!-- Bouffon -->
 	<string name="jester_option_one">Recevoir une copie pour vous</string>
 	<string name="jester_option_two">Donner une copie à %1$s</string>
@@ -410,7 +408,7 @@
 	<!-- Hotel de la monnaie -->
 	<string name="mint_part">dupliquer [Hôtel de la Monnaie]</string>	
 	<!-- Contrebande -->
-	<string name="contraband_part">interdire à %1$s à l\'achat pendant ce tour [Contrebande]</string>	
+	<string name="contraband_part">interdire au joueur à l\'achat pendant ce tour [Contrebande]</string>
 	<!-- Salle du Trône -->
 	<string name="throne_room_part">jouer 2 fois</string>
     <!--Cour du Roi -->

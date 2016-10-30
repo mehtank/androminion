@@ -1596,8 +1596,8 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.courtyard),
                             Strings.format(R.string.courtyard_part_top_of_deck,
                                            getCardName(Cards.courtyard)));
-        actionStringMap.put(getCardName(Cards.contraband), getCardName(Cards.contraband));
-        actionStringMap.put(getCardName(Cards.embargo), getCardName(Cards.embargo));
+        actionStringMap.put(getCardName(Cards.contraband), getString(R.string.contraband_part));
+        actionStringMap.put(getCardName(Cards.embargo), getString(R.string.embargo_part));
         actionStringMap.put(getCardName(Cards.followers), getString(R.string.followers_part));
         actionStringMap.put(getCardName(Cards.ghostShip), getString(R.string.ghostship_part));
         actionStringMap.put(getCardName(Cards.goons), getString(R.string.goons_part));
@@ -1613,7 +1613,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.mandarin), getString(R.string.mandarin_part));
         actionStringMap.put(getCardName(Cards.margrave), getString(R.string.margrave_part));
         actionStringMap.put(getCardName(Cards.militia), getString(R.string.militia_part));
-        actionStringMap.put(getCardName(Cards.mint), getCardName(Cards.mint));
+        actionStringMap.put(getCardName(Cards.mint), getString(R.string.mint_part));
         actionStringMap.put(getCardName(Cards.overlord), getString(R.string.part_play));
         actionStringMap.put(getCardName(Cards.saboteur), getString(R.string.saboteur_part));
         actionStringMap.put(getCardName(Cards.save), getString(R.string.save_part));
@@ -1648,9 +1648,9 @@ public class Strings {
         // include some dynamic information from the select card options in the string.
         if (cardName.equals(getCardName(Cards.mine))) {
             if (sco.pickType == PickType.UPGRADE) {
-                return getCardName(Cards.mine);
-            } else {
                 return getString(R.string.mine_part);
+            } else {
+                return getActionString(sco);
             }
         } else if (cardName.equals(getCardName(Cards.artisan))) {
         	if (sco.actionType == ActionType.GAIN) {
