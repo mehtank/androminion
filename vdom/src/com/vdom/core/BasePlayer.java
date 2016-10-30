@@ -3491,6 +3491,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     public Card call_whenGainCardToCall(MoveContext context, Card gainedCard, Card[] possibleCards) {
     	// only possible cards to call here are Duplicate or Estate (behaving like a Duplicate)
+    	for (Card c : possibleCards) {
+    		if (!(c.equals(Cards.duplicate) || c.equals(Cards.estate)))
+    			return c;
+    	}
+    	// Don't call if we can't gain a copy 
+    	if (!Cards.isSupplyCard(gainedCard)) return null;
+    	CardPile pile = context.game.getPile(gainedCard);
+    	if (game.isPileEmpty(gainedCard) || !gainedCard.equals(pile.topCard())) {
+    		return null;
+    	}
+    	
     	//don't duplicate trash (TODO: estate might not be trash with Inheritance)
     	for (Card c : getTrashCards()) {
     		if (c.equals(gainedCard))

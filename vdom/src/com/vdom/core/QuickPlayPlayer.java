@@ -898,7 +898,13 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     }
     
     public boolean shouldAutoPlay_call_whenGainCardToCall(MoveContext context, Card gainedCard, Card[] possibleCards) {
-    	return false;
+    	for (Card c : possibleCards) {
+    		if (!(c.equals(Cards.duplicate) || c.equals(Cards.estate)))
+    			return false;
+    	}
+    	if (!Cards.isSupplyCard(gainedCard)) return true;
+    	CardPile pile = context.game.getPile(gainedCard);
+    	return game.isPileEmpty(gainedCard) || !gainedCard.equals(pile.topCard());
     }
     
     public boolean shouldAutoPlay_call_whenActionResolveCardToCall(MoveContext context, Card resolvedCard, Card[] possibleCards) {
