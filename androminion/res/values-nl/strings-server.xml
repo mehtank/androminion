@@ -262,8 +262,6 @@
 
   <string name="game_over_vps"> Punten</string>
 
-  <string name="coin_worth_single">(%1$s) Geld waard</string>
-  <string name="coin_worth_multiple">(%1$s) Geld waard</string>
   <string name="Cartographer_query">Kies af te leggen kaart</string>
   <string name="cards">Kaarten</string>
   <string name="return_cards">Leg kaarten op je trekstapel:</string>

@@ -451,9 +451,6 @@
 
     <string name="game_over_vps"> PVs</string>
     <string name="victory_tokens">Jetons Victoire</string>
-        
-    <string name="coin_worth_single">Vaut (%1$s) Pièce</string>
-    <string name="coin_worth_multiple">Vaut (%1$s) Pièces</string>
 
     <!-- Cartographe -->
     <string name="Cartographer_query">Sélectionner une carte à défausser</string>

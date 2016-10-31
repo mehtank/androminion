@@ -446,8 +446,6 @@
 	<string name="game_over_vps">SP</string>
 	<string name="victory_tokens">Punktemarker</string>
 	
-	<string name="coin_worth_single">Wert: (%1$s) Geld</string>
-	<string name="coin_worth_multiple">Wert: (%1$s) Geld</string>
 	<string name="Cartographer_query">Wähle Karte zum Abwerfen</string>
 	<string name="cards">Karten</string>
 	<string name="return_cards">Auf den Nachziehstapel zurücklegen:</string>

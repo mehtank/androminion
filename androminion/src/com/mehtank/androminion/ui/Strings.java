@@ -475,9 +475,9 @@ public class Strings {
             else if (c.getAddBuys() > 0) ret = Strings.format(R.string.card_buy_single, "" + c.getAddBuys()) + "\n" + ret;
         	int value = c.getAddGold();
         	if (value == 1)
-        		ret = Strings.format(R.string.coin_worth_single, "" + value) + "\n" + ret;
-        	else
-        		ret = Strings.format(R.string.coin_worth_multiple, "" + value) + "\n" + ret;
+        		ret = Strings.format(R.string.card_coin_single, value) + "\n" + ret;
+        	else if (value > 1)
+        		ret = Strings.format(R.string.card_coin_multiple, value) + "\n" + ret;
         	if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
             else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }

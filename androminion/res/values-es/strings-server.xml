@@ -446,9 +446,7 @@
 
   <string name="game_over_vps"> PVs</string>
   <string name="victory_tokens">Fichas de PV</string>
-
-  <string name="coin_worth_single">Vale (%1$s) Moneda</string>
-  <string name="coin_worth_multiple">Vale (%1$s) Monedas</string>
+  
   <string name="Cartographer_query">Elije una carta para descartar</string>
   <string name="cards">Cartas</string>
   <string name="return_cards">Devolver las cartas al mazo:</string>

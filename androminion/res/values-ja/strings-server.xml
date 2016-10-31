@@ -305,8 +305,6 @@
 
   <string name="game_over_vps"> 勝利点</string>
 
-  <string name="coin_worth_single">(%1$s) コイン</string>
-  <string name="coin_worth_multiple">(%1$s) コイン</string>
   <string name="Cartographer_query">捨て札にするカードを選択</string>
   <string name="cards">カード</string>
   <string name="return_cards">山札にカードを戻す:</string>

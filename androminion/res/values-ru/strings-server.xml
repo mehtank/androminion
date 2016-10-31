@@ -262,8 +262,6 @@
 
   <string name="game_over_vps"> ПО</string>
 
-  <string name="coin_worth_single">Стоит (%1$s) монет</string>
-  <string name="coin_worth_multiple">Стоит (%1$s) монет</string>
   <string name="Cartographer_query">Выберите карту чтоб сбросить</string>
   <string name="cards">Карты</string>
   <string name="return_cards">Верните карты в колоду:</string>
