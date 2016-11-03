@@ -68,7 +68,6 @@ public class MyCard implements Serializable {
 		this.name = name;
 		this.originalSafeName = originalSafeName;
 		this.originalName = originalName;
-		this.isKnight = originalName.equals("VirtualKnight");
 	}
 	
 	/* This method is now unused. It had been copied to CardView.java

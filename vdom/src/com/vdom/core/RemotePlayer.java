@@ -114,6 +114,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.isEvent = c.is(Type.Event, null);
         card.isReserve = c.is(Type.Reserve, null);
         card.isTraveller = c.is(Type.Traveller, null);
+        card.isKnight = c.is(Type.Knight, null);
         card.isCastle = c.is(Type.Castle, null);
         card.isGathering = c.is(Type.Gathering, null);
         card.isLandmark = c.is(Type.Landmark, null);
