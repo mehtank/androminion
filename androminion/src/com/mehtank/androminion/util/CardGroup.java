@@ -169,7 +169,9 @@ public class CardGroup extends BaseAdapter {
                 cs.c.isAttack = uci.card.is(Type.Attack);
                 cs.c.isCastle = uci.card.is(Type.Castle);
                 cs.c.isKnight = uci.card.is(Type.Knight);
-                cs.c.expansion = uci.card.getExpansion().name();
+                if (uci.card.getExpansion() != null) {
+                    cs.c.expansion = uci.card.getExpansion().name();
+                }
 
             }
         }
