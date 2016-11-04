@@ -7,4 +7,15 @@
     <string name="host_local">Lokales Spiel</string>
     <string name="host_remote">Mehrspieler</string>
 
+    <string name="enter_host_and_port">Server und Port</string>
+    <string name="your_name">Dein Name:</string>
+    <string name="host">Servername oder IP-Adresse:</string>
+    <string name="port">Port:</string>
+
+    <string name="connection_failed">Verbindung fehlgeschlagen!</string>
+    <string name="stream_corrupted">Daten korrupt.</string>
+    <string name="unknown_host">Unbekannter Server. Überprüfe Einstellungen.</string>
+    <string name="network_unreachable">Netzwerk nicht erreichbar oder Server hat Verbindung abgelehnt.</string>
+    <string name="io_error">IO Fehler.</string>
+    
 </resources>

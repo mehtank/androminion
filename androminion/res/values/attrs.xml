@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="player1TextBackgroundColor" format="reference" />
+    <attr name="player2TextBackgroundColor" format="reference" />
+    <attr name="player3TextBackgroundColor" format="reference" />
+    <attr name="player4TextBackgroundColor" format="reference" />
+    <attr name="player5TextBackgroundColor" format="reference" />
+    <attr name="player6TextBackgroundColor" format="reference" />
+    <attr name="stashTextColor" format="reference" />
+</resources>

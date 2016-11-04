@@ -20,14 +20,16 @@
 
 	<string name="vp_single">%1$s Overwinningspunt waard</string>
 	<string name="vp_multiple">%1$s Overwinningspunten waard</string>
-	<string name="coin_next_turn">+(%1$s) Geld in de volgende beurt</string>
+	<string name="coin_next_turn_single">+(%1$s) Geld in de volgende beurt</string>
+	<string name="coin_next_turn_multiple">+(%1$s) Geld in de volgende beurt</string>
 	<string name="buy_next_turn_single">+%1$s Aanschaf in de volgende beurt</string>
 	<string name="buys_next_turn_multiple">+%1$s Aanschaffen in de volgende beurt</string>
 	<string name="card_next_turn_single">+%1$s Kaart in de volgende beurt</string>
 	<string name="cards_next_turn_multiple">+%1$s Kaarten in de volgende beurt</string>
 	<string name="action_next_turn_single">+%1$s Actie in de volgende beurt</string>
 	<string name="actions_next_turn_multiple">+%1$s Acties in de volgende beurt</string>
-	<string name="card_coin">+(%1$s) Geld</string>
+	<string name="card_coin_single">+(%1$s) Geld</string>
+	<string name="card_coin_multiple">+(%1$s) Geld</string>
 	<string name="card_buy_single">+%1$s Aanschaf</string>
 	<string name="card_buys_multiple">+%1$s Aanschaffen</string>
 	<string name="card_action_single">+%1$s Actie</string>
@@ -88,10 +90,9 @@
 	<string name="NewHand">Nieuwe hand</string>
 	<string name="TurnBegin">Start beurt</string>
 	<string name="TurnEnd">Einde beurt</string>
-	<string name="PlayingAction">Speelt</string>
-	<string name="PlayedAction">Gespeeld</string>
+	<string name="PlayingCard">Speelt</string>
+	<string name="PlayedCard">Gespeeld</string>
 	<string name="PlayingDurationAction">Uit vorige beurt</string>
-	<string name="PlayingCoin">Speelt</string>
 	<string name="BuyingCard">Koopt</string>
 	<string name="NoBuy">(Geen Aanschaf)</string>
 	<string name="DeckReplenished">Trekstapel leeg</string>
@@ -261,7 +262,6 @@
 
   <string name="game_over_vps"> Punten</string>
 
-  <string name="coin_worth">(%1$s) Geld waard</string>
   <string name="Cartographer_query">Kies af te leggen kaart</string>
   <string name="cards">Kaarten</string>
   <string name="return_cards">Leg kaarten op je trekstapel:</string>

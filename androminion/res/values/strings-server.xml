@@ -8,27 +8,34 @@
 	<string name="select_from_table_max_treasure">Select a treasure card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
 	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
-	<string name="torturer_option_one">Take a curse</string>
+	<string name="torturer_option_one">Take a curse into hand</string>
 	<string name="torturer_option_two">Discard two cards</string>
-	<string name="chancellor_query">Discard entire deck</string>
+	<string name="chancellor_query">Put your deck into your discard pile</string>
 	<string name="inn_option_one">Shuffle into deck</string>
 	<string name="inn_option_two">Leave in discard</string>
 	<string name="tunnel_query">Discarding Tunnel</string>
 	<string name="tunnel_option_one">Reveal for Gold</string>
+	<string name="settlers_query">Put Copper from discard into hand</string>
+	<string name="bustlingVillage_query">Put Settlers from discard into hand</string>
+	<string name="reveal_copy">Reveal copy from hand</string>
+	<string name="legionary_reveal_gold">Reveal Gold to attack</string>
+	<string name="sentry_look_at">%1$s looking at %2$s (from %3$s)</string>
 	
 	<string name="join_timed_out">Timed out waiting for player to join and start game.</string>
 	<string name="response_timed_out">Timed out waiting for player to join and respond to query.</string>
 	
 	<string name="vp_single">Worth %1$s VP</string>
 	<string name="vp_multiple">Worth %1$s VPs</string>
-	<string name="coin_next_turn">+(%1$s) Coin next turn</string>
-	<string name="buy_next_turn_single">+%1$s Buys next turn</string>
+	<string name="coin_next_turn_single">+(%1$s) Coin next turn</string>
+	<string name="coin_next_turn_multiple">+(%1$s) Coins next turn</string>
+	<string name="buy_next_turn_single">+%1$s Buy next turn</string>
 	<string name="buys_next_turn_multiple">+%1$s Buys next turn</string>
 	<string name="card_next_turn_single">+%1$s Card next turn</string>
 	<string name="cards_next_turn_multiple">+%1$s Cards next turn</string>
 	<string name="action_next_turn_single">+%1$s Action next turn</string>
 	<string name="actions_next_turn_multiple">+%1$s Actions next turn</string>
-	<string name="card_coin">+(%1$s) Coin</string>
+	<string name="card_coin_single">+(%1$s) Coin</string>
+	<string name="card_coin_multiple">+(%1$s) Coins</string>
 	<string name="card_buy_single">+%1$s Buy</string>
 	<string name="card_buys_multiple">+%1$s Buys</string>
 	<string name="card_action_single">+%1$s Action</string>
@@ -41,21 +48,41 @@
 	<string name="card_options_header">%1$s option</string>
 	<string name="part_play">play</string>
 	<string name="part_buy">buy</string>
+	<string name="part_move_token_minus_2_cost">move your -2 cost token to</string>
+	<string name="part_move_token_plus_one_card">move your +1 Card token to</string>
+	<string name="part_move_token_plus_one_action">move your +1 Action token to</string>
+	<string name="part_move_token_plus_one_buy">move your +1 Buy token to</string>
+	<string name="part_move_token_plus_one_coin">move your +1 Coin token to</string>
+	<string name="part_move_token_trashing">move your Trashing token to</string>
 	
+	<string name="discardPile">discard pile</string>
+	<string name="hand">hand</string>
+  
 	<string name="select_from_table">Select a card from the table to %1$s</string>
 	<string name="select_from_table_attack">Select an Attack card from the table to %1$s</string>
+	<string name="select_from_table_action">Select an Action card from the table to %1$s</string>
+	<string name="select_from_table_treasure">Select a Treasure card from the table to %1$s</string>
+	<string name="select_from_table_victory">Select a Victory card from the table to %1$s</string>
 	<string name="select_from_table_exact">Select a card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_exact_action">Select an Action card from the table that costs exactly (%1$s) to %2$s</string>
+	<string name="select_from_table_exact_except">Select a card from the table, except %1$s, that costs exactly (%2$s) to %3$s</string>
 	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_events">Select an event from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_cards_events">Select a card or event from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_non_vp">Select a non-victory card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_non_vp_action">Select a non-victory action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_vp">Select a Victory card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_action">Select an Action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_between">Select a card from the table that costs between (%1$s) and (%2$s) to %3$s</string>
 	<string name="select_from_table_min">Select a card from the table that costs at least (%1$s) to %2$s</string>
+	<string name="select_from_table_less">Select a card from the table that less than (%1$s) to %2$s</string>
+	<string name="select_from_table_less_non_vp">Select a non-victory card from the table that less than (%1$s) to %2$s</string>
 	
 	<string name="select_one_card_from_hand">Pick a card from your hand to %1$s</string>
 	<string name="select_up_to_x_cards_from_hand">Pick up to %1$s cards from your hand to %2$s</string>
 	<string name="select_exactly_x_cards_from_hand">Pick exactly %1$s cards from your hand to %2$s</string>
+	<string name="select_from_x_to_y_cards_from_hand">Pick from %1$s to %2$s cards from your hand to %3$s</string>
+	<string name="select_from_x_to_y_different_cards_from_hand">Pick from %1$s to %2$s differently named cards from your hand to %3$s</string>
 	
 	<string name="select_one_card_from_trash">Pick a card from trash to %1$s</string>
 	<string name="select_up_to_x_cards_from_trash">Pick up to %1$s cards from trash to %2$s</string>
@@ -77,6 +104,11 @@
 	<string name="select_up_to_x_nontreasures_from_hand">Pick up to %1$s non-treasure cards from your hand to %2$s</string>
 	<string name="select_exactly_x_nontreasures_from_hand">Pick exactly %1$s non-treasure cards from your hand to %2$s</string>
 	
+	<string name="select_one_card_from_played">Pick a card you have in play to %1$s</string>
+	<string name="select_up_to_x_cards_from_played">Pick up to %1$s cards you have in play to %2$s</string>
+	<string name="select_exactly_x_cards_from_played">Pick exactly %1$s cards you have in play to %2$s</string>
+	<string name="select_up_to_x_different_cards_from_played">Pick up to %1$s differently named cards you have in play to %2$s</string>
+	
 	<string name="reaction_query">Select reaction card to reveal</string>
 	<string name="bane_option_one">Reveal Bane card (%1$s)</string>
 	
@@ -84,29 +116,49 @@
 	<string name="card_to_gain">gain [%1$s]</string>
 	<string name="card_to_trash">trash [%1$s]</string>
 	<string name="card_to_discard">discard [%1$s]</string>
-	<string name="card_to_discard_for_card">discard [%1$s] for cards</string>
-	<string name="card_to_discard_for_coin">discard [%1$s] for coin</string>
+	<string name="card_to_discard_for_card">discard for cards [%1$s]</string>
+	<string name="card_to_discard_for_coin">discard for coin [%1$s]</string>
 	<string name="card_to_name">name [%1$s]</string>
+	<string name="card_to_set_aside">set aside [%1$s]</string>
 	<string name="discard">Discard</string>
 	<string name="trash">Trash</string>
 	<string name="keep">Keep</string>
 	<string name="none">None</string>
-	<string name="card_revealed_from_player">From %1$s\n%2$s revealed %3$s</string>
+	<string name="card_revealed_from_player">%2$s revealed %3$s for %1$s</string>
 	<string name="GameStarting"></string>
 	<string name="GameOver">Game over</string>
 	<string name="Embargo">Embargo</string>
+	<string name="PlusOneCardTokenMoved">+1 Card token moved to</string>
+	<string name="PlusOneActionTokenMoved">+1 Action token moved to</string>
+	<string name="PlusOneBuyTokenMoved">+1 Buy token moved to</string>
+	<string name="PlusOneCoinTokenMoved">+1 Coin token moved to</string>
+	<string name="MinusTwoCostTokenMoved">-2 cost token moved to</string>
+	<string name="TrashingTokenMoved">Trashing token moved to</string>
+	<string name="OnIslandMat">Cards on island</string>
+	<string name="OnNativeVillageMat">Cards on native village</string>
 	<string name="Status">Status</string>
 	<string name="CantBuy">Can\'t buy %1$s</string>
 	<string name="VictoryPoints">Victory points</string>
 	<string name="NewHand">New hand</string>
 	<string name="TurnBegin">Turn begin</string>
 	<string name="TurnEnd">Turn end</string>
-	<string name="PlayingAction">Playing</string>
-	<string name="PlayedAction">Played</string>
+	<string name="PlayingCard">Playing</string>
+	<string name="PlayedCard">Played</string>
 	<string name="PlayingDurationAction">Playing duration</string>
-	<string name="PlayingCoin">Playing</string>
 	<string name="BuyingCard">Buying</string>
+	<string name="GuildsTokenObtained">Coin token obtained</string>
+	<string name="GuildsTokenSpend">Coin token spent</string>
+	<string name="OverpayForCard">Overpay for card</string>
+	<string name="DebtTokensObtained">Debt tokens obtained: %1$s</string>
+	<string name="DebtTokensPaidOff">Debt tokens paid off: %1$s</string>
+	<string name="DebtTokensPutOnPile">Debt Tokens placed: %1$s on</string>
+	<string name="DebtTokensTakenFromPile">Debt Tokens removed: %1$s from</string>
 	<string name="NoBuy">(No buy)</string>
+	<string name="VPTokensObtained">Victory Tokens taken: %1$s</string>
+	<string name="VPTokensPutOnPile">Victory Tokens placed: %1$s on</string>
+	<string name="VPTokensTakenFromPile">Victory Tokens removed: %1$s from</string>
+	<string name="MountainPassBidPass">Passed bid for</string>
+	<string name="MountainPassBid">Bid %1$s for</string>
 	<string name="DeckReplenished">Deck replenished</string>
 	<string name="PlayerAttacking">Attacking</string>
 	<string name="PlayerDefended">Defended</string>
@@ -115,10 +167,35 @@
 	<string name="CardTrashed">Trashed</string>
 	<string name="CardRevealed">Revealed</string>
 	<string name="CardRevealedFromHand">Revealed from hand</string>
+	<string name="CardNamed">Card named</string>
 	<string name="CardDiscarded">Discarded</string>
 	<string name="CardAddedToHand">Card added to hand</string>
 	<string name="CardRemovedFromHand">Card removed from hand</string>
-
+	<string name="CardSetAsideOnTavernMat">Card put on tavern mat</string>
+	<string name="CallingCard">Calling</string>
+	<string name="CalledCard">Called</string>
+	<string name="CardSetAside">Card set aside (Prince)</string>
+	<string name="CardSetAsideSummon">Card set aside (Summon)</string>
+	<string name="CardSetAsideHaven">Card set aside (Haven)</string>
+	<string name="CardSetAsideGear">Card set aside (Gear)</string>
+	<string name="CardSetAsideSave">Card set aside (Save)</string>
+	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>
+	<string name="CardSetAsideInheritance">Card set aside (Inheritance)</string>
+	<string name="CardSetAsideArchive">Card set aside (Archive)</string>
+	<string name="DeckPutIntoDiscardPile">Deck put into discard pile</string>
+	<string name="TravellerExchanged">%1$s exchanged for</string>
+	<string name="TurnJourneyTokenFaceUp">Journey token turned face up</string>
+	<string name="TurnJourneyTokenFaceDown">Journey token turned face down</string>
+	<string name="MinusOneCoinTokenOn">-1 coin token placed</string>
+	<string name="MinusOneCoinTokenOff">-1 coin token removed</string>
+	<string name="MinusOneCardTokenOn">-1 card token put onto deck</string>
+	<string name="MinusOneCardTokenOff">-1 card token removed</string>
+    
+	<string name="plus_one_card_token">+1 Card token</string>
+	<string name="plus_one_action_token">+1 Action token</string>
+	<string name="plus_one_buy_token">+1 Buy token</string>
+	<string name="plus_one_coin_token">+1 Coin token</string>
+    		
 	<string name="use_for_money">use for money</string>
 	
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
@@ -127,7 +204,14 @@
 	<string name="end_turn">End turn</string>
 	<string name="replace">Replace</string>
 	
+	<string name="trash_card_from_hand">Trash card from hand</string>
+	<string name="gain_silver">Gain a Silver</string>
+	<string name="trash_this">Trash this card</string>
+	<string name="trash_this_gain_another">Trash this card to gain another</string>
+	<string name="trash_castle_from_hand">Trash Castle from hand</string>
+	
 	<string name="secretchamber_part">put back on deck [Secret Chamber]</string>
+	<string name="secretchamber_query_discard">[Secret Chamber] Select cards to discard</string>
 	
 	<string name="ghostship_part">put back on deck [Ghost Ship]</string>
 	
@@ -135,19 +219,29 @@
 	
 	<string name="goons_part">keep [Goons]</string>
 	
-	<string name="watch_tower_query">"Watch Tower (%1$s gained):</string>
+	<string name="watch_tower_query">"Watchtower (%1$s gained):</string>
 	
 	<string name="followers_part">keep [Followers]</string>
 	
 	<string name="treasure_to_trash">Select treasure to trash</string>
 	
+	<string name="bandit_treasure_to_trash">Select treasure to trash from your deck [Bandit]</string>
+	
+	<string name="vassal_option_play">Play %1$s</string>
+	
 	<string name="scheme_query">Select action card to put back on deck</string>
 	
+	<string name="raze_query">Select card to put in hand</string>
+	
+	<string name="quest_attack_to_discard">Attack to discard</string>
+		
 	<string name="herbalist_query">Select treasure card to put back on deck</string>
 	
 	<string name="thief_query">Select treasure to steal</string>
 	
 	<string name="smuggle_query">Select card to smuggle</string>
+	
+	<string name="teacher_query">Select token to move</string>
 	
 	<string name="courtyard_part_top_of_deck">put on top of your deck [%1$s]</string>
 	
@@ -159,8 +253,10 @@
 	
 	<string name="lookout_query_trash">Select card to trash</string>
 	<string name="lookout_query_discard">Select card to discard</string>
+
+	<string name="moneylender_trash_copper">Trash Copper from hand for +(3) Coins</string>
 	
-	<string name="mountebank_query">Mountebank revealed</string>
+	<string name="mountebank_query">Mountebank played</string>
 	<string name="mountebank_option_one">Discard Curse</string>
 	<string name="mountebank_option_two">Gain Curse and Copper</string>
 	
@@ -205,6 +301,17 @@
 	<string name="steward_option_two">+(2) Coins</string>
 	<string name="steward_option_three">Trash two cards from your hand</string>
 
+	<string name="amulet_option_one">+(1) Coin</string>
+	
+	<string name="extra_turns_query">Choose extra turn order</string>
+	<string name="extra_turns_outpost_first">Outpost first</string>
+	<string name="extra_turns_mission_first">Mission turn first</string>
+	<string name="extra_turns_possession_first">Possessed turn first</string>
+	
+	<string name="quest_discard_attack">Discard Attack</string>
+	<string name="quest_discard_two_curses">Discard two Curses</string>
+	<string name="quest_discard_six_cards">Discard six cards</string>
+	
 	<string name="squire_option_one">+2 Actions</string>
 	<string name="squire_option_two">+2 Buys</string>
 	<string name="squire_option_three">Gain a Silver</string>
@@ -266,7 +373,9 @@
 	
 	<string name="pirate_ship_option_one">Take +(%1$s) Coins</string>
 	<string name="pirate_ship_option_two">Attack</string>
-
+	<string name="miser_option_one">Take +(%1$s) Coins</string>
+	<string name="miser_option_two">Put a Copper onto Tavern mat</string>
+        
 	<string name="top_of_deck">Top of deck</string>
 	
 	<string name="saboteur_part">replace your sabotaged card</string>
@@ -275,13 +384,41 @@
 	
 	<string name="bureaucrat_part">put on top of your deck</string>
 	
+	<string name="haven_part">put aside [Haven]</string>
+	
+	<string name="gear_part">put aside [Gear]</string>
+  
+	<string name="save_part">put aside [Save]</string>
+	
+	<string name="island_part">put on island mat</string>
+
 	<string name="masquerade_part">pass to your left</string>
+
+	<string name="courtier_ask_reveal">reveal</string>
+	<string name="secretPassage_cardToPutInDeck">put into deck</string>
+	<string name="secretPassage_query">Place %1$s in deck [Secret Passage]</string>
+
+	<string name="courtier_option_add_action">+1 Action</string>
+	<string name="courtier_option_add_buy">+1 Buy</string>
+	<string name="courtier_option_add_coins">+(3) Coins</string>
+	<string name="courtier_option_gain_gold">Gain Gold</string>
+	<string name="lurker_gainFromTrash">Gain an Action card from the trash</string>
+	<string name="lurker_trashActionFromSupply">Trash an Action card from the Supply</string>
+	<string name="lurker_cardToTrashFromSupply">trash</string>
 	
-	<string name="mine_part">mine to</string>
-	
+	<string name="mine_part">upgrade [Mine]</string>
+	<string name="mint_part">gain a copy [Mint]</string>	
+	<string name="contraband_part">not be bought this turn [Contraband]</string>
+	<string name="embargo_part">embargo</string>
+
+	<string name="throne_room_part">play 2 times</string>
+	<string name="kings_court_part">play 3 times</string>
+   
 	<string name="militia_part">keep from Militia</string>
 	<string name="mercenary_part">keep from Mercenary</string>
-		<string name="sir_michael_part">keep from Sir Michael</string>
+	<string name="sir_michael_part">keep from Sir Michael</string>
+	<string name="catapult_part">keep [Catapult]</string>
+	<string name="legionary_part">keep [Legionary]</string>
 	
 	<string name="bishop_part">trash for Victory Tokens</string>
 	
@@ -300,26 +437,27 @@
 	<string name="governor_option_two">Each Player Gains a Silver (Gold)</string>
 	<string name="governor_option_three">Each Player Upgrades exactly 1 (2) more</string>
 		
-	<!-- *** -->
+	<string name="prince_part">set aside with prince</string>
+	
 	<string name="university_part">gain [University]</string>
-	<!-- *** -->
 
 	<string name="putback_query">Select card to put back on deck</string>
 	<string name="putback_option_one">Treasure card (Herbalist)</string>
 	<string name="putback_option_two">Action card (Scheme)</string>
+	<string name="putback_option_all">Put all back on deck</string>
 
   <string name="game_over_vps"> VPs</string>
-    
-  <string name="coin_worth">Worth (%1$s) Coin</string>
+  <string name="victory_tokens">Victory Tokens</string>
+  
   <string name="Cartographer_query">Select card to discard</string>
   <string name="cards">Cards</string>
   <string name="return_cards">Return cards to deck:</string>
-  <string name="take_normal">Take normally</string>
+  <string name="take_normal">Gain normally</string>
   <string name="opponent_discard">Choose card for %1$s to discard (%2$s)</string>
   <string name="survivors_header">Survivors revealed: %1$s</string>
   <string name="cultist_play_next">Play another Cultist from hand</string>
-  <string name="urchin_keep">Keep from Urchin</string>
-  <string name="urchin_trash_for_mercenary">Trash Urchin for Mercenary</string>
+  <string name="urchin_keep">keep from Urchin</string>
+  <string name="urchin_trash_for_mercenary">Trash it for Mercenary</string>
   <string name="madman_option">Return Madman</string>
   
   <string name="taxman_part">gain</string>
@@ -327,6 +465,62 @@
   <string name="doctor_overpay_option_two">Discard</string>
   <string name="doctor_overpay_option_three">Put Back</string>
   <string name="herald_overpay_query">Select card to put back on deck</string>
+  <string name="spend_guilds_coin_tokens">Spend Coin Tokens</string>
+  <string name="buy_overpay">Overpay?</string>
+  <string name="buy_overpay_by_potions">Overpay by Potion(s)?</string>
+  <string name="pay_off_debt">Pay off Debt</string>
+  <string name="possessed_by">possessed by</string>
   
+  <string name="countingHouse_query">Select number of Copper cards to put into your hand</string>
+
+  <string name="HauntedWoodsAttacks">Haunted Woods in effect</string>
+  <string name="EnchantressAttacks">Enchantress in effect</string>
+  <string name="SwampHagAttacks_single">%1$s Swamp Hag in effect</string>
+  <string name="SwampHagAttacks_multiple">%1$s Swamp Hags in effect</string>
+  <string name="traveller_exchange">Exchange it for %1$s</string>
+  <string name="teacher_move_token_plus_one_card">move your +1 Card token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_action">move your +1 Action token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_buy">move your +1 Buy token to (without your tokens on it). [Teacher]</string>
+  <string name="teacher_move_token_plus_one_coin">move your +1 Coin token to (without your tokens on it). [Teacher]</string>
+  <string name="wineMerchant_option_one">Discard from Tavern</string>
+  <string name="wineMerchant_query">Number of Wine Merchants to discard from Tavern</string>
+  <string name="wineMerchantEstate_query">Number of Estates to discard from Tavern</string>
   
+  <string name="call_when_gain_query">Gaining %1$s. Call card:</string>
+  <string name="call_resolve_action_query">%1$s resolved. Call card:</string>
+  <string name="call_start_turn_query">Start of turn. Call card:</string>
+  <string name="start_turn_query">Start of turn. Pick action:</string>
+  <string name="call_optional">%1$s (optional)</string>
+  
+  <string name="archive_query">Select card to put in hand [Archive]</string>
+  <string name="annex_query">Select cards to keep in discard (up to %1$s more) [Annex]</string>
+  <string name="charm_option_one">+1 Buy, +(2) Coins</string>
+  <string name="charm_option_two">After next card buy, gain different card with same cost</string>
+  <string name="reveal_gold">Reveal Gold</string>
+  <string name="reveal_plunder">Reveal Plunder</string>
+  <string name="hauntedcastle_part">put back on deck [Haunted Castle]</string>
+  <string name="draw_three_add_token">Draw 3 and add VP token to pile</string>
+  <string name="gain_estate_and_tokens">Gain Estate and take VP tokens from pile</string>
+  <string name="tax_part">put 2 debt tokens on [Tax]</string>
+  <string name="mountainPass_query">Bid of Debt to take for 8 VP tokens [Mountain Pass]</string>
+  <string name="mountainPass_high_bid_query">Bid of Debt to take for 8 VP tokens (High bid: %1$s) [Mountain Pass]</string>
+  
+  <string name="place_stash_query">Place Stash in deck</string>
+  <string name="place_stashes_query">Place %1$s Stash cards in deck</string>
+  <string name="stash_on_top">On top</string>
+  <string name="stash_on_bottom">On bottom</string>
+  <string name="stash_choose_individually">Choose individually&#8230;</string>
+  <string name="stash_1_card_down">1 card down</string>
+  <string name="stash_x_cards_down">%1$s cards down</string>
+  <string name="stash_after_cards_to_draw">After cards to be drawn (%1$s)</string>
+  <string name="stash_more_options">Other&#8230;</string>
+  
+  <string name="sauna_play_avanto">Play Avanto from hand</string>
+  <string name="avanto_play_sauna">Play Sauna from hand</string>
+
+  <string name="opulent_castle_ask_discard">discard for +2 Coins each</string>
+  <string name="sprawlingcastle_gain_duchy">Gain Duchy</string>
+  <string name="sprawlingcastle_gain_estates">Gain 3 Estates</string>
+
+  <string name="card_played_as_card">%1$s (played as %2$s)</string>
 </resources>

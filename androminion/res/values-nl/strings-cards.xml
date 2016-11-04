@@ -48,8 +48,8 @@
     <string name="Militia_desc">Elke andere speler legt kaarten af totdat hij er nog maar 3 in zijn hand heeft.</string>
     <string name="Mine_name">Mijn</string>
     <string name="Mine_desc">Vernietig een Geldkaart uit je hand. Pak een Geldkaart die ten hoogste 3 Geld meer kost; Neem deze op hand.</string>
-    <string name="MoneyLender_name">Geldschieter</string>
-    <string name="MoneyLender_desc">Vernietig een Koper uit je hand. Als je dit doet: +3 Geld.</string>
+    <string name="Moneylender_name">Geldschieter</string>
+    <string name="Moneylender_desc">Vernietig een Koper uit je hand. Als je dit doet: +3 Geld.</string>
     <string name="Remodel_name">Verbouwing</string>
     <string name="Remodel_desc">Vernietig een kaart uit je hand. Pak een kaart die ten hoogste 2 Geld meer kost dan de zojuist vernietigde kaart.</string>
     <string name="Smithy_name">Smidse</string>
@@ -203,7 +203,7 @@
     <string name="City_name">Stad</string>
     <string name="City_desc">Als er 1 of meer lege voorraadstapels zijn, +1 Kaart. Als er 2 of meer lege voorraadstapels zijn, +1 Geld en +1 Aanschaf.</string>
     <string name="Contraband_name">Smokkelaar</string>
-    <string name="Contraband_desc">+1 Aanschaf wanneer je deze speelt, je linkerbuurman noemt een kaart. Je kan deze kaart deze beurt niet aanschaffen.</string>
+    <string name="Contraband_desc">Wanneer je deze speelt, je linkerbuurman noemt een kaart. Je kan deze kaart deze beurt niet aanschaffen.</string>
     <string name="CountingHouse_name">Kantoor</string>
     <string name="CountingHouse_desc">Bekijk je aflegstapel, toon een aantal Koperkaarten hieruit en neem deze op je hand.</string>
     <string name="Expand_name">Uitbreiding</string>
@@ -334,4 +334,6 @@
     <string name="Followers_desc">Pak een Landgoed. Iedere andere speler pakt een Vloek en legt af tot 3 kaarten. (Deze is niet in de voorraad)</string>
     <string name="TrustySteed_name">Vertrouwde Beiaard</string>
     <string name="TrustySteed_desc">Kies 2 verschillende van de volgende opties: +2 Kaarten; +2 Acties; +2 Geld; pak 4 Zilver en leg je trekstapel op je aflegstapel. (Deze is niet in de voorraad)</string>
+    <string name="Stash_name">Geldbuidel</string>
+    <string name="Stash_desc">Als je je aflegstapel schudt om een nieuwe trekstapel van te maken, mag je direct daarna de Geldbuidel naar een positie naar keuze in je trekstapel verplaatsen.</string>
 </resources>

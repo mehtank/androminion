@@ -19,7 +19,7 @@
     <string name="statisticsactivity_title">統計</string>
     <string name="resetstatistics_menu">統計のリセット</string>
     <string name="win_loss_menu">勝利/敗北 記録</string>
-    <string name="win_loss_playerwins">人ゲームの勝利</string>
+    <string name="win_loss_playerwins">%1$s 人ゲームの勝利</string>
     <string name="achievements_menu">業績</string>
         <string-array name="reset_choices">
         <item>統計のリセット</item>
@@ -128,16 +128,21 @@
     <string name="turn_header">: ターン\u0020</string>
     <string name="game_loaded">ゲームロード完了!\nアクション/購入/(コイン)\nの形式でログに表示されます</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+    <string name="action_zero">%1$s actions</string>
     <string name="action_single">%1$s action</string>
     <string name="action_multiple">%1$s actions</string>
+    <string name="buy_zero">%1$s buys</string>
     <string name="buy_single">%1$s buy</string>
     <string name="buy_multiple">%1$s buys</string>
-    <string name="coins">(%1$s) coin</string>
+    <string name="coin_zero">(%1$s) coins</string>
+    <string name="coin_single">(%1$s) coin</string>
+    <string name="coin_multiple">(%1$s) coins</string>
     <string name="final_view_card_counts">カード数</string>		
     <string name="final_view_text">%1$s: %2$s 勝利点.\n%3$s ターン, %4$s カード</string>		
     <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
     <string name="potion_single">%1$s potion</string>
     <string name="potion_multiple">%1$s potions</string>
+    <string name="potion_cost_initial">p</string>
     <string name="accept">了承</string>
     <string name="order_cards_summary">ドラッグアンドドロップで\nカードを並び替え</string>
     <string name="trash_header">廃棄:</string>

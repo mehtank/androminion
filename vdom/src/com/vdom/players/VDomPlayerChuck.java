@@ -3,13 +3,13 @@ package com.vdom.players;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.vdom.api.ActionCard;
 import com.vdom.api.Card;
-import com.vdom.api.TreasureCard;
 import com.vdom.core.BasePlayer;
 import com.vdom.core.Cards;
 import com.vdom.core.Game;
+import com.vdom.core.GetCardsInGameOptions;
 import com.vdom.core.MoveContext;
+import com.vdom.core.Type;
 
 public class VDomPlayerChuck extends BasePlayer  {
     protected final Random rand = new Random(System.currentTimeMillis());
@@ -24,12 +24,12 @@ public class VDomPlayerChuck extends BasePlayer  {
 
     @Override
     public String getPlayerName() {
-    	return getPlayerName(Game.maskPlayerNames);
+        return getPlayerName(Game.maskPlayerNames);
     }
     
     @Override
     public String getPlayerName(boolean maskName) {
-    	return maskName ? "Player " + (playerNumber + 1) : "Chuck";
+        return maskName ? "Player " + (playerNumber + 1) : "Chuck";
     }
     
     @Override
@@ -50,18 +50,41 @@ public class VDomPlayerChuck extends BasePlayer  {
         if (treasureMapCount >= 2) {
             return fromHand(Cards.treasureMap);
         }
-        ActionCard action;
+        
+        // play prince if action card candidate available
+        Card[] princeCards;
+        if (getHand().contains(Cards.prince)) {
+            ArrayList<Card> cardList = new ArrayList<Card>();
+            for (Card c : getHand()) {
+                cardList.add(c);
+            }
+            princeCards = prince_cardCandidates(context, cardList, false);
+        }
+        else {
+            princeCards = new Card[0];
+        }
+                
+        Card action;
         for (final Card card : getHand()) {
             if (context.canPlay(card)) {
-                action = (ActionCard) card;
-                if (action.getAddActions() > 0) {
+                action = card;
+                if (action.getAddActions() > 0 && !isInCardArray(card, princeCards)) {
                     return action;
                 }
             }
         }
 
+
+        if (princeCards.length != 0) {
+            return fromHand(Cards.prince);
+        }
+            
         if(inHand(Cards.throneRoom) && context.canPlay(Cards.throneRoom)) {
             return fromHand(Cards.throneRoom);
+        }
+        
+        if(inHand(Cards.disciple) && context.canPlay(Cards.disciple)) {
+            return fromHand(Cards.disciple);
         }
         
         //TODO: ...
@@ -78,7 +101,10 @@ public class VDomPlayerChuck extends BasePlayer  {
             final int actions = (arrayOfCard2 = getHand().toArray()).length;
             for (int localActionCard1 = 0; localActionCard1 < actions; localActionCard1++) {
                 final Card card = arrayOfCard2[localActionCard1];
-                if (!context.canPlay(card) || card.equals(Cards.treasureMap)) {
+                if (   !context.canPlay(card)
+                    || card.equals(Cards.treasureMap)
+                    || card.equals(Cards.tactician) && context.countCardsInPlay(Cards.tactician) > 0
+                   ) {
                     continue;
                 }
                 
@@ -113,22 +139,62 @@ public class VDomPlayerChuck extends BasePlayer  {
             return Cards.platinum;
         }
         
+        if(context.canBuy(Cards.prince) && turnCount < midGame && context.cardInGame(Cards.colony) && getMyCardCount(Cards.prince) < 2) {
+            ArrayList<Card> allCards = new ArrayList<Card>(getAllCards());
+            if (prince_cardCandidates(context, allCards, false).length >= 2 + 2*getMyCardCount(Cards.prince))
+                return Cards.prince;
+        }
+        
         if(context.canBuy(Cards.province)) {
             return Cards.province;
         }
         
+        if (turnCount > midGame && context.canBuy(Cards.vineyard) && actionCardCount >=9 ) {
+            if(context.getEmbargosIfCursesLeft(Cards.vineyard) == 0) {
+                return Cards.vineyard;
+            }
+        }
         if (turnCount > midGame && context.canBuy(Cards.duchy)) {
-            if(context.getEmbargos(Cards.duchy) == 0) {
+            if(context.getEmbargosIfCursesLeft(Cards.duchy) == 0) {
                 return Cards.duchy;
             }
         }
         
+        //try cards with potion before silver 
+        if (turnCount > midGame && context.canBuy(Cards.vineyard) && actionCardCount >=6 ) {
+            if(context.getEmbargosIfCursesLeft(Cards.vineyard) == 0) {
+                return Cards.vineyard;
+            }
+        }
+        if (context.getPotions() > 0) {
+            //buy in this order
+            final Card[] POTION_CARDS = new Card[] { Cards.possession, Cards.golem, Cards.familiar, Cards.alchemist, Cards.philosophersStone, Cards.scryingPool, Cards.apothecary, Cards.university };
+            for (Card card : POTION_CARDS) {
+                if (context.canBuy(card)) {
+                    if (   getMyCardCount(card) >= 2
+                        && !(card.equals(Cards.alchemist) || card.equals(Cards.philosophersStone) || card.equals(Cards.scryingPool) ) ) {
+                        continue;
+                    }
+                    if (card.equals(Cards.familiar) && (context.game.pileSize(Cards.curse) <= 3 || turnCount > midGame)) {
+                        continue;
+                    }
+                    if (context.getEmbargosIfCursesLeft(card) > 0) {
+                        continue;
+                    }
+                    if (coinAvailableForBuy >= card.getCost(context) + 3) {
+                        continue;
+                    }
+                    return card;
+                }
+            }
+        }
+
         if(rand.nextDouble() < 0.25) {
-            if(context.canBuy(Cards.gold) && context.getEmbargos(Cards.gold) == 0) {
+            if(context.canBuy(Cards.gold) && context.getEmbargosIfCursesLeft(Cards.gold) == 0) {
                 return Cards.gold;
             }
 
-            if(context.canBuy(Cards.silver) && context.getEmbargos(Cards.silver) == 0) {
+            if(context.canBuy(Cards.silver) && context.getEmbargosIfCursesLeft(Cards.silver) == 0) {
                 return Cards.silver;
             }
         }
@@ -138,26 +204,28 @@ public class VDomPlayerChuck extends BasePlayer  {
         final ArrayList<Card> randList = new ArrayList<Card>();
 
         while (cost >= 0) {
-            for (final Card card : context.getCardsInGame()) {
+            for (final Card card : context.getCardsInGame(GetCardsInGameOptions.Buyables)) {
                 if (
                         card.getCost(context) != cost || 
                         !context.canBuy(card) || 
                         card.equals(Cards.curse) || 
+                        card.equals(Cards.virtualRuins) || 
                         card.equals(Cards.copper) || 
                         card.equals(Cards.rats) || 
                         card.equals(Cards.potion) && !shouldBuyPotion() ||
                         card.equals(Cards.throneRoom) && throneRoomAndKingsCourtCount >= 2 ||
+                        card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= 2 ||
                         card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= 2 ||
-                        !(card instanceof ActionCard) && !(card instanceof TreasureCard)
+                        !(card.is(Type.Action, context.getPlayer())) && !(card.is(Type.Treasure, null))
                    ) {
                     continue;
                 }
                 
-                if (card instanceof ActionCard && actionCardCount >= ACTION_CARDS_MAX) {
+                if (card.is(Type.Action, context.getPlayer()) && actionCardCount >= ACTION_CARDS_MAX) {
                     continue;
                 }
                 
-                if(context.getEmbargos(card) > 0) {
+                if(context.getEmbargosIfCursesLeft(card) > 0) {
                     continue;
                 }
                             
@@ -171,6 +239,11 @@ public class VDomPlayerChuck extends BasePlayer  {
                 break;
             }
         }
+
+        // prefer silver instead of masterpiece if you can't overpay by 2
+        if (randList.contains(Cards.masterpiece) && randList.contains(Cards.silver) && coinAvailableForBuy < 5) {
+            randList.remove(Cards.masterpiece);
+        }
         
         if (randList.size() > 0) {
             return randList.get(rand.nextInt(randList.size()));
@@ -180,11 +253,11 @@ public class VDomPlayerChuck extends BasePlayer  {
             return Cards.gold;
         }
 
-        if(context.canBuy(Cards.silver) && context.getEmbargos(Cards.silver) == 0) {
+        if(context.canBuy(Cards.silver) && context.getEmbargosIfCursesLeft(Cards.silver) == 0) {
             return Cards.silver;
         }
         
-        if(context.canBuy(Cards.estate) && turnCount > midGame && context.getEmbargos(Cards.silver) == 0) {
+        if(context.canBuy(Cards.estate) && turnCount > midGame && context.getEmbargosIfCursesLeft(Cards.estate) == 0) {
             return Cards.estate;
         }
         
@@ -193,7 +266,8 @@ public class VDomPlayerChuck extends BasePlayer  {
 
     @Override
     public Card[] getTrashCards() {
-        return new Card[]{ Cards.curse, Cards.estate, Cards.copper, Cards.overgrownEstate, Cards.hovel, Cards.abandonedMine, Cards.ruinedLibrary, Cards.ruinedMarket, Cards.ruinedVillage, Cards.survivors, Cards.virtualRuins  };
+        //trash in this order!
+        return new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.hovel, Cards.estate, Cards.copper, Cards.masterpiece };
     }
 
 }

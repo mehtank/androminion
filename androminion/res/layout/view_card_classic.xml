@@ -12,16 +12,34 @@
         android:layout_gravity="center"
         android:singleLine="true"
         android:textSize="8.4sp" />
-
-    <TextView
-        android:id="@+id/cost"
+    
+    <LinearLayout 
+        android:id="@+id/costLinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        android:background="@drawable/coin"
-        android:textColor="@android:color/black"
-        android:textSize="10.5sp"
-        android:visibility="invisible" />
+        android:layout_gravity="left|center_vertical">
+
+	    <TextView
+	        android:id="@+id/cost"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="left|center_vertical"
+	        android:background="@drawable/coin"
+	        android:textColor="@android:color/black"
+	        android:textSize="10.5sp"
+	        android:visibility="gone" />
+	        
+	    <TextView
+	        android:id="@+id/debtCost"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="left|center_vertical"
+	        android:background="@drawable/coindebt"
+	        android:textColor="@android:color/white"
+	        android:textSize="10.5sp"
+	        android:visibility="gone" />
+    
+    </LinearLayout>
 
     <TextView
         android:id="@+id/countLeft"
@@ -33,6 +51,23 @@
 
     <!-- Embargos can only happen on supply piles (where countLeft is also shown) -->
 
+	<LinearLayout 
+        android:id="@+id/tokensLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical">
+
+	<TextView
+        android:id="@+id/pileTradeRouteTokens"
+        style="@style/style_cardview_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:background="@drawable/coin"
+        android:textColor="@android:color/black"
+        android:textSize="10.5dp"
+        android:visibility="gone" />
+	    
     <TextView
         android:id="@+id/embargos"
         android:layout_width="wrap_content"
@@ -42,6 +77,38 @@
         android:textColor="@android:color/white"
         android:textSize="10.5dp"
         android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/pileDebtTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_toLeftOf="@id/embargos"
+        android:background="@drawable/debttokens"
+        android:textColor="@android:color/white"
+        android:textSize="10.5dp"
+        android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/pileVpTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_toLeftOf="@id/embargos"
+        android:background="@drawable/victorytokens"
+        android:textColor="@android:color/black"
+        android:textSize="10.5dp"
+        android:visibility="gone" />
+    
+    </LinearLayout>
+    
+     <LinearLayout
+        android:id="@+id/tokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_gravity="top|right"
+        android:orientation="horizontal" />
 
     <TextView
         android:id="@+id/checked"
