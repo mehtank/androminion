@@ -706,6 +706,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(curPlayer.getPlayerName());
             extras.add(counts);
             extras.add(curPlayer.getVictoryPointTotals(counts));
+            extras.add(curPlayer.getVictoryTokensTotals());
             long duration = System.currentTimeMillis() - whenStarted;
             extras.add(duration);
             if (!event.getContext().cardsSpecifiedOnStartup()) {

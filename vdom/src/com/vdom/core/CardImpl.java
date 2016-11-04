@@ -10,7 +10,7 @@ import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.core.MoveContext.TurnPhase;
 
-public class CardImpl implements Card {
+public class CardImpl implements Card, Comparable<Card>{
 	private static final long serialVersionUID = 1L;
     // Template (immutable)
     Cards.Kind kind;
@@ -692,7 +692,7 @@ public class CardImpl implements Card {
             } else {
             	context.addCoins(addGold);
             }
-            currentPlayer.addVictoryTokens(context, addVictoryTokens);
+            currentPlayer.addVictoryTokens(context, addVictoryTokens, this);
             if (providePotion()) {
                 context.potions++;
             }
@@ -909,7 +909,7 @@ public class CardImpl implements Card {
 		}
 		if (is(Type.Event, null)) {
 			context.buys += addBuys;
-			context.getPlayer().addVictoryTokens(context, addVictoryTokens);
+			context.getPlayer().addVictoryTokens(context, addVictoryTokens, this);
 		}
 		if (this.equals(Cards.estate)) {
         	Card inheritance = context.getPlayer().getInheritance();
@@ -1315,6 +1315,10 @@ public class CardImpl implements Card {
         } else {
             return this.pileCreator;
         }
+    }
+
+    public int compareTo(Card other) {
+        return getName().compareTo(other.getName());
     }
 
 }

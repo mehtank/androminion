@@ -10,6 +10,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 
 import com.mehtank.androminion.R;
 import com.vdom.api.Card;
@@ -253,15 +254,16 @@ public class Strings {
         } else if (event.gameEventType == GameEvent.EventType.GameStarting) {
             statusText += getString(R.string.GameStarting);
         } else if (event.gameEventType == GameEvent.EventType.GameOver) {
-            statusText += getGameTimeString((Long) extras[6]);
-            if (extras[7] != null) {
-                statusText += getGameTypeName((GameType) extras[7]);
+            statusText += getGameTimeString((Long) extras[7]);
+            if (extras[8] != null) {
+                statusText += getGameTypeName((GameType) extras[8]);
             }
 
             statusText += "\n\n";
             statusText = getVPOutput((String) extras[3],
                                      (Map<Object, Integer>) extras[4],
-                                     (Map<Card, Integer>) extras[5]);
+                                     (Map<Card, Integer>) extras[5],
+                                     (Map<Card, Integer>) extras[6]);
             statusText += getString(R.string.GameOver);
         } else if (event.gameEventType == GameEvent.EventType.CardRevealedFromHand) {
             statusText += getString(R.string.CardRevealedFromHand);
@@ -1784,7 +1786,8 @@ public class Strings {
      */
     public static String getVPOutput(String playerName,
                                      Map<Object, Integer> counts,
-                                     Map<Card, Integer> totals) {
+                                     Map<Card, Integer> totals,
+                                     Map<Card, Integer> victoryTokensTotals) {
         int totalVPs = 0;
         for (Integer total : totals.values()) {
             totalVPs += total;
@@ -1801,13 +1804,14 @@ public class Strings {
         sb.append(Strings.getCardText(counts, totals, Cards.estate));
         sb.append(Strings.getCardText(counts, totals, Cards.duchy));
         sb.append(Strings.getCardText(counts, totals, Cards.province));
+
         if(counts.containsKey(Cards.colony)) {
             sb.append(Strings.getCardText(counts, totals, Cards.colony));
         }
 
+        sb.append(Strings.getCardText(counts, totals, Cards.curse));
+
         // display victory cards from sets
-
-
         boolean hasCastle = false;
         for(Card card : totals.keySet()) {
             if(Cards.isKingdomCard(card)) {
@@ -1841,10 +1845,11 @@ public class Strings {
             castletot.put(Cards.virtualCastle, castleVpCount);
             sb.append(Strings.getCardText(castlecnt, castletot, Cards.virtualCastle));
 
-            sb.append(castleDetails);
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("game_over_castle_details", true)) {
+                sb.append(castleDetails);
+            }
         }
 
-        sb.append(Strings.getCardText(counts, totals, Cards.curse));
         
         for(Card card : totals.keySet()) {
             if(card.is(Type.Landmark)) {
@@ -1861,6 +1866,22 @@ public class Strings {
         sb.append("\t"+Strings.getString(R.string.victory_tokens)+": ")
                 .append(totals.get(Cards.victoryTokens))
                 .append('\n');
+
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("game_over_vp_token_details", true)) {
+            boolean landmarks = false;
+            for (int i = 0; i < 2; i++) {
+                for (Map.Entry<Card, Integer> entry : victoryTokensTotals.entrySet()) {
+                    if (entry.getKey().is(Type.Landmark) == landmarks) {
+                        sb.append("\t\t")
+                                .append(getCardName(entry.getKey()))
+                                .append(": ")
+                                .append(entry.getValue())
+                                .append("\n");
+                    }
+                }
+                landmarks = !landmarks;
+            }
+        }
 
         return sb.toString();
     }

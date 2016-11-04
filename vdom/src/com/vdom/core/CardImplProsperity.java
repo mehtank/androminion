@@ -111,7 +111,7 @@ public class CardImplProsperity extends CardImpl {
 
             currentPlayer.hand.remove(card);
             currentPlayer.trash(card, this.getControlCard(), context);
-            currentPlayer.addVictoryTokens(context, card.getCost(context) / 2);
+            currentPlayer.addVictoryTokens(context, card.getCost(context) / 2, this);
         }
 
         for (Player player : game.getPlayersInTurnOrder()) {

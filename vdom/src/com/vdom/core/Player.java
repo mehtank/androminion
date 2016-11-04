@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeMap;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
@@ -41,6 +42,7 @@ public abstract class Player {
 
     private Card checkLeadCard;
     private int victoryTokens;
+    private Map<Card, Integer> victoryTokensSource = new TreeMap<Card, Integer>();
     private boolean journeyTokenFaceUp;
     private boolean minusOneCoinTokenOn;
     private boolean minusOneCardTokenOn;
@@ -88,22 +90,21 @@ public abstract class Player {
     public boolean achievementSingleCardFailed;
     public Card achievementSingleCardFirstKingdomCardBought;
 
-    public void addVictoryTokens(MoveContext context, int vt) {
+    public void addVictoryTokens(MoveContext context, int vt, Card responsible) {
     	if (vt == 0) return;
-    	if (Game.errataPossessedTakesTokens) {
-    		victoryTokens += vt;
-    		GameEvent event = new GameEvent(GameEvent.EventType.VPTokensObtained, context);
-    		event.setAmount(vt);
-            context.game.broadcastEvent(event);
-    	} else {
-    		if (isPossessed())
-    			controlPlayer.victoryTokens += vt;
-    		else 
-    			victoryTokens += vt;
-    		GameEvent event = new GameEvent(GameEvent.EventType.VPTokensObtained, isPossessed() ? new MoveContext(context.game, controlPlayer) : context);
-        	event.setAmount(vt);
-            context.game.broadcastEvent(event);
-    	}
+        Player p = (!Game.errataPossessedTakesTokens && isPossessed()) ? controlPlayer : this;
+        p.victoryTokens += vt;
+
+        responsible = responsible.getTemplateCard();
+        if (p.victoryTokensSource.containsKey(responsible))
+            p.victoryTokensSource.put(responsible, p.victoryTokensSource.get(responsible) + vt);
+        else
+            p.victoryTokensSource.put(responsible, vt);
+
+        GameEvent event = new GameEvent(GameEvent.EventType.VPTokensObtained, isPossessed() ? new MoveContext(context.game, p) : context);
+        event.setAmount(vt);
+        context.game.broadcastEvent(event);
+
     	//How to track vp gained in a turn by possessing player?
     	if (!isPossessed())
     		context.vpsGainedThisTurn += vt;
@@ -965,7 +966,7 @@ public abstract class Player {
 
     public Map<Card, Integer> getVictoryPointTotals(Map<Object, Integer> counts) {
         if (counts == null) counts = this.getVictoryCardCounts();
-        Map<Card, Integer> totals = new HashMap<Card, Integer>();
+        Map<Card, Integer> totals = new TreeMap<Card, Integer>();
 
         for(Map.Entry<Object, Integer> entry : counts.entrySet()) {
             if(entry.getKey() instanceof Card && ((Card)entry.getKey()).is(Type.Victory, this)) {
@@ -1056,7 +1057,11 @@ public abstract class Player {
 
         return totals;
     }
-    
+
+    public Map<Card, Integer> getVictoryTokensTotals() {
+        return victoryTokensSource;
+    }
+
     public void clearDurationEffectsOnOtherPlayers() {
     	attackDurationEffectsOnOthers.clear();
     }
@@ -1434,7 +1439,7 @@ public abstract class Player {
         
         //Add VP token if Tomb is in play
         if (context.game.cardInGame(Cards.tomb)) {
-        	addVictoryTokens(context, 1);
+        	addVictoryTokens(context, 1, Cards.tomb);
         }
 
         // Execute special card logic when the trashing occurs
