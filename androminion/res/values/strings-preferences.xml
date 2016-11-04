@@ -48,6 +48,10 @@
 		    <string name="sort_cards_pref_summary">By type: Action, Treasure, Curse, Victory</string>
 		    <string name="one_turn_logs_pref_title">Current turn log only</string>
 		    <string name="one_turn_logs_pref_summary">Only show the current turn in the game log</string>
+			<string name="game_over_castle_details_pref_title">Display Castle details in game summary</string>
+			<string name="game_over_castle_details_pref_summary">Show amount of VP for each Castle</string>
+			<string name="game_over_vp_token_details_pref_title">Display victory token details in game summary</string>
+			<string name="game_over_vp_token_details_pref_summary">Display which cards added what amount of victory tokens</string>
 	    <string name="vibescreen_pref_title">Vibration</string>
 		    <string name="allvibes_pref_title">Enable</string>
 			<string name="clickvibeon_pref_title">When select card</string>

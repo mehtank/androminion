@@ -63,6 +63,10 @@
     <string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
     <string name="one_turn_logs_pref_title">Details eines Zuges</string>
     <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug im Spiellog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
+    <string name="game_over_castle_details_pref_title">Zeige Schlösser Details nach dem Spiel</string>
+    <string name="game_over_castle_details_pref_summary">Zeigt die Punkte der jeweiligen Schlösser an</string>
+    <string name="game_over_vp_token_details_pref_title">Zeige Siegpunktmarker Details nach dem Spiel</string>
+    <string name="game_over_vp_token_details_pref_summary">Zeigt an welche Karten wieviele Siegpunktmarker erworben haben</string>
     <string name="logging_pref_title">Spielaufzeichnung</string>
     <string name="logging_enable_pref_title">Aktiviere Spielaufzeichnung</string>
     <string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
