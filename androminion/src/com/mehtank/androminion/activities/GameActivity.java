@@ -742,7 +742,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 
         int i=0;
         for (MyCard c : cards)
-            edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + (c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
+            edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + (c.isObeliskCard ? Game.OBELISK : "") + (c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
 
         edit.commit();
     }
