@@ -896,6 +896,8 @@ public class Game {
                     GameEvent statusEvent = new GameEvent(GameEvent.EventType.Status, (MoveContext) context);
                     broadcastEvent(statusEvent);
 
+
+
                     playBuy(context, buy);
                     playerPayOffDebt(player, context);
                     if (context.returnToActionPhase)
@@ -1155,10 +1157,6 @@ public class Game {
                     player.playedByPrince.add(card2);
                 }
                 player.prince.remove(card2);
-                if (card2.equals(Cards.estate) && player.getInheritance() != null) {
-                    ((CardImpl)card2).startInheritingCardAbilities(player.getInheritance().getTemplateCard().instantiate());
-
-                }
                 
                 context.freeActionInEffect++;
                 try {
@@ -3171,9 +3169,16 @@ public class Game {
                         return;
                     }
 
+                    //Start inheriting newly gained estate
+                    if (event.card.equals(Cards.estate) && event.player.getInheritance() != null) {
+                        ((CardImpl)event.card).startInheritingCardAbilities(player.getInheritance().getTemplateCard().instantiate());
+                    }
+
                     if (context != null && event.card.is(Type.Victory)) {
                         context.vpsGainedThisTurn += event.card.getVictoryPoints();
                     }
+
+
                     
                     if (Cards.inn.equals(event.responsible))
                         Util.debug((String.format("discard pile: %d", player.discard.size())), true);

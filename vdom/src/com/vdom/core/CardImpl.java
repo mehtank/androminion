@@ -466,7 +466,12 @@ public class CardImpl implements Card, Comparable<Card>{
 	    	}
 	    	return false;
     	}
-    	return player.getInheritance().is(t) || this.is(t);
+
+        if (player.getInheritance().is(t)) return true;
+        for (int i = 0; i < types.length; ++i) {
+            if (types[i] == t) return true;
+        }
+        return false;
     }
 
     public int getNumberOfTypes(Player player) {
@@ -705,7 +710,6 @@ public class CardImpl implements Card, Comparable<Card>{
             	additionalCardActions(game, context, currentPlayer);
             } else {
             	// Play the inheritance virtual card
-            	this.startInheritingCardAbilities(inheritedCard.getTemplateCard().instantiate());
             	CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
 		        context.freeActionInEffect++;
 		        cardToPlay.play(game, context, false);
@@ -961,7 +965,11 @@ public class CardImpl implements Card, Comparable<Card>{
     }
     
     @Override
-    public void isTrashed(MoveContext context) { }
+    public void isTrashed(MoveContext context) {
+        // card left play - stop any impersonations
+        this.getControlCard().stopImpersonatingCard();
+        this.getControlCard().stopInheritingCardAbilities();
+    }
 
     public boolean isImpersonatingAnotherCard() {
         return !(this.impersonatingCard == null);

@@ -360,9 +360,6 @@ public class Util {
         for (Card card : player.hand) {
             if (card.equals(reactionCard)) {
                 horseTraders = card;
-                if (reactionCard.equals(Cards.estate)) {
-                	((CardImpl)card).startInheritingCardAbilities(Cards.horseTraders.getTemplateCard().instantiate());
-                }
             }
         }
 

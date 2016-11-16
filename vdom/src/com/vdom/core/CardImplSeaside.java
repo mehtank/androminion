@@ -117,7 +117,11 @@ public class CardImplSeaside extends CardImpl {
         for (int i = 0; i < returnCount; i++) {
             int idx = currentPlayer.hand.indexOf(card);
             if (idx > -1) {
-                pile.addCard(currentPlayer.hand.remove(idx));
+                Card returningCard = currentPlayer.hand.remove(idx);
+                if (returningCard.equals(Cards.estate) && currentPlayer.getInheritance() != null) {
+                    ((CardImpl)returningCard).stopInheritingCardAbilities();
+                }
+                pile.addCard(returningCard);
             } else {
                 Util.playerError(currentPlayer, "Ambassador return to supply error, just returning those available.");
                 break;
