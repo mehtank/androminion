@@ -875,15 +875,21 @@ public class CardImplEmpires extends CardImpl {
     }
     
     private void saltTheEarth(MoveContext context) {
+		Card[] availableVictories = context.game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Victory);
+		if (availableVictories.length == 0) {
+			return;
+		}
+
     	Card toTrash = context.getPlayer().controlPlayer.saltTheEarth_cardToTrash(context);
 		CardPile pile = context.game.getPile(toTrash);
 		if (toTrash.isPlaceholderCard()) {
 			toTrash = pile.topCard();
 		}
     	if (toTrash == null || !toTrash.is(Type.Victory) || pile.isEmpty() || !pile.topCard().equals(toTrash)) {
-    		Util.playerError(context.getPlayer(), "Salt the Earth picked invalid card, picking province");
-    		toTrash = Cards.province;
+    		Util.playerError(context.getPlayer(), "Salt the Earth picked invalid card, picking random Victory card.");
+    		toTrash = Util.randomCard(availableVictories);
     	}
+
     	context.getPlayer().trash(pile.removeCard(), this.getControlCard(), context);
     }
     
