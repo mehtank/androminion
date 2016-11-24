@@ -230,5 +230,6 @@
 	<string name="status_pirate_tokens">Piratenschiff Marken: %1$s</string>
 	<string name="status_debt_tokens">Schuldenmarker: %1$s</string>
 	<string name="status_victory_tokens">Punktemarker: %1$s</string>
+	<string name="card_more_info">Mehr Info</string>
 
 </resources>

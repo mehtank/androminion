@@ -701,7 +701,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		if (wikilink) {
 			TextView linkView = new TextView(view.getContext());
 			String str2 = cardView.getCard().name.replace(" ", "_");
-			text = "<a href=\"http://wiki.dominionstrategy.com/index.php/" + str2 + "\"> More Info </a>";
+			text = "<a href=\"http://wiki.dominionstrategy.com/index.php/" + str2 + "\">" + view.getContext().getString(R.string.card_more_info) + "</a>";
 			linkView.setClickable(true);
 			linkView.setMovementMethod(LinkMovementMethod.getInstance());
 			linkView.setText(android.text.Html.fromHtml(text));

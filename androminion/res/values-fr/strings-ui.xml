@@ -240,4 +240,5 @@
 	<string name="status_pirate_tokens">Jetons Pièces du Bateau Pirate: %1$s</string>
 	<string name="status_debt_tokens">Jetons Dette: %1$s</string>
 	<string name="status_victory_tokens">Jetons Victoire: %1$s</string>
+	<string name="card_more_info">Plus d\'info</string>
 </resources>

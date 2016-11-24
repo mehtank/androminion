@@ -239,5 +239,6 @@
 	<string name="status_pirate_tokens">Pirate Ship Coin tokens: %1$s</string>
 	<string name="status_debt_tokens">Debt tokens: %1$s</string>
 	<string name="status_victory_tokens">Victory tokens: %1$s</string>
+	<string name="card_more_info">More info</string>
 	
 </resources>

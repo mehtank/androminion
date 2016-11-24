@@ -241,4 +241,5 @@
 	<string name="status_pirate_tokens">Marcadores de Moneda conseguidos por Barcos Piratas: %1$s</string>
 	<string name="status_debt_tokens">Marcadores de Deuda: %1$s</string>
 	<string name="status_victory_tokens">Fichas de Victoria: %1$s</string>
+	<string name="card_more_info">Más info</string>
 </resources>
