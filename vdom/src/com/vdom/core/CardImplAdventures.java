@@ -893,6 +893,13 @@ public class CardImplAdventures extends CardImpl {
                 event.card = card;
                 context.game.broadcastEvent(event);
             }
+
+            //Start inheriting estates the player already owns
+            for (Card c : context.player.getAllCards()) {
+                if (c.equals(Cards.estate)) {
+                    ((CardImpl)c).startInheritingCardAbilities(context.player.inheritance.getTemplateCard().instantiate());
+                }
+            }
         }
     }
     

@@ -10,7 +10,7 @@ import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.core.MoveContext.TurnPhase;
 
-public class CardImpl implements Card {
+public class CardImpl implements Card, Comparable<Card>{
 	private static final long serialVersionUID = 1L;
     // Template (immutable)
     Cards.Kind kind;
@@ -466,7 +466,12 @@ public class CardImpl implements Card {
 	    	}
 	    	return false;
     	}
-    	return player.getInheritance().is(t) || this.is(t);
+
+        if (player.getInheritance().is(t)) return true;
+        for (int i = 0; i < types.length; ++i) {
+            if (types[i] == t) return true;
+        }
+        return false;
     }
 
     public int getNumberOfTypes(Player player) {
@@ -692,7 +697,7 @@ public class CardImpl implements Card {
             } else {
             	context.addCoins(addGold);
             }
-            currentPlayer.addVictoryTokens(context, addVictoryTokens);
+            currentPlayer.addVictoryTokens(context, addVictoryTokens, this);
             if (providePotion()) {
                 context.potions++;
             }
@@ -705,7 +710,6 @@ public class CardImpl implements Card {
             	additionalCardActions(game, context, currentPlayer);
             } else {
             	// Play the inheritance virtual card
-            	this.startInheritingCardAbilities(inheritedCard.getTemplateCard().instantiate());
             	CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
 		        context.freeActionInEffect++;
 		        cardToPlay.play(game, context, false);
@@ -909,7 +913,7 @@ public class CardImpl implements Card {
 		}
 		if (is(Type.Event, null)) {
 			context.buys += addBuys;
-			context.getPlayer().addVictoryTokens(context, addVictoryTokens);
+			context.getPlayer().addVictoryTokens(context, addVictoryTokens, this);
 		}
 		if (this.equals(Cards.estate)) {
         	Card inheritance = context.getPlayer().getInheritance();
@@ -961,7 +965,11 @@ public class CardImpl implements Card {
     }
     
     @Override
-    public void isTrashed(MoveContext context) { }
+    public void isTrashed(MoveContext context) {
+        // card left play - stop any impersonations
+        this.getControlCard().stopImpersonatingCard();
+        this.getControlCard().stopInheritingCardAbilities();
+    }
 
     public boolean isImpersonatingAnotherCard() {
         return !(this.impersonatingCard == null);
@@ -1315,6 +1323,10 @@ public class CardImpl implements Card {
         } else {
             return this.pileCreator;
         }
+    }
+
+    public int compareTo(Card other) {
+        return getName().compareTo(other.getName());
     }
 
 }

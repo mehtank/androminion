@@ -687,7 +687,7 @@ public class Game {
     		if (tokensLeft > 0) {
     			int tokensToTake = Math.min(tokensLeft, 2);
     			removePileVpTokens(Cards.baths, tokensToTake, context);
-    			player.addVictoryTokens(context, tokensToTake);
+    			player.addVictoryTokens(context, tokensToTake, Cards.baths);
     		}
         }
         
@@ -793,7 +793,7 @@ public class Game {
     		}
     		if (highestBidder != null) {
     			MoveContext bidContext = new MoveContext(this, highestBidder);
-    			highestBidder.addVictoryTokens(bidContext, 8);
+    			highestBidder.addVictoryTokens(bidContext, 8, Cards.mountainPass);
     			highestBidder.gainDebtTokens(highestBid);
     			GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
             	event.setAmount(highestBid);
@@ -895,6 +895,8 @@ public class Game {
                 	}
                     GameEvent statusEvent = new GameEvent(GameEvent.EventType.Status, (MoveContext) context);
                     broadcastEvent(statusEvent);
+
+
 
                     playBuy(context, buy);
                     playerPayOffDebt(player, context);
@@ -1155,10 +1157,6 @@ public class Game {
                     player.playedByPrince.add(card2);
                 }
                 player.prince.remove(card2);
-                if (card2.equals(Cards.estate) && player.getInheritance() != null) {
-                    ((CardImpl)card2).startInheritingCardAbilities(player.getInheritance().getTemplateCard().instantiate());
-
-                }
                 
                 context.freeActionInEffect++;
                 try {
@@ -1346,7 +1344,7 @@ public class Game {
 		player.discard(player.getHand().remove(player.getHand().indexOf(toDiscard)), Cards.arena, context);
 		int tokensToTake = Math.min(getPileVpTokens(Cards.arena), 2);
 		removePileVpTokens(Cards.arena, tokensToTake, context);
-		player.addVictoryTokens(context, tokensToTake);
+		player.addVictoryTokens(context, tokensToTake, Cards.arena);
     }
     
     public static boolean isModifierCard(Card card) {
@@ -1995,7 +1993,7 @@ public class Game {
         }
 
         if(!buy.is(Type.Event)) {
-            player.addVictoryTokens(context, context.countGoonsInPlay());
+            player.addVictoryTokens(context, context.countGoonsInPlay(), Cards.goons);
         }
 
         if (!buy.is(Type.Event) && context.countMerchantGuildsInPlayThisTurn() > 0)
@@ -2111,7 +2109,7 @@ public class Game {
     		if (tokensLeft > 0) {
     			int tokensToTake = Math.min(tokensLeft, 2);
     			removePileVpTokens(Cards.basilica, tokensToTake, context);
-    			context.getPlayer().addVictoryTokens(context, tokensToTake);
+    			context.getPlayer().addVictoryTokens(context, tokensToTake, Cards.basilica);
     		}
     	}
     }
@@ -2125,7 +2123,7 @@ public class Game {
             		if (tokensLeft > 0) {
             			int tokensToTake = Math.min(tokensLeft, 2);
             			removePileVpTokens(Cards.colonnade, tokensToTake, context);
-            			player.addVictoryTokens(context, tokensToTake);
+            			player.addVictoryTokens(context, tokensToTake, Cards.colonnade);
             		}
 	    		}
 	    	}
@@ -2139,7 +2137,7 @@ public class Game {
 	    		int tokensLeft = getPileVpTokens(Cards.defiledShrine);
 	    		if (tokensLeft > 0) {
 	    			removePileVpTokens(Cards.defiledShrine, tokensLeft, context);
-	    			context.getPlayer().addVictoryTokens(context, tokensLeft);
+	    			context.getPlayer().addVictoryTokens(context, tokensLeft, Cards.defiledShrine);
 	    		}
 	    	}
 	    }
@@ -3171,9 +3169,16 @@ public class Game {
                         return;
                     }
 
+                    //Start inheriting newly gained estate
+                    if (event.card.equals(Cards.estate) && event.player.getInheritance() != null) {
+                        ((CardImpl)event.card).startInheritingCardAbilities(player.getInheritance().getTemplateCard().instantiate());
+                    }
+
                     if (context != null && event.card.is(Type.Victory)) {
                         context.vpsGainedThisTurn += event.card.getVictoryPoints();
                     }
+
+
                     
                     if (Cards.inn.equals(event.responsible))
                         Util.debug((String.format("discard pile: %d", player.discard.size())), true);
@@ -3241,7 +3246,7 @@ public class Game {
                     		if (tokensLeft > 0) {
                     			int tokensToTake = Math.min(tokensLeft, 2);
                     			removePileVpTokens(Cards.labyrinth, tokensToTake, context);
-                    			player.addVictoryTokens(context, tokensToTake);
+                    			player.addVictoryTokens(context, tokensToTake, Cards.labyrinth);
                     		}
                     	}
                     }
@@ -3394,18 +3399,18 @@ public class Game {
                     		if (tokensLeft > 0) {
                     			int tokensToTake = Math.min(tokensLeft, 2);
                     			removePileVpTokens(Cards.battlefield, tokensToTake, context);
-                    			player.addVictoryTokens(context, tokensToTake);
+                    			player.addVictoryTokens(context, tokensToTake, Cards.battlefield);
                     		}
                     	}
                     	if (cardInGame(Cards.aqueduct)) {
                     		int tokensLeft = getPileVpTokens(Cards.aqueduct);
                     		if (tokensLeft > 0) {
                     			removePileVpTokens(Cards.aqueduct, tokensLeft, context);
-                    			player.addVictoryTokens(context, tokensLeft);
+                    			player.addVictoryTokens(context, tokensLeft, Cards.aqueduct);
                     		}
                     	}
                     	int groundsKeepers = context.countCardsInPlay(Cards.groundskeeper);
-                    	player.addVictoryTokens(context, groundsKeepers);
+                    	player.addVictoryTokens(context, groundsKeepers, Cards.groundskeeper);
                     }
                     
                     if (gainedCardAbility.equals(Cards.illGottenGains)) {
@@ -3536,7 +3541,7 @@ public class Game {
                         }
                     } else if (gainedCardAbility.equals(Cards.emporium)) {
                     	if (context.countActionCardsInPlay() >= 5) {
-                    		player.addVictoryTokens(context, 2);
+                    		player.addVictoryTokens(context, 2, Cards.emporium);
                     	}
                     } else if (gainedCardAbility.equals(Cards.fortune)) {
                     	int gladiators = context.countCardsInPlayByName(Cards.gladiator);
@@ -3546,7 +3551,7 @@ public class Game {
                     } else if (gainedCardAbility.equals(Cards.rocks)) {
                     	player.gainNewCard(Cards.silver, event.card, context);
                     } else if (gainedCardAbility.equals(Cards.crumblingCastle)) {
-                    	player.addVictoryTokens(context, 1);
+                    	player.addVictoryTokens(context, 1, Cards.crumblingCastle);
                     	player.gainNewCard(Cards.silver, event.card, context);
                     } else if (gainedCardAbility.equals(Cards.hauntedCastle) && context.game.getCurrentPlayer() == player) {
                     	player.gainNewCard(Cards.gold, event.card, context);
@@ -3586,7 +3591,7 @@ public class Game {
                     } else if (gainedCardAbility.equals(Cards.temple)) {
                     	int numTokens = context.game.getPileVpTokens(Cards.temple);
                     	context.game.removePileVpTokens(Cards.temple, numTokens, context);
-                    	player.addVictoryTokens(context, numTokens);
+                    	player.addVictoryTokens(context, numTokens, Cards.temple);
                     } else if (gainedCardAbility.equals(Cards.sprawlingCastle)) {
                     	int duchyCount = context.game.getPile(Cards.duchy).getCount();
                         int estateCount = context.game.getPile(Cards.estate).getCount();
@@ -3627,7 +3632,7 @@ public class Game {
 
                         victoryCards += context.countVictoryCardsInPlay();
 
-                        player.addVictoryTokens(context, victoryCards);
+                        player.addVictoryTokens(context, victoryCards, Cards.grandCastle);
                     }
                     
                     if(event.card.is(Type.Action, player)) {

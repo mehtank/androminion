@@ -165,7 +165,7 @@ public class CardImplEmpires extends CardImpl {
     	
     	switch (trashKind) {
     	case CrumblingCastle:
-        	context.player.addVictoryTokens(context, 1);
+        	context.player.addVictoryTokens(context, 1, Cards.crumblingCastle);
         	context.player.gainNewCard(Cards.silver, this, context);
 			break;
         case Rocks:
@@ -326,7 +326,7 @@ public class CardImplEmpires extends CardImpl {
                 			drawDebtCost >= nextPlayerDebtCost ||
                 			drawPotionCost >= nextPlayerPotionCost)) {
         		context.addCoins(1);
-        		currentPlayer.addVictoryTokens(context, 1);
+        		currentPlayer.addVictoryTokens(context, 1, this);
         	}
         }
     }
@@ -430,7 +430,7 @@ public class CardImplEmpires extends CardImpl {
     	if (game.getPileVpTokens(c) >= 4) {
     		int numTokens = game.getPileVpTokens(c);
     		game.removePileVpTokens(c, numTokens, context);
-    		currentPlayer.addVictoryTokens(context, numTokens);
+    		currentPlayer.addVictoryTokens(context, numTokens, this);
     		currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), this.getControlCard(), context);
     	} else {
     		game.addPileVpTokens(c, 1, context);
@@ -634,7 +634,7 @@ public class CardImplEmpires extends CardImpl {
         	context.addCoins(2);
         }
         if (isVictory) {
-        	currentPlayer.addVictoryTokens(context, 2);
+        	currentPlayer.addVictoryTokens(context, 2, this);
         }
     }
     
@@ -748,7 +748,7 @@ public class CardImplEmpires extends CardImpl {
     		if (Cards.estate.equals(currentPlayer.gainNewCard(Cards.estate, this.getControlCard(), context))) {
     			int numTokens = context.game.getPileVpTokens(Cards.wildHunt);
     			context.game.removePileVpTokens(Cards.wildHunt, numTokens, context);
-    			currentPlayer.addVictoryTokens(context, numTokens);
+    			currentPlayer.addVictoryTokens(context, numTokens, this);
     		}
     	}
     }
@@ -838,7 +838,7 @@ public class CardImplEmpires extends CardImpl {
     	context.player.gainNewCard(Cards.silver, this.getControlCard(), context);
     	int silversGained = context.getNumCardsGainedThisTurn(Kind.Silver);
     	if (silversGained > 0)
-    		context.player.addVictoryTokens(context, silversGained);
+    		context.player.addVictoryTokens(context, silversGained, this);
     }
     
     private void delve(MoveContext context) {
@@ -848,7 +848,7 @@ public class CardImplEmpires extends CardImpl {
     private void dominate(MoveContext context) {
     	Card gainedCard = context.player.gainNewCard(Cards.province, this.getControlCard(), context);
     	if (Cards.province.equals(gainedCard)) {
-    		context.getPlayer().controlPlayer.addVictoryTokens(context, 9);
+    		context.getPlayer().controlPlayer.addVictoryTokens(context, 9, this);
     	}
     }
     
@@ -870,20 +870,26 @@ public class CardImplEmpires extends CardImpl {
 			toTrash = hand.get(toTrash);
 			hand.remove(toTrash);
 			p.trash(toTrash, this.getControlCard(), context);
-			p.addVictoryTokens(context, trashCost);
+			p.addVictoryTokens(context, trashCost, this);
     	}
     }
     
     private void saltTheEarth(MoveContext context) {
+		Card[] availableVictories = context.game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Victory);
+		if (availableVictories.length == 0) {
+			return;
+		}
+
     	Card toTrash = context.getPlayer().controlPlayer.saltTheEarth_cardToTrash(context);
 		CardPile pile = context.game.getPile(toTrash);
 		if (toTrash.isPlaceholderCard()) {
 			toTrash = pile.topCard();
 		}
     	if (toTrash == null || !toTrash.is(Type.Victory) || pile.isEmpty() || !pile.topCard().equals(toTrash)) {
-    		Util.playerError(context.getPlayer(), "Salt the Earth picked invalid card, picking province");
-    		toTrash = Cards.province;
+    		Util.playerError(context.getPlayer(), "Salt the Earth picked invalid card, picking random Victory card.");
+    		toTrash = Util.randomCard(availableVictories);
     	}
+
     	context.getPlayer().trash(pile.removeCard(), this.getControlCard(), context);
     }
     
@@ -904,7 +910,7 @@ public class CardImplEmpires extends CardImpl {
     private void triumph(MoveContext context) {
     	Card gainedCard = context.player.gainNewCard(Cards.estate, this.getControlCard(), context);
     	if (Cards.estate.equals(gainedCard)) {
-    		context.getPlayer().addVictoryTokens(context, context.getNumCardsGainedThisTurn());
+    		context.getPlayer().addVictoryTokens(context, context.getNumCardsGainedThisTurn(), this);
     	}
     }
     
