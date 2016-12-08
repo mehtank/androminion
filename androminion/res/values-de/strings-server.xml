@@ -475,10 +475,10 @@
 	<string name="SwampHagAttacks_single">%1$s Sumpfhexe im Spiel</string>
 	<string name="SwampHagAttacks_multiple">%1$s Sumpfhexen im Spiel</string>
 	<string name="traveller_exchange">Tausche ein gegen %1$s</string>
-	<string name="teacher_move_token_plus_one_card">(ohne Marker) für Deinen +1 Karte Marker</string>
-	<string name="teacher_move_token_plus_one_action">(ohne Marker) für Deinen +1 Aktion Marker</string>
-	<string name="teacher_move_token_plus_one_buy">(ohne Marker) für Deinen +1 Kauf Marker</string>
-	<string name="teacher_move_token_plus_one_coin">(ohne Marker) für Deinen +1 Geld Marker</string>
+	<string name="teacher_move_token_plus_one_card">Wähle für Deinen +1 Karte Marker</string>
+	<string name="teacher_move_token_plus_one_action">Wähle für Deinen +1 Aktion Marker</string>
+	<string name="teacher_move_token_plus_one_buy">Wähle für Deinen +1 Kauf Marker</string>
+	<string name="teacher_move_token_plus_one_coin">Wähle für Deinen +1 Geld Marker</string>
 	<string name="wineMerchant_option_one">Vom Wirtshaus ablegen</string>
 	<string name="wineMerchant_query">Wähle Weinhändler, die du vom Wirtshaus ablegst</string>
 	<string name="wineMerchantEstate_query">Wähle Anwesen, die Du vom Wirtshaus ablegst</string>
