@@ -495,7 +495,7 @@
 	<string name="charm_option_two">Nimm nach dem nächsten Kauf eine Karte mit unterschiedlichem Namen und gleichen Kosten</string>
 	<string name="reveal_gold">Gold aufdecken</string>
 	<string name="reveal_plunder">Diebesgut aufdecken</string>
-	<string name="hauntedcastle_part">Spukschloss: Auf den Ablagestapel zurücklegen</string>
+	<string name="hauntedcastle_part">Spukschloss: Wähle zum Zurücklegen</string>
 	<string name="draw_three_add_token">Ziehe 3 Karten und lege Punktemarker auf den Stapel</string>
 	<string name="gain_estate_and_tokens">Nehme Anwesen und erhalte Punktemarker vom Stapel</string>
 	<string name="tax_part">Steuer: Lege 2 Schuldenmarker auf</string>
