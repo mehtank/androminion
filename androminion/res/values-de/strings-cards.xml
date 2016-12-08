@@ -644,7 +644,7 @@
     <string name="Encampment_name">Feldlager</string>
     <string name="Encampment_desc">Du darfst ein Gold oder ein Diebesgut aus deiner Hand aufdecken. Wenn Du das nicht tust: Lege dieses Feldlager zur Seite und lege es zu Beginn der Aufräumphase in den Vorrat zurück.</string>
     <string name="Enchantress_name">Zauberin</string>
-    <string name="Enchantress_desc">Bis zu deinem nächsten Zug dürfen alle Mitspieler die Anweisungen der ersten ausgespielten Aktionskarte in ihrem Zug nicht ausführen. Sie erhalten stattdessen: +1 Karte und +1 Aktion. Zu Beginn deines nächsten Zuges: +2 Karten</string>
+    <string name="Enchantress_desc">Bis zu deinem nächsten Zug dürfen alle Mitspieler die Anweisungen der ersten ausgespielten Aktionskarte in ihrem Zug nicht ausführen. Sie erhalten stattdessen: +1 Karte und +1 Aktion.</string>
     <string name="Engineer_name">Ingenieurin</string>
     <string name="Engineer_desc">Nimm eine Karte die bis zu (4) kostet. Du darfst diese Ingenieurin entsorgen. Wenn Du das tust: Nimm dir eine Karte die bis zu (4) kostet.</string>
     <string name="FarmersMarket_name">Bauernmarkt</string>
