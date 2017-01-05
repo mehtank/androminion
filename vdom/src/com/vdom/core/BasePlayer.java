@@ -2431,26 +2431,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }    
     
     @Override
-    public Card rats_cardToTrash(MoveContext context) 
-    {
+    public Card rats_cardToTrash(MoveContext context) {
         ArrayList<Card> nonRatsChoices = new ArrayList<Card>();
 
         // Look for the low hanging fruit -- cards generally considered trash
-        for (Card c : context.getPlayer().getHand()) 
-        {
-            if (isTrashCard(c)) 
-            {
+        for (Card c : context.getPlayer().getHand()) {
+            if (!c.equals(Cards.rats) && isTrashCard(c)) {
                 return c;
-            }
-            else if (c.getKind() != Cards.Kind.Rats)
-            {
+            } else if (c.getKind() != Cards.Kind.Rats) {
                 // Build a list of the cards we can trash
                 nonRatsChoices.add(c);
             }
         }
         
-        if (nonRatsChoices.size() > 1)
-        {
+        if (nonRatsChoices.size() > 1) {
             Collections.sort(nonRatsChoices, new CardCostComparator());
         }
         

@@ -875,6 +875,7 @@ public class CardImplDarkAges extends CardImpl {
             for (Card c : currentPlayer.hand) {
                 if (!c.equals(Cards.rats)) {
                     hasother = true;
+                    break;
                 }
             }
             if (!hasother) {
@@ -884,9 +885,14 @@ public class CardImplDarkAges extends CardImpl {
                 }
             } else {
                 Card card = currentPlayer.controlPlayer.rats_cardToTrash(context);
-                if(card == null || !currentPlayer.hand.contains(card)) {
+                if(card == null || card.equals(Cards.rats) || !currentPlayer.hand.contains(card)) {
                     Util.playerError(currentPlayer, "Rats card to trash invalid, picking one");
-                    card = currentPlayer.hand.get(0);
+                    for (Card c : currentPlayer.hand){
+                    	if (!c.equals(Cards.rats)) {
+                    		card = c;
+                    		break;
+                    	}
+                    }
                 }
 
                 currentPlayer.hand.remove(card);
