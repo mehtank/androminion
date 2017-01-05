@@ -12,7 +12,7 @@
 		        <item>Détaillée</item>
 				<item>Condensée</item>
 		    </string-array>
-		    <string name="autodownload_pref_title">Téléchargement des images</string>
+		    <string name="autodownload_pref_title">Télécharger les images</string>
 		    <string name="autodownload_pref_summary">En arrière-plan, télécharge sur la carte SD l\'image de la carte en anglais lorsque son descriptif est affiché</string>
 		    <string name="showimages_pref_title">Description de la carte</string>
 		    <string-array name="showimages_names">
@@ -22,8 +22,8 @@
 		    </string-array>
 		    <string name="wikilink_pref_title">Lien vers plus d\'info</string>
 		    <string name="wikilink_pref_summary">Dirige vers le wiki DominionStrategy (non-affilié à Androminion) pour plus de détails. Peut provoquer l\'arrêt du jeu si la RAM est faible.</string>
-		    <string name="showenglishnames_pref_title">Afficher également les noms anglais</string>
-		    <string name="showenglishnames_pref_summary">Affiche le nom de la carte en anglais entre parenthèses lorsque la langue de l\'appli n\'est pas l\'anglais</string>
+		    <string name="showenglishnames_pref_title">Ajouter les noms anglais</string>
+		    <string name="showenglishnames_pref_summary">Affiche aussi le nom de la carte en anglais entre parenthèses lorsque la langue de l\'appli n\'est pas l\'anglais</string>
 	    <string name="pref_theme_title">Thème de l\'interface</string>
 	    <string-array name="theme_names">
 	        <item>Sombre</item>
@@ -36,9 +36,9 @@
 		    <string name="show_statusbar_pref_title">Barre de statut</string>
 		    <string name="show_statusbar_pref_summary">Affiche le statut en cours en haut de l\'écran</string>
 		    <string name="pref_showactionbar_title">Barre d\'action</string>
-			<string name="pref_showactionbar_summary">Pour les appareils sans bouton Menu/Retour physique</string>
-		    <string name="exitonback_pref_title">Quitter avec le bouton Retour</string>
-		    <string name="exitonback_pref_summary">Quand pressé deux fois</string>
+                    <string name="pref_showactionbar_summary">Pour les appareils sans bouton Menu/Retour physique</string>
+		    <string name="exitonback_pref_title">Bouton Retour</string>
+		    <string name="exitonback_pref_summary">Presser le bouton Retour 2 fois pour quitter</string>
 		    <string name="next_game_pref_title">Pour les parties ultérieures</string>
 		    <string name="card_counts_pref_title">Décomptes des cartes</string>
 		    <string name="card_counts_pref_summary">Affichage du nombre de cartes : Deck / Main / Total </string>
@@ -46,11 +46,15 @@
 		    <string name="mask_names_pref_summary">Jusqu\'à la fin de la partie</string>
 		    <string name="sort_cards_pref_title">Tri des cartes en main</string>
 		    <string name="sort_cards_pref_summary">Par type: Action, Trésor, Malédiction, Victoire</string>
-		    <string name="one_turn_logs_pref_title">Seulement la log du tour en cours</string>
+		    <string name="one_turn_logs_pref_title">Limiter la log</string>
 		    <string name="one_turn_logs_pref_summary">Affiche uniquement le tour courant dans la log de jeu</string>
+                    <string name="game_over_castle_details_pref_title">Scores: détail Châteaux</string>
+                    <string name="game_over_castle_details_pref_summary">Affiche la quantité de PVs apportée par chaque type de Château</string>
+                    <string name="game_over_vp_token_details_pref_title">Scores: détail jetons Victoire</string>
+                    <string name="game_over_vp_token_details_pref_summary">Affiche le détail par carte du nombre de Jetons Victoire reçus</string>
 	    <string name="vibescreen_pref_title">Vibrations</string>
 		    <string name="allvibes_pref_title">Activer les vibrations</string>
-			<string name="clickvibeon_pref_title">Pour la sélection d\'une carte</string>
+			<string name="clickvibeon_pref_title">Pour la sélection de cartes</string>
 			<string name="actionvibeon_pref_title">Pour une Action attendue</string>
 			<string name="turnvibeon_pref_title">Pour le démarrage du tour</string>
 			<string name="gamevibeon_pref_title">Pour la fin de la partie</string>
@@ -119,9 +123,9 @@
 			<string name="bm_only_cards_from_used_exp_pref_title">Limiter aux extensions</string>
 			<string name="bm_only_cards_from_used_exp_pref_summary">Utiliser seulement les cartes d\'extensions en usage dans le Royaume courant</string>
 	<string name="logging_pref_title">Logs du jeu</string>
-		<string name="logging_enable_pref_title">Activer</string>
+            <string name="logging_enable_pref_title">Activer</string>
 	    <string name="logging_enable_pref_summary">Stockées sur la carte SD comme fichiers texte</string>
-		<string name="logging_dir_pref_title">Répertoire des logs</string>
+            <string name="logging_dir_pref_title">Répertoire des logs</string>
 	    <string name="logging_dir_pref_summary">Sera créé si nécessaire</string>
     <string name="testing_pref_title">Débogage</string>
 	    <string name="god_mode_pref_title">Mode Test</string>

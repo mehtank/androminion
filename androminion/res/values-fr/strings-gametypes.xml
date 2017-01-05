@@ -51,7 +51,7 @@
   <string name="TheKingsArmy_gametype">L\'Armée du Roi</string> 
   <string name="TheGoodLife_gametype">La Dolce Vita</string>
 
-  <string name="PathToVictory_gametype">Vers la victoire</string> 
+  <string name="PathsToVictory_gametype">Les sentiers de la Victoire</string> 
   <string name="AllAlongTheWatchtower_gametype">Du haut du mirador</string> 
   <string name="LuckySeven_gametype">Chiffre chanceux</string>
 
@@ -171,9 +171,9 @@
   <string name="SimplePlans_gametype">Des plans simples</string>
   <string name="Expansion_gametype">Extension</string>
   
-  <string name="TombOfTheRatKing_gametype">Tombe du Roi Rat</string>
-  <string name="TriumphOfTheBanditKing_gametype">Triomphe du Roi Bandit</string>
-  <string name="TheSquiresRitual_gametype">Rituel de l\'écuyer</string>
+  <string name="TombOfTheRatKing_gametype">La Tombe du Roi Rat</string>
+  <string name="TriumphOfTheBanditKing_gametype">Le Triomphe du Roi Bandit</string>
+  <string name="TheSquiresRitual_gametype">Le Rituel de l\'écuyer</string>
   
   <string name="AreaControl_gametype">Zone de contrôle</string>
   <string name="NoMoneyNoProblems_gametype">Pas d\'argent, pas de soucis</string>

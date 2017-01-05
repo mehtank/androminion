@@ -195,7 +195,7 @@
     <string name="plus_one_buy_token">Jeton +1 Achat</string>
     <string name="plus_one_coin_token">Jeton +1 Pièce</string>        
         
-    <string name="use_for_money">utiliser pour vous achats</string>
+    <string name="use_for_money">utiliser pour vos achats</string>
         
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
 	<string name="game_over_status">Fin de partie — </string>
@@ -226,7 +226,7 @@
 
 	<string name="treasure_to_trash">Sélectionnez une carte Trésor à écarter</string>
 
-	<string name="bandit_treasure_to_trash">Sélectionnez une carte Trésor à écarter de votre deck [Bandit]</string>
+	<string name="bandit_treasure_to_trash">Sélectionnez une carte Trésor à écarter de votre deck [Malandrin]</string>
 	
 	<string name="vassal_option_play">Jouez %1$s</string>
 	<!-- Complot -->
@@ -408,7 +408,9 @@
 	<!-- Hotel de la monnaie -->
 	<string name="mint_part">dupliquer [Hôtel de la Monnaie]</string>	
 	<!-- Contrebande -->
-	<string name="contraband_part">interdire au joueur à l\'achat pendant ce tour [Contrebande]</string>
+	<string name="contraband_part">interdire à l\'achat ce tour pour le joueur courant [Contrebande]</string>
+        <!-- Embargo -->
+        <string name="embargo_part">mettre sous embargo [Embargo]</string>
 	<!-- Salle du Trône -->
 	<string name="throne_room_part">jouer 2 fois</string>
     <!--Cour du Roi -->
@@ -520,8 +522,8 @@
     <string name="draw_three_add_token">Tirer 3 cartes et ajouter un jeton PV à la pile</string>
     <string name="gain_estate_and_tokens">Recevoir un Domaine et prendre les jetons PV de la pile</string>
     <string name="tax_part">taxer en plaçant sur sa pile 2 jetons Dette [Taxe]</string>
-    <string name="mountainPass_query">Enchérissez sur de la Dette pour gagner 8 jetons PV [Gorge]</string>
-    <string name="mountainPass_high_bid_query">Enchérissez sur de la Dette pour gagner 8 jetons PV (Meilleure offre: %1$s) [Gorge]</string>
+    <string name="mountainPass_query">Enchérissez sur de la Dette pour gagner 8 jetons PV [Défilé Montagneux]</string>
+    <string name="mountainPass_high_bid_query">Enchérissez sur de la Dette pour gagner 8 jetons PV (Meilleure offre: %1$s) [Défilé Montagneux]</string>
   
     <!-- Cachette -->
     <string name="place_stash_query">Placer la Cachette dans le deck</string>
