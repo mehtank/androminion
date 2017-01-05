@@ -448,7 +448,7 @@ public class CardSet {
 		// Intrigue 2E
 		CardSetMap.put(GameType.VictoryDance2, new CardSet(new Card[]{Cards.baron, Cards.courtier, Cards.duke, Cards.harem, Cards.ironworks, Cards.masquerade, Cards.mill, Cards.nobles, Cards.patrol, Cards.replace}));
 		CardSetMap.put(GameType.ThePlotThickens, new CardSet(new Card[]{Cards.conspirator, Cards.ironworks, Cards.lurker, Cards.pawn, Cards.miningVillage, Cards.secretPassage, Cards.steward, Cards.swindler, Cards.torturer, Cards.tradingPost}));
-		CardSetMap.put(GameType.BestWishes2, new CardSet(new Card[]{Cards.coppersmith, Cards.courtyard, Cards.masquerade, Cards.scout, Cards.shantyTown, Cards.steward, Cards.torturer, Cards.tradingPost, Cards.upgrade, Cards.wishingWell}));
+		CardSetMap.put(GameType.BestWishes2, new CardSet(new Card[]{Cards.baron, Cards.conspirator, Cards.courtyard, Cards.diplomat, Cards.duke, Cards.secretPassage, Cards.shantyTown, Cards.torturer, Cards.upgrade, Cards.wishingWell}));
 		// Intrigue & Dominion
 		CardSetMap.put(GameType.Deconstruction, new CardSet(new Card[]{Cards.bridge, Cards.miningVillage, Cards.remodel, Cards.saboteur, Cards.secretChamber, Cards.spy, Cards.swindler, Cards.thief, Cards.throneRoom, Cards.torturer}));
 		CardSetMap.put(GameType.HandMadness, new CardSet(new Card[]{Cards.bureaucrat, Cards.chancellor, Cards.councilRoom, Cards.courtyard, Cards.mine, Cards.militia, Cards.minion, Cards.nobles, Cards.steward, Cards.torturer}));
