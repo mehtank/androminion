@@ -3582,7 +3582,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_hauntedCastle_gain_cardsToPutBackOnDeck(context)) {
             return super.hauntedCastle_gain_cardsToPutBackOnDeck(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().setCount(2).ordered()
+        SelectCardOptions sco = new SelectCardOptions().setCount(2).exactCount().ordered()
                 .setCardResponsible(Cards.hauntedCastle);
         return getFromHand(context, sco);
     }
