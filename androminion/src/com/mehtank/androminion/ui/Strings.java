@@ -73,9 +73,13 @@ public class Strings {
 
     public static void initContext(Context c) {
         context = c;
+        nameCache = new HashMap<Card, String>();
+        descriptionCache = new HashMap<Card, String>();
+        expansionCache = new HashMap<Expansion, String>();
+        gametypeCache = new HashMap<GameType, String>();
         initActionStrings();
     }
-
+    
     public static String getCardName(Card c) {
         String name = nameCache.get(c);
         if(name == null) {

@@ -1,6 +1,9 @@
 package com.mehtank.androminion.activities;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -21,9 +24,10 @@ import com.mehtank.androminion.util.ThemeSetter;
  * For example how to do it right:
  * https://github.com/commonsguy/cw-omnibus/tree/master/Prefs/FragmentsBC
  */
-public class SettingsActivity extends SherlockPreferenceActivity {
+public class SettingsActivity extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener {
     @SuppressWarnings("unused")
     private static final String TAG = "SettingsActivity";
+    private SharedPreferences prefs;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -55,5 +59,20 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         super.onResume();
         ThemeSetter.setTheme(this, true);
         ThemeSetter.setLanguage(this);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
     }
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+		if (key.equals("userlang")) {
+			com.mehtank.androminion.ui.Strings.initContext(getApplicationContext());
+        }
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		prefs.unregisterOnSharedPreferenceChangeListener(this);
+	}
 }
