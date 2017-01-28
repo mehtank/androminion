@@ -155,6 +155,8 @@
     <string name="toast_starting">Starting game…</string> <!-- Unused -->
     <string name="toast_loading">Loading game…</string>
     <string name="toast_quitconfirm">Click again to quit.</string>
+    <string name="toast_mountainPassWinner">Mountain Pass: Highest bid is %1$s (%2$s)</string>
+    <string name="toast_mountainPassNoBid">Mountain Pass: No bids</string>
     <string name="obtained">%1$s gained</string>
     <string name="eventBought">%1$s bought</string>
     <string name="trashed">%1$s trashed</string>

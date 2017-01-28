@@ -20,6 +20,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.mehtank.androminion.R;
@@ -32,13 +33,13 @@ import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.mehtank.androminion.util.PlayerAdapter;
 import com.mehtank.androminion.util.PlayerSummary;
 import com.vdom.api.Card;
+import com.vdom.api.GameEvent.EventType;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
 import com.vdom.comms.GameStatus;
 import com.vdom.comms.MyCard;
 import com.vdom.comms.SelectCardOptions;
 import com.vdom.comms.SelectCardOptions.PickType;
-import com.vdom.core.Cards;
 
 public class GameTable extends LinearLayout implements OnItemClickListener, OnItemLongClickListener {
     @SuppressWarnings("unused")
@@ -1050,7 +1051,17 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         String s = Strings.getStatusText(event, objects);
         if (s != null)
             gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
-
+        if (event.gameEventType == EventType.MountainPassWinner) {
+        	String winningPlayer = event.s;
+        	int winningBid = (Integer) event.o.os[3];
+        	String toastString = null;
+        	if (winningBid > 0)
+        		toastString = String.format(getContext().getString(R.string.toast_mountainPassWinner), winningBid, winningPlayer);
+        	else
+        		toastString = getContext().getString(R.string.toast_mountainPassNoBid);
+        	Toast.makeText(top, toastString, Toast.LENGTH_LONG).show();
+        }
+        
         if (gs.isFinal) {
             // Print Placeholder Card in the end
             for (GameStatus.UpdateCardInfo uci : gs.cardUpdates) {

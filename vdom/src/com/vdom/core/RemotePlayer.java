@@ -728,9 +728,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         		event.getType() == EventType.VPTokensPutOnPile ||
         		event.getType() == EventType.VPTokensTakenFromPile ||
         		event.getType() == EventType.MountainPassBid) {
-            extras.add(event.getAmount());
+        	extras.add(event.getAmount());
         } else if (event.getType() == EventType.TravellerExchanged) {
             extras.add(event.responsible);
+        } else if (event.getType() == EventType.MountainPassWinner) {
+        	extras.add(event.getAmount());
+        	if (event.getPlayer() != null) {
+        		playerName = event.getPlayer().getPlayerName();
+        	}
         } else if (event.getType() == EventType.Status) {
             String coin = "" + context.getCoinAvailableForBuy();
             if(context.potions > 0)

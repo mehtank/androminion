@@ -431,6 +431,8 @@ public class Strings {
         	} else {
         		statusText += format(R.string.MountainPassBid, bid);
         	}
+        } else if (event.gameEventType == GameEvent.EventType.MountainPassWinner) {
+        	return null;
         } else if (event.gameEventType != null) {
             statusText += event.gameEventType.toString();
         }

@@ -71,6 +71,7 @@ public class GameEvent {
         VPTokensPutOnPile, // VP tokens put on a card pile
         VPTokensTakenFromPile, // VP tokens taken from a card pile
         MountainPassBid, // Someone placed a bid for Mountain Pass (or passed their bid)
+        MountainPassWinner, // Mountain Pass bidding finished (winning bid/player) - 0 amount means no bids were placed
     }
 
     public EventType type;

@@ -799,6 +799,10 @@ public class Game {
             	event.setAmount(highestBid);
                 context.game.broadcastEvent(event);
     		}
+    		GameEvent winEvent = new GameEvent(GameEvent.EventType.MountainPassWinner, context);
+    		winEvent.setPlayer(highestBidder == null ? context.getPlayer(): highestBidder);
+    		winEvent.setAmount(highestBid);
+            context.game.broadcastEvent(winEvent);
     	}
     }
     

@@ -157,6 +157,8 @@
     <string name="toast_starting">Inicializando el Juego…</string> <!-- Unused -->
     <string name="toast_loading">Cargando el Juego…</string>
     <string name="toast_quitconfirm">Pulsa de nuevo para salir.</string>
+    <string name="toast_mountainPassWinner">Puerto de Montaña: La oferta más grande es %1$s (%2$s)</string>
+    <string name="toast_mountainPassNoBid">Puerto de Montaña: No hubo ofertas</string>
     <string name="obtained">%1$s ganada</string>
     <string name="eventBought">%1$s comprado</string>
     <string name="trashed">%1$s eliminada</string>
