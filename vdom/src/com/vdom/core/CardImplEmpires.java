@@ -243,7 +243,7 @@ public class CardImplEmpires extends CardImpl {
                 settlers++;
             }
         }
-        if (currentPlayer.controlPlayer.bustlingVillage_settlersIntoHand(context, coppers, settlers)) {
+        if (settlers > 0 && currentPlayer.controlPlayer.bustlingVillage_settlersIntoHand(context, coppers, settlers)) {
         	for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
                 Card card = it.next();
                 if (Cards.settlers.equals(card)) {
@@ -651,7 +651,7 @@ public class CardImplEmpires extends CardImpl {
                 settlers++;
             }
         }
-        if (currentPlayer.controlPlayer.settlers_copperIntoHand(context, coppers, settlers)) {
+        if (coppers > 0 && currentPlayer.controlPlayer.settlers_copperIntoHand(context, coppers, settlers)) {
         	for (Iterator<Card> it = currentPlayer.discard.iterator(); it.hasNext();) {
                 Card card = it.next();
                 if (Cards.copper.equals(card)) {
