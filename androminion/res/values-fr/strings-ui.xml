@@ -156,6 +156,8 @@
     <string name="toast_starting">Démarrage du jeu…</string> <!-- Unused -->
     <string name="toast_loading">Chargement du jeu…</string>
     <string name="toast_quitconfirm">Cliquer de nouveau pour quitter.</string>
+    <string name="toast_mountainPassWinner">Défilé Montagneux: la plus haute enchère est %1$s (%2$s)</string>
+    <string name="toast_mountainPassNoBid">Défilé Montagneux: pas d\'enchère</string>
     <string name="obtained">%1$s, carte reçue</string>
     <string name="eventBought">%1$s, carte achetée</string>
     <string name="trashed">%1$s, carte écartée</string>
