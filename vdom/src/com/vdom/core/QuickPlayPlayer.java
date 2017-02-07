@@ -88,7 +88,23 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     
     public boolean shouldAutoPlay_mine_treasureFromHandToUpgrade(MoveContext context) {
-        return true;
+        ArrayList<Card> handCards = context.getPlayer().getTreasuresInHand();
+        return hasOnlyBasicTreasure(handCards);
+    }
+    
+    private boolean hasOnlyBasicTreasure(Iterable<Card> cards) {
+    	boolean hasOnlyBasicTreasure = true;
+        for (Card c : cards) {
+        	//Don't count Potion as a basic card here since you may not want to upgrade it automatically with Mine
+        	if (!c.equals(Cards.copper) &&
+        			!c.equals(Cards.silver) &&
+        			!c.equals(Cards.gold) && 
+        			!c.equals(Cards.platinum)) {
+        		hasOnlyBasicTreasure = false;
+        		break;
+        	}
+        }
+        return hasOnlyBasicTreasure;
     }
     
     public boolean shouldAutoPlay_moneylender_shouldTrashCopper(MoveContext context) {
@@ -627,9 +643,15 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     
     public boolean shouldAutoPlay_mine_treasureToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
-        return true;
+        Card[] cards = context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure);
+        List<Card> obtainableCards = new ArrayList<Card>();
+        for (Card c : cards) {
+        	if ((!c.costPotion() || potion) && (maxCost >= c.getCost(context)) && maxDebtCost >= c.getDebtCost(context)) {
+        		obtainableCards.add(c);
+        	}
+        }
+        return hasOnlyBasicTreasure(obtainableCards);
     }
-
     
     public boolean shouldAutoPlay_bureaucrat_cardToReplace(MoveContext context) {
         return false;

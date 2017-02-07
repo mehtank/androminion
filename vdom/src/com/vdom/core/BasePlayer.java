@@ -614,7 +614,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card mine_treasureFromHandToUpgrade(MoveContext context) {
         ArrayList<Card> handCards = context.getPlayer().getTreasuresInHand();
-        Collections.sort(handCards, new CardValueComparator());
+        Collections.sort(handCards, new CardCostComparator());
         boolean hasSpoils = false;
         while (handCards.remove(Cards.spoils)) {
             hasSpoils = true;
