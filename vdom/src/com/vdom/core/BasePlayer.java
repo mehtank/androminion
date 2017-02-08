@@ -1756,10 +1756,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-
         for (int i = cardArray.size() - 1; i >= 0; i--) {
             Card card = cardArray.get(i);
             if(card.equals(Cards.counterfeit)) {
+                ret.add(0, cardArray.remove(i));
+            }
+        }
+
+        for (int i = cardArray.size() - 1; i >= 0; i--) {
+            Card card = cardArray.get(i);
+            if(card.equals(Cards.silver)) {
                 ret.add(0, cardArray.remove(i));
             }
         }
