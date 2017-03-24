@@ -691,8 +691,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 	edit.putBoolean(RANDOM_USE_SET_PREFIX + set, completeSets.get(set).isChecked());
                 }
                 edit.putBoolean(RANDOM_USE_SET_PREFIX + Expansion.Promo, mRandomPromo.isChecked());
-                edit.putBoolean(RANDOM_ALL_PLAYERS, mRandomPlayersCheckbox.isChecked());
-				
+                
                 break;
             case PRESET:
                 edit.putString("gameType", TypeOptions.PRESET.name());
@@ -712,7 +711,9 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 strs.add("Random");
                 break;
         }
-
+		
+		edit.putBoolean(RANDOM_ALL_PLAYERS, mRandomPlayersCheckbox.isChecked());
+		
         String str = HUMANPLAYER;
         strs.add(str);
 
