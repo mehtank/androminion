@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -698,9 +699,14 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 		if (!f.exists() || !showimages.equals("Image"))
 			ll.addView(textView);
+			
+		Configuration configuration = new Configuration(getContext().getResources().getConfiguration());
+		configuration.setLocale(new Locale("en"));
+		String englishName = this.getContext().createConfigurationContext(configuration).getResources().getString(this.getContext().createConfigurationContext(configuration).getResources().getIdentifier(cardView.getCard().originalSafeName + "_name", "string", this.getContext().getPackageName()));
+			
 		if (wikilink) {
 			TextView linkView = new TextView(view.getContext());
-			String str2 = cardView.getCard().name.replace(" ", "_");
+			String str2 = englishName.replace(" ", "_");
 			text = "<a href=\"http://wiki.dominionstrategy.com/index.php/" + str2 + "\">" + view.getContext().getString(R.string.card_more_info) + "</a>";
 			linkView.setClickable(true);
 			linkView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -714,7 +720,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		Log.d(TAG, "card title = " + title);
 		boolean isEnglish = "en".equals(getResources().getConfiguration().locale.getLanguage());
 		if (!isEnglish && PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
-			title += " (" + cardView.getCard().originalName + ")";
+			title += " (" + englishName + ")";
 			Log.d(TAG, "card title now: " + title);
 		}
 
