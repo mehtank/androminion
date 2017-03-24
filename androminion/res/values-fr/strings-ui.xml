@@ -133,6 +133,7 @@
     <string name="random_landmarks_random">Aléatoire</string>
     <string name="random_include_cards">Inclure les cartes Royaume de</string>
     <string name="select_players">Sélectionner les joueurs:</string>
+	<string name="random_all_players">Joueurs aléatoires</string>
     <string name="player">Joueur </string>
     <string name="currentplayer">Joueur actuel</string>
     <string name="you">Vous</string>
