@@ -845,7 +845,7 @@ public class Cards {
         ruinsCards.add(ruinedMarket      = new CardImpl.Builder(Cards.Kind.RuinedMarket, 0, Type.Action, Type.Ruins).addBuys(1).expansion(Expansion.DarkAges).build());
         ruinsCards.add(ruinedVillage     = new CardImpl.Builder(Cards.Kind.RuinedVillage, 0, Type.Action, Type.Ruins).addActions(1).expansion(Expansion.DarkAges).build());
         ruinsCards.add(survivors         = new CardImpl.Builder(Cards.Kind.Survivors, 0, Type.Action, Type.Ruins).description("Look at the top 2 cards of your deck. Discard them or put them back in any order.").expansion(Expansion.DarkAges).build());
-        nonKingdomCards.add(virtualRuins = new CardImpl.Builder(Cards.Kind.VirtualRuins, 0, Type.Action, Type.Ruins).pileCreator(new RuinsPileCreator()).build());
+        nonKingdomCards.add(virtualRuins = new CardImpl.Builder(Cards.Kind.VirtualRuins, 0, Type.Action, Type.Ruins).pileCreator(new RuinsPileCreator()).expansion(Expansion.DarkAges).build());
         
         // Knights
         knightsCards.add(dameAnna = new CardImpl.Builder(Cards.Kind.DameAnna, 5, Type.Action, Type.Attack, Type.Knight).description("You may trash up to 2 cards from your hand. " + KNIGHTS_TEXT).expansion(Expansion.DarkAges).build());
@@ -858,7 +858,7 @@ public class Cards {
         knightsCards.add(sirMartin = new CardImpl.Builder(Cards.Kind.SirMartin, 4, Type.Action, Type.Attack, Type.Knight).addBuys(2).description(KNIGHTS_TEXT).expansion(Expansion.DarkAges).build());
         knightsCards.add(sirMichael = new CardImpl.Builder(Cards.Kind.SirMichael, 5, Type.Action, Type.Attack, Type.Knight).description("Each other player discards down to 3 cards in hand. " + KNIGHTS_TEXT).expansion(Expansion.DarkAges).build());
         knightsCards.add(sirVander = new CardImpl.Builder(Cards.Kind.SirVander, 5, Type.Action, Type.Attack, Type.Knight).description(KNIGHTS_TEXT + " When you trash this, gain a Gold.").expansion(Expansion.DarkAges).build());
-        actionCardsDarkAges.add(virtualKnight = new CardImpl.Builder(Kind.VirtualKnight, 5, Type.Action, Type.Attack, Type.Knight).pileCreator(new KnightsPileCreator()).build());
+        actionCardsDarkAges.add(virtualKnight = new CardImpl.Builder(Kind.VirtualKnight, 5, Type.Action, Type.Attack, Type.Knight).pileCreator(new KnightsPileCreator()).expansion(Expansion.DarkAges).build());
 
         // Shelters
         nonSupplyCards.add(necropolis = new CardImpl.Builder(Cards.Kind.Necropolis, 1, Type.Action, Type.Shelter).addActions(2).expansion(Expansion.DarkAges).build());
