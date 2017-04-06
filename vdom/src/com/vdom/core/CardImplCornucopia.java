@@ -460,13 +460,14 @@ public class CardImplCornucopia extends CardImpl {
 				}
 				
 				Card baneCard = null;
-				for (Card card : targetPlayer.hand) {
-					if (card.getSafeName().equals(game.baneCard.getSafeName())) {
-						baneCard = card;
-						break;
-					} else if (cards.contains(card)) {
-						baneCard = card;
-						break;
+				if (targetPlayer.hand.contains(game.baneCard)) {
+					baneCard = game.baneCard;
+				} else {
+					for (Card card : targetPlayer.hand) {
+						if (cards.contains(card)) {
+							baneCard = card;
+							break;
+						}
 					}
 				}
 				

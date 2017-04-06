@@ -292,9 +292,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 					cards = Cards.settlersBustlingVillageCards;
 				}
 				
-				for (Card card : cards) {
-					if (c.getSafeName().equals(card.getSafeName())) {
-						isBane = true;
+				if (cards != null) {
+					for (Card card : cards) {
+						if (c.getSafeName().equals(card.getSafeName())) {
+							isBane = true;
+						}
 					}
 				}
 			}
