@@ -679,25 +679,30 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 		textView.setText(text);
 
-
+		boolean addText = !f.exists() || !showimages.equals("Image");
 		if (f.exists() && (showimages.equals("Image") || showimages.equals("Both"))) {
 			Uri u = Uri.parse(str);
 			ImageView im = new ImageView(view.getContext());
 			im.setImageURI(u);
 
-			// Calculate how to best fit the card graphics
-			float zoom = wp / im.getDrawable().getIntrinsicWidth() / 1.3f;
-			if (im.getDrawable().getIntrinsicHeight() * zoom > hp / 2)
-				zoom = hp / im.getDrawable().getIntrinsicHeight() / 2;
+			if (im.getDrawable() != null) {
+				// Calculate how to best fit the card graphics
+				float zoom = wp / im.getDrawable().getIntrinsicWidth() / 1.3f;
+				if (im.getDrawable().getIntrinsicHeight() * zoom > hp / 2)
+					zoom = hp / im.getDrawable().getIntrinsicHeight() / 2;
 
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 					(int)(im.getDrawable().getIntrinsicWidth() * zoom), (int)(im.getDrawable().getIntrinsicHeight() * zoom));
-			//LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int)(296 * 3.0), (int)(473 * 3.0));
-			im.setLayoutParams(params);
-			im.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			ll.addView(im);
+				//LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int)(296 * 3.0), (int)(473 * 3.0));
+				im.setLayoutParams(params);
+				im.setScaleType(ImageView.ScaleType.FIT_CENTER);
+				ll.addView(im);
+			} else {
+				addText = true;
+			}
+			
 		}
-		if (!f.exists() || !showimages.equals("Image"))
+		if (addText)
 			ll.addView(textView);
 			
 		Configuration configuration = new Configuration(getContext().getResources().getConfiguration());
