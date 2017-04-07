@@ -34,6 +34,11 @@ public class Cards {
     public static ArrayList<Card> knightsCards = new ArrayList<Card>();
     public static ArrayList<Card> ruinsCards = new ArrayList<Card>();
     public static ArrayList<Card> castleCards = new ArrayList<Card>();
+	public static ArrayList<Card> catapultRocksCards = new ArrayList<Card>();
+    public static ArrayList<Card> encampmentPlunderCards = new ArrayList<Card>();
+    public static ArrayList<Card> gladiatorFortuneCards = new ArrayList<Card>();
+    public static ArrayList<Card> patricianEmporiumCards = new ArrayList<Card>();
+    public static ArrayList<Card> settlersBustlingVillageCards = new ArrayList<Card>();
     public static ArrayList<Card> eventsCards = new ArrayList<Card>();
     public static ArrayList<Card> landmarkCards = new ArrayList<Card>();
     public static ArrayList<Card> blackMarketCards = new ArrayList<Card>();
@@ -845,7 +850,7 @@ public class Cards {
         ruinsCards.add(ruinedMarket      = new CardImpl.Builder(Cards.Kind.RuinedMarket, 0, Type.Action, Type.Ruins).addBuys(1).expansion(Expansion.DarkAges).build());
         ruinsCards.add(ruinedVillage     = new CardImpl.Builder(Cards.Kind.RuinedVillage, 0, Type.Action, Type.Ruins).addActions(1).expansion(Expansion.DarkAges).build());
         ruinsCards.add(survivors         = new CardImpl.Builder(Cards.Kind.Survivors, 0, Type.Action, Type.Ruins).description("Look at the top 2 cards of your deck. Discard them or put them back in any order.").expansion(Expansion.DarkAges).build());
-        nonKingdomCards.add(virtualRuins = new CardImpl.Builder(Cards.Kind.VirtualRuins, 0, Type.Action, Type.Ruins).pileCreator(new RuinsPileCreator()).build());
+        nonKingdomCards.add(virtualRuins = new CardImpl.Builder(Cards.Kind.VirtualRuins, 0, Type.Action, Type.Ruins).pileCreator(new RuinsPileCreator()).expansion(Expansion.DarkAges).build());
         
         // Knights
         knightsCards.add(dameAnna = new CardImpl.Builder(Cards.Kind.DameAnna, 5, Type.Action, Type.Attack, Type.Knight).description("You may trash up to 2 cards from your hand. " + KNIGHTS_TEXT).expansion(Expansion.DarkAges).build());
@@ -858,7 +863,7 @@ public class Cards {
         knightsCards.add(sirMartin = new CardImpl.Builder(Cards.Kind.SirMartin, 4, Type.Action, Type.Attack, Type.Knight).addBuys(2).description(KNIGHTS_TEXT).expansion(Expansion.DarkAges).build());
         knightsCards.add(sirMichael = new CardImpl.Builder(Cards.Kind.SirMichael, 5, Type.Action, Type.Attack, Type.Knight).description("Each other player discards down to 3 cards in hand. " + KNIGHTS_TEXT).expansion(Expansion.DarkAges).build());
         knightsCards.add(sirVander = new CardImpl.Builder(Cards.Kind.SirVander, 5, Type.Action, Type.Attack, Type.Knight).description(KNIGHTS_TEXT + " When you trash this, gain a Gold.").expansion(Expansion.DarkAges).build());
-        actionCardsDarkAges.add(virtualKnight = new CardImpl.Builder(Kind.VirtualKnight, 5, Type.Action, Type.Attack, Type.Knight).pileCreator(new KnightsPileCreator()).build());
+        actionCardsDarkAges.add(virtualKnight = new CardImpl.Builder(Kind.VirtualKnight, 5, Type.Action, Type.Attack, Type.Knight).pileCreator(new KnightsPileCreator()).expansion(Expansion.DarkAges).build());
 
         // Shelters
         nonSupplyCards.add(necropolis = new CardImpl.Builder(Cards.Kind.Necropolis, 1, Type.Action, Type.Shelter).addActions(2).expansion(Expansion.DarkAges).build());
@@ -934,15 +939,29 @@ public class Cards {
         // split pile cards
         variablePileCards.add(catapult            = new CardImpl.Builder(Cards.Kind.Catapult, 3, Type.Action, Type.Attack).addGold(1).trashForced().description("Trash a card from your hand. If it costs (3) Coins or more, each other player gains a Curse. If it's a Treasure, each other player discards down to 3 cards in hand.").expansion(Expansion.Empires).build());
         variablePileCards.add(rocks               = new CardImpl.Builder(Cards.Kind.Rocks, 4, Type.Treasure).addGold(1).description("When you gain or trash this, gain a Silver; if it is your Buy phase, put the Silver on your deck, otherwise put it into your hand.").expansion(Expansion.Empires).build());
-        variablePileCards.add(encampment          = new CardImpl.Builder(Cards.Kind.Encampment, 2, Type.Action).addActions(2).addCards(2).description("You may reveal a Gold or Plunder from your hand. If you do not, set this aside, and return it to the Supply at the start of Clean-up.").expansion(Expansion.Empires).build());
+        catapultRocksCards.add(catapult);
+		catapultRocksCards.add(rocks);
+		
+		variablePileCards.add(encampment          = new CardImpl.Builder(Cards.Kind.Encampment, 2, Type.Action).addActions(2).addCards(2).description("You may reveal a Gold or Plunder from your hand. If you do not, set this aside, and return it to the Supply at the start of Clean-up.").expansion(Expansion.Empires).build());
         variablePileCards.add(plunder             = new CardImpl.Builder(Cards.Kind.Plunder, 5, Type.Treasure).addGold(2).addVictoryTokens(1).description("").expansion(Expansion.Empires).build());
-        variablePileCards.add(gladiator           = new CardImpl.Builder(Cards.Kind.Gladiator, 3, Type.Action).addGold(2).description("Reveal a card from your hand. The player to your left may reveal a copy from their hand. If they do not, +(1) Coin and trash a Gladiator from the Supply.").expansion(Expansion.Empires).build());
+        encampmentPlunderCards.add(encampment);
+		encampmentPlunderCards.add(plunder);
+		
+		variablePileCards.add(gladiator           = new CardImpl.Builder(Cards.Kind.Gladiator, 3, Type.Action).addGold(2).description("Reveal a card from your hand. The player to your left may reveal a copy from their hand. If they do not, +(1) Coin and trash a Gladiator from the Supply.").expansion(Expansion.Empires).build());
         variablePileCards.add(fortune             = new CardImpl.Builder(Cards.Kind.Fortune, 8, Type.Treasure).addBuys(1).costDebt(8).description("When you play this, double your Coins if you haven't yet this turn. - When you gain this, gain a Gold per Gladiator you have in play.").expansion(Expansion.Empires).build());
-        variablePileCards.add(patrician           = new CardImpl.Builder(Cards.Kind.Patrician, 2, Type.Action).addActions(1).addCards(1).description("Reveal the top card of your deck. If it costs (5) Coins or more, put it into your hand.").expansion(Expansion.Empires).build());
+        gladiatorFortuneCards.add(gladiator);
+		gladiatorFortuneCards.add(fortune);
+		
+		variablePileCards.add(patrician           = new CardImpl.Builder(Cards.Kind.Patrician, 2, Type.Action).addActions(1).addCards(1).description("Reveal the top card of your deck. If it costs (5) Coins or more, put it into your hand.").expansion(Expansion.Empires).build());
         variablePileCards.add(emporium            = new CardImpl.Builder(Cards.Kind.Emporium, 5, Type.Action).addActions(1).addCards(1).addGold(1).description("When you gain this, if you have at least 5 Action cards in play, +2 Victory tokens.").expansion(Expansion.Empires).build());
-        variablePileCards.add(settlers            = new CardImpl.Builder(Cards.Kind.Settlers, 2, Type.Action).addCards(1).addActions(1).description("Look through your discard pile. You may reveal a Copper from it and put it into your hand.").expansion(Expansion.Empires).build());
+        patricianEmporiumCards.add(patrician);
+		patricianEmporiumCards.add(emporium);
+		
+		variablePileCards.add(settlers            = new CardImpl.Builder(Cards.Kind.Settlers, 2, Type.Action).addCards(1).addActions(1).description("Look through your discard pile. You may reveal a Copper from it and put it into your hand.").expansion(Expansion.Empires).build());
         variablePileCards.add(bustlingVillage     = new CardImpl.Builder(Cards.Kind.BustlingVillage, 5, Type.Action).addCards(1).addActions(3).description("Look through your discard pile. You may reveal a Settlers from it and put it into your hand.").expansion(Expansion.Empires).build());
-
+		settlersBustlingVillageCards.add(settlers);
+		settlersBustlingVillageCards.add(bustlingVillage);
+		
         // castles
         castleCards.add(humbleCastle        = new CardImpl.Builder(Cards.Kind.HumbleCastle, 3, Type.Treasure, Type.Victory, Type.Castle).addGold(1).description("Worth 1 VP per Castle you have.").expansion(Expansion.Empires).build());
         castleCards.add(crumblingCastle     = new CardImpl.Builder(Cards.Kind.CrumblingCastle, 4, Type.Victory, Type.Castle).vp(1).description("When you gain or trash this, +1 Victory token and gain a Silver.").expansion(Expansion.Empires).build());
