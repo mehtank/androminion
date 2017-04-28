@@ -28,6 +28,7 @@ import com.vdom.core.MoveContext.TurnPhase;
 import com.vdom.core.Player.ExtraTurnOption;
 import com.vdom.core.Player.HuntingGroundsOption;
 import com.vdom.core.Player.WatchTowerOption;
+import com.vdom.core.Player.FoolsGoldOption;
 
 public class Game {
     public static boolean junit = false;
@@ -3437,11 +3438,14 @@ public class Game {
 
                                 while(foolsGoldCount-- > 0) {
                                     MoveContext targetContext = new MoveContext(Game.this, targetPlayer);
-                                    if(targetPlayer.controlPlayer.foolsGold_shouldTrash(targetContext)) {
+									FoolsGoldOption option = targetPlayer.controlPlayer.foolsGold_chooseOption(targetContext);
+                                    if(option == FoolsGoldOption.TrashForGold) {
                                         targetPlayer.hand.remove(Cards.foolsGold);
                                         targetPlayer.trash(Cards.foolsGold, Cards.foolsGold, targetContext);
                                         targetPlayer.gainNewCard(Cards.gold, Cards.foolsGold, targetContext);
-                                    }
+                                    } else if (option == FoolsGoldOption.PassAll) {
+										break;
+									}
                                 }
                             }
                         }

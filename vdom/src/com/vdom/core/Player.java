@@ -1661,6 +1661,12 @@ public abstract class Player {
     	Draw3AndPlaceToken,
     	GainEstateAndTokens
     }
+	
+	public static enum FoolsGoldOption {
+        TrashForGold,
+        Pass,
+		PassAll
+	}
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
@@ -1998,8 +2004,8 @@ public abstract class Player {
 
     public abstract Card oasis_cardToDiscard(MoveContext context);
 
-    public abstract boolean foolsGold_shouldTrash(MoveContext context);
-
+    public abstract FoolsGoldOption foolsGold_chooseOption(MoveContext context);
+	
     public abstract Card nobleBrigand_silverOrGoldToTrash(MoveContext context, Card[] silverOrGoldCards);
 
     public abstract boolean jackOfAllTrades_shouldDiscardCardFromTopOfDeck(MoveContext context, Card card);

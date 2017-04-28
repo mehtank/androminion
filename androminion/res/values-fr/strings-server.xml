@@ -2,6 +2,7 @@
 <resources>
     <!-- Interaction -->
 	<string name="pass">Passer</string>
+	<string name="pass_all">Tout passer</string>
 	<string name="card_revealed">%1$s a révélé %2$s</string>
 	<string name="card_revealed_from_hand">%1$s a révélé (de la main) %2$s</string>        
 	<string name="select_from_table_max_treasure">Sélectionnez une carte Trésor de la réserve coûtant au plus (%1$s) à %2$s</string>

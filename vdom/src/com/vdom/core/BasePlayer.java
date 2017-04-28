@@ -14,6 +14,7 @@ import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
+import com.vdom.core.Player.*;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
@@ -2172,10 +2173,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return cards;
     }
     
-    @Override
-    public boolean foolsGold_shouldTrash(MoveContext context) {
-        return (game.pileSize(Cards.gold) > 0);
-    }
+	@Override
+	public FoolsGoldOption foolsGold_chooseOption(MoveContext context)
+	{
+		return (game.pileSize(Cards.gold) > 0 ? FoolsGoldOption.TrashForGold : FoolsGoldOption.Pass);
+	}
 
     @Override
     public boolean duchess_shouldGainBecauseOfDuchy(MoveContext context) {

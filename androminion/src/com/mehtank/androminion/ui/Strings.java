@@ -55,6 +55,7 @@ import com.vdom.core.Player.WildHuntOption;
 import com.vdom.core.PlayerSupplyToken;
 import com.vdom.core.Player.CourtierOption;
 import com.vdom.core.Player.LurkerOption;
+import com.vdom.core.Player.FoolsGoldOption;
 import com.vdom.core.Type;
 import com.vdom.core.Util;
 
@@ -699,7 +700,9 @@ public class Strings {
             return 2;
         } else if (cardName.equals(getCardName(Cards.secretPassage))) {
             return 1;
-        }
+        } else if (cardName.equals(getCardName(Cards.foolsGold))) {
+			return 1;
+		}
         return 0;
     }
 
@@ -1056,6 +1059,14 @@ public class Strings {
             } else if (option == SentryOption.PutBack) {
                 return getString(R.string.doctor_overpay_option_three);
             }
+        } else if (option instanceof FoolsGoldOption) {
+            if (option == FoolsGoldOption.TrashForGold) {
+                return getString(R.string.fools_gold_option_one);
+            } else if (option == FoolsGoldOption.Pass) {
+                return getString(R.string.pass);
+            } else if (option == FoolsGoldOption.PassAll) {
+                return getString(R.string.pass_all);
+            }
         } else if (option instanceof Card) {
             return getCardName((Card) option);
         } else if (option == null) {
@@ -1114,9 +1125,6 @@ public class Strings {
             }
         } else if (cardName.equals(getCardName(Cards.explorer))) {
             strings[1] = getString(R.string.explorer_reveal);
-            strings[2] = getString(R.string.pass);
-        } else if (cardName.equals(getCardName(Cards.foolsGold))) {
-            strings[1] = getString(R.string.fools_gold_option_one);
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.hovel))) {
             strings[1] = getString(R.string.hovel_option);
