@@ -17,4 +17,5 @@
     <string name="type_castle">Castle</string>
     <string name="type_gathering">Gathering</string>
     <string name="type_landmark">Landmark</string>
+    <string name="type_curse">Curse</string>
 </resources>
