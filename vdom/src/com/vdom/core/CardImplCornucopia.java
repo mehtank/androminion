@@ -444,8 +444,35 @@ public class CardImplCornucopia extends CardImpl {
 
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
-                if (targetPlayer.hand.contains(game.baneCard) && game.pileSize(Cards.curse) > 0 && targetPlayer.revealBane(context)) {
-                    targetPlayer.reveal(game.baneCard, this.getControlCard(), new MoveContext(game, targetPlayer));
+				ArrayList cards = null;
+				if (context.game.baneCard.getSafeName().equals(Cards.virtualCastle.getSafeName())) {
+					cards = Cards.castleCards;
+				} else if (context.game.baneCard.getSafeName().equals(Cards.virtualCatapultRocks.getSafeName())) {
+					cards = Cards.catapultRocksCards;
+				} else if (context.game.baneCard.getSafeName().equals(Cards.virtualEncampmentPlunder.getSafeName())) {
+					cards = Cards.encampmentPlunderCards;
+				} else if (context.game.baneCard.getSafeName().equals(Cards.virtualGladiatorFortune.getSafeName())) {
+					cards = Cards.gladiatorFortuneCards;
+				} else if (context.game.baneCard.getSafeName().equals(Cards.virtualPatricianEmporium.getSafeName())) {
+					cards = Cards.patricianEmporiumCards;
+				}else if (context.game.baneCard.getSafeName().equals(Cards.virtualSettlersBustlingVillage.getSafeName())) {
+					cards = Cards.settlersBustlingVillageCards;
+				}
+				
+				Card baneCard = null;
+				if (targetPlayer.hand.contains(game.baneCard)) {
+					baneCard = game.baneCard;
+				} else {
+					for (Card card : targetPlayer.hand) {
+						if (cards.contains(card)) {
+							baneCard = card;
+							break;
+						}
+					}
+				}
+				
+                if (baneCard != null && game.pileSize(Cards.curse) > 0 && targetPlayer.revealBane(context)) {
+                    targetPlayer.reveal(baneCard, this.getControlCard(), new MoveContext(game, targetPlayer));
                 } else {
                     targetPlayer.attacked(this.getControlCard(), context);
                     MoveContext targetContext = new MoveContext(game, targetPlayer);

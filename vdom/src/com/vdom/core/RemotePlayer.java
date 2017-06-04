@@ -276,6 +276,30 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 }
             }
             boolean isBane = context.game.baneCard != null ? c.getSafeName().equals(context.game.baneCard.getSafeName()) : false;
+			if (context.game.baneCard != null) {
+				ArrayList<Card> cards = null;
+				if (context.game.baneCard.getSafeName().equals(Cards.virtualCastle.getSafeName())) {
+					cards = Cards.castleCards;
+				} else if (context.game.baneCard.getSafeName().equals(Cards.virtualCatapultRocks.getSafeName())) {
+					cards = Cards.catapultRocksCards;
+				} else if (context.game.baneCard.getSafeName().equals(Cards.virtualEncampmentPlunder.getSafeName())) {
+					cards = Cards.encampmentPlunderCards;
+				} else if (context.game.baneCard.getSafeName().equals(Cards.virtualGladiatorFortune.getSafeName())) {
+					cards = Cards.gladiatorFortuneCards;
+				} else if (context.game.baneCard.getSafeName().equals(Cards.virtualPatricianEmporium.getSafeName())) {
+					cards = Cards.patricianEmporiumCards;
+				}else if (context.game.baneCard.getSafeName().equals(Cards.virtualSettlersBustlingVillage.getSafeName())) {
+					cards = Cards.settlersBustlingVillageCards;
+				}
+				
+				if (cards != null) {
+					for (Card card : cards) {
+						if (c.getSafeName().equals(card.getSafeName())) {
+							isBane = true;
+						}
+					}
+				}
+			}
             boolean isObelisk = context.game.obeliskCard != null ? context.game.cardsInSamePile(c, context.game.obeliskCard) : false;
             boolean uniqueCardPile = context.game.getPile(c).placeholderCard().equals(c);
             mc = makeMyCard(c, index, isBane, isObelisk, isBlackMarket, uniqueCardPile);

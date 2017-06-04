@@ -133,10 +133,11 @@
     <string name="random_landmarks_random">Random</string>
     <string name="random_include_cards">Include Kingdom cards from</string>
     <string name="select_players">Select players:</string>
+	<string name="random_all_players">Random all players</string>
     <string name="player">Player </string>
     <string name="currentplayer">Current Player</string>
     <string name="you">You</string>
-    <string name="start_game">Start game!</string>
+	<string name="start_game">Start game!</string>
     <string name="card_set_cards">Cards: %1$s</string>
     <string name="card_set_bane">Bane: %1$s</string>
     <string name="card_set_events">Events: %1$s</string>
