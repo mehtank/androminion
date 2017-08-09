@@ -1,71 +1,22 @@
-[Download latest Androminion.apk](https://github.com/mehtank/androminion/releases/download/5.0.0/Androminion.apk "Androminion.apk")
+# Androminon: Unofficial Dominion for Android
 
-1. About this project
+[All releases](https://github.com/mehtank/androminion/releases)
 
-	This is a fork of androminion by Ankur Metah, originated from google code
-	project "androminion", an android based	implementation of the game
-	"Dominion" by Rio Grande Games.
-	
-	This fork was originally based on version r561 (2012-08-02) of the
-	official project and has since been updated up to r638 (2012-08-31).
-	
-	Goals of this fork are:
-	- A better User Interface, first for smartphones and later for tablets
-	  (done)
-	- Better AI players, possibly using a neural network
-	  (work in progress)
-	- Possibly a separate server and multiplayer functionality
-	  (later)
-	- And of course some bug fixing and code commenting
-	  (partly done)
+This is neither supported nor endorsed by Rio Grande Games.
 
-	Licensed under LGPL: http://www.gnu.org/licenses/lgpl-3.0.html
+### How to compile
 
-2. Branching strategy
+(Coming soon)
 
-	------------------------------------------------------------------------------
-	master:
-	latest stable version, ready for production
-	------------------------------------------------------------------------------
-	^
-	|
-	------------------------------------------------------------------------------
-	develop:
-	contains changes in progress, may not be ready for production
-	will be marged into master when in a stable, tested state
-	------------------------------------------------------------------------------
-	^    ^    ^    ^    ^    
-	|    |    |    |    |    
-	------------------------------------------------------------------------------
-	topic branches (e.g. dev-ui or dev-bot):
-	for working on a feature or bug fix, will then be merged into develop
-	------------------------------------------------------------------------------
-  
-	See also:
-	http://stackoverflow.com/questions/2428722/git-branch-strategy-for-small-dev-team
+### Steps to run a multiplayer game
 
-3. Import newest changes from Google Code SVN
+**You need the source code to compile the server vdom!**
 
-	3.1 Prepare SVN synchronisation with SVN metadata
-	(Do only once after cloning bitbucket repository)
-	
-		git checkout master
-		git update-ref refs/remotes/trunk origin/master
-		git svn init http://androminion.googlecode.com/svn/trunk/
-		git svn fetch
+In the vdom directory, type 'ant run' (or just start com.vdom.core.Game with whatever arguments you want - the build file build.xml has some default arguments).  Be sure you know the host name or ip address for the machine that's running the game server, and that the player ports (by default 2255 and 2256) aren't blocked by your machine's firewall.
 
-	3.2 Copy newest changes in SVN to bitbucket
-	
-		git checkout master
-		git svn fetch (or git svn rebase?)
-		git push master
+Open the app on two separate devices.  Use the "join game" dialog to enter your name, the host name or ip address of the machine running the server, then the port that shows up in the terminal where you're running the server.  Once the first player connects, a second port will show up; enter that one in on the second device (should be 2255 and 2256). The interface for the first player that connects will be missing a lot of stuff until the second player connects, but once both players are there, things work fine.
 
-	3.3 Copy newest changes in git/bitbucket back to SVN
-	
-		git checkout master
-		git svn dcommit
-			--commit-url https://androminion.googlecode.com/svn/trunk/ 
-			--username=google.user@gmail.com
-	
-	Merging seems only to work properly with the master branch, so this is
-	used for synchronizing svn and git.
+### On network permissions and usage
+
+This app functions by using a strictly local networking layer to talk between the player and the game -- currently, unless using multiplayer, **no data is sent in or out of the phone**.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.
+
