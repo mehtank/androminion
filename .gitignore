@@ -5,3 +5,6 @@ project.properties
 */gen
 /androminion_JUnit
 /vdom_junit
+out
+.idea
+*.iml

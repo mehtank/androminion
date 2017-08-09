@@ -5,10 +5,14 @@
     <color name="cardDefaultBackgroundColor">#000</color>
     <color name="cardDefaultTextBackgroundColor">#0000</color>
     <color name="cardInverseTextColor">#000</color>
+    <color name="cardCostTextColor">#000</color>
+    <color name="cardDebtCostTextColor">#FFF</color>
     <color name="cardAttack">#FF8060</color>
+    <color name="cardAttackInverse">#6F1F0D</color>
     <color name="cardReaction">#0070CC</color>
     <color name="cardDuration">#FF8C00</color>
     <color name="cardVictory">#32CD32</color>
+    <color name="cardShelter">#ED4C3B</color>
     <color name="cardTreasure">#DBDB70</color>
     <color name="cardCopper">#CFB53B</color>
     <color name="cardSilver">#C0C0C0</color>
@@ -17,5 +21,27 @@
     <color name="cardPotion">#33CCFF</color>
     <color name="cardCurse">#9400D3</color>
     <color name="cardRuins">#806F49</color>
+    <color name="cardEvent">#B0AFA7</color>
+    <color name="cardLandmark">#64B789</color>
+    <color name="cardReserve">#DDC492</color>
+    <color name="stashBorder">#E84C4C</color>
+    <color name="stashTextLight">#E84C4C</color>
+    <color name="stashTextDark">#E84C4C</color>
+    <color name="castleBorder">#4C4CE8</color>
+
+    <color name="player1Color">#d9562b</color>
+    <color name="player2Color">#508db9</color>
+    <color name="player3Color">#e5d63a</color>
+    <color name="player4Color">#24ad4c</color>
+    <color name="player5Color">#f2982a</color>
+    <color name="player6Color">#dadbdc</color>
+    
+    <color name="player1LineColor">#a44121</color>
+    <color name="player2LineColor">#3b6888</color>
+    <color name="player3LineColor">#b5a92e</color>
+    <color name="player4LineColor">#1c883c</color>
+    <color name="player5LineColor">#c47b22</color>
+    <color name="player6LineColor">#abacad</color>
+    
 
 </resources>

@@ -283,7 +283,7 @@ public class UI extends JFrame implements GameEventListener {
     }
 
     public void gameEvent(GameEvent event) {
-        if (event.getType() == GameEvent.Type.TurnBegin) {
+        if (event.getType() == GameEvent.EventType.TurnBegin) {
             updateTurn();
 
             for (int i = 0; i < playerStats.length; i++) {
@@ -295,7 +295,7 @@ public class UI extends JFrame implements GameEventListener {
             sleep(TURN_BEGIN_SLEEP);
         }
 
-        if (event.getType() == GameEvent.Type.TurnEnd) {
+        if (event.getType() == GameEvent.EventType.TurnEnd) {
 
             // update the vps to show any cards that were trashed by other players
             for (PlayerStats stats : playerStats) {
@@ -308,11 +308,11 @@ public class UI extends JFrame implements GameEventListener {
             clearCardPanels();
         }
 
-        if (event.getType() == GameEvent.Type.GameStarting) {
+        if (event.getType() == GameEvent.EventType.GameStarting) {
             clearCardPanels();
         }
 
-        if (event.getType() == GameEvent.Type.GameOver) {
+        if (event.getType() == GameEvent.EventType.GameOver) {
             clearCardPanels();
             playedPanel.add(new JLabel("(Game Over)"));
             playedPanel.revalidate();
@@ -325,7 +325,7 @@ public class UI extends JFrame implements GameEventListener {
             sleep(GAME_END_SLEEP);
         }
 
-        if ((event.getType() == GameEvent.Type.PlayingAction || event.getType() == GameEvent.Type.PlayingDurationAction)
+        if ((event.getType() == GameEvent.EventType.PlayingCard || event.getType() == GameEvent.EventType.PlayingDurationAction || event.getType() == GameEvent.EventType.CallingCard)
             && event.getPlayer() == Game.players[Game.playersTurn]) {
             // System.out.println("playing action:" + event.getCard().getName());
             showHand(Game.players[Game.playersTurn]);
@@ -333,20 +333,20 @@ public class UI extends JFrame implements GameEventListener {
             sleep(PLAYING_ACTION_SLEEP);
         }
 
-        if ((event.getType() == GameEvent.Type.PlayedAction) && event.getPlayer() == Game.players[Game.playersTurn]) {
+        if ((event.getType() == GameEvent.EventType.PlayedCard) && event.getPlayer() == Game.players[Game.playersTurn]) {
             // System.out.println("played action:" + event.getCard().getName());
             showHand(Game.players[Game.playersTurn]);
             sleep(ACTION_PLAYED_SLEEP);
         }
 
-        if (event.getType() == GameEvent.Type.CardObtained && event.getPlayer() == Game.players[Game.playersTurn]) {
+        if (event.getType() == GameEvent.EventType.CardObtained && event.getPlayer() == Game.players[Game.playersTurn]) {
             // System.out.println("obtaining card:" + event.getCard().getName());
             playerStats[Game.playersTurn].refreshVps();
             addCardToObtainedPanel(event.getCard());
             sleep(CARD_OBTAINED_SLEEP);
         }
 
-        if (event.getType() == GameEvent.Type.BuyingCard && event.getPlayer() == Game.players[Game.playersTurn]) {
+        if (event.getType() == GameEvent.EventType.BuyingCard && event.getPlayer() == Game.players[Game.playersTurn]) {
             sleep(CARD_OBTAINED_SLEEP / 2);
             // System.out.println("obtaining card:" + event.getCard().getName());
             playerStats[Game.playersTurn].refreshVps();
@@ -354,25 +354,18 @@ public class UI extends JFrame implements GameEventListener {
             sleep(CARD_OBTAINED_SLEEP);
         }
 
-        if (event.getType() == GameEvent.Type.CardAddedToHand && event.getPlayer() == Game.players[Game.playersTurn]) {
+        if (event.getType() == GameEvent.EventType.CardAddedToHand && event.getPlayer() == Game.players[Game.playersTurn]) {
             // System.out.println("adding card:" + event.getCard().getName());
 
             showHand(Game.players[Game.playersTurn]);
             sleep(CARD_ADDED_TO_HAND_SLEEP);
         }
 
-        if (event.getType() == GameEvent.Type.CardRemovedFromHand && event.getPlayer() == Game.players[Game.playersTurn]) {
+        if (event.getType() == GameEvent.EventType.CardRemovedFromHand && event.getPlayer() == Game.players[Game.playersTurn]) {
             // System.out.println("removing card:" + event.getCard().getName());
 
             showHand(Game.players[Game.playersTurn]);
             sleep(CARD_REMOVED_FROM_HAND_SLEEP);
-        }
-
-        if ((event.getType() == GameEvent.Type.PlayingCoin) && event.getPlayer() == Game.players[Game.playersTurn]) {
-            // System.out.println("playing coin:" + event.getCard().getName());
-            showHand(Game.players[Game.playersTurn]);
-            addCardToPlayedPanel(event.getCard());
-            sleep(COIN_PLAYED_SLEEP);
         }
     }
 

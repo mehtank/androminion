@@ -1,11 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="personalization_pref_title">Personalisierung</string>
-    <string name="name_pref_title">Name</string>
-    <string name="name_pref_summary">Spitznamen wählen</string>
     <string name="userlang_pref_title">Sprache</string>
     <string name="userlang_pref_summary">Sprache wählen (überschreibt Systemsprache)</string>
+    <string name="showenglishnames_pref_title">Englische Namen</string>
+    <string name="showenglishnames_pref_summary">Zeige die englischen Namen der Karten in Klammern an</string>
+    <string name="exitonback_pref_summary">Beendet das Spiel erst, wenn der Zurückknopf erneut gedrückt wird</string>
+    <string name="exitonback_pref_title">Ende mit Zurückknopf</string>
+    <string name="vibescreen_pref_title">Vibration einstellen &#8230;</string>
+    <string name="gamevibeon_pref_summary">Vibrieren, wenn das Spiel endet</string>
+    <string name="gamevibeon_pref_title">Spielende</string>
+    <string name="actionvibeon_pref_summary">Vibrieren, wenn Du am Zug bist</string>
+    <string name="actionvibeon_pref_title">Aktionsanzeige</string>
+    <string name="turnvibeon_pref_summary">Vibrieren, wenn Dein Zug beginnt</string>
+    <string name="turnvibeon_pref_title">Zugbenachrichtigungen</string>
+    <string name="clickvibeon_pref_summary">Vibrieren, wenn Karte gewählt wird</string>
+    <string name="clickvibeon_pref_title">Haptisches Feedback</string>
+    <string name="allvibes_pref_title">Vibration aktivieren</string>
+    <string name="notif_pref_title">Benachrichtigungen</string>
+    <string name="show_statusbar_pref_title">Statusleiste anzeigen</string>
+    <string name="show_statusbar_pref_summary">Zeige die System-Statusleiste während des Spielens an</string>
+    <string name="game_play_pref_title">Spieleinstellungen</string>
+    <string name="testing_pref_title">Test-Modus</string>
+    <string name="start_guilds_coin_tokens_pref_title">Münzen</string>
+    <string name="start_guilds_coin_tokens_pref_summary">Starte mit Münzen und ohne Karten</string>
+    <string name="less_provinces_pref_title">Weniger Provinzen</string>
+    <string name="less_provinces_pref_summary">Spiele mit weniger Provinzen</string>
+    <string name="god_mode_pref_title">Testmodus</string>
+    <string name="god_mode_pref_summary">Jeder Zug beginnt mit 999 Aktionen, 999 Geld und 999 Käufen.</string>
+    <string name="quick_play_pref_title">Schnelles Spiel</string>
+    <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt (Neustart des Spiels erforderlich)</string>
+    <string name="sort_cards_pref_title">Karten sortieren</string>
+    <string name="sort_cards_pref_summary">Sortiert die Karten auf der Hand nach Aktion-Geld-Fluch-Siegpunkt (wirksam mit nächstem Spiel)</string>
+    <string name="action_chains_pref_title">Aktionsketten</string>
+    <string name="action_chains_pref_summary">Aktiviere Auswahl von mehreren Aktionskarten in Ausspielreihenfolge (Neustart des Spiels erforderlich)</string>
+    <string name="suppress_redundant_reactions_pref_title">Letzte Reaktion unterdrücken</string>
+    <string name="suppress_redundant_reactions_pref_summary">Verhindert, dass die gerade ausgespielte Reaktionskarte nochmal im Dialog auftaucht (wirksam mit nächstem Spiel)</string>
+    <string name="equal_start_hands_pref_title">Gleiche Starthände</string>
+    <string name="equal_start_hands_pref_summary">Alle Spieler starten mit den gleichen Karten (wirksam mit nächstem Spiel)</string>
+    <string name="plat_colony_pref_title">Platin und Kolonien</string>
+    <string name="plat_colony_pref_summary">Immer mit den Karten Platin und Kolonien spielen, egal welche Art von Erweiterung gewählt ist</string>
+    <string name="black_market_title">Schwarzmarkt</string>
+    <string name="black_market_summary">Wähle wie der Schwarzmarktstapel zusammengestellt wird</string>
+    <string name="black_market_count_pref_title">Karten im Schwarzmarkt-Stapel</string>
+    <string name="black_market_count_pref_summary">Anzahl der Karten im Schwarzmarkt-Stapel, falls der Schwarzmarkt im Spiel ist (Empfehlung: Mindestens 15)</string>
+    <string name="bm_multiple_cards_pile_pref_title">Erlaube mehrere Karten des selben Stapels</string>
+    <string name="bm_multiple_cards_pile_pref_summary">Dies betrifft nur Karten von gemischten Stapeln, Schlösser und Ritter</string>
+    <string name="bm_only_cards_from_used_exp_pref_title">Nur Karten von verwendeten Erweiterungen</string>
+    <string name="bm_only_cards_from_used_exp_pref_summary">Erstelle den Schwarzmarktstapel nur aus Karten von Erweiterungen die im Köngigreich erhalten sind</string>
+    <string name="ui_pref_title">Oberfläche</string>
+    <string name="personalization_pref_title">Personalisierung</string>
+    <string name="name_pref_summary">Spitznamen wählen</string>
+    <string name="name_pref_title">Name</string>
+    <string name="multiplayer_pref_title">Mehrspieler</string>
+    <string name="host_pref_summary">Gastgeber zu dem Verbunden wird, wenn an einer Mehrspielerpartie teilgenommen wird.</string>
+    <string name="host_pref_title">Gastgeber</string>
+    <string name="port_pref_summary">Port für den Verbindungsaufbau einer Mehrspielerpartie (normalerweise 2255)</string>
+    <string name="port_pref_title">Port</string>
+    <string name="mask_names_pref_title">Verstecke KI-Namen</string>
+    <string name="mask_names_pref_summary">Die Namen der KI-Spieler sind während des Spiels unsichtbar</string>
+    <string name="hide_card_counts_pref_title">Verberge Kartenanzahl</string>
+    <string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
+    <string name="one_turn_logs_pref_title">Details eines Zuges</string>
+    <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug im Spiellog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
+    <string name="game_over_castle_details_pref_title">Zeige Schlösser Details nach dem Spiel</string>
+    <string name="game_over_castle_details_pref_summary">Zeigt die Punkte der jeweiligen Schlösser an</string>
+    <string name="game_over_vp_token_details_pref_title">Zeige Siegpunktmarker Details nach dem Spiel</string>
+    <string name="game_over_vp_token_details_pref_summary">Zeigt an welche Karten wieviele Siegpunktmarker erworben haben</string>
+    <string name="logging_pref_title">Spielaufzeichnung</string>
+    <string name="logging_enable_pref_title">Aktiviere Spielaufzeichnung</string>
+    <string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
+    <string name="logging_dir_pref_title">Aufzeichnungsordner</string>
+    <string name="logging_dir_pref_summary">Ordner zum Speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
+    <string name="pref_theme_title">Design</string>
+    <string name="pref_theme_summary">Wähle unterschiedliche Designs</string>
+    <string name="autodownload_pref_title">Kartenbilder herunterladen (nur Englisch)</string>
+    <string name="autodownload_pref_summary">Die Bilder der Karten werden aus dem Internet heruntergeladen und auf der SD-Karte gespeichert.</string>
+    <string name="errata_pref_title">Ausgaben und Druckfehler…</string>
+    <string name="erratamasquerade_pref_title">Maskerade</string>
+    <string name="erratamasquerade_pref_summary">Spieler ohne Karten setzen aus. (Intrige 2. Edition)</string>
+    <string name="erratamine_pref_title">Mine</string>
+    <string name="erratamine_pref_summary">Entsorgen ist optional (Basisspiel 2. Edition)</string>
+    <string name="erratamoneylender_pref_title">Geldverleiher</string>
+    <string name="erratamoneylender_pref_summary">Entsorgen ist optional (Basisspiel 2. Edition)</string>
+    <string name="errataposessiontokens_pref_title">Besessenheit Extrazug Marken</string>
+    <string name="errataposessiontokens_pref_summary">Der Spieler, der die Bessessenheit gespielt hat, erhält die Marken (Empires)</string>
+    <string name="erratathroneroom_pref_title">Thronsaal</string>
+    <string name="erratathroneroom_pref_summary">Ausspielen ist optional (Basisspiel 2. Edition)</string>
+
+    <string-array name="theme_names">
+        <item>Dunkel</item>
+        <item>Hell</item>
+        <item>Hell mit dunkler Leiste</item>
+    </string-array>
+
+    <string name="userlang_pref">userlang</string>
 
     <string-array name="userlang_names">
         <item>Voreinstellung</item>
@@ -18,59 +107,6 @@
         <item>Russisch</item>
     </string-array>
 
-    <string name="show_statusbar_pref_title">Statusleiste anzeigen</string>
-    <string name="show_statusbar_pref_summary">Zeige die System-Statusleiste während des spielens an</string>
-    <string name="ui_pref_title">Oberfläche</string>
-    <string name="pref_theme_title">Design</string>
-    <string name="pref_theme_summary">Wähle unterschiedliche Designs</string>
-
-    <string-array name="theme_names">
-        <item>Dunkel</item>
-        <item>Hell</item>
-        <item>Hell mit dunkler Leiste</item>
-    </string-array>
-
-    <string name="suppress_redundant_reactions_pref_title">Letzte Reaktion unterdrücken</string>
-    <string name="suppress_redundant_reactions_pref_summary">Verhindert, dass die gerade ausgespielte Karte nochmal im Dialog auftaucht (wirksam mit nächstem Spiel)</string>
-    <string name="equal_start_hands_pref_title">Gleiche Starthände</string>
-    <string name="equal_start_hands_pref_summary">Alle Spieler starten mit den gleichen Karten (wirksam mit nächstem Spiel)</string>
-    <string name="sort_cards_pref_title">Karten sortieren</string>
-    <string name="sort_cards_pref_summary">Sortiert die Karten auf der Hand nach Aktion-Geld-Fluch-Siegpunkt (wirksam mit nächstem Spiel)</string>
-    <string name="one_turn_logs_pref_title">Details eines Zuges</string>
-    <string name="one_turn_logs_pref_summary">Nur den aktuellen Zug in im Spiellog am unteren Ende des Bildschirmes zeigen (wirksam mit nächstem Spiel)</string>
-    <string name="hide_card_counts_pref_title">Verberge Kartenanzahl</string>
-    <string name="hide_card_counts_pref_summary">(wirksam mit nächstem Spiel)</string>
-	<string name="mask_names_pref_title">Verstecke KI-Namen</string>
-	<string name="mask_names_pref_summary">Die Namen der KI-Spieler sind während des Spiels unsichtbar</string>
-    <string name="exitonback_pref_title">Ende mit Zurückknopf</string>
-    <string name="exitonback_pref_summary">Beendet das Spiel erst, wenn der Zurückknopf erneut gedrückt wird</string>
-    <string name="showenglishnames_pref_title">Englische Namen</string>
-    <string name="showenglishnames_pref_summary">Zeige die Englischen Namen der Karten in Klammern an</string>
-    <string name="game_play_pref_title">Spieleinstellungen</string>
-    <string name="quick_play_pref_title">Schnelles Spiel</string>
-    <string name="action_chains_pref_title">Aktionsketten</string>
-    <string name="action_chains_pref_summary">Aktiviere Auswahl von mehreren Aktionskarten in Ausspielreihenfolge. (Neustart des Spiels erforderlich)</string>
-    <string name="quick_play_pref_summary">Die meisten Aktionen werden automatisch durchgeführt. (Neustart des Spiels erforderlich)</string>
-    <string name="plat_colony_pref_title">Platin und Kolonien</string>
-    <string name="plat_colony_pref_summary">Immer mit den Karten Platin und Kolonien spielen, egal welche Art von Erweiterung gewählt ist.</string>
-	<string name="shelters_pref_title">Zuflucht-Karten</string>
-	<string name="shelters_pref_summary">Verwende immer Zuflucht-Karten (aus Dark Ages) anstelle der Anwesen.</string>
-    <string name="notif_pref_title">Benachrichtigungen</string>
-    <string name="allvibes_pref_title">Vibration aktivieren</string>
-    <string name="vibescreen_pref_title">Vibration einstellen &#8230;</string>
-    <string name="clickvibeon_pref_title">Haptisches Feedback</string>
-    <string name="clickvibeon_pref_summary">Vibrieren wenn Karten gespielt werden</string>
-    <string name="actionvibeon_pref_title">Aktionsanzeige</string>
-    <string name="actionvibeon_pref_summary">Vibrieren, wenn Du am Zug bist</string>
-    <string name="turnvibeon_pref_title">Zugbenachrichtigungen</string>
-    <string name="turnvibeon_pref_summary">Vibireren, wenn Dein Zug beginnt</string>
-    <string name="gamevibeon_pref_title">Spielende</string>
-    <string name="gamevibeon_pref_summary">Vibrieren wenn das Spiel endet</string>
-    <string name="logging_pref_title">Spielaufzeichnung</string>
-    <string name="logging_enable_pref_title">Aktiviere Spielaufzeichnung</string>
-    <string name="logging_enable_pref_summary">Aufzeichnungen werden als Textdatei auf der SD-Karte gespeichert</string>
-    <string name="logging_dir_pref_title">Aufzeichnungsordner</string>
-    <string name="logging_dir_pref_summary">Ordnern zum speichern der Aufzeichnungen (wird falls nötig erstellt)</string>
     <string name="pref_viewstyle_title">Stil der Benutzeroberfläche</string>
     <string name="pref_viewstyle_summary">Setzt den Stil der Benutzeroberfläche</string>
 
@@ -78,9 +114,25 @@
         <item>Klassisch</item>
         <item>Modern</item>
         <item>Ausführlich</item>
+		<item>Verdichtet</item>
     </string-array>
 
     <string name="pref_showactionbar_title">Actionbar anzeigen</string>
-    <string name="pref_showactionbar_summary">Deaktivieren auf Geräten mit kleinem Bildschirm, Aktivieren bei Geräten ohne Hardware-Tasten</string>
+    <string name="pref_showactionbar_summary">Deaktivieren auf Geräten mit kleinem Bildschirm, aktivieren bei Geräten ohne Hardware-Tasten</string>
+    <string name="shelters_pref_title">Unterschlupf-Karten</string>
+    <string name="shelters_pref_summary">Verwende immer Unterschlupf-Karten (aus Dark Ages) anstelle der Anwesen</string>
+    <string name="pref_base_set_edtion_title">Basisspiel Edition</string>
+    <string-array name="pref_base_set_editions">
+        <item>1. Edition (2008)</item>
+        <item>2. Edition (2016)</item>
+        <item>beide</item>
+    </string-array>
+    
+    <string name="pref_intrigue_edtion_title">Intrige Edition</string>
+    <string-array name="pref_intrigue_editions">
+        <item>1. Edition (2009)</item>
+        <item>2. Edition (2016)</item>
+        <item>beide</item>
+    </string-array>
 
 </resources>

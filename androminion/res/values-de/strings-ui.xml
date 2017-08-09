@@ -1,154 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    
+<resources xmlns:tools="http://schemas.android.com/tools">
+
 	<!-- AndroidManifest -->
 	<string name="app_name">Androminion</string>
 	
-	<!-- Menu Fragment -->
+	<!-- Menu Activity -->
 	<string name="start_game_menu">Spiel starten</string>
-    <string name="stats_menu">Statistiken</string>
-    <string name="settings_menu">Einstellungen</string>
-    <string name="about_menu">Über</string>
-    
-    <!-- Game Activity Menu -->
+	<string name="join_game_menu">Multiplayer: Mit Server verbinden</string>
+	<string name="stats_menu">Statistiken</string>
+	<string name="settings_menu">Einstellungen</string>
+	<string name="about_menu">Über</string>
 	<string name="help_menu">Hilfe</string>
 	<string name="quit_menu">Beenden</string>
-    
-    <!-- StartGame Activity -->
-	<string name="startgameactivity_title">Spiel starten</string>
 	
-    <!-- StartGame Fragment -->
-    <string name="select_gametype">Kartensatz wählen:</string>
-	<string name="select_players">Spieler wählen:</string>
-	<string name="player">Spieler </string>
-    <string name="you">Du</string>
-    <string name="start_game">Spiel starten!</string>
-	<string name="game_type_random">Zufällig</string>
-	<string name="game_type_preset">Vorgefertigte</string>
-	<string name="game_type_last">Zuletzt gespielt</string>
-	<string name="game_type_specified">Ausgewählte Karten</string>
-	<string name="none_game_start">Keiner</string>
-
-    <!-- Statisitcs Activity -->
+	<!-- Settings Activity -->
+	<string name="settingsactivity_title">Einstellungen</string>
+	
+	<!-- Statistics Activity -->
 	<string name="statisticsactivity_title">Statistiken</string>
+	<string name="resetstatistics_menu">Statistiken zurücksetzen</string>
 	<string name="win_loss_menu">Siege/Verluste</string>
+	<string name="win_loss_playerwins">%1$s Spieler Spiele gewonnen</string>	
 	<string name="achievements_menu">Erfolge</string>
-	<string name="reset">Reset</string>
 	<string-array name="reset_choices">
 		<item>Statistik zurücksetzten</item>
 		<item>Erfolge zurücksetzten</item>
-    </string-array>
-
-	<!-- Statisitcs Activity Menu-->
-	<string name="resetstatistics_menu">Statistiken zurücksetzen</string>
-	
-	<!-- WinLoss View -->
-	<string name="currentWinStreak">Aktuelle Glückssträhne: </string>
-	<string name="win_loss_playerwins">Spieler Spiele gewonnen</string>	
-	
-	<!-- Settings Activity -->
-    <string name="settingsactivity_title">Einstellungen</string>
+	</string-array>
+	<string name="reset">Reset</string>
 
 	<!-- About Activity -->
 	<string name="aboutactivity_title">Über</string>
-	<string name="whatsnew_menu">Neuerungen</string>
-	<string name="contrib_menu">Credits </string>
-	
-	<!-- About Fragment -->
 	<string name="version">Version %1$s</string>
-	
-	<!-- WhatsNew Fragment -->
+	<string name="connections_menu">Verbindungen </string>
+	<string name="connections_title">Verbindungen: </string>
+	<string name="connections">
+		<![CDATA[
+		<h3>On network permissions and usage</h3>
+		This app functions by using a strictly local networking layer to talk between the player and the game -- currently <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.<br><br>
+		<h3>Steps to run a multiplayer game</h3>
+		<b><font color="red">You need the source code to compile the server vdom!</font></b> In the vdom\\ directory, type \'ant run\' (or just start com.vdom.core.Game with whatever arguments you want - the build file build.xml has some default arguments).  Be sure you know the host name or ip address for the machine that\'s running the game server, and that the player ports (by default 2255 and 2256) aren\'t blocked by your machine\'s firewall.<br>
+		Open the app on two separate devices.  Use the \"join game\" dialog to enter your name, the host name or ip address of the machine running the server, then the port that shows up in the terminal where you\'re running the server.  Once the first player connects, a second port will show up; enter that one in on the second device (should be 2255 and 2256). The interface for the first player that connects will be missing a lot of stuff until the second player connects, but once both players are there, things work fine.<br><br>
+		Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
+		]]>
+	</string>
+	<string name="whatsnew_menu">Neuerungen</string>
 	<string name="whatsnew_title">Was ist neu: </string>
 	<string name="whatsnew">
-	<![CDATA[
+		<![CDATA[
 		<h3>Bitte lesen!</h3>
-		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Entwicklung von Androminion einzustellen, da sie eine offizielle digitale Version ihres Spiels herausbringen. Daher wird dies die letzte große Überarbeitung sein. Androminion wird aus dem Google Play Store zum Ende des Monats entfernt werden. Danke an alle. die an diesem Projekt mitgewirkt haben, Fehlerberichte eingesandt oder Androminion verbreitet haben -- ohne euch wäre Androminion nicht so gut und populär, wie es heute ist.<br><br>
-		Im Namen des Androminion-Teams: Es hat Spaß gemacht.<br>
-		-:ankur
-		<h3>Version 4.01</h3>
+		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Verbreitung von Androminion im Play Store, da sie eine offizielle digitale Version ihres Spiels herausbringen. Bitte veröffentliche Anrdominion in keinem öffentlichen AppStore.<br><br>
+		<h3>Version 7.05</h3>
+		* Empires Erweterung <br>
+		* Promokarte: Sauna/Eisloch
+		<h3>Version 6.07</h3>
+		* Jetzt mit Abenteuer! <br>
+		* Promokarten: Geldversteck, Einladung
+		<h3>Version 6.00</h3>
+		* Abenteuer (beta)
+		<h3>Version 5.01</h3>
+		* Promokarte Schwarzmarkt!!! <br>
+		* Promokarte Prinz!!! <br>
+		* Gilden und Promokarten auf Deutsch! <br>
+		* Noch mehr Fehlerbehebungen und Verbesserungen
+		<h3>Version 5.00</h3>
+		* Jetzt mit Gilden! <br>
+		* Weitere Übersetzungen <br>
+		* Viele Fehlerbehebungen
+		<h3>Version 4.02</h3>
+		* Vogelfreie implementiert<br>
+		* Viele Fehlerbehebungen
+		<h3>Version 4.00</h3>
 		* Dark Ages! <br>
 		* Neue Promokarten: Gesandter, Gouverneur und Carcassonne <br>
 		* Noch mehr Fehlerbehebungen und Verbesserungen
 		<h3>Version 3.01</h3>
-	    * UI für kleine Bildschirme verbessert <br>
-	    * Einzelspieler Modus hinzugefügt <br>
-	    * Weitere Fehlerbehebungen und Verbesserungen 
+		* Oberfläche für kleine Bildschirme verbessert <br>
+		* Einzelspieler Modus hinzugefügt <br>
+		* Weitere Fehlerbehebungen und Verbesserungen 
 		<h3>Version 3.00</h3>
-	    * Viele Fehlerbehebungen <br>
-	    * Optimierte Oberfläche mit Tablet Unterstützung <br>
-	    * Kompatibilität: Android 2.2+
-	    <h3>Version 2.05</h3>
-	    * Viele Fehlerbehebungen <br>
-	    * Wir haben gelogen -- dies ist erst die letzte Version für Android 1.5 - 2.1
-	    <h3>Version 2.04</h3>
-	    * Übersetzung ins Niederländische <br>
-	    * Fehlerkorrekturen <br>
-	    * Letzte Version für Android 1.5 und 1.6
-	    <h3>Version 2.03</h3>	
-	    * Besessenheit! <br>
-	    * Weitere Übersetzungen: Spanisch, Französisch, Russisch <br>
+		* Viele Fehlerbehebungen <br>
+		* Optimierte Oberfläche mit Tablet Unterstützung <br>
+		* Kompatibilität: Android 2.2+
+		<h3>Version 2.05</h3>
+		* Viele Fehlerbehebungen <br>
+		* Wir haben gelogen -- dies ist erst die letzte Version für Android 1.5 - 2.1
+		<h3>Version 2.04</h3>
+		* Übersetzung ins Niederländische <br>
+		* Fehlerkorrekturen <br>
+		* Letzte Version für Android 1.5 und 1.6
+		<h3>Version 2.03</h3>	
+		* Besessenheit! <br>
+		* Weitere Übersetzungen: Spanisch, Französisch, Russisch <br>
 		* Sehr viele Fehlerkorrekturen und Verbesserungen
-	    <h3>Version 2.02</h3>
-	    * Crash auf Android 4.x behoben <br>
-        * Intuitiveres Verhalten des Burggrabens <br>
-        * Viele weitere Korrekturen und Erweiterung <br>
-        Du möchtest mehr Möglichkeiten Karten auszuwählen? Du kannst nun Androminion direkt aus <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a> starten!
-        <h3>Version 2.0</h3>
-	    Es hat eine längere Weile gedauert aber wir hoffen diese Aktualiserung war das Warten wert!  Es gab so viele Änderungen, dass wir sie hier nicht alle auflisten können. Trotzdem sind hier die bedeutendsten:<br/><br/>
-		<b><font color="lime">* Mehr Erweiterungen!</font></b>  Fast alle Karte aus Alchemie, Blütezeit, Reiche Ernte und Hinterland sind jetzt verfügbar.<br/>
-		<b><font color="lime">* Mehr Spieleoptionen!</font></b>  Wähle verschiedenste Variante zufälliger oder fertiger Decks, mit 2-4 Spielern.<br/>
-		<b><font color="lime">* Mehr KI-Optionen!</font></b>  Neue KIs Chuck, Mary, und Sarah.<br/>
-		<b><font color="lime">* Mehr Bugfixes!</font></b>  Und neue Fehler - eventuell.<br/>
+		<h3>Version 2.02</h3>
+		* Crash auf Android 4.x behoben <br>
+		* Intuitiveres Verhalten des Burggrabens <br>
+		* Viele weitere Korrekturen und Erweiterung <br>
+		Du möchtest mehr Möglichkeiten Karten auszuwählen? Du kannst nun Androminion direkt aus <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a> starten!
+		<h3>Version 2.0</h3>
+		Es hat eine längere Weile gedauert aber wir hoffen diese Aktualiserung war das Warten wert!  Es gab so viele Änderungen, dass wir sie hier nicht alle auflisten können. Trotzdem sind hier die bedeutendsten:<br/><br/>
+		* Mehr Erweiterungen! Fast alle Karten aus Alchemie, Blütezeit, Reiche Ernte und Hinterland sind jetzt verfügbar.<br/>
+		* Mehr Spieleoptionen! Wähle verschiedenste Variante zufälliger oder fertiger Decks, mit 2-4 Spielern.<br/>
+		* Mehr KI-Optionen! Neue KIs Chuck, Mary, und Sarah.<br/>
+		* Mehr Bugfixes! Und neue Fehler - eventuell.<br/>
 		* Same great taste!<br/>
-		<br/><font color="lime">Androminion ist nun Open Source!</font>  Diese Update wäre ohne die Hilfe einiger Mitwirkender nicht möglich gewesen; siehe Credits-Tab. Auch du kannst helfen! Schreibe Bugreports, Featurerequests, Übersetzungen und mehr unter<br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
-	]]>
+		<br/>Androminion ist nun Open Source! Diese Update wäre ohne die Hilfe einiger Mitwirkender nicht möglich gewesen; siehe Credits-Tab. Auch du kannst helfen! Schreibe Bugreports, Featurerequests, Übersetzungen und mehr unter<br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/> 
+		]]>
 	</string>
-
-	<!-- Credits Fragment -->
+	<string name="contrib_menu">Credits </string>
 	<string name="contrib_title">Mitwirkende: </string>
-	
-	<!-- Game Activity -->
-    <string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
 
-    <string name="obtained">%1$s gekauft</string>
-    <string name="trashed">%1$s entsorgt</string>
-    <string name="revealed">%1$s aufgedeckt</string>
-    <string name="confirmation">Bist du sicher?</string>
-    <string name="confirm_no">Nein</string>
-    <string name="select_button">Wähle</string>
-    <string name="buy_button">\ \ Kaufen\ \ </string>
-    <string name="play_button">\ Spielen\ </string>
-    <string name="discard_button">Abwerfen</string>
-    <string name="keep_button">Behalten</string>
-    <string name="give_button">Geben</string>
-    <string name="trash_button">Entsorgen</string>
-    <string name="upgrade_button">Upgrade</string>
-    <string name="mint_button">Münzen</string>
-    <string name="swindle_button">Tricksen</string>
-    <string name="all_button">Alle</string>
-    <string name="hand_header">Hand:</string>
-    <string name="played_header">Gespielt:</string>
-    <string name="island_header">Insel:</string>
-    <string name="village_header">Dorf:</string>
-    <string name="turn_header">: Zug\u0020</string>
-    <string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/k/(g) angezeigt</string>
-    <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
-    <string name="action_single">%1$s Aktion</string>
-    <string name="action_multiple">%1$s Aktionen</string>
-    <string name="buy_single">%1$s Kauf</string>
-    <string name="buy_multiple">%1$s Käufe</string>
-    <string name="coins">(%1$s) Geld</string>
-    <string name="final_view_card_counts">Kartenanzahl</string>
-    <string name="final_view_text">%1$s: %2$s SP.\n%3$s Züge, %4$s Karten.</string>
-    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-    <string name="potion_single">%1$s Trank</string>
-    <string name="potion_multiple">%1$s Tränke</string>
-    <string name="start_new_game_on_server">Neues Spiel starten</string>
-    <string name="currentplayer">Aktueller Spieler</string>
-    <string name="toast_starting">Starte Spiel&#8230;</string>
-    <string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
-    <string name="toast_loading">Lade Spiel&#8230;</string>
-    <string name="accept">Akzeptieren</string>
-    <string name="order_cards_summary">Ziehen/Ablegen\n um Karten \n anzuordnen</string>
-    <string name="tournament_reveal">Provinz aufdecken</string>
+	<!-- StartGame Activity -->
+	<string name="startgameactivity_title">Spiel starten</string>
+	<string name="select_gametype">Kartensatz wählen:</string>
+	<string name="game_type_random">Zufällig</string>
+	<string name="game_type_preset">Vorgefertigte</string>
+	<string name="game_type_last">Zuletzt gespielt</string>
+	<string name="game_type_specified">Ausgewählte Karten</string>
+	<string name="random_all_cards">Alle Karten</string>
+	<string name="include_platinum_colony">Platin/Kolonie: </string>
+	<string name="include_shelters">Unterschlupf: </string>
+	<string name="include_cards_random">Zufällig</string>
+	<string name="include_cards_yes">Verwenden</string>
+	<string name="include_cards_no">nicht verwenden</string>
+	<string name="include_cards_percent">%1$s%% Chance</string>
+	<string name="random_include_events">Ereignisse: </string>
+	<string name="random_events_none">Keine</string>
+	<string name="random_events_random">Zufällig</string>
+	<string name="random_include_landmarks">Sehenswürdigkeit: </string>
+	<string name="random_landmarks_none">Keine</string>
+	<string name="random_landmarks_random">Zufällig</string>
+	<string name="random_include_cards">Mit Königreichkarten aus</string>
+	<string name="select_players">Spieler wählen:</string>
+	<string name="player">Spieler </string>
+	<string name="currentplayer">Aktueller Spieler</string>
+	<string name="you">Du</string>
+	<string name="start_game">Spiel starten!</string>
+	<string name="none_game_start">Keiner</string> <!-- Unused -->
+	<string name="start_new_game_on_server">Neues Spiel starten</string> <!-- Unused -->
+
+	<!-- Game Activity: Splash Screen -->
+	<string name="splash">Benutze die Menütaste um ein neues Spiel zu starten oder um dir während eines Spiels die Hilfe anzuzeigen</string>
+	
+	<!-- Game Activity: Ingame -->
+	<string name="toast_starting">Starte Spiel&#8230;</string> <!-- Unused -->
+	<string name="toast_loading">Lade Spiel&#8230;</string>
+	<string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
+	<string name="obtained">%1$s gekauft</string>
+	<string name="eventBought">%1$s gekauft</string>
+	<string name="trashed">%1$s entsorgt</string>
+	<string name="revealed">%1$s aufgedeckt</string>
+	<string name="revealed_from_hand">%1$s von der Hand aufgedeckt</string>
+	<string name="confirmation">Bist du sicher?</string>
+	<string name="confirm_no">Nein</string>
+	<string name="select_button">Wähle</string>
+	<string name="buy_button">\ \ Kaufen\ \ </string>
+	<string name="play_button">\ Spielen\ </string>
+	<string name="discard_button">Abwerfen</string>
+	<string name="keep_button">Behalten</string>
+	<string name="give_button">Geben</string>
+	<string name="trash_button">Entsorgen</string>
+	<string name="upgrade_button">Upgrade</string>
+	<string name="mint_button">Münzen</string>
+	<string name="swindle_button">Tricksen</string>
+	<string name="all_button">Alle</string>
+	<string name="hand_header">Hand:</string>
+	<string name="played_header">Gespielt:</string>
+	<string name="tavern_header">Wirtshaus:</string>
+	<string name="archive_header">Archiv:</string>
+	<string name="island_header">Insel:</string>
+	<string name="village_header">Eing. Dorf:</string>
+	<string name="prince_header">Prinz:</string>
+	<string name="turn_header">: Zug\u0020</string>
+	<string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/k/(g) angezeigt</string>
+	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+	<string name="action_zero">%1$s Aktionen</string>
+	<string name="action_single">%1$s Aktion</string>
+	<string name="action_multiple">%1$s Aktionen</string>
+	<string name="buy_zero">%1$s Käufe</string>
+	<string name="buy_single">%1$s Kauf</string>
+	<string name="buy_multiple">%1$s Käufe</string>
+	<string name="coin_zero">(%1$s) Geld</string>
+	<string name="coin_single">(%1$s) Geld</string>
+	<string name="coin_multiple">(%1$s) Geld</string>
+	<string name="final_view_card_counts">Kartenanzahl</string>
+	<string name="final_view_text">%1$s: %2$s SP.\n%3$s Züge, %4$s Karten.</string>
+	<string name="final_game_time">Dauer des Spiels: %1$s</string>
+	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+	<string name="potion_single">%1$s Trank</string>
+	<string name="potion_multiple">%1$s Tränke</string>
+	<string name="potion_cost_initial">T</string>
+	<string name="accept">Akzeptieren</string>
+	<string name="order_cards_summary">Ziehen/Ablegen\n um Karten \n anzuordnen</string>
+	<string name="trash_header">Müll:</string>
+	<string name="blackMarket_header">Schwarzmarkt:</string>
+	<string name="inheritance_header">Erbe:</string>
+	<string name="img_download_title">%1$s Bild</string>
+	<string name="img_download_desc">Lade Bild von %1$s</string>
+	<string name="journey_token_initial">\u0020\u0020R\u0020\u0020</string>
+	<string name="token_plus_one_action_initial">A</string>
+	<string name="token_plus_one_buy_initial">K</string>
+	<string name="token_header">- Marker -</string>
+	<string name="token_plus_one_card">+1 Karte</string>
+	<string name="token_plus_one_action">+1 Aktion</string>
+	<string name="token_plus_one_buy">+1 Kauf</string>
+	<string name="token_plus_one_coin">+1 Geld</string>
+	<string name="token_minus_2_cost">-2 Kosten</string>
+	<string name="token_trashing">entsorgen</string>
+	<string name="token_colon">:\u0020</string>
+	<string name="token_separator">,\u0020</string>
+	<string name="token_embargo">Embargos</string>
+	<string name="token_victory">Sieg</string>
+	<string name="token_debt">Schulden</string>
+	<string name="token_trade_route">Handelsroute</string>
+	<string name="bane_card">Bannkarte</string>
+	<string name="obelisk_card">Obelisk Karte (2 Siegpunkte)</string>
+	<string name="status_turn_number">Zug %1$s%2$s</string>
+	<string name="status_current_turn"> (aktueller Zug)</string>
+	<string name="status_deck_size">Karten im Nachziehstapel: %1$s%2$s</string>
+	<string name="status_stash_on_deck"> (Geheimversteck ganz oben)</string>
+	<string name="status_hand_size">Karten auf der Hand: %1$s</string>
+	<string name="status_hand_stashes">Geldverstecke auf der Hand: %1$s</string>
+	<string name="status_total_cards">Karten insgesammt: %1$s</string>
+	<string name="status_has_minus_coin_token">Hat -1 Geld Marker</string>
+	<string name="status_has_minus_card_token">Hat -1 Karte Marker</string>
+	<string name="status_journey_token_up">Reisemarker zeigt Vorderseite</string>
+	<string name="status_journey_token_down">Reisemarker zeigt Rückseite</string>
+	<string name="status_coin_tokens">Geldmarker: %1$s</string>
+	<string name="status_pirate_tokens">Piratenschiff Marken: %1$s</string>
+	<string name="status_debt_tokens">Schuldenmarker: %1$s</string>
+	<string name="status_victory_tokens">Punktemarker: %1$s</string>
+	<string name="card_more_info">Mehr Info</string>
+
 </resources>

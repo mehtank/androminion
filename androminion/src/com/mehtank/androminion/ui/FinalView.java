@@ -20,16 +20,21 @@ public class FinalView extends FrameLayout implements OnClickListener {
 	private static final String TAG = "FinalView";
 	
 	private GameTable gt;
-	private int[] cardCounts, embargos;
+	private int[] cardCounts, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens;
+	private int[][][] tokens;
 
 	private TextView name;
 	public ToggleButton showCards;
 
-	public FinalView(Context context, GameTable gt, String nameStr, int numTurns, int[] embargos, int numCards, int[] cardCounts, int vp, boolean winner) {
+	public FinalView(Context context, GameTable gt, String nameStr, int numTurns, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[] pileTradeRouteTokens, int[][][] tokens, int numCards, int[] cardCounts, int vp, boolean winner) {
 		super(context);
 
 		this.gt = gt;
 		this.embargos = embargos;
+		this.pileVpTokens = pileVpTokens;
+		this.pileDebtTokens = pileDebtTokens;
+		this.pileTradeRouteTokens = pileTradeRouteTokens;
+		this.tokens = tokens;
 		this.cardCounts = cardCounts;
 
 		LayoutInflater.from(context).inflate(R.layout.view_final, this, true);
@@ -48,7 +53,7 @@ public class FinalView extends FrameLayout implements OnClickListener {
 	public void onClick(View v) {
 		if (showCards.isChecked()) {
 			gt.uncheckAllShowCardsButtons();
-			gt.setSupplySizes(cardCounts, embargos);
+			gt.setSupplySizes(cardCounts, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
 			showCards.setChecked(true);
 		} else
 			gt.uncheckAllShowCardsButtons();

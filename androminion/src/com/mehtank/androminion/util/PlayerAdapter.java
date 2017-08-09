@@ -46,11 +46,12 @@ public class PlayerAdapter extends ArrayAdapter<PlayerSummary> {
 		PlayerSummary ps;
 		if(origView == null) {
 			dv = new DeckView(getContext());
+			dv.setLongClickable(true);
 		} else {
 			dv = (DeckView) origView;
 		}
 		ps = getItem(pos);
-		dv.set(ps.name, ps.turns, ps.deckSize, ps.handSize, ps.numCards, ps.pt, ps.vt, ps.gct, ps.highlight);
+		dv.set(ps.name, ps.turns, ps.deckSize, ps.stashOnDeck, ps.handSize, ps.stashesInHand, ps.numCards, ps.pt, ps.vt, ps.dt, ps.gct, ps.minusOneCoinTokenOn, ps.minusOneCardTokenOn, ps.journeyToken, ps.highlight, ps.showColor, ps.color);
 		return dv;
 	}
 	

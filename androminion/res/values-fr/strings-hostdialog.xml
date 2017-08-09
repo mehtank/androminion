@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="host_title">Connect to a Dominion Server</string>
-    <string name="host_message">Choose the type of game server.</string>
-    <string name="host_prompt">Enter the hostname or IP address of the server to which you want to connect.</string>
-    <string name="host_local">Local game</string>
-    <string name="host_remote">Remote game</string>
+    <string name="host_title">Connexion à un serveur Dominion</string>
+    <string name="host_message">Choisir le type de serveur de jeu.</string>
+    <string name="host_prompt">Entrer le nom ou l\'adresse IP du serveur auquel vous voulez vous connecter.</string>
+    <string name="host_local">Jeu local</string>
+    <string name="host_remote">Jeu distant</string>
 
+    <string name="enter_host_and_port">Entrer le serveur et le port</string>
+    <string name="your_name">Votre nom:</string>
+    <string name="host">Serveur:</string>
+    <string name="port">Port:</string>
+
+    <string name="connection_failed">Connexion échouée!</string>
+    <string name="stream_corrupted">Flux Corrompu.</string>
+    <string name="unknown_host">Serveur inconnu. Configurer les paramètres.</string>
+    <string name="network_unreachable">Réseau injoignable ou le serveur a refusé la connexion.</string>
+    <string name="io_error">Erreur d\'E/S.</string>
+    
 </resources>

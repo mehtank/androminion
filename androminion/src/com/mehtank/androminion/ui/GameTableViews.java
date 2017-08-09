@@ -84,7 +84,17 @@ public class GameTableViews {
 		}
 	}
 	
+	public static void newSingleCardGroup(CardGroup cg, int card) {
+		cg.clear();
+		if (card >= 0)
+			cg.addCard(cardsInPlay.get(card));
+	}
+	
 	public static CardView getCardView(Context context, GameTable gt, int card) {
 		return new CardView(context, null, cardsInPlay.get(card));
+	}
+	
+	public static MyCard intToMyCard(int card) {
+		return cardsInPlay.get(card);
 	}
 }

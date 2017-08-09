@@ -78,6 +78,8 @@
         <item>Classic</item>
         <item>Simple</item>
         <item>Descriptive</item>
+		<item>Descriptive</item>
+		<item>Condensed</item>
     </string-array>
 
     <string name="pref_showactionbar_title">アクションバーの表示</string>

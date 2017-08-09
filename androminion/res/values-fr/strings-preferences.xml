@@ -1,34 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="showenglishnames_pref_title">Show English names</string>
-	<string name="showenglishnames_pref_summary">Show English card names in brackets (senseless in English locale)</string>
-    <string name="exitonback_pref_summary">Quit the game when the back button is pressed</string>
-    <string name="exitonback_pref_title">Exit on back button</string>
-    <string name="vibescreen_pref_title">Configure vibrations…</string>
-    <string name="gamevibeon_pref_summary">Vibrate when the game is over</string>
-    <string name="gamevibeon_pref_title">Game over</string>
-    <string name="actionvibeon_pref_summary">Vibrate when your input is needed</string>
-    <string name="actionvibeon_pref_title">Action indicator</string>
-    <string name="turnvibeon_pref_summary">Vibrate when your turn begins</string>
-    <string name="turnvibeon_pref_title">Turn notification</string>
-    <string name="clickvibeon_pref_summary">Vibrate when cards are selected</string>
-    <string name="clickvibeon_pref_title">Haptic feedback</string>
-    <string name="allvibes_pref_title">Enable vibrations</string>
-    <string name="notif_pref_title">Notifications</string>
-    <string name="game_play_pref_title">Game Play</string>
-    <string name="quick_play_pref_title">Quick play</string>
-    <string name="quick_play_pref_summary">Most card interactions will be played automatically (will take effect next game)</string>
-    <string name="action_chains_pref_title">Action Chains</string>
-    <string name="action_chains_pref_summary">Enable multiple action selections in play order  (will take effect next game)</string>
-    <string name="plat_colony_pref_title">Include Plat &amp; Colony</string>
-    <string name="plat_colony_pref_summary">Always include platinum and colony cards, regardless of game type (will take effect next game)</string>
-    <string name="ui_pref_title">User Interface</string>
-    <string name="name_pref_summary">Enter your nickname</string>
-    <string name="name_pref_title">Name</string>
-    <string name="personalization_pref_title">Personalization</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="hide_card_counts_pref_title">Hide card counts</string>
-    <string name="hide_card_counts_pref_summary">(will take effect next game)</string>
-    <string name="one_turn_logs_pref_title">Single turn details</string>
-    <string name="one_turn_logs_pref_summary">Only show the current turn in the game logs at the bottom of the screen (will take effect next game)</string>
+    <string name="name_pref_title">Nom</string>
+    <string name="name_pref_summary">Entrez votre pseudo</string>
+    <string name="ui_pref_title">Interface utilisateur</string>
+	    <string name="card_display_pref_title">Affichage des cartes</string>    
+		    <string name="pref_viewstyle_title">Style de carte</string>
+		    <string-array name="viewstyle_names">
+		        <item>Classique</item>
+		        <item>Simple</item>
+		        <item>Détaillée</item>
+				<item>Condensée</item>
+		    </string-array>
+		    <string name="autodownload_pref_title">Télécharger les images</string>
+		    <string name="autodownload_pref_summary">En arrière-plan, télécharge sur la carte SD l\'image de la carte en anglais lorsque son descriptif est affiché</string>
+		    <string name="showimages_pref_title">Description de la carte</string>
+		    <string-array name="showimages_names">
+		        <item>Texte seul</item>
+		        <item>Image seule</item>
+		        <item>Image et texte</item>
+		    </string-array>
+		    <string name="wikilink_pref_title">Lien vers plus d\'info</string>
+		    <string name="wikilink_pref_summary">Dirige vers le wiki DominionStrategy (non-affilié à Androminion) pour plus de détails. Peut provoquer l\'arrêt du jeu si la RAM est faible.</string>
+		    <string name="showenglishnames_pref_title">Ajouter les noms anglais</string>
+		    <string name="showenglishnames_pref_summary">Affiche aussi le nom de la carte en anglais entre parenthèses lorsque la langue de l\'appli n\'est pas l\'anglais</string>
+	    <string name="pref_theme_title">Thème de l\'interface</string>
+	    <string-array name="theme_names">
+	        <item>Sombre</item>
+	        <item>Clair</item>
+	        <item>Clair avec barre de statut sombre</item>
+	    </string-array>
+    	<string name="game_screen_pref_title">Écran de jeu</string>
+		    <string name="pref_show_game_log_title">Log du jeu</string>
+		    <string name="pref_show_game_log_summary">Affiche ce qui s\'est passé dans le jeu</string>
+		    <string name="show_statusbar_pref_title">Barre de statut</string>
+		    <string name="show_statusbar_pref_summary">Affiche le statut en cours en haut de l\'écran</string>
+		    <string name="pref_showactionbar_title">Barre d\'action</string>
+                    <string name="pref_showactionbar_summary">Pour les appareils sans bouton Menu/Retour physique</string>
+		    <string name="exitonback_pref_title">Bouton Retour</string>
+		    <string name="exitonback_pref_summary">Presser le bouton Retour 2 fois pour quitter</string>
+		    <string name="next_game_pref_title">Pour les parties ultérieures</string>
+		    <string name="card_counts_pref_title">Décomptes des cartes</string>
+		    <string name="card_counts_pref_summary">Affichage du nombre de cartes : Deck / Main / Total </string>
+		    <string name="mask_names_pref_title">Masquer le nom des IA</string>
+		    <string name="mask_names_pref_summary">Jusqu\'à la fin de la partie</string>
+		    <string name="sort_cards_pref_title">Tri des cartes en main</string>
+		    <string name="sort_cards_pref_summary">Par type: Action, Trésor, Malédiction, Victoire</string>
+		    <string name="one_turn_logs_pref_title">Limiter la log</string>
+		    <string name="one_turn_logs_pref_summary">Affiche uniquement le tour courant dans la log de jeu</string>
+                    <string name="game_over_castle_details_pref_title">Scores: détail Châteaux</string>
+                    <string name="game_over_castle_details_pref_summary">Affiche la quantité de PVs apportée par chaque type de Château</string>
+                    <string name="game_over_vp_token_details_pref_title">Scores: détail jetons Victoire</string>
+                    <string name="game_over_vp_token_details_pref_summary">Affiche le détail par carte du nombre de Jetons Victoire reçus</string>
+	    <string name="vibescreen_pref_title">Vibrations</string>
+		    <string name="allvibes_pref_title">Activer les vibrations</string>
+			<string name="clickvibeon_pref_title">Pour la sélection de cartes</string>
+			<string name="actionvibeon_pref_title">Pour une Action attendue</string>
+			<string name="turnvibeon_pref_title">Pour le démarrage du tour</string>
+			<string name="gamevibeon_pref_title">Pour la fin de la partie</string>
+		<string name="userlang_pref_title">Langue</string>
+	    <string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
+	    <string-array name="userlang_names" tools:ignore="MissingTranslation">
+	        <item>Défaut du système</item>
+	        <item>Anglais</item>
+	        <item>Allemand</item>
+	        <item>Espagnol</item>
+	        <item>Français</item>
+	        <item>Japonais</item>
+	        <item>Néerlandais</item>
+	        <item>Russe</item>
+	    </string-array>
+    <string name="game_play_pref_title">Gameplay</string>
+	    <string name="errata_pref_title">Éditions et errata</string>
+	    <string name="errata_pref_summary">Gestion des règles de Dominion à utiliser</string>
+			<string name="editions_pref_title">Pour le jeu aléatoire ou pré-sélectionné</string>
+			<string name="pref_base_set_edtion_title">Édition de la boite de base</string>
+			<string-array name="pref_base_set_editions">
+				<item>Première édition (2008)</item>
+				<item>Seconde édition (2016)</item>
+				<item>Utiliser les cartes des deux</item>
+			</string-array>
+			<string name="pref_intrigue_edtion_title">Édition de L\'Intrigue</string>
+			<string-array name="pref_intrigue_editions">
+				<item>Première édition (2009)</item>
+				<item>Seconde édition (2016)</item>
+				<item>Utiliser les cartes des deux</item>
+			</string-array>
+			<string name="errata_category_pref_title">Errata</string>
+			<string name="erratamasquerade_pref_title">Mascarade</string>
+			<string name="erratamasquerade_pref_summary">Les joueurs sans carte ne passent pas (L\'Intrigue 2E)</string>
+			<string name="erratamine_pref_title">Mine</string>
+			<string name="erratamine_pref_summary">La mise au rebut est optionnelle (Dominion 2E)</string>
+			<string name="erratamoneylender_pref_title">Prêteur sur Gages</string>
+			<string name="erratamoneylender_pref_summary">La mise au rebut est optionnelle (Dominion 2E)</string>
+			<string name="errataposessiontokens_pref_title">Jetons pendant le tour de Possession</string>
+			<string name="errataposessiontokens_pref_summary">Le joueur qui exerce une Possession prend des Jetons (Empires)</string>
+			<string name="erratathroneroom_pref_title">Salle du Trône</string>
+			<string name="erratathroneroom_pref_summary">Jouer une action est optionnel (Dominion 2E)</string>
+			<string name="erratashuffling_pref_title">Mélange</string>
+			<string name="erratashuffling_pref_summary">Mélanger avant d\'accéder à plus de cartes qu\'il n\'y en a dans le deck (Dominion 2E)</string>
+		<string name="faster_gameplay_pref_title">Jeu plus rapide</string>
+		<string name="faster_gameplay_pref_summary">Options pour un jeu plus rapide</string>
+		    <string name="quick_play_pref_title">Jeu rapide</string>
+		    <string name="quick_play_pref_summary">Certaines interactions de cartes seront jouées automatiquement</string>
+		    <string name="action_chains_pref_title">Chaînage d\'actions</string>
+		    <string name="action_chains_pref_summary">Autoriser les Actions sélectionnées à être jouées en séquence</string>
+		    <string name="suppress_redundant_reactions_pref_title">Masquer la dernière réaction</string>
+		    <string name="suppress_redundant_reactions_pref_summary">Appliquer le même choix de réaction dans un même tour</string>
+	    <string name="equal_start_hands_pref_title">Cartes en main identiques au démarrage de la partie</string>
+	    <string name="equal_start_hands_pref_summary">À la prochaine partie, tous les joueurs ont la même main de départ</string>
+		<string name="black_market_title">Deck du Marché Noir</string>
+		<string name="black_market_summary">Taille et contenu</string>
+			<string name="black_market_count_pref_title">Taille du deck</string>
+			<string name="black_market_count_pref_summary">Au moins 15 recommandé</string>
+			<string name="bm_split_piles_pref_title">Cartes venant des piles divisées (Châteaux, Sauna, ...)</string>
+			<string-array name="bm_split_piles_entries">
+				<item>Ne jamais inclure</item>
+				<item>Au maximum 1 par pile</item>
+				<item>Nombre aléatoire par pile</item>
+				<item>Toutes</item>
+			</string-array>
+			<string name="bm_only_cards_from_used_exp_pref_title">Limiter aux extensions</string>
+			<string name="bm_only_cards_from_used_exp_pref_summary">Utiliser seulement les cartes d\'extensions en usage dans le Royaume courant</string>
+	<string name="logging_pref_title">Logs du jeu</string>
+            <string name="logging_enable_pref_title">Activer</string>
+	    <string name="logging_enable_pref_summary">Stockées sur la carte SD comme fichiers texte</string>
+            <string name="logging_dir_pref_title">Répertoire des logs</string>
+	    <string name="logging_dir_pref_summary">Sera créé si nécessaire</string>
+    <string name="testing_pref_title">Débogage</string>
+	    <string name="god_mode_pref_title">Mode Test</string>
+	    <string name="god_mode_pref_summary">Démarrer les tours avec 999 Pièces, 999 Achats, 999 Actions</string>
+	    <string name="less_provinces_pref_title">Une Province</string>
+	    <string name="less_provinces_pref_summary">Dans la pile de la Réserve</string>
+	    <string name="start_no_cards_pref_title">Démarrer sans carte</string>
+	    <string name="start_no_cards_pref_summary">Zéro carte dans le deck de départ</string>
+	    <string name="control_ai_pref_title">Contrôle des IA</string>
+	    <string name="control_ai_pref_summary">Toujours contrôler les tours des IA</string>
+	    <string name="disable_ai_pref_title">Désactiver les IA</string>
+	    <string name="disable_ai_pref_summary">Les joueurs IA ne font rien pendant leurs tours</string>
+	    <string name="start_guilds_coin_tokens_pref_title">Jetons Pièce</string>
+	    <string name="start_guilds_coin_tokens_pref_summary">Démarrer avec 99 Jetons Pièce</string>
 </resources>

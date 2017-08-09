@@ -3,7 +3,7 @@
 
     <!-- International strings, no translation needed -->
     <string name="copyright" translatable="false">\n©2010–2013 by Ankur Mehta\nhttp://android.mehtank.com</string>
-    <string name="dom_copyright" translatable="false">\nDominion card game ©2008–2013 by Rio Grande Games.</string>
+    <string name="dom_copyright" translatable="false">\nDominion card game ©2008–2016 by Rio Grande Games.</string>
     <string name="contributors" translatable="false">\nTodd Barlow
         \nMartin Binder
 		\nDrew Chamberlain
@@ -15,12 +15,14 @@
 		\nTobias Mahlmann
 		\nAnkur Mehta
 		\nAurel Rothärmel
+		\nFrank Röttger
 		\nTim Schroeder
 		\nMartijn Schuurmans
 		\nTom Shelley
 		\nMaxim Tkachenko
 		\nJörg Velletti
-		\nEiko Wagenknecht</string>
+		\nEiko Wagenknecht
+		\nDominionator</string>
     <string name="log_turn_separator" translatable="false">~~~\n</string>
 
 </resources>

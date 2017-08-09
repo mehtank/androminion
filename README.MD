@@ -19,4 +19,3 @@ Open the app on two separate devices.  Use the "join game" dialog to enter your 
 ### On network permissions and usage
 
 This app functions by using a strictly local networking layer to talk between the player and the game -- currently, unless using multiplayer, **no data is sent in or out of the phone**.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.
-

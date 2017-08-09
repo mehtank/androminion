@@ -66,6 +66,30 @@
                 android:verticalSpacing="@dimen/margin_cards" />
         </LinearLayout>
 
+        <!-- Prince -->
+
+        <LinearLayout
+            android:id="@+id/princeColumn"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_cards"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prince_header" />
+
+            <GridView
+                android:id="@+id/princeGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth" />
+        </LinearLayout>
+        
         <!-- Island -->
 
         <LinearLayout
@@ -93,6 +117,59 @@
                 android:numColumns="1"
                 android:stretchMode="columnWidth"
                 android:verticalSpacing="@dimen/margin_cards" />
+        </LinearLayout>
+
+        <!-- Tavern -->
+
+        <LinearLayout
+            android:id="@+id/tavernColumn"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_cards"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <!-- Title -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tavern_header" />
+
+            <!-- Cards -->
+
+            <GridView
+                android:id="@+id/tavernGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/margin_cards" />
+        </LinearLayout>
+        
+        <!-- Archive -->
+
+        <LinearLayout
+            android:id="@+id/archiveColumn"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_cards"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/archive_header" />
+
+            <GridView
+                android:id="@+id/archiveGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth" />
         </LinearLayout>
 
         <!-- Village -->
@@ -124,6 +201,57 @@
                 android:verticalSpacing="@dimen/margin_cards" />
         </LinearLayout>
         
+        
+        <!-- Inheritance -->
+
+        <LinearLayout
+            android:id="@+id/inheritanceColumn"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_cards"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inheritance_header" />
+
+            <GridView
+                android:id="@+id/inheritanceGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth" />
+        </LinearLayout>
+        
+        <!-- BlackMarket -->
+
+        <LinearLayout
+            android:id="@+id/blackMarketColumn"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_cards"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/blackMarket_header" />
+
+            <GridView
+                android:id="@+id/blackMarketGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth" />
+        </LinearLayout>
+
+        <!-- Trash -->
+
         <LinearLayout
             android:id="@+id/trashColumn"
             android:layout_width="@dimen/cardWidth"
@@ -145,6 +273,7 @@
                 android:numColumns="1"
                 android:stretchMode="columnWidth" />
         </LinearLayout>
+
     </LinearLayout>
 
 </HorizontalScrollView>

@@ -3,31 +3,39 @@
 
 	<!-- Interaction -->
 	<string name="pass">Pasar</string>
-	<string name="card_revealed">%1$s descubierto %2$s</string>
-	<string name="select_from_table_max_treasure">Selecciona una carta de la mesa que cueste al menos (%1$s) a %2$s</string>
-	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
-	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
+	<string name="card_revealed">%1$s reveló %2$s</string>
+	<string name="card_revealed_from_hand">%1$s revealó (de mano) %2$s</string>
+	<string name="select_from_table_max_treasure">Elige una carta de la mesa con un coste máximo de (%1$s) a %2$s</string>
+	<string name="pawn_option_one">Peón (opción 1 de 2):</string>
+	<string name="pawn_option_two">Pawn (opción 2 de 2):</string>
 	<string name="torturer_option_one">Coge una maldición</string>
 	<string name="torturer_option_two">Descarta dos cartas</string>
-	<string name="chancellor_query">Descarta todo el mazo</string>
-	<string name="inn_option_one">Mezcla en el mazo</string>
-	<string name="inn_option_two">Leave in discard</string>
-	<string name="tunnel_query">Discarding Tunnel</string>
-	<string name="tunnel_option_one">Revela por oro</string>
+	<string name="chancellor_query">Pon tu mazo en tu pila de descartes</string>
+	<string name="inn_option_one">Barajarla en tu mazo</string>
+	<string name="inn_option_two">Dejarla con las descartes</string>
+	<string name="tunnel_query">Descartando Túnel</string>
+	<string name="tunnel_option_one">Revela por Oro</string>
+	<string name="settlers_query">Poner Cobre de las descartes en tu mano</string>
+	<string name="bustlingVillage_query">Poner Colonos de las descartes en tu mano</string>
+	<string name="reveal_copy">Revelar una copia de tu mano</string>
+	<string name="legionary_reveal_gold">Revelar Oro para atacar</string>
+	<string name="sentry_look_at">%1$s mirando %2$s (de %3$s)</string>
 
 	<string name="join_timed_out">Agotado el tiempo de espera para que se unan jugadores e iniciar la partida.</string>
 	<string name="response_timed_out">Tiempo de espera agotado para unirse el jugador y responder a la petición.</string>
 
 	<string name="vp_single">Valor %1$s VP</string>
 	<string name="vp_multiple">Valor %1$s VPs</string>
-	<string name="coin_next_turn">+(%1$s) Moneda el proximo turno</string>
-	<string name="buy_next_turn_single">+%1$s Compra el proximo turno</string>
-	<string name="buys_next_turn_multiple">+%1$s Compras el proximo turno</string>
-	<string name="card_next_turn_single">+%1$s Carta el proximo turno</string>
-	<string name="cards_next_turn_multiple">+%1$s Cartas el proximo turno</string>
-	<string name="action_next_turn_single">+%1$s Acción el proximo turno</string>
-	<string name="actions_next_turn_multiple">+%1$s Acciones e</string>
-	<string name="card_coin">+(%1$s) Monedas</string>
+	<string name="coin_next_turn_single">+(%1$s) Moneda tu próximo turno</string>
+	<string name="coin_next_turn_multiple">+(%1$s) Monedas tu próximo turno</string>
+	<string name="buy_next_turn_single">+%1$s Compra tu próximo turno</string>
+	<string name="buys_next_turn_multiple">+%1$s Compras tu próximo turno</string>
+	<string name="card_next_turn_single">+%1$s Carta tu próximo turno</string>
+	<string name="cards_next_turn_multiple">+%1$s Cartas tu próximo turno</string>
+	<string name="action_next_turn_single">+%1$s Acción tu próximo turno</string>
+	<string name="actions_next_turn_multiple">+%1$s Acciones tu próximo turno</string>
+	<string name="card_coin_single">+(%1$s) Moneda</string>
+	<string name="card_coin_multiple">+(%1$s) Monedas</string>
 	<string name="card_buy_single">+%1$s Compra</string>
 	<string name="card_buys_multiple">+%1$s Compras</string>
 	<string name="card_action_single">+%1$s Acción</string>
@@ -37,23 +45,48 @@
 	<string name="card_victory_token_single">+%1$s Punto de victoria</string>
 	<string name="card_victory_tokens_multiple">+%1$s Puntos de victoria</string>
 
-	<string name="card_options_header">%1$s opcion</string>
-	<string name="part_play">Juega</string>
-	<string name="part_buy">Compra</string>
+	<string name="card_options_header">%1$s opción</string>
+	<string name="part_play">jugar</string>
+	<string name="part_buy">comprar</string>
+	<string name="part_move_token_minus_2_cost">mover tu marcador de -2 coste a ella</string>
+	<string name="part_move_token_plus_one_card">mover tu marcador de +1 Carta a ella</string>
+	<string name="part_move_token_plus_one_action">mover tu marcador de +1 Acción a ella</string>
+	<string name="part_move_token_plus_one_buy">mover tu marcador de +1 Compra a ella</string>
+	<string name="part_move_token_plus_one_coin">mover tu marcador de +1 Moneda a ella</string>
+	<string name="part_move_token_trashing">mover tu marcador de Eliminar a ella</string>
+	
+	<string name="discardPile">pila de descartes</string>
+	<string name="hand">mano</string>
 
 	<string name="select_from_table">Elije una carta de la mesa para %1$s</string>
+	<string name="select_from_table_attack">Elije una carta de Ataque de la mesa para %1$s</string>
+	<string name="select_from_table_action">Elije una carta de Acción de la mesa para %1$s</string>
+	<string name="select_from_table_treasure">Elije una carta de Tesoro de la mesa para %1$s</string>
+	<string name="select_from_table_victory">Elije una carta de Victoria de la mesa para %1$s</string>
 	<string name="select_from_table_exact">Elije una carta de la mesa que cueste exactamente (%1$s) para %2$s</string>
+	<string name="select_from_table_exact_action">Elije una carta de Acción de la mesa que cueste exactamente (%1$s) para %2$s</string>
+	<string name="select_from_table_exact_except">Elije una carta de la mesa, menos %1$s, que cueste exactamente (%2$s) para %3$s</string>
 	<string name="select_from_table_max">Elije una carta de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_events">Elije un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_cards_events">Elije una carta o un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_non_vp">Elije una carta que no sea de Victoria de la meas que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_non_vp_action">Elije una carta de Acción que no sea de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_vp">Elije una carta de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_action">Elije una carta de Acción de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_between">Elije una carta de la mesa que cueste entre (%1$s) y (%2$s) para %3$s</string>
 	<string name="select_from_table_min">Elije una carta de la mesa que cueste como mínimo (%1$s) para %2$s</string>
+	<string name="select_from_table_less">Elije una carta de la mesa que cueste menos de (%1$s) para %2$s</string>
+	<string name="select_from_table_less_non_vp">Elije una carta que no sea de Victoria de la mesa que cueste menos de (%1$s) para %2$s</string>
 
 	<string name="select_one_card_from_hand">Elije una carta de tu mano para %1$s</string>
 	<string name="select_up_to_x_cards_from_hand">Elije hasta %1$s cartas de tu mano para %2$s</string>
 	<string name="select_exactly_x_cards_from_hand">Elije %1$s cartas de tu mano para %2$s</string>
+	<string name="select_from_x_to_y_cards_from_hand">Elije de %1$s a %2$s cartas de tu mano para %3$s</string>
+	<string name="select_from_x_to_y_different_cards_from_hand">Elija de %1$s a %2$s cartas con nombres distintos de tu mano para %3$s</string>
 
-	<string name="select_one_action_from_hand">Elije una carta de acción de tu mano para %1$s</string>
-	<string name="select_up_to_x_actions_from_hand">Elije hasta %1$s cartas de acción de tu mano para %2$s</string>
-	<string name="select_exactly_x_actions_from_hand">Elije %1$s cartas de acción de tu mano para %2$s</string>
+	<string name="select_one_action_from_hand">Elije una carta de Acción de tu mano para %1$s</string>
+	<string name="select_up_to_x_actions_from_hand">Elije hasta %1$s cartas de Acción de tu mano para %2$s</string>
+	<string name="select_exactly_x_actions_from_hand">Elije %1$s cartas de Acción de tu mano para %2$s</string>
 
 	<string name="select_one_treasure_from_hand">Elije una carta de Tesoro de tu mano para %1$s</string>
 	<string name="select_up_to_x_treasures_from_hand">Elije hasta %1$s cartas de Tesoro de tu mano para %2$s</string>
@@ -66,44 +99,98 @@
 	<string name="select_one_nontreasure_from_hand">Elije una carta que no sea de Tesoro de tu mano para %1$s</string>
 	<string name="select_up_to_x_nontreasures_from_hand">Elije hasta %1$s cartas que no sean de Tesoro de tu mano para %2$s</string>
 	<string name="select_exactly_x_nontreasures_from_hand">Elije %1$s cartas que no sean de Tesoro de tu mano para %2$s</string>
+	
+	<string name="select_one_card_from_played">Elije una carta que tengas en juego para %1$s</string>
+	<string name="select_up_to_x_cards_from_played">Elije hasta %1$s cartas que tengas en juego para %2$s</string>
+	<string name="select_exactly_x_cards_from_played">Elije %1$s cartas que tengas en juego para %2$s</string>
+	<string name="select_up_to_x_different_cards_from_played">Elije hasta %1$s cartas con nombres distintos que tengas en juego para %2$s</string>
+		
+	<string name="reaction_query">Elige una carta de Reacción para revelar</string>
+	<string name="bane_option_one">Revelar carta de Perdición (%1$s)</string>
 
-	<string name="reaction_query">Select reaction card to reveal</string>
-	<string name="bane_option_one">Reveal Bane card (%1$s)</string>
-
-	<string name="card_to_reveal">Revela [%1$s]</string>
-	<string name="card_to_gain">Gana [%1$s]</string>
-	<string name="card_to_trash">Elimina [%1$s]</string>
-	<string name="card_to_discard">Descarta [%1$s]</string>
+	<string name="card_to_reveal">revelar [%1$s]</string>
+	<string name="card_to_gain">ganar [%1$s]</string>
+	<string name="card_to_trash">eliminar [%1$s]</string>
+	<string name="card_to_discard">descartar [%1$s]</string>
+	<string name="card_to_discard_for_card">descartar para cartas [%1$s]</string>
+	<string name="card_to_discard_for_coin">discard para monedas [%1$s]</string>
+	<string name="card_to_name">nombrar [%1$s]</string>
+	<string name="card_to_set_aside">apartar [%1$s]</string>
 	<string name="discard">Descartar</string>
-	<string name="trash">Pila de descartes</string>
-	<string name="keep">Mantener</string>
+	<string name="trash">Eliminar</string>
+	<string name="keep">Guardar</string>
 	<string name="none">Ninguna</string>
 	<string name="card_revealed_from_player">%1$s\n%2$s revela %3$s</string>
 	<string name="GameStarting"></string>
 	<string name="GameOver">Fin del juego</string>
 	<string name="Embargo">Embargo</string>
+	<string name="PlusOneCardTokenMoved">Marcador de +1 Carta movido a</string>
+	<string name="PlusOneActionTokenMoved">Marcador de +1 Acción movido a</string>
+	<string name="PlusOneBuyTokenMoved">Marcador de +1 Compra movido a</string>
+	<string name="PlusOneCoinTokenMoved">Marcador de +1 Mondea movido a</string>
+	<string name="MinusTwoCostTokenMoved">Marcador de -2 coste movido a</string>
+	<string name="TrashingTokenMoved">Marcador de Eliminar movido a</string>
+	<string name="OnIslandMat">Cartas en tablero de Isla</string>
+	<string name="OnNativeVillageMat">Cartas en tablero de Poblado Indígena</string>
 	<string name="Status">Estado</string>
 	<string name="CantBuy">No puedes comprar %1$s</string>
 	<string name="VictoryPoints">Puntos de victoria</string>
 	<string name="NewHand">Nueva mano</string>
 	<string name="TurnBegin">Comienzo del turno</string>
 	<string name="TurnEnd">Final del turno</string>
-	<string name="PlayingAction">Jugando</string>
-	<string name="PlayedAction">Jugado</string>
-	<string name="PlayingDurationAction">Duración del juego</string>
-	<string name="PlayingCoin">Jugando</string>
+	<string name="PlayingCard">Jugando</string>
+	<string name="PlayedCard">Jugada</string>
+	<string name="PlayingDurationAction">Haciendo effecto de duración de</string>
 	<string name="BuyingCard">Comprando</string>
-	<string name="NoBuy">(No Compra)</string>
-	<string name="DeckReplenished">Deck replenished</string>
+	<string name="GuildsTokenObtained">Obtuvo marcador de Moneda</string>
+	<string name="GuildsTokenSpend">Pagó marcador de Moneda</string>
+	<string name="OverpayForCard">Sobrepagó para</string>
+	<string name="DebtTokensObtained">Deuda obtenida: %1$s</string>
+	<string name="DebtTokensPaidOff">Deuda pagada: %1$s</string>
+	<string name="DebtTokensPutOnPile">Marcadores de Deuda colocadas: %1$s en</string>
+	<string name="DebtTokensTakenFromPile">Marcadores de Deuda sacadas: %1$s de</string>
+	<string name="NoBuy">(Ninguna compra)</string>
+	<string name="VPTokensObtained">Fichas de Victoria tomadas: %1$s</string>
+	<string name="VPTokensPutOnPile">Fichas de Victoria colocadas: %1$s en</string>
+	<string name="VPTokensTakenFromPile">Fichas de Victoria sacadas: %1$s de</string>
+	<string name="MountainPassBidPass">Pasó la oferta por</string>
+	<string name="MountainPassBid">Hizo oferta de %1$s por</string>
+	<string name="DeckReplenished">Mazo rellenado</string>
 	<string name="PlayerAttacking">Ataca</string>
 	<string name="PlayerDefended">Defiende</string>
 	<string name="CardOnTopOfDeck">Carta puesta en la parte superior del mazo</string>
 	<string name="CardObtained">Ganada</string>
 	<string name="CardTrashed">Eliminada</string>
 	<string name="CardRevealed">Revelada</string>
+	<string name="CardRevealedFromHand">Revelada de mano</string>
+	<string name="CardNamed">Carta nombrada</string>
 	<string name="CardDiscarded">Descartada</string>
 	<string name="CardAddedToHand">Carta añadida a la mano</string>
-	<string name="CardRemovedFromHand">Carta eliminada de la mano</string>
+	<string name="CardRemovedFromHand">Carta sacada de la mano</string>
+	<string name="CardSetAsideOnTavernMat">Carta puesta sobre el tablero de Taberna</string>
+    <string name="CallingCard">Llamando</string>
+    <string name="CalledCard">Llamada</string>
+	<string name="CardSetAside">Carta apartada (Príncipe)</string>
+	<string name="CardSetAsideSummon">Carta apartada (Convocar)</string>
+	<string name="CardSetAsideHaven">Carta apartada (Puerto)</string>
+	<string name="CardSetAsideGear">Carta apartada (Equipo)</string>
+	<string name="CardSetAsideSave">Carta apartada (Ahorrar)</string>
+	<string name="CardSetAsideOnIslandMat">Carta apartada sobre el tablero de Isla</string>
+	<string name="CardSetAsideInheritance">Carta apartada (Herencia)</string>
+	<string name="CardSetAsideArchive">Carta apartada (Archivo)</string>
+	<string name="DeckPutIntoDiscardPile">Mazo puesto en la pila de descartes</string>
+	<string name="TravellerExchanged">%1$s intercambaida para</string>
+	<string name="TurnJourneyTokenFaceUp">Marcador de Viajes con boca arriba</string>
+	<string name="TurnJourneyTokenFaceDown">Marcador de Viajes con boca abajo</string>
+    <string name="MinusOneCoinTokenOn">Marcador de -1 moneda tomado</string>
+    <string name="MinusOneCoinTokenOff">Marcador de -1 moneda removido</string>
+	<string name="MinusOneCardTokenOn">Marcador de -1 carta puesto encima del mazo</string>
+    <string name="MinusOneCardTokenOff">Marcador de -1 carta removido</string>
+    
+    <string name="plus_one_card_token">Marcador de +1 Carta</string>
+    <string name="plus_one_action_token">Marcador de +1 Acción</string>
+    <string name="plus_one_buy_token">Marcador de +1 Compra</string>
+    <string name="plus_one_coin_token">Marcador de +1 Moneda</string>
 
 	<string name="use_for_money">usar para dinero</string>
 
@@ -111,44 +198,63 @@
 	<string name="game_over_status">Fin del juego — </string>
 	<string name="game_length_status">Duración del juego: </string>
 	<string name="end_turn">Fin del turno</string>
-	<string name="replace">Reemplazar</string>
+	<string name="replace">Devolver</string>
+	
+	<string name="trash_card_from_hand">Eliminar una carta de tu mano</string>
+	<string name="gain_silver">Ganar una carta de Plata</string>
+	<string name="trash_this">Eliminar esta carta</string>
+	<string name="trash_this_gain_another">Eliminar esta carta para ganar otra carta</string>
+	<string name="trash_castle_from_hand">Eliminar una carta de Castillo de tu mano</string>
 
-	<string name="secretchamber_part">put back on deck [Secret Chamber]</string>
+	<string name="secretchamber_part">devolver al mazo [Cámara Secreta]</string>
+	<string name="secretchamber_query_discard">[Cámara Secreta] Elige cartas para descartar</string>
 
-	<string name="ghostship_part">put back on deck [Ghost Ship]</string>
+	<string name="ghostship_part">devolver al mazo [Barco Fantasma]</string>
 
-	<string name="ambassador_query">Quantity of %1$s to return to supply [Ambassador]:</string>
+	<string name="ambassador_query">Cantidad de %1$s para devolver al Suministro [Embajador]:</string>
 
-	<string name="goons_part">keep [Goons]</string>
+	<string name="goons_part">guardar [Matones]</string>
 
-	<string name="watch_tower_query">"Watch Tower (%1$s gained):</string>
+	<string name="watch_tower_query">Atalaya (%1$s ganada):</string>
 
-	<string name="followers_part">keep [Followers]</string>
+	<string name="followers_part">guardar [Seguidores]</string>
 
-	<string name="treasure_to_trash">Elije un tesoro para eliminar</string>
+	<string name="treasure_to_trash">Elije una carta Tesoro para eliminar</string>
+	
+	<string name="bandit_treasure_to_trash">Elige una carta de Tesoro para eliminar de tu mazo [Bandida]</string>
+	
+	<string name="vassal_option_play">Jugar %1$s</string>
 
-	<string name="scheme_query">Elije una carta de acción para devolver al mazo</string>
+	<string name="scheme_query">Elije una carta de Acción para devolver al mazo</string>
+	
+	<string name="raze_query">Elije una carta para poner en la mano</string>
+	
+	<string name="quest_attack_to_discard">Carta de Ataque para descartar</string>
 
-	<string name="herbalist_query">Elije una carta de tesoro para devolver al mazo</string>
+	<string name="herbalist_query">Elije una carta de Tesoro para devolver al mazo</string>
 
-	<string name="thief_query">Elije un tesoro para robar</string>
+	<string name="thief_query">Elije una carta de Tesoro para robar</string>
 
-	<string name="smuggle_query">Select card to smuggle</string>
+	<string name="smuggle_query">Elije una carta para ganar</string>
+	
+	<string name="teacher_query">Elije un marcador para mover</string>
 
-	<string name="courtyard_part_top_of_deck">Pon en la parte superior de tu mazo [%1$s]</string>
+	<string name="courtyard_part_top_of_deck">poner en la parte superior de tu mazo [%1$s]</string>
 
 	<string name="hamlet_part_discard_for_action">descartar para +1 Acción</string>
 	<string name="hamlet_part_discard_for_buy">descartar para +1 Compra</string>
 
-	<string name="vault_part_discard_for_gold">descartar por monedas</string>
-	<string name="vault_part_discard_for_card">descartar para +1 carta</string>
+	<string name="vault_part_discard_for_gold">descartar para monedas</string>
+	<string name="vault_part_discard_for_card">descartar para +1 Carta</string>
 
-	<string name="lookout_query_trash">Elije carta para eliminar</string>
-	<string name="lookout_query_discard">Elije carta para descartar</string>
+	<string name="lookout_query_trash">Elije una carta para eliminar</string>
+	<string name="lookout_query_discard">Elije una carta para descartar</string>
+	
+	<string name="moneylender_trash_copper">Eliminar Cobre de tu mano para +(3) Monedas</string>
 
-	<string name="mountebank_query">Mountebank revealed</string>
-	<string name="mountebank_option_one">Descartar una maldicó</string>
-	<string name="mountebank_option_two">Gana una maldición y un cobre</string>
+	<string name="mountebank_query">Charlatán jugado</string>
+	<string name="mountebank_option_one">Descartar una Maldición</string>
+	<string name="mountebank_option_two">Ganar una Maldición y un Cobre</string>
 
 	<string name="pearldiver_option_one">Mover arriba</string>
 	<string name="pearldiver_option_two">Dejar debajo</string>
@@ -156,115 +262,263 @@
 	<string name="alchemist_option_one">Devolver al mazo</string>
 	<string name="alchemist_option_two">Descartar</string>
 
-	<string name="navigator_header">Navigator revealed: %1$s</string>
-	<string name="navigator_option_two">Replace on deck</string>
-
-	<string name="tournament_reveal">Muestra las provincias</string>
-	<string name="tournament_option_one">Don\'t reveal Province</string>
-	<string name="tournament_option_two">Gain Prize</string>
-	<string name="tournament_option_three">Gain Duchy</string>
-	<string name="select_prize">Elije un precio</string>
+	<string name="navigator_header">Navegante reveló: %1$s</string>
+	<string name="navigator_option_two">Devolver al mazo</string>
+	
+	<string name="catacombs_header">Catacumbas reveló: %1$s</string>
+	<string name="catacombs_option_one">Poner todas en la mano</string>
+	<string name="catacombs_option_two">Descartar y +3 Cartas</string>
+		
+	<string name="tournament_reveal">Revelar la Provincia</string>
+	<string name="tournament_option_one">No revelar la Provincia</string>
+	<string name="tournament_option_two">Ganar Premio</string>
+	<string name="tournament_option_three">Ganar Ducado</string>
+	<string name="select_prize">Elije un Premio</string>
 
 	<string name="trusty_steed_option_one">+2 Acciones</string>
 	<string name="trusty_steed_option_two">+2 Cartas</string>
-	<string name="trusty_steed_option_three">+(2) Monedas</string>
-	<string name="trusty_steed_option_four">Gana 4 platas y descarta tu mazo</string>
+	<string name="trusty_steed_option_three">+2 Monedas</string>
+	<string name="trusty_steed_option_four">Ganar 4 Platas y poner mazo en pila de descartes</string>
 
-	<string name="mining_village_option_one">Elimina para +(2)</string>
+	<string name="mining_village_option_one">Elimina para +2 Monedas</string>
 
-	<string name="golem_first_action">Action to play first</string>
+	<string name="golem_first_action">Acción para jugar primero</string>
 
-	<string name="duchess_query">Gaining Duchy</string>
-	<string name="duchess_option_one">Gain Duchess as well</string>
+	<string name="duchess_query">Ganando Ducado</string>
+	<string name="duchess_option_one">Ganar Duquesa también</string>
 
-	<string name="jack_of_all_trades_option_one">Devuelvelo al mazo</string>
+	<string name="jack_of_all_trades_option_one">Devolverlo al mazo</string>
 
-	<string name="duchess_play_option_one">Devuelvelo al mazo</string>
+	<string name="duchess_play_option_one">Devolverlo al mazo</string>
 
-	<string name="noble_brigand_query">Card to gain from %1$s [Noble Brigand]</string>
+	<string name="noble_brigand_query">Carta para ganar de %1$s [Bandido Honrado]</string>
 
 	<string name="steward_option_one">+2 Cartas</string>
-	<string name="steward_option_two">+(2) Monedas</string>
-	<string name="steward_option_three">Elimina dos cartas de tu mano</string>
+	<string name="steward_option_two">+2 Monedas</string>
+	<string name="steward_option_three">Eliminar 2 cartas de tu mano</string>
 
+	<string name="amulet_option_one">+1 Moneda</string>
+	
+	<string name="extra_turns_query">Elige el orden de turnos extras</string>
+	<string name="extra_turns_outpost_first">Puesto Avanzado primero</string>
+	<string name="extra_turns_mission_first">Turno de Misión primero</string>
+	<string name="extra_turns_possession_first">Turno posesionado primero</string>
+	
+	<string name="quest_discard_attack">Descartar Ataque</string>
+	<string name="quest_discard_two_curses">Descartar 2 Maldiciones</string>
+	<string name="quest_discard_six_cards">Descartar 6 cartas</string>
+	
+	<string name="squire_option_one">+2 Acciones</string>
+	<string name="squire_option_two">+2 Compras</string>
+	<string name="squire_option_three">Ganar una Plata</string>
+
+	<string name="count_firstoption_one">Descartar 2 cartas</string>
+	<string name="count_firstoption_two">Poner una carta encima de tu mazo</string>
+	<string name="count_firstoption_three">Ganar un Cobre</string>
+	<string name="count_secondoption_one">+3 Monedas</string>
+	<string name="count_secondoption_two">Eliminar tu mano</string>
+	<string name="count_secondoption_three">Ganar un Ducado</string>
+	<string name="count_part_top_of_deck">poner encima de tu mazo [%1$s]</string>
+	
+	<string name="graverobber_option_one">Ganar una carta de las eliminadas</string>
+	<string name="graverobber_option_two">Eliminar una carta de Acción</string>
+	
+	<string name="hunting_grounds_option_one">Ganar un Ducado</string>
+	<string name="hunting_grounds_option_two">Ganar 3 Fincas</string>
+	
+	<string name="ironmonger_option_one">Devolver al mazo</string>
+	
+	<string name="hovel_option">Eliminar Casucha</string>
+	
 	<string name="pawn_one">Roba una carta</string>
 	<string name="pawn_two">+1 Acción</string>
 	<string name="pawn_three">+1 Compra</string>
-	<string name="pawn_four">+(1) Moneda</string>
+	<string name="pawn_four">+1 Moneda</string>
 
 	<string name="nobles_option_one">+3 Cartas</string>
 	<string name="nobles_option_two">+2 Acciones</string>
 
-	<string name="minion_option_one">+(2) Coins</string>
+	<string name="minion_option_one">+2 Coins</string>
 	<string name="minion_option_two">Descartar la mano, +4 Cartas</string>
 
 	<string name="spice_merchant_option_one">+2 Cartas y +1 Acción</string>
-	<string name="spice_merchant_option_two">+(2) Coins y +1 Compra</string>
+	<string name="spice_merchant_option_two">+2 Monedas y +1 Compra</string>
 
-	<string name="watch_tower_option_one">Take normally</string>
-	<string name="watch_tower_option_three">Top of Deck</string>
+	<string name="watch_tower_option_one">No revelar</string>
+	<string name="watch_tower_option_three">Poner encima del mazo</string>
 
-	<string name="jester_option_one">Gana una copia para ti</string>
-	<string name="jester_option_two">Dale una copia a %1$s</string>
+	<string name="jester_option_one">Ganar una copia para ti</string>
+	<string name="jester_option_two">Darle una copia a %1$s</string>
 
-	<string name="trader_gain">Gana %1$s</string>
-	<string name="trader_gain_instead_of">Gana %1$s, en lugar de %2$s</string>
+	<string name="trader_gain">Ganar %1$s</string>
+	<string name="trader_gain_instead_of">Ganar %1$s, en lugar de %2$s</string>
 
-	<string name="fools_gold_option_one">Elimina por monedas</string>
+	<string name="fools_gold_option_one">Eliminar para Oro</string>
 
-	<string name="baron_option_one">Elimina una finca por +(4) Monedas</string>
-	<string name="baron_option_two">Gana una finca</string>
+	<string name="baron_option_one">Elimina una Finca por +4 Monedas</string>
+	<string name="baron_option_two">Ganar una Finca</string>
 
-	<string name="native_village_option_one">Coge las cartas de la Aldea natal y ponlas en tu mano</string>
-	<string name="native_village_option_two">Pon la carta superior de tu mazo en la Aldea natal</string>
+	<string name="native_village_option_one">Coger las cartas del tablero de Poblado Indígena y ponerlas en tu mano</string>
+	<string name="native_village_option_two">Poner la carta superior de tu mazo en el tablero de Poblado Indígena</string>
 
-	<string name="ill_gotten_gains_option_one">Gana un cobre</string>
+	<string name="ill_gotten_gains_option_one">Ganar un Cobre</string>
 
-	<string name="card_order_on_deck">Card order on deck:</string>
+	<string name="card_order_on_deck">Orden de las cartas encima del mazo:</string>
 
-	<string name="treasury_number">Numero de cartas de tesoro para volver a poner en el mazo:</string>
+	<string name="treasury_number">Número de cartas de Tesorería para poner encima del mazo:</string>
 
-	<string name="pirate_ship_option_one">Toma +(%1$s) Monedas</string>
-	<string name="pirate_ship_option_two">Ataca</string>
+	<string name="pirate_ship_option_one">Tomar +%1$s Monedas</string>
+	<string name="pirate_ship_option_two">Atacar</string>
+	<string name="miser_option_one">+%1$s Monedas</string>
+    <string name="miser_option_two">Poner un Cobre sobre el tablero de Taberna</string>
 
 	<string name="top_of_deck">Parte superior del mazo</string>
 
-	<string name="saboteur_part">reemplaza tu carta saboteada</string>
+	<string name="saboteur_part">reemplazar tu carta saboteada</string>
 
-	<string name="mandarin_part">ponla en la parte superior del mazo</string>
+	<string name="mandarin_part">poner en la parte superior del mazo</string>
 
-	<string name="bureaucrat_part">ponla en la parte superior del mazo</string>
+	<string name="bureaucrat_part">poner en la parte superior del mazo</string>
+	
+	<string name="haven_part">apartar [Puerto]</string>
+	
+ 	<string name="gear_part">apartar [Equipo]</string>
+  
+  	<string name="save_part">apartar [Ahorrar]</string>
+	
+	<string name="island_part">poner sobre el tablero de Isla</string>
 
-	<string name="masquerade_part">pasala a tu izquierda</string>
+	<string name="masquerade_part">pasar a tu izquierda</string>
+	
+	<string name="courtier_ask_reveal">revelar</string>
+	<string name="secretPassage_cardToPutInDeck">colocar en tu mazo</string>
+	<string name="secretPassage_query">Ponerla %1$s en tu mazo [Pasaje Secreto]</string>
 
-	<string name="mine_part">mine to</string>
+	<string name="courtier_option_add_action">+1 Acción</string>
+	<string name="courtier_option_add_buy">+1 Compra</string>
+	<string name="courtier_option_add_coins">+(3) Monedas</string>
+	<string name="courtier_option_gain_gold">Ganar una carta de Oro</string>
+	<string name="lurker_gainFromTrash">Ganar una carta de Acción de entre las eliminadas</string>
+	<string name="lurker_trashActionFromSupply">Eliminar una carta de Acción del Suministro</string>
+	<string name="lurker_cardToTrashFromSupply">eliminar</string>
 
-	<string name="militia_part">Cartas que mantienes por Milicia</string>
+	<string name="mine_part">mejorar [Mina]</string>
+	<string name="mint_part">ganar una copia [Acuñador]</string>	
+	<string name="contraband_part">no ser comprada en este turno [Contrabando]</string>
+	<string name="embargo_part">ponerle un marcador de Embargo</string>
+	
+	<string name="throne_room_part">jugar 2 veces</string>
+  	<string name="kings_court_part">jugar 3 veces</string>
 
-	<string name="bishop_part">Elimina para Puntos de Victoria</string>
+	<string name="militia_part">guardar de Milicia</string>
+	<string name="mercenary_part">guardar de Mercenario</string>
+	<string name="sir_michael_part">guardar de Sir Michael</string>
+	<string name="catapult_part">guardar [Catapulta]</string>
+	<string name="legionary_part">guardar [Legionario]</string>
 
-	<string name="swindler_part">replace swindled card of cost (%1$s)</string>
+	<string name="bishop_part">eliminar para Puntos de Victoria</string>
 
-	<string name="margrave_part">keep from Margrave</string>
+	<string name="swindler_part">reemplazar la carta embaucada con un coste de (%1$s)</string>
 
-	<string name="wishing_well_part">guess is your top card</string>
+	<string name="margrave_part">guardar de Margrave</string>
 
-	<string name="explorer_reveal">Muestra una provincia</string>
+	<string name="wishing_well_part">adivinar que sea la carta superior</string>
+
+	<string name="explorer_reveal">Revelar una Provincia</string>
+	
+	<string name="walledVillage_option_one">Poner encima del mazo</string>
+	<string name="walledVillage_option_two">Descartar</string>
+	
+	<string name="governor_option_one">Cada jugador roba 1 (3) Cartas</string>
+	<string name="governor_option_two">Cada jugador gana una Plata (Oro)</string>
+	<string name="governor_option_three">Cada jugador mejora por exactamente 1 (2) más</string>
+		
+    <string name="prince_part">apartar con Príncipe</string>
 
 	<!-- *** -->
-	<string name="university_part">gana [Universidad]</string>
+	<string name="university_part">ganar [Universidad]</string>
 	<!-- *** -->
 
 	<string name="putback_query">Elije una carta para devolver al mazo</string>
-	<string name="putback_option_one">Treasure card (Herbalist)</string>
-	<string name="putback_option_two">Action card (Scheme)</string>
+	<string name="putback_option_one">Carta de Tesoro (Herbalista)</string>
+	<string name="putback_option_two">Carta de Acción (Confabulación)</string>
+	<string name="putback_option_all">Devolverlas todas</string>
 
-  <string name="game_over_vps"> VPs</string>
-
-  <string name="coin_worth">Vale (%1$s) Moneda</string>
+  <string name="game_over_vps"> PVs</string>
+  <string name="victory_tokens">Fichas de PV</string>
+  
   <string name="Cartographer_query">Elije una carta para descartar</string>
   <string name="cards">Cartas</string>
   <string name="return_cards">Devolver las cartas al mazo:</string>
-  <string name="take_normal">Take normally</string>
+  <string name="take_normal">Ganar normalmente</string>
+  <string name="opponent_discard">Elige una carta para que %1$s la descarte (%2$s)</string>
+  <string name="survivors_header">Supervivientes reveló: %1$s</string>
+  <string name="cultist_play_next">Jugar otro Sectario de la mano</string>
+  <string name="urchin_keep">guardar de Pillastre</string>
+  <string name="urchin_trash_for_mercenary">Eliminarla por Mercenario</string>
+  <string name="madman_option">Devolver Loco</string>
+  
+  <string name="taxman_part">ganar</string>
+  <string name="doctor_overpay_option_one">Eliminar</string>
+  <string name="doctor_overpay_option_two">Descartar</string>
+  <string name="doctor_overpay_option_three">Devolver</string>
+  <string name="herald_overpay_query">Elige una carta para poner encima del mazo</string>
+  <string name="spend_guilds_coin_tokens">Pagar marcadores de Moneda</string>
+  <string name="buy_overpay">¿Sobrepaga?</string>
+  <string name="buy_overpay_by_potions">¿Sobrepaga con poción(es)?</string>
+  <string name="pay_off_debt">Pagar tu Deuda</string>
+  <string name="possessed_by">poseído(a) por</string>
+  
+  <string name="countingHouse_query">Elige el número de cartas de Cobre para poner en tu mano</string>
 
+  <string name="HauntedWoodsAttacks">Bosque Embrujado tiene efecto</string>
+  <string name="EnchantressAttacks">Encantadora tiene efecto</string>
+  <string name="SwampHagAttacks_single">%1$s Bruja del Pantano tiene efecto</string>
+  <string name="SwampHagAttacks_multiple">%1$s Brujas del Pantano tienen efecto</string>
+  <string name="traveller_exchange">Intercambiarla por %1$s</string>
+  <string name="teacher_move_token_plus_one_card">mover tu marcador de +1 Carta a su mazo (sin tus marcadores). [Maestro]</string>
+  <string name="teacher_move_token_plus_one_action">mover tu marcador de +1 Acción a su mazo (sin tus marcadores). [Maestro]</string>
+  <string name="teacher_move_token_plus_one_buy">mover tu marcador de +1 Compra a su mazo (sin tus marcadores). [Maestro]</string>
+  <string name="teacher_move_token_plus_one_coin">mover tu marcador de +1 Moneda a su mazo (sin tus marcadores). [Maestro]</string>
+  <string name="wineMerchant_option_one">Descartar de la Taberna</string>
+  <string name="wineMerchant_query">Número de Mercaderes de Vino para descartar de la Taberna</string>
+  <string name="wineMerchantEstate_query">Número de Fincas para descartar de la Taberna</string>
+  
+  <string name="call_when_gain_query">Ganando %1$s. Llama una carta:</string>
+  <string name="call_resolve_action_query">%1$s resuelta. Llama una carta:</string>
+  <string name="call_start_turn_query">Comienzo del turno. Llama una carta:</string>
+  <string name="start_turn_query">Comienzo del turno. Elige una acción:</string>
+  <string name="call_optional">%1$s (opcional)</string>
+  
+  <string name="archive_query">Elije una carta para poner en tu mano [Archivo]</string>
+  <string name="annex_query">Elije cartas para quedar en tu pila de descartes (hasta %1$s más) [Anexar]</string>
+  <string name="charm_option_one">+1 Compra, +(2) Monedas</string>
+  <string name="charm_option_two">Al comprar la próxima carta, ganar otra carta con el mismo coste</string>
+  <string name="reveal_gold">Revelar Oro</string>
+  <string name="reveal_plunder">Revelar Saqueo</string>
+  <string name="hauntedcastle_part">devolver al mazo [Castillo Embrujado]</string>
+  <string name="draw_three_add_token">Robar 3 cartas y colocar una ficha de Victoria en el montón</string>
+  <string name="gain_estate_and_tokens">Ganar una Finca y tomar las fichas de Victoria del montón</string>
+  <string name="tax_part">ponerle 2 marcadores de Deuda [Impuesto]</string>
+  <string name="mountainPass_query">Oferta de Deuda para tomar para 8 fichas de Victoria [Puerto de Montaña]</string>
+  <string name="mountainPass_high_bid_query">Oferta de Deuda para tomar para 8 fichas de Victoria (Oferta más alta: %1$s) [Puerto de Montaña]</string>
+  
+  <string name="place_stash_query">Coloca Alijo en tu mazo</string>
+  <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>
+  <string name="stash_on_top">Encima del mazo</string>
+  <string name="stash_on_bottom">Debajo del mazo</string>
+  <string name="stash_choose_individually">Escoger individualmente&#8230;</string>
+  <string name="stash_1_card_down">1 carta desde la parte superior</string>
+  <string name="stash_x_cards_down">%1$s cartas desde la parte superior</string>
+  <string name="stash_after_cards_to_draw">Después de las cartas para robar (%1$s)</string>
+  <string name="stash_more_options">Más opciones&#8230;</string>
+  
+  <string name="sauna_play_avanto">Jugar Avanto de la mano</string>
+  <string name="avanto_play_sauna">Jugar Sauna de la mano</string>
+
+  <string name="opulent_castle_ask_discard">descartar para +(2) Monedas por cada una</string>
+  <string name="sprawlingcastle_gain_duchy">Ganar Ducado</string>
+  <string name="sprawlingcastle_gain_estates">Ganar 3 Fincas</string>
+
+  <string name="card_played_as_card">%1$s (jugado como %2$s)</string>
 </resources>
