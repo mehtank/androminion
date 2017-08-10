@@ -776,7 +776,9 @@ public class Strings {
             return getString(R.string.quest_attack_to_discard);
         } else if (cardName.equals(getCardName(Cards.raze))) {
             return getString(R.string.raze_query);
-        } else if (cardName.equals(getCardName(Cards.scheme))) {
+        } else if(cardName.equals(getCardName(Cards.rogue))) {
+			return getString(R.string.rogue_query);
+		} else if (cardName.equals(getCardName(Cards.scheme))) {
             return getString(R.string.scheme_query);
         } else if (cardName.equals(getCardName(Cards.sentry))) {
         	Card currentCard = (Card)extras[0];

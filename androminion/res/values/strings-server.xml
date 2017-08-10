@@ -459,7 +459,7 @@
   <string name="urchin_keep">keep from Urchin</string>
   <string name="urchin_trash_for_mercenary">Trash it for Mercenary</string>
   <string name="madman_option">Return Madman</string>
-  
+  <string name="rogue_query">Select a card to gain from the trash pile</string>
   <string name="taxman_part">gain</string>
   <string name="doctor_overpay_option_one">Trash</string>
   <string name="doctor_overpay_option_two">Discard</string>
