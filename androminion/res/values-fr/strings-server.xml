@@ -462,6 +462,9 @@
     <string name="take_normal">Prendre normalement</string>
     <string name="opponent_discard">Choisir une carte de %1$s à défausser (%2$s)</string>
 
+	<!-- Bandit -->
+    <string name="rogue_query">Choisir une carte à récupérer du rebut</string>
+	
     <!-- Rescapés -->
     <string name="survivors_header">Rescapés a révélé: %1$s</string>
     <!-- Cultiste -->
