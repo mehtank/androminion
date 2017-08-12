@@ -533,7 +533,7 @@ public class Strings {
     public static String[] getOptions(Card card, Object[] options) {
         int startIndex = getOptionStartIndex(card, options);
         String[] strings = new String[options.length - startIndex];
-        if (card != null && getCardName(card).equals(getCardName(Cards.hermit))) {
+        if (card != null && getCardName(card).equals(getCardName(Cards.hermit)) && !(options[0] instanceof String)) {
             strings = new String[options.length - 1];
             strings[0] = getString(R.string.none);
             int nonTreasureCountInDiscard = (Integer) options[0];
