@@ -953,7 +953,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         if (!gs.isFinal) // does not happen as far as we know
             return;
 
-        int maxVP = 0;
+        int maxVP = Integer.MIN_VALUE;
         int minTurns = 10000;
         /**
          * The player(s) to show as winner
@@ -962,7 +962,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
 
         for (int i=0; i<players.getCount(); i++) { //winners are calculated in this loop
-            if (gs.handSizes[i] > maxVP || winners.size() == 0) {
+            if (gs.handSizes[i] > maxVP) {
                 winners.clear(); winners.add(i);
                 maxVP = gs.handSizes[i];
                 minTurns = gs.turnCounts[i];
