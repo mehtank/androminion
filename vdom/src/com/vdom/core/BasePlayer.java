@@ -1633,7 +1633,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card[] vault_cardsToDiscardForGold(MoveContext context) {
         // TODO:: Finish prosperity
-        ArrayList<Card> discardCards = context.getPlayer().getHand().toArrayList();
+        ArrayList<Card> discardCards = context.getPlayer().getHand().toArrayListClone();
         for (Iterator<Card> it = discardCards.iterator(); it.hasNext();) {
             Card card = it.next();
             if (card.is(Type.Treasure, context.getPlayer()) && !card.equals(Cards.copper))
