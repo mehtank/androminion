@@ -444,27 +444,16 @@ public class CardImplCornucopia extends CardImpl {
 
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
-				Card baneCard = game.baneCard;
 				
-				ArrayList<Card> cards = null;
-				if (baneCard.getSafeName().equals(Cards.virtualCastle.getSafeName())) {
-					cards = Cards.castleCards;
-				} else if (baneCard.getSafeName().equals(Cards.virtualCatapultRocks.getSafeName())) {
-					cards = Cards.catapultRocksCards;
-				} else if (baneCard.getSafeName().equals(Cards.virtualEncampmentPlunder.getSafeName())) {
-					cards = Cards.encampmentPlunderCards;
-				} else if (baneCard.getSafeName().equals(Cards.virtualGladiatorFortune.getSafeName())) {
-					cards = Cards.gladiatorFortuneCards;
-				} else if (baneCard.getSafeName().equals(Cards.virtualPatricianEmporium.getSafeName())) {
-					cards = Cards.patricianEmporiumCards;
-				}else if (baneCard.getSafeName().equals(Cards.virtualSettlersBustlingVillage.getSafeName())) {
-					cards = Cards.settlersBustlingVillageCards;
-				}
+				Card baneCard = game.baneCard;
+				CardPile banePile = game.getPile(baneCard);
+				ArrayList<Card> baneCards = banePile.getTemplateCards();
 
-				if (cards != null) {
+				if (baneCards != null) {
 					for (Card card : targetPlayer.hand) {
-						if (cards.contains(card)) {
+						if (baneCards.contains(card)) {
 							baneCard = card;
+							
 						}
 					}
 				}
