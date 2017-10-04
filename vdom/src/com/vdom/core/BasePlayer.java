@@ -3192,11 +3192,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card taxman_treasureToObtain(MoveContext context, int cost, int debt, boolean potion) {
         Card newCard = null;
+        int newCost = -1;
         for (Card card : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+        	int cardCost = card.getCost(context);
             if (Cards.isSupplyCard(card) && context.isCardOnTop(card)
-            		&& card.getCost(context) <= cost && card.getDebtCost(context) <= debt
+            		&& cardCost <= cost && cardCost >= newCost && card.getDebtCost(context) <= debt
             		&& (potion || !card.costPotion())) {
-                newCard = card;
+            		newCard = card;
+            		newCost = cardCost;
             }
         }
 
