@@ -547,7 +547,7 @@ public class Strings {
             return strings;
         }
 
-        if (card != null && getCardName(card).equals(getCardName(Cards.prince))) {
+        if (card != null && getCardName(card).equals(getCardName(Cards.prince)) && !(options.length > 0 && options[0] instanceof String && options[0].equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION))) {
             String[] strings2 = new String[(options.length - startIndex)/2];
             for (int i = startIndex; i < options.length-1; i=i+2) {
                 if (options[i] != null && options[i+1] != null) {
@@ -612,7 +612,7 @@ public class Strings {
         	return strings;
         }
 
-        if (card != null && card.equals(Cards.secretPassage)) {
+        if (card != null && card.equals(Cards.secretPassage) && !(options.length > 0 && options[0] instanceof String && options[0].equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION))) {
             if (strings.length > 0) strings[0] = getString(R.string.stash_on_top);
             for (int i = 1; i < strings.length - 1; ++i) {
                 strings[i] = format(i == 1 ? R.string.stash_1_card_down : R.string.stash_x_cards_down, i);
