@@ -747,22 +747,22 @@ public class Game {
         	}
         	Card[] cardsToTrash = player.donate_cardsToTrash(context);
         	if (cardsToTrash != null) {
-	        	for (Card c : cardsToTrash) {
-	        		Card toTrash = player.hand.get(c);
-	        		if (toTrash == null) {
-	        			Util.playerError(player, "Donate error, tried to trash card not in hand: " + c);
-	        		} else {
-	        			player.hand.remove(toTrash);
-	        			player.trash(toTrash, Cards.donate, context);
-	        		}
-	        	}
-	        	while(!player.hand.isEmpty()) {
-	        		player.deck.add(player.hand.removeLastCard());
-	        	}
-	        	player.shuffleDeck(context, Cards.donate);
-	        	for (int i = 0; i < 5; ++i) {
-	        		drawToHand(context, Cards.donate, 5 - i);
-	        	}
+                for (Card c : cardsToTrash) {
+                    Card toTrash = player.hand.get(c);
+                    if (toTrash == null) {
+                        Util.playerError(player, "Donate error, tried to trash card not in hand: " + c);
+                    } else {
+                        player.hand.remove(toTrash);
+                        player.trash(toTrash, Cards.donate, context);
+                    }
+                }
+            }
+            while(!player.hand.isEmpty()) {
+                player.deck.add(player.hand.removeLastCard());
+            }
+            player.shuffleDeck(context, Cards.donate);
+            for (int i = 0; i < 5; ++i) {
+                drawToHand(context, Cards.donate, 5 - i);
         	}
         }
         
