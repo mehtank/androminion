@@ -1038,35 +1038,45 @@ public class VDomPlayerPatrick extends BasePlayer {
 			ret.add(card);
 		}
 		
-		while (ret.size() < 2) {
-			if (getMyAddActions() == 0) {
-				for (Card acard : temphand) {
-					if (acard.is(Type.Action, context.player)) {
-						ret.add(acard);
+		if (ret.size() < 2 && getMyAddActions() == 0) {
+			for (Card acard : temphand) {
+				if (acard.is(Type.Action, context.player)) {
+					ret.add(acard);
+					if (ret.size() == 2) {
+						break;
 					}
 				}
 			}
 		}
 		
-		while (ret.size() < 2) {
+		if (ret.size() < 2) {
 			for (Card vCard : temphand) {
 				if (vCard.is(Type.Victory, context.player)) {
 					ret.add(vCard);
+					if (ret.size() == 2) {
+						break;
+					}
 				}
 			}
 		}
 		
-		while (ret.size() < 2) {
+		if (ret.size() < 2) {
 			for (Card tCard : temphand) {
 				if (!(tCard.is(Type.Treasure, this))) {
 					ret.add(tCard);
+					if (ret.size() == 2) {
+						break;
+					}
 				}
 			}
 		}
 		
-		while (ret.size() < 2) {
+		if (ret.size() < 2) {
 			for (Card tCard : temphand) {
 				ret.add(tCard);
+				if (ret.size() == 2) {
+					break;
+				}
 			}
 		}
         this.log("vault: chosen " + ret);

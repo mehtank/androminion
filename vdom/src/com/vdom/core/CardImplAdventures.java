@@ -901,6 +901,7 @@ public class CardImplAdventures extends CardImpl {
                 }
             }
         }
+        context.cantBuy.add(this); //once per game
     }
     
     private void lostArts(MoveContext context) {
