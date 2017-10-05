@@ -3,6 +3,7 @@
 
 	<!-- Interaction -->
 	<string name="pass">Pass</string>
+	<string name="pass_all">Pass all</string>
 	<string name="card_revealed">%1$s revealed %2$s</string>
 	<string name="card_revealed_from_hand">%1$s revealed (from hand) %2$s</string>
 	<string name="select_from_table_max_treasure">Select a treasure card from the table that costs at most (%1$s) to %2$s</string>
