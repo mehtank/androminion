@@ -276,6 +276,16 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 }
             }
             boolean isBane = context.game.baneCard != null ? c.getSafeName().equals(context.game.baneCard.getSafeName()) : false;
+			if (context.game.baneCard != null) {
+				CardPile banePile = game.getPile(context.game.baneCard);
+				if (banePile != null) {
+					for (Card card : banePile.getTemplateCards()) {
+						if (c.getSafeName().equals(card.getSafeName())) {
+							isBane = true;
+						}
+					}
+				}
+			}
             boolean isObelisk = context.game.obeliskCard != null ? context.game.cardsInSamePile(c, context.game.obeliskCard) : false;
             boolean uniqueCardPile = context.game.getPile(c).placeholderCard().equals(c);
             mc = makeMyCard(c, index, isBane, isObelisk, isBlackMarket, uniqueCardPile);

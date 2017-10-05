@@ -444,8 +444,22 @@ public class CardImplCornucopia extends CardImpl {
 
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
-                if (targetPlayer.hand.contains(game.baneCard) && game.pileSize(Cards.curse) > 0 && targetPlayer.revealBane(context)) {
-                    targetPlayer.reveal(game.baneCard, this.getControlCard(), new MoveContext(game, targetPlayer));
+				
+				Card baneCard = game.baneCard;
+				CardPile banePile = game.getPile(baneCard);
+				ArrayList<Card> baneCards = banePile.getTemplateCards();
+
+				if (baneCards != null) {
+					for (Card card : targetPlayer.hand) {
+						if (baneCards.contains(card)) {
+							baneCard = card;
+							
+						}
+					}
+				}
+				
+                if (targetPlayer.hand.contains(baneCard) && game.pileSize(Cards.curse) > 0 && targetPlayer.revealBane(context)) {
+                    targetPlayer.reveal(baneCard, this.getControlCard(), new MoveContext(game, targetPlayer));
                 } else {
                     targetPlayer.attacked(this.getControlCard(), context);
                     MoveContext targetContext = new MoveContext(game, targetPlayer);

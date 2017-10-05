@@ -157,6 +157,7 @@ public class CardGroup extends BaseAdapter {
         for (CardState cs : cards) {
             if (cs.c.id == uci.cardId) {
                 cs.c.name = Strings.getCardName(uci.card);
+				cs.c.originalSafeName = uci.card.getSafeName();
                 cs.c.desc = Strings.getFullCardDescription(uci.card);
                 if (uci.cost >= 0) cs.c.cost = uci.cost;
                 if (uci.debtCost >= 0) cs.c.debtCost = uci.debtCost;

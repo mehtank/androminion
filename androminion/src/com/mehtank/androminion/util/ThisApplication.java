@@ -11,8 +11,7 @@ import com.mehtank.androminion.activities.GameActivity;
 public class ThisApplication extends Application
 {
 	private final String errorPath = GameActivity.BASEDIR + "/errors.txt";
-	private final Thread.UncaughtExceptionHandler defaultUncaughtHandler = Thread.getDefaultUncaughtExceptionHandler();
-	
+	private final Thread.UncaughtExceptionHandler defaultUncaughtHandler = Thread.getDefaultUncaughtExceptionHandler();	
 	public void onCreate() {
 		Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler()
 		{
