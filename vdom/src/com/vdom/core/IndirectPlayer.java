@@ -3653,7 +3653,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         SelectCardOptions sco = new SelectCardOptions().isVictory().setPassable()
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
-                .setCardResponsible(Cards.opulentCastle);
+                .setCardResponsible(Cards.opulentCastle)
+				.setCount(getVictoryInHand().size());
         return getFromHand(context, sco);
     }
     
