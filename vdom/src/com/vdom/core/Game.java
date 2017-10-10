@@ -3304,12 +3304,14 @@ public class Game {
         					context.game.broadcastEvent(summonEvent);
                         } else if (gainedCardAbility.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);
-                        } else if (gainedCardAbility.equals(Cards.villa) && context.game.getCurrentPlayer() == player) {
+                        } else if (gainedCardAbility.equals(Cards.villa)) {
                         	player.hand.add(event.card);
-                        	context.actions += 1;
-                        	if (context.phase == TurnPhase.Buy) {
-                        		context.returnToActionPhase = true;
-                        	}
+							if (context.game.getCurrentPlayer() == player) {
+									context.actions += 1;
+									if (context.phase == TurnPhase.Buy) {
+										context.returnToActionPhase = true;
+									}
+							}
                         } else if (event.responsible != null) {
                             Card r = event.responsible;
                             if (r.equals(Cards.estate) && player.getInheritance() != null) {
