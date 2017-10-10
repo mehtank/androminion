@@ -3,12 +3,13 @@
 
 	<!-- Interaction -->
 	<string name="pass">Pasar</string>
+	<string name="pass_all">Pasar para todas</string>
 	<string name="card_revealed">%1$s reveló %2$s</string>
 	<string name="card_revealed_from_hand">%1$s revealó (de mano) %2$s</string>
 	<string name="select_from_table_max_treasure">Elige una carta de la mesa con un coste máximo de (%1$s) a %2$s</string>
 	<string name="pawn_option_one">Peón (opción 1 de 2):</string>
-	<string name="pawn_option_two">Pawn (opción 2 de 2):</string>
-	<string name="torturer_option_one">Coge una maldición</string>
+	<string name="pawn_option_two">Peón (opción 2 de 2):</string>
+	<string name="torturer_option_one">Gana una maldición a tu mano</string>
 	<string name="torturer_option_two">Descarta dos cartas</string>
 	<string name="chancellor_query">Pon tu mazo en tu pila de descartes</string>
 	<string name="inn_option_one">Barajarla en tu mazo</string>
@@ -58,52 +59,52 @@
 	<string name="discardPile">pila de descartes</string>
 	<string name="hand">mano</string>
 
-	<string name="select_from_table">Elije una carta de la mesa para %1$s</string>
-	<string name="select_from_table_attack">Elije una carta de Ataque de la mesa para %1$s</string>
-	<string name="select_from_table_action">Elije una carta de Acción de la mesa para %1$s</string>
-	<string name="select_from_table_treasure">Elije una carta de Tesoro de la mesa para %1$s</string>
-	<string name="select_from_table_victory">Elije una carta de Victoria de la mesa para %1$s</string>
-	<string name="select_from_table_exact">Elije una carta de la mesa que cueste exactamente (%1$s) para %2$s</string>
-	<string name="select_from_table_exact_action">Elije una carta de Acción de la mesa que cueste exactamente (%1$s) para %2$s</string>
-	<string name="select_from_table_exact_except">Elije una carta de la mesa, menos %1$s, que cueste exactamente (%2$s) para %3$s</string>
-	<string name="select_from_table_max">Elije una carta de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_events">Elije un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_cards_events">Elije una carta o un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_non_vp">Elije una carta que no sea de Victoria de la meas que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_non_vp_action">Elije una carta de Acción que no sea de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_vp">Elije una carta de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_action">Elije una carta de Acción de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_between">Elije una carta de la mesa que cueste entre (%1$s) y (%2$s) para %3$s</string>
-	<string name="select_from_table_min">Elije una carta de la mesa que cueste como mínimo (%1$s) para %2$s</string>
-	<string name="select_from_table_less">Elije una carta de la mesa que cueste menos de (%1$s) para %2$s</string>
-	<string name="select_from_table_less_non_vp">Elije una carta que no sea de Victoria de la mesa que cueste menos de (%1$s) para %2$s</string>
+	<string name="select_from_table">Elige una carta de la mesa para %1$s</string>
+	<string name="select_from_table_attack">Elige una carta de Ataque de la mesa para %1$s</string>
+	<string name="select_from_table_action">Elige una carta de Acción de la mesa para %1$s</string>
+	<string name="select_from_table_treasure">Elige una carta de Tesoro de la mesa para %1$s</string>
+	<string name="select_from_table_victory">Elige una carta de Victoria de la mesa para %1$s</string>
+	<string name="select_from_table_exact">Elige una carta de la mesa que cueste exactamente (%1$s) para %2$s</string>
+	<string name="select_from_table_exact_action">Elige una carta de Acción de la mesa que cueste exactamente (%1$s) para %2$s</string>
+	<string name="select_from_table_exact_except">Elige una carta de la mesa, menos %1$s, que cueste exactamente (%2$s) para %3$s</string>
+	<string name="select_from_table_max">Elige una carta de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_events">Elige un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_cards_events">Elige una carta o un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_non_vp">Elige una carta que no sea de Victoria de la meas que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_non_vp_action">Elige una carta de Acción que no sea de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_vp">Elige una carta de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_action">Elige una carta de Acción de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_between">Elige una carta de la mesa que cueste entre (%1$s) y (%2$s) para %3$s</string>
+	<string name="select_from_table_min">Elige una carta de la mesa que cueste como mínimo (%1$s) para %2$s</string>
+	<string name="select_from_table_less">Elige una carta de la mesa que cueste menos de (%1$s) para %2$s</string>
+	<string name="select_from_table_less_non_vp">Elige una carta que no sea de Victoria de la mesa que cueste menos de (%1$s) para %2$s</string>
 
-	<string name="select_one_card_from_hand">Elije una carta de tu mano para %1$s</string>
-	<string name="select_up_to_x_cards_from_hand">Elije hasta %1$s cartas de tu mano para %2$s</string>
-	<string name="select_exactly_x_cards_from_hand">Elije %1$s cartas de tu mano para %2$s</string>
-	<string name="select_from_x_to_y_cards_from_hand">Elije de %1$s a %2$s cartas de tu mano para %3$s</string>
-	<string name="select_from_x_to_y_different_cards_from_hand">Elija de %1$s a %2$s cartas con nombres distintos de tu mano para %3$s</string>
+	<string name="select_one_card_from_hand">Elige una carta de tu mano para %1$s</string>
+	<string name="select_up_to_x_cards_from_hand">Elige hasta %1$s cartas de tu mano para %2$s</string>
+	<string name="select_exactly_x_cards_from_hand">Elige %1$s cartas de tu mano para %2$s</string>
+	<string name="select_from_x_to_y_cards_from_hand">Elige de %1$s a %2$s cartas de tu mano para %3$s</string>
+	<string name="select_from_x_to_y_different_cards_from_hand">Elige de %1$s a %2$s cartas con nombres distintos de tu mano para %3$s</string>
 
-	<string name="select_one_action_from_hand">Elije una carta de Acción de tu mano para %1$s</string>
-	<string name="select_up_to_x_actions_from_hand">Elije hasta %1$s cartas de Acción de tu mano para %2$s</string>
-	<string name="select_exactly_x_actions_from_hand">Elije %1$s cartas de Acción de tu mano para %2$s</string>
+	<string name="select_one_action_from_hand">Elige una carta de Acción de tu mano para %1$s</string>
+	<string name="select_up_to_x_actions_from_hand">Elige hasta %1$s cartas de Acción de tu mano para %2$s</string>
+	<string name="select_exactly_x_actions_from_hand">Elige %1$s cartas de Acción de tu mano para %2$s</string>
 
-	<string name="select_one_treasure_from_hand">Elije una carta de Tesoro de tu mano para %1$s</string>
-	<string name="select_up_to_x_treasures_from_hand">Elije hasta %1$s cartas de Tesoro de tu mano para %2$s</string>
-	<string name="select_exactly_x_treasures_from_hand">Elije %1$s cartas de Tesoro de tu mano para %2$s</string>
+	<string name="select_one_treasure_from_hand">Elige una carta de Tesoro de tu mano para %1$s</string>
+	<string name="select_up_to_x_treasures_from_hand">Elige hasta %1$s cartas de Tesoro de tu mano para %2$s</string>
+	<string name="select_exactly_x_treasures_from_hand">Elige %1$s cartas de Tesoro de tu mano para %2$s</string>
 
-	<string name="select_one_victory_from_hand">Elije una carta de Victoria de tu mano para %1$s</string>
-	<string name="select_up_to_x_victorys_from_hand">Elije hasta %1$s cartas de Victoria de tu mano para %2$s</string>
-	<string name="select_exactly_x_victorys_from_hand">Elije %1$s cartas de Victoria de tu mano para %2$s</string>
+	<string name="select_one_victory_from_hand">Elige una carta de Victoria de tu mano para %1$s</string>
+	<string name="select_up_to_x_victorys_from_hand">Elige hasta %1$s cartas de Victoria de tu mano para %2$s</string>
+	<string name="select_exactly_x_victorys_from_hand">Elige %1$s cartas de Victoria de tu mano para %2$s</string>
 
-	<string name="select_one_nontreasure_from_hand">Elije una carta que no sea de Tesoro de tu mano para %1$s</string>
-	<string name="select_up_to_x_nontreasures_from_hand">Elije hasta %1$s cartas que no sean de Tesoro de tu mano para %2$s</string>
-	<string name="select_exactly_x_nontreasures_from_hand">Elije %1$s cartas que no sean de Tesoro de tu mano para %2$s</string>
+	<string name="select_one_nontreasure_from_hand">Elige una carta que no sea de Tesoro de tu mano para %1$s</string>
+	<string name="select_up_to_x_nontreasures_from_hand">Elige hasta %1$s cartas que no sean de Tesoro de tu mano para %2$s</string>
+	<string name="select_exactly_x_nontreasures_from_hand">Elige %1$s cartas que no sean de Tesoro de tu mano para %2$s</string>
 	
-	<string name="select_one_card_from_played">Elije una carta que tengas en juego para %1$s</string>
-	<string name="select_up_to_x_cards_from_played">Elije hasta %1$s cartas que tengas en juego para %2$s</string>
-	<string name="select_exactly_x_cards_from_played">Elije %1$s cartas que tengas en juego para %2$s</string>
-	<string name="select_up_to_x_different_cards_from_played">Elije hasta %1$s cartas con nombres distintos que tengas en juego para %2$s</string>
+	<string name="select_one_card_from_played">Elige una carta que tengas en juego para %1$s</string>
+	<string name="select_up_to_x_cards_from_played">Elige hasta %1$s cartas que tengas en juego para %2$s</string>
+	<string name="select_exactly_x_cards_from_played">Elige %1$s cartas que tengas en juego para %2$s</string>
+	<string name="select_up_to_x_different_cards_from_played">Elige hasta %1$s cartas con nombres distintos que tengas en juego para %2$s</string>
 		
 	<string name="reaction_query">Elige una carta de Reacción para revelar</string>
 	<string name="bane_option_one">Revelar carta de Perdición (%1$s)</string>
@@ -219,25 +220,25 @@
 
 	<string name="followers_part">guardar [Seguidores]</string>
 
-	<string name="treasure_to_trash">Elije una carta Tesoro para eliminar</string>
+	<string name="treasure_to_trash">Elige una carta Tesoro para eliminar</string>
 	
 	<string name="bandit_treasure_to_trash">Elige una carta de Tesoro para eliminar de tu mazo [Bandida]</string>
 	
 	<string name="vassal_option_play">Jugar %1$s</string>
 
-	<string name="scheme_query">Elije una carta de Acción para devolver al mazo</string>
+	<string name="scheme_query">Elige una carta de Acción para devolver al mazo</string>
 	
-	<string name="raze_query">Elije una carta para poner en la mano</string>
+	<string name="raze_query">Elige una carta para poner en la mano</string>
 	
 	<string name="quest_attack_to_discard">Carta de Ataque para descartar</string>
 
-	<string name="herbalist_query">Elije una carta de Tesoro para devolver al mazo</string>
+	<string name="herbalist_query">Elige una carta de Tesoro para devolver al mazo</string>
 
-	<string name="thief_query">Elije una carta de Tesoro para robar</string>
+	<string name="thief_query">Elige una carta de Tesoro para robar</string>
 
-	<string name="smuggle_query">Elije una carta para ganar</string>
+	<string name="smuggle_query">Elige una carta para ganar</string>
 	
-	<string name="teacher_query">Elije un marcador para mover</string>
+	<string name="teacher_query">Elige un marcador para mover</string>
 
 	<string name="courtyard_part_top_of_deck">poner en la parte superior de tu mazo [%1$s]</string>
 
@@ -247,8 +248,8 @@
 	<string name="vault_part_discard_for_gold">descartar para monedas</string>
 	<string name="vault_part_discard_for_card">descartar para +1 Carta</string>
 
-	<string name="lookout_query_trash">Elije una carta para eliminar</string>
-	<string name="lookout_query_discard">Elije una carta para descartar</string>
+	<string name="lookout_query_trash">Elige una carta para eliminar</string>
+	<string name="lookout_query_discard">Elige una carta para descartar</string>
 	
 	<string name="moneylender_trash_copper">Eliminar Cobre de tu mano para +(3) Monedas</string>
 
@@ -273,7 +274,7 @@
 	<string name="tournament_option_one">No revelar la Provincia</string>
 	<string name="tournament_option_two">Ganar Premio</string>
 	<string name="tournament_option_three">Ganar Ducado</string>
-	<string name="select_prize">Elije un Premio</string>
+	<string name="select_prize">Elige un Premio</string>
 
 	<string name="trusty_steed_option_one">+2 Acciones</string>
 	<string name="trusty_steed_option_two">+2 Cartas</string>
@@ -439,7 +440,7 @@
 	<string name="university_part">ganar [Universidad]</string>
 	<!-- *** -->
 
-	<string name="putback_query">Elije una carta para devolver al mazo</string>
+	<string name="putback_query">Elige una carta para devolver al mazo</string>
 	<string name="putback_option_one">Carta de Tesoro (Herbalista)</string>
 	<string name="putback_option_two">Carta de Acción (Confabulación)</string>
 	<string name="putback_option_all">Devolverlas todas</string>
@@ -447,7 +448,7 @@
   <string name="game_over_vps"> PVs</string>
   <string name="victory_tokens">Fichas de PV</string>
   
-  <string name="Cartographer_query">Elije una carta para descartar</string>
+  <string name="Cartographer_query">Elige una carta para descartar</string>
   <string name="cards">Cartas</string>
   <string name="return_cards">Devolver las cartas al mazo:</string>
   <string name="take_normal">Ganar normalmente</string>
@@ -457,7 +458,7 @@
   <string name="urchin_keep">guardar de Pillastre</string>
   <string name="urchin_trash_for_mercenary">Eliminarla por Mercenario</string>
   <string name="madman_option">Devolver Loco</string>
-  
+  <string name="rogue_query">Elige una carta para ganar de las eliminadas</string>
   <string name="taxman_part">ganar</string>
   <string name="doctor_overpay_option_one">Eliminar</string>
   <string name="doctor_overpay_option_two">Descartar</string>
@@ -490,8 +491,8 @@
   <string name="start_turn_query">Comienzo del turno. Elige una acción:</string>
   <string name="call_optional">%1$s (opcional)</string>
   
-  <string name="archive_query">Elije una carta para poner en tu mano [Archivo]</string>
-  <string name="annex_query">Elije cartas para quedar en tu pila de descartes (hasta %1$s más) [Anexar]</string>
+  <string name="archive_query">Elige una carta para poner en tu mano [Archivo]</string>
+  <string name="annex_query">Elige cartas para quedar en tu pila de descartes (hasta %1$s más) [Anexar]</string>
   <string name="charm_option_one">+1 Compra, +(2) Monedas</string>
   <string name="charm_option_two">Al comprar la próxima carta, ganar otra carta con el mismo coste</string>
   <string name="reveal_gold">Revelar Oro</string>
