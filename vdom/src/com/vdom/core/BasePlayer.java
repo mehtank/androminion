@@ -2172,10 +2172,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return cards;
     }
     
-    @Override
-    public boolean foolsGold_shouldTrash(MoveContext context) {
-        return (game.pileSize(Cards.gold) > 0);
-    }
+	@Override
+	public FoolsGoldOption foolsGold_chooseOption(MoveContext context)
+	{
+		return (game.pileSize(Cards.gold) > 0 ? FoolsGoldOption.TrashForGold : FoolsGoldOption.Pass);
+	}
 
     @Override
     public boolean duchess_shouldGainBecauseOfDuchy(MoveContext context) {

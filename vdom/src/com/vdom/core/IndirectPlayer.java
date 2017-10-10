@@ -1739,13 +1739,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return !selectBoolean(context, Cards.duchess, extras);
     }
 
-    @Override
-    public boolean foolsGold_shouldTrash(MoveContext context) {
-        if(context.isQuickPlay() && shouldAutoPlay_foolsGold_shouldTrash(context)) {
-            return super.foolsGold_shouldTrash(context);
+	@Override
+	public FoolsGoldOption foolsGold_chooseOption(MoveContext context)
+	{
+		if(context.isQuickPlay() && shouldAutoPlay_foolsGold_shouldTrash(context)) {
+            return super.foolsGold_chooseOption(context);
         }
-        return selectBoolean(context, Cards.foolsGold);
-    }
+		FoolsGoldOption[] foolsGold_options = FoolsGoldOption.values();
+        Object[] options = new Object[1 + foolsGold_options.length];
+        options[0] = Cards.foolsGold.getName();
+        for (int i = 0; i < foolsGold_options.length; i++) {
+            options[i + 1] = foolsGold_options[i];
+        }
+        return foolsGold_options[selectOption(context, Cards.foolsGold, options)];
+	}
+	
 
     @Override
     public boolean trader_shouldGainSilverInstead(MoveContext context, Card card) {
