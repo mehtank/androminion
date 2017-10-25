@@ -263,6 +263,21 @@
 		            android:textOff="@string/Empires"
 		            android:textOn="@string/Empires"/>
 		        <ToggleButton 
+		            android:id="@+id/toggleButtonNocturne"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Nocturne"
+		            android:textOn="@string/Nocturne"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:orientation="horizontal">
+		        
+		        <ToggleButton 
 		            android:id="@+id/toggleButtonPromo"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"

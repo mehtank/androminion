@@ -1601,6 +1601,11 @@ public class Strings {
             getCardName(Cards.saltTheEarth),
             /*Empires Landmarks*/
             getCardName(Cards.arena),
+            /*Nocturne*/
+            getCardName(Cards.cemetery),
+            getCardName(Cards.hauntedMirror),
+            getCardName(Cards.pooka),
+            getCardName(Cards.shepherd),
             /*Promo*/
             getCardName(Cards.sauna),
             /*Promo Events*/

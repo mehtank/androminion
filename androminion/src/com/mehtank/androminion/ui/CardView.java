@@ -887,8 +887,25 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             if (c.isGathering) {
                 cardType += " - " + context.getString(R.string.type_gathering);
             }
-        }
-        else if (c.isTreasure) {
+            
+            if (c.isSpirit) {
+                cardType += " - " + context.getString(R.string.type_spirit);
+            }
+        } else if (c.isNight) {
+            cardType += context.getString(R.string.type_night);
+            
+            if (c.isDuration) {
+                cardType += " - " + context.getString(R.string.type_duration);
+            }
+            
+            if (c.isAttack) {
+                cardType += " - " + context.getString(R.string.type_attack);
+            }
+                         
+            if (c.isSpirit) {
+                cardType += " - " + context.getString(R.string.type_spirit);
+            }
+        } else if (c.isTreasure) {
             cardType += context.getString(R.string.type_treasure);
             
             if (c.isAttack) {
@@ -913,6 +930,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             
             if (c.isCastle) {
                 cardType += " - " + context.getString(R.string.type_castle);
+            }
+            
+            if (c.isHeirloom) {
+            	cardType += " - " + context.getString(R.string.type_heirloom);
             }
         }
         else if (c.isVictory) {

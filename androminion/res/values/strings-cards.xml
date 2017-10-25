@@ -780,6 +780,35 @@
     <string name="WolfDen_name">Wolf Den</string>
     <string name="WolfDen_desc">When scoring, -3 VP per card you have exactly one copy of.</string>
     
+    <string name="Cemetery_name">Cemetery</string>
+    <string name="Cemetery_desc">When you gain this, trash up to 4 cards from your hand.</string>
+    <string name="Crypt_name">Crypt</string>
+    <string name="Crypt_desc">Set aside any number of Treasures you have in play, face down (under this). While any remain, at the start of each of your turns, put one of them into your hand.</string>
+    <string name="DevilsWorkshop_name">Devil\'s Workshop</string>
+    <string name="DevilsWorkshop_desc">If the number of cards you\'ve gained this turn is: 2+, gain an Imp from its pile; 1, gain a card costing up to (4) Coins; 0, gain a Gold.</string>
+    <string name="FaithfulHound_name">Faithful Hound</string>
+    <string name="FaithfulHound_desc">When you discard this other than during Clean-up, you may set it aside, and put it into your hand at end of turn.</string>
+    <string name="GhostTown_name">Ghost Town</string>
+    <string name="GhostTown_desc">This is gained to your hand (instead of your discard pile).</string>
+    <string name="Pooka_name">Pooka</string>
+    <string name="Pooka_desc">You may trash a Treasure other than Cursed Gold from your hand, for +4 Cards.</string>
+    <string name="Raider_name">Raider</string>
+    <string name="Raider_desc">Each other player with 5 or more cards in hand discards a copy of a card you have in play (or reveals they can\'t).</string>
+    <string name="Shepherd_name">Shepherd</string>
+    <string name="Shepherd_desc">Discard any number of Victory cards, revealing them. +2 Cards per card discarded.</string>
+    
+    <string name="CursedGold_name">Cursed Gold</string>
+    <string name="CursedGold_desc">When you play this, gain a Curse.</string>
+    <string name="HauntedMirror_name">Haunted Mirror</string>
+    <string name="HauntedMirror_desc">When you trash this, you may discard an Action card, to gain a Ghost from its pile.</string>
+    <string name="Pasture_name">Pasture</string>
+    <string name="Pasture_desc">Worth 1 VP per Estate you have.</string>
+    
+    <string name="Ghost_name">Ghost</string>
+    <string name="Ghost_desc">Reveal cards from your deck until you reveal an Action. Discard the other cards and set aside the Action. At the start of your next turn, play it twice. (This is not in the Supply.)</string>
+    <string name="Imp_name">Imp</string>
+    <string name="Imp_desc">You may play an Action card from your hand that you don\'t have a copy of in play. (This is not in the Supply.)</string>
+    
     <string name="Envoy_name">Envoy</string>
     <string name="Envoy_desc">Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.</string>
     <string name="Governor_name">Governor</string>

@@ -47,6 +47,9 @@ public class MyCard implements Serializable {
 	public boolean isCastle    = false;
 	public boolean isGathering = false;
 	public boolean isLandmark  = false;
+	public boolean isHeirloom  = false;
+	public boolean isNight     = false;
+	public boolean isSpirit    = false;
 	public boolean isBlackMarket = false;
 	public boolean isStash    = false;
 	
@@ -59,6 +62,7 @@ public class MyCard implements Serializable {
 	public static final int VARIABLE_CARDS_PILE = 7;
 	public static final int BLACKMARKET_PILE = 8;
 	public static final int EVENTPILE = 9;
+	public static final int HEIRLOOM_PILES = 10;
 
 	public int pile;
 

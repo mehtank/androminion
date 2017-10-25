@@ -108,17 +108,20 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.costPotion = c.costPotion();
         card.isBane = isBane;
         card.isObeliskCard = isObeliskCard;
-        card.isShelter = c.is(Type.Shelter, null);
-        card.isLooter = c.is(Type.Looter, null);
+        card.isShelter = c.is(Type.Shelter);
+        card.isLooter = c.is(Type.Looter);
         card.isOverpay = c.isOverpay(null);
-        card.isEvent = c.is(Type.Event, null);
-        card.isReserve = c.is(Type.Reserve, null);
-        card.isTraveller = c.is(Type.Traveller, null);
-        card.isKnight = c.is(Type.Knight, null);
-        card.isCastle = c.is(Type.Castle, null);
-        card.isGathering = c.is(Type.Gathering, null);
-        card.isLandmark = c.is(Type.Landmark, null);
-        card.isAttack = c.is(Type.Attack, null) || c.equals(Cards.virtualKnight);
+        card.isEvent = c.is(Type.Event);
+        card.isReserve = c.is(Type.Reserve);
+        card.isTraveller = c.is(Type.Traveller);
+        card.isKnight = c.is(Type.Knight);
+        card.isCastle = c.is(Type.Castle);
+        card.isGathering = c.is(Type.Gathering);
+        card.isHeirloom = c.is(Type.Heirloom);
+        card.isNight = c.is(Type.Night);
+        card.isSpirit = c.is(Type.Spirit);
+        card.isLandmark = c.is(Type.Landmark);
+        card.isAttack = c.is(Type.Attack) || c.equals(Cards.virtualKnight);
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;
         else
@@ -147,6 +150,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             || c.equals(Cards.warrior)
             || c.equals(Cards.hero)
             || c.equals(Cards.champion)
+            || c.equals(Cards.ghost)
+            || c.equals(Cards.imp)
            )
         {
             card.pile = MyCard.NON_SUPPLY_PILE;
@@ -157,6 +162,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             c.equals(Cards.hovel))
         {
             card.pile = MyCard.SHELTER_PILES;
+        }
+        
+        if (c.equals(Cards.cursedGold) ||
+    		c.equals(Cards.hauntedMirror) ||
+    		c.equals(Cards.pasture)) {
+        	card.pile = MyCard.HEIRLOOM_PILES;
         }
 
         if ((c.equals(Cards.copper)) ||

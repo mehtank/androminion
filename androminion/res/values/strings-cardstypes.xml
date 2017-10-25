@@ -17,5 +17,8 @@
     <string name="type_castle">Castle</string>
     <string name="type_gathering">Gathering</string>
     <string name="type_landmark">Landmark</string>
+    <string name="type_heirloom">Heirloom</string>
+    <string name="type_night">Night</string>
+    <string name="type_spirit">Spirit</string>
     <string name="type_curse">Curse</string>
 </resources>
