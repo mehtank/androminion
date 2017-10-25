@@ -1713,6 +1713,10 @@ public abstract class Player {
     public abstract Card[] actionCardsToPlayInOrder(MoveContext context);
 
     public abstract Card doBuy(MoveContext context);
+    
+    public abstract Card nightCardToPlay(MoveContext context);
+    
+    public abstract Card[] nightCardsToPlayInOrder(MoveContext context);
 
     public abstract Card[] topOfDeck_orderCards(MoveContext context, Card[] cards);
 

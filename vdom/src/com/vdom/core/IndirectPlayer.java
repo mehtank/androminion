@@ -126,7 +126,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         /*Select no Card by default if TRASH and not forced*/
         else if (      sco.allowedCards.size() == 1
                     && (sco.actionType != ActionType.TRASH || !sco.passable)
-                 || (   (   sco.isAction
+                 || (   (   sco.isAction || sco.isNight
                          || sco.pickType == PickType.MINT               //Mint (passable)
                          || (   (   sco.actionType == ActionType.TRASH
                                  || sco.actionType == ActionType.REVEAL //Ambassador
@@ -298,6 +298,47 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card[] actionCardsToPlayInOrder(MoveContext context) {
         return doAction(context, false);
+    }
+    
+    private Card[] nightCardsToPlay(MoveContext context, boolean singleCard) {
+        int nightCount = 0;
+        Card nightCard = null;
+        for (Card card : context.player.getHand()) {
+            if (card.is(Type.Night, context.player)) {
+                nightCount++;
+                nightCard = card;
+            }
+        }
+        if (nightCount == 0)
+            return null;
+
+        SelectCardOptions sco = new SelectCardOptions().isNightPhase().isNight().setPassable();
+        if (singleCard)
+            sco.setCount(1).setPickType(PickType.PLAY);
+        else
+            sco.setCount(nightCount).ordered().setPickType(PickType.PLAY_IN_ORDER);
+
+        Card[] cards = getFromHand(context, sco);
+
+        if (cards == null)
+            return null;
+        // Hack that tells us that "Play the only one card" was selected
+        else if (nightCount == 1 && cards.length == 0) {
+            cards = new Card[1];
+            cards[0] = nightCard;
+        }
+        return cards;
+    }
+
+    @Override
+    public Card nightCardToPlay(MoveContext context) {
+        Card[] cards = nightCardsToPlay(context, true);
+        return (cards == null ? null : cards[0]); 
+    }
+
+    @Override
+    public Card[] nightCardsToPlayInOrder(MoveContext context) {
+        return nightCardsToPlay(context, false);
     }
 
     @Override

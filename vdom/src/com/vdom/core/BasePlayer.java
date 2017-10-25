@@ -80,6 +80,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public abstract Card doBuy(MoveContext context);
     
+    @Override
+    public Card nightCardToPlay(MoveContext context) {
+    	for (Card c : context.getPlayer().getHand()) {
+    		if (c.is(Type.Night, context.getPlayer())) {
+    			return c;
+    		}
+    	}
+    	return null;
+    }
+    
 	@Override
 	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
 		Card[] reactionCards = getAttackReactionCards(defended);

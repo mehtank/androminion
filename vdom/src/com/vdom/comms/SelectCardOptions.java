@@ -61,6 +61,7 @@ public class SelectCardOptions implements Serializable {
     public boolean fromTable = false;
     public boolean isBuyPhase = false;
     public boolean isActionPhase = false;
+    public boolean isNightPhase = false;
     public boolean isTreasurePhase = false;
     public boolean allowEmpty = false;
     public int minCost = Integer.MIN_VALUE;
@@ -84,6 +85,7 @@ public class SelectCardOptions implements Serializable {
     public boolean isCastle = false;
     public boolean isNonShelter = false;
     public boolean isSupplyCard = false;
+    public boolean isNight = false;
     public boolean different = false;
     public boolean noTokens = false;
     public boolean passable = false;
@@ -115,6 +117,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions fromTable() {fromTable = true;isNonShelter=true;count=1;exactCount=true; return this;}
     public SelectCardOptions isBuy() {isBuyPhase= true; this.pickType = PickType.BUY; return this;}
     public SelectCardOptions isActionPhase() {isActionPhase=true; return this;}
+    public SelectCardOptions isNightPhase() {isNightPhase=true; return this;}
     public SelectCardOptions isTreasurePhase() {isTreasurePhase=true; return this;}
     public SelectCardOptions allowEmpty() {allowEmpty = true; return this;}
     public SelectCardOptions fromPrizes() {fromPrizes = true; return this;}
@@ -142,6 +145,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions isSupplyCard() {isSupplyCard = true; return this;}
     public SelectCardOptions noTokens() {noTokens = true; return this;}
     public SelectCardOptions isCastle() {isCastle = true; return this;}
+    public SelectCardOptions isNight() {isNight = true; return this;}
 
     public SelectCardOptions applyOptionsToPile() {applyOptionsToPile = true; return this;}
     
@@ -217,6 +221,7 @@ public class SelectCardOptions implements Serializable {
         if (isNonShelter && c.is(Type.Shelter, p)) return false;
         if (isAttack && !c.is(Type.Attack, p)) return false;
         if (isAction && !c.is(Type.Action, p)) return false;
+        if (isNight && !c.is(Type.Night, p)) return false;
         if (!isBuyPhase && c.is(Type.Event, null)) return false;
         if (isCastle && !c.is(Type.Castle, null)) return false;
         if (applyOptionsToPile && !c.isPlaceholderCard()) return false;

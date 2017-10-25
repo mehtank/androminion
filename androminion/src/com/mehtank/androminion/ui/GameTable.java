@@ -753,7 +753,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         if (sco.isBuyPhase) {
             s = Strings.getString(R.string.part_buy);
-        } else if (sco.isActionPhase) {
+        } else if (sco.isActionPhase || sco.isNightPhase) {
             s = Strings.getString(R.string.part_play);
         } else if (sco.isTreasurePhase) {
             s = Strings.getString(R.string.use_for_money);

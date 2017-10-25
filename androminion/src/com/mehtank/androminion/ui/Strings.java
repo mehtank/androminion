@@ -1400,6 +1400,13 @@ public class Strings {
                     str = Strings.format(R.string.select_exactly_x_actions_from_hand, "" + sco.count, header);
                 else
                     str = Strings.format(R.string.select_up_to_x_actions_from_hand, "" + sco.count, header);
+            } else if (sco.isNight) {
+                if(sco.count == 1)
+                    str = Strings.format(R.string.select_one_night_from_hand, header);
+                else if(sco.exactCount)
+                    str = Strings.format(R.string.select_exactly_x_nights_from_hand, "" + sco.count, header);
+                else
+                    str = Strings.format(R.string.select_up_to_x_nights_from_hand, "" + sco.count, header);
             } else if (sco.isTreasure) {
                 if(sco.count == 1)
                     str = Strings.format(R.string.select_one_treasure_from_hand, header);

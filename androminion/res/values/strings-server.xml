@@ -70,14 +70,14 @@
 	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_events">Select an event from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_cards_events">Select a card or event from the table that costs at most (%1$s) to %2$s</string>
-	<string name="select_from_table_max_non_vp">Select a non-victory card from the table that costs at most (%1$s) to %2$s</string>
-	<string name="select_from_table_max_non_vp_action">Select a non-victory action card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_non_vp">Select a non-Victory card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_non_vp_action">Select a non-Victory action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_vp">Select a Victory card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_action">Select an Action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_between">Select a card from the table that costs between (%1$s) and (%2$s) to %3$s</string>
 	<string name="select_from_table_min">Select a card from the table that costs at least (%1$s) to %2$s</string>
 	<string name="select_from_table_less">Select a card from the table that less than (%1$s) to %2$s</string>
-	<string name="select_from_table_less_non_vp">Select a non-victory card from the table that less than (%1$s) to %2$s</string>
+	<string name="select_from_table_less_non_vp">Select a non-Victory card from the table that less than (%1$s) to %2$s</string>
 	
 	<string name="select_one_card_from_hand">Pick a card from your hand to %1$s</string>
 	<string name="select_up_to_x_cards_from_hand">Pick up to %1$s cards from your hand to %2$s</string>
@@ -89,21 +89,25 @@
 	<string name="select_up_to_x_cards_from_trash">Pick up to %1$s cards from trash to %2$s</string>
 	<string name="select_exactly_x_cards_from_trash">Pick exactly %1$s cards from trash to %2$s</string>
 	
-	<string name="select_one_action_from_hand">Pick an action card from your hand to %1$s</string>
-	<string name="select_up_to_x_actions_from_hand">Pick up to %1$s action cards from your hand to %2$s</string>
-	<string name="select_exactly_x_actions_from_hand">Pick exactly %1$s action cards from your hand to %2$s</string>
+	<string name="select_one_action_from_hand">Pick an Action card from your hand to %1$s</string>
+	<string name="select_up_to_x_actions_from_hand">Pick up to %1$s Action cards from your hand to %2$s</string>
+	<string name="select_exactly_x_actions_from_hand">Pick exactly %1$s Action cards from your hand to %2$s</string>
 	
-	<string name="select_one_treasure_from_hand">Pick a treasure card from your hand to %1$s</string>
-	<string name="select_up_to_x_treasures_from_hand">Pick up to %1$s treasure cards from your hand to %2$s</string>
-	<string name="select_exactly_x_treasures_from_hand">Pick exactly %1$s treasure cards from your hand to %2$s</string>
+	<string name="select_one_night_from_hand">Pick a Night card from your hand to %1$s</string>
+	<string name="select_up_to_x_nights_from_hand">Pick up to %1$s Night cards from your hand to %2$s</string>
+	<string name="select_exactly_x_nights_from_hand">Pick exactly %1$s Night cards from your hand to %2$s</string>
 	
-	<string name="select_one_victory_from_hand">Pick a victory card from your hand to %1$s</string>
-	<string name="select_up_to_x_victorys_from_hand">Pick up to %1$s victory cards from your hand to %2$s</string>
-	<string name="select_exactly_x_victorys_from_hand">Pick exactly %1$s victory cards from your hand to %2$s</string>
+	<string name="select_one_treasure_from_hand">Pick a Treasure card from your hand to %1$s</string>
+	<string name="select_up_to_x_treasures_from_hand">Pick up to %1$s Treasure cards from your hand to %2$s</string>
+	<string name="select_exactly_x_treasures_from_hand">Pick exactly %1$s Treasure cards from your hand to %2$s</string>
+	
+	<string name="select_one_victory_from_hand">Pick a Victory card from your hand to %1$s</string>
+	<string name="select_up_to_x_victorys_from_hand">Pick up to %1$s Victory cards from your hand to %2$s</string>
+	<string name="select_exactly_x_victorys_from_hand">Pick exactly %1$s Victory cards from your hand to %2$s</string>
 
-	<string name="select_one_nontreasure_from_hand">Pick a non-treasure card from your hand to %1$s</string>
-	<string name="select_up_to_x_nontreasures_from_hand">Pick up to %1$s non-treasure cards from your hand to %2$s</string>
-	<string name="select_exactly_x_nontreasures_from_hand">Pick exactly %1$s non-treasure cards from your hand to %2$s</string>
+	<string name="select_one_nontreasure_from_hand">Pick a non-Treasure card from your hand to %1$s</string>
+	<string name="select_up_to_x_nontreasures_from_hand">Pick up to %1$s non-Treasure cards from your hand to %2$s</string>
+	<string name="select_exactly_x_nontreasures_from_hand">Pick exactly %1$s non-Treasure cards from your hand to %2$s</string>
 	
 	<string name="select_one_card_from_played">Pick a card you have in play to %1$s</string>
 	<string name="select_up_to_x_cards_from_played">Pick up to %1$s cards you have in play to %2$s</string>

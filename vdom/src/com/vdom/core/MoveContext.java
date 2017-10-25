@@ -39,7 +39,7 @@ public class MoveContext {
     public boolean startOfTurn = false;
     
     public enum TurnPhase {
-    	Action, Buy, CleanUp
+    	Action, Buy, Night, CleanUp
     }
     
     public TurnPhase phase = TurnPhase.Action;  

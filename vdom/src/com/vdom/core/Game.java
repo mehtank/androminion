@@ -341,6 +341,9 @@ public class Game {
                     broadcastEvent(event);
                     Util.debug(player.getPlayerName() + " did not buy a card with coins:" + context.getCoinAvailableForBuy());
                 }
+                
+                context.phase = TurnPhase.Night;
+                playNight(player, context);
 
                 // /////////////////////////////////
                 // Discard, draw new hand
@@ -465,6 +468,48 @@ public class Game {
             if (maxCards != 0)
             	treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand();
         }
+    }
+    
+    protected void playNight(Player player, MoveContext context) {
+	    Card nightCard = null;
+	    do {
+	        nightCard = null;
+	        ArrayList<Card> nightCards = null;
+	        if (disableAi && player.isAi()) continue;
+	        if (!actionChains || player.controlPlayer.isAi()) {
+	            nightCard = player.controlPlayer.nightCardToPlay(context);
+	            if (nightCard != null) {
+	                nightCards = new ArrayList<Card>();
+	                nightCards.add(nightCard);
+	            }
+	        } else {
+	            Card[] cs = player.controlPlayer.nightCardsToPlayInOrder(context);
+	            if (cs != null && cs.length != 0) {
+	                nightCards = new ArrayList<Card>();
+	                for (int i = 0; i < cs.length; i++) {
+	                    nightCards.add(cs[i]);
+	                }
+	            }
+	        }
+	
+	        while (nightCards != null && !nightCards.isEmpty()) {
+	            nightCard = nightCards.remove(0);
+	            if (nightCard != null) {
+	                if (isValidNightCard(context, nightCard)) {
+	                    GameEvent event = new GameEvent(GameEvent.EventType.Status, context);
+	                    broadcastEvent(event);
+	
+	                    try {
+	                        nightCard.play(this, context, true);
+	                    } catch (RuntimeException e) {
+	                        e.printStackTrace();
+	                    }
+	                } else {
+	                    Util.debug("Error:Invalid Night card selected");
+	                }
+	            }
+	        }
+	    } while (nightCard != null);
     }
 
     protected void playGuildsTokens(Player player, MoveContext context)
@@ -1797,6 +1842,24 @@ public class Game {
 
         for (Card card : context.getPlayer().hand) {
             if (action.equals(card)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public boolean isValidNightCard(MoveContext context, Card nightCard) {
+        if (nightCard == null) {
+            return false;
+        }
+
+        if (!(nightCard.is(Type.Night, context.player))) {
+            return false;
+        }
+
+        for (Card card : context.getPlayer().hand) {
+            if (nightCard.equals(card)) {
                 return true;
             }
         }
