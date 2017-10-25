@@ -161,6 +161,7 @@ public class Game {
     public static Player[] players;
 
     public boolean sheltersInPlay = false;
+    public List<Card> heirloomsInPlay = new ArrayList<Card>();
 
     public int possessionsToProcess = 0;
     public Player possessingPlayer = null;
@@ -2471,13 +2472,14 @@ public class Game {
         for (int i = 0; i < numPlayers; i++) {
             player = players[i];
             
-            player.discard(takeFromPile(Cards.copper), null, null);
-            player.discard(takeFromPile(Cards.copper), null, null);
-            player.discard(takeFromPile(Cards.copper), null, null);
-            player.discard(takeFromPile(Cards.copper), null, null);
-            player.discard(takeFromPile(Cards.copper), null, null);
-            player.discard(takeFromPile(Cards.copper), null, null);
-            player.discard(takeFromPile(Cards.copper), null, null);
+            //TODO: what if more than 7 heirlooms occur?
+            for (Card c : heirloomsInPlay) {
+            	player.discard(takeFromPile(c), null, null);
+            }
+            int numCoppers = 7 - heirloomsInPlay.size();
+            for (int j = 0; j < numCoppers; j++){
+            	player.discard(takeFromPile(Cards.copper), null, null);
+            }
             
             if (sheltersInPlay)
             {
@@ -2913,8 +2915,25 @@ public class Game {
             addPile(Cards.overgrownEstate, numPlayers, false);
             addPile(Cards.hovel, numPlayers, false);
         }
-
-
+        
+        heirloomsInPlay = new ArrayList<Card>();
+        for (CardPile pile : placeholderPiles.values()) {
+            if (pile != null &&
+            		pile.placeholderCard() != null &&
+            		Cards.isKingdomCard(pile.placeholderCard())) {
+            	if (pile.placeholderCard.equals(Cards.cemetery)) {
+            		heirloomsInPlay.add(Cards.hauntedMirror);
+                } else if (pile.placeholderCard.equals(Cards.pooka)) {
+                	heirloomsInPlay.add(Cards.cursedGold);
+                } else if (pile.placeholderCard.equals(Cards.shepherd)) {
+                	heirloomsInPlay.add(Cards.pasture);
+                }
+            }
+        }
+        for (Card c : heirloomsInPlay) {
+        	addPile(c, numPlayers, false);
+        }
+        
         // Check for PlatColony
         boolean addPlatColony = false;
         if (platColonyPassedIn) {
@@ -3004,6 +3023,18 @@ public class Game {
             addPile(Cards.fugitive, 5, false);
             addPile(Cards.disciple, 5, false);
             addPile(Cards.teacher, 5, false);
+        }
+        
+        // If Devil's Workshop is in play, we'll need Imp (non-supply)
+        if (piles.containsKey(Cards.devilsWorkshop.getName()))
+        {
+            addPile(Cards.imp, 13, false);
+        }
+        
+        // If Cemetery is in play, we'll need Ghost (non-supply)
+        if (piles.containsKey(Cards.cemetery.getName()))
+        {
+            addPile(Cards.ghost, 6, false);
         }
 
         // If Baker is in play, each player starts with one coin token
