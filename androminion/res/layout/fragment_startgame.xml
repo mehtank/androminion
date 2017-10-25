@@ -274,121 +274,197 @@
 	    
 	    </LinearLayout>
 	
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/select_players"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
-	
-          <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content" >
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal" >
 
-              <TextView
-                  android:id="@+id/txtPlayer1"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center_vertical"
-                  android:text="@string/player" />
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/select_players"
+					android:textAppearance="?android:attr/textAppearanceMedium" />
 
-              <Button
-                  android:id="@+id/butPlayer1"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:enabled="false"
-                  android:text="@string/you" />
-          </LinearLayout>
+				<CheckBox
+					android:id="@+id/checkboxRandomPlayers"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="@string/random_players" />
 
-          <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content" >
+			</LinearLayout>
+			
+			<LinearLayout
+				android:id="@+id/linearLayoutRandomPlayers"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical" >
 
-              <TextView
-                  android:id="@+id/txtPlayer2"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center_vertical"
-                  android:text="@string/player" />
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<TextView 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:text="@string/probability_2_players" />
 
-              <Spinner
-                  android:id="@+id/spPlayer2"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1" />
-          </LinearLayout>
+					<SeekBar
+						android:id="@+id/seekBar_2_Players"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content" />
+				</LinearLayout>
 
-          <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content" >
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<TextView 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:text="@string/probability_3_4_players" />
 
-              <TextView
-                  android:id="@+id/txtPlayer3"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center_vertical"
-                  android:text="@string/player" />
+					<SeekBar
+						android:id="@+id/seekBar_3_4_Players"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content" />
+				</LinearLayout>
 
-              <Spinner
-                  android:id="@+id/spPlayer3"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1" />
-          </LinearLayout>
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<TextView 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:text="@string/probability_5_6_players" />
 
-          <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content" >
+					<SeekBar
+						android:id="@+id/seekBar_5_6_Players"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content" />
+				</LinearLayout>
+			</LinearLayout>
+			
+			<LinearLayout
+				android:id="@+id/linearLayoutPlayer1"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" >
 
-              <TextView
-                  android:id="@+id/txtPlayer4"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center_vertical"
-                  android:text="@string/player" />
+				<TextView
+					android:id="@+id/txtPlayer1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:text="@string/player" />
 
-              <Spinner
-                  android:id="@+id/spPlayer4"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1" />
-          </LinearLayout>
+				<Button
+					android:id="@+id/butPlayer1"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:enabled="false"
+					android:text="@string/you" />
+			</LinearLayout>
 
-          <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content" >
+			<LinearLayout
+				android:id="@+id/linearLayoutPlayer2"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" >
 
-              <TextView
-                  android:id="@+id/txtPlayer5"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center_vertical"
-                  android:text="@string/player" />
+				<TextView
+					android:id="@+id/txtPlayer2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:text="@string/player" />
 
-              <Spinner
-                  android:id="@+id/spPlayer5"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1" />
-          </LinearLayout>
+				<Spinner
+					android:id="@+id/spPlayer2"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+			</LinearLayout>
 
-          <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content" >
+			<LinearLayout
+				android:id="@+id/linearLayoutPlayer3"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" >
 
-              <TextView
-                  android:id="@+id/txtPlayer6"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center_vertical"
-                  android:text="@string/player" />
+				<TextView
+					android:id="@+id/txtPlayer3"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:text="@string/player" />
 
-              <Spinner
-                  android:id="@+id/spPlayer6"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1" />
-          </LinearLayout>
+				<Spinner
+					android:id="@+id/spPlayer3"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/linearLayoutPlayer4"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" >
+
+				<TextView
+					android:id="@+id/txtPlayer4"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:text="@string/player" />
+
+				<Spinner
+					android:id="@+id/spPlayer4"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/linearLayoutPlayer5"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" >
+
+				<TextView
+					android:id="@+id/txtPlayer5"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:text="@string/player" />
+
+				<Spinner
+					android:id="@+id/spPlayer5"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/linearLayoutPlayer6"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" >
+
+				<TextView
+					android:id="@+id/txtPlayer6"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:text="@string/player" />
+
+				<Spinner
+					android:id="@+id/spPlayer6"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1" />
+			</LinearLayout>
+			
 		</LinearLayout>
     </ScrollView>
 

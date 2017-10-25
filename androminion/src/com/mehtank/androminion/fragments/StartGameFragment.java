@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -33,6 +35,7 @@ import com.vdom.core.CardSet;
 import com.vdom.core.Cards;
 import com.vdom.core.Expansion;
 import com.vdom.core.CardSet.UseOptionalCards;
+import com.vdom.core.Player;
 
 public class StartGameFragment extends SherlockFragment implements OnClickListener, OnItemSelectedListener {
     @SuppressWarnings("unused")
@@ -46,8 +49,11 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     private static final String RANDOM_NUM_LANDMARKS_PREF = "randomNumLandmarks";
     private static final String RANDOM_MAX_LANDMARKS_PREF = "randomMaxLandmarks";
     private static final String RANDOM_USE_SET_PREFIX = "randomUse";
-    private static final int DEFAULT_MAX_RANDOM_EVENTS = 2;
+	private static final String RANDOM_PLAYERS = "randomPlayers";
+	private static final String PROBABILITY_PLAYERS_PREFIX = "probabilityPlayers";
+	private static final int DEFAULT_MAX_RANDOM_EVENTS = 2;
     private static final int DEFAULT_MAX_RANDOM_LANDMARKS = 2;
+	private static final int MAX_PLAYERS_PROBABILITY_SEEKBAR = 10;
     
 
     //Views
@@ -79,7 +85,12 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     ToggleButton mRandomEmpires;
     Map<Expansion, ToggleButton> completeSets;
     ToggleButton mRandomPromo;
-    
+    CheckBox mRandomPlayersCheckbox;
+	LinearLayout mRandomPlayersLayout;
+	SeekBar mProbability_2_players;
+	SeekBar mProbability_3_4_players;
+	SeekBar mProbability_5_6_players;
+	List<LinearLayout> mPlayersLayout;
     Spinner mPlayer2;
     Spinner mPlayer3;
     Spinner mPlayer4;
@@ -97,14 +108,14 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     //TODO: find a better solution for these
     static final String HUMANPLAYER = "Human Player";
     static final String[] PLAYERTYPES =  {
-        "Human Player",
+        HUMANPLAYER,
         "Drew (AI)",
         "Earl (AI)",
         "Mary (AI)",
         "Chuck (AI)",
         "Sarah (AI)",
         "Patrick (AI)",
-        "Random AI",
+        Player.RANDOM_AI,
     };
 
     enum TypeOptions {
@@ -163,7 +174,19 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mRandomLandmarksLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomLandmarks);
         mRandomLandmarksSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomLandmarks);
         mGameCards = (TextView) mView.findViewById(R.id.gameCards);
-        
+		mRandomPlayersCheckbox = (CheckBox) mView.findViewById(R.id.checkboxRandomPlayers);
+        mRandomPlayersLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomPlayers);
+		mProbability_2_players = (SeekBar) mView.findViewById(R.id.seekBar_2_Players);
+		mProbability_3_4_players = (SeekBar) mView.findViewById(R.id.seekBar_3_4_Players);
+		mProbability_5_6_players = (SeekBar) mView.findViewById(R.id.seekBar_5_6_Players);
+		mPlayersLayout = new ArrayList<LinearLayout>();
+		mPlayersLayout.add((LinearLayout) mView.findViewById(R.id.linearLayoutPlayer1));
+		mPlayersLayout.add((LinearLayout) mView.findViewById(R.id.linearLayoutPlayer2));
+		mPlayersLayout.add((LinearLayout) mView.findViewById(R.id.linearLayoutPlayer3));
+		mPlayersLayout.add((LinearLayout) mView.findViewById(R.id.linearLayoutPlayer4));
+		mPlayersLayout.add((LinearLayout) mView.findViewById(R.id.linearLayoutPlayer5));
+		mPlayersLayout.add((LinearLayout) mView.findViewById(R.id.linearLayoutPlayer6));
+		
         //Init prefs
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         
@@ -179,7 +202,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         completeSets.put(Expansion.Guilds, mRandomGuilds = (ToggleButton) mView.findViewById(R.id.toggleButtonGuilds));
         completeSets.put(Expansion.Adventures, mRandomAdventures = (ToggleButton) mView.findViewById(R.id.toggleButtonAdventures));
         completeSets.put(Expansion.Empires, mRandomEmpires = (ToggleButton) mView.findViewById(R.id.toggleButtonEmpires));
-        mRandomPromo = (ToggleButton) mView.findViewById(R.id.toggleButtonPromo);
+        completeSets.put(Expansion.Promo, mRandomPromo = (ToggleButton) mView.findViewById(R.id.toggleButtonPromo));
                 
         mPlayer2 = (Spinner) mView.findViewById(R.id.spPlayer2);
         mPlayer3 = (Spinner) mView.findViewById(R.id.spPlayer3);
@@ -369,7 +392,6 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         for (Expansion set : completeSets.keySet()) {
         	completeSets.get(set).setChecked(mPrefs.getBoolean(RANDOM_USE_SET_PREFIX + set, set == Expansion.Base));
         }
-        mRandomPromo.setChecked(mPrefs.getBoolean(RANDOM_USE_SET_PREFIX + Expansion.Promo, false));
         
         // ensure we always have enough cards selected to make a valid Kingdom
         int numChecked = getNumChecked();
@@ -379,7 +401,14 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         } else if (numChecked == 1) {
         	disableFirstSelected();
         }
-
+		mRandomPlayersCheckbox.setChecked(mPrefs.getBoolean(RANDOM_PLAYERS, false));
+		mProbability_2_players.setMax(MAX_PLAYERS_PROBABILITY_SEEKBAR);
+		mProbability_3_4_players.setMax(MAX_PLAYERS_PROBABILITY_SEEKBAR);
+		mProbability_5_6_players.setMax(MAX_PLAYERS_PROBABILITY_SEEKBAR);
+		mProbability_2_players.setProgress(mPrefs.getInt(PROBABILITY_PLAYERS_PREFIX + "_2", MAX_PLAYERS_PROBABILITY_SEEKBAR));
+		mProbability_3_4_players.setProgress(mPrefs.getInt(PROBABILITY_PLAYERS_PREFIX + "_3_4", MAX_PLAYERS_PROBABILITY_SEEKBAR));
+		mProbability_5_6_players.setProgress(mPrefs.getInt(PROBABILITY_PLAYERS_PREFIX + "_5_6", MAX_PLAYERS_PROBABILITY_SEEKBAR));
+		
         initListeners();
 
         // Fill player spinners
@@ -431,6 +460,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mPlayer6.setSelection(adapter.getPosition(mPrefs.getString("gamePref6", getString(R.string.none_game_start))));
 
         updateVisibility();
+		updatePlayersVisibility();
         
         return mView;
     }
@@ -448,6 +478,12 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 			@Override
 			public void onClick(View v) {
 				updateVisibility();
+			}
+		});
+		mRandomPlayersCheckbox.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				updatePlayersVisibility();
 			}
 		});
     	for (ToggleButton button : completeSets.values()) {
@@ -581,6 +617,13 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     	
     }
 
+	private void updatePlayersVisibility() {
+		mRandomPlayersLayout.setVisibility(mRandomPlayersCheckbox.isChecked() ? View.VISIBLE : View.GONE);
+		for (LinearLayout layout : mPlayersLayout) {
+			layout.setVisibility(!mRandomPlayersCheckbox.isChecked() ? View.VISIBLE : View.GONE);
+		}
+	}
+		
 	private void getLastCards() {
         int count = mPrefs.getInt("LastCardCount", 0);
         if (count > 0) {
@@ -618,9 +661,6 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 	                		gameTypeString += "-" + set;
 	                	}
 	                }
-	                if (mRandomPromo.isChecked()) {
-	                	gameTypeString += "-" + Expansion.Promo;
-	                }
                 }
                 strs.add(gameTypeString);
                 if (mRandomAllCheckbox.isChecked()) {
@@ -655,7 +695,6 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 for (Expansion set : completeSets.keySet()) {
                 	edit.putBoolean(RANDOM_USE_SET_PREFIX + set, completeSets.get(set).isChecked());
                 }
-                edit.putBoolean(RANDOM_USE_SET_PREFIX + Expansion.Promo, mRandomPromo.isChecked());
                 
                 break;
             case PRESET:
@@ -677,28 +716,72 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 break;
         }
 
+		edit.putBoolean(RANDOM_PLAYERS, mRandomPlayersCheckbox.isChecked());
+		edit.putInt(PROBABILITY_PLAYERS_PREFIX + "_2", mProbability_2_players.getProgress());
+		edit.putInt(PROBABILITY_PLAYERS_PREFIX + "_3_4", mProbability_3_4_players.getProgress());
+		edit.putInt(PROBABILITY_PLAYERS_PREFIX + "_5_6", mProbability_5_6_players.getProgress());
+		
         String str = HUMANPLAYER;
         strs.add(str);
 
-        str = (String) mPlayer2.getSelectedItem();
-        strs.add(str);
-        edit.putString("gamePref2", str);
+		if (mRandomPlayersCheckbox.isChecked()) {
+			str = Player.RANDOM_AI;
+			
+			Random rn = new Random();
+			int max = mProbability_2_players.getProgress() + (2 * mProbability_3_4_players.getProgress()) + (2 * mProbability_5_6_players.getProgress());
+			int aiPlayers = 0;
+			if (max <= 0) {
+				aiPlayers = rn.nextInt(4) + 1;
+			} else {
+				aiPlayers = 1;
+				int value = rn.nextInt(max);
+				
+				for (int i = 2; i <= 6; i++) {
+					SeekBar seekBar;
+					if (i == 2) {
+						seekBar = mProbability_2_players;
+					} else if (i <= 4) {
+						seekBar = mProbability_3_4_players;
+					} else {
+						seekBar = mProbability_5_6_players;
+					}
+					
+					if (seekBar.getProgress() == 0) {
+						continue;
+					}
+					if (value < seekBar.getProgress()) {
+						aiPlayers = i - 1;
+						break;
+					}
+					value -= seekBar.getProgress();
+				}
+			}
+			
+			for (int i = 1; i <= aiPlayers; i++) {
+				strs.add(str);
+			}
+			
+		} else {
+            str = (String) mPlayer2.getSelectedItem();
+            strs.add(str);
+            edit.putString("gamePref2", str);
 
-        str = (String) mPlayer3.getSelectedItem();
-        strs.add(str);
-        edit.putString("gamePref3", str);
+            str = (String) mPlayer3.getSelectedItem();
+            strs.add(str);
+            edit.putString("gamePref3", str);
 
-        str = (String) mPlayer4.getSelectedItem();
-        strs.add(str);
-        edit.putString("gamePref4", str);
+            str = (String) mPlayer4.getSelectedItem();
+            strs.add(str);
+            edit.putString("gamePref4", str);
 
-        str = (String) mPlayer5.getSelectedItem();
-        strs.add(str);
-        edit.putString("gamePref5", str);
+            str = (String) mPlayer5.getSelectedItem();
+            strs.add(str);
+            edit.putString("gamePref5", str);
 
-        str = (String) mPlayer6.getSelectedItem();
-        strs.add(str);
-        edit.putString("gamePref6", str);
+            str = (String) mPlayer6.getSelectedItem();
+            strs.add(str);
+            edit.putString("gamePref6", str);
+		}
 
         if (mPlatColonySpinner.getVisibility() == View.VISIBLE) {
 		    int platColonyChance = posToChance(mPlatColonySpinner.getSelectedItemPosition());
@@ -824,9 +907,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         updateVisibility();
     }
 	
-	
-
-    @Override
+	@Override
     public void onNothingSelected(AdapterView<?> parent) {
         // Nothing selected - so let's do nothing
     }
