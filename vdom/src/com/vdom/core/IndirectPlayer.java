@@ -3761,4 +3761,49 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	WildHuntOption[] options = WildHuntOption.values();
     	return options[selectOption(context, Cards.wildHunt, options)];
     }
+    
+    @Override
+    public Card[] cemetery_cardsToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_cemetery_cardsToTrash(context)) {
+            return super.cemetery_cardsToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setCount(4)
+                .setPassable().setPickType(PickType.TRASH)
+                .setCardResponsible(Cards.cemetery).setActionType(ActionType.TRASH);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card hauntedMirror_cardToDiscard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_hauntedMirror_cardToDiscard(context)) {
+            return super.hauntedMirror_cardToDiscard(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions().setPassable().isAction()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.hauntedMirror);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card pooka_treasureToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_pooka_treasureToTrash(context)) {
+            return super.pooka_treasureToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isTreasure()
+                .setPassable().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.pooka);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card[] shepherd_cardsToDiscard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_shepherd_cardsToDiscard(context)) {
+            return super.shepherd_cardsToDiscard(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isVictory().setPassable()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.shepherd)
+				.setCount(getVictoryInHand().size());
+        return getFromHand(context, sco);
+    }
 }

@@ -25,6 +25,7 @@ public class Cards {
     public static ArrayList<Card> actionCardsEmpires = new ArrayList<Card>();
     public static ArrayList<Card> eventCardsEmpires = new ArrayList<Card>();
     public static ArrayList<Card> landmarkCardsEmpires = new ArrayList<Card>();
+    public static ArrayList<Card> actionCardsNocturne = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> eventCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
@@ -118,6 +119,10 @@ public class Cards {
         
         Advance, Annex, Banquet, Conquest, Dominate, Delve, Donate, Ritual, SaltTheEarth, Tax, Triumph, Wedding, Windfall,
         Aqueduct, Arena, BanditFort, Basilica, Baths, Battlefield, Colonnade, DefiledShrine, Fountain, Keep, Labyrinth, MountainPass, Museum, Obelisk, Orchard, Palace, Tomb, Tower, TriumphalArch, Wall, WolfDen,
+        
+        // Nocturne Expansion
+        Cemetery, Crypt, CursedGold, DevilsWorkshop, FaithfulHound, Ghost, GhostTown, HauntedMirror, 
+        Imp, Pasture, Pooka, Raider, Shepherd,
         
         // Promo Cards
         Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon, Sauna, Avanto,
@@ -553,6 +558,21 @@ public class Cards {
     public static final Card triumphalArch;
     public static final Card wall;
     public static final Card wolfDen;
+    
+    // Nocturne expansion
+    public static final Card cemetery;
+    public static final Card crypt;
+    public static final Card cursedGold;
+    public static final Card devilsWorkshop;
+    public static final Card faithfulHound;
+    public static final Card ghost;
+    public static final Card ghostTown;
+    public static final Card hauntedMirror; 
+    public static final Card imp;
+    public static final Card pasture;
+    public static final Card pooka;
+    public static final Card raider;
+    public static final Card shepherd;
     
     // Promo Cards
     public static final Card walledVillage;
@@ -1019,6 +1039,24 @@ public class Cards {
         landmarkCardsEmpires.add(triumphalArch = new CardImpl.Builder(Cards.Kind.TriumphalArch, Type.Landmark).description("When scoring, 3 VP per copy you have of the 2nd most common Action card among your cards (if it’s a tie, count either).").expansion(Expansion.Empires).build());
         landmarkCardsEmpires.add(wall          = new CardImpl.Builder(Cards.Kind.Wall, Type.Landmark).description("When scoring, -1VP per card you have after the first 15.").expansion(Expansion.Empires).build());
         landmarkCardsEmpires.add(wolfDen       = new CardImpl.Builder(Cards.Kind.WolfDen, Type.Landmark).description("When scoring, -3 VP per card you have exactly one copy of.").expansion(Expansion.Empires).build());
+        
+        // Nocturne
+        actionCardsNocturne.add(cemetery       = new CardImpl.Builder(Cards.Kind.Cemetery, 4, Type.Victory).vp(2).heirloom(Cards.Kind.HauntedMirror).description("When you gain this, trash up to 4 cards from your hand.").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(crypt          = new CardImpl.Builder(Cards.Kind.Crypt, 5, Type.Night, Type.Duration).description("Set aside any number of Treasures you have in play, face down (under this). While any remain, at the start of each of your turns, put one of them into your hand.").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(devilsWorkshop = new CardImpl.Builder(Cards.Kind.DevilsWorkshop, 4, Type.Night).description("If the number of cards you've gained this turn is: 2+, gain an Imp from its pile; 1, gain a card costing up to (4) Coins; 0, gain a Gold.").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(faithfulHound  = new CardImpl.Builder(Cards.Kind.FaithfulHound, 2, Type.Action, Type.Reaction).addCards(2).description("When you discard this other than during Clean-up, you may set it aside, and put it into your hand at end of turn.").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(ghostTown      = new CardImpl.Builder(Cards.Kind.GhostTown, 3, Type.Night, Type.Duration).addCardsNextTurn(1).addActionsNextTurn(1).description("This is gained to your hand (instead of your discard pile).").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(pooka          = new CardImpl.Builder(Cards.Kind.Pooka, 5, Type.Action).heirloom(Cards.Kind.CursedGold).description("You may trash a Treasure other than Cursed Gold from your hand, for +4 Cards.").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(raider         = new CardImpl.Builder(Cards.Kind.Raider, 6, Type.Night, Type.Duration, Type.Attack).addGoldNextTurn(3).description("Each other player with 5 or more cards in hand discards a copy of a card you have in play (or reveals they can't).").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(shepherd       = new CardImpl.Builder(Cards.Kind.Shepherd, 4, Type.Action).addActions(1).heirloom(Cards.Kind.Pasture).description("Discard any number of Victory cards, revealing them. +2 Cards per card discarded.").expansion(Expansion.Nocturne).build());
+        
+        
+        nonSupplyCards.add(cursedGold     = new CardImpl.Builder(Cards.Kind.CursedGold, 4, Type.Treasure, Type.Heirloom).addGold(3).description("When you play this, gain a Curse.").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(hauntedMirror  = new CardImpl.Builder(Cards.Kind.HauntedMirror, 0, Type.Treasure, Type.Heirloom).addGold(1).description("When you trash this, you may discard an Action card, to gain a Ghost from its pile.").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(pasture        = new CardImpl.Builder(Cards.Kind.Pasture, 2, Type.Treasure, Type.Victory, Type.Heirloom).addGold(1).description("Worth 1 VP per Estate you have.").expansion(Expansion.Nocturne).build());
+        
+        nonSupplyCards.add(ghost  = new CardImpl.Builder(Cards.Kind.Ghost, 4, Type.Night, Type.Duration, Type.Spirit).description("Reveal cards from your deck until you reveal an Action. Discard the other cards and set aside the Action. At the start of your next turn, play it twice. (This is not in the Supply.)").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(imp    = new CardImpl.Builder(Cards.Kind.Imp, 2, Type.Action, Type.Spirit).addCards(2).description("You may play an Action card from your hand that you don't have a copy of in play. (This is not in the Supply.)").expansion(Expansion.Nocturne).build());
         
         // Promo Cards
         variablePileCards.add(sauna        = new CardImpl.Builder(Cards.Kind.Sauna, 4, Type.Action).addCards(1).addActions(1).description("You may play an Avanto from your hand. - While this is in play, when you play a Silver, you may trash a card from your hand.").expansion(Expansion.Promo).build());

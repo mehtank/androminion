@@ -1001,6 +1001,8 @@ public abstract class Player {
             totals.put(Cards.humbleCastle, counts.get(Cards.humbleCastle) * this.getCastleCardCount(this));
         if (counts.containsKey(Cards.kingsCastle))
             totals.put(Cards.kingsCastle, counts.get(Cards.kingsCastle) * this.getCastleCardCount(this) * 2);
+        if (counts.containsKey(Cards.pasture))
+            totals.put(Cards.pasture, counts.get(Cards.pasture) * Util.getCardCount(allCards, Cards.estate));
 
         // landmarks
         if (this.game.cardInGame(Cards.banditFort)) {
@@ -2257,6 +2259,14 @@ public abstract class Player {
     public abstract Card tax_supplyToTax(MoveContext context);
     public abstract Card[] temple_cardsToTrash(MoveContext context);
     public abstract WildHuntOption wildHunt_chooseOption(MoveContext context);
+    
+    // ////////////////////////////////////////////
+    // Card interactions - Nocturne Expansion
+    // ////////////////////////////////////////////
+    public abstract Card[] cemetery_cardsToTrash(MoveContext context);
+    public abstract Card hauntedMirror_cardToDiscard(MoveContext context);
+    public abstract Card pooka_treasureToTrash(MoveContext context);
+    public abstract Card[] shepherd_cardsToDiscard(MoveContext context);
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

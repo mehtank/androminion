@@ -4403,4 +4403,46 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	return WildHuntOption.Draw3AndPlaceToken;
     }
+    
+    @Override
+    public Card[] cemetery_cardsToTrash(MoveContext context) {
+    	return pickOutCards(context.getPlayer().getHand(), 4, getTrashCards());
+    }
+    
+    @Override
+    public Card hauntedMirror_cardToDiscard(MoveContext context) {
+    	ArrayList<Card> handCards = context.getPlayer().getActionsInHand(context.getPlayer());
+        Collections.sort(handCards, new CardCostComparator());
+    	for (Card c : handCards) {
+    		if (!c.is(Type.Treasure, context.getPlayer())) {
+    			return c;
+    		}
+    	}
+    	return null;
+    }
+    
+    @Override
+    public Card pooka_treasureToTrash(MoveContext context) {
+    	for (Card card : context.getPlayer().getHand()) {
+            for(Card trash : getTrashCards()) {
+                if(trash.equals(card) && (card.is(Type.Treasure, this) && !card.equals(Cards.cursedGold))) {
+                    return card;
+                }
+            }
+        }
+
+        return null;
+    }
+    
+    @Override
+    public Card[] shepherd_cardsToDiscard(MoveContext context) {
+    	List<Card> result = new ArrayList<Card>();
+    	Player p = context.getPlayer();
+    	for (Card c : p.getHand()) {
+    		if (c.is(Type.Victory, p)) {
+    			result.add(c);
+    		}
+    	}
+    	return result.toArray(new Card[0]);
+    }
 }

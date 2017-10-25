@@ -44,6 +44,7 @@ public class CardImpl implements Card, Comparable<Card>{
     boolean isOverpay = false;  // can this card be overpaid for?
     
     boolean trashOnUse = false;
+    Cards.Kind heirloom;
     
     protected boolean callableWhenCardGained;
     protected boolean callableWhenActionResolved;
@@ -98,6 +99,7 @@ public class CardImpl implements Card, Comparable<Card>{
         takeAnotherTurnCardCount = builder.takeAnotherTurnCardCount;
         isOverpay   = builder.isOverpay;
         trashOnUse   = builder.trashOnUse;
+        heirloom = builder.heirloom;
         
         callableWhenCardGained = builder.callableWhenCardGained;
         callableWhenActionResolved = builder.callableWhenActionResolved;
@@ -145,7 +147,8 @@ public class CardImpl implements Card, Comparable<Card>{
         protected boolean isOverpay   = false;
         
         protected boolean trashOnUse  = false;
-
+        
+        protected Cards.Kind heirloom;
 
         public Builder(Cards.Kind kind, int cost) {
             this.kind = kind;
@@ -285,6 +288,11 @@ public class CardImpl implements Card, Comparable<Card>{
             trashOnUse = true;
             return this;
         }
+        
+        public Builder heirloom(Cards.Kind val) {
+        	heirloom = val;
+        	return this;
+        }
 
         public Builder pileCreator(PileCreator creator) {
             pileCreator = creator;
@@ -318,6 +326,8 @@ public class CardImpl implements Card, Comparable<Card>{
         		return new CardImplAdventures(this);
         	case Empires:
         		return new CardImplEmpires(this);
+        	case Nocturne:
+        		return new CardImplNocturne(this);
         	case Promo:
         		return new CardImplPromo(this);
         	default:
@@ -390,6 +400,9 @@ public class CardImpl implements Card, Comparable<Card>{
 	    		break;
 	    	case Empires:
 	    		c = new CardImplEmpires();
+	    		break;
+	    	case Nocturne:
+	    		c = new CardImplNocturne();
 	    		break;
 	    	case Promo:
 	    		c = new CardImplPromo();

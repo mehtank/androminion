@@ -3643,6 +3643,24 @@ public class Game {
                         victoryCards += context.countVictoryCardsInPlay();
 
                         player.addVictoryTokens(context, victoryCards, Cards.grandCastle);
+                    } else if(gainedCardAbility.equals(Cards.cemetery)) {
+                    	Card[] cards = player.controlPlayer.cemetery_cardsToTrash(context);
+                        if (cards != null) {
+                            if (cards.length > 4) {
+                                Util.playerError(player, "Cemetery trash error, trying to trash too many cards, ignoring.");
+                            } else {
+                                for (Card card : cards) {
+                                    for (int i = 0; i < player.hand.size(); i++) {
+                                        Card playersCard = player.hand.get(i);
+                                        if (playersCard.equals(card)) {
+                                            Card thisCard = player.hand.remove(i, false);
+                                            player.trash(thisCard, Cards.cemetery, context);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     
                     if(event.card.is(Type.Action, player)) {
