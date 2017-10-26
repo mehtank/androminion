@@ -37,6 +37,9 @@ public class Cards {
     public static ArrayList<Card> castleCards = new ArrayList<Card>();
 	public static ArrayList<Card> eventsCards = new ArrayList<Card>();
     public static ArrayList<Card> landmarkCards = new ArrayList<Card>();
+    public static ArrayList<Card> boonCards = new ArrayList<Card>();
+    public static ArrayList<Card> hexCards = new ArrayList<Card>();
+    public static ArrayList<Card> stateCards = new ArrayList<Card>();
     public static ArrayList<Card> blackMarketCards = new ArrayList<Card>();
     public static HashSet<Card> nonKingdomCards = new HashSet<Card>();
 
@@ -114,18 +117,24 @@ public class Cards {
         RoyalBlacksmith, Sacrifice, Settlers, Temple, Villa, WildHunt,
         HumbleCastle, CrumblingCastle, SmallCastle, HauntedCastle, OpulentCastle, SprawlingCastle, GrandCastle, KingsCastle,
         
-        CatapultRocks, Castles, EncampmentPlunder, GladiatorFortune
-        , PatricianEmporium, SettlersBustlingVillage,
+        CatapultRocks, Castles, EncampmentPlunder, GladiatorFortune, PatricianEmporium, SettlersBustlingVillage,
         
         Advance, Annex, Banquet, Conquest, Dominate, Delve, Donate, Ritual, SaltTheEarth, Tax, Triumph, Wedding, Windfall,
         Aqueduct, Arena, BanditFort, Basilica, Baths, Battlefield, Colonnade, DefiledShrine, Fountain, Keep, Labyrinth, MountainPass, Museum, Obelisk, Orchard, Palace, Tomb, Tower, TriumphalArch, Wall, WolfDen,
         
         // Nocturne Expansion
-        Cemetery, Crypt, CursedGold, DevilsWorkshop, FaithfulHound, Ghost, GhostTown, HauntedMirror, 
-        Imp, Pasture, Pooka, Raider, Shepherd,
+        BlessedVillage, Cemetery, Crypt, CursedGold, DevilsWorkshop, Druid, FaithfulHound, Fool, Ghost, GhostTown, Goat, HauntedMirror, 
+        Idol, Imp, LuckyCoin, MagicLamp, Pasture, Pooka, Pouch, Raider, Shepherd, WillOWisp,
+        
+        TheEarthsGift, TheFieldsGift, TheFlamesGift, TheForestsGift, TheMoonsGift, TheMountainsGift, TheRiversGift, TheSeasGift,
+        TheSkysGift, TheSunsGift, TheSwampsGift, TheWindsGift,
+        
+        BadOmens, Delusion, Envy, Famine, Fear, Greed, Haunting, Locusts, Misery, Plague, Poverty, War,
+        
+        Deluded, Envious, LostInTheWoods, Miserable, TwiceMiserable,
         
         // Promo Cards
-        Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon, Sauna, Avanto,
+        Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon, Sauna, Avanto, Dismantle,
         SaunaAvanto,
         // Promo Cards (not yet implemented)
         // Stash
@@ -560,19 +569,45 @@ public class Cards {
     public static final Card wolfDen;
     
     // Nocturne expansion
+    public static final Card blessedVillage;
     public static final Card cemetery;
     public static final Card crypt;
     public static final Card cursedGold;
     public static final Card devilsWorkshop;
+    public static final Card druid;
     public static final Card faithfulHound;
+    public static final Card fool;
     public static final Card ghost;
     public static final Card ghostTown;
-    public static final Card hauntedMirror; 
+    public static final Card goat;
+    public static final Card hauntedMirror;
+    public static final Card idol;
     public static final Card imp;
+    public static final Card luckyCoin;
+    public static final Card magicLamp;
     public static final Card pasture;
     public static final Card pooka;
+    public static final Card pouch;
     public static final Card raider;
     public static final Card shepherd;
+    public static final Card willOWisp;
+    
+    public static final Card theEarthsGift;
+    public static final Card theFieldsGift;
+    public static final Card theFlamesGift;
+    public static final Card theForestsGift;
+    public static final Card theMoonsGift;
+    public static final Card theMountainsGift;
+    public static final Card theRiversGift;
+    public static final Card theSeasGift;
+    public static final Card theSkysGift;
+    public static final Card theSunsGift;
+    public static final Card theSwampsGift;
+    public static final Card theWindsGift;
+    
+    public static final Card deluded;
+    public static final Card envious;
+    public static final Card lostInTheWoods;
     
     // Promo Cards
     public static final Card walledVillage;
@@ -584,6 +619,7 @@ public class Cards {
     public static final Card summon;
     public static final Card sauna;
     public static final Card avanto;
+    public static final Card dismantle;
     
     public static final Card virtualSaunaAvanto;
 
@@ -1041,22 +1077,47 @@ public class Cards {
         landmarkCardsEmpires.add(wolfDen       = new CardImpl.Builder(Cards.Kind.WolfDen, Type.Landmark).description("When scoring, -3 VP per card you have exactly one copy of.").expansion(Expansion.Empires).build());
         
         // Nocturne
+        actionCardsNocturne.add(blessedVillage = new CardImpl.Builder(Cards.Kind.BlessedVillage, 4, Type.Action, Type.Fate).addActions(2).addCards(1).description("When you gain this, take a Boon. Receive it now or at the start of your next turn.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(cemetery       = new CardImpl.Builder(Cards.Kind.Cemetery, 4, Type.Victory).vp(2).heirloom(Cards.Kind.HauntedMirror).description("When you gain this, trash up to 4 cards from your hand.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(crypt          = new CardImpl.Builder(Cards.Kind.Crypt, 5, Type.Night, Type.Duration).description("Set aside any number of Treasures you have in play, face down (under this). While any remain, at the start of each of your turns, put one of them into your hand.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(devilsWorkshop = new CardImpl.Builder(Cards.Kind.DevilsWorkshop, 4, Type.Night).description("If the number of cards you've gained this turn is: 2+, gain an Imp from its pile; 1, gain a card costing up to (4) Coins; 0, gain a Gold.").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(druid          = new CardImpl.Builder(Cards.Kind.Druid, 2, Type.Action, Type.Fate).addBuys(1).description("Receive one of the set-aside Boons (leaving it there). — Setup: Set aside the top 3 Boons face up.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(faithfulHound  = new CardImpl.Builder(Cards.Kind.FaithfulHound, 2, Type.Action, Type.Reaction).addCards(2).description("When you discard this other than during Clean-up, you may set it aside, and put it into your hand at end of turn.").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(fool           = new CardImpl.Builder(Cards.Kind.Fool, 3, Type.Action, Type.Fate).heirloom(Cards.Kind.LuckyCoin).description("If you aren't the player with Lost in the Woods, take it, take 3 Boons, and receive the Boons in any order.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(ghostTown      = new CardImpl.Builder(Cards.Kind.GhostTown, 3, Type.Night, Type.Duration).addCardsNextTurn(1).addActionsNextTurn(1).description("This is gained to your hand (instead of your discard pile).").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(idol           = new CardImpl.Builder(Cards.Kind.Idol, 5, Type.Treasure, Type.Attack, Type.Fate).addGold(2).description("When you play this, if you then have an odd number of Idols in play, receive a Boon; if an even number, each other player gains a Curse.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(pooka          = new CardImpl.Builder(Cards.Kind.Pooka, 5, Type.Action).heirloom(Cards.Kind.CursedGold).description("You may trash a Treasure other than Cursed Gold from your hand, for +4 Cards.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(raider         = new CardImpl.Builder(Cards.Kind.Raider, 6, Type.Night, Type.Duration, Type.Attack).addGoldNextTurn(3).description("Each other player with 5 or more cards in hand discards a copy of a card you have in play (or reveals they can't).").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(shepherd       = new CardImpl.Builder(Cards.Kind.Shepherd, 4, Type.Action).addActions(1).heirloom(Cards.Kind.Pasture).description("Discard any number of Victory cards, revealing them. +2 Cards per card discarded.").expansion(Expansion.Nocturne).build());
-        
-        
+                
         nonSupplyCards.add(cursedGold     = new CardImpl.Builder(Cards.Kind.CursedGold, 4, Type.Treasure, Type.Heirloom).addGold(3).description("When you play this, gain a Curse.").expansion(Expansion.Nocturne).build());
         nonSupplyCards.add(hauntedMirror  = new CardImpl.Builder(Cards.Kind.HauntedMirror, 0, Type.Treasure, Type.Heirloom).addGold(1).description("When you trash this, you may discard an Action card, to gain a Ghost from its pile.").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(goat           = new CardImpl.Builder(Cards.Kind.Goat, 0, Type.Treasure, Type.Heirloom).description("TODO").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(luckyCoin      = new CardImpl.Builder(Cards.Kind.LuckyCoin, 4, Type.Treasure, Type.Heirloom).addGold(1).description("When you play this, gain a Silver.").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(magicLamp      = new CardImpl.Builder(Cards.Kind.MagicLamp, 0, Type.Treasure, Type.Heirloom).description("TODO").expansion(Expansion.Nocturne).build());
         nonSupplyCards.add(pasture        = new CardImpl.Builder(Cards.Kind.Pasture, 2, Type.Treasure, Type.Victory, Type.Heirloom).addGold(1).description("Worth 1 VP per Estate you have.").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(pouch          = new CardImpl.Builder(Cards.Kind.Pouch, 0, Type.Treasure, Type.Heirloom).description("TODO").expansion(Expansion.Nocturne).build());
         
-        nonSupplyCards.add(ghost  = new CardImpl.Builder(Cards.Kind.Ghost, 4, Type.Night, Type.Duration, Type.Spirit).description("Reveal cards from your deck until you reveal an Action. Discard the other cards and set aside the Action. At the start of your next turn, play it twice. (This is not in the Supply.)").expansion(Expansion.Nocturne).build());
-        nonSupplyCards.add(imp    = new CardImpl.Builder(Cards.Kind.Imp, 2, Type.Action, Type.Spirit).addCards(2).description("You may play an Action card from your hand that you don't have a copy of in play. (This is not in the Supply.)").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(ghost     = new CardImpl.Builder(Cards.Kind.Ghost, 4, Type.Night, Type.Duration, Type.Spirit).description("Reveal cards from your deck until you reveal an Action. Discard the other cards and set aside the Action. At the start of your next turn, play it twice. (This is not in the Supply.)").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(imp       = new CardImpl.Builder(Cards.Kind.Imp, 2, Type.Action, Type.Spirit).addCards(2).description("You may play an Action card from your hand that you don't have a copy of in play. (This is not in the Supply.)").expansion(Expansion.Nocturne).build());
+        nonSupplyCards.add(willOWisp = new CardImpl.Builder(Cards.Kind.WillOWisp, 0, Type.Action, Type.Spirit).addActions(1).addCards(1).description("Reveal the top card of your deck. If it costs (2) Coins or less, put it into your hand. (This is not in the Supply.)").expansion(Expansion.Nocturne).build());
+        
+        boonCards.add(theEarthsGift    = new CardImpl.Builder(Cards.Kind.TheEarthsGift, Type.Boon).description("You may discard a treasure to gain a card costing up to (4) Coins.").expansion(Expansion.Nocturne).build());
+        boonCards.add(theFieldsGift    = new CardImpl.Builder(Cards.Kind.TheFieldsGift, Type.Boon).addActions(1).addGold(1).description("(Keep this until Clean-up.)").expansion(Expansion.Nocturne).build());
+        boonCards.add(theFlamesGift    = new CardImpl.Builder(Cards.Kind.TheFlamesGift, Type.Boon).description("You may trash a card from your hand.").expansion(Expansion.Nocturne).build());
+        boonCards.add(theForestsGift   = new CardImpl.Builder(Cards.Kind.TheForestsGift, Type.Boon).addBuys(1).addGold(1).description("(Keep this until Clean-up.)").expansion(Expansion.Nocturne).build());
+        boonCards.add(theMoonsGift     = new CardImpl.Builder(Cards.Kind.TheMoonsGift, Type.Boon).description("Look through your discard pile. You may put a card from it onto your deck.").expansion(Expansion.Nocturne).build());
+        boonCards.add(theMountainsGift = new CardImpl.Builder(Cards.Kind.TheMountainsGift, Type.Boon).description("Gain a Silver.").expansion(Expansion.Nocturne).build());
+        boonCards.add(theRiversGift    = new CardImpl.Builder(Cards.Kind.TheRiversGift, Type.Boon).description("+1 Card at the end of this turn. (Keep this until Clean-up.)").expansion(Expansion.Nocturne).build());
+        boonCards.add(theSeasGift      = new CardImpl.Builder(Cards.Kind.TheSeasGift, Type.Boon).addCards(1).description("").expansion(Expansion.Nocturne).build());
+        boonCards.add(theSkysGift      = new CardImpl.Builder(Cards.Kind.TheSkysGift, Type.Boon).description("You may discard 3 cards to gain a Gold.").expansion(Expansion.Nocturne).build());
+        boonCards.add(theSunsGift      = new CardImpl.Builder(Cards.Kind.TheSunsGift, Type.Boon).description("Look at the top 4 cards of your deck. Discard any number of them and put the rest back in any order.").expansion(Expansion.Nocturne).build());
+        boonCards.add(theSwampsGift    = new CardImpl.Builder(Cards.Kind.TheSwampsGift, Type.Boon).description("Gain a Will-o'-Wisp from its pile.").expansion(Expansion.Nocturne).build());
+        boonCards.add(theWindsGift     = new CardImpl.Builder(Cards.Kind.TheWindsGift, Type.Boon).addCards(2).description("Discard 2 cards.").expansion(Expansion.Nocturne).build());
+        
+        stateCards.add(deluded        = new CardImpl.Builder(Cards.Kind.Deluded, Type.State).description("TODO").expansion(Expansion.Nocturne).build());
+        stateCards.add(envious        = new CardImpl.Builder(Cards.Kind.Envious, Type.State).description("TODO").expansion(Expansion.Nocturne).build());
+        stateCards.add(lostInTheWoods = new CardImpl.Builder(Cards.Kind.LostInTheWoods, Type.State).description("At the start of your turn, you may discard a card to receive a Boon.").expansion(Expansion.Nocturne).build());
         
         // Promo Cards
         variablePileCards.add(sauna        = new CardImpl.Builder(Cards.Kind.Sauna, 4, Type.Action).addCards(1).addActions(1).description("You may play an Avanto from your hand. - While this is in play, when you play a Silver, you may trash a card from your hand.").expansion(Expansion.Promo).build());
@@ -1069,6 +1130,7 @@ public class Cards {
         actionCardsPromo.add(blackMarket   = new CardImpl.Builder(Cards.Kind.BlackMarket, 3, Type.Action).addGold(2).description("Reveal the top 3 cards of the Black Market deck. You may buy one of them immediately. Put the unbought cards on the bottom of the Black Market deck in any order./n(Before the game, make a Black Market deck out of one copy of each Kingdom card not in the supply.)").expansion(Expansion.Promo).build());
         actionCardsPromo.add(stash         = new CardImpl.Builder(Cards.Kind.Stash, 5, Type.Treasure).addGold(2).description("When you shuffle, you may put this anywhere in your deck.").expansion(Expansion.Promo).build());
         actionCardsPromo.add(virtualSaunaAvanto = new CardImpl.Builder(Cards.Kind.SaunaAvanto, 4, Type.Action).pileCreator(new SplitPileCreator(sauna, avanto)).description("This pile starts the game with 5 copies of Sauna on top, then 5 copies of Avanto. Only the top card of the pile can be gained or bought.").expansion(Expansion.Promo).build());
+        actionCardsPromo.add(dismantle     = new CardImpl.Builder(Cards.Kind.Dismantle, 4, Type.Action).description("Trash a card from your hand. If it costs 1 Coin or more, gain a cheaper card and a Gold.").expansion(Expansion.Promo).build());
         
         eventCardsPromo.add(summon         = new CardImpl.Builder(Cards.Kind.Summon, 5, Type.Event).description("Gain an Action card costing up to 4 Coins. Set it aside. If you do, then at the start of your next turn, play it.").expansion(Expansion.Promo).build());
 
@@ -1113,6 +1175,10 @@ public class Cards {
         for (Card card : prizeCards)            { nonKingdomCards.add(card); };
         for (Card card : eventsCards)           { nonKingdomCards.add(card); };
         for (Card card : landmarkCards)         { nonKingdomCards.add(card); };
+        for (Card card : boonCards)				{ nonKingdomCards.add(card); };
+        for (Card card : hexCards)				{ nonKingdomCards.add(card); };
+        for (Card card : stateCards)			{ nonKingdomCards.add(card); };
+        
 
 
         for (Card card : actionCards)       { cardNameToCard.put(card.getName(), card); }

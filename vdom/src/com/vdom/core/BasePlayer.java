@@ -90,6 +90,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	return null;
     }
     
+    @Override
+    public Card[] nightCardsToPlayInOrder(MoveContext context) {
+    	// Should never be called
+    	return null;
+    }
+    
 	@Override
 	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
 		Card[] reactionCards = getAttackReactionCards(defended);
