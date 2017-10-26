@@ -1614,6 +1614,7 @@ public class Strings {
             getCardName(Cards.pooka),
             getCardName(Cards.shepherd),
             /*Promo*/
+            getCardName(Cards.dismantle),
             getCardName(Cards.sauna),
             /*Promo Events*/
             getCardName(Cards.summon)

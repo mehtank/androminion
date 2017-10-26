@@ -2666,6 +2666,27 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         return selectBoolean(context, Cards.avanto);
     }
+    
+    @Override
+    public Card dismantle_cardToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_dismantle_cardToTrash(context)) {
+            return super.dismantle_cardToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.dismantle);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card dismantle_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	if(context.isQuickPlay() && shouldAutoPlay_dismantle_cardToObtain(context, maxCost, maxDebtCost, potion)) {
+            return super.dismantle_cardToObtain(context, maxCost, maxDebtCost, potion);
+        }
+        SelectCardOptions sco = new SelectCardOptions().maxPotionCost(potion?1:0)
+                .maxCost(maxCost).maxDebtCost(maxDebtCost).lessThanMax()
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.dismantle);
+        return getFromTable(context, sco);
+    }
 
     @Override
     public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] cards) {

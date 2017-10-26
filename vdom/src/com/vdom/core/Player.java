@@ -2291,6 +2291,10 @@ public abstract class Player {
     
     public abstract boolean avanto_shouldPlaySauna(MoveContext context);
     
+    public abstract Card dismantle_cardToTrash(MoveContext context);
+    
+    public abstract Card dismantle_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
+    
     public abstract boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array);
 
     public abstract Card[] survivors_cardOrder(MoveContext context, Card[] array);

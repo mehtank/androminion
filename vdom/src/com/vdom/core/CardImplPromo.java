@@ -24,6 +24,9 @@ public class CardImplPromo extends CardImpl {
 		case BlackMarket:
             blackMarket(game, context, currentPlayer);
             break;
+		case Dismantle:
+			dismantle(game, context, currentPlayer);
+			break;
 		case Envoy:
             envoy(game, context, currentPlayer);
             break;
@@ -146,6 +149,48 @@ public class CardImplPromo extends CardImpl {
         
         context.blackMarketBuyPhase = false;
     }
+	
+	private void dismantle(Game game, MoveContext context, Player player) {
+		CardList hand = player.getHand();
+		if(hand.size() == 0)
+			return;
+        Card trashCard = player.controlPlayer.dismantle_cardToTrash(context);
+        if (trashCard == null || !player.hand.contains(trashCard)) {
+            Util.playerError(player, "Dismantle card to trash invalid, picking one");
+            trashCard = hand.get(0);
+        }
+
+        hand.remove(trashCard);
+        player.trash(trashCard, this.getControlCard(), context);
+        int cost = trashCard.getCost(context);
+        int debt = trashCard.getDebtCost(context);
+        boolean potion = trashCard.costPotion();
+        int potionCost = potion ? 1 : 0;
+        if (cost <= 1)
+        	return;
+        
+        ArrayList<Card> validCards = new ArrayList<Card>();
+        for (Card card : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+            int gainCardCost = card.getCost(context);
+            int gainCardPotionCost = card.costPotion() ? 1 : 0;
+            int gainCardDebt = card.getDebtCost(context);
+
+            if ((gainCardCost < cost || gainCardDebt < debt || gainCardPotionCost < potionCost) && 
+            		(gainCardCost <= cost && gainCardDebt <= debt && gainCardPotionCost <= potionCost)) {
+                validCards.add(card);
+            }
+        }
+        if (validCards.size() > 0) {
+        	Card toGain = context.getPlayer().controlPlayer.dismantle_cardToObtain(context, cost, debt, potion);
+            if (toGain == null || !validCards.contains(toGain)) {
+                Util.playerError(context.getPlayer(), "Invalid card returned from Dismantle, picking one.");
+                toGain = validCards.get(0);
+            } else {
+                context.getPlayer().gainNewCard(toGain, Cards.dismantle, context);
+            }
+        }
+        context.getPlayer().gainNewCard(Cards.gold, Cards.dismantle, context);
+	}
 	
 	private void envoy(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> cards = new ArrayList<Card>();

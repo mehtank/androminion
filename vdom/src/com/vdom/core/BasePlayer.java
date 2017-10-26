@@ -2989,6 +2989,27 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public boolean avanto_shouldPlaySauna(MoveContext context) {
     	return true;
     }
+    
+    @Override
+    public Card dismantle_cardToTrash(MoveContext context) {
+    	CardList hand = context.getPlayer().getHand();
+    	//favor golds for trashing, then estates
+    	Card card = pickOutCard(hand, new Card[]{Cards.gold, Cards.estate});
+    	if (card != null) 
+            return card;
+    	    	
+    	if (card == null) {
+        	card = lowestCard(context, hand, false);
+        }
+    	return card;
+    }
+    
+    @Override
+    public Card dismantle_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	if (maxCost < 0)
+            return null;
+        return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, false, false, true, true, null);
+    }
 
 	@Override
 	public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array) {

@@ -877,6 +877,14 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_avanto_shouldPlaySauna(MoveContext context) {
         return true;
     }
+    
+    public boolean shouldAutoPlay_dismantle_cardToTrash(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_dismantle_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+        return false;
+    }
 
     public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
         return true;
