@@ -795,7 +795,7 @@
     <string name="Crypt_name">Crypt</string>
     <string name="Crypt_desc">Set aside any number of Treasures you have in play, face down (under this). While any remain, at the start of each of your turns, put one of them into your hand.</string>
     <string name="CursedVillage_name">Cursed Village</string>
-    <string name="CursedVillage_desc">TODO</string>
+    <string name="CursedVillage_desc">Draw until you have 6 cards in hand. — When you gain this, receive a Hex.</string>
     <string name="DenOfSin_name">Den Of Sin</string>
     <string name="DenOfSin_desc">TODO</string>
     <string name="DevilsWorkshop_name">Devil\'s Workshop</string>
@@ -815,7 +815,7 @@
     <string name="Idol_name">Idol</string>
     <string name="Idol_desc">When you play this, if you then have an odd number of Idols in play, receive a Boon; if an even number, each other player gains a Curse.</string>
     <string name="Leprechaun_name">Leprechaun</string>
-    <string name="Leprechaun_desc">TODO</string>
+    <string name="Leprechaun_desc">Gain a Gold. If you have exactly 7 cards in play, gain a Wish from its pile. Otherwise, receive a Hex.</string>
     <string name="Monastery_name">Monastery</string>
     <string name="Monastery_desc">TODO</string>
     <string name="Necromancer_name">Necromancer</string>
@@ -835,7 +835,7 @@
     <string name="Shepherd_name">Shepherd</string>
     <string name="Shepherd_desc">Discard any number of Victory cards, revealing them. +2 Cards per card discarded.</string>
     <string name="Skulk_name">Skulk</string>
-    <string name="Skulk_desc">TODO</string>
+    <string name="Skulk_desc">Each other player receives the next Hex. — When you gain this, gain a Gold.</string>
     <string name="Tormentor_name">Tormentor</string>
     <string name="Tormentor_desc">TODO</string>
     <string name="TragicHero_name">Tragic Hero</string>
@@ -845,7 +845,7 @@
     <string name="Vampire_name">Vampire</string>
     <string name="Vampire_desc">TODO</string>
     <string name="Werewolf_name">Werewolf</string>
-    <string name="Werewolf_desc">TODO</string>
+    <string name="Werewolf_desc">If it\'s your Night phase, each other player receives the next Hex. Otherwise, +3 Cards.</string>
     
     <string name="CursedGold_name">Cursed Gold</string>
     <string name="CursedGold_desc">When you play this, gain a Curse.</string>
@@ -905,40 +905,40 @@
     <string name="TheWindsGift_desc">Discard 2 cards.</string>
     
     <string name="BadOmens_name">Bad Omens</string>
-    <string name="BadOmems_desc">TODO</string>
+    <string name="BadOmems_desc">Put your deck into your discard pile. Look through it and put 2 Coppers from it onto your deck (or reveal you can't).</string>
     <string name="Delusion_name">Delusion</string>
-    <string name="Delusion_desc">TODO</string>
+    <string name="Delusion_desc">If you don\'t have Deluded or Envious, take Deluded.</string>
     <string name="Envy_name">Envy</string>
-    <string name="Envy_desc">TODO</string>
+    <string name="Envy_desc">If you don\'t have Deluded or Envious, take Envious.</string>
     <string name="Famine_name">Famine</string>
-    <string name="Famine_desc">TODO</string>
+    <string name="Famine_desc">Reveal the top 3 cards of your deck. Discard the Actions. Shuffle the rest into your deck.</string>
     <string name="Fear_name">Fear</string>
-    <string name="Fear_desc">TODO</string>
+    <string name="Fear_desc">If you have at least 5 cards in hand, discard an Action or Treasure (or reveal you can't).</string>
     <string name="Greed_name">Greed</string>
-    <string name="Greed_desc">TODO</string>
+    <string name="Greed_desc">Gain a Copper onto your deck.</string>
     <string name="Haunting_name">Haunting</string>
-    <string name="Haunting_desc">TODO</string>
+    <string name="Haunting_desc">If you have at least 4 cards in hand, put one of them onto your deck.</string>
     <string name="Locusts_name">Locusts</string>
-    <string name="Locusts_desc">TODO</string>
+    <string name="Locusts_desc">Trash the top card of your deck. If it\'s a Copper or Estate, gain a Curse. Otherwise, gain a cheaper card that shares a type with it.</string>
     <string name="Misery_name">Misery</string>
-    <string name="Misery_desc">TODO</string>
+    <string name="Misery_desc">If this is your first Misery this game, take Miserable. Otherwise, flip it over to Twice Miserable.</string>
     <string name="Plague_name">Plague</string>
-    <string name="Plague_desc">TODO</string>
+    <string name="Plague_desc">Gain a Curse to your hand.</string>
     <string name="Poverty_name">Poverty</string>
-    <string name="Poverty_desc">TODO</string>
+    <string name="Poverty_desc">Discard down to 3 cards in hand.</string>
     <string name="War_name">War</string>
-    <string name="War_desc">TODO</string>
+    <string name="War_desc">Reveal cards from your deck until revealing one costing (3) Coins or (4) Coins. Trash it and discard the rest.</string>
     
     <string name="Deluded_name">Deluded</string>
-    <string name="Deluded_desc">TODO</string>
+    <string name="Deluded_desc">At the start of your Buy phase, return this, and you can\'t buy Actions this turn.</string>
     <string name="Envious_name">Envious</string>
-    <string name="Envious_desc">TODO</string>
+    <string name="Envious_desc">At the start of your Buy phase, return this, and Silver and Gold make (1) Coin this turn.</string>
     <string name="LostInTheWoods_name">Lost in the Woods</string>
     <string name="LostInTheWoods_desc">At the start of your turn, you may discard a card to receive a Boon.</string>
     <string name="Miserable_name">Miserable</string>
-    <string name="Miserable_desc">TODO</string>
+    <string name="Miserable_desc"></string>
     <string name="TwiceMiserable_name">Twice Miserable</string>
-    <string name="TwiceMiserable_desc">TODO</string>
+    <string name="TwiceMiserable_desc"></string>
     
     <string name="Envoy_name">Envoy</string>
     <string name="Envoy_desc">Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.</string>
