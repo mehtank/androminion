@@ -796,6 +796,8 @@
     <string name="Sauna_desc">Puedes jugar una carta de Avanto de tu mano. - Mientras esta carta esté en juego, cuando juegues una carta de Plata, puedes eliminar una carta de tu mano.</string>
     <string name="Avanto_name">Avanto</string>
     <string name="Avanto_desc">Puedes jugar una carta de Sauna de tu mano.</string>
+    <string name="Dismantle_name">Desmantelar</string>
+    <string name="Dismantle_desc">Elimina una carta de tu mano. Si tiene un coste de (1) Moneda o más, gana una carta con un coste inferior y una carta de Oro.</string>
     
     <string name="SaunaAvanto_name">Sauna/Avanto</string>
     <string name="SaunaAvanto_desc">Al comienzo del juego, este montón tiene 5 copias de Sauna encima, y entonces 5 copias de Avanto. Sólo la carta encima del montón se puede ganar o comprar.</string>
