@@ -836,8 +836,20 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
                 cardType += " - " + context.getString(R.string.type_treasure);
             }
             
+            if (c.isNight) {
+                cardType += " - " + context.getString(R.string.type_night);
+            }
+            
             if (c.isAttack) {
                 cardType += " - " + context.getString(R.string.type_attack);
+            }
+            
+            if (c.isDoom) {
+                cardType += " - " + context.getString(R.string.type_doom);
+            }
+            
+            if (c.isFate) {
+                cardType += " - " + context.getString(R.string.type_fate);
             }
             
             if (c.isLooter) {
@@ -891,6 +903,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             if (c.isSpirit) {
                 cardType += " - " + context.getString(R.string.type_spirit);
             }
+            
+            if (c.isZombie) {
+                cardType += " - " + context.getString(R.string.type_zombie);
+            }
         } else if (c.isNight) {
             cardType += context.getString(R.string.type_night);
             
@@ -904,6 +920,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
                          
             if (c.isSpirit) {
                 cardType += " - " + context.getString(R.string.type_spirit);
+            }
+            
+            if (c.isZombie) {
+                cardType += " - " + context.getString(R.string.type_zombie);
             }
         } else if (c.isTreasure) {
             cardType += context.getString(R.string.type_treasure);
@@ -956,6 +976,15 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
         }
         else if (c.isLandmark) {
             cardType += context.getString(R.string.type_landmark);
+        }
+        else if (c.isBoon) {
+            cardType += context.getString(R.string.type_boon);
+        }
+        else if (c.isHex) {
+            cardType += context.getString(R.string.type_hex);
+        } 
+        else if (c.isState) {
+            cardType += context.getString(R.string.type_state);
         }
         else if (c.name.equalsIgnoreCase("hovel")) {
             cardType += context.getString(R.string.type_reaction) + " - " + context.getString(R.string.type_shelter);

@@ -47,9 +47,15 @@ public class MyCard implements Serializable {
 	public boolean isCastle    = false;
 	public boolean isGathering = false;
 	public boolean isLandmark  = false;
+	public boolean isBoon      = false;
+	public boolean isDoom      = false;
+	public boolean isFate      = false;
 	public boolean isHeirloom  = false;
+	public boolean isHex       = false;
 	public boolean isNight     = false;
 	public boolean isSpirit    = false;
+	public boolean isState     = false;
+	public boolean isZombie    = false;
 	public boolean isBlackMarket = false;
 	public boolean isStash    = false;
 	
