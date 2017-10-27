@@ -803,7 +803,7 @@
     <string name="Druid_name">Druid</string>
     <string name="Druid_desc">Receive one of the set-aside Boons (leaving it there). - Setup: Set aside the top 3 Boons face up.</string>
     <string name="Exorcist_name">Exorcist</string>
-    <string name="Exorcist_desc">TODO</string>
+    <string name="Exorcist_desc">Trash a card from your hand. Gain a cheaper Spirit from one of the Spirit piles.</string>
     <string name="FaithfulHound_name">Faithful Hound</string>
     <string name="FaithfulHound_desc">When you discard this other than during Clean-up, you may set it aside, and put it into your hand at end of turn.</string>
     <string name="Fool_name">Fool</string>
@@ -823,7 +823,7 @@
     <string name="NightWatchman_name">Night Watchman</string>
     <string name="NightWatchman_desc">TODO</string>
     <string name="Pixie_name">Pixie</string>
-    <string name="Pixie_desc">TODO</string>
+    <string name="Pixie_desc">Discard the top Boon. You may trash this to receive that Boon twice.</string>
     <string name="Pooka_name">Pooka</string>
     <string name="Pooka_desc">You may trash a Treasure other than Cursed Gold from your hand, for +4 Cards.</string>
     <string name="Raider_name">Raider</string>
@@ -843,7 +843,7 @@
     <string name="Tracker_name">Tracker</string>
     <string name="Tracker_desc">TODO</string>
     <string name="Vampire_name">Vampire</string>
-    <string name="Vampire_desc">TODO</string>
+    <string name="Vampire_desc">Each other player receives the next Hex. Gain a card costing up to (5) Coins other than a Vampire. Exchange this for a Bat.</string>
     <string name="Werewolf_name">Werewolf</string>
     <string name="Werewolf_desc">If it\'s your Night phase, each other player receives the next Hex. Otherwise, +3 Cards.</string>
     
@@ -852,7 +852,7 @@
     <string name="HauntedMirror_name">Haunted Mirror</string>
     <string name="HauntedMirror_desc">When you trash this, you may discard an Action card, to gain a Ghost from its pile.</string>
     <string name="Goat_name">Goat</string>
-    <string name="Goat_desc">TODO</string>
+    <string name="Goat_desc">When you play this, you may trash a card from your hand.</string>
     <string name="LuckyCoin_name">Lucky Coin</string>
     <string name="LuckyCoin_desc">When you play this, gain a Silver.</string>
     <string name="MagicLamp_name">Magic Lamp</string>
@@ -863,7 +863,7 @@
     <string name="Pouch_desc">TODO</string>
     
     <string name="Bat_name">Bat</string>
-    <string name="Bat_desc">TODO</string>
+    <string name="Bat_desc">Trash up to 2 cards from your hand. If you trashed at least one, exchange this for a Vampire. (This is not in the Supply.)</string>
     <string name="Ghost_name">Ghost</string>
     <string name="Ghost_desc">Reveal cards from your deck until you reveal an Action. Discard the other cards and set aside the Action. At the start of your next turn, play it twice. (This is not in the Supply.)</string>
     <string name="Imp_name">Imp</string>
@@ -871,7 +871,7 @@
     <string name="WillOWisp_name">Will-o\'-Wisp</string>
     <string name="WillOWisp_desc">Reveal the top card of your deck. If it costs (2) Coins or less, put it into your hand. (This is not in the Supply.)</string>
     <string name="Wish_name">Wish</string>
-    <string name="Wish_desc">TODO</string>
+    <string name="Wish_desc">Return this to its pile. If you did, gain a card to your hand costing up to (6) Coins. (This is not in the Supply.)</string>
     <string name="ZombieApprentice_name">Zombie Apprentice</string>
     <string name="ZombieApprentice_desc">TODO</string>
     <string name="ZombieMason_name">Zombie Mason</string>
@@ -905,7 +905,7 @@
     <string name="TheWindsGift_desc">Discard 2 cards.</string>
     
     <string name="BadOmens_name">Bad Omens</string>
-    <string name="BadOmems_desc">Put your deck into your discard pile. Look through it and put 2 Coppers from it onto your deck (or reveal you can't).</string>
+    <string name="BadOmems_desc">Put your deck into your discard pile. Look through it and put 2 Coppers from it onto your deck (or reveal you can\'t).</string>
     <string name="Delusion_name">Delusion</string>
     <string name="Delusion_desc">If you don\'t have Deluded or Envious, take Deluded.</string>
     <string name="Envy_name">Envy</string>
@@ -913,7 +913,7 @@
     <string name="Famine_name">Famine</string>
     <string name="Famine_desc">Reveal the top 3 cards of your deck. Discard the Actions. Shuffle the rest into your deck.</string>
     <string name="Fear_name">Fear</string>
-    <string name="Fear_desc">If you have at least 5 cards in hand, discard an Action or Treasure (or reveal you can't).</string>
+    <string name="Fear_desc">If you have at least 5 cards in hand, discard an Action or Treasure (or reveal you can\'t).</string>
     <string name="Greed_name">Greed</string>
     <string name="Greed_desc">Gain a Copper onto your deck.</string>
     <string name="Haunting_name">Haunting</string>
