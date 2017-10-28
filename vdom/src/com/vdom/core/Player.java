@@ -64,6 +64,8 @@ public abstract class Player {
     protected Card inheritance;
     protected Card save;
     protected CardList encampment;
+    protected CardList boonsForCleanup;
+    protected int theRiversGiftDraw;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     public Game game;
     public Player controlPlayer = this;
@@ -302,6 +304,7 @@ public abstract class Player {
         horseTraders = new CardList(this, "Horse Traders");
         inheritance = null;
         encampment = new CardList(this, "Encampment");
+        boonsForCleanup = new CardList(this, "Boons");
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
     }
 
@@ -376,6 +379,11 @@ public abstract class Player {
         // /////////////////////////////////
         // Discard played cards
         // /////////////////////////////////
+    	
+    	// return received Boons
+    	for (Card boon : boonsForCleanup) {
+    		context.game.discardBoon(context, boon);
+    	}
 
         // reset any lingering CloneCounts
         for (Card card : playedCards) {
@@ -2270,6 +2278,13 @@ public abstract class Player {
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);
     public abstract Card pooka_treasureToTrash(MoveContext context);
+    public abstract Card theEarthsGift_treasureToDiscard(MoveContext context);
+    public abstract Card theEarthsGift_cardToObtain(MoveContext context);
+    public abstract Card theFlamesGift_cardToTrash(MoveContext context);
+    public abstract Card theMoonsGift_cardToPutBackOnDeck(MoveContext context);
+    public abstract Card[] theSkysGift_cardsToDiscard(MoveContext context);
+    public abstract Card[] theSunsGift_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards);
+    public abstract Card[] theSunsGift_cardOrder(MoveContext context, Card[] cards);
     public abstract Card[] shepherd_cardsToDiscard(MoveContext context);
     
     // ////////////////////////////////////////////

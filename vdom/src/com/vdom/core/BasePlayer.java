@@ -14,6 +14,7 @@ import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
+import com.vdom.core.MoveContext.TurnPhase;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
@@ -1185,8 +1186,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         //Only discard two cards if they aren't worth more money than 2 coins.
         int numCoins = 0;
-        numCoins += context.getActionsLeft() > 0 && cards[0].is(Type.Action) || cards[0].is(Type.Treasure) ? cards[0].getAddGold() : 0;
-        numCoins += context.getActionsLeft() > 0 && cards[1].is(Type.Action) || cards[1].is(Type.Treasure) ? cards[1].getAddGold() : 0;
+        numCoins += context.getActionsLeft() > 0 && cards[0].is(Type.Action) || cards[0].is(Type.Treasure) || cards[0].is(Type.Night) ? cards[0].getAddGold() : 0;
+        numCoins += context.getActionsLeft() > 0 && cards[1].is(Type.Action) || cards[1].is(Type.Treasure) || cards[1].is(Type.Night) ? cards[1].getAddGold() : 0;
 
         return numCoins < 2 ? cards : null;
     }
@@ -4469,6 +4470,61 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
 
         return null;
+    }
+    
+    @Override
+    public Card theEarthsGift_treasureToDiscard(MoveContext context) {
+    	//TODO: if total expected treasure this turn is going to be exactly 5,6, or >8, don't discard
+    	return plaza_treasureToDiscard(context);
+    }
+    
+    @Override
+    public Card theEarthsGift_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
+    }
+    
+    @Override
+    public Card theFlamesGift_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+    
+    @Override
+    public Card theMoonsGift_cardToPutBackOnDeck(MoveContext context) {
+    	return harbinger_cardToPutBackOnDeck(context);
+    }
+    
+    @Override
+    public Card[] theSkysGift_cardsToDiscard(MoveContext context) {
+    	Card[] cards = lowestCards(context, context.player.getHand(), 3, true);
+        if (cards.length != 3) return null;
+
+        //Only discard two cards if they aren't worth more money than the cost of a Gold or we only have one buy.
+        int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
+        int provinceCost = Cards.province.getCost(context, context.phase == TurnPhase.Buy);
+        int discardCoins = 0;
+        for (Card c : cards) {
+        	discardCoins += context.getActionsLeft() > 0 && c.is(Type.Action) || c.is(Type.Treasure) || c.is(Type.Night) ? c.getAddGold() : 0;
+        }
+        int handCoins = 0;
+        for (Card c : context.player.getHand()) {
+        	discardCoins += context.getActionsLeft() > 0 && c.is(Type.Action) || c.is(Type.Treasure) || c.is(Type.Night) ? c.getAddGold() : 0;
+        }
+        
+        int buyCoins = context.getCoins() + handCoins;
+        
+        boolean canBuyProvinceWithout = buyCoins - discardCoins >= provinceCost;
+        
+        return canBuyProvinceWithout || discardCoins < goldCost ? cards : null;
+    }
+    
+    @Override
+    public Card[] theSunsGift_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards) {
+    	return cartographer_cardsFromTopOfDeckToDiscard(context, cards);
+    }
+    
+    @Override
+    public Card[] theSunsGift_cardOrder(MoveContext context, Card[] cards) {
+    	return cards;
     }
     
     @Override

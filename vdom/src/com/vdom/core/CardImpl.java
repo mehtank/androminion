@@ -629,8 +629,12 @@ public class CardImpl implements Card, Comparable<Card>{
     	play(game, context, fromHand, false);
     }
     
+    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay) {
+    	play(game, context, fromHand, false, false, false);
+    }
+    
     @Override
-    public void play(Game game, MoveContext context, boolean fromHand, boolean treasurePlay) {
+    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay, boolean dontMove, boolean effectsOnly) {
         Player currentPlayer = context.getPlayer();
         boolean newCard = false;
         Card actualCard = (this.getControlCard() != null ? this.getControlCard() : this);
@@ -648,21 +652,21 @@ public class CardImpl implements Card, Comparable<Card>{
         if (is(Type.Attack, currentPlayer))
             attackPlayed(context, game, currentPlayer);
         
-        if (this.numberTimesAlreadyPlayed == 0 && this == actualCard) {
+        if (!effectsOnly && this.numberTimesAlreadyPlayed == 0 && this == actualCard) {
             newCard = true;
             this.movedToNextTurnPile = false;
             if (fromHand)
                 currentPlayer.hand.remove(this);
-            if (!enchantressEffect && trashOnUse) {
+            if (!enchantressEffect && trashOnUse && !dontMove) {
                 currentPlayer.trash(this, null, context);
             } else if (!enchantressEffect && this.is(Type.Duration, currentPlayer)) {
                 currentPlayer.nextTurnCards.add(this);
-            } else {
+            } else if (!dontMove) {
                 currentPlayer.playedCards.add(this);
             }
         }
         
-        if (!isInheritedAbility) {
+        if (!isInheritedAbility && !effectsOnly) {
 	        GameEvent event;
 	        event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
 	        event.card = this;
@@ -678,7 +682,7 @@ public class CardImpl implements Card, Comparable<Card>{
         if (isAction) {
 	        if (this == actualCard) 
 	            context.actionsPlayedSoFar++;
-	        if (!treasurePlay && context.freeActionInEffect == 0) {
+	        if (!nonRegularActionPlay && context.freeActionInEffect == 0) {
 	            context.actions--;
 	        }
         }
@@ -730,12 +734,18 @@ public class CardImpl implements Card, Comparable<Card>{
             }
         }
     
-        if (!isInheritedAbility && !playedCard.is(Type.Treasure, currentPlayer) || playedCard.is(Type.Action, currentPlayer)) {
-        	// Don't broadcast card played event for only treasures	
+        if (!isInheritedAbility && isAction || playedCard.is(Type.Night)) {
+        	// Don't broadcast card played event for only treasures
         	GameEvent event;
 	        event = new GameEvent(GameEvent.EventType.PlayedCard, (MoveContext) context);
 	        event.card = playedCard;
 	        game.broadcastEvent(event);
+        } else if (playedCard.is(Type.Boon) || playedCard.is(Type.Hex)) {
+        	GameEvent event;
+	        event = new GameEvent(GameEvent.EventType.ReceivedBoonHex, (MoveContext) context);
+	        event.card = playedCard;
+	        game.broadcastEvent(event);
+	        return;
         } else {
         	return;
         }

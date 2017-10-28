@@ -3858,6 +3858,48 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card theEarthsGift_treasureToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isTreasure()
+                .setPassable().setPickType(PickType.DISCARD)
+                .setActionType(ActionType.DISCARD).setCardResponsible(Cards.theEarthsGift);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card theEarthsGift_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.theEarthsGift).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card theFlamesGift_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.theFlamesGift);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card theMoonsGift_cardToPutBackOnDeck(MoveContext context) {
+    	CardList localDiscard = context.player.getDiscard();
+        Set<Card> uniqueCards = new HashSet<Card>(localDiscard.toArrayList());
+        List<Card> options = new ArrayList<Card>(uniqueCards);
+        Collections.sort(options, new Util.CardCostNameComparator());
+        options.add(null);
+
+        return options.get(selectOption(context, Cards.theMoonsGift, options.toArray()));
+    }
+    
+    @Override
+    public Card[] theSkysGift_cardsToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD).setPassable()
+                .setCardResponsible(Cards.theSkysGift);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
     public Card[] shepherd_cardsToDiscard(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_shepherd_cardsToDiscard(context)) {
             return super.shepherd_cardsToDiscard(context);

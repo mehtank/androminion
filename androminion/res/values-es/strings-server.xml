@@ -187,6 +187,7 @@
     <string name="MinusOneCoinTokenOff">Marcador de -1 moneda removido</string>
 	<string name="MinusOneCardTokenOn">Marcador de -1 carta puesto encima del mazo</string>
     <string name="MinusOneCardTokenOff">Marcador de -1 carta removido</string>
+    <string name="ReceivedBoonOrHex">Recibida</string>
     
     <string name="plus_one_card_token">Marcador de +1 Carta</string>
     <string name="plus_one_action_token">Marcador de +1 Acción</string>

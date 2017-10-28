@@ -135,6 +135,11 @@ public class Game {
     public ArrayList<Card> possessedBoughtPile = new ArrayList<Card>();
     public ArrayList<Card> blackMarketPile = new ArrayList<Card>();
     public ArrayList<Card> blackMarketPileShuffled = new ArrayList<Card>();
+    public ArrayList<Card> boonDrawPile = new ArrayList<Card>();
+    public ArrayList<Card> boonDiscardPile = new ArrayList<Card>();
+    public ArrayList<Card> druidBoons = new ArrayList<Card>();
+    public ArrayList<Card> hexDrawPile = new ArrayList<Card>();
+    public ArrayList<Card> hexDiscardPile = new ArrayList<Card>();
 
     public int tradeRouteValue = 0;
     public Card baneCard = null;
@@ -709,6 +714,11 @@ public class Game {
             player.hand.add(player.save);
             player.save = null;
         }
+        
+        for (int i = 0; i < player.theRiversGiftDraw; ++i) {
+        	drawToHand(context, Cards.theRiversGift, player.theRiversGiftDraw - i);
+        }
+        player.theRiversGiftDraw = 0;
         	        	
         // /////////////////////////////////
         // Reset context for status update
@@ -2323,6 +2333,93 @@ public class Game {
     	}
         return context.player.deck.remove(0);
     }
+    
+    private void shuffleBoonsIfNeeded() {
+    	if (boonDrawPile.isEmpty()) {
+    		boonDrawPile.addAll(boonDiscardPile);
+    		boonDiscardPile.clear();
+    		Collections.shuffle(boonDrawPile);
+    	}
+    }
+    
+    private void shuffleHexesIfNeeded() {
+    	if (hexDrawPile.isEmpty()) {
+    		hexDrawPile.addAll(hexDiscardPile);
+    		hexDiscardPile.clear();
+    		Collections.shuffle(hexDrawPile);
+    	}
+    }
+    
+    public Card takeNextBoon(MoveContext context, Card responsible) {
+    	shuffleBoonsIfNeeded();
+    	Card boon = boonDrawPile.remove(0);
+    	//TODO: event for taking boon?
+    	//for now we are leaving it up to caller to put the boon somewhere (e.g. nextTurnCards, receiveAndDiscard, etc.)
+    	return boon;
+    }
+    
+    public Card discardNextBoon(MoveContext context, Card responsible) {
+    	shuffleBoonsIfNeeded();
+    	Card boon = boonDrawPile.remove(0);
+    	//TODO: event for discarding boon?
+    	boonDiscardPile.add(boon);
+    	return boon;
+    }
+    
+    public void discardBoon(MoveContext context, Card boon) {
+    	//For boons that were received without being discarded (e.g. The Field's Gift & The Forest's Gift)
+    	boonDiscardPile.add(boon);
+    }
+    
+    private boolean isKeepUntilCleanupBoon(Card boon) {
+    	return boon.equals(Cards.theFieldsGift) || boon.equals(Cards.theForestsGift) || boon.equals(Cards.theRiversGift);
+    }
+    
+    public Card receiveNextBoon(MoveContext context, Card responsible) {
+    	shuffleBoonsIfNeeded();
+    	Card boon = boonDrawPile.remove(0);
+    	if (isKeepUntilCleanupBoon(boon)) {
+    		context.getPlayer().boonsForCleanup.add(boon);
+    	} else {
+    		boonDiscardPile.add(boon);
+    	}
+    	boon.play(this, context, false, true, true, true);
+    	return boon;
+    }
+    
+    public void recieveBoonAndDiscard(MoveContext context, Card boon, Card responsible) {
+    	boon.play(this, context, false, true, true, true);
+    	if (isKeepUntilCleanupBoon(boon)) {
+    		context.getPlayer().boonsForCleanup.add(boon);
+    	} else {
+    		boonDiscardPile.add(boon);
+    	}
+    }
+    
+    public void recieveBoon(MoveContext context, Card boon, Card responsible) {
+    	boon.play(this, context, false, true, true, true);
+    }
+    
+    public Card receiveNextHex(MoveContext context, Card responsible) {
+    	shuffleHexesIfNeeded();
+    	Card hex = hexDrawPile.remove(0);
+    	hexDiscardPile.add(hex);
+    	hex.play(this, context, false, true, true, true);
+    	return hex;
+    }
+    
+    public Card othersReceiveNextHex(MoveContext context, List<Player> attackedPlayers, Card responsible) {
+    	shuffleHexesIfNeeded();
+    	Card hex = hexDrawPile.remove(0);
+    	hexDiscardPile.add(hex);
+    	for (Player player : attackedPlayers) {
+    		player.attacked(hex, context);
+            MoveContext playerContext = new MoveContext(this, player);
+            playerContext.attackedPlayer = player;
+    		hex.play(this, playerContext, false, true, true, true);
+    	}
+    	return hex;
+    }
 
     public void replenishDeck(MoveContext context, Card responsible, int cardsLeftToDraw) {
         context.player.replenishDeck(context, responsible, cardsLeftToDraw);
@@ -3030,17 +3127,60 @@ public class Game {
         }
 
         boolean looter = false;
+        boolean fate = false;
+        boolean doom = false;
         for (CardPile pile : piles.values()) {
             for (Card cardInPile : pile.getTemplateCards()) {
                 if (cardInPile.is(Type.Looter, null)) {
                     looter = true;
                 }
+                if (cardInPile.is(Type.Fate, null)) {
+                    fate = true;
+                }
+                if (cardInPile.is(Type.Doom, null)) {
+                    doom = true;
+                }
             }
         }
         if (looter) {
-            CardPile rp = (CardPile) this.addPile(Cards.virtualRuins, Math.max(10, (numPlayers * 10) - 10));
+            addPile(Cards.virtualRuins, Math.max(10, (numPlayers * 10) - 10));
         }
-
+        if (fate) {
+        	boonDrawPile.add(Cards.theEarthsGift.instantiate());
+        	boonDrawPile.add(Cards.theFieldsGift.instantiate());
+        	boonDrawPile.add(Cards.theFlamesGift.instantiate());
+        	boonDrawPile.add(Cards.theForestsGift.instantiate());
+        	boonDrawPile.add(Cards.theMoonsGift.instantiate());
+        	boonDrawPile.add(Cards.theMountainsGift.instantiate());
+        	boonDrawPile.add(Cards.theRiversGift.instantiate());
+        	boonDrawPile.add(Cards.theSeasGift.instantiate());
+        	boonDrawPile.add(Cards.theSkysGift.instantiate());
+        	boonDrawPile.add(Cards.theSunsGift.instantiate());
+        	boonDrawPile.add(Cards.theSwampsGift.instantiate());
+        	boonDrawPile.add(Cards.theWindsGift.instantiate());
+        	Collections.shuffle(boonDrawPile);
+        	
+        	if (piles.containsKey(Cards.druid.getName())) {
+        		for (int i = 0; i < 3; ++i) {
+        			druidBoons.add(boonDrawPile.remove(0));
+        			druidBoons.sort(new Util.CardNameComparator());
+        		}
+        	}
+        }
+        if (doom) {
+        	hexDrawPile.add(Cards.badOmens.instantiate());
+        	hexDrawPile.add(Cards.delusion.instantiate());
+        	hexDrawPile.add(Cards.envy.instantiate());
+        	hexDrawPile.add(Cards.famine.instantiate());
+        	hexDrawPile.add(Cards.fear.instantiate());
+        	hexDrawPile.add(Cards.greed.instantiate());
+        	hexDrawPile.add(Cards.haunting.instantiate());
+        	hexDrawPile.add(Cards.locusts.instantiate());
+        	hexDrawPile.add(Cards.misery.instantiate());
+        	hexDrawPile.add(Cards.plague.instantiate());
+        	hexDrawPile.add(Cards.poverty.instantiate());
+        	hexDrawPile.add(Cards.war.instantiate());
+        }
 
         if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
             addPile(Cards.bagOfGold, 1, false);
@@ -3088,16 +3228,41 @@ public class Game {
             addPile(Cards.teacher, 5, false);
         }
         
-        // If Devil's Workshop is in play, we'll need Imp (non-supply)
-        if (piles.containsKey(Cards.devilsWorkshop.getName()))
+        boolean hasExorcist = piles.containsKey(Cards.exorcist.getName());
+        
+        // If Devil's Workshop or Exorcist is in play, we'll need Imp (non-supply)
+        if (piles.containsKey(Cards.devilsWorkshop.getName()) || hasExorcist)
         {
             addPile(Cards.imp, 13, false);
         }
         
-        // If Cemetery is in play, we'll need Ghost (non-supply)
-        if (piles.containsKey(Cards.cemetery.getName()))
-        {
+        // If Cemetery or Exorcist is in play, we'll need Ghost (non-supply)
+        if (piles.containsKey(Cards.cemetery.getName()) || hasExorcist) {
             addPile(Cards.ghost, 6, false);
+        }
+        
+        // If a Fate card or Exorcist is in play, we'll need Will-o'-Wisp (non-supply)
+        if (fate || hasExorcist) {
+            addPile(Cards.willOWisp, 12, false);
+        }
+        
+        // If Leprechaun is in play, we'll need Wish (non-supply)
+        if (piles.containsKey(Cards.leprechaun.getName())) {
+            addPile(Cards.wish, 12, false);
+        }
+        
+        // If Vampire is in play, we'll need Bat (non-supply)
+        if (piles.containsKey(Cards.vampire.getName())) {
+            addPile(Cards.bat, 10, false);
+        }
+        
+        if (piles.containsKey(Cards.necromancer.getName())) {
+        	addPile(Cards.zombieApprentice, 1, false);
+        	addPile(Cards.zombieMason, 1, false);
+        	addPile(Cards.zombieSpy, 1, false);
+        	trashPile.add(takeFromPile(Cards.zombieApprentice));
+        	trashPile.add(takeFromPile(Cards.zombieMason));
+        	trashPile.add(takeFromPile(Cards.zombieSpy));
         }
 
         // If Baker is in play, each player starts with one coin token

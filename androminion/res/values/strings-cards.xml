@@ -819,7 +819,7 @@
     <string name="Monastery_name">Monastery</string>
     <string name="Monastery_desc">TODO</string>
     <string name="Necromancer_name">Necromancer</string>
-    <string name="Necromancer_desc">TODO</string>
+    <string name="Necromancer_desc">Play a face up, non-Duration Action card from the trash, leaving it there and turning it face down for the turn. — Setup: Put the 3 Zombies into the trash.</string>
     <string name="NightWatchman_name">Night Watchman</string>
     <string name="NightWatchman_desc">TODO</string>
     <string name="Pixie_name">Pixie</string>
@@ -873,11 +873,11 @@
     <string name="Wish_name">Wish</string>
     <string name="Wish_desc">Return this to its pile. If you did, gain a card to your hand costing up to (6) Coins. (This is not in the Supply.)</string>
     <string name="ZombieApprentice_name">Zombie Apprentice</string>
-    <string name="ZombieApprentice_desc">TODO</string>
+    <string name="ZombieApprentice_desc">You may trash an Action card from your hand for +3 Cards and +1 Action.</string>
     <string name="ZombieMason_name">Zombie Mason</string>
-    <string name="ZombieMason_desc">TODO</string>
+    <string name="ZombieMason_desc">Trash the top card of your deck. You may gain a card costing up to (1) Coin more than it.</string>
     <string name="ZombieSpy_name">Zombie Spy</string>
-    <string name="ZombieSpy_desc">TODO</string>
+    <string name="ZombieSpy_desc">Look at the top card of your deck. Discard it or put it back.</string>
     
     <string name="TheEarthsGift_name">The Earth\'s Gift</string>
     <string name="TheEarthsGift_desc">You may discard a treasure to gain a card costing up to (4) Coins.</string>

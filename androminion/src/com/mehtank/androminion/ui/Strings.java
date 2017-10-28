@@ -335,6 +335,8 @@ public class Strings {
             statusText += getString(R.string.MinusOneCardTokenOn);
         } else if (event.gameEventType == GameEvent.EventType.MinusOneCardTokenOff) {
             statusText += getString(R.string.MinusOneCardTokenOff);
+        } else if (event.gameEventType == GameEvent.EventType.ReceivedBoonHex) {
+            statusText += getString(R.string.ReceivedBoonOrHex);
         } else if (event.gameEventType == GameEvent.EventType.TurnEnd) {
             /* end of turn: inform about cards on island and nativeVillage */
             String tmp = statusText;
@@ -791,6 +793,8 @@ public class Strings {
             return getString(R.string.smuggle_query);
         } else if (cardName.equals(getCardName(Cards.teacher))) {
 			return getString(R.string.teacher_query);
+        } else if (cardName.equals(getCardName(Cards.theSunsGift))) {
+            return getString(R.string.Cartographer_query) + " [" + cardName + "]";
         } else if (cardName.equals(getCardName(Cards.thief))) {
             if (extras[0] == null) {
                 // In this case we're gaining treasures that have been trashed.
@@ -1612,6 +1616,10 @@ public class Strings {
             getCardName(Cards.cemetery),
             getCardName(Cards.hauntedMirror),
             getCardName(Cards.pooka),
+            getCardName(Cards.theEarthsGift),
+            getCardName(Cards.theFlamesGift),
+            getCardName(Cards.theSkysGift),
+            getCardName(Cards.theWindsGift),
             getCardName(Cards.shepherd),
             /*Promo*/
             getCardName(Cards.dismantle),

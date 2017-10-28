@@ -195,7 +195,8 @@
 	<string name="MinusOneCoinTokenOff">-1 coin token removed</string>
 	<string name="MinusOneCardTokenOn">-1 card token put onto deck</string>
 	<string name="MinusOneCardTokenOff">-1 card token removed</string>
-    
+	<string name="ReceivedBoonOrHex">Received</string>
+	
 	<string name="plus_one_card_token">+1 Card token</string>
 	<string name="plus_one_action_token">+1 Action token</string>
 	<string name="plus_one_buy_token">+1 Buy token</string>
