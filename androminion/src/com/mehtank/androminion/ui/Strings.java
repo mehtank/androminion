@@ -1885,7 +1885,7 @@ public class Strings {
         // display victory cards from sets
         boolean hasCastle = false;
         for(Card card : totals.keySet()) {
-            if(Cards.isKingdomCard(card)) {
+            if(Cards.isKingdomCard(card) || card.is(Type.Heirloom)) {
                 if (!card.is(Type.Castle)) {
                     sb.append("  " + Strings.getCardText(counts, totals, card));
                 } else {
