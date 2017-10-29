@@ -3836,6 +3836,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean faithfulHound_shouldSetAside(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_faithfulHound_shouldSetAside(context)) {
+            return super.faithfulHound_shouldSetAside(context);
+        }
+        return selectBoolean(context, Cards.faithfulHound);
+    }
+    
+    @Override
     public Card hauntedMirror_cardToDiscard(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_hauntedMirror_cardToDiscard(context)) {
             return super.hauntedMirror_cardToDiscard(context);

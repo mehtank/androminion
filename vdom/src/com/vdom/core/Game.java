@@ -709,16 +709,6 @@ public class Game {
         for (int i = 0; i < handCount; i++) {
             drawToHand(context, null, handCount - i, false);
         }
-
-        if (player.save != null) {
-            player.hand.add(player.save);
-            player.save = null;
-        }
-        
-        for (int i = 0; i < player.theRiversGiftDraw; ++i) {
-        	drawToHand(context, Cards.theRiversGift, player.theRiversGiftDraw - i);
-        }
-        player.theRiversGiftDraw = 0;
         	        	
         // /////////////////////////////////
         // Reset context for status update
@@ -735,10 +725,21 @@ public class Game {
         // /////////////////////////////////
         // Turn End
         // /////////////////////////////////
+                
+        if (player.save != null) {
+            player.hand.add(player.save);
+            player.save = null;
+        }
         
-        event = new GameEvent(GameEvent.EventType.TurnEnd, context);
-        broadcastEvent(event);
+		while (!player.faithfulHound.isEmpty()) {
+			player.hand.add(player.faithfulHound.remove(0));
+		}
         
+        for (int i = 0; i < player.theRiversGiftDraw; ++i) {
+        	drawToHand(context, Cards.theRiversGift, player.theRiversGiftDraw - i);
+        }
+        player.theRiversGiftDraw = 0;
+                
         if (cardsObtainedLastTurn[playersTurn].size() == 0 && cardInGame(Cards.baths)) {
         	int tokensLeft = getPileVpTokens(Cards.baths);
     		if (tokensLeft > 0) {
@@ -747,13 +748,24 @@ public class Game {
     			player.addVictoryTokens(context, tokensToTake, Cards.baths);
     		}
         }
-        
+                
         if (player.isPossessed()) {
             while (!possessedTrashPile.isEmpty()) {
                 player.discard(possessedTrashPile.remove(0), null, null, false, false);
             }
             possessedBoughtPile.clear();
         }
+        
+        for (Player otherPlayer : getPlayersInTurnOrder()) {
+        	if (otherPlayer != player) {
+        		while (!otherPlayer.faithfulHound.isEmpty()) {
+        			otherPlayer.hand.add(otherPlayer.faithfulHound.remove(0));
+        		}
+        	}
+        }
+        
+        event = new GameEvent(GameEvent.EventType.TurnEnd, context);
+        broadcastEvent(event);        
         
         if (player.isPossessed()) {
             if (--possessionsToProcess == 0)

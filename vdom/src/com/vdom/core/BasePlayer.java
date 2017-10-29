@@ -4448,6 +4448,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean faithfulHound_shouldSetAside(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
     public Card hauntedMirror_cardToDiscard(MoveContext context) {
     	ArrayList<Card> handCards = context.getPlayer().getActionsInHand(context.getPlayer());
         Collections.sort(handCards, new CardCostComparator());

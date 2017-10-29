@@ -1205,6 +1205,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_faithfulHound_shouldSetAside(MoveContext context) {
+        return true;
+    }
+    
     public boolean shouldAutoPlay_hauntedMirror_cardToDiscard(MoveContext context) {
     	return false;
     }

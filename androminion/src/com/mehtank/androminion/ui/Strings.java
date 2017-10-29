@@ -331,6 +331,8 @@ public class Strings {
             statusText += getString(R.string.CardSetAsideOnTavernMat);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAsideArchive) {
             statusText += getString(R.string.CardSetAsideArchive);
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideFaithfulHound) {
+            statusText += getString(R.string.CardSetAsideFaithfulHound);
         } else if (event.gameEventType == GameEvent.EventType.CallingCard) {
 			statusText += getString(R.string.CallingCard);
 		} else if (event.gameEventType == GameEvent.EventType.CalledCard) {
@@ -1307,6 +1309,10 @@ public class Strings {
         } else if ( cardName.equals(getCardName(Cards.sprawlingCastle))) {
             strings[1] = getString(R.string.sprawlingcastle_gain_duchy);
             strings[2] = getString(R.string.sprawlingcastle_gain_estates);
+        } else if (cardName.equals(getCardName(Cards.faithfulHound))) {
+            strings[0] = getString(R.string.faithfulHound_query);
+            strings[1] = getString(R.string.faithfulHound_set_aside);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.pixie))) {
             strings[1] = format(R.string.pixie_trash_for_double_boon, getCardName((Card)extras[0]), getBoonShortText((Card)extras[0]));
             strings[2] = getString(R.string.pass);

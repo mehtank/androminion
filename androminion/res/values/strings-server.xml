@@ -21,6 +21,8 @@
 	<string name="reveal_copy">Reveal copy from hand</string>
 	<string name="legionary_reveal_gold">Reveal Gold to attack</string>
 	<string name="sentry_look_at">%1$s looking at %2$s (from %3$s)</string>
+	<string name="faithfulHound_query">Discarding Faithful Hound</string>
+	<string name="faithfulHound_set_aside">Set aside to put in hand at end of turn</string>
 	
 	<string name="join_timed_out">Timed out waiting for player to join and start game.</string>
 	<string name="response_timed_out">Timed out waiting for player to join and respond to query.</string>
@@ -187,6 +189,7 @@
 	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>
 	<string name="CardSetAsideInheritance">Card set aside (Inheritance)</string>
 	<string name="CardSetAsideArchive">Card set aside (Archive)</string>
+	<string name="CardSetAsideFaithfulHound">Card set aside (Faithful Hound)</string>
 	<string name="DeckPutIntoDiscardPile">Deck put into discard pile</string>
 	<string name="TravellerExchanged">%1$s exchanged for</string>
 	<string name="TurnJourneyTokenFaceUp">Journey token turned face up</string>

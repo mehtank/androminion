@@ -21,6 +21,8 @@
 	<string name="reveal_copy">Revelar una copia de tu mano</string>
 	<string name="legionary_reveal_gold">Revelar Oro para atacar</string>
 	<string name="sentry_look_at">%1$s mirando %2$s (de %3$s)</string>
+	<string name="faithfulHound_query">Descartando Sabueso Fiel</string>
+	<string name="faithfulHound_set_aside">Aptartar para poner en tu mano al fin del turno</string>
 
 	<string name="join_timed_out">Agotado el tiempo de espera para que se unan jugadores e iniciar la partida.</string>
 	<string name="response_timed_out">Tiempo de espera agotado para unirse el jugador y responder a la petición.</string>
@@ -179,6 +181,7 @@
 	<string name="CardSetAsideOnIslandMat">Carta apartada sobre el tablero de Isla</string>
 	<string name="CardSetAsideInheritance">Carta apartada (Herencia)</string>
 	<string name="CardSetAsideArchive">Carta apartada (Archivo)</string>
+	<string name="CardSetAsideFaithfulHound">Carta apartada (Sabueso Fiel)</string>
 	<string name="DeckPutIntoDiscardPile">Mazo puesto en la pila de descartes</string>
 	<string name="TravellerExchanged">%1$s intercambaida para</string>
 	<string name="TurnJourneyTokenFaceUp">Marcador de Viajes con boca arriba</string>

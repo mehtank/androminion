@@ -66,6 +66,7 @@ public abstract class Player {
     protected CardList encampment;
     protected CardList boonsForCleanup;
     protected int theRiversGiftDraw;
+    protected CardList faithfulHound;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     public Game game;
     public Player controlPlayer = this;
@@ -304,6 +305,7 @@ public abstract class Player {
         horseTraders = new CardList(this, "Horse Traders");
         inheritance = null;
         encampment = new CardList(this, "Encampment");
+        faithfulHound = new CardList(this, "Faithful Hound");
         boonsForCleanup = new CardList(this, "Boons");
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
     }
@@ -765,6 +767,9 @@ public abstract class Player {
         if (inheritance != null)
         	allCards.add(inheritance);
         for (Card card : encampment) {
+            allCards.add(card);
+        }
+        for (Card card : faithfulHound) {
             allCards.add(card);
         }
         if (checkLeadCard != null) {
@@ -1334,14 +1339,25 @@ public abstract class Player {
             }
         }
         if (willDiscard) {
-        	if(commandedDiscard && card.equals(Cards.tunnel)) {
+        	if(commandedDiscard) {
+        		if (card.equals(Cards.tunnel)) {
+        			MoveContext tunnelContext = new MoveContext(game, this);
 
-                MoveContext tunnelContext = new MoveContext(game, this);
+                    if(game.pileSize(Cards.gold) > 0 && controlPlayer.tunnel_shouldReveal(tunnelContext)) {
+                        reveal(card, card, tunnelContext);
+                        gainNewCard(Cards.gold, card, tunnelContext);
+                    }
+        		} else if (card.equals(Cards.faithfulHound)) {
+        			MoveContext houndContext = new MoveContext(game, this);
 
-                if(game.pileSize(Cards.gold) > 0 && controlPlayer.tunnel_shouldReveal(tunnelContext)) {
-                    reveal(card, card, tunnelContext);
-                    gainNewCard(Cards.gold, card, tunnelContext);
-                }
+                    if(controlPlayer.faithfulHound_shouldSetAside(houndContext)) {
+                    	discard.remove(card);
+                    	faithfulHound.add(card);
+                    	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideFaithfulHound, context);
+            	        event.card = card;
+            	        context.game.broadcastEvent(event);
+                    }
+        		}
             }
         }
 
@@ -2276,6 +2292,7 @@ public abstract class Player {
     // Card interactions - Nocturne Expansion
     // ////////////////////////////////////////////
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
+    public abstract boolean faithfulHound_shouldSetAside(MoveContext context);
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);
     public abstract boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible);
     public abstract Card pooka_treasureToTrash(MoveContext context);
