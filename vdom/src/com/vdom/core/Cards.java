@@ -1219,6 +1219,7 @@ public class Cards {
         for (Card card : actionCardsGuilds)      { actionCards.add(card); }
         for (Card card : actionCardsAdventures)  { actionCards.add(card); }
         for (Card card : actionCardsEmpires)     { actionCards.add(card); }
+        for (Card card : actionCardsNocturne)    { actionCards.add(card); }
         for (Card card : actionCardsPromo)       { actionCards.add(card); }
         
         for (Card card : eventCardsAdventures)  { eventsCards.add(card); }
@@ -1244,10 +1245,13 @@ public class Cards {
         for (Card card : knightsCards)      { cardNameToCard.put(card.getName(), card); }
         for (Card card : ruinsCards)        { cardNameToCard.put(card.getName(), card); }
         for (Card card : castleCards)       { cardNameToCard.put(card.getName(), card); }
+        for (Card card : boonCards)         { cardNameToCard.put(card.getName(), card); }
+        for (Card card : hexCards)          { cardNameToCard.put(card.getName(), card); }
         for (Card card : variablePileCards) { cardNameToCard.put(card.getName(), card); }
         for (Card card : nonKingdomCards)   { cardNameToCard.put(card.getName(), card); }
         for (Card card : eventsCards)       { cardNameToCard.put(card.getName(), card); }
         for (Card card : landmarkCards)     { cardNameToCard.put(card.getName(), card); }
+        for (Card card : stateCards)        { cardNameToCard.put(card.getName(), card); }
         
         blackMarketCards.clear(); // Cards in Black Market deck are not in supply
     }

@@ -3586,6 +3586,7 @@ public class Game {
                                 || r.equals(Cards.develop)
                                 || r.equals(Cards.foolsGold)
                                 || r.equals(Cards.graverobber) && context.graverobberGainedCardOnTop == true
+                                || r.equals(Cards.greed)
                                 || r.equals(Cards.seaHag)
                                 || r.equals(Cards.taxman)
                                 || r.equals(Cards.tournament)

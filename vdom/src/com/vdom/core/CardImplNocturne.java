@@ -17,9 +17,15 @@ public class CardImplNocturne extends CardImpl {
 	
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
 		switch(getKind()) {
+		case BadOmens:
+			badOmens(game, context, currentPlayer);
+			break;
 		case CursedGold:
             cursedGold(game, context, currentPlayer);
             break;
+		case Idol:
+			idol(game, context, currentPlayer);
+			break;
 		case Pooka:
 			pooka(game, context, currentPlayer);
 			break;
@@ -52,6 +58,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case TheWindsGift:
 			discardMultiple(context, currentPlayer, 2);
+			break;
+		case WillOWisp:
+			willOWisp(game, context, currentPlayer);
 			break;
 		default:
 			break;
@@ -93,11 +102,55 @@ public class CardImplNocturne extends CardImpl {
 	    this.getControlCard().stopInheritingCardAbilities();
 	}
 	
+	private void badOmens(Game game, MoveContext context, Player player) {
+		GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
+        game.broadcastEvent(event);
+        while (player.getDeckSize() > 0)
+        {
+        	player.discard(game.draw(context, Cards.badOmens, 0), this.getControlCard(), null, false, false);
+        }
+        ArrayList<Card> coppers = new ArrayList<Card>();
+        for (Card c : player.getDiscard()) {
+        	if (c.equals(Cards.copper)) {
+        		coppers.add(c);
+        		if (coppers.size() == 2)
+        			break;
+        	}
+        }
+        for (Card c : coppers) {
+        	player.discard.remove(c);
+        	player.putOnTopOfDeck(c);
+            
+            event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+            event.card = c;
+            game.broadcastEvent(event);
+        }
+    }
+	
 	private void cursedGold(Game game, MoveContext context, Player player) {
         context.getPlayer().gainNewCard(Cards.curse, this.getControlCard(), context);
     }
 	
-	
+	private void idol(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+		
+        boolean isNumIdolsOdd = context.countCardsInPlayByName(Cards.idol) % 2 == 1;
+        if (isNumIdolsOdd) {
+        	game.receiveNextBoon(context, this.getControlCard());
+        } else {
+        	for (Player player : attackedPlayers) {
+				player.attacked(this.getControlCard(), context);
+	            MoveContext playerContext = new MoveContext(game, player);
+	            playerContext.attackedPlayer = player;
+	            player.gainNewCard(Cards.curse, this.getControlCard(), playerContext);
+	        }
+        }
+    }
 	
 	private void pooka(Game game, MoveContext context, Player player) {
 		if(player.hand.size() > 0) {
@@ -322,5 +375,17 @@ public class CardImplNocturne extends CardImpl {
 	
 	private void theSwampsGift(Game game, MoveContext context, Player player) {
 		player.gainNewCard(Cards.willOWisp, this.getControlCard(), context);
+	}
+	
+	private void willOWisp(Game game, MoveContext context, Player player) {
+		Card c = game.draw(context, Cards.willOWisp, 1);
+        if (c != null) {
+        	player.reveal(c, this.getControlCard(), context);
+            if (c.getCost(context) <= 2 && c.getDebtCost(context) == 0 && !c.costPotion()) {
+            	player.hand.add(c);
+            } else {
+            	player.putOnTopOfDeck(c, context, true);
+            }
+        }
 	}
 }
