@@ -44,7 +44,7 @@ public class CardImpl implements Card, Comparable<Card>{
     boolean isOverpay = false;  // can this card be overpaid for?
     
     boolean trashOnUse = false;
-    Cards.Kind heirloom;
+    protected Card heirloom;
     
     protected boolean callableWhenCardGained;
     protected boolean callableWhenActionResolved;
@@ -148,7 +148,7 @@ public class CardImpl implements Card, Comparable<Card>{
         
         protected boolean trashOnUse  = false;
         
-        protected Cards.Kind heirloom;
+        protected Card heirloom;
 
         public Builder(Cards.Kind kind, int cost) {
             this.kind = kind;
@@ -289,7 +289,7 @@ public class CardImpl implements Card, Comparable<Card>{
             return this;
         }
         
-        public Builder heirloom(Cards.Kind val) {
+        public Builder heirloom(Card val) {
         	heirloom = val;
         	return this;
         }
@@ -444,6 +444,7 @@ public class CardImpl implements Card, Comparable<Card>{
         c.isOverpay = isOverpay;
         c.vp = vp;
         c.trashOnUse = trashOnUse;
+        c.heirloom = heirloom;
         
         c.callableWhenCardGained = callableWhenCardGained;
         c.callableWhenActionResolved = callableWhenActionResolved;
@@ -610,6 +611,11 @@ public class CardImpl implements Card, Comparable<Card>{
     @Override
     public int takeAnotherTurnCardCount() {
         return takeAnotherTurnCardCount;
+    }
+    
+    @Override
+    public Card getHeirloom() {
+    	return heirloom;
     }
     
     /**

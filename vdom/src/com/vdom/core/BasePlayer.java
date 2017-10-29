@@ -4453,6 +4453,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card goat_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+    
+    @Override
     public Card hauntedMirror_cardToDiscard(MoveContext context) {
     	ArrayList<Card> handCards = context.getPlayer().getActionsInHand(context.getPlayer());
         Collections.sort(handCards, new CardCostComparator());
@@ -4548,5 +4553,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		}
     	}
     	return result.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card wish_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 6, true);
     }
 }

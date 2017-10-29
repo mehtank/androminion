@@ -86,6 +86,8 @@ public interface Card extends Serializable {
 	public void callWhenActionResolved(MoveContext context, Card resolvedAction);
     
 	public void callAtStartOfTurn(MoveContext context);
+	
+	public Card getHeirloom();
     
     public void play(Game game, MoveContext context);
     

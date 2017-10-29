@@ -3844,6 +3844,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card goat_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.goat);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public Card hauntedMirror_cardToDiscard(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_hauntedMirror_cardToDiscard(context)) {
             return super.hauntedMirror_cardToDiscard(context);
@@ -3953,5 +3961,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setCardResponsible(Cards.shepherd)
 				.setCount(getVictoryInHand().size());
         return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card wish_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(6).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.wish).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
     }
 }

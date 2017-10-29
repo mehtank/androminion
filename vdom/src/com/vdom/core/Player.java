@@ -2293,6 +2293,7 @@ public abstract class Player {
     // ////////////////////////////////////////////
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
     public abstract boolean faithfulHound_shouldSetAside(MoveContext context);
+    public abstract Card goat_cardToTrash(MoveContext context);
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);
     public abstract boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible);
     public abstract Card pooka_treasureToTrash(MoveContext context);
@@ -2304,6 +2305,7 @@ public abstract class Player {
     public abstract Card[] theSunsGift_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards);
     public abstract Card[] theSunsGift_cardOrder(MoveContext context, Card[] cards);
     public abstract Card[] shepherd_cardsToDiscard(MoveContext context);
+    public abstract Card wish_cardToObtain(MoveContext context);
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

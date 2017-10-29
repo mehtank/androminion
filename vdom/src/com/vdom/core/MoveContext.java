@@ -112,11 +112,15 @@ public class MoveContext {
     public CardList getPlayedCards() {
         return player.playedCards;
     }
+    
+    public int countCardsInPlay() {
+    	return countCardsInPlay(null);
+    }
 
     public int countCardsInPlay(Card card) {
         int cardsInPlay = 0;
         for(Card c : getPlayedCards()) {
-            if(c.behaveAsCard().equals(card)) {
+            if(card == null || c.behaveAsCard().equals(card)) {
                 cardsInPlay++;
             }
         }
@@ -140,7 +144,7 @@ public class MoveContext {
     private int countCardsInNextTurn(Card card) {
         int cardsInNextTurn = 0;
         for(Card c : getCardsInNextTurn()) {
-            if(c.behaveAsCard().equals(card)) {
+            if(card == null || c.behaveAsCard().equals(card)) {
             	cardsInNextTurn++;
             }
         }

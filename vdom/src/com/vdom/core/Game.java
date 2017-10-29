@@ -3095,13 +3095,10 @@ public class Game {
             if (pile != null &&
             		pile.placeholderCard() != null &&
             		Cards.isKingdomCard(pile.placeholderCard())) {
-            	if (pile.placeholderCard.equals(Cards.cemetery)) {
-            		heirloomsInPlay.add(Cards.hauntedMirror);
-                } else if (pile.placeholderCard.equals(Cards.pooka)) {
-                	heirloomsInPlay.add(Cards.cursedGold);
-                } else if (pile.placeholderCard.equals(Cards.shepherd)) {
-                	heirloomsInPlay.add(Cards.pasture);
-                }
+            	Card heirloom = pile.placeholderCard().getHeirloom();
+            	if (heirloom != null) {
+            		heirloomsInPlay.add(heirloom);
+            	}
             }
         }
         for (Card c : heirloomsInPlay) {
@@ -3617,7 +3614,7 @@ public class Game {
                                 } else if (event.card.equals(Cards.silver)) {
                                     player.discard.add(event.card);
                                 }
-                            } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || r.equals(Cards.torturer) || r.equals(Cards.transmogrify) || r.equals(Cards.artisan)) {
+                            } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || r.equals(Cards.torturer) || r.equals(Cards.transmogrify) || r.equals(Cards.artisan) || r.equals(Cards.wish) || r.equals(Cards.plague)) {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);

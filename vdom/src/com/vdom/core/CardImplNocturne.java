@@ -23,11 +23,23 @@ public class CardImplNocturne extends CardImpl {
 		case CursedGold:
             cursedGold(game, context, currentPlayer);
             break;
+		case Goat:
+			goat(game, context, currentPlayer);
+			break;
 		case Idol:
 			idol(game, context, currentPlayer);
 			break;
+		case Leprechaun:
+			leprechaun(game, context, currentPlayer);
+			break;
+		case LuckyCoin:
+			luckyCoin(game, context, currentPlayer);
+			break;
 		case Pixie:
 			pixie(game, context, currentPlayer);
+			break;
+		case Plague:
+			plague(game, context, currentPlayer);
 			break;
 		case Pooka:
 			pooka(game, context, currentPlayer);
@@ -61,6 +73,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case TheWindsGift:
 			discardMultiple(context, currentPlayer, 2);
+			break;
+		case Wish:
+			wish(game, context, currentPlayer);
 			break;
 		case WillOWisp:
 			willOWisp(game, context, currentPlayer);
@@ -134,6 +149,21 @@ public class CardImplNocturne extends CardImpl {
         context.getPlayer().gainNewCard(Cards.curse, this.getControlCard(), context);
     }
 	
+	private void goat(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() == 0)
+			return;
+        Card cardToTrash = player.controlPlayer.goat_cardToTrash(context);
+        if (cardToTrash != null) {
+        	if (!player.getHand().contains(cardToTrash)) {
+        		Util.playerError(player, "Goat error, invalid card to trash, ignoring.");
+        	} else {
+        		cardToTrash = player.hand.get(cardToTrash);
+        		player.hand.remove(cardToTrash);
+        		player.trash(cardToTrash, this.getControlCard(), context);
+        	}
+        }
+    }
+	
 	private void idol(Game game, MoveContext context, Player currentPlayer) {
 		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
     	for (Player player : context.game.getPlayersInTurnOrder()) {
@@ -155,6 +185,19 @@ public class CardImplNocturne extends CardImpl {
         }
     }
 	
+	private void leprechaun(Game game, MoveContext context, Player player) {
+		player.gainNewCard(Cards.gold, this.getControlCard(), context);
+		if (context.countCardsInPlay() == 7) {
+			player.gainNewCard(Cards.wish, this.getControlCard(), context);
+		} else {
+			game.receiveNextHex(context, getControlCard());
+		}
+	}
+	
+	private void luckyCoin(Game game, MoveContext context, Player player) {
+		player.gainNewCard(Cards.silver, this.getControlCard(), context);
+	}
+	
 	private void pixie(Game game, MoveContext context, Player player) {
 		Card topBoon = game.discardNextBoon(context, this);
 		if (!this.getControlCard().movedToNextTurnPile) {
@@ -166,6 +209,10 @@ public class CardImplNocturne extends CardImpl {
 				game.recieveBoon(context, topBoon, getControlCard());
 			}
         }
+	}
+	
+	private void plague(Game game, MoveContext context, Player player) {
+		player.gainNewCard(Cards.curse, this.getControlCard(), context);
 	}
 	
 	private void pooka(Game game, MoveContext context, Player player) {
@@ -391,6 +438,22 @@ public class CardImplNocturne extends CardImpl {
 	
 	private void theSwampsGift(Game game, MoveContext context, Player player) {
 		player.gainNewCard(Cards.willOWisp, this.getControlCard(), context);
+	}
+	
+	private void wish(Game game, MoveContext context, Player player) {
+		if (isInPlay(player)) {
+            CardPile pile = game.getPile(this);
+            pile.addCard(player.playedCards.remove(player.playedCards.indexOf(this.getId())));
+            Card card = player.controlPlayer.wish_cardToObtain(context);
+            if (card != null) {
+            	pile = game.getPile(card);
+                if (pile.isSupply() && !pile.isEmpty() && card.getCost(context) <= 6 && card.getDebtCost(context) == 0 && !card.costPotion()) {
+                	player.gainNewCard(card, this.getControlCard(), context);
+                } else {
+                	Util.playerError(player, "Wish error, ignoring");
+                }
+            }
+    	}
 	}
 	
 	private void willOWisp(Game game, MoveContext context, Player player) {

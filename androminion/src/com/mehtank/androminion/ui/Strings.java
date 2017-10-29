@@ -1646,6 +1646,7 @@ public class Strings {
             getCardName(Cards.arena),
             /*Nocturne*/
             getCardName(Cards.cemetery),
+            getCardName(Cards.goat),
             getCardName(Cards.hauntedMirror),
             getCardName(Cards.pooka),
             getCardName(Cards.theEarthsGift),
@@ -1653,6 +1654,7 @@ public class Strings {
             getCardName(Cards.theSkysGift),
             getCardName(Cards.theWindsGift),
             getCardName(Cards.shepherd),
+            getCardName(Cards.wish),
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),
