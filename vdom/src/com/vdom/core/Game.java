@@ -3565,6 +3565,8 @@ public class Game {
         					context.game.broadcastEvent(summonEvent);
                         } else if (gainedCardAbility.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);
+                        } else if (gainedCardAbility.equals(Cards.ghostTown)) {
+                        	player.hand.add(event.card);
                         } else if (gainedCardAbility.equals(Cards.villa)) {
                         	player.hand.add(event.card);
 							if (context.game.getCurrentPlayer() == player) {
