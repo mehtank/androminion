@@ -156,8 +156,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             || c.equals(Cards.warrior)
             || c.equals(Cards.hero)
             || c.equals(Cards.champion)
+            || c.equals(Cards.bat)
             || c.equals(Cards.ghost)
             || c.equals(Cards.imp)
+            || c.equals(Cards.willOWisp)
+            || c.equals(Cards.wish)
+            
            )
         {
             card.pile = MyCard.NON_SUPPLY_PILE;
@@ -170,9 +174,17 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             card.pile = MyCard.SHELTER_PILES;
         }
         
+        if (c.is(Type.Zombie)) {
+            card.pile = MyCard.ZOMBIE_PILES;
+        }
+        
         if (c.equals(Cards.cursedGold) ||
+        	c.equals(Cards.goat) ||
     		c.equals(Cards.hauntedMirror) ||
-    		c.equals(Cards.pasture)) {
+    		c.equals(Cards.luckyCoin) ||
+    		c.equals(Cards.magicLamp) ||
+    		c.equals(Cards.pasture) ||
+    		c.equals(Cards.pouch)) {
         	card.pile = MyCard.HEIRLOOM_PILES;
         }
 
@@ -204,9 +216,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
         if (c.is(Type.Action, null)) {
             card.isAction = true;
-            if (c.is(Type.Duration, null)) {
-                card.isDuration = true;
-            }
+        }
+        if (c.is(Type.Duration, null)) {
+            card.isDuration = true;
         }
         if (c.is(Type.Reaction, null))
             card.isReaction = true;
@@ -1028,11 +1040,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     @Override
     public boolean handle(Event e) {
-        if (e.t == EType.CARDRANKING) {
-            /*TODO frr*/
-            //Goal: Sort cards by names in foreign language
-            //MyCard[] cardranking = e.o.ng.cards;
-        }
+//        if (e.t == EType.CARDRANKING) {
+//            /*TODO frr*/
+//            //Goal: Sort cards by names in foreign language
+//            //MyCard[] cardranking = e.o.ng.cards;
+//        }
         if (e.t == EType.HELLO) {
             name = (e.s == "" ? "Remote player" : e.s);
             debug("Name set: " + name);

@@ -26,6 +26,9 @@ public class CardImplNocturne extends CardImpl {
 		case Idol:
 			idol(game, context, currentPlayer);
 			break;
+		case Pixie:
+			pixie(game, context, currentPlayer);
+			break;
 		case Pooka:
 			pooka(game, context, currentPlayer);
 			break;
@@ -151,6 +154,19 @@ public class CardImplNocturne extends CardImpl {
 	        }
         }
     }
+	
+	private void pixie(Game game, MoveContext context, Player player) {
+		Card topBoon = game.discardNextBoon(context, this);
+		if (!this.getControlCard().movedToNextTurnPile) {
+			if (player.controlPlayer.pixie_shouldTrashPixie(context, topBoon, getControlCard())) {
+				this.getControlCard().movedToNextTurnPile = true;
+				player.trash(this.getControlCard(), null, context);
+                player.playedCards.remove(player.playedCards.lastIndexOf(this.getControlCard()));
+				game.recieveBoon(context, topBoon, getControlCard());
+				game.recieveBoon(context, topBoon, getControlCard());
+			}
+        }
+	}
 	
 	private void pooka(Game game, MoveContext context, Player player) {
 		if(player.hand.size() > 0) {

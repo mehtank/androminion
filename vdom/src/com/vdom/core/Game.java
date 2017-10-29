@@ -2379,7 +2379,8 @@ public class Game {
     	shuffleBoonsIfNeeded();
     	Card boon = boonDrawPile.remove(0);
     	if (isKeepUntilCleanupBoon(boon)) {
-    		context.getPlayer().boonsForCleanup.add(boon);
+    		if (!context.getPlayer().boonsForCleanup.contains(boon))
+    			context.getPlayer().boonsForCleanup.add(boon);
     	} else {
     		boonDiscardPile.add(boon);
     	}
@@ -2390,7 +2391,8 @@ public class Game {
     public void recieveBoonAndDiscard(MoveContext context, Card boon, Card responsible) {
     	boon.play(this, context, false, true, true, true);
     	if (isKeepUntilCleanupBoon(boon)) {
-    		context.getPlayer().boonsForCleanup.add(boon);
+    		if (!context.getPlayer().boonsForCleanup.contains(boon))
+    			context.getPlayer().boonsForCleanup.add(boon);
     	} else {
     		boonDiscardPile.add(boon);
     	}
@@ -3163,7 +3165,7 @@ public class Game {
         	if (piles.containsKey(Cards.druid.getName())) {
         		for (int i = 0; i < 3; ++i) {
         			druidBoons.add(boonDrawPile.remove(0));
-        			druidBoons.sort(new Util.CardNameComparator());
+        			Collections.sort(druidBoons, new Util.CardNameComparator());
         		}
         	}
         }

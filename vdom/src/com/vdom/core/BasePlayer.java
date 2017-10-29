@@ -4460,6 +4460,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible) {
+    	//TODO: better logic
+    	return true;
+    }
+    
+    @Override
     public Card pooka_treasureToTrash(MoveContext context) {
     	for (Card card : context.getPlayer().getHand()) {
             for(Card trash : getTrashCards()) {

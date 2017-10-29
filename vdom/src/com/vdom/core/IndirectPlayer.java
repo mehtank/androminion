@@ -3847,6 +3847,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible) {
+    	Object[] extras = new Object[2];
+        extras[0] = boon;
+        extras[1] = Cards.pixie;
+        return selectBoolean(context, Cards.pixie, extras);
+    }
+    
+    @Override
     public Card pooka_treasureToTrash(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_pooka_treasureToTrash(context)) {
             return super.pooka_treasureToTrash(context);
@@ -3897,6 +3905,34 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD).setPassable()
                 .setCardResponsible(Cards.theSkysGift);
         return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card[] theSunsGift_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards) {
+    	ArrayList<Card> options = new ArrayList<Card>();
+        options.add(null);
+        for (Card c : cards)
+            options.add(c);
+
+        ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
+
+        while (options.size() > 1) {
+            int o = selectOption(context, Cards.theSunsGift, options.toArray());
+            if (o == 0) break;
+            cardsToDiscard.add((Card) options.get(o));
+            options.remove(o);
+        }
+
+        return cardsToDiscard.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card[] theSunsGift_cardOrder(MoveContext context, Card[] cards) {
+    	ArrayList<Card> orderedCards = new ArrayList<Card>();
+        int[] order = orderCards(context, cardArrToIntArr(cards));
+        for (int i : order)
+            orderedCards.add(cards[i]);
+        return orderedCards.toArray(new Card[0]);
     }
     
     @Override

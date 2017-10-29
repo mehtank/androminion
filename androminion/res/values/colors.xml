@@ -24,6 +24,7 @@
     <color name="cardEvent">#B0AFA7</color>
     <color name="cardLandmark">#64B789</color>
     <color name="cardReserve">#DDC492</color>
+    <color name="cardNight">#444444</color>
     <color name="stashBorder">#E84C4C</color>
     <color name="stashTextLight">#E84C4C</color>
     <color name="stashTextDark">#E84C4C</color>

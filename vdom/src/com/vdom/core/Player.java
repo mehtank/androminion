@@ -381,10 +381,10 @@ public abstract class Player {
         // /////////////////////////////////
     	
     	// return received Boons
-    	for (Card boon : boonsForCleanup) {
-    		context.game.discardBoon(context, boon);
+    	while (!boonsForCleanup.isEmpty()) {
+    		context.game.discardBoon(context, boonsForCleanup.remove(0));
     	}
-
+    	
         // reset any lingering CloneCounts
         for (Card card : playedCards) {
             CardImpl actualCard = (CardImpl) card;
@@ -2277,6 +2277,7 @@ public abstract class Player {
     // ////////////////////////////////////////////
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);
+    public abstract boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible);
     public abstract Card pooka_treasureToTrash(MoveContext context);
     public abstract Card theEarthsGift_treasureToDiscard(MoveContext context);
     public abstract Card theEarthsGift_cardToObtain(MoveContext context);

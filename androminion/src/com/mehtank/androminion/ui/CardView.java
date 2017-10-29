@@ -288,6 +288,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Shelter_Reaction;
 		} else if (c.isReaction) {
 			return R.style.CardView_Reaction;
+		} else if (c.isDuration && c.isAttack && c.isNight) {
+			return R.style.CardView_Night_Duration_Attack;
+		} else if (c.isDuration && c.isNight) {
+			return R.style.CardView_Night_Duration;
 		} else if (c.isDuration && c.isAttack) {
 			return R.style.CardView_Duration_Attack;
 		} else if (c.isDuration) {
@@ -304,12 +308,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Attack_Victory;
 		} else if (c.isTreasure && c.isAttack) {
 			return R.style.CardView_Treasure_Attack;
+		} else if (c.isAttack && c.isNight && c.isAction) {
+			return R.style.CardView_Action_Night_Attack;
+		} else if (c.isAttack && c.isNight) {
+			return R.style.CardView_Night_Attack;
 		} else if (c.isAttack) {
 			return R.style.CardView_Attack;
-		} else if (c.isTreasure && c.isVictory && c.isCastle) {
-			return R.style.CardView_Treasure_Victory_Castle;
-		} else if (c.isTreasure && c.isVictory) {
-			return R.style.CardView_Treasure_Victory;
 		} else if (c.isAction && c.isVictory) {
 			return R.style.CardView_Victory_Action;
 		} else if (c.isTreasure && c.isPotion) {
@@ -317,6 +321,18 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else if (c.isTreasure && c.isAction) {
 			return R.style.CardView_Treasure_Action;
 		} else if (c.isTreasure) {
+			if (c.isVictory) {
+				switch (c.gold) {
+				case 1:
+					return R.style.CardView_Treasure_Victory_Copper;
+				case 2:
+					return R.style.CardView_Treasure_Victory_Silver;
+				case 3:
+					return R.style.CardView_Treasure_Victory_Gold;
+				default:
+					return R.style.CardView_Treasure_Victory;
+				}
+			}
 			switch (c.gold) {
 			case 1:
 				return R.style.CardView_Treasure_Copper;
@@ -333,6 +349,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Curse;
 		} else if (c.isVictory) {
 			return R.style.CardView_Victory;
+		} else if (c.isNight) {
+			return R.style.CardView_Night;
 		} else if (c.isShelter) {
 			return R.style.CardView_Shelter;
 		} else if (c.isEvent) {
@@ -954,6 +972,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             
             if (c.isHeirloom) {
             	cardType += " - " + context.getString(R.string.type_heirloom);
+            }
+            
+            if (c.isFate) {
+                cardType += " - " + context.getString(R.string.type_fate);
             }
         }
         else if (c.isVictory) {

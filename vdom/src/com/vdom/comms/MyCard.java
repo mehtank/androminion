@@ -69,6 +69,7 @@ public class MyCard implements Serializable {
 	public static final int BLACKMARKET_PILE = 8;
 	public static final int EVENTPILE = 9;
 	public static final int HEIRLOOM_PILES = 10;
+	public static final int ZOMBIE_PILES = 11;
 
 	public int pile;
 

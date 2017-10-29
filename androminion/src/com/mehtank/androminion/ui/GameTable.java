@@ -767,12 +767,20 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         firstPass = false;
         resetButtons();
+        
+        boolean hasNightCards = false;
+        for (int i = 0; i < hand.getCount(); ++i) {
+        	if (((CardState)hand.getItem(i)).c.isNight) {
+        		hasNightCards = true;
+        		break;
+        	}
+        }
 
         HapticFeedback.vibrate(getContext(),AlertType.SELECT);
         select.setVisibility(VISIBLE);
         if (sco.isPassable()) {
             pass.setVisibility(VISIBLE);
-            if (sco.isBuyPhase) {
+            if ((sco.isBuyPhase && !hasNightCards) || sco.isNightPhase) {
                 pass.setText(Strings.getString(R.string.end_turn));
             } else {
                 pass.setText(Strings.getString(R.string.none));

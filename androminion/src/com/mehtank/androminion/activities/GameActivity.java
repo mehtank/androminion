@@ -499,18 +499,18 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     gt.newGame(ng.cards, ng.players);
                     gameRunning = true;
 
-                    for (int i=0; i < ng.cards.length - 1; i++) {                    	
-                        for (int j=i+1; j < ng.cards.length; j++) {
-                        	if (ng.cards[i].name.compareTo(ng.cards[j].name) > 0) {
-                        		MyCard mc = ng.cards[j];
-                        		ng.cards[j] = ng.cards[i];
-                        		ng.cards[i] = mc;                        		
-                        	}
-                        }
-                    }
+//                    for (int i=0; i < ng.cards.length - 1; i++) {                    	
+//                        for (int j=i+1; j < ng.cards.length; j++) {
+//                        	if (ng.cards[i].name.compareTo(ng.cards[j].name) > 0) {
+//                        		MyCard mc = ng.cards[j];
+//                        		ng.cards[j] = ng.cards[i];
+//                        		ng.cards[i] = mc;                        		
+//                        	}
+//                        }
+//                    }
                     /*TODO frr*/
-                    Event event = new Event(Event.EType.CARDRANKING).setObject(new EventObject(ng));
-                    put(event);
+//                    Event event = new Event(Event.EType.CARDRANKING).setObject(new EventObject(ng));
+//                    put(event);
                     
                     //PreferenceManager.getDefaultSharedPreferences(top).registerOnSharedPreferenceChangeListener(gt);
                     break;
@@ -741,8 +741,10 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         edit.putInt("LastCardCount", cards.length);
 
         int i=0;
-        for (MyCard c : cards)
+        for (MyCard c : cards) {
+        	//TODO: skip non-kingdom cards (but include shelters? && colony/plat && landmarks && events)
             edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + (c.isObeliskCard ? Game.OBELISK : "") + (c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
+        }
 
         edit.commit();
     }

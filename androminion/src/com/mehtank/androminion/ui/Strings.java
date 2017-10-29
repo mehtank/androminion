@@ -68,6 +68,7 @@ public class Strings {
     static HashMap<Card, String> descriptionCache = new HashMap<Card, String>();
     static HashMap<Expansion, String> expansionCache = new HashMap<Expansion, String>();
     static HashMap<GameType, String> gametypeCache = new HashMap<GameType, String>();
+    static HashMap<Card, String> boonShortTextCache = new HashMap<Card, String>();
     private static Map<String, String> actionStringMap;
     private static Set<String> simpleActionStrings;
     private static Context context;
@@ -78,6 +79,7 @@ public class Strings {
         descriptionCache = new HashMap<Card, String>();
         expansionCache = new HashMap<Expansion, String>();
         gametypeCache = new HashMap<GameType, String>();
+        boonShortTextCache = new HashMap<Card, String>();
         initActionStrings();
     }
     
@@ -130,7 +132,7 @@ public class Strings {
         }
         return getExpansionName(c.getExpansion());
     }
-
+    
     public static void localizeMyCard(MyCard c) {
         Card card = Cards.cardNameToCard.get(c.originalSafeName);
         c.name = getCardName(card);
@@ -196,6 +198,25 @@ public class Strings {
     	return expansionStr;
     }
 
+    public static String getBoonShortText(Card c) {
+        String shortText = boonShortTextCache.get(c);
+        if(shortText == null) {
+            try {
+                Resources r = context.getResources();
+                int id = r.getIdentifier(c.getSafeName() + "_shortDesc", "string", context.getPackageName());
+                shortText = r.getString(id);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+            if(shortText == null) {
+            	shortText = c.getName();
+            }
+
+            boonShortTextCache.put(c, shortText);
+        }
+        return shortText;
+    }
 
     public static String format(String str, Object... args) {
         return String.format(str, args);
@@ -335,6 +356,8 @@ public class Strings {
             statusText += getString(R.string.MinusOneCardTokenOn);
         } else if (event.gameEventType == GameEvent.EventType.MinusOneCardTokenOff) {
             statusText += getString(R.string.MinusOneCardTokenOff);
+        } else if (event.gameEventType == GameEvent.EventType.ReceivingBoonHex) {
+            statusText += getString(R.string.ReceivingBoonOrHex);
         } else if (event.gameEventType == GameEvent.EventType.ReceivedBoonHex) {
             statusText += getString(R.string.ReceivedBoonOrHex);
         } else if (event.gameEventType == GameEvent.EventType.TurnEnd) {
@@ -1284,6 +1307,9 @@ public class Strings {
         } else if ( cardName.equals(getCardName(Cards.sprawlingCastle))) {
             strings[1] = getString(R.string.sprawlingcastle_gain_duchy);
             strings[2] = getString(R.string.sprawlingcastle_gain_estates);
+        } else if (cardName.equals(getCardName(Cards.pixie))) {
+            strings[1] = format(R.string.pixie_trash_for_double_boon, getCardName((Card)extras[0]), getBoonShortText((Card)extras[0]));
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.sauna))) {
             strings[1] = getString(R.string.sauna_play_avanto);
             strings[2] = getString(R.string.pass);
@@ -1331,7 +1357,7 @@ public class Strings {
         }
         return cardNames;
     }
-
+    
     public static String getSelectCardText(SelectCardOptions sco, String header) {
         String minCostString = (sco.minCost <= 0) ? "" : "" + sco.minCost;
         String maxCostString = (sco.maxCost == Integer.MAX_VALUE) ?

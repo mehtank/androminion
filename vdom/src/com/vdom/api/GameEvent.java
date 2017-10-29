@@ -72,6 +72,7 @@ public class GameEvent {
         VPTokensTakenFromPile, // VP tokens taken from a card pile
         MountainPassBid, // Someone placed a bid for Mountain Pass (or passed their bid)
         MountainPassWinner, // Mountain Pass bidding finished (winning bid/player) - 0 amount means no bids were placed
+        ReceivingBoonHex, // Boon or Hex about to be received by player
         ReceivedBoonHex, // Boon or Hex has just been received by player
     }
 

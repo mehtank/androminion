@@ -195,6 +195,7 @@
 	<string name="MinusOneCoinTokenOff">-1 coin token removed</string>
 	<string name="MinusOneCardTokenOn">-1 card token put onto deck</string>
 	<string name="MinusOneCardTokenOff">-1 card token removed</string>
+	<string name="ReceivingBoonOrHex">Receiving</string>
 	<string name="ReceivedBoonOrHex">Received</string>
 	
 	<string name="plus_one_card_token">+1 Card token</string>
@@ -527,6 +528,8 @@
   <string name="opulent_castle_ask_discard">discard for +2 Coins each</string>
   <string name="sprawlingcastle_gain_duchy">Gain Duchy</string>
   <string name="sprawlingcastle_gain_estates">Gain 3 Estates</string>
+  
+  <string name="pixie_trash_for_double_boon">Trash this to receive %1$s twice (2x [%2$s])</string>
 
   <string name="card_played_as_card">%1$s (played as %2$s)</string>
 </resources>

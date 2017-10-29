@@ -187,6 +187,7 @@
     <string name="MinusOneCoinTokenOff">Marcador de -1 moneda removido</string>
 	<string name="MinusOneCardTokenOn">Marcador de -1 carta puesto encima del mazo</string>
     <string name="MinusOneCardTokenOff">Marcador de -1 carta removido</string>
+    <string name="ReceivingBoonOrHex">Recibiendo</string>
     <string name="ReceivedBoonOrHex">Recibida</string>
     
     <string name="plus_one_card_token">Marcador de +1 Carta</string>
@@ -521,6 +522,8 @@
   <string name="opulent_castle_ask_discard">descartar para +(2) Monedas por cada una</string>
   <string name="sprawlingcastle_gain_duchy">Ganar Ducado</string>
   <string name="sprawlingcastle_gain_estates">Ganar 3 Fincas</string>
+  
+  <string name="pixie_trash_for_double_boon">Eliminar esta carta para recibir %1$s dos veces (2x [%2$s])</string>
 
   <string name="card_played_as_card">%1$s (jugado como %2$s)</string>
 </resources>
