@@ -1432,9 +1432,12 @@ public class Strings {
         } else if (sco.fromHand) {
             String str = "";
             if (sco.isAction) {
-                if(sco.count == 1)
-                    str = Strings.format(R.string.select_one_action_from_hand, header);
-                else if(sco.exactCount)
+                if(sco.count == 1) {
+                	if (sco.notInPlay)
+                		str = Strings.format(R.string.select_one_action_from_hand_not_in_play, header);
+                	else
+                		str = Strings.format(R.string.select_one_action_from_hand, header);
+                } else if(sco.exactCount)
                     str = Strings.format(R.string.select_exactly_x_actions_from_hand, "" + sco.count, header);
                 else
                     str = Strings.format(R.string.select_up_to_x_actions_from_hand, "" + sco.count, header);
@@ -1545,6 +1548,7 @@ public class Strings {
             case NAMECARD: return Strings.format(R.string.card_to_name, getCardName(cardResponsible));
             case OPPONENTDISCARD: return Strings.format(R.string.opponent_discard, opponentName, getCardName(cardResponsible));
             case SETASIDE: return Strings.format(R.string.card_to_set_aside, getCardName(cardResponsible));
+            case PLAY: return Strings.format(R.string.card_to_play, getCardName(cardResponsible));
         }
         return null;
     }
@@ -1651,9 +1655,11 @@ public class Strings {
             getCardName(Cards.arena),
             /*Nocturne*/
             getCardName(Cards.cemetery),
+            getCardName(Cards.devilsWorkshop),
             getCardName(Cards.exorcist),
             getCardName(Cards.goat),
             getCardName(Cards.hauntedMirror),
+            getCardName(Cards.imp),
             getCardName(Cards.pooka),
             getCardName(Cards.theEarthsGift),
             getCardName(Cards.theFlamesGift),

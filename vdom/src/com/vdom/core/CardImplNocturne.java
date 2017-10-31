@@ -24,6 +24,9 @@ public class CardImplNocturne extends CardImpl {
 		case CursedGold:
             cursedGold(game, context, currentPlayer);
             break;
+		case DevilsWorkshop:
+            devilsWorkshop(game, context, currentPlayer);
+            break;
 		case Exorcist:
 			exorcist(game, context, currentPlayer);
 			break;
@@ -32,6 +35,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case Idol:
 			idol(game, context, currentPlayer);
+			break;
+		case Imp:
+			imp(game, context, currentPlayer);
 			break;
 		case Leprechaun:
 			leprechaun(game, context, currentPlayer);
@@ -156,6 +162,24 @@ public class CardImplNocturne extends CardImpl {
         context.getPlayer().gainNewCard(Cards.curse, this.getControlCard(), context);
     }
 	
+	private void devilsWorkshop(Game game, MoveContext context, Player player) {
+        int numGained = context.getNumCardsGainedThisTurn();
+        if (numGained == 0) {
+        	context.getPlayer().gainNewCard(Cards.gold, this.getControlCard(), context);
+        } else if (numGained == 1) {
+        	Card card = player.controlPlayer.devilsWorkshop_cardToObtain(context);
+            if (card != null) {
+                if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
+                	player.gainNewCard(card, this.getControlCard(), context);
+                } else {
+                	Util.playerError(player, "Devil's Workshop error, invalid card to gain, ignoring");
+                }
+            }
+        } else {
+        	context.getPlayer().gainNewCard(Cards.imp, this.getControlCard(), context);
+        }
+    }
+	
 	private void exorcist(Game game, MoveContext context, Player player) {
 		if (player.getHand().size() == 0)
 			return;
@@ -234,6 +258,27 @@ public class CardImplNocturne extends CardImpl {
 	            player.gainNewCard(Cards.curse, this.getControlCard(), playerContext);
 	        }
         }
+    }
+	
+	private void imp(Game game, MoveContext context, Player player) {
+		ArrayList<Card> validCards = new ArrayList<Card>();
+		for (Card c : player.hand) {
+			if (c.is(Type.Action, player)) {
+				if (!player.hasCopyInPlay(c)) {
+					validCards.add(c);
+				};
+			}
+		}
+		if (validCards.isEmpty()) return;
+		Card card = player.controlPlayer.imp_cardToPlay(context);
+		if (card == null) return;
+		if (!validCards.contains(card)) {
+			Util.playerError(player, "Imp error, invalid card selected, ignoring");
+			return;
+		}
+		context.freeActionInEffect++;
+        card.play(game, context, true);
+        context.freeActionInEffect--;
     }
 	
 	private void leprechaun(Game game, MoveContext context, Player player) {

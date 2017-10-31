@@ -4448,6 +4448,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card devilsWorkshop_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
+    }
+    
+    @Override
     public Card exorcist_cardToTrash(MoveContext context) {
     	//TODO: trash better cards to get the spirits - how to we determine which cards we need less than the spirits?
     	Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
@@ -4498,6 +4503,25 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		}
     	}
     	return null;
+    }
+    
+    @Override
+    public Card imp_cardToPlay(MoveContext context) {
+    	ArrayList<Card> validCards = new ArrayList<Card>();
+		for (Card c : context.player.hand) {
+			if (c.is(Type.Action, context.player)) {
+				if (!context.player.hasCopyInPlay(c)) {
+					validCards.add(c);
+				};
+			}
+		}
+    	for (Card c : validCards) {
+            if(c.is(Type.Action, context.getPlayer())) {
+                return c;
+            }
+        }
+        
+        return null;
     }
     
     @Override

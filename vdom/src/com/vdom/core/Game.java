@@ -4427,7 +4427,7 @@ public class Game {
     private ArrayList<Card> getCardsObtainedByPlayer(int PlayerNumber) {
         return cardsObtainedLastTurn[PlayerNumber];
     }
-
+    
     public ArrayList<Card> getCardsObtainedByPlayer() {
         return getCardsObtainedByPlayer(playersTurn);
     }

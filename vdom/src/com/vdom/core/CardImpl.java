@@ -1007,7 +1007,7 @@ public class CardImpl implements Card, Comparable<Card>{
     public boolean isImpersonatingAnotherCard() {
         return !(this.impersonatingCard == null);
     }
-
+    
     @Override
     public Card behaveAsCard() {
         if (impersonatingCard != null && impersonatingCard != this)

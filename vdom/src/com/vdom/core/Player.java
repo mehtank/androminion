@@ -247,6 +247,20 @@ public abstract class Player {
     public boolean inPlay(Card card) {
     	return playedCards.contains(card) || nextTurnCards.contains(card); 
     }
+    
+    public boolean hasCopyInPlay(Card card) {
+    	for (Card c : playedCards) {
+    		String name = c.isImpersonatingAnotherCard() ? c.behaveAsCard().getName() : c.getName();
+    		if (card.getName().equals(name))
+    			return true;
+    	}
+    	for (Card c : nextTurnCards) {
+    		String name = c.isImpersonatingAnotherCard() ? c.behaveAsCard().getName() : c.getName();
+    		if (card.getName().equals(name))
+    			return true;
+    	}
+    	return false;
+    }
 
     public boolean isInCardArray(Card card, Card[] list) {
         for (Card thisCard : list) {
@@ -2292,11 +2306,13 @@ public abstract class Player {
     // Card interactions - Nocturne Expansion
     // ////////////////////////////////////////////
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
+    public abstract Card devilsWorkshop_cardToObtain(MoveContext context);
     public abstract Card exorcist_cardToTrash(MoveContext context);
     public abstract Card exorcist_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract boolean faithfulHound_shouldSetAside(MoveContext context);
     public abstract Card goat_cardToTrash(MoveContext context);
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);
+    public abstract Card imp_cardToPlay(MoveContext context);
     public abstract boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible);
     public abstract Card pooka_treasureToTrash(MoveContext context);
     public abstract Card theEarthsGift_treasureToDiscard(MoveContext context);

@@ -3836,6 +3836,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card devilsWorkshop_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.devilsWorkshop).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public Card exorcist_cardToTrash(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.exorcist);
@@ -3874,6 +3881,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	SelectCardOptions sco = new SelectCardOptions().setPassable().isAction()
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
                 .setCardResponsible(Cards.hauntedMirror);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card imp_cardToPlay(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction().notInPlay()
+                .setPassable().setPickType(PickType.PLAY).setActionType(ActionType.PLAY)
+                .setCardResponsible(Cards.imp);
         return getCardFromHand(context, sco);
     }
     

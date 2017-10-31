@@ -93,6 +93,7 @@
 	<string name="select_exactly_x_cards_from_trash">Pick exactly %1$s cards from trash to %2$s</string>
 	
 	<string name="select_one_action_from_hand">Pick an Action card from your hand to %1$s</string>
+	<string name="select_one_action_from_hand_not_in_play">Pick an Action card from your hand that you don\'t have a copy of in play to %1$s</string>
 	<string name="select_up_to_x_actions_from_hand">Pick up to %1$s Action cards from your hand to %2$s</string>
 	<string name="select_exactly_x_actions_from_hand">Pick exactly %1$s Action cards from your hand to %2$s</string>
 	
@@ -129,6 +130,7 @@
 	<string name="card_to_discard_for_coin">discard for coin [%1$s]</string>
 	<string name="card_to_name">name [%1$s]</string>
 	<string name="card_to_set_aside">set aside [%1$s]</string>
+	<string name="card_to_play">play [%1$s]</string>
 	<string name="discard">Discard</string>
 	<string name="trash">Trash</string>
 	<string name="keep">Keep</string>

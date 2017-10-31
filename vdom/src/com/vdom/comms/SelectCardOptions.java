@@ -20,7 +20,7 @@ public class SelectCardOptions implements Serializable {
     private static final long serialVersionUID = -1473106875075390348L;
 
     public enum ActionType {
-        REVEAL, DISCARD, DISCARDFORCOIN, DISCARDFORCARD, GAIN, TRASH, NAMECARD, OPPONENTDISCARD, SETASIDE
+        REVEAL, DISCARD, DISCARDFORCOIN, DISCARDFORCARD, GAIN, TRASH, NAMECARD, OPPONENTDISCARD, SETASIDE, PLAY
     }
 
     public enum PickType {
@@ -91,6 +91,7 @@ public class SelectCardOptions implements Serializable {
     public boolean noTokens = false;
     public boolean passable = false;
     public boolean allowNonSupply = false;
+    public boolean notInPlay = false;
 
     public boolean applyOptionsToPile = false;
     
@@ -137,6 +138,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions copperCountInPlay(int c) {copperCountInPlay = c; return this; }
     public SelectCardOptions not(Card c) {except = c; return this; }
     public SelectCardOptions allowNonSupply() {allowNonSupply = true; return this;}
+    public SelectCardOptions notInPlay() {notInPlay = true; return this;}
     
     public SelectCardOptions isAction() {isAction = true; return this;}
     public SelectCardOptions isReaction() {isReaction = true; return this;}
@@ -229,7 +231,8 @@ public class SelectCardOptions implements Serializable {
         if (isNight && !c.is(Type.Night, p)) return false;
         if (isSpirit && !c.is(Type.Spirit, p)) return false;
         if (!isBuyPhase && c.is(Type.Event, null)) return false;
-        if (isCastle && !c.is(Type.Castle, null)) return false;
+        if (isCastle && !c.is(Type.Castle, p)) return false;
+        if (notInPlay && p != null && p.hasCopyInPlay(c)) return false;
         if (applyOptionsToPile && !c.isPlaceholderCard()) return false;
         if (!applyOptionsToPile && c.isPlaceholderCard()) return false;
         
