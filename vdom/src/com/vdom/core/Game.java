@@ -3935,6 +3935,8 @@ public class Game {
                                 }
                             }
                         }
+                    } else if(gainedCardAbility.equals(Cards.cursedVillage)) {
+                    	context.game.receiveNextHex(context, event.card);
                     } else if(gainedCardAbility.equals(Cards.skulk)) {
                     	player.gainNewCard(Cards.gold, event.card, context);
                     }

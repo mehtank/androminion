@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
+import com.vdom.core.MoveContext.TurnPhase;
 
 public class CardImplNocturne extends CardImpl {
 
@@ -23,6 +24,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case CursedGold:
             cursedGold(game, context, currentPlayer);
+            break;
+		case CursedVillage:
+            cursedVillage(game, context, currentPlayer);
             break;
 		case DevilsWorkshop:
             devilsWorkshop(game, context, currentPlayer);
@@ -86,6 +90,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case TheWindsGift:
 			discardMultiple(context, currentPlayer, 2);
+			break;
+		case Werewolf:
+			werewolf(game, context, currentPlayer);
 			break;
 		case Wish:
 			wish(game, context, currentPlayer);
@@ -161,6 +168,17 @@ public class CardImplNocturne extends CardImpl {
 	private void cursedGold(Game game, MoveContext context, Player player) {
         context.getPlayer().gainNewCard(Cards.curse, this.getControlCard(), context);
     }
+	
+	private void cursedVillage(Game game, MoveContext context, Player player) {
+		int cardsToDraw = 6 - player.hand.size();
+    	if (cardsToDraw > 0 && player.getMinusOneCardToken()) {
+        	game.drawToHand(context, this, -1);
+        }
+    	for (int i = 0; i < cardsToDraw; ++i) {
+    		if(!game.drawToHand(context, this, cardsToDraw - i))
+                break;
+    	}
+	}
 	
 	private void devilsWorkshop(Game game, MoveContext context, Player player) {
         int numGained = context.getNumCardsGainedThisTurn();
@@ -544,6 +562,22 @@ public class CardImplNocturne extends CardImpl {
 	
 	private void theSwampsGift(Game game, MoveContext context, Player player) {
 		player.gainNewCard(Cards.willOWisp, this.getControlCard(), context);
+	}
+	
+	private void werewolf(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+		if (context.phase == TurnPhase.Night) {
+			game.othersReceiveNextHex(context, attackedPlayers, this.getControlCard());	
+		} else {
+			for (int i = 0; i < 3; ++i) {
+            	game.drawToHand(context, this, 3 - i);
+            }
+		}
 	}
 	
 	private void wish(Game game, MoveContext context, Player player) {
