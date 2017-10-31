@@ -2305,6 +2305,7 @@ public abstract class Player {
     // ////////////////////////////////////////////
     // Card interactions - Nocturne Expansion
     // ////////////////////////////////////////////
+    public abstract Card[] bat_cardsToTrash(MoveContext context);
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
     public abstract Card devilsWorkshop_cardToObtain(MoveContext context);
     public abstract Card exorcist_cardToTrash(MoveContext context);
@@ -2323,6 +2324,7 @@ public abstract class Player {
     public abstract Card[] theSunsGift_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards);
     public abstract Card[] theSunsGift_cardOrder(MoveContext context, Card[] cards);
     public abstract Card[] shepherd_cardsToDiscard(MoveContext context);
+    public abstract Card vampire_cardToObtain(MoveContext context);
     public abstract Card wish_cardToObtain(MoveContext context);
     
     // ////////////////////////////////////////////

@@ -76,6 +76,7 @@
 	<string name="select_from_table_max_non_vp_action">Elige una carta de Acción que no sea de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_max_vp">Elige una carta de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_max_action">Elige una carta de Acción de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_except">Elige una carta de la mesa, menos %1$s, que cueste como máximo (%2$s) para %3$s</string>
 	<string name="select_from_table_between">Elige una carta de la mesa que cueste entre (%1$s) y (%2$s) para %3$s</string>
 	<string name="select_from_table_min">Elige una carta de la mesa que cueste como mínimo (%1$s) para %2$s</string>
 	<string name="select_from_table_less">Elige una carta de la mesa que cueste menos de (%1$s) para %2$s</string>

@@ -22,6 +22,9 @@ public class CardImplNocturne extends CardImpl {
 		case BadOmens:
 			badOmens(game, context, currentPlayer);
 			break;
+		case Bat:
+			bat(game, context, currentPlayer);
+			break;
 		case CursedGold:
             cursedGold(game, context, currentPlayer);
             break;
@@ -90,6 +93,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case TheWindsGift:
 			discardMultiple(context, currentPlayer, 2);
+			break;
+		case Vampire:
+			vampire(game, context, currentPlayer);
 			break;
 		case Werewolf:
 			werewolf(game, context, currentPlayer);
@@ -163,6 +169,35 @@ public class CardImplNocturne extends CardImpl {
             event.card = c;
             game.broadcastEvent(event);
         }
+    }
+	
+	private void bat(Game game, MoveContext context, Player player) {
+		Card[] cards = context.player.controlPlayer.bat_cardsToTrash(context);
+		if (cards == null || cards.length == 0) return;
+		if (cards.length > 2 || !Util.areCardsInHand(cards, context)) {
+			Util.playerError(context.player, "Bat trash error, trying to trash invalid cards, ignoring.");
+			return;
+		}
+		for (Card card : cards) {
+			for (int i = 0; i < context.player.hand.size(); i++) {
+				Card inHand = context.player.hand.get(i);
+				if (inHand.equals(card)) {
+					context.player.trash(context.player.hand.remove(i, false), this.getControlCard(), context);
+					break;
+				}
+			}
+		}
+		// exchange for Vampire
+    	if (!context.isCardOnTop(Cards.vampire))
+    		return;
+    	CardPile pile = game.getPile(this);
+        pile.addCard(player.playedCards.remove(player.playedCards.indexOf(this.getId())));
+        player.discard.add(game.takeFromPile(Cards.vampire));
+        GameEvent event = new GameEvent(GameEvent.EventType.TravellerExchanged, context);
+		event.card = Cards.vampire;
+		event.responsible = this;
+		event.setPlayer(player);
+        context.game.broadcastEvent(event);
     }
 	
 	private void cursedGold(Game game, MoveContext context, Player player) {
@@ -562,6 +597,36 @@ public class CardImplNocturne extends CardImpl {
 	
 	private void theSwampsGift(Game game, MoveContext context, Player player) {
 		player.gainNewCard(Cards.willOWisp, this.getControlCard(), context);
+	}
+	
+	private void vampire(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+    	game.othersReceiveNextHex(context, attackedPlayers, this.getControlCard());
+    	
+    	Card card = currentPlayer.controlPlayer.vampire_cardToObtain(context);
+        if (card != null) {
+            if (card.getCost(context) <= 5 && card.getDebtCost(context) == 0 && !card.costPotion() && !card.equals(Cards.vampire)) {
+                currentPlayer.gainNewCard(card, this.getControlCard(), context);
+            } else {
+            	Util.playerError(currentPlayer, "Vampire error, invalid card to gain, ignoring");
+            }
+        }
+        // exchange for bat
+    	if (!context.isCardOnTop(Cards.bat))
+    		return;
+    	CardPile pile = game.getPile(this);
+        pile.addCard(currentPlayer.playedCards.remove(currentPlayer.playedCards.indexOf(this.getId())));
+        currentPlayer.discard.add(game.takeFromPile(Cards.bat));
+        GameEvent event = new GameEvent(GameEvent.EventType.TravellerExchanged, context);
+		event.card = Cards.bat;
+		event.responsible = this;
+		event.setPlayer(currentPlayer);
+        context.game.broadcastEvent(event);
 	}
 	
 	private void werewolf(Game game, MoveContext context, Player currentPlayer) {

@@ -76,6 +76,7 @@
 	<string name="select_from_table_max_non_vp_action">Select a non-Victory action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_vp">Select a Victory card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_action">Select an Action card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_except">Select a card from the table, except %1$s, that costs at most (%2$s) to %3$s</string>
 	<string name="select_from_table_between">Select a card from the table that costs between (%1$s) and (%2$s) to %3$s</string>
 	<string name="select_from_table_min">Select a card from the table that costs at least (%1$s) to %2$s</string>
 	<string name="select_from_table_less">Select a card from the table that costs less than (%1$s) to %2$s</string>

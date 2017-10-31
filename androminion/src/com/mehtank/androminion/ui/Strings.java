@@ -1405,6 +1405,8 @@ public class Strings {
                 } else if (containsOnlyCards(sco)) {
                 	if (sco.lessThanMax) {
                 		selectString = Strings.format(R.string.select_from_table_less, maxCostString, header);
+                	} else if (sco.except != null) {
+                		selectString = Strings.format(R.string.select_from_table_max_except, getCardName(sco.except), maxCostString, header);
                 	} else {
                 		selectString = Strings.format(R.string.select_from_table_max, maxCostString, header);
                 	}
@@ -1654,6 +1656,7 @@ public class Strings {
             /*Empires Landmarks*/
             getCardName(Cards.arena),
             /*Nocturne*/
+            getCardName(Cards.bat),
             getCardName(Cards.cemetery),
             getCardName(Cards.devilsWorkshop),
             getCardName(Cards.exorcist),
@@ -1666,6 +1669,7 @@ public class Strings {
             getCardName(Cards.theSkysGift),
             getCardName(Cards.theWindsGift),
             getCardName(Cards.shepherd),
+            getCardName(Cards.vampire),
             getCardName(Cards.wish),
             /*Promo*/
             getCardName(Cards.dismantle),

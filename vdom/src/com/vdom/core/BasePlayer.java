@@ -185,7 +185,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustPick) {
         return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, actionOnly, victoryCardAllowed, false, mustPick, null);
     }
-
+    
     protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
@@ -4443,6 +4443,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card[] bat_cardsToTrash(MoveContext context) {
+    	return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
+    }
+    
+    @Override
     public Card[] cemetery_cardsToTrash(MoveContext context) {
     	return pickOutCards(context.getPlayer().getHand(), 4, getTrashCards());
     }
@@ -4608,6 +4613,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		}
     	}
     	return result.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card vampire_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 5, false, 0, false, false, true, false, true, Cards.vampire);
     }
     
     @Override

@@ -3825,6 +3825,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card[] bat_cardsToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setCount(2)
+                .setPassable().setPickType(PickType.TRASH)
+                .setCardResponsible(Cards.bat).setActionType(ActionType.TRASH);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
     public Card[] cemetery_cardsToTrash(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_cemetery_cardsToTrash(context)) {
             return super.cemetery_cardsToTrash(context);
@@ -3991,6 +3999,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setCardResponsible(Cards.shepherd)
 				.setCount(getVictoryInHand().size());
         return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card vampire_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0)
+                .not(Cards.vampire).setCardResponsible(Cards.vampire).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
     }
     
     @Override
