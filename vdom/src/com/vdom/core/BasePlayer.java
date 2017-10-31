@@ -4448,6 +4448,37 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card exorcist_cardToTrash(MoveContext context) {
+    	//TODO: trash better cards to get the spirits - how to we determine which cards we need less than the spirits?
+    	Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (card != null) 
+            return card;
+        //TODO: trash cards that cost the closest to the spirit we want to obtain
+        return context.getPlayer().getHand().get(0);
+    }
+    
+    @Override
+    public Card exorcist_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	int impCost = Cards.imp.getCost(context);
+    	boolean hasImp = context.game.getCardsLeftInPile(Cards.imp) > 0;
+    	int ghostCost = Cards.ghost.getCost(context);
+    	boolean hasGhost = context.game.getCardsLeftInPile(Cards.ghost) > 0;
+    	int willOWispCost = Cards.willOWisp.getCost(context);
+    	boolean hasWillOWisp = context.game.getCardsLeftInPile(Cards.willOWisp) > 0;
+    	if (hasGhost && maxCost > ghostCost) {
+    		return Cards.ghost;
+    	}
+    	if (hasImp && maxCost > impCost) {
+    		return Cards.imp; //TODO: need to determine when have too many imps and should prefer will-o'-wisp 
+    	}
+    	if (hasWillOWisp && maxCost > willOWispCost) {
+    		return Cards.willOWisp;
+    	}
+    	
+        return null;
+    }
+    
+    @Override
     public boolean faithfulHound_shouldSetAside(MoveContext context) {
     	return true;
     }

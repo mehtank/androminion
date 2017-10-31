@@ -1398,6 +1398,8 @@ public class Strings {
                     selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
                 } else if (sco.isAction) {
                     selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
+                } else if (sco.isSpirit && sco.lessThanMax) {
+                	selectString = Strings.format(R.string.select_from_table_less_spirit, maxCostString, header);
                 } else if (containsOnlyEvents(sco)) {
                     selectString = Strings.format(R.string.select_from_table_max_events, maxCostString, header);
                 } else if (containsOnlyCards(sco)) {
@@ -1444,9 +1446,12 @@ public class Strings {
                 else
                     str = Strings.format(R.string.select_up_to_x_nights_from_hand, "" + sco.count, header);
             } else if (sco.isTreasure) {
-                if(sco.count == 1)
-                    str = Strings.format(R.string.select_one_treasure_from_hand, header);
-                else if(sco.exactCount)
+                if(sco.count == 1) {
+                	if (sco.except != null)
+                		str = Strings.format(R.string.select_one_treasure_from_hand_except, getCardName(sco.except), header);
+            		else
+            			str = Strings.format(R.string.select_one_treasure_from_hand, header);
+                } else if(sco.exactCount)
                     str = Strings.format(R.string.select_exactly_x_treasures_from_hand, "" + sco.count, header);
                 else
                     str = Strings.format(R.string.select_up_to_x_treasures_from_hand, "" + sco.count, header);
@@ -1646,6 +1651,7 @@ public class Strings {
             getCardName(Cards.arena),
             /*Nocturne*/
             getCardName(Cards.cemetery),
+            getCardName(Cards.exorcist),
             getCardName(Cards.goat),
             getCardName(Cards.hauntedMirror),
             getCardName(Cards.pooka),

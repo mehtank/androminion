@@ -2292,6 +2292,8 @@ public abstract class Player {
     // Card interactions - Nocturne Expansion
     // ////////////////////////////////////////////
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
+    public abstract Card exorcist_cardToTrash(MoveContext context);
+    public abstract Card exorcist_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract boolean faithfulHound_shouldSetAside(MoveContext context);
     public abstract Card goat_cardToTrash(MoveContext context);
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);

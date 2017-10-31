@@ -541,7 +541,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 if ((parent != vpPile)
                     &&  (parent != moneyPile)
                     &&  (parent != supplyPile)
-                    &&  (parent != eventPile)) return false;
+                    &&  (parent != eventPile)
+                    &&  (!sco.allowNonSupply || (sco.allowNonSupply && parent != nonSupplyPile))) return false;
             }
         } else if (sco.fromPrizes) {
             if (parent != prizePile) return false;

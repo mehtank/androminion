@@ -3191,6 +3191,7 @@ public class Game {
         	hexDrawPile.add(Cards.plague.instantiate());
         	hexDrawPile.add(Cards.poverty.instantiate());
         	hexDrawPile.add(Cards.war.instantiate());
+        	Collections.shuffle(hexDrawPile);
         }
 
         if (piles.containsKey(Cards.tournament.getName()) && !piles.containsKey(Cards.bagOfGold.getName())) {
@@ -3934,6 +3935,8 @@ public class Game {
                                 }
                             }
                         }
+                    } else if(gainedCardAbility.equals(Cards.skulk)) {
+                    	player.gainNewCard(Cards.gold, event.card, context);
                     }
                     
                     if(event.card.is(Type.Action, player)) {

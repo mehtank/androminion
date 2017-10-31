@@ -177,7 +177,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 	&& (!(sco.noTokens && hasTokens))
                     && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 &&(context.canBuyCards || card.is(Type.Event, null))))
                         || !sco.pickType.equals(PickType.BUY))
-                    && !(   !Cards.isSupplyCard(card)
+                    && !(  !sco.allowNonSupply && !Cards.isSupplyCard(card)
                          && sco.actionType != null
                          && sco.actionType.equals(ActionType.GAIN) ) )
                 {
@@ -3836,6 +3836,21 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card exorcist_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.exorcist);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card exorcist_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	SelectCardOptions sco = new SelectCardOptions().maxPotionCost(potion?1:0)
+                .maxCost(maxCost).maxDebtCost(maxDebtCost).allowNonSupply().lessThanMax().isSpirit()
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.exorcist);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public boolean faithfulHound_shouldSetAside(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_faithfulHound_shouldSetAside(context)) {
             return super.faithfulHound_shouldSetAside(context);
@@ -3876,7 +3891,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.pooka_treasureToTrash(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isTreasure()
-                .setPassable().setPickType(PickType.TRASH)
+                .setPassable().setPickType(PickType.TRASH).not(Cards.cursedGold)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.pooka);
         return getCardFromHand(context, sco);
     }

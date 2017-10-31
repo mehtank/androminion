@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
@@ -23,6 +24,9 @@ public class CardImplNocturne extends CardImpl {
 		case CursedGold:
             cursedGold(game, context, currentPlayer);
             break;
+		case Exorcist:
+			exorcist(game, context, currentPlayer);
+			break;
 		case Goat:
 			goat(game, context, currentPlayer);
 			break;
@@ -46,6 +50,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case Shepherd:
 			shepherd(game, context, currentPlayer);
+			break;
+		case Skulk:
+			skulk(game, context, currentPlayer);
 			break;
 		case TheEarthsGift:
 			theEarthsGift(game, context, currentPlayer);
@@ -148,6 +155,50 @@ public class CardImplNocturne extends CardImpl {
 	private void cursedGold(Game game, MoveContext context, Player player) {
         context.getPlayer().gainNewCard(Cards.curse, this.getControlCard(), context);
     }
+	
+	private void exorcist(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() == 0)
+			return;
+        Card cardToTrash = player.controlPlayer.exorcist_cardToTrash(context);
+        if (cardToTrash != null) {
+        	if (!player.getHand().contains(cardToTrash)) {
+        		Util.playerError(player, "Exorcist error, invalid card to trash, ignoring.");
+        	} else {
+        		cardToTrash = player.hand.get(cardToTrash);
+        		player.hand.remove(cardToTrash);
+        		player.trash(cardToTrash, this.getControlCard(), context);
+        		
+        		//Gain a cheaper Spirit card
+        		int cost = cardToTrash.getCost(context);
+        		int debt = cardToTrash.getDebtCost(context);
+        		boolean potion = cardToTrash.costPotion();
+        		int potionCost = potion ? 1 : 0;
+        		List<Card> validCards = new ArrayList<Card>();
+        		for (Card card : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, false)) {
+                    if (card.is(Type.Spirit)) { //TODO?: also check if pile is a Spirit pile (doesn't matter yet)
+                        int gainCardCost = card.getCost(context);
+                        int gainCardPotionCost = card.costPotion() ? 1 : 0;
+                        int gainCardDebt = card.getDebtCost(context);
+
+                        if ((gainCardCost < cost || gainCardDebt < debt || gainCardPotionCost < potionCost) && 
+                        		(gainCardCost <= cost && gainCardDebt <= debt && gainCardPotionCost <= potionCost)) {
+                            validCards.add(card);
+                        }
+                    }
+                }
+        		
+        		if (validCards.size() > 0) {
+                    Card toGain = context.getPlayer().controlPlayer.exorcist_cardToObtain(context, cost, debt, potion);
+                    if (toGain == null || !validCards.contains(toGain)) {
+                        Util.playerError(context.getPlayer(), "Invalid card returned from Exorcist, choosing one.");
+                        toGain = validCards.get(0);
+                    }
+                	context.getPlayer().gainNewCard(toGain, this.getControlCard(), context);
+                }
+        	}
+        }
+	}
+      
 	
 	private void goat(Game game, MoveContext context, Player player) {
 		if (player.getHand().size() == 0)
@@ -274,6 +325,16 @@ public class CardImplNocturne extends CardImpl {
             }
         }
     }
+	
+	private void skulk(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+        game.othersReceiveNextHex(context, attackedPlayers, this.getControlCard());
+	}
 	
 	private void theEarthsGift(Game game, MoveContext context, Player currentPlayer) {
 		boolean hasTreasure = false;

@@ -86,9 +86,11 @@ public class SelectCardOptions implements Serializable {
     public boolean isNonShelter = false;
     public boolean isSupplyCard = false;
     public boolean isNight = false;
+    public boolean isSpirit = false;
     public boolean different = false;
     public boolean noTokens = false;
     public boolean passable = false;
+    public boolean allowNonSupply = false;
 
     public boolean applyOptionsToPile = false;
     
@@ -134,7 +136,8 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions maxDebtCost(int c) {maxDebtCost = c; return this;}
     public SelectCardOptions copperCountInPlay(int c) {copperCountInPlay = c; return this; }
     public SelectCardOptions not(Card c) {except = c; return this; }
-
+    public SelectCardOptions allowNonSupply() {allowNonSupply = true; return this;}
+    
     public SelectCardOptions isAction() {isAction = true; return this;}
     public SelectCardOptions isReaction() {isReaction = true; return this;}
     public SelectCardOptions isTreasure() {isTreasure = true; return this;}
@@ -146,6 +149,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions noTokens() {noTokens = true; return this;}
     public SelectCardOptions isCastle() {isCastle = true; return this;}
     public SelectCardOptions isNight() {isNight = true; return this;}
+    public SelectCardOptions isSpirit() {isSpirit = true; return this;}
 
     public SelectCardOptions applyOptionsToPile() {applyOptionsToPile = true; return this;}
     
@@ -208,7 +212,8 @@ public class SelectCardOptions implements Serializable {
         if ((maxPotionCost >= 0) && (potionCost > maxPotionCost)) return false;
         if ((minPotionCost >= 0) && (potionCost < minPotionCost)) return false;
         if ((minDebtCost >= 0) && (debtCost < minDebtCost)) return false;
-        if (lessThanMax && cost >= maxCost && debtCost >= maxDebtCost && potionCost >= maxPotionCost) return false;
+        if (lessThanMax && !((cost < maxCost || debtCost < maxDebtCost || potionCost < potionCost) && 
+        		(cost <= maxCost && debtCost <= maxDebtCost && potionCost <= potionCost))) return false;
         if (isReaction && !(c.is(Type.Reaction, p))) return false;
         if (isTreasure && !(c.is(Type.Treasure, p))) return false;
         if (isNonTreasure && (c.is(Type.Treasure, p))) return false;
@@ -222,6 +227,7 @@ public class SelectCardOptions implements Serializable {
         if (isAttack && !c.is(Type.Attack, p)) return false;
         if (isAction && !c.is(Type.Action, p)) return false;
         if (isNight && !c.is(Type.Night, p)) return false;
+        if (isSpirit && !c.is(Type.Spirit, p)) return false;
         if (!isBuyPhase && c.is(Type.Event, null)) return false;
         if (isCastle && !c.is(Type.Castle, null)) return false;
         if (applyOptionsToPile && !c.isPlaceholderCard()) return false;
