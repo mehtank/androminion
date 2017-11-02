@@ -20,7 +20,7 @@ public class SelectCardOptions implements Serializable {
     private static final long serialVersionUID = -1473106875075390348L;
 
     public enum ActionType {
-        REVEAL, DISCARD, DISCARDFORCOIN, DISCARDFORCARD, GAIN, TRASH, NAMECARD, OPPONENTDISCARD, SETASIDE, PLAY
+        REVEAL, DISCARD, DISCARDFORCOIN, DISCARDFORCARD, GAIN, TRASH, NAMECARD, OPPONENTDISCARD, SETASIDE, PLAY, KEEP, TOPDECK
     }
 
     public enum PickType {

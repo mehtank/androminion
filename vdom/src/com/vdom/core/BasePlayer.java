@@ -4448,6 +4448,31 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean blessedVillage_shouldReceiveNow(MoveContext context, Card boon) {
+    	//TODO: this logic could be much better
+    	if (context.phase == TurnPhase.Action) {
+    		return true;
+    	} else {
+    		if (boon.equals(Cards.theEarthsGift) ||
+    				boon.equals(Cards.theFieldsGift) ||
+    				boon.equals(Cards.theForestsGift) ||
+    				boon.equals(Cards.theMoonsGift) ||
+    				boon.equals(Cards.theSeasGift) ||
+    				boon.equals(Cards.theWindsGift)
+    				)
+    			return true;
+    		if (boon.equals(Cards.theFlamesGift)) {
+    			for(Card card : getTrashCards()) {
+    				if (context.player.hand.contains(card));
+    				return true;
+    			}
+    			return false;
+    		}
+    		return false;
+    	}
+    }
+    
+    @Override
     public Card[] cemetery_cardsToTrash(MoveContext context) {
     	return pickOutCards(context.getPlayer().getHand(), 4, getTrashCards());
     }
@@ -4511,6 +4536,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card haunting_cardToPutBackOnDeck(MoveContext context) {
+    	return context.player.getHand().get(0);
+    }
+    
+    @Override
     public Card imp_cardToPlay(MoveContext context) {
     	ArrayList<Card> validCards = new ArrayList<Card>();
 		for (Card c : context.player.hand) {
@@ -4546,6 +4576,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
 
         return null;
+    }
+    
+    @Override
+    public Card[] poverty_attack_cardsToKeep(MoveContext context) {
+    	return militia_attack_cardsToKeep(context);
     }
     
     @Override

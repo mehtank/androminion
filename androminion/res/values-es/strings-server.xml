@@ -124,6 +124,8 @@
 	<string name="card_to_name">nombrar [%1$s]</string>
 	<string name="card_to_set_aside">apartar [%1$s]</string>
 	<string name="card_to_play">jugar [%1$s]</string>
+	<string name="cards_to_keep">guardar [%1$s]</string>
+	<string name="cards_to_topdeck">devolver al mazo [%1$s]</string>
 	<string name="discard">Descartar</string>
 	<string name="trash">Eliminar</string>
 	<string name="keep">Guardar</string>
@@ -531,7 +533,10 @@
   <string name="sprawlingcastle_gain_duchy">Ganar Ducado</string>
   <string name="sprawlingcastle_gain_estates">Ganar 3 Fincas</string>
   
+  <string name="blessedVillage_receive_boon_now">Recibir %1$s ahora (%2$s)</string>
+  <string name="blessedVillage_receive_boon_next_turn">Recibir al comienzo de tu próximo turno</string>
   <string name="pixie_trash_for_double_boon">Eliminar esta carta para recibir %1$s dos veces (2x [%2$s])</string>
+  <string name="boon_name_and_desc">%1$s (%2$s)</string>
 
   <string name="card_played_as_card">%1$s (jugado como %2$s)</string>
 </resources>

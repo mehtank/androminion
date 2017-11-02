@@ -609,6 +609,8 @@ public class Strings {
                             + ", " + getString(R.string.pawn_one);
                     } else if (((Card)options[i]).isCallableWhenTurnStarts() || ((Card)options[i]).equals(Cards.estate)) {
                         strings2[(i - startIndex)/2] = format(R.string.call_optional, getCardName((Card)options[i]));
+                    } else if (((Card)options[i]).is(Type.Boon)) {
+                        strings2[(i - startIndex)/2] = format(R.string.boon_name_and_desc, getCardName((Card)options[i]), getBoonShortText((Card)options[i]));
                     } else {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]);
                     }
@@ -1309,6 +1311,9 @@ public class Strings {
         } else if ( cardName.equals(getCardName(Cards.sprawlingCastle))) {
             strings[1] = getString(R.string.sprawlingcastle_gain_duchy);
             strings[2] = getString(R.string.sprawlingcastle_gain_estates);
+        } else if (cardName.equals(getCardName(Cards.blessedVillage))) {
+            strings[1] = format(R.string.blessedVillage_receive_boon_now, getCardName((Card)extras[0]), getBoonShortText((Card)extras[0]));
+            strings[2] = getString(R.string.blessedVillage_receive_boon_next_turn);
         } else if (cardName.equals(getCardName(Cards.faithfulHound))) {
             strings[0] = getString(R.string.faithfulHound_query);
             strings[1] = getString(R.string.faithfulHound_set_aside);
@@ -1551,6 +1556,8 @@ public class Strings {
             case OPPONENTDISCARD: return Strings.format(R.string.opponent_discard, opponentName, getCardName(cardResponsible));
             case SETASIDE: return Strings.format(R.string.card_to_set_aside, getCardName(cardResponsible));
             case PLAY: return Strings.format(R.string.card_to_play, getCardName(cardResponsible));
+            case KEEP: return Strings.format(R.string.cards_to_keep, getCardName(cardResponsible));
+            case TOPDECK: return Strings.format(R.string.cards_to_topdeck, getCardName(cardResponsible));
         }
         return null;
     }
@@ -1662,8 +1669,10 @@ public class Strings {
             getCardName(Cards.exorcist),
             getCardName(Cards.goat),
             getCardName(Cards.hauntedMirror),
+            getCardName(Cards.haunting),
             getCardName(Cards.imp),
             getCardName(Cards.pooka),
+            getCardName(Cards.poverty),
             getCardName(Cards.theEarthsGift),
             getCardName(Cards.theFlamesGift),
             getCardName(Cards.theSkysGift),

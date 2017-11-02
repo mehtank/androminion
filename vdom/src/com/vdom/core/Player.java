@@ -51,6 +51,7 @@ public abstract class Player {
     protected CardList discard;
     protected CardList playedCards;
     protected CardList nextTurnCards;
+    protected CardList nextTurnBoons;
     protected CardList playedByPrince;
     protected CardList nativeVillage;
     protected CardList tavern;
@@ -321,6 +322,7 @@ public abstract class Player {
         encampment = new CardList(this, "Encampment");
         faithfulHound = new CardList(this, "Faithful Hound");
         boonsForCleanup = new CardList(this, "Boons");
+        nextTurnBoons = new CardList(this, "Boons");
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
     }
 
@@ -2306,6 +2308,7 @@ public abstract class Player {
     // Card interactions - Nocturne Expansion
     // ////////////////////////////////////////////
     public abstract Card[] bat_cardsToTrash(MoveContext context);
+    public abstract boolean blessedVillage_shouldReceiveNow(MoveContext context, Card boon);
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
     public abstract Card devilsWorkshop_cardToObtain(MoveContext context);
     public abstract Card exorcist_cardToTrash(MoveContext context);
@@ -2313,9 +2316,11 @@ public abstract class Player {
     public abstract boolean faithfulHound_shouldSetAside(MoveContext context);
     public abstract Card goat_cardToTrash(MoveContext context);
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);
+    public abstract Card haunting_cardToPutBackOnDeck(MoveContext context);
     public abstract Card imp_cardToPlay(MoveContext context);
     public abstract boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible);
     public abstract Card pooka_treasureToTrash(MoveContext context);
+    public abstract Card[] poverty_attack_cardsToKeep(MoveContext context);
     public abstract Card theEarthsGift_treasureToDiscard(MoveContext context);
     public abstract Card theEarthsGift_cardToObtain(MoveContext context);
     public abstract Card theFlamesGift_cardToTrash(MoveContext context);

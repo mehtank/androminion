@@ -1165,6 +1165,19 @@ public class Game {
             durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
+        while (!player.nextTurnBoons.isEmpty()) {
+        	Card boon = player.nextTurnBoons.remove(0);
+            durationEffects.add(boon);
+            durationEffects.add(Cards.curse);
+            durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+    		if (!(boon.equals(Cards.theFieldsGift) ||
+    				boon.equals(Cards.theForestsGift) ||
+    				boon.equals(Cards.theRiversGift) ||
+    				boon.equals(Cards.theSeasGift))) {
+    			allDurationAreSimple = false;
+    		}
+        }
         int numOptionalItems = 0;
         ArrayList<Card> callableCards = new ArrayList<Card>();
         for (Card c : player.tavern) {
@@ -1253,6 +1266,8 @@ public class Game {
                 Card horseTrader = player.horseTraders.remove(0);
                 player.hand.add(horseTrader);
                 drawToHand(context, horseTrader, 1);
+            } else if(card.behaveAsCard().is(Type.Boon)) {
+            	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
             } else if(card.behaveAsCard().is(Type.Duration, player)) {
                 if(card.behaveAsCard().equals(Cards.haven)) {
                     player.hand.add(card2);
@@ -3934,6 +3949,15 @@ public class Game {
                                     }
                                 }
                             }
+                        }
+                    } else if (gainedCardAbility.equals(Cards.blessedVillage)) {
+                    	Card boon = context.game.takeNextBoon(context, event.card);
+                    	                        
+                        boolean receiveNow = context.player.controlPlayer.blessedVillage_shouldReceiveNow(context, boon);
+                        if (receiveNow) {
+                        	context.game.recieveBoonAndDiscard(context, boon, event.card);
+                        } else {
+                        	player.nextTurnBoons.add(boon);
                         }
                     } else if(gainedCardAbility.equals(Cards.cursedVillage)) {
                     	context.game.receiveNextHex(context, event.card);

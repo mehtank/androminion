@@ -3833,6 +3833,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean blessedVillage_shouldReceiveNow(MoveContext context, Card boon) {
+    	Object[] extras = new Object[2];
+        extras[0] = boon;
+        extras[1] = Cards.blessedVillage;
+        return selectBoolean(context, Cards.blessedVillage, extras);
+    }
+    
+    @Override
     public Card[] cemetery_cardsToTrash(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_cemetery_cardsToTrash(context)) {
             return super.cemetery_cardsToTrash(context);
@@ -3893,6 +3901,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card haunting_cardToPutBackOnDeck(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions()
+                .setActionType(ActionType.TOPDECK).setCardResponsible(Cards.haunting);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public Card imp_cardToPlay(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().isAction().notInPlay()
                 .setPassable().setPickType(PickType.PLAY).setActionType(ActionType.PLAY)
@@ -3917,6 +3932,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setPassable().setPickType(PickType.TRASH).not(Cards.cursedGold)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.pooka);
         return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card[] poverty_attack_cardsToKeep(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.KEEP).setActionType(ActionType.KEEP).setCardResponsible(Cards.poverty);
+        return getFromHand(context, sco);
     }
     
     @Override

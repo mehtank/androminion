@@ -37,8 +37,17 @@ public class CardImplNocturne extends CardImpl {
 		case Exorcist:
 			exorcist(game, context, currentPlayer);
 			break;
+		case Famine:
+			famine(game, context, currentPlayer);
+			break;
 		case Goat:
 			goat(game, context, currentPlayer);
+			break;
+		case Greed:
+			greed(game, context, currentPlayer);
+			break;
+		case Haunting:
+			haunting(game, context, currentPlayer);
 			break;
 		case Idol:
 			idol(game, context, currentPlayer);
@@ -60,6 +69,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case Pooka:
 			pooka(game, context, currentPlayer);
+			break;
+		case Poverty:
+			poverty(game, context, currentPlayer);
 			break;
 		case Shepherd:
 			shepherd(game, context, currentPlayer);
@@ -96,6 +108,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case Vampire:
 			vampire(game, context, currentPlayer);
+			break;
+		case War:
+			war(game, context, currentPlayer);
 			break;
 		case Werewolf:
 			werewolf(game, context, currentPlayer);
@@ -207,10 +222,10 @@ public class CardImplNocturne extends CardImpl {
 	private void cursedVillage(Game game, MoveContext context, Player player) {
 		int cardsToDraw = 6 - player.hand.size();
     	if (cardsToDraw > 0 && player.getMinusOneCardToken()) {
-        	game.drawToHand(context, this, -1);
+        	game.drawToHand(context, Cards.cursedVillage, -1);
         }
     	for (int i = 0; i < cardsToDraw; ++i) {
-    		if(!game.drawToHand(context, this, cardsToDraw - i))
+    		if(!game.drawToHand(context, Cards.cursedVillage, cardsToDraw - i))
                 break;
     	}
 	}
@@ -275,7 +290,37 @@ public class CardImplNocturne extends CardImpl {
         	}
         }
 	}
-      
+	
+	private void famine(Game game, MoveContext context, Player player) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+        for (int i = 0; i < 3; i++) {
+            Card card = context.game.draw(context, Cards.famine, 3 - i);
+            if (card == null) {
+                break;
+            }
+            cards.add(card);
+        }
+
+        if (cards.size() == 0) {
+            return;
+        }
+        
+        ArrayList<Card> toDiscard = new ArrayList<Card>();
+        for (Card c : cards) {
+        	player.reveal(c, this.getControlCard(), context);
+        	if (c.is(Type.Action, player)) {
+        		toDiscard.add(c);
+        	}
+        }
+        for (Card c : toDiscard) {
+        	cards.remove(c);
+        	player.discard(c, this.getControlCard(), context);
+        }
+        for (Card c : cards) {
+        	player.deck.add(c);
+        }
+        player.shuffleDeck(context, this.getControlCard());
+    }
 	
 	private void goat(Game game, MoveContext context, Player player) {
 		if (player.getHand().size() == 0)
@@ -290,6 +335,26 @@ public class CardImplNocturne extends CardImpl {
         		player.trash(cardToTrash, this.getControlCard(), context);
         	}
         }
+    }
+	
+	private void greed(Game game, MoveContext context, Player player) {
+		context.getPlayer().gainNewCard(Cards.copper, this.getControlCard(), context);
+    }
+	
+	private void haunting(Game game, MoveContext context, Player player) {
+		if (player.hand.size() < 4) return;
+		
+		Card card = player.controlPlayer.haunting_cardToPutBackOnDeck(context);
+		if (card == null || !player.hand.contains(card)) {
+			Util.playerError(player, "Haunting put back card error, putting back first card");
+			card = player.hand.get(0);
+		}
+		player.putOnTopOfDeck(player.hand.removeCard(card));
+		GameEvent topDeckEvent = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+		topDeckEvent.card = card;
+		topDeckEvent.setPlayer(player);
+		topDeckEvent.setPrivate(true);
+		game.broadcastEvent(topDeckEvent);		
     }
 	
 	private void idol(Game game, MoveContext context, Player currentPlayer) {
@@ -385,12 +450,20 @@ public class CardImplNocturne extends CardImpl {
                 player.hand.remove(card);
                 player.trash(card, this.getControlCard(), context);
                 for (int i = 0; i < 4; ++i) {
-                	game.drawToHand(context, this, 4 - i);
+                	game.drawToHand(context, Cards.pooka, 4 - i);
                 }
             }
         }
 	}
 	
+	private void poverty(Game game, MoveContext context, Player player) {
+		int keepCardCount = 3;
+        if (player.hand.size() > keepCardCount) {
+            Card[] cardsToKeep = player.controlPlayer.poverty_attack_cardsToKeep(context);
+            player.discardRemainingCardsFromHand(context, cardsToKeep, this.getControlCard(), keepCardCount);
+        }
+	}
+		
 	private void shepherd(Game game, MoveContext context, Player currentPlayer) {
         Card[] cards = currentPlayer.controlPlayer.shepherd_cardsToDiscard(context);
         for(Card card : cards) {
@@ -419,7 +492,7 @@ public class CardImplNocturne extends CardImpl {
             
             int numToDraw = 2 * numberOfCards;
             for (int i = 0; i < numToDraw; ++i) {
-            	game.drawToHand(context, this, numToDraw - i);
+            	game.drawToHand(context, Cards.shepherd, numToDraw - i);
             }
         }
     }
@@ -629,6 +702,32 @@ public class CardImplNocturne extends CardImpl {
         context.game.broadcastEvent(event);
 	}
 	
+	private void war(Game game, MoveContext context, Player currentPlayer) {
+	        ArrayList<Card> toDiscard = new ArrayList<Card>();
+
+	        Card draw = null;
+	        while ((draw = game.draw(context, Cards.war, -1)) != null && !costs3or4(draw, context)) {
+	            currentPlayer.reveal(draw, this.getControlCard(), context);
+	            toDiscard.add(draw);
+	        }
+
+	        if (draw != null) {
+	            currentPlayer.reveal(draw, this.getControlCard(), context);
+	            currentPlayer.trash(draw, this.getControlCard(), context);
+	        }
+
+	        while (!toDiscard.isEmpty()) {
+	            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
+	        }
+	}
+	
+	private boolean costs3or4(Card c, MoveContext context) {
+		int cost = c.getCost(context);
+		int debtCost = c.getDebtCost(context);
+		boolean costPotion = c.costPotion();
+		return (cost == 3 || cost == 4) && debtCost == 0 && !costPotion;
+	}
+	
 	private void werewolf(Game game, MoveContext context, Player currentPlayer) {
 		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
     	for (Player player : context.game.getPlayersInTurnOrder()) {
@@ -640,7 +739,7 @@ public class CardImplNocturne extends CardImpl {
 			game.othersReceiveNextHex(context, attackedPlayers, this.getControlCard());	
 		} else {
 			for (int i = 0; i < 3; ++i) {
-            	game.drawToHand(context, this, 3 - i);
+            	game.drawToHand(context, Cards.werewolf, 3 - i);
             }
 		}
 	}

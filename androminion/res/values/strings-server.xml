@@ -132,6 +132,8 @@
 	<string name="card_to_name">name [%1$s]</string>
 	<string name="card_to_set_aside">set aside [%1$s]</string>
 	<string name="card_to_play">play [%1$s]</string>
+	<string name="cards_to_keep">keep [%1$s]</string>
+	<string name="cards_to_topdeck">put back on deck [%1$s]</string>
 	<string name="discard">Discard</string>
 	<string name="trash">Trash</string>
 	<string name="keep">Keep</string>
@@ -537,7 +539,10 @@
   <string name="sprawlingcastle_gain_duchy">Gain Duchy</string>
   <string name="sprawlingcastle_gain_estates">Gain 3 Estates</string>
   
+  <string name="blessedVillage_receive_boon_now">Receive %1$s now (%2$s)</string>
+  <string name="blessedVillage_receive_boon_next_turn">Receive at start of next turn</string>
   <string name="pixie_trash_for_double_boon">Trash this to receive %1$s twice (2x [%2$s])</string>
+  <string name="boon_name_and_desc">%1$s (%2$s)</string>
 
   <string name="card_played_as_card">%1$s (played as %2$s)</string>
 </resources>
