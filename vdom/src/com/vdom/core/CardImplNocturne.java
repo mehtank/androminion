@@ -34,6 +34,9 @@ public class CardImplNocturne extends CardImpl {
 		case DevilsWorkshop:
             devilsWorkshop(game, context, currentPlayer);
             break;
+		case Druid:
+            druid(game, context, currentPlayer);
+            break;
 		case Exorcist:
 			exorcist(game, context, currentPlayer);
 			break;
@@ -247,6 +250,15 @@ public class CardImplNocturne extends CardImpl {
         	context.getPlayer().gainNewCard(Cards.imp, this.getControlCard(), context);
         }
     }
+	
+	private void druid(Game game, MoveContext context, Player player) {
+		Card boon = player.controlPlayer.druid_pickBoon(context);
+		if (boon == null || !game.druidBoons.contains(boon)) {
+			Util.playerError(player, "Druid error, invalid boon, picking first.");
+			boon = game.druidBoons.get(0);
+		}
+		game.recieveBoon(context, boon, this.getControlCard());
+	}
 	
 	private void exorcist(Game game, MoveContext context, Player player) {
 		if (player.getHand().size() == 0)

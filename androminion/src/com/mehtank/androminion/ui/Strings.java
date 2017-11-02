@@ -1098,6 +1098,8 @@ public class Strings {
             } else if (option == FoolsGoldOption.PassAll) {
                 return getString(R.string.pass_all);
             }
+        } else if (option instanceof Card && ((Card)option).is(Type.Boon)) {
+            return format(R.string.boon_name_and_desc, getCardName((Card) option), getBoonShortText((Card) option));
         } else if (option instanceof Card) {
             return getCardName((Card) option);
         } else if (option == null) {

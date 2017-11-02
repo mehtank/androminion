@@ -881,13 +881,13 @@
     
     <string name="TheEarthsGift_name">The Earth\'s Gift</string>
     <string name="TheEarthsGift_desc">You may discard a treasure to gain a card costing up to (4) Coins.</string>
-    <string name="TheEarthsGift_shortDesc">Discard treasure for card up to (4) Coins</string>
+    <string name="TheEarthsGift_shortDesc">May discard treasure for card up to (4) Coins</string>
     <string name="TheFieldsGift_name">The Field\'s Gift</string>
     <string name="TheFieldsGift_desc">(Keep this until Clean-up.)</string>
     <string name="TheFieldsGift_shortDesc">+Action, +(1) Coin</string>
     <string name="TheFlamesGift_name">The Flame\'s Gift</string>
     <string name="TheFlamesGift_desc">You may trash a card from your hand.</string>
-    <string name="TheFlamesGift_shortDesc">Trash card</string>
+    <string name="TheFlamesGift_shortDesc">May trash card</string>
     <string name="TheForestsGift_name">The Forest\'s Gift</string>
     <string name="TheForestsGift_desc">(Keep this until Clean-up.)</string>
     <string name="TheForestsGift_shortDesc">+Buy, +(1) Coin</string>
@@ -905,7 +905,7 @@
     <string name="TheSeasGift_shortDesc">+1 Card</string>
     <string name="TheSkysGift_name">The Sky\'s Gift</string>
     <string name="TheSkysGift_desc">You may discard 3 cards to gain a Gold.</string>
-    <string name="TheSkysGift_shortDesc">Discard 3 for Gold</string>
+    <string name="TheSkysGift_shortDesc">May discard 3 for Gold</string>
     <string name="TheSunsGift_name">The Sun\'s Gift</string>
     <string name="TheSunsGift_desc">Look at the top 4 cards of your deck. Discard any number of them and put the rest back in any order.</string>
     <string name="TheSunsGift_shortDesc">Filter top 4 from deck</string>

@@ -4483,6 +4483,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card druid_pickBoon(MoveContext context) {
+    	// TODO better logic for selecting appropriate boon
+    	return context.game.druidBoons.get(0);
+    }
+    
+    @Override
     public Card exorcist_cardToTrash(MoveContext context) {
     	//TODO: trash better cards to get the spirits - how to we determine which cards we need less than the spirits?
     	Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());

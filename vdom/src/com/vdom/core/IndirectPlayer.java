@@ -3859,6 +3859,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card druid_pickBoon(MoveContext context) {
+    	List<Card> options = new ArrayList<Card>(context.game.druidBoons);
+        return options.get(selectOption(context, Cards.druid, options.toArray()));
+    }
+    
+    @Override
     public Card exorcist_cardToTrash(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.exorcist);

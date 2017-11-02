@@ -2311,6 +2311,7 @@ public abstract class Player {
     public abstract boolean blessedVillage_shouldReceiveNow(MoveContext context, Card boon);
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
     public abstract Card devilsWorkshop_cardToObtain(MoveContext context);
+    public abstract Card druid_pickBoon(MoveContext context);
     public abstract Card exorcist_cardToTrash(MoveContext context);
     public abstract Card exorcist_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract boolean faithfulHound_shouldSetAside(MoveContext context);

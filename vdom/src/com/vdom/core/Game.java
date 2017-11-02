@@ -2738,7 +2738,12 @@ public class Game {
         trashPile.clear();
         blackMarketPile.clear();
         blackMarketPileShuffled.clear();
-
+        boonDrawPile.clear();
+        boonDiscardPile.clear();
+        druidBoons.clear();
+        hexDrawPile.clear();
+        hexDiscardPile.clear();
+        
         platColonyNotPassedIn = false;
         platColonyPassedIn = false;
         sheltersNotPassedIn = false;
