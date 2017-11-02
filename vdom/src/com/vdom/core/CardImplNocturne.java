@@ -147,7 +147,7 @@ public class CardImplNocturne extends CardImpl {
     		}
     		if (!hasAction) break;
     		Card toDiscard = player.controlPlayer.hauntedMirror_cardToDiscard(context);
-    		if (toDiscard != null && (!player.getHand().contains(toDiscard) || toDiscard.is(Type.Action, player))) {
+    		if (toDiscard != null && (!player.getHand().contains(toDiscard) || !toDiscard.is(Type.Action, player))) {
     			Util.playerError(player, "Haunted Mirror - invalid card specified, ignoring.");
     			toDiscard = null;
     		}
