@@ -774,7 +774,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				text += "\n";
 			text += getContext().getString(R.string.obelisk_card);
 		}
-		if (state.c.originalSafeName.equals("Druid") && GameTableViews.getDruinBoons() != null) {
+		if (state.c.originalSafeName.equals("Druid") && GameTableViews.getDruidBoons() != null) {
 			if (text.length() > 0)
 				text += "\n\n";
 			text += getContext().getString(R.string.druid_boons_header);
