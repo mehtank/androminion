@@ -1,6 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -70,7 +71,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     LinearLayout turnView;
     View myCardView;
     private static int[] costs = {};
-
+    
     TextView actionText;
     LinearLayout deckStatus;
     TurnView turnStatus;
@@ -340,7 +341,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param cards Cards that are in play
      * @param players Names of players
      */
-    public void newGame(MyCard[] cards, String[] players) {
+    public void newGame(MyCard[] cards, String[] players, List<Card> druidBoons) {
         GameTableViews.clearCards();
         openedCards.clear();
         moneyPile.clear();
@@ -373,6 +374,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         for (MyCard c : cards)
             addCardToTable(c);
+        GameTableViews.setDruidBoons(druidBoons);
         for (String s : players)
             addPlayer(s);
         vpPile.setPlayers(getPlayerAdapter());
@@ -487,7 +489,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         // Localize a few strings in the card before actually saving it.
         Strings.localizeMyCard(c);
         GameTableViews.addCard(c.id, c);
-
+        
         if (c.pile == MyCard.MONEYPILE)
             moneyPile.addCard(c);
         else if (c.pile == MyCard.VPPILE)

@@ -1,9 +1,11 @@
 package com.mehtank.androminion.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.util.CardGroup;
+import com.vdom.api.Card;
 import com.vdom.comms.MyCard;
 
 import android.content.Context;
@@ -21,12 +23,19 @@ public class GameTableViews {
 	
     static double textScale = 0.8;
     static ArrayList<MyCard> cardsInPlay = new ArrayList<MyCard>();
+    static List<Card> druidBoons = new ArrayList<Card>();
 
     static void clearCards() {
     	cardsInPlay.clear();
     }
     static void addCard(int id, MyCard c) {
     	cardsInPlay.add(id, c);
+    }
+    static void setDruidBoons(List<Card> val) {
+    	druidBoons = val;
+    }
+    static List<Card> getDruidBoons() {
+    	return druidBoons;
     }
     /**
      * Generate a GridView

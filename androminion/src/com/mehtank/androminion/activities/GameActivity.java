@@ -496,7 +496,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     splash();
 
                     saveLastCards(ng.cards);
-                    gt.newGame(ng.cards, ng.players);
+                    gt.newGame(ng.cards, ng.players, ng.druidBoons);
                     gameRunning = true;
 
 //                    for (int i=0; i < ng.cards.length - 1; i++) {                    	

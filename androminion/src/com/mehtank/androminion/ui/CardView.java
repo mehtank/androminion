@@ -38,6 +38,7 @@ import com.mehtank.androminion.util.CheckableEx;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.mehtank.androminion.util.PlayerAdapter;
+import com.vdom.api.Card;
 import com.vdom.comms.MyCard;
 import com.vdom.core.PlayerSupplyToken;
 
@@ -773,6 +774,15 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				text += "\n";
 			text += getContext().getString(R.string.obelisk_card);
 		}
+		if (state.c.originalSafeName.equals("Druid") && GameTableViews.getDruinBoons() != null) {
+			if (text.length() > 0)
+				text += "\n\n";
+			text += getContext().getString(R.string.druid_boons_header);
+			for (Card boon : GameTableViews.getDruidBoons()) {
+				text += "\n";
+				text += Strings.format(R.string.boon_name_and_desc, Strings.getCardName(boon), Strings.getFullCardDescription(boon).replace("\n", ". "));
+			}
+		}
 		boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
 		if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0 || numPileDebtTokens > 0 || numPileTradeRouteTokens > 0) {
 			if (text.length() > 0)
@@ -840,6 +850,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				}
 			}
 		}
+		
 		return text;
 	}
 	

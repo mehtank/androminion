@@ -517,7 +517,7 @@ public class Strings {
         	if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
             else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }
-        if (c.is(Type.Action) || c.is(Type.Night)) {
+        if (c.is(Type.Action) || c.is(Type.Night) || c.is(Type.Boon)) {
             if (c.is(Type.Duration)) {
                 if (c.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_multiple, "" + c.getAddGoldNextTurn()) + "\n" + ret;
                 else if (c.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_single, "" + c.getAddGoldNextTurn()) + "\n" + ret;

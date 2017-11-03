@@ -213,6 +213,7 @@
 	<string name="journey_token_initial">\u0020\u0020J\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">B</string>
+	<string name="druid_boons_header">- Set aside Boons -</string>
 	<string name="token_header">- Tokens -</string>
 	<string name="token_plus_one_card">+1 Card</string>
 	<string name="token_plus_one_action">+1 Action</string>

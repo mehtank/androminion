@@ -46,6 +46,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private ArrayList<Card> cardsInPlay = new ArrayList<Card>();
     private ArrayList<Player> allPlayers = new ArrayList<Player>();
     private MyCard[] myCardsInPlay;
+    private List<Card> druidBoons;
 
     private ArrayList<Card> playedCards = new ArrayList<Card>();
     private ArrayList<Boolean> playedCardsNew = new ArrayList<Boolean>();
@@ -325,6 +326,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             index++;
         }
         myCardsInPlay = myCardsInPlayList.toArray(new MyCard[0]);
+        if (context.game.druidBoons.size() > 0) {
+        	druidBoons = context.game.druidBoons;
+        }
     }
 
     public Event fullStatusPacket(MoveContext context, Player player, boolean isFinal) {
@@ -1053,7 +1057,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 players[allPlayers.indexOf(p)] = p.getPlayerName();
 
             //	try {
-            comm.put_ts(new Event(EType.NEWGAME).setObject(new EventObject(new NewGame(myCardsInPlay, players))));
+            comm.put_ts(new Event(EType.NEWGAME).setObject(new EventObject(new NewGame(myCardsInPlay, players, druidBoons))));
             playerJoined();
             //	} catch (Exception e1) {
             // TODO:Because put_ts is asynchronous, this will not work the way it was intended. Is that bad?

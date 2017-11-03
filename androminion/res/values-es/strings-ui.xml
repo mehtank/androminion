@@ -213,6 +213,7 @@
 	<string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">C</string>
+	<string name="druid_boons_header">- Favores apartadas -</string>
 	<string name="token_header">- Marcadores -</string>
 	<string name="token_plus_one_card">+1 Carta</string>
 	<string name="token_plus_one_action">+1 Acción</string>
