@@ -124,6 +124,15 @@ public class CardImplNocturne extends CardImpl {
 		case WillOWisp:
 			willOWisp(game, context, currentPlayer);
 			break;
+		case ZombieApprentice:
+			zombieApprentice(game, context, currentPlayer);
+			break;
+		case ZombieMason:
+			zombieMason(game, context, currentPlayer);
+			break;
+		case ZombieSpy:
+			zombieSpy(game, context, currentPlayer);
+			break;
 		default:
 			break;
 		}
@@ -781,6 +790,66 @@ public class CardImplNocturne extends CardImpl {
             } else {
             	player.putOnTopOfDeck(c, context, true);
             }
+        }
+	}
+	
+	private void zombieApprentice(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() == 0)
+			return;
+		ArrayList<Card> validActions = new ArrayList<Card>();
+		for (Card c : player.hand) {
+			if (c.is(Type.Action, player)) {
+				validActions.add(c);
+			}
+		}
+		Card cardToTrash = player.controlPlayer.zombieApprentice_cardToTrash(context);
+		if (cardToTrash == null) return;
+		if (!validActions.contains(cardToTrash)) {
+			Util.playerError(player, "Zombie Apprentice error - invalid card to trash, ignoring");
+			return;
+		}
+		cardToTrash = player.hand.get(cardToTrash);
+		player.hand.remove(cardToTrash);
+		player.trash(cardToTrash, this.getControlCard(), context);
+		
+		for (int i = 0; i < 3; ++i) {
+        	game.drawToHand(context, this, 3 - i);
+        }
+		
+		context.actions += 1;
+	}
+	
+	private void zombieMason(Game game, MoveContext context, Player player) {
+		Card cardToTrash = game.draw(context, getControlCard(), 1);
+		if (cardToTrash == null) return;
+		player.trash(cardToTrash, this.getControlCard(), context);
+		
+		int value = cardToTrash.getCost(context) + 1;
+        int debtValue = cardToTrash.getDebtCost(context);
+        boolean potion = cardToTrash.costPotion();
+        
+        Card card = player.controlPlayer.zombieMason_cardToObtain(context, value, debtValue, potion);
+        if (card != null) {
+            if (card.getCost(context) > value || card.getDebtCost(context) > debtValue || (card.costPotion() && !potion)) {
+                Util.playerError(player, "Transmogrify error, new card does not cost value of the old card +1 or less.");
+            } else if (game.isPileEmpty(card)) {
+            	Util.playerError(player, "Transmogrify error, new card pile is empty.");
+            } else if (!game.isCardOnTop(card)) {
+            	Util.playerError(player, "Transmogrify error, new card not in game.");
+            } else {
+            	player.gainNewCard(card, this.getControlCard(), context);
+            }
+        }
+	}
+	
+	private void zombieSpy(Game game, MoveContext context, Player player) {
+		Card card = game.draw(context, this, 1);
+		if (card == null) return;
+		boolean discard = player.controlPlayer.zombieSpy_shouldDiscard(context, card);
+        if (discard) {
+            player.discard(card, this.getControlCard(), context);
+        } else {
+            player.putOnTopOfDeck(card, context, true);
         }
 	}
 }

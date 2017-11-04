@@ -2332,6 +2332,9 @@ public abstract class Player {
     public abstract Card[] shepherd_cardsToDiscard(MoveContext context);
     public abstract Card vampire_cardToObtain(MoveContext context);
     public abstract Card wish_cardToObtain(MoveContext context);
+    public abstract Card zombieApprentice_cardToTrash(MoveContext context);
+    public abstract Card zombieMason_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
+    public abstract boolean zombieSpy_shouldDiscard(MoveContext context, Card card);
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

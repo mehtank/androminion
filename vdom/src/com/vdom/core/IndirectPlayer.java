@@ -4042,4 +4042,27 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setCardResponsible(Cards.wish).setActionType(ActionType.GAIN);
         return getFromTable(context, sco);
     }
+    
+    @Override
+    public Card zombieApprentice_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction()
+                .setPassable().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.zombieApprentice);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card zombieMason_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH).setPassable()
+        		.setActionType(ActionType.TRASH).setCardResponsible(Cards.zombieMason);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public boolean zombieSpy_shouldDiscard(MoveContext context, Card card) {
+    	Object[] extras = new Object[2];
+        extras[0] = Cards.zombieSpy;
+        extras[1] = card;
+        return selectBoolean(context, Cards.zombieSpy, extras);
+    }
 }

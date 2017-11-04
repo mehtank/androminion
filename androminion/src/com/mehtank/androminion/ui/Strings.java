@@ -1323,6 +1323,10 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.pixie))) {
             strings[1] = format(R.string.pixie_trash_for_double_boon, getCardName((Card)extras[0]), getBoonShortText((Card)extras[0]));
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.spy))) {
+            strings[0] = getCardRevealedHeader(extras);
+            strings[1] = getString(R.string.discard);
+            strings[2] = getString(R.string.replace);
         } else if (cardName.equals(getCardName(Cards.sauna))) {
             strings[1] = getString(R.string.sauna_play_avanto);
             strings[2] = getString(R.string.pass);
@@ -1682,6 +1686,8 @@ public class Strings {
             getCardName(Cards.shepherd),
             getCardName(Cards.vampire),
             getCardName(Cards.wish),
+            getCardName(Cards.zombieApprentice),
+            getCardName(Cards.zombieMason),
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),

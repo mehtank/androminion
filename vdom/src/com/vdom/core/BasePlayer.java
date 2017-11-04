@@ -4665,4 +4665,35 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card wish_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 6, true);
     }
+    
+    @Override
+    public Card zombieApprentice_cardToTrash(MoveContext context) {
+    	ArrayList<Card> actions = new ArrayList<Card>();
+    	for (Card c : context.player.hand) {
+			if (c.is(Type.Action, context.player)) {
+				actions.add(c);
+			}
+		}
+    	Card[] result = lowestCards(context, actions, 1, false);
+    	return result.length > 0 ? result[0] : null;
+    }
+    
+    @Override
+    public Card zombieMason_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, false);
+    }
+    
+    @Override
+    public boolean zombieSpy_shouldDiscard(MoveContext context, Card card) {
+    	boolean ret;
+        if (   isOnlyVictory(card, context.player)
+            || card.equals(Cards.copper)
+            || card.equals(Cards.curse)
+            || card.is(Type.Shelter, context.player)
+            || card.is(Type.Ruins, context.player))
+            return true;
+        else {
+            return false;
+        }
+    }
 }
