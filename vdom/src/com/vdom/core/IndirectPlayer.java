@@ -175,7 +175,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
                 if (   sco.checkValid(card, card.getCost(context), card.is(Type.Victory), null)
                 	&& (!(sco.noTokens && hasTokens))
-                    && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 &&(context.canBuyCards || card.is(Type.Event, null))))
+                    && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 && (context.canBuyActions || !card.is(Type.Action)) &&(context.canBuyCards || card.is(Type.Event, null))))
                         || !sco.pickType.equals(PickType.BUY))
                     && !(  !sco.allowNonSupply && !Cards.isSupplyCard(card)
                          && sco.actionType != null
@@ -3888,6 +3888,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card fool_boonToReceive(MoveContext context, Card[] boons) {
+        return boons[selectOption(context, Cards.fool, boons)];
+    }
+    
+    @Override
     public Card goat_cardToTrash(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setPassable()
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
@@ -3918,6 +3923,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	SelectCardOptions sco = new SelectCardOptions().isAction().notInPlay()
                 .setPassable().setPickType(PickType.PLAY).setActionType(ActionType.PLAY)
                 .setCardResponsible(Cards.imp);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card lostInTheWoods_cardToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.lostInTheWoods);
         return getCardFromHand(context, sco);
     }
     

@@ -75,6 +75,8 @@ public class GameEvent {
         MountainPassWinner, // Mountain Pass bidding finished (winning bid/player) - 0 amount means no bids were placed
         ReceivingBoonHex, // Boon or Hex about to be received by player
         ReceivedBoonHex, // Boon or Hex has just been received by player
+        TakeState, //Player took a state
+        ReturnState, //Player returned a state
     }
 
     public EventType type;

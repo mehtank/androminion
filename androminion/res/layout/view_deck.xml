@@ -87,6 +87,59 @@
         android:text="@string/journey_token_initial" />
     
     <TextView
+        android:id="@+id/deluded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/deluded"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/deluded_initial"  />
+    
+    <TextView
+        android:id="@+id/envious"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/envious"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/envious_initial"  />
+    
+    <TextView
+        android:id="@+id/lostInTheWoods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/lostinthewoods"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/lostInTheWoods_initial"  />
+    
+    <TextView
+        android:id="@+id/miserable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/miserable"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"  />
+    
+    <TextView
+        android:id="@+id/twiceMiserable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/twicemiserable"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"  />
+        
+    <TextView
         android:id="@+id/guildsCoinTokens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

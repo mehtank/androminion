@@ -4525,6 +4525,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card fool_boonToReceive(MoveContext context, Card[] boons) {
+    	//TODO: better logic here?
+    	return boons[0];
+    }
+    
+    @Override
     public Card goat_cardToTrash(MoveContext context) {
     	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
     }
@@ -4563,6 +4569,21 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         
         return null;
+    }
+    
+    @Override
+    public Card lostInTheWoods_cardToDiscard(MoveContext context) {
+    	int idx = context.player.hand.indexOf(Cards.fool);
+    	if (idx > 0) {
+    		return context.player.hand.get(idx);
+    	}
+    	
+    	//TODO: would be better if we only discard something we don't need for buying what we want 
+    	//      or something that we can't trash or something we can't play
+    	Card[] cards = pickOutCards(context.getPlayer().getHand(), 1, getTrashCards());
+    	if (cards != null && cards.length > 0)
+    		return cards[0];
+    	return null;
     }
     
     @Override

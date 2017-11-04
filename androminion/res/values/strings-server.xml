@@ -207,6 +207,9 @@
 	<string name="MinusOneCardTokenOff">-1 card token removed</string>
 	<string name="ReceivingBoonOrHex">Receiving</string>
 	<string name="ReceivedBoonOrHex">Received</string>
+	<string name="TookState">Took %1$s</string>
+	<string name="TookStateFromPlayer">Took %1$s from %2$s</string>
+	<string name="ReturnedState">Returned %1$s</string>
 	
 	<string name="plus_one_card_token">+1 Card token</string>
 	<string name="plus_one_action_token">+1 Action token</string>
@@ -494,6 +497,8 @@
   <string name="EnchantressAttacks">Enchantress in effect</string>
   <string name="SwampHagAttacks_single">%1$s Swamp Hag in effect</string>
   <string name="SwampHagAttacks_multiple">%1$s Swamp Hags in effect</string>
+  <string name="DeludedStateEffect">Deluded (Can\'t buy Actions)</string>
+  <string name="EnviousStateEffect">Envious (Gold and Silver make (1) Coin)</string>
   <string name="traveller_exchange">Exchange it for %1$s</string>
   <string name="teacher_move_token_plus_one_card">move your +1 Card token to (without your tokens on it). [Teacher]</string>
   <string name="teacher_move_token_plus_one_action">move your +1 Action token to (without your tokens on it). [Teacher]</string>
@@ -521,6 +526,8 @@
   <string name="tax_part">put 2 debt tokens on [Tax]</string>
   <string name="mountainPass_query">Bid of Debt to take for 8 VP tokens [Mountain Pass]</string>
   <string name="mountainPass_high_bid_query">Bid of Debt to take for 8 VP tokens (High bid: %1$s) [Mountain Pass]</string>
+  
+  <string name="fool_query">Select Boon to receive next [%1$s]</string>
   
   <string name="place_stash_query">Place Stash in deck</string>
   <string name="place_stashes_query">Place %1$s Stash cards in deck</string>

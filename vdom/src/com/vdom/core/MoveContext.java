@@ -36,6 +36,7 @@ public class MoveContext {
     public int totalEventsBoughtThisTurn = 0;
     public int totalExpeditionBoughtThisTurn = 0;
     public boolean canBuyCards = true;
+    public boolean canBuyActions = true;
     public boolean startOfTurn = false;
     
     public enum TurnPhase {
@@ -54,6 +55,7 @@ public class MoveContext {
     public boolean hasDoubledCoins = false;
     public int donatesBought = 0;
     public int charmsNextBuy = 0;
+    public boolean envious = false;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;

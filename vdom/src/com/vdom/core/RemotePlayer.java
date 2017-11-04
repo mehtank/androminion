@@ -390,6 +390,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         JourneyTokenState journeyToken[] = new JourneyTokenState[numPlayers];
         boolean minusOneCoinTokenOn[] = new boolean[numPlayers];
         boolean minusOneCardTokenOn[] = new boolean[numPlayers];
+        boolean hasDeluded[] = new boolean[numPlayers];
+        boolean hasEnvious[] = new boolean[numPlayers];
+        boolean hasLostInTheWoods[] = new boolean[numPlayers];
+        boolean hasMiserable[] = new boolean[numPlayers];
+        boolean hasTwiceMiserable[] = new boolean[numPlayers];
         String realNames[] = new String[numPlayers];
 
         for (int i=0; i<numPlayers; i++) {
@@ -412,6 +417,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             journeyToken[i] = context.game.journeyTokenInPlay ? (p.getJourneyToken() ? JourneyTokenState.FACE_UP : JourneyTokenState.FACE_DOWN) : null;
             minusOneCoinTokenOn[i] = p.getMinusOneCoinToken();
             minusOneCardTokenOn[i] = p.getMinusOneCardToken();
+            hasDeluded[i] = context.game.hasState(p, Cards.deluded);
+            hasEnvious[i] = context.game.hasState(p, Cards.envious);
+            hasLostInTheWoods[i] = context.game.hasState(p, Cards.lostInTheWoods);
+            hasMiserable[i] = context.game.hasState(p, Cards.miserable);
+            hasTwiceMiserable[i] = context.game.hasState(p, Cards.twiceMiserable);
             realNames[i] = p.getPlayerName(false);
         }
         
@@ -476,6 +486,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setSwampHagAttacks(game.swampHagAttacks(player))
                 .setHauntedWoodsAttacks(game.hauntedWoodsAttacks(player))
                 .setEnchantressAttacks(!context.enchantressAlreadyAffected && game.enchantressAttacks(player))
+                .setHasDeluded(hasDeluded)
+                .setHasEnvious(hasEnvious)
+                .setHasLostInTheWoods(hasLostInTheWoods)
+                .setHasMiserable(hasMiserable)
+                .setHasTwiceMiserable(hasTwiceMiserable)
+                .setDeluded(!context.canBuyActions)
+                .setEnvious(context.envious)
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
                 .setTavern(cardArrToIntArr(player.getTavern().sort(new Util.CardTavernComparator())))

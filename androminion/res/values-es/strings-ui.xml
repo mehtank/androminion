@@ -213,6 +213,9 @@
 	<string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">C</string>
+	<string name="deluded_initial">\u0020\u0020D\u0020\u0020</string>
+	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
+	<string name="lostInTheWoods_initial">\u0020\u0020P\u0020\u0020</string>
 	<string name="druid_boons_header">- Favores apartadas -</string>
 	<string name="token_header">- Marcadores -</string>
 	<string name="token_plus_one_card">+1 Carta</string>
@@ -240,6 +243,11 @@
 	<string name="status_has_minus_card_token">Tiene marcador de -1 Carta</string>
 	<string name="status_journey_token_up">Marcador de Viaje está boca arriba</string>
 	<string name="status_journey_token_down">Marcador de Viaje está boca abajo</string>
+	<string name="status_has_deluded">Tiene Delirante (Al comienzo de tu fase de Compra, devuelve este Estado, y no puedes comprar cartas de Acción en este turno.)</string>
+	<string name="status_has_envious">Tiene Envidioso (Al comienzo de tu fase de Compra, devuelve este Estado, y Plata y Oro hacen (1) Moneda en este turno.)</string>
+	<string name="status_has_lostInTheWoods">Tiene Perdido en el Bosque (Al comienzo de tu turno, puedes descartar una carta para recibir un Favor.)</string>
+	<string name="status_has_miserable">Tiene Miserable (-2 PV)</string>
+	<string name="status_has_twiceMiserable">Tiene Miserable Otra Vez (-4 PV)</string>
 	<string name="status_coin_tokens">Marcadores de Moneda: %1$s</string>
 	<string name="status_pirate_tokens">Marcadores de Moneda conseguidos por Barcos Piratas: %1$s</string>
 	<string name="status_debt_tokens">Marcadores de Deuda: %1$s</string>

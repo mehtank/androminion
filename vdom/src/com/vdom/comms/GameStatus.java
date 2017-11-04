@@ -71,6 +71,13 @@ public class GameStatus implements Serializable {
     public boolean hauntedWoodsAttacks;
     public boolean enchantressAttacks;
     public int swampHagAttacks;
+    public boolean[] hasDeluded;
+    public boolean[] hasEnvious;
+    public boolean[] hasLostInTheWoods;
+    public boolean[] hasMiserable;
+    public boolean[] hasTwiceMiserable;
+    public boolean deluded;
+    public boolean envious;
     public int cardCostModifier;
     public int potions;
 
@@ -113,6 +120,13 @@ public class GameStatus implements Serializable {
     public GameStatus setHauntedWoodsAttacks(boolean i) {hauntedWoodsAttacks = i; return this;}
     public GameStatus setEnchantressAttacks(boolean i) {enchantressAttacks = i; return this;}
     public GameStatus setSwampHagAttacks(int i) {swampHagAttacks = i; return this;}
+    public GameStatus setHasDeluded(boolean[] is) {hasDeluded = is; return this;}
+    public GameStatus setHasEnvious(boolean[] is) {hasEnvious = is; return this;}
+    public GameStatus setHasLostInTheWoods(boolean[] is) {hasLostInTheWoods = is; return this;}
+    public GameStatus setHasMiserable(boolean[] is) {hasMiserable = is; return this;}
+    public GameStatus setHasTwiceMiserable(boolean[] is) {hasTwiceMiserable = is; return this;}
+    public GameStatus setDeluded(boolean i) {deluded = i; return this;}
+    public GameStatus setEnvious(boolean i) {envious = i; return this;}
     public GameStatus setCardCostModifier(int i) {cardCostModifier = i; return this;}
     public GameStatus setPotions(int i) {potions = i; return this;}
     public GameStatus setTrash(int[] is) {trashPile = is; return this;}

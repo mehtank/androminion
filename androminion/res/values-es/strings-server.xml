@@ -199,6 +199,9 @@
     <string name="MinusOneCardTokenOff">Marcador de -1 carta removido</string>
     <string name="ReceivingBoonOrHex">Recibiendo</string>
     <string name="ReceivedBoonOrHex">Recibida</string>
+    <string name="TookState">Tomó %1$s</string>
+	<string name="TookStateFromPlayer">Tomó %1$s de %2$s</string>
+	<string name="ReturnedState">Devolvió %1$s</string>
     
     <string name="plus_one_card_token">Marcador de +1 Carta</string>
     <string name="plus_one_action_token">Marcador de +1 Acción</string>
@@ -488,6 +491,8 @@
   <string name="EnchantressAttacks">Encantadora tiene efecto</string>
   <string name="SwampHagAttacks_single">%1$s Bruja del Pantano tiene efecto</string>
   <string name="SwampHagAttacks_multiple">%1$s Brujas del Pantano tienen efecto</string>
+  <string name="DeludedStateEffect">Delirante (No comprar Acciones)</string>
+  <string name="EnviousStateEffect">Envidioso (Oro y Plata hacen (1) Moneda)</string>
   <string name="traveller_exchange">Intercambiarla por %1$s</string>
   <string name="teacher_move_token_plus_one_card">mover tu marcador de +1 Carta a su mazo (sin tus marcadores). [Maestro]</string>
   <string name="teacher_move_token_plus_one_action">mover tu marcador de +1 Acción a su mazo (sin tus marcadores). [Maestro]</string>
@@ -515,6 +520,8 @@
   <string name="tax_part">ponerle 2 marcadores de Deuda [Impuesto]</string>
   <string name="mountainPass_query">Oferta de Deuda para tomar para 8 fichas de Victoria [Puerto de Montaña]</string>
   <string name="mountainPass_high_bid_query">Oferta de Deuda para tomar para 8 fichas de Victoria (Oferta más alta: %1$s) [Puerto de Montaña]</string>
+  
+  <string name="fool_query">Elige el próximo Favor para recibir [%1$s]</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>
   <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>

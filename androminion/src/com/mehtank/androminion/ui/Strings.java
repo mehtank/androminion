@@ -312,7 +312,9 @@ public class Strings {
         } else if (event.gameEventType == GameEvent.EventType.CardOnTopOfDeck) {
             statusText += getString(R.string.CardOnTopOfDeck);
         } else if (event.gameEventType == GameEvent.EventType.PlayingCard) {
-            statusText += getString(R.string.PlayingCard);
+        	if (!event.c.is(Type.State)) {
+        		statusText += getString(R.string.PlayingCard);
+        	}
         } else if (event.gameEventType == GameEvent.EventType.PlayedCard) {
             statusText += getString(R.string.PlayedCard);
         } else if (event.gameEventType == GameEvent.EventType.PlayingDurationAction) {
@@ -362,6 +364,14 @@ public class Strings {
             statusText += getString(R.string.ReceivingBoonOrHex);
         } else if (event.gameEventType == GameEvent.EventType.ReceivedBoonHex) {
             statusText += getString(R.string.ReceivedBoonOrHex);
+        } else if (event.gameEventType == GameEvent.EventType.TakeState) {
+        	if (extras[1] != null) {
+        		statusText += format(R.string.TookStateFromPlayer, getCardName(event.c), extras[1]);
+        	} else {
+        		statusText += format(R.string.TookState, getCardName(event.c));
+        	}
+        } else if (event.gameEventType == GameEvent.EventType.ReturnState) {
+            statusText += format(R.string.ReturnedState, getCardName(event.c));
         } else if (event.gameEventType == GameEvent.EventType.TurnEnd) {
             /* end of turn: inform about cards on island and nativeVillage */
             String tmp = statusText;
@@ -469,7 +479,9 @@ public class Strings {
         if (event.c != null
                 && event.gameEventType != GameEvent.EventType.CardAddedToHand
                 && event.gameEventType != GameEvent.EventType.PlayerAttacking
-                && event.gameEventType != GameEvent.EventType.VPTokensObtained) {
+                && event.gameEventType != GameEvent.EventType.VPTokensObtained
+                && event.gameEventType != GameEvent.EventType.TakeState
+                && event.gameEventType != GameEvent.EventType.ReturnState) {
             statusText += " " + getCardName(event.c) + " ";
         }
 
@@ -481,7 +493,7 @@ public class Strings {
         if (event.gameEventType == GameEvent.EventType.TurnBegin && extras[0] != null) {
             statusText += " " + getString(R.string.possessed_by) + " " + extras[0] + "!";
         }
-        if (extras[1] != null) {
+        if (extras[1] != null && event.gameEventType != GameEvent.EventType.TakeState) {
             statusText += " (" + extras[1] + ") ";  // this is the player that's being attacked.
         }
         if (extras[2] != null) {
@@ -848,6 +860,8 @@ public class Strings {
             return getString(R.string.archive_query);
         } else if (cardName.equals(getCardName(Cards.annex))) {
             return format(R.string.annex_query, extras[0]);
+        } else if (cardName.equals(getCardName(Cards.fool))) {
+            return format(R.string.fool_query, cardName);
         }
         return cardName;
     }
@@ -1677,6 +1691,7 @@ public class Strings {
             getCardName(Cards.hauntedMirror),
             getCardName(Cards.haunting),
             getCardName(Cards.imp),
+            getCardName(Cards.lostInTheWoods),
             getCardName(Cards.pooka),
             getCardName(Cards.poverty),
             getCardName(Cards.theEarthsGift),
@@ -1957,6 +1972,18 @@ public class Strings {
         
         for(Card card : totals.keySet()) {
             if(card.is(Type.Landmark)) {
+            	sb.append('\t')
+                .append(getCardName(card))
+                .append(": ")
+                .append(totals.get(card))
+                .append(" ")
+                .append(Strings.getString(R.string.game_over_vps))
+                .append('\n');
+            }
+        }
+        
+        for(Card card : totals.keySet()) {
+            if(card.is(Type.State)) {
             	sb.append('\t')
                 .append(getCardName(card))
                 .append(": ")

@@ -730,6 +730,17 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             		baseStr += ", ";
             	baseStr += top.getString(R.string.EnchantressAttacks);
             }
+            if (gs.deluded) {
+            	baseStr += "\n";
+            	baseStr += top.getString(R.string.DeludedStateEffect);
+            }
+            if (gs.envious) {
+            	if (!gs.deluded)
+            		baseStr += "\n";
+            	else
+            		baseStr += ", ";
+            	baseStr += top.getString(R.string.EnviousStateEffect);
+            }
             return baseStr;
         }
     };

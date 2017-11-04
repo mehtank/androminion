@@ -31,6 +31,11 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	private TextView journeyToken;
 	private TextView minusOneCoinToken;
 	private TextView minusOneCardToken;
+	private TextView deluded;
+	private TextView envious;
+	private TextView lostInTheWoods;
+	private TextView miserable;
+	private TextView twiceMiserable;
 	private LinearLayout counts;
 	private TextView countsPrefix;
 	private TextView countsDeck;
@@ -52,6 +57,11 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	private boolean hasMinusOneCardToken;
 	private boolean hasMinusOneCoinToken;
 	private JourneyTokenState journeyTokenState;
+	private boolean hasDeluded;
+	private boolean hasEnvious;
+	private boolean hasLostInTheWoods;
+	private boolean hasMiserable;
+	private boolean hasTwiceMiserable;
 	private boolean isCurrentTurn;
 	
 	private int textColor;
@@ -77,6 +87,11 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		journeyToken = (TextView) findViewById(R.id.journeyToken);
 		minusOneCoinToken = (TextView) findViewById(R.id.minusOneCoinToken);
 		minusOneCardToken = (TextView) findViewById(R.id.minusOneCardToken);
+		deluded = (TextView) findViewById(R.id.deluded);
+		envious = (TextView) findViewById(R.id.envious);
+		lostInTheWoods = (TextView) findViewById(R.id.lostInTheWoods);
+		miserable = (TextView) findViewById(R.id.miserable);
+		twiceMiserable = (TextView) findViewById(R.id.twiceMiserable);
 		counts = (LinearLayout) findViewById(R.id.counts);
 		countsPrefix = (TextView) findViewById(R.id.countsPrefix);
 		countsDeck = (TextView) findViewById(R.id.countsDeck);
@@ -101,6 +116,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	public void set(String nameStr, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, 
 			int pt, int vt, int dt, int gct, 
 			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyTokenState, 
+			boolean hasDeluded, boolean hasEnvious, boolean hasLostInTheWoods, boolean hasMiserable, boolean hasTwiceMiserable,
 			boolean highlight, boolean showColor, int color) {
 		this.nameStr = nameStr;
 		this.turns = turns;
@@ -112,6 +128,11 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		this.hasMinusOneCardToken = minusOneCardTokenOn;
 		this.hasMinusOneCoinToken = minusOneCoinTokenOn;
 		this.journeyTokenState = journeyTokenState;
+		this.hasDeluded = hasDeluded;
+		this.hasEnvious = hasEnvious;
+		this.hasLostInTheWoods = hasLostInTheWoods;
+		this.hasMiserable = hasMiserable;
+		this.hasTwiceMiserable = hasTwiceMiserable;
 		this.numPirateTokens = pt;
 		this.numVictoryTokens = vt;
 		this.numDebtTokens = dt;
@@ -190,6 +211,40 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
         	minusOneCoinToken.setVisibility(GONE);
 		}
         
+        if (hasDeluded) {
+        	deluded.setVisibility(VISIBLE);
+        } else {
+        	deluded.setVisibility(GONE);
+        }
+        
+        if (hasEnvious) {
+        	envious.setVisibility(VISIBLE);
+        } else {
+        	envious.setVisibility(GONE);
+        }
+        
+        if (hasLostInTheWoods) {
+        	lostInTheWoods.setVisibility(VISIBLE);
+        } else {
+        	lostInTheWoods.setVisibility(GONE);
+        }
+        
+        if (hasMiserable) {
+			miserable.setText(" -2 ");
+        	miserable.setVisibility(VISIBLE);
+		} else {
+			miserable.setText("");
+        	miserable.setVisibility(GONE);
+		}
+        
+        if (hasTwiceMiserable) {
+			twiceMiserable.setText(" -4 ");
+			twiceMiserable.setVisibility(VISIBLE);
+		} else {
+			twiceMiserable.setText("");
+			twiceMiserable.setVisibility(GONE);
+		}
+        
         if(showCardCounts) {
         	countsPrefix.setText("{ ");
         	countsDeck.setText("\u2261 ");
@@ -236,6 +291,17 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		if (journeyTokenState != null) {
 			sb.append(c.getString(journeyTokenState == JourneyTokenState.FACE_UP ? R.string.status_journey_token_up : R.string.status_journey_token_down) + "\n");
 		}
+		if (hasDeluded)
+			sb.append(c.getString(R.string.status_has_deluded) + "\n");
+		if (hasEnvious)
+			sb.append(c.getString(R.string.status_has_envious) + "\n");
+		if (hasLostInTheWoods)
+			sb.append(c.getString(R.string.status_has_lostInTheWoods) + "\n");
+		if (hasMiserable)
+			sb.append(c.getString(R.string.status_has_miserable) + "\n");
+		if (hasTwiceMiserable)
+			sb.append(c.getString(R.string.status_has_twiceMiserable) + "\n");
+		
 		if (numCoinTokens > 0)
 			sb.append(String.format(c.getString(R.string.status_coin_tokens), numCoinTokens) + "\n");
 		if (numPirateTokens > 0)

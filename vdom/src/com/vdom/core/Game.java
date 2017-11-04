@@ -140,6 +140,7 @@ public class Game {
     public ArrayList<Card> druidBoons = new ArrayList<Card>();
     public ArrayList<Card> hexDrawPile = new ArrayList<Card>();
     public ArrayList<Card> hexDiscardPile = new ArrayList<Card>();
+    public ArrayList<Card> sharedStates = new ArrayList<Card>();
 
     public int tradeRouteValue = 0;
     public Card baneCard = null;
@@ -1178,6 +1179,13 @@ public class Game {
     			allDurationAreSimple = false;
     		}
         }
+        if (hasState(player, Cards.lostInTheWoods)) {
+        	durationEffects.add(Cards.lostInTheWoods);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+    		allDurationAreSimple = false;
+        }
         int numOptionalItems = 0;
         ArrayList<Card> callableCards = new ArrayList<Card>();
         for (Card c : player.tavern) {
@@ -1268,6 +1276,8 @@ public class Game {
                 drawToHand(context, horseTrader, 1);
             } else if(card.behaveAsCard().is(Type.Boon)) {
             	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
+            } else if(card.behaveAsCard().equals(Cards.lostInTheWoods)) {
+            	card.play(this, context, false, true, true, true);
             } else if(card.behaveAsCard().is(Type.Duration, player)) {
                 if(card.behaveAsCard().equals(Cards.haven)) {
                     player.hand.add(card2);
@@ -1412,6 +1422,14 @@ public class Game {
     protected void playerBeginBuy(Player player, MoveContext context) {
     	if (cardInGame(Cards.arena)) {
     		arena(player, context);
+    	}
+    	if (context.game.hasState(player, Cards.deluded)) {
+    		context.game.returnState(context, Cards.deluded);
+    		context.canBuyActions = false;
+    	}
+    	if (context.game.hasState(player, Cards.envious)) {
+    		context.game.returnState(context, Cards.envious);
+    		context.envious = true;
     	}
     }
     
@@ -1926,7 +1944,10 @@ public class Game {
         if (context.getPlayer().getDebtTokenCount() > 0) {
         	return false;
         }
-        if (!context.canBuyCards && !card.is(Type.Event, null)) {
+        if (!context.canBuyActions && card.is(Type.Action)) {
+        	return false;
+        }
+        if (!context.canBuyCards && !card.is(Type.Event)) {
         	return false;
         }
         if (context.blackMarketBuyPhase) {
@@ -2449,6 +2470,60 @@ public class Game {
     	}
     	return hex;
     }
+    
+    public void takeState(MoveContext context, Card state) {
+    	if (context.player.states.contains(state)) return;
+    	//currently instantiating these as needed instead of moving around a set number
+    	// we may have to change this if number of states a player takes of a type matters in the future
+    	context.player.states.add(state.instantiate());
+    	GameEvent event = new GameEvent(GameEvent.EventType.TakeState, (MoveContext) context);
+    	event.card = state;
+    	broadcastEvent(event);
+    }
+    
+    public void returnState(MoveContext context, Card state) {
+    	if (!context.player.states.contains(state)) return;
+    	context.player.states.remove(state);
+    	GameEvent event = new GameEvent(GameEvent.EventType.ReturnState, (MoveContext) context);
+    	event.card = state;
+    	broadcastEvent(event);
+    }
+    
+    public void returnSharedState(MoveContext context, Card state) {
+    	if (!context.player.states.contains(state)) return;
+    	GameEvent event = new GameEvent(GameEvent.EventType.ReturnState, (MoveContext) context);
+    	event.card = state;
+    	int idx = sharedStates.indexOf(state);
+		state = sharedStates.get(idx);
+		sharedStates.add(state);
+    	broadcastEvent(event);
+    }
+    
+    public boolean hasState(Player player, Card state) {
+    	return player.states.contains(state);
+    }
+    
+    public void takeSharedState(MoveContext context, Card state) {
+    	Player playerWithState = null;
+    	for (Player player : players) {
+    		int idx = player.states.indexOf(state);
+    		if (idx >= 0) {
+    			state = player.states.remove(idx);
+    			playerWithState = player;
+    			break;
+    		}
+    	}
+    	if (playerWithState == null) {
+    		int idx = sharedStates.indexOf(state);
+    		state = sharedStates.get(idx);
+    	}
+    	context.player.states.add(state);
+    	
+    	GameEvent event = new GameEvent(GameEvent.EventType.TakeState, (MoveContext) context);
+    	event.attackedPlayer = playerWithState;
+    	event.card = state;
+    	broadcastEvent(event);
+    }
 
     public void replenishDeck(MoveContext context, Card responsible, int cardsLeftToDraw) {
         context.player.replenishDeck(context, responsible, cardsLeftToDraw);
@@ -2743,6 +2818,7 @@ public class Game {
         druidBoons.clear();
         hexDrawPile.clear();
         hexDiscardPile.clear();
+        sharedStates.clear();
         
         platColonyNotPassedIn = false;
         platColonyPassedIn = false;
@@ -3271,6 +3347,11 @@ public class Game {
         // If Cemetery or Exorcist is in play, we'll need Ghost (non-supply)
         if (piles.containsKey(Cards.cemetery.getName()) || hasExorcist) {
             addPile(Cards.ghost, 6, false);
+        }
+        
+        // If Fool is in play, we'll need Lost in the Woods (state)
+        if (piles.containsKey(Cards.fool.getName())) {
+        	sharedStates.add(Cards.lostInTheWoods.instantiate());
         }
         
         // If a Fate card or Exorcist is in play, we'll need Will-o'-Wisp (non-supply)

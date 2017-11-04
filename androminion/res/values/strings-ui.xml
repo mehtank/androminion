@@ -213,6 +213,9 @@
 	<string name="journey_token_initial">\u0020\u0020J\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">B</string>
+	<string name="deluded_initial">\u0020\u0020D\u0020\u0020</string>
+	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
+	<string name="lostInTheWoods_initial">\u0020\u0020L\u0020\u0020</string>
 	<string name="druid_boons_header">- Set aside Boons -</string>
 	<string name="token_header">- Tokens -</string>
 	<string name="token_plus_one_card">+1 Card</string>
@@ -240,6 +243,11 @@
 	<string name="status_has_minus_card_token">Has -1 Card token</string>
 	<string name="status_journey_token_up">Journey token is face up</string>
 	<string name="status_journey_token_down">Journey token is face down</string>
+	<string name="status_has_deluded">Has Deluded (At the start of your Buy phase, return this, and you can\'t buy Actions this turn.)</string>
+	<string name="status_has_envious">Has Envious (At the start of your Buy phase, return this, and Silver and Gold make (1) Coin this turn.)</string>
+	<string name="status_has_lostInTheWoods">Has Lost in the Woods (At the start of your turn, you may discard a card to receive a Boon.)</string>
+	<string name="status_has_miserable">Has Miserable (-2 VP)</string>
+	<string name="status_has_twiceMiserable">Has Twice Miserable (-4 VP)</string>
 	<string name="status_coin_tokens">Coin tokens: %1$s</string>
 	<string name="status_pirate_tokens">Pirate Ship Coin tokens: %1$s</string>
 	<string name="status_debt_tokens">Debt tokens: %1$s</string>

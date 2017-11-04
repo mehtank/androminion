@@ -31,17 +31,26 @@ public class CardImplNocturne extends CardImpl {
 		case CursedVillage:
             cursedVillage(game, context, currentPlayer);
             break;
+		case Delusion:
+            delusion(game, context, currentPlayer);
+            break;
 		case DevilsWorkshop:
             devilsWorkshop(game, context, currentPlayer);
             break;
 		case Druid:
             druid(game, context, currentPlayer);
             break;
+		case Envy:
+			envy(game, context, currentPlayer);
+			break;
 		case Exorcist:
 			exorcist(game, context, currentPlayer);
 			break;
 		case Famine:
 			famine(game, context, currentPlayer);
+			break;
+		case Fool:
+			fool(game, context, currentPlayer);
 			break;
 		case Goat:
 			goat(game, context, currentPlayer);
@@ -61,8 +70,14 @@ public class CardImplNocturne extends CardImpl {
 		case Leprechaun:
 			leprechaun(game, context, currentPlayer);
 			break;
+		case LostInTheWoods:
+			lostInTheWoods(game, context, currentPlayer);
+			break;
 		case LuckyCoin:
 			luckyCoin(game, context, currentPlayer);
+			break;
+		case Misery:
+			misery(game, context, currentPlayer);
 			break;
 		case Pixie:
 			pixie(game, context, currentPlayer);
@@ -242,6 +257,11 @@ public class CardImplNocturne extends CardImpl {
     	}
 	}
 	
+	private void delusion(Game game, MoveContext context, Player player) {
+		if (game.hasState(player, Cards.deluded) || game.hasState(player, Cards.envious)) return;
+		game.takeState(context, Cards.deluded);
+	}
+	
 	private void devilsWorkshop(Game game, MoveContext context, Player player) {
         int numGained = context.getNumCardsGainedThisTurn();
         if (numGained == 0) {
@@ -267,6 +287,11 @@ public class CardImplNocturne extends CardImpl {
 			boon = game.druidBoons.get(0);
 		}
 		game.recieveBoon(context, boon, this.getControlCard());
+	}
+	
+	private void envy(Game game, MoveContext context, Player player) {
+		if (game.hasState(player, Cards.deluded) || game.hasState(player, Cards.envious)) return;
+		game.takeState(context, Cards.envious);
 	}
 	
 	private void exorcist(Game game, MoveContext context, Player player) {
@@ -342,6 +367,34 @@ public class CardImplNocturne extends CardImpl {
         }
         player.shuffleDeck(context, this.getControlCard());
     }
+	
+	private void fool(Game game, MoveContext context, Player player) {
+		if (game.hasState(player, Cards.lostInTheWoods)) return;
+		game.takeSharedState(context, Cards.lostInTheWoods);
+		ArrayList<Card> boons = new ArrayList<Card>();
+		for (int i = 0; i < 3; ++i) {
+			Card boon = game.takeNextBoon(context, getControlCard());
+			if (boon != null)
+				boons.add(boon);
+		}
+		if (boons.size() == 0) return;
+		if (boons.size() == 1) {
+			game.recieveBoonAndDiscard(context, boons.get(0), getControlCard());
+			return;
+		}
+		//TODO: does the order of Boons to receive on Fool have to be chosen before receiving any of them?
+		while (!boons.isEmpty()) {
+			Card boonToReceive = player.controlPlayer.fool_boonToReceive(context, boons.toArray(new Card[0]));
+			if (!boons.contains(boonToReceive)) {
+				Util.playerError(player, "Fool error, invalid Boon chosen, choosing first Boon");
+				boonToReceive = boons.get(0);
+			}
+			int idx = boons.indexOf(boonToReceive);
+			boonToReceive = boons.remove(idx);
+			
+			game.recieveBoonAndDiscard(context, boonToReceive, getControlCard());
+		}
+	}
 	
 	private void goat(Game game, MoveContext context, Player player) {
 		if (player.getHand().size() == 0)
@@ -431,6 +484,27 @@ public class CardImplNocturne extends CardImpl {
 	
 	private void luckyCoin(Game game, MoveContext context, Player player) {
 		player.gainNewCard(Cards.silver, this.getControlCard(), context);
+	}
+	
+	private void lostInTheWoods(Game game, MoveContext context, Player player) {
+		Card toDiscard = player.controlPlayer.lostInTheWoods_cardToDiscard(context);
+		if (toDiscard == null) return;
+		if (!player.hand.contains(toDiscard)) {
+			Util.playerError(player, "Lost in the Woods error, invalid card, ignoring");
+		}
+		int idx = player.hand.indexOf(toDiscard);
+		player.discard(player.hand.remove(idx), this.getControlCard(), context);
+		game.receiveNextBoon(context, this);
+	}
+	
+	private void misery(Game game, MoveContext context, Player player) {
+		if (game.hasState(player, Cards.miserable)) {
+			//This is our way to represent flipping over the state card
+			context.player.states.remove(Cards.miserable);
+			game.takeState(context, Cards.twiceMiserable);
+		} else if (!game.hasState(player, Cards.twiceMiserable)) {
+			game.takeState(context, Cards.miserable);
+		}
 	}
 	
 	private void pixie(Game game, MoveContext context, Player player) {

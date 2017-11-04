@@ -721,6 +721,8 @@ public class CardImpl implements Card, Comparable<Card>{
             context.buys += addBuys;
             if (this.equals(Cards.copper)) {
             	context.addCoins(addGold + context.coppersmithsPlayed);
+            } else if (this.equals(Cards.silver) || this.equals(Cards.gold)) {
+            	context.addCoins(context.envious ? 1 : addGold);
             } else {
             	context.addCoins(addGold);
             }

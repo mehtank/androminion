@@ -66,6 +66,7 @@ public abstract class Player {
     protected Card save;
     protected CardList encampment;
     protected CardList boonsForCleanup;
+    protected CardList states;
     protected int theRiversGiftDraw;
     protected CardList faithfulHound;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
@@ -323,6 +324,7 @@ public abstract class Player {
         faithfulHound = new CardList(this, "Faithful Hound");
         boonsForCleanup = new CardList(this, "Boons");
         nextTurnBoons = new CardList(this, "Boons");
+        states = new CardList(this, "States");
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
     }
 
@@ -1081,6 +1083,14 @@ public abstract class Player {
             	}
         	}
         	totals.put(Cards.keep, myWinningTreasures.size() * 5);
+        }
+        
+        // states
+        if (game.hasState(this, Cards.miserable)) {
+        	totals.put(Cards.miserable, -2);
+        }
+        if (game.hasState(this, Cards.twiceMiserable)) {
+        	totals.put(Cards.twiceMiserable, -4);
         }
         
         // victory tokens
@@ -2315,10 +2325,12 @@ public abstract class Player {
     public abstract Card exorcist_cardToTrash(MoveContext context);
     public abstract Card exorcist_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract boolean faithfulHound_shouldSetAside(MoveContext context);
+    public abstract Card fool_boonToReceive(MoveContext context, Card[] boons);
     public abstract Card goat_cardToTrash(MoveContext context);
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);
     public abstract Card haunting_cardToPutBackOnDeck(MoveContext context);
     public abstract Card imp_cardToPlay(MoveContext context);
+    public abstract Card lostInTheWoods_cardToDiscard(MoveContext context);
     public abstract boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible);
     public abstract Card pooka_treasureToTrash(MoveContext context);
     public abstract Card[] poverty_attack_cardsToKeep(MoveContext context);
