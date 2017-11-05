@@ -497,6 +497,26 @@ public class CardImpl implements Card, Comparable<Card>{
         typeSet.addAll(Arrays.asList(types));
         return typeSet.size();
     }
+    
+    public Type[] getTypes() {
+    	return getTypes(null);
+    }
+        
+    public Type[] getTypes(Player player) {
+        if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
+            return types;
+        }
+        Set<Type> typeSet = new HashSet<Type>();
+        typeSet.addAll(Arrays.asList(((CardImpl)player.getInheritance()).types));
+        typeSet.addAll(Arrays.asList(types));
+        
+        Type[] result = new Type[typeSet.size()];
+        int i = 0;
+        for (Type t : typeSet) {
+        	result[i++] = t;
+        }
+        return result;
+    }
 
     public int getCost(MoveContext context) {
         if (context == null)

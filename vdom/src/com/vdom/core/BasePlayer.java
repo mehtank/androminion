@@ -4617,6 +4617,37 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card locusts_cardToObtain(MoveContext context, int cost, int debt, boolean potion, Type[] types) {
+    	int potionCost = potion ? 1 : 0;
+    	ArrayList<Card> validCards = new ArrayList<Card>();
+        for (Card card : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+            int gainCardCost = card.getCost(context);
+            int gainCardPotionCost = card.costPotion() ? 1 : 0;
+            int gainCardDebt = card.getDebtCost(context);
+            
+            boolean sharesType = false;
+            outerType:
+            for (Type t : card.getTypes()) {
+            	for (Type curType : types) {
+            		if (t == curType) {
+            			sharesType = true;
+            			break outerType;
+            		}
+            	}
+            }
+            if (!sharesType)
+            	continue;
+
+            if ((gainCardCost < cost || gainCardDebt < debt || gainCardPotionCost < potionCost) && 
+            		(gainCardCost <= cost && gainCardDebt <= debt && gainCardPotionCost <= potionCost)) {
+                validCards.add(card);
+            }
+        }
+        
+        return highestCard(context, validCards);
+    }
+    
+    @Override
     public Card lostInTheWoods_cardToDiscard(MoveContext context) {
     	int idx = context.player.hand.indexOf(Cards.fool);
     	if (idx > 0) {

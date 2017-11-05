@@ -3955,6 +3955,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card locusts_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion, Type[] types) {
+    	SelectCardOptions sco = new SelectCardOptions().maxPotionCost(potion?1:0)
+                .maxCost(maxCost).maxDebtCost(maxDebtCost).lessThanMax().atLeastOneOfTypes(types)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.locusts);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public Card lostInTheWoods_cardToDiscard(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setPassable()
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)

@@ -185,9 +185,8 @@ public class CardImplPromo extends CardImpl {
             if (toGain == null || !validCards.contains(toGain)) {
                 Util.playerError(context.getPlayer(), "Invalid card returned from Dismantle, picking one.");
                 toGain = validCards.get(0);
-            } else {
-                context.getPlayer().gainNewCard(toGain, Cards.dismantle, context);
             }
+            context.getPlayer().gainNewCard(toGain, Cards.dismantle, context);
         }
         context.getPlayer().gainNewCard(Cards.gold, Cards.dismantle, context);
 	}

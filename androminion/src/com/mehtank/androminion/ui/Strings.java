@@ -1458,7 +1458,10 @@ public class Strings {
                     selectString = Strings.format(R.string.select_from_table_max_events, maxCostString, header);
                 } else if (containsOnlyCards(sco)) {
                 	if (sco.lessThanMax) {
-                		selectString = Strings.format(R.string.select_from_table_less, maxCostString, header);
+                		if (sco.atLeastOneOfTypes != null)
+                			selectString = Strings.format(R.string.select_from_table_less_of_types, getTypesString(sco.atLeastOneOfTypes), maxCostString, header);
+                		else
+                			selectString = Strings.format(R.string.select_from_table_less, maxCostString, header);
                 	} else if (sco.except != null) {
                 		selectString = Strings.format(R.string.select_from_table_max_except, getCardName(sco.except), maxCostString, header);
                 	} else {
@@ -1568,19 +1571,22 @@ public class Strings {
     }
     
     private static String getTypesString(Type[] types) {
+    	if (types.length == 1) {
+    		return getTypeName(types[0]);
+    	}
     	if (types.length == 2) {
-    		return Strings.format(R.string.list_two_types, types[0], types[1]);
+    		return Strings.format(R.string.list_two_types, getTypeName(types[0]), getTypeName(types[1]));
     	}
     	StringBuilder sb = new StringBuilder();
     	for (int i = 0; i < types.length; ++i) {
     		boolean first = i == 0;
     		boolean last = i == types.length - 1;
-    		sb.append(getTypeName(types[i]));
     		if (!first && !last) {
     			sb.append(getString(R.string.list_type_separator));
     		} else if (last) {
     			sb.append(getString(R.string.list_penultimate_type_separator));
     		}
+    		sb.append(getTypeName(types[i]));
     	}
     	return sb.toString();
     }
@@ -1747,6 +1753,7 @@ public class Strings {
             getCardName(Cards.hauntedMirror),
             getCardName(Cards.haunting),
             getCardName(Cards.imp),
+            getCardName(Cards.locusts),
             getCardName(Cards.pooka),
             getCardName(Cards.poverty),
             getCardName(Cards.theEarthsGift),

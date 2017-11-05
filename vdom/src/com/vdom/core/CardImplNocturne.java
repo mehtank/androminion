@@ -76,6 +76,9 @@ public class CardImplNocturne extends CardImpl {
 		case Leprechaun:
 			leprechaun(game, context, currentPlayer);
 			break;
+		case Locusts:
+			locusts(game, context, currentPlayer);
+			break;
 		case LostInTheWoods:
 			lostInTheWoods(game, context, currentPlayer);
 			break;
@@ -579,8 +582,52 @@ public class CardImplNocturne extends CardImpl {
 		}
 	}
 	
-	private void luckyCoin(Game game, MoveContext context, Player player) {
-		player.gainNewCard(Cards.silver, this.getControlCard(), context);
+	private void locusts(Game game, MoveContext context, Player player) {
+		Card trashCard = game.draw(context, getControlCard(), 1);
+		player.trash(trashCard, getControlCard(), context);
+		if (trashCard.equals(Cards.copper) || trashCard.equals(Cards.estate)) {
+			player.gainNewCard(Cards.curse, getControlCard(), context);
+			return;
+		}
+		
+		int cost = trashCard.getCost(context);
+        int debt = trashCard.getDebtCost(context);
+        boolean potion = trashCard.costPotion();
+        int potionCost = potion ? 1 : 0;
+        Type[] types = trashCard.getTypes();
+        
+        ArrayList<Card> validCards = new ArrayList<Card>();
+        for (Card card : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+            int gainCardCost = card.getCost(context);
+            int gainCardPotionCost = card.costPotion() ? 1 : 0;
+            int gainCardDebt = card.getDebtCost(context);
+            
+            if (!sharesType(trashCard, card))
+            	continue;
+
+            if ((gainCardCost < cost || gainCardDebt < debt || gainCardPotionCost < potionCost) && 
+            		(gainCardCost <= cost && gainCardDebt <= debt && gainCardPotionCost <= potionCost)) {
+                validCards.add(card);
+            }
+        }
+        if (validCards.size() == 0)
+        	return;
+        
+    	Card toGain = context.getPlayer().controlPlayer.locusts_cardToObtain(context, cost, debt, potion, types);
+        if (toGain == null || !validCards.contains(toGain)) {
+            Util.playerError(context.getPlayer(), "Invalid card returned from Locusts, picking one.");
+            toGain = validCards.get(0);
+        }
+        context.getPlayer().gainNewCard(toGain, Cards.locusts, context);
+	}
+	
+	private boolean sharesType(Card a, Card b) {
+		for(Type at : a.getTypes()) {
+			for (Type bt : b.getTypes()) {
+				if (at == bt) return true;
+			}
+		}
+		return false;
 	}
 	
 	private void lostInTheWoods(Game game, MoveContext context, Player player) {
@@ -592,6 +639,10 @@ public class CardImplNocturne extends CardImpl {
 		int idx = player.hand.indexOf(toDiscard);
 		player.discard(player.hand.remove(idx), this.getControlCard(), context);
 		game.receiveNextBoon(context, this);
+	}
+	
+	private void luckyCoin(Game game, MoveContext context, Player player) {
+		player.gainNewCard(Cards.silver, this.getControlCard(), context);
 	}
 	
 	private void misery(Game game, MoveContext context, Player player) {

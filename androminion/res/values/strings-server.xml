@@ -62,8 +62,8 @@
 	<string name="hand">hand</string>
 	
 	<string name="list_two_types">%1$s or %2$s</string>
-	<string name="list_type_separator">, </string>
-	<string name="list_penultimate_type_separator"> or </string>
+	<string name="list_type_separator">,\u0020</string>
+	<string name="list_penultimate_type_separator">\u0020or\u0020</string>
   
 	<string name="select_from_table">Select a card from the table to %1$s</string>
 	<string name="select_from_table_attack">Select an Attack card from the table to %1$s</string>
@@ -86,7 +86,8 @@
 	<string name="select_from_table_less">Select a card from the table that costs less than (%1$s) to %2$s</string>
 	<string name="select_from_table_less_non_vp">Select a non-Victory card from the table that costs less than (%1$s) to %2$s</string>
 	<string name="select_from_table_less_spirit">Select a Spirit card from the table that costs less than (%1$s) to %2$s</string>
-	
+	<string name="select_from_table_less_of_types">Select a %1$s card from the table that costs less than (%2$s) to %3$s</string>
+		
 	<string name="select_one_card_from_hand">Pick a card from your hand to %1$s</string>
 	<string name="select_one_of_types_card_from_hand">Pick a %1$s card from your hand to %2$s</string>
 	<string name="select_up_to_x_cards_from_hand">Pick up to %1$s cards from your hand to %2$s</string>

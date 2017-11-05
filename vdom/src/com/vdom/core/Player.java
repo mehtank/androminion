@@ -2338,6 +2338,7 @@ public abstract class Player {
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);
     public abstract Card haunting_cardToPutBackOnDeck(MoveContext context);
     public abstract Card imp_cardToPlay(MoveContext context);
+    public abstract Card locusts_cardToObtain(MoveContext context, int cost, int debt, boolean potion, Type[] types);
     public abstract Card lostInTheWoods_cardToDiscard(MoveContext context);
     public abstract boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible);
     public abstract Card pooka_treasureToTrash(MoveContext context);
