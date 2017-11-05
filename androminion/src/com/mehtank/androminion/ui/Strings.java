@@ -57,7 +57,6 @@ import com.vdom.core.Player.CourtierOption;
 import com.vdom.core.Player.LurkerOption;
 import com.vdom.core.Player.FoolsGoldOption;
 import com.vdom.core.Type;
-import com.vdom.core.Util;
 
 public class Strings {
 
@@ -862,6 +861,8 @@ public class Strings {
             return format(R.string.annex_query, extras[0]);
         } else if (cardName.equals(getCardName(Cards.fool))) {
             return format(R.string.fool_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.raider))) {
+            return format(R.string.raider_query, cardName);
         }
         return cardName;
     }
@@ -1691,7 +1692,6 @@ public class Strings {
             getCardName(Cards.hauntedMirror),
             getCardName(Cards.haunting),
             getCardName(Cards.imp),
-            getCardName(Cards.lostInTheWoods),
             getCardName(Cards.pooka),
             getCardName(Cards.poverty),
             getCardName(Cards.theEarthsGift),
@@ -1874,7 +1874,10 @@ public class Strings {
             }
         } else if (cardName.equals(getCardName(Cards.opulentCastle))) {
             return getString(R.string.opulent_castle_ask_discard);
+        } else if (cardName.equals(getCardName(Cards.lostInTheWoods))) {
+            return getString(R.string.lostInTheWoods_part_discard_for_boon);
         }
+        
         throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
     }
 

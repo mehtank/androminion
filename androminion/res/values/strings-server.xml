@@ -528,6 +528,8 @@
   <string name="mountainPass_high_bid_query">Bid of Debt to take for 8 VP tokens (High bid: %1$s) [Mountain Pass]</string>
   
   <string name="fool_query">Select Boon to receive next [%1$s]</string>
+  <string name="lostInTheWoods_part_discard_for_boon">discard to receive a Boon</string>
+  <string name="raider_query">Select card to discard [%1$s]</string>
   
   <string name="place_stash_query">Place Stash in deck</string>
   <string name="place_stashes_query">Place %1$s Stash cards in deck</string>

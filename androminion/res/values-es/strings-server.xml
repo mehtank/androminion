@@ -522,6 +522,8 @@
   <string name="mountainPass_high_bid_query">Oferta de Deuda para tomar para 8 fichas de Victoria (Oferta más alta: %1$s) [Puerto de Montaña]</string>
   
   <string name="fool_query">Elige el próximo Favor para recibir [%1$s]</string>
+  <string name="lostInTheWoods_part_discard_for_boon">descartar para recibit un Favor</string>
+  <string name="raider_query">Elige una carta para descartar [%1$s]</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>
   <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>

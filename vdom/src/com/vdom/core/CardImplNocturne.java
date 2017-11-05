@@ -94,6 +94,9 @@ public class CardImplNocturne extends CardImpl {
 		case Shepherd:
 			shepherd(game, context, currentPlayer);
 			break;
+		case Raider:
+			raider(game, context, currentPlayer);
+			break;
 		case Skulk:
 			skulk(game, context, currentPlayer);
 			break;
@@ -591,6 +594,51 @@ public class CardImplNocturne extends CardImpl {
             }
         }
     }
+	
+	private void raider(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+        
+    	for (Player player : attackedPlayers) {
+    		if (player.hand.size() <= 4) {
+    			continue;
+    		}
+    		MoveContext playerContext = new MoveContext(game, player);
+            playerContext.attackedPlayer = player;
+            player.attacked(this.getControlCard(), context);
+            
+            ArrayList<Card> discardCards = new ArrayList<Card>();
+            for (Card card : player.hand) {
+            	if (currentPlayer.hasCopyInPlay(card)) {
+            		discardCards.add(card);
+            	}
+            }
+            if (discardCards.size() == 0) {
+            	if (context.countCardsInPlay() == 0)
+            		return;
+            	for (Card card : player.hand){
+            		player.reveal(card, getControlCard(), playerContext);
+            	}
+            	return;
+            }
+            if (discardCards.size() == 1) {
+            	int idx = player.hand.indexOf(discardCards.get(0));
+        		player.discard(player.hand.remove(idx), this.getControlCard(), context);
+            	return;
+            }
+            Card toDiscard = player.controlPlayer.raider_cardToDiscard(playerContext, discardCards.toArray(new Card[0]));
+            if (toDiscard == null || !discardCards.contains(toDiscard)) {
+            	Util.playerError(player, "Raider discard error, invalid card, chosing first");
+            	toDiscard = discardCards.get(0);
+            }
+            int idx = player.hand.indexOf(toDiscard);
+    		player.discard(player.hand.remove(idx), this.getControlCard(), context);
+    	}
+	}
 	
 	private void skulk(Game game, MoveContext context, Player currentPlayer) {
 		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
