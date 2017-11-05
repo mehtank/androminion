@@ -98,13 +98,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     		differentCards = cards.toArray(differentCards);
     	}
     	
+    	boolean noMax = sco.count == Integer.MAX_VALUE;
         if (localHand.size() == 0) {
             return null;
         } else if (localHand.size() == 1 && sco.minCount == 1) {
         	return new Card[]{localHand.get(0)};
         } else if (sco.isDifferent() && totalKindsOfCards <= sco.minCount) {
         	return differentCards;
-        } else if (sco.count == Integer.MAX_VALUE) {
+        } else if (noMax) {
             sco.setCount(localHand.size());
         } else if (sco.count < 0) {
             sco.setCount(localHand.size() + sco.count).exactCount();
@@ -123,6 +124,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         if (sco.allowedCards.size() == 0)
             return null;
+        
+        if (noMax && sco.count > sco.allowedCards.size()) {
+        	sco.setCount(sco.allowedCards.size());
+        }
+        
         /*Select no Card by default if TRASH and not forced*/
         else if (      sco.allowedCards.size() == 1
                     && (sco.actionType != ActionType.TRASH || !sco.passable)
@@ -3852,6 +3858,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card[] crypt_cardsToSetAside(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions()
+                .setPassable().isTreasure()
+                .setCardResponsible(Cards.crypt).setActionType(ActionType.SETASIDE);
+        return getFromPlayed(context, sco);
+    }
+    
+    @Override
+    public Card crypt_cardIntoHand(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.crypt, cards)];
+    }
+    
+    @Override
     public Card devilsWorkshop_cardToObtain(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.devilsWorkshop).setActionType(ActionType.GAIN);
@@ -3958,6 +3977,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
                 .setPickType(PickType.KEEP).setActionType(ActionType.KEEP).setCardResponsible(Cards.poverty);
         return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card raider_cardToDiscard(MoveContext context, Card[] cards) {
+        return cards[selectOption(context, Cards.raider, cards)];
     }
     
     @Override

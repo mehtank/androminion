@@ -1066,6 +1066,7 @@ public class Game {
          * Haven - Card set aside by haven
          * Gear - List of Cards set aside by gear
          * Archive - List of Cards set aside by archive
+         * Crypt - List of Cards set aside by crypt
          * Prince - Card set aside by prince
          * other Durations like Wharf - (Curse)
          */
@@ -1073,6 +1074,7 @@ public class Game {
         ArrayList<Object> durationEffects = new ArrayList<Object>();
         ArrayList<Boolean> durationEffectsAreCards = new ArrayList<Boolean>();
         int archiveNum = 0;
+        int cryptNum = 0;
         for (Card card : player.nextTurnCards) {
             Card thisCard = card.behaveAsCard();
             if (thisCard.is(Type.Duration, player)) {
@@ -1111,6 +1113,14 @@ public class Game {
                     	if(player.archive.size() > 0) {
                     		durationEffects.add(thisCard);
                     		durationEffects.add(player.archive.get(archiveNum++));
+                    		durationEffectsAreCards.add(clone == cloneCount 
+                    				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
+                    		durationEffectsAreCards.add(false);
+                    	}
+                    } else if (thisCard.equals(Cards.crypt)) {
+                    	if(player.crypt.size() > 0) {
+                    		durationEffects.add(thisCard);
+                    		durationEffects.add(player.crypt.get(cryptNum++));
                     		durationEffectsAreCards.add(clone == cloneCount 
                     				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
                     		durationEffectsAreCards.add(false);
@@ -1163,6 +1173,12 @@ public class Game {
         while (archiveNum < player.archive.size()) {
             durationEffects.add(Cards.archive);
             durationEffects.add(player.archive.get(archiveNum++));
+            durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+        }
+        while (cryptNum < player.crypt.size()) {
+            durationEffects.add(Cards.crypt);
+            durationEffects.add(player.crypt.get(cryptNum++));
             durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
@@ -1289,6 +1305,9 @@ public class Game {
                 if (card.behaveAsCard().equals(Cards.archive)) {
                 	CardImplEmpires.archiveSelect(this, context, player, setAsideCards);
                 }
+                if (card.behaveAsCard().equals(Cards.crypt)) {
+                	CardImplNocturne.cryptSelect(this, context, player, setAsideCards);
+                }
                 
                 Card thisCard = card.behaveAsCard();
                 
@@ -1339,6 +1358,7 @@ public class Game {
         
         ArrayList<Card> staysInPlayCards = new ArrayList<Card>();
         archiveNum = 0;
+        cryptNum = 0;
         while (!player.nextTurnCards.isEmpty()) {
             Card card = player.nextTurnCards.remove(0);
         	if(isModifierCard(card.behaveAsCard())) {
@@ -1353,7 +1373,9 @@ public class Game {
                   			nextCard = null;
                   	}
                     if(nextCard != null && (nextCard.behaveAsCard().equals(Cards.hireling) || nextCard.behaveAsCard().equals(Cards.champion) ||
-                    		(nextCard.behaveAsCard().equals(Cards.archive) && player.archive.get(archiveNum++).size() > 0))) {
+                    		(nextCard.behaveAsCard().equals(Cards.archive) && player.archive.get(archiveNum++).size() > 0) ||
+                    		(nextCard.behaveAsCard().equals(Cards.crypt) && player.crypt.get(cryptNum++).size() > 0)
+                    		)) {
                     	staysInPlayCards.add(card);
                     	for (int i = 0; i < additionalModifierCards; ++i) {
                     		staysInPlayCards.add(player.nextTurnCards.remove(0));
@@ -1366,7 +1388,9 @@ public class Game {
             }
         	
         	if(card.behaveAsCard().equals(Cards.hireling) || card.behaveAsCard().equals(Cards.champion) || 
-        			(card.behaveAsCard().equals(Cards.archive) && player.archive.get(archiveNum++).size() > 0)) {
+        			(card.behaveAsCard().equals(Cards.archive) && player.archive.get(archiveNum++).size() > 0) ||
+        			(card.behaveAsCard().equals(Cards.crypt) && player.crypt.get(cryptNum++).size() > 0)
+        			) {
         		staysInPlayCards.add(card);
             } else {
 	            CardImpl behaveAsCard = (CardImpl) card.behaveAsCard();
@@ -1385,6 +1409,12 @@ public class Game {
         }
         //Clean up empty Archive lists
         Iterator<ArrayList<Card>> it = player.archive.iterator();
+        while (it.hasNext()) {
+        	if (it.next().isEmpty()) 
+        		it.remove();
+        }
+      //Clean up empty Crypt lists
+        it = player.crypt.iterator();
         while (it.hasNext()) {
         	if (it.next().isEmpty()) 
         		it.remove();

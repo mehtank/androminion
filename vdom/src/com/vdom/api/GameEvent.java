@@ -45,6 +45,7 @@ public class GameEvent {
         CardSetAsideSave, // A card was set aside (save)
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
         CardSetAsideArchive, // A card was set aside (archive)
+        CardSetAsideCrypt, // A card was set aside (crypt)
         CardSetAsideFaithfulHound, // A card was set aside (faithful hound)
         CallingCard, // A card is about to be called from the tavern mat
         CalledCard, // A card was called from the tavern mat

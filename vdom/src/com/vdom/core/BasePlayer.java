@@ -4478,6 +4478,32 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card[] crypt_cardsToSetAside(MoveContext context) {
+    	Player player = context.player;
+    	ArrayList<Card> toCrypt = new ArrayList<Card>();
+    	ArrayList<Card> inPlay = new ArrayList<Card>();
+        for(Card c : player.playedCards) if (c.is(Type.Treasure)) inPlay.add(c);
+        for(Card c : player.nextTurnCards) if (c.is(Type.Treasure)) inPlay.add(c);
+        
+        toCrypt.add(highestCard(context, inPlay));
+        //TODO: may want to add multiple high cost cards if we're not going to shuffle for a while
+        
+        for (Card c : inPlay) {
+        	if (c.getAddGold() == 1 && c.getCost(context) < 4 && !c.equals(Cards.coinOfTheRealm)) {
+        		toCrypt.add(c);
+        	}
+        }
+        return toCrypt.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card crypt_cardIntoHand(MoveContext context, Card[] cards) {
+    	ArrayList<Card> cardList = new ArrayList<Card>();
+    	for(Card c : cards) cardList.add(c);
+    	return highestCard(context, cardList);
+    }
+    
+    @Override
     public Card devilsWorkshop_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 4, true);
     }
@@ -4611,6 +4637,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card raider_cardToDiscard(MoveContext context, Card[] cards) {
+    	ArrayList<Card> cardList = new ArrayList<Card>();
+    	for(Card c : cards) {
+    		cardList.add(c);
+    	}
+    	Card[] lowCards = lowestCards(context, cardList, 1, true);
+    	return (lowCards.length > 0) ? lowCards[0] : null;
+    }
+    
+    @Override
     public Card theEarthsGift_treasureToDiscard(MoveContext context) {
     	//TODO: if total expected treasure this turn is going to be exactly 5,6, or >8, don't discard
     	return plaza_treasureToDiscard(context);
@@ -4706,8 +4742,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public boolean zombieSpy_shouldDiscard(MoveContext context, Card card) {
-    	boolean ret;
-        if (   isOnlyVictory(card, context.player)
+        if (isOnlyVictory(card, context.player)
             || card.equals(Cards.copper)
             || card.equals(Cards.curse)
             || card.is(Type.Shelter, context.player)

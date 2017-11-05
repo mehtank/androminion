@@ -25,6 +25,9 @@ public class CardImplNocturne extends CardImpl {
 		case Bat:
 			bat(game, context, currentPlayer);
 			break;
+		case Crypt:
+            crypt(game, context, currentPlayer);
+            break;
 		case CursedGold:
             cursedGold(game, context, currentPlayer);
             break;
@@ -245,8 +248,70 @@ public class CardImplNocturne extends CardImpl {
         context.game.broadcastEvent(event);
     }
 	
+	private void crypt(Game game, MoveContext context, Player player) {
+        int numTreasures = context.countTreasureCardsInPlay();
+        Card[] treasuresToCrypt = numTreasures > 0 ? player.controlPlayer.crypt_cardsToSetAside(context) : new Card[0];
+        if (treasuresToCrypt == null) treasuresToCrypt = new Card[0];
+        ArrayList<Card> inPlay = new ArrayList<Card>();
+        for(Card c : player.playedCards) if (c.is(Type.Treasure)) inPlay.add(c);
+        for(Card c : player.nextTurnCards) if (c.is(Type.Treasure)) inPlay.add(c);
+        if (!Util.areCardsInList(treasuresToCrypt, inPlay)) {
+        	Util.playerError(player, "Crypt set aside error, ignoring");
+        	return;
+        }
+        ArrayList<Card> cryptCards = new ArrayList<Card>();
+        boolean setAsideCards = false;
+        for (Card c : treasuresToCrypt) {
+        	//TODO?: currently we check next turn cards first (since you'll usually want to remove crowns attached to durations first)
+        	//       can we allow picking that explicitly?
+        	if (player.nextTurnCards.contains(c)) {
+        		int idx = player.nextTurnCards.indexOf(c);
+        		cryptCards.add(player.nextTurnCards.remove(idx));
+        	} else {
+        		int idx = player.playedCards.indexOf(c);
+        		cryptCards.add(player.playedCards.remove(idx));
+        	}
+        	if (!setAsideCards) {
+            	player.crypt.add(cryptCards);
+            	setAsideCards = true;
+            }
+            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideCrypt, context);
+	        event.card = c;
+	        context.game.broadcastEvent(event);
+        }
+        
+        if (cryptCards.size() == 0) {
+        	for (int i = 0; i < player.nextTurnCards.size(); ++i) {
+        		if (player.nextTurnCards.get(i) == this.getControlCard()) {
+        			player.nextTurnCards.remove(i);
+        			break;
+        		}
+        	}
+            player.playedCards.add(this.getControlCard());
+        	return;
+        }
+    }
+	
+	public static void cryptSelect(Game game, MoveContext context, Player currentPlayer, ArrayList<Card> cards) {
+		if (cards.size() == 0) {
+        	return;
+        }
+        
+        Card toHand = cards.get(0);
+        if (cards.size() > 1) {
+        	toHand = currentPlayer.controlPlayer.crypt_cardIntoHand(context, cards.toArray(new Card[0]));
+        	if (!cards.contains(toHand)) {
+        		Util.playerError(currentPlayer, "Crypt - invalid card selected.");
+        		toHand = cards.get(0);
+        	}
+        }
+        
+        cards.remove(toHand);
+        currentPlayer.hand.add(toHand);
+	}
+	
 	private void cursedGold(Game game, MoveContext context, Player player) {
-        context.getPlayer().gainNewCard(Cards.curse, this.getControlCard(), context);
+        player.gainNewCard(Cards.curse, this.getControlCard(), context);
     }
 	
 	private void cursedVillage(Game game, MoveContext context, Player player) {

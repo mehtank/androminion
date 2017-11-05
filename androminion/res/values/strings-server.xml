@@ -117,6 +117,7 @@
 	
 	<string name="select_one_card_from_played">Pick a card you have in play to %1$s</string>
 	<string name="select_up_to_x_cards_from_played">Pick up to %1$s cards you have in play to %2$s</string>
+	<string name="select_up_to_x_treasure_cards_from_played">Pick up to %1$s Treasure cards you have in play to %2$s</string>
 	<string name="select_exactly_x_cards_from_played">Pick exactly %1$s cards you have in play to %2$s</string>
 	<string name="select_up_to_x_different_cards_from_played">Pick up to %1$s differently named cards you have in play to %2$s</string>
 	
@@ -196,6 +197,7 @@
 	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>
 	<string name="CardSetAsideInheritance">Card set aside (Inheritance)</string>
 	<string name="CardSetAsideArchive">Card set aside (Archive)</string>
+	<string name="CardSetAsideCrypt">Card set aside (Crypt)</string>
 	<string name="CardSetAsideFaithfulHound">Card set aside (Faithful Hound)</string>
 	<string name="DeckPutIntoDiscardPile">Deck put into discard pile</string>
 	<string name="TravellerExchanged">%1$s exchanged for</string>
@@ -527,6 +529,7 @@
   <string name="mountainPass_query">Bid of Debt to take for 8 VP tokens [Mountain Pass]</string>
   <string name="mountainPass_high_bid_query">Bid of Debt to take for 8 VP tokens (High bid: %1$s) [Mountain Pass]</string>
   
+  <string name="crypt_query">Select card to put in hand [%1$s]</string>
   <string name="fool_query">Select Boon to receive next [%1$s]</string>
   <string name="lostInTheWoods_part_discard_for_boon">discard to receive a Boon</string>
   <string name="raider_query">Select card to discard [%1$s]</string>

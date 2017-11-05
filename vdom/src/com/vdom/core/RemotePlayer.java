@@ -500,7 +500,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
                 .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)
                 .setInheritance(player.inheritance == null ? -1 : cardToInt(player.inheritance))
-                .setArchive(getArchiveColumnCardInts(player.archive))
+                .setArchive(getSetAsideColumnCardInts(player.archive, Cards.archive))
+                .setCrypt(getSetAsideColumnCardInts(player.crypt, Cards.crypt))
                 .setBlackMarket(arrayListToIntArr(player.game.GetBlackMarketPile()))
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
@@ -577,11 +578,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	}
 	}
 	
-    private int[] getArchiveColumnCardInts(ArrayList<ArrayList<Card>> archives) {
+    private int[] getSetAsideColumnCardInts(ArrayList<ArrayList<Card>> setAsideLists, Card containerCard) {
     	ArrayList<Integer> cardInts = new ArrayList<Integer>(); 
-		for(ArrayList<Card> archive : archives) {
-			cardInts.add(-cardToInt(Cards.archive));
-			for(Card c : archive) {
+		for(ArrayList<Card> setAsideList : setAsideLists) {
+			cardInts.add(-cardToInt(containerCard));
+			for(Card c : setAsideList) {
 				cardInts.add(cardToInt(c));
 			}
 		}

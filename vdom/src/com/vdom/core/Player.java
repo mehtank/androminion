@@ -65,6 +65,7 @@ public abstract class Player {
     protected Card inheritance;
     protected Card save;
     protected CardList encampment;
+    protected ArrayList<ArrayList<Card>> crypt;
     protected CardList boonsForCleanup;
     protected CardList states;
     protected int theRiversGiftDraw;
@@ -321,6 +322,7 @@ public abstract class Player {
         horseTraders = new CardList(this, "Horse Traders");
         inheritance = null;
         encampment = new CardList(this, "Encampment");
+        crypt = new ArrayList<ArrayList<Card>>();
         faithfulHound = new CardList(this, "Faithful Hound");
         boonsForCleanup = new CardList(this, "Boons");
         nextTurnBoons = new CardList(this, "Boons");
@@ -786,6 +788,9 @@ public abstract class Player {
         	allCards.add(inheritance);
         for (Card card : encampment) {
             allCards.add(card);
+        }
+        for (ArrayList<Card> curCrypt : crypt) {
+        	allCards.addAll(curCrypt);
         }
         for (Card card : faithfulHound) {
             allCards.add(card);
@@ -2320,6 +2325,8 @@ public abstract class Player {
     public abstract Card[] bat_cardsToTrash(MoveContext context);
     public abstract boolean blessedVillage_shouldReceiveNow(MoveContext context, Card boon);
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
+    public abstract Card[] crypt_cardsToSetAside(MoveContext context);
+    public abstract Card crypt_cardIntoHand(MoveContext context, Card[] cards);
     public abstract Card devilsWorkshop_cardToObtain(MoveContext context);
     public abstract Card druid_pickBoon(MoveContext context);
     public abstract Card exorcist_cardToTrash(MoveContext context);
@@ -2334,6 +2341,7 @@ public abstract class Player {
     public abstract boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible);
     public abstract Card pooka_treasureToTrash(MoveContext context);
     public abstract Card[] poverty_attack_cardsToKeep(MoveContext context);
+    public abstract Card raider_cardToDiscard(MoveContext context, Card[] cards);
     public abstract Card theEarthsGift_treasureToDiscard(MoveContext context);
     public abstract Card theEarthsGift_cardToObtain(MoveContext context);
     public abstract Card theFlamesGift_cardToTrash(MoveContext context);

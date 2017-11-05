@@ -109,6 +109,7 @@
 	
 	<string name="select_one_card_from_played">Elige una carta que tengas en juego para %1$s</string>
 	<string name="select_up_to_x_cards_from_played">Elige hasta %1$s cartas que tengas en juego para %2$s</string>
+	<string name="select_up_to_x_treasure_cards_from_played">Elige hasta %1$s cartas de Tesoro que tengas en juego para %2$s</string>
 	<string name="select_exactly_x_cards_from_played">Elige %1$s cartas que tengas en juego para %2$s</string>
 	<string name="select_up_to_x_different_cards_from_played">Elige hasta %1$s cartas con nombres distintos que tengas en juego para %2$s</string>
 		
@@ -188,6 +189,7 @@
 	<string name="CardSetAsideOnIslandMat">Carta apartada sobre el tablero de Isla</string>
 	<string name="CardSetAsideInheritance">Carta apartada (Herencia)</string>
 	<string name="CardSetAsideArchive">Carta apartada (Archivo)</string>
+	<string name="CardSetAsideCrypt">Carta apartada (Cripta)</string>
 	<string name="CardSetAsideFaithfulHound">Carta apartada (Sabueso Fiel)</string>
 	<string name="DeckPutIntoDiscardPile">Mazo puesto en la pila de descartes</string>
 	<string name="TravellerExchanged">%1$s intercambaida para</string>
@@ -521,6 +523,8 @@
   <string name="mountainPass_query">Oferta de Deuda para tomar para 8 fichas de Victoria [Puerto de Montaña]</string>
   <string name="mountainPass_high_bid_query">Oferta de Deuda para tomar para 8 fichas de Victoria (Oferta más alta: %1$s) [Puerto de Montaña]</string>
   
+  
+  <string name="crypt_query">Elige una carta para poner en tu mano [%1$s]</string>
   <string name="fool_query">Elige el próximo Favor para recibir [%1$s]</string>
   <string name="lostInTheWoods_part_discard_for_boon">descartar para recibit un Favor</string>
   <string name="raider_query">Elige una carta para descartar [%1$s]</string>

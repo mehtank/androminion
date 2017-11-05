@@ -332,6 +332,8 @@ public class Strings {
             statusText += getString(R.string.CardSetAsideOnTavernMat);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAsideArchive) {
             statusText += getString(R.string.CardSetAsideArchive);
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideCrypt) {
+            statusText += getString(R.string.CardSetAsideCrypt);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAsideFaithfulHound) {
             statusText += getString(R.string.CardSetAsideFaithfulHound);
         } else if (event.gameEventType == GameEvent.EventType.CallingCard) {
@@ -602,7 +604,7 @@ public class Strings {
                     	}
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
                                 + " (" + "\u261e" + cardsString + ")";
-                    } else if ( ((Card)options[i]).equals(Cards.archive) ) {
+                    } else if ( ((Card)options[i]).equals(Cards.archive) || ((Card)options[i]).equals(Cards.crypt) ) {
                     	@SuppressWarnings("unchecked")
 						ArrayList<Card> archiveCards = (ArrayList<Card>) options[i+1];
                     	String cardsString = getCardName(archiveCards.get(0));
@@ -859,6 +861,8 @@ public class Strings {
             return getString(R.string.archive_query);
         } else if (cardName.equals(getCardName(Cards.annex))) {
             return format(R.string.annex_query, extras[0]);
+        } else if (cardName.equals(getCardName(Cards.crypt))) {
+            return format(R.string.crypt_query, cardName);
         } else if (cardName.equals(getCardName(Cards.fool))) {
             return format(R.string.fool_query, cardName);
         } else if (cardName.equals(getCardName(Cards.raider))) {
@@ -1524,8 +1528,12 @@ public class Strings {
             else {
             	if (sco.different)
             		str = Strings.format(R.string.select_up_to_x_different_cards_from_played, "" + sco.count, header);
-            	else
-            		str = Strings.format(R.string.select_up_to_x_cards_from_played, "" + sco.count, header);
+            	else {
+            		if (sco.isTreasure)
+            			str = Strings.format(R.string.select_up_to_x_treasure_cards_from_played, "" + sco.count, header);
+            		else
+            			str = Strings.format(R.string.select_up_to_x_cards_from_played, "" + sco.count, header);
+            	}
             }
             return str;
         }
@@ -1686,6 +1694,7 @@ public class Strings {
             /*Nocturne*/
             getCardName(Cards.bat),
             getCardName(Cards.cemetery),
+            getCardName(Cards.crypt),
             getCardName(Cards.devilsWorkshop),
             getCardName(Cards.exorcist),
             getCardName(Cards.goat),

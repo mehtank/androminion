@@ -45,6 +45,7 @@ public class GameStatus implements Serializable {
     public int[] myVillage;
     public int myInheritance = -1;
     public int[] myArchive;
+    public int[] myCrypt;
     public int[] trashPile;
     public int[] blackMarketPile;
     public int[] blackMarketPileShuffled;
@@ -97,6 +98,7 @@ public class GameStatus implements Serializable {
     public GameStatus setVillage(int[] is) {myVillage = is; return this;};
     public GameStatus setInheritance(int is) {myInheritance = is; return this;};
     public GameStatus setArchive(int[] is) {myArchive = is; return this;};
+    public GameStatus setCrypt(int[] is) {myCrypt = is; return this;};
     public GameStatus setTurnStatus(int[] is) {turnStatus = is; return this;};
     public GameStatus setSupplySizes(int[] is) {supplySizes = is; return this;};
     public GameStatus setEmbargos(int[] is) {embargos = is; return this;};
