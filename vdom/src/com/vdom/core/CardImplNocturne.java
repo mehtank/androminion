@@ -52,6 +52,9 @@ public class CardImplNocturne extends CardImpl {
 		case Famine:
 			famine(game, context, currentPlayer);
 			break;
+		case Fear:
+			fear(game, context, currentPlayer);
+			break;
 		case Fool:
 			fool(game, context, currentPlayer);
 			break;
@@ -434,6 +437,32 @@ public class CardImplNocturne extends CardImpl {
         	player.deck.add(c);
         }
         player.shuffleDeck(context, this.getControlCard());
+    }
+	
+	private void fear(Game game, MoveContext context, Player player) {
+		if (player.hand.size() < 5) return;
+		ArrayList<Card> validCards = new ArrayList<Card>();
+		for (Card card : player.hand) {
+			if (card.is(Type.Action, player) || card.is(Type.Treasure, player)) {
+				validCards.add(card);
+			}
+		}
+		if (validCards.size() == 0) {
+			for (Card card : player.hand) {
+				player.reveal(card, getControlCard(), context);
+			}
+			return;
+		}
+		Card toDiscard = validCards.get(0);
+		if (validCards.size() > 1) {
+			toDiscard = player.controlPlayer.fear_cardToDiscard(context);
+			if (toDiscard == null || !validCards.contains(toDiscard)) {
+				Util.playerError(player, "Fear error, invalid card, selecting first");
+				toDiscard = validCards.get(0);
+			}
+		}
+		int idx = player.hand.indexOf(toDiscard);
+		player.discard(player.hand.remove(idx), this.getControlCard(), context);        
     }
 	
 	private void fool(Game game, MoveContext context, Player player) {

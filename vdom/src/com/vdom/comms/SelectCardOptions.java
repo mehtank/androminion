@@ -74,6 +74,7 @@ public class SelectCardOptions implements Serializable {
     public boolean lessThanMax = false;
     public boolean fromPrizes = false;
     public Card except = null;
+    public Type[] atLeastOneOfTypes = null;
 
     public boolean isAction = false;
     public boolean isReaction = false;
@@ -137,6 +138,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions maxDebtCost(int c) {maxDebtCost = c; return this;}
     public SelectCardOptions copperCountInPlay(int c) {copperCountInPlay = c; return this; }
     public SelectCardOptions not(Card c) {except = c; return this; }
+    public SelectCardOptions atLeastOneOfTypes(Type[] types) {atLeastOneOfTypes = types; return this; }
     public SelectCardOptions allowNonSupply() {allowNonSupply = true; return this;}
     public SelectCardOptions notInPlay() {notInPlay = true; return this;}
     
@@ -207,6 +209,7 @@ public class SelectCardOptions implements Serializable {
     	int potionCost = c.costPotion() ? 1 : 0;
 
     	if (except != null && except.equals(c)) return false;
+    	if (atLeastOneOfTypes != null && !hasType(atLeastOneOfTypes, c, p)) return false;
         if ((maxCost >= 0) && (cost > maxCost)) return false;
         if ((minCost >= 0) && (cost < minCost)) return false;
         if ((maxDebtCost >= 0) && (debtCost > maxDebtCost)) return false;
@@ -246,6 +249,14 @@ public class SelectCardOptions implements Serializable {
 	}
     public boolean isPassable() {
         return passable;
+    }
+    
+    private boolean hasType(Type[] types, Card c, Player p) {
+    	for (Type t : types) {
+    		if (c.is(t, p))
+    			return true;
+    	}
+    	return false;
     }
 
     public String potionString() {

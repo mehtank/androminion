@@ -3305,18 +3305,18 @@ public class Game {
         	}
         }
         if (doom) {
-        	hexDrawPile.add(Cards.badOmens.instantiate());
-        	hexDrawPile.add(Cards.delusion.instantiate());
-        	hexDrawPile.add(Cards.envy.instantiate());
-        	hexDrawPile.add(Cards.famine.instantiate());
+//        	hexDrawPile.add(Cards.badOmens.instantiate());
+//        	hexDrawPile.add(Cards.delusion.instantiate());
+//        	hexDrawPile.add(Cards.envy.instantiate());
+//        	hexDrawPile.add(Cards.famine.instantiate());
         	hexDrawPile.add(Cards.fear.instantiate());
-        	hexDrawPile.add(Cards.greed.instantiate());
-        	hexDrawPile.add(Cards.haunting.instantiate());
-        	hexDrawPile.add(Cards.locusts.instantiate());
-        	hexDrawPile.add(Cards.misery.instantiate());
-        	hexDrawPile.add(Cards.plague.instantiate());
-        	hexDrawPile.add(Cards.poverty.instantiate());
-        	hexDrawPile.add(Cards.war.instantiate());
+//        	hexDrawPile.add(Cards.greed.instantiate());
+//        	hexDrawPile.add(Cards.haunting.instantiate());
+//        	hexDrawPile.add(Cards.locusts.instantiate());
+//        	hexDrawPile.add(Cards.misery.instantiate());
+//        	hexDrawPile.add(Cards.plague.instantiate());
+//        	hexDrawPile.add(Cards.poverty.instantiate());
+//        	hexDrawPile.add(Cards.war.instantiate());
         	Collections.shuffle(hexDrawPile);
         }
 

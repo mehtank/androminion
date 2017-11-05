@@ -327,6 +327,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                     return ret.toArray(new Card[ret.size()]);
                 }
             }
+            while (cardArray.contains(Cards.faithfulHound)) {
+                ret.add(Cards.faithfulHound);
+                cardArray.remove(Cards.faithfulHound);
+                if (ret.size() == num) {
+                    return ret.toArray(new Card[ret.size()]);
+                }
+            }
             for (int i = cardArray.size() - 1; i >= 0; i--) {
                 Card card = cardArray.get(i);
                 if (isOnlyVictory(card, context.getPlayer())) {
@@ -4548,6 +4555,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public boolean faithfulHound_shouldSetAside(MoveContext context) {
     	return true;
+    }
+    
+    @Override
+    public Card fear_cardToDiscard(MoveContext context) {
+    	ArrayList<Card> validCards = new ArrayList<Card>();
+		for (Card card : context.player.hand) {
+			if (card.is(Type.Action, context.player) || card.is(Type.Treasure, context.player)) {
+				validCards.add(card);
+			}
+		}
+		Card[] cards = lowestCards(context, validCards, 1, true);
+		return (cards != null && cards.length > 0) ? cards[0] : validCards.get(0);
     }
     
     @Override

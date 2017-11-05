@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -66,6 +67,7 @@ public class Strings {
     static HashMap<Card, String> nameCache = new HashMap<Card, String>();
     static HashMap<Card, String> descriptionCache = new HashMap<Card, String>();
     static HashMap<Expansion, String> expansionCache = new HashMap<Expansion, String>();
+    static HashMap<Type, String> typeCache = new HashMap<Type, String>();
     static HashMap<GameType, String> gametypeCache = new HashMap<GameType, String>();
     static HashMap<Card, String> boonShortTextCache = new HashMap<Card, String>();
     private static Map<String, String> actionStringMap;
@@ -77,6 +79,8 @@ public class Strings {
         nameCache = new HashMap<Card, String>();
         descriptionCache = new HashMap<Card, String>();
         expansionCache = new HashMap<Expansion, String>();
+        typeCache = new HashMap<Type, String>();
+        nameCache = new HashMap<Card, String>();
         gametypeCache = new HashMap<GameType, String>();
         boonShortTextCache = new HashMap<Card, String>();
         initActionStrings();
@@ -137,6 +141,26 @@ public class Strings {
         c.name = getCardName(card);
         c.desc = getFullCardDescription(card);
         c.expansion = getCardExpansion(card);
+    }
+    
+    public static String getTypeName(Type t) {
+        String name = typeCache.get(t);
+        if(name == null) {
+            try {
+                Resources r = context.getResources();
+                int id = r.getIdentifier("type_" + t.name().toLowerCase(Locale.US), "string", context.getPackageName());
+                name = r.getString(id);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+            if(name == null) {
+            	name = t.toString();
+            }
+
+            typeCache.put(t, name);
+        }
+        return name;
     }
 
     public static String getGameTypeName(GameType g) {
@@ -1505,9 +1529,12 @@ public class Strings {
                 else
                     str = Strings.format(R.string.select_up_to_x_nontreasures_from_hand, "" + sco.count, header);
             } else {
-                if(sco.count == 1)
-                    str = Strings.format(R.string.select_one_card_from_hand, header);
-                else if(sco.exactCount)
+                if(sco.count == 1) {
+                	if (sco.atLeastOneOfTypes != null)
+                		str = Strings.format(R.string.select_one_of_types_card_from_hand, getTypesString(sco.atLeastOneOfTypes), header);
+                	else
+                		str = Strings.format(R.string.select_one_card_from_hand, header);
+                } else if(sco.exactCount)
                     str = Strings.format(R.string.select_exactly_x_cards_from_hand, "" + sco.count, header);
                 else if (sco.minCount > 0) {
                 	if (sco.different) {
@@ -1538,6 +1565,24 @@ public class Strings {
             return str;
         }
         throw new RuntimeException("SelectCardOptions isn't from table or from hand or from played...");
+    }
+    
+    private static String getTypesString(Type[] types) {
+    	if (types.length == 2) {
+    		return Strings.format(R.string.list_two_types, types[0], types[1]);
+    	}
+    	StringBuilder sb = new StringBuilder();
+    	for (int i = 0; i < types.length; ++i) {
+    		boolean first = i == 0;
+    		boolean last = i == types.length - 1;
+    		sb.append(getTypeName(types[i]));
+    		if (!first && !last) {
+    			sb.append(getString(R.string.list_type_separator));
+    		} else if (last) {
+    			sb.append(getString(R.string.list_penultimate_type_separator));
+    		}
+    	}
+    	return sb.toString();
     }
 
     private static boolean containsOnlyCards(SelectCardOptions sco) {
@@ -1697,6 +1742,7 @@ public class Strings {
             getCardName(Cards.crypt),
             getCardName(Cards.devilsWorkshop),
             getCardName(Cards.exorcist),
+            getCardName(Cards.fear),
             getCardName(Cards.goat),
             getCardName(Cards.hauntedMirror),
             getCardName(Cards.haunting),

@@ -2332,6 +2332,7 @@ public abstract class Player {
     public abstract Card exorcist_cardToTrash(MoveContext context);
     public abstract Card exorcist_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract boolean faithfulHound_shouldSetAside(MoveContext context);
+    public abstract Card fear_cardToDiscard(MoveContext context);
     public abstract Card fool_boonToReceive(MoveContext context, Card[] boons);
     public abstract Card goat_cardToTrash(MoveContext context);
     public abstract Card hauntedMirror_cardToDiscard(MoveContext context);

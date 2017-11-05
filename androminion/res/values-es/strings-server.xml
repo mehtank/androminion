@@ -60,6 +60,10 @@
 	
 	<string name="discardPile">pila de descartes</string>
 	<string name="hand">mano</string>
+	
+	<string name="list_two_types">%1$s o de %2$s</string>
+	<string name="list_type_separator">, de </string>
+	<string name="list_penultimate_type_separator"> o de </string>
 
 	<string name="select_from_table">Elige una carta de la mesa para %1$s</string>
 	<string name="select_from_table_attack">Elige una carta de Ataque de la mesa para %1$s</string>
@@ -84,6 +88,7 @@
 	<string name="select_from_table_less_spirit">Elige una carta de Espíritu de la mesa que cueste menos de (%1$s) para %2$s</string>
 
 	<string name="select_one_card_from_hand">Elige una carta de tu mano para %1$s</string>
+	<string name="select_one_of_types_card_from_hand">Elige una carta de %1$s de tu mano para %2$s</string>
 	<string name="select_up_to_x_cards_from_hand">Elige hasta %1$s cartas de tu mano para %2$s</string>
 	<string name="select_exactly_x_cards_from_hand">Elige %1$s cartas de tu mano para %2$s</string>
 	<string name="select_from_x_to_y_cards_from_hand">Elige de %1$s a %2$s cartas de tu mano para %3$s</string>

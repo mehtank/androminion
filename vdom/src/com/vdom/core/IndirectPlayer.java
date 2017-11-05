@@ -3907,6 +3907,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card fear_cardToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions()
+    			.atLeastOneOfTypes(new Type[]{Type.Treasure, Type.Action})
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.fear);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public Card fool_boonToReceive(MoveContext context, Card[] boons) {
         return boons[selectOption(context, Cards.fool, boons)];
     }
