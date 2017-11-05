@@ -201,12 +201,7 @@ public class CardImplNocturne extends CardImpl {
 	}
 	
 	private void badOmens(Game game, MoveContext context, Player player) {
-		GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
-        game.broadcastEvent(event);
-        while (player.getDeckSize() > 0)
-        {
-        	player.discard(game.draw(context, Cards.badOmens, 0), this.getControlCard(), null, false, false);
-        }
+		player.deckToDiscard(context, getControlCard());
         ArrayList<Card> coppers = new ArrayList<Card>();
         for (Card c : player.getDiscard()) {
         	if (c.equals(Cards.copper)) {
@@ -219,7 +214,7 @@ public class CardImplNocturne extends CardImpl {
         	player.discard.remove(c);
         	player.putOnTopOfDeck(c);
             
-            event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
             event.card = c;
             game.broadcastEvent(event);
         }

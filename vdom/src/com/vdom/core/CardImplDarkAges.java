@@ -1045,12 +1045,7 @@ public class CardImplDarkAges extends CardImpl {
         // Discard the entire deck if the player chose to do so
         if (discard)
         {
-            GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
-            game.broadcastEvent(event);
-            while (currentPlayer.getDeckSize() > 0)
-            {
-                currentPlayer.discard(game.draw(context, Cards.scavenger, 0), this.getControlCard(), null, false, false);
-            }
+        	currentPlayer.deckToDiscard(context, getControlCard());
         }
 
         // Prompt to add a card from the discard pile back onto the deck, but only if at least one is available

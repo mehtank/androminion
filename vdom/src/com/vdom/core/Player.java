@@ -1279,6 +1279,15 @@ public abstract class Player {
             }
         }
     }
+    
+    public void deckToDiscard(MoveContext context, Card responsible) {
+    	Player player = context.player;
+        while (player.getDeckSize() > 0) {
+        	player.discard(game.draw(context, responsible, 0), responsible.getControlCard(), null, false, false);
+        }
+        GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
+        game.broadcastEvent(event);
+    }
 
     public void discard(Card card, Card responsible, MoveContext context) {
         discard(card, responsible, context, true, false);
@@ -1302,7 +1311,7 @@ public abstract class Player {
     	}
     	return exchange;
     }
-    
+   
     // TODO make similar way to put cards back on the deck (remove as well?)
     public void discard(Card card, Card responsible, MoveContext context, boolean commandedDiscard, boolean cleanup) { // See rules explanation of Tunnel for what commandedDiscard means.
         boolean willDiscard = false;

@@ -491,11 +491,7 @@ public class CardImplAdventures extends CardImpl {
     		return;
         boolean discard = currentPlayer.controlPlayer.messenger_shouldDiscardDeck(context);
         if (discard) {
-            GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
-            game.broadcastEvent(event);
-            while (currentPlayer.getDeckSize() > 0) {
-                currentPlayer.discard(game.draw(context, Cards.messenger, 0), this.getControlCard(), null, false, false);
-            }
+        	currentPlayer.deckToDiscard(context, getControlCard());
         }
     }
 
