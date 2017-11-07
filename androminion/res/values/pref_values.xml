@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="pref_base_set_edition_keys" tools:ignore="MissingTranslation">
+        <item>Base</item>
+        <item>Base2E</item>
+        <item>BaseAll</item>
+    </string-array>
+    <string-array name="pref_intrigue_edition_keys" tools:ignore="MissingTranslation">
+        <item>Intrigue</item>
+        <item>Intrigue2E</item>
+        <item>IntrigueAll</item>
+    </string-array>
+    <string-array name="showimages_keys" tools:ignore="MissingTranslation">
+        <item>Desc</item>
+        <item>Image</item>
+        <item>Both</item>
+    </string-array>
+    <string-array name="bm_split_piles_pref_keys" tools:ignore="MissingTranslation">
+        <item>None</item>
+        <item>One</item>
+        <item>Any</item>
+        <item>All</item>
+    </string-array>
+</resources>

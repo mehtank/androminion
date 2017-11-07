@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="help_supply1">Bienvenue sur Androminion, un portage sur Android du jeu de carte stratégique Dominion par Donald X. Vaccarino et édité par Rio Grande Games et Ystari Plus en France.</string>
+	<string name="help_supply1">Bienvenue sur Androminion, un portage sur Android du jeu de cartes stratégique Dominion par Donald X. Vaccarino et édité par Rio Grande Games et Ystari Plus en France.</string>
 	<string name="help_supply2">Si vous ne savez pas comment jouer à Dominion, il est fortement recommandé de lire les règles officielles ou la page Wikipedia en premier.  Des liens (en anglais) peuvent être trouvés sur \n\t http://android.mehtank.com.</string>
 	<string name="help_supply3">C\'est la réserve de cartes.  Ici, vous pouvez voir toutes les cartes disponibles à l\'achat dans cette partie.
-		\n\nPour obtenir plus d\'informations sur une carte, appuyez longuement sur une carte pour afficher une fenêtre contenant le détail de la carte.</string>
-	<string name="help_supply4">Chaque carte affiche son prix dans un cercle jaune (ou bleu si le prix prix contient une Potion) sur le coté gauche et le nombre d\'exemplaires restant sous le nom de la carte.
-		\n\nSi l\'Embargo est en jeu, le nombre de jetons embargo sur une pile de la réserve sera afficher dans un cercle noir sur le coté droit de la carte.</string>
+		\n\nPour obtenir plus d\'informations sur une carte, appuyez longuement sur cette carte pour afficher une fenêtre contenant le détail de la carte.\n
+                Chaque carte affiche son prix dans un cercle jaune (ou bleu si le prix contient une Potion) sur le coté gauche et le nombre d\'exemplaires restant sous le nom de la carte. Si le prix est suivi d\'un signe +, alors cette carte a des effets particuliers à l\'achat avec surcoût (voir sa description détaillée).</string>
+	<string name="help_supply4">Si l\'Embargo est en jeu, le nombre de jetons Embargo sur une pile de la réserve sera affiché dans un cercle noir sur le coté droit de la carte.
+        \nCertaines cartes de l\'extension Aventures ajoutent un jeton sur des piles de cartes:\n+X est le jeton de Mise au rebut,\n+A est le jeton +1 Action,\n +H est le jeton +1 Achat,\n +1 dans un carré est le jeton +1 Carte,\n +1 dans un rond est le jeton +1 Pièce,\n, -2 dans un rond est le jeton Coût -2.\n
+        Un jeton posé porte la couleur du joueur à qui il appartient. Cette couleur apparait en surbrillance sur le nom du joueur quand il active un jeton.</string>
+	<string name="help_turn1">C\'est la vue du tour. Vous pouvez voir ici des statistiques concernant chaque joueur pour le tour en cours.</string>
+	<string name="help_turn2">Le joueur à qui c\'est le tour de jouer est en gras, et les joueurs sont listés selon leur ordre dans le tour de jeu.</string>
+	<string name="help_turn3">Les nombres sous le nom des joueurs indiquent respectivement le nombre de cartes dans leur pioche, dans leur main et dans leur deck (incluant les cartes mises de coté - Île par exemple).</string>
+	<string name="help_turn4">Si le Bateau Pirate est en jeu, le nombre de jetons obtenus avec cette carte est affiché dans un cercle rouge. Les cercles verts et jaunes indiquent respectivement le nombre de jetons Victoire et de jetons Pièces.\n
+        Lorsque celui-ci est en jeu, le symbole V cerclé de marron indique que le jeton Voyage est face visible. Le V disparaît lorsque le jeton est face cachée.\n
+        Immédiatement à droite du nom, le -1 dans un carré bleu et le -1 dans un rond jaune représentent respectivement les jetons -1 Carte et -1 Pièce posés sur le deck du joueur concerné</string>
+	<string name="help_turn5">Les nombres actuels d\'actions, d\'achats et de pièces sont listés en dessous d\'un message indiquant l\'action à réaliser par le joueur.</string>
 
-	<string name="help_turn1">C\'est la vue du tour. Ici vous pouvez voir des statistiques à propos de chaque joueur concernant le tour actuel.</string>
-	<string name="help_turn2">Le joueur à qui c\'est le tour de jouer est en surbrillance, et les joueurs sont listés selon leur tour de jeu.</string>
-	<string name="help_turn3">Les nombres sous le nom des joueurs indiquent respectivement le nombre de cartes dans leur pioche, leur main et leur deck (incluant les cartes mise de coté - Île par exemple).</string>
-	<string name="help_turn4">Si le Bateau Pirate est en jeu, le nombre de jetons obtenu avec cette carte est affiché dans un cercle rouge. Les cercles verts et jaunes indiquent respectivement le nombre de jetons Victoire et de jetons Pièces.</string>
-	<string name="help_turn5">Les actuels nombres d\'actions, d\'achats et de pièces sont listés en dessous d\'un message indiquant l\'action à réaliser par le joueur.</string>
-
-	<string name="help_hand1">La première colonne affiche les cartes qui sont dans votre main.  Seulement vous pouvez les voir.</string>
-	<string name="help_hand2">La seconde colonne affiche les cartes qui ont été jouées dans le tour.  Tout le monde peut les voir.</string>
-	<string name="help_hand3">Si vous avez des cartes sur le Village Indigène, l\'Île ou le rebus, faites glisser la vue sur la gauche pour voir le contenu de ces piles.</string>
-	<string name="help_hand4">Si une des colonnes devient trop grande, vous pouvez glisser la vue vers le haut ou le bas pour voir toutes les cartes.</string>
+	<string name="help_hand1">La première colonne (Main) affiche les cartes qui sont dans votre main.  Vous êtes le seul à pouvoir les voir.</string>
+	<string name="help_hand2">La seconde colonne (Joué) affiche les cartes qui ont été jouées dans le tour, dites Cartes en jeu. Tout le monde peut les voir.</string>
+	<string name="help_hand3">Si vous avez des cartes sur le plateau Village Indigène, Île, Prince ou Taverne, faites glisser la vue sur la gauche pour voir le contenu de ces plateaux. Faites de même pour visualiser le Rebut ou le contenu du Marché Noir.</string>
+	<string name="help_hand4">Si une des colonnes devient trop grande, vous pouvez faire glisser la vue vers le haut ou le bas pour voir toutes les cartes.</string>
 	<string name="help_hand5">De nouveau, vous pouvez appuyer longuement sur une carte pour en voir les détails.</string>
 	
-	<string name="help_log1">Pour terminer, un historique de la partie est affiché dans le bas de l\'écran.
-		\n\nVous pouvez toujours afficher l\'aide en passant par le menu pendant une partie.</string>
+	<string name="help_log1">Pour terminer, un historique de la partie est affiché dans la log défilable en bas de l\'écran.
+	\n\nVous pouvez toujours afficher l\'aide en passant par le menu pendant une partie.</string>
 
 	<string name="help_end">Bonne chance, et amusez vous bien ! \n\n\n\t\t\t-:ankur</string>
 

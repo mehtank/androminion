@@ -92,13 +92,15 @@ public class WinLossView extends FrameLayout {
 			for (int numPlayers = 2; numPlayers <= 6; numPlayers++) {
 				wins = achievements.getPlayerWins(player, numPlayers);
 				losses = achievements.getPlayerLosses(player, numPlayers);
+				if (wins + losses == 0) continue;
 				percent = (int) ((float) wins / (wins + losses) * 100);
 				
 				textView = new TextView(top);
 //				textView.setTextColor(getResources().getColor(android.R.color.secondary_text_dark));
 //				textView.setTextSize(getResources().getDimension(R.dimen.winloss_detailed));
 
-				text = "     " + numPlayers + " " + top.getString(R.string.win_loss_playerwins) + " " + wins + "/" + (wins + losses) + " (" + percent + " %)";
+				//text = "     " + numPlayers + " " + top.getString(R.string.win_loss_playerwins) + " " + wins + "/" + (wins + losses) + " (" + percent + " %)";
+				text = "     " + String.format(top.getString(R.string.win_loss_playerwins), numPlayers) + " " + wins + "/" + (wins + losses) + " (" + percent + " %)";
 				textView.setText(text);
 				linearLayout.addView(textView);
 			}

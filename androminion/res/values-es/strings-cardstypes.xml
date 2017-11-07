@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="type_treasure">Tesoro</string>
+    <string name="type_victory">Victoria</string>
+    <string name="type_action">Acción</string>
+    <string name="type_attack">Ataque</string>
+    <string name="type_reaction">Reacción</string>
+    <string name="type_duration">Duración</string>
+    <string name="type_looter">Saqueador</string>
+    <string name="type_ruins">Ruinas</string>
+    <string name="type_prize">Premio</string>
+    <string name="type_knight">Caballero</string>
+    <string name="type_shelter">Cobijo</string>
+    <string name="type_event">Evento</string>
+    <string name="type_reserve">Reserva</string>
+    <string name="type_traveller">Viajero</string>
+    <string name="type_castle">Castillo</string>
+    <string name="type_gathering">Acopio</string>
+    <string name="type_landmark">Marca</string>
+</resources>

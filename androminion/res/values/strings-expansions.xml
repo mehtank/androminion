@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="Base"></string>
+    <string name="Base">Base</string>
+    <string name="Base2E">Base 2E</string>
+    <string name="BaseSet">Base Set</string>
     <string name="Intrigue">Intrigue</string>
+    <string name="Intrigue2E">Intrigue 2E</string>
     <string name="Seaside">Seaside</string>
     <string name="Alchemy">Alchemy</string>
     <string name="Prosperity">Prosperity</string>
@@ -10,6 +13,8 @@
     <string name="Hinterlands">Hinterlands</string>
     <string name="DarkAges">Dark Ages</string>
     <string name="Guilds">Guilds</string>
+    <string name="Adventures">Adventures</string>
+    <string name="Empires">Empires</string>
     <string name="Promo">Promo</string>
     
 </resources>

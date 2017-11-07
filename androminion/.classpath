@@ -7,5 +7,7 @@
 	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/vdom"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/actionbarsherlock"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="libs/vdom.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -48,8 +48,8 @@
     <string name="Militia_desc">Остальные игроки сбрасывают с руки карты, пока не останется 3.</string>
     <string name="Mine_name">Шахта</string>
     <string name="Mine_desc">Удалите с руки на свалку карту Казны. Наберите в руку карту Казны, стоимостью не более чем на 3 дороже.</string>
-    <string name="MoneyLender_name">Ростовщик</string>
-    <string name="MoneyLender_desc">Выкиньте на свалку с руки карту Меди. В таком случае +3 монеты.</string>
+    <string name="Moneylender_name">Ростовщик</string>
+    <string name="Moneylender_desc">Выкиньте на свалку с руки карту Меди. В таком случае +3 монеты.</string>
     <string name="Remodel_name">Реконструкция</string>
     <string name="Remodel_desc">Выбросьте на свалку карту с руки. Наберите карту стоимостью не более чем на 2 больше выброшенной.</string>
     <string name="Smithy_name">Кузница</string>
@@ -203,7 +203,7 @@
     <string name="City_name">Город</string>
     <string name="City_desc">Если есть одна или более пустых стопок запаса, +1 карта. Если 2 или более, +1 монета и +1 покупка.</string>
     <string name="Contraband_name">Контрабанда</string>
-    <string name="Contraband_desc">+1 покупка. Когда эта карта играется, игрок слева от тебя называет карту. Вы не можете купить эту карту в этом ходу.</string>
+    <string name="Contraband_desc">Когда эта карта играется, игрок слева от тебя называет карту. Вы не можете купить эту карту в этом ходу.</string>
     <string name="CountingHouse_name">Бухгалтерия</string>
     <string name="CountingHouse_desc">Просмотрите свой сброс, возьмите из него в руку любое количество Меди</string>
     <string name="Expand_name">Расширение</string>

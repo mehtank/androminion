@@ -458,7 +458,7 @@
 	<string name="survivors_header">Die Überlebenden haben aufgedeckt: %1$s</string>
 	<string name="cultist_play_next">Spiele Kultisten</string>
 	<string name="urchin_keep">Gassenjunge: Behalte</string>
-	<string name="urchin_trash_for_mercenary">Entsorge Gassenjunge nimm Söldner</string>
+	<string name="urchin_trash_for_mercenary">Entsorge Gassenjunge und nimm Söldner</string>
 	<string name="madman_option">Verrückter zurücklegen</string>
 	<string name="rogue_query">Welche Karte vom Müll nehmen</string>
 	<string name="taxman_part">Nimm</string>
@@ -466,6 +466,7 @@
 	<string name="doctor_overpay_option_two">Abwerfen</string>
 	<string name="doctor_overpay_option_three">auf den Nachziehstapel</string>
 	<string name="herald_overpay_query">auf den Nachziehstapel</string>
+
 	<string name="spend_guilds_coin_tokens">Investiere Münzen</string>
 	<string name="buy_overpay">Überzahlen?</string>
 	<string name="buy_overpay_by_potions">Überzahlen mit Tränken?</string>
@@ -517,7 +518,7 @@
 	<string name="stash_more_options">Anders</string>
 
 	<string name="sauna_play_avanto">Spiele Eisloch aus deiner Hand</string>
-  	<string name="avanto_play_sauna">Spiele Sauna aus deiner Hand</string>
+	<string name="avanto_play_sauna">Spiele Sauna aus deiner Hand</string>
 
 	<string name="opulent_castle_ask_discard">Punktekarten ablegen</string>
 	<string name="sprawlingcastle_gain_duchy">Nimm ein Herzogtum</string>

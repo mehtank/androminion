@@ -20,6 +20,7 @@
         <item>viewstyle-classic</item>
         <item>viewstyle-simple</item>
         <item>viewstyle-descriptive</item>
+		<item>viewstyle-condensed</item>
     </string-array>
 
 </resources>

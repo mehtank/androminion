@@ -3,163 +3,393 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_gametype"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Spinner
-            android:id="@+id/spinnerCardset"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Spinner
-            android:id="@+id/spinnerRandom"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Spinner
-            android:id="@+id/spinnerPreset"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_players"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
+    
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
-
-        <LinearLayout
+        
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" >
+	
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/select_gametype"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	               
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	
+	        <Spinner
+	            android:id="@+id/spinnerCardset"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1" />
+	        
+	        <CheckBox
+	            android:id="@+id/checkboxRandomAll"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/random_all_cards"
+	            android:visibility="gone" />
+	    </LinearLayout>
+	    	
+        <Spinner
+            android:id="@+id/spinnerPreset"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_weight="1"
+            android:visibility="gone" />
+        
+        <TextView
+            android:id="@+id/gameCards"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:visibility="gone"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+	    
+	    <LinearLayout
+	        android:id="@+id/linearLayoutPlatinumColony"
+	        android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:orientation="horizontal">
+	    
+		    <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/include_platinum_colony" />
+		    
+		    <Spinner android:id="@+id/spinnerPlatinumColony"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" />
+		    
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:id="@+id/linearLayoutShelters"
+	        android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:orientation="horizontal">
+	    
+		    <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/include_shelters" />
+		    
+		    <Spinner android:id="@+id/spinnerShelters"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" />
+		    
+	    </LinearLayout>
+		
+	    <LinearLayout
+	        android:id="@+id/linearLayoutRandomEvents"
+	        android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:orientation="horizontal"
+	       	android:visibility="gone">
+	    
+		    <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/random_include_events" />
+		    
+		    <Spinner android:id="@+id/spinnerRandomEvents"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" />
+		    
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:id="@+id/linearLayoutRandomLandmarks"
+	        android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:orientation="horizontal"
+	       	android:visibility="gone">
+	    
+		    <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/random_include_landmarks" />
+		    
+		    <Spinner android:id="@+id/spinnerRandomLandmarks"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" />
+		    
+	    </LinearLayout>
+				    
+	    <LinearLayout
+	        android:id="@+id/linearLayoutRandomOptions"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:visibility="gone" >
+		    
+		    <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@string/random_include_cards" />
+		    
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:orientation="horizontal">
+		        
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonBaseSet"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/BaseSet"
+		            android:textOn="@string/BaseSet"/>
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonIntrigue"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Intrigue"
+		            android:textOn="@string/Intrigue"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:orientation="horizontal">
+		        
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonSeaside"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Seaside"
+		            android:textOn="@string/Seaside"/>
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonAlchemy"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Alchemy"
+		            android:textOn="@string/Alchemy"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:orientation="horizontal">
+		        
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonProsperity"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Prosperity"
+		            android:textOn="@string/Prosperity"/>
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonCornucopia"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Cornucopia"
+		            android:textOn="@string/Cornucopia"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:orientation="horizontal">
+		        
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonHinterlands"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Hinterlands"
+		            android:textOn="@string/Hinterlands"/>
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonDarkAges"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/DarkAges"
+		            android:textOn="@string/DarkAges"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:orientation="horizontal">
+		        
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonGuilds"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Guilds"
+		            android:textOn="@string/Guilds"/>
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonAdventures"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Adventures"
+		            android:textOn="@string/Adventures"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:orientation="horizontal">
+		        
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonEmpires"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Empires"
+		            android:textOn="@string/Empires"/>
+		        <ToggleButton 
+		            android:id="@+id/toggleButtonPromo"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:textOff="@string/Promo"
+		            android:textOn="@string/Promo"/>
+		        
+		    </LinearLayout>
+	    
+	    </LinearLayout>
+	
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/select_players"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+          <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+              <TextView
+                  android:id="@+id/txtPlayer1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:text="@string/player" />
 
-                <TextView
-                    android:id="@+id/txtPlayer1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/player" />
+              <Button
+                  android:id="@+id/butPlayer1"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:enabled="false"
+                  android:text="@string/you" />
+          </LinearLayout>
 
-                <Button
-                    android:id="@+id/butPlayer1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/you" />
-            </LinearLayout>
+          <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+              <TextView
+                  android:id="@+id/txtPlayer2"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:text="@string/player" />
 
-                <TextView
-                    android:id="@+id/txtPlayer2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/player" />
+              <Spinner
+                  android:id="@+id/spPlayer2"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1" />
+          </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/spPlayer2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
+          <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+              <TextView
+                  android:id="@+id/txtPlayer3"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:text="@string/player" />
 
-                <TextView
-                    android:id="@+id/txtPlayer3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/player" />
+              <Spinner
+                  android:id="@+id/spPlayer3"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1" />
+          </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/spPlayer3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
+          <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+              <TextView
+                  android:id="@+id/txtPlayer4"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:text="@string/player" />
 
-                <TextView
-                    android:id="@+id/txtPlayer4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/player" />
+              <Spinner
+                  android:id="@+id/spPlayer4"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1" />
+          </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/spPlayer4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
+          <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+              <TextView
+                  android:id="@+id/txtPlayer5"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:text="@string/player" />
 
-                <TextView
-                    android:id="@+id/txtPlayer5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/player" />
+              <Spinner
+                  android:id="@+id/spPlayer5"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1" />
+          </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/spPlayer5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
+          <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+              <TextView
+                  android:id="@+id/txtPlayer6"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:text="@string/player" />
 
-                <TextView
-                    android:id="@+id/txtPlayer6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/player" />
-
-                <Spinner
-                    android:id="@+id/spPlayer6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-        </LinearLayout>
+              <Spinner
+                  android:id="@+id/spPlayer6"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1" />
+          </LinearLayout>
+		</LinearLayout>
     </ScrollView>
 
     <Button

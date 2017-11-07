@@ -24,15 +24,15 @@ public class CardList implements Iterable<Card> {
     }
 
     public boolean checkValid() {
-    	boolean isValid = true; 
-		for (Card card : a) 
-			isValid = checkValid(card) ? isValid : false;
-		return isValid;
+        boolean isValid = true; 
+        for (Card card : a) 
+            isValid = checkValid(card) ? isValid : false;
+        return isValid;
     }
 
     public boolean checkValid(Card card) {
-    	if (!(card == null || card.isTemplateCard()))
-    		return true;
+        if (!(card == null || card.isTemplateCard()))
+            return true;
         if (card == null) {
             Util.playerError(player, name + " contains null card.", true);
         } else {
@@ -60,7 +60,7 @@ public class CardList implements Iterable<Card> {
         for (int i = a.size() - 1; i >= 0 ; i--) {
             if (a.get(i).getId() == id) 
                 return i;
-		} 
+        } 
         return -1;
     }
 
@@ -79,14 +79,14 @@ public class CardList implements Iterable<Card> {
     }
 
     public Card remove(int i) {
-        return remove(i, true);
+        return remove(i, false /*false for better performance*/);
     }
 
     public Card remove(int i, boolean showUI) {
         Card card = a.remove(i);
         if (showUI && name.equals("Hand")) {
             MoveContext context = new MoveContext(player.game, player);
-            GameEvent event = new GameEvent(GameEvent.Type.CardRemovedFromHand, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardRemovedFromHand, context);
             event.card = card;
             player.game.broadcastEvent(event);
         }
@@ -107,15 +107,15 @@ public class CardList implements Iterable<Card> {
     }
 
     public void add(Card card, boolean showUI, int index) {
-    	if (checkValid(card)) {
+        if (checkValid(card)) {
             if (index != -1)
-            	a.add(index, card);
+                a.add(index, card);
             else 
-            	a.add(card);
+                a.add(card);
 
             if (showUI && name.equals("Hand")) {
                 MoveContext context = new MoveContext(player.game, player);
-                GameEvent event = new GameEvent(GameEvent.Type.CardAddedToHand, context);
+                GameEvent event = new GameEvent(GameEvent.EventType.CardAddedToHand, context);
                 event.card = card;
                 player.game.broadcastEvent(event);
             }
@@ -132,12 +132,12 @@ public class CardList implements Iterable<Card> {
     }
 
     public ArrayList<Card> toArrayList() {
-    	return a;
+        return a;
     }
 
     @SuppressWarnings("unchecked")
-	public ArrayList<Card> toArrayListClone() {
-    	return (ArrayList<Card>) a.clone();
+    public ArrayList<Card> toArrayListClone() {
+        return (ArrayList<Card>) a.clone();
     }
 
     public boolean isEmpty() {
@@ -168,9 +168,14 @@ public class CardList implements Iterable<Card> {
         return a.size() == 0 ? null : a.remove(a.size()-1);
     }
 
-	public Card[] sort(Comparator<Card> comp) {
-		Card[] sorted = this.toArray();
-	    Arrays.sort(sorted, comp);
-	    return sorted;
-	}
+    public Card[] sort(Comparator<Card> comp) {
+        Card[] sorted = this.toArray();
+        Arrays.sort(sorted, comp);
+        return sorted;
+    }
+    
+    @Override
+    public String toString() {
+    	return name + "(" + player.getPlayerName() + "): " + a.toString();
+    }
 }

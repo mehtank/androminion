@@ -28,6 +28,8 @@ public class Achievements {
         "2players8provinces",
         "3or4players10provinces",
         "score100",
+        "score100withoutProsperity",
+        "score500",
         "score1more",
         "singlecard",
         "score50more",
@@ -36,12 +38,17 @@ public class Achievements {
         "gainmorethan30inaturn",
         "win10inarow",
         "overpayby10ormore",
-        "stockpile50tokens"
+        "stockpile50tokens",
+        "2tacticians",
+        "13curses",
+        "allEmpty"
         };
     private static final int[] ids = {
     	R.string.achievements_2players8provinces,
     	R.string.achievements_3or4players10provinces,
     	R.string.achievements_score100,
+    	R.string.achievements_score100withoutProsperity,
+    	R.string.achievements_score500,
     	R.string.achievements_score1more,
     	R.string.achievements_singlecard,
     	R.string.achievements_score50more,
@@ -50,7 +57,10 @@ public class Achievements {
     	R.string.achievements_gainmorethan30inaturn,
     	R.string.achievements_win10inarow,
     	R.string.achievements_overpayby10ormore,
-    	R.string.achievements_stockpile50tokens
+    	R.string.achievements_stockpile50tokens,
+    	R.string.achievements_2tacticians,
+    	R.string.achievements_13curses,
+    	R.string.achievements_allEmpty
     };
     public String[] text = new String[KEYS.length];
     boolean[] achievementsDone = new boolean[KEYS.length];

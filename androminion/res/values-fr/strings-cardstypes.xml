@@ -11,4 +11,10 @@
     <string name="type_prize">Prix</string>
     <string name="type_knight">Chevalier</string>
     <string name="type_shelter">Refuge</string>
+    <string name="type_event">Événement</string>
+    <string name="type_reserve">Réserve</string>
+    <string name="type_traveller">Itinérant</string>
+    <string name="type_castle">Château</string>
+    <string name="type_gathering">Collecte</string>
+    <string name="type_landmark">Site</string>    
 </resources>
