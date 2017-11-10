@@ -18,7 +18,7 @@ public class CardImplBase extends CardImpl {
 	protected CardImplBase() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch (this.getKind()) {
 			case Adventurer:
 	            adventurer(game, context, currentPlayer);
@@ -287,8 +287,8 @@ public class CardImplBase extends CardImpl {
                     for (int i = 0; i < currentPlayer.hand.size(); i++) {
                         Card playersCard = currentPlayer.hand.get(i);
                         if (playersCard.equals(card)) {
-                            Card thisCard = currentPlayer.hand.remove(i, false);
-                            currentPlayer.trash(thisCard, this.getControlCard(), context);
+                            Card thisCard = currentPlayer.hand.get(i);
+                            currentPlayer.trashFromHand(thisCard, this.getControlCard(), context);
                             break;
                         }
                     }
@@ -306,6 +306,7 @@ public class CardImplBase extends CardImpl {
     }
 	
 	private void feast(MoveContext context, Player currentPlayer) {
+		currentPlayer.trashSelfFromPlay(getControlCard(), context);
         Card card = currentPlayer.controlPlayer.feast_cardToObtain(context);
         if (card != null) {
             // check cost
@@ -398,8 +399,8 @@ public class CardImplBase extends CardImpl {
                 Card card = hand.get(i);
 
                 if (cardToUpgrade.equals(card)) {
-                    Card thisCard = currentPlayer.getHand().remove(i);
-                    currentPlayer.trash(thisCard, this.getControlCard(), context);
+                    Card thisCard = currentPlayer.getHand().get(i);
+                    currentPlayer.trashFromHand(thisCard, this.getControlCard(), context);
 
                     Card newCard = currentPlayer.controlPlayer.mine_treasureToObtain(context, card.getCost(context) + 3, card.getDebtCost(context), card.costPotion());
                     if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && 
@@ -431,9 +432,9 @@ public class CardImplBase extends CardImpl {
             if (card.equals(Cards.copper)) {
             	boolean choseTrash = false;
             	if (Game.errataMoneylenderForced || (choseTrash = currentPlayer.controlPlayer.moneylender_shouldTrashCopper(context))) {
-	                Card thisCard = currentPlayer.hand.remove(i);
+	                Card thisCard = currentPlayer.hand.get(i);
 	                context.addCoins(3);
-	                currentPlayer.trash(thisCard, this.getControlCard(), context);
+	                currentPlayer.trashFromHand(thisCard, this.getControlCard(), context);
 	                break;
             	}
             	if (!choseTrash)
@@ -489,9 +490,9 @@ public class CardImplBase extends CardImpl {
                     cost = playersCard.getCost(context);
                     debt = playersCard.getDebtCost(context);
                     potion = playersCard.costPotion();
-                    playersCard = currentPlayer.hand.remove(i);
+                    playersCard = currentPlayer.hand.get(i);
 
-                    currentPlayer.trash(playersCard, this.getControlCard(), context);
+                    currentPlayer.trashFromHand(playersCard, this.getControlCard(), context);
                     break;
                 }
             }

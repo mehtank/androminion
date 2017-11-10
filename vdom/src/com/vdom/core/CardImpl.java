@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.vdom.api.Card;
@@ -43,7 +44,6 @@ public class CardImpl implements Card, Comparable<Card>{
     
     boolean isOverpay = false;  // can this card be overpaid for?
     
-    boolean trashOnUse = false;
     protected Card heirloom;
     
     protected boolean callableWhenCardGained;
@@ -56,12 +56,10 @@ public class CardImpl implements Card, Comparable<Card>{
 
     static int maxNameLen;    // across all cards
     
+    private ArrayList<Card> multiplyingCards;
+    
     // Implementation (mutable)
     private Integer id;
-    boolean movedToNextTurnPile = false;
-    boolean trashAfterPlay = false;
-    int numberTimesAlreadyPlayed = 0;
-    int cloneCount = 1;
     protected CardImpl impersonatingCard = null;
     CardImpl inheritingAbilitiesCard = null;
     private CardImpl controlCard = this;
@@ -98,7 +96,6 @@ public class CardImpl implements Card, Comparable<Card>{
         takeAnotherTurn = builder.takeAnotherTurn;
         takeAnotherTurnCardCount = builder.takeAnotherTurnCardCount;
         isOverpay   = builder.isOverpay;
-        trashOnUse   = builder.trashOnUse;
         heirloom = builder.heirloom;
         
         callableWhenCardGained = builder.callableWhenCardGained;
@@ -145,9 +142,7 @@ public class CardImpl implements Card, Comparable<Card>{
         protected PileCreator  pileCreator = null;
         
         protected boolean isOverpay   = false;
-        
-        protected boolean trashOnUse  = false;
-        
+                
         protected Card heirloom;
 
         public Builder(Cards.Kind kind, int cost) {
@@ -284,11 +279,6 @@ public class CardImpl implements Card, Comparable<Card>{
             return this;
         }
 
-        public Builder trashOnUse() {
-            trashOnUse = true;
-            return this;
-        }
-        
         public Builder heirloom(Card val) {
         	heirloom = val;
         	return this;
@@ -443,7 +433,6 @@ public class CardImpl implements Card, Comparable<Card>{
         c.takeAnotherTurnCardCount = takeAnotherTurnCardCount;
         c.isOverpay = isOverpay;
         c.vp = vp;
-        c.trashOnUse = trashOnUse;
         c.heirloom = heirloom;
         
         c.callableWhenCardGained = callableWhenCardGained;
@@ -453,7 +442,7 @@ public class CardImpl implements Card, Comparable<Card>{
         c.actionStillNeedsToBeInPlay = actionStillNeedsToBeInPlay;
     }
     
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {}
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {}
     
 
     public Cards.Kind getKind() {
@@ -656,13 +645,13 @@ public class CardImpl implements Card, Comparable<Card>{
     }
     
     public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay) {
-    	play(game, context, fromHand, false, false, false);
+    	play(game, context, fromHand, nonRegularActionPlay, false, false, false);
     }
     
     @Override
-    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay, boolean dontMove, boolean effectsOnly) {
+    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay, boolean dontMove, boolean effectsOnly, boolean isThronedPlay) {
         Player currentPlayer = context.getPlayer();
-        boolean newCard = false;
+        
         Card actualCard = (this.getControlCard() != null ? this.getControlCard() : this);
         boolean isInheritedAbility = actualCard.equals(Cards.estate) && !this.equals(actualCard);
         Card inheritedCard = this.equals(Cards.estate) ? context.player.getInheritance() : null;
@@ -672,22 +661,17 @@ public class CardImpl implements Card, Comparable<Card>{
         if (enchantressEffect) context.enchantressAlreadyAffected = true;
                 
         if (!isInheritedAbility && isAction) {
-        	context.actions += game.countChampionsInPlay(currentPlayer);
+        	context.actions += currentPlayer.championEffects;
         }
         
         if (is(Type.Attack, currentPlayer))
             attackPlayed(context, game, currentPlayer);
         
-        if (!effectsOnly && this.numberTimesAlreadyPlayed == 0 && this == actualCard) {
-            newCard = true;
-            this.movedToNextTurnPile = false;
-            if (fromHand)
-                currentPlayer.hand.remove(this);
-            if (!enchantressEffect && trashOnUse && !dontMove) {
-                currentPlayer.trash(this, null, context);
-            } else if (!enchantressEffect && this.is(Type.Duration, currentPlayer)) {
-                currentPlayer.nextTurnCards.add(this);
-            } else if (!dontMove) {
+        if (!effectsOnly && this == actualCard) {
+        	int handIdx = currentPlayer.hand.indexOf(actualCard.getId());
+            if (fromHand && handIdx >= 0)
+                currentPlayer.hand.remove(handIdx);
+            if (!dontMove) {
                 currentPlayer.playedCards.add(this);
             }
         }
@@ -700,7 +684,7 @@ public class CardImpl implements Card, Comparable<Card>{
         		event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
         	}
 	        event.card = this;
-	        event.newCard = newCard;
+	        event.newCard = !isThronedPlay;
 	        game.broadcastEvent(event);
         }
         
@@ -754,9 +738,13 @@ public class CardImpl implements Card, Comparable<Card>{
             for (int i = 0; i < addCards; ++i) {
             	game.drawToHand(context, this, addCards - i);
             }
+            
+            if (addCardsNextTurn > 0 || addBuysNextTurn > 0 || addActionsNextTurn > 0 || addGoldNextTurn > 0) {
+            	currentPlayer.addStartTurnDurationEffect(this, 1, isThronedPlay);
+            }
 
             if (inheritedCard == null) {
-            	additionalCardActions(game, context, currentPlayer);
+            	additionalCardActions(game, context, currentPlayer, isThronedPlay);
             } else {
             	// Play the inheritance virtual card
             	CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
@@ -788,7 +776,7 @@ public class CardImpl implements Card, Comparable<Card>{
         
         // check for cards to call after resolving action
         if (is(Type.Action)) {
-	        boolean isActionInPlay = isInPlay(currentPlayer);
+	        boolean isActionInPlay = currentPlayer.isInPlay(this);
 	        ArrayList<Card> callableCards = new ArrayList<Card>();
 	        Card toCall = null;
 	        for (Card c : currentPlayer.tavern) {
@@ -1074,6 +1062,21 @@ public class CardImpl implements Card, Comparable<Card>{
         this.controlCard = controlCard;
     }
     
+    public void multiplyCard(Card toMultiply) {
+    	if (multiplyingCards == null) multiplyingCards = new ArrayList<Card>();
+    	multiplyingCards.add(toMultiply);
+    }
+    
+    public List<Card> getMultiplyingCards() {
+    	return multiplyingCards;
+    }
+    
+    public void clearMultiplyingCards() {
+    	if (multiplyingCards != null)
+    		multiplyingCards.clear();
+    	multiplyingCards = null;
+    }
+    
     protected void placeToken(MoveContext context, Card card, PlayerSupplyToken token) {
     	if (card == null) {
     		Card[] cards = context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true, Type.Action);
@@ -1094,9 +1097,8 @@ public class CardImpl implements Card, Comparable<Card>{
         for (int i = currentPlayer.playedCards.size() - 1; i >= 0 ; --i) {
             Card c = currentPlayer.playedCards.get(i);
             if (!(c.behaveAsCard() == this) && c.behaveAsCard().getKind() == Cards.Kind.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context, c.getControlCard())) {
-                currentPlayer.trash(c.getControlCard(), this, context);
+                currentPlayer.trashSelfFromPlay(c.getControlCard(), context);
                 currentPlayer.gainNewCard(Cards.mercenary, this, context);
-                currentPlayer.playedCards.remove(i);
             }
         }
     }
@@ -1115,8 +1117,7 @@ public class CardImpl implements Card, Comparable<Card>{
                 		Util.playerError(player, "Sauna error, invalid card to trash, ignoring.");
                 	} else {
                 		cardToTrash = player.hand.get(cardToTrash);
-                		player.hand.remove(cardToTrash);
-                		player.trash(cardToTrash, Cards.sauna, context);
+                		player.trashFromHand(cardToTrash, Cards.sauna, context);
                 	}
                 } else {
                 	break;
@@ -1124,20 +1125,7 @@ public class CardImpl implements Card, Comparable<Card>{
         	}
     	}
     }
-    
-    protected boolean isInPlay(Player currentPlayer) {
-		for (Card c : currentPlayer.playedCards) {
-			if (this == c)
-				return true;
-		}
-		for (Card c : currentPlayer.nextTurnCards) {
-			if (c instanceof CardImpl && !((CardImpl)c).trashAfterPlay && this == c)
-			if (this == c)
-				return true;
-		}
-		return false;
-	}
-    
+        
     protected void durationAttack(Game game, MoveContext context, Player currentPlayer) {
         for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
         	if (targetPlayer != currentPlayer) {
@@ -1196,54 +1184,19 @@ public class CardImpl implements Card, Comparable<Card>{
                 } else {
                     context.freeActionInEffect++;
 
-                    cardToPlay.cloneCount = (equals(Cards.kingsCourt) ? 3 : 2);
-                    int cloneCount = cardToPlay.cloneCount;
-                    cardToPlay.numberTimesAlreadyPlayed = -1;
-                    for (int i = 0; i < cloneCount; ++i) {
-                        cardToPlay.numberTimesAlreadyPlayed++;
-                        cardToPlay.play(game, context, cardToPlay.numberTimesAlreadyPlayed == 0 ? true : false);
+                    int timesToPlay = equals(Cards.kingsCourt) ? 3 : 2;
+                    for (int i = 0; i < timesToPlay; ++i) {
+                        cardToPlay.play(game, context, true, false, false, false, i > 0);
                     }
-
-                    cardToPlay.numberTimesAlreadyPlayed = 0;
                     context.freeActionInEffect--;
-                    // If the cardToPlay was a knight, and was trashed, reset clonecount
-                    if (cardToPlay.is(Type.Knight, currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
-                        cardToPlay.cloneCount = 1;
-                    }
-
+                    
                     if (cardToPlay.is(Type.Duration, currentPlayer)) {
-                    	boolean playingCardIsInNextTurn = false;
-                    	for (Card c : currentPlayer.nextTurnCards) {
-                    		if (c == cardToPlay) {
-                    			playingCardIsInNextTurn = true;
-                    			break;
-                    		}
-                    	}
-                        // Need to move throning card to NextTurnCards first
-                        // (but does not play)
-                        if (playingCardIsInNextTurn && !this.getControlCard().movedToNextTurnPile) {
-                            this.getControlCard().movedToNextTurnPile = true;
-                            int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
-                            int ntidx = currentPlayer.nextTurnCards.size() - 1;
-                            if (idx >= 0 && ntidx >= 0) {
-                                currentPlayer.playedCards.remove(idx);
-                                currentPlayer.nextTurnCards.add(ntidx, this.getControlCard());
-                            }
-                        }
+                    	((CardImpl)this.getControlCard()).multiplyCard(cardToPlay);
                     }
                 }
 
                 if (this.kind == Cards.Kind.Procession) {
-                    if (!cardToPlay.trashOnUse) {
-                        currentPlayer.trash(cardToPlay, this.getControlCard(), context);
-                        if (currentPlayer.playedCards.getLastCard() == cardToPlay) { 
-                            currentPlayer.playedCards.remove(cardToPlay);
-                        } 
-                        if (currentPlayer.nextTurnCards.contains(cardToPlay)) { 
-                            ((CardImpl) cardToPlay).trashAfterPlay = true;
-                        }
-                    }
-
+                    currentPlayer.trashFromPlay(cardToPlay, this.getControlCard(), context);
                     Card cardToGain = currentPlayer.controlPlayer.procession_cardToGain(context, 1 + cardToPlay.getCost(context), cardToPlay.getDebtCost(context), cardToPlay.costPotion());
                     if ((cardToGain != null) && (cardToPlay.getCost(context) + 1) == cardToGain.getCost(context) && 
                     		cardToPlay.getDebtCost(context) == cardToGain.getDebtCost(context) && 
@@ -1272,20 +1225,12 @@ public class CardImpl implements Card, Comparable<Card>{
         
     	if (treasure != null && treasure.is(Type.Treasure, currentPlayer) && currentPlayer.getHand().contains(treasure)) {
     		CardImpl cardToPlay = (CardImpl) treasure;
-            cardToPlay.cloneCount = 2;
-            for (int i = 0; i < cardToPlay.cloneCount;) {
-                cardToPlay.numberTimesAlreadyPlayed = i++;
-                cardToPlay.play(context.game, context, true, true);
+            for (int i = 0; i < 2; ++i) {
+                cardToPlay.play(context.game, context, true, true, false, false, i > 0);
             }
             
-            cardToPlay.cloneCount = 0;
-            cardToPlay.numberTimesAlreadyPlayed = 0;    		
-            
-            if (this.kind == Cards.Kind.Counterfeit && currentPlayer.inPlay(treasure)) {
-            	if (currentPlayer.playedCards.getLastCard().equals(treasure)) {
-                	currentPlayer.playedCards.remove(treasure);
-                	currentPlayer.trash(treasure, this, context);
-                }
+            if (this.kind == Cards.Kind.Counterfeit) {
+                currentPlayer.trashFromPlay(treasure, this, context);
             }
     	}
     }

@@ -17,7 +17,7 @@ public class CardImplNocturne extends CardImpl {
 
 	protected CardImplNocturne() { }
 	
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
 		case BadOmens:
 			badOmens(game, context, currentPlayer);
@@ -26,7 +26,7 @@ public class CardImplNocturne extends CardImpl {
 			bat(game, context, currentPlayer);
 			break;
 		case Crypt:
-            crypt(game, context, currentPlayer);
+            crypt(game, context, currentPlayer, isThronedEffect);
             break;
 		case CursedGold:
             cursedGold(game, context, currentPlayer);
@@ -231,7 +231,7 @@ public class CardImplNocturne extends CardImpl {
 			for (int i = 0; i < context.player.hand.size(); i++) {
 				Card inHand = context.player.hand.get(i);
 				if (inHand.equals(card)) {
-					context.player.trash(context.player.hand.remove(i, false), this.getControlCard(), context);
+					context.player.trashFromHand(context.player.hand.get(i), this.getControlCard(), context);
 					break;
 				}
 			}
@@ -249,13 +249,12 @@ public class CardImplNocturne extends CardImpl {
         context.game.broadcastEvent(event);
     }
 	
-	private void crypt(Game game, MoveContext context, Player player) {
+	private void crypt(Game game, MoveContext context, Player player, boolean isThronedEffect) {
         int numTreasures = context.countTreasureCardsInPlay();
         Card[] treasuresToCrypt = numTreasures > 0 ? player.controlPlayer.crypt_cardsToSetAside(context) : new Card[0];
         if (treasuresToCrypt == null) treasuresToCrypt = new Card[0];
         ArrayList<Card> inPlay = new ArrayList<Card>();
         for(Card c : player.playedCards) if (c.is(Type.Treasure)) inPlay.add(c);
-        for(Card c : player.nextTurnCards) if (c.is(Type.Treasure)) inPlay.add(c);
         if (!Util.areCardsInList(treasuresToCrypt, inPlay)) {
         	Util.playerError(player, "Crypt set aside error, ignoring");
         	return;
@@ -263,15 +262,8 @@ public class CardImplNocturne extends CardImpl {
         ArrayList<Card> cryptCards = new ArrayList<Card>();
         boolean setAsideCards = false;
         for (Card c : treasuresToCrypt) {
-        	//TODO?: currently we check next turn cards first (since you'll usually want to remove crowns attached to durations first)
-        	//       can we allow picking that explicitly?
-        	if (player.nextTurnCards.contains(c)) {
-        		int idx = player.nextTurnCards.indexOf(c);
-        		cryptCards.add(player.nextTurnCards.remove(idx));
-        	} else {
-        		int idx = player.playedCards.indexOf(c);
-        		cryptCards.add(player.playedCards.remove(idx));
-        	}
+        	int idx = player.playedCards.indexOf(c);
+    		cryptCards.add(player.playedCards.remove(idx));
         	if (!setAsideCards) {
             	player.crypt.add(cryptCards);
             	setAsideCards = true;
@@ -281,15 +273,8 @@ public class CardImplNocturne extends CardImpl {
 	        context.game.broadcastEvent(event);
         }
         
-        if (cryptCards.size() == 0) {
-        	for (int i = 0; i < player.nextTurnCards.size(); ++i) {
-        		if (player.nextTurnCards.get(i) == this.getControlCard()) {
-        			player.nextTurnCards.remove(i);
-        			break;
-        		}
-        	}
-            player.playedCards.add(this.getControlCard());
-        	return;
+        if (cryptCards.size() > 0) {
+        	player.addStartTurnDurationEffect(this, cryptCards.size(), isThronedEffect);
         }
     }
 	
@@ -372,8 +357,7 @@ public class CardImplNocturne extends CardImpl {
         		Util.playerError(player, "Exorcist error, invalid card to trash, ignoring.");
         	} else {
         		cardToTrash = player.hand.get(cardToTrash);
-        		player.hand.remove(cardToTrash);
-        		player.trash(cardToTrash, this.getControlCard(), context);
+        		player.trashFromHand(cardToTrash, this.getControlCard(), context);
         		
         		//Gain a cheaper Spirit card
         		int cost = cardToTrash.getCost(context);
@@ -500,8 +484,7 @@ public class CardImplNocturne extends CardImpl {
         		Util.playerError(player, "Goat error, invalid card to trash, ignoring.");
         	} else {
         		cardToTrash = player.hand.get(cardToTrash);
-        		player.hand.remove(cardToTrash);
-        		player.trash(cardToTrash, this.getControlCard(), context);
+        		player.trashFromHand(cardToTrash, this.getControlCard(), context);
         	}
         }
     }
@@ -652,15 +635,12 @@ public class CardImplNocturne extends CardImpl {
 	
 	private void pixie(Game game, MoveContext context, Player player) {
 		Card topBoon = game.discardNextBoon(context, this);
-		if (!this.getControlCard().movedToNextTurnPile) {
-			if (player.controlPlayer.pixie_shouldTrashPixie(context, topBoon, getControlCard())) {
-				this.getControlCard().movedToNextTurnPile = true;
-				player.trash(this.getControlCard(), null, context);
-                player.playedCards.remove(player.playedCards.lastIndexOf(this.getControlCard()));
+		if (player.isInPlay(this) && player.controlPlayer.pixie_shouldTrashPixie(context, topBoon, getControlCard())) {
+			if (player.trashSelfFromPlay(getControlCard(), context)) {
 				game.recieveBoon(context, topBoon, getControlCard());
 				game.recieveBoon(context, topBoon, getControlCard());
 			}
-        }
+		}
 	}
 	
 	private void plague(Game game, MoveContext context, Player player) {
@@ -685,8 +665,7 @@ public class CardImplNocturne extends CardImpl {
                     return;
                 }
 
-                player.hand.remove(card);
-                player.trash(card, this.getControlCard(), context);
+                player.trashFromHand(card, this.getControlCard(), context);
                 for (int i = 0; i < 4; ++i) {
                 	game.drawToHand(context, Cards.pooka, 4 - i);
                 }
@@ -827,8 +806,7 @@ public class CardImplNocturne extends CardImpl {
     		Util.playerError(player, "The Flame's gift error, invalid card to trash, ignoring.");
     	} else {
     		cardToTrash = hand.get(cardToTrash);
-    		hand.remove(cardToTrash);
-    		player.trash(cardToTrash, Cards.theFlamesGift, context);
+    		player.trashFromHand(cardToTrash, Cards.theFlamesGift, context);
     	}
 	}
 	
@@ -1028,7 +1006,7 @@ public class CardImplNocturne extends CardImpl {
 	}
 	
 	private void wish(Game game, MoveContext context, Player player) {
-		if (isInPlay(player)) {
+		if (player.isInPlay(this)) {
             CardPile pile = game.getPile(this);
             pile.addCard(player.playedCards.remove(player.playedCards.indexOf(this.getId())));
             Card card = player.controlPlayer.wish_cardToObtain(context);
@@ -1071,8 +1049,7 @@ public class CardImplNocturne extends CardImpl {
 			return;
 		}
 		cardToTrash = player.hand.get(cardToTrash);
-		player.hand.remove(cardToTrash);
-		player.trash(cardToTrash, this.getControlCard(), context);
+		player.trashFromHand(cardToTrash, this.getControlCard(), context);
 		
 		for (int i = 0; i < 3; ++i) {
         	game.drawToHand(context, this, 3 - i);

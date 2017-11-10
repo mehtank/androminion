@@ -259,7 +259,7 @@ public class Util {
             event.card = Cards.lighthouse;
             game.broadcastEvent(event);
         }
-        if (game.countChampionsInPlay(player) > 0) {
+        if (player.championEffects > 0) {
             defended = true;
             
             GameEvent event = new GameEvent(GameEvent.EventType.PlayerDefended, context);

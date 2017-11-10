@@ -97,8 +97,8 @@ public interface Card extends Serializable {
     
     public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay);
     
-    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay, boolean dontMove, boolean effectsOnly);
-    
+    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay, boolean dontMove, boolean effectsOnly, boolean isThronedEffect);
+        
     public Integer getId();
     
     public void isBuying(MoveContext context);
@@ -109,7 +109,7 @@ public interface Card extends Serializable {
     public boolean isImpersonatingAnotherCard();
     public Card behaveAsCard();
     public CardImpl getControlCard();
-
+    
     public boolean isTemplateCard();
     public CardImpl getTemplateCard();
 

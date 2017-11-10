@@ -543,15 +543,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     			inPlayCounts.put(c, inPlayCounts.get(c)+1);
     		}
     	}
-    	for (Card c : context.player.nextTurnCards) {
-    		if (((CardImpl)c).trashAfterPlay)
-    			continue;
-			if (!inPlayCounts.containsKey(c)) {
-    			inPlayCounts.put(c, 1);
-    		} else {
-    			inPlayCounts.put(c, inPlayCounts.get(c)+1);
-    		}
-    	}
     	Map<Card, Integer> playedCounts = new HashMap<Card, Integer>();
     	for (int i = 0; i < played.size(); ++i) {
     		if (!playedReal.get(i))
@@ -755,7 +746,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(islandSize);
             int nativeVillageSize = event.player.nativeVillage.size();
             extras.add(nativeVillageSize);
-        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingCard || event.getType() == EventType.PlayingDurationAction || event.getType() == EventType.CallingCard) {
+        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingCard || 
+        		event.getType() == EventType.PlayingDurationAction || 
+        		event.getType() == EventType.CallingCard || 
+        		event.getType() == EventType.CardInPlay) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
         } else if (event.getType() == EventType.GameOver) {
@@ -954,9 +948,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
             if(context != null && context.getPlayer() == this) {
                 int tacticians = 0;
-                for (int i = 0; i < context.player.nextTurnCards.size(); i++)
+                for (int i = 0; i < context.player.startTurnDurationEffects.size(); i++)
                 {
-                    if (context.player.nextTurnCards.get(i).equals(Cards.tactician))
+                    if (context.player.startTurnDurationEffects.get(i).effect.equals(Cards.tactician))
                         tacticians++;
                 }
                 if (tacticians >= 2)

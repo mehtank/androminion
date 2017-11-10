@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
-import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.CardCostComparator;
@@ -25,6 +24,7 @@ import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.core.MoveContext.TurnPhase;
+import com.vdom.core.Player.DurationEffect;
 import com.vdom.core.Player.ExtraTurnOption;
 import com.vdom.core.Player.HuntingGroundsOption;
 import com.vdom.core.Player.WatchTowerOption;
@@ -693,7 +693,7 @@ public class Game {
 
         List<ExtraTurnInfo> result = new ArrayList<Game.ExtraTurnInfo>();
         // Can only have at most two consecutive turns
-        for (Card card : player.nextTurnCards) {
+        for (Card card : player.playedCards) {
             Card behaveAsCard = card.behaveAsCard();
             if (behaveAsCard.takeAnotherTurn()) {
                 handCount = behaveAsCard.takeAnotherTurnCardCount();
@@ -822,8 +822,7 @@ public class Game {
                     if (toTrash == null) {
                         Util.playerError(player, "Donate error, tried to trash card not in hand: " + c);
                     } else {
-                        player.hand.remove(toTrash);
-                        player.trash(toTrash, Cards.donate, context);
+                        player.trashFromHand(toTrash, Cards.donate, context);
                     }
                 }
             }
@@ -1056,6 +1055,17 @@ public class Game {
         
         GameEvent gevent = new GameEvent(GameEvent.EventType.TurnBegin, context);
         broadcastEvent(gevent);
+        
+      //Send events for multiplying cards so they show up as in play
+        for (Card c : player.playedCards) {
+        	CardImpl actualCard = (CardImpl) c;
+        	if (actualCard.getMultiplyingCards() != null && actualCard.getMultiplyingCards().size() > 0) {
+        		GameEvent event = new GameEvent(GameEvent.EventType.CardInPlay, context);
+                event.card = c;
+                event.newCard = true;
+                broadcastEvent(event);
+        	}
+        }
 
         /* Duration cards, horse traders, cards on prince*/
         
@@ -1075,69 +1085,68 @@ public class Game {
         ArrayList<Boolean> durationEffectsAreCards = new ArrayList<Boolean>();
         int archiveNum = 0;
         int cryptNum = 0;
-        for (Card card : player.nextTurnCards) {
-            Card thisCard = card.behaveAsCard();
-            if (thisCard.is(Type.Duration, player)) {
-                /* Wiki:
-                 * Effects that resolve at the start of your turn can be resolved in any order;
-                 * this includes multiple plays of the same Duration card by a Throne Room variant.
-                 * For example, if you played a Wharf and then a Throne Room on an Amulet last turn,
-                 * on this turn you could choose to first gain a Silver from the first Amulet play,
-                 * then draw 2 cards from Wharf (perhaps triggering a reshuffle and maybe drawing
-                 * that Silver), and then choose to trash a card from the second Amulet play,
-                 * now that you have more cards to choose from. 
-                 */
-            	int cloneCount = ((CardImpl) card).getControlCard().cloneCount;
-                for (int clone = cloneCount; clone > 0; clone--) {
-                    if(   thisCard.equals(Cards.amulet)
-                       || thisCard.equals(Cards.dungeon)) {
-                        allDurationAreSimple = false;
-                    }
-                    if(thisCard.equals(Cards.haven)) {
-                    	if(player.haven != null && player.haven.size() > 0) {
-                    		durationEffects.add(thisCard);
-                    		durationEffects.add(player.haven.remove(0));
-                    		durationEffectsAreCards.add(clone == cloneCount 
-                    				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
-                    		durationEffectsAreCards.add(false);
-                		}
-                    } else if (thisCard.equals(Cards.gear)) {
-                    	if(player.gear.size() > 0) {
-                    		durationEffects.add(thisCard);
-                    		durationEffects.add(player.gear.remove(0));
-                    		durationEffectsAreCards.add(clone == cloneCount 
-                    				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
-                    		durationEffectsAreCards.add(false);
-                    	}
-                    } else if (thisCard.equals(Cards.archive)) {
-                    	if(player.archive.size() > 0) {
-                    		durationEffects.add(thisCard);
-                    		durationEffects.add(player.archive.get(archiveNum++));
-                    		durationEffectsAreCards.add(clone == cloneCount 
-                    				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
-                    		durationEffectsAreCards.add(false);
-                    	}
-                    } else if (thisCard.equals(Cards.crypt)) {
-                    	if(player.crypt.size() > 0) {
-                    		durationEffects.add(thisCard);
-                    		durationEffects.add(player.crypt.get(cryptNum++));
-                    		durationEffectsAreCards.add(clone == cloneCount 
-                    				&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
-                    		durationEffectsAreCards.add(false);
-                    	}
-                    } else {
-                    	durationEffects.add(thisCard);
-                    	durationEffects.add(Cards.curse); /*dummy*/
-                    	durationEffectsAreCards.add(clone == cloneCount
-                    			&& !((CardImpl)card.behaveAsCard()).trashAfterPlay);
-                		durationEffectsAreCards.add(false);
-                    }
-                }
-            } else if(isModifierCard(thisCard.behaveAsCard())) {
-                GameEvent event = new GameEvent(GameEvent.EventType.PlayingDurationAction, context);
-                event.card = card;
-                event.newCard = true;
+        for (Iterator<DurationEffect> it = player.startTurnDurationEffects.iterator(); it.hasNext();) {
+        	DurationEffect effect = it.next();
+        	if (effect.numTurnsLeft > 0) {
+        		effect.numTurnsLeft--;
+        		if (effect.numTurnsLeft == 0)
+        			it.remove();
+        	}
+            Card thisCard = effect.effect;
+            boolean effectHasCard = effect.sourceCard != null && !effect.isThronedEffect;
+            Card cardOrEffect = effectHasCard ? effect.sourceCard : thisCard;
+            /* Wiki:
+             * Effects that resolve at the start of your turn can be resolved in any order;
+             * this includes multiple plays of the same Duration card by a Throne Room variant.
+             * For example, if you played a Wharf and then a Throne Room on an Amulet last turn,
+             * on this turn you could choose to first gain a Silver from the first Amulet play,
+             * then draw 2 cards from Wharf (perhaps triggering a reshuffle and maybe drawing
+             * that Silver), and then choose to trash a card from the second Amulet play,
+             * now that you have more cards to choose from. 
+             */
+            if(thisCard.equals(Cards.amulet)
+               || thisCard.equals(Cards.dungeon)) {
+                allDurationAreSimple = false;
+            }
+            if(thisCard.equals(Cards.haven)) {
+            	if(player.haven != null && player.haven.size() > 0) {
+            		durationEffects.add(cardOrEffect);
+            		durationEffects.add(player.haven.remove(0));
+            		durationEffectsAreCards.add(effectHasCard);
+            		durationEffectsAreCards.add(false);
+        		}
+            } else if (thisCard.equals(Cards.gear)) {
+            	if(player.gear.size() > 0) {
+            		durationEffects.add(cardOrEffect);
+            		durationEffects.add(player.gear.remove(0));
+            		durationEffectsAreCards.add(effectHasCard);
+            		durationEffectsAreCards.add(false);
+            	}
+            } else if (thisCard.equals(Cards.archive)) {
+            	if(player.archive.size() > 0) {
+            		durationEffects.add(cardOrEffect);
+            		durationEffects.add(player.archive.get(archiveNum++));
+            		durationEffectsAreCards.add(effectHasCard);
+            		durationEffectsAreCards.add(false);
+            	}
+            } else if (thisCard.equals(Cards.champion)) {
+            	// champion doesn't have a start of turn effect - just show as in play
+            	GameEvent event = new GameEvent(GameEvent.EventType.CardInPlay, context);
+                event.card = thisCard;
+                event.newCard = effectHasCard;
                 broadcastEvent(event);
+            } else if (thisCard.equals(Cards.crypt)) {
+            	if(player.crypt.size() > 0) {
+            		durationEffects.add(cardOrEffect);
+            		durationEffects.add(player.crypt.get(cryptNum++));
+            		durationEffectsAreCards.add(effectHasCard);
+            		durationEffectsAreCards.add(false);
+            	}
+            } else {
+            	durationEffects.add(cardOrEffect);
+            	durationEffects.add(Cards.curse); /*dummy*/
+            	durationEffectsAreCards.add(effectHasCard);
+        		durationEffectsAreCards.add(false);
             }
         }
         for (Card card : player.horseTraders) {
@@ -1293,9 +1302,9 @@ public class Game {
             } else if(card.behaveAsCard().is(Type.Boon)) {
             	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
             } else if(card.behaveAsCard().equals(Cards.lostInTheWoods)) {
-            	card.play(this, context, false, true, true, true);
+            	card.play(this, context, false, true, true, true, false);
             } else if(card.behaveAsCard().is(Type.Duration, player)) {
-                if(card.behaveAsCard().equals(Cards.haven)) {
+            	if(card.behaveAsCard().equals(Cards.haven)) {
                     player.hand.add(card2);
                 }
                 if(card.behaveAsCard().equals(Cards.gear)) {
@@ -1338,15 +1347,15 @@ public class Game {
                     drawToHand(context, thisCard, addCardsNextTurn - i, true);
                 }
                 
-                if (   thisCard.getKind() == Cards.Kind.Amulet
-                	|| thisCard.getKind() == Cards.Kind.Dungeon ) {
-                    context.freeActionInEffect++;
-                    try {
-                        ((CardImpl) thisCard).additionalCardActions(context.game, context, player);
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
-                    }
-                    context.freeActionInEffect--;
+                if (thisCard.getKind() == Cards.Kind.Amulet) {
+                	context.freeActionInEffect++;
+                	((CardImplAdventures) thisCard).amuletEffect(context.game, context, player);
+                	context.freeActionInEffect--;
+                }
+                if (thisCard.getKind() == Cards.Kind.Dungeon) {
+                	context.freeActionInEffect++;
+                	((CardImpl) thisCard).discardMultiple(context, player, 2);
+                	context.freeActionInEffect--;
                 }                
             } else if(card.behaveAsCard().isCallableWhenTurnStarts()) {
             	numOptionalItems -= 2;
@@ -1355,73 +1364,19 @@ public class Game {
                 Util.log("ERROR: nextTurnCards contains " + card);
             }
         }
-        
-        ArrayList<Card> staysInPlayCards = new ArrayList<Card>();
-        archiveNum = 0;
-        cryptNum = 0;
-        while (!player.nextTurnCards.isEmpty()) {
-            Card card = player.nextTurnCards.remove(0);
-        	if(isModifierCard(card.behaveAsCard())) {
-                if(!player.nextTurnCards.isEmpty()) {
-                  	Card nextCard = player.nextTurnCards.get(0);
-                  	int additionalModifierCards = 0;
-                  	while (nextCard != null && isModifierCard(nextCard.behaveAsCard())) {
-                  		additionalModifierCards++;
-                  		if (player.nextTurnCards.size() > additionalModifierCards)
-                  			nextCard = player.nextTurnCards.get(additionalModifierCards);
-                  		else
-                  			nextCard = null;
-                  	}
-                    if(nextCard != null && (nextCard.behaveAsCard().equals(Cards.hireling) || nextCard.behaveAsCard().equals(Cards.champion) ||
-                    		(nextCard.behaveAsCard().equals(Cards.archive) && player.archive.get(archiveNum++).size() > 0) ||
-                    		(nextCard.behaveAsCard().equals(Cards.crypt) && player.crypt.get(cryptNum++).size() > 0)
-                    		)) {
-                    	staysInPlayCards.add(card);
-                    	for (int i = 0; i < additionalModifierCards; ++i) {
-                    		staysInPlayCards.add(player.nextTurnCards.remove(0));
-                    	}
-                        player.nextTurnCards.remove(0);
-                        staysInPlayCards.add(nextCard);
-                    	continue;
-                    }
-                }
-            }
-        	
-        	if(card.behaveAsCard().equals(Cards.hireling) || card.behaveAsCard().equals(Cards.champion) || 
-        			(card.behaveAsCard().equals(Cards.archive) && player.archive.get(archiveNum++).size() > 0) ||
-        			(card.behaveAsCard().equals(Cards.crypt) && player.crypt.get(cryptNum++).size() > 0)
-        			) {
-        		staysInPlayCards.add(card);
-            } else {
-	            CardImpl behaveAsCard = (CardImpl) card.behaveAsCard();
-	            behaveAsCard.cloneCount = 1;
-	            ((CardImpl)card).cloneCount = 1;
-	            if (!(behaveAsCard.trashAfterPlay || ((CardImpl)card).trashAfterPlay)) {
-	                player.playedCards.add(card);
-	            } else {
-	                behaveAsCard.trashAfterPlay = false;
-	                ((CardImpl)card).trashAfterPlay = false;
-	            }
-            }
-        }
-        while (!staysInPlayCards.isEmpty()) {
-            player.nextTurnCards.add(staysInPlayCards.remove(0));
-        }
+                
         //Clean up empty Archive lists
         Iterator<ArrayList<Card>> it = player.archive.iterator();
         while (it.hasNext()) {
         	if (it.next().isEmpty()) 
         		it.remove();
         }
-      //Clean up empty Crypt lists
+        //Clean up empty Crypt lists
         it = player.crypt.iterator();
         while (it.hasNext()) {
         	if (it.next().isEmpty()) 
         		it.remove();
         }
-        
-        //TODO: Dominionator - Will require tracking duration effects independent of cards
-        //       to do correctly or replacing real card with a dummy card - do this later.
         
         //TODO: integrate this into the main action selection UI if possible to make it more seamless
         //check for start-of-turn callable cards
@@ -1483,15 +1438,6 @@ public class Game {
 		player.addVictoryTokens(context, tokensToTake, Cards.arena);
     }
     
-    public static boolean isModifierCard(Card card) {
-		return card.equals(Cards.throneRoom)
-	               || card.equals(Cards.disciple)
-	               || card.equals(Cards.kingsCourt)
-	               || card.equals(Cards.procession)
-	               || card.equals(Cards.royalCarriage)
-	               || card.equals(Cards.crown);
-	}
-
 	private static void printStats(HashMap<String, Double> wins, int gameCount, String gameType) {
         if (!test || gameCount == 1) {
             return;
@@ -2107,8 +2053,7 @@ public class Game {
                 	if (!player.getHand().contains(cardToTrash)) {
                 		Util.playerError(player, "Trashing token error, invalid card to trash, ignoring.");
                 	} else {
-                		player.hand.remove(cardToTrash);
-                		player.trash(cardToTrash, null, context);
+                		player.trashFromHand(cardToTrash, null, context);
                 	}
                 }
         	}
@@ -2275,7 +2220,7 @@ public class Game {
     	 if(buy.is(Type.Action, context.getPlayer())) {
 	    	if (cardInGame(Cards.colonnade)) {
 	    		Player player = context.getPlayer();
-	    		if (player.playedCards.contains(buy) || player.nextTurnCards.contains(buy)) {
+	    		if (player.playedCards.contains(buy)) {
 	    			int tokensLeft = getPileVpTokens(Cards.colonnade);
             		if (tokensLeft > 0) {
             			int tokensToTake = Math.min(tokensLeft, 2);
@@ -2462,12 +2407,12 @@ public class Game {
     	} else {
     		boonDiscardPile.add(boon);
     	}
-    	boon.play(this, context, false, true, true, true);
+    	boon.play(this, context, false, true, true, true, false);
     	return boon;
     }
     
     public void recieveBoonAndDiscard(MoveContext context, Card boon, Card responsible) {
-    	boon.play(this, context, false, true, true, true);
+    	boon.play(this, context, false, true, true, true, false);
     	if (isKeepUntilCleanupBoon(boon)) {
     		if (!context.getPlayer().boonsForCleanup.contains(boon))
     			context.getPlayer().boonsForCleanup.add(boon);
@@ -2477,14 +2422,14 @@ public class Game {
     }
     
     public void recieveBoon(MoveContext context, Card boon, Card responsible) {
-    	boon.play(this, context, false, true, true, true);
+    	boon.play(this, context, false, true, true, true, false);
     }
     
     public Card receiveNextHex(MoveContext context, Card responsible) {
     	shuffleHexesIfNeeded();
     	Card hex = hexDrawPile.remove(0);
     	hexDiscardPile.add(hex);
-    	hex.play(this, context, false, true, true, true);
+    	hex.play(this, context, false, true, true, true, false);
     	return hex;
     }
     
@@ -2496,7 +2441,7 @@ public class Game {
     		player.attacked(hex, context);
             MoveContext playerContext = new MoveContext(this, player);
             playerContext.attackedPlayer = player;
-    		hex.play(this, playerContext, false, true, true, true);
+    		hex.play(this, playerContext, false, true, true, true, false);
     	}
     	return hex;
     }
@@ -3847,8 +3792,7 @@ public class Game {
                                     MoveContext targetContext = new MoveContext(Game.this, targetPlayer);
 									FoolsGoldOption option = targetPlayer.controlPlayer.foolsGold_chooseOption(targetContext);
                                     if(option == FoolsGoldOption.TrashForGold) {
-                                        targetPlayer.hand.remove(Cards.foolsGold);
-                                        targetPlayer.trash(Cards.foolsGold, Cards.foolsGold, targetContext);
+                                        targetPlayer.trashFromHand(Cards.foolsGold, Cards.foolsGold, targetContext);
                                         targetPlayer.gainNewCard(Cards.gold, Cards.foolsGold, targetContext);
                                     } else if (option == FoolsGoldOption.PassAll) {
 										break;
@@ -3917,7 +3861,6 @@ public class Game {
                         }
                     } else if (gainedCardAbility.equals(Cards.mandarin)) {
                         CardList playedCards = context.getPlayedCards();
-                        CardList nextTurnCards = context.player.nextTurnCards;
                         ArrayList<Card> treasureCardsInPlay = new ArrayList<Card>();
 
                         for(Card c : playedCards) {
@@ -3925,12 +3868,7 @@ public class Game {
                                 treasureCardsInPlay.add(c);
                             }
                         }
-                        for(Card c : nextTurnCards) {
-                            if(c.is(Type.Treasure, player)) {
-                                treasureCardsInPlay.add(c);
-                            }
-                        }
-
+                        
                         if(treasureCardsInPlay.size() > 0) {
                             Card[] order ;
                             if (treasureCardsInPlay.size() == 1)
@@ -3941,8 +3879,7 @@ public class Game {
                             for (int i = order.length - 1; i >= 0; i--) {
                                 Card c = order[i];
                                 player.putOnTopOfDeck(c);
-                                if (!playedCards.remove(c)) 
-                                	nextTurnCards.remove(c);
+                                playedCards.remove(c); 
                             }
                         }
                     } else if (gainedCardAbility.equals(Cards.deathCart)) {
@@ -4037,7 +3974,7 @@ public class Game {
 
                         for (Player opponent : context.game.getPlayersInTurnOrder()) {
                             if (opponent != player) {
-                                for (Card c : opponent.nextTurnCards) {
+                                for (Card c : opponent.playedCards) {
                                     if (c.is(Type.Victory, opponent)) {
                                         victoryCards++;
                                     }
@@ -4058,8 +3995,7 @@ public class Game {
                                     for (int i = 0; i < player.hand.size(); i++) {
                                         Card playersCard = player.hand.get(i);
                                         if (playersCard.equals(card)) {
-                                            Card thisCard = player.hand.remove(i, false);
-                                            player.trash(thisCard, Cards.cemetery, context);
+                                            player.trashFromHand(playersCard, Cards.cemetery, context);
                                             break;
                                         }
                                     }
@@ -4159,24 +4095,12 @@ public class Game {
     }
 
     boolean hasLighthouse(Player player) {
-        for (Card card : player.nextTurnCards) {
-            if (card.behaveAsCard().equals(Cards.lighthouse) && !((CardImpl) card).trashAfterPlay)
+    	for (Card card : player.playedCards) {
+            if (card.behaveAsCard().equals(Cards.lighthouse))
                 return true;
         }
-
         return false;
     }
-    
-    int countChampionsInPlay(Player player) {
-    	int count = 0;
-        for (Card card : player.nextTurnCards) {
-            if (card.behaveAsCard().equals(Cards.champion))
-                count += ((CardImpl) card).cloneCount;
-        }
-
-        return count;
-    }
-
 
     /*
        Note that any cards in the supply can have Embargo coins added.
@@ -4736,8 +4660,7 @@ public class Game {
         {
             for (Card c : hovelsToTrash)
             {
-                player.hand.remove(c);
-                player.trash(c, responsible, context);
+                player.trashFromHand(c, responsible, context);
             }
         }
     }

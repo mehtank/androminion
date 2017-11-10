@@ -3905,7 +3905,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	if (context.getPlayer().getPlayedByPrince().contains(traveller)) {
     		return false;
     	}
-    	if (exchange.equals(Cards.champion) && context.game.countChampionsInPlay(context.getPlayer()) > 0) {
+    	if (exchange.equals(Cards.champion) && context.getPlayer().championEffects > 0) {
     		return false;
     	}
 		return true;
@@ -3967,22 +3967,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card[] pilgrimage_cardsToGain(MoveContext context) {
     	HashSet<Card> cardsToMatch = new HashSet<Card>();
-    	for(int i = 0; i < 2; i++) {
-    		for(Card card : (i==0 ? context.getPlayer().playedCards : context.getPlayer().nextTurnCards)) {
-    			if(Cards.isSupplyCard(card) && context.isCardOnTop(card)) {
-    				boolean good = true;
-    				for(Card trash : getTrashCards()) {
-    					if(card.equals(trash)) {
-    						good = false;
-    						break;
-    					}
-    				}
-    				if(good) {
-    					cardsToMatch.add(card);
-    				}
-    			}
-    		}
-    	}
+		for(Card card : context.getPlayer().playedCards) {
+			if(Cards.isSupplyCard(card) && context.isCardOnTop(card)) {
+				boolean good = true;
+				for(Card trash : getTrashCards()) {
+					if(card.equals(trash)) {
+						good = false;
+						break;
+					}
+				}
+				if(good) {
+					cardsToMatch.add(card);
+				}
+			}
+		}
     	ArrayList<Card> sorted = new ArrayList<Card>();
     	sorted.addAll(cardsToMatch);
     	Collections.sort(sorted, new Util.CardCostComparatorDesc());
@@ -4490,7 +4488,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	ArrayList<Card> toCrypt = new ArrayList<Card>();
     	ArrayList<Card> inPlay = new ArrayList<Card>();
         for(Card c : player.playedCards) if (c.is(Type.Treasure)) inPlay.add(c);
-        for(Card c : player.nextTurnCards) if (c.is(Type.Treasure)) inPlay.add(c);
         
         toCrypt.add(highestCard(context, inPlay));
         //TODO: may want to add multiple high cost cards if we're not going to shuffle for a while

@@ -20,6 +20,7 @@ public class GameEvent {
         PlayingCard, // Card is about to be played by a player.
         PlayedCard, // Card has just been played by a player.
         PlayingDurationAction, // Duration action card's next turn effects are about to occur for a player.
+        CardInPlay, // Signals that a card is already in play (for showing non-start of turn cards in play at start of turn)
         BuyingCard, // Buying a card in the buy phase.
         OverpayForCard, // Overpaying for a Guilds card.
         GuildsTokenObtained, // Recieve a Guilds token

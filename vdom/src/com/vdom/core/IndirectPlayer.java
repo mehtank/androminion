@@ -79,9 +79,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     		for (Card card : context.player.playedCards) {
     			localHand.add(card);
     		}
-    		for (Card card : context.player.nextTurnCards) {
-    			localHand.add(card);
-    		}
     		sco = sco.fromPlayed();
     	}
     	
