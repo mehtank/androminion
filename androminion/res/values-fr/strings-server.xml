@@ -174,14 +174,9 @@
     <string name="CardSetAsideOnTavernMat">Carte mise sur le plateau Taverne</string>
     <string name="CallingCard">Appelle</string>
     <string name="CalledCard">appelée</string>
-	<string name="CardSetAside">Carte mise de côté (Prince)</string>
-	<string name="CardSetAsideSummon">Carte mise de côté (Invocation)</string>        
-	<string name="CardSetAsideHaven">Carte mise de côté (Havre)</string>
-	<string name="CardSetAsideGear">Carte mise de côté (Équipement)</string>
-	<string name="CardSetAsideSave">Carte mise de côté (Resserre)</string>
+	<string name="CardSetAside">%1$s mise de côté (%2$s)</string>
+	<string name="CardSetAsidePrivate">Carte mise de côté (%1$s)</string>        
 	<string name="CardSetAsideOnIslandMat">Carte mise de côté sur le plateau Île</string>
-	<string name="CardSetAsideInheritance">Carte mise de côté (Héritage)</string>
-	<string name="CardSetAsideArchive">Carte mise de côté (Archives)</string>
 	<string name="DeckPutIntoDiscardPile">Deck défaussé</string>
 	<string name="TravellerExchanged">%1$s échangé pour</string>        
 	<string name="TurnJourneyTokenFaceUp">Jeton Voyage tourné face visible</string>

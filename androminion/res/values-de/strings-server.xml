@@ -174,14 +174,9 @@
 	<string name="CardSetAsideOnTavernMat">Karte auf Wirtshaustableau gelegt</string>
 	<string name="CallingCard">aufrufen</string>
 	<string name="CalledCard">aufgerufen</string>
-	<string name="CardSetAside">Karte beiseite gelegt (Prinz)</string>
-	<string name="CardSetAsideSummon">Karte beiseite gelegt (Einladung)</string>
-	<string name="CardSetAsideHaven">Karte beiseite gelegt (Hafen)</string>
-	<string name="CardSetAsideGear">Karte beiseite gelegt (Ausrüstung)</string>
-	<string name="CardSetAsideSave">Karte beiseite gelegt (Zuflucht)</string>
+	<string name="CardSetAside">%1$s beiseite gelegt (%2$s)</string>
+	<string name="CardSetAsidePrivate">Karte beiseite gelegt (%1$s)</string>
 	<string name="CardSetAsideOnIslandMat">Karte auf Insel gelegt</string>
-	<string name="CardSetAsideInheritance">Karte beiseite gelegt (Erbschaft)</string>
-	<string name="CardSetAsideArchive">Karte beiseite gelegt (Archiv)</string>
 	<string name="DeckPutIntoDiscardPile">Nachziehstapel auf Ablagestapel gelegt</string>
 	<string name="TravellerExchanged">Reisender eingetauscht in</string>
 	<string name="TurnJourneyTokenFaceUp">Reise-Marker auf Vorderseite gedreht</string>

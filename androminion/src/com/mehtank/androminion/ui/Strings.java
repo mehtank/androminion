@@ -343,31 +343,19 @@ public class Strings {
         } else if (event.gameEventType == GameEvent.EventType.PlayingDurationAction) {
             statusText += getString(R.string.PlayingDurationAction);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAside) {
-            statusText += getString(R.string.CardSetAside);
-        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideSummon) {
-            statusText += getString(R.string.CardSetAsideSummon);
-        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideHaven) {
-            statusText += getString(R.string.CardSetAsideHaven);
-        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideGear) {
-            statusText += getString(R.string.CardSetAsideGear);
-        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideSave) {
-            statusText += getString(R.string.CardSetAsideSave);
+        	String cardResponsible = getCardName((Card)extras[3]); // card doing the setting aside
+        	statusText += format(R.string.CardSetAside, getCardName(event.c), cardResponsible);
+        } else if (event.gameEventType == GameEvent.EventType.CardSetAsidePrivate) {
+        	String cardResponsible = getCardName((Card)extras[3]); // card doing the setting aside
+            statusText += format(R.string.CardSetAsidePrivate, cardResponsible);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAsideOnTavernMat) {
             statusText += getString(R.string.CardSetAsideOnTavernMat);
-        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideArchive) {
-            statusText += getString(R.string.CardSetAsideArchive);
-        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideCrypt) {
-            statusText += getString(R.string.CardSetAsideCrypt);
-        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideFaithfulHound) {
-            statusText += getString(R.string.CardSetAsideFaithfulHound);
         } else if (event.gameEventType == GameEvent.EventType.CallingCard) {
 			statusText += getString(R.string.CallingCard);
 		} else if (event.gameEventType == GameEvent.EventType.CalledCard) {
 			statusText += getString(R.string.CalledCard);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAsideOnIslandMat) {
             statusText += getString(R.string.CardSetAsideOnIslandMat);
-        } else if (event.gameEventType == GameEvent.EventType.CardSetAsideInheritance) {
-            statusText += getString(R.string.CardSetAsideInheritance);
         } else if (event.gameEventType == GameEvent.EventType.DeckPutIntoDiscardPile) {
             statusText += getString(R.string.DeckPutIntoDiscardPile);
         } else if (event.gameEventType == GameEvent.EventType.TravellerExchanged) {
@@ -505,6 +493,8 @@ public class Strings {
                 && event.gameEventType != GameEvent.EventType.CardAddedToHand
                 && event.gameEventType != GameEvent.EventType.PlayerAttacking
                 && event.gameEventType != GameEvent.EventType.VPTokensObtained
+                && event.gameEventType != GameEvent.EventType.CardSetAside
+                && event.gameEventType != GameEvent.EventType.CardSetAsidePrivate
                 && event.gameEventType != GameEvent.EventType.TakeState
                 && event.gameEventType != GameEvent.EventType.ReturnState) {
             statusText += " " + getCardName(event.c) + " ";
@@ -638,7 +628,8 @@ public class Strings {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
                                 + " (" + cardsString + ")";
                     } else if (((Card)options[i]).equals(Cards.prince)
-                    		|| ((Card)options[i]).equals(Cards.summon)) {
+                    		|| ((Card)options[i]).equals(Cards.summon)
+                    		|| ((Card)options[i]).equals(Cards.ghost)) {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i+1]) 
                             + " (" + getCardName(((Card) options[i])) + ")";
                     } else if (((Card)options[i]).equals(Cards.horseTraders)) {

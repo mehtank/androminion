@@ -39,19 +39,12 @@ public class GameEvent {
         CardDiscarded, // A card was discarded
         CardAddedToHand, // A new card has been added to a player's hand
         CardRemovedFromHand, // A card has been removed from a player's hand        
-        CardSetAside, // A card was set aside (prince)
-        CardSetAsideSummon, // A card was set aside (Summon)
-        CardSetAsideGear, // A card was set aside (gear)
-        CardSetAsideHaven, // A card was set aside (haven)
-        CardSetAsideSave, // A card was set aside (save)
+        CardSetAside, // A card was set aside
+        CardSetAsidePrivate, // A card was set aside face down
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
-        CardSetAsideArchive, // A card was set aside (archive)
-        CardSetAsideCrypt, // A card was set aside (crypt)
-        CardSetAsideFaithfulHound, // A card was set aside (faithful hound)
         CallingCard, // A card is about to be called from the tavern mat
         CalledCard, // A card was called from the tavern mat
         CardSetAsideOnIslandMat, // A card was set aside on island mat
-        CardSetAsideInheritance, // A card was set aside with Inheritance
         DeckPutIntoDiscardPile, // Deck put into discard pile
         TravellerExchanged, // traveller exchanged
         TurnJourneyTokenFaceUp, // journey token turned face up

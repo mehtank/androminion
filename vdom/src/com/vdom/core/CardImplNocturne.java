@@ -58,6 +58,9 @@ public class CardImplNocturne extends CardImpl {
 		case Fool:
 			fool(game, context, currentPlayer);
 			break;
+		case Ghost:
+			ghost(game, context, currentPlayer);
+			break;
 		case Goat:
 			goat(game, context, currentPlayer);
 			break;
@@ -268,8 +271,10 @@ public class CardImplNocturne extends CardImpl {
             	player.crypt.add(cryptCards);
             	setAsideCards = true;
             }
-            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideCrypt, context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, context);
 	        event.card = c;
+	        event.responsible = this;
+	        event.setPrivate(true);
 	        context.game.broadcastEvent(event);
         }
         
@@ -474,6 +479,30 @@ public class CardImplNocturne extends CardImpl {
 			game.recieveBoonAndDiscard(context, boonToReceive, getControlCard());
 		}
 	}
+	
+	private void ghost(Game game, MoveContext context, Player player) {
+        ArrayList<Card> toDiscard = new ArrayList<Card>();
+
+        Card draw = null;
+        while ((draw = game.draw(context, Cards.ghost, -1)) != null && !draw.is(Type.Action, player)) {
+            player.reveal(draw, this.getControlCard(), context);
+            toDiscard.add(draw);
+        }
+
+        if (draw != null) {
+            player.reveal(draw, this.getControlCard(), context);
+            player.ghost.add(draw);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, context);
+	        event.card = draw;
+	        event.responsible = this;
+	        context.game.broadcastEvent(event);
+	        player.addStartTurnDurationEffect(this, 1, false);
+        }
+        
+        while (!toDiscard.isEmpty()) {
+            player.discard(toDiscard.remove(0), this.getControlCard(), null);
+        }
+    }
 	
 	private void goat(Game game, MoveContext context, Player player) {
 		if (player.getHand().size() == 0)

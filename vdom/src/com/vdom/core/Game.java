@@ -1142,6 +1142,8 @@ public class Game {
             		durationEffectsAreCards.add(effectHasCard);
             		durationEffectsAreCards.add(false);
             	}
+            } else if (thisCard.equals(Cards.ghost)) {
+            	//handled below
             } else {
             	durationEffects.add(cardOrEffect);
             	durationEffects.add(Cards.curse); /*dummy*/
@@ -1169,7 +1171,7 @@ public class Game {
                 allDurationAreSimple = false;
                 durationEffects.add(Cards.summon);
                 durationEffects.add(card);
-                durationEffectsAreCards.add(true);
+                durationEffectsAreCards.add(false);
         		durationEffectsAreCards.add(false);
             }
         }
@@ -1189,6 +1191,13 @@ public class Game {
             durationEffects.add(Cards.crypt);
             durationEffects.add(player.crypt.get(cryptNum++));
             durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+        }
+        for (Card card : player.ghost) {
+            allDurationAreSimple = false;
+            durationEffects.add(Cards.ghost);
+            durationEffects.add(card);
+            durationEffectsAreCards.add(true);
     		durationEffectsAreCards.add(false);
         }
         while (!player.nextTurnBoons.isEmpty()) {
@@ -1356,7 +1365,19 @@ public class Game {
                 	context.freeActionInEffect++;
                 	((CardImpl) thisCard).discardMultiple(context, player, 2);
                 	context.freeActionInEffect--;
-                }                
+                }    
+                if (thisCard.getKind() == Cards.Kind.Ghost) {
+                	player.ghost.remove(card2);
+                    
+                    context.freeActionInEffect++;
+                    try {
+                        card2.play(this, context, false);
+                        card2.play(this, context, false, false, false, false, true);
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    }
+                    context.freeActionInEffect--;
+                }
             } else if(card.behaveAsCard().isCallableWhenTurnStarts()) {
             	numOptionalItems -= 2;
             	card.behaveAsCard().callAtStartOfTurn(context);
@@ -3646,8 +3667,9 @@ public class Game {
                             //TODO: figure out better way to handle not Summoning Death Cart or Border Village (or other cards) due to lose track rule
                         	//      may have missed some esoteric cases here (e.g. Inn's when-gain ability doesn't have to have Summon lose track)
                         	context.player.summon.add(event.card);
-        					GameEvent summonEvent = new GameEvent(GameEvent.EventType.CardSetAsideSummon, context);
+        					GameEvent summonEvent = new GameEvent(GameEvent.EventType.CardSetAside, context);
         					summonEvent.card = event.card;
+        					summonEvent.responsible = event.responsible;
         					context.game.broadcastEvent(summonEvent);
                         } else if (gainedCardAbility.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);

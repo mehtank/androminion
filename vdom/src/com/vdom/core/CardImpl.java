@@ -671,7 +671,7 @@ public class CardImpl implements Card, Comparable<Card>{
         	int handIdx = currentPlayer.hand.indexOf(actualCard.getId());
             if (fromHand && handIdx >= 0)
                 currentPlayer.hand.remove(handIdx);
-            if (!dontMove) {
+            if (!dontMove && !isThronedPlay) {
                 currentPlayer.playedCards.add(this);
             }
         }

@@ -214,7 +214,8 @@ public class Util {
         log("Deck:" + player.getDeckSize() + " PirateShip:" + player.getPirateShipTreasure() 
         		+ " NativeVillage:" + cardArrayToString(player.getNativeVillage())
             + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()) 
-            + " Summon:" + cardArrayToString(player.getSummon()) + " Inheritance:" + player.getInheritance());
+            + " Summon:" + cardArrayToString(player.getSummon()) + " Inheritance:" + player.getInheritance()
+            + " Ghost:" + cardArrayToString(player.getGhost()));
         log("");
     }
 

@@ -394,8 +394,9 @@ public class CardImplAdventures extends CardImpl {
                 	cardSetAside = true;
                     currentPlayer.getHand().remove(card);
                     gearCards.add(card);
-                    GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideGear, (MoveContext) context);
+                    GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, (MoveContext) context);
                     event.card = card;
+                    event.responsible = this;
                     event.setPrivate(true);
                     context.game.broadcastEvent(event);
                 }
@@ -845,8 +846,9 @@ public class CardImplAdventures extends CardImpl {
             if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && 
             		!context.game.isPileEmpty(card) && !card.is(Type.Victory, null)) {
             	context.player.inheritance = context.game.takeFromPile(card, context);
-            	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideInheritance, context);
+            	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, context);
                 event.card = card;
+                event.responsible = this;
                 context.game.broadcastEvent(event);
             }
 
@@ -1006,8 +1008,9 @@ public class CardImplAdventures extends CardImpl {
 
     	context.player.hand.remove(card);
     	context.player.save = card;
-    	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideSave, context);
+    	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, context);
         event.card = card;
+        event.responsible = this;
         event.setPrivate(true);
         context.game.broadcastEvent(event);
     }

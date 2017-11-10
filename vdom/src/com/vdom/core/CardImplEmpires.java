@@ -191,8 +191,9 @@ public class CardImplEmpires extends CardImpl {
                 	currentPlayer.archive.add(topOfTheDeck);
                 	setAsideCards = true;
                 }
-                GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideArchive, context);
+                GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, context);
     	        event.card = card;
+    	        event.responsible = this;
     	        event.setPrivate(true);
     	        context.game.broadcastEvent(event);
             }

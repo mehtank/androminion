@@ -321,6 +321,7 @@ public class CardImplPromo extends CardImpl {
                 
                 GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, (MoveContext) context);
                 event.card = card;
+                event.responsible = this;
                 game.broadcastEvent(event);
             }
         }

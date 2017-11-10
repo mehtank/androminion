@@ -257,8 +257,9 @@ public class CardImplSeaside extends CardImpl {
             currentPlayer.getHand().remove(card);
             currentPlayer.haven.add(card);
             currentPlayer.addStartTurnDurationEffect(this, 1, isThronedEffect);	
-            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideHaven, (MoveContext) context);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, (MoveContext) context);
             event.card = card;
+            event.responsible = this;
             event.setPrivate(true);
             context.game.broadcastEvent(event);
         }

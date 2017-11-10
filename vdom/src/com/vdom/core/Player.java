@@ -69,6 +69,7 @@ public abstract class Player {
     protected CardList states;
     protected int theRiversGiftDraw;
     protected CardList faithfulHound;
+    protected CardList ghost;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     protected List<DurationEffect> startTurnDurationEffects;
     protected int championEffects = 0;
@@ -337,6 +338,7 @@ public abstract class Player {
         encampment = new CardList(this, "Encampment");
         crypt = new ArrayList<ArrayList<Card>>();
         faithfulHound = new CardList(this, "Faithful Hound");
+        ghost = new CardList(this, "Ghost");
         boonsForCleanup = new CardList(this, "Boons");
         nextTurnBoons = new CardList(this, "Boons");
         states = new CardList(this, "States");
@@ -677,6 +679,10 @@ public abstract class Player {
     public Card getInheritance() {
     	return inheritance;
     }
+    
+    public CardList getGhost() {
+        return ghost;
+    }
 
     public CardList getPlayedByPrince() {
         return playedByPrince;
@@ -840,6 +846,9 @@ public abstract class Player {
         	allCards.addAll(curCrypt);
         }
         for (Card card : faithfulHound) {
+            allCards.add(card);
+        }
+        for (Card card : ghost) {
             allCards.add(card);
         }
         if (checkLeadCard != null) {
@@ -1407,6 +1416,7 @@ public abstract class Player {
                 if(context != null) {
                     GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, context);
                     event.card = card;
+                    event.responsible = Cards.prince;
                     context.game.broadcastEvent(event);
                 }
             }
@@ -1440,8 +1450,10 @@ public abstract class Player {
                     if(controlPlayer.faithfulHound_shouldSetAside(houndContext)) {
                     	discard.remove(card);
                     	faithfulHound.add(card);
-                    	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideFaithfulHound, context);
+                    	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, context);
             	        event.card = card;
+            	        event.responsible = Cards.faithfulHound;
+            	        event.setPrivate(true);
             	        context.game.broadcastEvent(event);
                     }
         		}
