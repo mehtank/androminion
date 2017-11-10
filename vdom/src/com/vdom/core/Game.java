@@ -332,10 +332,17 @@ public class Game {
 	                // /////////////////////////////////
 	                context.phase = TurnPhase.Buy;
 	                playerBeginBuy(player, context);
-	                playTreasures(player, context, -1, null);
-	
-	                // Spend Guilds coin tokens if applicable
-	                playGuildsTokens(player, context);
+	                
+	                boolean hasMoreTreasures = false;
+	                boolean declinedTokens = false;
+	                do {
+		                playTreasures(player, context, -1, null);
+		                hasMoreTreasures = playerHasMoreTreasures(player);
+		                // Spend Guilds coin tokens if applicable
+		                int tokensSpent = playGuildsTokens(player, context);
+		                declinedTokens = tokensSpent == 0;
+		                //Allow playing treasures again for cards like Fortune where you want to play the Treasure after spending tokens
+	                } while (hasMoreTreasures && !declinedTokens);
 	
 	                // /////////////////////////////////
 	                // Buying cards
@@ -428,6 +435,17 @@ public class Game {
         frameworkEvent.setGameTypeWins(gameTypeSpecificWins);
         FrameworkEventHelper.broadcastEvent(frameworkEvent);
     }
+    
+    private boolean playerHasMoreTreasures(Player p) {
+    	boolean result = false;
+    	for(Card c : p.getHand()) {
+    		if (c.is(Type.Treasure, p)) {
+    			result = true;
+    			break;
+    		}
+    	}
+    	return result;
+    }
 
     protected void setPlayersTurn(boolean takeAnotherTurn) {
         if (!takeAnotherTurn && consecutiveTurnCounter > 0) {
@@ -455,10 +473,10 @@ public class Game {
         return count;
     }
 
-    protected void playTreasures(Player player, MoveContext context, int maxCards, Card responsible) {
+    protected int playTreasures(Player player, MoveContext context, int maxCards, Card responsible) {
     	// storyteller sets maxCards != -1
-    	if (disableAi && player.isAi()) return;
-    	
+    	if (disableAi && player.isAi()) return 0;
+    	int totalPlayed = 0;
     	boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
         if (maxCards != -1) selectingCoins = true;// storyteller
         ArrayList<Card> treasures = null;
@@ -469,12 +487,14 @@ public class Game {
                 Card card = treasures.remove(0);
                 if (player.hand.contains(card)) {// this is needed due to counterfeit which trashes cards during this loop
                     card.play(context.game, context, true, true);
+                    totalPlayed++;
                     maxCards--;
                 }
             }
             if (maxCards != 0)
             	treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand();
         }
+        return totalPlayed;
     }
     
     protected void playNight(Player player, MoveContext context) {
@@ -519,9 +539,9 @@ public class Game {
 	    } while (nightCard != null);
     }
 
-    protected void playGuildsTokens(Player player, MoveContext context)
+    protected int playGuildsTokens(Player player, MoveContext context)
     {
-    	if (disableAi && player.isAi()) return;
+    	if (disableAi && player.isAi()) return 0;
         int coinTokenTotal = player.getGuildsCoinTokenCount();
 
         if (coinTokenTotal > 0)
@@ -540,8 +560,10 @@ public class Game {
                     context.game.broadcastEvent(event);
                 }
                 Util.debug(player, "Spent " + numTokensToSpend + " Guilds coin tokens");
+                return numTokensToSpend;
             }
         }
+        return 0;
     }
 
     private void markWinner(HashMap<String, Double> gameTypeSpecificWins) {
