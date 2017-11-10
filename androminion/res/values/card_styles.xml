@@ -141,15 +141,15 @@
     </style>
     
     <style name="CardView.Night.Duration">
-        <item name="cardBackgroundColor">@color/cardDuration</item>
-        <item name="cardNameBackgroundColor">@color/cardNight</item>
-		<item name="cardTextColor">@color/cardDefaultTextColor</item>
-        <item name="cardCountColor">@color/cardInverseTextColor</item>
+        <item name="cardBackgroundColor">@color/cardNight</item>
+        <item name="cardNameBackgroundColor">@color/cardDuration</item>
+		<item name="cardTextColor">@color/cardInverseTextColor</item>
+        <item name="cardCountColor">@color/cardDefaultTextColor</item>
     </style>
     
     <style name="CardView.Night.Duration.Attack" parent="@style/CardView.Night.Duration">
-		<item name="cardTextColor">@color/cardAttack</item>
-        <item name="cardCountColor">@color/cardAttackInverse</item>
+		<item name="cardTextColor">@color/cardAttackInverse</item>
+        <item name="cardCountColor">@color/cardAttack</item>
     </style>
 
     <style name="CardView.Victory.Action">
