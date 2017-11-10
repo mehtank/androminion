@@ -880,6 +880,8 @@ public class Strings {
             return format(R.string.crypt_query, cardName);
         } else if (cardName.equals(getCardName(Cards.fool))) {
             return format(R.string.fool_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.necromancer))) {
+            return format(R.string.necromancer_query, cardName);
         } else if (cardName.equals(getCardName(Cards.raider))) {
             return format(R.string.raider_query, cardName);
         }
@@ -1357,7 +1359,7 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.pixie))) {
             strings[1] = format(R.string.pixie_trash_for_double_boon, getCardName((Card)extras[0]), getBoonShortText((Card)extras[0]));
             strings[2] = getString(R.string.pass);
-        } else if (cardName.equals(getCardName(Cards.spy))) {
+        } else if (cardName.equals(getCardName(Cards.zombieSpy))) {
             strings[0] = getCardRevealedHeader(extras);
             strings[1] = getString(R.string.discard);
             strings[2] = getString(R.string.replace);

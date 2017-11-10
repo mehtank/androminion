@@ -526,6 +526,7 @@
   <string name="crypt_query">Elige una carta para poner en tu mano [%1$s]</string>
   <string name="fool_query">Elige el próximo Favor para recibir [%1$s]</string>
   <string name="lostInTheWoods_part_discard_for_boon">descartar para recibit un Favor</string>
+  <string name="necromancer_query">Elige una carta de Action de entre las eliminadas para jugar [%1$s]</string>
   <string name="raider_query">Elige una carta para descartar [%1$s]</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>

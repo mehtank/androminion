@@ -531,6 +531,7 @@
   <string name="crypt_query">Select card to put in hand [%1$s]</string>
   <string name="fool_query">Select Boon to receive next [%1$s]</string>
   <string name="lostInTheWoods_part_discard_for_boon">discard to receive a Boon</string>
+  <string name="necromancer_query">Select Action to play from trash [%1$s]</string>
   <string name="raider_query">Select card to discard [%1$s]</string>
   
   <string name="place_stash_query">Place Stash in deck</string>

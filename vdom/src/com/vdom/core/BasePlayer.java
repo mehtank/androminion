@@ -4660,6 +4660,39 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card necromancer_cardToPlay(MoveContext context, Card[] cards) {
+    	boolean hasActionInHand = false;
+    	for (Card card : context.player.hand) {
+    		if (card.is(Type.Action)) {
+    			hasActionInHand = true;
+    		}
+    	}
+    	//favor zombie apprentice and then +action cards other than zombie spy if we don't have actions left
+    	if (hasActionInHand) {
+    		for (Card card : cards) {
+        		if (card.equals(Cards.zombieApprentice)) {
+        			return card;
+        		}
+        		if (!card.equals(Cards.zombieSpy) && card.getAddActions() > 0 && context.getActionsLeft() == 0) {
+        			return card;
+        		}
+        	}
+        	//play zombie spy if we don't have actions left
+        	if (context.getActionsLeft() == 0) {
+    	    	for (Card card : cards) {
+    	    		if (card.equals(Cards.zombieSpy)) {
+    	    			return card;
+    	    		}
+    	    	}
+        	}
+    	}
+    	//otherwise favor highest cost action
+    	ArrayList<Card> cardsList = new ArrayList<Card>();
+    	for (Card card : cards) cardsList.add(card);
+    	return highestCard(context, cardsList);
+    }
+    
+    @Override
     public boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible) {
     	//TODO: better logic
     	return true;

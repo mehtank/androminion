@@ -3968,6 +3968,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card necromancer_cardToPlay(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.necromancer, cards)];
+    }
+    
+    @Override
     public boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible) {
     	Object[] extras = new Object[2];
         extras[0] = boon;
@@ -4104,9 +4109,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     
     @Override
     public Card zombieMason_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
-    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH).setPassable()
-        		.setActionType(ActionType.TRASH).setCardResponsible(Cards.zombieMason);
-        return getCardFromHand(context, sco);
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(maxDebtCost).maxPotionCost(potion?1:0)
+                .setPassable().setCardResponsible(Cards.zombieMason).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
     }
     
     @Override

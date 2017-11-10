@@ -131,6 +131,7 @@ public class Game {
     public HashMap<String, Integer> pileDebtTokens = new HashMap<String, Integer>();
     private HashMap<String, HashMap<Player, List<PlayerSupplyToken>>> playerSupplyTokens = new HashMap<String, HashMap<Player,List<PlayerSupplyToken>>>();
     public ArrayList<Card> trashPile = new ArrayList<Card>();
+    public ArrayList<Card> trashPileFaceDown = new ArrayList<Card>();
     public ArrayList<Card> possessedTrashPile = new ArrayList<Card>();
     public ArrayList<Card> possessedBoughtPile = new ArrayList<Card>();
     public ArrayList<Card> blackMarketPile = new ArrayList<Card>();
@@ -764,6 +765,8 @@ public class Game {
         		}
         	}
         }
+        
+        trashPileFaceDown.clear();
         
         event = new GameEvent(GameEvent.EventType.TurnEnd, context);
         broadcastEvent(event);        

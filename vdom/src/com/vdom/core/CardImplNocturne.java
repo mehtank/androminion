@@ -91,6 +91,9 @@ public class CardImplNocturne extends CardImpl {
 		case Misery:
 			misery(game, context, currentPlayer);
 			break;
+		case Necromancer:
+			necromancer(game, context, currentPlayer);
+			break;
 		case Pixie:
 			pixie(game, context, currentPlayer);
 			break;
@@ -662,6 +665,34 @@ public class CardImplNocturne extends CardImpl {
 		}
 	}
 	
+	private void necromancer(Game game, MoveContext context, Player player) {
+		ArrayList<Card> faceUpActions = new ArrayList<Card>();
+		for (Card card : game.GetTrashPile()) {
+			if (!card.is(Type.Action)) continue;
+			boolean isFaceUp = true;
+			for (Card faceDownCard : game.trashPileFaceDown) {
+				if (faceDownCard.getId() == card.getId())
+					isFaceUp = false;
+			}
+			if (isFaceUp) {
+				faceUpActions.add(card);
+			}
+		}
+		if (faceUpActions.isEmpty()) return;
+		Card actionToPlay = faceUpActions.get(0);
+		if (faceUpActions.size() > 1) {
+			actionToPlay = player.controlPlayer.necromancer_cardToPlay(context, faceUpActions.toArray(new Card[0]));
+			if (actionToPlay == null || !faceUpActions.contains(actionToPlay)) {
+				Util.playerError(player, "Necromancer error, invalid card to play, picking first");
+				actionToPlay = faceUpActions.get(0);
+			}
+		}
+		game.trashPileFaceDown.add(actionToPlay);
+		context.freeActionInEffect++;
+		actionToPlay.play(game, context, false, false, true, false, false);
+		context.freeActionInEffect--;
+	}
+	
 	private void pixie(Game game, MoveContext context, Player player) {
 		Card topBoon = game.discardNextBoon(context, this);
 		if (player.isInPlay(this) && player.controlPlayer.pixie_shouldTrashPixie(context, topBoon, getControlCard())) {
@@ -1099,11 +1130,11 @@ public class CardImplNocturne extends CardImpl {
         Card card = player.controlPlayer.zombieMason_cardToObtain(context, value, debtValue, potion);
         if (card != null) {
             if (card.getCost(context) > value || card.getDebtCost(context) > debtValue || (card.costPotion() && !potion)) {
-                Util.playerError(player, "Transmogrify error, new card does not cost value of the old card +1 or less.");
+                Util.playerError(player, "Zombie Mason error, new card does not cost value of the old card +1 or less.");
             } else if (game.isPileEmpty(card)) {
-            	Util.playerError(player, "Transmogrify error, new card pile is empty.");
+            	Util.playerError(player, "Zombie Mason error, new card pile is empty.");
             } else if (!game.isCardOnTop(card)) {
-            	Util.playerError(player, "Transmogrify error, new card not in game.");
+            	Util.playerError(player, "Zombie Mason error, new card not in game.");
             } else {
             	player.gainNewCard(card, this.getControlCard(), context);
             }
