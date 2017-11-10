@@ -680,6 +680,6 @@ public class CardSet {
 		CardSetMap.put(GameType.AreaControl, new CardSet(new Card[] { Cards.capital, Cards.virtualCatapultRocks, Cards.charm, Cards.crown, Cards.farmersMarket, Cards.coinOfTheRealm, Cards.page, Cards.relic, Cards.treasureTrove, Cards.wineMerchant, Cards.banquet, Cards.keep}));
 		CardSetMap.put(GameType.NoMoneyNoProblems, new CardSet(new Card[] { Cards.archive, Cards.virtualEncampmentPlunder, Cards.royalBlacksmith, Cards.temple, Cards.villa, Cards.dungeon, Cards.duplicate, Cards.hireling, Cards.peasant, Cards.transmogrify, Cards.banditFort, Cards.mission}));
 
-		CardSetMap.put(GameType.Test, new CardSet(new Card[] { Cards.throneRoom, Cards.squire, Cards.gear, Cards.bandOfMisfits, Cards.overlord, Cards.ferry, Cards.inheritance, Cards.donate, Cards.bonfire, Cards.militia, Cards.margrave, Cards.page, Cards.peasant, Cards.virtualCastle, Cards.urchin, Cards.raze, Cards.miningVillage, Cards.amulet, Cards.wharf, Cards.highway}));
+		CardSetMap.put(GameType.Test, new CardSet(new Card[] {Cards.pixie, Cards.fool, Cards.ghostTown, Cards.leprechaun, Cards.cemetery, Cards.devilsWorkshop, Cards.exorcist, Cards.necromancer, Cards.crypt, Cards.idol, Cards.vampire, Cards.werewolf, Cards.raider, Cards.overlord, Cards.ferry, Cards.inheritance, Cards.bonfire, Cards.page, Cards.vampire, Cards.highway}));
 	}
 }
