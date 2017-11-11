@@ -49,7 +49,7 @@
 <![CDATA[
 		<h3>Please Read!</h3>
 		By request of Rio Grande Games, the publisher of Dominion, we have removed Androminion from the Play Store. Please do not publish it in any public app store as there will be an official Dominion app.<br><br>
-		<h3>Version 8.00</h3>
+		<h3>Version 8.01</h3>
 		* Nocturne Expansion! <br>
 		* Promo Card: Dismantle
 		<h3>Version 7.06</h3>
@@ -108,7 +108,7 @@
 		<b><font color="lime">* More AI options!</font></b>  Introducing new AIs Chuck, Mary, and Sarah.<br/>
 		<b><font color="lime">* More bugfixes!</font></b>  Also more bugs, probably.<br/>
 		* Same great taste!<br/>
-		<br/><font color="lime">Androminion is now open source!</font>  This update would not have been possible without the help of a number of contributors; please view the credits tab.  You too can help!  Submit bug reports, feature requests, translations, and more on <br/><a href="http://androminion.googlecode.com">http://androminion.googlecode.com</a><br/><br/>
+		<br/><font color="lime">Androminion is now open source!</font>  This update would not have been possible without the help of a number of contributors; please view the credits tab.  You too can help!  Submit bug reports, feature requests, translations, and more on <br/><a href="https://github.com/mehtank/androminion">https://github.com/mehtank/androminion</a><br/><br/>
 	]]>
     </string>
     <string name="contrib_menu">Credits </string>
