@@ -1144,7 +1144,7 @@ public class Cards {
         nonSupplyCards.add(zombieMason      = new CardImpl.Builder(Cards.Kind.ZombieMason, 3, Type.Action, Type.Zombie).description("Trash the top card of your deck. You may gain a card costing up to (1) Coin more than it.").expansion(Expansion.Nocturne).build());
         nonSupplyCards.add(zombieSpy        = new CardImpl.Builder(Cards.Kind.ZombieSpy, 3, Type.Action, Type.Zombie).addActions(1).addCards(1).description("Look at the top card of your deck. Discard it or put it back.").expansion(Expansion.Nocturne).build());
         
-        boonCards.add(theEarthsGift    = new CardImpl.Builder(Cards.Kind.TheEarthsGift, Type.Boon).description("You may discard a treasure to gain a card costing up to (4) Coins.").expansion(Expansion.Nocturne).build());
+        boonCards.add(theEarthsGift    = new CardImpl.Builder(Cards.Kind.TheEarthsGift, Type.Boon).description("You may discard a Treasure to gain a card costing up to (4) Coins.").expansion(Expansion.Nocturne).build());
         boonCards.add(theFieldsGift    = new CardImpl.Builder(Cards.Kind.TheFieldsGift, Type.Boon).addActions(1).addGold(1).description("(Keep this until Clean-up.)").expansion(Expansion.Nocturne).build());
         boonCards.add(theFlamesGift    = new CardImpl.Builder(Cards.Kind.TheFlamesGift, Type.Boon).description("You may trash a card from your hand.").expansion(Expansion.Nocturne).build());
         boonCards.add(theForestsGift   = new CardImpl.Builder(Cards.Kind.TheForestsGift, Type.Boon).addBuys(1).addGold(1).description("(Keep this until Clean-up.)").expansion(Expansion.Nocturne).build());

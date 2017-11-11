@@ -880,8 +880,8 @@
     <string name="ZombieSpy_desc">Look at the top card of your deck. Discard it or put it back.</string>
     
     <string name="TheEarthsGift_name">The Earth\'s Gift</string>
-    <string name="TheEarthsGift_desc">You may discard a treasure to gain a card costing up to (4) Coins.</string>
-    <string name="TheEarthsGift_shortDesc">May discard treasure for card up to (4) Coins</string>
+    <string name="TheEarthsGift_desc">You may discard a Treasure to gain a card costing up to (4) Coins.</string>
+    <string name="TheEarthsGift_shortDesc">May discard Treasure for card up to (4) Coins</string>
     <string name="TheFieldsGift_name">The Field\'s Gift</string>
     <string name="TheFieldsGift_desc">(Keep this until Clean-up.)</string>
     <string name="TheFieldsGift_shortDesc">+Action, +(1) Coin</string>

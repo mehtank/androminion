@@ -99,6 +99,10 @@
 	<string name="select_one_action_from_hand_not_in_play">Elige una carta de Acción de tu mano que no tengas una copia en juego para %1$s</string>
 	<string name="select_up_to_x_actions_from_hand">Elige hasta %1$s cartas de Acción de tu mano para %2$s</string>
 	<string name="select_exactly_x_actions_from_hand">Elige %1$s cartas de Acción de tu mano para %2$s</string>
+	
+	<string name="select_one_night_from_hand">Elige una carta de Noche de tu mano para %1$s</string>
+	<string name="select_up_to_x_nights_from_hand">Elige hasta %1$s cartas de Noche de tu mano para %2$s</string>
+	<string name="select_exactly_x_nights_from_hand">Elige %1$s cartas de Noche de tu mano para %2$s</string>
 
 	<string name="select_one_treasure_from_hand">Elige una carta de Tesoro de tu mano para %1$s</string>
 	<string name="select_one_treasure_from_hand_except">Elige una carta de Tesoro de tu mano, menos %1$s, para %2$s</string>
