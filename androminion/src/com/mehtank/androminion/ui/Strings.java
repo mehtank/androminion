@@ -799,7 +799,7 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.ambassador))) {
             return format(R.string.ambassador_query, getCardName((Card)extras[0]));
         } else if (cardName.equals(getCardName(Cards.cartographer))) {
-            return getString(R.string.Cartographer_query) + " [" + cardName + "]";
+            return format(R.string.Cartographer_query, cardName);
         } else if (cardName.equals(getCardName(Cards.countingHouse))) {
             return getString(R.string.countingHouse_query);
         } else if (cardName.equals(getCardName(Cards.doctor))) {
@@ -849,7 +849,7 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.teacher))) {
 			return getString(R.string.teacher_query);
         } else if (cardName.equals(getCardName(Cards.theSunsGift))) {
-            return getString(R.string.Cartographer_query) + " [" + cardName + "]";
+            return format(R.string.Cartographer_query, cardName);
         } else if (cardName.equals(getCardName(Cards.thief))) {
             if (extras[0] == null) {
                 // In this case we're gaining treasures that have been trashed.
@@ -884,6 +884,10 @@ public class Strings {
             return format(R.string.necromancer_query, cardName);
         } else if (cardName.equals(getCardName(Cards.raider))) {
             return format(R.string.raider_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.theMoonsGift)) ||
+        		cardName.equals(getCardName(Cards.harbinger)) ||
+        		cardName.equals(getCardName(Cards.scavenger))) {
+            return format(R.string.deck_from_discard_query, cardName);
         }
         return cardName;
     }
@@ -1143,7 +1147,7 @@ public class Strings {
         } else if (option instanceof Integer) {
             return "" + option;
         }
-        throw new RuntimeException("I got passed an option object that I don't understand!");
+        throw new RuntimeException("I got passed an option object that I don't understand!: " + option.toString());
     }
 
     /**
@@ -1374,7 +1378,7 @@ public class Strings {
             return strings;
         }
         throw new RuntimeException("I got passed a card that I don't know how to create a boolean "
-                                   + "option for!");
+                                   + "option for!: " + cardName);
     }
 
     public static String combineCardNames(Object[] cards) {
@@ -1749,9 +1753,7 @@ public class Strings {
             getCardName(Cards.locusts),
             getCardName(Cards.pooka),
             getCardName(Cards.poverty),
-            getCardName(Cards.theEarthsGift),
             getCardName(Cards.theFlamesGift),
-            getCardName(Cards.theSkysGift),
             getCardName(Cards.theWindsGift),
             getCardName(Cards.shepherd),
             getCardName(Cards.vampire),
@@ -1795,6 +1797,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.save), getString(R.string.save_part));
         actionStringMap.put(getCardName(Cards.sirMichael), getString(R.string.sir_michael_part));
         actionStringMap.put(getCardName(Cards.tax), getString(R.string.tax_part));
+        actionStringMap.put(getCardName(Cards.theSkysGift), getString(R.string.the_skys_gift_part));
         actionStringMap.put(getCardName(Cards.throneRoom), getString(R.string.throne_room_part));
         actionStringMap.put(getCardName(Cards.disciple), getString(R.string.throne_room_part));
         actionStringMap.put(getCardName(Cards.crown), getString(R.string.throne_room_part));
@@ -1816,6 +1819,9 @@ public class Strings {
 
         String actionString = actionStringMap.get(cardName);
         if (actionString != null) {
+        	if (actionString.contains("%1$s")) {
+        		return format(actionString, cardName);
+        	}
             return actionString;
         }
 
@@ -1931,9 +1937,15 @@ public class Strings {
             return getString(R.string.opulent_castle_ask_discard);
         } else if (cardName.equals(getCardName(Cards.lostInTheWoods))) {
             return getString(R.string.lostInTheWoods_part_discard_for_boon);
+        } else if (cardName.equals(getCardName(Cards.theEarthsGift))) {
+        	if (sco.actionType == ActionType.DISCARD) {
+        		return getString(R.string.the_earths_gift_part);
+            } else {
+            	return getActionString(sco);
+            }
         }
         
-        throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet");
+        throw new RuntimeException("Found a card in getActionCardText that I don't know how to handle yet: " + cardName);
     }
 
     /**

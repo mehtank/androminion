@@ -466,11 +466,12 @@
 	<string name="putback_option_one">Treasure card (Herbalist)</string>
 	<string name="putback_option_two">Action card (Scheme)</string>
 	<string name="putback_option_all">Put all back on deck</string>
+	<string name="deck_from_discard_query">Select card from discard to put on deck [%1$s]</string>
 
   <string name="game_over_vps"> VPs</string>
   <string name="victory_tokens">Victory Tokens</string>
   
-  <string name="Cartographer_query">Select card to discard</string>
+  <string name="Cartographer_query">Select cards to discard from the top of your deck [%1$s]</string>
   <string name="cards">Cards</string>
   <string name="return_cards">Return cards to deck:</string>
   <string name="take_normal">Gain normally</string>
@@ -531,6 +532,8 @@
   <string name="crypt_query">Select card to put in hand [%1$s]</string>
   <string name="fool_query">Select Boon to receive next [%1$s]</string>
   <string name="lostInTheWoods_part_discard_for_boon">discard to receive a Boon</string>
+  <string name="the_earths_gift_part">discard to gain a card costing up to (4) Coins [%1$s]</string>
+  <string name="the_skys_gift_part">discard to gain a Gold [%1$s]</string>
   <string name="necromancer_query">Select Action to play from trash [%1$s]</string>
   <string name="raider_query">Select card to discard [%1$s]</string>
   

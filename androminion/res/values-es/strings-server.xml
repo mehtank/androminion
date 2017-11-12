@@ -464,11 +464,12 @@
 	<string name="putback_option_one">Carta de Tesoro (Herbalista)</string>
 	<string name="putback_option_two">Carta de Acción (Confabulación)</string>
 	<string name="putback_option_all">Devolverlas todas</string>
+	<string name="deck_from_discard_query">Elige una carts de las descartes para poner encima de tu mazo [%1$s]</string>
 
   <string name="game_over_vps"> PVs</string>
   <string name="victory_tokens">Fichas de PV</string>
   
-  <string name="Cartographer_query">Elige una carta para descartar</string>
+  <string name="Cartographer_query">Elige cartas para descartar de la parte superior de tu mazo [%1$s]</string>
   <string name="cards">Cartas</string>
   <string name="return_cards">Devolver las cartas al mazo:</string>
   <string name="take_normal">Ganar normalmente</string>
@@ -530,6 +531,8 @@
   <string name="crypt_query">Elige una carta para poner en tu mano [%1$s]</string>
   <string name="fool_query">Elige el próximo Favor para recibir [%1$s]</string>
   <string name="lostInTheWoods_part_discard_for_boon">descartar para recibit un Favor</string>
+  <string name="the_earths_gift_part">descartar para ganar una carta con un coste máximo de (4) Monedas [%1$s]</string>
+  <string name="the_skys_gift_part">descartar para ganar una carta de Oro [%1$s]</string>
   <string name="necromancer_query">Elige una carta de Action de entre las eliminadas para jugar [%1$s]</string>
   <string name="raider_query">Elige una carta para descartar [%1$s]</string>
   

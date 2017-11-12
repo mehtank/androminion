@@ -262,7 +262,7 @@
 
   <string name="game_over_vps"> ПО</string>
 
-  <string name="Cartographer_query">Выберите карту чтоб сбросить</string>
+  <string name="Cartographer_query">Выберите карту чтоб сбросить [%1$s]</string>
   <string name="cards">Карты</string>
   <string name="return_cards">Верните карты в колоду:</string>
   <string name="take_normal">Возьмите обычно:</string>

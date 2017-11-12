@@ -262,7 +262,7 @@
 
   <string name="game_over_vps"> Punten</string>
 
-  <string name="Cartographer_query">Kies af te leggen kaart</string>
+  <string name="Cartographer_query">Kies af te leggen kaart [%1$s]</string>
   <string name="cards">Kaarten</string>
   <string name="return_cards">Leg kaarten op je trekstapel:</string>
   <string name="take_normal">Pak normaal</string>

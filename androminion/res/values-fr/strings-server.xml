@@ -451,7 +451,7 @@
     <string name="victory_tokens">Jetons Victoire</string>
 
     <!-- Cartographe -->
-    <string name="Cartographer_query">Sélectionner une carte à défausser</string>
+    <string name="Cartographer_query">Sélectionner une carte à défausser [%1$s]</string>
 
     <string name="cards">Cartes</string>
     <string name="return_cards">Replacer les cartes sur le deck:</string>

@@ -441,7 +441,7 @@
 	<string name="game_over_vps">SP</string>
 	<string name="victory_tokens">Punktemarker</string>
 	
-	<string name="Cartographer_query">Wähle Karte zum Abwerfen</string>
+	<string name="Cartographer_query">Wähle Karte zum Abwerfen [%1$s]</string>
 	<string name="cards">Karten</string>
 	<string name="return_cards">Auf den Nachziehstapel zurücklegen:</string>
 	<string name="take_normal">Nimm normal</string>
