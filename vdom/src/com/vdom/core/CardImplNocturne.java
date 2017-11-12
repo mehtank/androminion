@@ -797,8 +797,6 @@ public class CardImplNocturne extends CardImpl {
             	}
             }
             if (discardCards.size() == 0) {
-            	if (context.countCardsInPlay() == 0)
-            		return;
             	for (Card card : player.hand){
             		player.reveal(card, getControlCard(), playerContext);
             	}
