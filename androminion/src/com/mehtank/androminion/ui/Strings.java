@@ -1939,7 +1939,7 @@ public class Strings {
             return getString(R.string.lostInTheWoods_part_discard_for_boon);
         } else if (cardName.equals(getCardName(Cards.theEarthsGift))) {
         	if (sco.actionType == ActionType.DISCARD) {
-        		return getString(R.string.the_earths_gift_part);
+        		return format(R.string.the_earths_gift_part, cardName);
             } else {
             	return getActionString(sco);
             }
