@@ -3,6 +3,7 @@
 
 	<!-- Interaction -->
 	<string name="pass">Passen</string>
+	<string name="pass_all">alle Passen</string>
 	<string name="card_revealed">%1$s deckt %2$s auf</string>
 	<string name="card_revealed_from_hand">%1$s deckt %2$s von der Hand auf</string>
 	<string name="select_from_table_max_treasure">%2$s eine Geldkarte die bis zu (%1$s) kostet</string>
@@ -14,15 +15,15 @@
 	<string name="inn_option_one">In den Nachziehstapel mischen</string>
 	<string name="inn_option_two">Auf Ablagestapel belassen</string>
 	<string name="tunnel_query">Tunnel ablegen</string>
-	<string name="tunnel_option_one">Aufdecken für Gold</string>
-	<string name="settlers_query">Put Copper from discard into hand</string>
-	<string name="bustlingVillage_query">Nimm Siedler vom Ablagestapel auf die Hand</string>
+	<string name="tunnel_option_one">Aufdecken</string>
+	<string name="settlers_query">Nimm Kupfer auf die Hand</string>
+	<string name="bustlingVillage_query">Nimm Siedler auf die Hand</string>
 	<string name="reveal_copy">Decke Kopie aus der Hand auf</string>
-	<string name="legionary_reveal_gold">Gold aufdeken zum Angreifen</string>
-	<string name="sentry_look_at">%1$s looking at %2$s (from %3$s)</string>
+	<string name="legionary_reveal_gold">Gold aufdecken</string>
+	<string name="sentry_look_at">%1$s deckt %2$s auf (%3$s)</string>
 
-	<string name="join_timed_out">Time out während des Wartens auf andere Mitspieler.</string>
-	<string name="response_timed_out">Time out während des Wartens auf eine Anfrage nach Mitspieler.</string>
+	<string name="join_timed_out">Timeout während des Wartens auf andere Mitspieler.</string>
+	<string name="response_timed_out">Timeout während des Wartens auf eine Anfrage nach Mitspieler.</string>
 	
 	<string name="vp_single">Wert %1$s Siegpunkt</string>
 	<string name="vp_multiple">Wert %1$s Siegpunkte</string>
@@ -157,8 +158,8 @@
 	<string name="VPTokensObtained">%1$s Punktemarker erhalten</string>
 	<string name="VPTokensPutOnPile">%1$s Punktemarker gelegt auf</string>
 	<string name="VPTokensTakenFromPile">%1$s Punktemarker entfernt von</string>
-	<string name="MountainPassBidPass">Passed bid for</string>
-	<string name="MountainPassBid">Bid %1$s for</string>
+	<string name="MountainPassBidPass">Passe für</string>
+	<string name="MountainPassBid">Biete %1$s für</string>
 	<string name="DeckReplenished">Nachziehstapel aufgefüllt</string>
 	<string name="PlayerAttacking">Greift an</string>
 	<string name="PlayerDefended">Verteidigt</string>
@@ -207,13 +208,13 @@
 	<string name="trash_card_from_hand">Entsorge eine Handkarte</string>
 	<string name="gain_silver">Nimm dir ein Silber</string>
 	<string name="trash_this">Entsorge diese Karte</string>
-	<string name="trash_this_gain_another">Entsorge diese Karte um eine weitere zu Nehmen</string>
+	<string name="trash_this_gain_another">Entsorge diese Karte</string>
 	<string name="trash_castle_from_hand">Entsorge Schloss aus der Hand</string>
 	
-	<string name="secretchamber_part">Geheimkammer: Lege oben auf den Nachziehstapel: Wähle</string>
-	<string name="secretchamber_query_discard">Geheimkammer: Lege ab: Wähle</string>
+	<string name="secretchamber_part">Geheimkammer: Auf den Nachziehstapel: Wähle</string>
+	<string name="secretchamber_query_discard">Geheimkammer: Karten ablegen: Wähle</string>
 	
-	<string name="ghostship_part">Geisterschiff: Lege oben auf den Nachziehstapel: Wähle</string>
+	<string name="ghostship_part">Geisterschiff: Auf den Nachziehstapel: Wähle</string>
 	
 	<string name="ambassador_query">Botschafter: Wie viele %1$s zurück in den Vorrat legen:</string>
 	
@@ -407,6 +408,9 @@
 	<string name="lurker_cardToTrashFromSupply">entsorge</string>
 	
 	<string name="mine_part">Wähle</string>
+	<string name="mint_part">Münzer: Wähle</string>	
+	<string name="contraband_part">Schmuggelware: wähle</string>
+	<string name="embargo_part">Embargo</string>
 	
 	<string name="throne_room_part">Spiele 2 mal</string>
 	<string name="kings_court_part">Spiele 3 mal</string>
@@ -450,25 +454,26 @@
 	<string name="cards">Karten</string>
 	<string name="return_cards">Auf den Nachziehstapel zurücklegen:</string>
 	<string name="take_normal">Nimm normal</string>
-	<string name="opponent_discard">%2$s: Wähle eine Karte, die %1$s ablegen muss:</string>
+	<string name="opponent_discard">%2$s: %1$s muss ablegen:</string>
 	<string name="survivors_header">Die Überlebenden haben aufgedeckt: %1$s</string>
-	<string name="cultist_play_next">Spiele einen weiteren Kultisten aus deiner Hand</string>
+	<string name="cultist_play_next">Spiele Kultisten</string>
 	<string name="urchin_keep">Gassenjunge: Behalte</string>
-	<string name="urchin_trash_for_mercenary">Entsorge diese Karte und nimm dir einen Söldner</string>
-	<string name="madman_option">Lege diese Karte zurück auf den Verrückten-Stapel.</string>
-	
+	<string name="urchin_trash_for_mercenary">Entsorge Gassenjunge und nimm Söldner</string>
+	<string name="madman_option">Verrückter zurücklegen</string>
+	<string name="rogue_query">Welche Karte vom Müll nehmen</string>
 	<string name="taxman_part">Nimm</string>
 	<string name="doctor_overpay_option_one">Entsorgen</string>
 	<string name="doctor_overpay_option_two">Abwerfen</string>
-	<string name="doctor_overpay_option_three">Zurück auf den Nachziehstapel</string>
-	<string name="herald_overpay_query">Wähle eine Karte, die du auf den Nachziehstapel legst</string>
+	<string name="doctor_overpay_option_three">auf den Nachziehstapel</string>
+	<string name="herald_overpay_query">auf den Nachziehstapel</string>
+
 	<string name="spend_guilds_coin_tokens">Investiere Münzen</string>
 	<string name="buy_overpay">Überzahlen?</string>
 	<string name="buy_overpay_by_potions">Überzahlen mit Tränken?</string>
 	<string name="pay_off_debt">Schulden abbezahlen</string>
 	<string name="possessed_by">besessen von</string>
 	
-	<string name="countingHouse_query">Wähle Anzahl Kupfer, die du auf die Hand nimmst</string>
+	<string name="countingHouse_query">Wie viele Kupfer auf die Hand nehmen</string>
 	
 	<string name="HauntedWoodsAttacks">Geisterwald im Spiel</string>
 	<string name="EnchantressAttacks">Zauberin im Spiel</string>
@@ -492,15 +497,15 @@
 	<string name="archive_query">Archiv: Wähle eine Karte zum auf die Hand nehmen</string>
 	<string name="annex_query">Schlacht: Wähle Karten die im Ablagestapel bleiben (bis zu %1$s weitere) </string>
 	<string name="charm_option_one">+1 Kauf, +(2) Geld</string>
-	<string name="charm_option_two">Nimm nach dem nächsten Kauf eine Karte mit unterschiedlichem Namen und gleichen Kosten</string>
+	<string name="charm_option_two">Nimm weitere Karte</string>
 	<string name="reveal_gold">Gold aufdecken</string>
 	<string name="reveal_plunder">Diebesgut aufdecken</string>
-	<string name="hauntedcastle_part">Spukschloss: Wähle zum Zurücklegen</string>
-	<string name="draw_three_add_token">Ziehe 3 Karten und lege Punktemarker auf den Stapel</string>
-	<string name="gain_estate_and_tokens">Nehme Anwesen und erhalte Punktemarker vom Stapel</string>
+	<string name="hauntedcastle_part">Spukschloss: Auf den Nachziehstapel</string>
+	<string name="draw_three_add_token">+3 Karten</string>
+	<string name="gain_estate_and_tokens">Nimm Anwesen</string>
 	<string name="tax_part">Steuer: Lege 2 Schuldenmarker auf</string>
-	<string name="mountainPass_query">Bergpass: Biete Schuldenmarker zu nehmen für 8 Punktemarker</string>
-	<string name="mountainPass_high_bid_query">Bergpass: Biete Schuldenmarker zu nehmen für 8 Punktemarker (Höchstgebot: %1$s)</string>
+	<string name="mountainPass_query">Gebirgspass: Biete für 8 Punktemarker</string>
+	<string name="mountainPass_high_bid_query">Gebirgspass: Biete für 8 Punktemarker (Höchstgebot: %1$s)</string>
 
 	<string name="place_stash_query">Geheimversteck einsortieren</string>
 	<string name="place_stashes_query">Sortiere %1$s Geheimverstecke in deinen Nachziehstapel</string>
@@ -513,13 +518,11 @@
 	<string name="stash_more_options">Anders</string>
 
 	<string name="sauna_play_avanto">Spiele Eisloch aus deiner Hand</string>
-  	<string name="avanto_play_sauna">Spiele Sauna aus deiner Hand</string>
+	<string name="avanto_play_sauna">Spiele Sauna aus deiner Hand</string>
 
-	<string name="opulent_castle_ask_discard">Punktekarten für +(2) Geld ablegen</string>
+	<string name="opulent_castle_ask_discard">Punktekarten ablegen</string>
 	<string name="sprawlingcastle_gain_duchy">Nimm ein Herzogtum</string>
 	<string name="sprawlingcastle_gain_estates">Nimm 3 Anwesen</string>
-
-
 
 	<string name="card_played_as_card">%1$s (gespielt als %2$s)</string>
 </resources>

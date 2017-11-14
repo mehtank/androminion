@@ -136,6 +136,14 @@
 	<string name="currentplayer">Aktueller Spieler</string>
 	<string name="you">Du</string>
 	<string name="start_game">Spiel starten!</string>
+	<string name="card_set_cards">Karten: %1$s</string>
+	<string name="card_set_bane">Bannkarte: %1$s</string>
+	<string name="card_set_events">Ereignisse: %1$s</string>
+	<string name="card_set_landmarks">Landmarken: %1$s</string>
+	<string name="card_set_plat_colony">Platin/Kolonie</string>
+	<string name="card_set_no_plat_colony">Kein Platin/Kolonie</string>
+	<string name="card_set_shelters">Unterschlüpfe</string>
+	<string name="card_set_no_shelters">Keine Unterschlüpfe</string>
 	<string name="none_game_start">Keiner</string> <!-- Unused -->
 	<string name="start_new_game_on_server">Neues Spiel starten</string> <!-- Unused -->
 
@@ -146,6 +154,8 @@
 	<string name="toast_starting">Starte Spiel&#8230;</string> <!-- Unused -->
 	<string name="toast_loading">Lade Spiel&#8230;</string>
 	<string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
+	<string name="toast_mountainPassWinner">Gebirgspass: Höchstes Gebot ist %1$s von %2$s</string>
+	<string name="toast_mountainPassNoBid">Gebigskpass: Kein Gebot</string>
 	<string name="obtained">%1$s gekauft</string>
 	<string name="eventBought">%1$s gekauft</string>
 	<string name="trashed">%1$s entsorgt</string>
