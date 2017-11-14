@@ -181,7 +181,7 @@
 	<string name="played_header">Gespielt:</string>
 	<string name="tavern_header">Wirtshaus:</string>
 	<string name="archive_header">Archiv:</string>
-    <string name="crypt_header">Gruft:</string>
+    	<string name="crypt_header">Krypta:</string>
 	<string name="island_header">Insel:</string>
 	<string name="village_header">Eing. Dorf:</string>
 	<string name="prince_header">Prinz:</string>
