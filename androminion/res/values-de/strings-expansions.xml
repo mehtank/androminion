@@ -2,8 +2,10 @@
 <resources>
 
 	<string name="Base">Basis</string>
+	<string name="Base2E">Basis 2</string>
 	<string name="BaseSet">Basis Satz</string>
 	<string name="Intrigue">Die Intrige</string>
+	<string name="Intrigue2E">Die Intrige 2</string>
 	<string name="Seaside">Seaside</string>
 	<string name="Alchemy">Die Alchemisten</string>
 	<string name="Prosperity">Blütezeit</string>
@@ -13,6 +15,6 @@
 	<string name="Guilds">Die Gilden</string>
 	<string name="Adventures">Abenteuer</string>
 	<string name="Empires">Empires</string>
+	<string name="Nocturne">Nachtmusik</string>
 	<string name="Promo">Promo</string>
-
 </resources>
