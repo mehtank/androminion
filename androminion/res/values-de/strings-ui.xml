@@ -214,9 +214,9 @@
 	<string name="journey_token_initial">\u0020\u0020R\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">K</string>
-	<string name="deluded_initial">\u0020\u0020D\u0020\u0020</string>
-	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
-	<string name="lostInTheWoods_initial">\u0020\u0020L\u0020\u0020</string>
+	<string name="deluded_initial">\u0020\u0020T\u0020\u0020</string>
+	<string name="envious_initial">\u0020\u0020N\u0020\u0020</string>
+	<string name="lostInTheWoods_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="druid_boons_header">- Beiseite gelegte Segen -</string>
 	<string name="token_header">- Marker -</string>
 	<string name="token_plus_one_card">+1 Karte</string>
@@ -244,9 +244,9 @@
 	<string name="status_has_minus_card_token">Hat -1 Karte Marker</string>
 	<string name="status_journey_token_up">Reisemarker zeigt Vorderseite</string>
 	<string name="status_journey_token_down">Reisemarker zeigt Rückseite</string>
-	<string name="status_has_deluded">Hat Wahn</string>
-	<string name="status_has_envious">Hat Neid</string>
-	<string name="status_has_lostInTheWoods">Im Wald verlaufen (Zu Beginn deines Zuges darfst Du eine Karte abwerfen um einen Segen zu nehmen.)</string>
+	<string name="status_has_deluded">Getäuscht</string>
+	<string name="status_has_envious">Neidisch</string>
+	<string name="status_has_lostInTheWoods">Im Wald verlaufen</string>
 	<string name="status_has_miserable">Hat Elend (-2 Siegpunkte)</string>
 	<string name="status_has_twiceMiserable">Hat doppeltes Elend (-4 Siegpunkte)</string>
 	<string name="status_coin_tokens">Geldmarker: %1$s</string>
