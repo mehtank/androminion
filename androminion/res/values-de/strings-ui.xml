@@ -49,6 +49,9 @@
 		<![CDATA[
 		<h3>Bitte lesen!</h3>
 		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Verbreitung von Androminion im Play Store, da sie eine offizielle digitale Version ihres Spiels herausbringen. Bitte veröffentliche Anrdominion in keinem öffentlichen AppStore.<br><br>
+		<h3>Version 8.01</h3>
+		* Nocturne Expansion! <br>
+		* Promo Card: Dismantle
 		<h3>Version 7.06</h3>
 		* Empires Erweterung <br>
 		* Promokarte: Sauna/Eisloch
@@ -136,6 +139,14 @@
 	<string name="currentplayer">Aktueller Spieler</string>
 	<string name="you">Du</string>
 	<string name="start_game">Spiel starten!</string>
+	<string name="card_set_cards">Karten: %1$s</string>
+	<string name="card_set_bane">Bannkarte: %1$s</string>
+	<string name="card_set_events">Ereignisse: %1$s</string>
+	<string name="card_set_landmarks">Landmarken: %1$s</string>
+	<string name="card_set_plat_colony">Platin/Kolonie</string>
+	<string name="card_set_no_plat_colony">Kein Platin/Kolonie</string>
+	<string name="card_set_shelters">Unterschlüpfe</string>
+	<string name="card_set_no_shelters">Keine Unterschlüpfe</string>
 	<string name="none_game_start">Keiner</string> <!-- Unused -->
 	<string name="start_new_game_on_server">Neues Spiel starten</string> <!-- Unused -->
 
@@ -146,6 +157,8 @@
 	<string name="toast_starting">Starte Spiel&#8230;</string> <!-- Unused -->
 	<string name="toast_loading">Lade Spiel&#8230;</string>
 	<string name="toast_quitconfirm">Zum Schließen noch einmal drücken.</string>
+	<string name="toast_mountainPassWinner">Gebirgspass: Höchstes Gebot ist %1$s von %2$s</string>
+	<string name="toast_mountainPassNoBid">Gebigskpass: Kein Gebot</string>
 	<string name="obtained">%1$s gekauft</string>
 	<string name="eventBought">%1$s gekauft</string>
 	<string name="trashed">%1$s entsorgt</string>
@@ -168,6 +181,7 @@
 	<string name="played_header">Gespielt:</string>
 	<string name="tavern_header">Wirtshaus:</string>
 	<string name="archive_header">Archiv:</string>
+    	<string name="crypt_header">Krypta:</string>
 	<string name="island_header">Insel:</string>
 	<string name="village_header">Eing. Dorf:</string>
 	<string name="prince_header">Prinz:</string>
@@ -200,6 +214,10 @@
 	<string name="journey_token_initial">\u0020\u0020R\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">K</string>
+	<string name="deluded_initial">\u0020\u0020T\u0020\u0020</string>
+	<string name="envious_initial">\u0020\u0020N\u0020\u0020</string>
+	<string name="lostInTheWoods_initial">\u0020\u0020V\u0020\u0020</string>
+	<string name="druid_boons_header">- Beiseite gelegte Segen -</string>
 	<string name="token_header">- Marker -</string>
 	<string name="token_plus_one_card">+1 Karte</string>
 	<string name="token_plus_one_action">+1 Aktion</string>
@@ -226,6 +244,11 @@
 	<string name="status_has_minus_card_token">Hat -1 Karte Marker</string>
 	<string name="status_journey_token_up">Reisemarker zeigt Vorderseite</string>
 	<string name="status_journey_token_down">Reisemarker zeigt Rückseite</string>
+	<string name="status_has_deluded">Getäuscht</string>
+	<string name="status_has_envious">Neidisch</string>
+	<string name="status_has_lostInTheWoods">Im Wald verlaufen</string>
+	<string name="status_has_miserable">Hat Elend (-2 Siegpunkte)</string>
+	<string name="status_has_twiceMiserable">Hat doppeltes Elend (-4 Siegpunkte)</string>
 	<string name="status_coin_tokens">Geldmarker: %1$s</string>
 	<string name="status_pirate_tokens">Piratenschiff Marken: %1$s</string>
 	<string name="status_debt_tokens">Schuldenmarker: %1$s</string>
