@@ -195,7 +195,7 @@
 	<string name="CardSetAsideOnTavernMat">Karte auf Wirtshaustableau gelegt</string>
 	<string name="CallingCard">aufrufen</string>
 	<string name="CalledCard">aufgerufen</string>
-	<string name="CardSetAside">Karte beiseite gelegt (%2$s)</string>
+	<string name="CardSetAside">%1$s beiseite gelegt (%2$s)</string>
 	<string name="CardSetAsidePrivate">Karte beiseite gelegt (%1$s)</string>
 	<string name="CardSetAsideOnIslandMat">Karte auf Insel gelegt</string>
 	<string name="DeckPutIntoDiscardPile">Nachziehstapel auf Ablagestapel gelegt</string>
@@ -316,7 +316,7 @@
 	
 	<string name="duchess_play_option_one">Zurück auf Nachziehstapel</string>
 	
-	<string name="noble_brigand_query">Edler Räuber: Erhalte neue Karte %1$s</string>
+	<string name="noble_brigand_query">Edler Räuber stiehlt von %1$s</string>
 	
 	<string name="steward_option_one">+2 Karten</string>
 	<string name="steward_option_two">+(2) Geld</string>
