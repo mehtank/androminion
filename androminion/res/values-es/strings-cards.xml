@@ -838,10 +838,10 @@
     <string name="Skulk_desc">Cada jugador (menos tú) recibe el Aojo próximo. — Cuando ganes esta carta, gana una carta de Oro.</string>
     <string name="Tormentor_name">Tormentador</string>
     <string name="Tormentor_desc">TODO</string>
-    <string name="TragicHero_name">Héroe Trágico</string>
-    <string name="TragicHero_desc">TODO</string>
     <string name="Tracker_name">Rastreador</string>
     <string name="Tracker_desc">TODO</string>
+    <string name="TragicHero_name">Héroe Trágico</string>
+    <string name="TragicHero_desc">TODO</string>
     <string name="Vampire_name">Vampira</string>
     <string name="Vampire_desc">Cada jugador (menos tú) recibe el Aojo próximo. Gana una carta con un coste máximo de (5) Monedas que no sea una de Vampira. Intercambia esta carta por una carta de Murciélago.</string>
     <string name="Werewolf_name">Hombre Lobo</string>
