@@ -3359,8 +3359,8 @@ public class Game {
         
         boolean hasExorcist = piles.containsKey(Cards.exorcist.getName());
         
-        // If Devil's Workshop or Exorcist is in play, we'll need Imp (non-supply)
-        if (piles.containsKey(Cards.devilsWorkshop.getName()) || hasExorcist)
+        // If Devil's Workshop, Tormentor, or Exorcist is in play, we'll need Imp (non-supply)
+        if (piles.containsKey(Cards.devilsWorkshop.getName()) || piles.containsKey(Cards.tormentor.getName()) || hasExorcist)
         {
             addPile(Cards.imp, 13, false);
         }
@@ -3380,8 +3380,8 @@ public class Game {
             addPile(Cards.willOWisp, 12, false);
         }
         
-        // If Leprechaun is in play, we'll need Wish (non-supply)
-        if (piles.containsKey(Cards.leprechaun.getName())) {
+        // If Leprechaun or Secret Cave are in play, we'll need Wish (non-supply)
+        if (piles.containsKey(Cards.leprechaun.getName()) || piles.containsKey(Cards.secretCave.getName())) {
             addPile(Cards.wish, 12, false);
         }
         
