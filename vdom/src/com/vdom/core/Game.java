@@ -3681,9 +3681,11 @@ public class Game {
                     }
 
                     if(!handled) {
-                    	if (context.isRoyalSealInPlay() && context.player.controlPlayer.royalSealTravellingFair_shouldPutCardOnDeck((MoveContext) context, Cards.royalSeal, event.card)) {
+                    	if (context.isRoyalSealInPlay() && context.player.controlPlayer.royalSealTravellingFairTracker_shouldPutCardOnDeck((MoveContext) context, Cards.royalSeal, event.card)) {
                             player.putOnTopOfDeck(event.card, context, true);
-                    	} else if (context.travellingFairBought && context.player.controlPlayer.royalSealTravellingFair_shouldPutCardOnDeck((MoveContext) context, Cards.travellingFair, event.card)) {
+                    	} else if (context.travellingFairBought && context.player.controlPlayer.royalSealTravellingFairTracker_shouldPutCardOnDeck((MoveContext) context, Cards.travellingFair, event.card)) {
+                    		player.putOnTopOfDeck(event.card, context, true);
+                        } else if ((context.countCardsInPlay(Cards.tracker) > 0) && context.player.controlPlayer.royalSealTravellingFairTracker_shouldPutCardOnDeck((MoveContext) context, Cards.tracker, event.card)) {
                     		player.putOnTopOfDeck(event.card, context, true);
                         } else if (event.responsible != null && event.responsible.equals(Cards.summon)
                         		&& (!event.card.equals(Cards.inn))

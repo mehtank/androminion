@@ -148,6 +148,12 @@ public class CardImplNocturne extends CardImpl {
 		case TheWindsGift:
 			discardMultiple(context, currentPlayer, 2);
 			break;
+		case Tormentor:
+			tormentor(game, context, currentPlayer);
+			break;
+		case Tracker:
+			tracker(game, context, currentPlayer);
+			break;
 		case Vampire:
 			vampire(game, context, currentPlayer);
 			break;
@@ -1003,6 +1009,25 @@ public class CardImplNocturne extends CardImpl {
 	
 	private void theSwampsGift(Game game, MoveContext context, Player player) {
 		player.gainNewCard(Cards.willOWisp, this.getControlCard(), context);
+	}
+	
+	private void tormentor(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+		
+		if (context.countCardsInPlay() == 1) {
+			currentPlayer.gainNewCard(Cards.imp, this.getControlCard(), context);
+		} else {
+			game.othersReceiveNextHex(context, attackedPlayers, this.getControlCard());
+		}
+	}
+	
+	private void tracker(Game game, MoveContext context, Player currentPlayer) {
+		game.receiveNextBoon(context, getControlCard());
 	}
 	
 	private void vampire(Game game, MoveContext context, Player currentPlayer) {

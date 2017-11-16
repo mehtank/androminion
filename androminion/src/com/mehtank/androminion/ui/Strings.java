@@ -1275,7 +1275,7 @@ public class Strings {
             if (!controlName.equals(cardName)) strings[0] = Strings.format(getString(R.string.card_played_as_card), controlName, cardName);
             strings[1] = getString(R.string.trash_this);
             strings[2] = getString(R.string.trash_card_from_hand);
-        } else if (cardName.equals(getCardName(Cards.royalSeal)) || cardName.equals(getCardName(Cards.travellingFair))) {
+        } else if (cardName.equals(getCardName(Cards.royalSeal)) || cardName.equals(getCardName(Cards.travellingFair)) || cardName.equals(getCardName(Cards.tracker))) {
             strings[0] = getCardName((Card) extras[1]);
             strings[1] = getString(R.string.top_of_deck);
             strings[2] = getString(R.string.take_normal);

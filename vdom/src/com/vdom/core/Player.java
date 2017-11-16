@@ -2113,7 +2113,7 @@ public abstract class Player {
 
     public abstract Card[] rabble_attack_cardOrder(MoveContext context, Card[] cards);
 
-    public abstract boolean royalSealTravellingFair_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card);
+    public abstract boolean royalSealTravellingFairTracker_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card);
 
     public abstract Card tradeRoute_cardToTrash(MoveContext context);
 
