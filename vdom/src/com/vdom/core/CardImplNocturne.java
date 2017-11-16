@@ -22,6 +22,9 @@ public class CardImplNocturne extends CardImpl {
 		case BadOmens:
 			badOmens(game, context, currentPlayer);
 			break;
+		case Bard:
+			bard(game, context, currentPlayer);
+			break;
 		case Bat:
 			bat(game, context, currentPlayer);
 			break;
@@ -66,6 +69,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case Greed:
 			greed(game, context, currentPlayer);
+			break;
+		case Guardian:
+			guardian(game, context, currentPlayer);
 			break;
 		case Haunting:
 			haunting(game, context, currentPlayer);
@@ -225,6 +231,10 @@ public class CardImplNocturne extends CardImpl {
             game.broadcastEvent(event);
         }
     }
+	
+	private void bard(Game game, MoveContext context, Player player) {
+		game.receiveNextBoon(context, getControlCard());
+	}
 	
 	private void bat(Game game, MoveContext context, Player player) {
 		Card[] cards = context.player.controlPlayer.bat_cardsToTrash(context);
@@ -524,6 +534,10 @@ public class CardImplNocturne extends CardImpl {
 	private void greed(Game game, MoveContext context, Player player) {
 		context.getPlayer().gainNewCard(Cards.copper, this.getControlCard(), context);
     }
+	
+	private void guardian(Game game, MoveContext context, Player player) {
+		player.guardianEffect = true;
+	}
 	
 	private void haunting(Game game, MoveContext context, Player player) {
 		if (player.hand.size() < 4) return;

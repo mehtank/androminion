@@ -73,6 +73,7 @@ public abstract class Player {
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     protected List<DurationEffect> startTurnDurationEffects;
     protected int championEffects = 0;
+    protected boolean guardianEffect = false;
     public Game game;
     public Player controlPlayer = this;
     public boolean controlled = false;

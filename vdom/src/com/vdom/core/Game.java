@@ -1077,6 +1077,7 @@ public class Game {
             player.newTurn();
         
         player.clearDurationEffectsOnOtherPlayers();
+        player.guardianEffect = false;
         
         GameEvent gevent = new GameEvent(GameEvent.EventType.TurnBegin, context);
         broadcastEvent(gevent);
@@ -3698,7 +3699,10 @@ public class Game {
         					context.game.broadcastEvent(summonEvent);
                         } else if (gainedCardAbility.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);
-                        } else if (gainedCardAbility.equals(Cards.ghostTown)) {
+                        } else if (gainedCardAbility.equals(Cards.ghostTown) ||
+                        		gainedCardAbility.equals(Cards.denOfSin) ||
+                        		gainedCardAbility.equals(Cards.guardian) ||
+                        		gainedCardAbility.equals(Cards.nightWatchman)) {
                         	player.hand.add(event.card);
                         } else if (gainedCardAbility.equals(Cards.villa)) {
                         	player.hand.add(event.card);

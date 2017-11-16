@@ -267,6 +267,13 @@ public class Util {
             event.card = Cards.champion;
             game.broadcastEvent(event);
         }
+        if (player.guardianEffect) {
+            defended = true;
+            
+            GameEvent event = new GameEvent(GameEvent.EventType.PlayerDefended, context);
+            event.card = Cards.guardian;
+            game.broadcastEvent(event);
+        }
         
         Card reactionCard = null;
         Card reactionCardAbility = null;
