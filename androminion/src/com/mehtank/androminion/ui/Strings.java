@@ -1755,6 +1755,7 @@ public class Strings {
             getCardName(Cards.poverty),
             getCardName(Cards.theFlamesGift),
             getCardName(Cards.theWindsGift),
+            getCardName(Cards.tragicHero),
             getCardName(Cards.shepherd),
             getCardName(Cards.vampire),
             getCardName(Cards.wish),

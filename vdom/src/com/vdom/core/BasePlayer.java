@@ -4782,6 +4782,23 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card tragicHero_treasureToObtain(MoveContext context) {
+    	Card newCard = null;
+        float highestUtility = -1;
+        float potionUtility = 2.5f;
+        for (Card card : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+        	float utility = card.getCost(context) + (card.costPotion() ? potionUtility : 0);
+            if (Cards.isSupplyCard(card) 
+            		&& context.isCardOnTop(card)
+            		&& utility >= highestUtility) {
+                newCard = card;
+                highestUtility = utility;
+            }
+        }
+        return newCard;
+    }
+    
+    @Override
     public Card[] shepherd_cardsToDiscard(MoveContext context) {
     	List<Card> result = new ArrayList<Card>();
     	Player p = context.getPlayer();

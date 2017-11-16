@@ -4074,6 +4074,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card tragicHero_treasureToObtain(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().isTreasure()
+        		.setActionType(ActionType.GAIN)
+        		.setCardResponsible(Cards.tragicHero);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public Card[] shepherd_cardsToDiscard(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_shepherd_cardsToDiscard(context)) {
             return super.shepherd_cardsToDiscard(context);

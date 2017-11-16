@@ -1,7 +1,9 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
@@ -94,6 +96,9 @@ public class CardImplNocturne extends CardImpl {
 		case LuckyCoin:
 			luckyCoin(game, context, currentPlayer);
 			break;
+		case MagicLamp:
+			magicLamp(game, context, currentPlayer);
+			break;
 		case Misery:
 			misery(game, context, currentPlayer);
 			break;
@@ -153,6 +158,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case Tracker:
 			tracker(game, context, currentPlayer);
+			break;
+		case TragicHero:
+			tragicHero(game, context, currentPlayer);
 			break;
 		case Vampire:
 			vampire(game, context, currentPlayer);
@@ -675,6 +683,28 @@ public class CardImplNocturne extends CardImpl {
 		player.gainNewCard(Cards.silver, this.getControlCard(), context);
 	}
 	
+	private void magicLamp(Game game, MoveContext context, Player player) {
+		Map<Cards.Kind, Integer> cardKindsInPlay = new HashMap<Cards.Kind, Integer>();
+		for (Card c : player.playedCards) {
+			Cards.Kind kind = c.getControlCard().equals(Cards.estate) ? Cards.Kind.Estate : c.behaveAsCard().getKind();
+			if (cardKindsInPlay.containsKey(kind)) {
+				cardKindsInPlay.put(kind, cardKindsInPlay.get(kind) + 1);
+			} else {
+				cardKindsInPlay.put(kind, 1);
+			}
+		}
+		int kindsOfCardExactlyOneInPlay = 0;
+		for (Cards.Kind kind : cardKindsInPlay.keySet()) {
+			if (cardKindsInPlay.get(kind) != 1)
+				kindsOfCardExactlyOneInPlay++;
+		}
+		if (kindsOfCardExactlyOneInPlay < 6) return;
+		if (player.trashSelfFromPlay(getControlCard(), context)) {
+			for (int i = 0; i < 3; ++i)
+				player.gainNewCard(Cards.wish, getControlCard(), context);
+		}
+	}
+	
 	private void misery(Game game, MoveContext context, Player player) {
 		if (game.hasState(player, Cards.miserable)) {
 			//This is our way to represent flipping over the state card
@@ -1026,8 +1056,36 @@ public class CardImplNocturne extends CardImpl {
 		}
 	}
 	
-	private void tracker(Game game, MoveContext context, Player currentPlayer) {
+	private void tracker(Game game, MoveContext context, Player player) {
 		game.receiveNextBoon(context, getControlCard());
+	}
+	
+	private void tragicHero(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() < 8) return;
+		player.trashSelfFromPlay(getControlCard(), context);
+		
+		int numTreasuresAvailable = 0;
+    	for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+    		if (Cards.isSupplyCard(treasureCard) && context.isCardOnTop(treasureCard)) {
+    			numTreasuresAvailable++;
+    		}
+    	}
+    	if (numTreasuresAvailable == 0)
+    		return;
+    	
+    	Card newCard = player.controlPlayer.tragicHero_treasureToObtain(context);
+    	
+        if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && context.isCardOnTop(newCard))) {
+            Util.playerError(player, "Tragic Hero treasure to obtain was invalid, picking random treasure from table.");
+            for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+                if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0) {
+                    newCard = treasureCard;
+                    break;
+                }
+            }
+        }
+        
+        player.gainNewCard(newCard, this.getControlCard(), context);
 	}
 	
 	private void vampire(Game game, MoveContext context, Player currentPlayer) {
