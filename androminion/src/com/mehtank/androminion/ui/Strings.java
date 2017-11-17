@@ -2111,15 +2111,30 @@ public class Strings {
 			if (c.is(Type.Event)) {
 				events.add(getCardName(c));
 			} else if (c.is(Type.Landmark)) {
-				landmarks.add(getCardName(c));
+				if (c.equals(Cards.obelisk) && cardSet.getObeliskCard() != null) {
+					landmarks.add(format(R.string.card_set_card_options, getCardName(c), getCardName(cardSet.getObeliskCard())));
+				} else {
+					landmarks.add(getCardName(c));
+				}
 			} else {
-				kingdomCards.add(getCardName(c));
+				if (c.equals(Cards.druid) && cardSet.getDruidBoons() != null) {
+					//kingdomCards.add(getCardName(c));
+					ArrayList<String> druidBoons = new ArrayList<String>();
+					for (Card b : cardSet.getDruidBoons()) {
+						druidBoons.add(getCardName(b));
+					}
+					Collections.sort(druidBoons);
+					kingdomCards.add(format(R.string.card_set_card_options, getCardName(c), joinList(druidBoons, ", ")));
+				} else {
+					kingdomCards.add(getCardName(c));
+				}
 				if (c.getExpansion() == Expansion.DarkAges) {
 					hasDarkAges = true;
 				}
 				if (c.getExpansion() == Expansion.Prosperity) {
 					hasProsperity = true;
 				}
+				
 			}
 		}
 		Collections.sort(events);

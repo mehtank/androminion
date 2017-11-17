@@ -150,6 +150,7 @@
     <string name="card_set_no_plat_colony">Sin Platino/Colonia</string>
     <string name="card_set_shelters">Cobijos</string>
     <string name="card_set_no_shelters">Sin Cobijos</string>
+    <string name="card_set_card_options">%1$s (%2$s)</string>
     <string name="none_game_start">Ninguno</string> <!-- Unused -->
     <string name="start_new_game_on_server">Iniciar un nuevo juego en el servidor</string> <!-- Unused -->
 

@@ -178,6 +178,38 @@
   <string name="AreaControl_gametype">Area Control</string>
   <string name="NoMoneyNoProblems_gametype">No Money No Problems</string>
   
+  <string name="Dusk_gametype">Dusk</string>
+  <string name="Midnight_gametype">Midnight</string>
+  
+  <string name="NightShift_gametype">Night Shift</string>
+  <string name="IdleHands_gametype">Idle Hands</string>
+  
+  <string name="ShadowyFigures_gametype">Shadowy Figures</string>
+  <string name="ImpendingDoom_gametype">Impending Doom</string>
+  
+  <string name="TheNewBlack_gametype">The New Black</string>
+  <string name="ForbiddenIsle_gametype">Forbidden Isle</string>
+  
+  <string name="NightmareFuel_gametype">Nightmare Fuel</string>
+  
+  <string name="TreasuresOfTheNight_gametype">Treasures of the Night</string>
+  <string name="DayAtTheRaces_gametype">Day at the Races</string>
+  
+  <string name="TheEndlessFair_gametype">The Endless Fair</string>
+  <string name="HappyChaos_gametype">Happy Chaos</string>
+  
+  <string name="SearchParty_gametype">Search Party</string>
+  <string name="CountingSheep_gametype">Counting Sheep</string>
+  
+  <string name="GraveMatters_gametype">Grave Matters</string>
+  <string name="RatsAndBats_gametype">Rats and Bats</string>
+  
+  <string name="MonsterMash_gametype">Monster Mash</string>
+  <string name="LostInTheWoods_gametype">Lost in the Woods</string>
+  
+  <string name="Luftschloss_gametype">Luftschloss</string>
+  <string name="PookaPranks_gametype">Pooka Pranks</string>
+  
   <string name="Test_gametype">Test (for testing)</string>
 
 </resources>

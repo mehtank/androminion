@@ -178,6 +178,29 @@ public enum GameType {
     // Empires and Adventures
     AreaControl("Area Control", Expansion.Empires, Expansion.Adventures), NoMoneyNoProblems("No Money No Problems", Expansion.Empires, Expansion.Adventures),
     
+	// Nocturne
+    Dusk("Dusk", Expansion.Nocturne), Midnight("Midnight", Expansion.Nocturne),
+    // Nocturne and Base 2E
+    NightShift("Night Shift", Expansion.Nocturne, Expansion.Base), IdleHands("Idle Hands", Expansion.Nocturne, Expansion.Base),
+    // Nocturne and Intrigue 2E
+    ShadowyFigures("Shadowy Figures", Expansion.Nocturne, Expansion.Intrigue), ImpendingDoom("Impending Doom", Expansion.Nocturne, Expansion.Intrigue),
+    // Nocturne and Seaside
+    TheNewBlack("The New Black", Expansion.Nocturne, Expansion.Seaside), ForbiddenIsle("Forbidden Isle", Expansion.Nocturne, Expansion.Seaside),
+    // Nocturne and Alchemy
+    NightmareFuel("Nightmare Fuel", Expansion.Nocturne, Expansion.Alchemy),
+    // Nocturne and Prosperity
+    TreasuresOfTheNight("Treasures of the Night", Expansion.Nocturne, Expansion.Prosperity), DayAtTheRaces("Day at the Races", Expansion.Nocturne, Expansion.Prosperity),
+    // Nocturne and Cornucopia and Guilds
+    TheEndlessFair("The Endless Fair", Expansion.Nocturne, Expansion.Cornucopia, Expansion.Guilds), HappyChaos("Happy Chaos", Expansion.Nocturne, Expansion.Cornucopia, Expansion.Guilds),
+    // Nocturne and Hinterlands
+    SearchParty("Search Party", Expansion.Nocturne, Expansion.Hinterlands), CountingSheep("Counting Sheep", Expansion.Nocturne, Expansion.Hinterlands),
+    // Nocturne and Dark Ages
+    GraveMatters("Grave Matters", Expansion.Nocturne, Expansion.DarkAges), RatsAndBats("Rats and Bats", Expansion.Nocturne, Expansion.DarkAges),
+    // Nocturne and Adventures
+    MonsterMash("Monster Mash", Expansion.Nocturne, Expansion.Adventures), LostInTheWoods("Lost in the Woods", Expansion.Nocturne, Expansion.Adventures),
+    // Nocturne and Empires
+    Luftschloss("Luftschloss", Expansion.Nocturne, Expansion.Empires), PookaPranks("Pooka Pranks", Expansion.Nocturne, Expansion.Empires),
+    
     // Card set is specified from Dominion Shuffle
     Specified("Specified");
 

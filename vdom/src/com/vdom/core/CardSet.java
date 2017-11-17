@@ -34,6 +34,8 @@ public class CardSet {
 	private final boolean isRandom;
 	private final UseOptionalCards useShelters;
 	private final UseOptionalCards usePlatColony;
+	private final Card obelisk;
+	private final List<Card> druidBoons;
 
 	private CardSet(final List<Card> cards, final Card baneCard) {
 		this.cards = cards;
@@ -41,6 +43,8 @@ public class CardSet {
 		this.isRandom = false;
 		this.usePlatColony = UseOptionalCards.Random;
 		this.useShelters = UseOptionalCards.Random;
+		this.obelisk = null;
+		this.druidBoons = null;
 	}
 	
 	private CardSet(final Card[] cardsArray) {
@@ -57,6 +61,28 @@ public class CardSet {
 		this.isRandom = false;
 		this.usePlatColony = usePlatColony;
 		this.useShelters = useShelters;
+		this.obelisk = null;
+		this.druidBoons = null;
+	}
+	
+	public CardSet(final Card[] cardsArray, final Card baneCard, UseOptionalCards usePlatColony, UseOptionalCards useShelters, Card[] druidBoons) {
+		this.cards = Arrays.asList(cardsArray);
+		this.baneCard = baneCard;
+		this.isRandom = false;
+		this.usePlatColony = usePlatColony;
+		this.useShelters = useShelters;
+		this.obelisk = null;
+		this.druidBoons = Arrays.asList(druidBoons);
+	}
+	
+	public CardSet(final Card[] cardsArray, final Card baneCard, UseOptionalCards usePlatColony, UseOptionalCards useShelters, Card obelisk, Card[] druidBoons) {
+		this.cards = Arrays.asList(cardsArray);
+		this.baneCard = baneCard;
+		this.isRandom = false;
+		this.usePlatColony = usePlatColony;
+		this.useShelters = useShelters;
+		this.obelisk = obelisk;
+		this.druidBoons = null;
 	}
 
 	private CardSet(final List<Card> cards, final boolean isRandom) {
@@ -65,6 +91,8 @@ public class CardSet {
 		this.isRandom = isRandom;
 		this.usePlatColony = UseOptionalCards.Random;
 		this.useShelters = UseOptionalCards.Random;
+		this.obelisk = null;
+		this.druidBoons = null;
 	}
 	
 	public static CardSet getCardSet(final GameType type, int count) {
@@ -414,6 +442,14 @@ public class CardSet {
 	public UseOptionalCards getUseShelters() {
 		return useShelters;
 	}
+	
+	public Card getObeliskCard() {
+		return obelisk;
+	}
+	
+	public List<Card> getDruidBoons() {
+		return druidBoons;
+	}
 
 	static {
 		CardSetMap.put(GameType.Random, new CardSet(Cards.actionCards, true));
@@ -680,6 +716,39 @@ public class CardSet {
 		CardSetMap.put(GameType.AreaControl, new CardSet(new Card[] { Cards.capital, Cards.virtualCatapultRocks, Cards.charm, Cards.crown, Cards.farmersMarket, Cards.coinOfTheRealm, Cards.page, Cards.relic, Cards.treasureTrove, Cards.wineMerchant, Cards.banquet, Cards.keep}));
 		CardSetMap.put(GameType.NoMoneyNoProblems, new CardSet(new Card[] { Cards.archive, Cards.virtualEncampmentPlunder, Cards.royalBlacksmith, Cards.temple, Cards.villa, Cards.dungeon, Cards.duplicate, Cards.hireling, Cards.peasant, Cards.transmogrify, Cards.banditFort, Cards.mission}));
 
+		// Nocturne
+		CardSetMap.put(GameType.Dusk, new CardSet(new Card[] { Cards.blessedVillage, Cards.cobbler, Cards.denOfSin, Cards.faithfulHound, Cards.fool, Cards.monastery, Cards.nightWatchman, Cards.shepherd, Cards.tormentor, Cards.tragicHero}));
+		CardSetMap.put(GameType.Midnight, new CardSet(new Card[] { Cards.conclave, Cards.crypt, Cards.cursedVillage, Cards.devilsWorkshop, Cards.druid, Cards.exorcist, Cards.leprechaun, Cards.pooka, Cards.raider, Cards.secretCave}, null, UseOptionalCards.DontUse, UseOptionalCards.DontUse, new Card[] { Cards.theSwampsGift, Cards.theFlamesGift, Cards.theWindsGift }));
+		// Nocturne and Base 2E
+		CardSetMap.put(GameType.NightShift, new CardSet(new Card[] { Cards.druid, Cards.exorcist, Cards.ghostTown, Cards.idol, Cards.nightWatchman, Cards.bandit, Cards.gardens, Cards.mine, Cards.poacher, Cards.smithy}, null, UseOptionalCards.DontUse, UseOptionalCards.DontUse, new Card[] { Cards.theEarthsGift, Cards.theFlamesGift, Cards.theForestsGift }));
+		CardSetMap.put(GameType.IdleHands, new CardSet(new Card[] { Cards.bard, Cards.conclave, Cards.cursedVillage, Cards.devilsWorkshop, Cards.tragicHero, Cards.cellar, Cards.harbinger, Cards.market, Cards.merchant, Cards.moneyLender}));
+		// Nocturne and Intrigue 2E
+		CardSetMap.put(GameType.ShadowyFigures, new CardSet(new Card[] { Cards.cobbler, Cards.conclave, Cards.faithfulHound, Cards.shepherd, Cards.tragicHero, Cards.bridge, Cards.conspirator, Cards.mill, Cards.nobles, Cards.secretPassage}));
+		CardSetMap.put(GameType.ImpendingDoom, new CardSet(new Card[] { Cards.leprechaun, Cards.monastery, Cards.necromancer, Cards.tormentor, Cards.werewolf, Cards.courtier, Cards.lurker, Cards.miningVillage, Cards.swindler, Cards.upgrade}));
+		// Nocturne and Seaside
+		CardSetMap.put(GameType.TheNewBlack, new CardSet(new Card[] { Cards.cobbler, Cards.denOfSin, Cards.ghostTown, Cards.raider, Cards.secretCave, Cards.caravan, Cards.haven, Cards.merchantShip, Cards.outpost, Cards.tactician}));
+		CardSetMap.put(GameType.ForbiddenIsle, new CardSet(new Card[] { Cards.blessedVillage, Cards.cemetery, Cards.idol, Cards.tracker, Cards.tragicHero, Cards.fishingVillage, Cards.ghostShip, Cards.lookout, Cards.salvager, Cards.treasureMap}));
+		// Nocturne and Alchemy
+		CardSetMap.put(GameType.NightmareFuel, new CardSet(new Card[] { Cards.bard, Cards.blessedVillage, Cards.cemetery, Cards.sacredGrove, Cards.skulk, Cards.tracker, Cards.alchemist, Cards.apprentice, Cards.transmute, Cards.vineyard}));
+		// Nocturne and Prosperity
+		CardSetMap.put(GameType.TreasuresOfTheNight, new CardSet(new Card[] { Cards.crypt, Cards.guardian, Cards.nightWatchman, Cards.raider, Cards.vampire, Cards.bank, Cards.contraband, Cards.loan, Cards.royalSeal, Cards.venture}));
+		CardSetMap.put(GameType.DayAtTheRaces, new CardSet(new Card[] { Cards.blessedVillage, Cards.cemetery, Cards.druid, Cards.tormentor, Cards.tragicHero, Cards.bishop, Cards.peddler, Cards.talisman, Cards.tradeRoute, Cards.watchTower}, null, UseOptionalCards.Random, UseOptionalCards.DontUse, new Card[] { Cards.theSwampsGift, Cards.theRiversGift, Cards.theForestsGift }));
+		// Nocturne and Cornucopia and Guilds
+		CardSetMap.put(GameType.TheEndlessFair, new CardSet(new Card[] { Cards.devilsWorkshop, Cards.exorcist, Cards.monastery, Cards.pixie, Cards.shepherd, Cards.baker, Cards.fairgrounds, Cards.farmingVillage, Cards.fortuneTeller, Cards.merchantGuild}));
+		CardSetMap.put(GameType.HappyChaos, new CardSet(new Card[] { Cards.blessedVillage, Cards.changeling, Cards.fool, Cards.faithfulHound, Cards.sacredGrove, Cards.doctor, Cards.harvest, Cards.herald, Cards.jester, Cards.masterpiece}));
+		// Nocturne and Hinterlands
+		CardSetMap.put(GameType.SearchParty, new CardSet(new Card[] { Cards.cobbler, Cards.conclave, Cards.druid, Cards.faithfulHound, Cards.werewolf, Cards.cartographer, Cards.highway, Cards.inn, Cards.oasis, Cards.scheme}, null, UseOptionalCards.DontUse, UseOptionalCards.DontUse, new Card[] { Cards.theMountainsGift, Cards.theSkysGift, Cards.theSunsGift }));
+		CardSetMap.put(GameType.CountingSheep, new CardSet(new Card[] { Cards.bard, Cards.crypt, Cards.leprechaun, Cards.pooka, Cards.shepherd, Cards.crossroads, Cards.farmland, Cards.haggler, Cards.nobleBrigand, Cards.tunnel}));
+		// Nocturne and Dark Ages
+		CardSetMap.put(GameType.GraveMatters, new CardSet(new Card[] { Cards.cemetery, Cards.cursedVillage, Cards.necromancer, Cards.skulk, Cards.tormentor, Cards.armory, Cards.forager, Cards.graverobber, Cards.marketSquare, Cards.squire}, null, UseOptionalCards.DontUse, UseOptionalCards.Use));
+		CardSetMap.put(GameType.RatsAndBats, new CardSet(new Card[] { Cards.changeling, Cards.devilsWorkshop, Cards.sacredGrove, Cards.tracker, Cards.vampire, Cards.catacombs, Cards.count, Cards.fortress, Cards.hermit, Cards.rats}, null, UseOptionalCards.DontUse, UseOptionalCards.Use));
+		// Nocturne and Adventures
+		CardSetMap.put(GameType.MonsterMash, new CardSet(new Card[] { Cards.conclave, Cards.guardian, Cards.pixie, Cards.vampire, Cards.werewolf, Cards.bridgeTroll, Cards.giant, Cards.messenger, Cards.ratcatcher, Cards.storyteller, Cards.quest}));
+		CardSetMap.put(GameType.LostInTheWoods, new CardSet(new Card[] { Cards.blessedVillage, Cards.druid, Cards.fool, Cards.sacredGrove, Cards.tracker, Cards.caravanGuard, Cards.guide, Cards.hauntedWoods, Cards.hireling, Cards.ranger, Cards.pilgrimage}, null, UseOptionalCards.DontUse, UseOptionalCards.DontUse, new Card[] { Cards.theSkysGift, Cards.theFieldsGift, Cards.theSeasGift }));
+		// Nocturne and Empires
+		CardSetMap.put(GameType.Luftschloss, new CardSet(new Card[] { Cards.cemetery, Cards.changeling, Cards.exorcist, Cards.fool, Cards.shepherd, Cards.archive, Cards.virtualCastle, Cards.virtualCatapultRocks, Cards.engineer, Cards.temple, Cards.tomb}));
+		CardSetMap.put(GameType.PookaPranks, new CardSet(new Card[] { Cards.faithfulHound, Cards.ghostTown, Cards.pixie, Cards.pooka, Cards.skulk, Cards.chariotRace, Cards.forum, Cards.groundskeeper, Cards.sacrifice, Cards.virtualSettlersBustlingVillage, Cards.banquet}));
+		
 		CardSetMap.put(GameType.Test, new CardSet(new Card[] {Cards.pixie, Cards.fool, Cards.ghostTown, Cards.leprechaun, Cards.cemetery, Cards.devilsWorkshop, Cards.exorcist, Cards.necromancer, Cards.crypt, Cards.idol, Cards.vampire, Cards.werewolf, Cards.raider, Cards.overlord, Cards.ferry, Cards.inheritance, Cards.bonfire, Cards.page, Cards.vampire, Cards.highway}));
 	}
 }

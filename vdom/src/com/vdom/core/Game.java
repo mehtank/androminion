@@ -3054,6 +3054,12 @@ public class Game {
                 //Adding the bane card could probably be done in the CardSet class, but it seems better to call it out explicitly.
                 this.addPile(this.baneCard);
             }
+            if (cardSet.getObeliskCard() != null) {
+            	this.obeliskCard = cardSet.getObeliskCard();
+            }
+            if (cardSet.getDruidBoons() != null) {
+            	this.druidBoons.addAll(cardSet.getDruidBoons());
+            }
         }
 
         // Black Market
@@ -3290,9 +3296,14 @@ public class Game {
         	Collections.shuffle(boonDrawPile);
         	
         	if (piles.containsKey(Cards.druid.getName())) {
-        		for (int i = 0; i < 3; ++i) {
-        			druidBoons.add(boonDrawPile.remove(0));
+        		if(druidBoons.isEmpty()) {
+        			for (int i = 0; i < 3; ++i) {
+            			druidBoons.add(boonDrawPile.remove(0));
+            			Collections.sort(druidBoons, new Util.CardNameComparator());
+            		}
+        		} else {
         			Collections.sort(druidBoons, new Util.CardNameComparator());
+        			boonDrawPile.removeAll(druidBoons);
         		}
         	}
         }

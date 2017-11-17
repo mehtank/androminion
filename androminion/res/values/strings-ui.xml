@@ -148,6 +148,7 @@
     <string name="card_set_no_plat_colony">No Platinum/Colony</string>
     <string name="card_set_shelters">Shelters</string>
     <string name="card_set_no_shelters">No Shelters</string>
+    <string name="card_set_card_options">%1$s (%2$s)</string>
     <string name="none_game_start">None</string> <!-- Unused -->
     <string name="start_new_game_on_server">Start new game on server</string> <!-- Unused -->
 
