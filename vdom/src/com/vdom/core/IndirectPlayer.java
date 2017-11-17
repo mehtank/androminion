@@ -4032,6 +4032,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean sacredGrove_shouldReceiveBoon(MoveContext context, Card boon) {
+    	Object[] extras = new Object[2];
+        extras[0] = boon;
+        extras[1] = Cards.sacredGrove;
+        return selectBoolean(context, Cards.sacredGrove, extras);
+    }
+    
+    @Override
     public Card[] secretCave_cardsToDiscard(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
                 .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD).setPassable()

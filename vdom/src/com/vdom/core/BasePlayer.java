@@ -4737,6 +4737,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean sacredGrove_shouldReceiveBoon(MoveContext context, Card boon) {
+    	// TODO better logic
+    	return true;
+    }
+    
+    @Override
     public Card[] secretCave_cardsToDiscard(MoveContext context) {
     	Card[] cards = lowestCards(context, context.player.getHand(), 3, true);
         if (cards.length != 3) return null;

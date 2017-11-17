@@ -120,6 +120,9 @@ public class CardImplNocturne extends CardImpl {
 		case Poverty:
 			poverty(game, context, currentPlayer);
 			break;
+		case SacredGrove:
+			sacredGrove(game, context, currentPlayer);
+			break;
 		case SecretCave:
 			secretCave(game, context, currentPlayer, isThronedEffect);
 			break;
@@ -861,6 +864,18 @@ public class CardImplNocturne extends CardImpl {
             Card[] cardsToKeep = player.controlPlayer.poverty_attack_cardsToKeep(context);
             player.discardRemainingCardsFromHand(context, cardsToKeep, this.getControlCard(), keepCardCount);
         }
+	}
+	
+	private void sacredGrove(Game game, MoveContext context, Player currentPlayer) {
+		Card boon = game.discardNextBoon(context, getControlCard());
+		game.recieveBoon(context, boon, getControlCard());
+		if (boon.getAddGold() == 1) return;
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+			if (player == currentPlayer) continue;
+			MoveContext playerContext = new MoveContext(game, player);
+			if (!player.controlPlayer.sacredGrove_shouldReceiveBoon(playerContext, boon)) return;
+			game.recieveBoon(playerContext, boon, getControlCard());
+    	}
 	}
 	
 	private void secretCave(Game game, MoveContext context, Player player, boolean isThronedEffect) {

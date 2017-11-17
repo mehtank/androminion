@@ -2461,6 +2461,7 @@ public abstract class Player {
     public abstract Card pooka_treasureToTrash(MoveContext context);
     public abstract Card[] poverty_attack_cardsToKeep(MoveContext context);
     public abstract Card raider_cardToDiscard(MoveContext context, Card[] cards);
+    public abstract boolean sacredGrove_shouldReceiveBoon(MoveContext context, Card boon);
     public abstract Card[] secretCave_cardsToDiscard(MoveContext context);
     public abstract Card theEarthsGift_treasureToDiscard(MoveContext context);
     public abstract Card theEarthsGift_cardToObtain(MoveContext context);

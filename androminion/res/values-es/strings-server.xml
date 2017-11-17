@@ -556,6 +556,7 @@
   <string name="blessedVillage_receive_boon_now">Recibir %1$s ahora (%2$s)</string>
   <string name="blessedVillage_receive_boon_next_turn">Recibir al comienzo de tu próximo turno</string>
   <string name="pixie_trash_for_double_boon">Eliminar esta carta para recibir %1$s dos veces (2x [%2$s])</string>
+  <string name="sacredGrove_receive_boon">Recibir %1$s (%2$s)</string>
   <string name="boon_name_and_desc">%1$s (%2$s)</string>
 
   <string name="card_played_as_card">%1$s (jugado como %2$s)</string>

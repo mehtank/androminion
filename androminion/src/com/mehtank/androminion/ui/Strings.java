@@ -1365,6 +1365,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.pixie))) {
             strings[1] = format(R.string.pixie_trash_for_double_boon, getCardName((Card)extras[0]), getBoonShortText((Card)extras[0]));
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.sacredGrove))) {
+            strings[1] = format(R.string.sacredGrove_receive_boon, getCardName((Card)extras[0]), getBoonShortText((Card)extras[0]));
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.zombieSpy))) {
             strings[0] = getCardRevealedHeader(extras);
             strings[1] = getString(R.string.discard);
