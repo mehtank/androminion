@@ -2439,6 +2439,7 @@ public abstract class Player {
     public abstract Card[] bat_cardsToTrash(MoveContext context);
     public abstract boolean blessedVillage_shouldReceiveNow(MoveContext context, Card boon);
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
+    public abstract Card cobbler_cardToObtain(MoveContext context);
     public abstract Card[] crypt_cardsToSetAside(MoveContext context);
     public abstract Card crypt_cardIntoHand(MoveContext context, Card[] cards);
     public abstract Card devilsWorkshop_cardToObtain(MoveContext context);

@@ -4483,6 +4483,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card cobbler_cardToObtain(MoveContext context) {
+    	//TODO: get something that will better complement the current hand
+    	return bestCardInPlay(context, 4, true);
+    }
+    
+    @Override
     public Card[] crypt_cardsToSetAside(MoveContext context) {
     	Player player = context.player;
     	ArrayList<Card> toCrypt = new ArrayList<Card>();

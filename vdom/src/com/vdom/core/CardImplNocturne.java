@@ -30,6 +30,9 @@ public class CardImplNocturne extends CardImpl {
 		case Bat:
 			bat(game, context, currentPlayer);
 			break;
+		case Cobbler:
+            cobbler(game, context, currentPlayer, isThronedEffect);
+            break;
 		case Crypt:
             crypt(game, context, currentPlayer, isThronedEffect);
             break;
@@ -287,6 +290,10 @@ public class CardImplNocturne extends CardImpl {
 		event.setPlayer(player);
         context.game.broadcastEvent(event);
     }
+	
+	private void cobbler(Game game, MoveContext context, Player player, boolean isThronedEffect) {
+		player.addStartTurnDurationEffect(this, 1, isThronedEffect);
+	}
 	
 	private void crypt(Game game, MoveContext context, Player player, boolean isThronedEffect) {
         int numTreasures = context.countTreasureCardsInPlay();

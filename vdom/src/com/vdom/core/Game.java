@@ -1131,7 +1131,8 @@ public class Game {
              * now that you have more cards to choose from. 
              */
             if(thisCard.equals(Cards.amulet)
-               || thisCard.equals(Cards.dungeon)) {
+               || thisCard.equals(Cards.dungeon)
+               || thisCard.equals(Cards.cobbler)) {
                 allDurationAreSimple = false;
             }
             if(thisCard.equals(Cards.haven)) {
@@ -1348,6 +1349,16 @@ public class Game {
                 }
                 if (card.behaveAsCard().equals(Cards.archive)) {
                 	CardImplEmpires.archiveSelect(this, context, player, setAsideCards);
+                }
+                if (card.behaveAsCard().equals(Cards.cobbler)) {
+                	Card cardToGain = player.controlPlayer.cobbler_cardToObtain(context);
+                    if (cardToGain != null) {
+                        if (cardToGain.getCost(context) <= 4 && cardToGain.getDebtCost(context) == 0 && !cardToGain.costPotion()) {
+                        	player.gainNewCard(cardToGain, card.getControlCard(), context);
+                        } else {
+                        	Util.playerError(player, "Cobbler error, invalid card to gain, ignoring");
+                        }
+                    }
                 }
                 if (card.behaveAsCard().equals(Cards.crypt)) {
                 	CardImplNocturne.cryptSelect(this, context, player, setAsideCards);
@@ -3758,7 +3769,9 @@ public class Game {
                                 } else if (event.card.equals(Cards.silver)) {
                                     player.discard.add(event.card);
                                 }
-                            } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || r.equals(Cards.torturer) || r.equals(Cards.transmogrify) || r.equals(Cards.artisan) || r.equals(Cards.wish) || r.equals(Cards.plague)) {
+                            } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || 
+                            		r.equals(Cards.torturer) || r.equals(Cards.transmogrify) || r.equals(Cards.artisan) || 
+                            		r.equals(Cards.cobbler) || r.equals(Cards.plague) || r.equals(Cards.wish)) {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);

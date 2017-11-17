@@ -3855,6 +3855,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card cobbler_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.cobbler).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public Card[] crypt_cardsToSetAside(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions()
                 .setPassable().isTreasure()
