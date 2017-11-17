@@ -4727,6 +4727,32 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card[] secretCave_cardsToDiscard(MoveContext context) {
+    	Card[] cards = lowestCards(context, context.player.getHand(), 3, true);
+        if (cards.length != 3) return null;
+
+        //Only discard the cards if
+        // -we can buy a gold without them
+        // -our total money with them them less than 5
+        int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
+        
+        int discardCoins = 0;
+        for (Card c : cards) {
+        	discardCoins += context.getActionsLeft() > 0 && c.is(Type.Action) || c.is(Type.Treasure) || c.is(Type.Night) ? c.getAddGold() : 0;
+        }
+        int handCoins = 0;
+        for (Card c : context.player.getHand()) {
+        	handCoins += context.getActionsLeft() > 0 && c.is(Type.Action) || c.is(Type.Treasure) || c.is(Type.Night) ? c.getAddGold() : 0;
+        }
+        
+        int buyCoins = context.getCoins() + handCoins;
+        
+        boolean canBuyGoldWithout = buyCoins - discardCoins >= goldCost;
+        
+        return canBuyGoldWithout || handCoins < 5 ? cards : null;
+    }
+    
+    @Override
     public Card theEarthsGift_treasureToDiscard(MoveContext context) {
     	//TODO: if total expected treasure this turn is going to be exactly 5,6, or >8, don't discard
     	return plaza_treasureToDiscard(context);

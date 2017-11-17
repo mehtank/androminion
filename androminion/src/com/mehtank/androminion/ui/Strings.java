@@ -1753,6 +1753,7 @@ public class Strings {
             getCardName(Cards.locusts),
             getCardName(Cards.pooka),
             getCardName(Cards.poverty),
+            getCardName(Cards.secretCave),
             getCardName(Cards.theFlamesGift),
             getCardName(Cards.theWindsGift),
             getCardName(Cards.tragicHero),

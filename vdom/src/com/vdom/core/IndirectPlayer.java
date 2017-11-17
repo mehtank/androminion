@@ -4004,6 +4004,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card[] secretCave_cardsToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD).setPassable()
+                .setCardResponsible(Cards.secretCave);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
     public Card theEarthsGift_treasureToDiscard(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().isTreasure()
                 .setPassable().setPickType(PickType.DISCARD)

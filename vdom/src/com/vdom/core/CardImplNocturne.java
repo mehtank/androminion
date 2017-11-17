@@ -117,6 +117,9 @@ public class CardImplNocturne extends CardImpl {
 		case Poverty:
 			poverty(game, context, currentPlayer);
 			break;
+		case SecretCave:
+			secretCave(game, context, currentPlayer, isThronedEffect);
+			break;
 		case Shepherd:
 			shepherd(game, context, currentPlayer);
 			break;
@@ -788,6 +791,32 @@ public class CardImplNocturne extends CardImpl {
         if (player.hand.size() > keepCardCount) {
             Card[] cardsToKeep = player.controlPlayer.poverty_attack_cardsToKeep(context);
             player.discardRemainingCardsFromHand(context, cardsToKeep, this.getControlCard(), keepCardCount);
+        }
+	}
+	
+	private void secretCave(Game game, MoveContext context, Player player, boolean isThronedEffect) {
+		if (player.getHand().size() == 0) {
+            return;
+        }
+		
+        Card[] cardsToDiscard = player.controlPlayer.secretCave_cardsToDiscard(context);
+        if (cardsToDiscard == null || !(cardsToDiscard.length == 3 || (cardsToDiscard.length > 0 && cardsToDiscard.length < 3 && player.getHand().size() == cardsToDiscard.length))) {
+            return;
+        }
+
+        ArrayList<Card> copy = Util.copy(player.hand);
+        for (Card cardToKeep : cardsToDiscard) {
+            if (!copy.remove(cardToKeep)) {
+                return;
+            }
+        }
+
+        for (Card card : cardsToDiscard) {
+        	player.discard(card, this.getControlCard(), context);
+        	player.hand.remove(card);
+        }
+        if (cardsToDiscard.length == 3) {
+            player.addStartTurnDurationEffect(this, 1, isThronedEffect);
         }
 	}
 		

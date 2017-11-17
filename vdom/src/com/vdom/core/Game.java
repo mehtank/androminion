@@ -1352,6 +1352,9 @@ public class Game {
                 if (card.behaveAsCard().equals(Cards.crypt)) {
                 	CardImplNocturne.cryptSelect(this, context, player, setAsideCards);
                 }
+                if (card.behaveAsCard().equals(Cards.secretCave)) {
+                	context.addCoins(3, card);
+                }
                 
                 Card thisCard = card.behaveAsCard();
                 
