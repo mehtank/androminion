@@ -828,6 +828,8 @@ public class Strings {
             } else if (extras[0] == ActionType.DISCARD) {
                 return getString(R.string.lookout_query_discard);
             }
+        } else if (cardName.equals(getCardName(Cards.nightWatchman))) {
+            return format(R.string.Cartographer_query, cardName);
         } else if (cardName.equals(getCardName(Cards.pillage))) {
             return getActionString(ActionType.OPPONENTDISCARD, card, (String) extras[0]);
         } else if (cardName.equals(getCardName(Cards.pirateShip))) {

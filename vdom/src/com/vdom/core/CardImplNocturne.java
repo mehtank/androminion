@@ -105,6 +105,9 @@ public class CardImplNocturne extends CardImpl {
 		case Necromancer:
 			necromancer(game, context, currentPlayer);
 			break;
+		case NightWatchman:
+			nightWatchman(game, context, currentPlayer);
+			break;
 		case Pixie:
 			pixie(game, context, currentPlayer);
 			break;
@@ -744,6 +747,72 @@ public class CardImplNocturne extends CardImpl {
 		context.freeActionInEffect++;
 		actionToPlay.play(game, context, false, false, true, false, false);
 		context.freeActionInEffect--;
+	}
+	
+	private void nightWatchman(Game game, MoveContext context, Player player) {
+		ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
+        for (int i = 0; i < 5; i++) {
+            Card card = game.draw(context, Cards.nightWatchman, 5 - i);
+            if (card != null) {
+                topOfTheDeck.add(card);
+            }
+        }
+
+        if (topOfTheDeck.size() > 0) {
+            Card[] cardsToDiscard = player.controlPlayer.nightWatchman_cardsFromTopOfDeckToDiscard(context, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]));
+            if(cardsToDiscard != null) {
+                for(Card toDiscard : cardsToDiscard) {
+                    if(topOfTheDeck.remove(toDiscard)) {
+                    	player.discard(toDiscard, this.getControlCard(), null);
+                    }
+                    else {
+                        Util.playerError(player, "Night Watchman returned invalid card to discard, ignoring");
+                    }
+                }
+            }
+            if (topOfTheDeck.size() > 0) {
+                Card[] order;
+
+                if(topOfTheDeck.size() == 1) {
+                    order = topOfTheDeck.toArray(new Card[topOfTheDeck.size()]);
+                }
+                else {
+                    order = player.controlPlayer.cartographer_cardOrder(context, topOfTheDeck.toArray(new Card[topOfTheDeck.size()]));
+                    // Check that they returned the right cards
+                    boolean bad = false;
+
+                    if (order == null) {
+                        bad = true;
+                    } else {
+                        ArrayList<Card> copy = new ArrayList<Card>();
+                        for (Card card : topOfTheDeck) {
+                            copy.add(card);
+                        }
+
+                        for (Card card : order) {
+                            if (!copy.remove(card)) {
+                                bad = true;
+                                break;
+                            }
+                        }
+
+                        if (!copy.isEmpty()) {
+                            bad = true;
+                        }
+                    }
+
+                    if (bad) {
+                        Util.playerError(player, "Night Watchman order cards error, ignoring.");
+                        order = topOfTheDeck.toArray(new Card[topOfTheDeck.size()]);
+                    }
+                }
+
+                // Put the cards back on the deck
+                for (int i = order.length - 1; i >= 0; i--) {
+                    player.putOnTopOfDeck(order[i]);
+                }
+            }
+        }
 	}
 	
 	private void pixie(Game game, MoveContext context, Player player) {

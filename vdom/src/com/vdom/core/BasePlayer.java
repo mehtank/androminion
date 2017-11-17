@@ -4693,6 +4693,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card[] nightWatchman_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards) {
+    	return cartographer_cardsFromTopOfDeckToDiscard(context, cards);
+    }
+    
+    @Override
+    public Card[] nightWatchman_cardOrder(MoveContext context, Card[] cards) {
+    	return cards;
+    }
+    
+    @Override
     public boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible) {
     	//TODO: better logic
     	return true;
