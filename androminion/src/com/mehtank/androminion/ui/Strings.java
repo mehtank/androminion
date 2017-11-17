@@ -40,6 +40,7 @@ import com.vdom.core.Player.GraverobberOption;
 import com.vdom.core.Player.HuntingGroundsOption;
 import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.MinionOption;
+import com.vdom.core.Player.MonasteryOption;
 import com.vdom.core.Player.NoblesOption;
 import com.vdom.core.Player.PawnOption;
 import com.vdom.core.Player.PutBackOption;
@@ -1078,6 +1079,14 @@ public class Strings {
             } else if (option == WildHuntOption.GainEstateAndTokens) {
                 return getString(R.string.gain_estate_and_tokens);
             }
+        } else if (option instanceof MonasteryOption) {
+            if (option == MonasteryOption.TrashFromHand) {
+                return getString(R.string.trash_card_from_hand);
+            } else if (option == MonasteryOption.TrashCopperFromPlay) {
+                return getString(R.string.monastery_trash_copper_from_play);
+            } else {
+            	return getString(R.string.pass);
+            }
         } else if (option instanceof StashOption) {
             if (option == StashOption.PlaceOnTop) {
                 return getString(R.string.stash_on_top);
@@ -1361,6 +1370,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.faithfulHound))) {
             strings[0] = getString(R.string.faithfulHound_query);
             strings[1] = getString(R.string.faithfulHound_set_aside);
+            strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.monastery))) {
+            strings[1] = getString(R.string.monastery_trash_copper_from_play);
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.pixie))) {
             strings[1] = format(R.string.pixie_trash_for_double_boon, getCardName((Card)extras[0]), getBoonShortText((Card)extras[0]));
@@ -1758,6 +1770,7 @@ public class Strings {
             getCardName(Cards.haunting),
             getCardName(Cards.imp),
             getCardName(Cards.locusts),
+            getCardName(Cards.monastery),
             getCardName(Cards.pooka),
             getCardName(Cards.poverty),
             getCardName(Cards.secretCave),

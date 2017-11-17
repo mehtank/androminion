@@ -4671,6 +4671,24 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card monastery_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+    
+    @Override
+    public boolean monastery_shouldTrashCopperFromPlay(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
+    public MonasteryOption monastery_chooseOption(MoveContext context) {
+    	Card handTrash = pickOutCard(context.getPlayer().getHand(), EARLY_TRASH_CARDS);
+    	if (handTrash != null) return MonasteryOption.TrashFromHand;
+    	return MonasteryOption.TrashCopperFromPlay;
+    	// TODO: When will we want to hang on to the Copper?
+    }
+    
+    @Override
     public Card necromancer_cardToPlay(MoveContext context, Card[] cards) {
     	boolean hasActionInHand = false;
     	for (Card card : context.player.hand) {

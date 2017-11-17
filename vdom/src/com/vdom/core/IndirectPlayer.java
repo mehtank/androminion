@@ -3983,6 +3983,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card monastery_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.monastery);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public boolean monastery_shouldTrashCopperFromPlay(MoveContext context) {
+        return selectBoolean(context, Cards.monastery);
+    }
+    
+    @Override
+    public MonasteryOption monastery_chooseOption(MoveContext context) {
+    	MonasteryOption[] options = MonasteryOption.values();
+    	return options[selectOption(context, Cards.monastery, options)];
+    }
+    
+    @Override
     public Card necromancer_cardToPlay(MoveContext context, Card[] cards) {
     	return cards[selectOption(context, Cards.necromancer, cards)];
     }

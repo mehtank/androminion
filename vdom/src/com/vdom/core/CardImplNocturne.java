@@ -2,6 +2,7 @@ package com.vdom.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +108,9 @@ public class CardImplNocturne extends CardImpl {
 			break;
 		case Misery:
 			misery(game, context, currentPlayer);
+			break;
+		case Monastery:
+			monastery(game, context, currentPlayer);
 			break;
 		case Necromancer:
 			necromancer(game, context, currentPlayer);
@@ -754,6 +758,64 @@ public class CardImplNocturne extends CardImpl {
 		} else if (!game.hasState(player, Cards.twiceMiserable)) {
 			game.takeState(context, Cards.miserable);
 		}
+	}
+	
+	private void monastery(Game game, MoveContext context, Player player) {
+		int numGained = context.getNumCardsGainedThisTurn();
+		if (numGained == 0) return;
+		
+		CardList hand = player.getHand();
+		int numCoppersInPlay = context.countCardsInPlay(Cards.copper);
+		int handSize = hand.size();
+		
+		for (int i = 0; i < numGained; ++i) {
+			if (numCoppersInPlay == 0 && handSize == 0) return;
+			if (numCoppersInPlay == 0) {
+				//only have to ask to trash cards from hand
+				monasteryTrashFromHand(context, player);
+			} else if (handSize == 0) {
+				//only have to ask if we want to trash a copper from play or pass
+				if (!player.controlPlayer.monastery_shouldTrashCopperFromPlay(context)) return;
+				monastaryTrashCopperFromPlay(context, player);
+			} else {
+				// have to ask both or pass
+				switch (player.controlPlayer.monastery_chooseOption(context)) {
+				case Pass:
+					return;
+				case TrashCopperFromPlay:
+					monastaryTrashCopperFromPlay(context, player);
+					break;
+				case TrashFromHand:
+					monasteryTrashFromHand(context, player);
+					break;
+				}
+			}
+			handSize = hand.size();
+			numCoppersInPlay = context.countCardsInPlay(Cards.copper);
+		}
+	}
+	
+	private void monasteryTrashFromHand(MoveContext context, Player player) {
+		CardList hand = player.getHand();
+		Card cardToTrash = player.controlPlayer.monastery_cardToTrash(context);
+        if (cardToTrash == null)
+        	return;
+        if (!hand.contains(cardToTrash)) {
+    		Util.playerError(player, "Monastery error, invalid card to trash, ignoring.");
+    	} else {
+    		cardToTrash = hand.get(cardToTrash);
+    		player.trashFromHand(cardToTrash, getControlCard(), context);
+    	}
+	}
+	
+	private void monastaryTrashCopperFromPlay(MoveContext context, Player player) {
+		for (Iterator<Card> it = player.playedCards.iterator(); it.hasNext();) {
+            Card playedCard = it.next();
+            if (playedCard.equals(Cards.copper)) {
+                context.player.trashFromPlay(playedCard, this.getControlCard(), context);
+                break;
+            }
+        }
 	}
 	
 	private void necromancer(Game game, MoveContext context, Player player) {

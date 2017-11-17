@@ -1832,6 +1832,12 @@ public abstract class Player {
     	Draw3AndPlaceToken,
     	GainEstateAndTokens
     }
+    
+    public static enum MonasteryOption {
+    	TrashFromHand,
+    	TrashCopperFromPlay,
+    	Pass
+    }
 	
 	public static enum FoolsGoldOption {
         TrashForGold,
@@ -2456,6 +2462,9 @@ public abstract class Player {
     public abstract Card imp_cardToPlay(MoveContext context);
     public abstract Card locusts_cardToObtain(MoveContext context, int cost, int debt, boolean potion, Type[] types);
     public abstract Card lostInTheWoods_cardToDiscard(MoveContext context);
+    public abstract Card monastery_cardToTrash(MoveContext context);
+    public abstract boolean monastery_shouldTrashCopperFromPlay(MoveContext context);
+    public abstract MonasteryOption monastery_chooseOption(MoveContext context);
     public abstract Card necromancer_cardToPlay(MoveContext context, Card[] cards);
     public abstract Card[] nightWatchman_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards);
     public abstract Card[] nightWatchman_cardOrder(MoveContext context, Card[] cards);

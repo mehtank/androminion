@@ -555,6 +555,7 @@
   
   <string name="blessedVillage_receive_boon_now">Recibir %1$s ahora (%2$s)</string>
   <string name="blessedVillage_receive_boon_next_turn">Recibir al comienzo de tu próximo turno</string>
+  <string name="monastery_trash_copper_from_play">Eliminar una carta de Cobre que esté en juego</string>
   <string name="pixie_trash_for_double_boon">Eliminar esta carta para recibir %1$s dos veces (2x [%2$s])</string>
   <string name="sacredGrove_receive_boon">Recibir %1$s (%2$s)</string>
   <string name="boon_name_and_desc">%1$s (%2$s)</string>
