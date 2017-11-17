@@ -3862,6 +3862,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card conclave_cardToPlay(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction().notInPlay()
+                .setPassable().setPickType(PickType.PLAY).setActionType(ActionType.PLAY)
+                .setCardResponsible(Cards.conclave);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public Card[] crypt_cardsToSetAside(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions()
                 .setPassable().isTreasure()

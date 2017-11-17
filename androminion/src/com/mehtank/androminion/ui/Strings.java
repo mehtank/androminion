@@ -1748,6 +1748,7 @@ public class Strings {
             getCardName(Cards.bat),
             getCardName(Cards.cemetery),
             getCardName(Cards.cobbler),
+            getCardName(Cards.conclave),
             getCardName(Cards.crypt),
             getCardName(Cards.devilsWorkshop),
             getCardName(Cards.exorcist),

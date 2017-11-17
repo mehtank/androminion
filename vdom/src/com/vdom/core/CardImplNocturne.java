@@ -33,6 +33,9 @@ public class CardImplNocturne extends CardImpl {
 		case Cobbler:
             cobbler(game, context, currentPlayer, isThronedEffect);
             break;
+		case Conclave:
+            conclave(game, context, currentPlayer);
+            break;
 		case Crypt:
             crypt(game, context, currentPlayer, isThronedEffect);
             break;
@@ -293,6 +296,28 @@ public class CardImplNocturne extends CardImpl {
 	
 	private void cobbler(Game game, MoveContext context, Player player, boolean isThronedEffect) {
 		player.addStartTurnDurationEffect(this, 1, isThronedEffect);
+	}
+	
+	private void conclave(Game game, MoveContext context, Player player) {
+		ArrayList<Card> validCards = new ArrayList<Card>();
+		for (Card c : player.hand) {
+			if (c.is(Type.Action, player)) {
+				if (!player.hasCopyInPlay(c)) {
+					validCards.add(c);
+				};
+			}
+		}
+		if (validCards.isEmpty()) return;
+		Card card = player.controlPlayer.conclave_cardToPlay(context);
+		if (card == null) return;
+		if (!validCards.contains(card)) {
+			Util.playerError(player, "Conclave error, invalid card selected, ignoring");
+			return;
+		}
+		context.freeActionInEffect++;
+        card.play(game, context, true);
+        context.freeActionInEffect--;
+        context.actions++;
 	}
 	
 	private void crypt(Game game, MoveContext context, Player player, boolean isThronedEffect) {

@@ -4489,6 +4489,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card conclave_cardToPlay(MoveContext context) {
+    	return imp_cardToPlay(context);
+    }
+    
+    @Override
     public Card[] crypt_cardsToSetAside(MoveContext context) {
     	Player player = context.player;
     	ArrayList<Card> toCrypt = new ArrayList<Card>();
