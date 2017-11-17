@@ -740,7 +740,7 @@ public class CardImplNocturne extends CardImpl {
 		}
 		int kindsOfCardExactlyOneInPlay = 0;
 		for (Cards.Kind kind : cardKindsInPlay.keySet()) {
-			if (cardKindsInPlay.get(kind) != 1)
+			if (cardKindsInPlay.get(kind) == 1)
 				kindsOfCardExactlyOneInPlay++;
 		}
 		if (kindsOfCardExactlyOneInPlay < 6) return;
