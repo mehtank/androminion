@@ -66,6 +66,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	return getFromHandOrPlayed(true, context, sco);    
     }
     
+    private Card getCardFromPlayed(MoveContext context, SelectCardOptions sco) {
+    	Card[] cs = getFromHandOrPlayed(false, context, sco.setCount(1).exactCount());
+    	return (cs == null ? null : cs[0]); 
+    }
+    
     private Card[] getFromPlayed(MoveContext context, SelectCardOptions sco) {
     	return getFromHandOrPlayed(false, context, sco);    
     }
@@ -3852,6 +3857,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setPassable().setPickType(PickType.TRASH)
                 .setCardResponsible(Cards.cemetery).setActionType(ActionType.TRASH);
         return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card changeling_cardToGain(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.changeling, cards)];
+    }
+    
+    @Override
+    public boolean changeling_shouldExchange(MoveContext context, Card card) {
+    	Object[] extras = new Object[1];
+        extras[0] = card;
+        return selectBoolean(context, Cards.changeling, extras);
     }
     
     @Override

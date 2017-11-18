@@ -879,6 +879,8 @@ public class Strings {
             return getString(R.string.archive_query);
         } else if (cardName.equals(getCardName(Cards.annex))) {
             return format(R.string.annex_query, extras[0]);
+        } else if (cardName.equals(getCardName(Cards.changeling))) {
+            return format(R.string.changeling_gain_query, cardName);
         } else if (cardName.equals(getCardName(Cards.crypt))) {
             return format(R.string.crypt_query, cardName);
         } else if (cardName.equals(getCardName(Cards.fool))) {
@@ -1367,6 +1369,10 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.blessedVillage))) {
             strings[1] = format(R.string.blessedVillage_receive_boon_now, getCardName((Card)extras[0]), getBoonShortText((Card)extras[0]));
             strings[2] = getString(R.string.blessedVillage_receive_boon_next_turn);
+        } else if (cardName.equals(getCardName(Cards.changeling))) {
+            strings[0] = format(R.string.gained_card, getCardName((Card)extras[0]));
+            strings[1] = format(R.string.changeling_exchange, getCardName((Card)extras[0]), cardName);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.faithfulHound))) {
             strings[0] = getString(R.string.faithfulHound_query);
             strings[1] = getString(R.string.faithfulHound_set_aside);

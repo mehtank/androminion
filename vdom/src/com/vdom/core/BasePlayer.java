@@ -18,10 +18,10 @@ import com.vdom.core.MoveContext.TurnPhase;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
-    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate };
-    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate, Cards.copper, Cards.masterpiece };
+    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate, Cards.cursedGold, Cards.pasture, Cards.pouch, Cards.magicLamp };
+    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate, Cards.copper, Cards.masterpiece, Cards.cursedGold, Cards.pasture, Cards.pouch, Cards.magicLamp };
     protected static final Card[] EASY_WHEN_TRASH_CARDS = new Card[] { Cards.cultist, Cards.rats, Cards.catacombs, Cards.fortress, Cards.huntingGrounds, Cards.sirVander, Cards.overgrownEstate};
-    protected static final Card[] CATAPULT_AMMO_CARDS = new Card[] { Cards.rocks, Cards.masterpiece, Cards.illGottenGains, Cards.silver, Cards.loan, Cards.rats, Cards.fortress, Cards.curse, Cards.estate, Cards.copper, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins};
+    protected static final Card[] CATAPULT_AMMO_CARDS = new Card[] { Cards.rocks, Cards.cursedGold, Cards.masterpiece, Cards.illGottenGains, Cards.silver, Cards.loan, Cards.rats, Cards.fortress, Cards.curse, Cards.estate, Cards.copper, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins};
     
     protected Random rand = new Random(System.currentTimeMillis());
     protected static final int COST_MAX = 14;
@@ -4480,6 +4480,82 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card[] cemetery_cardsToTrash(MoveContext context) {
     	return pickOutCards(context.getPlayer().getHand(), 4, getTrashCards());
+    }
+    
+    @Override
+    public Card changeling_cardToGain(MoveContext context, Card[] cards) {
+    	HashSet<Card> cardsToMatch = new HashSet<Card>();
+		for(Card card : cards) {
+			boolean good = true;
+			for(Card trash : getTrashCards()) {
+				if(card.equals(trash)) {
+					good = false;
+					break;
+				}
+			}
+			if(good) {
+				cardsToMatch.add(card);
+			}
+		}
+    	ArrayList<Card> sorted = new ArrayList<Card>();
+    	sorted.addAll(cardsToMatch);
+    	Collections.sort(sorted, new Util.CardCostComparatorDesc());
+    	return sorted.get(0);
+    }
+    
+    @Override
+    public boolean changeling_shouldExchange(MoveContext context, Card card) {
+    	if (card.is(Type.Victory, context.player) || wantPlayableCardCopy(context, card)) return false;
+    	
+    	HashSet<Card> cardsWeWantCopiesOf = new HashSet<Card>();
+    	HashSet<Card> cardsWeDontWantCopiesOf = new HashSet<Card>();
+    	int numberWanted = 0;
+    	int numberNotWanted = 0;
+    	for(Card c : context.player.deck) {
+    		if (wantPlayableCardCopy(context, c) && context.isCardOnTop(c)) {
+    			cardsWeWantCopiesOf.add(c);
+    			numberWanted++;
+    		} else { 
+    			cardsWeDontWantCopiesOf.add(c);
+    			numberNotWanted++;
+    		}
+    	}
+    	for(Card c : context.player.discard) {
+    		if (wantPlayableCardCopy(context, c) && context.isCardOnTop(c)) {
+    			cardsWeWantCopiesOf.add(c);
+    			numberWanted++;
+    		} else { 
+    			cardsWeDontWantCopiesOf.add(c);
+    			numberNotWanted++;
+    		}
+    	}
+    	for(Card c : context.player.hand) {
+    		if (wantPlayableCardCopy(context, c) && context.isCardOnTop(c)) {
+    			cardsWeWantCopiesOf.add(c);
+    			numberWanted++;
+    		} else { 
+    			cardsWeDontWantCopiesOf.add(c);
+    			numberNotWanted++;
+    		}
+    	}
+    	for(Card c : context.player.playedCards) {
+    		if (wantPlayableCardCopy(context, c) && context.isCardOnTop(c)) {
+    			cardsWeWantCopiesOf.add(c);
+    			numberWanted++;
+    		} else { 
+    			cardsWeDontWantCopiesOf.add(c);
+    			numberNotWanted++;
+    		}
+    	}
+    	//TODO: better figure out chances of being able to play a card we want and have Changeling in hand
+    	boolean cardsShouldLineUp = numberWanted > ((numberWanted + numberNotWanted) / 5);
+    	return cardsShouldLineUp;
+    }
+    
+    private boolean wantPlayableCardCopy(MoveContext context, Card c) {
+    	boolean isPlayable = c.is(Type.Action, context.player) || c.is(Type.Treasure, context.player) || c.is(Type.Night, context.player);
+    	boolean costHigh = c.getCost(null) > 5 || c.getDebtCost(null) > 5 || c.costPotion();
+    	return isPlayable && costHigh;
     }
     
     @Override

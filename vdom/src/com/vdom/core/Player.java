@@ -2445,6 +2445,8 @@ public abstract class Player {
     public abstract Card[] bat_cardsToTrash(MoveContext context);
     public abstract boolean blessedVillage_shouldReceiveNow(MoveContext context, Card boon);
     public abstract Card[] cemetery_cardsToTrash(MoveContext context);
+    public abstract Card changeling_cardToGain(MoveContext context, Card[] cards);
+    public abstract boolean changeling_shouldExchange(MoveContext context, Card card);
     public abstract Card cobbler_cardToObtain(MoveContext context);
     public abstract Card conclave_cardToPlay(MoveContext context);
     public abstract Card[] crypt_cardsToSetAside(MoveContext context);

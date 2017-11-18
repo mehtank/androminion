@@ -3223,9 +3223,9 @@ public class Game {
         }
 
         if (sheltersInPlay) {
-            addPile(Cards.necropolis, numPlayers, false);
-            addPile(Cards.overgrownEstate, numPlayers, false);
-            addPile(Cards.hovel, numPlayers, false);
+            addPile(Cards.necropolis, numPlayers, false, false, false);
+            addPile(Cards.overgrownEstate, numPlayers, false, false, false);
+            addPile(Cards.hovel, numPlayers, false, false, false);
         }
         
         heirloomsInPlay = new ArrayList<Card>();
@@ -3240,7 +3240,7 @@ public class Game {
             }
         }
         for (Card c : heirloomsInPlay) {
-        	addPile(c, numPlayers, false);
+        	addPile(c, numPlayers, false, false, false);
         }
         
         // Check for PlatColony
@@ -3417,9 +3417,9 @@ public class Game {
         }
         
         if (piles.containsKey(Cards.necromancer.getName())) {
-        	addPile(Cards.zombieApprentice, 1, false);
-        	addPile(Cards.zombieMason, 1, false);
-        	addPile(Cards.zombieSpy, 1, false);
+        	addPile(Cards.zombieApprentice, 1, false, false, false);
+        	addPile(Cards.zombieMason, 1, false, false, false);
+        	addPile(Cards.zombieSpy, 1, false, false, false);
         	trashPile.add(takeFromPile(Cards.zombieApprentice));
         	trashPile.add(takeFromPile(Cards.zombieMason));
         	trashPile.add(takeFromPile(Cards.zombieSpy));
@@ -3675,10 +3675,25 @@ public class Game {
                     	}
                     }
                     
+                    if (cardInGame(Cards.changeling) && Util.costsEqualOrMore(context, event.card, 3, 0, 0) && context.isCardOnTop(Cards.changeling)) {
+                    	CardPile pile = getPile(event.card);
+                    	// can't exchange for cards that don't have a real pile associated with them since they can't be returned to their pile
+                    	if (pile.isRealPile() && player.controlPlayer.changeling_shouldExchange(context, event.card)) {
+                            pile.addCard(event.card);
+                            player.discard.add(takeFromPile(Cards.changeling));
+                            GameEvent exchangedEvent = new GameEvent(GameEvent.EventType.TravellerExchanged, context);
+                            exchangedEvent.card = Cards.changeling;
+                            exchangedEvent.responsible = event.card;
+                            exchangedEvent.setPlayer(player);
+                            context.game.broadcastEvent(exchangedEvent);
+                            handled = true;
+                    	}
+                    }
+                    
                     boolean hasInheritedWatchtower = Cards.watchTower.equals(player.getInheritance()) && player.hand.contains(Cards.estate);
                     boolean hasWatchtower = player.hand.contains(Cards.watchTower);
                     Card watchTowerCard = hasWatchtower ? Cards.watchTower : Cards.estate;
-                    if (hasWatchtower || hasInheritedWatchtower) {
+                    if (!handled && hasWatchtower || hasInheritedWatchtower) {
                         WatchTowerOption choice = context.player.controlPlayer.watchTower_chooseOption((MoveContext) context, event.card);
 
                         if (choice == WatchTowerOption.TopOfDeck) {
@@ -4536,10 +4551,13 @@ public class Game {
     protected CardPile addPile(Card card, int count, boolean isSupply) {
         return addPile(card, count, isSupply, false);
     }
-
+    
     protected CardPile addPile(Card card, int count, boolean isSupply, boolean isBlackMarket) {
-        CardPile pile = card.getPileCreator().create(card, count);
+    	return addPile(card, count, isSupply, isBlackMarket, true);
+    }
 
+    protected CardPile addPile(Card card, int count, boolean isSupply, boolean isBlackMarket, boolean isPile) {
+        CardPile pile = card.getPileCreator().create(card, count);
 
 
         if (!isSupply) {
@@ -4547,6 +4565,9 @@ public class Game {
         }
         if (isBlackMarket) {
             pile.inBlackMarket();
+        }
+        if (!isPile) {
+            pile.notRealPile();
         }
 
         piles.put(card.getName(), pile);

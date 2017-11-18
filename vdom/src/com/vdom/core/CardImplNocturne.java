@@ -2,6 +2,7 @@ package com.vdom.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,9 @@ public class CardImplNocturne extends CardImpl {
 		case Bat:
 			bat(game, context, currentPlayer);
 			break;
+		case Changeling:
+            changeling(game, context, currentPlayer);
+            break;
 		case Cobbler:
             cobbler(game, context, currentPlayer, isThronedEffect);
             break;
@@ -297,6 +301,30 @@ public class CardImplNocturne extends CardImpl {
 		event.setPlayer(player);
         context.game.broadcastEvent(event);
     }
+	
+	private void changeling(Game game, MoveContext context, Player player) {
+		player.trashSelfFromPlay(getControlCard(), context);
+		
+		HashSet<Card> validCards = new HashSet<Card>();
+		for (Card c : player.playedCards) {
+			if (Cards.isSupplyCard(c) && context.isCardOnTop(c)) {
+				validCards.add(c);
+			}
+		}
+		if (validCards.isEmpty()) return;
+		
+		Card cardToGain = null;
+		if (player.playedCards.size() == 1) {
+			cardToGain = player.playedCards.get(0);
+		}
+		if (cardToGain == null)
+			cardToGain = player.controlPlayer.changeling_cardToGain(context, validCards.toArray(new Card[0]));
+		if (!validCards.contains(cardToGain)) {
+			Util.playerError(player, "Changeling error, invalid card to gain, choosing first");
+			cardToGain = validCards.iterator().next();
+		}
+		player.gainNewCard(cardToGain, getControlCard(), context);
+	}
 	
 	private void cobbler(Game game, MoveContext context, Player player, boolean isThronedEffect) {
 		player.addStartTurnDurationEffect(this, 1, isThronedEffect);

@@ -13,6 +13,7 @@ import java.util.Map;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.core.Cards.Kind;
+import com.vdom.core.MoveContext.TurnPhase;
 
 public class Util {
     public static String cardArrayToString(Card[] cards) {
@@ -835,5 +836,27 @@ public class Util {
 		public CardTavernComparator() {
 			super(cmps);
 		}
+	}
+
+	/**
+	 * Determines if a card costs more than a given cost 
+	 */
+	public static boolean costsMore(MoveContext context, Card card, int coins, int potions, int debt) {
+		int cardCoins = card.getCost(context, context.phase == TurnPhase.Buy);
+		int cardPotions = card.costPotion() ? 1 : 0;
+		int cardDebt = card.getDebtCost(context);
+		
+		return (cardCoins >= coins && cardPotions >= potions && cardDebt >= debt) && (cardCoins > coins || cardPotions > potions || cardDebt > debt);
+	}
+	
+	/**
+	 * Determines if a card costs the same or more than a given cost 
+	 */
+	public static boolean costsEqualOrMore(MoveContext context, Card card, int coins, int potions, int debt) {
+		int cardCoins = card.getCost(context, context.phase == TurnPhase.Buy);
+		int cardPotions = card.costPotion() ? 1 : 0;
+		int cardDebt = card.getDebtCost(context);
+		
+		return (cardCoins >= coins && cardPotions >= potions && cardDebt >= debt);
 	}
 }
