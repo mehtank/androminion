@@ -1,6 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -11,6 +12,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -723,10 +725,16 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		if (addText)
 			ll.addView(textView);
 			
-		Configuration configuration = new Configuration(getContext().getResources().getConfiguration());
-		configuration.setLocale(new Locale("en"));
-		String englishName = this.getContext().createConfigurationContext(configuration).getResources().getString(this.getContext().createConfigurationContext(configuration).getResources().getIdentifier(cardView.getCard().originalSafeName + "_name", "string", this.getContext().getPackageName()));
+		String englishName = null;
 			
+		boolean isEnglish = "en".equals(getResources().getConfiguration().locale.getLanguage());
+		boolean showEnglishNames = PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false);
+		
+		if (wikilink || (!isEnglish && showEnglishNames)) {
+			int cardNameStringId = getId(cardView.getCard().originalSafeName + "_name", R.string.class);
+			englishName = getLocaleStringResource(new Locale("en"), cardNameStringId, this.getContext());
+		}
+		
 		if (wikilink) {
 			TextView linkView = new TextView(view.getContext());
 			String str2 = englishName.replace(" ", "_");
@@ -741,8 +749,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		String title = cardView.getCard().name;
 		Log.d(TAG, "card title = " + title);
-		boolean isEnglish = "en".equals(getResources().getConfiguration().locale.getLanguage());
-		if (!isEnglish && PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
+		
+		if (!isEnglish && showEnglishNames) {
 			title += " (" + englishName + ")";
 			Log.d(TAG, "card title now: " + title);
 		}
@@ -762,6 +770,41 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		ad.getButton(AlertDialog.BUTTON_POSITIVE).setGravity(Gravity.CENTER);
 
 		return true;
+	}
+	
+	@SuppressLint("NewApi") private static String getLocaleStringResource(Locale requestedLocale, int resourceId, Context context) {
+	    String result;
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) { // use latest api
+	        Configuration config = new Configuration(context.getResources().getConfiguration());
+	        config.setLocale(requestedLocale);
+	        result = context.createConfigurationContext(config).getText(resourceId).toString();
+	    }
+	    else { // support older android versions
+	        Resources resources = context.getResources();
+	        Configuration conf = resources.getConfiguration();
+	        Locale savedLocale = conf.locale;
+	        conf.locale = requestedLocale;
+	        resources.updateConfiguration(conf, null);
+
+	        // retrieve resources from desired locale
+	        result = resources.getString(resourceId);
+
+	        // restore original locale
+	        conf.locale = savedLocale;
+	        resources.updateConfiguration(conf, null);
+	    }
+
+	    return result;
+	}
+	
+	private static int getId(String resourceName, Class<?> c) {
+	    try {
+	        Field idField = c.getDeclaredField(resourceName);
+	        return idField.getInt(idField);
+	    } catch (Exception e) {
+	        throw new RuntimeException("No resource ID found for: "
+	                + resourceName + " / " + c, e);
+	    }
 	}
 	
 	private String getExtraDescription() {
