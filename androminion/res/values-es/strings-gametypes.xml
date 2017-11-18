@@ -177,6 +177,38 @@
   
   <string name="AreaControl_gametype">Control de área</string>
   <string name="NoMoneyNoProblems_gametype">Sin dinero no hay problemas</string>
+  
+  <string name="Dusk_gametype">Crepúsculo</string>
+  <string name="Midnight_gametype">Medianoche</string>
+  
+  <string name="NightShift_gametype">Turno de noche</string>
+  <string name="IdleHands_gametype">Manos ociosas</string>
+  
+  <string name="ShadowyFigures_gametype">Figuras sombrías</string>
+  <string name="ImpendingDoom_gametype">Fatalidad inminente</string>
+  
+  <string name="TheNewBlack_gametype">El nuevo negro</string>
+  <string name="ForbiddenIsle_gametype">Isla prohibida</string>
+  
+  <string name="NightmareFuel_gametype">Combustible para pesadillas</string>
+  
+  <string name="TreasuresOfTheNight_gametype">Tesoros de la noche</string>
+  <string name="DayAtTheRaces_gametype">Un día en las carreras</string>
+  
+  <string name="TheEndlessFair_gametype">La feria interminable</string>
+  <string name="HappyChaos_gametype">Caos feliz</string>
+  
+  <string name="SearchParty_gametype">Equipo de búsqueda</string>
+  <string name="CountingSheep_gametype">Contando ovejas</string>
+  
+  <string name="GraveMatters_gametype">Asuntos de la tumba</string>
+  <string name="RatsAndBats_gametype">Ratas y murciélagos</string>
+  
+  <string name="MonsterMash_gametype">La fiesta monstruosa</string>
+  <string name="LostInTheWoods_gametype">Perdido en el bosque</string>
+  
+  <string name="Luftschloss_gametype">Luftschloss</string>
+  <string name="PookaPranks_gametype">Travesuras de púca</string>
    
   <string name="Test_gametype">Prueba (para probar el juego)</string>
 </resources>
