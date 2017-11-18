@@ -165,7 +165,7 @@ public class CardImplPromo extends CardImpl {
         int debt = trashCard.getDebtCost(context);
         boolean potion = trashCard.costPotion();
         int potionCost = potion ? 1 : 0;
-        if (cost <= 1)
+        if (cost < 1)
         	return;
         
         ArrayList<Card> validCards = new ArrayList<Card>();
