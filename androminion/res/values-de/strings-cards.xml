@@ -968,8 +968,8 @@
     <string name="Sauna_desc">Du darfst ein Eisloch aus deiner Hand ausspielen. Solange diese Karte im Spiel ist: Wenn du ein Silber ausspielst, darfst du eine Handkarte entsorgen.</string>
     <string name="Avanto_name">Eisloch</string>
     <string name="Avanto_desc">Du darfst eine Sauna aus deiner Hand ausspielen.</string>
-    <string name="Dismantle_name">Abriß</string>
-    <string name="Dismantle_desc">Entsorge eine Karte aus Deiner Hand. Kostet diese (1) oder mehr, nimm dir eine Karte die weniger kostet und eine Gold.</string>
+    <string name="Dismantle_name">Abbruch</string>
+    <string name="Dismantle_desc">Entsorge eine Handkarte. Wenn sie (1) oder mehr kostet, nimm eine billigere Karte und ein Gold.</string>
     
     <string name="SaunaAvanto_name">Sauna/Eisloch</string>
     <string name="SaunaAvanto_desc">Spielvorbereitung: Lege auf diese Karte 5 Eisloch und oben darauf 5 Sauna. Es darf immer nur die oberste Karte des Stapels genommen oder gekauft werden.</string>
