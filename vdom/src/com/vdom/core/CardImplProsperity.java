@@ -80,14 +80,18 @@ public class CardImplProsperity extends CardImpl {
 		super.isBuying(context);
         switch (this.getControlCard().getKind()) {
             case Mint:
-                for (Iterator<Card> it = context.player.playedCards.iterator(); it.hasNext();) {
-                    Card playedCard = it.next();
-                    if (playedCard.is(Type.Treasure, context.player)) {
-                        context.player.trashFromPlay(playedCard, this.getControlCard(), context);
-                        it.remove();
+            {
+            	ArrayList<Card> toTrash = new ArrayList<Card>();
+                for (Card card : context.player.playedCards) {
+                    if (card.is(Type.Treasure, context.player)) {
+                        toTrash.add(card);
                     }
                 }
+                for (Card c : toTrash) {
+                	context.player.trashFromPlay(c, this.getControlCard(), context);
+                }
                 break;
+            }
             default:
                 break;
         }
