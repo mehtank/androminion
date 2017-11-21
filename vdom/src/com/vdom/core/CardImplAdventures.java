@@ -881,6 +881,12 @@ public class CardImplAdventures extends CardImpl {
     
     private void pilgrimage(MoveContext context) {
     	if(context.player.flipJourneyToken(context)) {
+    		HashSet<Card> validCards = new HashSet<Card>();
+    		for (Card c : context.player.playedCards) {
+    			if (Cards.isSupplyCard(c) && context.isCardOnTop(c)) {
+    				validCards.add(c);
+    			}
+    		}
     		Card[] cards = context.player.controlPlayer.pilgrimage_cardsToGain(context);
     		if (cards != null) {
     			if (cards.length > 3) {
@@ -891,10 +897,10 @@ public class CardImplAdventures extends CardImpl {
     					differentCards.add(card);
     				}
     				for (Card card : differentCards) {
-    					if(context.player.playedCards.contains(card)) {
+    					if(validCards.contains(card)) {
     						context.player.gainNewCard(card, this.getControlCard(), context);
     					} else {
-    						Util.playerError(context.player, "Pilgrimage gain error, card not in play, ignoring.");
+    						Util.playerError(context.player, "Pilgrimage gain error, card not in play or not gainable, ignoring.");
     					}
     				}
     			}
