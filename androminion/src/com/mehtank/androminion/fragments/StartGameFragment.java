@@ -202,7 +202,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         completeSets.put(Expansion.Guilds, mRandomGuilds = (ToggleButton) mView.findViewById(R.id.toggleButtonGuilds));
         completeSets.put(Expansion.Adventures, mRandomAdventures = (ToggleButton) mView.findViewById(R.id.toggleButtonAdventures));
         completeSets.put(Expansion.Empires, mRandomEmpires = (ToggleButton) mView.findViewById(R.id.toggleButtonEmpires));
-        completeSets.put(Expansion.Promo, mRandomPromo = (ToggleButton) mView.findViewById(R.id.toggleButtonPromo));
+        mRandomPromo = (ToggleButton) mView.findViewById(R.id.toggleButtonPromo);
                 
         mPlayer2 = (Spinner) mView.findViewById(R.id.spPlayer2);
         mPlayer3 = (Spinner) mView.findViewById(R.id.spPlayer3);
@@ -392,6 +392,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         for (Expansion set : completeSets.keySet()) {
         	completeSets.get(set).setChecked(mPrefs.getBoolean(RANDOM_USE_SET_PREFIX + set, set == Expansion.Base));
         }
+        mRandomPromo.setChecked(mPrefs.getBoolean(RANDOM_USE_SET_PREFIX + Expansion.Promo, false));
         
         // ensure we always have enough cards selected to make a valid Kingdom
         int numChecked = getNumChecked();
@@ -661,6 +662,9 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 	                		gameTypeString += "-" + set;
 	                	}
 	                }
+					if (mRandomPromo.isChecked()) {
+						gameTypeString += "-" + Expansion.Promo;
+					}
                 }
                 strs.add(gameTypeString);
                 if (mRandomAllCheckbox.isChecked()) {
@@ -695,7 +699,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 for (Expansion set : completeSets.keySet()) {
                 	edit.putBoolean(RANDOM_USE_SET_PREFIX + set, completeSets.get(set).isChecked());
                 }
-                
+				edit.putBoolean(RANDOM_USE_SET_PREFIX + Expansion.Promo, mRandomPromo.isChecked());
                 break;
             case PRESET:
                 edit.putString("gameType", TypeOptions.PRESET.name());
