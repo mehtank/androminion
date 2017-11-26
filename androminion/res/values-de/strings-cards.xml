@@ -807,11 +807,11 @@
     <string name="FaithfulHound_name">Getreuer Hund</string>
     <string name="FaithfulHound_desc">When you discard this other than during Clean-up, you may set it aside, and put it into your hand at end of turn.</string>
     <string name="Fool_name">Narr</string>
-    <string name="Fool_desc">If you aren\'t the player with Lost in the Woods, take it, take 3 Boons, and receive the Boons in any order.</string>
+    <string name="Fool_desc">Wenn Du Dich nicht im Wald verlaufen hast, nimm Im Wald verlaufen, nimm 3 Segen und erhalte sie in beliebiger Reihenfolge.</string>
     <string name="GhostTown_name">Geisterstadt</string>
-    <string name="GhostTown_desc">This is gained to your hand (instead of your discard pile).</string>
+    <string name="GhostTown_desc">Wenn Du diese Karte nimmst, nimm sie auf die Hand.</string>
     <string name="Guardian_name">Wächter</string>
-    <string name="Guardian_desc">TODO</string>
+    <string name="Guardian_desc">Bis zu deinem nächsten Zug, wenn ein Mitspieler eine Angriffskarte ausspielt bist Du davon nicht betroffen. Zu Beginn deines nächsten Zugs: +(1) Geld. Wenn Du diese Karte nimmst, nimm sie auf die Hand.</string>
     <string name="Idol_name">Götze</string>
     <string name="Idol_desc">When you play this, if you then have an odd number of Idols in play, receive a Boon; if an even number, each other player gains a Curse.</string>
     <string name="Leprechaun_name">Kobold</string>
