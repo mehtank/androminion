@@ -849,7 +849,7 @@ public class CardImplNocturne extends CardImpl {
 	private void necromancer(Game game, MoveContext context, Player player) {
 		ArrayList<Card> faceUpActions = new ArrayList<Card>();
 		for (Card card : game.GetTrashPile()) {
-			if (!card.is(Type.Action)) continue;
+			if (!card.is(Type.Action) || card.is(Type.Duration)) continue;
 			boolean isFaceUp = true;
 			for (Card faceDownCard : game.trashPileFaceDown) {
 				if (faceDownCard.getId() == card.getId())
