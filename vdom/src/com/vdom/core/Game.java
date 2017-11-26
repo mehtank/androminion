@@ -4490,7 +4490,7 @@ public class Game {
 
     public boolean isCardOnTop(Card card) {
         CardPile pile = getPile(card);
-        if (pile == null) return false;
+        if (pile == null || pile.isBlackMarket()) return false;
         Card top = pile.topCard();
         return top != null && top.equals(card);
     }
