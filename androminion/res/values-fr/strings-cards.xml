@@ -798,11 +798,11 @@
     <string name="Cemetery_name">Cimetière</string>
     <string name="Cemetery_desc">Quand vous recevez cette carte, écartez jusqu\'à 4 cartes de votre main.</string>
     <string name="Changeling_name">Changelin</string>
-    <string name="Changeling_desc">Écartez cette carte. Recevez un exemplaire d'une carte que vous avez en jeu.\n ------------\n Si le Changelin est dans le royaume, lorsque vous recevez une carte coûtant (3) Pièces ou plus, vous pouvez l'échanger contre un Changelin.</string>
+    <string name="Changeling_desc">Écartez cette carte. Recevez un exemplaire d\'une carte que vous avez en jeu.\n ------------\n Si le Changelin est dans le royaume, lorsque vous recevez une carte coûtant (3) Pièces ou plus, vous pouvez l\'échanger contre un Changelin.</string>
     <string name="Cobbler_name">Cordonnier</string>
-    <string name="Cobbler_desc">Au début de votre prochain tour, recevez un main une carte coûtant jusqu'à (4) Pièces.</string>
+    <string name="Cobbler_desc">Au début de votre prochain tour, recevez un main une carte coûtant jusqu\'à (4) Pièces.</string>
     <string name="Conclave_name">Conclave</string>
-    <string name="Conclave_desc">Vous pouvez jouer une carte Action de votre main dont vous n'avez pas d'exemplaire en jeu. Dans ce cas, +1 Action.</string>
+    <string name="Conclave_desc">Vous pouvez jouer une carte Action de votre main dont vous n\'avez pas d\'exemplaire en jeu. Dans ce cas, +1 Action.</string>
     <string name="Crypt_name">Crypte</string>
     <string name="Crypt_desc">Mettez de côté autant de cartes Trésor en jeu que souhaité, face cachée (sous cette carte). Tant qu\'il en reste, au début de chaque tour, prenez-en une en main.</string>
     <string name="CursedVillage_name">Village maudit</string>
@@ -822,7 +822,7 @@
     <string name="GhostTown_name">Ville fantôme</string>
     <string name="GhostTown_desc">Cette carte est reçue en main (et non dans la défausse).</string>
     <string name="Guardian_name">Gardien</string>
-    <string name="Guardian_desc">Jusqu\'à votre prochain tour, quand un adversaire joue une carte Attaque, vous n'en subissez pas les effets.\n ------------\n Cette carte est reçue en main (et non dans la défausse).</string>
+    <string name="Guardian_desc">Jusqu\'à votre prochain tour, quand un adversaire joue une carte Attaque, vous n\'en subissez pas les effets.\n ------------\n Cette carte est reçue en main (et non dans la défausse).</string>
     <string name="Idol_name">Idole</string>
     <string name="Idol_desc">Après avoir joué cette carte, si vous avez un nombre impair d\'Idoles en jeu, appliquez une Aubaine ; si vous en avez un nombre pair, tous vos adversaires reçoivent une Malédiction.</string>
     <string name="Leprechaun_name">Leprechaun</string>
@@ -832,7 +832,7 @@
     <string name="Necromancer_name">Nécromancien</string>
     <string name="Necromancer_desc">"Jouez une carte Action non-Durée face visible du rebut, en la laissant en place et en la retournant face cachée jusqu'à la fin du tour.\n ------------\n Mise en place : placez les 3 Zombies dans le rebut.</string>
     <string name="NightWatchman_name">Veilleur de nuit</string>
-    <string name="NightWatchman_desc">Consultez les 5 premières cartes de votre pioche, défaussez-en autant que souhaité, et replacez le reste dans l'ordre de votre choix.\n ------------\n Cette carte est reçue en main (et non dans la défausse).</string>
+    <string name="NightWatchman_desc">Consultez les 5 premières cartes de votre pioche, défaussez-en autant que souhaité, et replacez le reste dans l\'ordre de votre choix.\n ------------\n Cette carte est reçue en main (et non dans la défausse).</string>
     <string name="Pixie_name">Pixie</string>
     <string name="Pixie_desc">Défaussez la prochaine Aubaine. Vous pouvez écarter cette carte pour appliquer deux fois cette Aubaine.</string>
     <string name="Pooka_name">Pooka</string>
@@ -840,7 +840,7 @@
     <string name="Raider_name">Commando</string>
     <string name="Raider_desc">Tous vos adversaires ayant au moins 5 cartes en main défaussent un exemplaire d\'une carte que vous avez en jeu (ou montrent qu\'ils ne peuvent pas).</string>
     <string name="SacredGrove_name">Bois sacré</string>
-    <string name="SacredGrove_desc">Appliquez une Aubaine. Si elle ne donne pas +(1) Pièce, tous vos adversaires peuvent l'appliquer.</string>
+    <string name="SacredGrove_desc">Appliquez une Aubaine. Si elle ne donne pas +(1) Pièce, tous vos adversaires peuvent l\'appliquer.</string>
     <string name="SecretCave_name">Grotte secrète</string>
     <string name="SecretCave_desc">Vous pouvez défausser 3 cartes. Dans ce cas, au début de votre prochain tour, +(3) Pièces.</string>
     <string name="Shepherd_name">Berger</string>
@@ -848,7 +848,7 @@
     <string name="Skulk_name">Malandrin</string>
     <string name="Skulk_desc">Tous vos adversaires appliquent le prochain Sortilège.\n ------------\n Quand vous recevez cette carte, recevez un Or.</string>
     <string name="Tormentor_name">Persécuteur</string>
-    <string name="Tormentor_desc">Si vous n'avez pas d'autre carte en jeu, recevez un Farfadet de sa pile. Sinon, tous vos adversaires appliquent le prochain Sortilège.</string>
+    <string name="Tormentor_desc">Si vous n\'avez pas d\'autre carte en jeu, recevez un Farfadet de sa pile. Sinon, tous vos adversaires appliquent le prochain Sortilège.</string>
     <string name="TragicHero_name">Héros de tragédie</string>
     <string name="TragicHero_desc">Si vous avez en main 8 cartes ou plus (après avoir pioché), écartez cette carte et recevez une carte Trésor.</string>
     <string name="Tracker_name">Traqueur</string>
