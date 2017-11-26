@@ -781,17 +781,17 @@
     <string name="WolfDen_desc">Beim Zählen der Siegpunkte: -3 Siegpunkte pro Karte, von der du genau 1 Exemplar besitzt.</string>
 
     <string name="Bard_name">Sänger</string>
-    <string name="Bard_desc">TODO</string>
+    <string name="Bard_desc">Erhalte einen Segen</string>
     <string name="BlessedVillage_name">Seliges Dorf</string>
-    <string name="BlessedVillage_desc">When you gain this, take a Boon. Receive it now or at the start of your next turn.</string>
+    <string name="BlessedVillage_desc">Wenn Du diese Karte nimmst, erhalte einen Segen. Erhalte ihn jetzt oder zu Begin deines nächsten Zuges.</string>
     <string name="Cemetery_name">Friedhof</string>
-    <string name="Cemetery_desc">When you gain this, trash up to 4 cards from your hand.</string>
+    <string name="Cemetery_desc">Wenn Du diese Karte nimmst, entsorge bis zu 4 Karten aus deiner Hand.</string>
     <string name="Changeling_name">Wechselbalg</string>
-    <string name="Changeling_desc">TODO</string>
+    <string name="Changeling_desc">Entsorge diese Karte. Nimm dir eine Karte, von der Du eine Kopie im Spiel hast. Wenn der Wechselbalg im Spiel verwendet wird und Du eine Karte nimmst die (3) oder mehr kostet, darfst Du statt dessen einen Wechselbalg nehmen.</string>
     <string name="Cobbler_name">Schuster</string>
-    <string name="Cobbler_desc">TODO</string>
+    <string name="Cobbler_desc">Zu Beginn deines nächsten Zuges, nimm dir eine Karte auf die Hand, die bis zu (4) kostet. </string>
     <string name="Conclave_name">Konklave</string>
-    <string name="Conclave_desc">TODO</string>
+    <string name="Conclave_desc">Du darfst eine Aktionskarte aus der Hand ausspielen, von der Du keine Kopie im Spiel hast. Wenn Du das tust, +1 Aktion</string>
     <string name="Crypt_name">Krypta</string>
     <string name="Crypt_desc">Set aside any number of Treasures you have in play, face down (under this). While any remain, at the start of each of your turns, put one of them into your hand.</string>
     <string name="CursedVillage_name">Verfluchtes Dorf</string>
