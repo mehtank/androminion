@@ -835,9 +835,9 @@
     <string name="Shepherd_name">Schäfer</string>
     <string name="Shepherd_desc">Lege eine beliebige Anzahl Punktekarten ab und decke sie auf. +2 Karten für jede abgelegte Karte.</string>
     <string name="Skulk_name">Schleicher</string>
-    <string name="Skulk_desc">Each other player receives the next Hex. — When you gain this, gain a Gold.</string>
+    <string name="Skulk_desc">Jeder Mitspieler erhält das nächste Übel. - Wenn Du diese Karte nimmst, nimm ein Gold.</string>
     <string name="Tormentor_name">Peiniger</string>
-    <string name="Tormentor_desc">TODO</string>
+    <string name="Tormentor_desc">Wenn Du keine anderen Karten im spiel hast, nimm ein Teufelchen. Ansonsten erhält jeder Mitspieler ein Übel.</string>
     <string name="TragicHero_name">Tragischer Held</string>
     <string name="TragicHero_desc">TODO</string>
     <string name="Tracker_name">Fährtensucher</string>
