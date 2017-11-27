@@ -265,7 +265,7 @@
     <string name="Talisman_name">Talisman</string>
     <string name="Talisman_desc">Wenn diese Karte im Spiel ist und du eine Karte kaufst, die 4 Geld oder weniger kostet und keine Punktekarte ist, nimm dir eine weitere Karte mit gleichem Namen.</string>
     <string name="TradeRoute_name">Handelsroute</string>
-    <string name="TradeRoute_desc">+1 Geld pro Marker auf dem Tableau Handelsroute. Entsorge eine Karte aus deiner Hand. \nAufbau: Lege einen Marker auf jeden Punktekartenstapel. Wenn eine Karte von einem Punktekartenstapel gekauft oder genommen wird, lege den Marker auf das Tableau Handelsroute.</string>
+    <string name="TradeRoute_desc">+1 Geld pro Marker auf dem Tableau Handelsroute. Entsorge eine Karte aus deiner Hand. \nSpielvorbereitung: Lege einen Marker auf jeden Punktekartenstapel. Wenn eine Karte von einem Punktekartenstapel gekauft oder genommen wird, lege den Marker auf das Tableau Handelsroute.</string>
     <string name="Vault_name">Gewölbe</string>
     <string name="Vault_desc">Lege eine beliebige Anzahl Karten aus deiner Hand ab: +1 Geld für jede abgelegte Karte. Jeder Mitspieler darf 2 Karten aus seiner Hand ablegen. Wenn er genau 2 Karten ablegt, zieht er eine Karte nach.</string>
     <string name="Venture_name">Abenteuer</string>
