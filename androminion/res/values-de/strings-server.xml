@@ -21,8 +21,8 @@
 	<string name="reveal_copy">Decke Kopie aus der Hand auf</string>
 	<string name="legionary_reveal_gold">Gold aufdecken</string>
 	<string name="sentry_look_at">%1$s deckt %2$s auf (%3$s)</string>
-	<string name="faithfulHound_query">Discarding Faithful Hound</string>
-	<string name="faithfulHound_set_aside">Set aside to put in hand at end of turn</string>
+	<string name="faithfulHound_query">Treuen Hund abgelegt</string>
+	<string name="faithfulHound_set_aside">Zur Seite legen</string>
 
 	<string name="join_timed_out">Timeout während des Wartens auf andere Mitspieler.</string>
 	<string name="response_timed_out">Timeout während des Wartens auf eine Anfrage nach Mitspieler.</string>
@@ -80,36 +80,36 @@
 	<string name="select_from_table_max_non_vp_action">%2$s eine Aktionskarte vom Vorrat, die bis zu (%1$s) kostet und keine Punktekarte ist.</string>
 	<string name="select_from_table_max_vp">%2$s eine Punktekarte vom Vorrat, die bis zu (%1$s) kostet</string>
 	<string name="select_from_table_max_action">%2$s eine Aktionskarte vom Vorrat, die bis zu (%1$s) kostet</string>
-	<string name="select_from_table_max_except">Select a card from the table, except %1$s, that costs at most (%2$s) to %3$s</string>
+	<string name="select_from_table_max_except">%3$s eine Karte vom Vorrat, ausser %1$s, die maximal (%2$s) kostet</string>
 	<string name="select_from_table_between">%3$s eine Karte vom Vorrat, die zwischen (%1$s) und (%2$s) kostet</string>
 	<string name="select_from_table_min">%2$s eine Karte vom Vorrat, die mindestens (%1$s) kostet</string>	
 	<string name="select_from_table_less">%2$s eine Karte vom Vorrat, die weniger als (%1$s) kostet</string>
 	<string name="select_from_table_less_non_vp">%2$s eine Nicht-Punktekarte vom Vorrat, die weniger als (%1$s) kostet</string>
-	<string name="select_from_table_less_spirit">Select a Spirit card from the table that costs less than (%1$s) to %2$s</string>
-	<string name="select_from_table_less_of_types">Select a %1$s card from the table that costs less than (%2$s) to %3$s</string>
+	<string name="select_from_table_less_spirit">%2$s einen Geist vom Vorrat, der wweniger als (%1$s) kostet</string>
+	<string name="select_from_table_less_of_types">%3$s eine %1$s Karte vom Vorrat, die weniger kostet als (%2$s)</string>
 
-	<string name="select_one_card_from_hand">%1$s eine Karte aus deiner Hand</string>
-	<string name="select_one_of_types_card_from_hand">Pick a %1$s card from your hand to %2$s</string>
-	<string name="select_up_to_x_cards_from_hand">%2$s bis zu %1$s Karten aus deiner Hand</string>
-	<string name="select_exactly_x_cards_from_hand">%2$s genau %1$s Karten aus deiner Hand</string>
-	<string name="select_from_x_to_y_cards_from_hand">%3$s %1$s bis %2$s Karten aus deiner Hand</string>
-	<string name="select_from_x_to_y_different_cards_from_hand">%3$s %1$s bis %2$s Karten mit unterschiedlichem Namen aus deiner Hand</string>
+	<string name="select_one_card_from_hand">%1$s eine Karte aus Deiner Hand</string>
+	<string name="select_one_of_types_card_from_hand">%2$s eine %1$s Karte aus Deiner Hand</string>
+	<string name="select_up_to_x_cards_from_hand">%2$s bis zu %1$s Karten aus Deiner Hand</string>
+	<string name="select_exactly_x_cards_from_hand">%2$s genau %1$s Karten aus Deiner Hand</string>
+	<string name="select_from_x_to_y_cards_from_hand">%3$s %1$s bis %2$s Karten aus Deiner Hand</string>
+	<string name="select_from_x_to_y_different_cards_from_hand">%3$s %1$s bis %2$s Karten mit unterschiedlichem Namen aus Deiner Hand</string>
 	
 	<string name="select_one_card_from_trash">%1$s eine Karte vom Müll</string>
 	<string name="select_up_to_x_cards_from_trash">%2$s bis zu %1$s Karten vom Müll</string>
 	<string name="select_exactly_x_cards_from_trash">%2$s genau %1$s Karten vom Müll</string>
 	
 	<string name="select_one_action_from_hand">%1$s eine Aktionskarte aus deiner Hand</string>
-	<string name="select_one_action_from_hand_not_in_play">Pick an Action card from your hand that you don\'t have a copy of in play to %1$s</string>
+	<string name="select_one_action_from_hand_not_in_play">%1$s eine Aktionskarte aus der Hand, von der Du keine Kopie im Spiel hast.</string>
 	<string name="select_up_to_x_actions_from_hand">%2$s bis zu %1$s Aktionskarten aus deiner Hand</string>
 	<string name="select_exactly_x_actions_from_hand">%2$s genau %1$s Aktionskarten aus deiner Hand</string>
 	
-	<string name="select_one_night_from_hand">Pick a Night card from your hand to %1$s</string>
-	<string name="select_up_to_x_nights_from_hand">Pick up to %1$s Night cards from your hand to %2$s</string>
-	<string name="select_exactly_x_nights_from_hand">Pick exactly %1$s Night cards from your hand to %2$s</string>
+	<string name="select_one_night_from_hand">%1$s eine Nachtkarte aus deiner Hand</string>
+	<string name="select_up_to_x_nights_from_hand">%2$s bis zu %1$s Nachtkarten aus deiner Hand</string>
+	<string name="select_exactly_x_nights_from_hand">%2$s genau %1$s Nachtkarten aus deiner Hand</string>
 
-	<string name="select_one_treasure_from_hand">%1$s eine Geldkarte aus der Hand</string>
-	<string name="select_one_treasure_from_hand_except">Pick a Treasure card from your hand, except %1$s, to %2$s</string>
+	<string name="select_one_treasure_from_hand">%1$s eine Geldkarte aus Deiner Hand</string>
+	<string name="select_one_treasure_from_hand_except">%2$s eine Geldkarte ausser %1$s aus Deiner Hand</string>
 	<string name="select_up_to_x_treasures_from_hand">%2$s bis zu %1$s Geldkarten aus der Hand</string>
 	<string name="select_exactly_x_treasures_from_hand">%2$s exakt %1$s Geldkarten aus der Hand</string>
 	
@@ -123,7 +123,7 @@
 	
 	<string name="select_one_card_from_played">%1$s eine Karte, die du im Spiel hast</string>
 	<string name="select_up_to_x_cards_from_played">%2$s bis zu %1$s Karten, die du im Spiel hast</string>
-	<string name="select_up_to_x_treasure_cards_from_played">Pick up to %1$s Treasure cards you have in play to %2$s</string>
+	<string name="select_up_to_x_treasure_cards_from_played">%2$s bis zu %1$s Geldkarten die Du im Spiel hast</string>
 	<string name="select_exactly_x_cards_from_played">%2$s genau %1$s Karten, die du im Spiel hast</string>
 	<string name="select_up_to_x_different_cards_from_played">%2$s bis zu %1$s Karten mit unterschiedlichem Namen, die du im Spiel hast.</string>
 	
@@ -138,9 +138,9 @@
 	<string name="card_to_discard_for_coin">%1$s: Lege ab für +Geld</string>
 	<string name="card_to_name">%1$s: Nenne</string>
 	<string name="card_to_set_aside">%1$s: Lege zur Seite</string>
-	<string name="card_to_play">play [%1$s]</string>
-	<string name="cards_to_keep">keep [%1$s]</string>
-	<string name="cards_to_topdeck">put back on deck [%1$s]</string>
+	<string name="card_to_play">%1$s: Spiele</string>
+	<string name="cards_to_keep">%1$s: Behalte</string>
+	<string name="cards_to_topdeck">%1$s: Auf den Nachziehstapel</string>
 	<string name="discard">Abwerfen</string>
 	<string name="trash">Entsorgen</string>
 	<string name="keep">Behalten</string>
@@ -206,11 +206,11 @@
 	<string name="MinusOneCoinTokenOff">-1 Geld-Marker entfernt</string>
 	<string name="MinusOneCardTokenOn">-1 Karte-Marker auf Nachziehstapel gelegt</string>
 	<string name="MinusOneCardTokenOff">-1 Karte-Marker entfernt</string>
-	<string name="ReceivingBoonOrHex">Receiving</string>
-	<string name="ReceivedBoonOrHex">Received</string>
-	<string name="TookState">Took %1$s</string>
-	<string name="TookStateFromPlayer">Took %1$s from %2$s</string>
-	<string name="ReturnedState">Returned %1$s</string>
+	<string name="ReceivingBoonOrHex">Erhalte</string>
+	<string name="ReceivedBoonOrHex">Erhalten</string>
+	<string name="TookState">%1$s genommen</string>
+	<string name="TookStateFromPlayer">%1$s von %2$s genommen</string>
+	<string name="ReturnedState">%1$s zurück gelegt</string>
 	
 	<string name="plus_one_card_token">+1 Karte Marker</string>
 	<string name="plus_one_action_token">+1 Aktion Marker</string>
@@ -220,7 +220,7 @@
 	<string name="use_for_money">Geld: Wähle</string>
 	
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
-	<string name="game_over_status">Spiel — </string>
+	<string name="game_over_status">Spiel - </string>
 	<string name="game_length_status">Spieldauer: </string>
 	<string name="end_turn">Zugende</string>
 	<string name="replace">Zurücklegen</string>
@@ -287,7 +287,7 @@
 	<string name="alchemist_option_one">auf Nachziehstapel</string>
 	<string name="alchemist_option_two">Ablegen</string>
 	
-	<string name="navigator_header">Der Navigator deckt auf: %1$s</string>
+	<string name="navigator_header">Navigator deckt auf: %1$s</string>
 	<string name="navigator_option_two">Auf den Nachziehstapel zurücklegen</string>
 	
 	<string name="catacombs_header">Die Katakomben haben aufgedeckt: %1$s</string>
@@ -466,7 +466,7 @@
 	<string name="putback_option_one">Geldkarte (Kräuterkundiger)</string>
 	<string name="putback_option_two">Aktionskarte (Komplott)</string>
 	<string name="putback_option_all">Alle zurücklegen</string>
-	<string name="deck_from_discard_query">Select card from discard to put on deck [%1$s]</string>
+	<string name="deck_from_discard_query">%1$s: Wähle Karte auf den Nachziehstapel</string>
 	
 	<string name="game_over_vps">SP</string>
 	<string name="victory_tokens">Punktemarker</string>
@@ -499,8 +499,8 @@
 	<string name="EnchantressAttacks">Zauberin im Spiel</string>
 	<string name="SwampHagAttacks_single">%1$s Sumpfhexe im Spiel</string>
 	<string name="SwampHagAttacks_multiple">%1$s Sumpfhexen im Spiel</string>
-  <string name="DeludedStateEffect">Deluded (Can\'t buy Actions)</string>
-  <string name="EnviousStateEffect">Envious (Gold and Silver make (1) Coin)</string>
+	<string name="DeludedStateEffect">Getäuscht (keine Aktionskarten kaufen)</string>
+	<string name="EnviousStateEffect">Neidisch (Gold und Silber bringen (1) Geld)</string>
 	<string name="traveller_exchange">Tausche ein gegen %1$s</string>
 	<string name="teacher_move_token_plus_one_card">Wähle für Deinen +1 Karte Marker</string>
 	<string name="teacher_move_token_plus_one_action">Wähle für Deinen +1 Aktion Marker</string>
@@ -529,13 +529,13 @@
 	<string name="mountainPass_query">Gebirgspass: Biete für 8 Punktemarker</string>
 	<string name="mountainPass_high_bid_query">Gebirgspass: Biete für 8 Punktemarker (Höchstgebot: %1$s)</string>
 
-  <string name="crypt_query">Select card to put in hand [%1$s]</string>
-  <string name="fool_query">Select Boon to receive next [%1$s]</string>
-  <string name="lostInTheWoods_part_discard_for_boon">discard to receive a Boon</string>
-  <string name="the_earths_gift_part">discard to gain a card costing up to (4) Coins [%1$s]</string>
-  <string name="the_skys_gift_part">discard to gain a Gold [%1$s]</string>
-  <string name="necromancer_query">Select Action to play from trash [%1$s]</string>
-  <string name="raider_query">Select card to discard [%1$s]</string>
+	<string name="crypt_query">%1$s: Wähle eine Karte zum auf die Hand nehmen</string>
+	<string name="fool_query">%1$s: Wähle nächsten Segen</string>
+	<string name="lostInTheWoods_part_discard_for_boon">Abwerfen für einen Segen</string>
+	<string name="the_earths_gift_part">%1$s: Um eine Karte die bis zu (4) Kostet zu nehmen, werfe ab</string>
+	<string name="the_skys_gift_part">%1$s: Für ein Gold, werfe ab</string>
+	<string name="necromancer_query">%1$s: Wähle Aktionskarte vom Müll</string>
+	<string name="raider_query">%1$s: Wähle Karte zum Abwerfen</string>
 
 	<string name="place_stash_query">Geheimversteck einsortieren</string>
 	<string name="place_stashes_query">Sortiere %1$s Geheimverstecke in deinen Nachziehstapel</string>
@@ -554,10 +554,10 @@
 	<string name="sprawlingcastle_gain_duchy">Nimm ein Herzogtum</string>
 	<string name="sprawlingcastle_gain_estates">Nimm 3 Anwesen</string>
 
-  <string name="blessedVillage_receive_boon_now">Receive %1$s now (%2$s)</string>
-  <string name="blessedVillage_receive_boon_next_turn">Receive at start of next turn</string>
-  <string name="pixie_trash_for_double_boon">Trash this to receive %1$s twice (2x [%2$s])</string>
-  <string name="boon_name_and_desc">%1$s (%2$s)</string>
+	<string name="blessedVillage_receive_boon_now">Erhalte %1$s (%2$s) jetzt</string>
+	<string name="blessedVillage_receive_boon_next_turn">beim Beginn des nächsten Zuges</string>
+	<string name="pixie_trash_for_double_boon">Entsorge dies und erhalte %1$s zwei mal (2x %2$s)</string>
+	<string name="boon_name_and_desc">%1$s (%2$s)</string>
 
 	<string name="card_played_as_card">%1$s (gespielt als %2$s)</string>
 </resources>
