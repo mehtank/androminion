@@ -839,9 +839,9 @@
     <string name="Tormentor_name">Peiniger</string>
     <string name="Tormentor_desc">Wenn Du keine anderen Karten im spiel hast, nimm ein Teufelchen. Ansonsten erhält jeder Mitspieler ein Übel.</string>
     <string name="TragicHero_name">Tragischer Held</string>
-    <string name="TragicHero_desc">TODO</string>
+    <string name="TragicHero_desc">Wenn Du (nach dem Ziehen) mindestens 8 Karten auf der Hand hast, entsorge dies und nimm eine Geldkarte.</string>
     <string name="Tracker_name">Fährtensucher</string>
-    <string name="Tracker_desc">TODO</string>
+    <string name="Tracker_desc">Erhalte einen Segen. So lange diese Karte im Spiel ist, wenn Du eine Karte nimmst darfst Du sie auf deinen Nachziehstapel legen.</string>
     <string name="Vampire_name">Vampirin</string>
     <string name="Vampire_desc">Jeder Mitspieler erhält ein Übel. Nimm eine Karte die bis zu (5) kostet aber keine Vampirin. Tausche die Vampirin gegen eine Fledermaus.</string>
     <string name="Werewolf_name">Werwolf</string>
@@ -856,11 +856,11 @@
     <string name="LuckyCoin_name">Glückstaler</string>
     <string name="LuckyCoin_desc">Wenn Du diese Karte spielst, nimm ein Silber</string>
     <string name="MagicLamp_name">Magische Lampe</string>
-    <string name="MagicLamp_desc">TODO</string>
+    <string name="MagicLamp_desc">Wenn Du diese Karte spielst und Du mindestens 6 Karten mit nur genau einer Kopie im Spiel hast, entsorge die Magische Lampe und nimm 3 Wünsche.</string>
     <string name="Pasture_name">Weideland</string>
     <string name="Pasture_desc">1 SP pro Anwesen dass Du besitzt.</string>
     <string name="Pouch_name">Beutel</string>
-    <string name="Pouch_desc">TODO</string>
+    <string name="Pouch_desc">+1 Kauf</string>
     
     <string name="Bat_name">Fledermaus</string>
     <string name="Bat_desc">Entsorge bis zu 2 Karten aus deiner Hand. Wenn Du mindestens 1 entsorgt hast, tausche die Fledermaus in eine Vampirin. (Diese Karte gehört nicht zum Vorrat.)</string>
