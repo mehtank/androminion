@@ -401,15 +401,15 @@
 	
 	<string name="saboteur_part">Ersetze die sabotierte Karte: Wähle</string>
 	
-	<string name="mandarin_part">Mandarin: Lege oben auf den Nachziehstapel</string>
+	<string name="mandarin_part">Lege auf den Nachziehstapel</string>
 	
-	<string name="bureaucrat_part">Bürokrat: Lege oben auf den Nachziehstapel: Wähle</string>
+	<string name="bureaucrat_part">Lege oben auf den Nachziehstapel </string>
 	
-	<string name="haven_part">Hafen: Lege verdeckt zur Seite: Wähle</string>
+	<string name="haven_part">Hafen zur Seite legen: Wähle</string>
 	
 	<string name="gear_part">Ausrüstung zur Seite legen: Wähle</string>
 	
-	<string name="save_part">Zuflucht: Lege zur Seite</string>
+	<string name="save_part">Zuflucht zur Seite legen: Wähle</string>
 	
 	<string name="island_part">Lege auf die Insel</string>
 	
