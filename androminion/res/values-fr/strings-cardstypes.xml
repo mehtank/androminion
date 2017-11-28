@@ -16,7 +16,7 @@
     <string name="type_traveller">Itinérant</string>
     <string name="type_castle">Château</string>
     <string name="type_gathering">Collecte</string>
-    <string name="type_landmark">Site</string>   
+    <string name="type_landmark">Jalon</string>   
     <string name="type_boon">Aubaine</string>
     <string name="type_doom">Fatalité</string>
     <string name="type_fate">Destin</string>
