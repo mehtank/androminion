@@ -892,40 +892,40 @@
     
     <string name="TheEarthsGift_name">Don de la Terre</string>
     <string name="TheEarthsGift_desc">Vous pouvez défausser une carte Trésor pour recevoir une carte coûtant jusqu\'à (4) Pièces.</string>
-
+    <string name="TheEarthsGift_shortDesc">Défausser 1 Trésor, +1 carte de (4) Pièces max</string>
     <string name="TheFieldsGift_name">Don des Champs</string>
     <string name="TheFieldsGift_desc">(Conservez ceci jusqu\'à la phase Ajustement.)</string>
-    
+    <string name="TheFieldsGift_shortDesc">+Action, +(1) Pièce</string>    
     <string name="TheFlamesGift_name">Don des Flammes</string>
     <string name="TheFlamesGift_desc">Vous pouvez écarter une carte de votre main.</string>
-    
+    <string name="TheFlamesGift_shortDesc">Pouvez écarter 1 carte</string>    
     <string name="TheForestsGift_name">Don des Forêts</string>
     <string name="TheForestsGift_desc">(Conservez ceci jusqu\'à la phase Ajustement.)</string>
-    
+    <string name="TheForestsGift_shortDesc">+Achat, +(1) Pièce</string>    
     <string name="TheMoonsGift_name">Don de la Lune</string>
     <string name="TheMoonsGift_desc">Consultez votre défausse. Vous pouvez en placer une carte sur votre deck.</string>
-    
+    <string name="TheMoonsGift_shortDesc">1 Carte Défausse vers Main</string>    
     <string name="TheMountainsGift_name">Don des Montagnes</string>
     <string name="TheMountainsGift_desc">Recevez un Argent.</string>
-    
+    <string name="TheMountainsGift_shortDesc">Gagner Argent</string>    
     <string name="TheRiversGift_name">Don de la Rivière</string>
     <string name="TheRiversGift_desc">+1 Carte à la fin de ce tour. (Conservez ceci jusqu\'à la phase Ajustement.)</string>
-    
+    <string name="TheRiversGift_shortDesc">+1 Carte fin de tour</string>    
     <string name="TheSeasGift_name">Don de la Mer</string>
     <string name="TheSeasGift_desc"></string>
     <string name="TheSeasGift_shortDesc">+1 Carte</string>
     <string name="TheSkysGift_name">Don du Ciel</string>
     <string name="TheSkysGift_desc">Vous pouvez défausser 3 cartes pour recevoir un Or.</string>
-
+    <string name="TheSkysGift_shortDesc">Défausser 3 cartes,+1 Or</string>
     <string name="TheSunsGift_name">Don du Soleil</string>
     <string name="TheSunsGift_desc">Consultez les 4 premières cartes de votre deck. Défaussez-en autant que vous le souhaitez et replacez le reste dans l\'ordre de votre choix.</string>
-    
+    <string name="TheSunsGift_shortDesc">Filtrer 4 dessus deck</string>    
     <string name="TheSwampsGift_name">Don des Marais</string>
     <string name="TheSwampsGift_desc">Recevez un Feu follet de sa pile.</string>
-    
+    <string name="TheSwampsGift_shortDesc">Gagner Feu Follet</string>   
     <string name="TheWindsGift_name">Don du Vent</string>
     <string name="TheWindsGift_desc">Défaussez 2 cartes.</string>
-    <string name="TheWindsGift_shortDesc">+2 Cartes, défaussez 2</string>
+    <string name="TheWindsGift_shortDesc">+2 Cartes,défausser 2</string>
     
     <string name="BadOmens_name">Mauvais Augure</string>
     <string name="BadOmems_desc">Placez votre deck dans votre défausse. Consultez cette dernière et récupérez-y 2 Cuivres à placer sur votre deck (ou dévoilez votre défausse pour prouver que c\'est impossible).</string>
