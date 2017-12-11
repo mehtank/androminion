@@ -813,7 +813,7 @@
     <string name="Guardian_name">Wächter</string>
     <string name="Guardian_desc">Bis zu deinem nächsten Zug, wenn ein Mitspieler eine Angriffskarte ausspielt bist Du davon nicht betroffen. \nZu Beginn deines nächsten Zugs: +(1) Geld. \nWenn Du diese Karte nimmst, nimm sie auf die Hand.</string>
     <string name="Idol_name">Götze</string>
-    <string name="Idol_desc">Wenn Du diese Karte spielst und eine grade Anzahl von Idolen im Spiel hast, erhalte einen Segen. Hast Du eine gerade Anzahl im Spiel nimmt sich jeder Mitspieler einen Fluch.</string>
+    <string name="Idol_desc">Wenn Du diese Karte spielst und eine grade Anzahl von Götzen im Spiel hast, erhalte einen Segen. Hast Du eine gerade Anzahl im Spiel nimmt sich jeder Mitspieler einen Fluch.</string>
     <string name="Leprechaun_name">Kobold</string>
     <string name="Leprechaun_desc">Nimm ein Gold. Wenn Du genau 7 Karten im Spiel hast, nimm einen Wunsch. Ansonsten erhältst Du ein Übel.</string>
     <string name="Monastery_name">Kloster</string>
