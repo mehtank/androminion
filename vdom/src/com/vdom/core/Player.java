@@ -1387,7 +1387,7 @@ public abstract class Player {
                     willDiscard = true;
                 }
                 else {
-                    trashSelfFromPlay(card, context);
+                	trash(card, card, context);
                 }
                 controlPlayer.gainNewCard(Cards.madman, card, context);
             }
@@ -1642,7 +1642,7 @@ public abstract class Player {
     	trash(card, card, context);
     	return true;
     }
-    
+        
     public abstract HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context);
 
     public abstract Card catacombs_cardToObtain(MoveContext context, int maxCost);
