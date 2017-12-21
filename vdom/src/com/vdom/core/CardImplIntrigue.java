@@ -546,7 +546,7 @@ public class CardImplIntrigue extends CardImpl {
                 }
 
                 while (!toDiscard.isEmpty()) {
-                    player.discard(toDiscard.remove(0), this.getControlCard(), null);
+                    player.discard(toDiscard.remove(0), this.getControlCard(), playerContext);
                 }
             }
         }
@@ -874,12 +874,12 @@ public class CardImplIntrigue extends CardImpl {
 
         if (revealedCards[0] != null) {
             nextPlayer.reveal(revealedCards[0], this.getControlCard(), targetContext);
-            (nextPlayer).discard(revealedCards[0], this.getControlCard(), null);
+            (nextPlayer).discard(revealedCards[0], this.getControlCard(), targetContext);
 
         }
         if (revealedCards[1] != null) {
             nextPlayer.reveal(revealedCards[1], this.getControlCard(), targetContext);
-            (nextPlayer).discard(revealedCards[1], this.getControlCard(), null);
+            (nextPlayer).discard(revealedCards[1], this.getControlCard(), targetContext);
         }
 
         // "For each differently named card revealed..."

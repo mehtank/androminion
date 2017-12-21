@@ -162,7 +162,7 @@ public class CardImplHinterlands extends CardImpl {
             if(cardsToDiscard != null) {
                 for(Card toDiscard : cardsToDiscard) {
                     if(topOfTheDeck.remove(toDiscard)) {
-                        currentPlayer.discard(toDiscard, this.getControlCard(), null);
+                        currentPlayer.discard(toDiscard, this.getControlCard(), context);
                     }
                     else {
                         Util.playerError(currentPlayer, "Cartographer returned invalid card to discard, ignoring");
@@ -400,7 +400,7 @@ public class CardImplHinterlands extends CardImpl {
         for (int i = 0; i < cards.length; i++) {
             currentPlayer.hand.remove(cards[i]);
             currentPlayer.reveal(cards[i], this.getControlCard(), context);
-            currentPlayer.discard(cards[i], this.getControlCard(), null);
+            currentPlayer.discard(cards[i], this.getControlCard(), context);
         }
     }
 	
@@ -619,7 +619,7 @@ public class CardImplHinterlands extends CardImpl {
 
             currentPlayer.hand.remove(cardToDiscard);
             currentPlayer.reveal(cardToDiscard, this.getControlCard(), context);
-            currentPlayer.discard(cardToDiscard, this.getControlCard(), null);
+            currentPlayer.discard(cardToDiscard, this.getControlCard(), context);
         }
     }
     

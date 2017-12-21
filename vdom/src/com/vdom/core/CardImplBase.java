@@ -359,7 +359,7 @@ public class CardImplBase extends CardImpl {
         }
 
         while (!toDiscard.isEmpty()) {
-            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
+            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), context);
         }
     }
     

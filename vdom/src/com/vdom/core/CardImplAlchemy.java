@@ -112,7 +112,7 @@ public class CardImplAlchemy extends CardImpl {
         }
 
         while (!toDiscard.isEmpty()) {
-            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
+            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), context);
         }
 
         if (!toOrder.isEmpty()) {

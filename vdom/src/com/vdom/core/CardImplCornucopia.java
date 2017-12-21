@@ -216,7 +216,7 @@ public class CardImplCornucopia extends CardImpl {
         }
 
         while (!toDiscard.isEmpty()) {
-            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
+            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), context);
         }
     }
 
@@ -385,9 +385,7 @@ public class CardImplCornucopia extends CardImpl {
                     GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
                     game.broadcastEvent(event);
 
-                    while (currentPlayer.getDeckSize() > 0) {
-                        currentPlayer.discard(currentPlayer.deck.remove(0), this.getControlCard(), null);
-                    }
+                    currentPlayer.deckToDiscard(context, getControlCard());
                 }
             }
         }
@@ -424,7 +422,7 @@ public class CardImplCornucopia extends CardImpl {
         }
 
         for (Card card : cardsToDiscard) {
-            currentPlayer.discard(card, this.getControlCard(), null);
+            currentPlayer.discard(card, this.getControlCard(), context);
             currentPlayer.hand.remove(card);
         }
 

@@ -600,7 +600,7 @@ public class CardImplNocturne extends CardImpl {
         }
         
         while (!toDiscard.isEmpty()) {
-            player.discard(toDiscard.remove(0), this.getControlCard(), null);
+            player.discard(toDiscard.remove(0), this.getControlCard(), context);
         }
     }
 	
@@ -888,7 +888,7 @@ public class CardImplNocturne extends CardImpl {
             if(cardsToDiscard != null) {
                 for(Card toDiscard : cardsToDiscard) {
                     if(topOfTheDeck.remove(toDiscard)) {
-                    	player.discard(toDiscard, this.getControlCard(), null);
+                    	player.discard(toDiscard, this.getControlCard(), context);
                     }
                     else {
                         Util.playerError(player, "Night Watchman returned invalid card to discard, ignoring");
@@ -1220,7 +1220,7 @@ public class CardImplNocturne extends CardImpl {
             if(cardsToDiscard != null) {
                 for(Card toDiscard : cardsToDiscard) {
                     if(topOfTheDeck.remove(toDiscard)) {
-                    	player.discard(toDiscard, this.getControlCard(), null);
+                    	player.discard(toDiscard, this.getControlCard(), context);
                     }
                     else {
                         Util.playerError(player, "The Sun's Gift returned invalid card to discard, ignoring");
@@ -1368,7 +1368,7 @@ public class CardImplNocturne extends CardImpl {
 	        }
 
 	        while (!toDiscard.isEmpty()) {
-	            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
+	            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), context);
 	        }
 	}
 	

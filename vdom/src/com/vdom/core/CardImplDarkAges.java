@@ -413,7 +413,7 @@ public class CardImplDarkAges extends CardImpl {
                     for (int i = 0; i < cards.length; i++) {
                         currentPlayer.hand.remove(cards[i]);
                         currentPlayer.reveal(cards[i], this.getControlCard(), context);
-                        currentPlayer.discard(cards[i], this.getControlCard(), null);
+                        currentPlayer.discard(cards[i], this.getControlCard(), context);
                     }
                     break;
                 case PutOnDeck:
@@ -1008,7 +1008,7 @@ public class CardImplDarkAges extends CardImpl {
         }
 
         while (!toDiscard.isEmpty()) {
-            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
+            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), context);
         }
     }
     

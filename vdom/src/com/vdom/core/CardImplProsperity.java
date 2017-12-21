@@ -275,7 +275,7 @@ public class CardImplProsperity extends CardImpl {
                 if (player.controlPlayer.loan_shouldTrashTreasure(context, treasureCardFound)) {
                     player.trash(treasureCardFound, this, context);
                 } else {
-                    player.discard(treasureCardFound, this, null);
+                    player.discard(treasureCardFound, this, context);
                 }
             } else if (equals(Cards.venture)) {
                 player.hand.add(treasureCardFound);
