@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
@@ -41,6 +42,7 @@ public class Game {
     public static final String BANE = "bane+";
     public static final String OBELISK = "obelisk+";
     public static final String BLACKMARKET = "blackMarket+";
+    public static final String DRUID_BOON = "druidBoon+";
 
     public static String[] cardsSpecifiedAtLaunch;
     public static ArrayList<String> unfoundCards = new ArrayList<String>();
@@ -209,10 +211,10 @@ public class Game {
                 overallWins.put(className[0], 0.0);
             }
 
-            for (GameType p : GameType.values()) {
-                gameType = p;
-                new Game().start();
-            }
+        for (GameType p : GameType.values()) {
+            gameType = p;
+            new Game().start();
+        }
 
             if (test) {
                 for (int i = 0; i < 5; i++) {
@@ -396,6 +398,7 @@ public class Game {
                 }
                 totalCardCountGameEnd = totalCardCount();
                 assert (totalCardCountGameBegin == totalCardCountGameEnd);
+                printCardCounts();
             }
 
         }
@@ -644,6 +647,9 @@ public class Game {
             Player player = players[i];
             player.vps = vps[i];
             player.win = !loss;
+            if (test && player.win) {
+            	Util.log("Winner: " + player.getPlayerName());
+            }
             MoveContext context = new MoveContext(this, player);
             broadcastEvent(new GameEvent(GameEvent.EventType.GameOver, context));
 
@@ -1704,7 +1710,7 @@ public class Game {
                     }
                 } else if (arg.toLowerCase().startsWith(cardArg)) {
                     try {
-                        cardsSpecifiedAtLaunch = arg.substring(cardArg.length()).split("-");
+                        cardsSpecifiedAtLaunch = arg.substring(cardArg.length()).replace("Will-o'-Wisp", Cards.willOWisp.getSafeName()).split("-");
                     } catch (Exception e) {
                         Util.log(e);
                         throw new ExitException();
@@ -2607,6 +2613,14 @@ public class Game {
             Util.debug(msg.toString());
         }
     }
+    
+    void printCardCounts() {
+    	for(Player p : players) {
+    		Map<Object,Integer> counts = p.getAllCardCounts();
+    		counts.remove(Player.DISTINCT_CARDS);
+    		Util.log("\t" + p.getPlayerName() + ": " + counts.toString());
+    	}
+    }
 
     int totalCardCount() {
         HashMap<String, Integer> cardCounts = new HashMap<String, Integer>();
@@ -2933,6 +2947,19 @@ public class Game {
                 if(cardName.startsWith(BLACKMARKET)) {
                     blackMarket = true;
                     cardName = cardName.substring(BLACKMARKET.length());
+                }
+                if (cardName.startsWith(DRUID_BOON)) {
+                	cardName = cardName.substring(DRUID_BOON.length());
+                	String s = cardName.replace("/", "").replace(" ", "").replace("'", "");
+                	 for (Card c : Cards.boonCards) {
+                         if(c.getSafeName().equalsIgnoreCase(s)) {
+                             card = c;
+                             break;
+                         }
+                     }
+                	 if (card != null)
+                		 druidBoons.add(card.instantiate());
+                	 continue;
                 }
                 String s = cardName.replace("/", "").replace(" ", "");
                 for (Card c : Cards.actionCards) {
@@ -3313,12 +3340,11 @@ public class Game {
         		if(druidBoons.isEmpty()) {
         			for (int i = 0; i < 3; ++i) {
             			druidBoons.add(boonDrawPile.remove(0));
-            			Collections.sort(druidBoons, new Util.CardNameComparator());
             		}
         		} else {
-        			Collections.sort(druidBoons, new Util.CardNameComparator());
         			boonDrawPile.removeAll(druidBoons);
         		}
+        		Collections.sort(druidBoons, new Util.CardNameComparator());
         	}
         }
         if (doom) {

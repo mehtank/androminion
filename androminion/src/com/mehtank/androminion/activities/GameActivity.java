@@ -8,6 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -39,6 +40,7 @@ import com.mehtank.androminion.ui.Strings;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.mehtank.androminion.util.ThemeSetter;
+import com.vdom.api.Card;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
@@ -495,7 +497,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     NewGame ng = e.o.ng;
                     splash();
 
-                    saveLastCards(ng.cards);
+                    saveLastCards(ng.cards, ng.druidBoons);
                     gt.newGame(ng.cards, ng.players, ng.druidBoons);
                     gameRunning = true;
 
@@ -745,7 +747,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         }
     };
 
-    private void saveLastCards(MyCard[] cards) {
+    private void saveLastCards(MyCard[] cards, List<Card> druidBoons) {
         SharedPreferences prefs;
         prefs = PreferenceManager.getDefaultSharedPreferences(top);
         SharedPreferences.Editor edit = prefs.edit();
@@ -754,8 +756,19 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         int i=0;
         for (MyCard c : cards) {
         	//TODO: skip non-kingdom cards (but include shelters? && colony/plat && landmarks && events)
-            edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + (c.isObeliskCard ? Game.OBELISK : "") + (c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
+            edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") +
+            		(c.isObeliskCard ? Game.OBELISK : "") +
+            		(c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
         }
+        i = 0;
+        if (druidBoons != null && druidBoons.size() > 0) {
+        	edit.putInt("LastDruidBoonCount", druidBoons.size());
+	        for (Card c : druidBoons) {
+	        	edit.putString("LastDruidBoon" + i++, Game.DRUID_BOON + c.getSafeName());
+	        }
+    	} else {
+    		edit.putInt("LastDruidBoonCount", 0);
+    	}
 
         edit.commit();
     }

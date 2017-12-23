@@ -93,6 +93,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     SharedPreferences mPrefs;
     boolean mMultiplayer = false;
     String[] mLastCards;
+    String[] mDruidBoons;
     String[] mCardsPassOnStartup;
     
     //TODO: find a better solution for these
@@ -195,6 +196,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mStartGame.setOnClickListener(this);
 
         getLastCards();
+        getLastDruidBoons();
 
         // Fill cardset spinner with values
         ArrayList<String> cardspinnerlist = new ArrayList<String>();
@@ -592,6 +594,16 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
             }
         }
     }
+	
+	private void getLastDruidBoons() {
+        int count = mPrefs.getInt("LastDruidBoonCount", 0);
+        if (count > 0) {
+            mDruidBoons = new String[count];
+            for (int i = 0; i < count; i++) {
+            	mDruidBoons[i] = mPrefs.getString("LastDruidBoon" + i, null);
+            }
+        }
+    }
 
     private <T> ArrayAdapter<T> createArrayAdapter(ArrayList<T> list) {
         ArrayAdapter<T> adapter = new ArrayAdapter<T>
@@ -605,6 +617,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         SharedPreferences.Editor edit = mPrefs.edit();
 
         String[] cardsSpecified = null;
+        String[] druidBoonsSpecified = null;
         ArrayList<String> strs = new ArrayList<String>();
         GameType g;
 
@@ -671,10 +684,12 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 edit.putString("gameType", TypeOptions.LAST.name());
 
                 cardsSpecified = mLastCards;
+                druidBoonsSpecified = mDruidBoons;
                 strs.add("Random");
                 break;
             case SPECIFIED:
                 cardsSpecified = mCardsPassOnStartup;
+                druidBoonsSpecified = null;
                 strs.add("Random");
                 break;
         }
@@ -799,6 +814,12 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 else
                     sb.append("-");
                 sb.append(card);
+            }
+            if (druidBoonsSpecified != null) {
+            	for(String card : druidBoonsSpecified) {
+                    sb.append("-");
+                    sb.append(card);
+                }
             }
             Log.d("Cards specified",sb.toString());
             strs.add(sb.toString());
