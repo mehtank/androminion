@@ -590,8 +590,7 @@ public class CardImplDarkAges extends CardImpl {
                 toGain = currentPlayer.controlPlayer.graverobber_cardToReplace(context, 3 + toTrash.getCost(context), toTrash.getDebtCost(context), toTrash.costPotion());
                 if (toGain != null && toGain.getCost(context) <= toTrash.getCost(context) + 3 && 
                 		toGain.getDebtCost(context) <= toTrash.getDebtCost(context) && 
-                		(!toGain.costPotion() || toTrash.costPotion()) &&
-                		toGain.is(Type.Action)) {
+                		(!toGain.costPotion() || toTrash.costPotion())) {
                     currentPlayer.gainNewCard(toGain, this, context);
                 }
                 break;
