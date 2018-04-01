@@ -93,8 +93,12 @@
 			<string name="erratamine_pref_summary">Trashing optional (from Dominion 2E)</string>
 			<string name="erratamoneylender_pref_title">Moneylender</string>
 			<string name="erratamoneylender_pref_summary">Trashing optional (from Dominion 2E)</string>
-			<string name="errataposessiontokens_pref_title">Possession turn tokens</string>
-			<string name="errataposessiontokens_pref_summary">Possessing player takes tokens (from Empires)</string>
+			<string name="pref_errata_possessor_tokens_pref_title">Possession turn tokens</string>
+			<string-array name="pref_errata_possessor_tokens">
+				<item>Possessed player takes tokens</item>
+				<item>Possessing player takes tokens (from Empires)</item>
+				<item>Possessing player takes debt tokens only (from Alchemy 2E)</item>
+			</string-array>
 			<string name="erratathroneroom_pref_title">Throne Room</string>
 			<string name="erratathroneroom_pref_summary">Playing Action optional (from Dominion 2E)</string>
 			<string name="erratashuffling_pref_title">Shuffling</string>

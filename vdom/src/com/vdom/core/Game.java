@@ -79,6 +79,12 @@ public class Game {
     public static enum BlackMarketSplitPileOptions {
     	NONE, ONE, ANY, ALL
     }
+    
+    public static enum PossessionPossessorTokens {
+    	NONE, //Original behavior
+    	ALL, //Errata introduced Oct 2016
+    	DEBT //Errata introduced Mar 2018
+    }
 
     public static int blackMarketCount = 25;
     public static BlackMarketSplitPileOptions blackMarketSplitPileOptions = BlackMarketSplitPileOptions.NONE;
@@ -98,7 +104,7 @@ public class Game {
     public static boolean errataMasqueradeAlwaysAffects = false; //Errata introduced Oct 2016 - true enables old behavior
     public static boolean errataMineForced = false; //Errata introduced Oct 2016 - true enables old behavior
     public static boolean errataMoneylenderForced = false; //Errata introduced Oct 2016 - true enables old behavior
-    public static boolean errataPossessedTakesTokens = false; //Errata introduced May 2016 - true enables old behavior
+    public static PossessionPossessorTokens errataPossession = PossessionPossessorTokens.DEBT; 
     public static boolean errataThroneRoomForced = false; //Errata introduced Oct 2016 - true enables old behavior
     public static boolean errataShuffleDeckEmptyOnly = false; //Errata introduced Oct 2016 - true enables old behavior
     public static boolean startGuildsCoinTokens = false; //only for testing
@@ -1833,8 +1839,7 @@ public class Game {
         blackMarketSplitPileOptions = BlackMarketSplitPileOptions.NONE;
         errataMasqueradeAlwaysAffects = false;
         errataMineForced = false;
-        errataMoneylenderForced = false;
-        errataPossessedTakesTokens = false;
+        errataPossession = PossessionPossessorTokens.DEBT;
         errataThroneRoomForced = false;
         errataShuffleDeckEmptyOnly = false;
         startGuildsCoinTokens = false; //only for testing
@@ -1859,7 +1864,7 @@ public class Game {
         String errataMasqueradeAlwaysAffectsArg = "-erratamasqueradealwaysaffects";
         String errataMineForcedArg = "-erratamineforced";
         String errataMoneylenderForcedArg = "-erratamoneylenderforced";
-        String errataPossessionArg = "-erratapossessedtakestokens";
+        String errataPossessionArg = "-erratapossessortakestokens-";
         String errataShuffleDeckEmptyOnlyArg = "-erratashuffledeckemptyonly";
         String startGuildsCoinTokensArg = "-startguildscointokens"; //only for testing
         String lessProvincesArg = "-lessprovinces"; //only for testing
@@ -1918,8 +1923,8 @@ public class Game {
                 	errataMineForced = true;
                 } else if (arg.toLowerCase().equals(errataMoneylenderForcedArg)) {
                 	errataMoneylenderForced = true;
-                } else if (arg.toLowerCase().equals(errataPossessionArg)) {
-                	errataPossessedTakesTokens = true;
+                } else if (arg.toLowerCase().startsWith(errataPossessionArg)) {
+                	errataPossession = PossessionPossessorTokens.valueOf(arg.substring(errataPossessionArg.length()).toUpperCase());
                 } else if (arg.toLowerCase().equals(errataThroneRoomForcedArg)) {
                 	errataThroneRoomForced = true;
                 } else if (arg.toLowerCase().equals(errataShuffleDeckEmptyOnlyArg)) {
@@ -2047,7 +2052,7 @@ public class Game {
             context.potions--;
         } else if (buy.getDebtCost(context) > 0) {
         	int debtCost = buy.getDebtCost(context);
-        	context.getPlayer().controlPlayer.gainDebtTokens(debtCost);
+        	context.getPlayer().gainDebtTokens(debtCost);
         	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
         	event.setAmount(debtCost);
             context.game.broadcastEvent(event);

@@ -14,6 +14,7 @@ import java.util.TreeMap;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
+import com.vdom.core.Game.PossessionPossessorTokens;
 
 public abstract class Player {
 
@@ -115,7 +116,7 @@ public abstract class Player {
 
     public void addVictoryTokens(MoveContext context, int vt, Card responsible) {
     	if (vt == 0) return;
-        Player p = (!Game.errataPossessedTakesTokens && isPossessed()) ? controlPlayer : this;
+        Player p = (Game.errataPossession == PossessionPossessorTokens.ALL && isPossessed()) ? controlPlayer : this;
         p.victoryTokens += vt;
 
         responsible = responsible.getTemplateCard();
@@ -757,10 +758,10 @@ public abstract class Player {
     public void gainGuildsCoinTokens(int tokenCount)
     {
     	if (tokenCount == 0) return;
-    	if (Game.errataPossessedTakesTokens) {
-    		guildsCoinTokenCount += tokenCount;
-    	} else {
+    	if (Game.errataPossession == PossessionPossessorTokens.ALL) {
     		controlPlayer.guildsCoinTokenCount += tokenCount;
+    	} else {
+    		guildsCoinTokenCount += tokenCount;
     	}
     }
 
@@ -776,9 +777,12 @@ public abstract class Player {
         }
     }
     
-    public void gainDebtTokens(int tokenCount)
-    {
-        controlPlayer.debtTokenCount += tokenCount;
+    public void gainDebtTokens(int tokenCount) {
+        if (Game.errataPossession == PossessionPossessorTokens.NONE) {
+        	debtTokenCount += tokenCount;
+        } else {
+        	controlPlayer.debtTokenCount += tokenCount;
+        }
     }
     
     public void payOffDebtTokens(int tokenCount) {
@@ -1403,7 +1407,7 @@ public abstract class Player {
 
         if (willDiscard) {
         	if (!commandedDiscard && cleanup && card.equals(Cards.capital)) {
-        		context.getPlayer().controlPlayer.gainDebtTokens(6);
+        		context.getPlayer().gainDebtTokens(6);
             	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
             	event.setAmount(6);
                 context.game.broadcastEvent(event);

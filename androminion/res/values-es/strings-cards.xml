@@ -215,7 +215,7 @@
     <string name="PhilosophersStone_name">Piedra Filosofal</string>
     <string name="PhilosophersStone_desc">Cuando la pongas en juego, cuenta las cartas que hay en tu mazo y en tu pila de descartes. +(1) por cada 5 cartas que tengas en total (redondeando hacia abajo).</string>
     <string name="Possession_name">Posesión</string>
-    <string name="Possession_desc">El jugador de tu izquierda jugará un turno extra, después de éste, en el que podrás ver sus cartas y tomarás las decisiones por él. Todas las cartas que gane el jugador poseído las recibes tú en su lugar y las cartas que tenga que eliminar se dejan aparte, para devolverlas a su pila de descartes al final del turno extra.</string>
+    <string name="Possession_desc">El jugador de tu izquierda jugará un turno extra, después de éste, en el que podrás ver sus cartas y tomarás las decisiones por él. Todas las cartas y marcadores de Deuda que ganaría el jugador poseído los recibes tú en su lugar y las cartas que tenga que eliminar se dejan aparte, para ponerlas a su pila de descartes al final del turno.</string>
     <string name="ScryingPool_name">Hidromancia</string>
     <string name="ScryingPool_desc">Cada jugador (incluso tú) revela la carta superior de su mazo, para descartarla o ponerla de nuevo encima del mazo, lo que tú decidas. A continuación, levanta cartas de tu mazo hasta que reveles una carta que no sea de Acción. Pon todas las cartas reveladas en tu mano.</string>
     <string name="Transmute_name">Transmutar</string>

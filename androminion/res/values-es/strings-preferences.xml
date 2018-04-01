@@ -89,8 +89,12 @@
 			<string name="erratamine_pref_summary">Eliminar es opcional (de Dominion 2E)</string>
 			<string name="erratamoneylender_pref_title">Prestamista</string>
 			<string name="erratamoneylender_pref_summary">Eliminar es opcional (de Dominion 2E)</string>
-			<string name="errataposessiontokens_pref_title">Marcadores para Posesión</string>
-			<string name="errataposessiontokens_pref_summary">El jugador que posee es el que toma los marcadores (de Imperios)</string>
+			<string name="pref_errata_possessor_tokens_pref_title">Marcadores para Posesión</string>
+			<string-array name="pref_errata_possessor_tokens">
+				<item>El jugador que está poseído toma los marcadores</item>
+				<item>El jugador que posee toma los marcadores (de Imperios)</item>
+				<item>El jugador que posee toma sólo los marcadores de deuda (de Alquimia 2E)</item>
+			</string-array>
 			<string name="erratathroneroom_pref_title">Salón del trono</string>
 			<string name="erratathroneroom_pref_summary">Jugar una carta de Acción es opcional (de Dominion 2E)</string>
 			<string name="erratashuffling_pref_title">Barajar</string>

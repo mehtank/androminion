@@ -794,8 +794,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         if (!mPrefs.getBoolean("errata_moneylender", true)) {
         	strs.add("-erratamoneylenderforced");
         }
-        if (!mPrefs.getBoolean("errata_posessor_takes_tokens", true)) {
-        	strs.add("-erratapossessedtakestokens");
+        if (!mPrefs.getString("errata_possessor_tokens", "Debt").equals("Debt")) {
+            strs.add("-erratapossessortakestokens-" + mPrefs.getString("errata_possessor_tokens", "Debt"));
         }
         if (!mPrefs.getBoolean("errata_throneroom", true)) {
         	strs.add("-erratathroneroomforced");

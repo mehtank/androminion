@@ -215,7 +215,7 @@
     <string name="PhilosophersStone_name">Philosopher\'s Stone</string>
     <string name="PhilosophersStone_desc">When you play this, count your deck and discard pile. Worth (1) coin per 5 cards total between them (rounded down).</string>
     <string name="Possession_name">Possession</string>
-    <string name="Possession_desc">The player to your left takes an extra turn after this one, in which you can see all cards he can and make all decisions for him. Any cards he would gain on that turn, you gain instead; any cards of his that are trashed are set aside and returned to his discard pile at end of turn.</string>
+    <string name="Possession_desc">The player to your left takes an extra turn after this one, in which you can see all cards they can and make all decisions for them. Any cards or Debt tokens they would gain on that turn, you gain instead; any cards of theirs that are trashed are set aside and put in their discard pile at end of turn.</string>
     <string name="ScryingPool_name">Scrying Pool</string>
     <string name="ScryingPool_desc">Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice. Then reveal cards from the top of your deck until you reveal one that is not an Action. Put all of your revealed cards into your hand.</string>
     <string name="Transmute_name">Transmute</string>
