@@ -42,6 +42,9 @@
   <string name="Servants_gametype">Sirvientes</string> 
   <string name="SecretResearch_gametype">Investigación secreta</string> 
   <string name="PoolsToolsAndFools_gametype">Agua, herramientas y locos</string>
+  
+  <string name="Forewarned_gametype">Forewarned</string>
+  <string name="GummedUp_gametype">Gummed Up</string>
 
   <string name="Beginners_gametype">Principiantes</string> 
   <string name="FriendlyInteractive_gametype">Roce amistoso</string> 
@@ -55,6 +58,12 @@
   <string name="AllAlongTheWatchtower_gametype">Desde la atalaya</string> 
   <string name="LuckySeven_gametype">Que haya suerte</string>
   
+  <string name="ExplodingKingdom_gametype">Exploding Kingdom</string>
+  <string name="PirateBay_gametype">Pirate Bay</string>
+  
+  <string name="CountingContest_gametype">Counting Contest</string>
+  <string name="LowerLearning_gametype">Lower Learning</string>
+  
   <string name="BountyOfTheHunt_gametype">Cacería con premio</string> 
   <string name="BadOmens_gametype">Malos presagios</string> 
   <string name="TheJestersWorkshop_gametype">El taller del bufón</string>
@@ -62,6 +71,14 @@
   <string name="LastLaughs_gametype">Quien ríe último</string> 
   <string name="TheSpiceOfLife_gametype">La salsa de la vida</string> 
   <string name="SmallVictories_gametype">Pequeñas victorias</string>
+  
+  <string name="Collector_gametype">Collector</string>
+  <string name="Collider_gametype">Collider</string>
+  
+  <string name="ClownCollege_gametype">Clown College</string>
+  <string name="WineAndDine_gametype">Wine &amp; Dine</string>
+  
+  <string name="Detours_gametype">Detours</string>
 
   <string name="HinterlandsIntro_gametype">Introducción</string> 
   <string name="FairTrades_gametype">Comercio justo</string> 
@@ -117,6 +134,25 @@
   <string name="NameThatCard_gametype">Nombrar esa carta</string>
   <string name="TricksOfTheTrade_gametype">Truco del comerico</string>
   <string name="DecisionsDecisions_gametype">Decisiones difíciles</string>
+  
+  <string name="GhostsAndTaxes_gametype">Ghosts &amp; Taxes</string>
+  <string name="IslandBuilder_gametype">Island Builder</string>
+  
+  <string name="Illuminati_gametype">Illuminati</string>
+  <string name="TonicsAndToxins_gametype">Tonics &amp; Toxins</string>
+  
+  <string name="Quarrymen_gametype">Quarrymen</string>
+  <string name="MetalAndMeat_gametype">Metal &amp; Meat</string>
+  <string name="PennyPinching_gametype">Penny Pinching</string>
+  
+  <string name="Misfortune_gametype">Misfortune</string>
+  <string name="BakingContest_gametype">Baking Contest</string>
+  
+  <string name="Exchanges_gametype">Exchanges</string>
+  <string name="RoadToRiches_gametype">Road to Riches</string>
+  
+  <string name="Stoneground_gametype">Stoneground</string>
+  <string name="ClassStruggle_gametype">Class Struggle</string>
 
   <string name="GentleIntro_gametype">Suave introducción</string>
   <string name="ExpertIntro_gametype">Introducción experto</string>
