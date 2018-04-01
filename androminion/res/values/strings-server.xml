@@ -167,8 +167,8 @@
 	<string name="PlayedCard">Played</string>
 	<string name="PlayingDurationAction">Playing duration</string>
 	<string name="BuyingCard">Buying</string>
-	<string name="GuildsTokenObtained">Coin token obtained</string>
-	<string name="GuildsTokenSpend">Coin token spent</string>
+	<string name="GuildsTokenObtained">Added to Coffers</string>
+	<string name="GuildsTokenSpend">Removed from Coffers</string>
 	<string name="OverpayForCard">Overpay for card</string>
 	<string name="DebtTokensObtained">Debt tokens obtained: %1$s</string>
 	<string name="DebtTokensPaidOff">Debt tokens paid off: %1$s</string>
@@ -487,7 +487,7 @@
   <string name="doctor_overpay_option_two">Discard</string>
   <string name="doctor_overpay_option_three">Put Back</string>
   <string name="herald_overpay_query">Select card to put back on deck</string>
-  <string name="spend_guilds_coin_tokens">Spend Coin Tokens</string>
+  <string name="spend_guilds_coin_tokens">Remove from Coffers for Coins</string>
   <string name="buy_overpay">Overpay?</string>
   <string name="buy_overpay_by_potions">Overpay by Potion(s)?</string>
   <string name="pay_off_debt">Pay off Debt</string>

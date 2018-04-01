@@ -45,7 +45,7 @@ public class MoveContext {
     }
     
     public TurnPhase phase = TurnPhase.Action;  
-    public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't spend Guilds coin tokens)
+    public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't remove coin tokens from Coffers)
     public boolean returnToActionPhase = false;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public int beggarSilverIsOnTop = 0;

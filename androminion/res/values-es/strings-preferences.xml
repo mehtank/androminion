@@ -138,6 +138,6 @@
 	    <string name="control_ai_pref_summary">Siempre controlar los turnos de los jugadores IA</string>
 	    <string name="disable_ai_pref_title">Desactivar las IA</string>
 	    <string name="disable_ai_pref_summary">Los jugadores de IA no hacen nada en sus turnos</string>
-	    <string name="start_guilds_coin_tokens_pref_title">Marcadores de moneda</string>
-	    <string name="start_guilds_coin_tokens_pref_summary">Empezar con 99 marcadores de Moneda</string>
+	    <string name="start_guilds_coin_tokens_pref_title">Cofres</string>
+	    <string name="start_guilds_coin_tokens_pref_summary">Empezar con 99 marcadores de Moneda en tus Cofres</string>
 </resources>

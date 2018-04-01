@@ -22,7 +22,7 @@ public class PlayerSummary {
 	public int pt;
 	public int vt;
 	public int dt;
-	public int gct; // Guilds Coin Tokens
+	public int gct; // Guilds Coin Tokens (Coffers)
 	public JourneyTokenState journeyToken;
 	public boolean minusOneCoinTokenOn;
 	public boolean minusOneCardTokenOn;

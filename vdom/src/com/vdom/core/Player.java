@@ -37,7 +37,7 @@ public abstract class Player {
     public boolean win = false;
     public int pirateShipTreasure;
 
-    // The number of coin tokens held by the player
+    // The number of coin tokens held by the Coffers mat
     private int guildsCoinTokenCount;
     private int debtTokenCount;
 
@@ -773,7 +773,7 @@ public abstract class Player {
         }
         else
         {
-            Util.playerError(this, "spendGuildsCoinTokens() - Can't spend " + tokenCount + " coin tokens, only have " + guildsCoinTokenCount);
+            Util.playerError(this, "spendGuildsCoinTokens() - Can't spend " + tokenCount + " coin tokens from Coffers, only have " + guildsCoinTokenCount);
         }
     }
     

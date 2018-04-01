@@ -568,7 +568,7 @@ public class Game {
                     event.setComment(": " + numTokensToSpend);
                     context.game.broadcastEvent(event);
                 }
-                Util.debug(player, "Spent " + numTokensToSpend + " Guilds coin tokens");
+                Util.debug(player, "Removed " + numTokensToSpend + " coin tokens from Coffers");
                 return numTokensToSpend;
             }
         }
@@ -2751,7 +2751,7 @@ public class Game {
                 s += "Bane card: " + baneCard.getName() + "\n";
             }
 
-            // When Baker is included in the game, each Player starts with 1 coin token
+            // When Baker is included in the game, each Player starts with 1 coin token on Coffers mat
             if (bakerInPlay)
             {
                 players[i].gainGuildsCoinTokens(1);
@@ -3456,7 +3456,7 @@ public class Game {
         	trashPile.add(takeFromPile(Cards.zombieSpy));
         }
 
-        // If Baker is in play, each player starts with one coin token
+        // If Baker is in play, each player starts with one coin token on Coffers mat
         if (piles.containsKey(Cards.baker.getName()))
         {
             bakerInPlay = true;

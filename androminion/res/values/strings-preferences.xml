@@ -142,6 +142,6 @@
 	    <string name="control_ai_pref_summary">Always control AI players\' turns</string>
 	    <string name="disable_ai_pref_title">Disable AI</string>
 	    <string name="disable_ai_pref_summary">AI players do nothing on their turns</string>
-	    <string name="start_guilds_coin_tokens_pref_title">Coin tokens</string>
-	    <string name="start_guilds_coin_tokens_pref_summary">Start with 99 Coin tokens</string>
+	    <string name="start_guilds_coin_tokens_pref_title">Coffers</string>
+	    <string name="start_guilds_coin_tokens_pref_summary">Start with 99 Coin tokens in your Coffers</string>
 </resources>

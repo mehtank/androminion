@@ -163,8 +163,8 @@
 	<string name="PlayedCard">Jugada</string>
 	<string name="PlayingDurationAction">Haciendo effecto de duración de</string>
 	<string name="BuyingCard">Comprando</string>
-	<string name="GuildsTokenObtained">Obtuvo marcador de Moneda</string>
-	<string name="GuildsTokenSpend">Pagó marcador de Moneda</string>
+	<string name="GuildsTokenObtained">Agregado a Cofres</string>
+	<string name="GuildsTokenSpend">Sacado de Cofres</string>
 	<string name="OverpayForCard">Sobrepagó para</string>
 	<string name="DebtTokensObtained">Deuda obtenida: %1$s</string>
 	<string name="DebtTokensPaidOff">Deuda pagada: %1$s</string>
@@ -485,7 +485,7 @@
   <string name="doctor_overpay_option_two">Descartar</string>
   <string name="doctor_overpay_option_three">Devolver</string>
   <string name="herald_overpay_query">Elige una carta para poner encima del mazo</string>
-  <string name="spend_guilds_coin_tokens">Pagar marcadores de Moneda</string>
+  <string name="spend_guilds_coin_tokens">Sacar de Cofres para Monedas</string>
   <string name="buy_overpay">¿Sobrepaga?</string>
   <string name="buy_overpay_by_potions">¿Sobrepaga con poción(es)?</string>
   <string name="pay_off_debt">Pagar tu Deuda</string>
