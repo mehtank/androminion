@@ -14,7 +14,7 @@
 	<string name="achievements_gainmorethan30inaturn">Gana más de 30 PV en un solo turno</string>
 	<string name="achievements_win10inarow">Gana 10 partidas seguidas</string>
 	<string name="achievements_overpayby10ormore">Sobrepager por una carta con 10 o más monedas</string>
-	<string name="achievements_stockpile50tokens">Ahorrar 50 o más marcadores de Moneda</string>
+	<string name="achievements_stockpile50tokens">Ahorrar 50 o más marcadores de Moneda en tu tablero de Cofres</string>
 	<string name="achievements_2tacticians">Jugar 2 cartas de Estratega en el mismo turno, descartando al menos una carta cada vez.</string>
 	<string name="achievements_13curses">Ganar una partida con exactamente 13 cartas de Maldición en tu mazo</string>
 	<string name="achievements_allEmpty">Ganar una partida en la que ninguna carta se queda en el Suministro.</string>

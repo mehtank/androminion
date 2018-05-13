@@ -22,6 +22,7 @@ public class MoveContext {
     public int silversPlayed = 0;
     public int coppersmithsPlayed = 0;
     public int schemesPlayed = 0;
+    public int crossroadsPlayed = 0;
 
     public int foolsGoldPlayed = 0;
 
@@ -36,14 +37,15 @@ public class MoveContext {
     public int totalEventsBoughtThisTurn = 0;
     public int totalExpeditionBoughtThisTurn = 0;
     public boolean canBuyCards = true;
+    public boolean canBuyActions = true;
     public boolean startOfTurn = false;
     
     public enum TurnPhase {
-    	Action, Buy, CleanUp
+    	Action, Buy, Night, CleanUp
     }
     
     public TurnPhase phase = TurnPhase.Action;  
-    public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't spend Guilds coin tokens)
+    public boolean blackMarketBuyPhase = false;  // this is not a really buyPhase (peddler costs 8, you can't remove coin tokens from Coffers)
     public boolean returnToActionPhase = false;
     public ArrayList<Card> cantBuy = new ArrayList<Card>();
     public int beggarSilverIsOnTop = 0;
@@ -54,6 +56,7 @@ public class MoveContext {
     public boolean hasDoubledCoins = false;
     public int donatesBought = 0;
     public int charmsNextBuy = 0;
+    public boolean envious = false;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;
@@ -112,15 +115,19 @@ public class MoveContext {
     public CardList getPlayedCards() {
         return player.playedCards;
     }
+    
+    public int countCardsInPlay() {
+    	return countCardsInPlay(null);
+    }
 
     public int countCardsInPlay(Card card) {
         int cardsInPlay = 0;
         for(Card c : getPlayedCards()) {
-            if(c.behaveAsCard().equals(card)) {
+            if(card == null || c.behaveAsCard().equals(card)) {
                 cardsInPlay++;
             }
         }
-        return cardsInPlay + countCardsInNextTurn(card);
+        return cardsInPlay;
     }
     
     public int countCardsInPlayByName(Card card) {
@@ -130,31 +137,7 @@ public class MoveContext {
                 cardsInPlay++;
             }
         }
-        return cardsInPlay + countCardsInNextTurnByName(card);
-    }
-
-    public CardList getCardsInNextTurn() {
-        return player.nextTurnCards;
-    }
-
-    private int countCardsInNextTurn(Card card) {
-        int cardsInNextTurn = 0;
-        for(Card c : getCardsInNextTurn()) {
-            if(c.behaveAsCard().equals(card)) {
-            	cardsInNextTurn++;
-            }
-        }
-        return cardsInNextTurn;
-    }
-    
-    private int countCardsInNextTurnByName(Card card) {
-        int cardsInNextTurn = 0;
-        for(Card c : getCardsInNextTurn()) {
-            if(!c.equals(Cards.estate) && c.behaveAsCard().equals(card)) {
-            	cardsInNextTurn++;
-            }
-        }
-        return cardsInNextTurn;
+        return cardsInPlay;
     }
 
     public boolean isRoyalSealInPlay() {
@@ -194,13 +177,6 @@ public class MoveContext {
         		numInPlay++;
         	}
         }
-        for (Card c : player.nextTurnCards) {
-        	if (c instanceof CardImpl && ((CardImpl)c).trashAfterPlay)
-        		continue;
-        	if (c.is(type, player)) {
-        		numInPlay++;
-        	}
-        }
         return numInPlay;
     }
 
@@ -214,14 +190,6 @@ public class MoveContext {
         		distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
         	}
         }
-        for (Card cardInPlay : player.nextTurnCards) {
-        	if (cardInPlay.getControlCard().equals(Cards.estate)) {
-        		distinctCardsInPlay.add(cardInPlay.getName());
-        	} else {
-        		distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
-        	}
-        }
-
         return distinctCardsInPlay.size();
     }
 

@@ -42,6 +42,9 @@
   <string name="Servants_gametype">Sirvientes</string> 
   <string name="SecretResearch_gametype">Investigación secreta</string> 
   <string name="PoolsToolsAndFools_gametype">Agua, herramientas y locos</string>
+  
+  <string name="Forewarned_gametype">Prevenido</string>
+  <string name="GummedUp_gametype">Atascado</string>
 
   <string name="Beginners_gametype">Principiantes</string> 
   <string name="FriendlyInteractive_gametype">Roce amistoso</string> 
@@ -51,9 +54,15 @@
   <string name="TheKingsArmy_gametype">El ejército del rey</string> 
   <string name="TheGoodLife_gametype">La buena vida</string>
 
-  <string name="PathToVictory_gametype">Caminos a la victoria</string> 
+  <string name="PathsToVictory_gametype">Caminos a la victoria</string> 
   <string name="AllAlongTheWatchtower_gametype">Desde la atalaya</string> 
   <string name="LuckySeven_gametype">Que haya suerte</string>
+  
+  <string name="ExplodingKingdom_gametype">Reino explotando</string>
+  <string name="PirateBay_gametype">Bahía de piratas</string>
+  
+  <string name="CountingContest_gametype">Concurso de cuentas</string>
+  <string name="LowerLearning_gametype">Educación inferior</string>
   
   <string name="BountyOfTheHunt_gametype">Cacería con premio</string> 
   <string name="BadOmens_gametype">Malos presagios</string> 
@@ -62,6 +71,14 @@
   <string name="LastLaughs_gametype">Quien ríe último</string> 
   <string name="TheSpiceOfLife_gametype">La salsa de la vida</string> 
   <string name="SmallVictories_gametype">Pequeñas victorias</string>
+  
+  <string name="Collector_gametype">Coleccionista</string>
+  <string name="Collider_gametype">Colisionador</string>
+  
+  <string name="ClownCollege_gametype">Escuela de payasos</string>
+  <string name="WineAndDine_gametype">Vino y cena</string>
+  
+  <string name="Detours_gametype">Desvíos</string>
 
   <string name="HinterlandsIntro_gametype">Introducción</string> 
   <string name="FairTrades_gametype">Comercio justo</string> 
@@ -117,6 +134,25 @@
   <string name="NameThatCard_gametype">Nombrar esa carta</string>
   <string name="TricksOfTheTrade_gametype">Truco del comerico</string>
   <string name="DecisionsDecisions_gametype">Decisiones difíciles</string>
+  
+  <string name="GhostsAndTaxes_gametype">Fantasmas e impuestos</string>
+  <string name="IslandBuilder_gametype">Edificador de islas</string>
+  
+  <string name="Illuminati_gametype">La Orden de los Iluminados</string>
+  <string name="TonicsAndToxins_gametype">Tónicos y toxinas</string>
+  
+  <string name="Quarrymen_gametype">Canteros</string>
+  <string name="MetalAndMeat_gametype">Metal y carne</string>
+  <string name="PennyPinching_gametype">Avaricia</string>
+  
+  <string name="Misfortune_gametype">Infortunio</string>
+  <string name="BakingContest_gametype">Concurso de panadería</string>
+  
+  <string name="Exchanges_gametype">Intercambios</string>
+  <string name="RoadToRiches_gametype">El camino a la riqueza</string>
+  
+  <string name="Stoneground_gametype">Molido en piedra</string>
+  <string name="ClassStruggle_gametype">Lucha de clases</string>
 
   <string name="GentleIntro_gametype">Suave introducción</string>
   <string name="ExpertIntro_gametype">Introducción experto</string>
@@ -177,6 +213,38 @@
   
   <string name="AreaControl_gametype">Control de área</string>
   <string name="NoMoneyNoProblems_gametype">Sin dinero no hay problemas</string>
+  
+  <string name="Dusk_gametype">Crepúsculo</string>
+  <string name="Midnight_gametype">Medianoche</string>
+  
+  <string name="NightShift_gametype">Turno de noche</string>
+  <string name="IdleHands_gametype">Manos ociosas</string>
+  
+  <string name="ShadowyFigures_gametype">Figuras sombrías</string>
+  <string name="ImpendingDoom_gametype">Fatalidad inminente</string>
+  
+  <string name="TheNewBlack_gametype">El nuevo negro</string>
+  <string name="ForbiddenIsle_gametype">Isla prohibida</string>
+  
+  <string name="NightmareFuel_gametype">Combustible para pesadillas</string>
+  
+  <string name="TreasuresOfTheNight_gametype">Tesoros de la noche</string>
+  <string name="DayAtTheRaces_gametype">Un día en las carreras</string>
+  
+  <string name="TheEndlessFair_gametype">La feria interminable</string>
+  <string name="HappyChaos_gametype">Caos feliz</string>
+  
+  <string name="SearchParty_gametype">Equipo de búsqueda</string>
+  <string name="CountingSheep_gametype">Contando ovejas</string>
+  
+  <string name="GraveMatters_gametype">Asuntos de la tumba</string>
+  <string name="RatsAndBats_gametype">Ratas y murciélagos</string>
+  
+  <string name="MonsterMash_gametype">La fiesta monstruosa</string>
+  <string name="LostInTheWoods_gametype">Perdido en el bosque</string>
+  
+  <string name="Luftschloss_gametype">Luftschloss</string>
+  <string name="PookaPranks_gametype">Travesuras de púca</string>
    
   <string name="Test_gametype">Prueba (para probar el juego)</string>
 </resources>

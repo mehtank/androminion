@@ -877,6 +877,14 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_avanto_shouldPlaySauna(MoveContext context) {
         return true;
     }
+    
+    public boolean shouldAutoPlay_dismantle_cardToTrash(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_dismantle_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+        return false;
+    }
 
     public boolean shouldAutoPlay_cultist_shouldPlayNext(MoveContext context) {
         return true;
@@ -1193,4 +1201,37 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return true;
     }
 
+    public boolean shouldAutoPlay_cemetery_cardsToTrash(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_faithfulHound_shouldSetAside(MoveContext context) {
+        return true;
+    }
+    
+    public boolean shouldAutoPlay_hauntedMirror_cardToDiscard(MoveContext context) {
+    	return false;
+    }
+    
+    public boolean shouldAutoPlay_pooka_treasureToTrash(MoveContext context) {
+    	for(Card card : getHand()) {
+            for(Card trash : getTrashCards()) {
+                if(trash.equals(card) && (card.is(Type.Treasure, this)) && !card.equals(Cards.cursedGold)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
+    public boolean shouldAutoPlay_shepherd_cardsToDiscard(MoveContext context) {
+    	Player p = context.getPlayer();
+    	for(Card c: p.getHand()) {
+    		if (c.is(Type.Victory, p) && c.is(Type.Action, p)) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
 }

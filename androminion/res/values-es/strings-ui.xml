@@ -50,7 +50,10 @@
     <string name="whatsnew">
 <![CDATA[
 		<h3>¡Lee por favor!</h3>
-		Por la petición de Rio Grande Games, el Editor de Dominion, hemos sacado Androminion del Play Store. Por favor, no la publiques en cualquier tienda de apliciaciones pública ya que hay una aplicación oficial de Dominion.<br><br>
+		Por la petición de Rio Grande Games, el Editor de Dominion, hemos sacado Androminion del Play Store. Por favor, no la publiques en cualquier tienda de apliciaciones pública ya que habrá una aplicación oficial de Dominion.<br><br>
+		<h3>Versión 8.05</h3>
+		* ¡Expansión de Nocturno! <br>
+		* Carta de promoción: Desmantelar
 		<h3>Versión 7.06</h3>
 		* ¡Expansión de Imperios! <br>
 		* Segunda edición de Dominion y Intriga! <br>
@@ -147,6 +150,7 @@
     <string name="card_set_no_plat_colony">Sin Platino/Colonia</string>
     <string name="card_set_shelters">Cobijos</string>
     <string name="card_set_no_shelters">Sin Cobijos</string>
+    <string name="card_set_card_options">%1$s (%2$s)</string>
     <string name="none_game_start">Ninguno</string> <!-- Unused -->
     <string name="start_new_game_on_server">Iniciar un nuevo juego en el servidor</string> <!-- Unused -->
 
@@ -181,6 +185,7 @@
     <string name="played_header">En juego:</string>
     <string name="tavern_header">Taberna:</string>
     <string name="archive_header">Archivo:</string>
+    <string name="crypt_header">Cripta:</string>
     <string name="island_header">Isla:</string>
     <string name="village_header">Poblado:</string>
     <string name="prince_header">Príncipe:</string>
@@ -213,6 +218,10 @@
 	<string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">C</string>
+	<string name="deluded_initial">\u0020\u0020D\u0020\u0020</string>
+	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
+	<string name="lostInTheWoods_initial">\u0020\u0020P\u0020\u0020</string>
+	<string name="druid_boons_header">- Favores apartadas -</string>
 	<string name="token_header">- Marcadores -</string>
 	<string name="token_plus_one_card">+1 Carta</string>
 	<string name="token_plus_one_action">+1 Acción</string>
@@ -239,7 +248,12 @@
 	<string name="status_has_minus_card_token">Tiene marcador de -1 Carta</string>
 	<string name="status_journey_token_up">Marcador de Viaje está boca arriba</string>
 	<string name="status_journey_token_down">Marcador de Viaje está boca abajo</string>
-	<string name="status_coin_tokens">Marcadores de Moneda: %1$s</string>
+	<string name="status_has_deluded">Tiene Delirante (Al comienzo de tu fase de Compra, devuelve este Estado, y no puedes comprar cartas de Acción en este turno.)</string>
+	<string name="status_has_envious">Tiene Envidioso (Al comienzo de tu fase de Compra, devuelve este Estado, y Plata y Oro hacen (1) Moneda en este turno.)</string>
+	<string name="status_has_lostInTheWoods">Tiene Perdido en el Bosque (Al comienzo de tu turno, puedes descartar una carta para recibir un Favor.)</string>
+	<string name="status_has_miserable">Tiene Miserable (-2 PV)</string>
+	<string name="status_has_twiceMiserable">Tiene Miserable Otra Vez (-4 PV)</string>
+	<string name="status_coin_tokens">Marcadores de Moneda en el tablero de Cofres: %1$s</string>
 	<string name="status_pirate_tokens">Marcadores de Moneda conseguidos por Barcos Piratas: %1$s</string>
 	<string name="status_debt_tokens">Marcadores de Deuda: %1$s</string>
 	<string name="status_victory_tokens">Fichas de Victoria: %1$s</string>

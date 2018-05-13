@@ -16,7 +16,7 @@ public class CardImplPromo extends CardImpl {
 	protected CardImplPromo() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
 		case Avanto:
 			avanto(game, context, currentPlayer);
@@ -24,6 +24,9 @@ public class CardImplPromo extends CardImpl {
 		case BlackMarket:
             blackMarket(game, context, currentPlayer);
             break;
+		case Dismantle:
+			dismantle(game, context, currentPlayer);
+			break;
 		case Envoy:
             envoy(game, context, currentPlayer);
             break;
@@ -147,6 +150,46 @@ public class CardImplPromo extends CardImpl {
         context.blackMarketBuyPhase = false;
     }
 	
+	private void dismantle(Game game, MoveContext context, Player player) {
+		CardList hand = player.getHand();
+		if(hand.size() == 0)
+			return;
+        Card trashCard = player.controlPlayer.dismantle_cardToTrash(context);
+        if (trashCard == null || !player.hand.contains(trashCard)) {
+            Util.playerError(player, "Dismantle card to trash invalid, picking one");
+            trashCard = hand.get(0);
+        }
+
+        player.trashFromHand(trashCard, this.getControlCard(), context);
+        int cost = trashCard.getCost(context);
+        int debt = trashCard.getDebtCost(context);
+        boolean potion = trashCard.costPotion();
+        int potionCost = potion ? 1 : 0;
+        if (cost < 1)
+        	return;
+        
+        ArrayList<Card> validCards = new ArrayList<Card>();
+        for (Card card : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+            int gainCardCost = card.getCost(context);
+            int gainCardPotionCost = card.costPotion() ? 1 : 0;
+            int gainCardDebt = card.getDebtCost(context);
+
+            if ((gainCardCost < cost || gainCardDebt < debt || gainCardPotionCost < potionCost) && 
+            		(gainCardCost <= cost && gainCardDebt <= debt && gainCardPotionCost <= potionCost)) {
+                validCards.add(card);
+            }
+        }
+        if (validCards.size() > 0) {
+        	Card toGain = context.getPlayer().controlPlayer.dismantle_cardToObtain(context, cost, debt, potion);
+            if (toGain == null || !validCards.contains(toGain)) {
+                Util.playerError(context.getPlayer(), "Invalid card returned from Dismantle, picking one.");
+                toGain = validCards.get(0);
+            }
+            context.getPlayer().gainNewCard(toGain, Cards.dismantle, context);
+        }
+        context.getPlayer().gainNewCard(Cards.gold, Cards.dismantle, context);
+	}
+	
 	private void envoy(Game game, MoveContext context, Player currentPlayer) {
         ArrayList<Card> cards = new ArrayList<Card>();
         Player nextPlayer = game.getNextPlayer();
@@ -216,8 +259,7 @@ public class CardImplPromo extends CardImpl {
                        int value = card.getCost(context) + 2;
                        int debt = card.getDebtCost(context);
                        boolean potion = card.costPotion();
-                       currentPlayer.hand.remove(card);
-                       currentPlayer.trash(card, this.getControlCard(), context);
+                       currentPlayer.trashFromHand(card, this.getControlCard(), context);
 
                        card = currentPlayer.controlPlayer.governor_cardToObtain(context, value, debt, potion);
                        if (card != null) {
@@ -242,8 +284,7 @@ public class CardImplPromo extends CardImpl {
                                int value = card.getCost(playerContext) + 1;
                                int debt = card.getDebtCost(playerContext);
                                boolean potion = card.costPotion();
-                               player.hand.remove(card);
-                               player.trash(card, this.getControlCard(), playerContext);
+                               player.trashFromHand(card, this.getControlCard(), playerContext);
 
                                card = player.controlPlayer.governor_cardToObtain(playerContext, value, debt, potion);
                                if (card != null) {
@@ -264,8 +305,7 @@ public class CardImplPromo extends CardImpl {
     }
 	
 	private void prince(Game game, MoveContext context, Player currentPlayer) {
-        // throneroom has no effect since prince is already set aside
-        if (this.getControlCard().numberTimesAlreadyPlayed == 0) {
+        if (currentPlayer.isInPlay(this)) {
             Card card = currentPlayer.controlPlayer.prince_cardToSetAside(context);
             if (card != null && !currentPlayer.hand.contains(card)) {
                 Util.playerError(currentPlayer, "Prince set aside card error, setting aside nothing.");
@@ -281,11 +321,9 @@ public class CardImplPromo extends CardImpl {
                 
                 GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, (MoveContext) context);
                 event.card = card;
+                event.responsible = this;
                 game.broadcastEvent(event);
             }
-        } else {
-            // reset clone count
-            this.getControlCard().cloneCount = 1;
         }
     }
 	

@@ -21,7 +21,7 @@ public class CardImplCornucopia extends CardImpl {
 	protected CardImplCornucopia() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
 		case BagofGold:
             currentPlayer.gainNewCard(Cards.gold, this.getControlCard(), context);
@@ -180,28 +180,15 @@ public class CardImplCornucopia extends CardImpl {
     }
     
     private void hornOfPlenty(MoveContext context, Player player, Game game) {
-        GameEvent event;
         int maxCost = context.countUniqueCardsInPlay();
         Card toObtain = player.controlPlayer.hornOfPlenty_cardToObtain(context, maxCost);
         if (toObtain != null) {
             // check cost
             if (toObtain.getCost(context) <= maxCost && toObtain.getDebtCost(context) == 0 && !toObtain.costPotion()) {
-                toObtain = game.takeFromPile(toObtain);
-                // could still be null here if the pile is empty.
-                if (toObtain != null) {
-                    event = new GameEvent(GameEvent.EventType.CardObtained, context);
-                    event.card = toObtain;
-                    event.responsible = this;
-                    game.broadcastEvent(event);
-                    
-                    if (toObtain.is(Type.Victory, player)) {
-                    	player.playedCards.remove(this);
-                        player.trash(this, toObtain, context);
-                        event = new GameEvent(GameEvent.EventType.CardTrashed, context);
-                        event.card = this;
-                        game.broadcastEvent(event);
-                    }
-                }
+            	Card gained = player.gainNewCard(toObtain, getControlCard(), context);
+            	if (gained != null && gained.equals(gained) && gained.is(Type.Victory, player)) {
+            		player.trashSelfFromPlay(this, context);
+            	}
             }
         }
     }
@@ -229,7 +216,7 @@ public class CardImplCornucopia extends CardImpl {
         }
 
         while (!toDiscard.isEmpty()) {
-            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
+            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), context);
         }
     }
 
@@ -303,8 +290,7 @@ public class CardImplCornucopia extends CardImpl {
             int value = card.getCost(context) + 1;
             int debt = card.getDebtCost(context);
             boolean potion = card.costPotion();
-            currentPlayer.hand.remove(card);
-            currentPlayer.trash(card, this.getControlCard(), context);
+            currentPlayer.trashFromHand(card, this.getControlCard(), context);
 
             card = currentPlayer.controlPlayer.remake_cardToObtain(context, value, debt, potion);
             if (card != null) {
@@ -399,9 +385,7 @@ public class CardImplCornucopia extends CardImpl {
                     GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
                     game.broadcastEvent(event);
 
-                    while (currentPlayer.getDeckSize() > 0) {
-                        currentPlayer.discard(currentPlayer.deck.remove(0), this.getControlCard(), null);
-                    }
+                    currentPlayer.deckToDiscard(context, getControlCard());
                 }
             }
         }
@@ -438,7 +422,7 @@ public class CardImplCornucopia extends CardImpl {
         }
 
         for (Card card : cardsToDiscard) {
-            currentPlayer.discard(card, this.getControlCard(), null);
+            currentPlayer.discard(card, this.getControlCard(), context);
             currentPlayer.hand.remove(card);
         }
 

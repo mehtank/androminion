@@ -16,7 +16,7 @@ public class CardImplHinterlands extends CardImpl {
 	protected CardImplHinterlands() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
 		case Cartographer:
             cartographer(game, context, currentPlayer);
@@ -103,9 +103,9 @@ public class CardImplHinterlands extends CardImpl {
                             cost = playersCard.getCost(context);
                             debt = playersCard.getDebtCost(context);
                             potion = playersCard.costPotion();
-                            playersCard = player.hand.remove(i);
+                            playersCard = player.hand.get(i);
 
-                            player.trash(playersCard, this, (MoveContext) context);
+                            player.trashFromHand(playersCard, this, (MoveContext) context);
                             break;
                         }
                     }
@@ -162,7 +162,7 @@ public class CardImplHinterlands extends CardImpl {
             if(cardsToDiscard != null) {
                 for(Card toDiscard : cardsToDiscard) {
                     if(topOfTheDeck.remove(toDiscard)) {
-                        currentPlayer.discard(toDiscard, this.getControlCard(), null);
+                        currentPlayer.discard(toDiscard, this.getControlCard(), context);
                     }
                     else {
                         Util.playerError(currentPlayer, "Cartographer returned invalid card to discard, ignoring");
@@ -228,14 +228,8 @@ public class CardImplHinterlands extends CardImpl {
         }
 
         if (!this.getControlCard().equals(Cards.estate)) {
-	        int crossroadsPlayed = this.getControlCard().numberTimesAlreadyPlayed;
-	        for(Card c : context.getPlayedCards()) {
-	            if(c.equals(Cards.crossroads)) {
-	                crossroadsPlayed++;
-	            }
-	        }
-	        
-	        if (crossroadsPlayed <= 1) {
+        	context.crossroadsPlayed += 1;
+        	if (context.crossroadsPlayed <= 1) {
 	            context.actions += 3;
 	        }
         }
@@ -292,8 +286,7 @@ public class CardImplHinterlands extends CardImpl {
                 cardsToGain = new Card[0];
             }
 
-            currentPlayer.hand.remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
+            currentPlayer.trashFromHand(cardToTrash, this.getControlCard(), context);
 
             boolean bad = false;
 
@@ -407,7 +400,7 @@ public class CardImplHinterlands extends CardImpl {
         for (int i = 0; i < cards.length; i++) {
             currentPlayer.hand.remove(cards[i]);
             currentPlayer.reveal(cards[i], this.getControlCard(), context);
-            currentPlayer.discard(cards[i], this.getControlCard(), null);
+            currentPlayer.discard(cards[i], this.getControlCard(), context);
         }
     }
 	
@@ -493,8 +486,7 @@ public class CardImplHinterlands extends CardImpl {
                 Util.playerError(currentPlayer, "Jack of All Trades returned invalid card to trash from hand, ignoring.");
             }
             else {
-                currentPlayer.hand.remove(cardToTrash);
-                currentPlayer.trash(cardToTrash, this.getControlCard(), context);
+                currentPlayer.trashFromHand(cardToTrash, this.getControlCard(), context);
             }
         }
     }
@@ -627,7 +619,7 @@ public class CardImplHinterlands extends CardImpl {
 
             currentPlayer.hand.remove(cardToDiscard);
             currentPlayer.reveal(cardToDiscard, this.getControlCard(), context);
-            currentPlayer.discard(cardToDiscard, this.getControlCard(), null);
+            currentPlayer.discard(cardToDiscard, this.getControlCard(), context);
         }
     }
     
@@ -708,8 +700,7 @@ public class CardImplHinterlands extends CardImpl {
                     Util.playerError(currentPlayer, "Spice Merchant returned invalid card to trash from hand, ignoring.");
                 }
                 else {
-                    currentPlayer.hand.remove(treasure);
-                    currentPlayer.trash(treasure, this.getControlCard(), context);
+                    currentPlayer.trashFromHand(treasure, this.getControlCard(), context);
 
                     SpiceMerchantOption option = currentPlayer.controlPlayer.spiceMerchant_chooseOption(context);
                     if(option == SpiceMerchantOption.AddCardsAndAction) {
@@ -760,8 +751,7 @@ public class CardImplHinterlands extends CardImpl {
             }
 
             int cost = card.getCost(context);
-            currentPlayer.hand.remove(card);
-            currentPlayer.trash(card, this.getControlCard(), context);
+            currentPlayer.trashFromHand(card, this.getControlCard(), context);
             for(int i=0; i < cost; i++) {
                 if(currentPlayer.gainNewCard(Cards.silver, this.getControlCard(), context) == null) {
                     break;

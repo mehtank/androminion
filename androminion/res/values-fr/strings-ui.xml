@@ -49,13 +49,16 @@
         <![CDATA[
 		<h3>Lisez SVP!</h3>
 		 À la demande de Rio Grande Games, l\'éditeur de Dominion, nous avons retiré Androminion du Play Store. S\'il vous plaît, ne le publiez dans aucun store public d\'applications car il y a déjà une application officielle.<br><br>
-		<h3>Version 7.06</h3>
+		<h3>Version 8.05</h3>
+		* Extension Nocturne! <br>
+		* Carte Promo: Démantèlement
+                <h3>Version 7.06</h3>
 		* Extension Empires! <br>
 		* Seconde édition de Dominion et L\'Intrigue! <br>
-		* Cartes Promo: Sauna/Avanto
+		* Cartes Promo: Sauna/Trou dans la Glace
 		<h3>Version 6.07</h3>
 		* Extension Aventures! <br>
-		* Cartes Promo: Cachette, Invocation
+		* Cartes Promo: Cachette, Convocation
 		<h3>Version 6.00</h3>
 		* Aventures (beta)
 		<h3>Version 5.01</h3>
@@ -128,7 +131,7 @@
     <string name="random_include_events">Cartes événements: </string>
     <string name="random_events_none">Aucune</string>
     <string name="random_events_random">Aléatoire</string>
-	<string name="random_include_landmarks">Sites: </string>
+    <string name="random_include_landmarks">Jalons: </string>
     <string name="random_landmarks_none">Aucun</string>
     <string name="random_landmarks_random">Aléatoire</string>
     <string name="random_include_cards">Inclure les cartes Royaume de</string>
@@ -140,13 +143,13 @@
     <string name="card_set_cards">Cartes: %1$s</string>
     <string name="card_set_bane">Fléau: %1$s</string>
     <string name="card_set_events">Événements: %1$s</string>
-    <string name="card_set_landmarks">Sites: %1$s</string>
+    <string name="card_set_landmarks">Jalons: %1$s</string>
     <string name="card_set_plat_colony">Platine/Colonie</string>
     <string name="card_set_no_plat_colony">Pas de Platine/Colonie</string>
     <string name="card_set_shelters">Refuges</string>
     <string name="card_set_no_shelters">Pas de Refuge</string>
+    <string name="card_set_card_options">%1$s (%2$s)</string>
     <string name="none_game_start">Aucun</string> <!-- Unused -->
-	
     <string name="start_new_game_on_server">Démarrer un nouveau jeu sur le serveur</string> <!-- Unused -->
     
     <!-- Game Activity: Splash Screen -->
@@ -156,8 +159,8 @@
     <string name="toast_starting">Démarrage du jeu…</string> <!-- Unused -->
     <string name="toast_loading">Chargement du jeu…</string>
     <string name="toast_quitconfirm">Cliquer de nouveau pour quitter.</string>
-    <string name="toast_mountainPassWinner">Défilé Montagneux: la plus haute enchère est %1$s (%2$s)</string>
-    <string name="toast_mountainPassNoBid">Défilé Montagneux: pas d\'enchère</string>
+    <string name="toast_mountainPassWinner">Col: la plus haute enchère est %1$s (%2$s)</string>
+    <string name="toast_mountainPassNoBid">Col: pas d\'enchère</string>
     <string name="obtained">%1$s, carte reçue</string>
     <string name="eventBought">%1$s, carte achetée</string>
     <string name="trashed">%1$s, carte écartée</string>
@@ -180,6 +183,7 @@
     <string name="played_header">Joué:</string>
     <string name="tavern_header">Taverne:</string>
     <string name="archive_header">Archives:</string>
+    <string name="crypt_header">Crypte:</string>
     <string name="island_header">Île:</string>
     <string name="village_header">Village:</string>
     <string name="prince_header">Prince:</string>
@@ -197,7 +201,7 @@
     <string name="coin_multiple">(%1$s) Pièces</string>
     <string name="final_view_card_counts">Décompte des cartes</string>
     <string name="final_view_text">%1$s: %2$s PVs.\n%3$s tours, %4$s cartes.</string>
-	<string name="final_game_time">Durée de la partie: %1$s</string>
+    <string name="final_game_time">Durée de la partie: %1$s</string>
     <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
     <string name="potion_single">%1$s potion</string>
     <string name="potion_multiple">%1$s potions</string>
@@ -209,9 +213,13 @@
     <string name="inheritance_header">Héritage:</string>
     <string name="img_download_title">Image de la carte %1$s</string>
 	<string name="img_download_desc">Téléchargement de l\'image de la carte depuis %1$s</string>
-    <string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
+        <string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">H</string>
+	<string name="deluded_initial">\u0020\u0020E\u0020\u0020</string>
+	<string name="envious_initial">\u0020\u0020J\u0020\u0020</string>
+	<string name="lostInTheWoods_initial">\u0020\u0020P\u0020\u0020</string>
+	<string name="druid_boons_header">- Aubaines mises de côté -</string>
 	<string name="token_header">- Jetons -</string>
 	<string name="token_plus_one_card">+1 Carte</string>
 	<string name="token_plus_one_action">+1 Action</string>
@@ -238,6 +246,11 @@
 	<string name="status_has_minus_card_token">A un jeton -1 Carte</string>
 	<string name="status_journey_token_up">Le jeton Voyage est face visible</string>
 	<string name="status_journey_token_down">Le jeton Voyage est face cachée</string>
+	<string name="status_has_deluded">Est Envoûté (Au début de votre phase Achat, retournez ceci, et vous ne pouvez pas acheter d\'Action ce tour.)</string>
+	<string name="status_has_envious">Est Jaloux (Au début de votre phase Achat, retournez ceci, Argent et Or valent (1) Pièce ce tour.)</string>
+	<string name="status_has_lostInTheWoods">Est Perdu dans les Bois (Au début de votre tour, vous pouvez défausser une carte pour recevoir une Aubaine.)</string>
+	<string name="status_has_miserable">Est En détresse (-2 PVs)</string>
+	<string name="status_has_twiceMiserable">Est En grande détresse (-4 PVs)</string>
 	<string name="status_coin_tokens">Jetons Pièce: %1$s</string>
 	<string name="status_pirate_tokens">Jetons Pièces du Bateau Pirate: %1$s</string>
 	<string name="status_debt_tokens">Jetons Dette: %1$s</string>

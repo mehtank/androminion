@@ -14,13 +14,14 @@ import com.vdom.api.CardCostComparator;
 import com.vdom.api.CardValueComparator;
 import com.vdom.api.GameEvent;
 import com.vdom.api.GameEventListener;
+import com.vdom.core.MoveContext.TurnPhase;
 
 public abstract class BasePlayer extends Player implements GameEventListener {
     //trash in this order!
-    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate };
-    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate, Cards.copper, Cards.masterpiece };
+    protected static final Card[] EARLY_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate, Cards.cursedGold, Cards.pasture, Cards.pouch, Cards.magicLamp };
+    protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate, Cards.copper, Cards.masterpiece, Cards.cursedGold, Cards.pasture, Cards.pouch, Cards.magicLamp };
     protected static final Card[] EASY_WHEN_TRASH_CARDS = new Card[] { Cards.cultist, Cards.rats, Cards.catacombs, Cards.fortress, Cards.huntingGrounds, Cards.sirVander, Cards.overgrownEstate};
-    protected static final Card[] CATAPULT_AMMO_CARDS = new Card[] { Cards.rocks, Cards.masterpiece, Cards.illGottenGains, Cards.silver, Cards.loan, Cards.rats, Cards.fortress, Cards.curse, Cards.estate, Cards.copper, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins};
+    protected static final Card[] CATAPULT_AMMO_CARDS = new Card[] { Cards.rocks, Cards.cursedGold, Cards.masterpiece, Cards.illGottenGains, Cards.silver, Cards.loan, Cards.rats, Cards.fortress, Cards.curse, Cards.estate, Cards.copper, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins};
     
     protected Random rand = new Random(System.currentTimeMillis());
     protected static final int COST_MAX = 14;
@@ -79,6 +80,22 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public abstract Card doBuy(MoveContext context);
+    
+    @Override
+    public Card nightCardToPlay(MoveContext context) {
+    	for (Card c : context.getPlayer().getHand()) {
+    		if (c.is(Type.Night, context.getPlayer())) {
+    			return c;
+    		}
+    	}
+    	return null;
+    }
+    
+    @Override
+    public Card[] nightCardsToPlayInOrder(MoveContext context) {
+    	// Should never be called
+    	return null;
+    }
     
 	@Override
 	public Card getAttackReaction(MoveContext context, Card responsible, boolean defended, Card lastCard) {
@@ -168,7 +185,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustPick) {
         return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, actionOnly, victoryCardAllowed, false, mustPick, null);
     }
-
+    
     protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
@@ -306,6 +323,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             while (cardArray.contains(Cards.tunnel)) {
                 ret.add(Cards.tunnel);
                 cardArray.remove(Cards.tunnel);
+                if (ret.size() == num) {
+                    return ret.toArray(new Card[ret.size()]);
+                }
+            }
+            while (cardArray.contains(Cards.faithfulHound)) {
+                ret.add(Cards.faithfulHound);
+                cardArray.remove(Cards.faithfulHound);
                 if (ret.size() == num) {
                     return ret.toArray(new Card[ret.size()]);
                 }
@@ -1169,8 +1193,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         //Only discard two cards if they aren't worth more money than 2 coins.
         int numCoins = 0;
-        numCoins += context.getActionsLeft() > 0 && cards[0].is(Type.Action) || cards[0].is(Type.Treasure) ? cards[0].getAddGold() : 0;
-        numCoins += context.getActionsLeft() > 0 && cards[1].is(Type.Action) || cards[1].is(Type.Treasure) ? cards[1].getAddGold() : 0;
+        numCoins += context.getActionsLeft() > 0 && cards[0].is(Type.Action) || cards[0].is(Type.Treasure) || cards[0].is(Type.Night) ? cards[0].getAddGold() : 0;
+        numCoins += context.getActionsLeft() > 0 && cards[1].is(Type.Action) || cards[1].is(Type.Treasure) || cards[1].is(Type.Night) ? cards[1].getAddGold() : 0;
 
         return numCoins < 2 ? cards : null;
     }
@@ -1702,7 +1726,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public boolean royalSealTravellingFair_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card) {
+    public boolean royalSealTravellingFairTracker_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card) {
         if(isOnlyVictory(card, context.getPlayer())) {
             return false;
         }
@@ -2973,6 +2997,27 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public boolean avanto_shouldPlaySauna(MoveContext context) {
     	return true;
     }
+    
+    @Override
+    public Card dismantle_cardToTrash(MoveContext context) {
+    	CardList hand = context.getPlayer().getHand();
+    	//favor golds for trashing, then estates
+    	Card card = pickOutCard(hand, new Card[]{Cards.gold, Cards.estate});
+    	if (card != null) 
+            return card;
+    	    	
+    	if (card == null) {
+        	card = lowestCard(context, hand, false);
+        }
+    	return card;
+    }
+    
+    @Override
+    public Card dismantle_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	if (maxCost < 0)
+            return null;
+        return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, false, false, true, true, null);
+    }
 
 	@Override
 	public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array) {
@@ -3860,7 +3905,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	if (context.getPlayer().getPlayedByPrince().contains(traveller)) {
     		return false;
     	}
-    	if (exchange.equals(Cards.champion) && context.game.countChampionsInPlay(context.getPlayer()) > 0) {
+    	if (exchange.equals(Cards.champion) && context.getPlayer().championEffects > 0) {
     		return false;
     	}
 		return true;
@@ -3922,22 +3967,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card[] pilgrimage_cardsToGain(MoveContext context) {
     	HashSet<Card> cardsToMatch = new HashSet<Card>();
-    	for(int i = 0; i < 2; i++) {
-    		for(Card card : (i==0 ? context.getPlayer().playedCards : context.getPlayer().nextTurnCards)) {
-    			if(Cards.isSupplyCard(card) && context.isCardOnTop(card)) {
-    				boolean good = true;
-    				for(Card trash : getTrashCards()) {
-    					if(card.equals(trash)) {
-    						good = false;
-    						break;
-    					}
-    				}
-    				if(good) {
-    					cardsToMatch.add(card);
-    				}
-    			}
-    		}
-    	}
+		for(Card card : context.getPlayer().playedCards) {
+			if(Cards.isSupplyCard(card) && context.isCardOnTop(card)) {
+				boolean good = true;
+				for(Card trash : getTrashCards()) {
+					if(card.equals(trash)) {
+						good = false;
+						break;
+					}
+				}
+				if(good) {
+					cardsToMatch.add(card);
+				}
+			}
+		}
     	ArrayList<Card> sorted = new ArrayList<Card>();
     	sorted.addAll(cardsToMatch);
     	Collections.sort(sorted, new Util.CardCostComparatorDesc());
@@ -4402,5 +4445,555 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		return WildHuntOption.GainEstateAndTokens;
     	}
     	return WildHuntOption.Draw3AndPlaceToken;
+    }
+    
+    @Override
+    public Card[] bat_cardsToTrash(MoveContext context) {
+    	return pickOutCards(context.getPlayer().getHand(), 2, getTrashCards());
+    }
+    
+    @Override
+    public boolean blessedVillage_shouldReceiveNow(MoveContext context, Card boon) {
+    	//TODO: this logic could be much better
+    	if (context.phase == TurnPhase.Action) {
+    		return true;
+    	} else {
+    		if (boon.equals(Cards.theEarthsGift) ||
+    				boon.equals(Cards.theFieldsGift) ||
+    				boon.equals(Cards.theForestsGift) ||
+    				boon.equals(Cards.theMoonsGift) ||
+    				boon.equals(Cards.theSeasGift) ||
+    				boon.equals(Cards.theWindsGift)
+    				)
+    			return true;
+    		if (boon.equals(Cards.theFlamesGift)) {
+    			for(Card card : getTrashCards()) {
+    				if (context.player.hand.contains(card));
+    				return true;
+    			}
+    			return false;
+    		}
+    		return false;
+    	}
+    }
+    
+    @Override
+    public Card[] cemetery_cardsToTrash(MoveContext context) {
+    	return pickOutCards(context.getPlayer().getHand(), 4, getTrashCards());
+    }
+    
+    @Override
+    public Card changeling_cardToGain(MoveContext context, Card[] cards) {
+    	HashSet<Card> cardsToMatch = new HashSet<Card>();
+		for(Card card : cards) {
+			boolean good = true;
+			for(Card trash : getTrashCards()) {
+				if(card.equals(trash)) {
+					good = false;
+					break;
+				}
+			}
+			if(good) {
+				cardsToMatch.add(card);
+			}
+		}
+    	ArrayList<Card> sorted = new ArrayList<Card>();
+    	sorted.addAll(cardsToMatch);
+    	Collections.sort(sorted, new Util.CardCostComparatorDesc());
+    	return sorted.get(0);
+    }
+    
+    @Override
+    public boolean changeling_shouldExchange(MoveContext context, Card card) {
+    	if (card.is(Type.Victory, context.player) || wantPlayableCardCopy(context, card)) return false;
+    	
+    	HashSet<Card> cardsWeWantCopiesOf = new HashSet<Card>();
+    	HashSet<Card> cardsWeDontWantCopiesOf = new HashSet<Card>();
+    	int numberWanted = 0;
+    	int numberNotWanted = 0;
+    	for(Card c : context.player.deck) {
+    		if (wantPlayableCardCopy(context, c) && context.isCardOnTop(c)) {
+    			cardsWeWantCopiesOf.add(c);
+    			numberWanted++;
+    		} else { 
+    			cardsWeDontWantCopiesOf.add(c);
+    			numberNotWanted++;
+    		}
+    	}
+    	for(Card c : context.player.discard) {
+    		if (wantPlayableCardCopy(context, c) && context.isCardOnTop(c)) {
+    			cardsWeWantCopiesOf.add(c);
+    			numberWanted++;
+    		} else { 
+    			cardsWeDontWantCopiesOf.add(c);
+    			numberNotWanted++;
+    		}
+    	}
+    	for(Card c : context.player.hand) {
+    		if (wantPlayableCardCopy(context, c) && context.isCardOnTop(c)) {
+    			cardsWeWantCopiesOf.add(c);
+    			numberWanted++;
+    		} else { 
+    			cardsWeDontWantCopiesOf.add(c);
+    			numberNotWanted++;
+    		}
+    	}
+    	for(Card c : context.player.playedCards) {
+    		if (wantPlayableCardCopy(context, c) && context.isCardOnTop(c)) {
+    			cardsWeWantCopiesOf.add(c);
+    			numberWanted++;
+    		} else { 
+    			cardsWeDontWantCopiesOf.add(c);
+    			numberNotWanted++;
+    		}
+    	}
+    	//TODO: better figure out chances of being able to play a card we want and have Changeling in hand
+    	boolean cardsShouldLineUp = numberWanted > ((numberWanted + numberNotWanted) / 5);
+    	return cardsShouldLineUp;
+    }
+    
+    private boolean wantPlayableCardCopy(MoveContext context, Card c) {
+    	boolean isPlayable = c.is(Type.Action, context.player) || c.is(Type.Treasure, context.player) || c.is(Type.Night, context.player);
+    	boolean costHigh = c.getCost(null) > 5 || c.getDebtCost(null) > 5 || c.costPotion();
+    	return isPlayable && costHigh;
+    }
+    
+    @Override
+    public Card cobbler_cardToObtain(MoveContext context) {
+    	//TODO: get something that will better complement the current hand
+    	return bestCardInPlay(context, 4, true);
+    }
+    
+    @Override
+    public Card conclave_cardToPlay(MoveContext context) {
+    	return imp_cardToPlay(context);
+    }
+    
+    @Override
+    public Card[] crypt_cardsToSetAside(MoveContext context) {
+    	Player player = context.player;
+    	ArrayList<Card> toCrypt = new ArrayList<Card>();
+    	ArrayList<Card> inPlay = new ArrayList<Card>();
+        for(Card c : player.playedCards) if (c.is(Type.Treasure)) inPlay.add(c);
+        
+        toCrypt.add(highestCard(context, inPlay));
+        //TODO: may want to add multiple high cost cards if we're not going to shuffle for a while
+        
+        for (Card c : inPlay) {
+        	if (c.getAddGold() == 1 && c.getCost(context) < 4 && !c.equals(Cards.coinOfTheRealm)) {
+        		toCrypt.add(c);
+        	}
+        }
+        return toCrypt.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card crypt_cardIntoHand(MoveContext context, Card[] cards) {
+    	ArrayList<Card> cardList = new ArrayList<Card>();
+    	for(Card c : cards) cardList.add(c);
+    	return highestCard(context, cardList);
+    }
+    
+    @Override
+    public Card devilsWorkshop_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
+    }
+    
+    @Override
+    public Card druid_pickBoon(MoveContext context) {
+    	// TODO better logic for selecting appropriate boon
+    	return context.game.druidBoons.get(0);
+    }
+    
+    @Override
+    public Card exorcist_cardToTrash(MoveContext context) {
+    	//TODO: trash better cards to get the spirits - how to we determine which cards we need less than the spirits?
+    	Card card = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (card != null) 
+            return card;
+        //TODO: trash cards that cost the closest to the spirit we want to obtain
+        return context.getPlayer().getHand().get(0);
+    }
+    
+    @Override
+    public Card exorcist_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	int impCost = Cards.imp.getCost(context);
+    	boolean hasImp = context.game.getCardsLeftInPile(Cards.imp) > 0;
+    	int ghostCost = Cards.ghost.getCost(context);
+    	boolean hasGhost = context.game.getCardsLeftInPile(Cards.ghost) > 0;
+    	int willOWispCost = Cards.willOWisp.getCost(context);
+    	boolean hasWillOWisp = context.game.getCardsLeftInPile(Cards.willOWisp) > 0;
+    	if (hasGhost && maxCost > ghostCost) {
+    		return Cards.ghost;
+    	}
+    	if (hasImp && maxCost > impCost) {
+    		return Cards.imp; //TODO: need to determine when have too many imps and should prefer will-o'-wisp 
+    	}
+    	if (hasWillOWisp && maxCost > willOWispCost) {
+    		return Cards.willOWisp;
+    	}
+    	
+        return null;
+    }
+    
+    @Override
+    public boolean faithfulHound_shouldSetAside(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
+    public Card fear_cardToDiscard(MoveContext context) {
+    	ArrayList<Card> validCards = new ArrayList<Card>();
+		for (Card card : context.player.hand) {
+			if (card.is(Type.Action, context.player) || card.is(Type.Treasure, context.player)) {
+				validCards.add(card);
+			}
+		}
+		Card[] cards = lowestCards(context, validCards, 1, true);
+		return (cards != null && cards.length > 0) ? cards[0] : validCards.get(0);
+    }
+    
+    @Override
+    public Card fool_boonToReceive(MoveContext context, Card[] boons) {
+    	//TODO: better logic here?
+    	return boons[0];
+    }
+    
+    @Override
+    public Card goat_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+    
+    @Override
+    public Card hauntedMirror_cardToDiscard(MoveContext context) {
+    	ArrayList<Card> handCards = context.getPlayer().getActionsInHand(context.getPlayer());
+        Collections.sort(handCards, new CardCostComparator());
+    	for (Card c : handCards) {
+    		if (!c.is(Type.Treasure, context.getPlayer())) {
+    			return c;
+    		}
+    	}
+    	return null;
+    }
+    
+    @Override
+    public Card haunting_cardToPutBackOnDeck(MoveContext context) {
+    	return context.player.getHand().get(0);
+    }
+    
+    @Override
+    public Card imp_cardToPlay(MoveContext context) {
+    	ArrayList<Card> validCards = new ArrayList<Card>();
+		for (Card c : context.player.hand) {
+			if (c.is(Type.Action, context.player)) {
+				if (!context.player.hasCopyInPlay(c)) {
+					validCards.add(c);
+				};
+			}
+		}
+    	for (Card c : validCards) {
+            if(c.is(Type.Action, context.getPlayer())) {
+                return c;
+            }
+        }
+        
+        return null;
+    }
+    
+    @Override
+    public Card locusts_cardToObtain(MoveContext context, int cost, int debt, boolean potion, Type[] types) {
+    	int potionCost = potion ? 1 : 0;
+    	ArrayList<Card> validCards = new ArrayList<Card>();
+        for (Card card : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+            int gainCardCost = card.getCost(context);
+            int gainCardPotionCost = card.costPotion() ? 1 : 0;
+            int gainCardDebt = card.getDebtCost(context);
+            
+            boolean sharesType = false;
+            outerType:
+            for (Type t : card.getTypes()) {
+            	for (Type curType : types) {
+            		if (t == curType) {
+            			sharesType = true;
+            			break outerType;
+            		}
+            	}
+            }
+            if (!sharesType)
+            	continue;
+
+            if ((gainCardCost < cost || gainCardDebt < debt || gainCardPotionCost < potionCost) && 
+            		(gainCardCost <= cost && gainCardDebt <= debt && gainCardPotionCost <= potionCost)) {
+                validCards.add(card);
+            }
+        }
+        
+        return highestCard(context, validCards);
+    }
+    
+    @Override
+    public Card lostInTheWoods_cardToDiscard(MoveContext context) {
+    	int idx = context.player.hand.indexOf(Cards.fool);
+    	if (idx > 0) {
+    		return context.player.hand.get(idx);
+    	}
+    	
+    	//TODO: would be better if we only discard something we don't need for buying what we want 
+    	//      or something that we can't trash or something we can't play
+    	Card[] cards = pickOutCards(context.getPlayer().getHand(), 1, getTrashCards());
+    	if (cards != null && cards.length > 0)
+    		return cards[0];
+    	return null;
+    }
+    
+    @Override
+    public Card monastery_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+    
+    @Override
+    public boolean monastery_shouldTrashCopperFromPlay(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
+    public MonasteryOption monastery_chooseOption(MoveContext context) {
+    	Card handTrash = pickOutCard(context.getPlayer().getHand(), EARLY_TRASH_CARDS);
+    	if (handTrash != null) return MonasteryOption.TrashFromHand;
+    	return MonasteryOption.TrashCopperFromPlay;
+    	// TODO: When will we want to hang on to the Copper?
+    }
+    
+    @Override
+    public Card necromancer_cardToPlay(MoveContext context, Card[] cards) {
+    	boolean hasActionInHand = false;
+    	for (Card card : context.player.hand) {
+    		if (card.is(Type.Action)) {
+    			hasActionInHand = true;
+    		}
+    	}
+    	//favor zombie apprentice and then +action cards other than zombie spy if we don't have actions left
+    	if (hasActionInHand) {
+    		for (Card card : cards) {
+        		if (card.equals(Cards.zombieApprentice)) {
+        			return card;
+        		}
+        		if (!card.equals(Cards.zombieSpy) && card.getAddActions() > 0 && context.getActionsLeft() == 0) {
+        			return card;
+        		}
+        	}
+        	//play zombie spy if we don't have actions left
+        	if (context.getActionsLeft() == 0) {
+    	    	for (Card card : cards) {
+    	    		if (card.equals(Cards.zombieSpy)) {
+    	    			return card;
+    	    		}
+    	    	}
+        	}
+    	}
+    	//otherwise favor highest cost action
+    	ArrayList<Card> cardsList = new ArrayList<Card>();
+    	for (Card card : cards) cardsList.add(card);
+    	return highestCard(context, cardsList);
+    }
+    
+    @Override
+    public Card[] nightWatchman_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards) {
+    	return cartographer_cardsFromTopOfDeckToDiscard(context, cards);
+    }
+    
+    @Override
+    public Card[] nightWatchman_cardOrder(MoveContext context, Card[] cards) {
+    	return cards;
+    }
+    
+    @Override
+    public boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible) {
+    	//TODO: better logic
+    	return true;
+    }
+    
+    @Override
+    public Card pooka_treasureToTrash(MoveContext context) {
+    	for (Card card : context.getPlayer().getHand()) {
+            for(Card trash : getTrashCards()) {
+                if(trash.equals(card) && (card.is(Type.Treasure, this) && !card.equals(Cards.cursedGold))) {
+                    return card;
+                }
+            }
+        }
+
+        return null;
+    }
+    
+    @Override
+    public Card[] poverty_attack_cardsToKeep(MoveContext context) {
+    	return militia_attack_cardsToKeep(context);
+    }
+    
+    @Override
+    public Card raider_cardToDiscard(MoveContext context, Card[] cards) {
+    	ArrayList<Card> cardList = new ArrayList<Card>();
+    	for(Card c : cards) {
+    		cardList.add(c);
+    	}
+    	Card[] lowCards = lowestCards(context, cardList, 1, true);
+    	return (lowCards.length > 0) ? lowCards[0] : null;
+    }
+    
+    @Override
+    public boolean sacredGrove_shouldReceiveBoon(MoveContext context, Card boon) {
+    	// TODO better logic
+    	return true;
+    }
+    
+    @Override
+    public Card[] secretCave_cardsToDiscard(MoveContext context) {
+    	Card[] cards = lowestCards(context, context.player.getHand(), 3, true);
+        if (cards.length != 3) return null;
+
+        //Only discard the cards if
+        // -we can buy a gold without them
+        // -our total money with them them less than 5
+        int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
+        
+        int discardCoins = 0;
+        for (Card c : cards) {
+        	discardCoins += context.getActionsLeft() > 0 && c.is(Type.Action) || c.is(Type.Treasure) || c.is(Type.Night) ? c.getAddGold() : 0;
+        }
+        int handCoins = 0;
+        for (Card c : context.player.getHand()) {
+        	handCoins += context.getActionsLeft() > 0 && c.is(Type.Action) || c.is(Type.Treasure) || c.is(Type.Night) ? c.getAddGold() : 0;
+        }
+        
+        int buyCoins = context.getCoins() + handCoins;
+        
+        boolean canBuyGoldWithout = buyCoins - discardCoins >= goldCost;
+        
+        return canBuyGoldWithout || handCoins < 5 ? cards : null;
+    }
+    
+    @Override
+    public Card theEarthsGift_treasureToDiscard(MoveContext context) {
+    	//TODO: if total expected treasure this turn is going to be exactly 5,6, or >8, don't discard
+    	return plaza_treasureToDiscard(context);
+    }
+    
+    @Override
+    public Card theEarthsGift_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
+    }
+    
+    @Override
+    public Card theFlamesGift_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+    
+    @Override
+    public Card theMoonsGift_cardToPutBackOnDeck(MoveContext context) {
+    	return harbinger_cardToPutBackOnDeck(context);
+    }
+    
+    @Override
+    public Card[] theSkysGift_cardsToDiscard(MoveContext context) {
+    	Card[] cards = lowestCards(context, context.player.getHand(), 3, true);
+        if (cards.length != 3) return null;
+
+        //Only discard two cards if they aren't worth more money than the cost of a Gold or we only have one buy.
+        int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
+        int provinceCost = Cards.province.getCost(context, context.phase == TurnPhase.Buy);
+        int discardCoins = 0;
+        for (Card c : cards) {
+        	discardCoins += context.getActionsLeft() > 0 && c.is(Type.Action) || c.is(Type.Treasure) || c.is(Type.Night) ? c.getAddGold() : 0;
+        }
+        int handCoins = 0;
+        for (Card c : context.player.getHand()) {
+        	discardCoins += context.getActionsLeft() > 0 && c.is(Type.Action) || c.is(Type.Treasure) || c.is(Type.Night) ? c.getAddGold() : 0;
+        }
+        
+        int buyCoins = context.getCoins() + handCoins;
+        
+        boolean canBuyProvinceWithout = buyCoins - discardCoins >= provinceCost;
+        
+        return canBuyProvinceWithout || discardCoins < goldCost ? cards : null;
+    }
+    
+    @Override
+    public Card[] theSunsGift_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards) {
+    	return cartographer_cardsFromTopOfDeckToDiscard(context, cards);
+    }
+    
+    @Override
+    public Card[] theSunsGift_cardOrder(MoveContext context, Card[] cards) {
+    	return cards;
+    }
+    
+    @Override
+    public Card tragicHero_treasureToObtain(MoveContext context) {
+    	Card newCard = null;
+        float highestUtility = -1;
+        float potionUtility = 2.5f;
+        for (Card card : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
+        	float utility = card.getCost(context) + (card.costPotion() ? potionUtility : 0);
+            if (Cards.isSupplyCard(card) 
+            		&& context.isCardOnTop(card)
+            		&& utility >= highestUtility) {
+                newCard = card;
+                highestUtility = utility;
+            }
+        }
+        return newCard;
+    }
+    
+    @Override
+    public Card[] shepherd_cardsToDiscard(MoveContext context) {
+    	List<Card> result = new ArrayList<Card>();
+    	Player p = context.getPlayer();
+    	for (Card c : p.getHand()) {
+    		if (c.is(Type.Victory, p)) {
+    			result.add(c);
+    		}
+    	}
+    	return result.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card vampire_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 5, false, 0, false, false, true, false, true, Cards.vampire);
+    }
+    
+    @Override
+    public Card wish_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 6, true);
+    }
+    
+    @Override
+    public Card zombieApprentice_cardToTrash(MoveContext context) {
+    	ArrayList<Card> actions = new ArrayList<Card>();
+    	for (Card c : context.player.hand) {
+			if (c.is(Type.Action, context.player)) {
+				actions.add(c);
+			}
+		}
+    	Card[] result = lowestCards(context, actions, 1, false);
+    	return result.length > 0 ? result[0] : null;
+    }
+    
+    @Override
+    public Card zombieMason_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, false);
+    }
+    
+    @Override
+    public boolean zombieSpy_shouldDiscard(MoveContext context, Card card) {
+        if (isOnlyVictory(card, context.player)
+            || card.equals(Cards.copper)
+            || card.equals(Cards.curse)
+            || card.is(Type.Shelter, context.player)
+            || card.is(Type.Ruins, context.player))
+            return true;
+        else {
+            return false;
+        }
     }
 }

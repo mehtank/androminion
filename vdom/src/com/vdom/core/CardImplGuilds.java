@@ -17,7 +17,7 @@ public class CardImplGuilds extends CardImpl {
 	protected CardImplGuilds() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch (getKind()) {
 		case Advisor:
             advisor(game, context, currentPlayer);
@@ -135,8 +135,7 @@ public class CardImplGuilds extends CardImpl {
             Card card = currentPlayer.controlPlayer.butcher_cardToTrash(context);
 
             if (card != null) {
-                currentPlayer.hand.remove(card);
-                currentPlayer.trash(card, this.getControlCard(), context);
+                currentPlayer.trashFromHand(card, this.getControlCard(), context);
 
                 int value = card.getCost(context);
                 int debt = card.getDebtCost(context);
@@ -363,8 +362,7 @@ public class CardImplGuilds extends CardImpl {
             Card card = currentPlayer.controlPlayer.stonemason_cardToTrash(context);
 
             if (card != null) {
-                currentPlayer.hand.remove(card);
-                currentPlayer.trash(card, this.getControlCard(), context);
+                currentPlayer.trashFromHand(card, this.getControlCard(), context);
 
                 int value = card.getCost(context);
                 int debt = card.getDebtCost(context);
@@ -408,8 +406,7 @@ public class CardImplGuilds extends CardImpl {
             Card card = currentPlayer.controlPlayer.taxman_treasureToTrash(context);
 
             if (card != null && card.is(Type.Treasure, currentPlayer)) {
-                currentPlayer.hand.remove(card);
-                currentPlayer.trash(card, this.getControlCard(), context);
+                currentPlayer.trashFromHand(card, this.getControlCard(), context);
 
                 for (Player player : game.getPlayersInTurnOrder()) {
                     if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {

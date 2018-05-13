@@ -305,7 +305,7 @@
 
   <string name="game_over_vps"> 勝利点</string>
 
-  <string name="Cartographer_query">捨て札にするカードを選択</string>
+  <string name="Cartographer_query">捨て札にするカードを選択  [%1$s]</string>
   <string name="cards">カード</string>
   <string name="return_cards">山札にカードを戻す:</string>
   <string name="take_normal">通常通り獲得</string>

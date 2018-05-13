@@ -15,6 +15,7 @@ public class CardPile  {
 
 	protected boolean allCardsVisible = true;
 	protected boolean isSupply = true;
+	protected boolean isRealPile = true;
 
 	protected boolean isBlackMarket = false;
 	protected boolean tradeRouteToken = false;
@@ -105,6 +106,11 @@ public class CardPile  {
 		this.isBlackMarket = true;
 		return this;
 	}
+	
+	public CardPile notRealPile() {
+		this.isRealPile = false;
+		return this;
+	}
 
 	public boolean isSupply() {
 		return this.isSupply;
@@ -112,6 +118,10 @@ public class CardPile  {
 
 	public boolean isBlackMarket() {
 		return this.isBlackMarket;
+	}
+	
+	public boolean isRealPile() {
+		return isRealPile;
 	}
 
 	public void setTradeRouteToken() {

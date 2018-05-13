@@ -24,6 +24,8 @@ public interface Card extends Serializable {
     public boolean is(Type t, Player player);
     public boolean is(Type t);
     public int getNumberOfTypes(Player player);
+    public Type[] getTypes();
+    public Type[] getTypes(Player player);
 
     public String getStats();
 
@@ -86,13 +88,17 @@ public interface Card extends Serializable {
 	public void callWhenActionResolved(MoveContext context, Card resolvedAction);
     
 	public void callAtStartOfTurn(MoveContext context);
+	
+	public Card getHeirloom();
     
     public void play(Game game, MoveContext context);
     
     public void play(Game game, MoveContext context, boolean fromHand);
     
-    public void play(Game game, MoveContext context, boolean fromHand, boolean treasurePlay);
+    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay);
     
+    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay, boolean dontMove, boolean effectsOnly, boolean isThronedEffect);
+        
     public Integer getId();
     
     public void isBuying(MoveContext context);
@@ -103,7 +109,7 @@ public interface Card extends Serializable {
     public boolean isImpersonatingAnotherCard();
     public Card behaveAsCard();
     public CardImpl getControlCard();
-
+    
     public boolean isTemplateCard();
     public CardImpl getTemplateCard();
 

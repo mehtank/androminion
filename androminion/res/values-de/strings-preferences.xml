@@ -93,8 +93,12 @@
 			<string name="erratamine_pref_summary">Entsorgen ist optional</string>
 			<string name="erratamoneylender_pref_title">Geldverleiher</string>
 			<string name="erratamoneylender_pref_summary">Entsorgen ist optional</string>
-			<string name="errataposessiontokens_pref_title">Besessenheit</string>
-			<string name="errataposessiontokens_pref_summary">Der Spieler, der die Besessenheit gespielt hat, erhält die Marken</string>
+			<string name="pref_errata_possessor_tokens_pref_title">Possession turn tokens</string>
+			<string-array name="pref_errata_possessor_tokens">
+			    <item>Possessed player takes tokens</item>
+				<item>Possessing player takes tokens (from Empires)</item>
+				<item>Possessing player takes debt tokens only (from Alchemy 2E)</item>
+			</string-array>
 			<string name="erratathroneroom_pref_title">Thronsaal</string>
 			<string name="erratathroneroom_pref_summary">Ausspielen ist optional</string>
 			<string name="erratashuffling_pref_title">Mischen</string>

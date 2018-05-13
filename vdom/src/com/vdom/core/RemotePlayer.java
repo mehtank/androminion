@@ -46,6 +46,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private ArrayList<Card> cardsInPlay = new ArrayList<Card>();
     private ArrayList<Player> allPlayers = new ArrayList<Player>();
     private MyCard[] myCardsInPlay;
+    private List<Card> druidBoons;
 
     private ArrayList<Card> playedCards = new ArrayList<Card>();
     private ArrayList<Boolean> playedCardsNew = new ArrayList<Boolean>();
@@ -108,17 +109,26 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.costPotion = c.costPotion();
         card.isBane = isBane;
         card.isObeliskCard = isObeliskCard;
-        card.isShelter = c.is(Type.Shelter, null);
-        card.isLooter = c.is(Type.Looter, null);
+        card.isShelter = c.is(Type.Shelter);
+        card.isLooter = c.is(Type.Looter);
         card.isOverpay = c.isOverpay(null);
-        card.isEvent = c.is(Type.Event, null);
-        card.isReserve = c.is(Type.Reserve, null);
-        card.isTraveller = c.is(Type.Traveller, null);
-        card.isKnight = c.is(Type.Knight, null);
-        card.isCastle = c.is(Type.Castle, null);
-        card.isGathering = c.is(Type.Gathering, null);
-        card.isLandmark = c.is(Type.Landmark, null);
-        card.isAttack = c.is(Type.Attack, null) || c.equals(Cards.virtualKnight);
+        card.isEvent = c.is(Type.Event);
+        card.isReserve = c.is(Type.Reserve);
+        card.isTraveller = c.is(Type.Traveller);
+        card.isKnight = c.is(Type.Knight);
+        card.isCastle = c.is(Type.Castle);
+        card.isGathering = c.is(Type.Gathering);
+        card.isBoon = c.is(Type.Boon);
+        card.isDoom = c.is(Type.Doom);
+        card.isFate = c.is(Type.Fate);
+        card.isHeirloom = c.is(Type.Heirloom);
+        card.isHex = c.is(Type.Hex);
+        card.isNight = c.is(Type.Night);
+        card.isSpirit = c.is(Type.Spirit);
+        card.isState = c.is(Type.State);
+        card.isZombie = c.is(Type.Zombie);
+        card.isLandmark = c.is(Type.Landmark);
+        card.isAttack = c.is(Type.Attack) || c.equals(Cards.virtualKnight);
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;
         else
@@ -147,6 +157,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             || c.equals(Cards.warrior)
             || c.equals(Cards.hero)
             || c.equals(Cards.champion)
+            || c.equals(Cards.bat)
+            || c.equals(Cards.ghost)
+            || c.equals(Cards.imp)
+            || c.equals(Cards.willOWisp)
+            || c.equals(Cards.wish)
+            
            )
         {
             card.pile = MyCard.NON_SUPPLY_PILE;
@@ -157,6 +173,20 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             c.equals(Cards.hovel))
         {
             card.pile = MyCard.SHELTER_PILES;
+        }
+        
+        if (c.is(Type.Zombie)) {
+            card.pile = MyCard.ZOMBIE_PILES;
+        }
+        
+        if (c.equals(Cards.cursedGold) ||
+        	c.equals(Cards.goat) ||
+    		c.equals(Cards.hauntedMirror) ||
+    		c.equals(Cards.luckyCoin) ||
+    		c.equals(Cards.magicLamp) ||
+    		c.equals(Cards.pasture) ||
+    		c.equals(Cards.pouch)) {
+        	card.pile = MyCard.HEIRLOOM_PILES;
         }
 
         if ((c.equals(Cards.copper)) ||
@@ -187,9 +217,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
         if (c.is(Type.Action, null)) {
             card.isAction = true;
-            if (c.is(Type.Duration, null)) {
-                card.isDuration = true;
-            }
+        }
+        if (c.is(Type.Duration, null)) {
+            card.isDuration = true;
         }
         if (c.is(Type.Reaction, null))
             card.isReaction = true;
@@ -296,6 +326,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             index++;
         }
         myCardsInPlay = myCardsInPlayList.toArray(new MyCard[0]);
+        if (context.game.druidBoons.size() > 0) {
+        	druidBoons = context.game.druidBoons;
+        }
     }
 
     public Event fullStatusPacket(MoveContext context, Player player, boolean isFinal) {
@@ -357,6 +390,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         JourneyTokenState journeyToken[] = new JourneyTokenState[numPlayers];
         boolean minusOneCoinTokenOn[] = new boolean[numPlayers];
         boolean minusOneCardTokenOn[] = new boolean[numPlayers];
+        boolean hasDeluded[] = new boolean[numPlayers];
+        boolean hasEnvious[] = new boolean[numPlayers];
+        boolean hasLostInTheWoods[] = new boolean[numPlayers];
+        boolean hasMiserable[] = new boolean[numPlayers];
+        boolean hasTwiceMiserable[] = new boolean[numPlayers];
         String realNames[] = new String[numPlayers];
 
         for (int i=0; i<numPlayers; i++) {
@@ -379,6 +417,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             journeyToken[i] = context.game.journeyTokenInPlay ? (p.getJourneyToken() ? JourneyTokenState.FACE_UP : JourneyTokenState.FACE_DOWN) : null;
             minusOneCoinTokenOn[i] = p.getMinusOneCoinToken();
             minusOneCardTokenOn[i] = p.getMinusOneCardToken();
+            hasDeluded[i] = context.game.hasState(p, Cards.deluded);
+            hasEnvious[i] = context.game.hasState(p, Cards.envious);
+            hasLostInTheWoods[i] = context.game.hasState(p, Cards.lostInTheWoods);
+            hasMiserable[i] = context.game.hasState(p, Cards.miserable);
+            hasTwiceMiserable[i] = context.game.hasState(p, Cards.twiceMiserable);
             realNames[i] = p.getPlayerName(false);
         }
         
@@ -443,6 +486,13 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setSwampHagAttacks(game.swampHagAttacks(player))
                 .setHauntedWoodsAttacks(game.hauntedWoodsAttacks(player))
                 .setEnchantressAttacks(!context.enchantressAlreadyAffected && game.enchantressAttacks(player))
+                .setHasDeluded(hasDeluded)
+                .setHasEnvious(hasEnvious)
+                .setHasLostInTheWoods(hasLostInTheWoods)
+                .setHasMiserable(hasMiserable)
+                .setHasTwiceMiserable(hasTwiceMiserable)
+                .setDeluded(!context.canBuyActions)
+                .setEnvious(context.envious)
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
                 .setTavern(cardArrToIntArr(player.getTavern().sort(new Util.CardTavernComparator())))
@@ -450,7 +500,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
                 .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)
                 .setInheritance(player.inheritance == null ? -1 : cardToInt(player.inheritance))
-                .setArchive(getArchiveColumnCardInts(player.archive))
+                .setArchive(getSetAsideColumnCardInts(player.archive, Cards.archive))
+                .setCrypt(getSetAsideColumnCardInts(player.crypt, Cards.crypt))
                 .setBlackMarket(arrayListToIntArr(player.game.GetBlackMarketPile()))
                 .setTrash(arrayListToIntArr(player.game.GetTrashPile()));
 
@@ -492,15 +543,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     			inPlayCounts.put(c, inPlayCounts.get(c)+1);
     		}
     	}
-    	for (Card c : context.player.nextTurnCards) {
-    		if (((CardImpl)c).trashAfterPlay)
-    			continue;
-			if (!inPlayCounts.containsKey(c)) {
-    			inPlayCounts.put(c, 1);
-    		} else {
-    			inPlayCounts.put(c, inPlayCounts.get(c)+1);
-    		}
-    	}
     	Map<Card, Integer> playedCounts = new HashMap<Card, Integer>();
     	for (int i = 0; i < played.size(); ++i) {
     		if (!playedReal.get(i))
@@ -527,11 +569,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     	}
 	}
 	
-    private int[] getArchiveColumnCardInts(ArrayList<ArrayList<Card>> archives) {
+    private int[] getSetAsideColumnCardInts(ArrayList<ArrayList<Card>> setAsideLists, Card containerCard) {
     	ArrayList<Integer> cardInts = new ArrayList<Integer>(); 
-		for(ArrayList<Card> archive : archives) {
-			cardInts.add(-cardToInt(Cards.archive));
-			for(Card c : archive) {
+		for(ArrayList<Card> setAsideList : setAsideLists) {
+			cardInts.add(-cardToInt(containerCard));
+			for(Card c : setAsideList) {
 				cardInts.add(cardToInt(c));
 			}
 		}
@@ -704,7 +746,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             extras.add(islandSize);
             int nativeVillageSize = event.player.nativeVillage.size();
             extras.add(nativeVillageSize);
-        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingCard || event.getType() == EventType.PlayingDurationAction || event.getType() == EventType.CallingCard) {
+        } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingCard || 
+        		event.getType() == EventType.PlayingDurationAction || 
+        		event.getType() == EventType.CallingCard || 
+        		event.getType() == EventType.CardInPlay) {
             playedCards.add(event.getCard());
             playedCardsNew.add(event.newCard);
         } else if (event.getType() == EventType.GameOver) {
@@ -739,7 +784,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         		event.getType() == EventType.VPTokensTakenFromPile ||
         		event.getType() == EventType.MountainPassBid) {
         	extras.add(event.getAmount());
-        } else if (event.getType() == EventType.TravellerExchanged) {
+        } else if (event.getType() == EventType.TravellerExchanged || 
+        		event.getType() == EventType.CardSetAside || 
+        		event.getType() == EventType.CardSetAsidePrivate) {
             extras.add(event.responsible);
         } else if (event.getType() == EventType.MountainPassWinner) {
         	extras.add(event.getAmount());
@@ -903,9 +950,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
             if(context != null && context.getPlayer() == this) {
                 int tacticians = 0;
-                for (int i = 0; i < context.player.nextTurnCards.size(); i++)
+                for (int i = 0; i < context.player.startTurnDurationEffects.size(); i++)
                 {
-                    if (context.player.nextTurnCards.get(i).equals(Cards.tactician))
+                    if (context.player.startTurnDurationEffects.get(i).effect.equals(Cards.tactician))
                         tacticians++;
                 }
                 if (tacticians >= 2)
@@ -1011,11 +1058,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
     @Override
     public boolean handle(Event e) {
-        if (e.t == EType.CARDRANKING) {
-            /*TODO frr*/
-            //Goal: Sort cards by names in foreign language
-            //MyCard[] cardranking = e.o.ng.cards;
-        }
+//        if (e.t == EType.CARDRANKING) {
+//            /*TODO frr*/
+//            //Goal: Sort cards by names in foreign language
+//            //MyCard[] cardranking = e.o.ng.cards;
+//        }
         if (e.t == EType.HELLO) {
             name = (e.s == "" ? "Remote player" : e.s);
             debug("Name set: " + name);
@@ -1024,7 +1071,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 players[allPlayers.indexOf(p)] = p.getPlayerName();
 
             //	try {
-            comm.put_ts(new Event(EType.NEWGAME).setObject(new EventObject(new NewGame(myCardsInPlay, players))));
+            comm.put_ts(new Event(EType.NEWGAME).setObject(new EventObject(new NewGame(myCardsInPlay, players, druidBoons))));
             playerJoined();
             //	} catch (Exception e1) {
             // TODO:Because put_ts is asynchronous, this will not work the way it was intended. Is that bad?

@@ -16,5 +16,15 @@
     <string name="type_traveller">Itinérant</string>
     <string name="type_castle">Château</string>
     <string name="type_gathering">Collecte</string>
-    <string name="type_landmark">Site</string>    
+    <string name="type_landmark">Jalon</string>   
+    <string name="type_boon">Aubaine</string>
+    <string name="type_doom">Fatalité</string>
+    <string name="type_fate">Destin</string>
+    <string name="type_heirloom">Patrimoine</string>
+    <string name="type_hex">Sortilège</string>
+    <string name="type_night">Nuit</string>
+    <string name="type_spirit">Esprit</string>
+    <string name="type_state">État</string>
+    <string name="type_zombie">Zombie</string>
+    <string name="type_curse">Malédiction</string> 
 </resources>

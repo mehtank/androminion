@@ -19,10 +19,10 @@ public class CardImplAdventures extends CardImpl {
 	protected CardImplAdventures() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
 		case Amulet:
-            amulet(game, context, currentPlayer);
+            amulet(game, context, currentPlayer, isThronedEffect);
             break;
         case Artificer:
         	artificer(game, context, currentPlayer);
@@ -30,6 +30,10 @@ public class CardImplAdventures extends CardImpl {
         case BridgeTroll:
         	bridgeTroll(game, context, currentPlayer);
             break;
+        case Champion:
+        	currentPlayer.championEffects++;
+        	currentPlayer.addStartTurnDurationEffect(this, -1, isThronedEffect);
+        	break;
         case CoinOfTheRealm:
         	putOnTavern(game, context, currentPlayer);
         	break;
@@ -47,13 +51,14 @@ public class CardImplAdventures extends CardImpl {
         	putOnTavern(game, context, currentPlayer);
             break;
         case Dungeon:
+        	currentPlayer.addStartTurnDurationEffect(this, 1, isThronedEffect);
             discardMultiple(context, currentPlayer, 2);
             break;
         case Fugitive:
             fugitive(context, currentPlayer);
             break;
         case Gear:
-            gear(context, currentPlayer);
+            gear(context, currentPlayer, isThronedEffect);
             break;
         case Giant:
             giant(game, context, currentPlayer);
@@ -64,6 +69,9 @@ public class CardImplAdventures extends CardImpl {
         case Hero:
             hero(game, context, currentPlayer);
             break;
+        case Hireling:
+        	currentPlayer.addStartTurnDurationEffect(this, -1, isThronedEffect);
+        	break;
         case Magpie:
             magpie(game, context, currentPlayer);
             break;
@@ -272,8 +280,13 @@ public class CardImplAdventures extends CardImpl {
     }
 	
 	
-	private void amulet(Game game, MoveContext context, Player currentPlayer) {
-        Player.AmuletOption option = currentPlayer.controlPlayer.amulet_chooseOption(context);
+	private void amulet(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
+		currentPlayer.addStartTurnDurationEffect(this, 1, isThronedEffect);
+        amuletEffect(game, context, currentPlayer);
+    }
+	
+	public void amuletEffect(Game game, MoveContext context, Player currentPlayer) {
+		Player.AmuletOption option = currentPlayer.controlPlayer.amulet_chooseOption(context);
 
         if (option == null) {
             Util.playerError(currentPlayer, "Amulet option error, choosing +(1) Coin.");
@@ -294,10 +307,9 @@ public class CardImplAdventures extends CardImpl {
                 Util.playerError(currentPlayer, "Amulet card to trash error, trashing random card.");
                 cardToTrash = Util.randomCard(currentPlayer.getHand());
             }
-            currentPlayer.hand.remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
+            currentPlayer.trashFromHand(cardToTrash, this.getControlCard(), context);
         }
-    }
+	}
 
     private void artificer(Game game, MoveContext context, Player currentPlayer) {
     	int numberOfCards = 0;
@@ -364,7 +376,7 @@ public class CardImplAdventures extends CardImpl {
         }
     }
     
-    private void gear(MoveContext context, Player currentPlayer) {
+    private void gear(MoveContext context, Player currentPlayer, boolean isThronedEffect) {
     	boolean cardSetAside = false;
         Card[] cards = currentPlayer.getHand().size() == 0 ? null : currentPlayer.controlPlayer.gear_cardsToSetAside(context);
         if (cards != null && cards.length > 2) {
@@ -382,19 +394,17 @@ public class CardImplAdventures extends CardImpl {
                 	cardSetAside = true;
                     currentPlayer.getHand().remove(card);
                     gearCards.add(card);
-                    GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideGear, (MoveContext) context);
+                    GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, (MoveContext) context);
                     event.card = card;
+                    event.responsible = this;
                     event.setPrivate(true);
                     context.game.broadcastEvent(event);
                 }
             }
             if (!gearCards.isEmpty()) {
             	currentPlayer.gear.add(gearCards);
+            	currentPlayer.addStartTurnDurationEffect(this, 1, isThronedEffect);
             }
-        }
-        if (!cardSetAside && this.getControlCard().cloneCount == 1) {
-            currentPlayer.nextTurnCards.remove(this.getControlCard());
-            currentPlayer.playedCards.add(this.getControlCard());
         }
     }
     
@@ -491,11 +501,7 @@ public class CardImplAdventures extends CardImpl {
     		return;
         boolean discard = currentPlayer.controlPlayer.messenger_shouldDiscardDeck(context);
         if (discard) {
-            GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
-            game.broadcastEvent(event);
-            while (currentPlayer.getDeckSize() > 0) {
-                currentPlayer.discard(game.draw(context, Cards.messenger, 0), this.getControlCard(), null, false, false);
-            }
+        	currentPlayer.deckToDiscard(context, getControlCard());
         }
     }
 
@@ -537,8 +543,7 @@ public class CardImplAdventures extends CardImpl {
         		Util.playerError(currentPlayer, "Ratcatcher error, invalid card to trash, trashing random card.");
         		cardToTrash = Util.randomCard(currentPlayer.getHand());
         	} else {
-        		currentPlayer.hand.remove(cardToTrash);
-        		currentPlayer.trash(cardToTrash, this.getControlCard(), context);
+        		currentPlayer.trashFromHand(cardToTrash, this.getControlCard(), context);
         	}
         }
 	}
@@ -546,12 +551,10 @@ public class CardImplAdventures extends CardImpl {
     private void raze(Game game, MoveContext context, Player currentPlayer) {
     	int trashCost = 0;
     	if (currentPlayer.controlPlayer.raze_shouldTrashRazePlayed(context, this.getControlCard())) {
-    		if (!this.getControlCard().movedToNextTurnPile) {
-                this.getControlCard().movedToNextTurnPile = true;
-                trashCost = this.getControlCard().getCost(context);
-                currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf(this.getControlCard()));
-                currentPlayer.trash(this.getControlCard(), this.getControlCard(), context);
-            }
+    		if (!currentPlayer.trashSelfFromPlay(getControlCard(), context)) {
+    			return;
+    		}
+    		trashCost = this.getControlCard().getCost(context);
         } else if (currentPlayer.getHand().size() > 0) {
         	Card cardToTrash = currentPlayer.controlPlayer.raze_cardToTrash(context);
         	if (cardToTrash == null || !currentPlayer.getHand().contains(cardToTrash)) {
@@ -559,8 +562,7 @@ public class CardImplAdventures extends CardImpl {
                 cardToTrash = Util.randomCard(currentPlayer.getHand());
             }
         	trashCost = cardToTrash.getCost(context);
-        	currentPlayer.getHand().remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
+            currentPlayer.trashFromHand(cardToTrash, this.getControlCard(), context);
         }
     	if (trashCost == 0)
     		return;
@@ -608,35 +610,14 @@ public class CardImplAdventures extends CardImpl {
     }
     
     private void royalCarriage(Card resolvedAction, MoveContext context, Game game, Player currentPlayer) {
-		CardImpl cardToPlay = (CardImpl) resolvedAction; 
-		
+		CardImpl cardToPlay = (CardImpl) resolvedAction;
 		context.freeActionInEffect++;
-
-        cardToPlay.getControlCard().cloneCount += 1;
-        boolean beingThroned = cardToPlay.numberTimesAlreadyPlayed > 0;
-        cardToPlay.numberTimesAlreadyPlayed = beingThroned ? cardToPlay.numberTimesAlreadyPlayed + 1 : 1;
-        cardToPlay.play(game, context, false);
-        if (!beingThroned)
-        	cardToPlay.numberTimesAlreadyPlayed = 0; //TODO: not sure if this is always right
+        cardToPlay.play(game, context, false, false, false, false, true);
         context.freeActionInEffect--;
-        // If the cardToPlay was a knight, and was trashed, reset clonecount
-        if (cardToPlay.is(Type.Knight, currentPlayer) && !currentPlayer.playedCards.contains(cardToPlay) && game.trashPile.contains(cardToPlay)) {
-            cardToPlay.getControlCard().cloneCount = 1;
-        }
-
-        if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.tactician)) {
-            // Need to move royal carriage card to NextTurnCards first
-            // (but does not play)
-            if (!this.getControlCard().movedToNextTurnPile) {
-                this.getControlCard().movedToNextTurnPile = true;
-                int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
-                int ntidx = currentPlayer.nextTurnCards.size() - 1;
-                if (idx >= 0 && ntidx >= 0) {
-                    currentPlayer.playedCards.remove(idx);
-                    currentPlayer.nextTurnCards.add(ntidx, this.getControlCard());
-                }
-            }
-        }
+        
+    	if (cardToPlay.is(Type.Duration, currentPlayer)) {
+    		((CardImpl)this).multiplyCard(cardToPlay.getControlCard());
+		}
 	}
 
     private void soldier(Game game, MoveContext context, Player currentPlayer) {       
@@ -716,8 +697,7 @@ public class CardImplAdventures extends CardImpl {
         		Util.playerError(currentPlayer, "Transmogrify error, invalid card to trash, trashing random card.");
         		cardToTrash = Util.randomCard(currentPlayer.getHand());
         	} else {
-        		currentPlayer.hand.remove(cardToTrash);
-        		currentPlayer.trash(cardToTrash, null, context);
+        		currentPlayer.trashFromHand(cardToTrash, null, context);
         	}
         }
         int value = cardToTrash.getCost(context) + 1;
@@ -779,20 +759,15 @@ public class CardImplAdventures extends CardImpl {
     }
     
     private void putOnTavern(Game game, MoveContext context, Player currentPlayer) {
-        // throneroom has here no effect since card is already put on tavern
-        // Move to tavern mat
-        if (this.getControlCard().numberTimesAlreadyPlayed == 0) {
-            currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.getControlCard()));
+    	if (currentPlayer.isInPlay(this)) {
+    		currentPlayer.playedCards.remove(currentPlayer.playedCards.indexOf(getControlCard().getId()));
             currentPlayer.tavern.add(this.getControlCard());
             this.getControlCard().stopImpersonatingCard();
 
             GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideOnTavernMat, (MoveContext) context);
             event.card = this.getControlCard();
             game.broadcastEvent(event);
-        } else {
-            // reset clone count
-            this.getControlCard().cloneCount = 1;
-        }
+    	}
     }
     
     
@@ -801,12 +776,6 @@ public class CardImplAdventures extends CardImpl {
     public void alms(MoveContext context) {
     	boolean noTreasureCard = true;
         for(Card card : context.player.playedCards) {
-            if (card.is(Type.Treasure, context.getPlayer())) {
-            	noTreasureCard = false;
-            	break;
-            }
-        }
-        for(Card card : context.player.nextTurnCards) {
             if (card.is(Type.Treasure, context.getPlayer())) {
             	noTreasureCard = false;
             	break;
@@ -848,20 +817,8 @@ public class CardImplAdventures extends CardImpl {
                     for (int i = 0; i < context.player.playedCards.size(); i++) {
                         Card playedCard = context.player.playedCards.get(i);
                         if (playedCard.equals(card)) {
-                            context.player.trash(context.player.playedCards.remove(i, false), this.getControlCard(), context);
+                        	context.player.trashFromPlay(card, getControlCard(), context);
                             continue cardLoop;
-                        }
-                    }
-                    for (int i = 0; i < context.player.nextTurnCards.size(); i++) {
-                        Card nextTurnCard = context.player.nextTurnCards.get(i);
-                        if (nextTurnCard.equals(card)) {
-                        	if (nextTurnCard.is(Type.Duration, context.player)) {
-                        		((CardImpl)nextTurnCard).trashAfterPlay = true;
-                                context.player.trash(nextTurnCard, this.getControlCard(), context);
-                        	} else {
-                        		context.player.trash(context.player.nextTurnCards.remove(i, false), this.getControlCard(), context);
-                        	}
-                        	continue cardLoop;
                         }
                     }
                 }
@@ -889,8 +846,9 @@ public class CardImplAdventures extends CardImpl {
             if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && 
             		!context.game.isPileEmpty(card) && !card.is(Type.Victory, null)) {
             	context.player.inheritance = context.game.takeFromPile(card, context);
-            	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideInheritance, context);
+            	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, context);
                 event.card = card;
+                event.responsible = this;
                 context.game.broadcastEvent(event);
             }
 
@@ -923,6 +881,12 @@ public class CardImplAdventures extends CardImpl {
     
     private void pilgrimage(MoveContext context) {
     	if(context.player.flipJourneyToken(context)) {
+    		HashSet<Card> validCards = new HashSet<Card>();
+    		for (Card c : context.player.playedCards) {
+    			if (Cards.isSupplyCard(c) && context.isCardOnTop(c)) {
+    				validCards.add(c);
+    			}
+    		}
     		Card[] cards = context.player.controlPlayer.pilgrimage_cardsToGain(context);
     		if (cards != null) {
     			if (cards.length > 3) {
@@ -933,11 +897,10 @@ public class CardImplAdventures extends CardImpl {
     					differentCards.add(card);
     				}
     				for (Card card : differentCards) {
-    					if(context.player.playedCards.contains(card) || 
-    							context.player.nextTurnCards.contains(card)) {
+    					if(validCards.contains(card)) {
     						context.player.gainNewCard(card, this.getControlCard(), context);
     					} else {
-    						Util.playerError(context.player, "Pilgrimage gain error, card not in play, ignoring.");
+    						Util.playerError(context.player, "Pilgrimage gain error, card not in play or not gainable, ignoring.");
     					}
     				}
     			}
@@ -1051,8 +1014,9 @@ public class CardImplAdventures extends CardImpl {
 
     	context.player.hand.remove(card);
     	context.player.save = card;
-    	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideSave, context);
+    	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, context);
         event.card = card;
+        event.responsible = this;
         event.setPrivate(true);
         context.game.broadcastEvent(event);
     }
@@ -1156,7 +1120,7 @@ public class CardImplAdventures extends CardImpl {
     				for (int i = 0; i < context.player.hand.size(); i++) {
     					Card inHand = context.player.hand.get(i);
     					if (inHand.equals(card)) {
-    						context.player.trash(context.player.hand.remove(i, false), this.getControlCard(), context);
+    						context.player.trashFromHand(card, getControlCard(), context);
     						context.player.gainNewCard(Cards.silver, this, context);
     						break;
     					}

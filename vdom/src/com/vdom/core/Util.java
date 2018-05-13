@@ -13,6 +13,7 @@ import java.util.Map;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.core.Cards.Kind;
+import com.vdom.core.MoveContext.TurnPhase;
 
 public class Util {
     public static String cardArrayToString(Card[] cards) {
@@ -214,7 +215,8 @@ public class Util {
         log("Deck:" + player.getDeckSize() + " PirateShip:" + player.getPirateShipTreasure() 
         		+ " NativeVillage:" + cardArrayToString(player.getNativeVillage())
             + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()) 
-            + " Summon:" + cardArrayToString(player.getSummon()) + " Inheritance:" + player.getInheritance());
+            + " Summon:" + cardArrayToString(player.getSummon()) + " Inheritance:" + player.getInheritance()
+            + " Ghost:" + cardArrayToString(player.getGhost()));
         log("");
     }
 
@@ -259,11 +261,18 @@ public class Util {
             event.card = Cards.lighthouse;
             game.broadcastEvent(event);
         }
-        if (game.countChampionsInPlay(player) > 0) {
+        if (player.championEffects > 0) {
             defended = true;
             
             GameEvent event = new GameEvent(GameEvent.EventType.PlayerDefended, context);
             event.card = Cards.champion;
+            game.broadcastEvent(event);
+        }
+        if (player.guardianEffect) {
+            defended = true;
+            
+            GameEvent event = new GameEvent(GameEvent.EventType.PlayerDefended, context);
+            event.card = Cards.guardian;
             game.broadcastEvent(event);
         }
         
@@ -827,5 +836,27 @@ public class Util {
 		public CardTavernComparator() {
 			super(cmps);
 		}
+	}
+
+	/**
+	 * Determines if a card costs more than a given cost 
+	 */
+	public static boolean costsMore(MoveContext context, Card card, int coins, int potions, int debt) {
+		int cardCoins = card.getCost(context, context.phase == TurnPhase.Buy);
+		int cardPotions = card.costPotion() ? 1 : 0;
+		int cardDebt = card.getDebtCost(context);
+		
+		return (cardCoins >= coins && cardPotions >= potions && cardDebt >= debt) && (cardCoins > coins || cardPotions > potions || cardDebt > debt);
+	}
+	
+	/**
+	 * Determines if a card costs the same or more than a given cost 
+	 */
+	public static boolean costsEqualOrMore(MoveContext context, Card card, int coins, int potions, int debt) {
+		int cardCoins = card.getCost(context, context.phase == TurnPhase.Buy);
+		int cardPotions = card.costPotion() ? 1 : 0;
+		int cardDebt = card.getDebtCost(context);
+		
+		return (cardCoins >= coins && cardPotions >= potions && cardDebt >= debt);
 	}
 }

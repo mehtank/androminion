@@ -14,7 +14,7 @@
     <string name="achievements_gainmorethan30inaturn">Gain more than 30 VP in a single turn</string>
     <string name="achievements_win10inarow">Win 10 games in a row</string>
     <string name="achievements_overpayby10ormore">Overpay for a card by 10 or more</string>
-    <string name="achievements_stockpile50tokens">Stockpile 50 or more coin tokens</string>
+    <string name="achievements_stockpile50tokens">Stockpile 50 or more coin tokens on your Coffers mat</string>
     <string name="achievements_2tacticians">Play two Tacticians in same turn, discarding at least one card each time</string>
     <string name="achievements_13curses">Win a game with exactly 13 Curses in your deck</string>
     <string name="achievements_allEmpty">Win a game with no cards left in the Supply in any pile</string>

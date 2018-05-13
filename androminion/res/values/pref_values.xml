@@ -10,6 +10,11 @@
         <item>Intrigue2E</item>
         <item>IntrigueAll</item>
     </string-array>
+    <string-array name="pref_errata_possessor_tokens_keys" tools:ignore="MissingTranslation">
+        <item>None</item>
+        <item>All</item>
+        <item>Debt</item>
+    </string-array>
     <string-array name="showimages_keys" tools:ignore="MissingTranslation">
         <item>Desc</item>
         <item>Image</item>

@@ -17,5 +17,14 @@
     <string name="type_castle">Schloss</string>
     <string name="type_gathering">Sammlung</string>
     <string name="type_landmark">Landmarke</string>
+    <string name="type_boon">Segen</string>
+    <string name="type_doom">Verderben</string>
+    <string name="type_fate">Schicksal</string>
+    <string name="type_heirloom">Erbstück</string>
+    <string name="type_hex">Übel</string>
+    <string name="type_night">Nacht</string>
+    <string name="type_spirit">Geist</string>
+    <string name="type_state">Zustand</string>
+    <string name="type_zombie">Zombie</string>
     <string name="type_curse">Fluch</string>
 </resources>

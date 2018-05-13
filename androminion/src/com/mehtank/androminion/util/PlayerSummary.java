@@ -22,10 +22,15 @@ public class PlayerSummary {
 	public int pt;
 	public int vt;
 	public int dt;
-	public int gct; // Guilds Coin Tokens
+	public int gct; // Guilds Coin Tokens (Coffers)
 	public JourneyTokenState journeyToken;
 	public boolean minusOneCoinTokenOn;
 	public boolean minusOneCardTokenOn;
+	public boolean hasDeluded;
+	public boolean hasEnvious;
+	public boolean hasLostInTheWoods;
+	public boolean hasMiserable;
+	public boolean hasTwiceMiserable;
 	public boolean highlight = false;
 	public boolean showColor = false;
 	public int color;
@@ -35,7 +40,10 @@ public class PlayerSummary {
 		this.name = name;
 	}
 	
-	public void set(String name, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, int pt, int vt, int dt, int gct, boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyToken, boolean highlight, boolean showColor, int color){
+	public void set(String name, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, int pt, int vt, int dt, int gct, 
+			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyToken,
+			boolean hasDeluded, boolean hasEnvious, boolean hasLostInTheWoods, boolean hasMiserable, boolean hasTwiceMiserable,
+			boolean highlight, boolean showColor, int color){
 		this.name = name;
 		this.turns = turns;
 		this.deckSize = deckSize;
@@ -50,6 +58,11 @@ public class PlayerSummary {
 		this.journeyToken = journeyToken;
 		this.minusOneCoinTokenOn = minusOneCoinTokenOn;
 		this.minusOneCardTokenOn = minusOneCardTokenOn;
+		this.hasDeluded = hasDeluded;
+		this.hasEnvious = hasEnvious;
+		this.hasLostInTheWoods = hasLostInTheWoods;
+		this.hasMiserable = hasMiserable;
+		this.hasTwiceMiserable = hasTwiceMiserable;
 		this.highlight = highlight;
 		this.showColor = showColor;
 		this.color = color;

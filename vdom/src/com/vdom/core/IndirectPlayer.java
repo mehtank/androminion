@@ -66,6 +66,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	return getFromHandOrPlayed(true, context, sco);    
     }
     
+    private Card getCardFromPlayed(MoveContext context, SelectCardOptions sco) {
+    	Card[] cs = getFromHandOrPlayed(false, context, sco.setCount(1).exactCount());
+    	return (cs == null ? null : cs[0]); 
+    }
+    
     private Card[] getFromPlayed(MoveContext context, SelectCardOptions sco) {
     	return getFromHandOrPlayed(false, context, sco);    
     }
@@ -77,9 +82,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	} else {
     		localHand = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
     		for (Card card : context.player.playedCards) {
-    			localHand.add(card);
-    		}
-    		for (Card card : context.player.nextTurnCards) {
     			localHand.add(card);
     		}
     		sco = sco.fromPlayed();
@@ -98,13 +100,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     		differentCards = cards.toArray(differentCards);
     	}
     	
+    	boolean noMax = sco.count == Integer.MAX_VALUE;
         if (localHand.size() == 0) {
             return null;
         } else if (localHand.size() == 1 && sco.minCount == 1) {
         	return new Card[]{localHand.get(0)};
         } else if (sco.isDifferent() && totalKindsOfCards <= sco.minCount) {
         	return differentCards;
-        } else if (sco.count == Integer.MAX_VALUE) {
+        } else if (noMax) {
             sco.setCount(localHand.size());
         } else if (sco.count < 0) {
             sco.setCount(localHand.size() + sco.count).exactCount();
@@ -123,10 +126,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 
         if (sco.allowedCards.size() == 0)
             return null;
+        
+        if (noMax && sco.count > sco.allowedCards.size()) {
+        	sco.setCount(sco.allowedCards.size());
+        }
+        
         /*Select no Card by default if TRASH and not forced*/
         else if (      sco.allowedCards.size() == 1
                     && (sco.actionType != ActionType.TRASH || !sco.passable)
-                 || (   (   sco.isAction
+                 || (   (   sco.isAction || sco.isNight
                          || sco.pickType == PickType.MINT               //Mint (passable)
                          || (   (   sco.actionType == ActionType.TRASH
                                  || sco.actionType == ActionType.REVEAL //Ambassador
@@ -175,9 +183,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
                 if (   sco.checkValid(card, card.getCost(context), card.is(Type.Victory), null)
                 	&& (!(sco.noTokens && hasTokens))
-                    && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 &&(context.canBuyCards || card.is(Type.Event, null))))
+                    && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 && (context.canBuyActions || !card.is(Type.Action)) &&(context.canBuyCards || card.is(Type.Event, null))))
                         || !sco.pickType.equals(PickType.BUY))
-                    && !(   !Cards.isSupplyCard(card)
+                    && !(  !sco.allowNonSupply && !Cards.isSupplyCard(card)
                          && sco.actionType != null
                          && sco.actionType.equals(ActionType.GAIN) ) )
                 {
@@ -298,6 +306,47 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card[] actionCardsToPlayInOrder(MoveContext context) {
         return doAction(context, false);
+    }
+    
+    private Card[] nightCardsToPlay(MoveContext context, boolean singleCard) {
+        int nightCount = 0;
+        Card nightCard = null;
+        for (Card card : context.player.getHand()) {
+            if (card.is(Type.Night, context.player)) {
+                nightCount++;
+                nightCard = card;
+            }
+        }
+        if (nightCount == 0)
+            return null;
+
+        SelectCardOptions sco = new SelectCardOptions().isNightPhase().isNight().setPassable();
+        if (singleCard)
+            sco.setCount(1).setPickType(PickType.PLAY);
+        else
+            sco.setCount(nightCount).ordered().setPickType(PickType.PLAY_IN_ORDER);
+
+        Card[] cards = getFromHand(context, sco);
+
+        if (cards == null)
+            return null;
+        // Hack that tells us that "Play the only one card" was selected
+        else if (nightCount == 1 && cards.length == 0) {
+            cards = new Card[1];
+            cards[0] = nightCard;
+        }
+        return cards;
+    }
+
+    @Override
+    public Card nightCardToPlay(MoveContext context) {
+        Card[] cards = nightCardsToPlay(context, true);
+        return (cards == null ? null : cards[0]); 
+    }
+
+    @Override
+    public Card[] nightCardsToPlayInOrder(MoveContext context) {
+        return nightCardsToPlay(context, false);
     }
 
     @Override
@@ -1464,12 +1513,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public boolean royalSealTravellingFair_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card) {
+    public boolean royalSealTravellingFairTracker_shouldPutCardOnDeck(MoveContext context, Card responsible, Card card) {
     	if(context.isQuickPlay() && shouldAutoPlay_royalSealTravellingFair_shouldPutCardOnDeck(context, responsible, card)) {
-            return super.royalSealTravellingFair_shouldPutCardOnDeck(context, responsible, card);
+            return super.royalSealTravellingFairTracker_shouldPutCardOnDeck(context, responsible, card);
         }
         Object[] extras = new Object[2];
-        extras[0] = responsible; /* royalSeal or travellingFair */
+        extras[0] = responsible; /* royalSeal or travellingFair or tracker */
         extras[1] = card;
         return selectBoolean(context, responsible, extras);
     }
@@ -2625,6 +2674,27 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         return selectBoolean(context, Cards.avanto);
     }
+    
+    @Override
+    public Card dismantle_cardToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_dismantle_cardToTrash(context)) {
+            return super.dismantle_cardToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.dismantle);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card dismantle_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	if(context.isQuickPlay() && shouldAutoPlay_dismantle_cardToObtain(context, maxCost, maxDebtCost, potion)) {
+            return super.dismantle_cardToObtain(context, maxCost, maxDebtCost, potion);
+        }
+        SelectCardOptions sco = new SelectCardOptions().maxPotionCost(potion?1:0)
+                .maxCost(maxCost).maxDebtCost(maxDebtCost).lessThanMax()
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.dismantle);
+        return getFromTable(context, sco);
+    }
 
     @Override
     public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] cards) {
@@ -3760,5 +3830,398 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public WildHuntOption wildHunt_chooseOption(MoveContext context) {
     	WildHuntOption[] options = WildHuntOption.values();
     	return options[selectOption(context, Cards.wildHunt, options)];
+    }
+    
+    @Override
+    public Card[] bat_cardsToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setCount(2)
+                .setPassable().setPickType(PickType.TRASH)
+                .setCardResponsible(Cards.bat).setActionType(ActionType.TRASH);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
+    public boolean blessedVillage_shouldReceiveNow(MoveContext context, Card boon) {
+    	Object[] extras = new Object[2];
+        extras[0] = boon;
+        extras[1] = Cards.blessedVillage;
+        return selectBoolean(context, Cards.blessedVillage, extras);
+    }
+    
+    @Override
+    public Card[] cemetery_cardsToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_cemetery_cardsToTrash(context)) {
+            return super.cemetery_cardsToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setCount(4)
+                .setPassable().setPickType(PickType.TRASH)
+                .setCardResponsible(Cards.cemetery).setActionType(ActionType.TRASH);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card changeling_cardToGain(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.changeling, cards)];
+    }
+    
+    @Override
+    public boolean changeling_shouldExchange(MoveContext context, Card card) {
+    	Object[] extras = new Object[1];
+        extras[0] = card;
+        return selectBoolean(context, Cards.changeling, extras);
+    }
+    
+    @Override
+    public Card cobbler_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.cobbler).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card conclave_cardToPlay(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction().notInPlay()
+                .setPassable().setPickType(PickType.PLAY).setActionType(ActionType.PLAY)
+                .setCardResponsible(Cards.conclave);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card[] crypt_cardsToSetAside(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions()
+                .setPassable().isTreasure()
+                .setCardResponsible(Cards.crypt).setActionType(ActionType.SETASIDE);
+        return getFromPlayed(context, sco);
+    }
+    
+    @Override
+    public Card crypt_cardIntoHand(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.crypt, cards)];
+    }
+    
+    @Override
+    public Card devilsWorkshop_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.devilsWorkshop).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card druid_pickBoon(MoveContext context) {
+    	List<Card> options = new ArrayList<Card>(context.game.druidBoons);
+        return options.get(selectOption(context, Cards.druid, options.toArray()));
+    }
+    
+    @Override
+    public Card exorcist_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.exorcist);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card exorcist_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	SelectCardOptions sco = new SelectCardOptions().maxPotionCost(potion?1:0)
+                .maxCost(maxCost).maxDebtCost(maxDebtCost).allowNonSupply().lessThanMax().isSpirit()
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.exorcist);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public boolean faithfulHound_shouldSetAside(MoveContext context) {
+        if(context.isQuickPlay() && shouldAutoPlay_faithfulHound_shouldSetAside(context)) {
+            return super.faithfulHound_shouldSetAside(context);
+        }
+        return selectBoolean(context, Cards.faithfulHound);
+    }
+    
+    @Override
+    public Card fear_cardToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions()
+    			.atLeastOneOfTypes(new Type[]{Type.Treasure, Type.Action})
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.fear);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card fool_boonToReceive(MoveContext context, Card[] boons) {
+        return boons[selectOption(context, Cards.fool, boons)];
+    }
+    
+    @Override
+    public Card goat_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.goat);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card hauntedMirror_cardToDiscard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_hauntedMirror_cardToDiscard(context)) {
+            return super.hauntedMirror_cardToDiscard(context);
+        }
+    	SelectCardOptions sco = new SelectCardOptions().setPassable().isAction()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.hauntedMirror);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card haunting_cardToPutBackOnDeck(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions()
+                .setActionType(ActionType.TOPDECK).setCardResponsible(Cards.haunting);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card imp_cardToPlay(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction().notInPlay()
+                .setPassable().setPickType(PickType.PLAY).setActionType(ActionType.PLAY)
+                .setCardResponsible(Cards.imp);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card locusts_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion, Type[] types) {
+    	SelectCardOptions sco = new SelectCardOptions().maxPotionCost(potion?1:0)
+                .maxCost(maxCost).maxDebtCost(maxDebtCost).lessThanMax().atLeastOneOfTypes(types)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.locusts);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card lostInTheWoods_cardToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.lostInTheWoods);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card monastery_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.monastery);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public boolean monastery_shouldTrashCopperFromPlay(MoveContext context) {
+        return selectBoolean(context, Cards.monastery);
+    }
+    
+    @Override
+    public MonasteryOption monastery_chooseOption(MoveContext context) {
+    	MonasteryOption[] options = MonasteryOption.values();
+    	return options[selectOption(context, Cards.monastery, options)];
+    }
+    
+    @Override
+    public Card necromancer_cardToPlay(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.necromancer, cards)];
+    }
+    
+    @Override
+    public Card[] nightWatchman_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards) {
+    	ArrayList<Card> options = new ArrayList<Card>();
+        options.add(null);
+        for (Card c : cards)
+            options.add(c);
+
+        ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
+
+        while (options.size() > 1) {
+            int o = selectOption(context, Cards.nightWatchman, options.toArray());
+            if (o == 0) break;
+            cardsToDiscard.add((Card) options.get(o));
+            options.remove(o);
+        }
+
+        return cardsToDiscard.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card[] nightWatchman_cardOrder(MoveContext context, Card[] cards) {
+    	ArrayList<Card> orderedCards = new ArrayList<Card>();
+        int[] order = orderCards(context, cardArrToIntArr(cards));
+        for (int i : order)
+            orderedCards.add(cards[i]);
+        return orderedCards.toArray(new Card[0]);
+    }
+    
+    @Override
+    public boolean pixie_shouldTrashPixie(MoveContext context, Card boon, Card responsible) {
+    	Object[] extras = new Object[2];
+        extras[0] = boon;
+        extras[1] = Cards.pixie;
+        return selectBoolean(context, Cards.pixie, extras);
+    }
+    
+    @Override
+    public Card pooka_treasureToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_pooka_treasureToTrash(context)) {
+            return super.pooka_treasureToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isTreasure()
+                .setPassable().setPickType(PickType.TRASH).not(Cards.cursedGold)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.pooka);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card[] poverty_attack_cardsToKeep(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.KEEP).setActionType(ActionType.KEEP).setCardResponsible(Cards.poverty);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card raider_cardToDiscard(MoveContext context, Card[] cards) {
+        return cards[selectOption(context, Cards.raider, cards)];
+    }
+    
+    @Override
+    public boolean sacredGrove_shouldReceiveBoon(MoveContext context, Card boon) {
+    	Object[] extras = new Object[2];
+        extras[0] = boon;
+        extras[1] = Cards.sacredGrove;
+        return selectBoolean(context, Cards.sacredGrove, extras);
+    }
+    
+    @Override
+    public Card[] secretCave_cardsToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD).setPassable()
+                .setCardResponsible(Cards.secretCave);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card theEarthsGift_treasureToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isTreasure()
+                .setPassable().setPickType(PickType.DISCARD)
+                .setActionType(ActionType.DISCARD).setCardResponsible(Cards.theEarthsGift);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card theEarthsGift_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.theEarthsGift).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card theFlamesGift_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.theFlamesGift);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card theMoonsGift_cardToPutBackOnDeck(MoveContext context) {
+    	CardList localDiscard = context.player.getDiscard();
+        Set<Card> uniqueCards = new HashSet<Card>(localDiscard.toArrayList());
+        List<Card> options = new ArrayList<Card>(uniqueCards);
+        Collections.sort(options, new Util.CardCostNameComparator());
+        options.add(null);
+
+        return options.get(selectOption(context, Cards.theMoonsGift, options.toArray()));
+    }
+    
+    @Override
+    public Card[] theSkysGift_cardsToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setCount(3).exactCount()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD).setPassable()
+                .setCardResponsible(Cards.theSkysGift);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card[] theSunsGift_cardsFromTopOfDeckToDiscard(MoveContext context, Card[] cards) {
+    	ArrayList<Card> options = new ArrayList<Card>();
+        options.add(null);
+        for (Card c : cards)
+            options.add(c);
+
+        ArrayList<Card> cardsToDiscard = new ArrayList<Card>();
+
+        while (options.size() > 1) {
+            int o = selectOption(context, Cards.theSunsGift, options.toArray());
+            if (o == 0) break;
+            cardsToDiscard.add((Card) options.get(o));
+            options.remove(o);
+        }
+
+        return cardsToDiscard.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card[] theSunsGift_cardOrder(MoveContext context, Card[] cards) {
+    	ArrayList<Card> orderedCards = new ArrayList<Card>();
+        int[] order = orderCards(context, cardArrToIntArr(cards));
+        for (int i : order)
+            orderedCards.add(cards[i]);
+        return orderedCards.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card tragicHero_treasureToObtain(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().isTreasure()
+        		.setActionType(ActionType.GAIN)
+        		.setCardResponsible(Cards.tragicHero);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card[] shepherd_cardsToDiscard(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_shepherd_cardsToDiscard(context)) {
+            return super.shepherd_cardsToDiscard(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isVictory().setPassable()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.shepherd)
+				.setCount(getVictoryInHand().size());
+        return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card vampire_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0)
+                .not(Cards.vampire).setCardResponsible(Cards.vampire).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card wish_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(6).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.wish).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card zombieApprentice_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction()
+                .setPassable().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.zombieApprentice);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card zombieMason_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(maxCost).maxDebtCost(maxDebtCost).maxPotionCost(potion?1:0)
+                .setPassable().setCardResponsible(Cards.zombieMason).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public boolean zombieSpy_shouldDiscard(MoveContext context, Card card) {
+    	Object[] extras = new Object[2];
+        extras[0] = Cards.zombieSpy;
+        extras[1] = card;
+        return selectBoolean(context, Cards.zombieSpy, extras);
     }
 }

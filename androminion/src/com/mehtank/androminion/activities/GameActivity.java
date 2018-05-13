@@ -8,6 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -39,6 +40,7 @@ import com.mehtank.androminion.ui.Strings;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.mehtank.androminion.util.ThemeSetter;
+import com.vdom.api.Card;
 import com.vdom.comms.Comms;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EType;
@@ -300,8 +302,8 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         if (!prefs.getBoolean("errata_moneylender", true)) {
         	strs.add("-erratamoneylenderforced");
         }
-        if (!prefs.getBoolean("errata_posessor_takes_tokens", true)) {
-        	strs.add("-erratapossessedtakestokens");
+        if (!prefs.getString("errata_possessor_tokens", "Debt").equals("Debt")) {
+            strs.add("-erratapossessortakestokens-" + prefs.getString("errata_possessor_tokens", "Debt"));
         }
         if (!prefs.getBoolean("errata_throneroom", true)) {
         	strs.add("-erratathroneroomforced");
@@ -495,22 +497,22 @@ public class GameActivity extends SherlockActivity implements EventHandler {
                     NewGame ng = e.o.ng;
                     splash();
 
-                    saveLastCards(ng.cards);
-                    gt.newGame(ng.cards, ng.players);
+                    saveLastCards(ng.cards, ng.druidBoons);
+                    gt.newGame(ng.cards, ng.players, ng.druidBoons);
                     gameRunning = true;
 
-                    for (int i=0; i < ng.cards.length - 1; i++) {                    	
-                        for (int j=i+1; j < ng.cards.length; j++) {
-                        	if (ng.cards[i].name.compareTo(ng.cards[j].name) > 0) {
-                        		MyCard mc = ng.cards[j];
-                        		ng.cards[j] = ng.cards[i];
-                        		ng.cards[i] = mc;                        		
-                        	}
-                        }
-                    }
+//                    for (int i=0; i < ng.cards.length - 1; i++) {                    	
+//                        for (int j=i+1; j < ng.cards.length; j++) {
+//                        	if (ng.cards[i].name.compareTo(ng.cards[j].name) > 0) {
+//                        		MyCard mc = ng.cards[j];
+//                        		ng.cards[j] = ng.cards[i];
+//                        		ng.cards[i] = mc;                        		
+//                        	}
+//                        }
+//                    }
                     /*TODO frr*/
-                    Event event = new Event(Event.EType.CARDRANKING).setObject(new EventObject(ng));
-                    put(event);
+//                    Event event = new Event(Event.EType.CARDRANKING).setObject(new EventObject(ng));
+//                    put(event);
                     
                     //PreferenceManager.getDefaultSharedPreferences(top).registerOnSharedPreferenceChangeListener(gt);
                     break;
@@ -730,19 +732,43 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             		baseStr += ", ";
             	baseStr += top.getString(R.string.EnchantressAttacks);
             }
+            if (gs.deluded) {
+            	baseStr += "\n";
+            	baseStr += top.getString(R.string.DeludedStateEffect);
+            }
+            if (gs.envious) {
+            	if (!gs.deluded)
+            		baseStr += "\n";
+            	else
+            		baseStr += ", ";
+            	baseStr += top.getString(R.string.EnviousStateEffect);
+            }
             return baseStr;
         }
     };
 
-    private void saveLastCards(MyCard[] cards) {
+    private void saveLastCards(MyCard[] cards, List<Card> druidBoons) {
         SharedPreferences prefs;
         prefs = PreferenceManager.getDefaultSharedPreferences(top);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putInt("LastCardCount", cards.length);
 
         int i=0;
-        for (MyCard c : cards)
-            edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + (c.isObeliskCard ? Game.OBELISK : "") + (c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
+        for (MyCard c : cards) {
+        	//TODO: skip non-kingdom cards (but include shelters? && colony/plat && landmarks && events)
+            edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") +
+            		(c.isObeliskCard ? Game.OBELISK : "") +
+            		(c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
+        }
+        i = 0;
+        if (druidBoons != null && druidBoons.size() > 0) {
+        	edit.putInt("LastDruidBoonCount", druidBoons.size());
+	        for (Card c : druidBoons) {
+	        	edit.putString("LastDruidBoon" + i++, Game.DRUID_BOON + c.getSafeName());
+	        }
+    	} else {
+    		edit.putInt("LastDruidBoonCount", 0);
+    	}
 
         edit.commit();
     }

@@ -15,7 +15,7 @@ public class CardImplAlchemy extends CardImpl {
 	protected CardImplAlchemy() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
 		case Apothecary:
             apothecary(game, context, currentPlayer);
@@ -82,8 +82,7 @@ public class CardImplAlchemy extends CardImpl {
                 Util.playerError(currentPlayer, "Apprentice card to trash was invalid, trashing random card.");
                 cardToTrash = Util.randomCard(currentPlayer.hand);
             }
-            currentPlayer.hand.remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
+            currentPlayer.trashFromHand(cardToTrash, this.getControlCard(), context);
 
             int cardsToDraw = (cardToTrash.getCost(context) + (cardToTrash.costPotion() ? 2 : 0));
             for (int i = 1; i <= cardsToDraw; i++) {
@@ -113,7 +112,7 @@ public class CardImplAlchemy extends CardImpl {
         }
 
         while (!toDiscard.isEmpty()) {
-            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
+            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), context);
         }
 
         if (!toOrder.isEmpty()) {
@@ -172,8 +171,7 @@ public class CardImplAlchemy extends CardImpl {
         } else if (!currentPlayer.hand.contains(cardToTrash)) {
             Util.playerError(currentPlayer, "Transmute card to trash is not in your hand, not trashing anything.");
         } else {
-            currentPlayer.hand.remove(cardToTrash);
-            currentPlayer.trash(cardToTrash, this.getControlCard(), context);
+            currentPlayer.trashFromHand(cardToTrash, this.getControlCard(), context);
             if (cardToTrash.is(Type.Action, cardToTrash.behaveAsCard().getKind() == Kind.Fortress ? currentPlayer : null )) {
             	//Condition is wrong for when player is being possessed and Fortress is set aside
                 currentPlayer.gainNewCard(Cards.duchy, this.getControlCard(), context);

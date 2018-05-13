@@ -20,6 +20,7 @@ public class GameEvent {
         PlayingCard, // Card is about to be played by a player.
         PlayedCard, // Card has just been played by a player.
         PlayingDurationAction, // Duration action card's next turn effects are about to occur for a player.
+        CardInPlay, // Signals that a card is already in play (for showing non-start of turn cards in play at start of turn)
         BuyingCard, // Buying a card in the buy phase.
         OverpayForCard, // Overpaying for a Guilds card.
         GuildsTokenObtained, // Recieve a Guilds token
@@ -38,17 +39,12 @@ public class GameEvent {
         CardDiscarded, // A card was discarded
         CardAddedToHand, // A new card has been added to a player's hand
         CardRemovedFromHand, // A card has been removed from a player's hand        
-        CardSetAside, // A card was set aside (prince)
-        CardSetAsideSummon, // A card was set aside (Summon)
-        CardSetAsideGear, // A card was set aside (gear)
-        CardSetAsideHaven, // A card was set aside (haven)
-        CardSetAsideSave, // A card was set aside (save)
+        CardSetAside, // A card was set aside
+        CardSetAsidePrivate, // A card was set aside face down
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
-        CardSetAsideArchive, // A card was set aside (archive)
         CallingCard, // A card is about to be called from the tavern mat
         CalledCard, // A card was called from the tavern mat
         CardSetAsideOnIslandMat, // A card was set aside on island mat
-        CardSetAsideInheritance, // A card was set aside with Inheritance
         DeckPutIntoDiscardPile, // Deck put into discard pile
         TravellerExchanged, // traveller exchanged
         TurnJourneyTokenFaceUp, // journey token turned face up
@@ -72,6 +68,10 @@ public class GameEvent {
         VPTokensTakenFromPile, // VP tokens taken from a card pile
         MountainPassBid, // Someone placed a bid for Mountain Pass (or passed their bid)
         MountainPassWinner, // Mountain Pass bidding finished (winning bid/player) - 0 amount means no bids were placed
+        ReceivingBoonHex, // Boon or Hex about to be received by player
+        ReceivedBoonHex, // Boon or Hex has just been received by player
+        TakeState, //Player took a state
+        ReturnState, //Player returned a state
     }
 
     public EventType type;

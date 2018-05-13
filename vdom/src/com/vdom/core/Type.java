@@ -8,5 +8,6 @@ public enum Type {
 	Shelter, Ruins, Looter, Knight, 
 	Reserve, Traveller, 
 	Gathering, Castle,
-	Event, Landmark
+	Doom, Fate, Heirloom, Night, Spirit, Zombie,
+	Event, Landmark, Boon, Hex, State
 }

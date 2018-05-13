@@ -21,6 +21,8 @@ public enum GameType {
     RandomDarkAges("Random Dark Ages"),
     RandomGuilds("Random Guilds"),
     RandomAdventures("Random Adventures"),
+    RandomEmpires("Random Empires"),
+    RandomNocturne("Random Nocturne"),
     
     // Base Game
     FirstGame("First Game", Expansion.Base), BigMoney("Big Money", Expansion.Base), Interaction("Interaction", Expansion.Base), SizeDistortion("Size Distortion", Expansion.Base), VillageSquare("Village Square", Expansion.Base),
@@ -54,6 +56,8 @@ public enum GameType {
     Servants("Servants", Expansion.Alchemy, Expansion.Intrigue), SecretResearch("Secret Research", Expansion.Alchemy, Expansion.Intrigue), PoolsToolsAndFools("Pools, Tools, and Fools", Expansion.Alchemy, Expansion.Intrigue),
     // Intrigue 2E and Alchemy
     Servants2("Servants", Expansion.Alchemy, Expansion.Intrigue2E), SecretResearch2("Secret Research", Expansion.Alchemy, Expansion.Intrigue2E), PoolsToolsAndFools2("Pools, Tools, and Fools", Expansion.Alchemy, Expansion.Intrigue2E),
+    // Seaside and Alchemy
+    Forewarned("Forewarned", Expansion.Alchemy, Expansion.Seaside), GummedUp("Gummed Up", Expansion.Alchemy, Expansion.Seaside),
 
     // Prosperity
     Beginners("Beginners", Expansion.Prosperity), FriendlyInteractive("Friendly Interactive", Expansion.Prosperity), BigActions("Big Actions", Expansion.Prosperity),
@@ -65,6 +69,10 @@ public enum GameType {
     PathsToVictory("Paths to Victory", Expansion.Prosperity, Expansion.Intrigue), AllAlongTheWatchtower("All Along the Watchtower", Expansion.Prosperity, Expansion.Intrigue), LuckySeven("Lucky Seven", Expansion.Prosperity, Expansion.Intrigue),
     // Intrigue 2E and Prosperity
     PathsToVictory2("Paths to Victory", Expansion.Prosperity, Expansion.Intrigue2E), AllAlongTheWatchtower2("All Along the Watchtower", Expansion.Prosperity, Expansion.Intrigue2E), LuckySeven2("Lucky Seven", Expansion.Prosperity, Expansion.Intrigue2E),
+    // Seaside and Prosperity
+    ExplodingKingdom("Exploding Kingdom", Expansion.Prosperity, Expansion.Seaside), PirateBay("Pirate Bay", Expansion.Prosperity, Expansion.Seaside),
+    // Alchemy and Prosperity
+    CountingContest("Counting Contest", Expansion.Alchemy, Expansion.Prosperity), LowerLearning("Lower Learning", Expansion.Alchemy, Expansion.Prosperity),
 
     // Cornucopia
     // Base and Cornucopia
@@ -75,6 +83,12 @@ public enum GameType {
     BountyOfTheHunt2("Bounty of the Hunt", Expansion.Cornucopia, Expansion.Base2E), BadOmens2("Bad Omens", Expansion.Cornucopia, Expansion.Base2E), TheJestersWorkshop2("The Jester's Workshop", Expansion.Cornucopia, Expansion.Base2E),
     // Intrigue 2E and Cornucopia
     LastLaughs2("Last Laughs", Expansion.Cornucopia, Expansion.Intrigue2E), TheSpiceOfLife2("The Spice of Life", Expansion.Cornucopia, Expansion.Intrigue2E), SmallVictories2("Small Victories", Expansion.Cornucopia, Expansion.Intrigue2E),
+    // Seaside and Cornucopia
+    Collector("Collector", Expansion.Cornucopia, Expansion.Seaside), Collider("Collider", Expansion.Cornucopia, Expansion.Seaside),
+    // Alchemy and Cornucopia
+    ClownCollege("Clown College", Expansion.Cornucopia, Expansion.Alchemy), WineAndDine("Wine & Dine", Expansion.Cornucopia, Expansion.Alchemy),
+    // Prosperity and Cornucopia
+    Detours("Detours", Expansion.Cornucopia, Expansion.Prosperity),
 
     // Hinterlands
     HinterlandsIntro("Hinterlands Intro", Expansion.Hinterlands), FairTrades("Fair Trades", Expansion.Hinterlands), Bargains("Bargains", Expansion.Hinterlands), Gambits("Gambits", Expansion.Hinterlands),
@@ -117,14 +131,26 @@ public enum GameType {
     FarFromHome("Far From Home", Expansion.DarkAges, Expansion.Hinterlands), Expeditions("Expeditions", Expansion.DarkAges, Expansion.Hinterlands),
     
     // Guilds
-    // Guilds and Base
+    // Base and Guilds
     ArtsAndCrafts("Arts and Crafts", Expansion.Guilds, Expansion.Base), CleanLiving("Clean Living", Expansion.Guilds, Expansion.Base), GildingTheLily("Gilding the Lily", Expansion.Guilds, Expansion.Base),
-    // Guilds and Base 2E
+    // Base 2E and Guilds
     ArtsAndCrafts2("Arts and Crafts", Expansion.Guilds, Expansion.Base2E), CleanLiving2("Clean Living", Expansion.Guilds, Expansion.Base2E), GildingTheLily2("Gilding the Lily", Expansion.Guilds, Expansion.Base2E),
-    // Guilds and Intrigue
+    // Intrigue and Guilds
     NameThatCard("Name that Card", Expansion.Guilds, Expansion.Intrigue), TricksOfTheTrade("Tricks of the Trade", Expansion.Guilds, Expansion.Intrigue), DecisionsDecisions("Decisions, Decisions", Expansion.Guilds, Expansion.Intrigue),
-    // Guilds and Intrigue 2E
+    // Intrigue 2E and Guilds
     NameThatCard2("Name that Card", Expansion.Guilds, Expansion.Intrigue2E), TricksOfTheTrade2("Tricks of the Trade", Expansion.Guilds, Expansion.Intrigue2E), DecisionsDecisions2("Decisions, Decisions", Expansion.Guilds, Expansion.Intrigue2E),
+    // Seaside and Guilds
+    GhostsAndTaxes("Ghosts & Taxes", Expansion.Guilds, Expansion.Seaside), IslandBuilder("Island Builder", Expansion.Guilds, Expansion.Seaside),
+    // Alchemy and Guilds
+    Illuminati("Illuminati", Expansion.Guilds, Expansion.Alchemy), TonicsAndToxins("Tonics & Toxins", Expansion.Guilds, Expansion.Alchemy),
+    // Prosperity and Guilds
+    Quarrymen("Quarrymen", Expansion.Guilds, Expansion.Prosperity), MetalAndMeat("Metal & Meat", Expansion.Guilds, Expansion.Prosperity), PennyPinching("Penny Pinching", Expansion.Guilds, Expansion.Prosperity),
+    // Guilds and Cornucopia
+    Misfortune("Misfortune", Expansion.Guilds, Expansion.Cornucopia), BakingContest("Baking Contest", Expansion.Guilds, Expansion.Cornucopia),
+    // Hinterlands and Guilds
+    Exchanges("Exchanges", Expansion.Guilds, Expansion.Hinterlands), RoadToRiches("Road to Riches", Expansion.Guilds, Expansion.Hinterlands),
+    // Dark Ages and Guilds
+    Stoneground("Stoneground", Expansion.Guilds, Expansion.DarkAges), ClassStruggle("Class Struggle", Expansion.Guilds, Expansion.DarkAges),
     
     // Adventures
     GentleIntro("Gentle Intro", Expansion.Adventures), ExpertIntro("Expert Intro", Expansion.Adventures),
@@ -134,7 +160,7 @@ public enum GameType {
     LevelUp2("Level Up", Expansion.Adventures, Expansion.Base2E), SonOfSizeDistortion2("Son of Size Distortion", Expansion.Adventures, Expansion.Base2E),
     // Adventures and Intrigue
     RoyaltyFactory("Royalty Factory", Expansion.Adventures, Expansion.Intrigue), MastersOfFinance("Masters of Finance", Expansion.Adventures, Expansion.Intrigue),
-    // Adventures and Intrigue
+    // Adventures and Intrigue 2E
     RoyaltyFactory2("Royalty Factory", Expansion.Adventures, Expansion.Intrigue2E), MastersOfFinance2("Masters of Finance", Expansion.Adventures, Expansion.Intrigue2E),
     // Adventures and Seaside
     PrinceOfOrange("Prince of Orange", Expansion.Adventures, Expansion.Seaside), GiftsAndMathoms("Gifts and Mathoms", Expansion.Adventures, Expansion.Seaside),
@@ -177,6 +203,29 @@ public enum GameType {
     CashFlow("Cash Flow", Expansion.Empires, Expansion.Guilds),
     // Empires and Adventures
     AreaControl("Area Control", Expansion.Empires, Expansion.Adventures), NoMoneyNoProblems("No Money No Problems", Expansion.Empires, Expansion.Adventures),
+    
+	// Nocturne
+    Dusk("Dusk", Expansion.Nocturne), Midnight("Midnight", Expansion.Nocturne),
+    // Nocturne and Base 2E
+    NightShift("Night Shift", Expansion.Nocturne, Expansion.Base), IdleHands("Idle Hands", Expansion.Nocturne, Expansion.Base),
+    // Nocturne and Intrigue 2E
+    ShadowyFigures("Shadowy Figures", Expansion.Nocturne, Expansion.Intrigue), ImpendingDoom("Impending Doom", Expansion.Nocturne, Expansion.Intrigue),
+    // Nocturne and Seaside
+    TheNewBlack("The New Black", Expansion.Nocturne, Expansion.Seaside), ForbiddenIsle("Forbidden Isle", Expansion.Nocturne, Expansion.Seaside),
+    // Nocturne and Alchemy
+    NightmareFuel("Nightmare Fuel", Expansion.Nocturne, Expansion.Alchemy),
+    // Nocturne and Prosperity
+    TreasuresOfTheNight("Treasures of the Night", Expansion.Nocturne, Expansion.Prosperity), DayAtTheRaces("Day at the Races", Expansion.Nocturne, Expansion.Prosperity),
+    // Nocturne and Cornucopia and Guilds
+    TheEndlessFair("The Endless Fair", Expansion.Nocturne, Expansion.Cornucopia, Expansion.Guilds), HappyChaos("Happy Chaos", Expansion.Nocturne, Expansion.Cornucopia, Expansion.Guilds),
+    // Nocturne and Hinterlands
+    SearchParty("Search Party", Expansion.Nocturne, Expansion.Hinterlands), CountingSheep("Counting Sheep", Expansion.Nocturne, Expansion.Hinterlands),
+    // Nocturne and Dark Ages
+    GraveMatters("Grave Matters", Expansion.Nocturne, Expansion.DarkAges), RatsAndBats("Rats and Bats", Expansion.Nocturne, Expansion.DarkAges),
+    // Nocturne and Adventures
+    MonsterMash("Monster Mash", Expansion.Nocturne, Expansion.Adventures), LostInTheWoods("Lost in the Woods", Expansion.Nocturne, Expansion.Adventures),
+    // Nocturne and Empires
+    Luftschloss("Luftschloss", Expansion.Nocturne, Expansion.Empires), PookaPranks("Pooka Pranks", Expansion.Nocturne, Expansion.Empires),
     
     // Card set is specified from Dominion Shuffle
     Specified("Specified");

@@ -1,6 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -53,9 +54,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         return players;
     }
 
-    GridView handGV, playedGV, tavernGV, archiveGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
-    CardGroup hand, played, tavern, archive, prince, island, village, inheritance, blackMarket, trash;
-    View tavernColumn, archiveColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
+    GridView handGV, playedGV, tavernGV, archiveGV, cryptGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
+    CardGroup hand, played, tavern, archive, crypt, prince, island, village, inheritance, blackMarket, trash;
+    View tavernColumn, archiveColumn, cryptColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
     TextView playedHeader;
     LinearLayout myCards;
 
@@ -70,7 +71,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     LinearLayout turnView;
     View myCardView;
     private static int[] costs = {};
-
+    
     TextView actionText;
     LinearLayout deckStatus;
     TurnView turnStatus;
@@ -201,6 +202,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         archiveGV.setAdapter(archive);
         archiveGV.setOnItemLongClickListener(this);
         archiveColumn = findViewById(R.id.archiveColumn);
+        
+        crypt = new CardGroup(top, false);
+        cryptGV = (GridView) findViewById(R.id.cryptGV);
+        cryptGV.setAdapter(crypt);
+        cryptGV.setOnItemLongClickListener(this);
+        cryptColumn = findViewById(R.id.cryptColumn);
 
         prince = new CardGroup(top, false);
         princeGV = (GridView) findViewById(R.id.princeGV);
@@ -340,7 +347,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param cards Cards that are in play
      * @param players Names of players
      */
-    public void newGame(MyCard[] cards, String[] players) {
+    public void newGame(MyCard[] cards, String[] players, List<Card> druidBoons) {
         GameTableViews.clearCards();
         openedCards.clear();
         moneyPile.clear();
@@ -353,6 +360,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         played.clear();
         tavern.clear();
         archive.clear();
+        crypt.clear();
         prince.clear();
         island.clear();
         village.clear();
@@ -373,6 +381,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         for (MyCard c : cards)
             addCardToTable(c);
+        GameTableViews.setDruidBoons(druidBoons);
         for (String s : players)
             addPlayer(s);
         vpPile.setPlayers(getPlayerAdapter());
@@ -487,7 +496,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         // Localize a few strings in the card before actually saving it.
         Strings.localizeMyCard(c);
         GameTableViews.addCard(c.id, c);
-
+        
         if (c.pile == MyCard.MONEYPILE)
             moneyPile.addCard(c);
         else if (c.pile == MyCard.VPPILE)
@@ -541,7 +550,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 if ((parent != vpPile)
                     &&  (parent != moneyPile)
                     &&  (parent != supplyPile)
-                    &&  (parent != eventPile)) return false;
+                    &&  (parent != eventPile)
+                    &&  (!sco.allowNonSupply || (sco.allowNonSupply && parent != nonSupplyPile))) return false;
             }
         } else if (sco.fromPrizes) {
             if (parent != prizePile) return false;
@@ -753,7 +763,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         if (sco.isBuyPhase) {
             s = Strings.getString(R.string.part_buy);
-        } else if (sco.isActionPhase) {
+        } else if (sco.isActionPhase || sco.isNightPhase) {
             s = Strings.getString(R.string.part_play);
         } else if (sco.isTreasurePhase) {
             s = Strings.getString(R.string.use_for_money);
@@ -767,12 +777,20 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
         firstPass = false;
         resetButtons();
+        
+        boolean hasNightCards = false;
+        for (int i = 0; i < hand.getCount(); ++i) {
+        	if (((CardState)hand.getItem(i)).c.isNight) {
+        		hasNightCards = true;
+        		break;
+        	}
+        }
 
         HapticFeedback.vibrate(getContext(),AlertType.SELECT);
         select.setVisibility(VISIBLE);
         if (sco.isPassable()) {
             pass.setVisibility(VISIBLE);
-            if (sco.isBuyPhase) {
+            if ((sco.isBuyPhase && !hasNightCards) || sco.isNightPhase) {
                 pass.setText(Strings.getString(R.string.end_turn));
             } else {
                 pass.setText(Strings.getString(R.string.none));
@@ -1092,7 +1110,10 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         for (int i=0; i<players.getCount(); i++) {
         	int color = GameTable.getPlayerTextBackgroundColor(getContext(), i);
         	boolean showColor = hasTokens(i, gs.tokens);
-            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.stashOnDeck[i], gs.handSizes[i], gs.stashesInHand[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.debtTokens[i], gs.guildsCoinTokens[i], gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokens[i], gs.whoseTurn == i, showColor, color);
+            players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.stashOnDeck[i], gs.handSizes[i], gs.stashesInHand[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.debtTokens[i], gs.guildsCoinTokens[i],
+            		gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokens[i],
+            		gs.hasDeluded[i], gs.hasEnvious[i], gs.hasLostInTheWoods[i], gs.hasMiserable[i], gs.hasTwiceMiserable[i],
+            		gs.whoseTurn == i, showColor, color);
         }
         players.notifyDataSetChanged();
 
@@ -1120,6 +1141,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         	archiveColumn.setVisibility(VISIBLE);
         } else {
         	archiveColumn.setVisibility(GONE);
+        }
+        
+        GameTableViews.newCardGroup(crypt, gs.myCrypt);
+        if (gs.myCrypt.length > 0) {
+        	cryptColumn.setVisibility(VISIBLE);
+        } else {
+        	cryptColumn.setVisibility(GONE);
         }
         
         GameTableViews.newCardGroup(prince, gs.myPrince);

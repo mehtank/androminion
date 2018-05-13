@@ -20,7 +20,7 @@ public class CardImplDarkAges extends CardImpl {
 	protected CardImplDarkAges() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
 		case Altar:
             altar(currentPlayer, context);
@@ -274,8 +274,7 @@ public class CardImplDarkAges extends CardImpl {
                 card = Util.randomCard(currentPlayer.hand);
             }
 
-            currentPlayer.hand.remove(card);
-            currentPlayer.trash(card, this.getControlCard(), context);
+            currentPlayer.trashFromHand(card, this.getControlCard(), context);
         }
 
         Card card = currentPlayer.controlPlayer.altar_cardToObtain(context);
@@ -334,22 +333,6 @@ public class CardImplDarkAges extends CardImpl {
         context.freeActionInEffect++;
         cardToPlay.play(game, context, false);
         context.freeActionInEffect--;
-
-        // impersonated card stays in play until next turn?
-        if (cardToPlay.trashOnUse) {
-            int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
-            if (idx >= 0) currentPlayer.playedCards.remove(idx);
-            currentPlayer.trash(this.getControlCard(), null, context);
-        } else if (cardToPlay.is(Type.Duration, currentPlayer) && !cardToPlay.equals(Cards.outpost)) {
-            if (!this.getControlCard().movedToNextTurnPile) {
-                this.getControlCard().movedToNextTurnPile = true;
-                int idx = currentPlayer.playedCards.lastIndexOf(this.getControlCard());
-                if (idx >= 0) {
-                    currentPlayer.playedCards.remove(idx);
-                    currentPlayer.nextTurnCards.add(this.getControlCard());
-                }
-            }
-        }
     }
 
 	private void banditCamp(MoveContext context, Player currentPlayer)
@@ -430,7 +413,7 @@ public class CardImplDarkAges extends CardImpl {
                     for (int i = 0; i < cards.length; i++) {
                         currentPlayer.hand.remove(cards[i]);
                         currentPlayer.reveal(cards[i], this.getControlCard(), context);
-                        currentPlayer.discard(cards[i], this.getControlCard(), null);
+                        currentPlayer.discard(cards[i], this.getControlCard(), context);
                     }
                     break;
                 case PutOnDeck:
@@ -464,8 +447,7 @@ public class CardImplDarkAges extends CardImpl {
                     if (currentPlayer.hand.size() > 0) {
                         Card[] temp = currentPlayer.hand.toArray();
                         for (Card c : temp) {
-                            currentPlayer.hand.remove(c);
-                            currentPlayer.trash(c, this.getControlCard(), context);
+                            currentPlayer.trashFromHand(c, this.getControlCard(), context);
                         }
                     }
                     break;
@@ -508,9 +490,8 @@ public class CardImplDarkAges extends CardImpl {
                     for (int i = 0; i < currentPlayer.hand.size(); i++) {
                         Card playersCard = currentPlayer.hand.get(i);
                         if (playersCard.equals(card)) {
-                            Card thisCard = currentPlayer.hand.remove(i);
-
-                            currentPlayer.trash(thisCard, this.getControlCard(), context);
+                            Card thisCard = currentPlayer.hand.get(i);
+                            currentPlayer.trashFromHand(thisCard, this.getControlCard(), context);
                             break;
                         }
                     }
@@ -540,14 +521,9 @@ public class CardImplDarkAges extends CardImpl {
         Card actionCardToTrash = currentPlayer.controlPlayer.deathCart_actionToTrash(context);
         if (actionCardToTrash != null)
         {
-            currentPlayer.hand.remove(actionCardToTrash);
-            currentPlayer.trash(actionCardToTrash, this.getControlCard(), context);
-        }
-        else if (!this.getControlCard().movedToNextTurnPile)
-        {
-            currentPlayer.playedCards.remove(this.getControlCard());
-            currentPlayer.trash(this.getControlCard(), this.getControlCard(), context);
-            this.getControlCard().movedToNextTurnPile = true;
+            currentPlayer.trashFromHand(actionCardToTrash, this.getControlCard(), context);
+        } else {
+        	currentPlayer.trashSelfFromPlay(getControlCard(), context);
         }
     }
 
@@ -560,8 +536,7 @@ public class CardImplDarkAges extends CardImpl {
                 card = Util.randomCard(currentPlayer.hand);
             }
 
-            currentPlayer.hand.remove(card);
-            currentPlayer.trash(card, this.getControlCard(), context);
+            currentPlayer.trashFromHand(card, this.getControlCard(), context);
         }
 
         HashSet<String> cardNames = new HashSet<String>();
@@ -609,15 +584,13 @@ public class CardImplDarkAges extends CardImpl {
                     return;
                 }
 
-                currentPlayer.hand.remove(toTrash);
-                currentPlayer.trash(toTrash, this.getControlCard(), context);
+                currentPlayer.trashFromHand(toTrash, this.getControlCard(), context);
 
                 context.graverobberGainedCardOnTop = false;
                 toGain = currentPlayer.controlPlayer.graverobber_cardToReplace(context, 3 + toTrash.getCost(context), toTrash.getDebtCost(context), toTrash.costPotion());
                 if (toGain != null && toGain.getCost(context) <= toTrash.getCost(context) + 3 && 
                 		toGain.getDebtCost(context) <= toTrash.getDebtCost(context) && 
-                		(!toGain.costPotion() || toTrash.costPotion()) &&
-                		toGain.is(Type.Action)) {
+                		(!toGain.costPotion() || toTrash.costPotion())) {
                     currentPlayer.gainNewCard(toGain, this, context);
                 }
                 break;
@@ -659,8 +632,7 @@ public class CardImplDarkAges extends CardImpl {
                     currentPlayer.discard.remove(toTrash);
                     currentPlayer.trash(toTrash, this.getControlCard(), context);
                 } else if (currentPlayer.hand.contains(toTrash) && (context.hermitTrashCardPile == PileSelection.ANY || context.hermitTrashCardPile == PileSelection.HAND)) {
-                    currentPlayer.hand.remove(toTrash);
-                    currentPlayer.trash(toTrash, this.getControlCard(), context);
+                    currentPlayer.trashFromHand(toTrash, this.getControlCard(), context);
                 } else {
                     Util.playerError(currentPlayer, "Hermit trash error, chosen card to trash not in hand or discard, ignoring.");
                 }
@@ -708,15 +680,14 @@ public class CardImplDarkAges extends CardImpl {
                 Util.playerError(currentPlayer, "Junk Dealer card to trash invalid, picking one");
                 card = currentPlayer.hand.get(0);
             }
-            currentPlayer.hand.remove(card);
-            currentPlayer.trash(card, this.getControlCard(), context);
+            currentPlayer.trashFromHand(card, this.getControlCard(), context);
         }
     }
     
     private void madman(MoveContext context, Game game, Player currentPlayer) {
-        if (currentPlayer.playedCards.contains(this.getControlCard())) {
+        if (currentPlayer.isInPlay(this)) {
             // Return to the Madman pile
-            currentPlayer.playedCards.remove(this.getControlCard());
+            currentPlayer.playedCards.remove(currentPlayer.playedCards.indexOf(this.getControlCard().getId()));
             CardPile pile = game.getPile(this.getControlCard());
             pile.addCard(this.getControlCard());
 
@@ -757,9 +728,8 @@ public class CardImplDarkAges extends CardImpl {
                         for (int i = 0; i < currentPlayer.hand.size(); i++) {
                             Card playersCard = currentPlayer.hand.get(i);
                             if (playersCard.equals(card)) {
-                                Card thisCard = currentPlayer.hand.remove(i);
-
-                                currentPlayer.trash(thisCard, this.getControlCard(), context);
+                                Card thisCard = currentPlayer.hand.get(i);
+                                currentPlayer.trashFromHand(thisCard, this.getControlCard(), context);
                                 ++cardsTrashedCount;
                                 break;
                             }
@@ -820,14 +790,17 @@ public class CardImplDarkAges extends CardImpl {
     }
     
     private void pillage(Game game, MoveContext context, Player currentPlayer) {
-
+    	ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+    	currentPlayer.trashSelfFromPlay(getControlCard(), context);
+    	
         // Each other player with 5 cards in hand reveals his hand and discards a card that you choose.
-        for (Player targetPlayer : game.getPlayersInTurnOrder())
-        {
-            if (targetPlayer != currentPlayer &&
-                !Util.isDefendedFromAttack(game, targetPlayer, this) &&
-                targetPlayer.getHand().size() >= 5)
-            {
+        for (Player targetPlayer : attackedPlayers) {
+            if (targetPlayer.getHand().size() >= 5) {
                 targetPlayer.attacked(this.getControlCard(), context);
                 MoveContext targetContext = new MoveContext(context, game, targetPlayer);
                 targetContext.attackedPlayer = targetPlayer;
@@ -895,8 +868,7 @@ public class CardImplDarkAges extends CardImpl {
                     }
                 }
 
-                currentPlayer.hand.remove(card);
-                currentPlayer.trash(card, this.getControlCard(), context);
+                currentPlayer.trashFromHand(card, this.getControlCard(), context);
             }
         }
     }
@@ -1035,7 +1007,7 @@ public class CardImplDarkAges extends CardImpl {
         }
 
         while (!toDiscard.isEmpty()) {
-            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), null);
+            currentPlayer.discard(toDiscard.remove(0), this.getControlCard(), context);
         }
     }
     
@@ -1045,12 +1017,7 @@ public class CardImplDarkAges extends CardImpl {
         // Discard the entire deck if the player chose to do so
         if (discard)
         {
-            GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
-            game.broadcastEvent(event);
-            while (currentPlayer.getDeckSize() > 0)
-            {
-                currentPlayer.discard(game.draw(context, Cards.scavenger, 0), this.getControlCard(), null, false, false);
-            }
+        	currentPlayer.deckToDiscard(context, getControlCard());
         }
 
         // Prompt to add a card from the discard pile back onto the deck, but only if at least one is available
@@ -1088,7 +1055,7 @@ public class CardImplDarkAges extends CardImpl {
     }
     
     private void spoils(Game game, Player currentPlayer) {
-    	if (isInPlay(currentPlayer)) {
+    	if (currentPlayer.isInPlay(this)) {
             CardPile pile = game.getPile(this);
             pile.addCard(currentPlayer.playedCards.remove(currentPlayer.playedCards.indexOf(this.getId())));
     	}
@@ -1324,7 +1291,7 @@ public class CardImplDarkAges extends CardImpl {
 
                     // If the card trashed was a knight, the attacking knight should be trashed as well
                     if (cardToTrash.is(Type.Knight, targetPlayer) && currentPlayer.playedCards.contains(this.getControlCard()) && currentPlayer.playedCards.getLastCard() == this.getControlCard()) {
-                        currentPlayer.trash(currentPlayer.playedCards.removeLastCard(), cardToTrash, context);
+                        currentPlayer.trashSelfFromPlay(getControlCard(), context);
                     }
                 }
             }

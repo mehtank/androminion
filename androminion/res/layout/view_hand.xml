@@ -171,6 +171,30 @@
                 android:numColumns="1"
                 android:stretchMode="columnWidth" />
         </LinearLayout>
+        
+        <!-- Crypt -->
+
+        <LinearLayout
+            android:id="@+id/cryptColumn"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_cards"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/crypt_header" />
+
+            <GridView
+                android:id="@+id/cryptGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth" />
+        </LinearLayout>
 
         <!-- Village -->
 

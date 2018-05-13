@@ -16,7 +16,7 @@ public class CardImplSeaside extends CardImpl {
 	protected CardImplSeaside() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer) {
+	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
 		case Ambassador:
             ambassador(game, context, currentPlayer);
@@ -34,7 +34,7 @@ public class CardImplSeaside extends CardImpl {
             ghostShip(game, context, currentPlayer);
             break;
 		case Haven:
-            haven(context, currentPlayer);
+            haven(context, currentPlayer, isThronedEffect);
             break;
 		case Island:
             island(game, context, currentPlayer);
@@ -48,6 +48,9 @@ public class CardImplSeaside extends CardImpl {
 		case Navigator:
             navigator(game, context, currentPlayer);
             break;
+		case Outpost:
+			currentPlayer.addStartTurnDurationEffect(this, 1, isThronedEffect);
+			break;
 		case PearlDiver:
             pearlDiver(context, currentPlayer);
             break;
@@ -64,7 +67,7 @@ public class CardImplSeaside extends CardImpl {
             smugglers(context, currentPlayer);
             break;
 		case Tactician:
-            tactician(context, currentPlayer);
+            tactician(context, currentPlayer, isThronedEffect);
             break;
 		case TreasureMap:
             treasureMap(context, currentPlayer);
@@ -163,6 +166,7 @@ public class CardImplSeaside extends CardImpl {
     }
 	
     private void embargo(Game game, MoveContext context, Player currentPlayer) {
+    	currentPlayer.trashSelfFromPlay(getControlCard(), context);
         Card card = currentPlayer.controlPlayer.embargo_supplyToEmbargo(context);
 
         while (game.addEmbargo(card) == null) {
@@ -242,7 +246,7 @@ public class CardImplSeaside extends CardImpl {
         }
     }
     
-    private void haven(MoveContext context, Player currentPlayer) {
+    private void haven(MoveContext context, Player currentPlayer, boolean isThronedEffect) {
         Card card = currentPlayer.getHand().size() == 0 ? null : currentPlayer.controlPlayer.haven_cardToSetAside(context);
         if ((card == null && currentPlayer.getHand().size() > 0) || (card != null && !currentPlayer.getHand().contains(card))) {
             Util.playerError(currentPlayer, "Haven set aside card error, setting aside the first card in hand.");
@@ -252,13 +256,12 @@ public class CardImplSeaside extends CardImpl {
         if (card != null) {
             currentPlayer.getHand().remove(card);
             currentPlayer.haven.add(card);
-            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsideHaven, (MoveContext) context);
+            currentPlayer.addStartTurnDurationEffect(this, 1, isThronedEffect);	
+            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, (MoveContext) context);
             event.card = card;
+            event.responsible = this;
             event.setPrivate(true);
             context.game.broadcastEvent(event);
-        } else if (this.getControlCard().cloneCount == 1) {
-            currentPlayer.nextTurnCards.remove(this.getControlCard());
-            currentPlayer.playedCards.add(this.getControlCard());
         }
     }
 
@@ -270,8 +273,8 @@ public class CardImplSeaside extends CardImpl {
         }
 
         // Move to island mat if not already played
-        if (this.getControlCard().numberTimesAlreadyPlayed == 0) {
-            currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.getControlCard()));
+        if (currentPlayer.isInPlay(this)) {
+            currentPlayer.playedCards.remove(currentPlayer.playedCards.indexOf(this.getControlCard().getId()));
             currentPlayer.island.add(this.getControlCard());
             this.getControlCard().stopImpersonatingCard();
 
@@ -505,8 +508,7 @@ public class CardImplSeaside extends CardImpl {
         }
 
         context.addCoins(card.getCost(context));
-        currentPlayer.hand.remove(card);
-        currentPlayer.trash(card, this.getControlCard(), context);
+        currentPlayer.trashFromHand(card, this.getControlCard(), context);
     }
     
     private void seaHag(Game game, MoveContext context, Player currentPlayer) {
@@ -557,53 +559,22 @@ public class CardImplSeaside extends CardImpl {
         }
     }
     
-    private void tactician(MoveContext context, Player currentPlayer) {
-        // throneroom has no effect since hand is already empty
-        if (this.getControlCard().numberTimesAlreadyPlayed == 0) {
-            // Only works if at least one card discarded
-            if (currentPlayer.hand.size() > 0) {
-                while (!currentPlayer.hand.isEmpty()) {
-                    currentPlayer.discard(currentPlayer.hand.remove(0), this.getControlCard(), context);
-                }
-            } else {
-                currentPlayer.nextTurnCards.remove(this.getControlCard());
-                currentPlayer.playedCards.add(this.getControlCard());
+    private void tactician(MoveContext context, Player currentPlayer, boolean isThronedEffect) {
+        if (currentPlayer.hand.size() > 0) {
+            while (!currentPlayer.hand.isEmpty()) {
+                currentPlayer.discard(currentPlayer.hand.remove(0), this.getControlCard(), context);
             }
-        } else {
-            // reset clone count
-            this.getControlCard().cloneCount = 1;
+            currentPlayer.addStartTurnDurationEffect(this, 1, isThronedEffect);
         }
     }
     
     private void treasureMap(MoveContext context, Player currentPlayer) {
-        // Check for Treasure Map in hand
-        Card anotherMap = null;
-        for (Card card : currentPlayer.hand) {
-            if (card.equals(Cards.treasureMap)) {
-                anotherMap = card;
-                break;
-            }
-        }
-
-        // Treasure Map still trashes extra Treasure Maps in hand on throneRoom
-        if (this.numberTimesAlreadyPlayed == 0) {
-            if (anotherMap != null && !this.getControlCard().equals(Cards.estate)) {
-                // going to get the gold so trash map played and map from hand
-                currentPlayer.trash(currentPlayer.playedCards.removeCard(this.getControlCard()), null, context);
-                currentPlayer.trash(currentPlayer.hand.removeCard(anotherMap), null, context);
-                for (int i = 0; i < 4; i++) {
-                    currentPlayer.gainNewCard(Cards.gold, this, context);
-                }
-
-            } else {
-                // Send notification that the map played was trashed (as per rules
-                // when a single map is played)
-                currentPlayer.trash(currentPlayer.playedCards.removeCard(this.getControlCard()), null, context);
-            }
-        } else {
-            if (anotherMap != null) {
-                // trash it, but no gold
-                currentPlayer.trash(currentPlayer.hand.removeCard(anotherMap), null, context);
+    	boolean thisIsMap = getControlCard().equals(Cards.treasureMap);
+        boolean trashedBoth = currentPlayer.trashSelfFromPlay(getControlCard(), context);
+        trashedBoth &= currentPlayer.trashFromHand(Cards.treasureMap, getControlCard(), context);
+        if (thisIsMap && trashedBoth) {
+        	for (int i = 0; i < 4; i++) {
+                currentPlayer.gainNewCard(Cards.gold, this, context);
             }
         }
     }

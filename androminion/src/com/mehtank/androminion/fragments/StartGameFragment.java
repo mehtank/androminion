@@ -77,6 +77,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     ToggleButton mRandomGuilds;
     ToggleButton mRandomAdventures;
     ToggleButton mRandomEmpires;
+    ToggleButton mRandomNocturne;
     Map<Expansion, ToggleButton> completeSets;
     ToggleButton mRandomPromo;
     
@@ -92,6 +93,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     SharedPreferences mPrefs;
     boolean mMultiplayer = false;
     String[] mLastCards;
+    String[] mDruidBoons;
     String[] mCardsPassOnStartup;
     
     //TODO: find a better solution for these
@@ -179,6 +181,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         completeSets.put(Expansion.Guilds, mRandomGuilds = (ToggleButton) mView.findViewById(R.id.toggleButtonGuilds));
         completeSets.put(Expansion.Adventures, mRandomAdventures = (ToggleButton) mView.findViewById(R.id.toggleButtonAdventures));
         completeSets.put(Expansion.Empires, mRandomEmpires = (ToggleButton) mView.findViewById(R.id.toggleButtonEmpires));
+        completeSets.put(Expansion.Nocturne, mRandomNocturne = (ToggleButton) mView.findViewById(R.id.toggleButtonNocturne));
         mRandomPromo = (ToggleButton) mView.findViewById(R.id.toggleButtonPromo);
                 
         mPlayer2 = (Spinner) mView.findViewById(R.id.spPlayer2);
@@ -193,6 +196,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mStartGame.setOnClickListener(this);
 
         getLastCards();
+        getLastDruidBoons();
 
         // Fill cardset spinner with values
         ArrayList<String> cardspinnerlist = new ArrayList<String>();
@@ -590,6 +594,16 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
             }
         }
     }
+	
+	private void getLastDruidBoons() {
+        int count = mPrefs.getInt("LastDruidBoonCount", 0);
+        if (count > 0) {
+            mDruidBoons = new String[count];
+            for (int i = 0; i < count; i++) {
+            	mDruidBoons[i] = mPrefs.getString("LastDruidBoon" + i, null);
+            }
+        }
+    }
 
     private <T> ArrayAdapter<T> createArrayAdapter(ArrayList<T> list) {
         ArrayAdapter<T> adapter = new ArrayAdapter<T>
@@ -603,6 +617,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         SharedPreferences.Editor edit = mPrefs.edit();
 
         String[] cardsSpecified = null;
+        String[] druidBoonsSpecified = null;
         ArrayList<String> strs = new ArrayList<String>();
         GameType g;
 
@@ -669,10 +684,12 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 edit.putString("gameType", TypeOptions.LAST.name());
 
                 cardsSpecified = mLastCards;
+                druidBoonsSpecified = mDruidBoons;
                 strs.add("Random");
                 break;
             case SPECIFIED:
                 cardsSpecified = mCardsPassOnStartup;
+                druidBoonsSpecified = null;
                 strs.add("Random");
                 break;
         }
@@ -777,8 +794,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         if (!mPrefs.getBoolean("errata_moneylender", true)) {
         	strs.add("-erratamoneylenderforced");
         }
-        if (!mPrefs.getBoolean("errata_posessor_takes_tokens", true)) {
-        	strs.add("-erratapossessedtakestokens");
+        if (!mPrefs.getString("errata_possessor_tokens", "Debt").equals("Debt")) {
+            strs.add("-erratapossessortakestokens-" + mPrefs.getString("errata_possessor_tokens", "Debt"));
         }
         if (!mPrefs.getBoolean("errata_throneroom", true)) {
         	strs.add("-erratathroneroomforced");
@@ -797,6 +814,12 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 else
                     sb.append("-");
                 sb.append(card);
+            }
+            if (druidBoonsSpecified != null) {
+            	for(String card : druidBoonsSpecified) {
+                    sb.append("-");
+                    sb.append(card);
+                }
             }
             Log.d("Cards specified",sb.toString());
             strs.add(sb.toString());

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
     <!-- Interaction -->
 	<string name="pass">Passer</string>
 	<string name="pass_all">Tout passer</string>
@@ -20,8 +21,10 @@
 	<string name="reveal_copy">Révéler un exemplaire de la main</string>
 	<string name="legionary_reveal_gold">Révéler un Or pour attaquer</string>
 	<string name="sentry_look_at">%1$s regarde %2$s (depuis %3$s)</string>
-	
-    <string name="join_timed_out">Le temps d\'attente pour rejoindre et démarrer le jeu est écoulé.</string>
+	<string name="faithfulHound_query">Défausser le Chien Fidèle</string>
+	<string name="faithfulHound_set_aside">Mettre de côté pour le prendre en main à la fin du tour</string>
+        
+        <string name="join_timed_out">Le temps d\'attente pour rejoindre et démarrer le jeu est écoulé.</string>
 	<string name="response_timed_out">Le temps d\'attente pour rejoindre et répondre à la demande est écoulé.</string>        
 
 	<string name="vp_single">Vaut %1$s PV</string>
@@ -57,7 +60,11 @@
         
 	<string name="discardPile">défausse</string>
 	<string name="hand">main</string>
-
+        
+	<string name="list_two_types">%1$s ou %2$s</string>
+	<string name="list_type_separator">,\u0020</string>
+	<string name="list_penultimate_type_separator">\u0020ou\u0020</string>
+        
 	<string name="select_from_table">Sélectionnez une carte de la réserve à %1$s</string>
 	<string name="select_from_table_attack">Sélectionnez une carte Attaque de la réserve à %1$s</string>
 	<string name="select_from_table_action">Sélectionnez une carte Action de la réserve à %1$s</string>
@@ -73,12 +80,16 @@
 	<string name="select_from_table_max_non_vp_action">Sélectionnez une carte de la réserve, autre qu\'une Action-Victoire, coûtant au plus (%1$s) à %2$s</string>        
 	<string name="select_from_table_max_vp">Sélectionnez une carte Victoire de la réserve coûtant au plus (%1$s) à %2$s</string>
 	<string name="select_from_table_max_action">Sélectionnez une carte Action de la réserve coûtant au plus (%1$s) à %2$s</string>
-	<string name="select_from_table_between">Sélectionnez une carte de la réserve coûtant entre (%1$s) et (%2$s) à %3$s</string>
+	<string name="select_from_table_max_except">Sélectionnez une carte de la réserve, sauf %1$s, coûtant au plus (%2$s) à %3$s</string>
+        <string name="select_from_table_between">Sélectionnez une carte de la réserve coûtant entre (%1$s) et (%2$s) à %3$s</string>
 	<string name="select_from_table_min">Sélectionnez une carte de la réserve coûtant au moins (%1$s) à %2$s</string>
 	<string name="select_from_table_less">Sélectionnez une carte de la réserve coûtant moins de (%1$s) à %2$s</string>
 	<string name="select_from_table_less_non_vp">Sélectionnez une carte de la réserve, autre qu\'une Victoire, coûtant moins de (%1$s) à %2$s</string>
-	
+	<string name="select_from_table_less_spirit">Sélectionnez une carte Esprit de la réserve coûtant moins de (%1$s) à %2$s</string>
+	<string name="select_from_table_less_of_types">Sélectionnez une carte %1$s de la réserve coûtant moins de (%2$s) à %3$s</string>
+        
 	<string name="select_one_card_from_hand">Sélectionnez une carte de votre main à %1$s</string>
+	<string name="select_one_of_types_card_from_hand">Sélectionnez une carte %1$s de votre main à %2$s</string>
 	<string name="select_up_to_x_cards_from_hand">Sélectionnez jusqu\'à %1$s cartes de votre main à %2$s</string>
 	<string name="select_exactly_x_cards_from_hand">Sélectionnez exactement %1$s cartes de votre main à %2$s</string>
 	<string name="select_from_x_to_y_cards_from_hand">Sélectionnez %1$s à %2$s cartes de votre main à %3$s</string>
@@ -89,10 +100,16 @@
 	<string name="select_exactly_x_cards_from_trash">Sélectionnez exactement %1$s cartes du Rebut à %2$s</string>
 
 	<string name="select_one_action_from_hand">Sélectionnez une carte Action de votre main à %1$s</string>
+	<string name="select_one_action_from_hand_not_in_play">Sélectionnez une carte Action de votre main, dont vous n\'avez aucun exemplaire en jeu, à %1$s</string>
 	<string name="select_up_to_x_actions_from_hand">Sélectionnez jusqu\'à %1$s cartes Action de votre main à %2$s</string>
 	<string name="select_exactly_x_actions_from_hand">Sélectionnez exactement %1$s cartes Action de votre main à %2$s</string>
-        
+
+	<string name="select_one_night_from_hand">Sélectionnez une carte Nuit de votre main à %1$s</string>
+	<string name="select_up_to_x_nights_from_hand">Sélectionnez jusqu\'à %1$s cartes Nuit de votre main à %2$s</string>
+	<string name="select_exactly_x_nights_from_hand">Sélectionnez exactement %1$s cartes Nuit de votre main à %2$s</string>
+	        
 	<string name="select_one_treasure_from_hand">Sélectionnez une carte Trésor de votre main à %1$s</string>
+	<string name="select_one_treasure_from_hand_except">Sélectionnez une carte Trésor de votre main, sauf %1$s, à %2$s</string>
 	<string name="select_up_to_x_treasures_from_hand">Sélectionnez jusqu\'à %1$s cartes Trésor de votre main à %2$s</string>
 	<string name="select_exactly_x_treasures_from_hand">Sélectionnez exactement %1$s cartes Trésor de votre main à %2$s</string>
 
@@ -104,12 +121,13 @@
 	<string name="select_up_to_x_nontreasures_from_hand">Sélectionnez jusqu\'à %1$s cartes autres que Trésor de votre main à %2$s</string>
 	<string name="select_exactly_x_nontreasures_from_hand">Sélectionnez exactement %1$s cartes autres que Trésor de votre main à %2$s</string>
 
-	<string name="select_one_card_from_played">Sélectionnez une carte qui vous avez en jeu à %1$s</string>
-	<string name="select_up_to_x_cards_from_played">Sélectionnez jusqu\'à %1$s cartes vous avez en jeu à %2$s</string>
+	<string name="select_one_card_from_played">Sélectionnez une carte que vous avez en jeu à %1$s</string>
+	<string name="select_up_to_x_cards_from_played">Sélectionnez jusqu\'à %1$s cartes que vous avez en jeu à %2$s</string>
+	<string name="select_up_to_x_treasure_cards_from_played">Sélectionnez jusqu\'à %1$s cartes Trésor que vous avez en jeu à %2$s</string>
 	<string name="select_exactly_x_cards_from_played">Sélectionnez exactement %1$s cartes que vous avez en jeu à %2$s</string>
 	<string name="select_up_to_x_different_cards_from_played">Sélectionnez jusqu\'à %1$s cartes nommées différemment que vous avez en jeu à %2$s</string>        
 
-	<string name="reaction_query">Sélectionnez une carte réaction à révéler</string>        
+	<string name="reaction_query">Sélectionner une carte réaction à révéler</string>        
 	<string name="bane_option_one">Révéler la carte Fléau (%1$s)</string>
 
 	<string name="card_to_reveal">révéler [%1$s]</string>
@@ -120,6 +138,9 @@
 	<string name="card_to_discard_for_coin">défausser [%1$s] pour des pièces</string>
 	<string name="card_to_name">nommer [%1$s]</string>
 	<string name="card_to_set_aside">mettre de côté [%1$s]</string>
+	<string name="card_to_play">jouer [%1$s]</string>
+	<string name="cards_to_keep">garder [%1$s]</string>
+	<string name="cards_to_topdeck">remettre au dessus du deck [%1$s]</string>
 	<string name="discard">Défausser</string>
 	<string name="trash">Écarter</string>
 	<string name="keep">Garder</string>
@@ -174,22 +195,22 @@
     <string name="CardSetAsideOnTavernMat">Carte mise sur le plateau Taverne</string>
     <string name="CallingCard">Appelle</string>
     <string name="CalledCard">appelée</string>
-	<string name="CardSetAside">Carte mise de côté (Prince)</string>
-	<string name="CardSetAsideSummon">Carte mise de côté (Invocation)</string>        
-	<string name="CardSetAsideHaven">Carte mise de côté (Havre)</string>
-	<string name="CardSetAsideGear">Carte mise de côté (Équipement)</string>
-	<string name="CardSetAsideSave">Carte mise de côté (Resserre)</string>
+	<string name="CardSetAside">%1$s mise de côté (%2$s)</string>
+	<string name="CardSetAsidePrivate">Carte mise de côté (%1$s)</string>        
 	<string name="CardSetAsideOnIslandMat">Carte mise de côté sur le plateau Île</string>
-	<string name="CardSetAsideInheritance">Carte mise de côté (Héritage)</string>
-	<string name="CardSetAsideArchive">Carte mise de côté (Archives)</string>
 	<string name="DeckPutIntoDiscardPile">Deck défaussé</string>
 	<string name="TravellerExchanged">%1$s échangé pour</string>        
 	<string name="TurnJourneyTokenFaceUp">Jeton Voyage tourné face visible</string>
 	<string name="TurnJourneyTokenFaceDown">Jeton Voyage tourné face cachée</string>
-    <string name="MinusOneCoinTokenOn">Jeton -1 pièce placé</string>
-    <string name="MinusOneCoinTokenOff">Jeton -1 pièce retiré</string>
+        <string name="MinusOneCoinTokenOn">Jeton -1 pièce placé</string>
+        <string name="MinusOneCoinTokenOff">Jeton -1 pièce retiré</string>
 	<string name="MinusOneCardTokenOn">Jeton -1 Carte posé sur le deck</string>
-    <string name="MinusOneCardTokenOff">Jeton -1 Carte retiré</string>
+        <string name="MinusOneCardTokenOff">Jeton -1 Carte retiré</string>
+	<string name="ReceivingBoonOrHex">Reçoit</string>
+	<string name="ReceivedBoonOrHex">Reçu</string>
+	<string name="TookState">A pris %1$s</string>
+	<string name="TookStateFromPlayer">État pris : %1$s de %2$s</string>
+	<string name="ReturnedState">A rendu %1$s</string>
     
     <string name="plus_one_card_token">Jeton +1 Carte</string>
     <string name="plus_one_action_token">Jeton +1 Action</string>
@@ -227,7 +248,7 @@
 
 	<string name="treasure_to_trash">Sélectionnez une carte Trésor à écarter</string>
 
-	<string name="bandit_treasure_to_trash">Sélectionnez une carte Trésor à écarter de votre deck [Malandrin]</string>
+	<string name="bandit_treasure_to_trash">Sélectionnez une carte Trésor à écarter de votre deck [Brigand]</string>
 	
 	<string name="vassal_option_play">Jouez %1$s</string>
 	<!-- Complot -->
@@ -456,16 +477,13 @@
     <string name="victory_tokens">Jetons Victoire</string>
 
     <!-- Cartographe -->
-    <string name="Cartographer_query">Sélectionner une carte à défausser</string>
+    <string name="Cartographer_query">Sélectionner une carte à défausser [%1$s]</string>
 
     <string name="cards">Cartes</string>
     <string name="return_cards">Replacer les cartes sur le deck:</string>
     <string name="take_normal">Prendre normalement</string>
     <string name="opponent_discard">Choisir une carte de %1$s à défausser (%2$s)</string>
 
-	<!-- Bandit -->
-    <string name="rogue_query">Choisir une carte à récupérer du rebut</string>
-	
     <!-- Rescapés -->
     <string name="survivors_header">Rescapés a révélé: %1$s</string>
     <!-- Cultiste -->
@@ -475,6 +493,8 @@
     <string name="urchin_trash_for_mercenary">Écarter cette carte pour recevoir Mercenaire</string>
     <!-- Fou -->
     <string name="madman_option">Retourner Fou</string>
+    <!-- Bandit -->
+    <string name="rogue_query">Choisir une carte à récupérer du rebut</string>
     <!-- Percepteur -->
     <string name="taxman_part">recevoir</string>        
     <!-- Médecin -->
@@ -482,7 +502,7 @@
     <string name="doctor_overpay_option_two">Défausser</string>
     <string name="doctor_overpay_option_three">Replacer sur le deck</string>
     <!-- Héraut -->
-    <string name="herald_overpay_query">Sélectionnez une carte à replacer sur le deck</string>        
+    <string name="herald_overpay_query">Sélectionner une carte à replacer sur le deck</string>        
 
     <string name="spend_guilds_coin_tokens">Dépenser des jetons Pièces Guildes</string>
     <string name="buy_overpay">Surcoût?</string>
@@ -496,9 +516,11 @@
 
     <!-- Témoin d'effet -->
     <string name="HauntedWoodsAttacks">Bois Hantés actifs</string>
-	<string name="EnchantressAttacks">Enchanteresse active</string>
+	<string name="EnchantressAttacks">Magicienne active</string>
     <string name="SwampHagAttacks_single">1 Sorcière des Marais active</string>
     <string name="SwampHagAttacks_multiple">%1$s Sorcières des Marais actives</string>
+    <string name="DeludedStateEffect">Envoûté (Ne peut acheter d\'Action)</string>
+    <string name="EnviousStateEffect">Jaloux (Or et Argent valent (1) Pièce)</string>
     <string name="traveller_exchange">L\'échanger pour %1$s</string>
     <!-- Maître -->
     <string name="teacher_move_token_plus_one_card">placer sous votre jeton +1 Carte (pile dépourvue de vos autres jetons). [Maître]</string>
@@ -521,31 +543,49 @@
     <string name="charm_option_one">+1 Achat, +(2) Pièces</string>
     <string name="charm_option_two">Après le prochain achat, recevoir une carte différente de même coût</string>
     <string name="reveal_gold">Révéler un Or</string>
-    <string name="reveal_plunder">Révéler une Rapine</string>
+    <string name="reveal_plunder">Révéler un Saccage</string>
     <string name="hauntedcastle_part">replacer sur le deck [Château Hanté]</string>
     <string name="draw_three_add_token">Tirer 3 cartes et ajouter un jeton PV à la pile</string>
     <string name="gain_estate_and_tokens">Recevoir un Domaine et prendre les jetons PV de la pile</string>
     <string name="tax_part">taxer en plaçant sur sa pile 2 jetons Dette [Taxe]</string>
-    <string name="mountainPass_query">Enchérissez sur de la Dette pour gagner 8 jetons PV [Défilé Montagneux]</string>
-    <string name="mountainPass_high_bid_query">Enchérissez sur de la Dette pour gagner 8 jetons PV (Meilleure offre: %1$s) [Défilé Montagneux]</string>
+    <string name="mountainPass_query">Enchérissez sur de la Dette pour gagner 8 jetons PV [Col]</string>
+    <string name="mountainPass_high_bid_query">Enchérissez sur de la Dette pour gagner 8 jetons PV (Meilleure offre: %1$s) [Col]</string>
+
+    <string name="crypt_query">Sélectionner une carte à prendre en main [%1$s]</string>
+    <string name="fool_query">Sélectionner une Aubaine à appliquer ensuite [%1$s]</string>
+    <string name="lostInTheWoods_part_discard_for_boon">défausser pour appliquer une Aubaine</string>
+    <string name="the_earths_gift_part">défausser pour recevoir une carte coûtant jusqu\'à (4) Pièces [%1$s]</string>
+    <string name="the_skys_gift_part">défausser pour recevoir un Or [%1$s]</string>
+    <string name="necromancer_query">Sélectionner une carte Action du Rebut à jouer [%1$s]</string>
+    <string name="raider_query">Sélectionner une carte à défausser [%1$s]</string>
   
     <!-- Cachette -->
     <string name="place_stash_query">Placer la Cachette dans le deck</string>
     <string name="place_stashes_query">Placer %1$s cartes Cachette dans le deck</string>
     <string name="stash_on_top">Au dessus</string>
     <string name="stash_on_bottom">Au dessous</string>
-    <string name="stash_choose_individually">Choisissez individuellement&#8230;</string>
+    <string name="stash_choose_individually">Choisir individuellement&#8230;</string>
     <string name="stash_1_card_down">1 carte en dessous</string>
     <string name="stash_x_cards_down">%1$s cartes en dessous</string>
     <string name="stash_after_cards_to_draw">Après les cartes à piocher (%1$s)</string>
     <string name="stash_more_options">Autre&#8230;</string>
 		
-    <string name="sauna_play_avanto">Jouer un Avanto de la main</string>
+    <string name="sauna_play_avanto">Jouer un Trou dans la Glace de la main</string>
     <string name="avanto_play_sauna">Jouer un Sauna de la main</string>
 
     <string name="opulent_castle_ask_discard">défausser pour +2 Pièces chacune</string>
     <string name="sprawlingcastle_gain_duchy">Recevoir un Duché</string>
     <string name="sprawlingcastle_gain_estates">Recevoir 3 Domaines</string>
+
+    <string name="blessedVillage_receive_boon_now">Recevoir %1$s maintenant (%2$s)</string>
+    <string name="blessedVillage_receive_boon_next_turn">Recevoir au début du prochain tour</string>
+    <string name="changeling_gain_query">Choisir une carte à recevoir [%1$s]</string>
+    <string name="gained_card">Carte reçue: %1$s</string>
+    <string name="changeling_exchange">Échanger %1$s contre %2$s</string>
+    <string name="monastery_trash_copper_from_play">Écarter un Cuivre de la zone de jeu</string>
+    <string name="pixie_trash_for_double_boon">Écarter ceci pour recevoir la carte %1$s 2 fois (2x [%2$s])</string>
+    <string name="sacredGrove_receive_boon">Recevoir %1$s (%2$s)</string>
+    <string name="boon_name_and_desc">%1$s (%2$s)</string>
 
     <string name="card_played_as_card">%1$s (carte jouée comme %2$s)</string>
 </resources>

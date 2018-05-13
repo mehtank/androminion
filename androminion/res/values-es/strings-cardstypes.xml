@@ -17,4 +17,14 @@
     <string name="type_castle">Castillo</string>
     <string name="type_gathering">Acopio</string>
     <string name="type_landmark">Marca</string>
+    <string name="type_boon">Favor</string>
+    <string name="type_doom">Fatalidad</string>
+    <string name="type_fate">Hado</string>
+    <string name="type_heirloom">Patrimonio</string>
+    <string name="type_hex">Aojo</string>
+    <string name="type_night">Noche</string>
+    <string name="type_spirit">Espíritu</string>
+    <string name="type_state">Estado</string>
+    <string name="type_zombie">Zombi</string>
+    <string name="type_curse">Maldición</string>
 </resources>

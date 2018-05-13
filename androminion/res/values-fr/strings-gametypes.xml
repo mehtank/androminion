@@ -177,7 +177,39 @@
   
   <string name="AreaControl_gametype">Zone de contrôle</string>
   <string name="NoMoneyNoProblems_gametype">Pas d\'argent, pas de soucis</string>
+
+  <string name="Dusk_gametype">Crépuscule</string>
+  <string name="Midnight_gametype">Minuit</string>
   
+  <string name="NightShift_gametype">Quart de nuit</string>
+  <string name="IdleHands_gametype">Oisiveté</string>
+  
+  <string name="ShadowyFigures_gametype">Ombres</string>
+  <string name="ImpendingDoom_gametype">Malheur imminent</string>
+  
+  <string name="TheNewBlack_gametype">La nouvelle noirceur</string>
+  <string name="ForbiddenIsle_gametype">L\'île interdite</string>
+  
+  <string name="NightmareFuel_gametype">Du carburant pour cauchemar</string>
+  
+  <string name="TreasuresOfTheNight_gametype">Trésors de la Nuit</string>
+  <string name="DayAtTheRaces_gametype">Journée aux courses</string>
+  
+  <string name="TheEndlessFair_gametype">La foire sans fin</string>
+  <string name="HappyChaos_gametype">Un heureux Chaos</string>
+  
+  <string name="SearchParty_gametype">Équipe de recherche</string>
+  <string name="CountingSheep_gametype">Compter les moutons</string>
+  
+  <string name="GraveMatters_gametype">Affaires de cimetierre</string>
+  <string name="RatsAndBats_gametype">Souris et Chauve-souris</string>
+  
+  <string name="MonsterMash_gametype">Salsa du Démon</string>
+  <string name="LostInTheWoods_gametype">Perdus dans les bois</string>
+  
+  <string name="Luftschloss_gametype">Luftschloss</string>
+  <string name="PookaPranks_gametype">Les farces du Pooka</string>
+    
   <string name="Test_gametype">Essai (pour tests)</string>
 
 </resources>

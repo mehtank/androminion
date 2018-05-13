@@ -13,6 +13,7 @@
     <string name="DarkAges">L\'Âge des Ténèbres</string>
     <string name="Guilds">Guildes</string>
     <string name="Adventures">Aventures</string>
-	<string name="Empires">Empires</string>
+    <string name="Empires">Empires</string>
+    <string name="Nocturne">Nocturne</string>
     <string name="Promo">Promo</string>
 </resources>

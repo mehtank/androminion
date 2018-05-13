@@ -2,6 +2,7 @@
 <resources>
 	<string name="Base">Básico</string>
 	<string name="Base2E">Básico 2E</string>
+	<string name="BaseSet">Básico</string>
 	<string name="Intrigue">Intriga</string>
 	<string name="Intrigue2E">Intriga 2E</string>
 	<string name="Seaside">Terramar</string>
@@ -13,5 +14,6 @@
     <string name="Guilds">Gremios</string>
     <string name="Adventures">Aventuras</string>
     <string name="Empires">Imperios</string>
+    <string name="Nocturne">Nocturno</string>
     <string name="Promo">Promoción</string>
 </resources>

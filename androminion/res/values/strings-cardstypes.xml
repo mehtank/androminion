@@ -17,5 +17,14 @@
     <string name="type_castle">Castle</string>
     <string name="type_gathering">Gathering</string>
     <string name="type_landmark">Landmark</string>
+    <string name="type_boon">Boon</string>
+    <string name="type_doom">Doom</string>
+    <string name="type_fate">Fate</string>
+    <string name="type_heirloom">Heirloom</string>
+    <string name="type_hex">Hex</string>
+    <string name="type_night">Night</string>
+    <string name="type_spirit">Spirit</string>
+    <string name="type_state">State</string>
+    <string name="type_zombie">Zombie</string>
     <string name="type_curse">Curse</string>
 </resources>

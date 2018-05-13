@@ -42,6 +42,9 @@
   <string name="Servants_gametype">Servants</string> 
   <string name="SecretResearch_gametype">Secret Research</string> 
   <string name="PoolsToolsAndFools_gametype">Pools, Tools, and Fools</string>
+  
+  <string name="Forewarned_gametype">Forewarned</string>
+  <string name="GummedUp_gametype">Gummed Up</string>
     
   <string name="Beginners_gametype">Beginners</string> 
   <string name="FriendlyInteractive_gametype">Friendly Interactive</string> 
@@ -54,6 +57,12 @@
   <string name="PathsToVictory_gametype">Paths to Victory</string> 
   <string name="AllAlongTheWatchtower_gametype">All Along the Watchtower</string> 
   <string name="LuckySeven_gametype">Lucky Seven</string>
+  
+  <string name="ExplodingKingdom_gametype">Exploding Kingdom</string>
+  <string name="PirateBay_gametype">Pirate Bay</string>
+  
+  <string name="CountingContest_gametype">Counting Contest</string>
+  <string name="LowerLearning_gametype">Lower Learning</string>
 
   <string name="BountyOfTheHunt_gametype">Bounty of the Hunt</string> 
   <string name="BadOmens_gametype">Bad Omens</string> 
@@ -62,7 +71,15 @@
   <string name="LastLaughs_gametype">Last Laughs</string> 
   <string name="TheSpiceOfLife_gametype">The Spice of Life</string> 
   <string name="SmallVictories_gametype">Small Victories</string>
-
+  
+  <string name="Collector_gametype">Collector</string>
+  <string name="Collider_gametype">Collider</string>
+  
+  <string name="ClownCollege_gametype">Clown College</string>
+  <string name="WineAndDine_gametype">Wine &amp; Dine</string>
+  
+  <string name="Detours_gametype">Detours</string>
+  
   <string name="HinterlandsIntro_gametype">Hinterlands Intro</string> 
   <string name="FairTrades_gametype">Fair Trades</string> 
   <string name="Bargains_gametype">Bargains</string> 
@@ -117,6 +134,25 @@
   <string name="NameThatCard_gametype">Name that Card</string>
   <string name="TricksOfTheTrade_gametype">Tricks of the Trade</string>
   <string name="DecisionsDecisions_gametype">Decisions, Decisions</string>
+  
+  <string name="GhostsAndTaxes_gametype">Ghosts &amp; Taxes</string>
+  <string name="IslandBuilder_gametype">Island Builder</string>
+  
+  <string name="Illuminati_gametype">Illuminati</string>
+  <string name="TonicsAndToxins_gametype">Tonics &amp; Toxins</string>
+  
+  <string name="Quarrymen_gametype">Quarrymen</string>
+  <string name="MetalAndMeat_gametype">Metal &amp; Meat</string>
+  <string name="PennyPinching_gametype">Penny Pinching</string>
+  
+  <string name="Misfortune_gametype">Misfortune</string>
+  <string name="BakingContest_gametype">Baking Contest</string>
+  
+  <string name="Exchanges_gametype">Exchanges</string>
+  <string name="RoadToRiches_gametype">Road to Riches</string>
+  
+  <string name="Stoneground_gametype">Stoneground</string>
+  <string name="ClassStruggle_gametype">Class Struggle</string>
   
   <string name="GentleIntro_gametype">Gentle Intro</string>
   <string name="ExpertIntro_gametype">Expert Intro</string>
@@ -177,6 +213,38 @@
   
   <string name="AreaControl_gametype">Area Control</string>
   <string name="NoMoneyNoProblems_gametype">No Money No Problems</string>
+  
+  <string name="Dusk_gametype">Dusk</string>
+  <string name="Midnight_gametype">Midnight</string>
+  
+  <string name="NightShift_gametype">Night Shift</string>
+  <string name="IdleHands_gametype">Idle Hands</string>
+  
+  <string name="ShadowyFigures_gametype">Shadowy Figures</string>
+  <string name="ImpendingDoom_gametype">Impending Doom</string>
+  
+  <string name="TheNewBlack_gametype">The New Black</string>
+  <string name="ForbiddenIsle_gametype">Forbidden Isle</string>
+  
+  <string name="NightmareFuel_gametype">Nightmare Fuel</string>
+  
+  <string name="TreasuresOfTheNight_gametype">Treasures of the Night</string>
+  <string name="DayAtTheRaces_gametype">Day at the Races</string>
+  
+  <string name="TheEndlessFair_gametype">The Endless Fair</string>
+  <string name="HappyChaos_gametype">Happy Chaos</string>
+  
+  <string name="SearchParty_gametype">Search Party</string>
+  <string name="CountingSheep_gametype">Counting Sheep</string>
+  
+  <string name="GraveMatters_gametype">Grave Matters</string>
+  <string name="RatsAndBats_gametype">Rats and Bats</string>
+  
+  <string name="MonsterMash_gametype">Monster Mash</string>
+  <string name="LostInTheWoods_gametype">Lost in the Woods</string>
+  
+  <string name="Luftschloss_gametype">Luftschloss</string>
+  <string name="PookaPranks_gametype">Pooka Pranks</string>
   
   <string name="Test_gametype">Test (for testing)</string>
 

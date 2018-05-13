@@ -174,11 +174,13 @@
 	                android:key="errata_moneylender"
 	                android:summary="@string/erratamoneylender_pref_summary"
 	                android:title="@string/erratamoneylender_pref_title" />
-	            <CheckBoxPreference
-	                android:defaultValue="true"
-	                android:key="errata_posessor_takes_tokens"
-	                android:summary="@string/errataposessiontokens_pref_summary"
-	                android:title="@string/errataposessiontokens_pref_title" />
+	            <ListPreference
+		            android:defaultValue="@string/pref_errata_possessor_tokens_default"
+		            android:entries="@array/pref_errata_possessor_tokens"
+		            android:entryValues="@array/pref_errata_possessor_tokens_keys"
+		            android:key="errata_possessor_tokens"
+		            android:title="@string/pref_errata_possessor_tokens_pref_title"
+		            android:summary="%s" />
 	            <CheckBoxPreference
 	                android:defaultValue="true"
 	                android:key="errata_throneroom"

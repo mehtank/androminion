@@ -1,6 +1,7 @@
 package com.mehtank.androminion.ui;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -11,6 +12,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -38,6 +40,7 @@ import com.mehtank.androminion.util.CheckableEx;
 import com.mehtank.androminion.util.HapticFeedback;
 import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.mehtank.androminion.util.PlayerAdapter;
+import com.vdom.api.Card;
 import com.vdom.comms.MyCard;
 import com.vdom.core.PlayerSupplyToken;
 
@@ -288,6 +291,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Shelter_Reaction;
 		} else if (c.isReaction) {
 			return R.style.CardView_Reaction;
+		} else if (c.isDuration && c.isAttack && c.isNight) {
+			return R.style.CardView_Night_Duration_Attack;
+		} else if (c.isDuration && c.isNight) {
+			return R.style.CardView_Night_Duration;
 		} else if (c.isDuration && c.isAttack) {
 			return R.style.CardView_Duration_Attack;
 		} else if (c.isDuration) {
@@ -304,12 +311,12 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Attack_Victory;
 		} else if (c.isTreasure && c.isAttack) {
 			return R.style.CardView_Treasure_Attack;
+		} else if (c.isAttack && c.isNight && c.isAction) {
+			return R.style.CardView_Action_Night_Attack;
+		} else if (c.isAttack && c.isNight) {
+			return R.style.CardView_Night_Attack;
 		} else if (c.isAttack) {
 			return R.style.CardView_Attack;
-		} else if (c.isTreasure && c.isVictory && c.isCastle) {
-			return R.style.CardView_Treasure_Victory_Castle;
-		} else if (c.isTreasure && c.isVictory) {
-			return R.style.CardView_Treasure_Victory;
 		} else if (c.isAction && c.isVictory) {
 			return R.style.CardView_Victory_Action;
 		} else if (c.isTreasure && c.isPotion) {
@@ -317,6 +324,18 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		} else if (c.isTreasure && c.isAction) {
 			return R.style.CardView_Treasure_Action;
 		} else if (c.isTreasure) {
+			if (c.isVictory) {
+				switch (c.gold) {
+				case 1:
+					return R.style.CardView_Treasure_Victory_Copper;
+				case 2:
+					return R.style.CardView_Treasure_Victory_Silver;
+				case 3:
+					return R.style.CardView_Treasure_Victory_Gold;
+				default:
+					return R.style.CardView_Treasure_Victory;
+				}
+			}
 			switch (c.gold) {
 			case 1:
 				return R.style.CardView_Treasure_Copper;
@@ -333,6 +352,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Curse;
 		} else if (c.isVictory) {
 			return R.style.CardView_Victory;
+		} else if (c.isNight) {
+			return R.style.CardView_Night;
 		} else if (c.isShelter) {
 			return R.style.CardView_Shelter;
 		} else if (c.isEvent) {
@@ -704,10 +725,16 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		if (addText)
 			ll.addView(textView);
 			
-		Configuration configuration = new Configuration(getContext().getResources().getConfiguration());
-		configuration.setLocale(new Locale("en"));
-		String englishName = this.getContext().createConfigurationContext(configuration).getResources().getString(this.getContext().createConfigurationContext(configuration).getResources().getIdentifier(cardView.getCard().originalSafeName + "_name", "string", this.getContext().getPackageName()));
+		String englishName = null;
 			
+		boolean isEnglish = "en".equals(getResources().getConfiguration().locale.getLanguage());
+		boolean showEnglishNames = PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false);
+		
+		if (wikilink || (!isEnglish && showEnglishNames)) {
+			int cardNameStringId = getId(cardView.getCard().originalSafeName + "_name", R.string.class);
+			englishName = getLocaleStringResource(new Locale("en"), cardNameStringId, this.getContext());
+		}
+		
 		if (wikilink) {
 			TextView linkView = new TextView(view.getContext());
 			String str2 = englishName.replace(" ", "_");
@@ -722,8 +749,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		String title = cardView.getCard().name;
 		Log.d(TAG, "card title = " + title);
-		boolean isEnglish = "en".equals(getResources().getConfiguration().locale.getLanguage());
-		if (!isEnglish && PreferenceManager.getDefaultSharedPreferences(view.getContext()).getBoolean("showenglishnames", false)) {
+		
+		if (!isEnglish && showEnglishNames) {
 			title += " (" + englishName + ")";
 			Log.d(TAG, "card title now: " + title);
 		}
@@ -745,6 +772,41 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		return true;
 	}
 	
+	@SuppressLint("NewApi") private static String getLocaleStringResource(Locale requestedLocale, int resourceId, Context context) {
+	    String result;
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) { // use latest api
+	        Configuration config = new Configuration(context.getResources().getConfiguration());
+	        config.setLocale(requestedLocale);
+	        result = context.createConfigurationContext(config).getText(resourceId).toString();
+	    }
+	    else { // support older android versions
+	        Resources resources = context.getResources();
+	        Configuration conf = resources.getConfiguration();
+	        Locale savedLocale = conf.locale;
+	        conf.locale = requestedLocale;
+	        resources.updateConfiguration(conf, null);
+
+	        // retrieve resources from desired locale
+	        result = resources.getString(resourceId);
+
+	        // restore original locale
+	        conf.locale = savedLocale;
+	        resources.updateConfiguration(conf, null);
+	    }
+
+	    return result;
+	}
+	
+	private static int getId(String resourceName, Class<?> c) {
+	    try {
+	        Field idField = c.getDeclaredField(resourceName);
+	        return idField.getInt(idField);
+	    } catch (Exception e) {
+	        throw new RuntimeException("No resource ID found for: "
+	                + resourceName + " / " + c, e);
+	    }
+	}
+	
 	private String getExtraDescription() {
 		String text = "";
 		if (state.c.isBane) {
@@ -754,6 +816,15 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			if (text.length() > 0)
 				text += "\n";
 			text += getContext().getString(R.string.obelisk_card);
+		}
+		if (state.c.originalSafeName.equals("Druid") && GameTableViews.getDruidBoons() != null) {
+			if (text.length() > 0)
+				text += "\n\n";
+			text += getContext().getString(R.string.druid_boons_header);
+			for (Card boon : GameTableViews.getDruidBoons()) {
+				text += "\n";
+				text += Strings.format(R.string.boon_name_and_desc, Strings.getCardName(boon), Strings.getFullCardDescription(boon).replace("\n", ". "));
+			}
 		}
 		boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
 		if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0 || numPileDebtTokens > 0 || numPileTradeRouteTokens > 0) {
@@ -822,6 +893,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				}
 			}
 		}
+		
 		return text;
 	}
 	
@@ -836,8 +908,20 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
                 cardType += " - " + context.getString(R.string.type_treasure);
             }
             
+            if (c.isNight) {
+                cardType += " - " + context.getString(R.string.type_night);
+            }
+            
             if (c.isAttack) {
                 cardType += " - " + context.getString(R.string.type_attack);
+            }
+            
+            if (c.isDoom) {
+                cardType += " - " + context.getString(R.string.type_doom);
+            }
+            
+            if (c.isFate) {
+                cardType += " - " + context.getString(R.string.type_fate);
             }
             
             if (c.isLooter) {
@@ -887,8 +971,33 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             if (c.isGathering) {
                 cardType += " - " + context.getString(R.string.type_gathering);
             }
-        }
-        else if (c.isTreasure) {
+            
+            if (c.isSpirit) {
+                cardType += " - " + context.getString(R.string.type_spirit);
+            }
+            
+            if (c.isZombie) {
+                cardType += " - " + context.getString(R.string.type_zombie);
+            }
+        } else if (c.isNight) {
+            cardType += context.getString(R.string.type_night);
+            
+            if (c.isDuration) {
+                cardType += " - " + context.getString(R.string.type_duration);
+            }
+            
+            if (c.isAttack) {
+                cardType += " - " + context.getString(R.string.type_attack);
+            }
+                         
+            if (c.isSpirit) {
+                cardType += " - " + context.getString(R.string.type_spirit);
+            }
+            
+            if (c.isZombie) {
+                cardType += " - " + context.getString(R.string.type_zombie);
+            }
+        } else if (c.isTreasure) {
             cardType += context.getString(R.string.type_treasure);
             
             if (c.isAttack) {
@@ -914,6 +1023,14 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             if (c.isCastle) {
                 cardType += " - " + context.getString(R.string.type_castle);
             }
+            
+            if (c.isHeirloom) {
+            	cardType += " - " + context.getString(R.string.type_heirloom);
+            }
+            
+            if (c.isFate) {
+                cardType += " - " + context.getString(R.string.type_fate);
+            }
         }
         else if (c.isVictory) {
             cardType += context.getString(R.string.type_victory);
@@ -935,6 +1052,15 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
         }
         else if (c.isLandmark) {
             cardType += context.getString(R.string.type_landmark);
+        }
+        else if (c.isBoon) {
+            cardType += context.getString(R.string.type_boon);
+        }
+        else if (c.isHex) {
+            cardType += context.getString(R.string.type_hex);
+        } 
+        else if (c.isState) {
+            cardType += context.getString(R.string.type_state);
         }
         else if (c.name.equalsIgnoreCase("hovel")) {
             cardType += context.getString(R.string.type_reaction) + " - " + context.getString(R.string.type_shelter);
