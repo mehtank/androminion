@@ -13,6 +13,7 @@ public class ThisApplication extends Application
 	private final String errorPath = GameActivity.BASEDIR + "/errors.txt";
 	private final Thread.UncaughtExceptionHandler defaultUncaughtHandler = Thread.getDefaultUncaughtExceptionHandler();	
 	public void onCreate() {
+        ThemeSetter.setLanguage(this);
 		Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler()
 		{
 			@Override
