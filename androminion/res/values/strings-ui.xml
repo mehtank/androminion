@@ -136,7 +136,11 @@
     <string name="random_landmarks_random">Random</string>
     <string name="random_include_cards">Include Kingdom cards from</string>
     <string name="select_players">Select players:</string>
-    <string name="player">Player </string>
+	<string name="random_players">Random</string>
+	<string name="probability_2_players">2 players probability</string>
+	<string name="probability_3_4_players">3-4 players probability</string>
+	<string name="probability_5_6_players">5-6 players probability</string>
+	<string name="player">Player </string>
     <string name="currentplayer">Current Player</string>
     <string name="you">You</string>
     <string name="start_game">Start game!</string>

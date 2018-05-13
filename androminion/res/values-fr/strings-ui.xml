@@ -136,7 +136,11 @@
     <string name="random_landmarks_random">Aléatoire</string>
     <string name="random_include_cards">Inclure les cartes Royaume de</string>
     <string name="select_players">Sélectionner les joueurs:</string>
-    <string name="player">Joueur </string>
+	<string name="random_players">Aléatoires</string>
+	<string name="probability_2_players">Probabilité 2 joueurs</string>
+	<string name="probability_3_4_players">Probabilité 3-4 joueurs</string>
+	<string name="probability_5_6_players">Probabilité 5-6 joueurs</string>
+	<string name="player">Joueur </string>
     <string name="currentplayer">Joueur actuel</string>
     <string name="you">Vous</string>
     <string name="start_game">Jouer!</string>
