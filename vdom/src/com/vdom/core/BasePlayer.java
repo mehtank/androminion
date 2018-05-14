@@ -3942,7 +3942,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card inheritance_actionCardTosetAside(MoveContext context) {
     	//TODO: favor cantrips
-    	return bestCardInPlay(context, 4, false, false, true, false, true);
+    	return bestCardInPlay(context, 4, false, 0, false, true, false, true);
     }
     
     @Override
