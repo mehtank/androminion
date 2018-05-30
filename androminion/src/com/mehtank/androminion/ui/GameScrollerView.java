@@ -128,8 +128,10 @@ public class GameScrollerView extends HorizontalScrollView {
         if (logfile != null && logfile.canWrite()) {
             try {
                 FileWriter f = new FileWriter(logfile.getCanonicalPath(), true); // append to file
-                if (b)
+                if (b) {
                     f.write(top.getString(R.string.log_turn_separator));
+                    s += (turnCount > 0 ? (top.getString(R.string.turn_header) + turnCount) : "");
+                }
                 f.write(s + "\n");
                 f.close();
             } catch (IOException e) {
