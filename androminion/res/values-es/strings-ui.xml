@@ -51,7 +51,7 @@
 <![CDATA[
 		<h3>¡Lee por favor!</h3>
 		Por la petición de Rio Grande Games, el Editor de Dominion, hemos sacado Androminion del Play Store. Por favor, no la publiques en cualquier tienda de apliciaciones pública ya que habrá una aplicación oficial de Dominion.<br><br>
-		<h3>Versión 8.05</h3>
+		<h3>Versión 8.06</h3>
 		* ¡Expansión de Nocturno! <br>
 		* Carta de promoción: Desmantelar
 		<h3>Versión 7.06</h3>
@@ -138,6 +138,10 @@
     <string name="random_landmarks_random">Al azar</string>
     <string name="random_include_cards">Incluir cartas de reino de</string>
     <string name="select_players">Seleccionar jugadores:</string>
+    <string name="random_players">Al azar</string>
+	<string name="probability_2_players">Probabilidad de 2 jugadores</string>
+	<string name="probability_3_4_players">Probabilidad de 3–4 jugadores</string>
+	<string name="probability_5_6_players">Probabilidad de 5–6 jugadores</string>
     <string name="player">Jugador </string>
     <string name="currentplayer">Jugador actual</string>
     <string name="you">Tú</string>

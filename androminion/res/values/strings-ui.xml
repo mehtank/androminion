@@ -49,7 +49,7 @@
 <![CDATA[
 		<h3>Please Read!</h3>
 		By request of Rio Grande Games, the publisher of Dominion, we have removed Androminion from the Play Store. Please do not publish it in any public app store as there will be an official Dominion app.<br><br>
-		<h3>Version 8.05</h3>
+		<h3>Version 8.06</h3>
 		* Nocturne Expansion! <br>
 		* Promo Card: Dismantle
 		<h3>Version 7.06</h3>
@@ -137,9 +137,9 @@
     <string name="random_include_cards">Include Kingdom cards from</string>
     <string name="select_players">Select players:</string>
 	<string name="random_players">Random</string>
-	<string name="probability_2_players">2 players probability</string>
-	<string name="probability_3_4_players">3-4 players probability</string>
-	<string name="probability_5_6_players">5-6 players probability</string>
+	<string name="probability_2_players">Chance of 2 players</string>
+	<string name="probability_3_4_players">Chance of 3–4 players</string>
+	<string name="probability_5_6_players">Chance of 5–6 players</string>
 	<string name="player">Player </string>
     <string name="currentplayer">Current Player</string>
     <string name="you">You</string>
