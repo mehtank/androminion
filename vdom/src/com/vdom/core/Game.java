@@ -536,7 +536,7 @@ public class Game {
 	                    broadcastEvent(event);
 	
 	                    try {
-	                        nightCard.play(this, context, true);
+	                        nightCard.play(this, context, true, true);
 	                    } catch (RuntimeException e) {
 	                        e.printStackTrace();
 	                    }
