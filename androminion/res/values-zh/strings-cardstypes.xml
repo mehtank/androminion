@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="type_treasure">宝藏</string>
+    <string name="type_victory">分数</string>
+    <string name="type_action">行动</string>
+    <string name="type_attack">攻击</string>
+    <string name="type_reaction">反应</string>
+    <string name="type_duration">持续</string>
+    <string name="type_looter">掠夺</string>
+    <string name="type_ruins">废墟</string>
+    <string name="type_prize">奖品</string>
+    <string name="type_knight">骑士</string>
+    <string name="type_shelter">避难所</string>
+    <string name="type_event">事件</string>
+    <string name="type_reserve">保留</string>
+    <string name="type_traveller">旅者</string>
+    <string name="type_castle">城堡</string>
+    <string name="type_gathering">收集</string>
+    <string name="type_landmark">地标</string>
+    <string name="type_boon">祝福</string>
+    <string name="type_doom">厄运</string>
+    <string name="type_fate">命运</string>
+    <string name="type_heirloom">传家宝</string>
+    <string name="type_hex">妖术</string>
+    <string name="type_night">夜晚</string>
+    <string name="type_spirit">精灵</string>
+    <string name="type_state">状态</string>
+    <string name="type_zombie">僵尸</string>
+    <string name="type_curse">诅咒</string>
+</resources>

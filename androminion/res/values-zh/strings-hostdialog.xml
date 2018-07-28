@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="host_title">连接至Dominion服务器</string>
+    <string name="host_message">选择服务器类型。</string>
+    <string name="host_prompt">请输入hostname或者欲连接的服务器的IP地址。</string>
+    <string name="host_local">本地游戏</string>
+    <string name="host_remote">远程游戏</string>
+
+    <string name="enter_host_and_port">输入host和port</string>
+    <string name="your_name">昵称：</string>
+    <string name="host">Host：</string>
+    <string name="port">Port：</string>
+
+    <string name="connection_failed">连接失败:(</string>
+    <string name="stream_corrupted">传输中断:(</string>
+    <string name="unknown_host">未知主机:(设置参数。</string>
+    <string name="network_unreachable">网络不可达或被服务器拒绝。</string>
+    <string name="io_error">输入/输出错误。</string>
+    
+</resources>

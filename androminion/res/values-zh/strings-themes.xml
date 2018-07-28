@@ -2,26 +2,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <string-array name="theme_keys" tools:ignore="MissingTranslation">
-        <item>androminion-dark</item>
-        <item>androminion-light</item>
-        <item>androminion-light-darkbar</item>
+        <item>~androminion~黑色</item>
+        <item>~androminion~白色</item>
+        <item>~androminion~黑顶白色</item>
     </string-array>
     <string-array name="userlang_keys" tools:ignore="MissingTranslation">
-        <item>default</item>
+        <item>默认</item>
         <item>en</item>
         <item>de</item>
         <item>es</item>
         <item>fr</item>
-        <item>zh</item>
         <item>ja</item>
         <item>nl</item>
         <item>ru</item>
     </string-array>
     <string-array name="viewstyle_keys" tools:ignore="MissingTranslation">
-        <item>viewstyle-classic</item>
-        <item>viewstyle-simple</item>
-        <item>viewstyle-descriptive</item>
-		<item>viewstyle-condensed</item>
+        <item>经典</item>
+        <item>最简</item>
+        <item>描述</item>
+		<item>压缩</item>
     </string-array>
 
 </resources>

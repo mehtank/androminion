@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    
+	<!-- AndroidManifest -->
+	<string name="app_name">~Androminion~</string>
+
+    <!-- Menu Activity -->
+    <string name="start_game_menu">开始游戏</string>
+    <string name="join_game_menu">加入游戏</string>
+    <string name="stats_menu">统计信息</string>
+    <string name="settings_menu">设置</string>
+    <string name="about_menu">关于</string>
+    <string name="help_menu">帮助</string>
+    <string name="quit_menu">退出</string>
+
+    <!-- Settings Activity -->
+    <string name="settingsactivity_title">设置</string>
+
+    <!-- Statistics Activity -->
+    <string name="statisticsactivity_title">统计信息</string>
+    <string name="resetstatistics_menu">重置统计数据</string>
+    <string name="win_loss_menu">胜负记录</string>
+    <string name="win_loss_playerwins">%1$s 人游戏胜利</string>
+    <string name="achievements_menu">成就</string>
+        <string-array name="reset_choices">
+        <item>重置统计数据</item>
+        <item>重置成就</item>
+    </string-array>
+    <string name="reset">重置</string>
+
+    <!-- About Activity -->
+    <string name="aboutactivity_title">关于</string>
+    <string name="version">版本%1$s</string>
+    <string name="connections_menu">连接</string>
+    <string name="connections_title">连接：</string>
+    <string name="connections">
+	<![CDATA[<h3>关于网络权限和数据使用</h3>这个游戏的功能严格使用局域网络层通讯来交换玩家和游戏的信息——现在，除非在多人模式下，<b>否则没有任何数据会被交换至你的机器外部</b>。尽管如此，这一局域网仍然需要网络权限，同时也可能会被反映到app流量使用信息里。<br><br> <h3>多人游戏方法</h3> <b><font color="red">你需要源代码来编译~vdom~服务器！</font></b>具体信息可以到~Androminion~的Github页面查看。（译者注：这里多人游戏方法保留了英文原文，因为如果看不懂的话也没可能编译了:)）In the vdom\\ directory, type \'ant run\' (or just start com.vdom.core.Game with whatever arguments you want - the build file build.xml has some default arguments). Be sure you know the host name or ip address for the machine that\'s running the game server, and that the player ports (by default 2255 and 2256) aren\'t blocked by your machine\'s firewall.<br> Open the app on two separate devices. Use the \"join game\" dialog to enter your name, the host name or ip address of the machine running the server, then the port that shows up in the terminal where you\'re running the server. Once the first player connects, a second port will show up; enter that one in on the second device (should be 2255 and 2256). The interface for the first player that connects will be missing a lot of stuff until the second player connects, but once both players are there, things work fine.<br><br> Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>]]>
+</string>
+    <string name="whatsnew_menu">更新资讯</string>
+    <string name="whatsnew_title">What\'s new：</string>
+    <string name="whatsnew">
+<![CDATA[<h3>请仔细阅读！</h3>由版权方要求，我们在一个不存在的应用商店移除了~Androminion~。请！不要！把这个程序在任何其它公开的应用商店发布，因为今后将会有一个官方的Dominion程序。<br><br> <h3>版本 8.07</h3> * 午夜狂曲！<br> * 推广卡片：拆除<h3>版本 7.06</h3> * 帝国崛起！<br> * 皇輿争霸和暗潮汹涌第二版！<br> * 推广卡片：桑拿&冬泳<h3>版本 6.07</h3> * 冒险时刻！<br> * 推广卡片：藏匿，召唤<h3>版本 6.00</h3> * 冒险时刻（测试版）！<h3>版本 5.01</h3> * 推广卡片：黑市！<br> * 推广卡片：王子！<br> * 更多语言加入<br> * 成堆的Bug修复与其他修改<h3>版本 5.00</h3> * 同业公会！<br> * 更多语言加入<br> * Bug修复<br> <h3>版本 4.02</h3> * 神奇海盗团实现<br> * 许多Bug修复<h3>版本 4.00</h3> * 黑暗时代！*更早的更新懒得翻译了，请有兴趣的读者改成英文版看吧:)<font color="lime">~Androminion~现已开源！</font>这些更新如果没有许多成员的帮助将不可能实现，请移步致谢查看他（她）们的名字。你也可以加入！前往Github页面来提交Bug，请求，翻译或是任何其它你感兴趣的想法：<br/><a href="https://github.com/mehtank/androminion">https://github.com/mehtank/androminion</a><br/><br/>]]>
+    </string>
+    <string name="contrib_menu">致谢</string>
+    <string name="contrib_title">贡献者：</string>
+
+    <!-- StartGame Activity -->
+    <string name="startgameactivity_title">开始游戏</string>
+    <string name="select_gametype">选择游戏类型：</string>
+    <string name="game_type_random">随机</string>
+    <string name="game_type_preset">预设</string>
+    <string name="game_type_last">重复上一次游玩</string>
+    <string name="game_type_specified">指定要玩的卡</string>
+    <string name="random_all_cards">全部</string>
+    <string name="include_platinum_colony">殖民地&amp;珀金</string>
+    <string name="include_shelters">避难所：</string>
+    <string name="include_cards_random">默认</string>
+    <string name="include_cards_yes">使用</string>
+    <string name="include_cards_no">不要使用</string>
+    <string name="include_cards_percent">%1$s%%概率</string>
+    <string name="random_include_events">事件数量：</string>
+    <string name="random_events_none">不选择</string>
+    <string name="random_events_random">随机</string>
+    <string name="random_include_landmarks">地标数量：</string>
+    <string name="random_landmarks_none">不选择</string>
+    <string name="random_landmarks_random">随机</string>
+    <string name="random_include_cards">包括哪些拓展包的王国卡？</string>
+    <string name="select_players">选择玩家：</string>
+	<string name="random_players">随机</string>
+	<string name="probability_2_players">两人游戏概率</string>
+	<string name="probability_3_4_players">三或四人游戏概率</string>
+	<string name="probability_5_6_players">五或六人游戏概率</string>
+	<string name="player">玩家</string>
+    <string name="currentplayer">当前玩家</string>
+    <string name="you">你</string>
+    <string name="start_game">开始游戏！</string>
+    <string name="card_set_cards">使用的卡： %1$s</string>
+    <string name="card_set_bane">祸根： %1$s</string>
+    <string name="card_set_events">事件： %1$s</string>
+    <string name="card_set_landmarks">地标： %1$s</string>
+    <string name="card_set_plat_colony">殖民地&amp;珀金</string>
+    <string name="card_set_no_plat_colony">没有殖民地&amp;珀金</string>
+    <string name="card_set_shelters">避难所</string>
+    <string name="card_set_no_shelters">没有避难所</string>
+    <string name="card_set_card_options">%1$s（%2$s）</string>
+    <string name="none_game_start">不选择</string> <!-- Unused -->
+    <string name="start_new_game_on_server">在服务器上开始游戏</string> <!-- Unused -->
+
+    <!-- Game Activity: Splash Screen -->
+    <string name="splash">使用菜单开始新游戏，或者，在游戏过程中使用帮助来介绍如何游戏。</string>
+
+    <!-- Game Activity: Ingame -->
+    <string name="toast_starting">开始游戏…</string> <!-- Unused -->
+    <string name="toast_loading">载入游戏…</string>
+    <string name="toast_quitconfirm">再次点击以退出。</string>
+    <string name="toast_mountainPassWinner">山口：最高出价%1$s (%2$s)</string>
+    <string name="toast_mountainPassNoBid">山口：没有出价</string>
+    <string name="obtained">获取%1$s</string>
+    <string name="eventBought">购买%1$s</string>
+    <string name="trashed">废弃%1$s</string>
+    <string name="revealed">展示%1$s</string>
+    <string name="revealed_from_hand">从手牌中展示%1$s</string>
+    <string name="confirmation">确定？</string>
+    <string name="confirm_no">算了</string>
+    <string name="select_button">选择</string>
+    <string name="buy_button">\ \ 购买\ \</string>
+    <string name="play_button">\ 打出\</string>
+    <string name="discard_button">丢弃</string>
+    <string name="keep_button">保留</string>
+    <string name="give_button">给予</string>
+    <string name="trash_button">废弃</string>
+    <string name="upgrade_button">升级</string>
+    <string name="mint_button">铸币场</string>
+    <string name="swindle_button">诈骗</string>
+    <string name="all_button">全部</string>
+    <string name="hand_header">手牌：</string>
+    <string name="played_header">打出的卡：</string>
+    <string name="tavern_header">旅店：</string>
+    <string name="archive_header">档案馆：</string>
+    <string name="crypt_header">地穴：</string>
+    <string name="island_header">孤岛：</string>
+    <string name="village_header">村庄：</string>
+    <string name="prince_header">王子：</string>
+    <string name="turn_header">： 回合\u0020</string>
+    <string name="game_loaded" tools:ignore="TypographyOther">游戏已载入！\n行动，购买和现金\n的数目显示在\n日志里，形式为a/b/(c)</string>
+    <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+    <string name="action_zero">%1$s 行动</string>
+    <string name="action_single">%1$s 行动</string>
+    <string name="action_multiple">%1$s 行动</string>
+    <string name="buy_zero">%1$s 购买</string>
+    <string name="buy_single">%1$s 购买</string>
+    <string name="buy_multiple">%1$s 购买</string>
+    <string name="coin_zero">(%1$s) 现金</string>
+    <string name="coin_single">(%1$s) 现金</string>
+    <string name="coin_multiple">(%1$s) 现金</string>
+    <string name="final_view_card_counts">卡片计数器</string>
+    <string name="final_view_text">%1$s：%2$s 分\n%3$s 回合, %4$s 张卡.</string>
+    <string name="final_game_time">游戏时间： %1$s</string>
+    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
+    <string name="potion_single">%1$s 药剂</string>
+    <string name="potion_multiple">%1$s 药剂</string>
+    <string name="potion_cost_initial">p</string>
+    <string name="accept">接受</string>
+    <string name="order_cards_summary">移动\n卡片\n重新\n排序</string>
+    <string name="trash_header">废弃：</string>
+    <string name="blackMarket_header"> 黑市牌堆：</string>
+    <string name="inheritance_header">继承：</string>
+    <string name="img_download_title">%1$s 卡面图片</string>
+	<string name="img_download_desc">从%1$s下载卡面图片</string>
+	<string name="journey_token_initial">\u0020\u0020J\u0020\u0020</string>
+	<string name="token_plus_one_action_initial">A</string>
+	<string name="token_plus_one_buy_initial">B</string>
+	<string name="deluded_initial">\u0020\u0020D\u0020\u0020</string>
+	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
+	<string name="lostInTheWoods_initial">\u0020\u0020L\u0020\u0020</string>
+	<string name="druid_boons_header">- 置于一边的祝福 -</string>
+	<string name="token_header">- 指示物 -</string>
+	<string name="token_plus_one_card">+1 手牌</string>
+	<string name="token_plus_one_action">+1 行动</string>
+	<string name="token_plus_one_buy">+1 购买</string>
+	<string name="token_plus_one_coin">+(1) Coin</string>
+	<string name="token_minus_2_cost">-2 cost</string>
+	<string name="token_trashing">废弃</string>
+	<string name="token_colon">：\u0020</string>
+	<string name="token_separator">，\u0020</string>
+	<string name="token_embargo">禁运令</string>
+	<string name="token_victory">分数</string>
+	<string name="token_debt">负债</string>
+	<string name="token_trade_route">商路</string>
+	<string name="bane_card">祸根卡</string>
+	<string name="obelisk_card">方尖碑卡（价值(2)分）</string>
+	<string name="status_turn_number">回合%1$s%2$s</string>
+	<string name="status_current_turn">\u0020（当前回合）</string>
+	<string name="status_deck_size">牌堆中的卡： %1$s%2$s</string>
+	<string name="status_stash_on_deck">\u0020（&lt;藏匿&gt;在牌堆顶）</string>
+	<string name="status_hand_size">手牌： %1$s</string>
+	<string name="status_hand_stashes">手牌中的&lt;藏匿&gt;： %1$s</string>
+	<string name="status_total_cards">总卡数： %1$s</string>
+	<string name="status_has_minus_coin_token">拥有~-(1) 现金~指示物</string>
+	<string name="status_has_minus_card_token">拥有~-1 抽卡~指示物</string>
+	<string name="status_journey_token_up">旅行指示物正面朝上</string>
+	<string name="status_journey_token_down">旅行指示物背面朝上</string>
+	<string name="status_has_deluded">拥有&lt;轻信&gt;（购买阶段开始时归还，这一回合不能购买【动作】）</string>
+	<string name="status_has_envious">拥有&lt;嫉妒&gt;（购买阶段开始时归还，你这一回合&lt;白银&gt;和&lt;黄金&gt;均只能提供(1)现金）</string>
+	<string name="status_has_lostInTheWoods">拥有&lt;迷失在林中&gt;（在你的回合开始时，你可以丢弃一张卡来接受一个祝福。）</string>
+	<string name="status_has_miserable">拥有&lt;悲惨&gt; （-(2)分）</string>
+	<string name="status_has_twiceMiserable">拥有&lt;双重悲惨&gt; （-(4)分）</string>
+	<string name="status_coin_tokens">资金板块上的指示物：%1$s个</string>
+	<string name="status_pirate_tokens">海盗船板块上的指示物：%1$s个</string>
+	<string name="status_debt_tokens">负债指示物：%1$s个</string>
+	<string name="status_victory_tokens">分数指示物：%1$s个</string>
+	<string name="card_more_info">更多信息</string>
+	
+</resources>

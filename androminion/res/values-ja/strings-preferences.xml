@@ -61,14 +61,15 @@
     <string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
 
     <string-array name="userlang_names" tools:ignore="MissingTranslation">
-        <item>Default</item>
-        <item>English</item>
-        <item>German</item>
-        <item>Spanish</item>
-        <item>French</item>
-        <item>Japanese</item>
-        <item>Dutch</item>
-        <item>Russian</item>
+        <item>システムのデフォルト</item>
+        <item>英語</item>
+        <item>ドイツ語</item>
+        <item>スペイン語</item>
+        <item>フランス語</item>
+        <item>中国語</item>
+        <item>日本語</item>
+        <item>オランダ語</item>
+        <item>ロシア語</item>
     </string-array>
 
     <string name="pref_viewstyle_title">ユーザーインタフェーススタイル</string>
