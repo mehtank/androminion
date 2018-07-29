@@ -56,12 +56,18 @@ public class ThemeSetter {
 	public static void setTheme(Activity act, boolean showActionbar) {
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(act);
+		String themeStr = pref.getString("theme",
+				"androminion-dark");
 		if (showActionbar) {
-			act.setTheme(THEMES_BAR.get(pref.getString("theme",
-					"androminion-dark")));
+			if (!THEMES_BAR.containsKey(themeStr)) {
+				themeStr = "androminion-dark";
+			}
+			act.setTheme(THEMES_BAR.get(themeStr));
 		} else {
-			act.setTheme(THEMES_NOBAR.get(pref.getString("theme",
-					"androminion-dark")));
+			if (!THEMES_NOBAR.containsKey(themeStr)) {
+				themeStr = "androminion-dark";
+			}
+			act.setTheme(THEMES_NOBAR.get(themeStr));
 		}
 	}
 
