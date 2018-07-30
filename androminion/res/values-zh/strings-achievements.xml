@@ -3,20 +3,20 @@
 
     <string name="achievements_2players8provinces">在二人游戏中获取八张&lt;行省&gt;</string>
     <string name="achievements_3or4players10provinces">在三或四人游戏中获取至少十张&lt;行省&gt;</string>
-    <string name="achievements_score100">以超过(100)分赢得游戏</string>
-    <string name="achievements_score100withoutProsperity">以超过(100)分赢得游戏，且没有来自荣华富贵扩展包的卡。</string>
-    <string name="achievements_score500">以超过(500)分赢得游戏</string>
-    <string name="achievements_score1more">仅比第二名高(1)分赢得游戏</string>
+    <string name="achievements_score100">以超过一百分赢得游戏</string>
+    <string name="achievements_score100withoutProsperity">以超过一百分赢得游戏，且没有来自荣华富贵扩展包的卡。</string>
+    <string name="achievements_score500">以超过五百分赢得游戏</string>
+    <string name="achievements_score1more">仅比第二名高一分赢得游戏</string>
     <string name="achievements_singlecard">购买不超过一种王国卡赢得游戏</string>
-    <string name="achievements_score50more">比第二名高(50)分以上赢得游戏</string>
-    <string name="achievements_skunk">在一名对手只有不足(0)分的情况下赢得游戏</string>
+    <string name="achievements_score50more">比第二名高五十分以上赢得游戏</string>
+    <string name="achievements_skunk">在一名对手只有不足零分的情况下赢得游戏</string>
     <string name="achievements_trash5inaturn">一回合中废弃五张卡以上</string>
-    <string name="achievements_gainmorethan30inaturn">一回合中获取至少(30)分</string>
+    <string name="achievements_gainmorethan30inaturn">一回合中获取至少三十分</string>
     <string name="achievements_win10inarow">连续赢得十场游戏</string>
     <string name="achievements_overpayby10ormore">为一张卡超额支付(10)以上</string>
     <string name="achievements_stockpile50tokens">在你的资金板块上放至少(50)个指示物</string>
     <string name="achievements_2tacticians">在同一轮打出两张&lt;战略家&gt;，并且每次弃掉至少一张卡</string>
-    <string name="achievements_13curses">在拥有恰好13张&lt;诅咒&gt;的情况下赢得游戏</string>
+    <string name="achievements_13curses">在拥有恰好十三张&lt;诅咒&gt;的情况下赢得游戏</string>
     <string name="achievements_allEmpty">在所有补给堆全空的情况下赢得游戏</string>
     
     <string name="currentWinStreak">当前连胜数：</string>

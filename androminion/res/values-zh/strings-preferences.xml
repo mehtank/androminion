@@ -62,14 +62,14 @@
 	    <string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
 	    <string-array name="userlang_names" tools:ignore="MissingTranslation">
 	        <item>系统默认</item>
-	        <item>英语</item>
-	        <item>德语</item>
-	        <item>西班牙语</item>
-	        <item>法语</item>
+	        <item>English</item>
+	        <item>Deutsch</item>
+	        <item>Español</item>
+	        <item>Français</item>
 	        <item>中文</item>
-	        <item>日语</item>
-	        <item>荷兰语</item>
-	        <item>俄语</item>
+	        <item>日本語</item>
+	        <item>Nederlands</item>
+	        <item>русский</item>
 	    </string-array>
     <string name="game_play_pref_title">游戏设置</string>
 	    <string name="errata_pref_title">版本与勘误</string>
@@ -134,7 +134,7 @@
 	    <string name="logging_dir_pref_summary">必要时会被创建</string>
     <string name="testing_pref_title">调试</string>
 	    <string name="god_mode_pref_title">测试模式</string>
-	    <string name="god_mode_pref_summary">回合开始时拥有(999)现金，999购买，999行动</string>
+	    <string name="god_mode_pref_summary">每回合开始时拥有(999)现金，999购买，999行动</string>
 	    <string name="less_provinces_pref_title">只有一个&lt;行省&gt;</string>
 	    <string name="less_provinces_pref_summary">在补给堆中</string>
 	    <string name="start_no_cards_pref_title">开始没卡</string>

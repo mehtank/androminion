@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="help_supply1">欢迎来到~Androminion~，安卓版的《领土 ~ 皇輿爭霸 ~ Dominion》。这是一个由Donald X  Vaccarino制作的屡获大奖的桌游，其实体版1由Rio Grande Games发行。</string>
+	<string name="help_supply1">欢迎来到~Androminion~，安卓版的《领土 ~ 皇輿爭霸 ~ Dominion》。这是一个由 Donald X. Vaccarino 制作的屡获大奖的桌游，其实体版由 Rio Grande Games 发行。</string>
 	<string name="help_supply2">如果您不熟悉怎么玩这款游戏，在这里非常建议您在游玩~Androminion~之前先阅读官方说明或者维基百科上的介绍。使用必应或者另一个不存在的搜索引擎（别用百度搜不到的）搜索以下关键词之一即可查阅相关信息：\n\t 皇与争霸 \n\t Dominion Wikipedia \n\t Dominion Strategy</string>
-	<string name="help_supply3">这里是补给区。您可以在这里看到所有本局游戏中可供获取的补给。\n\n倘若您想要查看某张卡更详细的描述？长按那张卡片您就能在弹出的对话框中看到介绍了。</string>
-	<string name="help_supply4">每张卡的价值在它左侧黄色椭圆内被标明（有时还会有药剂或是红色负债标记），而剩余的张数则位于其名称下方。\n\n如果游戏使用了&lt;禁运令~Embargo&gt;（海国图志），那么每个补给堆上的禁运令指示物数量会在卡右侧黑色椭圆内被标明。\n\n类似地，牌堆上的其他的指示物也会用对应标记在卡的右侧被标明。\n\n如果您不确定一张卡上的标记代表什么，长按卡片亦可以看到详细说明。</string>
+	<string name="help_supply3">这里是补给区。您可以在这里看到所有本局游戏中可供获取的补给。\n\n倘若您想要查看某张卡更详细的描述？长按那张卡片您就能在弹出的对话框中看到介绍了。\n\n</string>
+	<string name="help_supply4">每张卡的价值在它左侧黄色椭圆内被标明（有时还会有药剂或是红色负债标记），而剩余的张数则位于其名称下方。\n\n如果游戏使用了&lt;禁运令~Embargo&gt;（海国图志），那么每个补给堆上的禁运令指示物数量会在卡右侧黑色椭圆内被标明。\n\n类似地，补给堆上的其他的指示物也会用对应标记在卡的右侧被标明。\n\n如果您不确定一张卡上的标记代表什么，长按卡片亦可以看到详细说明。</string>
 
 	<string name="help_turn1">这里是回合信息区。您可以在这里看到有关每位玩家当前回合的相关信息。</string>
 	<string name="help_turn2">当前正在进行游戏的玩家被加粗显示，而其余玩家按照轮次顺序由上到下依次排列。</string>

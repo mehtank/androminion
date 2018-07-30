@@ -1,251 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="FirstGame_gametype">First Game</string>
-  <string name="BigMoney_gametype">Big Money</string> 
-  <string name="Interaction_gametype">Interaction</string> 
-  <string name="SizeDistortion_gametype">Size Distortion</string> 
-  <string name="VillageSquare_gametype">Village Square</string>
+  <string name="FirstGame_gametype">初次游玩~First Game</string>
+  <string name="BigMoney_gametype">一笔巨款~Big Money</string> 
+  <string name="Interaction_gametype">玩家互动~Interaction</string> 
+  <string name="SizeDistortion_gametype">卡组畸变~Size Distortion</string> 
+  <string name="VillageSquare_gametype">乡村广场~Village Square</string>
   
-  <string name="DeckTop_gametype">Deck Top</string>
-  <string name="SleightOfHand_gametype">Sleight of Hand</string>
-  <string name="Improvements_gametype">Improvements</string>
-  <string name="SilverAndGold_gametype">Silver &amp; Gold</string>
+  <string name="DeckTop_gametype">堆顶杂技~Deck Top</string>
+  <string name="SleightOfHand_gametype">手牌诡计~Sleight of Hand</string>
+  <string name="Improvements_gametype">日新月异~Improvements</string>
+  <string name="SilverAndGold_gametype">真金白银~Silver &amp; Gold</string>
   
-  <string name="VictoryDance_gametype">Victory Dance</string> 
-  <string name="SecretSchemes_gametype">Secret Schemes</string> 
-  <string name="BestWishes_gametype">Best Wishes</string>
+  <string name="VictoryDance_gametype">胜利之舞~Victory Dance</string> 
+  <string name="SecretSchemes_gametype">阴谋诡计~Secret Schemes</string> 
+  <string name="BestWishes_gametype">纯真愿景~Best Wishes</string>
  
-  <string name="ThePlotThickens_gametype">The Plot Thickens</string> 
+  <string name="ThePlotThickens_gametype">惊心动魄~The Plot Thickens</string> 
     
-  <string name="Deconstruction_gametype">Deconstruction</string> 
-  <string name="HandMadness_gametype">Hand Madness</string>
-  <string name="Underlings_gametype">Underlings</string>
+  <string name="Deconstruction_gametype">暗中破坏~Deconstruction</string> 
+  <string name="HandMadness_gametype">手牌狂想~Hand Madness</string>
+  <string name="Underlings_gametype">唯命是从~Underlings</string>
   
-  <string name="GrandScheme_gametype">Grand Scheme</string>
+  <string name="GrandScheme_gametype">宏伟蓝图~Grand Scheme</string>
   
-  <string name="HighSeas_gametype">High Seas</string> 
-  <string name="BuriedTreasure_gametype">Buried Treasure</string> 
-  <string name="Shipwrecks_gametype">Shipwrecks</string>
+  <string name="HighSeas_gametype">公海激战~High Seas</string> 
+  <string name="BuriedTreasure_gametype">秘密财宝~Buried Treasure</string> 
+  <string name="Shipwrecks_gametype">海难缠斗~Shipwrecks</string>
   
-  <string name="ReachForTomorrow_gametype">Reach for Tomorrow</string> 
-  <string name="Repetition_gametype">Repetition</string> 
-  <string name="GiveAndTake_gametype">Give and Take</string>
+  <string name="ReachForTomorrow_gametype">展望未来~Reach for Tomorrow</string> 
+  <string name="Repetition_gametype">再来一次~Repetition</string> 
+  <string name="GiveAndTake_gametype">礼尚往来~Give and Take</string>
   
-  <string name="AStarToSteerBy_gametype">A Star to Steer By</string> 
-  <string name="ShorePatrol_gametype">Shore Patrol</string> 
-  <string name="BridgeCrossing_gametype">Bridge Crossing</string>
+  <string name="AStarToSteerBy_gametype">星星点灯~A Star to Steer By</string> 
+  <string name="ShorePatrol_gametype">海岸巡逻~Shore Patrol</string> 
+  <string name="BridgeCrossing_gametype">穿越桥梁~Bridge Crossing</string>
   
-  <string name="ForbiddenArts_gametype">Forbidden Arts</string> 
-  <string name="PotionMixers_gametype">Potion Mixers</string> 
-  <string name="ChemistryLesson_gametype">Chemistry Lesson</string>
+  <string name="ForbiddenArts_gametype">禁忌艺术~Forbidden Arts</string> 
+  <string name="PotionMixers_gametype">药剂混合~Potion Mixers</string> 
+  <string name="ChemistryLesson_gametype">化学课堂~Chemistry Lesson</string>
   
-  <string name="Servants_gametype">Servants</string> 
-  <string name="SecretResearch_gametype">Secret Research</string> 
-  <string name="PoolsToolsAndFools_gametype">Pools, Tools, and Fools</string>
+  <string name="Servants_gametype">为您效劳~Servants</string> 
+  <string name="SecretResearch_gametype">机密科研~Secret Research</string> 
+  <string name="PoolsToolsAndFools_gametype">假痴不癫~Pools,Tools, and Fools</string>
   
-  <string name="Forewarned_gametype">Forewarned</string>
-  <string name="GummedUp_gametype">Gummed Up</string>
+  <string name="Forewarned_gametype">有备无患~Forewarned</string>
+  <string name="GummedUp_gametype">礼崩乐坏~Gummed Up</string>
     
-  <string name="Beginners_gametype">Beginners</string> 
-  <string name="FriendlyInteractive_gametype">Friendly Interactive</string> 
-  <string name="BigActions_gametype">Big Actions</string> 
+  <string name="Beginners_gametype">初来乍到~Beginners</string> 
+  <string name="FriendlyInteractive_gametype">礼尚往来~Friendly Interactive</string> 
+  <string name="BigActions_gametype">大刀阔斧~Big Actions</string> 
 
-  <string name="BiggestMoney_gametype">Biggest Money</string> 
-  <string name="TheKingsArmy_gametype">The King\'s Army</string> 
-  <string name="TheGoodLife_gametype">The Good Life</string>
+  <string name="BiggestMoney_gametype">两笔巨款~Biggest Money</string> 
+  <string name="TheKingsArmy_gametype">国王卫队~The King\'s Army</string> 
+  <string name="TheGoodLife_gametype">安居乐业~The Good Life</string>
 
-  <string name="PathsToVictory_gametype">Paths to Victory</string> 
-  <string name="AllAlongTheWatchtower_gametype">All Along the Watchtower</string> 
-  <string name="LuckySeven_gametype">Lucky Seven</string>
+  <string name="PathsToVictory_gametype">胜利之路~Paths to Victory</string> 
+  <string name="AllAlongTheWatchtower_gametype">瞭望塔下~All Along the Watchtower</string> 
+  <string name="LuckySeven_gametype">七七大顺~Lucky Seven</string>
   
-  <string name="ExplodingKingdom_gametype">Exploding Kingdom</string>
-  <string name="PirateBay_gametype">Pirate Bay</string>
+  <string name="ExplodingKingdom_gametype">日新月异~Exploding Kingdom</string>
+  <string name="PirateBay_gametype">海贼峡湾~Pirate Bay</string>
   
-  <string name="CountingContest_gametype">Counting Contest</string>
-  <string name="LowerLearning_gametype">Lower Learning</string>
+  <string name="CountingContest_gametype">计数竞赛~Counting Contest</string>
+  <string name="LowerLearning_gametype">不耻下问~Lower Learning</string>
 
-  <string name="BountyOfTheHunt_gametype">Bounty of the Hunt</string> 
-  <string name="BadOmens_gametype">Bad Omens</string> 
-  <string name="TheJestersWorkshop_gametype">The Jester\'s Workshop</string>
+  <string name="BountyOfTheHunt_gametype">狩猎之赐~Bounty of the Hunt</string> 
+  <string name="BadOmens_gametype">不祥之兆~Bad Omens</string> 
+  <string name="TheJestersWorkshop_gametype">弄臣工场~The Jester\'s Workshop</string>
 
-  <string name="LastLaughs_gametype">Last Laughs</string> 
-  <string name="TheSpiceOfLife_gametype">The Spice of Life</string> 
-  <string name="SmallVictories_gametype">Small Victories</string>
+  <string name="LastLaughs_gametype">谈笑风生~Last Laughs</string> 
+  <string name="TheSpiceOfLife_gametype">及时行乐~The Spice of Life</string> 
+  <string name="SmallVictories_gametype">料敌制胜~Small Victories</string>
   
-  <string name="Collector_gametype">Collector</string>
-  <string name="Collider_gametype">Collider</string>
+  <string name="Collector_gametype">旁收博采~Collector</string>
+  <string name="Collider_gametype">狼奔豕突~Collider</string>
   
-  <string name="ClownCollege_gametype">Clown College</string>
-  <string name="WineAndDine_gametype">Wine &amp; Dine</string>
+  <string name="ClownCollege_gametype">小丑学院~Clown College</string>
+  <string name="WineAndDine_gametype">葡萄美酒~Wine &amp; Dine</string>
   
-  <string name="Detours_gametype">Detours</string>
+  <string name="Detours_gametype">少走弯路~Detours</string>
   
-  <string name="HinterlandsIntro_gametype">Hinterlands Intro</string> 
-  <string name="FairTrades_gametype">Fair Trades</string> 
-  <string name="Bargains_gametype">Bargains</string> 
-  <string name="Gambits_gametype">Gambits</string> 
+  <string name="HinterlandsIntro_gametype">初入中土~Hinterlands Intro</string> 
+  <string name="FairTrades_gametype">公平交易~Fair Trades</string> 
+  <string name="Bargains_gametype">讨价还价~Bargains</string> 
+  <string name="Gambits_gametype">登台亮相~Gambits</string> 
     
-  <string name="HighwayRobbery_gametype">Highway Robbery</string> 
-  <string name="AdventuresAbroad_gametype">Adventures Abroad</string>
+  <string name="HighwayRobbery_gametype">公路劫案~Highway Robbery</string> 
+  <string name="AdventuresAbroad_gametype">异域探险~Adventures Abroad</string>
     
-  <string name="MoneyForNothing_gametype">Money for Nothing</string> 
-  <string name="TheDukesBall_gametype">The Duke\'s Ball</string>
+  <string name="MoneyForNothing_gametype">一文不名~Money for Nothing</string> 
+  <string name="TheDukesBall_gametype">公爵舞会~The Duke\'s Ball</string>
     
-  <string name="Travelers_gametype">Travelers</string> 
-  <string name="Diplomacy_gametype">Diplomacy</string>
+  <string name="Travelers_gametype">风尘仆仆~Travelers</string> 
+  <string name="Diplomacy_gametype">合纵连横~Diplomacy</string>
     
-  <string name="SchemesAndDreams_gametype">Schemes and Dreams</string> 
-  <string name="WineCountry_gametype">Wine Country</string>
+  <string name="SchemesAndDreams_gametype">梦想计划~Schemes and Dreams</string> 
+  <string name="WineCountry_gametype">红酒之乡~Wine Country</string>
 
-  <string name="InstantGratification_gametype">Instant Gratification</string> 
-  <string name="TreasureTrove_gametype">Treasure Trove</string>
+  <string name="InstantGratification_gametype">及时行乐~Instant Gratification</string> 
+  <string name="TreasureTrove_gametype">家财万贯~Treasure Trove</string>
    
-  <string name="BlueHarvest_gametype">Blue Harvest</string> 
-  <string name="TravelingCircus_gametype">Traveling Circus</string>
+  <string name="BlueHarvest_gametype">兵来将挡~Blue Harvest</string> 
+  <string name="TravelingCircus_gametype">旅行马戏~Traveling Circus</string>
     
-  <string name="GrimParade_gametype">Grim Parade</string>
-  <string name="PlayingChessWithDeath_gametype">Playing Chess With Death</string>
+  <string name="GrimParade_gametype">冷酷游行~Grim Parade</string>
+  <string name="PlayingChessWithDeath_gametype">虎口拔牙~Playing Chess With Death</string>
    
-  <string name="HighAndLow_gametype">High and Low</string>
-  <string name="ChivalryAndRevelry_gametype">Chivalry and Revelry</string>
+  <string name="HighAndLow_gametype">错落有致~High and Low</string>
+  <string name="ChivalryAndRevelry_gametype">骑士狂欢~Chivalry and Revelry</string>
    
-  <string name="Prophecy_gametype">Prophecy</string>
-  <string name="Invasion_gametype">Invasion</string>
+  <string name="Prophecy_gametype">一语成谶~Prophecy</string>
+  <string name="Invasion_gametype">狼烟四起~Invasion</string>
    
-  <string name="WateryGraves_gametype">Watery Graves</string>
-  <string name="Peasants_gametype">Peasants</string>
+  <string name="WateryGraves_gametype">水下坟场~Watery Graves</string>
+  <string name="Peasants_gametype">村夫野老~Peasants</string>
    
-  <string name="Infestations_gametype">Infestations</string>
-  <string name="Lamentations_gametype">Lamentations</string>
+  <string name="Infestations_gametype">每况愈下~Infestations</string>
+  <string name="Lamentations_gametype">哀鸿遍野~Lamentations</string>
    
-  <string name="OneMansTrash_gametype">One Man\'s Trash</string>
-  <string name="HonorAmongThieves_gametype">Honor Among Thieves</string>
+  <string name="OneMansTrash_gametype">人之毒药~One Man\'s Trash</string>
+  <string name="HonorAmongThieves_gametype">盗亦有道~Honor Among Thieves</string>
   
-  <string name="DarkCarnival_gametype">Dark Carnival</string>
-  <string name="ToTheVictor_gametype">To the Victor</string>
+  <string name="DarkCarnival_gametype">黯色狂欢~Dark Carnival</string>
+  <string name="ToTheVictor_gametype">致胜利者~To the Victor</string>
        
-  <string name="FarFromHome_gametype">Far From Home</string>
-  <string name="Expeditions_gametype">Expeditions</string>
+  <string name="FarFromHome_gametype">浪迹江湖~Far From Home</string>
+  <string name="Expeditions_gametype">悬旌万里~Expeditions</string>
    
-  <string name="ArtsAndCrafts_gametype">Arts and Crafts</string>
-  <string name="CleanLiving_gametype">Clean Living</string>
-  <string name="GildingTheLily_gametype">Gilding the Lily</string>
+  <string name="ArtsAndCrafts_gametype">美术工艺~Arts and Crafts</string>
+  <string name="CleanLiving_gametype">粗茶淡饭~Clean Living</string>
+  <string name="GildingTheLily_gametype">画蛇添足~Gilding the Lily</string>
    
-  <string name="NameThatCard_gametype">Name that Card</string>
-  <string name="TricksOfTheTrade_gametype">Tricks of the Trade</string>
-  <string name="DecisionsDecisions_gametype">Decisions, Decisions</string>
+  <string name="NameThatCard_gametype">胡思乱想~Name that Card</string>
+  <string name="TricksOfTheTrade_gametype">无商不奸~Tricks of the Trade</string>
+  <string name="DecisionsDecisions_gametype">进退两难~Decisions, Decisions</string>
   
-  <string name="GhostsAndTaxes_gametype">Ghosts &amp; Taxes</string>
-  <string name="IslandBuilder_gametype">Island Builder</string>
+  <string name="GhostsAndTaxes_gametype">鬼灵税收~Ghosts &amp; Taxes</string>
+  <string name="IslandBuilder_gametype">精卫填海~Island Builder</string>
   
-  <string name="Illuminati_gametype">Illuminati</string>
-  <string name="TonicsAndToxins_gametype">Tonics &amp; Toxins</string>
+  <string name="Illuminati_gametype">未卜先知~Illuminati</string>
+  <string name="TonicsAndToxins_gametype">宴安鸠毒~Tonics &amp; Toxins</string>
   
-  <string name="Quarrymen_gametype">Quarrymen</string>
-  <string name="MetalAndMeat_gametype">Metal &amp; Meat</string>
-  <string name="PennyPinching_gametype">Penny Pinching</string>
+  <string name="Quarrymen_gametype">采石工人~Quarrymen</string>
+  <string name="MetalAndMeat_gametype">肉与金属~Metal &amp; Meat</string>
+  <string name="PennyPinching_gametype">一毛不拔~Penny Pinching</string>
   
-  <string name="Misfortune_gametype">Misfortune</string>
-  <string name="BakingContest_gametype">Baking Contest</string>
+  <string name="Misfortune_gametype">飞来横祸~Misfortune</string>
+  <string name="BakingContest_gametype">烘焙竞赛~Baking Contest</string>
   
-  <string name="Exchanges_gametype">Exchanges</string>
-  <string name="RoadToRiches_gametype">Road to Riches</string>
+  <string name="Exchanges_gametype">抱布贸丝~Exchanges</string>
+  <string name="RoadToRiches_gametype">致富之路~Road to Riches</string>
   
-  <string name="Stoneground_gametype">Stoneground</string>
-  <string name="ClassStruggle_gametype">Class Struggle</string>
+  <string name="Stoneground_gametype">水磨工夫~Stoneground</string>
+  <string name="ClassStruggle_gametype">阶级斗争~Class Struggle</string>
   
-  <string name="GentleIntro_gametype">Gentle Intro</string>
-  <string name="ExpertIntro_gametype">Expert Intro</string>
+  <string name="GentleIntro_gametype">温柔介绍~Gentle Intro</string>
+  <string name="ExpertIntro_gametype">进阶介绍~Expert Intro</string>
    
-  <string name="LevelUp_gametype">Level Up</string>
-  <string name="SonOfSizeDistortion_gametype">Son of Size Distortion</string>
+  <string name="LevelUp_gametype">等级提升~Level Up</string>
+  <string name="SonOfSizeDistortion_gametype">卡组扭曲~Son of Size Distortion</string>
    
-  <string name="RoyaltyFactory_gametype">Royalty Factory</string>
-  <string name="MastersOfFinance_gametype">Masters of Finance</string>
+  <string name="RoyaltyFactory_gametype">皇家工厂~Royalty Factory</string>
+  <string name="MastersOfFinance_gametype">金融专家~Masters of Finance</string>
    
-  <string name="PrinceOfOrange_gametype">Prince of Orange</string>
-  <string name="GiftsAndMathoms_gametype">Gifts and Mathoms</string>
+  <string name="PrinceOfOrange_gametype">荷兰王子~Prince of Orange</string>
+  <string name="GiftsAndMathoms_gametype">駌松之礼~Gifts and Mathoms</string>
    
-  <string name="HastePotion_gametype">Haste Potion</string>
-  <string name="Cursecatchers_gametype">Cursecatchers</string>
+  <string name="HastePotion_gametype">加速药水~Haste Potion</string>
+  <string name="Cursecatchers_gametype">诅咒猎手~Cursecatchers</string>
    
-  <string name="LastWillAndMonument_gametype">Last Will and Monument</string>
-  <string name="ThinkBig_gametype">Think Big</string>
+  <string name="LastWillAndMonument_gametype">遗愿之碑~Last Will and Monument</string>
+  <string name="ThinkBig_gametype">野心勃勃~Think Big</string>
    
-  <string name="TheHerosReturn_gametype">The Hero\'s Return</string>
-  <string name="SeacraftAndWitchcraft_gametype">Seacraft and Witchcraft</string>
+  <string name="TheHerosReturn_gametype">王者归来~The Hero\'s Return</string>
+  <string name="SeacraftAndWitchcraft_gametype">海与女巫~Seacraft and Witchcraft</string>
    
-  <string name="TradersAndRaiders_gametype">Traders and Raiders</string>
-  <string name="Journeys_gametype">Journeys</string>
+  <string name="TradersAndRaiders_gametype">商人之劫~Traders and Raiders</string>
+  <string name="Journeys_gametype">风餐露宿~Journeys</string>
    
-  <string name="CemeteryPolka_gametype">Cemetery Polka</string>
-  <string name="GroovyDecay_gametype">Groovy Decay</string>
+  <string name="CemeteryPolka_gametype">坟头蹦迪~Cemetery Polka</string>
+  <string name="GroovyDecay_gametype">荒坟野墓~Groovy Decay</string>
    
-  <string name="Spendthrift_gametype">Spendthrift</string>
-  <string name="QueenOfTan_gametype">Queen of Tan</string>
+  <string name="Spendthrift_gametype">荒淫无度~Spendthrift</string>
+  <string name="QueenOfTan_gametype">棕褐女王~Queen of Tan</string>
   
-  <string name="BasicIntro_gametype">Basic Intro</string>
-  <string name="AdvancedIntro_gametype">Advanced Intro</string>
+  <string name="BasicIntro_gametype">基础介绍~Basic Intro</string>
+  <string name="AdvancedIntro_gametype">高级介绍~Advanced Intro</string>
   
-  <string name="EverythingInModeration_gametype">Everything in Moderation</string>
-  <string name="SilverBullets_gametype">Silver Bullets</string>
+  <string name="EverythingInModeration_gametype">恰到好处~Everything in Moderation</string>
+  <string name="SilverBullets_gametype">神器法宝~Silver Bullets</string>
   
-  <string name="DeliciousTorture_gametype">Delicious Torture</string>
-  <string name="BuddySystem_gametype">Buddy System</string>
+  <string name="DeliciousTorture_gametype">美妙折磨~Delicious Torture</string>
+  <string name="BuddySystem_gametype">伙伴系统~Buddy System</string>
   
-  <string name="BoxedIn_gametype">Boxed In</string>
-  <string name="KingOfTheSea_gametype">King of the Sea</string>
+  <string name="BoxedIn_gametype">推箱子啦~Boxed In</string>
+  <string name="KingOfTheSea_gametype">海上霸主~King of the Sea</string>
   
-  <string name="Collectors_gametype">Collectors</string>
+  <string name="Collectors_gametype">收离纠散~Collectors</string>
   
-  <string name="BigTime_gametype">Big Time</string>
-  <string name="GildedGates_gametype">Gilded Gates</string>
+  <string name="BigTime_gametype">大展宏图~Big Time</string>
+  <string name="GildedGates_gametype">阶级壁垒~Gilded Gates</string>
   
-  <string name="Zookeepers_gametype">Zookeepers</string>
-  <string name="CashFlow_gametype">Cash Flow</string>
+  <string name="Zookeepers_gametype">动物饲养~Zookeepers</string>
+  <string name="CashFlow_gametype">财源滚滚~Cash Flow</string>
   
-  <string name="SimplePlans_gametype">Simple Plans</string>
-  <string name="Expansion_gametype">Expansion</string>
+  <string name="SimplePlans_gametype">简单计划~Simple Plans</string>
+  <string name="Expansion_gametype">开疆辟土~Expansion</string>
   
-  <string name="TombOfTheRatKing_gametype">Tomb of the Rat King</string>
-  <string name="TriumphOfTheBanditKing_gametype">Triumph of the Bandit King</string>
-  <string name="TheSquiresRitual_gametype">The Squire\'s Ritual</string>
+  <string name="TombOfTheRatKing_gametype">鼠王之末~Tomb of the Rat King</string>
+  <string name="TriumphOfTheBanditKing_gametype">乱臣贼子~Triumph of the Bandit King</string>
+  <string name="TheSquiresRitual_gametype">扈从祭礼~The Squire\'s Ritual</string>
   
-  <string name="AreaControl_gametype">Area Control</string>
-  <string name="NoMoneyNoProblems_gametype">No Money No Problems</string>
+  <string name="AreaControl_gametype">区域控制~Area Control</string>
+  <string name="NoMoneyNoProblems_gametype">千金散尽~No Money No Problems</string>
   
-  <string name="Dusk_gametype">Dusk</string>
-  <string name="Midnight_gametype">Midnight</string>
+  <string name="Dusk_gametype">薄暮时分~Dusk</string>
+  <string name="Midnight_gametype">午夜梦回~Midnight</string>
   
-  <string name="NightShift_gametype">Night Shift</string>
-  <string name="IdleHands_gametype">Idle Hands</string>
+  <string name="NightShift_gametype">夜晚模式~Night Shift</string>
+  <string name="IdleHands_gametype">游手好闲~Idle Hands</string>
   
-  <string name="ShadowyFigures_gametype">Shadowy Figures</string>
-  <string name="ImpendingDoom_gametype">Impending Doom</string>
+  <string name="ShadowyFigures_gametype">杯弓蛇影~Shadowy Figures</string>
+  <string name="ImpendingDoom_gametype">厄运降临~Impending Doom</string>
   
-  <string name="TheNewBlack_gametype">The New Black</string>
-  <string name="ForbiddenIsle_gametype">Forbidden Isle</string>
+  <string name="TheNewBlack_gametype">领异标新~The New Black</string>
+  <string name="ForbiddenIsle_gametype">禁忌之岛~Forbidden Isle</string>
   
-  <string name="NightmareFuel_gametype">Nightmare Fuel</string>
+  <string name="NightmareFuel_gametype">噩梦之旅~Nightmare Fuel</string>
   
-  <string name="TreasuresOfTheNight_gametype">Treasures of the Night</string>
-  <string name="DayAtTheRaces_gametype">Day at the Races</string>
+  <string name="TreasuresOfTheNight_gametype">黑夜之赐~Treasures of the Night</string>
+  <string name="DayAtTheRaces_gametype">马场轶事~Day at the Races</string>
   
-  <string name="TheEndlessFair_gametype">The Endless Fair</string>
-  <string name="HappyChaos_gametype">Happy Chaos</string>
+  <string name="TheEndlessFair_gametype">不休集市~The Endless Fair</string>
+  <string name="HappyChaos_gametype">乱世逍遥~Happy Chaos</string>
   
-  <string name="SearchParty_gametype">Search Party</string>
-  <string name="CountingSheep_gametype">Counting Sheep</string>
+  <string name="SearchParty_gametype">搜寻小队~Search Party</string>
+  <string name="CountingSheep_gametype">如数家珍~Counting Sheep</string>
   
-  <string name="GraveMatters_gametype">Grave Matters</string>
-  <string name="RatsAndBats_gametype">Rats and Bats</string>
+  <string name="GraveMatters_gametype">古墓丽影~Grave Matters</string>
+  <string name="RatsAndBats_gametype">老鼠蝙蝠~Rats and Bats</string>
   
-  <string name="MonsterMash_gametype">Monster Mash</string>
-  <string name="LostInTheWoods_gametype">Lost in the Woods</string>
+  <string name="MonsterMash_gametype">土豆怪兽~Monster Mash</string>
+  <string name="LostInTheWoods_gametype">林中迷途~Lost in the Woods</string>
   
-  <string name="Luftschloss_gametype">Luftschloss</string>
-  <string name="PookaPranks_gametype">Pooka Pranks</string>
+  <string name="Luftschloss_gametype">空中楼阁~Luftschloss</string>
+  <string name="PookaPranks_gametype">捣蛋恶灵~Pooka Pranks</string>
   
-  <string name="Test_gametype">Test (for testing)</string>
+  <string name="Test_gametype">测试专用</string>
 
 </resources>

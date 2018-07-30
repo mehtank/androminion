@@ -2,7 +2,7 @@
 <resources>
     <string name="type_treasure">宝藏</string>
     <string name="type_victory">分数</string>
-    <string name="type_action">行动</string>
+    <string name="type_action">动作</string>
     <string name="type_attack">攻击</string>
     <string name="type_reaction">反应</string>
     <string name="type_duration">持续</string>
