@@ -475,6 +475,7 @@ public class CardSet {
 		CardSetMap.put(GameType.RandomAdventures, new CardSet(Cards.actionCardsAdventures, true));
 		CardSetMap.put(GameType.RandomEmpires, new CardSet(Cards.actionCardsEmpires, true));
 		CardSetMap.put(GameType.RandomNocturne, new CardSet(Cards.actionCardsNocturne, true));
+		CardSetMap.put(GameType.RandomRenaissance, new CardSet(Cards.actionCardsRenaissance, true));
 		// Dominion
 		CardSetMap.put(GameType.FirstGame, new CardSet(new Card[]{Cards.cellar, Cards.market, Cards.militia, Cards.mine, Cards.moat, Cards.remodel, Cards.smithy, Cards.village, Cards.woodcutter, Cards.workshop}));
 		CardSetMap.put(GameType.BigMoney, new CardSet(new Card[]{Cards.adventurer, Cards.bureaucrat, Cards.chancellor, Cards.chapel, Cards.feast, Cards.laboratory, Cards.market, Cards.mine, Cards.moneyLender, Cards.throneRoom}));

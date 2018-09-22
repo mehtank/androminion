@@ -318,6 +318,8 @@ public class CardImpl implements Card, Comparable<Card>{
         		return new CardImplEmpires(this);
         	case Nocturne:
         		return new CardImplNocturne(this);
+        	case Renaissance:
+        		return new CardImplRenaissance(this);
         	case Promo:
         		return new CardImplPromo(this);
         	default:
@@ -393,6 +395,9 @@ public class CardImpl implements Card, Comparable<Card>{
 	    		break;
 	    	case Nocturne:
 	    		c = new CardImplNocturne();
+	    		break;
+	    	case Renaissance:
+	    		c = new CardImplRenaissance();
 	    		break;
 	    	case Promo:
 	    		c = new CardImplPromo();

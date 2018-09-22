@@ -22,6 +22,7 @@ public enum Expansion {
 	Adventures(Cards.actionCardsAdventures, Cards.eventCardsAdventures),
 	Empires(Cards.actionCardsEmpires, Cards.eventCardsEmpires, Cards.landmarkCardsEmpires),
 	Nocturne(Cards.actionCardsNocturne),
+	Renaissance(Cards.actionCardsRenaissance),
 	Promo(Cards.actionCardsPromo, Cards.eventCardsPromo);
 	
 	private final List<Card> kingdomCards;

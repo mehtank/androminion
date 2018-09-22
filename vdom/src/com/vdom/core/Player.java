@@ -2496,6 +2496,11 @@ public abstract class Player {
     public abstract boolean zombieSpy_shouldDiscard(MoveContext context, Card card);
     
     // ////////////////////////////////////////////
+    // Card interactions - Renaissance Expansion
+    // ////////////////////////////////////////////
+    
+    
+    // ////////////////////////////////////////////
     // Card interactions - Promotional Cards
     // ////////////////////////////////////////////
     public abstract GovernorOption governor_chooseOption(MoveContext context);

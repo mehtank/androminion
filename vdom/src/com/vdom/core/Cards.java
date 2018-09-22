@@ -26,6 +26,7 @@ public class Cards {
     public static ArrayList<Card> eventCardsEmpires = new ArrayList<Card>();
     public static ArrayList<Card> landmarkCardsEmpires = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsNocturne = new ArrayList<Card>();
+    public static ArrayList<Card> actionCardsRenaissance = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> eventCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
@@ -134,6 +135,9 @@ public class Cards {
         BadOmens, Delusion, Envy, Famine, Fear, Greed, Haunting, Locusts, Misery, Plague, Poverty, War,
         
         Deluded, Envious, LostInTheWoods, Miserable, TwiceMiserable,
+        
+        // Renaissance Expansion
+        
         
         // Promo Cards
         Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon, Sauna, Avanto, Dismantle,
@@ -651,6 +655,8 @@ public class Cards {
     public static final Card lostInTheWoods;
     public static final Card miserable;
     public static final Card twiceMiserable;
+    
+    // Renaissance expansion
     
     // Promo Cards
     public static final Card walledVillage;
@@ -1203,6 +1209,10 @@ public class Cards {
         stateCards.add(miserable      = new CardImpl.Builder(Cards.Kind.Miserable, Type.State).vp(-2).description("").expansion(Expansion.Nocturne).build());
         stateCards.add(twiceMiserable = new CardImpl.Builder(Cards.Kind.TwiceMiserable, Type.State).vp(-4).description("").expansion(Expansion.Nocturne).build());
         
+        // Renaissance Cards
+        
+        
+        
         // Promo Cards
         variablePileCards.add(sauna        = new CardImpl.Builder(Cards.Kind.Sauna, 4, Type.Action).addCards(1).addActions(1).description("You may play an Avanto from your hand. - While this is in play, when you play a Silver, you may trash a card from your hand.").expansion(Expansion.Promo).build());
         variablePileCards.add(avanto       = new CardImpl.Builder(Cards.Kind.Avanto, 5, Type.Action).addCards(3).description("You may play a Sauna from your hand.").expansion(Expansion.Promo).build());
@@ -1247,6 +1257,7 @@ public class Cards {
         for (Card card : actionCardsAdventures)  { actionCards.add(card); }
         for (Card card : actionCardsEmpires)     { actionCards.add(card); }
         for (Card card : actionCardsNocturne)    { actionCards.add(card); }
+        for (Card card : actionCardsRenaissance) { actionCards.add(card); }
         for (Card card : actionCardsPromo)       { actionCards.add(card); }
         
         for (Card card : eventCardsAdventures)  { eventsCards.add(card); }

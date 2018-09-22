@@ -1788,6 +1788,8 @@ public class Strings {
             getCardName(Cards.wish),
             getCardName(Cards.zombieApprentice),
             getCardName(Cards.zombieMason),
+            /*Renaissance*/
+            
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),

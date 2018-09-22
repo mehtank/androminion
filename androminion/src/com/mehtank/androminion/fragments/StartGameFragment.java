@@ -84,6 +84,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     ToggleButton mRandomAdventures;
     ToggleButton mRandomEmpires;
     ToggleButton mRandomNocturne;
+    ToggleButton mRandomRenaissance;
     Map<Expansion, ToggleButton> completeSets;
     ToggleButton mRandomPromo;
     CheckBox mRandomPlayersCheckbox;
@@ -205,6 +206,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         completeSets.put(Expansion.Adventures, mRandomAdventures = (ToggleButton) mView.findViewById(R.id.toggleButtonAdventures));
         completeSets.put(Expansion.Empires, mRandomEmpires = (ToggleButton) mView.findViewById(R.id.toggleButtonEmpires));
         completeSets.put(Expansion.Nocturne, mRandomNocturne = (ToggleButton) mView.findViewById(R.id.toggleButtonNocturne));
+        completeSets.put(Expansion.Renaissance, mRandomRenaissance = (ToggleButton) mView.findViewById(R.id.toggleButtonRenaissance));
         mRandomPromo = (ToggleButton) mView.findViewById(R.id.toggleButtonPromo);
                 
         mPlayer2 = (Spinner) mView.findViewById(R.id.spPlayer2);
