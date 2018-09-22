@@ -95,11 +95,11 @@
     <string name="toast_quitconfirm">再次点击以退出。</string>
     <string name="toast_mountainPassWinner">山口：最高出价%1$s（%2$s）</string>
     <string name="toast_mountainPassNoBid">山口：没有出价</string>
-    <string name="obtained">%1$s获取了</string>
-    <string name="eventBought">%1$s购买了</string>
-    <string name="trashed">%1$s废弃了</string>
-    <string name="revealed">%1$s展示了</string>
-    <string name="revealed_from_hand">%1$s从手牌中展示了</string>
+    <string name="obtained">获取 %1$s</string>
+    <string name="eventBought">购买 %1$s</string>
+    <string name="trashed">废弃 %1$s</string>
+    <string name="revealed">展示 %1$s</string>
+    <string name="revealed_from_hand">从手牌中展示 %1$s</string>
     <string name="confirmation">确定？</string>
     <string name="confirm_no">算了</string>
     <string name="select_button">选择</string>
@@ -121,7 +121,7 @@
     <string name="island_header">孤岛：</string>
     <string name="village_header">村庄：</string>
     <string name="prince_header">王子：</string>
-    <string name="turn_header">： 回合\u0020</string>
+    <string name="turn_header">： \u0020</string>
     <string name="game_loaded" tools:ignore="TypographyOther">游戏已载入！\n行动，购买和现金\n的数目显示在\n日志里，形式为a/b/(c)</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
     <string name="action_zero">%1$s 行动</string>
@@ -133,7 +133,7 @@
     <string name="coin_zero">(%1$s) 现金</string>
     <string name="coin_single">(%1$s) 现金</string>
     <string name="coin_multiple">(%1$s) 现金</string>
-    <string name="final_view_card_counts">卡片计数器</string>
+    <string name="final_view_card_counts">查看卡组</string>
     <string name="final_view_text">%1$s：%2$s 分\n%3$s 回合, %4$s 张卡.</string>
     <string name="final_game_time">游戏时间： %1$s</string>
     <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>

@@ -27,8 +27,8 @@
 	<string name="join_timed_out">等待断线玩家重连已超时。</string>
 	<string name="response_timed_out">等待断线玩家重连已超时。</string>
 	
-	<string name="vp_single">提供(%1$s)分</string>
-	<string name="vp_multiple">提供(%1$s)分</string>
+	<string name="vp_single">价值(%1$s)分</string>
+	<string name="vp_multiple">价值(%1$s)分</string>
 	<string name="coin_next_turn_single">下回合开始时，+(%1$s) 现金</string>
 	<string name="coin_next_turn_multiple">下回合开始时，+(%1$s) 现金</string>
 	<string name="buy_next_turn_single">下回合开始时，+%1$s 购买</string>
@@ -160,24 +160,24 @@
 	<string name="Status">状态</string>
 	<string name="CantBuy">不能购买%1$s</string>
 	<string name="VictoryPoints">分数</string>
-	<string name="NewHand">新的手牌</string>
+	<string name="NewHand">清理阶段抽牌</string>
 	<string name="TurnBegin">回合开始</string>
 	<string name="TurnEnd">回合结束</string>
 	<string name="PlayingCard">打出</string>
-	<string name="PlayedCard">打出</string>
-	<string name="PlayingDurationAction">【持续】效果被打出</string>
+	<string name="PlayedCard">已结算</string>
+	<string name="PlayingDurationAction">此【持续】自动生效：</string>
 	<string name="BuyingCard">购买</string>
-	<string name="GuildsTokenObtained">增加到资金</string>
-	<string name="GuildsTokenSpend">从资金移除</string>
+	<string name="GuildsTokenObtained">获得资金</string>
+	<string name="GuildsTokenSpend">使用资金</string>
 	<string name="OverpayForCard">超额支付</string>
 	<string name="DebtTokensObtained">获得负债指示物(%1$s)个</string>
-	<string name="DebtTokensPaidOff">支付负债指示物(%1$s)个</string>
+	<string name="DebtTokensPaidOff">偿还负债指示物(%1$s)个</string>
 	<string name="DebtTokensPutOnPile">放置负债指示物(%1$s)个到</string>
-	<string name="DebtTokensTakenFromPile">移除负债指示物(%1$s)个，从</string>
-	<string name="NoBuy">（跳过购买）</string>
+	<string name="DebtTokensTakenFromPile">从此处移除负债指示物(%1$s)个：</string>
+	<string name="NoBuy">（没有购买）</string>
 	<string name="VPTokensObtained">获得(%1$s)个分数指示物</string>
 	<string name="VPTokensPutOnPile">放置分数指示物(%1$s)个到</string>
-	<string name="VPTokensTakenFromPile">移除分数指示物(%1$s)个，从</string>
+	<string name="VPTokensTakenFromPile">从此处移除分数指示物(%1$s)个</string>
 	<string name="MountainPassBidPass">不出价给</string>
 	<string name="MountainPassBid">出价(%1$s)给</string>
 	<string name="DeckReplenished">重洗牌堆</string>
@@ -190,7 +190,7 @@
 	<string name="CardRevealedFromHand">从手牌中被展示</string>
 	<string name="CardNamed">命名</string>
 	<string name="CardDiscarded">丢弃</string>
-	<string name="CardAddedToHand">卡置入手牌</string>
+	<string name="CardAddedToHand">抽了一张牌</string>
 	<string name="CardRemovedFromHand">卡从手牌中移除</string>
 	<string name="CardSetAsideOnTavernMat">卡被置于旅店板块上</string>
 	<string name="CallingCard">唤醒</string>
@@ -207,7 +207,7 @@
 	<string name="MinusOneCardTokenOn">~-1 抽卡~指示物被放置到牌堆顶</string>
 	<string name="MinusOneCardTokenOff">~-1 抽卡~指示物被移除</string>
 	<string name="ReceivingBoonOrHex">接受</string>
-	<string name="ReceivedBoonOrHex">被接受</string>
+	<string name="ReceivedBoonOrHex">已接受</string>
 	<string name="TookState">拿取%1$s</string>
 	<string name="TookStateFromPlayer">从%2$s拿取%1$s</string>
 	<string name="ReturnedState">返回了%1$s</string>
@@ -223,7 +223,7 @@
 	<string name="game_over_status">游戏结束 —</string>
 	<string name="game_length_status">游戏长度：</string>
 	<string name="end_turn">结束回合</string>
-	<string name="replace">替换</string>
+	<string name="replace">放回</string>
 	
 	<string name="trash_card_from_hand">废弃手牌</string>
 	<string name="gain_silver">获取一张&lt;银币&gt;</string>
@@ -542,8 +542,8 @@
   <string name="stash_on_top">置于牌堆顶</string>
   <string name="stash_on_bottom">置于牌堆底</string>
   <string name="stash_choose_individually">逐个选择…</string>
-  <string name="stash_1_card_down">放一张到牌堆底</string>
-  <string name="stash_x_cards_down">放%1$s张到牌堆底</string>
+  <string name="stash_1_card_down">向下1张（即置于顶部第二张）</string>
+  <string name="stash_x_cards_down">向下%1$s张</string>
   <string name="stash_after_cards_to_draw">在抓牌之后(%1$s)</string>
   <string name="stash_more_options">其它…</string>
   
