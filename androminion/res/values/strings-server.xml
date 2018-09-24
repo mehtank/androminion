@@ -467,6 +467,7 @@
 	<string name="putback_option_two">Action card (Scheme)</string>
 	<string name="putback_option_all">Put all back on deck</string>
 	<string name="deck_from_discard_query">Select card from discard to put on deck [%1$s]</string>
+	<string name="hand_from_discard_query">Select card from discard to put in hand [%1$s]</string>
 
   <string name="game_over_vps"> VPs</string>
   <string name="victory_tokens">Victory Tokens</string>

@@ -36,6 +36,7 @@ public class MoveContext {
     public int totalCardsBoughtThisTurn = 0;
     public int totalEventsBoughtThisTurn = 0;
     public int totalExpeditionBoughtThisTurn = 0;
+    public int coinsWhenTrash = 0;
     public boolean canBuyCards = true;
     public boolean canBuyActions = true;
     public boolean startOfTurn = false;

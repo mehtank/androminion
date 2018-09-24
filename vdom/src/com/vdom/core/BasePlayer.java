@@ -4996,4 +4996,30 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return false;
         }
     }
+    
+    @Override
+    public Card mountainVillage_cardToPutInHand(MoveContext context) {
+    	//TODO: favor non-terminals most of the time?
+    	ArrayList<Card> localDiscard = Util.copy(discard);
+		Iterator<Card> it = localDiscard.iterator();
+		while (it.hasNext()) {
+			Card c = it.next();
+			if (isOnlyVictory(c, this))
+				it.remove();
+			if (c.equals(Cards.mountainVillage)) {
+				return c;
+			}
+		}
+		return highestCard(context, localDiscard);
+    }
+    
+    @Override
+    public Card priest_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+    
+    @Override
+    public Card[] seer_cardOrder(MoveContext context, Card[] cards) {
+    	return cards;
+    }
 }

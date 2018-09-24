@@ -4224,4 +4224,37 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         extras[1] = card;
         return selectBoolean(context, Cards.zombieSpy, extras);
     }
+    
+    @Override
+    public Card mountainVillage_cardToPutInHand(MoveContext context) {
+    	CardList localDiscard = context.player.getDiscard();
+        if (localDiscard.isEmpty())
+            return null;
+        Set<Card> uniqueCards = new HashSet<Card>(localDiscard.toArrayList());
+        List<Card> options = new ArrayList<Card>(uniqueCards);
+        Collections.sort(options, new Util.CardCostNameComparator());
+        options.add(null);
+
+        return options.get(selectOption(context, Cards.mountainVillage, options.toArray()));
+    }
+    
+    @Override
+    public Card priest_cardToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_priest_cardToTrash(context)) {
+            return super.priest_cardToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.priest);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card[] seer_cardOrder(MoveContext context, Card[] cards) {
+    	ArrayList<Card> orderedCards = new ArrayList<Card>();
+        int[] order = orderCards(context, cardArrToIntArr(cards));
+        for (int i : order)
+            orderedCards.add(cards[i]);
+        return orderedCards.toArray(new Card[0]);
+    }
 }

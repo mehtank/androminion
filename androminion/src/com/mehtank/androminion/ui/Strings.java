@@ -893,6 +893,8 @@ public class Strings {
         		cardName.equals(getCardName(Cards.harbinger)) ||
         		cardName.equals(getCardName(Cards.scavenger))) {
             return format(R.string.deck_from_discard_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.mountainVillage))) {
+            return format(R.string.hand_from_discard_query, cardName);
         }
         return cardName;
     }
@@ -1789,7 +1791,7 @@ public class Strings {
             getCardName(Cards.zombieApprentice),
             getCardName(Cards.zombieMason),
             /*Renaissance*/
-            
+            getCardName(Cards.priest),
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),

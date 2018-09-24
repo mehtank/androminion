@@ -137,7 +137,7 @@ public class Cards {
         Deluded, Envious, LostInTheWoods, Miserable, TwiceMiserable,
         
         // Renaissance Expansion
-        
+        Experiment, MountainVillage, Priest, Scholar, Seer,
         
         // Promo Cards
         Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon, Sauna, Avanto, Dismantle,
@@ -657,6 +657,11 @@ public class Cards {
     public static final Card twiceMiserable;
     
     // Renaissance expansion
+    public static final Card experiment;
+    public static final Card mountainVillage;
+    public static final Card priest;
+    public static final Card scholar;
+    public static final Card seer;
     
     // Promo Cards
     public static final Card walledVillage;
@@ -1211,7 +1216,11 @@ public class Cards {
         
         // Renaissance Cards
         
-        
+        actionCardsRenaissance.add(experiment           = new CardImpl.Builder(Cards.Kind.Experiment, 3, Type.Action).addCards(2).addActions(1).description("Return this to the Supply. - When you gain this, gain another Experiment (that doesn't come with another).").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(mountainVillage      = new CardImpl.Builder(Cards.Kind.MountainVillage, 4, Type.Action).addActions(2).description("Look through your discard pile and put a card from it into your hand; if you can't, +1 Card.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(priest               = new CardImpl.Builder(Cards.Kind.Priest, 4, Type.Action).addGold(2).description("Trash a card from your hand. For the rest of this turn, when you trash a card, +(2) Coins.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(scholar              = new CardImpl.Builder(Cards.Kind.Scholar, 5, Type.Action).description("Discard your hand. +7 Cards.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(seer                 = new CardImpl.Builder(Cards.Kind.Seer, 5, Type.Action).addCards(1).addActions(1).description("Reveal the top 3 cards of your deck. Put the ones costing from (2) Coins to (4) Coins into your hand. Put the rest back in any order.").expansion(Expansion.Renaissance).build());
         
         // Promo Cards
         variablePileCards.add(sauna        = new CardImpl.Builder(Cards.Kind.Sauna, 4, Type.Action).addCards(1).addActions(1).description("You may play an Avanto from your hand. - While this is in play, when you play a Silver, you may trash a card from your hand.").expansion(Expansion.Promo).build());

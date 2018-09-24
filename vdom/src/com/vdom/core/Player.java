@@ -1608,6 +1608,11 @@ public abstract class Player {
         if (context.game.cardInGame(Cards.tomb)) {
         	addVictoryTokens(context, 1, Cards.tomb);
         }
+        
+        //Add coins from Priest
+        if (context.coinsWhenTrash > 0) {
+        	context.addCoins(context.coinsWhenTrash);
+        }
 
         // Execute special card logic when the trashing occurs
         if (card.equals(Cards.estate) && getInheritance() != null) {
@@ -2497,8 +2502,9 @@ public abstract class Player {
     
     // ////////////////////////////////////////////
     // Card interactions - Renaissance Expansion
-    // ////////////////////////////////////////////
-    
+    public abstract Card mountainVillage_cardToPutInHand(MoveContext context);
+    public abstract Card priest_cardToTrash(MoveContext context);
+    public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);    
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

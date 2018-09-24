@@ -952,6 +952,17 @@
     <string name="TwiceMiserable_name">Twice Miserable</string>
     <string name="TwiceMiserable_desc"></string>
     
+    <string name="Experiment_name">Experiment</string>
+    <string name="Experiment_desc">Return this to the Supply. - When you gain this, gain another Experiment (that doesn\'t come with another).</string>
+    <string name="MountainVillage_name">Mountain Village</string>
+    <string name="MountainVillage_desc">Look through your discard pile and put a card from it into your hand; if you can\'t, +1 Card.</string>
+    <string name="Priest_name">Priest</string>
+    <string name="Priest_desc">Trash a card from your hand. For the rest of this turn, when you trash a card, +(2) Coins.</string>
+    <string name="Scholar_name">Scholar</string>
+    <string name="Scholar_desc">Discard your hand. +7 Cards.</string>
+    <string name="Seer_name">Seer</string>
+    <string name="Seer_desc">Reveal the top 3 cards of your deck. Put the ones costing from (2) Coins to (4) Coins into your hand. Put the rest back in any order.</string>
+    
     <string name="Envoy_name">Envoy</string>
     <string name="Envoy_desc">Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.</string>
     <string name="Governor_name">Governor</string>
