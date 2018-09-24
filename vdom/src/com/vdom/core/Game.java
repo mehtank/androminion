@@ -4141,8 +4141,8 @@ public class Game {
                     	context.game.receiveNextHex(context, event.card);
                     } else if(gainedCardAbility.equals(Cards.skulk)) {
                     	player.gainNewCard(Cards.gold, event.card, context);
-                    } else if (event.card.equals(Cards.experiment)) {
-                    	if (!(event.responsible != null && event.responsible.equals(Cards.experiment)))
+                    } else if (gainedCardAbility.equals(Cards.experiment)) {
+                    	if (!(event.responsible != null && (event.responsible.equals(Cards.experiment) || event.responsible.equals(Cards.estate))))
                     		player.gainNewCard(Cards.experiment, event.card, context);
                     }
                     
