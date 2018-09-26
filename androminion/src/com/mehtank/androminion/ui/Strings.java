@@ -485,6 +485,10 @@ public class Strings {
         	}
         } else if (event.gameEventType == GameEvent.EventType.MountainPassWinner) {
         	return null;
+        } else if (event.gameEventType == GameEvent.EventType.VillagersTokensObtained) {
+        	statusText += format(R.string.VillagersObtained, extras[3]);
+        } else if (event.gameEventType == GameEvent.EventType.VillagerSpend) {
+        	statusText += format(R.string.VillagersSpend, extras[3]);
         } else if (event.gameEventType != null) {
             statusText += event.gameEventType.toString();
         }
@@ -497,7 +501,8 @@ public class Strings {
                 && event.gameEventType != GameEvent.EventType.CardSetAside
                 && event.gameEventType != GameEvent.EventType.CardSetAsidePrivate
                 && event.gameEventType != GameEvent.EventType.TakeState
-                && event.gameEventType != GameEvent.EventType.ReturnState) {
+                && event.gameEventType != GameEvent.EventType.ReturnState
+                && event.gameEventType != GameEvent.EventType.VillagersTokensObtained) {
             statusText += " " + getCardName(event.c) + " ";
         }
 
@@ -709,6 +714,8 @@ public class Strings {
                 return 1;
             } else if (optionString.equals(IndirectPlayer.OPTION_SPEND_GUILD_COINS)) {
                 return 1;
+            } else if (optionString.equals(IndirectPlayer.OPTION_SPEND_VILLAGERS)) {
+                return 1;
             } else if (optionString.equals(IndirectPlayer.OPTION_OVERPAY)) {
                 return 1;
             } else if (optionString.equals(IndirectPlayer.OPTION_OVERPAY_POTION)) {
@@ -771,6 +778,8 @@ public class Strings {
             return getString(R.string.reaction_query) + " [" + getCardName(card) + "]";
         } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_SPEND_GUILD_COINS)) {
             return getString(R.string.spend_guilds_coin_tokens);
+        } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_SPEND_VILLAGERS)) {
+            return getString(R.string.spend_villager_tokens);
         } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_OVERPAY)) {
             return getString(R.string.buy_overpay);
         } else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_OVERPAY_POTION)) {
@@ -1174,12 +1183,22 @@ public class Strings {
      * be interpreted as "false".
      */
     public static String[] getBooleanStrings(Card cardResponsible, Object[] extras) {
+    	// Handle non-card boolean choices - extras[0] should distinguish choices
+    	String[] strings = new String[3];
+    	if (cardResponsible == null) {
+    		if (extras[0].equals(IndirectPlayer.BOOLEAN_USE_VILLAGER)) {
+    			strings[0] = getString(R.string.villager_query);
+    			strings[1] = getString(R.string.villager_option);
+    			strings[2] = getString(R.string.pass);
+    		}
+    		return strings;
+    	}
+    	
         // See note below under getActionCardText for why we can't test for object equality here,
         // and instead use string equality.
-        String cardName = getCardName(cardResponsible.behaveAsCard());
+    	String cardName = getCardName(cardResponsible.behaveAsCard());
         String controlName = getCardName(cardResponsible.getControlCard());
 
-        String[] strings = new String[3];
         strings[0] = cardName;  // common enough to set this as a default; override if necessary.
         if (cardName.equals(getCardName(Cards.alchemist))) {
             strings[1] = getString(R.string.alchemist_option_one);
@@ -1792,6 +1811,8 @@ public class Strings {
             getCardName(Cards.zombieMason),
             /*Renaissance*/
             getCardName(Cards.priest),
+            getCardName(Cards.recruiter),
+            getCardName(Cards.sculptor),
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),

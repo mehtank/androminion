@@ -334,6 +334,7 @@ public class Game {
                     // Actions
                     // /////////////////////////////////
 	                playerAction(player, context);
+	                spendExtraVillagers(player, context);
 		
 	                // /////////////////////////////////
 	                // Buy Phase
@@ -562,17 +563,56 @@ public class Game {
             {
                 player.spendGuildsCoinTokens(numTokensToSpend);
                 context.addCoins(numTokensToSpend);
-                if(numTokensToSpend > 0)
-                {
-                    GameEvent event = new GameEvent(GameEvent.EventType.GuildsTokenSpend, context);
-                    event.setComment(": " + numTokensToSpend);
-                    context.game.broadcastEvent(event);
-                }
+                GameEvent event = new GameEvent(GameEvent.EventType.GuildsTokenSpend, context);
+                event.setComment(": " + numTokensToSpend);
+                context.game.broadcastEvent(event);
                 Util.debug(player, "Removed " + numTokensToSpend + " coin tokens from Coffers");
                 return numTokensToSpend;
             }
         }
         return 0;
+    }
+    
+    public void useVillagersForActions(Player player, MoveContext context) {
+    	if (disableAi && player.isAi()) return;
+        int villagerTotal = player.getVillagers();
+
+        if (villagerTotal > 0)
+        {
+            // Offer the player the option of "spending" Villager coin tokens prior to buying cards
+            int numTokensToSpend = player.controlPlayer.numVillagerTokensToSpend(context, villagerTotal);
+
+            if (numTokensToSpend > 0 && numTokensToSpend <= villagerTotal)
+            {
+                player.useVillagers(numTokensToSpend);
+                context.actions += numTokensToSpend;
+                GameEvent event = new GameEvent(GameEvent.EventType.VillagerSpend, context);
+                event.setAmount(numTokensToSpend);
+                context.game.broadcastEvent(event);
+                Util.debug(player, "Removed " + numTokensToSpend + " coin tokens from Villagers");
+            }
+        }
+    }
+    
+    protected void useVillagerForAction(Player player, MoveContext context) {
+    	if (disableAi && player.isAi()) return;
+        int villagerTotal = player.getVillagers();
+
+        if (villagerTotal > 0)
+        {
+            // Offer the player the option of using a Villagers token for an extra action
+            boolean spendToken = player.controlPlayer.spendVillagerForAction(context);
+
+            if (spendToken)
+            {
+                player.useVillagers(1);
+                context.actions += 1;
+                GameEvent event = new GameEvent(GameEvent.EventType.VillagerSpend, context);
+                event.setAmount(1);
+                context.game.broadcastEvent(event);
+                Util.debug(player, "Removed " + 1 + " coin tokens from Villagers");
+            }
+        }
     }
 
     private void markWinner(HashMap<String, Double> gameTypeSpecificWins) {
@@ -954,7 +994,31 @@ public class Game {
                     }
                 }
             }
+            
+            // Villagers
+            boolean hasAction = false;
+            for (Card card : context.player.hand) {
+                if (card.is(Type.Action, context.player)) {
+                    hasAction = true;
+                }
+            }
+            if (context.actions == 0 && context.player.getVillagers() > 0 && hasAction) {
+            	useVillagerForAction(context.player, context);
+            }
         } while (context.actions > 0 && action != null);
+    }
+    
+    protected void spendExtraVillagers(Player player, MoveContext context) {
+    	boolean hasDiademInHand = false;
+        for (Card card : context.player.hand) {
+            if (card.equals(Cards.diadem)) {
+            	hasDiademInHand = true;
+            }
+        }
+        //TODO: allow this when diadem is in the deck at all (e.g. for Venture)
+        if (cardInGame(Cards.possession) || hasDiademInHand) {
+        	useVillagersForActions(player, context);
+        }
     }
     
     public void playerPayOffDebt(Player player, MoveContext context) {
@@ -3817,7 +3881,7 @@ public class Game {
                                 }
                             } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || 
                             		r.equals(Cards.torturer) || r.equals(Cards.transmogrify) || r.equals(Cards.artisan) || 
-                            		r.equals(Cards.cobbler) || r.equals(Cards.plague) || r.equals(Cards.wish)) {
+                            		r.equals(Cards.cobbler) || r.equals(Cards.plague) || r.equals(Cards.wish) || r.equals(Cards.sculptor)) {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);

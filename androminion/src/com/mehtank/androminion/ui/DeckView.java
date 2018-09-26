@@ -28,6 +28,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	private TextView victoryTokens;
 	private TextView debtTokens;
 	private TextView guildsCoinTokens;
+	private TextView villagerTokens;
 	private TextView journeyToken;
 	private TextView minusOneCoinToken;
 	private TextView minusOneCardToken;
@@ -54,6 +55,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	private int numVictoryTokens;
 	private int numDebtTokens;
 	private int numCoinTokens;
+	private int numVillagerTokens;
 	private boolean hasMinusOneCardToken;
 	private boolean hasMinusOneCoinToken;
 	private JourneyTokenState journeyTokenState;
@@ -84,6 +86,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		victoryTokens = (TextView) findViewById(R.id.victoryTokens);
 		debtTokens = (TextView) findViewById(R.id.debtTokens);
 		guildsCoinTokens = (TextView) findViewById(R.id.guildsCoinTokens);
+		villagerTokens = (TextView) findViewById(R.id.villagerTokens);
 		journeyToken = (TextView) findViewById(R.id.journeyToken);
 		minusOneCoinToken = (TextView) findViewById(R.id.minusOneCoinToken);
 		minusOneCardToken = (TextView) findViewById(R.id.minusOneCardToken);
@@ -114,7 +117,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	}
 
 	public void set(String nameStr, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, 
-			int pt, int vt, int dt, int gct, 
+			int pt, int vt, int dt, int gct, int villagers,
 			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyTokenState, 
 			boolean hasDeluded, boolean hasEnvious, boolean hasLostInTheWoods, boolean hasMiserable, boolean hasTwiceMiserable,
 			boolean highlight, boolean showColor, int color) {
@@ -137,6 +140,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		this.numVictoryTokens = vt;
 		this.numDebtTokens = dt;
 		this.numCoinTokens = gct;
+		this.numVillagerTokens = villagers;
 		this.isCurrentTurn = highlight;
 		String txt = nameStr + getContext().getString(R.string.turn_header) + turns;
 		name.setText(txt);
@@ -186,6 +190,14 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
         } else {
         	guildsCoinTokens.setText("");
             guildsCoinTokens.setVisibility(GONE);
+        }
+        
+        if (villagers != 0) {
+        	villagerTokens.setText(" " + villagers + " ");
+        	villagerTokens.setVisibility(VISIBLE);
+        } else {
+        	villagerTokens.setText("");
+        	villagerTokens.setVisibility(GONE);
         }
 
         journeyToken.setTextColor(journeyTokenState == JourneyTokenState.FACE_UP ? Color.BLACK : Color.TRANSPARENT);
@@ -304,6 +316,8 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		
 		if (numCoinTokens > 0)
 			sb.append(String.format(c.getString(R.string.status_coin_tokens), numCoinTokens) + "\n");
+		if (numVillagerTokens > 0)
+			sb.append(String.format(c.getString(R.string.status_villager_tokens), numVillagerTokens) + "\n");
 		if (numPirateTokens > 0)
 			sb.append(String.format(c.getString(R.string.status_pirate_tokens), numPirateTokens) + "\n");
 		if (numDebtTokens > 0)

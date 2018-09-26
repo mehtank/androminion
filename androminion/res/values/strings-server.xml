@@ -169,6 +169,7 @@
 	<string name="BuyingCard">Buying</string>
 	<string name="GuildsTokenObtained">Added to Coffers</string>
 	<string name="GuildsTokenSpend">Removed from Coffers</string>
+	<string name="VillagersSpend">Villagers used: %1$s</string>
 	<string name="OverpayForCard">Overpay for card</string>
 	<string name="DebtTokensObtained">Debt tokens obtained: %1$s</string>
 	<string name="DebtTokensPaidOff">Debt tokens paid off: %1$s</string>
@@ -180,6 +181,7 @@
 	<string name="VPTokensTakenFromPile">Victory Tokens removed: %1$s from</string>
 	<string name="MountainPassBidPass">Passed bid for</string>
 	<string name="MountainPassBid">Bid %1$s for</string>
+	<string name="VillagersObtained">Villagers obtained: %1$s</string>
 	<string name="DeckReplenished">Deck replenished</string>
 	<string name="PlayerAttacking">Attacking</string>
 	<string name="PlayerDefended">Defended</string>
@@ -489,6 +491,7 @@
   <string name="doctor_overpay_option_three">Put Back</string>
   <string name="herald_overpay_query">Select card to put back on deck</string>
   <string name="spend_guilds_coin_tokens">Remove from Coffers for Coins</string>
+  <string name="spend_villager_tokens">Remove from Villagers for Actions</string>
   <string name="buy_overpay">Overpay?</string>
   <string name="buy_overpay_by_potions">Overpay by Potion(s)?</string>
   <string name="pay_off_debt">Pay off Debt</string>
@@ -537,6 +540,9 @@
   <string name="the_skys_gift_part">discard to gain a Gold [%1$s]</string>
   <string name="necromancer_query">Select Action to play from trash [%1$s]</string>
   <string name="raider_query">Select card to discard [%1$s]</string>
+  
+  <string name="villager_query">Use Villager for +1 Action?</string>
+  <string name="villager_option">Use</string>
   
   <string name="place_stash_query">Place Stash in deck</string>
   <string name="place_stashes_query">Place %1$s Stash cards in deck</string>

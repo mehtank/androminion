@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
+import com.vdom.core.MoveContext.TurnPhase;
 import com.vdom.core.Player.JesterOption;
 import com.vdom.core.Player.TournamentOption;
 import com.vdom.core.Player.TrustySteedOption;
@@ -27,7 +28,7 @@ public class CardImplCornucopia extends CardImpl {
             currentPlayer.gainNewCard(Cards.gold, this.getControlCard(), context);
             break;
 		case Diadem:
-			context.addCoins(context.getActionsLeft());
+			diadem(game, context, currentPlayer);
 			break;
 		case FarmingVillage:
             farmingVillage(game, context, currentPlayer);
@@ -75,6 +76,14 @@ public class CardImplCornucopia extends CardImpl {
 			break;
         
 		}
+	}
+	
+	private void diadem(Game game, MoveContext context, Player currentPlayer) {
+		// allow using Villagers first if in action phase for extra actions to feed Diadem if needed
+		if (context.phase == TurnPhase.Action) {
+			game.useVillagersForActions(currentPlayer, context);
+		}
+		context.addCoins(context.getActionsLeft());
 	}
 	
 	private void farmingVillage(Game game, MoveContext context, Player currentPlayer) {

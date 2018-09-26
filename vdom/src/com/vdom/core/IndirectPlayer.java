@@ -31,9 +31,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return selectBoolean(context, cardResponsible, null);
     }
     
+    public static final String BOOLEAN_USE_VILLAGER = "VILLAGER";
     public static final String OPTION_REACTION = "REACTION";
     public static final String OPTION_PUTBACK = "PUTBACK";
     public static final String OPTION_SPEND_GUILD_COINS = "GUILDCOINS";
+    public static final String OPTION_SPEND_VILLAGERS = "VILLAGERS";
     public static final String OPTION_OVERPAY = "OVERPAY";
     public static final String OPTION_OVERPAY_POTION = "OVERPAYP";
     public static final String OPTION_PAY_DEBT = "PAYDEBT";
@@ -4226,6 +4228,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean spendVillagerForAction(MoveContext context) {
+    	Object[] extras = new Object[1];
+    	extras[0] = BOOLEAN_USE_VILLAGER;
+    	return selectBoolean(context, null, extras);
+    }
+    
+    @Override
+    public int numVillagerTokensToSpend(MoveContext context, int villagerTotal) {
+    	return selectInt(context, null, villagerTotal, OPTION_SPEND_VILLAGERS);
+    }
+    
+    @Override
     public Card mountainVillage_cardToPutInHand(MoveContext context) {
     	CardList localDiscard = context.player.getDiscard();
         if (localDiscard.isEmpty())
@@ -4247,6 +4261,20 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
                 .setCardResponsible(Cards.priest);
         return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card recruiter_cardToTrash(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.recruiter);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card sculptor_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.sculptor).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
     }
     
     @Override

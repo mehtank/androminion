@@ -23,6 +23,9 @@ public class CardImplRenaissance extends CardImpl {
 	
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
+		case ActingTroupe:
+			actingTroupe(game, context, currentPlayer);
+			break;
 		case Experiment:
 			experiment(game, context, currentPlayer);
 			break;
@@ -32,8 +35,14 @@ public class CardImplRenaissance extends CardImpl {
 		case Priest:
 			priest(game, context, currentPlayer);
 			break;
+		case Recruiter:
+			recruiter(game, context, currentPlayer);
+			break;
 		case Scholar:
 			scholar(game, context, currentPlayer);
+			break;
+		case Sculptor:
+			sculptor(game, context, currentPlayer);
 			break;
 		case Seer:
 			seer(game, context, currentPlayer);
@@ -59,6 +68,19 @@ public class CardImplRenaissance extends CardImpl {
     	// card left play - stop any impersonations
 	    this.getControlCard().stopImpersonatingCard();
 	    this.getControlCard().stopInheritingCardAbilities();
+	}
+	
+	private void sendVillagersObtainedEvent(Game game, MoveContext context, int num, Card card) {
+        GameEvent event = new GameEvent(GameEvent.EventType.VillagersTokensObtained, context);
+        event.setAmount(num);
+        event.card = card;
+        game.broadcastEvent(event);
+    }
+	
+	private void actingTroupe(Game game, MoveContext context, Player player) {
+		player.takeVillagers(4);
+		sendVillagersObtainedEvent(game, context, 4, Cards.actingTroupe);
+		player.trashSelfFromPlay(getControlCard(), context);
 	}
 	
 	private void experiment(Game game, MoveContext context, Player currentPlayer) {
@@ -108,6 +130,24 @@ public class CardImplRenaissance extends CardImpl {
 		context.coinsWhenTrash += 2;
 	}
 	
+	private void recruiter(Game game, MoveContext context, Player player) {
+		if (player.hand.size() == 0) {
+            return;
+        }
+
+        Card card = player.controlPlayer.recruiter_cardToTrash(context);
+
+        if (card == null || !player.hand.contains(card)) {
+            Util.playerError(player, "Recruiter trash error, trashing first card.");
+            card = player.hand.get(0);
+        }
+
+        player.trashFromHand(card, this.getControlCard(), context);
+        int cost = card.getCost(context);
+        player.takeVillagers(cost);
+        sendVillagersObtainedEvent(game, context, cost, Cards.recruiter);
+	}
+	
 	private void scholar(Game game, MoveContext context, Player player) {
 		if (player.getHand().size() > 0) {
             while (!player.getHand().isEmpty()) {
@@ -117,6 +157,21 @@ public class CardImplRenaissance extends CardImpl {
 		for (int i = 0; i < 7; ++i) {
 			game.drawToHand(context, this.getControlCard(), 7 - i);
 		}		
+	}
+	
+	private void sculptor(Game game, MoveContext context, Player player) {
+		Card cardToGain = player.controlPlayer.sculptor_cardToObtain(context);
+        if (cardToGain != null) {
+            if (cardToGain.getCost(context) <= 4 && cardToGain.getDebtCost(context) == 0 && !cardToGain.costPotion()) {
+            	Card cardGained = player.gainNewCard(cardToGain, getControlCard(), context);
+            	if (cardGained != null && cardGained.is(Type.Treasure, player)) {
+            		player.takeVillagers(1);
+            		sendVillagersObtainedEvent(game, context, 1, Cards.sculptor);
+            	}
+            } else {
+            	Util.playerError(player, "Sculptor error, invalid card to gain, ignoring");
+            }
+        }
 	}
 	
 	private void seer(Game game, MoveContext context, Player player) {

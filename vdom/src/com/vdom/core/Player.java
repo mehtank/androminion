@@ -39,6 +39,7 @@ public abstract class Player {
 
     // The number of coin tokens held by the Coffers mat
     private int guildsCoinTokenCount;
+    private int villagers;
     private int debtTokenCount;
 
     private Card checkLeadCard;
@@ -699,6 +700,10 @@ public abstract class Player {
         return guildsCoinTokenCount;
     }
     
+    public int getVillagers() {
+    	return villagers;
+    }
+    
     public int getDebtTokenCount()
     {
         return debtTokenCount;
@@ -764,7 +769,7 @@ public abstract class Player {
     		guildsCoinTokenCount += tokenCount;
     	}
     }
-
+    
     public void spendGuildsCoinTokens(int tokenCount)
     {
         if (tokenCount <= guildsCoinTokenCount)
@@ -775,6 +780,25 @@ public abstract class Player {
         {
             Util.playerError(this, "spendGuildsCoinTokens() - Can't spend " + tokenCount + " coin tokens from Coffers, only have " + guildsCoinTokenCount);
         }
+    }
+    
+    public void takeVillagers(int tokenCount)
+    {
+    	if (tokenCount == 0) return;
+    	if (Game.errataPossession == PossessionPossessorTokens.ALL) {
+    		controlPlayer.villagers += tokenCount;
+    	} else {
+    		villagers += tokenCount;
+    	}
+    }
+    
+    public void useVillagers(int tokenCount)
+    {
+    	if (tokenCount <= villagers) {
+    		villagers -= tokenCount;
+    	} else {
+    		Util.playerError(this, "useVillagers() - Can't use " + tokenCount + " villagers, only have " + villagers);
+    	}
     }
     
     public void gainDebtTokens(int tokenCount) {
@@ -2502,8 +2526,12 @@ public abstract class Player {
     
     // ////////////////////////////////////////////
     // Card interactions - Renaissance Expansion
+    public abstract boolean spendVillagerForAction(MoveContext context);
+    public abstract int numVillagerTokensToSpend(MoveContext context, int villagerTotal);
     public abstract Card mountainVillage_cardToPutInHand(MoveContext context);
     public abstract Card priest_cardToTrash(MoveContext context);
+    public abstract Card recruiter_cardToTrash(MoveContext context);
+    public abstract Card sculptor_cardToObtain(MoveContext context);
     public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);    
     
     // ////////////////////////////////////////////

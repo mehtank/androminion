@@ -952,14 +952,20 @@
     <string name="TwiceMiserable_name">Miserable Otra Vez</string>
     <string name="TwiceMiserable_desc"></string>
     
+    <string name="ActingTroupe_name">Compañía Teatral</string>
+    <string name="ActingTroupe_desc">+4 Aldeanos. Elimina esta carta.</string>
     <string name="Experiment_name">Experimento</string>
     <string name="Experiment_desc">Devuele esta carta al Suministro. — Cuando ganes esta carta, gana otra carta de Experimento (que no viene con otra).</string>
     <string name="MountainVillage_name">Pueblo de Montaña</string>
     <string name="MountainVillage_desc">Busca en tu pila de descartes y pon una carta de ella en tu mano; si no puedes, +1 Carta.</string>
     <string name="Priest_name">Sacerdote</string>
     <string name="Priest_desc">Elimina una carta de tu mano. Por el resto de este turno, cuando elimines una carta, +(2) Monedas.</string>
+    <string name="Recruiter_name">Reclutador</string>
+    <string name="Recruiter_desc">Elimina una carta de tu mano. +1 Aldeano por cada (1) Moneda que cuesta.</string>
     <string name="Scholar_name">Erudita</string>
     <string name="Scholar_desc">Descarta tu mano. +7 Cartas.</string>
+    <string name="Sculptor_name">Escultora</string>
+    <string name="Sculptor_desc">Gana una carta a tu mano con un coste máximo de (4) Monedas. Si es una carta de Tesoro, +1 Aldeano.</string>
     <string name="Seer_name">Vidente</string>
     <string name="Seer_desc">Revela las 3 cartas superiores de tu mazo. Pon las que cuestan entre (2) Monedas y (4) Monedas en tu mano. Devuele el resto en cualquier orden.</string>
     

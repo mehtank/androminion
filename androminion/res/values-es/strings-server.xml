@@ -165,6 +165,7 @@
 	<string name="BuyingCard">Comprando</string>
 	<string name="GuildsTokenObtained">Agregado a Cofres</string>
 	<string name="GuildsTokenSpend">Sacado de Cofres</string>
+	<string name="VillagersSpend">Aldeanos usado: %1$s</string>
 	<string name="OverpayForCard">Sobrepagó para</string>
 	<string name="DebtTokensObtained">Deuda obtenida: %1$s</string>
 	<string name="DebtTokensPaidOff">Deuda pagada: %1$s</string>
@@ -176,6 +177,7 @@
 	<string name="VPTokensTakenFromPile">Fichas de Victoria sacadas: %1$s de</string>
 	<string name="MountainPassBidPass">Pasó la oferta por</string>
 	<string name="MountainPassBid">Hizo oferta de %1$s por</string>
+	<string name="VillagersObtained">Aldeanos obtenidos: %1$s</string>
 	<string name="DeckReplenished">Mazo rellenado</string>
 	<string name="PlayerAttacking">Ataca</string>
 	<string name="PlayerDefended">Defiende</string>
@@ -487,6 +489,7 @@
   <string name="doctor_overpay_option_three">Devolver</string>
   <string name="herald_overpay_query">Elige una carta para poner encima del mazo</string>
   <string name="spend_guilds_coin_tokens">Sacar de Cofres para Monedas</string>
+  <string name="spend_villager_tokens">Sacar de Aldeanos para Acciones</string>
   <string name="buy_overpay">¿Sobrepaga?</string>
   <string name="buy_overpay_by_potions">¿Sobrepaga con poción(es)?</string>
   <string name="pay_off_debt">Pagar tu Deuda</string>
@@ -536,6 +539,9 @@
   <string name="the_skys_gift_part">descartar para ganar una carta de Oro [%1$s]</string>
   <string name="necromancer_query">Elige una carta de Action de entre las eliminadas para jugar [%1$s]</string>
   <string name="raider_query">Elige una carta para descartar [%1$s]</string>
+  
+  <string name="villager_query">¿Usar Aldeano para +1 Acción?</string>
+  <string name="villager_option">Usar</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>
   <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>

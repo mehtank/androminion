@@ -23,8 +23,10 @@ public class GameEvent {
         CardInPlay, // Signals that a card is already in play (for showing non-start of turn cards in play at start of turn)
         BuyingCard, // Buying a card in the buy phase.
         OverpayForCard, // Overpaying for a Guilds card.
-        GuildsTokenObtained, // Recieve a Guilds token
+        GuildsTokenObtained, // Receive a Guilds token
+        VillagersTokensObtained, // Receive Villagers tokens
         GuildsTokenSpend, // Spend Guilds token
+        VillagerSpend, // Spend Villager token
         NoBuy, // Player didn't buy a card
         DeckReplenished, // Discard pile shuffled to create a new deck for one of the players
         PlayerAttacking, // Player is attacking another player

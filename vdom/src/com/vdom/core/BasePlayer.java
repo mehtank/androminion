@@ -4998,6 +4998,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean spendVillagerForAction(MoveContext context) {
+    	return true;
+    }
+    
+    public int numVillagerTokensToSpend(MoveContext context, int villagerTotal) {
+    	//TODO: better use cases
+    	return 0;
+    }
+    
+    @Override
     public Card mountainVillage_cardToPutInHand(MoveContext context) {
     	//TODO: favor non-terminals most of the time?
     	ArrayList<Card> localDiscard = Util.copy(discard);
@@ -5016,6 +5026,23 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card priest_cardToTrash(MoveContext context) {
     	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    }
+    
+    @Override
+    public Card recruiter_cardToTrash(MoveContext context) {
+    	// favor high cost junk
+    	Card[] junkCards = pickOutCards(context.getPlayer().getHand(), getTrashCards().length, getTrashCards());
+    	if (junkCards.length > 0) {
+    		return highestCard(context, Arrays.asList(junkCards));
+    	}
+    	
+    	return lowestCard(context, context.getPlayer().getHand(), false);
+    }
+    
+    @Override
+    public Card sculptor_cardToObtain(MoveContext context) {
+    	//TODO: get something that will better complement the current hand
+    	return bestCardInPlay(context, 4, true);
     }
     
     @Override

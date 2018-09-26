@@ -387,6 +387,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int victoryTokens[] = new int[numPlayers];
         int debtTokens[] = new int[numPlayers];
         int guildsCoinTokens[] = new int[numPlayers];
+        int villagers[] = new int[numPlayers];
         JourneyTokenState journeyToken[] = new JourneyTokenState[numPlayers];
         boolean minusOneCoinTokenOn[] = new boolean[numPlayers];
         boolean minusOneCardTokenOn[] = new boolean[numPlayers];
@@ -414,6 +415,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             victoryTokens[i] = p.getVictoryTokens();
             debtTokens[i] = p.getDebtTokenCount();
             guildsCoinTokens[i] = p.getGuildsCoinTokenCount();
+            villagers[i] = p.getVillagers();
             journeyToken[i] = context.game.journeyTokenInPlay ? (p.getJourneyToken() ? JourneyTokenState.FACE_UP : JourneyTokenState.FACE_DOWN) : null;
             minusOneCoinTokenOn[i] = p.getMinusOneCoinToken();
             minusOneCardTokenOn[i] = p.getMinusOneCardToken();
@@ -480,6 +482,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setVictoryTokens(victoryTokens)
                 .setDebtTokens(debtTokens)
                 .setGuildsCoinTokens(guildsCoinTokens)
+                .setVillagers(villagers)
                 .setJourneyToken(journeyToken)
                 .setMinusOneCoinToken(minusOneCoinTokenOn)
                 .setMinusOneCardToken(minusOneCardTokenOn)
@@ -782,7 +785,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         		event.getType() == EventType.VPTokensObtained ||
         		event.getType() == EventType.VPTokensPutOnPile ||
         		event.getType() == EventType.VPTokensTakenFromPile ||
-        		event.getType() == EventType.MountainPassBid) {
+        		event.getType() == EventType.MountainPassBid ||
+        		event.getType() == EventType.VillagersTokensObtained || 
+        		event.getType() == EventType.VillagerSpend) {
         	extras.add(event.getAmount());
         } else if (event.getType() == EventType.TravellerExchanged || 
         		event.getType() == EventType.CardSetAside || 

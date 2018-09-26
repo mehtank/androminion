@@ -507,8 +507,8 @@ public class CardImplSeaside extends CardImpl {
             card = currentPlayer.hand.get(0);
         }
 
-        context.addCoins(card.getCost(context));
         currentPlayer.trashFromHand(card, this.getControlCard(), context);
+        context.addCoins(card.getCost(context));
     }
     
     private void seaHag(Game game, MoveContext context, Player currentPlayer) {
