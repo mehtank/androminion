@@ -26,5 +26,7 @@
     <string name="type_spirit">Espíritu</string>
     <string name="type_state">Estado</string>
     <string name="type_zombie">Zombi</string>
+    <string name="type_artifact">Artefacto</string>
+    <string name="type_project">Proyecto</string>
     <string name="type_curse">Maldición</string>
 </resources>

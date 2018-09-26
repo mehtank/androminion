@@ -27,6 +27,8 @@ public class Cards {
     public static ArrayList<Card> landmarkCardsEmpires = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsNocturne = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsRenaissance = new ArrayList<Card>();
+    public static ArrayList<Card> artifactCardsRenaissance = new ArrayList<Card>();
+    public static ArrayList<Card> projectCardsRenaissance = new ArrayList<Card>();
     public static ArrayList<Card> actionCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> eventCardsPromo = new ArrayList<Card>();
     public static ArrayList<Card> actionCards = new ArrayList<Card>();
@@ -41,6 +43,8 @@ public class Cards {
     public static ArrayList<Card> boonCards = new ArrayList<Card>();
     public static ArrayList<Card> hexCards = new ArrayList<Card>();
     public static ArrayList<Card> stateCards = new ArrayList<Card>();
+    public static ArrayList<Card> artifactCards = new ArrayList<Card>();
+    public static ArrayList<Card> projectCards = new ArrayList<Card>();
     public static ArrayList<Card> blackMarketCards = new ArrayList<Card>();
     public static HashSet<Card> nonKingdomCards = new HashSet<Card>();
 
@@ -137,7 +141,14 @@ public class Cards {
         Deluded, Envious, LostInTheWoods, Miserable, TwiceMiserable,
         
         // Renaissance Expansion
-        ActingTroupe, Experiment, MountainVillage, Priest, Recruiter, Scholar, Sculptor, Seer,
+        ActingTroupe, BorderGuard, CargoShip, Ducat, Experiment, FlagBearer, Hideout, Improve, Inventor, Lackeys, MountainVillage, 
+        OldWitch, Patron, Priest, Recruiter, Research, Scepter, Scholar, Sculptor, Seer, Spices, Swashbuckler, SilkMerchant, 
+        Treasurer, Villan,
+        
+        Flag, Horn, Key, Lantern, TreasureChest,
+        
+        Academy, Barracks, Canal, Capitalism, Cathedral, Citadel, CityGate, CropRotation, Exploration, Fair, Fleet, GuildHall, 
+        Innovation, Pageant, Piazza, RoadNetwork, Sewers, Silos, SinisterPlot, StarChart,
         
         // Promo Cards
         Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon, Sauna, Avanto, Dismantle,
@@ -658,14 +669,58 @@ public class Cards {
     
     // Renaissance expansion
     public static final Card actingTroupe;
+    public static final Card borderGuard;
+    public static final Card cargoShip;
+    public static final Card ducat;
     public static final Card experiment;
+    public static final Card flagBearer;
+    public static final Card hideout;
+    public static final Card improve;
+    public static final Card inventor;
+    public static final Card lackeys;
     public static final Card mountainVillage;
+    public static final Card oldWitch;
+    public static final Card patron;
     public static final Card priest;
     public static final Card recruiter;
+    public static final Card research;
+    public static final Card scepter;
     public static final Card scholar;
     public static final Card sculptor;
     public static final Card seer;
+    public static final Card spices;
+    public static final Card swashbuckler;
+    public static final Card silkMerchant;
+    public static final Card treasurer;
+    public static final Card villan;
     
+    public static final Card flag;
+    public static final Card horn;
+    public static final Card key;
+    public static final Card lantern;
+    public static final Card treasureChest;
+
+    public static final Card academy;
+    public static final Card barracks;
+    public static final Card canal;
+    public static final Card capitalism;
+    public static final Card cathedral;
+    public static final Card citadel;
+    public static final Card cityGate;
+    public static final Card cropRotation;
+    public static final Card exploration;
+    public static final Card fair;
+    public static final Card fleet;
+    public static final Card guildHall;
+    public static final Card innovation;
+    public static final Card pageant;
+    public static final Card piazza;
+    public static final Card roadNetwork;
+    public static final Card sewers;
+    public static final Card silos;
+    public static final Card sinisterPlot;
+    public static final Card starChart;
+        
     // Promo Cards
     public static final Card walledVillage;
     public static final Card governor;
@@ -1218,16 +1273,61 @@ public class Cards {
         stateCards.add(twiceMiserable = new CardImpl.Builder(Cards.Kind.TwiceMiserable, Type.State).vp(-4).description("").expansion(Expansion.Nocturne).build());
         
         // Renaissance Cards
+        ArrayList<Card> actionCardsTodo = new ArrayList<Card>();
         
         actionCardsRenaissance.add(actingTroupe         = new CardImpl.Builder(Cards.Kind.ActingTroupe, 3, Type.Action).description("+4 Villagers. Trash this.").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(borderGuard = new CardImpl.Builder(Cards.Kind.BorderGuard, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(cargoShip = new CardImpl.Builder(Cards.Kind.CargoShip, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(ducat = new CardImpl.Builder(Cards.Kind.Ducat, 0, Type.Treasure).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(experiment           = new CardImpl.Builder(Cards.Kind.Experiment, 3, Type.Action).addCards(2).addActions(1).description("Return this to the Supply. - When you gain this, gain another Experiment (that doesn't come with another).").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(flagBearer = new CardImpl.Builder(Cards.Kind.FlagBearer, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(hideout = new CardImpl.Builder(Cards.Kind.Hideout, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(improve = new CardImpl.Builder(Cards.Kind.Improve, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(inventor = new CardImpl.Builder(Cards.Kind.Inventor, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(lackeys = new CardImpl.Builder(Cards.Kind.Lackeys, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());        
         actionCardsRenaissance.add(mountainVillage      = new CardImpl.Builder(Cards.Kind.MountainVillage, 4, Type.Action).addActions(2).description("Look through your discard pile and put a card from it into your hand; if you can't, +1 Card.").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(oldWitch = new CardImpl.Builder(Cards.Kind.OldWitch, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(patron = new CardImpl.Builder(Cards.Kind.Patron, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(priest               = new CardImpl.Builder(Cards.Kind.Priest, 4, Type.Action).trashForced().addGold(2).description("Trash a card from your hand. For the rest of this turn, when you trash a card, +(2) Coins.").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(recruiter            = new CardImpl.Builder(Cards.Kind.Recruiter,5, Type.Action).trashForced().addCards(2).description("Trash a card from your hand. +1 Villager per (1) Coin it costs.").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(research = new CardImpl.Builder(Cards.Kind.Research, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(scepter = new CardImpl.Builder(Cards.Kind.Scepter, 0, Type.Treasure).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(scholar              = new CardImpl.Builder(Cards.Kind.Scholar, 5, Type.Action).description("Discard your hand. +7 Cards.").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(sculptor             = new CardImpl.Builder(Cards.Kind.Sculptor, 5, Type.Action).description("Gain a card to your hand costing up to (4) Coins. If it's a Treasure, +1 Villager.").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(seer                 = new CardImpl.Builder(Cards.Kind.Seer, 5, Type.Action).addCards(1).addActions(1).description("Reveal the top 3 cards of your deck. Put the ones costing from (2) Coins to (4) Coins into your hand. Put the rest back in any order.").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(spices = new CardImpl.Builder(Cards.Kind.Spices, 0, Type.Treasure).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(swashbuckler = new CardImpl.Builder(Cards.Kind.Swashbuckler, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(silkMerchant = new CardImpl.Builder(Cards.Kind.SilkMerchant, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(treasurer = new CardImpl.Builder(Cards.Kind.Treasurer, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(villan = new CardImpl.Builder(Cards.Kind.Villan, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
         
+        artifactCardsRenaissance.add(flag = new CardImpl.Builder(Cards.Kind.Flag, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
+        artifactCardsRenaissance.add(horn = new CardImpl.Builder(Cards.Kind.Horn, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
+        artifactCardsRenaissance.add(key = new CardImpl.Builder(Cards.Kind.Key, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
+        artifactCardsRenaissance.add(lantern = new CardImpl.Builder(Cards.Kind.Lantern, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
+        artifactCardsRenaissance.add(treasureChest = new CardImpl.Builder(Cards.Kind.TreasureChest, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
+        
+        projectCardsRenaissance.add(academy = new CardImpl.Builder(Cards.Kind.Academy, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(barracks = new CardImpl.Builder(Cards.Kind.Barracks, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(canal = new CardImpl.Builder(Cards.Kind.Canal, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(capitalism = new CardImpl.Builder(Cards.Kind.Capitalism, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(cathedral = new CardImpl.Builder(Cards.Kind.Cathedral, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(citadel = new CardImpl.Builder(Cards.Kind.Citadel, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(cityGate = new CardImpl.Builder(Cards.Kind.CityGate, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(cropRotation = new CardImpl.Builder(Cards.Kind.CropRotation, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(exploration = new CardImpl.Builder(Cards.Kind.Exploration, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(fair = new CardImpl.Builder(Cards.Kind.Fair, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(fleet = new CardImpl.Builder(Cards.Kind.Fleet, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(guildHall = new CardImpl.Builder(Cards.Kind.GuildHall, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(innovation = new CardImpl.Builder(Cards.Kind.Innovation, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(pageant = new CardImpl.Builder(Cards.Kind.Pageant, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(piazza = new CardImpl.Builder(Cards.Kind.Piazza, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(roadNetwork = new CardImpl.Builder(Cards.Kind.RoadNetwork, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(sewers = new CardImpl.Builder(Cards.Kind.Sewers, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(silos = new CardImpl.Builder(Cards.Kind.Silos, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(sinisterPlot = new CardImpl.Builder(Cards.Kind.SinisterPlot, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(starChart = new CardImpl.Builder(Cards.Kind.StarChart, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+                
         // Promo Cards
         variablePileCards.add(sauna        = new CardImpl.Builder(Cards.Kind.Sauna, 4, Type.Action).addCards(1).addActions(1).description("You may play an Avanto from your hand. - While this is in play, when you play a Silver, you may trash a card from your hand.").expansion(Expansion.Promo).build());
         variablePileCards.add(avanto       = new CardImpl.Builder(Cards.Kind.Avanto, 5, Type.Action).addCards(3).description("You may play a Sauna from your hand.").expansion(Expansion.Promo).build());
@@ -1280,7 +1380,9 @@ public class Cards {
         for (Card card : eventCardsPromo)  		{ eventsCards.add(card); }
         
         for (Card card : landmarkCardsEmpires) { landmarkCards.add(card); }
-
+        
+        for (Card card : projectCardsRenaissance)  { projectCards.add(card); }
+        for (Card card : artifactCardsRenaissance) { artifactCards.add(card); }
 
         for (Card card : nonSupplyCards)        { nonKingdomCards.add(card); };
         for (Card card : prizeCards)            { nonKingdomCards.add(card); };
@@ -1305,6 +1407,8 @@ public class Cards {
         for (Card card : eventsCards)       { cardNameToCard.put(card.getName(), card); }
         for (Card card : landmarkCards)     { cardNameToCard.put(card.getName(), card); }
         for (Card card : stateCards)        { cardNameToCard.put(card.getName(), card); }
+        for (Card card : artifactCards)     { cardNameToCard.put(card.getName(), card); }
+        for (Card card : projectCards)      { cardNameToCard.put(card.getName(), card); }
         
         blackMarketCards.clear(); // Cards in Black Market deck are not in supply
     }

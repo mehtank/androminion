@@ -26,5 +26,7 @@
     <string name="type_spirit">Spirit</string>
     <string name="type_state">State</string>
     <string name="type_zombie">Zombie</string>
+    <string name="type_artifact">Artifact</string>
+    <string name="type_project">Project</string>
     <string name="type_curse">Curse</string>
 </resources>
