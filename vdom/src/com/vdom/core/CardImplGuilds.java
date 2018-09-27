@@ -22,14 +22,8 @@ public class CardImplGuilds extends CardImpl {
 		case Advisor:
             advisor(game, context, currentPlayer);
             break;
-		case Baker:
-            baker(game, context, currentPlayer);
-            break;
         case Butcher:
             butcher(game, context, currentPlayer);
-            break;
-        case CandlestickMaker:
-            candlestickMaker(game, context, currentPlayer);
             break;
         case Doctor:
             doctor(game, context, currentPlayer);
@@ -119,15 +113,8 @@ public class CardImplGuilds extends CardImpl {
             }
         }
     }
-	
-	private void baker(Game game, MoveContext context, Player currentPlayer) {
-        currentPlayer.gainGuildsCoinTokens(1, context, Cards.baker);
-    }
-	
+		
 	private void butcher(Game game, MoveContext context, Player currentPlayer) {
-        
-        currentPlayer.gainGuildsCoinTokens(2, context, Cards.butcher);
-
         if (currentPlayer.getHand().size() > 0) {
             Card card = currentPlayer.controlPlayer.butcher_cardToTrash(context);
 
@@ -170,10 +157,6 @@ public class CardImplGuilds extends CardImpl {
             }
         }
     }
-
-	private void candlestickMaker(Game game, MoveContext context, Player currentPlayer) {
-	    currentPlayer.gainGuildsCoinTokens(1, context, Cards.candlestickMaker);
-	}
 
     private void doctor(Game game, MoveContext context, Player currentPlayer) {
 

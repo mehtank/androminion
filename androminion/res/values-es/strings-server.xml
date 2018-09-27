@@ -47,6 +47,10 @@
 	<string name="card_cards_multiple">+%1$s Cartas</string>
 	<string name="card_victory_token_single">+%1$s Punto de victoria</string>
 	<string name="card_victory_tokens_multiple">+%1$s Puntos de victoria</string>
+	<string name="card_coffers_single">+%1$s Cofres</string>
+	<string name="card_coffers_multiple">+%1$s Cofres</string>
+	<string name="card_villager_single">+%1$s Aldeano</string>
+	<string name="card_villagers_multiple">+%1$s Aldeanos</string>
 
 	<string name="card_options_header">%1$s opción</string>
 	<string name="part_play">jugar</string>

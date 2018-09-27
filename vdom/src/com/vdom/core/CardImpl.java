@@ -39,6 +39,8 @@ public class CardImpl implements Card, Comparable<Card>{
     protected int addBuysNextTurn;
     protected int addCardsNextTurn;
     protected int addGoldNextTurn;
+    protected int addCoffers;
+    protected int addVillagers;
     protected boolean takeAnotherTurn;
     protected int takeAnotherTurnCardCount;
     
@@ -93,6 +95,8 @@ public class CardImpl implements Card, Comparable<Card>{
         addBuysNextTurn = builder.addBuysNextTurn;
         addCardsNextTurn = builder.addCardsNextTurn;
         addGoldNextTurn = builder.addGoldNextTurn;
+        addCoffers = builder.addCoffers;
+        addVillagers = builder.addVillagers;
         takeAnotherTurn = builder.takeAnotherTurn;
         takeAnotherTurnCardCount = builder.takeAnotherTurnCardCount;
         isOverpay   = builder.isOverpay;
@@ -130,6 +134,8 @@ public class CardImpl implements Card, Comparable<Card>{
         protected int addBuysNextTurn;
         protected int addCardsNextTurn;
         protected int addGoldNextTurn;
+        protected int addCoffers;
+        protected int addVillagers;
         protected boolean takeAnotherTurn;
         protected int takeAnotherTurnCardCount;
         
@@ -243,6 +249,16 @@ public class CardImpl implements Card, Comparable<Card>{
         public Builder addGoldNextTurn(int val) {
             addGoldNextTurn = val;
             return this;
+        }
+        
+        public Builder addCoffers(int val) {
+        	addCoffers = val;
+        	return this;
+        }
+        
+        public Builder addVillagers(int val) {
+        	addVillagers = val;
+        	return this;
         }
 
         public Builder takeAnotherTurn(int val) {
@@ -434,6 +450,8 @@ public class CardImpl implements Card, Comparable<Card>{
         c.addBuysNextTurn = addBuysNextTurn;
         c.addCardsNextTurn = addCardsNextTurn;
         c.addGoldNextTurn = addGoldNextTurn;
+        c.addCoffers = addCoffers;
+        c.addVillagers = addVillagers;
         c.takeAnotherTurn = takeAnotherTurn;
         c.takeAnotherTurnCardCount = takeAnotherTurnCardCount;
         c.isOverpay = isOverpay;
@@ -616,6 +634,16 @@ public class CardImpl implements Card, Comparable<Card>{
     public int getAddGoldNextTurn() {
         return addGoldNextTurn;
     }
+    
+    @Override
+    public int getAddCoffers() {
+    	return addCoffers;
+    }
+    
+    @Override
+    public int getAddVillagers() {
+    	return addVillagers;
+    }
 
     @Override
     public boolean takeAnotherTurn() {
@@ -744,6 +772,9 @@ public class CardImpl implements Card, Comparable<Card>{
             	game.drawToHand(context, this, addCards - i);
             }
             
+            context.player.gainGuildsCoinTokens(addCoffers, context, this);
+            context.player.takeVillagers(addVillagers, context, this);
+            
             if (addCardsNextTurn > 0 || addBuysNextTurn > 0 || addActionsNextTurn > 0 || addGoldNextTurn > 0) {
             	currentPlayer.addStartTurnDurationEffect(this, 1, isThronedPlay);
             }
@@ -822,7 +853,7 @@ public class CardImpl implements Card, Comparable<Card>{
                 sb.append("s");
             }
         }
-        if (addActions > 0 || addBuys > 0 || addCards > 0 || addGold > 0) {
+        if (addActions > 0 || addBuys > 0 || addCards > 0 || addGold > 0 || addCoffers > 0 || addVillagers > 0) {
             sb.append(" ");
 
             boolean start = true;
@@ -866,6 +897,30 @@ public class CardImpl implements Card, Comparable<Card>{
                 if (addCards > 1) {
                     sb.append("s");
                 }
+            }
+            if (addCoffers > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addCoffers + " Coffers");
+            }
+            if (addVillagers > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addVillagers + " Villager" + (addVillagers != 1 ? "s" : ""));
+            }
+            if (addGold > 0) {
+                if (start) {
+                    start = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append("+" + addGold + " Coin");
             }
         }
         if (addActionsNextTurn > 0 || addBuysNextTurn > 0 || addGoldNextTurn > 0 || addCardsNextTurn > 0) {

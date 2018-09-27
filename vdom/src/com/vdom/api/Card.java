@@ -63,6 +63,10 @@ public interface Card extends Serializable {
     
     public int getAddBuysNextTurn();
     
+    public int getAddCoffers();
+    
+    public int getAddVillagers();
+    
     public boolean takeAnotherTurn();
     
     public int takeAnotherTurnCardCount();

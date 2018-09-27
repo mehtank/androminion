@@ -488,13 +488,13 @@
     <string name="SirVander_desc">Tous vos adversaires dévoilent les 2 premières cartes de leur deck, écartent l\'une d\'elle coûtant de 3 à 6 Pièces et défaussent le reste. Si un Chevalier est écarté ainsi, écartez cette carte-ci.\n\nLorsque vous écartez cette Sir Vander, recevez une carte Or.</string>
     <!-- Guildes -->
     <string name="Butcher_name">Boucher</string>
-    <string name="Butcher_desc">Prenez 2 jetons Pièce. Vous pouvez écarter une carte de votre main puis payer des jetons Pièce de votre réserve. Si vous avez écarté une carte, recevez une carte coûtant jusqu\'à la valeur de la carte écartée plus les jetons Pièce dépensés.</string>
+    <string name="Butcher_desc">Vous pouvez écarter une carte de votre main puis payer des jetons Pièce de votre réserve. Si vous avez écarté une carte, recevez une carte coûtant jusqu\'à la valeur de la carte écartée plus les jetons Pièce dépensés.</string>
     <string name="Baker_name">Boulanger</string>
-    <string name="Baker_desc">Prenez un jeton Pièce.\n--------\nMise en place : chaque joueur prend un jeton Pièce.</string>
+    <string name="Baker_desc">--------\nMise en place : chaque joueur prend un jeton Pièce.</string>
     <string name="Masterpiece_name">Chef d\'OEuvre</string>
     <string name="Masterpiece_desc">Si surcoût, vous recevez un Argent pour chaque Pièce que vous payez en plus.</string>
     <string name="CandlestickMaker_name">Cirier</string>
-    <string name="CandlestickMaker_desc">Prenez un jeton Pièce.</string>
+    <string name="CandlestickMaker_desc"></string>
     <string name="Journeyman_name">Compagnon</string>
     <string name="Journeyman_desc">Indiquez le nom d\'une carte. Dévoilez autant de cartes de votre deck que nécessaire afin d\'obtenir 3 cartes différentes du nom choisi précédemment. Prenez ces cartes en main et défaussez les autres.</string>
     <string name="Advisor_name">Conseiller</string>

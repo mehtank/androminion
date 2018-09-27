@@ -548,6 +548,10 @@ public class Strings {
         		ret = Strings.format(R.string.card_coin_multiple, value) + "\n" + ret;
         	if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
             else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
+        	if (c.getAddCoffers() > 1) ret = Strings.format(R.string.card_coffers_multiple, "" + c.getAddCoffers()) + "\n" + ret;
+            else if (c.getAddCoffers() > 0) ret = Strings.format(R.string.card_coffers_single, "" + c.getAddCoffers()) + "\n" + ret;
+        	if (c.getAddVillagers() > 1) ret = Strings.format(R.string.card_villagers_multiple, "" + c.getAddVillagers()) + "\n" + ret;
+            else if (c.getAddVillagers() > 0) ret = Strings.format(R.string.card_villager_single, "" + c.getAddVillagers()) + "\n" + ret;
         }
         if (c.is(Type.Action) || c.is(Type.Night) || c.is(Type.Boon)) {
             if (c.is(Type.Duration)) {
@@ -562,6 +566,10 @@ public class Strings {
 
             }
 
+            if (c.getAddCoffers() > 1) ret = Strings.format(R.string.card_coffers_multiple, "" + c.getAddCoffers()) + "\n" + ret;
+            else if (c.getAddCoffers() > 0) ret = Strings.format(R.string.card_coffers_single, "" + c.getAddCoffers()) + "\n" + ret;
+        	if (c.getAddVillagers() > 1) ret = Strings.format(R.string.card_villagers_multiple, "" + c.getAddVillagers()) + "\n" + ret;
+            else if (c.getAddVillagers() > 0) ret = Strings.format(R.string.card_villager_single, "" + c.getAddVillagers()) + "\n" + ret;
             if (c.getAddGold() > 1) ret = Strings.format(R.string.card_coin_multiple, "" + c.getAddGold()) + "\n" + ret;
             else if (c.getAddGold() > 0) ret = Strings.format(R.string.card_coin_single, "" + c.getAddGold()) + "\n" + ret;
             if (c.getAddBuys() > 1) ret = Strings.format(R.string.card_buys_multiple, "" + c.getAddBuys()) + "\n" + ret;

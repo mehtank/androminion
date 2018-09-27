@@ -481,11 +481,11 @@
     <string name="Advisor_name">Asesor</string>
     <string name="Advisor_desc">Revela las 3 cartas superiores de tu mazo. El jugador de tu izquierda elige una. Descártala y pon el resto en tu mano.</string>
     <string name="Baker_name">Panadero</string>
-    <string name="Baker_desc">+1 Cofres\n—\nPreparación: Cada jugador obtiene +1 Cofres.</string>
+    <string name="Baker_desc">—\nPreparación: Cada jugador obtiene +1 Cofres.</string>
     <string name="Butcher_name">Carnicero</string>
-    <string name="Butcher_desc">+2 Cofres\nPuedes eliminar una carta de tu mano. Si lo haces, saca cualquier número de marcadores de tu tablero de Cofres y gana una carta con un coste máximo de el coste de la carta eliminada más (1) Moneda por cada marcador que sacaste.</string>
+    <string name="Butcher_desc">Puedes eliminar una carta de tu mano. Si lo haces, saca cualquier número de marcadores de tu tablero de Cofres y gana una carta con un coste máximo de el coste de la carta eliminada más (1) Moneda por cada marcador que sacaste.</string>
     <string name="CandlestickMaker_name">Velero</string>
-    <string name="CandlestickMaker_desc">+1 Cofres</string>
+    <string name="CandlestickMaker_desc"></string>
     <string name="Doctor_name">Doctor</string>
     <string name="Doctor_desc">Nombra una carta. Revela las 3 cartas superiores de tu mazo. Elimina las que se tratan de la carta nombrada. Devuelve el resto en el orden que desees.\n—\nCuando compres esta carta, puedes sobrepagar. Por cada Moneda que sobrepagaste, mira la carta superior de tu mazo: elimínala, descártala, o devuélvela.</string>
     <string name="Herald_name">Heraldo</string>
@@ -953,13 +953,13 @@
     <string name="TwiceMiserable_desc"></string>
     
     <string name="ActingTroupe_name">Compañía Teatral</string>
-    <string name="ActingTroupe_desc">+4 Aldeanos. Elimina esta carta.</string>
+    <string name="ActingTroupe_desc">Elimina esta carta.</string>
     <string name="BorderGuard_name">Guardia de Fronteras</string>
     <string name="BorderGuard_desc">TODO</string>
     <string name="CargoShip_name">Barco de Carga</string>
     <string name="CargoShip_desc">TODO</string>
     <string name="Ducat_name">Ducado Dorado</string>
-    <string name="Ducat_desc">+1 Cofres. - Cuando ganes esta carta, puedes eliminar una carta de Cobre de tu mano.</string>
+    <string name="Ducat_desc">Cuando ganes esta carta, puedes eliminar una carta de Cobre de tu mano.</string>
     <string name="Experiment_name">Experimento</string>
     <string name="Experiment_desc">Devuele esta carta al Suministro. — Cuando ganes esta carta, gana otra carta de Experimento (que no viene con otra).</string>
     <string name="FlagBearer_name">Portador de Bandera</string>
@@ -1001,7 +1001,7 @@
     <string name="Treasurer_name">Tesorero</string>
     <string name="Treasurer_desc">TODO</string>
     <string name="Villan_name">Villano</string>
-    <string name="Villan_desc">+2 Cofres. Cada jugador (menos tú) con 5 cartas o más en su mano descarta una con un coste de (2) Monedas o más (o bien revela que no puede).</string>
+    <string name="Villan_desc">Cada jugador (menos tú) con 5 cartas o más en su mano descarta una con un coste de (2) Monedas o más (o bien revela que no puede).</string>
     
     <string name="Flag_name">Bandera</string>
     <string name="Flag_desc">TODO</string>

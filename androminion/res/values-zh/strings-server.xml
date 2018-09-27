@@ -47,6 +47,8 @@
 	<string name="card_cards_multiple">+%1$s 手牌</string>
 	<string name="card_victory_token_single">+(%1$s) 分数指示物</string>
 	<string name="card_victory_tokens_multiple">+(%1$s) 分数指示物</string>
+	<string name="card_coffers_single">+%1$s 资金</string>
+	<string name="card_coffers_multiple">+%1$s 资金</string>
 	
 	<string name="card_options_header">%1$s 选项</string>
 	<string name="part_play">打出</string>

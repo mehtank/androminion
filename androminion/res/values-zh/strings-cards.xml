@@ -482,11 +482,11 @@
     <string name="Advisor_name">顾问</string>
     <string name="Advisor_desc">展示你牌库顶的三张卡。你左边的玩家选择一张。丢弃它，将其它卡置入手牌。</string>
     <string name="Baker_name">面包师</string>
-    <string name="Baker_desc">+1 资金\n—\n游戏开始时：每位玩家获得 +1 资金。</string>
+    <string name="Baker_desc">—\n游戏开始时：每位玩家获得 +1 资金。</string>
     <string name="Butcher_name">屠夫</string>
-    <string name="Butcher_desc">+2 资金\n你可以废弃一张手牌。若你如此做，移除任意数量的资金，获取一张价值至多为被废弃的卡的价值加上所移除的资金数目的卡。</string>
+    <string name="Butcher_desc">你可以废弃一张手牌。若你如此做，移除任意数量的资金，获取一张价值至多为被废弃的卡的价值加上所移除的资金数目的卡。</string>
     <string name="CandlestickMaker_name">烛台匠</string>
-    <string name="CandlestickMaker_desc">+1 资金</string>
+    <string name="CandlestickMaker_desc"></string>
     <string name="Doctor_name">医生</string>
     <string name="Doctor_desc">说出一张卡的名字，展示你牌库顶的三张卡。废弃你说出的同名卡。将剩下的卡按任意顺序放回。\n—\n购买这张卡时，你可以选择超额支付。每超额支付(1)现金，查看你牌库顶的一张卡；废弃，丢弃，或者放回它。</string>
     <string name="Herald_name">传令官</string>

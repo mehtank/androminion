@@ -26,9 +26,6 @@ public class CardImplRenaissance extends CardImpl {
 		case ActingTroupe:
 			actingTroupe(game, context, currentPlayer);
 			break;
-		case Ducat:
-			ducat(game, context, currentPlayer);
-			break;
 		case Experiment:
 			experiment(game, context, currentPlayer);
 			break;
@@ -80,14 +77,9 @@ public class CardImplRenaissance extends CardImpl {
 	}
 		
 	private void actingTroupe(Game game, MoveContext context, Player player) {
-		player.takeVillagers(4, context, Cards.actingTroupe);
 		player.trashSelfFromPlay(getControlCard(), context);
 	}
-	
-	private void ducat(Game game, MoveContext context, Player player) {
-		player.gainGuildsCoinTokens(1, context, Cards.ducat);
-	}
-	
+		
 	private void experiment(Game game, MoveContext context, Player currentPlayer) {
 		Card card = this.getControlCard();
     	int idx = currentPlayer.playedCards.indexOf(card.getId());
@@ -258,9 +250,7 @@ public class CardImplRenaissance extends CardImpl {
             	attackedPlayers.add(player);
             }
     	}
-    	
-    	currentPlayer.gainGuildsCoinTokens(2, context, Cards.villan);
-        
+    	        
     	for (Player player : attackedPlayers) {
     		if (player.hand.size() <= 4) {
     			continue;

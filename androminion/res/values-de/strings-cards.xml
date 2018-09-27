@@ -481,11 +481,11 @@
     <string name="Advisor_name">Berater</string>
     <string name="Advisor_desc">Decke die 3 obersten Karten vom Nachziehstapel auf. Dein linker Nachbar wählt eine davon aus, die du dann ablegst. Die anderen Karten nimmst du auf die Hand.</string>
     <string name="Baker_name">Bäcker</string>
-    <string name="Baker_desc">Nimm eine Münze.\nSpielvorbereitung: Zu Spielbeginn erhält jeder Spieler eine Münze.</string>
+    <string name="Baker_desc">\nSpielvorbereitung: Zu Spielbeginn erhält jeder Spieler eine Münze.</string>
     <string name="Butcher_name">Metzger</string>
-    <string name="Butcher_desc">Nimm 2 Münzen. Du darfst eine Karte aus deiner Hand entsorgen und eine beliebige Anzahl Münzen zahlen. Wenn du eine Karte entsorgt hast, nimmst du dir eine Karte, deren Kosten maximal so hoch sein dürfen wie die Summe aus den Kosten der entsorgten Karte und der Anzahl der gezahlten Münzen.</string>
+    <string name="Butcher_desc">Du darfst eine Karte aus deiner Hand entsorgen und eine beliebige Anzahl Münzen zahlen. Wenn du eine Karte entsorgt hast, nimmst du dir eine Karte, deren Kosten maximal so hoch sein dürfen wie die Summe aus den Kosten der entsorgten Karte und der Anzahl der gezahlten Münzen.</string>
     <string name="CandlestickMaker_name">Leuchtenmacher</string>
-    <string name="CandlestickMaker_desc">Nimm eine Münze.</string>
+    <string name="CandlestickMaker_desc"></string>
     <string name="Doctor_name">Arzt</string>
     <string name="Doctor_desc">Nenne eine Karte, dann decke die 3 obersten Karten vom Nachziehstapel auf. Übereinstimmungen werden entsorgt. Der Rest wird in beliebiger Reihenfolge wieder auf den Nachziehstapel gelegt.\nWenn du diese Karte kaufst, darfst du mehr dafür zahlen. Pro 1 Geld, das du zusätzlich zahlst, darfst du dir die oberste Karte vom Nachziehstapel ansehen und sie entsorgen, ablegen oder zurücklegen.</string>
     <string name="Herald_name">Herold</string>

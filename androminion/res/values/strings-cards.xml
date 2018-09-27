@@ -481,11 +481,11 @@
     <string name="Advisor_name">Advisor</string>
     <string name="Advisor_desc">Reveal the top 3 cards of your deck. The player to your left chooses one of them. Discard that card and put the rest into your hand.</string>
     <string name="Baker_name">Baker</string>
-    <string name="Baker_desc">+1 Coffers\n—\nSetup: Each player gets +1 Coffers.</string>
+    <string name="Baker_desc">—\nSetup: Each player gets +1 Coffers.</string>
     <string name="Butcher_name">Butcher</string>
-    <string name="Butcher_desc">+2 Coffers\nYou may trash a card from your hand. If you do, remove any number of tokens from your Coffers and gain a card, costing up to the cost of the trashed card plus (1) Coin per token removed.</string>
+    <string name="Butcher_desc">You may trash a card from your hand. If you do, remove any number of tokens from your Coffers and gain a card, costing up to the cost of the trashed card plus (1) Coin per token removed.</string>
     <string name="CandlestickMaker_name">Candlestick Maker</string>
-    <string name="CandlestickMaker_desc">+1 Coffers</string>
+    <string name="CandlestickMaker_desc"></string>
     <string name="Doctor_name">Doctor</string>
     <string name="Doctor_desc">Name a card. Reveal the top 3 cards of your deck. Trash the matches. Put the rest back in any order.\n—\nWhen you buy this, you may overpay for it. For each (1) Coin you overpaid, look at the top card of your deck; trash it, discard it, or put it back.</string>
     <string name="Herald_name">Herald</string>
@@ -953,13 +953,13 @@
     <string name="TwiceMiserable_desc"></string>
     
     <string name="ActingTroupe_name">Acting Troupe</string>
-    <string name="ActingTroupe_desc">+4 Villagers. Trash this.</string>
+    <string name="ActingTroupe_desc">Trash this.</string>
     <string name="BorderGuard_name">Border Guard</string>
     <string name="BorderGuard_desc">TODO</string>
     <string name="CargoShip_name">Cargo Ship</string>
     <string name="CargoShip_desc">TODO</string>
     <string name="Ducat_name">Ducat</string>
-    <string name="Ducat_desc">+1 Coffers. - When you gain this, you may trash a Copper from your hand.</string>
+    <string name="Ducat_desc">When you gain this, you may trash a Copper from your hand.</string>
     <string name="Experiment_name">Experiment</string>
     <string name="Experiment_desc">Return this to the Supply. - When you gain this, gain another Experiment (that doesn\'t come with another).</string>
     <string name="FlagBearer_name">Flag Bearer</string>
@@ -1001,7 +1001,7 @@
     <string name="Treasurer_name">Treasurer</string>
     <string name="Treasurer_desc">TODO</string>
     <string name="Villan_name">Villan</string>
-    <string name="Villan_desc">+2 Coffers. Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can\'t).</string>
+    <string name="Villan_desc">Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can\'t).</string>
     
     <string name="Flag_name">Flag</string>
     <string name="Flag_desc">TODO</string>

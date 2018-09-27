@@ -47,6 +47,10 @@
 	<string name="card_cards_multiple">+%1$s Cards</string>
 	<string name="card_victory_token_single">+%1$s Victory token</string>
 	<string name="card_victory_tokens_multiple">+%1$s Victory tokens</string>
+	<string name="card_coffers_single">+%1$s Coffers</string>
+	<string name="card_coffers_multiple">+%1$s Coffers</string>
+	<string name="card_villager_single">+%1$s Villager</string>
+	<string name="card_villagers_multiple">+%1$s Villagers</string>
 	
 	<string name="card_options_header">%1$s option</string>
 	<string name="part_play">play</string>
