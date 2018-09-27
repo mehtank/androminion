@@ -535,7 +535,7 @@
   <string name="the_earths_gift_part">丢弃来获取一张价值不超过(4)的卡[%1$s]：</string>
   <string name="the_skys_gift_part">丢弃来获取&lt;黄金&gt;[%1$s]：</string>
   <string name="necromancer_query">选择场上要废弃的【动作】[%1$s]</string>
-  <string name="raider_query">选择要丢弃的卡[%1$s]</string>
+  <string name="discard_card_query">选择要丢弃的卡[%1$s]</string>
   
   <string name="place_stash_query">把&lt;藏匿&gt;放到牌堆里</string>
   <string name="place_stashes_query">把%1$s张&lt;藏匿&gt;放到牌堆里</string>

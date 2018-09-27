@@ -121,15 +121,12 @@ public class CardImplGuilds extends CardImpl {
     }
 	
 	private void baker(Game game, MoveContext context, Player currentPlayer) {
-        currentPlayer.gainGuildsCoinTokens(1);
-        sendGuildsTokenObtainedEvent(game, context);
+        currentPlayer.gainGuildsCoinTokens(1, context, Cards.baker);
     }
 	
 	private void butcher(Game game, MoveContext context, Player currentPlayer) {
         
-        currentPlayer.gainGuildsCoinTokens(2);
-        sendGuildsTokenObtainedEvent(game, context);
-        sendGuildsTokenObtainedEvent(game, context);
+        currentPlayer.gainGuildsCoinTokens(2, context, Cards.butcher);
 
         if (currentPlayer.getHand().size() > 0) {
             Card card = currentPlayer.controlPlayer.butcher_cardToTrash(context);
@@ -151,7 +148,8 @@ public class CardImplGuilds extends CardImpl {
                         value += numTokensToSpend;
                         if (numTokensToSpend > 0) {
                             GameEvent event = new GameEvent(GameEvent.EventType.GuildsTokenSpend, context);
-                            event.setComment(": " + numTokensToSpend);
+                            event.card = this.getControlCard();
+                            event.setAmount(numTokensToSpend);
                             game.broadcastEvent(event);
                         }
                     }
@@ -174,8 +172,7 @@ public class CardImplGuilds extends CardImpl {
     }
 
 	private void candlestickMaker(Game game, MoveContext context, Player currentPlayer) {
-	    currentPlayer.gainGuildsCoinTokens(1);
-	    sendGuildsTokenObtainedEvent(game, context);
+	    currentPlayer.gainGuildsCoinTokens(1, context, Cards.candlestickMaker);
 	}
 
     private void doctor(Game game, MoveContext context, Player currentPlayer) {
@@ -331,9 +328,7 @@ public class CardImplGuilds extends CardImpl {
                 currentPlayer.hand.remove(toDiscard);
                 currentPlayer.reveal(toDiscard, this.getControlCard(), context);
                 currentPlayer.discard(toDiscard, this.getControlCard(), context);
-                currentPlayer.gainGuildsCoinTokens(1);
-                sendGuildsTokenObtainedEvent(game, context);
-                Util.debug(currentPlayer, "Gained a Guild coin token via Plaza");
+                currentPlayer.gainGuildsCoinTokens(1, context, Cards.plaza);
             }
         }
     }
@@ -441,18 +436,4 @@ public class CardImplGuilds extends CardImpl {
         }
     }
     
-    
-    
-    
-    
-    
-    
-	
-	
-	
-    private void sendGuildsTokenObtainedEvent(Game game, MoveContext context) {
-        GameEvent event = new GameEvent(GameEvent.EventType.GuildsTokenObtained, context);
-        game.broadcastEvent(event);
-    }
-	
 }

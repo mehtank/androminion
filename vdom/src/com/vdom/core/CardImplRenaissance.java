@@ -26,6 +26,9 @@ public class CardImplRenaissance extends CardImpl {
 		case ActingTroupe:
 			actingTroupe(game, context, currentPlayer);
 			break;
+		case Ducat:
+			ducat(game, context, currentPlayer);
+			break;
 		case Experiment:
 			experiment(game, context, currentPlayer);
 			break;
@@ -47,6 +50,9 @@ public class CardImplRenaissance extends CardImpl {
 		case Seer:
 			seer(game, context, currentPlayer);
 			break;
+		case Villan:
+			villan(game, context, currentPlayer);
+			break;
 		default:
 			break;
 		}
@@ -60,7 +66,10 @@ public class CardImplRenaissance extends CardImpl {
     	}
     	
     	switch (trashKind) {
-        
+    	case SilkMerchant:
+    		player.gainGuildsCoinTokens(1, context, Cards.silkMerchant);
+    		player.takeVillagers(1, context, Cards.silkMerchant);
+    		break;
         default:
         	break;
     	}
@@ -69,18 +78,14 @@ public class CardImplRenaissance extends CardImpl {
 	    this.getControlCard().stopImpersonatingCard();
 	    this.getControlCard().stopInheritingCardAbilities();
 	}
-	
-	private void sendVillagersObtainedEvent(Game game, MoveContext context, int num, Card card) {
-        GameEvent event = new GameEvent(GameEvent.EventType.VillagersTokensObtained, context);
-        event.setAmount(num);
-        event.card = card;
-        game.broadcastEvent(event);
-    }
-	
+		
 	private void actingTroupe(Game game, MoveContext context, Player player) {
-		player.takeVillagers(4);
-		sendVillagersObtainedEvent(game, context, 4, Cards.actingTroupe);
+		player.takeVillagers(4, context, Cards.actingTroupe);
 		player.trashSelfFromPlay(getControlCard(), context);
+	}
+	
+	private void ducat(Game game, MoveContext context, Player player) {
+		player.gainGuildsCoinTokens(1, context, Cards.ducat);
 	}
 	
 	private void experiment(Game game, MoveContext context, Player currentPlayer) {
@@ -144,8 +149,7 @@ public class CardImplRenaissance extends CardImpl {
 
         player.trashFromHand(card, this.getControlCard(), context);
         int cost = card.getCost(context);
-        player.takeVillagers(cost);
-        sendVillagersObtainedEvent(game, context, cost, Cards.recruiter);
+        player.takeVillagers(cost, context, Cards.recruiter);
 	}
 	
 	private void scholar(Game game, MoveContext context, Player player) {
@@ -165,8 +169,7 @@ public class CardImplRenaissance extends CardImpl {
             if (cardToGain.getCost(context) <= 4 && cardToGain.getDebtCost(context) == 0 && !cardToGain.costPotion()) {
             	Card cardGained = player.gainNewCard(cardToGain, getControlCard(), context);
             	if (cardGained != null && cardGained.is(Type.Treasure, player)) {
-            		player.takeVillagers(1);
-            		sendVillagersObtainedEvent(game, context, 1, Cards.sculptor);
+            		player.takeVillagers(1, context, Cards.sculptor);
             	}
             } else {
             	Util.playerError(player, "Sculptor error, invalid card to gain, ignoring");
@@ -246,5 +249,50 @@ public class CardImplRenaissance extends CardImpl {
             	player.putOnTopOfDeck(order[i]);
             }
         }  
+	}
+	
+	private void villan(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+    	
+    	currentPlayer.gainGuildsCoinTokens(2, context, Cards.villan);
+        
+    	for (Player player : attackedPlayers) {
+    		if (player.hand.size() <= 4) {
+    			continue;
+    		}
+    		MoveContext playerContext = new MoveContext(game, player);
+            playerContext.attackedPlayer = player;
+            player.attacked(this.getControlCard(), context);
+            
+            ArrayList<Card> discardCards = new ArrayList<Card>();
+            for (Card card : player.hand) {
+            	if (card.getCost(playerContext) >= 2) {
+            		discardCards.add(card);
+            	}
+            }
+            if (discardCards.size() == 0) {
+            	for (Card card : player.hand){
+            		player.reveal(card, getControlCard(), playerContext);
+            	}
+            	return;
+            }
+            if (discardCards.size() == 1) {
+            	int idx = player.hand.indexOf(discardCards.get(0));
+        		player.discard(player.hand.remove(idx), this.getControlCard(), context);
+            	return;
+            }
+            Card toDiscard = player.controlPlayer.villan_cardToDiscard(playerContext, discardCards.toArray(new Card[0]));
+            if (toDiscard == null || !discardCards.contains(toDiscard)) {
+            	Util.playerError(player, "Villan discard error, invalid card, chosing first");
+            	toDiscard = discardCards.get(0);
+            }
+            int idx = player.hand.indexOf(toDiscard);
+    		player.discard(player.hand.remove(idx), this.getControlCard(), context);
+    	}
 	}
 }

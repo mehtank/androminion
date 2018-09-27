@@ -1235,6 +1235,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return true;
     }
     
+    public boolean shouldAutoPlay_ducat_shouldTrashCopper(MoveContext context) {
+    	return true;
+    }
+    
     public boolean shouldAutoPlay_priest_cardToTrash(MoveContext context) {
     	return false;
     }

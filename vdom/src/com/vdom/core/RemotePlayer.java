@@ -774,10 +774,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
         } else if (event.getType() == EventType.CantBuy) {
             cards = context.getCantBuy().toArray(new Card[0]);
-        } else if (event.getType() == EventType.GuildsTokenSpend) {
-            if (event.getComment() != null) {
-                extras.add(event.getComment());
-            }
         } else if (event.getType() == EventType.DebtTokensObtained || 
         		event.getType() == EventType.DebtTokensPaidOff ||
         		event.getType() == EventType.DebtTokensPutOnPile ||
@@ -786,6 +782,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         		event.getType() == EventType.VPTokensPutOnPile ||
         		event.getType() == EventType.VPTokensTakenFromPile ||
         		event.getType() == EventType.MountainPassBid ||
+    			event.getType() == EventType.GuildsTokenObtained || 
+    			event.getType() == EventType.GuildsTokenSpend ||
         		event.getType() == EventType.VillagersTokensObtained || 
         		event.getType() == EventType.VillagerSpend) {
         	extras.add(event.getAmount());

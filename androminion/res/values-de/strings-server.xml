@@ -538,7 +538,7 @@
 	<string name="the_earths_gift_part">%1$s: Um eine Karte die bis zu (4) Kostet zu nehmen, werfe ab</string>
 	<string name="the_skys_gift_part">%1$s: Für ein Gold, werfe ab</string>
 	<string name="necromancer_query">%1$s: Wähle Aktionskarte vom Müll</string>
-	<string name="raider_query">%1$s: Wähle Karte zum Abwerfen</string>
+	<string name="discard_card_query">%1$s: Wähle Karte zum Abwerfen</string>
 
 	<string name="place_stash_query">Geheimversteck einsortieren</string>
 	<string name="place_stashes_query">Sortiere %1$s Geheimverstecke in deinen Nachziehstapel</string>

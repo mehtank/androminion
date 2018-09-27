@@ -390,6 +390,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return ret.toArray(new Card[0]);
     }
     
+    public Card pickOutCard(Card[] cards, Card[] cardsToMatch) {
+    	CardList cardList = new CardList(this, "temp");
+    	for(Card c : cards)
+    		cardList.add(c);
+        Card[] ret = pickOutCards(cardList, 1, cardsToMatch);
+        if(ret == null) {
+            return null;
+        }
+        
+        return ret[0];
+    }
+    
     public Card pickOutCard(CardList cards, Card[] cardsToMatch) {
         Card[] ret = pickOutCards(cards, 1, cardsToMatch);
         if(ret == null) {
@@ -5008,6 +5020,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean ducat_shouldTrashCopper(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
     public Card mountainVillage_cardToPutInHand(MoveContext context) {
     	//TODO: favor non-terminals most of the time?
     	ArrayList<Card> localDiscard = Util.copy(discard);
@@ -5048,5 +5065,28 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card[] seer_cardOrder(MoveContext context, Card[] cards) {
     	return cards;
+    }
+    
+    @Override
+    public Card villan_cardToDiscard(MoveContext context, Card[] cards) {
+    	// prioritize victory only cards first
+    	for (Card c : cards) {
+    		Type[] types = c.getTypes(context.player);
+    		if (types.length == 1 && types[0] == Type.Victory) {
+    			return c;
+    		}
+    	}
+    	// then junk
+    	Card junkCard = pickOutCard(cards, getTrashCards());
+    	if (junkCard != null) {
+    		return junkCard;
+    	}
+    	// then lowest cost card
+    	ArrayList<Card> cardList = new ArrayList<Card>();
+    	for(Card c : cards) {
+    		cardList.add(c);
+    	}
+    	Card[] lowCards = lowestCards(context, cardList, 1, true);
+    	return (lowCards.length > 0) ? lowCards[0] : null;
     }
 }

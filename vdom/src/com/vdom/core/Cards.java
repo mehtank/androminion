@@ -1278,7 +1278,7 @@ public class Cards {
         actionCardsRenaissance.add(actingTroupe         = new CardImpl.Builder(Cards.Kind.ActingTroupe, 3, Type.Action).description("+4 Villagers. Trash this.").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(borderGuard = new CardImpl.Builder(Cards.Kind.BorderGuard, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(cargoShip = new CardImpl.Builder(Cards.Kind.CargoShip, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
-        actionCardsTodo.add(ducat = new CardImpl.Builder(Cards.Kind.Ducat, 0, Type.Treasure).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(ducat = new CardImpl.Builder(Cards.Kind.Ducat, 2, Type.Treasure).addBuys(1).description("+1 Coffers. - When you gain this, you may trash a Copper from your hand.").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(experiment           = new CardImpl.Builder(Cards.Kind.Experiment, 3, Type.Action).addCards(2).addActions(1).description("Return this to the Supply. - When you gain this, gain another Experiment (that doesn't come with another).").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(flagBearer = new CardImpl.Builder(Cards.Kind.FlagBearer, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(hideout = new CardImpl.Builder(Cards.Kind.Hideout, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
@@ -1297,9 +1297,9 @@ public class Cards {
         actionCardsRenaissance.add(seer                 = new CardImpl.Builder(Cards.Kind.Seer, 5, Type.Action).addCards(1).addActions(1).description("Reveal the top 3 cards of your deck. Put the ones costing from (2) Coins to (4) Coins into your hand. Put the rest back in any order.").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(spices = new CardImpl.Builder(Cards.Kind.Spices, 0, Type.Treasure).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(swashbuckler = new CardImpl.Builder(Cards.Kind.Swashbuckler, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
-        actionCardsTodo.add(silkMerchant = new CardImpl.Builder(Cards.Kind.SilkMerchant, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(silkMerchant = new CardImpl.Builder(Cards.Kind.SilkMerchant, 4, Type.Action).addCards(2).addBuys(1).description("When you gain or trash this, +1 Coffers and +1 Villager.").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(treasurer = new CardImpl.Builder(Cards.Kind.Treasurer, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
-        actionCardsTodo.add(villan = new CardImpl.Builder(Cards.Kind.Villan, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(villan = new CardImpl.Builder(Cards.Kind.Villan, 5, Type.Action, Type.Attack).description("+2 Coffers. Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can't).").expansion(Expansion.Renaissance).build());
         
         artifactCardsRenaissance.add(flag = new CardImpl.Builder(Cards.Kind.Flag, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
         artifactCardsRenaissance.add(horn = new CardImpl.Builder(Cards.Kind.Horn, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());

@@ -4240,6 +4240,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean ducat_shouldTrashCopper(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_ducat_shouldTrashCopper(context)) {
+            return super.ducat_shouldTrashCopper(context);
+        }
+    	return selectBoolean(context, Cards.ducat);
+    }
+    
+    @Override
     public Card mountainVillage_cardToPutInHand(MoveContext context) {
     	CardList localDiscard = context.player.getDiscard();
         if (localDiscard.isEmpty())
@@ -4284,5 +4292,10 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (int i : order)
             orderedCards.add(cards[i]);
         return orderedCards.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card villan_cardToDiscard(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.villan, cards)];
     }
 }

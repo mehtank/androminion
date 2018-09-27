@@ -538,10 +538,11 @@
   <string name="the_earths_gift_part">descartar para ganar una carta con un coste máximo de (4) Monedas [%1$s]</string>
   <string name="the_skys_gift_part">descartar para ganar una carta de Oro [%1$s]</string>
   <string name="necromancer_query">Elige una carta de Action de entre las eliminadas para jugar [%1$s]</string>
-  <string name="raider_query">Elige una carta para descartar [%1$s]</string>
+  <string name="discard_card_query">Elige una carta para descartar [%1$s]</string>
   
   <string name="villager_query">¿Usar Aldeano para +1 Acción?</string>
   <string name="villager_option">Usar</string>
+  <string name="ducat_trash_copper">Eliminar una carta de Cobre de tu mano</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>
   <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>

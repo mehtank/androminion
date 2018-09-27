@@ -557,7 +557,7 @@
     <string name="the_earths_gift_part">défausser pour recevoir une carte coûtant jusqu\'à (4) Pièces [%1$s]</string>
     <string name="the_skys_gift_part">défausser pour recevoir un Or [%1$s]</string>
     <string name="necromancer_query">Sélectionner une carte Action du Rebut à jouer [%1$s]</string>
-    <string name="raider_query">Sélectionner une carte à défausser [%1$s]</string>
+    <string name="discard_card_query">Sélectionner une carte à défausser [%1$s]</string>
   
     <!-- Cachette -->
     <string name="place_stash_query">Placer la Cachette dans le deck</string>

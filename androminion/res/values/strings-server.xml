@@ -167,8 +167,8 @@
 	<string name="PlayedCard">Played</string>
 	<string name="PlayingDurationAction">Playing duration</string>
 	<string name="BuyingCard">Buying</string>
-	<string name="GuildsTokenObtained">Added to Coffers</string>
-	<string name="GuildsTokenSpend">Removed from Coffers</string>
+	<string name="GuildsTokenObtained">Added %1$s to Coffers</string>
+	<string name="GuildsTokenSpend">Removed %1$s from Coffers</string>
 	<string name="VillagersSpend">Villagers used: %1$s</string>
 	<string name="OverpayForCard">Overpay for card</string>
 	<string name="DebtTokensObtained">Debt tokens obtained: %1$s</string>
@@ -539,10 +539,11 @@
   <string name="the_earths_gift_part">discard to gain a card costing up to (4) Coins [%1$s]</string>
   <string name="the_skys_gift_part">discard to gain a Gold [%1$s]</string>
   <string name="necromancer_query">Select Action to play from trash [%1$s]</string>
-  <string name="raider_query">Select card to discard [%1$s]</string>
+  <string name="discard_card_query">Select card to discard [%1$s]</string>
   
   <string name="villager_query">Use Villager for +1 Action?</string>
   <string name="villager_option">Use</string>
+  <string name="ducat_trash_copper">Trash Copper from hand</string>
   
   <string name="place_stash_query">Place Stash in deck</string>
   <string name="place_stashes_query">Place %1$s Stash cards in deck</string>

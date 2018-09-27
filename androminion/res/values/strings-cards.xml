@@ -959,7 +959,7 @@
     <string name="CargoShip_name">Cargo Ship</string>
     <string name="CargoShip_desc">TODO</string>
     <string name="Ducat_name">Ducat</string>
-    <string name="Ducat_desc">TODO</string>
+    <string name="Ducat_desc">+1 Coffers. - When you gain this, you may trash a Copper from your hand.</string>
     <string name="Experiment_name">Experiment</string>
     <string name="Experiment_desc">Return this to the Supply. - When you gain this, gain another Experiment (that doesn\'t come with another).</string>
     <string name="FlagBearer_name">Flag Bearer</string>
@@ -997,11 +997,11 @@
     <string name="Swashbuckler_name">Swashbuckler</string>
     <string name="Swashbuckler_desc">TODO</string>
     <string name="SilkMerchant_name">Silk Merchant</string>
-    <string name="SilkMerchant_desc">TODO</string>
+    <string name="SilkMerchant_desc">When you gain or trash this, +1 Coffers and +1 Villager.</string>
     <string name="Treasurer_name">Treasurer</string>
     <string name="Treasurer_desc">TODO</string>
     <string name="Villan_name">Villan</string>
-    <string name="Villan_desc">TODO</string>
+    <string name="Villan_desc">+2 Coffers. Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can\'t).</string>
     
     <string name="Flag_name">Flag</string>
     <string name="Flag_desc">TODO</string>

@@ -454,12 +454,9 @@ public class Strings {
         } else if (event.gameEventType == GameEvent.EventType.Status) {
             statusText += format(R.string.action_buys_coin, extras[3], extras[4], extras[5]);
         } else if (event.gameEventType == GameEvent.EventType.GuildsTokenObtained) {
-            statusText += getString(R.string.GuildsTokenObtained);
+            statusText += format(R.string.GuildsTokenObtained, extras[3]);
         } else if (event.gameEventType == GameEvent.EventType.GuildsTokenSpend) {
-            statusText += getString(R.string.GuildsTokenSpend);
-            if (extras[3] != null) {
-                statusText += extras[3]; // number of coins
-            }
+            statusText += format(R.string.GuildsTokenSpend, extras[3]);
         } else if (event.gameEventType == GameEvent.EventType.OverpayForCard) {
             statusText += getString(R.string.OverpayForCard);
         } else if (event.gameEventType == GameEvent.EventType.DebtTokensObtained) {
@@ -502,7 +499,9 @@ public class Strings {
                 && event.gameEventType != GameEvent.EventType.CardSetAsidePrivate
                 && event.gameEventType != GameEvent.EventType.TakeState
                 && event.gameEventType != GameEvent.EventType.ReturnState
-                && event.gameEventType != GameEvent.EventType.VillagersTokensObtained) {
+                && event.gameEventType != GameEvent.EventType.VillagersTokensObtained
+                && event.gameEventType != GameEvent.EventType.GuildsTokenObtained
+                && event.gameEventType != GameEvent.EventType.GuildsTokenSpend) {
             statusText += " " + getCardName(event.c) + " ";
         }
 
@@ -896,8 +895,9 @@ public class Strings {
             return format(R.string.fool_query, cardName);
         } else if (cardName.equals(getCardName(Cards.necromancer))) {
             return format(R.string.necromancer_query, cardName);
-        } else if (cardName.equals(getCardName(Cards.raider))) {
-            return format(R.string.raider_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.raider)) ||
+        		cardName.equals(getCardName(Cards.villan))) {
+            return format(R.string.discard_card_query, cardName);
         } else if (cardName.equals(getCardName(Cards.theMoonsGift)) ||
         		cardName.equals(getCardName(Cards.harbinger)) ||
         		cardName.equals(getCardName(Cards.scavenger))) {
@@ -1411,6 +1411,9 @@ public class Strings {
             strings[0] = getCardRevealedHeader(extras);
             strings[1] = getString(R.string.discard);
             strings[2] = getString(R.string.replace);
+        } else if (cardName.equals(getCardName(Cards.ducat))) {
+            strings[1] = getString(R.string.ducat_trash_copper);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.sauna))) {
             strings[1] = getString(R.string.sauna_play_avanto);
             strings[2] = getString(R.string.pass);

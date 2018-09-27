@@ -760,13 +760,19 @@ public abstract class Player {
         return journeyTokenFaceUp;
     }
 
-    public void gainGuildsCoinTokens(int tokenCount)
+    public void gainGuildsCoinTokens(int tokenCount, MoveContext context, Card responsible)
     {
     	if (tokenCount == 0) return;
     	if (Game.errataPossession == PossessionPossessorTokens.ALL) {
     		controlPlayer.guildsCoinTokenCount += tokenCount;
     	} else {
     		guildsCoinTokenCount += tokenCount;
+    		if (context != null) {
+	    		GameEvent event = new GameEvent(GameEvent.EventType.GuildsTokenObtained, context);
+	    		event.setAmount(tokenCount);
+	    		event.card = responsible;
+	            game.broadcastEvent(event);
+    		}
     	}
     }
     
@@ -782,20 +788,32 @@ public abstract class Player {
         }
     }
     
-    public void takeVillagers(int tokenCount)
+    public void takeVillagers(int tokenCount, MoveContext context, Card responsible)
     {
     	if (tokenCount == 0) return;
     	if (Game.errataPossession == PossessionPossessorTokens.ALL) {
     		controlPlayer.villagers += tokenCount;
     	} else {
     		villagers += tokenCount;
+    		if (context != null) {
+	    		GameEvent event = new GameEvent(GameEvent.EventType.VillagersTokensObtained, context);
+	    		event.setAmount(tokenCount);
+	    		event.card = responsible;
+	            game.broadcastEvent(event);
+    		}
     	}
     }
     
-    public void useVillagers(int tokenCount)
+    public void useVillagers(int tokenCount, MoveContext context, Card responsible)
     {
     	if (tokenCount <= villagers) {
     		villagers -= tokenCount;
+    		if (context != null) {
+	    		GameEvent event = new GameEvent(GameEvent.EventType.VillagerSpend, context);
+	    		event.setAmount(tokenCount);
+	    		event.card = responsible;
+	            game.broadcastEvent(event);
+    		}
     	} else {
     		Util.playerError(this, "useVillagers() - Can't use " + tokenCount + " villagers, only have " + villagers);
     	}
@@ -2528,11 +2546,13 @@ public abstract class Player {
     // Card interactions - Renaissance Expansion
     public abstract boolean spendVillagerForAction(MoveContext context);
     public abstract int numVillagerTokensToSpend(MoveContext context, int villagerTotal);
+    public abstract boolean ducat_shouldTrashCopper(MoveContext context);
     public abstract Card mountainVillage_cardToPutInHand(MoveContext context);
     public abstract Card priest_cardToTrash(MoveContext context);
     public abstract Card recruiter_cardToTrash(MoveContext context);
     public abstract Card sculptor_cardToObtain(MoveContext context);
-    public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);    
+    public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);
+    public abstract Card villan_cardToDiscard(MoveContext context, Card[] cards);
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

@@ -564,9 +564,8 @@ public class Game {
                 player.spendGuildsCoinTokens(numTokensToSpend);
                 context.addCoins(numTokensToSpend);
                 GameEvent event = new GameEvent(GameEvent.EventType.GuildsTokenSpend, context);
-                event.setComment(": " + numTokensToSpend);
+                event.setAmount(numTokensToSpend);
                 context.game.broadcastEvent(event);
-                Util.debug(player, "Removed " + numTokensToSpend + " coin tokens from Coffers");
                 return numTokensToSpend;
             }
         }
@@ -584,12 +583,8 @@ public class Game {
 
             if (numTokensToSpend > 0 && numTokensToSpend <= villagerTotal)
             {
-                player.useVillagers(numTokensToSpend);
+                player.useVillagers(numTokensToSpend, context, null);
                 context.actions += numTokensToSpend;
-                GameEvent event = new GameEvent(GameEvent.EventType.VillagerSpend, context);
-                event.setAmount(numTokensToSpend);
-                context.game.broadcastEvent(event);
-                Util.debug(player, "Removed " + numTokensToSpend + " coin tokens from Villagers");
             }
         }
     }
@@ -605,12 +600,8 @@ public class Game {
 
             if (spendToken)
             {
-                player.useVillagers(1);
+                player.useVillagers(1, context, null);
                 context.actions += 1;
-                GameEvent event = new GameEvent(GameEvent.EventType.VillagerSpend, context);
-                event.setAmount(1);
-                context.game.broadcastEvent(event);
-                Util.debug(player, "Removed " + 1 + " coin tokens from Villagers");
             }
         }
     }
@@ -2236,9 +2227,7 @@ public class Game {
 
         if (!buy.is(Type.Event) && context.countMerchantGuildsInPlayThisTurn() > 0)
         {
-            player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn());
-            GameEvent event   = new GameEvent(GameEvent.EventType.GuildsTokenObtained, context);
-            broadcastEvent(event);
+            player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn(), context, Cards.merchantGuild);
         }
 
         if (buy.is(Type.Victory)) {
@@ -2818,12 +2807,12 @@ public class Game {
             // When Baker is included in the game, each Player starts with 1 coin token on Coffers mat
             if (bakerInPlay)
             {
-                players[i].gainGuildsCoinTokens(1);
+                players[i].gainGuildsCoinTokens(1, null, null);
             }
             //only for testing
             if (startGuildsCoinTokens && !players[i].isAi())
             {
-                players[i].gainGuildsCoinTokens(99);
+                players[i].gainGuildsCoinTokens(99, null, null);
             }
 
             /* The journey token is face up at the start of a game.
@@ -4208,6 +4197,14 @@ public class Game {
                     } else if (gainedCardAbility.equals(Cards.experiment)) {
                     	if (!(event.responsible != null && (event.responsible.equals(Cards.experiment) || event.responsible.equals(Cards.estate))))
                     		player.gainNewCard(Cards.experiment, event.card, context);
+                    } else if (gainedCardAbility.equals(Cards.ducat) && player.hand.contains(Cards.copper)) {
+                    	boolean trashCopper = context.player.controlPlayer.ducat_shouldTrashCopper(context);
+                        if (trashCopper) {
+                        	context.player.trashFromHand(context.player.hand.get(Cards.copper), Cards.ducat, context);
+                        }
+                    } else if (gainedCardAbility.equals(Cards.silkMerchant)) {
+                    	context.player.gainGuildsCoinTokens(1, context, Cards.silkMerchant);
+                    	context.player.takeVillagers(1, context, Cards.silkMerchant);
                     }
                     
                     if(event.card.is(Type.Action, player)) {
