@@ -22,6 +22,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     protected static final Card[] LATE_TRASH_CARDS = new Card[] { Cards.curse, Cards.rats, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins, Cards.estate, Cards.copper, Cards.masterpiece, Cards.cursedGold, Cards.pasture, Cards.pouch, Cards.magicLamp };
     protected static final Card[] EASY_WHEN_TRASH_CARDS = new Card[] { Cards.cultist, Cards.rats, Cards.catacombs, Cards.fortress, Cards.huntingGrounds, Cards.sirVander, Cards.overgrownEstate};
     protected static final Card[] CATAPULT_AMMO_CARDS = new Card[] { Cards.rocks, Cards.cursedGold, Cards.masterpiece, Cards.illGottenGains, Cards.silver, Cards.loan, Cards.rats, Cards.fortress, Cards.curse, Cards.estate, Cards.copper, Cards.overgrownEstate, Cards.ruinedVillage, Cards.ruinedMarket, Cards.hovel, Cards.survivors, Cards.ruinedLibrary, Cards.abandonedMine, Cards.virtualRuins};
+    protected static final Card[] TREASURE_TRASH_CARDS = getTreasureCards(EARLY_TRASH_CARDS);
     
     protected Random rand = new Random(System.currentTimeMillis());
     protected static final int COST_MAX = 14;
@@ -47,7 +48,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         midGame = 12;
     }
 
-    public void gameEvent(GameEvent event) {
+    private static Card[] getTreasureCards(Card[] cards) {
+		ArrayList<Card> result = new ArrayList<Card>();
+		for (Card c : cards) {
+			if (c.is(Type.Treasure)) {
+				result.add(c);
+			}
+		}
+		return result.toArray(new Card[result.size()]);
+	}
+
+	public void gameEvent(GameEvent event) {
         // There are quite a few event types, found in the GameEvent.Type enum, that
         // are broadcast.
         if (event.getType() == GameEvent.EventType.PlayingCard) {
@@ -5069,11 +5080,50 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public TreasurerOption treasurer_chooseOption(MoveContext context) {
-    	// TODO better AI here
-    	// if we would hit province/colony/dominate from gaining treasure, do that
-    	// if we would get Gold/Plat from trash, do that
+    	// if we would hit province/colony from gaining treasure, do that
+    	Card highestTrashTreasure = null;
+    	int highestTrashTreasureCoin = Integer.MIN_VALUE;
+    	for (Card c : context.game.GetTrashPile()) {
+    		if (c.is(Type.Treasure)) {
+    			int coin = c.getAddGold();
+    			if (coin > highestTrashTreasureCoin) {
+    				highestTrashTreasureCoin = coin;
+    				highestTrashTreasure = c;
+    			}
+    		}
+    	}
+    	int coins = getCoinEstimate(context);
+    	Card targetVictory = context.game.isColonyInGame() ? Cards.colony : Cards.province;
+    	int targetVictoryCost = targetVictory.getCost(context);
+    	if (highestTrashTreasure != null) {
+    		if (coins + highestTrashTreasureCoin >= targetVictoryCost) {
+        		return TreasurerOption.GainTreasureFromTrash;
+        	}
+    	}
+    	
+    	// if we would get Gold or better from trash, do that
+    	for (Card c : context.game.GetTrashPile()) {
+    		if (c.is(Type.Treasure) && c.getAddGold() >= 3) {
+    			return TreasurerOption.GainTreasureFromTrash;
+    		}
+    	}
     	// if we don't have the key, take it
-    	// if we would trash copper, do that
+    	if (!context.game.hasState(context.player, Cards.key)) {
+    		return TreasurerOption.TakeKey;
+    	}
+    	// if we would trash treasure while still being able to buy target victory, do that
+    	Card trashCard = pickOutCard(context.player.hand, TREASURE_TRASH_CARDS);
+    	if (trashCard != null) {
+    		int trashCardCost = trashCard.getCost(context);
+    		if (coins >= targetVictoryCost) {
+    			if (coins - trashCardCost >= targetVictoryCost ) {
+    				return TreasurerOption.TrashTreasure;
+            	}
+    		} else {
+    			return TreasurerOption.TrashTreasure;
+    		}
+    	}
+    	
     	// otherwise, take key
     	return TreasurerOption.TakeKey;
     }
