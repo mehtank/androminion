@@ -963,7 +963,7 @@
     <string name="Experiment_name">Experimento</string>
     <string name="Experiment_desc">Devuele esta carta al Suministro. — Cuando ganes esta carta, gana otra carta de Experimento (que no viene con otra).</string>
     <string name="FlagBearer_name">Portador de Bandera</string>
-    <string name="FlagBearer_desc">TODO</string>
+    <string name="FlagBearer_desc">Cuando ganes o elimines esta carta, toma la Bandera.</string>
     <string name="Hideout_name">Escondrijo</string>
     <string name="Hideout_desc">TODO</string>
     <string name="Improve_name">Mejorar</string>
@@ -995,24 +995,24 @@
     <string name="Spices_name">Especias</string>
     <string name="Spices_desc">TODO</string>
     <string name="Swashbuckler_name">Espadachina</string>
-    <string name="Swashbuckler_desc">TODO</string>
+    <string name="Swashbuckler_desc">Si tu pila de descartes tiene alguna carta: +1 Cofres, entonces si tienes 4 o más marcadores en tus Cofres, toma el Cofre de Tesoro.</string>
     <string name="SilkMerchant_name">Mercadera de Seda</string>
     <string name="SilkMerchant_desc">Cuando ganes o elimines esta carta, +1 Cofres y +1 Aldeano.</string>
-    <string name="Treasurer_name">Tesorero</string>
-    <string name="Treasurer_desc">TODO</string>
+    <string name="Treasurer_name">Tesorera</string>
+    <string name="Treasurer_desc">Elige una opción: eliminar una carta de Tesoro de tu mano; o bien ganar una carta de Tesoro de entre las eliminadas; o bien tomar la Llave.</string>
     <string name="Villan_name">Villano</string>
     <string name="Villan_desc">Cada jugador (menos tú) con 5 cartas o más en su mano descarta una con un coste de (2) Monedas o más (o bien revela que no puede).</string>
     
     <string name="Flag_name">Bandera</string>
-    <string name="Flag_desc">TODO</string>
+    <string name="Flag_desc">Al robar cartas para tu mano, +1 Carta.</string>
     <string name="Horn_name">Clarín</string>
     <string name="Horn_desc">TODO</string>
     <string name="Key_name">Llave</string>
-    <string name="Key_desc">TODO</string>
+    <string name="Key_desc">Al comienzo de tu turno, +(1) Moneda.</string>
     <string name="Lantern_name">Farol</string>
     <string name="Lantern_desc">TODO</string>
     <string name="TreasureChest_name">Cofre de Tesoro</string>
-    <string name="TreasureChest_desc">TODO</string>
+    <string name="TreasureChest_desc">Al comienzo de tu fase de Compra, gana una carta de Oro.</string>
     
     <string name="Academy_name">Academia</string>
     <string name="Academy_desc">TODO</string>

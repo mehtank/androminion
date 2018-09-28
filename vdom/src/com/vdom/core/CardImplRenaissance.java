@@ -29,6 +29,9 @@ public class CardImplRenaissance extends CardImpl {
 		case Experiment:
 			experiment(game, context, currentPlayer);
 			break;
+		case Key:
+			context.addCoins(1);
+			break;
 		case MountainVillage:
 			mountainVillage(game, context, currentPlayer);
 			break;
@@ -46,6 +49,12 @@ public class CardImplRenaissance extends CardImpl {
 			break;
 		case Seer:
 			seer(game, context, currentPlayer);
+			break;
+		case Swashbuckler:
+			swashbuckler(game, context, currentPlayer);
+			break;
+		case Treasurer:
+			treasurer(game, context, currentPlayer);
 			break;
 		case Villan:
 			villan(game, context, currentPlayer);
@@ -66,6 +75,9 @@ public class CardImplRenaissance extends CardImpl {
     	case SilkMerchant:
     		player.gainGuildsCoinTokens(1, context, Cards.silkMerchant);
     		player.takeVillagers(1, context, Cards.silkMerchant);
+    		break;
+    	case FlagBearer:
+    		context.game.takeSharedState(context, Cards.flag);
     		break;
         default:
         	break;
@@ -241,6 +253,60 @@ public class CardImplRenaissance extends CardImpl {
             	player.putOnTopOfDeck(order[i]);
             }
         }  
+	}
+	
+	private void swashbuckler(Game game, MoveContext context, Player player) {
+		if (player.getDiscardSize() == 0)
+			return;
+		player.gainGuildsCoinTokens(1, context, this);
+		if (player.getGuildsCoinTokenCount() >= 4) {
+			game.takeSharedState(context, Cards.treasureChest);
+		}
+	}
+	
+	private void treasurer(Game game, MoveContext context, Player player) {
+		switch (player.controlPlayer.treasurer_chooseOption(context)) {
+		case TrashTreasure: {
+			Card firstTreasure = null;
+			for (Card c : player.hand) {
+                if (c.is(Type.Treasure, player)) {
+                	firstTreasure = c;
+                    break;
+                }
+            }
+			if (firstTreasure == null) return;
+			Card card = player.controlPlayer.treasurer_treasureToTrash(context);
+            if (card == null || !card.is(Type.Treasure, player) || !player.hand.contains(card)) {
+                Util.playerError(player, "Treasurer card to trash invalid, choosing one.");
+                card = firstTreasure;
+                return;
+            }
+
+            player.trashFromHand(card, this.getControlCard(), context);
+			break;
+		}
+		case GainTreasureFromTrash:
+			Card firstTreasure = null;
+			for (Card c : game.GetTrashPile()) {
+                if (c.is(Type.Treasure, player)) {
+                	firstTreasure = c;
+                    break;
+                }
+            }
+			if (firstTreasure == null) return;
+			Card card = player.controlPlayer.treasurer_treasureToGainFromTrash(context);
+            if (card == null || !card.is(Type.Treasure, player) || !game.GetTrashPile().contains(card)) {
+                Util.playerError(player, "Treasurer card to gain invalid, choosing one.");
+                card = firstTreasure;
+                return;
+            }
+            card = game.trashPile.remove(game.trashPile.indexOf(card));
+            player.gainCardAlreadyInPlay(card, this.getControlCard(), context);
+			break;
+		case TakeKey:
+			game.takeSharedState(context, Cards.key);
+			break;
+		}
 	}
 	
 	private void villan(Game game, MoveContext context, Player currentPlayer) {

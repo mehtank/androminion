@@ -1242,4 +1242,15 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_priest_cardToTrash(MoveContext context) {
     	return false;
     }
+    
+    public boolean shouldAutoPlay_treasurer_treasureToTrash(MoveContext context) {
+    	for(Card card : getHand()) {
+            for(Card trash : getTrashCards()) {
+                if(trash.equals(card) && (card.is(Type.Treasure, this))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

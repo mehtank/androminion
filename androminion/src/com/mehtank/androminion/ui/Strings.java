@@ -51,6 +51,7 @@ import com.vdom.core.Player.SquireOption;
 import com.vdom.core.Player.StewardOption;
 import com.vdom.core.Player.TorturerOption;
 import com.vdom.core.Player.TournamentOption;
+import com.vdom.core.Player.TreasurerOption;
 import com.vdom.core.Player.TrustySteedOption;
 import com.vdom.core.Player.WatchTowerOption;
 import com.vdom.core.Player.WildHuntOption;
@@ -588,6 +589,15 @@ public class Strings {
             if (c.getAddVictoryTokens() > 1) ret = Strings.format(R.string.card_victory_tokens_multiple, "" + c.getAddVictoryTokens()) + "\n" + ret;
             else if (c.getAddVictoryTokens() > 0) ret = Strings.format(R.string.card_victory_token_single, "" + c.getAddVictoryTokens()) + "\n" + ret;
         }
+        
+        if (c.getLinkedStates() != null) {
+    		Card[] states = c.getLinkedStates();
+    		for (Card state : states) {
+	    		String stateName = Strings.getCardName(state);
+	    		String stateDesc = Strings.getCardDescription(state);
+	    		ret += "\n\n" + Strings.format(R.string.card_linked_stateArtifact, stateName, stateDesc);
+    		}
+    	}
         return ret;
     }
 
@@ -1107,6 +1117,14 @@ public class Strings {
                 return getString(R.string.monastery_trash_copper_from_play);
             } else {
             	return getString(R.string.pass);
+            }
+        } else if (option instanceof TreasurerOption) {
+            if (option == TreasurerOption.TrashTreasure) {
+                return getString(R.string.treasurer_trash_treasure);
+            } else if (option == TreasurerOption.GainTreasureFromTrash) {
+                return getString(R.string.treasurer_gain_treasure_from_trash);
+            } else if (option == TreasurerOption.TakeKey) {
+                return getString(R.string.treasurer_take_key);
             }
         } else if (option instanceof StashOption) {
             if (option == StashOption.PlaceOnTop) {
@@ -1824,6 +1842,7 @@ public class Strings {
             getCardName(Cards.priest),
             getCardName(Cards.recruiter),
             getCardName(Cards.sculptor),
+            getCardName(Cards.treasurer),
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),

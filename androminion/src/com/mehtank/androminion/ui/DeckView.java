@@ -37,6 +37,11 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	private TextView lostInTheWoods;
 	private TextView miserable;
 	private TextView twiceMiserable;
+	private TextView flag;
+	private TextView horn;
+	private TextView key;
+	private TextView lantern;
+	private TextView treasureChest;
 	private LinearLayout counts;
 	private TextView countsPrefix;
 	private TextView countsDeck;
@@ -64,6 +69,11 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	private boolean hasLostInTheWoods;
 	private boolean hasMiserable;
 	private boolean hasTwiceMiserable;
+	private boolean hasFlag;
+	private boolean hasHorn;
+	private boolean hasKey;
+	private boolean hasLantern;
+	private boolean hasTreasureChest;
 	private boolean isCurrentTurn;
 	
 	private int textColor;
@@ -95,6 +105,11 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		lostInTheWoods = (TextView) findViewById(R.id.lostInTheWoods);
 		miserable = (TextView) findViewById(R.id.miserable);
 		twiceMiserable = (TextView) findViewById(R.id.twiceMiserable);
+		flag = (TextView) findViewById(R.id.flag);
+		horn = (TextView) findViewById(R.id.horn);
+		key = (TextView) findViewById(R.id.key);
+		lantern = (TextView) findViewById(R.id.lantern);
+		treasureChest = (TextView) findViewById(R.id.treasureChest);
 		counts = (LinearLayout) findViewById(R.id.counts);
 		countsPrefix = (TextView) findViewById(R.id.countsPrefix);
 		countsDeck = (TextView) findViewById(R.id.countsDeck);
@@ -120,6 +135,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 			int pt, int vt, int dt, int gct, int villagers,
 			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyTokenState, 
 			boolean hasDeluded, boolean hasEnvious, boolean hasLostInTheWoods, boolean hasMiserable, boolean hasTwiceMiserable,
+			boolean hasFlag, boolean hasHorn, boolean hasKey, boolean hasLantern, boolean hasTreasureChest,
 			boolean highlight, boolean showColor, int color) {
 		this.nameStr = nameStr;
 		this.turns = turns;
@@ -136,6 +152,11 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		this.hasLostInTheWoods = hasLostInTheWoods;
 		this.hasMiserable = hasMiserable;
 		this.hasTwiceMiserable = hasTwiceMiserable;
+		this.hasFlag = hasFlag;
+		this.hasHorn = hasHorn;
+		this.hasKey = hasKey;
+		this.hasLantern = hasLantern;
+		this.hasTreasureChest = hasTreasureChest;
 		this.numPirateTokens = pt;
 		this.numVictoryTokens = vt;
 		this.numDebtTokens = dt;
@@ -257,6 +278,36 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 			twiceMiserable.setVisibility(GONE);
 		}
         
+        if (hasFlag) {
+        	flag.setVisibility(VISIBLE);
+        } else {
+        	flag.setVisibility(GONE);
+        }
+        
+        if (hasHorn) {
+        	horn.setVisibility(VISIBLE);
+        } else {
+        	horn.setVisibility(GONE);
+        }
+        
+        if (hasKey) {
+        	key.setVisibility(VISIBLE);
+        } else {
+        	key.setVisibility(GONE);
+        }
+        
+        if (hasLantern) {
+        	lantern.setVisibility(VISIBLE);
+        } else {
+        	lantern.setVisibility(GONE);
+        }
+        
+        if (hasTreasureChest) {
+        	treasureChest.setVisibility(VISIBLE);
+        } else {
+        	treasureChest.setVisibility(GONE);
+        }
+        
         if(showCardCounts) {
         	countsPrefix.setText("{ ");
         	countsDeck.setText("\u2261 ");
@@ -313,6 +364,16 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 			sb.append(c.getString(R.string.status_has_miserable) + "\n");
 		if (hasTwiceMiserable)
 			sb.append(c.getString(R.string.status_has_twiceMiserable) + "\n");
+		if (hasFlag)
+			sb.append(c.getString(R.string.status_has_flag) + "\n");
+		if (hasHorn)
+			sb.append(c.getString(R.string.status_has_horn) + "\n");
+		if (hasKey)
+			sb.append(c.getString(R.string.status_has_key) + "\n");
+		if (hasLantern)
+			sb.append(c.getString(R.string.status_has_lantern) + "\n");
+		if (hasTreasureChest)
+			sb.append(c.getString(R.string.status_has_treasureChest) + "\n");
 		
 		if (numCoinTokens > 0)
 			sb.append(String.format(c.getString(R.string.status_coin_tokens), numCoinTokens) + "\n");

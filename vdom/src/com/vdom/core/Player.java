@@ -1895,6 +1895,12 @@ public abstract class Player {
         Pass,
 		PassAll
 	}
+	
+	public static enum TreasurerOption {
+        TrashTreasure,
+        GainTreasureFromTrash,
+        TakeKey
+    }
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
@@ -2552,6 +2558,9 @@ public abstract class Player {
     public abstract Card recruiter_cardToTrash(MoveContext context);
     public abstract Card sculptor_cardToObtain(MoveContext context);
     public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);
+    public abstract TreasurerOption treasurer_chooseOption(MoveContext context);
+    public abstract Card treasurer_treasureToTrash(MoveContext context);
+    public abstract Card treasurer_treasureToGainFromTrash(MoveContext context);
     public abstract Card villan_cardToDiscard(MoveContext context, Card[] cards);
     
     // ////////////////////////////////////////////

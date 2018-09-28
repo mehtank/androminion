@@ -51,6 +51,7 @@
 	<string name="card_coffers_multiple">+%1$s Coffers</string>
 	<string name="card_villager_single">+%1$s Villager</string>
 	<string name="card_villagers_multiple">+%1$s Villagers</string>
+	<string name="card_linked_stateArtifact">%1$s: %2$s</string>
 	
 	<string name="card_options_header">%1$s option</string>
 	<string name="part_play">play</string>
@@ -575,6 +576,10 @@
   <string name="pixie_trash_for_double_boon">Trash this to receive %1$s twice (2x [%2$s])</string>
   <string name="sacredGrove_receive_boon">Receive %1$s (%2$s)</string>
   <string name="boon_name_and_desc">%1$s (%2$s)</string>
+  
+  <string name="treasurer_trash_treasure">Trash treasure from hand</string>
+  <string name="treasurer_gain_treasure_from_trash">Gain treasure from trash to hand</string>
+  <string name="treasurer_take_key">Take the Key</string>
 
   <string name="card_played_as_card">%1$s (played as %2$s)</string>
 </resources>

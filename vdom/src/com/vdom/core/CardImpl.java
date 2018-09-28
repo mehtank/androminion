@@ -47,6 +47,7 @@ public class CardImpl implements Card, Comparable<Card>{
     boolean isOverpay = false;  // can this card be overpaid for?
     
     protected Card heirloom;
+    protected Card[] linkedStates;
     
     protected boolean callableWhenCardGained;
     protected boolean callableWhenActionResolved;
@@ -101,13 +102,14 @@ public class CardImpl implements Card, Comparable<Card>{
         takeAnotherTurnCardCount = builder.takeAnotherTurnCardCount;
         isOverpay   = builder.isOverpay;
         heirloom = builder.heirloom;
-        
+        linkedStates = builder.linkedStates.toArray(new Card[0]);
+                
         callableWhenCardGained = builder.callableWhenCardGained;
         callableWhenActionResolved = builder.callableWhenActionResolved;
         actionStillNeedsToBeInPlay = builder.actionStillNeedsToBeInPlay;
         callableWhenTurnStarts = builder.callableWhenTurnStarts;
         callableWhenCardGainedMaxCost = builder.callableWhenCardGainedMaxCost;
-
+        
         pileCreator = builder.pileCreator;
     }
 
@@ -144,6 +146,8 @@ public class CardImpl implements Card, Comparable<Card>{
         protected boolean actionStillNeedsToBeInPlay;
         protected boolean callableWhenTurnStarts;
         protected int callableWhenCardGainedMaxCost;
+        
+        protected ArrayList<Card> linkedStates = new ArrayList<Card>();
 
         protected PileCreator  pileCreator = null;
         
@@ -171,7 +175,7 @@ public class CardImpl implements Card, Comparable<Card>{
             this.types = type;
         }
 
-        public Builder description(String val) {
+		public Builder description(String val) {
             description = val;
             return this;
         }
@@ -297,6 +301,11 @@ public class CardImpl implements Card, Comparable<Card>{
 
         public Builder heirloom(Card val) {
         	heirloom = val;
+        	return this;
+        }
+        
+        public Builder linkedState(Card val) {
+        	linkedStates.add(val);
         	return this;
         }
 
@@ -457,6 +466,7 @@ public class CardImpl implements Card, Comparable<Card>{
         c.isOverpay = isOverpay;
         c.vp = vp;
         c.heirloom = heirloom;
+        c.linkedStates = linkedStates;
         
         c.callableWhenCardGained = callableWhenCardGained;
         c.callableWhenActionResolved = callableWhenActionResolved;
@@ -658,6 +668,11 @@ public class CardImpl implements Card, Comparable<Card>{
     @Override
     public Card getHeirloom() {
     	return heirloom;
+    }
+    
+    @Override
+    public Card[] getLinkedStates() {
+    	return linkedStates;
     }
     
     /**

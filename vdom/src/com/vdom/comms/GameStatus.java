@@ -78,6 +78,11 @@ public class GameStatus implements Serializable {
     public boolean[] hasLostInTheWoods;
     public boolean[] hasMiserable;
     public boolean[] hasTwiceMiserable;
+    public boolean[] hasFlag;
+    public boolean[] hasHorn;
+    public boolean[] hasKey;
+    public boolean[] hasLantern;
+    public boolean[] hasTreasureChest;
     public boolean deluded;
     public boolean envious;
     public int cardCostModifier;
@@ -131,6 +136,11 @@ public class GameStatus implements Serializable {
     public GameStatus setHasTwiceMiserable(boolean[] is) {hasTwiceMiserable = is; return this;}
     public GameStatus setDeluded(boolean i) {deluded = i; return this;}
     public GameStatus setEnvious(boolean i) {envious = i; return this;}
+    public GameStatus setHasFlag(boolean[] is) {hasFlag = is; return this;}
+    public GameStatus setHasHorn(boolean[] is) {hasHorn = is; return this;}
+    public GameStatus setHasKey(boolean[] is) {hasKey = is; return this;}
+    public GameStatus setHasLantern(boolean[] is) {hasLantern = is; return this;}
+    public GameStatus setHasTreasureChest(boolean[] is) {hasTreasureChest = is; return this;}
     public GameStatus setCardCostModifier(int i) {cardCostModifier = i; return this;}
     public GameStatus setPotions(int i) {potions = i; return this;}
     public GameStatus setTrash(int[] is) {trashPile = is; return this;}

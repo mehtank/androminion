@@ -94,6 +94,8 @@ public interface Card extends Serializable {
 	public void callAtStartOfTurn(MoveContext context);
 	
 	public Card getHeirloom();
+	
+	public Card[] getLinkedStates();
     
     public void play(Game game, MoveContext context);
     

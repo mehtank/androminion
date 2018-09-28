@@ -1113,6 +1113,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             players.getItem(i).set(players.getItem(i).name, gs.turnCounts[i], gs.deckSizes[i], gs.stashOnDeck[i], gs.handSizes[i], gs.stashesInHand[i], gs.numCards[i], gs.pirates[i], gs.victoryTokens[i], gs.debtTokens[i], gs.guildsCoinTokens[i], gs.villagers[i],
             		gs.minusOneCoinTokenOn[i], gs.minusOneCardTokenOn[i], gs.journeyTokens[i],
             		gs.hasDeluded[i], gs.hasEnvious[i], gs.hasLostInTheWoods[i], gs.hasMiserable[i], gs.hasTwiceMiserable[i],
+            		gs.hasFlag[i], gs.hasHorn[i], gs.hasKey[i], gs.hasLantern[i], gs.hasTreasureChest[i],
             		gs.whoseTurn == i, showColor, color);
         }
         players.notifyDataSetChanged();

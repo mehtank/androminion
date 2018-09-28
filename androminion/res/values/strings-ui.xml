@@ -226,6 +226,11 @@
 	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
 	<string name="lostInTheWoods_initial">\u0020\u0020L\u0020\u0020</string>
 	<string name="druid_boons_header">- Set aside Boons -</string>
+	<string name="flag_initial">\u0020\u0020F\u0020\u0020</string>
+	<string name="horn_initial">\u0020\u0020H\u0020\u0020</string>
+	<string name="key_initial">\u0020\u0020K\u0020\u0020</string>
+	<string name="lantern_initial">\u0020\u0020L\u0020\u0020</string>
+	<string name="treasureChest_initial">\u0020\u0020T\u0020\u0020</string>
 	<string name="token_header">- Tokens -</string>
 	<string name="token_plus_one_card">+1 Card</string>
 	<string name="token_plus_one_action">+1 Action</string>
@@ -257,6 +262,11 @@
 	<string name="status_has_lostInTheWoods">Has Lost in the Woods (At the start of your turn, you may discard a card to receive a Boon.)</string>
 	<string name="status_has_miserable">Has Miserable (-2 VP)</string>
 	<string name="status_has_twiceMiserable">Has Twice Miserable (-4 VP)</string>
+	<string name="status_has_flag">Has the Flag (When drawing your hand, +1 Card.)</string>
+	<string name="status_has_horn">Has the Horn</string>
+	<string name="status_has_key">Has the Key (At the start of your turn, +(1) Coin.)</string>
+	<string name="status_has_lantern">Has the Lantern</string>
+	<string name="status_has_treasureChest">Has the Treasure Chest (At the start of your Buy phase, gain a Gold.)</string>
 	<string name="status_coin_tokens">Coin tokens on Coffers mat: %1$s</string>
 	<string name="status_villager_tokens">Villagers: %1$s</string>
 	<string name="status_pirate_tokens">Pirate Ship Coin tokens: %1$s</string>

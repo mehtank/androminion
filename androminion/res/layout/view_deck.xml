@@ -91,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/deluded"
+        android:background="@drawable/state"
         android:textColor="#000000"
         android:textSize="12sp"
         android:visibility="gone"
@@ -102,7 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/envious"
+        android:background="@drawable/state"
         android:textColor="#000000"
         android:textSize="12sp"
         android:visibility="gone"
@@ -113,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/lostinthewoods"
+        android:background="@drawable/state"
         android:textColor="#000000"
         android:textSize="12sp"
         android:visibility="gone"
@@ -124,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/miserable"
+        android:background="@drawable/state"
         android:textColor="#000000"
         android:textSize="12sp"
         android:visibility="gone"  />
@@ -134,10 +134,65 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/twicemiserable"
+        android:background="@drawable/state"
         android:textColor="#000000"
         android:textSize="12sp"
         android:visibility="gone"  />
+    
+    <TextView
+        android:id="@+id/flag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/flag_initial"  />
+    
+    <TextView
+        android:id="@+id/horn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/horn_initial"  />
+    
+    <TextView
+        android:id="@+id/key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/key_initial"  />
+    
+    <TextView
+        android:id="@+id/lantern"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/lantern_initial"  />
+    
+    <TextView
+        android:id="@+id/treasureChest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/treasureChest_initial"  />
     
     <TextView
         android:id="@+id/villagerTokens"

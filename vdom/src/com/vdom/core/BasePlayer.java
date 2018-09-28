@@ -5068,6 +5068,52 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public TreasurerOption treasurer_chooseOption(MoveContext context) {
+    	// TODO better AI here
+    	// if we would hit province/colony/dominate from gaining treasure, do that
+    	// if we would get Gold/Plat from trash, do that
+    	// if we don't have the key, take it
+    	// if we would trash copper, do that
+    	// otherwise, take key
+    	return TreasurerOption.TakeKey;
+    }
+    
+    @Override
+    public Card treasurer_treasureToTrash(MoveContext context) {
+    	for(Card card : getHand()) {
+            for(Card trash : getTrashCards()) {
+                if(trash.equals(card) && (card.is(Type.Treasure, this))) {
+                    return card;
+                }
+            }
+        }
+    	Card lowestCostTreasure = null;
+    	int lowestCost = Integer.MAX_VALUE;
+    	for (Card c : context.player.getHand()) {
+    		int curCost = c.getCost(context);
+    		if ((c.is(Type.Treasure, this)) && curCost < lowestCost) {
+    			lowestCost = curCost;
+    			lowestCostTreasure = c;
+    		}
+    	}
+    	return lowestCostTreasure;
+    }
+    
+    @Override
+    public Card treasurer_treasureToGainFromTrash(MoveContext context) {
+    	Card highestCostTreasure = null;
+    	int highestCost = Integer.MIN_VALUE;
+    	for (Card c : context.player.getHand()) {
+    		int curCost = c.getCost(context);
+    		if (c.is(Type.Treasure) && curCost > highestCost) {
+    			highestCost = curCost;
+    			highestCostTreasure = c;
+    		}
+    	}
+    	return highestCostTreasure;
+    }
+    
+    @Override
     public Card villan_cardToDiscard(MoveContext context, Card[] cards) {
     	// prioritize victory only cards first
     	for (Card c : cards) {

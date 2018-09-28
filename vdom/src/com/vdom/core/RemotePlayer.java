@@ -396,6 +396,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         boolean hasLostInTheWoods[] = new boolean[numPlayers];
         boolean hasMiserable[] = new boolean[numPlayers];
         boolean hasTwiceMiserable[] = new boolean[numPlayers];
+        boolean hasFlag[] = new boolean[numPlayers];
+        boolean hasHorn[] = new boolean[numPlayers];
+        boolean hasKey[] = new boolean[numPlayers];
+        boolean hasLantern[] = new boolean[numPlayers];
+        boolean hasTreasureChest[] = new boolean[numPlayers];
         String realNames[] = new String[numPlayers];
 
         for (int i=0; i<numPlayers; i++) {
@@ -424,6 +429,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             hasLostInTheWoods[i] = context.game.hasState(p, Cards.lostInTheWoods);
             hasMiserable[i] = context.game.hasState(p, Cards.miserable);
             hasTwiceMiserable[i] = context.game.hasState(p, Cards.twiceMiserable);
+            hasFlag[i] = context.game.hasState(p, Cards.flag);
+            hasHorn[i] = context.game.hasState(p, Cards.horn);
+            hasKey[i] = context.game.hasState(p, Cards.key);
+            hasLantern[i] = context.game.hasState(p, Cards.lantern);
+            hasTreasureChest[i] = context.game.hasState(p, Cards.treasureChest);
             realNames[i] = p.getPlayerName(false);
         }
         
@@ -496,6 +506,11 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setHasTwiceMiserable(hasTwiceMiserable)
                 .setDeluded(!context.canBuyActions)
                 .setEnvious(context.envious)
+                .setHasFlag(hasFlag)
+                .setHasHorn(hasHorn)
+                .setHasKey(hasKey)
+                .setHasLantern(hasLantern)
+                .setHasTreasureChest(hasTreasureChest)
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
                 .setTavern(cardArrToIntArr(player.getTavern().sort(new Util.CardTavernComparator())))

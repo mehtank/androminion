@@ -51,6 +51,7 @@
 	<string name="card_coffers_multiple">+%1$s Cofres</string>
 	<string name="card_villager_single">+%1$s Aldeano</string>
 	<string name="card_villagers_multiple">+%1$s Aldeanos</string>
+	<string name="card_linked_stateArtifact">%1$s: %2$s</string>
 
 	<string name="card_options_header">%1$s opción</string>
 	<string name="part_play">jugar</string>
@@ -574,6 +575,10 @@
   <string name="pixie_trash_for_double_boon">Eliminar esta carta para recibir %1$s dos veces (2x [%2$s])</string>
   <string name="sacredGrove_receive_boon">Recibir %1$s (%2$s)</string>
   <string name="boon_name_and_desc">%1$s (%2$s)</string>
+  
+  <string name="treasurer_trash_treasure">Eliminar una carta de Tesoro de tu mano</string>
+  <string name="treasurer_gain_treasure_from_trash">Ganar una carta de Tesoro de entra las eliminadas a tu mano</string>
+  <string name="treasurer_take_key">Tomar la Llave</string>
 
   <string name="card_played_as_card">%1$s (jugado como %2$s)</string>
 </resources>

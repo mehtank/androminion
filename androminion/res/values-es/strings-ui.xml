@@ -228,6 +228,11 @@
 	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
 	<string name="lostInTheWoods_initial">\u0020\u0020P\u0020\u0020</string>
 	<string name="druid_boons_header">- Favores apartadas -</string>
+	<string name="flag_initial">\u0020\u0020B\u0020\u0020</string>
+	<string name="horn_initial">\u0020\u0020C\u0020\u0020</string>
+	<string name="key_initial">\u0020\u0020L\u0020\u0020</string>
+	<string name="lantern_initial">\u0020\u0020F\u0020\u0020</string>
+	<string name="treasureChest_initial">\u0020\u0020CT\u0020\u0020</string>
 	<string name="token_header">- Marcadores -</string>
 	<string name="token_plus_one_card">+1 Carta</string>
 	<string name="token_plus_one_action">+1 Acción</string>
@@ -259,6 +264,11 @@
 	<string name="status_has_lostInTheWoods">Tiene Perdido en el Bosque (Al comienzo de tu turno, puedes descartar una carta para recibir un Favor.)</string>
 	<string name="status_has_miserable">Tiene Miserable (-2 PV)</string>
 	<string name="status_has_twiceMiserable">Tiene Miserable Otra Vez (-4 PV)</string>
+	<string name="status_has_flag">Tiene la Bandera (Al robar cartas para tu mano, +1 Carta.)</string>
+	<string name="status_has_horn">Tiene el Clarín</string>
+	<string name="status_has_key">Tiene la Llave (Al comienzo de tu turno, +(1) Moneda.)</string>
+	<string name="status_has_lantern">Tiene el Farol</string>
+	<string name="status_has_treasureChest">Tiene el Cofre de Tesoro (Al comienzo de tu fase de Compra, gana una carta de Oro.)</string>
 	<string name="status_coin_tokens">Marcadores de Moneda en el tablero de Cofres: %1$s</string>
 	<string name="status_villager_tokens">Aldeanos: %1$s</string>
 	<string name="status_pirate_tokens">Marcadores de Moneda conseguidos por Barcos Piratas: %1$s</string>

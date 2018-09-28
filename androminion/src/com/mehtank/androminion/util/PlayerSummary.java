@@ -32,6 +32,11 @@ public class PlayerSummary {
 	public boolean hasLostInTheWoods;
 	public boolean hasMiserable;
 	public boolean hasTwiceMiserable;
+	public boolean hasFlag;
+	public boolean hasHorn;
+	public boolean hasKey;
+	public boolean hasLantern;
+	public boolean hasTreasureChest;
 	public boolean highlight = false;
 	public boolean showColor = false;
 	public int color;
@@ -44,6 +49,7 @@ public class PlayerSummary {
 	public void set(String name, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, int pt, int vt, int dt, int gct, int villagers, 
 			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyToken,
 			boolean hasDeluded, boolean hasEnvious, boolean hasLostInTheWoods, boolean hasMiserable, boolean hasTwiceMiserable,
+			boolean hasFlag, boolean hasHorn, boolean hasKey, boolean hasLantern, boolean hasTreasureChest,
 			boolean highlight, boolean showColor, int color){
 		this.name = name;
 		this.turns = turns;
@@ -65,6 +71,11 @@ public class PlayerSummary {
 		this.hasLostInTheWoods = hasLostInTheWoods;
 		this.hasMiserable = hasMiserable;
 		this.hasTwiceMiserable = hasTwiceMiserable;
+		this.hasFlag = hasFlag;
+		this.hasHorn = hasHorn;
+		this.hasKey = hasKey;
+		this.hasLantern = hasLantern;
+		this.hasTreasureChest = hasTreasureChest;
 		this.highlight = highlight;
 		this.showColor = showColor;
 		this.color = color;

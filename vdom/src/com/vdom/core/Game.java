@@ -771,6 +771,9 @@ public class Game {
         }
         
         handCount += context.totalExpeditionBoughtThisTurn;
+        if (context.game.hasState(player, Cards.flag)) {
+        	handCount += 1;
+        }
 
         // draw next hand
         for (int i = 0; i < handCount; i++) {
@@ -1314,6 +1317,12 @@ public class Game {
     		durationEffectsAreCards.add(false);
     		allDurationAreSimple = false;
         }
+        if (hasState(player, Cards.key)) {
+        	durationEffects.add(Cards.key);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+        }
         int numOptionalItems = 0;
         ArrayList<Card> callableCards = new ArrayList<Card>();
         for (Card c : player.tavern) {
@@ -1404,7 +1413,7 @@ public class Game {
                 drawToHand(context, horseTrader, 1);
             } else if(card.behaveAsCard().is(Type.Boon)) {
             	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
-            } else if(card.behaveAsCard().equals(Cards.lostInTheWoods)) {
+            } else if(card.behaveAsCard().equals(Cards.lostInTheWoods) || card.behaveAsCard().equals(Cards.key)) {
             	card.play(this, context, false, true, true, true, false);
             } else if(card.behaveAsCard().is(Type.Duration, player)) {
             	if(card.behaveAsCard().equals(Cards.haven)) {
@@ -1543,6 +1552,9 @@ public class Game {
     	if (context.game.hasState(player, Cards.envious)) {
     		context.game.returnState(context, Cards.envious);
     		context.envious = true;
+    	}
+    	if (context.game.hasState(player, Cards.treasureChest)) {
+    		player.gainNewCard(Cards.gold, Cards.treasureChest, context);
     	}
     }
     
@@ -2608,7 +2620,9 @@ public class Game {
     	for (Player player : players) {
     		int idx = player.states.indexOf(state);
     		if (idx >= 0) {
-    			state = player.states.remove(idx);
+    			if (player != context.player) {
+    				state = player.states.remove(idx);
+        		}
     			playerWithState = player;
     			break;
     		}
@@ -2616,7 +2630,10 @@ public class Game {
     	if (playerWithState == null) {
     		int idx = sharedStates.indexOf(state);
     		state = sharedStates.get(idx);
+    	} else if (playerWithState == context.player) {
+    		return;
     	}
+    	
     	context.player.states.add(state);
     	
     	GameEvent event = new GameEvent(GameEvent.EventType.TakeState, (MoveContext) context);
@@ -3319,8 +3336,14 @@ public class Game {
             		pile.placeholderCard() != null &&
             		Cards.isKingdomCard(pile.placeholderCard())) {
             	Card heirloom = pile.placeholderCard().getHeirloom();
-            	if (heirloom != null) {
+            	if (heirloom != null && !heirloomsInPlay.contains(heirloom)) {
             		heirloomsInPlay.add(heirloom);
+            	}
+            	Card[] states = pile.placeholderCard().getLinkedStates();
+            	for (Card state : states) {
+		        	if (state != null && !sharedStates.contains(state)) {
+		            	sharedStates.add(state.instantiate());
+		        	}
             	}
             }
         }
@@ -3479,12 +3502,7 @@ public class Game {
         if (piles.containsKey(Cards.cemetery.getName()) || hasExorcist) {
             addPile(Cards.ghost, 6, false);
         }
-        
-        // If Fool is in play, we'll need Lost in the Woods (state)
-        if (piles.containsKey(Cards.fool.getName())) {
-        	sharedStates.add(Cards.lostInTheWoods.instantiate());
-        }
-        
+                
         // If a Fate card or Exorcist is in play, we'll need Will-o'-Wisp (non-supply)
         if (fate || hasExorcist) {
             addPile(Cards.willOWisp, 12, false);
@@ -3870,7 +3888,8 @@ public class Game {
                                 }
                             } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || 
                             		r.equals(Cards.torturer) || r.equals(Cards.transmogrify) || r.equals(Cards.artisan) || 
-                            		r.equals(Cards.cobbler) || r.equals(Cards.plague) || r.equals(Cards.wish) || r.equals(Cards.sculptor)) {
+                            		r.equals(Cards.cobbler) || r.equals(Cards.plague) || r.equals(Cards.wish) || 
+                            		r.equals(Cards.sculptor) || r.equals(Cards.treasurer)) {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);
@@ -4205,6 +4224,8 @@ public class Game {
                     } else if (gainedCardAbility.equals(Cards.silkMerchant)) {
                     	context.player.gainGuildsCoinTokens(1, context, Cards.silkMerchant);
                     	context.player.takeVillagers(1, context, Cards.silkMerchant);
+                    } else if (gainedCardAbility.equals(Cards.flagBearer)) {
+                    	context.game.takeSharedState(context, Cards.flag);
                     }
                     
                     if(event.card.is(Type.Action, player)) {

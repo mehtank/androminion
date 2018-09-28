@@ -4295,6 +4295,40 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public TreasurerOption treasurer_chooseOption(MoveContext context) {
+    	TreasurerOption[] options = TreasurerOption.values();
+        return options[selectOption(context, Cards.treasurer, options)];
+    }
+    
+    @Override
+    public Card treasurer_treasureToTrash(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_treasurer_treasureToTrash(context)) {
+            return super.treasurer_treasureToTrash(context);
+        }
+        SelectCardOptions sco = new SelectCardOptions().isTreasure()
+        		.setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+        		.setCardResponsible(Cards.treasurer);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card treasurer_treasureToGainFromTrash(MoveContext context) {
+    	ArrayList<Card> options = new ArrayList<Card>();
+        Set<Card> inTrashPile = new HashSet<Card>();
+        for (Card c : game.trashPile) {
+            if (c.is(Type.Treasure))
+                inTrashPile.add(c);
+        }
+        options.addAll(inTrashPile);
+        Collections.sort(options, new Util.CardNameComparator());
+
+        if (options.isEmpty()) {
+            return null;
+        }
+        return options.get(selectOption(context, Cards.treasurer, options.toArray()));
+    }
+    
+    @Override
     public Card villan_cardToDiscard(MoveContext context, Card[] cards) {
     	return cards[selectOption(context, Cards.villan, cards)];
     }

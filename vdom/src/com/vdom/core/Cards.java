@@ -43,7 +43,6 @@ public class Cards {
     public static ArrayList<Card> boonCards = new ArrayList<Card>();
     public static ArrayList<Card> hexCards = new ArrayList<Card>();
     public static ArrayList<Card> stateCards = new ArrayList<Card>();
-    public static ArrayList<Card> artifactCards = new ArrayList<Card>();
     public static ArrayList<Card> projectCards = new ArrayList<Card>();
     public static ArrayList<Card> blackMarketCards = new ArrayList<Card>();
     public static HashSet<Card> nonKingdomCards = new HashSet<Card>();
@@ -1197,6 +1196,8 @@ public class Cards {
         nonSupplyCards.add(pasture        = new CardImpl.Builder(Cards.Kind.Pasture, 2, Type.Treasure, Type.Victory, Type.Heirloom).addGold(1).description("Worth 1 VP per Estate you have.").expansion(Expansion.Nocturne).build());
         nonSupplyCards.add(pouch          = new CardImpl.Builder(Cards.Kind.Pouch, 2, Type.Treasure, Type.Heirloom).addGold(1).addBuys(1).description("").expansion(Expansion.Nocturne).build());
         
+        stateCards.add(lostInTheWoods = new CardImpl.Builder(Cards.Kind.LostInTheWoods, Type.State).description("At the start of your turn, you may discard a card to receive a Boon.").expansion(Expansion.Nocturne).build());
+        
         actionCardsNocturne.add(bard           = new CardImpl.Builder(Cards.Kind.Bard, 4, Type.Action, Type.Fate).addGold(2).description("Receive a Boon.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(blessedVillage = new CardImpl.Builder(Cards.Kind.BlessedVillage, 4, Type.Action, Type.Fate).addActions(2).addCards(1).description("When you gain this, take a Boon. Receive it now or at the start of your next turn.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(cemetery       = new CardImpl.Builder(Cards.Kind.Cemetery, 4, Type.Victory).vp(2).heirloom(Cards.hauntedMirror).description("When you gain this, trash up to 4 cards from your hand.").expansion(Expansion.Nocturne).build());
@@ -1210,7 +1211,7 @@ public class Cards {
         actionCardsNocturne.add(druid          = new CardImpl.Builder(Cards.Kind.Druid, 2, Type.Action, Type.Fate).addBuys(1).description("Receive one of the set-aside Boons (leaving it there). — Setup: Set aside the top 3 Boons face up.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(exorcist       = new CardImpl.Builder(Cards.Kind.Exorcist, 4, Type.Night).description("Trash a card from your hand. Gain a cheaper Spirit from one of the Spirit piles.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(faithfulHound  = new CardImpl.Builder(Cards.Kind.FaithfulHound, 2, Type.Action, Type.Reaction).addCards(2).description("When you discard this other than during Clean-up, you may set it aside, and put it into your hand at end of turn.").expansion(Expansion.Nocturne).build());
-        actionCardsNocturne.add(fool           = new CardImpl.Builder(Cards.Kind.Fool, 3, Type.Action, Type.Fate).heirloom(Cards.luckyCoin).description("If you aren't the player with Lost in the Woods, take it, take 3 Boons, and receive the Boons in any order.").expansion(Expansion.Nocturne).build());
+        actionCardsNocturne.add(fool           = new CardImpl.Builder(Cards.Kind.Fool, 3, Type.Action, Type.Fate).linkedState(lostInTheWoods).heirloom(Cards.luckyCoin).description("If you aren't the player with Lost in the Woods, take it, take 3 Boons, and receive the Boons in any order.").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(ghostTown      = new CardImpl.Builder(Cards.Kind.GhostTown, 3, Type.Night, Type.Duration).addCardsNextTurn(1).addActionsNextTurn(1).description("This is gained to your hand (instead of your discard pile).").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(guardian       = new CardImpl.Builder(Cards.Kind.Guardian, 2, Type.Night, Type.Duration).addGoldNextTurn(1).description("Until your next turn, when another player plays an Attack card, it doesn't affect you. - This is gained to your hand (instead of your discard pile).").expansion(Expansion.Nocturne).build());
         actionCardsNocturne.add(idol           = new CardImpl.Builder(Cards.Kind.Idol, 5, Type.Treasure, Type.Attack, Type.Fate).addGold(2).description("When you play this, if you then have an odd number of Idols in play, receive a Boon; if an even number, each other player gains a Curse.").expansion(Expansion.Nocturne).build());
@@ -1268,44 +1269,43 @@ public class Cards {
         
         stateCards.add(deluded        = new CardImpl.Builder(Cards.Kind.Deluded, Type.State).description("At the start of your Buy phase, return this, and you can't buy Actions this turn.").expansion(Expansion.Nocturne).build());
         stateCards.add(envious        = new CardImpl.Builder(Cards.Kind.Envious, Type.State).description("At the start of your Buy phase, return this, and Silver and Gold make (1) Coin this turn.").expansion(Expansion.Nocturne).build());
-        stateCards.add(lostInTheWoods = new CardImpl.Builder(Cards.Kind.LostInTheWoods, Type.State).description("At the start of your turn, you may discard a card to receive a Boon.").expansion(Expansion.Nocturne).build());
         stateCards.add(miserable      = new CardImpl.Builder(Cards.Kind.Miserable, Type.State).vp(-2).description("").expansion(Expansion.Nocturne).build());
         stateCards.add(twiceMiserable = new CardImpl.Builder(Cards.Kind.TwiceMiserable, Type.State).vp(-4).description("").expansion(Expansion.Nocturne).build());
         
         // Renaissance Cards
+        artifactCardsRenaissance.add(flag          = new CardImpl.Builder(Cards.Kind.Flag, Type.Artifact).description("When drawing your hand, +1 Card.").expansion(Expansion.Renaissance).build());
+        artifactCardsRenaissance.add(horn = new CardImpl.Builder(Cards.Kind.Horn, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
+        artifactCardsRenaissance.add(key           = new CardImpl.Builder(Cards.Kind.Key, Type.Artifact).description("At the start of your turn, +(1) Coin.").expansion(Expansion.Renaissance).build());
+        artifactCardsRenaissance.add(lantern = new CardImpl.Builder(Cards.Kind.Lantern, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
+        artifactCardsRenaissance.add(treasureChest = new CardImpl.Builder(Cards.Kind.TreasureChest, Type.Artifact).description("At the start of your Buy phase, gain a Gold.").expansion(Expansion.Renaissance).build());
+        
         ArrayList<Card> actionCardsTodo = new ArrayList<Card>();
         
-        actionCardsRenaissance.add(actingTroupe         = new CardImpl.Builder(Cards.Kind.ActingTroupe, 3, Type.Action).addVillagers(4).description("Trash this.").expansion(Expansion.Renaissance).build());
-        actionCardsTodo.add(borderGuard = new CardImpl.Builder(Cards.Kind.BorderGuard, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(actingTroupe    = new CardImpl.Builder(Cards.Kind.ActingTroupe, 3, Type.Action).addVillagers(4).description("Trash this.").expansion(Expansion.Renaissance).build());
+        actionCardsTodo.add(borderGuard = new CardImpl.Builder(Cards.Kind.BorderGuard, 0, Type.Action).linkedState(horn).linkedState(lantern).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(cargoShip = new CardImpl.Builder(Cards.Kind.CargoShip, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(ducat = new CardImpl.Builder(Cards.Kind.Ducat, 2, Type.Treasure).addBuys(1).addCoffers(1).description("When you gain this, you may trash a Copper from your hand.").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(experiment           = new CardImpl.Builder(Cards.Kind.Experiment, 3, Type.Action).addCards(2).addActions(1).description("Return this to the Supply. - When you gain this, gain another Experiment (that doesn't come with another).").expansion(Expansion.Renaissance).build());
-        actionCardsTodo.add(flagBearer = new CardImpl.Builder(Cards.Kind.FlagBearer, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(ducat           = new CardImpl.Builder(Cards.Kind.Ducat, 2, Type.Treasure).addBuys(1).addCoffers(1).description("When you gain this, you may trash a Copper from your hand.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(experiment      = new CardImpl.Builder(Cards.Kind.Experiment, 3, Type.Action).addCards(2).addActions(1).description("Return this to the Supply. - When you gain this, gain another Experiment (that doesn't come with another).").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(flagBearer      = new CardImpl.Builder(Cards.Kind.FlagBearer, 4, Type.Action).linkedState(flag).addGold(2).description("When you gain or trash this, take the Flag.").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(hideout = new CardImpl.Builder(Cards.Kind.Hideout, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(improve = new CardImpl.Builder(Cards.Kind.Improve, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(inventor = new CardImpl.Builder(Cards.Kind.Inventor, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(lackeys = new CardImpl.Builder(Cards.Kind.Lackeys, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());        
-        actionCardsRenaissance.add(mountainVillage      = new CardImpl.Builder(Cards.Kind.MountainVillage, 4, Type.Action).addActions(2).description("Look through your discard pile and put a card from it into your hand; if you can't, +1 Card.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(mountainVillage = new CardImpl.Builder(Cards.Kind.MountainVillage, 4, Type.Action).addActions(2).description("Look through your discard pile and put a card from it into your hand; if you can't, +1 Card.").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(oldWitch = new CardImpl.Builder(Cards.Kind.OldWitch, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(patron = new CardImpl.Builder(Cards.Kind.Patron, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(priest               = new CardImpl.Builder(Cards.Kind.Priest, 4, Type.Action).trashForced().addGold(2).description("Trash a card from your hand. For the rest of this turn, when you trash a card, +(2) Coins.").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(recruiter            = new CardImpl.Builder(Cards.Kind.Recruiter,5, Type.Action).trashForced().addCards(2).description("Trash a card from your hand. +1 Villager per (1) Coin it costs.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(priest          = new CardImpl.Builder(Cards.Kind.Priest, 4, Type.Action).trashForced().addGold(2).description("Trash a card from your hand. For the rest of this turn, when you trash a card, +(2) Coins.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(recruiter       = new CardImpl.Builder(Cards.Kind.Recruiter,5, Type.Action).trashForced().addCards(2).description("Trash a card from your hand. +1 Villager per (1) Coin it costs.").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(research = new CardImpl.Builder(Cards.Kind.Research, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(scepter = new CardImpl.Builder(Cards.Kind.Scepter, 0, Type.Treasure).description("TODO").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(scholar              = new CardImpl.Builder(Cards.Kind.Scholar, 5, Type.Action).description("Discard your hand. +7 Cards.").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(sculptor             = new CardImpl.Builder(Cards.Kind.Sculptor, 5, Type.Action).description("Gain a card to your hand costing up to (4) Coins. If it's a Treasure, +1 Villager.").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(seer                 = new CardImpl.Builder(Cards.Kind.Seer, 5, Type.Action).addCards(1).addActions(1).description("Reveal the top 3 cards of your deck. Put the ones costing from (2) Coins to (4) Coins into your hand. Put the rest back in any order.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(scholar         = new CardImpl.Builder(Cards.Kind.Scholar, 5, Type.Action).description("Discard your hand. +7 Cards.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(sculptor        = new CardImpl.Builder(Cards.Kind.Sculptor, 5, Type.Action).description("Gain a card to your hand costing up to (4) Coins. If it's a Treasure, +1 Villager.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(seer            = new CardImpl.Builder(Cards.Kind.Seer, 5, Type.Action).addCards(1).addActions(1).description("Reveal the top 3 cards of your deck. Put the ones costing from (2) Coins to (4) Coins into your hand. Put the rest back in any order.").expansion(Expansion.Renaissance).build());
         actionCardsTodo.add(spices = new CardImpl.Builder(Cards.Kind.Spices, 0, Type.Treasure).description("TODO").expansion(Expansion.Renaissance).build());
-        actionCardsTodo.add(swashbuckler = new CardImpl.Builder(Cards.Kind.Swashbuckler, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(silkMerchant = new CardImpl.Builder(Cards.Kind.SilkMerchant, 4, Type.Action).addCards(2).addBuys(1).description("When you gain or trash this, +1 Coffers and +1 Villager.").expansion(Expansion.Renaissance).build());
-        actionCardsTodo.add(treasurer = new CardImpl.Builder(Cards.Kind.Treasurer, 0, Type.Action).description("TODO").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(villan = new CardImpl.Builder(Cards.Kind.Villan, 5, Type.Action, Type.Attack).addCoffers(2).description("Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can't).").expansion(Expansion.Renaissance).build());
-        
-        artifactCardsRenaissance.add(flag = new CardImpl.Builder(Cards.Kind.Flag, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
-        artifactCardsRenaissance.add(horn = new CardImpl.Builder(Cards.Kind.Horn, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
-        artifactCardsRenaissance.add(key = new CardImpl.Builder(Cards.Kind.Key, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
-        artifactCardsRenaissance.add(lantern = new CardImpl.Builder(Cards.Kind.Lantern, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
-        artifactCardsRenaissance.add(treasureChest = new CardImpl.Builder(Cards.Kind.TreasureChest, 0, Type.Artifact).description("TODO").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(swashbuckler    = new CardImpl.Builder(Cards.Kind.Swashbuckler, 5, Type.Action).linkedState(treasureChest).addCards(3).description("If your discard pile has any cards in it: +1 Coffers, then if you have at least 4 Coffers tokens, take the Treasure Chest.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(silkMerchant    = new CardImpl.Builder(Cards.Kind.SilkMerchant, 4, Type.Action).addCards(2).addBuys(1).description("When you gain or trash this, +1 Coffers and +1 Villager.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(treasurer       = new CardImpl.Builder(Cards.Kind.Treasurer, 5, Type.Action).linkedState(key).addGold(3).description("Choose one: Trash a Treasure from your hand; or gain a Treasure from the trash to your hand; or take the Key.").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(villan          = new CardImpl.Builder(Cards.Kind.Villan, 5, Type.Action, Type.Attack).addCoffers(2).description("Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can't).").expansion(Expansion.Renaissance).build());
         
         projectCardsRenaissance.add(academy = new CardImpl.Builder(Cards.Kind.Academy, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
         projectCardsRenaissance.add(barracks = new CardImpl.Builder(Cards.Kind.Barracks, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
@@ -1382,7 +1382,7 @@ public class Cards {
         for (Card card : landmarkCardsEmpires) { landmarkCards.add(card); }
         
         for (Card card : projectCardsRenaissance)  { projectCards.add(card); }
-        for (Card card : artifactCardsRenaissance) { artifactCards.add(card); }
+        for (Card card : artifactCardsRenaissance) { nonKingdomCards.add(card); }
 
         for (Card card : nonSupplyCards)        { nonKingdomCards.add(card); };
         for (Card card : prizeCards)            { nonKingdomCards.add(card); };
@@ -1407,7 +1407,6 @@ public class Cards {
         for (Card card : eventsCards)       { cardNameToCard.put(card.getName(), card); }
         for (Card card : landmarkCards)     { cardNameToCard.put(card.getName(), card); }
         for (Card card : stateCards)        { cardNameToCard.put(card.getName(), card); }
-        for (Card card : artifactCards)     { cardNameToCard.put(card.getName(), card); }
         for (Card card : projectCards)      { cardNameToCard.put(card.getName(), card); }
         
         blackMarketCards.clear(); // Cards in Black Market deck are not in supply
