@@ -410,11 +410,11 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 break;
             }
         
-        int numEventsLandmarks = 0;
+        int numEventsProjectsLandmarks = 0;
         //count events
         for (MyCard c : cards)
-            if(c.isEvent || c.isLandmark)
-            	numEventsLandmarks++;
+            if(c.isEvent || c.isProject || c.isLandmark)
+            	numEventsProjectsLandmarks++;
 
         // adjust size of pile table
         if(potionInPlay && platInPlay)
@@ -427,9 +427,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         else
             vpPileGV.setNumColumns(5);
         
-        if (numEventsLandmarks <= 3 || numEventsLandmarks == 6) {
+        if (numEventsProjectsLandmarks <= 3 || numEventsProjectsLandmarks == 6) {
         	eventPileGV.setNumColumns(3);
-        } else if (numEventsLandmarks == 4 || numEventsLandmarks == 7 || numEventsLandmarks == 8 || numEventsLandmarks == 11 || numEventsLandmarks == 12) {
+        } else if (numEventsProjectsLandmarks == 4 || numEventsProjectsLandmarks == 7 || numEventsProjectsLandmarks == 8 || numEventsProjectsLandmarks == 11 || numEventsProjectsLandmarks == 12) {
         	eventPileGV.setNumColumns(4);
         } else {
         	eventPileGV.setNumColumns(5);
@@ -1250,8 +1250,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @return a message, either something like 'card obtained' from resources, or "&lt;playername&gt;: &lt;cardname&gt;"
      */
     public String cardObtained(int i, String s) {
-    	boolean isEvent = GameTableViews.cardsInPlay.get(i).isEvent;
-        return top.getString(isEvent ? R.string.eventBought : R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
+    	boolean isEventOrProject = GameTableViews.cardsInPlay.get(i).isEvent || GameTableViews.cardsInPlay.get(i).isProject;
+        return top.getString(isEventOrProject ? R.string.eventBought : R.string.obtained, showCard(i, s, CardAnimator.ShowCardType.OBTAINED));
     }
 
     /**

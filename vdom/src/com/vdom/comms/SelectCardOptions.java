@@ -233,13 +233,13 @@ public class SelectCardOptions implements Serializable {
         if (isAction && !c.is(Type.Action, p)) return false;
         if (isNight && !c.is(Type.Night, p)) return false;
         if (isSpirit && !c.is(Type.Spirit, p)) return false;
-        if (!isBuyPhase && c.is(Type.Event, null)) return false;
+        if (!isBuyPhase && (c.is(Type.Event) || c.is(Type.Project))) return false;
         if (isCastle && !c.is(Type.Castle, p)) return false;
         if (notInPlay && p != null && p.hasCopyInPlay(c)) return false;
         if (applyOptionsToPile && !c.isPlaceholderCard()) return false;
         if (!applyOptionsToPile && c.isPlaceholderCard()) return false;
         
-        if (isBuyPhase && !Cards.isSupplyCard(c) && !c.is(Type.Event, null)) return false;
+        if (isBuyPhase && !Cards.isSupplyCard(c) && !(c.is(Type.Event) && c.is(Type.Project))) return false;
         if (isSupplyCard && !Cards.isSupplyCard(c)) return false;
 
         return true;

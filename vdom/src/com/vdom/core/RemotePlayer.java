@@ -113,6 +113,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.isLooter = c.is(Type.Looter);
         card.isOverpay = c.isOverpay(null);
         card.isEvent = c.is(Type.Event);
+        card.isProject = c.is(Type.Project);
         card.isReserve = c.is(Type.Reserve);
         card.isTraveller = c.is(Type.Traveller);
         card.isKnight = c.is(Type.Knight);
@@ -229,6 +230,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
         if (c.is(Type.Event, null)) {
             card.isEvent = true;
+            card.pile = MyCard.EVENTPILE;
+        }
+        if (c.is(Type.Project, null)) {
+            card.isProject = true;
             card.pile = MyCard.EVENTPILE;
         }
         if (c.is(Type.Landmark, null)) {
@@ -451,7 +456,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	}
         	tokens[i] = playersForCard;
         }
-
+        
         GameStatus gs = new GameStatus();
         
         matchToCardsInPlay(context, playedCards, playedCardsNew);

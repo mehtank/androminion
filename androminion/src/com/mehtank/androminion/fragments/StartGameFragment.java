@@ -46,12 +46,15 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     private static final String RANDOM_ALL_CARDS_PREF = "randomAllCards";
     private static final String RANDOM_NUM_EVENTS_PREF = "randomNumEvents";
     private static final String RANDOM_MAX_EVENTS_PREF = "randomMaxEvents";
+    private static final String RANDOM_NUM_PROJECTS_PREF = "randomNumProjects";
+    private static final String RANDOM_MAX_PROJECTS_PREF = "randomMaxProjects";
     private static final String RANDOM_NUM_LANDMARKS_PREF = "randomNumLandmarks";
     private static final String RANDOM_MAX_LANDMARKS_PREF = "randomMaxLandmarks";
     private static final String RANDOM_USE_SET_PREFIX = "randomUse";
 	private static final String RANDOM_PLAYERS = "randomPlayers";
 	private static final String PROBABILITY_PLAYERS_PREFIX = "probabilityPlayers";
 	private static final int DEFAULT_MAX_RANDOM_EVENTS = 2;
+	private static final int DEFAULT_MAX_RANDOM_PROJECTS = 2;
     private static final int DEFAULT_MAX_RANDOM_LANDMARKS = 2;
 	private static final int MAX_PLAYERS_PROBABILITY_SEEKBAR = 10;
     
@@ -69,6 +72,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     Spinner mSheltersSpinner;
     LinearLayout mRandomEventsLayout;
     Spinner mRandomEventsSpinner;
+    LinearLayout mRandomProjectsLayout;
+    Spinner mRandomProjectsSpinner;
     LinearLayout mRandomLandmarksLayout;
     Spinner mRandomLandmarksSpinner;
     LinearLayout mRandomOptionsLayout;
@@ -174,6 +179,8 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mRandomOptionsLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomOptions);
         mRandomEventsLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomEvents);
         mRandomEventsSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomEvents);
+        mRandomProjectsLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomProjects);
+        mRandomProjectsSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomProjects);
         mRandomLandmarksLayout = (LinearLayout) mView.findViewById(R.id.linearLayoutRandomLandmarks);
         mRandomLandmarksSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomLandmarks);
         mGameCards = (TextView) mView.findViewById(R.id.gameCards);
@@ -380,6 +387,21 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         mRandomEventsSpinner.setAdapter(numEventsAdapter);
         mRandomEventsSpinner.setSelection(numEventsToPos(numEvents));
         
+        int numProjects = mPrefs.getInt(RANDOM_NUM_PROJECTS_PREF, -1);
+        int totalProjects = Cards.projectCards.size();
+        numProjects = Math.min(totalProjects, numProjects);
+        numProjects = Math.max(numProjects, -1);
+                
+        ArrayList<String> projectsSpinnerList = new ArrayList<String>();
+        projectsSpinnerList.add(getResources().getString(R.string.random_projects_none));
+        projectsSpinnerList.add(getResources().getString(R.string.random_projects_random));
+        for (int i = 0; i < totalProjects; ++i) {
+        	projectsSpinnerList.add((i + 1) + "");
+        }
+        ArrayAdapter<String> numProjectsAdapter = createArrayAdapter(projectsSpinnerList);
+        mRandomProjectsSpinner.setAdapter(numProjectsAdapter);
+        mRandomProjectsSpinner.setSelection(numProjectsToPos(numProjects));
+        
         int numLandmarks = mPrefs.getInt(RANDOM_NUM_LANDMARKS_PREF, -1);
         int totalLandmarks = Cards.landmarkCards.size();
         numLandmarks = Math.min(totalLandmarks, numLandmarks);
@@ -579,6 +601,26 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     	return pos;
 	}
     
+    private int posToNumProjects(int pos) {
+    	int numProjects = 0;
+    	if (pos == 1)
+        	numProjects = -mPrefs.getInt(RANDOM_MAX_PROJECTS_PREF, DEFAULT_MAX_RANDOM_PROJECTS);
+    	else if (pos > 1) {
+        	numProjects = pos - 1;
+        }
+    	return numProjects;
+	}
+    
+    private int numProjectsToPos(int numProjects) {
+    	int pos = 0;
+    	if (numProjects < 0)
+        	pos = 1;
+    	else if (numProjects > 0) {
+        	pos = numProjects + 1;
+        }
+    	return pos;
+	}
+    
     private int posToNumLandmarks(int pos) {
     	int numLandmarks = 0;
     	if (pos == 1)
@@ -602,6 +644,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
     private void updateVisibility() {
     	int randomVisibility = mGameType == TypeOptions.RANDOM ? View.VISIBLE : View.GONE;
     	mRandomEventsLayout.setVisibility(randomVisibility);
+    	mRandomProjectsLayout.setVisibility(randomVisibility);
     	mRandomLandmarksLayout.setVisibility(randomVisibility);
     	mRandomAllCheckbox.setVisibility(randomVisibility);
     	mRandomOptionsLayout.setVisibility(randomVisibility);
@@ -705,6 +748,10 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 if (numEvents != 0) {
                 	strs.add("-eventcards" + numEvents);
                 }
+                int numProjects = posToNumProjects(mRandomProjectsSpinner.getSelectedItemPosition());
+                if (numProjects != 0) {
+                	strs.add("-projectcards" + numProjects);
+                }
                 int numLandmarks = posToNumLandmarks(mRandomLandmarksSpinner.getSelectedItemPosition());
                 if (numLandmarks != 0) {
                 	strs.add("-landmarkcards" + numLandmarks);
@@ -712,6 +759,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
                 
                 edit.putBoolean(RANDOM_ALL_CARDS_PREF, mRandomAllCheckbox.isChecked());
                 edit.putInt(RANDOM_NUM_EVENTS_PREF, numEvents);
+                edit.putInt(RANDOM_NUM_PROJECTS_PREF, numProjects);
                 edit.putInt(RANDOM_NUM_LANDMARKS_PREF, numLandmarks);
                 for (Expansion set : completeSets.keySet()) {
                 	edit.putBoolean(RANDOM_USE_SET_PREFIX + set, completeSets.get(set).isChecked());

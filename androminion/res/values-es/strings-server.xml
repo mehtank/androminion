@@ -80,7 +80,11 @@
 	<string name="select_from_table_exact_except">Elige una carta de la mesa, menos %1$s, que cueste exactamente (%2$s) para %3$s</string>
 	<string name="select_from_table_max">Elige una carta de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_max_events">Elige un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_projects">Elige un proyecto de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_max_cards_events">Elige una carta o un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_cards_projects">Elige una carta o un proyecto de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_events_projects">Elige un evento o un proyecto de la mesa que cueste como máximo (%1$s) para %2$s</string>
+	<string name="select_from_table_max_cards_events_projects">Elige una carta, un evento o un proyecto de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_max_non_vp">Elige una carta que no sea de Victoria de la meas que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_max_non_vp_action">Elige una carta de Acción que no sea de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
 	<string name="select_from_table_max_vp">Elige una carta de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>

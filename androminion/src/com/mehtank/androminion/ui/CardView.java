@@ -192,7 +192,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			cost.setVisibility(VISIBLE);
 		}
 		
-		if (c.isEvent || c.isLandmark){
+		if (c.isEvent || c.isProject || c.isLandmark){
 			hideCountLeft = true;
 			countLeft.setVisibility(GONE);
 		}
@@ -358,6 +358,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			return R.style.CardView_Shelter;
 		} else if (c.isEvent) {
 			return R.style.CardView_Event;
+		} else if (c.isProject) {
+			return R.style.CardView_Project;
 		} else if (c.isLandmark) {
 			return R.style.CardView_Landmark;
 		} else {
@@ -1049,6 +1051,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
         }
         else if (c.isEvent) {
             cardType += context.getString(R.string.type_event);
+        }
+        else if (c.isProject) {
+            cardType += context.getString(R.string.type_project);
         }
         else if (c.isLandmark) {
             cardType += context.getString(R.string.type_landmark);

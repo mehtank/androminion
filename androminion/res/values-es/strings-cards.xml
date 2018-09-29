@@ -1025,7 +1025,7 @@
     <string name="Cathedral_name">Catedral</string>
     <string name="Cathedral_desc">TODO</string>
     <string name="Citadel_name">Ciudadela</string>
-    <string name="Citadel_desc">TODO</string>
+    <string name="Citadel_desc">La primera vez que juegues una carta de Acción durante cada uno de tus turnos, juégala otra vez después.</string>
     <string name="CityGate_name">Puerta de la Ciudad</string>
     <string name="CityGate_desc">TODO</string>
     <string name="CropRotation_name">Rotación de Cultivos</string>
@@ -1033,13 +1033,13 @@
     <string name="Exploration_name">Exploración</string>
     <string name="Exploration_desc">TODO</string>
     <string name="Fair_name">Feria</string>
-    <string name="Fair_desc">TODO</string>
+    <string name="Fair_desc">Al cominenzo de tu turno, +1 Compra.</string>
     <string name="Fleet_name">Flota</string>
     <string name="Fleet_desc">TODO</string>
     <string name="GuildHall_name">Casa de Gremio</string>
     <string name="GuildHall_desc">TODO</string>
     <string name="Innovation_name">Innovación</string>
-    <string name="Innovation_desc">TODO</string>
+    <string name="Innovation_desc">La primera vez que ganes un carta de Acción durante cada uno de tus turnos, puedes apartarla. Si lo haces, juégala.</string>
     <string name="Pageant_name">Espectáculo</string>
     <string name="Pageant_desc">TODO</string>
     <string name="Piazza_name">Piazza</string>
@@ -1047,13 +1047,13 @@
     <string name="RoadNetwork_name">Red de Carreteras</string>
     <string name="RoadNetwork_desc">TODO</string>
     <string name="Sewers_name">Alcantarillas</string>
-    <string name="Sewers_desc">TODO</string>
+    <string name="Sewers_desc">Cuando elimines una carta que no sea con este Proyecto, puedes eliminar una carta de tu mano.</string>
     <string name="Silos_name">Silos</string>
-    <string name="Silos_desc">TODO</string>
+    <string name="Silos_desc">Al comienzo de tu turno, descarta cualquier número de cartas de Cobre, ya reveladas, y +1 Carta por cada carta descartada.</string>
     <string name="SinisterPlot_name">Complot Siniestro</string>
     <string name="SinisterPlot_desc">TODO</string>
     <string name="StarChart_name">Carta Estelar</string>
-    <string name="StarChart_desc">TODO</string>
+    <string name="StarChart_desc">Al barajar, puedes elegir una de las cartas para poner encima del mazo.</string>	
     
     <string name="Envoy_name">Enviado</string>
     <string name="Envoy_desc">Revela las 5 cartas superiores de tu mazo. El jugador de tu izquierda eliga una para que la descartes y las demás van a tu mano.</string>

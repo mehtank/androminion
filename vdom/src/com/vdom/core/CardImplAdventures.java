@@ -119,7 +119,7 @@ public class CardImplAdventures extends CardImpl {
         switch (this.getControlCard().getKind()) {
         case Messenger:
         	/* This buy is already in totalCardsBoughtThisTurn */
-        	if(context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn == 1) {
+        	if(context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn + context.totalProjectsBoughtThisTurn == 1) {
                 Card card = context.getPlayer().controlPlayer.messenger_cardToObtain(context);
                 if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
                 	Card cardGained = context.getPlayer().gainNewCard(card, this.getControlCard(), context);

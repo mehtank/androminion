@@ -92,9 +92,13 @@ public class Game {
     
     public static boolean randomIncludesEvents = false;
     public static int numRandomEvents = 0;
+    public static boolean randomIncludesProjects = false;
+    public static int numRandomProjects = 0;
     public static boolean randomIncludesLandmarks = false;
     public static int numRandomLandmarks = 0;
-    public static boolean splitMaxEventsAndLandmarks = true;
+    public static boolean splitMaxSidewaysCards = true;
+    
+    public static int numProjectCubes = 2;
 
     public static boolean quickPlay = false;
     public static boolean sortCards = false;
@@ -359,7 +363,7 @@ public class Game {
 	                playerBuy(player, context);
                 } while (context.returnToActionPhase);
                 
-                if (context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn == 0) {
+                if (context.totalCardsBoughtThisTurn + context.totalEventsBoughtThisTurn + context.totalProjectsBoughtThisTurn == 0) {
                     GameEvent event = new GameEvent(GameEvent.EventType.NoBuy, context);
                     broadcastEvent(event);
                     Util.debug(player.getPlayerName() + " did not buy a card with coins:" + context.getCoinAvailableForBuy());
@@ -1054,8 +1058,10 @@ public class Game {
 
             if (buy != null) {
                 if (isValidBuy(context, buy)) {
-                	if(buy.is(Type.Event, null)) {
+                	if(buy.is(Type.Event)) {
                         context.totalEventsBoughtThisTurn++;
+                	} else if (buy.is(Type.Project)) {
+                        context.totalProjectsBoughtThisTurn++;
                 	}
                 	else
                 	{
@@ -1712,8 +1718,11 @@ public class Game {
         playerCache.clear();
         numRandomEvents = 0;
         randomIncludesEvents = false;
+        numRandomProjects = 0;
+        randomIncludesProjects = false;
+        numRandomLandmarks = 0;
         randomIncludesLandmarks = false;
-        splitMaxEventsAndLandmarks = false;
+        splitMaxSidewaysCards = false;
         randomExpansions = null;
         randomExcludedExpansions = null;
 
@@ -1722,9 +1731,10 @@ public class Game {
         String showEventsArg = "-showevents";
         String gameTypeArg = "-type";
         String numRandomEventsArg = "-eventcards";
+        String numRandomProjectsArg = "-projectcards";
         String numRandomLandmarksArg = "-landmarkcards";
         String randomExcludesArg = "-randomexcludes";
-        String splitMaxEventsAndLandmarksArg = "-splitmaxeventslandmarks";
+        String splitMaxSidewaysCardsArg = "-splitmaxsidewayscards";
         String gameTypeStatsArg = "-test";
         String ignorePlayerErrorsArg = "-ignore";
         String showPlayersArg = "-showplayers";
@@ -1807,6 +1817,17 @@ public class Game {
                         Util.log(e);
                         throw new ExitException();
                     }
+                } else if (arg.toLowerCase().startsWith(numRandomProjectsArg)) {
+                    try {
+                        int num = Integer.parseInt(arg.substring(numRandomProjectsArg.length()));
+                        if (num != 0) {
+                        	randomIncludesProjects = true;
+                        	numRandomProjects = num;
+                        }
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
+                    }
                 } else if (arg.toLowerCase().startsWith(numRandomLandmarksArg)) {
                     try {
                         int num = Integer.parseInt(arg.substring(numRandomLandmarksArg.length()));
@@ -1818,8 +1839,8 @@ public class Game {
                         Util.log(e);
                         throw new ExitException();
                     }
-                } else if (arg.toLowerCase().equals(splitMaxEventsAndLandmarksArg)) {
-                    splitMaxEventsAndLandmarks = true;
+                } else if (arg.toLowerCase().equals(splitMaxSidewaysCardsArg)) {
+                    splitMaxSidewaysCards = true;
                 } else if (arg.toLowerCase().startsWith(gameTypeArg)) {
                     try {
                         gameTypeStr = arg.substring(gameTypeArg.length());
@@ -2059,10 +2080,15 @@ public class Game {
         if (context.getPlayer().getDebtTokenCount() > 0) {
         	return false;
         }
+        
+        if (card.is(Type.Project) && context.player.getProjectsBought().size() >= context.game.numProjectCubes) {
+        	return false;
+        }
+        
         if (!context.canBuyActions && card.is(Type.Action)) {
         	return false;
         }
-        if (!context.canBuyCards && !card.is(Type.Event)) {
+        if (!context.canBuyCards && !(card.is(Type.Event) || card.is(Type.Project))) {
         	return false;
         }
         if (context.blackMarketBuyPhase) {
@@ -2073,10 +2099,10 @@ public class Game {
                 return false;
             }
         }
-        else if (card.is(Type.Event, null) && context.phase != TurnPhase.Buy) {
+        else if ((card.is(Type.Event) || card.is(Type.Project)) && context.phase != TurnPhase.Buy) {
         	return false;
         }
-        else if (!card.is(Type.Event, null)) {
+        else if (!(card.is(Type.Event) || card.is(Type.Project))) {
             if (thePile.isSupply() == false) {
                 return false;
             }
@@ -2146,7 +2172,7 @@ public class Game {
         int cost = buy.getCost(context);
         
         Card card = buy;
-        if(!buy.is(Type.Event, null)) {
+        if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
             card = takeFromPileCheckTrader(buy, context);
         }
 
@@ -2182,10 +2208,15 @@ public class Game {
             context.overpayAmount  = 0;
             context.overpayPotions = 0;
         }
+        
+        if (buy.is(Type.Project)) {
+        	context.cantBuy.add(buy); //once per game
+        	player.projectsBought.add(buy);
+        }
                 
         buy.isBuying(context);
         
-        if(!buy.is(Type.Event, null)) {
+        if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
         	if (player.getHand().size() > 0 && isPlayerSupplyTokenOnPile(buy, player, PlayerSupplyToken.Trashing)) {
                 Card cardToTrash = player.controlPlayer.trashingToken_cardToTrash((MoveContext) context);
                 if (cardToTrash != null) {
@@ -2225,7 +2256,7 @@ public class Game {
             broadcastEvent(event);
         }
 
-        if (!buy.costPotion() && buy.getDebtCost(context) == 0 && !(buy.is(Type.Victory)) && cost < 5 && !buy.is(Type.Event)) {
+        if (!buy.costPotion() && buy.getDebtCost(context) == 0 && !(buy.is(Type.Victory)) && cost < 5 && !(buy.is(Type.Event) || buy.is(Type.Project))) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
                 if (card.equals(getPile(card).topCard())) {
                     context.getPlayer().gainNewCard(buy, Cards.talisman, context);
@@ -2233,11 +2264,11 @@ public class Game {
             }
         }
 
-        if(!buy.is(Type.Event)) {
+        if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
             player.addVictoryTokens(context, context.countGoonsInPlay(), Cards.goons);
         }
 
-        if (!buy.is(Type.Event) && context.countMerchantGuildsInPlayThisTurn() > 0)
+        if (!(buy.is(Type.Event) || buy.is(Type.Project)) && context.countMerchantGuildsInPlayThisTurn() > 0)
         {
             player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn(), context, Cards.merchantGuild);
         }
@@ -2250,7 +2281,7 @@ public class Game {
         }
 
         buy.isBought(context);
-        if(!buy.is(Type.Event)) {
+        if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
         	haggler(context, buy);
         	charmWhenBuy(context, buy);
         	basilicaWhenBuy(context);
@@ -3049,6 +3080,12 @@ public class Game {
                         break;
                     }
                 }
+                for (Card c : Cards.projectCards) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                        card = c;
+                        break;
+                    }
+                }
                 for (Card c : Cards.landmarkCards) {
                     if(c.getSafeName().equalsIgnoreCase(s)) {
                         card = c;
@@ -3156,7 +3193,7 @@ public class Game {
 
             gameType = GameType.Specified;
         } else {
-            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomExcludedExpansions, randomIncludesEvents, numRandomEvents, randomIncludesLandmarks, numRandomLandmarks, !splitMaxEventsAndLandmarks, true);
+            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomExcludedExpansions, randomIncludesEvents, numRandomEvents, randomIncludesProjects, numRandomProjects, randomIncludesLandmarks, numRandomLandmarks, !splitMaxSidewaysCards, true);
             if(cardSet == null) {
                 cardSet = CardSet.getCardSet(CardSet.defaultGameType, -1);
             }
@@ -3202,7 +3239,7 @@ public class Game {
                         }
                     }
                 }
-                allCards = CardSet.getCardSet(GameType.Random, count+10, expansions, randomExcludedExpansions, false, 0, false, 0, false, false).getCards();
+                allCards = CardSet.getCardSet(GameType.Random, count+10, expansions, randomExcludedExpansions, false, 0, false, 0, false, 0, false, false).getCards();
             } else {
                 allCards = CardSet.getCardSet(GameType.Random, count+10).getCards();
             }
@@ -3683,7 +3720,7 @@ public class Game {
                 }
 
                 if ((event.getType() == GameEvent.EventType.CardObtained || event.getType() == GameEvent.EventType.BuyingCard) &&
-                		!event.card.is(Type.Event, null)) {
+                		!(event.card.is(Type.Event) || event.card.is(Type.Project))) {
                 	
                     MoveContext context = event.getContext();
                     Player player = context.getPlayer();
@@ -4582,7 +4619,7 @@ public class Game {
             }
             if (opt == GetCardsInGameOptions.Buyables) {
                 if (pile.topCard() != null && (type == null || pile.topCard().is(type))
-                        && !cards.contains(pile.topCard()) && (pile.isSupply() || pile.topCard().is(Type.Event))) {
+                        && !cards.contains(pile.topCard()) && (pile.isSupply() || pile.topCard().is(Type.Event) || pile.topCard().is(Type.Project))) {
                     cards.add(pile.topCard());
                 }
             }
@@ -4653,7 +4690,7 @@ public class Game {
         if(card.is(Type.Victory)) count = victoryCardPileSize;
         if(card.equals(Cards.rats)) count = 20;
         if(card.equals(Cards.port)) count = 12;
-        if(card.is(Type.Event) || card.is(Type.Landmark)) {
+        if(card.is(Type.Event) || card.is(Type.Project) || card.is(Type.Landmark)) {
         	count = 1;
         	isSupply = false;
         }

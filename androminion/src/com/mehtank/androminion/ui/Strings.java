@@ -1526,6 +1526,14 @@ public class Strings {
                 	selectString = Strings.format(R.string.select_from_table_less_spirit, maxCostString, header);
                 } else if (containsOnlyEvents(sco)) {
                     selectString = Strings.format(R.string.select_from_table_max_events, maxCostString, header);
+                } else if (containsOnlyProjects(sco)) {
+                    selectString = Strings.format(R.string.select_from_table_max_projects, maxCostString, header);
+                } else if (containsOnlyCardsAndProjects(sco)) {
+                    selectString = Strings.format(R.string.select_from_table_max_cards_projects, maxCostString, header);
+                } else if (containsOnlyEventsAndProjects(sco)) {
+                    selectString = Strings.format(R.string.select_from_table_max_events_projects, maxCostString, header);
+                } else if (containsEventsCardsAndProjects(sco)) {
+                    selectString = Strings.format(R.string.select_from_table_max_cards_events_projects, maxCostString, header);
                 } else if (containsOnlyCards(sco)) {
                 	if (sco.lessThanMax) {
                 		if (sco.atLeastOneOfTypes != null)
@@ -1663,7 +1671,7 @@ public class Strings {
 
     private static boolean containsOnlyCards(SelectCardOptions sco) {
     	for (int cardId : sco.allowedCards) {
-    		if (GameTableViews.intToMyCard(cardId).isEvent)
+    		if (GameTableViews.intToMyCard(cardId).isEvent || GameTableViews.intToMyCard(cardId).isProject)
     			return false;
     	}
     	return true;
@@ -1676,7 +1684,66 @@ public class Strings {
     	}
     	return true;
 	}
-
+	
+	private static boolean containsOnlyProjects(SelectCardOptions sco) {
+    	for (int cardId : sco.allowedCards) {
+    		if (!GameTableViews.intToMyCard(cardId).isProject)
+    			return false;
+    	}
+    	return true;
+	}
+	
+	private static boolean containsOnlyCardsAndProjects(SelectCardOptions sco) {
+		boolean containsCards = false;
+		boolean containsProjects = false;
+		boolean containsEvents = false;
+    	for (int cardId : sco.allowedCards) {
+    		if (GameTableViews.intToMyCard(cardId).isProject) {
+    			containsProjects = true;
+    		} else if (GameTableViews.intToMyCard(cardId).isEvent) {
+    			containsEvents = true;
+    		} else {
+    			containsCards = true;
+    		}
+    		
+    	}
+    	return containsCards && containsProjects && !containsEvents;
+	}
+	
+	private static boolean containsOnlyEventsAndProjects(SelectCardOptions sco) {
+		boolean containsCards = false;
+		boolean containsProjects = false;
+		boolean containsEvents = false;
+    	for (int cardId : sco.allowedCards) {
+    		if (GameTableViews.intToMyCard(cardId).isProject) {
+    			containsProjects = true;
+    		} else if (GameTableViews.intToMyCard(cardId).isEvent) {
+    			containsEvents = true;
+    		} else {
+    			containsCards = true;
+    		}
+    		
+    	}
+    	return containsEvents && containsProjects && !containsCards;
+	}
+	
+	private static boolean containsEventsCardsAndProjects(SelectCardOptions sco) {
+		boolean containsCards = false;
+		boolean containsProjects = false;
+		boolean containsEvents = false;
+    	for (int cardId : sco.allowedCards) {
+    		if (GameTableViews.intToMyCard(cardId).isProject) {
+    			containsProjects = true;
+    		} else if (GameTableViews.intToMyCard(cardId).isEvent) {
+    			containsEvents = true;
+    		} else {
+    			containsCards = true;
+    		}
+    		
+    	}
+    	return containsEvents && containsProjects && containsCards;
+	}
+	
 	public static String getActionString(SelectCardOptions sco) {
         return getActionString(sco.actionType, sco.cardResponsible);
     }
@@ -2185,6 +2252,7 @@ public class Strings {
 
 	public static String getCardSetDescription(CardSet cardSet) {
 		ArrayList<String> events = new ArrayList<String>();
+		ArrayList<String> projects = new ArrayList<String>();
 		ArrayList<String> landmarks = new ArrayList<String>();
 		ArrayList<String> kingdomCards = new ArrayList<String>();
 		boolean hasDarkAges = false;
@@ -2192,6 +2260,8 @@ public class Strings {
 		for (Card c : cardSet.getCards()) {
 			if (c.is(Type.Event)) {
 				events.add(getCardName(c));
+			} else if (c.is(Type.Project)) {
+				projects.add(getCardName(c));
 			} else if (c.is(Type.Landmark)) {
 				if (c.equals(Cards.obelisk) && cardSet.getObeliskCard() != null) {
 					landmarks.add(format(R.string.card_set_card_options, getCardName(c), getCardName(cardSet.getObeliskCard())));
@@ -2220,6 +2290,7 @@ public class Strings {
 			}
 		}
 		Collections.sort(events);
+		Collections.sort(projects);
 		Collections.sort(landmarks);
 		Collections.sort(kingdomCards);
 		
@@ -2230,6 +2301,9 @@ public class Strings {
 		}
 		if (events.size() > 0) {
 			cardSetParts.add(format(R.string.card_set_events, joinList(events, ", ")));
+		}
+		if (projects.size() > 0) {
+			cardSetParts.add(format(R.string.card_set_projects, joinList(projects, ", ")));
 		}
 		if (landmarks.size() > 0) {
 			cardSetParts.add(format(R.string.card_set_landmarks, joinList(landmarks, ", ")));

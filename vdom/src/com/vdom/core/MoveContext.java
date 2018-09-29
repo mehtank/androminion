@@ -35,6 +35,7 @@ public class MoveContext {
     public int victoryCardsBoughtThisTurn = 0;
     public int totalCardsBoughtThisTurn = 0;
     public int totalEventsBoughtThisTurn = 0;
+    public int totalProjectsBoughtThisTurn = 0;
     public int totalExpeditionBoughtThisTurn = 0;
     public int coinsWhenTrash = 0;
     public boolean canBuyCards = true;
@@ -84,6 +85,9 @@ public class MoveContext {
         this.canBuyCards = canBuyCards;
         if (player.getInheritance() != null)
         	cantBuy.add(Cards.inheritance);
+        for(Card p : player.getProjectsBought()) {
+        	cantBuy.add(p);
+        }
         //        this.playedCards = player.playedCards;
     }
 
@@ -95,6 +99,9 @@ public class MoveContext {
         this.player = player;
         if (player.getInheritance() != null)
         	cantBuy.add(Cards.inheritance);
+        for(Card p : player.getProjectsBought()) {
+        	cantBuy.add(p);
+        }
     }
 
     public Player getPlayer() {
@@ -205,6 +212,10 @@ public class MoveContext {
     public int getTotalEventsBoughtThisTurn() {
         return totalEventsBoughtThisTurn;
     }
+    
+    public int getTotalProjectsBoughtThisTurn() {
+        return totalProjectsBoughtThisTurn;
+    }
 
     public boolean buyWouldEndGame(Card card) {
         return game.buyWouldEndGame(card);
@@ -240,7 +251,7 @@ public class MoveContext {
 
     public int getEmbargosIfCursesLeft(Card card) {
     	int embargos = game.getEmbargos(card);
-    	if (!card.is(Type.Event, null))
+    	if (!(card.is(Type.Event) || card.is(Type.Project)))
     		embargos += game.swampHagAttacks(player);
         return Math.min(embargos, game.pileSize(Cards.curse));
     }

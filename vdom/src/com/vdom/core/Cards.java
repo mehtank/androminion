@@ -1307,26 +1307,28 @@ public class Cards {
         actionCardsRenaissance.add(treasurer       = new CardImpl.Builder(Cards.Kind.Treasurer, 5, Type.Action).linkedState(key).addGold(3).description("Choose one: Trash a Treasure from your hand; or gain a Treasure from the trash to your hand; or take the Key.").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(villan          = new CardImpl.Builder(Cards.Kind.Villan, 5, Type.Action, Type.Attack).addCoffers(2).description("Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can't).").expansion(Expansion.Renaissance).build());
         
-        projectCardsRenaissance.add(academy = new CardImpl.Builder(Cards.Kind.Academy, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(barracks = new CardImpl.Builder(Cards.Kind.Barracks, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(canal = new CardImpl.Builder(Cards.Kind.Canal, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(capitalism = new CardImpl.Builder(Cards.Kind.Capitalism, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(cathedral = new CardImpl.Builder(Cards.Kind.Cathedral, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(citadel = new CardImpl.Builder(Cards.Kind.Citadel, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(cityGate = new CardImpl.Builder(Cards.Kind.CityGate, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(cropRotation = new CardImpl.Builder(Cards.Kind.CropRotation, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(exploration = new CardImpl.Builder(Cards.Kind.Exploration, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(fair = new CardImpl.Builder(Cards.Kind.Fair, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(fleet = new CardImpl.Builder(Cards.Kind.Fleet, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(guildHall = new CardImpl.Builder(Cards.Kind.GuildHall, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(innovation = new CardImpl.Builder(Cards.Kind.Innovation, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(pageant = new CardImpl.Builder(Cards.Kind.Pageant, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(piazza = new CardImpl.Builder(Cards.Kind.Piazza, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(roadNetwork = new CardImpl.Builder(Cards.Kind.RoadNetwork, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(sewers = new CardImpl.Builder(Cards.Kind.Sewers, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(silos = new CardImpl.Builder(Cards.Kind.Silos, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(sinisterPlot = new CardImpl.Builder(Cards.Kind.SinisterPlot, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(starChart = new CardImpl.Builder(Cards.Kind.StarChart, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        ArrayList<Card> projectCardsTodo = new ArrayList<Card>();
+        
+        projectCardsTodo.add(academy = new CardImpl.Builder(Cards.Kind.Academy, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(barracks = new CardImpl.Builder(Cards.Kind.Barracks, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(canal = new CardImpl.Builder(Cards.Kind.Canal, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(capitalism = new CardImpl.Builder(Cards.Kind.Capitalism, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(cathedral = new CardImpl.Builder(Cards.Kind.Cathedral, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(citadel = new CardImpl.Builder(Cards.Kind.Citadel, 8, Type.Project).description("The first time you play an Action card during each of your turns, play it again afterwards.").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(cityGate = new CardImpl.Builder(Cards.Kind.CityGate, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(cropRotation = new CardImpl.Builder(Cards.Kind.CropRotation, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(exploration = new CardImpl.Builder(Cards.Kind.Exploration, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(fair = new CardImpl.Builder(Cards.Kind.Fair, 4, Type.Project).description("At the start of your turn, +1 Buy.").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(fleet = new CardImpl.Builder(Cards.Kind.Fleet, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(guildHall = new CardImpl.Builder(Cards.Kind.GuildHall, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(innovation = new CardImpl.Builder(Cards.Kind.Innovation, 6, Type.Project).description("The first time you gain an Action card in each of your turns, you may set it aside. If you do, play it.").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(pageant = new CardImpl.Builder(Cards.Kind.Pageant, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(piazza = new CardImpl.Builder(Cards.Kind.Piazza, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(roadNetwork = new CardImpl.Builder(Cards.Kind.RoadNetwork, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(sewers = new CardImpl.Builder(Cards.Kind.Sewers, 3, Type.Project).description("When you trash a card other than with this, you may trash a card from your hand.").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(silos = new CardImpl.Builder(Cards.Kind.Silos, 4, Type.Project).description("At the start of your turn, discard and number of Coppers, revealed, and draw that many cards.").expansion(Expansion.Renaissance).build());
+        projectCardsTodo.add(sinisterPlot = new CardImpl.Builder(Cards.Kind.SinisterPlot, 0, Type.Project).description("TODO").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(starChart = new CardImpl.Builder(Cards.Kind.StarChart, 3, Type.Project).description("When you shuffle, you may pick one of the cards to go on top.").expansion(Expansion.Renaissance).build());
                 
         // Promo Cards
         variablePileCards.add(sauna        = new CardImpl.Builder(Cards.Kind.Sauna, 4, Type.Action).addCards(1).addActions(1).description("You may play an Avanto from your hand. - While this is in play, when you play a Silver, you may trash a card from your hand.").expansion(Expansion.Promo).build());

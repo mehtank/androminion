@@ -489,7 +489,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 context.getEmbargosIfCursesLeft(card) > 0 ||
-                !(card.is(Type.Action, context.player)) && !(card.is(Type.Treasure, null)) && !(card.is(Type.Event, null));
+                !(card.is(Type.Action, context.player)) && !(card.is(Type.Treasure, null)) && !(card.is(Type.Event) || card.is(Type.Project));
     }
 
     @Override

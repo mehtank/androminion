@@ -1025,7 +1025,7 @@
     <string name="Cathedral_name">Cathedral</string>
     <string name="Cathedral_desc">TODO</string>
     <string name="Citadel_name">Citadel</string>
-    <string name="Citadel_desc">TODO</string>
+    <string name="Citadel_desc">The first time you play an Action card during each of your turns, play it again afterwards.</string>
     <string name="CityGate_name">City Gate</string>
     <string name="CityGate_desc">TODO</string>
     <string name="CropRotation_name">Crop Rotation</string>
@@ -1033,13 +1033,13 @@
     <string name="Exploration_name">Exploration</string>
     <string name="Exploration_desc">TODO</string>
     <string name="Fair_name">Fair</string>
-    <string name="Fair_desc">TODO</string>
+    <string name="Fair_desc">At the start of your turn, +1 Buy.</string>
     <string name="Fleet_name">Fleet</string>
     <string name="Fleet_desc">TODO</string>
     <string name="GuildHall_name">Guild Hall</string>
     <string name="GuildHall_desc">TODO</string>
     <string name="Innovation_name">Innovation</string>
-    <string name="Innovation_desc">TODO</string>
+    <string name="Innovation_desc">The first time you gain an Action card in each of your turns, you may set it aside. If you do, play it.</string>
     <string name="Pageant_name">Pageant</string>
     <string name="Pageant_desc">TODO</string>
     <string name="Piazza_name">Piazza</string>
@@ -1047,13 +1047,13 @@
     <string name="RoadNetwork_name">Road Network</string>
     <string name="RoadNetwork_desc">TODO</string>
     <string name="Sewers_name">Sewers</string>
-    <string name="Sewers_desc">TODO</string>
+    <string name="Sewers_desc">When you trash a card other than with this, you may trash a card from your hand.</string>
     <string name="Silos_name">Silos</string>
-    <string name="Silos_desc">TODO</string>
+    <string name="Silos_desc">At the start of your turn, discard any number of Coppers, revealed, and draw that many cards.</string>
     <string name="SinisterPlot_name">Sinister Plot</string>
     <string name="SinisterPlot_desc">TODO</string>
     <string name="StarChart_name">Star Chart</string>
-    <string name="StarChart_desc">TODO</string>
+    <string name="StarChart_desc">When you shuffle, you may pick one of the cards to go on top.</string>
     
     <string name="Envoy_name">Envoy</string>
     <string name="Envoy_desc">Reveal the top 5 cards of your deck. The player to your left chooses one for you to discard. Draw the rest.</string>

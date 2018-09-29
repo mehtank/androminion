@@ -80,7 +80,11 @@
 	<string name="select_from_table_exact_except">Select a card from the table, except %1$s, that costs exactly (%2$s) to %3$s</string>
 	<string name="select_from_table_max">Select a card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_events">Select an event from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_projects">Select a project from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_cards_events">Select a card or event from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_cards_projects">Select a card or project from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_events_projects">Select an event or project from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_cards_events_projects">Select a card, event, or project from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_non_vp">Select a non-Victory card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_non_vp_action">Select a non-Victory action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_vp">Select a Victory card from the table that costs at most (%1$s) to %2$s</string>

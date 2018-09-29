@@ -181,11 +181,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         Card[] cards = context.getCardsInGame(sco.applyOptionsToPile ? GetCardsInGameOptions.Placeholders : GetCardsInGameOptions.TopOfPiles);
 
         for (Card card : cards) {
+        	if (card.is(Type.Project) && context.player.getProjectsBought().size() >= context.game.numProjectCubes)
+        		continue;
         	boolean hasTokens = context.game.getPlayerSupplyTokens(card, context.getPlayer()).size() > 0;
             if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
                 if (   sco.checkValid(card, card.getCost(context), card.is(Type.Victory), null)
                 	&& (!(sco.noTokens && hasTokens))
-                    && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 && (context.canBuyActions || !card.is(Type.Action)) &&(context.canBuyCards || card.is(Type.Event, null))))
+                    && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 && (context.canBuyActions || !card.is(Type.Action)) &&(context.canBuyCards || (card.is(Type.Event) || card.is(Type.Project)))))
                         || !sco.pickType.equals(PickType.BUY))
                     && !(  !sco.allowNonSupply && !Cards.isSupplyCard(card)
                          && sco.actionType != null

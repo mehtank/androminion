@@ -135,6 +135,9 @@
     <string name="random_include_events">Cartas de Evento: </string>
     <string name="random_events_none">Ninguna</string>
     <string name="random_events_random">Al azar</string>
+    <string name="random_include_projects">Proyectos: </string>
+    <string name="random_projects_none">Ninguno</string>
+    <string name="random_projects_random">Al azar</string>
     <string name="random_include_landmarks">Marcas: </string>
     <string name="random_landmarks_none">Ninguna</string>
     <string name="random_landmarks_random">Al azar</string>
@@ -151,6 +154,7 @@
     <string name="card_set_cards">Cartas: %1$s</string>
     <string name="card_set_bane">Perdición: %1$s</string>
     <string name="card_set_events">Eventos: %1$s</string>
+    <string name="card_set_projects">Proyectos: %1$s</string>
     <string name="card_set_landmarks">Marcas: %1$s</string>
     <string name="card_set_plat_colony">Platino/Colonia</string>
     <string name="card_set_no_plat_colony">Sin Platino/Colonia</string>

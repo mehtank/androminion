@@ -76,6 +76,7 @@ public abstract class Player {
     protected List<DurationEffect> startTurnDurationEffects;
     protected int championEffects = 0;
     protected boolean guardianEffect = false;
+    protected CardList projectsBought = new CardList(this, "Projects");
     public Game game;
     public Player controlPlayer = this;
     public boolean controlled = false;
@@ -141,6 +142,10 @@ public abstract class Player {
 
     public int getTotalEventsBoughtThisTurn(MoveContext context) {
         return context.getTotalEventsBoughtThisTurn();
+    }
+    
+    public int getTotalProjectsBoughtThisTurn(MoveContext context) {
+        return context.getTotalProjectsBoughtThisTurn();
     }
 
     public boolean isAi() {
@@ -345,6 +350,7 @@ public abstract class Player {
         boonsForCleanup = new CardList(this, "Boons");
         nextTurnBoons = new CardList(this, "Boons");
         states = new CardList(this, "States");
+        projectsBought = new CardList(this, "Projects");
         startTurnDurationEffects = new ArrayList<Player.DurationEffect>();
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
     }
@@ -689,6 +695,14 @@ public abstract class Player {
 
     public CardList getPlayedByPrince() {
         return playedByPrince;
+    }
+    
+    public CardList getProjectsBought() {
+    	return projectsBought;
+    }
+    
+    public boolean hasProject(Card project) {
+    	return projectsBought.contains(project);
     }
     
     public int getPirateShipTreasure() {

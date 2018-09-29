@@ -133,6 +133,9 @@
     <string name="random_include_events">Event cards: </string>
     <string name="random_events_none">None</string>
     <string name="random_events_random">Random</string>
+    <string name="random_include_projects">Projects: </string>
+    <string name="random_projects_none">None</string>
+    <string name="random_projects_random">Random</string>
     <string name="random_include_landmarks">Landmarks: </string>
     <string name="random_landmarks_none">None</string>
     <string name="random_landmarks_random">Random</string>
@@ -149,6 +152,7 @@
     <string name="card_set_cards">Cards: %1$s</string>
     <string name="card_set_bane">Bane: %1$s</string>
     <string name="card_set_events">Events: %1$s</string>
+    <string name="card_set_projects">Projects: %1$s</string>
     <string name="card_set_landmarks">Landmarks: %1$s</string>
     <string name="card_set_plat_colony">Platinum/Colony</string>
     <string name="card_set_no_plat_colony">No Platinum/Colony</string>

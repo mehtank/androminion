@@ -42,6 +42,7 @@ public class MyCard implements Serializable {
 	public boolean isKnight   = false;
 	public boolean isOverpay  = false;
 	public boolean isEvent     = false;
+	public boolean isProject   = false;
 	public boolean isReserve   = false;
 	public boolean isTraveller = false;
 	public boolean isCastle    = false;
@@ -174,6 +175,10 @@ public class MyCard implements Serializable {
         {
             cardType += "Event";
         }
+        else if (isProject)
+        {
+            cardType += "Project";
+        }
         else if (name.equalsIgnoreCase("hovel"))
         {
             cardType += "Reaction - Shelter";
@@ -298,7 +303,8 @@ public class MyCard implements Serializable {
 
 		private int getCardTypeOrder(MyCard c) {
 			if (c.isEvent) return 1;
-			return 2;
+			if (c.isProject) return 2;
+			return 3;
 		}
 	}
 	

@@ -178,6 +178,10 @@
         <item name="cardBackgroundColor">@color/cardEvent</item>
     </style>
     
+    <style name="CardView.Project" parent="@style/CardView.InverseText">
+        <item name="cardBackgroundColor">@color/cardProject</item>
+    </style>
+    
     <style name="CardView.Landmark" parent="@style/CardView.InverseText">
         <item name="cardBackgroundColor">@color/cardLandmark</item>
     </style>

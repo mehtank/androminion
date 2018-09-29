@@ -106,14 +106,15 @@ public class CardSet {
 	}
 	
 	public static CardSet getCardSet(final GameType type, int count) {
-		return getCardSet(type, count, null, null, false, -1, false, -1, false, false);
+		return getCardSet(type, count, null, null, false, -1, false, -1, false, -1, false, false);
 	}
 
 	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions, 
 			List<Expansion> randomExcludedExpansions,
-			boolean randomIncludeEvents, int numRandomEvents, 
+			boolean randomIncludeEvents, int numRandomEvents,
+			boolean randomIncludeProjects, int numRandomProjects, 
 			boolean randomIncludeLandmarks, int numRandomLandmarks, 
-			boolean linkMaxEventsAndLandmarks, 
+			boolean linkMaxSidewaysCards, 
 			boolean adjustRandomForAlchemy) {
 		CardSet set = CardSet.CardSetMap.get(type);
 
@@ -150,21 +151,24 @@ public class CardSet {
 			if (randomIncludeEvents) {
 				cards.addAll(Cards.eventsCards);
 			}
+			if (randomIncludeProjects) {
+				cards.addAll(Cards.projectCards);
+			}
 			if (randomIncludeLandmarks) {
 				cards.addAll(Cards.landmarkCards);
 			}
-			set = CardSet.getRandomCardSet(cards, count, numRandomEvents, numRandomLandmarks, linkMaxEventsAndLandmarks, adjustRandomForAlchemy);
+			set = CardSet.getRandomCardSet(cards, count, numRandomEvents, numRandomProjects, numRandomLandmarks, linkMaxSidewaysCards, adjustRandomForAlchemy);
 		}
 
 		return set;
 	}
 	
 	public static CardSet getRandomCardSet(final List<Card> possibleCards) {
-		return getRandomCardSet(possibleCards, -1, 0, 0, false, false);
+		return getRandomCardSet(possibleCards, -1, 0, 0, 0, false, false);
 	}
 
 	public static CardSet getRandomCardSet(final List<Card> possibleCards, int count) {
-		return getRandomCardSet(possibleCards, count, 0, 0, false, false);
+		return getRandomCardSet(possibleCards, count, 0, 0, 0, false, false);
 	}
 	
 	/**
@@ -175,15 +179,18 @@ public class CardSet {
 	 *        of Kingdom piles and include a Bane card if needed.
 	 * @param eventCount number of Events to include in the result. Negative numbers mean to include
 	 *        at most that absolute value of Events using the selection method suggested in the rules 
+	 * @param projectCount number of Projects to include in the result. Negative numbers mean to include
+	 *        at most that absolute value of Projects using the selection method suggested in the rules
 	 * @param landmarkCount number of Landmarks to include in the result. Negative numbers mean to include
 	 *        at most that absolute value of Landmarks using the selection method suggested in the rules
-	 * @param linkMaxEventsAndLandmarks true means to use the max of eventCount and landmarkCount if both are
+	 * @param linkMaxSidewaysCards true means to use the max of eventCount, projectCount, and landmarkCount if all are
 	 *        negative and use the combined total for where to stop
 	 * @return A random CardSet selected from the list of entered cards
 	 */
-	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount, int landmarkCount, boolean linkMaxEventsAndLandmarks, boolean adjustForAlchemy) {
+	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount, int projectCount, int landmarkCount, boolean linkMaxSidewaysCards, boolean adjustForAlchemy) {
 		final List<Card> cardSetList = new ArrayList<Card>();
 		final List<Card> eventList = new ArrayList<Card>();
+		final List<Card> projectList = new ArrayList<Card>();
 		final List<Card> landmarkList = new ArrayList<Card>();
 		
 		possibleCards = new ArrayList<Card>(possibleCards);
@@ -198,31 +205,42 @@ public class CardSet {
 		
 		//negative number means take events as they come up until abs(eventCount) events - as in Dominion Adventures rules
 		boolean drawEvents = eventCount < 0;
+		boolean drawProjects = projectCount < 0;
 		boolean drawLandmarks = landmarkCount < 0;
 		int maxEvents = Math.abs(eventCount);
+		int maxProjects = Math.abs(projectCount);
 		int maxLandmarks = Math.abs(landmarkCount);
-		if (drawEvents && drawLandmarks && linkMaxEventsAndLandmarks) {
-			maxEvents = maxLandmarks = Math.min(maxEvents, maxLandmarks);
+		if (drawEvents && drawProjects && drawLandmarks && linkMaxSidewaysCards) {
+			maxEvents = maxProjects = maxLandmarks = Math.min(maxEvents, Math.min(maxProjects, maxLandmarks));
 		} else {
-			linkMaxEventsAndLandmarks = false;
+			linkMaxSidewaysCards = false;
 		}
 		int numEvents = countEvents(possibleCards);
 		int numLandmarks = countLandmarks(possibleCards);
 		count = Math.min(possibleCards.size() - numEvents - numLandmarks, count);
 		for (Card c : possibleCards) {
-			if (c.is(Type.Event, null)) { 
+			if (c.is(Type.Event)) { 
 				if(drawEvents) {
-					if (linkMaxEventsAndLandmarks) {
-						if (eventList.size() + landmarkList.size() < maxEvents)
+					if (linkMaxSidewaysCards) {
+						if (eventList.size() + projectList.size()  + landmarkList.size() < maxEvents)
 							eventList.add(c);
 					} else if (eventList.size() < maxEvents) {
 						eventList.add(c);
 					}
 				}
-			} else if (c.is(Type.Landmark, null)) { 
+			} else if (c.is(Type.Project)) { 
+				if(drawProjects) {
+					if (linkMaxSidewaysCards) {
+						if (eventList.size() + projectList.size() + landmarkList.size() < maxEvents)
+							projectList.add(c);
+					} else if (projectList.size() < maxProjects) {
+						projectList.add(c);
+					}
+				}
+			} else if (c.is(Type.Landmark)) { 
 				if (drawLandmarks) {
-					if (linkMaxEventsAndLandmarks) {
-						if (eventList.size() + landmarkList.size() < maxEvents)
+					if (linkMaxSidewaysCards) {
+						if (eventList.size() + projectList.size()  + landmarkList.size() < maxEvents)
 							landmarkList.add(c);
 					} else if (landmarkList.size() < maxEvents) {
 						landmarkList.add(c);
@@ -236,20 +254,27 @@ public class CardSet {
 			}
 		}
 		
-		// if needed, partition events/landmarks into a separate list and pick them separately
-		if ((!drawEvents && eventCount > 0) || (!drawLandmarks && landmarkCount > 0)) {
+		// if needed, partition events/projects/landmarks into separate lists and pick them separately
+		if ((!drawEvents && eventCount > 0) || (!drawProjects && projectCount > 0) || (!drawLandmarks && landmarkCount > 0)) {
 			List<Card> events = new ArrayList<Card>();
+			List<Card> projects = new ArrayList<Card>();
 			List<Card> landmarks = new ArrayList<Card>();
 			for (Card c : possibleCards) {
 				if (c.is(Type.Event, null))
 					events.add(c);
+				else if (c.is(Type.Project, null))
+					projects.add(c);
 				else if (c.is(Type.Landmark, null))
 					landmarks.add(c);
 			}
 			eventCount = Math.min(eventCount, events.size());
+			projectCount = Math.min(projectCount, projects.size());
 			landmarkCount = Math.min(landmarkCount, landmarks.size());
 			if (eventCount > 0) {
 				pick(events, eventList, eventCount);
+			}
+			if (projectCount > 0) {
+				pick(projects, projectList, projectCount);
 			}
 			if (landmarkCount > 0) {
 				pick(landmarks, landmarkList, landmarkCount);
@@ -275,6 +300,7 @@ public class CardSet {
 		}
 		
 		cardSetList.addAll(eventList);
+		cardSetList.addAll(projectList);
 		cardSetList.addAll(landmarkList);
 		
 		return new CardSet(cardSetList, baneCard);
@@ -379,7 +405,7 @@ public class CardSet {
 		
 		swapFrom.remove(bane);
 		for (Card c : replaceFrom) {
-			if (!c.equals(bane) && !swapFrom.contains(c) && !c.is(Type.Event) && !c.is(Type.Landmark)) {
+			if (!c.equals(bane) && !swapFrom.contains(c) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark)) {
 				swapFrom.add(c);
 				break;
 			}
@@ -389,7 +415,7 @@ public class CardSet {
 	
 	private static boolean isValidBane(Card c) {
 		int cost = c.getCost(null);
-		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event, null) && !c.is(Type.Landmark, null);
+		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark);
 	}
 
 	private static void pick(List<Card> source, List<Card> target, int count) {
@@ -408,6 +434,15 @@ public class CardSet {
 				numEvents++;
 		}
 		return numEvents;
+	}
+	
+	private static int countProjects(List<Card> allCards) {
+		int numProjects = 0;
+		for (Card c : allCards) {
+			if (c.is(Type.Project, null))
+				numProjects++;
+		}
+		return numProjects;
 	}
 	
 	private static int countLandmarks(List<Card> allCards) {

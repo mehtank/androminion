@@ -110,6 +110,25 @@
 	    </LinearLayout>
 	    
 	    <LinearLayout
+	        android:id="@+id/linearLayoutRandomProjects"
+	        android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:orientation="horizontal"
+	       	android:visibility="gone">
+	    
+		    <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/random_include_projects" />
+		    
+		    <Spinner android:id="@+id/spinnerRandomProjects"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" />
+		    
+	    </LinearLayout>
+	    
+	    <LinearLayout
 	        android:id="@+id/linearLayoutRandomLandmarks"
 	        android:layout_width="fill_parent"
 	       	android:layout_height="wrap_content"

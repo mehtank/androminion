@@ -547,7 +547,7 @@ public class CardImpl implements Card, Comparable<Card>{
     }
 
     public int getCost(MoveContext context, boolean buyPhase) {
-    	if (this.is(Type.Event, null)) return cost; //Costs of Events are not affected by cards like Bridge Troll.
+    	if (this.is(Type.Event) || this.is(Type.Project)) return cost; //Costs of Events/Projects are not affected by cards like Bridge Troll.
 
         //If it's a variable card pile, and it's not empty, return the cost of the top card
         if (this.isPlaceholderCard()) {
@@ -1029,7 +1029,7 @@ public class CardImpl implements Card, Comparable<Card>{
 		if (is(Type.Victory, context.getPlayer())) {
 			context.game.trashHovelsInHandOption(context.player, context, this);
 		}
-		if (is(Type.Event, null)) {
+		if (is(Type.Event)) {
 			context.buys += addBuys;
 			context.getPlayer().addVictoryTokens(context, addVictoryTokens, this);
 		}
