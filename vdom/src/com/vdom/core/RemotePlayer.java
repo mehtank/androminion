@@ -455,6 +455,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	for (int j = 0; j < numPlayers; j++) {
         		Player p = allPlayers.get(j);
         		List<PlayerSupplyToken> playerTokensList = context.game.getPlayerSupplyTokens(card, p);
+        		if (card.is(Type.Project) && p.hasProject(card)) {
+        			ArrayList<PlayerSupplyToken> tempTokens = new ArrayList<PlayerSupplyToken>();
+        			tempTokens.addAll(playerTokensList);
+        			playerTokensList = tempTokens;
+        			playerTokensList.add(PlayerSupplyToken.ProjectCube);
+        		}
             	int[] playerTokensOnCard = new int[playerTokensList.size()];
             	for (int k = 0; k < playerTokensOnCard.length; ++k) {
             		playerTokensOnCard[k] = playerTokensList.get(k).getId();

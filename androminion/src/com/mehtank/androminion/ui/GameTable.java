@@ -386,6 +386,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             addPlayer(s);
         vpPile.setPlayers(getPlayerAdapter());
         supplyPile.setPlayers(getPlayerAdapter());
+        eventPile.setPlayers(getPlayerAdapter());
 
         boolean platInPlay = false;
         for (MyCard c : cards)

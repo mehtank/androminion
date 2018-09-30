@@ -538,6 +538,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				case Trashing:
 					text = "X";
 					break;
+				case ProjectCube:
+					text = "   ";
+					backgroundId = R.drawable.rectangulartoken;
+					break;
 				default:
 					return null;
 			}
@@ -880,6 +884,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 									break;
 								case Trashing:
 									tokenNameId = R.string.token_trashing;
+									break;
+								case ProjectCube:
+									tokenNameId = R.string.token_projectCube;
 									break;
 								default:
 									continue;
