@@ -2228,6 +2228,10 @@ public class Game {
         if (buy.is(Type.Project)) {
         	context.cantBuy.add(buy); //once per game
         	player.projectsBought.add(buy);
+        } else if (buy.is(Type.Event)) {
+        	if (!player.eventsBought.containsKey(buy))
+        		player.eventsBought.put(buy, 0);
+        	player.eventsBought.put(buy, player.eventsBought.get(buy) + 1);
         }
                 
         buy.isBuying(context);

@@ -239,7 +239,7 @@ public class SelectCardOptions implements Serializable {
         if (applyOptionsToPile && !c.isPlaceholderCard()) return false;
         if (!applyOptionsToPile && c.isPlaceholderCard()) return false;
         
-        if (isBuyPhase && !Cards.isSupplyCard(c) && !(c.is(Type.Event) && c.is(Type.Project))) return false;
+        if (isBuyPhase && !Cards.isSupplyCard(c) && !(c.is(Type.Event) || c.is(Type.Project))) return false;
         if (isSupplyCard && !Cards.isSupplyCard(c)) return false;
 
         return true;

@@ -360,7 +360,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             }
             else
             {
-                supplySizes[i] = player.getMyCardCount(cardsInPlay.get(i));
+            	Card c = cardsInPlay.get(i);
+            	if (c.is(Type.Project)) {
+            		supplySizes[i] = player.hasProject(c) ? 1 : 0;
+            	} else if (c.is(Type.Event)) {
+            		supplySizes[i] = player.eventsBought.containsKey(c) ? player.eventsBought.get(c) : 0;
+            	} else {
+            		supplySizes[i] = player.getMyCardCount(cardsInPlay.get(i));
+            	}
             }
             embargos[i] = context.getEmbargos(intToCard(i));
             pileVpTokens[i] = context.getPileVpTokens(intToCard(i));

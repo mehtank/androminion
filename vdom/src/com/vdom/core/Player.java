@@ -77,6 +77,7 @@ public abstract class Player {
     protected int championEffects = 0;
     protected boolean guardianEffect = false;
     protected CardList projectsBought = new CardList(this, "Projects");
+    protected Map<Card, Integer> eventsBought = new HashMap<Card, Integer>(); 
     public Game game;
     public Player controlPlayer = this;
     public boolean controlled = false;
@@ -353,6 +354,8 @@ public abstract class Player {
         projectsBought = new CardList(this, "Projects");
         startTurnDurationEffects = new ArrayList<Player.DurationEffect>();
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
+        
+        eventsBought = new HashMap<Card, Integer>();
     }
 
     private List<PutBackOption> getPutBackOptions(MoveContext context, int actionsPlayed) {
