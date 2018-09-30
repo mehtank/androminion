@@ -825,6 +825,13 @@ public class CardImpl implements Card, Comparable<Card>{
         // test if any prince card left the play
         currentPlayer.princeCardLeftThePlay(currentPlayer);
         
+        // Citadel
+        if (is(Type.Action) && context.actionsPlayedSoFar == 1 && context.player.hasProject(Cards.citadel)) {
+        	context.freeActionInEffect++;
+        	playedCard.play(game, context, false, false, false, false, true);
+            context.freeActionInEffect--;
+        }
+        
         // check for cards to call after resolving action
         if (is(Type.Action)) {
 	        boolean isActionInPlay = currentPlayer.isInPlay(this);

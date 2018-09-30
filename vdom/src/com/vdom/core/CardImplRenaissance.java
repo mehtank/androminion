@@ -50,6 +50,8 @@ public class CardImplRenaissance extends CardImpl {
 		case Seer:
 			seer(game, context, currentPlayer);
 			break;
+		case Sewers:
+			sewers(game, context, currentPlayer);
 		case Swashbuckler:
 			swashbuckler(game, context, currentPlayer);
 			break;
@@ -253,6 +255,19 @@ public class CardImplRenaissance extends CardImpl {
             	player.putOnTopOfDeck(order[i]);
             }
         }  
+	}
+	
+	private void sewers(Game game, MoveContext context, Player player) {
+		CardList hand = player.getHand();
+		Card cardToTrash = player.controlPlayer.sewers_cardToTrash(context);
+        if (cardToTrash == null)
+        	return;
+        if (!hand.contains(cardToTrash)) {
+    		Util.playerError(player, "Sewers error, invalid card to trash, ignoring.");
+    	} else {
+    		cardToTrash = hand.get(cardToTrash);
+    		player.trashFromHand(cardToTrash, getControlCard(), context);
+    	}
 	}
 	
 	private void swashbuckler(Game game, MoveContext context, Player player) {

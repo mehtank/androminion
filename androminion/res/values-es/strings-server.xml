@@ -583,6 +583,8 @@
   <string name="treasurer_trash_treasure">Eliminar una carta de Tesoro de tu mano</string>
   <string name="treasurer_gain_treasure_from_trash">Ganar una carta de Tesoro de entra las eliminadas a tu mano</string>
   <string name="treasurer_take_key">Tomar la Llave</string>
+  
+  <string name="innovation_set_aside_to_play">Apartar %1$s y jugar ahora</string>
 
   <string name="card_played_as_card">%1$s (jugado como %2$s)</string>
 </resources>

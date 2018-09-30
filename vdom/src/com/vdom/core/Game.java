@@ -1329,6 +1329,12 @@ public class Game {
         	durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
+        if (player.hasProject(Cards.fair)) {
+        	durationEffects.add(Cards.fair);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+        }
         int numOptionalItems = 0;
         ArrayList<Card> callableCards = new ArrayList<Card>();
         for (Card c : player.tavern) {
@@ -1421,6 +1427,8 @@ public class Game {
             	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
             } else if(card.behaveAsCard().equals(Cards.lostInTheWoods) || card.behaveAsCard().equals(Cards.key)) {
             	card.play(this, context, false, true, true, true, false);
+            } else if (card.behaveAsCard().equals(Cards.fair)) {
+            	context.buys += 1;
             } else if(card.behaveAsCard().is(Type.Duration, player)) {
             	if(card.behaveAsCard().equals(Cards.haven)) {
                     player.hand.add(card2);
@@ -3829,6 +3837,20 @@ public class Game {
                     	}
                     }
                     
+                    if (player.hasProject(Cards.innovation) && context.game.getCardsObtainedByPlayer().size() == 1 && event.card.is(Type.Action)) {
+                    	//TODO: technically you should be able to order the when-gain abilities
+                    	//      either play it before or after exercising the other when-gain abilities
+                    	//      that don't move it
+                    	//TODO: set aside and play
+                    	// Don't have to technically set aside here since we don't handle when-gain lose-track correctly, anyway
+                    	if (player.controlPlayer.innovation_shouldSetAsideToPlay(context, event.card)) {
+                    		context.freeActionInEffect++;
+            		        event.card.play(context.game, context, false, false, false, false, false);
+            		        context.freeActionInEffect--;
+                    		handled = true;
+                    	}
+                    }
+                    
                     boolean hasInheritedWatchtower = Cards.watchTower.equals(player.getInheritance()) && player.hand.contains(Cards.estate);
                     boolean hasWatchtower = player.hand.contains(Cards.watchTower);
                     Card watchTowerCard = hasWatchtower ? Cards.watchTower : Cards.estate;
@@ -3887,12 +3909,6 @@ public class Game {
                         	player.hand.add(event.card);
                         } else if (gainedCardAbility.equals(Cards.villa)) {
                         	player.hand.add(event.card);
-							if (context.game.getCurrentPlayer() == player) {
-									context.actions += 1;
-									if (context.phase == TurnPhase.Buy) {
-										context.returnToActionPhase = true;
-									}
-							}
                         } else if (event.responsible != null) {
                             Card r = event.responsible;
                             if (r.equals(Cards.estate) && player.getInheritance() != null) {
@@ -4220,6 +4236,13 @@ public class Game {
                         victoryCards += context.countVictoryCardsInPlay();
 
                         player.addVictoryTokens(context, victoryCards, Cards.grandCastle);
+                    } else if (gainedCardAbility.equals(Cards.villa)) {
+                    	if (context.game.getCurrentPlayer() == player) {
+							context.actions += 1;
+							if (context.phase == TurnPhase.Buy) {
+								context.returnToActionPhase = true;
+							}
+                    	}
                     } else if(gainedCardAbility.equals(Cards.cemetery)) {
                     	Card[] cards = player.controlPlayer.cemetery_cardsToTrash(context);
                         if (cards != null) {

@@ -4250,6 +4250,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card) {
+    	Object[] extras = new Object[2];
+        extras[0] = Cards.innovation;
+        extras[1] = card;
+    	return selectBoolean(context, Cards.innovation, extras);
+    }
+    
+    @Override
     public Card mountainVillage_cardToPutInHand(MoveContext context) {
     	CardList localDiscard = context.player.getDiscard();
         if (localDiscard.isEmpty())
@@ -4294,6 +4302,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         for (int i : order)
             orderedCards.add(cards[i]);
         return orderedCards.toArray(new Card[0]);
+    }
+    
+    @Override
+    public Card sewers_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.sewers);
+        return getCardFromHand(context, sco);
     }
     
     @Override

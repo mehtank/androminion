@@ -5036,6 +5036,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card) {
+    	//TODO: better logic
+    	if (context.phase == TurnPhase.Buy) {
+    		// very little point to drawing in buy phase after playing Treasures (unless we need to cycle)
+    		if (card.getAddCards() > 0) 
+    			return false;
+    	}
+    	return true;
+    }
+    
+    @Override
     public Card mountainVillage_cardToPutInHand(MoveContext context) {
     	//TODO: favor non-terminals most of the time?
     	ArrayList<Card> localDiscard = Util.copy(discard);
@@ -5076,6 +5087,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card[] seer_cardOrder(MoveContext context, Card[] cards) {
     	return cards;
+    }
+    
+    @Override
+    public Card sewers_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
     }
     
     @Override

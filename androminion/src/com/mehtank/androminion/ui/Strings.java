@@ -1440,6 +1440,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.ducat))) {
             strings[1] = getString(R.string.ducat_trash_copper);
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.innovation))) {
+            strings[1] = format(R.string.innovation_set_aside_to_play, extras[1]);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.sauna))) {
             strings[1] = getString(R.string.sauna_play_avanto);
             strings[2] = getString(R.string.pass);
@@ -1909,6 +1912,7 @@ public class Strings {
             getCardName(Cards.priest),
             getCardName(Cards.recruiter),
             getCardName(Cards.sculptor),
+            getCardName(Cards.sewers),
             getCardName(Cards.treasurer),
             /*Promo*/
             getCardName(Cards.dismantle),

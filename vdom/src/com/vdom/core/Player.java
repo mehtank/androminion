@@ -1697,6 +1697,11 @@ public abstract class Player {
                 }
             }
         }
+        
+        // Sewers trashing reaction
+        if (hasProject(Cards.sewers) && !responsible.equals(Cards.sewers)) {
+        	Cards.sewers.play(game, context, false, true, true, true, false);
+        }
     }
 
     public boolean trashSelfFromPlay(Card card, MoveContext context) {
@@ -2567,11 +2572,13 @@ public abstract class Player {
     public abstract boolean spendVillagerForAction(MoveContext context);
     public abstract int numVillagerTokensToSpend(MoveContext context, int villagerTotal);
     public abstract boolean ducat_shouldTrashCopper(MoveContext context);
+    public abstract boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card);
     public abstract Card mountainVillage_cardToPutInHand(MoveContext context);
     public abstract Card priest_cardToTrash(MoveContext context);
     public abstract Card recruiter_cardToTrash(MoveContext context);
     public abstract Card sculptor_cardToObtain(MoveContext context);
     public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);
+    public abstract Card sewers_cardToTrash(MoveContext context);
     public abstract TreasurerOption treasurer_chooseOption(MoveContext context);
     public abstract Card treasurer_treasureToTrash(MoveContext context);
     public abstract Card treasurer_treasureToGainFromTrash(MoveContext context);
