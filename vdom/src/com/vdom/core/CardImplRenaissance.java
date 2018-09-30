@@ -52,6 +52,10 @@ public class CardImplRenaissance extends CardImpl {
 			break;
 		case Sewers:
 			sewers(game, context, currentPlayer);
+			break;
+		case Silos:
+			silos(game, context, currentPlayer);
+			break;
 		case Swashbuckler:
 			swashbuckler(game, context, currentPlayer);
 			break;
@@ -268,6 +272,39 @@ public class CardImplRenaissance extends CardImpl {
     		cardToTrash = hand.get(cardToTrash);
     		player.trashFromHand(cardToTrash, getControlCard(), context);
     	}
+	}
+	
+	private void silos(Game game, MoveContext context, Player player) {
+		int numCoppers = 0;
+		ArrayList<Card> coppers = new ArrayList<Card>();
+		for (Card c : player.getHand()) {
+			if (c.equals(Cards.copper)) {
+				numCoppers++;
+				coppers.add(c);
+			}
+		}
+		if (numCoppers == 0) return;
+		
+		int numCoppersToDiscard = player.controlPlayer.silos_numCoppersToDiscard(context, numCoppers);
+		if (numCoppersToDiscard < 0  || numCoppersToDiscard > numCoppers) {
+			Util.playerError(player, "Silos error, trying to discard invalid number of Copper cards, ignoring.");
+			return;
+		}
+		if (numCoppersToDiscard == 0) return;
+		
+		int numDiscarded = 0;
+		for (Card c : coppers) {
+			if (!player.hand.remove(c)) break;
+			player.reveal(c, this.getControlCard(), context);
+			player.discard(c, this.getControlCard(), context);
+			numDiscarded++;
+			if (numDiscarded == numCoppersToDiscard)
+				break;
+		}
+                    
+        for (int i = 0; i < numDiscarded; ++i) {
+        	game.drawToHand(context, this.getControlCard(), numDiscarded - i);
+        }
 	}
 	
 	private void swashbuckler(Game game, MoveContext context, Player player) {

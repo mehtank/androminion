@@ -553,6 +553,7 @@
   <string name="villager_query">Use Villager for +1 Action?</string>
   <string name="villager_option">Use</string>
   <string name="ducat_trash_copper">Trash Copper from hand</string>
+  <string name="silos_query">Number of Coppers to discard for draw [%1$s]</string>
   
   <string name="place_stash_query">Place Stash in deck</string>
   <string name="place_stashes_query">Place %1$s Stash cards in deck</string>

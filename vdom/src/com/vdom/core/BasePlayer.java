@@ -5095,6 +5095,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public int silos_numCoppersToDiscard(MoveContext context, int maxCoppers) {
+    	//TODO: not always good to discard in beginning of game usually 
+    	//       if you don't have anything better
+    	return maxCoppers;
+    }
+    
+    @Override
     public TreasurerOption treasurer_chooseOption(MoveContext context) {
     	// if we would hit province/colony from gaining treasure, do that
     	Card highestTrashTreasure = null;

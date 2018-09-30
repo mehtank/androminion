@@ -2579,6 +2579,7 @@ public abstract class Player {
     public abstract Card sculptor_cardToObtain(MoveContext context);
     public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);
     public abstract Card sewers_cardToTrash(MoveContext context);
+    public abstract int silos_numCoppersToDiscard(MoveContext context, int maxCoppers);
     public abstract TreasurerOption treasurer_chooseOption(MoveContext context);
     public abstract Card treasurer_treasureToTrash(MoveContext context);
     public abstract Card treasurer_treasureToGainFromTrash(MoveContext context);

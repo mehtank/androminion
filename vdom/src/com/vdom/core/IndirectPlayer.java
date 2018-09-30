@@ -4313,6 +4313,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public int silos_numCoppersToDiscard(MoveContext context, int maxCoppers) {
+    	return selectInt(context, Cards.silos, maxCoppers);
+    }
+    
+    @Override
     public TreasurerOption treasurer_chooseOption(MoveContext context) {
     	TreasurerOption[] options = TreasurerOption.values();
         return options[selectOption(context, Cards.treasurer, options)];

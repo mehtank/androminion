@@ -1335,6 +1335,13 @@ public class Game {
         	durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
+        if (player.hasProject(Cards.silos)) {
+        	durationEffects.add(Cards.silos);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+    		allDurationAreSimple = false;
+        }
         int numOptionalItems = 0;
         ArrayList<Card> callableCards = new ArrayList<Card>();
         for (Card c : player.tavern) {
@@ -1425,7 +1432,8 @@ public class Game {
                 drawToHand(context, horseTrader, 1);
             } else if(card.behaveAsCard().is(Type.Boon)) {
             	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
-            } else if(card.behaveAsCard().equals(Cards.lostInTheWoods) || card.behaveAsCard().equals(Cards.key)) {
+            } else if(card.behaveAsCard().equals(Cards.lostInTheWoods) || 
+            		card.behaveAsCard().equals(Cards.key) || card.behaveAsCard().equals(Cards.silos)) {
             	card.play(this, context, false, true, true, true, false);
             } else if (card.behaveAsCard().equals(Cards.fair)) {
             	context.buys += 1;

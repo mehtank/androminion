@@ -724,7 +724,7 @@ public class CardImpl implements Card, Comparable<Card>{
             }
         }
         
-        if (!isInheritedAbility && !is(Type.State)) {
+        if (!isInheritedAbility && !(is(Type.State) || is(Type.Project))) {
         	GameEvent event;
         	if (is(Type.Boon) || is(Type.Hex)) {
         		event = new GameEvent(GameEvent.EventType.ReceivingBoonHex, (MoveContext) context);
