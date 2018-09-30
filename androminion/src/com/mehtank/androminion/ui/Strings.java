@@ -922,6 +922,8 @@ public class Strings {
             return format(R.string.deck_from_discard_query, cardName);
         } else if (cardName.equals(getCardName(Cards.silos))) {
             return format(R.string.silos_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.starChart))) {
+            return format(R.string.starChart_query, cardName);
         } else if (cardName.equals(getCardName(Cards.mountainVillage))) {
             return format(R.string.hand_from_discard_query, cardName);
         }

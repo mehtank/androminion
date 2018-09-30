@@ -4296,6 +4296,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card starChart_cardForTop(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.starChart, cards)];
+    }
+    
+    @Override
     public Card[] seer_cardOrder(MoveContext context, Card[] cards) {
     	ArrayList<Card> orderedCards = new ArrayList<Card>();
         int[] order = orderCards(context, cardArrToIntArr(cards));

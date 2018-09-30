@@ -5102,6 +5102,38 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card starChart_cardForTop(MoveContext context, Card[] cards) {
+    	// prefer villages > cantrips > high cost cards
+    	Card villageCard = null;
+    	int highestVillageCost = Integer.MIN_VALUE;
+    	Card cantripCard = null;
+    	int highestCantripCost = Integer.MIN_VALUE;
+    	Card highestCostNonJunkCard = null;
+    	int highestCostNonJunkCardCost = Integer.MIN_VALUE; 
+    	for (Card c : cards) {
+    		int cost = c.getCost(context);
+    		if (c.getAddActions() > 1 && cost > highestVillageCost) {
+    			villageCard = c;
+    			highestVillageCost = cost;
+    		}
+    		if (pickOutCard(new Card[]{c}, getTrashCards()) != null)
+				continue;
+    		if (c.getAddActions() > 0 && c.getAddCards() > 0 && cost > highestCantripCost) {
+    			cantripCard = c;
+    			highestCantripCost = cost;
+    		}
+    		if (cost > highestCostNonJunkCardCost) {
+    			highestCostNonJunkCard = c;
+    			highestCostNonJunkCardCost = cost;
+    		}
+    	}
+    	if (villageCard != null) return villageCard;
+    	if (cantripCard != null) return cantripCard;
+    	if (highestCostNonJunkCard != null) return highestCostNonJunkCard;
+    	return null;
+    }
+    
+    @Override
     public TreasurerOption treasurer_chooseOption(MoveContext context) {
     	// if we would hit province/colony from gaining treasure, do that
     	Card highestTrashTreasure = null;

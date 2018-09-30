@@ -553,6 +553,7 @@
   <string name="villager_option">Usar</string>
   <string name="ducat_trash_copper">Eliminar una carta de Cobre de tu mano</string>
   <string name="silos_query">Número de cartas de Cobre para descartar para robar [%1$s]</string>
+  <string name="starChart_query">Elige una carta para poner encima del mazo [%1$s]</string>
   
   <string name="place_stash_query">Coloca Alijo en tu mazo</string>
   <string name="place_stashes_query">Coloca %1$s cartas de Alijo en tu mazo</string>

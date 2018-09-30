@@ -1320,6 +1320,21 @@ public abstract class Player {
     		source.add(stashes.remove(0));
     	}
     	
+    	// Pick Star Chart card and add to top
+    	if (hasProject(Cards.starChart)) {
+    		ArrayList<Card> cards = deck.toArrayListClone();
+    		Collections.sort(cards, new Util.CardCostComparatorDesc());
+    		Card cardForTop = this.controlPlayer.starChart_cardForTop(context, cards.toArray(new Card[cards.size()]));
+    		if (cardForTop != null) {
+	    		if (!deck.contains(cardForTop)) {
+	    			Util.playerError(this, "Star Chart error, picked card not in deck");
+	    		} else {
+	    			cardForTop = deck.remove(deck.indexOf(cardForTop));
+	    			deck.add(0, cardForTop);
+	    		}
+    		}
+    	}
+    	
         // add pulled Stash cards back into deck
     	if (source.size() > 0) {
 	    	int numStashes = source.size();
@@ -2580,6 +2595,7 @@ public abstract class Player {
     public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);
     public abstract Card sewers_cardToTrash(MoveContext context);
     public abstract int silos_numCoppersToDiscard(MoveContext context, int maxCoppers);
+    public abstract Card starChart_cardForTop(MoveContext context, Card[] cards);
     public abstract TreasurerOption treasurer_chooseOption(MoveContext context);
     public abstract Card treasurer_treasureToTrash(MoveContext context);
     public abstract Card treasurer_treasureToGainFromTrash(MoveContext context);
