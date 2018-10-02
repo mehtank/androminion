@@ -108,7 +108,6 @@ public interface Card extends Serializable {
     public Integer getId();
     
     public void isBuying(MoveContext context);
-    public void isBought(MoveContext context);
     
     public void isTrashed(MoveContext context);
     

@@ -826,7 +826,8 @@ public class CardImpl implements Card, Comparable<Card>{
         currentPlayer.princeCardLeftThePlay(currentPlayer);
         
         // Citadel
-        if (is(Type.Action) && context.actionsPlayedSoFar == 1 && context.player.hasProject(Cards.citadel)) {
+        if (is(Type.Action) && context.actionsPlayedSoFar == 1 && context.player.hasProject(Cards.citadel)
+        		 && game.getCurrentPlayer() == context.player) {
         	context.freeActionInEffect++;
         	playedCard.play(game, context, false, false, false, false, true);
             context.freeActionInEffect--;
@@ -1047,11 +1048,7 @@ public class CardImpl implements Card, Comparable<Card>{
         	}
         }
     }
-    
-    @Override
-    public void isBought(MoveContext context) {
-    }
-    
+        
     @Override
     public boolean isCallableWhenCardGained() {
     	return callableWhenCardGained;

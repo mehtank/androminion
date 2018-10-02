@@ -2015,7 +2015,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		   }
 	   }
 
-	   if ((event.getType() == GameEvent.EventType.BuyingCard) || (event.getType() == GameEvent.EventType.CardObtained)) {
+	   if (event.getType() == GameEvent.EventType.CardObtained) {
     	   Card card = event.getCard();
     	   
     	   if (card.is(Type.Action, event.player)) {

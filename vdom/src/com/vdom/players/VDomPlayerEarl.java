@@ -61,7 +61,7 @@ public class VDomPlayerEarl extends BasePlayer
        for (Card card : HAND)
          this.historyItems.add(new HistoryItem(this.turnCount, card, 0, HistoryItem.Action.IN_HAND));
      }
-     else if ((event.getType() == GameEvent.EventType.BuyingCard) || (event.getType() == GameEvent.EventType.CardObtained)) {
+     else if (event.getType() == GameEvent.EventType.CardObtained) {
        Card card = event.getCard();
        this.historyItems.add(new HistoryItem(this.turnCount, card, 0, HistoryItem.Action.BOUGHT));
  

@@ -2151,10 +2151,13 @@ public class Game {
 
     Card playBuy(MoveContext context, Card buy) {
         Player player = context.getPlayer();
+        
+        // expend buys
         if (!context.blackMarketBuyPhase) {
             context.buys--;
         }
         
+        // pay cost
         context.spendCoins(buy.getCost(context));
 
         if (buy.costPotion()) {
@@ -2165,6 +2168,30 @@ public class Game {
         	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
         	event.setAmount(debtCost);
             context.game.broadcastEvent(event);
+        }
+        
+        // On-buy effects
+        
+        // Start inheriting newly gained estate
+        Card abilityCard = buy;
+        if (buy.equals(Cards.estate) && player.getInheritance() != null) {
+        	abilityCard = player.getInheritance().getTemplateCard().instantiate();
+            ((CardImpl)buy).startInheritingCardAbilities((CardImpl)abilityCard);
+        }
+        
+        // Achievement check...
+        if(!player.achievementSingleCardFailed) {
+            if (Cards.isKingdomCard(buy)) {
+                if(player.achievementSingleCardFirstKingdomCardBought == null) {
+                    player.achievementSingleCardFirstKingdomCardBought = buy;
+                }
+                else {
+                    if(!player.achievementSingleCardFirstKingdomCardBought.equals(buy)) {
+                        player.achievementSingleCardFailed = true;
+                        player.achievementSingleCardFirstKingdomCardBought = null;
+                    }
+                }
+            }
         }
 
         int embargos = getEmbargos(buy);
@@ -2187,13 +2214,15 @@ public class Game {
         // cost adjusted based on any cards played or card being bought
         int cost = buy.getCost(context);
         
-        Card card = buy;
-        if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
-            card = takeFromPileCheckTrader(buy, context);
+        if (buy != null) {
+            GameEvent event = new GameEvent(GameEvent.EventType.BuyingCard, (MoveContext) context);
+            event.card = buy;
+            event.newCard = true;
+            broadcastEvent(event);
         }
-
+        
         // If card can be overpaid for, do so now
-        if (buy.isOverpay(player))
+        if (abilityCard.isOverpay(player))
         {
             int coinOverpay = player.amountToOverpay(context, buy);
             coinOverpay = Math.max(0,  coinOverpay);
@@ -2214,7 +2243,7 @@ public class Game {
             if (context.overpayAmount > 0 || context.overpayPotions > 0)
             {
             	GameEvent event = new GameEvent(GameEvent.EventType.OverpayForCard, (MoveContext) context);
-                event.card = card;
+                event.card = buy;
                 event.newCard = true;
                 broadcastEvent(event);
             }
@@ -2235,8 +2264,10 @@ public class Game {
         }
                 
         buy.isBuying(context);
-        
+                
+        // On-buy a card effects
         if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
+        	// Plan - Trashing Token
         	if (player.getHand().size() > 0 && isPlayerSupplyTokenOnPile(buy, player, PlayerSupplyToken.Trashing)) {
                 Card cardToTrash = player.controlPlayer.trashingToken_cardToTrash((MoveContext) context);
                 if (cardToTrash != null) {
@@ -2269,16 +2300,10 @@ public class Game {
 	        }
         }
         
-        if (card != null) {
-            GameEvent event = new GameEvent(GameEvent.EventType.BuyingCard, (MoveContext) context);
-            event.card = card;
-            event.newCard = true;
-            broadcastEvent(event);
-        }
-
+        // On-buy effects from triggers
         if (!buy.costPotion() && buy.getDebtCost(context) == 0 && !(buy.is(Type.Victory)) && cost < 5 && !(buy.is(Type.Event) || buy.is(Type.Project))) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
-                if (card.equals(getPile(card).topCard())) {
+                if (buy.equals(getPile(buy).topCard())) {
                     context.getPlayer().gainNewCard(buy, Cards.talisman, context);
                 }
             }
@@ -2287,7 +2312,7 @@ public class Game {
         if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
             player.addVictoryTokens(context, context.countGoonsInPlay(), Cards.goons);
         }
-
+        
         if (!(buy.is(Type.Event) || buy.is(Type.Project)) && context.countMerchantGuildsInPlayThisTurn() > 0)
         {
             player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn(), context, Cards.merchantGuild);
@@ -2300,13 +2325,33 @@ public class Game {
             }
         }
 
-        buy.isBought(context);
+        // Other on-buy effects from triggers
         if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
         	haggler(context, buy);
         	charmWhenBuy(context, buy);
         	basilicaWhenBuy(context);
         	colonnadeWhenBuy(context, buy);
         	defiledShrineWhenBuy(context, buy);
+        }
+        
+        // start gain - would gain from Trader first and lift card from pile
+        Card card = buy;
+        if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
+            card = takeFromPileCheckTrader(buy, context);
+        }
+        
+        // stop inheriting newly gained estate if Trader revealed
+        if (buy.equals(Cards.estate) && player.getInheritance() != null && card.equals(Cards.silver)) {
+            ((CardImpl)buy).stopInheritingCardAbilities();
+        }
+        
+        // Gain card after buying - event handler will deposit in appropriate location
+        if (buy != null && !(buy.is(Type.Event) || buy.is(Type.Project))) {
+        	GameEvent gainEvent = new GameEvent(GameEvent.EventType.CardObtained, (MoveContext) context);
+            gainEvent.card = card;
+            gainEvent.responsible = card != buy ? Cards.trader : null;
+            gainEvent.newCard = true;
+            context.game.broadcastEvent(gainEvent);
         }
         
         return card;
@@ -2716,7 +2761,7 @@ public class Game {
             StringBuilder msg = new StringBuilder();
             msg.append(player.getPlayerName() + "::" + turnCount + ":" + event.getType());
 
-            if (event.getType() == GameEvent.EventType.BuyingCard) {
+            if (event.getType() == GameEvent.EventType.CardObtained) {
                 msg.append(":" + event.getContext().getCoinAvailableForBuy() + " gold");
                 if (event.getContext().getBuysLeft() > 0) {
                     msg.append(", buys remaining: " + event.getContext().getBuysLeft() + ")");
@@ -3739,7 +3784,7 @@ public class Game {
                     return;
                 }
 
-                if ((event.getType() == GameEvent.EventType.CardObtained || event.getType() == GameEvent.EventType.BuyingCard) &&
+                if ((event.getType() == GameEvent.EventType.CardObtained) &&
                 		!(event.card.is(Type.Event) || event.card.is(Type.Project))) {
                 	
                     MoveContext context = event.getContext();
@@ -3750,11 +3795,6 @@ public class Game {
                         MoveContext controlContext = new MoveContext(context.game, context.getPlayer().controlPlayer);
                         controlContext.getPlayer().gainCardAlreadyInPlay(event.card, Cards.possession, controlContext);
                         return;
-                    }
-
-                    //Start inheriting newly gained estate
-                    if (event.card.equals(Cards.estate) && event.player.getInheritance() != null) {
-                        ((CardImpl)event.card).startInheritingCardAbilities(player.getInheritance().getTemplateCard().instantiate());
                     }
 
                     if (context != null && event.card.is(Type.Victory)) {
@@ -3768,8 +3808,7 @@ public class Game {
 
                     // See rules explanation of Tunnel for what commandedDiscard means.
                     boolean commandedDiscard = true;
-                    if(event.getType() == GameEvent.EventType.BuyingCard
-                       || event.getType() == GameEvent.EventType.CardObtained) {
+                    if(event.getType() == GameEvent.EventType.CardObtained) {
                         commandedDiscard = false;
                     } else if(event.responsible != null) {
                         Card r = event.responsible;
@@ -3849,7 +3888,8 @@ public class Game {
                     	}
                     }
                     
-                    if (player.hasProject(Cards.innovation) && context.game.getCardsObtainedByPlayer().size() == 1 && event.card.is(Type.Action)) {
+                    if (player.hasProject(Cards.innovation) && context.game.getCardsObtainedByPlayer().size() == 1 
+                    		&& event.card.is(Type.Action) && context.game.getCurrentPlayer() == player) {
                     	//TODO: technically you should be able to order the when-gain abilities
                     	//      either play it before or after exercising the other when-gain abilities
                     	//      that don't move it
@@ -3894,6 +3934,7 @@ public class Game {
                     }
 
                     if(!handled) {
+                    	//handle gaining to particular locations
                     	if (context.isRoyalSealInPlay() && context.player.controlPlayer.royalSealTravellingFairTracker_shouldPutCardOnDeck((MoveContext) context, Cards.royalSeal, event.card)) {
                             player.putOnTopOfDeck(event.card, context, true);
                     	} else if (context.travellingFairBought && context.player.controlPlayer.royalSealTravellingFairTracker_shouldPutCardOnDeck((MoveContext) context, Cards.travellingFair, event.card)) {
@@ -3922,6 +3963,7 @@ public class Game {
                         } else if (gainedCardAbility.equals(Cards.villa)) {
                         	player.hand.add(event.card);
                         } else if (event.responsible != null) {
+                        	// handle custom gain locations based on what ability is gaining
                             Card r = event.responsible;
                             if (r.equals(Cards.estate) && player.getInheritance() != null) {
                             	r = player.getInheritance();
@@ -4032,6 +4074,8 @@ public class Game {
                     	int groundsKeepers = context.countCardsInPlay(Cards.groundskeeper);
                     	player.addVictoryTokens(context, groundsKeepers, Cards.groundskeeper);
                     }
+                    
+                    // handle other when-gain abilities
                     
                     if (gainedCardAbility.equals(Cards.illGottenGains)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
@@ -4311,22 +4355,6 @@ public class Game {
                     			addPileVpTokens(Cards.defiledShrine, 1, context);
                     		}
                     	}
-                    }
-                    
-                    
-                    // Achievement check...
-                    if(event.getType() == GameEvent.EventType.BuyingCard && !player.achievementSingleCardFailed) {
-                        if (Cards.isKingdomCard(event.getCard())) {
-                            if(player.achievementSingleCardFirstKingdomCardBought == null) {
-                                player.achievementSingleCardFirstKingdomCardBought = event.getCard();
-                            }
-                            else {
-                                if(!player.achievementSingleCardFirstKingdomCardBought.equals(event.getCard())) {
-                                    player.achievementSingleCardFailed = true;
-                                    player.achievementSingleCardFirstKingdomCardBought = null;
-                                }
-                            }
-                        }
                     }
                 }
 

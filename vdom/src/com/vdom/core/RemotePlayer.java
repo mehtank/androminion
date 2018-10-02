@@ -853,7 +853,6 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         // Now we actually send the event.
         if (event.getPlayer() != null) {
             switch (event.getType()) {
-                case BuyingCard:
                 case CardObtained:
                     comm.put_ts(status.setType(EType.CARDOBTAINED).setString(playerInt).setInteger(cardToInt(event.getCard())));
 

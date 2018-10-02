@@ -64,7 +64,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         if (event.getType() == GameEvent.EventType.PlayingCard) {
             reactedSet.clear();
         }
-        if(event.getPlayer() == this && (event.getType() == GameEvent.EventType.CardObtained || event.getType() == GameEvent.EventType.BuyingCard)) {
+        if(event.getPlayer() == this && (event.getType() == GameEvent.EventType.CardObtained)) {
             if(event.getCard().is(Type.Action, event.getPlayer())) {
                 actionCardCount++;
             }
