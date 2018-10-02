@@ -724,7 +724,9 @@ public class CardImpl implements Card, Comparable<Card>{
             }
         }
         
-        if (!isInheritedAbility && !(is(Type.State) || is(Type.Project))) {
+        if (!isInheritedAbility && !(is(Type.State) || is(Type.Project) || is(Type.State) || is(Type.Artifact))) {
+        	//TODO: What event to fire for simple abilities like Key?
+        	//      Should this be shown in the play area as an ability like Durations?
         	GameEvent event;
         	if (is(Type.Boon) || is(Type.Hex)) {
         		event = new GameEvent(GameEvent.EventType.ReceivingBoonHex, (MoveContext) context);
