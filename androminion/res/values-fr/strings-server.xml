@@ -166,7 +166,7 @@
 	<string name="PlayingCard">Joue</string>
 	<string name="PlayedCard">A joué</string>
 	<string name="PlayingDurationAction">Résolution Action-Durée</string>
-	<string name="BuyingCard">Achète</string>
+	<string name="BuyingCard">Achète %1$s</string>
     <string name="GuildsTokenObtained">Jeton Guildes obtenu</string>
 	<string name="GuildsTokenSpend">Jeton Guildes dépensé</string>
     <string name="OverpayForCard">Surpaie pour la carte</string>

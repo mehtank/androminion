@@ -335,7 +335,7 @@
     <string name="NobleBrigand_name">Noble Brigand</string>
     <string name="NobleBrigand_desc">When you buy this or play it, each other player reveals the top 2 cards of his deck, trashes a revealed Silver or Gold you choose, and discards the rest. If he didn\'t reveal a Treasure, he gains a Copper. You gain the trashed cards.</string>
     <string name="NomadCamp_name">Nomad Camp</string>
-    <string name="NomadCamp_desc">When you gain this, put it on top of your deck.</string>
+    <string name="NomadCamp_desc">This is gained onto your deck (instead of to your discard pile).</string>
     <string name="Oasis_name">Oasis</string>
     <string name="Oasis_desc">Discard a card.</string>
     <string name="Oracle_name">Oracle</string>

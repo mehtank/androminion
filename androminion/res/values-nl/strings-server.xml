@@ -93,7 +93,7 @@
 	<string name="PlayingCard">Speelt</string>
 	<string name="PlayedCard">Gespeeld</string>
 	<string name="PlayingDurationAction">Uit vorige beurt</string>
-	<string name="BuyingCard">Koopt</string>
+	<string name="BuyingCard">Koopt %1$s</string>
 	<string name="NoBuy">(Geen Aanschaf)</string>
 	<string name="DeckReplenished">Trekstapel leeg</string>
 	<string name="PlayerAttacking">Valt aan</string>

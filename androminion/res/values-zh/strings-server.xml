@@ -168,7 +168,7 @@
 	<string name="PlayingCard">打出</string>
 	<string name="PlayedCard">已结算</string>
 	<string name="PlayingDurationAction">此【持续】自动生效：</string>
-	<string name="BuyingCard">购买</string>
+	<string name="BuyingCard">购买 %1$s</string>
 	<string name="GuildsTokenObtained">获得资金</string>
 	<string name="GuildsTokenSpend">使用资金</string>
 	<string name="OverpayForCard">超额支付</string>

@@ -166,7 +166,7 @@
 	<string name="PlayingCard">Spielt</string>
 	<string name="PlayedCard">Gespielt</string>
 	<string name="PlayingDurationAction">Spielt Dauer</string>
-	<string name="BuyingCard">Kauft</string>
+	<string name="BuyingCard">Kauft %1$s</string>
 	<string name="GuildsTokenObtained">Münze genommen</string>
 	<string name="GuildsTokenSpend">Münzen bezahlt</string>
 	<string name="OverpayForCard">Überzahlt</string>

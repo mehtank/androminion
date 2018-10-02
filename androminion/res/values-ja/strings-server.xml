@@ -100,7 +100,7 @@
 	<string name="PlayingCard">プレイ中</string>
 	<string name="PlayedCard">プレイ完了</string>
 	<string name="PlayingDurationAction">持続プレイ中</string>
-	<string name="BuyingCard">購入中</string>
+	<string name="BuyingCard">購入中 %1$s</string>
 	<string name="NoBuy">(購入しない)</string>
 	<string name="DeckReplenished">山札が補充された</string>
 	<string name="PlayerAttacking">アタック中</string>

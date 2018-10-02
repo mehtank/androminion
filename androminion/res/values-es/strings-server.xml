@@ -171,7 +171,7 @@
 	<string name="PlayingCard">Jugando</string>
 	<string name="PlayedCard">Jugada</string>
 	<string name="PlayingDurationAction">Haciendo effecto de duración de</string>
-	<string name="BuyingCard">Comprando</string>
+	<string name="BuyingCard">%1$s comprada</string>
 	<string name="GuildsTokenObtained">Agregado a Cofres</string>
 	<string name="GuildsTokenSpend">Sacado de Cofres</string>
 	<string name="VillagersSpend">Aldeanos usado: %1$s</string>

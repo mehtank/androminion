@@ -335,7 +335,7 @@
     <string name="NobleBrigand_name">Bandido Honrado</string>
     <string name="NobleBrigand_desc">Cuando compres esta carta o la pongas en juego, cada jugador (menos tú) revela las 2 cartas superiores de su mazo, elimina una carta de Oro o Plata (a tu elección) que haya revelado y descarta el resto. Quien no revele ningún Tesoro, gana un Cobre. Tú ganas todas las cartas eliminadas.</string>
     <string name="NomadCamp_name">Campamento Nómada</string>
-    <string name="NomadCamp_desc">Cuando ganes esta carta, colócala en la parte superior de tu mazo.</string>
+    <string name="NomadCamp_desc">Esta carta se gana encima de tu mazo (en vez de en tu pila de descartes).</string>
     <string name="Oasis_name">Oasis</string>
     <string name="Oasis_desc">Descarta una carta.</string>
     <string name="Oracle_name">Oráculo</string>

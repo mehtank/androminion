@@ -175,7 +175,7 @@
 	<string name="PlayingCard">Playing</string>
 	<string name="PlayedCard">Played</string>
 	<string name="PlayingDurationAction">Playing duration</string>
-	<string name="BuyingCard">Buying</string>
+	<string name="BuyingCard">%1$s bought</string>
 	<string name="GuildsTokenObtained">Added %1$s to Coffers</string>
 	<string name="GuildsTokenSpend">Removed %1$s from Coffers</string>
 	<string name="VillagersSpend">Villagers used: %1$s</string>

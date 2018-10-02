@@ -288,7 +288,9 @@ public class Strings {
         }
 
         // The first part of the text tells us what kind of event we're dealing with.
-        if (event.gameEventType == GameEvent.EventType.Embargo) {
+        if (event.gameEventType == GameEvent.EventType.BuyingCard) {
+            statusText += format(R.string.BuyingCard, getCardName(event.c));
+        } else if (event.gameEventType == GameEvent.EventType.Embargo) {
             statusText += getString(R.string.Embargo);
         } else if (event.gameEventType == GameEvent.EventType.PlusOneCardTokenMoved) {
             statusText += getString(R.string.PlusOneCardTokenMoved);
@@ -493,7 +495,8 @@ public class Strings {
 
         // Then, if there's a card associated with the event, we display it here.
         if (event.c != null
-                && event.gameEventType != GameEvent.EventType.CardAddedToHand
+        		&& event.gameEventType != GameEvent.EventType.BuyingCard
+        		&& event.gameEventType != GameEvent.EventType.CardAddedToHand
                 && event.gameEventType != GameEvent.EventType.PlayerAttacking
                 && event.gameEventType != GameEvent.EventType.VPTokensObtained
                 && event.gameEventType != GameEvent.EventType.CardSetAside
@@ -1445,7 +1448,7 @@ public class Strings {
             strings[1] = getString(R.string.ducat_trash_copper);
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.innovation))) {
-            strings[1] = format(R.string.innovation_set_aside_to_play, extras[1]);
+            strings[1] = format(R.string.innovation_set_aside_to_play, getCardName((Card)extras[1]));
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.sauna))) {
             strings[1] = getString(R.string.sauna_play_avanto);

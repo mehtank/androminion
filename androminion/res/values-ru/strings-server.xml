@@ -93,7 +93,7 @@
         <string name="PlayingCard">Играет</string>
         <string name="PlayedCard">Сыграл</string>
         <string name="PlayingDurationAction">Длительность игры</string>
-        <string name="BuyingCard">Покупает</string>
+        <string name="BuyingCard">Покупает %1$s</string>
         <string name="NoBuy">(Без покупок)</string>
         <string name="DeckReplenished">Колода восполнена</string>
         <string name="PlayerAttacking">Атакует</string>
