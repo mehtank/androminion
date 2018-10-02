@@ -216,8 +216,9 @@ public class CardSet {
 			linkMaxSidewaysCards = false;
 		}
 		int numEvents = countEvents(possibleCards);
+		int numProjects = countProjects(possibleCards);
 		int numLandmarks = countLandmarks(possibleCards);
-		count = Math.min(possibleCards.size() - numEvents - numLandmarks, count);
+		count = Math.min(possibleCards.size() - numEvents - numProjects - numLandmarks, count);
 		for (Card c : possibleCards) {
 			if (c.is(Type.Event)) { 
 				if(drawEvents) {
@@ -242,7 +243,7 @@ public class CardSet {
 					if (linkMaxSidewaysCards) {
 						if (eventList.size() + projectList.size()  + landmarkList.size() < maxEvents)
 							landmarkList.add(c);
-					} else if (landmarkList.size() < maxEvents) {
+					} else if (landmarkList.size() < maxLandmarks) {
 						landmarkList.add(c);
 					}
 				}
@@ -837,6 +838,6 @@ public class CardSet {
 		CardSetMap.put(GameType.Luftschloss, new CardSet(new Card[] { Cards.cemetery, Cards.changeling, Cards.exorcist, Cards.fool, Cards.shepherd, Cards.archive, Cards.virtualCastle, Cards.virtualCatapultRocks, Cards.engineer, Cards.temple, Cards.tomb}));
 		CardSetMap.put(GameType.PookaPranks, new CardSet(new Card[] { Cards.faithfulHound, Cards.ghostTown, Cards.pixie, Cards.pooka, Cards.skulk, Cards.chariotRace, Cards.forum, Cards.groundskeeper, Cards.sacrifice, Cards.virtualSettlersBustlingVillage, Cards.banquet}));
 		
-		CardSetMap.put(GameType.Test, new CardSet(new Card[] {Cards.pixie, Cards.fool, Cards.ghostTown, Cards.leprechaun, Cards.cemetery, Cards.devilsWorkshop, Cards.exorcist, Cards.necromancer, Cards.crypt, Cards.idol, Cards.vampire, Cards.werewolf, Cards.raider, Cards.overlord, Cards.ferry, Cards.inheritance, Cards.bonfire, Cards.page, Cards.vampire, Cards.highway}));
+		//CardSetMap.put(GameType.Test, new CardSet(new Card[] {Cards.pixie, Cards.fool, Cards.ghostTown, Cards.leprechaun, Cards.cemetery, Cards.devilsWorkshop, Cards.exorcist, Cards.necromancer, Cards.crypt, Cards.idol, Cards.vampire, Cards.werewolf, Cards.raider, Cards.overlord, Cards.ferry, Cards.inheritance, Cards.bonfire, Cards.page, Cards.vampire, Cards.highway}));
 	}
 }

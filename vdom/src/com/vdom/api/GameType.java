@@ -7,7 +7,7 @@ import com.vdom.core.Expansion;
 public enum GameType {
 
     // Test - remove this for full release
-    Test("Test (for testing)"),
+    //Test("Test (for testing)"),
     
     // Random Games
     Random("Random"),
