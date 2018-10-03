@@ -118,6 +118,8 @@ public class Game {
     public static boolean disableAi = false; //only for testing
     public static boolean controlAi = false; //only for testing
     public static boolean maskPlayerNames = false;
+    public static boolean vpCounter = false; // report vp counts to remote players during the game
+    public boolean vpCounterInGame = false;
 
     public static final HashSet<GameEvent.EventType> showEvents = new HashSet<GameEvent.EventType>();
     public static final HashSet<String> showPlayers = new HashSet<String>();
@@ -1741,6 +1743,7 @@ public class Game {
         splitMaxSidewaysCards = false;
         randomExpansions = null;
         randomExcludedExpansions = null;
+        vpCounter = false;
 
         String gameCountArg = "-count";
         String debugArg = "-debug";
@@ -1754,6 +1757,7 @@ public class Game {
         String gameTypeStatsArg = "-test";
         String ignorePlayerErrorsArg = "-ignore";
         String showPlayersArg = "-showplayers";
+        String vpCounterArg = "-vpcounter";
         String siteArg = "-site=";
         String cardArg = "-cards=";
 
@@ -1784,6 +1788,8 @@ public class Game {
                     for (String player : showPlayersString.split(",")) {
                         showPlayers.add(player);
                     }
+                } else if (arg.toLowerCase().startsWith(vpCounterArg)) {
+                    vpCounter = true;
                 } else if (arg.toLowerCase().startsWith(ignorePlayerErrorsArg)) {
                     if (arg.trim().toLowerCase().equals(ignorePlayerErrorsArg)) {
                         ignoreAllPlayerErrors = true;

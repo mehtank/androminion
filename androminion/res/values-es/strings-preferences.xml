@@ -42,6 +42,8 @@
 		    <string name="next_game_pref_title">Para los juegos subsiguientes</string>
 		    <string name="card_counts_pref_title">Numero de cartas</string>
 		    <string name="card_counts_pref_summary">Mostrar mazo / mano / total de cartas</string>
+		    <string name="vp_counter_pref_title">Contador de Puntos de Victoria</string>
+		    <string name="vp_counter_pref_summary">Mostrar PV de los jugadores durante el juego</string>
 		    <string name="mask_names_pref_title">Ocultar nombres de las IA</string>
 		    <string name="mask_names_pref_summary">Hasta terminar el juego</string>
 		    <string name="sort_cards_pref_title">Ordenar cartas en la mano</string>

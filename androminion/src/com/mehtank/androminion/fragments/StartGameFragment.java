@@ -922,6 +922,9 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
         if (mPrefs.getBoolean("control_ai", false)) {
             strs.add("-controlai");
         }
+        if (mPrefs.getBoolean("vp_counter", false)) {
+            strs.add("-vpcounter");
+        }
         if (!mPrefs.getBoolean("errata_masquerade", true)) {
         	strs.add("-erratamasqueradealwaysaffects");
         }

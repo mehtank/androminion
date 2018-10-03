@@ -51,7 +51,7 @@ public class PlayerAdapter extends ArrayAdapter<PlayerSummary> {
 			dv = (DeckView) origView;
 		}
 		ps = getItem(pos);
-		dv.set(ps.name, ps.turns, ps.deckSize, ps.stashOnDeck, ps.handSize, ps.stashesInHand, ps.numCards, ps.pt, ps.vt, ps.dt, ps.gct, ps.villagers, 
+		dv.set(ps.name, ps.turns, ps.deckSize, ps.stashOnDeck, ps.handSize, ps.stashesInHand, ps.numCards, ps.vp, ps.pt, ps.vt, ps.dt, ps.gct, ps.villagers, 
 				ps.minusOneCoinTokenOn, ps.minusOneCardTokenOn, ps.journeyToken,
 				ps.hasDeluded, ps.hasEnvious, ps.hasLostInTheWoods, ps.hasMiserable, ps.hasTwiceMiserable,
 				ps.hasFlag, ps.hasHorn, ps.hasKey, ps.hasLantern, ps.hasTreasureChest,

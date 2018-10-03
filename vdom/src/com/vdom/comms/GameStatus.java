@@ -62,6 +62,7 @@ public class GameStatus implements Serializable {
     public int[] handSizes;
     public int[] stashesInHand;
     public int[] numCards;
+    public int[] vp;
     public int[] pirates;
     public int[] victoryTokens;
     public int[] debtTokens;
@@ -118,6 +119,7 @@ public class GameStatus implements Serializable {
     public GameStatus setHandSizes(int[] is) {handSizes = is; return this;};
     public GameStatus setStashesInHand(int[] is) {stashesInHand = is; return this;};
     public GameStatus setNumCards(int[] is) {numCards = is; return this;}
+    public GameStatus setVp(int[] is) {vp = is; return this;}
     public GameStatus setPirates(int[] is) {pirates = is; return this;}
     public GameStatus setVictoryTokens(int[] is) {victoryTokens = is; return this;}
     public GameStatus setDebtTokens(int[] is) {debtTokens = is; return this;}

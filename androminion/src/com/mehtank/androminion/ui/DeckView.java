@@ -56,6 +56,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	private int handSize;
 	private int stashesInHand;
 	private int numCards;
+	private int vp;
 	private int numPirateTokens;
 	private int numVictoryTokens;
 	private int numDebtTokens;
@@ -80,6 +81,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 	private int stashColor;
 
 	private boolean showCardCounts = true;
+	private boolean showVp = false;
 
 	
 
@@ -122,6 +124,10 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
             counts.setVisibility(INVISIBLE);
         }
         
+        if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("vp_counter", true)) {
+            showVp = true;
+        }
+        
         TypedValue typedValue = new TypedValue();
 		context.getTheme().resolveAttribute(R.attr.stashTextColor, typedValue, true);
 		stashColor = typedValue.data;
@@ -131,7 +137,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		setOnLongClickListener(this);
 	}
 
-	public void set(String nameStr, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, 
+	public void set(String nameStr, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, int vp, 
 			int pt, int vt, int dt, int gct, int villagers,
 			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyTokenState, 
 			boolean hasDeluded, boolean hasEnvious, boolean hasLostInTheWoods, boolean hasMiserable, boolean hasTwiceMiserable,
@@ -144,6 +150,7 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 		this.handSize = handSize;
 		this.stashesInHand = stashesInHand;
 		this.numCards = numCards;
+		this.vp = vp;
 		this.hasMinusOneCardToken = minusOneCardTokenOn;
 		this.hasMinusOneCoinToken = minusOneCoinTokenOn;
 		this.journeyTokenState = journeyTokenState;
@@ -314,7 +321,8 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
         	countsDeck.setTextColor(stashOnDeck ? stashColor : textColor);
         	countsMiddle.setText(deckSize + "    \u261e " + handSize);
         	countsStashesInHand.setText(stashesInHand == 0 ? "" : " (" + stashesInHand + ")");
-        	countsSuffix.setText("    \u03a3 " + numCards + " }");
+        	countsSuffix.setText("    \u03a3 " + numCards +
+        		(showVp ? "    \u26c9 " + vp :"") + " }");
         }
 	}
 	
@@ -345,7 +353,11 @@ public class DeckView extends RelativeLayout implements OnLongClickListener {
 			if (stashesInHand > 0) {
 				sb.append(String.format(c.getString(R.string.status_hand_stashes), stashesInHand) + "\n");
 			}
-			sb.append(String.format(c.getString(R.string.status_total_cards), numCards) + "\n\n");
+			sb.append(String.format(c.getString(R.string.status_total_cards), numCards) + "\n");
+			if (showVp) {
+				sb.append(String.format(c.getString(R.string.status_vp), vp) + "\n");
+			}
+			sb.append("\n");
 		}
 		if (hasMinusOneCoinToken)
 			sb.append(c.getString(R.string.status_has_minus_coin_token) + "\n");

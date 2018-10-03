@@ -19,6 +19,7 @@ public class PlayerSummary {
 	public int handSize;
 	public int stashesInHand;
 	public int numCards;
+	public int vp;
 	public int pt;
 	public int vt;
 	public int dt;
@@ -46,7 +47,7 @@ public class PlayerSummary {
 		this.name = name;
 	}
 	
-	public void set(String name, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, int pt, int vt, int dt, int gct, int villagers, 
+	public void set(String name, int turns, int deckSize, boolean stashOnDeck, int handSize, int stashesInHand, int numCards, int vp, int pt, int vt, int dt, int gct, int villagers, 
 			boolean minusOneCoinTokenOn, boolean minusOneCardTokenOn, JourneyTokenState journeyToken,
 			boolean hasDeluded, boolean hasEnvious, boolean hasLostInTheWoods, boolean hasMiserable, boolean hasTwiceMiserable,
 			boolean hasFlag, boolean hasHorn, boolean hasKey, boolean hasLantern, boolean hasTreasureChest,
@@ -58,6 +59,7 @@ public class PlayerSummary {
 		this.handSize = handSize;
 		this.stashesInHand = stashesInHand;
 		this.numCards = numCards;
+		this.vp = vp;
 		this.pt = pt;
 		this.vt = vt;
 		this.dt = dt;

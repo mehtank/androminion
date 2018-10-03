@@ -92,6 +92,12 @@
 		            android:key="card_counts"
 		            android:summary="@string/card_counts_pref_summary"
 		            android:title="@string/card_counts_pref_title" />
+	            <CheckBoxPreference
+		            android:defaultValue="false"
+		            android:dependency="card_counts"
+		            android:key="vp_counter"
+		            android:summary="@string/vp_counter_pref_summary"
+		            android:title="@string/vp_counter_pref_title" />
 		        <CheckBoxPreference
 		            android:defaultValue="false"
 		            android:key="mask_names"

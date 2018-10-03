@@ -389,6 +389,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int curPlayerIndex = allPlayers.indexOf(player);
 
         int numCards[] = new int[numPlayers];
+        int vp[] = new int[numPlayers];
         int turnCounts[] = new int[numPlayers];
         int deckSizes[] = new int[numPlayers];
         boolean stashOnDeck[] = new boolean[numPlayers];
@@ -427,7 +428,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             stashOnDeck[i] = p.isStashOnDeck();
             discardSizes[i] = p.getDiscardSize();
             numCards[i] = p.getAllCards().size();
-
+            vp[i] = Game.vpCounter ? p.getVPs() : 0;
             pirates[i] = p.getPirateShipTreasure();
             victoryTokens[i] = p.getVictoryTokens();
             debtTokens[i] = p.getDebtTokenCount();
@@ -506,6 +507,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setDeckSizes(deckSizes)
                 .setStashOnDeck(stashOnDeck)
                 .setNumCards(numCards)
+                .setVp(vp)
                 .setPirates(pirates)
                 .setVictoryTokens(victoryTokens)
                 .setDebtTokens(debtTokens)

@@ -230,7 +230,7 @@
 	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
 	<string name="lostInTheWoods_initial">\u0020\u0020L\u0020\u0020</string>
 	<string name="druid_boons_header">- Set aside Boons -</string>
-	<string name="flag_initial">\u0020\u0020F\u0020\u0020</string>
+	<string name="flag_initial">\u0020\u0020\u2691\u0020\u0020</string>
 	<string name="horn_initial">\u0020\u0020H\u0020\u0020</string>
 	<string name="key_initial">\u0020\u0020K\u0020\u0020</string>
 	<string name="lantern_initial">\u0020\u0020L\u0020\u0020</string>
@@ -258,6 +258,7 @@
 	<string name="status_hand_size">Cards in hand: %1$s</string>
 	<string name="status_hand_stashes">Stash cards in hand: %1$s</string>
 	<string name="status_total_cards">Total cards: %1$s</string>
+	<string name="status_vp">Victory points: %1$s</string>
 	<string name="status_has_minus_coin_token">Has -1 Coin token</string>
 	<string name="status_has_minus_card_token">Has -1 Card token</string>
 	<string name="status_journey_token_up">Journey token is face up</string>

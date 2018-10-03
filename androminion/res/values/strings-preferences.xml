@@ -42,6 +42,8 @@
 		    <string name="next_game_pref_title">For subsequent games</string>
 		    <string name="card_counts_pref_title">Card counts</string>
 		    <string name="card_counts_pref_summary">Show deck / hand / total cards</string>
+		    <string name="vp_counter_pref_title">Victory point counter</string>
+		    <string name="vp_counter_pref_summary">Show player VP during game</string>
 		    <string name="mask_names_pref_title">Hide AI names</string>
 		    <string name="mask_names_pref_summary">Until end of game</string>
 		    <string name="sort_cards_pref_title">Sort cards in hand</string>

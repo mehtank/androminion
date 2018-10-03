@@ -232,7 +232,7 @@
 	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
 	<string name="lostInTheWoods_initial">\u0020\u0020P\u0020\u0020</string>
 	<string name="druid_boons_header">- Favores apartadas -</string>
-	<string name="flag_initial">\u0020\u0020B\u0020\u0020</string>
+	<string name="flag_initial">\u0020\u0020\u2691\u0020\u0020</string>
 	<string name="horn_initial">\u0020\u0020C\u0020\u0020</string>
 	<string name="key_initial">\u0020\u0020L\u0020\u0020</string>
 	<string name="lantern_initial">\u0020\u0020F\u0020\u0020</string>
@@ -260,6 +260,7 @@
 	<string name="status_hand_size">Cartas en mano: %1$s</string>
 	<string name="status_hand_stashes">Cartas de Alijo en mano: %1$s</string>
 	<string name="status_total_cards">Total de cartas: %1$s</string>
+	<string name="status_vp">Puntos de Victoria: %1$s</string>
 	<string name="status_has_minus_coin_token">Tiene marcador de -1 Moneda</string>
 	<string name="status_has_minus_card_token">Tiene marcador de -1 Carta</string>
 	<string name="status_journey_token_up">Marcador de Viaje está boca arriba</string>
