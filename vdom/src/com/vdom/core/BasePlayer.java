@@ -5059,6 +5059,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 				return c;
 			}
 		}
+		if (localDiscard.size() == 0) {
+			return discard.get(0);
+		}
 		return highestCard(context, localDiscard);
     }
     

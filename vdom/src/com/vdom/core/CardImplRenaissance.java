@@ -113,6 +113,11 @@ public class CardImplRenaissance extends CardImpl {
 	private void mountainVillage(Game game, MoveContext context, Player currentPlayer) {
 		if (currentPlayer.getDiscardSize() > 0)
         {
+			if (currentPlayer.getDiscardSize() == 1) {
+            	currentPlayer.hand.add(currentPlayer.discard.remove(0));
+            	return;
+			}
+			
             Card card = currentPlayer.controlPlayer.mountainVillage_cardToPutInHand(context);
 
             if (card != null) {
@@ -123,8 +128,9 @@ public class CardImplRenaissance extends CardImpl {
                 	GameEvent event = new GameEvent(GameEvent.EventType.CardAddedToHand, context);
                     game.broadcastEvent(event);
                 } else {
-                	Util.playerError(currentPlayer, "MountainVillage card not in discard, ignoring.");
-                	game.drawToHand(context, this, 0);
+                	Util.playerError(currentPlayer, "Mountain Village card not in discard, picking one.");
+                	card = currentPlayer.discard.remove(0);
+                	currentPlayer.hand.add(card);
                 }
             }
         } else {

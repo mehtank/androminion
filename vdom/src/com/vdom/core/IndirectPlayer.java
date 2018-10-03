@@ -4265,7 +4265,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         Set<Card> uniqueCards = new HashSet<Card>(localDiscard.toArrayList());
         List<Card> options = new ArrayList<Card>(uniqueCards);
         Collections.sort(options, new Util.CardCostNameComparator());
-        options.add(null);
 
         return options.get(selectOption(context, Cards.mountainVillage, options.toArray()));
     }
