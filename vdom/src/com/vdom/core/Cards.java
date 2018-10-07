@@ -1444,7 +1444,7 @@ public class Cards {
     }
 
     public static boolean isSupplyCard(Card c) {
-        return !(nonSupplyCards.contains(c) || prizeCards.contains(c) || eventsCards.contains(c) || landmarkCards.contains(c) || blackMarketCards.contains(c));
+        return !(nonSupplyCards.contains(c) || prizeCards.contains(c) || eventsCards.contains(c) || projectCards.contains(c) || landmarkCards.contains(c) || blackMarketCards.contains(c));
     }
     
     public static boolean isBlackMarketCard(Card c) {
