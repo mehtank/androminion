@@ -743,9 +743,13 @@ public class CardImpl implements Card, Comparable<Card>{
         }
         
         // playing an action
+        boolean playAgainWithCitadel = false;
         if (isAction) {
 	        if (this == actualCard) 
 	            context.actionsPlayedSoFar++;
+	        if (context.actionsPlayedSoFar == 1 && context.player.hasProject(Cards.citadel)
+        		 && game.getCurrentPlayer() == context.player)
+	        	playAgainWithCitadel = true;
 	        if (!nonRegularActionPlay && context.freeActionInEffect == 0) {
 	            context.actions--;
 	        }
@@ -828,8 +832,7 @@ public class CardImpl implements Card, Comparable<Card>{
         currentPlayer.princeCardLeftThePlay(currentPlayer);
         
         // Citadel
-        if (is(Type.Action) && context.actionsPlayedSoFar == 1 && context.player.hasProject(Cards.citadel)
-        		 && game.getCurrentPlayer() == context.player) {
+        if (playAgainWithCitadel) {
         	context.freeActionInEffect++;
         	playedCard.play(game, context, false, false, false, false, true);
             context.freeActionInEffect--;

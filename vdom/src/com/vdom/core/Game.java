@@ -790,11 +790,9 @@ public class Game {
         // /////////////////////////////////
         // Reset context for status update
         // /////////////////////////////////
-        context.actionsPlayedSoFar = 0;
         context.actions = 1;
         context.buys = 1;
-        context.coppersmithsPlayed = 0;
-        
+                
         GameEvent event = new GameEvent(GameEvent.EventType.NewHand, context);
         broadcastEvent(event);
         event = null;
@@ -843,6 +841,9 @@ public class Game {
         
         trashPileFaceDown.clear();
         
+        context.actionsPlayedSoFar = 0;
+        context.coppersmithsPlayed = 0;
+                
         event = new GameEvent(GameEvent.EventType.TurnEnd, context);
         broadcastEvent(event);        
         
