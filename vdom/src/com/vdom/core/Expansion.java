@@ -6,59 +6,65 @@ import java.util.List;
 import com.vdom.api.Card;
 
 public enum Expansion {
-	Base(Cards.actionCardsBaseGame),
-	Base2E(Cards.actionCardsBaseGame2E),
-	BaseAll(Cards.actionCardsBaseGameAll, true),
-	Intrigue(Cards.actionCardsIntrigue),
-	Intrigue2E(Cards.actionCardsIntrigue2E),
-	IntrigueAll(Cards.actionCardsIntrigueAll, true),
-	Seaside(Cards.actionCardsSeaside),
-	Alchemy(Cards.actionCardsAlchemy),
-	Prosperity(Cards.actionCardsProsperity),
-	Cornucopia(Cards.actionCardsCornucopia),
-	Hinterlands(Cards.actionCardsHinterlands),
-	DarkAges(Cards.actionCardsDarkAges),
-	Guilds(Cards.actionCardsGuilds),
-	Adventures(Cards.actionCardsAdventures, Cards.eventCardsAdventures),
-	Empires(Cards.actionCardsEmpires, Cards.eventCardsEmpires, Cards.landmarkCardsEmpires),
-	Nocturne(Cards.actionCardsNocturne),
-	Renaissance(Cards.actionCardsRenaissance),
-	Promo(Cards.actionCardsPromo, Cards.eventCardsPromo);
+	Base,
+	Base2E,
+	BaseAll(true),
+	Intrigue,
+	Intrigue2E,
+	IntrigueAll(true),
+	Seaside,
+	Alchemy,
+	Prosperity,
+	Cornucopia,
+	Hinterlands,
+	DarkAges,
+	Guilds,
+	Adventures,
+	Empires,
+	Nocturne,
+	Renaissance,
+	Promo;
 	
-	private final List<Card> kingdomCards;
-	private final List<Card> eventCards;
-	private final List<Card> landmarkCards;
+	private List<Card> kingdomCards = new ArrayList<Card>(0);
+	private List<Card> eventCards = new ArrayList<Card>(0);
+	private List<Card> projectCards = new ArrayList<Card>(0);
+	private List<Card> landmarkCards = new ArrayList<Card>(0);
 	private final boolean isAggregate;
 
-	private Expansion(List<Card> kingdomCards) {
-		this(kingdomCards, new ArrayList<Card>(0));
+	private Expansion() {
+		isAggregate = false;
 	}
 	
-	private Expansion(List<Card> kingdomCards, boolean isAggregate) {
-		this(kingdomCards, new ArrayList<Card>(0), new ArrayList<Card>(0), isAggregate);
-	}
-
-	private Expansion(List<Card> kingdomCards, List<Card> eventCards) {
-		this(kingdomCards, eventCards, new ArrayList<Card>(0), false);
-	}
-	
-	private Expansion(List<Card> kingdomCards, List<Card> eventCards, List<Card> landmarkCards) {
-		this(kingdomCards, eventCards, landmarkCards, false);
-	}
-	
-	private Expansion(List<Card> kingdomCards, List<Card> eventCards, List<Card> landmarkCards, boolean isAggregate) {
-		this.kingdomCards = kingdomCards;
-		this.eventCards = eventCards;
-		this.landmarkCards = landmarkCards;
+	private Expansion(boolean isAggregate) {
 		this.isAggregate = isAggregate;
 	}
-
+	
 	public List<Card> getKingdomCards() {
 		return kingdomCards;
 	}
 	
+	public void setKingdomCards(List<Card> kingdomCards) {
+		this.kingdomCards = kingdomCards;
+	}
+
+	public void setEventCards(List<Card> eventCards) {
+		this.eventCards = eventCards;
+	}
+
+	public void setProjectCards(List<Card> projectCards) {
+		this.projectCards = projectCards;
+	}
+
+	public void setLandmarkCards(List<Card> landmarkCards) {
+		this.landmarkCards = landmarkCards;
+	}
+
 	public List<Card> getEventCards() {
 		return eventCards;
+	}
+	
+	public List<Card> getProjectCards() {
+		return projectCards;
 	}
 	
 	public List<Card> getLandmarkCards() {

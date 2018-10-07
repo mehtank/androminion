@@ -1126,7 +1126,7 @@ public class Cards {
 
         actionCardsEmpires.add(archive                        = new CardImpl.Builder(Cards.Kind.Archive, 5, Type.Action, Type.Duration).addActions(1).description("Set aside the top 3 cards of your deck face down (you may look at them). Now and at the start of your next two turns, put one into your hand.").expansion(Expansion.Empires).build());
         actionCardsEmpires.add(capital                        = new CardImpl.Builder(Cards.Kind.Capital, 5, Type.Treasure).addBuys(1).addGold(6).description("When you discard this from play, take 6 Debt tokens, and then you may pay off Debt tokens.").expansion(Expansion.Empires).build());
-        actionCardsEmpires.add(virtualCastle                  = new CardImpl.Builder(Cards.Kind.Castles, 3, Type.Victory, Type.Castle).pileCreator(new CastlesPileCreator()).description("Sort the Castle pile by cost, putting the more expensive Castles on the bottom. For a 2-player game, use only one of each Castle. Only the top card of the pile can be gained or bought.").build());
+        actionCardsEmpires.add(virtualCastle                  = new CardImpl.Builder(Cards.Kind.Castles, 3, Type.Victory, Type.Castle).pileCreator(new CastlesPileCreator()).description("Sort the Castle pile by cost, putting the more expensive Castles on the bottom. For a 2-player game, use only one of each Castle. Only the top card of the pile can be gained or bought.").expansion(Expansion.Empires).build());
         actionCardsEmpires.add(virtualCatapultRocks           = new CardImpl.Builder(Cards.Kind.CatapultRocks, 3, Type.Action, Type.Attack).pileCreator(new SplitPileCreator(catapult, rocks)).description("This pile starts the game with 5 copies of Catapult on top, then 5 copies of Rocks. Only the top card of the pile can be gained or bought.").expansion(Expansion.Empires).build());
         actionCardsEmpires.add(chariotRace                    = new CardImpl.Builder(Cards.Kind.ChariotRace, 3, Type.Action).addActions(1).description("Reveal the top card of your deck and put it into your hand. The player to your left reveals the top card of their deck. If your card costs more, +(1) Coin and +1 Victory token.").expansion(Expansion.Empires).build());
         actionCardsEmpires.add(charm                          = new CardImpl.Builder(Cards.Kind.Charm, 5, Type.Treasure).description("When you play this, choose one: +1 Buy and +(2) Coins; or the next time you buy a card this turn, you may also gain a differently named card with the same cost.").expansion(Expansion.Empires).build());
@@ -1361,6 +1361,31 @@ public class Cards {
         variablePileCardToRandomizer.put(sauna, virtualSaunaAvanto);
         variablePileCardToRandomizer.put(avanto, virtualSaunaAvanto);
         
+        // Set up Expansion enum
+        Expansion.Base.setKingdomCards(actionCardsBaseGame);
+        Expansion.Base2E.setKingdomCards(actionCardsBaseGame2E);
+        Expansion.BaseAll.setKingdomCards(actionCardsBaseGameAll);
+        Expansion.Intrigue.setKingdomCards(actionCardsIntrigue);
+        Expansion.Intrigue2E.setKingdomCards(actionCardsIntrigue2E);
+        Expansion.IntrigueAll.setKingdomCards(actionCardsIntrigueAll);
+        Expansion.Seaside.setKingdomCards(actionCardsSeaside);
+        Expansion.Alchemy.setKingdomCards(actionCardsAlchemy);
+        Expansion.Prosperity.setKingdomCards(actionCardsProsperity);
+        Expansion.Cornucopia.setKingdomCards(actionCardsCornucopia);
+        Expansion.Hinterlands.setKingdomCards(actionCardsHinterlands);
+        Expansion.DarkAges.setKingdomCards(actionCardsDarkAges);
+        Expansion.Guilds.setKingdomCards(actionCardsGuilds);
+        Expansion.Adventures.setKingdomCards(actionCardsAdventures);
+        Expansion.Adventures.setEventCards(eventCardsAdventures);
+        Expansion.Empires.setKingdomCards(actionCardsEmpires);
+        Expansion.Empires.setEventCards(eventCardsEmpires);
+        Expansion.Empires.setLandmarkCards(landmarkCardsEmpires);
+        Expansion.Nocturne.setKingdomCards(actionCardsNocturne);
+        Expansion.Renaissance.setKingdomCards(actionCardsRenaissance);
+        Expansion.Renaissance.setProjectCards(projectCardsRenaissance);
+        Expansion.Promo.setKingdomCards(actionCardsPromo);
+        Expansion.Promo.setEventCards(eventCardsPromo);
+                
         // Collect all Expansions
         for (Card card : actionCardsBaseGameAll) { actionCards.add(card); }
         for (Card card : actionCardsIntrigueAll) { actionCards.add(card); }

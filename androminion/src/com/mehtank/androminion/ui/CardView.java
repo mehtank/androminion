@@ -42,6 +42,7 @@ import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.mehtank.androminion.util.PlayerAdapter;
 import com.vdom.api.Card;
 import com.vdom.comms.MyCard;
+import com.vdom.core.Cards;
 import com.vdom.core.PlayerSupplyToken;
 
 /**
@@ -695,7 +696,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		String text = GetCardTypeString(cardView.getCard());
 
 		if (cardView.getCard().expansion != null && cardView.getCard().expansion.length() != 0) {
-			text += " (" + cardView.getCard().expansion + ")";
+			Card card = Cards.cardNameToCard.get(cardView.getCard().originalSafeName);
+			text += " (" + Strings.getCardExpansion(card) + ")";
 		}
 
 		text += "\n";

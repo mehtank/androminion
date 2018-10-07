@@ -17,16 +17,24 @@ import java.util.*;
  *
  */
 public class CardSet {
-
+	
 	public static Random rand = new Random(System.currentTimeMillis());
 	private static final Map<GameType, CardSet> CardSetMap = new HashMap<GameType, CardSet>();
 
 	public static final GameType defaultGameType = GameType.Random;
 	
+	public static final int DEFAULT_KINGDOM_CARDS = 10;
+	
 	public static enum UseOptionalCards {
 		Random,
 		Use,
 		DontUse
+	}
+	
+	public static enum ExpansionAllocation {
+		Random,
+		Even,
+		Proportional
 	}
 
 	private final List<Card> cards;
@@ -106,15 +114,16 @@ public class CardSet {
 	}
 	
 	public static CardSet getCardSet(final GameType type, int count) {
-		return getCardSet(type, count, null, null, false, -1, false, -1, false, -1, false, false);
+		return getCardSet(type, count, null, null, 0, ExpansionAllocation.Random, 0, 0, 0, false, false, false);
 	}
 
-	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions, 
+	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions,
 			List<Expansion> randomExcludedExpansions,
-			boolean randomIncludeEvents, int numRandomEvents,
-			boolean randomIncludeProjects, int numRandomProjects, 
-			boolean randomIncludeLandmarks, int numRandomLandmarks, 
-			boolean linkMaxSidewaysCards, 
+			int randomExpansionLimit, ExpansionAllocation expansionAllocation,
+			int numRandomEvents,
+			int numRandomProjects, 
+			int numRandomLandmarks, 
+			boolean linkMaxSidewaysCards, boolean keepSidewaysCardsWithExpansion,
 			boolean adjustRandomForAlchemy) {
 		CardSet set = CardSet.CardSetMap.get(type);
 
@@ -124,170 +133,155 @@ public class CardSet {
 
 		if(set.isRandom) {
 			List<Card> cards;
-			if (randomExpansions != null && randomExpansions.size() > 0) {
-				Set<Card> cardSet = new HashSet<Card>();
-				for (Expansion expansion : randomExpansions) {
+			if (randomExpansionLimit == 0 && linkMaxSidewaysCards && numRandomEvents < 1 && expansionAllocation == ExpansionAllocation.Random) {
+				// one randomizer deck including kingdom and sideways cards
+				if (randomExpansions != null && randomExpansions.size() > 0) {
+					Set<Card> cardSet = new HashSet<Card>();
+					for (Expansion expansion : randomExpansions) {
+						if (randomExcludedExpansions != null && randomExcludedExpansions.contains(expansion))
+							continue;
+						cardSet.addAll(expansion.getKingdomCards());
+						if (keepSidewaysCardsWithExpansion) {
+							cardSet.addAll(expansion.getEventCards());
+							cardSet.addAll(expansion.getProjectCards());
+							cardSet.addAll(expansion.getLandmarkCards());
+						}
+					}
+					cards = new ArrayList<Card>();
+					cards.addAll(cardSet);
+				} else {
+					List<Expansion> expansions = new ArrayList<Expansion>();
+					for (Expansion expansion : Expansion.values()) {
+						if (expansion.isAggregate() || 
+								(randomExcludedExpansions != null && randomExcludedExpansions.contains(expansion)))
+							continue;
+						expansions.add(expansion);
+					}
+					Set<Card> cardSet = new HashSet<Card>();
+					for (Expansion expansion : expansions) {
+						cardSet.addAll(expansion.getKingdomCards());
+						if (keepSidewaysCardsWithExpansion) {
+							cardSet.addAll(expansion.getEventCards());
+							cardSet.addAll(expansion.getProjectCards());
+							cardSet.addAll(expansion.getLandmarkCards());
+						}
+					}
+					cards = new ArrayList<Card>();
+					cards.addAll(cardSet);
+				}
+				if (!keepSidewaysCardsWithExpansion) {
+					cards.addAll(Cards.eventsCards);
+					cards.addAll(Cards.projectCards);
+					cards.addAll(Cards.landmarkCards);
+				}
+				set = CardSet.getRandomCardSet(cards, count, Math.abs(numRandomEvents), adjustRandomForAlchemy);
+			} else {
+				// separate randomizer decks for kingdom cards and sideways cards
+				List<List<Card>> kingdomCardsByExpansion = new ArrayList<List<Card>>();
+				Expansion[] possibleExpansions = Expansion.values();
+				if (randomExpansions != null && randomExpansions.size() > 0) {
+					possibleExpansions = randomExpansions.toArray(new Expansion[randomExpansions.size()]);
+				}
+				for (Expansion expansion : possibleExpansions) {
 					if (randomExcludedExpansions != null && randomExcludedExpansions.contains(expansion))
 						continue;
-					cardSet.addAll(expansion.getKingdomCards());
+					kingdomCardsByExpansion.add(new ArrayList<Card>(expansion.getKingdomCards()));
 				}
-				cards = new ArrayList<Card>();
-				cards.addAll(cardSet);
-			} else {
-				List<Expansion> expansions = new ArrayList<Expansion>();
-				for (Expansion expansion : Expansion.values()) {
-					if (expansion.isAggregate() || 
-							(randomExcludedExpansions != null && randomExcludedExpansions.contains(expansion)))
-						continue;
-					expansions.add(expansion);
+				shuffle(kingdomCardsByExpansion);
+				if (randomExpansionLimit == 0 || randomExpansionLimit > kingdomCardsByExpansion.size())
+					randomExpansionLimit = kingdomCardsByExpansion.size();
+				List<List<Card>> usedExpansions = new ArrayList<List<Card>>();
+				for (int i = 0; i < randomExpansionLimit; ++ i) {
+					usedExpansions.add(kingdomCardsByExpansion.get(i));
 				}
-				Set<Card> cardSet = new HashSet<Card>();
-				for (Expansion expansion : expansions) {
-					cardSet.addAll(expansion.getKingdomCards());
-				}
-				cards = new ArrayList<Card>();
-				cards.addAll(cardSet);
+								
+				set = CardSet.getRandomCardSet(usedExpansions, count, expansionAllocation, 
+						numRandomEvents, numRandomProjects, numRandomLandmarks, 
+						linkMaxSidewaysCards, keepSidewaysCardsWithExpansion, adjustRandomForAlchemy);
 			}
-			if (randomIncludeEvents) {
-				cards.addAll(Cards.eventsCards);
-			}
-			if (randomIncludeProjects) {
-				cards.addAll(Cards.projectCards);
-			}
-			if (randomIncludeLandmarks) {
-				cards.addAll(Cards.landmarkCards);
-			}
-			set = CardSet.getRandomCardSet(cards, count, numRandomEvents, numRandomProjects, numRandomLandmarks, linkMaxSidewaysCards, adjustRandomForAlchemy);
 		}
 
 		return set;
 	}
 	
-	public static CardSet getRandomCardSet(final List<Card> possibleCards) {
-		return getRandomCardSet(possibleCards, -1, 0, 0, 0, false, false);
-	}
-
-	public static CardSet getRandomCardSet(final List<Card> possibleCards, int count) {
-		return getRandomCardSet(possibleCards, count, 0, 0, 0, false, false);
-	}
-	
 	/**
 	 * Gets a random card set containing the specified number of cards from the given possible cards
+	 * using the chosen selection methods.
 	 * 
-	 * @param possibleCards Possible cards and Events to choose from
-	 * @param count the number of cards to include in the result. -1 means to use the default number 
-	 *        of Kingdom piles and include a Bane card if needed.
-	 * @param eventCount number of Events to include in the result. Negative numbers mean to include
-	 *        at most that absolute value of Events using the selection method suggested in the rules 
-	 * @param projectCount number of Projects to include in the result. Negative numbers mean to include
-	 *        at most that absolute value of Projects using the selection method suggested in the rules
-	 * @param landmarkCount number of Landmarks to include in the result. Negative numbers mean to include
-	 *        at most that absolute value of Landmarks using the selection method suggested in the rules
-	 * @param linkMaxSidewaysCards true means to use the max of eventCount, projectCount, and landmarkCount if all are
-	 *        negative and use the combined total for where to stop
-	 * @return A random CardSet selected from the list of entered cards
+	 * @param kingdomCardsByExpansion Lists of cards for each expansion to be used
+	 * @param count How many Kingdom cards to choose
+	 * @param expansionAllocation how to select cards from the given expansions
+	 * @param numEvents Number of Events to choose. Negative numbers mean to include
+	 *        at most that absolute value of Events randomly.
+	 * @param numProjects Number of Projects to choose. Negative numbers mean to include
+	 *        at most that absolute value of Projects randomly.
+	 * @param numLandmarks Number of Landmarks to choose. Negative numbers mean to include
+	 *        at most that absolute value of Landmarks randomly.
+	 * @param linkMaxSidewaysCards
+	 * @param keepSidewaysCardsWithExpansion If true, only select sideways cards corresponding to the
+	 *        given expansions
+	 * @param adjustForAlchemy Whether to ensure 3-5 Alchemy cards are included if at least one is
+	 * @return A random CardSet selected from the lists of expansion cards
 	 */
-	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int eventCount, int projectCount, int landmarkCount, boolean linkMaxSidewaysCards, boolean adjustForAlchemy) {
+	private static CardSet getRandomCardSet(List<List<Card>> kingdomCardsByExpansion, int count, ExpansionAllocation expansionAllocation, int numEvents, int numProjects, int numLandmarks, boolean linkMaxSidewaysCards, boolean keepSidewaysCardsWithExpansion, boolean adjustForAlchemy) {
 		final List<Card> cardSetList = new ArrayList<Card>();
-		final List<Card> eventList = new ArrayList<Card>();
-		final List<Card> projectList = new ArrayList<Card>();
-		final List<Card> landmarkList = new ArrayList<Card>();
-		
-		possibleCards = new ArrayList<Card>(possibleCards);
-		shuffle(possibleCards);
 		
 		Card baneCard = null;
-		boolean findBandIfNeeded = false;
+		boolean findBaneIfNeeded = false;
 		if (count < 0) {
-			count = 10;
-			findBandIfNeeded = true;
+			count = DEFAULT_KINGDOM_CARDS;
+			findBaneIfNeeded = true;
 		}
 		
-		//negative number means take events as they come up until abs(eventCount) events - as in Dominion Adventures rules
-		boolean drawEvents = eventCount < 0;
-		boolean drawProjects = projectCount < 0;
-		boolean drawLandmarks = landmarkCount < 0;
-		int maxEvents = Math.abs(eventCount);
-		int maxProjects = Math.abs(projectCount);
-		int maxLandmarks = Math.abs(landmarkCount);
-		if (drawEvents && drawProjects && drawLandmarks && linkMaxSidewaysCards) {
-			maxEvents = maxProjects = maxLandmarks = Math.min(maxEvents, Math.min(maxProjects, maxLandmarks));
-		} else {
-			linkMaxSidewaysCards = false;
+		ArrayList<Card> possibleCards = new ArrayList<Card>();
+		for (List<Card> cards : kingdomCardsByExpansion) {
+			possibleCards.addAll(cards);
 		}
-		int numEvents = countEvents(possibleCards);
-		int numProjects = countProjects(possibleCards);
-		int numLandmarks = countLandmarks(possibleCards);
-		count = Math.min(possibleCards.size() - numEvents - numProjects - numLandmarks, count);
-		for (Card c : possibleCards) {
-			if (c.is(Type.Event)) { 
-				if(drawEvents) {
-					if (linkMaxSidewaysCards) {
-						if (eventList.size() + projectList.size()  + landmarkList.size() < maxEvents)
-							eventList.add(c);
-					} else if (eventList.size() < maxEvents) {
-						eventList.add(c);
-					}
-				}
-			} else if (c.is(Type.Project)) { 
-				if(drawProjects) {
-					if (linkMaxSidewaysCards) {
-						if (eventList.size() + projectList.size() + landmarkList.size() < maxEvents)
-							projectList.add(c);
-					} else if (projectList.size() < maxProjects) {
-						projectList.add(c);
-					}
-				}
-			} else if (c.is(Type.Landmark)) { 
-				if (drawLandmarks) {
-					if (linkMaxSidewaysCards) {
-						if (eventList.size() + projectList.size()  + landmarkList.size() < maxEvents)
-							landmarkList.add(c);
-					} else if (landmarkList.size() < maxLandmarks) {
-						landmarkList.add(c);
-					}
-				}
-			} else {
+		shuffle(possibleCards);
+		
+		if (expansionAllocation == ExpansionAllocation.Random) {
+			for (Card c : possibleCards) {
 				cardSetList.add(c);
 				if (cardSetList.size() == count) {
 					break;
 				}
 			}
+		} else if (expansionAllocation == ExpansionAllocation.Even) {
+			for(List<Card> cards : kingdomCardsByExpansion) {
+				shuffle(cards);
+			}
+			int i = 0;
+			while (cardSetList.size() < count) {
+				for(List<Card> cards : kingdomCardsByExpansion) {
+					if (i < cards.size()) {
+						cardSetList.add(cards.get(i));
+					}
+					if (cardSetList.size() == count)
+						break;
+				}
+				++i;
+			}
+		} else if (expansionAllocation == ExpansionAllocation.Proportional) {
+			int totalCards = 0;
+			for(List<Card> cards : kingdomCardsByExpansion) {
+				totalCards += cards.size();
+			}
+			for(List<Card> cards : kingdomCardsByExpansion) {
+				int numToPick = (int) Math.round((cards.size() / ((double)totalCards)) * count);
+				shuffle(cards);
+				for (int i = 0; i < numToPick; ++i) {
+					cardSetList.add(cards.get(i));
+				}
+			}
 		}
 		
-		// if needed, partition events/projects/landmarks into separate lists and pick them separately
-		if ((!drawEvents && eventCount > 0) || (!drawProjects && projectCount > 0) || (!drawLandmarks && landmarkCount > 0)) {
-			List<Card> events = new ArrayList<Card>();
-			List<Card> projects = new ArrayList<Card>();
-			List<Card> landmarks = new ArrayList<Card>();
-			for (Card c : possibleCards) {
-				if (c.is(Type.Event, null))
-					events.add(c);
-				else if (c.is(Type.Project, null))
-					projects.add(c);
-				else if (c.is(Type.Landmark, null))
-					landmarks.add(c);
-			}
-			eventCount = Math.min(eventCount, events.size());
-			projectCount = Math.min(projectCount, projects.size());
-			landmarkCount = Math.min(landmarkCount, landmarks.size());
-			if (eventCount > 0) {
-				pick(events, eventList, eventCount);
-			}
-			if (projectCount > 0) {
-				pick(projects, projectList, projectCount);
-			}
-			if (landmarkCount > 0) {
-				pick(landmarks, landmarkList, landmarkCount);
-			}
-		}
 		
 		// Do Alchemy recommendation - if at least one Alchemy card is in, use 3 to 5 at once
 		if (adjustForAlchemy)
 			performAlchemyRecommendation(cardSetList, possibleCards);
 		
 		// pick a bane card if needed
-		if (findBandIfNeeded && cardSetList.contains(Cards.youngWitch)) {
+		if (findBaneIfNeeded && cardSetList.contains(Cards.youngWitch)) {
 			for (Card c : possibleCards) {
 				if (cardSetList.contains(c))
 					continue;
@@ -300,9 +294,147 @@ public class CardSet {
 			}
 		}
 		
-		cardSetList.addAll(eventList);
-		cardSetList.addAll(projectList);
-		cardSetList.addAll(landmarkList);
+		
+		// Do sideways cards
+		List<Card> possibleEventCards = new ArrayList<Card>();
+		List<Card> possibleProjectCards = new ArrayList<Card>();
+		List<Card> possibleLandmarkCards = new ArrayList<Card>();
+		if (keepSidewaysCardsWithExpansion) {
+			for (List<Card> cards : kingdomCardsByExpansion) {
+				Expansion expansion = cards.get(0).getExpansion();
+				possibleEventCards.addAll(expansion.getEventCards());
+				possibleProjectCards.addAll(expansion.getProjectCards());
+				possibleLandmarkCards.addAll(expansion.getLandmarkCards());
+			}
+		} else {
+			for (Expansion expansion : Expansion.values()) {
+				possibleEventCards.addAll(expansion.getEventCards());
+				possibleProjectCards.addAll(expansion.getProjectCards());
+				possibleLandmarkCards.addAll(expansion.getLandmarkCards());
+			}
+		}
+		
+		if (linkMaxSidewaysCards) {
+			int numSidewaysCards = numEvents;
+			if (numSidewaysCards != 0) {
+				List<Card> possibleSidewaysCards = new ArrayList<Card>();
+				possibleSidewaysCards.addAll(possibleEventCards);
+				possibleSidewaysCards.addAll(possibleProjectCards);
+				possibleSidewaysCards.addAll(possibleLandmarkCards);
+				if (numSidewaysCards < 0)
+					numSidewaysCards = calcMaxSidewaysCards(Math.abs(numSidewaysCards), count);
+				shuffleAndAddFromList(cardSetList, possibleSidewaysCards, numSidewaysCards);
+			}
+		} else {
+			shuffleAndAddFromList(cardSetList, possibleEventCards, numEvents);
+			shuffleAndAddFromList(cardSetList, possibleProjectCards, numProjects);
+			shuffleAndAddFromList(cardSetList, possibleLandmarkCards, numLandmarks);
+		}
+		
+		return new CardSet(cardSetList, baneCard);
+	}
+
+	private static int calcMaxSidewaysCards(int maxSidewaysCards, int count) {
+		// Simulates the number of sideways cards you'd get by putting them in the randomizer deck
+		int numKingdomCards = 0;
+		for (Expansion e : Expansion.values()) {
+			if (e.isAggregate()) continue;
+			if (e == Expansion.Base || e == Expansion.Intrigue) continue;
+			numKingdomCards += e.getKingdomCards().size();
+		}
+		int numSidewaysCards = Cards.eventsCards.size() + Cards.projectCards.size() + Cards.landmarkCards.size();
+		int total = numKingdomCards + numSidewaysCards;
+		List<Boolean> deck = new ArrayList<Boolean>(Collections.nCopies(total, false));
+		for (int i = 0; i < numSidewaysCards; ++i) deck.set(i, true);
+		shuffle(deck);
+		int drawnKingdomCards = 0;
+		int drawnSidewaysCards = 0;
+		for (boolean isSideswaysCard : deck) {
+			if (isSideswaysCard) 
+				++drawnSidewaysCards;
+			else 
+				++drawnKingdomCards;
+			
+			if (drawnSidewaysCards == maxSidewaysCards) break;
+			if (drawnKingdomCards == count) break;
+		}
+		
+		return drawnSidewaysCards;
+	}
+
+	private static void shuffleAndAddFromList(List<Card> cardSetList, List<Card> possibleSidewaysCards, int numSidewaysCards) {
+		if (numSidewaysCards == 0) return;
+		int amountToChoose = numSidewaysCards > 0 ? numSidewaysCards : rand.nextInt(Math.abs(numSidewaysCards) + 1);
+		if (amountToChoose > possibleSidewaysCards.size())
+			amountToChoose = possibleSidewaysCards.size();
+		shuffle(possibleSidewaysCards);
+		for(int i = 0; i < amountToChoose; ++i) {
+			cardSetList.add(possibleSidewaysCards.get(i));
+		}
+	}
+
+	public static CardSet getRandomCardSet(final List<Card> possibleCards) {
+		return getRandomCardSet(possibleCards, -1, 0, false);
+	}
+
+	public static CardSet getRandomCardSet(final List<Card> possibleCards, int count) {
+		return getRandomCardSet(possibleCards, count, 0, false);
+	}
+	
+	/**
+	 * Gets a random card set containing the specified number of cards from the given possible cards
+	 * 
+	 * @param possibleCards Possible cards and sideways cards to choose from
+	 * @param count The number of cards to include in the result. -1 means to use the default number 
+	 *        of Kingdom piles and include a Bane card if needed.
+	 * @param maxNumSidewaysCards The maximum number of sideways cards to include in the result 
+	 * @param adjustForAlchemy Whether to ensure 3-5 Alchemy cards are included if at least one is
+	 * @return A random CardSet selected from the list of entered cards
+	 */
+	public static CardSet getRandomCardSet(List<Card> possibleCards, int count, int maxNumSidewaysCards, boolean adjustForAlchemy) {
+		final List<Card> cardSetList = new ArrayList<Card>();
+		List<Card> sidewaysCards = new ArrayList<Card>();
+		possibleCards = new ArrayList<Card>(possibleCards);
+		shuffle(possibleCards);
+		
+		Card baneCard = null;
+		boolean findBaneIfNeeded = false;
+		if (count < 0) {
+			count = DEFAULT_KINGDOM_CARDS;
+			findBaneIfNeeded = true;
+		}
+		
+		for (Card c : possibleCards) {
+			if (c.is(Type.Event) || c.is(Type.Project) || c.is(Type.Landmark)) {
+				if (sidewaysCards.size() < maxNumSidewaysCards)
+					sidewaysCards.add(c);
+			} else {
+				cardSetList.add(c);
+				if (cardSetList.size() == count) {
+					break;
+				}
+			}
+		}
+				
+		// Do Alchemy recommendation - if at least one Alchemy card is in, use 3 to 5 at once
+		if (adjustForAlchemy)
+			performAlchemyRecommendation(cardSetList, possibleCards);
+		
+		// pick a bane card if needed
+		if (findBaneIfNeeded && cardSetList.contains(Cards.youngWitch)) {
+			for (Card c : possibleCards) {
+				if (cardSetList.contains(c))
+					continue;
+	            if (isValidBane(c)) {
+					baneCard = c;
+				}
+			}
+			if (baneCard == null) {
+				baneCard = swapOutBaneCard(cardSetList, possibleCards);
+			}
+		}
+		
+		cardSetList.addAll(sidewaysCards);
 		
 		return new CardSet(cardSetList, baneCard);
 	}
@@ -419,47 +551,11 @@ public class CardSet {
 		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark);
 	}
 
-	private static void pick(List<Card> source, List<Card> target, int count) {
-		shuffle(source);
-		for (Card c : source) {
-			target.add(c);
-			if (target.size() == count)
-				break;
-		}
-	}
-
-	private static int countEvents(List<Card> allCards) {
-		int numEvents = 0;
-		for (Card c : allCards) {
-			if (c.is(Type.Event, null))
-				numEvents++;
-		}
-		return numEvents;
-	}
-	
-	private static int countProjects(List<Card> allCards) {
-		int numProjects = 0;
-		for (Card c : allCards) {
-			if (c.is(Type.Project, null))
-				numProjects++;
-		}
-		return numProjects;
-	}
-	
-	private static int countLandmarks(List<Card> allCards) {
-		int numLandmarks = 0;
-		for (Card c : allCards) {
-			if (c.is(Type.Landmark, null))
-				numLandmarks++;
-		}
-		return numLandmarks;
-	}
-
-	private static void shuffle(List<Card> cards) {
+	private static <T> void shuffle(List<T> cards) {
 		int numCards = cards.size();
 		for (int i = 0; i < numCards; ++i) {
 			int newIdx = rand.nextInt(numCards);
-			Card tmp = cards.get(i);
+			T tmp = cards.get(i);
 			cards.set(i, cards.get(newIdx));
 			cards.set(newIdx, tmp);
 		}

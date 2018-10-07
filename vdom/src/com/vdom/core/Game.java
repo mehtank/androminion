@@ -24,6 +24,7 @@ import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.EventType;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
+import com.vdom.core.CardSet.ExpansionAllocation;
 import com.vdom.core.MoveContext.TurnPhase;
 import com.vdom.core.Player.DurationEffect;
 import com.vdom.core.Player.ExtraTurnOption;
@@ -90,13 +91,13 @@ public class Game {
     public static BlackMarketSplitPileOptions blackMarketSplitPileOptions = BlackMarketSplitPileOptions.NONE;
     public static boolean blackMarketOnlyCardsFromUsedExpansions = false;
     
-    public static boolean randomIncludesEvents = false;
     public static int numRandomEvents = 0;
-    public static boolean randomIncludesProjects = false;
     public static int numRandomProjects = 0;
-    public static boolean randomIncludesLandmarks = false;
     public static int numRandomLandmarks = 0;
     public static boolean splitMaxSidewaysCards = true;
+    public static boolean keepSidewaysCardsWithExpansion = false;
+    public static int randomExpansionLimit = 0;
+    public static ExpansionAllocation randomExpansionAllocation = ExpansionAllocation.Random;
     
     public static int numProjectCubes = 2;
 
@@ -1727,6 +1728,7 @@ public class Game {
     }
 
     protected static void processNewGameArgs(String[] args) throws ExitException {
+    	
         numPlayers = 0;
         cardsSpecifiedAtLaunch = null;
         overallWins.clear();
@@ -1735,14 +1737,14 @@ public class Game {
         playerClassesAndJars.clear();
         playerCache.clear();
         numRandomEvents = 0;
-        randomIncludesEvents = false;
         numRandomProjects = 0;
-        randomIncludesProjects = false;
         numRandomLandmarks = 0;
-        randomIncludesLandmarks = false;
         splitMaxSidewaysCards = false;
         randomExpansions = null;
         randomExcludedExpansions = null;
+        keepSidewaysCardsWithExpansion = false;
+        randomExpansionLimit = 0;
+        randomExpansionAllocation = ExpansionAllocation.Random;
         vpCounter = false;
 
         String gameCountArg = "-count";
@@ -1754,6 +1756,9 @@ public class Game {
         String numRandomLandmarksArg = "-landmarkcards";
         String randomExcludesArg = "-randomexcludes";
         String splitMaxSidewaysCardsArg = "-splitmaxsidewayscards";
+        String keepSidewaysCardsWithExpansionArg = "-sidewayscardswithexpansion";
+        String limitRandomExpansionsArg = "-limitrandom";
+        String randomAllocationArg = "-randomallocation";
         String gameTypeStatsArg = "-test";
         String ignorePlayerErrorsArg = "-ignore";
         String showPlayersArg = "-showplayers";
@@ -1832,7 +1837,6 @@ public class Game {
                     try {
                         int num = Integer.parseInt(arg.substring(numRandomEventsArg.length()));
                         if (num != 0) {
-                        	randomIncludesEvents = true;
                         	numRandomEvents = num;
                         }
                     } catch (Exception e) {
@@ -1843,7 +1847,6 @@ public class Game {
                     try {
                         int num = Integer.parseInt(arg.substring(numRandomProjectsArg.length()));
                         if (num != 0) {
-                        	randomIncludesProjects = true;
                         	numRandomProjects = num;
                         }
                     } catch (Exception e) {
@@ -1854,7 +1857,6 @@ public class Game {
                     try {
                         int num = Integer.parseInt(arg.substring(numRandomLandmarksArg.length()));
                         if (num != 0) {
-                        	randomIncludesLandmarks = true;
                         	numRandomLandmarks = num;
                         }
                     } catch (Exception e) {
@@ -1863,6 +1865,22 @@ public class Game {
                     }
                 } else if (arg.toLowerCase().equals(splitMaxSidewaysCardsArg)) {
                     splitMaxSidewaysCards = true;
+                } else if (arg.toLowerCase().equals(keepSidewaysCardsWithExpansionArg)) {
+                    keepSidewaysCardsWithExpansion = true;
+                } else if (arg.toLowerCase().startsWith(limitRandomExpansionsArg)) {
+                    try {
+                    	randomExpansionLimit = Integer.parseInt(arg.substring(limitRandomExpansionsArg.length()));
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
+                    }
+                } else if (arg.toLowerCase().startsWith(randomAllocationArg)) {
+                    try {
+                    	randomExpansionAllocation = ExpansionAllocation.valueOf(arg.substring(randomAllocationArg.length()));
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
+                    }
                 } else if (arg.toLowerCase().startsWith(gameTypeArg)) {
                     try {
                         gameTypeStr = arg.substring(gameTypeArg.length());
@@ -3264,7 +3282,12 @@ public class Game {
 
             gameType = GameType.Specified;
         } else {
-            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomExcludedExpansions, randomIncludesEvents, numRandomEvents, randomIncludesProjects, numRandomProjects, randomIncludesLandmarks, numRandomLandmarks, !splitMaxSidewaysCards, true);
+            CardSet cardSet = CardSet.getCardSet(gameType, -1, randomExpansions, randomExcludedExpansions, randomExpansionLimit, randomExpansionAllocation, 
+            		numRandomEvents, 
+            		numRandomProjects,
+            		numRandomLandmarks,
+            		!splitMaxSidewaysCards, keepSidewaysCardsWithExpansion, 
+            		false);
             if(cardSet == null) {
                 cardSet = CardSet.getCardSet(CardSet.defaultGameType, -1);
             }
@@ -3310,7 +3333,10 @@ public class Game {
                         }
                     }
                 }
-                allCards = CardSet.getCardSet(GameType.Random, count+10, expansions, randomExcludedExpansions, false, 0, false, 0, false, 0, false, false).getCards();
+                allCards = CardSet.getCardSet(GameType.Random, count+10, expansions, randomExcludedExpansions, 0, ExpansionAllocation.Random,
+                		0, 0, 0, 
+                		false, false,
+                		false).getCards();
             } else {
                 allCards = CardSet.getCardSet(GameType.Random, count+10).getCards();
             }
