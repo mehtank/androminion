@@ -2298,7 +2298,7 @@ public class Game {
                 	if (!player.getHand().contains(cardToTrash)) {
                 		Util.playerError(player, "Trashing token error, invalid card to trash, ignoring.");
                 	} else {
-                		player.trashFromHand(cardToTrash, null, context);
+                		player.trashFromHand(cardToTrash, Cards.plan, context);
                 	}
                 }
         	}

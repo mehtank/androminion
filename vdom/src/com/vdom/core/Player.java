@@ -1717,7 +1717,7 @@ public abstract class Player {
         }
         
         // Sewers trashing reaction
-        if (hasProject(Cards.sewers) && !responsible.equals(Cards.sewers)) {
+        if (hasProject(Cards.sewers) && (responsible == null || !responsible.equals(Cards.sewers))) {
         	Cards.sewers.play(game, context, false, true, true, true, false);
         }
     }
