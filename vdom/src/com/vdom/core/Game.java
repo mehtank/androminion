@@ -3920,8 +3920,8 @@ public class Game {
                     	}
                     }
                     
-                    if (player.hasProject(Cards.innovation) && context.game.getCardsObtainedByPlayer().size() == 1 
-                    		&& event.card.is(Type.Action) && context.game.getCurrentPlayer() == player) {
+                    if (player.hasProject(Cards.innovation) && context.game.getCurrentPlayer() == player &&
+                    		event.card.is(Type.Action) && context.game.getActionCardsObtainedByPlayer().size() == 1) {
                     	//TODO: technically you should be able to order the when-gain abilities
                     	//      either play it before or after exercising the other when-gain abilities
                     	//      that don't move it
@@ -4845,6 +4845,18 @@ public class Game {
     
     public ArrayList<Card> getCardsObtainedByPlayer() {
         return getCardsObtainedByPlayer(playersTurn);
+    }
+    
+    public ArrayList<Card> getActionCardsObtainedByPlayer() {
+        ArrayList<Card> cards = getCardsObtainedByPlayer(playersTurn);
+        ArrayList<Card> result = new ArrayList<Card>();
+        Player player = players[playersTurn];
+        for(Card c : cards) {
+        	if (c.is(Type.Action, player)) {
+        		result.add(c);
+        	}
+        }
+        return result;
     }
     
     public ArrayList<Card> getCardsObtainedByLastPlayer() {
