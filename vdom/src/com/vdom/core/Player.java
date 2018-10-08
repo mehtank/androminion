@@ -513,7 +513,15 @@ public abstract class Player {
                     ArrayList<Card> actions = new ArrayList<Card>();
                     for(Card c : playedCards) {
                         if(c.is(Type.Action, context.player)) {
-                            actions.add(c);
+                        	boolean isDurationInEffect = false;
+                        	for (DurationEffect e : startTurnDurationEffects) {
+                        		if (e.sourceCard == c) {
+                        			isDurationInEffect = true;
+                        			break;
+                        		}
+                        	}
+                        	if (!isDurationInEffect)
+                        		actions.add(c);
                         }
                     }
                     if(actions.size() == 0) {
