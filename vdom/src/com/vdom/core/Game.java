@@ -2373,8 +2373,8 @@ public class Game {
         // Gain card after buying - event handler will deposit in appropriate location
         if (buy != null && !(buy.is(Type.Event) || buy.is(Type.Project))) {
         	GameEvent gainEvent = new GameEvent(GameEvent.EventType.CardObtained, (MoveContext) context);
-            gainEvent.card = card;
-            gainEvent.responsible = card != buy ? Cards.trader : null;
+            gainEvent.card = (card == null) ? buy : card;
+            gainEvent.responsible = (card != null && card != buy) ? Cards.trader : null;
             gainEvent.newCard = true;
             context.game.broadcastEvent(gainEvent);
         }

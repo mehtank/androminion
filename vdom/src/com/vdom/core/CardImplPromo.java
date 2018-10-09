@@ -100,7 +100,7 @@ public class CardImplPromo extends CardImpl {
 	                    GameEvent statusEvent = new GameEvent(GameEvent.EventType.Status, (MoveContext) context);
 	                    context.game.broadcastEvent(statusEvent);
 	
-	                    if (context.game.playBuy(context, card).equals(Cards.silver)) {
+	                    if (Cards.silver.equals(context.game.playBuy(context, card))) {
 	                        // trader swapped card in silver
 	                        // Wiki: Put bought card on top of BlackMarket deck
 	                        context.game.blackMarketPileShuffled.add(0, card);
