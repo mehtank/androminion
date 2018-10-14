@@ -1113,12 +1113,17 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
+    public boolean prince_shouldSetAside(MoveContext context) {
+    	return selectBoolean(context, Cards.prince);
+    }
+    
+    @Override
     public Card prince_cardToSetAside(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_prince_cardToSetAside(context)) {
             return super.prince_cardToSetAside(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isAction().maxCost(4).maxDebtCost(0).maxPotionCost(0)
-                .setPassable().setCardResponsible(Cards.prince);
+                .setCardResponsible(Cards.prince);
         return getCardFromHand(context, sco);
     }
 

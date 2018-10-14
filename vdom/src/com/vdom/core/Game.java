@@ -542,12 +542,7 @@ public class Game {
 	                if (isValidNightCard(context, nightCard)) {
 	                    GameEvent event = new GameEvent(GameEvent.EventType.Status, context);
 	                    broadcastEvent(event);
-	
-	                    try {
-	                        nightCard.play(this, context, true, true);
-	                    } catch (RuntimeException e) {
-	                        e.printStackTrace();
-	                    }
+	                    nightCard.play(this, context, true, true);
 	                } else {
 	                    Util.debug("Error:Invalid Night card selected");
 	                }
@@ -984,12 +979,7 @@ public class Game {
                     if (isValidAction(context, action)) {
                         GameEvent event = new GameEvent(GameEvent.EventType.Status, (MoveContext) context);
                         broadcastEvent(event);
-
-                        try {
-                            action.play(this, (MoveContext) context, true);
-                        } catch (RuntimeException e) {
-                            e.printStackTrace();
-                        }
+                        action.play(this, (MoveContext) context, true);
                     } else {
                         Util.debug("Error:Invalid action selected");
                         // action = null;
@@ -1265,13 +1255,11 @@ public class Game {
     		durationEffectsAreCards.add(false);
         }
         for (Card card : player.prince) {
-            if (!card.equals(Cards.prince)) {
-                allDurationAreSimple = false;
-                durationEffects.add(Cards.prince);
-                durationEffects.add(card);
-                durationEffectsAreCards.add(true);
-        		durationEffectsAreCards.add(false);
-            }
+            allDurationAreSimple = false;
+            durationEffects.add(Cards.prince);
+            durationEffects.add(card);
+            durationEffectsAreCards.add(true);
+    		durationEffectsAreCards.add(false);
         }
         for (Card card : player.summon) {
             if (!card.equals(Cards.summon)) {
@@ -1407,27 +1395,15 @@ public class Game {
             durationEffectsAreCards.remove(selection);
             
             if(card.equals(Cards.prince)) {
-                if (!(card2.is(Type.Duration, player))) {
-                    player.playedByPrince.add(card2);
-                }
+                player.playedByPrince.add(card2);
                 player.prince.remove(card2);
-                
                 context.freeActionInEffect++;
-                try {
-                    card2.play(this, context, false);
-                } catch (RuntimeException e) {
-                    e.printStackTrace();
-                }
+                card2.play(this, context, false);
                 context.freeActionInEffect--;
             } else if(card.equals(Cards.summon)) {
                 player.summon.remove(card2);
-                
                 context.freeActionInEffect++;
-                try {
-                    card2.play(this, context, false);
-                } catch (RuntimeException e) {
-                    e.printStackTrace();
-                }
+                card2.play(this, context, false);
                 context.freeActionInEffect--;
             } else if(card.behaveAsCard().equals(Cards.horseTraders)) {
             	//BUG: this doesn't let you call estates inheriting horse trader differently
@@ -1512,12 +1488,8 @@ public class Game {
                 	player.ghost.remove(card2);
                     
                     context.freeActionInEffect++;
-                    try {
-                        card2.play(this, context, false);
-                        card2.play(this, context, false, false, false, false, true);
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
-                    }
+                    card2.play(this, context, false);
+                    card2.play(this, context, false, false, false, false, true);
                     context.freeActionInEffect--;
                 }
             } else if(card.behaveAsCard().isCallableWhenTurnStarts()) {

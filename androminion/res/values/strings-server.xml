@@ -469,7 +469,7 @@
 	<string name="governor_option_two">Each Player Gains a Silver (Gold)</string>
 	<string name="governor_option_three">Each Player Upgrades exactly 1 (2) more</string>
 		
-	<string name="prince_part">set aside with prince</string>
+	<string name="prince_part">set aside with Prince</string>
 	
 	<string name="university_part">gain [University]</string>
 
@@ -555,6 +555,8 @@
   <string name="ducat_trash_copper">Trash Copper from hand</string>
   <string name="silos_query">Number of Coppers to discard for draw [%1$s]</string>
   <string name="starChart_query">Select card to put on deck [%1$s]</string>
+  
+  <string name="set_aside">Set aside</string>
   
   <string name="place_stash_query">Place Stash in deck</string>
   <string name="place_stashes_query">Place %1$s Stash cards in deck</string>

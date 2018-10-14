@@ -48,8 +48,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private MyCard[] myCardsInPlay;
     private List<Card> druidBoons;
 
-    private ArrayList<Card> playedCards = new ArrayList<Card>();
-    private ArrayList<Boolean> playedCardsNew = new ArrayList<Boolean>();
+    private ArrayList<Card> playedCardsUi = new ArrayList<Card>();
+    private ArrayList<Boolean> playedCardsUiNew = new ArrayList<Boolean>();
 
     private boolean hasJoined = false;
     private Object hasJoinedMonitor;
@@ -473,14 +473,18 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         
         GameStatus gs = new GameStatus();
         
-        matchToCardsInPlay(context, playedCards, playedCardsNew);
+        matchToCardsInPlay(context, playedCardsUi, playedCardsUiNew);
 
-        int[] playedArray = new int[playedCards.size()];
-        for (int i = 0; i < playedCards.size(); i++) {
-            Card c = playedCards.get(i);
-            boolean newcard = playedCardsNew.get(i).booleanValue();
+        int[] playedArray = new int[playedCardsUi.size()];
+        for (int i = 0; i < playedCardsUi.size(); i++) {
+            Card c = playedCardsUi.get(i);
+            boolean newcard = playedCardsUiNew.get(i).booleanValue();
             playedArray[i] = (cardToInt(c) * (newcard ? 1 : -1));
         }
+        
+        ArrayList<Card> princeStuff = new ArrayList<Card>();
+        princeStuff.addAll(player.getPrinces().a);
+        princeStuff.addAll(player.getPrince().a);
 
         gs.setTurnStatus(new int[] {context.getActionsLeft(),
             context.getBuysLeft(),
@@ -534,7 +538,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
                 .setTavern(cardArrToIntArr(player.getTavern().sort(new Util.CardTavernComparator())))
-                .setPrince(cardArrToIntArr(player.getPrince().toArray()))
+                .setPrince(cardArrToIntArr(princeStuff.toArray(new Card[princeStuff.size()])))
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
                 .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)
                 .setInheritance(player.inheritance == null ? -1 : cardToInt(player.inheritance))
@@ -758,7 +762,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                     quit("Join timed out");
             }
             whenStarted = System.currentTimeMillis();
-            playedCards.clear();
+            playedCardsUi.clear();
             gameOver = false;
 
             // Only send the event if its the first game starting, which doesn't include the player
@@ -771,14 +775,14 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             curPlayer = event.getPlayer();
             curContext = context;
             newTurn = true;
-            playedCards.clear();
-            playedCardsNew.clear();
+            playedCardsUi.clear();
+            playedCardsUiNew.clear();
             extras.add(game.swampHagAttacks(event.getPlayer()));
             extras.add(game.hauntedWoodsAttacks(event.getPlayer()));
             extras.add(game.enchantressAttacks(event.getPlayer()));
         } else if (event.getType() == EventType.TurnEnd) {
-            playedCards.clear();
-            playedCardsNew.clear();
+            playedCardsUi.clear();
+            playedCardsUiNew.clear();
             
             int islandSize = event.player.island.size();
             extras.add(islandSize);
@@ -788,8 +792,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         		event.getType() == EventType.PlayingDurationAction || 
         		event.getType() == EventType.CallingCard || 
         		event.getType() == EventType.CardInPlay) {
-            playedCards.add(event.getCard());
-            playedCardsNew.add(event.newCard);
+            playedCardsUi.add(event.getCard());
+            playedCardsUiNew.add(event.newCard);
         } else if (event.getType() == EventType.GameOver) {
             curPlayer = event.getPlayer();
             curContext = context;

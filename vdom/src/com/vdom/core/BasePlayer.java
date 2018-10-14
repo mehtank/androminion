@@ -1327,6 +1327,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         return lowestCard(context, context.getPlayer().getHand(), true);
     }
+    
+    @Override
+    public boolean prince_shouldSetAside(MoveContext context) {
+    	return prince_cardCandidates(context, context.getPlayer().getHand().a, true).length > 0;
+    }
 
     @Override
     public Card prince_cardToSetAside(MoveContext context) {
@@ -1352,7 +1357,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         ArrayList<Card> randList = new ArrayList<Card>();
         int maxCost = -1;
         for (Card card : cardList) {
-            if (card.is(Type.Action, context.player) && card.getCost(context) <= 4 && !card.costPotion()) {
+            if (card.is(Type.Action, context.player) && card.getCost(context) <= 4 && !card.costPotion() && card.getDebtCost(context) == 0) {
                 if (   !card.is(Type.Ruins, context.player)
                     && !card.equals(Cards.necropolis)
                     && !card.trashForced()

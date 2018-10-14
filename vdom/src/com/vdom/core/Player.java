@@ -57,6 +57,7 @@ public abstract class Player {
     protected CardList nativeVillage;
     protected CardList tavern;
     protected CardList prince;
+    protected CardList princes;
     protected CardList summon;
     protected CardList island;
     protected CardList haven;
@@ -335,7 +336,8 @@ public abstract class Player {
         playedCards = new CardList(this, "InPlay");
         nativeVillage = new CardList(this, "Native Village");
         tavern = new CardList(this, "Tavern");
-        prince = new CardList(this, "Prince");
+        prince = new CardList(this, "Princed Cards");
+        princes = new CardList(this, "Princes");
         summon = new CardList(this, "Summon");
         playedByPrince = new CardList(this, "PlayedByPrince");
         island = new CardList(this, "Island");
@@ -692,6 +694,10 @@ public abstract class Player {
         return prince;
     }
     
+    public CardList getPrinces() {
+        return princes;
+    }
+    
     public CardList getSummon() {
         return summon;
     }
@@ -901,6 +907,9 @@ public abstract class Player {
             allCards.add(card);
         }
         for (Card card : prince) {
+            allCards.add(card);
+        }
+        for (Card card : princes) {
             allCards.add(card);
         }
         for (Card card : summon) {
@@ -1603,9 +1612,9 @@ public abstract class Player {
     // test if any prince card left the play
     public void princeCardLeftThePlay(Player currentPlayer) {
         if (currentPlayer.playedByPrince.size() > 0) {
-            ArrayList<Card> playedByPrince = new ArrayList<Card>();
-            for (int i = 0; i < currentPlayer.playedByPrince.size(); i++) {
-                playedByPrince.add(currentPlayer.playedByPrince.remove(i));
+        	ArrayList<Card> playedByPrince = new ArrayList<Card>();
+            while (!playedByPrince.isEmpty()) {
+                playedByPrince.add(currentPlayer.playedByPrince.remove(0));
             }
             ArrayList<Card> playedCards = new ArrayList<Card>();
             for (int i = 0; i < currentPlayer.playedCards.size(); i++) {
@@ -2140,6 +2149,7 @@ public abstract class Player {
     public abstract Card island_cardToSetAside(MoveContext context);
 
     public abstract Card prince_cardToSetAside(MoveContext context);
+    public abstract boolean prince_shouldSetAside(MoveContext context);
     public abstract int duration_cardToPlay(MoveContext context, Object[] cards);
     public abstract Card[] prince_cardCandidates(MoveContext context, ArrayList<Card> cardList, boolean onlyBest);
 

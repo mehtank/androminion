@@ -306,24 +306,40 @@ public class CardImplPromo extends CardImpl {
 	
 	private void prince(Game game, MoveContext context, Player currentPlayer) {
         if (currentPlayer.isInPlay(this)) {
-            Card card = currentPlayer.controlPlayer.prince_cardToSetAside(context);
-            if (card != null && !currentPlayer.hand.contains(card)) {
-                Util.playerError(currentPlayer, "Prince set aside card error, setting aside nothing.");
-                card = null;
-            }
+        	if (!currentPlayer.controlPlayer.prince_shouldSetAside(context)) 
+        		return;
+        	
+        	currentPlayer.princes.add(currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.getControlCard())));
+            this.getControlCard().stopImpersonatingCard();
             
-            if (card != null && card.is(Type.Action, currentPlayer) && card.getCost(context) <= 4 && !card.costPotion()) {
-                currentPlayer.prince.add(currentPlayer.playedCards.remove(currentPlayer.playedCards.lastIndexOf((Card) this.getControlCard())));
-                this.getControlCard().stopImpersonatingCard();
-                
-                currentPlayer.hand.remove(card);
-                currentPlayer.prince.add(card);
-                
-                GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, (MoveContext) context);
-                event.card = card;
-                event.responsible = this;
-                game.broadcastEvent(event);
-            }
+            GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, (MoveContext) context);
+            event.card = this;
+            event.responsible = this;
+            game.broadcastEvent(event);
+        	
+        	ArrayList<Card> possibleCards = new ArrayList<Card>();
+        	for (Card c : currentPlayer.hand) {
+        		if (c.is(Type.Action, currentPlayer) && c.getCost(context) <= 4 && c.getDebtCost(context) == 0 && !c.costPotion()) {
+        			possibleCards.add(c);
+        		}
+        	}
+        	if (possibleCards.size() == 0) return;
+        	Card card = possibleCards.get(0);
+        	if (possibleCards.size() > 1) {
+        		card = currentPlayer.controlPlayer.prince_cardToSetAside(context);
+                if (card == null || !currentPlayer.hand.contains(card) || !card.is(Type.Action, currentPlayer) || card.getCost(context) > 4 || card.getDebtCost(context) != 0 || card.costPotion()) {
+                    Util.playerError(currentPlayer, "Prince set aside card error, setting aside first card.");
+                    card = possibleCards.get(0);
+                }
+        	}
+        	
+        	currentPlayer.hand.remove(card);
+            currentPlayer.prince.add(card);
+            
+            event = new GameEvent(GameEvent.EventType.CardSetAside, (MoveContext) context);
+            event.card = card;
+            event.responsible = this;
+            game.broadcastEvent(event);
         }
     }
 	
