@@ -489,7 +489,7 @@ public class CardImplIntrigue extends CardImpl {
         if (cardOk) {
             Card gained = currentPlayer.gainNewCard(card, this.getControlCard(), context);
             if (gained != null && gained.equals(card)) {
-                if (gained.is(Type.Victory)) { //Topdecking if it's an Action or Treasure is already handled in the gameEvent handler
+                if (gained.is(Type.Victory, currentPlayer)) { //Topdecking if it's an Action or Treasure is already handled in the gameEvent handler
                     for (Player player : playersToAttack) {
                         MoveContext playerContext = new MoveContext(game, player);
                         playerContext.attackedPlayer = player;
@@ -716,6 +716,7 @@ public class CardImplIntrigue extends CardImpl {
     }
     
     private void swindler(Game game, MoveContext context, Player currentPlayer) {
+    	//TODO: when attack played logic first
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
                 player.attacked(this.getControlCard(), context);
@@ -725,6 +726,8 @@ public class CardImplIntrigue extends CardImpl {
                 Card draw = game.draw(playerContext, Cards.swindler, 1);
                 if (draw != null) {
                     player.trash(draw, this.getControlCard(), playerContext);
+                    
+                    //TODO: don't ask if there isn't a valid card to select or there is only 1 card to select
 
                     Card card = currentPlayer.controlPlayer.swindler_cardToSwitch(context, draw.getCost(context), draw.getDebtCost(context), draw.costPotion());
 

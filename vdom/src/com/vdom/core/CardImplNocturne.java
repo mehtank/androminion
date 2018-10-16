@@ -1027,6 +1027,14 @@ public class CardImplNocturne extends CardImpl {
 	}
 		
 	private void shepherd(Game game, MoveContext context, Player currentPlayer) {
+		int numVictories = 0;
+		for (Card c : currentPlayer.getHand()) {
+			if (c.is(Type.Victory, currentPlayer))
+				numVictories++;
+		}
+		if (numVictories == 0)
+			return;
+		
         Card[] cards = currentPlayer.controlPlayer.shepherd_cardsToDiscard(context);
         for(Card card : cards) {
         	if (!card.is(Type.Victory, currentPlayer)) {

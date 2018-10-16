@@ -2298,7 +2298,7 @@ public class Game {
         }
         
         // On-buy effects from triggers
-        if (!buy.costPotion() && buy.getDebtCost(context) == 0 && !(buy.is(Type.Victory)) && cost < 5 && !(buy.is(Type.Event) || buy.is(Type.Project))) {
+        if (!buy.costPotion() && buy.getDebtCost(context) == 0 && !(buy.is(Type.Victory, context.player)) && cost < 5 && !(buy.is(Type.Event) || buy.is(Type.Project))) {
             for (int i = 1; i <= context.countCardsInPlay(Cards.talisman); i++) {
                 if (buy.equals(getPile(buy).topCard())) {
                     context.getPlayer().gainNewCard(buy, Cards.talisman, context);
@@ -2315,7 +2315,7 @@ public class Game {
             player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn(), context, Cards.merchantGuild);
         }
 
-        if (buy.is(Type.Victory)) {
+        if (buy.is(Type.Victory, context.player)) {
             context.victoryCardsBoughtThisTurn++;
             for (int i = 1; i <= context.countCardsInPlay(Cards.hoard); i++) {
                 player.gainNewCard(Cards.gold, Cards.hoard, context);
@@ -3802,7 +3802,7 @@ public class Game {
                         return;
                     }
 
-                    if (context != null && event.card.is(Type.Victory)) {
+                    if (context != null && event.card.is(Type.Victory, context.player)) {
                         context.vpsGainedThisTurn += event.card.getVictoryPoints();
                     }
 

@@ -478,6 +478,14 @@ public class CardImplEmpires extends CardImpl {
     }
     
     private void opulentCastle(Game game, MoveContext context, Player currentPlayer) {
+    	int numVictories = 0;
+		for (Card c : currentPlayer.getHand()) {
+			if (c.is(Type.Victory, currentPlayer))
+				numVictories++;
+		}
+		if (numVictories == 0)
+			return;
+    	
         Card[] cards = currentPlayer.controlPlayer.opulentCastle_cardsToDiscard(context);
         for(Card card : cards) {
         	if (!card.is(Type.Victory, currentPlayer)) {

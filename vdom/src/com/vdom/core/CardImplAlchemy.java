@@ -179,7 +179,7 @@ public class CardImplAlchemy extends CardImpl {
             if (cardToTrash.is(Type.Treasure)) {	
                 currentPlayer.gainNewCard(Cards.transmute, this.getControlCard(), context);
             }
-            if (cardToTrash.is(Type.Victory)) {
+            if (cardToTrash.is(Type.Victory, currentPlayer)) {
                 currentPlayer.gainNewCard(Cards.gold, this.getControlCard(), context);
             }
         }

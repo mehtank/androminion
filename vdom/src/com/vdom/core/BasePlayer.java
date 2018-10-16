@@ -225,7 +225,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || !Cards.isSupplyCard(card)
                 || !context.isCardOnTop(card)
                 || (actionOnly && !(card.is(Type.Action))) 
-                || (!victoryCardAllowed && (card.is(Type.Victory)) && !card.equals(Cards.curse))
+                || (!victoryCardAllowed && (card.is(Type.Victory, context.player)) && !card.equals(Cards.curse))
                 || (exactCost && (cardCost != maxCost || cardDebt != maxDebtCost || maxPotionCost != cardPotion))
                 || (cardCost > maxCost || cardDebt > maxDebtCost || cardPotion > maxPotionCost)
                 || (mustCostLessThanMax && (cardCost == maxCost && cardDebt == maxDebtCost && maxPotionCost == cardPotion))
@@ -5230,10 +5230,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card villan_cardToDiscard(MoveContext context, Card[] cards) {
     	// prioritize victory only cards first
     	for (Card c : cards) {
-    		Type[] types = c.getTypes(context.player);
-    		if (types.length == 1 && types[0] == Type.Victory) {
+    		if (isOnlyVictory(c, context.player))
     			return c;
-    		}
     	}
     	// then junk
     	Card junkCard = pickOutCard(cards, getTrashCards());
