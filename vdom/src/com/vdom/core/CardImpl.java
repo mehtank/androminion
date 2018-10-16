@@ -1162,17 +1162,18 @@ public class CardImpl implements Card, Comparable<Card>{
     }
     
     protected void placeToken(MoveContext context, Card card, PlayerSupplyToken token) {
-    	if (card == null) {
-    		Card[] cards = context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true, Type.Action);
-    		if (cards.length != 0) {
-                Util.playerError(context.getPlayer(), getName() + " error: did not pick a valid pile, ignoring.");
-            }
-            return;
-    	}
-    	if (!Cards.isSupplyCard(card)) {
-    		Util.playerError(context.getPlayer(), getName() + " error: Invalid pile chosen, ignoring");
-    	}
+    	Card[] possiblePiles = context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true, Type.Action);
+    	if (possiblePiles.length == 0) return;
     	
+    	if (card == null) {
+    		Util.playerError(context.getPlayer(), getName() + " error: did not pick a pile, picking first.");
+            card  = possiblePiles[0];
+    	}
+    	if (!Arrays.asList(possiblePiles).contains(card)) {
+    		Util.playerError(context.getPlayer(), getName() + " error: Invalid pile chosen, picking first");
+    		card = possiblePiles[0];
+    	}
+    	    	
     	context.game.movePlayerSupplyToken(card, context.getPlayer(), token);
 	}
     

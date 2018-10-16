@@ -684,7 +684,7 @@ public class CardImplAdventures extends CardImpl {
 			card = context.getPlayer().controlPlayer.teacher_actionCardPileToHaveToken(context, token);
 		}
 		
-    	placeToken(context, card, token);
+		context.game.movePlayerSupplyToken(card, context.getPlayer(), token);
 	}
     
     private void transmogrify(MoveContext context, Game game, Player currentPlayer) {
@@ -1098,7 +1098,7 @@ public class CardImplAdventures extends CardImpl {
             if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && !context.game.isPileEmpty(card)) {
             	Card gainedCard = context.player.gainNewCard(card, this.getControlCard(), context);
                 if (context.game.getPile(card).equals(context.game.getPile(gainedCard))) //check that the placeholdercard is from the same pile as the gained card.
-            		placeToken(context, card, PlayerSupplyToken.PlusOneBuy);
+                	context.game.movePlayerSupplyToken(card, context.getPlayer(), PlayerSupplyToken.PlusOneBuy);
             }
         }
     	

@@ -197,14 +197,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, actionOnly, victoryCardAllowed, false, mustPick, null);
     }
     
-    protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except) {
+    protected Card bestCardInPlay(MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except) {
+    	return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, actionOnly, victoryCardAllowed, mustCostLessThanMax, mustPick, except, GetCardsInGameOptions.TopOfPiles);
+    }
+    
+    protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except, GetCardsInGameOptions cardsInGameType) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
             maxCost = COST_MAX;
             maxDebtCost = COST_MAX;
         }
         
-        Card[] cards = context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true);
+        Card[] cards = context.getCardsInGame(cardsInGameType, true);
         ArrayList<Card> cardListGood = new ArrayList<Card>();
         ArrayList<Card> cardListBad = new ArrayList<Card>();
         int maxPotionCost = potion ? 1 : 0;
@@ -3964,7 +3968,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card ferry_actionCardPileToHaveToken(MoveContext context) {
-    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    	return bestCardInPlay(context, COST_MAX, false, COST_MAX, true, true, true, false, true, null, GetCardsInGameOptions.Placeholders);
     }
     
     @Override
@@ -3975,7 +3979,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card lostArts_actionCardPileToHaveToken(MoveContext context) {
-    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    	//TODO: favor terminal draw / terminals
+    	return bestCardInPlay(context, COST_MAX, false, COST_MAX, true, true, true, false, true, null, GetCardsInGameOptions.Placeholders);
     }
         
     public ExtraTurnOption extraTurn_chooseOption(MoveContext context, ExtraTurnOption[] options) {
@@ -3989,7 +3994,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card pathfinding_actionCardPileToHaveToken(MoveContext context) {
-    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    	return bestCardInPlay(context, COST_MAX, false, COST_MAX, true, true, true, false, true, null, GetCardsInGameOptions.Placeholders);
     }
     
     @Override
@@ -4021,7 +4026,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card plan_actionCardPileToHaveToken(MoveContext context) {
     	//TODO: favor lower cards we'd want a lot of (e.g. villages, cantrips)
-    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    	return bestCardInPlay(context, COST_MAX, false, COST_MAX, true, true, true, false, true, null, GetCardsInGameOptions.Placeholders);
     }
     
     @Override
@@ -4096,7 +4101,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card training_actionCardPileToHaveToken(MoveContext context) {
-    	return bestCardInPlay(context, COST_MAX, false, true, true, true, true);
+    	return bestCardInPlay(context, COST_MAX, false, COST_MAX, true, true, true, false, true, null, GetCardsInGameOptions.Placeholders);
     }
     
     @Override
