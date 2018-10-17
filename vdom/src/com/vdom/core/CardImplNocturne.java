@@ -1093,12 +1093,12 @@ public class CardImplNocturne extends CardImpl {
             	for (Card card : player.hand){
             		player.reveal(card, getControlCard(), playerContext);
             	}
-            	return;
+            	continue;
             }
             if (discardCards.size() == 1) {
             	int idx = player.hand.indexOf(discardCards.get(0));
         		player.discard(player.hand.remove(idx), this.getControlCard(), context);
-            	return;
+            	continue;
             }
             Card toDiscard = player.controlPlayer.raider_cardToDiscard(playerContext, discardCards.toArray(new Card[0]));
             if (toDiscard == null || !discardCards.contains(toDiscard)) {
