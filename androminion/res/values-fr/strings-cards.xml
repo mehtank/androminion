@@ -749,7 +749,7 @@
     <string name="Windfall_desc">Si votre deck et votre défausse sont vides, recevez 3 cartes Or.</string>
         
     <string name="Aqueduct_name">Aqueduc</string>
-    <string name="Aqueduct_desc">Lorsque vous recevez une carte Trésor, déplacez 2 Jetons Victoire de sa pile vers l\'Aqueduc. Lorsque vous recevez une carte Victoire, prenez les Jetons Victoire situés sur l\'Aqueduc.\n --------------\n Mise en place: Placez 8 Jetons Victoire sur les piles de cartes Or et Argent.</string>
+    <string name="Aqueduct_desc">Lorsque vous recevez une carte Trésor, déplacez 1 Jeton Victoire de sa pile vers l\'Aqueduc. Lorsque vous recevez une carte Victoire, prenez les Jetons Victoire situés sur l\'Aqueduc.\n --------------\n Mise en place: Placez 8 Jetons Victoire sur les piles de cartes Or et Argent.</string>
     <string name="Arena_name">Arène</string>
     <string name="Arena_desc">Au début de votre phase Achat, vous pouvez défausser une carte Action. dans ce cas, prenez 2 Jetons Victoire de l\'Arène.\n -------------\n Mise en place: Placez 6 Jetons Victoire par joueur sur l\'Arène.</string>
     <string name="BanditFort_name">Fort des Bandits</string>
