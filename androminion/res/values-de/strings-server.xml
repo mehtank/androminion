@@ -210,8 +210,8 @@
 	<string name="MinusOneCoinTokenOff">-1 Geld-Marker entfernt</string>
 	<string name="MinusOneCardTokenOn">-1 Karte-Marker auf Nachziehstapel gelegt</string>
 	<string name="MinusOneCardTokenOff">-1 Karte-Marker entfernt</string>
-	<string name="ReceivingBoonOrHex">Erhalte</string>
-	<string name="ReceivedBoonOrHex">Erhalten</string>
+	<string name="ReceivingBoonOrHex">Empfange</string>
+	<string name="ReceivedBoonOrHex">Empfangen</string>
 	<string name="TookState">%1$s genommen</string>
 	<string name="TookStateFromPlayer">%1$s von %2$s genommen</string>
 	<string name="ReturnedState">%1$s zurück gelegt</string>
@@ -533,8 +533,8 @@
 	<string name="mountainPass_query">Gebirgspass: Biete für 8 Punktemarker</string>
 	<string name="mountainPass_high_bid_query">Gebirgspass: Biete für 8 Punktemarker (Höchstgebot: %1$s)</string>
 	<string name="crypt_query">%1$s: Wähle eine Karte zum auf die Hand nehmen</string>
-	<string name="fool_query">%1$s: Wähle nächsten Segen</string>
-	<string name="lostInTheWoods_part_discard_for_boon">Abwerfen für einen Segen</string>
+	<string name="fool_query">%1$s: Wähle nächste Gabe</string>
+	<string name="lostInTheWoods_part_discard_for_boon">Abwerfen für eine Gabe</string>
 	<string name="the_earths_gift_part">%1$s: Um eine Karte die bis zu (4) Kostet zu nehmen, werfe ab</string>
 	<string name="the_skys_gift_part">%1$s: Für ein Gold, werfe ab</string>
 	<string name="necromancer_query">%1$s: Wähle Aktionskarte vom Müll</string>
@@ -557,9 +557,9 @@
 	<string name="sprawlingcastle_gain_duchy">Nimm ein Herzogtum</string>
 	<string name="sprawlingcastle_gain_estates">Nimm 3 Anwesen</string>
 
-	<string name="blessedVillage_receive_boon_now">Erhalte %1$s (%2$s) jetzt</string>
+	<string name="blessedVillage_receive_boon_now">Empfange %1$s (%2$s) jetzt</string>
 	<string name="blessedVillage_receive_boon_next_turn">beim Beginn des nächsten Zuges</string>
-	<string name="pixie_trash_for_double_boon">Entsorge dies und erhalte %1$s zwei mal (2x %2$s)</string>
+	<string name="pixie_trash_for_double_boon">Entsorge dies und empfange %1$s zwei mal (2x %2$s)</string>
 	<string name="boon_name_and_desc">%1$s (%2$s)</string>
 
 	<string name="card_played_as_card">%1$s (gespielt als %2$s)</string>
