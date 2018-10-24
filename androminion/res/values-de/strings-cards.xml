@@ -803,7 +803,7 @@
     <string name="Druid_name">Druidin</string>
     <string name="Druid_desc">Empfange eine der zur Seite gelegten Gaben (lasse sie dort liegen) \nSpielvorbereitung: Lege die obersten 3 Gaben aufgedeckt zur Seite.</string>
     <string name="Exorcist_name">Exorzistin</string>
-    <string name="Exorcist_desc">Entsorge eine Karte aus Deiner Hand. Nimm dir einen Geist der weniger kostet als die entsorgte Karte.</string>
+    <string name="Exorcist_desc">Entsorge eine Karte aus Deiner Hand. Nimm dir eine Erscheinung die weniger kostet als die entsorgte Karte.</string>
     <string name="FaithfulHound_name">Getreuer Hund</string>
     <string name="FaithfulHound_desc">Wenn Du diese Karte außer in deiner Aufräumphase ablegst, darfst Du sie zur Seite legen und nach diesem Zug wieder auf die Hand nehmen.</string>
     <string name="Fool_name">Narr</string>
