@@ -1036,6 +1036,8 @@ public class CardImplNocturne extends CardImpl {
 			return;
 		
         Card[] cards = currentPlayer.controlPlayer.shepherd_cardsToDiscard(context);
+        if (cards == null || cards.length == 0)
+        	return;
         for(Card card : cards) {
         	if (!card.is(Type.Victory, currentPlayer)) {
         		Util.playerError(currentPlayer, "Shepherd choice error, trying to discard non-victory cards, ignoring.");
