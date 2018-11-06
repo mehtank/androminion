@@ -786,7 +786,7 @@ public class Cards {
         actionCardsBaseGame.add(chancellor = new CardImpl.Builder(Cards.Kind.Chancellor, 3, Type.Action).addGold(2).description("You may immediately put your deck into your discard pile.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(feast = new CardImpl.Builder(Cards.Kind.Feast, 4, Type.Action).description("Trash this card. Gain a card costing up to 5 coin.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(spy = new CardImpl.Builder(Cards.Kind.Spy, 4, Type.Action, Type.Attack).addCards(1).addActions(1).description("Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.").expansion(Expansion.Base).build());
-        actionCardsBaseGame.add(thief = new CardImpl.Builder(Cards.Kind.Thief, 4, Type.Action, Type.Attack).description("Each other player reveals the top 2 cards of his deck. If they revelaed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.").expansion(Expansion.Base).build());
+        actionCardsBaseGame.add(thief = new CardImpl.Builder(Cards.Kind.Thief, 4, Type.Action, Type.Attack).description("Each other player reveals the top 2 cards of his deck. If they revealed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.").expansion(Expansion.Base).build());
         actionCardsBaseGame.add(woodcutter = new CardImpl.Builder(Cards.Kind.Woodcutter, 3, Type.Action).addBuys(1).addGold(2).expansion(Expansion.Base).build());
         
         actionCardsBaseGameAll.addAll(actionCardsBaseGame);
