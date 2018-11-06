@@ -1000,8 +1000,8 @@
     <string name="SilkMerchant_desc">When you gain or trash this, +1 Coffers and +1 Villager.</string>
     <string name="Treasurer_name">Treasurer</string>
     <string name="Treasurer_desc">Choose one: Trash a Treasure from your hand; or gain a Treasure from the trash to your hand; or take the Key.</string>
-    <string name="Villan_name">Villan</string>
-    <string name="Villan_desc">Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can\'t).</string>
+    <string name="Villain_name">Villain</string>
+    <string name="Villain_desc">Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can\'t).</string>
     
     <string name="Flag_name">Flag</string>
     <string name="Flag_desc">When drawing your hand, +1 Card.</string>

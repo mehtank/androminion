@@ -246,6 +246,43 @@
   <string name="Luftschloss_gametype">Luftschloss</string>
   <string name="PookaPranks_gametype">Pooka Pranks</string>
   
+  
+  <string name="Overture_gametype">Overture</string>
+  <string name="Prelude_gametype">Prelude</string>
+  
+  <string name="ItTakesAVillager_gametype">It Takes a Villager</string>
+  <string name="CaptureTheFlag_gametype">Capture the Flag</string>
+  
+  <string name="MementoMori_gametype">Memento Mori</string>
+  <string name="ClockworkCourt_gametype">Clockwork Court</string>
+  
+  <string name="FreeShipping_gametype">Free Shipping</string>
+  <string name="DiggingForTreasure_gametype">Digging for Treasure</string>
+  
+  <string name="PeekABoo_gametype">Peek-a-boo</string>
+  
+  <string name="DreamersOfDreams_gametype">Dreamers of Dreams</string>
+  <string name="MoversAndShakers_gametype">Movers and Shakers</string>
+    
+  <string name="ComboCorner_gametype">Combo Corner</string>
+  <string name="FillingTheCoffers_gametype">Filling the Coffers</string>
+  
+  <string name="SweetenedDeals_gametype">Sweetened Deals</string>
+  <string name="APennySaved_gametype">A Penny Saved</string>
+  
+  <string name="Stargazing_gametype">Stargazing</string>
+  <string name="SewerRats_gametype">Sewer Rats</string>
+  
+  <string name="Progress_gametype">Progress</string>
+  <string name="OnceUponATime_gametype">Once Upon a Time</string>
+  
+  <string name="ExploringTheCity_gametype">Exploring the City</string>
+  <string name="NavigatingTheSewers_gametype">Navigating the Sewers</string>
+  
+  <string name="BecomingAMonster_gametype">Becoming a Monster</string>
+  <string name="TrueBelievers_gametype">True Believers</string>
+  
+  
   <string name="Test_gametype">Test (for testing)</string>
 
 </resources>

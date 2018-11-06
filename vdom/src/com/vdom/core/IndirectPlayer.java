@@ -4361,7 +4361,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
-    public Card villan_cardToDiscard(MoveContext context, Card[] cards) {
-    	return cards[selectOption(context, Cards.villan, cards)];
+    public Card villain_cardToDiscard(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.villain, cards)];
     }
 }

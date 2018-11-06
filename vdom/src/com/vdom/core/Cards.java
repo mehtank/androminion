@@ -142,7 +142,7 @@ public class Cards {
         // Renaissance Expansion
         ActingTroupe, BorderGuard, CargoShip, Ducat, Experiment, FlagBearer, Hideout, Improve, Inventor, Lackeys, MountainVillage, 
         OldWitch, Patron, Priest, Recruiter, Research, Scepter, Scholar, Sculptor, Seer, Spices, Swashbuckler, SilkMerchant, 
-        Treasurer, Villan,
+        Treasurer, Villain,
         
         Flag, Horn, Key, Lantern, TreasureChest,
         
@@ -691,7 +691,7 @@ public class Cards {
     public static final Card swashbuckler;
     public static final Card silkMerchant;
     public static final Card treasurer;
-    public static final Card villan;
+    public static final Card villain;
     
     public static final Card flag;
     public static final Card horn;
@@ -1303,7 +1303,7 @@ public class Cards {
         actionCardsRenaissance.add(swashbuckler    = new CardImpl.Builder(Cards.Kind.Swashbuckler, 5, Type.Action).linkedState(treasureChest).addCards(3).description("If your discard pile has any cards in it: +1 Coffers, then if you have at least 4 Coffers tokens, take the Treasure Chest.").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(silkMerchant    = new CardImpl.Builder(Cards.Kind.SilkMerchant, 4, Type.Action).addCards(2).addBuys(1).description("When you gain or trash this, +1 Coffers and +1 Villager.").expansion(Expansion.Renaissance).build());
         actionCardsRenaissance.add(treasurer       = new CardImpl.Builder(Cards.Kind.Treasurer, 5, Type.Action).linkedState(key).addGold(3).description("Choose one: Trash a Treasure from your hand; or gain a Treasure from the trash to your hand; or take the Key.").expansion(Expansion.Renaissance).build());
-        actionCardsRenaissance.add(villan          = new CardImpl.Builder(Cards.Kind.Villan, 5, Type.Action, Type.Attack).addCoffers(2).description("Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can't).").expansion(Expansion.Renaissance).build());
+        actionCardsRenaissance.add(villain          = new CardImpl.Builder(Cards.Kind.Villain, 5, Type.Action, Type.Attack).addCoffers(2).description("Each other player with 5 or more cards in hand discards one costing (2) Coins or more (or reveals they can't).").expansion(Expansion.Renaissance).build());
        
         projectCardsRenaissance.add(academy      = new CardImpl.Builder(Cards.Kind.Academy, 5, Type.Project).description("When you gain an Action card, +1 Villager.").expansion(Expansion.Renaissance).build());
         projectCardsRenaissance.add(barracks     = new CardImpl.Builder(Cards.Kind.Barracks, 6, Type.Project).description("At the start of your turn, +1 Action.").expansion(Expansion.Renaissance).build());

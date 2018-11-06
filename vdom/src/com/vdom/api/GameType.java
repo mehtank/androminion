@@ -208,9 +208,9 @@ public enum GameType {
 	// Nocturne
     Dusk("Dusk", Expansion.Nocturne), Midnight("Midnight", Expansion.Nocturne),
     // Nocturne and Base 2E
-    NightShift("Night Shift", Expansion.Nocturne, Expansion.Base), IdleHands("Idle Hands", Expansion.Nocturne, Expansion.Base),
+    NightShift("Night Shift", Expansion.Nocturne, Expansion.Base2E), IdleHands("Idle Hands", Expansion.Nocturne, Expansion.Base2E),
     // Nocturne and Intrigue 2E
-    ShadowyFigures("Shadowy Figures", Expansion.Nocturne, Expansion.Intrigue), ImpendingDoom("Impending Doom", Expansion.Nocturne, Expansion.Intrigue),
+    ShadowyFigures("Shadowy Figures", Expansion.Nocturne, Expansion.Intrigue2E), ImpendingDoom("Impending Doom", Expansion.Nocturne, Expansion.Intrigue2E),
     // Nocturne and Seaside
     TheNewBlack("The New Black", Expansion.Nocturne, Expansion.Seaside), ForbiddenIsle("Forbidden Isle", Expansion.Nocturne, Expansion.Seaside),
     // Nocturne and Alchemy
@@ -227,6 +227,31 @@ public enum GameType {
     MonsterMash("Monster Mash", Expansion.Nocturne, Expansion.Adventures), LostInTheWoods("Lost in the Woods", Expansion.Nocturne, Expansion.Adventures),
     // Nocturne and Empires
     Luftschloss("Luftschloss", Expansion.Nocturne, Expansion.Empires), PookaPranks("Pooka Pranks", Expansion.Nocturne, Expansion.Empires),
+    
+    // Renaissance
+    Overture("Overture", Expansion.Renaissance), Prelude("Prelude", Expansion.Renaissance),
+    // Renaissance and Base 2E
+    ItTakesAVillager("It Takes a Villager", Expansion.Renaissance, Expansion.Base2E), CaptureTheFlag("Capture the Flag", Expansion.Renaissance, Expansion.Base2E),
+    // Renaissance and Intrigue
+    MementoMori("Memento Mori", Expansion.Renaissance, Expansion.Intrigue2E), ClockworkCourt("Clockwork Court", Expansion.Renaissance, Expansion.Intrigue2E),
+    // Renaissance and Seaside
+    FreeShipping("Free Shipping", Expansion.Renaissance, Expansion.Seaside), DiggingForTreasure("Digging for Treasure", Expansion.Renaissance, Expansion.Seaside),
+    // Renaissance and Alchemy
+    PeekABoo("Peek-a-boo", Expansion.Renaissance, Expansion.Alchemy),
+    // Renaissance and Prosperity
+    DreamersOfDreams("Dreamers of Dreams", Expansion.Renaissance, Expansion.Prosperity), MoversAndShakers("Movers and Shakers", Expansion.Renaissance, Expansion.Prosperity),
+    // Renaissance and Cornucopia and Guilds
+    ComboCorner("Combo Corner", Expansion.Renaissance, Expansion.Cornucopia, Expansion.Guilds), FillingTheCoffers("Filling the Coffers", Expansion.Renaissance, Expansion.Cornucopia, Expansion.Guilds),
+    // Renaissance and Hinterlands
+    SweetenedDeals("Sweetened Deals", Expansion.Renaissance, Expansion.Hinterlands), APennySaved("A Penny Saved", Expansion.Renaissance, Expansion.Hinterlands),
+    // Renaissance and Dark Ages
+    Stargazing("Stargazing", Expansion.Renaissance, Expansion.DarkAges), SewerRats("Sewer Rats", Expansion.Renaissance, Expansion.DarkAges),
+    // Renaissance and Adventures
+    Progress("Progress", Expansion.Renaissance, Expansion.Adventures), OnceUponATime("Once Upon a Time", Expansion.Renaissance, Expansion.Adventures),
+    // Renaissance and Empires
+    ExploringTheCity("Exploring the City", Expansion.Renaissance, Expansion.Empires), NavigatingTheSewers("Navigating the Sewers", Expansion.Renaissance, Expansion.Empires),
+    // Renaissance and Nocturne
+    BecomingAMonster("Becoming a Monster", Expansion.Renaissance, Expansion.Nocturne), TrueBelievers("True Believers", Expansion.Renaissance, Expansion.Nocturne),
     
     // Card set is specified from Dominion Shuffle
     Specified("Specified");

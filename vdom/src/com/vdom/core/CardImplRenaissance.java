@@ -62,8 +62,8 @@ public class CardImplRenaissance extends CardImpl {
 		case Treasurer:
 			treasurer(game, context, currentPlayer);
 			break;
-		case Villan:
-			villan(game, context, currentPlayer);
+		case Villain:
+			villain(game, context, currentPlayer);
 			break;
 		default:
 			break;
@@ -367,7 +367,7 @@ public class CardImplRenaissance extends CardImpl {
 		}
 	}
 	
-	private void villan(Game game, MoveContext context, Player currentPlayer) {
+	private void villain(Game game, MoveContext context, Player currentPlayer) {
 		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
     	for (Player player : context.game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
@@ -400,9 +400,9 @@ public class CardImplRenaissance extends CardImpl {
         		player.discard(player.hand.remove(idx), this.getControlCard(), context);
             	return;
             }
-            Card toDiscard = player.controlPlayer.villan_cardToDiscard(playerContext, discardCards.toArray(new Card[0]));
+            Card toDiscard = player.controlPlayer.villain_cardToDiscard(playerContext, discardCards.toArray(new Card[0]));
             if (toDiscard == null || !discardCards.contains(toDiscard)) {
-            	Util.playerError(player, "Villan discard error, invalid card, chosing first");
+            	Util.playerError(player, "Villain discard error, invalid card, chosing first");
             	toDiscard = discardCards.get(0);
             }
             int idx = player.hand.indexOf(toDiscard);

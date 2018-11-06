@@ -2620,7 +2620,7 @@ public abstract class Player {
     public abstract TreasurerOption treasurer_chooseOption(MoveContext context);
     public abstract Card treasurer_treasureToTrash(MoveContext context);
     public abstract Card treasurer_treasureToGainFromTrash(MoveContext context);
-    public abstract Card villan_cardToDiscard(MoveContext context, Card[] cards);
+    public abstract Card villain_cardToDiscard(MoveContext context, Card[] cards);
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

@@ -5232,7 +5232,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
-    public Card villan_cardToDiscard(MoveContext context, Card[] cards) {
+    public Card villain_cardToDiscard(MoveContext context, Card[] cards) {
     	// prioritize victory only cards first
     	for (Card c : cards) {
     		if (isOnlyVictory(c, context.player))

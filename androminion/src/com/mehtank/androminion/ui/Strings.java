@@ -917,7 +917,7 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.necromancer))) {
             return format(R.string.necromancer_query, cardName);
         } else if (cardName.equals(getCardName(Cards.raider)) ||
-        		cardName.equals(getCardName(Cards.villan))) {
+        		cardName.equals(getCardName(Cards.villain))) {
             return format(R.string.discard_card_query, cardName);
         } else if (cardName.equals(getCardName(Cards.theMoonsGift)) ||
         		cardName.equals(getCardName(Cards.harbinger)) ||

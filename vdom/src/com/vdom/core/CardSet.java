@@ -934,6 +934,42 @@ public class CardSet {
 		CardSetMap.put(GameType.Luftschloss, new CardSet(new Card[] { Cards.cemetery, Cards.changeling, Cards.exorcist, Cards.fool, Cards.shepherd, Cards.archive, Cards.virtualCastle, Cards.virtualCatapultRocks, Cards.engineer, Cards.temple, Cards.tomb}));
 		CardSetMap.put(GameType.PookaPranks, new CardSet(new Card[] { Cards.faithfulHound, Cards.ghostTown, Cards.pixie, Cards.pooka, Cards.skulk, Cards.chariotRace, Cards.forum, Cards.groundskeeper, Cards.sacrifice, Cards.virtualSettlersBustlingVillage, Cards.banquet}));
 		
+		// Renaissance
+		CardSetMap.put(GameType.Overture, new CardSet(new Card[] { Cards.actingTroupe, Cards.experiment, Cards.flagBearer, Cards.hideout, Cards.improve, Cards.inventor, Cards.lackeys, Cards.oldWitch, Cards.seer, Cards.treasurer, Cards.fair}));
+		CardSetMap.put(GameType.Prelude, new CardSet(new Card[] { Cards.borderGuard, Cards.cargoShip, Cards.ducat, Cards.mountainVillage, Cards.priest, Cards.recruiter, Cards.sculptor, Cards.silkMerchant, Cards.swashbuckler, Cards.villain, Cards.citadel, Cards.starChart}));
+		// Renaissance and Base 2E
+		CardSetMap.put(GameType.ItTakesAVillager, new CardSet(new Card[] { Cards.actingTroupe, Cards.cargoShip, Cards.recruiter, Cards.seer, Cards.treasurer, Cards.market, Cards.merchant, Cards.mine, Cards.smithy, Cards.vassal, Cards.roadNetwork}));
+		CardSetMap.put(GameType.CaptureTheFlag, new CardSet(new Card[] { Cards.flagBearer, Cards.lackeys, Cards.scholar, Cards.swashbuckler, Cards.villain, Cards.cellar, Cards.festival, Cards.harbinger, Cards.remodel, Cards.workshop, Cards.barracks, Cards.pageant}));
+		// Renaissance and Intrigue 2E
+		CardSetMap.put(GameType.MementoMori, new CardSet(new Card[] { Cards.experiment, Cards.flagBearer, Cards.patron, Cards.recruiter, Cards.silkMerchant, Cards.ironworks, Cards.lurker, Cards.patrol, Cards.swindler, Cards.upgrade, Cards.citadel}));
+		CardSetMap.put(GameType.ClockworkCourt, new CardSet(new Card[] { Cards.actingTroupe, Cards.inventor, Cards.research, Cards.scepter, Cards.scholar, Cards.courtier, Cards.miningVillage, Cards.nobles, Cards.replace, Cards.steward, Cards.fleet, Cards.sinisterPlot}));
+		// Renaissance and Seaside
+		CardSetMap.put(GameType.FreeShipping, new CardSet(new Card[] { Cards.actingTroupe, Cards.cargoShip, Cards.lackeys, Cards.research, Cards.spices, Cards.embargo, Cards.island, Cards.outpost, Cards.smugglers, Cards.wharf, Cards.innovation}));
+		CardSetMap.put(GameType.DiggingForTreasure, new CardSet(new Card[] { Cards.borderGuard, Cards.flagBearer, Cards.inventor, Cards.sculptor, Cards.swashbuckler, Cards.caravan, Cards.nativeVillage, Cards.salvager, Cards.tactician, Cards.treasureMap, Cards.cropRotation, Cards.silos}));
+		// Renaissance and Alchemy
+		CardSetMap.put(GameType.PeekABoo, new CardSet(new Card[] { Cards.cargoShip, Cards.improve, Cards.lackeys, Cards.patron, Cards.sculptor, Cards.silkMerchant, Cards.alchemist, Cards.apothecary, Cards.golem, Cards.scryingPool, Cards.cathedral}));
+		// Renaissance and Prosperity
+		CardSetMap.put(GameType.DreamersOfDreams, new CardSet(new Card[] { Cards.cargoShip, Cards.oldWitch, Cards.priest, Cards.scepter, Cards.scholar, Cards.expand, Cards.monument, Cards.vault, Cards.watchTower, Cards.workersVillage, Cards.academy}, null, UseOptionalCards.Use));
+		CardSetMap.put(GameType.MoversAndShakers, new CardSet(new Card[] { Cards.hideout, Cards.patron, Cards.research, Cards.treasurer, Cards.villain, Cards.bank, Cards.city, Cards.grandMarket, Cards.loan, Cards.rabble, Cards.capitalism, Cards.citadel}, null, UseOptionalCards.Use));
+		// Renaissance and Cornucopia and Guilds
+		CardSetMap.put(GameType.ComboCorner, new CardSet(new Card[] { Cards.ducat, Cards.experiment, Cards.hideout, Cards.sculptor, Cards.seer, Cards.herald, Cards.hornOfPlenty, Cards.horseTraders, Cards.jester, Cards.stonemason, Cards.canal}));
+		CardSetMap.put(GameType.FillingTheCoffers, new CardSet(new Card[] { Cards.priest, Cards.recruiter, Cards.spices, Cards.swashbuckler, Cards.treasurer, Cards.baker, Cards.butcher, Cards.menagerie, Cards.merchantGuild, Cards.plaza, Cards.cityGate, Cards.starChart}));
+		// Renaissance and Hinterlands
+		CardSetMap.put(GameType.SweetenedDeals, new CardSet(new Card[] { Cards.flagBearer, Cards.lackeys, Cards.mountainVillage, Cards.silkMerchant, Cards.spices, Cards.cartographer, Cards.develop, Cards.farmland, Cards.haggler, Cards.spiceMerchant, Cards.silos}));
+		CardSetMap.put(GameType.APennySaved, new CardSet(new Card[] { Cards.ducat, Cards.patron, Cards.scepter, Cards.seer, Cards.swashbuckler, Cards.cache, Cards.crossroads, Cards.nobleBrigand, Cards.oasis, Cards.trader, Cards.barracks, Cards.guildHall}));
+		// Renaissance and Dark Ages
+		CardSetMap.put(GameType.Stargazing, new CardSet(new Card[] { Cards.borderGuard, Cards.patron, Cards.seer, Cards.silkMerchant, Cards.swashbuckler, Cards.hermit, Cards.mystic, Cards.procession, Cards.sage, Cards.wanderingMinstrel, Cards.starChart}, null, UseOptionalCards.DontUse, UseOptionalCards.Use));
+		CardSetMap.put(GameType.SewerRats, new CardSet(new Card[] { Cards.flagBearer, Cards.improve, Cards.lackeys, Cards.mountainVillage, Cards.research, Cards.count, Cards.counterfeit, Cards.cultist, Cards.graverobber, Cards.rats, Cards.cropRotation, Cards.sewers}, null, UseOptionalCards.DontUse, UseOptionalCards.Use));
+		// Renaissance and Adventures
+		CardSetMap.put(GameType.Progress, new CardSet(new Card[] { Cards.experiment, Cards.improve, Cards.recruiter, Cards.seer, Cards.silkMerchant, Cards.hireling, Cards.ranger, Cards.raze, Cards.swampHag, Cards.transmogrify, Cards.piazza, Cards.training}));
+		CardSetMap.put(GameType.OnceUponATime, new CardSet(new Card[] { Cards.actingTroupe, Cards.lackeys, Cards.priest, Cards.sculptor, Cards.spices, Cards.distantLands, Cards.duplicate, Cards.hauntedWoods, Cards.royalCarriage, Cards.storyteller, Cards.innovation, Cards.ferry}));
+		// Renaissance and Empires
+		CardSetMap.put(GameType.ExploringTheCity, new CardSet(new Card[] { Cards.cargoShip, Cards.experiment, Cards.mountainVillage, Cards.priest, Cards.sculptor, Cards.cityQuarter, Cards.farmersMarket, Cards.groundskeeper, Cards.sacrifice, Cards.wildHunt, Cards.exploration, Cards.battlefield}));
+		CardSetMap.put(GameType.NavigatingTheSewers, new CardSet(new Card[] { Cards.actingTroupe, Cards.flagBearer, Cards.improve, Cards.oldWitch, Cards.scepter, Cards.chariotRace, Cards.enchantress, Cards.gladiator, Cards.virtualPatricianEmporium, Cards.villa, Cards.sewers, Cards.ritual}));
+		// Renaissance and Nocturne
+		CardSetMap.put(GameType.BecomingAMonster, new CardSet(new Card[] { Cards.experiment, Cards.mountainVillage, Cards.oldWitch, Cards.research, Cards.spices, Cards.devilsWorkshop, Cards.monastery, Cards.shepherd, Cards.skulk, Cards.tragicHero, Cards.exploration}));
+		CardSetMap.put(GameType.TrueBelievers, new CardSet(new Card[] { Cards.borderGuard, Cards.cargoShip, Cards.scholar, Cards.sculptor, Cards.villain, Cards.blessedVillage, Cards.crypt, Cards.faithfulHound, Cards.sacredGrove, Cards.secretCave, Cards.cathedral, Cards.piazza}));
+		
 		//CardSetMap.put(GameType.Test, new CardSet(new Card[] {Cards.pixie, Cards.fool, Cards.ghostTown, Cards.leprechaun, Cards.cemetery, Cards.devilsWorkshop, Cards.exorcist, Cards.necromancer, Cards.crypt, Cards.idol, Cards.vampire, Cards.werewolf, Cards.raider, Cards.overlord, Cards.ferry, Cards.inheritance, Cards.bonfire, Cards.page, Cards.vampire, Cards.highway}));
 	}
 }

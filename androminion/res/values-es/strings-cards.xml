@@ -1000,8 +1000,8 @@
     <string name="SilkMerchant_desc">Cuando ganes o elimines esta carta, +1 Cofres y +1 Aldeano.</string>
     <string name="Treasurer_name">Tesorera</string>
     <string name="Treasurer_desc">Elige una opción: eliminar una carta de Tesoro de tu mano; o bien ganar una carta de Tesoro de entre las eliminadas; o bien tomar la Llave.</string>
-    <string name="Villan_name">Villano</string>
-    <string name="Villan_desc">Cada jugador (menos tú) con 5 cartas o más en su mano descarta una con un coste de (2) Monedas o más (o bien revela que no puede).</string>
+    <string name="Villain_name">Villano</string>
+    <string name="Villain_desc">Cada jugador (menos tú) con 5 cartas o más en su mano descarta una con un coste de (2) Monedas o más (o bien revela que no puede).</string>
     
     <string name="Flag_name">Bandera</string>
     <string name="Flag_desc">Al robar cartas para tu mano, +1 Carta.</string>
