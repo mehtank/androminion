@@ -577,6 +577,7 @@ public class CardImpl implements Card, Comparable<Card>{
         costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlay()) : 0;
         costModifier -= (context.game.isPlayerSupplyTokenOnPile(this.getControlCard().equals(Cards.estate) ? this.getControlCard() : this,
         		context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
+        costModifier -= context.game.getCurrentPlayer().hasProject(Cards.canal) ? 1 : 0;
         
         return Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);
     }

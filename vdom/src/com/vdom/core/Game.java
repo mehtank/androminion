@@ -1321,6 +1321,12 @@ public class Game {
         	durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
+        if (player.hasProject(Cards.barracks)) {
+        	durationEffects.add(Cards.barracks);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+        }
         if (player.hasProject(Cards.fair)) {
         	durationEffects.add(Cards.fair);
         	durationEffects.add(Cards.curse);
@@ -1415,6 +1421,8 @@ public class Game {
             } else if(card.behaveAsCard().equals(Cards.lostInTheWoods) || 
             		card.behaveAsCard().equals(Cards.key) || card.behaveAsCard().equals(Cards.silos)) {
             	card.play(this, context, false, true, true, true, false);
+            } else if (card.behaveAsCard().equals(Cards.barracks)) {
+            	context.actions += 1;
             } else if (card.behaveAsCard().equals(Cards.fair)) {
             	context.buys += 1;
             } else if(card.behaveAsCard().is(Type.Duration, player)) {
@@ -2136,7 +2144,7 @@ public class Game {
             return false;
         }
 
-        int cost = card.getCost(context, !context.blackMarketBuyPhase);
+        int cost = card.getCost(context);
 
         int potions = context.getPotions();
         if (cost <= gold && (!card.costPotion() || potions > 0)) {
@@ -3805,9 +3813,7 @@ public class Game {
                     if (context != null && event.card.is(Type.Victory, context.player)) {
                         context.vpsGainedThisTurn += event.card.getVictoryPoints();
                     }
-
-
-                    
+                                       
                     if (Cards.inn.equals(event.responsible))
                         Util.debug((String.format("discard pile: %d", player.discard.size())), true);
 
@@ -3906,6 +3912,10 @@ public class Game {
             		        context.freeActionInEffect--;
                     		handled = true;
                     	}
+                    }
+                    
+                    if (player.hasProject(Cards.academy) && event.card.is(Type.Action, player)) {                    
+                    	context.player.takeVillagers(1, context, Cards.academy);
                     }
                     
                     boolean hasInheritedWatchtower = Cards.watchTower.equals(player.getInheritance()) && player.hand.contains(Cards.estate);
