@@ -1919,6 +1919,9 @@ public class Strings {
             getCardName(Cards.zombieApprentice),
             getCardName(Cards.zombieMason),
             /*Renaissance*/
+            getCardName(Cards.cathedral),
+            getCardName(Cards.cityGate),
+            getCardName(Cards.cropRotation),
             getCardName(Cards.priest),
             getCardName(Cards.recruiter),
             getCardName(Cards.sculptor),

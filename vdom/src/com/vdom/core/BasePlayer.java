@@ -5041,6 +5041,31 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card cathedral_cardToTrash(MoveContext context) {
+    	Card toTrash = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (toTrash == null) {
+    		toTrash = lowestCard(context, getHand(), false);
+    	}
+    	return toTrash;
+    }
+    
+    @Override
+    public Card cityGate_cardToPutBackOnDeck(MoveContext context) {
+    	//TODO: smarter logic
+    	return context.player.getHand().get(0);
+    }
+    
+    @Override
+    public Card cropRotation_cardToDiscard(MoveContext context) {
+    	Player p = context.getPlayer();
+    	for (Card c : p.getHand()) {
+    		isOnlyVictory(c, p);
+    		return c;
+    	}
+    	return null;
+    }
+    
+    @Override
     public boolean ducat_shouldTrashCopper(MoveContext context) {
     	return true;
     }

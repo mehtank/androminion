@@ -1327,6 +1327,27 @@ public class Game {
         	durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
+        if (player.hasProject(Cards.cathedral)) {
+        	durationEffects.add(Cards.cathedral);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+    		allDurationAreSimple = false;
+        }
+        if (player.hasProject(Cards.cityGate)) {
+        	durationEffects.add(Cards.cityGate);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+    		allDurationAreSimple = false;
+        }
+        if (player.hasProject(Cards.cropRotation)) {
+        	durationEffects.add(Cards.cropRotation);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+    		allDurationAreSimple = false;
+        }
         if (player.hasProject(Cards.fair)) {
         	durationEffects.add(Cards.fair);
         	durationEffects.add(Cards.curse);
@@ -1425,7 +1446,8 @@ public class Game {
                 drawToHand(context, horseTrader, 1);
             } else if(card.behaveAsCard().is(Type.Boon)) {
             	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
-            } else if(card.behaveAsCard().equals(Cards.lostInTheWoods) || 
+            } else if(card.behaveAsCard().equals(Cards.cathedral) || card.behaveAsCard().equals(Cards.cityGate) ||
+            		card.behaveAsCard().equals(Cards.cropRotation) || card.behaveAsCard().equals(Cards.lostInTheWoods) || 
             		card.behaveAsCard().equals(Cards.key) || card.behaveAsCard().equals(Cards.piazza) || 
             		card.behaveAsCard().equals(Cards.silos)) {
             	card.play(this, context, false, true, true, true, false);

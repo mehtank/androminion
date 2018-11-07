@@ -4247,6 +4247,28 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card cathedral_cardToTrash(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+        		.setActionType(ActionType.TRASH).setCardResponsible(Cards.cathedral);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card cityGate_cardToPutBackOnDeck(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions()
+        	.setActionType(ActionType.TOPDECK).setCardResponsible(Cards.cityGate);
+    	return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card cropRotation_cardToDiscard(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().isVictory().setPassable()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.cropRotation);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public boolean ducat_shouldTrashCopper(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_ducat_shouldTrashCopper(context)) {
             return super.ducat_shouldTrashCopper(context);

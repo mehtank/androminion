@@ -2607,6 +2607,9 @@ public abstract class Player {
     // Card interactions - Renaissance Expansion
     public abstract boolean spendVillagerForAction(MoveContext context);
     public abstract int numVillagerTokensToSpend(MoveContext context, int villagerTotal);
+    public abstract Card cathedral_cardToTrash(MoveContext context);
+    public abstract Card cityGate_cardToPutBackOnDeck(MoveContext context);
+    public abstract Card cropRotation_cardToDiscard(MoveContext context);
     public abstract boolean ducat_shouldTrashCopper(MoveContext context);
     public abstract boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card);
     public abstract Card mountainVillage_cardToPutInHand(MoveContext context);

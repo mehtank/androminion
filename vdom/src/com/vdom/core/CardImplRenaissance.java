@@ -26,6 +26,15 @@ public class CardImplRenaissance extends CardImpl {
 		case ActingTroupe:
 			actingTroupe(game, context, currentPlayer);
 			break;
+		case Cathedral:
+			cathedral(game, context, currentPlayer);
+			break;
+		case CityGate:
+			cityGate(game, context, currentPlayer);
+			break;
+		case CropRotation:
+			cropRotation(game, context, currentPlayer);
+			break;
 		case Experiment:
 			experiment(game, context, currentPlayer);
 			break;
@@ -99,6 +108,77 @@ public class CardImplRenaissance extends CardImpl {
 		
 	private void actingTroupe(Game game, MoveContext context, Player player) {
 		player.trashSelfFromPlay(getControlCard(), context);
+	}
+	
+	private void cathedral(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() == 0) {
+			return;
+		}
+        Card cardToTrash = player.getHand().size() == 1 ? player.getHand().get(0) : player.controlPlayer.cathedral_cardToTrash(context);
+        if (cardToTrash != null) {
+        	if (!player.getHand().contains(cardToTrash)) {
+        		Util.playerError(player, "Cathedral error, invalid card to trash, trashing random card.");
+        		cardToTrash = Util.randomCard(player.getHand());
+        	} else {
+        		player.trashFromHand(cardToTrash, this.getControlCard(), context);
+        	}
+        }
+	}
+	
+	private void cityGate(Game game, MoveContext context, Player player) {
+		game.drawToHand(context, this.getControlCard(), 1);
+		if (player.getHand().size() == 0) 
+			return;
+		Card card = player.getHand().size() == 1 ? player.getHand().get(0) : player.controlPlayer.cityGate_cardToPutBackOnDeck(context);
+		if (card == null || !player.hand.contains(card)) {
+			Util.playerError(player, "City Gate put back card error, putting back first card");
+			card = player.hand.get(0);
+		}
+		player.putOnTopOfDeck(player.hand.removeCard(card));
+		GameEvent topDeckEvent = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+		topDeckEvent.card = card;
+		topDeckEvent.setPlayer(player);
+		topDeckEvent.setPrivate(true);
+		game.broadcastEvent(topDeckEvent);
+	}
+	
+	private void cropRotation(Game game, MoveContext context, Player player) {
+		int numVictories = 0;
+		for (Card c : player.getHand()) {
+			if (c.is(Type.Victory, player))
+				numVictories++;
+		}
+		if (numVictories == 0)
+			return;
+		
+        Card card = player.controlPlayer.cropRotation_cardToDiscard(context);
+        if (card == null)
+        	return;
+        
+    	if (!card.is(Type.Victory, player)) {
+    		Util.playerError(player, "Crop Rotation choice error, trying to discard non-victory card, ignoring.");
+    		card = null;
+    	}
+        if (card != null) {
+            int numberOfCards = 0;
+            for (int i = 0; i < player.hand.size(); i++) {
+                Card playersCard = player.hand.get(i);
+                if (playersCard.equals(card)) {                	
+                	player.discard(player.hand.remove(i), this.getControlCard(), context);
+                    numberOfCards++;
+                    break;
+                }
+            }
+
+            if (numberOfCards != 1) {
+                Util.playerError(player, "Crop Rotation discard error, trying to discard card not in hand, ignoring.");
+            }
+            
+            int numToDraw = 2 * numberOfCards;
+            for (int i = 0; i < numToDraw; ++i) {
+            	game.drawToHand(context, Cards.cropRotation, numToDraw - i);
+            }
+        }
 	}
 		
 	private void experiment(Game game, MoveContext context, Player currentPlayer) {
