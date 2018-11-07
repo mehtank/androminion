@@ -35,6 +35,9 @@ public class CardImplRenaissance extends CardImpl {
 		case MountainVillage:
 			mountainVillage(game, context, currentPlayer);
 			break;
+		case Piazza:
+			piazza(game, context, currentPlayer);
+			break;
 		case Priest:
 			priest(game, context, currentPlayer);
 			break;
@@ -135,6 +138,20 @@ public class CardImplRenaissance extends CardImpl {
             }
         } else {
         	game.drawToHand(context, this, 0);
+        }
+	}
+	
+	private void piazza(Game game, MoveContext context, Player player) {
+		Card c = game.draw(context, Cards.piazza, 1);
+        if (c != null) {
+        	player.reveal(c, this.getControlCard(), context);
+            if (c.is(Type.Action, player)) {
+            	context.freeActionInEffect++;
+                c.play(game, context, false);
+                context.freeActionInEffect--;
+            } else {
+            	player.putOnTopOfDeck(c, context, true);
+            }
         }
 	}
 	

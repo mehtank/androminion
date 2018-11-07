@@ -1333,6 +1333,13 @@ public class Game {
         	durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
+        if (player.hasProject(Cards.piazza)) {
+        	durationEffects.add(Cards.piazza);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+    		allDurationAreSimple = false;
+        }
         if (player.hasProject(Cards.silos)) {
         	durationEffects.add(Cards.silos);
         	durationEffects.add(Cards.curse);
@@ -1419,7 +1426,8 @@ public class Game {
             } else if(card.behaveAsCard().is(Type.Boon)) {
             	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
             } else if(card.behaveAsCard().equals(Cards.lostInTheWoods) || 
-            		card.behaveAsCard().equals(Cards.key) || card.behaveAsCard().equals(Cards.silos)) {
+            		card.behaveAsCard().equals(Cards.key) || card.behaveAsCard().equals(Cards.piazza) || 
+            		card.behaveAsCard().equals(Cards.silos)) {
             	card.play(this, context, false, true, true, true, false);
             } else if (card.behaveAsCard().equals(Cards.barracks)) {
             	context.actions += 1;
@@ -3918,6 +3926,10 @@ public class Game {
                     	context.player.takeVillagers(1, context, Cards.academy);
                     }
                     
+                    if (player.hasProject(Cards.guildHall) && event.card.is(Type.Treasure, player)) {                    
+                    	context.player.gainGuildsCoinTokens(1, context, Cards.guildHall);
+                    }
+                    
                     boolean hasInheritedWatchtower = Cards.watchTower.equals(player.getInheritance()) && player.hand.contains(Cards.estate);
                     boolean hasWatchtower = player.hand.contains(Cards.watchTower);
                     Card watchTowerCard = hasWatchtower ? Cards.watchTower : Cards.estate;
@@ -4088,6 +4100,15 @@ public class Game {
                     	}
                     	int groundsKeepers = context.countCardsInPlay(Cards.groundskeeper);
                     	player.addVictoryTokens(context, groundsKeepers, Cards.groundskeeper);
+                    	
+                    	for (Player otherPlayer : context.game.getPlayersInTurnOrder()) {
+                            if (player == otherPlayer)
+                            	continue;
+                            if (otherPlayer.hasProject(Cards.roadNetwork)) {
+                            	MoveContext otherPlayerContext = new MoveContext(context.game, otherPlayer);
+                            	context.game.drawToHand(otherPlayerContext, Cards.roadNetwork, 1);
+                            }
+                    	}
                     }
                     
                     // handle other when-gain abilities
