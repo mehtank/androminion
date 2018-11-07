@@ -43,6 +43,7 @@ public class CardImpl implements Card, Comparable<Card>{
     protected int addVillagers;
     protected boolean takeAnotherTurn;
     protected int takeAnotherTurnCardCount;
+    protected boolean hasPlusCoin;
     
     boolean isOverpay = false;  // can this card be overpaid for?
     
@@ -103,6 +104,7 @@ public class CardImpl implements Card, Comparable<Card>{
         isOverpay   = builder.isOverpay;
         heirloom = builder.heirloom;
         linkedStates = builder.linkedStates.toArray(new Card[0]);
+        hasPlusCoin = builder.hasPlusCoin;
                 
         callableWhenCardGained = builder.callableWhenCardGained;
         callableWhenActionResolved = builder.callableWhenActionResolved;
@@ -129,6 +131,7 @@ public class CardImpl implements Card, Comparable<Card>{
         protected int addBuys;
         protected int addCards;
         protected int addGold;
+        protected boolean hasPlusCoin = false;
         protected int addVictoryTokens;
         protected boolean trashForced = false;
         protected boolean providePotion = false;
@@ -217,6 +220,7 @@ public class CardImpl implements Card, Comparable<Card>{
 
         public Builder addGold(int val) {
             addGold = val;
+            hasPlusCoin = true;
             return this;
         }
 
@@ -252,6 +256,7 @@ public class CardImpl implements Card, Comparable<Card>{
 
         public Builder addGoldNextTurn(int val) {
             addGoldNextTurn = val;
+            hasPlusCoin = true;
             return this;
         }
         
@@ -264,7 +269,7 @@ public class CardImpl implements Card, Comparable<Card>{
         	addVillagers = val;
         	return this;
         }
-
+        
         public Builder takeAnotherTurn(int val) {
             takeAnotherTurn = true;
             takeAnotherTurnCardCount = val;
@@ -306,6 +311,12 @@ public class CardImpl implements Card, Comparable<Card>{
         
         public Builder linkedState(Card val) {
         	linkedStates.add(val);
+        	return this;
+        }
+        
+
+        public Builder hasPlusCoin() {
+        	hasPlusCoin = true;
         	return this;
         }
 
@@ -467,6 +478,7 @@ public class CardImpl implements Card, Comparable<Card>{
         c.vp = vp;
         c.heirloom = heirloom;
         c.linkedStates = linkedStates;
+        c.hasPlusCoin = hasPlusCoin;
         
         c.callableWhenCardGained = callableWhenCardGained;
         c.callableWhenActionResolved = callableWhenActionResolved;
@@ -497,6 +509,13 @@ public class CardImpl implements Card, Comparable<Card>{
             if (!behaveAsCard().equals(this)) {
                 return behaveAsCard().is(t, player);
             }
+            if (t == Type.Treasure && player != null && player.hasProject(Cards.capitalism) && player.game.getCurrentPlayer() == player && hasPlusCoin) {
+            	for (int i = 0; i < types.length; ++i) {
+    	    		if (types[i] == Type.Action) {
+    	    			return true;
+    	    		}
+    	    	}
+            }
 	    	for (int i = 0; i < types.length; ++i) {
 	    		if (types[i] == t) return true;
 	    	}
@@ -504,6 +523,13 @@ public class CardImpl implements Card, Comparable<Card>{
     	}
 
         if (player.getInheritance().is(t)) return true;
+        if (t == Type.Treasure && player.hasProject(Cards.capitalism) && player.game.getCurrentPlayer() == player && hasPlusCoin) {
+        	for (int i = 0; i < types.length; ++i) {
+	    		if (types[i] == Type.Action) {
+	    			return true;
+	    		}
+	    	}
+        }
         for (int i = 0; i < types.length; ++i) {
             if (types[i] == t) return true;
         }
@@ -674,6 +700,11 @@ public class CardImpl implements Card, Comparable<Card>{
     @Override
     public Card[] getLinkedStates() {
     	return linkedStates;
+    }
+    
+    @Override
+    public boolean hasPlusCoin() {
+        return hasPlusCoin;
     }
     
     /**

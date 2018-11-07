@@ -96,6 +96,8 @@ public interface Card extends Serializable {
 	public Card getHeirloom();
 	
 	public Card[] getLinkedStates();
+	
+	public boolean hasPlusCoin();
     
     public void play(Game game, MoveContext context);
     
