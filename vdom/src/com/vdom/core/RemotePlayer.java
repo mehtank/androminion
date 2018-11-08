@@ -494,6 +494,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         .setFinal(isFinal)
                 .setPossessed(player.isPossessed())
                 .setTurnCounts(turnCounts)
+                .setIsFleetRound(context.game.isFleetRound)
                 .setSupplySizes(supplySizes)
                 .setEmbargos(embargos)
                 .setPileVpTokens(pileVpTokens)

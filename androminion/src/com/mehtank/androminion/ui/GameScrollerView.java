@@ -95,7 +95,7 @@ public class GameScrollerView extends HorizontalScrollView {
         }
     }
 
-    public void setGameEvent(String s, boolean b, int turnCount) {
+    public void setGameEvent(String s, boolean b, int turnCount, boolean isFleetRound) {
         if (b) {
             latestTurnSV = (ScrollView) LayoutInflater.from(top).inflate(R.layout.view_gamescrollercolumn, gameEventsRow, false);
 
@@ -108,7 +108,11 @@ public class GameScrollerView extends HorizontalScrollView {
             gameEventsRow.addView(latestTurnSV, layoutParams);
 
             latestTurn = (TextView) latestTurnSV.findViewById(R.id.latestTurn);
-            latestTurn.setText(s + (turnCount > 0 ? (top.getString(R.string.turn_header) + turnCount) : ""));
+            String turnText = s + (turnCount > 0 ? (top.getString(R.string.turn_header) + turnCount) : "");
+            if (isFleetRound) {
+            	turnText += top.getString(R.string.turn_header_fleet);
+            }
+            latestTurn.setText(turnText);
 
             latestTurn.setPadding(0, 0, (int) getResources().getDimension(R.dimen.margin_gamelog), 0);
 

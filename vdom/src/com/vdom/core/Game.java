@@ -192,6 +192,9 @@ public class Game {
 
     public static int numPlayers;
     boolean gameOver = false;
+    private Player playerStartedFleetRound;
+    boolean isFleetRound = false;
+    boolean fleetRoundPending = false;
 
     private static HashMap<String, Player> playerCache = new HashMap<String, Player>();
 
@@ -306,6 +309,9 @@ public class Game {
             }
 
             gameOver = false;
+            playerStartedFleetRound = null;
+            isFleetRound = false;
+            fleetRoundPending = false;
             gameCounter++;
             playersTurn = 0;
             turnCount = 1;
@@ -388,8 +394,9 @@ public class Game {
                 	}
                 }
                 
+                boolean wasPossessed = player.isPossessed();
                 extraTurnsInfo.addAll(playerEndTurn(player, context));
-                gameOver = checkGameOver();
+                gameOver = checkGameOver(wasPossessed);
 
                 if (!gameOver) {
                 	playerAfterTurn(player, context);
@@ -468,10 +475,15 @@ public class Game {
         if (!takeAnotherTurn && consecutiveTurnCounter > 0) {
             // next player
             consecutiveTurnCounter = 0;
-            if (++playersTurn >= numPlayers) {
-                playersTurn = 0;
-                Util.debug("Turn " + ++turnCount, true);
-            }
+            if (fleetRoundPending)
+            	isFleetRound = true;
+        	//find next player (Fleet player or possessed player if in Fleet Round)
+        	do {
+        		if (++playersTurn >= numPlayers) {
+	                playersTurn = 0;
+	                Util.debug("Turn " + ++turnCount, true);
+	            }
+        	} while (isFleetRound && possessionsToProcess == 0 && !players[playersTurn].hasProject(Cards.fleet));
         }
     }
 
@@ -1156,7 +1168,7 @@ public class Game {
         }
         
         cardsObtainedLastTurn[playersTurn].clear();
-        if (consecutiveTurnCounter == 1)
+        if (consecutiveTurnCounter == 1 && !isFleetRound)
             player.newTurn();
         
         player.clearDurationEffectsOnOtherPlayers();
@@ -2547,34 +2559,61 @@ public class Game {
         return false;
     }
 
-    private boolean checkGameOver() {
-        if (isColonyInGame() && isPileEmpty(Cards.colony)) {
-            return true;
+    private boolean checkGameOver(boolean wasPossessed) {
+    	boolean result = false;
+    	if (isColonyInGame() && isPileEmpty(Cards.colony)) {
+    		result = true;
+        } else if (isPileEmpty(Cards.province)) {
+        	result = true;
+        } else {
+	        switch (numPlayers) {
+	            case 1:
+	            case 2:
+	            case 3:
+	            case 4:
+	                /* Ends game for 1, 2, 3 or 4 players */
+	                if (emptyPiles() >= 3) {
+	                	result = true;
+	                }
+	                break;
+	            case 5:
+	            case 6:
+	                /* Ends game for 5 or 6 players */
+	                if (emptyPiles() >= 4) {
+	                    result = true;
+	                }
+	                break;
+	        }
         }
-
-        if (isPileEmpty(Cards.province)) {
-            return true;
-        }
-
-        switch (numPlayers) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-                /* Ends game for 1, 2, 3 or 4 players */
-                if (emptyPiles() >= 3) {
-                    return true;
-                }
-                break;
-            case 5:
-            case 6:
-                /* Ends game for 5 or 6 players */
-                if (emptyPiles() >= 4) {
-                    return true;
-                }
-        }
-
-        return false;
+        
+        //TODO: for now we're being dynamic with this 
+    	//      (e.g. if someone possesses the next player and causes them to buy Fleet, they would get a Fleet turn)
+    	int playersWithFleet = 0;
+    	for (Player p : players) {
+    		if (p.hasProject(Cards.fleet)) {
+    			playersWithFleet++;
+    		}
+    	}
+        
+    	if (isFleetRound) {
+    		if (wasPossessed)
+    			return false;
+    		//find next eligible Fleet player 
+    		//   - if we pass/hit the player that could have had the first Fleet turn (whether or not they had a Fleet turn),
+    		//     the game is over
+    		int playerIdx = playersTurn;
+    		do {
+    			playerIdx = (playerIdx + 1) % numPlayers;
+    			if (playerStartedFleetRound == players[playerIdx])
+    				return true;
+    		} while (!players[playerIdx].hasProject(Cards.fleet));
+    		return false;
+    	} else if (result && playersWithFleet > 0) {
+    		fleetRoundPending = true;
+    		playerStartedFleetRound = players[(playersTurn+1) % numPlayers];
+    		return false;
+    	}
+    	return result;
     }
 
     // Use drawToHand when "drawing" or "+ X cards" when -1 Card token could be drawn instead
@@ -2879,6 +2918,9 @@ public class Game {
 
 
         gameOver = false;
+        playerStartedFleetRound = null;
+        isFleetRound = false;
+        fleetRoundPending = false;
     }
 
     protected void initPlayers(int numPlayers) throws ExitException {

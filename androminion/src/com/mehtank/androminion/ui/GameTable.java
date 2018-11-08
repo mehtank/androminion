@@ -34,6 +34,7 @@ import com.mehtank.androminion.util.HapticFeedback.AlertType;
 import com.mehtank.androminion.util.PlayerAdapter;
 import com.mehtank.androminion.util.PlayerSummary;
 import com.vdom.api.Card;
+import com.vdom.api.GameEvent;
 import com.vdom.api.GameEvent.EventType;
 import com.vdom.comms.Event;
 import com.vdom.comms.Event.EventObject;
@@ -316,7 +317,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         gameOver = (LinearLayout) findViewById(R.id.gameOver);
         gameOverScroll = (ScrollView) findViewById(R.id.gameOverScroll);
         gameScroller = (GameScrollerView) findViewById(R.id.gameScroller);
-        gameScroller.setGameEvent("Dominion app loaded!", true, 0);
+        gameScroller.setGameEvent("Dominion app loaded!", true, 0, false);
 
         /**
          * findViewById(R.id.actionText) must be in here so that it gets fadet out whenever everything else fades out.
@@ -470,7 +471,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         // done setting up, remove splash screen
         top.nosplash();
         // log start of game
-        gameScroller.setGameEvent(top.getString(R.string.game_loaded), true, 0);
+        gameScroller.setGameEvent(top.getString(R.string.game_loaded), true, 0, false);
         gameTime = 0;
         lastTimeClockStarted = System.currentTimeMillis();
         gameTimePaused = false;
@@ -1069,7 +1070,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         boolean newTurn = event.b;
         String s = Strings.getStatusText(event, objects);
         if (s != null)
-            gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn]);
+            gameScroller.setGameEvent(s, newTurn, gs.isFinal ? 0 : gs.turnCounts[gs.whoseTurn], 
+            		gs.isFleetRound && event.gameEventType == GameEvent.EventType.TurnBegin);
         if (event.gameEventType == EventType.MountainPassWinner) {
         	String winningPlayer = event.s;
         	int winningBid = (Integer) event.o.os[3];

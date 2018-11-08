@@ -1029,17 +1029,18 @@ public abstract class Player {
     }
     
     public Map<Card, Integer> getTreasureCardCounts() {
+    	// Only works for Treasures whose type doesn't depend the player (due to Capitalism/Keep)
     	final Map<Card, Integer> cardCounts = new HashMap<Card, Integer>();
     	for (CardPile pile : this.game.placeholderPiles.values()) {
             for (Card card : pile.getTemplateCards()) {
-                if (card.is(Type.Treasure, this)) {
+                if (card.is(Type.Treasure)) {
                     cardCounts.put(card, 0);
                 }
             }
         }
 
         for(Card card : this.getAllCards()) {
-            if (card.is(Type.Treasure, this)) {
+            if (card.is(Type.Treasure)) {
                 if(cardCounts.containsKey(card)) {
                     cardCounts.put(card, cardCounts.get(card) + 1);
                 } else {

@@ -210,6 +210,7 @@
     <string name="village_header">Village:</string>
     <string name="prince_header">Prince:</string>
     <string name="turn_header">: Turn\u0020</string>
+    <string name="turn_header_fleet">\u0020[Fleet]</string>
     <string name="game_loaded" tools:ignore="TypographyOther">Game loaded!\nActions, buys and coins\navailable are shown in \nthe log as a/b/(c)</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
     <string name="action_zero">%1$s actions</string>
