@@ -1450,6 +1450,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.innovation))) {
             strings[1] = format(R.string.innovation_set_aside_to_play, getCardName((Card)extras[1]));
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.oldWitch))) {
+            strings[1] = getString(R.string.oldWitch_trash_curse);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.pageant))) {
             strings[1] = getString(R.string.pageant_pay_coin_for_coffers);
             strings[2] = getString(R.string.pass);
@@ -1925,6 +1928,8 @@ public class Strings {
             getCardName(Cards.cathedral),
             getCardName(Cards.cityGate),
             getCardName(Cards.cropRotation),
+            getCardName(Cards.hideout),
+            getCardName(Cards.inventor),
             getCardName(Cards.priest),
             getCardName(Cards.recruiter),
             getCardName(Cards.sculptor),

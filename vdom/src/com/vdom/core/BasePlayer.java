@@ -5071,6 +5071,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card hideout_cardToTrash(MoveContext context) {
+    	Card toTrash = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (toTrash == null) {
+    		toTrash = lowestCard(context, getHand(), false);
+    	}
+    	return toTrash;
+    }
+    
+    @Override
     public boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card) {
     	//TODO: better logic
     	if (context.phase == TurnPhase.Buy) {
@@ -5079,6 +5088,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     			return false;
     	}
     	return true;
+    }
+    
+    @Override
+    public Card inventor_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
     }
     
     @Override
@@ -5098,6 +5112,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 			return discard.get(0);
 		}
 		return highestCard(context, localDiscard);
+    }
+    
+    @Override
+    public boolean oldWitch_shouldTrashCurse(MoveContext context) {
+    	return true;
     }
     
     @Override

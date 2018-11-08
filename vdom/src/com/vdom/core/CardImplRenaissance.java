@@ -38,11 +38,20 @@ public class CardImplRenaissance extends CardImpl {
 		case Experiment:
 			experiment(game, context, currentPlayer);
 			break;
+		case Hideout:
+			hideout(game, context, currentPlayer);
+			break;
+		case Inventor:
+			inventor(game, context, currentPlayer);
+			break;
 		case Key:
 			context.addCoins(1);
 			break;
 		case MountainVillage:
 			mountainVillage(game, context, currentPlayer);
+			break;
+		case OldWitch:
+			oldWitch(game, context, currentPlayer);
 			break;
 		case Piazza:
 			piazza(game, context, currentPlayer);
@@ -193,6 +202,36 @@ public class CardImplRenaissance extends CardImpl {
         pile.addCard(card);	
 	}
 	
+	private void hideout(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() == 0)
+			return;
+        Card cardToTrash = player.controlPlayer.hideout_cardToTrash(context);
+        if (cardToTrash != null) {
+        	if (!player.getHand().contains(cardToTrash)) {
+        		Util.playerError(player, "Hideout error, invalid card to trash, picking first.");
+        		cardToTrash = player.getHand().get(0);
+        	} 
+        	cardToTrash = player.hand.get(cardToTrash);
+    		player.trashFromHand(cardToTrash, this.getControlCard(), context);
+    		
+    		if (cardToTrash.is(Type.Victory)) {
+    			context.getPlayer().gainNewCard(Cards.curse, this.getControlCard(), context);
+    		}
+        }
+	}
+	
+	private void inventor(Game game, MoveContext context, Player player) {
+		Card card = player.controlPlayer.inventor_cardToObtain(context);
+        if (card != null) {
+            if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
+            	player.gainNewCard(card, this.getControlCard(), context);
+            } else {
+            	Util.playerError(player, "Inventor error, invalid card to gain, ignoring");
+            }
+        }
+        context.cardCostModifier -= 1;
+	}
+	
 	private void mountainVillage(Game game, MoveContext context, Player currentPlayer) {
 		if (currentPlayer.getDiscardSize() > 0)
         {
@@ -218,6 +257,27 @@ public class CardImplRenaissance extends CardImpl {
             }
         } else {
         	game.drawToHand(context, this, 0);
+        }
+	}
+	
+	private void oldWitch(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+		
+    	for (Player player : attackedPlayers) {
+			player.attacked(this.getControlCard(), context);
+            MoveContext playerContext = new MoveContext(game, player);
+            playerContext.attackedPlayer = player;
+            player.gainNewCard(Cards.curse, this.getControlCard(), playerContext);
+            if (player.getHand().contains(Cards.curse)) {
+            	if (player.controlPlayer.oldWitch_shouldTrashCurse(playerContext)) {
+            		player.trashFromHand(Cards.curse, this.getControlCard(), playerContext);
+            	}
+            }
         }
 	}
 	

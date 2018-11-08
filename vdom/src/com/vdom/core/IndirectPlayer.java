@@ -4277,11 +4277,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card hideout_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.hideout);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card) {
     	Object[] extras = new Object[2];
         extras[0] = Cards.innovation;
         extras[1] = card;
     	return selectBoolean(context, Cards.innovation, extras);
+    }
+    
+    @Override
+    public Card inventor_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+                .setCardResponsible(Cards.inventor).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
     }
     
     @Override
@@ -4294,6 +4308,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         Collections.sort(options, new Util.CardCostNameComparator());
 
         return options.get(selectOption(context, Cards.mountainVillage, options.toArray()));
+    }
+    
+    @Override
+    public boolean oldWitch_shouldTrashCurse(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_oldWitch_shouldTrashCurse(context)) {
+            return super.oldWitch_shouldTrashCurse(context);
+        }
+    	return selectBoolean(context, Cards.oldWitch);
     }
     
     @Override

@@ -4456,6 +4456,10 @@ public class Game {
                     	context.player.takeVillagers(1, context, Cards.silkMerchant);
                     } else if (gainedCardAbility.equals(Cards.flagBearer)) {
                     	context.game.takeSharedState(context, Cards.flag);
+                    } else if (gainedCardAbility.equals(Cards.lackeys)) {
+                    	context.player.takeVillagers(2, context, Cards.lackeys);
+                    } else if (gainedCardAbility.equals(Cards.spices)) {
+                    	context.player.gainGuildsCoinTokens(2, context, Cards.spices);
                     }
                     
                     if(event.card.is(Type.Action, player)) {

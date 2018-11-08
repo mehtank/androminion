@@ -2609,8 +2609,11 @@ public abstract class Player {
     public abstract Card cityGate_cardToPutBackOnDeck(MoveContext context);
     public abstract Card cropRotation_cardToDiscard(MoveContext context);
     public abstract boolean ducat_shouldTrashCopper(MoveContext context);
+    public abstract Card hideout_cardToTrash(MoveContext context);
     public abstract boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card);
+    public abstract Card inventor_cardToObtain(MoveContext context);
     public abstract Card mountainVillage_cardToPutInHand(MoveContext context);
+    public abstract boolean oldWitch_shouldTrashCurse(MoveContext context);
     public abstract boolean pageant_payCoinForCoffers(MoveContext context);
     public abstract Card priest_cardToTrash(MoveContext context);
     public abstract Card recruiter_cardToTrash(MoveContext context);
