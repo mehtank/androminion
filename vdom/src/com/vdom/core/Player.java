@@ -1759,18 +1759,15 @@ public abstract class Player {
         context.game.broadcastEvent(event);
     }
 
-    public void revealFromHand(Card card, Card responsible, MoveContext context) {
-        GameEvent event = new GameEvent(GameEvent.EventType.CardRevealedFromHand, context);
-        event.card = card;
-        event.responsible = responsible;
-        context.game.broadcastEvent(event);
-    }
-
     public void reveal(Card card, Card responsible, MoveContext context) {
         GameEvent event = new GameEvent(GameEvent.EventType.CardRevealed, context);
         event.card = card;
         event.responsible = responsible;
         context.game.broadcastEvent(event);
+        
+        if (card.behaveAsCard().equals(Cards.patron)) {
+        	context.player.gainGuildsCoinTokens(1, context, Cards.patron);
+        }
     }
 
     public void attacked(Card card, MoveContext context) {

@@ -208,7 +208,7 @@ public class CardImplCornucopia extends CardImpl {
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card card = currentPlayer.hand.get(i);
             cardNames.add(card.getName());
-            currentPlayer.revealFromHand(card, this.getControlCard(), context);
+            currentPlayer.reveal(card, this.getControlCard(), context);
         }
 
         ArrayList<Card> toDiscard = new ArrayList<Card>();
