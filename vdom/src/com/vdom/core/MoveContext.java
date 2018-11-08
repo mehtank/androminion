@@ -34,6 +34,7 @@ public class MoveContext {
     public int cardCostModifier = 0;
     public int victoryCardsBoughtThisTurn = 0;
     public int totalCardsBoughtThisTurn = 0;
+    public int totalCardsBoughtInMostRecentBuyPhase = 0;
     public int totalEventsBoughtThisTurn = 0;
     public int totalProjectsBoughtThisTurn = 0;
     public int totalExpeditionBoughtThisTurn = 0;
@@ -207,6 +208,10 @@ public class MoveContext {
 
     public int getTotalCardsBoughtThisTurn() {
         return totalCardsBoughtThisTurn;
+    }
+    
+    public int getTotalCardsBoughtInMostRecentBuyPhase() {
+        return totalCardsBoughtInMostRecentBuyPhase;
     }
 
     public int getTotalEventsBoughtThisTurn() {

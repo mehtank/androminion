@@ -553,6 +553,7 @@
   <string name="villager_query">Use Villager for +1 Action?</string>
   <string name="villager_option">Use</string>
   <string name="ducat_trash_copper">Trash Copper from hand</string>
+  <string name="pageant_pay_coin_for_coffers">Pay (1) Coin for +1 Coffers</string>
   <string name="silos_query">Number of Coppers to discard for draw [%1$s]</string>
   <string name="starChart_query">Select card to put on deck [%1$s]</string>
   

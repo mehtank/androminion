@@ -5101,6 +5101,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean pageant_payCoinForCoffers(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
     public Card priest_cardToTrash(MoveContext context) {
     	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
     }

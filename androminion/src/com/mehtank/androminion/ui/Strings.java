@@ -1450,6 +1450,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.innovation))) {
             strings[1] = format(R.string.innovation_set_aside_to_play, getCardName((Card)extras[1]));
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.pageant))) {
+            strings[1] = getString(R.string.pageant_pay_coin_for_coffers);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.prince))) {
             strings[1] = getString(R.string.set_aside);
             strings[2] = getString(R.string.pass);

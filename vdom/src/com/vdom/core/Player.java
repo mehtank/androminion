@@ -2610,6 +2610,7 @@ public abstract class Player {
     public abstract boolean ducat_shouldTrashCopper(MoveContext context);
     public abstract boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card);
     public abstract Card mountainVillage_cardToPutInHand(MoveContext context);
+    public abstract boolean pageant_payCoinForCoffers(MoveContext context);
     public abstract Card priest_cardToTrash(MoveContext context);
     public abstract Card recruiter_cardToTrash(MoveContext context);
     public abstract Card sculptor_cardToObtain(MoveContext context);

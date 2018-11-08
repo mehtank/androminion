@@ -1060,6 +1060,7 @@ public class Game {
                 	else
                 	{
                         context.totalCardsBoughtThisTurn++;
+                        context.totalCardsBoughtInMostRecentBuyPhase++;
                 	}
                     GameEvent statusEvent = new GameEvent(GameEvent.EventType.Status, (MoveContext) context);
                     broadcastEvent(statusEvent);
@@ -1123,6 +1124,18 @@ public class Game {
 	            	}
 	            }
             }
+        }
+        
+        if (player.hasProject(Cards.exploration) && context.getTotalCardsBoughtInMostRecentBuyPhase() == 0) {
+        	player.gainGuildsCoinTokens(1, context, Cards.exploration);
+        	player.takeVillagers(1, context, Cards.exploration);
+        }
+        
+        if (player.hasProject(Cards.pageant) && context.getCoins() > 0) {
+        	if (player.controlPlayer.pageant_payCoinForCoffers(context)) {
+        		context.spendCoins(1);
+        		player.gainGuildsCoinTokens(1, context, Cards.pageant);
+        	}
         }
     }
 
@@ -1578,6 +1591,7 @@ public class Game {
     }
 
     protected void playerBeginBuy(Player player, MoveContext context) {
+    	context.totalCardsBoughtInMostRecentBuyPhase = 0;
     	if (cardInGame(Cards.arena)) {
     		arena(player, context);
     	}

@@ -4297,6 +4297,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean pageant_payCoinForCoffers(MoveContext context) {
+    	if(context.isQuickPlay()) {
+            return super.pageant_payCoinForCoffers(context);
+        }
+    	return selectBoolean(context, Cards.pageant);
+    }
+    
+    @Override
     public Card priest_cardToTrash(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_priest_cardToTrash(context)) {
             return super.priest_cardToTrash(context);
