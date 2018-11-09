@@ -12,6 +12,7 @@ import java.util.Set;
 import android.content.Context;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import com.mehtank.androminion.R;
 import com.vdom.api.Card;
@@ -635,13 +636,13 @@ public class Strings {
                     if ( ((Card)options[i]).equals(Cards.haven) ) {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
                                 + " (" + "\u261e" + getCardName(((Card) options[i+1])) + ")";
-                    } else if ( ((Card)options[i]).equals(Cards.gear) ) {
+                    } else if ( ((Card)options[i]).equals(Cards.gear) || ((Card)options[i]).equals(Cards.research) ) {
                     	@SuppressWarnings("unchecked")
-						ArrayList<Card> gearCards = (ArrayList<Card>) options[i+1];
-                    	String cardsString = getCardName(gearCards.get(0));
-                    	if (gearCards.size() > 1) {
-                    		cardsString = " " + cardsString + ", " + getCardName(gearCards.get(1));
-                    	}
+						ArrayList<Card> handCards = (ArrayList<Card>) options[i+1];
+                    	ArrayList<String> cardNames = new ArrayList<String>(handCards.size());
+                    	for (Card c : handCards)
+                    		cardNames.add(getCardName(c));
+                    	String cardsString = TextUtils.join(", ", cardNames);
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
                                 + " (" + "\u261e" + cardsString + ")";
                     } else if ( ((Card)options[i]).equals(Cards.archive) || ((Card)options[i]).equals(Cards.crypt) ) {
@@ -1936,6 +1937,7 @@ public class Strings {
             getCardName(Cards.inventor),
             getCardName(Cards.priest),
             getCardName(Cards.recruiter),
+            getCardName(Cards.research),
             getCardName(Cards.sculptor),
             getCardName(Cards.sewers),
             getCardName(Cards.treasurer),

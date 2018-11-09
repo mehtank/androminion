@@ -1273,6 +1273,13 @@ public class Game {
             		durationEffectsAreCards.add(effectHasCard);
             		durationEffectsAreCards.add(false);
         		}
+            } else if (thisCard.equals(Cards.research)) {
+            	if(player.research.size() > 0) {
+            		durationEffects.add(cardOrEffect);
+            		durationEffects.add(player.research.remove(0));
+            		durationEffectsAreCards.add(effectHasCard);
+            		durationEffectsAreCards.add(false);
+            	}
             } else {
             	durationEffects.add(cardOrEffect);
             	durationEffects.add(Cards.curse); /*dummy*/
@@ -1497,7 +1504,7 @@ public class Game {
             	if(card.behaveAsCard().equals(Cards.haven) || card.behaveAsCard().equals(Cards.cargoShip)) {
                     player.hand.add(card2);
                 }
-                if(card.behaveAsCard().equals(Cards.gear)) {
+                if(card.behaveAsCard().equals(Cards.gear) || card.behaveAsCard().equals(Cards.research)) {
                 	for (Card c : setAsideCards)
                 		player.hand.add(c);
                 }

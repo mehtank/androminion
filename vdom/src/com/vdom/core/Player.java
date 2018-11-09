@@ -74,6 +74,7 @@ public abstract class Player {
     protected CardList faithfulHound;
     protected CardList ghost;
     protected CardList cargoShip;
+    protected ArrayList<ArrayList<Card>> research;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     protected List<DurationEffect> startTurnDurationEffects;
     protected int championEffects = 0;
@@ -357,6 +358,7 @@ public abstract class Player {
         faithfulHound = new CardList(this, "Faithful Hound");
         ghost = new CardList(this, "Ghost");
         cargoShip = new CardList(this, "Cargo Ship");
+        research = new ArrayList<ArrayList<Card>>();
         boonsForCleanup = new CardList(this, "Boons");
         nextTurnBoons = new CardList(this, "Boons");
         states = new CardList(this, "States");
@@ -941,6 +943,9 @@ public abstract class Player {
         }
         for (Card card : cargoShip) {
             allCards.add(card);
+        }
+        for (ArrayList<Card> curResearch : research) {
+        	allCards.addAll(curResearch);
         }
         if (checkLeadCard != null) {
             allCards.add(checkLeadCard);
@@ -2628,6 +2633,7 @@ public abstract class Player {
     public abstract boolean pageant_payCoinForCoffers(MoveContext context);
     public abstract Card priest_cardToTrash(MoveContext context);
     public abstract Card recruiter_cardToTrash(MoveContext context);
+    public abstract Card research_cardToTrash(MoveContext context);
     public abstract Card sculptor_cardToObtain(MoveContext context);
     public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);
     public abstract Card sewers_cardToTrash(MoveContext context);

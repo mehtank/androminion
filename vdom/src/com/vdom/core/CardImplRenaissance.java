@@ -66,6 +66,9 @@ public class CardImplRenaissance extends CardImpl {
 		case Recruiter:
 			recruiter(game, context, currentPlayer);
 			break;
+		case Research:
+			research(game, context, currentPlayer, isThronedEffect);
+			break;
 		case Scholar:
 			scholar(game, context, currentPlayer);
 			break;
@@ -331,6 +334,38 @@ public class CardImplRenaissance extends CardImpl {
         player.trashFromHand(card, this.getControlCard(), context);
         int cost = card.getCost(context);
         player.takeVillagers(cost, context, Cards.recruiter);
+	}
+	
+	private void research(Game game, MoveContext context, Player player, boolean isThronedEffect) {
+    	CardList hand = player.getHand();
+    	if (hand.size() == 0)
+    		return;
+    	Card toTrash = player.controlPlayer.research_cardToTrash(context);
+		if (toTrash == null || !hand.contains(toTrash)) {
+			Util.playerError(player, "Invalid card selected for Research, selecting first card");
+			toTrash = hand.get(0);
+		}
+		toTrash = hand.get(toTrash);
+		player.trashFromHand(toTrash, this.getControlCard(), context);
+		int trashCost = toTrash.getCost(context);
+		if (trashCost == 0)
+			return;
+		ArrayList<Card> researchCards = new ArrayList<Card>();
+		for (int i = 0; i < trashCost; ++i) {
+			Card c = game.draw(context, this.getControlCard(), 1);
+			if (c == null)
+				continue;
+			researchCards.add(c);
+			GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, (MoveContext) context);
+            event.card = c;
+            event.responsible = this;
+            event.setPrivate(true);
+            context.game.broadcastEvent(event);
+		}
+		if (!researchCards.isEmpty()) {
+        	player.research.add(researchCards);
+        	player.addStartTurnDurationEffect(this, 1, isThronedEffect);
+        }
 	}
 	
 	private void scholar(Game game, MoveContext context, Player player) {

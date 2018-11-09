@@ -5146,6 +5146,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card research_cardToTrash(MoveContext context) {
+    	return recruiter_cardToTrash(context);
+    }
+    
+    @Override
     public Card sculptor_cardToObtain(MoveContext context) {
     	//TODO: get something that will better complement the current hand
     	return bestCardInPlay(context, 4, true);
