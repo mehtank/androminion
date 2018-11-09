@@ -5041,6 +5041,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean cargoShip_shouldSetAside(MoveContext context, Card card) {    	
+    	return true;
+    }
+    
+    @Override
     public Card cathedral_cardToTrash(MoveContext context) {
     	Card toTrash = pickOutCard(context.getPlayer().getHand(), getTrashCards());
     	if (toTrash == null) {

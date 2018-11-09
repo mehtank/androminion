@@ -556,6 +556,7 @@
   <string name="pageant_pay_coin_for_coffers">Pagar (1) Moneda para +1 Cofres</string>
   <string name="silos_query">Número de cartas de Cobre para descartar para robar [%1$s]</string>
   <string name="starChart_query">Elige una carta para poner encima del mazo [%1$s]</string>
+  <string name="set_aside_for_next_turn">Apartar para tu próximo turno [%1$s]</string>
   
   <string name="set_aside">Apartar</string>
   

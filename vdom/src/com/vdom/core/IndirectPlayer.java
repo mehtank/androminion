@@ -4247,6 +4247,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean cargoShip_shouldSetAside(MoveContext context, Card card) {
+    	Object[] extras = new Object[1];
+        extras[0] = card;
+        return selectBoolean(context, Cards.cargoShip, extras);
+    }
+    
+    @Override
     public Card cathedral_cardToTrash(MoveContext context) {
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
         		.setActionType(ActionType.TRASH).setCardResponsible(Cards.cathedral);

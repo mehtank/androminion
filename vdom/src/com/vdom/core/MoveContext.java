@@ -10,6 +10,7 @@ import com.vdom.api.CardCostComparator;
 import com.vdom.api.GameEventListener;
 import com.vdom.api.GameType;
 import com.vdom.core.Cards.Kind;
+import com.vdom.core.Player.DurationEffect;
 
 public class MoveContext {
     public int actions = 1;
@@ -25,6 +26,7 @@ public class MoveContext {
     public int crossroadsPlayed = 0;
 
     public int foolsGoldPlayed = 0;
+    public ArrayList<DurationEffect> cargoShipsEffectsPending = new ArrayList<Player.DurationEffect>();
 
     public int overpayAmount  = 0;  // The number of extra coins paid for a card
     public int overpayPotions = 0;  // The number of potions paid for an overpay card

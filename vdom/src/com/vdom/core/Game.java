@@ -1266,6 +1266,13 @@ public class Game {
             	}
             } else if (thisCard.equals(Cards.ghost)) {
             	//handled below
+            } else if(thisCard.equals(Cards.cargoShip)) {
+            	if(player.cargoShip.size() > 0) {
+            		durationEffects.add(cardOrEffect);
+            		durationEffects.add(player.cargoShip.remove(0));
+            		durationEffectsAreCards.add(effectHasCard);
+            		durationEffectsAreCards.add(false);
+        		}
             } else {
             	durationEffects.add(cardOrEffect);
             	durationEffects.add(Cards.curse); /*dummy*/
@@ -1318,6 +1325,12 @@ public class Game {
             durationEffects.add(Cards.ghost);
             durationEffects.add(card);
             durationEffectsAreCards.add(true);
+    		durationEffectsAreCards.add(false);
+        }
+        while (!player.cargoShip.isEmpty()) {
+            durationEffects.add(Cards.cargoShip);
+            durationEffects.add(player.cargoShip.remove(0));
+            durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
         while (!player.nextTurnBoons.isEmpty()) {
@@ -1481,7 +1494,7 @@ public class Game {
             } else if (card.behaveAsCard().equals(Cards.fair)) {
             	context.buys += 1;
             } else if(card.behaveAsCard().is(Type.Duration, player)) {
-            	if(card.behaveAsCard().equals(Cards.haven)) {
+            	if(card.behaveAsCard().equals(Cards.haven) || card.behaveAsCard().equals(Cards.cargoShip)) {
                     player.hand.add(card2);
                 }
                 if(card.behaveAsCard().equals(Cards.gear)) {
@@ -3985,7 +3998,20 @@ public class Game {
                     	}
                     }
                     
-                    if (player.hasProject(Cards.innovation) && context.game.getCurrentPlayer() == player &&
+                    if (!handled && context.cargoShipsEffectsPending.size() > 0) {
+                    	if (player.controlPlayer.cargoShip_shouldSetAside(context, event.card)) {
+                    		player.cargoShip.add(event.card);
+                    		player.addStartTurnDurationEffect(context.cargoShipsEffectsPending.remove(0));
+                    		GameEvent setAsideEvent = new GameEvent(GameEvent.EventType.CardSetAside, context);
+                    		setAsideEvent.card = event.card;
+                    		setAsideEvent.responsible = Cards.cargoShip;
+                    		setAsideEvent.setPlayer(player);
+                            context.game.broadcastEvent(setAsideEvent);
+                    		handled = true;
+                    	}
+                    }
+                    
+                    if (!handled && player.hasProject(Cards.innovation) && context.game.getCurrentPlayer() == player &&
                     		event.card.is(Type.Action) && context.game.getActionCardsObtainedByPlayer().size() == 1) {
                     	//TODO: technically you should be able to order the when-gain abilities
                     	//      either play it before or after exercising the other when-gain abilities

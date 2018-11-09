@@ -73,6 +73,7 @@ public abstract class Player {
     protected int theRiversGiftDraw;
     protected CardList faithfulHound;
     protected CardList ghost;
+    protected CardList cargoShip;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     protected List<DurationEffect> startTurnDurationEffects;
     protected int championEffects = 0;
@@ -191,6 +192,11 @@ public abstract class Player {
     
     public void addStartTurnDurationEffect(Card card, int numTurnStarts, boolean isThronedEffect) {
     	startTurnDurationEffects.add(new DurationEffect(card, numTurnStarts, isThronedEffect));
+    }
+    
+    public void addStartTurnDurationEffect(DurationEffect pendingEffect) {
+    	// For cards like Cargo Ship where the effect isn't applied until after playing the card
+    	startTurnDurationEffects.add(pendingEffect);
     }
 
     public ArrayList<Card> getActionCards(Card[] cards, Player player) {
@@ -350,6 +356,7 @@ public abstract class Player {
         crypt = new ArrayList<ArrayList<Card>>();
         faithfulHound = new CardList(this, "Faithful Hound");
         ghost = new CardList(this, "Ghost");
+        cargoShip = new CardList(this, "Cargo Ship");
         boonsForCleanup = new CardList(this, "Boons");
         nextTurnBoons = new CardList(this, "Boons");
         states = new CardList(this, "States");
@@ -930,6 +937,9 @@ public abstract class Player {
             allCards.add(card);
         }
         for (Card card : ghost) {
+            allCards.add(card);
+        }
+        for (Card card : cargoShip) {
             allCards.add(card);
         }
         if (checkLeadCard != null) {
@@ -2605,6 +2615,7 @@ public abstract class Player {
     // Card interactions - Renaissance Expansion
     public abstract boolean spendVillagerForAction(MoveContext context);
     public abstract int numVillagerTokensToSpend(MoveContext context, int villagerTotal);
+    public abstract boolean cargoShip_shouldSetAside(MoveContext context, Card card);
     public abstract Card cathedral_cardToTrash(MoveContext context);
     public abstract Card cityGate_cardToPutBackOnDeck(MoveContext context);
     public abstract Card cropRotation_cardToDiscard(MoveContext context);

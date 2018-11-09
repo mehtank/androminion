@@ -10,6 +10,7 @@ import java.util.Map;
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
 import com.vdom.core.MoveContext.TurnPhase;
+import com.vdom.core.Player.DurationEffect;
 
 public class CardImplRenaissance extends CardImpl {
 
@@ -25,6 +26,9 @@ public class CardImplRenaissance extends CardImpl {
 		switch(getKind()) {
 		case ActingTroupe:
 			actingTroupe(game, context, currentPlayer);
+			break;
+		case CargoShip:
+			cargoShip(game, context, currentPlayer, isThronedEffect);
 			break;
 		case Cathedral:
 			cathedral(game, context, currentPlayer);
@@ -117,6 +121,10 @@ public class CardImplRenaissance extends CardImpl {
 		
 	private void actingTroupe(Game game, MoveContext context, Player player) {
 		player.trashSelfFromPlay(getControlCard(), context);
+	}
+	
+	private void cargoShip(Game game, MoveContext context, Player player, boolean isThronedEffect) {
+		context.cargoShipsEffectsPending.add(new DurationEffect(this, 1, isThronedEffect));
 	}
 	
 	private void cathedral(Game game, MoveContext context, Player player) {

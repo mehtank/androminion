@@ -1444,6 +1444,10 @@ public class Strings {
             strings[0] = getCardRevealedHeader(extras);
             strings[1] = getString(R.string.discard);
             strings[2] = getString(R.string.replace);
+        } else if (cardName.equals(getCardName(Cards.cargoShip))) {
+        	strings[0] = format(R.string.gained_card, getCardName((Card)extras[0]));
+            strings[1] = format(R.string.set_aside_for_next_turn, cardName);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.ducat))) {
             strings[1] = getString(R.string.ducat_trash_copper);
             strings[2] = getString(R.string.pass);
