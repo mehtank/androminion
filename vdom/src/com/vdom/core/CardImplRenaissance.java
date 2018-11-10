@@ -27,6 +27,9 @@ public class CardImplRenaissance extends CardImpl {
 		case ActingTroupe:
 			actingTroupe(game, context, currentPlayer);
 			break;
+		case BorderGuard:
+			borderGuard(game, context, currentPlayer);
+			break;
 		case CargoShip:
 			cargoShip(game, context, currentPlayer, isThronedEffect);
 			break;
@@ -124,6 +127,47 @@ public class CardImplRenaissance extends CardImpl {
 		
 	private void actingTroupe(Game game, MoveContext context, Player player) {
 		player.trashSelfFromPlay(getControlCard(), context);
+	}
+	
+	private void borderGuard(Game game, MoveContext context, Player player) {
+		int cardsToReveal = (game.hasState(player, Cards.lantern) && !this.getControlCard().equals(Cards.estate)) ? 3 : 2;
+		ArrayList<Card> toReveal = new ArrayList<Card>(cardsToReveal);
+		for (int i = 0; i < cardsToReveal; ++i) {
+			Card c = game.draw(context, this.getControlCard(), cardsToReveal - i);
+			if (c == null)
+				break;
+			toReveal.add(c);
+		}
+		int numRevealed = toReveal.size();
+		if (numRevealed == 0)
+			return;
+		boolean allActions = true;
+		for (Card c : toReveal) {
+			player.reveal(c, this.getControlCard(), context);
+			if (!c.is(Type.Action, player))
+				allActions = false;
+		}
+		
+		Card cardToKeep = toReveal.size() == 1 ? toReveal.get(0) : player.controlPlayer.borderGuard_cardToKeep(context, toReveal.toArray(new Card[toReveal.size()]));
+		if (cardToKeep == null || !toReveal.contains(cardToKeep)) {
+			Util.playerError(player, "Border Guard keep error. Keeping random card.");
+			cardToKeep = Util.randomCard(toReveal);
+		}
+		toReveal.remove(cardToKeep);
+		player.getHand().add(cardToKeep);
+		for (Card c : toReveal) {
+            player.discard(c, this.getControlCard(), context);
+        }
+		
+		if (numRevealed == cardsToReveal && allActions) {
+			if (!game.hasState(player, Cards.horn) || !game.hasState(player, Cards.lantern)) {
+				if (player.controlPlayer.borderGuard_shouldTakeLanternOverHorn(context)) {
+					game.takeSharedState(context, Cards.lantern);
+				} else {
+					game.takeSharedState(context, Cards.horn);
+				}
+			}
+		}
 	}
 	
 	private void cargoShip(Game game, MoveContext context, Player player, boolean isThronedEffect) {

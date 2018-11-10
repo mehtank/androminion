@@ -4247,6 +4247,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card borderGuard_cardToKeep(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.borderGuard, cards)];
+    }
+        
+    @Override
+    public boolean borderGuard_shouldTakeLanternOverHorn(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_borderGuard_shouldTakeLanternOverHorn(context)) {
+            return super.borderGuard_shouldTakeLanternOverHorn(context);
+        }
+    	return selectBoolean(context, Cards.borderGuard);
+    }
+    
+    @Override
     public boolean cargoShip_shouldSetAside(MoveContext context, Card card) {
     	Object[] extras = new Object[1];
         extras[0] = card;

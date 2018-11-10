@@ -867,7 +867,7 @@ public class Strings {
             return getString(R.string.treasure_to_trash);
         } else if (cardName.equals(getCardName(Cards.quest)) && extras[0] instanceof Card) {
             return getString(R.string.quest_attack_to_discard);
-        } else if (cardName.equals(getCardName(Cards.raze))) {
+        } else if (cardName.equals(getCardName(Cards.raze)) || cardName.equals(getCardName(Cards.borderGuard))) {
             return getString(R.string.raze_query);
         } else if(cardName.equals(getCardName(Cards.rogue))) {
 			return getString(R.string.rogue_query);
@@ -1163,6 +1163,8 @@ public class Strings {
                 return getCardName(Cards.treasury);
             } else if (option == PutBackOption.WalledVillage) {
                 return getCardName(Cards.walledVillage);
+            } else if (option == PutBackOption.BorderGuard) {
+                return getCardName(Cards.borderGuard);
             }
         } else if (option instanceof CourtierOption) {
             if (option == CourtierOption.AddAction) {
@@ -1445,6 +1447,9 @@ public class Strings {
             strings[0] = getCardRevealedHeader(extras);
             strings[1] = getString(R.string.discard);
             strings[2] = getString(R.string.replace);
+        } else if (cardName.equals(getCardName(Cards.borderGuard))) {
+            strings[1] = format(R.string.take_artifact, getCardName(Cards.lantern));
+            strings[2] = format(R.string.take_artifact, getCardName(Cards.horn));
         } else if (cardName.equals(getCardName(Cards.cargoShip))) {
         	strings[0] = format(R.string.gained_card, getCardName((Card)extras[0]));
             strings[1] = format(R.string.set_aside_for_next_turn, cardName);

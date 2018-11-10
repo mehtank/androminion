@@ -5041,6 +5041,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card borderGuard_cardToKeep(MoveContext context, Card[] cards) {
+    	return raze_cardToKeep(context, cards);
+    }
+    
+    @Override
+    public boolean borderGuard_shouldTakeLanternOverHorn(MoveContext context) {
+    	// better logic here?
+    	return context.game.hasState(context.player, Cards.horn);
+    }
+    
+    @Override
     public boolean cargoShip_shouldSetAside(MoveContext context, Card card) {    	
     	return true;
     }

@@ -284,9 +284,9 @@
 	<string name="status_has_miserable">Tiene Miserable (-2 PV)</string>
 	<string name="status_has_twiceMiserable">Tiene Miserable Otra Vez (-4 PV)</string>
 	<string name="status_has_flag">Tiene la Bandera (Al robar cartas para tu mano, +1 Carta.)</string>
-	<string name="status_has_horn">Tiene el Clarín</string>
+	<string name="status_has_horn">Tiene el Cuerno (Una vez por turno, cuando discartes una Guardia de Fronteras de tu zona de juego, puedes ponerla encima de tu mazo.)</string>
 	<string name="status_has_key">Tiene la Llave (Al comienzo de tu turno, +(1) Moneda.)</string>
-	<string name="status_has_lantern">Tiene el Farol</string>
+	<string name="status_has_lantern">Tiene el Farol (Tus Guardias de Fronteras revelan 3 cartas y discartan 2.)</string>
 	<string name="status_has_treasureChest">Tiene el Cofre de Tesoro (Al comienzo de tu fase de Compra, gana una carta de Oro.)</string>
 	<string name="status_coin_tokens">Marcadores de Moneda en el tablero de Cofres: %1$s</string>
 	<string name="status_villager_tokens">Aldeanos: %1$s</string>

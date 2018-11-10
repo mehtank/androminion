@@ -1235,6 +1235,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return true;
     }
     
+    public boolean shouldAutoPlay_borderGuard_shouldTakeLanternOverHorn(MoveContext context) {
+    	return context.game.hasState(context.player, Cards.horn) || context.game.hasState(context.player, Cards.lantern); 
+    }
+    
     public boolean shouldAutoPlay_ducat_shouldTrashCopper(MoveContext context) {
     	return true;
     }

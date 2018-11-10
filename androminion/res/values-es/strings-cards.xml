@@ -955,7 +955,7 @@
     <string name="ActingTroupe_name">Compañía Teatral</string>
     <string name="ActingTroupe_desc">Elimina esta carta.</string>
     <string name="BorderGuard_name">Guardia de Fronteras</string>
-    <string name="BorderGuard_desc">TODO</string>
+    <string name="BorderGuard_desc">Revela las 2 cartas superiores de tu mazo. Pon una de ellas en tu mano y descarta la otra. Si ambas eran cartas de Acción, toma el Farol or el Cuerno.</string>
     <string name="CargoShip_name">Barco de Carga</string>
     <string name="CargoShip_desc">TODO</string>
     <string name="Ducat_name">Ducado Dorado</string>
@@ -1005,12 +1005,12 @@
     
     <string name="Flag_name">Bandera</string>
     <string name="Flag_desc">Al robar cartas para tu mano, +1 Carta.</string>
-    <string name="Horn_name">Clarín</string>
-    <string name="Horn_desc">TODO</string>
+    <string name="Horn_name">Cuerno</string>
+    <string name="Horn_desc">Una vez por turno, cuando discartes una Guardia de Fronteras de tu zona de juego, puedes ponerla encima de tu mazo.</string>
     <string name="Key_name">Llave</string>
     <string name="Key_desc">Al comienzo de tu turno, +(1) Moneda.</string>
     <string name="Lantern_name">Farol</string>
-    <string name="Lantern_desc">TODO</string>
+    <string name="Lantern_desc">Tus Guardias de Fronteras revelan 3 cartas y discartan 2. (Necesitas que todas las 3 sean Acciones para tomar el Cuerno.)</string>
     <string name="TreasureChest_name">Cofre de Tesoro</string>
     <string name="TreasureChest_desc">Al comienzo de tu fase de Compra, gana una carta de Oro.</string>
     

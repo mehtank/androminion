@@ -379,6 +379,7 @@ public abstract class Player {
 
         List<PutBackOption> options = new ArrayList<PutBackOption>();
 
+        boolean addedBorderGuardOption = false;
         for (Card c: playedCards) {
             if (c.behaveAsCard().equals(Cards.treasury) && !victoryBought) {
                 options.add(PutBackOption.Treasury);
@@ -388,6 +389,9 @@ public abstract class Player {
                 options.add(PutBackOption.WalledVillage);
             } else if (c.behaveAsCard().equals(Cards.herbalist) && treasurePlayed) {
                 options.add(PutBackOption.Coin);
+            } else if (c.equals(Cards.borderGuard) && context.game.hasState(context.player, Cards.horn) && !context.hasTopDeckedBorderGuard && !addedBorderGuardOption) {
+            	options.add(PutBackOption.BorderGuard);
+            	addedBorderGuardOption = true;
             }
         }
         if (actionsInPlay > 0) {
@@ -396,12 +400,13 @@ public abstract class Player {
             }
         }
         /* check if all options are simple
-         * (Alchemist, Treasury or WalledVillage) */   
+         * (Alchemist, Treasury, WalledVillage, or BorderGuard) */   
         boolean allSimple = true;
         for (PutBackOption o: options) {
             if (   o.equals(PutBackOption.Alchemist)
                 || o.equals(PutBackOption.Treasury)
-                || o.equals(PutBackOption.WalledVillage))
+                || o.equals(PutBackOption.WalledVillage)
+                || o.equals(PutBackOption.BorderGuard))
             {
                 continue;
             }
@@ -484,6 +489,12 @@ public abstract class Player {
                             playedCards.remove(walledVillage);
                             putBackCards.add(walledVillage);
                         }
+                        if (p == PutBackOption.BorderGuard) {
+                            Card borderGuard = findCard(context, Cards.borderGuard);
+                            playedCards.remove(borderGuard);
+                            putBackCards.add(borderGuard);
+                            context.hasTopDeckedBorderGuard = true;
+                        }
                     }
                 } else if (putBackOption == PutBackOption.Treasury) {
                     Card treasury = findCard(context, Cards.treasury);
@@ -497,6 +508,11 @@ public abstract class Player {
                     Card walledVillage = findCard(context, Cards.walledVillage);
                     playedCards.remove(walledVillage);
                     putBackCards.add(walledVillage);
+                } else if (putBackOption == PutBackOption.BorderGuard) {
+                    Card borderGuard = findCard(context, Cards.borderGuard);
+                    playedCards.remove(borderGuard);
+                    putBackCards.add(borderGuard);
+                    context.hasTopDeckedBorderGuard = true;
                 } else if (putBackOption == PutBackOption.Coin) {
                     Card herbalist = findCard(context, Cards.herbalist);
                     playedCards.remove(herbalist);
@@ -1542,8 +1558,7 @@ public abstract class Player {
                 else {
                     discard.add(card);
                 }
-            }
-            else {
+            } else {
                 discard.add(card);
             }
         }
@@ -1873,6 +1888,7 @@ public abstract class Player {
         Treasury,
         Alchemist,
         WalledVillage,
+        BorderGuard,
         Coin,
         Action,
         None
@@ -2620,6 +2636,8 @@ public abstract class Player {
     // Card interactions - Renaissance Expansion
     public abstract boolean spendVillagerForAction(MoveContext context);
     public abstract int numVillagerTokensToSpend(MoveContext context, int villagerTotal);
+    public abstract Card borderGuard_cardToKeep(MoveContext context, Card[] cards);
+    public abstract boolean borderGuard_shouldTakeLanternOverHorn(MoveContext context);
     public abstract boolean cargoShip_shouldSetAside(MoveContext context, Card card);
     public abstract Card cathedral_cardToTrash(MoveContext context);
     public abstract Card cityGate_cardToPutBackOnDeck(MoveContext context);

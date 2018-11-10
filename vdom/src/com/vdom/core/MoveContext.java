@@ -62,6 +62,7 @@ public class MoveContext {
     public int donatesBought = 0;
     public int charmsNextBuy = 0;
     public boolean envious = false;
+    public boolean hasTopDeckedBorderGuard = false;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;
