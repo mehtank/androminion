@@ -130,7 +130,7 @@ public class CardImplRenaissance extends CardImpl {
 	}
 	
 	private void borderGuard(Game game, MoveContext context, Player player) {
-		int cardsToReveal = (game.hasState(player, Cards.lantern) && !this.getControlCard().equals(Cards.estate)) ? 3 : 2;
+		int cardsToReveal = game.hasState(player, Cards.lantern) ? 3 : 2;
 		ArrayList<Card> toReveal = new ArrayList<Card>(cardsToReveal);
 		for (int i = 0; i < cardsToReveal; ++i) {
 			Card c = game.draw(context, this.getControlCard(), cardsToReveal - i);
