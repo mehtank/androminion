@@ -87,6 +87,9 @@ public class CardImplRenaissance extends CardImpl {
 		case Silos:
 			silos(game, context, currentPlayer);
 			break;
+		case SinisterPlot:
+			sinisterPlot(game, context, currentPlayer);
+			break;
 		case Swashbuckler:
 			swashbuckler(game, context, currentPlayer);
 			break;
@@ -555,6 +558,27 @@ public class CardImplRenaissance extends CardImpl {
         for (int i = 0; i < numDiscarded; ++i) {
         	game.drawToHand(context, this.getControlCard(), numDiscarded - i);
         }
+	}
+	
+	private void sinisterPlot(Game game, MoveContext context, Player player) {
+		if (player.controlPlayer.sinisterPlot_shouldAddTokenOverDraw(context)) {
+			player.sinisterPlotTokens++;
+			GameEvent event = new GameEvent(GameEvent.EventType.SinisterPlotAdd, context);
+    		event.setAmount(1);
+    		event.card = this;
+            game.broadcastEvent(event);
+		} else {
+			int numToDraw = player.sinisterPlotTokens;
+			player.sinisterPlotTokens = 0;
+			if (numToDraw == 0) return;
+			GameEvent event = new GameEvent(GameEvent.EventType.SinisterPlotRemove, context);
+    		event.setAmount(numToDraw);
+    		event.card = this;
+    		game.broadcastEvent(event);
+            for (int i = 0; i < numToDraw; ++i) {
+            	game.drawToHand(context, Cards.sinisterPlot, numToDraw - i);
+            }
+		}
 	}
 	
 	private void swashbuckler(Game game, MoveContext context, Player player) {

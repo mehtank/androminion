@@ -187,6 +187,8 @@
 	<string name="MountainPassBidPass">Pasó la oferta por</string>
 	<string name="MountainPassBid">Hizo oferta de %1$s por</string>
 	<string name="VillagersObtained">Aldeanos obtenidos: %1$s</string>
+	<string name="SinisterPlotAdd">Marcadores agregados a Complot Siniestro: %1$s</string>
+	<string name="SinisterPlotRemove">Marcadores quitados de Complot Siniestro: %1$s</string>
 	<string name="DeckReplenished">Mazo rellenado</string>
 	<string name="PlayerAttacking">Ataca</string>
 	<string name="PlayerDefended">Defiende</string>
@@ -555,6 +557,10 @@
   <string name="oldWitch_trash_curse">Eliminar una carta de Maldición de tu mano</string>
   <string name="pageant_pay_coin_for_coffers">Pagar (1) Moneda para +1 Cofres</string>
   <string name="silos_query">Número de cartas de Cobre para descartar para robar [%1$s]</string>
+  <string name="sinisterPlot_add_token">Agregar marcador</string>
+  <string name="sinisterPlot_remove_token_zero">Quitar marcadores (%1$s)</string>
+  <string name="sinisterPlot_remove_tokens_one">Quitar marcador para +%1$s Carta</string>
+  <string name="sinisterPlot_remove_tokens_multiple">Quitar marcadores para +%1$s Cartas</string>
   <string name="starChart_query">Elige una carta para poner encima del mazo [%1$s]</string>
   <string name="set_aside_for_next_turn">Apartar para tu próximo turno [%1$s]</string>
   <string name="take_artifact">Tomar %1$s</string>

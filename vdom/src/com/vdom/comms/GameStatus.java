@@ -57,6 +57,7 @@ public class GameStatus implements Serializable {
     public int[] pileDebtTokens;
     public int[] pileTradeRouteTokens;
     public int[][][] tokens;
+    public int[][] perPlayerTokens;
     public int[] costs;
     public int[] deckSizes;
     public boolean[] stashOnDeck;
@@ -115,6 +116,7 @@ public class GameStatus implements Serializable {
     public GameStatus setPileDebtTokens(int[] is) {pileDebtTokens = is; return this;};
     public GameStatus setPileTradeRouteTokens(int[] is) {pileTradeRouteTokens = is; return this;};
     public GameStatus setTokens(int[][][] is) {tokens = is; return this;};
+    public GameStatus setPerPlayerTokens(int[][] is) {perPlayerTokens = is; return this;};
     public GameStatus setCosts(int[] is) {costs = is; return this;};
     public GameStatus setDeckSizes(int[] is) {deckSizes = is; return this;};
     public GameStatus setStashOnDeck(boolean[] is) {stashOnDeck = is; return this;};

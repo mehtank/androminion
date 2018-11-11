@@ -191,6 +191,8 @@
 	<string name="MountainPassBidPass">Passed bid for</string>
 	<string name="MountainPassBid">Bid %1$s for</string>
 	<string name="VillagersObtained">Villagers obtained: %1$s</string>
+	<string name="SinisterPlotAdd">Tokens added to Sinister Plot: %1$s</string>
+	<string name="SinisterPlotRemove">Tokens removed from Sinister Plot: %1$s</string>
 	<string name="DeckReplenished">Deck replenished</string>
 	<string name="PlayerAttacking">Attacking</string>
 	<string name="PlayerDefended">Defended</string>
@@ -556,6 +558,10 @@
   <string name="oldWitch_trash_curse">Trash Curse from hand</string>
   <string name="pageant_pay_coin_for_coffers">Pay (1) Coin for +1 Coffers</string>
   <string name="silos_query">Number of Coppers to discard for draw [%1$s]</string>
+  <string name="sinisterPlot_add_token">Add token</string>
+  <string name="sinisterPlot_remove_token_zero">Remove tokens (%1$s)</string>
+  <string name="sinisterPlot_remove_tokens_one">Remove token for +%1$s Card</string>
+  <string name="sinisterPlot_remove_tokens_multiple">Remove tokens for +%1$s Cards</string>
   <string name="starChart_query">Select card to put on deck [%1$s]</string>
   <string name="set_aside_for_next_turn">Set aside for next turn [%1$s]</string>
   <string name="take_artifact">Take %1$s</string>

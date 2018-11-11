@@ -5185,6 +5185,12 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean sinisterPlot_shouldAddTokenOverDraw(MoveContext context) {
+    	//TODO: better logic
+    	return context.player.sinisterPlotTokens < 3;
+    }
+    
+    @Override
     public Card starChart_cardForTop(MoveContext context, Card[] cards) {
     	// prefer villages > cantrips > high cost cards
     	Card villageCard = null;

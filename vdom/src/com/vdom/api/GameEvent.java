@@ -74,6 +74,8 @@ public class GameEvent {
         ReceivedBoonHex, // Boon or Hex has just been received by player
         TakeState, //Player took a state
         ReturnState, //Player returned a state
+        SinisterPlotAdd, // Token(s) added to Sinister Plot
+        SinisterPlotRemove // Token(s) removed from Sinister Plot
     }
 
     public EventType type;

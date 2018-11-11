@@ -1413,6 +1413,13 @@ public class Game {
     		durationEffectsAreCards.add(false);
     		allDurationAreSimple = false;
         }
+        if (player.hasProject(Cards.sinisterPlot)) {
+        	durationEffects.add(Cards.sinisterPlot);
+        	durationEffects.add(Cards.curse);
+        	durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+    		allDurationAreSimple = false;
+        }
         int numOptionalItems = 0;
         ArrayList<Card> callableCards = new ArrayList<Card>();
         for (Card c : player.tavern) {
@@ -1494,7 +1501,7 @@ public class Game {
             } else if(card.behaveAsCard().equals(Cards.cathedral) || card.behaveAsCard().equals(Cards.cityGate) ||
             		card.behaveAsCard().equals(Cards.cropRotation) || card.behaveAsCard().equals(Cards.lostInTheWoods) || 
             		card.behaveAsCard().equals(Cards.key) || card.behaveAsCard().equals(Cards.piazza) || 
-            		card.behaveAsCard().equals(Cards.silos)) {
+            		card.behaveAsCard().equals(Cards.silos) || card.behaveAsCard().equals(Cards.sinisterPlot)) {
             	card.play(this, context, false, true, true, true, false);
             } else if (card.behaveAsCard().equals(Cards.barracks)) {
             	context.actions += 1;

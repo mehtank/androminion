@@ -4406,6 +4406,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean sinisterPlot_shouldAddTokenOverDraw(MoveContext context) {
+    	Object[] extras = new Object[1];
+    	extras[0] = context.player.sinisterPlotTokens;
+    	return selectBoolean(context, Cards.sinisterPlot, extras);
+    }
+    
+    @Override
     public TreasurerOption treasurer_chooseOption(MoveContext context) {
     	TreasurerOption[] options = TreasurerOption.values();
         return options[selectOption(context, Cards.treasurer, options)];

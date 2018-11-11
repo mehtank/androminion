@@ -582,6 +582,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     private int[] lastPileTradeRouteTokens;
     
     private int[][][] lastTokens;
+    private int[][] lastPerPlayerTokens;
 
     void resetButtons() {
         CharSequence selectText = select.getText();
@@ -953,13 +954,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param embargos number of embargos
      * @param tokens 
      */
-    public void setSupplySizes(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[] pileTradeRouteTokens, int[][][] tokens) {
-        moneyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
-        vpPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
-        supplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
-        prizePile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
-        nonSupplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
-        eventPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens);
+    public void setSupplySizes(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[] pileTradeRouteTokens, int[][][] tokens, int[][] perPlayerTokens) {
+        moneyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens, perPlayerTokens);
+        vpPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens, perPlayerTokens);
+        supplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens, perPlayerTokens);
+        prizePile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens, perPlayerTokens);
+        nonSupplyPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens, perPlayerTokens);
+        eventPile.updateCounts(supplySizes, embargos, pileVpTokens, pileDebtTokens, pileTradeRouteTokens, tokens, perPlayerTokens);
     }
 
     /**
@@ -1023,7 +1024,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         FinalView fv = new FinalView(top, this, gs.realNames[gs.whoseTurn], gs.turnCounts[gs.whoseTurn],
-                                     gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.pileTradeRouteTokens, gs.tokens,
+                                     gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.pileTradeRouteTokens, gs.tokens, gs.perPlayerTokens,
                                      gs.numCards[gs.whoseTurn], gs.supplySizes,
                                      gs.handSizes[gs.whoseTurn], won);
         fv.setLayoutParams(lp);
@@ -1044,7 +1045,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
     void uncheckAllShowCardsButtons() {
         for (ToggleButton t : showCardsButtons)
             t.setChecked(false);
-        setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastPileTradeRouteTokens, this.lastTokens);
+        setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastPileTradeRouteTokens, this.lastTokens, this.lastPerPlayerTokens);
     }
 
     /**
@@ -1088,7 +1089,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             for (GameStatus.UpdateCardInfo uci : gs.cardUpdates) {
                 supplyPile.updateCardInfo(uci);
             }
-            setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastPileTradeRouteTokens, this.lastTokens);
+            setSupplySizes(this.lastSupplySizes, this.lastEmbargos, this.lastPileVpTokens, this.lastPileDebtTokens, this.lastPileTradeRouteTokens, this.lastTokens, this.lastPerPlayerTokens);
             pauseGameTimer();
             HapticFeedback.vibrate(getContext(),AlertType.FINAL);
             finalStatus(gs);
@@ -1202,6 +1203,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         this.lastPileDebtTokens = gs.pileDebtTokens;
         this.lastPileTradeRouteTokens = gs.pileTradeRouteTokens;
         this.lastTokens = gs.tokens;
+        this.lastPerPlayerTokens = gs.perPlayerTokens;
         costs = gs.costs;
 
 
@@ -1209,7 +1211,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             supplyPile.updateCardInfo(uci);
         }
 
-        setSupplySizes(gs.supplySizes, gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.pileTradeRouteTokens, gs.tokens);
+        setSupplySizes(gs.supplySizes, gs.embargos, gs.pileVpTokens, gs.pileDebtTokens, gs.pileTradeRouteTokens, gs.tokens, gs.perPlayerTokens);
         setCardStates(top.findViewById(android.R.id.content));
     }
 

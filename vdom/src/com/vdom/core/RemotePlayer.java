@@ -346,6 +346,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         int[] pileDebtTokens = new int[cardsInPlay.size()];
         int[] pileTradeRouteTokens = new int[cardsInPlay.size()];
         int[][][] tokens = new int[cardsInPlay.size()][][];
+        int[][] perPlayerTokens = new int[cardsInPlay.size()][];
         int[] costs = new int[cardsInPlay.size()];
 
         int i_virtualRuins = -1;
@@ -471,6 +472,18 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         	tokens[i] = playersForCard;
         }
         
+        for (int i = 0; i < cardsInPlay.size(); i++) {
+        	Card card = cardsInPlay.get(i);
+        	//For now, only works for Sinister Plot (can make generic later if needed)
+        	if (!card.equals(Cards.sinisterPlot)) continue;
+        	int[] playersForCard = new int[numPlayers];
+        	for (int j = 0; j < numPlayers; j++) {
+        		Player p = allPlayers.get(j);
+        		playersForCard[j] = p.sinisterPlotTokens;
+        	}
+        	perPlayerTokens[i] = playersForCard;
+        }
+        
         GameStatus gs = new GameStatus();
         
         matchToCardsInPlay(context, playedCardsUi, playedCardsUiNew);
@@ -501,6 +514,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setPileDebtTokens(pileDebtTokens)
                 .setPileTradeRouteTokens(pileTradeRouteTokens)
                 .setTokens(tokens)
+                .setPerPlayerTokens(perPlayerTokens)
                 .setCosts(costs)
                 .setHand(cardArrToIntArr(Game.sortCards ? shownHand.sort(new Util.CardHandComparator()) : shownHand.toArray()))
                 .setPlayedCards(playedArray)
@@ -825,7 +839,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     			event.getType() == EventType.GuildsTokenObtained || 
     			event.getType() == EventType.GuildsTokenSpend ||
         		event.getType() == EventType.VillagersTokensObtained || 
-        		event.getType() == EventType.VillagerSpend) {
+        		event.getType() == EventType.VillagerSpend || 
+        		event.getType() == EventType.SinisterPlotAdd ||
+        		event.getType() == EventType.SinisterPlotRemove) {
         	extras.add(event.getAmount());
         } else if (event.getType() == EventType.TravellerExchanged || 
         		event.getType() == EventType.CardSetAside || 

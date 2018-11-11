@@ -38,14 +38,16 @@ public class CardGroup extends BaseAdapter {
     int[] pileDebtTokens = null;
     int[] pileTradeRouteTokens = null;
     int[][][] tokens = null;
+    int[][] perPlayerTokens = null;
 
-    public void updateCounts(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[] pileTradeRouteTokens, int[][][] tokens) {
+    public void updateCounts(int[] supplySizes, int[] embargos, int[] pileVpTokens, int[] pileDebtTokens, int[] pileTradeRouteTokens, int[][][] tokens, int[][] perPlayerTokens) {
         this.supplySizes = supplySizes;
         this.embargos = embargos;
         this.pileVpTokens = pileVpTokens;
         this.pileDebtTokens = pileDebtTokens;
         this.pileTradeRouteTokens = pileTradeRouteTokens;
         this.tokens = tokens;
+        this.perPlayerTokens = perPlayerTokens;
         notifyDataSetChanged();
     }
 
@@ -134,7 +136,7 @@ public class CardGroup extends BaseAdapter {
             if (pileTradeRouteTokens != null)
                 cv.setPileTradeRouteTokens(pileTradeRouteTokens[cs.c.id]);
             if (tokens != null)
-            	cv.setTokens(tokens[cs.c.id], players);
+            	cv.setTokens(tokens[cs.c.id], players, perPlayerTokens[cs.c.id]);
         } catch (ArrayIndexOutOfBoundsException e) {
             // TODO See why this is happening?
             Log.w(TAG, "exception", e);

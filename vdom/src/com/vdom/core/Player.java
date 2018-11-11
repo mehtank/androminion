@@ -75,6 +75,7 @@ public abstract class Player {
     protected CardList ghost;
     protected CardList cargoShip;
     protected ArrayList<ArrayList<Card>> research;
+    protected int sinisterPlotTokens = 0;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     protected List<DurationEffect> startTurnDurationEffects;
     protected int championEffects = 0;
@@ -2656,6 +2657,7 @@ public abstract class Player {
     public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);
     public abstract Card sewers_cardToTrash(MoveContext context);
     public abstract int silos_numCoppersToDiscard(MoveContext context, int maxCoppers);
+    public abstract boolean sinisterPlot_shouldAddTokenOverDraw(MoveContext context);
     public abstract Card starChart_cardForTop(MoveContext context, Card[] cards);
     public abstract TreasurerOption treasurer_chooseOption(MoveContext context);
     public abstract Card treasurer_treasureToTrash(MoveContext context);

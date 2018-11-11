@@ -490,6 +490,10 @@ public class Strings {
         	statusText += format(R.string.VillagersObtained, extras[3]);
         } else if (event.gameEventType == GameEvent.EventType.VillagerSpend) {
         	statusText += format(R.string.VillagersSpend, extras[3]);
+        } else if (event.gameEventType == GameEvent.EventType.SinisterPlotAdd) {
+        	statusText += format(R.string.SinisterPlotAdd, extras[3]);
+        } else if (event.gameEventType == GameEvent.EventType.SinisterPlotRemove) {
+        	statusText += format(R.string.SinisterPlotRemove, extras[3]);
         } else if (event.gameEventType != null) {
             statusText += event.gameEventType.toString();
         }
@@ -506,7 +510,9 @@ public class Strings {
                 && event.gameEventType != GameEvent.EventType.ReturnState
                 && event.gameEventType != GameEvent.EventType.VillagersTokensObtained
                 && event.gameEventType != GameEvent.EventType.GuildsTokenObtained
-                && event.gameEventType != GameEvent.EventType.GuildsTokenSpend) {
+                && event.gameEventType != GameEvent.EventType.GuildsTokenSpend
+                && event.gameEventType != GameEvent.EventType.SinisterPlotAdd
+                && event.gameEventType != GameEvent.EventType.SinisterPlotRemove) {
             statusText += " " + getCardName(event.c) + " ";
         }
 
@@ -1466,6 +1472,12 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.pageant))) {
             strings[1] = getString(R.string.pageant_pay_coin_for_coffers);
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.sinisterPlot))) {
+        	int tokens = (Integer)extras[0];
+            strings[1] = getString(R.string.sinisterPlot_add_token);
+            int tokenRemoveResource = tokens == 0 ? R.string.sinisterPlot_remove_token_zero : 
+            	(tokens == 1 ? R.string.sinisterPlot_remove_tokens_one : R.string.sinisterPlot_remove_tokens_multiple);
+            strings[2] = format(tokenRemoveResource, tokens);
         } else if (cardName.equals(getCardName(Cards.prince))) {
             strings[1] = getString(R.string.set_aside);
             strings[2] = getString(R.string.pass);

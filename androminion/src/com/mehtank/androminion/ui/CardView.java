@@ -72,6 +72,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	private boolean wikilink;
 	
 	private int[][] currentTokens;
+	private int[] currentPerPlayerTokens;
 	private static final int MAX_TOKENS_ON_CARD = 4;
 
 	CardGroup parent;
@@ -464,24 +465,25 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 	}
 	
-	public void setTokens(int[][] newTokens, PlayerAdapter players) {
+	public void setTokens(int[][] newTokens, PlayerAdapter players, int[] perPlayerTokens) {
 		this.players = players;
-		if (Arrays.deepEquals(newTokens, currentTokens)) {
+		if (Arrays.deepEquals(newTokens, currentTokens) && Arrays.equals(perPlayerTokens, currentPerPlayerTokens)) {
 			return;
 		}
+		currentPerPlayerTokens = perPlayerTokens;
 		currentTokens = newTokens;
 		tokens.removeAllViews();
 		int numTokens = countTokens(newTokens);
 		if (numTokens > MAX_TOKENS_ON_CARD) {
 			if (countPlayersWithTokens(newTokens) > MAX_TOKENS_ON_CARD) {
-				tokens.addView(getViewForToken(-1, -1, numTokens));
+				tokens.addView(getViewForToken(-1, -1, numTokens, perPlayerTokens));
 				return;
 			}
 			for (int i = 0; i < newTokens.length; ++i) {
 				int numPlayerTokens = newTokens[i].length;
 				if (numPlayerTokens == 0)
 					continue;
-				tokens.addView(getViewForToken(i, -1, numPlayerTokens));
+				tokens.addView(getViewForToken(i, -1, numPlayerTokens, perPlayerTokens));
 			}
 			return;
 		}
@@ -489,7 +491,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		for (int i = 0; i < newTokens.length; ++i) {
 			int[] playerTokens = newTokens[i];
 			for (int tokenId : playerTokens) {
-				View tokenView = getViewForToken(i, tokenId, -1);
+				View tokenView = getViewForToken(i, tokenId, -1, perPlayerTokens);
 				if (tokenView != null)
 					tokens.addView(tokenView);
 			}
@@ -514,7 +516,7 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 	}
 
 	@SuppressWarnings("deprecation")
-	private View getViewForToken(int player, int tokenId, int multiplier) {
+	private View getViewForToken(int player, int tokenId, int multiplier, int[] perPlayerTokens) {
 		int backgroundId = R.drawable.circulartoken;
 		String text;
 		PlayerSupplyToken tokenType = PlayerSupplyToken.getById(tokenId);
@@ -540,7 +542,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 					text = "X";
 					break;
 				case ProjectCube:
-					text = "   ";
+					//Right now, per player tokens are rendered only on project cubes (as they are only used with a Project)
+					int numPlayerTokens = perPlayerTokens != null ? perPlayerTokens[player] : 0;
+					text = numPlayerTokens == 0 ? "   " : " " + numPlayerTokens + " ";
 					backgroundId = R.drawable.rectangulartoken;
 					break;
 				default:
@@ -899,6 +903,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 								separator = getContext().getString(R.string.token_separator);
 							}
 						}
+					}
+					if (currentPerPlayerTokens != null && currentPerPlayerTokens[i] > 0) {
+						text += separator + currentPerPlayerTokens[i] + "";
 					}
 					text += "\n";
 				}
