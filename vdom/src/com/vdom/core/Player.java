@@ -662,7 +662,7 @@ public abstract class Player {
         
         for (Card card : toDiscard) {
         	discard(card, null, context, false, true);
-        	princeCardLeftThePlay(this); // princed travellers may be exchanged
+        	princeCardLeftThePlay(this, context); // princed travellers may be exchanged
         }
     }
 
@@ -1641,8 +1641,8 @@ public abstract class Player {
         }
     }
 
-    // test if any prince card left the play
-    public void princeCardLeftThePlay(Player currentPlayer) {
+    // test if any prince card left the play or cards leaving play for Scepter
+    public void princeCardLeftThePlay(Player currentPlayer, MoveContext context) {
         if (currentPlayer.playedByPrince.size() > 0) {
         	ArrayList<Card> playedByPrince = new ArrayList<Card>();
             while (!playedByPrince.isEmpty()) {
@@ -1661,6 +1661,22 @@ public abstract class Player {
                     Util.log("Prince card has left the play:" + card.getName());
                 }
             }
+        }
+        if (context.actionsPlayedThisTurnStillInPlay.size() > 0) {
+        	Iterator<Card> it = context.actionsPlayedThisTurnStillInPlay.iterator();
+        	while (it.hasNext()) {
+        		Card c = it.next();
+        		boolean foundInPlay = false;
+        		for(Card playedCard : currentPlayer.playedCards) {
+        			if (playedCard == c) {
+        				foundInPlay = true;
+        				break;
+        			}
+        		}
+        		if (!foundInPlay) {
+        			it.remove();
+        		}
+        	}
         }
     }
 
@@ -2653,6 +2669,8 @@ public abstract class Player {
     public abstract Card priest_cardToTrash(MoveContext context);
     public abstract Card recruiter_cardToTrash(MoveContext context);
     public abstract Card research_cardToTrash(MoveContext context);
+    public abstract boolean scepter_shouldChooseCoinsOverReplay(MoveContext context);
+    public abstract Card scepter_cardToReplay(MoveContext context, Card[] cards);
     public abstract Card sculptor_cardToObtain(MoveContext context);
     public abstract Card[] seer_cardOrder(MoveContext context, Card[] cards);
     public abstract Card sewers_cardToTrash(MoveContext context);

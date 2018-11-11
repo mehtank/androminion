@@ -5162,6 +5162,19 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean scepter_shouldChooseCoinsOverReplay(MoveContext context) {
+    	if (context.actionsPlayedThisTurnStillInPlay.size() == 0) return true;
+    	//TODO: what actions would be useful to replay/not during current phase?
+    	return false;
+    }
+    
+    @Override
+    public Card scepter_cardToReplay(MoveContext context, Card[] cards) {
+    	//TODO: what actions would be useful to replay during current phase?
+    	return highestCard(context, Arrays.asList(cards));
+    }
+    
+    @Override
     public Card sculptor_cardToObtain(MoveContext context) {
     	//TODO: get something that will better complement the current hand
     	return bestCardInPlay(context, 4, true);

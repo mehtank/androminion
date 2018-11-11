@@ -557,6 +557,9 @@
   <string name="ducat_trash_copper">Trash Copper from hand</string>
   <string name="oldWitch_trash_curse">Trash Curse from hand</string>
   <string name="pageant_pay_coin_for_coffers">Pay (1) Coin for +1 Coffers</string>
+  <string name="scepter_add_coins">+(2) Coins</string>
+  <string name="scepter_replay_action">Replay Action played this turn still in play</string>
+  <string name="scepter_query">Select card to replay</string>
   <string name="silos_query">Number of Coppers to discard for draw [%1$s]</string>
   <string name="sinisterPlot_add_token">Add token</string>
   <string name="sinisterPlot_remove_token_zero">Remove tokens (%1$s)</string>

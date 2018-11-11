@@ -72,6 +72,9 @@ public class CardImplRenaissance extends CardImpl {
 		case Research:
 			research(game, context, currentPlayer, isThronedEffect);
 			break;
+		case Scepter:
+			scepter(game, context, currentPlayer);
+			break;
 		case Scholar:
 			scholar(game, context, currentPlayer);
 			break;
@@ -413,6 +416,27 @@ public class CardImplRenaissance extends CardImpl {
         	player.research.add(researchCards);
         	player.addStartTurnDurationEffect(this, 1, isThronedEffect);
         }
+	}
+	
+	private void scepter(Game game, MoveContext context, Player player) {
+		if (player.controlPlayer.scepter_shouldChooseCoinsOverReplay(context)) {
+			context.addCoins(2, this.getControlCard());
+		} else {
+			//replay an action card played this turn still in play
+			if (context.actionsPlayedThisTurnStillInPlay.size() == 0) return;
+			Card cardToPlay = player.controlPlayer.scepter_cardToReplay(context, context.actionsPlayedThisTurnStillInPlay.toArray(new Card[context.actionsPlayedThisTurnStillInPlay.size()]));
+			if (!context.actionsPlayedThisTurnStillInPlay.contains(cardToPlay)) {
+				Util.playerError(player, "Scepter error: Picking first card to replay");
+				cardToPlay = context.actionsPlayedThisTurnStillInPlay.get(0);
+			}
+			context.freeActionInEffect++;
+	        cardToPlay.play(game, context, false, false, false, false, true);
+	        context.freeActionInEffect--;
+	        
+	    	if (cardToPlay.is(Type.Duration, player)) {
+	    		((CardImpl)this).multiplyCard(cardToPlay.getControlCard());
+			}
+		}
 	}
 	
 	private void scholar(Game game, MoveContext context, Player player) {

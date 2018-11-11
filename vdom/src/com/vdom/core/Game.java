@@ -849,6 +849,7 @@ public class Game {
         trashPileFaceDown.clear();
         
         context.actionsPlayedSoFar = 0;
+        context.actionsPlayedThisTurnStillInPlay.clear();
         context.coppersmithsPlayed = 0;
                 
         event = new GameEvent(GameEvent.EventType.TurnEnd, context);

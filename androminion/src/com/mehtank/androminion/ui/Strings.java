@@ -930,6 +930,8 @@ public class Strings {
         		cardName.equals(getCardName(Cards.harbinger)) ||
         		cardName.equals(getCardName(Cards.scavenger))) {
             return format(R.string.deck_from_discard_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.scepter))) {
+            return format(R.string.scepter_query, cardName);
         } else if (cardName.equals(getCardName(Cards.silos))) {
             return format(R.string.silos_query, cardName);
         } else if (cardName.equals(getCardName(Cards.starChart))) {
@@ -1472,6 +1474,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.pageant))) {
             strings[1] = getString(R.string.pageant_pay_coin_for_coffers);
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.scepter))) {
+            strings[1] = getString(R.string.scepter_add_coins);
+            strings[2] = getString(R.string.scepter_replay_action);
         } else if (cardName.equals(getCardName(Cards.sinisterPlot))) {
         	int tokens = (Integer)extras[0];
             strings[1] = getString(R.string.sinisterPlot_add_token);

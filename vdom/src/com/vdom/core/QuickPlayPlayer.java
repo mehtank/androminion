@@ -1251,6 +1251,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     	return false;
     }
     
+    public boolean shouldAutoPlay_scepter_shouldChooseCoinsOverReplay(MoveContext context) {
+    	return context.actionsPlayedThisTurnStillInPlay.size() == 0;
+    }
+    
     public boolean shouldAutoPlay_treasurer_treasureToTrash(MoveContext context) {
     	for(Card card : getHand()) {
             for(Card trash : getTrashCards()) {

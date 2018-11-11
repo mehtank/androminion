@@ -985,7 +985,7 @@
     <string name="Research_name">Investigación</string>
     <string name="Research_desc">TODO</string>
     <string name="Scepter_name">Cetro</string>
-    <string name="Scepter_desc">TODO</string>
+    <string name="Scepter_desc">Cuando jueges esta carta, elige una opción: +(2) Monedas; o bien jugar otra vez una Acción que jugaste este turno y que todavía está en juego.</string>
     <string name="Scholar_name">Erudita</string>
     <string name="Scholar_desc">Descarta tu mano. +7 Cartas.</string>
     <string name="Sculptor_name">Escultora</string>

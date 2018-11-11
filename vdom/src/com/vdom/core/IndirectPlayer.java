@@ -4372,6 +4372,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean scepter_shouldChooseCoinsOverReplay(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_scepter_shouldChooseCoinsOverReplay(context)) {
+            return super.scepter_shouldChooseCoinsOverReplay(context);
+        }
+    	return selectBoolean(context, Cards.scepter);
+    }
+    
+    @Override
+    public Card scepter_cardToReplay(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.scepter, cards)];
+    }
+    
+    @Override
     public Card sculptor_cardToObtain(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setCardResponsible(Cards.sculptor).setActionType(ActionType.GAIN);

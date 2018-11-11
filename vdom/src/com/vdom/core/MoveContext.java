@@ -19,6 +19,7 @@ public class MoveContext {
     private int coins = 0;
     public int potions;
     public int actionsPlayedSoFar = 0;
+    public ArrayList<Card> actionsPlayedThisTurnStillInPlay = new ArrayList<Card>();
     public int merchantsPlayed = 0;
     public int silversPlayed = 0;
     public int coppersmithsPlayed = 0;

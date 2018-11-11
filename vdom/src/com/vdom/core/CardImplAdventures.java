@@ -201,7 +201,7 @@ public class CardImplAdventures extends CardImpl {
         }
         
         // test if prince lost track of any cards
-        context.player.princeCardLeftThePlay(context.player);
+        context.player.princeCardLeftThePlay(context.player, context);
     }
 	
     private boolean call(MoveContext context) {
