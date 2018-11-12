@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
+import com.vdom.core.MoveContext.TurnPhase;
 import com.vdom.core.Player.AmuletOption;
 import com.vdom.core.Player.QuestOption;
 
@@ -645,6 +646,10 @@ public class CardImplAdventures extends CardImpl {
     private void storyteller(Game game, MoveContext context, Player currentPlayer) {
         // play up to 3 treasures
         context.game.playTreasures(currentPlayer, context, 3, this.getControlCard());
+        
+        if (context.phase == TurnPhase.Buy) {
+        	game.playGuildsTokens(currentPlayer, context);
+        }
         
         int coins = context.getCoins();
         context.spendCoins(coins);

@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
+import com.vdom.core.MoveContext.TurnPhase;
 
 public class CardImplPromo extends CardImpl {
 	private static final long serialVersionUID = 1L;
@@ -83,6 +84,11 @@ public class CardImplPromo extends CardImpl {
         
         // play treasures 
         context.game.playTreasures(currentPlayer, context, -1, this.getControlCard());
+        
+        // can trade in Coffers if in Buy phase (e.g. Capitalism)
+        if (context.phase == TurnPhase.Buy) {
+        	game.playGuildsTokens(currentPlayer, context);
+        }
         
         if (currentPlayer.getDebtTokenCount() == 0) {
 	        // get one buy from BlackMarkt pile
