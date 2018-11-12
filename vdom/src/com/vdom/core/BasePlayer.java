@@ -2930,22 +2930,23 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card envoy_cardToDiscard(MoveContext context, Card[] cards) {
     	// build list of "good" cards
-		  boolean containsCopper = false;
-    	CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
+		CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
     	Player p = context.getPlayer();
+        
+        Card copper = null;
     	for(Card card : cards) {
     		if (!isOnlyVictory(card, p) && !card.is(Type.Curse, p) && !isTrashCard(card) && !(context.actions == 0 && (card.is(Type.Action, p)))) {
     			cl.add(card);
 			}
     		if (card.equals(Cards.copper)) {
-    			containsCopper = true;
+                copper = card;
     		}
     	}
 
     	// not enough to choose from
     	if (cl.size() == 0) {
-    		if (containsCopper) {
-    			return Cards.copper;
+    		if (copper != null) {
+                return copper;
     		}
     		return cards[0];
     	} else if (cl.size() == 1) {
