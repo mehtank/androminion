@@ -25,9 +25,10 @@ public class MoveContext {
     public int coppersmithsPlayed = 0;
     public int schemesPlayed = 0;
     public int crossroadsPlayed = 0;
-
+    
     public int foolsGoldPlayed = 0;
     public ArrayList<DurationEffect> cargoShipsEffectsPending = new ArrayList<Player.DurationEffect>();
+    public int improvesPlayed = 0;
 
     public int overpayAmount  = 0;  // The number of extra coins paid for a card
     public int overpayPotions = 0;  // The number of potions paid for an overpay card

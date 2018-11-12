@@ -5096,6 +5096,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card improve_cardToTrash(MoveContext context, Card[] cards) {
+    	CardList cl = new CardList(context.getPlayer(), context.getPlayer().getPlayerName());
+        for(Card c : cards)
+            cl.add(c);
+        //TODO: favor 4 cost cards?
+        return lowestCard(context, cl, false);
+    }
+    
+    @Override
+    public Card improve_cardToGain(MoveContext context, int exactCost, int debt, boolean potion) {
+    	return bestCardInPlay(context, exactCost, true, debt, potion, true, false, true);
+    }
+    
+    @Override
     public boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card) {
     	//TODO: better logic
     	if (context.phase == TurnPhase.Buy) {

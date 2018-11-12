@@ -555,6 +555,7 @@
   <string name="villager_query">Use Villager for +1 Action?</string>
   <string name="villager_option">Use</string>
   <string name="ducat_trash_copper">Trash Copper from hand</string>
+  <string name="improve_query">Trash card in play for one costing (1) Coin more [%1$s]</string>
   <string name="oldWitch_trash_curse">Trash Curse from hand</string>
   <string name="pageant_pay_coin_for_coffers">Pay (1) Coin for +1 Coffers</string>
   <string name="scepter_add_coins">+(2) Coins</string>

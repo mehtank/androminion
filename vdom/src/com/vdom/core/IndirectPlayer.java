@@ -4304,6 +4304,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card improve_cardToTrash(MoveContext context, Card[] cards) {
+    	List<Card> options = new ArrayList<Card>(cards.length + 1); 
+        for (Card c : cards) {
+        	options.add(c);
+        }
+        Collections.sort(options, new Util.CardCostNameComparator());
+        options.add(null);
+        return options.get(selectOption(context, Cards.improve, options.toArray()));
+    }
+    
+    @Override
+    public Card improve_cardToGain(MoveContext context, int exactCost, int debt, boolean potion) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction().exactCost(exactCost, debt, potion ? 1 : 0)
+        		.setActionType(ActionType.GAIN)
+                .setCardResponsible(Cards.improve);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card) {
     	Object[] extras = new Object[2];
         extras[0] = Cards.innovation;

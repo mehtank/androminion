@@ -930,6 +930,8 @@ public class Strings {
         		cardName.equals(getCardName(Cards.harbinger)) ||
         		cardName.equals(getCardName(Cards.scavenger))) {
             return format(R.string.deck_from_discard_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.improve))) {
+            return format(R.string.improve_query, cardName);
         } else if (cardName.equals(getCardName(Cards.scepter))) {
             return format(R.string.scepter_query, cardName);
         } else if (cardName.equals(getCardName(Cards.silos))) {
@@ -1956,6 +1958,7 @@ public class Strings {
             getCardName(Cards.cityGate),
             getCardName(Cards.cropRotation),
             getCardName(Cards.hideout),
+            getCardName(Cards.improve),
             getCardName(Cards.inventor),
             getCardName(Cards.priest),
             getCardName(Cards.recruiter),

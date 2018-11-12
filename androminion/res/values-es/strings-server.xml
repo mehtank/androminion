@@ -554,6 +554,7 @@
   <string name="villager_query">¿Usar Aldeano para +1 Acción?</string>
   <string name="villager_option">Usar</string>
   <string name="ducat_trash_copper">Eliminar una carta de Cobre de tu mano</string>
+  <string name="improve_query">Elimina una carta en juego para una que cueste (1) Moneda más [%1$s]</string>
   <string name="oldWitch_trash_curse">Eliminar una carta de Maldición de tu mano</string>
   <string name="pageant_pay_coin_for_coffers">Pagar (1) Moneda para +1 Cofres</string>
   <string name="scepter_add_coins">+(2) Monedas</string>

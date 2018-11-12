@@ -48,6 +48,9 @@ public class CardImplRenaissance extends CardImpl {
 		case Hideout:
 			hideout(game, context, currentPlayer);
 			break;
+		case Improve:
+			improve(game, context, currentPlayer);
+			break;
 		case Inventor:
 			inventor(game, context, currentPlayer);
 			break;
@@ -279,6 +282,10 @@ public class CardImplRenaissance extends CardImpl {
     			context.getPlayer().gainNewCard(Cards.curse, this.getControlCard(), context);
     		}
         }
+	}
+	
+	private void improve(Game game, MoveContext context, Player player) {
+		context.improvesPlayed++;
 	}
 	
 	private void inventor(Game game, MoveContext context, Player player) {

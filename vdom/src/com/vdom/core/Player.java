@@ -465,6 +465,72 @@ public abstract class Player {
         for(Card c: extraEncampments) {
         	encampment.add(c);
         }
+        
+        if (context.improvesPlayed > 0) {
+        	while(context.improvesPlayed > 0) {
+        		context.improvesPlayed--;
+        		//find eligible actions to improve
+        		ArrayList<CardImpl> multiplierCards = new ArrayList<CardImpl>();
+                ArrayList<Card> wouldDiscard = new ArrayList<Card>();
+                
+                CardList tempPlayedCards = new CardList(this, "temp");
+                for (Card c : playedCards) {
+                	tempPlayedCards.add(c);
+                }
+                
+                DiscardNormalCards:
+                for (Card card : tempPlayedCards) {
+                	CardImpl actualCard = (CardImpl) card;
+                	//keep durations in play that are still doing something
+                	for (DurationEffect e : startTurnDurationEffects) {
+                    	if (e.sourceCard == card) {
+                    		continue DiscardNormalCards;
+                    	}
+                    }
+                    if (actualCard.getMultiplyingCards() != null && actualCard.getMultiplyingCards().size() > 0) {
+                    	multiplierCards.add(actualCard);
+                    	continue;
+                    };
+                    wouldDiscard.add(card);
+                }
+                for (Card card : wouldDiscard) {
+                	tempPlayedCards.remove(tempPlayedCards.indexOf(card.getId()));
+                }
+                //Check if thrones' duration cards would still be in play
+                for (CardImpl card : multiplierCards) {
+                	boolean keepInPlay = false;
+                	for(Card duration : card.getMultiplyingCards()) {
+                		if (playedCards.indexOf(duration.getControlCard().getId()) >= 0) {
+                			keepInPlay = true;
+                			break;
+                		}
+                	}
+                	if (!keepInPlay) {
+                		wouldDiscard.add(card);
+                	}
+                }
+                ArrayList<Card> validImproveCards = new ArrayList<Card>();
+                for (Card c : wouldDiscard) {
+                	if (c.is(Type.Action, this)) {
+                		validImproveCards.add(c);
+                	}
+                }
+                Card toImprove = controlPlayer.improve_cardToTrash(context, validImproveCards.toArray(new Card[validImproveCards.size()]));
+                if (toImprove == null) return;
+                if (!validImproveCards.contains(toImprove)) {
+                	Util.playerError(this, "Improve error, selected invalid card, ignoring.");
+                	return;
+                }
+                		
+                if (!trashFromPlay(toImprove, Cards.improve, context)) return;
+                Card cardToGain = controlPlayer.improve_cardToGain(context, 1 + toImprove.getCost(context), toImprove.getDebtCost(context), toImprove.costPotion());
+                if ((cardToGain != null) && (toImprove.getCost(context) + 1) == cardToGain.getCost(context) && 
+                		toImprove.getDebtCost(context) == cardToGain.getDebtCost(context) && 
+                				toImprove.costPotion() == cardToGain.costPotion()) {
+                    gainNewCard(cardToGain, Cards.improve, context);
+                }
+        	}
+        }
 
         while (!(putBackOptions = controlPlayer.getPutBackOptions(context, actionsPlayed)).isEmpty()) {
             PutBackOption putBackOption = controlPlayer.selectPutBackOption(context, putBackOptions);
@@ -2661,6 +2727,8 @@ public abstract class Player {
     public abstract Card cropRotation_cardToDiscard(MoveContext context);
     public abstract boolean ducat_shouldTrashCopper(MoveContext context);
     public abstract Card hideout_cardToTrash(MoveContext context);
+    public abstract Card improve_cardToTrash(MoveContext context, Card[] cards);
+    public abstract Card improve_cardToGain(MoveContext context, int exactCost, int debt, boolean potion);
     public abstract boolean innovation_shouldSetAsideToPlay(MoveContext context, Card card);
     public abstract Card inventor_cardToObtain(MoveContext context);
     public abstract Card mountainVillage_cardToPutInHand(MoveContext context);
