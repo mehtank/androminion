@@ -57,7 +57,7 @@
     <string name="Spy_name">Spy</string>
     <string name="Spy_desc">Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.</string>
     <string name="Thief_name">Thief</string>
-    <string name="Thief_desc">Each other player reveals the top 2 cards of his deck. If they revelaed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.</string>
+    <string name="Thief_desc">Each other player reveals the top 2 cards of his deck. If they revealed any Treasure cards, they trash one of them that you choose. You may gain any or all of these trashed cards. They discard the other revealed cards.</string>
     <string name="ThroneRoom_name">Throne Room</string>
     <string name="ThroneRoom_desc">You may play an Action card from your hand twice.</string>
     <string name="Village_name">Village</string>
