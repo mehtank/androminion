@@ -245,6 +245,41 @@
   
   <string name="Luftschloss_gametype">Luftschloss</string>
   <string name="PookaPranks_gametype">Travesuras de púca</string>
+  
+  <string name="Overture_gametype">Obertura</string>
+  <string name="Prelude_gametype">Preludio</string>
+  
+  <string name="ItTakesAVillager_gametype">Se necesita un aldeano</string>
+  <string name="CaptureTheFlag_gametype">Captura la bandera</string>
+  
+  <string name="MementoMori_gametype">Memento Mori</string>
+  <string name="ClockworkCourt_gametype">La corte mecánica</string>
+  
+  <string name="FreeShipping_gametype">Envío gratis</string>
+  <string name="DiggingForTreasure_gametype">Cavando para el tesoro</string>
+  
+  <string name="PeekABoo_gametype">Cucú</string>
+  
+  <string name="DreamersOfDreams_gametype">Soñadores de sueños</string>
+  <string name="MoversAndShakers_gametype">Impulsores y agitadores</string>
+    
+  <string name="ComboCorner_gametype">Esquina de combo</string>
+  <string name="FillingTheCoffers_gametype">Llenando los cofres</string>
+  
+  <string name="SweetenedDeals_gametype">Tratos endulzados</string>
+  <string name="APennySaved_gametype">Un centavo guardado</string>
+  
+  <string name="Stargazing_gametype">Estudiando las estrellas</string>
+  <string name="SewerRats_gametype">Ratas de alcantarilla</string>
+  
+  <string name="Progress_gametype">Progreso</string>
+  <string name="OnceUponATime_gametype">Había una vez</string>
+  
+  <string name="ExploringTheCity_gametype">Explorando la ciudad</string>
+  <string name="NavigatingTheSewers_gametype">Navegando por las alcantarillas</string>
+  
+  <string name="BecomingAMonster_gametype">Convertirse en monstruo</string>
+  <string name="TrueBelievers_gametype">Creyentes verdaderos</string>
    
   <string name="Test_gametype">Prueba (para probar el juego)</string>
 </resources>
