@@ -4316,7 +4316,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     
     @Override
     public Card improve_cardToGain(MoveContext context, int exactCost, int debt, boolean potion) {
-    	SelectCardOptions sco = new SelectCardOptions().isAction().exactCost(exactCost, debt, potion ? 1 : 0)
+    	SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost, debt, potion ? 1 : 0)
         		.setActionType(ActionType.GAIN)
                 .setCardResponsible(Cards.improve);
         return getFromTable(context, sco);
