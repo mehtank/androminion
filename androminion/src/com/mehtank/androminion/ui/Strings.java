@@ -840,8 +840,11 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.raze))) {
             return getString(R.string.raze_query);
         } else if(cardName.equals(getCardName(Cards.rogue))) {
-			return getString(R.string.rogue_query);
-		} else if (cardName.equals(getCardName(Cards.scheme))) {
+            if (extras[0] == ActionType.GAIN)
+                return getString(R.string.rogue_query);
+            else if (extras[0] == ActionType.TRASH)
+                return getString(R.string.rogue_trash_query);
+        } else if (cardName.equals(getCardName(Cards.scheme))) {
             return getString(R.string.scheme_query);
         } else if (cardName.equals(getCardName(Cards.sentry))) {
         	Card currentCard = (Card)extras[0];
