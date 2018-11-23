@@ -1,19 +1,19 @@
 package com.mehtank.androminion.activities;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.fragments.AchievementsFragment;
 import com.mehtank.androminion.fragments.WinlossFragment;
@@ -21,13 +21,14 @@ import com.mehtank.androminion.util.Achievements;
 import com.mehtank.androminion.util.ThemeSetter;
 import com.mehtank.androminion.util.compat.TabsAdapter;
 
+
 /**
  * This activity just shows two tabs: statistics and achievements.
  * 
  * Rewrite to support actionbar, tabs and swipe gestures (backwards compatible
  * to API8).
  */
-public class StatisticsActivity extends SherlockFragmentActivity {
+public class StatisticsActivity extends FragmentActivity {
 	@SuppressWarnings("unused")
 	private static final String TAG = "StatisticsActivity";
 
@@ -44,7 +45,7 @@ public class StatisticsActivity extends SherlockFragmentActivity {
 		mViewPager.setId(R.id.combinedstats_pager);
 		setContentView(mViewPager);
 
-		ActionBar bar = getSupportActionBar();
+		ActionBar bar = getActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 		bar.setDisplayHomeAsUpEnabled(true);
@@ -65,7 +66,7 @@ public class StatisticsActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.activity_statistics, menu);
 		return true;
 	}

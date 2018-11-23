@@ -1,14 +1,14 @@
 package com.mehtank.androminion.activities;
 
+import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.util.ThemeSetter;
 
@@ -24,7 +24,7 @@ import com.mehtank.androminion.util.ThemeSetter;
  * For example how to do it right:
  * https://github.com/commonsguy/cw-omnibus/tree/master/Prefs/FragmentsBC
  */
-public class SettingsActivity extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener {
+public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
     @SuppressWarnings("unused")
     private static final String TAG = "SettingsActivity";
     private SharedPreferences prefs;
@@ -36,7 +36,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
         ThemeSetter.setLanguage(this);
         super.onCreate(savedInstanceState);
 
-        ActionBar bar = getSupportActionBar();
+        ActionBar bar = getActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
         bar.setTitle(R.string.settingsactivity_title);
 

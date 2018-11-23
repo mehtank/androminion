@@ -3,7 +3,6 @@
 	<name>Androminion</name>
 	<comment></comment>
 	<projects>
-		<project>actionbarsherlock</project>
 		<project>vdom</project>
 	</projects>
 	<buildSpec>
