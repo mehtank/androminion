@@ -55,7 +55,7 @@
 		* Nachtmusik Erweiterung <br>
 		* Promokarte: Abbruch
 		<h3>Version 7.06</h3>
-		* Empires Erweterung <br>
+		* Empires Erweiterung <br>
 		* Promokarte: Sauna/Eisloch
 		<h3>Version 6.07</h3>
 		* Jetzt mit Abenteuer! <br>
@@ -117,11 +117,13 @@
 
 	<!-- StartGame Activity -->
 	<string name="startgameactivity_title">Spiel starten</string>
-	<string name="select_gametype">Kartensatz wählen:</string>
+	<string name="select_gametype">Kartensatz:</string>
 	<string name="game_type_random">Zufällig</string>
 	<string name="game_type_preset">Vorgefertigte</string>
 	<string name="game_type_last">Zuletzt gespielt</string>
 	<string name="game_type_specified">Ausgewählte Karten</string>
+	<string name="select_non_kingdom_cards">Zusatzkarten:</string>
+	<string name="random_non_kingdom_default">Vorgabe</string>
 	<string name="random_all_cards">Alle Karten</string>
 	<string name="include_platinum_colony">Platin/Kolonie: </string>
 	<string name="include_shelters">Unterschlupf: </string>
@@ -129,6 +131,29 @@
 	<string name="include_cards_yes">Verwenden</string>
 	<string name="include_cards_no">nicht verwenden</string>
 	<string name="include_cards_percent">%1$s%% Chance</string>
+	<string name="random_events_projects_landmarks">Ereignisse, Projekte, Landmarken</string>
+	<string name="combine_sideways_cards">Anzahl insgesamt</string>
+	<string name="random_sideways_cards_amount">Anzahl: </string>
+	<string name="keep_sideways_cards_with_expansion">Bei Erweiterung belassen</string>
+	<string name="random_include_events">Ereignisse: </string>
+	<string name="random_sideways_none">Keine</string>
+	<string name="random_events_none">Keine</string>
+	<string name="random_events_random">Zufällig</string>
+	<string name="random_projects_none">Keine</string>
+	<string name="random_landmarks_none">Keine</string>
+	<string name="random_landmarks_random">Zufällig</string>
+	<string name="random_include_cards">Mit Karten von</string>
+	<string name="random_sideways_max_x">Bis zu %1$s</string>
+	<string name="random_include_projects">Projekte: </string>
+	<string name="random_include_landmarks">Landmarken: </string>
+	<string name="select_kingdom_cards">Karten aus: </string>
+	<string name="random_expansions">Erweiterungen</string>
+	<string name="random_expansions_select_all">Alle gewählten</string>
+	<string name="random_expansions_select_x">%1$s</string>
+	<string name="random_choose_from_expansions">Auswahl:</string>
+	<string name="random_expansion_allocation_random">Zufällig</string>
+	<string name="random_expansion_allocation_even">Gleichmäßig</string>
+	<string name="random_expansion_allocation_proportional">Proportional</string>
 	<string name="random_include_events">Ereignisse: </string>
 	<string name="random_events_none">Keine</string>
 	<string name="random_events_random">Zufällig</string>
@@ -136,7 +161,7 @@
 	<string name="random_landmarks_none">Keine</string>
 	<string name="random_landmarks_random">Zufällig</string>
 	<string name="random_include_cards">Mit Königreichkarten aus</string>
-	<string name="select_players">Spieler wählen:</string>
+	<string name="select_players">Spieler:</string>
 	<string name="player">Spieler </string>
 	<string name="currentplayer">Aktueller Spieler</string>
 	<string name="you">Du</string>
@@ -144,6 +169,7 @@
 	<string name="card_set_cards">Karten: %1$s</string>
 	<string name="card_set_bane">Bannkarte: %1$s</string>
 	<string name="card_set_events">Ereignisse: %1$s</string>
+	<string name="card_set_projects">Projekte: %1$s</string>
 	<string name="card_set_landmarks">Landmarken: %1$s</string>
 	<string name="card_set_plat_colony">Platin/Kolonie</string>
 	<string name="card_set_no_plat_colony">Kein Platin/Kolonie</string>
@@ -188,6 +214,7 @@
 	<string name="village_header">Eing. Dorf:</string>
 	<string name="prince_header">Prinz:</string>
 	<string name="turn_header">: Zug\u0020</string>
+	<string name="turn_header_fleet">\u0020[Flotte]</string>
 	<string name="game_loaded">Spiel geladen!\nVerfügbare Aktionen, Käufe und Geld\nwerden im Log \nals a/k/(g) angezeigt</string>
 	<string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
 	<string name="action_zero">%1$s Aktionen</string>
@@ -227,6 +254,7 @@
 	<string name="token_plus_one_coin">+1 Geld</string>
 	<string name="token_minus_2_cost">-2 Kosten</string>
 	<string name="token_trashing">entsorgen</string>
+	<string name="token_projectCube">Projektwürfel</string>
 	<string name="token_colon">:\u0020</string>
 	<string name="token_separator">,\u0020</string>
 	<string name="token_embargo">Embargos</string>
@@ -242,6 +270,7 @@
 	<string name="status_hand_size">Karten auf der Hand: %1$s</string>
 	<string name="status_hand_stashes">Geldverstecke auf der Hand: %1$s</string>
 	<string name="status_total_cards">Karten insgesammt: %1$s</string>
+	<string name="status_vp">Siegpunkte: %1$s</string>
 	<string name="status_has_minus_coin_token">Hat -1 Geld Marker</string>
 	<string name="status_has_minus_card_token">Hat -1 Karte Marker</string>
 	<string name="status_journey_token_up">Reisemarker zeigt Vorderseite</string>
@@ -251,7 +280,13 @@
 	<string name="status_has_lostInTheWoods">Im Wald verlaufen</string>
 	<string name="status_has_miserable">Hat Elend (-2 Siegpunkte)</string>
 	<string name="status_has_twiceMiserable">Hat doppeltes Elend (-4 Siegpunkte)</string>
-	<string name="status_coin_tokens">Geldmarker: %1$s</string>
+	<string name="status_has_flag">Hat die Fahne (Beim Ziehen der Hand, +1 Karte.)</string>
+	<string name="status_has_horn">Hat das Horn (Einmal pro Zug, wenn man einen Grenzposten aus dem Spiel nimmt, darf man ihn auf den Nachziehstapel legen.)</string>
+	<string name="status_has_key">Hat den Schlüssel (Zu Beginn des Zuges, +(1) Geld.)</string>
+	<string name="status_has_lantern">Hat die Laterne (Grenzposten decken 3 Karten auf und legen 2 ab.)</string>
+	<string name="status_has_treasureChest">Hat die Schatztruhe (Zu Beginn der Kaufphase, nimm ein Gold)</string>
+	<string name="status_coin_tokens">Münzen: %1$s</string>
+	<string name="status_villager_tokens">Dorfbewohner: %1$s</string>
 	<string name="status_pirate_tokens">Piratenschiff Marken: %1$s</string>
 	<string name="status_debt_tokens">Schuldenmarker: %1$s</string>
 	<string name="status_victory_tokens">Punktemarker: %1$s</string>

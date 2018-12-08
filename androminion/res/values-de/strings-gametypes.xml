@@ -42,7 +42,10 @@
 	<string name="Servants_gametype">Diener</string> 
 	<string name="SecretResearch_gametype">Geheime Forschungen</string> 
 	<string name="PoolsToolsAndFools_gametype">Töpfe, Tränke, Trottel</string>
-	
+
+	<string name="Forewarned_gametype">Vorgewarnt</string>
+	<string name="GummedUp_gametype">Verklebt</string>
+
 	<string name="Beginners_gametype">Anfänger</string> 
 	<string name="FriendlyInteractive_gametype">Freundliche Interaktion</string> 
 	<string name="BigActions_gametype">Große Aktionen</string> 
@@ -55,6 +58,12 @@
 	<string name="AllAlongTheWatchtower_gametype">Am Wachturm entlang</string> 
 	<string name="LuckySeven_gametype">Glücksritter</string>
 
+	<string name="ExplodingKingdom_gametype">Explosives Königreich</string>
+	<string name="PirateBay_gametype">Piratenbucht</string>
+
+	<string name="CountingContest_gametype">Zähl um die Wette</string>
+	<string name="LowerLearning_gametype">Niedere Bildung</string>
+
 	<string name="BountyOfTheHunt_gametype">Kopfgeld</string> 
 	<string name="BadOmens_gametype">Böses Omen</string> 
 	<string name="TheJestersWorkshop_gametype">Wanderzirkus</string>
@@ -62,6 +71,14 @@
 	<string name="LastLaughs_gametype">Wer zuletzt lacht</string> 
 	<string name="TheSpiceOfLife_gametype">Würze des Lebens</string> 
 	<string name="SmallVictories_gametype">Kleine Siege</string>
+
+	<string name="Collector_gametype">Sammler</string>
+	<string name="Collider_gametype">Kollision</string>
+
+	<string name="ClownCollege_gametype">Clownschule</string>
+	<string name="WineAndDine_gametype">Essen und Trinken</string>
+
+	<string name="Detours_gametype">Umwege</string>
 
 	<string name="HinterlandsIntro_gametype">Hinterland Einführung</string> 
 	<string name="FairTrades_gametype">Lauterer Wettbewerb</string> 
@@ -117,6 +134,25 @@
 	<string name="NameThatCard_gametype">Nenne diese Karte</string>
 	<string name="TricksOfTheTrade_gametype">Geschäftstricks</string>
 	<string name="DecisionsDecisions_gametype">Entscheidungen, Entscheidungen</string>
+
+	<string name="GhostsAndTaxes_gametype">Geister und Steuern</string>
+	<string name="IslandBuilder_gametype">Inselbauer</string>
+
+	<string name="Illuminati_gametype">Illuminati</string>
+	<string name="TonicsAndToxins_gametype">Tinkturen und Toxine</string>
+
+	<string name="Quarrymen_gametype">Minenarbeiter</string>
+	<string name="MetalAndMeat_gametype">Muskel und Stahl</string>
+	<string name="PennyPinching_gametype">Geizkragen</string>
+
+	<string name="Misfortune_gametype">Vom Pech verfolgt</string>
+	<string name="BakingContest_gametype">Backwettbewerb</string>
+
+	<string name="Exchanges_gametype">Wechselspiel</string>
+	<string name="RoadToRiches_gametype">Pfade zum Reichtum</string>
+
+	<string name="Stoneground_gametype">Steingewalzt</string>
+	<string name="ClassStruggle_gametype">Klassenkampf</string>
 
 	<string name="GentleIntro_gametype">Sanfte Einführung</string>
 	<string name="ExpertIntro_gametype">Profi Einführung</string>
@@ -177,6 +213,73 @@
 
 	<string name="AreaControl_gametype">Kontrollbereich</string>
 	<string name="NoMoneyNoProblems_gametype">Kein Geld, keine Probleme</string>
+
+	<string name="Dusk_gametype">Morgengrauen</string>
+	<string name="Midnight_gametype">Mitternacht</string>
+
+	<string name="NightShift_gametype">Nachtschicht</string>
+	<string name="IdleHands_gametype">Eitle Hände</string>
+
+	<string name="ShadowyFigures_gametype">Sinistre Figuren</string>
+	<string name="ImpendingDoom_gametype">Nahender Untergang</string>
+
+	<string name="TheNewBlack_gametype">Das neue Schwarz</string>
+	<string name="ForbiddenIsle_gametype">Verbotenes Eiland</string>
+
+	<string name="NightmareFuel_gametype">Stoff für Alpträume</string>
+
+	<string name="TreasuresOfTheNight_gametype">Schätze der Nacht</string>
+	<string name="DayAtTheRaces_gametype">Ein Tag beim Rennen</string>
+
+	<string name="TheEndlessFair_gametype">Endloser Jahrmarkt</string>
+	<string name="HappyChaos_gametype">Fröhliches Chaos</string>
+
+	<string name="SearchParty_gametype">Suchtrupp</string>
+	<string name="CountingSheep_gametype">Schäfchen zählen</string>
+
+	<string name="GraveMatters_gametype">Grabesernste Angelegenheiten</string>
+	<string name="RatsAndBats_gametype">Ratten und Fledermäuse</string>
+
+	<string name="MonsterMash_gametype">Monsterparty</string>
+	<string name="LostInTheWoods_gametype">Allein im Wald</string>
+
+	<string name="Luftschloss_gametype">Luftschloss</string>
+	<string name="PookaPranks_gametype">Pooka-Streiche</string>
+
+	<string name="Overture_gametype">Overtüre</string>
+	<string name="Prelude_gametype">Präludium</string>
+
+	<string name="ItTakesAVillager_gametype">Es braucht einen Dörfler</string>
+	<string name="CaptureTheFlag_gametype">Erobere die Fahne</string>
+
+	<string name="MementoMori_gametype">Memento Mori</string>
+	<string name="ClockworkCourt_gametype">Clockwork Court</string>
+
+	<string name="FreeShipping_gametype">Frei Haus</string>
+	<string name="DiggingForTreasure_gametype">Schatzsuche</string>
+
+	<string name="PeekABoo_gametype">Versteck dich</string>
+
+	<string name="DreamersOfDreams_gametype">Träumer der Träume</string>
+	<string name="MoversAndShakers_gametype">Am Gipfel der Macht</string>
+
+	<string name="ComboCorner_gametype">Combo</string>
+	<string name="FillingTheCoffers_gametype">Münzregen</string>
+
+	<string name="SweetenedDeals_gametype">Verlockende Angebote</string>
+	<string name="APennySaved_gametype">Sparfüchse</string>
+
+	<string name="Stargazing_gametype">Sternenhimmel</string>
+	<string name="SewerRats_gametype">Kanalratten</string>
+
+	<string name="Progress_gametype">Fortschritt</string>
+	<string name="OnceUponATime_gametype">Es war einmal</string>
+
+	<string name="ExploringTheCity_gametype">Stadterkundung</string>
+	<string name="NavigatingTheSewers_gametype">Kanalerfoschung</string>
+
+	<string name="BecomingAMonster_gametype">Mensch oder Monster</string>
+	<string name="TrueBelievers_gametype">Wahre Anhänger</string>
 
 	<string name="Test_gametype">Test</string>
 
