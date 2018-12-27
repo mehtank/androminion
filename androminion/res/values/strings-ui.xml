@@ -135,7 +135,7 @@
     <string name="random_events_projects_landmarks">Events, Projects and Landmarks</string>
     <string name="combine_sideways_cards">Combine amount</string>
     <string name="random_sideways_cards_amount">Amount: </string>
-    <string name="keep_sideways_cards_with_expansion">Keep with orignal expansion</string>
+    <string name="keep_sideways_cards_with_expansion">Keep with original expansion</string>
     <string name="random_include_events">Events: </string>
     <string name="random_sideways_none">None</string>
     <string name="random_events_none">None</string>
