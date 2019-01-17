@@ -5164,7 +5164,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card recruiter_cardToTrash(MoveContext context) {
     	// favor high cost junk
     	Card[] junkCards = pickOutCards(context.getPlayer().getHand(), getTrashCards().length, getTrashCards());
-    	if (junkCards.length > 0) {
+    	if (junkCards != null && junkCards.length > 0) {
     		return highestCard(context, Arrays.asList(junkCards));
     	}
     	
