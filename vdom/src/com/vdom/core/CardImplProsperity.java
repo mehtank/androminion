@@ -251,17 +251,14 @@ public class CardImplProsperity extends CardImpl {
     private void loanVenture(MoveContext context, Player player, Game game) {
         ArrayList<Card> toDiscard = new ArrayList<Card>();
         Card treasureCardFound = null;
-        GameEvent event = null;
 
         while (treasureCardFound == null) {
             Card draw = game.draw(context, this, -1);
             if (draw == null) {
                 break;
             }
-
-            event = new GameEvent(GameEvent.EventType.CardRevealed, context);
-            event.card = draw;
-            game.broadcastEvent(event);
+            
+            player.reveal(draw, this.getControlCard(), context);
 
             if (draw.is(Type.Treasure, player)) {
                 treasureCardFound = draw;
