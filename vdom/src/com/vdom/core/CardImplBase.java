@@ -108,7 +108,7 @@ public class CardImplBase extends CardImpl {
             }
             currentPlayer.reveal(draw, this.getControlCard(), context);
 
-            if (draw.is(Type.Treasure, currentPlayer)) {
+            if (draw.is(Type.Treasure, currentPlayer, context)) {
                 treasureCardsRevealed++;
                 currentPlayer.hand.add(draw);
             } else {
@@ -166,7 +166,7 @@ public class CardImplBase extends CardImpl {
                 Card card = game.draw(targetContext, Cards.bandit, 2 - i);
                 if (card != null) {
                     targetPlayer.reveal(card, this.getControlCard(), targetContext);
-                    if (card.is(Type.Treasure, targetPlayer) && !Cards.copper.equals(card)) {
+                    if (card.is(Type.Treasure, targetPlayer, context) && !Cards.copper.equals(card)) {
                         treasures.add(card);
                     } else {
                         cardsToDiscard.add(card);
@@ -385,8 +385,8 @@ public class CardImplBase extends CardImpl {
     
     private void mine(MoveContext context, Player currentPlayer) {
         Card cardToUpgrade = currentPlayer.controlPlayer.mine_treasureFromHandToUpgrade(context);
-        if ((Game.errataMineForced && cardToUpgrade == null) || !cardToUpgrade.is(Type.Treasure, currentPlayer)) {
-            Card[] cards = currentPlayer.getTreasuresInHand().toArray(new Card[] {});
+        if ((Game.errataMineForced && cardToUpgrade == null) || !cardToUpgrade.is(Type.Treasure, currentPlayer, context)) {
+            Card[] cards = currentPlayer.getTreasuresInHand(context).toArray(new Card[] {});
             if (cards.length != 0) {
                 Util.playerError(currentPlayer, "Mine card to upgrade was invalid, picking treasure from hand.");
                 cardToUpgrade = Util.randomCard(cards);
@@ -403,7 +403,7 @@ public class CardImplBase extends CardImpl {
                     currentPlayer.trashFromHand(thisCard, this.getControlCard(), context);
 
                     Card newCard = currentPlayer.controlPlayer.mine_treasureToObtain(context, card.getCost(context) + 3, card.getDebtCost(context), card.costPotion());
-                    if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && 
+                    if (!(newCard != null && newCard.is(Type.Treasure, null, context) && Cards.isSupplyCard(newCard) && 
                     		newCard.getCost(context) <= card.getCost(context) + 3 && 
                     		newCard.getDebtCost(context) <= card.getDebtCost(context) && 
                     		(!newCard.costPotion() || card.costPotion()) 
@@ -600,7 +600,7 @@ public class CardImplBase extends CardImpl {
                     if (card != null) {
                         targetPlayer.reveal(card, this.getControlCard(), targetContext);
 
-                        if (card.is(Type.Treasure, targetPlayer)) {
+                        if (card.is(Type.Treasure, targetPlayer, context)) {
                             treasures.add(card);
                         } else {
                             cardsToDiscard.add(card);

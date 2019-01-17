@@ -545,7 +545,7 @@ public class CardImplDarkAges extends CardImpl {
                 break;
             }
 
-            if (card.is(Type.Treasure, null)) {
+            if (card.is(Type.Treasure, null, context)) {
                 cardNames.add(card.getName());
             }
         }
@@ -603,7 +603,7 @@ public class CardImplDarkAges extends CardImpl {
 
         Set<Card> inDiscard = new HashSet<Card>();
         for (Card c : currentPlayer.discard) {
-            if (!(c.is(Type.Treasure, currentPlayer))) {
+            if (!(c.is(Type.Treasure, currentPlayer, context))) {
                 inDiscard.add(c);
             }
         }
@@ -612,7 +612,7 @@ public class CardImplDarkAges extends CardImpl {
 
         Set<Card> inHand = new HashSet<Card>();
         for (Card c: currentPlayer.hand) {
-            if (!(c.is(Type.Treasure, currentPlayer))) {
+            if (!(c.is(Type.Treasure, currentPlayer, context))) {
                 inHand.add(c);
             }
         }
@@ -664,7 +664,7 @@ public class CardImplDarkAges extends CardImpl {
             if (card.is(Type.Action, currentPlayer)) {
                 context.actions += 1;
             }
-            if (card.is(Type.Treasure, currentPlayer)) {
+            if (card.is(Type.Treasure, currentPlayer, context)) {
                 context.addCoins(1);
             }
             if (card.is(Type.Victory, currentPlayer)) {
@@ -833,7 +833,7 @@ public class CardImplDarkAges extends CardImpl {
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card card = currentPlayer.hand.get(i);
             currentPlayer.reveal(card, this.getControlCard(), context);
-            if (card.is(Type.Treasure, currentPlayer)) {
+            if (card.is(Type.Treasure, currentPlayer, context)) {
                 treasures++;
             }
         }

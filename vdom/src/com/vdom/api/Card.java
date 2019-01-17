@@ -21,6 +21,7 @@ public interface Card extends Serializable {
     
     public Expansion getExpansion();
 
+    public boolean is(Type t, Player player, MoveContext context);
     public boolean is(Type t, Player player);
     public boolean is(Type t);
     public int getNumberOfTypes(Player player);

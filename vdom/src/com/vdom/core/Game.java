@@ -359,7 +359,7 @@ public class Game {
 	                boolean declinedTokens = false;
 	                do {
 		                playTreasures(player, context, -1, null);
-		                hasMoreTreasures = playerHasMoreTreasures(player);
+		                hasMoreTreasures = playerHasMoreTreasures(player, context);
 		                // Spend Guilds coin tokens if applicable
 		                int tokensSpent = playGuildsTokens(player, context);
 		                declinedTokens = tokensSpent == 0;
@@ -460,10 +460,10 @@ public class Game {
         FrameworkEventHelper.broadcastEvent(frameworkEvent);
     }
     
-    private boolean playerHasMoreTreasures(Player p) {
+    private boolean playerHasMoreTreasures(Player p, MoveContext context) {
     	boolean result = false;
     	for(Card c : p.getHand()) {
-    		if (c.is(Type.Treasure, p)) {
+    		if (c.is(Type.Treasure, p, context)) {
     			result = true;
     			break;
     		}
@@ -509,7 +509,7 @@ public class Game {
     	boolean selectingCoins = playerShouldSelectCoinsToPlay(context, player.getHand());
         if (maxCards != -1) selectingCoins = true;// storyteller
         ArrayList<Card> treasures = null;
-        treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand();
+        treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand(context);
 
         while (treasures != null && !treasures.isEmpty() && maxCards != 0) {
             while (!treasures.isEmpty() && maxCards != 0) {
@@ -521,7 +521,7 @@ public class Game {
                 }
             }
             if (maxCards != 0)
-            	treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand();
+            	treasures = (selectingCoins) ? player.controlPlayer.treasureCardsToPlayInOrder(context, maxCards, responsible) : player.getTreasuresInHand(context);
         }
         return totalPlayed;
     }
@@ -4045,7 +4045,7 @@ public class Game {
                     	context.player.takeVillagers(1, context, Cards.academy);
                     }
                     
-                    if (player.hasProject(Cards.guildHall) && event.card.is(Type.Treasure, player)) {                    
+                    if (player.hasProject(Cards.guildHall) && event.card.is(Type.Treasure, player, context)) {                    
                     	context.player.gainGuildsCoinTokens(1, context, Cards.guildHall);
                     }
                     
@@ -4129,7 +4129,7 @@ public class Game {
                                 || r.equals(Cards.taxman)
                                 || r.equals(Cards.tournament)
                                 || r.equals(Cards.treasureMap)
-                                || r.equals(Cards.replace) && context.attackedPlayer != player && (gainedCardAbility.is(Type.Action) || gainedCardAbility.is(Type.Treasure))) {
+                                || r.equals(Cards.replace) && context.attackedPlayer != player && (gainedCardAbility.is(Type.Action) || gainedCardAbility.is(Type.Treasure, null, context))) {
                                 player.putOnTopOfDeck(event.card, context, true);
                             } else if (r.equals(Cards.beggar)) {
                                 if (event.card.equals(Cards.copper)) {
@@ -4190,7 +4190,7 @@ public class Game {
                     	firstProvinceGainedBy = playersTurn;
                     }
                     
-                    if(event.card.is(Type.Treasure, player)) {
+                    if(event.card.is(Type.Treasure, player, context)) {
                     	if (cardInGame(Cards.aqueduct)) {
                     		//TODO?: you can technically choose the order of resolution for moving the VP
                     		//       tokens from the treasure after taking the tokens, but why would you ever do this?
@@ -4326,7 +4326,7 @@ public class Game {
                         ArrayList<Card> treasureCardsInPlay = new ArrayList<Card>();
 
                         for(Card c : playedCards) {
-                            if(c.is(Type.Treasure, player)) {
+                            if(c.is(Type.Treasure, player, context)) {
                                 treasureCardsInPlay.add(c);
                             }
                         }

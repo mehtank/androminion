@@ -164,7 +164,7 @@ public abstract class Player {
     public int getCurrencyTotal(MoveContext context) {
         int coin = 0;
         for (Card card : getAllCards()) {
-            if (card.is(Type.Treasure, context.getPlayer())) {
+            if (card.is(Type.Treasure, context.getPlayer(), context)) {
                 coin += card.getAddGold();
                 if (card.getKind() == Cards.Kind.Bank) {
                    coin += 1;
@@ -588,14 +588,14 @@ public abstract class Player {
                     //TODO: selecting card from right place - now there's a difference between treasures in play
                     //      vs treasures that are in nextTurnCards (and a difference from next turn and permanent ones)
                     for(Card card : playedCards) {
-                        if(card.is(Type.Treasure, this)) {
+                        if(card.is(Type.Treasure, this, context)) {
                             treasureCards.add(card);
                         }
                     }
                     
                     if(treasureCards.size() > 0) {
                         Card treasureCard = controlPlayer.herbalist_backOnDeck(context, treasureCards.toArray(new Card[0]));
-                        if(treasureCard != null && treasureCard.is(Type.Treasure, this)) {
+                        if(treasureCard != null && treasureCard.is(Type.Treasure, this, context)) {
                         	if (playedCards.contains(treasureCard)) {
                         		playedCards.remove(treasureCard);
                         		putBackCards.add(treasureCard);
@@ -2073,11 +2073,11 @@ public abstract class Player {
     public void newGame(MoveContext context) {
     }
 
-    public ArrayList<Card> getTreasuresInHand() {
+    public ArrayList<Card> getTreasuresInHand(MoveContext context) {
         ArrayList<Card> treasures = new ArrayList<Card>();
 
         for (Card c : getHand())
-            if (c.is(Type.Treasure, this))
+            if (c.is(Type.Treasure, this, context))
                 treasures.add(c);
 
         return treasures;

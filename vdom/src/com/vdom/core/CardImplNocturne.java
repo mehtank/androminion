@@ -357,7 +357,7 @@ public class CardImplNocturne extends CardImpl {
         Card[] treasuresToCrypt = numTreasures > 0 ? player.controlPlayer.crypt_cardsToSetAside(context) : new Card[0];
         if (treasuresToCrypt == null) treasuresToCrypt = new Card[0];
         ArrayList<Card> inPlay = new ArrayList<Card>();
-        for(Card c : player.playedCards) if (c.is(Type.Treasure)) inPlay.add(c);
+        for(Card c : player.playedCards) if (c.is(Type.Treasure, player, context)) inPlay.add(c);
         if (!Util.areCardsInList(treasuresToCrypt, inPlay)) {
         	Util.playerError(player, "Crypt set aside error, ignoring");
         	return;
@@ -530,7 +530,7 @@ public class CardImplNocturne extends CardImpl {
 		if (player.hand.size() < 5) return;
 		ArrayList<Card> validCards = new ArrayList<Card>();
 		for (Card card : player.hand) {
-			if (card.is(Type.Action, player) || card.is(Type.Treasure, player)) {
+			if (card.is(Type.Action, player) || card.is(Type.Treasure, player, context)) {
 				validCards.add(card);
 			}
 		}
@@ -958,7 +958,7 @@ public class CardImplNocturne extends CardImpl {
 		if(player.hand.size() > 0) {
             boolean hasValidTreasure = false;
             for (Card c : player.hand) {
-                if (c.is(Type.Treasure, player) && !c.equals(Cards.cursedGold)) {
+                if (c.is(Type.Treasure, player, context) && !c.equals(Cards.cursedGold)) {
                     hasValidTreasure = true;
                     break;
                 }
@@ -967,7 +967,7 @@ public class CardImplNocturne extends CardImpl {
                 Card card = player.controlPlayer.pooka_treasureToTrash(context);
                 if (card == null)
                 	return;
-                if (!card.is(Type.Treasure, player) || card.equals(Cards.cursedGold) || !player.hand.contains(card)) {
+                if (!card.is(Type.Treasure, player, context) || card.equals(Cards.cursedGold) || !player.hand.contains(card)) {
                     Util.playerError(player, "Pooka card to trash invalid, ignoring");
                     return;
                 }
@@ -1125,7 +1125,7 @@ public class CardImplNocturne extends CardImpl {
 	private void theEarthsGift(Game game, MoveContext context, Player currentPlayer) {
 		boolean hasTreasure = false;
         for(Card c : currentPlayer.hand) {
-            if(c.is(Type.Treasure, currentPlayer)) {
+            if(c.is(Type.Treasure, currentPlayer, context)) {
                 hasTreasure = true;
             }
         }
@@ -1133,7 +1133,7 @@ public class CardImplNocturne extends CardImpl {
         	return;
 
         Card toDiscard = currentPlayer.controlPlayer.theEarthsGift_treasureToDiscard(context);
-        if (toDiscard == null || !currentPlayer.hand.contains(toDiscard) || !toDiscard.is(Type.Treasure, currentPlayer))
+        if (toDiscard == null || !currentPlayer.hand.contains(toDiscard) || !toDiscard.is(Type.Treasure, currentPlayer, context))
         	return;
         
         currentPlayer.hand.remove(toDiscard);
@@ -1320,7 +1320,7 @@ public class CardImplNocturne extends CardImpl {
     	
     	Card newCard = player.controlPlayer.tragicHero_treasureToObtain(context);
     	
-        if (!(newCard != null && newCard.is(Type.Treasure, null) && Cards.isSupplyCard(newCard) && context.isCardOnTop(newCard))) {
+        if (!(newCard != null && newCard.is(Type.Treasure, null, context) && Cards.isSupplyCard(newCard) && context.isCardOnTop(newCard))) {
             Util.playerError(player, "Tragic Hero treasure to obtain was invalid, picking random treasure from table.");
             for (Card treasureCard : context.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Treasure)) {
                 if (Cards.isSupplyCard(treasureCard) && context.getCardsLeftInPile(treasureCard) > 0) {

@@ -185,7 +185,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         		continue;
         	boolean hasTokens = context.game.getPlayerSupplyTokens(card, context.getPlayer()).size() > 0;
             if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
-                if (   sco.checkValid(card, card.getCost(context), card.is(Type.Victory, context.player), null)
+                if (   sco.checkValid(card, card.getCost(context), card.is(Type.Victory, context.player), context)
                 	&& (!(sco.noTokens && hasTokens))
                     && (   (!context.cantBuy.contains(card) && (context.getPlayer().getDebtTokenCount() == 0 && (context.canBuyActions || !card.is(Type.Action)) &&(context.canBuyCards || (card.is(Type.Event) || card.is(Type.Project)))))
                         || !sco.pickType.equals(PickType.BUY))
@@ -374,7 +374,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         int treasureCount = 0;
         Player player = context.player;
         for (Card card : player.getHand()) {
-            if (card.is(Type.Treasure, player)) {
+            if (card.is(Type.Treasure, player, context)) {
                 treasureCount++;
             }
         }
@@ -395,7 +395,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         	if (maxCards != -1) { // storyteller
                 ArrayList<Card> treasures = new ArrayList<Card>();
                 for (Card c : context.getPlayer().getHand()) {
-                    if(c.is(Type.Treasure, context.getPlayer())) {
+                    if(c.is(Type.Treasure, context.getPlayer(), context)) {
                     	treasures.add(c);
                     }
                 }
@@ -4466,7 +4466,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	ArrayList<Card> options = new ArrayList<Card>();
         Set<Card> inTrashPile = new HashSet<Card>();
         for (Card c : game.trashPile) {
-            if (c.is(Type.Treasure))
+            if (c.is(Type.Treasure, null, context))
                 inTrashPile.add(c);
         }
         options.addAll(inTrashPile);

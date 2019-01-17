@@ -83,7 +83,7 @@ public class CardImplProsperity extends CardImpl {
             {
             	ArrayList<Card> toTrash = new ArrayList<Card>();
                 for (Card card : context.player.playedCards) {
-                    if (card.is(Type.Treasure, context.player)) {
+                    if (card.is(Type.Treasure, context.player, context)) {
                         toTrash.add(card);
                     }
                 }
@@ -260,7 +260,7 @@ public class CardImplProsperity extends CardImpl {
             
             player.reveal(draw, this.getControlCard(), context);
 
-            if (draw.is(Type.Treasure, player)) {
+            if (draw.is(Type.Treasure, player, context)) {
                 treasureCardFound = draw;
             } else {
                 toDiscard.add(draw);
@@ -289,7 +289,7 @@ public class CardImplProsperity extends CardImpl {
         Card cardToMint = currentPlayer.controlPlayer.mint_treasureToMint(context);
 
         if (cardToMint != null && (!currentPlayer.hand.contains(cardToMint) || 
-        		!Cards.isSupplyCard(cardToMint) || !cardToMint.is(Type.Treasure, currentPlayer)) ) {
+        		!Cards.isSupplyCard(cardToMint) || !cardToMint.is(Type.Treasure, currentPlayer, context)) ) {
             Util.playerError(currentPlayer, "Mint treasure selection error, not minting anything.");
         }
         else if (cardToMint != null) {
@@ -338,7 +338,7 @@ public class CardImplProsperity extends CardImpl {
                     if (card != null) {
                         player.reveal(card, this.getControlCard(), playerContext);
 
-                        if (card.is(Type.Treasure, player) || card.is(Type.Action, player)) {
+                        if (card.is(Type.Treasure, player, context) || card.is(Type.Action, player)) {
                             cardToDiscard.add(card);
                         } else {
                             topOfTheDeck.add(card);

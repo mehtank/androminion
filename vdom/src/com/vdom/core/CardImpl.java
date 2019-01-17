@@ -505,11 +505,17 @@ public class CardImpl implements Card, Comparable<Card>{
     
     @Override
     public boolean is(Type t, Player player) {
+    	return is(t, player, null);
+    }
+    
+    @Override
+    public boolean is(Type t, Player player, MoveContext context) {
+    	Player turnPlayer = player != null ? player.game.getCurrentPlayer() : (context != null ? context.player.game.getCurrentPlayer() : null);
     	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
             if (!behaveAsCard().equals(this)) {
                 return behaveAsCard().is(t, player);
             }
-            if (t == Type.Treasure && player != null && player.hasProject(Cards.capitalism) && player.game.getCurrentPlayer() == player && hasPlusCoin) {
+            if (t == Type.Treasure && turnPlayer != null && hasPlusCoin && turnPlayer.hasProject(Cards.capitalism)) {
             	for (int i = 0; i < types.length; ++i) {
     	    		if (types[i] == Type.Action) {
     	    			return true;
@@ -523,7 +529,7 @@ public class CardImpl implements Card, Comparable<Card>{
     	}
 
         if (player.getInheritance().is(t)) return true;
-        if (t == Type.Treasure && player.hasProject(Cards.capitalism) && player.game.getCurrentPlayer() == player && hasPlusCoin) {
+        if (t == Type.Treasure && turnPlayer != null && hasPlusCoin && turnPlayer.hasProject(Cards.capitalism)) {
         	for (int i = 0; i < types.length; ++i) {
 	    		if (types[i] == Type.Action) {
 	    			return true;
@@ -1342,7 +1348,7 @@ public class CardImpl implements Card, Comparable<Card>{
         	break;
     	}
         
-    	if (treasure != null && treasure.is(Type.Treasure, currentPlayer) && currentPlayer.getHand().contains(treasure)) {
+    	if (treasure != null && treasure.is(Type.Treasure, currentPlayer, context) && currentPlayer.getHand().contains(treasure)) {
     		CardImpl cardToPlay = (CardImpl) treasure;
             for (int i = 0; i < 2; ++i) {
                 cardToPlay.play(context.game, context, true, true, false, false, i > 0);

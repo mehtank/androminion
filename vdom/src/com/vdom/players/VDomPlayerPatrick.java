@@ -1974,7 +1974,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 			if (tcard == null) {
 				return null;
 			}
-			if (tcard.is(Type.Treasure, this)) {
+			if (tcard.is(Type.Treasure, this, context)) {
 				tcard = null;
 			}
 			if (tcard != null) {
@@ -1992,7 +1992,7 @@ public class VDomPlayerPatrick extends BasePlayer {
 		ArrayList<Card> a = new ArrayList<Card>();
 		a.add(card);
 	    if(   card.equals(getCardToDiscard(a, DiscardOption.NonDestructive, context))
-	       && (jackOfAllTrades_nonTreasureToTrash(context) != null || (card.is(Type.Treasure, this)))) {
+	       && (jackOfAllTrades_nonTreasureToTrash(context) != null || (card.is(Type.Treasure, this, context)))) {
 	        return true;
 	    }
 	    return false;

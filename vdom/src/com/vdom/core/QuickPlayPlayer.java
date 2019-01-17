@@ -88,7 +88,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
 
     
     public boolean shouldAutoPlay_mine_treasureFromHandToUpgrade(MoveContext context) {
-        ArrayList<Card> handCards = context.getPlayer().getTreasuresInHand();
+        ArrayList<Card> handCards = context.getPlayer().getTreasuresInHand(context);
         return hasOnlyBasicTreasure(handCards);
     }
     
@@ -475,7 +475,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         int treasureCount = 0;
 
         for(Card c : getHand()) {
-            if(c.is(Type.Treasure, this) && Cards.isSupplyCard(c)) {
+            if(c.is(Type.Treasure, this, context) && Cards.isSupplyCard(c)) {
                 treasureCount++;
             }
         }
@@ -485,7 +485,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         }
         
         for(Card c : getHand()) {
-            if(c.is(Type.Treasure, this) && Cards.isSupplyCard(c) && !(c.equals(Cards.copper) || c.equals(Cards.silver) || c.equals(Cards.gold) || c.equals(Cards.platinum))) {
+            if(c.is(Type.Treasure, this, context) && Cards.isSupplyCard(c) && !(c.equals(Cards.copper) || c.equals(Cards.silver) || c.equals(Cards.gold) || c.equals(Cards.platinum))) {
                 return false;
             }
         }
@@ -777,7 +777,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_spiceMerchant_treasureToTrash(MoveContext context) {
         for(Card card : getHand()) {
             for(Card trash : getTrashCards()) {
-                if(trash.equals(card) && (card.is(Type.Treasure, this))) {
+                if(trash.equals(card) && (card.is(Type.Treasure, this, context))) {
                     return true;
                 }
             }
@@ -1105,7 +1105,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     
     public boolean shouldAutoPlay_arena_cardToDiscard(MoveContext context) {
     	for (Card c : context.getPlayer().getHand()) {
-    		if (c.is(Type.Action, context.getPlayer()) && !c.is(Type.Treasure, context.getPlayer())) {
+    		if (c.is(Type.Action, context.getPlayer()) && !c.is(Type.Treasure, context.getPlayer(), context)) {
     			return true;
     		}
     	}
@@ -1216,7 +1216,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_pooka_treasureToTrash(MoveContext context) {
     	for(Card card : getHand()) {
             for(Card trash : getTrashCards()) {
-                if(trash.equals(card) && (card.is(Type.Treasure, this)) && !card.equals(Cards.cursedGold)) {
+                if(trash.equals(card) && (card.is(Type.Treasure, this, context)) && !card.equals(Cards.cursedGold)) {
                     return true;
                 }
             }
@@ -1258,7 +1258,7 @@ public abstract class QuickPlayPlayer extends BasePlayer {
     public boolean shouldAutoPlay_treasurer_treasureToTrash(MoveContext context) {
     	for(Card card : getHand()) {
             for(Card trash : getTrashCards()) {
-                if(trash.equals(card) && (card.is(Type.Treasure, this))) {
+                if(trash.equals(card) && (card.is(Type.Treasure, this, context))) {
                     return true;
                 }
             }

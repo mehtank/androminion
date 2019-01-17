@@ -462,7 +462,7 @@ public class CardImplRenaissance extends CardImpl {
         if (cardToGain != null) {
             if (cardToGain.getCost(context) <= 4 && cardToGain.getDebtCost(context) == 0 && !cardToGain.costPotion()) {
             	Card cardGained = player.gainNewCard(cardToGain, getControlCard(), context);
-            	if (cardGained != null && cardGained.is(Type.Treasure, player)) {
+            	if (cardGained != null && cardGained.is(Type.Treasure, player, context)) {
             		player.takeVillagers(1, context, Cards.sculptor);
             	}
             } else {
@@ -626,14 +626,14 @@ public class CardImplRenaissance extends CardImpl {
 		case TrashTreasure: {
 			Card firstTreasure = null;
 			for (Card c : player.hand) {
-                if (c.is(Type.Treasure, player)) {
+                if (c.is(Type.Treasure, player, context)) {
                 	firstTreasure = c;
                     break;
                 }
             }
 			if (firstTreasure == null) return;
 			Card card = player.controlPlayer.treasurer_treasureToTrash(context);
-            if (card == null || !card.is(Type.Treasure, player) || !player.hand.contains(card)) {
+            if (card == null || !card.is(Type.Treasure, player, context) || !player.hand.contains(card)) {
                 Util.playerError(player, "Treasurer card to trash invalid, choosing one.");
                 card = firstTreasure;
                 return;
@@ -645,14 +645,14 @@ public class CardImplRenaissance extends CardImpl {
 		case GainTreasureFromTrash:
 			Card firstTreasure = null;
 			for (Card c : game.GetTrashPile()) {
-                if (c.is(Type.Treasure, player)) {
+                if (c.is(Type.Treasure, player, context)) {
                 	firstTreasure = c;
                     break;
                 }
             }
 			if (firstTreasure == null) return;
 			Card card = player.controlPlayer.treasurer_treasureToGainFromTrash(context);
-            if (card == null || !card.is(Type.Treasure, player) || !game.GetTrashPile().contains(card)) {
+            if (card == null || !card.is(Type.Treasure, null, context) || !game.GetTrashPile().contains(card)) {
                 Util.playerError(player, "Treasurer card to gain invalid, choosing one.");
                 card = firstTreasure;
                 return;

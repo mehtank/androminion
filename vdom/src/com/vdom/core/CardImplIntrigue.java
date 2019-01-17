@@ -216,7 +216,7 @@ public class CardImplIntrigue extends CardImpl {
                 if (card.is(Type.Action, currentPlayer)) {
                     context.actions++;
                 }
-                if (card.is(Type.Treasure, currentPlayer)) {
+                if (card.is(Type.Treasure, currentPlayer, context)) {
                     context.addCoins(1);
                 }
                 if (card.is(Type.Victory, currentPlayer)) {
@@ -895,7 +895,7 @@ public class CardImplIntrigue extends CardImpl {
                 if (card.is(Type.Action, nextPlayer)) {
                     context.actions += 2;
                 }
-                if (card.is(Type.Treasure, nextPlayer)) {
+                if (card.is(Type.Treasure, nextPlayer, context)) {
                     context.addCoins(2);
                 }
                 if (card.is(Type.Victory, nextPlayer)) {

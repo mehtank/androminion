@@ -299,7 +299,7 @@ public class CardImplGuilds extends CardImpl {
         boolean valid = false;
 
         for (Card c : currentPlayer.hand) {
-            if (c.is(Type.Treasure, currentPlayer)) {
+            if (c.is(Type.Treasure, currentPlayer, context)) {
                 valid = true;
             }
         }
@@ -307,7 +307,7 @@ public class CardImplGuilds extends CardImpl {
         if (valid) {
             Card toDiscard = currentPlayer.controlPlayer.plaza_treasureToDiscard(context);
 
-            if (toDiscard != null && currentPlayer.hand.contains(toDiscard) && toDiscard.is(Type.Treasure, currentPlayer)) {
+            if (toDiscard != null && currentPlayer.hand.contains(toDiscard) && toDiscard.is(Type.Treasure, currentPlayer, context)) {
                 currentPlayer.hand.remove(toDiscard);
                 currentPlayer.reveal(toDiscard, this.getControlCard(), context);
                 currentPlayer.discard(toDiscard, this.getControlCard(), context);
@@ -383,7 +383,7 @@ public class CardImplGuilds extends CardImpl {
         if (currentPlayer.getHand().size() > 0) {
             Card card = currentPlayer.controlPlayer.taxman_treasureToTrash(context);
 
-            if (card != null && card.is(Type.Treasure, currentPlayer)) {
+            if (card != null && card.is(Type.Treasure, currentPlayer, context)) {
                 currentPlayer.trashFromHand(card, this.getControlCard(), context);
 
                 for (Player player : game.getPlayersInTurnOrder()) {
@@ -408,7 +408,7 @@ public class CardImplGuilds extends CardImpl {
 
                 Card newCard = currentPlayer.controlPlayer.taxman_treasureToObtain(context, card.getCost(context) + 3, card.getDebtCost(context), card.costPotion());
 
-                if (newCard != null && Cards.isSupplyCard(newCard) && newCard.is(Type.Treasure, null) 
+                if (newCard != null && Cards.isSupplyCard(newCard) && newCard.is(Type.Treasure, null, context) 
                 		&& newCard.getCost(context) <= card.getCost(context) + 3
                 		&& newCard.getDebtCost(context) <= card.getDebtCost(context)
                 		&& (!newCard.costPotion() || card.costPotion())

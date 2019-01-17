@@ -91,7 +91,7 @@ public class CardImplCornucopia extends CardImpl {
 
         ArrayList<Card> toDiscard = new ArrayList<Card>();
 
-        while ((draw = game.draw(context, Cards.farmingVillage, -1)) != null && !(draw.is(Type.Action, currentPlayer)) && !(draw.is(Type.Treasure, currentPlayer))) {
+        while ((draw = game.draw(context, Cards.farmingVillage, -1)) != null && !(draw.is(Type.Action, currentPlayer)) && !(draw.is(Type.Treasure, currentPlayer, context))) {
             toDiscard.add(draw);
         }
 

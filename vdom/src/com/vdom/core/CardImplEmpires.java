@@ -266,7 +266,7 @@ public class CardImplEmpires extends CardImpl {
         }
         
         currentPlayer.trashFromHand(cardToTrash, this.getControlCard(), context);
-        boolean isTreasure = cardToTrash.is(Type.Treasure, null);
+        boolean isTreasure = cardToTrash.is(Type.Treasure, null, context);
         int coinCost = cardToTrash.getCost(context);
     	
         if (coinCost >= 3) {
@@ -591,7 +591,7 @@ public class CardImplEmpires extends CardImpl {
         
         currentPlayer.trashFromHand(cardToTrash, this.getControlCard(), context);
         boolean isAction = cardToTrash.is(Type.Action, cardToTrash.behaveAsCard().getKind() == Kind.Fortress ? currentPlayer : null);
-        boolean isTreasure = cardToTrash.is(Type.Treasure);
+        boolean isTreasure = cardToTrash.is(Type.Treasure, null, context);
         boolean isVictory = cardToTrash.is(Type.Victory);
         
         if (isAction) {

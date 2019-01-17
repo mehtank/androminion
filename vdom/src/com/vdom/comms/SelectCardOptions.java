@@ -220,8 +220,8 @@ public class SelectCardOptions implements Serializable {
         if (lessThanMax && !((cost < maxCost || debtCost < maxDebtCost || potionCost < potionCost) && 
         		(cost <= maxCost && debtCost <= maxDebtCost && potionCost <= potionCost))) return false;
         if (isReaction && !(c.is(Type.Reaction, p))) return false;
-        if (isTreasure && !(c.is(Type.Treasure, p))) return false;
-        if (isNonTreasure && (c.is(Type.Treasure, p))) return false;
+        if (isTreasure && !(c.is(Type.Treasure, p, context))) return false;
+        if (isNonTreasure && (c.is(Type.Treasure, p, context))) return false;
         if (isVictory && !cardIsVictory) return false;
         if (isNonVictory && cardIsVictory) return false;
         if (fromPrizes && !c.is(Type.Prize, null)) return false;

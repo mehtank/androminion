@@ -489,7 +489,7 @@ public class VDomPlayerSarah extends BasePlayer {
                 card.equals(Cards.disciple) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 card.equals(Cards.kingsCourt) && throneRoomAndKingsCourtCount >= throneRoomsAndKingsCourtsMax ||
                 context.getEmbargosIfCursesLeft(card) > 0 ||
-                !(card.is(Type.Action, context.player)) && !(card.is(Type.Treasure, null)) && !(card.is(Type.Event) || card.is(Type.Project));
+                !(card.is(Type.Action, context.player)) && !(card.is(Type.Treasure, null, context)) && !(card.is(Type.Event) || card.is(Type.Project));
     }
 
     @Override
@@ -639,7 +639,7 @@ public class VDomPlayerSarah extends BasePlayer {
             final ArrayList<Card> cards = new ArrayList<Card>();
             int coinWithoutCopper = 0;
             for(final Card c : context.getPlayer().getHand()) {
-                if(c.is(Type.Treasure, this) && !c.equals(Cards.copper)) {
+                if(c.is(Type.Treasure, this, context) && !c.equals(Cards.copper)) {
                     cards.add(c);
                     coinWithoutCopper += c.getAddGold();
                 }

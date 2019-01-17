@@ -176,7 +176,7 @@ public class CardImplAlchemy extends CardImpl {
             	//Condition is wrong for when player is being possessed and Fortress is set aside
                 currentPlayer.gainNewCard(Cards.duchy, this.getControlCard(), context);
             }
-            if (cardToTrash.is(Type.Treasure)) {	
+            if (cardToTrash.is(Type.Treasure, null, context)) {	
                 currentPlayer.gainNewCard(Cards.transmute, this.getControlCard(), context);
             }
             if (cardToTrash.is(Type.Victory, currentPlayer)) {

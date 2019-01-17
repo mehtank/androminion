@@ -482,7 +482,7 @@ public class CardImplHinterlands extends CardImpl {
         
         Card cardToTrash = currentPlayer.controlPlayer.jackOfAllTrades_nonTreasureToTrash(context);
         if(cardToTrash != null) {
-            if(!currentPlayer.hand.contains(cardToTrash) || cardToTrash.is(Type.Treasure, currentPlayer)) {
+            if(!currentPlayer.hand.contains(cardToTrash) || cardToTrash.is(Type.Treasure, currentPlayer, context)) {
                 Util.playerError(currentPlayer, "Jack of All Trades returned invalid card to trash from hand, ignoring.");
             }
             else {
@@ -547,7 +547,7 @@ public class CardImplHinterlands extends CardImpl {
                     }
                     targetPlayer.reveal(card, this.getControlCard(), targetContext);
 
-                    if (card.is(Type.Treasure, targetPlayer)) {
+                    if (card.is(Type.Treasure, targetPlayer, context)) {
                         treasureRevealed = true;
                     }
 
@@ -687,7 +687,7 @@ public class CardImplHinterlands extends CardImpl {
     private void spiceMerchant(Game game, MoveContext context, Player currentPlayer) {
         boolean handContainsTreasure = false;
         for(Card c : currentPlayer.hand) {
-            if(c.is(Type.Treasure, currentPlayer)) {
+            if(c.is(Type.Treasure, currentPlayer, context)) {
                 handContainsTreasure = true;
                 break;
             }
@@ -696,7 +696,7 @@ public class CardImplHinterlands extends CardImpl {
         if(handContainsTreasure) {
             Card treasure = currentPlayer.controlPlayer.spiceMerchant_treasureToTrash(context);
             if(treasure != null) {
-                if(!currentPlayer.hand.contains(treasure) || !treasure.is(Type.Treasure, currentPlayer)) {
+                if(!currentPlayer.hand.contains(treasure) || !treasure.is(Type.Treasure, currentPlayer, context)) {
                     Util.playerError(currentPlayer, "Spice Merchant returned invalid card to trash from hand, ignoring.");
                 }
                 else {
@@ -720,7 +720,7 @@ public class CardImplHinterlands extends CardImpl {
     private void stables(Game game, MoveContext context, Player currentPlayer) {
         boolean valid = false;
         for(Card c : currentPlayer.hand) {
-            if(c.is(Type.Treasure, currentPlayer)) {
+            if(c.is(Type.Treasure, currentPlayer, context)) {
                 valid = true;
             }
         }
@@ -729,7 +729,7 @@ public class CardImplHinterlands extends CardImpl {
             Card toDiscard = currentPlayer.controlPlayer.stables_treasureToDiscard(context);
 
             // this.getControlCard() is optional, so ignore it if it's null or invalid
-            if (toDiscard != null && currentPlayer.hand.contains(toDiscard) && toDiscard.is(Type.Treasure, currentPlayer)) {
+            if (toDiscard != null && currentPlayer.hand.contains(toDiscard) && toDiscard.is(Type.Treasure, currentPlayer, context)) {
                 currentPlayer.hand.remove(toDiscard);
                 currentPlayer.reveal(toDiscard, this.getControlCard(), context);
                 currentPlayer.discard(toDiscard, this.getControlCard(), context);
