@@ -5010,7 +5010,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 			}
 		}
     	Card[] result = lowestCards(context, actions, 1, false);
-    	return result.length > 0 ? result[0] : null;
+    	return (result != null && result.length > 0) ? result[0] : null;
     }
     
     @Override
