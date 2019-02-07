@@ -132,11 +132,8 @@
     <string name="include_cards_percent">%1$s%% de chance</string>
     <string name="random_include_events">Cartes événements: </string>
     <string name="random_events_none">Aucune</string>
-    <string name="random_events_random">Aléatoire</string>
     <string name="random_include_landmarks">Jalons: </string>
     <string name="random_landmarks_none">Aucun</string>
-    <string name="random_landmarks_random">Aléatoire</string>
-    <string name="random_include_cards">Inclure les cartes Royaume de</string>
     <string name="select_players">Sélectionner les joueurs:</string>
 	<string name="random_players">Aléatoires</string>
 	<string name="probability_2_players">Probabilité 2 joueurs</string>
