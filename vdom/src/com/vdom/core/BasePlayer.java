@@ -4518,23 +4518,28 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public Card changeling_cardToGain(MoveContext context, Card[] cards) {
-    	HashSet<Card> cardsToMatch = new HashSet<Card>();
+    	HashSet<Card> goodCardsToMatch = new HashSet<Card>();
+        HashSet<Card> badCardsToMatch = new HashSet<Card>();
 		for(Card card : cards) {
 			boolean good = true;
 			for(Card trash : getTrashCards()) {
 				if(card.equals(trash)) {
+                    badCardsToMatch.add(card);
 					good = false;
 					break;
 				}
 			}
 			if(good) {
-				cardsToMatch.add(card);
+				goodCardsToMatch.add(card);
 			}
 		}
     	ArrayList<Card> sorted = new ArrayList<Card>();
-    	sorted.addAll(cardsToMatch);
+    	sorted.addAll(goodCardsToMatch);
+        if (sorted.size() == 0) {
+            sorted.addAll(badCardsToMatch);
+        }
     	Collections.sort(sorted, new Util.CardCostComparatorDesc());
-    	return sorted.get(0);
+    	return sorted.size() > 0 ? sorted.get(0) : null;
     }
     
     @Override
