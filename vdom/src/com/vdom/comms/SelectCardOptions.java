@@ -82,6 +82,7 @@ public class SelectCardOptions implements Serializable {
     public boolean isNonTreasure = false;
     public boolean isVictory = false;
     public boolean isNonVictory = false;
+    public boolean isNonDuration = false;
     public boolean isAttack = false;
     public boolean isCastle = false;
     public boolean isNonShelter = false;
@@ -148,6 +149,7 @@ public class SelectCardOptions implements Serializable {
     public SelectCardOptions isNonTreasure() {isNonTreasure = true; return this;}
     public SelectCardOptions isVictory() {isVictory = true; return this;}
     public SelectCardOptions isNonVictory() {isNonVictory = true; return this;}
+    public SelectCardOptions isNonDuration() {isNonDuration = true; return this;}
     public SelectCardOptions isAttack() {isAttack = true; return this;}
     public SelectCardOptions isSupplyCard() {isSupplyCard = true; return this;}
     public SelectCardOptions noTokens() {noTokens = true; return this;}
@@ -224,6 +226,7 @@ public class SelectCardOptions implements Serializable {
         if (isNonTreasure && (c.is(Type.Treasure, p, context))) return false;
         if (isVictory && !cardIsVictory) return false;
         if (isNonVictory && cardIsVictory) return false;
+        if (isNonDuration && (c.is(Type.Duration, p, context))) return false;
         if (fromPrizes && !c.is(Type.Prize, null)) return false;
         if (fromTable && !fromPrizes && c.is(Type.Prize, null)) return false;
         if (isNonRats && c.equals(Cards.rats)) return false;

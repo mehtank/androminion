@@ -1073,6 +1073,10 @@
     <string name="Avanto_desc">Puedes jugar una carta de Sauna de tu mano.</string>
     <string name="Dismantle_name">Desmantelar</string>
     <string name="Dismantle_desc">Elimina una carta de tu mano. Si tiene un coste de (1) Moneda o más, gana una carta con un coste inferior y una carta de Oro.</string>
+    <string name="Church_name">Iglesia</string>
+    <string name="Church_desc">Aparta hasta 3 cartas de tu mano, boca abajo. Al comienzo de tu próximo turno, ponlas en tu mano, entonces puedes eliminar una carta de tu mano.</string>
+    <string name="Captain_name">Capitán</string>
+    <string name="Captain_desc">Ahora y al comienzo de tu próximo turno:\nJuega una carta que sea de Acción y no de Duración del Suministro con un coste máximo de (4) Monedas, dejándola ahí.</string>
     
     <string name="SaunaAvanto_name">Sauna/Avanto</string>
     <string name="SaunaAvanto_desc">Al comienzo del juego, este montón tiene 5 copias de Sauna encima, y entonces 5 copias de Avanto. Sólo la carta encima del montón se puede ganar o comprar.</string>

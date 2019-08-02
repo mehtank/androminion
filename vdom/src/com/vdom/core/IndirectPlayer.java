@@ -2704,6 +2704,29 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.dismantle);
         return getFromTable(context, sco);
     }
+    
+    @Override
+    public Card captain_cardToPlay(MoveContext context) {
+    	 SelectCardOptions sco = new SelectCardOptions()
+	         .maxCost(4).maxDebtCost(0).maxPotionCost(0).isAction().isNonDuration().isSupplyCard()
+	         .setCardResponsible(Cards.captain);
+    	 return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card[] church_cardsToSetAside(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPassable().setCount(3)
+                .setCardResponsible(Cards.church);
+        return getFromHand(context, sco);
+    }
+    
+    @Override
+    public Card church_cardToTrash(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().setPassable()
+                .setPickType(PickType.TRASH).setActionType(ActionType.TRASH)
+                .setCardResponsible(Cards.church);
+        return getCardFromHand(context, sco);
+    }
 
     @Override
     public boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] cards) {

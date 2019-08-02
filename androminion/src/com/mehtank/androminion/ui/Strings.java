@@ -89,6 +89,11 @@ public class Strings {
         initActionStrings();
     }
     
+    private static String getTrashString() {
+        Resources r = context.getResources();
+        return r.getString(R.string.trash);
+    }
+    
     public static String getCardName(Card c) {
         String name = nameCache.get(c);
         if(name == null) {
@@ -651,6 +656,19 @@ public class Strings {
                     	String cardsString = TextUtils.join(", ", cardNames);
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
                                 + " (" + "\u261e" + cardsString + ")";
+                    } else if ( ((Card)options[i]).equals(Cards.church) ) {
+                    	@SuppressWarnings("unchecked")
+						ArrayList<Card> handCards = (ArrayList<Card>) options[i+1];
+                    	String handCardsString = "";
+                    	if (!handCards.isEmpty()) {
+                    		ArrayList<String> cardNames = new ArrayList<String>(handCards.size());
+                        	for (Card c : handCards)
+                        		cardNames.add(getCardName(c));
+                        	String cardsString = TextUtils.join(", ", cardNames);
+                            handCardsString = "\u261e" + cardsString + "; ";
+                    	}
+                        strings2[(i - startIndex)/2] = getCardName((Card)options[i]) 
+                                + " (" + handCardsString + getTrashString() + ")";
                     } else if ( ((Card)options[i]).equals(Cards.archive) || ((Card)options[i]).equals(Cards.crypt) ) {
                     	@SuppressWarnings("unchecked")
 						ArrayList<Card> archiveCards = (ArrayList<Card>) options[i+1];
@@ -1569,7 +1587,11 @@ public class Strings {
                 } else if (sco.isTreasure) {
                     selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
                 } else if (sco.isAction) {
-                    selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
+                	if (sco.isNonDuration) {
+                		selectString = Strings.format(R.string.select_from_table_max_action_non_duration, maxCostString, header);
+                	} else {
+                		selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
+                	}
                 } else if (sco.isSpirit && sco.lessThanMax) {
                 	selectString = Strings.format(R.string.select_from_table_less_spirit, maxCostString, header);
                 } else if (containsOnlyEvents(sco)) {
@@ -2011,6 +2033,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.training), getString(R.string.part_move_token_plus_one_coin));
         actionStringMap.put(getCardName(Cards.university), getString(R.string.university_part));
         actionStringMap.put(getCardName(Cards.urchin), getString(R.string.urchin_keep));
+        actionStringMap.put(getCardName(Cards.captain), getString(R.string.part_play));
     }
 
     public static String getActionCardText(SelectCardOptions sco) {
@@ -2148,6 +2171,12 @@ public class Strings {
         		return format(R.string.the_earths_gift_part, cardName);
             } else {
             	return getActionString(sco);
+            }
+        } else if (cardName.equals(getCardName(Cards.church))) {
+            if (sco.pickType == PickType.TRASH) {
+            	return getActionString(sco);
+            } else {
+            	return getString(R.string.church_part);
             }
         }
         

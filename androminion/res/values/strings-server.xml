@@ -89,6 +89,7 @@
 	<string name="select_from_table_max_non_vp_action">Select a non-Victory action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_vp">Select a Victory card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_action">Select an Action card from the table that costs at most (%1$s) to %2$s</string>
+	<string name="select_from_table_max_action_non_duration">Select a non-Duration Action card from the table that costs at most (%1$s) to %2$s</string>
 	<string name="select_from_table_max_except">Select a card from the table, except %1$s, that costs at most (%2$s) to %3$s</string>
 	<string name="select_from_table_between">Select a card from the table that costs between (%1$s) and (%2$s) to %3$s</string>
 	<string name="select_from_table_min">Select a card from the table that costs at least (%1$s) to %2$s</string>
@@ -418,11 +419,13 @@
 	
 	<string name="bureaucrat_part">put on top of your deck</string>
 	
-	<string name="haven_part">put aside [Haven]</string>
+	<string name="haven_part">set aside [Haven]</string>
 	
-	<string name="gear_part">put aside [Gear]</string>
+	<string name="gear_part">set aside [Gear]</string>
   
-	<string name="save_part">put aside [Save]</string>
+	<string name="save_part">set aside [Save]</string>
+	
+	<string name="church_part">set aside [Church]</string>
 	
 	<string name="island_part">put on island mat</string>
 

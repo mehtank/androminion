@@ -982,6 +982,10 @@
     <string name="Avanto_desc">Vous pouvez jouer une carte Sauna de votre main.</string>
     <string name="Dismantle_name">Démantèlement</string>
     <string name="Dismantle_desc">Écartez une carte de votre main. Si elle coûte (1) Pièce ou plus, recevez une carte de moindre coût et un Or.</string>
+    <string name="Church_name">Église</string>
+    <string name="Church_desc">Mettez de côté jusqu\'à 3 cartes de votre main, face cachée. Au début de votre prochain tour, prenez-les en main, puis vous pouvez écarter une carte de votre main.</string>
+    <string name="Captain_name">Capitaine</string>
+    <string name="Captain_desc">Maintenant et au début de votre prochain tour :\njouez une carte Action non-Durée depuis la réserve coûtant jusqu\'à 4 Pièces, en la laissant dans la réserve.</string>
     
     <string name="SaunaAvanto_name">Sauna/Trou dans la Glace</string>
     <string name="SaunaAvanto_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Sauna sur le dessus, puis 5 exemplaires de la carte Trou dans la Glace. Seule la carte du dessus peut être reçue ou achetée.</string>

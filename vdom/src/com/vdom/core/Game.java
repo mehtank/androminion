@@ -1228,7 +1228,9 @@ public class Game {
              */
             if(thisCard.equals(Cards.amulet)
                || thisCard.equals(Cards.dungeon)
-               || thisCard.equals(Cards.cobbler)) {
+               || thisCard.equals(Cards.cobbler)
+               || thisCard.equals(Cards.captain)
+               || thisCard.equals(Cards.church)) {
                 allDurationAreSimple = false;
             }
             if(thisCard.equals(Cards.haven)) {
@@ -1278,6 +1280,13 @@ public class Game {
             	if(player.research.size() > 0) {
             		durationEffects.add(cardOrEffect);
             		durationEffects.add(player.research.remove(0));
+            		durationEffectsAreCards.add(effectHasCard);
+            		durationEffectsAreCards.add(false);
+            	}
+            } else if (thisCard.equals(Cards.church)) {
+            	if(player.church.size() > 0) {
+            		durationEffects.add(cardOrEffect);
+            		durationEffects.add(player.church.remove(0));
             		durationEffectsAreCards.add(effectHasCard);
             		durationEffectsAreCards.add(false);
             	}
@@ -1512,7 +1521,8 @@ public class Game {
             	if(card.behaveAsCard().equals(Cards.haven) || card.behaveAsCard().equals(Cards.cargoShip)) {
                     player.hand.add(card2);
                 }
-                if(card.behaveAsCard().equals(Cards.gear) || card.behaveAsCard().equals(Cards.research)) {
+                if(card.behaveAsCard().equals(Cards.gear) || card.behaveAsCard().equals(Cards.research) 
+                		|| card.behaveAsCard().equals(Cards.church)) {
                 	for (Card c : setAsideCards)
                 		player.hand.add(c);
                 }
@@ -1582,6 +1592,25 @@ public class Game {
                     card2.play(this, context, false);
                     card2.play(this, context, false, false, false, false, true);
                     context.freeActionInEffect--;
+                }
+                if (thisCard.getKind() == Cards.Kind.Captain) {
+                	((CardImplPromo) thisCard).captainEffect(context.game, context, player);
+                }
+                
+                if (card.behaveAsCard().equals(Cards.church)) {
+                	CardList hand = player.getHand();
+                    if (hand.size() == 0) {
+                        return;
+                    }
+
+                    Card cardToTrash = player.controlPlayer.church_cardToTrash(context);
+                    if (cardToTrash != null) {
+	                    if (!player.hand.contains(cardToTrash)) {
+	                        Util.playerError(player, "Church card to trash error, trashing none.");
+	                    } else {
+	                    	player.trashFromHand(cardToTrash, card.behaveAsCard(), context);
+	                    }
+                    }
                 }
             } else if(card.behaveAsCard().isCallableWhenTurnStarts()) {
             	numOptionalItems -= 2;

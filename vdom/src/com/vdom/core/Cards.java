@@ -151,7 +151,7 @@ public class Cards {
         
         // Promo Cards
         Envoy, Governor, WalledVillage, Prince, BlackMarket, Stash, Summon, Sauna, Avanto, Dismantle,
-        SaunaAvanto,
+        SaunaAvanto, Church, Captain,
         // Promo Cards (not yet implemented)
         // Stash
         // Victory token card container
@@ -731,6 +731,8 @@ public class Cards {
     public static final Card sauna;
     public static final Card avanto;
     public static final Card dismantle;
+    public static final Card church;
+    public static final Card captain;
     
     public static final Card virtualSaunaAvanto;
 
@@ -1338,6 +1340,8 @@ public class Cards {
         actionCardsPromo.add(stash         = new CardImpl.Builder(Cards.Kind.Stash, 5, Type.Treasure).addGold(2).description("When you shuffle, you may put this anywhere in your deck.").expansion(Expansion.Promo).build());
         actionCardsPromo.add(virtualSaunaAvanto = new CardImpl.Builder(Cards.Kind.SaunaAvanto, 4, Type.Action).pileCreator(new SplitPileCreator(sauna, avanto)).description("This pile starts the game with 5 copies of Sauna on top, then 5 copies of Avanto. Only the top card of the pile can be gained or bought.").expansion(Expansion.Promo).build());
         actionCardsPromo.add(dismantle     = new CardImpl.Builder(Cards.Kind.Dismantle, 4, Type.Action).description("Trash a card from your hand. If it costs (1) Coin or more, gain a cheaper card and a Gold.").expansion(Expansion.Promo).build());
+        actionCardsPromo.add(church        = new CardImpl.Builder(Cards.Kind.Church, 3, Type.Action, Type.Duration).addActions(1).description("Set aside up to 3 cards from your hand face down. At the start of your next turn, put them into your hand, then you may trash a card from your hand.").expansion(Expansion.Promo).build());
+        actionCardsPromo.add(captain       = new CardImpl.Builder(Cards.Kind.Captain, 6, Type.Action, Type.Duration).description("Now and at the start of your next turn: Play a non-Duration Action card from the Supply costing up to (4) Coins, leaving it there.").expansion(Expansion.Promo).build());
         
         eventCardsPromo.add(summon         = new CardImpl.Builder(Cards.Kind.Summon, 5, Type.Event).description("Gain an Action card costing up to 4 Coins. Set it aside. If you do, then at the start of your next turn, play it.").expansion(Expansion.Promo).build());
 

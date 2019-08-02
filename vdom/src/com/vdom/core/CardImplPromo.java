@@ -25,6 +25,12 @@ public class CardImplPromo extends CardImpl {
 		case BlackMarket:
             blackMarket(game, context, currentPlayer);
             break;
+		case Captain:
+			captain(game, context, currentPlayer, isThronedEffect);
+			break;
+		case Church:
+			church(game, context, currentPlayer, isThronedEffect);
+			break;
 		case Dismantle:
 			dismantle(game, context, currentPlayer);
 			break;
@@ -155,6 +161,62 @@ public class CardImplPromo extends CardImpl {
         
         context.blackMarketBuyPhase = false;
     }
+	
+	private void captain(Game game, MoveContext context, Player player, boolean isThronedEffect) {
+		player.addStartTurnDurationEffect(this, 1, isThronedEffect);
+		captainEffect(game, context, player);
+    }
+	
+	public void captainEffect(Game game, MoveContext context, Player player) {
+		Card cardToPlay = player.controlPlayer.captain_cardToPlay(context);
+        if (cardToPlay != null 
+	            && !game.isPileEmpty(cardToPlay)
+	            && Cards.isSupplyCard(cardToPlay)
+	            && cardToPlay.is(Type.Action, null)
+	            && !cardToPlay.is(Type.Duration, null)
+	            && cardToPlay.getCost(context) <= 4
+	            && cardToPlay.getDebtCost(context) == 0
+	        	&& !cardToPlay.costPotion()) {
+        	context.freeActionInEffect++;
+        	cardToPlay.play(game, context, false, false, true, false, false);
+            context.freeActionInEffect--;
+        } else {
+            Card[] cards = game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Action);
+            if (cards.length != 0 && cardToPlay != null) {
+                Util.playerError(player, "Captain returned invalid card (" + cardToPlay.getName() + "), ignoring.");
+            }
+            return;
+        }
+	}
+	
+	private void church(Game game, MoveContext context, Player player, boolean isThronedEffect) {
+        Card[] cards = player.getHand().size() == 0 ? null : player.controlPlayer.church_cardsToSetAside(context);
+        if (cards != null && cards.length > 3) {
+        	Util.playerError(player, "Church: Tried to set aside too many cards. Setting aside zero.");
+        	cards = null;
+        } 
+        if (cards != null && !Util.areCardsInHand(cards, context)) {
+        	Util.playerError(player, "Church: Tried to set aside cards not in hand. Setting aside zero.");
+        	cards = null;
+        }
+        
+        if (cards == null) cards = new Card[0];
+    	ArrayList<Card> churchCards = new ArrayList<Card>();
+        for (Card card : cards) {
+            if (card != null) {
+                player.getHand().remove(card);
+                churchCards.add(card);
+                GameEvent event = new GameEvent(GameEvent.EventType.CardSetAsidePrivate, (MoveContext) context);
+                event.card = card;
+                event.responsible = this;
+                event.setPrivate(true);
+                context.game.broadcastEvent(event);
+            }
+        }
+        
+        player.church.add(churchCards);
+        player.addStartTurnDurationEffect(this, 1, isThronedEffect);
+	}
 	
 	private void dismantle(Game game, MoveContext context, Player player) {
 		CardList hand = player.getHand();

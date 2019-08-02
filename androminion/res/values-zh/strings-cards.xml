@@ -971,6 +971,10 @@
     <string name="Avanto_desc">你可以打出手牌中的一张&lt;桑拿&gt;。</string>
     <string name="Dismantle_name">拆除</string>
     <string name="Dismantle_desc">废弃一张手牌，若它价值至少为(1)，获取一张价值低于它的卡和一张&lt;黄金&gt;。</string>
+    <string name="Church_name">教會</string>
+    <string name="Church_desc">將手上至多三張卡面朝下放到一邊，在你下次回合開始的時候，將他們加入手牌中，你可以移除一張手牌。</string>
+    <string name="Captain_name">船長</string>
+    <string name="Captain_desc">現在和下次你回合開始的時候：\n選擇供應區裡的一張價值(4)以下的行動卡，但不能是持續卡，發動該卡效果。</string>
     
     <string name="SaunaAvanto_name">桑拿&amp;冬泳</string>
     <string name="SaunaAvanto_desc">这个补给堆上五张为&lt;桑拿&gt;，下五张为&lt;冬泳&gt;。只有顶端的卡可以被获得或是购买。</string>

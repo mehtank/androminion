@@ -452,4 +452,8 @@
     
     <string name="Stash_name">へそくり</string>
     <string name="Stash_desc">When you shuffle, you may put this anywhere in your deck.</string>
+    <string name="Church_name">教会</string>
+    <string name="Church_desc">手札から3枚以下を脇に伏せて置く。あなたの次のターンの開始時にそれらを手札に加え、その後、手札1枚を廃棄してもよい。</string>
+    <string name="Captain_name">船長</string>
+    <string name="Captain_desc">現在とあなたの次のターンの開始時に、サプライにあるコスト(4)コイン以下の、持続カード以外のアクションカード1枚を、場に出さずに使用する。</string>
 </resources>

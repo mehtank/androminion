@@ -970,6 +970,6 @@ public class CardSet {
 		CardSetMap.put(GameType.BecomingAMonster, new CardSet(new Card[] { Cards.experiment, Cards.mountainVillage, Cards.oldWitch, Cards.research, Cards.spices, Cards.devilsWorkshop, Cards.monastery, Cards.shepherd, Cards.skulk, Cards.tragicHero, Cards.exploration}));
 		CardSetMap.put(GameType.TrueBelievers, new CardSet(new Card[] { Cards.borderGuard, Cards.cargoShip, Cards.scholar, Cards.sculptor, Cards.villain, Cards.blessedVillage, Cards.crypt, Cards.faithfulHound, Cards.sacredGrove, Cards.secretCave, Cards.cathedral, Cards.piazza}));
 		
-		//CardSetMap.put(GameType.Test, new CardSet(new Card[] {Cards.pixie, Cards.fool, Cards.ghostTown, Cards.leprechaun, Cards.cemetery, Cards.devilsWorkshop, Cards.exorcist, Cards.necromancer, Cards.crypt, Cards.idol, Cards.vampire, Cards.werewolf, Cards.raider, Cards.overlord, Cards.ferry, Cards.inheritance, Cards.bonfire, Cards.page, Cards.vampire, Cards.highway}));
+		//CardSetMap.put(GameType.Test, new CardSet(new Card[] {Cards.church, Cards.fool, Cards.ghostTown, Cards.gear, Cards.captain, Cards.village, Cards.workshop, Cards.necromancer, Cards.harbinger, Cards.militia, Cards.werewolf, Cards.smithy, Cards.raider, Cards.overlord, Cards.ferry, Cards.cityGate, Cards.inheritance, Cards.bonfire, Cards.highway}));
 	}
 }

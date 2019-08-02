@@ -410,6 +410,7 @@
     <string name="haven_part">mettre de côté [Havre]</string>
 	<string name="gear_part">mettre de côté [Équipement]</string>
     <string name="save_part">mettre de côté [Resserre]</string>
+    <string name="church_part">mettre de côté [Église]</string>
 	<string name="island_part">mettre sur le plateau Île</string>
 	<!-- Mascarade -->
 	<string name="masquerade_part">passer à votre gauche</string>

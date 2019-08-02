@@ -49,8 +49,9 @@
 		<![CDATA[
 		<h3>Bitte lesen!</h3>
 		Rio Grande Games, der Herausgeber von Dominion, hat uns aufgefordert, die Verbreitung von Androminion im Play Store, da sie eine offizielle digitale Version ihres Spiels herausbringen. Bitte veröffentliche Anrdominion in keinem öffentlichen AppStore.<br><br>
-		<h3>Version 9.05</h3>
+		<h3>Version 9.06</h3>
 		* Renaissance Erweiterung <br>
+		* Promokarten: Kapitän Tobias, Schweriner Dom
 		<h3>Version 8.10</h3>
 		* Nachtmusik Erweiterung <br>
 		* Promokarte: Abbruch
@@ -154,13 +155,6 @@
 	<string name="random_expansion_allocation_random">Zufällig</string>
 	<string name="random_expansion_allocation_even">Gleichmäßig</string>
 	<string name="random_expansion_allocation_proportional">Proportional</string>
-	<string name="random_include_events">Ereignisse: </string>
-	<string name="random_events_none">Keine</string>
-	<string name="random_events_random">Zufällig</string>
-	<string name="random_include_landmarks">Sehenswürdigkeit: </string>
-	<string name="random_landmarks_none">Keine</string>
-	<string name="random_landmarks_random">Zufällig</string>
-	<string name="random_include_cards">Mit Königreichkarten aus</string>
 	<string name="select_players">Spieler:</string>
 	<string name="player">Spieler </string>
 	<string name="currentplayer">Aktueller Spieler</string>

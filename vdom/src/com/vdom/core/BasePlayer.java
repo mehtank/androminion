@@ -202,6 +202,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except, GetCardsInGameOptions cardsInGameType) {
+    	return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, actionOnly, victoryCardAllowed, mustCostLessThanMax, mustPick, except, cardsInGameType, true);
+    }
+    
+    protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except, GetCardsInGameOptions cardsInGameType, boolean durationsAllowed) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
             maxCost = COST_MAX;
@@ -230,6 +234,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || !context.isCardOnTop(card)
                 || (actionOnly && !(card.is(Type.Action))) 
                 || (!victoryCardAllowed && (card.is(Type.Victory, context.player)) && !card.equals(Cards.curse))
+                || (!durationsAllowed && (card.is(Type.Duration, null)))
                 || (exactCost && (cardCost != maxCost || cardDebt != maxDebtCost || maxPotionCost != cardPotion))
                 || (cardCost > maxCost || cardDebt > maxDebtCost || cardPotion > maxPotionCost)
                 || (mustCostLessThanMax && (cardCost == maxCost && cardDebt == maxDebtCost && maxPotionCost == cardPotion))
@@ -3043,6 +3048,27 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         	card = lowestCard(context, hand, false);
         }
     	return card;
+    }
+    
+    @Override
+    public Card captain_cardToPlay(MoveContext context) {
+    	if (context.getPlayer().getHand().contains(Cards.treasureMap) 
+    			&& !game.isPileEmpty(Cards.treasureMap)
+    			&& Cards.treasureMap.getCost(context) <= 4) {
+    		return Cards.treasureMap;
+    	}
+    	return bestCardInPlay(context, 4, false, 0, false, true, true, false, true, null, GetCardsInGameOptions.TopOfPiles, false);
+    }
+    
+    @Override
+    public Card[] church_cardsToSetAside(MoveContext context) {
+    	//TODO: better logic - Which cards to set aside for next turn
+        return null;
+    }
+    
+    @Override
+    public Card church_cardToTrash(MoveContext context) {
+    	return pickOutCard(context.getPlayer().getHand(), getTrashCards());
     }
     
     @Override

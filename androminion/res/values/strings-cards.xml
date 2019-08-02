@@ -1073,6 +1073,10 @@
     <string name="Avanto_desc">You may play a Sauna from your hand.</string>
     <string name="Dismantle_name">Dismantle</string>
     <string name="Dismantle_desc">Trash a card from your hand. If it costs (1) Coin or more, gain a cheaper card and a Gold.</string>
+    <string name="Church_name">Church</string>
+    <string name="Church_desc">Set aside up to 3 cards from your hand face down. At the start of your next turn, put them into your hand, then you may trash a card from your hand.</string>
+    <string name="Captain_name">Captain</string>
+    <string name="Captain_desc">Now and at the start of your next turn:\nPlay a non-Duration Action card from the Supply costing up to (4) Coins, leaving it there.</string>
     
     <string name="SaunaAvanto_name">Sauna/Avanto</string>
     <string name="SaunaAvanto_desc">This pile starts the game with 5 copies of Sauna on top, then 5 copies of Avanto. Only the top card of the pile can be gained or bought.</string>

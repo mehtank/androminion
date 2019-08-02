@@ -76,6 +76,7 @@ public abstract class Player {
     protected CardList cargoShip;
     protected ArrayList<ArrayList<Card>> research;
     protected int sinisterPlotTokens = 0;
+    protected ArrayList<ArrayList<Card>> church;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     protected List<DurationEffect> startTurnDurationEffects;
     protected int championEffects = 0;
@@ -360,6 +361,7 @@ public abstract class Player {
         ghost = new CardList(this, "Ghost");
         cargoShip = new CardList(this, "Cargo Ship");
         research = new ArrayList<ArrayList<Card>>();
+        church = new ArrayList<ArrayList<Card>>();
         boonsForCleanup = new CardList(this, "Boons");
         nextTurnBoons = new CardList(this, "Boons");
         states = new CardList(this, "States");
@@ -1029,6 +1031,9 @@ public abstract class Player {
         }
         for (ArrayList<Card> curResearch : research) {
         	allCards.addAll(curResearch);
+        }
+        for (ArrayList<Card> curChurch : church) {
+        	allCards.addAll(curChurch);
         }
         if (checkLeadCard != null) {
             allCards.add(checkLeadCard);
@@ -2772,6 +2777,12 @@ public abstract class Player {
     public abstract Card dismantle_cardToTrash(MoveContext context);
     
     public abstract Card dismantle_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
+    
+    public abstract Card captain_cardToPlay(MoveContext context);
+    
+    public abstract Card[] church_cardsToSetAside(MoveContext context);
+    
+    public abstract Card church_cardToTrash(MoveContext context);
     
     public abstract boolean survivors_shouldDiscardTopCards(MoveContext context, Card[] array);
 

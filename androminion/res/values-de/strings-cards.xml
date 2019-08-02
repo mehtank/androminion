@@ -1073,6 +1073,10 @@
     <string name="Avanto_desc">Du darfst eine Sauna aus deiner Hand ausspielen.</string>
     <string name="Dismantle_name">Abbruch</string>
     <string name="Dismantle_desc">Entsorge eine Handkarte. Wenn sie (1) oder mehr kostet, nimm eine billigere Karte und ein Gold.</string>
+    <string name="Church_name">Schweriner Dom</string>
+    <string name="Church_desc">Lege bis zu 3 deiner Handkarten verdeckt zur Seite. Nimm sie zu Beginn deines nächsten Zuges auf deine Hand, danach darfst du eine deiner Handkarten entsorgen.</string>
+    <string name="Captain_name">Kapitän Tobias</string>
+    <string name="Captain_desc">Jetzt und zu Beginn deines nächsten Zuges:\nSpiele eine Aktionskarte im Vorrat, die keine Dauerkarte ist und bis zu (4) Geld kostet und lasse sie dort liegen.</string>
     
     <string name="SaunaAvanto_name">Sauna/Eisloch</string>
     <string name="SaunaAvanto_desc">Spielvorbereitung: Lege auf diese Karte 5 Eisloch und oben darauf 5 Sauna. Es darf immer nur die oberste Karte des Stapels genommen oder gekauft werden.</string>
