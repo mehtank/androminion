@@ -192,8 +192,8 @@
 	<string name="MountainPassBidPass">Passe für</string>
 	<string name="MountainPassBid">Biete %1$s für</string>
 	<string name="VillagersObtained">%1$s Bewohner erhalten</string>
-	<string name="SinisterPlotAdd">Marke für finstere Handlung hinzugefügt: %1$s</string>
-	<string name="SinisterPlotRemove">Marke für finstere Handlung entfernt: %1$s</string>
+	<string name="SinisterPlotAdd">Marke zum finsteren Plan hinzugefügt: %1$s</string>
+	<string name="SinisterPlotRemove">Marke vom finsteren Plan entfernt: %1$s</string>
 	<string name="DeckReplenished">Nachziehstapel aufgefüllt</string>
 	<string name="PlayerAttacking">Greift an</string>
 	<string name="PlayerDefended">Verteidigt</string>
@@ -611,4 +611,3 @@
 
 	<string name="card_played_as_card">%1$s (gespielt als %2$s)</string>
 </resources>
-
