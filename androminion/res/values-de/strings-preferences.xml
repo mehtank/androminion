@@ -42,6 +42,8 @@
 			<string name="next_game_pref_title">Beim Nächsten Spiel</string>
 			<string name="card_counts_pref_title">Anzahl der Karten zeigen</string>
 			<string name="card_counts_pref_summary">Im Nachziehstapel, auf der Hand und alle Karten</string>
+			<string name="vp_counter_pref_title">Siegpunktezähler</string>
+			<string name="vp_counter_pref_summary">Zeige im Spiel immer die Siegpunkte jedes Spielers</string>
 			<string name="mask_names_pref_title">Namen der Mitspieler verstecken</string>
 			<string name="mask_names_pref_summary">Die Namen der KI-Spieler sind während des Spiels unsichtbar</string>
 			<string name="sort_cards_pref_title">Karten in der Hand Sortieren</string>
@@ -62,14 +64,14 @@
 		<string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
 		<string-array name="userlang_names" tools:ignore="MissingTranslation">
 		<item>Voreinstellung</item>
-        <item>Englisch</item>
-        <item>Deutsch</item>
-        <item>Spanisch</item>
-        <item>Französisch</item>
-        <item>Chinesisch</item>
-        <item>Japanisch</item>
-        <item>Niederländisch</item>
-        <item>Russisch</item>
+		<item>Englisch</item>
+		<item>Deutsch</item>
+		<item>Spanisch</item>
+		<item>Französisch</item>
+		<item>Chinesisch</item>
+		<item>Japanisch</item>
+		<item>Niederländisch</item>
+		<item>Russisch</item>
 		</string-array>
 	<string name="game_play_pref_title">Spieleinstellungen</string>
 		<string name="errata_pref_title">Ausgaben und Druckfehler</string>
@@ -96,7 +98,7 @@
 			<string name="erratamoneylender_pref_summary">Entsorgen ist optional</string>
 			<string name="pref_errata_possessor_tokens_pref_title">Possession turn tokens</string>
 			<string-array name="pref_errata_possessor_tokens">
-			    <item>Possessed player takes tokens</item>
+				<item>Possessed player takes tokens</item>
 				<item>Possessing player takes tokens (from Empires)</item>
 				<item>Possessing player takes debt tokens only (from Alchemy 2E)</item>
 			</string-array>
