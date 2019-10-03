@@ -49,7 +49,7 @@
     <string name="Mine_name">Mine</string>
     <string name="Mine_desc">Entsorge eine Geldkarte aus deiner Hand. Nimm dir eine Geldkarte, die bis zu 3 mehr kostet. Nimm diese Geldkarte sofort auf die Hand.</string>
     <string name="Moneylender_name">Geldverleiher</string>
-    <string name="Moneylender_desc">Entsorge ein Kupfer aus deiner Hand. Wenn du das machst, + 3 Geld.</string>
+    <string name="Moneylender_desc">Entsorge ein Kupfer aus deiner Hand. Wenn du das machst, +3 Geld.</string>
     <string name="Remodel_name">Umbau</string>
     <string name="Remodel_desc">Entsorge eine Karte aus deiner Hand. Nimm dir eine Karte die bis zu 2 mehr kostet als die entsorgte Karte.</string>
     <string name="Smithy_name">Schmiede</string>
@@ -71,13 +71,13 @@
     <string name="Gardens_name">Gärten</string>
     <string name="Gardens_desc">Wert 1 Siegpunkt für je 10 Karten im eigenen Kartensatz (abgerundet).</string>
     <string name="Artisan_name">Töpferei</string>
-    <string name="Artisan_desc">Nimm eine Karte vom Vorrat auf die Hand, die bis zu (5) Geld kostet. Lege eine Handkarte auf deinen Nachziehstapel.</string>
+    <string name="Artisan_desc">Nimm eine Karte vom Vorrat auf die Hand, die bis zu 5 Geld kostet. Lege eine Handkarte auf deinen Nachziehstapel.</string>
     <string name="Bandit_name">Banditin </string>
     <string name="Bandit_desc">Nimm ein Gold. Jeder Mitspieler deckt die obersten 2 Karten seines Nachziehstapels auf, entsorgt eine aufgedeckte Geldkarte seiner Wahl - außer Kupfer - und legt den Rest ab.</string>
     <string name="Harbinger_name">Vorbotin</string>
     <string name="Harbinger_desc">Sieh deinen Ablagestapel durch. Du darfst eine Karte daraus auf deinen Nachziehstapel legen.</string>
     <string name="Merchant_name">Händlerin</string>
-    <string name="Merchant_desc">Spielst Du in diesem Zug das erste Mal ein Silber aus: +(1) Geld</string>
+    <string name="Merchant_desc">Spielst Du in diesem Zug das erste Mal ein Silber aus: +1 Geld</string>
     <string name="Poacher_name">Wilddiebin</string>
     <string name="Poacher_desc">Lege pro leerem Vorratsstapel eine Handkarte ab.</string>
     <string name="Sentry_name">Torwächterin</string>
@@ -87,7 +87,7 @@
     <string name="Torturer_name">Kerkermeister</string>
     <string name="Torturer_desc">Jeder Mitspieler muss eins wählen: 2 Karten ablegen oder eine Fluchkarte auf die Hand nehmen.</string>
     <string name="SecretChamber_name">Geheimkammer</string>
-    <string name="SecretChamber_desc">Lege eine beliebige Anzahl Karten aus deiner Hand ab: + 1 Geld für jede abgelegte Karte. (Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand aufdecken. Wenn du das machst: +2 Karten; dann lege 2 Karten aus deiner Hand verdeckt auf den Nachziehstapel.)</string>
+    <string name="SecretChamber_desc">Lege eine beliebige Anzahl Karten aus deiner Hand ab: +1 Geld für jede abgelegte Karte. (Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand aufdecken. Wenn du das machst: +2 Karten; dann lege 2 Karten aus deiner Hand verdeckt auf den Nachziehstapel.)</string>
     <string name="Nobles_name">Adelige</string>
     <string name="Nobles_desc">Wähle eins: +3 Karten oder +2 Aktionen.</string>
     <string name="Coppersmith_name">Kupferschmied</string>
@@ -107,7 +107,7 @@
     <string name="Masquerade_name">Maskerade</string>
     <string name="Masquerade_desc">Alle Spieler (auch du selbst) müssen gleichzeitig eine Karte aus ihrer Hand an ihren linken Nachbarn weiter geben. Danach darfst du eine Karte aus deiner Hand entsorgen.</string>
     <string name="MiningVillage_name">Bergwerk</string>
-    <string name="MiningVillage_desc">Du darfst diese Karte sofort entsorgen. Wenn du das machst: + 2 Geld.</string>
+    <string name="MiningVillage_desc">Du darfst diese Karte sofort entsorgen. Wenn du das machst: +2 Geld.</string>
     <string name="Minion_name">Lakai</string>
     <string name="Minion_desc">Wähle eins: +2 Geld; Oder lege alle deine Handkarten ab: +4 Karten. Jeder Mitspieler, der mindestens 5 Karten auf der Hand hat, muss alle seine Handkarten ablegen und 4 Karten nachziehen.</string>
     <string name="Pawn_name">Handlanger</string>
@@ -135,17 +135,17 @@
     <string name="Duke_name">Herzog</string>
     <string name="Duke_desc">Wert 1 Siegpunkt pro Herzogtum im eigenen Kartensatz.</string>
     <string name="Courtier_name">Höflinge</string>
-    <string name="Courtier_desc">Decke eine Handkarte auf. Für jeden Kartentyp den sie hat, wähle eine andere Option: +1 Aktion, +1 Kauf, +(3) Geld, oder nimm ein Gold.</string>
+    <string name="Courtier_desc">Decke eine Handkarte auf. Für jeden Kartentyp den sie hat, wähle eine andere Option: +1 Aktion, +1 Kauf, +3 Geld, oder nimm ein Gold.</string>
     <string name="Patrol_name">Patrouille</string>
     <string name="Patrol_desc">Decke die obersten 4 Karten deines Nachziehstapels auf. Nimm alle aufgedeckten Punkte- und Fluchkarten auf die Hand. Lege die übrigen Karten in beliebiger Reihenfolge auf deinen Nachziehstapel zurück.</string>
     <string name="Replace_name">Austausch</string>
-    <string name="Replace_desc">Entsorge eine Handkarte. Nimm eine Karte, die bis zu (2) Geld mehr kostet als die entsorgte Karte. Ist die genommene Karte eine Aktions- oder Geldkarte, lege sie auf deinen Nachziehstapel. Ist es eine Punktekarte, nimmt jeder Mitspieler einen Fluch.</string>
+    <string name="Replace_desc">Entsorge eine Handkarte. Nimm eine Karte, die bis zu 2 Geld mehr kostet als die entsorgte Karte. Ist die genommene Karte eine Aktions- oder Geldkarte, lege sie auf deinen Nachziehstapel. Ist es eine Punktekarte, nimmt jeder Mitspieler einen Fluch.</string>
     <string name="Diplomat_name">Diplomatin</string>
     <string name="Diplomat_desc">Hast Du nach dem Ziehen 5 oder weniger Handkarten: +2 Aktionen. Wenn ein Mitspieler eine Angriffskarte ausspielt und Du mindestens 5 Handkarten hast, darfst Du diese Karte aus deiner Hand aufdecken. Wenn Du das tust: Ziehe 2 Karten und lege dann 3 Karten ab.</string>
     <string name="Mill_name">Mühle</string>
-    <string name="Mill_desc">Du darfst 2 Handkarten ablegen. Wenn Du das tust: +(2) Geld</string>
+    <string name="Mill_desc">Du darfst 2 Handkarten ablegen. Wenn Du das tust: +2 Geld</string>
     <string name="SecretPassage_name">Geheimgang</string>
-    <string name="SecretPassage_desc">Lege eine Handkarte an eine beliege Stelle in deinen Nachziehstapel</string>
+    <string name="SecretPassage_desc">Lege eine Handkarte an eine beliebige Stelle in deinen Nachziehstapel</string>
     <string name="Lurker_name">Herumtreiberin</string>
     <string name="Lurker_desc">Wähle eins: Entsorge eine Aktionskarte vom Vorrat oder nimm eine Aktionskarte vom Müll</string>
     <string name="Haven_name">Hafen</string>
@@ -171,7 +171,7 @@
     <string name="Salvager_name">Müllverwerter</string>
     <string name="Salvager_desc">Entsorge eine Karte aus deiner Hand. +X Geld entsprechend den Kosten der entsorgten Karte.</string>
     <string name="PirateShip_name">Piratenschiff</string>
-    <string name="PirateShip_desc">Wähle eins: Jeder Mitspieler muss die obersten beiden Karten von seinem Nachziehstapel aufdecken. Haben die Mitspieler eine oder mehrere Geldkarten aufgedeckt, muss jeder eine davon (nach deiner Wahl) entsorgen. Wenn auf diese Weise mindestens 1 Geldkarte entsorgt wird, erhälst du 1 Geldmarker auf dein Tableau Piratenschiff. Die übrigen aufgedeckten Karten legen die Spieler bei sich ab.\nOder: +1 Geld für jeden deiner Geldmarker auf deinem Tableau Piratenschiff.</string>
+    <string name="PirateShip_desc">Wähle eins: Jeder Mitspieler muss die obersten beiden Karten von seinem Nachziehstapel aufdecken. Haben die Mitspieler eine oder mehrere Geldkarten aufgedeckt, muss jeder eine davon (nach deiner Wahl) entsorgen. Wenn auf diese Weise mindestens 1 Geldkarte entsorgt wird, erhältst du 1 Geldmarker auf dein Tableau Piratenschiff. Die übrigen aufgedeckten Karten legen die Spieler bei sich ab.\nOder: +1 Geld für jeden deiner Geldmarker auf deinem Tableau Piratenschiff.</string>
     <string name="NativeVillage_name">Eingeborenendorf</string>
     <string name="NativeVillage_desc">Wähle eins: Lege die oberste Karte von deinem Nachziehstapel verdeckt zur Seite auf dein Tableau Eingeborenendorf. Oder: Nimm alle Karten von deinem Tableau Eingeborenendorf auf die Hand.</string>
     <string name="Island_name">Insel</string>
@@ -433,7 +433,7 @@
     <string name="Survivors_name">Überlebende</string>
     <string name="Survivors_desc">Sieh dir die obersten beiden Karten deines Nachziehstapels an. Lege beide Karten ab oder lege sie in beliebiger Reihenfolge auf deinen Nachziehstapel zurück.</string>
     <string name="VirtualRuins_name">Ruinen</string>
-    <string name="VirtualRuins_desc"/>    
+    <string name="VirtualRuins_desc"/>
     <string name="Hovel_name">Hütte</string>
     <string name="Hovel_desc">Wenn du eine Punktekarte kaufst, darfst du diese Hütte entsorgen.</string>
     <string name="OvergrownEstate_name">Verfallenes Anwesen</string>
@@ -454,7 +454,7 @@
     <string name="Madman_desc">Lege diese Karte zurück auf den Verrückten-Stapel. Wenn du das machst: +1 Karte pro Karte auf deiner Hand. (Diese Karte gehört nicht zum Vorrat.)</string>
     <string name="Vagrant_name">Landstreicher</string>
     <string name="Vagrant_desc">Decke die oberste Karte deines Nachziehstapels auf. Ist es ein Fluch, eine Ruine, ein Unterschlupf oder eine Punktekarte: Nimm die aufgedeckte Karte auf die Hand.</string>
-    
+
     <string name="DameAnna_name">Dame Anna</string>
     <string name="DameAnna_desc">Du darfst bis zu 2 Karten aus deiner Hand entsorgen. Jeder Mitspieler muss die obersten beiden Karten seines Nachziehstapels aufdecken, eine davon entsorgen, die 3 bis 6 Geld kostet und die übrigen aufgedeckten Karten ablegen. Wenn dadurch ein Ritter entsorgt wird, entsorge Dame Anna.</string>
     <string name="DameJosephine_name">Dame Josephine</string>
@@ -477,7 +477,7 @@
     <string name="SirVander_desc">Jeder Mitspieler muss die obersten beiden Karten seines Nachziehstapels aufdecken, eine davon entsorgen, die 3 bis 6 Geld kostet und die übrigen aufgedeckten Karten ablegen. Wenn dadurch ein Ritter entsorgt wird, entsorge Sir Vander. \nWenn du diese Karte entsorgst, nimm ein Gold.</string>
     <string name="VirtualKnight_name">Ritter</string>
     <string name="VirtualKnight_desc"/>
-    
+
     <string name="Advisor_name">Berater</string>
     <string name="Advisor_desc">Decke die 3 obersten Karten vom Nachziehstapel auf. Dein linker Nachbar wählt eine davon aus, die du dann ablegst. Die anderen Karten nimmst du auf die Hand.</string>
     <string name="Baker_name">Bäcker</string>
@@ -499,24 +499,24 @@
     <string name="Plaza_name">Platz</string>
     <string name="Plaza_desc">Du darfst eine Geldkarte ablegen. Falls du das tust, nimm dir eine Münze.</string>
     <string name="Soothsayer_name">Wahrsager</string>
-    <string name="Soothsayer_desc">Nimm dir ein Gold. Jeder Mitspieler nimmt sich eine Fluchkarte. Wer eine Fluchkarte nimmt, zieht eine Karte vom Nachziehstapel.</string>    
+    <string name="Soothsayer_desc">Nimm dir ein Gold. Jeder Mitspieler nimmt sich eine Fluchkarte. Wer eine Fluchkarte nimmt, zieht eine Karte vom Nachziehstapel.</string>
     <string name="StoneMason_name">Steinmetz</string>
     <string name="StoneMason_desc">Entsorge eine Karte aus deiner Hand. Nimm 2 Karten, die jeweils weniger als die entsorgte Karte kosten.\nWenn du diese Karte kaufst, darfst du mehr dafür zahlen. Falls du das tust, nimmst du 2 Aktionskarten, die jeweils so viel kosten, wie du zusätzlich bezahlt hast.</string>
     <string name="Taxman_name">Steuereintreiber</string>
     <string name="Taxman_desc">Du darfst eine Geldkarte aus deiner Hand entsorgen. Jeder Mitspieler mit 5 oder mehr Karten auf der Hand muss die gleiche Karte ablegen (oder zeigt seine Handkarten ohne die entsprechende Karte). Nimm dir eine Geldkarte, die bis zu 3 Geld mehr kostet als die entsorgte Karte und lege sie auf deinen Nachziehstapel.</string>
-    
-    <string name="Amulet_name">Amulet</string>
+
+    <string name="Amulet_name">Amulett</string>
     <string name="Amulet_desc">Jetzt und zu Beginn deines nächsten Zuges, wähle jeweils eins: +1 Geld oder entsorge 1 Handkarte oder nimm dir 1 Silber.</string>
     <string name="Artificer_name">Kunsthandwerker</string>
     <string name="Artificer_desc">Lege beliebig viele Handkarten ab. Du darfst dir eine Karte nehmen, die genau 1 Geld pro abgelegter Karte kostet. Lege die Karte verdeckt auf deinen Nachziehstapel.</string>
     <string name="BridgeTroll_name">Brückentroll</string>
     <string name="BridgeTroll_desc">Alle Mitspieler nehmen ihren -1 Geld-Marker. \nSolange diese Karte im Spiel ist, kostet jede Karte in deinem Zug 1 Geld weniger, allerdings nie weniger als 0.</string>
     <string name="CaravanGuard_name">Karawanenwächter</string>
-    <string name="CaravanGuard_desc">Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand ausspielen. (+ 1 Aktion hat dann keinen Effekt.)</string>
+    <string name="CaravanGuard_desc">Wenn ein Mitspieler eine Angriffskarte ausspielt, darfst du diese Karte aus deiner Hand ausspielen. (+1 Aktion hat dann keinen Effekt.)</string>
     <string name="Champion_name">Champion</string>
     <string name="Champion_desc">Immer wenn ein Mitspieler eine Angriffskarte spielt, bist du davon nicht betroffen. Immer wenn du eine Aktionskarte spielst: +1 Aktion (Diese Karte bleibt bis zum Spielende im Spiel und gehört nicht zum Vorrat.)</string>
     <string name="CoinOfTheRealm_name">Königliche Münzen</string>
-    <string name="CoinOfTheRealm_desc">Wenn du diese Karte ausspielst, lege sie auf dein Wirtshaustableau. \nSofort nachdem du eine Aktionskarte ausgeführt hast, darfst du diese Karte von deinem Tableau aufrufen. Wenn du das tust: + 2 Aktionen</string>
+    <string name="CoinOfTheRealm_desc">Wenn du diese Karte ausspielst, lege sie auf dein Wirtshaustableau. \nSofort nachdem du eine Aktionskarte ausgeführt hast, darfst du diese Karte von deinem Tableau aufrufen. Wenn du das tust: +2 Aktionen</string>
     <string name="Disciple_name">Schüler</string>
     <string name="Disciple_desc">Du darfst eine Aktionskarte aus deiner Hand zweimal ausspielen. Nimm dir eine Karte mit gleichem Namen.\nIst diese Karte im Spiel, darfst du sie gegen einen Lehrer eintauschen anstatt sie abzulegen. (Diese Karte gehört nicht zum Vorrat.)</string>
     <string name="DistantLands_name">Ferne Lande</string>
@@ -561,7 +561,7 @@
     <string name="Raze_desc">Entsorge diese Karte oder eine Handkarte. Schau dir so viele Karten oben von deinem Nachziehstapel an, wie die entsorgte Karte gekostet hat. Nimm eine davon auf die Hand und lege den Rest ab.</string>
     <string name="Relic_name">Relikt</string>
     <string name="Relic_desc">Wenn du diese Karte ausspielst, muss jeder Mitspieler seinen -1 Karte-Marker auf seinen Nachziehstapel legen.</string>
-    <string name="RoyalCarriage_name">Köngliche Kutsche</string>
+    <string name="RoyalCarriage_name">Königliche Kutsche</string>
     <string name="RoyalCarriage_desc">Lege diese Karte auf dein Wirtshaustableau. \nSofort nachdem du eine Aktionskarte ausgeführt hast, die danach noch im Spiel ist, darfst du diese Karte von deinem Tableau aufrufen. Wenn du das tust: Führe die Aktion noch einmal aus.</string>
     <string name="Soldier_name">Soldat</string>
     <string name="Soldier_desc">+1 Geld pro anderer Angriffskarte, die du im Spiel hast. Jeder Mitspieler mit 4 oder mehr Handkarten legt eine Handkarte ab.\nIst diese Karte im Spiel, darfst du sie gegen einen Flüchtling eintauschen anstatt sie abzulegen. (Diese Karte gehört nicht zum Vorrat.)</string>
@@ -581,7 +581,7 @@
     <string name="Warrior_desc">Für jeden Reisenden (inkl. diesem), den du im Spiel hast, müssen alle Mitspieler die oberste Karte ihres Nachziehstapels ablegen und sie entsorgen, wenn sie 3 oder 4 Geld kostet.\nIst diese Karte im Spiel, darfst du sie gegen einen Helden eintauschen anstatt sie abzulegen. (Diese Karte gehört nicht zum Vorrat.)</string>
     <string name="WineMerchant_name">Weinhändler</string>
     <string name="WineMerchant_desc">Lege diese Karte auf dein Wirtshaustableau.\nWenn du am Ende deiner Kaufphase mindestens 2 Geld nicht ausgegeben hast, darfst du diese Karte von deinem Tableau ablegen.</string>
-    
+
     <string name="Alms_name">Almosen</string>
     <string name="Alms_desc">Einmal pro Zug: Wenn du keine Geldkarten im Spiel hast, nimm dir eine Karte, die bis zu 4 Geld kostet.</string>
     <string name="Ball_name">Ball</string>
@@ -593,15 +593,15 @@
     <string name="Expedition_name">Expedition</string>
     <string name="Expedition_desc">Ziehe in deiner Aufräumphase 2 zusätzliche Karten.</string>
     <string name="Ferry_name">Überfahrt</string>
-    <string name="Ferry_desc">Lege deinen -2 Kosten-Marker auf einen beliebigen Aktionsvorratsstapel. (Karten von diesem Stapel kosten während deiner Züge (2) weniger, allerdings nie weniger als (0).)</string>
+    <string name="Ferry_desc">Lege deinen -2 Kosten-Marker auf einen beliebigen Aktionsvorratsstapel. (Karten von diesem Stapel kosten während deiner Züge 2 Geld weniger, allerdings nie weniger als 0 Geld.)</string>
     <string name="Inheritance_name">Erbschaft</string>
-    <string name="Inheritance_desc">Einmal pro Spiel: Lege eine beliebige Aktionskarte vom Vorrat, die keine Punktekarte ist und die bis zu (4) kostet, zur Seite. Lege deinen Anwesen-Marker darauf. (Deine Anwesen übernehmen ab sofort Anweisungen und Typ dieser Karte.)</string>
+    <string name="Inheritance_desc">Einmal pro Spiel: Lege eine beliebige Aktionskarte vom Vorrat, die keine Punktekarte ist und die bis zu 4 Geld kostet, zur Seite. Lege deinen Anwesen-Marker darauf. (Deine Anwesen übernehmen ab sofort Anweisungen und Typ dieser Karte.)</string>
     <string name="LostArts_name">Verlorene Kunst</string>
-    <string name="LostArts_desc">Lege deinen + 1 Aktion Marker auf einen Aktions-Vorratsstapel. (Wenn du eine Karte von diesem Stapel ausspielst, erhältst du zuerst + 1 Aktion.)</string>
+    <string name="LostArts_desc">Lege deinen +1 Aktion Marker auf einen Aktions-Vorratsstapel. (Wenn du eine Karte von diesem Stapel ausspielst, erhältst du zuerst +1 Aktion.)</string>
     <string name="Mission_name">Mission</string>
     <string name="Mission_desc">Einmal pro Zug: Wenn der vorangegangene Zug nicht deiner war, spielst du nach deinem Zug einen weiteren Zug, in welchem du keine Karten kaufen darfst.</string>
     <string name="Pathfinding_name">Wegsuche</string>
-    <string name="Pathfinding_desc">Lege deinen + 1  Karte Marker auf einen Aktions-Vorratsstapel. (Wenn du eine Karte von diesem Stapel ausspielst, erhältst du zuerst + 1 Karte.)</string>
+    <string name="Pathfinding_desc">Lege deinen +1  Karte Marker auf einen Aktions-Vorratsstapel. (Wenn du eine Karte von diesem Stapel ausspielst, erhältst du zuerst +1 Karte.)</string>
     <string name="Pilgrimage_name">Pilgerfahrt</string>
     <string name="Pilgrimage_desc">Einmal pro Zug: Drehe deinen Reise-Marker um. Liegt die Vorderseite oben: Wähle bis zu 3 Karten mit unterschiedlichem Namen, die du im Spiel hast und nimm dir jeweils eine davon.</string>
     <string name="Plan_name">Planung</string>
@@ -615,14 +615,14 @@
     <string name="ScoutingParty_name">Spähtrupp</string>
     <string name="ScoutingParty_desc">Sieh dir die obersten 5 Karten deines Nachziehstapels an. Lege 3 davon ab und den Rest in beliebiger Reihenfolge zurück auf den Nachziehstapel.</string>
     <string name="Seaway_name">Seeweg</string>
-    <string name="Seaway_desc">Nimm dir eine Aktionskarte, die bis zu 4 kostet. Lege deinen + 1 Kauf Marker auf diesen Vorratsstapel. (Wenn du eine Karte von diesem Stapel ausspielst, erhältst du zuerst + 1 Kauf.)</string>
+    <string name="Seaway_desc">Nimm dir eine Aktionskarte, die bis zu 4 kostet. Lege deinen +1 Kauf Marker auf diesen Vorratsstapel. (Wenn du eine Karte von diesem Stapel ausspielst, erhältst du zuerst +1 Kauf.)</string>
     <string name="Trade_name">Handel</string>
     <string name="Trade_desc">Entsorge bis zu 2 Handkarten. Nimm dir für jede entsorgte Karte ein Silber.</string>
     <string name="Training_name">Training</string>
-    <string name="Training_desc">Lege deinen +1 Geld Marker auf einen Aktions-Vorratsstapel. (Wenn du eine Karte von diesem Stapel ausspielst, erhältst du zuerst +(1).)</string>
+    <string name="Training_desc">Lege deinen +1 Geld Marker auf einen Aktions-Vorratsstapel. (Wenn du eine Karte von diesem Stapel ausspielst, erhältst du zuerst +1 Geld.)</string>
     <string name="TravellingFair_name">Wanderzirkus</string>
     <string name="TravellingFair_desc">Wenn du in diesem Zug eine Karte nimmst, darfst du sie auf deinen Nachziehstapel legen.</string>
-    
+
     <string name="Archive_name">Archiv</string>
     <string name="Archive_desc">Lege die obersten 3 Karten deines Nachziehstapels verdeckt zur Seite (Du darfst sie dir anschauen). Jetzt und zu Beginn deiner nächsten beiden Züge: Nimm eine karte auf die Hand.</string>
     <string name="BustlingVillage_name">Emsiges Dorf</string>
@@ -630,11 +630,11 @@
     <string name="Capital_name">Vermögen</string>
     <string name="Capital_desc">Wenn Du diese karte aus dem Spiel ablegst, nimm 6 Schuldenmarker. Dann darfst Du beliebig viele Schuldenmarker tilgen.</string>
     <string name="Catapult_name">Katapult</string>
-    <string name="Catapult_desc">Entsorge eine Handkarte. Wenn diese (3) oder mehr kostet muss sich jeder Mitspieler einen Fluch nehmen. Wenn es eine Geldkarte ist, muss jeder Mitspieler Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
+    <string name="Catapult_desc">Entsorge eine Handkarte. Wenn diese 3 Geld oder mehr kostet muss sich jeder Mitspieler einen Fluch nehmen. Wenn es eine Geldkarte ist, muss jeder Mitspieler Karten ablegen, bis er nur noch 3 Karten auf der Hand hat.</string>
     <string name="ChariotRace_name">Wagenrennen</string>
-    <string name="ChariotRace_desc">Du und Dein linker Mitspieler decken die oberste Karte ihres Nachziehstapels auf. Nimm deine aufgedeckte Karte auf die Hand. Wenn deine Karte mehr kostet: +(1) Geld und +1 Punktemarker.</string>
+    <string name="ChariotRace_desc">Du und Dein linker Mitspieler decken die oberste Karte ihres Nachziehstapels auf. Nimm deine aufgedeckte Karte auf die Hand. Wenn deine Karte mehr kostet: +1 Geld und +1 Punktemarker.</string>
     <string name="Charm_name">Zauber</string>
-    <string name="Charm_desc">Wenn Du diese Karte ausspielst, wähle 1: +1 Kauf und +(1) Geld oder: Wenn Du in diesem Zug das nächste Mal eine Karte kaufst, darfst Du eine weitere Karte mit gleichen Kosten aber anderem Namen nehmen.</string>
+    <string name="Charm_desc">Wenn Du diese Karte ausspielst, wähle 1: +1 Kauf und +1 Geld oder: Wenn Du in diesem Zug das nächste Mal eine Karte kaufst, darfst Du eine weitere Karte mit gleichen Kosten aber anderem Namen nehmen.</string>
     <string name="CityQuarter_name">Stadtviertel</string>
     <string name="CityQuarter_desc">Decke deine Handkarten auf. +1 Karte pro aufgedeckter Aktionskarte</string>
     <string name="Crown_name">Krone</string>
@@ -646,19 +646,19 @@
     <string name="Enchantress_name">Zauberin</string>
     <string name="Enchantress_desc">Bis zu deinem nächsten Zug dürfen alle Mitspieler die Anweisungen der ersten ausgespielten Aktionskarte in ihrem Zug nicht ausführen. Sie erhalten stattdessen: +1 Karte und +1 Aktion.</string>
     <string name="Engineer_name">Ingenieurin</string>
-    <string name="Engineer_desc">Nimm eine Karte die bis zu (4) kostet. Du darfst diese Ingenieurin entsorgen. Wenn Du das tust: Nimm dir eine Karte die bis zu (4) kostet.</string>
+    <string name="Engineer_desc">Nimm eine Karte die bis zu 4 Geld kostet. Du darfst diese Ingenieurin entsorgen. Wenn Du das tust: Nimm dir eine Karte die bis zu 4 Geld kostet.</string>
     <string name="FarmersMarket_name">Bauernmarkt</string>
-    <string name="FarmersMarket_desc">Falls 4 Punktemarker oder mehr auf dem Bauernmarkt Vorratsstapel liegen, nimm die Marker und entsorge diese Karte. Ansonsten lege 1 Punktemarker auf den Stapel. +(1) Geld pro Punktemarker auf dem Stapel</string>
+    <string name="FarmersMarket_desc">Falls 4 Punktemarker oder mehr auf dem Bauernmarkt Vorratsstapel liegen, nimm die Marker und entsorge diese Karte. Ansonsten lege 1 Punktemarker auf den Stapel. +1 Geld pro Punktemarker auf dem Stapel</string>
     <string name="Forum_name">Forum</string>
     <string name="Forum_desc">Lege 2 Handkarten ab. Wenn Du diese Karte kaufst: +1 Kauf.</string>
     <string name="Fortune_name">Reichtum</string>
     <string name="Fortune_desc">Wenn Du diese Karte ausspielst, verdoppelt sich Dein Geld. Nur 1x pro Zug möglich. \nWenn Du diese Karte nimmst, nimm ein Gold pro Gladiator den Du im Spiel hast.</string>
     <string name="Gladiator_name">Gladiator</string>
-    <string name="Gladiator_desc">Decke eine Handkarte auf. Dein linker Mitspieler darf eine Handkarte mit gleichem Namen aufdecken. Wenn er das nicht tut: +(1) Geld und entsorge einen Gladiator vom Vorrat.</string>
+    <string name="Gladiator_desc">Decke eine Handkarte auf. Dein linker Mitspieler darf eine Handkarte mit gleichem Namen aufdecken. Wenn er das nicht tut: +1 Geld und entsorge einen Gladiator vom Vorrat.</string>
     <string name="Groundskeeper_name">Gärtnerin</string>
     <string name="Groundskeeper_desc">Falls diese Karte im Spiel ist, wenn Du eine Punktekarte nimmst: +1 Punktemarker</string>
     <string name="Legionary_name">Legionär</string>
-    <string name="Legionary_desc">Du darfst ein Gold aus deiner Hand aufdeken. Wenn Du das tust muss jeder Mitspieler so lange Karten ablegen bis er nur noch 2 Handkarten hat. Dann zieht er 1 Karte nach.</string>
+    <string name="Legionary_desc">Du darfst ein Gold aus deiner Hand aufdecken. Wenn Du das tust muss jeder Mitspieler so lange Karten ablegen bis er nur noch 2 Handkarten hat. Dann zieht er 1 Karte nach.</string>
     <string name="Overlord_name">Lehnsherr</string>
     <string name="Overlord_desc">Spiele diese Karte aus, als ob sie eine Aktionskarte im Vorrat wäre, die bis zu (5) kostet. Sie bleibt diese Karte bis sie nicht mehr im Spiel ist.</string>
     <string name="Patrician_name">Patrizier</string>
@@ -670,7 +670,7 @@
     <string name="RoyalBlacksmith_name">Königlicher Schmied</string>
     <string name="RoyalBlacksmith_desc">Decke deine Handkarten auf und lege alle Kupfer ab.</string>
     <string name="Sacrifice_name">Opfer</string>
-    <string name="Sacrifice_desc">Entsorge eine Handkarte. Ist es eine Aktionskarte: +2 Karten und +2 Aktionen. Ist es eine Geldkarte: +(2) Geld. Ist es eine Punktekarte: +2 Punktemarker</string>
+    <string name="Sacrifice_desc">Entsorge eine Handkarte. Ist es eine Aktionskarte: +2 Karten und +2 Aktionen. Ist es eine Geldkarte: +2 Geld. Ist es eine Punktekarte: +2 Punktemarker</string>
     <string name="Settlers_name">Siedler</string>
     <string name="Settlers_desc">Schau dir deinen Ablagestapel an. Du darfst ein Kupfer daraus aufdecken und auf die Hand nehmen.</string>
     <string name="Temple_name">Tempel</string>
@@ -679,7 +679,7 @@
     <string name="Villa_desc">Wenn Du diese Karte nimmst: Nimm sie auf die Hand sowie +1 Aktion. Wenn Du in der Kaufphase bist, kehre in die Aktionsphase zurück.</string>
     <string name="WildHunt_name">Wilde Jagd</string>
     <string name="WildHunt_desc">Wähle eins: +3 Karten und lege 1 Punktemarker auf den Wilde Jagd Vorratsstapel oder nimm ein Anwesen. Wenn Du das tust: Nimm alle Punktemarker vom Wilde Jagd Vorratsstapel.</string>
-        
+
     <string name="CatapultRocks_name">Katapult/Felsen</string>
     <string name="CatapultRocks_desc">Dieser Stapel besteht aus 5 Katapulten zuoberst und darunter 5 Felsen. Nur die oberste Karte kann gekauft oder genommen werden.</string>
     <string name="EncampmentPlunder_name">Feldlager/Diebesgut</string>
@@ -692,7 +692,7 @@
     <string name="SettlersBustlingVillage_desc">Dieser Stapel besteht aus 5 Siedlern zuoberst und darunter 5 Emsige Dörfer. Nur die oberste Karte kann gekauft oder genommen werden.</string>
     <string name="Castles_name">Schlösser</string>
     <string name="Castles_desc">Sortiere die Schlosskarten nach ihren Kosten (teuerste nach unten, billigste nach oben). Bei zwei Spielern wird nur ein Exemplar jeder Schlosskarte verwendet. Nur die oberste Karte kann gekauft oder genommen werden.</string>
-        
+
     <string name="HumbleCastle_name">Bescheidenes Schloss</string>
     <string name="HumbleCastle_desc">Wert 1 Siegpunkt pro eigenes Schloss</string>
     <string name="CrumblingCastle_name">Verfallendes Schloss</string>
@@ -702,16 +702,16 @@
     <string name="HauntedCastle_name">Spukschloss</string>
     <string name="HauntedCastle_desc">Wenn Du diese Karte in deinem Zug nimmst, nimm dir ein Gold und jeder Mitspieler mit 5 oder mehr Handkarten legt 2 Karten verdeckt auf seinen Nachziehstapel.</string>
     <string name="OpulentCastle_name">Reiches Schloss</string>
-    <string name="OpulentCastle_desc">Lege beliebig viele Punktekarten aus deiner Hand ab. +(2) pro abgelegter Karte.</string>
+    <string name="OpulentCastle_desc">Lege beliebig viele Punktekarten aus deiner Hand ab. +2 Geld pro abgelegter Karte.</string>
     <string name="SprawlingCastle_name">Ausgedehntes Schloss</string>
     <string name="SprawlingCastle_desc">Wenn Du diese Karte nimmst, nimm ein Herzogtum oder 3 Anwesen.</string>
     <string name="GrandCastle_name">Prunkschloss</string>
     <string name="GrandCastle_desc">Wenn Du diese Karte nimmst, decke deine Handkarten auf. +1 Punktemarker pro Punktekarte auf deiner Hand und im Spiel.</string>
     <string name="KingsCastle_name">Königsschloss</string>
     <string name="KingsCastle_desc">Wert 2 Siegpunkte für jedes eigene Schloss</string>
-    
+
     <string name="Advance_name">Aufstieg</string>
-    <string name="Advance_desc">Du darfst eine Aktionskarte aus deiner Hand entsorgen. Wenn Du das tust: Nimm eine Aktionskarte die bis zu (6) kostet.</string>
+    <string name="Advance_desc">Du darfst eine Aktionskarte aus deiner Hand entsorgen. Wenn Du das tust: Nimm eine Aktionskarte die bis zu 6 Geld kostet.</string>
     <string name="Annex_name">Schlacht</string>
     <string name="Annex_desc">Sieh deinen Ablagestapel durch. Wähle bis zu 5 Karten, die in deinem Ablagestapel verbleiben. Mische den Rest in deinen Nachziehstapel. Nimm ein Herzogtum.</string>
     <string name="Banquet_name">Bankett</string>
@@ -721,7 +721,7 @@
     <string name="Delve_name">Erforschen</string>
     <string name="Delve_desc">Nimm ein Silber</string>
     <string name="Dominate_name">Beherrschen</string>
-    <string name="Dominate_desc">Nimm eine Provinz. Wenn Du das tust: + 9 Punktemarker</string>
+    <string name="Dominate_desc">Nimm eine Provinz. Wenn Du das tust: +9 Punktemarker</string>
     <string name="Donate_name">Spende</string>
     <string name="Donate_desc">Nach diesem Zug: Nimm alle Karten deines Nachzieh- und deines Ablagestapels auf die Hand und entsorge beliebig viele. Mische deine Handkarten und lege sie als Nachziehstapel bereit. Ziehe 5 Karten.</string>
     <string name="Ritual_name">Ritual</string>
@@ -736,22 +736,22 @@
     <string name="Wedding_desc">Nimm ein Gold.</string>
     <string name="Windfall_name">Glücksfall</string>
     <string name="Windfall_desc">Wenn Dein Nachzieh- und Dein Ablagestapel leer sind: Nimm 3 Gold.</string>
-        
+
     <string name="Aqueduct_name">Aquädukt</string>
     <string name="Aqueduct_desc">Wenn du ein Geld nimmst, nimm 1 Punktemarker von jenem Stapel und lege ihn auf diese Karte. Wenn du eine Punktekarte nimmst, nimm alle Punktemarker von dieser Karte. \nSpielvorbereitung: Legt je 8-Marker auf den Silber- und Gold-Vorratsstapel.</string>
     <string name="Arena_name">Arena</string>
     <string name="Arena_desc">Zu Beginn deiner Kaufphase darfst Du eine Aktionskarte aus deiner Hand ablegen. Wenn Du das tust: Nimm dir 2 Punktemarker von der Arena. \nSpielvorbereitung: Lege pro Spieler 6 Punktemarker auf die Arena.</string>
     <string name="BanditFort_name">Räuberfestung</string>
-    <string name="BanditFort_desc">Beim Zählen der Siepunkte: -2 Siegpunkte pro Gold und pro Silber dass Du besitzt.</string>
+    <string name="BanditFort_desc">Beim Zählen der Siegpunkte: -2 Siegpunkte pro Gold und pro Silber dass Du besitzt.</string>
     <string name="Basilica_name">Basilika</string>
-    <string name="Basilica_desc">Wenn Du eine Karte kaufst und Du (2) oder mehr Geld übrig hast: Nimm 2 Punktemarker von der Basilika. \nSpielvorbereitung: Lege pro Spieler 6 Punktemarker auf die Basilika.</string>
+    <string name="Basilica_desc">Wenn Du eine Karte kaufst und Du 2 oder mehr Geld übrig hast: Nimm 2 Punktemarker von der Basilika. \nSpielvorbereitung: Lege pro Spieler 6 Punktemarker auf die Basilika.</string>
     <string name="Baths_name">Badehaus</string>
     <string name="Baths_desc">Wenn Du bis zum Ende deines Zuges keine Karte genommen hast, nimm 2 Punktemarker vom Badehaus. \nSpielvorbereitung: Lege pro Spieler 6 Punktemarker auf das Badehaus.</string>
     <string name="Battlefield_name">Schlachtfeld</string>
     <string name="Battlefield_desc">Wenn Du eine Punktekarte nimmst, Nimm 2 Punktemarker vom Schlachtfeld. \nSpielvorbereitung: Lege pro Spieler 6 Punktemarker auf das Schlachtfeld.</string>
     <string name="Colonnade_name">Kolonnaden</string>
     <string name="Colonnade_desc">Wenn Du eine Aktionskarte kaufst und Du eine Karte mit gleichem Namen im Spiel hast: Nimm 2 Punktemarker von den Kolonnaden. \nSpielvorbereitung: Lege pro Spieler 6 Punktemarker auf die Kolonnaden.</string>
-    <string name="DefiledShrine_name">Entweihter schrein</string>
+    <string name="DefiledShrine_name">Entweihter Schrein</string>
     <string name="DefiledShrine_desc">Wenn Du eine Aktionskarte nimmst, nimm 1 Punktemarker von jenem Stapel und lege ihn auf den Entweihten Schrein. Wenn Du einen Fluch kaufst, nimm alle Punktemarker vom Entweihten Schrein. \nSpielvorbereitung: Lege 2 Punktemarker auf jeden Vorratsstapel der den Typ Aktion aber nicht den Typ Sammlung enthält.</string>
     <string name="Fountain_name">Brunnen</string>
     <string name="Fountain_desc">Beim Zählen der Siegpunkte: 15 Siegpunkte wenn Du mindestens 10 Kupfer besitzt.</string>
@@ -770,10 +770,10 @@
     <string name="Palace_name">Palast</string>
     <string name="Palace_desc">Beim Zählen der Siegpunkte: 3 Siegpunkte pro Satz \'Gold - Silber - Kupfer\', den du besitzt.</string>
     <string name="Tomb_name">Grabmal</string>
-    <string name="Tomb_desc">Wenn du eine Karte entsorgst: + 1 Punktemarker</string>
+    <string name="Tomb_desc">Wenn du eine Karte entsorgst: +1 Punktemarker</string>
     <string name="Tower_name">Turm</string>
     <string name="Tower_desc">Beim Zählen der Siegpunkte: 1 Siegpunkt pro Nicht-Punktekarte, die du von einem leeren Vorratsstapel besitzt.</string>
-    <string name="TriumphalArch_name">Triumpfbogen</string>
+    <string name="TriumphalArch_name">Triumphbogen</string>
     <string name="TriumphalArch_desc">Beim Zählen der Siegpunkte: 3 Siegpunkte pro Karte, die du von der zweithäufigsten Aktionskarte unter deinen Karten besitzt - bei Gleichstand zählen beide.</string>
     <string name="Wall_name">Mauer</string>
     <string name="Wall_desc">Beim Zählen der Siegpunkte: besitzt du mehr als 15 Karten: -1 Siegpunkt für jede weitere Karte über die 15. hinaus.</string>
@@ -787,9 +787,9 @@
     <string name="Cemetery_name">Friedhof</string>
     <string name="Cemetery_desc">Wenn Du diese Karte nimmst, entsorge bis zu 4 Karten aus deiner Hand.</string>
     <string name="Changeling_name">Wechselbalg</string>
-    <string name="Changeling_desc">Entsorge diese Karte. Nimm dir eine Karte, von der Du eine Kopie im Spiel hast. \nWenn der Wechselbalg im Spiel verwendet wird und Du eine Karte nimmst die (3) oder mehr kostet, darfst Du statt dessen einen Wechselbalg nehmen.</string>
+    <string name="Changeling_desc">Entsorge diese Karte. Nimm dir eine Karte, von der Du eine Kopie im Spiel hast. \nWenn der Wechselbalg im Spiel verwendet wird und Du eine Karte nimmst die 3 Geld oder mehr kostet, darfst Du statt dessen einen Wechselbalg nehmen.</string>
     <string name="Cobbler_name">Schuster</string>
-    <string name="Cobbler_desc">Zu Beginn deines nächsten Zuges, nimm dir eine Karte auf die Hand, die bis zu (4) kostet. </string>
+    <string name="Cobbler_desc">Zu Beginn deines nächsten Zuges, nimm dir eine Karte auf die Hand, die bis zu 4 Geld kostet. </string>
     <string name="Conclave_name">Konklave</string>
     <string name="Conclave_desc">Du darfst eine Aktionskarte aus der Hand ausspielen, von der Du keine Kopie im Spiel hast. Wenn Du das tust, +1 Aktion</string>
     <string name="Crypt_name">Krypta</string>
@@ -799,7 +799,7 @@
     <string name="DenOfSin_name">Sündenpfuhl</string>
     <string name="DenOfSin_desc">Wenn Du diese Karte nimmst, nimm sie auf die Hand.</string>
     <string name="DevilsWorkshop_name">Teufelswerkstatt</string>
-    <string name="DevilsWorkshop_desc">Wenn Du in diesem Zug mindestens 2 Karten genommen hast, nimm ein Teufelchen. Hast Du genau 1 Karte genommen, nimm eine Karte die bis zu (4) kostet. Hast Du keine Karte genommen, nimm ein Gold.</string>
+    <string name="DevilsWorkshop_desc">Wenn Du in diesem Zug mindestens 2 Karten genommen hast, nimm ein Teufelchen. Hast Du genau 1 Karte genommen, nimm eine Karte die bis zu 4 Geld kostet. Hast Du keine Karte genommen, nimm ein Gold.</string>
     <string name="Druid_name">Druidin</string>
     <string name="Druid_desc">Empfange eine der zur Seite gelegten Gaben (lasse sie dort liegen) \nSpielvorbereitung: Lege die obersten 3 Gaben aufgedeckt zur Seite.</string>
     <string name="Exorcist_name">Exorzistin</string>
@@ -825,13 +825,13 @@
     <string name="Pixie_name">Fee</string>
     <string name="Pixie_desc">Lege die oberste Gabe ab. Du darfst diese Karte entsorgen um die abgelegte Gabe zwei mal zu empfangen.</string>
     <string name="Pooka_name">Puka</string>
-    <string name="Pooka_desc">Du darfst eine Geldkarte ausser Verfluchtes Gold entsorgen um +4 Karten zu ziehen.</string>
+    <string name="Pooka_desc">Du darfst eine Geldkarte außer Verfluchtes Gold entsorgen um +4 Karten zu ziehen.</string>
     <string name="Raider_name">Plünderer</string>
     <string name="Raider_desc">Jeder Mitspieler mit mindestens 5 Karten in der Hand muss eine Karte ablegen von der Du eine Kopie im Spiel hast. Wenn er das nicht kann, deckt er seine Kartenhand auf.</string>
     <string name="SacredGrove_name">Heiliger Hain</string>
-    <string name="SacredGrove_desc">Empfange eine Gabe. Wenn diese nicht +(1) Geld gibt, darf jeder Mitspielder sie auch empfangen.</string>
+    <string name="SacredGrove_desc">Empfange eine Gabe. Wenn diese nicht +1 Geld gibt, darf jeder Mitspieler sie auch empfangen.</string>
     <string name="SecretCave_name">Geheime Höhle</string>
-    <string name="SecretCave_desc">Du darfst 3 Karten ablegen. Wenn Du das tust, zu Beginn deines nächsten Zugs: +(3) Geld</string>
+    <string name="SecretCave_desc">Du darfst 3 Karten ablegen. Wenn Du das tust, zu Beginn deines nächsten Zugs: +3 Geld</string>
     <string name="Shepherd_name">Schäferin</string>
     <string name="Shepherd_desc">Lege beliebig viele Punktekarten aus der Hand ab und decke sie dabei auf. +2 Karten pro abgelegte Karte.</string>
     <string name="Skulk_name">Attentäter</string>
@@ -843,10 +843,10 @@
     <string name="Tracker_name">Fährtensucher</string>
     <string name="Tracker_desc">Empfange eine Gabe. Wenn diese Karte im Spiel ist und Du eine Karte nimmst, darfst du die genommene Karte auf deinen Nachziehstapel legen.</string>
     <string name="Vampire_name">Vampirin</string>
-    <string name="Vampire_desc">Jeder Mitspieler empängt die nächste Plage. Nimm eine Karte, außer Vampirin, die bis zu (5) kostet. Tausche diese Karte (die Vampirin) in eine Fledermaus ein.</string>
+    <string name="Vampire_desc">Jeder Mitspieler empfängt die nächste Plage. Nimm eine Karte, außer Vampirin, die bis zu (5) kostet. Tausche diese Karte (die Vampirin) in eine Fledermaus ein.</string>
     <string name="Werewolf_name">Werwolf</string>
     <string name="Werewolf_desc">Wenn es deine Nachtphase ist, empfängt jeder Mitspieler die nächste Plage. Ansonsten, +3 Karten.</string>
-    
+
     <string name="CursedGold_name">Verfluchtes Gold</string>
     <string name="CursedGold_desc">Wenn Du diese Karte ausspielst, nimm einen Fluch.</string>
     <string name="HauntedMirror_name">Zauberspiegel</string>
@@ -861,7 +861,7 @@
     <string name="Pasture_desc">1 SP pro Anwesen im eigenen Kartensatz.</string>
     <string name="Pouch_name">Beutel</string>
     <string name="Pouch_desc"></string>
-    
+
     <string name="Bat_name">Fledermaus</string>
     <string name="Bat_desc">Entsorge bis zu 2 Karten aus deiner Hand. Wenn Du mindestens 1 entsorgt hast, tausche diese Karte in eine Vampirin ein. (Diese Karte gehört nicht zum Vorrat.)</string>
     <string name="Ghost_name">Geist</string>
@@ -869,28 +869,28 @@
     <string name="Imp_name">Teufelchen</string>
     <string name="Imp_desc">Du darfst eine Aktionskarte aus deiner Hand ausspielen, von der Du keine Kopie im Spiel hast. (Diese Karte gehört nicht zum Vorrat.)</string>
     <string name="WillOWisp_name">Irrlicht</string>
-    <string name="WillOWisp_desc">Decke die oberste Karte deines Nachziehstapels auf. Kostet sie (2) oder weniger, nimm sie auf die Hand. (Diese Karte gehört nicht zum Vorrat.)</string>
+    <string name="WillOWisp_desc">Decke die oberste Karte deines Nachziehstapels auf. Kostet sie 2 Geld oder weniger, nimm sie auf die Hand. (Diese Karte gehört nicht zum Vorrat.)</string>
     <string name="Wish_name">Wunsch</string>
-    <string name="Wish_desc">Lege diese Karte zurück auf ihren Stapel. Wenn Du das getan hast, nimm eine Karte auf die Hand, die bis zu (6) kostet. (Diese Karte gehört nicht zum Vorrat.)</string>
+    <string name="Wish_desc">Lege diese Karte zurück auf ihren Stapel. Wenn Du das getan hast, nimm eine Karte auf die Hand, die bis zu 6 Geld kostet. (Diese Karte gehört nicht zum Vorrat.)</string>
     <string name="ZombieApprentice_name">Zombie-Lehrling</string>
     <string name="ZombieApprentice_desc">Du darfst eine Aktionskarte aus Deiner Hand entsorgen. Wenn Du das machst: +3 Karten und +1 Aktion.</string>
     <string name="ZombieMason_name">Zombie-Maurer</string>
-    <string name="ZombieMason_desc">Entsorge die oberst Karte deines Nachziehstapels. Du darfst eine Karte nehmen, die bis zu (1) mehr kostet als die entsorgte Karte.</string>
+    <string name="ZombieMason_desc">Entsorge die oberste Karte deines Nachziehstapels. Du darfst eine Karte nehmen, die bis zu 1 mehr kostet als die entsorgte Karte.</string>
     <string name="ZombieSpy_name">Zombie-Spion</string>
     <string name="ZombieSpy_desc">Schau Dir die oberste Karte deines Nachziehstapels an. Lege sie ab oder zurück.</string>
-    
+
     <string name="TheEarthsGift_name">Geschenk der Erde</string>
-    <string name="TheEarthsGift_desc">Du darfst eine Geldkarte ablegen um eine Karte, die bis zu (4) kostet zu nehmen.</string>
-    <string name="TheEarthsGift_shortDesc">Geldkarte ablegen, Karte bis zu (4) nehmen</string>
+    <string name="TheEarthsGift_desc">Du darfst eine Geldkarte ablegen um eine Karte, die bis zu 4 Geld kostet zu nehmen.</string>
+    <string name="TheEarthsGift_shortDesc">Geldkarte ablegen, Karte bis zu 4 Geld nehmen</string>
     <string name="TheFieldsGift_name">Geschenk des Feldes</string>
-    <string name="TheFieldsGift_desc">+1 Aktion, +(1) Geld (Behalte sie bis zur Aufräumphase)</string>
-    <string name="TheFieldsGift_shortDesc">+1 Aktion, +(1) Geld </string>
+    <string name="TheFieldsGift_desc">+1 Aktion, +1 Geld (Behalte sie bis zur Aufräumphase)</string>
+    <string name="TheFieldsGift_shortDesc">+1 Aktion, +1 Geld </string>
     <string name="TheFlamesGift_name">Geschenk des Feuers</string>
     <string name="TheFlamesGift_desc">Du darfst eine Karte aus deiner Hand entsorgen.</string>
     <string name="TheFlamesGift_shortDesc">Entsorgen</string>
     <string name="TheForestsGift_name">Geschenk des Waldes</string>
-    <string name="TheForestsGift_desc">+1 Kauf, +(1) Geld (Behalte sie bis zur Aufräumphase)</string>
-    <string name="TheForestsGift_shortDesc">+1 Kauf, +(1) Geld</string>
+    <string name="TheForestsGift_desc">+1 Kauf, +1 Geld (Behalte sie bis zur Aufräumphase)</string>
+    <string name="TheForestsGift_shortDesc">+1 Kauf, +1 Geld</string>
     <string name="TheMoonsGift_name">Geschenk des Mondes</string>
     <string name="TheMoonsGift_desc">Du darfst eine Karte aus deinem Ablagestapel auf deinen Nachziehstapel legen.</string>
     <string name="TheMoonsGift_shortDesc">Karte vom Ablagestapel auf den Nachziehstapel</string>
@@ -907,7 +907,7 @@
     <string name="TheSkysGift_desc">Du darfst 3 Karten ablegen um ein Gold zu nehmen.</string>
     <string name="TheSkysGift_shortDesc">3 Karten ablegen für Gold</string>
     <string name="TheSunsGift_name">Geschenk der Sonne</string>
-    <string name="TheSunsGift_desc">Schau dir die obersten 4 Karten deines Nachziehstapels an. Lege beliebig viele davon ab und lege den Rest in bliebiger Reihenfolge zurück.</string>
+    <string name="TheSunsGift_desc">Schau dir die obersten 4 Karten deines Nachziehstapels an. Lege beliebig viele davon ab und lege den Rest in beliebiger Reihenfolge zurück.</string>
     <string name="TheSunsGift_shortDesc">Filter 4 Karten vom Nachziehstapel</string>
     <string name="TheSwampsGift_name">Geschenk des Sumpfes</string>
     <string name="TheSwampsGift_desc">Nimm ein Irrlicht vom Stapel</string>
@@ -915,7 +915,7 @@
     <string name="TheWindsGift_name">Geschenk des Windes</string>
     <string name="TheWindsGift_desc">Lege 2 Karten ab</string>
     <string name="TheWindsGift_shortDesc">+2 Karten, lege 2 Karten ab.</string>
-    
+
     <string name="BadOmens_name">Schlechtes Omen</string>
     <string name="BadOmems_desc">Lege deinen Nachziehstapel ab. Schaue ihn durch und lege 2 Kupfer auf deinen (jetzt leeren) Nachziehstapel.</string>
     <string name="Delusion_name">Täuschung</string>
@@ -939,12 +939,12 @@
     <string name="Poverty_name">Armut</string>
     <string name="Poverty_desc">Lege Karten ab bis Du nur noch 3 Karten auf der Hand hast.</string>
     <string name="War_name">Krieg</string>
-    <string name="War_desc">Decke Karten von deinem Nachziehstapel auf, bis eine offen liegt die (3) oder (4) kostet. Entsorge Sie, lege den Rest ab.</string>
-    
+    <string name="War_desc">Decke Karten von deinem Nachziehstapel auf, bis eine offen liegt die 3 oder 4 Geld kostet. Entsorge Sie, lege den Rest ab.</string>
+
     <string name="Deluded_name">Getäuscht</string>
     <string name="Deluded_desc">Lege diesen Zustand zu Beginn deiner Kaufphase zurück. Du darfst in diesem Zug keine Aktionskarten kaufen.</string>
     <string name="Envious_name">Neidisch</string>
-    <string name="Envious_desc">Lege diesen Zustand zu Beginn deiner Kaufpahse zurück. Gold und Silber sind in diesem Zug (1) wert.</string>
+    <string name="Envious_desc">Lege diesen Zustand zu Beginn deiner Kaufphase zurück. Gold und Silber sind in diesem Zug 1 Geld wert.</string>
     <string name="LostInTheWoods_name">Im Wald verlaufen</string>
     <string name="LostInTheWoods_desc">Du darfst zu Beginn deines Zuges eine Handkarte ablegen. Wenn Du das tust: Empfange eine Gabe.</string>
     <string name="Miserable_name">Elendig</string>
@@ -969,11 +969,11 @@
     <string name="Avanto_name">Eisloch</string>
     <string name="Avanto_desc">Du darfst eine Sauna aus deiner Hand ausspielen.</string>
     <string name="Dismantle_name">Abbruch</string>
-    <string name="Dismantle_desc">Entsorge eine Handkarte. Wenn sie (1) oder mehr kostet, nimm eine billigere Karte und ein Gold.</string>
-    
+    <string name="Dismantle_desc">Entsorge eine Handkarte. Wenn sie 1 Geld oder mehr kostet, nimm eine billigere Karte und ein Gold.</string>
+
     <string name="SaunaAvanto_name">Sauna/Eisloch</string>
     <string name="SaunaAvanto_desc">Spielvorbereitung: Lege auf diese Karte 5 Eisloch und oben darauf 5 Sauna. Es darf immer nur die oberste Karte des Stapels genommen oder gekauft werden.</string>
-    
+
     <string name="Summon_name">Einladung</string>
     <string name="Summon_desc">Nimm eine Aktionskarte, die bis zu 4 Geld kostet und lege sie zur Seite. Spiele sie zu Beginn deines nächsten Zuges.</string>
 </resources>

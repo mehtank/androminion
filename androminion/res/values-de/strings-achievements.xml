@@ -19,6 +19,6 @@
 	<string name="achievements_13curses">Gewinne ein Spiel mit genau 13 Flüchen in deinem Deck</string>
 	<string name="achievements_allEmpty">Gewinne ein Spiel, bei dem alle Stapel des Vorrats leer sind</string>
 
-	<string name="currentWinStreak">aktuelle Gewinnsträhne: </string>
+	<string name="currentWinStreak">Aktuelle Gewinnsträhne: </string>
 
 </resources>
