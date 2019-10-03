@@ -6,7 +6,7 @@
 	
 	<!-- Menu Activity -->
 	<string name="start_game_menu">Spiel starten</string>
-	<string name="join_game_menu">Multiplayer: Mit Server verbinden</string>
+	<string name="join_game_menu">Spiel beitreten</string>
 	<string name="stats_menu">Statistiken</string>
 	<string name="settings_menu">Einstellungen</string>
 	<string name="about_menu">Über</string>
@@ -35,11 +35,11 @@
 	<string name="connections_title">Verbindungen: </string>
 	<string name="connections">
 		<![CDATA[
-		<h3>On network permissions and usage</h3>
-		This app functions by using a strictly local networking layer to talk between the player and the game -- currently <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.<br><br>
-		<h3>Steps to run a multiplayer game</h3>
-		<b><font color="red">You need the source code to compile the server vdom!</font></b> In the vdom\\ directory, type \'ant run\' (or just start com.vdom.core.Game with whatever arguments you want - the build file build.xml has some default arguments).  Be sure you know the host name or ip address for the machine that\'s running the game server, and that the player ports (by default 2255 and 2256) aren\'t blocked by your machine\'s firewall.<br>
-		Open the app on two separate devices.  Use the \"join game\" dialog to enter your name, the host name or ip address of the machine running the server, then the port that shows up in the terminal where you\'re running the server.  Once the first player connects, a second port will show up; enter that one in on the second device (should be 2255 and 2256). The interface for the first player that connects will be missing a lot of stuff until the second player connects, but once both players are there, things work fine.<br><br>
+		<h3>Über Netzwerkrechte und -benutzung</h3>
+		Diese App benutzt ein lokales Netzwerk um zwischen den einzelnen Spielern und dem Spiel zu kommunizieren -- aktuell werden <b>keine Daten von oder zum Gerät gesendet</b>. Nichtsdestotrotz benötigt die App die Freigabe zur Benutzung des Netzwerks und die interne Kommunikation kann als Datenverbrauch angezeigt werden.<br><br>
+		<h3>Starten eines Multiplayer-Spiels</h3>
+		<b><font color="red">Du benötigst den Server um einen vdom server zu kompilieren!</font></b> Im vdom\\ Verzeichnis, \'ant run\' starten. Die IP (und Ports - Standard 2255 oder 2256) des Servers notieren und sicherstellen, dass die Ports offen sind (Firewall).<br>
+		Starte das Spiel auf zwei unterschiedlichen Geräten. Benutze den \"Spiel beitreten\" Dialog um Namen, IP und Port einzugeben (Port wird am Server angezeigt, wenn ein Spieler beitritt öffnet automatisch ein zweiter). Bis beide Spieler beigetreten sind kann es zu Darstellungsproblemen beim ersten Spieler kommen.<br><br>
 		Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
 		]]>
 	</string>
@@ -53,7 +53,8 @@
 		* Nachtmusik Erweiterung <br>
 		* Promokarte: Abbruch
 		<h3>Version 7.06</h3>
-		* Empires Erweterung <br>
+		* Empires Erweiterung <br>
+		* Zweite Edition von Dominion und Intrigue! <br>
 		* Promokarte: Sauna/Eisloch
 		<h3>Version 6.07</h3>
 		* Jetzt mit Abenteuer! <br>
@@ -135,6 +136,10 @@
 	<string name="random_landmarks_random">Zufällig</string>
 	<string name="random_include_cards">Mit Königreichkarten aus</string>
 	<string name="select_players">Spieler wählen:</string>
+	<string name="random_players">Zufall</string>
+	<string name="probability_2_players">Chance auf 2 Spieler</string>
+	<string name="probability_3_4_players">Chance auf 3–4 Spieler</string>
+	<string name="probability_5_6_players">Chance auf 5–6 Spieler</string>
 	<string name="player">Spieler </string>
 	<string name="currentplayer">Aktueller Spieler</string>
 	<string name="you">Du</string>
@@ -147,6 +152,7 @@
 	<string name="card_set_no_plat_colony">Kein Platin/Kolonie</string>
 	<string name="card_set_shelters">Unterschlüpfe</string>
 	<string name="card_set_no_shelters">Keine Unterschlüpfe</string>
+	<string name="card_set_card_options">%1$s (%2$s)</string>
 	<string name="none_game_start">Keiner</string> <!-- Unused -->
 	<string name="start_new_game_on_server">Neues Spiel starten</string> <!-- Unused -->
 

@@ -4,33 +4,33 @@
 	<string name="name_pref_title">Name</string>
 	<string name="name_pref_summary">Dein Name im Spiel</string>
 	<string name="ui_pref_title">Benutzeroberfläche</string>
-		<string name="card_display_pref_title">Spielkarten</string>
-			<string name="pref_viewstyle_title">Darstellung der Karten</string>
+		<string name="card_display_pref_title">Kartendarstellung</string>
+			<string name="pref_viewstyle_title">Kartenstil</string>
 			<string-array name="viewstyle_names">
 				<item>Klassisch</item>
 				<item>Einfach</item>
 				<item>Ausführlich</item>
 				<item>Gekürzt</item>
 			</string-array>
-			<string name="autodownload_pref_title">Bilder Download</string>
+			<string name="autodownload_pref_title">Bilderdownload</string>
 			<string name="autodownload_pref_summary">Im Hintergrund das (englische) Bild herunterladen, wenn die Kartendetails angezeigt werden.</string>
-			<string name="showimages_pref_title">Karten Beschreibung</string>
+			<string name="showimages_pref_title">Kartenbeschreibung</string>
 			<string-array name="showimages_names">
 				<item>nur Text</item>
 				<item>nur Bild</item>
 				<item>Bild und Text</item>
 			</string-array>
 			<string name="wikilink_pref_title">Wiki Link</string>
-			<string name="wikilink_pref_summary">in den Karten Beschreibung. Öffnet das DominionStrategy Wiki im Browser. (Das Spiel kann im Hintergrund beendet werden).</string>
-			<string name="showenglishnames_pref_title">Englische Karten</string>
-			<string name="showenglishnames_pref_summary">Zeige auch den englischen Kartennamen an, wenn die Spache nicht Englisch ist.</string>
+			<string name="wikilink_pref_summary">In den Kartenbeschreibungen. Öffnet das DominionStrategy Wiki im Browser. (Das Spiel kann im Hintergrund beendet werden).</string>
+			<string name="showenglishnames_pref_title">Englische Kartennamen</string>
+			<string name="showenglishnames_pref_summary">Zeige auch den englischen Kartennamen an, wenn die Spache nicht Englisch ist</string>
 		<string name="pref_theme_title">Design</string>
 		<string-array name="theme_names">
 			<item>Dunkel</item>
 			<item>Hell</item>
 			<item>Hell mit dunkler Leiste</item>
 		</string-array>
-		<string name="game_screen_pref_title">Spiel Darstellung</string>
+		<string name="game_screen_pref_title">Spieldarstellung</string>
 			<string name="pref_show_game_log_title">Logbuch</string>
 			<string name="pref_show_game_log_summary">Zeige als Text, was im Spiel passiert.</string>
 			<string name="show_statusbar_pref_title">Statuszeile</string>
@@ -44,7 +44,7 @@
 			<string name="card_counts_pref_summary">Im Nachziehstapel, auf der Hand und alle Karten</string>
 			<string name="mask_names_pref_title">Namen der Mitspieler verstecken</string>
 			<string name="mask_names_pref_summary">Die Namen der KI-Spieler sind während des Spiels unsichtbar</string>
-			<string name="sort_cards_pref_title">Karten in der Hand Sortieren</string>
+			<string name="sort_cards_pref_title">Karten in der Hand sortieren</string>
 			<string name="sort_cards_pref_summary">Sortiert die Karten auf der Hand nach Aktion, Geld, Fluch, Siegpunkt und Wert</string>
 			<string name="one_turn_logs_pref_title">Nur aktueller Zug</string>
 			<string name="one_turn_logs_pref_summary">Zeigt nur den aktuellen Zug im Logbuch an. Ansonsten werden alle Züge angezeigt.</string>
@@ -72,8 +72,8 @@
         <item>Russisch</item>
 		</string-array>
 	<string name="game_play_pref_title">Spieleinstellungen</string>
-		<string name="errata_pref_title">Ausgaben und Druckfehler</string>
-		<string name="errata_pref_summary">Einstellungen welche Ausgaben und Regeln verwendet werden</string>
+		<string name="errata_pref_title">Editionen und Druckfehler</string>
+		<string name="errata_pref_summary">Einstellungen welche Editionen und Regeln verwendet werden</string>
 			<string name="editions_pref_title">Zufällige und Vorgegebene Kartensets</string>
 			<string name="pref_base_set_edtion_title">Basis</string>
 			<string-array name="pref_base_set_editions">
@@ -91,21 +91,21 @@
 			<string name="erratamasquerade_pref_title">Maskerade</string>
 			<string name="erratamasquerade_pref_summary">Spieler ohne Karten setzen aus</string>
 			<string name="erratamine_pref_title">Mine</string>
-			<string name="erratamine_pref_summary">Entsorgen ist optional</string>
+			<string name="erratamine_pref_summary">Entsorgen ist optional (aus der Zweiten Edition)</string>
 			<string name="erratamoneylender_pref_title">Geldverleiher</string>
-			<string name="erratamoneylender_pref_summary">Entsorgen ist optional</string>
-			<string name="pref_errata_possessor_tokens_pref_title">Possession turn tokens</string>
+			<string name="erratamoneylender_pref_summary">Entsorgen ist optional (aus der Zweiten Edition)</string>
+			<string name="pref_errata_possessor_tokens_pref_title">Besessenheit</string>
 			<string-array name="pref_errata_possessor_tokens">
-			    <item>Possessed player takes tokens</item>
-				<item>Possessing player takes tokens (from Empires)</item>
-				<item>Possessing player takes debt tokens only (from Alchemy 2E)</item>
+			    <item>Der besessene Spieler bekommt alle erhaltenen Spielsteine</item>
+				<item>Der kontrollierende Spieler bekommt alle erhaltenen Spielsteine (aus Empires)</item>
+				<item>Der kontrollierende Spieler bekommt nur Schuldsteine (aus Alchemie 2E)</item>
 			</string-array>
 			<string name="erratathroneroom_pref_title">Thronsaal</string>
 			<string name="erratathroneroom_pref_summary">Ausspielen ist optional</string>
 			<string name="erratashuffling_pref_title">Mischen</string>
 			<string name="erratashuffling_pref_summary">Mischen bevor Karten gezogen werden, wenn im Nachziehstapel weniger sind als benötigt.</string>
 		<string name="faster_gameplay_pref_title">Schnelles Spiel</string>
-		<string name="faster_gameplay_pref_summary">Optionen um schneller zu Spielen</string>
+		<string name="faster_gameplay_pref_summary">Optionen für schnelleres Spiel</string>
 			<string name="quick_play_pref_title">Automatisches Spiel</string>
 			<string name="quick_play_pref_summary">Einige Karten und Nachfragen werden automatisch gespielt</string>
 			<string name="action_chains_pref_title">Aktionsketten</string>
@@ -125,7 +125,7 @@
 				<item>beliebig viele pro Stapel</item>
 				<item>alle des Stapels</item>
 			</string-array>
-			<string name="bm_only_cards_from_used_exp_pref_title">Erweiterungen</string>
+			<string name="bm_only_cards_from_used_exp_pref_title">Begrenzung der verwendeten Erweiterungen</string>
 			<string name="bm_only_cards_from_used_exp_pref_summary">Nur Karten der Erweiterungen verwenden, die auch im Set verwendet werden.</string>
 	<string name="logging_pref_title">Aufzeichhnung</string>
 		<string name="logging_enable_pref_title">Aktiviert</string>
