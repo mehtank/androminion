@@ -1497,7 +1497,12 @@ public abstract class Player {
     }
 
     protected void discardRemainingCardsFromHand(MoveContext context, Card[] cardsToKeep, Card responsibleCard, int keepCardCount) {
-        ArrayList<Card> keepCards = new ArrayList<Card>(Arrays.asList(cardsToKeep));
+        ArrayList<Card> keepCards;
+        if (cardsToKeep == null) {
+            keepCards = new ArrayList<Card>();
+        } else {
+            keepCards = new ArrayList<Card>(Arrays.asList(cardsToKeep));
+        }
 
         if (keepCardCount > 0) {
             boolean bad = false;
