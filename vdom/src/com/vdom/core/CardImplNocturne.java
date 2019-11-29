@@ -983,6 +983,7 @@ public class CardImplNocturne extends CardImpl {
 	private void poverty(Game game, MoveContext context, Player player) {
 		int keepCardCount = 3;
         if (player.hand.size() > keepCardCount) {
+            context.attackedPlayer = player;
             Card[] cardsToKeep = player.controlPlayer.poverty_attack_cardsToKeep(context);
             player.discardRemainingCardsFromHand(context, cardsToKeep, this.getControlCard(), keepCardCount);
         }
