@@ -515,37 +515,27 @@ public class CardImplEmpires extends CardImpl {
     }
     
     private void overlord(Game game, MoveContext context, Player currentPlayer) {
-        // Already impersonating another card?
-        if (!this.isImpersonatingAnotherCard()) {
-            // Get card to impersonate
-        	Card cardToImpersonate = currentPlayer.controlPlayer.overlord_actionCardToImpersonate(context);
-            if (cardToImpersonate != null 
-                && !game.isPileEmpty(cardToImpersonate)
-                && Cards.isSupplyCard(cardToImpersonate)
-                && cardToImpersonate.is(Type.Action, null)
-                && cardToImpersonate.getCost(context) <= 5
-                && cardToImpersonate.getDebtCost(context) == 0
-            	&& !cardToImpersonate.costPotion()
-                && (context.golemInEffect == 0 || cardToImpersonate != Cards.golem)) {
-                GameEvent event = new GameEvent(GameEvent.EventType.CardNamed, (MoveContext) context);
-                event.card = cardToImpersonate;
-                event.responsible = this;
-                game.broadcastEvent(event);
-                this.startImpersonatingCard(cardToImpersonate.getTemplateCard().instantiate());
-            } else {
-                Card[] cards = game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Action);
-                if (cards.length != 0 && cardToImpersonate != null) {
-                    Util.playerError(currentPlayer, "Overlord returned invalid card (" + cardToImpersonate.getName() + "), ignoring.");
-                }
-                return;
+        // Get card to play
+    	Card cardToPlay = currentPlayer.controlPlayer.overlord_actionCardToImpersonate(context);
+        if (cardToPlay != null 
+            && !game.isPileEmpty(cardToPlay)
+            && Cards.isSupplyCard(cardToPlay)
+            && cardToPlay.is(Type.Action, null)
+            && !cardToPlay.is(Type.Command, null)
+            && cardToPlay.getCost(context) <= 5
+            && cardToPlay.getDebtCost(context) == 0
+        	&& !cardToPlay.costPotion()
+            && (context.golemInEffect == 0 || cardToPlay != Cards.golem)) {
+        	context.freeActionInEffect++;
+        	cardToPlay.play(game, context, false, false, true, false, false);
+            context.freeActionInEffect--;
+        } else {
+            Card[] cards = game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Action);
+            if (cards.length != 0 && cardToPlay != null) {
+                Util.playerError(currentPlayer, "Overlord returned invalid card (" + cardToPlay.getName() + "), ignoring.");
             }
+            return;
         }
-
-        // Play the impersonated card
-        CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
-        context.freeActionInEffect++;
-        cardToPlay.play(game, context, false);
-        context.freeActionInEffect--;
     }
     
     private void patrician(Game game, MoveContext context, Player currentPlayer) {

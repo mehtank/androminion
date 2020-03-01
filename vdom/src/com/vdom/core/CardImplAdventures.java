@@ -849,19 +849,12 @@ public class CardImplAdventures extends CardImpl {
     	Card card = context.getPlayer().controlPlayer.inheritance_actionCardTosetAside(context);
     	if (card != null && card.is(Type.Action, null)) {
             if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion() && 
-            		!context.game.isPileEmpty(card) && !card.is(Type.Victory, null)) {
+            		!context.game.isPileEmpty(card) && !card.is(Type.Command, null)) {
             	context.player.inheritance = context.game.takeFromPile(card, context);
             	GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, context);
                 event.card = card;
                 event.responsible = this;
                 context.game.broadcastEvent(event);
-            }
-
-            //Start inheriting estates the player already owns
-            for (Card c : context.player.getAllCards()) {
-                if (c.equals(Cards.estate)) {
-                    ((CardImpl)c).startInheritingCardAbilities(context.player.inheritance.getTemplateCard().instantiate());
-                }
             }
         }
         context.cantBuy.add(this); //once per game

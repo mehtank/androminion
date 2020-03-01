@@ -2468,7 +2468,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_throneRoom_cardToPlay(context)) {
             return super.procession_cardToPlay(context);
         }
-        SelectCardOptions sco = new SelectCardOptions().isAction()
+        SelectCardOptions sco = new SelectCardOptions().isAction().isNonDuration()
                 .setCardResponsible(Cards.procession);
         return getCardFromHand(context, sco);
     }
@@ -2708,7 +2708,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card captain_cardToPlay(MoveContext context) {
     	 SelectCardOptions sco = new SelectCardOptions()
-	         .maxCost(4).maxDebtCost(0).maxPotionCost(0).isAction().isNonDuration().isSupplyCard()
+	         .maxCost(4).maxDebtCost(0).maxPotionCost(0).isAction().isNonDuration().isNonCommand().isSupplyCard()
 	         .setCardResponsible(Cards.captain);
     	 return getFromTable(context, sco);
     }
@@ -2875,7 +2875,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.bandOfMisfits_actionCardToImpersonate(context, maxCost);
         }
         SelectCardOptions sco = new SelectCardOptions()
-                .maxCost(maxCost).maxDebtCost(0).maxPotionCost(0).isAction().isSupplyCard()
+                .maxCost(maxCost).maxDebtCost(0).maxPotionCost(0).isAction().isNonCommand().isSupplyCard()
                 .setCardResponsible(Cards.bandOfMisfits);
         return getFromTable(context, sco);
     }
@@ -3389,7 +3389,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.inheritance_actionCardTosetAside(context);
         }
     	SelectCardOptions sco = new SelectCardOptions()
-                .isAction().isNonVictory().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+                .isAction().isNonCommand().maxCost(4).maxDebtCost(0).maxPotionCost(0)
                 .setActionType(ActionType.SETASIDE).setCardResponsible(Cards.inheritance);
         return getFromTable(context, sco);
     }
@@ -3774,7 +3774,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.overlord_actionCardToImpersonate(context);
         }
         SelectCardOptions sco = new SelectCardOptions()
-                .maxCost(5).maxDebtCost(0).maxPotionCost(0).isAction().isSupplyCard()
+                .maxCost(5).maxDebtCost(0).maxPotionCost(0).isAction().isNonCommand().isSupplyCard()
                 .setCardResponsible(Cards.overlord);
         return getFromTable(context, sco);
     }

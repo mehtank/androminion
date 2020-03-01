@@ -4116,13 +4116,7 @@ public class Game {
                     		player.putOnTopOfDeck(event.card, context, true);
                         } else if ((context.countCardsInPlay(Cards.tracker) > 0) && context.player.controlPlayer.royalSealTravellingFairTracker_shouldPutCardOnDeck((MoveContext) context, Cards.tracker, event.card)) {
                     		player.putOnTopOfDeck(event.card, context, true);
-                        } else if (event.responsible != null && event.responsible.equals(Cards.summon)
-                        		&& (!event.card.equals(Cards.inn))
-                        		&& (!event.card.equals(Cards.borderVillage) || (event.card.equals(Cards.borderVillage) && Cards.borderVillage.getCost(context) == 0))
-                        		&& (!event.card.equals(Cards.deathCart) || (event.card.equals(Cards.deathCart) && context.game.isPileEmpty(Cards.virtualRuins)))
-                        				) {
-                            //TODO: figure out better way to handle not Summoning Death Cart or Border Village (or other cards) due to lose track rule
-                        	//      may have missed some esoteric cases here (e.g. Inn's when-gain ability doesn't have to have Summon lose track)
+                        } else if (event.responsible != null && event.responsible.equals(Cards.summon)) {
                         	context.player.summon.add(event.card);
         					GameEvent summonEvent = new GameEvent(GameEvent.EventType.CardSetAside, context);
         					summonEvent.card = event.card;

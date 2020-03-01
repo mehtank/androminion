@@ -206,6 +206,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except, GetCardsInGameOptions cardsInGameType, boolean durationsAllowed) {
+    	return bestCardInPlay(context, maxCost, exactCost, maxDebtCost, potion, actionOnly, victoryCardAllowed, mustCostLessThanMax, mustPick, except, cardsInGameType, durationsAllowed, true);
+    }
+    
+    protected Card bestCardInPlay(final MoveContext context, int maxCost, boolean exactCost, int maxDebtCost, boolean potion, boolean actionOnly, boolean victoryCardAllowed, boolean mustCostLessThanMax, boolean mustPick, Card except, GetCardsInGameOptions cardsInGameType, boolean durationsAllowed, boolean commandsAllowed) {
         boolean isBuy = (maxCost == -1);
         if (isBuy) {
             maxCost = COST_MAX;
@@ -235,6 +239,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
                 || (actionOnly && !(card.is(Type.Action))) 
                 || (!victoryCardAllowed && (card.is(Type.Victory, context.player)) && !card.equals(Cards.curse))
                 || (!durationsAllowed && (card.is(Type.Duration, null)))
+                || (!commandsAllowed && (card.is(Type.Command, null)))
                 || (exactCost && (cardCost != maxCost || cardDebt != maxDebtCost || maxPotionCost != cardPotion))
                 || (cardCost > maxCost || cardDebt > maxDebtCost || cardPotion > maxPotionCost)
                 || (mustCostLessThanMax && (cardCost == maxCost && cardDebt == maxDebtCost && maxPotionCost == cardPotion))
@@ -2796,7 +2801,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
 	@Override
 	public Card procession_cardToPlay(MoveContext context) {
-		return controlPlayer.kingsCourt_cardToPlay(context);
+		for (Card c : context.getPlayer().getHand()) {
+            if(c.is(Type.Action, context.getPlayer()) && !c.is(Type.Duration, context.getPlayer())) {
+                return c;
+            }
+        }
+        
+        return null;
 	}
 
 	@Override
@@ -3057,7 +3068,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     			&& Cards.treasureMap.getCost(context) <= 4) {
     		return Cards.treasureMap;
     	}
-    	return bestCardInPlay(context, 4, false, 0, false, true, true, false, true, null, GetCardsInGameOptions.TopOfPiles, false);
+    	return bestCardInPlay(context, 4, false, 0, false, true, true, false, true, null, GetCardsInGameOptions.TopOfPiles, false, false);
     }
     
     @Override
@@ -3264,7 +3275,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     			&& Cards.treasureMap.getCost(context) <= maxCost) {
     		return Cards.treasureMap;
     	}
-        return bestCardInPlay(context, maxCost, false, false, true, true, true);
+    	return bestCardInPlay(context, maxCost, false, 0, false, true, true, true, true, null, GetCardsInGameOptions.TopOfPiles, true, false);
     }
 
     @Override
@@ -4001,7 +4012,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card inheritance_actionCardTosetAside(MoveContext context) {
     	//TODO: favor cantrips
-    	return bestCardInPlay(context, 4, false, 0, false, true, false, true);
+    	return bestCardInPlay(context, 4, false, 0, false, true, true, true, true, null, GetCardsInGameOptions.TopOfPiles, true, false);
     }
     
     @Override
@@ -4389,7 +4400,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     			&& Cards.treasureMap.getCost(context) <= 5) {
     		return Cards.treasureMap;
     	}
-        return bestCardInPlay(context, 5, false, false, true, true, true);
+    	return bestCardInPlay(context, 5, false, 0, false, true, true, true, true, null, GetCardsInGameOptions.TopOfPiles, true, false);
     }
     
     @Override

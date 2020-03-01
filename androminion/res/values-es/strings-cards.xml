@@ -199,7 +199,7 @@
     <string name="Warehouse_name">Almacén</string>
     <string name="Warehouse_desc">Descarta 3 cartas.</string>
     <string name="Embargo_name">Embargo</string>
-    <string name="Embargo_desc">Elimina esta carta. Coloca un marcador de Embargo sobre un montón del Suministro. Cuando un jugador compre una carta, gana una carta de Maldición por cada marcador de Embargo que tenga su montón del Suministro.</string>
+    <string name="Embargo_desc">Elimina esta carta. Si lo haces, agrega un marcador de Embargo en un montón del Suministro. (Por el resto de la partida, cuando un jugador compre una carta de ese montón, gana una carta de Maldición.)</string>
     <string name="Alchemist_name">Alquimista</string>
     <string name="Alchemist_desc">Cuando lo descartes, si tienes alguna Poción en juego, puedes poner esta carta encima de tu mazo.</string>
     <string name="Apothecary_name">Boticario</string>
@@ -369,9 +369,9 @@
     <string name="BanditCamp_name">Campamento de Bandidos</string>
     <string name="BanditCamp_desc">Gana una carta de Botín del montón de Botines.</string>
     <string name="BandOfMisfits_name">Banda de Rufianes</string>
-    <string name="BandOfMisfits_desc">Juega esta carta como si fuera la carta de Acción que elijas del Suministro y que cueste menos que ella. Esta carta se considera la carta elegida hasta el momento de abondonar la zona de juego.</string>
+    <string name="BandOfMisfits_desc">Juega una carta de Acción que no sea de Mando del Suministro que cueste menos que esta carta, dejándola ahí.</string>
     <string name="DeathCart_name">Carro de los Muertos</string>
-    <string name="DeathCart_desc">Puedes eliminar una carta de Acción de tu mano. Si no lo haces, elimina esta carta. Cuando ganes esta carta, gana 2 cartas de Ruinas.</string>
+    <string name="DeathCart_desc">Puedes eliminar esta carta o una carta de Acción de tu mano, para +(5) Monedas. Si no lo haces, elimina esta carta. Cuando ganes esta carta, gana 2 cartas de Ruinas.</string>
     <string name="Feodum_name">Feudo</string>
     <string name="Feodum_desc">Esta carta vale 1 PV por cada 3 cartas de Plata que tengas en tu mazo (redondeando hacia abajo). Cuando elimines esta carta, gana 3 cartas de Plata.</string>
     <string name="Fortress_name">Fortaleza</string>
@@ -411,7 +411,7 @@
     <string name="WanderingMinstrel_name">Juglar</string>
     <string name="WanderingMinstrel_desc">Revela las 3 cartas superiores de tu mazo. Devuelve las cartas de Acción encima del mazo en el orden que desees y descarta el resto.</string>
     <string name="Procession_name">Procesión</string>
-    <string name="Procession_desc">Puedes jugar una carta de Acción de tu mano dos veces. Elimínala. Gana una carta de Acción que cueste exactamente 1 Moneda más que la carta eliminada.</string>
+    <string name="Procession_desc">Puedes jugar una carta de Acción que no sea de Duración de tu mano dos veces. Elimínala. Gana una carta de Acción que cueste exactamente 1 Moneda más que la carta eliminada.</string>
     <string name="Rebuild_name">Reconstruir</string>
     <string name="Rebuild_desc">Nombra una carta. Revela las cartas superiores de tu mazo hasta revelar una carta de Victoria que no sea la carta que nombraste. Descarta el resto de cartas. Elimina la carta de Victoria y gana una carta de Victoria con un coste máximo de 3 Monedas más que la carta eliminada.</string>
     <string name="Rogue_name">Granuja</string>
@@ -419,7 +419,7 @@
     <string name="Counterfeit_name">Falsificación</string>
     <string name="Counterfeit_desc">Cuando juegues esta carta, puedes jugar una carta de Tesoro de tu mano dos veces. Si lo haces, elimina esa carta de Tesoro.</string>
     <string name="Pillage_name">Pillaje</string>
-    <string name="Pillage_desc">Elimina esta carta. Cada jugador (menos tú) que tenga 5 o más cartas en su mano revela su mano y se descarta de la carta que tú elijas. Gana 2 cartas de Botín del montón de Botines.</string>
+    <string name="Pillage_desc">Elimina esta carta. Si lo haces, gana 2 cartas de Botín, y cada jugador (menos tú) que tenga 5 o más cartas en su mano revela su mano y se descarta de la carta que tú elijas.</string>
     <string name="Spoils_name">Botín</string>
     <string name="Spoils_desc">Cuando juegues esta carta, devuélvala al montón de Botines. (Este montón no está en el Suministro).</string>
     <string name="AbandonedMine_name">Mina Abandonada</string>
@@ -595,7 +595,7 @@
     <string name="Ferry_name">Vado</string>
     <string name="Ferry_desc">Mueve tu marcador de -2 coste a un mazo de Acciones del Suministro (cartas de ese mazo cuestan 2 Monedas menos durante tus turnos, pero nunca menos que 0 Monedas).</string>
     <string name="Inheritance_name">Herencia</string>
-    <string name="Inheritance_desc">Una vez por partida: Aparta una carta de Acción que no sea carta de Victoria con un coste máximo de 4 Monedas. Mueve tu marcador de Finca a ella (tus Fincas ganan las habilidades y tipos de esa carta).</string>
+    <string name="Inheritance_desc">Una vez por partida: Aparta una carta de Acción que no sea de Mando con un coste máximo de 4 Monedas. Mueve tu marcador de Finca a ella. (Durante tus turnos, Fincas también son cartas de Acción con la habilidad "Juega la carta con tu marcador de Finca, dejándola ahí.").</string>
     <string name="LostArts_name">Artes Ancianos</string>
     <string name="LostArts_desc">Mueve tu marcador de +1 Acción a un mazo de Acciones del Suministro (cuando juegues una carta de ese mazo, primero obtén +1 Acción).</string>
     <string name="Mission_name">Misión</string>
@@ -660,7 +660,7 @@
     <string name="Legionary_name">Legionario</string>
     <string name="Legionary_desc">Puedes revelar una carta de Oro de tu mano. Si lo haces, cada jugador (menos tú) se descarta hasta quedarse con 2 cartas en su mano y entónces roba una carta.</string>
     <string name="Overlord_name">Amo</string>
-    <string name="Overlord_desc">Juega esta carta como si fuera la carta de Acción que elijas del Suministro y que tenga coste máximo de (5) Monedas. Esta carta se considera la carta elegida hasta el momento de abondonar la zona de juego.</string>
+    <string name="Overlord_desc">Juega una carta de Acción que no sea de Mando del Suministro que tenga coste máximo de (5) Monedas, dejándola ahí.</string>
     <string name="Patrician_name">Patricio</string>
     <string name="Patrician_desc">Revela la carta encima de tu mazo. Si cuesta (5) Monedas o más, ponla en tu mano.</string>
     <string name="Plunder_name">Saqueo</string>
@@ -1010,7 +1010,7 @@
     <string name="Key_name">Llave</string>
     <string name="Key_desc">Al comienzo de tu turno, +(1) Moneda.</string>
     <string name="Lantern_name">Farol</string>
-    <string name="Lantern_desc">Tus Guardias de Fronteras revelan 3 cartas y discartan 2. (Necesitas que todas las 3 sean Acciones para tomar el Cuerno.)</string>
+    <string name="Lantern_desc">Guardias de Fronteras que juegas revelan 3 cartas y discartan 2. (Necesitas que todas las 3 sean Acciones para tomar el Cuerno.)</string>
     <string name="TreasureChest_name">Cofre de Tesoro</string>
     <string name="TreasureChest_desc">Al comienzo de tu fase de Compra, gana una carta de Oro.</string>
     
@@ -1051,7 +1051,7 @@
     <string name="Silos_name">Silos</string>
     <string name="Silos_desc">Al comienzo de tu turno, descarta cualquier número de cartas de Cobre, ya reveladas, y +1 Carta por cada carta descartada.</string>
     <string name="SinisterPlot_name">Complot Siniestro</string>
-    <string name="SinisterPlot_desc">Al comienzo de tu turno, agrega una marcador aquí, o bien quita tus marcadores de aquí para +1 Carta por cada uno.</string>
+    <string name="SinisterPlot_desc">Al comienzo de tu turno, agrega un marcador aquí, o bien quita tus marcadores de aquí para +1 Carta por cada uno.</string>
     <string name="StarChart_name">Carta Estelar</string>
     <string name="StarChart_desc">Al barajar, puedes elegir una de las cartas para poner encima del mazo.</string>	
     
@@ -1076,7 +1076,7 @@
     <string name="Church_name">Iglesia</string>
     <string name="Church_desc">Aparta hasta 3 cartas de tu mano, boca abajo. Al comienzo de tu próximo turno, ponlas en tu mano, entonces puedes eliminar una carta de tu mano.</string>
     <string name="Captain_name">Capitán</string>
-    <string name="Captain_desc">Ahora y al comienzo de tu próximo turno:\nJuega una carta que sea de Acción y no de Duración del Suministro con un coste máximo de (4) Monedas, dejándola ahí.</string>
+    <string name="Captain_desc">Ahora y al comienzo de tu próximo turno:\nJuega una carta que sea de Acción y no de Duración ni de Mando del Suministro con un coste máximo de (4) Monedas, dejándola ahí.</string>
     
     <string name="SaunaAvanto_name">Sauna/Avanto</string>
     <string name="SaunaAvanto_desc">Al comienzo del juego, este montón tiene 5 copias de Sauna encima, y entonces 5 copias de Avanto. Sólo la carta encima del montón se puede ganar o comprar.</string>

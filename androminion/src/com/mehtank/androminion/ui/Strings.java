@@ -1588,7 +1588,13 @@ public class Strings {
                     selectString = Strings.format(R.string.select_from_table_max_treasure, maxCostString, header);
                 } else if (sco.isAction) {
                 	if (sco.isNonDuration) {
-                		selectString = Strings.format(R.string.select_from_table_max_action_non_duration, maxCostString, header);
+                		if (sco.isNonCommand) {
+                			selectString = Strings.format(R.string.select_from_table_max_action_non_duration_non_command, maxCostString, header);
+                		} else {
+                			selectString = Strings.format(R.string.select_from_table_max_action_non_duration, maxCostString, header);
+                		}
+                	} if (sco.isNonCommand) {
+                		selectString = Strings.format(R.string.select_from_table_max_action_non_command, maxCostString, header);
                 	} else {
                 		selectString = Strings.format(R.string.select_from_table_max_action, maxCostString, header);
                 	}

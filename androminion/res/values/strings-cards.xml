@@ -199,7 +199,7 @@
     <string name="Warehouse_name">Warehouse</string>
     <string name="Warehouse_desc">Discard 3 cards.</string>
     <string name="Embargo_name">Embargo</string>
-    <string name="Embargo_desc">Trash this card. Put an Embargo token on top of a Supply pile. When a player buys a card, he gains a Curse card per Embargo token on that pile.</string>
+    <string name="Embargo_desc">Trash this. If you did, add an Embargo token to a Supply pile. (For the rest of the game, when a player buys a card from that pile, they gain a Curse.)</string>
     <string name="Alchemist_name">Alchemist</string>
     <string name="Alchemist_desc">When you discard this from play, you may put this on top of your deck if you have a Potion in play.</string>
     <string name="Apothecary_name">Apothecary</string>
@@ -369,9 +369,9 @@
     <string name="BanditCamp_name">Bandit Camp</string>
     <string name="BanditCamp_desc">Gain a Spoils from the Spoils pile.</string>
     <string name="BandOfMisfits_name">Band of Misfits</string>
-    <string name="BandOfMisfits_desc">Play this as if it were an Action card in the supply costing less than it that you choose. This is that card until it leaves play.</string>
+    <string name="BandOfMisfits_desc">Play a non-Command Action card from the Supply that costs less than this, leaving it there.</string>
     <string name="DeathCart_name">Death Cart</string>
-    <string name="DeathCart_desc">You may trash an Action card from your hand. If you don\'t, trash this. When you gain this, gain 2 Ruins.</string>
+    <string name="DeathCart_desc">You may trash this or an Action card from your hand, for +(5) Coins. When you gain this, gain 2 Ruins.</string>
     <string name="Feodum_name">Feodum</string>
     <string name="Feodum_desc">Worth 1 VP for every 3 Silvers in your deck (round down). When you trash this, gain 3 Silvers.</string>
     <string name="Fortress_name">Fortress</string>
@@ -411,7 +411,7 @@
     <string name="WanderingMinstrel_name">Wandering Minstrel</string>
     <string name="WanderingMinstrel_desc">Reveal the top 3 cards of your deck. Put the Actions back on top in any order and discard the rest.</string>
     <string name="Procession_name">Procession</string>
-    <string name="Procession_desc">You may play an Action card from your hand twice. Trash it. Gain an Action card costing exactly 1 more than it.</string>
+    <string name="Procession_desc">You may play a non-Duration Action card from your hand twice. Trash it. Gain an Action card costing exactly 1 more than it.</string>
     <string name="Rebuild_name">Rebuild</string>
     <string name="Rebuild_desc">Name a card. Reveal cards from the top of your deck until you reveal a Victory card that is not the named card. Discard the other cards. Trash the Victory card and gain a Victory card costing up to 3 more than it.</string>
     <string name="Rogue_name">Rogue</string>
@@ -419,7 +419,7 @@
     <string name="Counterfeit_name">Counterfeit</string>
     <string name="Counterfeit_desc">When you play this, you may play a Treasure from your hand twice. If you do, trash that Treasure.</string>
     <string name="Pillage_name">Pillage</string>
-    <string name="Pillage_desc">Trash this. Each other player with 5 or more cards in hand reveals his hand and discards a card that you choose. Gain 2 Spoils from the Spoils pile.</string>
+    <string name="Pillage_desc">Trash this. If you did, gain 2 Spoils, and each other player with 5 or more cards in hand reveals their hand and discards a card that you choose.</string>
     <string name="Spoils_name">Spoils</string>
     <string name="Spoils_desc">When you play this, return it to the Spoils pile. (This is not in the Supply.)</string>
     <string name="AbandonedMine_name">Abandoned Mine</string>
@@ -595,7 +595,7 @@
     <string name="Ferry_name">Ferry</string>
     <string name="Ferry_desc">Move your -2 cost token to an Action Supply pile (cards from that pile cost 2 Coins less on your turns, but not less than 0 Coins).</string>
     <string name="Inheritance_name">Inheritance</string>
-    <string name="Inheritance_desc">Once per game: Set aside a non-Victory Action card from the Supply costing up to 4 Coins. Move your Estate token to it (your Estates gain the abilities and types of that card).</string>
+    <string name="Inheritance_desc">Once per game: Set aside a non-Command Action card from the Supply costing up to (4) Coins. Move your Estate token to it. (During your turns, Estates are also Actions with "Play the card with your Estate token, leaving it there.")</string>
     <string name="LostArts_name">Lost Arts</string>
     <string name="LostArts_desc">Move your +1 Action token to an Action Supply pile (when you play a card from that pile, you first get +1 Action).</string>
     <string name="Mission_name">Mission</string>
@@ -660,7 +660,7 @@
     <string name="Legionary_name">Legionary</string>
     <string name="Legionary_desc">You may reveal a Gold from your hand. If you do, each other player discards down to 2 cards in hand, then draws a card.</string>
     <string name="Overlord_name">Overlord</string>
-    <string name="Overlord_desc">Play this as if it were an Action card in the Supply costing up to (5) Coins. This is that card until it leaves play.</string>
+    <string name="Overlord_desc">Play a non-Command Action card from the Supply costing up to (5) Coins, leaving it there.</string>
     <string name="Patrician_name">Patrician</string>
     <string name="Patrician_desc">Reveal the top card of your deck. If it costs (5) Coins or more, put it into your hand.</string>
     <string name="Plunder_name">Plunder</string>
@@ -1010,7 +1010,7 @@
     <string name="Key_name">Key</string>
     <string name="Key_desc">At the start of your turn, +(1) Coin.</string>
     <string name="Lantern_name">Lantern</string>
-    <string name="Lantern_desc">Your Border Guards reveal 3 cards and discard 2. (It takes all 3 being Actions to take the Horn.)</string>
+    <string name="Lantern_desc">Border Guards you play reveal 3 cards and discard 2. (It takes all 3 being Actions to take the Horn.)</string>
     <string name="TreasureChest_name">Treasure Chest</string>
     <string name="TreasureChest_desc">At the start of your Buy phase, gain a Gold.</string>
     
@@ -1076,7 +1076,7 @@
     <string name="Church_name">Church</string>
     <string name="Church_desc">Set aside up to 3 cards from your hand face down. At the start of your next turn, put them into your hand, then you may trash a card from your hand.</string>
     <string name="Captain_name">Captain</string>
-    <string name="Captain_desc">Now and at the start of your next turn:\nPlay a non-Duration Action card from the Supply costing up to (4) Coins, leaving it there.</string>
+    <string name="Captain_desc">Now and at the start of your next turn:\nPlay a non-Duration non-Command Action card from the Supply costing up to (4) Coins, leaving it there.</string>
     
     <string name="SaunaAvanto_name">Sauna/Avanto</string>
     <string name="SaunaAvanto_desc">This pile starts the game with 5 copies of Sauna on top, then 5 copies of Avanto. Only the top card of the pile can be gained or bought.</string>

@@ -166,7 +166,8 @@ public class CardImplSeaside extends CardImpl {
     }
 	
     private void embargo(Game game, MoveContext context, Player currentPlayer) {
-    	currentPlayer.trashSelfFromPlay(getControlCard(), context);
+    	if (!currentPlayer.trashSelfFromPlay(getControlCard(), context))
+    		return;
         Card card = currentPlayer.controlPlayer.embargo_supplyToEmbargo(context);
 
         while (game.addEmbargo(card) == null) {

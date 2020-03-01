@@ -297,42 +297,26 @@ public class CardImplDarkAges extends CardImpl {
     }
 	
 	private void bandOfMisfits(Game game, MoveContext context, Player currentPlayer) {
-        // Already impersonating another card?
-        if (!this.isImpersonatingAnotherCard()) {
-
-            //Inherited Estates don't gain the cost from the card they inherit, but playing an Overlord as Band of Misfits have the cost of Band of Misfits.
-            int cost = this.getControlCard().equals(Cards.estate) ? this.getControlCard().getCost(context) : this.getCost(context);
-        	if (cost == 0) return;
-
-            // Get card to impersonate
-            Card cardToImpersonate = currentPlayer.controlPlayer.bandOfMisfits_actionCardToImpersonate(context, cost - 1);
-            if (cardToImpersonate != null 
-                && !game.isPileEmpty(cardToImpersonate)
-                && Cards.isSupplyCard(cardToImpersonate)
-                && cardToImpersonate.is(Type.Action, null)
-                && cardToImpersonate.getCost(context) < cost
-                && cardToImpersonate.getDebtCost(context) == 0
-            	&& !cardToImpersonate.costPotion()
-                && (context.golemInEffect == 0 || cardToImpersonate != Cards.golem)) {
-                GameEvent event = new GameEvent(GameEvent.EventType.CardNamed, (MoveContext) context);
-                event.card = cardToImpersonate;
-                event.responsible = this;
-                game.broadcastEvent(event);
-                this.startImpersonatingCard(cardToImpersonate.getTemplateCard().instantiate());
-            } else {
-                Card[] cards = game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Action);
-                if (cards.length != 0 && cardToImpersonate != null) {
-                    Util.playerError(currentPlayer, "Band of Misfits returned invalid card (" + cardToImpersonate.getName() + "), ignoring.");
-                }
-                return;
+        Card cardToPlay = currentPlayer.controlPlayer.bandOfMisfits_actionCardToImpersonate(context, cost - 1);
+        if (cardToPlay != null 
+            && !game.isPileEmpty(cardToPlay)
+            && Cards.isSupplyCard(cardToPlay)
+            && cardToPlay.is(Type.Action, null)
+            && !cardToPlay.is(Type.Command, null)
+            && cardToPlay.getCost(context) < cost
+            && cardToPlay.getDebtCost(context) == 0
+        	&& !cardToPlay.costPotion()
+            && (context.golemInEffect == 0 || cardToPlay != Cards.golem)) {
+        	context.freeActionInEffect++;
+        	cardToPlay.play(game, context, false, false, true, false, false);
+            context.freeActionInEffect--;
+        } else {
+            Card[] cards = game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Action);
+            if (cards.length != 0 && cardToPlay != null) {
+                Util.playerError(currentPlayer, "Band of Misfits returned invalid card (" + cardToPlay.getName() + "), ignoring.");
             }
+            return;
         }
-
-        // Play the impersonated card
-        CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
-        context.freeActionInEffect++;
-        cardToPlay.play(game, context, false);
-        context.freeActionInEffect--;
     }
 
 	private void banditCamp(MoveContext context, Player currentPlayer)
@@ -521,9 +505,13 @@ public class CardImplDarkAges extends CardImpl {
         Card actionCardToTrash = currentPlayer.controlPlayer.deathCart_actionToTrash(context);
         if (actionCardToTrash != null)
         {
-            currentPlayer.trashFromHand(actionCardToTrash, this.getControlCard(), context);
+            if (currentPlayer.trashFromHand(actionCardToTrash, this.getControlCard(), context)) {
+            	context.addCoins(5, this.getControlCard());
+            }
         } else {
-        	currentPlayer.trashSelfFromPlay(getControlCard(), context);
+        	if (currentPlayer.trashSelfFromPlay(getControlCard(), context)) {
+        		context.addCoins(5, this.getControlCard());
+        	}
         }
     }
 
@@ -796,7 +784,12 @@ public class CardImplDarkAges extends CardImpl {
             	attackedPlayers.add(player);
             }
     	}
-    	currentPlayer.trashSelfFromPlay(getControlCard(), context);
+    	if (!currentPlayer.trashSelfFromPlay(getControlCard(), context))
+    		return;
+    	
+        // Gain 2 Spoils from the Spoils pile
+        currentPlayer.gainNewCard(Cards.spoils, this.getControlCard(), context);
+        currentPlayer.gainNewCard(Cards.spoils, this.getControlCard(), context);
     	
         // Each other player with 5 cards in hand reveals his hand and discards a card that you choose.
         for (Player targetPlayer : attackedPlayers) {
@@ -821,10 +814,6 @@ public class CardImplDarkAges extends CardImpl {
                 }
             }
         }
-
-        // Gain 2 Spoils from the Spoils pile
-        currentPlayer.gainNewCard(Cards.spoils, this.getControlCard(), context);
-        currentPlayer.gainNewCard(Cards.spoils, this.getControlCard(), context);
     }
     
     private void poorHouse(MoveContext context, Player currentPlayer) {

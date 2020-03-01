@@ -28,5 +28,6 @@
     <string name="type_zombie">Zombi</string>
     <string name="type_artifact">Artefacto</string>
     <string name="type_project">Proyecto</string>
+    <string name="type_command">Mando</string>
     <string name="type_curse">Maldición</string>
 </resources>

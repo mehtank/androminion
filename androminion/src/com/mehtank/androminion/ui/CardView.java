@@ -974,6 +974,10 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
                 cardType += " - " + context.getString(R.string.type_victory);
             }
             
+            if (c.isCommand) {
+                cardType += " - " + context.getString(R.string.type_command);
+            }
+            
             if (c.isKnight) {
                 cardType += " - " + context.getString(R.string.type_knight);
             }

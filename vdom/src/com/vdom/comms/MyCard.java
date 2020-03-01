@@ -57,6 +57,7 @@ public class MyCard implements Serializable {
 	public boolean isSpirit    = false;
 	public boolean isState     = false;
 	public boolean isZombie    = false;
+	public boolean isCommand   = false;
 	public boolean isBlackMarket = false;
 	public boolean isStash    = false;
 	

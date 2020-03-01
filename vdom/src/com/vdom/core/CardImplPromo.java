@@ -174,6 +174,7 @@ public class CardImplPromo extends CardImpl {
 	            && Cards.isSupplyCard(cardToPlay)
 	            && cardToPlay.is(Type.Action, null)
 	            && !cardToPlay.is(Type.Duration, null)
+	            && !cardToPlay.is(Type.Command, null)
 	            && cardToPlay.getCost(context) <= 4
 	            && cardToPlay.getDebtCost(context) == 0
 	        	&& !cardToPlay.costPotion()) {

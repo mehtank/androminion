@@ -510,46 +510,16 @@ public class CardImpl implements Card, Comparable<Card>{
     
     @Override
     public boolean is(Type t, Player player, MoveContext context) {
-    	Player turnPlayer = player != null ? player.game.getCurrentPlayer() : (context != null ? context.player.game.getCurrentPlayer() : null);
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
-            if (!behaveAsCard().equals(this)) {
-                return behaveAsCard().is(t, player);
-            }
-            if (t == Type.Treasure && turnPlayer != null && hasPlusCoin && turnPlayer.hasProject(Cards.capitalism)) {
-            	for (int i = 0; i < types.length; ++i) {
-    	    		if (types[i] == Type.Action) {
-    	    			return true;
-    	    		}
-    	    	}
-            }
-	    	for (int i = 0; i < types.length; ++i) {
-	    		if (types[i] == t) return true;
-	    	}
-	    	return false;
+    	player = player != null ? player : (context != null ? context.player : null);
+    	Type[] types = getTypes(player);
+    	for (int i = 0; i < types.length; ++i) {
+    		if (types[i] == t) return true;
     	}
-
-        if (player.getInheritance().is(t)) return true;
-        if (t == Type.Treasure && turnPlayer != null && hasPlusCoin && turnPlayer.hasProject(Cards.capitalism)) {
-        	for (int i = 0; i < types.length; ++i) {
-	    		if (types[i] == Type.Action) {
-	    			return true;
-	    		}
-	    	}
-        }
-        for (int i = 0; i < types.length; ++i) {
-            if (types[i] == t) return true;
-        }
-        return false;
+    	return false;
     }
 
     public int getNumberOfTypes(Player player) {
-        if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
-            return types.length;
-        }
-        Set<Type> typeSet = new HashSet<Type>();
-        typeSet.addAll(Arrays.asList(((CardImpl)player.getInheritance()).types));
-        typeSet.addAll(Arrays.asList(types));
-        return typeSet.size();
+    	return getTypes(player).length;
     }
     
     public Type[] getTypes() {
@@ -557,12 +527,18 @@ public class CardImpl implements Card, Comparable<Card>{
     }
         
     public Type[] getTypes(Player player) {
-        if (player == null || player.getInheritance() == null || !this.equals(Cards.estate)) {
+        if (player == null || (!player.hasProject(Cards.capitalism) && (player.getInheritance() == null || !this.equals(Cards.estate)))) {
             return types;
         }
         Set<Type> typeSet = new HashSet<Type>();
-        typeSet.addAll(Arrays.asList(((CardImpl)player.getInheritance()).types));
         typeSet.addAll(Arrays.asList(types));
+        boolean isPlayersTurn = player.game.getCurrentPlayer() == player;
+        if (this.equals(Cards.estate) && isPlayersTurn) {
+        	typeSet.add(Type.Action);
+        }
+        if (player.hasProject(Cards.capitalism) && this.hasPlusCoin() && typeSet.contains(Type.Action) && isPlayersTurn) {
+        	typeSet.add(Type.Treasure);
+        }
         
         Type[] result = new Type[typeSet.size()];
         int i = 0;
@@ -1304,7 +1280,7 @@ public class CardImpl implements Card, Comparable<Card>{
             }
 
             if (cardToPlay != null) {
-                if(!actionCards.contains(cardToPlay)) {
+                if(!actionCards.contains(cardToPlay) || (this.kind == Cards.Kind.Procession && cardToPlay.is(Type.Duration))) {
                     Util.playerError(currentPlayer, this.getControlCard().name.toString() + " card selection error, ignoring");
                 } else {
                     context.freeActionInEffect++;
