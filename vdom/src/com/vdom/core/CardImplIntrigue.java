@@ -134,7 +134,7 @@ public class CardImplIntrigue extends CardImpl {
 	
     private void conspirator(Game game, MoveContext context, Player currentPlayer) {
         if (context.actionsPlayedSoFar >= 3) {
-            context.actions++;
+            context.addActions(1, this);
             game.drawToHand(context, this, 1);
         }
     }
@@ -171,7 +171,7 @@ public class CardImplIntrigue extends CardImpl {
                 for (CourtierOption option : options) {
                     switch (option) {
                         case AddAction:
-                            context.actions++;
+                            context.addActions(1, this);
                             break;
                         case AddBuy:
                             context.buys++;
@@ -204,7 +204,7 @@ public class CardImplIntrigue extends CardImpl {
 
     private void diplomat(Game game, MoveContext context, Player currentPlayer) {
         if (currentPlayer.getHand().size() <= 5) {
-            context.actions += 2;
+            context.addActions(2, this);
         }
     }
    
@@ -214,7 +214,7 @@ public class CardImplIntrigue extends CardImpl {
             if (currentPlayer.gainNewCard(card, this.getControlCard(), context).equals(card)) {
                 //note these could be wrong if Watchtower is used to trash a gained inherited Estate
                 if (card.is(Type.Action, currentPlayer)) {
-                    context.actions++;
+                    context.addActions(1, this);
                 }
                 if (card.is(Type.Treasure, currentPlayer, context)) {
                     context.addCoins(1);
@@ -400,7 +400,7 @@ public class CardImplIntrigue extends CardImpl {
             Util.playerError(currentPlayer, "Nobles option error, ignoring.");
         } else {
             if (option == Player.NoblesOption.AddActions) {
-                context.actions += 2;
+                context.addActions(2, this);
             } else if (option == Player.NoblesOption.AddCards) {
                 game.drawToHand(context, this, 3);
                 game.drawToHand(context, this, 2);
@@ -416,7 +416,7 @@ public class CardImplIntrigue extends CardImpl {
         } else {
             for (Player.PawnOption option : options) {
                 if (option == Player.PawnOption.AddAction) {
-                    context.actions++;
+                    context.addActions(1, this);
                 } else if (option == Player.PawnOption.AddBuy) {
                     context.buys++;
                 } else if (option == Player.PawnOption.AddCard) {
@@ -893,7 +893,7 @@ public class CardImplIntrigue extends CardImpl {
         for (Card card : revealedCards) {
             if (card != null && !card.equals(Cards.curse)) {
                 if (card.is(Type.Action, nextPlayer)) {
-                    context.actions += 2;
+                    context.addActions(2, this);
                 }
                 if (card.is(Type.Treasure, nextPlayer, context)) {
                     context.addCoins(2);

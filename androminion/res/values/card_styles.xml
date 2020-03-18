@@ -73,6 +73,12 @@
         <item name="cardCountColor">@color/cardDefaultTextColor</item>
         <item name="cardBackgroundColor">@color/cardDefaultBackgroundColor</item>
     </style>
+    
+    <style name="CardView.Attack.Reaction">
+        <item name="cardNameBackgroundColor">@color/cardDefaultBackgroundColor</item>
+        <item name="cardCountColor">@color/cardDefaultTextColor</item>
+        <item name="cardBackgroundColor">@color/cardReaction</item>
+    </style>
 
     <style name="CardView.Curse">
         <item name="cardBackgroundColor">@color/cardCurse</item>
@@ -184,6 +190,10 @@
     
     <style name="CardView.Landmark" parent="@style/CardView.InverseText">
         <item name="cardBackgroundColor">@color/cardLandmark</item>
+    </style>
+    
+    <style name="CardView.Way" parent="@style/CardView.InverseText">
+        <item name="cardBackgroundColor">@color/cardWay</item>
     </style>
 
     <style name="CardView.Reserve" parent="@style/CardView.InverseText">

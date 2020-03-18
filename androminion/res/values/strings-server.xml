@@ -145,6 +145,7 @@
 	<string name="card_to_reveal">reveal [%1$s]</string>
 	<string name="card_to_gain">gain [%1$s]</string>
 	<string name="card_to_trash">trash [%1$s]</string>
+	<string name="card_to_exile">exile [%1$s]</string>
 	<string name="card_to_discard">discard [%1$s]</string>
 	<string name="card_to_discard_for_card">discard for cards [%1$s]</string>
 	<string name="card_to_discard_for_coin">discard for coin [%1$s]</string>
@@ -211,6 +212,7 @@
 	<string name="CardSetAsideOnTavernMat">Card put on tavern mat</string>
 	<string name="CallingCard">Calling</string>
 	<string name="CalledCard">Called</string>
+	<string name="CardExiled">%1$s exiled (%2$s)</string>
 	<string name="CardSetAside">%1$s set aside (%2$s)</string>
 	<string name="CardSetAsidePrivate">Card set aside (%1$s)</string>
 	<string name="CardSetAsideOnIslandMat">Card set aside on island mat</string>

@@ -55,9 +55,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         return players;
     }
 
-    GridView handGV, playedGV, tavernGV, archiveGV, cryptGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
-    CardGroup hand, played, tavern, archive, crypt, prince, island, village, inheritance, blackMarket, trash;
-    View tavernColumn, archiveColumn, cryptColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
+    GridView handGV, playedGV, tavernGV, exileGV, archiveGV, cryptGV, princeGV, islandGV, villageGV, inheritanceGV, blackMarketGV, trashGV;
+    CardGroup hand, played, tavern, exile, archive, crypt, prince, island, village, inheritance, blackMarket, trash;
+    View tavernColumn, exileColumn, archiveColumn, cryptColumn, princeColumn, islandColumn, villageColumn, inheritanceColumn, blackMarketColumn, trashColumn;
     TextView playedHeader;
     LinearLayout myCards;
 
@@ -197,6 +197,12 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         tavernGV.setAdapter(tavern);
         tavernGV.setOnItemLongClickListener(this);
         tavernColumn = findViewById(R.id.tavernColumn);
+        
+        exile = new CardGroup(top, false);
+        exileGV = (GridView) findViewById(R.id.exileGV);
+        exileGV.setAdapter(exile);
+        exileGV.setOnItemLongClickListener(this);
+        exileColumn = findViewById(R.id.exileColumn);
         
         archive = new CardGroup(top, false);
         archiveGV = (GridView) findViewById(R.id.archiveGV);
@@ -360,6 +366,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         hand.clear();
         played.clear();
         tavern.clear();
+        exile.clear();
         archive.clear();
         crypt.clear();
         prince.clear();
@@ -412,11 +419,11 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
                 break;
             }
         
-        int numEventsProjectsLandmarks = 0;
+        int numEventsProjectsLandmarksWays = 0;
         //count events
         for (MyCard c : cards)
-            if(c.isEvent || c.isProject || c.isLandmark)
-            	numEventsProjectsLandmarks++;
+            if(c.isEvent || c.isProject || c.isLandmark || c.isWay)
+            	numEventsProjectsLandmarksWays++;
 
         // adjust size of pile table
         if(potionInPlay && platInPlay)
@@ -429,9 +436,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         else
             vpPileGV.setNumColumns(5);
         
-        if (numEventsProjectsLandmarks <= 3 || numEventsProjectsLandmarks == 6) {
+        if (numEventsProjectsLandmarksWays <= 3 || numEventsProjectsLandmarksWays == 6) {
         	eventPileGV.setNumColumns(3);
-        } else if (numEventsProjectsLandmarks == 4 || numEventsProjectsLandmarks == 7 || numEventsProjectsLandmarks == 8 || numEventsProjectsLandmarks == 11 || numEventsProjectsLandmarks == 12) {
+        } else if (numEventsProjectsLandmarksWays == 4 || numEventsProjectsLandmarksWays == 7 || numEventsProjectsLandmarksWays == 8 || numEventsProjectsLandmarksWays == 11 || numEventsProjectsLandmarksWays == 12) {
         	eventPileGV.setNumColumns(4);
         } else {
         	eventPileGV.setNumColumns(5);
@@ -907,6 +914,9 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
             case TRASH:
                 text = top.getString(R.string.trash_button);
                 break;
+            case EXILE:
+                text = top.getString(R.string.exile_button);
+                break;
             case UPGRADE:
                 text = top.getString(R.string.upgrade_button);
                 break;
@@ -1139,6 +1149,13 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         	tavernColumn.setVisibility(VISIBLE);
         } else {
         	tavernColumn.setVisibility(GONE);
+        }
+        
+        GameTableViews.newCardGroup(exile, gs.myExile);
+        if (gs.myExile.length > 0) {
+        	exileColumn.setVisibility(VISIBLE);
+        } else {
+        	exileColumn.setVisibility(GONE);
         }
         
         GameTableViews.newCardGroup(archive, gs.myArchive);

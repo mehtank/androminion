@@ -349,7 +349,7 @@ public class CardImplNocturne extends CardImpl {
 		context.freeActionInEffect++;
         card.play(game, context, true);
         context.freeActionInEffect--;
-        context.actions++;
+        context.addActions(1, this);
 	}
 	
 	private void crypt(Game game, MoveContext context, Player player, boolean isThronedEffect) {
@@ -1455,7 +1455,7 @@ public class CardImplNocturne extends CardImpl {
         	game.drawToHand(context, this, 3 - i);
         }
 		
-		context.actions += 1;
+		context.addActions(1, this);
 	}
 	
 	private void zombieMason(Game game, MoveContext context, Player player) {

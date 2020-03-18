@@ -10,6 +10,6 @@ public enum Type {
 	Gathering, Castle,
 	Doom, Fate, Heirloom, Night, Spirit, Zombie,
 	Artifact, Project,
-	Event, Landmark, Boon, Hex, State,
+	Event, Landmark, Boon, Hex, State, Way,
 	Command
 }

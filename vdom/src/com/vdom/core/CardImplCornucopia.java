@@ -157,7 +157,7 @@ public class CardImplCornucopia extends CardImpl {
         if (forAction != null) {
             currentPlayer.hand.remove(forAction);
             currentPlayer.discard(forAction, this.getControlCard(), context);
-            context.actions++;
+            context.addActions(1, this);
         }
 
         Card forBuy = currentPlayer.controlPlayer.hamlet_cardToDiscardForBuy(context);
@@ -378,7 +378,7 @@ public class CardImplCornucopia extends CardImpl {
             Arrays.sort(options);
             for (TrustySteedOption option : options) {
                 if (option == TrustySteedOption.AddActions) {
-                    context.actions += 2;
+                    context.addActions(2, this);
                 } else if (option == TrustySteedOption.AddCards) {
                     for (int i = 0; i < 2; i++) {
                         game.drawToHand(context, this, 2 - i);

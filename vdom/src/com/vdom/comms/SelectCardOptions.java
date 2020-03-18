@@ -20,7 +20,7 @@ public class SelectCardOptions implements Serializable {
     private static final long serialVersionUID = -1473106875075390348L;
 
     public enum ActionType {
-        REVEAL, DISCARD, DISCARDFORCOIN, DISCARDFORCARD, GAIN, TRASH, NAMECARD, OPPONENTDISCARD, SETASIDE, PLAY, KEEP, TOPDECK
+        REVEAL, DISCARD, DISCARDFORCOIN, DISCARDFORCARD, GAIN, TRASH, EXILE, NAMECARD, OPPONENTDISCARD, SETASIDE, PLAY, KEEP, TOPDECK
     }
 
     public enum PickType {
@@ -34,6 +34,7 @@ public class SelectCardOptions implements Serializable {
         KEEP (" K"),
         GIVE (" P"),
         TRASH (" X"),
+        EXILE (" E"),
         UPGRADE ("X"),
         MINT ("M"),
         SWINDLE ("");
@@ -206,6 +207,7 @@ public class SelectCardOptions implements Serializable {
     public boolean checkValid(Card c, int cost, boolean cardIsVictory, MoveContext context) {
     	
     	if (c.is(Type.Landmark, null)) return false;
+    	if (c.is(Type.Way, null)) return false;
     	
     	Player p = context != null ? context.player : null;
     	p = fromTable ? null : p;

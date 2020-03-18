@@ -226,6 +226,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             int cardDebt = card.getDebtCost(context);
             int cardPotion = card.costPotion() ? 1 : 0;
             if (card.is(Type.Landmark, context.player) 
+            	|| card.is(Type.Way, context.player)
             	|| card.is(Type.Shelter, context.player)
                 || card.equals(Cards.abandonedMine) /*choose only virtualRuins*/
                 || card.equals(Cards.ruinedLibrary)
@@ -2951,7 +2952,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         
         Card copper = null;
     	for(Card card : cards) {
-    		if (!isOnlyVictory(card, p) && !card.is(Type.Curse, p) && !isTrashCard(card) && !(context.actions == 0 && (card.is(Type.Action, p)))) {
+    		if (!isOnlyVictory(card, p) && !card.is(Type.Curse, p) && !isTrashCard(card) && !(context.getActions() == 0 && (card.is(Type.Action, p)))) {
     			cl.add(card);
 			}
     		if (card.equals(Cards.copper)) {
@@ -3550,7 +3551,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
 
-        if (card.equals(Cards.fortress) && context.actions > 0) {
+        if (card.equals(Cards.fortress) && context.getActions() > 0) {
             doo = DoctorOverpayOption.TrashIt;
         }
         
@@ -3642,7 +3643,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	for (Card c : possibleCards) {
     		if (c == null) continue;
-    		if (c.equals(Cards.coinOfTheRealm) && context.actions == 0 && hasMoreActionsLeft) {
+    		if (c.equals(Cards.coinOfTheRealm) && context.getActions() == 0 && hasMoreActionsLeft) {
     			return c;
     		}
     	}
@@ -4284,7 +4285,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     				value = 0; // Only worth it for the extra buy in certain cases
     				break;
     			case Diadem:
-    				value = 4 + (2 * context.actions);
+    				value = 4 + (2 * context.getActions());
     				break;
     			default:
     				break;
@@ -5391,5 +5392,31 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	Card[] lowCards = lowestCards(context, cardList, 1, true);
     	return (lowCards.length > 0) ? lowCards[0] : null;
+    }
+    
+    public Card bountyHunter_cardToExile(MoveContext context) {
+    	//TODO: prioritize victory cards that don't have copies on mat,
+    	//      then trash cards without copies on mat (but maybe not Curses...)
+    	//      then victory only cards
+    	//      then low cost cards
+    	for (Card card : context.getPlayer().getHand()) {
+            if (isOnlyVictory(card, context.getPlayer())) {
+                return card;
+            }
+        }
+        return lowestCard(context, context.getPlayer().getHand(), true);
+    }
+    
+    public Card toil_cardToPlay(MoveContext context) {
+    	ArrayList<Card> validCards = new ArrayList<Card>();
+		for (Card c : context.player.hand) {
+			if (c.is(Type.Action, context.player)) {
+				validCards.add(c);
+			}
+		}
+    	for (Card c : validCards) {
+            return c;
+        }
+        return null;
     }
 }

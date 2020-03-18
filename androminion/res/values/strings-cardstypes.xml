@@ -29,5 +29,6 @@
     <string name="type_artifact">Artifact</string>
     <string name="type_project">Project</string>
     <string name="type_command">Command</string>
+    <string name="type_way">Way</string>
     <string name="type_curse">Curse</string>
 </resources>

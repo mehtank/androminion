@@ -114,7 +114,7 @@ public class CardSet {
 	}
 	
 	public static CardSet getCardSet(final GameType type, int count) {
-		return getCardSet(type, count, null, null, 0, ExpansionAllocation.Random, 0, 0, 0, false, false, false);
+		return getCardSet(type, count, null, null, 0, ExpansionAllocation.Random, 0, 0, 0, 0, false, false, false);
 	}
 
 	public static CardSet getCardSet(final GameType type, int count, List<Expansion> randomExpansions,
@@ -122,7 +122,8 @@ public class CardSet {
 			int randomExpansionLimit, ExpansionAllocation expansionAllocation,
 			int numRandomEvents,
 			int numRandomProjects, 
-			int numRandomLandmarks, 
+			int numRandomLandmarks,
+			int numRandomWays, 
 			boolean linkMaxSidewaysCards, boolean keepSidewaysCardsWithExpansion,
 			boolean adjustRandomForAlchemy) {
 		CardSet set = CardSet.CardSetMap.get(type);
@@ -145,6 +146,7 @@ public class CardSet {
 							cardSet.addAll(expansion.getEventCards());
 							cardSet.addAll(expansion.getProjectCards());
 							cardSet.addAll(expansion.getLandmarkCards());
+							cardSet.addAll(expansion.getWayCards());
 						}
 					}
 					cards = new ArrayList<Card>();
@@ -173,6 +175,7 @@ public class CardSet {
 					cards.addAll(Cards.eventsCards);
 					cards.addAll(Cards.projectCards);
 					cards.addAll(Cards.landmarkCards);
+					cards.addAll(Cards.wayCards);
 				}
 				set = CardSet.getRandomCardSet(cards, count, Math.abs(numRandomEvents), adjustRandomForAlchemy);
 			} else {
@@ -196,7 +199,7 @@ public class CardSet {
 				}
 								
 				set = CardSet.getRandomCardSet(usedExpansions, count, expansionAllocation, 
-						numRandomEvents, numRandomProjects, numRandomLandmarks, 
+						numRandomEvents, numRandomProjects, numRandomLandmarks, numRandomWays, 
 						linkMaxSidewaysCards, keepSidewaysCardsWithExpansion, adjustRandomForAlchemy);
 			}
 		}
@@ -217,13 +220,15 @@ public class CardSet {
 	 *        at most that absolute value of Projects randomly.
 	 * @param numLandmarks Number of Landmarks to choose. Negative numbers mean to include
 	 *        at most that absolute value of Landmarks randomly.
+	 * @param numWays Number of Ways to choose. Negative numbers mean to include
+	 *        at most that absolute value of Ways randomly.
 	 * @param linkMaxSidewaysCards
 	 * @param keepSidewaysCardsWithExpansion If true, only select sideways cards corresponding to the
 	 *        given expansions
 	 * @param adjustForAlchemy Whether to ensure 3-5 Alchemy cards are included if at least one is
 	 * @return A random CardSet selected from the lists of expansion cards
 	 */
-	private static CardSet getRandomCardSet(List<List<Card>> kingdomCardsByExpansion, int count, ExpansionAllocation expansionAllocation, int numEvents, int numProjects, int numLandmarks, boolean linkMaxSidewaysCards, boolean keepSidewaysCardsWithExpansion, boolean adjustForAlchemy) {
+	private static CardSet getRandomCardSet(List<List<Card>> kingdomCardsByExpansion, int count, ExpansionAllocation expansionAllocation, int numEvents, int numProjects, int numLandmarks, int numWays, boolean linkMaxSidewaysCards, boolean keepSidewaysCardsWithExpansion, boolean adjustForAlchemy) {
 		final List<Card> cardSetList = new ArrayList<Card>();
 		
 		Card baneCard = null;
@@ -299,18 +304,21 @@ public class CardSet {
 		List<Card> possibleEventCards = new ArrayList<Card>();
 		List<Card> possibleProjectCards = new ArrayList<Card>();
 		List<Card> possibleLandmarkCards = new ArrayList<Card>();
+		List<Card> possibleWayCards = new ArrayList<Card>();
 		if (keepSidewaysCardsWithExpansion) {
 			for (List<Card> cards : kingdomCardsByExpansion) {
 				Expansion expansion = cards.get(0).getExpansion();
 				possibleEventCards.addAll(expansion.getEventCards());
 				possibleProjectCards.addAll(expansion.getProjectCards());
 				possibleLandmarkCards.addAll(expansion.getLandmarkCards());
+				possibleWayCards.addAll(expansion.getWayCards());
 			}
 		} else {
 			for (Expansion expansion : Expansion.values()) {
 				possibleEventCards.addAll(expansion.getEventCards());
 				possibleProjectCards.addAll(expansion.getProjectCards());
 				possibleLandmarkCards.addAll(expansion.getLandmarkCards());
+				possibleWayCards.addAll(expansion.getWayCards());
 			}
 		}
 		
@@ -321,6 +329,7 @@ public class CardSet {
 				possibleSidewaysCards.addAll(possibleEventCards);
 				possibleSidewaysCards.addAll(possibleProjectCards);
 				possibleSidewaysCards.addAll(possibleLandmarkCards);
+				possibleSidewaysCards.addAll(possibleWayCards);
 				if (numSidewaysCards < 0)
 					numSidewaysCards = calcMaxSidewaysCards(Math.abs(numSidewaysCards), count);
 				shuffleAndAddFromList(cardSetList, possibleSidewaysCards, numSidewaysCards);
@@ -329,6 +338,7 @@ public class CardSet {
 			shuffleAndAddFromList(cardSetList, possibleEventCards, numEvents);
 			shuffleAndAddFromList(cardSetList, possibleProjectCards, numProjects);
 			shuffleAndAddFromList(cardSetList, possibleLandmarkCards, numLandmarks);
+			shuffleAndAddFromList(cardSetList, possibleWayCards, numWays);
 		}
 		
 		return new CardSet(cardSetList, baneCard);
@@ -342,7 +352,7 @@ public class CardSet {
 			if (e == Expansion.Base || e == Expansion.Intrigue) continue;
 			numKingdomCards += e.getKingdomCards().size();
 		}
-		int numSidewaysCards = Cards.eventsCards.size() + Cards.projectCards.size() + Cards.landmarkCards.size();
+		int numSidewaysCards = Cards.eventsCards.size() + Cards.projectCards.size() + Cards.landmarkCards.size() + Cards.wayCards.size();
 		int total = numKingdomCards + numSidewaysCards;
 		List<Boolean> deck = new ArrayList<Boolean>(Collections.nCopies(total, false));
 		for (int i = 0; i < numSidewaysCards; ++i) deck.set(i, true);
@@ -405,7 +415,7 @@ public class CardSet {
 		}
 		
 		for (Card c : possibleCards) {
-			if (c.is(Type.Event) || c.is(Type.Project) || c.is(Type.Landmark)) {
+			if (c.is(Type.Event) || c.is(Type.Project) || c.is(Type.Landmark) || c.is(Type.Way)) {
 				if (sidewaysCards.size() < maxNumSidewaysCards)
 					sidewaysCards.add(c);
 			} else {
@@ -538,7 +548,7 @@ public class CardSet {
 		
 		swapFrom.remove(bane);
 		for (Card c : replaceFrom) {
-			if (!c.equals(bane) && !swapFrom.contains(c) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark)) {
+			if (!c.equals(bane) && !swapFrom.contains(c) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark) && !c.is(Type.Way)) {
 				swapFrom.add(c);
 				break;
 			}
@@ -548,7 +558,7 @@ public class CardSet {
 	
 	private static boolean isValidBane(Card c) {
 		int cost = c.getCost(null);
-		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark);
+		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark) && !c.is(Type.Way);
 	}
 
 	private static <T> void shuffle(List<T> cards) {
@@ -608,6 +618,7 @@ public class CardSet {
 		CardSetMap.put(GameType.RandomEmpires, new CardSet(Cards.actionCardsEmpires, true));
 		CardSetMap.put(GameType.RandomNocturne, new CardSet(Cards.actionCardsNocturne, true));
 		CardSetMap.put(GameType.RandomRenaissance, new CardSet(Cards.actionCardsRenaissance, true));
+		CardSetMap.put(GameType.RandomMenagerie, new CardSet(Cards.actionCardsMenagerie, true));
 		// Dominion
 		CardSetMap.put(GameType.FirstGame, new CardSet(new Card[]{Cards.cellar, Cards.market, Cards.militia, Cards.mine, Cards.moat, Cards.remodel, Cards.smithy, Cards.village, Cards.woodcutter, Cards.workshop}));
 		CardSetMap.put(GameType.BigMoney, new CardSet(new Card[]{Cards.adventurer, Cards.bureaucrat, Cards.chancellor, Cards.chapel, Cards.feast, Cards.laboratory, Cards.market, Cards.mine, Cards.moneyLender, Cards.throneRoom}));

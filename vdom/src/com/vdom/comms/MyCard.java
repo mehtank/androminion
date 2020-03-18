@@ -58,6 +58,7 @@ public class MyCard implements Serializable {
 	public boolean isState     = false;
 	public boolean isZombie    = false;
 	public boolean isCommand   = false;
+	public boolean isWay       = false;
 	public boolean isBlackMarket = false;
 	public boolean isStash    = false;
 	
@@ -305,7 +306,9 @@ public class MyCard implements Serializable {
 		private int getCardTypeOrder(MyCard c) {
 			if (c.isEvent) return 1;
 			if (c.isProject) return 2;
-			return 3;
+			if (c.isLandmark) return 3;
+			if (c.isWay) return 4;
+			return 5;
 		}
 	}
 	

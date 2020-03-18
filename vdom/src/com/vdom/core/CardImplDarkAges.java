@@ -650,7 +650,7 @@ public class CardImplDarkAges extends CardImpl {
             }
             
             if (card.is(Type.Action, currentPlayer)) {
-                context.actions += 1;
+                context.addActions(1, this);
             }
             if (card.is(Type.Treasure, currentPlayer, context)) {
                 context.addCoins(1);
@@ -1057,7 +1057,7 @@ public class CardImplDarkAges extends CardImpl {
             Util.playerError(currentPlayer, "Squire option error, ignoring.");
         } else {
             if (option == Player.SquireOption.AddActions) {
-                context.actions += 2;
+                context.addActions(2, this);
             } else if (option == Player.SquireOption.AddBuys) {
                 context.buys += 2;
             } else if (option == Player.SquireOption.GainSilver) {

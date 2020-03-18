@@ -356,6 +356,8 @@ public class CardImpl implements Card, Comparable<Card>{
         		return new CardImplNocturne(this);
         	case Renaissance:
         		return new CardImplRenaissance(this);
+        	case Menagerie:
+        		return new CardImplMenagerie(this);
         	case Promo:
         		return new CardImplPromo(this);
         	default:
@@ -434,6 +436,9 @@ public class CardImpl implements Card, Comparable<Card>{
 	    		break;
 	    	case Renaissance:
 	    		c = new CardImplRenaissance();
+	    		break;
+	    	case Menagerie:
+	    		c = new CardImplMenagerie();
 	    		break;
 	    	case Promo:
 	    		c = new CardImplPromo();
@@ -587,7 +592,14 @@ public class CardImpl implements Card, Comparable<Card>{
         		context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
         costModifier -= context.game.getCurrentPlayer().hasProject(Cards.canal) ? 1 : 0;
         
-        return Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);
+        int finalCost = Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);
+        
+        if (this.equals(Cards.wayfarer)) {
+        	//TODO - equals cost of last gained non-wayfarer card this turn
+        	//       Need to track list of all cards gained during last turn, not just last player's gains
+        }
+        
+        return finalCost;
     }
     
     public int getDebtCost(MoveContext context) {
@@ -723,7 +735,7 @@ public class CardImpl implements Card, Comparable<Card>{
         if (enchantressEffect) context.enchantressAlreadyAffected = true;
                 
         if (!isInheritedAbility && isAction) {
-        	context.actions += currentPlayer.championEffects;
+        	context.addActions(currentPlayer.championEffects, Cards.champion);
         }
         
         if (is(Type.Attack, currentPlayer))
@@ -767,13 +779,13 @@ public class CardImpl implements Card, Comparable<Card>{
         		 && game.getCurrentPlayer() == context.player)
 	        	playAgainWithCitadel = true;
 	        if (!nonRegularActionPlay && context.freeActionInEffect == 0) {
-	            context.actions--;
+	            context.spendAction();
 	        }
         }
         
         Card tokenPile = isInheritedAbility ? actualCard : this;
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneAction))
-        	context.actions += 1;
+        	context.addActions(1, this);
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneBuy))
         	context.buys += 1;
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCoin))
@@ -788,10 +800,10 @@ public class CardImpl implements Card, Comparable<Card>{
     	            if (player != currentPlayer) Util.isDefendedFromAttack(game, player, this);
 	            }
         	}
-        	context.actions += 1;
+        	context.addActions(1, Cards.enchantress);
         	game.drawToHand(context, this, 1);
         } else {
-        	context.actions += addActions;
+        	context.addActions(addActions, this);
             context.buys += addBuys;
             if (this.equals(Cards.copper)) {
             	context.addCoins(addGold + context.coppersmithsPlayed);

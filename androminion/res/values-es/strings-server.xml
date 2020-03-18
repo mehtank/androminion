@@ -141,6 +141,7 @@
 	<string name="card_to_reveal">revelar [%1$s]</string>
 	<string name="card_to_gain">ganar [%1$s]</string>
 	<string name="card_to_trash">eliminar [%1$s]</string>
+	<string name="card_to_exile">exiliar [%1$s]</string>
 	<string name="card_to_discard">descartar [%1$s]</string>
 	<string name="card_to_discard_for_card">descartar para cartas [%1$s]</string>
 	<string name="card_to_discard_for_coin">discard para monedas [%1$s]</string>
@@ -207,6 +208,7 @@
 	<string name="CardSetAsideOnTavernMat">Carta puesta sobre el tablero de Taberna</string>
     <string name="CallingCard">Llamando</string>
     <string name="CalledCard">Llamada</string>
+    <string name="CardExiled">%1$s exiliada (%2$s)</string>
 	<string name="CardSetAside">%1$s apartada (%2$s)</string>
 	<string name="CardSetAsidePrivate">Carta apartada (%1$s)</string>
 	<string name="CardSetAsideOnIslandMat">Carta apartada sobre el tablero de Isla</string>

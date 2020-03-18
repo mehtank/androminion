@@ -351,7 +351,7 @@ public class CardImplAdventures extends CardImpl {
     
     private void coinOfTheRealm(MoveContext context, Game game,
 			Player currentPlayer) {
-		context.actions += 2;
+		context.addActions(2, this);
 	}
     
     private void disciple(Game game, MoveContext context, Player currentPlayer) {    	

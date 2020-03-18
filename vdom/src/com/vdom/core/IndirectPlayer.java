@@ -135,10 +135,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         
         /*Select no Card by default if TRASH and not forced*/
         else if (      sco.allowedCards.size() == 1
-                    && (sco.actionType != ActionType.TRASH || !sco.passable)
+                    && ((sco.actionType != ActionType.TRASH && sco.actionType != ActionType.EXILE) || !sco.passable)
                  || (   (   sco.isAction || sco.isNight
                          || sco.pickType == PickType.MINT               //Mint (passable)
                          || (   (   sco.actionType == ActionType.TRASH
+                        		 || sco.actionType == ActionType.EXILE
                                  || sco.actionType == ActionType.REVEAL //Ambassador
                                  || sco.pickType == PickType.UPGRADE    //Mine, Remodel
                                  || sco.pickType == PickType.GIVE)      //Masquerade
@@ -4504,5 +4505,20 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public Card villain_cardToDiscard(MoveContext context, Card[] cards) {
     	return cards[selectOption(context, Cards.villain, cards)];
+    }
+    
+    @Override
+    public Card bountyHunter_cardToExile(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.EXILE)
+                .setActionType(ActionType.EXILE).setCardResponsible(Cards.bountyHunter);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card toil_cardToPlay(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction()
+                .setPassable().setPickType(PickType.PLAY).setActionType(ActionType.PLAY)
+                .setCardResponsible(Cards.toil);
+        return getCardFromHand(context, sco);
     }
 }

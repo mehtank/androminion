@@ -130,6 +130,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         card.isZombie = c.is(Type.Zombie);
         card.isCommand = c.is(Type.Command);
         card.isLandmark = c.is(Type.Landmark);
+        card.isWay = c.is(Type.Way);
         card.isAttack = c.is(Type.Attack) || c.equals(Cards.virtualKnight);
         if (c.equals(Cards.virtualRuins))
             card.isRuins = true;
@@ -164,7 +165,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
             || c.equals(Cards.imp)
             || c.equals(Cards.willOWisp)
             || c.equals(Cards.wish)
-            
+            || c.equals(Cards.horse)
            )
         {
             card.pile = MyCard.NON_SUPPLY_PILE;
@@ -239,6 +240,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
         if (c.is(Type.Landmark, null)) {
             card.isLandmark = true;
+            card.pile = MyCard.EVENTPILE;
+        }
+        if (c.is(Type.Way, null)) {
+            card.isWay = true;
             card.pile = MyCard.EVENTPILE;
         }
         if (c.equals(Cards.stash)) {
@@ -554,6 +559,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setCardCostModifier(context.cardCostModifier)
                 .setPotions(context.getPotionsForStatus(player))
                 .setTavern(cardArrToIntArr(player.getTavern().sort(new Util.CardTavernComparator())))
+                .setExile(cardArrToIntArr(player.getExile().sort(new Util.CardExileComparator())))
                 .setPrince(cardArrToIntArr(princeStuff.toArray(new Card[princeStuff.size()])))
                 .setIsland(cardArrToIntArr(player.getIsland().toArray()))
                 .setVillage(player.equals(this) ? cardArrToIntArr(player.getNativeVillage().toArray()) : new int[0]/*show empty Village*/)

@@ -230,7 +230,7 @@ public class CardImplHinterlands extends CardImpl {
         if (!this.getControlCard().equals(Cards.estate)) {
         	context.crossroadsPlayed += 1;
         	if (context.crossroadsPlayed <= 1) {
-	            context.actions += 3;
+	            context.addActions(3, this);
 	        }
         }
     }
@@ -706,7 +706,7 @@ public class CardImplHinterlands extends CardImpl {
                     if(option == SpiceMerchantOption.AddCardsAndAction) {
                         game.drawToHand(context, this, 2);
                         game.drawToHand(context, this, 1);
-                        context.actions += 1;
+                        context.addActions(1, this);
                     }
                     else {
                         context.addCoins(2);
@@ -733,7 +733,7 @@ public class CardImplHinterlands extends CardImpl {
                 currentPlayer.hand.remove(toDiscard);
                 currentPlayer.reveal(toDiscard, this.getControlCard(), context);
                 currentPlayer.discard(toDiscard, this.getControlCard(), context);
-                context.actions++;
+                context.addActions(1, this);
 
                 for (int i = 0; i < 3; i++) {
                     game.drawToHand(context, this, 3 - i);

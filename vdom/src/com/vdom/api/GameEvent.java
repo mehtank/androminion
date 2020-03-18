@@ -46,6 +46,7 @@ public class GameEvent {
         CardSetAsideOnTavernMat, // A card was set aside on tavern mat
         CallingCard, // A card is about to be called from the tavern mat
         CalledCard, // A card was called from the tavern mat
+        CardExiled, // A card was exiled
         CardSetAsideOnIslandMat, // A card was set aside on island mat
         DeckPutIntoDiscardPile, // Deck put into discard pile
         TravellerExchanged, // traveller exchanged

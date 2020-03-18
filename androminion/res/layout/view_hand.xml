@@ -148,6 +148,35 @@
                 android:verticalSpacing="@dimen/margin_cards" />
         </LinearLayout>
         
+        <!-- Exile -->
+
+        <LinearLayout
+            android:id="@+id/exileColumn"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/margin_cards"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <!-- Title -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/exile_header" />
+
+            <!-- Cards -->
+
+            <GridView
+                android:id="@+id/exileGV"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="1"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/margin_cards" />
+        </LinearLayout>
+        
         <!-- Archive -->
 
         <LinearLayout

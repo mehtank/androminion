@@ -587,7 +587,7 @@ public class CardImplEmpires extends CardImpl {
         if (isAction) {
         	game.drawToHand(context, this, 2);
         	game.drawToHand(context, this, 1);
-        	context.actions += 2;
+        	context.addActions(2, this);
         }
         if (isTreasure) {
         	context.addCoins(2);

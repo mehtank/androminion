@@ -24,6 +24,7 @@ public enum GameType {
     RandomEmpires("Random Empires"),
     RandomNocturne("Random Nocturne"),
     RandomRenaissance("Random Renaissance"),
+    RandomMenagerie("Random Menagerie"),
     
     // Base Game
     FirstGame("First Game", Expansion.Base), BigMoney("Big Money", Expansion.Base), Interaction("Interaction", Expansion.Base), SizeDistortion("Size Distortion", Expansion.Base), VillageSquare("Village Square", Expansion.Base),

@@ -219,6 +219,21 @@
 			            android:textOn="@string/Renaissance"/>
 			        
 			        <ToggleButton 
+			            android:id="@+id/toggleButtonMenagerie"
+			            android:layout_width="fill_parent"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="1"
+			            android:textOff="@string/Menagerie"
+			            android:textOn="@string/Menagerie"/>
+			        
+			    </LinearLayout>
+			    
+			    <LinearLayout
+			        android:layout_width="fill_parent"
+		        	android:layout_height="wrap_content"
+		        	android:orientation="horizontal">
+			        
+			        <ToggleButton 
 			            android:id="@+id/toggleButtonPromo"
 			            android:layout_width="fill_parent"
 			            android:layout_height="wrap_content"
@@ -416,6 +431,24 @@
 					        android:text="@string/random_include_landmarks" />
 					    
 					    <Spinner android:id="@+id/spinnerRandomLandmarks"
+				            android:layout_width="fill_parent"
+				            android:layout_height="wrap_content" />
+					    
+				    </LinearLayout>
+				    
+				    <LinearLayout
+				        android:id="@+id/linearLayoutRandomWays"
+				        android:layout_width="fill_parent"
+				       	android:layout_height="wrap_content"
+				       	android:orientation="horizontal">
+				    
+					    <TextView 
+					        android:layout_width="wrap_content"
+					        android:layout_height="wrap_content"
+					        android:layout_gravity="center_vertical"
+					        android:text="@string/random_include_ways" />
+					    
+					    <Spinner android:id="@+id/spinnerRandomWays"
 				            android:layout_width="fill_parent"
 				            android:layout_height="wrap_content" />
 					    

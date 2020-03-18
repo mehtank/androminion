@@ -837,6 +837,21 @@ public class Util {
 			super(cmps);
 		}
 	}
+	
+	/**
+	 * Comparator for sorting cards on Exile mat.
+	 * Sort by utility of looking at them by cost, last by name;
+	 */
+	static public class CardExileComparator extends MultilevelComparator<Card> {
+		private static final ArrayList<Comparator<Card>> cmps = new ArrayList<Comparator<Card>>();
+		static {
+			cmps.add(new CardCostComparatorDesc());
+			cmps.add(new CardNameComparator());
+		}
+		public CardExileComparator() {
+			super(cmps);
+		}
+	}
 
 	/**
 	 * Determines if a card costs more than a given cost 

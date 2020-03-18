@@ -135,7 +135,7 @@
     <string name="include_cards_yes">Usar</string>
     <string name="include_cards_no">No usar</string>
     <string name="include_cards_percent">%1$s %% chance</string>
-    <string name="random_events_projects_landmarks">Eventos, Proyectos y Marcas</string>
+    <string name="random_events_projects_landmarks">Eventos, Proyectos, Marcas y Caminos</string>
     <string name="combine_sideways_cards">Combinar la cantidad</string>
     <string name="random_sideways_cards_amount">Cantidad: </string>
     <string name="keep_sideways_cards_with_expansion">Mantener con la expansión original</string>
@@ -144,9 +144,11 @@
     <string name="random_events_none">Ninguna</string>
     <string name="random_projects_none">Ninguno</string>
     <string name="random_landmarks_none">Ninguna</string>
+    <string name="random_ways_none">Ninguno</string>
     <string name="random_sideways_max_x">Hasta %1$s</string>
     <string name="random_include_projects">Proyectos: </string>
     <string name="random_include_landmarks">Marcas: </string>
+    <string name="random_include_ways">Caminos: </string>
     <string name="select_kingdom_cards">Cartas de reino de: </string>
     <string name="random_expansions">Expansiones</string>
     <string name="random_expansions_select_all">Todas las seleccionadas</string>
@@ -169,6 +171,7 @@
     <string name="card_set_events">Eventos: %1$s</string>
     <string name="card_set_projects">Proyectos: %1$s</string>
     <string name="card_set_landmarks">Marcas: %1$s</string>
+    <string name="card_set_ways">Caminos: %1$s</string>
     <string name="card_set_plat_colony">Platino/Colonia</string>
     <string name="card_set_no_plat_colony">Sin Platino/Colonia</string>
     <string name="card_set_shelters">Cobijos</string>
@@ -200,6 +203,7 @@
     <string name="keep_button">Guardar</string>
     <string name="give_button">Dar</string>
     <string name="trash_button">Eliminar</string>
+    <string name="exile_button">Exiliar</string>
     <string name="upgrade_button">Mejorar</string>
     <string name="mint_button">Acuñar</string>
     <string name="swindle_button">Embaucar</string>
@@ -207,6 +211,7 @@
     <string name="hand_header">Mano:</string>
     <string name="played_header">En juego:</string>
     <string name="tavern_header">Taberna:</string>
+    <string name="exile_header">Exilio:</string>
     <string name="archive_header">Archivo:</string>
     <string name="crypt_header">Cripta:</string>
     <string name="island_header">Isla:</string>

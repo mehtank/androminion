@@ -13,7 +13,7 @@ import com.vdom.core.Cards.Kind;
 import com.vdom.core.Player.DurationEffect;
 
 public class MoveContext {
-    public int actions = 1;
+    private int actions = 1;
     public int buys = 1;
 
     private int coins = 0;
@@ -46,6 +46,7 @@ public class MoveContext {
     public boolean canBuyCards = true;
     public boolean canBuyActions = true;
     public boolean startOfTurn = false;
+    public boolean ignorePlusActions = false;
     
     public enum TurnPhase {
     	Action, Buy, Night, CleanUp
@@ -65,6 +66,7 @@ public class MoveContext {
     public int charmsNextBuy = 0;
     public boolean envious = false;
     public boolean hasTopDeckedBorderGuard = false;
+    public int liveryEffects = 0;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;
@@ -108,6 +110,7 @@ public class MoveContext {
         for(Card p : player.getProjectsBought()) {
         	cantBuy.add(p);
         }
+        this.ignorePlusActions = context.ignorePlusActions;
     }
 
     public Player getPlayer() {
@@ -345,6 +348,28 @@ public class MoveContext {
 
     public int getActionsLeft() {
         return actions;
+    }
+    
+    public int getActions() {
+    	return actions;
+    }
+    
+    public void spendAction() {
+    	actions--;
+    }
+    
+    public void resetActions() {
+        actions = 1;
+    }
+    
+    public void addActions(int actionsToAdd) {
+    	addActions(actionsToAdd, null);
+    }
+    
+    public void addActions(int actionsToAdd, Card responsible) {
+    	if (!ignorePlusActions) {
+    		actions += actionsToAdd;
+    	}    	
     }
 
     public int getBuysLeft() {

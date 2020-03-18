@@ -15,7 +15,7 @@
     <string name="type_reserve">Reserva</string>
     <string name="type_traveller">Viajero</string>
     <string name="type_castle">Castillo</string>
-    <string name="type_gathering">Acopio</string>
+    <string name="type_gathering">Cúmulo</string>
     <string name="type_landmark">Marca</string>
     <string name="type_boon">Favor</string>
     <string name="type_doom">Fatalidad</string>
@@ -29,5 +29,6 @@
     <string name="type_artifact">Artefacto</string>
     <string name="type_project">Proyecto</string>
     <string name="type_command">Mando</string>
+    <string name="type_way">Camino</string>
     <string name="type_curse">Maldición</string>
 </resources>

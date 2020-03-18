@@ -55,6 +55,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 	private static final String RANDOM_NUM_EVENTS_PREF = "randomNumberEvents";
 	private static final String RANDOM_NUM_PROJECTS_PREF = "randomNumberProjects";
 	private static final String RANDOM_NUM_LANDMARKS_PREF = "randomNumberLandmarks";
+	private static final String RANDOM_NUM_WAYS_PREF = "randomNumberWays";
 	private static final String RANDOM_USE_SET_PREFIX = "randomUse";
 	private static final String RANDOM_LIMIT_EXPANSIONS_PREF = "randomLimitExpansions";
 	private static final String RANDOM_EXPANSION_ALLOCATION_PREF = "randomExpansionAllocation";
@@ -65,6 +66,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 	private static final int DEFAULT_MAX_RANDOM_EVENTS = 1;
 	private static final int DEFAULT_MAX_RANDOM_PROJECTS = 1;
 	private static final int DEFAULT_MAX_RANDOM_LANDMARKS = 1;
+	private static final int DEFAULT_MAX_RANDOM_WAYS = 1;
 	private static final int MAX_PLAYERS_PROBABILITY_SEEKBAR = 10;
 
 	// Views
@@ -88,6 +90,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 	Spinner mRandomEventsSpinner;
 	Spinner mRandomProjectsSpinner;
 	Spinner mRandomLandmarksSpinner;
+	Spinner mRandomWaysSpinner;
 	CheckBox mKeepSidewaysCardsWithExpansionCheckbox;
 	LinearLayout mSelectExpansionLayout;
 	ToggleButton mRandomBase;
@@ -103,6 +106,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 	ToggleButton mRandomEmpires;
 	ToggleButton mRandomNocturne;
 	ToggleButton mRandomRenaissance;
+	ToggleButton mRandomMenagerie;
 	Map<Expansion, ToggleButton> completeSets;
 	ToggleButton mRandomPromo;
 	Spinner mRandomLimitExpansionsSpinner;
@@ -193,6 +197,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 		mRandomEventsSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomEvents);
 		mRandomProjectsSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomProjects);
 		mRandomLandmarksSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomLandmarks);
+		mRandomWaysSpinner = (Spinner) mView.findViewById(R.id.spinnerRandomWays);
 		mKeepSidewaysCardsWithExpansionCheckbox = (CheckBox) mView.findViewById(R.id.checkboxKeepSidewaysCardsWithExpansion);
 
 		mRandomAllCheckbox = (CheckBox) mView.findViewById(R.id.checkboxRandomAll);
@@ -233,6 +238,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 		completeSets.put(Expansion.Empires, mRandomEmpires = (ToggleButton) mView.findViewById(R.id.toggleButtonEmpires));
 		completeSets.put(Expansion.Nocturne, mRandomNocturne = (ToggleButton) mView.findViewById(R.id.toggleButtonNocturne));
 		completeSets.put(Expansion.Renaissance, mRandomRenaissance = (ToggleButton) mView.findViewById(R.id.toggleButtonRenaissance));
+		completeSets.put(Expansion.Menagerie, mRandomMenagerie = (ToggleButton) mView.findViewById(R.id.toggleButtonMenagerie));
 		mRandomPromo = (ToggleButton) mView.findViewById(R.id.toggleButtonPromo);
 
 		mPlayer2 = (Spinner) mView.findViewById(R.id.spPlayer2);
@@ -441,9 +447,25 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 		ArrayAdapter<String> numLandmarksAdapter = createArrayAdapter(landmarksSpinnerList);
 		mRandomLandmarksSpinner.setAdapter(numLandmarksAdapter);
 		mRandomLandmarksSpinner.setSelection(numSidewaysToPos(numLandmarks));
+		
+		int numWays = mPrefs.getInt(RANDOM_NUM_WAYS_PREF, -DEFAULT_MAX_RANDOM_WAYS);
+		int totalWays = Cards.wayCards.size();
+		numWays = Math.min(totalWays, numWays);
+		numWays = Math.max(numWays, -MAX_NUM_MAX_SIDEWAYS_CARDS);
+		ArrayList<String> waysSpinnerList = new ArrayList<String>();
+		for (int i = MAX_NUM_MAX_SIDEWAYS_CARDS; i > 0; --i) {
+			waysSpinnerList.add(String.format(getResources().getString(R.string.random_sideways_max_x), i));
+		}
+		waysSpinnerList.add(getResources().getString(R.string.random_ways_none));
+		for (int i = 0; i < totalWays; ++i) {
+			waysSpinnerList.add((i + 1) + "");
+		}
+		ArrayAdapter<String> numWaysAdapter = createArrayAdapter(waysSpinnerList);
+		mRandomWaysSpinner.setAdapter(numWaysAdapter);
+		mRandomWaysSpinner.setSelection(numSidewaysToPos(numWays));
 
 		int numSideways = mPrefs.getInt(RANDOM_NUM_SIDEWAYS_CARDS_PREF, -DEFAULT_MAX_RANDOM_SIDEWAYS);
-		int totalSideways = totalEvents + totalProjects + totalLandmarks;
+		int totalSideways = totalEvents + totalProjects + totalLandmarks + totalWays;
 		numSideways = Math.min(totalSideways, numSideways);
 		numSideways = Math.max(numSideways, -MAX_NUM_MAX_SIDEWAYS_CARDS);
 		ArrayList<String> sidewaysSpinnerList = new ArrayList<String>();
@@ -821,9 +843,14 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 					if (numLandmarks != 0) {
 						strs.add("-landmarkcards" + numLandmarks);
 					}
+					int numWays = posToNumSideways(mRandomWaysSpinner.getSelectedItemPosition());
+					if (numWays != 0) {
+						strs.add("-waycards" + numWays);
+					}
 					edit.putInt(RANDOM_NUM_EVENTS_PREF, numEvents);
 					edit.putInt(RANDOM_NUM_PROJECTS_PREF, numProjects);
 					edit.putInt(RANDOM_NUM_LANDMARKS_PREF, numLandmarks);
+					edit.putInt(RANDOM_NUM_WAYS_PREF, numWays);
 				}
 			
 				boolean keepSidewaysWithExpansion = mKeepSidewaysCardsWithExpansionCheckbox.isChecked();

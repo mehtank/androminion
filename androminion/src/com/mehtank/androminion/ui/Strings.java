@@ -364,6 +364,8 @@ public class Strings {
 			statusText += getString(R.string.CallingCard);
 		} else if (event.gameEventType == GameEvent.EventType.CalledCard) {
 			statusText += getString(R.string.CalledCard);
+		} else if (event.gameEventType == GameEvent.EventType.CardExiled) {
+            statusText += getString(R.string.CardExiled);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAsideOnIslandMat) {
             statusText += getString(R.string.CardSetAsideOnIslandMat);
         } else if (event.gameEventType == GameEvent.EventType.DeckPutIntoDiscardPile) {
@@ -1845,6 +1847,7 @@ public class Strings {
             case REVEAL: return Strings.format(R.string.card_to_reveal, getCardName(cardResponsible));
             case GAIN: return Strings.format(R.string.card_to_gain, getCardName(cardResponsible));
             case TRASH: return Strings.format(R.string.card_to_trash, getCardName(cardResponsible));
+            case EXILE: return Strings.format(R.string.card_to_exile, getCardName(cardResponsible));
             case NAMECARD: return Strings.format(R.string.card_to_name, getCardName(cardResponsible));
             case OPPONENTDISCARD: return Strings.format(R.string.opponent_discard, opponentName, getCardName(cardResponsible));
             case SETASIDE: return Strings.format(R.string.card_to_set_aside, getCardName(cardResponsible));
@@ -1994,6 +1997,9 @@ public class Strings {
             getCardName(Cards.sculptor),
             getCardName(Cards.sewers),
             getCardName(Cards.treasurer),
+            /*Menagerie*/
+            getCardName(Cards.bountyHunter),
+            getCardName(Cards.toil),
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),
@@ -2345,6 +2351,7 @@ public class Strings {
 		ArrayList<String> events = new ArrayList<String>();
 		ArrayList<String> projects = new ArrayList<String>();
 		ArrayList<String> landmarks = new ArrayList<String>();
+		ArrayList<String> ways = new ArrayList<String>();
 		ArrayList<String> kingdomCards = new ArrayList<String>();
 		boolean hasDarkAges = false;
 		boolean hasProsperity = false;
@@ -2359,6 +2366,8 @@ public class Strings {
 				} else {
 					landmarks.add(getCardName(c));
 				}
+			} else if (c.is(Type.Way)) {
+				ways.add(getCardName(c));
 			} else {
 				if (c.equals(Cards.druid) && cardSet.getDruidBoons() != null) {
 					//kingdomCards.add(getCardName(c));
@@ -2383,6 +2392,7 @@ public class Strings {
 		Collections.sort(events);
 		Collections.sort(projects);
 		Collections.sort(landmarks);
+		Collections.sort(ways);
 		Collections.sort(kingdomCards);
 		
 		ArrayList<String> cardSetParts = new ArrayList<String>();
@@ -2398,6 +2408,9 @@ public class Strings {
 		}
 		if (landmarks.size() > 0) {
 			cardSetParts.add(format(R.string.card_set_landmarks, joinList(landmarks, ", ")));
+		}
+		if (ways.size() > 0) {
+			cardSetParts.add(format(R.string.card_set_ways, joinList(ways, ", ")));
 		}
 		if (cardSet.getUsePlatColony() == UseOptionalCards.Use) {
 			cardSetParts.add(getString(R.string.card_set_plat_colony));

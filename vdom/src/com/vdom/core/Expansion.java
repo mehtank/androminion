@@ -23,12 +23,14 @@ public enum Expansion {
 	Empires,
 	Nocturne,
 	Renaissance,
+	Menagerie,
 	Promo;
 	
 	private List<Card> kingdomCards = new ArrayList<Card>(0);
 	private List<Card> eventCards = new ArrayList<Card>(0);
 	private List<Card> projectCards = new ArrayList<Card>(0);
 	private List<Card> landmarkCards = new ArrayList<Card>(0);
+	private List<Card> wayCards = new ArrayList<Card>(0);
 	private final boolean isAggregate;
 
 	private Expansion() {
@@ -58,6 +60,10 @@ public enum Expansion {
 	public void setLandmarkCards(List<Card> landmarkCards) {
 		this.landmarkCards = landmarkCards;
 	}
+	
+	public void setWayCards(List<Card> wayCards) {
+		this.wayCards = wayCards;
+	}
 
 	public List<Card> getEventCards() {
 		return eventCards;
@@ -69,6 +75,10 @@ public enum Expansion {
 	
 	public List<Card> getLandmarkCards() {
 		return landmarkCards;
+	}
+	
+	public List<Card> getWayCards() {
+		return wayCards;
 	}
 	
 	public boolean isAggregate() {

@@ -56,6 +56,7 @@ public abstract class Player {
     protected CardList playedByPrince;
     protected CardList nativeVillage;
     protected CardList tavern;
+    protected CardList exile;
     protected CardList prince;
     protected CardList princes;
     protected CardList summon;
@@ -345,6 +346,7 @@ public abstract class Player {
         playedCards = new CardList(this, "InPlay");
         nativeVillage = new CardList(this, "Native Village");
         tavern = new CardList(this, "Tavern");
+        exile = new CardList(this, "Exile");
         prince = new CardList(this, "Princed Cards");
         princes = new CardList(this, "Princes");
         summon = new CardList(this, "Summon");
@@ -779,6 +781,10 @@ public abstract class Player {
     public CardList getTavern() {
         return tavern;
     }
+    
+    public CardList getExile() {
+        return exile;
+    }
 
     public CardList getIsland() {
         return island;
@@ -995,6 +1001,9 @@ public abstract class Player {
         	allCards.addAll(curArchive);
         }
         for (Card card : tavern) {
+            allCards.add(card);
+        }
+        for (Card card : exile) {
             allCards.add(card);
         }
         for (Card card : island) {
@@ -1866,7 +1875,63 @@ public abstract class Player {
     	trash(card, card, context);
     	return true;
     }
+    
+    public boolean exileFromPlay(Card card, Card responsible, MoveContext context) {
+    	card = card.getControlCard();
+    	if (!isInPlay(card)) return false;
+    	int idx = playedCards.indexOf(card);
+    	playedCards.remove(idx);
+    	exile(card, responsible, context);
+    	return true;
+    }
+    
+    public boolean exileFromHand(Card card, Card responsible, MoveContext context) {
+    	//prefer exact card, otherwise matching card
+    	int idx = hand.indexOf(card.getId());
+    	if (idx == -1) {
+    		card = hand.get(card);
+    		hand.remove(card);
+    	} else {
+    		card = hand.get(idx);
+    		hand.remove(idx);
+    	}
+    	if (card == null) return false;
+    	exile(card, responsible, context);
+    	return true;
+    }
+    
+    public boolean exileFromSupply(Card card, Card responsible, MoveContext context) {
+    	if (card == null) return false;
+    	CardPile pile = game.getPile(card);
+		 if (pile != null && pile.getCount() > 0 && pile.topCard().equals(card)) {
+			 Card toExile = pile.removeCard();
+			 exile(toExile, responsible, context);
+			 return true;
+		 }
+    	return false;
+    }
+
+    public boolean exileSelfFromPlay(Card card, MoveContext context) {
+    	card = card.getControlCard();
+    	int idx = playedCards.indexOf(card.getId());
+    	if (idx == -1) return false;
+    	card = playedCards.remove(idx); 
+    	exile(card, card, context);
+    	return true;
+    }
+    
+    private void exile(Card card, Card responsible, MoveContext context) {        
+        // Add to exile mat
+    	this.exile.add(card);
         
+        ((CardImpl)card).clearMultiplyingCards();
+        
+        GameEvent event = new GameEvent(GameEvent.EventType.CardExiled, context);
+        event.card = card;
+        event.responsible = responsible;
+        context.game.broadcastEvent(event);
+    }
+            
     public abstract HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context);
 
     public abstract Card catacombs_cardToObtain(MoveContext context, int maxCost);
@@ -2754,6 +2819,13 @@ public abstract class Player {
     public abstract Card treasurer_treasureToTrash(MoveContext context);
     public abstract Card treasurer_treasureToGainFromTrash(MoveContext context);
     public abstract Card villain_cardToDiscard(MoveContext context, Card[] cards);
+    
+    // ////////////////////////////////////////////
+    // Card interactions - Menagerie Expansion
+    // ////////////////////////////////////////////
+    public abstract Card bountyHunter_cardToExile(MoveContext context);
+    
+    public abstract Card toil_cardToPlay(MoveContext context);
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

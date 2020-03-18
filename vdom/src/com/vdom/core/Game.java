@@ -94,6 +94,7 @@ public class Game {
     public static int numRandomEvents = 0;
     public static int numRandomProjects = 0;
     public static int numRandomLandmarks = 0;
+    public static int numRandomWays = 0;
     public static boolean splitMaxSidewaysCards = true;
     public static boolean keepSidewaysCardsWithExpansion = false;
     public static int randomExpansionLimit = 0;
@@ -336,7 +337,7 @@ public class Game {
                             context.potions = 999;
                         }
                         context.addCoins(999);
-                        context.actions = 999;
+                        context.addActions(999);
                     }
 
 
@@ -598,7 +599,7 @@ public class Game {
             if (numTokensToSpend > 0 && numTokensToSpend <= villagerTotal)
             {
                 player.useVillagers(numTokensToSpend, context, null);
-                context.actions += numTokensToSpend;
+                context.addActions(numTokensToSpend);
             }
         }
     }
@@ -615,7 +616,7 @@ public class Game {
             if (spendToken)
             {
                 player.useVillagers(1, context, null);
-                context.actions += 1;
+                context.addActions(1);
             }
         }
     }
@@ -797,7 +798,7 @@ public class Game {
         // /////////////////////////////////
         // Reset context for status update
         // /////////////////////////////////
-        context.actions = 1;
+        context.resetActions();
         context.buys = 1;
                 
         GameEvent event = new GameEvent(GameEvent.EventType.NewHand, context);
@@ -986,7 +987,7 @@ public class Game {
                 }
             }
 
-            while (context.actions > 0 && actionCards != null && !actionCards.isEmpty()) {
+            while (context.getActions() > 0 && actionCards != null && !actionCards.isEmpty()) {
                 action = actionCards.remove(0);
                 if (action != null) {
                     if (isValidAction(context, action)) {
@@ -1007,10 +1008,10 @@ public class Game {
                     hasAction = true;
                 }
             }
-            if (context.actions == 0 && context.player.getVillagers() > 0 && hasAction) {
+            if (context.getActions() == 0 && context.player.getVillagers() > 0 && hasAction) {
             	useVillagerForAction(context.player, context);
             }
-        } while (context.actions > 0 && action != null);
+        } while (context.getActions() > 0 && action != null);
     }
     
     protected void spendExtraVillagers(Player player, MoveContext context) {
@@ -1514,7 +1515,7 @@ public class Game {
             		card.behaveAsCard().equals(Cards.silos) || card.behaveAsCard().equals(Cards.sinisterPlot)) {
             	card.play(this, context, false, true, true, true, false);
             } else if (card.behaveAsCard().equals(Cards.barracks)) {
-            	context.actions += 1;
+            	context.addActions(1, Cards.barracks);
             } else if (card.behaveAsCard().equals(Cards.fair)) {
             	context.buys += 1;
             } else if(card.behaveAsCard().is(Type.Duration, player)) {
@@ -1553,14 +1554,14 @@ public class Game {
                 event.newCard = isRealCard;
                 broadcastEvent(event);
 
-                context.actions += thisCard.getAddActionsNextTurn();
+                context.addActions(thisCard.getAddActionsNextTurn(), thisCard);
                 context.addCoins(thisCard.getAddGoldNextTurn());
                 context.buys += thisCard.getAddBuysNextTurn();
                 int addCardsNextTurn = thisCard.getAddCardsNextTurn();
 
                 /* addCardsNextTurn are displayed like addCards but sometimes the text differs */
                 if (thisCard.getKind() == Cards.Kind.Tactician) {
-                    context.actions += 1;
+                    context.addActions(1, Cards.tactician);
                     context.buys += 1;
                     addCardsNextTurn = 5;
                 }
@@ -1833,6 +1834,7 @@ public class Game {
         numRandomEvents = 0;
         numRandomProjects = 0;
         numRandomLandmarks = 0;
+        numRandomWays = 0;
         splitMaxSidewaysCards = false;
         randomExpansions = null;
         randomExcludedExpansions = null;
@@ -1848,6 +1850,7 @@ public class Game {
         String numRandomEventsArg = "-eventcards";
         String numRandomProjectsArg = "-projectcards";
         String numRandomLandmarksArg = "-landmarkcards";
+        String numRandomWaysArg = "-waycards";
         String randomExcludesArg = "-randomexcludes";
         String splitMaxSidewaysCardsArg = "-splitmaxsidewayscards";
         String keepSidewaysCardsWithExpansionArg = "-sidewayscardswithexpansion";
@@ -1952,6 +1955,16 @@ public class Game {
                         int num = Integer.parseInt(arg.substring(numRandomLandmarksArg.length()));
                         if (num != 0) {
                         	numRandomLandmarks = num;
+                        }
+                    } catch (Exception e) {
+                        Util.log(e);
+                        throw new ExitException();
+                    }
+                } else if (arg.toLowerCase().startsWith(numRandomWaysArg)) {
+                    try {
+                        int num = Integer.parseInt(arg.substring(numRandomWaysArg.length()));
+                        if (num != 0) {
+                        	numRandomWays = num;
                         }
                     } catch (Exception e) {
                         Util.log(e);
@@ -3305,6 +3318,12 @@ public class Game {
                         break;
                     }
                 }
+                for (Card c : Cards.wayCards) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                        card = c;
+                        break;
+                    }
+                }
                 // Handle split pile / knights cards being passed in incorrectly
                 for (Card c : Cards.variablePileCards) {
                     if(c.getSafeName().equalsIgnoreCase(s)) {
@@ -3410,6 +3429,7 @@ public class Game {
             		numRandomEvents, 
             		numRandomProjects,
             		numRandomLandmarks,
+            		numRandomWays,
             		!splitMaxSidewaysCards, keepSidewaysCardsWithExpansion, 
             		false);
             if(cardSet == null) {
@@ -3458,7 +3478,7 @@ public class Game {
                     }
                 }
                 allCards = CardSet.getCardSet(GameType.Random, count+10, expansions, randomExcludedExpansions, 0, ExpansionAllocation.Random,
-                		0, 0, 0, 
+                		0, 0, 0, 0, 
                 		false, false,
                 		false).getCards();
             } else {
@@ -3784,6 +3804,13 @@ public class Game {
         	trashPile.add(takeFromPile(Cards.zombieMason));
         	trashPile.add(takeFromPile(Cards.zombieSpy));
         }
+        
+        // If certain cards/events/ways are in play, we'll need Horses (non-supply)
+        if (piles.containsKey(Cards.livery.getName())
+        		|| piles.containsKey(Cards.scrap.getName())
+        		|| piles.containsKey(Cards.supplies.getName())) {
+            addPile(Cards.horse, 30, false);
+        }
 
         // If Baker is in play, each player starts with one coin token on Coffers mat
         if (piles.containsKey(Cards.baker.getName()))
@@ -3864,6 +3891,7 @@ public class Game {
         ArrayList<Card> cards = new ArrayList<Card>();
         ArrayList<Card> events = new ArrayList<Card>();
         ArrayList<Card> landmarks = new ArrayList<Card>();
+        ArrayList<Card> ways = new ArrayList<Card>();
         for (CardPile pile : placeholderPiles.values()) {
         	Card c = pile.placeholderCard();
         	if (Cards.isKingdomCard(c)) {
@@ -3872,11 +3900,14 @@ public class Game {
         		events.add(c);
         	} else if (Cards.landmarkCards.contains(c)) {
         		landmarks.add(c);
+        	} else if (Cards.wayCards.contains(c)) {
+        		ways.add(c);
         	}
         }
         Collections.sort(cards, new Util.CardCostNameComparator());
         Collections.sort(events, new Util.CardCostNameComparator());
         Collections.sort(landmarks, new Util.CardCostNameComparator());
+        Collections.sort(ways, new Util.CardCostNameComparator());
         
         for (Card c : cards) {
         	cardListText += Util.getShortText(c) + ((baneCard != null && c.equals(baneCard)) ? " (Bane)" + baneCard.getName() : "") + "\n";
@@ -3891,6 +3922,13 @@ public class Game {
         	cardListText += "\nLandmarks in play\n---------------\n";
         	for (Card c : landmarks) {
             	cardListText += c.getName() + (c.equals(Cards.obelisk) && obeliskCard != null ? " (" + obeliskCard.getName() + ")" : "") +  "\n";
+            }
+        }
+        
+        if (!ways.isEmpty()) {
+        	cardListText += "\nWays in play\n---------------\n";
+        	for (Card c : ways) {
+        		cardListText += Util.getShortText(c) + "\n";
             }
         }
 
@@ -4078,6 +4116,13 @@ public class Game {
                     	context.player.gainGuildsCoinTokens(1, context, Cards.guildHall);
                     }
                     
+                    if (context.liveryEffects > 0 && event.card.getCost(context) >= 4) {
+                    	int liverys = context.liveryEffects; 
+                    	for(int i = 0; i < liverys; ++ i) {
+                    		context.player.gainNewCard(Cards.horse, Cards.livery, context);
+                    	}
+                    }
+                    
                     boolean hasInheritedWatchtower = Cards.watchTower.equals(player.getInheritance()) && player.hand.contains(Cards.estate);
                     boolean hasWatchtower = player.hand.contains(Cards.watchTower);
                     Card watchTowerCard = hasWatchtower ? Cards.watchTower : Cards.estate;
@@ -4149,6 +4194,7 @@ public class Game {
                                 || r.equals(Cards.graverobber) && context.graverobberGainedCardOnTop == true
                                 || r.equals(Cards.greed)
                                 || r.equals(Cards.seaHag)
+                                || r.equals(Cards.supplies)
                                 || r.equals(Cards.taxman)
                                 || r.equals(Cards.tournament)
                                 || r.equals(Cards.treasureMap)
@@ -4472,7 +4518,7 @@ public class Game {
                         player.addVictoryTokens(context, victoryCards, Cards.grandCastle);
                     } else if (gainedCardAbility.equals(Cards.villa)) {
                     	if (context.game.getCurrentPlayer() == player) {
-							context.actions += 1;
+							context.addActions(1, Cards.villa);
 							if (context.phase == TurnPhase.Buy) {
 								context.returnToActionPhase = true;
 							}
@@ -4935,7 +4981,7 @@ public class Game {
         if(card.is(Type.Victory)) count = victoryCardPileSize;
         if(card.equals(Cards.rats)) count = 20;
         if(card.equals(Cards.port)) count = 12;
-        if(card.is(Type.Event) || card.is(Type.Project) || card.is(Type.Landmark)) {
+        if(card.is(Type.Event) || card.is(Type.Project) || card.is(Type.Landmark) || card.is(Type.Way)) {
         	count = 1;
         	isSupply = false;
         }

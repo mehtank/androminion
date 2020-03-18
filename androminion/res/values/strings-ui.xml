@@ -133,7 +133,7 @@
     <string name="include_cards_yes">Use</string>
     <string name="include_cards_no">Don\'t use</string>
     <string name="include_cards_percent">%1$s%% chance</string>
-    <string name="random_events_projects_landmarks">Events, Projects and Landmarks</string>
+    <string name="random_events_projects_landmarks">Events, Projects, Landmarks and Ways</string>
     <string name="combine_sideways_cards">Combine amount</string>
     <string name="random_sideways_cards_amount">Amount: </string>
     <string name="keep_sideways_cards_with_expansion">Keep with original expansion</string>
@@ -142,9 +142,11 @@
     <string name="random_events_none">None</string>
     <string name="random_projects_none">None</string>
     <string name="random_landmarks_none">None</string>
+    <string name="random_ways_none">None</string>
     <string name="random_sideways_max_x">Up to %1$s</string>
     <string name="random_include_projects">Projects: </string>
     <string name="random_include_landmarks">Landmarks: </string>
+    <string name="random_include_ways">Ways: </string>
     <string name="select_kingdom_cards">Kingdom cards from: </string>
     <string name="random_expansions">Expansions</string>
     <string name="random_expansions_select_all">All selected</string>
@@ -167,6 +169,7 @@
     <string name="card_set_events">Events: %1$s</string>
     <string name="card_set_projects">Projects: %1$s</string>
     <string name="card_set_landmarks">Landmarks: %1$s</string>
+    <string name="card_set_ways">Ways: %1$s</string>
     <string name="card_set_plat_colony">Platinum/Colony</string>
     <string name="card_set_no_plat_colony">No Platinum/Colony</string>
     <string name="card_set_shelters">Shelters</string>
@@ -198,6 +201,7 @@
     <string name="keep_button">Keep</string>
     <string name="give_button">Give</string>
     <string name="trash_button">Trash</string>
+    <string name="exile_button">Exile</string>
     <string name="upgrade_button">Upgrade</string>
     <string name="mint_button">Mint</string>
     <string name="swindle_button">Swindle</string>
@@ -205,6 +209,7 @@
     <string name="hand_header">Hand:</string>
     <string name="played_header">Played:</string>
     <string name="tavern_header">Tavern:</string>
+    <string name="exile_header">Exile:</string>
     <string name="archive_header">Archive:</string>
     <string name="crypt_header">Crypt:</string>
     <string name="island_header">Island:</string>
