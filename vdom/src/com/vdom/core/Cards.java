@@ -158,8 +158,8 @@ public class Cards {
         Gatekeeper, Goatherd, Groom, Horse, Hostelry, HuntingLodge, Kiln, Livery, Mastermind, Paddock, Sanctuary, Scrap, Sheepdog, 
         Sleigh, SnowyVillage, Stockpile, Supplies, VillageGreen, Wayfarer,
         
-        Alliance, Banish, Bargin, Commerce, Delay, Demand, Desperation, Enclave, Enhance, Gamble, Invest, March, Persue, 
-        Populate, Reap, Ride, SiezeTheDay, Stampede, Toil, Transport,
+        Alliance, Banish, Bargin, Commerce, Delay, Demand, Desperation, Enclave, Enhance, Gamble, Invest, March, Pursue, 
+        Populate, Reap, Ride, SeizeTheDay, Stampede, Toil, Transport,
         
         WayOfTheButterfly, WayOfTheCamel, WayOfTheChameleon, WayOfTheFrog, WayOfTheGoat, WayOfTheHorse,
         WayOfTheMole, WayOfTheMonkey, WayOfTheMouse, WayOfTheMule, WayOfTheOtter, WayOfTheOwl, WayOfTheOx,
@@ -741,28 +741,28 @@ public class Cards {
     public static final Card barge;
     public static final Card blackCat;
     public static final Card bountyHunter;
-//    public static final Card calvary;
-//    public static final Card camelTrain;
-//    public static final Card cardinal;
+    public static final Card calvary;
+    public static final Card camelTrain;
+    public static final Card cardinal;
     public static final Card coven;
-//    public static final Card destrier;
-//    public static final Card displace;
-//    public static final Card falconer;
-//    public static final Card fisherman; 
-//    public static final Card gatekeeper;
-//    public static final Card goatherd;
-//    public static final Card groom;
+    public static final Card destrier;
+    public static final Card displace;
+    public static final Card falconer;
+    public static final Card fisherman; 
+    public static final Card gatekeeper;
+    public static final Card goatherd;
+    public static final Card groom;
     public static final Card horse;
-//    public static final Card hostelry;
-//    public static final Card huntingLodge;
+    public static final Card hostelry;
+    public static final Card huntingLodge;
     public static final Card kiln;
     public static final Card livery;
     public static final Card mastermind;
-//    public static final Card paddock;
-//    public static final Card sanctuary;
+    public static final Card paddock;
+    public static final Card sanctuary;
     public static final Card scrap;
     public static final Card sheepdog; 
-//    public static final Card sleigh;
+    public static final Card sleigh;
     public static final Card snowyVillage;
     public static final Card stockpile;
     public static final Card supplies;
@@ -770,44 +770,44 @@ public class Cards {
     public static final Card wayfarer;
     
     public static final Card alliance;
-//    public static final Card banish;
-//    public static final Card bargin;
+    public static final Card banish;
+    public static final Card bargin;
     public static final Card commerce;
-//    public static final Card delay;
-//    public static final Card demand;
-//    public static final Card desperation;
-//    public static final Card enclave;
-//    public static final Card enhance;
-//    public static final Card gamble;
-//    public static final Card invest;
-//    public static final Card march;
-//    public static final Card persue;
+    public static final Card delay;
+    public static final Card demand;
+    public static final Card desperation;
+    public static final Card enclave;
+    public static final Card enhance;
+    public static final Card gamble;
+    public static final Card invest;
+    public static final Card march;
+    public static final Card pursue;
     public static final Card populate;
-//    public static final Card reap;
-//    public static final Card ride;
-//    public static final Card siezeTheDay;
-//    public static final Card stampede;
+    public static final Card reap;
+    public static final Card ride;
+    public static final Card seizeTheDay;
+    public static final Card stampede;
     public static final Card toil;
-//    public static final Card transport;
+    public static final Card transport;
     
-//    public static final Card wayOfTheButterfly;
+    public static final Card wayOfTheButterfly;
 //    public static final Card wayOfTheCamel;
     public static final Card wayOfTheChameleon;
 //    public static final Card wayOfTheFrog;
 //    public static final Card wayOfTheGoat;
-//    public static final Card wayOfTheHorse;
+    public static final Card wayOfTheHorse;
     public static final Card wayOfTheMole;
 //    public static final Card wayOfTheMonkey;
-//    public static final Card wayOfTheMouse;
+    public static final Card wayOfTheMouse;
 //    public static final Card wayOfTheMule;
 //    public static final Card wayOfTheOtter;
-//    public static final Card wayOfTheOwl;
+    public static final Card wayOfTheOwl;
     public static final Card wayOfTheOx;
-//    public static final Card wayOfThePig;
+    public static final Card wayOfThePig;
     public static final Card wayOfTheRat;
-//    public static final Card wayOfTheSeal;
-//    public static final Card wayOfTheSheep;
-//    public static final Card wayOfTheSquirrel;
+    public static final Card wayOfTheSeal;
+    public static final Card wayOfTheSheep;
+    public static final Card wayOfTheSquirrel;
     public static final Card wayOfTheTurtle;
 //    public static final Card wayOfTheWorm;
         
@@ -1421,73 +1421,79 @@ public class Cards {
         
         // Menagerie Cards
         nonSupplyCards.add(horse   = new CardImpl.Builder(Cards.Kind.Horse, 3, Type.Action).addCards(2).addActions(1).description("Return this to its pile. (This is not in the Supply.)").expansion(Expansion.Menagerie).build());
-        //AnimalFair, Barge, BlackCat, BountyHunter, Calvary, CamelTrain, Cardinal, Coven, Destrier, Displace, Falconer, Fisherman, 
-        //Gatekeeper, Goatherd, Groom, Hostelry, HuntingLodge, Kiln, Livery, Mastermind, Paddock, Sanctuary, Scrap, Sheepdog, 
-        //Sleigh, SnowyVillage, Stockpile, Supplies, VillageGreen, Wayfarer
+
         actionCardsMenagerie.add(animalFair      = new CardImpl.Builder(Cards.Kind.AnimalFair, 7, Type.Action).addGold(4).description("+1 Buy per empty Supply pile. — Instead of paying this card's cost, you may trash an Action card from your hand.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(barge           = new CardImpl.Builder(Cards.Kind.Barge, 5, Type.Action, Type.Duration).description("Either now or at the start of your next turn, +3 Cards and +1 Buy.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(blackCat        = new CardImpl.Builder(Cards.Kind.BlackCat, 2, Type.Action, Type.Attack, Type.Reaction).addCards(2).description("If it isn't your turn, each other player gains a Curse. — When another player gains a Victory card, you may play this from your hand.").expansion(Expansion.Menagerie).build());
-        
         actionCardsMenagerie.add(bountyHunter    = new CardImpl.Builder(Cards.Kind.BountyHunter, 4, Type.Action).addActions(1).description("Exile a card from your hand. If you didn't have a copy of it in Exile, +(3) Coins.").expansion(Expansion.Menagerie).build());
-        
+        actionCardsMenagerie.add(calvary         = new CardImpl.Builder(Cards.Kind.Calvary, 4, Type.Action).description("Gain 2 Horses. — When you gain this, +2 Cards, +1 Buy, and if it's your Buy phase return to your Action phase.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(camelTrain      = new CardImpl.Builder(Cards.Kind.CamelTrain, 3, Type.Action).description("Exile a non-Victory card from the Supply. — When you gain this, Exile a Gold from the Supply.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(cardinal        = new CardImpl.Builder(Cards.Kind.Cardinal, 4, Type.Action).addGold(2).description("Each other player reveals the top 2 cards of their deck, Exiles one costing from (3) to (6) Coins, and discards the rest.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(coven           = new CardImpl.Builder(Cards.Kind.Coven, 5, Type.Action, Type.Attack).addActions(1).addGold(2).description("Each other player Exiles a Curse from the Supply. If they can't, they discard their Exiled Curses.").expansion(Expansion.Menagerie).build());
-        
+        actionCardsMenagerie.add(destrier        = new CardImpl.Builder(Cards.Kind.Destrier, 6, Type.Action).addCards(2).addActions(1).description("During your turns, this costs (1) Coin less per card you've gained this turn.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(displace        = new CardImpl.Builder(Cards.Kind.Displace, 5, Type.Action).description("Exile a card from your hand. Gain a differently named card costing up to (2) Coins more than it.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(falconer        = new CardImpl.Builder(Cards.Kind.Falconer, 5, Type.Action, Type.Reaction).description("Gain a card to your hand costing less than this. — When any player gains a card with 2 or more types (Action, Attack, etc.), you may play this from your hand.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(fisherman       = new CardImpl.Builder(Cards.Kind.Fisherman, 5, Type.Action).addCards(1).addActions(1).addGold(1).description("During your turns, if your discard pile is empty, this costs (3) Coins less.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(gatekeeper      = new CardImpl.Builder(Cards.Kind.Gatekeeper, 5, Type.Action, Type.Duration, Type.Attack).addGoldNextTurn(3).description("Until then, when another player gains an Action or Treasure card they don't have an Exiled copy of, they Exile it.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(goatherd        = new CardImpl.Builder(Cards.Kind.Goatherd, 3, Type.Action).addActions(1).description("You may trash a card from your hand. +1 Card per card the player to your right trashed on their last turn.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(groom           = new CardImpl.Builder(Cards.Kind.Groom, 4, Type.Action).description("Gain a card costing up to $4 If it's an... Action card, gain a Horse; Treasure card, gain a Silver; Victory card, +1 Card and +1 Action.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(hostelry        = new CardImpl.Builder(Cards.Kind.Hostelry, 4, Type.Action).addCards(1).addActions(2).description("When you gain this, you may discard any number of Treasures, revealed, to gain that many Horses.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(huntingLodge    = new CardImpl.Builder(Cards.Kind.HuntingLodge, 5, Type.Action).addCards(1).addActions(2).description("You may discard your hand for +5 Cards.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(kiln            = new CardImpl.Builder(Cards.Kind.Kiln, 5, Type.Action).addGold(2).description("The next time you play a card this turn, you may first gain a copy of it.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(livery          = new CardImpl.Builder(Cards.Kind.Livery, 5, Type.Action).addGold(3).description("This turn, when you gain a card costing (4) Coins or more, gain a Horse.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(mastermind      = new CardImpl.Builder(Cards.Kind.Mastermind, 5, Type.Action, Type.Duration).description("At the start of your next turn, you may play an Action card from your hand three times.").expansion(Expansion.Menagerie).build());
-        
+        actionCardsMenagerie.add(paddock         = new CardImpl.Builder(Cards.Kind.Paddock, 5, Type.Action).addGold(2).description("Gain 2 Horses. +1 Action per empty Supply pile.").expansion(Expansion.Menagerie).build());
+        actionCardsMenagerie.add(sanctuary       = new CardImpl.Builder(Cards.Kind.Sanctuary, 5, Type.Action).addCards(1).addActions(1).addBuys(1).description("You may Exile a card from your hand.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(scrap           = new CardImpl.Builder(Cards.Kind.Scrap, 3, Type.Action).description("Trash a card from your hand. Choose a different thing per (1) Coin it costs: +1 Card; +1 Action; +1 Buy; +(1) Coin; gain a Silver; gain a Horse.").expansion(Expansion.Menagerie).build());
-        
         actionCardsMenagerie.add(sheepdog        = new CardImpl.Builder(Cards.Kind.Sheepdog, 2, Type.Action, Type.Reaction).addCards(2).description("When you gain a card, you may play this from your hand.").expansion(Expansion.Menagerie).build());
-        
+        actionCardsMenagerie.add(sleigh          = new CardImpl.Builder(Cards.Kind.Sleigh, 2, Type.Action, Type.Reaction).description("Gain 2 Horses. — When you gain a card, you may discard this, to put that card into your hand or onto your deck.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(snowyVillage    = new CardImpl.Builder(Cards.Kind.SnowyVillage, 3, Type.Action).addCards(1).addActions(4).addBuys(1).description("Ignore any further +Actions you get this turn.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(stockpile       = new CardImpl.Builder(Cards.Kind.Stockpile, 3, Type.Treasure).addGold(3).addBuys(1).description("When you play this, Exile it.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(supplies        = new CardImpl.Builder(Cards.Kind.Supplies, 2, Type.Treasure).addGold(1).description("When you play this, gain a Horse onto your deck.").expansion(Expansion.Menagerie).build());
-
         actionCardsMenagerie.add(villageGreen    = new CardImpl.Builder(Cards.Kind.VillageGreen, 4, Type.Action, Type.Duration, Type.Reaction).description("Either now or at the start of your next turn, +1 Card and +2 Actions. — When you discard this other than during Clean-up, you may play it.").expansion(Expansion.Menagerie).build());
         actionCardsMenagerie.add(wayfarer        = new CardImpl.Builder(Cards.Kind.Wayfarer, 6, Type.Action).addCards(3).description("You may gain a Silver. — This has the same cost as the last other card gained this turn, if any.").expansion(Expansion.Menagerie).build());
         
         // events
         eventCardsMenagerie.add(alliance    = new CardImpl.Builder(Cards.Kind.Alliance, 10, Type.Event).description("Gain a Provice, a Duchy, an Estate, a Gold, a Silver, and a Copper.").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(banish      = new CardImpl.Builder(Cards.Kind.Banish, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(bargin      = new CardImpl.Builder(Cards.Kind.Bargin, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(banish      = new CardImpl.Builder(Cards.Kind.Banish, 4, Type.Event).description("Exile any number of cards with the same name from your hand.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(bargin      = new CardImpl.Builder(Cards.Kind.Bargin, 4, Type.Event).description("Gain a non-Victory card costing up to (5) Coins. Each other player gains a Horse.").expansion(Expansion.Menagerie).build());
         eventCardsMenagerie.add(commerce    = new CardImpl.Builder(Cards.Kind.Commerce, 5, Type.Event).description("Gain a Gold per differently named card you've gained this turn.").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(delay       Scrap= new CardImpl.Builder(Cards.Kind.Delay, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(demand      = new CardImpl.Builder(Cards.Kind.Demand, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(desperation = new CardImpl.Builder(Cards.Kind.Desperation, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(enclave     = new CardImpl.Builder(Cards.Kind.Enclave, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(gamble      = new CardImpl.Builder(Cards.Kind.Gamble, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(invest      = new CardImpl.Builder(Cards.Kind.Invest, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(march       = new CardImpl.Builder(Cards.Kind.March, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(persue      = new CardImpl.Builder(Cards.Kind.Persue, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(delay       = new CardImpl.Builder(Cards.Kind.Delay, 0, Type.Event).description("You may set aside an Action card from your hand. At the start of your next turn, play it.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(demand      = new CardImpl.Builder(Cards.Kind.Demand, 5, Type.Event).description("Gain a Horse and a card costing up to (4) Coins, both onto your deck.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(desperation = new CardImpl.Builder(Cards.Kind.Desperation, 0, Type.Event).description("Once per turn: You may gain a Curse. If you do, +1 Buy and +(2) Coins.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(enclave     = new CardImpl.Builder(Cards.Kind.Enclave, 8, Type.Event).description("Gain a Gold. Exile a Duchy from the Supply.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(enhance     = new CardImpl.Builder(Cards.Kind.Enhance, 3, Type.Event).description("You may trash a non-Victory card from your hand, to gain a card costing up to (2) Coins more than it.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(gamble      = new CardImpl.Builder(Cards.Kind.Gamble, 2, Type.Event).addBuys(1).description("Reveal the top card of your deck. If it's a Treasure or Action, you may play it. Otherwise, discard it.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(invest      = new CardImpl.Builder(Cards.Kind.Invest, 4, Type.Event).description("Exile an Action card from the Supply. While it's in Exile, when another player gains or Invests in a copy of it, +2 Cards.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(march       = new CardImpl.Builder(Cards.Kind.March, 3, Type.Event).description("Look through your discard pile. You may play an Action card from it.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(pursue      = new CardImpl.Builder(Cards.Kind.Pursue, 2, Type.Event).addBuys(1).description("Name a card. Reveal the top 4 cards from your deck. Put the matches back and discard the rest.").expansion(Expansion.Menagerie).build());
         eventCardsMenagerie.add(populate    = new CardImpl.Builder(Cards.Kind.Populate, 10, Type.Event).description("Gain one card from each Action Supply pile.").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(reap        = new CardImpl.Builder(Cards.Kind.Reap, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(ride        = new CardImpl.Builder(Cards.Kind.Ride, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(siezeTheDay = new CardImpl.Builder(Cards.Kind.SiezeTheDay, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(stampede    = new CardImpl.Builder(Cards.Kind.Stampede, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(reap        = new CardImpl.Builder(Cards.Kind.Reap, 7, Type.Event).description("Gain a Gold. Set it aside. If you do, at the start of your next turn, play it.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(ride        = new CardImpl.Builder(Cards.Kind.Ride, 2, Type.Event).description("Gain a Horse.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(seizeTheDay = new CardImpl.Builder(Cards.Kind.SeizeTheDay, 4, Type.Event).description("Once per game: Take an extra turn after this one.").expansion(Expansion.Menagerie).build());
+        eventCardsMenagerie.add(stampede    = new CardImpl.Builder(Cards.Kind.Stampede, 5, Type.Event).description("If you have 5 or fewer cards in play, gain 5 Horses onto your deck.").expansion(Expansion.Menagerie).build());
         eventCardsMenagerie.add(toil        = new CardImpl.Builder(Cards.Kind.Toil, 2, Type.Event).addBuys(1).description("You may play an Action card from your hand.").expansion(Expansion.Menagerie).build());
-//        eventCardsMenagerie.add(transport   = new CardImpl.Builder(Cards.Kind.Transport, 0, Type.Event).description("").expansion(Expansion.Menagerie).build());
-        
-        
+        eventCardsMenagerie.add(transport   = new CardImpl.Builder(Cards.Kind.Transport, 3, Type.Event).description("Choose one: Exile an Action card from the Supply; or put an Action card you have in Exile onto your deck.").expansion(Expansion.Menagerie).build());
+                
         // ways
-//        wayCardsMenagerie.add(wayOfTheButterfly = new CardImpl.Builder(Cards.Kind.WayOfTheButterfly, Type.Way).description("").expansion(Expansion.Menagerie).build());
+        wayCardsMenagerie.add(wayOfTheButterfly = new CardImpl.Builder(Cards.Kind.WayOfTheButterfly, Type.Way).description("You may return this to its pile to gain a card costing exactly (1) Coin more than it.").expansion(Expansion.Menagerie).build());
 //        wayCardsMenagerie.add(wayOfTheCamel = new CardImpl.Builder(Cards.Kind.WayOfTheCamel, Type.Way).description("").expansion(Expansion.Menagerie).build());
         wayCardsMenagerie.add(wayOfTheChameleon = new CardImpl.Builder(Cards.Kind.WayOfTheChameleon, Type.Way).description("Follow this card's instructions; each time that would give you +Cards this turn, you get +Coins instead, and vice-versa.").expansion(Expansion.Menagerie).build());
 //        wayCardsMenagerie.add(wayOfTheFrog = new CardImpl.Builder(Cards.Kind.WayOfTheFrog, Type.Way).description("").expansion(Expansion.Menagerie).build());
 //        wayCardsMenagerie.add(wayOfTheGoat = new CardImpl.Builder(Cards.Kind.WayOfTheGoat, Type.Way).description("").expansion(Expansion.Menagerie).build());
-//        wayCardsMenagerie.add(wayOfTheHorse = new CardImpl.Builder(Cards.Kind.WayOfTheHorse, Type.Way).description("").expansion(Expansion.Menagerie).build());
+        wayCardsMenagerie.add(wayOfTheHorse = new CardImpl.Builder(Cards.Kind.WayOfTheHorse, Type.Way).addCards(2).addActions(1).description("Return this to its pile.").expansion(Expansion.Menagerie).build());
         wayCardsMenagerie.add(wayOfTheMole = new CardImpl.Builder(Cards.Kind.WayOfTheMole, Type.Way).addActions(1).description("Discard your hand. +3 Cards.").expansion(Expansion.Menagerie).build());
 //        wayCardsMenagerie.add(wayOfTheMonkey = new CardImpl.Builder(Cards.Kind.WayOfTheMonkey, Type.Way).description("").expansion(Expansion.Menagerie).build());
-//        wayCardsMenagerie.add(wayOfTheMouse = new CardImpl.Builder(Cards.Kind.WayOfTheMouse, Type.Way).description("").expansion(Expansion.Menagerie).build());
+        wayCardsMenagerie.add(wayOfTheMouse = new CardImpl.Builder(Cards.Kind.WayOfTheMouse, Type.Way).description("Play the set-aside card, leaving it there. — Setup: Set aside an unused Action costing (2) or (3) Coins.").expansion(Expansion.Menagerie).build());
 //        wayCardsMenagerie.add(wayOfTheMule = new CardImpl.Builder(Cards.Kind.WayOfTheMule, Type.Way).description("").expansion(Expansion.Menagerie).build());
 //        wayCardsMenagerie.add(wayOfTheOtter = new CardImpl.Builder(Cards.Kind.WayOfTheOtter, Type.Way).description("").expansion(Expansion.Menagerie).build());
-//        wayCardsMenagerie.add(wayOfTheOwl = new CardImpl.Builder(Cards.Kind.WayOfTheOwl, Type.Way).description("").expansion(Expansion.Menagerie).build());
+        wayCardsMenagerie.add(wayOfTheOwl = new CardImpl.Builder(Cards.Kind.WayOfTheOwl, Type.Way).description("Draw until you have 6 cards in hand.").expansion(Expansion.Menagerie).build());
         wayCardsMenagerie.add(wayOfTheOx = new CardImpl.Builder(Cards.Kind.WayOfTheOx, Type.Way).addActions(2).description("").expansion(Expansion.Menagerie).build());
-//        wayCardsMenagerie.add(wayOfThePig = new CardImpl.Builder(Cards.Kind.WayOfThePig, Type.Way).description("").expansion(Expansion.Menagerie).build());
+        wayCardsMenagerie.add(wayOfThePig = new CardImpl.Builder(Cards.Kind.WayOfThePig, Type.Way).addCards(1).addActions(1).description("").expansion(Expansion.Menagerie).build());
         wayCardsMenagerie.add(wayOfTheRat = new CardImpl.Builder(Cards.Kind.WayOfTheRat, Type.Way).description("You may discard a Treasure to gain a copy of this.").expansion(Expansion.Menagerie).build());
-//        wayCardsMenagerie.add(wayOfTheSeal = new CardImpl.Builder(Cards.Kind.WayOfTheSeal, Type.Way).description("").expansion(Expansion.Menagerie).build());
-//        wayCardsMenagerie.add(wayOfTheSheep = new CardImpl.Builder(Cards.Kind.WayOfTheSheep, Type.Way).description("").expansion(Expansion.Menagerie).build());
-//        wayCardsMenagerie.add(wayOfTheSquirrel = new CardImpl.Builder(Cards.Kind.WayOfTheSquirrel, Type.Way).description("").expansion(Expansion.Menagerie).build());
+        wayCardsMenagerie.add(wayOfTheSeal = new CardImpl.Builder(Cards.Kind.WayOfTheSeal, Type.Way).addGold(1).description("This turn, when you gain a card, you may put it onto your deck.").expansion(Expansion.Menagerie).build());
+        wayCardsMenagerie.add(wayOfTheSheep = new CardImpl.Builder(Cards.Kind.WayOfTheSheep, Type.Way).addGold(2).description("").expansion(Expansion.Menagerie).build());
+        wayCardsMenagerie.add(wayOfTheSquirrel = new CardImpl.Builder(Cards.Kind.WayOfTheSquirrel, Type.Way).description("+2 Cards at the end of this turn.").expansion(Expansion.Menagerie).build());
         wayCardsMenagerie.add(wayOfTheTurtle = new CardImpl.Builder(Cards.Kind.WayOfTheTurtle, Type.Way).description("Set this aside. If you did, play it at the start of your next turn.").expansion(Expansion.Menagerie).build());
 //        wayCardsMenagerie.add(wayOfTheWorm = new CardImpl.Builder(Cards.Kind.WayOfTheWorm, Type.Way).description("").expansion(Expansion.Menagerie).build());
                
