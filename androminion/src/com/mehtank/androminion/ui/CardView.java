@@ -232,16 +232,19 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 
 		int cardStyleId = getStyleForCard(c);
+        
+        // According to the documentation, attributes should be ordered by their values
+        // To be sure of it, order them by name in the resouce file and here
 		TypedArray cardStyle = getContext().obtainStyledAttributes(cardStyleId,
 				new int[] {
-					R.attr.cardBackgroundColor,
+                    R.attr.cardBackgroundColor,
+                    R.attr.cardCountColor,
 					R.attr.cardNameBackgroundColor,
-					R.attr.cardTextColor,
-					R.attr.cardCountColor });
+					R.attr.cardTextColor });
 		int bgColor = cardStyle.getColor(0, R.color.cardDefaultBackgroundColor);
-		int textColor = cardStyle.getColor(2, R.color.cardDefaultTextColor);
-        int nameBgColor = cardStyle.getColor(1, R.color.cardDefaultTextBackgroundColor);
-		int countColor = cardStyle.getColor(3, R.color.cardDefaultTextColor);
+		int textColor = cardStyle.getColor(3, R.color.cardDefaultTextColor);
+        int nameBgColor = cardStyle.getColor(2, R.color.cardDefaultTextBackgroundColor);
+		int countColor = cardStyle.getColor(1, R.color.cardDefaultTextColor);
 		cardStyle.recycle();
 		
 		cardBox.setBackgroundColor(bgColor);
