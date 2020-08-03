@@ -47,6 +47,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
     private ArrayList<Player> allPlayers = new ArrayList<Player>();
     private MyCard[] myCardsInPlay;
     private List<Card> druidBoons;
+    private Card wayOfTheMouseCard;
 
     private ArrayList<Card> playedCardsUi = new ArrayList<Card>();
     private ArrayList<Boolean> playedCardsUiNew = new ArrayList<Boolean>();
@@ -99,7 +100,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         return hasJoined;
     }
 
-    public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isObeliskCard, boolean isBlackMarket, boolean uniqueCardPile){
+    public static MyCard makeMyCard(Card c, int index, boolean isBane, boolean isObeliskCard, boolean isWayOfTheMouseCard, boolean isBlackMarket, boolean uniqueCardPile){
         MyCard card = new MyCard(index, c.getName(), c.getSafeName(), c.getName());
         card.desc = c.getDescription();
         card.expansion = c.getExpansion() != null ? c.getExpansion().toString() : "";
@@ -249,6 +250,10 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (c.equals(Cards.stash)) {
         	card.isStash = true;
         }
+        
+        if (isWayOfTheMouseCard) {
+        	card.pile = MyCard.NON_SUPPLY_PILE;
+        }
 
         return card;
     }
@@ -300,7 +305,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 
         // ensure card #0 is a card not to shade, e.g. Curse. See Rev r581
         Card curse = Cards.curse;
-        MyCard mc = makeMyCard(curse, index, false, false, false, true);
+        MyCard mc = makeMyCard(curse, index, false, false, false, false, true);
         myCardsInPlayList.add(mc);
         cardNamesInPlay.put(curse.getName(), index);
         cardsInPlay.add(index, curse);
@@ -328,8 +333,9 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
 				}
 			}
             boolean isObelisk = context.game.obeliskCard != null ? context.game.cardsInSamePile(c, context.game.obeliskCard) : false;
+            boolean isWayOfTheMouseCard = (c).equals(context.game.wayOfTheMouseCard);
             boolean uniqueCardPile = context.game.getPile(c).placeholderCard().equals(c);
-            mc = makeMyCard(c, index, isBane, isObelisk, isBlackMarket, uniqueCardPile);
+            mc = makeMyCard(c, index, isBane, isObelisk, isWayOfTheMouseCard, isBlackMarket, uniqueCardPile);
             myCardsInPlayList.add(mc);
 
             cardNamesInPlay.put(c.getName(), index);
@@ -340,6 +346,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         if (context.game.druidBoons.size() > 0) {
         	druidBoons = context.game.druidBoons;
         }
+        wayOfTheMouseCard = context.game.wayOfTheMouseCard;
     }
 
     public Event fullStatusPacket(MoveContext context, Player player, boolean isFinal) {
@@ -544,6 +551,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 .setSwampHagAttacks(game.swampHagAttacks(player))
                 .setHauntedWoodsAttacks(game.hauntedWoodsAttacks(player))
                 .setEnchantressAttacks(!context.enchantressAlreadyAffected && game.enchantressAttacks(player))
+                .setGatekeeperAttacks(game.gatekeeperAttacks(player))
                 .setHasDeluded(hasDeluded)
                 .setHasEnvious(hasEnvious)
                 .setHasLostInTheWoods(hasLostInTheWoods)
@@ -851,7 +859,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         		event.getType() == EventType.SinisterPlotRemove) {
         	extras.add(event.getAmount());
         } else if (event.getType() == EventType.TravellerExchanged || 
-        		event.getType() == EventType.CardSetAside || 
+        		event.getType() == EventType.CardSetAside ||
+        		event.getType() == EventType.CardExiled || 
         		event.getType() == EventType.CardSetAsidePrivate) {
             extras.add(event.responsible);
         } else if (event.getType() == EventType.MountainPassWinner) {
@@ -1136,7 +1145,7 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
                 players[allPlayers.indexOf(p)] = p.getPlayerName();
 
             //	try {
-            comm.put_ts(new Event(EType.NEWGAME).setObject(new EventObject(new NewGame(myCardsInPlay, players, druidBoons))));
+            comm.put_ts(new Event(EType.NEWGAME).setObject(new EventObject(new NewGame(myCardsInPlay, players, druidBoons, wayOfTheMouseCard))));
             playerJoined();
             //	} catch (Exception e1) {
             // TODO:Because put_ts is asynchronous, this will not work the way it was intended. Is that bad?

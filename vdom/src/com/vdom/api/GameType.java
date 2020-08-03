@@ -254,6 +254,33 @@ public enum GameType {
     // Renaissance and Nocturne
     BecomingAMonster("Becoming a Monster", Expansion.Renaissance, Expansion.Nocturne), TrueBelievers("True Believers", Expansion.Renaissance, Expansion.Nocturne),
     
+    // Menagerie
+    IntroToHorses("Intro To Horses", Expansion.Menagerie), IntroToExile("Intro To Exile", Expansion.Menagerie),
+    // Menagerie and Base 2E
+    PonyExpress("Pony Express", Expansion.Menagerie, Expansion.Base2E), GardenOfCats("Garden of Cats", Expansion.Menagerie, Expansion.Base2E),
+    // Menagerie and Intrigue
+    DogAndPonyShow("Dog & Pony Show", Expansion.Menagerie, Expansion.Intrigue2E), Explosions("Explosions", Expansion.Menagerie, Expansion.Intrigue2E),
+    // Menagerie and Seaside
+    Innsmouth("Innsmouth", Expansion.Menagerie, Expansion.Seaside), Ruritania("Ruritania", Expansion.Menagerie, Expansion.Seaside),
+    // Menagerie and Alchemy
+    ClassOf20("Class of '20", Expansion.Menagerie, Expansion.Alchemy),
+    // Menagerie and Prosperity
+    LimitedTimeOffer("Limited Time Offer", Expansion.Menagerie, Expansion.Prosperity), BirthOfANation("Birth of a Nation", Expansion.Menagerie, Expansion.Prosperity),
+    // Menagerie and Cornucopia and Guilds
+    LivingInExile("Living in Exile", Expansion.Menagerie, Expansion.Cornucopia, Expansion.Guilds), ThrillOfTheHunt("Thrill of the Hunt", Expansion.Menagerie, Expansion.Cornucopia, Expansion.Guilds),
+    // Menagerie and Hinterlands
+    BigBlue("Big Blue", Expansion.Menagerie, Expansion.Hinterlands), Intersection("Intersection", Expansion.Menagerie, Expansion.Hinterlands),
+    // Menagerie and Dark Ages
+    FriendlyCarnage("Friendly Carnage", Expansion.Menagerie, Expansion.DarkAges), GiftHorses("Gift Horses", Expansion.Menagerie, Expansion.DarkAges),
+    // Menagerie and Adventures
+    HorseFeathers("Horse Feathers", Expansion.Menagerie, Expansion.Adventures), SoonerOrLater("Sooner or Later", Expansion.Menagerie, Expansion.Adventures),
+    // Menagerie and Empires
+    NoMoneyDown("No Money Down", Expansion.Menagerie, Expansion.Empires), DetoursAndShortcuts("Detours and Shortcuts", Expansion.Menagerie, Expansion.Empires),
+    // Menagerie and Nocturne
+    SeizeTheNight("Seize the Night", Expansion.Menagerie, Expansion.Nocturne), AnimalCrackers("Animal Crackers", Expansion.Menagerie, Expansion.Nocturne),
+    // Menagerie and Renaissance
+    BidingTime("Biding Time", Expansion.Menagerie, Expansion.Renaissance), VillagerMadness("Villager Madness", Expansion.Menagerie, Expansion.Renaissance),
+    
     // Card set is specified from Dominion Shuffle
     Specified("Specified");
 

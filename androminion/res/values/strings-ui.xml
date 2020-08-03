@@ -10,7 +10,8 @@
     <string name="stats_menu">Statistics</string>
     <string name="settings_menu">Settings</string>
     <string name="about_menu">About</string>
-    <string name="help_menu">Help</string>
+    <string name="rules_menu">How to Play</string>
+    <string name="help_menu">Interface Help</string>
     <string name="quit_menu">Quit</string>
 
     <!-- Settings Activity -->
@@ -49,6 +50,8 @@
 <![CDATA[
 		<h3>Please Read!</h3>
 		By request of Rio Grande Games, the publisher of Dominion, we have removed Androminion from the Play Store. Please do not publish it in any public app store as there will be an official Dominion app.<br><br>
+		<h3>Version 10.0</h3>
+		* Menagerie Expansion! <br>
 		<h3>Version 9.06</h3>
 		* Renaissance Expansion! <br>
 		* Promo Cards: Captain, Church
@@ -294,9 +297,63 @@
 	<string name="status_has_treasureChest">Has the Treasure Chest (At the start of your Buy phase, gain a Gold.)</string>
 	<string name="status_coin_tokens">Coin tokens on Coffers mat: %1$s</string>
 	<string name="status_villager_tokens">Villagers: %1$s</string>
+	<string name="way_of_the_mouse_card_header">- Set-Aside Card -</string>
 	<string name="status_pirate_tokens">Pirate Ship Coin tokens: %1$s</string>
 	<string name="status_debt_tokens">Debt tokens: %1$s</string>
 	<string name="status_victory_tokens">Victory tokens: %1$s</string>
 	<string name="card_more_info">More info</string>
+	
+	<string name="rules_title">How to Play</string>
+	<string name="rules_official">Official rules</string>
+	<string name="rules_official_url">https://www.riograndegames.com/wp-content/uploads/2016/09/Dominion-2nd-Edition-Rules.pdf</string>
+	<string name="rules_wiki">Dominion Strategy wiki</string>
+	<string name="rules">
+<![CDATA[
+		<h3>Overview</h3>
+<p>Dominion is a deck-building game where players start with a deck of simple cards and compete to have the most VP (Victory Points) when the game ends, usually by buying better cards and removing unneeded cards from their deck.</p>
+<p>Each game has a <b>Supply</b> consisting of at least the 3 basic Treasure and Victory cards piles and Curses. There are 10 different Kingdom card piles in the Supply as well; these are different each game. Each has unique abilities that change up the game. You can buy or otherwise gain cards from the Supply each turn using the cards you play.</p>
+<p>Gained cards are added to your discard pile. Your discard pile is shuffled into your deck (draw pile) when it\'s empty and you need cards from it. This cycles your new cards into your expanding deck.</p>
+<h3>Gameplay</h3>
+<p>Each player usually starts with 7 Copper and 3 Estate cards shuffled into their deck and draws 5 cards from it to their hand to start. A random player takes the first turn.</p>
+<p>Each turn consist of three phases: Action, Buy, and Clean-up (ABC). A player starts each turn with 0 Coins, 1 +Action, and 1 +Buy.</p>
+<p><b>Action phase:</b> you may play 1 Action card from your hand to follow its instructions. These often form the bulk of the strategy in a given game; see how you can get them to synergize to win. Some cards grant additional +Actions that will allow you play more Action cards. (Instructions below a dividing line happen at a different time; follow them when indicated).</p>
+<p><b>Buy phase:</b> you first play any desired Treasure cards from your hand; these usually give you Coins to spend that turn. Then you may buy a card from the Supply costing up to the Coins you have. If you have additional +Buys and enough Coins you can buy more cards. You can also buy Events or Projects when present.</p>
+<p><b>Clean-up phase:</b> you discard all remaining cards from your hand and appropriate cards from play, then draw 5 cards from your deck for your next turn.</p>
+<p>The <b>game ends</b> after a turn where either the Province or Colony pile is empty or 3 total Supply piles are (4 in a 5-6 player game). Ties go to the player with fewest turns (extra turns don’t count).</p>
+<h3>Other Card Types</h3>
+<p><b>Victory cards</b> are worth VP. Usually gaining the most high-point cards will make you win. They often clog up your deck, so plan accordingly. You can also get points with VP tokens that some effects provide.</p>
+<p><b>Curse</b> cards are worth -1 point each and are usually given out by certain Attack cards. You\'ll often want to get rid of Curses if you have to gain them.</p>
+<i>Note:</i> Cards with multiple types (e.g. Treasure – Victory) count as all of those types individually.
+<p><b>Duration</b> cards can do something in future turns. They stay in play when still in use instead of being cleaned-up (along with cards that play them multiple times).</p>
+<p><b>Reaction</b> cards can be used at unusual times for certain effects, such as mitigating Attacks.</p>
+<p><b>Night</b> cards add a Night phase after your Buy phase in which you can play any desired Night cards from your hand.</p>
+<p><b>Reserve</b> cards go to your Tavern mat and can usually be called back into play later from it for an effect.<p>
+<p><i>Note:</i> Other types on cards just label them and have no special rules.</p>
+<h3>Landscape cards</h3>
+<p><b>Events</b> can be bought to provide an immediate effect. They aren’t gained or added to your deck.</p>
+<p><b>Landmarks</b> add additional scoring rules.</p>
+<p><b>Projects</b> grant a long-term ability when bought by placing one of your 2 Project cubes; they can only be bought once by each player.</p>
+<p><b>Ways</b> provide alternate instructions for when you play Actions cards.</p>
+<h3>Other Terms</h3>
+<p><b>Trashing</b> cards moves them to the shared trash pile; you no longer have them, but they are out of your deck. Often you\'ll want to trash at least some of your starting cards to see your better cards more often.</p>
+<p><b>+X Actions; +X Buys; +X Coins:</b> Get more of that resource.</p>
+<p><b>+X Cards:</b> Draw X cards from your deck to your hand.</p>
+<p><b>Gain:</b> Move the card to your discard pile. It\'s yours now. Bought cards are gained after buying.</p>
+<p><b>+X Coffers:</b> Get X tokens that can be kept or converted to Coins later during your Buy phase (before buying).</p>
+<p><b>+X Villagers:</b> Get X tokens that can be kept or converted later to +Actions during your Action phase.</p>
+<p><b>Exiled</b> cards go on each player\'s Exile mat. You can discard all matching copies on yours when you gain a card.</p>
+<p><b>Exchanging</b> cards gets you a card in place of another one, which is returned to the Supply.</p>
+<p>Some things cost <b>Debt</b>. Debt costs are paid by taking Debt tokens; those prevent you from buying until they\'re paid off.</p>
+<p><b>Boons</b> are random small good effects from a shuffled deck of 12. <b>Hexes</b> are bad effects in the same way.</li></p>
+<h3>Additional Supply Cards</h3>
+<p><b>Colony</b> and <b>Platinum</b> cards are added to the Supply at times generally in proportion to the number of Prosperity Kingdom card piles used. They are more expensive basic Victory and Treasure cards. <i>(From Prosperity)</i></p>
+<p><b>Potion</b> cards are added to the Supply when a card with a potion in its cost is used. They are Treasures that provide potions needed to buy those cards (often in addition to Coins). <i>(From Alchemy)</i></p>
+<p><b>Ruins</b> are added to the Supply when a Looter card is in the game. Each is one of 5 generally bad cards, similar to Curses. <i>(From Dark Ages)</i></p>
+<h3>Alternate Starting Cards</h3>
+<p><b>Shelters</b> replace starting Estates when desired, generally in proportion to the number of Dark Ages Kingdom card piles used. <i>(From Dark Ages)</i></p>
+<p><b>Heirlooms</b> each replace a starting Copper whenever its corresponding Kingdom card is used. <i>(From Nocturne)</i></p>
+<h3>More Information</h3>
+	]]>
+    </string>
 	
 </resources>

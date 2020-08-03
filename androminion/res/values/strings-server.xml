@@ -75,6 +75,7 @@
 	<string name="select_from_table_action">Select an Action card from the table to %1$s</string>
 	<string name="select_from_table_treasure">Select a Treasure card from the table to %1$s</string>
 	<string name="select_from_table_victory">Select a Victory card from the table to %1$s</string>
+	<string name="select_from_table_non_victory">Select a non-Victory card from the table to %1$s</string>
 	<string name="select_from_table_exact">Select a card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_exact_action">Select an Action card from the table that costs exactly (%1$s) to %2$s</string>
 	<string name="select_from_table_exact_except">Select a card from the table, except %1$s, that costs exactly (%2$s) to %3$s</string>
@@ -519,6 +520,7 @@
 
   <string name="HauntedWoodsAttacks">Haunted Woods in effect</string>
   <string name="EnchantressAttacks">Enchantress in effect</string>
+  <string name="GatekeeperAttacks">Gatekeeper in effect</string>
   <string name="SwampHagAttacks_single">%1$s Swamp Hag in effect</string>
   <string name="SwampHagAttacks_multiple">%1$s Swamp Hags in effect</string>
   <string name="DeludedStateEffect">Deluded (Can\'t buy Actions)</string>
@@ -576,7 +578,12 @@
   <string name="starChart_query">Select card to put on deck [%1$s]</string>
   <string name="set_aside_for_next_turn">Set aside for next turn [%1$s]</string>
   <string name="take_artifact">Take %1$s</string>
-    
+  
+  <string name="discard_from_exile_query">Discard %1$s (x%2$s) from Exile?</string>
+  <string name="discard_from_exile_option">Discard</string>
+  <string name="way_query">Play %1$s using Way?</string>
+  <string name="way_play_normally_option">Play normally</string>
+      
   <string name="set_aside">Set aside</string>
   
   <string name="place_stash_query">Place Stash in deck</string>
@@ -605,6 +612,7 @@
   <string name="pixie_trash_for_double_boon">Trash this to receive %1$s twice (2x [%2$s])</string>
   <string name="sacredGrove_receive_boon">Receive %1$s (%2$s)</string>
   <string name="boon_name_and_desc">%1$s (%2$s)</string>
+  <string name="way_name_and_desc">%1$s (%2$s)</string>
   
   <string name="treasurer_trash_treasure">Trash treasure from hand</string>
   <string name="treasurer_gain_treasure_from_trash">Gain treasure from trash to hand</string>

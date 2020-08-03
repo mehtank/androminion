@@ -67,6 +67,8 @@ public class MoveContext {
     public boolean envious = false;
     public boolean hasTopDeckedBorderGuard = false;
     public int liveryEffects = 0;
+    public boolean seizeTheDayBought = false;
+    public boolean wayOfTheSealPlayed = false;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;
@@ -95,6 +97,9 @@ public class MoveContext {
         	cantBuy.add(Cards.inheritance);
         for(Card p : player.getProjectsBought()) {
         	cantBuy.add(p);
+        }
+        if (player.boughtSeizeTheDay) {
+        	cantBuy.add(Cards.seizeTheDay);
         }
         //        this.playedCards = player.playedCards;
     }

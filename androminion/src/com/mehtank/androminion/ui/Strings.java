@@ -73,6 +73,8 @@ public class Strings {
     static HashMap<Type, String> typeCache = new HashMap<Type, String>();
     static HashMap<GameType, String> gametypeCache = new HashMap<GameType, String>();
     static HashMap<Card, String> boonShortTextCache = new HashMap<Card, String>();
+    static HashMap<Card, String> wayShortNameCache = new HashMap<Card, String>();
+    static HashMap<Card, String> wayShortTextCache = new HashMap<Card, String>();
     private static Map<String, String> actionStringMap;
     private static Set<String> simpleActionStrings;
     private static Context context;
@@ -86,6 +88,8 @@ public class Strings {
         nameCache = new HashMap<Card, String>();
         gametypeCache = new HashMap<GameType, String>();
         boonShortTextCache = new HashMap<Card, String>();
+        wayShortNameCache = new HashMap<Card, String>();
+        wayShortTextCache = new HashMap<Card, String>();
         initActionStrings();
     }
     
@@ -248,7 +252,53 @@ public class Strings {
         }
         return shortText;
     }
+    
+    public static String getWayShortName(Card c) {
+        String shortText = wayShortNameCache.get(c);
+        if(shortText == null) {
+            try {
+                Resources r = context.getResources();
+                int id = r.getIdentifier(c.getSafeName() + "_shortName", "string", context.getPackageName());
+                shortText = r.getString(id);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+            if(shortText == null) {
+            	shortText = c.getName();
+            }
 
+            wayShortNameCache.put(c, shortText);
+        }
+        return shortText;
+    }
+    
+    public static String getWayShortText(Card c) {
+        String shortText = wayShortTextCache.get(c);
+        if(shortText == null) {
+            try {
+                Resources r = context.getResources();
+                int id = r.getIdentifier(c.getSafeName() + "_shortDesc", "string", context.getPackageName());
+                if (id != 0) {
+                	shortText = r.getString(id);
+                } else {
+                	String desc = getFullCardDescription(c);
+                	shortText = desc.substring(0, desc.length() - 1).replace("\n", ", ");
+                }
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+            if(shortText == null) {
+            	shortText = c.getName();
+            }
+
+            wayShortTextCache.put(c, shortText);
+        }
+        Card mouseCard = GameTableViews.getWayOfTheMouseCard();
+        return format(shortText, mouseCard == null ? "" : getCardName(GameTableViews.getWayOfTheMouseCard()));
+    }
+    
     public static String format(String str, Object... args) {
         return String.format(str, args);
     }
@@ -365,7 +415,8 @@ public class Strings {
 		} else if (event.gameEventType == GameEvent.EventType.CalledCard) {
 			statusText += getString(R.string.CalledCard);
 		} else if (event.gameEventType == GameEvent.EventType.CardExiled) {
-            statusText += getString(R.string.CardExiled);
+			String cardResponsible = getCardName((Card)extras[3]); // card doing the setting aside
+        	statusText += format(R.string.CardExiled, getCardName(event.c), cardResponsible);
         } else if (event.gameEventType == GameEvent.EventType.CardSetAsideOnIslandMat) {
             statusText += getString(R.string.CardSetAsideOnIslandMat);
         } else if (event.gameEventType == GameEvent.EventType.DeckPutIntoDiscardPile) {
@@ -512,6 +563,7 @@ public class Strings {
                 && event.gameEventType != GameEvent.EventType.PlayerAttacking
                 && event.gameEventType != GameEvent.EventType.VPTokensObtained
                 && event.gameEventType != GameEvent.EventType.CardSetAside
+                && event.gameEventType != GameEvent.EventType.CardExiled
                 && event.gameEventType != GameEvent.EventType.CardSetAsidePrivate
                 && event.gameEventType != GameEvent.EventType.TakeState
                 && event.gameEventType != GameEvent.EventType.ReturnState
@@ -571,7 +623,7 @@ public class Strings {
         	if (c.getAddVillagers() > 1) ret = Strings.format(R.string.card_villagers_multiple, "" + c.getAddVillagers()) + "\n" + ret;
             else if (c.getAddVillagers() > 0) ret = Strings.format(R.string.card_villager_single, "" + c.getAddVillagers()) + "\n" + ret;
         }
-        if (c.is(Type.Action) || c.is(Type.Night) || c.is(Type.Boon)) {
+        if (c.is(Type.Action) || c.is(Type.Night) || c.is(Type.Boon) || c.is(Type.Way)) {
             if (c.is(Type.Duration)) {
                 if (c.getAddGoldNextTurn() > 1) ret = Strings.format(R.string.coin_next_turn_multiple, "" + c.getAddGoldNextTurn()) + "\n" + ret;
                 else if (c.getAddGoldNextTurn() > 0) ret = Strings.format(R.string.coin_next_turn_single, "" + c.getAddGoldNextTurn()) + "\n" + ret;
@@ -628,6 +680,7 @@ public class Strings {
     public static String[] getOptions(Card card, Object[] options) {
         int startIndex = getOptionStartIndex(card, options);
         String[] strings = new String[options.length - startIndex];
+                
         if (card != null && getCardName(card).equals(getCardName(Cards.hermit)) && !(options[0] instanceof String)) {
             strings = new String[options.length - 1];
             strings[0] = getString(R.string.none);
@@ -740,6 +793,22 @@ public class Strings {
         	return strings;
         }
         
+        if (card != null && getCardName(card).equals(getCardName(Cards.mountainPass))) {
+        	strings[0] = getString(R.string.pass);
+        	for (int i = startIndex + 1; i < options.length; i++) {
+                strings[i - startIndex] = options[i] + "";
+            }
+        	return strings;
+        }
+        
+        if (options[0] instanceof String && IndirectPlayer.OPTION_WAY.equals(options[0])) {
+        	strings[0] = getString(R.string.way_play_normally_option);
+        	for (int i = startIndex + 1; i < options.length; i++) {
+        		strings[i - startIndex] = Strings.getOptionText(options[i], options);
+            }
+        	return strings;
+        }
+        
         for (int i = startIndex; i < options.length; i++) {
             strings[i - startIndex] = Strings.getOptionText(options[i], options);
         }
@@ -779,6 +848,8 @@ public class Strings {
 				return 5;
 			} else if (optionString.equals(IndirectPlayer.OPTION_STASH_POSITION)) {
 				return 4;
+			} else if (optionString.equals(IndirectPlayer.OPTION_WAY)) {
+				return 2;
 			}
         }
         if (card == null)
@@ -845,7 +916,10 @@ public class Strings {
 				return getString(R.string.place_stash_query);
 			}
 			return format(R.string.place_stashes_query, extras[2]);
-		} else if (extras[0] instanceof ExtraTurnOption) {
+		} else if (extras[0] instanceof String && ((String)extras[0]).equals(IndirectPlayer.OPTION_WAY)) {
+			String cardName = getCardName((Card)extras[1]);
+            return format(R.string.way_query, cardName);
+        } else if (extras[0] instanceof ExtraTurnOption) {
 			return getString(R.string.extra_turns_query);
 		}
         String cardName = getCardName(card);
@@ -1230,6 +1304,8 @@ public class Strings {
             }
         } else if (option instanceof Card && ((Card)option).is(Type.Boon)) {
             return format(R.string.boon_name_and_desc, getCardName((Card) option), getBoonShortText((Card) option));
+        } else if (option instanceof Card && ((Card)option).is(Type.Way)) {
+            return format(R.string.way_name_and_desc, getWayShortName((Card) option), getWayShortText((Card) option));
         } else if (option instanceof Card) {
             return getCardName((Card) option);
         } else if (option == null) {
@@ -1255,6 +1331,12 @@ public class Strings {
     		if (extras[0].equals(IndirectPlayer.BOOLEAN_USE_VILLAGER)) {
     			strings[0] = getString(R.string.villager_query);
     			strings[1] = getString(R.string.villager_option);
+    			strings[2] = getString(R.string.pass);
+    		} else if (extras[0].equals(IndirectPlayer.BOOLEAN_DISCARD_FROM_EXILE)) {
+    			Card c = (Card)extras[1];
+    			int copies = (Integer)extras[2];
+    			strings[0] = format(R.string.discard_from_exile_query, c, copies);
+    			strings[1] = getString(R.string.discard_from_exile_option);
     			strings[2] = getString(R.string.pass);
     		}
     		return strings;
@@ -1639,6 +1721,8 @@ public class Strings {
                 	selectString = Strings.format(R.string.select_from_table_treasure, header);
                 } else if (sco.isVictory) {
                 	selectString = Strings.format(R.string.select_from_table_victory, header);
+                } else if (sco.isNonVictory) {
+                	selectString = Strings.format(R.string.select_from_table_non_victory, header);
                 } else {
                     selectString = Strings.format(R.string.select_from_table, header);
                 }
@@ -1999,6 +2083,8 @@ public class Strings {
             getCardName(Cards.treasurer),
             /*Menagerie*/
             getCardName(Cards.bountyHunter),
+            getCardName(Cards.camelTrain),
+            getCardName(Cards.sanctuary),
             getCardName(Cards.toil),
             /*Promo*/
             getCardName(Cards.dismantle),
@@ -2367,7 +2453,11 @@ public class Strings {
 					landmarks.add(getCardName(c));
 				}
 			} else if (c.is(Type.Way)) {
-				ways.add(getCardName(c));
+				if (c.equals(Cards.wayOfTheMouse) && cardSet.getWayOfTheMouseCard() != null) {
+					ways.add(format(R.string.card_set_card_options, getCardName(c), getCardName(cardSet.getWayOfTheMouseCard())));
+				} else {
+					ways.add(getCardName(c));
+				}
 			} else {
 				if (c.equals(Cards.druid) && cardSet.getDruidBoons() != null) {
 					//kingdomCards.add(getCardName(c));

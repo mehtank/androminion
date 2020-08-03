@@ -2,14 +2,21 @@ package com.mehtank.androminion.ui;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -31,6 +38,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.text.method.LinkMovementMethod;
 
 import com.mehtank.androminion.R;
@@ -44,6 +52,7 @@ import com.vdom.api.Card;
 import com.vdom.comms.MyCard;
 import com.vdom.core.Cards;
 import com.vdom.core.PlayerSupplyToken;
+import com.vdom.core.RemotePlayer;
 
 /**
  * Corresponds to a single card that is visible on the 'table'
@@ -77,6 +86,8 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 	CardGroup parent;
 	private CardState state;
+
+	private BroadcastReceiver receiver;
 
 /**
  * Information about a card type opened, onTable, indicator, order
@@ -666,11 +677,27 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			str = GameActivity.BASEDIR + subdir + filename + ".jpg";
 			f = new File(str);
 		}
+		final String finalStr = str;
 		
+		final LinearLayout ll = new LinearLayout(view.getContext());
+		final float wp = getResources().getDisplayMetrics().widthPixels;
+		final float hp = getResources().getDisplayMetrics().heightPixels;
+				
 		if (!f.exists() && autodownload) {
 			if (isDownloadManagerAvailable(top)) {
 				new File(GameActivity.BASEDIR + subdir).mkdirs();
-				String imgurl = "http://dominion.diehrstraits.com/scans/" + exp + "/" + filename + ".jpg";
+				MyCard c = cardView.getCard();
+				int cardNameStringId = getId(c.originalSafeName + "_name", R.string.class);
+				String englishCardName = getLocaleStringResource(new Locale("en"), cardNameStringId, this.getContext());
+				String urlImageName = englishCardName.replace(" ", "_") + ".jpg";
+				String urlImageNameEncoded = urlImageName.replace("'", "%27");
+				String urlImageMd5 = md5(urlImageName);
+				String urlImageDir = urlImageMd5.charAt(0) + "/" + urlImageMd5.substring(0, 2) + "/";
+				
+				int cardImgWidth = (c.isWay || c.isEvent || c.isLandmark || c.isProject)? 320 : 200;
+				String imgurl = "http://wiki.dominionstrategy.com/images/thumb/" + urlImageDir + urlImageNameEncoded + "/" + cardImgWidth + "px-" + urlImageNameEncoded;
+				
+				//String imgurl = "http://dominion.diehrstraits.com/scans/" + exp + "/" + filename + ".jpg";
 	
 				// from: http://stackoverflow.com/questions/3028306/download-a-file-with-android-and-showing-the-progress-in-a-progressdialog
 				DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imgurl));
@@ -679,21 +706,47 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				// in order for this if to run, you must use the android 3.2 to compile your app
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				    request.allowScanningByMediaScanner();
-				    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+				    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
 				}
 				request.setDestinationInExternalPublicDir(GameActivity.BASEDIRFROMEXT + subdir, filename + ".jpg");
 	
 				// get download service and enqueue file
 				DownloadManager manager = (DownloadManager) top.getSystemService(Context.DOWNLOAD_SERVICE);
-				manager.enqueue(request);
+				final long downloadId = manager.enqueue(request);
+				this.receiver = new BroadcastReceiver() {
+					
+					@Override
+					public void onReceive(Context context, Intent intent) {
+						long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+						if (downloadId != id) return;
+						CardView.this.receiver = null;
+						getContext().unregisterReceiver(this);
+						
+						Uri u = Uri.parse(finalStr);
+						ImageView im = new ImageView(getContext());
+						im.setImageURI(u);
+					
+						// Calculate how to best fit the card graphics
+						if (im.getDrawable() != null) {
+							ll.removeViewAt(0);
+							float zoom = wp / im.getDrawable().getIntrinsicWidth() / 1.3f;
+							if (im.getDrawable().getIntrinsicHeight() * zoom > hp / 2)
+								zoom = hp / im.getDrawable().getIntrinsicHeight() / 2;
+
+							LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+								(int)(im.getDrawable().getIntrinsicWidth() * zoom), (int)(im.getDrawable().getIntrinsicHeight() * zoom));
+							im.setLayoutParams(params);
+							im.setScaleType(ImageView.ScaleType.FIT_CENTER);
+							ll.addView(im, 0);
+						}
+					}
+				};
+				getContext().registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 			}
 		}
 
 		//float dp = getResources().getDisplayMetrics().density;
-		float wp = getResources().getDisplayMetrics().widthPixels;
-		float hp = getResources().getDisplayMetrics().heightPixels;
-
-		LinearLayout ll = new LinearLayout(view.getContext());
+				
 		ll.setOrientation(LinearLayout.VERTICAL);
 		ll.setGravity(Gravity.CENTER);
 
@@ -710,10 +763,6 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 
 		text += "\n";
 		text += cardView.getCard().desc;
-		String extraDescription = getExtraDescription();
-		if (!extraDescription.isEmpty()) {
-			text += "\n\n" + extraDescription;
-		}
 		textView.setText(text);
 
 		boolean addText = !f.exists() || !showimages.equals("Image");
@@ -740,6 +789,15 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 		}
 		if (addText)
 			ll.addView(textView);
+		
+		String extraDescription = getExtraDescription();
+		if (!extraDescription.isEmpty()) {
+			TextView extraTextView = new TextView(view.getContext());
+			extraTextView.setPadding(30, 10, 30, 5);
+			extraTextView.setGravity(Gravity.CENTER);
+			extraTextView.setText(extraDescription);
+			ll.addView(extraTextView);
+		}
 			
 		String englishName = null;
 			
@@ -782,12 +840,47 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 			.setCustomTitle(titlev)
 			.setView(v)
 			.setPositiveButton(android.R.string.ok, null)
+			.setOnDismissListener(new DialogInterface.OnDismissListener() {
+				
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					if (receiver != null) {
+						getContext().unregisterReceiver(receiver);
+						receiver = null;
+					};
+				}
+			})
 			.show();
 		ad.getButton(AlertDialog.BUTTON_POSITIVE).setGravity(Gravity.CENTER);
-
+		
 		return true;
 	}
 	
+	private static String md5(String s) {
+		final String MD5 = "MD5";
+	    try {
+	        // Create MD5 Hash
+	        MessageDigest digest = java.security.MessageDigest
+	                .getInstance(MD5);
+	        digest.update(s.getBytes());
+	        byte messageDigest[] = digest.digest();
+
+	        // Create Hex String
+	        StringBuilder hexString = new StringBuilder();
+	        for (byte aMessageDigest : messageDigest) {
+	            String h = Integer.toHexString(0xFF & aMessageDigest);
+	            while (h.length() < 2)
+	                h = "0" + h;
+	            hexString.append(h);
+	        }
+	        return hexString.toString();
+
+	    } catch (NoSuchAlgorithmException e) {
+	        e.printStackTrace();
+	    }
+	    return "";
+	}
+
 	@SuppressLint("NewApi") private static String getLocaleStringResource(Locale requestedLocale, int resourceId, Context context) {
 	    String result;
 	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) { // use latest api
@@ -841,6 +934,19 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
 				text += "\n";
 				text += Strings.format(R.string.boon_name_and_desc, Strings.getCardName(boon), Strings.getFullCardDescription(boon).replace("\n", ". "));
 			}
+		}
+		if (state.c.originalSafeName.equals("WayOfTheMouse") && GameTableViews.getWayOfTheMouseCard() != null) {
+			Card mouseCard = GameTableViews.getWayOfTheMouseCard();
+			if (text.length() > 0)
+				text += "\n\n";
+			text += getContext().getString(R.string.way_of_the_mouse_card_header);
+			text += "\n";
+			text += Strings.getCardName(mouseCard);
+//			text += "\n";
+//			text += GetCardTypeString(RemotePlayer.makeMyCard(mouseCard, -1, false, false, false, false, false));
+//			text += " (" + Strings.getCardExpansion(mouseCard) + ")";
+//			text += "\n";
+//			text += Strings.getFullCardDescription(mouseCard);
 		}
 		boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
 		if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0 || numPileDebtTokens > 0 || numPileTradeRouteTokens > 0) {

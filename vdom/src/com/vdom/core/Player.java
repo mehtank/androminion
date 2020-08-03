@@ -78,6 +78,9 @@ public abstract class Player {
     protected ArrayList<ArrayList<Card>> research;
     protected int sinisterPlotTokens = 0;
     protected ArrayList<ArrayList<Card>> church;
+    protected boolean boughtSeizeTheDay;
+    protected int wayOfTheSquirrelDraw;
+    protected CardList reap;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     protected List<DurationEffect> startTurnDurationEffects;
     protected int championEffects = 0;
@@ -299,6 +302,37 @@ public abstract class Player {
     	}
     	return false;
     }
+    
+    public boolean hasCopyInExile(Card card) {
+    	for (Card c : exile) {
+    		if (card.getName().equals(c.getName()))
+    			return true;
+    	}
+    	return false;
+    }
+    
+    public int countCopiesInExile(Card card) {
+    	int count = 0;
+    	for (Card c : exile) {
+    		if (card.getName().equals(c.getName()))
+    			count++;
+    	}
+    	return count;
+    }
+    
+    public void discardCopiesFromExile(Card card, MoveContext context) {
+    	ArrayList<Card> toDiscard = new ArrayList<Card>();
+    	Iterator<Card> it = exile.iterator();
+    	while (it.hasNext()) {
+    		Card c = it.next();
+    		if (card.getName().equals(c.getName())) {
+    			toDiscard.add(c);
+    			it.remove();
+    		}
+    	}
+    	for(Card c : toDiscard)
+    		discard(c, null, context);
+    }
 
     public boolean isInCardArray(Card card, Card[] list) {
         for (Card thisCard : list) {
@@ -367,6 +401,7 @@ public abstract class Player {
         boonsForCleanup = new CardList(this, "Boons");
         nextTurnBoons = new CardList(this, "Boons");
         states = new CardList(this, "States");
+        reap = new CardList(this, "Reap");
         projectsBought = new CardList(this, "Projects");
         startTurnDurationEffects = new ArrayList<Player.DurationEffect>();
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
@@ -814,6 +849,10 @@ public abstract class Player {
         return playedByPrince;
     }
     
+    public CardList getReap() {
+        return reap;
+    }
+    
     public CardList getProjectsBought() {
     	return projectsBought;
     }
@@ -1043,6 +1082,9 @@ public abstract class Player {
         }
         for (ArrayList<Card> curChurch : church) {
         	allCards.addAll(curChurch);
+        }
+        for (Card card : reap) {
+            allCards.add(card);
         }
         if (checkLeadCard != null) {
             allCards.add(checkLeadCard);
@@ -1920,7 +1962,7 @@ public abstract class Player {
     	return true;
     }
     
-    private void exile(Card card, Card responsible, MoveContext context) {        
+    public void exile(Card card, Card responsible, MoveContext context) {        
         // Add to exile mat
     	this.exile.add(card);
         
@@ -1929,6 +1971,8 @@ public abstract class Player {
         GameEvent event = new GameEvent(GameEvent.EventType.CardExiled, context);
         event.card = card;
         event.responsible = responsible;
+        event.setPlayer(context.player);
+        
         context.game.broadcastEvent(event);
     }
             
@@ -2823,9 +2867,15 @@ public abstract class Player {
     // ////////////////////////////////////////////
     // Card interactions - Menagerie Expansion
     // ////////////////////////////////////////////
+    public abstract boolean gain_shouldDiscardFromExile(MoveContext context, Card card, int copies);
+    public abstract Card action_playUsingWay(MoveContext context, Card card);
+    
     public abstract Card bountyHunter_cardToExile(MoveContext context);
+    public abstract Card camelTrain_cardToExile(MoveContext context);
+    public abstract Card sanctuary_cardToExile(MoveContext context);
     
     public abstract Card toil_cardToPlay(MoveContext context);
+    
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

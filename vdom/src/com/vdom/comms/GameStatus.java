@@ -77,6 +77,7 @@ public class GameStatus implements Serializable {
     public boolean hauntedWoodsAttacks;
     public boolean enchantressAttacks;
     public int swampHagAttacks;
+    public boolean gatekeeperAttacks;
     public boolean[] hasDeluded;
     public boolean[] hasEnvious;
     public boolean[] hasLostInTheWoods;
@@ -137,6 +138,7 @@ public class GameStatus implements Serializable {
     public GameStatus setHauntedWoodsAttacks(boolean i) {hauntedWoodsAttacks = i; return this;}
     public GameStatus setEnchantressAttacks(boolean i) {enchantressAttacks = i; return this;}
     public GameStatus setSwampHagAttacks(int i) {swampHagAttacks = i; return this;}
+    public GameStatus setGatekeeperAttacks(boolean i) {gatekeeperAttacks = i; return this;}
     public GameStatus setHasDeluded(boolean[] is) {hasDeluded = is; return this;}
     public GameStatus setHasEnvious(boolean[] is) {hasEnvious = is; return this;}
     public GameStatus setHasLostInTheWoods(boolean[] is) {hasLostInTheWoods = is; return this;}

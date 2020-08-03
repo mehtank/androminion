@@ -32,10 +32,12 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     public static final String BOOLEAN_USE_VILLAGER = "VILLAGER";
+    public static final String BOOLEAN_DISCARD_FROM_EXILE = "EXILE";
     public static final String OPTION_REACTION = "REACTION";
     public static final String OPTION_PUTBACK = "PUTBACK";
     public static final String OPTION_SPEND_GUILD_COINS = "GUILDCOINS";
     public static final String OPTION_SPEND_VILLAGERS = "VILLAGERS";
+    public static final String OPTION_WAY = "WAY";
     public static final String OPTION_OVERPAY = "OVERPAY";
     public static final String OPTION_OVERPAY_POTION = "OVERPAYP";
     public static final String OPTION_PAY_DEBT = "PAYDEBT";
@@ -4508,9 +4510,49 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean gain_shouldDiscardFromExile(MoveContext context, Card card, int copies) {
+    	if(context.isQuickPlay() && shouldAutoPlay_gain_shouldDiscardFromExile(context, card, copies)) {
+            return super.gain_shouldDiscardFromExile(context, card, copies);
+        }
+    	Object[] extras = new Object[3];
+    	extras[0] = BOOLEAN_DISCARD_FROM_EXILE;
+        extras[1] = card;
+        extras[2] = copies;
+    	return selectBoolean(context, null, extras);
+    }
+    
+    @Override
+    public Card action_playUsingWay(MoveContext context, Card card) {    	
+    	Card[] ways = context.game.getCardsInGame(GetCardsInGameOptions.Templates, false, Type.Way);
+        Object[] options = new Object[3 + ways.length];
+        options[0] = OPTION_WAY;
+        options[1] = card;
+        options[2] = null;
+        for (int i = 0; i < ways.length; i++) {
+            options[i + 3] = ways[i];
+        }
+        return (Card)options[selectOption(context, card, options) + 2];
+    }
+    
+    @Override
     public Card bountyHunter_cardToExile(MoveContext context) {
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.EXILE)
                 .setActionType(ActionType.EXILE).setCardResponsible(Cards.bountyHunter);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public Card camelTrain_cardToExile(MoveContext context) {    	
+    	SelectCardOptions sco = new SelectCardOptions().isNonVictory()
+                .isSupplyCard().setActionType(ActionType.EXILE).setPickType(PickType.EXILE)
+                .setCardResponsible(Cards.camelTrain);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card sanctuary_cardToExile(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.EXILE).setPassable()
+                .setActionType(ActionType.EXILE).setCardResponsible(Cards.sanctuary);
         return getCardFromHand(context, sco);
     }
     

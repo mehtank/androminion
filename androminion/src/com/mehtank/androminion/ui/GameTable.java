@@ -3,13 +3,17 @@ package com.mehtank.androminion.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.text.format.DateUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -337,6 +341,54 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         } catch (IllegalStateException e) {}
         helpView.showHelp(page);
     }
+    
+    public void showRules() {
+    	LinearLayout ll = new LinearLayout(getContext());
+		ll.setOrientation(LinearLayout.VERTICAL);
+		ll.setGravity(Gravity.CENTER);
+
+		TextView textView = new TextView(getContext());
+		//textView.setPadding(15, 0, 15, 5);
+		textView.setPadding(30, 10, 30, 5);
+		textView.setText(Html.fromHtml(getContext().getString(R.string.rules)));
+		ll.addView(textView);
+		
+		TextView titlev = new TextView(getContext());
+		titlev.setText(getContext().getString(R.string.rules_title));
+		titlev.setPadding(10, 10, 10, 10);
+		titlev.setTextSize(20);
+		titlev.setGravity(Gravity.CENTER);
+		
+		TextView rulesLinkView = new TextView(getContext());
+		rulesLinkView.setPadding(30, 10, 30, 10);
+		rulesLinkView.setTextSize(20);
+		String rulesText = "<a href=\"" + getContext().getString(R.string.rules_official_url) + "\">" + getContext().getString(R.string.rules_official) + "</a>";
+		rulesLinkView.setClickable(true);
+		rulesLinkView.setMovementMethod(LinkMovementMethod.getInstance());
+		rulesLinkView.setText(android.text.Html.fromHtml(rulesText));
+		ll.addView(rulesLinkView);
+		
+		TextView wikiLinkView = new TextView(getContext());
+		wikiLinkView.setPadding(30, 10, 30, 10);
+		wikiLinkView.setTextSize(20);
+		String wikiText = "<a href=\"http://wiki.dominionstrategy.com/index.php/Dominion\">" + getContext().getString(R.string.rules_wiki) + "</a>";
+		wikiLinkView.setClickable(true);
+		wikiLinkView.setMovementMethod(LinkMovementMethod.getInstance());
+		wikiLinkView.setText(android.text.Html.fromHtml(wikiText));
+		ll.addView(wikiLinkView);
+		
+		ScrollView sv = new ScrollView(getContext());
+		sv.addView(ll);
+		
+		AlertDialog ad = new AlertDialog.Builder(getContext())
+		//.setTitle(title)
+		.setCustomTitle(titlev)
+		.setView(sv)
+		.setPositiveButton(android.R.string.ok, null)
+		.show();
+		ad.getButton(AlertDialog.BUTTON_POSITIVE).setGravity(Gravity.CENTER);
+        
+    }
 
 
     /**
@@ -354,7 +406,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
      * @param cards Cards that are in play
      * @param players Names of players
      */
-    public void newGame(MyCard[] cards, String[] players, List<Card> druidBoons) {
+    public void newGame(MyCard[] cards, String[] players, List<Card> druidBoons, Card wayOfTheMouseCard) {
         GameTableViews.clearCards();
         openedCards.clear();
         moneyPile.clear();
@@ -390,6 +442,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         for (MyCard c : cards)
             addCardToTable(c);
         GameTableViews.setDruidBoons(druidBoons);
+        GameTableViews.setWayOfTheMouseCard(wayOfTheMouseCard);
         for (String s : players)
             addPlayer(s);
         vpPile.setPlayers(getPlayerAdapter());

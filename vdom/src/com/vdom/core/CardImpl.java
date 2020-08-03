@@ -594,6 +594,14 @@ public class CardImpl implements Card, Comparable<Card>{
         
         int finalCost = Math.max(0, cost + costModifier + context.cardCostModifier/*bridge*/);
         
+        if (this.equals(Cards.destrier) && context.phase != null) {
+        	finalCost = Math.max(0, finalCost - context.getNumCardsGainedThisTurn());
+        }
+        
+        if (this.equals(Cards.fisherman) && context.phase != null) {
+        	if (context.game.getCurrentPlayer().getDiscardSize() == 0) return Math.max(0, finalCost - 3);
+        }
+        
         if (this.equals(Cards.wayfarer)) {
         	//TODO - equals cost of last gained non-wayfarer card this turn
         	//       Need to track list of all cards gained during last turn, not just last player's gains
@@ -793,7 +801,12 @@ public class CardImpl implements Card, Comparable<Card>{
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCard))
         	game.drawToHand(context, actualCard, 1 + addCards);
         
-        if (enchantressEffect) {
+        Card playUsingWay = selectWayToPlay(context, playedCard);
+        
+        if (playUsingWay != null) {
+        	//play way ability...
+        	playUsingWay.play(game, context, false, true, true, true, false);
+        } else if (enchantressEffect) {
         	//allow reaction to playing an attack card with Enchantress effect
         	if (is(Type.Attack, currentPlayer)) {
         		 for (Player player : game.getPlayersInTurnOrder()) {
@@ -899,7 +912,21 @@ public class CardImpl implements Card, Comparable<Card>{
         }
     }
 
-    public String getStats() {
+    private Card selectWayToPlay(MoveContext context, Card playedCard) {
+    	if (!playedCard.is(Type.Action, context.player)) return null;
+		List<Card> ways = Arrays.asList(context.game.getCardsInGame(GetCardsInGameOptions.Templates, false, Type.Way));
+		if (!ways.isEmpty()) {
+			Card way = context.player.controlPlayer.action_playUsingWay(context, playedCard);
+			if (!ways.contains(way)) {
+				Util.playerError(context.player, "Way error: not playing as Way");
+				return null;
+			}
+			return way;
+		}
+		return null;
+	}
+
+	public String getStats() {
         StringBuilder sb = new StringBuilder();
         	String costString = "(" + cost + (costPotion ? "p": "") + (debtCost > 0 ? "d" + debtCost : "") + ") ";
             sb.append (costString);

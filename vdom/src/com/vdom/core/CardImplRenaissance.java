@@ -454,7 +454,7 @@ public class CardImplRenaissance extends CardImpl {
         }
 		for (int i = 0; i < 7; ++i) {
 			game.drawToHand(context, this.getControlCard(), 7 - i);
-		}		
+		}
 	}
 	
 	private void sculptor(Game game, MoveContext context, Player player) {

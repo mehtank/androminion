@@ -75,6 +75,7 @@
 	<string name="select_from_table_action">Elige una carta de Acción de la mesa para %1$s</string>
 	<string name="select_from_table_treasure">Elige una carta de Tesoro de la mesa para %1$s</string>
 	<string name="select_from_table_victory">Elige una carta de Victoria de la mesa para %1$s</string>
+	<string name="select_from_table_non_victory">Elige una carta que no sea de Victoria de la mesa para %1$s</string>
 	<string name="select_from_table_exact">Elige una carta de la mesa que cueste exactamente (%1$s) para %2$s</string>
 	<string name="select_from_table_exact_action">Elige una carta de Acción de la mesa que cueste exactamente (%1$s) para %2$s</string>
 	<string name="select_from_table_exact_except">Elige una carta de la mesa, menos %1$s, que cueste exactamente (%2$s) para %3$s</string>
@@ -517,6 +518,7 @@
 
   <string name="HauntedWoodsAttacks">Bosque Embrujado tiene efecto</string>
   <string name="EnchantressAttacks">Encantadora tiene efecto</string>
+  <string name="GatekeeperAttacks">Portera tiene efecto</string>
   <string name="SwampHagAttacks_single">%1$s Bruja del Pantano tiene efecto</string>
   <string name="SwampHagAttacks_multiple">%1$s Brujas del Pantano tienen efecto</string>
   <string name="DeludedStateEffect">Delirante (No comprar Acciones)</string>
@@ -575,6 +577,11 @@
   <string name="starChart_query">Elige una carta para poner encima del mazo [%1$s]</string>
   <string name="set_aside_for_next_turn">Apartar para tu próximo turno [%1$s]</string>
   <string name="take_artifact">Tomar %1$s</string>
+  
+  <string name="discard_from_exile_query">¿Descartar %1$s (x%2$s) de Exilio?</string>
+  <string name="discard_from_exile_option">Descartar</string>
+  <string name="way_query">Jugar %1$s con Camino?</string>
+  <string name="way_play_normally_option">Jugar normalmente</string>
   
   <string name="set_aside">Apartar</string>
   

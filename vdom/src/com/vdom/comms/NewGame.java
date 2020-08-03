@@ -11,10 +11,12 @@ public class NewGame implements Serializable {
     public MyCard[] cards = null;
     public String[] players = null;
     public List<Card> druidBoons = null;
+    public Card wayOfTheMouseCard = null;
 
-    public NewGame(MyCard[] cards, String[] players, List<Card> druidBoons) {
+    public NewGame(MyCard[] cards, String[] players, List<Card> druidBoons, Card wayOfTheMouseCard) {
         this.cards = cards;
         this.players = players;
         this.druidBoons = druidBoons;
+        this.wayOfTheMouseCard = wayOfTheMouseCard;
     }
 }

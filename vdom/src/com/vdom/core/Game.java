@@ -42,6 +42,7 @@ public class Game {
     public static final String QUICK_PLAY = "(QuickPlay)";
     public static final String BANE = "bane+";
     public static final String OBELISK = "obelisk+";
+    public static final String WAY_OF_THE_MOUSE = "wayOfTheMouse+";
     public static final String BLACKMARKET = "blackMarket+";
     public static final String DRUID_BOON = "druidBoon+";
 
@@ -162,6 +163,7 @@ public class Game {
     public int tradeRouteValue = 0;
     public Card baneCard = null;
     public Card obeliskCard = null;
+    public Card wayOfTheMouseCard = null;
     public boolean firstProvinceWasGained = false;
     public boolean doMountainPassAfterThisTurn = false;
     public int firstProvinceGainedBy;
@@ -400,6 +402,7 @@ public class Game {
                 gameOver = checkGameOver(wasPossessed);
 
                 if (!gameOver) {
+                	context.phase = null;
                 	playerAfterTurn(player, context);
                 	if (player.isControlled()) {
                 		player.stopBeingControlled();
@@ -817,12 +820,21 @@ public class Game {
 		while (!player.faithfulHound.isEmpty()) {
 			player.hand.add(player.faithfulHound.remove(0));
 		}
-        
-        for (int i = 0; i < player.theRiversGiftDraw; ++i) {
-        	drawToHand(context, Cards.theRiversGift, player.theRiversGiftDraw - i);
+		
+		for (Player currentPlayer : getPlayersInTurnOrder()) {
+        	for (int i = 0; i < currentPlayer.theRiversGiftDraw; ++i) {
+            	drawToHand(context, Cards.theRiversGift, player.theRiversGiftDraw - i);
+            }
+        	currentPlayer.theRiversGiftDraw = 0;
         }
-        player.theRiversGiftDraw = 0;
-                
+        
+        for (Player currentPlayer : getPlayersInTurnOrder()) {
+        	for (int i = 0; i < currentPlayer.wayOfTheSquirrelDraw; ++i) {
+            	drawToHand(context, Cards.wayOfTheSquirrel, player.wayOfTheSquirrelDraw - i);
+            }
+        	currentPlayer.wayOfTheSquirrelDraw = 0;
+        }
+                        
         if (cardsObtainedLastTurn[playersTurn].size() == 0 && cardInGame(Cards.baths)) {
         	int tokensLeft = getPileVpTokens(Cards.baths);
     		if (tokensLeft > 0) {
@@ -890,6 +902,11 @@ public class Game {
 			} else {
 				result.add(new ExtraTurnInfo(false));
 			}
+		}
+        
+        if (context.seizeTheDayBought) {
+			//TODO: what about extra turn ordering (mission/possession)?
+			result.add(new ExtraTurnInfo());
 		}
         
         return result;
@@ -1345,6 +1362,13 @@ public class Game {
             durationEffectsAreCards.add(true);
     		durationEffectsAreCards.add(false);
         }
+        for (Card card : player.reap) {
+            allDurationAreSimple = false;
+            durationEffects.add(Cards.reap);
+            durationEffects.add(card);
+            durationEffectsAreCards.add(false);
+    		durationEffectsAreCards.add(false);
+        }
         while (!player.cargoShip.isEmpty()) {
             durationEffects.add(Cards.cargoShip);
             durationEffects.add(player.cargoShip.remove(0));
@@ -1499,6 +1523,11 @@ public class Game {
                 context.freeActionInEffect--;
             } else if(card.equals(Cards.summon)) {
                 player.summon.remove(card2);
+                context.freeActionInEffect++;
+                card2.play(this, context, false);
+                context.freeActionInEffect--;
+            } else if(card.equals(Cards.reap)) {
+                player.reap.remove(card2);
                 context.freeActionInEffect++;
                 card2.play(this, context, false);
                 context.freeActionInEffect--;
@@ -2977,6 +3006,7 @@ public class Game {
     void initGameBoard() throws ExitException {
         cardSequence = 1;
         baneCard = null;
+        wayOfTheMouseCard = null;
         firstProvinceWasGained = false;
         doMountainPassAfterThisTurn = false;
 
@@ -3266,6 +3296,7 @@ public class Game {
                 Card card = null;
                 boolean bane = false;
                 boolean obelisk = false;
+                boolean wayOfTheMouse = false;
                 boolean blackMarket = false;
 
                 if(cardName.startsWith(BANE)) {
@@ -3275,6 +3306,10 @@ public class Game {
                 if(cardName.startsWith(OBELISK)) {
                     obelisk = true;
                     cardName = cardName.substring(OBELISK.length());
+                }
+                if(cardName.startsWith(WAY_OF_THE_MOUSE)) {
+                	wayOfTheMouse = true;
+                    cardName = cardName.substring(WAY_OF_THE_MOUSE.length());
                 }
                 if(cardName.startsWith(BLACKMARKET)) {
                     blackMarket = true;
@@ -3352,6 +3387,11 @@ public class Game {
                 }
                 if(card != null && obelisk) {
                     obeliskCard = card;
+                }
+                if(card != null && wayOfTheMouse) {
+                    wayOfTheMouseCard = card;
+                    addPile(wayOfTheMouseCard, 1, false, false, false);
+                    continue;
                 }
                 if(card != null && blackMarket) {
                     blackMarketPile.add(card);
@@ -3450,6 +3490,10 @@ public class Game {
             }
             if (cardSet.getDruidBoons() != null) {
             	this.druidBoons.addAll(cardSet.getDruidBoons());
+            }
+            if (cardSet.getWayOfTheMouseCard() != null) {
+            	this.wayOfTheMouseCard = cardSet.getWayOfTheMouseCard();
+            	addPile(wayOfTheMouseCard, 1, false, false, false);
             }
         }
 
@@ -3564,6 +3608,9 @@ public class Game {
         
         if (obeliskCard != null && !piles.containsKey(Cards.obelisk.getName())) {
         	addPile(Cards.obelisk);
+        }
+        if (wayOfTheMouseCard != null && !piles.containsKey(Cards.wayOfTheMouse.getName())) {
+        	addPile(Cards.wayOfTheMouse);
         }
 
         //determine shelters & plat/colony use
@@ -3806,8 +3853,17 @@ public class Game {
         }
         
         // If certain cards/events/ways are in play, we'll need Horses (non-supply)
-        if (piles.containsKey(Cards.livery.getName())
+        if (piles.containsKey(Cards.bargain.getName())
+        		|| piles.containsKey(Cards.cavalry.getName())
+        		|| piles.containsKey(Cards.demand.getName())
+        		|| piles.containsKey(Cards.groom.getName())
+        		|| piles.containsKey(Cards.hostelry.getName())
+        		|| piles.containsKey(Cards.livery.getName())
+        		|| piles.containsKey(Cards.paddock.getName())
+        		|| piles.containsKey(Cards.ride.getName())
         		|| piles.containsKey(Cards.scrap.getName())
+        		|| piles.containsKey(Cards.sleigh.getName())
+        		|| piles.containsKey(Cards.stampede.getName())
         		|| piles.containsKey(Cards.supplies.getName())) {
             addPile(Cards.horse, 30, false);
         }
@@ -3868,6 +3924,24 @@ public class Game {
         		}
         	}
         }
+        
+        // Setup for Way Of The Mouse
+        if (piles.containsKey(Cards.wayOfTheMouse.getName())) {
+        	if (wayOfTheMouseCard == null) {
+//        		ArrayList<Card> validObeliskCards = new ArrayList<Card>();
+//            	for (String p : placeholderPiles.keySet()) {
+//                    CardPile pile = placeholderPiles.get(p);
+//                    Card placeholder = pile.placeholderCard();
+//            		if (pile.isSupply() && placeholder.is(Type.Action)  && !validObeliskCards.contains(placeholder)) {
+//            			validObeliskCards.add(placeholder);
+//            		}
+//            	}
+//            	if (validObeliskCards.size() > 0) {
+//            		obeliskCard = validObeliskCards.get(rand.nextInt(validObeliskCards.size()));
+//            	}
+        	}
+    		
+    	}
 
         // If Ranger, Giant or Pilgrimage are in play, each player starts with a journey token faced up
         if (   piles.containsKey(Cards.ranger.getName())
@@ -3929,9 +4003,10 @@ public class Game {
         	cardListText += "\nWays in play\n---------------\n";
         	for (Card c : ways) {
         		cardListText += Util.getShortText(c) + "\n";
+        		cardListText += c.getName() + (c.equals(Cards.wayOfTheMouse) && wayOfTheMouseCard != null ? " (" + wayOfTheMouseCard.getName() + ")" : "") +  "\n";
             }
         }
-
+                
         for (Entry<String, CardPile> cEntry : piles.entrySet()) {
             if (cEntry.getKey().equals(cEntry.getValue().placeholderCard().getName())) {
                 Util.debug(cEntry.getKey() + ": " + cEntry.getValue().cards.toString());
@@ -4148,6 +4223,15 @@ public class Game {
                         }
                     }
                     
+                    if (!handled && context.game.gatekeeperAttacks(context.player)) {
+                    	if ((event.card.is(Type.Action, context.player, context) ||
+                    			event.card.is(Type.Treasure, context.player, context)) &&
+                    			!player.hasCopyInExile(event.card)) {
+                    		player.exile(event.card, Cards.gatekeeper, context);
+                    		handled = true;
+                    	}
+                    }
+                    
                     Card gainedCardAbility = event.card;
                     if (gainedCardAbility.equals(Cards.estate) && player.getInheritance() != null) {
                     	gainedCardAbility = player.getInheritance();
@@ -4159,6 +4243,8 @@ public class Game {
                             player.putOnTopOfDeck(event.card, context, true);
                     	} else if (context.travellingFairBought && context.player.controlPlayer.royalSealTravellingFairTracker_shouldPutCardOnDeck((MoveContext) context, Cards.travellingFair, event.card)) {
                     		player.putOnTopOfDeck(event.card, context, true);
+                        } else if (context.wayOfTheSealPlayed && context.player.controlPlayer.royalSealTravellingFairTracker_shouldPutCardOnDeck((MoveContext) context, Cards.wayOfTheSeal, event.card)) {
+                    		player.putOnTopOfDeck(event.card, context, true);
                         } else if ((context.countCardsInPlay(Cards.tracker) > 0) && context.player.controlPlayer.royalSealTravellingFairTracker_shouldPutCardOnDeck((MoveContext) context, Cards.tracker, event.card)) {
                     		player.putOnTopOfDeck(event.card, context, true);
                         } else if (event.responsible != null && event.responsible.equals(Cards.summon)) {
@@ -4167,6 +4253,12 @@ public class Game {
         					summonEvent.card = event.card;
         					summonEvent.responsible = event.responsible;
         					context.game.broadcastEvent(summonEvent);
+                        } else if (event.responsible != null && event.responsible.equals(Cards.reap)) {
+                        	context.player.reap.add(event.card);
+        					GameEvent setAsideEvent = new GameEvent(GameEvent.EventType.CardSetAside, context);
+        					setAsideEvent.card = event.card;
+        					setAsideEvent.responsible = event.responsible;
+        					context.game.broadcastEvent(setAsideEvent);
                         } else if (gainedCardAbility.equals(Cards.nomadCamp)) {
                             player.putOnTopOfDeck(event.card, context, true);
                         } else if (gainedCardAbility.equals(Cards.ghostTown) ||
@@ -4198,6 +4290,7 @@ public class Game {
                                 || r.equals(Cards.taxman)
                                 || r.equals(Cards.tournament)
                                 || r.equals(Cards.treasureMap)
+                                || r.equals(Cards.stampede)
                                 || r.equals(Cards.replace) && context.attackedPlayer != player && (gainedCardAbility.is(Type.Action) || gainedCardAbility.is(Type.Treasure, null, context))) {
                                 player.putOnTopOfDeck(event.card, context, true);
                             } else if (r.equals(Cards.beggar)) {
@@ -4523,6 +4616,16 @@ public class Game {
 								context.returnToActionPhase = true;
 							}
                     	}
+                    } else if (gainedCardAbility.equals(Cards.cavalry)) {
+                    	if (context.game.getCurrentPlayer() == player) {
+                    		for (int i = 0; i < 2; ++i) {
+                    			context.game.drawToHand(context, Cards.cavalry, 2 - i);
+                    		}
+							context.buys++;
+							if (context.phase == TurnPhase.Buy) {
+								context.returnToActionPhase = true;
+							}
+                    	}
                     } else if(gainedCardAbility.equals(Cards.cemetery)) {
                     	Card[] cards = player.controlPlayer.cemetery_cardsToTrash(context);
                         if (cards != null) {
@@ -4570,6 +4673,8 @@ public class Game {
                     	context.player.takeVillagers(2, context, Cards.lackeys);
                     } else if (gainedCardAbility.equals(Cards.spices)) {
                     	context.player.gainGuildsCoinTokens(2, context, Cards.spices);
+                    } else if(gainedCardAbility.equals(Cards.camelTrain)) {
+                    	player.exileFromSupply(Cards.gold, event.card, context);
                     }
                     
                     if(event.card.is(Type.Action, player)) {
@@ -4582,6 +4687,13 @@ public class Game {
                     			removePileVpTokens(event.card, 1, context);
                     			addPileVpTokens(Cards.defiledShrine, 1, context);
                     		}
+                    	}
+                    }
+                    
+                    if (context.player.hasCopyInExile(event.card)) {
+                    	int numCopies = context.player.countCopiesInExile(event.card);
+                    	if (context.player.controlPlayer.gain_shouldDiscardFromExile(context, event.card, numCopies)) {
+                    		context.player.discardCopiesFromExile(event.card, context);
                     	}
                     }
                 }
@@ -4881,8 +4993,12 @@ public class Game {
     public Card[] getCardsInGame(GetCardsInGameOptions opt, boolean supplyOnly) {
         return getCardsInGame(opt, supplyOnly, null);
     }
-
+    
     public Card[] getCardsInGame(GetCardsInGameOptions opt, boolean supplyOnly, Type type) {
+    	return getCardsInGame(opt, supplyOnly, type, false);
+    }
+
+    public Card[] getCardsInGame(GetCardsInGameOptions opt, boolean supplyOnly, Type type, boolean negateType) {
         ArrayList<Card> cards = new ArrayList<Card>();
         for (CardPile pile : piles.values()) {
 
@@ -4890,7 +5006,7 @@ public class Game {
 
             if (opt == GetCardsInGameOptions.All || opt == GetCardsInGameOptions.Placeholders)
             {
-                if ((type == null || pile.placeholderCard().is(type, null))
+                if ((type == null || (negateType ^ pile.placeholderCard().is(type, null)))
                         && !cards.contains(pile.placeholderCard()))
                     cards.add(pile.placeholderCard());
             }
@@ -4903,13 +5019,13 @@ public class Game {
                 }
             }
             if (opt == GetCardsInGameOptions.TopOfPiles) {
-                if (pile.topCard() != null && (type == null || pile.topCard().is(type))
+                if (pile.topCard() != null && (type == null || (negateType ^ pile.topCard().is(type)))
                         && !cards.contains(pile.topCard())) {
                     cards.add(pile.topCard());
                 }
             }
             if (opt == GetCardsInGameOptions.Buyables) {
-                if (pile.topCard() != null && (type == null || pile.topCard().is(type))
+                if (pile.topCard() != null && (type == null || (negateType ^ pile.topCard().is(type)))
                         && !cards.contains(pile.topCard()) && (pile.isSupply() || pile.topCard().is(Type.Event) || pile.topCard().is(Type.Project))) {
                     cards.add(pile.topCard());
                 }
@@ -5254,5 +5370,17 @@ public class Game {
             }
         }
         return swampHags;
+    }
+    
+    public boolean gatekeeperAttacks(Player player) {
+    	if (getCurrentPlayer() != player) return false;
+        for (Player otherPlayer : players) {
+            if (otherPlayer != null && otherPlayer != player) {
+            	if (otherPlayer.getDurationEffectsOnOtherPlayer(player, Cards.Kind.Gatekeeper) > 0) {
+            		return true;
+            	}
+            }
+        }
+        return false;
     }
 }

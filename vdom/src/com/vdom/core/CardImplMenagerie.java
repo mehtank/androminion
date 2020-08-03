@@ -21,14 +21,29 @@ public class CardImplMenagerie extends CardImpl {
 		case BountyHunter:
 			bountyHunter(game, context, currentPlayer);
 			break;
+		case CamelTrain:
+			camelTrain(game, context, currentPlayer);
+			break;
+		case Cavalry:
+			cavalry(game, context, currentPlayer);
+			break;
 		case Coven:
 			coven(game, context, currentPlayer);
+			break;
+		case Gatekeeper:
+			durationAttack(game, context, currentPlayer);
 			break;
 		case Horse:
 			horse(game, context, currentPlayer);
 			break;
 		case Livery:
 			livery(game, context, currentPlayer);
+			break;
+		case Paddock:
+			paddock(game, context, currentPlayer);
+			break;
+		case Sanctuary:
+			sanctuary(game, context, currentPlayer);
 			break;
 		case SnowyVillage:
 			snowyVillage(game, context, currentPlayer);
@@ -38,6 +53,27 @@ public class CardImplMenagerie extends CardImpl {
 			break;
 		case Supplies:
 			supplies(game, context, currentPlayer);
+			break;
+		case WayOfTheCamel:
+			wayOfTheCamel(game, context, currentPlayer);
+			break;
+		case WayOfTheHorse:
+			wayOfTheHorse(game, context, currentPlayer);
+			break;
+		case WayOfTheMole:
+			wayOfTheMole(game, context, currentPlayer);
+			break;
+		case WayOfTheOwl:
+			wayOfTheOwl(game, context, currentPlayer);
+			break;
+		case WayOfTheSeal:
+			wayOfTheSeal(game, context, currentPlayer);
+			break;
+		case WayOfTheSquirrel:
+			wayOfTheSquirrel(game, context, currentPlayer);
+			break;
+		case WayOfTheWorm:
+			wayOfTheWorm(game, context, currentPlayer);
 			break;
 		default:
 			break;
@@ -53,8 +89,23 @@ public class CardImplMenagerie extends CardImpl {
         case Commerce:
         	commerce(context);
         	break;
+        case Enclave:
+        	enclave(context);
+        	break;
         case Populate:
         	populate(context);
+        	break;
+        case Reap:
+        	reap(context);
+        	break;
+        case Ride:
+        	ride(context);
+        	break;
+        case SeizeTheDay:
+        	seizeTheDay(context);
+        	break;
+        case Stampede:
+        	stampede(context);
         	break;
         case Toil:
         	toil(context);
@@ -94,17 +145,34 @@ public class CardImplMenagerie extends CardImpl {
             Util.playerError(player, "Bounty Hunter card to exile invalid, picking one");
             exileCard = hand.get(0);
         }
-        boolean hasCopyInExile = false;
-        for (Card card : player.exile) {
-        	if (card.equals(exileCard)){
-        		hasCopyInExile = true;
-        		return;
-        	}
-        }
+        boolean hasCopyInExile = player.hasCopyInExile(exileCard);
         player.exileFromHand(exileCard, this.getControlCard(), context);
         if (!hasCopyInExile) {
         	context.addCoins(3, Cards.bountyHunter);
         }
+	}
+	
+	private void camelTrain(Game game, MoveContext context, Player player) {
+		Card[] possibleCards = game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Victory, true);
+		if (possibleCards.length == 0) return;
+		
+		Card cardToExile = player.controlPlayer.camelTrain_cardToExile(context);
+        CardPile pile = null;
+        if (cardToExile == null) {
+        	Util.playerError(player, "Camel Train exile null error, picking first card.");
+        	cardToExile = possibleCards[0];
+        }
+        pile = game.getPile(cardToExile);
+        if (pile == null || !cardToExile.equals(pile.topCard()) || !pile.isSupply() || cardToExile.is(Type.Victory)) {
+            Util.playerError(player, "Camel Train exile error, picking first card.");
+            cardToExile = possibleCards[0];
+        }
+        player.exileFromSupply(cardToExile, getControlCard(), context);
+	}
+	
+	private void cavalry(Game game, MoveContext context, Player player) {
+		player.gainNewCard(Cards.horse, getControlCard(), context);
+		player.gainNewCard(Cards.horse, getControlCard(), context);
 	}
 	
 	private void coven(Game game, MoveContext context, Player currentPlayer) {
@@ -149,6 +217,25 @@ public class CardImplMenagerie extends CardImpl {
 		context.liveryEffects++;
 	}
 	
+	private void paddock(Game game, MoveContext context, Player player) {
+		player.gainNewCard(Cards.horse, getControlCard(), context);
+		player.gainNewCard(Cards.horse, getControlCard(), context);
+		context.addActions(game.emptyPiles(), this);
+	}
+	
+	private void sanctuary(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() == 0)
+			return;
+		Card toExile = player.controlPlayer.sanctuary_cardToExile(context);
+		if (toExile == null) return;
+		if (!player.getHand().contains(toExile)) {
+    		Util.playerError(player, "Sanctuary error, invalid card to exile, ignoring.");
+    	} else {
+    		toExile = player.hand.get(toExile);
+    		player.exileFromHand(toExile, this, context);
+    	}
+	}
+		
 	private void snowyVillage(Game game, MoveContext context, Player player) {
 		context.ignorePlusActions = true;
 	}
@@ -158,7 +245,7 @@ public class CardImplMenagerie extends CardImpl {
 	}
 	
 	private void supplies(Game game, MoveContext context, Player player) {
-		context.getPlayer().gainNewCard(Cards.horse, this.getControlCard(), context);
+		player.gainNewCard(Cards.horse, getControlCard(), context);
 	}
 	
 	private void alliance(MoveContext context) {
@@ -176,10 +263,36 @@ public class CardImplMenagerie extends CardImpl {
 			context.getPlayer().gainNewCard(Cards.gold, this.getControlCard(), context);
 	}
 	
+	private void enclave(MoveContext context) {
+		context.player.gainNewCard(Cards.gold, Cards.enclave, context);
+		context.player.exileFromSupply(Cards.duchy, Cards.enclave, context);
+	}
+	
 	private void populate(MoveContext context) {
 		Card[] actionPiles = context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true, Type.Action);
 		for(Card card : actionPiles)
 			context.getPlayer().gainNewCard(card, this.getControlCard(), context);
+	}
+	
+	private void reap(MoveContext context) {
+		context.player.gainNewCard(Cards.gold, Cards.reap, context);
+	}
+	
+	private void ride(MoveContext context) {
+		context.getPlayer().gainNewCard(Cards.horse, this.getControlCard(), context);
+	}
+	
+	private void seizeTheDay(MoveContext context) {
+		context.seizeTheDayBought = true;
+		context.cantBuy.add(this); // once per game
+		context.player.boughtSeizeTheDay = true;
+	}
+	
+	private void stampede(MoveContext context) {
+		if (context.countCardsInPlay() <= 5) {
+			for (int i = 0; i < 5; ++i)
+				context.getPlayer().gainNewCard(Cards.horse, Cards.stampede, context);
+		}
 	}
 	
 	private void toil(MoveContext context) {
@@ -200,5 +313,53 @@ public class CardImplMenagerie extends CardImpl {
 		context.freeActionInEffect++;
         card.play(context.game, context, true);
         context.freeActionInEffect--;
+	}
+	
+	private void wayOfTheCamel(Game game, MoveContext context, Player player) {
+		player.exileFromSupply(Cards.gold, Cards.wayOfTheCamel, context);
+	}
+	
+	private void wayOfTheHorse(Game game, MoveContext context, Player player) {
+		Card card = this.getControlCard();
+    	int idx = player.playedCards.indexOf(card.getId());
+    	if (idx == -1) return;
+    	CardPile pile = game.getGamePile(card);
+    	if (!pile.isRealPile()) return;
+		card = player.playedCards.remove(idx);
+		pile.addCard(card);
+	}
+	
+	private void wayOfTheMole(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() > 0) {
+            while (!player.getHand().isEmpty()) {
+                player.discard(player.getHand().remove(0), this.getControlCard(), context);
+            }
+        }
+		for (int i = 0; i < 3; ++i) {
+			game.drawToHand(context, this.getControlCard(), 3 - i);
+		}
+	}
+	
+	private void wayOfTheOwl(Game game, MoveContext context, Player player) {
+		int cardsToDraw = 6 - player.hand.size();
+    	if (cardsToDraw > 0 && player.getMinusOneCardToken()) {
+        	game.drawToHand(context, Cards.wayOfTheOwl, -1);
+        }
+    	for (int i = 0; i < cardsToDraw; ++i) {
+    		if(!game.drawToHand(context, Cards.wayOfTheOwl, cardsToDraw - i))
+                break;
+    	}
+	}
+	
+	private void wayOfTheSeal(Game game, MoveContext context, Player player) {
+		context.wayOfTheSealPlayed = true;
+	}
+	
+	private void wayOfTheSquirrel(Game game, MoveContext context, Player player) {
+		player.wayOfTheSquirrelDraw += 2;
+	}
+	
+	private void wayOfTheWorm(Game game, MoveContext context, Player player) {
+		player.exileFromSupply(Cards.estate, Cards.wayOfTheWorm, context);
 	}
 }

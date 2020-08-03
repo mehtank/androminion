@@ -94,7 +94,7 @@ public class HelpView extends FrameLayout {
 		left -= location[0];
 		top -= location[1];
 		
-		helpText.setText(stringID);
+		helpText.setText(android.text.Html.fromHtml(getContext().getString(stringID)));
 
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(parent.getWidth() + left, parent.getHeight() + top);
 		setLayoutParams(lp);

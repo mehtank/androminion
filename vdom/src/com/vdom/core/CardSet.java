@@ -44,6 +44,7 @@ public class CardSet {
 	private final UseOptionalCards usePlatColony;
 	private final Card obelisk;
 	private final List<Card> druidBoons;
+	private final Card wayOfTheMouseCard;
 
 	private CardSet(final List<Card> cards, final Card baneCard) {
 		this.cards = cards;
@@ -53,6 +54,18 @@ public class CardSet {
 		this.useShelters = UseOptionalCards.Random;
 		this.obelisk = null;
 		this.druidBoons = null;
+		this.wayOfTheMouseCard = null;
+	}
+	
+	private CardSet(final List<Card> cards, final Card baneCard, final Card wayOfTheMouseCard) {
+		this.cards = cards;
+		this.baneCard = baneCard;
+		this.isRandom = false;
+		this.usePlatColony = UseOptionalCards.Random;
+		this.useShelters = UseOptionalCards.Random;
+		this.obelisk = null;
+		this.druidBoons = null;
+		this.wayOfTheMouseCard = wayOfTheMouseCard;
 	}
 	
 	private CardSet(final Card[] cardsArray) {
@@ -71,6 +84,7 @@ public class CardSet {
 		this.useShelters = UseOptionalCards.Random;
 		this.obelisk = null;
 		this.druidBoons = null;
+		this.wayOfTheMouseCard = null;
 	}
 	
 	private CardSet(final Card[] cardsArray, final Card baneCard, UseOptionalCards usePlatColony, UseOptionalCards useShelters) {
@@ -81,6 +95,7 @@ public class CardSet {
 		this.useShelters = useShelters;
 		this.obelisk = null;
 		this.druidBoons = null;
+		this.wayOfTheMouseCard = null;
 	}
 	
 	public CardSet(final Card[] cardsArray, final Card baneCard, UseOptionalCards usePlatColony, UseOptionalCards useShelters, Card[] druidBoons) {
@@ -90,7 +105,30 @@ public class CardSet {
 		this.usePlatColony = usePlatColony;
 		this.useShelters = useShelters;
 		this.obelisk = null;
-		this.druidBoons = Arrays.asList(druidBoons);
+		this.druidBoons = druidBoons != null ? Arrays.asList(druidBoons) : null;
+		this.wayOfTheMouseCard = null;
+	}
+	
+	public CardSet(final Card[] cardsArray, final Card baneCard, UseOptionalCards usePlatColony, UseOptionalCards useShelters, Card[] druidBoons, Card wayOfTheMouseCard) {
+		this.cards = Arrays.asList(cardsArray);
+		this.baneCard = baneCard;
+		this.isRandom = false;
+		this.usePlatColony = usePlatColony;
+		this.useShelters = useShelters;
+		this.obelisk = null;
+		this.druidBoons = druidBoons != null ? Arrays.asList(druidBoons) : null;
+		this.wayOfTheMouseCard = wayOfTheMouseCard;
+	}
+	
+	public CardSet(final Card[] cardsArray, final Card baneCard, UseOptionalCards usePlatColony, UseOptionalCards useShelters, Card obelisk, Card[] druidBoons, Card wayOfTheMouseCard) {
+		this.cards = Arrays.asList(cardsArray);
+		this.baneCard = baneCard;
+		this.isRandom = false;
+		this.usePlatColony = usePlatColony;
+		this.useShelters = useShelters;
+		this.obelisk = obelisk;
+		this.druidBoons = druidBoons != null ? Arrays.asList(druidBoons) : null;
+		this.wayOfTheMouseCard = wayOfTheMouseCard;
 	}
 	
 	public CardSet(final Card[] cardsArray, final Card baneCard, UseOptionalCards usePlatColony, UseOptionalCards useShelters, Card obelisk, Card[] druidBoons) {
@@ -101,6 +139,7 @@ public class CardSet {
 		this.useShelters = useShelters;
 		this.obelisk = obelisk;
 		this.druidBoons = null;
+		this.wayOfTheMouseCard = null;
 	}
 
 	private CardSet(final List<Card> cards, final boolean isRandom) {
@@ -111,6 +150,7 @@ public class CardSet {
 		this.useShelters = UseOptionalCards.Random;
 		this.obelisk = null;
 		this.druidBoons = null;
+		this.wayOfTheMouseCard = null;
 	}
 	
 	public static CardSet getCardSet(final GameType type, int count) {
@@ -233,6 +273,8 @@ public class CardSet {
 		
 		Card baneCard = null;
 		boolean findBaneIfNeeded = false;
+		Card wayOfTheMouseCard = null;
+		boolean findWayOfTheMouseIfNeeded = false;
 		if (count < 0) {
 			count = DEFAULT_KINGDOM_CARDS;
 			findBaneIfNeeded = true;
@@ -299,6 +341,20 @@ public class CardSet {
 			}
 		}
 		
+		// pick a Way of the Mouse card if needed
+		if (findWayOfTheMouseIfNeeded && cardSetList.contains(Cards.wayOfTheMouse)) {
+			for (Card c : possibleCards) {
+				if (cardSetList.contains(c))
+					continue;
+	            if (isValidWayOfTheMouseCard(c)) {
+	            	wayOfTheMouseCard = c;
+				}
+			}
+			if (wayOfTheMouseCard == null) {
+				wayOfTheMouseCard = swapOutWayOfTheMouseCard(cardSetList, possibleCards);
+			}
+		}
+		
 		
 		// Do sideways cards
 		List<Card> possibleEventCards = new ArrayList<Card>();
@@ -341,7 +397,7 @@ public class CardSet {
 			shuffleAndAddFromList(cardSetList, possibleWayCards, numWays);
 		}
 		
-		return new CardSet(cardSetList, baneCard);
+		return new CardSet(cardSetList, baneCard, wayOfTheMouseCard);
 	}
 
 	private static int calcMaxSidewaysCards(int maxSidewaysCards, int count) {
@@ -409,9 +465,12 @@ public class CardSet {
 		
 		Card baneCard = null;
 		boolean findBaneIfNeeded = false;
+		Card wayOfTheMouseCard = null;
+		boolean findWayOfTheMouseIfNeeded = false;
 		if (count < 0) {
 			count = DEFAULT_KINGDOM_CARDS;
 			findBaneIfNeeded = true;
+			findWayOfTheMouseIfNeeded = true;
 		}
 		
 		for (Card c : possibleCards) {
@@ -444,9 +503,23 @@ public class CardSet {
 			}
 		}
 		
+		// pick a Way of the Mouse card if needed
+		if (findWayOfTheMouseIfNeeded && cardSetList.contains(Cards.wayOfTheMouse)) {
+			for (Card c : possibleCards) {
+				if (cardSetList.contains(c))
+					continue;
+	            if (isValidWayOfTheMouseCard(c)) {
+	            	wayOfTheMouseCard = c;
+				}
+			}
+			if (wayOfTheMouseCard == null) {
+				wayOfTheMouseCard = swapOutWayOfTheMouseCard(cardSetList, possibleCards);
+			}
+		}
+		
 		cardSetList.addAll(sidewaysCards);
 		
-		return new CardSet(cardSetList, baneCard);
+		return new CardSet(cardSetList, baneCard, wayOfTheMouseCard);
 	}
 	
 	public static Card getBaneCard(List<Card> cards) {
@@ -560,6 +633,33 @@ public class CardSet {
 		int cost = c.getCost(null);
 		return !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark) && !c.is(Type.Way);
 	}
+	
+	private static Card swapOutWayOfTheMouseCard(List<Card> swapFrom, List<Card> replaceFrom) {
+		Card wayOfTheMouseCard = null;
+		for (Card c : swapFrom) {
+			if (isValidWayOfTheMouseCard(c)) {
+				wayOfTheMouseCard = c;
+				break;
+			}
+		}
+		
+		if (wayOfTheMouseCard == null)
+			return null;
+		
+		swapFrom.remove(wayOfTheMouseCard);
+		for (Card c : replaceFrom) {
+			if (!c.equals(wayOfTheMouseCard) && !swapFrom.contains(c) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark) && !c.is(Type.Way)) {
+				swapFrom.add(c);
+				break;
+			}
+		}
+		return wayOfTheMouseCard;
+	}
+	
+	private static boolean isValidWayOfTheMouseCard(Card c) {
+		int cost = c.getCost(null);
+		return c.is(Type.Action) && !c.costPotion() && (cost == 2 || cost == 3) && !c.is(Type.Event) && !c.is(Type.Project) && !c.is(Type.Landmark) && !c.is(Type.Way);
+	}
 
 	private static <T> void shuffle(List<T> cards) {
 		int numCards = cards.size();
@@ -601,6 +701,10 @@ public class CardSet {
 	
 	public List<Card> getDruidBoons() {
 		return druidBoons;
+	}
+	
+	public Card getWayOfTheMouseCard() {
+		return wayOfTheMouseCard;
 	}
 
 	static {
@@ -980,6 +1084,45 @@ public class CardSet {
 		// Renaissance and Nocturne
 		CardSetMap.put(GameType.BecomingAMonster, new CardSet(new Card[] { Cards.experiment, Cards.mountainVillage, Cards.oldWitch, Cards.research, Cards.spices, Cards.devilsWorkshop, Cards.monastery, Cards.shepherd, Cards.skulk, Cards.tragicHero, Cards.exploration}));
 		CardSetMap.put(GameType.TrueBelievers, new CardSet(new Card[] { Cards.borderGuard, Cards.cargoShip, Cards.scholar, Cards.sculptor, Cards.villain, Cards.blessedVillage, Cards.crypt, Cards.faithfulHound, Cards.sacredGrove, Cards.secretCave, Cards.cathedral, Cards.piazza}));
+		
+		// Menagerie
+		CardSetMap.put(GameType.IntroToHorses, new CardSet(new Card[] { Cards.animalFair, Cards.barge, Cards.destrier, Cards.goatherd, Cards.hostelry, Cards.livery, Cards.paddock, Cards.scrap, Cards.sheepdog, Cards.supplies, Cards.wayOfTheSheep, Cards.enhance}));
+		CardSetMap.put(GameType.IntroToExile, new CardSet(new Card[] { Cards.blackCat, Cards.bountyHunter, Cards.camelTrain, Cards.cardinal, Cards.falconer, Cards.mastermind, Cards.sanctuary, Cards.snowyVillage, Cards.stockpile, Cards.wayfarer, Cards.wayOfTheWorm, Cards.march}));
+		// Menagerie and Base 2E
+		CardSetMap.put(GameType.PonyExpress, new CardSet(new Card[] { Cards.barge, Cards.destrier, Cards.paddock, Cards.stockpile, Cards.supplies, Cards.artisan, Cards.cellar, Cards.market, Cards.mine, Cards.village, Cards.wayOfTheSeal, Cards.stampede}));
+		CardSetMap.put(GameType.GardenOfCats, new CardSet(new Card[] { Cards.blackCat, Cards.displace, Cards.sanctuary, Cards.scrap, Cards.snowyVillage, Cards.bandit, Cards.gardens, Cards.harbinger, Cards.merchant, Cards.moat, Cards.wayOfTheMole, Cards.toil}));
+		// Menagerie and Intrigue 2E
+		CardSetMap.put(GameType.DogAndPonyShow, new CardSet(new Card[] { Cards.camelTrain, Cards.cavalry, Cards.goatherd, Cards.paddock, Cards.sheepdog, Cards.mill, Cards.nobles, Cards.pawn, Cards.torturer, Cards.upgrade, Cards.wayOfTheHorse, Cards.commerce}));
+		CardSetMap.put(GameType.Explosions, new CardSet(new Card[] { Cards.animalFair, Cards.bountyHunter, Cards.coven, Cards.huntingLodge, Cards.scrap, Cards.courtyard, Cards.diplomat, Cards.lurker, Cards.replace, Cards.wishingWell, Cards.wayOfTheSquirrel, Cards.populate}));
+		// Menagerie and Seaside
+		CardSetMap.put(GameType.Innsmouth, new CardSet(new Card[] { Cards.animalFair, Cards.barge, Cards.coven, Cards.fisherman, Cards.sheepdog, Cards.caravan, Cards.explorer, Cards.fishingVillage, Cards.haven, Cards.treasureMap, Cards.wayOfTheGoat, Cards.invest}));
+		CardSetMap.put(GameType.Ruritania, new CardSet(new Card[] { Cards.bountyHunter, Cards.cavalry, Cards.falconer, Cards.sleigh, Cards.villageGreen, Cards.lookout, Cards.smugglers, Cards.outpost, Cards.tactician, Cards.warehouse, Cards.wayOfTheMonkey, Cards.alliance}));
+		// Menagerie and Alchemy
+		CardSetMap.put(GameType.ClassOf20, new CardSet(new Card[] { Cards.cavalry, Cards.coven, Cards.huntingLodge, Cards.kiln, Cards.livery, Cards.snowyVillage, Cards.wayfarer, Cards.transmute, Cards.vineyard, Cards.university, Cards.wayOfTheOwl, Cards.delay}));
+		// Menagerie and Prosperity
+		CardSetMap.put(GameType.LimitedTimeOffer, new CardSet(new Card[] { Cards.destrier, Cards.displace, Cards.fisherman, Cards.supplies, Cards.wayfarer, Cards.grandMarket, Cards.mint, Cards.peddler, Cards.talisman, Cards.workersVillage, Cards.wayOfTheFrog, Cards.desperation}, null, UseOptionalCards.Use));
+		CardSetMap.put(GameType.BirthOfANation, new CardSet(new Card[] { Cards.animalFair, Cards.camelTrain, Cards.mastermind, Cards.paddock, Cards.stockpile, Cards.city, Cards.monument, Cards.quarry, Cards.rabble, Cards.tradeRoute, Cards.wayOfTheOtter, Cards.reap}, null, UseOptionalCards.Use));
+		// Menagerie and Cornucopia and Guilds
+		CardSetMap.put(GameType.LivingInExile, new CardSet(new Card[] { Cards.gatekeeper, Cards.hostelry, Cards.livery, Cards.scrap, Cards.stockpile, Cards.fairgrounds, Cards.hamlet, Cards.jester, Cards.journeyman, Cards.taxman, Cards.wayOfTheMule, Cards.enclave}));
+		CardSetMap.put(GameType.ThrillOfTheHunt, new CardSet(new Card[] { Cards.blackCat, Cards.bountyHunter, Cards.camelTrain, Cards.mastermind, Cards.villageGreen, Cards.butcher, Cards.horseTraders, Cards.huntingParty, Cards.menagerie, Cards.tournament, Cards.wayOfTheRat, Cards.pursue}));
+		// Menagerie and Hinterlands
+		CardSetMap.put(GameType.BigBlue, new CardSet(new Card[] { Cards.blackCat, Cards.falconer, Cards.sheepdog, Cards.sleigh, Cards.villageGreen, Cards.cartographer, Cards.foolsGold, Cards.margrave, Cards.trader, Cards.tunnel, Cards.wayOfTheTurtle, Cards.banish}));
+		CardSetMap.put(GameType.Intersection, new CardSet(new Card[] { Cards.cardinal, Cards.hostelry, Cards.livery, Cards.mastermind, Cards.supplies, Cards.develop, Cards.farmland, Cards.haggler, Cards.nomadCamp, Cards.stables, Cards.wayOfTheMouse, Cards.gamble}, null, UseOptionalCards.DontUse, UseOptionalCards.DontUse, null, Cards.crossroads));
+		// Menagerie and Dark Ages
+		CardSetMap.put(GameType.FriendlyCarnage, new CardSet(new Card[] { Cards.animalFair, Cards.cardinal, Cards.falconer, Cards.goatherd, Cards.huntingLodge, Cards.altar, Cards.beggar, Cards.catacombs, Cards.fortress, Cards.marketSquare, Cards.wayOfTheCamel, Cards.ride}, null, UseOptionalCards.DontUse, UseOptionalCards.Use));
+		CardSetMap.put(GameType.GiftHorses, new CardSet(new Card[] { Cards.camelTrain, Cards.destrier, Cards.displace, Cards.paddock, Cards.scrap, Cards.huntingGrounds, Cards.pillage, Cards.rats, Cards.sage, Cards.squire, Cards.wayOfTheButterfly, Cards.bargain}, null, UseOptionalCards.DontUse, UseOptionalCards.Use));
+		// Menagerie and Adventures
+		CardSetMap.put(GameType.HorseFeathers, new CardSet(new Card[] { Cards.destrier, Cards.displace, Cards.falconer, Cards.sleigh, Cards.stockpile, Cards.magpie, Cards.ranger, Cards.ratcatcher, Cards.relic, Cards.royalCarriage, Cards.wayOfTheOx, Cards.pilgrimage}));
+		CardSetMap.put(GameType.SoonerOrLater, new CardSet(new Card[] { Cards.barge, Cards.gatekeeper, Cards.groom, Cards.mastermind, Cards.villageGreen, Cards.amulet, Cards.caravanGuard, Cards.dungeon, Cards.giant, Cards.raze, Cards.toil, Cards.mission}));
+		// Menagerie and Empires
+		CardSetMap.put(GameType.NoMoneyDown, new CardSet(new Card[] { Cards.animalFair, Cards.cavalry, Cards.sleigh, Cards.stockpile, Cards.wayfarer, Cards.virtualCatapultRocks, Cards.cityQuarter, Cards.crown, Cards.engineer, Cards.villa, Cards.wayOfThePig, Cards.advance}));
+		CardSetMap.put(GameType.DetoursAndShortcuts, new CardSet(new Card[] { Cards.camelTrain, Cards.fisherman, Cards.gatekeeper, Cards.sanctuary, Cards.snowyVillage, Cards.enchantress, Cards.overlord, Cards.sacrifice, Cards.virtualSettlersBustlingVillage, Cards.wildHunt, Cards.transport, Cards.triumphalArch}));
+		// Menagerie and Nocturne
+		CardSetMap.put(GameType.SeizeTheNight, new CardSet(new Card[] { Cards.barge, Cards.falconer, Cards.hostelry, Cards.sheepdog, Cards.supplies, Cards.cobbler, Cards.devilsWorkshop, Cards.exorcist, Cards.monastery, Cards.skulk, Cards.wayOfTheSheep, Cards.seizeTheDay}));
+		CardSetMap.put(GameType.AnimalCrackers, new CardSet(new Card[] { Cards.blackCat, Cards.goatherd, Cards.groom, Cards.huntingLodge, Cards.kiln, Cards.faithfulHound, Cards.pixie, Cards.pooka, Cards.sacredGrove, Cards.shepherd, Cards.wayOfTheChameleon, Cards.enhance}));
+		// Menagerie and Renaissance
+		CardSetMap.put(GameType.BidingTime, new CardSet(new Card[] { Cards.cavalry, Cards.coven, Cards.displace, Cards.fisherman, Cards.goatherd, Cards.ducat, Cards.priest, Cards.recruiter, Cards.scepter, Cards.swashbuckler, Cards.wayOfTheTurtle, Cards.sinisterPlot}));
+		CardSetMap.put(GameType.VillagerMadness, new CardSet(new Card[] { Cards.cardinal, Cards.groom, Cards.kiln, Cards.livery, Cards.wayfarer, Cards.borderGuard, Cards.flagBearer, Cards.patron, Cards.silkMerchant, Cards.spices, Cards.demand, Cards.academy}));
 		
 		//CardSetMap.put(GameType.Test, new CardSet(new Card[] {Cards.church, Cards.fool, Cards.ghostTown, Cards.gear, Cards.captain, Cards.village, Cards.workshop, Cards.necromancer, Cards.harbinger, Cards.militia, Cards.werewolf, Cards.smithy, Cards.raider, Cards.overlord, Cards.ferry, Cards.cityGate, Cards.inheritance, Cards.bonfire, Cards.highway}));
 	}

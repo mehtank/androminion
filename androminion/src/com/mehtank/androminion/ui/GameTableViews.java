@@ -24,6 +24,7 @@ public class GameTableViews {
     static double textScale = 0.8;
     static ArrayList<MyCard> cardsInPlay = new ArrayList<MyCard>();
     static List<Card> druidBoons = new ArrayList<Card>();
+    static Card wayOfTheMouseCard;
 
     static void clearCards() {
     	cardsInPlay.clear();
@@ -36,6 +37,12 @@ public class GameTableViews {
     }
     static List<Card> getDruidBoons() {
     	return druidBoons;
+    }
+    static void setWayOfTheMouseCard(Card val) {
+    	wayOfTheMouseCard = val;
+    }
+    static Card getWayOfTheMouseCard() {
+    	return wayOfTheMouseCard;
     }
     /**
      * Generate a GridView

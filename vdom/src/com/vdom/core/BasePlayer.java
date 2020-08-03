@@ -5394,6 +5394,23 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	return (lowCards.length > 0) ? lowCards[0] : null;
     }
     
+    @Override
+    public boolean gain_shouldDiscardFromExile(MoveContext context, Card card, int copies) {
+    	if (isOnlyVictory(card, this)) {
+    		return false;
+    	}
+    	if (arrayContains(getTrashCards(), card)) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    @Override
+    public Card action_playUsingWay(MoveContext context, Card card) {
+    	//TODO: logic for when to use each way
+    	return null;
+    }
+    
     public Card bountyHunter_cardToExile(MoveContext context) {
     	//TODO: prioritize victory cards that don't have copies on mat,
     	//      then trash cards without copies on mat (but maybe not Curses...)
@@ -5405,6 +5422,23 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
         return lowestCard(context, context.getPlayer().getHand(), true);
+    }
+    
+    @Override
+    public Card camelTrain_cardToExile(MoveContext context) {
+    	//TODO: what would be a better card here?
+    	return Cards.gold;
+    }
+    
+    @Override
+    public Card sanctuary_cardToExile(MoveContext context) {
+    	for (Card card : context.getPlayer().getHand()) {
+            if (isOnlyVictory(card, context.getPlayer())) {
+                return card;
+            }
+        }
+    	//TODO: avoid exiling Curses if there is a trasher available?
+    	return lowestCard(context, context.getPlayer().getHand(), true);
     }
     
     public Card toil_cardToPlay(MoveContext context) {

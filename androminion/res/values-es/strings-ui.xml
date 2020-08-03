@@ -10,6 +10,7 @@
     <string name="stats_menu">Estadisticas</string>
     <string name="settings_menu">Ajustes</string>
     <string name="about_menu">Acerca de</string>
+    <string name="rules_menu">Cómo jugar</string>
     <string name="help_menu">Ayuda</string>
     <string name="quit_menu">Salir</string>
 
@@ -51,6 +52,8 @@
 <![CDATA[
 		<h3>¡Lee por favor!</h3>
 		Por la petición de Rio Grande Games, el Editor de Dominion, hemos sacado Androminion del Play Store. Por favor, no la publiques en cualquier tienda de apliciaciones pública ya que habrá una aplicación oficial de Dominion.<br><br>
+		<h3>Version 10.0</h3>
+		* ¡Expansión de Casa de Fieras! <br>
 		<h3>Version 9.06</h3>
 		* ¡Expansión de Renacimiento! <br>
 		* Cartas de promoción: Capitán, Iglesia
@@ -296,8 +299,63 @@
 	<string name="status_has_treasureChest">Tiene el Cofre de Tesoro (Al comienzo de tu fase de Compra, gana una carta de Oro.)</string>
 	<string name="status_coin_tokens">Marcadores de Moneda en el tablero de Cofres: %1$s</string>
 	<string name="status_villager_tokens">Aldeanos: %1$s</string>
+	<string name="way_of_the_mouse_card_header">- Carta apartada -</string>
 	<string name="status_pirate_tokens">Marcadores de Moneda conseguidos por Barcos Piratas: %1$s</string>
 	<string name="status_debt_tokens">Marcadores de Deuda: %1$s</string>
 	<string name="status_victory_tokens">Fichas de Victoria: %1$s</string>
 	<string name="card_more_info">Más info</string>
+	
+	<string name="rules_title">Cómo jugar</string>
+	<string name="rules_official">Reglas oficiales</string>
+	<string name="rules_official_url">http://www.devir.es/wp-content/uploads/2014/04/dominion-basico.pdf</string>
+	<string name="rules_wiki">Wiki de Dominion Strategy (inglés)</string>
+	<string name="rules">
+<![CDATA[
+		<h3>Objectivo</h3>
+<p>Dominion es un juego de construcción de mazos donde los jugadores comienzan con un mazo de cartas simples y compiten para tener la mayor cantidad de PV (puntos de victoria) cuando termina el juego, generalmente comprando mejores cartas y eliminando cartas innecesarias de su mazo.</p>
+<p>Cada juego tiene un <b>Suministro</b> que consta de al menos las 3 montones de las cartas de Tesoro y de Victoria básicas y las de Maldicion. También hay 10 montones de cartas del Reino diferentes en el Suministro; estos son diferentes en cada juego. Cada uno tiene habilidades únicas que cambian el juego. Puedes comprar o ganar cartas del Suministro cada turno usando las cartas que juegas.</p>
+<p>Las cartas ganadas se agregan a tu pila de descartes. Tu pila de descartes se baraja en tu mazo (pila de robo) cuando está gastado y necesitas cartas de ella. Esto alterna tus nuevas cartas en tu mazo para expandirla.</p>
+<h3>Jugando</h3>
+<p>Cada jugador generalmente comienza con 7 cartas de Cobre y 3 de Finca y las baraja en su mazo y roba 5 cartas de él a su mano para comenzar. Un jugador aleatorio toma el primer turno.</p>
+<p>Cada turno consta de tres fases: Acción, Compra y Mantenimiento. Un jugador comienza cada turno con 0 Monedas, 1 +Acción y 1 +Compra.</p>
+<p><b>Fase de Acción:</b> Puedes jugar 1 carta de Acción de tu mano para seguir sus instrucciones. Estas a menudo forman la mayor parte de la estrategia en un juego; averigua cómo puedes lograr que se sinergien para ganar. Algunas cartas otorgan +Acciones adicionales que te permite jugar más cartas de Acción. (Las instrucciones debajo de la línea divisoria suceden en un momento diferente; sígelas cuando se indique).</p>
+<p><b>Fase de Compra:</b> Primero juegas las cartas de Tesoro que desees de tu mano; estos generalmente te dan Monedas para gastar ese turno. Luego, puedes comprar una carta del Suministro que cuesta hasta las Monedas que tienes. Si tienes +Compras adicionales y Monedas suficientes, puedes comprar más cartas. También puedes comprar Eventos o Proyectos cuando estén presentes.</p>
+<p><b>Fase de Mantenimiento:</b> Descartas todas las cartas restantes de tu mano y las cartas apropiadas de juego, luego robas 5 cartas de tu mazo para tu próximo turno.</p>
+<p>El <b>juego termina</b> después de un turno donde el montón de cartas de Provincia o de Colonia está gastado o 3 montones del Suministros en total están gastados (4 en un juego de 5-6 jugadores). Los empates van al jugador con menos turnos (los turnos extras no cuentan).</p>
+<h3>Otros tipos de carta</h3>
+<p>Las cartas de <b>Victoria</b> valen PV. Por lo general, obtener la mayor cantidad de cartas que valen lo más PV te causa ganar. A menudo obstruyen tu mazo, así que haz un plan con esto en mente. También puedes obtener PV con fichas de Victoria que proporcionan algunos efectos.</p>
+<p>Las cartas de <b>Maldición</b> valen -1 PV por cada una y each and suelen ser entregadas por ciertas cartas de Ataque. A menudo querrás deshacerte de las cartas de Maldicion si tienes que ganarlas.</p>
+<i>Nota:</i> Las cartas con varios tipos (por ejemplo, Tesoro - Victoria) cuentan como todos esos tipos individualmente.
+<p>Las cartas de <b>Duración</b> pueden hacer algo en turnos futuros. Permanecen en juego cuando todavía están en uso en lugar de ser descartadas (junto con cartas que las juegan varias veces).</p>
+<p>Las cartas de <b>Reacción</b> se pueden usar en momentos inusuales para ciertos efectos, como mitigar Ataques.</p>
+<p>Las cartas de <b>Noche</b> agregan una fase de Noche después de la fase de Compra en la que puedes jugar las cartas de Noche que desees de tu mano.</p>
+<p>Las cartas de <b>Reserva</b> van a tu tablero de Taberna y, por lo general, luego pueden ser llamadas para volver en juego para un efecto.<p>
+<p><i>Nota:</i> Otros tipos que se encuentran en cartas simplemente los rotula y no tienen reglas especiales.</p>
+<h3>Cartas horizontales</h3>
+<p>Los <b>Eventos</b> se pueden comprar para proporcionar un efecto inmediato. No se ganan ni se agregan a tu mazo.</p>
+<p>Las <b>Marcas</b> agregan reglas de puntuación adicionales.</p>
+<p>Los <b>Proyectos</b> otorgan una habilidad a largo plazo cuando se compran por colocar uno de tus 2 cubos de Proyecto; solo pueden ser comprados una vez por cada jugador.</p>
+<p>Los <b>Caminos</b> proporcionan instrucciones alternativas para cuando juegas cartas de Acción.</p>
+<h3>Otros terminos</h3>
+<p>Al <b>eliminar</b> cartas se mueven a una pila compartida; ya no las tienes, pero están fuera de tu mazo. A menudo querrás eliminar al menos algunas de tus cartas iniciales para ver tus mejores cartas con más frecuencia.</p>
+<p><b>+X Acciones; +X Compras; +X Monedas:</b> Obtén más de ese recurso.</p>
+<p><b>+X Cartas:</b> Roba X cartas de tu mazo a tu mano.</p>
+<p><b>Ganar:</b> Mover la carta a tu pila de descartes. Ya es tuya. Cartas compradas son ganadas después de ser compradas.</p>
+<p><b>+X Cofres:</b> Obtener X marcadores que se pueden guardar o convertir en Monedas más tarde durante tu fase de Compra (antes de comprar).</p>
+<p><b>+X Villagers:</b> Obtener X marcadores que se pueden guardar o convertir en +Acciones más tarde durante tu fase de Acción.</p>
+<p>Las cartas <b>exiliadas</b> van al tablero de Exilio de cada jugador. Puedes descartar todas las copias de la tuya que coincidan con una carta ganada cuando la ganes.</p>
+<p>El <b>intercambio</b> de cartas te lleva a una carta en lugar de otra, que se devuelve al Suministro.</p>
+<p>Algunas cosas cuestan <b>Deuda</b>. Los costes de Deuda se pagan por tomar marcadores de Deuda; esos te impiden comprar hasta que se paguen.</p>
+<p>Los <b>Favores</b> son pequeños efectos aleatorios buenos de una mazo barajada de 12. Los <b>Aojos</b> son efectos malos de la misma manera.</li></p>
+<h3>Cartas del Suministro adicionales</h3>
+<p>Las cartas de <b>Colonia</b> y de <b>Platino</b> se agregan al Suministro en general en proporción al número de montones de cartas de Reino utilizadas de Prosperidad. Son cartas básicas de Victoria y de Tesoro más caras. <i>(de Prosperidad)</i></p>
+<p>Las cartas de <b>Poción</b> se agregan al Suministro cuando se usa una carta con una poción en su costo. Son Tesoros que ortorgan pociones necesarias para comprar esas cartas (a menudo, además de monedas). <i>(de Alquimia)</i></p>
+<p>Las <b>Ruinas</b> se agregan al Suministro cuando hay una carta de Saqueador en el juego. Cada una es una de 5 cartas generalmente malas, similar a las de Maldición. <i>(de Edad Oscura)</i></p>
+<h3>Cartas initiales alternativas</h3>
+<p>Los <b>Cobijos</b> reemplazan las Fincas iniciales cuando se desee, generalmente en proporción al número de montones de cartas de Reino utilizadas de Edad Oscura. <i>(de Edad Oscura)</i></p>
+<p>Cada una de los <b>Patrimonios</b> reemplaza un Cobre inicial cada vez que se usa su carta de Reino correspondiente. <i>(de Nocturno)</i></p>
+<h3>Más información</h3>
+	]]>
+    </string>
+	
 </resources>

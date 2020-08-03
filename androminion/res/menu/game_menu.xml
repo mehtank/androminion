@@ -6,6 +6,10 @@
         android:icon="@android:drawable/ic_menu_slideshow"
         android:title="@string/start_game_menu"/>
     <item
+        android:id="@+id/rules_menu"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="@string/rules_menu"/>
+    <item
         android:id="@+id/help_menu"
         android:icon="@android:drawable/ic_menu_help"
         android:title="@string/help_menu"
