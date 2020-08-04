@@ -139,11 +139,8 @@
 	<string name="random_include_events">Ereignisse: </string>
 	<string name="random_sideways_none">Keine</string>
 	<string name="random_events_none">Keine</string>
-	<string name="random_events_random">Zufällig</string>
 	<string name="random_projects_none">Keine</string>
 	<string name="random_landmarks_none">Keine</string>
-	<string name="random_landmarks_random">Zufällig</string>
-	<string name="random_include_cards">Mit Karten von</string>
 	<string name="random_sideways_max_x">Bis zu %1$s</string>
 	<string name="random_include_projects">Projekte: </string>
 	<string name="random_include_landmarks">Landmarken: </string>
@@ -156,7 +153,11 @@
 	<string name="random_expansion_allocation_even">Gleichmäßig</string>
 	<string name="random_expansion_allocation_proportional">Proportional</string>
 	<string name="select_players">Spieler:</string>
-	<string name="player">Spieler </string>
+	<string name="random_players">Zufällig</string>
+	<string name="probability_2_players">Wahrscheinlichkeit für 2 Spieler</string>
+	<string name="probability_3_4_players">Wahrscheinlichkeit für 3–4 Spieler</string>
+	<string name="probability_5_6_players">Wahrscheinlichkeit für 5–6 Spieler</string>
+	<string name="player">Spieler</string>
 	<string name="currentplayer">Aktueller Spieler</string>
 	<string name="you">Du</string>
 	<string name="start_game">Spiel starten!</string>
@@ -169,6 +170,7 @@
 	<string name="card_set_no_plat_colony">Kein Platin/Kolonie</string>
 	<string name="card_set_shelters">Unterschlüpfe</string>
 	<string name="card_set_no_shelters">Keine Unterschlüpfe</string>
+	<string name="card_set_card_options">%1$s (%2$s)</string>
 	<string name="none_game_start">Keiner</string> <!-- Unused -->
 	<string name="start_new_game_on_server">Neues Spiel starten</string> <!-- Unused -->
 
@@ -241,6 +243,11 @@
 	<string name="envious_initial">\u0020\u0020N\u0020\u0020</string>
 	<string name="lostInTheWoods_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="druid_boons_header">- Beiseite gelegte Segen -</string>
+	<string name="flag_initial">\u0020\u0020\u2691\u0020\u0020</string>
+	<string name="horn_initial">\u0020\u0020H\u0020\u0020</string>
+	<string name="key_initial">\u0020\u0020K\u0020\u0020</string>
+	<string name="lantern_initial">\u0020\u0020L\u0020\u0020</string>
+	<string name="treasureChest_initial">\u0020\u0020T\u0020\u0020</string>
 	<string name="token_header">- Marker -</string>
 	<string name="token_plus_one_card">+1 Karte</string>
 	<string name="token_plus_one_action">+1 Aktion</string>
