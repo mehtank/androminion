@@ -2181,6 +2181,11 @@ public abstract class Player {
         GainTreasureFromTrash,
         TakeKey
     }
+	
+	public static enum TransportOption {
+        ExileActionFromSupply,
+        TopdeckActionFromExile
+    }
 
     // Context is passed for the player to add a GameEventListener
     // if they want or to see what cards the game has, etc.
@@ -2875,6 +2880,9 @@ public abstract class Player {
     public abstract Card sanctuary_cardToExile(MoveContext context);
     
     public abstract Card toil_cardToPlay(MoveContext context);
+    public abstract TransportOption transport_selectChoice(MoveContext context, TransportOption[] options);
+    public abstract Card transport_cardToExile(MoveContext context);
+    public abstract Card transport_cardToTopdeckFromExile(MoveContext context, Card[] cards);
     
     
     // ////////////////////////////////////////////

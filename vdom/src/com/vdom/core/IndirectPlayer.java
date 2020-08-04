@@ -4563,4 +4563,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setCardResponsible(Cards.toil);
         return getCardFromHand(context, sco);
     }
+    
+    @Override
+    public TransportOption transport_selectChoice(MoveContext context, TransportOption[] options) {
+        return options[selectOption(context, Cards.transport, options)];
+    }
+    
+    @Override
+    public Card transport_cardToExile(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction()
+                .isSupplyCard().setActionType(ActionType.EXILE).setPickType(PickType.EXILE)
+                .setCardResponsible(Cards.transport);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public Card transport_cardToTopdeckFromExile(MoveContext context, Card[] cards) {
+    	return cards[selectOption(context, Cards.transport, cards)];
+    }
 }

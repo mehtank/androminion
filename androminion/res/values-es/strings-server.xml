@@ -27,8 +27,8 @@
 	<string name="join_timed_out">Agotado el tiempo de espera para que se unan jugadores e iniciar la partida.</string>
 	<string name="response_timed_out">Tiempo de espera agotado para unirse el jugador y responder a la petición.</string>
 
-	<string name="vp_single">Valor %1$s VP</string>
-	<string name="vp_multiple">Valor %1$s VPs</string>
+	<string name="vp_single">Vale %1$s PV</string>
+	<string name="vp_multiple">Vale %1$s PV</string>
 	<string name="coin_next_turn_single">+(%1$s) Moneda tu próximo turno</string>
 	<string name="coin_next_turn_multiple">+(%1$s) Monedas tu próximo turno</string>
 	<string name="buy_next_turn_single">+%1$s Compra tu próximo turno</string>
@@ -578,6 +578,9 @@
   <string name="set_aside_for_next_turn">Apartar para tu próximo turno [%1$s]</string>
   <string name="take_artifact">Tomar %1$s</string>
   
+  <string name="transport_exileActionFromSupply">Exiliar una carta de Acción del Suministro</string>
+  <string name="transport_topdeckActionFromExile">Poner una carta de Acción de Exilio encima de tu mazo</string>
+  <string name="transport_query">Elige una carta de Exilio para poner encima de tu mazo</string>
   <string name="discard_from_exile_query">¿Descartar %1$s (x%2$s) de Exilio?</string>
   <string name="discard_from_exile_option">Descartar</string>
   <string name="way_query">Jugar %1$s con Camino?</string>

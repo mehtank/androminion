@@ -1086,7 +1086,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card lurker_cardToTrash(MoveContext context) {
-        return bestCardInPlay(context, Integer.MAX_VALUE, false, true, true, true, true);
+        return bestCardInPlay(context, Integer.MAX_VALUE, false, false, true, true, true);
     }
 
     @Override
@@ -5452,5 +5452,36 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             return c;
         }
         return null;
+    }
+    
+    @Override
+    public TransportOption transport_selectChoice(MoveContext context, TransportOption[] options) {
+    	Card c = getCostliestActionInExile(context);
+    	return c != null ? TransportOption.TopdeckActionFromExile: TransportOption.ExileActionFromSupply;
+    }
+    
+    private Card getCostliestActionInExile(MoveContext context) {
+    	Card highestAction = null;
+    	int highestActionCost = 0;
+    	for(Card c: context.player.exile) {
+    		if (c.is(Type.Action, context.player)) {
+    			int cost = c.getCost(null);
+    			if (cost > highestActionCost) {
+    				highestActionCost = cost;
+    				highestAction = c;
+    			}
+    		}
+    	}
+    	return highestAction;
+    }
+    
+    @Override
+    public Card transport_cardToTopdeckFromExile(MoveContext context, Card[] cards) {
+    	return getCostliestActionInExile(context);
+    }
+    
+    @Override
+    public Card transport_cardToExile(MoveContext context) {
+    	return bestCardInPlay(context, Integer.MAX_VALUE, false, false, true, true, true);
     }
 }

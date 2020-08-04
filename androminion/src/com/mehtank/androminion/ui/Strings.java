@@ -52,6 +52,7 @@ import com.vdom.core.Player.SquireOption;
 import com.vdom.core.Player.StewardOption;
 import com.vdom.core.Player.TorturerOption;
 import com.vdom.core.Player.TournamentOption;
+import com.vdom.core.Player.TransportOption;
 import com.vdom.core.Player.TreasurerOption;
 import com.vdom.core.Player.TrustySteedOption;
 import com.vdom.core.Player.WatchTowerOption;
@@ -1034,6 +1035,12 @@ public class Strings {
             return format(R.string.starChart_query, cardName);
         } else if (cardName.equals(getCardName(Cards.mountainVillage))) {
             return format(R.string.hand_from_discard_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.transport))) {
+             if (extras[0] instanceof TransportOption) {
+                 return cardName;
+             } else {
+                 return getString(R.string.transport_query);
+             }
         }
         return cardName;
     }
@@ -1301,6 +1308,12 @@ public class Strings {
                 return getString(R.string.pass);
             } else if (option == FoolsGoldOption.PassAll) {
                 return getString(R.string.pass_all);
+            }
+        } else if (option instanceof TransportOption) {
+            if (option == TransportOption.ExileActionFromSupply) {
+                return getString(R.string.transport_exileActionFromSupply);
+            } else if (option == TransportOption.TopdeckActionFromExile) {
+                return getString(R.string.transport_topdeckActionFromExile);
             }
         } else if (option instanceof Card && ((Card)option).is(Type.Boon)) {
             return format(R.string.boon_name_and_desc, getCardName((Card) option), getBoonShortText((Card) option));
@@ -2086,6 +2099,7 @@ public class Strings {
             getCardName(Cards.camelTrain),
             getCardName(Cards.sanctuary),
             getCardName(Cards.toil),
+            getCardName(Cards.transport),
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),

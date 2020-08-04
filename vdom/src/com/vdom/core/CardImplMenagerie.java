@@ -3,8 +3,10 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import com.vdom.api.Card;
+import com.vdom.api.GameEvent;
 
 public class CardImplMenagerie extends CardImpl {
 	private static final long serialVersionUID = 1L;
@@ -109,6 +111,9 @@ public class CardImplMenagerie extends CardImpl {
         	break;
         case Toil:
         	toil(context);
+        	break;
+        case Transport:
+        	transport(context);
         	break;
         default:
             break;
@@ -313,6 +318,53 @@ public class CardImplMenagerie extends CardImpl {
 		context.freeActionInEffect++;
         card.play(context.game, context, true);
         context.freeActionInEffect--;
+	}
+	
+	private void transport(MoveContext context) {
+		Player player = context.getPlayer();
+		Player.TransportOption option = player.controlPlayer.transport_selectChoice(context, Player.TransportOption.values());
+        if (option == null) {
+            Util.playerError(player, "Transport option error, choosing automatically");
+            option = Player.TransportOption.ExileActionFromSupply;
+        }
+        switch (option) {
+        case ExileActionFromSupply:
+        	if (context.game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Action).length == 0)
+        		return;
+            Card cardToExile = player.controlPlayer.transport_cardToExile(context);
+            CardPile pile = null;
+            if (cardToExile != null) {
+                pile = context.game.getPile(cardToExile);
+                if (pile == null || !cardToExile.equals(pile.topCard()) || !pile.isSupply() || !cardToExile.is(Type.Action)) {
+                    Util.playerError(player, "Transport exile error, exiling nothing.");
+                    return;
+                }
+                player.exileFromSupply(cardToExile, this.getControlCard(), context);
+            }
+            break;
+        case TopdeckActionFromExile:
+        	Set<Card> possibleCards = new HashSet<Card>();
+        	for(Card c : player.exile) {
+        		if (c.is(Type.Action)) {
+        			possibleCards.add(c);
+        		}
+        	}
+        	if (possibleCards.isEmpty())
+        		return;
+            Card cardToTopdeck = player.controlPlayer.transport_cardToTopdeckFromExile(context, possibleCards.toArray(new Card[possibleCards.size()]));
+            if (cardToTopdeck == null || !player.exile.contains(cardToTopdeck) || !cardToTopdeck.is(Type.Action)) {
+                Util.playerError(player, "Transport top deck card choice error, doing nothing");
+                return;
+            }
+
+            cardToTopdeck = player.exile.remove(player.exile.indexOf(cardToTopdeck));
+            player.putOnTopOfDeck(cardToTopdeck);
+            GameEvent event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+            event.card = cardToTopdeck;
+            event.responsible = this.getControlCard();
+            context.game.broadcastEvent(event);
+            break;
+        }
 	}
 	
 	private void wayOfTheCamel(Game game, MoveContext context, Player player) {
