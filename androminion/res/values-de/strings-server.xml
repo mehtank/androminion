@@ -47,6 +47,11 @@
 	<string name="card_cards_multiple">+%1$s Karten</string>
 	<string name="card_victory_token_single">+%1$s Punktemarker</string>
 	<string name="card_victory_tokens_multiple">+%1$s Punktemarker</string>
+	<string name="card_coffers_single">+%1$s Münze</string>
+	<string name="card_coffers_multiple">+%1$s Münzen</string>
+	<string name="card_villager_single">+%1$s Bewohner</string>
+	<string name="card_villagers_multiple">+%1$s Bewohner</string>
+	<string name="card_linked_stateArtifact">%1$s: %2$s</string>
 	
 	<string name="card_options_header">%1$s Option</string>
 	<string name="part_play">Spiele</string>
@@ -85,8 +90,13 @@
 	<string name="select_from_table_min">%2$s eine Karte vom Vorrat, die mindestens (%1$s) kostet</string>	
 	<string name="select_from_table_less">%2$s eine Karte vom Vorrat, die weniger als (%1$s) kostet</string>
 	<string name="select_from_table_less_non_vp">%2$s eine Nicht-Punktekarte vom Vorrat, die weniger als (%1$s) kostet</string>
-	<string name="select_from_table_less_spirit">%2$s einen Geist vom Vorrat, der wweniger als (%1$s) kostet</string>
-	<string name="select_from_table_less_of_types">%3$s eine %1$s Karte vom Vorrat, die weniger kostet als (%2$s)</string>
+	<string name="select_from_table_less_spirit">%2$s einen Geist vom Vorrat, der weniger als (%1$s) kostet</string>
+	<string name="select_from_table_less_of_types">%3$s eine %1$s Karte vom Vorrat, die weniger als (%2$s) kostet</string>
+	<string name="select_from_table_min">%2$s eine Karte vom Vorrat die mindestens (%1$s) kostet</string>
+	<string name="select_from_table_less">%2$s eine Karte vom Vorrat die weniger als (%1$s) kostet</string>
+	<string name="select_from_table_less_non_vp">%2$s eine Nicht-Punktekarte vom Vorrat, die weniger als (%1$s) kostet</string>
+	<string name="select_from_table_less_spirit">%2$s einen Geist vom Vorrat, der weniger als (%1$s) kostet</string>
+	<string name="select_from_table_less_of_types">%3$s eine %1$s Karte vom Vorrat, die weniger als (%2$s) kostet</string>
 
 	<string name="select_one_card_from_hand">%1$s eine Karte aus Deiner Hand</string>
 	<string name="select_one_of_types_card_from_hand">%2$s eine %1$s Karte aus Deiner Hand</string>
@@ -169,7 +179,8 @@
 	<string name="BuyingCard">Kauft %1$s</string>
 	<string name="GuildsTokenObtained">Münze genommen</string>
 	<string name="GuildsTokenSpend">Münzen bezahlt</string>
-	<string name="OverpayForCard">Überzahlt</string>
+	<string name="VillagersSpend">%1$s Bewohner benutzt</string>
+	<string name="OverpayForCard">Karte überbezahlt</string>
 	<string name="DebtTokensObtained">%1$s Schuldenmarker erhalten</string>
 	<string name="DebtTokensPaidOff">%1$s Schuldemarker abbezahlt</string>
 	<string name="DebtTokensPutOnPile">%1$s Schuldenmarker gelegt auf</string>
@@ -180,6 +191,9 @@
 	<string name="VPTokensTakenFromPile">%1$s Punktemarker entfernt von</string>
 	<string name="MountainPassBidPass">Passe für</string>
 	<string name="MountainPassBid">Biete %1$s für</string>
+	<string name="VillagersObtained">%1$s Bewohner erhalten</string>
+	<string name="SinisterPlotAdd">Marke zum finsteren Plan hinzugefügt: %1$s</string>
+	<string name="SinisterPlotRemove">Marke vom finsteren Plan entfernt: %1$s</string>
 	<string name="DeckReplenished">Nachziehstapel aufgefüllt</string>
 	<string name="PlayerAttacking">Greift an</string>
 	<string name="PlayerDefended">Verteidigt</string>
@@ -195,13 +209,9 @@
 	<string name="CardSetAsideOnTavernMat">Karte auf Wirtshaustableau gelegt</string>
 	<string name="CallingCard">aufrufen</string>
 	<string name="CalledCard">aufgerufen</string>
-	<string name="CardSetAsideSummon">Karte beiseite gelegt (Einladung)</string>
 	<string name="CardSetAside">%1$s beiseite gelegt (%2$s)</string>
 	<string name="CardSetAsidePrivate">Karte beiseite gelegt (%1$s)</string>
-	<string name="CardSetAsideSave">Karte beiseite gelegt (Zuflucht)</string>
 	<string name="CardSetAsideOnIslandMat">Karte auf Insel gelegt</string>
-	<string name="CardSetAsideInheritance">Karte beiseite gelegt (Erbschaft)</string>
-	<string name="CardSetAsideArchive">Karte beiseite gelegt (Archiv)</string>
 	<string name="DeckPutIntoDiscardPile">Nachziehstapel auf Ablagestapel gelegt</string>
 	<string name="TravellerExchanged">Reisender eingetauscht in</string>
 	<string name="TurnJourneyTokenFaceUp">Reise-Marker auf Vorderseite gedreht</string>
@@ -472,7 +482,8 @@
 	<string name="putback_option_one">Geldkarte (Kräuterkundiger)</string>
 	<string name="putback_option_two">Aktionskarte (Komplott)</string>
 	<string name="putback_option_all">Alle zurücklegen</string>
-	<string name="deck_from_discard_query">%1$s: Wähle Karte auf den Nachziehstapel</string>
+	<string name="deck_from_discard_query">%1$s: Wähle Karte vom Ablagestapel um auf den Nachziehstapel zu legen</string>
+	<string name="hand_from_discard_query">%1$s: Wähle Karte vom Ablagestapel um auf die Hand zu nehmen</string>
 	
 	<string name="game_over_vps">SP</string>
 	<string name="victory_tokens">Punktemarker</string>
@@ -494,6 +505,7 @@
 	<string name="doctor_overpay_option_three">auf den Nachziehstapel</string>
 	<string name="herald_overpay_query">auf den Nachziehstapel</string>
 	<string name="spend_guilds_coin_tokens">Investiere Münzen</string>
+	<string name="spend_villager_tokens">Benutze Bewohner für +1 Aktion</string>
 	<string name="buy_overpay">Überzahlen?</string>
 	<string name="buy_overpay_by_potions">Überzahlen mit Tränken?</string>
 	<string name="pay_off_debt">Schulden abbezahlen</string>
@@ -534,6 +546,7 @@
 	<string name="tax_part">Steuer: Lege 2 Schuldenmarker auf</string>
 	<string name="mountainPass_query">Gebirgspass: Biete für 8 Punktemarker</string>
 	<string name="mountainPass_high_bid_query">Gebirgspass: Biete für 8 Punktemarker (Höchstgebot: %1$s)</string>
+
 	<string name="crypt_query">%1$s: Wähle eine Karte zum auf die Hand nehmen</string>
 	<string name="fool_query">%1$s: Wähle nächste Gabe</string>
 	<string name="lostInTheWoods_part_discard_for_boon">Abwerfen für eine Gabe</string>
@@ -541,6 +554,26 @@
 	<string name="the_skys_gift_part">%1$s: Für ein Gold, werfe ab</string>
 	<string name="necromancer_query">%1$s: Wähle Aktionskarte vom Müll</string>
 	<string name="discard_card_query">%1$s: Wähle Karte zum Abwerfen</string>
+
+	<string name="villager_query">Benutze Bewohner für +1 Aktion?</string>
+	<string name="villager_option">Benutze</string>
+	<string name="ducat_trash_copper">Entsorge ein Kupfer von der Hand</string>
+  	<string name="improve_query">%1$s: Entsorge eine Karte aus dem Spiel für eine, die (1) Geld mehr kostet</string>
+  	<string name="oldWitch_trash_curse">Entsorge einen Fluch von der Hand</string>
+  	<string name="pageant_pay_coin_for_coffers">Bezahle (1) Geld für +1 Münze</string>
+  	<string name="scepter_add_coins">+(2) Münzen</string>
+  	<string name="scepter_replay_action">Aktionskarte noch mal spielen</string>
+  	<string name="scepter_query">Wähle eine Karte zum wiederholen</string>
+  	<string name="silos_query">%1$s: Wie viele Kupfer abwerfen und Karten nachziehen?</string>
+  	<string name="sinisterPlot_add_token">Marke hinzufügen</string>
+  	<string name="sinisterPlot_remove_token_zero">Marken entfernen (%1$s)</string>
+  	<string name="sinisterPlot_remove_tokens_one">Marke entfernen für +%1$s Karte</string>
+  	<string name="sinisterPlot_remove_tokens_multiple">Marken entfernen für +%1$s Karten</string>
+  	<string name="starChart_query">%1$s: Wähle eine Karte auf den Nachziehstapel</string>
+  	<string name="set_aside_for_next_turn">%1$s: Wähle eine Karte für den nächsten Zug</string>
+  	<string name="take_artifact">Nehme %1$s</string>
+  	
+	<string name="set_aside">Lege beiseite</string>
 
 	<string name="place_stash_query">Geheimversteck einsortieren</string>
 	<string name="place_stashes_query">Sortiere %1$s Geheimverstecke in deinen Nachziehstapel</string>
@@ -561,8 +594,20 @@
 
 	<string name="blessedVillage_receive_boon_now">Empfange %1$s (%2$s) jetzt</string>
 	<string name="blessedVillage_receive_boon_next_turn">beim Beginn des nächsten Zuges</string>
+	<string name="changeling_gain_query">%1$s: Wähle eine Karte</string>
+  	<string name="gained_card">%1$s genommen</string>
+  	<string name="changeling_exchange">%1$s in %2$s eintauschen</string>
+  	<string name="monastery_trash_copper_from_play">Entsorge ein Kupfer aus dem Spiel</string>
 	<string name="pixie_trash_for_double_boon">Entsorge dies und empfange %1$s zwei mal (2x %2$s)</string>
+	<string name="sacredGrove_receive_boon">Empfange %1$s (%2$s)</string>
+
 	<string name="boon_name_and_desc">%1$s (%2$s)</string>
+
+  	<string name="treasurer_trash_treasure">Entsorge eine Geldkarte von der Hand</string>
+  	<string name="treasurer_gain_treasure_from_trash">Nehme eine Geldkarte vom Müll auf die Hand</string>
+  	<string name="treasurer_take_key">Nimm den Schlüssel</string>
+  	
+  	<string name="innovation_set_aside_to_play">Set %1$s aside and play now</string>
 
 	<string name="card_played_as_card">%1$s (gespielt als %2$s)</string>
 </resources>
