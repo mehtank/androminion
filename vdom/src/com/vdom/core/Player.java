@@ -2878,6 +2878,7 @@ public abstract class Player {
     public abstract boolean barge_shouldReceiveNow(MoveContext context);
     public abstract Card bountyHunter_cardToExile(MoveContext context);
     public abstract Card camelTrain_cardToExile(MoveContext context);
+    public abstract boolean huntingLodge_shouldDiscardHand(MoveContext context);
     public abstract Card sanctuary_cardToExile(MoveContext context);
     
     public abstract Card toil_cardToPlay(MoveContext context);

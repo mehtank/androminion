@@ -4555,6 +4555,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean huntingLodge_shouldDiscardHand(MoveContext context) {
+    	return selectBoolean(context, Cards.huntingLodge);
+    }
+    
+    @Override
     public Card sanctuary_cardToExile(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.EXILE).setPassable()
                 .setActionType(ActionType.EXILE).setCardResponsible(Cards.sanctuary);

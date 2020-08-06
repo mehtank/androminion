@@ -41,6 +41,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Horse:
 			horse(game, context, currentPlayer);
 			break;
+		case HuntingLodge:
+			huntingLodge(game, context, currentPlayer);
+			break;
 		case Livery:
 			livery(game, context, currentPlayer);
 			break;
@@ -230,6 +233,19 @@ public class CardImplMenagerie extends CardImpl {
     	card = player.playedCards.remove(idx); 
     	CardPile pile = game.getGamePile(card);
         pile.addCard(card);	
+	}
+	
+	private void huntingLodge(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() == 0) return;
+		if (!player.controlPlayer.huntingLodge_shouldDiscardHand(context)) {
+			return;
+		}
+        while (!player.getHand().isEmpty()) {
+            player.discard(player.getHand().remove(0), this.getControlCard(), context);
+        }
+		for (int i = 0; i < 5; ++i) {
+			game.drawToHand(context, this.getControlCard(), 5 - i);
+		}
 	}
 	
 	private void livery(Game game, MoveContext context, Player player) {

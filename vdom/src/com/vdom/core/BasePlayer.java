@@ -5411,6 +5411,27 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	return null;
     }
     
+    @Override
+    public boolean barge_shouldReceiveNow(MoveContext context) {    	
+    	int coinsInHand = getCoinEstimate(context);
+    	int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
+        int provinceCost = Cards.province.getCost(context, context.phase == TurnPhase.Buy);
+        if (context.getActions() > 1) {
+        	//TODO: get better estimate of if we can chain
+        	return true;
+        }
+        if (coinsInHand >= provinceCost && coinsInHand < (provinceCost + goldCost)) {
+        	return false;
+        }
+        if (coinsInHand == provinceCost - 1) {
+        	return false;
+        }
+        if (coinsInHand == goldCost - 1) {
+        	return false;
+        }
+        return true;
+    }
+    
     public Card bountyHunter_cardToExile(MoveContext context) {
     	//TODO: prioritize victory cards that don't have copies on mat,
     	//      then trash cards without copies on mat (but maybe not Curses...)
@@ -5428,6 +5449,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card camelTrain_cardToExile(MoveContext context) {
     	//TODO: what would be a better card here?
     	return Cards.gold;
+    }
+    
+    @Override
+    public boolean huntingLodge_shouldDiscardHand(MoveContext context) {
+    	int coinsInHand = getCoinEstimate(context);
+    	int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
+        if (coinsInHand < goldCost) {
+        	return true;
+        }
+        return false;
     }
     
     @Override
@@ -5483,26 +5514,5 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     @Override
     public Card transport_cardToExile(MoveContext context) {
     	return bestCardInPlay(context, Integer.MAX_VALUE, false, false, true, true, true);
-    }
-    
-    @Override
-    public boolean barge_shouldReceiveNow(MoveContext context) {    	
-    	int coinsInHand = getCoinEstimate(context);
-    	int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
-        int provinceCost = Cards.province.getCost(context, context.phase == TurnPhase.Buy);
-        if (context.getActions() > 1) {
-        	//TODO: get better estimate of if we can chain
-        	return true;
-        }
-        if (coinsInHand >= provinceCost && coinsInHand < (provinceCost + goldCost)) {
-        	return false;
-        }
-        if (coinsInHand == provinceCost - 1) {
-        	return false;
-        }
-        if (coinsInHand == goldCost - 1) {
-        	return false;
-        }
-        return true;
     }
 }

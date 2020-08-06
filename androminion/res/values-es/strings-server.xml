@@ -580,6 +580,7 @@
   
   <string name="barge_now">+3 Cartas y +1 Compra ahora</string>
   <string name="barge_next_turn">Al comienzo de tu próximo turno</string>
+  <string name="huntingLodge_discard">Descartar tu mano para +5 Cartas</string>
   <string name="transport_exileActionFromSupply">Exiliar una carta de Acción del Suministro</string>
   <string name="transport_topdeckActionFromExile">Poner una carta de Acción de Exilio encima de tu mazo</string>
   <string name="transport_query">Elige una carta de Exilio para poner encima de tu mazo</string>
