@@ -2,6 +2,7 @@ package com.mehtank.androminion.fragments;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.mehtank.androminion.R;
 
-public class AboutFragment extends SherlockFragment {
+public class AboutFragment extends Fragment {
 	private static final String TAG = "AboutFragment";
 
 	@Override

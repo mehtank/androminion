@@ -1,12 +1,12 @@
 package com.mehtank.androminion.activities;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.fragments.AboutFragment;
 import com.mehtank.androminion.fragments.CreditsFragment;
@@ -21,7 +21,7 @@ import com.mehtank.androminion.util.compat.TabsAdapter;
  * Rewrite to support actionbar, tabs and swipe gestures (backwards compatible
  * to API7).
  */
-public class AboutActivity extends SherlockFragmentActivity {
+public class AboutActivity extends FragmentActivity {
 	@SuppressWarnings("unused")
 	private static final String TAG = "AboutActivity";
 
@@ -39,7 +39,7 @@ public class AboutActivity extends SherlockFragmentActivity {
 
 		setContentView(mViewPager);
 
-		ActionBar bar = getSupportActionBar();
+		ActionBar bar = getActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 		bar.setDisplayHomeAsUpEnabled(true);

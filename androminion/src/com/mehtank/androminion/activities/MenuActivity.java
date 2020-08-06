@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -19,18 +21,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.fragments.StartGameFragment;
 import com.mehtank.androminion.fragments.StartGameFragment.OnStartGameListener;
 import com.mehtank.androminion.util.ThemeSetter;
 
+
 /**
  * Start screen of the application, showing a menu.
  *
  */
-public class MenuActivity extends SherlockFragmentActivity implements
+public class MenuActivity extends FragmentActivity implements
 OnStartGameListener {
     private static final String TAG = "MenuActivity";
 
@@ -95,8 +96,8 @@ OnStartGameListener {
         }
     }
 
-    private SherlockFragment createStartGameFragment() {
-        SherlockFragment f = new StartGameFragment();
+    private Fragment createStartGameFragment() {
+        Fragment f = new StartGameFragment();
         if (getIntent().hasExtra("cards")) {
             f.setArguments(getIntent().getExtras());
         }
@@ -189,7 +190,7 @@ OnStartGameListener {
                 .show();
     }
 
-    private void changeFragment(SherlockFragment newFragment) {
+    private void changeFragment(Fragment newFragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_content, newFragment).commit();
     }

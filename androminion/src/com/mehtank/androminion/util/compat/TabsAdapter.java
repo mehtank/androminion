@@ -2,16 +2,16 @@ package com.mehtank.androminion.util.compat;
 
 import java.util.ArrayList;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 	// http://stackoverflow.com/questions/10082163/actionbarsherlock-tabs-multi-fragments
 	public class TabsAdapter extends FragmentPagerAdapter implements ActionBar.TabListener, ViewPager.OnPageChangeListener {
@@ -30,10 +30,10 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 			}
 		}
 
-		public TabsAdapter(SherlockFragmentActivity activity, ViewPager pager) {
+		public TabsAdapter(FragmentActivity activity, ViewPager pager) {
 			super(activity.getSupportFragmentManager());
 			mContext = activity;
-			mActionBar = activity.getSupportActionBar();
+			mActionBar = activity.getActionBar();
 			mViewPager = pager;
 			mViewPager.setAdapter(this);
 			mViewPager.setOnPageChangeListener(this);

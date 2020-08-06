@@ -2,14 +2,14 @@ package com.mehtank.androminion.activities;
 
 import java.util.ArrayList;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.fragments.StartGameFragment;
 import com.mehtank.androminion.fragments.StartGameFragment.OnStartGameListener;
@@ -21,7 +21,7 @@ import com.mehtank.androminion.util.ThemeSetter;
  *
  * Rewrite to support actionbar (backwards compatible to API7).
  */
-public class StartGameActivity extends SherlockFragmentActivity implements
+public class StartGameActivity extends FragmentActivity implements
 OnStartGameListener {
     @SuppressWarnings("unused")
     private static final String TAG = "StartGameActivity";
@@ -34,7 +34,7 @@ OnStartGameListener {
         ThemeSetter.setLanguage(this);
         super.onCreate(savedInstanceState);
 
-        ActionBar bar = getSupportActionBar();
+        ActionBar bar = getActionBar();
         bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         bar.setDisplayHomeAsUpEnabled(true);
         bar.setDisplayShowTitleEnabled(true);

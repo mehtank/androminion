@@ -5,12 +5,10 @@
   <string name="Interaction_gametype">相互作用</string> 
   <string name="SizeDistortion_gametype">サイズ変形</string> 
   <string name="VillageSquare_gametype">村の広場</string>
-  <string name="RandomBaseGame_gametype">ランダム基本</string>
   
   <string name="VictoryDance_gametype">勝利の舞</string> 
   <string name="SecretSchemes_gametype">秘密計画</string> 
   <string name="BestWishes_gametype">願い</string> 
-  <string name="RandomIntrigue_gametype">ランダム陰謀</string>
   
   <string name="Deconstruction_gametype">脱構築</string> 
   <string name="HandMadness_gametype">手札熱狂</string> 
@@ -19,9 +17,6 @@
   <string name="HighSeas_gametype">外洋</string> 
   <string name="BuriedTreasure_gametype">埋蔵金</string> 
   <string name="Shipwrecks_gametype">難破船</string> 
-  <string name="RandomSeaside_gametype">ランダム海辺</string>
-  
-  <string name="RandomAlchemy_gametype">ランダム錬金術</string>
   
   <string name="ForbiddenArts_gametype">禁断の芸術</string> 
   <string name="PotionMixers_gametype">薬剤調合師たち</string> 
@@ -38,17 +33,13 @@
   <string name="Beginners_gametype">初心者</string> 
   <string name="FriendlyInteractive_gametype">好意的な相互作用</string> 
   <string name="BigActions_gametype">ビッグ・アクション</string> 
-  <string name="RandomProsperity_gametype">ランダム繁栄</string>
-
+  
   <string name="BiggestMoney_gametype">巨費</string> 
   <string name="TheKingsArmy_gametype">王の軍隊</string> 
   <string name="TheGoodLife_gametype">良き人生</string>
 
-  <string name="PathToVictory_gametype">勝利への道</string> 
   <string name="AllAlongTheWatchtower_gametype">見張りの塔からずっと</string> 
   <string name="LuckySeven_gametype">ラッキーセブン</string>
-
-  <string name="RandomCornucopia_gametype">ランダム収穫祭</string>
 
   <string name="BountyOfTheHunt_gametype">賞金稼ぎ</string> 
   <string name="BadOmens_gametype">凶兆</string> 
@@ -62,8 +53,7 @@
   <string name="FairTrades_gametype">公平な取引</string> 
   <string name="Bargains_gametype">バーゲン</string> 
   <string name="Gambits_gametype">初めの一手</string> 
-  <string name="RandomHinterlands_gametype">ランダム異郷</string>
-    
+  
   <string name="HighwayRobbery_gametype">辻強盗</string> 
   <string name="AdventuresAbroad_gametype">異国への冒険</string>
     
@@ -81,10 +71,7 @@
    
   <string name="BlueHarvest_gametype">青田刈り</string> 
   <string name="TravelingCircus_gametype">旅一座</string>
-  <string name="Random_gametype">ランダム(全セット)</string>
-  
-  <string name="RandomDarkAges_gametype">ランダム暗黒時代</string>
-  
+ 
   	<string name="PlayingChessWithDeath_gametype">死のチェスゲーム</string>
     
     <string name="HighAndLow_gametype">天国と地獄</string>

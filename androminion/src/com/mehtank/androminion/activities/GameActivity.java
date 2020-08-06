@@ -11,6 +11,8 @@ import java.util.Enumeration;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,17 +24,15 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.ui.GameTable;
 import com.mehtank.androminion.ui.JoinGameDialog;
@@ -83,7 +83,7 @@ import com.vdom.core.Game;
  * The response contains the information about what we are doing.
  */
 
-public class GameActivity extends SherlockActivity implements EventHandler {
+public class GameActivity extends Activity implements EventHandler {
     @SuppressWarnings("unused")
     private static final String TAG = "GameActivity";
 
@@ -131,7 +131,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
         topView = (FrameLayout) getLayoutInflater().inflate(R.layout.activity_game, null);
         setContentView(topView);
 
-        ActionBar bar = getSupportActionBar();
+        ActionBar bar = getActionBar();
         if (bar == null) {
             miniactionbar = (TextView) topView.findViewById(R.id.miniactionbar);
             miniactionbar.setVisibility(TextView.VISIBLE);
@@ -330,7 +330,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getSupportMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.game_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -660,7 +660,7 @@ public class GameActivity extends SherlockActivity implements EventHandler {
             gt.setStatus(gs, e.o.os, e);
             String name = gt.getPlayerAdapter().getItem(gs.whoseTurn).name;
             String subtitle = buildHintString(gs, e.s, e.b);
-            ActionBar bar = getSupportActionBar();
+            ActionBar bar = getActionBar();
             if (bar == null) {
                 miniactionbar.setText(name + ": " + subtitle);
             } else {

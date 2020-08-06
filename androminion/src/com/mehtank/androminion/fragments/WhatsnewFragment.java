@@ -1,6 +1,7 @@
 package com.mehtank.androminion.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -9,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.mehtank.androminion.R;
 
-public class WhatsnewFragment extends SherlockFragment {
+public class WhatsnewFragment extends Fragment {
 	@SuppressWarnings("unused")
 	private static final String TAG = "WhatsnewFragment";
 

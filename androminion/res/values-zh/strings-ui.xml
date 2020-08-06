@@ -60,11 +60,8 @@
     <string name="include_cards_percent">%1$s%%概率</string>
     <string name="random_include_events">事件数量：</string>
     <string name="random_events_none">不使用</string>
-    <string name="random_events_random">随机</string>
     <string name="random_include_landmarks">地标数量：</string>
     <string name="random_landmarks_none">不使用</string>
-    <string name="random_landmarks_random">随机</string>
-    <string name="random_include_cards">包括哪些拓展包的王国卡？</string>
     <string name="select_players">选择玩家：</string>
 	<string name="random_players">随机</string>
 	<string name="probability_2_players">两人游戏概率</string>

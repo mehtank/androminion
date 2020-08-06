@@ -2,23 +2,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="userlang_pref_title">言語</string>
-    <string name="userlang_pref_summary">言語の選択 (システム設定より優先します)</string>
     <string name="showenglishnames_pref_title">英語名の表示</string>
     <string name="showenglishnames_pref_summary">カッコ内に英語名を表示する</string>
     <string name="exitonback_pref_summary">戻るボタンを押したときにゲームを終了する</string>
     <string name="exitonback_pref_title">戻るボタンで終了</string>
     <string name="vibescreen_pref_title">バイブレーション設定…</string>
-    <string name="gamevibeon_pref_summary">ゲームが終了するときバイブレーション</string>
     <string name="gamevibeon_pref_title">ゲームオーバー</string>
-    <string name="actionvibeon_pref_summary">あなたの入力が必要なときにバイブレーション</string>
     <string name="actionvibeon_pref_title">アクション通知</string>
-    <string name="turnvibeon_pref_summary">あなたのターンが始まったときバイブレーション</string>
     <string name="turnvibeon_pref_title">ターン通知</string>
-    <string name="clickvibeon_pref_summary">カードを選択したときバイブレーション</string>
     <string name="clickvibeon_pref_title">触覚のフィードバック</string>
     <string name="allvibes_pref_title">バイブレーションの有効</string>
-    <string name="notif_pref_title">通知</string>
-
+    
     <string name="show_statusbar_pref_title">ステータスバーの表示</string>
     <string name="show_statusbar_pref_summary">ゲーム中にシステムステータスバーを表示する</string>
     <string name="game_play_pref_title">ゲームプレイ</string>
@@ -32,16 +26,11 @@
     <string name="suppress_redundant_reactions_pref_summary">ちょうど前にプレイしたリアクションカードの再度のダイアログ表示を抑止する</string>
     <string name="equal_start_hands_pref_title">平等な開始時手札</string>
     <string name="equal_start_hands_pref_summary">全プレイヤーが同じ開始時手札を持つ (次のゲームから有効)</string>
-    <string name="plat_colony_pref_title">白金貨と植民地の使用</string>
-    <string name="plat_colony_pref_summary">ゲームタイプにかかわらず、いつも白金貨と植民地を加える (次のゲームから有効)</string>
     <string name="ui_pref_title">ユーザーインタフェース</string>
     <string name="name_pref_summary">ニックネームを入力</string>
     <string name="name_pref_title">名前</string>
-    <string name="personalization_pref_title">パーソナライゼーション</string>
     <string name="mask_names_pref_title">AI名を隠す</string>
     <string name="mask_names_pref_summary"></string>
-    <string name="hide_card_counts_pref_title">カード枚数を隠す</string>
-    <string name="hide_card_counts_pref_summary">(次のゲームから有効)</string>
     <string name="one_turn_logs_pref_title">1ターンのみの詳細</string>
     <string name="one_turn_logs_pref_summary">現在のターンについてのみ画面下部にログを出力する (次のゲームから有効)</string>
     <string name="logging_pref_title">ゲームログ</string>
@@ -50,8 +39,7 @@
     <string name="logging_dir_pref_title">ログディレクトリ</string>
     <string name="logging_dir_pref_summary">ゲームログを保存するディレクトリ (なければ作成)</string>
     <string name="pref_theme_title">テーマ</string>
-    <string name="pref_theme_summary">アプリケーションテーマを設定</string>
-
+    
     <string-array name="theme_names">
         <item>Dark</item>
         <item>Light</item>
@@ -73,8 +61,7 @@
     </string-array>
 
     <string name="pref_viewstyle_title">ユーザーインタフェーススタイル</string>
-    <string name="pref_viewstyle_summary">カードの表示スタイルの設定</string>
-
+    
     <string-array name="viewstyle_names">
         <item>Classic</item>
         <item>Simple</item>
@@ -85,7 +72,4 @@
 
     <string name="pref_showactionbar_title">アクションバーの表示</string>
     <string name="pref_showactionbar_summary">画面が小さければ無効化, ハードボタンがなければ有効化してください。</string>
-        <string name="shelters_pref_title">避難所の使用</string>
-        <string name="shelters_pref_summary">いつも屋敷の代わりに避難所 (暗黒時代) を使用</string>
-    
 </resources>

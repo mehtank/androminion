@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.mehtank.androminion.R;
 import com.mehtank.androminion.ui.Strings;
 import com.vdom.api.GameType;
@@ -41,7 +41,7 @@ import com.vdom.core.CardSet.ExpansionAllocation;
 import com.vdom.core.CardSet.UseOptionalCards;
 import com.vdom.core.Player;
 
-public class StartGameFragment extends SherlockFragment implements OnClickListener, OnItemSelectedListener {
+public class StartGameFragment extends Fragment implements OnClickListener, OnItemSelectedListener {
 	@SuppressWarnings("unused")
 	private static final String TAG = "StartGameFragment";
 
