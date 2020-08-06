@@ -1575,6 +1575,12 @@ public class Game {
                 if (card.behaveAsCard().equals(Cards.secretCave)) {
                 	context.addCoins(3, card);
                 }
+                if (card.behaveAsCard().equals(Cards.barge)) {
+                	for (int i = 0; i < 3; ++i) {
+                    	context.game.drawToHand(context, card, 3 - i);
+                    }
+        			context.buys += 1;
+                }
                 
                 Card thisCard = card.behaveAsCard();
                 

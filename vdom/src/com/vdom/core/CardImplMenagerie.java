@@ -20,6 +20,9 @@ public class CardImplMenagerie extends CardImpl {
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
+		case Barge:
+			barge(game, context, currentPlayer, isThronedEffect);
+			break;
 		case BountyHunter:
 			bountyHunter(game, context, currentPlayer);
 			break;
@@ -139,6 +142,17 @@ public class CardImplMenagerie extends CardImpl {
 	    // card left play - stop any impersonations
 	    this.getControlCard().stopImpersonatingCard();
 	    this.getControlCard().stopInheritingCardAbilities();
+	}
+	
+	private void barge(Game game, MoveContext context, Player player, boolean isThronedEffect) {
+		if (player.controlPlayer.barge_shouldReceiveNow(context)) {
+			for (int i = 0; i < 3; ++i) {
+            	game.drawToHand(context, this, 3 - i);
+            }
+			context.buys += 1;
+			return;
+	    }
+		player.addStartTurnDurationEffect(this, 1, isThronedEffect);
 	}
 	
 	private void bountyHunter(Game game, MoveContext context, Player player) {

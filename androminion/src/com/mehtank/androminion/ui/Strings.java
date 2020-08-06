@@ -1600,6 +1600,9 @@ public class Strings {
             int tokenRemoveResource = tokens == 0 ? R.string.sinisterPlot_remove_token_zero : 
             	(tokens == 1 ? R.string.sinisterPlot_remove_tokens_one : R.string.sinisterPlot_remove_tokens_multiple);
             strings[2] = format(tokenRemoveResource, tokens);
+        } else if (cardName.equals(getCardName(Cards.barge))) {
+        	strings[1] = getString(R.string.barge_now);
+            strings[2] = getString(R.string.barge_next_turn);
         } else if (cardName.equals(getCardName(Cards.prince))) {
             strings[1] = getString(R.string.set_aside);
             strings[2] = getString(R.string.pass);

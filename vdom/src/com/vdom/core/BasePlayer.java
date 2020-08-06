@@ -5484,4 +5484,25 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card transport_cardToExile(MoveContext context) {
     	return bestCardInPlay(context, Integer.MAX_VALUE, false, false, true, true, true);
     }
+    
+    @Override
+    public boolean barge_shouldReceiveNow(MoveContext context) {    	
+    	int coinsInHand = getCoinEstimate(context);
+    	int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
+        int provinceCost = Cards.province.getCost(context, context.phase == TurnPhase.Buy);
+        if (context.getActions() > 1) {
+        	//TODO: get better estimate of if we can chain
+        	return true;
+        }
+        if (coinsInHand >= provinceCost && coinsInHand < (provinceCost + goldCost)) {
+        	return false;
+        }
+        if (coinsInHand == provinceCost - 1) {
+        	return false;
+        }
+        if (coinsInHand == goldCost - 1) {
+        	return false;
+        }
+        return true;
+    }
 }

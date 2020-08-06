@@ -2875,6 +2875,7 @@ public abstract class Player {
     public abstract boolean gain_shouldDiscardFromExile(MoveContext context, Card card, int copies);
     public abstract Card action_playUsingWay(MoveContext context, Card card);
     
+    public abstract boolean barge_shouldReceiveNow(MoveContext context);
     public abstract Card bountyHunter_cardToExile(MoveContext context);
     public abstract Card camelTrain_cardToExile(MoveContext context);
     public abstract Card sanctuary_cardToExile(MoveContext context);

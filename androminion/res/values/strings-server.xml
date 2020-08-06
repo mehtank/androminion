@@ -579,6 +579,8 @@
   <string name="set_aside_for_next_turn">Set aside for next turn [%1$s]</string>
   <string name="take_artifact">Take %1$s</string>
   
+  <string name="barge_now">+3 Cards and +1 Buy now</string>
+  <string name="barge_next_turn">At start of next turn</string>
   <string name="transport_exileActionFromSupply">Exile Action card from Supply</string>
   <string name="transport_topdeckActionFromExile">Put Action card from Exile onto deck</string>
   <string name="transport_query">Select card to top deck from Exile</string>

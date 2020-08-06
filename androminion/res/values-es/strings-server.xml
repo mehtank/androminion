@@ -578,6 +578,8 @@
   <string name="set_aside_for_next_turn">Apartar para tu próximo turno [%1$s]</string>
   <string name="take_artifact">Tomar %1$s</string>
   
+  <string name="barge_now">+3 Cartas y +1 Compra ahora</string>
+  <string name="barge_next_turn">Al comienzo de tu próximo turno</string>
   <string name="transport_exileActionFromSupply">Exiliar una carta de Acción del Suministro</string>
   <string name="transport_topdeckActionFromExile">Poner una carta de Acción de Exilio encima de tu mazo</string>
   <string name="transport_query">Elige una carta de Exilio para poner encima de tu mazo</string>
