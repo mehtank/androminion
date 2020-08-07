@@ -2807,6 +2807,7 @@ public class Game {
     	shuffleHexesIfNeeded();
     	Card hex = hexDrawPile.remove(0);
     	hexDiscardPile.add(hex);
+        context.attackedPlayer = context.player;
     	hex.play(this, context, false, true, true, true, false);
     	return hex;
     }
