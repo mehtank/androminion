@@ -39,7 +39,73 @@
     <string name="whatsnew_menu">更新资讯</string>
     <string name="whatsnew_title">What\'s new：</string>
     <string name="whatsnew">
-<![CDATA[<h3>请仔细阅读！</h3>由版权方要求，我们在一个不存在的应用商店移除了~Androminion~。请！不要！把这个程序在任何其它公开的应用商店发布，因为今后将会有一个官方的Dominion程序。<br><br> <h3>版本9.03</h3> * Renaissance Previews! <br><h3>版本 8.10</h3> * 午夜狂曲！<br> * 推广卡片：拆除<h3>版本 7.06</h3> * 帝国崛起！<br> * 皇輿争霸和暗潮汹涌第二版！<br> * 推广卡片：桑拿&冬泳<h3>版本 6.07</h3> * 冒险时刻！<br> * 推广卡片：藏匿，召唤<h3>版本 6.00</h3> * 冒险时刻（测试版）！<h3>版本 5.01</h3> * 推广卡片：黑市！<br> * 推广卡片：王子！<br> * 更多语言加入<br> * 成堆的Bug修复与其他修改<h3>版本 5.00</h3> * 同业公会！<br> * 更多语言加入<br> * Bug修复<br> <h3>版本 4.02</h3> * 神奇海盗团实现<br> * 许多Bug修复<h3>版本 4.00</h3> * 黑暗时代！*更早的更新懒得翻译了，请有兴趣的读者改成英文版看吧:)<font color="lime">~Androminion~现已开源！</font>这些更新如果没有许多成员的帮助将不可能实现，请移步致谢查看他（她）们的名字。你也可以加入！前往Github页面来提交Bug，请求，翻译或是任何其它你感兴趣的想法：<br/><a href="https://github.com/mehtank/androminion">https://github.com/mehtank/androminion</a><br/><br/>]]>
+<![CDATA[
+	<h3>请仔细阅读！</h3>
+	由发行方Rio Grande Games要求，我们从应用商店移除了~Androminion~。请不要把这个程序在任何其它公开的应用商店发布，因为今后将会有一个官方的Dominion程序。<br><br> 
+	<h3>版本 10.0</h3>
+	* 动物世界! <br>
+	<h3>版本9.03</h3>
+ 	* 文艺复兴! <br>
+	<h3>版本 8.10</h3> 
+	* 午夜狂曲！<br>
+	* 推广卡片：拆除
+	<h3>版本 7.06</h3>
+	* 帝国崛起！<br>
+	* 皇輿争霸和暗潮汹涌第二版！<br>
+	* 推广卡片：桑拿&冬泳
+	<h3>版本 6.07</h3>
+	* 冒险时刻！<br>
+	* 推广卡片：藏匿，召唤
+	<h3>版本 6.00</h3>
+	* 冒险时刻！
+	<h3>版本 5.01</h3>
+	* 推广卡片：黑市！<br>
+	* 推广卡片：王子！<br>
+	* 更多语言加入<br>
+	* 成堆的Bug修复与其他修改
+	<h3>版本 5.00</h3>
+	* 同业公会！<br>
+	* 更多语言加入<br> 
+	* Bug修复<br> 
+	<h3>版本 4.02</h3> 
+	* 神奇海盗团实现<br>
+	* 许多Bug修复
+	<h3>版本 4.00</h3>
+	* 黑暗时代！<br>
+	* 推广卡片：使节、总督、墙中村庄<br>
+	* Bug修复和其他改进<br>
+	<h3>Version 3.01</h3>
+	* Fixed UI for smaller screens <br>
+	* Added solitare play <br>
+	* Some more bugfixes 
+	<h3>Version 3.00</h3>
+	* Many gameplay bugfixes <br>
+	* Optimized user interface with tablet support <br>
+	* Compatibility: Android 2.2+
+	<h3>Version 2.05</h3>
+	* Many gameplay bugfixes <br>
+	* We lied about 2.04 -- this actually the last version for Android 1.5 - 2.1
+	 <h3>Version 2.04</h3>
+	* Translation to Dutch <br>
+	* Bugfixes <br>
+	* Last version for Android 1.5 and 1.6
+	<h3>Version 2.03</h3>
+	* Possession! <br>
+	* Additional translations <br>
+	* Many, many bugfixes and enhancements <br> <br>
+	<h3>Version 2.02</h3>
+	* Fix crashes on Android 4.x <br>
+	* More intuitive Moat behavior <br>
+	* Many other bugfixes and enhancements <br> <br>
+	Want greater ability to choose your own kingdom cards?  You can now launch Androminion directly from <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a>!
+	<h3>Version 2.0</h3>
+	It has been a long while in coming, but we hope this update will have been worth the wait!  There are so many changes that we can\'t list them all here, but below are some highlights:<br/><br/>
+	<b><font color="lime">* More expansions!</font></b>  Most of the cards from Alchemy, Prosperity, Cornucopia, and Hinterlands are now available.<br/>
+	<b><font color="lime">* More game options!</font></b>  Chose from various random or preset decks, with 2-4 players.<br/>
+	<b><font color="lime">* More AI options!</font></b>  Introducing new AIs Chuck, Mary, and Sarah.<br/>
+	<b><font color="lime">* More bugfixes!</font></b>  Also more bugs, probably.<br/>
+	* Same great taste!<br/>
+	<font color="lime">~Androminion~现已开源！</font>这些更新如果没有许多成员的帮助将不可能实现，请移步致谢查看他（她）们的名字。你也可以加入！前往Github页面来提交Bug，请求，翻译或是任何其它你感兴趣的想法：<br/><a href="https://github.com/mehtank/androminion">https://github.com/mehtank/androminion</a><br/><br/>]]>
     </string>
     <string name="contrib_menu">致谢</string>
     <string name="contrib_title">贡献者：</string>
@@ -122,6 +188,7 @@
     <string name="village_header">村庄：</string>
     <string name="prince_header">王子：</string>
     <string name="turn_header">： \u0020</string>
+    <string name="turn_header_fleet">\u0020[船队]</string>
     <string name="game_loaded" tools:ignore="TypographyOther">游戏已载入！\n行动，购买和现金\n的数目显示在\n日志里，形式为a/b/(c)</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
     <string name="action_zero">%1$s 行动</string>
