@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="help_supply1">欢迎来到~Androminion~，安卓版的《领土 ~ 皇輿爭霸 ~ Dominion》。这是一个由 Donald X. Vaccarino 制作的屡获大奖的桌游，其实体版由 Rio Grande Games 发行。</string>
-	<string name="help_supply2">如果您不熟悉怎么玩这款游戏，在这里非常建议您在游玩~Androminion~之前先阅读官方说明或者维基百科上的介绍。使用必应或者另一个不存在的搜索引擎（别用百度搜不到的）搜索以下关键词之一即可查阅相关信息：\n\t 皇与争霸 \n\t Dominion Wikipedia \n\t Dominion Strategy</string>
-	<string name="help_supply3">这里是补给区。您可以在这里看到所有本局游戏中可供获取的补给。\n\n倘若您想要查看某张卡更详细的描述？长按那张卡片您就能在弹出的对话框中看到介绍了。\n\n</string>
-	<string name="help_supply4">每张卡的价值在它左侧黄色椭圆内被标明（有时还会有药剂或是红色负债标记），而剩余的张数则位于其名称下方。\n\n如果游戏使用了&lt;禁运令~Embargo&gt;（海国图志），那么每个补给堆上的禁运令指示物数量会在卡右侧黑色椭圆内被标明。\n\n类似地，补给堆上的其他的指示物也会用对应标记在卡的右侧被标明。\n\n如果您不确定一张卡上的标记代表什么，长按卡片亦可以看到详细说明。</string>
+<resources>？
+	<string name="help_supply1">欢迎来到Androminion，非官方安卓版的 《Dominion》（《皇輿爭霸》，或译《领土》）。这是一个由 Donald X. Vaccarino 制作的屡获大奖的桌游，其实体版由 Rio Grande Games 发行。</string>
+	<string name="help_supply2">如果您不熟悉怎么玩这款游戏，建议在游玩Androminion之前先阅读官方说明</string>
+	<string name="help_supply3">这里是补给区。您可以在这里看到所有本局游戏中可以购买的补给。
+		&lt;p&gt;基础宝藏在屏幕的最上方，其下是分数和诅咒。在此之下是每局游戏更换的王国卡。如果有地标和非补给卡，他们会在补给区下展示。&lt;/p&gt;</string>
+	<string name="help_supply4">&lt;p&gt;每张卡的价值在它左侧黄色椭圆内被标明（蓝色表示药剂，红色表示负债）&lt;/p&gt;
+		&lt;p&gt;而剩余的张数则位于其名称下方。&lt;/p&gt;
+		&lt;p&gt;补给堆上的其他的指示物会用对应标记在卡的右侧被标明。&lt;/p&gt;
+		&lt;p&gt;你可以长按卡片来获得看到详细说明。&lt;/p&gt;</string>
 
 	<string name="help_turn1">这里是回合信息区。您可以在这里看到有关每位玩家当前回合的相关信息。</string>
 	<string name="help_turn2">当前正在进行游戏的玩家被加粗显示，而其余玩家按照轮次顺序由上到下依次排列。</string>
-	<string name="help_turn3">玩家昵称右边显示了这是他们进行的第几回合，而下方的三个数字依次代表他们牌堆的数目，手牌的数目和全部拥有的卡牌数目（也包括在所有板块上的那些）。</string>
-	<string name="help_turn4">如果游戏使用了&lt;海盗船~Pirate Ship&gt;（海国图志），那么每个玩家海盗船板块上的指示物数量会在玩家昵称右边红色椭圆内被标明。\n\n类似地，其它属于玩家的指示物也会用对应表及在右边被标明。\n\n如果您不确定某个标记代表什么，长按玩家昵称亦可看到详细说明。</string>
-	<string name="help_turn5">您当前拥有的行动~Action(s)，购买~Buy(s)以及现金~Coin(s)在屏幕左上角处可以看到；而您当前需要进行的操作则可以在回合信息区上方看到。</string>
+	<string name="help_turn3">如果你打开了相关设置，下方的数字将依次代表他们牌堆的数目，手牌的数目、全部拥有的卡牌数目和枫树。</string>
+	<string name="help_turn4">&lt;p&gt;其它属于玩家的指示物也会用对应表及在右边被标明。&lt;/p&gt;
+		&lt;p&gt;如果您不确定某个标记代表什么，长按玩家昵称亦可看到详细说明。&lt;/p&gt;</string>
+	<string name="help_turn5">现有的行动，购买以及现金在屏幕左上角处可以看到；而您当前需要进行的操作则可以在回合信息区上方看到。</string>
 
 	<string name="help_hand1">左侧第一列是您当前的手牌。它们只对您可见。</string>
 	<string name="help_hand2">左侧第二列是当前回合玩家场上（被打出的）卡。它们按照被打出的顺序由上到下依次排列，并对所有玩家可见。</string>
-	<string name="help_hand3">如果因废弃或类似&lt;孤岛~Island&gt;（海国图志）、&lt;档案馆~Archive&gt;（帝国崛起）之类的卡片效果，而导致一些卡片被暂时置于其它地方，它们将在右侧的若干列显示，同时顶部文字会说明每一列的卡是因何种效果而被置于该处。</string>
-	<string name="help_hand4">在某些情形下，这些列表可能会有许多，或是过长。这时候您可以四处移动这些列表以看到完整的信息。</string>
+	<string name="help_hand3">如果一些卡片被置于垫子或其他区域，它们将在右侧的若干列显示，同时顶部文字会说明每一列的卡是因何种效果而被置于该处。被废弃的卡牌将展示在最右侧，并对所有人可见。</string>
+	<string name="help_hand4">在某些情形下，这些列表可能会有许多，或是过长。这时候您可以滑动这些列表以看到完整的信息。</string>
 	<string name="help_hand5">同样地，您可以长按此处的任意一张卡片来看到每张卡的细节。</string>
 	
-	<string name="help_log1">最后，屏幕最下方是全部游戏的滚动历史日志。最左边的一列是有关游戏的信息。依次向右每一列则是每位玩家按照时间先后顺序进行的每一轮的信息。\n\n想要再看依次帮助？没问题，只需要在右上角的目录中查看帮助即可在游戏的任何时刻调出我。</string>
+	<string name="help_log1">最后，屏幕最下方是全部游戏的滚动历史日志。最左边的一列是有关游戏的信息。依次向右每一列则是每位玩家按照时间先后顺序进行的每一轮的信息。
+		&lt;p&gt;想要再看一次帮助？没问题，只需要在右上角的目录中查看帮助即可在游戏的任何时刻调出我。&lt;/p&gt;</string>
 
-	<string name="help_end">那么，祝您好运！尽情享受~Androminion~的乐趣吧。\n\n\n\t\t\t-:ankur \n\t\t\t译者：鳳仙紫</string>
+	<string name="help_end">那么，祝您好运！尽情享受Androminion的乐趣吧。</string>
 
 	<string name="help_next">下一页</string>
 	<string name="help_quit">退出帮助</string>
