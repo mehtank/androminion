@@ -442,7 +442,9 @@ public class VDomPlayerPatrick extends BasePlayer {
 		int min3 = 1000;
 		
 		for (CardPile pile : game.piles.values()) {
-			if ((pile.topCard().equals(Cards.province)) || (pile.topCard().equals(Cards.colony))) {
+            Card top = pile.topCard();
+            
+			if (top != null && (top.equals(Cards.province) || top.equals(Cards.colony))) {
 				if (pile.getCount() < prov_col) {
 					prov_col = pile.getCount();
 				}
