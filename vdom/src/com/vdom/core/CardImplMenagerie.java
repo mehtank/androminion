@@ -103,6 +103,9 @@ public class CardImplMenagerie extends CardImpl {
         case Commerce:
         	commerce(context);
         	break;
+        case Desperation:
+        	desperation(context);
+        	break;
         case Enclave:
         	enclave(context);
         	break;
@@ -312,6 +315,17 @@ public class CardImplMenagerie extends CardImpl {
 		int numGolds = new HashSet<Card>(context.game.getCardsObtainedByPlayer()).size();
 		for (int i = 0; i < numGolds; ++i)
 			context.getPlayer().gainNewCard(Cards.gold, this.getControlCard(), context);
+	}
+	
+	private void desperation(MoveContext context) {
+		context.cantBuy.add(this); // once per turn
+		if (context.game.getPile(Cards.curse).isEmpty()) return;
+		if (context.player.controlPlayer.desperation_shouldGainCurse(context)) {
+			if (Cards.curse.equals(context.player.gainNewCard(Cards.curse, Cards.desperation, context))) {
+				context.buys++;
+				context.addCoins(2, Cards.desperation);
+			}
+		}
 	}
 	
 	private void enclave(MoveContext context) {

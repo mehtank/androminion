@@ -246,6 +246,7 @@
 	
 	<string name="trash_card_from_hand">Trash card from hand</string>
 	<string name="gain_silver">Gain a Silver</string>
+	<string name="gain_curse">Gain a Curse</string>
 	<string name="trash_this">Trash this card</string>
 	<string name="trash_this_gain_another">Trash this card to gain another</string>
 	<string name="trash_castle_from_hand">Trash Castle from hand</string>

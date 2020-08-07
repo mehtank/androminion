@@ -2884,6 +2884,7 @@ public abstract class Player {
     public abstract Card sanctuary_cardToExile(MoveContext context);
     public abstract boolean wayfarer_shouldGainSilver(MoveContext context);
     
+    public abstract boolean desperation_shouldGainCurse(MoveContext context);
     public abstract Card toil_cardToPlay(MoveContext context);
     public abstract TransportOption transport_selectChoice(MoveContext context, TransportOption[] options);
     public abstract Card transport_cardToExile(MoveContext context);

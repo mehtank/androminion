@@ -242,6 +242,7 @@
 	
 	<string name="trash_card_from_hand">Eliminar una carta de tu mano</string>
 	<string name="gain_silver">Ganar una carta de Plata</string>
+	<string name="gain_curse">Ganar una carta de Maldición</string>
 	<string name="trash_this">Eliminar esta carta</string>
 	<string name="trash_this_gain_another">Eliminar esta carta para ganar otra carta</string>
 	<string name="trash_castle_from_hand">Eliminar una carta de Castillo de tu mano</string>

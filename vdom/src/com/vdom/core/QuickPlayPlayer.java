@@ -1266,6 +1266,10 @@ public abstract class QuickPlayPlayer extends BasePlayer {
         return false;
     }
     
+    public boolean shouldAutoPlay_desperation_shouldGainCurse(MoveContext context) {
+    	return true;
+    }
+    
     public boolean shouldAutoPlay_gain_shouldDiscardFromExile(MoveContext context, Card card, int copies) {
     	return (isOnlyVictory(card, this));
     }

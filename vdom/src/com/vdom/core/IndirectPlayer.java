@@ -4568,6 +4568,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean desperation_shouldGainCurse(MoveContext context) {
+    	if(context.isQuickPlay() && shouldAutoPlay_desperation_shouldGainCurse(context)) {
+            return super.desperation_shouldGainCurse(context);
+        }
+    	return selectBoolean(context, Cards.desperation);
+    }
+    
+    @Override
     public boolean huntingLodge_shouldDiscardHand(MoveContext context) {
     	return selectBoolean(context, Cards.huntingLodge);
     }

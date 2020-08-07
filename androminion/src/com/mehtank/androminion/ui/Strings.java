@@ -1606,6 +1606,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.barge))) {
         	strings[1] = getString(R.string.barge_now);
             strings[2] = getString(R.string.barge_next_turn);
+        } else if (cardName.equals(getCardName(Cards.desperation))) {
+        	strings[1] = getString(R.string.gain_curse);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.huntingLodge))) {
         	strings[1] = getString(R.string.huntingLodge_discard);
         	strings[2] = getString(R.string.pass);

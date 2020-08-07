@@ -5483,6 +5483,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean desperation_shouldGainCurse(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
     public boolean huntingLodge_shouldDiscardHand(MoveContext context) {
     	int coinsInHand = getCoinEstimate(context);
     	int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
