@@ -6,12 +6,12 @@
 	<string name="pass_all">全部忽略</string>
 	<string name="card_revealed">%1$s 展示了&lt;%2$s&gt;</string>
 	<string name="card_revealed_from_hand">%1$s 从手牌中展示了&lt;%2$s&gt;</string>
-	<string name="select_from_table_max_treasure">选择一张价值至多为(%1$s)的【宝藏】到%2$s</string>
+	<string name="select_from_table_max_treasure">选择一张价值至多为(%1$s)的【宝藏】%2$s</string>
 	<string name="pawn_option_one">走卒（选择一）：</string>
 	<string name="pawn_option_two">走卒（选择二）：</string>
 	<string name="torturer_option_one">获取一张&lt;诅咒&gt;并将其置入手牌</string>
 	<string name="torturer_option_two">丢弃两张手牌</string>
-	<string name="chancellor_query">将你的卡组放到弃牌堆里</string>
+	<string name="chancellor_query">将你的牌堆放到弃牌堆里</string>
 	<string name="inn_option_one">重洗牌堆</string>
 	<string name="inn_option_two">留在弃牌堆里</string>
 	<string name="tunnel_query">丢弃&lt;隧道&gt;</string>
@@ -45,10 +45,13 @@
 	<string name="card_actions_multiple">+%1$s 行动</string>
 	<string name="card_card_single">+%1$s 手牌</string>
 	<string name="card_cards_multiple">+%1$s 手牌</string>
-	<string name="card_victory_token_single">+(%1$s) 分数指示物</string>
-	<string name="card_victory_tokens_multiple">+(%1$s) 分数指示物</string>
+	<string name="card_victory_token_single">+%1$s 分数指示物</string>
+	<string name="card_victory_tokens_multiple">+%1$s 分数指示物</string>
 	<string name="card_coffers_single">+%1$s 资金</string>
 	<string name="card_coffers_multiple">+%1$s 资金</string>
+	<string name="card_villager_single">+%1$s 村民</string>
+	<string name="card_villagers_multiple">+%1$s 村民</string>
+	<string name="card_linked_stateArtifact">%1$s: %2$s</string>
 	
 	<string name="card_options_header">%1$s 选项</string>
 	<string name="part_play">打出</string>
@@ -77,11 +80,18 @@
 	<string name="select_from_table_exact_except">%3$s一张除了&lt;%1$s&gt;以外，价值恰好等于(%2$s)的卡</string>
 	<string name="select_from_table_max">%2$s一张价值至多为(%1$s)的卡</string>
 	<string name="select_from_table_max_events">%2$s一张价值至多为(%1$s)的事件</string>
-	<string name="select_from_table_max_cards_events">%2$s一张价值至多为(%1$s)的卡或者事件</string>
+	<string name="select_from_table_max_projects">%2$s一张价值至多为(%1$s)的工程</string>
+	<string name="select_from_table_max_cards_events">%2$s一张价值至多为(%1$s)的卡或事件</string>
+	<string name="select_from_table_max_cards_projects">%2$s一张价值至多为(%1$s)的卡或工程</string>
+	<string name="select_from_table_max_events_projects">%2$s一张价值至多为(%1$s)的事件或工程</string>
+	<string name="select_from_table_max_cards_events_projects">%2$s一张价值至多为(%1$s)的卡、事件或工程</string>
 	<string name="select_from_table_max_non_vp">%2$s一张价值至多为(%1$s)的非【分数】卡</string>
 	<string name="select_from_table_max_non_vp_action">%2$s一张价值至多为(%1$s)的非【分数】的【动作】</string>
 	<string name="select_from_table_max_vp">%2$s一张价值至多为(%1$s)的【分数】</string>
 	<string name="select_from_table_max_action">%2$s一张价值至多为(%1$s)的【动作】</string>
+	<string name="select_from_table_max_action_non_duration">%2$s一张价值至多为(%1$s)的非持续动作</string>
+	<string name="select_from_table_max_action_non_duration_non_command">%2$s一张价值至多为(%1$s)的非持续非命令动作</string>
+	<string name="select_from_table_max_action_non_command">%2$s一张价值至多为(%1$s)的非命令动作</string>
 	<string name="select_from_table_max_except">%3$s一张除了&lt;%1$s&gt;以外，价值至多为(%2$s)的卡</string>
 	<string name="select_from_table_between">%3$s一张价值介于(%1$s)和(%2$s)之间的卡</string>
 	<string name="select_from_table_min">%2$s一张价值至少为(%1$s)的卡</string>
@@ -90,7 +100,7 @@
 	<string name="select_from_table_less_spirit">%2$s一张价值小于(%1$s)的【精灵】</string>
 	<string name="select_from_table_less_of_types">%3$s一张价值小于(%2$s)的【%1$s】</string>
 		
-	<string name="select_one_card_from_hand">%1$s一张手牌</string>
+	<string name="select_one_card_from_hand">选择一张手牌%1$s</string>
 	<string name="select_one_of_types_card_from_hand">（从手牌中）%2$s一张【%1$s】</string>
 	<string name="select_up_to_x_cards_from_hand">%2$s至多%1$s张手牌</string>
 	<string name="select_exactly_x_cards_from_hand">%2$s恰好%1$s张手牌</string>
@@ -127,7 +137,7 @@
 	<string name="select_up_to_x_cards_from_played">%2$s至多%1$s张你场上的卡</string>
 	<string name="select_up_to_x_treasure_cards_from_played">%2$s至多%1$s张你场上的【宝藏】</string>
 	<string name="select_exactly_x_cards_from_played">%2$s至多%1$s张你场上的卡</string>
-	<string name="select_up_to_x_different_cards_from_played">%2$s至多%1$s你场上的各不相同的卡</string>
+	<string name="select_up_to_x_different_cards_from_played">%2$s至多%1$s张你场上的各不相同的卡</string>
 	
 	<string name="reaction_query">选择要展示的反应卡</string>
 	<string name="bane_option_one">展示【祸根】</string>
@@ -169,19 +179,23 @@
 	<string name="PlayedCard">已结算</string>
 	<string name="PlayingDurationAction">此【持续】自动生效：</string>
 	<string name="BuyingCard">购买 %1$s</string>
-	<string name="GuildsTokenObtained">获得资金</string>
-	<string name="GuildsTokenSpend">使用资金</string>
+	<string name="GuildsTokenObtained">获得%1$s个资金</string>
+	<string name="GuildsTokenSpend">使用%1$s个资金</string>
+	<string name="VillagersSpend">使用%1$s个村民</string>
 	<string name="OverpayForCard">超额支付</string>
-	<string name="DebtTokensObtained">获得负债指示物(%1$s)个</string>
-	<string name="DebtTokensPaidOff">偿还负债指示物(%1$s)个</string>
-	<string name="DebtTokensPutOnPile">放置负债指示物(%1$s)个到</string>
-	<string name="DebtTokensTakenFromPile">从此处移除负债指示物(%1$s)个：</string>
+	<string name="DebtTokensObtained">获得负债指示物%1$s个</string>
+	<string name="DebtTokensPaidOff">偿还负债指示物%1$s个</string>
+	<string name="DebtTokensPutOnPile">放置负债指示物%1$s个到</string>
+	<string name="DebtTokensTakenFromPile">从此处移除负债指示物%1$s个：</string>
 	<string name="NoBuy">（没有购买）</string>
-	<string name="VPTokensObtained">获得(%1$s)个分数指示物</string>
-	<string name="VPTokensPutOnPile">放置分数指示物(%1$s)个到</string>
-	<string name="VPTokensTakenFromPile">从此处移除分数指示物(%1$s)个</string>
+	<string name="VPTokensObtained">获得%1$s个分数指示物</string>
+	<string name="VPTokensPutOnPile">放置分数指示物%1$s个到</string>
+	<string name="VPTokensTakenFromPile">从此处移除分数指示物%1$s个</string>
 	<string name="MountainPassBidPass">不出价给</string>
-	<string name="MountainPassBid">出价(%1$s)给</string>
+	<string name="MountainPassBid">出价%1$s给</string>
+	<string name="VillagersObtained">获得%1$s个村民</string>
+	<string name="SinisterPlotAdd">向阴谋诡计上添加了%1$s个标记</string>
+	<string name="SinisterPlotRemove">从阴谋诡计上移除了%1$s个标记</string>
 	<string name="DeckReplenished">重洗牌堆</string>
 	<string name="PlayerAttacking">攻击</string>
 	<string name="PlayerDefended">抵御</string>
@@ -403,19 +417,19 @@
 	
 	<string name="saboteur_part">复原</string>
 	
-	<string name="mandarin_part">置于牌堆顶：</string>
+	<string name="mandarin_part">置于牌堆顶</string>
 	
-	<string name="bureaucrat_part">置于牌堆顶：</string>
+	<string name="bureaucrat_part">置于牌堆顶</string>
 	
-	<string name="haven_part">置于一边[避风港]：</string>
+	<string name="haven_part">置于一边[避风港]</string>
 	
-	<string name="gear_part">置于一边[装备]：</string>
+	<string name="gear_part">置于一边[装备]</string>
   
-	<string name="save_part">置于一边[储蓄]：</string>
+	<string name="save_part">置于一边[储蓄]</string>
 	
-	<string name="church_part">置于一边[教会]：</string>
+	<string name="church_part">置于一边[教会]</string>
   	
-	<string name="island_part">置于孤岛板块上：</string>
+	<string name="island_part">置于孤岛板块上</string>
 
 	<string name="masquerade_part">向左传</string>
 
@@ -470,7 +484,8 @@
 	<string name="putback_option_one">【宝藏】[草药师]</string>
 	<string name="putback_option_two">【动作】[密谋]</string>
 	<string name="putback_option_all">全部放回牌堆顶</string>
-	<string name="deck_from_discard_query">从弃牌堆选择卡放到牌堆顶的[%1$s]</string>
+	<string name="deck_from_discard_query">从弃牌堆选择卡放到牌堆顶[%1$s]</string>
+	<string name="hand_from_discard_query">从弃牌堆选择卡放到手中[%1$s]</string>
 
   <string name="game_over_vps">分</string>
   <string name="victory_tokens">分数指示物</string>
@@ -491,7 +506,8 @@
   <string name="doctor_overpay_option_two">丢弃</string>
   <string name="doctor_overpay_option_three">放回</string>
   <string name="herald_overpay_query">选择放回牌堆顶的卡</string>
-  <string name="spend_guilds_coin_tokens">使用多少资金？</string>
+  <string name="spend_guilds_coin_tokens">使用资金</string>
+  <string name="spend_villager_tokens">使用村民来获得行动</string>
   <string name="buy_overpay">超额支付？</string>
   <string name="buy_overpay_by_potions">用药剂超额支付？</string>
   <string name="pay_off_debt">偿还负债</string>
@@ -540,7 +556,24 @@
   <string name="the_skys_gift_part">丢弃来获取&lt;黄金&gt;[%1$s]：</string>
   <string name="necromancer_query">选择场上要废弃的【动作】[%1$s]</string>
   <string name="discard_card_query">选择要丢弃的卡[%1$s]</string>
-  
+  <string name="villager_query">使用村民来获得+1行动？</string>
+  <string name="villager_option">使用</string>
+  <string name="ducat_trash_copper">从手牌中废弃铜币</string>
+  <string name="oldWitch_trash_curse">从手牌中废弃诅咒</string>
+  <string name="improve_query">从场上废弃一张行动牌，以获得一张价值+(1)的牌[%1$s]</string>
+  <string name="pageant_pay_coin_for_coffers">支付(1)现金来获得资金</string>
+  <string name="scepter_add_coins">+(2)现金</string>
+  <string name="scepter_replay_action">重新使用一张场上本回合打出的牌</string>
+  <string name="scepter_query">选择要重新使用的牌</string>
+  <string name="sinisterPlot_add_token">放置标记</string>
+  <string name="sinisterPlot_remove_token_zero">移除标记 (%1$s)</string>
+  <string name="sinisterPlot_remove_tokens_one">移除所有标记并抽+%1$s张牌</string>
+  <string name="sinisterPlot_remove_tokens_multiple">移除所有标记并抽+%1$s张牌</string
+  <string name="silos_query">选择弃掉铜币并抽牌的数量 [%1$s]</string>
+  <string name="starChart_query">选择手牌放置到牌堆顶 [%1$s]</string>
+  <string name="set_aside_for_next_turn">将此牌置于一边，在下一回合加入手中 [%1$s]</string>
+  <string name="set_aside">置于一边</string>
+	
   <string name="place_stash_query">把&lt;藏匿&gt;放到牌堆里</string>
   <string name="place_stashes_query">把%1$s张&lt;藏匿&gt;放到牌堆里</string>
   <string name="stash_on_top">置于牌堆顶</string>
@@ -567,6 +600,9 @@
   <string name="pixie_trash_for_double_boon">废弃这张卡来接受%1$s两次（2x [%2$s]）</string>
   <string name="sacredGrove_receive_boon">接受%1$s（%2$s）</string>
   <string name="boon_name_and_desc">%1$s（%2$s）</string>
-
+  <string name="treasurer_trash_treasure">从手牌中废弃宝藏</string>
+  <string name="treasurer_gain_treasure_from_trash">从废弃牌堆中获取宝藏，并放置到手中</string>
+  <string name="treasurer_take_key">拿取钥匙</string>
+  <string name="innovation_set_aside_to_play">将%1$s置于一边并立刻打出</string>
   <string name="card_played_as_card">%1$s（作为%2$s被打出）</string>
 </resources>
