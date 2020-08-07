@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>？
 	<string name="help_supply1">欢迎来到Androminion，非官方安卓版的 《Dominion》（《皇輿爭霸》，或译《领土》）。这是一个由 Donald X. Vaccarino 制作的屡获大奖的桌游，其实体版由 Rio Grande Games 发行。</string>
-	<string name="help_supply2">如果您不熟悉怎么玩这款游戏，建议在游玩Androminion之前先阅读官方说明</string>
+	<string name="help_supply2">如果您不熟悉怎么玩这款游戏，建议在游玩Androminion之前先阅读官方说明。</string>
 	<string name="help_supply3">这里是补给区。您可以在这里看到所有本局游戏中可以购买的补给。
 		&lt;p&gt;基础宝藏在屏幕的最上方，其下是分数和诅咒。在此之下是每局游戏更换的王国卡。如果有地标和非补给卡，他们会在补给区下展示。&lt;/p&gt;</string>
 	<string name="help_supply4">&lt;p&gt;每张卡的价值在它左侧黄色椭圆内被标明（蓝色表示药剂，红色表示负债）&lt;/p&gt;
