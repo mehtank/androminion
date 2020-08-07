@@ -44,8 +44,9 @@
 	由发行方Rio Grande Games要求，我们从应用商店移除了~Androminion~。请不要把这个程序在任何其它公开的应用商店发布，因为今后将会有一个官方的Dominion程序。<br><br> 
 	<h3>版本 10.0</h3>
 	* 动物世界! <br>
-	<h3>版本9.03</h3>
+	<h3>版本9.06</h3>
  	* 文艺复兴! <br>
+	* 推广卡片：船长、教会
 	<h3>版本 8.10</h3> 
 	* 午夜狂曲！<br>
 	* 推广卡片：拆除
@@ -117,6 +118,8 @@
     <string name="game_type_preset">预设</string>
     <string name="game_type_last">重复上一次游玩</string>
     <string name="game_type_specified">指定要玩的卡</string>
+    <string name="select_non_kingdom_cards">非王国卡</string>
+    <string name="random_non_kingdom_default">默认</string>
     <string name="random_all_cards">全部</string>
     <string name="include_platinum_colony">白金&amp;殖民地</string>
     <string name="include_shelters">避难所：</string>
@@ -124,13 +127,26 @@
     <string name="include_cards_yes">使用</string>
     <string name="include_cards_no">不要使用</string>
     <string name="include_cards_percent">%1$s%%概率</string>
+    <string name="random_events_projects_landmarks">事件、工程和地标</string>
+    <string name="combine_sideways_cards">总数限制</string>
+    <string name="random_sideways_cards_amount">数量: </string>
+    <string name="keep_sideways_cards_with_expansion">绑定原扩展</string>
     <string name="random_include_events">事件数量：</string>
+    <string name="random_sideways_none">不使用</string>
     <string name="random_events_none">不使用</string>
-    <string name="random_events_random">随机</string>
-    <string name="random_include_landmarks">地标数量：</string>
+    <string name="random_projects_none">不使用</string>
     <string name="random_landmarks_none">不使用</string>
-    <string name="random_landmarks_random">随机</string>
-    <string name="random_include_cards">包括哪些拓展包的王国卡？</string>
+    <string name="random_sideways_max_x">最多 %1$s</string>
+    <string name="random_include_projects">工程数量：</string>
+    <string name="random_include_landmarks">地标数量：</string>
+    <string name="select_kingdom_cards">包括以下拓展包的王国卡：</string>
+    <string name="random_expansions">扩展</string>
+    <string name="random_expansions_select_all">所有选择的扩展</string>
+    <string name="random_expansions_select_x">%1$s</string>
+    <string name="random_choose_from_expansions">选择方式</string>
+    <string name="random_expansion_allocation_random">随机</string>
+    <string name="random_expansion_allocation_even">平均</string>
+    <string name="random_expansion_allocation_proportional">按比例</string>
     <string name="select_players">选择玩家：</string>
 	<string name="random_players">随机</string>
 	<string name="probability_2_players">两人游戏概率</string>
@@ -143,6 +159,7 @@
     <string name="card_set_cards">使用的卡： %1$s</string>
     <string name="card_set_bane">祸根： %1$s</string>
     <string name="card_set_events">事件： %1$s</string>
+    <string name="card_set_projects">工程: %1$s</string>
     <string name="card_set_landmarks">地标： %1$s</string>
     <string name="card_set_plat_colony">白金&amp;殖民地</string>
     <string name="card_set_no_plat_colony">没有白金&amp;殖民地</string>
@@ -217,10 +234,15 @@
 	<string name="journey_token_initial">\u0020\u0020旅\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">动</string>
 	<string name="token_plus_one_buy_initial">买</string>
-	<string name="deluded_initial">\u0020\u0020轻\u0020\u0020</string>
-	<string name="envious_initial">\u0020\u0020嫉\u0020\u0020</string>
-	<string name="lostInTheWoods_initial">\u0020\u0020迷\u0020\u0020</string>
+	<string name="deluded_initial">\u0020\u0020信\u0020\u0020</string>
+	<string name="envious_initial">\u0020\u0020妒\u0020\u0020</string>
+	<string name="lostInTheWoods_initial">\u0020\u0020森\u0020\u0020</string>
 	<string name="druid_boons_header">- 置于一边的祝福 -</string>
+	<string name="flag_initial">\u0020\u0020\u2691\u0020\u0020</string>
+	<string name="horn_initial">\u0020\u0020号\u0020\u0020</string>
+	<string name="key_initial">\u0020\u0020钥\u0020\u0020</string>
+	<string name="lantern_initial">\u0020\u0020灯\u0020\u0020</string>
+	<string name="treasureChest_initial">\u0020\u0020箱\u0020\u0020</string>
 	<string name="token_header">- 指示物 -</string>
 	<string name="token_plus_one_card">+1 手牌</string>
 	<string name="token_plus_one_action">+1 行动</string>
@@ -228,6 +250,7 @@
 	<string name="token_plus_one_coin">+(1) 现金</string>
 	<string name="token_minus_2_cost">-(2) 价值</string>
 	<string name="token_trashing">废弃</string>
+	<string name="token_projectCube">工程标记</string>
 	<string name="token_colon">：\u0020</string>
 	<string name="token_separator">，\u0020</string>
 	<string name="token_embargo">禁运令</string>
@@ -239,20 +262,27 @@
 	<string name="status_turn_number">回合%1$s%2$s</string>
 	<string name="status_current_turn">\u0020（当前回合）</string>
 	<string name="status_deck_size">牌堆中的卡： %1$s%2$s</string>
-	<string name="status_stash_on_deck">\u0020（&lt;藏匿&gt;在牌堆顶）</string>
+	<string name="status_stash_on_deck">\u0020（藏匿在牌堆顶）</string>
 	<string name="status_hand_size">手牌： %1$s</string>
-	<string name="status_hand_stashes">手牌中的&lt;藏匿&gt;： %1$s</string>
+	<string name="status_hand_stashes">手牌中的藏匿： %1$s</string>
 	<string name="status_total_cards">总卡数： %1$s</string>
+	<string name="status_vp">分数：%1$s</string>
 	<string name="status_has_minus_coin_token">拥有~-(1) 现金~指示物</string>
 	<string name="status_has_minus_card_token">拥有~-1 抽卡~指示物</string>
 	<string name="status_journey_token_up">旅行指示物正面朝上</string>
 	<string name="status_journey_token_down">旅行指示物背面朝上</string>
-	<string name="status_has_deluded">拥有&lt;轻信&gt;（购买阶段开始时归还，这一回合不能购买【动作】）</string>
-	<string name="status_has_envious">拥有&lt;嫉妒&gt;（购买阶段开始时归还，你这一回合&lt;银币&gt;和&lt;黄金&gt;均只能提供(1)现金）</string>
-	<string name="status_has_lostInTheWoods">拥有&lt;迷失在林中&gt;（在你的回合开始时，你可以丢弃一张卡来接受一个祝福。）</string>
-	<string name="status_has_miserable">拥有&lt;悲惨&gt; （-(2)分）</string>
-	<string name="status_has_twiceMiserable">拥有&lt;双重悲惨&gt; （-(4)分）</string>
+	<string name="status_has_deluded">拥有轻信（购买阶段开始时归还，这一回合不能购买【动作】）</string>
+	<string name="status_has_envious">拥有嫉妒（购买阶段开始时归还，你这一回合打出的银币和黄金均只能提供(1)现金）</string>
+	<string name="status_has_lostInTheWoods">拥有迷失在林中（在你的回合开始时，你可以丢弃一张卡来接受一个祝福。）</string>
+	<string name="status_has_miserable">拥有悲惨 （-2分）</string>
+	<string name="status_has_twiceMiserable">拥有双重悲惨 （-4分）</string>
+	<string name="status_has_flag">拥有旗帜（清理阶段抽牌时额外抽一张）</string>
+	<string name="status_has_horn">拥有号角（每回合一次，当你从场上丢弃边境守卫时，你可以将它放到你的牌库顶）</string>
+	<string name="status_has_key">拥有钥匙 （当你的回合开始时，+(1)现金）</string>
+	<string name="status_has_lantern">拥有灯笼（你的边境守卫将展示3张牌，弃置2张）</string>
+	<string name="status_has_treasureChest">拥有财宝箱（购买阶段结束时，获得一个黄金）</string>
 	<string name="status_coin_tokens">资金板块上的指示物：%1$s个</string>
+	<string name="status_villager_tokens">村民：%1$s个</string>
 	<string name="status_pirate_tokens">海盗船板块上的指示物：%1$s个</string>
 	<string name="status_debt_tokens">负债指示物：%1$s个</string>
 	<string name="status_victory_tokens">分数指示物：%1$s个</string>
