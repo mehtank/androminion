@@ -175,6 +175,7 @@ public class Game {
     public static int victoryCardPileSize = 12;
 
     ArrayList<Card>[] cardsObtainedLastTurn;
+    ArrayList<Card>[] allCardsObtainedLastTurn;
     static int playersTurn;
 
     //    public UI ui;
@@ -1187,6 +1188,7 @@ public class Game {
         }
         
         cardsObtainedLastTurn[playersTurn].clear();
+        allCardsObtainedLastTurn[playersTurn].clear();
         if (consecutiveTurnCounter == 1 && !isFleetRound)
             player.newTurn();
         
@@ -3037,8 +3039,10 @@ public class Game {
     protected void initPlayers(int numPlayers, boolean isRandom) throws ExitException {
         players = new Player[numPlayers];
         cardsObtainedLastTurn = new ArrayList[numPlayers];
+        allCardsObtainedLastTurn = new ArrayList[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
             cardsObtainedLastTurn[i] = new ArrayList<Card>();
+            allCardsObtainedLastTurn[i] = new ArrayList<Card>();
         }
 
         ArrayList<String[]> randomize = new ArrayList<String[]>();
@@ -4134,6 +4138,7 @@ public class Game {
                     if (event.getPlayer() == players[playersTurn]) {
                         cardsObtainedLastTurn[playersTurn].add(event.card);
                     }
+                    allCardsObtainedLastTurn[playersTurn].add(event.card);
                     
                     if (cardsObtainedLastTurn[playersTurn].size() == 2) {
                     	if (cardInGame(Cards.labyrinth)) {
@@ -5163,6 +5168,10 @@ public class Game {
     
     public ArrayList<Card> getCardsObtainedByPlayer() {
         return getCardsObtainedByPlayer(playersTurn);
+    }
+    
+    public ArrayList<Card> getCardsObtainedThisTurn() {
+        return allCardsObtainedLastTurn[playersTurn];
     }
     
     public ArrayList<Card> getActionCardsObtainedByPlayer() {

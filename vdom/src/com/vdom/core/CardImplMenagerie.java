@@ -62,6 +62,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Supplies:
 			supplies(game, context, currentPlayer);
 			break;
+		case Wayfarer:
+			wayfarer(game, context, currentPlayer);
+			break;
 		case WayOfTheCamel:
 			wayOfTheCamel(game, context, currentPlayer);
 			break;
@@ -281,6 +284,12 @@ public class CardImplMenagerie extends CardImpl {
 	
 	private void supplies(Game game, MoveContext context, Player player) {
 		player.gainNewCard(Cards.horse, getControlCard(), context);
+	}
+	
+	private void wayfarer(Game game, MoveContext context, Player player) {
+		if (game.getPile(Cards.silver).isEmpty()) return;
+		if (player.controlPlayer.wayfarer_shouldGainSilver(context))
+			player.gainNewCard(Cards.silver, getControlCard(), context);
 	}
 	
 	private void alliance(MoveContext context) {

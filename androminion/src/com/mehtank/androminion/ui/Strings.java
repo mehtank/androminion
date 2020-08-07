@@ -1606,6 +1606,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.huntingLodge))) {
         	strings[1] = getString(R.string.huntingLodge_discard);
         	strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.wayfarer))) {
+        	strings[1] = getString(R.string.gain_silver);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.prince))) {
             strings[1] = getString(R.string.set_aside);
             strings[2] = getString(R.string.pass);

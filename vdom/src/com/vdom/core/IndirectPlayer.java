@@ -4591,4 +4591,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card transport_cardToTopdeckFromExile(MoveContext context, Card[] cards) {
     	return cards[selectOption(context, Cards.transport, cards)];
     }
+    
+    @Override
+    public boolean wayfarer_shouldGainSilver(MoveContext context) {
+    	return selectBoolean(context, Cards.wayfarer);
+    }
 }

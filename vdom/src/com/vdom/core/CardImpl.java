@@ -603,14 +603,33 @@ public class CardImpl implements Card, Comparable<Card>{
         }
         
         if (this.equals(Cards.wayfarer)) {
-        	//TODO - equals cost of last gained non-wayfarer card this turn
-        	//       Need to track list of all cards gained during last turn, not just last player's gains
+        	Card nonWayfarer = getLastNonMatching(Cards.wayfarer, context.game.getCardsObtainedThisTurn());
+        	if (nonWayfarer != null) {
+        		return nonWayfarer.getCost(context, buyPhase);
+        	}
         }
         
         return finalCost;
     }
     
-    public int getDebtCost(MoveContext context) {
+    private Card getLastNonMatching(Card matchMe, ArrayList<Card> cards) {
+		for (int i = cards.size() - 1; i >= 0; i--) {
+			Card c = cards.get(i);
+			if (c.equals(matchMe)) {
+				continue;
+			}
+			return c;
+		}
+		return null;
+	}
+
+	public int getDebtCost(MoveContext context) {
+		if (this.equals(Cards.wayfarer) && context != null) {
+        	Card nonWayfarer = getLastNonMatching(Cards.wayfarer, context.game.getCardsObtainedThisTurn());
+        	if (nonWayfarer != null) {
+        		return nonWayfarer.getDebtCost(context);
+        	}
+        }
     	return debtCost;
     }
     
@@ -1078,6 +1097,12 @@ public class CardImpl implements Card, Comparable<Card>{
     }
 
     public boolean costPotion() {
+    	if (this.equals(Cards.wayfarer) && Game.players != null && Game.players[Game.playersTurn] != null) {
+        	Card nonWayfarer = getLastNonMatching(Cards.wayfarer, Game.players[Game.playersTurn].game.getCardsObtainedThisTurn());
+        	if (nonWayfarer != null) {
+        		return nonWayfarer.costPotion();
+        	}
+        }
         return costPotion;
     }
     

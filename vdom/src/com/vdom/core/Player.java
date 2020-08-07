@@ -1371,7 +1371,7 @@ public abstract class Player {
         			it.remove();
         	}
         	for(Player p : game.getPlayersInTurnOrder()) {
-        		if (p == this) continue;
+        		if (p == this || p == null) continue;
         		Map<Card, Integer> otherTreasureCounts = p.getTreasureCardCounts();
         		for (Iterator<Map.Entry<Card, Integer>> it = myWinningTreasures.entrySet().iterator(); it.hasNext(); ) {
         			Map.Entry<Card, Integer> entry = it.next();
@@ -2880,6 +2880,7 @@ public abstract class Player {
     public abstract Card camelTrain_cardToExile(MoveContext context);
     public abstract boolean huntingLodge_shouldDiscardHand(MoveContext context);
     public abstract Card sanctuary_cardToExile(MoveContext context);
+    public abstract boolean wayfarer_shouldGainSilver(MoveContext context);
     
     public abstract Card toil_cardToPlay(MoveContext context);
     public abstract TransportOption transport_selectChoice(MoveContext context, TransportOption[] options);

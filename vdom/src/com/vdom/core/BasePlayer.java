@@ -5515,4 +5515,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card transport_cardToExile(MoveContext context) {
     	return bestCardInPlay(context, Integer.MAX_VALUE, false, false, true, true, true);
     }
+    
+    @Override
+    public boolean wayfarer_shouldGainSilver(MoveContext context) {
+    	// TODO how do we determine when an additional Silver will hurt?
+    	return true;
+    }
 }
