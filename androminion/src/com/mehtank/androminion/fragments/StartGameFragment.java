@@ -340,9 +340,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				GameType g = ((GameTypeItem) mPresetSpinner.getSelectedItem()).gameType;
-				CardSet cardSet = CardSet.getCardSetMap().get(g);
-				mGameCards.setText(Strings.format(R.string.card_set_cards, Strings.getCardSetDescription(cardSet)));
+                updateCards();
 			}
 
 			@Override
@@ -694,14 +692,26 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 
 		int presetVisibility = mGameType == TypeOptions.PRESET ? View.VISIBLE : View.GONE;
 		mPresetSpinner.setVisibility(presetVisibility);
-		mGameCards.setVisibility(presetVisibility);
+        
+        int cardsVisibility = mGameType == TypeOptions.RANDOM ? View.GONE : View.VISIBLE;
+		mGameCards.setVisibility(cardsVisibility);
 
 		int includeCardsVisibility = mGameType == TypeOptions.PRESET || mGameType == TypeOptions.RANDOM ? View.VISIBLE : View.GONE;
 		mPlatColonyLayout.setVisibility(includeCardsVisibility);
 		mSheltersLayout.setVisibility(includeCardsVisibility);
-
 	}
 
+    private void updateCards() {
+        if (mGameType == TypeOptions.PRESET) {
+            GameType g = ((GameTypeItem) mPresetSpinner.getSelectedItem()).gameType;
+            CardSet cardSet = CardSet.getCardSetMap().get(g);
+            mGameCards.setText(Strings.format(R.string.card_set_cards, Strings.getCardSetDescription(cardSet)));
+        } else if (mGameType == TypeOptions.LAST) {
+            mGameCards.setText(Strings.format(R.string.card_set_cards, Strings.getCardSetDescription(mLastCards)));
+        } else if (mGameType == TypeOptions.SPECIFIED) {
+            mGameCards.setText(Strings.format(R.string.card_set_cards, Strings.getCardSetDescription(mCardsPassOnStartup)));
+        }
+    }
 	private void updatePlayersVisibility() {
 		mRandomPlayersLayout.setVisibility(mRandomPlayersCheckbox.isChecked() ? View.VISIBLE : View.GONE);
 		for (LinearLayout layout : mPlayersLayout) {
@@ -1058,6 +1068,7 @@ public class StartGameFragment extends SherlockFragment implements OnClickListen
 			mGameType = TypeOptions.SPECIFIED;
 		}
 		updateVisibility();
+        updateCards();
 	}
 
 	@Override

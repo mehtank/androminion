@@ -112,7 +112,136 @@ public class CardSet {
 		this.obelisk = null;
 		this.druidBoons = null;
 	}
+    
+    private CardSet(String[] list) {
+        this.cards = new ArrayList<Card>();
+        this.baneCard = null;
+        this.isRandom = false;
+        this.usePlatColony = UseOptionalCards.Random;
+        this.useShelters = UseOptionalCards.Random;
+        this.obelisk = null;
+        this.druidBoons = null;
+
+        for(String cardName : list) {
+            Card card = null;
+            boolean bane = false;
+            boolean obelisk = false;
+            
+            if(cardName.startsWith(Game.BANE)) {
+                bane = true;
+                cardName = cardName.substring(Game.BANE.length());
+            }
+            if(cardName.startsWith(Game.OBELISK)) {
+                obelisk = true;
+                cardName = cardName.substring(Game.OBELISK.length());
+            }
+            if(cardName.startsWith(Game.BLACKMARKET)) {
+                continue;
+            }
+            if (cardName.startsWith(Game.DRUID_BOON)) {
+                cardName = cardName.substring(Game.DRUID_BOON.length());
+                String s = cardName.replace("/", "").replace(" ", "").replace("'", "");
+                for (Card c : Cards.boonCards) {
+                    if(c.getSafeName().equalsIgnoreCase(s)) {
+                        card = c;
+                        break;
+                    }
+                }
+                if (card != null)
+                    druidBoons.add(card.instantiate());
+                continue;
+            }
+            String s = cardName.replace("/", "").replace(" ", "");
+            for (Card c : Cards.actionCards) {
+                if(c.getSafeName().equalsIgnoreCase(s)) {
+                    card = c;
+                    break;
+                }
+            }
+            for (Card c : Cards.eventsCards) {
+                if(c.getSafeName().equalsIgnoreCase(s)) {
+                    card = c;
+                    break;
+                }
+            }
+            for (Card c : Cards.projectCards) {
+                if(c.getSafeName().equalsIgnoreCase(s)) {
+                    card = c;
+                    break;
+                }
+            }
+            for (Card c : Cards.landmarkCards) {
+                if(c.getSafeName().equalsIgnoreCase(s)) {
+                    card = c;
+                    break;
+                }
+            }
+            // Handle split pile / knights cards being passed in incorrectly
+            for (Card c : Cards.variablePileCards) {
+                if(c.getSafeName().equalsIgnoreCase(s)) {
+                    card = c;
+                    break;
+                }
+            }
+            for (Card c : Cards.castleCards) {
+                if(c.getSafeName().equalsIgnoreCase(s)) {
+                    card = c;
+                    break;
+                }
+            }
+            for (Card c : Cards.knightsCards) {
+                if(c.getSafeName().equalsIgnoreCase(s)) {
+                    card = c;
+                    break;
+                }
+            }
+            if (card != null && Cards.variablePileCardToRandomizer.containsKey(card)) {
+                card = Cards.variablePileCardToRandomizer.get(card);
+            }
+
+            if(card != null && bane) {
+                this.baneCard = card;
+            }
+            if(card != null && obelisk) {
+                this.obelisk = card;
+            }
+            if (cardName.equalsIgnoreCase("Knights")) {
+                card = Cards.virtualKnight;
+            }
+
+            if (card != null && !cards.contains(card)) {
+                cards.add(card);
+            } else if ( s.equalsIgnoreCase(Cards.curse.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.estate.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.duchy.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.province.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.copper.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.silver.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.potion.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.gold.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.diadem.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.followers.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.princess.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.trustySteed.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.bagOfGold.getSafeName()) ) {
+                // do nothing
+            } else if ( s.equalsIgnoreCase(Cards.platinum.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.colony.getSafeName()) ) {
+                usePlatColony = UseOptionalCards.Use;
+            } else if (s.equalsIgnoreCase("Shelter") ||
+                       s.equalsIgnoreCase("Shelters") ||
+                       s.equalsIgnoreCase(Cards.hovel.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.overgrownEstate.getSafeName()) ||
+                       s.equalsIgnoreCase(Cards.necropolis.getSafeName()) ) {
+                useShelters = UseOptionalCards.Use;
+            }
+        }
+    }
 	
+    public static CardSet getCardSet(String[] list) {
+        return new CardSet(list);
+    }
+    
 	public static CardSet getCardSet(final GameType type, int count) {
 		return getCardSet(type, count, null, null, 0, ExpansionAllocation.Random, 0, 0, 0, false, false, false);
 	}

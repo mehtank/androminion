@@ -2335,6 +2335,10 @@ public class Strings {
         return time;
     }
 
+    public static String getCardSetDescription(String[] list) {
+        return getCardSetDescription(CardSet.getCardSet(list));
+    }
+    
 	public static String getCardSetDescription(CardSet cardSet) {
 		ArrayList<String> events = new ArrayList<String>();
 		ArrayList<String> projects = new ArrayList<String>();
