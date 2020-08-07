@@ -579,6 +579,8 @@
   <string name="set_aside_for_next_turn">Set aside for next turn [%1$s]</string>
   <string name="take_artifact">Take %1$s</string>
   
+  <string name="animalFair_pay_cost">Pay cost</string>
+  <string name="animalFair_pay_by_trashing">Trash Action card instead</string>
   <string name="barge_now">+3 Cards and +1 Buy now</string>
   <string name="barge_next_turn">At start of next turn</string>
   <string name="huntingLodge_discard">Discard hand for +5 Cards</string>

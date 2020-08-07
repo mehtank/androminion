@@ -4535,6 +4535,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean animalFair_shouldPayCost(MoveContext context) {
+    	return selectBoolean(context, Cards.animalFair);
+    }
+    
+    @Override
+    public Card animalFair_actionToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isAction()
+                .setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.animalFair);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public boolean barge_shouldReceiveNow(MoveContext context) {
         return selectBoolean(context, Cards.barge);
     }

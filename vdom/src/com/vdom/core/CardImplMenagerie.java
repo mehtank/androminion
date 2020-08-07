@@ -20,6 +20,9 @@ public class CardImplMenagerie extends CardImpl {
 	@Override
 	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
 		switch(getKind()) {
+		case AnimalFair:
+			animalFair(game, context, currentPlayer);
+			break;
 		case Barge:
 			barge(game, context, currentPlayer, isThronedEffect);
 			break;
@@ -148,6 +151,10 @@ public class CardImplMenagerie extends CardImpl {
 	    // card left play - stop any impersonations
 	    this.getControlCard().stopImpersonatingCard();
 	    this.getControlCard().stopInheritingCardAbilities();
+	}
+	
+	private void animalFair(Game game, MoveContext context, Player player) {
+		context.buys += game.emptyPiles();
 	}
 	
 	private void barge(Game game, MoveContext context, Player player, boolean isThronedEffect) {

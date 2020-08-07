@@ -578,6 +578,8 @@
   <string name="set_aside_for_next_turn">Apartar para tu próximo turno [%1$s]</string>
   <string name="take_artifact">Tomar %1$s</string>
   
+  <string name="animalFair_pay_cost">Pagar el coste</string>
+  <string name="animalFair_pay_by_trashing">Eliminar una carta de Acción en vez de pagar</string>
   <string name="barge_now">+3 Cartas y +1 Compra ahora</string>
   <string name="barge_next_turn">Al comienzo de tu próximo turno</string>
   <string name="huntingLodge_discard">Descartar tu mano para +5 Cartas</string>

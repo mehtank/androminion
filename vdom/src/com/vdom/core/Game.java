@@ -2309,6 +2309,10 @@ public class Game {
 
         int cost = card.getCost(context);
 
+        if (card.equals(Cards.animalFair) && canPayAnimalFairByTrashing(context)) {
+        	return true;
+        }
+        
         int potions = context.getPotions();
         if (cost <= gold && (!card.costPotion() || potions > 0)) {
             return true;
@@ -2326,18 +2330,37 @@ public class Game {
         }
         
         // pay cost
-        context.spendCoins(buy.getCost(context));
+        if (buy.getControlCard().equals(Cards.animalFair) &&
+        		canPayAnimalFairByTrashing(context) &&
+        		(context.getCoins() < Cards.animalFair.getCost(context) ||
+        		!player.controlPlayer.animalFair_shouldPayCost(context))) {
+        	// handle special cost for Animal Fair
+        	Card toTrash = player.controlPlayer.animalFair_actionToTrash(context);
+        	if (toTrash == null || !toTrash.is(Type.Action) || !player.getHand().contains(toTrash)) {
+        		Util.playerError(player, "Animal Farm trash error, trashing first Action card.");
+                for (Card c : player.getHand()) {
+                	if (c.is(Type.Action)) {
+                		toTrash = c;
+                		break;
+                	}
+                }
+        	}
+        	player.trashFromHand(toTrash, Cards.animalFair, context);
+        } else {
+        	// pay normal cost
+        	context.spendCoins(buy.getCost(context));
+            if (buy.costPotion()) {
+                context.potions--;
+            } else if (buy.getDebtCost(context) > 0) {
+            	int debtCost = buy.getDebtCost(context);
+            	context.getPlayer().gainDebtTokens(debtCost);
+            	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
+            	event.setAmount(debtCost);
+                context.game.broadcastEvent(event);
+            }
 
-        if (buy.costPotion()) {
-            context.potions--;
-        } else if (buy.getDebtCost(context) > 0) {
-        	int debtCost = buy.getDebtCost(context);
-        	context.getPlayer().gainDebtTokens(debtCost);
-        	GameEvent event = new GameEvent(GameEvent.EventType.DebtTokensObtained, context);
-        	event.setAmount(debtCost);
-            context.game.broadcastEvent(event);
         }
-        
+                
         // On-buy effects
         
         // Start inheriting newly gained estate
@@ -2525,7 +2548,15 @@ public class Game {
         return card;
     }
 
-    private void haggler(MoveContext context, Card cardBought) {
+    public boolean canPayAnimalFairByTrashing(MoveContext context) {
+    	if (context == null || context.getPlayer() == null) return false;
+		for (Card c : context.getPlayer().getHand()) {
+			if (c.is(Type.Action)) return true;
+		}
+		return false;
+	}
+
+	private void haggler(MoveContext context, Card cardBought) {
         if(!context.game.piles.containsKey(Cards.haggler.getName()))
             return;
         int hagglers = context.countCardsInPlay(Cards.haggler);

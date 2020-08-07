@@ -309,6 +309,13 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 		}
 		return highestCard;
 	}
+	
+	public float getCardCoinCostEquivalent(MoveContext context, Card c) {
+		float cost = c.getCost(context);
+		float potionOffset = c.costPotion() ? 2.5f : 0.0f;
+		float debtCost = c.getDebtCost(context);
+		return cost + potionOffset + debtCost;
+	}
     
     public Card lowestCard(MoveContext context, CardList cards, boolean discard) {
         Card[] ret = lowestCards(context, cards, 1, discard);
@@ -5409,6 +5416,30 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card action_playUsingWay(MoveContext context, Card card) {
     	//TODO: logic for when to use each way
     	return null;
+    }
+    
+    @Override
+    public boolean animalFair_shouldPayCost(MoveContext context) {
+    	int animalFairCost = Cards.animalFair.getCost(context);
+    	for (Card c : context.getPlayer().getHand()) {
+    		if (!c.is(Type.Action)) continue;
+    		if (getCardCoinCostEquivalent(context, c) < animalFairCost - 2) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    @Override
+    public Card animalFair_actionToTrash(MoveContext context) {
+    	ArrayList<Card> actions = new ArrayList<Card>();
+    	for (Card c : context.player.hand) {
+			if (c.is(Type.Action, context.player)) {
+				actions.add(c);
+			}
+		}
+    	Card[] result = lowestCards(context, actions, 1, false);
+    	return (result != null && result.length > 0) ? result[0] : null;
     }
     
     @Override

@@ -1600,6 +1600,9 @@ public class Strings {
             int tokenRemoveResource = tokens == 0 ? R.string.sinisterPlot_remove_token_zero : 
             	(tokens == 1 ? R.string.sinisterPlot_remove_tokens_one : R.string.sinisterPlot_remove_tokens_multiple);
             strings[2] = format(tokenRemoveResource, tokens);
+        } else if (cardName.equals(getCardName(Cards.animalFair))) {
+        	strings[1] = getString(R.string.animalFair_pay_cost);
+            strings[2] = getString(R.string.animalFair_pay_by_trashing);
         } else if (cardName.equals(getCardName(Cards.barge))) {
         	strings[1] = getString(R.string.barge_now);
             strings[2] = getString(R.string.barge_next_turn);
@@ -2104,6 +2107,7 @@ public class Strings {
             getCardName(Cards.sewers),
             getCardName(Cards.treasurer),
             /*Menagerie*/
+            getCardName(Cards.animalFair),
             getCardName(Cards.bountyHunter),
             getCardName(Cards.camelTrain),
             getCardName(Cards.sanctuary),

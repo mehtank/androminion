@@ -216,7 +216,11 @@ public class SelectCardOptions implements Serializable {
 
     	if (except != null && except.equals(c)) return false;
     	if (atLeastOneOfTypes != null && !hasType(atLeastOneOfTypes, c, p)) return false;
-        if ((maxCost >= 0) && (cost > maxCost)) return false;
+    	if (pickType == PickType.BUY && c.equals(Cards.animalFair)) {
+    		if (!context.game.canPayAnimalFairByTrashing(context) && ((maxCost >= 0) && (cost > maxCost))) return false;
+    	} else {
+    		if ((maxCost >= 0) && (cost > maxCost)) return false;
+    	}
         if ((minCost >= 0) && (cost < minCost)) return false;
         if ((maxDebtCost >= 0) && (debtCost > maxDebtCost)) return false;
         if ((minDebtCost >= 0) && (debtCost < minDebtCost)) return false;
@@ -252,6 +256,7 @@ public class SelectCardOptions implements Serializable {
 
         return true;
     }
+        
     public boolean isDifferent() {
     	return different;
 	}
