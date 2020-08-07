@@ -492,7 +492,7 @@ public abstract class Player {
                     if (actualCard.getMultiplyingCards() != null && actualCard.getMultiplyingCards().size() > 0) {
                     	multiplierCards.add(actualCard);
                     	continue;
-                    };
+                    }
                     wouldDiscard.add(card);
                 }
                 for (Card card : wouldDiscard) {
@@ -518,10 +518,10 @@ public abstract class Player {
                 	}
                 }
                 Card toImprove = controlPlayer.improve_cardToTrash(context, validImproveCards.toArray(new Card[validImproveCards.size()]));
-                if (toImprove == null) return;
+                if (toImprove == null) break;
                 if (!validImproveCards.contains(toImprove)) {
                 	Util.playerError(this, "Improve error, selected invalid card, ignoring.");
-                	return;
+                	break;
                 }
                 		
                 if (!trashFromPlay(toImprove, Cards.improve, context)) return;
