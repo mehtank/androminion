@@ -26,5 +26,9 @@
     <string name="type_spirit">精灵</string>
     <string name="type_state">状态</string>
     <string name="type_zombie">僵尸</string>
+    <string name="type_artifact">文物</string>
+    <string name="type_project">工程</string>
+    <string name="type_command">命令</string>
+    <string name="type_way">方式</string>
     <string name="type_curse">诅咒</string>
 </resources>
