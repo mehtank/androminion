@@ -8,7 +8,7 @@
 		    <string name="pref_viewstyle_title">卡片样式</string>
 		    <string-array name="viewstyle_names">
 		        <item>经典</item>
-		        <item>最简（推荐！其它可能导致屏幕放不下）</item>
+		        <item>最简</item>
 		        <item>详细描述</item>
 				<item>压缩信息</item>
 		    </string-array>
@@ -42,10 +42,12 @@
 		    <string name="next_game_pref_title">游戏内选项（在之后的游戏中生效）</string>
 		    <string name="card_counts_pref_title">查看卡组</string>
 		    <string name="card_counts_pref_summary">显示牌堆、手牌和拥有的总卡数</string>
+		    <string name="vp_counter_pref_title">计分器</string>
+		    <string name="vp_counter_pref_summary">在游戏过程中显示玩家的分数</string>
 		    <string name="mask_names_pref_title">隐藏AI昵称</string>
 		    <string name="mask_names_pref_summary">直到游戏最后才会显示AI昵称</string>
 		    <string name="sort_cards_pref_title">手牌自动排序</string>
-		    <string name="sort_cards_pref_summary">按照卡片类型排序：【动作~Action】，【宝藏~Treasure】，【诅咒~Curse】，【分数~Victory】</string>
+		    <string name="sort_cards_pref_summary">按照卡片类型排序：【动作】，【宝藏】，【诅咒】，【分数】</string>
 		    <string name="one_turn_logs_pref_title">仅保留最近一轮的日志</string>
 		    <string name="one_turn_logs_pref_summary">RT.</string>
 			<string name="game_over_castle_details_pref_title">显示【城堡】计分细节</string>
