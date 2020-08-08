@@ -587,6 +587,7 @@
   <string name="barge_next_turn">At start of next turn</string>
   <string name="gamble_play_card">Play %1$s</string>
   <string name="huntingLodge_discard">Discard hand for +5 Cards</string>
+  <string name="kiln_gain_copy">Gain %1$s</string>
   <string name="transport_exileActionFromSupply">Exile Action card from Supply</string>
   <string name="transport_topdeckActionFromExile">Put Action card from Exile onto deck</string>
   <string name="transport_query">Select card to top deck from Exile</string>

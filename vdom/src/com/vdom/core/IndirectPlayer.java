@@ -4643,6 +4643,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean kiln_shouldGainCopy(MoveContext context, Card card) {
+    	Object[] extras = new Object[2];
+        extras[0] = Cards.kiln;
+        extras[1] = card;
+    	return selectBoolean(context, Cards.kiln, extras);
+    }
+    
+    @Override
     public Card sanctuary_cardToExile(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.EXILE).setPassable()
                 .setActionType(ActionType.EXILE).setCardResponsible(Cards.sanctuary);

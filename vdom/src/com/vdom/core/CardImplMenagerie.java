@@ -57,6 +57,9 @@ public class CardImplMenagerie extends CardImpl {
 		case HuntingLodge:
 			huntingLodge(game, context, currentPlayer);
 			break;
+		case Kiln:
+			kiln(game, context, currentPlayer);
+			break;
 		case Livery:
 			livery(game, context, currentPlayer);
 			break;
@@ -403,6 +406,10 @@ public class CardImplMenagerie extends CardImpl {
 		for (int i = 0; i < 5; ++i) {
 			game.drawToHand(context, this.getControlCard(), 5 - i);
 		}
+	}
+	
+	private void kiln(Game game, MoveContext context, Player player) {
+		context.kilnEffect = true;
 	}
 	
 	private void livery(Game game, MoveContext context, Player player) {

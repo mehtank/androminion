@@ -1616,6 +1616,9 @@ public class Strings {
             strings[0] = getCardRevealedHeader(extras);
             strings[1] = format(R.string.gamble_play_card, getCardName((Card)extras[1]));
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.kiln))) {
+            strings[1] = format(R.string.kiln_gain_copy, getCardName((Card)extras[1]));
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.wayfarer))) {
         	strings[1] = getString(R.string.gain_silver);
             strings[2] = getString(R.string.pass);

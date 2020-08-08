@@ -5543,6 +5543,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public boolean kiln_shouldGainCopy(MoveContext context, Card card) {
+    	for (Card c : LATE_TRASH_CARDS) {
+    		if (c.equals(card))
+    			return false;
+    	}
+    	return true;
+    }
+    
+    @Override
     public Card sanctuary_cardToExile(MoveContext context) {
     	for (Card card : context.getPlayer().getHand()) {
             if (isOnlyVictory(card, context.getPlayer())) {

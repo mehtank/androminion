@@ -760,13 +760,6 @@ public class CardImpl implements Card, Comparable<Card>{
         boolean isAction = playedCard.is(Type.Action, currentPlayer);
         boolean enchantressEffect = isAction && !context.enchantressAlreadyAffected && game.enchantressAttacks(currentPlayer);
         if (enchantressEffect) context.enchantressAlreadyAffected = true;
-                
-        if (!isInheritedAbility && isAction) {
-        	context.addActions(currentPlayer.championEffects, Cards.champion);
-        }
-        
-        if (is(Type.Attack, currentPlayer))
-            attackPlayed(context, game, currentPlayer);
         
         if (!effectsOnly && this == actualCard) {
         	int handIdx = currentPlayer.hand.indexOf(actualCard.getId());
@@ -777,6 +770,8 @@ public class CardImpl implements Card, Comparable<Card>{
             }
         }
         
+        boolean isPlayingCard = !isInheritedAbility && !(is(Type.State) || is(Type.Project) || is(Type.State) || is(Type.Artifact)) && !(is(Type.Boon) || is(Type.Hex));
+                
         if (!isInheritedAbility && !(is(Type.State) || is(Type.Project) || is(Type.State) || is(Type.Artifact))) {
         	//TODO: What event to fire for simple abilities like Key?
         	//      Should this be shown in the play area as an ability like Durations?
@@ -791,8 +786,20 @@ public class CardImpl implements Card, Comparable<Card>{
 	        game.broadcastEvent(event);
         }
         
-        if (equals(Cards.silver)) {
-        	silverPlayed(context, game, currentPlayer);
+        if (isPlayingCard) {
+        	if (isAction) {
+            	context.addActions(currentPlayer.championEffects, Cards.champion);
+            }
+        	if (context.kilnEffect) {
+        		context.kilnEffect = false;
+        		if (currentPlayer.controlPlayer.kiln_shouldGainCopy(context, this))
+        			currentPlayer.gainNewCard(this, Cards.kiln, context);
+            }
+        	if (equals(Cards.silver)) {
+            	silverPlayed(context, game, currentPlayer);
+            }
+            if (is(Type.Attack, currentPlayer))
+                attackPlayed(context, game, currentPlayer);
         }
         
         // playing an action

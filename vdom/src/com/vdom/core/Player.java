@@ -2889,6 +2889,7 @@ public abstract class Player {
     public abstract boolean gamble_shouldPlayCard(MoveContext context, Card card);
     public abstract Card groom_cardToObtain(MoveContext context);
     public abstract boolean huntingLodge_shouldDiscardHand(MoveContext context);
+    public abstract boolean kiln_shouldGainCopy(MoveContext context, Card card);
     public abstract Card sanctuary_cardToExile(MoveContext context);
     public abstract boolean wayfarer_shouldGainSilver(MoveContext context);
     

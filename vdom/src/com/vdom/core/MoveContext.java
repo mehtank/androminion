@@ -67,6 +67,7 @@ public class MoveContext {
     public boolean envious = false;
     public boolean hasTopDeckedBorderGuard = false;
     public int liveryEffects = 0;
+    public boolean kilnEffect = false;
     public boolean seizeTheDayBought = false;
     public boolean wayOfTheSealPlayed = false;
 
