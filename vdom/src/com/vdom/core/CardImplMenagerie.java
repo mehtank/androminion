@@ -38,6 +38,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Coven:
 			coven(game, context, currentPlayer);
 			break;
+		case Displace:
+			displace(game, context, currentPlayer);
+			break;
 		case Gatekeeper:
 			durationAttack(game, context, currentPlayer);
 			break;
@@ -108,6 +111,9 @@ public class CardImplMenagerie extends CardImpl {
         	break;
         case Enclave:
         	enclave(context);
+        	break;
+        case Gamble:
+        	gamble(context);
         	break;
         case Populate:
         	populate(context);
@@ -239,6 +245,32 @@ public class CardImplMenagerie extends CardImpl {
         }
 	}
 	
+	private void displace(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() == 0)
+			return;
+		Card toExile = player.controlPlayer.displace_cardToExile(context);
+		if (toExile == null || !player.getHand().contains(toExile)) {
+    		Util.playerError(player, "Displace error, invalid card to exile, picking first card.");
+    		toExile = player.hand.get(0);
+    	}
+		toExile = player.hand.get(toExile);
+		player.exileFromHand(toExile, this, context);
+		
+		int cost = toExile.getCost(context);
+		int debt = toExile.getDebtCost(context);
+		boolean potion = toExile.costPotion();
+		
+        cost += 2;
+
+        Card card = player.controlPlayer.displace_cardToObtain(context, toExile, cost, debt, potion);
+        boolean cardOk = true;
+        if (card == null || card.equals(toExile) || card.getCost(context) > cost || card.getDebtCost(context) > debt || card.costPotion() && !potion) {
+        	Util.playerError(player, "Displace new card invalid, ignoring.");
+        	return;
+        }
+        player.gainNewCard(card, this.getControlCard(), context);
+	}
+	
 	private void horse(Game game, MoveContext context, Player player) {
 		Card card = this.getControlCard();
     	int idx = player.playedCards.indexOf(card.getId());
@@ -331,6 +363,23 @@ public class CardImplMenagerie extends CardImpl {
 	private void enclave(MoveContext context) {
 		context.player.gainNewCard(Cards.gold, Cards.enclave, context);
 		context.player.exileFromSupply(Cards.duchy, Cards.enclave, context);
+	}
+	
+	private void gamble(MoveContext context) {
+		Game game = context.game;
+		Player player = context.player;
+		Card c = game.draw(context, Cards.gamble, 1);
+        if (c != null) {
+        	player.reveal(c, this.getControlCard(), context);
+            if ((c.is(Type.Action, player) || c.is(Type.Treasure)) && player.controlPlayer.gamble_shouldPlayCard(context, c)) {
+            	context.freeActionInEffect++;
+                c.play(game, context, false);
+                context.freeActionInEffect--;
+            } else {
+            	player.discard(c, this.getControlCard(), context);
+            }
+            
+        }
 	}
 	
 	private void populate(MoveContext context) {

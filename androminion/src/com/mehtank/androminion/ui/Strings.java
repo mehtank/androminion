@@ -1612,6 +1612,10 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.huntingLodge))) {
         	strings[1] = getString(R.string.huntingLodge_discard);
         	strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.gamble))) {
+            strings[0] = getCardRevealedHeader(extras);
+            strings[1] = format(R.string.gamble_play_card, getCardName((Card)extras[1]));
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.wayfarer))) {
         	strings[1] = getString(R.string.gain_silver);
             strings[2] = getString(R.string.pass);
@@ -2113,6 +2117,7 @@ public class Strings {
             getCardName(Cards.animalFair),
             getCardName(Cards.bountyHunter),
             getCardName(Cards.camelTrain),
+            getCardName(Cards.displace),
             getCardName(Cards.sanctuary),
             getCardName(Cards.toil),
             getCardName(Cards.transport),

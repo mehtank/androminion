@@ -1059,8 +1059,8 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
 
     @Override
-    public Card replace_cardToObtain(MoveContext context, int exactCost, int debt, boolean potion) {
-        return bestCardInPlay(context, exactCost, true, debt, potion, true);
+    public Card replace_cardToObtain(MoveContext context, int maxCost, int debt, boolean potion) {
+        return bestCardInPlay(context, maxCost, false, debt, potion, true);
     }
 
     @Override
@@ -5484,6 +5484,21 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public boolean desperation_shouldGainCurse(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
+    public Card displace_cardToExile(MoveContext context) {
+    	return controlPlayer.remodel_cardToTrash(context);
+    }
+    
+    @Override
+    public Card displace_cardToObtain(MoveContext context, Card exiled, int maxCost, int maxDebtCost, boolean potion) {
+    	return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, false, true, false, true, exiled);
+    }
+    
+    @Override
+    public boolean gamble_shouldPlayCard(MoveContext context, Card card) {
     	return true;
     }
     

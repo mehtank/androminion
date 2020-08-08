@@ -2880,6 +2880,9 @@ public abstract class Player {
     public abstract boolean barge_shouldReceiveNow(MoveContext context);
     public abstract Card bountyHunter_cardToExile(MoveContext context);
     public abstract Card camelTrain_cardToExile(MoveContext context);
+    public abstract Card displace_cardToExile(MoveContext context);
+    public abstract Card displace_cardToObtain(MoveContext context, Card exiled, int maxCost, int maxDebtCost, boolean potion);
+    public abstract boolean gamble_shouldPlayCard(MoveContext context, Card card);
     public abstract boolean huntingLodge_shouldDiscardHand(MoveContext context);
     public abstract Card sanctuary_cardToExile(MoveContext context);
     public abstract boolean wayfarer_shouldGainSilver(MoveContext context);

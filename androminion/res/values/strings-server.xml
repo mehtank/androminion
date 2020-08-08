@@ -584,6 +584,7 @@
   <string name="animalFair_pay_by_trashing">Trash Action card instead</string>
   <string name="barge_now">+3 Cards and +1 Buy now</string>
   <string name="barge_next_turn">At start of next turn</string>
+  <string name="gamble_play_card">Play %1$s</string>
   <string name="huntingLodge_discard">Discard hand for +5 Cards</string>
   <string name="transport_exileActionFromSupply">Exile Action card from Supply</string>
   <string name="transport_topdeckActionFromExile">Put Action card from Exile onto deck</string>
