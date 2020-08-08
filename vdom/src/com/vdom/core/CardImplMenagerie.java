@@ -109,6 +109,9 @@ public class CardImplMenagerie extends CardImpl {
         case Commerce:
         	commerce(context);
         	break;
+        case Demand:
+        	demand(context);
+        	break;
         case Desperation:
         	desperation(context);
         	break;
@@ -293,7 +296,6 @@ public class CardImplMenagerie extends CardImpl {
         cost += 2;
 
         Card card = player.controlPlayer.displace_cardToObtain(context, toExile, cost, debt, potion);
-        boolean cardOk = true;
         if (card == null || card.equals(toExile) || card.getCost(context) > cost || card.getDebtCost(context) > debt || card.costPotion() && !potion) {
         	Util.playerError(player, "Displace new card invalid, ignoring.");
         	return;
@@ -379,6 +381,18 @@ public class CardImplMenagerie extends CardImpl {
 			context.getPlayer().gainNewCard(Cards.gold, this.getControlCard(), context);
 	}
 	
+	private void demand(MoveContext context) {
+		Player currentPlayer = context.player;
+		currentPlayer.gainNewCard(Cards.horse, Cards.demand, context);
+		Card card = currentPlayer.controlPlayer.demand_cardToObtain(context);
+        if (card == null) return;
+        if (card.getCost(context) > 4 || card.getDebtCost(context) > 0 || card.costPotion()) {
+        	Util.playerError(currentPlayer, "Demand new card invalid, ignoring.");
+        } else {
+        	currentPlayer.gainNewCard(card, Cards.demand, context);
+        }
+	}
+		
 	private void desperation(MoveContext context) {
 		context.cantBuy.add(this); // once per turn
 		if (context.game.getPile(Cards.curse).isEmpty()) return;

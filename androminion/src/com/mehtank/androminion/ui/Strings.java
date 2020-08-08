@@ -2120,6 +2120,7 @@ public class Strings {
             getCardName(Cards.bargain),
             getCardName(Cards.bountyHunter),
             getCardName(Cards.camelTrain),
+            getCardName(Cards.demand),
             getCardName(Cards.displace),
             getCardName(Cards.enhance),
             getCardName(Cards.sanctuary),

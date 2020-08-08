@@ -4575,6 +4575,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card demand_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(4).maxDebtCost(0).maxPotionCost(0)
+    			.setCardResponsible(Cards.demand).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public boolean desperation_shouldGainCurse(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_desperation_shouldGainCurse(context)) {
             return super.desperation_shouldGainCurse(context);

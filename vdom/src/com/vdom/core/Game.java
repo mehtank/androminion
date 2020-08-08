@@ -4333,6 +4333,7 @@ public class Game {
                                 || r.equals(Cards.tournament)
                                 || r.equals(Cards.treasureMap)
                                 || r.equals(Cards.stampede)
+                                || r.equals(Cards.demand)
                                 || r.equals(Cards.replace) && context.attackedPlayer != player && (gainedCardAbility.is(Type.Action) || gainedCardAbility.is(Type.Treasure, null, context))) {
                                 player.putOnTopOfDeck(event.card, context, true);
                             } else if (r.equals(Cards.beggar)) {

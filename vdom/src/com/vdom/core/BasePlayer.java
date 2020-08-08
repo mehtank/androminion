@@ -5488,6 +5488,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card demand_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, false, false, false, true, true);
+    }
+    
+    @Override
     public boolean desperation_shouldGainCurse(MoveContext context) {
     	return true;
     }
