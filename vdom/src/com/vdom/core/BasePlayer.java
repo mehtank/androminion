@@ -5488,6 +5488,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card cardinal_cardToExile(MoveContext context, ArrayList<Card> cards) {
+    	return this.lowestCards(context, cards, 1, false)[0];
+    }
+    
+    @Override
     public Card demand_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 4, false, false, false, true, true);
     }

@@ -3,6 +3,7 @@ package com.vdom.core;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import com.vdom.api.Card;
@@ -31,6 +32,9 @@ public class CardImplMenagerie extends CardImpl {
 			break;
 		case CamelTrain:
 			camelTrain(game, context, currentPlayer);
+			break;
+		case Cardinal:
+			cardinal(game, context, currentPlayer);
 			break;
 		case Cavalry:
 			cavalry(game, context, currentPlayer);
@@ -242,6 +246,61 @@ public class CardImplMenagerie extends CardImpl {
             cardToExile = possibleCards[0];
         }
         player.exileFromSupply(cardToExile, getControlCard(), context);
+	}
+	
+	private void cardinal(Game game, MoveContext context, Player currentPlayer) {
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+		
+    	for (Player player : attackedPlayers) {
+			player.attacked(this.getControlCard(), context);
+            MoveContext playerContext = new MoveContext(game, player);
+            playerContext.attackedPlayer = player;
+            ArrayList<Card> canExile = new ArrayList<Card>();
+
+            List<Card> cardsToDiscard = new ArrayList<Card>();
+            for (int i = 0; i < 2; i++) {
+                Card card = context.game.draw(playerContext, this, 2 - i);
+
+                if (card != null) {
+                    currentPlayer.reveal(card, this.getControlCard(), playerContext);
+                    int cardCost = card.getCost(context);
+
+                    if (card.getDebtCost(context) == 0 && !card.costPotion() && cardCost >= 3 && cardCost <= 6) {
+                        canExile.add(card);
+                    } else {
+                        cardsToDiscard.add(card);
+                    }
+                }
+            }
+            Card cardToExile = null;
+            if (canExile.size() == 1) {
+                cardToExile = canExile.get(0);
+            } else if (canExile.size() == 2) {
+                if (canExile.get(0).equals(canExile.get(1))) {
+                    cardToExile = canExile.get(0);
+                    cardsToDiscard.add(canExile.remove(1));
+                } else {
+                    cardToExile = player.cardinal_cardToExile(playerContext, canExile);
+                }
+
+                for (Card card : canExile) {
+                    if (!card.equals(cardToExile)) {
+                    	cardsToDiscard.add(card);
+                    }
+                }
+            }          
+            if (cardToExile != null) {
+            	player.exile(cardToExile, this.getControlCard(), playerContext);
+            }
+            for (Card c: cardsToDiscard) {
+                player.discard(c, this.getControlCard(), playerContext);
+            }
+    	}
 	}
 	
 	private void cavalry(Game game, MoveContext context, Player player) {
