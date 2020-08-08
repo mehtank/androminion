@@ -2877,6 +2877,7 @@ public abstract class Player {
     
     public abstract boolean animalFair_shouldPayCost(MoveContext context);
     public abstract Card animalFair_actionToTrash(MoveContext context);
+    public abstract Card bargain_cardToObtain(MoveContext context);
     public abstract boolean barge_shouldReceiveNow(MoveContext context);
     public abstract Card bountyHunter_cardToExile(MoveContext context);
     public abstract Card camelTrain_cardToExile(MoveContext context);

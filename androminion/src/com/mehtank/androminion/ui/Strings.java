@@ -2117,6 +2117,7 @@ public class Strings {
             getCardName(Cards.treasurer),
             /*Menagerie*/
             getCardName(Cards.animalFair),
+            getCardName(Cards.bargain),
             getCardName(Cards.bountyHunter),
             getCardName(Cards.camelTrain),
             getCardName(Cards.displace),

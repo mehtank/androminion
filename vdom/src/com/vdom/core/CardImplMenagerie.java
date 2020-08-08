@@ -103,6 +103,9 @@ public class CardImplMenagerie extends CardImpl {
         case Alliance:
         	alliance(context);
         	break;
+        case Bargain:
+        	bargain(context);
+        	break;
         case Commerce:
         	commerce(context);
         	break;
@@ -167,6 +170,30 @@ public class CardImplMenagerie extends CardImpl {
 	
 	private void animalFair(Game game, MoveContext context, Player player) {
 		context.buys += game.emptyPiles();
+	}
+	
+	private void bargain(MoveContext context) {
+		Game game = context.game;
+		Player currentPlayer = context.player;
+		Card card = currentPlayer.controlPlayer.bargain_cardToObtain(context);
+        if (card == null) return;
+        if (card.is(Type.Victory) || card.getCost(context) > 5 || card.getDebtCost(context) > 0 || card.costPotion()) {
+        	Util.playerError(currentPlayer, "Bargain new card invalid, ignoring.");
+        } else {
+        	currentPlayer.gainNewCard(card, this.getControlCard(), context);
+        }
+        
+        ArrayList<Player> otherPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer) {
+            	otherPlayers.add(player);
+            }
+    	}
+		
+    	for (Player player : otherPlayers) {
+            MoveContext playerContext = new MoveContext(game, player);
+            player.gainNewCard(Cards.horse, getControlCard(), playerContext);
+        }
 	}
 	
 	private void barge(Game game, MoveContext context, Player player, boolean isThronedEffect) {

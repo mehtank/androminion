@@ -4548,6 +4548,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card bargain_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0)
+    			.isNonVictory().setCardResponsible(Cards.bargain).setActionType(ActionType.GAIN);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public boolean barge_shouldReceiveNow(MoveContext context) {
         return selectBoolean(context, Cards.barge);
     }

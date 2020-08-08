@@ -5443,6 +5443,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card bargain_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 5, false, false, false, false, true);
+    }
+    
+    @Override
     public boolean barge_shouldReceiveNow(MoveContext context) {    	
     	int coinsInHand = getCoinEstimate(context);
     	int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
