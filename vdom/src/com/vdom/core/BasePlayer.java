@@ -5498,6 +5498,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card enhance_cardToTrash(MoveContext context) {
+    	return controlPlayer.remodel_cardToTrash(context);
+    }
+    
+    @Override
+    public Card enhance_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion) {
+    	return bestCardInPlay(context, maxCost, false, maxDebtCost, potion, true);
+    }
+    
+    @Override
     public boolean gamble_shouldPlayCard(MoveContext context, Card card) {
     	return true;
     }

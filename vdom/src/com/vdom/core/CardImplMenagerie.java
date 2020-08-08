@@ -112,6 +112,9 @@ public class CardImplMenagerie extends CardImpl {
         case Enclave:
         	enclave(context);
         	break;
+		case Enhance:
+			enhance(context);
+			break;
         case Gamble:
         	gamble(context);
         	break;
@@ -363,6 +366,39 @@ public class CardImplMenagerie extends CardImpl {
 	private void enclave(MoveContext context) {
 		context.player.gainNewCard(Cards.gold, Cards.enclave, context);
 		context.player.exileFromSupply(Cards.duchy, Cards.enclave, context);
+	}
+	
+	private void enhance(MoveContext context) {
+		Player player = context.player;
+		if (player.getHand().size() == 0)
+			return;
+		int nonVictoryCards = 0;
+		for (Card c : player.getHand()) {
+			if (!c.is(Type.Victory))
+				nonVictoryCards++;
+		}
+		if (nonVictoryCards == 0) return;
+		Card toTrash = player.controlPlayer.enhance_cardToTrash(context);
+		if (toTrash == null) return;
+		if (!player.getHand().contains(toTrash) || toTrash.is(Type.Victory)) {
+    		Util.playerError(player, "Enhance error, invalid card to trash, skipping.");
+    		return;
+    	}
+		toTrash = player.hand.get(toTrash);
+		player.trashFromHand(toTrash, Cards.enhance, context);
+		
+		int cost = toTrash.getCost(context);
+		int debt = toTrash.getDebtCost(context);
+		boolean potion = toTrash.costPotion();
+		
+        cost += 2;
+
+        Card card = player.controlPlayer.enhance_cardToObtain(context, cost, debt, potion);
+        if (card == null || card.getCost(context) > cost || card.getDebtCost(context) > debt || card.costPotion() && !potion) {
+        	Util.playerError(player, "Enhance new card invalid, ignoring.");
+        	return;
+        }
+        player.gainNewCard(card, this.getControlCard(), context);
 	}
 	
 	private void gamble(MoveContext context) {

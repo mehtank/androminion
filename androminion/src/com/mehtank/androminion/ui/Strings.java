@@ -1803,6 +1803,8 @@ public class Strings {
                     str = Strings.format(R.string.select_exactly_x_nontreasures_from_hand, "" + sco.count, header);
                 else
                     str = Strings.format(R.string.select_up_to_x_nontreasures_from_hand, "" + sco.count, header);
+            } else if (sco.isNonVictory) {
+                    str = Strings.format(R.string.select_one_non_vp_from_hand, header);
             } else {
                 if(sco.count == 1) {
                 	if (sco.atLeastOneOfTypes != null)
@@ -2118,6 +2120,7 @@ public class Strings {
             getCardName(Cards.bountyHunter),
             getCardName(Cards.camelTrain),
             getCardName(Cards.displace),
+            getCardName(Cards.enhance),
             getCardName(Cards.sanctuary),
             getCardName(Cards.toil),
             getCardName(Cards.transport),

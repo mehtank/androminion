@@ -102,6 +102,7 @@
 	<string name="select_from_table_less_of_types">Select a %1$s card from the table that costs less than (%2$s) to %3$s</string>
 		
 	<string name="select_one_card_from_hand">Pick a card from your hand to %1$s</string>
+	<string name="select_one_non_vp_from_hand">Select a non-Victory card from your hand to %1$s</string>
 	<string name="select_one_of_types_card_from_hand">Pick a %1$s card from your hand to %2$s</string>
 	<string name="select_up_to_x_cards_from_hand">Pick up to %1$s cards from your hand to %2$s</string>
 	<string name="select_exactly_x_cards_from_hand">Pick exactly %1$s cards from your hand to %2$s</string>
