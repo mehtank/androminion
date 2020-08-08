@@ -4631,6 +4631,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card groom_cardToObtain(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().maxPotionCost(0).maxCost(4).maxDebtCost(0)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.groom);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
     public boolean huntingLodge_shouldDiscardHand(MoveContext context) {
     	return selectBoolean(context, Cards.huntingLodge);
     }

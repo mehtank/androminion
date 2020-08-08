@@ -2887,6 +2887,7 @@ public abstract class Player {
     public abstract Card enhance_cardToTrash(MoveContext context);
     public abstract Card enhance_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract boolean gamble_shouldPlayCard(MoveContext context, Card card);
+    public abstract Card groom_cardToObtain(MoveContext context);
     public abstract boolean huntingLodge_shouldDiscardHand(MoveContext context);
     public abstract Card sanctuary_cardToExile(MoveContext context);
     public abstract boolean wayfarer_shouldGainSilver(MoveContext context);

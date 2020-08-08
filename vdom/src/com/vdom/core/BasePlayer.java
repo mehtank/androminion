@@ -5528,6 +5528,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card groom_cardToObtain(MoveContext context) {
+    	return bestCardInPlay(context, 4, true);
+    }
+    
+    @Override
     public boolean huntingLodge_shouldDiscardHand(MoveContext context) {
     	int coinsInHand = getCoinEstimate(context);
     	int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);

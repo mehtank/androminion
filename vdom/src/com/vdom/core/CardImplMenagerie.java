@@ -48,6 +48,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Gatekeeper:
 			durationAttack(game, context, currentPlayer);
 			break;
+		case Groom:
+			groom(game, context, currentPlayer);
+			break;
 		case Horse:
 			horse(game, context, currentPlayer);
 			break;
@@ -360,6 +363,24 @@ public class CardImplMenagerie extends CardImpl {
         	return;
         }
         player.gainNewCard(card, this.getControlCard(), context);
+	}
+	
+	private void groom(Game game, MoveContext context, Player player) {
+		Card card = player.controlPlayer.groom_cardToObtain(context);
+        if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
+            if (player.gainNewCard(card, this.getControlCard(), context).equals(card)) {
+                if (card.is(Type.Action, player)) {
+                	player.gainNewCard(Cards.horse, this.getControlCard(), context);
+                }
+                if (card.is(Type.Treasure, player)) {
+                	player.gainNewCard(Cards.silver, this.getControlCard(), context);
+                }
+                if (card.is(Type.Victory, player)) {
+                	game.drawToHand(context, this, 1);
+                	context.addActions(1, this);
+                }
+            }
+        }
 	}
 	
 	private void horse(Game game, MoveContext context, Player player) {
