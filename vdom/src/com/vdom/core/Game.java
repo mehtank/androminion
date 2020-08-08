@@ -1250,7 +1250,8 @@ public class Game {
                || thisCard.equals(Cards.dungeon)
                || thisCard.equals(Cards.cobbler)
                || thisCard.equals(Cards.captain)
-               || thisCard.equals(Cards.church)) {
+               || thisCard.equals(Cards.church)
+               || thisCard.equals(Cards.mastermind)) {
                 allDurationAreSimple = false;
             }
             if(thisCard.equals(Cards.haven)) {
@@ -1648,6 +1649,29 @@ public class Game {
 	                    } else {
 	                    	player.trashFromHand(cardToTrash, card.behaveAsCard(), context);
 	                    }
+                    }
+                }
+                if (card.behaveAsCard().equals(Cards.mastermind)) {
+                	ArrayList<Card> actionCards = new ArrayList<Card>();
+                    for (Card c : player.hand) {
+                        if (c.is(Type.Action, player)) {
+                            actionCards.add(c);
+                        }
+                    }
+                    if (actionCards.isEmpty()) return;
+                    Card cardToPlay = player.controlPlayer.mastermind_cardToPlay(context);
+                    if (cardToPlay == null) return;
+                    if (!actionCards.contains(cardToPlay)) {
+                    	Util.playerError(player, "Mastermind card to play error, playing none.");
+                    }
+                    context.freeActionInEffect++;
+                    for (int i = 0; i < 3; ++i) {
+                        cardToPlay.play(this, context, true, false, false, false, i > 0);
+                    }
+                    context.freeActionInEffect--;
+                    
+                    if (cardToPlay.is(Type.Duration, player)) {
+                    	((CardImpl)card.getControlCard()).multiplyCard(cardToPlay);
                     }
                 }
             } else if(card.behaveAsCard().isCallableWhenTurnStarts()) {

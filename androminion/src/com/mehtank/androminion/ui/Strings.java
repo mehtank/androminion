@@ -2160,6 +2160,7 @@ public class Strings {
         actionStringMap.put(getCardName(Cards.lostArts), getString(R.string.part_move_token_plus_one_action));
         actionStringMap.put(getCardName(Cards.mandarin), getString(R.string.mandarin_part));
         actionStringMap.put(getCardName(Cards.margrave), getString(R.string.margrave_part));
+        actionStringMap.put(getCardName(Cards.mastermind), getString(R.string.kings_court_part));
         actionStringMap.put(getCardName(Cards.militia), getString(R.string.militia_part));
         actionStringMap.put(getCardName(Cards.mint), getString(R.string.mint_part));
         actionStringMap.put(getCardName(Cards.overlord), getString(R.string.part_play));

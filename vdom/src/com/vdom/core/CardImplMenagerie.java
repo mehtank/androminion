@@ -63,6 +63,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Livery:
 			livery(game, context, currentPlayer);
 			break;
+		case Mastermind:
+			mastermind(game, context, currentPlayer, isThronedEffect);
+			break;
 		case Paddock:
 			paddock(game, context, currentPlayer);
 			break;
@@ -414,6 +417,10 @@ public class CardImplMenagerie extends CardImpl {
 	
 	private void livery(Game game, MoveContext context, Player player) {
 		context.liveryEffects++;
+	}
+	
+	private void mastermind(Game game, MoveContext context, Player player, boolean isThronedEffect) {
+		player.addStartTurnDurationEffect(this, 1, isThronedEffect);
 	}
 	
 	private void paddock(Game game, MoveContext context, Player player) {

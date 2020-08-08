@@ -1747,14 +1747,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public Card kingsCourt_cardToPlay(MoveContext context) {
-        //TODO better logic
+        Card highestCostCard = null;
+        float highestCost = Float.MIN_VALUE;
         for (Card c : context.getPlayer().getHand()) {
             if(c.is(Type.Action, context.getPlayer())) {
-                return c;
+            	float cost = getCardCoinCostEquivalent(context, c);
+            	if (cost > highestCost) {
+            		highestCost = cost;
+            		highestCostCard = c;
+            	}
             }
         }
-        
-        return null;
+        return highestCostCard;
     }
 
     @Override
@@ -5549,6 +5553,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     			return false;
     	}
     	return true;
+    }
+    
+    @Override
+    public Card mastermind_cardToPlay(MoveContext context) {
+    	return kingsCourt_cardToPlay(context);
     }
     
     @Override
