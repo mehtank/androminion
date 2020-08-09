@@ -4394,7 +4394,7 @@ public class Game {
                             } else if (r.equals(Cards.tradingPost) || r.equals(Cards.mine) || r.equals(Cards.explorer) || 
                             		r.equals(Cards.torturer) || r.equals(Cards.transmogrify) || r.equals(Cards.artisan) || 
                             		r.equals(Cards.cobbler) || r.equals(Cards.plague) || r.equals(Cards.wish) || 
-                            		r.equals(Cards.sculptor) || r.equals(Cards.treasurer)) {
+                            		r.equals(Cards.sculptor) || r.equals(Cards.treasurer) || r.equals(Cards.falconer)) {
                                 player.hand.add(event.card);
                             } else if (r.equals(Cards.illGottenGains) && event.card.equals(Cards.copper)) {
                                 player.hand.add(event.card);
@@ -4836,6 +4836,23 @@ public class Game {
                     		context.player.discardCopiesFromExile(event.card, context);
                     	}
                     }
+                    
+                    //TODO: order of these abilities should be able to be interleaved with other when-gains, technically
+                    while(player.getCardInHand(Cards.sheepdog) != null && player.controlPlayer.sheepdog_shouldPlay(context)) {
+                    	context.freeActionInEffect++;
+                    	player.getCardInHand(Cards.sheepdog).play(context.game, context, true);
+                    	context.freeActionInEffect--;
+                    }
+                    if (event.card.getNumberOfTypes(player) >= 2) {
+	                    for (Player otherPlayer : context.game.getPlayersInTurnOrder()) {
+	                        MoveContext otherPlayerContext = (player == otherPlayer) ? context : new MoveContext(context.game, otherPlayer);
+	                        while(otherPlayer.getCardInHand(Cards.falconer) != null && otherPlayer.controlPlayer.falconer_shouldPlay(otherPlayerContext)) {
+	                        	otherPlayerContext.freeActionInEffect++;
+	                        	otherPlayer.getCardInHand(Cards.falconer).play(context.game, otherPlayerContext, true);
+	                        	otherPlayerContext.freeActionInEffect--;
+	                        }
+	                	}
+	                }
                 }
 
                 boolean shouldShow = (debug || junit);

@@ -4630,6 +4630,18 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card falconer_cardToGain(MoveContext context, int maxCost) {
+    	SelectCardOptions sco = new SelectCardOptions().maxPotionCost(0).maxCost(maxCost).maxDebtCost(0)
+                .setActionType(ActionType.GAIN).setCardResponsible(Cards.falconer);
+        return getFromTable(context, sco);
+    }
+    
+    @Override
+    public boolean falconer_shouldPlay(MoveContext context) {
+    	return selectBoolean(context, Cards.falconer);
+    }
+    
+    @Override
     public boolean gamble_shouldPlayCard(MoveContext context, Card card) {
     	Object[] extras = new Object[2];
         extras[0] = Cards.gamble;
@@ -4724,6 +4736,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             ret[i] = optionList.remove(choice);
         }
         return ret;
+    }
+    
+    @Override
+    public boolean sheepdog_shouldPlay(MoveContext context) {
+    	return selectBoolean(context, Cards.sheepdog);
     }
     
     @Override

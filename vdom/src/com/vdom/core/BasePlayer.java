@@ -5537,6 +5537,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card falconer_cardToGain(MoveContext context, int maxCost) {
+    	return bestCardInPlay(context, maxCost, false, 0, false, true);
+    }
+    
+    @Override
+    public boolean falconer_shouldPlay(MoveContext context) {
+    	return true;
+    }
+    
+    @Override
     public Card groom_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 4, true);
     }
@@ -5617,6 +5627,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             ret[i] = optionList.remove(rand.nextInt(optionList.size()));
         }
         return ret;
+    }
+    
+    @Override
+    public boolean sheepdog_shouldPlay(MoveContext context) {
+    	return true;
     }
     
     @Override

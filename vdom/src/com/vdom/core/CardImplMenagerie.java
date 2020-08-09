@@ -51,6 +51,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Displace:
 			displace(game, context, currentPlayer);
 			break;
+		case Falconer:
+			falconer(game, context, currentPlayer);
+			break;
 		case Gatekeeper:
 			durationAttack(game, context, currentPlayer);
 			break;
@@ -408,6 +411,25 @@ public class CardImplMenagerie extends CardImpl {
         	return;
         }
         player.gainNewCard(card, this.getControlCard(), context);
+	}
+	
+	private void falconer(Game game, MoveContext context, Player player) {
+		int cost = this.getControlCard().getCost(context);
+		ArrayList<Card> possibles = new ArrayList<Card>();
+		for (Card c : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
+			if (c.getCost(context) < cost && c.getDebtCost(context) == 0 && !c.costPotion())
+				possibles.add(c);
+		}
+		if (possibles.isEmpty()) return;
+		Card toGain = possibles.get(0);
+		if (possibles.size() > 1) {
+			toGain = player.controlPlayer.falconer_cardToGain(context, cost - 1);
+			if (!possibles.contains(toGain)) {
+				Util.playerError(player, "Falconer gain error, gaining random.");
+				toGain = Util.randomCard(possibles);
+			}
+		}
+		player.gainNewCard(toGain, Cards.falconer, context);
 	}
 	
 	private void groom(Game game, MoveContext context, Player player) {

@@ -1634,7 +1634,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.barge))) {
         	strings[1] = getString(R.string.barge_now);
             strings[2] = getString(R.string.barge_next_turn);
-        } else if (cardName.equals(getCardName(Cards.blackCat))) {
+        } else if (cardName.equals(getCardName(Cards.blackCat)) || 
+        		cardName.equals(getCardName(Cards.falconer)) ||
+        		cardName.equals(getCardName(Cards.sheepdog))) {
         	strings[1] = getString(R.string.reaction_play);
             strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.desperation))) {
@@ -2166,6 +2168,7 @@ public class Strings {
             getCardName(Cards.demand),
             getCardName(Cards.displace),
             getCardName(Cards.enhance),
+            getCardName(Cards.falconer),
             getCardName(Cards.groom),
             getCardName(Cards.hostelry),
             getCardName(Cards.pursue),

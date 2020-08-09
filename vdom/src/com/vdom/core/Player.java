@@ -2917,6 +2917,8 @@ public abstract class Player {
     public abstract Card displace_cardToObtain(MoveContext context, Card exiled, int maxCost, int maxDebtCost, boolean potion);
     public abstract Card enhance_cardToTrash(MoveContext context);
     public abstract Card enhance_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
+    public abstract Card falconer_cardToGain(MoveContext context, int maxCost);
+    public abstract boolean falconer_shouldPlay(MoveContext context);
     public abstract boolean gamble_shouldPlayCard(MoveContext context, Card card);
     public abstract Card groom_cardToObtain(MoveContext context);
     public abstract Card[] hostelry_treasuresToDiscard(MoveContext context);
@@ -2926,6 +2928,7 @@ public abstract class Player {
     public abstract Card sanctuary_cardToExile(MoveContext context);
     public abstract Card scrap_cardToTrash(MoveContext context);
     public abstract ScrapOption[] scrap_chooseOptions(MoveContext context, ScrapOption[] options, int numOptions);
+    public abstract boolean sheepdog_shouldPlay(MoveContext context);
     public abstract SleighOption sleigh_discardOption(MoveContext context, Card card);
     public abstract boolean wayfarer_shouldGainSilver(MoveContext context);
     public abstract boolean villageGreen_shouldReceiveNow(MoveContext context);
