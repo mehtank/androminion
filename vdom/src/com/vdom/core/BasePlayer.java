@@ -5568,6 +5568,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card march_actionToPlay(MoveContext context) {
+    	ArrayList<Card> possibles = new ArrayList<Card>();
+    	for(Card c : context.player.discard) {
+    		if (c.is(Type.Action)) {
+    			possibles.add(c);
+    		}
+    	}
+    	return highestCard(context, possibles);
+    }
+    
+    @Override
     public Card mastermind_cardToPlay(MoveContext context) {
     	return kingsCourt_cardToPlay(context);
     }

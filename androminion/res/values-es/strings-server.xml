@@ -489,6 +489,7 @@
 	<string name="putback_option_all">Devolverlas todas</string>
 	<string name="deck_from_discard_query">Elige una carta de las descartes para poner encima de tu mazo [%1$s]</string>
 	<string name="hand_from_discard_query">Elige una carta de las descartes para poner en tu mano [%1$s]</string>
+	<string name="play_from_discard_query">Elige una carta de las descartes para jugar [%1$s]</string>
 
   <string name="game_over_vps"> PVs</string>
   <string name="victory_tokens">Fichas de PV</string>

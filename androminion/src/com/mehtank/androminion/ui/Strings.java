@@ -1035,6 +1035,8 @@ public class Strings {
             return format(R.string.starChart_query, cardName);
         } else if (cardName.equals(getCardName(Cards.mountainVillage))) {
             return format(R.string.hand_from_discard_query, cardName);
+        } else if (cardName.equals(getCardName(Cards.march))) {
+            return format(R.string.play_from_discard_query, cardName);
         } else if (cardName.equals(getCardName(Cards.transport))) {
              if (extras[0] instanceof TransportOption) {
                  return cardName;

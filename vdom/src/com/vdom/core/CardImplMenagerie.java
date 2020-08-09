@@ -137,6 +137,9 @@ public class CardImplMenagerie extends CardImpl {
         case Gamble:
         	gamble(context);
         	break;
+        case March:
+        	march(context);
+        	break;
         case Populate:
         	populate(context);
         	break;
@@ -550,6 +553,30 @@ public class CardImplMenagerie extends CardImpl {
             	player.discard(c, this.getControlCard(), context);
             }
             
+        }
+	}
+	private void march(MoveContext context) {
+		Player player = context.player;
+		boolean hasActions = false;
+		for (Card c : player.discard) {
+			if (c.is(Type.Action)) {
+				hasActions = true;
+				break;
+			}
+		}
+		if (!hasActions)
+			return;
+	    Card card = player.controlPlayer.march_actionToPlay(context);
+	    if (card == null) return;
+	    
+	    int idx = player.discard.indexOf(card);
+        if (idx >= 0) {
+        	card = player.discard.remove(idx);
+        	context.freeActionInEffect++;
+        	card.play(context.game, context, false, false);
+        	context.freeActionInEffect--;
+        } else {
+        	Util.playerError(player, "March card not in discard, ignoring.");
         }
 	}
 	

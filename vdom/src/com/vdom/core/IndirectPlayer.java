@@ -4660,6 +4660,22 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card march_actionToPlay(MoveContext context) {
+    	CardList discard = context.player.getDiscard();
+    	ArrayList<Card> possibles = new ArrayList<Card>();
+    	for(Card c : discard) {
+    		if (c.is(Type.Action)) {
+    			possibles.add(c);
+    		}
+    	}
+        Set<Card> uniqueCards = new HashSet<Card>(possibles);
+        List<Card> options = new ArrayList<Card>(uniqueCards);
+        Collections.sort(options, new Util.CardCostNameComparator());
+        options.add(null);
+        return options.get(selectOption(context, Cards.march, options.toArray()));
+    }
+    
+    @Override
     public Card mastermind_cardToPlay(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().isAction()
                 .setPassable().setPickType(PickType.PLAY)
