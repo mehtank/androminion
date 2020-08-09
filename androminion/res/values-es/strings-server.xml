@@ -587,6 +587,12 @@
   <string name="barge_next_turn">Al comienzo de tu próximo turno</string>
   <string name="huntingLodge_discard">Descartar tu mano para +5 Cartas</string>
   <string name="kiln_gain_copy">Ganar una carta de %1$s</string>
+  <string name="scrap_option_add_card">+1 Carta</string>
+  <string name="scrap_option_add_action">+1 Acción</string>  
+  <string name="scrap_option_add_buy">+1 Compra</string>
+  <string name="scrap_option_add_coin">+(1) Moneda</string>
+  <string name="scrap_option_gain_silver">Ganar una carta de Plata</string>
+  <string name="scrap_option_gain_horse">Ganar una carta de Caballo</string>
   <string name="transport_exileActionFromSupply">Exiliar una carta de Acción del Suministro</string>
   <string name="transport_topdeckActionFromExile">Poner una carta de Acción de Exilio encima de tu mazo</string>
   <string name="transport_query">Elige una carta de Exilio para poner encima de tu mazo</string>

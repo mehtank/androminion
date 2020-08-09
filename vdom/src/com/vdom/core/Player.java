@@ -2182,6 +2182,15 @@ public abstract class Player {
         TakeKey
     }
 	
+	public static enum ScrapOption {
+		AddCard,
+        AddAction,
+        AddBuy,
+        AddCoin,
+        GainSilver,
+        GainHorse
+    }
+	
 	public static enum TransportOption {
         ExileActionFromSupply,
         TopdeckActionFromExile
@@ -2893,6 +2902,8 @@ public abstract class Player {
     public abstract boolean kiln_shouldGainCopy(MoveContext context, Card card);
     public abstract Card mastermind_cardToPlay(MoveContext context);
     public abstract Card sanctuary_cardToExile(MoveContext context);
+    public abstract Card scrap_cardToTrash(MoveContext context);
+    public abstract ScrapOption[] scrap_chooseOptions(MoveContext context, ScrapOption[] options, int numOptions);
     public abstract boolean wayfarer_shouldGainSilver(MoveContext context);
     
     public abstract Card demand_cardToObtain(MoveContext context);

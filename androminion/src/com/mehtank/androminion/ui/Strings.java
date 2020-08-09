@@ -46,6 +46,7 @@ import com.vdom.core.Player.NoblesOption;
 import com.vdom.core.Player.PawnOption;
 import com.vdom.core.Player.PutBackOption;
 import com.vdom.core.Player.QuestOption;
+import com.vdom.core.Player.ScrapOption;
 import com.vdom.core.Player.SentryOption;
 import com.vdom.core.Player.SpiceMerchantOption;
 import com.vdom.core.Player.SquireOption;
@@ -1311,6 +1312,20 @@ public class Strings {
             } else if (option == FoolsGoldOption.PassAll) {
                 return getString(R.string.pass_all);
             }
+        } else if (option instanceof ScrapOption) {
+            if (option == ScrapOption.AddAction) {
+                return getString(R.string.scrap_option_add_action);
+            } else if (option == ScrapOption.AddCard) {
+                return getString(R.string.scrap_option_add_card);
+            } else if (option == ScrapOption.AddBuy) {
+                return getString(R.string.scrap_option_add_buy);
+            } else if (option == ScrapOption.AddCoin) {
+                return getString(R.string.scrap_option_add_coin);
+            } else if (option == ScrapOption.GainSilver) {
+                return getString(R.string.scrap_option_gain_silver);
+            } else if (option == ScrapOption.GainHorse) {
+                return getString(R.string.scrap_option_gain_horse);
+            }
         } else if (option instanceof TransportOption) {
             if (option == TransportOption.ExileActionFromSupply) {
                 return getString(R.string.transport_exileActionFromSupply);
@@ -2132,6 +2147,7 @@ public class Strings {
             getCardName(Cards.hostelry),
             getCardName(Cards.pursue),
             getCardName(Cards.sanctuary),
+            getCardName(Cards.scrap),
             getCardName(Cards.toil),
             getCardName(Cards.transport),
             /*Promo*/

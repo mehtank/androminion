@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import com.vdom.api.Card;
 import com.vdom.api.GameEvent;
+import com.vdom.core.Player.ScrapOption;
 
 public class CardImplMenagerie extends CardImpl {
 	private static final long serialVersionUID = 1L;
@@ -72,6 +74,9 @@ public class CardImplMenagerie extends CardImpl {
 			break;
 		case Sanctuary:
 			sanctuary(game, context, currentPlayer);
+			break;
+		case Scrap:
+			scrap(game, context, currentPlayer);
 			break;
 		case SnowyVillage:
 			snowyVillage(game, context, currentPlayer);
@@ -447,6 +452,56 @@ public class CardImplMenagerie extends CardImpl {
     		toExile = player.hand.get(toExile);
     		player.exileFromHand(toExile, this, context);
     	}
+	}
+	
+	private void scrap(Game game, MoveContext context, Player player) {
+		if (player.getHand().size() == 0) return;
+
+        Card card = player.controlPlayer.scrap_cardToTrash(context);
+        if (card == null) {
+            Util.playerError(player, "Scrap errror, trash random card.");
+            card = Util.randomCard(player.hand);
+        }
+        player.trashFromHand(card, this.getControlCard(), context);
+        int numOptions = Math.min(6, card.getCost(context));
+        if (numOptions > 0) {
+            ScrapOption[] options = null;
+
+            if (numOptions >= 6) {
+                options = ScrapOption.values();
+            } else {
+                options = player.controlPlayer.scrap_chooseOptions(context, ScrapOption.values(), numOptions);
+            }
+
+            if (options == null || options.length != numOptions /*TODO CHECK THAT THERE ARE NO DUPLICATES */) {
+                Util.playerError(player, "Scrap Error, Ignoring");
+            } else {
+            	ArrayList<ScrapOption> optionsList = new ArrayList<Player.ScrapOption>(Arrays.asList(options));
+                for (ScrapOption option : ScrapOption.values()) {
+                	if (!optionsList.contains(option)) continue;
+                    switch (option) {
+                        case AddAction:
+                            context.addActions(1, this);
+                            break;
+                        case AddBuy:
+                            context.buys++;
+                            break;
+                        case AddCoin:
+                            context.addCoins(1, this.getControlCard());
+                            break;
+                        case AddCard:
+                        	game.drawToHand(context, this.getControlCard(), 1);
+                        	break;
+                        case GainSilver:
+                            player.gainNewCard(Cards.silver, this.getControlCard(), context);
+                            break;
+                        case GainHorse:
+                            player.gainNewCard(Cards.horse, this.getControlCard(), context);
+                            break;
+                    }
+                }
+            }
+        }
 	}
 		
 	private void snowyVillage(Game game, MoveContext context, Player player) {

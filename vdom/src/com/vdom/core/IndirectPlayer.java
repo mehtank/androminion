@@ -4701,6 +4701,25 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card scrap_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.scrap);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
+    public ScrapOption[] scrap_chooseOptions(MoveContext context, ScrapOption[] options, int numOptions) {
+    	ScrapOption[] ret = new ScrapOption[numOptions];
+        List<ScrapOption> optionList = new ArrayList<ScrapOption>(Arrays.asList(ScrapOption.values()));
+
+        for (int i = 0; i < numOptions; i++) {
+            int choice = selectOption(context, Cards.scrap, optionList.toArray());
+            ret[i] = optionList.remove(choice);
+        }
+        return ret;
+    }
+    
+    @Override
     public Card toil_cardToPlay(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().isAction()
                 .setPassable().setPickType(PickType.PLAY).setActionType(ActionType.PLAY)

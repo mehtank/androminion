@@ -589,6 +589,12 @@
   <string name="gamble_play_card">Play %1$s</string>
   <string name="huntingLodge_discard">Discard hand for +5 Cards</string>
   <string name="kiln_gain_copy">Gain %1$s</string>
+  <string name="scrap_option_add_card">+1 Card</string>
+  <string name="scrap_option_add_action">+1 Action</string>  
+  <string name="scrap_option_add_buy">+1 Buy</string>
+  <string name="scrap_option_add_coin">+(1) Coin</string>
+  <string name="scrap_option_gain_silver">Gain Silver</string>
+  <string name="scrap_option_gain_horse">Gain Horse</string>
   <string name="transport_exileActionFromSupply">Exile Action card from Supply</string>
   <string name="transport_topdeckActionFromExile">Put Action card from Exile onto deck</string>
   <string name="transport_query">Select card to top deck from Exile</string>

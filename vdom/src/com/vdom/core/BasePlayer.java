@@ -5599,6 +5599,21 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	return lowestCard(context, context.getPlayer().getHand(), true);
     }
     
+    @Override
+    public Card scrap_cardToTrash(MoveContext context) {
+    	return controlPlayer.remodel_cardToTrash(context);
+    }
+    
+    @Override
+    public ScrapOption[] scrap_chooseOptions(MoveContext context, ScrapOption[] options, int numOptions) {
+    	ScrapOption[] ret = new ScrapOption[numOptions];
+        List<ScrapOption> optionList = new ArrayList<ScrapOption>(Arrays.asList(ScrapOption.values()));
+        for (int i = 0; i < numOptions; i++) {
+            ret[i] = optionList.remove(rand.nextInt(optionList.size()));
+        }
+        return ret;
+    }
+    
     public Card toil_cardToPlay(MoveContext context) {
     	ArrayList<Card> validCards = new ArrayList<Card>();
 		for (Card c : context.player.hand) {
