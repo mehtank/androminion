@@ -595,6 +595,8 @@
   <string name="scrap_option_add_coin">+(1) Coin</string>
   <string name="scrap_option_gain_silver">Gain Silver</string>
   <string name="scrap_option_gain_horse">Gain Horse</string>
+  <string name="sleigh_option_discard_for_gained_to_hand">Discard to put %1$s in hand</string>
+  <string name="sleigh_option_discard_for_gained_to_deck">Discard to put %1$s on deck</string>
   <string name="transport_exileActionFromSupply">Exile Action card from Supply</string>
   <string name="transport_topdeckActionFromExile">Put Action card from Exile onto deck</string>
   <string name="transport_query">Select card to top deck from Exile</string>

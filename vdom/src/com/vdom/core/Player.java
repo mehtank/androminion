@@ -2206,6 +2206,12 @@ public abstract class Player {
         GainHorse
     }
 	
+	public static enum SleighOption {
+		DiscardForGainedCardToHand,
+		DiscardForGainedCardToDeck,
+		Pass
+	}
+	
 	public static enum TransportOption {
         ExileActionFromSupply,
         TopdeckActionFromExile
@@ -2920,6 +2926,7 @@ public abstract class Player {
     public abstract Card sanctuary_cardToExile(MoveContext context);
     public abstract Card scrap_cardToTrash(MoveContext context);
     public abstract ScrapOption[] scrap_chooseOptions(MoveContext context, ScrapOption[] options, int numOptions);
+    public abstract SleighOption sleigh_discardOption(MoveContext context, Card card);
     public abstract boolean wayfarer_shouldGainSilver(MoveContext context);
     public abstract boolean villageGreen_shouldReceiveNow(MoveContext context);
     public abstract boolean villageGreen_shouldPlay(MoveContext context);

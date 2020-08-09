@@ -4727,6 +4727,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public SleighOption sleigh_discardOption(MoveContext context, Card card) {
+    	Object[] options = new Object[4];
+    	options[0] = card;
+    	options[1] = SleighOption.DiscardForGainedCardToHand;
+    	options[2] = SleighOption.DiscardForGainedCardToDeck;
+    	options[3] = SleighOption.Pass;
+    	return (SleighOption)options[selectOption(context, Cards.sleigh, options) + 1];
+    }
+    
+    @Override
     public Card toil_cardToPlay(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().isAction()
                 .setPassable().setPickType(PickType.PLAY).setActionType(ActionType.PLAY)

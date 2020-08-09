@@ -29,6 +29,7 @@ import com.vdom.core.MoveContext.TurnPhase;
 import com.vdom.core.Player.DurationEffect;
 import com.vdom.core.Player.ExtraTurnOption;
 import com.vdom.core.Player.HuntingGroundsOption;
+import com.vdom.core.Player.SleighOption;
 import com.vdom.core.Player.WatchTowerOption;
 import com.vdom.core.Player.FoolsGoldOption;
 
@@ -4234,6 +4235,24 @@ public class Game {
                     		setAsideEvent.responsible = Cards.cargoShip;
                     		setAsideEvent.setPlayer(player);
                             context.game.broadcastEvent(setAsideEvent);
+                    		handled = true;
+                    	}
+                    }
+                    
+                    if (!handled && player.getCardInHand(Cards.sleigh) != null) {
+                    	SleighOption option = player.controlPlayer.sleigh_discardOption(context, event.card);
+                    	if (option != null && option != SleighOption.Pass) {
+                    		Card sleigh = player.hand.remove(player.hand.indexOf(Cards.sleigh));
+                    		player.discard(sleigh, Cards.sleigh, context);
+                    		if (option == SleighOption.DiscardForGainedCardToHand) {
+                    			player.hand.add(event.card);
+                    		} else if (option == SleighOption.DiscardForGainedCardToDeck) {
+                    			player.putOnTopOfDeck(event.card);
+                    			GameEvent deckEvent = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+                    			deckEvent.card = event.card;
+                    			deckEvent.responsible = Cards.sleigh;
+                                context.game.broadcastEvent(deckEvent);
+                    		}
                     		handled = true;
                     	}
                     }

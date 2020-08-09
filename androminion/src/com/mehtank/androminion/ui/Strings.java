@@ -48,6 +48,7 @@ import com.vdom.core.Player.PutBackOption;
 import com.vdom.core.Player.QuestOption;
 import com.vdom.core.Player.ScrapOption;
 import com.vdom.core.Player.SentryOption;
+import com.vdom.core.Player.SleighOption;
 import com.vdom.core.Player.SpiceMerchantOption;
 import com.vdom.core.Player.SquireOption;
 import com.vdom.core.Player.StewardOption;
@@ -887,6 +888,8 @@ public class Strings {
             return 1;
         } else if (cardName.equals(getCardName(Cards.foolsGold))) {
 			return 1;
+		} else if (cardName.equals(getCardName(Cards.sleigh))) {
+			return 1;
 		}
         return 0;
     }
@@ -1325,6 +1328,14 @@ public class Strings {
                 return getString(R.string.scrap_option_gain_silver);
             } else if (option == ScrapOption.GainHorse) {
                 return getString(R.string.scrap_option_gain_horse);
+            }
+        } else if (option instanceof SleighOption) {
+            if (option == SleighOption.DiscardForGainedCardToHand) {
+            	return format(R.string.sleigh_option_discard_for_gained_to_hand, getCardName((Card)extras[0]));
+            } else if (option == SleighOption.DiscardForGainedCardToDeck) {
+            	return format(R.string.sleigh_option_discard_for_gained_to_deck, getCardName((Card)extras[0]));
+            } else if (option == SleighOption.Pass) {
+            	return getString(R.string.pass);
             }
         } else if (option instanceof TransportOption) {
             if (option == TransportOption.ExileActionFromSupply) {

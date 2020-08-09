@@ -81,6 +81,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Scrap:
 			scrap(game, context, currentPlayer);
 			break;
+		case Sleigh:
+			sleigh(game, context, currentPlayer);
+			break;
 		case SnowyVillage:
 			snowyVillage(game, context, currentPlayer);
 			break;
@@ -526,6 +529,11 @@ public class CardImplMenagerie extends CardImpl {
                 }
             }
         }
+	}
+	
+	private void sleigh(Game game, MoveContext context, Player player) {
+		player.gainNewCard(Cards.horse, getControlCard(), context);
+		player.gainNewCard(Cards.horse, getControlCard(), context);
 	}
 		
 	private void snowyVillage(Game game, MoveContext context, Player player) {

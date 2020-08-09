@@ -593,6 +593,8 @@
   <string name="scrap_option_add_coin">+(1) Moneda</string>
   <string name="scrap_option_gain_silver">Ganar una carta de Plata</string>
   <string name="scrap_option_gain_horse">Ganar una carta de Caballo</string>
+  <string name="sleigh_option_discard_for_gained_to_hand">Descartar para poner la carta de %1$s en tu mano</string>
+  <string name="sleigh_option_discard_for_gained_to_deck">Descartar para poner la carta de %1$s encima de tu mazo</string>
   <string name="transport_exileActionFromSupply">Exiliar una carta de Acción del Suministro</string>
   <string name="transport_topdeckActionFromExile">Poner una carta de Acción de Exilio encima de tu mazo</string>
   <string name="transport_query">Elige una carta de Exilio para poner encima de tu mazo</string>

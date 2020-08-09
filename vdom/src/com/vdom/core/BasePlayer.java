@@ -5619,6 +5619,14 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return ret;
     }
     
+    @Override
+    public SleighOption sleigh_discardOption(MoveContext context, Card card) {
+    	if ((card.is(Type.Action) && context.phase == TurnPhase.Action && context.getActions() == 0) ||
+    			(card.is(Type.Treasure) && context.phase == TurnPhase.Buy && context.totalCardsBoughtInMostRecentBuyPhase > 0))
+    		return SleighOption.DiscardForGainedCardToDeck;
+    	return SleighOption.DiscardForGainedCardToHand;
+    }
+    
     public Card toil_cardToPlay(MoveContext context) {
     	ArrayList<Card> validCards = new ArrayList<Card>();
 		for (Card c : context.player.hand) {
