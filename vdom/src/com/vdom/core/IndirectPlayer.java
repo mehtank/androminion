@@ -4638,6 +4638,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card[] hostelry_treasuresToDiscard(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().isTreasure().setPassable()
+                .setPickType(PickType.DISCARD).setActionType(ActionType.DISCARD)
+                .setCardResponsible(Cards.hostelry)
+				.setCount(getTreasuresInHand(context).size());
+        return getFromHand(context, sco);
+    }
+    
+    @Override
     public boolean huntingLodge_shouldDiscardHand(MoveContext context) {
     	return selectBoolean(context, Cards.huntingLodge);
     }

@@ -4742,6 +4742,51 @@ public class Game {
                     	context.player.gainGuildsCoinTokens(2, context, Cards.spices);
                     } else if(gainedCardAbility.equals(Cards.camelTrain)) {
                     	player.exileFromSupply(Cards.gold, event.card, context);
+                    } else if (gainedCardAbility.equals(Cards.hostelry)) {
+                    	int numTreasures = 0;
+                    	for(Card c : player.hand) {
+                    		if (c.is(Type.Treasure))
+                    			numTreasures++;
+                    	}
+                    	if (numTreasures > 0) {
+                    		Card[] cards = player.controlPlayer.hostelry_treasuresToDiscard(context);
+                    		if (cards != null) {
+	                    		for (Card card : cards) {
+	                    			if (!card.is(Type.Treasure, player)) {
+	                    				Util.playerError(player, "Hostelry choice error, trying to discard non-treasure cards, ignoring.");
+	                    				cards = null;
+	                    				break;
+	                    			}
+	                    		}
+                    		}
+                    		if (cards != null) {
+                    			ArrayList<Card> toDiscard = new ArrayList<Card>();
+                    			int numberOfCards = 0;
+                    			for (Card card : cards) {
+                    				for (int i = 0; i < player.hand.size(); i++) {
+                    					Card playersCard = player.hand.get(i);
+                    					if (playersCard.equals(card)) {
+                    						player.hand.remove(card);
+                    						player.reveal(card, Cards.hostelry, context);
+                    						toDiscard.add(card);
+                    						numberOfCards++;
+                    						break;
+                    					}
+                    				}
+                    			}
+                    			for(Card c : toDiscard) {
+                    				player.discard(c, Cards.hostelry, context);
+                    			}
+
+                    			if (numberOfCards != cards.length) {
+                    				Util.playerError(player, "Hostelry discard error, trying to discard cards not in hand, ignoring extra.");
+                    			}
+
+                    			for(int i = 0; i < numberOfCards; ++i) {
+                    				player.gainNewCard(Cards.horse, Cards.hostelry, context);
+                    			}
+                    		}
+                    	}
                     }
                     
                     if(event.card.is(Type.Action, player)) {

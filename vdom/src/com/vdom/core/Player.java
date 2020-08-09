@@ -2888,6 +2888,7 @@ public abstract class Player {
     public abstract Card enhance_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract boolean gamble_shouldPlayCard(MoveContext context, Card card);
     public abstract Card groom_cardToObtain(MoveContext context);
+    public abstract Card[] hostelry_treasuresToDiscard(MoveContext context);
     public abstract boolean huntingLodge_shouldDiscardHand(MoveContext context);
     public abstract boolean kiln_shouldGainCopy(MoveContext context, Card card);
     public abstract Card mastermind_cardToPlay(MoveContext context);

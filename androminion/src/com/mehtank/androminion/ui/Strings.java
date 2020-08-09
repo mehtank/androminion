@@ -2127,6 +2127,7 @@ public class Strings {
             getCardName(Cards.displace),
             getCardName(Cards.enhance),
             getCardName(Cards.groom),
+            getCardName(Cards.hostelry),
             getCardName(Cards.sanctuary),
             getCardName(Cards.toil),
             getCardName(Cards.transport),

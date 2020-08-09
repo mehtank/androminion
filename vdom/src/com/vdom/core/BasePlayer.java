@@ -5537,6 +5537,18 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card[] hostelry_treasuresToDiscard(MoveContext context) {
+    	List<Card> result = new ArrayList<Card>();
+    	Player p = context.getPlayer();
+    	for (Card c : p.getHand()) {
+    		if (c.is(Type.Treasure, p)) {
+    			result.add(c);
+    		}
+    	}
+    	return result.toArray(new Card[0]);
+    }
+    
+    @Override
     public boolean huntingLodge_shouldDiscardHand(MoveContext context) {
     	int coinsInHand = getCoinEstimate(context);
     	int goldCost = Cards.gold.getCost(context, context.phase == TurnPhase.Buy);
