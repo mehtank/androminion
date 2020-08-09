@@ -33,6 +33,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     
     public static final String BOOLEAN_USE_VILLAGER = "VILLAGER";
     public static final String BOOLEAN_DISCARD_FROM_EXILE = "EXILE";
+    public static final String BOOLEAN_PLAY = "PLAY";
+    public static final String BOOLEAN_RECEIVE_NOW = "RECEIVE_NOW";
     public static final String OPTION_REACTION = "REACTION";
     public static final String OPTION_PUTBACK = "PUTBACK";
     public static final String OPTION_SPEND_GUILD_COINS = "GUILDCOINS";
@@ -4748,5 +4750,19 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public boolean wayfarer_shouldGainSilver(MoveContext context) {
     	return selectBoolean(context, Cards.wayfarer);
+    }
+    
+    @Override
+    public boolean villageGreen_shouldReceiveNow(MoveContext context) {
+    	Object[] extras = new Object[1];
+    	extras[0] = BOOLEAN_RECEIVE_NOW;
+    	return selectBoolean(context, Cards.villageGreen, extras);
+    }
+    
+    @Override
+    public boolean villageGreen_shouldPlay(MoveContext context) {
+    	Object[] extras = new Object[1];
+    	extras[0] = BOOLEAN_PLAY;
+    	return selectBoolean(context, Cards.villageGreen, extras);
     }
 }

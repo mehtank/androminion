@@ -111,6 +111,9 @@ public class CardImplMenagerie extends CardImpl {
 		case WayOfTheWorm:
 			wayOfTheWorm(game, context, currentPlayer);
 			break;
+		case VillageGreen:
+			villageGreen(game, context, currentPlayer, isThronedEffect);
+			break;
 		default:
 			break;
 		}
@@ -521,6 +524,16 @@ public class CardImplMenagerie extends CardImpl {
 		if (player.controlPlayer.wayfarer_shouldGainSilver(context))
 			player.gainNewCard(Cards.silver, getControlCard(), context);
 	}
+	
+	private void villageGreen (Game game, MoveContext context, Player player, boolean isThronedEffect) {
+		if (player.controlPlayer.villageGreen_shouldReceiveNow(context)) {
+        	game.drawToHand(context, this, 1);
+            context.addActions(2);
+			return;
+	    }
+		player.addStartTurnDurationEffect(this, 1, isThronedEffect);
+	}
+	
 	
 	private void alliance(MoveContext context) {
 		context.getPlayer().gainNewCard(Cards.province, this.getControlCard(), context);

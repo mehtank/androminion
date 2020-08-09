@@ -5663,4 +5663,17 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	// TODO how do we determine when an additional Silver will hurt?
     	return true;
     }
+    
+    @Override
+    public boolean villageGreen_shouldReceiveNow(MoveContext context) {
+    	for(Card c : context.player.hand) {
+    		if (c.is(Type.Action)) return true;
+    	}
+    	return false;
+    }
+    
+    @Override
+    public boolean villageGreen_shouldPlay(MoveContext context) {
+    	return true;
+    }
 }

@@ -1639,6 +1639,15 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.wayfarer))) {
         	strings[1] = getString(R.string.gain_silver);
             strings[2] = getString(R.string.pass);
+        } else if (cardName.equals(getCardName(Cards.villageGreen))) {
+        	if (((String)extras[0]).equals(IndirectPlayer.BOOLEAN_PLAY)) {
+        		strings[0] = getString(R.string.villageGreen_query);
+        		strings[1] = getString(R.string.villageGreen_play);
+                strings[2] = getString(R.string.pass);
+        	} else {
+        		strings[1] = getString(R.string.villageGreen_now);
+                strings[2] = getString(R.string.villageGreen_next_turn);
+        	}
         } else if (cardName.equals(getCardName(Cards.prince))) {
             strings[1] = getString(R.string.set_aside);
             strings[2] = getString(R.string.pass);

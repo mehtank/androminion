@@ -596,6 +596,10 @@
   <string name="transport_exileActionFromSupply">Exiliar una carta de Acción del Suministro</string>
   <string name="transport_topdeckActionFromExile">Poner una carta de Acción de Exilio encima de tu mazo</string>
   <string name="transport_query">Elige una carta de Exilio para poner encima de tu mazo</string>
+  <string name="villageGreen_now">+1 Carta y +2 Acciones ahora</string>
+  <string name="villageGreen_query">Descartando Borde de Pueblo</string>
+  <string name="villageGreen_play">Jugar</string>
+  <string name="villageGreen_next_turn">Al comienzo de tu próximo turno</string>
   <string name="discard_from_exile_query">¿Descartar %1$s (x%2$s) de Exilio?</string>
   <string name="discard_from_exile_option">Descartar</string>
   <string name="way_query">Jugar %1$s con Camino?</string>

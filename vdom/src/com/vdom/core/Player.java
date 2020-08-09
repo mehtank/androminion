@@ -1688,15 +1688,13 @@ public abstract class Player {
         if (willDiscard) {
         	if(commandedDiscard) {
         		if (card.equals(Cards.tunnel)) {
-        			MoveContext tunnelContext = new MoveContext(game, this);
-
-                    if(game.pileSize(Cards.gold) > 0 && controlPlayer.tunnel_shouldReveal(tunnelContext)) {
+        			MoveContext tunnelContext = (context.player != this) ? new MoveContext(game, this) : context;
+        			if(game.pileSize(Cards.gold) > 0 && controlPlayer.tunnel_shouldReveal(tunnelContext)) {
                         reveal(card, card, tunnelContext);
                         gainNewCard(Cards.gold, card, tunnelContext);
                     }
         		} else if (card.equals(Cards.faithfulHound)) {
-        			MoveContext houndContext = new MoveContext(game, this);
-
+        			MoveContext houndContext = (context.player != this) ? new MoveContext(game, this) : context;
                     if(controlPlayer.faithfulHound_shouldSetAside(houndContext)) {
                     	discard.remove(card);
                     	faithfulHound.add(card);
@@ -1705,6 +1703,14 @@ public abstract class Player {
             	        event.responsible = Cards.faithfulHound;
             	        event.setPrivate(true);
             	        context.game.broadcastEvent(event);
+                    }
+        		} else if (card.equals(Cards.villageGreen)) {
+        			MoveContext villageGreenContext = (context.player != this) ? new MoveContext(game, this) : context;
+                    if(controlPlayer.villageGreen_shouldPlay(villageGreenContext)) {
+                    	discard.remove(card);
+                    	villageGreenContext.freeActionInEffect++;
+        		        card.play(game, context, false, false, false, false, false);
+        		        villageGreenContext.freeActionInEffect--;
                     }
         		}
             }
@@ -2905,6 +2911,8 @@ public abstract class Player {
     public abstract Card scrap_cardToTrash(MoveContext context);
     public abstract ScrapOption[] scrap_chooseOptions(MoveContext context, ScrapOption[] options, int numOptions);
     public abstract boolean wayfarer_shouldGainSilver(MoveContext context);
+    public abstract boolean villageGreen_shouldReceiveNow(MoveContext context);
+    public abstract boolean villageGreen_shouldPlay(MoveContext context);
     
     public abstract Card demand_cardToObtain(MoveContext context);
     public abstract boolean desperation_shouldGainCurse(MoveContext context);

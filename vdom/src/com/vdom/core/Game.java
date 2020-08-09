@@ -1584,6 +1584,10 @@ public class Game {
                     }
         			context.buys += 1;
                 }
+                if (card.behaveAsCard().equals(Cards.villageGreen)) {
+                    context.game.drawToHand(context, card, 1);
+                    context.addActions(2);
+                }
                 
                 Card thisCard = card.behaveAsCard();
                 
