@@ -102,6 +102,9 @@ public class CardImplMenagerie extends CardImpl {
 		case WayOfTheCamel:
 			wayOfTheCamel(game, context, currentPlayer);
 			break;
+		case WayOfTheGoat:
+			wayOfTheGoat(game, context, currentPlayer);
+			break;
 		case WayOfTheHorse:
 			wayOfTheHorse(game, context, currentPlayer);
 			break;
@@ -508,7 +511,7 @@ public class CardImplMenagerie extends CardImpl {
 
         Card card = player.controlPlayer.scrap_cardToTrash(context);
         if (card == null) {
-            Util.playerError(player, "Scrap errror, trash random card.");
+            Util.playerError(player, "Scrap error, trash random card.");
             card = Util.randomCard(player.hand);
         }
         player.trashFromHand(card, this.getControlCard(), context);
@@ -831,6 +834,16 @@ public class CardImplMenagerie extends CardImpl {
 	
 	private void wayOfTheCamel(Game game, MoveContext context, Player player) {
 		player.exileFromSupply(Cards.gold, Cards.wayOfTheCamel, context);
+	}
+	
+	private void wayOfTheGoat(Game game, MoveContext context, Player player) {
+		if (player.hand.isEmpty()) return;
+		Card card = player.controlPlayer.wayOfTheGoat_cardToTrash(context);
+        if (card == null || !player.hand.contains(card)) {
+            Util.playerError(player, "Way of the Goat error, trash random card.");
+            card = Util.randomCard(player.hand);
+        }
+        player.trashFromHand(card, Cards.wayOfTheGoat, context);
 	}
 	
 	private void wayOfTheHorse(Game game, MoveContext context, Player player) {

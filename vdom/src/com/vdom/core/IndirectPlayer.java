@@ -186,7 +186,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         Card[] cards = context.getCardsInGame(sco.applyOptionsToPile ? GetCardsInGameOptions.Placeholders : GetCardsInGameOptions.TopOfPiles);
 
         for (Card card : cards) {
-        	if (card.is(Type.Project) && context.player.getProjectsBought().size() >= context.game.numProjectCubes)
+        	if (card.is(Type.Project) && context.player.getProjectsBought().size() >= Game.numProjectCubes)
         		continue;
         	boolean hasTokens = context.game.getPlayerSupplyTokens(card, context.getPlayer()).size() > 0;
             if ((sco.allowEmpty || !context.game.isPileEmpty(card))) {
@@ -4782,6 +4782,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public boolean wayfarer_shouldGainSilver(MoveContext context) {
     	return selectBoolean(context, Cards.wayfarer);
+    }
+    
+    @Override
+    public Card wayOfTheGoat_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.wayOfTheGoat);
+        return getCardFromHand(context, sco);
     }
     
     @Override

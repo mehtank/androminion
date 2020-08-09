@@ -5693,6 +5693,15 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card wayOfTheGoat_cardToTrash(MoveContext context) {
+    	Card c = pickOutCard(context.getPlayer().getHand(), getTrashCards());
+    	if (c == null) {
+    		c = lowestCard(context, context.player.hand, false);
+    	}
+    	return c;
+    }
+    
+    @Override
     public boolean villageGreen_shouldReceiveNow(MoveContext context) {
     	for(Card c : context.player.hand) {
     		if (c.is(Type.Action)) return true;

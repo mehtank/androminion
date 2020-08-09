@@ -2943,6 +2943,8 @@ public abstract class Player {
     public abstract Card transport_cardToExile(MoveContext context);
     public abstract Card transport_cardToTopdeckFromExile(MoveContext context, Card[] cards);
     
+    public abstract Card wayOfTheGoat_cardToTrash(MoveContext context);
+    
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards

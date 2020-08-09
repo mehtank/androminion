@@ -2176,6 +2176,7 @@ public class Strings {
             getCardName(Cards.scrap),
             getCardName(Cards.toil),
             getCardName(Cards.transport),
+            getCardName(Cards.wayOfTheGoat),
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),
