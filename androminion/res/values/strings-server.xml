@@ -601,12 +601,12 @@
   <string name="villageGreen_now">+1 Card and +2 Actions now</string>
   <string name="villageGreen_next_turn">At start of next turn</string>
   <string name="villageGreen_query">Discarding Village Green</string>
-  <string name="villageGreen_play">Play</string>
   <string name="discard_from_exile_query">Discard %1$s (x%2$s) from Exile?</string>
   <string name="discard_from_exile_option">Discard</string>
   <string name="way_query">Play %1$s using Way?</string>
   <string name="way_play_normally_option">Play normally</string>
       
+  <string name="reaction_play">Play</string>
   <string name="set_aside">Set aside</string>
   
   <string name="place_stash_query">Place Stash in deck</string>

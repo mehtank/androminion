@@ -4456,9 +4456,14 @@ public class Game {
                     	for (Player otherPlayer : context.game.getPlayersInTurnOrder()) {
                             if (player == otherPlayer)
                             	continue;
+                            MoveContext otherPlayerContext = new MoveContext(context.game, otherPlayer);
                             if (otherPlayer.hasProject(Cards.roadNetwork)) {
-                            	MoveContext otherPlayerContext = new MoveContext(context.game, otherPlayer);
                             	context.game.drawToHand(otherPlayerContext, Cards.roadNetwork, 1);
+                            }
+                            while(otherPlayer.getCardInHand(Cards.blackCat) != null && otherPlayer.controlPlayer.blackCat_shouldPlay(otherPlayerContext)) {
+                            	otherPlayerContext.freeActionInEffect++;
+                            	otherPlayer.getCardInHand(Cards.blackCat).play(context.game, otherPlayerContext, true);
+                            	otherPlayerContext.freeActionInEffect--;
                             }
                     	}
                     }

@@ -30,6 +30,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Barge:
 			barge(game, context, currentPlayer, isThronedEffect);
 			break;
+		case BlackCat:
+			blackCat(game, context, currentPlayer);
+			break;
 		case BountyHunter:
 			bountyHunter(game, context, currentPlayer);
 			break;
@@ -236,6 +239,24 @@ public class CardImplMenagerie extends CardImpl {
 			return;
 	    }
 		player.addStartTurnDurationEffect(this, 1, isThronedEffect);
+	}
+	
+	private void blackCat(Game game, MoveContext context, Player currentPlayer) {
+		if (game.getCurrentPlayer() == context.player) return;
+
+		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
+    	for (Player player : context.game.getPlayersInTurnOrder()) {
+            if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
+            	attackedPlayers.add(player);
+            }
+    	}
+		
+    	for (Player player : attackedPlayers) {
+			player.attacked(this.getControlCard(), context);
+            MoveContext playerContext = new MoveContext(game, player);
+            playerContext.attackedPlayer = player;
+            player.gainNewCard(Cards.curse, this.getControlCard(), playerContext);
+        }
 	}
 	
 	private void bountyHunter(Game game, MoveContext context, Player player) {

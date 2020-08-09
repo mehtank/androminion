@@ -779,6 +779,15 @@ public abstract class Player {
         return hand;
     }
     
+    public Card getCardInHand(Card card) {
+    	for (Card c : hand) {
+    		if (c.equals(card)) {
+    			return c;
+    		}
+    	}
+    	return null;
+    }
+    
     public int getStashesInHand() {
     	if (hand.size() == 0)
     		return 0;
@@ -2894,6 +2903,7 @@ public abstract class Player {
     public abstract Card animalFair_actionToTrash(MoveContext context);
     public abstract Card bargain_cardToObtain(MoveContext context);
     public abstract boolean barge_shouldReceiveNow(MoveContext context);
+    public abstract boolean blackCat_shouldPlay(MoveContext context);
     public abstract Card bountyHunter_cardToExile(MoveContext context);
     public abstract Card camelTrain_cardToExile(MoveContext context);
     public abstract Card cardinal_cardToExile(MoveContext context, ArrayList<Card> cards);

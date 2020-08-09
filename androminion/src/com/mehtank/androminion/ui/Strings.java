@@ -1623,6 +1623,9 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.barge))) {
         	strings[1] = getString(R.string.barge_now);
             strings[2] = getString(R.string.barge_next_turn);
+        } else if (cardName.equals(getCardName(Cards.blackCat))) {
+        	strings[1] = getString(R.string.reaction_play);
+            strings[2] = getString(R.string.pass);
         } else if (cardName.equals(getCardName(Cards.desperation))) {
         	strings[1] = getString(R.string.gain_curse);
             strings[2] = getString(R.string.pass);
@@ -1642,7 +1645,7 @@ public class Strings {
         } else if (cardName.equals(getCardName(Cards.villageGreen))) {
         	if (((String)extras[0]).equals(IndirectPlayer.BOOLEAN_PLAY)) {
         		strings[0] = getString(R.string.villageGreen_query);
-        		strings[1] = getString(R.string.villageGreen_play);
+        		strings[1] = getString(R.string.reaction_play);
                 strings[2] = getString(R.string.pass);
         	} else {
         		strings[1] = getString(R.string.villageGreen_now);

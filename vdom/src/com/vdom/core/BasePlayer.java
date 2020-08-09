@@ -5472,6 +5472,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         return true;
     }
     
+    @Override
+    public boolean blackCat_shouldPlay(MoveContext context) {
+    	return true;
+    }
+    
     public Card bountyHunter_cardToExile(MoveContext context) {
     	//TODO: prioritize victory cards that don't have copies on mat,
     	//      then trash cards without copies on mat (but maybe not Curses...)

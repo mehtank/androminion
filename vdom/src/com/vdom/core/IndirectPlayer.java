@@ -4562,6 +4562,11 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public boolean blackCat_shouldPlay(MoveContext context) {
+    	return selectBoolean(context, Cards.blackCat);
+    }
+    
+    @Override
     public Card bountyHunter_cardToExile(MoveContext context) {
         SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.EXILE)
                 .setActionType(ActionType.EXILE).setCardResponsible(Cards.bountyHunter);
