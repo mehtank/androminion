@@ -4684,6 +4684,16 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card pursue_cardToPick(MoveContext context, List<Card> cardList) {
+    	List<Card> options = new ArrayList<Card>();
+        options.add(null);
+        for (Card c : cardList) {
+            options.add(c);
+        }
+        return options.get(selectOption(context, Cards.pursue, options.toArray()));
+    }
+    
+    @Override
     public Card sanctuary_cardToExile(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.EXILE).setPassable()
                 .setActionType(ActionType.EXILE).setCardResponsible(Cards.sanctuary);

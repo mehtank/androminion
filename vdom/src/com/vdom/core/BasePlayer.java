@@ -5584,6 +5584,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     @Override
+    public Card pursue_cardToPick(MoveContext context, List<Card> options) {
+    	return highestCard(context, options);
+    }
+    
+    @Override
     public Card sanctuary_cardToExile(MoveContext context) {
     	for (Card card : context.getPlayer().getHand()) {
             if (isOnlyVictory(card, context.getPlayer())) {

@@ -1,6 +1,7 @@
 package com.vdom.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -142,6 +143,9 @@ public class CardImplMenagerie extends CardImpl {
         	break;
         case Populate:
         	populate(context);
+        	break;
+        case Pursue:
+        	pursue(context);
         	break;
         case Reap:
         	reap(context);
@@ -584,6 +588,38 @@ public class CardImplMenagerie extends CardImpl {
 		Card[] actionPiles = context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true, Type.Action);
 		for(Card card : actionPiles)
 			context.getPlayer().gainNewCard(card, this.getControlCard(), context);
+	}
+	
+	private void pursue(MoveContext context) {
+		Player player = context.player;
+		List<Card> options = new ArrayList<Card>(player.getDistinctCards());
+		if (options.size() == 0) return;
+        Collections.sort(options, new Util.CardNameComparator());
+        Card named = player.controlPlayer.pursue_cardToPick(context, options);
+        player.namedCard(named, this.getControlCard(), context);
+        
+        ArrayList<Card> matches = new ArrayList<Card>();
+        ArrayList<Card> toDiscard = new ArrayList<Card>();
+        for (int i = 0; i < 4; ++i) {
+			Card c = context.game.draw(context, Cards.pursue, 4 - i);
+			if (c == null) break;
+			player.reveal(c, Cards.pursue, context);
+			if (c.equals(named)) {
+				matches.add(c);
+			} else {
+				toDiscard.add(c);
+			}
+		}
+        for (Card c : matches) {
+        	player.putOnTopOfDeck(c, context, false);
+        	GameEvent event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+            event.card = c;
+            event.responsible = Cards.pursue;
+            context.game.broadcastEvent(event);
+        }
+        for (Card c : toDiscard) {
+        	player.discard(c, Cards.pursue, context);
+        }
 	}
 	
 	private void reap(MoveContext context) {
