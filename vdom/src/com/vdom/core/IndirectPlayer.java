@@ -4650,6 +4650,13 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
     
     @Override
+    public Card goatherd_cardToTrash(MoveContext context) {
+    	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH).setPassable()
+                .setActionType(ActionType.TRASH).setCardResponsible(Cards.goatherd);
+        return getCardFromHand(context, sco);
+    }
+    
+    @Override
     public Card groom_cardToObtain(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().maxPotionCost(0).maxCost(4).maxDebtCost(0)
                 .setActionType(ActionType.GAIN).setCardResponsible(Cards.groom);

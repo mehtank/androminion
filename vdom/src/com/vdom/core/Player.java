@@ -1864,6 +1864,7 @@ public abstract class Player {
         if(context != null) {
             // TODO: Track in main game event listener instead
             context.cardsTrashedThisTurn++;
+            context.game.cardsTrashedLastTurn[Game.playersTurn].add(card);
         }
         
         // Add to trash pile
@@ -2920,6 +2921,7 @@ public abstract class Player {
     public abstract Card falconer_cardToGain(MoveContext context, int maxCost);
     public abstract boolean falconer_shouldPlay(MoveContext context);
     public abstract boolean gamble_shouldPlayCard(MoveContext context, Card card);
+    public abstract Card goatherd_cardToTrash(MoveContext context);
     public abstract Card groom_cardToObtain(MoveContext context);
     public abstract Card[] hostelry_treasuresToDiscard(MoveContext context);
     public abstract boolean huntingLodge_shouldDiscardHand(MoveContext context);

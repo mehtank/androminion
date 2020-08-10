@@ -2169,6 +2169,7 @@ public class Strings {
             getCardName(Cards.displace),
             getCardName(Cards.enhance),
             getCardName(Cards.falconer),
+            getCardName(Cards.goatherd),
             getCardName(Cards.groom),
             getCardName(Cards.hostelry),
             getCardName(Cards.pursue),

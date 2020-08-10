@@ -57,6 +57,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Gatekeeper:
 			durationAttack(game, context, currentPlayer);
 			break;
+		case Goatherd:
+			goatherd(game, context, currentPlayer);
+			break;
 		case Groom:
 			groom(game, context, currentPlayer);
 			break;
@@ -433,6 +436,24 @@ public class CardImplMenagerie extends CardImpl {
 			}
 		}
 		player.gainNewCard(toGain, Cards.falconer, context);
+	}
+	
+	private void goatherd(Game game, MoveContext context, Player player) {
+		if (!player.hand.isEmpty()) {
+			Card toTrash = player.controlPlayer.goatherd_cardToTrash(context);
+			if (toTrash != null) {
+				if (!player.hand.contains(toTrash)) {
+					Util.playerError(player, "Goatherd trash card error, ignoring.");
+				} else {
+					player.trashFromHand(toTrash, Cards.goatherd, context);
+				}
+			}
+		}
+		
+		int draws = game.getCardsTrashedByLastPlayer().size();
+		for (int i = 0; i < draws; ++i) {
+			game.drawToHand(context, this.getControlCard(), draws - i);
+		}
 	}
 	
 	private void groom(Game game, MoveContext context, Player player) {

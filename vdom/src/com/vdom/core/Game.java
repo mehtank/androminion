@@ -177,6 +177,7 @@ public class Game {
 
     ArrayList<Card>[] cardsObtainedLastTurn;
     ArrayList<Card>[] allCardsObtainedLastTurn;
+    ArrayList<Card>[] cardsTrashedLastTurn;
     static int playersTurn;
 
     //    public UI ui;
@@ -1190,6 +1191,7 @@ public class Game {
         
         cardsObtainedLastTurn[playersTurn].clear();
         allCardsObtainedLastTurn[playersTurn].clear();
+        cardsTrashedLastTurn[playersTurn].clear();
         if (consecutiveTurnCounter == 1 && !isFleetRound)
             player.newTurn();
         
@@ -3100,9 +3102,11 @@ public class Game {
         players = new Player[numPlayers];
         cardsObtainedLastTurn = new ArrayList[numPlayers];
         allCardsObtainedLastTurn = new ArrayList[numPlayers];
+        cardsTrashedLastTurn = new ArrayList[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
             cardsObtainedLastTurn[i] = new ArrayList<Card>();
             allCardsObtainedLastTurn[i] = new ArrayList<Card>();
+            cardsTrashedLastTurn[i] = new ArrayList<Card>();
         }
 
         ArrayList<String[]> randomize = new ArrayList<String[]>();
@@ -5320,6 +5324,11 @@ public class Game {
         return allCardsObtainedLastTurn[playersTurn];
     }
     
+    
+    private ArrayList<Card> getCardsTrashedByPlayer(int PlayerNumber) {
+        return cardsTrashedLastTurn[PlayerNumber];
+    }
+    
     public ArrayList<Card> getActionCardsObtainedByPlayer() {
         ArrayList<Card> cards = getCardsObtainedByPlayer(playersTurn);
         ArrayList<Card> result = new ArrayList<Card>();
@@ -5338,6 +5347,14 @@ public class Game {
             playerOnRight = numPlayers - 1;
         }
         return getCardsObtainedByPlayer(playerOnRight);
+    }
+    
+    public ArrayList<Card> getCardsTrashedByLastPlayer() {
+        int playerOnRight = playersTurn - 1;
+        if (playerOnRight < 0) {
+            playerOnRight = numPlayers - 1;
+        }
+        return getCardsTrashedByPlayer(playerOnRight);
     }
     
     public Player getNextPlayer() {
