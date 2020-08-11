@@ -280,7 +280,7 @@
 	<string name="status_has_horn">拥有号角（每回合一次，当你从场上丢弃边境守卫时，你可以将它放到你的牌库顶）</string>
 	<string name="status_has_key">拥有钥匙 （当你的回合开始时，+(1)现金）</string>
 	<string name="status_has_lantern">拥有灯笼（你的边境守卫将展示3张牌，弃置2张）</string>
-	<string name="status_has_treasureChest">拥有财宝箱（购买阶段结束时，获得一个黄金）</string>
+	<string name="status_has_treasureChest">拥有宝箱（购买阶段结束时，获得一个黄金）</string>
 	<string name="status_coin_tokens">资金板块上的指示物：%1$s个</string>
 	<string name="status_villager_tokens">村民：%1$s个</string>
 	<string name="status_pirate_tokens">海盗船板块上的指示物：%1$s个</string>
