@@ -6,7 +6,7 @@
 	<string name="pass_all">全部忽略</string>
 	<string name="card_revealed">%1$s 展示了&lt;%2$s&gt;</string>
 	<string name="card_revealed_from_hand">%1$s 从手牌中展示了&lt;%2$s&gt;</string>
-	<string name="select_from_table_max_treasure">选择一张价值至多为(%1$s)的【宝藏】%2$s</string>
+	<string name="select_from_table_max_treasure"%2$s一张价值至多为(%1$s)的【宝藏】</string>
 	<string name="pawn_option_one">走卒（选择一）：</string>
 	<string name="pawn_option_two">走卒（选择二）：</string>
 	<string name="torturer_option_one">获取一张&lt;诅咒&gt;并将其置入手牌</string>
@@ -100,8 +100,8 @@
 	<string name="select_from_table_less_spirit">%2$s一张价值小于(%1$s)的【精灵】</string>
 	<string name="select_from_table_less_of_types">%3$s一张价值小于(%2$s)的【%1$s】</string>
 		
-	<string name="select_one_card_from_hand">选择一张手牌%1$s</string>
-	<string name="select_one_of_types_card_from_hand">（从手牌中）%2$s一张【%1$s】</string>
+	<string name="select_one_card_from_hand">%1$s一张手牌</string>
+	<string name="select_one_of_types_card_from_hand">从手牌中%2$s一张【%1$s】</string>
 	<string name="select_up_to_x_cards_from_hand">%2$s至多%1$s张手牌</string>
 	<string name="select_exactly_x_cards_from_hand">%2$s恰好%1$s张手牌</string>
 	<string name="select_from_x_to_y_cards_from_hand">%3$s%1$s至%2$s张手牌</string>
