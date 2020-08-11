@@ -461,7 +461,7 @@
 	
 	<string name="bishop_part">废弃来获取分数指示物：</string>
 	
-	<string name="swindler_part">给他换成价值(%1$s)的</string>
+	<string name="swindler_part">将骗子废弃的价值(%1$s)的牌替换为</string>
 	
 	<string name="margrave_part">保留[侯爵]</string>
 	
