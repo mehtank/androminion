@@ -146,8 +146,8 @@
 	<string name="card_to_gain">获取[%1$s]</string>
 	<string name="card_to_trash">废弃[%1$s]</string>
 	<string name="card_to_discard">丢弃[%1$s]</string>
-	<string name="card_to_discard_for_card">丢弃[%1$s]来抽卡：</string>
-	<string name="card_to_discard_for_coin">丢弃[%1$s]来得到现金：</string>
+	<string name="card_to_discard_for_card">丢弃手牌来抽卡[%1$s]：</string>
+	<string name="card_to_discard_for_coin">丢弃手牌以获得现金[%1$s]：</string>
 	<string name="card_to_name">命名/指定[%1$s]</string>
 	<string name="card_to_set_aside">置于一边[%1$s]：</string>
 	<string name="card_to_play">打出[%1$s]</string>
