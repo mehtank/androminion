@@ -204,7 +204,7 @@
 	<string name="CardTrashed">废弃</string>
 	<string name="CardRevealed">展示</string>
 	<string name="CardRevealedFromHand">从手牌中被展示</string>
-	<string name="CardNamed">命名</string>
+	<string name="CardNamed">指定</string>
 	<string name="CardDiscarded">丢弃</string>
 	<string name="CardAddedToHand">抽了一张牌</string>
 	<string name="CardRemovedFromHand">卡从手牌中移除</string>
