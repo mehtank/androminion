@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="type_treasure">Trésor</string>
     <string name="type_victory">Victoire</string>
@@ -16,7 +16,7 @@
     <string name="type_traveller">Itinérant</string>
     <string name="type_castle">Château</string>
     <string name="type_gathering">Collecte</string>
-    <string name="type_landmark">Jalon</string>   
+    <string name="type_landmark">Jalon</string>
     <string name="type_boon">Aubaine</string>
     <string name="type_doom">Fatalité</string>
     <string name="type_fate">Destin</string>
@@ -26,5 +26,9 @@
     <string name="type_spirit">Esprit</string>
     <string name="type_state">État</string>
     <string name="type_zombie">Zombie</string>
-    <string name="type_curse">Malédiction</string> 
+    <string name="type_curse">Malédiction</string>
+    <string name="type_artifact">Artefacts</string>
+    <string name="type_project">Projet</string>
+    <string name="type_command">Ordre</string>
+    <string name="type_way">Voie</string>
 </resources>
