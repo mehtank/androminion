@@ -1,5 +1,5 @@
 <resources>
-	<!-- Cartes communes -->
+    <!-- Cartes communes -->
     <string name="Copper_name">Cuivre</string>
     <string name="Copper_desc"></string>
     <string name="Silver_name">Argent</string>
@@ -22,7 +22,7 @@
     <string name="Colony_desc"></string>
     <string name="Moat_name">Douves</string>
     <string name="Moat_desc">Lorsqu\'un adversaire joue une carte Attaque, vous pouvez dévoiler cette carte de votre main. Dans ce cas, l\'Attaque n\'a pas d\'effet sur vous.</string>
-	<!-- Base -->
+    <!-- Base -->
     <string name="Adventurer_name">Aventurier</string>
     <string name="Adventurer_desc">Dévoilez des cartes de votre deck jusqu\'à ce que 2 cartes Trésor soient dévoilées. Ajoutez ces cartes Trésor à votre main et défaussez les autres cartes dévoilées.</string>
     <string name="Bureaucrat_name">Bureaucrate</string>
@@ -85,9 +85,7 @@
     <string name="Sentry_desc">Regardez les 2 premières cartes de votre deck. Écartez et/ou défaussez-en autant que vous le souhaitez. Replacez le reste sur votre deck dans l\'ordre de votre choix.</string>
     <string name="Vassal_name">Vassal</string>
     <string name="Vassal_desc">Défaussez la première carte de votre deck. Si c\'est une carte Action, vous pouvez la jouer.</string>
-
-	<!-- L'Intrigue -->
-
+    <!-- L'Intrigue -->
     <string name="Torturer_name">Bourreau</string>
     <string name="Torturer_desc">Chacun de vos adversaires choisit : défausser 2 cartes OU recevoir une carte Malédiction qui est ajoutée à sa main.</string>
     <string name="SecretChamber_name">Chambre Secrète</string>
@@ -100,7 +98,7 @@
     <string name="Courtyard_desc">Placez une carte de votre main sur le dessus de votre deck.</string>
     <string name="Harem_name">Harem</string>
     <string name="Harem_desc"></string>
-	<string name="Baron_name">Baron</string>
+    <string name="Baron_name">Baron</string>
     <string name="Baron_desc">Vous pouvez défausser une carte Domaine. Dans ce cas, obtenez +4 Pièces. Sinon, recevez une carte Domaine.</string>
     <string name="Bridge_name">Pont</string>
     <string name="Bridge_desc">Toutes les cartes (incluant celles dans la main des joueurs) coûtent 1 Pièce de moins pour le reste de votre tour. Les cartes ne peuvent pas coûter moins de 0 Pièce.</string>
@@ -145,14 +143,14 @@
     <string name="Replace_name">Remplacement</string>
     <string name="Replace_desc">Écartez une carte de votre main. Recevez une carte coûtant jusqu\'à (2) Pièces de plus que la carte écartée. Si la carte reçue est une Action ou un Trésor, placez-la sur votre deck. Si c\'est une carte Victoire, vos adversaires reçoivent une Malédiction chacun.</string>
     <string name="Diplomat_name">Diplomate</string>
-    <string name="Diplomat_desc">Si vous avez 5 cartes ou moins dans votre main (après tirage), +2 Actions.  Quand un autre joueur joue une carte Attaque, vous pouvez d\'abord révéler ceci d\'une main de 5 cartes ou plus pour piocher 2 cartes et en défausser 3 de votre main.</string>
+    <string name="Diplomat_desc">Si vous avez 5 cartes ou moins dans votre main (après tirage), +2 Actions. Quand un autre joueur joue une carte Attaque, vous pouvez d\'abord révéler ceci d\'une main de 5 cartes ou plus pour piocher 2 cartes et en défausser 3 de votre main.</string>
     <string name="Mill_name">Moulin</string>
     <string name="Mill_desc">Vous pouvez défausser 2 cartes pour +(2) Pièces.</string>
-	<string name="SecretPassage_name">Passage Secret</string>
+    <string name="SecretPassage_name">Passage Secret</string>
     <string name="SecretPassage_desc">Prenez une carte de votre main et placez-la n\'importe où dans votre deck.</string>
     <string name="Lurker_name">Rôdeur</string>
     <string name="Lurker_desc">Choisissez un effet: Écartez une carte Action de la réserve, ou recevez une carte Action du Rebut.</string>
-	<!-- Rivages -->
+    <!-- Rivages -->
     <string name="Ambassador_name">Ambassadeur</string>
     <string name="Ambassador_desc">Dévoilez une carte de votre main. Replacez, de votre main à la réserve, jusqu\'à 2 exemplaires de cette carte. Ensuite, tous vos adversaires reçoivent un exemplaire de cette carte.</string>
     <string name="Outpost_name">Avant-Poste</string>
@@ -205,7 +203,7 @@
     <string name="FishingVillage_desc"></string>
     <string name="NativeVillage_name">Village Indigène</string>
     <string name="NativeVillage_desc">Choisissez : Mettez de côté la première carte de votre deck, face cachée, sur votre plateau Village Indigène OU prenez dans votre main toutes les cartes placées sur votre plateau. Vous pouvez consulter les cartes placées sur votre plateau en tout temps. Replacez-les dans votre deck à la fin de la partie.</string>
-	<!-- Alchimie -->
+    <!-- Alchimie -->
     <string name="Alchemist_name">Alchimiste</string>
     <string name="Alchemist_desc">Lorsque vous défaussez cette carte de votre zone de jeu, vous pouvez la placer sur le dessus de votre deck si vous avez une Potion en jeu.</string>
     <string name="Apothecary_name">Apothicaire</string>
@@ -230,7 +228,7 @@
     <string name="University_desc">Vous pouvez recevoir une carte Action coûtant jusqu\'à 5 Pièces.</string>
     <string name="Vineyard_name">Vignoble</string>
     <string name="Vineyard_desc">Vaut 1 PV pour chaque tranche de 3 cartes Action dans votre deck (arrondi à l\'unité inférieure).</string>
-	<!-- Prospérité -->
+    <!-- Prospérité -->
     <string name="Expand_name">Agrandissement</string>
     <string name="Expand_desc">Écartez une carte de votre main. Recevez une carte coûtant jusqu\'à 3 Pièces de plus que la carte écartée.</string>
     <string name="Bank_name">Banque</string>
@@ -281,7 +279,7 @@
     <string name="WorkersVillage_desc"></string>
     <string name="City_name">Ville</string>
     <string name="City_desc">S\'il y a une pile ou plus de vide dans la réserve, +1 Carte. S\'il y a deux piles vides ou plus, +1 Pièce et +1 Achat.</string>
-	<!-- Abondance -->
+    <!-- Abondance -->
     <string name="Jester_name">Bouffon</string>
     <string name="Jester_desc">Chacun de vos adversaires défausse la première carte de son deck. Si c\'est une carte Victoire, le joueur reçoit une carte Malédiction. Sinon, décidez qui reçoit un exemplaire de la carte défaussée entre vous et le joueur.</string>
     <string name="Fairgrounds_name">Champ de Foire</string>
@@ -318,7 +316,7 @@
     <string name="Princess_desc">Lorsque cette carte est en jeu, les cartes coûtent 2 Pièces de moins, au minimum 0.\n(Ne pas mettre dans la réserve.)</string>
     <string name="BagofGold_name">Sac d\'Or</string>
     <string name="BagofGold_desc">Recevez une carte Or que vous placez sur le dessus de votre deck.\n(Ne pas mettre dans la réserve.)</string>
-	<!-- L'Arrière-Pays -->
+    <!-- L'Arrière-Pays -->
     <string name="Embassy_name">Ambassade</string>
     <string name="Embassy_desc">Défaussez 3 cartes.\n------\nLorsque vous recevez cette carte, tous vos adversaires reçoivent une carte Argent.</string>
     <string name="IllGottenGains_name">Argent Noir</string>
@@ -387,7 +385,7 @@
     <string name="DeathCart_name">Charrette de Cadavres</string>
     <string name="DeathCart_desc">Vous pouvez écarter une carte Action de votre main. Si vous ne le faites pas, écartez cette carte-ci.\n------\nLorsque vous recevez cette carte, recevez 2 cartes Ruines.</string>
     <string name="VirtualKnight_name">Chevaliers</string>
-    <string name="VirtualKnight_desc"/>
+    <string name="VirtualKnight_desc" />
     <string name="Count_name">Comte</string>
     <string name="Count_desc">Choisissez : Défaussez 2 cartes, OU placez une carte de votre main sur le dessus de votre deck, OU recevez un Cuivre.\n\nET\n\nChoisissez : +3 Pièces, OU écartez votre main, OU recevez un Duché.</string>
     <string name="Counterfeit_name">Contrefaçon</string>
@@ -459,7 +457,7 @@
     <string name="RuinedVillage_name">Ville en Ruines</string>
     <string name="RuinedVillage_desc"></string>
     <string name="VirtualRuins_name">Ruines</string>
-    <string name="VirtualRuins_desc"/>
+    <string name="VirtualRuins_desc" />
     <string name="Hovel_name">Cabane</string>
     <string name="Hovel_desc">Lorsque vous achetez une carte Victoire, vous pouvez écarter cette carte Cabane de votre main.</string>
     <string name="Necropolis_name">Nécropole</string>
@@ -500,9 +498,9 @@
     <string name="Advisor_name">Conseiller</string>
     <string name="Advisor_desc">Dévoilez les 3 premières cartes de votre deck. Le joueur à votre gauche choisit l\'une d\'entre elles. Défaussez cette carte. Prenez les autres cartes en main.</string>
     <string name="Soothsayer_name">Devin</string>
-    <string name="Soothsayer_desc">Recevez un Or. Tous les autres joueurs reçoivent une carte Malédiction. Chaque joueur ayant reçu une Malédiction pioche une carte.</string>    
+    <string name="Soothsayer_desc">Recevez un Or. Tous les autres joueurs reçoivent une carte Malédiction. Chaque joueur ayant reçu une Malédiction pioche une carte.</string>
     <string name="MerchantGuild_name">Guilde des Marchands</string>
-    <string name="MerchantGuild_desc">Tant que cette carte est en jeu, quand vous achetez une carte, prenez un jeton Pièce.</string>  
+    <string name="MerchantGuild_desc">Tant que cette carte est en jeu, quand vous achetez une carte, prenez un jeton Pièce.</string>
     <string name="Herald_name">Héraut</string>
     <string name="Herald_desc">Dévoilez la première carte de votre deck. S\'il s\'agit d\'une carte Action, jouez-la.\n------\nSi surcoût : pour chaque Pièce payée en plus, consultez la défausse et placez une carte de celle-ci sur le dessus du deck.</string>
     <string name="Doctor_name">Médecin</string>
@@ -513,7 +511,6 @@
     <string name="Plaza_desc">Vous pouvez défausser une carte Trésor et prendre un jeton Pièce en échange.</string>
     <string name="StoneMason_name">Tailleur de Pierre</string>
     <string name="StoneMason_desc">Écartez une carte de votre main. Recevez 2 cartes, chacune coûtant moins que la carte écartée.\n------\nSi surcoût : recevez 2 cartes Action coûtant chacune le surcoût que vous avez dépensé.</string>
-    
     <!-- Aventures -->
     <string name="Amulet_name">Amulette</string>
     <string name="Amulet_desc">Maintenant et au début de votre prochain tour, choisissez :\n - +1 Pièce,\n - Écartez une carte de votre main ou,\n - Recevez une carte Argent.</string>
@@ -591,7 +588,6 @@
     <string name="Warrior_desc">Pour chaque carte Itinérant (incluant celle-ci), chacun de vos adversaires défausse la carte du dessus de son deck et l\'écarte si elle coûte 3 ou 4 Pièces.\n ------\n Lorsque vous défaussez cette carte de votre zone de jeu, vous pouvez l\'échanger contre une carte Héroïne. (Cette pile ne fait pas partie de la réserve.)</string>
     <string name="WineMerchant_name">Marchand de Vin</string>
     <string name="WineMerchant_desc">Placez cette carte dans votre Taverne.\n --------\n À la fin de votre phase d\'achat, s\'il vous reste au moins 2 Pièces non dépensées, vous pouvez défausser cette carte de votre Taverne. Sinon, il y reste coincé sans rien offrir, tant qu\'il n\'y est pas délogé (reliquat de 2 Pièces après achat ou autre action permettant de vider le plateau Taverne).</string>
-    
     <string name="Alms_name">Aumône</string>
     <string name="Alms_desc">Une fois par tour: Si vous n\'avez aucune carte Trésor en jeu, vous recevez une carte coûtant 4 Pièces au maximum.</string>
     <string name="Ball_name">Bal</string>
@@ -625,16 +621,15 @@
     <string name="ScoutingParty_name">Pistage</string>
     <string name="ScoutingParty_desc">Consultez les 5 premières cartes de votre deck. Défaussez-en 3 et placez les autres cartes sur le dessus de votre deck dans l\'ordre de votre choix.</string>
     <string name="Seaway_name">Route Maritime</string>
-    <string name="Seaway_desc">Recevez une carte Action coûtant jusqu\'à 4 Pièces. Placez votre jeton  +1 Achat sur sa pile dans la réserve (désormais, lorsque vous jouez une carte de cette pile, +1 Achat).</string>
+    <string name="Seaway_desc">Recevez une carte Action coûtant jusqu\'à 4 Pièces. Placez votre jeton +1 Achat sur sa pile dans la réserve (désormais, lorsque vous jouez une carte de cette pile, +1 Achat).</string>
     <string name="Trade_name">Commerce</string>
     <string name="Trade_desc">Écartez jusqu\'à 2 cartes de votre main. Recevez une carte Argent par carte écartée de cette manière.</string>
     <string name="Training_name">Entraînement</string>
     <string name="Training_desc">Placez votre jeton +1 Pièce sur une pile de cartes Action de la Réserve (désormais, lorsque vous jouez une carte de cette pile, recevez +1 Pièce).</string>
     <string name="TravellingFair_name">Forains</string>
     <string name="TravellingFair_desc">À partir de maintenant et pour le reste de ce tour, vous pouvez placer toute carte reçue au dessus de votre deck.</string>
-
-    <!-- Empires -->	
-	<string name="Archive_name">Archives</string>
+    <!-- Empires -->
+    <string name="Archive_name">Archives</string>
     <string name="Archive_desc">Mettez de côté les 3 premières cartes de votre deck face cachée (vous pouvez les regarder). Immédiatement et au début de vos deux prochains tours, prenez-en une dans votre main.</string>
     <string name="BustlingVillage_name">Village en effervescence</string>
     <string name="BustlingVillage_desc">Regardez dans votre pile de défausse. Vous pouvez y révéler une carte Colons et la prendre dans votre main.</string>
@@ -681,7 +676,7 @@
     <string name="RoyalBlacksmith_name">Forgeron Royal</string>
     <string name="RoyalBlacksmith_desc">Révélez votre main; défaussez les cartes Cuivre.</string>
     <string name="Sacrifice_name">Sacrifice</string>
-    <string name="Sacrifice_desc">Écartez une carte de votre main.Si c\'est &#8230;\n une carte Action, +2 Cartes et +2 Actions;\n une carte Trésor, +(2) Pièces;\n une carte Victoire, +2 Jetons Victoire</string>
+    <string name="Sacrifice_desc">Écartez une carte de votre main.Si c\'est …\n une carte Action, +2 Cartes et +2 Actions;\n une carte Trésor, +(2) Pièces;\n une carte Victoire, +2 Jetons Victoire</string>
     <string name="Settlers_name">Colons</string>
     <string name="Settlers_desc">Regardez dans votre pile de Défausse. Vous pouvez y révéler une carte Cuivre et la prendre dans votre main.</string>
     <string name="Temple_name">Temple</string>
@@ -690,7 +685,6 @@
     <string name="Villa_desc">Lorsque vous recevez cette carte, mettez-la dans votre main, +1 Action, et si c\'est votre phase Achat, retournez à votre phase Action.</string>
     <string name="WildHunt_name">Chasse Fantastique</string>
     <string name="WildHunt_desc">Choisissez un effet: +3 Cartes et ajoutez un Jeton Victoire à la pile Chasse Fantastique de la réserve; OU recevez une carte Domaine et, dans ce cas, prenez les Jetons Victoire situés sur la pile.</string>
-        
     <string name="CatapultRocks_name">Catapulte/Rocher</string>
     <string name="CatapultRocks_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Catapulte sur le dessus, puis 5 exemplaires de la carte Rocher. Seule la carte du dessus de la pile peut être reçue ou achetée.</string>
     <string name="EncampmentPlunder_name">Camp/Saccage</string>
@@ -703,7 +697,6 @@
     <string name="SettlersBustlingVillage_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Colons sur le dessus, puis 5 exemplaires de la carte Village Florissant. Seule la carte du dessus de la pile peut être reçue ou achetée.</string>
     <string name="Castles_name">Châteaux</string>
     <string name="Castles_desc">Triez la pile Châteaux par coût, en mettant les cartes les plus coûteuses en dessous. Pour un jeu à 2 joueurs, utilisez seulement un exemplaire de chaque Château. Seule la carte du dessus de la pile peut être reçue ou achetée.</string>
-        
     <string name="HumbleCastle_name">Château Modeste</string>
     <string name="HumbleCastle_desc">Vaut 1 PV par Château que vous possédez.</string>
     <string name="CrumblingCastle_name">Château Délabré</string>
@@ -720,7 +713,6 @@
     <string name="GrandCastle_desc">Lorsque vous recevez cette carte, révélez votre main. +1 Jeton Victoire par carte Victoire dans votre main et/ou en jeu.</string>
     <string name="KingsCastle_name">Château Royal</string>
     <string name="KingsCastle_desc">Vaut 2 PVs par château que vous possédez.</string>
-    
     <string name="Advance_name">Adoubement</string>
     <string name="Advance_desc">Vous pouvez écarter une carte Action de votre main. Dans ce cas, recevez une carte Action coûtant (6) Pièces ou moins.</string>
     <string name="Annex_name">Annexion</string>
@@ -747,7 +739,6 @@
     <string name="Wedding_desc">Recevez une carte Or.</string>
     <string name="Windfall_name">Manne</string>
     <string name="Windfall_desc">Si votre deck et votre défausse sont vides, recevez 3 cartes Or.</string>
-        
     <string name="Aqueduct_name">Aqueduc</string>
     <string name="Aqueduct_desc">Lorsque vous recevez une carte Trésor, déplacez 1 Jeton Victoire de sa pile vers l\'Aqueduc. Lorsque vous recevez une carte Victoire, prenez les Jetons Victoire situés sur l\'Aqueduc.\n --------------\n Mise en place: Placez 8 Jetons Victoire sur les piles de cartes Or et Argent.</string>
     <string name="Arena_name">Arène</string>
@@ -778,7 +769,7 @@
     <string name="Obelisk_desc">Au décompte des points, 2 PVs par carte que vous possédez de la pile sélectionnée.\n -------------\n Mise en place: Désignez aléatoirement une pile de cartes Action de la réserve.</string>
     <string name="Orchard_name">Verger</string>
     <string name="Orchard_desc">Au décompte des points, 4 PVs pour chaque carte Action nommée différemment dont vous avez 3 exemplaires ou plus.</string>
-    <string name="Palace_name">Palace</string>
+    <string name="Palace_name">Palais</string>
     <string name="Palace_desc">Au décompte des points, 3 PVs par trio de cartes Cuivre - Argent - Or que vous possédez.</string>
     <string name="Tomb_name">Tombe</string>
     <string name="Tomb_desc">Lorsque vous écartez une carte, +1 Jeton Victoire.</string>
@@ -790,7 +781,6 @@
     <string name="Wall_desc">Au décompte des points, -1 PV par carte que vous possédez au-delà des 15 premières.</string>
     <string name="WolfDen_name">Tanière des Loups</string>
     <string name="WolfDen_desc">Au décompte des points, -3 PVs par carte dont vous possédez exactement 1 exemplaire.</string>
-    
     <string name="Bard_name">Barde</string>
     <string name="Bard_desc">Recevez une Aubaine.</string>
     <string name="BlessedVillage_name">Village Béni</string>
@@ -857,7 +847,6 @@
     <string name="Vampire_desc">Tous vos adversaires appliquent le prochain Sortilège. Recevez une carte coûtant jusqu\'à (5) Pièces autre qu\'un Vampire. Échangez cette carte contre une Chauve-souris.</string>
     <string name="Werewolf_name">Loup-garou</string>
     <string name="Werewolf_desc">Si c\'est votre phase Nuit, tous vos adversaires appliquent le prochain Sortilège. Sinon, +3 Cartes.</string>
-    
     <string name="CursedGold_name">Or Maudit</string>
     <string name="CursedGold_desc">Quand vous jouez cette carte, recevez une Malédiction.</string>
     <string name="HauntedMirror_name">Miroir Hanté</string>
@@ -872,7 +861,6 @@
     <string name="Pasture_desc">Vaut 1 PV par Domaine que vous avez.</string>
     <string name="Pouch_name">Pochette</string>
     <string name="Pouch_desc"></string>
-    
     <string name="Bat_name">Chauve-souris</string>
     <string name="Bat_desc">Écartez jusqu\'à 2 cartes de votre main. Si vous en avez écarté au moins une, échangez cette carte contre un Vampire. (Ne fait pas partie de la réserve.)</string>
     <string name="Ghost_name">Fantôme</string>
@@ -889,28 +877,27 @@
     <string name="ZombieMason_desc">Écartez la carte du dessus de votre deck. Vous pouvez recevoir une carte coûtant jusqu\'à (1) Pièce de plus.</string>
     <string name="ZombieSpy_name">Zombie Espion</string>
     <string name="ZombieSpy_desc">Consultez la carte du dessus de votre deck. Défaussez-la ou replacez-la.</string>
-    
     <string name="TheEarthsGift_name">Don de la Terre</string>
     <string name="TheEarthsGift_desc">Vous pouvez défausser une carte Trésor pour recevoir une carte coûtant jusqu\'à (4) Pièces.</string>
     <string name="TheEarthsGift_shortDesc">Défausser 1 Trésor, +1 carte de (4) Pièces max</string>
     <string name="TheFieldsGift_name">Don des Champs</string>
     <string name="TheFieldsGift_desc">(Conservez ceci jusqu\'à la phase Ajustement.)</string>
-    <string name="TheFieldsGift_shortDesc">+Action, +(1) Pièce</string>    
+    <string name="TheFieldsGift_shortDesc">+Action, +(1) Pièce</string>
     <string name="TheFlamesGift_name">Don des Flammes</string>
     <string name="TheFlamesGift_desc">Vous pouvez écarter une carte de votre main.</string>
-    <string name="TheFlamesGift_shortDesc">Pouvez écarter 1 carte</string>    
+    <string name="TheFlamesGift_shortDesc">Pouvez écarter 1 carte</string>
     <string name="TheForestsGift_name">Don des Forêts</string>
     <string name="TheForestsGift_desc">(Conservez ceci jusqu\'à la phase Ajustement.)</string>
-    <string name="TheForestsGift_shortDesc">+Achat, +(1) Pièce</string>    
+    <string name="TheForestsGift_shortDesc">+Achat, +(1) Pièce</string>
     <string name="TheMoonsGift_name">Don de la Lune</string>
     <string name="TheMoonsGift_desc">Consultez votre défausse. Vous pouvez en placer une carte sur votre deck.</string>
-    <string name="TheMoonsGift_shortDesc">1 Carte Défausse vers Main</string>    
+    <string name="TheMoonsGift_shortDesc">1 Carte Défausse vers Main</string>
     <string name="TheMountainsGift_name">Don des Montagnes</string>
     <string name="TheMountainsGift_desc">Recevez un Argent.</string>
-    <string name="TheMountainsGift_shortDesc">Gagner Argent</string>    
+    <string name="TheMountainsGift_shortDesc">Gagner Argent</string>
     <string name="TheRiversGift_name">Don de la Rivière</string>
     <string name="TheRiversGift_desc">+1 Carte à la fin de ce tour. (Conservez ceci jusqu\'à la phase Ajustement.)</string>
-    <string name="TheRiversGift_shortDesc">+1 Carte fin de tour</string>    
+    <string name="TheRiversGift_shortDesc">+1 Carte fin de tour</string>
     <string name="TheSeasGift_name">Don de la Mer</string>
     <string name="TheSeasGift_desc"></string>
     <string name="TheSeasGift_shortDesc">+1 Carte</string>
@@ -919,14 +906,13 @@
     <string name="TheSkysGift_shortDesc">Défausser 3 cartes,+1 Or</string>
     <string name="TheSunsGift_name">Don du Soleil</string>
     <string name="TheSunsGift_desc">Consultez les 4 premières cartes de votre deck. Défaussez-en autant que vous le souhaitez et replacez le reste dans l\'ordre de votre choix.</string>
-    <string name="TheSunsGift_shortDesc">Filtrer 4 dessus deck</string>    
+    <string name="TheSunsGift_shortDesc">Filtrer 4 dessus deck</string>
     <string name="TheSwampsGift_name">Don des Marais</string>
     <string name="TheSwampsGift_desc">Recevez un Feu follet de sa pile.</string>
-    <string name="TheSwampsGift_shortDesc">Gagner Feu Follet</string>   
+    <string name="TheSwampsGift_shortDesc">Gagner Feu Follet</string>
     <string name="TheWindsGift_name">Don du Vent</string>
     <string name="TheWindsGift_desc">Défaussez 2 cartes.</string>
     <string name="TheWindsGift_shortDesc">+2 Cartes,défausser 2</string>
-    
     <string name="BadOmens_name">Mauvais Augure</string>
     <string name="BadOmems_desc">Placez votre deck dans votre défausse. Consultez cette dernière et récupérez-y 2 Cuivres à placer sur votre deck (ou dévoilez votre défausse pour prouver que c\'est impossible).</string>
     <string name="Delusion_name">Envoûtement</string>
@@ -951,7 +937,6 @@
     <string name="Poverty_desc">Défaussez jusqu\'à avoir 3 cartes en main.</string>
     <string name="War_name">Guerre</string>
     <string name="War_desc">Dévoilez des cartes de votre deck jusqu\'à en dévoiler une coûtant (3) Pièces ou (4) Pièces. Écartez-la et défaussez le reste.</string>
-    
     <string name="Deluded_name">Envoûté</string>
     <string name="Deluded_desc">Au début de votre phase Achat, rendez cet état, et vous ne pouvez pas acheter de cartes Action à ce tour.</string>
     <string name="Envious_name">Jaloux</string>
@@ -962,7 +947,284 @@
     <string name="Miserable_desc"></string>
     <string name="TwiceMiserable_name">En grande détresse</string>
     <string name="TwiceMiserable_desc"></string>
- 
+    <!-- Renaissance -->
+    <string name="ActingTroupe_name">Troupe de théâtre</string>
+    <string name="ActingTroupe_desc">Écartez cette carte.</string>
+    <string name="BorderGuard_name">Garde-frontière</string>
+    <string name="BorderGuard_desc">Dévoilez les 2 premières cartes de votre deck. Prenez-en une en main et défaussez l\'autre. Si les deux étaient des cartes Action, prenez la Lanterne ou la Corne.</string>
+    <string name="CargoShip_name">Cargo</string>
+    <string name="CargoShip_desc">Une fois à ce tour, quand vous recevez une carte, vous pouvez la mettre de côté face visible (sur cette carte). Au début de votre prochain tour, prenez-la en main.</string>
+    <string name="Ducat_name">Ducat</string>
+    <string name="Ducat_desc">Quand vous recevez cette carte, vous pouvez écarter un Cuivre de votre main.</string>
+    <string name="Experiment_name">Expérience</string>
+    <string name="Experiment_desc">Replacez cette carte dans la réserve.\n------\nQuand vous recevez cette carte, recevez une autre Expérience (mais pas encore une autre).</string>
+    <string name="FlagBearer_name">Porte-drapeau</string>
+    <string name="FlagBearer_desc">------\nQuand vous recevez ou écartez cette carte, prenez le Drapeau.</string>
+    <string name="Hideout_name">Planque</string>
+    <string name="Hideout_desc">Écartez une carte de votre main. Si c\'est une carte Victoire, recevez une Malédiction.</string>
+    <string name="Improve_name">Amélioration</string>
+    <string name="Improve_desc">Au début de votre phase Ajustement, vous pouvez écarter une carte Action que vous auriez défaussé de la zone de jeu à ce tour, pour recevoir une carte coûtant exactement de plus.</string>
+    <string name="Inventor_name">Inventeur</string>
+    <string name="Inventor_desc">Recevez une carte coûtant jusqu\'à (4) Pièces, puis les cartes coûtent de moins à ce tour. Les cartes ne peuvent pas coûter moins de 0 Pièce.</string>
+    <string name="Lackeys_name">Laquais</string>
+    <string name="Lackeys_desc">Quand vous recevez cette carte, +2 Villageois.</string>
+    <string name="MountainVillage_name">Village de montagne</string>
+    <string name="MountainVillage_desc">Consultez votre défausse et prenez-en une carte en main ; si vous ne pouvez pas, +1 Carte.</string>
+    <string name="OldWitch_name">Vieille sorcière</string>
+    <string name="OldWitch_desc">Tous vos adversaires reçoivent une Malédiction et peuvent écarter une Malédiction de leur main.</string>
+    <string name="Patron_name">Mécène</string>
+    <string name="Patron">When something causes you to reveal this (using the word "reveal"), +1 Coffers.</string>
+    <string name="Priest_name">Prêtre</string>
+    <string name="Priest_desc">Écartez une carte de votre main. Pour la suite de votre tour, quand vous écartez une carte, +2 Pièces.</string>
+    <string name="Recruiter_name">Recruteur</string>
+    <string name="Recruiter_desc">Écartez une carte de votre main. +1 Villageois par (1) Pièce de son coût.</string>
+    <string name="Research_name">Recherche</string>
+    <string name="Research_desc">Écartez une carte de votre main. Par (1) Pièce de son coût, mettez de côté une carte de votre deck face cachée (sur cette carte). Au début de votre prochain tour, prenez en main ces cartes.</string>
+    <string name="Scepter_name">Sceptre</string>
+    <string name="Scepter_desc">Quand vous jouez cette carte, choisissez : +(2) pièces; ou rejouez une carte Action jouée à ce tour qui est encore en jeu.</string>
+    <string name="Scholar_name">Érudite</string>
+    <string name="Scholar_desc">Défaussez votre main. +7 Cartes</string>
+    <string name="Sculptor_name">Sculptrice</string>
+    <string name="Sculptor_desc">Recevez en main une carte coûtant jusqu\'à (4) Pièces. Si c\'est un Trésor, +1 Villageois.</string>
+    <string name="Seer_name">Prophète</string>
+    <string name="Seer_desc">Dévoilez les 3 premières cartes de votre deck. Prenez en main celles coûtant de (2) à (4) Pièces. Replacez les autres dans l\'ordre de votre choix.</string>
+    <string name="Spices_name">Épices</string>
+    <string name="Spices_desc">Quand vous recevez cette carte, +2 Coffres.</string>
+    <string name="Swashbuckler_name">Bretteuse</string>
+    <string name="Swashbuckler_desc">Si votre défausse n\'est pas vide : +1 Coffres, puis si vous avez au moins 4 jetons sur vos Coffres, prenez le Coffre au trésor.</string>
+    <string name="SilkMerchant_name">Marchande de soie</string>
+    <string name="SilkMerchant_desc">Quand vous recevez ou écartez cette carte, +1 Coffres et +1 Villageois.</string>
+    <string name="Treasurer_name">Trésorière</string>
+    <string name="Treasurer_desc">Choisisez une option : écartez une carte Trésor de votre main; ou recevez en main une carte Trésor du Rebut; ou prenez la Clé.</string>
+    <string name="Villain_name">Scélérat</string>
+    <string name="Villain_desc">Tous vos adversaires ayant au moins 5 cartes en main défaussent une carte coûtant (2) Pièces ou plus (ou à défaut, dévoilent leur main).</string>
+    <string name="Flag_name">Drapeau</string>
+    <string name="Flag_desc">Quand vous piochez votre main, +1 Carte.</string>
+    <string name="Horn_name">Corne</string>
+    <string name="Horn_desc">Une fois par tour, quand vous défaussez une Garde-frontière de la zone de jeu, vous pouvez la replacer sur votre deck.</string>
+    <string name="Key_name">Clé</string>
+    <string name="Key_desc">Au début de votre tour, +(1) Pièce.</string>
+    <string name="Lantern_name">Lanterne</string>
+    <string name="Lantern_desc">Les Gardes-frontières que vous jouez dévoilent 3 cartes et en défaussent 2. Il faut dévoiler 3 cartes Action pour prendre la Corne.</string>
+    <string name="TreasureChest_name">Coffre au trésor</string>
+    <string name="TreasureChest_desc">Au début de votre phase Achat, recevez un Or.</string>
+    <string name="Academy_name">Académie</string>
+    <string name="Academy_desc">Quand vous recevez une carte Action, +1 Villageois.</string>
+    <string name="Barracks_name">Caserne</string>
+    <string name="Barracks_desc">Au début de votre tour, +1 Action.</string>
+    <string name="Canal_name">Canal</string>
+    <string name="Canal_desc">Pendant vos tours, les cartes coûtent (1) Pièce de moins. Les cartes ne peuvent pas coûter moins de 0 Pièce.</string>
+    <string name="Capitalism_name">Capitalisme</string>
+    <string name="Capitalism_desc">Pendant vos tours, les cartes Action ayant dans leur texte + Pièce(s) sont aussi des Trésors.</string>
+    <string name="Cathedral_name">Cathédrale</string>
+    <string name="Cathedral_desc">Au début de votre tour, écartez une carte de votre main.</string>
+    <string name="Citadel_name">Citadelle</string>
+    <string name="Citadel_desc">À chacun de vos tours, la première fois que vous jouez une carte Action, rejouez-la ensuite.</string>
+    <string name="CityGate_name">Porte</string>
+    <string name="CityGate_desc">Au début de votre tour, +1 Carte, puis replacez une carte de votre main sur votre deck.</string>
+    <string name="CropRotation_name">Assolement</string>
+    <string name="CropRotation_desc">Au début de votre tour, vous pouvez défausser une carte Victoire pour +2 Cartes.</string>
+    <string name="Exploration_name">Exploration</string>
+    <string name="Exploration_desc">À la fin de votre phase Achat, si vous n\'avez pas acheté de carte, +1 Coffres et +1 Villageois.</string>
+    <string name="Fair_name">Foire</string>
+    <string name="Fair_desc">Au début de votre tour +1 Achat.</string>
+    <string name="Fleet_name">Flotte</string>
+    <string name="Fleet_desc">Après que la partie est finie, les joueurs ayant cece jouent un tour supplémentaire.</string>
+    <string name="GuildHall_name">Hôtel de Ville</string>
+    <string name="GuildHall_desc">Quand vous recevez un Trésor, +1 Coffres.</string>
+    <string name="Innovation_name">Innovation</string>
+    <string name="Innovation_desc">À chacun de vos tours, la première fois que vous recevez une carte Action, vous pouvez la mettre de côté. Dans ce cas, jouez-la.</string>
+    <string name="Pageant_name">Spectacle</string>
+    <string name="Pageant_desc">À la fin de votre phase Achat, vous pouvez payer (1) Pièce pour +1 Coffres.</string>
+    <string name="Piazza_name">Piazza</string>
+    <string name="Piazza_desc">Au début de votre tour, dévoilez la carte du haut de votre deck. Si c\'est une carte Action, jouez-la.</string>
+    <string name="RoadNetwork_name">Réseau routier</string>
+    <string name="RoadNetwork_desc">Quand un autre joueur reçoit une carte Victoire, +1 Carte.</string>
+    <string name="Sewers_name">Égouts</string>
+    <string name="Sewers_desc">Quand vous écartez une carte autrement que par ceci, vous pouvez écarter une carte de votre main.</string>
+    <string name="Silos_name">Silos</string>
+    <string name="Silos_desc">Au début de votre tour, défaussez autant de Cuivres que souhaité, dévoilés, et piochez le même nombre de cartes.</string>
+    <string name="SinisterPlot_name">Machination</string>
+    <string name="SinisterPlot_desc">Au début de votre tour, ajoutez un jeton ici, ou retirez tous vos jetons pour +1 Carte chacun.</string>
+    <string name="StarChart_name">Carte céleste</string>
+    <string name="StarChart_desc">Quand vous mélangez, vous pouvez choisir quelle carte vous mettez en haut.</string>
+    <!-- Ménagerie -->
+    <string name="AnimalFair_name">Foire aux bestiaux</string>
+    <string name="AnimalFair_desc">+1 Achat par pile vide de la Réserve.\n------\nAu lieu de payer le coût de cette carte, vous pouvez écarter une carte Action de votre main.</string>
+    <string name="Barge_name">Chaland</string>
+    <string name="Barge_desc">Maintenant ou au début de votre prochain tour, +3 Cartes et +1 Achat.</string>
+    <string name="BlackCat_name">Chat noir</string>
+    <string name="BlackCat_desc">Si ce n\'est pas votre tour, tous vos adversaires reçoivent une Malédiction.\n------\nQuand un adversaire reçoit une carte Victoire, vous pouvez jouer cette carte depuis votre main.</string>
+    <string name="BountyHunter_name">Chasseur de primes</string>
+    <string name="BountyHunter_desc">Exilez une carte de votre main. Si vous n\'en aviez pas d\'exemplaire en exil, +(3) Pièces;</string>
+    <string name="Cavalry_name">Cavalerie</string>
+    <string name="Cavalry_desc">Recevez 2 Chevaux.\n------\nQuand vous recevez cette carte, +2 Cartes +1 Achat, et si c\'est votre phase Achat, retournez à votre phase Action.</string>
+    <string name="CamelTrain_name">Caravane de chameaux</string>
+    <string name="CamelTrain_desc">Exilez une carte non-Victoire depuis la réserve.\n------\nQuand vous recevez cette carte, exilez un Or depuis la réserve.</string>
+    <string name="Cardinal_name">Cardinal</string>
+    <string name="Cardinal_desc">Tous vos adversaires dévoilent les deux premières cartes de leur deck, en exilent une coûtant entre (3) et (6) Pièces, et défaussent le reste.</string>
+    <string name="Coven_name">Clan de sorcières</string>
+    <string name="Coven_desc">Tous vos adversaires exilent une Malédiction depuis la réserve. S\'ils ne peuvent pas, ils défaussent leurs Malédictions en exil.</string>
+    <string name="Destrier_name">Destrier</string>
+    <string name="Destrier_desc">------\nPendant vos tours, ceci coûte (1) Pièce de moins par carte que vous avez reçue à ce tour.</string>
+    <string name="Displace_name">Déplacement</string>
+    <string name="Displace_desc">Exilez une carte de votre main. Recevez une carte de nom différent, coûtant jusqu\'à (2) Pièces de plus.</string>
+    <string name="Falconer_name">Fauconnière</string>
+    <string name="Falconer_desc">Recevez en main une carte coûtant moins que ceci.\n------\nQuand un joueur reçoit une carte ayant 2 types ou plus (Action, Attaque, etc.), vous pouvez jouer ceci depuis votre main.</string>
+    <string name="Fisherman_name">Pêcheur</string>
+    <string name="Fisherman_desc">------\nPendant vos tours, si votre défausse est vide, ceci coûte (3) Pièces de moins.</string>
+    <string name="Gatekeeper_name">Garde</string>
+    <string name="Gatekeeper_desc">D\'ici là, quand un adversaire reçoit une carte Action ou Trésor dont il n\'a pas d\'exemplaire en exil, il l\'exile.</string>
+    <string name="Goatherd_name">Chevrière</string>
+    <string name="Goatherd_desc">Vous pouvez écarter une carte de votre main. +1 Carte par carte que le joueur a votre droite a écarté à son dernier tour.</string>
+    <string name="Groom_name">Palefrenier</string>
+    <string name="Groom_desc">Recevez une carte coûtant jusqu\'à (4) Pièces. Si c\'est une...\ncarte Action recevez un Cheval;\ncarte Trésor recevez un Argent;\ncarte Victoire +1 Carte et +1 Action.</string>
+    <string name="Hostelry_name">Hôtel</string>
+    <string name="Hostelry_desc">------\nQuand vous recevez cette carte, vous pouvez défausser autant de Trésors que souhaité, dévoilés, pour recevoir autant de Chevaux.</string>
+    <string name="HuntingLodge_name">Pavillon de chasse</string>
+    <string name="HuntingLodge_desc">Vous pouvez défausser votre main pour +5 Cartes.</string>
+    <string name="Kiln_name">Four</string>
+    <string name="Kiln_desc">La prochaine vous que vous jouerez une carte à ce tour, vous pourrez d\'abord en recevoir un exemplaire.</string>
+    <string name="Livery_name">Pension</string>
+    <string name="Livery_desc">Ce tour-ci, quand vous recevez une carte coûtant (4) Pièces ou plus, recevez un Cheval.</string>
+    <string name="Mastermind_name">Génie</string>
+    <string name="Mastermind_desc">Au début de votre prochain tour, vous pouvez jouer une carte Action de votre main trois fois.</string>
+    <string name="Paddock_name">Enclos</string>
+    <string name="Paddock_desc">Recevez 2 Chevaux. +1 Action par pile vide de la Réserve.</string>
+    <string name="Sanctuary_name">Sanctuaire</string>
+    <string name="Sanctuary_desc">Vous pouvez exiler une carte de votre main.</string>
+    <string name="Scrap_name">Ferraille</string>
+    <string name="Scrap_desc">Écartez une carte de votre main. Choisissez un effet différent par (1) Pièces de son coût : +1 Carte; +1 Action; +1 Achat; +(1) Pièce; recevez un Argent; recevez un Cheval.</string>
+    <string name="Sheepdog_name">Chien de berger</string>
+    <string name="Sheepdog_desc">Quand vous recevez une carte, vous pouvez jouer ceci depuis votre main.</string>
+    <string name="Sleigh_name">Traîneau</string>
+    <string name="Sleigh_desc">Recevez 2 Chevaux.\n------\nQuand vous recevez une carte, vous pouvez défausser ceci pour la prendre en main ou la placer sur votre deck.</string>
+    <string name="SnowyVillage_name">Village enneigé</string>
+    <string name="SnowyVillage_desc">Ignorez tout effet +Action(s) que vous recevrez ce tour.</string>
+    <string name="Stockpile_name">Stocks</string>
+    <string name="Stockpile_desc">Quand vous jouez cette carte exilez-la.</string>
+    <string name="Supplies_name">Réserves</string>
+    <string name="Supplies_desc">Quand vous jouez cette carte, recevez un Cheval sur votre deck.</string>
+    <string name="VillageGreen_name">Espace vert</string>
+    <string name="VillageGreen_desc">Maintenant ou au début de votre prochain tour, +1 Carte +2 Actions.\n------\nQuand vous défaussez cette carte en dehors de votre phase Ajustement, vous pouvez la jouer.</string>
+    <string name="Wayfarer_name">Voyageuse</string>
+    <string name="Wayfarer_desc">Vous pouvez recevoir un Argent.\n------\nCette carte a le même coût que la carte précédemment reçue à ce tour (si une carte a été reçue à ce tour).</string>
+    <string name="Horse_name">Cheval</string>
+    <string name="Horse_desc">Retournez cette carte sur sa pile.(Ne fait pas partie de la réserve.)</string>
+    <string name="Alliance_name">Alliance</string>
+    <string name="Alliance_desc">Recevez une Province, un Duché, un Domaine, un Or, un Argent et un Cuivre.</string>
+    <string name="Banish_name">Bannissement</string>
+    <string name="Banish_desc">Exilez un nombre quelconque de cartes portant le même nom, depuis votre main.</string>
+    <string name="Bargain_name">Affaire</string>
+    <string name="Bargain_desc">Recevez une carte non-Victoire coûtant jusqu\'à (5) Pièces. Tous vos adversaires reçoivent un Cheval.</string>
+    <string name="Commerce_name">Négoce</string>
+    <string name="Commerce_desc">Recevez un Or par carte de nom différent que vous avez reçue à ce tour.</string>
+    <string name="Delay_name">Retard</string>
+    <string name="Delay_desc">Vous pouvez mettre de côté une carte Action de votre main. Au début de votre prochain tour, jouez-la.</string>
+    <string name="Demand_name">Demande</string>
+    <string name="Demand_desc">Recevez un Cheval et une carte coûtant jusqu\'à (4) Pièces, tous deux sur votre deck.</string>
+    <string name="Desperation_name">Désespoir</string>
+    <string name="Desperation_desc">Une fois par tour : vous pouvez recevoir une Malédiction. Dans ce cas, +1 Achat et +(2) Pièces.</string>
+    <string name="Enclave_name">Enclave</string>
+    <string name="Enclave_desc">Recevez un Or. Exilez un Duché depuis la Réserve.</string>
+    <string name="Enhance_name">Rehaussement</string>
+    <string name="Enhance_desc">Vous pouvez écarter une carte non-Victoire de votre main pour recevoir une carte coûtant jusqu\'à (2) Pièces de plus.</string>
+    <string name="Gamble_name">Pari</string>
+    <string name="Gamble_desc">Dévoilez la première carte de votre deck. Si c\'est un Trésor ou une Action, vous pouvez la jouer. Sinon, défaussez-la.</string>
+    <string name="Invest_name">Investissement</string>
+    <string name="Invest_desc">Exilez une carte Action depuis la Réserve. Tant qu\'elle est en exil, lorsqu\'un adversaire reçoit ou investit dans un exemplaire de cette carte, +2 Cartes</string>
+    <string name="March_name">Marche</string>
+    <string name="March_desc">Consultez votre défausse. Vous pouvez jouer une Action depuis votre défausse.</string>
+    <string name="Pursue_name">Poursuite</string>
+    <string name="Pursue_desc">Nommez une carte. Dévoilez les 4 premières cartes de votre deck. Replacez celles qui correspondent, et défaussez le reste.</string>
+    <string name="Populate_name">Peuplement</string>
+    <string name="Populate_desc">Recevez une carte de chaque pile de cartes Action de la Réserve.</string>
+    <string name="Reap_name">Moisson</string>
+    <string name="Reap_desc">Recevez un Or. Mettez-le de côté. Dans ce cas, au début de votre prochain tour, jouez-le.</string>
+    <string name="Ride_name">Chevauchée</string>
+    <string name="Ride_desc">Recevez un Cheval.</string>
+    <string name="SeizeTheDay_name">Carpe Diem</string>
+    <string name="SeizeTheDay_desc">Une fois par partie : jouez un tour supplémentaire après celui-ci.</string>
+    <string name="Stampede_name">Ruée</string>
+    <string name="Stampede_desc">Si vous avez 5 cartes en jeu, ou moins, recevez 5 Chevaux sur votre deck.</string>
+    <string name="Toil_name">Labeur</string>
+    <string name="Toil_desc">Vous pouvez jouer une carte Action de votre main.</string>
+    <string name="Transport_name">Transport</string>
+    <string name="Transport_desc">Choisissez : exilez une carte Action de la réserve; ou placez sur votre deck une carte Action que vous avez en exil.</string>
+    <string name="WayOfTheButterfly_name">Voie du papillon</string>
+    <string name="WayOfTheButterfly_shortName">Papillon</string>
+    <string name="WayOfTheButterfly_desc">Vous pouvez retourner cette carte sur sa pile pour recevoir une carte coûtant exactement (1) Pièce de plus.</string>
+    <string name="WayOfTheButterfly_shortDesc">Retourner à la pile et améliorer</string>
+    <string name="WayOfTheCamel_name">Voie du chameau</string>
+    <string name="WayOfTheCamel_shortName">Chameau</string>
+    <string name="WayOfTheCamel_desc">Exilez un Or depuis la Réserve.</string>
+    <string name="WayOfTheCamel_shortDesc">Exiler Or</string>
+    <string name="WayOfTheChameleon_name">Voie du caméléon</string>
+    <string name="WayOfTheChameleon_shortName">Caméléon</string>
+    <string name="WayOfTheChameleon_desc">Suivez les instructions de cette carte; chaque effet +Carte(s) donnera à la place +Pièces à ce tour, et vice-versa.</string>
+    <string name="WayOfTheChameleon_shortDesc">+Cartes ⇔ +Pièces</string>
+    <string name="WayOfTheFrog_name">Voie de la grenouille</string>
+    <string name="WayOfTheFrog_shortName">Grenouille</string>
+    <string name="WayOfTheFrog_desc">Quand vous défaussez cette carte de votre zone de jeu à ce tour, placez-la sur votre deck.</string>
+    <string name="WayOfTheFrog_shortDesc">+Action, dessus du deck à l\'ajustement</string>
+    <string name="WayOfTheGoat_name">Voie de la chèvre</string>
+    <string name="WayOfTheGoat_shortName">Chèvre</string>
+    <string name="WayOfTheGoat_desc">Écartez une carte de votre main.</string>
+    <string name="WayOfTheGoat_shortDesc">Écartez carte</string>
+    <string name="WayOfTheHorse_name">Voie du cheval</string>
+    <string name="WayOfTheHorse_shortName">Cheval</string>
+    <string name="WayOfTheHorse_desc">Retournez cette carte sur sa pile.</string>
+    <string name="WayOfTheHorse_shortDesc">+2 Cartes, +1 Action, Retournez à la pile</string>
+    <string name="WayOfTheMole_name">Voie de la taupe</string>
+    <string name="WayOfTheMole_shortName">Taupe</string>
+    <string name="WayOfTheMole_desc">Défaussez votre main. +3 Cartes.</string>
+    <string name="WayOfTheMole_shortDesc">+Action, défausser main, +3 Cartes</string>
+    <string name="WayOfTheMonkey_name">Voie du singe</string>
+    <string name="WayOfTheMonkey_shortName">Singe</string>
+    <string name="WayOfTheMonkey_desc"></string>
+    <string name="WayOfTheMouse_name">Voie de la souris</string>
+    <string name="WayOfTheMouse_shortName">Souris</string>
+    <string name="WayOfTheMouse_desc">Jouez la carte mise de côté, en l\'y laissant.\n------\nMise en place : mettez de côté une carte Action non utilisée coûtant (2) ou (3) Pièces.</string>
+    <string name="WayOfTheMouse_shortDesc">Jouer %1$s</string>
+    <string name="WayOfTheMule_name">Voie de la mule</string>
+    <string name="WayOfTheMule_shortName">Mule</string>
+    <string name="WayOfTheMule_desc"></string>
+    <string name="WayOfTheOtter_name">Voie de la loutre</string>
+    <string name="WayOfTheOtter_shortName">Loutre</string>
+    <string name="WayOfTheOtter_desc"></string>
+    <string name="WayOfTheOwl_name">Voie du hibou</string>
+    <string name="WayOfTheOwl_shortName">Hibou</string>
+    <string name="WayOfTheOwl_desc">Piochez jusqu\'à avoir 6 cartes en main.</string>
+    <string name="WayOfTheOwl_shortDesc">Piocher jusqu\'à 6</string>
+    <string name="WayOfTheOx_name">Voie du bœuf</string>
+    <string name="WayOfTheOx_shortName">Bœuf</string>
+    <string name="WayOfTheOx_desc"></string>
+    <string name="WayOfThePig_name">Voie du porc</string>
+    <string name="WayOfThePig_shortName">Porc</string>
+    <string name="WayOfThePig_desc"></string>
+    <string name="WayOfTheRat_name">Voie du rat</string>
+    <string name="WayOfTheRat_shortName">Rat</string>
+    <string name="WayOfTheRat_desc">Vous pouvez défausser un Trésor pour recevoir un exemplaire de cette carte.</string>
+    <string name="WayOfTheRat_shortDesc">Défaussez Trésor pour le copier</string>
+    <string name="WayOfTheSeal_name">Voie du phoque</string>
+    <string name="WayOfThe_shortName">Phoque</string>
+    <string name="WayOfTheSeal_desc">À ce tour, quand vous recevez une carte, vous pouvez la placer sur votre deck.</string>
+    <string name="WayOfTheSeal_shortDesc">+(1) Pièce, may top-deck gains</string>
+    <string name="WayOfTheSheep_name">Voie du mouton</string>
+    <string name="WayOfTheSheep_shortName">Mouton</string>
+    <string name="WayOfTheSheep_desc"></string>
+    <string name="WayOfTheSquirrel_name">Voie de l\'écureuil</string>
+    <string name="WayOfTheSquirrel_shortName">Écureuil</string>
+    <string name="WayOfTheSquirrel_desc">+2 Cartes à la fin de ce tour.</string>
+    <string name="WayOfTheSquirrel_shortDesc">+2 Cartes à la fin du tour</string>
+    <string name="WayOfTheTurtle_name">Voie de la tortue</string>
+    <string name="WayOfTheTurtle_shortName">Tortue</string>
+    <string name="WayOfTheTurtle_desc">Mettez cette carte de côté. Dans ce cas, jouez-la au début de votre prochain tour.</string>
+    <string name="WayOfTheTurtle_shortDesc">Mettez de côté pour jouer au prochain tour.</string>
+    <string name="WayOfTheWorm_name">Voie du ver</string>
+    <string name="WayOfTheWorm_shortName">Ver</string>
+    <string name="WayOfTheWorm_desc">Exilez un Domaine de la Réserve.</string>
+    <string name="WayOfTheWorm_shortDesc">Exilez Domaine</string>
     <!-- Promo -->
     <string name="Envoy_name">Délégué</string>
     <string name="Envoy_desc">Dévoilez les 5 premières cartes de votre deck. Le joueur à votre gauche choisit une de ces cartes que vous devez défausser. Piochez les autres cartes.</string>
@@ -975,7 +1237,7 @@
     <string name="Prince_name">Prince</string>
     <string name="Prince_desc">Vous pouvez mettre de côté cette carte. Dans ce cas, mettez aussi de côté une carte Action coûtant jusqu\'à 4 Pièces. Au début de chacun de vos tours, jouez cette carte Action, en la remettant de côté au lieu de la défausser en phase d\'ajustement (stoppez si vous ne pouvez pas remettre la carte de côté le même tour où vous l\'avez jouée).</string>
     <string name="Stash_name">Cachette</string>
-    <string name="Stash_desc">Lorsque vous mélangez, vous pouvez placer cette carte où vous voulez dans votre deck.</string> 
+    <string name="Stash_desc">Lorsque vous mélangez, vous pouvez placer cette carte où vous voulez dans votre deck.</string>
     <string name="Sauna_name">Sauna</string>
     <string name="Sauna_desc">Vous pouvez jouer une carte Trou dans la Glace de votre main.\n -----------\n Lorsque cette carte est en jeu, quand vous jouez une carte Argent, vous pouvez écarter une carte de votre main.</string>
     <string name="Avanto_name">Trou dans la Glace</string>
@@ -986,11 +1248,8 @@
     <string name="Church_desc">Mettez de côté jusqu\'à 3 cartes de votre main, face cachée. Au début de votre prochain tour, prenez-les en main, puis vous pouvez écarter une carte de votre main.</string>
     <string name="Captain_name">Capitaine</string>
     <string name="Captain_desc">Maintenant et au début de votre prochain tour :\njouez une carte Action non-Durée depuis la réserve coûtant jusqu\'à 4 Pièces, en la laissant dans la réserve.</string>
-    
     <string name="SaunaAvanto_name">Sauna/Trou dans la Glace</string>
     <string name="SaunaAvanto_desc">Cette pile démarre le jeu avec 5 exemplaires de la carte Sauna sur le dessus, puis 5 exemplaires de la carte Trou dans la Glace. Seule la carte du dessus peut être reçue ou achetée.</string>
-    
     <string name="Summon_name">Convocation</string>
     <string name="Summon_desc">Recevez une carte Action coûtant au maximum 4 Pièces et placez-la de côté. Si elle y est toujours au début de votre prochain tour, jouez-la.</string>
-    
 </resources>
