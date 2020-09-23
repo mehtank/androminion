@@ -246,6 +246,43 @@
   <string name="Luftschloss_gametype">空中楼阁~Luftschloss</string>
   <string name="PookaPranks_gametype">捣蛋恶灵~Pooka Pranks</string>
   
+  
+  <string name="Overture_gametype">歌剧序曲~Overture</string>
+  <string name="Prelude_gametype">乐章前奏~Prelude</string>
+  
+  <string name="ItTakesAVillager_gametype">村民协力~It Takes a Villager</string>
+  <string name="CaptureTheFlag_gametype">夺旗比赛~Capture the Flag</string>
+  
+  <string name="MementoMori_gametype">凡人终逝~Memento Mori</string>
+  <string name="ClockworkCourt_gametype">发条庭院~Clockwork Court</string>
+  
+  <string name="FreeShipping_gametype">免费邮递~Free Shipping</string>
+  <string name="DiggingForTreasure_gametype">挖掘宝藏~Digging for Treasure</string>
+  
+  <string name="PeekABoo_gametype">捉迷藏~Peek-a-boo</string>
+  
+  <string name="DreamersOfDreams_gametype">追梦之人~Dreamers of Dreams</string>
+  <string name="MoversAndShakers_gametype">权势集团~Movers and Shakers</string>
+    
+  <string name="ComboCorner_gametype">组合角落~Combo Corner</string>
+  <string name="FillingTheCoffers_gametype">填满金库~Filling the Coffers</string>
+  
+  <string name="SweetenedDeals_gametype">优惠交易~Sweetened Deals</string>
+  <string name="APennySaved_gametype">精打细算~A Penny Saved</string>
+  
+  <string name="Stargazing_gametype">夜观天象~Stargazing</string>
+  <string name="SewerRats_gametype">阴沟老鼠~Sewer Rats</string>
+  
+  <string name="Progress_gametype">时代进程~Progress</string>
+  <string name="OnceUponATime_gametype">很久以前~Once Upon a Time</string>
+  
+  <string name="ExploringTheCity_gametype">城市探索~Exploring the City</string>
+  <string name="NavigatingTheSewers_gametype">阴沟航行~Navigating the Sewers</string>
+  
+  <string name="BecomingAMonster_gametype">化身为妖~Becoming a Monster</string>
+  <string name="TrueBelievers_gametype">虔诚信徒~True Believers</string>
+  
+
   <string name="Test_gametype">测试专用</string>
 
 </resources>

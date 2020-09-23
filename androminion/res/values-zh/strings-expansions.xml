@@ -3,12 +3,12 @@
 
     <string name="Base">基础包</string>
     <string name="Base2E">基础包第二版</string>
-    <string name="BaseSet">皇輿爭霸</string>
+    <string name="BaseSet">皇舆争霸</string>
     <string name="Intrigue">暗潮汹涌</string>
     <string name="Intrigue2E">暗潮汹涌第二版</string>
     <string name="Seaside">海国图志</string>
-    <string name="Alchemy">炼金术师</string>
-    <string name="Prosperity">荣华富贵</string>
+    <string name="Alchemy">炼金术士</string>
+    <string name="Prosperity">繁荣昌盛</string>
     <string name="Cornucopia">丰收祭典</string>
     <string name="Hinterlands">内陆迷情</string>
     <string name="DarkAges">黑暗时代</string>
@@ -16,7 +16,8 @@
     <string name="Adventures">冒险时刻</string>
     <string name="Empires">帝国崛起</string>
     <string name="Nocturne">午夜狂曲</string>
-    <string name="Renaissance">再生</string>
+    <string name="Renaissance">文艺复兴</string>
+    <string name="Menagerie">动物世界</string>
     <string name="Promo">推广卡片</string>
     
 </resources>
