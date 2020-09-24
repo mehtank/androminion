@@ -319,6 +319,8 @@ public class CardImplNocturne extends CardImpl {
 		}
 		if (cardToGain == null)
 			cardToGain = player.controlPlayer.changeling_cardToGain(context, validCards.toArray(new Card[0]));
+            
+        if (cardToGain == null) return;
 		if (!validCards.contains(cardToGain)) {
 			Util.playerError(player, "Changeling error, invalid card to gain, choosing first");
 			cardToGain = validCards.iterator().next();
