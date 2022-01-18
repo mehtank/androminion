@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Custom CardView attributes. -->
+    <attr name="card_background_color" type="reference|color" />
+    <attr name="card_count_color" type="reference|color" />
+    <attr name="card_name_background_color" type="reference|color" />
+    <attr name="card_text_color" type="reference|color" />
+
+    <style name="CardView">
+        <item name="card_background_color">@color/cardDefaultBackgroundColor</item>
+        <item name="card_name_background_color">@color/cardDefaultTextBackgroundColor</item>
+        <item name="card_text_color">@color/cardDefaultTextColor</item>
+        <item name="card_count_color">@color/cardDefaultTextColor</item>
+    </style>
+
+    <style name="CardView.InverseText">
+        <item name="card_text_color">@color/cardInverseTextColor</item>
+        <item name="card_count_color">@color/cardInverseTextColor</item>
+    </style>
+
+    <style name="CardView.Reaction">
+        <item name="card_background_color">@color/cardReaction</item>
+    </style>
+
+    <style name="CardView.Reaction.Victory">
+        <item name="card_name_background_color">@color/cardVictory</item>
+        <item name="card_text_color">@color/cardInverseTextColor</item>
+    </style>
+
+    <style name="CardView.Treasure.Victory">
+        <item name="card_background_color">@color/cardTreasure</item>
+        <item name="card_name_background_color">@color/cardVictory</item>
+    </style>
+
+    <style name="CardView.Treasure.Victory.Copper">
+        <item name="card_background_color">@color/cardCopper</item>
+        <item name="card_name_background_color">@color/cardVictory</item>
+    </style>
+
+    <style name="CardView.Treasure.Victory.Silver">
+        <item name="card_background_color">@color/cardSilver</item>
+        <item name="card_name_background_color">@color/cardVictory</item>
+    </style>
+
+    <style name="CardView.Treasure.Victory.Gold">
+        <item name="card_background_color">@color/cardGold</item>
+        <item name="card_name_background_color">@color/cardVictory</item>
+    </style>
+
+    <style name="CardView.Duration" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardDuration</item>
+    </style>
+
+    <style name="CardView.Duration.Reaction">
+        <item name="card_name_background_color">@color/cardReaction</item>
+        <item name="card_background_color">@color/cardDuration</item>
+        <item name="card_text_color">@color/cardDefaultTextColor</item>
+    </style>
+
+    <style name="CardView.Duration.Attack">
+        <item name="card_text_color">@color/cardAttack</item>
+        <item name="card_name_background_color">@color/cardDefaultBackgroundColor</item>
+    </style>
+
+    <style name="CardView.Attack">
+        <item name="card_text_color">@color/cardAttack</item>
+        <item name="card_count_color">@color/cardAttack</item>
+    </style>
+
+    <style name="CardView.Attack.Victory">
+        <item name="card_name_background_color">@color/cardVictory</item>
+        <item name="card_count_color">@color/cardDefaultTextColor</item>
+        <item name="card_background_color">@color/cardDefaultBackgroundColor</item>
+    </style>
+
+    <style name="CardView.Attack.Reaction">
+        <item name="card_name_background_color">@color/cardDefaultBackgroundColor</item>
+        <item name="card_count_color">@color/cardDefaultTextColor</item>
+        <item name="card_background_color">@color/cardReaction</item>
+    </style>
+
+    <style name="CardView.Curse">
+        <item name="card_background_color">@color/cardCurse</item>
+    </style>
+
+    <style name="CardView.Treasure" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardTreasure</item>
+    </style>
+
+    <style name="CardView.Treasure.Copper">
+        <item name="card_background_color">@color/cardCopper</item>
+    </style>
+
+    <style name="CardView.Treasure.Silver">
+        <item name="card_background_color">@color/cardSilver</item>
+    </style>
+
+    <style name="CardView.Treasure.Gold">
+        <item name="card_background_color">@color/cardGold</item>
+    </style>
+
+    <style name="CardView.Treasure.Platinum">
+        <item name="card_background_color">@color/cardPlatinum</item>
+    </style>
+
+    <style name="CardView.Treasure.Potion">
+        <item name="card_background_color">@color/cardPotion</item>
+    </style>
+
+    <style name="CardView.Treasure.Reaction">
+        <item name="card_name_background_color">@color/cardReaction</item>
+    </style>
+
+    <style name="CardView.Treasure.Attack">
+        <item name="card_background_color">@color/cardSilver</item>
+        <item name="card_text_color">@color/cardAttackInverse</item>
+        <item name="card_count_color">@color/cardAttackInverse</item>
+    </style>
+
+    <style name="CardView.Treasure.Action">
+        <item name="card_text_color">@color/cardDefaultTextColor</item>
+        <item name="card_name_background_color">@color/cardDefaultBackgroundColor</item>
+    </style>
+
+    <style name="CardView.Victory" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardVictory</item>
+    </style>
+
+    <style name="CardView.Night">
+        <item name="card_text_color">@color/cardDefaultTextColor</item>
+        <item name="card_background_color">@color/cardNight</item>
+    </style>
+
+    <style name="CardView.Action.Night"  parent="@style/CardView">
+        <item name="card_name_background_color">@color/cardNight</item>
+    </style>
+
+    <style name="CardView.Action.Night.Attack"  parent="@style/CardView.Action.Night">
+        <item name="card_text_color">@color/cardAttack</item>
+        <item name="card_count_color">@color/cardAttack</item>
+    </style>
+
+    <style name="CardView.Night.Attack" parent="@style/CardView.Night">
+        <item name="card_text_color">@color/cardAttack</item>
+        <item name="card_count_color">@color/cardAttack</item>
+    </style>
+
+    <style name="CardView.Night.Duration">
+        <item name="card_background_color">@color/cardNight</item>
+        <item name="card_name_background_color">@color/cardDuration</item>
+		<item name="card_text_color">@color/cardInverseTextColor</item>
+        <item name="card_count_color">@color/cardDefaultTextColor</item>
+    </style>
+
+    <style name="CardView.Night.Duration.Attack" parent="@style/CardView.Night.Duration">
+		<item name="card_text_color">@color/cardAttackInverse</item>
+        <item name="card_count_color">@color/cardAttack</item>
+    </style>
+
+    <style name="CardView.Victory.Action">
+        <item name="card_name_background_color">@color/cardVictory</item>
+        <item name="card_count_color">@color/cardDefaultTextColor</item>
+        <item name="card_background_color">@color/cardDefaultBackgroundColor</item>
+    </style>
+
+    <style name="CardView.Ruins">
+        <item name="card_background_color">@color/cardRuins</item>
+    </style>
+
+    <style name="CardView.Shelter" parent="@style/CardView.InverseText">
+        <item name="card_name_background_color">@color/cardShelter</item>
+    </style>
+
+    <style name="CardView.Shelter.Reaction">
+        <item name="card_background_color">@color/cardReaction</item>
+    </style>
+
+    <style name="CardView.Shelter.Victory">
+        <item name="card_background_color">@color/cardVictory</item>
+    </style>
+
+    <style name="CardView.Event" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardEvent</item>
+    </style>
+
+    <style name="CardView.Project" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardProject</item>
+    </style>
+
+    <style name="CardView.Landmark" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardLandmark</item>
+    </style>
+
+    <style name="CardView.Way" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardWay</item>
+    </style>
+
+    <style name="CardView.Reserve" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardReserve</item>
+    </style>
+
+    <style name="CardView.Reserve.Victory" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardReserve</item>
+        <item name="card_name_background_color">@color/cardVictory</item>
+    </style>
+
+    <style name="CardView.Treasure.Reserve" parent="@style/CardView.InverseText">
+        <item name="card_background_color">@color/cardCopper</item>
+        <item name="card_name_background_color">@color/cardReserve</item>
+    </style>
+
+</resources>

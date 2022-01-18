@@ -1,10 +1,7 @@
-project.properties
-*/bin
-!Androminion.apk
-!/bin/Androminion.apk
-*/gen
-/androminion_JUnit
-/vdom_junit
-out
+.gradle
 .idea
-*.iml
+.DS_Store
+build
+debug
+release
+local.properties
