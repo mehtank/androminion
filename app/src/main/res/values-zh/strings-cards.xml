@@ -327,8 +327,8 @@
     <string name="IllGottenGains_desc">打出这张卡时，你可以获取一张&lt;铜币&gt;到手中。— 获取这张卡时，其他玩家获取一张&lt;诅咒&gt;。</string>
     <string name="Inn_name">客栈</string>
     <string name="Inn_desc">丢弃两张手牌。— 获取这张卡时，查看你的弃牌堆（包括这张卡），展示任意数量的【动作】并将其洗入你的牌库。</string>
-    <string name="JackofallTrades_name">万事通</string>
-    <string name="JackofallTrades_desc">获取一张&lt;银币&gt;。查看你牌库顶的卡，将它丢弃或者放回。抽卡直到你有五张手牌。你可以废弃一张非【宝藏】的手牌。</string>
+    <string name="JackofAllTrades_name">万事通</string>
+    <string name="JackofAllTrades_desc">获取一张&lt;银币&gt;。查看你牌库顶的卡，将它丢弃或者放回。抽卡直到你有五张手牌。你可以废弃一张非【宝藏】的手牌。</string>
     <string name="Mandarin_name">内务官</string>
     <string name="Mandarin_desc">将一张手牌放到你牌库顶。— 获取这张卡时，将你场上的所有【宝藏】以任意顺序放回你牌库顶。</string>
     <string name="Margrave_name">侯爵</string>

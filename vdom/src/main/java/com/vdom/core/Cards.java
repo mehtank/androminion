@@ -94,7 +94,7 @@ public class Cards {
         Followers, Princess, TrustySteed,
         // Hinterlands Expansion
         BorderVillage, Cache, Cartographer, Crossroads, Develop, Duchess, Embassy, Farmland,
-        FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofallTrades, Mandarin, Margrave,
+        FoolsGold, Haggler, Highway, IllGottenGains, Inn, JackofAllTrades, Mandarin, Margrave,
         NobleBrigand, NomadCamp, Oasis, Oracle, Scheme, SilkRoad, SpiceMerchant, Stables, Trader,
         Tunnel,
         // Dark Ages Expansion
@@ -150,7 +150,7 @@ public class Cards {
         
         Flag, Horn, Key, Lantern, TreasureChest,
         
-        Academy, Barracks, Canal, Capitalism, Cathedral, Citadel, CityGate, CropRotation, Exploration, Fair, Fleet, GuildHall, 
+        Academy, Barracks, Canal, Capitalism, Cathedral, Citadel, CityGate, CropRotation, Exploration, Fair, Fleet, Guildhall, 
         Innovation, Pageant, Piazza, RoadNetwork, Sewers, Silos, SinisterPlot, StarChart,
         
         // Menagerie Expansion
@@ -726,7 +726,7 @@ public class Cards {
     public static final Card exploration;
     public static final Card fair;
     public static final Card fleet;
-    public static final Card guildHall;
+    public static final Card guildhall;
     public static final Card innovation;
     public static final Card pageant;
     public static final Card piazza;
@@ -1029,7 +1029,7 @@ public class Cards {
         actionCardsHinterlands.add(highway = new CardImpl.Builder(Cards.Kind.Highway, 5, Type.Action).addCards(1).addActions(1).description("While this is in play, cards cost 1 coin less, but not less than 0 coin.").expansion(Expansion.Hinterlands).build());
         actionCardsHinterlands.add(illGottenGains = new CardImpl.Builder(Cards.Kind.IllGottenGains, 5, Type.Treasure).addGold(1).description("When you play this, you may gain a Copper, putting it into your hand - When you gain this, each other player gains a Curse.").expansion(Expansion.Hinterlands).build());
         actionCardsHinterlands.add(inn = new CardImpl.Builder(Cards.Kind.Inn, 5, Type.Action).addCards(2).addActions(2).description("Discard 2 cards - When you gain this, look through your discard pile (including this), reveal any number of Action cards from it, and shuffle them into your deck.").expansion(Expansion.Hinterlands).build());
-        actionCardsHinterlands.add(jackOfAllTrades = new CardImpl.Builder(Cards.Kind.JackofallTrades, 4, Type.Action).description("Gain a Silver. Look at the top card of your deck; discard it or put it back. Draw until you have 5 cards in hand. You may trash a card from your hand that is not a Treasure.").expansion(Expansion.Hinterlands).build());
+        actionCardsHinterlands.add(jackOfAllTrades = new CardImpl.Builder(Cards.Kind.JackofAllTrades, 4, Type.Action).description("Gain a Silver. Look at the top card of your deck; discard it or put it back. Draw until you have 5 cards in hand. You may trash a card from your hand that is not a Treasure.").expansion(Expansion.Hinterlands).build());
         actionCardsHinterlands.add(mandarin = new CardImpl.Builder(Cards.Kind.Mandarin, 5, Type.Action).addGold(3).description("Put a card from your hand on top of your deck - When you gain this, put all Treasures you have in play on top of your deck in any order.").expansion(Expansion.Hinterlands).build());
         actionCardsHinterlands.add(margrave = new CardImpl.Builder(Cards.Kind.Margrave, 5, Type.Action, Type.Attack).addCards(3).addBuys(1).description("Each other player draws a card, then discards down to 3 cards in hand.").expansion(Expansion.Hinterlands).build());
         actionCardsHinterlands.add(nobleBrigand = new CardImpl.Builder(Cards.Kind.NobleBrigand, 4, Type.Action, Type.Attack).addGold(1).description("When you buy this or play it, each other player reveals the top 2 cards of his deck, trashes a revealed Silver or Gold you choose, and discards the rest. If he didn't reveal a Treasure, he gains a Copper. You gain the trashed cards.").expansion(Expansion.Hinterlands).build());
@@ -1409,7 +1409,7 @@ public class Cards {
         projectCardsRenaissance.add(exploration  = new CardImpl.Builder(Cards.Kind.Exploration, 4, Type.Project).description("At the end of your Buy phase, if you didn't buy any cards, +1 Coffers and +1 Villager.").expansion(Expansion.Renaissance).build());
         projectCardsRenaissance.add(fair         = new CardImpl.Builder(Cards.Kind.Fair, 4, Type.Project).description("At the start of your turn, +1 Buy.").expansion(Expansion.Renaissance).build());
         projectCardsRenaissance.add(fleet        = new CardImpl.Builder(Cards.Kind.Fleet, 5, Type.Project).description("After the game ends, there's an extra round of turns just for the players with this.").expansion(Expansion.Renaissance).build());
-        projectCardsRenaissance.add(guildHall    = new CardImpl.Builder(Cards.Kind.GuildHall, 5, Type.Project).description("When you gain a Treasure, +1 Coffers.").expansion(Expansion.Renaissance).build());
+        projectCardsRenaissance.add(guildhall    = new CardImpl.Builder(Cards.Kind.Guildhall, 5, Type.Project).description("When you gain a Treasure, +1 Coffers.").expansion(Expansion.Renaissance).build());
         projectCardsRenaissance.add(innovation   = new CardImpl.Builder(Cards.Kind.Innovation, 6, Type.Project).description("The first time you gain an Action card in each of your turns, you may set it aside. If you do, play it.").expansion(Expansion.Renaissance).build());
         projectCardsRenaissance.add(pageant      = new CardImpl.Builder(Cards.Kind.Pageant, 3, Type.Project).description("At the end of your Buy phase, you may pay (1) Coin for +1 Coffers.").expansion(Expansion.Renaissance).build());
         projectCardsRenaissance.add(piazza       = new CardImpl.Builder(Cards.Kind.Piazza, 5, Type.Project).description("At the start of your turn, reveal the top card of your deck. If it's an Action, play it.").expansion(Expansion.Renaissance).build());

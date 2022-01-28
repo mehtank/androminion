@@ -326,8 +326,8 @@
     <string name="IllGottenGains_desc">Cuando pongas en juego esta carta, puedes ganar una carta de Cobre y añadirla a tu mano. - Cuando ganes esta carta, cada jugador (menos tú) gana una Maldición.</string>
     <string name="Inn_name">Posada</string>
     <string name="Inn_desc">Descarta 2 cartas. - Cuando ganes esta carta, busca en tu pila de descartes (incluyendo esta carta), revela cualquier número de cartas de Acción de ella y barájalas con las cartas de tu mazo.</string>
-    <string name="JackofallTrades_name">Chico para Todo</string>
-    <string name="JackofallTrades_desc">Gana una carta de Plata. Mira la carta superior de to mazo: descártala o colócala de nuevo sobre tu mazo. Roba cartas hasta tener 5 cartas en la mano. Puedes eliminar una carta de tu mano que no sea un Tesoro.</string>
+    <string name="JackofAllTrades_name">Chico para Todo</string>
+    <string name="JackofAllTrades_desc">Gana una carta de Plata. Mira la carta superior de to mazo: descártala o colócala de nuevo sobre tu mazo. Roba cartas hasta tener 5 cartas en la mano. Puedes eliminar una carta de tu mano que no sea un Tesoro.</string>
     <string name="Mandarin_name">Mandarín</string>
     <string name="Mandarin_desc">Pon una carta de tu mano encima de tu mazo. - Cuando ganes esta carta, coloca todos los Tesoros que tengas en juego encima de tu mazo, en el orden que quieras.</string>
     <string name="Margrave_name">Margrave</string>
@@ -977,7 +977,7 @@
     <string name="OldWitch_name">Bruja Vieja</string>
     <string name="OldWitch_desc">Cada jugador (menos tú) gana una carta de Maldición y puede eliminar carta de Maldición de su mano.</string>
     <string name="Patron_name">Patrón</string>
-    <string name="Patron">Cuando algo te causa a revelar esta carta (usando la palabra "revelar"), +1 Cofres.</string>
+    <string name="Patron_desc">Cuando algo te causa a revelar esta carta (usando la palabra "revelar"), +1 Cofres.</string>
     <string name="Priest_name">Sacerdote</string>
     <string name="Priest_desc">Elimina una carta de tu mano. Por el resto de este turno, cuando elimines una carta, +(2) Monedas.</string>
     <string name="Recruiter_name">Reclutador</string>
@@ -1036,8 +1036,8 @@
     <string name="Fair_desc">Al cominenzo de tu turno, +1 Compra.</string>
     <string name="Fleet_name">Flota</string>
     <string name="Fleet_desc">Después que el juego termine, hay una ronda de turnos extras solo para los jugadores con este Proyecto.</string>
-    <string name="GuildHall_name">Casa de Gremio</string>
-    <string name="GuildHall_desc">Cuando ganes una carta de Tesoro, +1 Cofres.</string>
+    <string name="Guildhall_name">Casa de Gremio</string>
+    <string name="Guildhall_desc">Cuando ganes una carta de Tesoro, +1 Cofres.</string>
     <string name="Innovation_name">Innovación</string>
     <string name="Innovation_desc">La primera vez que ganes un carta de Acción durante cada uno de tus turnos, puedes apartarla. Si lo haces, juégala.</string>
     <string name="Pageant_name">Espectáculo</string>

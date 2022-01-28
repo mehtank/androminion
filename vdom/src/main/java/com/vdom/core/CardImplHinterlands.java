@@ -42,7 +42,7 @@ public class CardImplHinterlands extends CardImpl {
 		case Inn:
             inn(context, currentPlayer);
             break;
-		case JackofallTrades:
+		case JackofAllTrades:
             jackOfAllTrades(game, context, currentPlayer);
             break;
 		case Mandarin:

@@ -326,8 +326,8 @@
     <string name="IllGottenGains_desc">When you play this, you may gain a Copper, putting it into your hand - When you gain this, each other player gains a Curse.</string>
     <string name="Inn_name">Inn</string>
     <string name="Inn_desc">Discard 2 cards - When you gain this, look through your discard pile (including this), reveal any number of Action cards from it, and shuffle them into your deck.</string>
-    <string name="JackofallTrades_name">Jack of all Trades</string>
-    <string name="JackofallTrades_desc">Gain a Silver. Look at the top card of your deck; discard it or put it back. Draw until you have 5 cards in hand. You may trash a card from your hand that is not a Treasure.</string>
+    <string name="JackofAllTrades_name">Jack of All Trades</string>
+    <string name="JackofAllTrades_desc">Gain a Silver. Look at the top card of your deck; discard it or put it back. Draw until you have 5 cards in hand. You may trash a card from your hand that is not a Treasure.</string>
     <string name="Mandarin_name">Mandarin</string>
     <string name="Mandarin_desc">Put a card from your hand on top of your deck - When you gain this, put all Treasures you have in play on top of your deck in any order.</string>
     <string name="Margrave_name">Margrave</string>
@@ -977,7 +977,7 @@
     <string name="OldWitch_name">Old Witch</string>
     <string name="OldWitch_desc">Each other player gains a Curse and may trash a Curse from their hand.</string>
     <string name="Patron_name">Patron</string>
-    <string name="Patron">When something causes you to reveal this (using the word "reveal"), +1 Coffers.</string>
+    <string name="Patron_desc">When something causes you to reveal this (using the word "reveal"), +1 Coffers.</string>
     <string name="Priest_name">Priest</string>
     <string name="Priest_desc">Trash a card from your hand. For the rest of this turn, when you trash a card, +(2) Coins.</string>
     <string name="Recruiter_name">Recruiter</string>
@@ -1036,8 +1036,8 @@
     <string name="Fair_desc">At the start of your turn, +1 Buy.</string>
     <string name="Fleet_name">Fleet</string>
     <string name="Fleet_desc">After the game ends, there\'s an extra round of turns just for the players with this.</string>
-    <string name="GuildHall_name">Guild Hall</string>
-    <string name="GuildHall_desc">When you gain a Treasure, +1 Coffers.</string>
+    <string name="Guildhall_name">Guildhall</string>
+    <string name="Guildhall_desc">When you gain a Treasure, +1 Coffers.</string>
     <string name="Innovation_name">Innovation</string>
     <string name="Innovation_desc">The first time you gain an Action card in each of your turns, you may set it aside. If you do, play it.</string>
     <string name="Pageant_name">Pageant</string>

@@ -363,8 +363,8 @@
     <string name="SilkRoad_desc">Vaut 1 PV pour chaque tranche de 4 cartes Victoire dans votre deck (arrondi à l\'unité inférieure).</string>
     <string name="Farmland_name">Terre Agricole</string>
     <string name="Farmland_desc">Lorsque vous achetez cette carte, écartez une carte de votre main. Recevez une carte coûtant exactement 2 Pièces de plus que la carte écartée.</string>
-    <string name="JackofallTrades_name">Touche-à-Tout</string>
-    <string name="JackofallTrades_desc">Recevez une carte Argent.\nConsultez la première carte de votre deck; défaussez-la ou replacez-la.\nPiochez pour avoir 5 cartes en main.\nVous pouvez écarter une carte de votre main qui n\'est pas une carte Trésor.</string>
+    <string name="JackofAllTrades_name">Touche-à-Tout</string>
+    <string name="JackofAllTrades_desc">Recevez une carte Argent.\nConsultez la première carte de votre deck; défaussez-la ou replacez-la.\nPiochez pour avoir 5 cartes en main.\nVous pouvez écarter une carte de votre main qui n\'est pas une carte Trésor.</string>
     <string name="Trader_name">Troqueuse</string>
     <string name="Trader_desc">Écartez une carte de votre main. Recevez un nombre de cartes Argent équivalant au nombre de pièces que coûte cette carte.\n------\nLorsque vous recevez une carte, vous pouvez dévoiler cette carte de votre main. Dans ce cas, recevez une carte Argent à la place de l\'autre carte.</string>
     <string name="Tunnel_name">Tunnel</string>
