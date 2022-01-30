@@ -173,7 +173,7 @@ public class StartGameFragment extends Fragment implements OnClickListener, OnIt
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		com.mehtank.androminion.ui.Strings.initContext(getActivity().getApplicationContext());
+		com.mehtank.androminion.ui.Strings.initContext(getActivity());
 
 		mView = inflater.inflate(R.layout.fragment_startgame, null);
 
