@@ -155,9 +155,9 @@
     <string name="random_expansions_select_all">All selected</string>
     <string name="random_expansions_select_x">%1$s</string>
     <string name="random_choose_from_expansions">Choose:</string>
-    <string name="random_expansion_allocation_random">Randomly</string>
-    <string name="random_expansion_allocation_even">Evenly</string>
-    <string name="random_expansion_allocation_proportional">Proportionally</string>
+    <string name="random_expansion_allocation_random" tools:ignore="UnusedResources">Randomly</string>
+    <string name="random_expansion_allocation_even" tools:ignore="UnusedResources">Evenly</string>
+    <string name="random_expansion_allocation_proportional" tools:ignore="UnusedResources">Proportionally</string>
     <string name="select_players">Players:</string>
 	<string name="random_players">Random</string>
 	<string name="probability_2_players">Chance of 2 players</string>
@@ -178,8 +178,7 @@
     <string name="card_set_shelters">Shelters</string>
     <string name="card_set_no_shelters">No Shelters</string>
     <string name="card_set_card_options">%1$s (%2$s)</string>
-    <string name="none_game_start">None</string> <!-- Unused -->
-    <string name="start_new_game_on_server">Start new game on server</string> <!-- Unused -->
+    <string name="none_game_start">None</string>
 
     <!-- Game Activity: Splash Screen -->
     <string name="splash">Use the menu to start a new game, or, while a game is running, to display help on how to play.</string>
@@ -234,17 +233,12 @@
     <string name="final_view_card_counts">Card counts</string>
     <string name="final_view_text">%1$s: %2$s VPs.\n%3$s turns, %4$s cards.</string>
     <string name="final_game_time">Game time: %1$s</string>
-    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-    <string name="potion_single">%1$s potion</string>
-    <string name="potion_multiple">%1$s potions</string>
     <string name="potion_cost_initial">p</string>
     <string name="accept">Accept</string>
     <string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>
     <string name="trash_header">Trash:</string>
     <string name="blackMarket_header">Bl. Market:</string>
     <string name="inheritance_header">Inherit:</string>
-    <string name="img_download_title">%1$s card art</string>
-	<string name="img_download_desc">Downloading card art from %1$s</string>
 	<string name="journey_token_initial">\u0020\u0020J\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">B</string>

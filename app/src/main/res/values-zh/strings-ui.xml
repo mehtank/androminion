@@ -60,11 +60,8 @@
     <string name="include_cards_percent">%1$s%%概率</string>
     <string name="random_include_events">事件数量：</string>
     <string name="random_events_none">不使用</string>
-    <string name="random_events_random">随机</string>
     <string name="random_include_landmarks">地标数量：</string>
     <string name="random_landmarks_none">不使用</string>
-    <string name="random_landmarks_random">随机</string>
-    <string name="random_include_cards">包括哪些拓展包的王国卡？</string>
     <string name="select_players">选择玩家：</string>
 	<string name="random_players">随机</string>
 	<string name="probability_2_players">两人游戏概率</string>
@@ -83,8 +80,7 @@
     <string name="card_set_shelters">避难所</string>
     <string name="card_set_no_shelters">没有避难所</string>
     <string name="card_set_card_options">%1$s（%2$s）</string>
-    <string name="none_game_start">不使用</string> <!-- Unused -->
-    <string name="start_new_game_on_server">在服务器上开始游戏</string> <!-- Unused -->
+    <string name="none_game_start">不使用</string>
 
     <!-- Game Activity: Splash Screen -->
     <string name="splash">使用菜单开始新游戏，或者在游戏过程中使用帮助以查看如何游戏。</string>
@@ -136,17 +132,12 @@
     <string name="final_view_card_counts">查看卡组</string>
     <string name="final_view_text">%1$s：%2$s 分\n%3$s 回合, %4$s 张卡.</string>
     <string name="final_game_time">游戏时间： %1$s</string>
-    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-    <string name="potion_single">%1$s 药剂</string>
-    <string name="potion_multiple">%1$s 药剂</string>
     <string name="potion_cost_initial">p</string>
     <string name="accept">接受</string>
     <string name="order_cards_summary">移动\n卡片\n重新\n排序</string>
     <string name="trash_header">废弃：</string>
     <string name="blackMarket_header"> 黑市牌堆：</string>
     <string name="inheritance_header">继承：</string>
-    <string name="img_download_title">%1$s 卡面图片</string>
-	<string name="img_download_desc">从%1$s下载卡面图片</string>
 	<string name="journey_token_initial">\u0020\u0020旅\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">动</string>
 	<string name="token_plus_one_buy_initial">买</string>

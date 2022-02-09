@@ -5,8 +5,6 @@
         <string name="pass">Передайте</string>
         <string name="card_revealed">%1$s открыта %2$s</string>
         <string name="select_from_table_max_treasure">Выберите карту Казны, которая стоит от (%1$s) до %2$s</string>
-        <string name="pawn_option_one">Паж (выбор 1 из 2):</string>
-        <string name="pawn_option_two">Паж (выбор 2 из 2):</string>
         <string name="torturer_option_one">Возьмите проклятье</string>
         <string name="torturer_option_two">Сбросьте 2 карты</string>
         <string name="chancellor_query">Сбросьте всю колоду</string>
@@ -14,9 +12,6 @@
         <string name="inn_option_two">Оставьте в сбросе</string>
         <string name="tunnel_query">Сбросить Туннель</string>
         <string name="tunnel_option_one">Открыть за золото</string>
-
-        <string name="join_timed_out">Вышло время ожидания присоединения игрока и старта игры.</string>
-        <string name="response_timed_out">Вышло время ожидания когда игрок присоединится и ответит на запрос.</string>
 
         <string name="vp_single">Стоит %1$s ПО</string>
         <string name="vp_multiple">Стоит %1$s ПО</string>
@@ -39,7 +34,6 @@
         <string name="card_victory_token_single">+%1$s жетон ПО</string>
         <string name="card_victory_tokens_multiple">+%1$s жетона(-ов) ПО</string>
 
-        <string name="card_options_header">%1$s выбор</string>
         <string name="part_play">игра</string>
         <string name="part_buy">покупка</string>
 
@@ -84,7 +78,6 @@
         <string name="GameStarting"></string>
         <string name="GameOver">Конец игры</string>
         <string name="Embargo">Эмбарго</string>
-        <string name="Status">Статус</string>
         <string name="CantBuy">Нельзя купить %1$s</string>
         <string name="VictoryPoints">Победные Очки</string>
         <string name="NewHand">Новая рука</string>
@@ -99,9 +92,6 @@
         <string name="PlayerAttacking">Атакует</string>
         <string name="PlayerDefended">Защитился</string>
         <string name="CardOnTopOfDeck">Карта положена на верх колоды</string>
-        <string name="CardObtained">Взята</string>
-        <string name="CardTrashed">Выброшена</string>
-        <string name="CardRevealed">Открыта</string>
         <string name="CardDiscarded">Сброшена</string>
         <string name="CardAddedToHand">Карта добавлена в руку</string>
         <string name="CardRemovedFromHand">Кара удалена с руки</string>
@@ -110,7 +100,6 @@
 
         <string name="action_buys_coin">%1$s/%2$s/%3$s</string>
         <string name="game_over_status">Конец игры — </string>
-        <string name="game_length_status">Длина игры: </string>
         <string name="end_turn">Конец хода</string>
         <string name="replace">Заменить</string>
 
@@ -223,8 +212,6 @@
 
         <string name="card_order_on_deck">Порядок карт на колоде:</string>
 
-        <string name="treasury_number">Количество карт Казны, чтоб вернуть на колоду:</string>
-
         <string name="pirate_ship_option_one">Возьмите +(%1$s) монет</string>
         <string name="pirate_ship_option_two">Атака</string>
 
@@ -248,8 +235,6 @@
 
         <string name="margrave_part">сохранить от Маркграфа</string>
 
-        <string name="wishing_well_part">угадать карту на верху колоды</string>
-
         <string name="explorer_reveal">Открыть Провинцию</string>
 
         <!-- *** -->
@@ -264,7 +249,6 @@
 
   <string name="Cartographer_query">Выберите карту чтоб сбросить [%1$s]</string>
   <string name="cards">Карты</string>
-  <string name="return_cards">Верните карты в колоду:</string>
   <string name="take_normal">Возьмите обычно:</string>
 
 </resources>

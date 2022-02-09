@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
     <string name="Copper_name">Copper</string>
     <string name="Copper_desc"></string>

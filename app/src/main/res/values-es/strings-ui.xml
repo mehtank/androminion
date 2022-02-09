@@ -180,8 +180,7 @@
     <string name="card_set_shelters">Cobijos</string>
     <string name="card_set_no_shelters">Sin Cobijos</string>
     <string name="card_set_card_options">%1$s (%2$s)</string>
-    <string name="none_game_start">Ninguno</string> <!-- Unused -->
-    <string name="start_new_game_on_server">Iniciar un nuevo juego en el servidor</string> <!-- Unused -->
+    <string name="none_game_start">Ninguno</string>
 
     <!-- Game Activity: Splash Screen -->
     <string name="splash">Usa el menú para iniciar una nueva partida o, durante el juego, para ver cómo jugar.</string>
@@ -236,17 +235,12 @@
     <string name="final_view_card_counts">Número de cartas</string>
     <string name="final_view_text">%1$s: %2$s PVs.\n%3$s turnos, %4$s cartas.</string>
     <string name="final_game_time">Duración de la partida: %1$s</string>
-    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-    <string name="potion_single">%1$s poción</string>
-    <string name="potion_multiple">%1$s pociones</string>
     <string name="potion_cost_initial">p</string>
     <string name="accept">Aceptar</string>
     <string name="order_cards_summary">Arrastra y suelta \nlas cartas para \nrecolocarlas.</string>
     <string name="trash_header">Eliminadas:</string>
     <string name="blackMarket_header">M. Negro:</string>
     <string name="inheritance_header">Herencia:</string>
-    <string name="img_download_title">Imagen de carta %1$s</string>
-	<string name="img_download_desc">Descargando imagen de carta de %1$s</string>
 	<string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">C</string>

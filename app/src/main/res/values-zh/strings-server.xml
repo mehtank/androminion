@@ -5,10 +5,7 @@
 	<string name="pass">忽略</string>
 	<string name="pass_all">全部忽略</string>
 	<string name="card_revealed">%1$s 展示了&lt;%2$s&gt;</string>
-	<string name="card_revealed_from_hand">%1$s 从手牌中展示了&lt;%2$s&gt;</string>
 	<string name="select_from_table_max_treasure">选择一张价值至多为(%1$s)的【宝藏】到%2$s</string>
-	<string name="pawn_option_one">走卒（选择一）：</string>
-	<string name="pawn_option_two">走卒（选择二）：</string>
 	<string name="torturer_option_one">获取一张&lt;诅咒&gt;并将其置入手牌</string>
 	<string name="torturer_option_two">丢弃两张手牌</string>
 	<string name="chancellor_query">将你的卡组放到弃牌堆里</string>
@@ -23,9 +20,6 @@
 	<string name="sentry_look_at">&lt;%1$s&gt;看到了&lt;%2$s&gt;（来自%3$s）</string>
 	<string name="faithfulHound_query">丢弃&lt;忠犬&gt;</string>
 	<string name="faithfulHound_set_aside">置于一边，回合结束时回到手牌</string>
-	
-	<string name="join_timed_out">等待断线玩家重连已超时。</string>
-	<string name="response_timed_out">等待断线玩家重连已超时。</string>
 	
 	<string name="vp_single">价值(%1$s)分</string>
 	<string name="vp_multiple">价值(%1$s)分</string>
@@ -49,14 +43,12 @@
 	<string name="card_victory_tokens_multiple">+(%1$s) 分数指示物</string>
 	<string name="card_coffers_single">+%1$s 资金</string>
 	<string name="card_coffers_multiple">+%1$s 资金</string>
-	
-	<string name="card_options_header">%1$s 选项</string>
+
 	<string name="part_play">打出</string>
 	<string name="part_buy">购买</string>
 	<string name="part_move_token_minus_2_cost">移动~-(2) 价值~指示物到</string>
 	<string name="part_move_token_plus_one_card">移动~+1 手牌~指示物到</string>
 	<string name="part_move_token_plus_one_action">移动~+1 行动~指示物到</string>
-	<string name="part_move_token_plus_one_buy">移动~+1 购买~指示物到</string>
 	<string name="part_move_token_plus_one_coin">移动~+(1) 现金~指示物到</string>
 	<string name="part_move_token_trashing">移动废弃指示物到</string>
 	
@@ -96,10 +88,6 @@
 	<string name="select_exactly_x_cards_from_hand">%2$s恰好%1$s张手牌</string>
 	<string name="select_from_x_to_y_cards_from_hand">%3$s%1$s至%2$s张手牌</string>
 	<string name="select_from_x_to_y_different_cards_from_hand">%3$s%1$s至%2$s张各不相同的手牌</string>
-	
-	<string name="select_one_card_from_trash">%1$s废弃牌堆中的一张卡</string>
-	<string name="select_up_to_x_cards_from_trash">%2$s废弃牌堆中至多%1$s张卡</string>
-	<string name="select_exactly_x_cards_from_trash">%2$s废弃牌堆中%1$s张卡</string>
 	
 	<string name="select_one_action_from_hand">（从手牌中）%1$s一张【动作】</string>
 	<string name="select_one_action_from_hand_not_in_play">（从手牌中）%1$s一张你没有打出过的【动作】</string>
@@ -159,7 +147,6 @@
 	<string name="TrashingTokenMoved">移动废弃指示物到</string>
 	<string name="OnIslandMat">孤岛板块</string>
 	<string name="OnNativeVillageMat">闾里板块</string>
-	<string name="Status">状态</string>
 	<string name="CantBuy">不能购买%1$s</string>
 	<string name="VictoryPoints">分数</string>
 	<string name="NewHand">清理阶段抽牌</string>
@@ -186,9 +173,6 @@
 	<string name="PlayerAttacking">攻击</string>
 	<string name="PlayerDefended">抵御</string>
 	<string name="CardOnTopOfDeck">卡被置于牌堆顶</string>
-	<string name="CardObtained">获取</string>
-	<string name="CardTrashed">废弃</string>
-	<string name="CardRevealed">展示</string>
 	<string name="CardRevealedFromHand">从手牌中被展示</string>
 	<string name="CardNamed">命名</string>
 	<string name="CardDiscarded">丢弃</string>
@@ -223,7 +207,6 @@
 	
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
 	<string name="game_over_status">游戏结束 —</string>
-	<string name="game_length_status">游戏长度：</string>
 	<string name="end_turn">结束回合</string>
 	<string name="replace">放回</string>
 	
@@ -392,8 +375,6 @@
 	
 	<string name="card_order_on_deck">卡在牌堆顶上的顺序：</string>
 	
-	<string name="treasury_number">放回牌堆顶的【宝藏】数目：</string>
-	
 	<string name="pirate_ship_option_one">获得 +(%1$s) 现金</string>
 	<string name="pirate_ship_option_two">攻击</string>
 	<string name="miser_option_one">获得 +(%1$s) 现金</string>
@@ -450,8 +431,6 @@
 	<string name="swindler_part">给他换成价值(%1$s)的</string>
 	
 	<string name="margrave_part">保留[侯爵]</string>
-	
-	<string name="wishing_well_part">猜牌堆顶的卡</string>
 
 	<string name="explorer_reveal">展示&lt;行省&gt;</string>
 	
@@ -477,7 +456,6 @@
   
   <string name="Cartographer_query">选择从你牌堆顶丢弃的卡[%1$s]</string>
   <string name="cards">卡</string>
-  <string name="return_cards">返回牌堆顶：</string>
   <string name="take_normal">正常获取</string>
   <string name="opponent_discard">为%1$s选择要丢弃的卡[%2$s]</string>
   <string name="survivors_header">展示[幸存者]： %1$s</string>
