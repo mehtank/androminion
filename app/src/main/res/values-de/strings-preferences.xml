@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+	<string name="general_tab_pref_title">General</string>
+	<string name="name_pref_title">Name</string>
+	<string name="name_pref_summary">Dein Name im Spiel</string>
+	<string name="pref_theme_title">Design</string>
+	<string-array name="theme_names">
+		<item>Dunkel</item>
+		<item>Hell</item>
+		<item>Hell mit dunkler Leiste</item>
+	</string-array>
+	<string name="userlang_pref_title">Sprache</string>
+	<string name="userlang_pref" tools:ignore="MissingTranslation">userlang</string>
+	<string-array name="userlang_names" tools:ignore="MissingTranslation">
+		<item>Voreinstellung</item>
+		<item>Englisch</item>
+		<item>Deutsch</item>
+		<item>Spanisch</item>
+		<item>Französisch</item>
+		<item>Chinesisch</item>
+		<item>Japanisch</item>
+		<item>Niederländisch</item>
+		<item>Russisch</item>
+	</string-array>
+	<string name="faster_gameplay_pref_title">Schnelles Spiel</string>
+	<string name="quick_play_pref_title">Automatisches Spiel</string>
+	<string name="quick_play_pref_summary">Einige Karten und Nachfragen werden automatisch gespielt</string>
+	<string name="action_chains_pref_title">Aktionsketten</string>
+	<string name="action_chains_pref_summary">Erlaubt das Auswählen und Ausspielen von mehreren Aktionskarten</string>
+	<string name="suppress_redundant_reactions_pref_title">Letzte Reaktion wiederholen</string>
+	<string name="suppress_redundant_reactions_pref_summary">Unterdrückt die Rückfrage bei Reaktionskarten die bereits beantwortet wurde</string>
+	<string name="vibescreen_pref_title">Vibration</string>
+	<string name="allvibes_pref_title">Aktiviert</string>
+	<string name="clickvibeon_pref_title">Wenn eine Karte ausgewählt wird</string>
+	<string name="actionvibeon_pref_title">Wenn was zu tun ist.</string>
+	<string name="turnvibeon_pref_title">Wenn Dein Zug startet</string>
+	<string name="gamevibeon_pref_title">Wenn das Spiel endet.</string>
+
+
+	<string name="game_rules_tab_pref_title">Game rules</string>
+	<string name="equal_start_hands_pref_title">Gleiche Starthände</string>
+	<string name="equal_start_hands_pref_summary">Alle Spieler starten mit den gleichen Karten (2/3/4/5 Kupfer)</string>
+	<string name="black_market_title">Schwarzmarktstapel</string>
+	<string name="black_market_count_pref_title">Größe</string>
+	<string name="black_market_count_pref_summary">Wie viele Karten soll der Schwarzmarktstapel enthalten (mindestens 15 Karten sind empfohlen)</string>
+	<string name="bm_split_piles_pref_title">Stapel mit unterschiedlichen Karten</string>
+	<string-array name="bm_split_piles_entries">
+		<item>nicht verwenden</item>
+		<item>nur eine pro Stapel</item>
+		<item>beliebig viele pro Stapel</item>
+		<item>alle des Stapels</item>
+	</string-array>
+	<string name="bm_only_cards_from_used_exp_pref_title">Erweiterungen</string>
+	<string name="bm_only_cards_from_used_exp_pref_summary">Nur Karten der Erweiterungen verwenden, die auch im Set verwendet werden.</string>
+	<string name="editions_pref_title">Zufällige und Vorgegebene Kartensets</string>
+	<string name="pref_base_set_edtion_title">Basis</string>
+	<string-array name="pref_base_set_editions">
+		<item>Erste Edition (2008)</item>
+		<item>Zweite Edition (2016)</item>
+		<item>Beide Editionen verwenden</item>
+	</string-array>
+	<string name="pref_intrigue_edtion_title">Die Intrige</string>
+	<string-array name="pref_intrigue_editions">
+		<item>Erste Edition (2009)</item>
+		<item>Zweite Edition (2016)</item>
+		<item>Beide Editionen verwenden</item>
+	</string-array>
+	<string name="errata_category_pref_title">Regeländerungen</string>
+	<string name="erratamasquerade_pref_title">Maskerade</string>
+	<string name="erratamasquerade_pref_summary">Spieler ohne Karten setzen aus</string>
+	<string name="erratamine_pref_title">Mine</string>
+	<string name="erratamine_pref_summary">Entsorgen ist optional</string>
+	<string name="erratamoneylender_pref_title">Geldverleiher</string>
+	<string name="erratamoneylender_pref_summary">Entsorgen ist optional</string>
+	<string name="pref_errata_possessor_tokens_pref_title">Possession turn tokens</string>
+	<string-array name="pref_errata_possessor_tokens">
+		<item>Possessed player takes tokens</item>
+		<item>Possessing player takes tokens (from Empires)</item>
+		<item>Possessing player takes debt tokens only (from Alchemy 2E)</item>
+	</string-array>
+	<string name="erratathroneroom_pref_title">Thronsaal</string>
+	<string name="erratathroneroom_pref_summary">Ausspielen ist optional</string>
+	<string name="erratashuffling_pref_title">Mischen</string>
+	<string name="erratashuffling_pref_summary">Mischen bevor Karten gezogen werden, wenn im Nachziehstapel weniger sind als benötigt.</string>
+
+
+	<string name="ui_tab_pref_title">Benutzeroberfläche</string>
+	<string name="show_statusbar_pref_title">Statuszeile</string>
+	<string name="show_statusbar_pref_summary">Zeige die obere Android Statusleiste während des Spielens an</string>
+	<string name="pref_showactionbar_title">Home Button</string>
+	<string name="pref_showactionbar_summary">Zeige die Android Home-Buttons während des Spielens (für Geräte ohne Hardware Button)</string>
+	<string name="exitonback_pref_title">Beenden mit Zurück-Button</string>
+	<string name="exitonback_pref_summary">Beendet das Spiel erst beim zweiten Klick</string>
+	<string name="card_display_pref_title">Spielkarten</string>
+	<string name="pref_viewstyle_title">Darstellung der Karten</string>
+	<string-array name="viewstyle_names">
+		<item>Klassisch</item>
+		<item>Einfach</item>
+		<item>Ausführlich</item>
+		<item>Gekürzt</item>
+	</string-array>
+	<string name="autodownload_pref_title">Bilder Download</string>
+	<string name="autodownload_pref_summary">Im Hintergrund das (englische) Bild herunterladen, wenn die Kartendetails angezeigt werden.</string>
+	<string name="showimages_pref_title">Karten Beschreibung</string>
+	<string-array name="showimages_names">
+		<item>nur Text</item>
+		<item>nur Bild</item>
+		<item>Bild und Text</item>
+	</string-array>
+	<string name="wikilink_pref_title">Wiki Link</string>
+	<string name="wikilink_pref_summary">in den Karten Beschreibung. Öffnet das DominionStrategy Wiki im Browser. (Das Spiel kann im Hintergrund beendet werden).</string>
+	<string name="showenglishnames_pref_title">Englische Karten</string>
+	<string name="showenglishnames_pref_summary">Zeige auch den englischen Kartennamen an, wenn die Spache nicht Englisch ist.</string>
+	<string name="pref_show_game_log_title">Logbuch</string>
+	<string name="pref_show_game_log_summary">Zeige als Text, was im Spiel passiert.</string>
+	<string name="one_turn_logs_pref_title">Nur aktueller Zug</string>
+	<string name="one_turn_logs_pref_summary">Zeigt nur den aktuellen Zug im Logbuch an. Ansonsten werden alle Züge angezeigt.</string>
+	<string name="game_over_castle_details_pref_title">Schlösser</string>
+	<string name="game_over_castle_details_pref_summary">Zeige die Siegpunkte der jeweiligen Schlösser im Detail nach dem Spiel an.</string>
+	<string name="game_over_vp_token_details_pref_title">Siegpunktmarker</string>
+	<string name="game_over_vp_token_details_pref_summary">Zeige detailliert an, wie die Siegpunktmarker erhalten wurden.</string>
+	<string name="next_game_pref_title">Beim Nächsten Spiel</string>
+	<string name="card_counts_pref_title">Anzahl der Karten zeigen</string>
+	<string name="card_counts_pref_summary">Im Nachziehstapel, auf der Hand und alle Karten</string>
+	<string name="vp_counter_pref_title">Siegpunktezähler</string>
+	<string name="vp_counter_pref_summary">Zeige im Spiel immer die Siegpunkte jedes Spielers</string>
+	<string name="mask_names_pref_title">Namen der Mitspieler verstecken</string>
+	<string name="mask_names_pref_summary">Die Namen der KI-Spieler sind während des Spiels unsichtbar</string>
+	<string name="sort_cards_pref_title">Karten in der Hand Sortieren</string>
+	<string name="sort_cards_pref_summary">Sortiert die Karten auf der Hand nach Aktion, Geld, Fluch, Siegpunkt und Wert</string>
+
+
+	<string name="logging_testings_tab_pref_title">Logs and debug</string>
+	<string name="logging_pref_title">Aufzeichhnung</string>
+	<string name="logging_enable_pref_title">Aktiviert</string>
+	<string name="logging_enable_pref_summary">Alle Aktionen des Spiels werden in eine Datei gespeichert</string>
+	<string name="logging_dir_pref_title">Aufzeichnungsordner</string>
+	<string name="logging_dir_pref_summary">Ordner, wo die Datei gespeichert wird. (wird wenn nötig erstellt)</string>
+	<string name="testing_pref_title">Testmodus</string>
+	<string name="god_mode_pref_title">Testmodus</string>
+	<string name="god_mode_pref_summary">Jeder Zug beginnt mit 999 Geld, 999 Käufen und 999 Aktionen</string>
+	<string name="less_provinces_pref_title">Weniger Provinzen</string>
+	<string name="less_provinces_pref_summary">Der Provinzstapel enthält nur eine Karte</string>
+	<string name="start_no_cards_pref_title">Keine Karten</string>
+	<string name="start_no_cards_pref_summary">Das Spiel startet ohne Karten im Nachziehstapel</string>
+	<string name="control_ai_pref_title">Kontrolliere KI</string>
+	<string name="control_ai_pref_summary">Spiele die Züge der KI-Spieler</string>
+	<string name="disable_ai_pref_title">Dumme KI</string>
+	<string name="disable_ai_pref_summary">KI Spieler tun nichts in ihrem Zug</string>
+	<string name="start_guilds_coin_tokens_pref_title">Geldmünzen</string>
+	<string name="start_guilds_coin_tokens_pref_summary">Starte mit 99 Geldmünzen</string>
+</resources>
