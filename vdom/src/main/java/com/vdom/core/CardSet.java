@@ -1071,7 +1071,7 @@ public class CardSet {
 		CardSetMap.put(GameType.FillingTheCoffers, new CardSet(new Card[] { Cards.priest, Cards.recruiter, Cards.spices, Cards.swashbuckler, Cards.treasurer, Cards.baker, Cards.butcher, Cards.menagerie, Cards.merchantGuild, Cards.plaza, Cards.cityGate, Cards.starChart}));
 		// Renaissance and Hinterlands
 		CardSetMap.put(GameType.SweetenedDeals, new CardSet(new Card[] { Cards.flagBearer, Cards.lackeys, Cards.mountainVillage, Cards.silkMerchant, Cards.spices, Cards.cartographer, Cards.develop, Cards.farmland, Cards.haggler, Cards.spiceMerchant, Cards.silos}));
-		CardSetMap.put(GameType.APennySaved, new CardSet(new Card[] { Cards.ducat, Cards.patron, Cards.scepter, Cards.seer, Cards.swashbuckler, Cards.cache, Cards.crossroads, Cards.nobleBrigand, Cards.oasis, Cards.trader, Cards.barracks, Cards.guildHall}));
+		CardSetMap.put(GameType.APennySaved, new CardSet(new Card[] { Cards.ducat, Cards.patron, Cards.scepter, Cards.seer, Cards.swashbuckler, Cards.cache, Cards.crossroads, Cards.nobleBrigand, Cards.oasis, Cards.trader, Cards.barracks, Cards.guildhall}));
 		// Renaissance and Dark Ages
 		CardSetMap.put(GameType.Stargazing, new CardSet(new Card[] { Cards.borderGuard, Cards.patron, Cards.seer, Cards.silkMerchant, Cards.swashbuckler, Cards.hermit, Cards.mystic, Cards.procession, Cards.sage, Cards.wanderingMinstrel, Cards.starChart}, null, UseOptionalCards.DontUse, UseOptionalCards.Use));
 		CardSetMap.put(GameType.SewerRats, new CardSet(new Card[] { Cards.flagBearer, Cards.improve, Cards.lackeys, Cards.mountainVillage, Cards.research, Cards.count, Cards.counterfeit, Cards.cultist, Cards.graverobber, Cards.rats, Cards.cropRotation, Cards.sewers}, null, UseOptionalCards.DontUse, UseOptionalCards.Use));

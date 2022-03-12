@@ -298,8 +298,8 @@
     <string name="IllGottenGains_desc">Wanneer je deze speelt, mag je een Koper pakken en deze in je hand stoppen. Wanneer je deze kaart pakt, pakt iedere andere speler een Vloek.</string>
     <string name="Inn_name">Herberg</string>
     <string name="Inn_desc">Leg 2 kaarten af. Wanneer je deze pakt, bekijk je aflegstapel (inclusief deze kaart), toon een aantal Actiekaarten hieruit en schud deze door je trekstapel.</string>
-    <string name="JackofallTrades_name">Manusje van Alles</string>
-    <string name="JackofallTrades_desc">Pak een Zilver. Bekijk de bovenste kaart van je trekstapel; leg deze af of terug. Trek kaarten totdat je er 5 hebt. Je mag een kaart uit je hand vernietigen die geen Geldkaart is.</string>
+    <string name="JackofAllTrades_name">Manusje van Alles</string>
+    <string name="JackofAllTrades_desc">Pak een Zilver. Bekijk de bovenste kaart van je trekstapel; leg deze af of terug. Trek kaarten totdat je er 5 hebt. Je mag een kaart uit je hand vernietigen die geen Geldkaart is.</string>
     <string name="Mandarin_name">Mandarijn</string>
     <string name="Mandarin_desc">Leg een kaart uit je hand bovenop je trekstapel - Wanneer je deze koopt, leg al je Geldkaarten die je in het spel hebt in een gekozen volgorde op je trekstapel.</string>
     <string name="Margrave_name">Markgraaf</string>

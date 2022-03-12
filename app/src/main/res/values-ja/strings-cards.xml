@@ -298,8 +298,8 @@
     <string name="IllGottenGains_desc">このカードを使用するとき、あなたは銅貨1枚を獲得して手札に加えてもよい。\n---\nこのカードを獲得するとき、他のプレイヤーは全員、呪い1枚を獲得する。</string>
     <string name="Inn_name">宿屋</string>
     <string name="Inn_desc">カード2枚を捨て札にする。\n---\nこのカードを獲得するとき、あなたの捨て札すべて(このカードを含む)を見て、その中から好きな枚数のアクションカードを公開し、あなたのデッキに加えて、デッキをシャッフルする。</string>
-    <string name="JackofallTrades_name">よろずや</string>
-    <string name="JackofallTrades_desc">銀貨1枚を獲得する。\nあなたのデッキの一番上を見て、そのカードを捨て札にするか、そのまま戻すかをする。\nあなたの手札が5枚になるまでカードを引く。\nあなたは手札から財宝以外のカード1枚を廃棄してもよい。</string>
+    <string name="JackofAllTrades_name">よろずや</string>
+    <string name="JackofAllTrades_desc">銀貨1枚を獲得する。\nあなたのデッキの一番上を見て、そのカードを捨て札にするか、そのまま戻すかをする。\nあなたの手札が5枚になるまでカードを引く。\nあなたは手札から財宝以外のカード1枚を廃棄してもよい。</string>
     <string name="Mandarin_name">官吏</string>
     <string name="Mandarin_desc">あなたの手札のカード1枚をあなたのデッキの一番上に置く。\n---\nあなたはこのカードを獲得するとき、あなたの場に出ているすべての財宝カードをあなたのデッキの上に好きな順番で置く。</string>
     <string name="Margrave_name">辺境伯</string>

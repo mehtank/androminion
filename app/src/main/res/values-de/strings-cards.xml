@@ -326,8 +326,8 @@
     <string name="IllGottenGains_desc">Wenn du den Blutzoll ausspielst, darfst du dir ein Kupfer nehmen. Nimm dieses sofort auf die Hand.\nWenn du den Blutzoll nimmst, muss sich jeder Mitspieler einen Fluch nehmen.</string>
     <string name="Inn_name">Gasthaus</string>
     <string name="Inn_desc">Lege 2 Karten aus deiner Hand ab.\nWenn du das Gasthaus nimmst, sieh dir deinen Ablagestapel durch, decke beliebig viele Aktionskarten (auch dieses Gasthaus) daraus auf und mische die aufgedeckten Karten in den Nachziehstapel.</string>
-    <string name="JackofallTrades_name">Lebenskünstler</string>
-    <string name="JackofallTrades_desc">Nimm dir ein Silber. Sieh dir die oberste Karte von deinem Nachziehstapel an und entscheide, ob du die Karte ablegst oder zurück auf deinen Nachziehstapel legst. Ziehe so lange Karten nach, bis du 5 Karten auf der Hand hast. Du darfst eine Karte aus deiner Hand entsorgen, die keine Geldkarte ist.</string>
+    <string name="JackofAllTrades_name">Lebenskünstler</string>
+    <string name="JackofAllTrades_desc">Nimm dir ein Silber. Sieh dir die oberste Karte von deinem Nachziehstapel an und entscheide, ob du die Karte ablegst oder zurück auf deinen Nachziehstapel legst. Ziehe so lange Karten nach, bis du 5 Karten auf der Hand hast. Du darfst eine Karte aus deiner Hand entsorgen, die keine Geldkarte ist.</string>
     <string name="Mandarin_name">Mandarin</string>
     <string name="Mandarin_desc">Lege eine Karte aus deiner Hand zurück auf den Nachziehstapel.\nWenn du den Mandarin nimmst, lege alle Geldkarten, die du im Spiel hast, in beliebiger Reihenfolge zurück auf deinen Nachziehstapel.</string>
     <string name="Margrave_name">Markgraf</string>
@@ -977,7 +977,7 @@
     <string name="OldWitch_name">Alte Hexe</string>
     <string name="OldWitch_desc">Jeder andere Spieler nimmt sich einen Fluch und darf einen Fluch aus seiner Hand entsorgen.</string>
     <string name="Patron_name">Gönner</string>
-    <string name="Patron">Wenn etwas dich diese Karte aufdecken lässt (mit Worten wie \"decke auf\" oder \"deckt auf\"), +1 Münze.</string>
+    <string name="Patron_desc">Wenn etwas dich diese Karte aufdecken lässt (mit Worten wie \"decke auf\" oder \"deckt auf\"), +1 Münze.</string>
     <string name="Priest_name">Priester</string>
     <string name="Priest_desc">Entsorge eine Karte aus deiner Hand. Für den Rest des Zuges, immer wenn du eine Karte entsorgst, (2) Geld.</string>
     <string name="Recruiter_name">Anwerber</string>
@@ -1036,8 +1036,8 @@
     <string name="Fair_desc">Zu Beginn deines Zuges, +1 Kauf.</string>
     <string name="Fleet_name">Flotte</string>
     <string name="Fleet_desc">Nach dem Spielende gibt es eine extra Runde nur für Spieler, die dies gekauft haben.</string>
-    <string name="GuildHall_name">Gildenhalle</string>
-    <string name="GuildHall_desc">Wenn du eine Geldkarte nimmst, +1 Münze.</string>
+    <string name="Guildhall_name">Gildenhalle</string>
+    <string name="Guildhall_desc">Wenn du eine Geldkarte nimmst, +1 Münze.</string>
     <string name="Innovation_name">Innovation</string>
     <string name="Innovation_desc">Das erste Mal in jedem deiner Züge, wenn du eine Aktionskarte nimmst, darfst du sie zur Seite legen. Wenn du das machst, spiele sie.</string>
     <string name="Pageant_name">Festzug</string>

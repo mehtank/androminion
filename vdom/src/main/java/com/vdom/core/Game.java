@@ -4278,8 +4278,8 @@ public class Game {
                     	context.player.takeVillagers(1, context, Cards.academy);
                     }
                     
-                    if (player.hasProject(Cards.guildHall) && event.card.is(Type.Treasure, player, context)) {                    
-                    	context.player.gainGuildsCoinTokens(1, context, Cards.guildHall);
+                    if (player.hasProject(Cards.guildhall) && event.card.is(Type.Treasure, player, context)) {                    
+                    	context.player.gainGuildsCoinTokens(1, context, Cards.guildhall);
                     }
                     
                     if (context.liveryEffects > 0 && event.card.getCost(context) >= 4) {
