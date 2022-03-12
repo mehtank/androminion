@@ -197,7 +197,6 @@ public class GameActivity extends AppCompatActivity implements EventHandler {
 			if (host != null && port != 0) {
 				handle(new Event(Event.EType.SETHOST).setString(host).setInteger(port));
 				// debug("Wants to connect to dom://" + host + ":" + port);
-				// new HostDialog(this, host, port);
 				return;
 			}
 		}
@@ -612,7 +611,7 @@ public class GameActivity extends AppCompatActivity implements EventHandler {
 				startGame(e.i);
 				break;
 
-			case SETHOST: // sent from HostDialog
+			case SETHOST:
 				if (e.s != null)
 					host = e.s;
 				if (e.i > 0)

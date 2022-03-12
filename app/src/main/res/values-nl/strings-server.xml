@@ -5,8 +5,6 @@
 	<string name="pass">Pas</string>
 	<string name="card_revealed">%1$s toonde %2$s</string>
 	<string name="select_from_table_max_treasure">Selecteer een Geld van de tafel die ten hoogste (%1$s) kost om %2$s</string>
-	<string name="pawn_option_one">Pion (optie 1 van 2):</string>
-	<string name="pawn_option_two">Pion (optie 2 van 2):</string>
 	<string name="torturer_option_one">Neem een vloek</string>
 	<string name="torturer_option_two">Leg 2 kaarten af</string>
 	<string name="chancellor_query">Leg heel je trekstapel af</string>
@@ -14,9 +12,6 @@
 	<string name="inn_option_two">Laat afgelegd liggen</string>
 	<string name="tunnel_query">Tunnel afleggen</string>
 	<string name="tunnel_option_one">Toon voor Goud</string>
-
-	<string name="join_timed_out">Time-out bij het wachten op spelers om het spel te starten.</string>
-	<string name="response_timed_out">Time-out bij het wachten op spelers die reageerden op de wachtrij.</string>
 
 	<string name="vp_single">%1$s Overwinningspunt waard</string>
 	<string name="vp_multiple">%1$s Overwinningspunten waard</string>
@@ -39,7 +34,6 @@
 	<string name="card_victory_token_single">+%1$s Overwinningsfiche</string>
 	<string name="card_victory_tokens_multiple">+%1$s Overwinningsfiches</string>
 
-	<string name="card_options_header">%1$s optie</string>
 	<string name="part_play">spelen</string>
 	<string name="part_buy">kopen</string>
 
@@ -84,7 +78,6 @@
 	<string name="GameStarting"></string>
 	<string name="GameOver">Einde spel</string>
 	<string name="Embargo">Embargo</string>
-	<string name="Status">Status</string>
 	<string name="CantBuy">Kan %1$s niet kopen</string>
 	<string name="VictoryPoints">Overwinningspunten</string>
 	<string name="NewHand">Nieuwe hand</string>
@@ -99,9 +92,6 @@
 	<string name="PlayerAttacking">Valt aan</string>
 	<string name="PlayerDefended">Verdedigde</string>
 	<string name="CardOnTopOfDeck">Kaart op je trekstapel gelegd</string>
-	<string name="CardObtained">Gepakt</string>
-	<string name="CardTrashed">Vernietigd</string>
-	<string name="CardRevealed">Getoond</string>
 	<string name="CardDiscarded">Afgelegd</string>
 	<string name="CardAddedToHand">Kaart aan hand toegevoegd</string>
 	<string name="CardRemovedFromHand">Kaart uit hand gehaald</string>
@@ -110,7 +100,6 @@
 
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
 	<string name="game_over_status">Einde spel — </string>
-	<string name="game_length_status">Spelduur: </string>
 	<string name="end_turn">Einde beurt</string>
 	<string name="replace">Vervang</string>
 
@@ -223,8 +212,6 @@
 
 	<string name="card_order_on_deck">Kaartvolgorde op trekstapel:</string>
 
-	<string name="treasury_number">Aantal Geldkaarten om terug te leggen op je trekstapel:</string>
-
 	<string name="pirate_ship_option_one">Pak +(%1$s) Geld</string>
 	<string name="pirate_ship_option_two">Val aan</string>
 
@@ -248,8 +235,6 @@
 
 	<string name="margrave_part">houd van Markgraaf</string>
 
-	<string name="wishing_well_part">raad je bovenste kaart</string>
-
 	<string name="explorer_reveal">Toon provincie</string>
 
 	<!-- *** -->
@@ -264,7 +249,6 @@
 
   <string name="Cartographer_query">Kies af te leggen kaart [%1$s]</string>
   <string name="cards">Kaarten</string>
-  <string name="return_cards">Leg kaarten op je trekstapel:</string>
   <string name="take_normal">Pak normaal</string>
 
 </resources>

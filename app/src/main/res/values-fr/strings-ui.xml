@@ -133,11 +133,8 @@
     <string name="include_cards_percent">%1$s%% de chance</string>
     <string name="random_include_events">Cartes événements: </string>
     <string name="random_events_none">Aucune</string>
-    <string name="random_events_random">Aléatoire</string>
     <string name="random_include_landmarks">Jalons: </string>
     <string name="random_landmarks_none">Aucun</string>
-    <string name="random_landmarks_random">Aléatoire</string>
-    <string name="random_include_cards">Inclure les cartes Royaume de</string>
     <string name="select_players">Sélectionner les joueurs:</string>
 	<string name="random_players">Aléatoires</string>
 	<string name="probability_2_players">Probabilité 2 joueurs</string>
@@ -156,8 +153,7 @@
     <string name="card_set_shelters">Refuges</string>
     <string name="card_set_no_shelters">Pas de Refuge</string>
     <string name="card_set_card_options">%1$s (%2$s)</string>
-    <string name="none_game_start">Aucun</string> <!-- Unused -->
-    <string name="start_new_game_on_server">Démarrer un nouveau jeu sur le serveur</string> <!-- Unused -->
+    <string name="none_game_start">Aucun</string>
     
     <!-- Game Activity: Splash Screen -->
     <string name="splash">Utilisez le menu pour commencer une nouvelle partie, ou, pendant une partie, pour afficher l\'aide sur la façon de jouer.</string>
@@ -209,17 +205,12 @@
     <string name="final_view_card_counts">Décompte des cartes</string>
     <string name="final_view_text">%1$s: %2$s PVs.\n%3$s tours, %4$s cartes.</string>
     <string name="final_game_time">Durée de la partie: %1$s</string>
-    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-    <string name="potion_single">%1$s potion</string>
-    <string name="potion_multiple">%1$s potions</string>
     <string name="potion_cost_initial">p</string>
     <string name="accept">Accepter</string>
     <string name="order_cards_summary">Glisser/déposer\nles cartes pour\nréarranger\nleur ordre.</string>
     <string name="trash_header">Rebut:</string>
     <string name="blackMarket_header">Marché noir:</string>
     <string name="inheritance_header">Héritage:</string>
-    <string name="img_download_title">Image de la carte %1$s</string>
-	<string name="img_download_desc">Téléchargement de l\'image de la carte depuis %1$s</string>
         <string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">H</string>

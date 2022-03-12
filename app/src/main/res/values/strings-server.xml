@@ -5,10 +5,7 @@
 	<string name="pass">Pass</string>
 	<string name="pass_all">Pass for all</string>
 	<string name="card_revealed">%1$s revealed %2$s</string>
-	<string name="card_revealed_from_hand">%1$s revealed (from hand) %2$s</string>
 	<string name="select_from_table_max_treasure">Select a treasure card from the table that costs at most (%1$s) to %2$s</string>
-	<string name="pawn_option_one">Pawn (option 1 of 2):</string>
-	<string name="pawn_option_two">Pawn (option 2 of 2):</string>
 	<string name="torturer_option_one">Gain a curse into hand</string>
 	<string name="torturer_option_two">Discard two cards</string>
 	<string name="chancellor_query">Put your deck into your discard pile</string>
@@ -23,9 +20,6 @@
 	<string name="sentry_look_at">%1$s looking at %2$s (from %3$s)</string>
 	<string name="faithfulHound_query">Discarding Faithful Hound</string>
 	<string name="faithfulHound_set_aside">Set aside to put in hand at end of turn</string>
-	
-	<string name="join_timed_out">Timed out waiting for player to join and start game.</string>
-	<string name="response_timed_out">Timed out waiting for player to join and respond to query.</string>
 	
 	<string name="vp_single">Worth %1$s VP</string>
 	<string name="vp_multiple">Worth %1$s VPs</string>
@@ -52,14 +46,12 @@
 	<string name="card_villager_single">+%1$s Villager</string>
 	<string name="card_villagers_multiple">+%1$s Villagers</string>
 	<string name="card_linked_stateArtifact">%1$s: %2$s</string>
-	
-	<string name="card_options_header">%1$s option</string>
+
 	<string name="part_play">play</string>
 	<string name="part_buy">buy</string>
 	<string name="part_move_token_minus_2_cost">move your -2 cost token to</string>
 	<string name="part_move_token_plus_one_card">move your +1 Card token to</string>
 	<string name="part_move_token_plus_one_action">move your +1 Action token to</string>
-	<string name="part_move_token_plus_one_buy">move your +1 Buy token to</string>
 	<string name="part_move_token_plus_one_coin">move your +1 Coin token to</string>
 	<string name="part_move_token_trashing">move your Trashing token to</string>
 	
@@ -108,10 +100,6 @@
 	<string name="select_exactly_x_cards_from_hand">Pick exactly %1$s cards from your hand to %2$s</string>
 	<string name="select_from_x_to_y_cards_from_hand">Pick from %1$s to %2$s cards from your hand to %3$s</string>
 	<string name="select_from_x_to_y_different_cards_from_hand">Pick from %1$s to %2$s differently named cards from your hand to %3$s</string>
-	
-	<string name="select_one_card_from_trash">Pick a card from trash to %1$s</string>
-	<string name="select_up_to_x_cards_from_trash">Pick up to %1$s cards from trash to %2$s</string>
-	<string name="select_exactly_x_cards_from_trash">Pick exactly %1$s cards from trash to %2$s</string>
 	
 	<string name="select_one_action_from_hand">Pick an Action card from your hand to %1$s</string>
 	<string name="select_one_action_from_hand_not_in_play">Pick an Action card from your hand that you don\'t have a copy of in play to %1$s</string>
@@ -172,7 +160,6 @@
 	<string name="TrashingTokenMoved">Trashing token moved to</string>
 	<string name="OnIslandMat">Cards on island</string>
 	<string name="OnNativeVillageMat">Cards on native village</string>
-	<string name="Status">Status</string>
 	<string name="CantBuy">Can\'t buy %1$s</string>
 	<string name="VictoryPoints">Victory points</string>
 	<string name="NewHand">New hand</string>
@@ -203,9 +190,6 @@
 	<string name="PlayerAttacking">Attacking</string>
 	<string name="PlayerDefended">Defended</string>
 	<string name="CardOnTopOfDeck">Card put on top of deck</string>
-	<string name="CardObtained">Gained</string>
-	<string name="CardTrashed">Trashed</string>
-	<string name="CardRevealed">Revealed</string>
 	<string name="CardRevealedFromHand">Revealed from hand</string>
 	<string name="CardNamed">Card named</string>
 	<string name="CardDiscarded">Discarded</string>
@@ -241,7 +225,6 @@
 	
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
 	<string name="game_over_status">Game Over — </string>
-	<string name="game_length_status">Game length: </string>
 	<string name="end_turn">End turn</string>
 	<string name="replace">Replace</string>
 	
@@ -411,8 +394,6 @@
 	
 	<string name="card_order_on_deck">Card order on deck:</string>
 	
-	<string name="treasury_number">Number of treasury cards to put back on your deck:</string>
-	
 	<string name="pirate_ship_option_one">Take +(%1$s) Coins</string>
 	<string name="pirate_ship_option_two">Attack</string>
 	<string name="miser_option_one">Take +(%1$s) Coins</string>
@@ -469,8 +450,6 @@
 	<string name="swindler_part">replace swindled card of cost (%1$s)</string>
 	
 	<string name="margrave_part">keep from Margrave</string>
-	
-	<string name="wishing_well_part">guess is your top card</string>
 
 	<string name="explorer_reveal">Reveal Province</string>
 	
@@ -498,7 +477,6 @@
   
   <string name="Cartographer_query">Select cards to discard from the top of your deck [%1$s]</string>
   <string name="cards">Cards</string>
-  <string name="return_cards">Return cards to deck:</string>
   <string name="take_normal">Gain normally</string>
   <string name="opponent_discard">Choose card for %1$s to discard (%2$s)</string>
   <string name="survivors_header">Survivors revealed: %1$s</string>

@@ -5,10 +5,7 @@
 	<string name="pass">Passen</string>
 	<string name="pass_all">alle Passen</string>
 	<string name="card_revealed">%1$s deckt %2$s auf</string>
-	<string name="card_revealed_from_hand">%1$s deckt %2$s von der Hand auf</string>
 	<string name="select_from_table_max_treasure">%2$s eine Geldkarte die bis zu (%1$s) kostet</string>
-	<string name="pawn_option_one">Handlanger (Option 1 von 2):</string>
-	<string name="pawn_option_two">Handlanger (Option 2 von 2):</string>
 	<string name="torturer_option_one">Nimm einen Fluch auf die Hand</string>
 	<string name="torturer_option_two">2 Karten abwerfen</string>
 	<string name="chancellor_query">Nachziehstapel auf Ablagestapel legen</string>
@@ -23,9 +20,6 @@
 	<string name="sentry_look_at">%1$s deckt %2$s auf (%3$s)</string>
 	<string name="faithfulHound_query">Treuen Hund abgelegt</string>
 	<string name="faithfulHound_set_aside">Zur Seite legen</string>
-
-	<string name="join_timed_out">Timeout während des Wartens auf andere Mitspieler.</string>
-	<string name="response_timed_out">Timeout während des Wartens auf eine Anfrage nach Mitspieler.</string>
 	
 	<string name="vp_single">Wert %1$s Siegpunkt</string>
 	<string name="vp_multiple">Wert %1$s Siegpunkte</string>
@@ -47,14 +41,12 @@
 	<string name="card_cards_multiple">+%1$s Karten</string>
 	<string name="card_victory_token_single">+%1$s Punktemarker</string>
 	<string name="card_victory_tokens_multiple">+%1$s Punktemarker</string>
-	
-	<string name="card_options_header">%1$s Option</string>
+
 	<string name="part_play">Spiele</string>
 	<string name="part_buy">Kaufe</string>
 	<string name="part_move_token_minus_2_cost">für Deinen -2 Kosten Marker</string>
 	<string name="part_move_token_plus_one_card">für Deinen +1 Karte Marker</string>
 	<string name="part_move_token_plus_one_action">für Deinen +1 Aktion Marker</string>
-	<string name="part_move_token_plus_one_buy">für Deinen +1 Kauf Marker</string>
 	<string name="part_move_token_plus_one_coin">für Deinen +1 Geld Marker</string>
 	<string name="part_move_token_trashing">für Deinen Entsorgungsmarker</string>
 	
@@ -94,10 +86,6 @@
 	<string name="select_exactly_x_cards_from_hand">%2$s genau %1$s Karten aus Deiner Hand</string>
 	<string name="select_from_x_to_y_cards_from_hand">%3$s %1$s bis %2$s Karten aus Deiner Hand</string>
 	<string name="select_from_x_to_y_different_cards_from_hand">%3$s %1$s bis %2$s Karten mit unterschiedlichem Namen aus Deiner Hand</string>
-	
-	<string name="select_one_card_from_trash">%1$s eine Karte vom Müll</string>
-	<string name="select_up_to_x_cards_from_trash">%2$s bis zu %1$s Karten vom Müll</string>
-	<string name="select_exactly_x_cards_from_trash">%2$s genau %1$s Karten vom Müll</string>
 	
 	<string name="select_one_action_from_hand">%1$s eine Aktionskarte aus deiner Hand</string>
 	<string name="select_one_action_from_hand_not_in_play">%1$s eine Aktionskarte aus der Hand, von der Du keine Kopie im Spiel hast.</string>
@@ -157,7 +145,6 @@
 	<string name="TrashingTokenMoved">Entsorgungsmarker gelegt</string>
 	<string name="OnIslandMat">Karten auf Insel</string>
 	<string name="OnNativeVillageMat">Karten auf Dorf</string>
-	<string name="Status">Status</string>
 	<string name="CantBuy">Kann nicht %1$s kaufen</string>
 	<string name="VictoryPoints">Siegpunkte</string>
 	<string name="NewHand">Neue Kartenhand</string>
@@ -184,9 +171,6 @@
 	<string name="PlayerAttacking">Greift an</string>
 	<string name="PlayerDefended">Verteidigt</string>
 	<string name="CardOnTopOfDeck">Karte auf den Nachziehstapel</string>
-	<string name="CardObtained">Erhalten</string>
-	<string name="CardTrashed">Entsorgt</string>
-	<string name="CardRevealed">Aufgedeckt</string>
 	<string name="CardRevealedFromHand">Aufgedeckt aus der Hand</string>
 	<string name="CardNamed">Benennt</string>
 	<string name="CardDiscarded">Abgelegt</string>
@@ -195,13 +179,9 @@
 	<string name="CardSetAsideOnTavernMat">Karte auf Wirtshaustableau gelegt</string>
 	<string name="CallingCard">aufrufen</string>
 	<string name="CalledCard">aufgerufen</string>
-	<string name="CardSetAsideSummon">Karte beiseite gelegt (Einladung)</string>
 	<string name="CardSetAside">%1$s beiseite gelegt (%2$s)</string>
 	<string name="CardSetAsidePrivate">Karte beiseite gelegt (%1$s)</string>
-	<string name="CardSetAsideSave">Karte beiseite gelegt (Zuflucht)</string>
 	<string name="CardSetAsideOnIslandMat">Karte auf Insel gelegt</string>
-	<string name="CardSetAsideInheritance">Karte beiseite gelegt (Erbschaft)</string>
-	<string name="CardSetAsideArchive">Karte beiseite gelegt (Archiv)</string>
 	<string name="DeckPutIntoDiscardPile">Nachziehstapel auf Ablagestapel gelegt</string>
 	<string name="TravellerExchanged">Reisender eingetauscht in</string>
 	<string name="TurnJourneyTokenFaceUp">Reise-Marker auf Vorderseite gedreht</string>
@@ -225,7 +205,6 @@
 	
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
 	<string name="game_over_status">Spiel - </string>
-	<string name="game_length_status">Spieldauer: </string>
 	<string name="end_turn">Zugende</string>
 	<string name="replace">Zurücklegen</string>
 	
@@ -394,8 +373,6 @@
 	
 	<string name="card_order_on_deck">Kartenreihenfolge auf den Nachziehstapel:</string>
 	
-	<string name="treasury_number">Anzahl der Geldkarten, die auf den Nachziehstapel gelegt werden soll:</string>
-	
 	<string name="pirate_ship_option_one">Nimm +(%1$s) Geld</string>
 	<string name="pirate_ship_option_two">Greife an</string>
 	<string name="miser_option_one">Nimm +(%1$s) Geld</string>
@@ -453,8 +430,6 @@
 	
 	<string name="margrave_part">Markgraf: Behalte</string>
 	
-	<string name="wishing_well_part">Errate die oberste Karte: Wähle</string>
-	
 	<string name="explorer_reveal">Zeige Provinz</string>
 	
 	<string name="walledVillage_option_one">Zurück auf den Nachziehstapel</string>
@@ -479,7 +454,6 @@
 	
 	<string name="Cartographer_query">Wähle Karte zum Abwerfen</string>
 	<string name="cards">Karten</string>
-	<string name="return_cards">Auf den Nachziehstapel zurücklegen:</string>
 	<string name="take_normal">Nimm normal</string>
 	<string name="opponent_discard">%2$s: %1$s muss ablegen:</string>
 	<string name="survivors_header">Die Überlebenden haben aufgedeckt: %1$s</string>

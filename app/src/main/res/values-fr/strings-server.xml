@@ -5,10 +5,7 @@
 	<string name="pass">Passer</string>
 	<string name="pass_all">Tout passer</string>
 	<string name="card_revealed">%1$s a révélé %2$s</string>
-	<string name="card_revealed_from_hand">%1$s a révélé (de la main) %2$s</string>        
 	<string name="select_from_table_max_treasure">Sélectionnez une carte Trésor de la réserve coûtant au plus (%1$s) à %2$s</string>
-	<string name="pawn_option_one">Pion (option 1 sur 2):</string>
-	<string name="pawn_option_two">Pion (option 2 sur 2):</string>
 	<string name="torturer_option_one">Recevoir une Malédiction</string>
 	<string name="torturer_option_two">Défausser deux cartes</string>
 	<string name="chancellor_query">Défausser votre deck</string>
@@ -23,9 +20,6 @@
 	<string name="sentry_look_at">%1$s regarde %2$s (depuis %3$s)</string>
 	<string name="faithfulHound_query">Défausser le Chien Fidèle</string>
 	<string name="faithfulHound_set_aside">Mettre de côté pour le prendre en main à la fin du tour</string>
-        
-        <string name="join_timed_out">Le temps d\'attente pour rejoindre et démarrer le jeu est écoulé.</string>
-	<string name="response_timed_out">Le temps d\'attente pour rejoindre et répondre à la demande est écoulé.</string>        
 
 	<string name="vp_single">Vaut %1$s PV</string>
 	<string name="vp_multiple">Vaut %1$s PVs</string>
@@ -48,13 +42,11 @@
 	<string name="card_victory_token_single">+%1$s jeton Victoire</string>
 	<string name="card_victory_tokens_multiple">+%1$s jetons Victoire</string>
 
-	<string name="card_options_header">%1$s option</string>
 	<string name="part_play">jouer</string>
 	<string name="part_buy">acheter</string>        
 	<string name="part_move_token_minus_2_cost">placer sous votre jeton Coût -2</string>
 	<string name="part_move_token_plus_one_card">placer sous votre jeton +1 Carte</string>
 	<string name="part_move_token_plus_one_action">placer sous votre jeton +1 Action</string>
-	<string name="part_move_token_plus_one_buy">placer sous votre jeton +1 Achat</string>
 	<string name="part_move_token_plus_one_coin">placer sous votre jeton +1 Pièce</string>
 	<string name="part_move_token_trashing">placer sous votre jeton Mise au rebut</string>
         
@@ -94,10 +86,6 @@
 	<string name="select_exactly_x_cards_from_hand">Sélectionnez exactement %1$s cartes de votre main à %2$s</string>
 	<string name="select_from_x_to_y_cards_from_hand">Sélectionnez %1$s à %2$s cartes de votre main à %3$s</string>
 	<string name="select_from_x_to_y_different_cards_from_hand">Sélectionnez %1$s à %2$s cartes nommées différemment de votre main à %3$s</string>
-	
-	<string name="select_one_card_from_trash">Sélectionnez une carte du Rebut à %1$s</string>
-	<string name="select_up_to_x_cards_from_trash">Sélectionnez jusqu\'à %1$s cartes du Rebut à %2$s</string>
-	<string name="select_exactly_x_cards_from_trash">Sélectionnez exactement %1$s cartes du Rebut à %2$s</string>
 
 	<string name="select_one_action_from_hand">Sélectionnez une carte Action de votre main à %1$s</string>
 	<string name="select_one_action_from_hand_not_in_play">Sélectionnez une carte Action de votre main, dont vous n\'avez aucun exemplaire en jeu, à %1$s</string>
@@ -157,7 +145,6 @@
 	<string name="TrashingTokenMoved">Jeton Mise au rebut déplacé sur</string>
 	<string name="OnIslandMat">Cartes sur l\'Île</string>
     <string name="OnNativeVillageMat">Cartes sur le Village Indigène</string>
-	<string name="Status">Statut</string>
 	<string name="CantBuy">Ne peut acheter %1$s</string>        
 	<string name="VictoryPoints">Points de Victoire</string>        
 	<string name="NewHand">Nouvelle main</string>        
@@ -184,9 +171,6 @@
 	<string name="PlayerAttacking">Attaque</string>
 	<string name="PlayerDefended">A défendu avec</string>
     <string name="CardOnTopOfDeck">Carte placée sur le deck :</string>
-	<string name="CardObtained">Reçu</string>
-	<string name="CardTrashed">A écarté</string>
-	<string name="CardRevealed">A révélé</string>
 	<string name="CardRevealedFromHand">A révélé de sa main</string>
     <string name="CardNamed">Carte nommée</string>
 	<string name="CardDiscarded">A défaussé</string>
@@ -221,7 +205,6 @@
         
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
 	<string name="game_over_status">Fin de partie — </string>
-	<string name="game_length_status">Durée de la partie: </string>
 	<string name="end_turn">Fin du tour</string>
 	<string name="replace">Remplacer</string>
 
@@ -388,8 +371,6 @@
 	<string name="ill_gotten_gains_option_one">Recevoir Cuivre</string>
         
     <string name="card_order_on_deck">Ordre des cartes sur le deck:</string>
-        
-	<string name="treasury_number">Nombre de cartes Trésor à replacer sur le deck:</string>
 
 	<!-- Bateau Pirate -->
 	<string name="pirate_ship_option_one">Prendre +(%1$s) Pièces</string>
@@ -453,8 +434,6 @@
 	<string name="swindler_part">échanger contre la carte escroquée de coût (%1$s)</string>
     <!-- Margrave -->
 	<string name="margrave_part">sauver de la Margrave</string>
-	<!-- Puits aux Souhaits -->
-	<string name="wishing_well_part">deviner quelle est la première carte de votre deck</string>
 	<!-- Explorateur -->
 	<string name="explorer_reveal">Révéler Province</string>
 	<!-- Village Fortifié -->
@@ -481,7 +460,6 @@
     <string name="Cartographer_query">Sélectionner une carte à défausser [%1$s]</string>
 
     <string name="cards">Cartes</string>
-    <string name="return_cards">Replacer les cartes sur le deck:</string>
     <string name="take_normal">Prendre normalement</string>
     <string name="opponent_discard">Choisir une carte de %1$s à défausser (%2$s)</string>
 

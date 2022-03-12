@@ -94,8 +94,7 @@
     <string name="currentplayer">現在のプレイヤー</string>
     <string name="you">あなた</string>
     <string name="start_game">ゲーム開始!</string>
-    <string name="none_game_start">None</string> <!-- Unused -->
-    <string name="start_new_game_on_server">Start new game on server</string> <!-- Unused -->
+    <string name="none_game_start">None</string>
 
     <!-- Game Activity: Splash Screen -->
     <string name="splash">メニューを使用してゲーム開始。または、ゲーム中にメニューを使用してヘルプを表示。</string>
@@ -138,10 +137,7 @@
     <string name="coin_single">(%1$s) coin</string>
     <string name="coin_multiple">(%1$s) coins</string>
     <string name="final_view_card_counts">カード数</string>		
-    <string name="final_view_text">%1$s: %2$s 勝利点.\n%3$s ターン, %4$s カード</string>		
-    <string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-    <string name="potion_single">%1$s potion</string>
-    <string name="potion_multiple">%1$s potions</string>
+    <string name="final_view_text">%1$s: %2$s 勝利点.\n%3$s ターン, %4$s カード</string>
     <string name="potion_cost_initial">p</string>
     <string name="accept">了承</string>
     <string name="order_cards_summary">ドラッグアンドドロップで\nカードを並び替え</string>

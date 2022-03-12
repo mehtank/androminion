@@ -5,8 +5,6 @@
 	<string name="pass">パス</string>
 	<string name="card_revealed">%1$s は %2$s を公開した</string>
 	<string name="select_from_table_max_treasure">%2$s のためにテーブルから最大 (%1$s) コストの財宝カードを選択</string>
-	<string name="pawn_option_one">手先 (選択 2回のうち1回目):</string>
-	<string name="pawn_option_two">手先 (選択 2回のうち2回目):</string>
 	<string name="torturer_option_one">呪いを獲得</string>
 	<string name="torturer_option_two">2枚捨てる</string>
 	<string name="chancellor_query">山札を全て捨てる</string>
@@ -14,9 +12,6 @@
 	<string name="inn_option_two">捨て札のままにする</string>
 	<string name="tunnel_query">坑道を捨てる</string>
 	<string name="tunnel_option_one">金貨のために公開する</string>
-
-	<string name="join_timed_out">Timed out waiting for player to join and start game.</string>
-	<string name="response_timed_out">Timed out waiting for player to join and respond to query.</string>
 
 	<string name="vp_single">%1$s 勝利点</string>
 	<string name="vp_multiple">%1$s 勝利点</string>
@@ -39,7 +34,6 @@
 	<string name="card_victory_token_single">+%1$s 勝利点トークン</string>
 	<string name="card_victory_tokens_multiple">+%1$s 勝利点トークン</string>
 
-	<string name="card_options_header">%1$s 選択</string>
 	<string name="part_play">プレイ</string>
 	<string name="part_buy">購入</string>
 
@@ -91,7 +85,6 @@
 	<string name="GameStarting"></string>
 	<string name="GameOver">ゲームオーバー</string>
 	<string name="Embargo">抑留</string>
-	<string name="Status">ステータス</string>
 	<string name="CantBuy">%1$s を購入できない</string>
 	<string name="VictoryPoints">勝利点</string>
 	<string name="NewHand">新しい手札</string>
@@ -106,9 +99,6 @@
 	<string name="PlayerAttacking">アタック中</string>
 	<string name="PlayerDefended">防御した</string>
 	<string name="CardOnTopOfDeck">カードを山札の上に置く</string>
-	<string name="CardObtained">獲得</string>
-	<string name="CardTrashed">廃棄</string>
-	<string name="CardRevealed">公開</string>
 	<string name="CardRevealedFromHand">手札から公開</string>
 	<string name="CardDiscarded">捨て札</string>
 	<string name="CardAddedToHand">カードが手札に加えられた</string>
@@ -118,7 +108,6 @@
 
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
 	<string name="game_over_status">ゲームオーバー ? </string>
-	<string name="game_length_status">ゲーム時間: </string>
 	<string name="end_turn">ターン終了</string>
 	<string name="replace">そのまま戻す</string>
 
@@ -257,8 +246,6 @@
 
 	<string name="card_order_on_deck">山札のカードの順番:</string>
 
-	<string name="treasury_number">山札に戻す宝物庫カードの数:</string>
-
 	<string name="pirate_ship_option_one">+(%1$s) コイン</string>
 	<string name="pirate_ship_option_two">アタック</string>
 
@@ -284,8 +271,6 @@
 
 	<string name="margrave_part">辺境伯からキープ</string>
 
-	<string name="wishing_well_part">山札の一番上のカードの推測</string>
-
 	<string name="explorer_reveal">属州を公開する</string>
 
 	<string name="walledVillage_option_one">デッキの一番上に戻す</string>
@@ -307,7 +292,6 @@
 
   <string name="Cartographer_query">捨て札にするカードを選択  [%1$s]</string>
   <string name="cards">カード</string>
-  <string name="return_cards">山札にカードを戻す:</string>
   <string name="take_normal">通常通り獲得</string>
   <string name="opponent_discard">%1$s のために捨て札を選択 (%2$s)</string>
   <string name="survivors_header">生存者は公開した: %1$s</string>

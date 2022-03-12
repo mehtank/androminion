@@ -46,11 +46,8 @@
 
     <string name="reset">Reset</string>
     
-	<string name="actions_buys_coins_potions">%1$s, %2$s, %3$s, %4$s.</string>
-	<string name="potion_single">%1$s drankje</string>
-	<string name="potion_multiple">%1$s drankjes</string>
+
 	<string name="potion_cost_initial">d</string>
-	<string name="start_new_game_on_server">Start nieuw spel op de server</string>
 	<string name="select_gametype">Speltype:</string>
 	<string name="select_players">Aantal spelers:</string>
 	<string name="player">Speler </string>
