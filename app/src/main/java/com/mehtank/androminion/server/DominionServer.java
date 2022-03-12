@@ -6,6 +6,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 import com.mehtank.androminion.ui.Strings;
+import com.mehtank.androminion.util.ThemeSetter;
 import com.vdom.core.VDomServer;
 import com.vdom.players.VDomPlayerChuck;
 import com.vdom.players.VDomPlayerDrew;
@@ -35,6 +36,8 @@ public class DominionServer extends Service {
         super.onCreate();
         if (!test().equals(stopped))
             return;
+        
+        ThemeSetter.setLanguage(this);
 
         Strings.initContext(this);
         VDomServer.main(new String[]{
