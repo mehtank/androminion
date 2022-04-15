@@ -110,7 +110,7 @@ public class CardImplMenagerie extends CardImpl {
 			wayOfTheGoat(game, context, currentPlayer);
 			break;
 		case WayOfTheHorse:
-			wayOfTheHorse(game, context, currentPlayer);
+			wayOfTheHorse(game, context, currentPlayer, responsible);
 			break;
 		case WayOfTheMole:
 			wayOfTheMole(game, context, currentPlayer);
@@ -857,8 +857,8 @@ public class CardImplMenagerie extends CardImpl {
         player.trashFromHand(card, Cards.wayOfTheGoat, context);
 	}
 	
-	private void wayOfTheHorse(Game game, MoveContext context, Player player) {
-		Card card = this;
+	private void wayOfTheHorse(Game game, MoveContext context, Player player, Card responsible) {
+		Card card = responsible;
     	int idx = player.playedCards.indexOf(card.getId());
     	if (idx == -1) return;
     	CardPile pile = game.getGamePile(card);
