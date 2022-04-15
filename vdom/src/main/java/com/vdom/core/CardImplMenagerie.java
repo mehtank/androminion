@@ -22,7 +22,8 @@ public class CardImplMenagerie extends CardImpl {
 	protected CardImplMenagerie() { }
 
 	@Override
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
+	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
+		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
 		switch(getKind()) {
 		case AnimalFair:
 			animalFair(game, context, currentPlayer);
@@ -117,6 +118,9 @@ public class CardImplMenagerie extends CardImpl {
 		case WayOfTheOwl:
 			wayOfTheOwl(game, context, currentPlayer);
 			break;
+		case WayOfTheRat:
+			wayOfTheRat(game, context, currentPlayer);
+			break;
 		case WayOfTheSeal:
 			wayOfTheSeal(game, context, currentPlayer);
 			break;
@@ -136,7 +140,7 @@ public class CardImplMenagerie extends CardImpl {
 	
 	public void isBuying(MoveContext context) {
 		super.isBuying(context);
-        switch (this.getControlCard().getKind()) {
+        switch (this.getKind()) {
         case Alliance:
         	alliance(context);
         	break;
@@ -192,26 +196,18 @@ public class CardImplMenagerie extends CardImpl {
             break;
         }
         
-        // test if prince lost track of any cards
-        context.player.princeCardLeftThePlay(context.player, context);
+        // test if cards left play
+        context.player.checkForCardsLeftPlay(context.player, context);
     }
 	
 	@Override
 	public void isTrashed(MoveContext context) {
-		Cards.Kind trashKind = this.getControlCard().getKind();
-    	if (this.getControlCard().equals(Cards.estate) && context.player.getInheritance() != null) {
-    		trashKind = context.player.getInheritance().getKind();
-    	}
-    	
+		Cards.Kind trashKind = this.getKind();
     	switch (trashKind) {
     	
         default:
             break;
 	    }
-	    
-	    // card left play - stop any impersonations
-	    this.getControlCard().stopImpersonatingCard();
-	    this.getControlCard().stopInheritingCardAbilities();
 	}
 	
 	private void animalFair(Game game, MoveContext context, Player player) {
@@ -226,7 +222,7 @@ public class CardImplMenagerie extends CardImpl {
         if (card.is(Type.Victory) || card.getCost(context) > 5 || card.getDebtCost(context) > 0 || card.costPotion()) {
         	Util.playerError(currentPlayer, "Bargain new card invalid, ignoring.");
         } else {
-        	currentPlayer.gainNewCard(card, this.getControlCard(), context);
+        	currentPlayer.gainNewCard(card, this, context);
         }
         
         ArrayList<Player> otherPlayers = new ArrayList<Player>();
@@ -238,7 +234,7 @@ public class CardImplMenagerie extends CardImpl {
 		
     	for (Player player : otherPlayers) {
             MoveContext playerContext = new MoveContext(game, player);
-            player.gainNewCard(Cards.horse, getControlCard(), playerContext);
+            player.gainNewCard(Cards.horse, this, playerContext);
         }
 	}
 	
@@ -264,10 +260,10 @@ public class CardImplMenagerie extends CardImpl {
     	}
 		
     	for (Player player : attackedPlayers) {
-			player.attacked(this.getControlCard(), context);
+			player.attacked(this, context);
             MoveContext playerContext = new MoveContext(game, player);
             playerContext.attackedPlayer = player;
-            player.gainNewCard(Cards.curse, this.getControlCard(), playerContext);
+            player.gainNewCard(Cards.curse, this, playerContext);
         }
 	}
 	
@@ -281,7 +277,7 @@ public class CardImplMenagerie extends CardImpl {
             exileCard = hand.get(0);
         }
         boolean hasCopyInExile = player.hasCopyInExile(exileCard);
-        player.exileFromHand(exileCard, this.getControlCard(), context);
+        player.exileFromHand(exileCard, this, context);
         if (!hasCopyInExile) {
         	context.addCoins(3, Cards.bountyHunter);
         }
@@ -302,7 +298,7 @@ public class CardImplMenagerie extends CardImpl {
             Util.playerError(player, "Camel Train exile error, picking first card.");
             cardToExile = possibleCards[0];
         }
-        player.exileFromSupply(cardToExile, getControlCard(), context);
+        player.exileFromSupply(cardToExile, this, context);
 	}
 	
 	private void cardinal(Game game, MoveContext context, Player currentPlayer) {
@@ -314,7 +310,7 @@ public class CardImplMenagerie extends CardImpl {
     	}
 		
     	for (Player player : attackedPlayers) {
-			player.attacked(this.getControlCard(), context);
+			player.attacked(this, context);
             MoveContext playerContext = new MoveContext(game, player);
             playerContext.attackedPlayer = player;
             ArrayList<Card> canExile = new ArrayList<Card>();
@@ -324,7 +320,7 @@ public class CardImplMenagerie extends CardImpl {
                 Card card = context.game.draw(playerContext, this, 2 - i);
 
                 if (card != null) {
-                    currentPlayer.reveal(card, this.getControlCard(), playerContext);
+                    currentPlayer.reveal(card, this, playerContext);
                     int cardCost = card.getCost(context);
 
                     if (card.getDebtCost(context) == 0 && !card.costPotion() && cardCost >= 3 && cardCost <= 6) {
@@ -352,17 +348,17 @@ public class CardImplMenagerie extends CardImpl {
                 }
             }          
             if (cardToExile != null) {
-            	player.exile(cardToExile, this.getControlCard(), playerContext);
+            	player.exile(cardToExile, this, playerContext);
             }
             for (Card c: cardsToDiscard) {
-                player.discard(c, this.getControlCard(), playerContext);
+                player.discard(c, this, playerContext);
             }
     	}
 	}
 	
 	private void cavalry(Game game, MoveContext context, Player player) {
-		player.gainNewCard(Cards.horse, getControlCard(), context);
-		player.gainNewCard(Cards.horse, getControlCard(), context);
+		player.gainNewCard(Cards.horse, this, context);
+		player.gainNewCard(Cards.horse, this, context);
 	}
 	
 	private void coven(Game game, MoveContext context, Player currentPlayer) {
@@ -374,10 +370,10 @@ public class CardImplMenagerie extends CardImpl {
     	}
 		
     	for (Player player : attackedPlayers) {
-			player.attacked(this.getControlCard(), context);
+			player.attacked(this, context);
             MoveContext playerContext = new MoveContext(game, player);
             playerContext.attackedPlayer = player;
-            if (!player.exileFromSupply(Cards.curse, this.getControlCard(), playerContext)) {
+            if (!player.exileFromSupply(Cards.curse, this, playerContext)) {
             	ArrayList<Card> toDiscard = new ArrayList<Card>();
             	Iterator<Card> iterator = player.exile.iterator();
             	while(iterator.hasNext()) {
@@ -416,11 +412,11 @@ public class CardImplMenagerie extends CardImpl {
         	Util.playerError(player, "Displace new card invalid, ignoring.");
         	return;
         }
-        player.gainNewCard(card, this.getControlCard(), context);
+        player.gainNewCard(card, this, context);
 	}
 	
 	private void falconer(Game game, MoveContext context, Player player) {
-		int cost = this.getControlCard().getCost(context);
+		int cost = this.getCost(context);
 		ArrayList<Card> possibles = new ArrayList<Card>();
 		for (Card c : game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true)) {
 			if (c.getCost(context) < cost && c.getDebtCost(context) == 0 && !c.costPotion())
@@ -452,19 +448,19 @@ public class CardImplMenagerie extends CardImpl {
 		
 		int draws = game.getCardsTrashedByLastPlayer().size();
 		for (int i = 0; i < draws; ++i) {
-			game.drawToHand(context, this.getControlCard(), draws - i);
+			game.drawToHand(context, this, draws - i);
 		}
 	}
 	
 	private void groom(Game game, MoveContext context, Player player) {
 		Card card = player.controlPlayer.groom_cardToObtain(context);
         if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
-            if (player.gainNewCard(card, this.getControlCard(), context).equals(card)) {
+            if (player.gainNewCard(card, this, context).equals(card)) {
                 if (card.is(Type.Action, player)) {
-                	player.gainNewCard(Cards.horse, this.getControlCard(), context);
+                	player.gainNewCard(Cards.horse, this, context);
                 }
                 if (card.is(Type.Treasure, player)) {
-                	player.gainNewCard(Cards.silver, this.getControlCard(), context);
+                	player.gainNewCard(Cards.silver, this, context);
                 }
                 if (card.is(Type.Victory, player)) {
                 	game.drawToHand(context, this, 1);
@@ -475,7 +471,7 @@ public class CardImplMenagerie extends CardImpl {
 	}
 	
 	private void horse(Game game, MoveContext context, Player player) {
-		Card card = this.getControlCard();
+		Card card = this;
     	int idx = player.playedCards.indexOf(card.getId());
     	if (idx == -1) return;
     	card = player.playedCards.remove(idx); 
@@ -489,10 +485,10 @@ public class CardImplMenagerie extends CardImpl {
 			return;
 		}
         while (!player.getHand().isEmpty()) {
-            player.discard(player.getHand().remove(0), this.getControlCard(), context);
+            player.discard(player.getHand().remove(0), this, context);
         }
 		for (int i = 0; i < 5; ++i) {
-			game.drawToHand(context, this.getControlCard(), 5 - i);
+			game.drawToHand(context, this, 5 - i);
 		}
 	}
 	
@@ -509,8 +505,8 @@ public class CardImplMenagerie extends CardImpl {
 	}
 	
 	private void paddock(Game game, MoveContext context, Player player) {
-		player.gainNewCard(Cards.horse, getControlCard(), context);
-		player.gainNewCard(Cards.horse, getControlCard(), context);
+		player.gainNewCard(Cards.horse, this, context);
+		player.gainNewCard(Cards.horse, this, context);
 		context.addActions(game.emptyPiles(), this);
 	}
 	
@@ -535,7 +531,7 @@ public class CardImplMenagerie extends CardImpl {
             Util.playerError(player, "Scrap error, trash random card.");
             card = Util.randomCard(player.hand);
         }
-        player.trashFromHand(card, this.getControlCard(), context);
+        player.trashFromHand(card, this, context);
         int numOptions = Math.min(6, card.getCost(context));
         if (numOptions > 0) {
             ScrapOption[] options = null;
@@ -560,16 +556,16 @@ public class CardImplMenagerie extends CardImpl {
                             context.buys++;
                             break;
                         case AddCoin:
-                            context.addCoins(1, this.getControlCard());
+                            context.addCoins(1, this);
                             break;
                         case AddCard:
-                        	game.drawToHand(context, this.getControlCard(), 1);
+                        	game.drawToHand(context, this, 1);
                         	break;
                         case GainSilver:
-                            player.gainNewCard(Cards.silver, this.getControlCard(), context);
+                            player.gainNewCard(Cards.silver, this, context);
                             break;
                         case GainHorse:
-                            player.gainNewCard(Cards.horse, this.getControlCard(), context);
+                            player.gainNewCard(Cards.horse, this, context);
                             break;
                     }
                 }
@@ -578,8 +574,8 @@ public class CardImplMenagerie extends CardImpl {
 	}
 	
 	private void sleigh(Game game, MoveContext context, Player player) {
-		player.gainNewCard(Cards.horse, getControlCard(), context);
-		player.gainNewCard(Cards.horse, getControlCard(), context);
+		player.gainNewCard(Cards.horse, this, context);
+		player.gainNewCard(Cards.horse, this, context);
 	}
 		
 	private void snowyVillage(Game game, MoveContext context, Player player) {
@@ -591,13 +587,13 @@ public class CardImplMenagerie extends CardImpl {
 	}
 	
 	private void supplies(Game game, MoveContext context, Player player) {
-		player.gainNewCard(Cards.horse, getControlCard(), context);
+		player.gainNewCard(Cards.horse, this, context);
 	}
 	
 	private void wayfarer(Game game, MoveContext context, Player player) {
 		if (game.getPile(Cards.silver).isEmpty()) return;
 		if (player.controlPlayer.wayfarer_shouldGainSilver(context))
-			player.gainNewCard(Cards.silver, getControlCard(), context);
+			player.gainNewCard(Cards.silver, this, context);
 	}
 	
 	private void villageGreen (Game game, MoveContext context, Player player, boolean isThronedEffect) {
@@ -611,18 +607,18 @@ public class CardImplMenagerie extends CardImpl {
 	
 	
 	private void alliance(MoveContext context) {
-		context.getPlayer().gainNewCard(Cards.province, this.getControlCard(), context);
-		context.getPlayer().gainNewCard(Cards.duchy, this.getControlCard(), context);
-		context.getPlayer().gainNewCard(Cards.estate, this.getControlCard(), context);
-		context.getPlayer().gainNewCard(Cards.gold, this.getControlCard(), context);
-		context.getPlayer().gainNewCard(Cards.silver, this.getControlCard(), context);
-		context.getPlayer().gainNewCard(Cards.copper, this.getControlCard(), context);
+		context.getPlayer().gainNewCard(Cards.province, this, context);
+		context.getPlayer().gainNewCard(Cards.duchy, this, context);
+		context.getPlayer().gainNewCard(Cards.estate, this, context);
+		context.getPlayer().gainNewCard(Cards.gold, this, context);
+		context.getPlayer().gainNewCard(Cards.silver, this, context);
+		context.getPlayer().gainNewCard(Cards.copper, this, context);
 	}
 		
 	private void commerce(MoveContext context) {
 		int numGolds = new HashSet<Card>(context.game.getCardsObtainedByPlayer()).size();
 		for (int i = 0; i < numGolds; ++i)
-			context.getPlayer().gainNewCard(Cards.gold, this.getControlCard(), context);
+			context.getPlayer().gainNewCard(Cards.gold, this, context);
 	}
 	
 	private void demand(MoveContext context) {
@@ -683,7 +679,7 @@ public class CardImplMenagerie extends CardImpl {
         	Util.playerError(player, "Enhance new card invalid, ignoring.");
         	return;
         }
-        player.gainNewCard(card, this.getControlCard(), context);
+        player.gainNewCard(card, this, context);
 	}
 	
 	private void gamble(MoveContext context) {
@@ -691,13 +687,11 @@ public class CardImplMenagerie extends CardImpl {
 		Player player = context.player;
 		Card c = game.draw(context, Cards.gamble, 1);
         if (c != null) {
-        	player.reveal(c, this.getControlCard(), context);
+        	player.reveal(c, this, context);
             if ((c.is(Type.Action, player) || c.is(Type.Treasure)) && player.controlPlayer.gamble_shouldPlayCard(context, c)) {
-            	context.freeActionInEffect++;
                 c.play(game, context, false);
-                context.freeActionInEffect--;
             } else {
-            	player.discard(c, this.getControlCard(), context);
+            	player.discard(c, this, context);
             }
             
         }
@@ -719,9 +713,7 @@ public class CardImplMenagerie extends CardImpl {
 	    int idx = player.discard.indexOf(card);
         if (idx >= 0) {
         	card = player.discard.remove(idx);
-        	context.freeActionInEffect++;
-        	card.play(context.game, context, false, false);
-        	context.freeActionInEffect--;
+        	card.play(context.game, context, false);
         } else {
         	Util.playerError(player, "March card not in discard, ignoring.");
         }
@@ -730,7 +722,7 @@ public class CardImplMenagerie extends CardImpl {
 	private void populate(MoveContext context) {
 		Card[] actionPiles = context.game.getCardsInGame(GetCardsInGameOptions.Placeholders, true, Type.Action);
 		for(Card card : actionPiles)
-			context.getPlayer().gainNewCard(card, this.getControlCard(), context);
+			context.getPlayer().gainNewCard(card, this, context);
 	}
 	
 	private void pursue(MoveContext context) {
@@ -739,7 +731,7 @@ public class CardImplMenagerie extends CardImpl {
 		if (options.size() == 0) return;
         Collections.sort(options, new Util.CardNameComparator());
         Card named = player.controlPlayer.pursue_cardToPick(context, options);
-        player.namedCard(named, this.getControlCard(), context);
+        player.namedCard(named, this, context);
         
         ArrayList<Card> matches = new ArrayList<Card>();
         ArrayList<Card> toDiscard = new ArrayList<Card>();
@@ -770,7 +762,7 @@ public class CardImplMenagerie extends CardImpl {
 	}
 	
 	private void ride(MoveContext context) {
-		context.getPlayer().gainNewCard(Cards.horse, this.getControlCard(), context);
+		context.getPlayer().gainNewCard(Cards.horse, this, context);
 	}
 	
 	private void seizeTheDay(MoveContext context) {
@@ -801,9 +793,7 @@ public class CardImplMenagerie extends CardImpl {
 			Util.playerError(player, "Toil error, invalid card selected, ignoring");
 			return;
 		}
-		context.freeActionInEffect++;
         card.play(context.game, context, true);
-        context.freeActionInEffect--;
 	}
 	
 	private void transport(MoveContext context) {
@@ -825,7 +815,7 @@ public class CardImplMenagerie extends CardImpl {
                     Util.playerError(player, "Transport exile error, exiling nothing.");
                     return;
                 }
-                player.exileFromSupply(cardToExile, this.getControlCard(), context);
+                player.exileFromSupply(cardToExile, this, context);
             }
             break;
         case TopdeckActionFromExile:
@@ -847,7 +837,7 @@ public class CardImplMenagerie extends CardImpl {
             player.putOnTopOfDeck(cardToTopdeck);
             GameEvent event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
             event.card = cardToTopdeck;
-            event.responsible = this.getControlCard();
+            event.responsible = this;
             context.game.broadcastEvent(event);
             break;
         }
@@ -868,7 +858,7 @@ public class CardImplMenagerie extends CardImpl {
 	}
 	
 	private void wayOfTheHorse(Game game, MoveContext context, Player player) {
-		Card card = this.getControlCard();
+		Card card = this;
     	int idx = player.playedCards.indexOf(card.getId());
     	if (idx == -1) return;
     	CardPile pile = game.getGamePile(card);
@@ -880,11 +870,11 @@ public class CardImplMenagerie extends CardImpl {
 	private void wayOfTheMole(Game game, MoveContext context, Player player) {
 		if (player.getHand().size() > 0) {
             while (!player.getHand().isEmpty()) {
-                player.discard(player.getHand().remove(0), this.getControlCard(), context);
+                player.discard(player.getHand().remove(0), this, context);
             }
         }
 		for (int i = 0; i < 3; ++i) {
-			game.drawToHand(context, this.getControlCard(), 3 - i);
+			game.drawToHand(context, this, 3 - i);
 		}
 	}
 	
@@ -897,6 +887,26 @@ public class CardImplMenagerie extends CardImpl {
     		if(!game.drawToHand(context, Cards.wayOfTheOwl, cardsToDraw - i))
                 break;
     	}
+	}
+
+	private void wayOfTheRat(Game game, MoveContext context, Player player) {
+		boolean hasTreasure = false;
+		for(Card c : player.hand) {
+			if(c.is(Type.Treasure, player, context)) {
+				hasTreasure = true;
+			}
+		}
+		if (!hasTreasure)
+			return;
+
+		Card toDiscard = player.controlPlayer.wayOfTheRat_treasureToDiscard(context, this);
+		if (toDiscard == null || !player.hand.contains(toDiscard) || !toDiscard.is(Type.Treasure, player, context))
+			return;
+
+		player.hand.remove(toDiscard);
+		player.discard(toDiscard, this, context);
+
+		player.gainNewCard(this, this, context);
 	}
 	
 	private void wayOfTheSeal(Game game, MoveContext context, Player player) {

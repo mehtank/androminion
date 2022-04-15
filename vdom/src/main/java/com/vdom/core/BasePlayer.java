@@ -504,9 +504,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
         for (Card c : getHand()) {
         	Card a = c;
-        	if (c.equals(Cards.estate) && isAttackReaction(getInheritance())) {
-        		a = getInheritance();
-        	}
             if (a.equals(Cards.moat) && !defended && !moatSelected) {
                 reactionCards.add(c);
                 moatSelected = true;
@@ -1032,10 +1029,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 
     @Override
     public boolean miningVillage_shouldTrashMiningVillage(MoveContext context, Card responsible) {
-        /* don't trash prince cards */
-        if (context.getPlayer().getPlayedByPrince().contains(Cards.miningVillage)) {
-            return false;
-        }
         if (turnCount >= midGame || getCoinEstimate(context) >= 6) {
             return true;
         }
@@ -1348,11 +1341,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
             }
         }
         return lowestCard(context, context.getPlayer().getHand(), true);
-    }
-    
-    @Override
-    public boolean prince_shouldSetAside(MoveContext context) {
-    	return prince_cardCandidates(context, context.getPlayer().getHand().a, true).length > 0;
     }
 
     @Override
@@ -2351,7 +2339,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         int i = -1;
         int cost = -1;
         for(int index = 0; index < actions.length; index++) {
-            if(actions[index].getCost(context) >= cost && !context.getPlayer().getPlayedByPrince().contains(actions[index])) {
+            if(actions[index].getCost(context) >= cost) {
                 cost = actions[index].getCost(context);
                 i = index;
             }
@@ -2543,15 +2531,10 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     
     @Override
     public PutBackOption selectPutBackOption(MoveContext context, List<PutBackOption> options) {
-        /* don't put prince cards back on top */
+        /* don't put certain cards on top if needed - used to do Prince cards */
         Collections.sort(options);
         for(int i = 0; i < options.size(); i++) {
-            if (!(   options.get(i) == PutBackOption.Treasury && context.getPlayer().getPlayedByPrince().contains(Cards.treasury)
-                  || options.get(i) == PutBackOption.WalledVillage && context.getPlayer().getPlayedByPrince().contains(Cards.walledVillage)
-                 ) )
-            {
-                return options.get(i);
-            }
+            return options.get(i);
         }
         return PutBackOption.None;
     }
@@ -3028,16 +3011,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		return cardsToDraw;
     	}
     	
-    	if (context.attackedPlayer == this && !Cards.margrave.equals(responsible.behaveAsCard())
-    			&& !Cards.soothsayer.equals(responsible.behaveAsCard()))
+    	if (context.attackedPlayer == this && !Cards.margrave.equals(responsible)
+    			&& !Cards.soothsayer.equals(responsible))
     		return cardsToDraw;
-    	if (Cards.vagrant.equals(responsible.behaveAsCard())
-    			|| Cards.doctor.equals(responsible.behaveAsCard())
-    			|| Cards.herald.equals(responsible.behaveAsCard())
-    			|| Cards.envoy.equals(responsible.behaveAsCard())
-				|| Cards.advisor.equals(responsible.behaveAsCard())
-				|| Cards.secretChamber.equals(responsible.behaveAsCard())
-				|| Cards.tribute.equals(responsible.behaveAsCard())) {
+    	if (Cards.vagrant.equals(responsible)
+    			|| Cards.doctor.equals(responsible)
+    			|| Cards.herald.equals(responsible)
+    			|| Cards.envoy.equals(responsible)
+				|| Cards.advisor.equals(responsible)
+				|| Cards.secretChamber.equals(responsible)
+				|| Cards.tribute.equals(responsible)) {
     		return cardsToDraw;
     	}
     		
@@ -3219,10 +3202,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	@Override
 	public boolean urchin_shouldTrashForMercenary(MoveContext context, Card responsible)
 	{
-    	/* don't trash prince cards */    	
-    	if (context.getPlayer().getPlayedByPrince().contains(Cards.urchin)) {
-    		return false;
-    	}
 		return true;
 	}
 	
@@ -3281,7 +3260,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	}
 
     @Override
-    public Card bandOfMisfits_actionCardToImpersonate(MoveContext context, int maxCost) {
+    public Card bandOfMisfits_actionCardToPlay(MoveContext context, int maxCost) {
     	if (context.getPlayer().getHand().contains(Cards.treasureMap) 
     			&& !game.isPileEmpty(Cards.treasureMap)
     			&& Cards.treasureMap.getCost(context) <= maxCost) {
@@ -3621,9 +3600,9 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     }
     
     public Card call_whenGainCardToCall(MoveContext context, Card gainedCard, Card[] possibleCards) {
-    	// only possible cards to call here are Duplicate or Estate (behaving like a Duplicate)
+    	// only possible card to call here is Duplicate
     	for (Card c : possibleCards) {
-    		if (!(c == null || c.equals(Cards.duplicate) || c.equals(Cards.estate)))
+    		if (!(c == null || c.equals(Cards.duplicate)))
     			return c;
     	}
     	// Don't call if we can't gain a copy 
@@ -3633,7 +3612,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     		return null;
     	}
     	
-    	//don't duplicate trash (TODO: estate might not be trash with Inheritance)
+    	//don't duplicate trash
     	for (Card c : getTrashCards()) {
     		if (c.equals(gainedCard))
     			return null;
@@ -3663,7 +3642,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	if (bestAction != null) {
 	    	for (Card c : possibleCards) {
 	    		if (c == null) continue;
-	    		if (c.behaveAsCard().equals(Cards.royalCarriage) && resolvedAction.equals(bestAction)) {
+	    		if (c.equals(Cards.royalCarriage) && resolvedAction.equals(bestAction)) {
 	        		return c;
 	        	}
 	    	}
@@ -3983,10 +3962,6 @@ public abstract class BasePlayer extends Player implements GameEventListener {
 	@Override
 	public boolean traveller_shouldExchange(MoveContext context, Card traveller, Card exchange)
 	{
-    	/* don't trash prince cards */    	
-    	if (context.getPlayer().getPlayedByPrince().contains(traveller)) {
-    		return false;
-    	}
     	if (exchange.equals(Cards.champion) && context.getPlayer().championEffects > 0) {
     		return false;
     	}
@@ -3997,12 +3972,7 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal) {
         return wineMerchantTotal;
     }
-    
-    @Override
-    public int cleanup_wineMerchantEstateToDiscard(MoveContext context, int wineMerchantTotal) {
-    	return wineMerchantTotal;
-    }
-    
+
     @Override
     public Card alms_cardToObtain(MoveContext context) {
     	return bestCardInPlay(context, 4, true);
@@ -5705,7 +5675,16 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	}
     	return c;
     }
-    
+
+    @Override
+    public Card wayOfTheRat_treasureToDiscard(MoveContext context, Card cardToGain) {
+        //TODO: determine if we actually want a copy better than this
+        if (cardToGain.getAddActions() > 0 || cardToGain.getAddVillagers() > 1) {
+            return plaza_treasureToDiscard(context);
+        }
+        return null;
+    }
+
     @Override
     public boolean villageGreen_shouldReceiveNow(MoveContext context) {
     	for(Card c : context.player.hand) {

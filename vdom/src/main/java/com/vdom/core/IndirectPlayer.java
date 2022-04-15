@@ -868,7 +868,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_miningVillage_shouldTrashMiningVillage(context, responsible)) {
             return super.miningVillage_shouldTrashMiningVillage(context, responsible);
         }
-        return selectBoolean(context, responsible.behaveAsCard());
+        return selectBoolean(context, responsible);
     }
 
     @Override
@@ -1117,11 +1117,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         return getCardFromHand(context, sco);
     }
 
-    @Override
-    public boolean prince_shouldSetAside(MoveContext context) {
-    	return selectBoolean(context, Cards.prince);
-    }
-    
     @Override
     public Card prince_cardToSetAside(MoveContext context) {
         if(context.isQuickPlay() && shouldAutoPlay_prince_cardToSetAside(context)) {
@@ -2162,9 +2157,6 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             ArrayList<Card> cards = new ArrayList<Card>();
             for (Card c : reactionCards) {
             	Card a = c;
-            	if (c.equals(Cards.estate)) {
-            		a = getInheritance();
-            	}
                 if (lastCard == null
                         || !Game.suppressRedundantReactions
                         || a.getName() != lastCard.getName()
@@ -2625,7 +2617,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	options[1] = deckSize;
     	options[2] = numStashes;
     	options[3] = cardsToDraw;
-    	options[4] = responsible != null ? responsible.behaveAsCard() : null;
+    	options[4] = responsible;
     	options[5] = StashOption.PlaceOnTop;
     	options[6] = StashOption.PlaceAfterCardsToDraw;
     	options[7] = StashOption.PlaceOther;
@@ -2644,7 +2636,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
 	    	options[0] = OPTION_STASH_POSITION;
 	    	options[1] = deckSize;
 	    	options[2] = numStashes;
-	    	options[3] = responsible != null ? responsible.behaveAsCard() : null;
+	    	options[3] = responsible;
 	    	for (int i = 4; i < options.length; ++i) {
 	    		options[i] = i - 6;
 	    	}
@@ -2655,7 +2647,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	options[0] = OPTION_STASH_POSITION;
     	options[1] = deckSize;
     	options[2] = numStashes;
-    	options[3] = responsible != null ? responsible.behaveAsCard() : null;
+    	options[3] = responsible;
     	for (int i = 4; i < options.length; ++i) {
     		options[i] = i - 5;
     	}
@@ -2776,7 +2768,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if(context.isQuickPlay() && shouldAutoPlay_urchin_shouldTrashForMercenary(context, responsible)) {
             return super.urchin_shouldTrashForMercenary(context, responsible);
         }
-        return selectBoolean(context, responsible.behaveAsCard());
+        return selectBoolean(context, responsible);
     }
 
     @Override
@@ -2875,9 +2867,9 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     }
 
     @Override
-    public Card bandOfMisfits_actionCardToImpersonate(MoveContext context, int maxCost) {
+    public Card bandOfMisfits_actionCardToPlay(MoveContext context, int maxCost) {
         if(context.isQuickPlay() && shouldAutoPlay_bandOfMisfits_actionCardToImpersonate(context, maxCost)) {
-            return super.bandOfMisfits_actionCardToImpersonate(context, maxCost);
+            return super.bandOfMisfits_actionCardToPlay(context, maxCost);
         }
         SelectCardOptions sco = new SelectCardOptions()
                 .maxCost(maxCost).maxDebtCost(0).maxPotionCost(0).isAction().isNonCommand().isSupplyCard()
@@ -3237,7 +3229,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     	if(context.isQuickPlay() && shouldAutoPlay_raze_shouldTrashRazePlayed(context, responsible)) {
             return super.raze_shouldTrashRazePlayed(context, responsible);
         }
-    	return selectBoolean(context, responsible.behaveAsCard());
+    	return selectBoolean(context, responsible);
     }
     
     @Override
@@ -3320,7 +3312,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         }
         Object[] extras = new Object[1];
         extras[0] = exchange;
-        return selectBoolean(context, traveller.behaveAsCard(), extras);
+        return selectBoolean(context, traveller, extras);
     }
 
     @Override
@@ -3334,19 +3326,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         
         return selectInt(context, Cards.wineMerchant, wineMerchantTotal);
     }
-    
-    @Override
-    public int cleanup_wineMerchantEstateToDiscard(MoveContext context, int wineMerchantTotal) {
-    	if(context.isQuickPlay() && shouldAutoPlay_cleanup_wineMerchantEstateToDiscard(context)) {
-            return super.cleanup_wineMerchantEstateToDiscard(context, wineMerchantTotal);
-        }
-        if (wineMerchantTotal  == 1) {
-        	return selectBoolean(context, Cards.estate) ? 1 : 0;
-        }
-        
-        return selectInt(context, Cards.estate, wineMerchantTotal);
-    }
-    
+
     @Override
     public Card alms_cardToObtain(MoveContext context) {
     	if(context.isQuickPlay() && shouldAutoPlay_alms_cardToObtain(context)) {
@@ -3823,7 +3803,7 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
         if (context.isQuickPlay() && shouldAutoPlay_smallCastle__shouldTrashSmallCastlePlayed(context, responsible)) {
             return super.smallCastle_shouldTrashSmallCastlePlayed(context, responsible);
         }
-        return selectBoolean(context, responsible.behaveAsCard());
+        return selectBoolean(context, responsible);
     }
 
     @Override
@@ -4795,6 +4775,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card wayOfTheGoat_cardToTrash(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().setPickType(PickType.TRASH)
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.wayOfTheGoat);
+        return getCardFromHand(context, sco);
+    }
+
+    @Override
+    public Card wayOfTheRat_treasureToDiscard(MoveContext context, Card cardToGain) {
+        SelectCardOptions sco = new SelectCardOptions().isTreasure()
+                .setPassable().setPickType(PickType.DISCARD)
+                .setActionType(ActionType.DISCARD).setCardResponsible(Cards.wayOfTheRat);
         return getCardFromHand(context, sco);
     }
     

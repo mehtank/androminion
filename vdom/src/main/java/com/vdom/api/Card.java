@@ -99,25 +99,19 @@ public interface Card extends Serializable {
 	public Card[] getLinkedStates();
 	
 	public boolean hasPlusCoin();
-    
-    public void play(Game game, MoveContext context);
-    
+
     public void play(Game game, MoveContext context, boolean fromHand);
-    
-    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay);
-    
-    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay, boolean dontMove, boolean effectsOnly, boolean isThronedEffect);
+
+    public void play(Game game, MoveContext context, boolean fromHand, boolean leaveThere, boolean isThronedPlay);
+
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect);
         
     public Integer getId();
     
     public void isBuying(MoveContext context);
     
     public void isTrashed(MoveContext context);
-    
-    public boolean isImpersonatingAnotherCard();
-    public Card behaveAsCard();
-    public CardImpl getControlCard();
-    
+
     public boolean isTemplateCard();
     public CardImpl getTemplateCard();
 

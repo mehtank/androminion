@@ -508,13 +508,12 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         }
         
         ArrayList<Card> princeStuff = new ArrayList<Card>();
-        princeStuff.addAll(player.getPrinces().a);
         princeStuff.addAll(player.getPrince().a);
 
         gs.setTurnStatus(new int[] {context.getActionsLeft(),
             context.getBuysLeft(),
                 context.getCoinForStatus(),
-                context.countThroneRoomsInEffect()
+                0
         })
         .setFinal(isFinal)
                 .setPossessed(player.isPossessed())

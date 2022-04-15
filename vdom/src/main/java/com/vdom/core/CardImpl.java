@@ -64,9 +64,6 @@ public class CardImpl implements Card, Comparable<Card>{
     
     // Implementation (mutable)
     private Integer id;
-    protected CardImpl impersonatingCard = null;
-    CardImpl inheritingAbilitiesCard = null;
-    private CardImpl controlCard = this;
 
     protected CardImpl(Cards.Kind kind, int cost) {
         this.kind = kind;
@@ -491,9 +488,6 @@ public class CardImpl implements Card, Comparable<Card>{
         c.callableWhenCardGainedMaxCost = callableWhenCardGainedMaxCost;
         c.actionStillNeedsToBeInPlay = actionStillNeedsToBeInPlay;
     }
-    
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {}
-    
 
     public Cards.Kind getKind() {
         return kind;
@@ -570,11 +564,6 @@ public class CardImpl implements Card, Comparable<Card>{
             }
         }
 
-        CardImpl controlCard = getControlCard();
-        if (controlCard != null && controlCard != this && controlCard.inheritingAbilitiesCard != null) {
-        	return controlCard.getCost(context, buyPhase);
-        }
-        
         MoveContext currentPlayerContext = context; 
         if (context.game.getCurrentPlayer() != context.getPlayer()) {
         	currentPlayerContext = new MoveContext(context.game, context.game.getCurrentPlayer());
@@ -588,7 +577,7 @@ public class CardImpl implements Card, Comparable<Card>{
         costModifier -= 2 * context.countCardsInPlay(Cards.princess);
         //TODO: BUG if an inherited peddler is yours, its cost should lower during your buy phase 
         costModifier -= (buyPhase && this.equals(Cards.peddler)) ? (2 * context.countActionCardsInPlay()) : 0;
-        costModifier -= (context.game.isPlayerSupplyTokenOnPile(this.getControlCard().equals(Cards.estate) ? this.getControlCard() : this,
+        costModifier -= (context.game.isPlayerSupplyTokenOnPile(this,
         		context.game.getCurrentPlayer(), PlayerSupplyToken.MinusTwoCost)) ? 2 : 0;
         costModifier -= context.game.getCurrentPlayer().hasProject(Cards.canal) ? 1 : 0;
         
@@ -736,88 +725,122 @@ public class CardImpl implements Card, Comparable<Card>{
     }
 
     @Override
-    public void play(Game game, MoveContext context) {
-    	play(game, context, true);
-    }
-    
-    @Override
     public void play(Game game, MoveContext context, boolean fromHand) {
-    	play(game, context, fromHand, false);
+    	play(game, context, fromHand, false, false);
     }
-    
-    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay) {
-    	play(game, context, fromHand, nonRegularActionPlay, false, false, false);
-    }
-    
+
     @Override
-    public void play(Game game, MoveContext context, boolean fromHand, boolean nonRegularActionPlay, boolean dontMove, boolean effectsOnly, boolean isThronedPlay) {
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
+        //Events for Boon/Hex
+        //TODO: !(is(Type.State) || is(Type.Project) || is(Type.State) || is(Type.Artifact))
+        //TODO: What event to fire for other instructions on non-boon/hex abilities (e.g. Key)?
+        //  Should this be shown in the play area as an ability like Durations?
+        if (is(Type.Boon) || is(Type.Hex)) {
+            GameEvent event;
+            event = new GameEvent(GameEvent.EventType.ReceivingBoonHex, (MoveContext) context);
+            event.card = this;
+            event.newCard = !isThronedEffect;
+            game.broadcastEvent(event);
+        }
+
+        //Standardized instructions
+        //+Card
+        for (int i = 0; i < addCards; ++i) {
+            game.drawToHand(context, this, addCards - i);
+        }
+        //+Action
+        context.addActions(addActions, this);
+        //+Buy
+        context.buys += addBuys;
+        //+Coin
+        if (this.equals(Cards.copper)) {
+            context.addCoins(addGold + context.coppersmithsPlayed);
+        } else if (this.equals(Cards.silver) || this.equals(Cards.gold)) {
+            context.addCoins(context.envious ? 1 : addGold);
+        } else {
+            context.addCoins(addGold);
+        }
+        //+Potion
+        if (providePotion()) {
+            context.potions++;
+        }
+        //+VP
+        currentPlayer.addVictoryTokens(context, addVictoryTokens, this);
+        //Coffers
+        context.player.gainGuildsCoinTokens(addCoffers, context, this);
+        //+Villagers
+        context.player.takeVillagers(addVillagers, context, this);
+        //TODO: +Favors
+
+        // Vanilla next-turn bonuses
+        if (addCardsNextTurn > 0 || addBuysNextTurn > 0 || addActionsNextTurn > 0 || addGoldNextTurn > 0) {
+            currentPlayer.addStartTurnDurationEffect(this, 1, isThronedEffect);
+        }
+
+        // Estate for Inheritance
+        switch (this.getKind()) {
+            case Estate:
+                if (currentPlayer.getInheritance() != null) {
+                    currentPlayer.getInheritance().play(game, context, false, true, false);
+                }
+                break;
+        }
+
+        // Done receiving event
+        if (is(Type.Boon) || is(Type.Hex)) {
+            GameEvent event;
+            event = new GameEvent(GameEvent.EventType.ReceivedBoonHex, (MoveContext) context);
+            event.card = this;
+            game.broadcastEvent(event);
+        }
+    }
+
+    @Override
+    public void play(Game game, MoveContext context, boolean fromHand, boolean leaveThere, boolean isThronedPlay) {
         Player currentPlayer = context.getPlayer();
-        
-        Card actualCard = (this.getControlCard() != null ? this.getControlCard() : this);
-        boolean isInheritedAbility = actualCard.equals(Cards.estate) && !this.equals(actualCard);
-        Card inheritedCard = this.equals(Cards.estate) ? context.player.getInheritance() : null;
-        Card playedCard = isInheritedAbility ? actualCard : this;
-        boolean isAction = playedCard.is(Type.Action, currentPlayer);
+
+        boolean isAction = this.is(Type.Action, currentPlayer);
         boolean enchantressEffect = isAction && !context.enchantressAlreadyAffected && game.enchantressAttacks(currentPlayer);
         if (enchantressEffect) context.enchantressAlreadyAffected = true;
         
-        if (!effectsOnly && this == actualCard) {
-        	int handIdx = currentPlayer.hand.indexOf(actualCard.getId());
-            if (fromHand && handIdx >= 0)
-                currentPlayer.hand.remove(handIdx);
-            if (!dontMove && !isThronedPlay) {
-                currentPlayer.playedCards.add(this);
-            }
+        int handIdx = currentPlayer.hand.indexOf(this.getId());
+        if (fromHand && handIdx >= 0)
+            currentPlayer.hand.remove(handIdx);
+        if (!leaveThere && !isThronedPlay) {
+            currentPlayer.playedCards.add(this);
         }
-        
-        boolean isPlayingCard = !isInheritedAbility && !(is(Type.State) || is(Type.Project) || is(Type.State) || is(Type.Artifact)) && !(is(Type.Boon) || is(Type.Hex));
-                
-        if (!isInheritedAbility && !(is(Type.State) || is(Type.Project) || is(Type.State) || is(Type.Artifact))) {
-        	//TODO: What event to fire for simple abilities like Key?
-        	//      Should this be shown in the play area as an ability like Durations?
-        	GameEvent event;
-        	if (is(Type.Boon) || is(Type.Hex)) {
-        		event = new GameEvent(GameEvent.EventType.ReceivingBoonHex, (MoveContext) context);
-        	} else {
-        		event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
-        	}
-	        event.card = this;
-	        event.newCard = !isThronedPlay;
-	        game.broadcastEvent(event);
+
+        GameEvent event;
+        event = new GameEvent(GameEvent.EventType.PlayingCard, (MoveContext) context);
+        event.card = this;
+        event.newCard = !isThronedPlay;
+        game.broadcastEvent(event);
+
+        if (isAction) {
+            context.addActions(currentPlayer.championEffects, Cards.champion);
         }
-        
-        if (isPlayingCard) {
-        	if (isAction) {
-            	context.addActions(currentPlayer.championEffects, Cards.champion);
-            }
-        	if (context.kilnEffect) {
-        		context.kilnEffect = false;
-        		if (currentPlayer.controlPlayer.kiln_shouldGainCopy(context, this))
-        			currentPlayer.gainNewCard(this, Cards.kiln, context);
-            }
-        	if (equals(Cards.silver)) {
-            	silverPlayed(context, game, currentPlayer);
-            }
-            if (is(Type.Attack, currentPlayer))
-                attackPlayed(context, game, currentPlayer);
+        if (context.kilnEffect) {
+            context.kilnEffect = false;
+            if (currentPlayer.controlPlayer.kiln_shouldGainCopy(context, this))
+                currentPlayer.gainNewCard(this, Cards.kiln, context);
         }
+        if (equals(Cards.silver)) {
+            silverPlayed(context, game, currentPlayer);
+        }
+        if (is(Type.Attack, currentPlayer))
+            attackPlayed(context, game, currentPlayer);
         
         // playing an action
         boolean playAgainWithCitadel = false;
         if (isAction) {
-	        if (this == actualCard)  {
-	            context.actionsPlayedSoFar++;
-	            context.actionsPlayedThisTurnStillInPlay.add(this);
-	        }
+            context.actionsPlayedSoFar++;
+            context.actionsPlayedThisTurnStillInPlay.add(this);
 	        if (context.actionsPlayedSoFar == 1 && context.player.hasProject(Cards.citadel)
         		 && game.getCurrentPlayer() == context.player)
 	        	playAgainWithCitadel = true;
-	        if (!nonRegularActionPlay && context.freeActionInEffect == 0) {
-	            context.spendAction();
-	        }
         }
         
-        Card tokenPile = isInheritedAbility ? actualCard : this;
+        Card tokenPile = this;
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneAction))
         	context.addActions(1, this);
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneBuy))
@@ -825,13 +848,13 @@ public class CardImpl implements Card, Comparable<Card>{
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCoin))
         	context.addCoins(1);
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCard))
-        	game.drawToHand(context, actualCard, 1 + addCards);
+        	game.drawToHand(context, this, 1 + addCards);
         
-        Card playUsingWay = selectWayToPlay(context, playedCard);
+        Card playUsingWay = selectWayToPlay(context, this);
         
         if (playUsingWay != null) {
         	//play way ability...
-        	playUsingWay.play(game, context, false, true, true, true, false);
+            playUsingWay.followInstructions(game, context, this, currentPlayer, isThronedPlay);
         } else if (enchantressEffect) {
         	//allow reaction to playing an attack card with Enchantress effect
         	if (is(Type.Attack, currentPlayer)) {
@@ -842,77 +865,32 @@ public class CardImpl implements Card, Comparable<Card>{
         	context.addActions(1, Cards.enchantress);
         	game.drawToHand(context, this, 1);
         } else {
-        	context.addActions(addActions, this);
-            context.buys += addBuys;
-            if (this.equals(Cards.copper)) {
-            	context.addCoins(addGold + context.coppersmithsPlayed);
-            } else if (this.equals(Cards.silver) || this.equals(Cards.gold)) {
-            	context.addCoins(context.envious ? 1 : addGold);
-            } else {
-            	context.addCoins(addGold);
-            }
-            currentPlayer.addVictoryTokens(context, addVictoryTokens, this);
-            if (providePotion()) {
-                context.potions++;
-            }
-            
-            for (int i = 0; i < addCards; ++i) {
-            	game.drawToHand(context, this, addCards - i);
-            }
-            
-            context.player.gainGuildsCoinTokens(addCoffers, context, this);
-            context.player.takeVillagers(addVillagers, context, this);
-            
-            if (addCardsNextTurn > 0 || addBuysNextTurn > 0 || addActionsNextTurn > 0 || addGoldNextTurn > 0) {
-            	currentPlayer.addStartTurnDurationEffect(this, 1, isThronedPlay);
-            }
-
-            if (inheritedCard == null) {
-            	additionalCardActions(game, context, currentPlayer, isThronedPlay);
-            } else {
-            	// Play the inheritance virtual card
-            	CardImpl cardToPlay = (CardImpl) this.behaveAsCard();
-		        context.freeActionInEffect++;
-		        cardToPlay.play(game, context, false);
-		        context.freeActionInEffect--;
-            }
+        	followInstructions(game, context, this, currentPlayer, isThronedPlay);
         }
     
-        if (!isInheritedAbility && isAction || playedCard.is(Type.Night)) {
-        	// Don't broadcast card played event for only treasures
-        	GameEvent event;
+        if (isAction || is(Type.Night)) {
+        	// Don't broadcast card played event for non-action Treasures
 	        event = new GameEvent(GameEvent.EventType.PlayedCard, (MoveContext) context);
-	        event.card = playedCard;
+	        event.card = this;
 	        game.broadcastEvent(event);
-        } else if (playedCard.is(Type.Boon) || playedCard.is(Type.Hex)) {
-        	GameEvent event;
-	        event = new GameEvent(GameEvent.EventType.ReceivedBoonHex, (MoveContext) context);
-	        event.card = playedCard;
-	        game.broadcastEvent(event);
-	        return;
-        } else {
-        	return;
         }
-        
 
-        // test if any prince card left the play
-        currentPlayer.princeCardLeftThePlay(currentPlayer, context);
+        // test if any cards left play
+        currentPlayer.checkForCardsLeftPlay(currentPlayer, context);
         
         // Citadel
         if (playAgainWithCitadel) {
-        	context.freeActionInEffect++;
-        	playedCard.play(game, context, false, false, false, false, true);
-            context.freeActionInEffect--;
+        	this.play(game, context, false, true,true);
         }
         
         // check for cards to call after resolving action
-        if (is(Type.Action)) {
+        if (isAction) {
 	        boolean isActionInPlay = currentPlayer.isInPlay(this);
 	        ArrayList<Card> callableCards = new ArrayList<Card>();
 	        Card toCall = null;
 	        for (Card c : currentPlayer.tavern) {
-	        	if (c.behaveAsCard().isCallableWhenActionResolved()) {
-	        		if (c.behaveAsCard().doesActionStillNeedToBeInPlayToCall() && !isActionInPlay) {
+	        	if (c.isCallableWhenActionResolved()) {
+	        		if (c.doesActionStillNeedToBeInPlayToCall() && !isActionInPlay) {
 	        			continue;
 	        		}
 	        		callableCards.add(c);
@@ -925,10 +903,10 @@ public class CardImpl implements Card, Comparable<Card>{
 		        	// we want null entry at the end for None
 		        	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
 		        	//ask player which card to call
-		        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, playedCard, cardsAsArray);
+		        	toCall = currentPlayer.controlPlayer.call_whenActionResolveCardToCall(context, this, cardsAsArray);
 		        	if (toCall != null && callableCards.contains(toCall)) {
 		        		callableCards.remove(toCall);
-		        		toCall.behaveAsCard().callWhenActionResolved(context, playedCard);
+		        		toCall.callWhenActionResolved(context, this);
 		        	}
 			        // loop while we still have cards to call
 			        // NOTE: we have a hack here to prevent asking for duplicate calls on an unused Royal Carriage
@@ -943,6 +921,7 @@ public class CardImpl implements Card, Comparable<Card>{
 		List<Card> ways = Arrays.asList(context.game.getCardsInGame(GetCardsInGameOptions.Templates, false, Type.Way));
 		if (!ways.isEmpty()) {
 			Card way = context.player.controlPlayer.action_playUsingWay(context, playedCard);
+			if (way == null) return null;
 			if (!ways.contains(way)) {
 				Util.playerError(context.player, "Way error: not playing as Way");
 				return null;
@@ -1119,9 +1098,7 @@ public class CardImpl implements Card, Comparable<Card>{
     
     @Override
     public boolean isOverpay(Player player) {
-    	if (player == null || player.getInheritance() == null || !this.equals(Cards.estate))
-    		return isOverpay;
-    	return ((CardImpl)player.getInheritance()).isOverpay;
+    	return isOverpay;
     }
     
 	@Override
@@ -1133,12 +1110,11 @@ public class CardImpl implements Card, Comparable<Card>{
 			context.buys += addBuys;
 			context.getPlayer().addVictoryTokens(context, addVictoryTokens, this);
 		}
-		if (this.equals(Cards.estate)) {
-        	Card inheritance = context.getPlayer().getInheritance();
-        	if (inheritance != null) {
-        		inheritance.isBuying(context);
-        	}
-        }
+    }
+
+    @Override
+    public void isTrashed(MoveContext context) {
+
     }
         
     @Override
@@ -1177,62 +1153,7 @@ public class CardImpl implements Card, Comparable<Card>{
     @Override
     public void callAtStartOfTurn(MoveContext context) {
     }
-    
-    @Override
-    public void isTrashed(MoveContext context) {
-        // card left play - stop any impersonations
-        this.getControlCard().stopImpersonatingCard();
-        this.getControlCard().stopInheritingCardAbilities();
-    }
 
-    public boolean isImpersonatingAnotherCard() {
-        return !(this.impersonatingCard == null);
-    }
-    
-    @Override
-    public Card behaveAsCard() {
-        if (impersonatingCard != null && impersonatingCard != this)
-            return impersonatingCard.behaveAsCard();
-        if (inheritingAbilitiesCard != null && inheritingAbilitiesCard != this)
-        	return inheritingAbilitiesCard.behaveAsCard();
-        return this;
-    }
-
-//    CardImpl getImpersonatingCard() {
-//        return impersonatingCard;
-//    }
-    
-    void startInheritingCardAbilities(CardImpl inheritingCard) {
-    	inheritingCard.setControlCard(this);
-    	this.inheritingAbilitiesCard = inheritingCard; 
-    }
-
-    void startImpersonatingCard(CardImpl impersonatingCard) {
-        impersonatingCard.setControlCard(this);
-        this.impersonatingCard = impersonatingCard;
-    }
-
-
-    void stopImpersonatingCard() {
-        if (this.inheritingAbilitiesCard != null) this.inheritingAbilitiesCard.stopImpersonatingCard();
-        if (this.impersonatingCard != null) this.impersonatingCard.stopImpersonatingCard();
-        this.impersonatingCard = null;
-    }
-    
-    void stopInheritingCardAbilities() {
-    	this.inheritingAbilitiesCard = null;
-    }
-
-    @Override
-    public CardImpl getControlCard() {
-        if (controlCard == this) return this;
-        return controlCard.getControlCard();
-    }
-
-    void setControlCard(CardImpl controlCard) {
-        this.controlCard = controlCard;
-    }
-    
     public void multiplyCard(Card toMultiply) {
     	if (multiplyingCards == null) multiplyingCards = new ArrayList<Card>();
     	multiplyingCards.add(toMultiply);
@@ -1268,8 +1189,8 @@ public class CardImpl implements Card, Comparable<Card>{
         // If an Urchin has been played, offer the player the option to trash it for a Mercenary
         for (int i = currentPlayer.playedCards.size() - 1; i >= 0 ; --i) {
             Card c = currentPlayer.playedCards.get(i);
-            if (!(c.behaveAsCard() == this) && c.behaveAsCard().getKind() == Cards.Kind.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context, c.getControlCard())) {
-                currentPlayer.trashSelfFromPlay(c.getControlCard(), context);
+            if (!(c == this) && c.getKind() == Cards.Kind.Urchin && currentPlayer.controlPlayer.urchin_shouldTrashForMercenary(context, c)) {
+                currentPlayer.trashSelfFromPlay(c, context);
                 currentPlayer.gainNewCard(Cards.mercenary, this, context);
             }
         }
@@ -1302,7 +1223,7 @@ public class CardImpl implements Card, Comparable<Card>{
         for (Player targetPlayer : context.game.getPlayersInTurnOrder()) {
         	if (targetPlayer != currentPlayer) {
         		if (!Util.isDefendedFromAttack(game, targetPlayer, this)) {
-        			targetPlayer.attacked(this.getControlCard(), context);
+        			targetPlayer.attacked(this, context);
         			currentPlayer.addDurationEffectOnOtherPlayer(targetPlayer, this.kind);
         		}
         	}
@@ -1312,10 +1233,10 @@ public class CardImpl implements Card, Comparable<Card>{
     protected void witchFamiliar(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
-                player.attacked(this.getControlCard(), context);
+                player.attacked(this, context);
                 MoveContext targetContext = new MoveContext(game, player);
                 targetContext.attackedPlayer = player;
-                player.gainNewCard(Cards.curse, this.getControlCard(), targetContext);
+                player.gainNewCard(Cards.curse, this, targetContext);
             }
         }
     }
@@ -1352,28 +1273,24 @@ public class CardImpl implements Card, Comparable<Card>{
 
             if (cardToPlay != null) {
                 if(!actionCards.contains(cardToPlay) || (this.kind == Cards.Kind.Procession && cardToPlay.is(Type.Duration))) {
-                    Util.playerError(currentPlayer, this.getControlCard().name.toString() + " card selection error, ignoring");
+                    Util.playerError(currentPlayer, this.name.toString() + " card selection error, ignoring");
                 } else {
-                    context.freeActionInEffect++;
-
                     int timesToPlay = equals(Cards.kingsCourt) ? 3 : 2;
                     for (int i = 0; i < timesToPlay; ++i) {
-                        cardToPlay.play(game, context, true, false, false, false, i > 0);
+                        cardToPlay.play(game, context, i == 0, i > 0, i > 0);
                     }
-                    context.freeActionInEffect--;
-                    
                     if (cardToPlay.is(Type.Duration, currentPlayer)) {
-                    	((CardImpl)this.getControlCard()).multiplyCard(cardToPlay);
+                    	((CardImpl)this).multiplyCard(cardToPlay);
                     }
                 }
 
                 if (this.kind == Cards.Kind.Procession) {
-                    currentPlayer.trashFromPlay(cardToPlay, this.getControlCard(), context);
+                    currentPlayer.trashFromPlay(cardToPlay, this, context);
                     Card cardToGain = currentPlayer.controlPlayer.procession_cardToGain(context, 1 + cardToPlay.getCost(context), cardToPlay.getDebtCost(context), cardToPlay.costPotion());
                     if ((cardToGain != null) && (cardToPlay.getCost(context) + 1) == cardToGain.getCost(context) && 
                     		cardToPlay.getDebtCost(context) == cardToGain.getDebtCost(context) && 
                     		cardToPlay.costPotion() == cardToGain.costPotion()) {
-                        currentPlayer.gainNewCard(cardToGain, this.getControlCard(), context);
+                        currentPlayer.gainNewCard(cardToGain, this, context);
                     }
                 }
             }
@@ -1398,7 +1315,7 @@ public class CardImpl implements Card, Comparable<Card>{
     	if (treasure != null && treasure.is(Type.Treasure, currentPlayer, context) && currentPlayer.getHand().contains(treasure)) {
     		CardImpl cardToPlay = (CardImpl) treasure;
             for (int i = 0; i < 2; ++i) {
-                cardToPlay.play(context.game, context, true, true, false, false, i > 0);
+                cardToPlay.play(context.game, context, true, false, i > 0);
             }
             
             if (this.kind == Cards.Kind.Counterfeit) {
@@ -1432,18 +1349,15 @@ public class CardImpl implements Card, Comparable<Card>{
         
         for (Card card : cardsToDiscard) {
             currentPlayer.hand.remove(card);
-            currentPlayer.discard(card, this.getControlCard(), context);
+            currentPlayer.discard(card, this, context);
         }
     }
 
     protected void spyAndScryingPool(Game game, MoveContext context, Player currentPlayer) {
         for (Player player : game.getPlayersInTurnOrder()) {
-            // Note that this.controlCard is the opposite check of other attacks, the spy/scrying pool lets
-            // the current player look at their own deck which is a good thing, so always
-            // allow that
             if (player == currentPlayer || (!Util.isDefendedFromAttack(game, player, this))) {
                 if (player != currentPlayer) {
-                    player.attacked(this.getControlCard(), context);
+                    player.attacked(this, context);
                 }
 
                 MoveContext playerContext = new MoveContext(game, player);
@@ -1451,7 +1365,7 @@ public class CardImpl implements Card, Comparable<Card>{
                 Card card = game.draw(playerContext, this, 1);
 
                 if (card != null) {
-                    player.reveal(card, this.getControlCard(), playerContext);
+                    player.reveal(card, this, playerContext);
 
                     boolean discard = false;
 
@@ -1462,7 +1376,7 @@ public class CardImpl implements Card, Comparable<Card>{
                     }
 
                     if (discard) {
-                        player.discard(card, this.getControlCard(), playerContext);
+                        player.discard(card, this, playerContext);
                     } else {
                         // put it back
                         player.putOnTopOfDeck(card, playerContext, true);
@@ -1476,7 +1390,7 @@ public class CardImpl implements Card, Comparable<Card>{
 
             Card draw = null;
             while ((draw = game.draw(context, Cards.scryingPool, -1)) != null) {
-                currentPlayer.reveal(draw, this.getControlCard(), new MoveContext(context, game, currentPlayer));
+                currentPlayer.reveal(draw, this, new MoveContext(context, game, currentPlayer));
                 cardsToPutInHand.add(draw);
                 if(!(draw.is(Type.Action, currentPlayer))) {
                     break;

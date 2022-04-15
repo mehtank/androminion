@@ -1381,8 +1381,8 @@ public class Strings {
     	
         // See note below under getActionCardText for why we can't test for object equality here,
         // and instead use string equality.
-    	String cardName = getCardName(cardResponsible.behaveAsCard());
-        String controlName = getCardName(cardResponsible.getControlCard());
+    	String cardName = getCardName(cardResponsible);
+        String controlName = getCardName(cardResponsible);
 
         strings[0] = cardName;  // common enough to set this as a default; override if necessary.
         if (cardName.equals(getCardName(Cards.alchemist))) {
@@ -2174,6 +2174,7 @@ public class Strings {
             getCardName(Cards.toil),
             getCardName(Cards.transport),
             getCardName(Cards.wayOfTheGoat),
+            getCardName(Cards.wayOfTheRat),
             /*Promo*/
             getCardName(Cards.dismantle),
             getCardName(Cards.sauna),

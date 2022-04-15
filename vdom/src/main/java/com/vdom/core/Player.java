@@ -58,7 +58,6 @@ public abstract class Player {
     protected CardList tavern;
     protected CardList exile;
     protected CardList prince;
-    protected CardList princes;
     protected CardList summon;
     protected CardList island;
     protected CardList haven;
@@ -95,10 +94,11 @@ public abstract class Player {
     	public int numTurnsLeft;
     	public Card effect;
     	public Card sourceCard;
+    	public Card emulator;
 		public boolean isThronedEffect;
     	
     	public DurationEffect(Card card, int numTurnStarts, boolean isThronedEffect) {
-			sourceCard = card.getControlCard();
+			sourceCard = card;
 			effect = card.getTemplateCard();
 			numTurnsLeft = numTurnStarts;
 			this.isThronedEffect = isThronedEffect;
@@ -291,12 +291,12 @@ public abstract class Player {
     }
         
     public boolean isInPlay(Card card) {
-    	return playedCards.indexOf(card.getControlCard().getId()) >= 0; 
+    	return playedCards.indexOf(card.getId()) >= 0;
     }
     
     public boolean hasCopyInPlay(Card card) {
     	for (Card c : playedCards) {
-    		String name = c.isImpersonatingAnotherCard() ? c.behaveAsCard().getName() : c.getName();
+    		String name = c.getName();
     		if (card.getName().equals(name))
     			return true;
     	}
@@ -382,7 +382,6 @@ public abstract class Player {
         tavern = new CardList(this, "Tavern");
         exile = new CardList(this, "Exile");
         prince = new CardList(this, "Princed Cards");
-        princes = new CardList(this, "Princes");
         summon = new CardList(this, "Summon");
         playedByPrince = new CardList(this, "PlayedByPrince");
         island = new CardList(this, "Island");
@@ -421,13 +420,13 @@ public abstract class Player {
 
         boolean addedBorderGuardOption = false;
         for (Card c: playedCards) {
-            if (c.behaveAsCard().equals(Cards.treasury) && !victoryBought) {
+            if (c.equals(Cards.treasury) && !victoryBought) {
                 options.add(PutBackOption.Treasury);
-            } else if (c.behaveAsCard().equals(Cards.alchemist) && potionPlayed) {
+            } else if (c.equals(Cards.alchemist) && potionPlayed) {
                 options.add(PutBackOption.Alchemist);
-            } else if (c.behaveAsCard().equals(Cards.walledVillage) && actionsPlayed <= 2) {
+            } else if (c.equals(Cards.walledVillage) && actionsPlayed <= 2) {
                 options.add(PutBackOption.WalledVillage);
-            } else if (c.behaveAsCard().equals(Cards.herbalist) && treasurePlayed) {
+            } else if (c.equals(Cards.herbalist) && treasurePlayed) {
                 options.add(PutBackOption.Coin);
             } else if (c.equals(Cards.borderGuard) && context.game.hasState(context.player, Cards.horn) && !context.hasTopDeckedBorderGuard && !addedBorderGuardOption) {
             	options.add(PutBackOption.BorderGuard);
@@ -462,7 +461,7 @@ public abstract class Player {
 
     private Card findCard(MoveContext context, Card template) {
         for (Card c: playedCards) {
-            if (c.behaveAsCard().equals(template)) {
+            if (c.equals(template)) {
                 return c;
             }
         }
@@ -539,7 +538,7 @@ public abstract class Player {
                 for (CardImpl card : multiplierCards) {
                 	boolean keepInPlay = false;
                 	for(Card duration : card.getMultiplyingCards()) {
-                		if (playedCards.indexOf(duration.getControlCard().getId()) >= 0) {
+                		if (playedCards.indexOf(duration.getId()) >= 0) {
                 			keepInPlay = true;
                 			break;
                 		}
@@ -672,7 +671,7 @@ public abstract class Player {
                     }
 
                     Card card = playedCards.remove(index);
-                    if (card.behaveAsCard().equals(Cards.hermit) &&
+                    if (card.equals(Cards.hermit) &&
                         (context != null) && 
                         (context.totalCardsBoughtThisTurn == 0)) {
                         controlPlayer.gainNewCard(Cards.madman, card, context);
@@ -683,11 +682,6 @@ public abstract class Player {
         }
 
         if (!putBackCards.isEmpty()) {
-            // reset any lingering Impersonations
-            for (Card card : putBackCards) {
-                ((CardImpl) card).stopImpersonatingCard();
-            }
-
             if (putBackCards.size() == 1) {
                 putOnTopOfDeck(putBackCards.get(0), context, true);
             } else {
@@ -704,8 +698,6 @@ public abstract class Player {
         
         // Discard cards from play - keep durations that are still doing something and the thrones that played them
         discardCardsFromPlay(context);
-        
-        playedByPrince.clear();
 
         // /////////////////////////////////
         // Discard hand
@@ -767,7 +759,8 @@ public abstract class Player {
         
         for (Card card : toDiscard) {
         	discard(card, null, context, false, true);
-        	princeCardLeftThePlay(this, context); // princed travellers may be exchanged
+        	// check if any cards left play
+        	checkForCardsLeftPlay(this, context);
         }
     }
 
@@ -837,11 +830,7 @@ public abstract class Player {
     public CardList getPrince() {
         return prince;
     }
-    
-    public CardList getPrinces() {
-        return princes;
-    }
-    
+
     public CardList getSummon() {
         return summon;
     }
@@ -1058,9 +1047,6 @@ public abstract class Player {
             allCards.add(card);
         }
         for (Card card : prince) {
-            allCards.add(card);
-        }
-        for (Card card : princes) {
             allCards.add(card);
         }
         for (Card card : summon) {
@@ -1599,7 +1585,7 @@ public abstract class Player {
     public void deckToDiscard(MoveContext context, Card responsible) {
     	Player player = context.player;
         while (player.getDeckSize() > 0) {
-        	player.discard(game.draw(context, responsible, 0), responsible.getControlCard(), null, false, false);
+        	player.discard(game.draw(context, responsible, 0), responsible, null, false, false);
         }
         GameEvent event = new GameEvent(GameEvent.EventType.DeckPutIntoDiscardPile, (MoveContext) context);
         game.broadcastEvent(event);
@@ -1611,18 +1597,18 @@ public abstract class Player {
 
     private Card traveller_exchange(MoveContext context, Card card) {
     	Card exchange = null;
-    	if (card.behaveAsCard().equals(Cards.peasant)) exchange = Cards.soldier;
+    	if (card.equals(Cards.peasant)) exchange = Cards.soldier;
     	if (card.equals(Cards.soldier)) exchange = Cards.fugitive;
     	if (card.equals(Cards.fugitive)) exchange = Cards.disciple;
     	if (card.equals(Cards.disciple)) exchange = Cards.teacher;
-    	if (card.behaveAsCard().equals(Cards.page)) exchange = Cards.treasureHunter;
+    	if (card.equals(Cards.page)) exchange = Cards.treasureHunter;
     	if (card.equals(Cards.treasureHunter)) exchange = Cards.warrior;
     	if (card.equals(Cards.warrior)) exchange = Cards.hero;
     	if (card.equals(Cards.hero)) exchange = Cards.champion;
     	if (!context.isCardOnTop(exchange))
     		exchange = null;
     	if (exchange != null) {
-            if(!controlPlayer.traveller_shouldExchange(context, card.behaveAsCard(), exchange))
+            if(!controlPlayer.traveller_shouldExchange(context, card, exchange))
             	exchange = null;
     	}
     	return exchange;
@@ -1633,21 +1619,12 @@ public abstract class Player {
         boolean willDiscard = false;
         Card exchange = null;
         
-        if (card.behaveAsCard().equals(Cards.hermit)) {
+        if (card.equals(Cards.hermit)) {
             if (!commandedDiscard && 
                 (context != null) && 
                 (context.totalCardsBoughtThisTurn == 0))
             {
-                /* A Hermit that is set aside again by Prince on a turn
-                 * where no cards were bought will fail to trash itself,
-                 * but you will still gain a Madman
-                 */
-                if (cleanup && playedByPrince.contains(card)) {
-                    willDiscard = true;
-                }
-                else {
-                	trash(card, card, context);
-                }
+                trash(card, card, context);
                 controlPlayer.gainNewCard(Cards.madman, card, context);
             }
             else
@@ -1669,18 +1646,7 @@ public abstract class Player {
         		context.game.playerPayOffDebt(this, context);
         	}
         	
-            //if discarding during cleanup put the card back on prince
-            if (!commandedDiscard && cleanup && playedByPrince.contains(card)) {
-                prince.add(card);
-                playedByPrince.remove(card);
-                if(context != null) {
-                    GameEvent event = new GameEvent(GameEvent.EventType.CardSetAside, context);
-                    event.card = card;
-                    event.responsible = Cards.prince;
-                    context.game.broadcastEvent(event);
-                }
-            }
-            else if(!commandedDiscard && cleanup && card.is(Type.Traveller, this)) {
+            if(!commandedDiscard && cleanup && card.is(Type.Traveller, this)) {
                 exchange = traveller_exchange(context, card);
                 if (exchange != null) {
     				// Return to the pile
@@ -1717,16 +1683,11 @@ public abstract class Player {
         			MoveContext villageGreenContext = (context.player != this) ? new MoveContext(game, this) : context;
                     if(controlPlayer.villageGreen_shouldPlay(villageGreenContext)) {
                     	discard.remove(card);
-                    	villageGreenContext.freeActionInEffect++;
-        		        card.play(game, context, false, false, false, false, false);
-        		        villageGreenContext.freeActionInEffect--;
+                    	card.play(game, context, false, false, false);
                     }
         		}
             }
         }
-
-        // card left play - stop impersonations
-        ((CardImpl) card).stopImpersonatingCard();
 
         // XXX making game slow; is this necessary?  For that matter, are discarded cards public?
         if(context != null && (commandedDiscard || exchange != null)) {
@@ -1747,7 +1708,7 @@ public abstract class Player {
     }
 
     public Card gainNewCard(Card cardToGain, Card responsible, MoveContext context) {
-        Card card = game.takeFromPileCheckTrader(cardToGain, context);
+        Card card = game.takeFromPileCheckGetTop(cardToGain, context);
         if (card != null) {
             GameEvent gainEvent = new GameEvent(GameEvent.EventType.CardObtained, (MoveContext) context);
             gainEvent.card = card;
@@ -1778,27 +1739,8 @@ public abstract class Player {
         }
     }
 
-    // test if any prince card left the play or cards leaving play for Scepter
-    public void princeCardLeftThePlay(Player currentPlayer, MoveContext context) {
-        if (currentPlayer.playedByPrince.size() > 0) {
-        	ArrayList<Card> playedByPrince = new ArrayList<Card>();
-            while (!playedByPrince.isEmpty()) {
-                playedByPrince.add(currentPlayer.playedByPrince.remove(0));
-            }
-            ArrayList<Card> playedCards = new ArrayList<Card>();
-            for (int i = 0; i < currentPlayer.playedCards.size(); i++) {
-                playedCards.add(currentPlayer.playedCards.get(i));
-            }
-            for (Card card : playedByPrince) {
-                if (playedCards.contains(card)) {
-                    playedCards.remove(card);
-                    currentPlayer.playedByPrince.add(card);
-                }
-                else {
-                    Util.log("Prince card has left the play:" + card.getName());
-                }
-            }
-        }
+    // test if any cards leaving play for Scepter
+    public void checkForCardsLeftPlay(Player currentPlayer, MoveContext context) {
         if (context.actionsPlayedThisTurnStillInPlay.size() > 0) {
         	Iterator<Card> it = context.actionsPlayedThisTurnStillInPlay.iterator();
         	while (it.hasNext()) {
@@ -1826,7 +1768,6 @@ public abstract class Player {
     }
     
     public boolean trashFromPlay(Card card, Card responsible, MoveContext context) {
-    	card = card.getControlCard();
     	if (!isInPlay(card)) return false;
     	int idx = playedCards.indexOf(card);
     	playedCards.remove(idx);
@@ -1892,20 +1833,15 @@ public abstract class Player {
         }
 
         // Execute special card logic when the trashing occurs
-        if (card.equals(Cards.estate) && getInheritance() != null) {
-            getInheritance().behaveAsCard().isTrashed(context);
-        } else {
-            card.behaveAsCard().isTrashed(context);
-        }
+        card.isTrashed(context);
 
         // Market Square trashing reaction
-        boolean hasInheritedMarketSquare = Cards.marketSquare.equals(context.getPlayer().getInheritance()) && context.getPlayer().hand.contains(Cards.estate);
         boolean hasMarketSquare = context.getPlayer().hand.contains(Cards.marketSquare);
-        if (hasMarketSquare || hasInheritedMarketSquare) {
+        if (hasMarketSquare) {
             ArrayList<Card> marketSquaresInHand = new ArrayList<Card>();
 
             for (Card c : hand) {
-                if (c.getKind() == Cards.Kind.MarketSquare || (hasInheritedMarketSquare && c.equals(Cards.estate))) {
+                if (c.getKind() == Cards.Kind.MarketSquare) {
                     marketSquaresInHand.add(c);
                 }
             }
@@ -1921,12 +1857,11 @@ public abstract class Player {
         
         // Sewers trashing reaction
         if (hasProject(Cards.sewers) && (responsible == null || !responsible.equals(Cards.sewers))) {
-        	Cards.sewers.play(game, context, false, true, true, true, false);
+        	Cards.sewers.followInstructions(game, context, responsible, context.getPlayer(), false);
         }
     }
 
     public boolean trashSelfFromPlay(Card card, MoveContext context) {
-    	card = card.getControlCard();
     	int idx = playedCards.indexOf(card.getId());
     	if (idx == -1) return false;
     	card = playedCards.remove(idx); 
@@ -1935,7 +1870,6 @@ public abstract class Player {
     }
     
     public boolean exileFromPlay(Card card, Card responsible, MoveContext context) {
-    	card = card.getControlCard();
     	if (!isInPlay(card)) return false;
     	int idx = playedCards.indexOf(card);
     	playedCards.remove(idx);
@@ -1970,7 +1904,6 @@ public abstract class Player {
     }
 
     public boolean exileSelfFromPlay(Card card, MoveContext context) {
-    	card = card.getControlCard();
     	int idx = playedCards.indexOf(card.getId());
     	if (idx == -1) return false;
     	card = playedCards.remove(idx); 
@@ -2009,7 +1942,7 @@ public abstract class Player {
         event.responsible = responsible;
         context.game.broadcastEvent(event);
         
-        if (card.behaveAsCard().equals(Cards.patron)) {
+        if (card.equals(Cards.patron) && context.phase == MoveContext.TurnPhase.Action) {
         	context.player.gainGuildsCoinTokens(1, context, Cards.patron);
         }
     }
@@ -2018,7 +1951,7 @@ public abstract class Player {
         context.attackedPlayer = this;
         GameEvent event = new GameEvent(GameEvent.EventType.PlayerAttacking, context);
         event.attackedPlayer = this;
-        event.card = card.behaveAsCard();
+        event.card = card;
         context.game.broadcastEvent(event);
     }
     
@@ -2411,7 +2344,6 @@ public abstract class Player {
     public abstract Card island_cardToSetAside(MoveContext context);
 
     public abstract Card prince_cardToSetAside(MoveContext context);
-    public abstract boolean prince_shouldSetAside(MoveContext context);
     public abstract int duration_cardToPlay(MoveContext context, Object[] cards);
     public abstract Card[] prince_cardCandidates(MoveContext context, ArrayList<Card> cardList, boolean onlyBest);
 
@@ -2692,7 +2624,7 @@ public abstract class Player {
     public abstract Card hermit_cardToTrash(MoveContext context, ArrayList<Card> cardList, int nonTreasureCountInDiscard);
     public abstract Card hermit_cardToGain(MoveContext context);
 
-    public abstract Card bandOfMisfits_actionCardToImpersonate(MoveContext context, int maxCost);
+    public abstract Card bandOfMisfits_actionCardToPlay(MoveContext context, int maxCost);
 
     // ////////////////////////////////////////////
     // Card interactions - Guilds Expansion
@@ -2744,7 +2676,6 @@ public abstract class Player {
 	public abstract Card transmogrify_cardToTrash(MoveContext context);
 	public abstract Card transmogrify_cardToObtain(MoveContext context, int maxCost, int maxDebtCost, boolean potion);
     public abstract int cleanup_wineMerchantToDiscard(MoveContext context, int wineMerchantTotal);
-    public abstract int cleanup_wineMerchantEstateToDiscard(MoveContext context, int wineMerchantTotal);
         
     // ///////////////////////////////////////////////
     // Card interactions - Adventures Expansion Events
@@ -2946,6 +2877,7 @@ public abstract class Player {
     public abstract Card transport_cardToTopdeckFromExile(MoveContext context, Card[] cards);
     
     public abstract Card wayOfTheGoat_cardToTrash(MoveContext context);
+    public abstract Card wayOfTheRat_treasureToDiscard(MoveContext context, Card cardToGain);
     
     
     // ////////////////////////////////////////////

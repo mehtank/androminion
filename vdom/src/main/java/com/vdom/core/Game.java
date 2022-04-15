@@ -359,6 +359,7 @@ public class Game {
 	                // Buy Phase
 	                // /////////////////////////////////
 	                context.phase = TurnPhase.Buy;
+                    context.totalCardsGainedInMostRecentBuyPhase = 0;
 	                playerBeginBuy(player, context);
 	                
 	                boolean hasMoreTreasures = false;
@@ -399,6 +400,8 @@ public class Game {
                 		otherPlayer.cleanupOutOfTurn(new MoveContext(this, otherPlayer));
                 	}
                 }
+
+                playerEndOfTurn(player, context);
                 
                 boolean wasPossessed = player.isPossessed();
                 extraTurnsInfo.addAll(playerEndTurn(player, context));
@@ -406,7 +409,6 @@ public class Game {
 
                 if (!gameOver) {
                 	context.phase = null;
-                	playerAfterTurn(player, context);
                 	if (player.isControlled()) {
                 		player.stopBeingControlled();
                 	}
@@ -522,7 +524,7 @@ public class Game {
             while (!treasures.isEmpty() && maxCards != 0) {
                 Card card = treasures.remove(0);
                 if (player.hand.contains(card)) {// this is needed due to counterfeit which trashes cards during this loop
-                    card.play(context.game, context, true, true);
+                    card.play(context.game, context, true);
                     totalPlayed++;
                     maxCards--;
                 }
@@ -561,7 +563,7 @@ public class Game {
 	                if (isValidNightCard(context, nightCard)) {
 	                    GameEvent event = new GameEvent(GameEvent.EventType.Status, context);
 	                    broadcastEvent(event);
-	                    nightCard.play(this, context, true, true);
+	                    nightCard.play(this, context, true);
 	                } else {
 	                    Util.debug("Error:Invalid Night card selected");
 	                }
@@ -781,9 +783,8 @@ public class Game {
         List<ExtraTurnInfo> result = new ArrayList<Game.ExtraTurnInfo>();
         // Can only have at most two consecutive turns
         for (Card card : player.playedCards) {
-            Card behaveAsCard = card.behaveAsCard();
-            if (behaveAsCard.takeAnotherTurn()) {
-                handCount = behaveAsCard.takeAnotherTurnCardCount();
+            if (card.takeAnotherTurn()) {
+                handCount = card.takeAnotherTurnCardCount();
                 if (consecutiveTurnCounter <= 1) {
                 	result.add(new ExtraTurnInfo());
                     break;
@@ -915,7 +916,7 @@ public class Game {
         return result;
     }
 
-    protected void playerAfterTurn(Player player, MoveContext context) {
+    protected void playerEndOfTurn(Player player, MoveContext context) {
     	while (context.donatesBought-- > 0) {
         	while(!player.deck.isEmpty()) {
         		player.hand.add(player.deck.removeLastCard());
@@ -1013,6 +1014,7 @@ public class Game {
                     if (isValidAction(context, action)) {
                         GameEvent event = new GameEvent(GameEvent.EventType.Status, (MoveContext) context);
                         broadcastEvent(event);
+                        context.spendAction();
                         action.play(this, (MoveContext) context, true);
                     } else {
                         Util.debug("Error:Invalid action selected");
@@ -1112,6 +1114,12 @@ public class Game {
             }
         } while (context.buys > 0 && buy != null);
 
+        // Get Coffers from Merchant Guild
+        int merchantGuildCoffers = context.merchantGuildEffects * context.totalCardsGainedInMostRecentBuyPhase;
+        if (merchantGuildCoffers > 0) {
+            player.gainGuildsCoinTokens(merchantGuildCoffers, context, Cards.merchantGuild);
+        }
+
         //Discard Wine Merchants from Tavern
         if(context.getCoinAvailableForBuy() >= 2) {
         	int wineMerchants = 0;
@@ -1135,31 +1143,7 @@ public class Game {
 	            }
             }
         }
-        
-      //Discard Wine Merchants Estates from Tavern
-        if(context.getCoinAvailableForBuy() >= 2) {
-        	int wineMerchants = 0;
-            for (Card card : player.getTavern()) {
-                if (Cards.estate.equals(card) && Cards.wineMerchant.equals(card.behaveAsCard())) {
-                	wineMerchants++;
-                }
-            }
-            if (wineMerchants > 0) {
-	            int wineMerchantsTotal = player.controlPlayer.cleanup_wineMerchantEstateToDiscard(context, wineMerchants);
-	            if (wineMerchants < 0 || wineMerchantsTotal > wineMerchants) {
-	                Util.playerError(player, "Wine Merchant estate discard error, invalid number of Wine Merchants. Discarding all Wine Merchants.");
-	                wineMerchantsTotal = wineMerchants;
-	            }
-	            if(wineMerchantsTotal > 0) {
-	            	for (int i = 0; i < wineMerchantsTotal; i++) {
-	            	    Card card = player.getTavern().get(Cards.estate);
-	            	    player.getTavern().remove(card);
-	                    player.discard(card, null, context, true, false); //set commandedDiscard=true and cleanup=false to force GameEvent 
-	            	}
-	            }
-            }
-        }
-        
+
         if (player.hasProject(Cards.exploration) && context.getTotalCardsBoughtInMostRecentBuyPhase() == 0) {
         	player.gainGuildsCoinTokens(1, context, Cards.exploration);
         	player.takeVillagers(1, context, Cards.exploration);
@@ -1463,16 +1447,16 @@ public class Game {
         int numOptionalItems = 0;
         ArrayList<Card> callableCards = new ArrayList<Card>();
         for (Card c : player.tavern) {
-        	if (c.behaveAsCard().isCallableWhenTurnStarts()) {
+        	if (c.isCallableWhenTurnStarts()) {
         		callableCards.add((Card) c);
         	}
         }
         if (!callableCards.isEmpty()) {
          	Collections.sort(callableCards, new Util.CardCostComparator());
  	        for (Card c : callableCards) {
- 	        	if (c.behaveAsCard().equals(Cards.guide)
- 	        		|| c.behaveAsCard().equals(Cards.ratcatcher)
- 	        		|| c.behaveAsCard().equals(Cards.transmogrify)) {
+ 	        	if (c.equals(Cards.guide)
+ 	        		|| c.equals(Cards.ratcatcher)
+ 	        		|| c.equals(Cards.transmogrify)) {
  	        		allDurationAreSimple = false;
  	        	}
  	        }
@@ -1521,77 +1505,70 @@ public class Game {
             durationEffectsAreCards.remove(selection);
             
             if(card.equals(Cards.prince)) {
-                player.playedByPrince.add(card2);
                 player.prince.remove(card2);
-                context.freeActionInEffect++;
-                card2.play(this, context, false);
-                context.freeActionInEffect--;
+                card2.play(this, context, false, true, false);
             } else if(card.equals(Cards.summon)) {
                 player.summon.remove(card2);
-                context.freeActionInEffect++;
                 card2.play(this, context, false);
-                context.freeActionInEffect--;
             } else if(card.equals(Cards.reap)) {
                 player.reap.remove(card2);
-                context.freeActionInEffect++;
                 card2.play(this, context, false);
-                context.freeActionInEffect--;
-            } else if(card.behaveAsCard().equals(Cards.horseTraders)) {
+            } else if(card.equals(Cards.horseTraders)) {
             	//BUG: this doesn't let you call estates inheriting horse trader differently
                 Card horseTrader = player.horseTraders.remove(0);
                 player.hand.add(horseTrader);
                 drawToHand(context, horseTrader, 1);
-            } else if(card.behaveAsCard().is(Type.Boon)) {
+            } else if(card.is(Type.Boon)) {
             	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
-            } else if(card.behaveAsCard().equals(Cards.cathedral) || card.behaveAsCard().equals(Cards.cityGate) ||
-            		card.behaveAsCard().equals(Cards.cropRotation) || card.behaveAsCard().equals(Cards.lostInTheWoods) || 
-            		card.behaveAsCard().equals(Cards.key) || card.behaveAsCard().equals(Cards.piazza) || 
-            		card.behaveAsCard().equals(Cards.silos) || card.behaveAsCard().equals(Cards.sinisterPlot)) {
-            	card.play(this, context, false, true, true, true, false);
-            } else if (card.behaveAsCard().equals(Cards.barracks)) {
+            } else if(card.equals(Cards.cathedral) || card.equals(Cards.cityGate) ||
+            		card.equals(Cards.cropRotation) || card.equals(Cards.lostInTheWoods) ||
+            		card.equals(Cards.key) || card.equals(Cards.piazza) ||
+            		card.equals(Cards.silos) || card.equals(Cards.sinisterPlot)) {
+                card.followInstructions(this, context, card, context.getPlayer(), false);
+            } else if (card.equals(Cards.barracks)) {
             	context.addActions(1, Cards.barracks);
-            } else if (card.behaveAsCard().equals(Cards.fair)) {
+            } else if (card.equals(Cards.fair)) {
             	context.buys += 1;
-            } else if(card.behaveAsCard().is(Type.Duration, player)) {
-            	if(card.behaveAsCard().equals(Cards.haven) || card.behaveAsCard().equals(Cards.cargoShip)) {
+            } else if(card.is(Type.Duration, player)) {
+            	if(card.equals(Cards.haven) || card.equals(Cards.cargoShip)) {
                     player.hand.add(card2);
                 }
-                if(card.behaveAsCard().equals(Cards.gear) || card.behaveAsCard().equals(Cards.research) 
-                		|| card.behaveAsCard().equals(Cards.church)) {
+                if(card.equals(Cards.gear) || card.equals(Cards.research)
+                		|| card.equals(Cards.church)) {
                 	for (Card c : setAsideCards)
                 		player.hand.add(c);
                 }
-                if (card.behaveAsCard().equals(Cards.archive)) {
+                if (card.equals(Cards.archive)) {
                 	CardImplEmpires.archiveSelect(this, context, player, setAsideCards);
                 }
-                if (card.behaveAsCard().equals(Cards.cobbler)) {
+                if (card.equals(Cards.cobbler)) {
                 	Card cardToGain = player.controlPlayer.cobbler_cardToObtain(context);
                     if (cardToGain != null) {
                         if (cardToGain.getCost(context) <= 4 && cardToGain.getDebtCost(context) == 0 && !cardToGain.costPotion()) {
-                        	player.gainNewCard(cardToGain, card.getControlCard(), context);
+                        	player.gainNewCard(cardToGain, card, context);
                         } else {
                         	Util.playerError(player, "Cobbler error, invalid card to gain, ignoring");
                         }
                     }
                 }
-                if (card.behaveAsCard().equals(Cards.crypt)) {
+                if (card.equals(Cards.crypt)) {
                 	CardImplNocturne.cryptSelect(this, context, player, setAsideCards);
                 }
-                if (card.behaveAsCard().equals(Cards.secretCave)) {
+                if (card.equals(Cards.secretCave)) {
                 	context.addCoins(3, card);
                 }
-                if (card.behaveAsCard().equals(Cards.barge)) {
+                if (card.equals(Cards.barge)) {
                 	for (int i = 0; i < 3; ++i) {
                     	context.game.drawToHand(context, card, 3 - i);
                     }
         			context.buys += 1;
                 }
-                if (card.behaveAsCard().equals(Cards.villageGreen)) {
+                if (card.equals(Cards.villageGreen)) {
                     context.game.drawToHand(context, card, 1);
                     context.addActions(2);
                 }
                 
-                Card thisCard = card.behaveAsCard();
+                Card thisCard = card;
                 
                 GameEvent event = new GameEvent(GameEvent.EventType.PlayingDurationAction, context);
                 event.card = card;
@@ -1621,28 +1598,21 @@ public class Game {
                 }
                 
                 if (thisCard.getKind() == Cards.Kind.Amulet) {
-                	context.freeActionInEffect++;
                 	((CardImplAdventures) thisCard).amuletEffect(context.game, context, player);
-                	context.freeActionInEffect--;
                 }
                 if (thisCard.getKind() == Cards.Kind.Dungeon) {
-                	context.freeActionInEffect++;
                 	((CardImpl) thisCard).discardMultiple(context, player, 2);
-                	context.freeActionInEffect--;
                 }    
                 if (thisCard.getKind() == Cards.Kind.Ghost) {
                 	player.ghost.remove(card2);
-                    
-                    context.freeActionInEffect++;
                     card2.play(this, context, false);
-                    card2.play(this, context, false, false, false, false, true);
-                    context.freeActionInEffect--;
+                    card2.play(this, context, false, true, true);
                 }
                 if (thisCard.getKind() == Cards.Kind.Captain) {
                 	((CardImplPromo) thisCard).captainEffect(context.game, context, player);
                 }
                 
-                if (card.behaveAsCard().equals(Cards.church)) {
+                if (card.equals(Cards.church)) {
                 	CardList hand = player.getHand();
                     if (hand.size() == 0) {
                         return;
@@ -1653,11 +1623,11 @@ public class Game {
 	                    if (!player.hand.contains(cardToTrash)) {
 	                        Util.playerError(player, "Church card to trash error, trashing none.");
 	                    } else {
-	                    	player.trashFromHand(cardToTrash, card.behaveAsCard(), context);
+	                    	player.trashFromHand(cardToTrash, card, context);
 	                    }
                     }
                 }
-                if (card.behaveAsCard().equals(Cards.mastermind)) {
+                if (card.equals(Cards.mastermind)) {
                 	ArrayList<Card> actionCards = new ArrayList<Card>();
                     for (Card c : player.hand) {
                         if (c.is(Type.Action, player)) {
@@ -1670,19 +1640,16 @@ public class Game {
                     if (!actionCards.contains(cardToPlay)) {
                     	Util.playerError(player, "Mastermind card to play error, playing none.");
                     }
-                    context.freeActionInEffect++;
                     for (int i = 0; i < 3; ++i) {
-                        cardToPlay.play(this, context, true, false, false, false, i > 0);
+                        cardToPlay.play(this, context, i == 0, i > 0, i > 0);
                     }
-                    context.freeActionInEffect--;
-                    
                     if (cardToPlay.is(Type.Duration, player)) {
-                    	((CardImpl)card.getControlCard()).multiplyCard(cardToPlay);
+                    	((CardImpl)card).multiplyCard(cardToPlay);
                     }
                 }
-            } else if(card.behaveAsCard().isCallableWhenTurnStarts()) {
+            } else if(card.isCallableWhenTurnStarts()) {
             	numOptionalItems -= 2;
-            	card.behaveAsCard().callAtStartOfTurn(context);
+            	card.callAtStartOfTurn(context);
             } else {
                 Util.log("ERROR: nextTurnCards contains " + card);
             }
@@ -1706,7 +1673,7 @@ public class Game {
         callableCards = new ArrayList<Card>();
         Card toCall = null;
         for (Card c : player.tavern) {
-        	if (c.behaveAsCard().isCallableWhenTurnStarts()) {
+        	if (c.isCallableWhenTurnStarts()) {
         		callableCards.add(c);
         	}
         }
@@ -1720,7 +1687,7 @@ public class Game {
 	        	toCall = player.controlPlayer.call_whenTurnStartCardToCall(context, cardsAsArray);
 	        	if (toCall != null && callableCards.contains(toCall)) {
 	        		toCall = callableCards.remove(callableCards.indexOf(toCall));
-	        		toCall.behaveAsCard().callAtStartOfTurn(context);
+	        		toCall.callAtStartOfTurn(context);
 	        	}
 		        // loop while we still have cards to call
 	        } while (toCall != null && !callableCards.isEmpty());
@@ -2360,7 +2327,7 @@ public class Game {
         }
         
         // pay cost
-        if (buy.getControlCard().equals(Cards.animalFair) &&
+        if (buy.equals(Cards.animalFair) &&
         		canPayAnimalFairByTrashing(context) &&
         		(context.getCoins() < Cards.animalFair.getCost(context) ||
         		!player.controlPlayer.animalFair_shouldPayCost(context))) {
@@ -2392,14 +2359,10 @@ public class Game {
         }
                 
         // On-buy effects
-        
+
         // Start inheriting newly gained estate
         Card abilityCard = buy;
-        if (buy.equals(Cards.estate) && player.getInheritance() != null) {
-        	abilityCard = player.getInheritance().getTemplateCard().instantiate();
-            ((CardImpl)buy).startInheritingCardAbilities((CardImpl)abilityCard);
-        }
-        
+
         // Achievement check...
         if(!player.achievementSingleCardFailed) {
             if (Cards.isKingdomCard(buy)) {
@@ -2533,11 +2496,6 @@ public class Game {
         if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
             player.addVictoryTokens(context, context.countGoonsInPlay(), Cards.goons);
         }
-        
-        if (!(buy.is(Type.Event) || buy.is(Type.Project)) && context.countMerchantGuildsInPlayThisTurn() > 0)
-        {
-            player.gainGuildsCoinTokens(context.countMerchantGuildsInPlayThisTurn(), context, Cards.merchantGuild);
-        }
 
         if (buy.is(Type.Victory, context.player)) {
             context.victoryCardsBoughtThisTurn++;
@@ -2558,14 +2516,9 @@ public class Game {
         // start gain - would gain from Trader first and lift card from pile
         Card card = buy;
         if(!(buy.is(Type.Event) || buy.is(Type.Project))) {
-            card = takeFromPileCheckTrader(buy, context);
+            card = takeFromPileCheckGetTop(buy, context);
         }
-        
-        // stop inheriting newly gained estate if Trader revealed
-        if (buy.equals(Cards.estate) && player.getInheritance() != null && card.equals(Cards.silver)) {
-            ((CardImpl)buy).stopInheritingCardAbilities();
-        }
-        
+
         // Gain card after buying - event handler will deposit in appropriate location
         if (buy != null && !(buy.is(Type.Event) || buy.is(Type.Project))) {
         	GameEvent gainEvent = new GameEvent(GameEvent.EventType.CardObtained, (MoveContext) context);
@@ -2896,12 +2849,12 @@ public class Game {
     	} else {
     		boonDiscardPile.add(boon);
     	}
-    	boon.play(this, context, false, true, true, true, false);
+    	boon.followInstructions(this, context, responsible, context.game.getCurrentPlayer(), false);
     	return boon;
     }
     
     public void recieveBoonAndDiscard(MoveContext context, Card boon, Card responsible) {
-    	boon.play(this, context, false, true, true, true, false);
+        boon.followInstructions(this, context, responsible, context.game.getCurrentPlayer(), false);
     	if (isKeepUntilCleanupBoon(boon)) {
     		if (!context.getPlayer().boonsForCleanup.contains(boon))
     			context.getPlayer().boonsForCleanup.add(boon);
@@ -2911,14 +2864,14 @@ public class Game {
     }
     
     public void recieveBoon(MoveContext context, Card boon, Card responsible) {
-    	boon.play(this, context, false, true, true, true, false);
+        boon.followInstructions(this, context, responsible, context.game.getCurrentPlayer(), false);
     }
     
     public Card receiveNextHex(MoveContext context, Card responsible) {
     	shuffleHexesIfNeeded();
     	Card hex = hexDrawPile.remove(0);
     	hexDiscardPile.add(hex);
-    	hex.play(this, context, false, true, true, true, false);
+        hex.followInstructions(this, context, responsible, context.game.getCurrentPlayer(), false);
     	return hex;
     }
     
@@ -2930,7 +2883,7 @@ public class Game {
     		player.attacked(hex, context);
             MoveContext playerContext = new MoveContext(this, player);
             playerContext.attackedPlayer = player;
-    		hex.play(this, playerContext, false, true, true, true, false);
+            hex.followInstructions(this, playerContext, responsible, playerContext.getPlayer(), false);
     	}
     	return hex;
     }
@@ -4151,9 +4104,6 @@ public class Game {
                         commandedDiscard = false;
                     } else if(event.responsible != null) {
                         Card r = event.responsible;
-                        if (r.equals(Cards.estate) && player.getInheritance() != null) {
-                        	r = player.getInheritance();
-                        }
                         if(r.equals(Cards.borderVillage) ||
                            r.equals(Cards.feast) ||
                            r.equals(Cards.remodel) ||
@@ -4183,18 +4133,20 @@ public class Game {
                     //Not sure if this is exactly right for the Trader, but it seems to be based on detailed card explanation in the rules
                     //The handling for new cards is done before taking the card from the pile in a different method below.
                     if(!event.newCard) {
-                    	boolean hasInheritedTrader = Cards.trader.equals(context.getPlayer().getInheritance()) && context.getPlayer().hand.contains(Cards.estate);
                         boolean hasTrader = context.getPlayer().hand.contains(Cards.trader);
-                        Card traderCard = hasTrader ? Cards.trader : Cards.estate;
-                        if(hasTrader || hasInheritedTrader) {
+                        if(hasTrader) {
                             if(player.controlPlayer.trader_shouldGainSilverInstead((MoveContext) context, event.card)) {
-                                player.reveal(traderCard, null, context);
+                                player.reveal(Cards.trader, null, context);
                                 player.trash(event.card, Cards.trader, (MoveContext) context);
                                 event.card = Cards.silver;
                                 player.gainNewCard(Cards.silver, Cards.trader, context);
                                 return;
                             }
                         }
+                    }
+
+                    if (event.getPlayer() == players[playersTurn] && context.phase == TurnPhase.Buy) {
+                        context.totalCardsGainedInMostRecentBuyPhase++;
                     }
 
                     if (event.getPlayer() == players[playersTurn]) {
@@ -4227,7 +4179,22 @@ public class Game {
                             handled = true;
                     	}
                     }
-                    
+
+                    if (!handled && context.getPlayer().hand.contains(Cards.trader) && !event.card.equals(Cards.silver)) {
+                        CardPile pile = getPile(event.card);
+                        if (pile.isRealPile() && context.player.controlPlayer.trader_shouldGainSilverInstead(context, event.card)) {
+                            context.player.reveal(Cards.trader, Cards.trader, context);
+                            pile.addCard(event.card);
+                            player.discard.add(takeFromPile(Cards.silver));
+                            GameEvent exchangedEvent = new GameEvent(GameEvent.EventType.TravellerExchanged, context);
+                            exchangedEvent.card = Cards.silver;
+                            exchangedEvent.responsible = event.card;
+                            exchangedEvent.setPlayer(player);
+                            context.game.broadcastEvent(exchangedEvent);
+                            handled = true;
+                        }
+                    }
+
                     if (!handled && context.cargoShipsEffectsPending.size() > 0) {
                     	if (player.controlPlayer.cargoShip_shouldSetAside(context, event.card)) {
                     		player.cargoShip.add(event.card);
@@ -4267,9 +4234,7 @@ public class Game {
                     	//TODO: set aside and play
                     	// Don't have to technically set aside here since we don't handle when-gain lose-track correctly, anyway
                     	if (player.controlPlayer.innovation_shouldSetAsideToPlay(context, event.card)) {
-                    		context.freeActionInEffect++;
-            		        event.card.play(context.game, context, false, false, false, false, false);
-            		        context.freeActionInEffect--;
+                    	    event.card.play(context.game, context, false, false, false);
                     		handled = true;
                     	}
                     }
@@ -4288,17 +4253,15 @@ public class Game {
                     		context.player.gainNewCard(Cards.horse, Cards.livery, context);
                     	}
                     }
-                    
-                    boolean hasInheritedWatchtower = Cards.watchTower.equals(player.getInheritance()) && player.hand.contains(Cards.estate);
+
                     boolean hasWatchtower = player.hand.contains(Cards.watchTower);
-                    Card watchTowerCard = hasWatchtower ? Cards.watchTower : Cards.estate;
-                    if (!handled && hasWatchtower || hasInheritedWatchtower) {
+                    if (!handled && hasWatchtower) {
                         WatchTowerOption choice = context.player.controlPlayer.watchTower_chooseOption((MoveContext) context, event.card);
 
                         if (choice == WatchTowerOption.TopOfDeck) {
                             handled = true;
                             GameEvent watchTowerEvent = new GameEvent(GameEvent.EventType.CardRevealed, context);
-                            watchTowerEvent.card = watchTowerCard;
+                            watchTowerEvent.card = Cards.watchTower;
                             watchTowerEvent.responsible = null;
                             context.game.broadcastEvent(watchTowerEvent);
 
@@ -4306,7 +4269,7 @@ public class Game {
                         } else if (choice == WatchTowerOption.Trash) {
                             handled = true;
                             GameEvent watchTowerEvent = new GameEvent(GameEvent.EventType.CardRevealed, context);
-                            watchTowerEvent.card = watchTowerCard;
+                            watchTowerEvent.card = Cards.watchTower;
                             watchTowerEvent.responsible = null;
                             context.game.broadcastEvent(watchTowerEvent);
 
@@ -4324,9 +4287,6 @@ public class Game {
                     }
                     
                     Card gainedCardAbility = event.card;
-                    if (gainedCardAbility.equals(Cards.estate) && player.getInheritance() != null) {
-                    	gainedCardAbility = player.getInheritance();
-                    }
 
                     if(!handled) {
                     	//handle gaining to particular locations
@@ -4362,12 +4322,6 @@ public class Game {
                         } else if (event.responsible != null) {
                         	// handle custom gain locations based on what ability is gaining
                             Card r = event.responsible;
-                            if (r.equals(Cards.estate) && player.getInheritance() != null) {
-                            	r = player.getInheritance();
-                            }
-
-                            r = r.behaveAsCard(); //Get impersonated card
-                            
                             if (r.equals(Cards.armory)
                                 || r.equals(Cards.artificer)
                                 || r.equals(Cards.bagOfGold)
@@ -4420,8 +4374,8 @@ public class Game {
                     //   we don't need to.
                     ArrayList<Card> callableCards = new ArrayList<Card>();
                     for (Card c : player.tavern) {
-                    	if (c.behaveAsCard().isCallableWhenCardGained()) {
-                    		int callCost = c.behaveAsCard().getCallableWhenGainedMaxCost();
+                    	if (c.isCallableWhenCardGained()) {
+                    		int callCost = c.getCallableWhenGainedMaxCost();
                     		if (callCost == -1 || (event.card.getCost(context) <= callCost && event.card.getDebtCost(context) == 0 && !event.card.costPotion())) {
                     			callableCards.add(c);
                     		}
@@ -4434,7 +4388,7 @@ public class Game {
                     	Card[] cardsAsArray = callableCards.toArray(new Card[callableCards.size() + 1]);
                     	Card toCall = player.controlPlayer.call_whenGainCardToCall(context, event.card, cardsAsArray);
                     	if (toCall != null || callableCards.contains(toCall)) {
-                    		toCall.behaveAsCard().callWhenCardGained(context, event.card);
+                    		toCall.callWhenCardGained(context, event.card);
                     	}
                     }
                     
@@ -4482,9 +4436,7 @@ public class Game {
                             	context.game.drawToHand(otherPlayerContext, Cards.roadNetwork, 1);
                             }
                             while(otherPlayer.getCardInHand(Cards.blackCat) != null && otherPlayer.controlPlayer.blackCat_shouldPlay(otherPlayerContext)) {
-                            	otherPlayerContext.freeActionInEffect++;
                             	otherPlayer.getCardInHand(Cards.blackCat).play(context.game, otherPlayerContext, true);
-                            	otherPlayerContext.freeActionInEffect--;
                             }
                     	}
                     }
@@ -4754,7 +4706,7 @@ public class Game {
                     } else if(gainedCardAbility.equals(Cards.skulk)) {
                     	player.gainNewCard(Cards.gold, event.card, context);
                     } else if (gainedCardAbility.equals(Cards.experiment)) {
-                    	if (!(event.responsible != null && (event.responsible.equals(Cards.experiment) || event.responsible.equals(Cards.estate))))
+                    	if (!(event.responsible != null && (event.responsible.equals(Cards.experiment))))
                     		player.gainNewCard(Cards.experiment, event.card, context);
                     } else if (gainedCardAbility.equals(Cards.ducat) && player.hand.contains(Cards.copper)) {
                     	boolean trashCopper = context.player.controlPlayer.ducat_shouldTrashCopper(context);
@@ -4841,17 +4793,13 @@ public class Game {
                     
                     //TODO: order of these abilities should be able to be interleaved with other when-gains, technically
                     while(player.getCardInHand(Cards.sheepdog) != null && player.controlPlayer.sheepdog_shouldPlay(context)) {
-                    	context.freeActionInEffect++;
                     	player.getCardInHand(Cards.sheepdog).play(context.game, context, true);
-                    	context.freeActionInEffect--;
                     }
                     if (event.card.getNumberOfTypes(player) >= 2) {
 	                    for (Player otherPlayer : context.game.getPlayersInTurnOrder()) {
 	                        MoveContext otherPlayerContext = (player == otherPlayer) ? context : new MoveContext(context.game, otherPlayer);
 	                        while(otherPlayer.getCardInHand(Cards.falconer) != null && otherPlayer.controlPlayer.falconer_shouldPlay(otherPlayerContext)) {
-	                        	otherPlayerContext.freeActionInEffect++;
 	                        	otherPlayer.getCardInHand(Cards.falconer).play(context.game, otherPlayerContext, true);
-	                        	otherPlayerContext.freeActionInEffect--;
 	                        }
 	                	}
 	                }
@@ -4870,12 +4818,6 @@ public class Game {
                     msg.append(event.getPlayer().getPlayerName() + ":" + event.getType());
                     if (event.card != null) {
                         msg.append(":" + event.card.getName());
-                        if (event.card.getControlCard() != event.card) {
-                            msg.append(" <" + event.card.getControlCard().getName() + ">");
-                        }
-                        if (event.card.isImpersonatingAnotherCard()) {
-                            msg.append(" (as " + event.card.behaveAsCard().getName() + ")");
-                        }
                     }
                     if (event.getType() == GameEvent.EventType.TurnBegin && event.getPlayer().isPossessed()) {
                         msg.append(" possessed by " + event.getPlayer().controlPlayer.getPlayerName() + "!");
@@ -4906,7 +4848,7 @@ public class Game {
 
     boolean hasLighthouse(Player player) {
     	for (Card card : player.playedCards) {
-            if (card.behaveAsCard().equals(Cards.lighthouse))
+            if (card.equals(Cards.lighthouse))
                 return true;
         }
         return false;
@@ -5095,7 +5037,7 @@ public class Game {
         return pile.removeCard();
     }
 
-    protected Card takeFromPileCheckTrader(Card cardToGain, MoveContext context) {
+    protected Card takeFromPileCheckGetTop(Card cardToGain, MoveContext context) {
 
         //If the pile was specified instead of a card, take the top card from that pile.
         if (cardToGain.isPlaceholderCard() || cardToGain.isTemplateCard()) {
@@ -5105,16 +5047,6 @@ public class Game {
         //If the desired card is not on top of the pile, don't take a card
         } else if (!isCardOnTop(cardToGain)) {
             return null;
-        }
-
-    	boolean hasInheritedTrader = Cards.trader.equals(context.getPlayer().getInheritance()) && context.getPlayer().hand.contains(Cards.estate);
-        boolean hasTrader = context.getPlayer().hand.contains(Cards.trader);
-        Card traderCard = hasTrader ? Cards.trader : Cards.estate;
-        if(!isPileEmpty(cardToGain) && (hasTrader || hasInheritedTrader) && !cardToGain.equals(Cards.silver)) {
-            if (context.player.controlPlayer.trader_shouldGainSilverInstead((MoveContext) context, cardToGain)) {
-                cardToGain = Cards.silver;
-                context.player.reveal(traderCard, null, context);
-            }
         }
 
         return takeFromPile(cardToGain, context);

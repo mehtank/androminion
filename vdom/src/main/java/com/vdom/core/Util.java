@@ -286,10 +286,6 @@ public class Util {
             game.broadcastEvent(event);
 
             reactionCardAbility = reactionCard;
-            if (reactionCard.equals(Cards.estate)) {
-            	reactionCardAbility = player.getInheritance();
-            }
-            
         	if (reactionCardAbility.equals(Cards.secretChamber))
                 doSecretChamber(context, game, player, responsible, reactionCard);
         	else if (reactionCardAbility.equals(Cards.horseTraders))
@@ -460,7 +456,7 @@ public class Util {
                 }
 
                 for (int i = cards.length - 1; i >= 0; i--) {
-                    player.discard(cards[i], reactionCard.getControlCard(), context);
+                    player.discard(cards[i], reactionCard, context);
                     player.hand.remove(cards[i]);
                 }
             }

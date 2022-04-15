@@ -380,7 +380,7 @@
 	<string name="jester_option_two">Darle una copia a %1$s</string>
 
 	<string name="trader_gain">Ganar %1$s</string>
-	<string name="trader_gain_instead_of">Ganar %1$s, en lugar de %2$s</string>
+	<string name="trader_gain_instead_of">Ganar %2$s, intercambiar por %2$s</string>
 
 	<string name="fools_gold_option_one">Eliminar para Oro</string>
 

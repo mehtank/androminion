@@ -33,12 +33,11 @@ public class MoveContext {
     public int overpayAmount  = 0;  // The number of extra coins paid for a card
     public int overpayPotions = 0;  // The number of potions paid for an overpay card
 
-    public int golemInEffect = 0;
-    public int freeActionInEffect = 0;
     public int cardCostModifier = 0;
     public int victoryCardsBoughtThisTurn = 0;
     public int totalCardsBoughtThisTurn = 0;
     public int totalCardsBoughtInMostRecentBuyPhase = 0;
+    public int totalCardsGainedInMostRecentBuyPhase = 0;
     public int totalEventsBoughtThisTurn = 0;
     public int totalProjectsBoughtThisTurn = 0;
     public int totalExpeditionBoughtThisTurn = 0;
@@ -70,6 +69,7 @@ public class MoveContext {
     public boolean kilnEffect = false;
     public boolean seizeTheDayBought = false;
     public boolean wayOfTheSealPlayed = false;
+    public int merchantGuildEffects = 0;
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;
@@ -146,7 +146,7 @@ public class MoveContext {
     public int countCardsInPlay(Card card) {
         int cardsInPlay = 0;
         for(Card c : getPlayedCards()) {
-            if(card == null || c.behaveAsCard().equals(card)) {
+            if(card == null || c.equals(card)) {
                 cardsInPlay++;
             }
         }
@@ -156,7 +156,7 @@ public class MoveContext {
     public int countCardsInPlayByName(Card card) {
         int cardsInPlay = 0;
         for(Card c : getPlayedCards()) {
-            if(!c.equals(Cards.estate) && c.behaveAsCard().equals(card)) {
+            if(c.equals(card)) {
                 cardsInPlay++;
             }
         }
@@ -207,11 +207,7 @@ public class MoveContext {
         HashSet<String> distinctCardsInPlay = new HashSet<String>();
 
         for (Card cardInPlay : player.playedCards) {
-        	if (cardInPlay.getControlCard().equals(Cards.estate)) {
-        		distinctCardsInPlay.add(cardInPlay.getName());
-        	} else {
-        		distinctCardsInPlay.add(cardInPlay.behaveAsCard().getName());
-        	}
+       		distinctCardsInPlay.add(cardInPlay.getName());
         }
         return distinctCardsInPlay.size();
     }
@@ -238,10 +234,6 @@ public class MoveContext {
 
     public boolean buyWouldEndGame(Card card) {
         return game.buyWouldEndGame(card);
-    }
-
-    public int countThroneRoomsInEffect() {
-        return freeActionInEffect;
     }
 
     public int getPileSize(Card card) {
@@ -505,9 +497,5 @@ public class MoveContext {
         }
 
         return cards.toArray(new Card[0]);
-    }
-
-    public int countMerchantGuildsInPlayThisTurn() {
-    	return countCardsInPlay(Cards.merchantGuild);
     }
 }

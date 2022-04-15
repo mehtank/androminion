@@ -15,8 +15,9 @@ public class CardImplRenaissance extends CardImpl {
 	}
 
 	protected CardImplRenaissance() { }
-	
-	protected void additionalCardActions(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
+
+	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
+		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
 		switch(getKind()) {
 		case ActingTroupe:
 			actingTroupe(game, context, currentPlayer);
@@ -107,10 +108,7 @@ public class CardImplRenaissance extends CardImpl {
 	public void isTrashed(MoveContext context) {
 		Cards.Kind trashKind = this.getKind();
 		Player player = context.player;
-    	if (this.getControlCard().equals(Cards.estate) && context.player.getInheritance() != null) {
-    		trashKind = context.player.getInheritance().getKind();
-    	}
-    	
+
     	switch (trashKind) {
     	case SilkMerchant:
     		player.gainGuildsCoinTokens(1, context, Cards.silkMerchant);
@@ -122,21 +120,17 @@ public class CardImplRenaissance extends CardImpl {
         default:
         	break;
     	}
-    	
-    	// card left play - stop any impersonations
-	    this.getControlCard().stopImpersonatingCard();
-	    this.getControlCard().stopInheritingCardAbilities();
 	}
 		
 	private void actingTroupe(Game game, MoveContext context, Player player) {
-		player.trashSelfFromPlay(getControlCard(), context);
+		player.trashSelfFromPlay(this, context);
 	}
 	
 	private void borderGuard(Game game, MoveContext context, Player player) {
 		int cardsToReveal = game.hasState(player, Cards.lantern) ? 3 : 2;
 		ArrayList<Card> toReveal = new ArrayList<Card>(cardsToReveal);
 		for (int i = 0; i < cardsToReveal; ++i) {
-			Card c = game.draw(context, this.getControlCard(), cardsToReveal - i);
+			Card c = game.draw(context, this, cardsToReveal - i);
 			if (c == null)
 				break;
 			toReveal.add(c);
@@ -146,7 +140,7 @@ public class CardImplRenaissance extends CardImpl {
 			return;
 		boolean allActions = true;
 		for (Card c : toReveal) {
-			player.reveal(c, this.getControlCard(), context);
+			player.reveal(c, this, context);
 			if (!c.is(Type.Action, player))
 				allActions = false;
 		}
@@ -159,7 +153,7 @@ public class CardImplRenaissance extends CardImpl {
 		toReveal.remove(cardToKeep);
 		player.getHand().add(cardToKeep);
 		for (Card c : toReveal) {
-            player.discard(c, this.getControlCard(), context);
+            player.discard(c, this, context);
         }
 		
 		if (numRevealed == cardsToReveal && allActions) {
@@ -187,13 +181,13 @@ public class CardImplRenaissance extends CardImpl {
         		Util.playerError(player, "Cathedral error, invalid card to trash, trashing random card.");
         		cardToTrash = Util.randomCard(player.getHand());
         	} else {
-        		player.trashFromHand(cardToTrash, this.getControlCard(), context);
+        		player.trashFromHand(cardToTrash, this, context);
         	}
         }
 	}
 	
 	private void cityGate(Game game, MoveContext context, Player player) {
-		game.drawToHand(context, this.getControlCard(), 1);
+		game.drawToHand(context, this, 1);
 		if (player.getHand().size() == 0) 
 			return;
 		Card card = player.getHand().size() == 1 ? player.getHand().get(0) : player.controlPlayer.cityGate_cardToPutBackOnDeck(context);
@@ -231,7 +225,7 @@ public class CardImplRenaissance extends CardImpl {
             for (int i = 0; i < player.hand.size(); i++) {
                 Card playersCard = player.hand.get(i);
                 if (playersCard.equals(card)) {                	
-                	player.discard(player.hand.remove(i), this.getControlCard(), context);
+                	player.discard(player.hand.remove(i), this, context);
                     numberOfCards++;
                     break;
                 }
@@ -249,14 +243,11 @@ public class CardImplRenaissance extends CardImpl {
 	}
 		
 	private void experiment(Game game, MoveContext context, Player currentPlayer) {
-		Card card = this.getControlCard();
+		Card card = this;
     	int idx = currentPlayer.playedCards.indexOf(card.getId());
     	if (idx == -1) return;
     	card = currentPlayer.playedCards.remove(idx); 
     	CardPile pile = game.getGamePile(card);
-        if (card.equals(Cards.estate) && currentPlayer.getInheritance() != null) {
-            ((CardImpl)card).stopInheritingCardAbilities();
-        }
         pile.addCard(card);	
 	}
 	
@@ -270,10 +261,10 @@ public class CardImplRenaissance extends CardImpl {
         		cardToTrash = player.getHand().get(0);
         	} 
         	cardToTrash = player.hand.get(cardToTrash);
-    		player.trashFromHand(cardToTrash, this.getControlCard(), context);
+    		player.trashFromHand(cardToTrash, this, context);
     		
     		if (cardToTrash.is(Type.Victory)) {
-    			context.getPlayer().gainNewCard(Cards.curse, this.getControlCard(), context);
+    			context.getPlayer().gainNewCard(Cards.curse, this, context);
     		}
         }
 	}
@@ -286,7 +277,7 @@ public class CardImplRenaissance extends CardImpl {
 		Card card = player.controlPlayer.inventor_cardToObtain(context);
         if (card != null) {
             if (card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
-            	player.gainNewCard(card, this.getControlCard(), context);
+            	player.gainNewCard(card, this, context);
             } else {
             	Util.playerError(player, "Inventor error, invalid card to gain, ignoring");
             }
@@ -331,13 +322,13 @@ public class CardImplRenaissance extends CardImpl {
     	}
 		
     	for (Player player : attackedPlayers) {
-			player.attacked(this.getControlCard(), context);
+			player.attacked(this, context);
             MoveContext playerContext = new MoveContext(game, player);
             playerContext.attackedPlayer = player;
-            player.gainNewCard(Cards.curse, this.getControlCard(), playerContext);
+            player.gainNewCard(Cards.curse, this, playerContext);
             if (player.getHand().contains(Cards.curse)) {
             	if (player.controlPlayer.oldWitch_shouldTrashCurse(playerContext)) {
-            		player.trashFromHand(Cards.curse, this.getControlCard(), playerContext);
+            		player.trashFromHand(Cards.curse, this, playerContext);
             	}
             }
         }
@@ -346,11 +337,9 @@ public class CardImplRenaissance extends CardImpl {
 	private void piazza(Game game, MoveContext context, Player player) {
 		Card c = game.draw(context, Cards.piazza, 1);
         if (c != null) {
-        	player.reveal(c, this.getControlCard(), context);
+        	player.reveal(c, this, context);
             if (c.is(Type.Action, player)) {
-            	context.freeActionInEffect++;
                 c.play(game, context, false);
-                context.freeActionInEffect--;
             } else {
             	player.putOnTopOfDeck(c, context, true);
             }
@@ -365,7 +354,7 @@ public class CardImplRenaissance extends CardImpl {
 	            Util.playerError(player, "Priest card to trash invalid, picking one");
 	            trashCard = hand.get(0);
 	        }
-	        player.trashFromHand(trashCard, this.getControlCard(), context);
+	        player.trashFromHand(trashCard, this, context);
 		}
 		context.coinsWhenTrash += 2;
 	}
@@ -382,7 +371,7 @@ public class CardImplRenaissance extends CardImpl {
             card = player.hand.get(0);
         }
 
-        player.trashFromHand(card, this.getControlCard(), context);
+        player.trashFromHand(card, this, context);
         int cost = card.getCost(context);
         player.takeVillagers(cost, context, Cards.recruiter);
 	}
@@ -397,13 +386,13 @@ public class CardImplRenaissance extends CardImpl {
 			toTrash = hand.get(0);
 		}
 		toTrash = hand.get(toTrash);
-		player.trashFromHand(toTrash, this.getControlCard(), context);
+		player.trashFromHand(toTrash, this, context);
 		int trashCost = toTrash.getCost(context);
 		if (trashCost == 0)
 			return;
 		ArrayList<Card> researchCards = new ArrayList<Card>();
 		for (int i = 0; i < trashCost; ++i) {
-			Card c = game.draw(context, this.getControlCard(), 1);
+			Card c = game.draw(context, this, 1);
 			if (c == null)
 				continue;
 			researchCards.add(c);
@@ -421,7 +410,7 @@ public class CardImplRenaissance extends CardImpl {
 	
 	private void scepter(Game game, MoveContext context, Player player) {
 		if (player.controlPlayer.scepter_shouldChooseCoinsOverReplay(context)) {
-			context.addCoins(2, this.getControlCard());
+			context.addCoins(2, this);
 		} else {
 			//replay an action card played this turn still in play
 			if (context.actionsPlayedThisTurnStillInPlay.size() == 0) return;
@@ -430,12 +419,9 @@ public class CardImplRenaissance extends CardImpl {
 				Util.playerError(player, "Scepter error: Picking first card to replay");
 				cardToPlay = context.actionsPlayedThisTurnStillInPlay.get(0);
 			}
-			context.freeActionInEffect++;
-	        cardToPlay.play(game, context, false, false, false, false, true);
-	        context.freeActionInEffect--;
-	        
+			cardToPlay.play(game, context, false, true, true);
 	    	if (cardToPlay.is(Type.Duration, player)) {
-	    		((CardImpl)this).multiplyCard(cardToPlay.getControlCard());
+	    		((CardImpl)this).multiplyCard(cardToPlay);
 			}
 		}
 	}
@@ -443,11 +429,11 @@ public class CardImplRenaissance extends CardImpl {
 	private void scholar(Game game, MoveContext context, Player player) {
 		if (player.getHand().size() > 0) {
             while (!player.getHand().isEmpty()) {
-                player.discard(player.getHand().remove(0), this.getControlCard(), context);
+                player.discard(player.getHand().remove(0), this, context);
             }
         }
 		for (int i = 0; i < 7; ++i) {
-			game.drawToHand(context, this.getControlCard(), 7 - i);
+			game.drawToHand(context, this, 7 - i);
 		}
 	}
 	
@@ -455,7 +441,7 @@ public class CardImplRenaissance extends CardImpl {
 		Card cardToGain = player.controlPlayer.sculptor_cardToObtain(context);
         if (cardToGain != null) {
             if (cardToGain.getCost(context) <= 4 && cardToGain.getDebtCost(context) == 0 && !cardToGain.costPotion()) {
-            	Card cardGained = player.gainNewCard(cardToGain, getControlCard(), context);
+            	Card cardGained = player.gainNewCard(cardToGain, this, context);
             	if (cardGained != null && cardGained.is(Type.Treasure, player, context)) {
             		player.takeVillagers(1, context, Cards.sculptor);
             	}
@@ -482,7 +468,7 @@ public class CardImplRenaissance extends CardImpl {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (Card c : cards) {
         	topOfTheDeck.add(c);
-        	player.reveal(c, this.getControlCard(), context);
+        	player.reveal(c, this, context);
         }
         
         for (Card c : cards) {
@@ -548,7 +534,7 @@ public class CardImplRenaissance extends CardImpl {
     		Util.playerError(player, "Sewers error, invalid card to trash, ignoring.");
     	} else {
     		cardToTrash = hand.get(cardToTrash);
-    		player.trashFromHand(cardToTrash, getControlCard(), context);
+    		player.trashFromHand(cardToTrash, this, context);
     	}
 	}
 	
@@ -573,15 +559,15 @@ public class CardImplRenaissance extends CardImpl {
 		int numDiscarded = 0;
 		for (Card c : coppers) {
 			if (!player.hand.remove(c)) break;
-			player.reveal(c, this.getControlCard(), context);
-			player.discard(c, this.getControlCard(), context);
+			player.reveal(c, this, context);
+			player.discard(c, this, context);
 			numDiscarded++;
 			if (numDiscarded == numCoppersToDiscard)
 				break;
 		}
                     
         for (int i = 0; i < numDiscarded; ++i) {
-        	game.drawToHand(context, this.getControlCard(), numDiscarded - i);
+        	game.drawToHand(context, this, numDiscarded - i);
         }
 	}
 	
@@ -633,7 +619,7 @@ public class CardImplRenaissance extends CardImpl {
                 return;
             }
 
-            player.trashFromHand(card, this.getControlCard(), context);
+            player.trashFromHand(card, this, context);
 			break;
 		}
 		case GainTreasureFromTrash:
@@ -652,7 +638,7 @@ public class CardImplRenaissance extends CardImpl {
                 return;
             }
             card = game.trashPile.remove(game.trashPile.indexOf(card));
-            player.gainCardAlreadyInPlay(card, this.getControlCard(), context);
+            player.gainCardAlreadyInPlay(card, this, context);
 			break;
 		case TakeKey:
 			game.takeSharedState(context, Cards.key);
@@ -674,7 +660,7 @@ public class CardImplRenaissance extends CardImpl {
     		}
     		MoveContext playerContext = new MoveContext(game, player);
             playerContext.attackedPlayer = player;
-            player.attacked(this.getControlCard(), context);
+            player.attacked(this, context);
             
             ArrayList<Card> discardCards = new ArrayList<Card>();
             for (Card card : player.hand) {
@@ -684,22 +670,22 @@ public class CardImplRenaissance extends CardImpl {
             }
             if (discardCards.size() == 0) {
             	for (Card card : player.hand){
-            		player.reveal(card, getControlCard(), playerContext);
+            		player.reveal(card, this, playerContext);
             	}
             	return;
             }
             if (discardCards.size() == 1) {
             	int idx = player.hand.indexOf(discardCards.get(0));
-        		player.discard(player.hand.remove(idx), this.getControlCard(), context);
+        		player.discard(player.hand.remove(idx), this, context);
             	return;
             }
             Card toDiscard = player.controlPlayer.villain_cardToDiscard(playerContext, discardCards.toArray(new Card[0]));
             if (toDiscard == null || !discardCards.contains(toDiscard)) {
-            	Util.playerError(player, "Villain discard error, invalid card, chosing first");
+            	Util.playerError(player, "Villain discard error, invalid card, choosing first");
             	toDiscard = discardCards.get(0);
             }
             int idx = player.hand.indexOf(toDiscard);
-    		player.discard(player.hand.remove(idx), this.getControlCard(), context);
+    		player.discard(player.hand.remove(idx), this, context);
     	}
 	}
 }
