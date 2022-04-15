@@ -119,7 +119,7 @@ public class CardImplMenagerie extends CardImpl {
 			wayOfTheOwl(game, context, currentPlayer);
 			break;
 		case WayOfTheRat:
-			wayOfTheRat(game, context, currentPlayer);
+			wayOfTheRat(game, context, currentPlayer, responsible);
 			break;
 		case WayOfTheSeal:
 			wayOfTheSeal(game, context, currentPlayer);
@@ -889,7 +889,7 @@ public class CardImplMenagerie extends CardImpl {
     	}
 	}
 
-	private void wayOfTheRat(Game game, MoveContext context, Player player) {
+	private void wayOfTheRat(Game game, MoveContext context, Player player, Card responsible) {
 		boolean hasTreasure = false;
 		for(Card c : player.hand) {
 			if(c.is(Type.Treasure, player, context)) {
@@ -906,7 +906,7 @@ public class CardImplMenagerie extends CardImpl {
 		player.hand.remove(toDiscard);
 		player.discard(toDiscard, this, context);
 
-		player.gainNewCard(this, this, context);
+		player.gainNewCard(responsible, this, context);
 	}
 	
 	private void wayOfTheSeal(Game game, MoveContext context, Player player) {
