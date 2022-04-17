@@ -350,7 +350,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 		TextView textView = new TextView(getContext());
 		//textView.setPadding(15, 0, 15, 5);
 		textView.setPadding(30, 10, 30, 5);
-		textView.setText(Html.fromHtml(getContext().getString(R.string.rules)));
+		textView.setText(Html.fromHtml(Strings.replaceCoinsString(getContext().getString(R.string.rules))));
 		ll.addView(textView);
 		
 		TextView titlev = new TextView(getContext());

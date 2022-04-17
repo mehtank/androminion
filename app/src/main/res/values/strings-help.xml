@@ -14,7 +14,7 @@
 	<string name="help_turn3">If enabled, the numbers under players\' names show the number of cards in their deck, hand, total cards and Victory points.</string>
 	<string name="help_turn4">&lt;p&gt;Any tokens a player has are shown to the right of their name.&lt;/p&gt;
 		&lt;p&gt;Long-press a player for full details.&lt;/p&gt;</string>
-	<string name="help_turn5">A message with the currently requested input is shown above the players. The current number of actions, buys, and coins are shown at the top of the screen.</string>
+	<string name="help_turn5">A message with the currently requested input is shown above the players. The current number of actions, buys, and $* (coins) are shown at the top of the screen.</string>
 
 	<string name="help_hand1">This first column shows the cards in your hand. Only you can see them. </string>
 	<string name="help_hand2">The second column shows the cards that are in play. This is visible to all. Grayed-out cards here were played for this turn but are not currently in play.</string>

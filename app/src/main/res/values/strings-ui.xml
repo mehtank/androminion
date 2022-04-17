@@ -227,9 +227,9 @@
     <string name="buy_zero">%1$s buys</string>
     <string name="buy_single">%1$s buy</string>
     <string name="buy_multiple">%1$s buys</string>
-    <string name="coin_zero">(%1$s) coins</string>
-    <string name="coin_single">(%1$s) coin</string>
-    <string name="coin_multiple">(%1$s) coins</string>
+    <string name="coin_zero">$%1$s</string>
+    <string name="coin_single">$%1$s</string>
+    <string name="coin_multiple">$%1$s</string>
     <string name="final_view_card_counts">Card counts</string>
     <string name="final_view_text">%1$s: %2$s VPs.\n%3$s turns, %4$s cards.</string>
     <string name="final_game_time">Game time: %1$s</string>
@@ -255,7 +255,7 @@
 	<string name="token_plus_one_card">+1 Card</string>
 	<string name="token_plus_one_action">+1 Action</string>
 	<string name="token_plus_one_buy">+1 Buy</string>
-	<string name="token_plus_one_coin">+1 Coin</string>
+	<string name="token_plus_one_coin">+$1</string>
 	<string name="token_minus_2_cost">-2 cost</string>
 	<string name="token_trashing">Trashing</string>
 	<string name="token_projectCube">Project cube</string>
@@ -275,18 +275,18 @@
 	<string name="status_hand_stashes">Stash cards in hand: %1$s</string>
 	<string name="status_total_cards">Total cards: %1$s</string>
 	<string name="status_vp">Victory points: %1$s</string>
-	<string name="status_has_minus_coin_token">Has -1 Coin token</string>
+	<string name="status_has_minus_coin_token">Has -$1 token</string>
 	<string name="status_has_minus_card_token">Has -1 Card token</string>
 	<string name="status_journey_token_up">Journey token is face up</string>
 	<string name="status_journey_token_down">Journey token is face down</string>
 	<string name="status_has_deluded">Has Deluded (At the start of your Buy phase, return this, and you can\'t buy Actions this turn.)</string>
-	<string name="status_has_envious">Has Envious (At the start of your Buy phase, return this, and Silver and Gold make (1) Coin this turn.)</string>
+	<string name="status_has_envious">Has Envious (At the start of your Buy phase, return this, and Silver and Gold make $1 this turn.)</string>
 	<string name="status_has_lostInTheWoods">Has Lost in the Woods (At the start of your turn, you may discard a card to receive a Boon.)</string>
 	<string name="status_has_miserable">Has Miserable (-2 VP)</string>
 	<string name="status_has_twiceMiserable">Has Twice Miserable (-4 VP)</string>
 	<string name="status_has_flag">Has the Flag (When drawing your hand, +1 Card.)</string>
 	<string name="status_has_horn">Has the Horn (Once per turn, when you discard a Border Guard from play, you may put it onto your deck.)</string>
-	<string name="status_has_key">Has the Key (At the start of your turn, +(1) Coin.)</string>
+	<string name="status_has_key">Has the Key (At the start of your turn, +$1.)</string>
 	<string name="status_has_lantern">Has the Lantern (Your Border Guards reveal 3 cards and discard 2.)</string>
 	<string name="status_has_treasureChest">Has the Treasure Chest (At the start of your Buy phase, gain a Gold.)</string>
 	<string name="status_coin_tokens">Coin tokens on Coffers mat: %1$s</string>
@@ -309,9 +309,9 @@
 <p>Gained cards are added to your discard pile. Your discard pile is shuffled into your deck (draw pile) when it\'s empty and you need cards from it. This cycles your new cards into your expanding deck.</p>
 <h3>Gameplay</h3>
 <p>Each player usually starts with 7 Copper and 3 Estate cards shuffled into their deck and draws 5 cards from it to their hand to start. A random player takes the first turn.</p>
-<p>Each turn consist of three phases: Action, Buy, and Clean-up (ABC). A player starts each turn with 0 Coins, 1 +Action, and 1 +Buy.</p>
+<p>Each turn consist of three phases: Action, Buy, and Clean-up (ABC). A player starts each turn with $0 (Coins), 1 +Action, and 1 +Buy.</p>
 <p><b>Action phase:</b> you may play 1 Action card from your hand to follow its instructions. These often form the bulk of the strategy in a given game; see how you can get them to synergize to win. Some cards grant additional +Actions that will allow you play more Action cards. (Instructions below a dividing line happen at a different time; follow them when indicated).</p>
-<p><b>Buy phase:</b> you first play any desired Treasure cards from your hand; these usually give you Coins to spend that turn. Then you may buy a card from the Supply costing up to the Coins you have. If you have additional +Buys and enough Coins you can buy more cards. You can also buy Events or Projects when present.</p>
+<p><b>Buy phase:</b> you first play any desired Treasure cards from your hand; these usually give you $* to spend that turn. Then you may buy a card from the Supply costing up to the $* you have. If you have additional +Buys and enough $* you can buy more cards. You can also buy Events or Projects when present.</p>
 <p><b>Clean-up phase:</b> you discard all remaining cards from your hand and appropriate cards from play, then draw 5 cards from your deck for your next turn.</p>
 <p>The <b>game ends</b> after a turn where either the Province or Colony pile is empty or 3 total Supply piles are (4 in a 5-6 player game). Ties go to the player with fewest turns (extra turns don’t count).</p>
 <h3>Other Card Types</h3>
@@ -330,10 +330,10 @@
 <p><b>Ways</b> provide alternate instructions for when you play Actions cards.</p>
 <h3>Other Terms</h3>
 <p><b>Trashing</b> cards moves them to the shared trash pile; you no longer have them, but they are out of your deck. Often you\'ll want to trash at least some of your starting cards to see your better cards more often.</p>
-<p><b>+X Actions; +X Buys; +X Coins:</b> Get more of that resource.</p>
+<p><b>+X Actions; +X Buys; +$X:</b> Get more of that resource.</p>
 <p><b>+X Cards:</b> Draw X cards from your deck to your hand.</p>
 <p><b>Gain:</b> Move the card to your discard pile. It\'s yours now. Bought cards are gained after buying.</p>
-<p><b>+X Coffers:</b> Get X tokens that can be kept or converted to Coins later during your Buy phase (before buying).</p>
+<p><b>+X Coffers:</b> Get X tokens that can be kept or converted to $* later during your Buy phase (before buying).</p>
 <p><b>+X Villagers:</b> Get X tokens that can be kept or converted later to +Actions during your Action phase.</p>
 <p><b>Exiled</b> cards go on each player\'s Exile mat. You can discard all matching copies on yours when you gain a card.</p>
 <p><b>Exchanging</b> cards gets you a card in place of another one, which is returned to the Supply.</p>
@@ -341,7 +341,7 @@
 <p><b>Boons</b> are random small good effects from a shuffled deck of 12. <b>Hexes</b> are bad effects in the same way.</li></p>
 <h3>Additional Supply Cards</h3>
 <p><b>Colony</b> and <b>Platinum</b> cards are added to the Supply at times generally in proportion to the number of Prosperity Kingdom card piles used. They are more expensive basic Victory and Treasure cards. <i>(From Prosperity)</i></p>
-<p><b>Potion</b> cards are added to the Supply when a card with a potion in its cost is used. They are Treasures that provide potions needed to buy those cards (often in addition to Coins). <i>(From Alchemy)</i></p>
+<p><b>Potion</b> cards are added to the Supply when a card with a potion in its cost is used. They are Treasures that provide potions needed to buy those cards (often in addition to $*). <i>(From Alchemy)</i></p>
 <p><b>Ruins</b> are added to the Supply when a Looter card is in the game. Each is one of 5 generally bad cards, similar to Curses. <i>(From Dark Ages)</i></p>
 <h3>Alternate Starting Cards</h3>
 <p><b>Shelters</b> replace starting Estates when desired, generally in proportion to the number of Dark Ages Kingdom card piles used. <i>(From Dark Ages)</i></p>

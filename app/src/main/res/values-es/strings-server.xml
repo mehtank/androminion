@@ -23,16 +23,16 @@
 
 	<string name="vp_single">Vale %1$s PV</string>
 	<string name="vp_multiple">Vale %1$s PV</string>
-	<string name="coin_next_turn_single">+(%1$s) Moneda tu próximo turno</string>
-	<string name="coin_next_turn_multiple">+(%1$s) Monedas tu próximo turno</string>
+	<string name="coin_next_turn_single">+$%1$s tu próximo turno</string>
+	<string name="coin_next_turn_multiple">+$%1$s tu próximo turno</string>
 	<string name="buy_next_turn_single">+%1$s Compra tu próximo turno</string>
 	<string name="buys_next_turn_multiple">+%1$s Compras tu próximo turno</string>
 	<string name="card_next_turn_single">+%1$s Carta tu próximo turno</string>
 	<string name="cards_next_turn_multiple">+%1$s Cartas tu próximo turno</string>
 	<string name="action_next_turn_single">+%1$s Acción tu próximo turno</string>
 	<string name="actions_next_turn_multiple">+%1$s Acciones tu próximo turno</string>
-	<string name="card_coin_single">+(%1$s) Moneda</string>
-	<string name="card_coin_multiple">+(%1$s) Monedas</string>
+	<string name="card_coin_single">+$%1$s</string>
+	<string name="card_coin_multiple">+$%1$s</string>
 	<string name="card_buy_single">+%1$s Compra</string>
 	<string name="card_buys_multiple">+%1$s Compras</string>
 	<string name="card_action_single">+%1$s Acción</string>
@@ -52,7 +52,7 @@
 	<string name="part_move_token_minus_2_cost">mover tu marcador de -2 coste a ella</string>
 	<string name="part_move_token_plus_one_card">mover tu marcador de +1 Carta a ella</string>
 	<string name="part_move_token_plus_one_action">mover tu marcador de +1 Acción a ella</string>
-	<string name="part_move_token_plus_one_coin">mover tu marcador de +1 Moneda a ella</string>
+	<string name="part_move_token_plus_one_coin">mover tu marcador de +$1 a ella</string>
 	<string name="part_move_token_trashing">mover tu marcador de Eliminar a ella</string>
 	
 	<string name="discardPile">pila de descartes</string>
@@ -68,30 +68,30 @@
 	<string name="select_from_table_treasure">Elige una carta de Tesoro de la mesa para %1$s</string>
 	<string name="select_from_table_victory">Elige una carta de Victoria de la mesa para %1$s</string>
 	<string name="select_from_table_non_victory">Elige una carta que no sea de Victoria de la mesa para %1$s</string>
-	<string name="select_from_table_exact">Elige una carta de la mesa que cueste exactamente (%1$s) para %2$s</string>
-	<string name="select_from_table_exact_action">Elige una carta de Acción de la mesa que cueste exactamente (%1$s) para %2$s</string>
-	<string name="select_from_table_exact_except">Elige una carta de la mesa, menos %1$s, que cueste exactamente (%2$s) para %3$s</string>
-	<string name="select_from_table_max">Elige una carta de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_events">Elige un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_projects">Elige un proyecto de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_cards_events">Elige una carta o un evento de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_cards_projects">Elige una carta o un proyecto de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_events_projects">Elige un evento o un proyecto de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_cards_events_projects">Elige una carta, un evento o un proyecto de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_non_vp">Elige una carta que no sea de Victoria de la meas que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_non_vp_action">Elige una carta de Acción que no sea de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_vp">Elige una carta de Victoria de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_action">Elige una carta de Acción de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_action_non_duration">Elige una carta de Acción que no sea de Duración de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_action_non_duration_non_command">Elige una carta de Acción que no sea de Duración ni de Mando de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_action_non_command">Elige una carta de Acción que no sea de Mando de la mesa que cueste como máximo (%1$s) para %2$s</string>
-	<string name="select_from_table_max_except">Elige una carta de la mesa, menos %1$s, que cueste como máximo (%2$s) para %3$s</string>
-	<string name="select_from_table_between">Elige una carta de la mesa que cueste entre (%1$s) y (%2$s) para %3$s</string>
-	<string name="select_from_table_min">Elige una carta de la mesa que cueste como mínimo (%1$s) para %2$s</string>
-	<string name="select_from_table_less">Elige una carta de la mesa que cueste menos de (%1$s) para %2$s</string>
-	<string name="select_from_table_less_non_vp">Elige una carta que no sea de Victoria de la mesa que cueste menos de (%1$s) para %2$s</string>
-	<string name="select_from_table_less_spirit">Elige una carta de Espíritu de la mesa que cueste menos de (%1$s) para %2$s</string>
-	<string name="select_from_table_less_of_types">Elige una carta de %1$s de la mesa que cueste menos de (%2$s) para %3$s</string>
+	<string name="select_from_table_exact">Elige una carta de la mesa que cueste exactamente $%1$s para %2$s</string>
+	<string name="select_from_table_exact_action">Elige una carta de Acción de la mesa que cueste exactamente $%1$s para %2$s</string>
+	<string name="select_from_table_exact_except">Elige una carta de la mesa, menos %1$s, que cueste exactamente $%2$s para %3$s</string>
+	<string name="select_from_table_max">Elige una carta de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_events">Elige un evento de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_projects">Elige un proyecto de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_cards_events">Elige una carta o un evento de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_cards_projects">Elige una carta o un proyecto de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_events_projects">Elige un evento o un proyecto de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_cards_events_projects">Elige una carta, un evento o un proyecto de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_non_vp">Elige una carta que no sea de Victoria de la meas que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_non_vp_action">Elige una carta de Acción que no sea de Victoria de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_vp">Elige una carta de Victoria de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_action">Elige una carta de Acción de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_action_non_duration">Elige una carta de Acción que no sea de Duración de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_action_non_duration_non_command">Elige una carta de Acción que no sea de Duración ni de Mando de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_action_non_command">Elige una carta de Acción que no sea de Mando de la mesa que cueste como máximo $%1$s para %2$s</string>
+	<string name="select_from_table_max_except">Elige una carta de la mesa, menos %1$s, que cueste como máximo $%2$s para %3$s</string>
+	<string name="select_from_table_between">Elige una carta de la mesa que cueste entre $%1$s y $%2$s para %3$s</string>
+	<string name="select_from_table_min">Elige una carta de la mesa que cueste como mínimo $%1$s para %2$s</string>
+	<string name="select_from_table_less">Elige una carta de la mesa que cueste menos de $%1$s para %2$s</string>
+	<string name="select_from_table_less_non_vp">Elige una carta que no sea de Victoria de la mesa que cueste menos de $%1$s para %2$s</string>
+	<string name="select_from_table_less_spirit">Elige una carta de Espíritu de la mesa que cueste menos de $%1$s para %2$s</string>
+	<string name="select_from_table_less_of_types">Elige una carta de %1$s de la mesa que cueste menos de $%2$s para %3$s</string>
 
 	<string name="select_one_card_from_hand">Elige una carta de tu mano para %1$s</string>
 	<string name="select_one_non_vp_from_hand">Elige una carta que no sea de Victoria de tu mano para %1$s</string>
@@ -138,7 +138,7 @@
 	<string name="card_to_exile">exiliar [%1$s]</string>
 	<string name="card_to_discard">descartar [%1$s]</string>
 	<string name="card_to_discard_for_card">descartar para cartas [%1$s]</string>
-	<string name="card_to_discard_for_coin">discard para monedas [%1$s]</string>
+	<string name="card_to_discard_for_coin">discard para $* [%1$s]</string>
 	<string name="card_to_name">nombrar [%1$s]</string>
 	<string name="card_to_set_aside">apartar [%1$s]</string>
 	<string name="card_to_play">jugar [%1$s]</string>
@@ -155,8 +155,8 @@
 	<string name="PlusOneCardTokenMoved">Marcador de +1 Carta movido a</string>
 	<string name="PlusOneActionTokenMoved">Marcador de +1 Acción movido a</string>
 	<string name="PlusOneBuyTokenMoved">Marcador de +1 Compra movido a</string>
-	<string name="PlusOneCoinTokenMoved">Marcador de +1 Mondea movido a</string>
-	<string name="MinusTwoCostTokenMoved">Marcador de -2 coste movido a</string>
+	<string name="PlusOneCoinTokenMoved">Marcador de +$1 movido a</string>
+	<string name="MinusTwoCostTokenMoved">Marcador de -$2 coste movido a</string>
 	<string name="TrashingTokenMoved">Marcador de Eliminar movido a</string>
 	<string name="OnIslandMat">Cartas en tablero de Isla</string>
 	<string name="OnNativeVillageMat">Cartas en tablero de Poblado Indígena</string>
@@ -206,8 +206,8 @@
 	<string name="TravellerExchanged">%1$s intercambaida para</string>
 	<string name="TurnJourneyTokenFaceUp">Marcador de Viajes con boca arriba</string>
 	<string name="TurnJourneyTokenFaceDown">Marcador de Viajes con boca abajo</string>
-    <string name="MinusOneCoinTokenOn">Marcador de -1 moneda tomado</string>
-    <string name="MinusOneCoinTokenOff">Marcador de -1 moneda removido</string>
+    <string name="MinusOneCoinTokenOn">Marcador de -$1 tomado</string>
+    <string name="MinusOneCoinTokenOff">Marcador de -$1 removido</string>
 	<string name="MinusOneCardTokenOn">Marcador de -1 carta puesto encima del mazo</string>
     <string name="MinusOneCardTokenOff">Marcador de -1 carta removido</string>
     <string name="ReceivingBoonOrHex">Recibiendo</string>
@@ -219,9 +219,9 @@
     <string name="plus_one_card_token">Marcador de +1 Carta</string>
     <string name="plus_one_action_token">Marcador de +1 Acción</string>
     <string name="plus_one_buy_token">Marcador de +1 Compra</string>
-    <string name="plus_one_coin_token">Marcador de +1 Moneda</string>
+    <string name="plus_one_coin_token">Marcador de +$1</string>
 
-	<string name="use_for_money">usar para dinero</string>
+	<string name="use_for_money">jugar</string>
 
 	<string name="action_buys_coin">%1$s/%2$s/%3$s</string>
 	<string name="game_over_status">Fin del juego — </string>
@@ -273,13 +273,13 @@
 	<string name="hamlet_part_discard_for_action">descartar para +1 Acción</string>
 	<string name="hamlet_part_discard_for_buy">descartar para +1 Compra</string>
 
-	<string name="vault_part_discard_for_gold">descartar para monedas</string>
+	<string name="vault_part_discard_for_gold">descartar para $*</string>
 	<string name="vault_part_discard_for_card">descartar para +1 Carta</string>
 
 	<string name="lookout_query_trash">Elige una carta para eliminar</string>
 	<string name="lookout_query_discard">Elige una carta para descartar</string>
 	
-	<string name="moneylender_trash_copper">Eliminar Cobre de tu mano para +(3) Monedas</string>
+	<string name="moneylender_trash_copper">Eliminar Cobre de tu mano para +$3</string>
 
 	<string name="mountebank_query">Charlatán jugado</string>
 	<string name="mountebank_option_one">Descartar una Maldición</string>
@@ -306,10 +306,10 @@
 
 	<string name="trusty_steed_option_one">+2 Acciones</string>
 	<string name="trusty_steed_option_two">+2 Cartas</string>
-	<string name="trusty_steed_option_three">+2 Monedas</string>
+	<string name="trusty_steed_option_three">+$2</string>
 	<string name="trusty_steed_option_four">Ganar 4 Platas y poner mazo en pila de descartes</string>
 
-	<string name="mining_village_option_one">Elimina para +2 Monedas</string>
+	<string name="mining_village_option_one">Elimina para +$2</string>
 
 	<string name="golem_first_action">Acción para jugar primero</string>
 
@@ -323,10 +323,10 @@
 	<string name="noble_brigand_query">Carta para ganar de %1$s [Bandido Honrado]</string>
 
 	<string name="steward_option_one">+2 Cartas</string>
-	<string name="steward_option_two">+2 Monedas</string>
+	<string name="steward_option_two">+$2</string>
 	<string name="steward_option_three">Eliminar 2 cartas de tu mano</string>
 
-	<string name="amulet_option_one">+1 Moneda</string>
+	<string name="amulet_option_one">+$1</string>
 	
 	<string name="extra_turns_query">Elige el orden de turnos extras</string>
 	<string name="extra_turns_outpost_first">Puesto Avanzado primero</string>
@@ -344,7 +344,7 @@
 	<string name="count_firstoption_one">Descartar 2 cartas</string>
 	<string name="count_firstoption_two">Poner una carta encima de tu mazo</string>
 	<string name="count_firstoption_three">Ganar un Cobre</string>
-	<string name="count_secondoption_one">+3 Monedas</string>
+	<string name="count_secondoption_one">+$3</string>
 	<string name="count_secondoption_two">Eliminar tu mano</string>
 	<string name="count_secondoption_three">Ganar un Ducado</string>
 	<string name="count_part_top_of_deck">poner encima de tu mazo [%1$s]</string>
@@ -362,7 +362,7 @@
 	<string name="pawn_one">Roba una carta</string>
 	<string name="pawn_two">+1 Acción</string>
 	<string name="pawn_three">+1 Compra</string>
-	<string name="pawn_four">+1 Moneda</string>
+	<string name="pawn_four">+$1</string>
 
 	<string name="nobles_option_one">+3 Cartas</string>
 	<string name="nobles_option_two">+2 Acciones</string>
@@ -371,7 +371,7 @@
 	<string name="minion_option_two">Descartar la mano, +4 Cartas</string>
 
 	<string name="spice_merchant_option_one">+2 Cartas y +1 Acción</string>
-	<string name="spice_merchant_option_two">+2 Monedas y +1 Compra</string>
+	<string name="spice_merchant_option_two">+$2 y +1 Compra</string>
 
 	<string name="watch_tower_option_one">No revelar</string>
 	<string name="watch_tower_option_three">Poner encima del mazo</string>
@@ -384,7 +384,7 @@
 
 	<string name="fools_gold_option_one">Eliminar para Oro</string>
 
-	<string name="baron_option_one">Elimina una Finca por +4 Monedas</string>
+	<string name="baron_option_one">Elimina una Finca para +$4</string>
 	<string name="baron_option_two">Ganar una Finca</string>
 
 	<string name="native_village_option_one">Coger las cartas del tablero de Poblado Indígena y ponerlas en tu mano</string>
@@ -394,9 +394,9 @@
 
 	<string name="card_order_on_deck">Orden de las cartas encima del mazo:</string>
 
-	<string name="pirate_ship_option_one">Tomar +%1$s Monedas</string>
+	<string name="pirate_ship_option_one">Tomar +$%1$s</string>
 	<string name="pirate_ship_option_two">Atacar</string>
-	<string name="miser_option_one">+%1$s Monedas</string>
+	<string name="miser_option_one">+$%1$s</string>
     <string name="miser_option_two">Poner un Cobre sobre el tablero de Taberna</string>
 
 	<string name="top_of_deck">Parte superior del mazo</string>
@@ -425,7 +425,7 @@
 
 	<string name="courtier_option_add_action">+1 Acción</string>
 	<string name="courtier_option_add_buy">+1 Compra</string>
-	<string name="courtier_option_add_coins">+(3) Monedas</string>
+	<string name="courtier_option_add_coins">+$3</string>
 	<string name="courtier_option_gain_gold">Ganar una carta de Oro</string>
 	<string name="lurker_gainFromTrash">Ganar una carta de Acción de entre las eliminadas</string>
 	<string name="lurker_trashActionFromSupply">Eliminar una carta de Acción del Suministro</string>
@@ -492,7 +492,7 @@
   <string name="doctor_overpay_option_two">Descartar</string>
   <string name="doctor_overpay_option_three">Devolver</string>
   <string name="herald_overpay_query">Elige una carta para poner encima del mazo</string>
-  <string name="spend_guilds_coin_tokens">Sacar de Cofres para Monedas</string>
+  <string name="spend_guilds_coin_tokens">Sacar de Cofres para $*</string>
   <string name="spend_villager_tokens">Sacar de Aldeanos para Acciones</string>
   <string name="buy_overpay">¿Sobrepaga?</string>
   <string name="buy_overpay_by_potions">¿Sobrepaga con poción(es)?</string>
@@ -507,12 +507,12 @@
   <string name="SwampHagAttacks_single">%1$s Bruja del Pantano tiene efecto</string>
   <string name="SwampHagAttacks_multiple">%1$s Brujas del Pantano tienen efecto</string>
   <string name="DeludedStateEffect">Delirante (No comprar Acciones)</string>
-  <string name="EnviousStateEffect">Envidioso (Oro y Plata hacen (1) Moneda)</string>
+  <string name="EnviousStateEffect">Envidioso (Oro y Plata hacen $1)</string>
   <string name="traveller_exchange">Intercambiarla por %1$s</string>
   <string name="teacher_move_token_plus_one_card">mover tu marcador de +1 Carta a su mazo (sin tus marcadores). [Maestro]</string>
   <string name="teacher_move_token_plus_one_action">mover tu marcador de +1 Acción a su mazo (sin tus marcadores). [Maestro]</string>
   <string name="teacher_move_token_plus_one_buy">mover tu marcador de +1 Compra a su mazo (sin tus marcadores). [Maestro]</string>
-  <string name="teacher_move_token_plus_one_coin">mover tu marcador de +1 Moneda a su mazo (sin tus marcadores). [Maestro]</string>
+  <string name="teacher_move_token_plus_one_coin">mover tu marcador de +$1 a su mazo (sin tus marcadores). [Maestro]</string>
   <string name="wineMerchant_option_one">Descartar de la Taberna</string>
   <string name="wineMerchant_query">Número de Mercaderes de Vino para descartar de la Taberna</string>
   <string name="wineMerchantEstate_query">Número de Fincas para descartar de la Taberna</string>
@@ -525,7 +525,7 @@
   
   <string name="archive_query">Elige una carta para poner en tu mano [Archivo]</string>
   <string name="annex_query">Elige cartas para quedar en tu pila de descartes (hasta %1$s más) [Anexar]</string>
-  <string name="charm_option_one">+1 Compra, +(2) Monedas</string>
+  <string name="charm_option_one">+1 Compra, +$2</string>
   <string name="charm_option_two">Al comprar la próxima carta, ganar otra carta con el mismo coste</string>
   <string name="reveal_gold">Revelar Oro</string>
   <string name="reveal_plunder">Revelar Saqueo</string>
@@ -540,7 +540,7 @@
   <string name="crypt_query">Elige una carta para poner en tu mano [%1$s]</string>
   <string name="fool_query">Elige el próximo Favor para recibir [%1$s]</string>
   <string name="lostInTheWoods_part_discard_for_boon">descartar para recibit un Favor</string>
-  <string name="the_earths_gift_part">descartar para ganar una carta con un coste máximo de (4) Monedas [%1$s]</string>
+  <string name="the_earths_gift_part">descartar para ganar una carta con un coste máximo de $4 [%1$s]</string>
   <string name="the_skys_gift_part">descartar para ganar una carta de Oro [%1$s]</string>
   <string name="necromancer_query">Elige una carta de Action de entre las eliminadas para jugar [%1$s]</string>
   <string name="discard_card_query">Elige una carta para descartar [%1$s]</string>
@@ -548,10 +548,10 @@
   <string name="villager_query">¿Usar Aldeano para +1 Acción?</string>
   <string name="villager_option">Usar</string>
   <string name="ducat_trash_copper">Eliminar una carta de Cobre de tu mano</string>
-  <string name="improve_query">Elimina una carta en juego para una que cueste (1) Moneda más [%1$s]</string>
+  <string name="improve_query">Elimina una carta en juego para una que cueste $1 más [%1$s]</string>
   <string name="oldWitch_trash_curse">Eliminar una carta de Maldición de tu mano</string>
-  <string name="pageant_pay_coin_for_coffers">Pagar (1) Moneda para +1 Cofres</string>
-  <string name="scepter_add_coins">+(2) Monedas</string>
+  <string name="pageant_pay_coin_for_coffers">Pagar $1 para +1 Cofres</string>
+  <string name="scepter_add_coins">+$2</string>
   <string name="scepter_replay_action">Jugar otra vez una Acción que jugaste este turno y que todavía está en juego</string>
   <string name="scepter_query">Elige una carta para jugar otra vez</string>
   <string name="silos_query">Número de cartas de Cobre para descartar para robar [%1$s]</string>
@@ -572,7 +572,7 @@
   <string name="scrap_option_add_card">+1 Carta</string>
   <string name="scrap_option_add_action">+1 Acción</string>  
   <string name="scrap_option_add_buy">+1 Compra</string>
-  <string name="scrap_option_add_coin">+(1) Moneda</string>
+  <string name="scrap_option_add_coin">+$1</string>
   <string name="scrap_option_gain_silver">Ganar una carta de Plata</string>
   <string name="scrap_option_gain_horse">Ganar una carta de Caballo</string>
   <string name="sleigh_option_discard_for_gained_to_hand">Descartar para poner la carta de %1$s en tu mano</string>
@@ -604,7 +604,7 @@
   <string name="sauna_play_avanto">Jugar Avanto de la mano</string>
   <string name="avanto_play_sauna">Jugar Sauna de la mano</string>
 
-  <string name="opulent_castle_ask_discard">descartar para +(2) Monedas por cada una</string>
+  <string name="opulent_castle_ask_discard">descartar para +$2 por cada una</string>
   <string name="sprawlingcastle_gain_duchy">Ganar Ducado</string>
   <string name="sprawlingcastle_gain_estates">Ganar 3 Fincas</string>
   

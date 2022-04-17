@@ -14,7 +14,7 @@
 	<string name="help_turn3">Si están habilitados, los numeros bajo el nombre de los jugadores indican el numero de cartas en su mazo, mano y total de cartas y sus puntos de victoria.</string>
 	<string name="help_turn4">&lt;p&gt;Cualquier marcador que tenga un jugador se muestra a la derecha de su nombre.&lt;/p&gt;
 		&lt;p&gt;Pulsa unos momentos sobre un jugador para ver todos los detalles.&lt;/p&gt;</string>
-	<string name="help_turn5">Un mensaje pidiendo la siguiente acción a realizar está encima de los jugadores. El número actual de acciones, compras y monedas se muestra en la parte superior de la pantalla.</string>
+	<string name="help_turn5">Un mensaje pidiendo la siguiente acción a realizar está encima de los jugadores. El número actual de acciones, compras y $* (monedas) se muestra en la parte superior de la pantalla.</string>
 
 	<string name="help_hand1">Esta primera columna indica las cartas que se encuentran en tu mano. Solo tú puedes verlas.</string>
 	<string name="help_hand2">La segunda columna muestra las cartas que están en juego. Todos pueden verlas. Las cartas en gris aquí se jugaron para este turno, pero ya no están en juego.</string>

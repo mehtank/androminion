@@ -8,11 +8,16 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.text.TextUtils;
 
+import androidx.annotation.RequiresApi;
 import androidx.preference.PreferenceManager;
 
 import com.mehtank.androminion.R;
@@ -135,6 +140,8 @@ public class Strings {
             if(description == null) {
                 description = c.getDescription();
             }
+
+            description = Strings.replaceCoinsString(description);
 
             descriptionCache.put(c, description);
         }
@@ -303,15 +310,56 @@ public class Strings {
     }
     
     public static String format(String str, Object... args) {
-        return String.format(str, args);
+        return replaceCoinsString(String.format(str, args));
     }
 
     public static String format(int resId, Object... args) {
-        return String.format(context.getString(resId), args);
+        return replaceCoinsString(String.format(context.getString(resId), args));
     }
 
     public static String getString(int resId) {
-        return context.getString(resId);
+        return replaceCoinsString(context.getString(resId));
+    }
+
+    private static final Pattern COINS_PATTERN = Pattern.compile("\\$[\\d*X]+");
+    private static final String WHITE_CIRCLE = "\u25ef";
+    private static final String CIRCLED_0 = "\u24ea";
+    private static final String CIRCLED_1 = "\u2460";
+    private static final String CIRCLED_21 = "\u3251";
+    private static final String CIRCLED_36 = "\u32b1";
+    private static final String CIRCLED_X = "\u24cd";
+    public static final String replaceCoinsString(String str) {
+        Matcher m = COINS_PATTERN.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            String coinStr = m.group().substring(1);
+            if (coinStr.equals("*")) {
+                m.appendReplacement(sb, WHITE_CIRCLE);
+            } else if (coinStr.equals("X")) {
+                m.appendReplacement(sb, CIRCLED_X);
+            } else {
+                int coins = Integer.parseInt(coinStr);
+                m.appendReplacement(sb, Strings.getCoinsString(coins));
+            }
+        }
+        m.appendTail(sb);
+        return sb.toString();
+    }
+
+    static String getCoinsString(int coins) {
+        if (coins == 0) {
+            return CIRCLED_0;
+        }
+        if (coins >= 1 && coins <= 20) {
+            return new Character((char)(Character.codePointAt(CIRCLED_1, 0) + coins - 1)).toString();
+        }
+        if (coins >= 21 && coins <= 35) {
+            return new Character((char)(Character.codePointAt(CIRCLED_21, 0) + coins - 21)).toString();
+        }
+        if (coins >= 36 && coins <= 50) {
+            return new Character((char)(Character.codePointAt(CIRCLED_36, 0) + coins - 36)).toString();
+        }
+        return "(" + coins + ")";
     }
 
     /**

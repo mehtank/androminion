@@ -739,6 +739,8 @@ public class GameActivity extends AppCompatActivity implements EventHandler {
 			else
 				coinsStr = top.getString(R.string.coin_multiple, "" + coinStr);
 
+			coinsStr = Strings.replaceCoinsString(coinsStr);
+
 			String baseStr = top.getString(R.string.actions_buys_coins, actions, buys, coinsStr);
 			List<String> durationAttacks = new ArrayList<String>();
 			List<String> attackStates = new ArrayList<String>();
