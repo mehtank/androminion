@@ -186,6 +186,7 @@
 	<string name="VillagersObtained">Villagers obtained: %1$s</string>
 	<string name="SinisterPlotAdd">Tokens added to Sinister Plot: %1$s</string>
 	<string name="SinisterPlotRemove">Tokens removed from Sinister Plot: %1$s</string>
+	<string name="UsedWay">Used</string>
 	<string name="DeckReplenished">Deck replenished</string>
 	<string name="PlayerAttacking">Attacking</string>
 	<string name="PlayerDefended">Defended</string>

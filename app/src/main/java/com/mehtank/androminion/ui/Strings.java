@@ -322,7 +322,7 @@ public class Strings {
     }
 
     private static final Pattern COINS_PATTERN = Pattern.compile("\\$[\\d*X]+");
-    private static final String WHITE_CIRCLE = "\u25ef";
+    private static final String ENCLOSING_CIRCLE = "\u25ef";
     private static final String CIRCLED_0 = "\u24ea";
     private static final String CIRCLED_1 = "\u2460";
     private static final String CIRCLED_21 = "\u3251";
@@ -334,7 +334,7 @@ public class Strings {
         while (m.find()) {
             String coinStr = m.group().substring(1);
             if (coinStr.equals("*")) {
-                m.appendReplacement(sb, WHITE_CIRCLE);
+                m.appendReplacement(sb, ENCLOSING_CIRCLE);
             } else if (coinStr.equals("X")) {
                 m.appendReplacement(sb, CIRCLED_X);
             } else {
@@ -602,6 +602,8 @@ public class Strings {
         	statusText += format(R.string.SinisterPlotAdd, extras[3]);
         } else if (event.gameEventType == GameEvent.EventType.SinisterPlotRemove) {
         	statusText += format(R.string.SinisterPlotRemove, extras[3]);
+        } else if (event.gameEventType == GameEvent.EventType.UsedWay) {
+            statusText += getString(R.string.UsedWay);
         } else if (event.gameEventType != null) {
             statusText += event.gameEventType.toString();
         }

@@ -186,6 +186,7 @@
 	<string name="VillagersObtained">Aldeanos obtenidos: %1$s</string>
 	<string name="SinisterPlotAdd">Marcadores agregados a Complot Siniestro: %1$s</string>
 	<string name="SinisterPlotRemove">Marcadores quitados de Complot Siniestro: %1$s</string>
+	<string name="UsedWay">Usada</string>
 	<string name="DeckReplenished">Mazo rellenado</string>
 	<string name="PlayerAttacking">Ataca</string>
 	<string name="PlayerDefended">Defiende</string>

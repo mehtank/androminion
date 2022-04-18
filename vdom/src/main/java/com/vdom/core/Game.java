@@ -1358,6 +1358,13 @@ public class Game {
             durationEffectsAreCards.add(false);
     		durationEffectsAreCards.add(false);
         }
+        for (Card card : player.wayOfTheTurtle) {
+            allDurationAreSimple = false;
+            durationEffects.add(Cards.wayOfTheTurtle);
+            durationEffects.add(card);
+            durationEffectsAreCards.add(false);
+            durationEffectsAreCards.add(false);
+        }
         while (!player.cargoShip.isEmpty()) {
             durationEffects.add(Cards.cargoShip);
             durationEffects.add(player.cargoShip.remove(0));
@@ -1512,6 +1519,9 @@ public class Game {
                 card2.play(this, context, false);
             } else if(card.equals(Cards.reap)) {
                 player.reap.remove(card2);
+                card2.play(this, context, false);
+            } else if(card.equals(Cards.wayOfTheTurtle)) {
+                player.wayOfTheTurtle.remove(card2);
                 card2.play(this, context, false);
             } else if(card.equals(Cards.horseTraders)) {
             	//BUG: this doesn't let you call estates inheriting horse trader differently
@@ -3415,7 +3425,6 @@ public class Game {
                 }
                 if(card != null && wayOfTheMouse) {
                     wayOfTheMouseCard = card;
-                    addPile(wayOfTheMouseCard, 1, false, false, false);
                     continue;
                 }
                 if(card != null && blackMarket) {

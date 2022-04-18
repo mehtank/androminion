@@ -819,7 +819,8 @@ public class RemotePlayer extends IndirectPlayer implements GameEventListener, E
         } else if (isPlayersTurn(event) && event.getType() == EventType.PlayingCard || 
         		event.getType() == EventType.PlayingDurationAction || 
         		event.getType() == EventType.CallingCard || 
-        		event.getType() == EventType.CardInPlay) {
+        		event.getType() == EventType.CardInPlay ||
+                event.getType() == EventType.UsedWay) {
             playedCardsUi.add(event.getCard());
             playedCardsUiNew.add(event.newCard);
         } else if (event.getType() == EventType.GameOver) {

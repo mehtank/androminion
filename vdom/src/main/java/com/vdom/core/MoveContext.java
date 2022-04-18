@@ -70,6 +70,7 @@ public class MoveContext {
     public boolean seizeTheDayBought = false;
     public boolean wayOfTheSealPlayed = false;
     public int merchantGuildEffects = 0;
+    public ArrayList<Card> frogCards = new ArrayList<>();
 
     public enum PileSelection {DISCARD,HAND,DECK,ANY};
     public PileSelection hermitTrashCardPile = PileSelection.ANY;

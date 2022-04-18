@@ -76,7 +76,8 @@ public class GameEvent {
         TakeState, //Player took a state
         ReturnState, //Player returned a state
         SinisterPlotAdd, // Token(s) added to Sinister Plot
-        SinisterPlotRemove // Token(s) removed from Sinister Plot
+        SinisterPlotRemove, // Token(s) removed from Sinister Plot
+        UsedWay // A Way was used for altering a cards play instructions
     }
 
     public EventType type;

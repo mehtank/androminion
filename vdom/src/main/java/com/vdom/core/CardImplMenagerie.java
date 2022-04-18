@@ -106,6 +106,9 @@ public class CardImplMenagerie extends CardImpl {
 		case WayOfTheCamel:
 			wayOfTheCamel(game, context, currentPlayer);
 			break;
+		case WayOfTheFrog:
+			wayOfTheFrog(game, context, currentPlayer, responsible);
+			break;
 		case WayOfTheGoat:
 			wayOfTheGoat(game, context, currentPlayer);
 			break;
@@ -114,6 +117,9 @@ public class CardImplMenagerie extends CardImpl {
 			break;
 		case WayOfTheMole:
 			wayOfTheMole(game, context, currentPlayer);
+			break;
+		case WayOfTheMouse:
+			wayOfTheMouse(game, context, currentPlayer);
 			break;
 		case WayOfTheOwl:
 			wayOfTheOwl(game, context, currentPlayer);
@@ -126,6 +132,9 @@ public class CardImplMenagerie extends CardImpl {
 			break;
 		case WayOfTheSquirrel:
 			wayOfTheSquirrel(game, context, currentPlayer);
+			break;
+		case WayOfTheTurtle:
+			wayOfTheTurtle(game, context, currentPlayer, responsible);
 			break;
 		case WayOfTheWorm:
 			wayOfTheWorm(game, context, currentPlayer);
@@ -846,6 +855,10 @@ public class CardImplMenagerie extends CardImpl {
 	private void wayOfTheCamel(Game game, MoveContext context, Player player) {
 		player.exileFromSupply(Cards.gold, Cards.wayOfTheCamel, context);
 	}
+
+	private void wayOfTheFrog(Game game, MoveContext context, Player player, Card responsible) {
+		context.frogCards.add(responsible);
+	}
 	
 	private void wayOfTheGoat(Game game, MoveContext context, Player player) {
 		if (player.hand.isEmpty()) return;
@@ -876,6 +889,10 @@ public class CardImplMenagerie extends CardImpl {
 		for (int i = 0; i < 3; ++i) {
 			game.drawToHand(context, this, 3 - i);
 		}
+	}
+
+	private void wayOfTheMouse(Game game, MoveContext context, Player player) {
+		game.wayOfTheMouseCard.play(game, context, false, true, false);
 	}
 	
 	private void wayOfTheOwl(Game game, MoveContext context, Player player) {
@@ -916,7 +933,24 @@ public class CardImplMenagerie extends CardImpl {
 	private void wayOfTheSquirrel(Game game, MoveContext context, Player player) {
 		player.wayOfTheSquirrelDraw += 2;
 	}
-	
+
+	private void wayOfTheTurtle(Game game, MoveContext context, Player player, Card responsible) {
+		boolean removed = false;
+		for (int i = 0; i < player.playedCards.size(); ++i) {
+			if (player.playedCards.get(i) == responsible) {
+				player.playedCards.remove(i);
+				removed = true;
+				break;
+			}
+		}
+		if (!removed) return;
+		player.wayOfTheTurtle.add(responsible);
+		GameEvent setAsideEvent = new GameEvent(GameEvent.EventType.CardSetAside, context);
+		setAsideEvent.card = responsible;
+		setAsideEvent.responsible = Cards.wayOfTheTurtle;
+		context.game.broadcastEvent(setAsideEvent);
+	}
+
 	private void wayOfTheWorm(Game game, MoveContext context, Player player) {
 		player.exileFromSupply(Cards.estate, Cards.wayOfTheWorm, context);
 	}

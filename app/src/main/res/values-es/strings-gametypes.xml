@@ -279,6 +279,46 @@
   
   <string name="BecomingAMonster_gametype">Convertirse en monstruo</string>
   <string name="TrueBelievers_gametype">Creyentes verdaderos</string>
+
+
+  <string name="IntroToHorses_gametype">Introducción a los Caballos</string>
+  <string name="IntroToExile_gametype">Introducción al Exilio</string>
+
+  <string name="PonyExpress_gametype">Pony Express</string>
+  <string name="GardenOfCats_gametype">Jardín de gatos</string>
+
+  <string name="DogAndPonyShow_gametype">Show de perros y ponis</string>
+  <string name="Explosions_gametype">Explosiones</string>
+
+  <string name="Innsmouth_gametype">Innsmouth</string>
+  <string name="Ruritania_gametype">Ruritania</string>
+
+  <string name="ClassOf20_gametype">Clase del \'20</string>
+
+  <string name="LimitedTimeOffer_gametype">Oferta de tiempo limitado</string>
+  <string name="BirthOfANation_gametype">Nacimiento de una nación</string>
+
+  <string name="LivingInExile_gametype">Viviendo en el exilio</string>
+  <string name="ThrillOfTheHunt_gametype">Emoción de la caza</string>
+
+  <string name="BigBlue_gametype">Azul grande</string>
+  <string name="Intersection_gametype">Intersección</string>
+
+  <string name="FriendlyCarnage_gametype">Carnicería amistosa</string>
+  <string name="GiftHorses_gametype">Caballos regalados</string>
+
+  <string name="HorseFeathers_gametype">Plumas de caballo</string>
+  <string name="SoonerOrLater_gametype">Tarde o temprano</string>
+
+  <string name="NoMoneyDown_gametype">No dar dinero de anticipo</string>
+  <string name="DetoursAndShortcuts_gametype">Desvíos y atajos</string>
+
+  <string name="SeizeTheNight_gametype">Aprovecha la noche</string>
+  <string name="AnimalCrackers_gametype">Refinería de animales</string>
+
+  <string name="BidingTime_gametype">Tiempo de espera</string>
+  <string name="VillagerMadness_gametype">Locura de aldeanos</string>
+
    
   <string name="Test_gametype">Prueba (para probar el juego)</string>
 </resources>

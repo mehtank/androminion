@@ -281,8 +281,47 @@
   
   <string name="BecomingAMonster_gametype">Becoming a Monster</string>
   <string name="TrueBelievers_gametype">True Believers</string>
-  
-  
+
+
+  <string name="IntroToHorses_gametype">Intro to Horses</string>
+  <string name="IntroToExile_gametype">Intro to Exile</string>
+
+  <string name="PonyExpress_gametype">Pony Express</string>
+  <string name="GardenOfCats_gametype">Garden of Cats</string>
+
+  <string name="DogAndPonyShow_gametype">Dog &amp; Pony Show</string>
+  <string name="Explosions_gametype">Explosions</string>
+
+  <string name="Innsmouth_gametype">Innsmouth</string>
+  <string name="Ruritania_gametype">Ruritania</string>
+
+  <string name="ClassOf20_gametype">Class of \'20</string>
+
+  <string name="LimitedTimeOffer_gametype">Limited Time Offer</string>
+  <string name="BirthOfANation_gametype">Birth of a Nation</string>
+
+  <string name="LivingInExile_gametype">Living in Exile</string>
+  <string name="ThrillOfTheHunt_gametype">Thrill of the Hunt</string>
+
+  <string name="BigBlue_gametype">Big Blue</string>
+  <string name="Intersection_gametype">Intersection</string>
+
+  <string name="FriendlyCarnage_gametype">Friendly Carnage</string>
+  <string name="GiftHorses_gametype">Gift Horses</string>
+
+  <string name="HorseFeathers_gametype">Horse Feathers</string>
+  <string name="SoonerOrLater_gametype">Sooner or Later</string>
+
+  <string name="NoMoneyDown_gametype">No Money Down</string>
+  <string name="DetoursAndShortcuts_gametype">Detours and Shortcuts</string>
+
+  <string name="SeizeTheNight_gametype">Seize the Night</string>
+  <string name="AnimalCrackers_gametype">Animal Crackers</string>
+
+  <string name="BidingTime_gametype">Biding Time</string>
+  <string name="VillagerMadness_gametype">Villager Madness</string>
+
+
   <string name="Test_gametype">Test (for testing)</string>
 
 </resources>

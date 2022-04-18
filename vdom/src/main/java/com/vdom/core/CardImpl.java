@@ -854,6 +854,11 @@ public class CardImpl implements Card, Comparable<Card>{
         
         if (playUsingWay != null) {
         	//play way ability...
+            GameEvent wayEvent;
+            wayEvent = new GameEvent(GameEvent.EventType.UsedWay, (MoveContext) context);
+            wayEvent.card = playUsingWay;
+            wayEvent.newCard = false;
+            game.broadcastEvent(wayEvent);
             playUsingWay.followInstructions(game, context, this, currentPlayer, isThronedPlay);
         } else if (enchantressEffect) {
         	//allow reaction to playing an attack card with Enchantress effect
@@ -917,6 +922,8 @@ public class CardImpl implements Card, Comparable<Card>{
     }
 
     private Card selectWayToPlay(MoveContext context, Card playedCard) {
+        //Avoid needlessly asking to play Way of the Mouse set aside card using Way of the Mouse
+        if (playedCard.equals(context.game.wayOfTheMouseCard)) return null;
     	if (!playedCard.is(Type.Action, context.player)) return null;
 		List<Card> ways = Arrays.asList(context.game.getCardsInGame(GetCardsInGameOptions.Templates, false, Type.Way));
 		if (!ways.isEmpty()) {

@@ -80,12 +80,13 @@ public abstract class Player {
     protected boolean boughtSeizeTheDay;
     protected int wayOfTheSquirrelDraw;
     protected CardList reap;
+    protected CardList wayOfTheTurtle;
     protected Map<Player, Map<Cards.Kind, Integer>> attackDurationEffectsOnOthers;
     protected List<DurationEffect> startTurnDurationEffects;
     protected int championEffects = 0;
     protected boolean guardianEffect = false;
     protected CardList projectsBought = new CardList(this, "Projects");
-    protected Map<Card, Integer> eventsBought = new HashMap<Card, Integer>(); 
+    protected Map<Card, Integer> eventsBought = new HashMap<Card, Integer>();
     public Game game;
     public Player controlPlayer = this;
     public boolean controlled = false;
@@ -401,6 +402,7 @@ public abstract class Player {
         nextTurnBoons = new CardList(this, "Boons");
         states = new CardList(this, "States");
         reap = new CardList(this, "Reap");
+        wayOfTheTurtle = new CardList(this, "Way of the Turtle");
         projectsBought = new CardList(this, "Projects");
         startTurnDurationEffects = new ArrayList<Player.DurationEffect>();
         attackDurationEffectsOnOthers = new HashMap<Player,Map<Cards.Kind,Integer>>();
@@ -850,6 +852,10 @@ public abstract class Player {
     public CardList getReap() {
         return reap;
     }
+
+    public CardList getWayOfTheTurtle() {
+        return wayOfTheTurtle;
+    }
     
     public CardList getProjectsBought() {
     	return projectsBought;
@@ -1079,6 +1085,9 @@ public abstract class Player {
         	allCards.addAll(curChurch);
         }
         for (Card card : reap) {
+            allCards.add(card);
+        }
+        for (Card card : wayOfTheTurtle) {
             allCards.add(card);
         }
         if (checkLeadCard != null) {
@@ -1658,6 +1667,19 @@ public abstract class Player {
                 }
             } else {
                 discard.add(card);
+            }
+
+            if (!commandedDiscard && context != null && context.frogCards.contains(card)) {
+                //TODO: Find way to refactor discarding such that multiple can be discarded at once
+                //      so that the cards can be reordered on the deck
+                willDiscard = false;
+                discard.remove(card);
+                context.frogCards.remove(card);
+                putOnTopOfDeck(card, context, false);
+                GameEvent event = new GameEvent(GameEvent.EventType.CardOnTopOfDeck, context);
+                event.card = card;
+                event.responsible = Cards.wayOfTheFrog;
+                context.game.broadcastEvent(event);
             }
         }
         if (willDiscard) {
@@ -2878,7 +2900,7 @@ public abstract class Player {
     
     public abstract Card wayOfTheGoat_cardToTrash(MoveContext context);
     public abstract Card wayOfTheRat_treasureToDiscard(MoveContext context, Card cardToGain);
-    
+
     
     // ////////////////////////////////////////////
     // Card interactions - Promotional Cards
