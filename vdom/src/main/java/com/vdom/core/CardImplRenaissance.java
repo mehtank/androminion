@@ -356,6 +356,7 @@ public class CardImplRenaissance extends CardImpl {
 	        }
 	        player.trashFromHand(trashCard, this, context);
 		}
+		//TODO: give cards instead of coins for Chameleon
 		context.coinsWhenTrash += 2;
 	}
 	

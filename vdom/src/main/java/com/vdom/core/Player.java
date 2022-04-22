@@ -57,6 +57,7 @@ public abstract class Player {
     protected CardList nativeVillage;
     protected CardList tavern;
     protected CardList exile;
+    protected CardList invest;
     protected CardList prince;
     protected CardList summon;
     protected CardList island;
@@ -306,7 +307,7 @@ public abstract class Player {
     
     public boolean hasCopyInExile(Card card) {
     	for (Card c : exile) {
-    		if (card.getName().equals(c.getName()))
+    		if (card.getName().equals(c.getName()) && card != c)
     			return true;
     	}
     	return false;
@@ -331,6 +332,13 @@ public abstract class Player {
     			it.remove();
     		}
     	}
+        it = invest.iterator();
+        while (it.hasNext()) {
+            Card c = it.next();
+            if (card.getName().equals(c.getName())) {
+                it.remove();
+            }
+        }
     	for(Card c : toDiscard)
     		discard(c, null, context);
     }
@@ -382,6 +390,7 @@ public abstract class Player {
         nativeVillage = new CardList(this, "Native Village");
         tavern = new CardList(this, "Tavern");
         exile = new CardList(this, "Exile");
+        invest = new CardList(this, "Invested Cards");
         prince = new CardList(this, "Princed Cards");
         summon = new CardList(this, "Summon");
         playedByPrince = new CardList(this, "PlayedByPrince");
@@ -1849,9 +1858,15 @@ public abstract class Player {
         	addVictoryTokens(context, 1, Cards.tomb);
         }
         
-        //Add coins from Priest
+        //Add coins/cards from Priest
         if (context.coinsWhenTrash > 0) {
         	context.addCoins(context.coinsWhenTrash);
+        }
+        if (context.cardsWhenTrash > 0) {
+            int addCards = context.cardsWhenTrash;
+            for (int i = 0; i < addCards; ++i) {
+                game.drawToHand(context, Cards.priest, addCards - i);
+            }
         }
 
         // Execute special card logic when the trashing occurs
@@ -1913,13 +1928,17 @@ public abstract class Player {
     	exile(card, responsible, context);
     	return true;
     }
-    
+
     public boolean exileFromSupply(Card card, Card responsible, MoveContext context) {
+        return exileFromSupply(card, responsible, context, false);
+    }
+    
+    public boolean exileFromSupply(Card card, Card responsible, MoveContext context, boolean invest) {
     	if (card == null) return false;
     	CardPile pile = game.getPile(card);
 		 if (pile != null && pile.getCount() > 0 && pile.topCard().equals(card)) {
 			 Card toExile = pile.removeCard();
-			 exile(toExile, responsible, context);
+			 exile(toExile, responsible, context, invest);
 			 return true;
 		 }
     	return false;
@@ -1932,10 +1951,17 @@ public abstract class Player {
     	exile(card, card, context);
     	return true;
     }
-    
-    public void exile(Card card, Card responsible, MoveContext context) {        
+
+    public void exile(Card card, Card responsible, MoveContext context) {
+        exile(card, responsible, context, false);
+    }
+
+    public void exile(Card card, Card responsible, MoveContext context, boolean invest) {
         // Add to exile mat
     	this.exile.add(card);
+    	if (invest) {
+    	    this.invest.add(card);
+        }
         
         ((CardImpl)card).clearMultiplyingCards();
         
@@ -1945,8 +1971,23 @@ public abstract class Player {
         event.setPlayer(context.player);
         
         context.game.broadcastEvent(event);
+
+        checkOtherPlayerInvest(context.game, card);
     }
-            
+
+    public void checkOtherPlayerInvest(Game game, Card card) {
+        //check invested cards of other players based on card gained/exiled
+        for (Player player : game.getPlayersInTurnOrder()) {
+            if (player == this) continue;
+            if (player.invest.contains(card)) {
+                MoveContext otherPlayerContext = new MoveContext(game, player);
+                for(int i=0; i < 2; i++) {
+                    game.drawToHand(otherPlayerContext, Cards.invest, 2 - i);
+                }
+            }
+        }
+    }
+
     public abstract HuntingGroundsOption huntingGrounds_chooseOption(MoveContext context);
 
     public abstract Card catacombs_cardToObtain(MoveContext context, int maxCost);
@@ -2888,16 +2929,19 @@ public abstract class Player {
     public abstract boolean wayfarer_shouldGainSilver(MoveContext context);
     public abstract boolean villageGreen_shouldReceiveNow(MoveContext context);
     public abstract boolean villageGreen_shouldPlay(MoveContext context);
-    
+
+    public abstract Card[] banish_cardsToExile(MoveContext context);
     public abstract Card demand_cardToObtain(MoveContext context);
     public abstract boolean desperation_shouldGainCurse(MoveContext context);
+    public abstract Card invest_cardToExile(MoveContext context);
     public abstract Card march_actionToPlay(MoveContext context);
     public abstract Card pursue_cardToPick(MoveContext context, List<Card> options);
     public abstract Card toil_cardToPlay(MoveContext context);
     public abstract TransportOption transport_selectChoice(MoveContext context, TransportOption[] options);
     public abstract Card transport_cardToExile(MoveContext context);
     public abstract Card transport_cardToTopdeckFromExile(MoveContext context, Card[] cards);
-    
+
+    public abstract Card wayOfTheButterfly_cardToGain(MoveContext context, int exactCost, int debt, boolean potion);
     public abstract Card wayOfTheGoat_cardToTrash(MoveContext context);
     public abstract Card wayOfTheRat_treasureToDiscard(MoveContext context, Card cardToGain);
 

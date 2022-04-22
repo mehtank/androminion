@@ -100,7 +100,8 @@
 	<string name="select_exactly_x_cards_from_hand">Pick exactly %1$s cards from your hand to %2$s</string>
 	<string name="select_from_x_to_y_cards_from_hand">Pick from %1$s to %2$s cards from your hand to %3$s</string>
 	<string name="select_from_x_to_y_different_cards_from_hand">Pick from %1$s to %2$s differently named cards from your hand to %3$s</string>
-	
+	<string name="select_same_cards_from_hand">Pick any number of cards with the same name from your hand to %1$s</string>
+
 	<string name="select_one_action_from_hand">Pick an Action card from your hand to %1$s</string>
 	<string name="select_one_action_from_hand_not_in_play">Pick an Action card from your hand that you don\'t have a copy of in play to %1$s</string>
 	<string name="select_up_to_x_actions_from_hand">Pick up to %1$s Action cards from your hand to %2$s</string>

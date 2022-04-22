@@ -105,6 +105,9 @@ public interface Card extends Serializable {
     public void play(Game game, MoveContext context, boolean fromHand, boolean leaveThere, boolean isThronedPlay);
 
     public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect);
+
+    // May want to refactor this later if needed to a instruction context if grows beyond Chameleon
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, boolean usingChameleon);
         
     public Integer getId();
     

@@ -4449,6 +4449,8 @@ public class Game {
                             }
                     	}
                     }
+
+                    player.checkOtherPlayerInvest(context.game, event.card);
                     
                     // handle other when-gain abilities
                     

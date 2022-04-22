@@ -1163,7 +1163,7 @@
     <string name="WayOfTheButterfly_name">Way of the Butterfly</string>
     <string name="WayOfTheButterfly_shortName">Butterfly</string>
     <string name="WayOfTheButterfly_desc">You may return this to its pile to gain a card costing exactly $1 more than it.</string>
-    <string name="WayOfTheButterfly_shortDesc">Return to pile and upgrade</string>
+    <string name="WayOfTheButterfly_shortDesc">Return to pile to upgrade</string>
     <string name="WayOfTheCamel_name">Way of the Camel</string>
     <string name="WayOfTheCamel_shortName">Camel</string>
     <string name="WayOfTheCamel_desc">Exile a Gold from the Supply.</string>
@@ -1216,7 +1216,7 @@
     <string name="WayOfTheRat_desc">You may discard a Treasure to gain a copy of this.</string>
     <string name="WayOfTheRat_shortDesc">Discard Treasure for copy</string>
     <string name="WayOfTheSeal_name">Way of the Seal</string>
-    <string name="WayOfThe_shortName">Seal</string>
+    <string name="WayOfTheSeal_shortName">Seal</string>
     <string name="WayOfTheSeal_desc">This turn, when you gain a card, you may put it onto your deck.</string>
     <string name="WayOfTheSeal_shortDesc">+$1, may top-deck gains</string>
     <string name="WayOfTheSheep_name">Way of the Sheep</string>

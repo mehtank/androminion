@@ -1122,7 +1122,7 @@
     <string name="Alliance_name">Alianza</string>
     <string name="Alliance_desc">Gana una carta de Provincia, una de Ducado, una de Finca, una de Oro, una de Plata, y una de Cobre.</string>
     <string name="Banish_name">Desterrar</string>
-    <string name="Banish_desc"></string>
+    <string name="Banish_desc">Exilia cualquier número de cartas con el mismo nombre de tu mano.</string>
     <string name="Bargain_name">Regatear</string>
     <string name="Bargain_desc"></string>
     <string name="Commerce_name">Comercio</string>
@@ -1163,7 +1163,7 @@
     <string name="WayOfTheButterfly_name">Camino de la Mariposa</string>
     <string name="WayOfTheButterfly_shortName">Mariposa</string>
     <string name="WayOfTheButterfly_desc">Puedes devolver esta carta a su montón para ganar una carta con un coste exactamente $1 más que la devuelta.</string>
-    <string name="WayOfTheButterfly_shortDesc">Devolver a la pila y mejorar</string>
+    <string name="WayOfTheButterfly_shortDesc">Devolver a la pila para mejorar</string>
     <string name="WayOfTheCamel_name">Camino del Camello</string>
     <string name="WayOfTheCamel_shortName">Camello</string>
     <string name="WayOfTheCamel_desc">Exilia una carta de Oro del Suministro.</string>

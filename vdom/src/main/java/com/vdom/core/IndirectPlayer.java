@@ -4528,7 +4528,15 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
                 .setActionType(ActionType.TRASH).setCardResponsible(Cards.animalFair);
         return getCardFromHand(context, sco);
     }
-    
+
+    @Override
+    public Card[] banish_cardsToExile(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().setSame()
+                .setPassable().setPickType(PickType.EXILE)
+                .setCardResponsible(Cards.banish).setActionType(ActionType.EXILE);
+        return getFromHand(context, sco);
+    }
+
     @Override
     public Card bargain_cardToObtain(MoveContext context) {
     	SelectCardOptions sco = new SelectCardOptions().maxCost(5).maxDebtCost(0).maxPotionCost(0)
@@ -4656,6 +4664,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public boolean huntingLodge_shouldDiscardHand(MoveContext context) {
     	return selectBoolean(context, Cards.huntingLodge);
     }
+
+    @Override
+    public Card invest_cardToExile(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().isAction()
+                .isSupplyCard().setActionType(ActionType.EXILE).setPickType(PickType.EXILE)
+                .setCardResponsible(Cards.invest);
+        return getFromTable(context, sco);
+    }
     
     @Override
     public boolean kiln_shouldGainCopy(MoveContext context, Card card) {
@@ -4769,6 +4785,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     @Override
     public boolean wayfarer_shouldGainSilver(MoveContext context) {
     	return selectBoolean(context, Cards.wayfarer);
+    }
+
+    @Override
+    public Card wayOfTheButterfly_cardToGain(MoveContext context, int exactCost, int debt, boolean potion) {
+        SelectCardOptions sco = new SelectCardOptions().exactCost(exactCost, debt, potion ? 1 : 0)
+                .setActionType(ActionType.GAIN)
+                .setCardResponsible(Cards.wayOfTheButterfly);
+        return getFromTable(context, sco);
     }
     
     @Override

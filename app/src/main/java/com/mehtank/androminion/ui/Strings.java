@@ -1544,7 +1544,7 @@ public class Strings {
             if (!controlName.equals(cardName)) strings[0] = Strings.format(getString(R.string.card_played_as_card), controlName, cardName);
             strings[1] = getString(R.string.trash_this);
             strings[2] = getString(R.string.trash_card_from_hand);
-        } else if (cardName.equals(getCardName(Cards.royalSeal)) || cardName.equals(getCardName(Cards.travellingFair)) || cardName.equals(getCardName(Cards.tracker))) {
+        } else if (cardName.equals(getCardName(Cards.royalSeal)) || cardName.equals(getCardName(Cards.travellingFair)) || cardName.equals(getCardName(Cards.tracker)) || cardName.equals(getCardName(Cards.wayOfTheSeal))) {
             strings[0] = getCardName((Card) extras[1]);
             strings[1] = getString(R.string.top_of_deck);
             strings[2] = getString(R.string.take_normal);
@@ -1910,8 +1910,13 @@ public class Strings {
                 	} else {
                 		str = Strings.format(R.string.select_from_x_to_y_cards_from_hand, "" + sco.minCount, "" + sco.count, header);
                 	}
-                } else
-                    str = Strings.format(R.string.select_up_to_x_cards_from_hand, "" + sco.count, header);
+                } else {
+                    if (sco.same) {
+                        str = Strings.format(R.string.select_same_cards_from_hand, header);
+                    } else {
+                        str = Strings.format(R.string.select_up_to_x_cards_from_hand, "" + sco.count, header);
+                    }
+                }
             }
             return str;
         } else if (sco.fromPlayed) {
@@ -2208,6 +2213,7 @@ public class Strings {
             getCardName(Cards.treasurer),
             /*Menagerie*/
             getCardName(Cards.animalFair),
+            getCardName(Cards.banish),
             getCardName(Cards.bargain),
             getCardName(Cards.bountyHunter),
             getCardName(Cards.camelTrain),
@@ -2218,11 +2224,13 @@ public class Strings {
             getCardName(Cards.goatherd),
             getCardName(Cards.groom),
             getCardName(Cards.hostelry),
+            getCardName(Cards.invest),
             getCardName(Cards.pursue),
             getCardName(Cards.sanctuary),
             getCardName(Cards.scrap),
             getCardName(Cards.toil),
             getCardName(Cards.transport),
+            getCardName(Cards.wayOfTheButterfly),
             getCardName(Cards.wayOfTheGoat),
             getCardName(Cards.wayOfTheRat),
             /*Promo*/

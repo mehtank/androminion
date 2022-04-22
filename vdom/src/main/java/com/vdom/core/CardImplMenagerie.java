@@ -103,6 +103,9 @@ public class CardImplMenagerie extends CardImpl {
 		case Wayfarer:
 			wayfarer(game, context, currentPlayer);
 			break;
+		case WayOfTheButterfly:
+			wayOfTheButterfly(game, context, currentPlayer, responsible);
+			break;
 		case WayOfTheCamel:
 			wayOfTheCamel(game, context, currentPlayer);
 			break;
@@ -153,6 +156,9 @@ public class CardImplMenagerie extends CardImpl {
         case Alliance:
         	alliance(context);
         	break;
+		case Banish:
+			banish(context);
+			break;
         case Bargain:
         	bargain(context);
         	break;
@@ -174,6 +180,9 @@ public class CardImplMenagerie extends CardImpl {
         case Gamble:
         	gamble(context);
         	break;
+		case Invest:
+			invest(context);
+			break;
         case March:
         	march(context);
         	break;
@@ -623,6 +632,27 @@ public class CardImplMenagerie extends CardImpl {
 		context.getPlayer().gainNewCard(Cards.silver, this, context);
 		context.getPlayer().gainNewCard(Cards.copper, this, context);
 	}
+
+	private void banish(MoveContext context) {
+		Player player = context.player;
+		if (player.hand.isEmpty()) return;
+		Card[] cardsToExile = player.controlPlayer.banish_cardsToExile(context);
+		if (cardsToExile == null || cardsToExile.length == 0) return;
+		boolean cardsAreSame = true;
+		for (int i = 1; i < cardsToExile.length; ++i) {
+			if (!cardsToExile[i].equals(cardsToExile[0])) {
+				cardsAreSame = false;
+				break;
+			}
+		}
+		if (!cardsAreSame) {
+			Util.playerError(player, "Banish exile error (cards are different), exiling nothing.");
+			return;
+		}
+		for (int i = 0; i < cardsToExile.length; ++i) {
+			player.exileFromHand(cardsToExile[i], this, context);
+		}
+	}
 		
 	private void commerce(MoveContext context) {
 		int numGolds = new HashSet<Card>(context.game.getCardsObtainedByPlayer()).size();
@@ -705,6 +735,24 @@ public class CardImplMenagerie extends CardImpl {
             
         }
 	}
+
+	private void invest(MoveContext context) {
+		Game game = context.game;
+		Player player = context.player;
+		if (game.getCardsInGame(GetCardsInGameOptions.TopOfPiles, true, Type.Action).length == 0)
+			return;
+		Card cardToExile = player.controlPlayer.invest_cardToExile(context);
+		CardPile pile;
+		if (cardToExile != null) {
+			pile = context.game.getPile(cardToExile);
+			if (pile == null || !cardToExile.equals(pile.topCard()) || !pile.isSupply() || !cardToExile.is(Type.Action)) {
+				Util.playerError(player, "Invest exile error, exiling nothing.");
+				return;
+			}
+			player.exileFromSupply(cardToExile, this, context, true);
+		}
+	}
+
 	private void march(MoveContext context) {
 		Player player = context.player;
 		boolean hasActions = false;
@@ -836,6 +884,7 @@ public class CardImplMenagerie extends CardImpl {
         	}
         	if (possibleCards.isEmpty())
         		return;
+        	//TODO: have a way to distinguish invested cards from non-invested ones here
             Card cardToTopdeck = player.controlPlayer.transport_cardToTopdeckFromExile(context, possibleCards.toArray(new Card[possibleCards.size()]));
             if (cardToTopdeck == null || !player.exile.contains(cardToTopdeck) || !cardToTopdeck.is(Type.Action)) {
                 Util.playerError(player, "Transport top deck card choice error, doing nothing");
@@ -850,6 +899,24 @@ public class CardImplMenagerie extends CardImpl {
             context.game.broadcastEvent(event);
             break;
         }
+	}
+
+	private void wayOfTheButterfly(Game game, MoveContext context, Player player, Card responsible) {
+		Card card = responsible;
+		int idx = player.playedCards.indexOf(card.getId());
+		if (idx == -1) return;
+		CardPile pile = game.getGamePile(card);
+		if (!pile.isRealPile()) return;
+		card = player.playedCards.remove(idx);
+		pile.addCard(card);
+		Card cardToGain = player.controlPlayer.wayOfTheButterfly_cardToGain(context, 1 + card.getCost(context), card.getDebtCost(context), card.costPotion());
+		if ((cardToGain == null) || (card.getCost(context) + 1) != cardToGain.getCost(context) ||
+				card.getDebtCost(context) != cardToGain.getDebtCost(context) ||
+				card.costPotion() != cardToGain.costPotion()) {
+			Util.playerError(player, "Way of the Butterfly upgrade card invalid.");
+			return;
+		}
+		player.gainNewCard(cardToGain, Cards.wayOfTheButterfly, context);
 	}
 	
 	private void wayOfTheCamel(Game game, MoveContext context, Player player) {

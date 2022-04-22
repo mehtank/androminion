@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.vdom.api.Card;
@@ -5415,6 +5417,38 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     	Card[] result = lowestCards(context, actions, 1, false);
     	return (result != null && result.length > 0) ? result[0] : null;
     }
+
+    @Override
+    public Card[] banish_cardsToExile(MoveContext context) {
+        // Find the trash card that we have the most of in hand and return matches
+        //   This won't be optimal in cases where we want to trash fewer Curses for points near the game end
+        Map<Card, Integer> trashCounts = new HashMap<>();
+        Card mostTrash = null;
+        for (Card c : context.getPlayer().getHand()) {
+            for(Card trash : getTrashCards()) {
+                if(c.equals(trash)) {
+                    if (trashCounts.containsKey(c)) {
+                        trashCounts.put(c, 1);
+                    } else {
+                        trashCounts.put(c, trashCounts.get(c) + 1);
+                    }
+                    if (mostTrash == null || trashCounts.get(c) > trashCounts.get(mostTrash))
+                        mostTrash = c;
+                }
+            }
+        }
+        if (mostTrash != null) {
+            ArrayList<Card> result = new ArrayList<Card>();
+            for (Card c : context.getPlayer().getHand()) {
+                if (c.equals(mostTrash)) {
+                    result.add(c);
+                }
+            }
+            return result.toArray(new Card[0]);
+        }
+
+        return null;
+    }
     
     @Override
     public Card bargain_cardToObtain(MoveContext context) {
@@ -5547,6 +5581,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
         }
         return false;
     }
+
+    @Override
+    public Card invest_cardToExile(MoveContext context) {
+        return bestCardInPlay(context, Integer.MAX_VALUE, false, false, true, true, true);
+    }
     
     @Override
     public boolean kiln_shouldGainCopy(MoveContext context, Card card) {
@@ -5665,6 +5704,11 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public boolean wayfarer_shouldGainSilver(MoveContext context) {
     	// TODO how do we determine when an additional Silver will hurt?
     	return true;
+    }
+
+    @Override
+    public Card wayOfTheButterfly_cardToGain(MoveContext context, int exactCost, int debt, boolean potion) {
+        return bestCardInPlay(context, exactCost, true, debt, potion, false, true, true);
     }
     
     @Override

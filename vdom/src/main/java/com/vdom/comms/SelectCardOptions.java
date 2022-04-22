@@ -92,6 +92,7 @@ public class SelectCardOptions implements Serializable {
     public boolean isNight = false;
     public boolean isSpirit = false;
     public boolean different = false;
+    public boolean same = false;
     public boolean noTokens = false;
     public boolean passable = false;
     public boolean allowNonSupply = false;
@@ -107,6 +108,7 @@ public class SelectCardOptions implements Serializable {
     //public SelectCardOptions setType(SelectType s) {selectType = s; return this;}
     public SelectCardOptions setHeader(String s) {header = s; return this;}
     public SelectCardOptions setDifferent() {different = true; return this;}
+    public SelectCardOptions setSame() {same = true; return this;}
     public SelectCardOptions setPassable() {passable = true; return this;}
     public SelectCardOptions setPickType(PickType pickType) {this.pickType = pickType;return this;}
     public SelectCardOptions setActionType(ActionType actionType) {this.actionType = actionType;return this;}
@@ -260,6 +262,11 @@ public class SelectCardOptions implements Serializable {
     public boolean isDifferent() {
     	return different;
 	}
+
+    public boolean isSame() {
+        return same;
+    }
+
     public boolean isPassable() {
         return passable;
     }

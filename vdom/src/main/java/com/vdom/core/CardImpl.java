@@ -731,6 +731,11 @@ public class CardImpl implements Card, Comparable<Card>{
 
     @Override
     public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
+        followInstructions(game, context, responsible, currentPlayer, isThronedEffect, false);
+    }
+
+    @Override
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, boolean usingChameleon) {
         //Events for Boon/Hex
         //TODO: !(is(Type.State) || is(Type.Project) || is(Type.State) || is(Type.Artifact))
         //TODO: What event to fire for other instructions on non-boon/hex abilities (e.g. Key)?

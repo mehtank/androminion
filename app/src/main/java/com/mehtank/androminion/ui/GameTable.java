@@ -588,7 +588,7 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
 
     /**
      * Is the given card an acceptable choice given the constrains saved in sco?
-     * @param c chosen card
+     * @param cs chosen card's state
      * @param parent which pile the card was selected from
      * @return
      */
@@ -618,6 +618,8 @@ public class GameTable extends LinearLayout implements OnItemClickListener, OnIt
         } else if (sco.fromPrizes) {
             if (parent != prizePile) return false;
         }
+
+        if (sco.same && !openedCards.isEmpty() && !hasDuplicate(openedCards, c)) return false;
 
         return sco.checkValid(c, getCardCost(c));
     }
